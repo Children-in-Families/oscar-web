@@ -105,7 +105,6 @@ en:
       carer:
         name: Carer Name
         phone: Carer Phone Number
-        email: Carer Email Address
         carer_information: Carer Information?
       family_member:
         adult_name: Name of Adult Member
@@ -375,7 +374,6 @@ en:
       birth_province: Client Birth Province
       birth_province_id: Birth Province
       cambodia: Cambodia
-      carer: Carer
       carer_name: Carer Name
       carer_phone: Carer Phone Number
       carer_email: Carer Email Address
@@ -388,7 +386,7 @@ en:
       address_type: Client Address Type
       client_email_address: Client Email Address
       code: Custom ID Number1
-      commune: Commune/Sangkat
+      commune: Municipality
       completed: Completed
       concern_basic_fields: Client Fields Concern
       created_at: Created Date
@@ -465,7 +463,6 @@ en:
       referred_to_ec: Referred To EC
       referred_to_fc: Referred To FC
       referred_to_kc: Referred To KC
-      referee: Referee
       referee_relationship: Referee Relationship to Client
       referee_name: Referee Name
       referee_phone: Referee Phone Number
@@ -656,8 +653,10 @@ en:
       assessment_created_by: Completed by
       back_to_assessment_history: Back to assessment history
       based_on: Based on Assessment Number
+
+
+
       case_plan: Case Plan for
-      dimensions: Dimensions
       domain: Domain
       due_date: Due Date
       edit: Edit
@@ -1366,7 +1365,7 @@ en:
       are_you_sure: Are you sure you want to delete?
     address_forms:
       cambodia_address_form:
-        commune: Address - Commune/Sangkat
+        commune: Address - Municipality
         current_province: Current Province
         district: Address - District/Khan
         house_number: Address - House#
@@ -1485,7 +1484,7 @@ en:
       body_second: 'Duplicate Checker feature is currently in Beta testing, please Email: %{sender_email} if you have any issues with excessive false positive/negative results.'
       body_third: Please check with the client whether they have ever worked with another organisation that may have put their details into OSCaR.
       close: Cancel
-      commune: Commune/Sangkat
+      commune: Municipality
       confirm: Save Anyway
       date_of_birth: Date of Birth
       district: District/Khan
@@ -1568,13 +1567,11 @@ en:
       reject_client: Reject Client
       rejected_note: Rejected Note
     form:
-      national_id_number: National ID Number
-      passport_number: Passport Number
       neighbor_name: "Neighbor/Friend: Name"
       neighbor_phone: Phone Number
       dosavy_name: "DoSAVY: Name"
       dosavy_phone: Phone Number
-      chief_commune_name: "Chief of Commune/Commune Council Member: Name"
+      chief_commune_name: "Chief of Municipality/Municipality Council Member: Name"
       chief_commune_phone: Phone Number
       chief_village_name: "Chief of Village: Name"
       chief_village_phone: Phone Number
@@ -1611,7 +1608,7 @@ en:
       case_worker_or_staff: Case Worker / Staff
       client_phone: Client Contact Phone
       code: Custom ID Number1
-      commune: Commune/Sangkat
+      commune: Municipality
       completed: Completed
       current_address: Current Address
       current_household_type: Address Type
@@ -1654,7 +1651,7 @@ en:
       gov_client_need: Please indicate the type of need (priority numbering)
       gov_client_problem: Please highlight key challenges (priority numbering)
       gov_client_types: Client type
-      gov_commune: Commune/Sangkat
+      gov_commune: Municipality
       gov_date: Date
       gov_district: District/Khan
       gov_government_form: Government Form
@@ -1701,7 +1698,6 @@ en:
       province: Birth Province
       rated_for_id_poor: Is client rated for ID Poor?
       received_by: Referral Received By
-      referee_called_before: Has the referee called the Childsafe Hotline Before?
       referral_doc: 'Referral Documents'
       referral_phone: Referee Phone Number
       referral_source: Referral Source
@@ -1714,7 +1710,6 @@ en:
       settlement2: City/Settlement
       shared_service_enabled: Do you want to share client services with external system?
       stage: Stage Question
-      stakeholder_contacts: Stakeholder Contacts
       state: Accept/Reject
       status: Status
       street2: Street
@@ -1965,9 +1960,8 @@ en:
       client_able_answers: Client Able Answers
       client_global_identity: Client Global Identity
       code: Custom ID Number1
-      commune: Commune/Sangkat
+      commune: Municipality
       completed: Completed
-      complete_screening_assessment: Complete Screening Assessment
       concern_location: Location of Concern
       created_date: Created Date
       current_address: Current Address
@@ -2106,7 +2100,6 @@ en:
       view_fc_history_btn_link: FC History
       view_kc_history_btn_link: KC History
       view_legacy_quarterly_reports: Legacy Quarterly Reports
-      view_screening_assessment: View Screening Assessment
       view_tasks: Tasks
       village: Village
       what3words: What3words
@@ -2427,13 +2420,11 @@ en:
       current_address: "%{column} - Current Address"
       other_address: "%{column} - Other Address"
       clients:
-        national_id_number: National ID Number
-        passport_number: Passport Number
         neighbor_name: "Neighbor/Friend: Name"
         neighbor_phone: Phone Number
         dosavy_name: "DoSAVY: Name"
         dosavy_phone: Phone Number
-        chief_commune_name: "Chief of Commune/Commune Council Member: Name"
+        chief_commune_name: "Chief of Municipality/Municipality Council Member: Name"
         chief_commune_phone: Phone Number
         chief_village_name: "Chief of Village: Name"
         chief_village_phone: Phone Number
@@ -2508,7 +2499,7 @@ en:
         code: Custom ID Number1
         concern_address: Address Name
         concern_address_type: Address Type
-        concern_commune_id: Commune / Sangkat
+        concern_commune_id: Municipality
         concern_district_id: District / Khan
         concern_email: Relevant Email Contact
         concern_email_owner: Email Owner
@@ -2522,9 +2513,9 @@ en:
         concern_same_as_client: Same as Client
         concern_street: Street Number
         concern_village_id: Village
-        commune: Commune/Sangkat
-        commune_en: Address - Commune/Sangkat (English)
-        commune_kh: Address - Commune/Sangkat (Khmer)
+        commune: Municipality
+        commune_en: Address - Municipality (English)
+        commune_kh: Address - Municipality (Khmer)
         completed: Completed
         created_at: Created Date
         created_by: Created By
@@ -2673,7 +2664,7 @@ en:
         client: Client
         clients: Clients
         code: Family ID
-        commune: Commune
+        commune: Municipality
         contract_date: Contract Date
         date_of_birth: Date of Birth
         dependable_income: Dependable Income
@@ -2785,7 +2776,7 @@ en:
         anonymous: Anonymous
         answered_call: Answered Call
         called_before: Called Before
-        commune_id: Commune
+        commune_id: Municipality
         created_at: Created At
         current_address: Current Address
         district_id: District
@@ -2908,7 +2899,7 @@ en:
     case_worker: Case Worker
     case_worker_or_staff: Case Worker / Staff
     code: Custom ID Number1
-    commune: Commune/Sangkat
+    commune: Municipality
     completed: Completed
     current_address: Current Address
     current_province: Current Province
@@ -3058,7 +3049,7 @@ en:
     client_name: Child's Name
     clothes: clothes
     code: Form
-    commune: Commune
+    commune: Municipality
     communication_in_family: Family relationships
     communication_in_society: Community Relationships
     copy: Copyright
@@ -3095,7 +3086,7 @@ en:
     if_exist: 'If yes:'
     initial_capital: Capital
     initial_city: District
-    initial_commune: Commune
+    initial_commune: Municipality
     initial_date: Date
     intervention_plan: Intervention Plan
     kingdom_of_cambodia: Kingdom of Cambodia
@@ -3138,7 +3129,7 @@ en:
     seen_and_agreed: Seen and agreed
     sexual_abuse: sexual abuse
     shelter: Shelter
-    signature: Signature and Stamp/Seal of Chiefs of Commune/Sangkat
+    signature: Signature and Stamp/Seal of Chiefs of Municipality
     street_number: Street
     supplies: Food, Shelter and Clothes
     third_mission: Follow family reunification procedures complete form 1309 and form 1303 (in the event of child/family separation).
@@ -3665,7 +3656,7 @@ en:
       children: Clients
       clients: Clients
       code: Family ID
-      commune: Commune
+      commune: Municipality
       contract_date: Contract Date
       custom_forms: Custom Forms
       dependable_income: Dependable Income
@@ -3889,7 +3880,7 @@ en:
       client_name: Child's Name
       clothes: clothes
       code: Form
-      commune: Commune
+      commune: Municipality
       communication_in_family: Family relationships
       communication_in_society: Community Relationships
       copy: Copyright
@@ -3933,7 +3924,7 @@ en:
       if_exist: 'If yes:'
       initial_capital: Capital
       initial_city: District
-      initial_commune: Commune
+      initial_commune: Municipality
       initial_date: Date
       intervention_plan: Intervention Plan
       kingdom_of_cambodia: Kingdom of Cambodia
@@ -3984,7 +3975,7 @@ en:
       seen_and_agreed: Seen and agreed
       sexual_abuse: sexual abuse
       shelter: Shelter
-      signature: Signature and Stamp/Seal of Chiefs of Commune/Sangkat
+      signature: Signature and Stamp/Seal of Chiefs of Municipality
       society_communication_need: Community Relationships (Needs)
       society_communication_plan: Community Relationships (Intervention Plan)
       street_number: Street
@@ -4039,7 +4030,7 @@ en:
           client_name: Child's Name
           clothes: clothes
           code: Form
-          commune: Commune
+          commune: Municipality
           communication_in_family: Family relationships
           communication_in_society: Community Relationships
           copy: Copyright
@@ -4077,7 +4068,7 @@ en:
           information: Information
           initial_capital: Capital
           initial_city: District
-          initial_commune: Commune
+          initial_commune: Municipality
           initial_date: Date
           intervention_plan: Intervention Plan
           kingdom_of_cambodia: Kingdom of Cambodia
@@ -4120,7 +4111,7 @@ en:
           seen_and_agreed: Seen and agreed
           sexual_abuse: sexual abuse
           shelter: Shelter
-          signature: Signature and Stamp/Seal of Chiefs of Commune/Sangkat
+          signature: Signature and Stamp/Seal of Chiefs of Municipality
           street_number: Street
           supplies: Food, Shelter and Clothes
           third_mission: Follow family reunification procedures complete form 1309 and form 1303 (in the event of child/family separation).
@@ -4510,7 +4501,7 @@ en:
       modification_of: Changelog of
   organizations:
     edit:
-      commune: Commune/Sangkat
+      commune: Municipality
       district: District/Khan
       edit_org_setting: Edit Organization Profile
       name: Name
@@ -4942,7 +4933,7 @@ en:
     anonymous: Anonymous
     answered_call: Answered Call
     called_before: Called Before
-    commune_id: Commune
+    commune_id: Municipality
     created_at: Created At
     current_address: Current Address
     district_id: District
@@ -5110,8 +5101,6 @@ en:
       min_assessment: Minimum time between 1st and 2nd assessment
       name: Name
       noted: 'Note: USAID has requested that the term CSI not be used for customized assessments.'
-      show_prev_assessment: Show previous assessment while completing new assessment
-      two_weeks_assessment_reminder: Send 2 notification at both 2 and 1 week prior to assessment
     case_note:
       case_note: Maximum time between case notes for client
       max_case_note: Maximum

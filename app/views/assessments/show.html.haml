@@ -43,11 +43,7 @@
                     %tbody
                       %tr
                         - if current_organization.try(:aht) == true
-                          %td.no-padding-bottom
-                            %b
-                              = t('.dimensions') + ":"
-                          %td.no-padding-bottom
-                            %b= t("dimensions.dimensions_identies.#{ad.domain.identity}")
+                          = domain_name_for_aht(ad).html_safe
                         - else
                           %td.no-padding-bottom
                             %b

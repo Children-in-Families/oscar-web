@@ -690,7 +690,7 @@ module ClientsHelper
     if form_type == 'formbuilder'
       properties_result = object.where(query_string.reject(&:blank?).join(" AND "))
     else
-      properties_result = object.joins(:client_enrollment).where(client_enrollments: { program_stream_id: selected_program_stream, status: 'Active' }).where(query_string.reject(&:blank?).join(" AND "))
+      properties_result = object.joins(:client_enrollment).where(client_enrollments: { program_stream_id: selected_program_stream }).where(query_string.reject(&:blank?).join(" AND "))
     end
   end
 
@@ -1115,6 +1115,7 @@ module ClientsHelper
 
 
   def country_scope_label_translation
+    return '' if Setting.first.try(:country_name) == 'nepal'
     if I18n.locale.to_s == 'en'
       country_name = Setting.first.try(:country_name)
       case country_name

@@ -55,9 +55,9 @@
                 - if current_setting.use_screening_assessment? && @client.referred?
                   .col-xs-12
                     - if @client.require_screening_assessment?(current_setting)
-                      = link_to 'Complete Screening Assessment', new_client_custom_field_property_path(@client, custom_field_id: current_setting.screening_assessment_form), class: 'btn btn-success'
+                      = link_to t('.complete_screening_assessment'), new_client_custom_field_property_path(@client, custom_field_id: current_setting.screening_assessment_form), class: 'btn btn-success'
                     - elsif @client.custom_fields.include?(current_setting.screening_assessment_form)
-                      = link_to 'View Screening Assessment', client_custom_field_properties_path(@client, custom_field_id: current_setting.screening_assessment_form), class: 'btn btn-success'
+                      = link_to t('.view_screening_assessment'), client_custom_field_properties_path(@client, custom_field_id: current_setting.screening_assessment_form), class: 'btn btn-success'
 
                 .col-xs-12{ class: "#{'mini-margin' if current_setting.use_screening_assessment? && @client.referred? }" }
                   - if @client.require_screening_assessment?(current_setting) || (@client.calls.any? && @client.calls.most_recents.first.case_action_not_required?)
@@ -193,7 +193,7 @@
           = link_to client_client_enrollments_path(@client), data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.enroll_program')}", placement: "auto" } do
             .btn.btn-primary.small-btn-margin.btn-sm.btn-fit= t('.program_streams')
 
-          - if government_forms_visible? && policy(@client).show?(:government_forms)
+          - if government_forms_visible? && policy(@client).show?(:government_forms) && current_organization&.country != 'nepal'
             .btn-group.small-btn-margin
               %button.btn.btn-sm.btn-success.dropdown-toggle.btn-fit{"data-toggle" => "dropdown"}
                 = t('.government_forms')
@@ -262,7 +262,7 @@
                     = editable @client, :nickname, url: api_client_path(@client.id), pk: @client.id
 
               - %w(national_id_number passport_number marital_status nationality ethnicity location_of_concern type_of_trafficking).each do |field|
-                - if policy(@client).show?(field.to_sym)
+                - if policy(@client).show?(field.to_sym) && current_organization.short_name == 'brc'
                   %tr
                     %td.spacing-first-col= t(".#{field}")
                     %td= @client.public_send(field.to_sym)
@@ -305,6 +305,13 @@
                   %td.address
                     %strong
                       = country_address_field(@client)
+              - if @client.locality.present?
+                %tr
+                  %td.spacing-first-col
+                    = t('.locality')
+                  %td.address
+                    %strong
+                      = @client.locality
               - if current_setting.try(:enable_hotline) == true
                 %tr
                   %td.spacing-first-col

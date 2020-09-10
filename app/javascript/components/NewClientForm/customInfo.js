@@ -6,7 +6,7 @@ import {
 } from '../Commons/inputs'
 
 export default props => {
-  const { onChange, fieldsVisibility, translation, id, hintText, data: { errorFields, ratePoor, client, T, customId1, customId2, } } = props
+  const { onChange, fieldsVisibility, current_organization, translation, id, hintText, data: { errorFields, ratePoor, client, T, customId1, customId2, } } = props
 
   const rateLists = ratePoor.map(rate => ({ label: rate[0], value: rate[1] }))
 
@@ -35,7 +35,7 @@ export default props => {
         </div>
 
         {
-          fieldsVisibility.rated_for_id_poor == true &&
+          fieldsVisibility.rated_for_id_poor == true && current_organization.country != 'nepal' &&
           <div className="col-xs-12 col-md-6 col-lg-6">
             <SelectInput
               label={t(translation, 'clients.form.rated_for_id_poor')}
