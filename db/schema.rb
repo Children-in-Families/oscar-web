@@ -1007,6 +1007,12 @@ ActiveRecord::Schema.define(version: 20200810070640) do
   add_index "global_identity_organizations", ["global_id"], name: "index_global_identity_organizations_on_global_id", using: :btree
   add_index "global_identity_organizations", ["organization_id"], name: "index_global_identity_organizations_on_organization_id", using: :btree
 
+  create_table "global_identity_tmp", force: :cascade do |t|
+    t.binary  "ulid"
+    t.string  "ngo_name"
+    t.integer "client_id"
+  end
+
   create_table "global_services", id: false, force: :cascade do |t|
     t.uuid "uuid", default: "uuid_generate_v4()"
   end
@@ -1590,7 +1596,7 @@ ActiveRecord::Schema.define(version: 20200810070640) do
     t.datetime "created_at",                                null: false
     t.datetime "updated_at",                                null: false
     t.string   "ngo_name",                  default: ""
-    t.string   "client_global_id"
+    t.integer  "client_global_id"
     t.string   "external_id"
     t.string   "external_id_display"
     t.string   "mosvy_number"

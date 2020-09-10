@@ -802,6 +802,8 @@ GEM
     write_xlsx (0.85.7)
       rubyzip (>= 1.0.0)
       zip-zip
+    x-editable-rails (1.5.5.1)
+      railties
     xml-simple (1.1.5)
     xmlrpc (0.3.0)
     xpath (2.1.0)
@@ -918,6 +920,7 @@ DEPENDENCIES
   wicked_pdf (~> 1.0, >= 1.0.6)
   wkhtmltopdf-binary-edge (~> 0.12.3.0)
   write_xlsx (~> 0.85.7)
+  x-editable-rails (~> 1.5, >= 1.5.5.1)
 
 BUNDLED WITH
    1.17.3

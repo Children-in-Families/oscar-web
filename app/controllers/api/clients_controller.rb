@@ -61,15 +61,16 @@ module Api
     end
 
     def update
-      client = Client.find(params[:client][:id])
-      referee = Referee.find_or_create_by(id: client.referee_id)
-      referee.update_attributes(referee_params)
-      client.referee_id = referee.id
-      carer = Carer.find_or_create_by(id: client.carer_id)
-      carer.update_attributes(carer_params)
-      client.carer_id = carer.id
-      new_params = client.current_family_id ? client_params : client_params.except(:family_ids)
-
+      client = Client.find(params[:client][:id] || params[:id])
+      if params[:client][:id]
+        referee = Referee.find_or_create_by(id: client.referee_id)
+        referee.update_attributes(referee_params)
+        client.referee_id = referee.id
+        carer = Carer.find_or_create_by(id: client.carer_id)
+        carer.update_attributes(carer_params)
+        client.carer_id = carer.id
+        new_params = client.current_family_id ? client_params : client_params.except(:family_ids)
+      end
       if client.update_attributes(client_params.except(:referee_id, :carer_id))
         if params[:client][:assessment_id]
           assessment = Assessment.find(params[:client][:assessment_id])

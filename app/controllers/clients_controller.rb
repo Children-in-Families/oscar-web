@@ -57,6 +57,9 @@ class ClientsController < AdminController
   def show
     respond_to do |format|
       format.html do
+        @referees                   = Referee.none_anonymouse.pluck(:id, :name).map{|id, name| { value: id, text: name } }
+        @current_provinces          = Province.pluck(:id, :name).map{|id, name| { value: id, text: name } }
+        @birth_provinces            = @birth_provinces.map{|parent, children| children.map{|t, v| {value: v, text: t } } }.flatten
         custom_field_ids            = @client.custom_field_properties.pluck(:custom_field_id)
         if current_user.admin? || current_user.strategic_overviewer?
           available_editable_forms  = CustomField.all
