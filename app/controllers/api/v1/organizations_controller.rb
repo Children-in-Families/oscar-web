@@ -10,6 +10,7 @@ module Api
 
       def clients
         sql = ''
+        clients = []
         bulk_clients = []
         external_system_name = ExternalSystem.find_by(token: @current_user.email)&.name || ''
         # Organization.only_integrated.pluck(:short_name).each do |short_name|
@@ -27,16 +28,36 @@ module Api
         Organization.only_integrated.pluck(:short_name).map do |short_name|
           Organization.switch_to short_name
           sql = "
-                  SELECT clients.*, districts.code district_code, communes.code commune_code, villages.code village_code
-                  FROM clients
-                  LEFT OUTER JOIN provinces ON provinces.id = clients.province_id
-                  LEFT OUTER JOIN districts ON districts.id = clients.district_id
-                  LEFT OUTER JOIN communes ON communes.id = clients.commune_id
-                  LEFT OUTER JOIN villages ON villages.id = clients.village_id
-                  #{date_time_param ? "WHERE DATE(clients.created_at) >= '#{date_time_param}' OR DATE(clients.updated_at) >= '#{date_time_param}'" : ""}
-                ".squish
-          clients = Client.find_by_sql(sql)
-          bulk_clients << JSON.parse(ActiveModel::ArraySerializer.new(clients, each_serializer: ClientShareExternalSerializer).to_json)
+                SELECT clients.*, districts.code district_code, communes.code commune_code, villages.code village_code
+                FROM clients
+                LEFT OUTER JOIN provinces ON provinces.id = clients.province_id
+                LEFT OUTER JOIN districts ON districts.id = clients.district_id
+                LEFT OUTER JOIN communes ON communes.id = clients.commune_id
+                LEFT OUTER JOIN villages ON villages.id = clients.village_id
+
+              ".squish
+
+          if params.dig(:since_date).present?
+            clients          = Client.referred_external(external_system_name).where("clients.created_at >= ? OR clients.updated_at >= ?", date_time_param, date_time_param).order("clients.updated_at DESC")
+            referred_clients = JSON.parse ActiveModel::ArraySerializer.new(clients.distinct.to_a, each_serializer: OrganizationClientSerializer, context: current_user).to_json
+            if clients.present?
+              sql << " WHERE clients.id NOT IN (#{clients.ids.join(', ')}) AND (DATE(clients.created_at) >= '#{date_time_param}' OR DATE(clients.updated_at) >= '#{date_time_param}') ORDER BY clients.updated_at DESC"
+            else
+              sql << " WHERE (DATE(clients.created_at) >= '#{date_time_param}' OR DATE(clients.updated_at) >= '#{date_time_param}') ORDER BY clients.updated_at DESC"
+            end
+          else
+            clients          = Client.referred_external(external_system_name).order("clients.updated_at DESC")
+            referred_clients = JSON.parse ActiveModel::ArraySerializer.new(clients.distinct.to_a, each_serializer: OrganizationClientSerializer, context: current_user).to_json
+            if clients.present?
+              sql << " WHERE clients.id NOT IN (#{clients.ids.join(', ')}) ORDER BY clients.updated_at DESC"
+            else
+              sql << " ORDER BY clients.updated_at DESC"
+            end
+          end
+
+          none_referred_clients = Client.find_by_sql(sql.squish)
+          bulk_clients << referred_clients
+          bulk_clients << JSON.parse(ActiveModel::ArraySerializer.new(none_referred_clients, each_serializer: ClientShareExternalSerializer).to_json)
         end
         Organization.switch_to 'public'
         render json: bulk_clients.flatten, root: :data
