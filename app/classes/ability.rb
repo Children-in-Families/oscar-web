@@ -47,11 +47,11 @@ class Ability
 
       family_ids = user.families.ids
       user.clients.each do |client|
-        family_ids << client.family.try(:id)
+        family_ids << client.current_family_id
       end
 
       can :create, Family
-      can :manage, Family, id: family_ids
+      can :manage, Family, id: family_ids.compact.uniq
 
     elsif user.manager?
       subordinate_users = User.where('manager_ids && ARRAY[:user_id] OR id = :user_id', { user_id: user.id }).map(&:id)
