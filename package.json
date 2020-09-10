@@ -14,7 +14,7 @@
     "primereact": "^3.3.3",
     "prop-types": "^15.7.2",
     "react": "^16.11.0",
-    "react-date-picker": "^7.9.0",
+    "react-date-picker": "^8.0.1",
     "react-dom": "^16.11.0",
     "react-filepond": "^7.0.1",
     "react-loading-screen": "^0.0.17",

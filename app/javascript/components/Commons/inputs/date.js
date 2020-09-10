@@ -1,20 +1,21 @@
-import React from 'react'
+import React, { useState } from 'react'
 import DatePicker from 'react-date-picker'
 import './datepicker.scss'
 
 export default props => {
   const formatStringToDate = value => {
     if(value) {
-      const toAarray = value.split('-')
-      const year = toAarray[0]
-      const month = toAarray[1] - 1
-      const day = toAarray[2]
+      // const toAarray = value.split('-')
+      // const year = toAarray[0]
+      // const month = toAarray[1] - 1
+      // const day = toAarray[2]
 
-      return new Date(year, month, day)
+      return new Date(value)
     }
   }
 
   const { isError, onChange, value, getCurrentDate, T, hintText,inlineClassName, ...others } = props
+  const [currentDate, setDate] = useState(value)
 
   const formatDateToString = value => {
     if(value) {
@@ -28,7 +29,16 @@ export default props => {
   }
 
   const onChangeDate = date => {
-    onChange({data: formatDateToString(date), type: 'date'})
+    if(date && date.getFullYear() > 1900){
+      onChange({data: formatDateToString(date), type: 'date'})
+      setDate(date)
+    } else if(value && new Date(value).getFullYear() > 1970){
+      onChange({data: formatDateToString(new Date(value)), type: 'date'})
+      setDate(value)
+    } else {
+      onChange({data: null, type: 'date'})
+      setDate(null)
+    }
   }
 
   return (
@@ -54,7 +64,7 @@ export default props => {
       <DatePicker
         className={isError && "error" || ""}
         onChange={onChangeDate}
-        value={formatStringToDate(value)}
+        value={formatStringToDate(currentDate || value)}
         minDate={new Date(1899, 12, 1)}
         maxDate={getCurrentDate && new Date() || null}
         />
