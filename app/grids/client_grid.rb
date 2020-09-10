@@ -44,72 +44,6 @@ class ClientGrid < BaseGrid
     scope.where(slug: slugs)
   end
 
-  %w(
-      neighbor_name
-      neighbor_phone
-      dosavy_name
-      dosavy_phone
-      chief_commune_name
-      chief_commune_phone
-      chief_village_name
-      chief_village_phone
-      ccwc_name
-      ccwc_phone
-      legal_team_name
-      legal_representative_name
-      legal_team_phone
-      other_agency_name
-      other_representative_name
-      other_agency_phone
-      presented_id
-      id_number
-      legacy_brcs_id
-      whatsapp
-      preferred_language
-      other_phone_whatsapp
-      other_phone_number
-      brsc_branch
-      current_island
-      current_street
-      current_po_box
-      current_settlement
-      current_resident_own_or_rent
-      current_household_type
-      island2
-      street2
-      po_box2
-      settlement2
-      resident_own_or_rent2
-      household_type2
-      national_id
-      birth_cert
-      family_book
-      passport
-      travel_doc
-      referral_doc
-      local_consent
-      police_interview
-      other_legal_doc
-      marital_status
-      nationality
-      ethnicity
-      location_of_concern
-      type_of_trafficking
-      education_background
-      department
-      national_id_number
-      passport_number
-    ).each do |field_name|
-
-    header = I18n.t("datagrid.columns.clients.#{field_name}")
-    header = I18n.t('datagrid.columns.current_address', column: I18n.t("datagrid.columns.clients.#{field_name}")) if field_name.start_with?('current_')
-    header = I18n.t('datagrid.columns.other_address', column: I18n.t("datagrid.columns.clients.#{field_name}")) if field_name.end_with?('2')
-
-    filter(field_name, :string, header: header) do |value, scope|
-      filter_shared_fileds(field_name, value, scope)
-    end
-  end
-
   def gender_list
     [I18n.t('default_client_fields.gender_list').values, Client::GENDER_OPTIONS].transpose
   end
@@ -741,18 +675,6 @@ class ClientGrid < BaseGrid
     object.client_phone
   end
 
-  %w(
-    whatsapp
-    other_phone_number
-    other_phone_whatsapp
-  ).each do |field_name|
-    header = I18n.t("datagrid.columns.clients.#{field_name}")
-
-    column(field_name, header: header, class: 'brc-fields') do |object|
-      object.public_send(field_name.to_sym)
-    end
-  end
-
   column(:address_type, header: -> { I18n.t('datagrid.columns.clients.address_type') }) do |object|
     object.address_type && object.address_type.titleize
   end
@@ -816,42 +738,6 @@ class ClientGrid < BaseGrid
 
   column(:age, header: -> { I18n.t('datagrid.columns.clients.age') }, order: 'clients.date_of_birth desc') do |object|
     pluralize(object.age_as_years, 'year') + ' ' + pluralize(object.age_extra_months, 'month') if object.date_of_birth.present?
-  end
-
-  %w( marital_status
-      nationality
-      ethnicity
-      location_of_concern
-      type_of_trafficking
-      education_background
-      department
-      presented_id
-      id_number
-      legacy_brcs_id
-      preferred_language
-      brsc_branch
-      current_island
-      current_street
-      current_po_box
-      current_settlement
-      current_resident_own_or_rent
-      current_household_type
-      island2
-      street2
-      po_box2
-      settlement2
-      resident_own_or_rent2
-      household_type2
-      national_id_number
-      passport_number
-    ).each do |field_name|
-    header = I18n.t("datagrid.columns.clients.#{field_name}")
-    header = I18n.t('datagrid.columns.current_address', column: I18n.t("datagrid.columns.clients.#{field_name}")) if field_name.start_with?('current_')
-    header = I18n.t('datagrid.columns.other_address', column: I18n.t("datagrid.columns.clients.#{field_name}")) if field_name.end_with?('2')
-
-    column(field_name, header: header, class: 'brc-fields') do |object|
-      object.public_send(field_name.to_sym)
-    end
   end
 
   date_column(:created_at, html: true, header: -> { I18n.t('datagrid.columns.clients.created_at') })

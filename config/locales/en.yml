@@ -375,6 +375,7 @@ en:
       birth_province: Client Birth Province
       birth_province_id: Birth Province
       cambodia: Cambodia
+      carer: Carer
       carer_name: Carer Name
       carer_phone: Carer Phone Number
       carer_email: Carer Email Address
@@ -464,6 +465,7 @@ en:
       referred_to_ec: Referred To EC
       referred_to_fc: Referred To FC
       referred_to_kc: Referred To KC
+      referee: Referee
       referee_relationship: Referee Relationship to Client
       referee_name: Referee Name
       referee_phone: Referee Phone Number
