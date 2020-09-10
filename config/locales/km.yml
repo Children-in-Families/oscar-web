@@ -612,10 +612,10 @@ km:
       set_goal: តើអ្នកចង់កំណត់គោលដៅទេ?
       tasks_arising: កាតព្វកិច្ចកើតឡើង៖
     incomplete_detail:
-      goal: Goal
-      reason: Observation
-      score: Score
-      task: Tasks
+      goal: គោលដៅ
+      reason: ការសង្កេត
+      score:  ពិន្ទុ
+      task: កាតព្វកិច្ច
     unrestricted_form:
       add_task: បន្ថែមកាតព្វកិច្ចថ្មី
       add_task_confirm: តើអ្នកចង់បន្ថែមភារកិច្ចនៅជំហានចុងក្រោយនៃការវាយតម្លៃនេះទេ?
@@ -654,6 +654,7 @@ km:
       back_to_assessment_history: ត្រលប់ទៅការប៉ាន់ប្រមាណចាស់ៗ
       based_on: ដោយផ្អែកលើការប៉ាន់ប្រមាណលេខ
       case_plan: គម្រោងករណី
+      dimensions: មាត្រដ្ឋាន
       domain: កត្តា
       due_date: កាលបរិច្ឆេទ
       edit: កែតម្រូវ
@@ -1704,6 +1705,7 @@ km:
       settlement2: City/Settlement
       shared_service_enabled: តើអ្នកចង់ចែករំលែកសេវាកម្មអតិថិជនជាមួយប្រព័ន្ធខាងក្រៅទេ?
       stage: សំនួរ តំណាក់កាល
+      stakeholder_contacts: Stakeholder Contacts
       state: ទទួល/បដិសេធ
       status: ស្ថានភាព
       street2: Street
@@ -1956,6 +1958,7 @@ km:
       code: លេខកូដ
       commune: ឃុំ/សង្កាត់
       completed: ពេញលេញហើយឬនៅ?
+      complete_screening_assessment: Complete Screening Assessment
       concern_location: ទីកន្លែងកើតហេតុ
       created_date: កាលបរិច្ឆេទនៃការបង្កើត
       current_address: ឣាសយដ្ឋានបច្ចុប្បន្ន
@@ -2094,6 +2097,7 @@ km:
       view_fc_history_btn_link: មើលប្រវត្តិនៃ FC
       view_kc_history_btn_link: មើលប្រវត្តិនៃ KC
       view_legacy_quarterly_reports: មើល Quarterly Reports ចាស់ៗ
+      view_screening_assessment: View Screening Assessment
       view_tasks: កាតព្វកិច្ច
       village: ភូមិ
       what3words: What3words

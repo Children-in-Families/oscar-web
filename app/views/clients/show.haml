@@ -54,9 +54,9 @@
                 - if current_setting.use_screening_assessment? && @client.referred?
                   .col-xs-12
                     - if @client.require_screening_assessment?(current_setting)
-                      = link_to 'Complete Screening Assessment', new_client_custom_field_property_path(@client, custom_field_id: current_setting.screening_assessment_form), class: 'btn btn-success'
+                      = link_to t('.complete_screening_assessment'), new_client_custom_field_property_path(@client, custom_field_id: current_setting.screening_assessment_form), class: 'btn btn-success'
                     - elsif @client.custom_fields.include?(current_setting.screening_assessment_form)
-                      = link_to 'View Screening Assessment', client_custom_field_properties_path(@client, custom_field_id: current_setting.screening_assessment_form), class: 'btn btn-success'
+                      = link_to t('.view_screening_assessment'), client_custom_field_properties_path(@client, custom_field_id: current_setting.screening_assessment_form), class: 'btn btn-success'
 
                 .col-xs-12{ class: "#{'mini-margin' if current_setting.use_screening_assessment? && @client.referred? }" }
                   - if @client.require_screening_assessment?(current_setting) || (@client.calls.any? && @client.calls.most_recents.first.case_action_not_required?)

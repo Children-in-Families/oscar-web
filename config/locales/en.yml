@@ -654,10 +654,8 @@ en:
       assessment_created_by: Completed by
       back_to_assessment_history: Back to assessment history
       based_on: Based on Assessment Number
-
-
-
       case_plan: Case Plan for
+      dimensions: Dimensions
       domain: Domain
       due_date: Due Date
       edit: Edit
@@ -1714,6 +1712,7 @@ en:
       settlement2: City/Settlement
       shared_service_enabled: Do you want to share client services with external system?
       stage: Stage Question
+      stakeholder_contacts: Stakeholder Contacts
       state: Accept/Reject
       status: Status
       street2: Street
@@ -1966,6 +1965,7 @@ en:
       code: Custom ID Number1
       commune: Commune/Sangkat
       completed: Completed
+      complete_screening_assessment: Complete Screening Assessment
       concern_location: Location of Concern
       created_date: Created Date
       current_address: Current Address
@@ -2104,6 +2104,7 @@ en:
       view_fc_history_btn_link: FC History
       view_kc_history_btn_link: KC History
       view_legacy_quarterly_reports: Legacy Quarterly Reports
+      view_screening_assessment: View Screening Assessment
       view_tasks: Tasks
       village: Village
       what3words: What3words
