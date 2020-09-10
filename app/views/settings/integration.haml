@@ -7,6 +7,8 @@
         .ibox-content
           .i-checks.integration
             %label= t('.integration_label')
+            %a{:role => "button", :tabIndex => "0",  data: { toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.setting.external_system_integration')}".html_safe, placement: "right", html: true } }
+              = fa_icon "info-circle", class: 'text-info m-xs'
             .form-group
               .radio
                 %label

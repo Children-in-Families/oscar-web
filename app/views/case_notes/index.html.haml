@@ -58,7 +58,7 @@
                   %h4
                     = t('shared.x_on', x: t('clients.form.case_note'))
                     = date_format(case_note.meeting_date) if case_note.meeting_date
-                    - if can? :manage, CaseNote
+                    - if (can? :manage, CaseNote) || (can? :edit, CaseNote)
                       - cdg = case_note.case_note_domain_groups.first
                       = edit_link(@client, case_note, cdg)
                     - if current_user.admin?
