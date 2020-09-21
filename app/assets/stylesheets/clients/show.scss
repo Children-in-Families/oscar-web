@@ -264,4 +264,20 @@ body[id='clients-show'] {
   .fa-envelope:hover:before{
     content: "\f2b6";
   }
+
+  .datepicker table.table-condensed th.prev {
+    .icon-arrow-left:before {
+      content: "\f053";
+      font-family: FontAwesome;
+      position: relative;
+    }
+  }
+
+  .datepicker table.table-condensed th.next {
+    .icon-arrow-right:before {
+      content: "\f054";
+      font-family: FontAwesome;
+      position: relative;
+    }
+  }
 }

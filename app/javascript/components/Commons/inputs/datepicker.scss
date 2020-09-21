@@ -13,7 +13,10 @@
     border: thin solid #1ab394 !important;
   }
 
-  &, & *, & *:before, & *:after {
+  &,
+  & *,
+  & *:before,
+  & *:after {
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
@@ -68,8 +71,8 @@
       }
 
       // &--hasLeadingZero {
-        // margin-left: -$digit-width;
-        // padding-left: calc(#{"1px + "} $digit-width);
+      // margin-left: -$digit-width;
+      // padding-left: calc(#{"1px + "} $digit-width);
       // }
     }
   }
@@ -82,7 +85,8 @@
     &:enabled {
       cursor: pointer;
 
-      &:hover, &:focus {
+      &:hover,
+      &:focus {
         .react-date-picker__button__icon {
           stroke: rgb(0, 120, 215);
         }
@@ -106,7 +110,7 @@
     position: absolute;
     top: 100%;
     left: 0;
-    z-index: 1;
+    z-index: 999 !important;
 
     &--closed {
       display: none;

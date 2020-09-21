@@ -17,7 +17,12 @@ module AdvancedSearches
     def get_sql
       sql_string = 'clients.id IN (?)'
       properties_field = 'client_enrollment_trackings.properties'
-      client_enrollment_trackings = ClientEnrollmentTracking.joins(:client_enrollment).where(tracking_id: @tracking_id)
+      if @operator != 'is_empty'
+        client_enrollment_trackings = ClientEnrollmentTracking.joins(:client_enrollment).where(tracking_id: @tracking_id)
+      else
+        client_enrollment_trackings = ClientEnrollmentTracking.joins("LEFT OUTER JOIN client_enrollments ON client_enrollments.id = client_enrollment_trackings.client_enrollment_id")
+      end
+
 
       selected_program_stream = $param_rules['program_selected'].presence ? JSON.parse($param_rules['program_selected']) : []
       basic_rules  = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
@@ -26,7 +31,11 @@ module AdvancedSearches
 
       query_string  = get_query_string(results, 'tracking', properties_field)
 
-      properties_result = client_enrollment_trackings.joins(:client_enrollment).where(client_enrollments: { program_stream_id: selected_program_stream, status: 'Active' }).where(query_string.reject(&:blank?).join(" AND "))
+      if @operator != 'is_empty'
+        properties_result = client_enrollment_trackings.where(client_enrollments: { program_stream_id: selected_program_stream }).where(query_string.reject(&:blank?).join(" AND "))
+      else
+        properties_result = client_enrollment_trackings.where(query_string.reject(&:blank?).join(" AND "))
+      end
 
       client_ids = properties_result.pluck('client_enrollments.client_id').uniq
       {id: sql_string, values: client_ids}

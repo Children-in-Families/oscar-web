@@ -16,11 +16,11 @@ class Commune < ActiveRecord::Base
 
 
   def name
-    "#{name_kh} / #{name_en}"
+    district_type ? name_en : "#{name_kh} / #{name_en}"
   end
 
   def code_format
-    "#{name_kh} / #{name_en} (#{code})"
+    district_type ? "#{name_en} (#{code})" : "#{name_kh} / #{name_en} (#{code})"
   end
 
   def self.get_commune(commune_code)
@@ -30,5 +30,10 @@ class Commune < ActiveRecord::Base
     else
       { commune_id: nil }
     end
+  end
+
+  def self.get_commune_name_by_code(commune_code)
+    result = find_by(code: commune_code)
+    { cp: result.district&.province&.name, cd: result.district&.name, cc: result&.name }
   end
 end

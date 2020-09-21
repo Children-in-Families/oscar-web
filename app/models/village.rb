@@ -27,4 +27,9 @@ class Village < ActiveRecord::Base
       { village_id: nil }
     end
   end
+
+  def self.get_village_name_by_code(village_code)
+    result = find_by(code: village_code)
+    { cp: result.commune&.district&.province&.name, cd: result.commune&.district&.name, cc: result.commune&.name, cv: result&.name }
+  end
 end
