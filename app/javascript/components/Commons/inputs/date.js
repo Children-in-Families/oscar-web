@@ -29,15 +29,18 @@ export default props => {
   }
 
   const onChangeDate = date => {
+
     if(date && date.getFullYear() > 1900){
       onChange({data: formatDateToString(date), type: 'date'})
-      setDate(date)
-    } else if(value && new Date(value).getFullYear() > 1970){
-      onChange({data: formatDateToString(new Date(value)), type: 'date'})
-      setDate(value)
+      setDate(formatDateToString(date))
     } else {
-      onChange({data: null, type: 'date'})
-      setDate(null)
+      if(date === null) {
+        onChange({data: null, type: 'date'})
+        setDate(null)
+      } else if (value && new Date(value).getFullYear() > 1970){
+        onChange({data: formatDateToString(new Date(value)), type: 'date'})
+        setDate(value)
+      }
     }
   }
 
