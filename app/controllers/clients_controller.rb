@@ -131,7 +131,13 @@ class ClientsController < AdminController
       end
       @client = Client.new(attributes)
     else
-      @client = Client.new
+      new_params = {}
+      if params.has_key?(:name)
+        first_name, last_name = params[:name] ? params[:name].split(' ').reverse : ['', '']
+        new_params = params.permit(:gender, :date_of_birth, :client_phone)
+      end
+
+      @client = Client.new(new_params.merge(local_given_name: first_name, local_family_name: last_name))
     end
   end
 
