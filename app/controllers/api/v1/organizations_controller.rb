@@ -57,7 +57,7 @@ module Api
 
           none_referred_clients = Client.find_by_sql(sql.squish)
           bulk_clients << referred_clients
-          bulk_clients << JSON.parse(ActiveModel::ArraySerializer.new(none_referred_clients, each_serializer: ClientShareExternalSerializer).to_json)
+          bulk_clients << JSON.parse(ActiveModel::ArraySerializer.new(none_referred_clients, each_serializer: ClientShareExternalSerializer, context: current_user).to_json)
         end
         Organization.switch_to 'public'
         render json: bulk_clients.flatten, root: :data
