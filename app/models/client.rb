@@ -72,7 +72,7 @@ class Client < ActiveRecord::Base
   has_many :custom_fields, through: :custom_field_properties, as: :custom_formable
   has_many :client_enrollments, dependent: :destroy
   has_many :program_streams, through: :client_enrollments
-  has_many :case_worker_clients, dependent: :destroy, after_remove: :remove_family_from_case_worker
+  has_many :case_worker_clients, dependent: :destroy
   has_many :users, through: :case_worker_clients, validate: false
   has_many :enter_ngos, dependent: :destroy
   has_many :exit_ngos, dependent: :destroy
@@ -110,6 +110,7 @@ class Client < ActiveRecord::Base
   before_update :disconnect_client_user_relation, if: :exiting_ngo?
   after_create :set_slug_as_alias, :save_client_global_organization, :save_external_system_global
   after_save :create_client_history, :mark_referral_as_saved, :create_or_update_shared_client
+  after_commit :remove_family_from_case_worker
 
   scope :given_name_like,                          ->(value) { where('clients.given_name iLIKE :value OR clients.local_given_name iLIKE :value', { value: "%#{value.squish}%"}) }
   scope :family_name_like,                         ->(value) { where('clients.family_name iLIKE :value OR clients.local_family_name iLIKE :value', { value: "%#{value.squish}%"}) }
@@ -748,9 +749,14 @@ class Client < ActiveRecord::Base
     case_worker_clients.destroy_all
   end
 
-  def remove_family_from_case_worker(case_worker_client)
-    unless case_worker_client.user.families.any?{ |family| family.clients.joins(:case_worker_clients).where(case_worker_clients: { user_id: case_worker_client&.user&.id }).exists? }
-      case_worker_client.user.families.update_all(user_id: nil)
+  def remove_family_from_case_worker
+    family = Family.joins(:user).find_by(id: current_family_id)
+    if family
+      clients = Client.joins(:users).where(current_family_id: family.id, case_worker_clients: {user_id: family.user_id})
+      if clients.blank?
+        family.user_id = nil
+        family.save
+      end
     end
   end
 
