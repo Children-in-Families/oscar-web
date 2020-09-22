@@ -2923,7 +2923,9 @@ en:
     gender: Gender
     gender_list:
       female: Female
+      lgbt: LGBT
       male: Male
+      non_specified: Non-specified
       other_gender: Other
       unknown: Unknown
       prefer_not_to_say: Prefer not to answer

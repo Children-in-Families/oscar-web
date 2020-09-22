@@ -121,6 +121,15 @@
     "local_given_name": "Given Name(Khmer)",
     "local_family_name": "Family Name (Khmer)",
     "gender": "Gender",
+    "genderLists": {
+      "female": "Female",
+      "lgbt": "LGBT",
+      "male": "Male",
+      "non_specified": "Non-specified",
+      "other": "Other",
+      "unknown": "Unknown",
+      "prefer_not_to_say": "Prefer not to answer"
+    },
     "date_of_birth": "Date of Birth",
     "birth_province": "Birth Province",
     "client_relationship": "Relationship to Referee",
@@ -439,9 +448,12 @@
     "referralInfo": {
       "genderLists": {
         "female": "Female",
+        "lgbt": "LGBT",
         "male": "Male",
+        "non_specified": "Non-specified",
         "other": "Other",
-        "unknown": "Unknown"
+        "unknown": "Unknown",
+        "prefer_not_to_say": "Prefer not to answer"
       },
       "client_referral": "Client / Referral Information",
       "given_name": "Given Name (Latin)",

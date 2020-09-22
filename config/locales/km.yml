@@ -2911,7 +2911,9 @@ km:
     gender: ភេទ
     gender_list:
       female: ស្រី
+      lgbt: LGBT
       male: ប្រុស
+      non_specified: Non-specified
       other_gender: ផ្សេងៗ
       unknown: អត់ទាន់ដឹង
       prefer_not_to_say: សុំមិន​និយាយ​ល្អ​ជាង

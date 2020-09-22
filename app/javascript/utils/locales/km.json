@@ -113,6 +113,14 @@
     "local_given_name": "នាមខ្លួនជាអក្សរខ្មែរ",
     "local_family_name": "នាមត្រកូលជាអក្សរខ្មែរ",
     "gender": "ភេទ",
+    "genderLists": {
+      "female": "ស្រី",
+      "lgbt": "LGBT",
+      "male": "ប្រុស",
+      "non_specified": "Non-specified",
+      "other": "ផ្សេងៗ",
+      "unknown": "អត់ទាន់ដឹង"
+    },
     "date_of_birth": "ថ្ងៃ ខែ ឆ្នាំ កំណើត",
     "birth_province": "ខេត្តកំណើត",
     "client_relationship": "តើអ្នកបញ្ជូនមានទំនាក់ទំនងអ្វីជាមួយអតិថិជននេះ?",
