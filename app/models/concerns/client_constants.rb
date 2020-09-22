@@ -12,7 +12,7 @@ module ClientConstants
   BRC_ADDRESS     = %w(current_island current_street current_po_box current_city current_settlement current_resident_own_or_rent current_household_type island2 street2 po_box2 city2 settlement2 resident_own_or_rent2 household_type2).freeze
 
   GRADES = ['Kindergarten 1', 'Kindergarten 2', 'Kindergarten 3', 'Kindergarten 4', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', 'Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6', 'Year 7', 'Year 8'].freeze
-  GENDER_OPTIONS  = ['female', 'male', 'other', 'unknown', 'prefer_not_to_say']
+  GENDER_OPTIONS  = ['female', 'lgbt', 'male', 'non_specified', 'other', 'unknown', 'prefer_not_to_say']
   CLIENT_LEVELS   = ['No', 'Level 1', 'Level 2']
 
   LEGAL_DOC_FIELDS = %w(

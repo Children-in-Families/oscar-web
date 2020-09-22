@@ -27,10 +27,12 @@ export default props => {
   const locationOfConcernOptions = countryList().getData().map(a => ({ label: a.label, value: a.label }))
 
   const genderLists = [
-    { label: T.translate("refereeInfo.female"), value: 'female' },
-    { label: T.translate("refereeInfo.male"), value: 'male' },
-    { label: T.translate("refereeInfo.other"), value: 'other' },
-    { label: T.translate("refereeInfo.unknown"), value: 'unknown' },
+    { label: T.translate("referralInfo.genderLists.female"), value: 'female' },
+    { label: T.translate("referralInfo.genderLists.lgbt"), value: 'lgbt' },
+    { label: T.translate("referralInfo.genderLists.male"), value: 'male' },
+    { label: T.translate("referralInfo.genderLists.non_specified"), value: 'non_specified' },
+    { label: T.translate("referralInfo.genderLists.other"), value: 'other' },
+    { label: T.translate("referralInfo.genderLists.unknown"), value: 'unknown' },
     { label: t(translation, 'default_client_fields.gender_list.prefer_not_to_say'), value: 'prefer_not_to_say' }
   ]
   const phoneEmailOwnerOpts = phoneOwners.map(phone => ({ label: T.translate("phoneOwner." + phone.label), value: phone.value }))
@@ -353,7 +355,7 @@ export default props => {
       </div>
 
       <div className="row">
-      
+
          {
          fieldsVisibility.ethnicity == true &&
          <div className="col-xs-12 col-md-6 col-lg-3">
