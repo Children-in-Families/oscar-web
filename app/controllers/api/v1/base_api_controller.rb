@@ -10,7 +10,7 @@ module Api
       private
 
       def switch_to_public!
-        Organization.switch_to 'public' if ExternalSystem.find_by(token: current_user.email)
+        Organization.switch_to 'public' if request.subdomain == 'start' || request.subdomain.blank?
       end
 
       def current_resource_owner
