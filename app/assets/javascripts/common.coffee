@@ -9,6 +9,7 @@ CIF.Common =
     @addLocalstorageAttribute()
     @checkValidationErrorExistOnSaving()
     @preventEditOnDatePicker()
+    @confirmOnCancelBotton()
 
   preventEditOnDatePicker: ->
     $('.date-picker').datepicker
@@ -113,4 +114,9 @@ CIF.Common =
         $(@).attr('data-disable-with', "#{$(this).val()}...")
 
       return
+
+  confirmOnCancelBotton: ->
+    $('a.btn.btn-default.form-btn').on 'click', (e)->
+      result = confirm("Are you sure? Yes/No")
+      e.preventDefault() unless result
 
