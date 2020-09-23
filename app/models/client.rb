@@ -757,6 +757,12 @@ class Client < ActiveRecord::Base
         family.user_id = nil
         family.save
       end
+    else
+      case_worker_clients.each do |case_worker_client|
+        unless case_worker_client.user.families.any?{ |family| family.clients.joins(:case_worker_clients).where(case_worker_clients: { user_id: case_worker_client&.user&.id }).exists? }
+          case_worker_client.user.families.update_all(user_id: nil)
+        end
+      end
     end
   end
 
