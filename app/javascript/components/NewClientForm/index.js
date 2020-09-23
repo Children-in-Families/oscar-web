@@ -347,7 +347,9 @@ const Forms = props => {
   }
 
   const handleCancel = () => {
-    window.history.back()
+    let result = confirm("Are you sure? Yes/No");
+    if(result)
+      window.history.back()
   }
 
   const buttonPrevious = () => {
