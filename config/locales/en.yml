@@ -5665,9 +5665,12 @@ en:
       start_date: Start Date
     gender_list:
       female: Female
+      lgbt: LGBT
       male: Male
+      non_specified: Non-specified
       other_gender: Other
-      prefer_not_to_say: Prefer not to say
+      unknown: Unknown
+      prefer_not_to_say: Prefer not to answer
     index:
       add_new_user: Add New User
       export_xls: Export to XLS

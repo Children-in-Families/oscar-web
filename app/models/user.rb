@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
   MANAGERS = ROLES.select { |role| role if role.include?('manager') }
   LANGUAGES = { en: :english, km: :khmer, my: :burmese }.freeze
 
-  GENDER_OPTIONS = ['female', 'male', 'other', 'prefer not to say']
+  GENDER_OPTIONS = ['female', 'lgbt', 'male', 'non_specified', 'other', 'unknown', 'prefer_not_to_say']
 
   devise :database_authenticatable, :registerable,
        :recoverable, :rememberable, :trackable, :validatable
