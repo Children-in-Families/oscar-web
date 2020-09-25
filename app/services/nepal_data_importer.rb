@@ -24,11 +24,11 @@ module NepalDataImporter
       user_password = Devise.friendly_token.first(8)
       (workbook_second_row..workbook.last_row).each do |row_index|
         new_user = {}
-        new_user['first_name']      = workbook.row(row_index)[headers['First Name']]
-        new_user['last_name']       = workbook.row(row_index)[headers['Last Name']]
-        new_user['email']           = workbook.row(row_index)[headers['*Email']]
+        new_user['first_name']      = workbook.row(row_index)[headers['First Name']]&.squish
+        new_user['last_name']       = workbook.row(row_index)[headers['Last Name']]&.squish
+        new_user['email']           = workbook.row(row_index)[headers['*Email']]&.squish
         new_user['password']        = user_password
-        new_user['gender']           = workbook.row(row_index)[headers['*Gender']]
+        new_user['gender']          = workbook.row(row_index)[headers['*Gender']]&.squish
         new_user['roles']           = workbook.row(row_index)[headers['*Permission Level']].downcase
         manager_name                = workbook.row(row_index)[headers['Manager']] || ''
         new_user['manager_id']      = User.find_by(first_name: manager_name).try(:id) unless new_user['roles'].include?("manager")
@@ -118,8 +118,9 @@ module NepalDataImporter
         new_client['relevant_referral_information']  = workbook.row(row_index)[headers['Relevant Referral Information / Notes']] || ''
         new_client['name_of_referee']     = workbook.row(row_index)[headers['* Name of Referee']]
         received_by_name                  = workbook.row(row_index)[headers['* Receiving Staff Member']]
-        received_by_name                  = received_by_name[/WTMY/] ? received_by_name : received_by_name.split(' ').first
-        new_client['received_by_id']      = create_user_received_by(first_name: received_by_name.squish)
+        received_by_name                  = received_by_name[/WTMY/] ? received_by_name : received_by_name.split(' ')
+        received_by_attr                  = received_by_name.is_a?(String) ? {first_name: received_by_name} : {first_name: received_by_name.first.squish, last_name: received_by_name.last.squish}
+        new_client['received_by_id']      = create_user_received_by(received_by_attr)
         # new_client['initial_referral_date'] = workbook.row(row_index)[headers['* Initial Referral Date']]
         followed_up_by_name               = workbook.row(row_index)[headers['First Follow-Up By']]
         new_client['followed_up_by_id']   = User.find_by(first_name: followed_up_by_name).try(:id)
@@ -204,10 +205,12 @@ module NepalDataImporter
       attribute = attributes.with_indifferent_access
       user = User.find_or_create_by(first_name: attribute['first_name']) do |user|
                 user.password = Devise.friendly_token.first(8)
-                user.last_name = attribute['first_name'] || attribute['first_name']
+                user.last_name = attribute['last_name'] || attribute['first_name']
                 user.gender = attribute['gender'] || 'other'
-                user.email = "#{attribute['first_name']}@colt.org"
+                user.email = "#{attribute['first_name']}@welcometomyyard.com"
                 user.roles = 'case worker'
+                binding.pry
+                user.save
               end
 
       user&.id
