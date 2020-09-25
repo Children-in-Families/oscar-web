@@ -209,7 +209,6 @@ module NepalDataImporter
                 user.gender = attribute['gender'] || 'other'
                 user.email = "#{attribute['first_name']}@welcometomyyard.com"
                 user.roles = 'case worker'
-                binding.pry
                 user.save
               end
 
