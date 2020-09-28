@@ -12,7 +12,7 @@ namespace :program_stream do
     Organization.switch_to org_short_name
     program_stream = ProgramStream.find(program_stream_id)
 
-    # Cline attributes
+    # Clone attributes
     new_program = program_stream.dup
     new_program.name = new_program_name
     new_program.completed = true
