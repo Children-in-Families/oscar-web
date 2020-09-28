@@ -73,7 +73,7 @@ class Client < ActiveRecord::Base
   has_many :client_enrollments, dependent: :destroy
   has_many :program_streams, through: :client_enrollments
   has_many :case_worker_clients, dependent: :destroy
-  has_many :users, through: :case_worker_clients, validate: false
+  has_many :users, through: :case_worker_clients, validate: false, after_remove: :remove_tasks
   has_many :enter_ngos, dependent: :destroy
   has_many :exit_ngos, dependent: :destroy
   has_many :referrals, dependent: :destroy
@@ -838,6 +838,13 @@ class Client < ActiveRecord::Base
       referral = Referral.find_by(external_id: external_id, saved: false)
     else
       referral = Referral.find_by(slug: archived_slug, saved: false) if archived_slug.present?
+    end
+  end
+
+  def remove_tasks(case_worker)
+    if case_worker.tasks.present?
+      incomplete_task_ids = case_worker.tasks.overdue_incomplete.joins(client: :users).distinct.ids
+      case_worker.tasks.overdue_incomplete.where.not(id: incomplete_task_ids).destroy_all
     end
   end
 end
