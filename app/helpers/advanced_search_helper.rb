@@ -202,7 +202,8 @@ module AdvancedSearchHelper
       custom_csi_group: I18n.t('advanced_search.fields.custom_csi_group'),
       referral_source_category_id: I18n.t('advanced_search.fields.referral_source_category_id'),
       type_of_service:  I18n.t('advanced_search.fields.type_of_service'),
-      hotline: I18n.t('datagrid.columns.calls.hotline')
+      hotline: I18n.t('datagrid.columns.calls.hotline'),
+      **overdue_translations
     }
 
     # Client::STACKHOLDER_CONTACTS_FIELDS.each do |field|

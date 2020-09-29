@@ -1,5 +1,6 @@
 module AdvancedSearches
   class FilterTypes
+    OVERDUE_FIELDS = %w(has_overdue_assessment has_overdue_forms has_overdue_task no_case_note)
     def self.text_options(field_name, label, group)
       {
         id: field_name,
@@ -53,7 +54,7 @@ module AdvancedSearches
         values: values,
         plugin: 'select2',
         data: { values: foramted_data, isAssociation: is_association},
-        operators: ['equal', 'not_equal', 'is_empty', 'is_not_empty']
+        operators: OVERDUE_FIELDS.include?(field_name) ? ['equal'] : ['equal', 'not_equal', 'is_empty', 'is_not_empty']
       }
     end
 
