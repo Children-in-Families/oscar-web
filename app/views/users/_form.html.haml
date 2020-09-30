@@ -13,7 +13,7 @@
             %span.input-group-addon
               %i.fa.fa-calendar-check-o
         .col-xs-12.col-sm-6.col-md-4
-          = f.input :gender, collection: [t('users.gender_list').values, User::GENDER_OPTIONS].transpose, label: t('.gender')
+          = f.input :gender, collection: [User::GENDER_OPTIONS.map{ |value| I18n.t("users.gender_list.#{value.gsub('other', 'other_gender')}") }, User::GENDER_OPTIONS].transpose, label: t('.gender')
         .col-xs-12.col-sm-6.col-md-4= f.input :email, required: true, label: t('.email')
         - unless @user.persisted?
           .col-xs-12.col-sm-6.col-md-4= f.input :password, required: true, label: t('.password')

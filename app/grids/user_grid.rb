@@ -19,7 +19,7 @@ class UserGrid < BaseGrid
   end
 
   def gender_list
-    [I18n.t('users.gender_list').values, User::GENDER_OPTIONS].transpose
+    User::GENDER_OPTIONS.map{ |value| [I18n.t("users.gender_list.#{value.gsub('other', 'other_gender')}"), value] }
   end
 
   filter(:mobile, :string,  header: -> { I18n.t('datagrid.columns.users.mobile') }) do |value, scope|
@@ -51,7 +51,7 @@ class UserGrid < BaseGrid
   def province_options
     User.province_are
   end
-  
+
   filter(:manager_id, :enum, select: :managers, header: -> { I18n.t('datagrid.columns.users.manager') })
 
   def managers
