@@ -101,10 +101,12 @@
     "referral_source": "ប្រភពនៃការបញ្ជូន",
     "address": "ឣាសយដ្ឋាន",
     "outside_cam": "អាសយដ្ឋានខាងក្រៅ",
-    "male": "ប្រុស",
     "female": "ស្រី",
-    "other": "ផ្សេងៗ",
-    "unknown": "អត់ទាន់ដឹង"
+    "male": "ប្រុស",
+    "lgbt": "LGBT",
+    "unknown": "អត់ទាន់ដឹង",
+    "prefer_not_to_say": "Prefer not to answer/Non-specified",
+    "other": "ផ្សេងៗ"
   },
   "referralInfo": {
     "referral_info": "អតិថិជន / ការបញ្ជូន",
@@ -115,11 +117,11 @@
     "gender": "ភេទ",
     "genderLists": {
       "female": "ស្រី",
-      "lgbt": "LGBT",
       "male": "ប្រុស",
-      "non_specified": "Non-specified",
-      "other": "ផ្សេងៗ",
-      "unknown": "អត់ទាន់ដឹង"
+      "lgbt": "LGBT",
+      "unknown": "អត់ទាន់ដឹង",
+      "prefer_not_to_say": "Prefer not to answer/Non-specified",
+      "other": "ផ្សេងៗ"
     },
     "date_of_birth": "ថ្ងៃ ខែ ឆ្នាំ កំណើត",
     "birth_province": "ខេត្តកំណើត",
@@ -321,10 +323,12 @@
     },
     "carerInfo": {
       "genderLists": {
-        "female": "ប្រុស",
-        "male": "ស្រី",
-        "other": "ផ្សេងៗ",
-        "unknown": "អត់ទាន់ដឹង"
+        "female": "ស្រី",
+        "male": "ប្រុស",
+        "lgbt": "LGBT",
+        "unknown": "អត់ទាន់ដឹង",
+        "prefer_not_to_say": "Prefer not to answer/Non-specified",
+        "other": "ផ្សេងៗ"
       },
       "name": "ឈ្មោះអ្នកថែទាំ",
       "gender": "ភេទ",
@@ -404,10 +408,12 @@
     },
     "refereeInfo": {
       "genderLists": {
-        "female": "ប្រុស",
-        "male": "ស្រី",
-        "other": "ផ្សេងៗ",
-        "unknown": "អត់ទាន់ដឹង"
+        "female": "ស្រី",
+        "male": "ប្រុស",
+        "lgbt": "LGBT",
+        "unknown": "អត់ទាន់ដឹង",
+        "prefer_not_to_say": "Prefer not to answer/Non-specified",
+        "other": "ផ្សេងៗ"
       },
       "answeredCallOpts": {
         "call_answered": "បានឆ្លើយការហៅទូរស័ព្ទ",
@@ -440,8 +446,10 @@
       "genderLists": {
         "female": "ស្រី",
         "male": "ប្រុស",
-        "other": "ផ្សេងៗ",
-        "unknown": "អត់ទាន់ដឹង"
+        "lgbt": "LGBT",
+        "unknown": "អត់ទាន់ដឹង",
+        "prefer_not_to_say": "Prefer not to answer/Non-specified",
+        "other": "ផ្សេងៗ"
       },
       "client_referral": "ព័ត៌មានអតិថិជន / ការបញ្ជូន",
       "given_name": "នាមខ្លួនជាអក្សរឡាតាំង",
@@ -579,8 +587,10 @@
       "genderLists": {
         "female": "ស្រី",
         "male": "ប្រុស",
-        "other": "ផ្សេងៗ",
-        "unknown": "អត់ទាន់ដឹង"
+        "lgbt": "LGBT",
+        "unknown": "អត់ទាន់ដឹង",
+        "prefer_not_to_say": "Prefer not to answer/Non-specified",
+        "other": "ផ្សេងៗ"
       },
       "answeredCallOpts": {
         "call_answered": "បានឆ្លើយការហៅទូរស័ព្ទ",

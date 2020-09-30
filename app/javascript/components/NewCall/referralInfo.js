@@ -35,10 +35,12 @@ export default props => {
   // const emailOwnerOpts = phoneOwners.map(phone => ({ label: phone.label, value: phone.value }))
 
   const genderLists = [
-    { label: T.translate("newCall.referralInfo.genderLists.female"), value: "female" },
-    { label: T.translate("newCall.referralInfo.genderLists.male"), value: "male" },
-    { label: T.translate("newCall.referralInfo.genderLists.other"), value: "other" },
-    { label: T.translate("newCall.referralInfo.genderLists.unknown"), value: "unknown" }
+    { label: T.translate("genderLists.female"), value: 'female' },
+    { label: T.translate("genderLists.male"), value: 'male' },
+    { label: T.translate("genderLists.lgbt"), value: 'lgbt' },
+    { label: T.translate("genderLists.unknown"), value: 'unknown' },
+    { label: T.translate("genderLists.prefer_not_to_say"), value: 'prefer_not_to_say' },
+    { label: T.translate("genderLists.other"), value: 'other' }
   ];
   const birthProvincesLists = birthProvinces.map(province => ({
     label: province[0],

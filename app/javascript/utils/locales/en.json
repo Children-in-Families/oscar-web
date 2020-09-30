@@ -109,10 +109,12 @@
     "referral_source": "Referral Source",
     "address": "Address",
     "outside_cam": "International",
-    "male": "Male",
     "female": "Female",
-    "other": "Other",
-    "unknown": "Unknown"
+    "male": "Male",
+    "lgbt": "LGBT",
+    "unknown": "Unknown",
+    "prefer_not_to_say": "Prefer not to answer/Non-specified",
+    "other": "Other"
   },
   "referralInfo": {
     "referral_info": "Client / Referral Information",
@@ -123,12 +125,11 @@
     "gender": "Gender",
     "genderLists": {
       "female": "Female",
-      "lgbt": "LGBT",
       "male": "Male",
-      "non_specified": "Non-specified",
-      "other": "Other",
+      "lgbt": "LGBT",
       "unknown": "Unknown",
-      "prefer_not_to_say": "Prefer not to answer"
+      "prefer_not_to_say": "Prefer not to answer/Non-specified",
+      "other": "Other"
     },
     "date_of_birth": "Date of Birth",
     "birth_province": "Birth Province",
@@ -332,8 +333,10 @@
       "genderLists": {
         "female": "Female",
         "male": "Male",
-        "other": "Other",
-        "unknown": "Unknown"
+        "lgbt": "LGBT",
+        "unknown": "Unknown",
+        "prefer_not_to_say": "Prefer not to answer/Non-specified",
+        "other": "Other"
       },
       "name": "Name",
       "gender": "Gender",
@@ -415,8 +418,10 @@
       "genderLists": {
         "female": "Female",
         "male": "Male",
-        "other": "Other",
-        "unknown": "Unknown"
+        "lgbt": "LGBT",
+        "unknown": "Unknown",
+        "prefer_not_to_say": "Prefer not to answer/Non-specified",
+        "other": "Other"
       },
       "answeredCallOpts": {
         "call_answered": "Answered Call",
@@ -448,12 +453,11 @@
     "referralInfo": {
       "genderLists": {
         "female": "Female",
-        "lgbt": "LGBT",
         "male": "Male",
-        "non_specified": "Non-specified",
-        "other": "Other",
+        "lgbt": "LGBT",
         "unknown": "Unknown",
-        "prefer_not_to_say": "Prefer not to answer"
+        "prefer_not_to_say": "Prefer not to answer/Non-specified",
+        "other": "Other"
       },
       "client_referral": "Client / Referral Information",
       "given_name": "Given Name (Latin)",
@@ -592,8 +596,10 @@
       "genderLists": {
         "female": "Female",
         "male": "Male",
-        "other": "Other",
-        "unknown": "Unknown"
+        "lgbt": "LGBT",
+        "unknown": "Unknown",
+        "prefer_not_to_say": "Prefer not to answer/Non-specified",
+        "other": "Other"
       },
       "answeredCallOpts": {
         "call_answered": "Answered Call",
@@ -621,5 +627,13 @@
       "cancel": "Cancel",
       "save": "save"
     }
+  },
+  "genderLists": {
+    "female": "Female",
+    "male": "Male",
+    "lgbt": "LGBT",
+    "unknown": "Unknown",
+    "prefer_not_to_say": "Prefer not to answer/Non-specified",
+    "other": "Other"
   }
 }

@@ -45,7 +45,7 @@ class ClientGrid < BaseGrid
   end
 
   def gender_list
-    [I18n.t('default_client_fields.gender_list').values, Client::GENDER_OPTIONS].transpose
+    [Client::GENDER_OPTIONS.map{|value| I18n.t("default_client_fields.gender_list.#{ value == 'other' ? 'other_gender' : value }") }, Client::GENDER_OPTIONS].transpose
   end
 
   filter(:created_at, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.created_at') })
