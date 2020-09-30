@@ -159,7 +159,11 @@ class CaseNotesController < AdminController
   def fetch_domain_group
     @domain_groups = []
     if params[:action].in? ['edit', 'update']
-      @domain_groups = @case_note.domain_groups
+      if @case_note.domain_groups.present?
+        @domain_groups = @case_note.domain_groups
+      else
+        @domain_groups = DomainGroup.joins(:domains).where(id: @case_note.selected_domain_group_ids)
+      end
     else
       if (@case_note.custom_assessment_setting_id.present?) || (params[:custom] == 'true' && @custom_assessment_setting&.id.present?)
         if @case_note.custom_assessment_setting_id.present?
