@@ -137,7 +137,7 @@ class ClientsController < AdminController
         new_params = params.permit(:gender, :date_of_birth, :client_phone)
       end
 
-      @client = Client.new(new_params.merge(local_given_name: first_name, local_family_name: last_name))
+      @client = Client.new(new_params.merge(local_given_name: first_name, local_family_name: last_name, gender: new_params[:gender]&.downcase))
     end
   end
 
