@@ -83,9 +83,9 @@ module CaseNoteHelper
   end
 
   def tag_domain_group(case_note)
-    domain_group_ids = selected_domain_group_ids(case_note)
+    domain_group_ids = selected_domain_groups(case_note)
     if domain_group_ids.present?
-      domain_groups = case_note.domain_groups.map{ |dg| [dg.domain_name("#{case_note.custom}", case_note.custom_assessment_setting_id), dg.id] }
+      domain_groups = DomainGroup.joins(:domains).where(id: domain_group_ids).map{ |dg| [dg.domain_name("#{case_note.custom}", case_note.custom_assessment_setting_id), dg.id] }
       options_for_select(domain_groups, domain_group_ids)
     else
       domain_group_ids = case_note.case_note_domain_groups.where("attachments != '{}' OR note != ''").pluck(:domain_group_id)
@@ -94,7 +94,7 @@ module CaseNoteHelper
     end
   end
 
-  def selected_domain_group_ids(case_note)
+  def selected_domain_groups(case_note)
     case_note.selected_domain_group_ids.presence || []
   end
 
