@@ -151,7 +151,7 @@ module AdvancedSearches
     end
 
     def gender_list
-      [Client::GENDER_OPTIONS, Client::GENDER_OPTIONS.map{|value| I18n.t("default_client_fields.gender_list.#{ value == 'other' ? 'other_gender' : value }") }].transpose.to_h
+      [Client::GENDER_OPTIONS, Client::GENDER_OPTIONS.map{|value| I18n.t("default_client_fields.gender_list.#{ value.gsub('other', 'other_gender') }") }].transpose.to_h
     end
 
     def exit_reasons_options
