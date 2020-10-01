@@ -864,9 +864,8 @@ class Client < ActiveRecord::Base
   end
 
   def remove_tasks(case_worker)
-    if case_worker.tasks.present?
-      incomplete_task_ids = case_worker.tasks.overdue_incomplete.joins(client: :users).distinct.ids
-      case_worker.tasks.overdue_incomplete.where.not(id: incomplete_task_ids).destroy_all
+    if case_worker.tasks.incomplete.exists?
+      case_worker.tasks.incomplete.destroy_all
     end
   end
 end
