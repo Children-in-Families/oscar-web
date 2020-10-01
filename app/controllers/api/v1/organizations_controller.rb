@@ -13,17 +13,6 @@ module Api
         clients = []
         bulk_clients = []
         external_system_name = ExternalSystem.find_by(token: @current_user.email)&.name || ''
-        # Organization.only_integrated.pluck(:short_name).each do |short_name|
-        #   Organization.switch_to short_name
-        #   if params.dig(:since_date).present?
-        #     clients = JSON.parse ActiveModel::ArraySerializer.new(Client.referred_external(external_system_name).where("clients.created_at >= ? OR clients.updated_at >= ?", date_time_param, date_time_param).order("clients.updated_at DESC").distinct.to_a, each_serializer: OrganizationClientSerializer, context: current_user).to_json
-        #   else
-        #     clients = JSON.parse ActiveModel::ArraySerializer.new(Client.referred_external(external_system_name).order("clients.updated_at DESC").distinct.to_a, each_serializer: OrganizationClientSerializer, context: current_user).to_json
-        #   end
-
-        #   bulk_clients << clients
-        # end
-        # Organization.switch_to 'public'
         date_time_param = Time.parse(params[:since_date]) if params[:since_date].present?
         Organization.only_integrated.pluck(:short_name).map do |short_name|
           Organization.switch_to short_name
@@ -66,20 +55,24 @@ module Api
       def upsert
         client = nil
         if params[:organization].present? && clients_params['organization_name'].present?
-          if clients_params['global_id'].present? && GlobalIdentity.exists?(clients_params['global_id'])
-            global_identity = GlobalIdentity.find(clients_params['global_id'])
-            short_name = global_identity.organizations.first&.short_name
-            if short_name
-              Organization.switch_to short_name
-              client = global_identity.global_identity_organizations.last&.client
-              attributes = Client.get_client_attribute(clients_params, client.referral_source_category_id)
-              if client && client.update_attributes(attributes)
-                render json: { external_id: client.external_id, message: 'Record saved.' }
+          if clients_params['global_id'].present?
+            if GlobalIdentity.exists?(clients_params['global_id'])
+              global_identity = GlobalIdentity.find(clients_params['global_id'])
+              short_name = global_identity.organizations.first&.short_name
+              if short_name
+                Organization.switch_to short_name
+                client = global_identity.global_identity_organizations.last&.client
+                attributes = Client.get_client_attribute(clients_params, client.referral_source_category_id)
+                if client && client.update_attributes(attributes)
+                  render json: { external_id: client.external_id, message: 'Record saved.' }
+                else
+                  render json: { external_id: clients_params[:external_id], message: client.errors }, status: :unprocessable_entity
+                end
               else
-                render json: { external_id: clients_params[:external_id], message: 'Record error. Please check OSCaR logs for details.' }, status: :unprocessable_entity
+                find_referral
               end
             else
-              find_referral
+              render json: { global_id: clients_params['global_id'], message: "Record not found." }, status: '404'
             end
           else
             find_referral
@@ -121,7 +114,7 @@ module Api
           end
           render json: { message: 'Record saved.' }, root: :data
         else
-          render json: { message: 'Record error. Please check OSCaR logs for details.' }, root: :data, status: :unprocessable_entity
+          render json: { error: client.errors, message: 'Record error. Please check OSCaR logs for details.' }, root: :data, status: :unprocessable_entity
         end
       end
 
@@ -186,7 +179,7 @@ module Api
               )
               render json: { external_id: clients_params[:external_id], message: 'Record saved.' }
             else
-              render json: { external_id: clients_params[:external_id], message: 'Record error. Please check OSCaR logs for details.' }, status: :unprocessable_entity
+              render json: { external_id: clients_params[:external_id], message: referral.errors }, status: :unprocessable_entity
             end
           else
             render json: { external_id: clients_params[:external_id], message: 'Record saved.' }
