@@ -116,7 +116,10 @@ CIF.Common =
       return
 
   confirmOnCancelBotton: ->
-    $('a.btn.btn-default.form-btn').on 'click', (e)->
+    $('a.btn.btn-default.form-btn, button.btn.btn-default[data-dismiss="modal"]').on 'click', (e)->
       result = confirm("Are you sure? Yes/No")
-      e.preventDefault() unless result
+      unless result
+        e.preventDefault()
+        return false
+
 
