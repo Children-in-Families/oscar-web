@@ -73,7 +73,7 @@ class Client < ActiveRecord::Base
   has_many :client_enrollments, dependent: :destroy
   has_many :program_streams, through: :client_enrollments
   has_many :case_worker_clients, dependent: :destroy
-  has_many :users, through: :case_worker_clients, validate: false, after_remove: :remove_tasks
+  has_many :users, through: :case_worker_clients, validate: false
   has_many :enter_ngos, dependent: :destroy
   has_many :exit_ngos, dependent: :destroy
   has_many :referrals, dependent: :destroy
