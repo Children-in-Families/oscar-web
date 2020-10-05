@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { SelectInput, TextInput, Checkbox, RadioGroup } from "../Commons/inputs";
 import { setDefaultLanguage } from './helper'
+import toastr from 'toastr/toastr'
+import { confirmCancel } from '../Commons/confirmCancel'
+
 import Address from "../NewCall/address"
+import './styles.scss'
 // import TaskModal from "../NewCall/addTaskModal"
 
 export default props => {
@@ -119,7 +123,7 @@ export default props => {
   }
 
   const handleCancel = () => {
-    document.location.href = `/calls/${call.id}`
+    confirmCancel(toastr, `/calls/${call.id}`)
   }
 
   const handleSave = () => {

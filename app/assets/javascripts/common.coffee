@@ -116,10 +116,30 @@ CIF.Common =
       return
 
   confirmOnCancelBotton: ->
-    $('a.btn.btn-default.form-btn, button.btn.btn-default[data-dismiss="modal"]').on 'click', (e)->
-      result = confirm("Are you sure? Yes/No")
-      unless result
-        e.preventDefault()
-        return false
+    $(document).on 'click', 'a.btn.btn-default.form-btn, form button.btn.btn-default, a#btn-cancel', (e)->
+      window.thisLink = $(@).attr('href')
+      confirmText = $('#wrapper').data('confirm')
+      textYes     = $('#wrapper').data('yes')
+      textNo     = $('#wrapper').data('no')
 
+      e.preventDefault();
 
+      toastr.warning "<br /><button class='btn btn-success m-r-xs' type='button' value='yes'>#{textYes}</button><button class='btn btn-default btn-toastr-confirm' type='button'  value='no' >#{textNo}</button>", confirmText,
+        preventDuplicates: true
+        closeButton: true
+        allowHtml: true
+        timeOut: 0,
+        extendedTimeOut: 0,
+        showDuration: '400'
+        tapToDismiss: false
+        positionClass: 'toast-top-center'
+        onclick: () ->
+          value = event.target.value
+          if value == 'yes'
+            $('.modal').modal('hide')
+            window.location.href = thisLink if thisLink
+            window.thisLink = undefined
+            return true
+          else
+            $('.toast-close-button').closest('.toast').remove();
+            return false
