@@ -618,5 +618,13 @@
       "cancel": "ទុកជាមោឃៈ",
       "save": "រក្សាទុក"
     }
+  },
+  "genderLists": {
+    "female": "ស្រី",
+    "male": "ប្រុស",
+    "lgbt": "LGBT",
+    "unknown": "អត់ទាន់ដឹង",
+    "prefer_not_to_say": "សុំមិន​និយាយ​ល្អ​ជាង",
+    "other": "ផ្សេងៗ"
   }
 }
