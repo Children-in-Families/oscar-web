@@ -61,6 +61,6 @@ class RefereesGrid
   end
 
   def gender_list
-    [[I18n.t('datagrid.columns.referees.male'), 'male'], [I18n.t('datagrid.columns.referees.female'), 'female']]
+    [Referee::GENDER_OPTIONS.map{|value| I18n.t("default_client_fields.gender_list.#{ value.gsub('other', 'other_gender') }") }, Client::GENDER_OPTIONS].transpose
   end
 end

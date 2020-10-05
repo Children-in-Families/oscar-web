@@ -618,5 +618,13 @@
       "cancel": "Cancel",
       "save": "save"
     }
+  },
+  "genderLists": {
+    "female": "Female",
+    "male": "Male",
+    "lgbt": "LGBT",
+    "unknown": "Unknown",
+    "prefer_not_to_say": "Prefer not to answer/Non-specified",
+    "other": "Other"
   }
 }
