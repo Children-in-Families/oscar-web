@@ -346,7 +346,8 @@ const Forms = props => {
   }
 
   const handleCancel = () => {
-    confirmCancel(toastr)
+    const clientLocation = `/clients/${client.slug || ''}${window.location.search}`
+    confirmCancel(toastr, clientLocation)
   }
 
   const buttonPrevious = () => {

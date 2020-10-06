@@ -121,7 +121,7 @@ export default props => {
   }
 
   const handleCancel = () => {
-    confirmCancel(toastr, `/calls/${call.id}`)
+    confirmCancel(toastr, `/calls/${call.id}${window.location.search}`)
   }
 
   const handleSave = () => {
