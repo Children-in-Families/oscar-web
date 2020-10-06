@@ -52,7 +52,7 @@
 
             %li{ id: f.name }
               .visibility.col-sm-12
-                = check_box_tag "#{f.name}_", f.name, checked = default_setting("#{f.name}_", @client_default_columns) || params["#{f.name}_"].present?, class: 'i-checks'
+                = check_box_tag "#{f.name}_", f.name, checked = default_setting("#{f.name}_", @client_default_columns) || params["#{f.name}_"].present? || grid.columns.map(&:name).include?(f.name.to_sym), class: 'i-checks'
                 = columns_visibility f.name
 
           - if selected_country == 'lesotho'
