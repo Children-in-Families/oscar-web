@@ -631,7 +631,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       $(".domain-#{domainId} .task_required").show()
 
   _handleAppendDomainAtTheEnd = (currentIndex) ->
-    if $("form#new_assessment").length
+    if $("form.assessment-form").length
       currentTab   = "#rootwizard-p-#{currentIndex}"
       domainId     = $(currentTab).find('.score_option').data('domain-id')
 
