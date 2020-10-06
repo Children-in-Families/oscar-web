@@ -358,7 +358,8 @@ const CallForms = props => {
   }
 
   const handleCancel = () => {
-    confirmCancel(toastr)
+    const clientLocation = `/calls/${callData.id || ''}${window.location.search}`
+    confirmCancel(toastr, clientLocation)
   }
 
   const buttonPrevious = () => {
