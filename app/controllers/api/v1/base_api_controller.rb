@@ -2,16 +2,11 @@ module Api
   module V1
     class BaseApiController < ApplicationController
       include DeviseTokenAuth::Concerns::SetUserByToken
-      before_action :switch_to_public!
       before_action :authenticate_user!
       before_action :doorkeeper_authorize!, if: :doorkeeper_controller?
       before_action :current_resource_owner
 
       private
-
-      def switch_to_public!
-        Organization.switch_to 'public' if request.subdomain == 'start' || request.subdomain.blank?
-      end
 
       def current_resource_owner
         @current_user ||= if doorkeeper_token
