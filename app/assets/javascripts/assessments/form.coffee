@@ -646,7 +646,6 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
           taskClone        = currentTableObj.find('.add-task-btn-wrapper').clone()
           taskArisingClone = currentTableObj.find('.task-arising').clone()
           textRequiredClone = currentTableObj.find('.task_required').clone()
-
           taskArisingClone.find('.task-required-option').remove()
           unless $("#required-task-wrapper-domain-#{domainId}").length
             $(".domain-last .ibox-content").append(
