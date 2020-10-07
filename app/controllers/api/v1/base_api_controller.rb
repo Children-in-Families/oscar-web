@@ -2,7 +2,7 @@ module Api
   module V1
     class BaseApiController < ApplicationController
       include DeviseTokenAuth::Concerns::SetUserByToken
-      before_action :authenticate_user!
+      before_action :authenticate_user!, if: :user_authenticated?
       before_action :doorkeeper_authorize!, if: :doorkeeper_controller?
       before_action :current_resource_owner
 
