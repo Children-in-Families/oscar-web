@@ -189,6 +189,9 @@ Rails.application.routes.draw do
     mount_devise_token_auth_for 'User', at: '/v1/auth', skip: [:passwords], controllers: {
       sessions:  'overrides/sessions'
     }
+
+    mount_devise_token_auth_for 'AdminUser', at: 'v1/admin_auth'
+
     resources :form_builder_attachments, only: :destroy
 
     resources :provinces, only: :index do

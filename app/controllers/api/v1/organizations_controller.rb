@@ -1,8 +1,9 @@
 module Api
   module V1
     class OrganizationsController < Api::V1::BaseApiController
-      skip_before_action :authenticate_user!, only: [:index, :create]
-      before_action :authenticate_admin_user!, only: [:create]
+      skip_before_action :authenticate_user!
+      before_action :authenticate_admin_user!, only: :create
+      before_action :authenticate_api_admin_user!, :set_current_aut_user, except: [:index, :create]
 
       def index
         render json: Organization.visible.order(:created_at)
@@ -208,6 +209,10 @@ module Api
           authenticate_or_request_with_http_token do |token, _options|
             @current_user = AdminUser.find_by(token: token)
           end
+        end
+
+        def set_current_aut_user
+          @current_user = current_api_admin_user
         end
     end
   end
