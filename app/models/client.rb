@@ -862,4 +862,10 @@ class Client < ActiveRecord::Base
       referral = Referral.find_by(slug: archived_slug, saved: false) if archived_slug.present?
     end
   end
+
+  def remove_tasks(case_worker)
+    if case_worker.tasks.incomplete.exists?
+      case_worker.tasks.incomplete.destroy_all
+    end
+  end
 end

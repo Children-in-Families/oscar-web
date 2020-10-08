@@ -6,7 +6,7 @@
     %th{ style: "border: 1px solid black; text-align: left; padding: 0 5px;" } Amount
     %th{ style: "border: 1px solid black; text-align: left; padding: 0 5px;" } Overdue tasks
   - @case_workers.each do |case_worker|
-    - tasks = case_worker.tasks.exclude_exited_ngo_clients.overdue_incomplete_ordered
+    - tasks = case_worker.tasks.exclude_exited_ngo_clients.overdue_incomplete_ordered.joins(client: :users).where(users: { id: case_worker.id}).distinct
     - next if tasks.empty?
     %tr
       %td{ style: "border: 1px solid black; text-align: center;" }= link_to case_worker.name, dashboards_url(subdomain: @org_name, user_id: case_worker.id, tasks: true, forms: true, assessments: true), target: :_blank
