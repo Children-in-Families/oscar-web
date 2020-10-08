@@ -699,9 +699,9 @@ module ClientsHelper
 
     query_string  = get_query_string(results, form_type, properties_field)
     if form_type == 'formbuilder'
-      properties_result = object.where(query_string.reject(&:blank?).join(" AND "))
+      properties_result = object.where(query_string.reject(&:blank?).join(" #{basic_rules['condition']} "))
     else
-      properties_result = object.joins(:client_enrollment).where(client_enrollments: { program_stream_id: selected_program_stream }).where(query_string.reject(&:blank?).join(" AND "))
+      properties_result = object.joins(:client_enrollment).where(client_enrollments: { program_stream_id: selected_program_stream }).where(query_string.reject(&:blank?).join(" #{basic_rules['condition']} "))
     end
   end
 
