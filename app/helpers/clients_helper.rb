@@ -204,6 +204,7 @@ module ClientsHelper
       referral_source_category_id:   t('datagrid.columns.clients.referral_source_category'),
       type_of_service:               t('datagrid.columns.type_of_service'),
       hotline:                       t('datagrid.columns.calls.hotline'),
+      **overdue_translations,
       **Client::HOTLINE_FIELDS.map{ |field| [field.to_sym, I18n.t("datagrid.columns.clients.#{field}")] }.to_h
     }
 
@@ -212,6 +213,15 @@ module ClientsHelper
     end
 
     label_tag "#{column}_", label_column[column.to_sym]
+  end
+
+  def overdue_translations
+    {
+      has_overdue_assessment: I18n.t("datagrid.form.has_overdue_assessment", assessment: I18n.t('clients.show.assessment')),
+      has_overdue_forms: I18n.t("datagrid.form.has_overdue_forms"),
+      has_overdue_task: I18n.t("datagrid.form.has_overdue_task"),
+      no_case_note: I18n.t("datagrid.form.no_case_note")
+    }
   end
 
   def local_name_label(name_type = :local_given_name)
@@ -515,7 +525,8 @@ module ClientsHelper
       referral_source_category_id_: t('datagrid.columns.clients.referral_source_category'),
       type_of_service_: t('datagrid.columns.type_of_service'),
       assessment_completed_date_: t('datagrid.columns.calls.assessment_completed_date', assessment: t('clients.show.assessment')),
-      hotline_call_: t('datagrid.columns.calls.hotline_call')
+      hotline_call_: t('datagrid.columns.calls.hotline_call'),
+      **overdue_translations
     }
 
     (Client::HOTLINE_FIELDS + Call::FIELDS).each do |field_name|
