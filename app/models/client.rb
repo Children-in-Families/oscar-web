@@ -110,6 +110,7 @@ class Client < ActiveRecord::Base
   before_update :disconnect_client_user_relation, if: :exiting_ngo?
   after_create :set_slug_as_alias, :save_client_global_organization, :save_external_system_global
   after_save :create_client_history, :mark_referral_as_saved, :create_or_update_shared_client
+  after_commit :remove_family_from_case_worker
 
   scope :given_name_like,                          ->(value) { where('clients.given_name iLIKE :value OR clients.local_given_name iLIKE :value', { value: "%#{value.squish}%"}) }
   scope :family_name_like,                         ->(value) { where('clients.family_name iLIKE :value OR clients.local_family_name iLIKE :value', { value: "%#{value.squish}%"}) }
@@ -746,6 +747,27 @@ class Client < ActiveRecord::Base
 
   def disconnect_client_user_relation
     case_worker_clients.destroy_all
+  end
+
+  def remove_family_from_case_worker
+    family = Family.joins(:user).find_by(id: current_family_id)
+    if family
+      clients = Client.joins(:users).where(current_family_id: family.id, case_worker_clients: {user_id: family.user_id})
+      if clients.blank?
+        family.user_id = nil
+        family.save
+      end
+    else
+      case_worker_clients.each do |case_worker_client|
+        case_worker_client.user.families.each do |family|
+          clients = family.clients.joins(:case_worker_clients).where(case_worker_clients: { user_id: case_worker_client&.user_id }, current_family_id: family.id).exists?
+          if clients.blank?
+            family.user_id = nil
+            family.save
+          end
+        end
+      end
+    end
   end
 
   def assessment_duration(duration, default = true, custom_assessment_setting_id=nil)
