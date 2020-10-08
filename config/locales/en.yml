@@ -375,6 +375,7 @@ en:
       birth_province: Client Birth Province
       birth_province_id: Birth Province
       cambodia: Cambodia
+      carer: Carer
       carer_name: Carer Name
       carer_phone: Carer Phone Number
       carer_email: Carer Email Address
@@ -464,6 +465,7 @@ en:
       referred_to_ec: Referred To EC
       referred_to_fc: Referred To FC
       referred_to_kc: Referred To KC
+      referee: Referee
       referee_relationship: Referee Relationship to Client
       referee_name: Referee Name
       referee_phone: Referee Phone Number
@@ -497,6 +499,7 @@ en:
         year_6: Year 6
         year_7: Year 7
         year_8: Year 8
+        bachelors: Bachelors
       school_name: School Name
       search: Search
       slug: ID
@@ -654,10 +657,8 @@ en:
       assessment_created_by: Completed by
       back_to_assessment_history: Back to assessment history
       based_on: Based on Assessment Number
-
-
-
       case_plan: Case Plan for
+      dimensions: Dimensions
       domain: Domain
       due_date: Due Date
       edit: Edit
@@ -1701,6 +1702,7 @@ en:
       province: Birth Province
       rated_for_id_poor: Is client rated for ID Poor?
       received_by: Referral Received By
+      referee_called_before: Has the referee called the Childsafe Hotline Before?
       referral_doc: 'Referral Documents'
       referral_phone: Referee Phone Number
       referral_source: Referral Source
@@ -1713,6 +1715,7 @@ en:
       settlement2: City/Settlement
       shared_service_enabled: Do you want to share client services with external system?
       stage: Stage Question
+      stakeholder_contacts: Stakeholder Contacts
       state: Accept/Reject
       status: Status
       street2: Street
@@ -1965,6 +1968,7 @@ en:
       code: Custom ID Number1
       commune: Commune/Sangkat
       completed: Completed
+      complete_screening_assessment: Complete Screening Assessment
       concern_location: Location of Concern
       created_date: Created Date
       current_address: Current Address
@@ -2019,6 +2023,7 @@ en:
       live_with: Primary Carer Name
       local_family_name: Family Name
       local_given_name: Given Name
+      locality: Locality
       main_school_contact: Main School Contact
       manage: Manage
       name: Name
@@ -2102,6 +2107,7 @@ en:
       view_fc_history_btn_link: FC History
       view_kc_history_btn_link: KC History
       view_legacy_quarterly_reports: Legacy Quarterly Reports
+      view_screening_assessment: View Screening Assessment
       view_tasks: Tasks
       village: Village
       what3words: What3words

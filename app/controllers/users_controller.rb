@@ -36,7 +36,7 @@ class UsersController < AdminController
 
   def show
     @user.populate_custom_fields unless @user.custom_field_permissions.any? || @user.admin? || @user.strategic_overviewer? || @user.case_worker?
-    @user.populate_program_streams unless @user.program_stream_permissions.any? || @user.admin? || @user.strategic_overviewer?
+    @user.populate_program_streams unless @user.admin? || @user.strategic_overviewer?
     @user.build_permission unless @user.permission.present? || @user.admin? || @user.strategic_overviewer?
     @user.populate_quantitative_types unless @user.quantitative_type_permissions.present? || @user.admin? || @user.strategic_overviewer?
 

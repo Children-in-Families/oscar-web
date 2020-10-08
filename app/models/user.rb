@@ -377,7 +377,7 @@ class User < ActiveRecord::Base
   end
 
   def populate_program_streams
-    ProgramStream.order('lower(name)').each do |ps|
+    ProgramStream.order('lower(name)').where.not(id: program_streams.ids).each do |ps|
       program_stream_permissions.build(program_stream_id: ps.id)
     end
   end

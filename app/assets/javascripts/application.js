@@ -14,6 +14,8 @@
 //= require dataTables/jszip.min
 //= require thredded
 //= require select2
+//= require editable/bootstrap-editable
+//= require editable/rails
 
 //= require image_upload_previewer/image_upload_previewer
 //= require image_upload

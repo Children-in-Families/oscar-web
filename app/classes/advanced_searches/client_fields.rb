@@ -12,8 +12,12 @@ module AdvancedSearches
 
     def render
       group                 = format_header('basic_fields')
+      referee_group         = format_header('referee')
+      carer_group           = format_header('carer')
       number_fields         = number_type_list.map { |item| AdvancedSearches::FilterTypes.number_options(item, format_header(item), group) }
       text_fields           = text_type_list.map { |item| AdvancedSearches::FilterTypes.text_options(item, format_header(item), group) }
+      text_fields           << referee_text_fields.map { |item| AdvancedSearches::FilterTypes.text_options(item, format_header(item), referee_group) }
+      text_fields           << carer_text_fields.map { |item| AdvancedSearches::FilterTypes.text_options(item, format_header(item), carer_group) }
       date_picker_fields    = date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, format_header(item), group) }
       drop_list_fields      = drop_down_type_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last, group) }
       csi_options           = AdvancedSearches::CsiFields.render
@@ -21,7 +25,7 @@ module AdvancedSearches
       default_domain_scores_options = enable_default_assessment? ? AdvancedSearches::DomainScoreFields.render : []
       custom_domain_scores_options  = enable_custom_assessment? ? AdvancedSearches::CustomDomainScoreFields.render : []
 
-      search_fields = text_fields + drop_list_fields + number_fields + date_picker_fields
+      search_fields = text_fields.flatten + drop_list_fields + number_fields + date_picker_fields
 
       (search_fields.sort_by { |f| f[:label].downcase } + school_grade_options + csi_options + default_domain_scores_options + custom_domain_scores_options).select do |field|
         policy(Client).show?(field[:id].to_sym)
@@ -36,37 +40,44 @@ module AdvancedSearches
 
     def text_type_list
       [
-        'national_id_number',
-        'passport_number',
-        'neighbor_name',
-        'neighbor_phone',
-        'dosavy_name',
-        'dosavy_phone',
-        'chief_commune_name',
-        'chief_commune_phone',
-        'chief_village_name',
-        'chief_village_phone',
-        'ccwc_name',
-        'ccwc_phone',
-        'legal_team_name',
-        'legal_representative_name',
-        'legal_team_phone',
-        'other_agency_name',
-        'other_representative_name',
-        'other_agency_phone',
-        'department',
-        'education_background',
-        'id_number',
-        'legacy_brcs_id',
-        'other_phone_number',
-        'current_household_type', 'household_type2',
-        'brsc_branch', 'current_settlement', 'settlement2',
-        'given_name', 'current_street', 'street2', 'current_po_box', 'po_box2', 'family_name',
+        # 'national_id_number',
+        # 'passport_number',
+        # 'neighbor_name',
+        # 'neighbor_phone',
+        # 'dosavy_name',
+        # 'dosavy_phone',
+        # 'chief_commune_name',
+        # 'chief_commune_phone',
+        # 'chief_village_name',
+        # 'chief_village_phone',
+        # 'ccwc_name',
+        # 'ccwc_phone',
+        # 'legal_team_name',
+        # 'legal_representative_name',
+        # 'legal_team_phone',
+        # 'other_agency_name',
+        # 'other_representative_name',
+        # 'other_agency_phone',
+        # 'department',
+        # 'education_background',
+        # 'id_number',
+        # 'legacy_brcs_id',
+        # 'other_phone_number',
+        # 'current_household_type', 'household_type2', 'current_street', 'street2', 'current_po_box', 'po_box2',
+        # 'brsc_branch', 'current_settlement', 'settlement2',
+        'given_name', 'family_name',
         'local_given_name', 'local_family_name', 'family', 'slug', 'school_name',
         'other_info_of_exit', 'exit_note', 'main_school_contact', 'what3words', 'kid_id', 'code',
-        'referee_name', 'referee_phone', 'referee_email', 'carer_name', 'carer_phone', 'carer_email',
         'client_contact_phone', 'client_email_address', *setting_country_fields[:text_fields]
       ].compact
+    end
+
+    def referee_text_fields
+      ['referee_name', 'referee_phone', 'referee_email']
+    end
+
+    def carer_text_fields
+      ['carer_name', 'carer_phone', 'carer_email']
     end
 
     def current_user
@@ -83,16 +94,16 @@ module AdvancedSearches
     def drop_down_type_list
       [
         ['location_of_concern', Client.where.not(location_of_concern: [nil, '']).distinct.pluck(:location_of_concern).map{ |a| { a => a }}],
-        ['nationality', Client::NATIONALITIES.map{ |a| { a => a }}],
-        ['ethnicity', Client::ETHNICITY.map{ |a| { a => a }}],
-        ['type_of_trafficking', Client::TRAFFICKING_TYPES.map{ |a| { a => a }}],
-        ['marital_status', Client::MARITAL_STATUSES.map{ |a| { a => a }}],
-        ['presented_id', Client::BRC_PRESENTED_IDS.map{ |pi| { pi => pi }}],
-        ['preferred_language', Client::BRC_PREFERED_LANGS.map{ |pi| { pi => pi }}],
-        ['current_resident_own_or_rent', Client::BRC_RESIDENT_TYPES.map{ |rt| { rt => rt }}],
-        ['resident_own_or_rent2', Client::BRC_RESIDENT_TYPES.map{ |rt| { rt => rt }}],
-        ['current_island', Client::BRC_BRANCHES.map{ |island| { island => island }}],
-        ['island2', Client::BRC_BRANCHES.map{ |island| { island => island }}],
+        # ['nationality', Client::NATIONALITIES.map{ |a| { a => a }}],
+        # ['ethnicity', Client::ETHNICITY.map{ |a| { a => a }}],
+        # ['type_of_trafficking', Client::TRAFFICKING_TYPES.map{ |a| { a => a }}],
+        # ['marital_status', Client::MARITAL_STATUSES.map{ |a| { a => a }}],
+        # ['presented_id', Client::BRC_PRESENTED_IDS.map{ |pi| { pi => pi }}],
+        # ['preferred_language', Client::BRC_PREFERED_LANGS.map{ |pi| { pi => pi }}],
+        # ['current_resident_own_or_rent', Client::BRC_RESIDENT_TYPES.map{ |rt| { rt => rt }}],
+        # ['resident_own_or_rent2', Client::BRC_RESIDENT_TYPES.map{ |rt| { rt => rt }}],
+        # ['current_island', Client::BRC_BRANCHES.map{ |island| { island => island }}],
+        # ['island2', Client::BRC_BRANCHES.map{ |island| { island => island }}],
         ['created_by', user_select_options ],
         ['gender', gender_list],
         ['status', client_status],
@@ -101,16 +112,16 @@ module AdvancedSearches
         ['referral_source_id', referral_source_options],
         ['followed_up_by_id', followed_up_by_options],
         ['has_been_in_government_care', { true: 'Yes', false: 'No' }],
-        ['national_id', { true: 'Yes', false: 'No' }],
-        ['birth_cert', { true: 'Yes', false: 'No' }],
-        ['family_book', { true: 'Yes', false: 'No' }],
-        ['passport', { true: 'Yes', false: 'No' }],
-        ['travel_doc', { true: 'Yes', false: 'No' }],
-        ['referral_doc', { true: 'Yes', false: 'No' }],
-        ['local_consent', { true: 'Yes', false: 'No' }],
-        ['police_interview', { true: 'Yes', false: 'No' }],
-        ['other_legal_doc', { true: 'Yes', false: 'No' }],
-        ['whatsapp', { true: 'Yes', false: 'No' }],
+        # ['national_id', { true: 'Yes', false: 'No' }],
+        # ['birth_cert', { true: 'Yes', false: 'No' }],
+        # ['family_book', { true: 'Yes', false: 'No' }],
+        # ['passport', { true: 'Yes', false: 'No' }],
+        # ['travel_doc', { true: 'Yes', false: 'No' }],
+        # ['referral_doc', { true: 'Yes', false: 'No' }],
+        # ['local_consent', { true: 'Yes', false: 'No' }],
+        # ['police_interview', { true: 'Yes', false: 'No' }],
+        # ['other_legal_doc', { true: 'Yes', false: 'No' }],
+        # ['whatsapp', { true: 'Yes', false: 'No' }],
         ['has_been_in_orphanage', { true: 'Yes', false: 'No' }],
         ['user_id', user_select_options],
         ['donor_name', donor_options],
@@ -169,7 +180,7 @@ module AdvancedSearches
       current_org = Organization.current.short_name
       provinces = []
       Organization.switch_to 'shared'
-      ['Cambodia', 'Thailand', 'Lesotho', 'Myanmar', 'Uganda'].each{ |country| provinces << Province.country_is(country.downcase).map{|p| { value: p.id.to_s, label: p.name, optgroup: country } } }
+      Organization.pluck(:country).uniq.reject(&:blank?).each{ |country| provinces << Province.country_is(country).map{|p| { value: p.id.to_s, label: p.name, optgroup: country.titleize } } }
       Organization.switch_to current_org
       provinces.flatten
     end
@@ -179,7 +190,7 @@ module AdvancedSearches
     end
 
     def communes
-      Commune.joins(:clients, district: :province).distinct.map{|commune| ["#{commune.name_kh} / #{commune.name_en} (#{commune.code})", commune.id]}.sort.map{|s| {s[1].to_s => s[0]}}
+      Commune.joins(:clients, district: :province).distinct.map{|commune| ["#{commune.name} (#{commune.code})", commune.id]}.sort.map{|s| {s[1].to_s => s[0]}}
     end
 
     def villages
@@ -252,17 +263,6 @@ module AdvancedSearches
     def setting_country_fields
       country = Setting.first.try(:country_name) || 'cambodia'
       case country
-      when 'cambodia'
-        {
-          text_fields: ['house_number', 'street_number'],
-          drop_down_fields: [
-            ['province_id', provinces],
-            ['district_id', districts],
-            ['birth_province_id', birth_provinces],
-            ['commune_id', communes],
-            ['village_id', villages]
-          ]
-        }
       when 'lesotho'
         {
           text_fields: ['suburb', 'directions', 'description_house_landmark'],
@@ -283,7 +283,19 @@ module AdvancedSearches
           text_fields: ['house_number', 'street_number'],
           drop_down_fields: [['province_id', provinces], ['district_id', districts], ['birth_province_id', birth_provinces], ['commune_id', communes], ['village_id', villages] ]
         }
+      else
+        {
+          text_fields: ['house_number', 'street_number'],
+          drop_down_fields: [
+            ['province_id', provinces],
+            ['district_id', districts],
+            ['birth_province_id', birth_provinces],
+            ['commune_id', communes],
+            ['village_id', villages]
+          ]
+        }
       end
+
     end
 
     def rated_id_poor

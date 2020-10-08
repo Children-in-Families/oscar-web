@@ -372,6 +372,7 @@ my:
       birth_province: ေမြးရပ္ျပည္နယ္
       birth_province_id: ေမြးရပ္ျပည္နယ္
       cambodia: ကေမာၻဒီးယား
+      carer: Carer
       carer_name: Carer Name
       carer_phone: Carer Phone Number
       carer_email: Carer Email Address
@@ -461,6 +462,7 @@ my:
       referred_to_ec: EC သို႔ ရည္ညႊန္းသည္။
       referred_to_fc: EC သို႔ ရည္ညႊန္းသည္။
       referred_to_kc: KC သုိ႔ ရည္ညႊန္းသည္။
+      referee: Referee
       referee_relationship: Referee Relationship to Client
       referee_name: Referee Name
       referee_phone: Referee Phone Number
@@ -494,6 +496,7 @@ my:
         year_6: Year 6
         year_7: Year 7
         year_8: Year 8
+        bachelors: Bachelors
       school_name: ေက်ာင္းနာမည္
       search: ရွာေဖြသည္။
       slug: မွတ္ပံုတင္
@@ -652,6 +655,7 @@ my:
       back_to_assessment_history: စိစစ္မႈသမုိင္းေၾကာင္းသို႔ ျပန္ထြက္၇န္
       based_on: ခန့်မှန်းအရေအတွက်ပေါ်မှာအခြေခံပြီး
       case_plan: စီမံကိန်း၏အမှု
+      dimensions: Dimensions
       domain: ဒိုမိန္း
       due_date: ရက္စြဲတြင္
       edit: ျပင္ဆင္ရန္
@@ -1699,6 +1703,7 @@ my:
       province: ေမြးဖြားရာ ခ႐ိုင္
       rated_for_id_poor: Is client rated for ID Poor?
       received_by: မွ လက္ခံသည္။
+      referee_called_before: Has the referee called the Childsafe Hotline Before?
       referral_phone: လႊဲေျပာင္းရန္ ဖုန္းနံပါတ္
       referral_source: လြဲေျပာင္းရန္ ရင္းျမစ္
       reject_note: ျငင္းပယ္သည့္မွတ္စု
@@ -1710,6 +1715,7 @@ my:
       settlement2: City/Settlement
       shared_service_enabled: Do you want to share client services with external system?
       stage: အဆင့္ေမးခြန္း
+      stakeholder_contacts: Stakeholder Contacts
       state: လက္ခံ/ ျငင္းပယ္
       status: အေနအထား
       street2: Street
@@ -1961,6 +1967,7 @@ my:
       code: ကုတ္
       commune: ရပ္ကြက္/ ေက်းရြာအုပ္စု
       completed: ျပည့္ပါၿပီ
+      complete_screening_assessment: Complete Screening Assessment
       concern_location: Location of Concern
       created_date: Created Date
       current_address: လက္ရွိ လိပ္စာ
@@ -2091,6 +2098,7 @@ my:
       view_fc_history_btn_link: FC သမုိင္း
       view_kc_history_btn_link: KC သမုိင္း
       view_legacy_quarterly_reports: သံုးလပတ္ ဥပေဒအစီရင္ခံစာ
+      view_screening_assessment: View Screening Assessment
       view_tasks: လုပ္ေဆာင္ခ်က္မ်ား
       village: ေက်းရြာ
       what3words: What3words

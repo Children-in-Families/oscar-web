@@ -33,7 +33,7 @@
             %i.fa.fa-th-large
             %span.nav-label= t('.dashboards')
 
-        - if current_setting.try(:enable_hotline) == true
+        - if current_setting.try(:enable_hotline) == true && current_organization.country != 'nepal'
           %li.main{ class: is_active_controller('calls') }
             = link_to calls_path do
               = fa_icon('phone')

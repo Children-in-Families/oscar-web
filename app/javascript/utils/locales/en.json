@@ -9,6 +9,7 @@
     "house_number": "House Number",
     "address_name": "Address Name",
     "address_type": "Address Type",
+    "locality": "Locality",
     "lesotho": {
       "description_house_landmark": "Description of the house and a landmark",
       "directions": "Directions",
@@ -27,6 +28,14 @@
       "province": "Province",
       "road": "Road",
       "subdistrict": "Subdistrict"
+    },
+    "nepal": {
+      "province": "Province",
+      "district": "District",
+      "municipality": "Municipality",
+      "plot": "Plot/House number, Village",
+      "postal_code": "Postal Code",
+      "road": "Road"
     }
   },
   "admin": {

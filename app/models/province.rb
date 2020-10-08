@@ -27,4 +27,9 @@ class Province < ActiveRecord::Base
   def name_kh
     name.split(' / ').first
   end
+
+  def self.find_by_code(code)
+    district = District.where("code LIKE ?", "#{code}%").first
+    district&.province&.name
+  end
 end

@@ -1,6 +1,6 @@
 class Referee < ActiveRecord::Base
   ADDRESS_TYPES    = ['Home', 'Business', 'RCI', 'Dormitory', 'Other'].freeze
-  FIELDS = %w(id name gender adult anonymous phone email address_type outside province_id district_id commune_id village_id current_address house_number outside_address street_number created_at updated_at)
+  FIELDS = %w(id name gender adult anonymous phone email address_type outside province_id district_id commune_id village_id current_address house_number locality outside_address street_number created_at updated_at)
 
   attr_accessor :existing_referree
 
@@ -17,6 +17,8 @@ class Referee < ActiveRecord::Base
   validates :name, presence: true
 
   after_initialize :init_existing_referree
+
+  scope :none_anonymouse, -> { where(anonymous: false) }
 
   private
 

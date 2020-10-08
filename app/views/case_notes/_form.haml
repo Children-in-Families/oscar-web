@@ -68,7 +68,7 @@
           .row
             .col-xs-12
               .form-group
-                = f.association :domain_groups, collection: @domain_groups, value_method: :id, label_method: lambda{ |object| object.domain_name(params[:custom] || @custom_assessment_param, @custom_assessment_setting&.id || @case_note.custom_assessment_setting_id) }, label: t('.domain_groups'), selected: selected_domain_group_ids(@case_note), required: true, hint: t('case_notes.form.remove_domain_group_hint'), input_html: { multiple: true }
+                = f.association :domain_groups, collection: @domain_groups, value_method: :id, label_method: lambda{ |object| object.domain_name(params[:custom] || @custom_assessment_param, @custom_assessment_setting&.id || @case_note.custom_assessment_setting_id) }, label: t('.domain_groups'), selected: selected_domain_groups(@case_note), required: true, hint: t('case_notes.form.remove_domain_group_hint'), input_html: { multiple: true }
 
           .row
             .col-xs-12
