@@ -121,7 +121,7 @@ module Api
 
       def create
         if org = Organization.create_and_build_tenant(params.permit(:demo, :full_name, :short_name, :logo, supported_languages: []))
-          Organization.delay(queue: :priority).seed_generic_data(org.id)
+          Organization.delay(queue: :priority).seed_generic_data(org.id, params[:referral_source_category_id])
 
           render json: org, status: :ok
         else
