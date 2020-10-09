@@ -137,8 +137,12 @@ CIF.Common =
           value = event.target.value
           if value == 'yes'
             $('.modal').modal('hide')
-            window.location.href = thisLink if thisLink
-            window.thisLink = undefined
+            if thisLink
+              window.location.href = thisLink
+              window.thisLink = undefined
+            else
+              history.back()
+
             return true
           else
             $('.toast-close-button').closest('.toast').remove();
