@@ -48,7 +48,7 @@ class Organization < ActiveRecord::Base
       end
     end
 
-    def seed_generic_data(org_id)
+    def seed_generic_data(org_id, referral_source_category_id=nil)
       org = find(org_id)
 
       general_data_file = 'lib/devdata/general.xlsx'
@@ -68,6 +68,10 @@ class Organization < ActiveRecord::Base
         Importer::Import.new('Quantitative Type', general_data_file).quantitative_types
         Importer::Import.new('Quantitative Case', general_data_file).quantitative_cases
         Rake::Task["field_settings:import"].invoke(org.short_name)
+        if referral_source_category_id
+          referral_source = ReferralSource.find_by(name: "#{org.full_name} - OSCaR Referral")
+          referral_source.update_attributes(ancestry: referral_source_category_id)
+        end
       end
     end
 

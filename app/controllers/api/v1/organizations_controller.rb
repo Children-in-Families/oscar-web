@@ -1,8 +1,9 @@
 module Api
   module V1
     class OrganizationsController < Api::V1::BaseApiController
-      skip_before_action :authenticate_user!, only: [:index, :create]
-      before_action :authenticate_admin_user!, only: [:create]
+      skip_before_action :authenticate_user!
+      before_action :authenticate_admin_user!, only: :create
+      before_action :authenticate_api_admin_user!, :set_current_aut_user, except: [:index, :create]
 
       def index
         render json: Organization.visible.order(:created_at)
@@ -120,7 +121,7 @@ module Api
 
       def create
         if org = Organization.create_and_build_tenant(params.permit(:demo, :full_name, :short_name, :logo, supported_languages: []))
-          Organization.delay(queue: :priority).seed_generic_data(org.id)
+          Organization.delay(queue: :priority).seed_generic_data(org.id, params[:referral_source_category_id])
 
           render json: org, status: :ok
         else
@@ -190,6 +191,10 @@ module Api
           authenticate_or_request_with_http_token do |token, _options|
             @current_user = AdminUser.find_by(token: token)
           end
+        end
+
+        def set_current_aut_user
+          @current_user = current_api_admin_user
         end
     end
   end

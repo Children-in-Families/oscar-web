@@ -32,9 +32,9 @@ module AdvancedSearches
       query_string  = get_query_string(results, 'tracking', properties_field)
 
       if @operator != 'is_empty'
-        properties_result = client_enrollment_trackings.where(client_enrollments: { program_stream_id: selected_program_stream }).where(query_string.reject(&:blank?).join(" AND "))
+        properties_result = client_enrollment_trackings.where(client_enrollments: { program_stream_id: selected_program_stream }).where(query_string.reject(&:blank?).join(" #{basic_rules['condition']} "))
       else
-        properties_result = client_enrollment_trackings.where(query_string.reject(&:blank?).join(" AND "))
+        properties_result = client_enrollment_trackings.where(query_string.reject(&:blank?).join(" #{basic_rules['condition']} "))
       end
 
       client_ids = properties_result.pluck('client_enrollments.client_id').uniq
