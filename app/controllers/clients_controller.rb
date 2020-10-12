@@ -161,7 +161,6 @@ class ClientsController < AdminController
 
   def update
     new_params = @client.current_family_id ? client_params : client_params.except(:family_ids)
-    binding.pry
     if @client.update_attributes(client_params.except(:family_ids))
       if params[:client][:assessment_id]
         @assessment = Assessment.find(params[:client][:assessment_id])

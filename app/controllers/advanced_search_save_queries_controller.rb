@@ -3,6 +3,10 @@ class AdvancedSearchSaveQueriesController < AdminController
   include ProgramStreamHelper
   before_action :find_advanced_search, only: [:edit, :update, :destroy]
 
+  def new
+    @advanced_search = AdvancedSearch.new
+  end
+
   def create
     @advanced_search = AdvancedSearch.new(advanced_search_params)
     @advanced_search.user_id = current_user.id

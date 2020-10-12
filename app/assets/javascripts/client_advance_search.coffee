@@ -956,7 +956,7 @@ class CIF.ClientAdvanceSearch
 
   handleSaveQuery: ->
     self = @
-    $('#submit-query').on 'click', (e)->
+    $(document).on 'click',  '#submit-query', (e)->
       basicRules = $('#builder').queryBuilder('getRules', { skip_empty: true, allow_invalid: true })
       if basicRules.valid == false && basicRules.rules.length > 0
         e.preventDefault()
@@ -992,7 +992,7 @@ class CIF.ClientAdvanceSearch
     $('#advanced_search_field_visible').val(JSON.stringify(columnsVisibility))
 
   validateSaveQuery: ->
-    $('#advanced_search_name').keyup ->
+    $(document).on 'keyup', '#advanced_search_name', ->
       if $(@).val() != ''
         $('#submit-query').removeClass('disabled').removeAttr('disabled')
       else
