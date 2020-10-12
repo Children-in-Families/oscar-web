@@ -48,7 +48,7 @@ module SavedSearchHelper
     def prevent_edit_load_saved_searches(advanced_search)
       if advanced_search.program_streams.present?
         if !(@program_streams.ids & class_eval(advanced_search.program_streams)).empty?
-          link_to edit_advanced_search_save_query_path(advanced_search), class: 'btn btn-outline btn-success btn-xs' do
+          link_to edit_advanced_search_save_query_path(advanced_search), remote: params[:advanced_search_id] == "#{advanced_search.id}", class: 'btn btn-outline btn-success btn-xs' do
             fa_icon 'pencil'
           end
         else
@@ -58,7 +58,7 @@ module SavedSearchHelper
         end
       elsif advanced_search.custom_forms.present?
         if !(@custom_fields.ids & class_eval(advanced_search.custom_forms)).empty?
-          link_to edit_advanced_search_save_query_path(advanced_search), class: 'btn btn-outline btn-success btn-xs' do
+          link_to edit_advanced_search_save_query_path(advanced_search), remote: params[:advanced_search_id] == "#{advanced_search.id}", class: 'btn btn-outline btn-success btn-xs' do
             fa_icon 'pencil'
           end
         else

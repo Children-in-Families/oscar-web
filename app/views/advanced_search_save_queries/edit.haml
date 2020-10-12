@@ -8,5 +8,5 @@
           = f.input :name, label: t('.name')
           = f.input :description, label: t('.description')
         .ibox-footer
-          = f.submit t('save'), class: 'btn btn-primary form-btn'
+          = f.submit t('save'), class: 'btn btn-primary form-btn', data: { disable_with: t('saving') }
           = link_to t('cancel'), clients_path, class: 'btn btn-default form-btn'

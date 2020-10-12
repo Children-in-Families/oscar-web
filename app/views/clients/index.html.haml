@@ -15,8 +15,9 @@
     %button.btn.btn-primary#load-saved-search{ data: { toggle: 'modal', target: '#load-save-search', trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.load_saved_search')}", placement: "auto" } }
       = t('.load_save_search')
 
-    %button.btn.btn-primary#save-search-setting{ data: { toggle: 'modal', target: '#save-query', trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.saved_search_setting')}", placement: "auto" } }
+    = link_to new_advanced_search_save_query_path, remote: true, id: 'save-search-setting', class: 'btn btn-primary', data: { trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.saved_search_setting')}", placement: "auto" } do
       = t('.save_search_settings')
+
     - if params['commit'].present? || params['client_advanced_search'].present?
       = button_to ad_search_clients_path, params: params.merge(format: 'xls', type: 'basic_info'), class: 'btn btn-primary btn-export clients-list', form_class: 'hidden-post-form', data: { toggle: 'popover', trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.export_to_xls')}", placement: "auto" }  do
         %i.fa.fa-download
