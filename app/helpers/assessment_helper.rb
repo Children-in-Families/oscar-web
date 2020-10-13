@@ -32,7 +32,11 @@ module AssessmentHelper
   end
 
   def order_assessment(assessment)
-    assessment.assessment_domains.sort_by{ |ad| ad.domain.name[/\d+/]&.to_i || ad.domain.name }
+    if assessment.assessment_domains.all?{|ad| ad.domain.name[/\d+/]&.to_i }
+      assessment.assessment_domains.sort_by{ |ad| ad.domain.name[/\d+/]&.to_i || ad.domain.name }
+    else
+      assessment.assessment_domains.sort_by(&:domain_id)
+    end
   end
 
   def assessment_readable?
