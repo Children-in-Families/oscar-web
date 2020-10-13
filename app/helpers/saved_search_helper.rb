@@ -80,7 +80,7 @@ module SavedSearchHelper
           fa_icon 'pencil'
         end
       else
-        link_to edit_advanced_search_save_query_path(advanced_search), class: 'btn btn-outline btn-success btn-xs' do
+        link_to edit_advanced_search_save_query_path(advanced_search), remote: params[:advanced_search_id] == "#{advanced_search.id}", class: 'btn btn-outline btn-success btn-xs' do
           fa_icon 'pencil'
         end
       end
