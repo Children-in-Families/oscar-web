@@ -15,14 +15,14 @@ export function confirmCancel(toastr, urlLocation=undefined) {
     tapToDismiss: false,
     positionClass: 'toast-top-center',
     onclick: function() {
-      var value;
+      let value = '';
       value = event.target.value;
       $('.toast-close-button').closest('.toast').remove();
       if (value === 'yes') {
-        if(urlLocation)
-          document.location.href = urlLocation
-        else
-          window.history.back()
+        // if(urlLocation)
+        //   document.location.href = urlLocation
+        // else
+        window.history.back()
       } else {
         return false;
       }
