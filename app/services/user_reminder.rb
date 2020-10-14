@@ -61,9 +61,8 @@ class UserReminder
         main_manager_id = manager_ids.last
       else
         user_ids = case_workers.map do |user|
-          user.id if user.tasks.count > 0
+          user.id if user.tasks.count > 0 && user.clients.count > 0
         end
-
         AdminWorker.perform_async('', user_ids, org.short_name) if user_ids.present?
 
         # tasks      = case_workers.map(&:tasks).flatten

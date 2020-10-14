@@ -9,7 +9,7 @@ class CaseWorkerMailer < ApplicationMailer
 
   def overdue_tasks_notify(user, short_name)
     @user = user
-    return if @user.disable? || @user.task_notify == false
+    return if @user.nil? || @user&.disable? || @user&.task_notify == false
     @overdue_tasks = user.tasks.where(client_id: user.clients.active_accepted_status.ids).overdue_incomplete_ordered
     @short_name = short_name
     return unless @overdue_tasks.present?
@@ -54,7 +54,7 @@ class CaseWorkerMailer < ApplicationMailer
 
   def forms_notifity(user, short_name)
     @user = user
-    return if @user.disable? || @user.task_notify == false
+    return if @user.nil? || @user&.disable? || @user&.task_notify == false
     if user.activated_at.present?
       clients = user.clients.where('clients.created_at > ?', user.activated_at).active_accepted_status
     else

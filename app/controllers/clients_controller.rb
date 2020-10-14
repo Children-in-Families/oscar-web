@@ -161,7 +161,6 @@ class ClientsController < AdminController
 
   def update
     new_params = @client.current_family_id ? client_params : client_params.except(:family_ids)
-    binding.pry
     if @client.update_attributes(client_params.except(:family_ids))
       if params[:client][:assessment_id]
         @assessment = Assessment.find(params[:client][:assessment_id])
@@ -287,21 +286,8 @@ class ClientsController < AdminController
     subordinate_users = User.where('manager_ids && ARRAY[:user_id] OR id = :user_id', { user_id: current_user.id }).map(&:id)
     if current_user.admin? || current_user.hotline_officer?
       @families        = Family.order(:name)
-    elsif current_user.manager?
-      family_ids = current_user.families.ids
-      exited_client_ids = exited_clients(subordinate_users)
-
-      family_ids += User.joins(:clients).where(id: subordinate_users).where.not(clients: { current_family_id: nil }).select('clients.current_family_id AS client_current_family_id').map(&:client_current_family_id)
-      family_ids += Client.where(id: exited_client_ids).pluck(:current_family_id)
-      clients     = Client.accessible_by(current_ability)
-      family_ids += clients.where(user_id: current_user.id).pluck(:current_family_id)
-
-      @families = Family.where(id: family_ids)
-    elsif current_user.case_worker?
-      family_ids = current_user.families.ids
-      clients    = Client.accessible_by(current_ability)
-      family_ids += clients.where(user_id: current_user.id).pluck(:current_family_id)
-      @families = Family.where(id: family_ids)
+    else
+      @families = Family.accessible_by(current_ability).order(:name)
     end
 
     @carer = @client.carer.present? ? @client.carer : Carer.new

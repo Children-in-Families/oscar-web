@@ -2,7 +2,7 @@ class ClientShareExternalSerializer < ActiveModel::Serializer
   attributes  :given_name, :family_name, :local_given_name, :local_family_name, :gender,
               :date_of_birth, :global_id, :slug, :external_id, :external_id_display,
               :mosvy_number, :location_current_village_code, :case_worker_name, :case_worker_mobile,
-              :is_referred, :organization_address_code
+              :is_referred, :organization_name, :organization_address_code
 
 
   def organization_name
