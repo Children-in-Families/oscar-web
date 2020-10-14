@@ -82,7 +82,7 @@
                             - if action_name == 'new' && !readonly
                               .task-required-option{ id: "i-checks-tasks-#{domain.name.downcase.split.join('-')}" }
                                 %label= t('.add_task_confirm')
-                                = ad.input :required_task_last, as: :radio_buttons, collection: [['Yes', true],['No', false]], label: false, input_html: { 'data-task-name': domain.name }, disabled: readonly
+                                = ad.input :required_task_last, as: :radio_buttons, collection: [['Yes', true], ['No', false]], label: false, input_html: { 'data-task-name': domain.name }, disabled: readonly
                         %ol.tasks-list{ type: '1'}
                           - @client.tasks.by_domain_id(domain).where(taskable: assessment).incomplete.each do |task|
                             %li.list-group-item{style: 'padding-bottom: 11px'}

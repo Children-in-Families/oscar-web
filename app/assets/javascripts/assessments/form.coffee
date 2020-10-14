@@ -635,7 +635,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       currentTab   = "#rootwizard-p-#{currentIndex}"
       domainId     = $(currentTab).find('.score_option').data('domain-id')
 
-      $('a#btn-save').hide() if $("#{currentTab} .task-required-option input").val() == 'true'
+      $('a#btn-save').hide() if $("#{currentTab} .task-required-option input[value='true']").is(':checked')
 
       $("#{currentTab} .task-required-option input").on 'ifChecked', (event) ->
         if $(@).attr('value') == 'true'
