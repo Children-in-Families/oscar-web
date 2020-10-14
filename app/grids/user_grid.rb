@@ -74,7 +74,7 @@ class UserGrid < BaseGrid
   end
 
   column(:gender, header: -> { I18n.t('datagrid.columns.users.gender') }) do |object|
-    object.gender.try(:capitalize)
+    object.gender.present? ? I18n.t("enumerize.defaults.gender.#{object.gender.parameterize.underscore}") : ''
   end
 
   column(:mobile, header: -> { I18n.t('datagrid.columns.users.mobile') })

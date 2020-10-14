@@ -88,7 +88,7 @@
                   = t('.gender')
                 %td
                   %strong
-                    = @user.gender.try(:capitalize)
+                    = t("enumerize.defaults.gender.#{@user.gender.parameterize.underscore}") if @user.gender
               %tr
                 %td.spacing-first-col
                   = t('.start_date')
