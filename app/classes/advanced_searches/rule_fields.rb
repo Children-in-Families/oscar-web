@@ -170,6 +170,11 @@ module AdvancedSearches
           text_fields: ['street_line1', 'street_line2'],
           drop_down_fields: [['township_id', townships], ['state_id', states]]
         }
+      else
+        {
+          text_fields: ['house_number', 'street_number'],
+          drop_down_fields: [['province_id', provinces], ['district_id', districts], ['birth_province_id', birth_provinces], ['commune_id', communes], ['village_id', villages] ]
+        }
       end
     end
   end
