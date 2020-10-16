@@ -23,6 +23,10 @@ class ClientsController < AdminController
 
   def index
     @client_default_columns = Setting.first.try(:client_default_columns)
+    if params[:advanced_search_id]
+      current_advanced_search = AdvancedSearch.find(params[:advanced_search_id])
+      @visible_fields = current_advanced_search.field_visible
+    end
     if has_params? || params[:advanced_search_id].present? || params[:client_advanced_search].present?
       advanced_search
     else

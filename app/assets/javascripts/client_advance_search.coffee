@@ -983,7 +983,8 @@ class CIF.ClientAdvanceSearch
 
   handleAddColumnPickerToInput: ->
     columnsVisibility = new Object
-    $('.visibility, .all-visibility').each ->
+    # .all-visibility .icheckbox_square-green.checked
+    $('#client-advance-search-form .visibility .icheckbox_square-green.checked').each ->
       checkbox = $(@).find('input[type="checkbox"]')
       if $(checkbox).prop('checked')
         attrName = $(checkbox).attr('name')

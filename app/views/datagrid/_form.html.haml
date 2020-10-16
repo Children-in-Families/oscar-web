@@ -26,7 +26,7 @@
         %ul.dropdown-menu.columns-visibility
           %li
             .all-visibility.col-sm-12
-              = check_box_tag 'all_', 'all', checked = params['all_'].present?, class: 'i-checks all_'
+              = check_box_tag 'all_', 'all', checked = params['all_'].present? || saved_search_column_visibility('all_'), class: 'i-checks all_'
               = label_tag 'all_' do
                 %strong= t('datagrid.columns.show_all')
 
@@ -52,72 +52,72 @@
 
             %li{ id: f.name }
               .visibility.col-sm-12
-                = check_box_tag "#{f.name}_", f.name, checked = default_setting("#{f.name}_", @client_default_columns) || params["#{f.name}_"].present? || grid.columns.map(&:name).include?(f.name.to_sym), class: 'i-checks'
+                = check_box_tag "#{f.name}_", f.name, checked = saved_search_column_visibility("#{f.name}_"), class: 'i-checks'
                 = columns_visibility f.name
 
           - if selected_country == 'lesotho'
             %li
               .visibility.col-sm-12
-                = check_box_tag 'suburb_', 'suburb', checked = default_setting('suburb_', @client_default_columns) || params[:suburb_].present?, class: 'i-checks'
+                = check_box_tag 'suburb_', 'suburb', checked = saved_search_column_visibility('suburb_'), class: 'i-checks'
                 = label_tag 'suburb_', t('datagrid.columns.suburb')
 
             %li
               .visibility.col-sm-12
-                = check_box_tag 'description_house_landmark_', 'description_house_landmark', checked = default_setting('description_house_landmark_', @client_default_columns) || params[:description_house_landmark_].present?, class: 'i-checks'
+                = check_box_tag 'description_house_landmark_', 'description_house_landmark', checked = saved_search_column_visibility('description_house_landmark_'), class: 'i-checks'
                 = label_tag 'description_house_landmark_', t('datagrid.columns.description_house_landmark')
 
             %li
               .visibility.col-sm-12
-                = check_box_tag 'directions_', 'directions', checked = default_setting('directions_', @client_default_columns) || params[:directions_].present?, class: 'i-checks'
+                = check_box_tag 'directions_', 'directions', checked = saved_search_column_visibility('directions_'), class: 'i-checks'
                 = label_tag 'directions_', t('datagrid.columns.directions')
 
           - if selected_country == 'myanmar'
             %li
               .visibility.col-sm-12
-                = check_box_tag 'street_line1_', 'street_line1', checked = default_setting('street_line1_', @client_default_columns) || params[:street_line1_].present?, class: 'i-checks'
+                = check_box_tag 'street_line1_', 'street_line1', checked = saved_search_column_visibility('street_line1_'), class: 'i-checks'
                 = label_tag 'street_line1_', t('datagrid.columns.street_line1')
 
             %li
               .visibility.col-sm-12
-                = check_box_tag 'street_line2_', 'street_line2', checked = default_setting('street_line2_', @client_default_columns) || params[:street_line2_].present?, class: 'i-checks'
+                = check_box_tag 'street_line2_', 'street_line2', checked = saved_search_column_visibility('street_line2_'), class: 'i-checks'
                 = label_tag 'street_line2_', t('datagrid.columns.street_line2')
 
             %li
               .visibility.col-sm-12
-                = check_box_tag 'state_', 'state', checked = default_setting('state_', @client_default_columns) || params[:state_].present?, class: 'i-checks'
+                = check_box_tag 'state_', 'state', checked = saved_search_column_visibility('state_'), class: 'i-checks'
                 = label_tag 'state_', t('datagrid.columns.state')
 
             %li
               .visibility.col-sm-12
-                = check_box_tag 'township_', 'township', checked = default_setting('township_', @client_default_columns) || params[:township_].present?, class: 'i-checks'
+                = check_box_tag 'township_', 'township', checked = saved_search_column_visibility('township_'), class: 'i-checks'
                 = label_tag 'township_', t('datagrid.columns.township')
 
           - if selected_country == 'thailand'
             %li
               .visibility.col-sm-12
-                = check_box_tag 'plot_', 'plot', checked = default_setting('plot_', @client_default_columns) || params[:plot_].present?, class: 'i-checks'
+                = check_box_tag 'plot_', 'plot', checked = saved_search_column_visibility('plot_'), class: 'i-checks'
                 = label_tag 'plot_', t('datagrid.columns.plot')
 
             %li
               .visibility.col-sm-12
-                = check_box_tag 'road_', 'road', checked = default_setting('road_', @client_default_columns) || params[:road_].present?, class: 'i-checks'
+                = check_box_tag 'road_', 'road', checked = saved_search_column_visibility('road_'), class: 'i-checks'
                 = label_tag 'road_', t('datagrid.columns.road')
 
             %li
               .visibility.col-sm-12
-                = check_box_tag 'subdistrict_', 'subdistrict', checked = default_setting('subdistrict_', @client_default_columns) || params[:subdistrict_].present?, class: 'i-checks'
+                = check_box_tag 'subdistrict_', 'subdistrict', checked = saved_search_column_visibility('subdistrict_'), class: 'i-checks'
                 = label_tag 'subdistrict_', t('datagrid.columns.subdistrict')
 
             %li
               .visibility.col-sm-12
-                = check_box_tag 'postal_code_', 'postal_code', checked = default_setting('postal_code_', @client_default_columns) || params[:postal_code_].present?, class: 'i-checks'
+                = check_box_tag 'postal_code_', 'postal_code', checked = saved_search_column_visibility('postal_code_'), class: 'i-checks'
                 = label_tag 'postal_code_', t('datagrid.columns.postal_code')
           #referral-data
             - QuantitativeType.joins(:quantitative_cases).uniq.each do |quantitative_type|
               - next unless quantitative_type_readable?(quantitative_type.id)
               %li
                 .visibility.col-sm-12
-                  = check_box_tag "#{quantitative_type.name}_", quantitative_type.name, checked = default_setting("#{quantitative_type.name}_", @client_default_columns) || params["#{quantitative_type.name}_"].present?, class: 'i-checks'
+                  = check_box_tag "#{quantitative_type.name}_", quantitative_type.name, checked = saved_search_column_visibility("#{quantitative_type.name}_"), class: 'i-checks'
                   = label_tag "#{quantitative_type.name}_", quantitative_type.name
 
           -# %li
@@ -127,92 +127,92 @@
 
           %li
             .visibility.col-sm-12
-              = check_box_tag 'time_in_cps_', 'time_in_cps', checked = default_setting('time_in_cps_', @client_default_columns) || params[:time_in_cps_].present?, class: 'i-checks'
+              = check_box_tag 'time_in_cps_', 'time_in_cps', checked = saved_search_column_visibility('time_in_cps_'), class: 'i-checks'
               = label_tag 'time_in_cps_', t('datagrid.columns.time_in_cps')
 
           %li
             .visibility.col-sm-12
-              = check_box_tag 'time_in_ngo_', 'time_in_ngo', checked = default_setting('time_in_ngo_', @client_default_columns) || params[:time_in_ngo_].present?, class: 'i-checks'
+              = check_box_tag 'time_in_ngo_', 'time_in_ngo', checked = saved_search_column_visibility('time_in_ngo_'), class: 'i-checks'
               = label_tag 'time_in_ngo_', t('datagrid.columns.time_in_ngo')
 
           %li
             .visibility.col-sm-12
-              = check_box_tag 'rejected_note_', 'rejected_note', checked = default_setting('rejected_note_', @client_default_columns) || params[:rejected_note_].present?, class: 'i-checks'
+              = check_box_tag 'rejected_note_', 'rejected_note', checked = saved_search_column_visibility('rejected_note_'), class: 'i-checks'
               = label_tag 'rejected_note_', t('datagrid.columns.rejected_note')
           %li
             .visibility.col-sm-12
-              = check_box_tag 'exit_reasons_', 'exit_reasons', checked = default_setting('exit_reasons_', @client_default_columns) || params[:exit_reasons_].present?, class: 'i-checks'
+              = check_box_tag 'exit_reasons_', 'exit_reasons', checked = saved_search_column_visibility('exit_reasons_'), class: 'i-checks'
               = label_tag 'exit_reasons_', t('datagrid.columns.exit_reasons')
           %li
             .visibility.col-sm-12
-              = check_box_tag 'exit_circumstance_', 'exit_circumstance', checked = default_setting('exit_circumstance_', @client_default_columns) || params[:exit_circumstance_].present?, class: 'i-checks'
+              = check_box_tag 'exit_circumstance_', 'exit_circumstance', checked = saved_search_column_visibility('exit_circumstance_'), class: 'i-checks'
               = label_tag 'exit_circumstance_', t('datagrid.columns.exit_circumstance')
           %li
             .visibility.col-sm-12
-              = check_box_tag 'other_info_of_exit_', 'other_info_of_exit', checked = default_setting('other_info_of_exit_', @client_default_columns) || params[:other_info_of_exit_].present?, class: 'i-checks'
+              = check_box_tag 'other_info_of_exit_', 'other_info_of_exit', checked = saved_search_column_visibility('other_info_of_exit_'), class: 'i-checks'
               = label_tag 'other_info_of_exit_', t('datagrid.columns.other_info_of_exit')
           %li
             .visibility.col-sm-12
-              = check_box_tag 'exit_note_', 'exit_note', checked = default_setting('exit_note_', @client_default_columns) || params[:exit_note_].present?, class: 'i-checks'
+              = check_box_tag 'exit_note_', 'exit_note', checked = saved_search_column_visibility('exit_note_'), class: 'i-checks'
               = label_tag 'exit_note_', t('datagrid.columns.exit_note')
 
           - if policy(Client).show?(:what3words)
             %li
               .visibility.col-sm-12
-                = check_box_tag 'what3words_', 'what3words', checked = default_setting('what3words_', @client_default_columns) || params[:what3words_].present?, class: 'i-checks'
+                = check_box_tag 'what3words_', 'what3words', checked = saved_search_column_visibility('what3words_'), class: 'i-checks'
                 = label_tag 'what3words_', t('datagrid.columns.what3words')
 
           - if policy(Client).show?(:school_info)
             %li
               .visibility.col-sm-12
-                = check_box_tag 'main_school_contact_', 'main_school_contact', checked = default_setting('main_school_contact_', @client_default_columns) || params[:main_school_contact_].present?, class: 'i-checks'
+                = check_box_tag 'main_school_contact_', 'main_school_contact', checked = saved_search_column_visibility('main_school_contact_'), class: 'i-checks'
                 = label_tag 'main_school_contact_', t('datagrid.columns.main_school_contact')
 
 
           - if Setting.first.country_name == "cambodia"
             %li
               .visibility.col-sm-12
-                = check_box_tag 'rated_for_id_poor_', 'rated_for_id_poor', checked = default_setting('rated_for_id_poor_', @client_default_columns) || params[:rated_for_id_poor_].present?, class: 'i-checks'
+                = check_box_tag 'rated_for_id_poor_', 'rated_for_id_poor', checked = saved_search_column_visibility('rated_for_id_poor_'), class: 'i-checks'
                 = label_tag 'rated_for_id_poor_', t('datagrid.columns.rated_for_id_poor')
           -# %li
           -#   .visibility.col-sm-12
-          -#     = check_box_tag 'name_of_referee_', 'name_of_referee', checked = default_setting('name_of_referee_', @client_default_columns) || params[:name_of_referee_].present?, class: 'i-checks'
+          -#     = check_box_tag 'name_of_referee_', 'name_of_referee', checked = saved_search_column_visibility(check_box_tag 'name_of_referee_), class: 'i-checks'
           -#     = label_tag 'name_of_referee_', t('datagrid.columns.name_of_referee')
           %li
             .visibility.col-sm-12
-              = check_box_tag 'family_', 'family', checked = default_setting('family_', @client_default_columns) || params[:family_].present?, class: 'i-checks'
+              = check_box_tag 'family_', 'family', checked = saved_search_column_visibility('family_'), class: 'i-checks'
               = label_tag 'family_', t('datagrid.columns.family')
           %li
             .visibility.col-sm-12
-              = check_box_tag 'family_id_', 'family', checked = default_setting('family_id_', @client_default_columns) || params[:family_id_].present?, class: 'i-checks'
+              = check_box_tag 'family_id_', 'family', checked = saved_search_column_visibility('family_id_'), class: 'i-checks'
               = label_tag 'family_id_', t('datagrid.columns.family_id')
           %li
             .visibility.col-sm-12
-              = check_box_tag 'case_note_date_', 'case_note_date', checked = default_setting('case_note_date_', @client_default_columns) || params[:case_note_date_].present?, class: 'i-checks'
+              = check_box_tag 'case_note_date_', 'case_note_date', checked = saved_search_column_visibility('case_note_date_'), class: 'i-checks'
               = label_tag 'case_note_date_', t('datagrid.columns.case_note_date')
           %li
             .visibility.col-sm-12
-              = check_box_tag 'case_note_type_', 'case_note_type', checked = default_setting('case_note_type_', @client_default_columns) || params[:case_note_type_].present?, class: 'i-checks'
+              = check_box_tag 'case_note_type_', 'case_note_type', checked = saved_search_column_visibility('case_note_type_'), class: 'i-checks'
               = label_tag 'case_note_type_', t('datagrid.columns.case_note_type')
           %li
             .visibility.col-sm-12
-              = check_box_tag 'referee_relationship_to_client_', 'referee_relationship_to_client', checked = default_setting('referee_relationship_to_client_', @client_default_columns) || params[:referee_relationship_to_client_].present?, class: 'i-checks'
+              = check_box_tag 'referee_relationship_to_client_', 'referee_relationship_to_client', checked = saved_search_column_visibility('referee_relationship_to_client_'), class: 'i-checks'
               = label_tag 'referee_relationship_to_client_', t('datagrid.columns.referee_relationship_to_client')
           %li
             .visibility.col-sm-12
-              = check_box_tag 'client_contact_phone_', 'client_contact_phone', checked = default_setting('client_contact_phone_', @client_default_columns) || params[:client_contact_phone_].present?, class: 'i-checks'
+              = check_box_tag 'client_contact_phone_', 'client_contact_phone', checked = saved_search_column_visibility('client_contact_phone_'), class: 'i-checks'
               = label_tag 'client_contact_phone_', t('datagrid.columns.client_contact_phone')
           %li
             .visibility.col-sm-12
-              = check_box_tag 'address_type_', 'address_type', checked = default_setting('address_type_', @client_default_columns) || params[:address_type_].present?, class: 'i-checks'
+              = check_box_tag 'address_type_', 'address_type', checked = saved_search_column_visibility('address_type_'), class: 'i-checks'
               = label_tag 'address_type_', t('datagrid.columns.address_type')
           %li
             .visibility.col-sm-12
-              = check_box_tag 'client_email_', 'client_email', checked = default_setting('client_email_', @client_default_columns) || params[:client_email_].present?, class: 'i-checks'
+              = check_box_tag 'client_email_', 'client_email', checked = saved_search_column_visibility('client_email_'), class: 'i-checks'
               = label_tag 'client_email_', t('datagrid.columns.client_email')
           %li
             .visibility.col-sm-12
-              = check_box_tag 'phone_owner_', 'phone_owner', checked = default_setting('phone_owner_', @client_default_columns) || params[:phone_owner_].present?, class: 'i-checks'
+              = check_box_tag 'phone_owner_', 'phone_owner', checked = saved_search_column_visibility('phone_owner_'), class: 'i-checks'
               = label_tag 'phone_owner_', t('datagrid.columns.phone_owner')
           - if enable_default_assessment?
             - if current_organization.try(:aht) == true
@@ -220,13 +220,13 @@
                 %strong= t('.result_framework_assessment')
               %li
             - else
-              %li.csi-header
-                %strong= t('.csi_domain_scores')
+              %li.hotline-header
+                %strong= t('.concern_basic_fields')
               %li
           - Client::HOTLINE_FIELDS.each do |hotline_field|
             %li
               .visibility.col-sm-12
-                = check_box_tag "#{hotline_field}_", hotline_field, checked = default_setting("#{hotline_field}_", @client_default_columns) || params["#{hotline_field}_"].present?, class: 'i-checks'
+                = check_box_tag "#{hotline_field}_", hotline_field, checked = saved_search_column_visibility("#{hotline_field}_"), class: 'i-checks'
                 = label_tag "#{hotline_field}_", t("datagrid.columns.clients.#{hotline_field}")
           - if enable_default_assessment?
             - if current_organization.try(:aht) == true
@@ -238,15 +238,15 @@
                 %strong= t('.csi_domain_scores')
               %li
               .visibility.col-sm-12
-                = check_box_tag 'date_of_assessments_', 'date_of_assessments', checked = default_setting('date_of_assessments_', @client_default_columns) || params[:date_of_assessments_].present?, class: 'i-checks'
+                = check_box_tag 'date_of_assessments_', 'date_of_assessments', checked = saved_search_column_visibility('date_of_assessments_'), class: 'i-checks'
                 = label_tag 'date_of_assessments_', t('datagrid.columns.date_of_assessments', assessment: t('clients.show.assessment'))
             %li
               .visibility.col-sm-12
-                = check_box_tag 'assessment_completed_date_', 'date_of_assessments', checked = default_setting('assessment_completed_date_', @client_default_columns) || params[:assessment_completed_date_].present?, class: 'i-checks'
+                = check_box_tag 'assessment_completed_date_', 'date_of_assessments', checked = saved_search_column_visibility('assessment_completed_date_'), class: 'i-checks'
                 = label_tag 'assessment_completed_date_', t('datagrid.columns.assessment_completed_date', assessment: t('clients.show.assessment'))
             %li
               .visibility.col-sm-12
-                = check_box_tag 'all_csi_assessments_', 'all_csi_assessments', checked = default_setting('all_csi_assessments_', @client_default_columns) || params[:all_csi_assessments_].present?, class: 'i-checks'
+                = check_box_tag 'all_csi_assessments_', 'all_csi_assessments', checked = saved_search_column_visibility('all_csi_assessments_'), class: 'i-checks'
                 - if current_organization.try(:aht) == true
                   = label_tag 'all_result_framework_assessments_', t('datagrid.columns.all_result_framework_assessment')
                 - else
@@ -257,15 +257,15 @@
               %strong= t('.custom_csi_domain_scores')
             %li
               .visibility.col-sm-12
-                = check_box_tag 'date_of_custom_assessments_', 'date_of_custom_assessments', checked = default_setting('date_of_custom_assessments_', @client_default_columns) || params[:date_of_custom_assessments_].present?, class: 'i-checks'
+                = check_box_tag 'date_of_custom_assessments_', 'date_of_custom_assessments', checked = saved_search_column_visibility('date_of_custom_assessments_'), class: 'i-checks'
                 = label_tag 'date_of_custom_assessments_', t('datagrid.columns.date_of_custom_assessments', assessment: t('clients.show.assessment'))
             %li
               .visibility.col-sm-12
-                = check_box_tag 'date_of_custom_assessments_', 'date_of_custom_assessments', checked = default_setting('date_of_custom_assessments_', @client_default_columns) || params[:date_of_custom_assessments_].present?, class: 'i-checks'
+                = check_box_tag 'date_of_custom_assessments_', 'date_of_custom_assessments', checked = saved_search_column_visibility('date_of_custom_assessments_'), class: 'i-checks'
                 = label_tag 'date_of_custom_assessments_', t('datagrid.columns.assessment_completed_date', assessment: t('clients.show.assessment'))
             %li
               .visibility.col-sm-12
-                = check_box_tag 'all_custom_csi_assessments_', 'all_custom_csi_assessments', checked = default_setting('all_custom_csi_assessments_', @client_default_columns) || params[:all_custom_csi_assessments_].present?, class: 'i-checks'
+                = check_box_tag 'all_custom_csi_assessments_', 'all_custom_csi_assessments', checked = saved_search_column_visibility('all_custom_csi_assessments_'), class: 'i-checks'
                 = label_tag 'all_custom_csi_assessments_', t('datagrid.columns.all_custom_csi_assessments', assessment: t('clients.show.assessment'))
             = render partial: 'datagrid/domain_score_columns_picker', collection: Domain.custom_csi_domains.order_by_identity, as: :domain
 
@@ -274,7 +274,7 @@
               %strong= t('.type_of_service')
             %li
               .visibility.col-sm-12
-                = check_box_tag 'type_of_service_', 'type_of_service', checked = default_setting('type_of_service_', @client_default_columns) || params[:type_of_service_].present?, class: 'i-checks'
+                = check_box_tag 'type_of_service_', 'type_of_service', checked = saved_search_column_visibility('type_of_service_'), class: 'i-checks'
                 = label_tag 'type_of_service_', t('datagrid.columns.type_of_service')
 
           - if policy(Client).show?(:referee_info)
@@ -282,15 +282,15 @@
               %strong= t('.referee')
             %li
               .visibility.col-sm-12
-                = check_box_tag 'referee_name_', 'referee_name', checked = default_setting('referee_name_', @client_default_columns) || params[:referee_name_].present?, class: 'i-checks'
+                = check_box_tag 'referee_name_', 'referee_name', checked = saved_search_column_visibility('referee_name_'), class: 'i-checks'
                 = label_tag 'referee_name_', t('datagrid.columns.referee_name')
             %li
               .visibility.col-sm-12
-                = check_box_tag 'referee_email_', 'referee_email', checked = default_setting('referee_email_', @client_default_columns) || params[:referee_email_].present?, class: 'i-checks'
+                = check_box_tag 'referee_email_', 'referee_email', checked = saved_search_column_visibility('referee_email_'), class: 'i-checks'
                 = label_tag 'referee_email_', t('datagrid.columns.referee_email')
             %li
               .visibility.col-sm-12
-                = check_box_tag 'referee_phone_', 'referee_phone', checked = default_setting('referee_phone_', @client_default_columns) || params[:referee_phone_].present?, class: 'i-checks'
+                = check_box_tag 'referee_phone_', 'referee_phone', checked = saved_search_column_visibility('referee_phone_'), class: 'i-checks'
                 = label_tag 'referee_phone_', t('datagrid.columns.referee_phone')
 
           - if policy(Client).show?(:carer_info)
@@ -298,26 +298,26 @@
               %strong= t('.carer')
             %li
               .visibility.col-sm-12
-                = check_box_tag 'carer_name_', 'carer_name', checked = default_setting('carer_name_', @client_default_columns) || params[:carer_name_].present?, class: 'i-checks'
+                = check_box_tag 'carer_name_', 'carer_name', checked = saved_search_column_visibility('carer_name_'), class: 'i-checks'
                 = label_tag 'carer_name_', t('datagrid.columns.carer_name')
             %li
               .visibility.col-sm-12
-                = check_box_tag 'carer_email_', 'carer_email', checked = default_setting('carer_email_', @client_default_columns) || params[:carer_email_].present?, class: 'i-checks'
+                = check_box_tag 'carer_email_', 'carer_email', checked = saved_search_column_visibility('carer_email_'), class: 'i-checks'
                 = label_tag 'carer_email_', t('datagrid.columns.carer_email')
             %li
               .visibility.col-sm-12
-                = check_box_tag 'carer_phone_', 'carer_phone', checked = default_setting('carer_phone_', @client_default_columns) || params[:carer_phone_].present?, class: 'i-checks'
+                = check_box_tag 'carer_phone_', 'carer_phone', checked = saved_search_column_visibility('carer_phone_'), class: 'i-checks'
                 = label_tag 'carer_phone_', t('datagrid.columns.carer_phone')
 
             %li.divider.col-xs-12
 
           %li
             .visibility.col-sm-12
-              = check_box_tag 'manage_', 'manage', checked = default_setting('manage_', @client_default_columns) || params[:manage_].present?, class: 'i-checks'
+              = check_box_tag 'manage_', 'manage', checked = saved_search_column_visibility('manage_'), class: 'i-checks'
               = label_tag 'manage_', t('datagrid.columns.manage')
           %li
             .visibility.col-sm-12
-              = check_box_tag 'changelog_', 'changelog', checked = default_setting('changelog_', @client_default_columns) || params[:changelog_].present?, class: 'i-checks'
+              = check_box_tag 'changelog_', 'changelog', checked = saved_search_column_visibility('changelog_'), class: 'i-checks'
               = label_tag 'changelog_', t('datagrid.columns.changelog')
 
   - elsif controller_name == 'families' || controller_name == 'partners'
