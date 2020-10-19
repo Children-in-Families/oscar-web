@@ -69,7 +69,7 @@ class Organization < ActiveRecord::Base
         Importer::Import.new('Quantitative Case', general_data_file).quantitative_cases
         Rake::Task["field_settings:import"].invoke(org.short_name)
         if referral_source_category_id
-          referral_source = ReferralSource.find_by(name: "#{org.full_name} - OSCaR Referral")
+          referral_source = ReferralSource.find_or_create_by(name: "#{org.full_name} - OSCaR Referral")
           referral_source.update_attributes(ancestry: referral_source_category_id)
         end
       end
