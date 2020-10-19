@@ -11,8 +11,11 @@ FactoryGirl.define do
       custom true
     end
 
-    after(:create) do |cn|
-      cn.domain_groups << FactoryGirl.create(:domain_group)
+    after :create do |cn|
+      domain_group_list = create_list(:domain_group, 3)
+      create :case_note_domain_group, case_note: cn, domain_group: domain_group_list.first
+      create :case_note_domain_group, case_note: cn, domain_group: domain_group_list.second
+      create :case_note_domain_group, case_note: cn, domain_group: domain_group_list.third
     end
   end
 end
