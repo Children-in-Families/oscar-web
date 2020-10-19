@@ -10,5 +10,9 @@ FactoryGirl.define do
     trait :custom do
       custom true
     end
+
+    after(:create) do |cn|
+      cn.domain_groups << FactoryGirl.create(:domain_group)
+    end
   end
 end

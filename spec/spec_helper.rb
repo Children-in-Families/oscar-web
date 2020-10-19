@@ -103,14 +103,25 @@ RSpec.configure do |config|
 
   config.use_transactional_fixtures = false
 
+  # config.before(:suite) do
+  #   DatabaseCleaner.clean_with(:truncation)
+  # end
   config.before(:suite) do
-    DatabaseCleaner.clean_with(:truncation)
-  end
+      # Clean all tables to start
+      DatabaseCleaner.clean_with :truncation
+      # Use transactions for tests
+      DatabaseCleaner.strategy = :transaction
+      # Truncating doesn't drop schemas, ensure we're clean here, app *may not* exist
+      Apartment::Tenant.drop('app') rescue nil
+      # Create the default tenant for our tests
+      Organization.create_and_build_tenant(full_name: 'Organization Testing', short_name: 'app')
+      ActiveRecord::Base.connection.execute 'CREATE SCHEMA IF NOT EXISTS shared_extensions;'
+    end
 
   config.before(:each) do
-    DatabaseCleaner.strategy = :transaction
-    Apartment::Tenant.drop('app') rescue nil
-    Organization.create_and_build_tanent(full_name: 'Organization Testing', short_name: 'app')
+    # DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.start
+    # Apartment::Tenant.drop('app') rescue nil
     Apartment::Tenant.switch! 'app'
     Setting.create(country_name: 'cambodia', max_case_note: 30, case_note_frequency: 'day', max_assessment: 6, age: 18, enable_default_assessment: true, enable_custom_assessment: true)
   end
@@ -123,9 +134,11 @@ RSpec.configure do |config|
   end
 
   config.after(:each) do
+    Apartment::Tenant.reset
     if Rails.env.test? || Rails.env.cucumber?
       FileUtils.rm_rf(Dir["#{Rails.root}/spec/support/uploads"])
     end
+    DatabaseCleaner.clean
   end
 
   # The settings below are suggested to provide a good initial experience
