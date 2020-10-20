@@ -1891,9 +1891,16 @@ setting.update(org_name: Organization.current.full_name) if setting.org_name.bla
 User.create_with(first_name: 'OSCaR', last_name: 'Team', roles: 'admin', gender: 'other', enable_gov_log_in: true, enable_research_log_in: true, referral_notification: true, password: ENV['OSCAR_TEAM_PASSWORD']).find_or_create_by(email: ENV['OSCAR_TEAM_EMAIL'])
 
 # OSCaR Referral Source
-Organization.oscar.pluck(:full_name).each do |ngo|
-  next if ngo == 'Demo'
-  ReferralSource.find_or_create_by(name: "#{ngo} - OSCaR Referral")
+current_short_name = Apartment::Tenant.current
+Organization.oscar.pluck(:full_name, :short_name).each do |full_name, short_name|
+  Apartment::Tenant.switch! short_name
+  referral_source = ReferralSource.find_by(name: "#{full_name} - OSCaR Referral")
+  Apartment::Tenant.switch! current_short_name
+  if referral_source
+    ReferralSource.find_or_create_by(referral_source.attributes.slice('name', 'ancestry'))
+  else
+    ReferralSource.find_or_create_by(name: "#{full_name} - OSCaR Referral")
+  end
 end
 
 

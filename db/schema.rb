@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20201007034425) do
+ActiveRecord::Schema.define(version: 20201020063259) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1345,17 +1345,18 @@ ActiveRecord::Schema.define(version: 20201007034425) do
     t.string   "full_name"
     t.string   "short_name"
     t.string   "logo"
-    t.datetime "created_at",                                       null: false
-    t.datetime "updated_at",                                       null: false
-    t.boolean  "fcf_ngo",             default: false
-    t.string   "country",             default: ""
-    t.boolean  "aht",                 default: false
-    t.boolean  "integrated",          default: false
-    t.string   "supported_languages", default: ["km", "en", "my"],              array: true
-    t.integer  "clients_count",       default: 0
-    t.integer  "active_client",       default: 0
-    t.integer  "accepted_client",     default: 0
-    t.boolean  "demo",                default: false
+    t.datetime "created_at",                                                 null: false
+    t.datetime "updated_at",                                                 null: false
+    t.boolean  "fcf_ngo",                       default: false
+    t.string   "country",                       default: ""
+    t.boolean  "aht",                           default: false
+    t.boolean  "integrated",                    default: false
+    t.string   "supported_languages",           default: ["km", "en", "my"],              array: true
+    t.integer  "clients_count",                 default: 0
+    t.integer  "active_client",                 default: 0
+    t.integer  "accepted_client",               default: 0
+    t.boolean  "demo",                          default: false
+    t.string   "referral_source_category_name"
   end
 
   create_table "partners", force: :cascade do |t|
