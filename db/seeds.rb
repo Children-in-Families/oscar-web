@@ -1895,9 +1895,11 @@ current_short_name = Apartment::Tenant.current
 Organization.oscar.pluck(:full_name, :short_name).each do |full_name, short_name|
   Apartment::Tenant.switch! short_name
   referral_source = ReferralSource.find_by(name: "#{full_name} - OSCaR Referral")
+  referral_source_name = ReferralSource.find_by(ancestry: referral_source.ancestry)&.name_en if referral_source&.ancestry
   Apartment::Tenant.switch! current_short_name
-  if referral_source
-    ReferralSource.find_or_create_by(referral_source.attributes.slice('name', 'ancestry'))
+  referral_source_category = ReferralSource.find_by(name_en: referral_source_name)
+  if referral_source_category
+    ReferralSource.find_or_create_by(name: "#{full_name} - OSCaR Referral", ancestry: "#{referral_source_category.id}")
   else
     ReferralSource.find_or_create_by(name: "#{full_name} - OSCaR Referral")
   end
