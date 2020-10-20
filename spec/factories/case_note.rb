@@ -7,15 +7,12 @@ FactoryGirl.define do
     association :custom_assessment_setting, factory: :custom_assessment_setting
     interaction_type 'Visit'
 
-    trait :custom do
-      custom true
+    after :build do |cn|
+      cn.case_note_domain_groups.build(domain_group: create(:domain_group))
     end
 
-    after :create do |cn|
-      domain_group_list = create_list(:domain_group, 3)
-      create :case_note_domain_group, case_note: cn, domain_group: domain_group_list.first
-      create :case_note_domain_group, case_note: cn, domain_group: domain_group_list.second
-      create :case_note_domain_group, case_note: cn, domain_group: domain_group_list.third
+    trait :custom do
+      custom true
     end
   end
 end
