@@ -25,7 +25,8 @@ class Organization < ActiveRecord::Base
 
   before_save :clean_short_name, on: :create
   before_save :clean_supported_languages, if: :supported_languages?
-  after_commit :upsert_referral_source_category
+  after_commit :upsert_referral_source_category, on: [:create, :update]
+  after_commit :delete_referral_source_category, on: :destroy
 
   class << self
     def current
@@ -39,7 +40,6 @@ class Organization < ActiveRecord::Base
     def create_and_build_tenant(fields = {})
       transaction do
         org = new(fields)
-
         if org.save
           Apartment::Tenant.create(org.short_name)
           org
@@ -144,5 +144,14 @@ class Organization < ActiveRecord::Base
         end
       end
       Apartment::Tenant.switch! current_org
+    end
+
+    def delete_referral_source_category
+      org_full_name = self.full_name
+      Organization.all.pluck(:short_name).each do |org_short_name|
+        Apartment::Tenant.switch! org_short_name
+        referral_source = ReferralSource.find_by(name: "#{org_full_name} - OSCaR Referral")
+        referral_source.destroy if referral_source
+      end
     end
 end
