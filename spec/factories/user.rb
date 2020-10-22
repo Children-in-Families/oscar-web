@@ -16,6 +16,9 @@ FactoryGirl.define do
 
     trait :case_worker do
       roles 'case worker'
+      after(:create) do |user|
+        user.set_manager_ids
+      end
     end
 
     trait :admin do
@@ -28,6 +31,9 @@ FactoryGirl.define do
 
     trait :manager do
       roles 'manager'
+      after(:create) do |user|
+        user.set_manager_ids
+      end
     end
   end
 end

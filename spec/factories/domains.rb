@@ -6,10 +6,10 @@ FactoryGirl.define do
     association :domain_group, factory: :domain_group
 
     trait :custom do
-      custom_domain true
-      after(:build) do |domain|
-        domain.custom_assessment_setting = create(:custom_assessment_setting, factory: :custom_assessment_setting)
-      end
+      custom_domain { true }
+      association :custom_assessment_setting, factory: :custom_assessment_setting
     end
+
+
   end
 end
