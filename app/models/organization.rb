@@ -56,8 +56,9 @@ class Organization < ActiveRecord::Base
       service_data_file = 'lib/devdata/services/service.xlsx'
 
       CifWeb::Application.load_tasks
-
+      puts "Preparing data..."
       Apartment::Tenant.switch(org.short_name) do
+        puts "Switch to #{org.short_name} ==============="
         Rake::Task['db:seed'].invoke
         ImportStaticService::DateService.new('Services', org.short_name, service_data_file).import
         Importer::Import.new('Agency', general_data_file).agencies
