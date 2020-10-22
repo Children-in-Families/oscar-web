@@ -1,4 +1,4 @@
-= simple_form_for([@assessment.client, @assessment], html: { class: 'assessment-form', data: { disable_required_fields: current_setting.disable_required_fields? } }) do |f|
+= simple_form_for([@assessment.client, @assessment], html: { id: "#{action_name}-assessment", class: 'assessment-form', data: { disable_required_fields: current_setting.disable_required_fields? } }) do |f|
   = hidden_field_tag :current_user, current_user.roles
   = hidden_field_tag :default, params[:default] if params[:default]
   = hidden_field_tag :from_controller, @from_controller
@@ -60,7 +60,7 @@
                 / .col-xs-12.col-sm-6.col-md-4
                 .goal-required-option{ id: "i-checks-#{domain.name.downcase.split.join('-')}", class: ad.object.score == 4 ? '' : 'hidden' }
                   %label= t('.set_goal')
-                  = ad.input :goal_required, as: :radio_buttons, collection: [['Yes', true],['No', false]], label: false, input_html: { 'data-goal-option': domain.name.downcase.split.join('-') }
+                  = ad.input :goal_required, as: :radio_buttons, collection: [['Yes', true], ['No', false]], label: false, input_html: { 'data-goal-option': domain.name.downcase.split.join('-') }
 
                 = ad.input :goal, label: false, required: (ad.object.goal_required? && !current_setting.disable_required_fields?), input_html: { class: 'goal', id: "goal-text-area-#{domain.name.downcase.split.join('-')}" }
                 .row
@@ -74,15 +74,15 @@
                           %abbr{ title: 'required' } *
                           = t('.at_least_one_task_required')
                       %div{ class: "task-arising" }
-                        %a{:role => "button", :tabIndex => "0",  data: { toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.assessments.task_arising')}".html_safe, placement: "right", html: true } }
-                          = fa_icon "info-circle", class: 'text-info m-xs'
-                        %label.control-label
-                          = t('.tasks_arising')
-                          - if action_name == 'new'
+                        .task-label
+                          %a{:role => "button", :tabIndex => "0",  data: { toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.assessments.task_arising')}".html_safe, placement: "right", html: true } }
+                            = fa_icon "info-circle", class: 'text-info m-xs'
+                          %label.control-label
+                            = t('.tasks_arising')
                             .task-required-option{ id: "i-checks-tasks-#{domain.name.downcase.split.join('-')}" }
                               %label= t('.add_task_confirm')
                               = ad.input :required_task_last, as: :radio_buttons, collection: [['Yes', true],['No', false]], label: false, input_html: { 'data-task-name': domain.name }
-                        %ol.tasks-list{ type: '1'}
+                        %ol.tasks-list{ type: '1',}
                           - @client.tasks.by_domain_id(domain).where(taskable: @assessment).incomplete.each do |task|
                             %li.list-group-item{style: 'padding-bottom: 11px'}
                               = task.name
@@ -91,18 +91,18 @@
                     .form-group.add-task-btn-wrapper
                       %button.assessment-task-btn.btn.btn-primary.pull-right{ class: "#{policy(@client).create? ? '' : 'disabled'}", type: 'button', data: { toggle: "modal", domain_id: "#{domain.id}", target: "#tasksFromModal", trigger: "hover", content: "#{I18n.t('inline_help.clients.assessments.add_task')}", placement: "auto" } }
                         = t('.add_task')
-        - if ['new', 'create'].include?(action_name)
-          %h4#header-domain-last Last Step
-          %div{ class: "assessment-domain-item domain-last" }
-            .ibox
-              .ibox-title
-                %h5= @assessment.client.name
-                .ibox-tools
-                  = link_to client_assessments_path(@client) do
-                    .btn.btn-default.btn-back-default.button
-                      = t('.back')
-              .ibox-content
-                %p#end-of-assessment-msg.text-center.bg-success= t('.finished_assessment_msg')
+
+        %h4#header-domain-last Last Step
+        %div{ class: "assessment-domain-item domain-last" }
+          .ibox
+            .ibox-title
+              %h5= @assessment.client.name
+              .ibox-tools
+                = link_to client_assessments_path(@client) do
+                  .btn.btn-default.btn-back-default.button
+                    = t('.back')
+            .ibox-content
+              %p#end-of-assessment-msg.text-center.bg-success= t('.finished_assessment_msg')
 
 
 - if policy(@client).create?
