@@ -28,10 +28,12 @@ export default props => {
   const [loading, setLoading] = useState(false)
 
   const genderLists = [
-    { label: T.translate("editCallReferee.index.genderLists.female"), value: "female" },
-    { label: T.translate("editCallReferee.index.genderLists.male"), value: "male" },
-    { label: T.translate("editCallReferee.index.genderLists.other"), value: "other" },
-    { label: T.translate("editCallReferee.index.genderLists.unknown"), value: "unknown" }
+    { label: T.translate("genderLists.female"), value: 'female' },
+    { label: T.translate("genderLists.male"), value: 'male' },
+    { label: T.translate("genderLists.lgbt"), value: 'lgbt' },
+    { label: T.translate("genderLists.unknown"), value: 'unknown' },
+    { label: T.translate("genderLists.prefer_not_to_say"), value: 'prefer_not_to_say' },
+    { label: T.translate("genderLists.other"), value: 'other' }
   ];
 
   const ageOpts = [

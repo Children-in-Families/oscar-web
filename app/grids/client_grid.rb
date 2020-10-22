@@ -45,7 +45,7 @@ class ClientGrid < BaseGrid
   end
 
   def gender_list
-    [I18n.t('default_client_fields.gender_list').values, Client::GENDER_OPTIONS].transpose
+    [Client::GENDER_OPTIONS.map{|value| I18n.t("default_client_fields.gender_list.#{ value.gsub('other', 'other_gender') }") }, Client::GENDER_OPTIONS].transpose
   end
 
   filter(:created_at, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.created_at') })
@@ -511,9 +511,9 @@ class ClientGrid < BaseGrid
   column(:gender, header: -> { I18n.t('datagrid.columns.clients.gender') }) do |object|
     current_org = Organization.current
     Organization.switch_to 'shared'
-    gender = SharedClient.find_by(slug: object.slug).gender.try(:capitalize)
+    gender = SharedClient.find_by(slug: object.slug).gender
     Organization.switch_to current_org.short_name
-    gender
+    gender.present? ? I18n.t("default_client_fields.gender_list.#{ gender.gsub('other', 'other_gender') }") : ''
   end
 
   column(:status, header: -> { I18n.t('datagrid.columns.clients.status') }) do |object|

@@ -18,4 +18,5 @@ ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.irregular "is", "are"
   inflect.irregular "has", "have"
   inflect.acronym 'RCI'
+  inflect.acronym 'LGBT'
 end

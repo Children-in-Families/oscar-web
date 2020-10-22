@@ -26,10 +26,12 @@ export default props => {
   const client = clients[0]
 
   const genderLists = [
-    { label: T.translate("newCall.refereeInfo.genderLists.female"), value: "female" },
-    { label: T.translate("newCall.refereeInfo.genderLists.male"), value: "male" },
-    { label: T.translate("newCall.refereeInfo.genderLists.other"), value: "other" },
-    { label: T.translate("newCall.refereeInfo.genderLists.unknown"), value: "unknown" }
+    { label: T.translate("genderLists.female"), value: 'female' },
+    { label: T.translate("genderLists.male"), value: 'male' },
+    { label: T.translate("genderLists.lgbt"), value: 'lgbt' },
+    { label: T.translate("genderLists.unknown"), value: 'unknown' },
+    { label: T.translate("genderLists.prefer_not_to_say"), value: 'prefer_not_to_say' },
+    { label: T.translate("genderLists.other"), value: 'other' }
   ];
 
   const refereeLists = () => {
