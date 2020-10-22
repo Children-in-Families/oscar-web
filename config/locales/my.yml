@@ -569,7 +569,7 @@ my:
       destroy:
         successfully_deleted: တြဲထားသည္ကို ေအာင္ျမင္စြာဖ်က္ၿပီးပါၿပီ။
         successfully_updated: Remove this key
-  are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား။
+  are_you_sure: ေသခ်ာပါသလား။
   assessments:
     add_task_form:
       completion_date: ၿပီးစီးသည့္ ရက္စြဲ
@@ -2795,6 +2795,7 @@ my:
         has_dob: 'Yes'
         house_number: House Number
         id: ID
+        locality: Locality
         male: Male
         name: Name
         no_dob: 'No'
@@ -3377,6 +3378,7 @@ my:
   devise_token_auth:
     sessions:
       not_confirmed: သင့်အကောင့်သေး activated မပေးပါ။
+  disagree: အဘယ်သူမျှမ
   districts:
     create:
       failed_create: ခ႐ိုင္ကို ဖန္တီးျခင္း မေအာင္ျမင္ပါ
@@ -5774,3 +5776,4 @@ my:
     next_label: ေနာက္စာမ်က္ႏွာ
     page_gap: "..."
     previous_label: ေရွ႕စာမ်က္ႏွာ
+  'yes': ဟုတ္ပါသည္

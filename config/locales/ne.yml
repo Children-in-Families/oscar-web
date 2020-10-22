@@ -569,7 +569,7 @@ en:
       destroy:
         successfully_deleted: Attachment has been successfully deleted.
         successfully_updated: Attachment has been successfully updated.
-  are_you_sure: Are you sure you want to delete?
+  are_you_sure: Are you sure you?
   assessments:
     add_task_form:
       completion_date: Completion Date

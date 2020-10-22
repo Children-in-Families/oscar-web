@@ -150,4 +150,9 @@ body[id='clients-edit'], body[id='clients-update'] {
     }
     background-image: none !important;
   }
+
+  #toast-container > .toast-warning {
+    background-image: none !important;
+  }
+
 }

@@ -9,9 +9,13 @@ import ReferralMoreInfo from './referralMoreInfo'
 import CallAbout from './callAbout'
 import NoClientAttachedModal from './noClientAttachedModal'
 import T from 'i18n-react'
+import toastr from 'toastr/toastr'
+import { confirmCancel } from '../Commons/confirmCancel'
+
 import en from '../../utils/locales/en.json';
 import km from '../../utils/locales/km.json';
 import my from '../../utils/locales/my.json';
+import 'toastr/toastr.scss'
 import './styles.scss'
 import ProvidingUpdate from './providingUpdate'
 
@@ -354,7 +358,8 @@ const CallForms = props => {
   }
 
   const handleCancel = () => {
-    window.history.back()
+    const clientLocation = `/calls/${callData.id || ''}${window.location.search}`
+    confirmCancel(toastr, clientLocation)
   }
 
   const buttonPrevious = () => {
