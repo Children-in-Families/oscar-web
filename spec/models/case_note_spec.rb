@@ -21,10 +21,10 @@ describe CaseNote do
   describe CaseNote, 'methods' do
     let!(:case_note){ create(:case_note) }
 
-    xcontext 'populate notes' do
+    context 'populate notes' do
       let!(:domain_group){ create(:domain_group) }
       before do
-        case_note.populate_notes('test name', true)
+        case_note.populate_notes(nil, 'false')
       end
 
       it { expect(case_note.case_note_domain_groups.size).to be > 0 }
