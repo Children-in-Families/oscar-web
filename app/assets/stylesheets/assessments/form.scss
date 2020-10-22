@@ -265,8 +265,13 @@ body[id='assessments-update'] {
   }
 
   .task-arising {
-    display: inline-flex;
-    align-items: center;
+    .task-label {
+      display: inline-flex;
+      align-items: center;
+    }
+    .tasks-list {
+
+    }
   }
 }
 
