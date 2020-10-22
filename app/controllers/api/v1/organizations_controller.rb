@@ -2,8 +2,9 @@ module Api
   module V1
     class OrganizationsController < Api::V1::BaseApiController
       skip_before_action :authenticate_user!
-      before_action :authenticate_admin_user!, only: :create
-      before_action :authenticate_api_admin_user!, :set_current_aut_user, except: [:index, :create]
+      before_action :authenticate_admin_user!, only: [:create, :update, :destroy]
+      before_action :find_organization, only: [:update, :destroy]
+      before_action :authenticate_api_admin_user!, :set_current_aut_user, only: [:clients, :upsert, :update_link]
 
       def index
         render json: Organization.visible.order(:created_at)
@@ -132,15 +133,28 @@ module Api
       end
 
       def create
-        if org = Organization.create_and_build_tenant(params.permit(:demo, :full_name, :short_name, :logo, supported_languages: []))
-          Organization.delay(queue: :priority).seed_generic_data(org.id, params[:referral_source_category_id])
-
+        if org = Organization.create_and_build_tenant(organization_params)
+          Organization.delay(queue: :priority).seed_generic_data(org.id, org.referral_source_category_name)
           render json: org, status: :ok
         else
           render json: { msg: org.errors }, status: :unprocessable_entity
         end
       rescue => e
         render json: e.message, status: :unprocessable_entity
+      end
+
+      def update
+        if @organization.update_attributes(organization_params)
+          render json: @organization, status: :ok
+        else
+          render json: { msg: org.errors }, status: :unprocessable_entity
+        end
+      end
+
+      def destroy
+        if @organization.destroy
+          head 204
+        end
       end
 
       def check_duplication
@@ -161,6 +175,14 @@ module Api
       end
 
       private
+
+        def organization_params
+          params.permit(:demo, :full_name, :short_name, :logo, :referral_source_category_name, supported_languages: [])
+        end
+
+        def find_organization
+          @organization = Organization.find(params[:id])
+        end
 
         def clients_params
           params.require(:organization).permit(

@@ -268,7 +268,7 @@ Rails.application.routes.draw do
     # resources :referral_sources
 
     namespace :v1, default: { format: :json } do
-      resources :organizations, only: [:index, :create] do
+      resources :organizations, only: [:index, :create, :update, :destroy] do
         collection do
           get :clients
           post 'clients/upsert' => 'organizations#upsert'

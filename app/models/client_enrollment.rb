@@ -1,4 +1,5 @@
 class ClientEnrollment < ActiveRecord::Base
+  include ClientRetouch
   acts_as_paranoid without_default_scope: true
 
   belongs_to :client
@@ -27,6 +28,7 @@ class ClientEnrollment < ActiveRecord::Base
   after_create :set_client_status
   after_save :create_client_enrollment_history
   after_destroy :reset_client_status
+  after_commit :touch
 
   validate do |obj|
     CustomFormPresentValidator.new(obj, 'program_stream', 'enrollment').validate

@@ -13,7 +13,7 @@ class Organization < ActiveRecord::Base
   scope :without_cwd, -> { where.not(short_name: 'cwd') }
   scope :without_shared, -> { where.not(short_name: 'shared') }
   scope :exclude_current, -> { where.not(short_name: Organization.current.short_name) }
-  scope :oscar, -> { visible.where.not(short_name: 'demo') }
+  scope :oscar, -> { visible.where(demo: false) }
   scope :visible, -> { where.not(short_name: ['cwd', 'myan', 'rok', 'shared', 'my', 'tutorials']) }
   scope :test_ngos, -> { where(short_name: ['demo', 'tutorials']) }
   scope :cambodian, -> { where(country: 'cambodia') }
@@ -27,6 +27,8 @@ class Organization < ActiveRecord::Base
 
   before_save :clean_short_name, on: :create
   before_save :clean_supported_languages, if: :supported_languages?
+  after_commit :upsert_referral_source_category, on: [:create, :update]
+  after_commit :delete_referral_source_category, on: :destroy
 
   class << self
     def current
@@ -40,7 +42,6 @@ class Organization < ActiveRecord::Base
     def create_and_build_tenant(fields = {})
       transaction do
         org = new(fields)
-
         if org.save
           Apartment::Tenant.create(org.short_name)
           org
@@ -50,15 +51,16 @@ class Organization < ActiveRecord::Base
       end
     end
 
-    def seed_generic_data(org_id, referral_source_category_id=nil)
+    def seed_generic_data(org_id, referral_source_category_name=nil)
       org = find(org_id)
 
       general_data_file = 'lib/devdata/general.xlsx'
       service_data_file = 'lib/devdata/services/service.xlsx'
 
       CifWeb::Application.load_tasks
-
+      puts "Preparing data..."
       Apartment::Tenant.switch(org.short_name) do
+        puts "Switch to #{org.short_name} ==============="
         Rake::Task['db:seed'].invoke
         ImportStaticService::DateService.new('Services', org.short_name, service_data_file).import
         Importer::Import.new('Agency', general_data_file).agencies
@@ -70,9 +72,12 @@ class Organization < ActiveRecord::Base
         Importer::Import.new('Quantitative Type', general_data_file).quantitative_types
         Importer::Import.new('Quantitative Case', general_data_file).quantitative_cases
         Rake::Task["field_settings:import"].invoke(org.short_name)
-        if referral_source_category_id
-          referral_source = ReferralSource.find_by(name: "#{org.full_name} - OSCaR Referral")
-          referral_source.update_attributes(ancestry: referral_source_category_id)
+        referral_source_category = ReferralSource.find_by(name_en: referral_source_category_name)
+        if referral_source_category
+          referral_source = ReferralSource.find_or_create_by(name: "#{org.full_name} - OSCaR Referral")
+          referral_source.update_attributes(ancestry: "#{referral_source_category.id}")
+        else
+          ReferralSource.find_or_create_by(name: "#{org.full_name} - OSCaR Referral")
         end
       end
     end
@@ -128,7 +133,28 @@ class Organization < ActiveRecord::Base
 
   private
 
-  def clean_supported_languages
-    self.supported_languages = supported_languages.select(&:present?)
-  end
+    def upsert_referral_source_category
+      current_org = Apartment::Tenant.current
+      org_full_name = self.full_name
+      rs_category_name = self.referral_source_category_name
+
+      Organization.all.pluck(:short_name).each do |org_short_name|
+        Apartment::Tenant.switch! org_short_name
+        referral_source = ReferralSource.find_by(name: "#{org_full_name} - OSCaR Referral")
+        rs_category = ReferralSource.find_by(name_en: rs_category_name)
+        if referral_source
+          referral_source.update_attributes(ancestry: "#{rs_category.id}") if rs_category
+        end
+      end
+      Apartment::Tenant.switch! current_org
+    end
+
+    def delete_referral_source_category
+      org_full_name = self.full_name
+      Organization.all.pluck(:short_name).each do |org_short_name|
+        Apartment::Tenant.switch! org_short_name
+        referral_source = ReferralSource.find_by(name: "#{org_full_name} - OSCaR Referral")
+        referral_source.destroy if referral_source
+      end
+    end
 end
