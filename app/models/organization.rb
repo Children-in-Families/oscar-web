@@ -138,11 +138,9 @@ class Organization < ActiveRecord::Base
 
       Organization.all.pluck(:short_name).each do |org_short_name|
         Apartment::Tenant.switch! org_short_name
-        referral_source = ReferralSource.find_by(name: "#{org_full_name} - OSCaR Referral")
+        referral_source = ReferralSource.find_or_create_by(name: "#{org_full_name} - OSCaR Referral")
         rs_category = ReferralSource.find_by(name_en: rs_category_name)
-        if referral_source
-          referral_source.update_attributes(ancestry: "#{rs_category.id}") if rs_category
-        end
+        referral_source.update_attributes(ancestry: "#{rs_category.id}") if rs_category
       end
       Apartment::Tenant.switch! current_org
     end
