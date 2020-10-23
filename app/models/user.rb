@@ -333,6 +333,7 @@ class User < ActiveRecord::Base
         user.manager_ids = find_manager_manager(user.manager_id, user.manager_ids)
         user.save
       end
+      self.update_columns(manager_id: nil, manager_ids: [])
     end
   end
 

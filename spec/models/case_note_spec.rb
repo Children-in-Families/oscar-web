@@ -21,14 +21,14 @@ describe CaseNote do
   describe CaseNote, 'methods' do
     let!(:case_note){ create(:case_note) }
 
-    xcontext 'populate notes' do
+    context 'populate notes' do
       let!(:domain_group){ create(:domain_group) }
       before do
-        case_note.populate_notes('test name', true)
+        case_note.populate_notes(nil, 'false')
       end
 
-      it { expect(case_note.case_note_domain_groups.size).to be > 0 }
-      it 'should build case note domain group with domain groups' do
+      xit { expect(case_note.case_note_domain_groups.size).to be > 0 }
+      xit 'should build case note domain group with domain groups' do
         expect(case_note.case_note_domain_groups.map(&:domain_group)).to include(domain_group)
       end
     end
@@ -71,24 +71,24 @@ describe CaseNote do
   end
 
   describe CaseNote, 'scopes' do
-    let!(:case_note){ create(:case_note, meeting_date: Date.yesterday) }
-    let!(:latest_case_note){ create(:case_note, meeting_date: 1.month.ago) }
+    let!(:case_note){ create(:case_note, meeting_date: 1.month.ago) }
+    let!(:latest_case_note){ create(:case_note, meeting_date: Date.yesterday) }
 
     context 'most recents' do
       it 'should have first object as the latest case note' do
-        expect(CaseNote.most_recents.first).to eq(latest_case_note)
+        expect(CaseNote.recent_meeting_dates.first).to eq(latest_case_note)
       end
       it 'should not have first object not the latest case note' do
-        expect(CaseNote.most_recents.first).not_to eq(case_note)
+        expect(CaseNote.recent_meeting_dates.first).not_to eq(case_note)
       end
     end
 
     context 'no case note in' do
       it 'should not have one object as the case note' do
-        expect(CaseNote.no_case_note_in(1.month.ago)).not_to include(case_note)
+        expect(CaseNote.no_case_note_in(1.month.ago)).not_to include(latest_case_note)
       end
       it 'should have one object as the latest case note' do
-        expect(CaseNote.no_case_note_in(1.month.ago)).to include(latest_case_note)
+        expect(CaseNote.no_case_note_in(1.month.ago)).to include(case_note)
       end
     end
   end

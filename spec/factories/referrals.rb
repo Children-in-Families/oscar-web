@@ -21,10 +21,18 @@ FactoryGirl.define do
       referral.class.skip_callback(:save, :after, :make_a_copy_to_target_ngo)
     end
 
+    after(:build) do |r|
+      r.slug = r.client.slug
+      r.client_global_id = r.client.global_id
+      r.save
+    end
+
     trait :client_with_history do
       after(:build) do |referral|
         referral.class.set_callback(:save, :after, :create_referral_history)
       end
     end
+
+
   end
 end

@@ -63,7 +63,7 @@ class CaseNote < ActiveRecord::Base
   end
 
   def existence_domain_groups
-    if selected_domain_group_ids.blank?
+    if domain_groups.present? && selected_domain_group_ids.blank?
       errors.add(:domain_groups, "#{I18n.t('domain_groups.form.domain_group')} #{I18n.t('cannot_be_blank')}")
     end
   end
