@@ -15,7 +15,7 @@ class GlobalIdentity < ActiveRecord::Base
     client = Client.find_by(global_id: ulid)
     if client
       ExternalSystemGlobalIdentity.find_or_create_by(
-        external_system_id: id,
+        external_system_id: ExternalSystem.first&.id,
         global_id: ulid,
         external_id: client.external_id,
         client_slug: client.slug,
