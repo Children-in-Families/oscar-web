@@ -50,8 +50,8 @@ describe EnterNgo do
   end
 
   describe EnterNgo, 'scopes' do
-    let!(:enter_ngo_1){ create(:enter_ngo) }
-    let!(:enter_ngo_2){ create(:enter_ngo) }
+    let(:enter_ngo_1){ create(:enter_ngo) }
+    let(:enter_ngo_2){ create(:enter_ngo) }
 
     context '.most_recents' do
       subject { EnterNgo.most_recents.first }

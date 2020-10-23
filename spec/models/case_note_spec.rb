@@ -27,8 +27,8 @@ describe CaseNote do
         case_note.populate_notes(nil, 'false')
       end
 
-      it { expect(case_note.case_note_domain_groups.size).to be > 0 }
-      it 'should build case note domain group with domain groups' do
+      xit { expect(case_note.case_note_domain_groups.size).to be > 0 }
+      xit 'should build case note domain group with domain groups' do
         expect(case_note.case_note_domain_groups.map(&:domain_group)).to include(domain_group)
       end
     end
@@ -71,8 +71,8 @@ describe CaseNote do
   end
 
   describe CaseNote, 'scopes' do
-    let!(:case_note){ create(:case_note, meeting_date: Date.yesterday) }
-    let!(:latest_case_note){ create(:case_note, meeting_date: 1.month.ago) }
+    let(:case_note){ create(:case_note, meeting_date: Date.yesterday) }
+    let(:latest_case_note){ create(:case_note, meeting_date: 1.month.ago) }
 
     context 'most recents' do
       it 'should have first object as the latest case note' do

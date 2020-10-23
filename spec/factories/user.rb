@@ -13,6 +13,7 @@ FactoryGirl.define do
     referral_notification false
     mobile '012345678'
     gender 'male'
+    preferred_language { 'en' }
 
     trait :case_worker do
       roles 'case worker'
