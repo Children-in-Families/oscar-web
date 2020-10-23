@@ -23,6 +23,7 @@ import my from '../../utils/locales/my.json'
 import 'toastr/toastr.scss'
 import './styles.scss'
 import { t } from '../../utils/i18n'
+import { confirmCancel } from '../Commons/confirmCancel.js'
 
 const Forms = props => {
   var url = window.location.href.split("&").slice(-1)[0].split("=")[1]
@@ -345,7 +346,8 @@ const Forms = props => {
   }
 
   const handleCancel = () => {
-    window.history.back()
+    const clientLocation = `/clients/${client.slug || ''}${window.location.search}`
+    confirmCancel(toastr, clientLocation)
   }
 
   const buttonPrevious = () => {

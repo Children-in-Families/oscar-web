@@ -571,7 +571,7 @@ km:
       destroy:
         successfully_deleted: ឯកសារភ្ជាប់ត្រូវបានលុបដោយជោគជ័យ
         successfully_updated: ឯកសារភ្ជាប់ត្រូវបានកែសម្រួលដោយជោគជ័យ
-  are_you_sure: តើអ្នកប្រាកដហើយ?
+  are_you_sure: តើអ្នកប្រាកដហើយមែនទេ?​
   assessments:
     add_task_form:
       completion_date: ថ្ងៃកំណត់
@@ -2679,10 +2679,11 @@ km:
         gender: ភេទ
         gender_list:
           female: ស្រី
+          lgbt: LGBT
           male: ប្រុស
           other_gender: ផ្សេងៗ
-          unknown: អត់ទាន់ដឹង
           prefer_not_to_say: សុំមិន​និយាយ​ល្អ​ជាង
+          unknown: អត់ទាន់ដឹង
         house: ផ្ទះលេខ
         household_income: ប្រាក់ចំណូលគ្រួសារប្រចាំខែ
         id: លេខសំគាល់
@@ -2786,6 +2787,7 @@ km:
         has_dob: 'បាទ / ចាស'
         house_number: ផ្ទះលេខ
         id: អត្តលេខ
+        locality: Locality
         male: ប្រុស
         name: ឈ្មោះ
         no_dob: 'ទេ'
@@ -2912,10 +2914,11 @@ km:
     gender: ភេទ
     gender_list:
       female: ស្រី
+      lgbt: LGBT
       male: ប្រុស
       other_gender: ផ្សេងៗ
-      unknown: អត់ទាន់ដឹង
       prefer_not_to_say: សុំមិន​និយាយ​ល្អ​ជាង
+      unknown: អត់ទាន់ដឹង
     referee_relationship:
       self: ខ្លួនឯង
       family_member: សមាជិក​គ្រួសារ
@@ -3366,6 +3369,7 @@ km:
   devise_token_auth:
     sessions:
       not_confirmed: គណនីរបស់អ្នកមិនទាន់ដំណើរការនៅឡើយទេ។
+  disagree: ទេ
   districts:
     create:
       failed_create: ស្រុកមិនត្រូវបានបង្កើតដោយជោគជ័យ
@@ -5640,9 +5644,11 @@ km:
       start_date: កាលបរិច្ឆេទចាប់ផ្តើម
     gender_list:
       female: ស្រី
+      lgbt: LGBT
       male: ប្រុស
       other_gender: ផ្សេងៗ
       prefer_not_to_say: សុំមិន​និយាយ​ល្អ​ជាង
+      unknown: អត់ទាន់ដឹង
     index:
       add_new_user: បន្ថែមឣ្នកប្រើថ្មី
       export_xls: ទាញចេញជាឯកសារប្រភេទ XLS
@@ -5735,3 +5741,4 @@ km:
     next_label: ទំព័របន្ទាប់
     page_gap: "..."
     previous_label: ទំព័រមុន
+  'yes': "បាទ / ចាស"

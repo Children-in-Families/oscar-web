@@ -65,7 +65,7 @@ export default props => {
   }
 
   const handleCancel = () => {
-    document.location.href = `/calls/${callData.id}`
+    document.location.href = `/calls/${callData.id}${window.location.search}`
   }
 
   const handleSave = () => {
