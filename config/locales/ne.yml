@@ -2680,10 +2680,11 @@ en:
         gender: Gender
         gender_list:
           female: Female
+          lgbt: LGBT
           male: Male
           other_gender: Other
+          prefer_not_to_say: Prefer not to answer/Non-specified
           unknown: Unknown
-          prefer_not_to_say: Prefer not to answer
         house: House
         household_income: Monthly Household Income
         id: ID
@@ -2914,10 +2915,11 @@ en:
     gender: Gender
     gender_list:
       female: Female
+      lgbt: LGBT
       male: Male
       other_gender: Other
+      prefer_not_to_say: Prefer not to answer/Non-specified
       unknown: Unknown
-      prefer_not_to_say: Prefer not to answer
     referee_relationship:
       self: Self
       family_member: Family Member
@@ -5652,9 +5654,11 @@ en:
       start_date: Start Date
     gender_list:
       female: Female
+      lgbt: LGBT
       male: Male
       other_gender: Other
-      prefer_not_to_say: Prefer not to say
+      prefer_not_to_say: Prefer not to answer/Non-specified
+      unknown: Unknown
     index:
       add_new_user: Add New User
       export_xls: Export to XLS

@@ -2688,10 +2688,11 @@ my:
         gender: Gender
         gender_list:
           female: Female
+          lgbt: LGBT
           male: Male
           other_gender: Other
+          prefer_not_to_say: Prefer not to answer/Non-specified
           unknown: Unknown
-          prefer_not_to_say: Prefer not to answer
         house: အိမ္နံပါတ္
         household_income: အိမ္ေထာင္စု ၀င္ေငြ
         id: မွတ္ပံုတင္
@@ -2922,10 +2923,11 @@ my:
     gender: က်ား/မ
     gender_list:
       female: Female
+      lgbt: LGBT
       male: Male
       other_gender: Other
+      prefer_not_to_say: Prefer not to answer/Non-specified
       unknown: Unknown
-      prefer_not_to_say: Prefer not to answer
     referee_relationship:
       self: Self
       family_member: Family Member
@@ -5677,9 +5679,11 @@ my:
       start_date: စတင္သည့္ ရက္စြဲ
     gender_list:
       female: Female
+      lgbt: LGBT
       male: Male
       other_gender: Other
-      prefer_not_to_say: Prefer not to say
+      prefer_not_to_say: Prefer not to answer/Non-specified
+      unknown: Unknown
     index:
       add_new_user: အသံုးျပဳသူအသစ္ ထည့္ရန္
       export_xls: XLS အျဖစ္ ထုတ္ရန္

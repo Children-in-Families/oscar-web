@@ -2353,10 +2353,12 @@ th-TH:
     gender:
     gender_list:
       female: Female
+      lgbt: LGBT
       male: Male
+      non_specified: Non-specified
       other_gender: Other
       unknown: Unknown
-      prefer_not_to_say: Prefer not to say
+      prefer_not_to_say: Prefer not to answer
     given_name:
     has_been_in_government_care:
     has_been_in_orphanage:
