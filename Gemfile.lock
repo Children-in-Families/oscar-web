@@ -613,7 +613,7 @@ GEM
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
     rainbow (2.2.1)
-    rake (10.5.0)
+    rake (13.0.1)
     rb-fsevent (0.9.7)
     rb-gravatar (1.0.5)
     rb-inotify (0.9.7)
