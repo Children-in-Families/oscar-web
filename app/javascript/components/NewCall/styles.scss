@@ -148,4 +148,8 @@ body[id='calls-edit'], body[id='calls-update'] {
   .react-date-picker__calendar {
     z-index: 1000;
   }
+
+  #toast-container > .toast-warning {
+    background-image: none !important;
+  }
 }
