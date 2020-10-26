@@ -51,30 +51,31 @@ class Organization < ActiveRecord::Base
     end
 
     def seed_generic_data(org_id, referral_source_category_name=nil)
-      org = find(org_id)
+      org = find_by(id: org_id)
+      if org
+        general_data_file = 'lib/devdata/general.xlsx'
+        service_data_file = 'lib/devdata/services/service.xlsx'
+        Rake::Task.clear
+        CifWeb::Application.load_tasks
+        Apartment::Tenant.switch(org.short_name) do
+          Rake::Task['db:seed'].invoke
+          ImportStaticService::DateService.new('Services', org.short_name, service_data_file).import
+          Importer::Import.new('Agency', general_data_file).agencies
+          Importer::Import.new('Department', general_data_file).departments
+          Importer::Import.new('Province', general_data_file).provinces
 
-      general_data_file = 'lib/devdata/general.xlsx'
-      service_data_file = 'lib/devdata/services/service.xlsx'
-      Rake::Task.clear
-      CifWeb::Application.load_tasks
-      Apartment::Tenant.switch(org.short_name) do
-        Rake::Task['db:seed'].invoke
-        ImportStaticService::DateService.new('Services', org.short_name, service_data_file).import
-        Importer::Import.new('Agency', general_data_file).agencies
-        Importer::Import.new('Department', general_data_file).departments
-        Importer::Import.new('Province', general_data_file).provinces
-
-        Rake::Task['communes_and_villages:import'].invoke
-        Rake::Task['communes_and_villages:import'].reenable
-        Importer::Import.new('Quantitative Type', general_data_file).quantitative_types
-        Importer::Import.new('Quantitative Case', general_data_file).quantitative_cases
-        Rake::Task["field_settings:import"].invoke(org.short_name)
-        referral_source_category = ReferralSource.find_by(name_en: referral_source_category_name)
-        if referral_source_category
-          referral_source = ReferralSource.find_or_create_by(name: "#{org.full_name} - OSCaR Referral")
-          referral_source.update_attributes(ancestry: "#{referral_source_category.id}")
-        else
-          ReferralSource.find_or_create_by(name: "#{org.full_name} - OSCaR Referral")
+          Rake::Task['communes_and_villages:import'].invoke
+          Rake::Task['communes_and_villages:import'].reenable
+          Importer::Import.new('Quantitative Type', general_data_file).quantitative_types
+          Importer::Import.new('Quantitative Case', general_data_file).quantitative_cases
+          Rake::Task["field_settings:import"].invoke(org.short_name)
+          referral_source_category = ReferralSource.find_by(name_en: referral_source_category_name)
+          if referral_source_category
+            referral_source = ReferralSource.find_or_create_by(name: "#{org.full_name} - OSCaR Referral")
+            referral_source.update_attributes(ancestry: "#{referral_source_category.id}")
+          else
+            ReferralSource.find_or_create_by(name: "#{org.full_name} - OSCaR Referral")
+          end
         end
       end
     end
@@ -137,11 +138,9 @@ class Organization < ActiveRecord::Base
 
       Organization.all.pluck(:short_name).each do |org_short_name|
         Apartment::Tenant.switch! org_short_name
-        referral_source = ReferralSource.find_by(name: "#{org_full_name} - OSCaR Referral")
+        referral_source = ReferralSource.find_or_create_by(name: "#{org_full_name} - OSCaR Referral")
         rs_category = ReferralSource.find_by(name_en: rs_category_name)
-        if referral_source
-          referral_source.update_attributes(ancestry: "#{rs_category.id}") if rs_category
-        end
+        referral_source.update_attributes(ancestry: "#{rs_category.id}") if rs_category
       end
       Apartment::Tenant.switch! current_org
     end
