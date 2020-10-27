@@ -20,9 +20,6 @@ stop_all:
 bash_console:
 	docker exec -it app bash
 
-bash_console:
-	docker exec -it app bash
-
 # Starts up a rails console in the app container
 rails_console:
 	docker exec -it app rails c
@@ -59,3 +56,7 @@ db_create_test:
 	docker-compose run --no-deps -e RAILS_ENV=test --entrypoint "rake db:drop" app
 	docker-compose run --no-deps -e RAILS_ENV=test --entrypoint "rake db:create" app
 	docker-compose run --no-deps -e RAILS_ENV=test --entrypoint "rake db:schema:load" app
+
+# If the container is NOT running and you want to get a bash terminal then run this command
+run_image_bash:
+	docker run -it --rm -v $(shell pwd):/app -w /app --entrypoint bash oscar-web_app:latest
