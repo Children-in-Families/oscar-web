@@ -3,7 +3,6 @@ class RefereesGrid
   scope do
     Referee.includes(:province, :district, :commune, :village)
   end
-  # id name gender adult anonymous phone email province_id district_id commune_id village_id address_type current_address house_number outside outside_address street_number created_at updated_at)
   filter(:id, :integer, header: -> { I18n.t('datagrid.columns.referees.id') })
   filter(:name, header: -> { I18n.t('datagrid.columns.referees.name') })
   filter(:gender, :enum, select: :gender_list, header: -> { I18n.t('datagrid.columns.referees.gender') })

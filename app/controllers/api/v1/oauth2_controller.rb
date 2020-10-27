@@ -10,7 +10,6 @@ module Api
 
       private
 
-        # Doorkeeper methods
         def current_resource_owner
           @current_user ||= if doorkeeper_token
                               User.find(doorkeeper_token.resource_owner_id)

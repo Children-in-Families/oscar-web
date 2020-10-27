@@ -17,7 +17,6 @@ class AdvancedSearch < ActiveRecord::Base
                                 enrollment_check: enrollment_check,
                                 tracking_check: tracking_check,
                                 exit_form_check: exit_form_check,
-                                # basic_rules: queries.to_json,
                                 quantitative_check: quantitative_check,
                                 hotline_check: hotline_check,
                                 action_report_builder: '#builder' }

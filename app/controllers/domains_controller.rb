@@ -38,9 +38,7 @@ class DomainsController < AdminController
   end
 
   def update
-    # @domain.custom_domain = true
     if @domain.update_attributes(domain_params)
-      # redirect_to domains_path(tab: 'custom_domain'), notice: t('.successfully_updated')
       redirect_to domains_path, notice: t('.successfully_updated')
     else
       render :edit

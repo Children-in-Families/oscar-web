@@ -292,9 +292,7 @@ module AdvancedSearches
       when 'between'
         clients = clients.where(exit_ngos: { exit_date: @value[0]..@value[1] })
       when 'is_empty'
-        # clients have been exited but exit_date is blank
         ids = Client.includes(:exit_ngos).where(exit_ngos: { exit_date: nil }).distinct.ids
-        # clients haven't been exited
         ids = ids << @clients.where.not(id: clients.ids).ids
         clients = @clients.where(id: ids.flatten.uniq)
       when 'is_not_empty'
@@ -321,9 +319,7 @@ module AdvancedSearches
       when 'between'
         clients = clients.where(enter_ngos: { accepted_date: @value[0]..@value[1] })
       when 'is_empty'
-        # clients have been accepted but accepted_date is blank
         ids = Client.includes(:enter_ngos).where(enter_ngos: { accepted_date: nil }).distinct.ids
-        # clients haven't been accepted
         ids = ids << @clients.where.not(id: clients.distinct.ids).ids
         clients = @clients.where(id: ids.flatten.uniq)
       when 'is_not_empty'
@@ -547,7 +543,6 @@ module AdvancedSearches
       when 'equal'
         clients.where('client_enrollments.program_stream_id = ?', @value ).distinct.ids
       when 'not_equal'
-        #client_not_equal_ids = (clients.where('client_enrollments.program_stream_id != ?', @value ).distinct.ids + @clients.where.not(id: clients.distinct.ids).ids) - clients.where('client_enrollments.program_stream_id = ?', @value ).distinct.ids
         client_have_enrollments = clients.where('client_enrollments.program_stream_id = ?', @value ).distinct.ids
         client_not_enrollments = clients.where('client_enrollments.program_stream_id != ?', @value ).distinct.ids
         client_empty_enrollments = @clients.where.not(id: clients.distinct.ids).ids
@@ -679,7 +674,6 @@ module AdvancedSearches
     def time_in_ngo_query
       client_ids = []
       clients = @clients.joins(:enter_ngos)
-      # years_to_days = @value.kind_of?(Array) ? [@value.first * 365, @value.last * 365] : @value * 365 if @value.present?
       years_to_days =  @value.kind_of?(Array) ? [@value.first, @value.last] : @value if @value.present?
       case @operator
       when 'equal'
@@ -734,10 +728,8 @@ module AdvancedSearches
       date_value_format = convert_age_to_date(@value)
       case @operator
       when 'equal'
-        # clients = @clients.where(date_of_birth: date_value_format.last_year.tomorrow..date_value_format)
         clients = @clients.where("(EXTRACT(year FROM age(current_date, date_of_birth)) :: int) = ?", @value)
       when 'not_equal'
-        # clients = @clients.where.not(date_of_birth: date_value_format.last_year.tomorrow..date_value_format)
         clients = @clients.where("clients.date_of_birth is NULL OR (EXTRACT(year FROM age(current_date, date_of_birth)) :: int) != ?", @value)
       when 'less'
         clients = @clients.where('date_of_birth > ?', date_value_format)

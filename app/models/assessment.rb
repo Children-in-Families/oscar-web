@@ -10,7 +10,6 @@ class Assessment < ActiveRecord::Base
 
   validates :client, presence: true
   validate :must_be_enable
-  # validate :must_be_min_assessment_period, :eligible_client_age, :check_previous_assessment_status, if: :new_record?
   validate :allow_create, :eligible_client_age, if: :new_record?
 
 
@@ -111,17 +110,6 @@ class Assessment < ActiveRecord::Base
     errors.add(:base, "Assessment cannot be created due to either frequency period or previous assessment status") if client.present? && !client.can_create_assessment?(default)
   end
 
-  # merged to allow_create
-  # def must_be_min_assessment_period
-  #   # period = Setting.first.try(:min_assessment) || 3
-  #   period = 3
-  #   errors.add(:base, "Assessment cannot be created before #{period} months") if new_record? && client.present? && !client.can_create_assessment?(default)
-  # end
-
-  # def only_latest_record_can_be_updated
-  #   errors.add(:base, 'Assessment cannot be updated') if persisted? && !latest_record?
-  # end
-
   def must_be_enable
     enable = default? ? Setting.first.enable_default_assessment : Setting.first.enable_custom_assessment
     enable ? true : errors.add(:base, 'Assessment tool must be enable in setting')
@@ -141,13 +129,4 @@ class Assessment < ActiveRecord::Base
       end
     end
   end
-
-  # merged to allow_create
-  # def check_previous_assessment_status
-  #   if default?
-  #     errors.add(:base, 'Please complete the previous assessment before creating another one.') if client.assessments.defaults.present? && client.assessments.defaults.latest_record.completed == false
-  #   else
-  #     errors.add(:base, 'Please complete the previous assessment before creating another one.') if client.assessments.customs.present? && client.assessments.customs.latest_record.completed == false
-  #   end
-  # end
 end

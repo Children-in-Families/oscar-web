@@ -12,7 +12,6 @@ class CaseNote < ActiveRecord::Base
   validates :meeting_date, :attendee, presence: true
   validates :interaction_type, presence: true, inclusion: { in: INTERACTION_TYPE }
   validate  :existence_domain_groups
-  # validates :note, presence: true, if: :not_using_assessment_tool?
 
   has_paper_trail
 

@@ -40,15 +40,6 @@ class ClientsController < AdminController
           @client_grid.scope { |scope| scope.accessible_by(current_ability) }
           export_client_reports
           send_data @client_grid.to_xls, filename: "client_report-#{Time.now}.xls"
-          # current_time = Time.now
-          # if params[:type] == 'basic_info'
-          #   export_client_reports
-          #   send_data @client_grid.to_xls, filename: "client_report-#{current_time}.xls"
-          # elsif params[:type] == 'csi_assessment'
-          #   send_data @client_grid.to_spreadsheet('default'), filename: "client_assessment_domain_report-#{current_time}.xls"
-          # elsif params[:type] == 'custom_assessment'
-          #   send_data @client_grid.to_spreadsheet('custom'), filename: "client_assessment_domain_report-#{current_time}.xls"
-          # end
         end
       end
     end
@@ -72,15 +63,12 @@ class ClientsController < AdminController
         @free_client_forms          = available_editable_forms.client_forms.not_used_forms(custom_field_ids).order_by_form_title
         @group_client_custom_fields = readable_forms.sort_by{ |c| c.custom_field.form_title }.group_by(&:custom_field_id)
         initial_visit_client
-        # @enter_ngos = @client.enter_ngos.order(:accepted_date)
-        # @exit_ngos  = @client.exit_ngos.order(:exit_date)
         enter_ngos = @client.enter_ngos
         exit_ngos  = @client.exit_ngos
         cps_enrollments = @client.client_enrollments
         cps_leave_programs = LeaveProgram.joins(:client_enrollment).where("client_enrollments.client_id = ?", @client.id)
         referrals = @client.referrals
         @case_histories = (enter_ngos + exit_ngos + cps_enrollments + cps_leave_programs + referrals).sort { |current_record, next_record| -([current_record.created_at, current_record.new_date] <=> [next_record.created_at, next_record.new_date]) }
-        # @quantitative_type_readable_ids = current_user.quantitative_type_permissions.readable.pluck(:quantitative_type_id)
         if @client.family.present?
           @family_grid = FamilyGrid.new
           @family_grid = @family_grid.scope { |scope| scope.accessible_by(current_ability).where(id: @client.current_family_id) }
@@ -89,7 +77,6 @@ class ClientsController < AdminController
       format.pdf do
         form        = params[:form]
         form_title  = t(".government_form_#{form}")
-        # form_title  = t(".government_form_one")
         client_name = @client.en_and_local_name
         pdf_name    = "#{client_name} - #{form_title}"
         render  pdf:      pdf_name,

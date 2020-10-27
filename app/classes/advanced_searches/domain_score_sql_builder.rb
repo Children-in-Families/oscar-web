@@ -42,7 +42,6 @@ module AdvancedSearches
         basic_rules = $param_rules['basic_rules']
         basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
         results = mapping_assessment_query_rules(basic_rules).reject(&:blank?)
-        # query_string = get_assessment_query_string(results, identity, @domain_id, nil, basic_rules)
         assessment_completed_sql, assessment_number = assessment_filter_values(results)
         sql = "(assessments.completed = true #{assessment_completed_sql}) AND assessments.created_at = (SELECT created_at FROM assessments WHERE clients.id = assessments.client_id ORDER BY assessments.created_at limit 1 offset #{(assessment_number || 1) - 1})".squish
         if assessment_completed_sql.present? && assessment_number.present?
@@ -277,7 +276,6 @@ module AdvancedSearches
     end
 
     def all_domains_query
-      # assessments = Assessment.joins([:assessment_domains, :client])
       case @operator
       when 'equal'
         return domainscore_query('equal')
@@ -312,7 +310,6 @@ module AdvancedSearches
             conditions = []
             if operator == 'equal'
               scores.exclude?(@value.to_i)
-              # scores.uniq != [@value.to_i]
             elsif operator == 'not_equal'
               scores.include?(@value.to_i)
             elsif operator == 'less'
@@ -350,7 +347,6 @@ module AdvancedSearches
               scores = assessment.assessment_domains.pluck(:score)
               if operator == 'equal'
                 conditions << true if scores.exclude?(@value.to_i)
-                # conditions << true if scores.uniq != [@value.to_i]
               elsif operator == 'not_equal'
                 conditions << true if scores.include?(@value.to_i)
               elsif operator == 'less'
@@ -380,7 +376,6 @@ module AdvancedSearches
               conditions = []
               if operator == 'equal'
                 scores.exclude?(@value.to_i)
-                # scores.uniq != [@value.to_i]
               elsif operator == 'not_equal'
                 scores.include?(@value.to_i)
               elsif operator == 'less'
@@ -417,7 +412,6 @@ module AdvancedSearches
             conditions = []
             if operator == 'equal'
               scores.exclude?(@value.to_i)
-              # scores.uniq != [@value.to_i]
             elsif operator == 'not_equal'
               scores.include?(@value.to_i)
             elsif operator == 'less'
@@ -455,7 +449,6 @@ module AdvancedSearches
               scores = assessment.assessment_domains.pluck(:score)
               if operator == 'equal'
                 conditions << true if scores.exclude?(@value.to_i)
-                # conditions << true if scores.uniq != [@value.to_i]
               elsif operator == 'not_equal'
                 conditions << true if scores.include?(@value.to_i)
               elsif operator == 'less'
@@ -485,7 +478,6 @@ module AdvancedSearches
               conditions = []
               if operator == 'equal'
                 scores.exclude?(@value.to_i)
-                # scores.uniq != [@value.to_i]
               elsif operator == 'not_equal'
                 scores.include?(@value.to_i)
               elsif operator == 'less'
