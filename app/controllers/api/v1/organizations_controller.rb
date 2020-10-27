@@ -61,6 +61,7 @@ module Api
             if GlobalIdentity.exists?(clients_params['global_id'])
               global_identity = GlobalIdentity.find(clients_params['global_id'])
               short_name = global_identity.organizations.first&.short_name
+
               if short_name
                 Organization.switch_to short_name
                 client = global_identity.global_identity_organizations.last&.client

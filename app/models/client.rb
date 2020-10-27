@@ -719,7 +719,7 @@ class Client < ActiveRecord::Base
       referral_source_category_id: ReferralSource.find_by(name: attribute[:referred_from])&.id || referral_source_category_id,
       external_case_worker_id:   attribute[:external_case_worker_id],
       external_case_worker_name: attribute[:external_case_worker_name],
-      **get_address_by_code(attribute[:address_current_village_code] || attribute[:village_code])
+      **get_address_by_code(attribute[:address_current_village_code] || attribute[:location_current_village_code] || attribute[:village_code])
     }
   end
 
@@ -844,7 +844,7 @@ class Client < ActiveRecord::Base
   end
 
   def save_client_global_organization
-    global_identity_organizations.create(global_id: global_id, organization_id: Organization.current&.id) if global_identity_organizations.blank?
+    GlobalIdentityOrganization.find_or_create_by(global_id: global_id, organization_id: Organization.current&.id, client_id: id)
   end
 
   def save_external_system_global
