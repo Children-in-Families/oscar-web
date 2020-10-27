@@ -30,9 +30,6 @@ namespace :demo_production do
 
     selected_clients = clients_without_program_stream_custom_form.order("RANDOM()").limit(20)
     to_delete_clients = Client.where.not(id: selected_clients.ids)
-    # ProgramStream.all.each do |p|
-    #   p.destroy_fully!
-    # end
     ClientEnrollment.all.each do |ce|
       ce.leave_program.delete if ce.leave_program.present?
       ce.destroy_fully!
@@ -71,9 +68,6 @@ namespace :demo_production do
           binding.pry
         end
       end
-      # client.program_streams.each do |ps|
-      #   ps.destroy_fully!
-      # end
 
       begin
         client.delete
@@ -136,21 +130,8 @@ namespace :demo_production do
       binding.pry
     end
 
-    # begin
-    #   ProgramStream.destroy_all
-    # rescue => exception
-    #   binding.pry
-    # end
-    # CustomField.all.each do |cf|
-    #   cf.custom_field_properties.delete_all
-    #   cf.custom_field_permissions.delete_all
-    #   cf.delete
-    # end
     Domain.custom_csi_domains.delete_all
     ReferralSource.where.not(name: REFERRAL_SOURCES).delete_all
-    # User.where.not(id: oscar_user_id).each do |u|
-    #   u.destroy_fully!
-    # end
     OrganizationType.delete_all
     PaperTrail::Version.destroy_all
 

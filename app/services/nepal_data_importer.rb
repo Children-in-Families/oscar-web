@@ -93,8 +93,6 @@ module NepalDataImporter
         new_client                        = {}
         new_client['given_name']          = workbook.row(row_index)[headers['Given Name (English)']]
         new_client['family_name']         = workbook.row(row_index)[headers['Family Name (English)']]
-        # new_client['local_given_name']    = workbook.row(row_index)[headers['Given Name (Khmer)']]
-        # new_client['local_family_name']   = workbook.row(row_index)[headers['Family Name (Khmer)']]
         new_client['gender']              = workbook.row(row_index)[headers['* Gender']]&.downcase
         family_id                         = workbook.row(row_index)[headers['Family ID']]
         new_client['current_family_id']   = Family.find_by(code: family_id).try(:id)
@@ -121,7 +119,6 @@ module NepalDataImporter
         received_by_name                  = received_by_name[/WTMY/] ? received_by_name : received_by_name.split(' ')
         received_by_attr                  = received_by_name.is_a?(String) ? {first_name: received_by_name} : {first_name: received_by_name.first.squish, last_name: received_by_name.last.squish}
         new_client['received_by_id']      = create_user_received_by(received_by_attr)
-        # new_client['initial_referral_date'] = workbook.row(row_index)[headers['* Initial Referral Date']]
         followed_up_by_name               = workbook.row(row_index)[headers['First Follow-Up By']]
         new_client['followed_up_by_id']   = User.find_by(first_name: followed_up_by_name).try(:id)
         new_client['follow_up_date']      = workbook.row(row_index)[headers['First Follow-Up Date']]
