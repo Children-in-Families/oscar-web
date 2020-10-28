@@ -84,7 +84,7 @@ group :development, :test do
   gem 'poltergeist',          '~> 1.9.0'
   gem 'phantomjs'
   gem 'shoulda-whenever',     '~> 0.0.2'
-  gem 'bullet',               '~> 5.4', '>= 5.4.3'
+  gem 'bullet',               '5.4.3'
   gem 'mongoid-rspec', '~> 4.0', '>= 4.0.1'
   gem 'thin',                 '~> 1.7'
 end
