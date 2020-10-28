@@ -1,4 +1,5 @@
 class Referral < ActiveRecord::Base
+  include ClientRetouch
   has_paper_trail
 
   mount_uploaders :consent_form, ConsentFormUploader
