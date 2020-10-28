@@ -78,7 +78,7 @@ end
 
 describe Domain, 'scopes' do
   let!(:domain){ create(:domain, custom_domain: false) }
-  let!(:custom_domain){ create(:domain, custom_domain: true) }
+  let!(:custom_domain){ create(:domain, :custom) }
 
   it '.csi_domains' do
     domains = Domain.csi_domains

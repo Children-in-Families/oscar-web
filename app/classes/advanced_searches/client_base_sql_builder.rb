@@ -126,7 +126,6 @@ module AdvancedSearches
           @sql_string << overdue_form[:id]
           @values << overdue_form[:values]
         elsif field != nil && form_builder.first != 'type_of_service'
-          # value = field == 'grade' ? validate_integer(value) : value
           base_sql(field, operator, value)
         else
           nested_query =  AdvancedSearches::ClientBaseSqlBuilder.new(@clients, rule).generate
@@ -134,9 +133,6 @@ module AdvancedSearches
           nested_query[:values].select{ |v| @values << v }
         end
       end
-
-      # @sql_string << nested_query[:sql_string]
-      # nested_query[:values].select{ |v| @values << v }
 
       @sql_string = @sql_string.join(" #{@condition} ")
       @sql_string = "(#{@sql_string})" if @sql_string.present?

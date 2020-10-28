@@ -90,7 +90,6 @@ CIF.FamiliesIndex = do ->
     $('#family-advance-search-form #filter_form').hide()
 
   _toggleCollapseFilter = ->
-    # Triggering by using data attribute does not work in this page
     $("#accordion-family-filter .panel-title a").click ->
       $filterWrapper = $(@).closest("#accordion-family-filter")
       $panelBody = $filterWrapper.find($(@).attr("href"))
@@ -114,7 +113,7 @@ CIF.FamiliesIndex = do ->
         $('#filter_form').hide()
       else
         $('#filter_form').show()
-  # ------------------------------------------------------------------------------------------------------
+
   _initSelect2 = ->
     $('select').select2
       allowClear: true

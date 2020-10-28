@@ -30,10 +30,6 @@ class PartnerGrid < BaseGrid
     Partner.organization_type_are
   end
 
-  # filter(:affiliation, :string, header: -> { I18n.t('datagrid.columns.partners.affiliation') }) do |value, scope|
-  #   scope.affiliation_like(value)
-  # end
-
   filter(:engagement, :string, header: -> { I18n.t('datagrid.columns.partners.engagement') }) do |value, scope|
     scope.engagement_like(value)
   end
@@ -73,7 +69,6 @@ class PartnerGrid < BaseGrid
     object.contact_person_mobile.split('/').map { |b| b.phony_formatted(normalize: :KH, format: :international) }.join(' / ') if object.contact_person_mobile
   end
 
-  # column(:organization_type, header: -> { I18n.t('datagrid.columns.partners.type') }, html: true)
   column(:organization_type, header: -> { I18n.t('datagrid.columns.partners.organization_type') }) do |object|
     object.organization_type_name
   end
@@ -84,7 +79,6 @@ class PartnerGrid < BaseGrid
     object.start_date.present? ? object.start_date : ''
   end
 
-  # column(:affiliation, header: -> { I18n.t('datagrid.columns.partners.affiliation') })
   column(:engagement, header: -> { I18n.t('datagrid.columns.partners.engagement') })
   column(:background, header: -> { I18n.t('datagrid.columns.partners.background') })
   column(:address, header: -> { I18n.t('datagrid.columns.partners.address') })

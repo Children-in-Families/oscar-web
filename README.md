@@ -181,6 +181,14 @@ client_histories
 ETC.....
 ```
 
+### Issue starting the app container
+
+If you have an issue starting the container, perhaps because Rails does not start due to a dependency issue or something else and you just need to get into the container without starting rails or any services or you don't want to rebuild the entire image so you can debug this issue quickly, then run the following command (make sure you are in the project directory first as it mounts the current directort into this container):
+
+```
+make run_image_bash
+```
+
 ### Gazetteer Data Import (OPTIONAL)
 
 Since importing the Gazetteer data takes sometime and the spreadsheet files are fairly large this as been left as an option if you need it.

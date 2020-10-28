@@ -190,7 +190,6 @@ module ClientsHelper
       date_of_custom_assessments:    t('datagrid.columns.clients.date_of_custom_assessments', assessment: t('clients.show.assessment')),
       changelog:                     t('datagrid.columns.clients.changelog'),
       live_with:                     t('datagrid.columns.clients.live_with'),
-      # id_poor:                       t('datagrid.columns.clients.id_poor'),
       program_streams:               t('datagrid.columns.clients.program_streams'),
       program_enrollment_date:       t('datagrid.columns.clients.program_enrollment_date'),
       program_exit_date:             t('datagrid.columns.clients.program_exit_date'),
@@ -313,7 +312,6 @@ module ClientsHelper
     value.is_a?(Array) ? value.delete_if(&:empty?).present? : value.present?
   end
 
-  # legacy method
   def form_builder_format_key(value)
     value.downcase.parameterize('_')
   end
@@ -331,7 +329,6 @@ module ClientsHelper
     result.join(' | ')
   end
 
-  # legacy method
   def group_entity_by(value)
     value.group_by{ |field| field.split('_').first}
   end
@@ -344,7 +341,6 @@ module ClientsHelper
     keyword.downcase.parameterize.gsub('-', '__')
   end
 
-  # legacy method
   def field_not_render(field)
     field.split('_').first
   end
@@ -937,12 +933,6 @@ module ClientsHelper
             client_enrollment_trackings = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: column.name.to_s.split('__').third }, client_enrollment_trackings: { client_enrollment_id: ids })
             properties = form_builder_query(client_enrollment_trackings, 'tracking', column.name.to_s.gsub('&qoute;', '"')).properties_by(format_field_value)
             count += property_filter(properties, format_field_value).size
-          # elsif class_name[/^(exitprogram)/i].present?
-          #   ids = client.client_enrollments.inactive.ids
-          #   leave_programs = LeaveProgram.joins(:program_stream).where(program_streams: { name: column.header.split('|').first.squish }, leave_programs: { client_enrollment_id: ids })
-          #   properties = form_builder_query(leave_programs, 'exitprogram', column.name.to_s.gsub('&qoute;', '"')).properties_by(format_field_value)
-          #   # count += date_filter(object, class_name).flatten.count
-          #   # count += trackings.flatten.reject(&:blank?).count
           elsif class_name == 'quantitative-type'
             quantitative_type_values = client.quantitative_cases.joins(:quantitative_type).where(quantitative_types: {name: column.header }).pluck(:value)
             quantitative_type_values = property_filter(quantitative_type_values, column.header.split('|').third.try(:strip) || column.header.strip)

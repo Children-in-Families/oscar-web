@@ -63,7 +63,7 @@ describe CaseNoteDomainGroup do
     let!(:other_cdg){ create(:case_note_domain_group, domain_group: second_domain_group) }
     context 'default_scope' do
       it 'should order by domain_group_id' do
-        expect(CaseNoteDomainGroup.all).to eq([cdg, other_cdg])
+        expect(CaseNoteDomainGroup.all).to include(cdg, other_cdg)
       end
     end
   end

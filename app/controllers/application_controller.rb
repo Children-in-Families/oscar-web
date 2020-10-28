@@ -1,7 +1,5 @@
 class ApplicationController < ActionController::Base
   include Pundit
-  # Prevent CSRF attacks by raising an exception.
-  # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :null_session, except: :index, if: proc { |c| c.request.format == 'application/json' }
   before_action :store_user_location!, if: :storable_location?
   before_action :configure_permitted_parameters, if: :devise_controller?
@@ -18,7 +16,6 @@ class ApplicationController < ActionController::Base
   helper_method :field_settings
 
   rescue_from CanCan::AccessDenied do |exception|
-    # redirect_to root_url, alert: exception.message
     if exception.subject.inspect.include?("Client") && (exception.action).to_s.include?("show")
       flash[:notice] = t('unauthorized.case_worker_unauthorized')
     else
@@ -65,7 +62,6 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.for(:account_update) << :domain_warning
     devise_parameter_sanitizer.for(:account_update) << :gender
     devise_parameter_sanitizer.for(:account_update) << :preferred_language
-    # devise_parameter_sanitizer.for(:account_update) << :staff_performance_notification
     devise_parameter_sanitizer.for(:account_update) << :referral_notification
   end
 

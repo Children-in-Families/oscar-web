@@ -71,7 +71,6 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     $('.score_option .btn-option').attr('required','required')
 
 
-    # score with def
     $('.col-xs-12').on 'click', '.score_option .btn-option', ->
       return if $(@).closest(".root-wizard").attr("id") == 'readonly-rootwizard'
 
@@ -93,7 +92,6 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       domainId    = $(@).parents('.score_option').data("domain-id")
 
       $(@).addClass("btn-secondary")
-      #$(@).addClass("btn-#{scoreColor}")
       $($(@).siblings().get(-1)).val(score)
 
       if(scoreColor == 'danger' or scoreColor == 'warning' or scoreColor == 'success')
@@ -146,7 +144,6 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       domainId    = $(@).parents('.score_option').data("domain-id")
 
       $(@).children('label').addClass("label-default active-label")
-      # $(@).children('label').addClass("label-#{scoreColor} active-label")
 
       if(scoreColor == 'danger' or scoreColor == 'warning' or scoreColor == 'success')
         unless _disableRequiredFields()
@@ -330,12 +327,10 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
 
     scoreColor  = scoreOption.data("score-#{chosenScore}")
 
-    # score without def
     scoreOption.find("label label:contains(#{chosenScore})").addClass("label-default active-label")
 
     btnScore = scoreOption.find('input:hidden').val()
     $(scoreOption.find("div[data-score='#{btnScore}']").get(0)).addClass("btn-secondary")
-    # $(scoreOption.find("div[data-score='#{btnScore}']").get(0)).addClass("btn-#{scoreOption.data("score-#{btnScore}")}")
     domainName = $(@).data('goal-option')
     name = 'assessment[assessment_domains_attributes]['+ "#{currentIndex}" +'][goal_required]\']'
     radioName = '\'' + name
@@ -451,7 +446,6 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
 
     $('a.remove-task').on 'click', (e) ->
       _deleteTask(e)
-      # _initTaskRequire()
       currentIndex = $("#rootwizard").steps("getCurrentIndex")
       tasksList = $("#rootwizard-p-#{currentIndex} li.list-group-item")
       if tasksList.length

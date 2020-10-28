@@ -6,7 +6,6 @@ module Api
       program_stream = ProgramStream.find params[:program_stream_id]
       client_enrollment_ids = ClientEnrollment.find_by_program_stream_id(program_stream.id).ids
       file_uploader = FormBuilderAttachment.find_by_form_buildable(client_enrollment_ids, 'ClientEnrollment').where("form_builder_attachments.file != '[]'").pluck(:name)
-      # properties = program_stream.client_enrollments.pluck(:properties).select(&:present?).map(&:keys).flatten.uniq
       program_stream.client_enrollments.pluck(:properties).map{|props| props.each{|k, v| properties[k] << v if v.try(:first).present? } }
 
       custom_field_keys = properties.keys

@@ -52,7 +52,6 @@ class ClientEnrollment < ActiveRecord::Base
 
   def set_client_status
     client = Client.find self.client_id
-    # client_status = 'Active' unless client.cases.exclude_referred.currents.present?
     client_status = 'Active'
 
     if client_status.present?

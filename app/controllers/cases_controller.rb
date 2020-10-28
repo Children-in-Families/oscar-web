@@ -26,7 +26,6 @@ class CasesController < AdminController
 
   def create
     @case = @client.cases.with_deleted.new(case_params)
-    # @case.user_id = @client.user.id if @client.user
     if @case.save
       redirect_to @client, notice: t('.successfully_created')
     else

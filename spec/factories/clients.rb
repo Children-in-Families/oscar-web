@@ -15,6 +15,7 @@ FactoryGirl.define do
     relevant_referral_information { FFaker::Lorem.paragraph }
     referral_source_category_id 4
 
+    association :global_identity
     association :received_by, factory: :user
 
     before(:create) do |client|
