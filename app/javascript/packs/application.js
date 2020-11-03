@@ -23,7 +23,6 @@ var ReactRailsUJS = require("react_ujs");
 ReactRailsUJS.useContext(componentRequireContext);
 
 import Appsignal from "@appsignal/javascript";
-console.log("appsignalFrontendKey", window.appsignalFrontendKey);
 const appsignal = new Appsignal({
   key: window.appsignalFrontendKey,
 });
