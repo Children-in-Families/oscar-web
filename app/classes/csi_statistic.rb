@@ -60,18 +60,8 @@ class CsiStatistic
     assessments_by_index.each do |a_ids|
       domain_scores = AssessmentDomain.where(assessment_id: a_ids).pluck(:domain_id, :score)
       domain_scores.each{|domain_id, score| assessment_domains[domain_id.to_s] << score }
-      # assessment_by_value << (a_domain_score.sum.to_f / a_domain_score.size).round(2)
     end
 
-    # Domain.csi_domains.includes(:assessment_domains).each do |domain|
-    #   assessment_by_value = []
-
-    #   assessments_by_index.each do |a_ids|
-    #     a_domain_score = domain.assessment_domains.where(assessment_id: a_ids).pluck(:score).compact
-    #     assessment_by_value << (a_domain_score.sum.to_f / a_domain_score.size).round(2)
-    #   end
-    #   series << { name: domain.name, data: assessment_by_value }
-    # end
     Domain.csi_domains.pluck(:id, :name).each do |id, name|
       series << { name: name, data:  assessment_domains[id.to_s].map(&:to_f) }
     end
@@ -103,17 +93,7 @@ class CsiStatistic
     assessments_by_index.each do |a_ids|
       domain_scores = AssessmentDomain.where(assessment_id: a_ids).pluck(:domain_id, :score)
       domain_scores.each{|domain_id, score| assessment_domains[domain_id.to_s] << score }
-      # assessment_by_value << (a_domain_score.sum.to_f / a_domain_score.size).round(2)
     end
-    # Domain.custom_csi_domains.includes(:assessment_domains).each do |domain|
-    #   assessment_by_value = []
-
-    #   assessments_by_index.each do |a_ids|
-    #     a_domain_score = domain.assessment_domains.where(assessment_id: a_ids).pluck(:score).compact
-    #     assessment_by_value << (a_domain_score.sum.to_f / a_domain_score.size).round(2)
-    #   end
-    #   series << { name: domain.name, data: assessment_by_value }
-    # end
     Domain.custom_csi_domains.pluck(:id, :name).each do |id, name|
       series << { name: name, data:  assessment_domains[id.to_s].map(&:to_f) }
     end
@@ -128,9 +108,6 @@ class CsiStatistic
     assessments_count = Client.maximum('assessments_count')
     client = Client.find_by(assessments_count: assessments_count)
     assessment_max_count = client.assessments.customs.count
-    # max_count.times do |i|
-    #   data << clients.map { |c| c.assessments.customs[i].id if c.assessments.customs[i].present? }
-    # end
     data = clients.includes(:assessments).map { |c| c.assessments.customs.ids }
   end
 end

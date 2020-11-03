@@ -558,21 +558,6 @@ class Client < ActiveRecord::Base
     active_status.joins(:cases).where(cases: { case_type: 'EC', start_date: date, exited: false })
   end
 
-  # def self.ec_reminder_in(day)
-  #   Organization.all.each do |org|
-  #     Organization.switch_to org.short_name
-  #     managers = User.non_locked.ec_managers.pluck(:email).join(', ')
-  #     admins   = User.non_locked.admins.pluck(:email).join(', ')
-  #     clients = Client.active_status.joins(:cases).where(cases: { case_type: 'EC', exited: false}).uniq
-  #     clients = clients.select { |client| client.active_day_care == day }
-  #
-  #     if clients.present?
-  #       ManagerMailer.remind_of_client(clients, day: day, manager: managers).deliver_now if managers.present?
-  #       AdminMailer.remind_of_client(clients, day: day, admin: admins).deliver_now if admins.present?
-  #     end
-  #   end
-  # end
-
   def exiting_ngo?
     return false unless status_changed?
     status == 'Exited'

@@ -112,7 +112,6 @@ class SettingsController < AdminController
   end
 
   def find_setting
-    # @setting = Setting.first_or_initialize(assessment_frequency: 'month', min_assessment: 3, max_assessment: 6, case_note_frequency: 'day', max_case_note: 30)
     @setting = Setting.first_or_initialize(case_note_frequency: 'day', max_case_note: 30)
   end
 

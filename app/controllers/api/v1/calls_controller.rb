@@ -108,7 +108,6 @@ module Api
             render json: referee.errors, status: :unprocessable_entity
           end
         else
-          # call types that do not attach client
           if referee.valid?
             if call.valid?
               referee.save
@@ -149,14 +148,6 @@ module Api
           render json: call.errors
         end
       end
-
-      # def show
-      #   if call
-      #     render json: call
-      #   else
-      #     render json: call.errors
-      #   end
-      # end
 
       private
 
@@ -224,10 +215,6 @@ module Api
         ])
 
       end
-
-      # def call
-      #   @call ||= Call.find(params[:id])
-      # end
 
       def tagged_with_new_client?(call_type)
         ["New Referral: Case Action Required", "New Referral: Case Action NOT Required", "Phone Counselling"].include?(call_type)

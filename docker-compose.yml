@@ -42,7 +42,7 @@ services:
     environment:
       - WEBPACKER_DEV_SERVER_HOST=0.0.0.0
   db:
-    image: postgres:9.4
+    image: postgres:11.8
     container_name: db
     environment:
       - POSTGRES_DB=oscar_development

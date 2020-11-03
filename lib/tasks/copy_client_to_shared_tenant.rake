@@ -8,7 +8,6 @@ namespace :client_to_shared do
     lesotho_suburbs = []
 
     Organization.switch_to args.short_name
-    # system("bundle exec rake 'archived_slug:update[#{org.short_name}]' RAILS_ENV=#{Rails.env}")
     case args.short_name
     when 'gca'
       thailand_province_names.concat(Province.pluck(:name))

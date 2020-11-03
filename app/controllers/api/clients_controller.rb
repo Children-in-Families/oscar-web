@@ -74,7 +74,6 @@ module Api
       if client.update_attributes(client_params.except(:referee_id, :carer_id))
         if params[:client][:assessment_id]
           assessment = Assessment.find(params[:client][:assessment_id])
-          # redirect_to client_assessment_path(client, assessment), notice: t('.assessment_successfully_created')
         else
           render json: { slug: client.slug }, status: :ok
         end
@@ -241,7 +240,6 @@ module Api
     end
 
     def fetch_assessments
-      # .select("assessments.id, clients.assessments_count as count, clients.id as client_id, clients.slug as client_slug, assessments.created_at as date")
       assessments = Assessment.joins(:client).where(default: params[:default], client_id: params[:client_ids].split('/'))
       assessments = assessments.includes(:assessment_domains).order("#{sort_column} #{sort_direction}").references(:assessment_domains, :client)
 

@@ -8,8 +8,6 @@ module ClientAdvancedSearchesConcern
     else
       basic_rules  = JSON.parse @basic_filter_params || @wizard_basic_filter_params
     end
-    # overdue_assessment   = @advanced_search_params[:overdue_assessment]
-    # clients              = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability), overdue_assessment)
     $param_rules = find_params_advanced_search
     clients      = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability))
 
@@ -231,7 +229,6 @@ module ClientAdvancedSearchesConcern
     if params.dig(:client_advanced_search, :action_report_builder) == '#wizard-builder'
       @wizard_basic_filter_params  = @advanced_search_params[:basic_rules]
     else
-      # elsif params.dig(:client_advanced_search, :action_report_builder) == '#builder'
       @basic_filter_params  = @advanced_search_params[:basic_rules]
     end
   end

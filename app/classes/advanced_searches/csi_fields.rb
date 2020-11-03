@@ -6,7 +6,6 @@ module AdvancedSearches
     def self.render
       csi_group  = format_header('custom_csi_group')
       csi_domain_options  = number_type_list.map { |item| number_filter_type(item, format_header(item), csi_group) }
-      # date_of_assessments = ['Date of Assessments'].map{ |item| date_picker_options(item.downcase.gsub(' ', '_'), item, csi_group) }
       assessment_completed = [['assessment_completed', I18n.t('clients.index.assessment_completed', assessment: I18n.t('clients.show.assessment'))]].map{ |item| date_picker_assessment_completed(item[0], item[1], csi_group) }
       date_nearest = ['Date Nearest'].map{ |item| date_nearest(item.downcase.gsub(' ', '_'), item, csi_group) }
       ( assessment_completed + csi_domain_options + date_nearest).sort_by { |f| f[:label].downcase }

@@ -86,8 +86,6 @@ class CustomField < ActiveRecord::Base
   end
 
   def update_save_search
-    # Find AdvancedSearch by custom_field_id
-    # format custom_field: "[24]"
     saved_searches = AdvancedSearch.all
     saved_searches.each do |ss|
       queries       = ss.queries

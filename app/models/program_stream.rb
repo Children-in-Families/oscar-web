@@ -219,8 +219,6 @@ class ProgramStream < ActiveRecord::Base
   end
 
   def update_save_search
-    # Find AdvancedSearch by program_stream id
-    # format program_streams: "[27]"
     saved_searches = AdvancedSearch.where("program_streams iLIKE ?", "%#{id}%")
     saved_searches.each do |ss|
       queries       = ss.queries

@@ -13,8 +13,6 @@ class LeaveEnrolledProgramsController < AdminController
   before_action -> { check_user_permission('readable') }, only: :show
 
   def new
-    # @leave_program = @enrollment.build_leave_program
-    # @attachment    = @leave_program.form_builder_attachments.build
   end
 
   def create

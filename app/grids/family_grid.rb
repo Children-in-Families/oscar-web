@@ -37,7 +37,6 @@ class FamilyGrid < BaseGrid
     scope.case_history_like(value)
   end
 
-  # filter(:address, :string, header: -> { I18n.t('datagrid.columns.families.address') }) { |value, scope| scope.address_like(value) }
 
   filter(:significant_family_member_count, :integer, range: true, header: -> { I18n.t('datagrid.columns.families.significant_family_member_count') })
 
@@ -183,8 +182,6 @@ class FamilyGrid < BaseGrid
   end
 
   column(:case_history, html: false, header: -> { I18n.t('datagrid.columns.families.case_history') })
-
-  # column(:address, header: -> { I18n.t('datagrid.columns.families.address') })
 
   column(:member_count, html: true, header: -> { I18n.t('datagrid.columns.families.member_count') }, order: ('families.female_children_count, families.male_children_count, families.female_adult_count, families.male_adult_count')) do |object|
     render partial: 'families/members', locals: { object: object }

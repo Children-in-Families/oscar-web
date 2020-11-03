@@ -81,7 +81,6 @@ module Api
             find_referral
           end
           Organization.switch_to 'public'
-          # render json: { message: message }, root: :data
         else
           render json: { message: 'Record error. Please check OSCaR logs for details.' }, root: :data, status: :unprocessable_entity
         end

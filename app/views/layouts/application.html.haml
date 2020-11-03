@@ -9,6 +9,8 @@
 
     %title= current_organization.try(:short_name) == 'mho'?  "Mother's Heart Organisation" : "OSCaR - Open Source Case-management and Record-keeping"
     %script{:src => "https://cdn.jsdelivr.net/npm/interactjs@1.4.1/dist/interact.min.js"}
+    :javascript
+      window.appsignalFrontendKey = "#{ENV['APPSIGNAL_FRONTEND']}"
     = javascript_pack_tag    'application'
     = stylesheet_pack_tag    'application'
     = stylesheet_link_tag    'application', media: 'all'
