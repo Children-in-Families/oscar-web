@@ -12,9 +12,13 @@ CIF.Initializer =
     controller + action
 
   init: ->
-    CIF.Initializer.exec('Common')
-    if @currentPage()
-      CIF.Initializer.exec(@currentPage())
+    try
+      CIF.Initializer.exec('Common')
+      if @currentPage()
+        CIF.Initializer.exec(@currentPage())
+    catch error
+      appsignal.sendError error
+
 
 $(document).on 'ready page:load', ->
   CIF.Initializer.init()
