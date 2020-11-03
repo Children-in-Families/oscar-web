@@ -3,7 +3,7 @@ namespace :ngo_referral_souce_category do
   task clean: :environment do
     Organization.oscar.pluck(:short_name).each do |short_name|
       Apartment::Tenant.switch! short_name
-      referral_sources = ReferralSource.where("LOWER(name) ILIKE ?", "demo%oscar referral")
+      referral_sources = ReferralSource.where("LOWER(name) ILIKE ?", "demo%")
       referral_sources.destroy_all if referral_sources.present?
     end
   end

@@ -9,24 +9,6 @@ class ClientGrid < BaseGrid
   COUNTRY_LANG = { "cambodia" => "(Khmer)", "thailand" => "(Thai)", "myanmar" => "(Burmese)", "lesotho" => "(Sesotho)", "uganda" => "(Swahili)" }
 
   scope do
-    # Client.includes(:village, :commune, :district, :referral_source, :received_by, :followed_up_by, :province, :assessments, :enter_ngos, :exit_ngos, :users).order('clients.status, clients.given_name')
-    # associations = []
-    # association_columns = column_names + datagrid_attributes
-    # association_columns = association_columns.map(&:to_s).map{|column| column.gsub(/(\_id)$/i, '').to_sym }
-    # belongs_to_associations = Client.reflect_on_all_associations(:belongs_to)
-    # has_many_associations   = Client.reflect_on_all_associations(:has_many)
-
-    # associations << belongs_to_associations.map do |association|
-    #   association.class_name.titleize.downcase.split(' ').join('_').to_sym if association.name.in?(association_columns)
-    # end
-
-    # associations << has_many_associations.map do |association|
-    #   association.name if association.name.in?(association_columns) || association.name == :users
-    # end
-    # associations = associations.flatten.compact.uniq
-    # associations.delete(:user)
-
-    # Client.includes(associations).order('clients.status, clients.given_name')
     Client
   end
 
@@ -66,7 +48,6 @@ class ClientGrid < BaseGrid
 
   filter(:status, :enum, select: :status_options, header: -> { I18n.t('datagrid.columns.clients.status') })
 
-  # filter(:house_number, :string)
 
   def status_options
     scope.status_like
@@ -97,15 +78,7 @@ class ClientGrid < BaseGrid
     Province.has_clients.map { |p| [p.name, p.id] }
   end
 
-  # filter(:telephone_number, :string, header: -> { I18n.t('datagrid.columns.clients.telephone_number') })
-
-  # filter(:live_with, :string, header: -> { I18n.t('datagrid.columns.clients.live_with') })
-
-  # filter(:id_poor, :integer, header: -> { I18n.t('datagrid.columns.clients.id_poor') })
-
   filter(:initial_referral_date, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.initial_referral_date') })
-
-  # filter(:referral_phone, :string, header: -> { I18n.t('datagrid.columns.clients.referral_phone') })
 
   filter(:received_by_id, :enum, select: :is_received_by_options, header: -> { I18n.t('datagrid.columns.clients.received_by') })
 
@@ -125,7 +98,6 @@ class ClientGrid < BaseGrid
   def is_received_by_options
     current_user.present? ? Client.joins(:case_worker_clients).where(case_worker_clients: { user_id: current_user.id }).is_received_by : Client.is_received_by
   end
-  # Client.joins(:case_worker_clients).where(case_worker_clients: { user_id: current_user.id })
 
   filter(:referral_source_id, :enum, select: :referral_source_options, header: -> { I18n.t('datagrid.columns.clients.referral_source') })
   filter(:referral_source_category_id, :enum, select: :referral_source_category_options, header: -> { I18n.t('datagrid.columns.clients.referral_source_category') })
@@ -210,10 +182,6 @@ class ClientGrid < BaseGrid
     Donor.has_clients.map { |donor| [donor.name, donor.id] }
   end
 
-  # filter(:state, :enum, select: %w(Accepted Rejected), header: -> { I18n.t('datagrid.columns.clients.state') }) do |value, scope|
-  #   value == 'Accepted' ? scope.accepted : scope.rejected
-  # end
-
   def quantitative_type_options
     QuantitativeType.all.map{ |t| [t.name, t.id] }
   end
@@ -231,15 +199,6 @@ class ClientGrid < BaseGrid
     ids = Client.joins(:quantitative_cases).where(quantitative_cases: { id: value.to_i }).pluck(:id).uniq
     scope.where(id: ids)
   end
-
-  # filter(:any_assessments, :enum, select: %w(Yes No), header: -> { I18n.t('datagrid.columns.clients.any_assessments') }) do |value, scope|
-  #   if value == 'Yes'
-  #     client_ids = Client.joins(:assessments).uniq.pluck(:id)
-  #     scope.where(id: client_ids)
-  #   else
-  #     scope.without_assessments
-  #   end
-  # end
 
   filter(:assessments_due_to, :enum, select: Assessment::DUE_STATES, header: -> { I18n.t('datagrid.columns.clients.assessments_due_to') }) do |value, scope|
     ids = []
@@ -385,10 +344,8 @@ class ClientGrid < BaseGrid
     ProgramStream.joins(:client_enrollments).complete.ordered.pluck(:name).uniq
   end
 
-  # implementation is in client_association_filter.rb
   filter(:accepted_date, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.ngo_accepted_date') })
 
-  # implementation is in client_association_filter.rb
   filter(:exit_date, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.ngo_exit_date') })
 
   filter(:no_case_note, :enum, select: %w(Yes No), header: -> { I18n.t('datagrid.form.no_case_note') }) do |value, scope|
@@ -522,22 +479,6 @@ class ClientGrid < BaseGrid
     end
   end
 
-  # column(:telephone_number, header: -> { I18n.t('datagrid.columns.cases.telephone_number') }) do |object|
-  #   current_org = Organization.current
-  #   Organization.switch_to 'shared'
-  #   telephone_number = SharedClient.find_by(slug: object.slug).telephone_number
-  #   Organization.switch_to current_org.short_name
-  #   telephone_number
-  # end
-
-  # column(:live_with, header: -> { I18n.t('datagrid.columns.clients.live_with') }) do |object|
-  #   current_org = Organization.current
-  #   Organization.switch_to 'shared'
-  #   live_with = SharedClient.find_by(slug: object.slug).live_with
-  #   Organization.switch_to current_org.short_name
-  #   live_with
-  # end
-
   def client_hotline_fields
     Client::HOTLINE_FIELDS
   end
@@ -565,8 +506,6 @@ class ClientGrid < BaseGrid
       end
     end
   end
-
-  # column(:id_poor, header: -> { I18n.t('datagrid.columns.clients.id_poor') })
 
   dynamic do
     quantitative_type_readable_ids = current_user.quantitative_type_permissions.readable.pluck(:quantitative_type_id) unless current_user.nil?
@@ -598,7 +537,6 @@ class ClientGrid < BaseGrid
   end
 
   column(:program_streams, html: true, order: false, header: -> { I18n.t('datagrid.columns.clients.program_streams') }) do |object, a, b, c|
-    # all_programs = client_enrollments.map{ |c| c.program_stream_name }.uniq
     client_enrollments = program_stream_name(object.client_enrollments.active, 'active_program_stream')
     render partial: 'clients/active_client_enrollments', locals: { active_programs: client_enrollments }
   end
@@ -959,11 +897,6 @@ class ClientGrid < BaseGrid
 
   column(:relevant_referral_information, header: -> { I18n.t('datagrid.columns.clients.relevant_referral_information') })
 
-  # column(:referral_phone, header: -> { I18n.t('datagrid.columns.clients.referral_phone') })
-
-  # column(:referral_source, order: 'referral_sources.name', header: -> { I18n.t('datagrid.columns.clients.referral_source') }) do |object|
-  #   object.referral_source.try(:name)
-  # end
   column(:referral_source, order: proc { |object| object.joins(:referral_source).order('referral_sources.name')}, header: -> { I18n.t('datagrid.columns.clients.referral_source') }) do |object|
     object.referral_source.try(:name)
   end
@@ -975,10 +908,6 @@ class ClientGrid < BaseGrid
     end
   end
 
-  # column(:state, header: -> { I18n.t('datagrid.columns.clients.state') }) do |object|
-  #   object.state.titleize
-  # end
-
   column(:accepted_date, order: false, header: -> { I18n.t('datagrid.columns.clients.ngo_accepted_date') }, html: true) do |object|
     render partial: 'clients/accepted_dates', locals: { object: object }
   end
@@ -988,10 +917,6 @@ class ClientGrid < BaseGrid
   end
 
   column(:rejected_note, header: -> { I18n.t('datagrid.columns.clients.rejected_note') })
-
-  # column(:user, order: proc { |scope| scope.joins(:user).reorder('users.first_name') }, header: -> { I18n.t('datagrid.columns.clients.case_worker_or_staff') }) do |object|
-  #   object.user.try(:name)
-  # end
 
   column(:exit_circumstance, order: false, html: true, header: -> { I18n.t('datagrid.columns.clients.exit_circumstance') }) do |object|
     render partial: 'clients/exit_circumstances', locals: { object: object }
@@ -1012,10 +937,6 @@ class ClientGrid < BaseGrid
   column(:what3words, header: -> { I18n.t('datagrid.columns.clients.what3words') }) do |object|
     object.what3words
   end
-
-  # column(:name_of_referee, header: -> { I18n.t('datagrid.columns.clients.name_of_referee') }) do |object|
-  #   object.name_of_referee
-  # end
 
   column(:main_school_contact, header: -> { I18n.t('datagrid.columns.clients.main_school_contact') }) do |object|
     object.main_school_contact
@@ -1079,10 +1000,6 @@ class ClientGrid < BaseGrid
   column(:date_of_custom_assessments, header: -> { I18n.t('datagrid.columns.clients.date_of_custom_assessments') }, html: true) do |object|
     render partial: 'clients/assessments', locals: { object: object.assessments.customs }
   end
-
-  # column(:date_of_assessments, header: -> { I18n.t('datagrid.columns.clients.date_of_assessments')}, html: false) do |object|
-  #   object.assessments.most_recents.map{ |a| a.created_at.to_date }.join(' | ') if object.assessments.any?
-  # end
 
   column(:time_in_ngo, header: -> { I18n.t('datagrid.columns.clients.time_in_ngo') }) do |object|
     if object.time_in_ngo.present?

@@ -1,10 +1,8 @@
 namespace :program_stream do
   desc 'Correct client birth provinces'
   task clone: :environment do
-    # We don't need versions
     PaperTrail.enabled = false
 
-    # Replace these with your params
     org_short_name = 'isf'
     program_stream_id = 2
     new_program_name = 'Education - Chbar Ampov'
@@ -12,33 +10,28 @@ namespace :program_stream do
     Organization.switch_to org_short_name
     program_stream = ProgramStream.find(program_stream_id)
 
-    # Clone attributes
     new_program = program_stream.dup
     new_program.name = new_program_name
     new_program.completed = true
 
-    # Skip callbacks
     ProgramStream.skip_callback(:create, :after, :build_permission)
     ProgramStream.skip_callback(:save, :before, :set_program_completed)
     ProgramStream.skip_callback(:save, :before, :destroy_tracking)
 
     new_program.save(validate: false)
 
-    # Clone services
     program_stream.program_stream_services.each do |pss|
       new_pss = pss.dup
       new_pss.program_stream = new_program
       new_pss.save
     end
 
-    # Clone permissions
     program_stream.program_stream_permissions.each do |psp|
       new_psp = psp.dup
       new_psp.program_stream = new_program
       new_psp.save
     end
 
-    # Clone domains
     program_stream.domain_program_streams.each do |dps|
       new_dps = dps.dup
       new_dps.program_stream = new_program
@@ -50,14 +43,12 @@ namespace :program_stream do
     Client.where(slug: move_client_ids).each do |client|
       program_stream.client_enrollments.where(client_id: client.id).each do |client_enrollment|
         client_enrollment.program_stream = new_program
-        # Skip callbacks
         client_enrollment.save(validate: false)
         client_enrollment.trackings.update_all(program_stream_id: new_program)
       end
     end
   end
 
-  # Your logic to get client ids
   def move_client_ids
     %w(
       eymg-1158

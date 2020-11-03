@@ -11,7 +11,6 @@ class CallsGrid
   filter(:call_type, :enum, select: :call_type_options, header: -> { I18n.t('datagrid.columns.calls.call_type') })
   filter(:referee_id, :enum, select: :referee_options, header: -> { I18n.t('datagrid.columns.calls.referee_id') })
   filter(:receiving_staff_id, :enum, select: :receiving_staff_options, header: -> { I18n.t('datagrid.columns.calls.receiving_staff_id') })
-  # filter(:start_datetime, :date, header: -> { I18n.t('datagrid.columns.calls.start_datetime') })
   filter(:date_of_call, :date, range: true, header: -> { I18n.t('datagrid.columns.calls.date_of_call') })
   filter(:answered_call, :enum, select: :yes_no, header: -> { I18n.t('datagrid.columns.calls.answered_call') })
   filter(:called_before, :enum, select: :yes_no, header: -> { I18n.t('datagrid.columns.calls.called_before') })
@@ -70,9 +69,6 @@ class CallsGrid
   column(:other_more_information, order: false, header: -> { I18n.t('datagrid.columns.calls.other_more_information') })
   column(:brief_note_summary, order: false, header: -> { I18n.t('datagrid.columns.calls.brief_note_summary') })
 
-  # column(:action, header: -> { I18n.t('datagrid.columns.calls.manage') }, html: true, class: 'text-center') do |object|
-  #   render partial: 'calls/actions', locals: { object: object }
-  # end
   def phone_call_ids
     Call.pluck(:phone_call_id)
   end

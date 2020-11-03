@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rails',                  '4.2.2'
-gem 'pg'
+gem 'pg',                     '~> 0.18.4'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'sass-rails',             '~> 5.0'
@@ -31,8 +31,6 @@ gem 'pundit',                 '~> 1.1'
 gem 'tinymce-rails',          '~> 4.5.6'
 gem 'bootstrap-datepicker-rails', '~> 1.5'
 gem 'x-editable-rails',       '~> 1.5', '>= 1.5.5.1'
-#select2-rails gem is modified in select2.js using gem open to config its dropdown behaviour to only dropdown below
-#change enoughRoomAbove = (offset.top - dropHeight) >= $window.scrollTop() to enoughRoomAbove = false,
 gem 'select2-rails',          '~> 3.5.9.3'
 gem 'doorkeeper',             '~> 4.4', '>= 4.4.3'
 gem 'devise_token_auth',      '~> 0.1.37'
@@ -86,7 +84,7 @@ group :development, :test do
   gem 'poltergeist',          '~> 1.9.0'
   gem 'phantomjs'
   gem 'shoulda-whenever',     '~> 0.0.2'
-  gem 'bullet',               '~> 5.4', '>= 5.4.3'
+  gem 'bullet',               '5.4.3'
   gem 'mongoid-rspec', '~> 4.0', '>= 4.0.1'
   gem 'thin',                 '~> 1.7'
 end
@@ -108,7 +106,7 @@ group :development do
   gem 'capistrano-rails',     '~> 1.1.1'
   gem 'capistrano-passenger', '~> 0.1.1'
   gem 'capistrano-rvm',       '~> 0.1.2'
-  gem 'capistrano-sidekiq',   github: 'seuros/capistrano-sidekiq'
+  gem 'capistrano-sidekiq',   '~> 1.0', '>= 1.0.3'
   gem 'capistrano-foreman'
   gem 'rack-mini-profiler', '~> 1.0'
   gem 'metainspector'

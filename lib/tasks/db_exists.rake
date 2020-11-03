@@ -4,7 +4,6 @@ namespace :db do
     begin
       Rake::Task['environment'].invoke
       ActiveRecord::Base.connection
-      # It is still possible that the database exists but the tables do not!
       raise "Organization Table does not exist!" unless Organization.table_exists?
     rescue
       puts "The database needs to be (re)created and schema loaded"
