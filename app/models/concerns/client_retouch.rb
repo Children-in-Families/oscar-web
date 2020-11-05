@@ -6,6 +6,6 @@ module ClientRetouch
   end
 
   def touch_client
-    client.touch
+    client&.touch
   end
 end
