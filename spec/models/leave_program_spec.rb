@@ -5,6 +5,8 @@ describe LeaveProgram do
   describe LeaveProgram, 'associations' do
     it { is_expected.to belong_to(:client_enrollment) }
     it { is_expected.to belong_to(:program_stream) }
+    it { is_expected.to have_many(:form_builder_attachments).dependent(:destroy)  }
+    it { is_expected.to accept_nested_attributes_for(:form_builder_attachments) }
   end
 
   describe LeaveProgram, 'validations' do

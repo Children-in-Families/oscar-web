@@ -1,16 +1,13 @@
 class CustomFieldProperty < ActiveRecord::Base
+  include NestedAttributesConcern
   mount_uploaders :attachments, CustomFieldPropertyUploader
 
   belongs_to :custom_formable, polymorphic: true
   belongs_to :custom_field
   belongs_to :user
 
-  has_many :form_builder_attachments, as: :form_buildable, dependent: :destroy
-
   scope :by_custom_field, -> (value) { where(custom_field:  value) }
   scope :most_recents,    ->         { order('created_at desc') }
-
-  accepts_nested_attributes_for :form_builder_attachments, reject_if: proc { |attributes| attributes['name'].blank? &&  attributes['file'].blank? }
 
   has_paper_trail
 

@@ -7,6 +7,8 @@ describe CustomFieldProperty do
     it { is_expected.to belong_to(:custom_formable) }
     it { is_expected.to belong_to(:custom_field) }
     it { is_expected.to belong_to(:user) }
+    it { is_expected.to have_many(:form_builder_attachments).dependent(:destroy)  }
+    it { is_expected.to accept_nested_attributes_for(:form_builder_attachments) }
   end
 
   describe CustomFieldProperty, 'validations' do

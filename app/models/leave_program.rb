@@ -1,16 +1,15 @@
 class LeaveProgram < ActiveRecord::Base
+  include NestedAttributesConcern
+
   acts_as_paranoid without_default_scope: true
 
   belongs_to :client_enrollment
   belongs_to :program_stream
-  has_many :form_builder_attachments, as: :form_buildable, dependent: :destroy
 
   alias_attribute :new_date, :exit_date
 
   validates :exit_date, presence: true
   validate :exit_date_value, if: 'exit_date.present?'
-
-  accepts_nested_attributes_for :form_builder_attachments, reject_if: proc { |attributes| attributes['name'].blank? &&  attributes['file'].blank? }
 
   after_save :create_leave_program_history
   after_create :update_enrollment_status, :set_client_status

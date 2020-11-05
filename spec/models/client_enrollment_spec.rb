@@ -8,6 +8,8 @@ describe ClientEnrollment do
     it { is_expected.to have_many(:client_enrollment_trackings).dependent(:destroy) }
     it { is_expected.to have_many(:trackings).through(:client_enrollment_trackings) }
     it { is_expected.to have_one(:leave_program).dependent(:destroy) }
+    it { is_expected.to have_many(:form_builder_attachments).dependent(:destroy)  }
+    it { is_expected.to accept_nested_attributes_for(:form_builder_attachments) }
   end
 
   describe ClientEnrollment, 'validations' do

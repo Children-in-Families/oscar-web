@@ -11,17 +11,11 @@ class DomainGroup < ActiveRecord::Base
   default_scope { order(:id, :name) }
 
   def default_domain_identities(custom_assessment_setting_id=nil)
-    if Organization.current.try(:aht) == true
-      domains.csi_domains.map do |domain|
-        domain_identity = I18n.t("dimensions.dimension_identies.#{domain.identity.strip.parameterize('_')}_#{domain.name.downcase}")
-        domain_identity.gsub(/\(|\)/, '')
-      end.join(', ')
-    else
-      domains.csi_domains.map do |domain|
-        domain_identity = I18n.t("domains.domain_identies.#{domain.identity.strip.parameterize('_')}_#{domain.name.downcase}")
-        domain_identity.gsub(/\(|\)/, '')
-      end.join(', ')
-    end
+    identities = Organization.current.try(:aht) == true ? "dimensions.dimension_identies" : "domains.domain_identies"
+    domains.csi_domains.map do |domain|
+      domain_identity = I18n.t("#{identities}.#{domain.identity.strip.parameterize('_')}_#{domain.name.downcase}")
+      domain_identity.gsub(/\(|\)/, '')
+    end.join(', ')
   end
 
   def custom_domain_identities(custom_assessment_setting_id=nil)
