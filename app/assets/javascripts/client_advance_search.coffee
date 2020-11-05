@@ -956,7 +956,7 @@ class CIF.ClientAdvanceSearch
 
   handleSaveQuery: ->
     self = @
-    $('#submit-query').on 'click', (e)->
+    $(document).on 'click',  '#submit-query', (e)->
       basicRules = $('#builder').queryBuilder('getRules', { skip_empty: true, allow_invalid: true })
       if basicRules.valid == false && basicRules.rules.length > 0
         e.preventDefault()
@@ -983,7 +983,8 @@ class CIF.ClientAdvanceSearch
 
   handleAddColumnPickerToInput: ->
     columnsVisibility = new Object
-    $('.visibility, .all-visibility').each ->
+    # .all-visibility .icheckbox_square-green.checked
+    $('#client-advance-search-form .visibility .icheckbox_square-green.checked').each ->
       checkbox = $(@).find('input[type="checkbox"]')
       if $(checkbox).prop('checked')
         attrName = $(checkbox).attr('name')
@@ -992,7 +993,7 @@ class CIF.ClientAdvanceSearch
     $('#advanced_search_field_visible').val(JSON.stringify(columnsVisibility))
 
   validateSaveQuery: ->
-    $('#advanced_search_name').keyup ->
+    $(document).on 'keyup', '#advanced_search_name', ->
       if $(@).val() != ''
         $('#submit-query').removeClass('disabled').removeAttr('disabled')
       else
