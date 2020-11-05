@@ -64,7 +64,7 @@ services:
     volumes:
       - ./pgadmin-servers.json:/pgadmin4/servers.json:ro
   mongo:
-    image: mongo:4.0.3
+    image: mongo:4.2.10
     container_name: mongo
     environment:
       - MONGO_INITDB_DATABASE=oscar_history_development
