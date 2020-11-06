@@ -1,6 +1,8 @@
 class ClientEnrollment < ActiveRecord::Base
   include ClientRetouch
   include NestedAttributesConcern
+  include ClientEnrollmentTrackingConcern
+
   acts_as_paranoid without_default_scope: true
 
   belongs_to :client
@@ -28,12 +30,6 @@ class ClientEnrollment < ActiveRecord::Base
   after_save :create_client_enrollment_history
   after_destroy :reset_client_status
   after_commit :touch
-
-  validate do |obj|
-    CustomFormPresentValidator.new(obj, 'program_stream', 'enrollment').validate
-    CustomFormNumericalityValidator.new(obj, 'program_stream', 'enrollment').validate
-    CustomFormEmailValidator.new(obj, 'program_stream', 'enrollment').validate
-  end
 
   def active?
     status == 'Active'

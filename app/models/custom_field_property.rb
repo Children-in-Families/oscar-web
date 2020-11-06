@@ -1,5 +1,7 @@
 class CustomFieldProperty < ActiveRecord::Base
   include NestedAttributesConcern
+  include ClientEnrollmentTrackingConcern
+
   mount_uploaders :attachments, CustomFieldPropertyUploader
 
   belongs_to :custom_formable, polymorphic: true
@@ -14,12 +16,6 @@ class CustomFieldProperty < ActiveRecord::Base
   after_save :create_client_history, if: :client_form?
 
   validates :custom_field_id, presence: true
-
-  validate do |obj|
-    CustomFormPresentValidator.new(obj, 'custom_field', 'fields').validate
-    CustomFormNumericalityValidator.new(obj, 'custom_field', 'fields').validate
-    CustomFormEmailValidator.new(obj, 'custom_field', 'fields').validate
-  end
 
   def client_form?
     custom_formable_type == 'Client'

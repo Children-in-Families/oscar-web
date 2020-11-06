@@ -1,5 +1,6 @@
 class LeaveProgram < ActiveRecord::Base
   include NestedAttributesConcern
+  include ClientEnrollmentTrackingConcern
 
   acts_as_paranoid without_default_scope: true
 
@@ -18,11 +19,11 @@ class LeaveProgram < ActiveRecord::Base
 
   scope :find_by_program_stream_id, -> (value) { where(program_stream_id: value) }
 
-  validate do |obj|
-    CustomFormPresentValidator.new(obj, 'program_stream', 'exit_program').validate
-    CustomFormNumericalityValidator.new(obj, 'program_stream', 'exit_program').validate
-    CustomFormEmailValidator.new(obj, 'program_stream', 'exit_program').validate
-  end
+  # validate do |obj|
+  #   CustomFormPresentValidator.new(obj, 'program_stream', 'exit_program').validate
+  #   CustomFormNumericalityValidator.new(obj, 'program_stream', 'exit_program').validate
+  #   CustomFormEmailValidator.new(obj, 'program_stream', 'exit_program').validate
+  # end
 
   def self.properties_by(value)
     value = value.gsub(/\'+/, "''")

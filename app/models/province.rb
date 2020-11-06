@@ -1,4 +1,6 @@
 class Province < ActiveRecord::Base
+  include AddressConcern
+
   has_paper_trail
 
   has_many :users, dependent: :restrict_with_error
@@ -16,7 +18,6 @@ class Province < ActiveRecord::Base
 
   scope :country_is, ->(country) { where(country: country).order(:name) }
   scope :official, -> { where.not(name: ['បោយប៉ែត/Poipet', 'Community', 'Other / ផ្សេងៗ', 'នៅ​ខាង​ក្រៅ​កម្ពុជា / Outside Cambodia']) }
-  scope :dropdown_list_option, -> { joins(:clients).pluck(:name, :id).uniq.sort.map{|s| { s[1].to_s => s[0] } } }
 
   validates :name, presence: true, uniqueness: { case_sensitive: false, scope: :country }
 

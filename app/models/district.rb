@@ -1,4 +1,6 @@
 class District < ActiveRecord::Base
+  include AddressConcern
+
   has_paper_trail
 
   belongs_to :province
@@ -12,8 +14,6 @@ class District < ActiveRecord::Base
 
   validates :province, presence: true
   validates :name, presence: true, uniqueness: { case_sensitive: false, scope: [:province_id] }
-
-  scope :dropdown_list_option, -> { joins(:clients).pluck(:name, :id).uniq.sort.map{|s| { s[1].to_s => s[0] } } }
 
   def name_kh
     name.split(' / ').first

@@ -53,6 +53,13 @@ describe Province do
         expect(Province.official.ids).not_to include([province_1.id, province_2.id, province_3.id, province_4.id])
       end
     end
+
+    context '.dropdown_list_option' do
+      let!(:client) { create(:client, province: phnom_penh) }
+      it 'returns a hash array of province [{ id => name }]' do
+        expect(Province.dropdown_list_option.last.values).to include("ភ្នំពេញ / Phnom Penh")
+      end
+    end
   end
 
   describe Province, 'methods' do
