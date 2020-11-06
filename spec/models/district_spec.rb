@@ -23,3 +23,13 @@ describe District, 'methods' do
     end
   end
 end
+
+describe District, 'scope' do
+  let!(:district){ create(:district, name: 'ចំការមន / Chamkamon') }
+  let!(:client){ create(:client, district: district) }
+  context '.dropdown_list_option' do
+    it 'returns a hash array of district [{ id => name }]' do
+      expect(District.dropdown_list_option.last.values).to include("ចំការមន / Chamkamon")
+    end
+  end
+end

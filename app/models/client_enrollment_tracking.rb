@@ -1,10 +1,9 @@
 class ClientEnrollmentTracking < ActiveRecord::Base
+  include NestedAttributesConcern
+  include ClientEnrollmentTrackingConcern
+
   belongs_to :client_enrollment
   belongs_to :tracking
-
-  has_many :form_builder_attachments, as: :form_buildable, dependent: :destroy
-
-  accepts_nested_attributes_for :form_builder_attachments, reject_if: proc { |attributes| attributes['name'].blank? &&  attributes['file'].blank? }
 
   has_paper_trail
 
@@ -16,11 +15,11 @@ class ClientEnrollmentTracking < ActiveRecord::Base
 
   after_save :create_client_enrollment_tracking_history
 
-  validate do |obj|
-    CustomFormPresentValidator.new(obj, 'tracking', 'fields').validate
-    CustomFormNumericalityValidator.new(obj, 'tracking', 'fields').validate
-    CustomFormEmailValidator.new(obj, 'tracking', 'fields').validate
-  end
+  # validate do |obj|
+  #   CustomFormPresentValidator.new(obj, 'tracking', 'fields').validate
+  #   CustomFormNumericalityValidator.new(obj, 'tracking', 'fields').validate
+  #   CustomFormEmailValidator.new(obj, 'tracking', 'fields').validate
+  # end
 
   def self.properties_by(value, object=nil)
     value = value.gsub(/\'+/, "''")

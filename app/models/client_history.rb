@@ -32,37 +32,26 @@ class ClientHistory
     attributes = attributes.merge('family_ids' => client.family_ids) if client.family_ids.any?
     attributes = attributes.merge('custom_field_property_ids' => client.custom_field_properties.ids) if client.custom_field_properties.any?
     attributes = attributes.merge('user_ids' => client.user_ids) if client.user_ids.any?
+    attributes = attributes.merge('donor_ids' => client.donor_ids) if client.donor_ids.any?
     create(object: attributes)
   end
 
   private
 
   def create_client_quantitative_case_history
-    object['quantitative_case_ids'].each do |quantitative_case_id|
-      quantitative_case = QuantitativeCase.find_by(id: quantitative_case_id).try(:attributes)
-      client_quantitative_case_histories.create(object: quantitative_case)
-    end
+    find_and_create_associations('quantitative_case_ids', 'QuantitativeCase', client_quantitative_case_histories)
   end
 
   def create_agency_client_history
-    object['agency_ids'].each do |agency_id|
-      agency = Agency.find_by(id: agency_id).try(:attributes)
-      agency_client_histories.create(object: agency)
-    end
+    find_and_create_associations('agency_ids', 'Agency', agency_client_histories)
   end
 
   def create_sponsor_history
-    object['donor_ids'].each do |donor_id|
-      donor = Donor.find_by(id: donor_id).try(:attributes)
-      sponsor_histories.create(object: donor)
-    end
+    find_and_create_associations('donor_ids', 'Donor', sponsor_histories)
   end
 
   def create_case_client_history
-    object['case_ids'].each do |case_id|
-      c_case = Case.find_by(id: case_id).try(:attributes)
-      case_client_histories.create(object: c_case)
-    end
+    find_and_create_associations('case_ids', 'Case', case_client_histories)
   end
 
   def create_case_worker_client_history
@@ -84,9 +73,13 @@ class ClientHistory
   end
 
   def create_client_family_history
-    object['family_ids'].each do |family_id|
-      family = Family.find_by(id: family_id).try(:attributes)
-      client_family_histories.create(object: family)
+    find_and_create_associations('family_ids', 'Family', client_family_histories)
+  end
+
+  def find_and_create_associations(association_id, klass_name, association_name)
+    object[association_id].each do |obj_id|
+      obj = klass_name.constantize.find_by(id: obj_id).try(:attributes)
+      association_name.create(object: obj)
     end
   end
 
