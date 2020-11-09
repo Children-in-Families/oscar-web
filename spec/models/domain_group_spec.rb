@@ -32,4 +32,18 @@ describe DomainGroup, 'methods' do
       expect(domain_group_2.first_ordered?). to be_falsey
     end
   end
+
+  context '#default_domain_identities' do
+    let!(:default_domain_group) { create(:domain_group, aht: false) }
+    let!(:aht_domain_group) { create(:domain_group, aht: true) }
+
+    it 'returns dimension_identies list' do
+      allow_any_instance_of(Organization).to receive(:aht).and_return(true)
+      expect(aht_domain_group.default_domain_identities).to eq("Physical health, Work skills and education")
+    end
+
+    it 'returns default domain_identies list' do
+      expect(default_domain_group.default_domain_identities).to eq("Food Security, Nutrition and Growth")
+    end
+  end
 end
