@@ -7,6 +7,10 @@ cache:
   - yarn
 addons:
   postgresql: 11.8
+  apt:
+    packages:
+      - postgresql-11.8
+      - postgresql-client-11.8
 before_script:
   - psql -c 'CREATE DATABASE IF NOT EXISTS oscar_web_test;' -U postgres
   - sleep 15
@@ -21,6 +25,7 @@ before_install:
 script:
   - bundle exec rspec spec/models
 services:
+  - postgresql
   - redis-server
   - mongodb
 env:
