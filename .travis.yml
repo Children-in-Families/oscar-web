@@ -19,6 +19,7 @@ before_install:
   - nvm install --lts
   - gem install bundler -v '1.17.3'
   - sudo service postgresql stop
+  - sudo apt-get -q update
   - sudo apt-get --yes remove postgresql-10-postgis-2.4
   - sudo apt install -yq --no-install-suggests --no-install-recommends postgresql-11 postgresql-client-11
   - sed -e 's/^port.*/port = 5432/' /etc/postgresql/11/main/postgresql.conf > postgresql.conf
