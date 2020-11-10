@@ -22,6 +22,7 @@ before_script:
 before_install:
   - nvm install --lts
   - gem install bundler -v '1.17.3'
+  - sudo /etc/init.d/postgresql stop
 script:
   - bundle exec rspec spec/models
 services:
