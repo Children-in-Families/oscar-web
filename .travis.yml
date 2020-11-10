@@ -6,7 +6,7 @@ cache:
   - bundler
   - yarn
 addons:
-  postgresql: 11.8
+  postgresql: 11
   apt:
     packages:
       - postgresql-11
@@ -26,7 +26,6 @@ before_install:
 script:
   - bundle exec rspec spec/models
 services:
-  - postgresql
   - redis-server
   - mongodb
 env:
