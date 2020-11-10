@@ -1,14 +1,10 @@
 addons:
   postgresql: 11.8
-  code_climate:
-    repo_token: <Get from Code Climate>
-after_success:
-  - bundle exec codeclimate-test-reporter
 before_script:
   - cp config/database.yml.travis config/database.yml
-  - psql -c 'create database oscar-web_test;' -U postgres
+  - psql -c 'create database oscar_web_test;' -U postgres
   - sleep 15
-  - mongo mydb_test --eval 'db.createUser({user:"travis",pwd:"test",roles:["readWrite"]});'
+  - mongo oscar_web_test --eval 'db.createUser({user:"travis",pwd:"test",roles:["readWrite"]});'
 before_install:
   - gem install bundler -v '1.17.3'
 dist: trusty
@@ -28,11 +24,14 @@ env:
     - DATABASE_USER=postgres
     - DATABASE_HOST=localhost
     - HISTORY_DATABASE_HOST=localhost
-    - MHO_HISTORY_DATABASE_NAME=mothersheart_history_test
     - HISTORY_DATABASE_NAME=oscar-history_test
-    - CASE_WORKER_CLIENT_OFFLINE_DATABASE=case_worker_client_offline
+    - CASE_WORKER_CLIENT_OFFLINE_DATABASE=case_worker_client_offline_test
 notifications:
-  slack:
+  email:
+    recipients:
+      - darren.jensen@devzep.com
+      - damon.hase@devzep.com
+      - kiry.meas@devzep.com
+      - makara.pao@devzep.com
     on_success: never
     on_failure: always
-    email: false
