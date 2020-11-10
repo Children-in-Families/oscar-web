@@ -1,0 +1,38 @@
+addons:
+  postgresql: 11.8
+  code_climate:
+    repo_token: <Get from Code Climate>
+after_success:
+  - bundle exec codeclimate-test-reporter
+before_script:
+  - cp config/database.yml.travis config/database.yml
+  - psql -c 'create database oscar-web_test;' -U postgres
+  - sleep 15
+  - mongo mydb_test --eval 'db.createUser({user:"travis",pwd:"test",roles:["readWrite"]});'
+before_install:
+  - gem install bundler -v '1.17.3'
+dist: trusty
+language: ruby
+rvm:
+  - 2.3.3
+script:
+  - bundle exec rails db:schema:load RAILS_ENV=test
+  - bundle exec rspec spec/models
+services:
+  - redis-server
+  - mongodb
+env:
+  global:
+    - PGPORT=5432
+    - DATABASE_NAME_TEST=oscar_web_test
+    - DATABASE_USER=postgres
+    - DATABASE_HOST=localhost
+    - HISTORY_DATABASE_HOST=localhost
+    - MHO_HISTORY_DATABASE_NAME=mothersheart_history_test
+    - HISTORY_DATABASE_NAME=oscar-history_test
+    - CASE_WORKER_CLIENT_OFFLINE_DATABASE=case_worker_client_offline
+notifications:
+  slack:
+    on_success: never
+    on_failure: always
+    email: false
