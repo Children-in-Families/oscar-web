@@ -37,11 +37,11 @@
                               %td.align-justify
                                 = key.html_safe
                               %td.align-justify
-                                - converted_key = convert_bracket(key)
+                                - key = convert_bracket(key, custom_field_property.properties)
                                 - if type == 'file'
                                   = render 'shared/form_builder/list_attachment', label: converted_key, resource: custom_field_property
                                 - else
-                                  = display_custom_properties(custom_field_property.properties[converted_key] || custom_field_property.properties[convert_bracket(key, true)])
+                                  = display_custom_properties(custom_field_property.properties[key])
 
                     %table.table.table-bordered
                       - files = custom_field_property.attachments
