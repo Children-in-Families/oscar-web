@@ -52,7 +52,7 @@
                         %td
                           = key.html_safe
                         %td.exit-reason-label
-                          - key = convert_bracket(key)
+                          - key = convert_bracket(key, object.properties)
                           - if type == 'file'
                             = render 'shared/form_builder/list_attachment', label: key, resource: object
                           - else
@@ -72,7 +72,7 @@
                       %td
                         = key.html_safe
                       %td.exit-reason-label
-                        - key = convert_bracket(key)
+                        - key = convert_bracket(key, object.properties)
                         - if type == 'file'
                           = render 'shared/form_builder/list_attachment', label: key, resource: object
                         - else

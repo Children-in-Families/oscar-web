@@ -223,12 +223,10 @@ module ApplicationHelper
     Rails.application.routes.recognize_path(request.referrer)[:action] == 'search'
   end
 
-  def convert_bracket(value, next_value=nil)
-    if next_value.nil?
-      value.gsub(/\[/, '&#91;').gsub(/\]/, '&#93;')
-    else
-      value.gsub("[", "&amp;#91;").gsub("]", "&amp;#93;")
-    end
+  def convert_bracket(value, properties = {})
+    value1 = value.gsub(/\[/, '&#91;').gsub(/\]/, '&#93;')
+    value2 = value.gsub('[', '&amp;#91;').gsub(']', '&amp;#93;')
+    properties[value1] ? value1 : value2
   end
 
   def default_setting(column, setting_default_columns)
