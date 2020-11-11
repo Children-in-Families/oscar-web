@@ -64,7 +64,7 @@ module Api
 
               if short_name
                 Organization.switch_to short_name
-                client = global_identity.global_identity_organizations.last&.client
+                client = Client.find_by(global_id: clients_params['global_id'])
                 attributes = Client.get_client_attribute(clients_params, client.referral_source_category_id) if client
                 if client && client.update_attributes(attributes)
                   render json: { external_id: client.external_id, message: 'Record saved.' }
