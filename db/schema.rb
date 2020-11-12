@@ -1630,7 +1630,7 @@ ActiveRecord::Schema.define(version: 20201020063259) do
   add_index "referrals", ["external_id"], name: "index_referrals_on_external_id", using: :btree
   add_index "referrals", ["mosvy_number"], name: "index_referrals_on_mosvy_number", using: :btree
 
-  create_table "referrals_services", force: :cascade do |t|
+  create_table "referrals_services", id: false, force: :cascade do |t|
     t.integer "referral_id"
     t.integer "service_id"
   end

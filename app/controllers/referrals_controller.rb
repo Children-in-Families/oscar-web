@@ -38,7 +38,6 @@ class ReferralsController < AdminController
     respond_to do |format|
       format.html {}
       format.pdf do
-        form           = params[:form]
         form_title     = "Referral Client To #{@referral.referred_to_ngo}"
         client_name    = @referral.client_name
         pdf_name       = "#{client_name} - #{form_title}"
