@@ -29,7 +29,7 @@ class Referral < ActiveRecord::Base
   scope :received_and_saved, -> { received.saved }
   scope :most_recents, -> { order(created_at: :desc) }
   scope :externals, -> { where(referred_to: 'external referral') }
-  scope :get_external_systems, -> (external_system_name){ where("referrals.ngo_name = ?", external_system_name) }
+  scope :get_external_systems, ->(external_system_name){ where("referrals.ngo_name = ?", external_system_name) }
 
   def non_oscar_ngo?
     referred_to == 'external referral'
@@ -50,6 +50,30 @@ class Referral < ActiveRecord::Base
 
   def external_system
     ExternalSystem.find_by(name: ngo_name)
+  end
+
+  def self.get_referral_attribute(attribute)
+    {
+      date_of_referral: Date.today,
+      referred_to: attribute[:organization_name],
+      referral_reason: attribute[:reason_for_referral].presence || 'N/A',
+      name_of_referee: attribute[:external_case_worker_name],
+      referral_phone: attribute[:external_case_worker_mobile],
+      referee_id: attribute[:external_case_worker_id],
+      client_name: "#{attribute[:given_name]} #{attribute[:family_name]}".squish,
+      consent_form: [],
+      ngo_name: 'MoSVY',
+      client_gender: attribute[:gender],
+      client_date_of_birth: attribute[:date_of_birth],
+      client_global_id: GlobalIdentity.create(ulid: ULID.generate)&.ulid,
+      external_id: attribute[:external_id],
+      external_id_display: attribute[:external_id_display],
+      mosvy_number: attribute[:mosvy_number],
+      external_case_worker_name: attribute[:external_case_worker_name],
+      external_case_worker_id: attribute[:external_case_worker_id],
+      village_code: attribute[:location_current_village_code],
+      services: Service.where(name: attribute[:services]&.map{ |service| service[:name] })
+    }
   end
 
   private
@@ -92,30 +116,6 @@ class Referral < ActiveRecord::Base
 
   def create_referral_history
     ReferralHistory.initial(self)
-  end
-
-  def self.get_referral_attribute(attribute)
-    referral_attributes = {
-      date_of_referral: Date.today,
-      referred_to: attribute[:organization_name],
-      referral_reason: attribute[:reason_for_referral].presence || "N/A",
-      name_of_referee: attribute[:external_case_worker_name],
-      referral_phone: attribute[:external_case_worker_mobile],
-      referee_id: attribute[:external_case_worker_id], #This got to be internal case referee id
-      client_name: "#{attribute[:given_name]} #{attribute[:family_name]}".squish,
-      consent_form: [], # default attachment
-      ngo_name: "MoSVY",
-      client_gender: attribute[:gender],
-      client_date_of_birth: attribute[:date_of_birth],
-      client_global_id: GlobalIdentity.create(ulid: ULID.generate)&.ulid,
-      external_id: attribute[:external_id],
-      external_id_display: attribute[:external_id_display],
-      mosvy_number: attribute[:mosvy_number],
-      external_case_worker_name: attribute[:external_case_worker_name],
-      external_case_worker_id: attribute[:external_case_worker_id],
-      village_code: attribute[:location_current_village_code],
-      services: Service.where(name: attribute[:services]&.map{ |service| service[:name] }) #before client got a service we need to enroll client to a program stream
-    }
   end
 
   def slug_exist?

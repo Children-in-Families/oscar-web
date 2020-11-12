@@ -7,7 +7,7 @@ class Service < ActiveRecord::Base
 
   has_many   :program_stream_services, dependent: :destroy
   has_many   :program_streams, through: :program_stream_services
-  has_and_belongs_to_many   :referrals
+  has_and_belongs_to_many :referrals
 
   validates :name, presence: true
 
