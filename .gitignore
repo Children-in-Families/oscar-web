@@ -42,3 +42,9 @@ yarn-debug.log*
 /node_modules
 ~$*
 TODO.md
+NOTES.md
+
+
+## AWS
+aws/oscarstaging.json
+staging.env
