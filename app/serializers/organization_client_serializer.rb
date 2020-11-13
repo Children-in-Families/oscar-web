@@ -30,7 +30,7 @@ class OrganizationClientSerializer < ActiveModel::Serializer
   end
 
   def reason_for_referral
-    object.referrals.get_external_systems(external_system_name).last&.referral_reason || object.reason_for_referral || ''
+    get_last_referral&.referral_reason || object.reason_for_referral || ''
   end
 
   def services
@@ -44,14 +44,23 @@ class OrganizationClientSerializer < ActiveModel::Serializer
         }
       end
     end.compact.flatten.uniq
+    service_names = service_types.map{ |service| service[:name] }
+    Service.where.not(name: service_names).where(id: get_last_referral&.service_ids || []).map do |service|
+      service_types << {
+        enrollment_date: nil,
+        uuid: service.uuid,
+        name: service.name
+      }
+    end
+    service_types
   end
 
   def case_worker_name
-    object.users.map(&:name).reject(&:blank?).join(", ")
+    object.users.map(&:name).reject(&:blank?).join(', ')
   end
 
   def case_worker_mobile
-    object.users.map(&:mobile).reject(&:blank?).join(", ")
+    object.users.map(&:mobile).reject(&:blank?).join(', ')
   end
 
   def organization_address_code
@@ -67,11 +76,11 @@ class OrganizationClientSerializer < ActiveModel::Serializer
   end
 
   def location_current_village_code
-    object.village&.code || ""
+    object.village&.code || ''
   end
 
   def address_current_village_code
-    object.village&.code || ""
+    object.village&.code || ''
   end
 
   private
@@ -79,4 +88,9 @@ class OrganizationClientSerializer < ActiveModel::Serializer
   def external_system_name
     ExternalSystem.find_by(token: context.email)&.name || ''
   end
+
+  def get_last_referral
+    object.referrals.get_external_systems(external_system_name).last
+  end
+
 end
