@@ -276,20 +276,21 @@ class ClientsController < AdminController
 
     subordinate_users = User.where('manager_ids && ARRAY[:user_id] OR id = :user_id', { user_id: current_user.id }).map(&:id)
     if current_user.admin? || current_user.hotline_officer?
-      @families        = Family.order(:name)
+      @families = Family.order(:name)
     else
       @families = Family.accessible_by(current_ability).order(:name)
     end
 
+    find_referral_by_params if params[:referral_id]
     @carer = @client.carer.present? ? @client.carer : Carer.new
-    @referee = @client.referee.present? ? @client.referee : Referee.new
+    @referee = @client.referee.present? ? @client.referee : Referee.new(name: @referral&.name_of_referee, phone: @referral&.referral_phone)
     @referee.anonymous = true if current_organization.short_name == 'brc' && @referee.new_record?
-    @referee_relationships = Client::RELATIONSHIP_TO_CALLER.map{|relationship| {label: relationship, value: relationship.downcase}}
-    @client_relationships = Carer::CLIENT_RELATIONSHIPS.map{|relationship| {label: relationship, value: relationship.downcase}}
-    @caller_relationships = Client::RELATIONSHIP_TO_CALLER.map{|relationship| {label: relationship, value: relationship.downcase}}
-    @address_types = Client::ADDRESS_TYPES.map{|type| {label: type, value: type.downcase}}
-    @phone_owners = Client::PHONE_OWNERS.map{|owner| {label: owner, value: owner.downcase}}
-    @referral_source = @client.referral_source.present? ? ReferralSource.where(id: @client.referral_source_id).map{|r| [r.try(:name), r.id]} : []
+    @referee_relationships = Client::RELATIONSHIP_TO_CALLER.map { |relationship| { label: relationship, value: relationship.downcase } }
+    @client_relationships = Carer::CLIENT_RELATIONSHIPS.map { |relationship| { label: relationship, value: relationship.downcase } }
+    @caller_relationships = Client::RELATIONSHIP_TO_CALLER.map { |relationship| { label: relationship, value: relationship.downcase } }
+    @address_types = Client::ADDRESS_TYPES.map { |type| { label: type, value: type.downcase } }
+    @phone_owners = Client::PHONE_OWNERS.map { |owner| { label: owner, value: owner.downcase } }
+    @referral_source = @client.referral_source.present? ? ReferralSource.where(id: @client.referral_source_id).map { |r| [r.try(:name), r.id] } : []
     @referral_source_category = referral_source_name(ReferralSource.parent_categories)
     country_address_fields
   end
@@ -307,10 +308,8 @@ class ClientsController < AdminController
       @districts                = @client.province.present? ? @client.province.districts.order(:name) : []
       @subdistricts             = @client.district.present? ? @client.district.subdistricts.order(:name) : []
 
-
       @referee_districts        = @client.referee&.province.present? ? @client.referee.province.districts.order(:name) : []
       @referee_subdistricts     = @client.referee.try(:district).present? ? @client.referee.district.subdistricts.order(:name) : []
-
 
       @carer_districts          = @client.carer&.province.present? ? @client.carer.province.districts.order(:name) : []
       @carer_subdistricts       = @client.carer.try(:district).present? ? @client.carer.district.subdistricts.order(:name) : []
@@ -335,16 +334,13 @@ class ClientsController < AdminController
       @carer_communes           = @client.carer.try(:district).present? ? @client.carer.district.communes.order(:code) : []
       @carer_villages           = @client.carer.try(:commune).present? ? @client.carer.commune.villages.order(:code) : []
     end
-
-
-
-
   end
 
   def initial_visit_client
     referrer = Rails.application.routes.recognize_path(request.referrer)
     return unless referrer.present?
-    white_list_referrers = %w(clients)
+
+    white_list_referrers = %w[clients]
     controller_name = referrer[:controller]
 
     VisitClient.initial_visit_client(current_user) if white_list_referrers.include?(controller_name)
@@ -359,7 +355,7 @@ class ClientsController < AdminController
   end
 
   def find_referral_by_params
-    @referral = Referral.find_by(id: params[:referral_id])
+    @referral ||= Referral.find_by(id: params[:referral_id])
     raise ActiveRecord::RecordNotFound if @referral.nil?
   end
 
@@ -384,12 +380,13 @@ class ClientsController < AdminController
 
   def validate_referral
     return if params[:referral_id].blank?
+
     find_referral_by_params
     redirect_to root_path, alert: t('.referral_has_already_been_saved') if @referral.saved?
   end
 
   def exited_clients(user_ids)
-    client_ids = PaperTrail::Version.where(item_type: 'CaseWorkerClient', event: 'create').joins(:version_associations).where(version_associations: { foreign_key_name: 'user_id', foreign_key_id: user_ids }).distinct.map(&:object_changes).map{|a| YAML::load a }.map{|a| (a['client_id'] || [])[1] }
+    client_ids = PaperTrail::Version.where(item_type: 'CaseWorkerClient', event: 'create').joins(:version_associations).where(version_associations: { foreign_key_name: 'user_id', foreign_key_id: user_ids }).distinct.map(&:object_changes).map { |a| YAML::load a }.map { |a| (a['client_id'] || [])[1] }
     Client.where(id: client_ids, status: 'Exited').ids
   end
 
