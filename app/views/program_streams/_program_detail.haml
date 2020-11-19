@@ -2,6 +2,7 @@
 %section
   = hidden_field_tag 'confirm-question', t('.service_confirm_question')
   #description
+    = f.input :entity_type, as: :hidden, input_html: { value: @entity_type || @program_stream.entity_type }
     = f.input :name, label: t('.name')
     = f.input :description, label: t('.description')
     = f.association :domains, collection: @csi_domains, multiple: true, label_method: :identity, value_method: :id, label: t('.domain')

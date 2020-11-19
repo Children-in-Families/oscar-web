@@ -8,7 +8,14 @@
           = submit_tag t('.search'), name: nil, class: 'btn btn-primary search'
   .col-xs-12.col-sm-4.col-md-4.text-right
     - if can? :manage, ProgramStream
-      = link_to t('.new_program'), new_program_stream_path, class: 'btn btn-primary btn-add'
+      -# = link_to t('.new_program'), new_program_stream_path, class: 'btn btn-primary btn-add'
+      .btn-group.new-program
+        %button.btn.btn-primary.dropdown-toggle{ "aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button" }
+          = t('.new_program')
+          %span.caret
+        %ul.dropdown-menu.dropdown-menu-right
+          %li= link_to 'Attached with Client', new_program_stream_path(entity_type: 'Client')
+          %li= link_to 'Attached with Family', new_program_stream_path(entity_type: 'Family')
 .row
   .col-xs-12
     .ibox.min-margin-layout

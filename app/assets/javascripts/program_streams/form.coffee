@@ -163,6 +163,16 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
   _handleSaveProgramStream = ->
     $('#btn-save-draft').on 'click', ->
+      # prevent saving if name or services is blank on first step
+      if $('#description').is(':visible')
+        form = $('#program-stream')
+        form.valid()
+        name = $('#program_stream_name').val() == ''
+        services = $('#type-of-service select').val() == null
+        serviceSelect2 = $('.program_stream_services')
+        _handleServiceValidation(services, serviceSelect2)
+        return false if name || services
+
       labelFields = $('[name="label"].fld-label')
       for labelField in labelFields
         labelField.textContent = labelField.textContent.replace(/;/g, '')
@@ -215,8 +225,13 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       ),100
 
   _handleInitProgramRules = ->
+    queryString = window.location.search;
+    urlParams = new URLSearchParams(queryString);
+    entityType = urlParams.get('entity_type')
+    # pass corresponding entity type from url
+    url = '/api/program_stream_add_rule/get_fields' + '?entity_type=' + entityType
     $.ajax
-      url: '/api/program_stream_add_rule/get_fields'
+      url: url
       method: 'GET'
       success: (response) ->
         fieldList = response.program_stream_add_rule

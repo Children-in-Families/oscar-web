@@ -38,6 +38,7 @@ class ProgramStream < ActiveRecord::Base
   scope  :filter,         ->(value)  { where(id: value) }
   scope  :name_like,      ->(value)  { where(name: value) }
   scope  :by_name,        ->(value)  { where('name iLIKE ?', "%#{value.squish}%") }
+  scope  :attached_with,  -> (value) { where(entity_type: value) }
 
   def name=(name)
     write_attribute(:name, name.try(:strip))

@@ -8,5 +8,9 @@ module Api
     def field_settings
       @field_settings ||= FieldSetting.all
     end
+
+    def pundit_user
+      UserContext.new(current_user, field_settings)
+    end
   end
 end

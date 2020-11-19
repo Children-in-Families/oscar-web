@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20201020063259) do
+ActiveRecord::Schema.define(version: 20201117072909) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1438,6 +1438,7 @@ ActiveRecord::Schema.define(version: 20201020063259) do
     t.integer  "mutual_dependence", default: [],                 array: true
     t.boolean  "tracking_required", default: false
     t.datetime "archived_at"
+    t.string   "entity_type",       default: ""
   end
 
   add_index "program_streams", ["archived_at"], name: "index_program_streams_on_archived_at", using: :btree
