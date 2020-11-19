@@ -40,7 +40,7 @@ class ProgramStreamsController < AdminController
     @program_stream = ProgramStream.new(program_stream_params)
     begin
       if program_stream_params[:domain_ids].reject(&:blank?).present? ? @program_stream.save(validate: false) : @program_stream.save
-        redirect_to program_stream_path(@program_stream), notice: t('.successfully_created')
+        redirect_to program_stream_path(@program_stream, entity_type: @program_stream.entity_type), notice: t('.successfully_created')
       else
         render :new
       end
@@ -53,7 +53,7 @@ class ProgramStreamsController < AdminController
   def update
     begin
       if @program_stream.update_attributes(program_stream_params)
-        redirect_to program_stream_path(@program_stream), notice: t('.successfully_updated')
+        redirect_to program_stream_path(@program_stream, entity_type: @program_stream.entity_type), notice: t('.successfully_updated')
       else
         render :edit
       end
