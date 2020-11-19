@@ -173,7 +173,7 @@ export default (props) => {
   const fetchData = (parent, data, child) => {
     $.ajax({
       type: "GET",
-      url: `/ap/${parent}/${data}/${child}`,
+      url: `/api/${parent}/${data}/${child}`,
     }).success((res) => {
       const dataState = {
         districts: setDistricts,
