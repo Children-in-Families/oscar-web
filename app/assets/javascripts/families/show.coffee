@@ -3,6 +3,7 @@ CIF.FamiliesShow = do ->
     _fixedHeaderTableColumns()
     _getClientPath()
     _handleScrollTable()
+    _buttonHelpTextPophover()
 
   _fixedHeaderTableColumns = ->
     $('.clients-table').removeClass('table-responsive')
@@ -32,5 +33,8 @@ CIF.FamiliesShow = do ->
     $('table.clients tbody tr').click (e) ->
       return if $(e.target).hasClass('btn') || $(e.target).hasClass('fa') || $(e.target).is('a')
       window.open($(@).data('href'), '_blank')
+  
+  _buttonHelpTextPophover = ->
+    $("button[data-content]").popover();
 
   { init: _init }

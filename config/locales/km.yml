@@ -3593,6 +3593,17 @@ km:
     version:
       back: ត្រលប់ក្រោយ
       modification_of: ប្រវត្តិកំណែរបស់
+  enrollments:
+    index:
+      actions: Actions
+      back: Back
+      domain: Associated Domains
+      name: Program Name
+      program_lists: Programs List
+      quantity: Number of Place Available
+      report: Report
+      status: Status
+      view: View
   enumerize:
     defaults:
       gender:
@@ -3715,6 +3726,7 @@ km:
       name: ឈ្មោះអ្នកថែទាំកុមារ
       'no': ទេ
       occupation: មុខរបរ
+      program_streams: បញ្ចូលគ្រួសារក្នុងកម្មវិធំចម្បង
       province: ខេត្ត
       read_less: អានតិច
       read_more: អានបន្ថែម

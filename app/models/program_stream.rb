@@ -7,6 +7,8 @@ class ProgramStream < ActiveRecord::Base
   has_many   :domains, through: :domain_program_streams
   has_many   :client_enrollments, dependent: :destroy
   has_many   :clients, through: :client_enrollments
+  has_many   :enrollments, dependent: :destroy
+  has_many   :families, through: :enrollments, source: :programmable, source_type: 'Family'
   has_many   :trackings, dependent: :destroy
   has_many   :leave_programs, dependent: :destroy
 
@@ -50,17 +52,26 @@ class ProgramStream < ActiveRecord::Base
     end
   end
 
-  def self.inactive_enrollments(client)
-    joins(:client_enrollments).where("client_id = ? AND client_enrollments.created_at = (SELECT MAX(client_enrollments.created_at) FROM client_enrollments WHERE client_enrollments.program_stream_id = program_streams.id AND client_enrollments.client_id = #{client.id}) AND client_enrollments.status = 'Exited' ", client.id).ordered
+  def self.inactive_enrollments(obj, entity_type = nil)
+    if ['Family'].include?(entity_type)
+      joins(:enrollments).where("programmable_id = ? AND enrollments.created_at = (SELECT MAX(enrollments.created_at) FROM enrollments WHERE enrollments.program_stream_id = program_streams.id AND enrollments.programmable_id = #{obj.id}) AND enrollments.status = 'Exited' ", obj.id).ordered
+    else
+      joins(:client_enrollments).where("client_id = ? AND client_enrollments.created_at = (SELECT MAX(client_enrollments.created_at) FROM client_enrollments WHERE client_enrollments.program_stream_id = program_streams.id AND client_enrollments.client_id = #{obj.id}) AND client_enrollments.status = 'Exited' ", obj.id).ordered
+    end
   end
 
   def self.active_enrollments(client)
     joins(:client_enrollments).where("client_id = ? AND client_enrollments.created_at = (SELECT MAX(client_enrollments.created_at) FROM client_enrollments WHERE client_enrollments.program_stream_id = program_streams.id AND client_enrollments.client_id = #{client.id}) AND client_enrollments.status = 'Active' ", client.id).ordered
   end
 
-  def self.without_status_by(client)
-    ids = includes(:client_enrollments).where(client_enrollments: { client_id: client.id }).order('client_enrollments.status ASC', :name).uniq.collect(&:id)
-    where.not(id: ids).ordered
+  def self.without_status_by(obj, entity_type = nil)
+    if ['Family'].include?(entity_type)
+      ids = includes(:enrollments).where(enrollments: { programmable_id: obj.id }).order('enrollments.status ASC', :name).uniq.collect(&:id)
+      where.not(id: ids).ordered
+    else
+      ids = includes(:client_enrollments).where(client_enrollments: { client_id: obj.id }).order('client_enrollments.status ASC', :name).uniq.collect(&:id)
+      where.not(id: ids).ordered
+    end
   end
 
   def form_builder_field_uniqueness
@@ -115,9 +126,14 @@ class ProgramStream < ActiveRecord::Base
     quantity - client_enrollments.active.size
   end
 
-  def enroll?(client)
-    enrollments = client_enrollments.enrollments_by(client).order(:created_at)
-    (enrollments.present? && enrollments.first.status == 'Exited') || enrollments.empty?
+  def enroll?(obj, entity_type = nil)
+    if ['Family'].include?(entity_type)
+      enrolls = enrollments.enrollments_by(obj).order(:created_at)
+      (enrolls.present? && enrolls.first.status == 'Exited') || enrolls.empty?
+    else
+      enrollments = client_enrollments.enrollments_by(obj).order(:created_at)
+      (enrollments.present? && enrollments.first.status == 'Exited') || enrollments.empty?
+    end
   end
 
   def is_used?

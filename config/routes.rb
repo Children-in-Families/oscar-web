@@ -161,6 +161,12 @@ Rails.application.routes.draw do
   resources :families do
     resources :custom_field_properties
     get 'version' => 'families#version'
+
+    resources :enrollments do
+      get :report, on: :collection
+    end
+    # resources :enrolled_programs do
+    # end
   end
 
   resources :partners do

@@ -3605,6 +3605,17 @@ en:
     version:
       back: Back
       modification_of: Changelog of
+  enrollments:
+    index:
+      actions: Actions
+      back: Back
+      domain: Associated Domains
+      name: Program Name
+      program_lists: Programs List
+      quantity: Number of Place Available
+      report: Report
+      status: Status
+      view: View
   enumerize:
     defaults:
       gender:
@@ -3732,6 +3743,7 @@ en:
       'no': 'No'
       note: Relevant Referral Information / Notes
       occupation: Occupation
+      program_streams: Enroll Family to Program Streams
       province: Province
       read_less: read less
       read_more: read more

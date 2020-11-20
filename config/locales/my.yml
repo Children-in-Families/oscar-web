@@ -3602,6 +3602,17 @@ my:
     version:
       back: ေနာက္သုိ႔
       modification_of: "၏ ေျပာင္းလဲမႈ မွတ္တမ္း"
+  enrollments:
+    index:
+      actions: Actions
+      back: Back
+      domain: Associated Domains
+      name: Program Name
+      program_lists: Programs List
+      quantity: Number of Place Available
+      report: Report
+      status: Status
+      view: View
   enumerize:
     defaults:
       gender:
@@ -3725,6 +3736,7 @@ my:
       name: နာမည္
       'no': မဟုတ္ပါ
       occupation: အလုပ်အကိုင်
+      program_streams: Enroll Family to Program Streams
       province: ခ႐ိုင္
       read_less: ဒီထက်ကိုဖတ်ရှု
       read_more: ဆက်ဖတ်ရန်
