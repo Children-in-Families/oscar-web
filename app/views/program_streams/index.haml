@@ -14,8 +14,8 @@
           = t('.new_program')
           %span.caret
         %ul.dropdown-menu.dropdown-menu-right
-          %li= link_to 'Attached with Client', new_program_stream_path(entity_type: 'Client')
-          %li= link_to 'Attached with Family', new_program_stream_path(entity_type: 'Family')
+          %li= link_to t('.attached_with_client'), new_program_stream_path(entity_type: 'Client')
+          %li= link_to t('.attached_with_family'), new_program_stream_path(entity_type: 'Family')
 .row
   .col-xs-12
     .ibox.min-margin-layout

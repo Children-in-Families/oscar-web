@@ -4676,6 +4676,8 @@ my:
       previous: ေရွ႕တစ္ခု
       save: သိမ္းဆည္းရန္
     index:
+      attached_with_client: Attached with Client
+      attached_with_family: Attached with Family
       current_ngo: မိမိ NGO၏ အစီအစဥ္ စီးဆင္းမႈ
       demo_programs: Demo NGO၏ အစီအစဥ္ စီးဆင္းမႈ
       name: နာမတျောကို
