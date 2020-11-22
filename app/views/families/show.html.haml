@@ -20,8 +20,8 @@
               %p= link_to custom_field.form_title, new_family_custom_field_property_path(@family, custom_field_id: custom_field)
 
     - if @family.enrollments.active.count > 0
-      -# = link_to enrolled_programs_path(@family), data: { toggle: "popover", html: 'true', trigger: 'hover', content: "#{I18n.t('inline_help.clients.show.active_program')}", placement: "auto" } do
-      -#   .btn.btn-primary.small-btn-margin.btn-sm.btn-fit= t('.enrolled_program_streams')
+      = link_to family_enrolled_programs_path(@family), data: { toggle: "popover", html: 'true', trigger: 'hover', content: "#{I18n.t('inline_help.clients.show.active_program')}", placement: "auto" } do
+        .btn.btn-primary.small-btn-margin.btn-sm.btn-fit= t('.enrolled_program_streams')
     - else
       .btn.btn-primary.small-btn-margin.btn-sm.disabled.btn-fit{ data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.active_program')}", placement: "auto" } }
         = t('.enrolled_program_streams')

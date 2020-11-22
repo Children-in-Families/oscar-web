@@ -23,4 +23,34 @@ module EnrollmentHelper
       end
     end
   end
+
+  def cancel_url_link
+    if action_name == 'new' || action_name == 'create'
+      if params[:family_id]
+        link_to t('.cancel'), family_enrollments_path(@programmable), class: 'btn btn-default form-btn'
+      end
+    else
+      path = family_enrollment_path(@programmable, @enrollment, program_stream_id: params[:program_stream_id])
+      # link_to t('.cancel'), '#', class: 'btn btn-default form-btn'
+      link_to 'To be changed', '#', class: 'btn btn-default form-btn'
+    end
+  end
+
+  def enrollment_form_action_path
+    if action_name.in?(%(new create))
+      params[:family_id] ? family_enrolled_programs_path(@programmable) : '#'
+    else
+      params[:family_id] ? family_enrolled_program_path(@programmable, @enrollment) : '#'
+    end
+  end
+
+  def cancel_enrollment_form_link
+    if params[:action] == 'new' || params[:action] == 'create'
+      path = params[:family_id] ? family_enrolled_programs_path(@programmable, program_streams: 'program-streams') : '#'
+      link_to t('.cancel'), path, class: 'btn btn-default form-btn'
+    elsif params[:action] == 'edit' || params[:action] == 'update'
+      path = params[:family_id] ? family_enrolled_program_path(@programmable, @enrollment, program_stream_id: params[:program_stream_id]) : '#'
+      link_to t('.cancel'), path, class: 'btn btn-default form-btn'
+    end
+  end
 end

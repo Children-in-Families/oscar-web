@@ -52,20 +52,24 @@ class ProgramStream < ActiveRecord::Base
     end
   end
 
-  def self.inactive_enrollments(obj, entity_type = nil)
-    if ['Family'].include?(entity_type)
+  def self.inactive_enrollments(obj, polymorphic = false)
+    if polymorphic
       joins(:enrollments).where("programmable_id = ? AND enrollments.created_at = (SELECT MAX(enrollments.created_at) FROM enrollments WHERE enrollments.program_stream_id = program_streams.id AND enrollments.programmable_id = #{obj.id}) AND enrollments.status = 'Exited' ", obj.id).ordered
     else
       joins(:client_enrollments).where("client_id = ? AND client_enrollments.created_at = (SELECT MAX(client_enrollments.created_at) FROM client_enrollments WHERE client_enrollments.program_stream_id = program_streams.id AND client_enrollments.client_id = #{obj.id}) AND client_enrollments.status = 'Exited' ", obj.id).ordered
     end
   end
 
-  def self.active_enrollments(client)
-    joins(:client_enrollments).where("client_id = ? AND client_enrollments.created_at = (SELECT MAX(client_enrollments.created_at) FROM client_enrollments WHERE client_enrollments.program_stream_id = program_streams.id AND client_enrollments.client_id = #{client.id}) AND client_enrollments.status = 'Active' ", client.id).ordered
+  def self.active_enrollments(obj, polymorphic = false)
+    if polymorphic
+      joins(:enrollments).where("programmable_id = ? AND enrollments.created_at = (SELECT MAX(enrollments.created_at) FROM enrollments WHERE enrollments.program_stream_id = program_streams.id AND enrollments.programmable_id = #{obj.id}) AND enrollments.status = 'Active' ", obj.id).ordered
+    else
+      joins(:client_enrollments).where("client_id = ? AND client_enrollments.created_at = (SELECT MAX(client_enrollments.created_at) FROM client_enrollments WHERE client_enrollments.program_stream_id = program_streams.id AND client_enrollments.client_id = #{obj.id}) AND client_enrollments.status = 'Active' ", obj.id).ordered
+    end
   end
 
-  def self.without_status_by(obj, entity_type = nil)
-    if ['Family'].include?(entity_type)
+  def self.without_status_by(obj, polymorphic = false)
+    if polymorphic
       ids = includes(:enrollments).where(enrollments: { programmable_id: obj.id }).order('enrollments.status ASC', :name).uniq.collect(&:id)
       where.not(id: ids).ordered
     else

@@ -3,7 +3,7 @@ class ProgramStreamDecorator < Draper::Decorator
 
   def enrollment_status_value(obj, entity_type = nil)
     if ['Family'].include?(entity_type)
-      enrollments = model.enrollments.with_deleted.enrollments_by(obj.id).order(:created_at)
+      enrollments = model.enrollments.with_deleted.enrollments_by(obj).order(:created_at)
       return unless enrollments.present?
       enrollments.last.status
     else

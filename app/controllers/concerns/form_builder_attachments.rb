@@ -51,4 +51,10 @@ module FormBuilderAttachments
       params[:custom_field_property][:properties]
     end
   end
+
+  def entity_properties_params
+    if ['enrollments','enrolled_programs'].include?(controller_name)
+      params[:enrollment][:properties]
+    end
+  end
 end

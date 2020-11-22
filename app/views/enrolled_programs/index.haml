@@ -1,17 +1,12 @@
 .ibox
   .ibox-title
-    .row
-      .col-xs-12.col-sm-6.co-md-6
-        %h5
-          -# = link_to @programmable.name, family_path(@family)
-          = @programmable.name
-          = " - #{t('.program_lists')}"
-      .col-xs-12.col-sm-6.col-md-6
-        .ibox-tools
-          -# = link_to t('.back'), family_path(@family), class: 'btn btn-default btn-back-default btn-back'
+    %h5= "#{@programmable.name} - #{t('.program_lists')}"
+    .ibox-tools
+      - if params[:family_id]
+        = link_to t('.back'), family_path(@programmable), class: 'btn btn-default btn-back-default btn-back'
   .ibox-content
     .table-responsive
-      %table.table.table-bordered.table-striped.table-hover.client_enrollment
+      %table.table.table-bordered.table-striped.table-hover.enrollment
         %thead
           %tr
             %th.status
@@ -32,20 +27,18 @@
         %tbody
           - @program_streams.each do |ps|
             - next unless program_stream_readable?(ps.id)
-            - next if ps.enrollments.enrollments_by(@programmable).blank? && ps.archived_at.present?
             %tr
               %td.status
                 = render 'status', program_stream: ps
               %td.name
-                To be changed
-                -# = link_to_if ps.archived_at.nil?, ps.name, program_stream_path(ps, client: true, entity_type: ps.entity_type)
+                = link_to ps.name, program_stream_path(ps, client: true, entity_type: ps.entity_type)
               %td.domain
                 - ps.domains_format.each do |domain|
                   %strong.label.label-default= domain
               %td.quantity
                 = ps.place_available
               %td.report
-                = report_link_view(ps, 'Family')
+                = link_to t('.view'), report_family_enrolled_programs_path(@programmable, program_stream_id: ps)
               %td.manage
                 = render 'manage', program_stream: ps
 
