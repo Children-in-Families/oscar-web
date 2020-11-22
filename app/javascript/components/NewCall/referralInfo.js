@@ -165,7 +165,10 @@ export default props => {
       url: `/api/${parent}/${data}/${child}`
     }).success(res => {
       dataState[child](res.data);
-    });
+    })
+    .error((res) => {
+      onerror(res.responseText)
+    })
   };
 
   const onCheckSameAsClient = data => {

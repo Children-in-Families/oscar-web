@@ -75,6 +75,8 @@ export default props => {
 
         const dataState = { districts: setdistricts, communes: setcommunes }
         dataState[child] && dataState[child](formatedData)
+      }).error((res) => {
+        onerror(res.responseText)
       })
     }
   }

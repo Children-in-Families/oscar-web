@@ -61,6 +61,8 @@ export default props => {
             dataState = { townships: setTownships }
         }
         dataState[child](formatedData)
+      }).error((res) => {
+        onerror(res.responseText)
       })
     }
   }
