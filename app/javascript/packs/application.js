@@ -18,6 +18,17 @@
 import "primereact/resources/themes/nova-light/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
+import * as Sentry from "@sentry/browser";
+import { Integrations } from "@sentry/tracing";
+
 var componentRequireContext = require.context("components", true);
 var ReactRailsUJS = require("react_ujs");
 ReactRailsUJS.useContext(componentRequireContext);
+
+Sentry.init({
+  dsn:
+    "https://19e7decf52684417b2414ba7fd360e45@o480860.ingest.sentry.io/5528553",
+  integrations: [new Integrations.BrowserTracing()],
+
+  tracesSampleRate: 1.0,
+});
