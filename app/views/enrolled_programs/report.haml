@@ -19,20 +19,22 @@
             %tbody
               - @enrollments.each do |enrollment|
                 -# -# To be changed
-                -# - if enrollment.leave_program.present?
-                -#   %tr
-                -#     %td
-                -#       = date_format(enrollment.leave_program.exit_date)
-                -#     %td= t('.exit')
-                -#     %td= link_to t('.view'), enrolled_program_leave_enrolled_program_link(enrollment)
+                - if enrollment.leave_program.present?
+                  %tr
+                    %td
+                      = date_format(enrollment.leave_program.exit_date)
+                    %td= t('.exit')
+                    %td= link_to t('.view'), enrolled_program_leave_enrolled_program_link(enrollment)
 
                 
-                -# - if enrollment.has_client_enrollment_tracking?
-                -#   - enrollment.client_enrollment_trackings.order(created_at: :DESC).each do |enrollment_tracking|
-                -#     %tr
-                -#       %td= date_format(enrollment_tracking.created_at)
-                -#       %td= "#{t('.tracking')} (#{enrollment_tracking.tracking.try(:name)})"
-                -#       %td= link_to t('.view'), client_client_enrolled_program_client_enrolled_program_tracking_path(@programmable, enrollment, enrollment_tracking)
+                - if enrollment.has_enrollment_tracking?
+                  - enrollment.enrollment_trackings.order(created_at: :DESC).each do |enrollment_tracking|
+                    %tr
+                      %td= date_format(enrollment_tracking.created_at)
+                      %td= "#{t('.tracking')} (#{enrollment_tracking.tracking.try(:name)})"
+                      %td
+                        - if params[:family_id]
+                          = link_to t('.view'), family_enrolled_program_enrolled_program_tracking_path(@programmable, enrollment, enrollment_tracking)
 
                 %tr
                   %td

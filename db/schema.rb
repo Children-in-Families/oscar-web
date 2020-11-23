@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20201120141310) do
+ActiveRecord::Schema.define(version: 20201122105417) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -835,6 +835,17 @@ ActiveRecord::Schema.define(version: 20201120141310) do
 
   add_index "donors", ["global_id"], name: "index_donors_on_global_id", using: :btree
 
+  create_table "enrollment_trackings", force: :cascade do |t|
+    t.integer  "enrollment_id"
+    t.integer  "tracking_id"
+    t.jsonb    "properties",    default: {}
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
+
+  add_index "enrollment_trackings", ["enrollment_id"], name: "index_enrollment_trackings_on_enrollment_id", using: :btree
+  add_index "enrollment_trackings", ["tracking_id"], name: "index_enrollment_trackings_on_tracking_id", using: :btree
+
   create_table "enrollments", force: :cascade do |t|
     t.jsonb    "properties",        default: {}
     t.string   "status",            default: "Active"
@@ -1268,10 +1279,12 @@ ActiveRecord::Schema.define(version: 20201120141310) do
     t.integer  "program_stream_id"
     t.date     "exit_date"
     t.datetime "deleted_at"
+    t.integer  "enrollment_id"
   end
 
   add_index "leave_programs", ["client_enrollment_id"], name: "index_leave_programs_on_client_enrollment_id", using: :btree
   add_index "leave_programs", ["deleted_at"], name: "index_leave_programs_on_deleted_at", using: :btree
+  add_index "leave_programs", ["enrollment_id"], name: "index_leave_programs_on_enrollment_id", using: :btree
 
   create_table "locations", force: :cascade do |t|
     t.string   "name",         default: ""
@@ -2217,6 +2230,8 @@ ActiveRecord::Schema.define(version: 20201120141310) do
   add_foreign_key "domains", "domain_groups"
   add_foreign_key "donor_organizations", "donors"
   add_foreign_key "donor_organizations", "organizations"
+  add_foreign_key "enrollment_trackings", "enrollments"
+  add_foreign_key "enrollment_trackings", "trackings"
   add_foreign_key "enrollments", "program_streams"
   add_foreign_key "enter_ngo_users", "enter_ngos"
   add_foreign_key "enter_ngo_users", "users"
@@ -2249,6 +2264,7 @@ ActiveRecord::Schema.define(version: 20201120141310) do
   add_foreign_key "hotlines", "calls"
   add_foreign_key "hotlines", "clients"
   add_foreign_key "leave_programs", "client_enrollments"
+  add_foreign_key "leave_programs", "enrollments"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
   add_foreign_key "partners", "organization_types"
