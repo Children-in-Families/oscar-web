@@ -17,7 +17,10 @@ CIF.Initializer =
       if @currentPage()
         CIF.Initializer.exec(@currentPage())
     catch error
-      appsignal.sendError error
+      if error instanceof Error
+        sentry.withScope (scope) ->
+          sentry.captureException error
+          return false
 
 
 $(document).on 'ready page:load', ->
