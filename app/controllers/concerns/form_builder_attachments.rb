@@ -52,9 +52,19 @@ module FormBuilderAttachments
     end
   end
 
+  def entity_attachment_params
+    if ['enrollments','enrolled_programs'].include?(controller_name)
+      params[:enrollment][:form_builder_attachments_attributes]
+    elsif ['enrollment_trackings', 'enrolled_program_trackings', 'trackings'].include?(controller_name)
+      params[:enrollment_tracking][:form_builder_attachments_attributes]
+    end
+  end
+
   def entity_properties_params
     if ['enrollments','enrolled_programs'].include?(controller_name)
       params[:enrollment][:properties]
+    elsif ['enrollment_trackings','enrolled_program_trackings', 'trackings'].include?(controller_name)
+      params[:enrollment_tracking][:properties]
     end
   end
 end

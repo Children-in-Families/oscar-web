@@ -15,6 +15,10 @@ class Enrollment < ActiveRecord::Base
   scope :active, -> { where(status: 'Active') }
   scope :enrollments_by, -> (obj) { where(programmable_id: obj.id) }
 
+  def active?
+    status == 'Active'
+  end
+
   def has_enrollment_tracking?
     enrollment_trackings.present?
   end
