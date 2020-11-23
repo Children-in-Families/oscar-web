@@ -22,7 +22,6 @@ var componentRequireContext = require.context("components", true);
 var ReactRailsUJS = require("react_ujs");
 ReactRailsUJS.useContext(componentRequireContext);
 
-var uncaught = require("uncaught");
 import Appsignal from "@appsignal/javascript";
 
 const appsignal = new Appsignal({
@@ -30,8 +29,9 @@ const appsignal = new Appsignal({
 });
 window.appsignal = appsignal;
 
-uncaught.start();
-uncaught.addListener(function (error) {
-  console.log("Uncaught error or rejection: ", error);
-  appsignal.sendError(error);
-});
+window.onerror = function (msg, url, line, col, error) {
+  console.log("onerror triggered");
+};
+window.onunhandledrejection = function (msg, url, line, col, error) {
+  console.log("onunhandledrejection triggered");
+};

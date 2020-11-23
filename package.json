@@ -28,8 +28,7 @@
     "react-time-picker": "^3.9.0",
     "react-transition-group": "^4.3.0",
     "react_ujs": "^2.6.0",
-    "toastr": "^2.1.4",
-    "uncaught": "^0.0.5"
+    "toastr": "^2.1.4"
   },
   "devDependencies": {
     "webpack-dev-server": "^3.9.0"
