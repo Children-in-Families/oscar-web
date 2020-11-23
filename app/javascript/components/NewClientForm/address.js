@@ -66,6 +66,8 @@ export default props => {
         const formatedData = res.data.map(data => ({ label: data.name, value: data.id }))
         const dataState = { districts: setdistricts, communes: setcommunes, villages: setvillages }
         dataState[child](formatedData)
+      }).error((res) => {
+        onerror(res.responseText)
       })
     }
   }

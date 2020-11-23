@@ -174,14 +174,18 @@ export default (props) => {
     $.ajax({
       type: "GET",
       url: `/api/${parent}/${data}/${child}`,
-    }).success((res) => {
-      const dataState = {
-        districts: setDistricts,
-        communes: setCommunes,
-        villages: setVillages,
-      };
-      dataState[child](res.data);
-    });
+    })
+      .success((res) => {
+        const dataState = {
+          districts: setDistricts,
+          communes: setCommunes,
+          villages: setVillages,
+        };
+        dataState[child](res.data);
+      })
+      .error((res) => {
+        onerror(res.responseText);
+      });
   };
 
   const onRelationshipChange = (event) => {

@@ -72,6 +72,8 @@ export default props => {
             dataState = { districts: setdistricts, subdistricts: setSubDistricts }
         }
         dataState[child](formatedData)
+      }).error((res) => {
+        onerror(res.responseText)
       })
     }
   }

@@ -55,10 +55,10 @@ class Organization < ActiveRecord::Base
     def seed_generic_data(org_id, referral_source_category_name=nil)
       org = find_by(id: org_id)
       if org
-        general_data_file = 'lib/devdata/general.xlsx'
-        service_data_file = 'lib/devdata/services/service.xlsx'
         Rake::Task.clear
         CifWeb::Application.load_tasks
+        general_data_file = Rails.root.join('lib/devdata/general.xlsx')
+        service_data_file = Rails.root.join('lib/devdata/services/service.xlsx')
         Apartment::Tenant.switch(org.short_name) do
           Rake::Task['db:seed'].invoke
           ImportStaticService::DateService.new('Services', org.short_name, service_data_file).import
