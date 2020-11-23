@@ -15,23 +15,23 @@
 // const imagePath = (name) => images(name, true)
 
 // Support component names relative to this directory:
-
-import Appsignal from "@appsignal/javascript";
-const appsignal = new Appsignal({
-  key: window.appsignalFrontendKey,
-});
-window.appsignal = appsignal;
-window.onerror = function (message, source, lineno, colno, error) {
-  if (error instanceof Error && message) {
-    console.log("Error: ", error);
-    appsignal.sendError(error);
-    return false;
-  }
-};
-
 import "primereact/resources/themes/nova-light/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 var componentRequireContext = require.context("components", true);
 var ReactRailsUJS = require("react_ujs");
 ReactRailsUJS.useContext(componentRequireContext);
+
+var uncaught = require("uncaught");
+import Appsignal from "@appsignal/javascript";
+
+const appsignal = new Appsignal({
+  key: window.appsignalFrontendKey,
+});
+window.appsignal = appsignal;
+
+uncaught.start();
+uncaught.addListener(function (error) {
+  console.log("Uncaught error or rejection: ", error);
+  appsignal.sendError(error);
+});
