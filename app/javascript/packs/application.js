@@ -28,8 +28,8 @@ const appsignal = new Appsignal({
 });
 window.appsignal = appsignal;
 window.onerror = function (message, url, lineNumber, line, errors) {
-  if (!(errors instanceof Error) && message) {
-    errors = new Error(message);
+  if (errors instanceof Error && message) {
+    debugger;
+    appsignal.sendError(errors);
   }
-  appsignal.sendError(errors);
 };
