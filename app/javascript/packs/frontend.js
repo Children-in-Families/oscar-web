@@ -4,11 +4,13 @@ const appsignal = new Appsignal({
 });
 window.appsignal = appsignal;
 window.onerror = function (msg, url, line, col, error) {
-  if (error instanceof Error && appsignal) {
-    console.log("onerror triggered");
-    appsignal.sendError(error);
-    return false;
-  }
+  setTimeout(function () {
+    if (error instanceof Error && appsignal) {
+      console.log("onerror triggered");
+      appsignal.sendError(error);
+      return false;
+    }
+  }, 300);
 };
 
 window.onunhandledrejection = function (msg, url, line, col, error) {
