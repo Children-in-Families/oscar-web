@@ -4,16 +4,16 @@ const appsignal = new Appsignal({
 });
 window.appsignal = appsignal;
 window.onerror = function (msg, url, line, col, error) {
-  console.log("onerror triggered");
-  if (error instanceof Error) {
+  if (error instanceof Error && appsignal) {
+    console.log("onerror triggered");
     appsignal.sendError(error);
     return false;
   }
 };
 
 window.onunhandledrejection = function (msg, url, line, col, error) {
-  console.log("onunhandledrejection triggered");
-  if (error instanceof Error) {
+  if (error instanceof Error && appsignal) {
+    console.log("onunhandledrejection triggered");
     appsignal.sendError(error);
     return false;
   }
