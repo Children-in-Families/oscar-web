@@ -74,6 +74,7 @@ gem 'jquery_query_builder-rails', '~> 0.5.0'
 gem 'globalize', '~> 5.1.0'
 gem 'enumerize', '~> 2.3.1'
 gem 'ulid',                   '~> 1.2'
+gem 'sentry-raven'
 
 group :development, :test do
   gem 'pry'

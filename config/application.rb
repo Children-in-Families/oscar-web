@@ -27,6 +27,11 @@ module CifWeb
     config.autoload_paths << "#{Rails.root}/lib"
     config.autoload_paths << Rails.root.join('app/classes/**/*')
 
+    # Sentry
+    Raven.configure do |config|
+      config.dsn = 'https://9c3fbce1d84f47bcb3194891fba3f8c7@o480860.ingest.sentry.io/5528519'
+      config.sanitize_fields = Rails.application.config.filter_parameters.map(&:to_s)
+    end
     # Override rails template engine: erb to haml
     config.generators do |g|
       g.template_engine :haml
