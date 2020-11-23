@@ -32,3 +32,26 @@ Sentry.init({
 
   tracesSampleRate: 1.0,
 });
+
+window.sentry = Sentry;
+window.onerror = function (msg, url, line, col, error) {
+  if (error instanceof Error) {
+    console.log("onerror triggered");
+    Sentry.withScope((scope) => {
+      msg && scope.setExtras(msg);
+      Sentry.captureException(error);
+    });
+    return false;
+  }
+};
+
+window.onunhandledrejection = function (msg, url, line, col, error) {
+  if (error instanceof Error) {
+    console.log("onunhandledrejection triggered");
+    Sentry.withScope((scope) => {
+      msg && scope.setExtras(msg);
+      Sentry.captureException(error);
+    });
+    return false;
+  }
+};
