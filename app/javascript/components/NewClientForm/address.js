@@ -125,8 +125,10 @@ export default (props) => {
 
     if (parent !== "villages" && data !== null) {
       $.ajax({
+        dataType: "json",
         type: "GET",
-        url: `/ap/${parent}/${data}/${child}`,
+        url: `/api/${parent}/${data}/${child}`,
+        contentType: "application/json",
       })
         .success((res) => {
           const formatedData = res.data.map((data) => ({
