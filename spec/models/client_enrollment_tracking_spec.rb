@@ -5,6 +5,8 @@ describe ClientEnrollmentTracking do
   describe ClientEnrollmentTracking, 'associations' do
     it { is_expected.to belong_to(:client_enrollment) }
     it { is_expected.to belong_to(:tracking) }
+    it { is_expected.to have_many(:form_builder_attachments).dependent(:destroy)  }
+    it { is_expected.to accept_nested_attributes_for(:form_builder_attachments) }
   end
 
   describe ClientEnrollmentTracking, 'scope' do

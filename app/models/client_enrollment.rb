@@ -1,12 +1,14 @@
 class ClientEnrollment < ActiveRecord::Base
   include ClientRetouch
+  include NestedAttributesConcern
+  include ClientEnrollmentTrackingConcern
+
   acts_as_paranoid without_default_scope: true
 
   belongs_to :client
   belongs_to :program_stream
 
   has_many :client_enrollment_trackings, dependent: :destroy
-  has_many :form_builder_attachments, as: :form_buildable, dependent: :destroy
   has_many :trackings, through: :client_enrollment_trackings
   has_one :leave_program, dependent: :destroy
 
@@ -14,7 +16,6 @@ class ClientEnrollment < ActiveRecord::Base
 
   validates :enrollment_date, presence: true
   validate :enrollment_date_value, if: 'enrollment_date.present?'
-  accepts_nested_attributes_for :form_builder_attachments, reject_if: proc { |attributes| attributes['name'].blank? &&  attributes['file'].blank? }
 
   has_paper_trail
 
@@ -28,12 +29,6 @@ class ClientEnrollment < ActiveRecord::Base
   after_create :set_client_status
   after_save :create_client_enrollment_history
   after_destroy :reset_client_status
-
-  validate do |obj|
-    CustomFormPresentValidator.new(obj, 'program_stream', 'enrollment').validate
-    CustomFormNumericalityValidator.new(obj, 'program_stream', 'enrollment').validate
-    CustomFormEmailValidator.new(obj, 'program_stream', 'enrollment').validate
-  end
 
   def active?
     status == 'Active'

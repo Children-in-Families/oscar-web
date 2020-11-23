@@ -206,6 +206,11 @@ GEM
     ffi (1.9.10)
     fission (0.5.0)
       CFPropertyList (~> 2.2)
+    flay (2.12.1)
+      erubis (~> 2.7.0)
+      path_expander (~> 1.0)
+      ruby_parser (~> 3.0)
+      sexp_processor (~> 4.0)
     fog (1.41.0)
       fog-aliyun (>= 0.1.0)
       fog-atmos
@@ -539,6 +544,7 @@ GEM
       request_store (~> 1.1)
     parser (2.3.3.1)
       ast (~> 2.2)
+    path_expander (1.1.0)
     pg (0.18.4)
     phantomjs (2.1.1.0)
     phony (2.15.15)
@@ -836,6 +842,7 @@ DEPENDENCIES
   enumerize (~> 2.3.1)
   factory_girl_rails (~> 4.5)
   ffaker (~> 2.1.0)
+  flay (~> 2.12, >= 2.12.1)
   fog
   font-awesome-rails (~> 4.7)
   foreman (~> 0.78.0)

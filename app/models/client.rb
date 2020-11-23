@@ -165,7 +165,7 @@ class Client < ActiveRecord::Base
 
       shared_clients.compact.bsearch do |client|
         client = client.split('&')
-        input_name_field  = "#{options[:given_name]} #{options[:family_name]} #{options[:local_family_name]} #{options[:local_given_name]}".squish
+        input_name_field  = field_name_concatenate(options)
         client_name_field = client[0].squish
         field_name = compare_matching(input_name_field, client_name_field)
         dob        = date_of_birth_matching(options[:date_of_birth], client.last.squish)
@@ -200,7 +200,7 @@ class Client < ActiveRecord::Base
       address_hash = { cv: 1, cc: 2, cd: 3, cp: 4 }
       result = shared_clients.compact.bsearch do |client|
         client = client.split('&')
-        input_name_field     = "#{options[:given_name]} #{options[:family_name]} #{options[:local_family_name]} #{options[:local_given_name]}".squish
+        input_name_field     = field_name_concatenate(options)
         client_name_field    = client[0].squish
         field_name = compare_matching(input_name_field, client_name_field)
         dob        = date_of_birth_matching(options[:date_of_birth], client.last.squish)
@@ -212,6 +212,10 @@ class Client < ActiveRecord::Base
         end
       end
       return false
+    end
+
+    def field_name_concatenate(options)
+      "#{options[:given_name]} #{options[:family_name]} #{options[:local_family_name]} #{options[:local_given_name]}".squish
     end
 
     def mapping_address(address_hash, results, client)

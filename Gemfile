@@ -108,8 +108,9 @@ group :development do
   gem 'capistrano-rvm',       '~> 0.1.2'
   gem 'capistrano-sidekiq',   '~> 1.0', '>= 1.0.3'
   gem 'capistrano-foreman'
-  gem 'rack-mini-profiler', '~> 1.0'
+  gem 'rack-mini-profiler',   '~> 1.0'
   gem 'metainspector'
+  gem 'flay',                 '~> 2.12', '>= 2.12.1'
 end
 
 group :test do
