@@ -11,6 +11,8 @@
     %script{:src => "https://cdn.jsdelivr.net/npm/interactjs@1.4.1/dist/interact.min.js"}
     :javascript
       window.appsignalFrontendKey = "#{ENV['APPSIGNAL_FRONTEND']}"
+      window.appsignal = {}
+
     = javascript_pack_tag    'frontend'
     = javascript_pack_tag    'application'
     = stylesheet_pack_tag    'application'
