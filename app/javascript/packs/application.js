@@ -22,34 +22,3 @@ import "primeicons/primeicons.css";
 var componentRequireContext = require.context("components", true);
 var ReactRailsUJS = require("react_ujs");
 ReactRailsUJS.useContext(componentRequireContext);
-
-// Sentry.init({
-//   dsn:
-//     "https://19e7decf52684417b2414ba7fd360e45@o480860.ingest.sentry.io/5528553",
-//   integrations: [new Integrations.BrowserTracing()],
-
-//   tracesSampleRate: 1.0,
-// });
-
-// window.sentry = Sentry;
-// window.onerror = function (msg, url, line, col, error) {
-//   if (error instanceof Error) {
-//     console.log("onerror triggered");
-//     Sentry.withScope((scope) => {
-//       msg && scope.setExtras(msg);
-//       Sentry.captureException(error);
-//     });
-//     return false;
-//   }
-// };
-
-// window.onunhandledrejection = function (msg, url, line, col, error) {
-//   if (error instanceof Error) {
-//     console.log("onunhandledrejection triggered");
-//     Sentry.withScope((scope) => {
-//       msg && scope.setExtras(msg);
-//       Sentry.captureException(error);
-//     });
-//     return false;
-//   }
-// };
