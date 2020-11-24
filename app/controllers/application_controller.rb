@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
   before_action :set_locale, :override_translation
   before_action :set_paper_trail_whodunnit, :current_setting
   before_action :prevent_routes
+  before_action :set_raven_context
 
   rescue_from ActiveRecord::RecordNotFound do |exception|
     render file: "#{Rails.root}/app/views/errors/404", layout: false, status: :not_found
@@ -121,6 +122,17 @@ class ApplicationController < ActionController::Base
       redirect_to root_path, notice: t('unauthorized.you_cannot_access_this_page')
     elsif current_setting.try(:enable_client_form) == false && params[:controller] == "clients"
       redirect_to root_path, notice: t('unauthorized.you_cannot_access_this_page')
+    end
+  end
+
+  def set_raven_context
+    Raven.tags_context(
+      language: I18n.locale
+    )
+    if current_user
+      Raven.user_context(id: current_user.id, organization: Apartment::Tenant.current)
+    else
+      Raven.user_context(ip: request.ip)
     end
   end
 end

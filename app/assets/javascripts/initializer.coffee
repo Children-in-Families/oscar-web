@@ -12,15 +12,9 @@ CIF.Initializer =
     controller + action
 
   init: ->
-    try
-      CIF.Initializer.exec('Common')
-      if @currentPage()
-        CIF.Initializer.exec(@currentPage())
-    catch error
-      if error instanceof Error
-        sentry.withScope (scope) ->
-          sentry.captureException error
-          return false
+    CIF.Initializer.exec('Common')
+    if @currentPage()
+      CIF.Initializer.exec(@currentPage())
 
 
 $(document).on 'ready page:load', ->
