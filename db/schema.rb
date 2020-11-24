@@ -11,13 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20201020063259) do
+ActiveRecord::Schema.define(version: 20201124015604) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
-  enable_extension "pgcrypto"
   enable_extension "uuid-ossp"
+  enable_extension "pgcrypto"
 
   create_table "able_screening_questions", force: :cascade do |t|
     t.string   "question"
@@ -1513,6 +1513,7 @@ ActiveRecord::Schema.define(version: 20201020063259) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "multiple",                 default: true
+    t.string   "visible_on"
   end
 
   create_table "quarterly_reports", force: :cascade do |t|

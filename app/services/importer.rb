@@ -78,7 +78,8 @@ module Importer
         name = workbook.row(row)[headers['Name']]
 
         QuantitativeType.create(
-          name: name
+          name: name,
+          visible_on: ['client']
         )
       end
     end

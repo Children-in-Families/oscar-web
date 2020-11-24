@@ -10,6 +10,7 @@
           = error_notification(f)
           .form-inputs
             = f.input :name, label: t('.name')
+            = f.input :visible_on, collection: QuantitativeType::VISIBLE_ON.map{ |option| [option.titleize, option] }, input_html: { class: 'select2', multiple: true }
             = f.simple_fields_for :quantitative_cases do |quantitative_case|
               = render 'quantitative_case_fields', f: quantitative_case
           .links
