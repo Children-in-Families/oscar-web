@@ -14,7 +14,7 @@ CIF.DashboardsIndex = do ->
     _resizeChart()
     _clientProgramStreamByGender()
     _clientProgramStream()
-    _initSelect()
+    _initSelect2()
     _openTaskListModal()
     _handleApplyFilter()
     _initICheckBox()
