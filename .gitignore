@@ -42,3 +42,5 @@ yarn-debug.log*
 /node_modules
 ~$*
 TODO.md
+REVISION
+GIT_REVISION

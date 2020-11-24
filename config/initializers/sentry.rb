@@ -3,8 +3,8 @@
 ##       that depends on your deploy process.
 ##       e.g. ENV['CI_BUILD_REF'],
 ##            or `git rev-parse`.strip if you are deploying with the whole .git
-SENTRY_RELEASE = if File.exist?("GIT_REVISION")
-                   File.read("GIT_REVISION")
+SENTRY_RELEASE = if File.exist?(Rails.root.join('REVISION'))
+                   File.read(Rails.root.join('REVISION'))
                  else
                    ""
                  end
