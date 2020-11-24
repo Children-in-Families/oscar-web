@@ -13,7 +13,7 @@ class EnrolledProgramTrackingGrid
     link_to t('.view'), path
   end
 
-  # column(:action, html: true, header: -> { I18n.t('datagrid.columns.trackings.action') } ) do |object|
-  #   render partial: 'client_enrolled_program_trackings/action', locals: { object: object }
-  # end
+  column(:action, html: true, header: -> { I18n.t('datagrid.columns.trackings.action') } ) do |object|
+    render partial: 'enrolled_program_trackings/action', locals: { object: object }
+  end
 end

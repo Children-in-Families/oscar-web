@@ -1,6 +1,6 @@
 module EnrollmentTrackingHelper
-  def enrolled_tracking_new_link
-    path = params[:family_id] ? new_family_enrolled_program_enrolled_program_tracking_path(@programmable, @enrollment, tracking_id: @tracking) : '#'
+  def enrolled_tracking_new_link(tracking_id)
+    path = params[:family_id] ? new_family_enrolled_program_enrolled_program_tracking_path(@programmable, @enrollment, tracking_id: tracking_id) : '#'
     if program_permission_editable?(@enrollment.program_stream_id)
       link_to path do
         content_tag :div, class: 'btn btn-primary btn-outline' do

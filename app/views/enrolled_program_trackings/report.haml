@@ -6,7 +6,7 @@
         .ibox-tools
           - unless @enrollment.program_stream.tracking_required?
             - if can? :manage, EnrollmentTracking
-              = enrolled_tracking_new_link
+              = enrolled_tracking_new_link(@tracking.id)
           - if params[:family_id]
             = link_to family_enrolled_program_enrolled_program_trackings_path(@programmable, @enrollment, tracking_id: @tracking.id) do
               .btn.btn-success.btn-outline= t('.back')
