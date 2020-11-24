@@ -1,21 +1,16 @@
-# config/initializers/sentry.rb
-## TODO: Some mechanism to get the current git revision into the Rails app,
-##       that depends on your deploy process.
-##       e.g. ENV['CI_BUILD_REF'],
-##            or `git rev-parse`.strip if you are deploying with the whole .git
 SENTRY_RELEASE = if File.exist?(Rails.root.join('REVISION'))
                    File.read(Rails.root.join('REVISION'))
                  else
                    ""
                  end
 Raven.configure do |config|
-  if Rails.env.production? || Rails.env.staging? || Rails.env.development?
-    config.dsn = 'https://19e7decf52684417b2414ba7fd360e45@o480860.ingest.sentry.io/5528553'
+  if Rails.env.production? || Rails.env.staging?
+    config.dsn = ENV['SENTRY_DSN']
     # env: config.dsn = ENV['...']
     # secrets: config.dsn = Rails.application.secrets.sentry_dsn
   end
   # which envs to report, could be staging to
-  config.environments = %w[production staging development]
+  config.environments = %w[production staging]
   config.release = SENTRY_RELEASE
   # Do this to send POST data, sentry DOES NOT send POST params by default
   config.processors -= [Raven::Processor::PostData]
