@@ -35,7 +35,7 @@ export default (props) => {
             label={T.translate("admin.receiving_staff")}
             options={userLists}
             value={client.received_by_id}
-            onChange={onChange("client", "received_by_id")}
+            onChange={onChang("client", "received_by_id")}
             inlineClassName="admin-receiving-staff"
             hintText={hintText.admin.admin_receiving_staff}
           />
