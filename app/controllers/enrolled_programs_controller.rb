@@ -31,6 +31,17 @@ class EnrolledProgramsController < AdminController
   end
 
   def destroy
+    name = params[:file_name]
+    index = params[:file_index].to_i
+
+    if name.present? && index.present?
+      delete_form_builder_attachment(@enrollment, name, index)
+      redirect_to request.referer, notice: t('.delete_attachment_successfully')
+    else
+      @enrollment.destroy_fully!
+      path = params[:family_id] ? report_family_enrolled_programs_path(@programmable, program_stream_id: @program_stream) : '#'
+      redirect_to path, notice: t('.successfully_deleted')
+    end
   end
 
   def report

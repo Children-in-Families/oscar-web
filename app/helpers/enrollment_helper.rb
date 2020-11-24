@@ -25,14 +25,8 @@ module EnrollmentHelper
   end
 
   def cancel_url_link
-    if action_name == 'new' || action_name == 'create'
-      if params[:family_id]
-        link_to t('.cancel'), family_enrollments_path(@programmable), class: 'btn btn-default form-btn'
-      end
-    else
-      path = family_enrollment_path(@programmable, @enrollment, program_stream_id: params[:program_stream_id])
-      # link_to t('.cancel'), '#', class: 'btn btn-default form-btn'
-      link_to 'To be changed', '#', class: 'btn btn-default form-btn'
+    if params[:family_id]
+      link_to t('.cancel'), family_enrollments_path(@programmable), class: 'btn btn-default form-btn'
     end
   end
 
