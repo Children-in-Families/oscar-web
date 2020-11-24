@@ -15,6 +15,7 @@
     = stylesheet_pack_tag    'application'
     = stylesheet_link_tag    'application', media: 'all'
     = csrf_meta_tags
+    = render 'layouts/error_tracking'
 
   %body{id: "#{controller_name}-#{params[:action]}", class: "pace-done #{authorized_body}"}
     = render 'layouts/identifier' if Rails.env.staging? || Rails.env.demo?
