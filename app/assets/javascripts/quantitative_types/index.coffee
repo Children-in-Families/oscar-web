@@ -11,7 +11,9 @@ CIF.Quantitative_typesIndex = do ->
       $(@).valid()
 
   _validateForm = ->
-    $('form.edit_quantitative_type, form.new_quantitative_type').validate
+    $('form.edit_quantitative_type').validate
+      ignore: null
+    $('form.new_quantitative_type').validate
       ignore: null
 
   { init: _init }
