@@ -7,7 +7,7 @@ const SentryCliPlugin = require("@sentry/webpack-plugin");
 const fs = require("fs");
 
 // Again, getting the release here at this point, depends on your setup!
-const release = fs.readFileSync("GIT_REVISION").toString();
+const release = fs.readFileSync("REVISION").toString();
 
 environment.plugins.append(
   "sentry",
@@ -23,7 +23,7 @@ environment.plugins.append(
       // link that to your gitlab/github repository, to get the correct name
       //   head to Sentry -> Organisation settings -> Repos and take the name verbatim, no url!
       //   in our case, with self hosted Gitlab, it looked like this
-      repo: "developers / Myrepos",
+      // repo: "developers / Myrepos",
     },
   })
 );
