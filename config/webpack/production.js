@@ -18,13 +18,13 @@ environment.plugins.append(
     // ignore
     ignore: ["node_modules", "webpack.config.js", "vendor"],
     // also set the last commit for the current release
-    setCommits: {
-      commit: release,
-      // link that to your gitlab/github repository, to get the correct name
-      //   head to Sentry -> Organisation settings -> Repos and take the name verbatim, no url!
-      //   in our case, with self hosted Gitlab, it looked like this
-      // repo: "developers / Myrepos",
-    },
+    // setCommits: {
+    //   commit: release,
+    //   // link that to your gitlab/github repository, to get the correct name
+    //   //   head to Sentry -> Organisation settings -> Repos and take the name verbatim, no url!
+    //   //   in our case, with self hosted Gitlab, it looked like this
+    //   // repo: "developers / Myrepos",
+    // },
   })
 );
 
