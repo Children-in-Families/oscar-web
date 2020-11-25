@@ -40,7 +40,7 @@ class ProgramStreamDecorator < Draper::Decorator
   end
 
   def enrolled
-    model.completed == true ? model.client_enrollments.active.size : ''
+    model.completed == true ? model.attached_to_client? ? model.client_enrollments.active.size : model.enrollments.active.size : ''
   end
 
   def domains_format

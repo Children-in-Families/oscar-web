@@ -8,7 +8,13 @@ class EnrollmentPolicy < ApplicationPolicy
     end
   end
 
+  def edit?
+    entity = record.programmable
+    (entity.exit_ngo? && user.admin?) || (!entity.exit_ngo? && !user.strategic_overviewer?)
+  end
+
   alias new? create?
+  alias update? edit?
 
   def entity_ids
     Enrollment.active.where(program_stream_id: record.program_stream).pluck(:programmable_id).uniq

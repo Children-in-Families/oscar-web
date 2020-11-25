@@ -8,6 +8,9 @@ class EnrollmentsController < AdminController
   before_action :find_entity_histories, only: [:new, :create, :edit, :update]
   before_action :find_program_stream, except: :index
   before_action :find_enrollment, only: [:show, :edit, :update, :destroy]
+  before_action :get_attachments, only: [:new, :edit, :update, :create]
+  before_action -> { check_user_permission('editable') }, except: [:index, :show, :report]
+  before_action -> { check_user_permission('readable') }, only: :show
 
   def index
     program_streams = ProgramStreamDecorator.decorate_collection(ordered_program)
@@ -29,6 +32,24 @@ class EnrollmentsController < AdminController
     @attachment = @enrollment.form_builder_attachments.build
   end
 
+  def edit
+    authorize @enrollment
+  end
+
+  def update
+    authorize @enrollment
+    if @enrollment.update_attributes(enrollment_params)
+      add_more_attachments(@enrollment)
+      path = params[:family_id] ? family_enrollment_path(@programmable, @enrollment, program_stream_id: @program_stream) : '#'
+      redirect_to path, notice: t('.successfully_updated')
+    else
+      render :edit
+    end
+  end
+
+  def show
+  end
+
   def create
     @enrollment = @programmable.enrollments.new(enrollment_params)
     authorize(@programmable) && authorize(@enrollment)
@@ -38,6 +59,24 @@ class EnrollmentsController < AdminController
     else
       render :new
     end
+  end
+
+  def destroy
+    name = params[:file_name]
+    index = params[:file_index].to_i
+
+    if name.present? && index.present?
+      delete_form_builder_attachment(@enrollment, name, index)
+      redirect_to request.referer, notice: t('.delete_attachment_successfully')
+    else
+      @enrollment.destroy_fully!
+      path = params[:family_id] ? report_family_enrollments_path(@programmable, program_stream_id: @program_stream) : '#'
+      redirect_to path, notice: t('.successfully_deleted')
+    end
+  end
+
+  def report
+    @enrollments = @program_stream.enrollments.enrollments_by(@programmable).order(created_at: :DESC)
   end
 
   private

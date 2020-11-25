@@ -37,6 +37,10 @@ module FormBuilderAttachments
       params[:leave_program][:form_builder_attachments_attributes]
     elsif ['custom_field_properties', 'client_custom_fields'].include?(controller_name)
       params[:custom_field_property][:form_builder_attachments_attributes]
+    elsif ['enrollments','enrolled_programs'].include?(controller_name)
+      params[:enrollment][:form_builder_attachments_attributes]
+    elsif ['enrollment_trackings', 'enrolled_program_trackings', 'trackings'].include?(controller_name)
+      params[:enrollment_tracking][:form_builder_attachments_attributes]
     end
   end
 
@@ -49,14 +53,6 @@ module FormBuilderAttachments
       params[:leave_program][:properties]
     elsif ['custom_field_properties', 'client_custom_fields'].include?(controller_name)
       params[:custom_field_property][:properties]
-    end
-  end
-
-  def entity_attachment_params
-    if ['enrollments','enrolled_programs'].include?(controller_name)
-      params[:enrollment][:form_builder_attachments_attributes]
-    elsif ['enrollment_trackings', 'enrolled_program_trackings', 'trackings'].include?(controller_name)
-      params[:enrollment_tracking][:form_builder_attachments_attributes]
     end
   end
 

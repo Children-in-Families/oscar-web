@@ -18,7 +18,6 @@
                 %th= t('.actions')
             %tbody
               - @enrollments.each do |enrollment|
-                -# -# To be changed
                 - if enrollment.leave_program.present?
                   %tr
                     %td

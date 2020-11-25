@@ -164,6 +164,10 @@ Rails.application.routes.draw do
 
     resources :enrollments do
       get :report, on: :collection
+      resources :enrollment_trackings do
+        # get :report, on: :collection
+      end
+      resources :leave_programs
     end
 
     resources :enrolled_programs do

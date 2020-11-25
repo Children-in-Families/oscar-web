@@ -34,6 +34,7 @@ class ProgramStream < ActiveRecord::Base
   after_update :auto_update_exit_program, :auto_update_enrollment, :update_save_search
   after_create :build_permission
 
+  # default_scope -> { attached_with('Family') }
   scope  :ordered,        ->         { order('lower(name) ASC') }
   scope  :complete,       ->         { where(completed: true) }
   scope  :ordered_by,     ->(column) { order(column) }
@@ -154,6 +155,10 @@ class ProgramStream < ActiveRecord::Base
 
   def has_rule?
     rules.present?
+  end
+
+  def attached_to_client?
+    entity_type == 'Client'
   end
 
   private

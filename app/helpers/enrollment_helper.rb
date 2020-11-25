@@ -24,9 +24,49 @@ module EnrollmentHelper
     end
   end
 
+  def enrollment_edit_link
+    path = params[:family_id] ? edit_family_enrollment_path(@programmable, @enrollment, program_stream_id: @program_stream) : '#'
+    if program_permission_editable?(@program_stream)
+      link_to path do
+        content_tag :div, class: 'btn btn-success btn-outline' do
+          fa_icon('pencil')
+        end
+      end
+    else
+      link_to_if false, path do
+        content_tag :div, class: 'btn btn-success btn-outline disabled' do
+          fa_icon('pencil')
+        end
+      end
+    end
+  end
+
+  def enrollment_destroy_link
+    path = params[:family_id] ? family_enrollment_path(@programmable, @enrollment, program_stream_id: @program_stream) : '#'
+    if program_permission_editable?(@program_stream)
+      link_to path, method: 'delete', data: { confirm: t('.are_you_sure') } do
+        content_tag :div, class: 'btn btn-outline btn-danger' do
+          fa_icon('trash')
+        end
+      end
+    else
+      link_to_if false, path do
+        content_tag :div, class: 'btn btn-outline btn-danger disabled' do
+          fa_icon('trash')
+        end
+      end
+    end
+  end
+
   def cancel_url_link
-    if params[:family_id]
-      link_to t('.cancel'), family_enrollments_path(@programmable), class: 'btn btn-default form-btn'
+    if action_name == 'new' || action_name == 'create'
+      if params[:family_id]
+        link_to t('.cancel'), family_enrollments_path(@programmable), class: 'btn btn-default form-btn'
+      end
+    else
+      if params[:family_id]
+        link_to t('.cancel'), family_enrollment_path(@programmable, @enrollment, program_stream_id: params[:program_stream_id]), class: 'btn btn-default form-btn'
+      end
     end
   end
 

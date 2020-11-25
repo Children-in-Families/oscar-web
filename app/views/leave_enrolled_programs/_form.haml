@@ -1,4 +1,4 @@
-= simple_form_for([@client, @enrollment, @leave_program], url: leave_program_form_action_path, html: { class: 'client-enrolled-program-leave-program' }) do |f|
+= simple_form_for([@entity, @enrollment, @leave_program], url: leave_program_form_action_path, html: { class: 'client-enrolled-program-leave-program' }) do |f|
   .ibox-content
     .row
       .col-xs-12.col-sm-6.form-group.date.optional{ class: ('has-error' if f.error :exit_date) }
@@ -28,7 +28,10 @@
     = hidden_field_tag :program_stream_name, @program_stream.name
   .ibox-footer
     = f.submit t('.save'), class: 'btn btn-primary form-btn', data: { disable_with: t('saving') }
-    = link_to t('.cancel'), client_client_enrolled_programs_path(@client), class: 'btn btn-default form-btn'
+    - if params[:family_id]
+      = link_to t('.cancel'), family_enrolled_programs_path(@entity), class: 'btn btn-default form-btn'
+    - else
+      = link_to t('.cancel'), client_client_enrolled_programs_path(@entity), class: 'btn btn-default form-btn'
 
 %table.table.table-bordered.table-hover#case-history-table-leave-enrolled-program.hidden
   %thead

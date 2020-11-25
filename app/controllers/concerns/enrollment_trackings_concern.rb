@@ -10,7 +10,7 @@ module EnrollmentTrackingsConcern
     end
     default_params = params.require(:enrollment_tracking).permit({}).merge!(tracking_id: params[:tracking_id])
     default_params = default_params.merge!(properties: formatted_params) if formatted_params.present?
-    default_params = default_params.merge!(form_builder_attachments_attributes: params[:enrollment_tracking][:form_builder_attachments_attributes]) if action_name == 'create' && entity_attachment_params.present?
+    default_params = default_params.merge!(form_builder_attachments_attributes: params[:enrollment_tracking][:form_builder_attachments_attributes]) if action_name == 'create' && attachment_params.present?
     default_params
   end
 

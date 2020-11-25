@@ -89,6 +89,10 @@ class Family < ActiveRecord::Base
     family_type == 'Birth Family (Both Parents)'
   end
 
+  def exit_ngo?
+    status == 'Exited'
+  end
+
   def inactive?
     status == 'Inactive'
   end
