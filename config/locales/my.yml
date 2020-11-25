@@ -4454,7 +4454,9 @@ my:
       thai: ထိုင္းစာ
   leave_enrolled_programs:
     create:
-      successfully_created: အမႈသည္သည္ အစိအစဥ္မွ ေအာင္ျမင္စြာ ထြက္ၿပီးပါၿပီ။
+      client: အမႈသည္သည္
+      family: အမႈသည္သည္
+      successfully_created: "%{entity} အစိအစဥ္မွ ေအာင္ျမင္စြာ ထြက္ၿပီးပါၿပီ။"
     edit:
       leave_program: အစီအစဥ္မွ ထြက္ျခင္းကို ျပင္ဆင္ရန္
     form:

@@ -4443,7 +4443,9 @@ en:
       thai: Thai
   leave_enrolled_programs:
     create:
-      successfully_created: Client has been successfully exited from the program.
+      client: Client
+      family: Family
+      successfully_created: "%{entity} has been successfully exited from the program."
     edit:
       leave_program: Edit Leave Program
     form:

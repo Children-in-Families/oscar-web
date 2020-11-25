@@ -9,7 +9,7 @@ class EnrolledProgramTrackingsController < AdminController
   before_action :find_enrollment_tracking, only: [:update, :destroy, :edit, :show]
   before_action :get_attachments, only: [:new, :create, :edit, :update]
   before_action -> { check_user_permission('editable') }, except: [:index, :show, :report]
-  # before_action -> { check_user_permission('readable') }, only: :show
+  before_action -> { check_user_permission('readable') }, only: :show
 
   def index
     @tracking_grid = EnrolledProgramTrackingGrid.new(params[:tracking_grid])
@@ -48,9 +48,9 @@ class EnrolledProgramTrackingsController < AdminController
     end
   end
 
-  # def show
-  #   check_user_permission('readable')
-  # end
+  def show
+    check_user_permission('readable')
+  end
 
   def destroy
     name = params[:file_name]

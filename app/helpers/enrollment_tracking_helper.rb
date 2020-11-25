@@ -16,6 +16,23 @@ module EnrollmentTrackingHelper
     end
   end
 
+  def enrollment_tracking_edit_link(enrollment_tracking)
+    path = params[:family_id] ? edit_family_enrollment_enrollment_tracking_path(@programmable, @enrollment, enrollment_tracking, tracking_id: enrollment_tracking.tracking) : '#'
+    if program_permission_editable?(@enrollment.program_stream_id) && policy(enrollment_tracking).edit?
+      link_to path do
+        content_tag :div, class: 'btn btn-success btn-outline' do
+          fa_icon('pencil')
+        end
+      end
+    else
+      link_to_if false, path do
+        content_tag :div, class: 'btn btn-success btn-outline disabled' do
+          fa_icon('pencil')
+        end
+      end
+    end
+  end
+
   def enrolled_tracking_edit_link(enrollment_tracking)
     path = params[:family_id] ? edit_family_enrolled_program_enrolled_program_tracking_path(@programmable, @enrollment, enrollment_tracking, tracking_id: enrollment_tracking.tracking) : '#'
     if program_permission_editable?(@enrollment.program_stream_id)

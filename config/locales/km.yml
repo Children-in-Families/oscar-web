@@ -4425,7 +4425,9 @@ km:
       thai: Thai
   leave_enrolled_programs:
     create:
-      successfully_created: អតិថិជនត្រូវបានចាកចេញពីកម្មវិធីដោយជោគជ័យ
+      client: អតិថិជន
+      family: គ្រួសារ
+      successfully_created: "%{entity}ត្រូវបានចាកចេញពីកម្មវិធីដោយជោគជ័យ"
     edit:
       leave_program: កែសម្រួលការចាកចេញពីកម្មវិធី
     form:
