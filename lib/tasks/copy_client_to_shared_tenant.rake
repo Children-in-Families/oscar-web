@@ -69,6 +69,7 @@ namespace :client_to_shared do
       end
       SharedClient.find_or_create_by(client.except('birth_province_name').merge({ birth_province_id: province_id }))
     end
+    Apartment::Tenant.switch! args.short_name
   end
 end
 

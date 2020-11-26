@@ -53,11 +53,11 @@ module ApplicationHelper
   end
 
   def is_active_controller(controller_name, class_name = nil)
-      if params[:controller] =~ /#{controller_name}/i
-       class_name == nil ? "active" : class_name
-      else
-        nil
-      end
+    if params[:controller] =~ /#{controller_name}/i
+      class_name == nil ? "active" : class_name
+    else
+      nil
+    end
   end
 
   def clients_menu_active

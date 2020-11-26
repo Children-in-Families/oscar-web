@@ -38,7 +38,8 @@ Capybara.register_server :thin do |app, port, host|
 end
 
 Capybara.server = :thin
-
+Capybara.always_include_port = true
+Capybara.app_host = 'http://lvh.me'
 Capybara.register_driver :poltergeist do |app|
   options = {
     js_errors: false,
@@ -103,9 +104,6 @@ RSpec.configure do |config|
 
   config.use_transactional_fixtures = false
 
-  # config.before(:suite) do
-  #   DatabaseCleaner.clean_with(:truncation)
-  # end
   config.before(:suite) do
       # Clean all tables to start
       DatabaseCleaner.clean_with :truncation
@@ -113,27 +111,41 @@ RSpec.configure do |config|
       DatabaseCleaner.strategy = :transaction
       # Truncating doesn't drop schemas, ensure we're clean here, app *may not* exist
       Apartment::Tenant.drop('app') rescue nil
+      Apartment::Tenant.drop('shared') rescue nil
+      Apartment::Tenant.drop('shared_extensions') rescue nil
       # Create the default tenant for our tests
       Organization.create_and_build_tenant(full_name: 'Organization Testing', short_name: 'app')
+      Organization.create_and_build_tenant(full_name: 'Shared Testing', short_name: 'shared')
       ActiveRecord::Base.connection.execute 'CREATE SCHEMA IF NOT EXISTS shared_extensions;'
+      Apartment::Tenant.switch! 'app'
     end
 
   config.before(:each) do
     # DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.start
     # Apartment::Tenant.drop('app') rescue nil
+    Organization.find_or_create_by(full_name: 'Organization Testing', short_name: 'app')
     Apartment::Tenant.switch! 'app'
-    Setting.create(country_name: 'cambodia', max_case_note: 30, case_note_frequency: 'day', max_assessment: 6, age: 18, enable_default_assessment: true, enable_custom_assessment: true)
+    Setting.find_or_create_by(country_name: 'cambodia', max_case_note: 30, case_note_frequency: 'day', max_assessment: 6, age: 18, enable_default_assessment: true, enable_custom_assessment: true) do |setting|
+      setting.family_default_columns = ["name_", "id_", "family_type_", "status_", "manage_"]
+      setting.save
+    end
+    Apartment.configure do |config|
+      config.default_tenant = 'app'
+    end
   end
 
   config.before(:each, js: true) do
-    DatabaseCleaner.strategy = :truncation
+    # DatabaseCleaner.strategy = :truncation
     Capybara.default_max_wait_time = 10
     Capybara.always_include_port = true
     Capybara.app_host = "http://app.lvh.me"
   end
 
   config.after(:each) do
+    # Apartment.configure do |config|
+    #   config.default_tenant = 'public'
+    # end
     Apartment::Tenant.reset
     if Rails.env.test? || Rails.env.cucumber?
       FileUtils.rm_rf(Dir["#{Rails.root}/spec/support/uploads"])
@@ -181,7 +193,7 @@ RSpec.configure do |config|
   # order dependency and want to debug it, you can fix the order by providing
   # the seed, which is printed after each run.
   #     --seed 1234
-  config.order = :random
+  # config.order = :random
 
   # Seed global randomization in this process using the `--seed` CLI option.
   # Setting this allows you to use `--seed` to deterministically reproduce
