@@ -20,15 +20,18 @@ class Enrollment < ActiveRecord::Base
   has_paper_trail
 
   scope :enrollments_by, -> (obj) { where(programmable_id: obj.id) }
-  # Todo: check if need commented code back
+  # Todo: may be used in CPS form
   # scope :find_by_program_stream_id, ->(value) { where(program_stream_id: value) }
   scope :active, -> { where(status: 'Active') }
+  # may be used later in family grid
   # scope :inactive, -> { where(status: 'Exited') }
 
+  # may be used later in family book
   # delegate :name, to: :program_stream, prefix: true, allow_nil: true
-  # after_create :set_client_status
-  # after_save :create_client_enrollment_history
-  # after_destroy :reset_client_status
+
+  after_create :set_entity_status
+  after_save :create_entity_enrollment_history
+  after_destroy :reset_entity_status
 
   def active?
     status == 'Active'
@@ -38,42 +41,41 @@ class Enrollment < ActiveRecord::Base
     enrollment_trackings.present?
   end
 
+  # may be used later in family grid
   # def self.properties_by(value)
   #   value = value.gsub(/\'+/, "''")
-  #   field_properties = select("client_enrollments.id, client_enrollments.properties ->  '#{value}' as field_properties").collect(&:field_properties)
+  #   field_properties = select("enrollments.id, enrollments.properties ->  '#{value}' as field_properties").collect(&:field_properties)
   #   field_properties.select(&:present?)
   # end
 
-  # def set_client_status
-  #   client = Client.find self.client_id
-  #   client_status = 'Active'
+  def set_entity_status
+    entity_status = 'Active'
+    if entity_status.present?
+      programmable.status = entity_status
+      programmable.save(validate: false)
+    end
+  end
 
-  #   if client_status.present?
-  #     client.status = client_status
-  #     client.save(validate: false)
-  #   end
-  # end
+  def get_form_builder_attachment(value)
+    form_builder_attachments.find_by(name: value)
+  end
 
-  # def get_form_builder_attachment(value)
-  #   form_builder_attachments.find_by(name: value)
-  # end
+  def reset_entity_status
+    return if programmable.enrollments.active.any?
+    programmable.status = 'Accepted'
+    programmable.save(validate: false)
+  end
 
-  # def reset_client_status
-  #   client = Client.find(client_id)
-  #   return if client.client_enrollments.active.any?
-  #   client.status = 'Accepted'
-  #   client.save(validate: false)
-  # end
-
+  # may be used later if family statistic advanced search (Quick Graph)
   # def short_enrollment_date
   #   enrollment_date.end_of_month.strftime '%b-%y'
   # end
 
   private
 
-  # def create_client_enrollment_history
-  #   ClientEnrollmentHistory.initial(self)
-  # end
+  def create_entity_enrollment_history
+    EntityEnrollmentHistory.initial(self)
+  end
 
   def enrollment_date_value
     if leave_program.present? && leave_program.exit_date < enrollment_date
