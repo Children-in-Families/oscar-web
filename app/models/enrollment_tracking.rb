@@ -1,12 +1,13 @@
 class EnrollmentTracking < ActiveRecord::Base
   include NestedAttributesConcern
-  # include ClientEnrollmentTrackingConcern
+  include ClientEnrollmentTrackingConcern
 
   belongs_to :enrollment
   belongs_to :tracking
 
   has_paper_trail
 
+  # Todo: check if need commented code back
   # scope :ordered, -> { order(:created_at) }
   scope :enrollment_trackings_by, -> (tracking) { where(tracking_id: tracking) }
 

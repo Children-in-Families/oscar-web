@@ -32,17 +32,3 @@
       = link_to t('.cancel'), family_enrolled_programs_path(@entity), class: 'btn btn-default form-btn'
     - else
       = link_to t('.cancel'), client_client_enrolled_programs_path(@entity), class: 'btn btn-default form-btn'
-
-%table.table.table-bordered.table-hover#case-history-table-leave-enrolled-program.hidden
-  %thead
-    %tr
-      %th Classname
-      %th Case histories name
-      %th Date
-  %tbody
-    - @case_histories.each_with_index do |case_history, index|
-      - case_history_name = case_history.class.table_name
-      %tr.case-history-row{ data: {date: case_history.new_date, created_date: case_history.created_at,name: case_history_label(case_history), classname: case_history_name,case_history_id: "#{case_history_name}" + "_#{case_history.id}"}, id: "#{case_history_name}" + "_#{case_history.id}"}
-        %td= case_history_name
-        %td= case_history_label(case_history)
-        %td= date_format(case_history.new_date)

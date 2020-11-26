@@ -5,7 +5,6 @@ class EnrollmentsController < AdminController
   include FormBuilderAttachments
 
   before_action :find_entity
-  before_action :find_entity_histories, only: [:new, :create, :edit, :update]
   before_action :find_program_stream, except: :index
   before_action :find_enrollment, only: [:show, :edit, :update, :destroy]
   before_action :get_attachments, only: [:new, :edit, :update, :create]
@@ -93,15 +92,5 @@ class EnrollmentsController < AdminController
     enrollments_exited    = all_programs.inactive_enrollments(@programmable, true).complete
     enrollments_inactive  = all_programs.without_status_by(@programmable, true).complete
     program_streams       = enrollments_exited + enrollments_inactive
-  end
-
-  def find_entity_histories
-    # enter_ngos = @programmable.enter_ngos
-    # exit_ngos  = @programmable.exit_ngos
-    cps_enrollments = @programmable.enrollments
-    # cps_leave_programs = LeaveProgram.joins(:enrollment).where("enrollments.programmable_id = ?", @programmable.id)
-    # referrals = @programmable.referrals
-    # @case_histories = (enter_ngos + exit_ngos + cps_enrollments + cps_leave_programs + referrals).sort { |current_record, next_record| -([current_record.created_at, current_record.new_date] <=> [next_record.created_at, next_record.new_date]) }
-    @case_histories = (cps_enrollments).sort { |current_record, next_record| -([current_record.created_at, current_record.new_date] <=> [next_record.created_at, next_record.new_date]) }
   end
 end

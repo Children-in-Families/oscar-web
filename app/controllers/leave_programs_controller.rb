@@ -55,6 +55,5 @@ class LeaveProgramsController < AdminController
       referrals = @entity.referrals
       @case_histories = (enter_ngos + exit_ngos + cps_enrollments + cps_leave_programs + referrals).sort { |current_record, next_record| -([current_record.created_at, current_record.new_date] <=> [next_record.created_at, next_record.new_date]) }
     end
-
   end
 end

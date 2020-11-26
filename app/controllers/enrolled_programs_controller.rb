@@ -6,7 +6,6 @@ class EnrolledProgramsController < AdminController
 
   before_action :find_entity
   before_action :find_program_stream, except: :index
-  before_action :find_entity_histories, only: [:new, :create, :edit, :update]
   before_action :find_enrollment, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -57,15 +56,5 @@ class EnrolledProgramsController < AdminController
       all_programs = ProgramStream.with_deleted.where(id: current_user.program_stream_permissions.where(readable: true).pluck(:program_stream_id))
     end
     all_programs.active_enrollments(@programmable, true).complete
-  end
-
-  def find_entity_histories
-    # enter_ngos = @programmable.enter_ngos
-    # exit_ngos  = @programmable.exit_ngos
-    cps_enrollments = @programmable.enrollments
-    # cps_leave_programs = LeaveProgram.joins(:client_enrollment).where("client_enrollments.client_id = ?", @programmable.id)
-    # referrals = @programmable.referrals
-    # @case_histories = (enter_ngos + exit_ngos + cps_enrollments + cps_leave_programs + referrals).sort { |current_record, next_record| -([current_record.created_at, current_record.new_date] <=> [next_record.created_at, next_record.new_date]) }
-    @case_histories = (cps_enrollments).sort { |current_record, next_record| -([current_record.created_at, current_record.new_date] <=> [next_record.created_at, next_record.new_date]) }
   end
 end
