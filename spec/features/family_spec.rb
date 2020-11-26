@@ -210,7 +210,7 @@ describe 'Family' do
 
       page.has_css?('table.families')
       expect(page).to have_content(family.name)
-      expect(page).not_to have_content('Unknown')
+      expect(page).not_to have_css("a[href='#{family_path(other_family)}'][data-method='delete'][class='btn btn-outline btn-danger btn-xs disabled']")
     end
 
     xscenario 'filter by family commune' do
@@ -225,9 +225,10 @@ describe 'Family' do
       village_id = Village.find_by(name_en: 'Wat Neak Kwan').id
       page.find("#family-search-form select#family_grid_village_id option[value='#{village_id}']", visible: false).select_option
       click_button 'Search'
+
       page.has_css?('table.families')
       expect(page).to have_content(family.name)
-      expect(page).not_to have_content(other_family.name)
+      expect(page).not_to have_css("a[href='#{family_path(other_family)}'][data-method='delete'][class='btn btn-outline btn-danger btn-xs disabled']")
     end
 
     xscenario 'filter by family dependable income' do
