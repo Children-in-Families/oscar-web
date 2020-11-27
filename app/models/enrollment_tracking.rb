@@ -7,15 +7,16 @@ class EnrollmentTracking < ActiveRecord::Base
 
   has_paper_trail
 
-  # Todo: check if need commented code back
-  # scope :ordered, -> { order(:created_at) }
+  scope :ordered, -> { order(:created_at) }
   scope :enrollment_trackings_by, -> (tracking) { where(tracking_id: tracking) }
 
-  # delegate :program_stream, to: :client_enrollment
+  # may be used later in family book
+  # delegate :program_stream, to: :enrollment
   # delegate :name, to: :program_stream, prefix: true
 
-  # after_save :create_client_enrollment_tracking_history
+  after_save :create_entity_enrollment_tracking_history
 
+  # may be used later in family grid
   # def self.properties_by(value, object=nil)
   #   value = value.gsub(/\'+/, "''")
   #   field_properties = select("client_enrollment_trackings.id, client_enrollment_trackings.properties ->  '#{value}' as field_properties").collect(&:field_properties)
@@ -26,9 +27,9 @@ class EnrollmentTracking < ActiveRecord::Base
     form_builder_attachments.find_by(name: value)
   end
 
-  # private
+  private
 
-  # def create_client_enrollment_tracking_history
-  #   ClientEnrollmentTrackingHistory.initial(self)
-  # end
+  def create_entity_enrollment_tracking_history
+    EntityEnrollmentTrackingHistory.initial(self)
+  end
 end

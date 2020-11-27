@@ -7,9 +7,6 @@ class Tracking < ActiveRecord::Base
   has_many :client_enrollment_trackings, dependent: :restrict_with_error
   has_many :client_enrollments, through: :client_enrollment_trackings
 
-  # has_many :enrollment_trackings, dependent: :restrict_with_error
-  # has_many :enrollments, through: :enrollment_trackings
-
   has_paper_trail
 
 
