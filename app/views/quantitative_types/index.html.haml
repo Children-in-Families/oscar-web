@@ -16,7 +16,8 @@
               .row
                 .col-xs-8.col-sm-9
                   %h4
-                    = "#{qt.name}  (visible on #{qt.visible_on.join('/').titleize} form)"
+                    = qt.name
+                    %em= " (visible on #{qt.visible_on.join('/').titleize} form)"
                 - if can? :manage, QuantitativeType
                   .col-xs-4.col-sm-3.text-right.actions
                     = link_to '#', {class: 'btn btn-outline btn-success', "data-target" => "#quantitative_typeModal-#{qt.id}", "data-toggle" => "modal", :type => "button"} do
