@@ -527,7 +527,6 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       labelFields = $(tracking).find('label.field-label')
       # if fields[name].length <= labelFields.length
       #   $(tracking).find('.ibox-footer .remove_fields').remove()
-
       $(labelFields).each (index, label) ->
         text = label.textContent.allReplace(specialCharacters)
 
@@ -564,7 +563,8 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     trackings = $('#trackings .nested-fields')
     specialCharacters = { '&amp;': '&', '&lt;': '<', '&gt;': '>' }
     for tracking in trackings
-      trackingName = $(tracking).find('input.string.optional.readonly.form-control')
+      # trackingName = $(tracking).find('input.string.optional.readonly.form-control')
+      trackingName = $(tracking).find('input.string.optional.form-control')
       continue if $(trackingName).length == 0
       name = $(trackingName).val()
       labelFields = $(tracking).find('label.field-label')
@@ -627,28 +627,31 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         allCheckboxOption = $('#trackings .checkbox-group-field .sortable-options .ui-sortable-handle .option-label')
         trackingCheckbox = $('div[data-tracking_checkbox_option]').data('tracking_checkbox_option')
         jQuery.map(allCheckboxOption, (e) ->
-          trackingCheckbox.forEach (tracking_checkbox_value) ->
-            if tracking_checkbox_value == e.value
-              $(e).attr('disabled', 'true')
-              $(e).parent().children('a.remove.btn').remove()
+          if trackingCheckbox != ""
+            trackingCheckbox.forEach (tracking_checkbox_value) ->
+              if tracking_checkbox_value == e.value
+                $(e).attr('disabled', 'true')
+                $(e).parent().children('a.remove.btn').remove()
         )
     else if $(parent).attr('class').includes('radio-group-field')
         allRadioOption = $('#trackings .radio-group-field .sortable-options .ui-sortable-handle .option-label')
         trackingRadio = $('div[data-tracking_radio_option]').data('tracking_radio_option')
         jQuery.map(allRadioOption, (e) ->
-          trackingRadio.forEach (tracking_radio_value) ->
-            if tracking_radio_value == e.value
-              $(e).attr('disabled', 'true')
-              $(e).parent().children('a.remove.btn').remove()
+          if trackingRadio != ""
+            trackingRadio.forEach (tracking_radio_value) ->
+              if tracking_radio_value == e.value
+                $(e).attr('disabled', 'true')
+                $(e).parent().children('a.remove.btn').remove()
         )
     else if $(parent).attr('class').includes('select-field')
         allSelectOption = $('#trackings .select-field .sortable-options .ui-sortable-handle .option-label')
         trackingSelect = $('div[data-tracking-select-option]').data('tracking-select-option')
         jQuery.map(allSelectOption, (e) ->
-          trackingSelect.forEach (tracking_selected_value) ->
-            if tracking_selected_value == e.value
-              $(e).attr('disabled', 'true')
-              $(e).parent().children('a.remove.btn').remove()
+           if trackingSelect != ""
+            trackingSelect.forEach (tracking_selected_value) ->
+              if tracking_selected_value == e.value
+                $(e).attr('disabled', 'true')
+                $(e).parent().children('a.remove.btn').remove()
         )
 
   _removeActionFormBuilderExitProgram = (label) ->

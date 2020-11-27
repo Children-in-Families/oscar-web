@@ -23,7 +23,6 @@ module Api
     end
 
     def tracking_fields
-      # Todo
       tracking_properties = Hash.new { |h,k| h[k] = []}
       program_stream = ProgramStream.find params[:program_stream_id]
       properties = {}
@@ -33,8 +32,6 @@ module Api
           file_uploader = FormBuilderAttachment.find_by_form_buildable(client_enrollment_tracking_ids, 'ClientEnrollmentTracking').where("form_builder_attachments.file != '[]'").pluck(:name)
           tracking.client_enrollment_trackings.pluck(:properties).map{|props| props.each{|k, v| tracking_properties[k] << v if v.try(:first).present? } }
         else
-          # Todo
-          # binding.pry
           enrollment_tracking_ids = EnrollmentTracking.enrollment_trackings_by(tracking.id).ids
           file_uploader = FormBuilderAttachment.find_by_form_buildable(enrollment_tracking_ids, 'EnrollmentTracking').where("form_builder_attachments.file != '[]'").pluck(:name)
           tracking.enrollment_trackings.pluck(:properties).map{|props| props.each{|k, v| tracking_properties[k] << v if v.try(:first).present? } }
@@ -43,7 +40,6 @@ module Api
         tracking_fields += file_uploader
         properties.store(tracking.name, tracking_fields)
       end
-
       render json: properties.merge(field: 'tracking')
     end
 
