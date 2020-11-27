@@ -1513,7 +1513,7 @@ ActiveRecord::Schema.define(version: 20201124015604) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "multiple",                 default: true
-    t.string   "visible_on"
+    t.string   "visible_on",               default: "---\n- client\n"
   end
 
   create_table "quarterly_reports", force: :cascade do |t|
