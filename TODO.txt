@@ -1,8 +1,0 @@
-1) Delete migration
-2) Add Field old_data bool type to case_notes table
-3) check in tag_domain_group(case_note) method
-  if case_note
-    case_note.case_note_domain_groups.where("attachments != '{}' OR note != ''").pluck(:domain_group_id)
-  else
-    case_note.case_note_domain_groups.pluck(:domain_group_id)
-  end

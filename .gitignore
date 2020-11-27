@@ -44,3 +44,5 @@ yarn-debug.log*
 TODO.md
 REVISION
 GIT_REVISION
+NOTES.md
+staging.env

@@ -43,7 +43,7 @@ staging:
     default:
       database: <%= ENV["HISTORY_DATABASE_NAME"] %>
       hosts:
-        - localhost:27017
+        - <%= ENV["HISTORY_DATABASE_HOST"] %>:27017
       options:
   options:
 production:
