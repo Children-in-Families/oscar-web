@@ -237,7 +237,8 @@ class ProgramStream < ActiveRecord::Base
 
   def auto_update_enrollment
     return unless enrollment_changed?
-    labels_update(enrollment_change.last, enrollment_was, client_enrollments)
+    enrollment_objs = entity_type == 'Client' ? client_enrollments : enrollments
+    labels_update(enrollment_change.last, enrollment_was, enrollment_objs)
   end
 
   def destroy_tracking

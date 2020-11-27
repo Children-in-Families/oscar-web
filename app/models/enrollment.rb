@@ -20,8 +20,7 @@ class Enrollment < ActiveRecord::Base
   has_paper_trail
 
   scope :enrollments_by, -> (obj) { where(programmable_id: obj.id) }
-  # Todo: may be used in CPS form
-  # scope :find_by_program_stream_id, ->(value) { where(program_stream_id: value) }
+  scope :find_by_program_stream_id, ->(value) { where(program_stream_id: value) }
   scope :active, -> { where(status: 'Active') }
   # may be used later in family grid
   # scope :inactive, -> { where(status: 'Exited') }

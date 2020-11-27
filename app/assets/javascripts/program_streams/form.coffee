@@ -1,8 +1,14 @@
 CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = CIF.Program_streamsUpdate = do ->
   @programStreamId = $('#program_stream_id').val()
-  ENROLLMENT_URL   = "/api/program_streams/#{@programStreamId}/enrollment_fields"
+
+  queryString = window.location.search
+  urlParams = new URLSearchParams(queryString)
+  ENTITY_TYPE = urlParams.get('entity_type')
+
+  # pass corresponding entity type from url
+  ENROLLMENT_URL   = "/api/program_streams/#{@programStreamId}/enrollment_fields" + "?entity_type=#{ENTITY_TYPE}"
   EXIT_PROGRAM_URL = "/api/program_streams/#{@programStreamId}/exit_program_fields"
-  TRACKING_URL     = "/api/program_streams/#{@programStreamId}/tracking_fields"
+  TRACKING_URL     = "/api/program_streams/#{@programStreamId}/tracking_fields" + "?entity_type=#{ENTITY_TYPE}"
   TRACKING = ''
   DATA_TABLE_ID = ''
   @formBuilder = []
@@ -225,11 +231,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       ),100
 
   _handleInitProgramRules = ->
-    queryString = window.location.search;
-    urlParams = new URLSearchParams(queryString);
-    entityType = urlParams.get('entity_type')
-    # pass corresponding entity type from url
-    url = '/api/program_stream_add_rule/get_fields' + '?entity_type=' + entityType
+    url = '/api/program_stream_add_rule/get_fields' + '?entity_type=' + ENTITY_TYPE
     $.ajax
       url: url
       method: 'GET'
@@ -894,4 +896,3 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           removeError($(this.parentElement))
 
   { init: _init }
-
