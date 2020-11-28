@@ -32,8 +32,8 @@ class LeaveProgramsController < AdminController
     check_user_permission('readable')
   end
 
+  # might be legacy
   def destroy
-    # might be legacy
     name = params[:file_name]
     index = params[:file_index].to_i
     params_program_streams = params[:program_streams]
@@ -46,7 +46,8 @@ class LeaveProgramsController < AdminController
   def find_entity_histories
     if params[:family_id]
       cps_enrollments = @entity.enrollments
-      @case_histories = (cps_enrollments).sort { |current_record, next_record| -([current_record.created_at, current_record.new_date] <=> [next_record.created_at, next_record.new_date]) }
+      cps_leave_programs = LeaveProgram.joins(:enrollment).where("enrollments.programmable_id = ?", @entity.id)
+      @case_histories = (cps_enrollments + cps_leave_programs).sort { |current_record, next_record| -([current_record.created_at, current_record.new_date] <=> [next_record.created_at, next_record.new_date]) }
     else
       enter_ngos = @entity.enter_ngos
       exit_ngos  = @entity.exit_ngos

@@ -87,10 +87,10 @@ class EnrollmentsController < AdminController
     else
       all_programs = ProgramStream.where(id: current_user.program_stream_permissions.where(readable: true, user: current_user).pluck(:program_stream_id))
     end
-    all_programs = params[:family_id] ? all_programs.attached_with('Family') : all_programs.attached_with('Client')
-
-    enrollments_exited    = all_programs.inactive_enrollments(@programmable, true).complete
-    enrollments_inactive  = all_programs.without_status_by(@programmable, true).complete
+    all_programs = params[:family_id] ? all_programs.attached_with('Family') : all_programs
+    polymorphic = params[:family_id].present?
+    enrollments_exited    = all_programs.inactive_enrollments(@programmable, polymorphic).complete
+    enrollments_inactive  = all_programs.without_status_by(@programmable, polymorphic).complete
     program_streams       = enrollments_exited + enrollments_inactive
   end
 end

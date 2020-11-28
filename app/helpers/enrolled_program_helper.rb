@@ -1,17 +1,16 @@
 module EnrolledProgramHelper
   def program_stream_tracking_action_link(program_stream)
-    if params[:family_id]
-      if program_permission_editable?(program_stream)
-        link_to family_enrolled_program_enrolled_program_trackings_path(@programmable, program_stream.enrollments.enrollments_by(@programmable).order(:created_at).last) do
-          content_tag :div, class: 'btn btn-primary btn-xs btn-width' do
-            t('.tracking')
-          end
+    path = params[:family_id] ? family_enrolled_program_enrolled_program_trackings_path(@programmable, program_stream.enrollments.enrollments_by(@programmable).order(:created_at).last) : '#'
+    if program_permission_editable?(program_stream)
+      link_to path do
+        content_tag :div, class: 'btn btn-primary btn-xs btn-width' do
+          t('.tracking')
         end
-      else
-        link_to_if false, family_enrolled_program_enrolled_program_trackings_path(@programmable, program_stream.enrollments.enrollments_by(@programmable).order(:created_at).last) do
-          content_tag :div, class: 'btn btn-primary btn-xs btn-width disabled' do
-            t('.tracking')
-          end
+      end
+    else
+      link_to_if false, path do
+        content_tag :div, class: 'btn btn-primary btn-xs btn-width disabled' do
+          t('.tracking')
         end
       end
     end

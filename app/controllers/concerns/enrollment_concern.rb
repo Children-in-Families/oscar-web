@@ -54,7 +54,7 @@ module EnrollmentConcern
   end
 
   def valid_program?
-    program_active_status_ids   = ProgramStream.active_enrollments(@programmable).pluck(:id)
+    program_active_status_ids   = ProgramStream.active_enrollments(@programmable, true).pluck(:id)
     if @program_stream.has_program_exclusive? && @program_stream.has_mutual_dependence?
       (@program_stream.program_exclusive & program_active_status_ids).empty? && (@program_stream.mutual_dependence - program_active_status_ids).empty?
     elsif @program_stream.has_mutual_dependence?

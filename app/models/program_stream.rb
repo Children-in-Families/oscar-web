@@ -22,7 +22,7 @@ class ProgramStream < ActiveRecord::Base
 
   accepts_nested_attributes_for :trackings, allow_destroy: true
 
-  validates :name, presence: true
+  validates :name, :entity_type, presence: true
   validates :name, uniqueness: true
 
   validate  :presence_of_label
@@ -34,7 +34,6 @@ class ProgramStream < ActiveRecord::Base
   after_update :auto_update_exit_program, :auto_update_enrollment, :update_save_search
   after_create :build_permission
 
-  # default_scope -> { attached_with('Family') }
   scope  :ordered,        ->         { order('lower(name) ASC') }
   scope  :complete,       ->         { where(completed: true) }
   scope  :ordered_by,     ->(column) { order(column) }

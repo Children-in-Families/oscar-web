@@ -11,8 +11,7 @@
       .ibox-title
         %h5= "#{@programmable.name} - #{@enrollment_tracking.tracking.try(:name)} - #{@program_stream.name}"
         .ibox-tools
-          -# - if can? :manage, EnrollmentTracking
-          - if policy(@enrollment_tracking).edit?
+          - if can? :manage, EnrollmentTracking
             = enrolled_tracking_edit_link(@enrollment_tracking)
           - if params[:family_id]
             = link_to report_family_enrolled_programs_path(@programmable, program_stream_id: @program_stream) do
