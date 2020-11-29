@@ -13,5 +13,9 @@ FactoryGirl.define do
     after(:build) do |ps|
       ps.services << create(:service)
     end
+
+    trait :attached_with_family do
+      entity_type 'Family'
+    end
   end
 end

@@ -8,6 +8,7 @@ FactoryGirl.define do
     }
     exit_date Date.today
     association :client_enrollment
+    association :enrollment
     association :program_stream
 
     after(:build) do |leave_program|

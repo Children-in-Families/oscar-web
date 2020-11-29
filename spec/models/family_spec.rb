@@ -13,6 +13,8 @@ describe Family, 'associations' do
   it { is_expected.to have_many(:family_members).dependent(:destroy) }
   it { is_expected.to have_many(:custom_field_properties).dependent(:destroy) }
   it { is_expected.to have_many(:custom_fields).through(:custom_field_properties) }
+  it { is_expected.to have_many(:enrollments).dependent(:destroy) }
+  it { is_expected.to have_many(:program_streams).through(:enrollments) }
 end
 
 describe Family, 'scopes' do
@@ -148,6 +150,13 @@ describe Family, 'instance methods' do
 
   context '#inactive?' do
     it { expect(inactive_family.inactive?).to be_truthy }
+  end
+
+  context '#exit_ngo?' do
+    it 'should return true if status is exited' do
+      inactive_family.status = 'Exited'
+      expect(inactive_family.exit_ngo?).to be_truthy
+    end
   end
 
   context '#birth_family_both_parents?' do

@@ -47,22 +47,8 @@ class Enrollment < ActiveRecord::Base
   #   field_properties.select(&:present?)
   # end
 
-  def set_entity_status
-    entity_status = 'Active'
-    if entity_status.present?
-      programmable.status = entity_status
-      programmable.save(validate: false)
-    end
-  end
-
   def get_form_builder_attachment(value)
     form_builder_attachments.find_by(name: value)
-  end
-
-  def reset_entity_status
-    return if programmable.enrollments.active.any?
-    programmable.status = 'Accepted'
-    programmable.save(validate: false)
   end
 
   # may be used later if family statistic advanced search (Quick Graph)
@@ -71,6 +57,20 @@ class Enrollment < ActiveRecord::Base
   # end
 
   private
+
+  def set_entity_status
+    entity_status = 'Active'
+    if entity_status.present?
+      programmable.status = entity_status
+      programmable.save(validate: false)
+    end
+  end
+
+  def reset_entity_status
+    return if programmable.enrollments.active.any?
+    programmable.status = 'Accepted'
+    programmable.save(validate: false)
+  end
 
   def create_entity_enrollment_history
     EntityEnrollmentHistory.initial(self)
