@@ -3593,6 +3593,131 @@ km:
     version:
       back: ត្រលប់ក្រោយ
       modification_of: ប្រវត្តិកំណែរបស់
+  enrolled_program_trackings:
+    action:
+      new_tracking: New Tracking
+    create:
+      successfully_created: Tracking Program has been successfully created.
+    destroy:
+      successfully_deleted: Tracking Program has been successfully deleted.
+    edit:
+      edit_tracking: Edit Tracking
+    form:
+      cancel: Cancel
+      save: Save
+    index:
+      programs_list: Programs List
+      tracking_lists: Trackings List
+    new:
+      new_tracking: New Tracking
+    report:
+      are_you_sure: Are you sure you want to delete?
+      back: Back
+      created_at: Created Date
+      new_tracking: New Tracking
+    show:
+      back: Back
+      trackings_list: Trackings List
+    update:
+      successfully_updated: Tracking Program has been successfully updated.
+  enrolled_programs:
+    create:
+      successfully_created: Enrollment has been successfully created.
+    destroy:
+      successfully_deleted: Enrollment has been successfully deleted.
+    edit:
+      enrollment: Edit Enrollment
+    form:
+      accepted_date: "NGO Accept Date"
+      exit_date: "NGO Exit Date"
+      cancel: Cancel
+      enrollment_date: Enrollment Date
+      save: Save
+    index:
+      actions: Actions
+      back: Back
+      domain: Associated Domains
+      name: Program Name
+      program_lists: Programs List
+      quantity: Number of Place Available
+      report: Report
+      status: Status
+      view: View
+    manage:
+      enroll: Enroll
+      exit: Exit
+      full_program: This Program is full.
+      tracking: Trackings
+    new:
+      not_valid: Does not match with this program conditions.
+      new_enrollment: New Enrollment
+    report:
+      actions: Actions
+      date: Date
+      enrollment: Enrollment
+      exit: Exit
+      forms: Forms
+      programs_list: Programs List
+      report: Reports
+      tracking: Tracking
+      view: View
+    show:
+      are_you_sure: Are you sure you want to delete?
+      back: Back
+      enrollment_date: Enrolled on
+    update:
+      successfully_updated: Enrollment has been successfully updated.
+  enrollments:
+    create:
+      successfully_created: Enrollment has been successfully created.
+    destroy:
+      delete_attachment_successfully: Attachment has been successfully deleted.
+      successfully_deleted: Enrollment has been successfully deleted.
+    edit:
+      enrollment: Edit Enrollment
+    form:
+      accepted_date: "NGO Accept Date"
+      exit_date: "NGO Exit Date"
+      allow_file_size: Allowed file types
+      cancel: Cancel
+      enrollment_date: Enrollment Date
+      max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
+      not_an_email: not an email
+      save: Save
+    index:
+      actions: Actions
+      back: Back
+      domain: Associated Domains
+      name: Program Name
+      program_lists: Programs List
+      quantity: Number of Place Available
+      report: Report
+      status: Status
+      view: View
+    manage:
+      enroll: Enroll
+      exit: Exit
+      full_program: This Program is full
+      tracking: Trackings
+    new:
+      not_valid: Does not match with this program conditions.
+      new_enrollment: New Enrollment
+    report:
+      actions: Actions
+      date: Date
+      enrollment: Enrollment
+      exit: Exit
+      forms: Forms
+      programs_list: Programs List
+      report: Reports
+      tracking: Tracking
+      view: View
+    show:
+      are_you_sure: Are you sure you want to delete?
+      back: Back
+      enrollment_date: Enrolled on
+    update:
+      successfully_updated: Enrollment has been successfully updated.
   enumerize:
     defaults:
       gender:
@@ -3701,6 +3826,7 @@ km:
       contract_date: កាលបរិច្ឆេទនៃកិច្ចសន្យា
       date_of_birth: ថ្ងៃខែ​ឆ្នាំ​កំណើត
       dependable_income: ប្រាក់ចំណូលទៀងទាត់
+      enrolled_program_streams: Family's Active Program Streams
       family_type: ប្រភេទគ្រួសារ
       female_adult_count: ចំនួនមនុស្សស្រីពេញវ័យ
       female_children_count: ចំនួនក្មេងស្រី
@@ -3715,6 +3841,7 @@ km:
       name: ឈ្មោះអ្នកថែទាំកុមារ
       'no': ទេ
       occupation: មុខរបរ
+      program_streams: បញ្ចូលគ្រួសារក្នុងកម្មវិធីចម្បង
       province: ខេត្ត
       read_less: អានតិច
       read_more: អានបន្ថែម
@@ -4298,7 +4425,9 @@ km:
       thai: Thai
   leave_enrolled_programs:
     create:
-      successfully_created: អតិថិជនត្រូវបានចាកចេញពីកម្មវិធីដោយជោគជ័យ
+      client: អតិថិជន
+      family: គ្រួសារ
+      successfully_created: "%{entity}ត្រូវបានចាកចេញពីកម្មវិធីដោយជោគជ័យ"
     edit:
       leave_program: កែសម្រួលការចាកចេញពីកម្មវិធី
     form:
@@ -4644,6 +4773,8 @@ km:
       previous: ទំព័រមុន
       save: រក្សាទុក
     index:
+      attached_with_client: សម្រាប់អតិថិជន
+      attached_with_family: សម្រាប់គ្រួសារ
       current_ngo: កម្មវិធីចម្បងរបស់អង្គការខ្ញុំ
       demo_programs: កម្មវិធីចម្បងរបស់អង្គការ Demo
       name: ឈ្មោះកម្មវិធី

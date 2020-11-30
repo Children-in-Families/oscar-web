@@ -1,0 +1,32 @@
+.row
+  .col-xs-12
+    .ibox
+      .ibox-title
+        %h5= "#{@programmable.name} - #{@enrollment_tracking.tracking.try(:name)} - #{@program_stream.name}"
+        .ibox-tools
+          - if can? :manage, EnrollmentTracking
+            = enrollment_tracking_edit_link(@enrollment_tracking)
+          - if params[:family_id]
+            = link_to report_family_enrollments_path(@programmable, program_stream_id: @program_stream) do
+              .btn.btn-default.btn-back-default
+                = t('.back')
+      .ibox-content
+        %h5= "#{t('created_by')} #{whodunnit('EnrollmentTracking', @enrollment_tracking.id)} #{t('at')}  #{ date_format @enrollment_tracking.created_at }"
+        .table-responsive
+          %table.table.table-bordered
+            - @enrollment_tracking.tracking.fields.map{|field| [field['type'], field['label']]}.each do |type, key|
+              - unless type == 'separateLine'
+                - if type == 'paragraph'
+                  %tr
+                    %td.align-justify{colspan: '2'}
+                      = key.html_safe
+                - else
+                  %tr
+                    %td.align-justify
+                      = key.html_safe
+                    %td.align-justify
+                      - key = convert_bracket(key)
+                      - if type == 'file'
+                        = render 'shared/form_builder/list_attachment', label: key, resource: @enrollment_tracking
+                      - else
+                        = display_custom_properties(@enrollment_tracking.properties[key])

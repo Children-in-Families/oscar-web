@@ -85,6 +85,7 @@ class ClientEnrollmentsController < AdminController
     else
       all_programs = ProgramStream.where(id: current_user.program_stream_permissions.where(readable: true, user: current_user).pluck(:program_stream_id))
     end
+    all_programs = params[:family_id] ? all_programs.attached_with('Family') : all_programs.attached_with('Client')
 
     client_enrollments_exited     = all_programs.inactive_enrollments(@client).complete
     client_enrollments_inactive   = all_programs.without_status_by(@client).complete

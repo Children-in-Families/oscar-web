@@ -7,6 +7,8 @@ class ProgramStream < ActiveRecord::Base
   has_many   :domains, through: :domain_program_streams
   has_many   :client_enrollments, dependent: :destroy
   has_many   :clients, through: :client_enrollments
+  has_many   :enrollments, dependent: :destroy
+  has_many   :families, through: :enrollments, source: :programmable, source_type: 'Family'
   has_many   :trackings, dependent: :destroy
   has_many   :leave_programs, dependent: :destroy
 
@@ -20,7 +22,7 @@ class ProgramStream < ActiveRecord::Base
 
   accepts_nested_attributes_for :trackings, allow_destroy: true
 
-  validates :name, presence: true
+  validates :name, :entity_type, presence: true
   validates :name, uniqueness: true
 
   validate  :presence_of_label
@@ -38,6 +40,7 @@ class ProgramStream < ActiveRecord::Base
   scope  :filter,         ->(value)  { where(id: value) }
   scope  :name_like,      ->(value)  { where(name: value) }
   scope  :by_name,        ->(value)  { where('name iLIKE ?', "%#{value.squish}%") }
+  scope  :attached_with,  -> (value) { where(entity_type: value) }
 
   def name=(name)
     write_attribute(:name, name.try(:strip))
@@ -49,17 +52,30 @@ class ProgramStream < ActiveRecord::Base
     end
   end
 
-  def self.inactive_enrollments(client)
-    joins(:client_enrollments).where("client_id = ? AND client_enrollments.created_at = (SELECT MAX(client_enrollments.created_at) FROM client_enrollments WHERE client_enrollments.program_stream_id = program_streams.id AND client_enrollments.client_id = #{client.id}) AND client_enrollments.status = 'Exited' ", client.id).ordered
+  def self.inactive_enrollments(obj, polymorphic = false)
+    if polymorphic
+      joins(:enrollments).where("programmable_id = ? AND enrollments.created_at = (SELECT MAX(enrollments.created_at) FROM enrollments WHERE enrollments.program_stream_id = program_streams.id AND enrollments.programmable_id = #{obj.id}) AND enrollments.status = 'Exited' ", obj.id).ordered
+    else
+      joins(:client_enrollments).where("client_id = ? AND client_enrollments.created_at = (SELECT MAX(client_enrollments.created_at) FROM client_enrollments WHERE client_enrollments.program_stream_id = program_streams.id AND client_enrollments.client_id = #{obj.id}) AND client_enrollments.status = 'Exited' ", obj.id).ordered
+    end
   end
 
-  def self.active_enrollments(client)
-    joins(:client_enrollments).where("client_id = ? AND client_enrollments.created_at = (SELECT MAX(client_enrollments.created_at) FROM client_enrollments WHERE client_enrollments.program_stream_id = program_streams.id AND client_enrollments.client_id = #{client.id}) AND client_enrollments.status = 'Active' ", client.id).ordered
+  def self.active_enrollments(obj, polymorphic = false)
+    if polymorphic
+      joins(:enrollments).where("programmable_id = ? AND enrollments.created_at = (SELECT MAX(enrollments.created_at) FROM enrollments WHERE enrollments.program_stream_id = program_streams.id AND enrollments.programmable_id = #{obj.id}) AND enrollments.status = 'Active' ", obj.id).ordered
+    else
+      joins(:client_enrollments).where("client_id = ? AND client_enrollments.created_at = (SELECT MAX(client_enrollments.created_at) FROM client_enrollments WHERE client_enrollments.program_stream_id = program_streams.id AND client_enrollments.client_id = #{obj.id}) AND client_enrollments.status = 'Active' ", obj.id).ordered
+    end
   end
 
-  def self.without_status_by(client)
-    ids = includes(:client_enrollments).where(client_enrollments: { client_id: client.id }).order('client_enrollments.status ASC', :name).uniq.collect(&:id)
-    where.not(id: ids).ordered
+  def self.without_status_by(obj, polymorphic = false)
+    if polymorphic
+      ids = includes(:enrollments).where(enrollments: { programmable_id: obj.id }).order('enrollments.status ASC', :name).uniq.collect(&:id)
+      where.not(id: ids).ordered
+    else
+      ids = includes(:client_enrollments).where(client_enrollments: { client_id: obj.id }).order('client_enrollments.status ASC', :name).uniq.collect(&:id)
+      where.not(id: ids).ordered
+    end
   end
 
   def form_builder_field_uniqueness
@@ -114,9 +130,14 @@ class ProgramStream < ActiveRecord::Base
     quantity - client_enrollments.active.size
   end
 
-  def enroll?(client)
-    enrollments = client_enrollments.enrollments_by(client).order(:created_at)
-    (enrollments.present? && enrollments.first.status == 'Exited') || enrollments.empty?
+  def enroll?(obj, entity_type = nil)
+    if ['Family'].include?(entity_type)
+      enrolls = enrollments.enrollments_by(obj).order(:created_at)
+      (enrolls.present? && enrolls.first.status == 'Exited') || enrolls.empty?
+    else
+      enrollments = client_enrollments.enrollments_by(obj).order(:created_at)
+      (enrollments.present? && enrollments.first.status == 'Exited') || enrollments.empty?
+    end
   end
 
   def is_used?
@@ -133,6 +154,10 @@ class ProgramStream < ActiveRecord::Base
 
   def has_rule?
     rules.present?
+  end
+
+  def attached_to_client?
+    entity_type == 'Client'
   end
 
   private
@@ -211,7 +236,8 @@ class ProgramStream < ActiveRecord::Base
 
   def auto_update_enrollment
     return unless enrollment_changed?
-    labels_update(enrollment_change.last, enrollment_was, client_enrollments)
+    enrollment_objs = entity_type == 'Client' ? client_enrollments : enrollments
+    labels_update(enrollment_change.last, enrollment_was, enrollment_objs)
   end
 
   def destroy_tracking

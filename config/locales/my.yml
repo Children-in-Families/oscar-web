@@ -3602,6 +3602,131 @@ my:
     version:
       back: ေနာက္သုိ႔
       modification_of: "၏ ေျပာင္းလဲမႈ မွတ္တမ္း"
+  enrolled_program_trackings:
+    action:
+      new_tracking: New Tracking
+    create:
+      successfully_created: Tracking Program has been successfully created.
+    destroy:
+      successfully_deleted: Tracking Program has been successfully deleted.
+    edit:
+      edit_tracking: Edit Tracking
+    form:
+      cancel: Cancel
+      save: Save
+    index:
+      programs_list: Programs List
+      tracking_lists: Trackings List
+    new:
+      new_tracking: New Tracking
+    report:
+      are_you_sure: Are you sure you want to delete?
+      back: Back
+      created_at: Created Date
+      new_tracking: New Tracking
+    show:
+      back: Back
+      trackings_list: Trackings List
+    update:
+      successfully_updated: Tracking Program has been successfully updated.
+  enrolled_programs:
+    create:
+      successfully_created: Enrollment has been successfully created.
+    destroy:
+      successfully_deleted: Enrollment has been successfully deleted.
+    edit:
+      enrollment: Edit Enrollment
+    form:
+      accepted_date: "NGO Accept Date"
+      exit_date: "NGO Exit Date"
+      cancel: Cancel
+      enrollment_date: Enrollment Date
+      save: Save
+    index:
+      actions: Actions
+      back: Back
+      domain: Associated Domains
+      name: Program Name
+      program_lists: Programs List
+      quantity: Number of Place Available
+      report: Report
+      status: Status
+      view: View
+    manage:
+      enroll: Enroll
+      exit: Exit
+      full_program: This Program is full.
+      tracking: Trackings
+    new:
+      not_valid: Does not match with this program conditions.
+      new_enrollment: New Enrollment
+    report:
+      actions: Actions
+      date: Date
+      enrollment: Enrollment
+      exit: Exit
+      forms: Forms
+      programs_list: Programs List
+      report: Reports
+      tracking: Tracking
+      view: View
+    show:
+      are_you_sure: Are you sure you want to delete?
+      back: Back
+      enrollment_date: Enrolled on
+    update:
+      successfully_updated: Enrollment has been successfully updated.
+  enrollments:
+    create:
+      successfully_created: Enrollment has been successfully created.
+    destroy:
+      delete_attachment_successfully: Attachment has been successfully deleted.
+      successfully_deleted: Enrollment has been successfully deleted.
+    edit:
+      enrollment: Edit Enrollment
+    form:
+      accepted_date: "NGO Accept Date"
+      exit_date: "NGO Exit Date"
+      allow_file_size: Allowed file types
+      cancel: Cancel
+      enrollment_date: Enrollment Date
+      max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
+      not_an_email: not an email
+      save: Save
+    index:
+      actions: Actions
+      back: Back
+      domain: Associated Domains
+      name: Program Name
+      program_lists: Programs List
+      quantity: Number of Place Available
+      report: Report
+      status: Status
+      view: View
+    manage:
+      enroll: Enroll
+      exit: Exit
+      full_program: This Program is full
+      tracking: Trackings
+    new:
+      not_valid: Does not match with this program conditions.
+      new_enrollment: New Enrollment
+    report:
+      actions: Actions
+      date: Date
+      enrollment: Enrollment
+      exit: Exit
+      forms: Forms
+      programs_list: Programs List
+      report: Reports
+      tracking: Tracking
+      view: View
+    show:
+      are_you_sure: Are you sure you want to delete?
+      back: Back
+      enrollment_date: Enrolled on
+    update:
+      successfully_updated: Enrollment has been successfully updated.
   enumerize:
     defaults:
       gender:
@@ -3711,6 +3836,7 @@ my:
       contract_date: စာခ်ဳပ္ရက္စြဲ
       date_of_birth: မွေးရက်
       dependable_income: မွီခိုႏုိင္ေလာက္ေသာ ၀င္ေငြ
+      enrolled_program_streams: Family's Active Program Streams
       family_type: မိသားစုအမ်ိဳးအစား
       female_adult_count: အရြယ္ေရာက္မိသားစု၀င္အေရအတြက္
       female_children_count: အရြယ္မေရာက္ေသးေသာ မိန္းကေလး အေရအတြက္
@@ -3725,6 +3851,7 @@ my:
       name: နာမည္
       'no': မဟုတ္ပါ
       occupation: အလုပ်အကိုင်
+      program_streams: Enroll Family to Program Streams
       province: ခ႐ိုင္
       read_less: ဒီထက်ကိုဖတ်ရှု
       read_more: ဆက်ဖတ်ရန်
@@ -4327,7 +4454,9 @@ my:
       thai: ထိုင္းစာ
   leave_enrolled_programs:
     create:
-      successfully_created: အမႈသည္သည္ အစိအစဥ္မွ ေအာင္ျမင္စြာ ထြက္ၿပီးပါၿပီ။
+      client: အမႈသည္သည္
+      family: အမႈသည္သည္
+      successfully_created: "%{entity} အစိအစဥ္မွ ေအာင္ျမင္စြာ ထြက္ၿပီးပါၿပီ။"
     edit:
       leave_program: အစီအစဥ္မွ ထြက္ျခင္းကို ျပင္ဆင္ရန္
     form:
@@ -4676,6 +4805,8 @@ my:
       previous: ေရွ႕တစ္ခု
       save: သိမ္းဆည္းရန္
     index:
+      attached_with_client: Attached with Client
+      attached_with_family: Attached with Family
       current_ngo: မိမိ NGO၏ အစီအစဥ္ စီးဆင္းမႈ
       demo_programs: Demo NGO၏ အစီအစဥ္ စီးဆင္းမႈ
       name: နာမတျောကို

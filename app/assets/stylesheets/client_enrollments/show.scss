@@ -22,4 +22,9 @@ body[id='client_enrollments-show'] {
   .action {
     width: 15%;
   }
+
+  .min-width-btn {
+    min-width: 100px;
+    margin: 10px 10px 10px 0;
+  }
 }

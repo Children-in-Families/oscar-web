@@ -1,4 +1,8 @@
 class FamilyPolicy < ApplicationPolicy
+  def create?
+    record.status != 'Exited'
+  end
+
   def show?(*field_names)
     return true if field_names.blank?
     field = field_names.first.to_s

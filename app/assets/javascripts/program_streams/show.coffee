@@ -14,8 +14,15 @@ CIF.Program_streamsShow = CIF.Program_streamsPreview = CIF.NotificationsProgram_
   _initProgramRule = ->
     rules = $('#rules').data('program-rules')
     return if _.isEmpty(rules.rules)
+
+    queryString = window.location.search;
+    urlParams = new URLSearchParams(queryString);
+    entityType = urlParams.get('entity_type')
+    # pass corresponding entity type from url
+    url = '/api/program_stream_add_rule/get_fields' + '?entity_type=' + entityType
+
     $.ajax
-      url: '/api/program_stream_add_rule/get_fields'
+      url: url
       method: 'GET'
       success: (response) ->
         fieldList = response.program_stream_add_rule
