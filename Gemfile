@@ -88,6 +88,7 @@ group :development, :test do
   gem 'mongoid-rspec', '~> 4.0', '>= 4.0.1'
   gem 'thin',                 '~> 1.7'
   gem 'danger',               '~> 5.16', '>= 5.16.1'
+  gem 'sorbet-rails'
 end
 
 group :staging, :ratanak_staging, :demo, :production do
