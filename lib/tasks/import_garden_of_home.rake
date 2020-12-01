@@ -12,14 +12,14 @@ namespace :import_garden_of_home do
           puts "Garden Of Hope tenant exists already."
         end
         Organization.switch_to tenant_name
-        # Rake::Task['db:seed'].invoke
-        # ImportStaticService::DateService.new('Services', tenant_name, service_data_file).import
-        # Importer::Import.new('Agency', general_data_file).agencies
-        # Importer::Import.new('Department', general_data_file).departments
-        # Importer::Import.new('Province', general_data_file).provinces
-        # Rake::Task['communes_and_villages:import'].invoke(tenant_name)
-        # Importer::Import.new('Quantitative Type', general_data_file).quantitative_types
-        # Importer::Import.new('Quantitative Case', general_data_file).quantitative_cases
+        Rake::Task['db:seed'].invoke
+        ImportStaticService::DateService.new('Services', tenant_name, service_data_file).import
+        Importer::Import.new('Agency', general_data_file).agencies
+        Importer::Import.new('Department', general_data_file).departments
+        Importer::Import.new('Province', general_data_file).provinces
+        Rake::Task['communes_and_villages:import'].invoke(tenant_name)
+        Importer::Import.new('Quantitative Type', general_data_file).quantitative_types
+        Importer::Import.new('Quantitative Case', general_data_file).quantitative_cases
         GardenOfHomeImporter::Import.new('vendor/data/organizations/Client-Data-Import_Garden_of_Hope.xlsx', ['clients']).import_all
         Rake::Task['client_to_shared:copy'].invoke(tenant_name)
         Rake::Task["field_settings:import"].invoke(tenant_name)

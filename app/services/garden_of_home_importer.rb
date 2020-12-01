@@ -139,9 +139,9 @@ module GardenOfHomeImporter
           district = find_district(province, district_name&.squish)
           new_client['district_id'] = district&.id
           pry_if_blank?(new_client['district_id'], district_name)
-          binding.pry if ["Chamkar Mon", "Sameakki Mean Chey"].exclude?(district_name) && district_name && district.nil?
+          binding.pry if district_name && district.nil?
           commune  = find_commune(district, commune_name.squish, new_client) if district && commune_name
-          binding.pry if ["Bonlech Prasat", "Svay Phleung"].exclude?(commune_name) && (commune_name && commune.nil?)
+          binding.pry if (commune_name && commune.nil?)
           new_client['commune_id'] = commune&.id
           pry_if_blank?(new_client['commune_id'], commune_name)
           new_client['village_id'] = find_village(commune, village_name)&.id if commune && village_name
