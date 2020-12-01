@@ -2,9 +2,11 @@
 
 ### Open Source Case-management and Record-keeping.
 
+[![Build Status](https://travis-ci.com/DevZep/oscar-web.svg?branch=staging)](https://travis-ci.com/DevZep/oscar-web)
+
 ### Requirements
 
-* Docker Desktop (latest stable version for your platform)
+- Docker Desktop (latest stable version for your platform)
 
 ### Getting Started
 
@@ -24,7 +26,7 @@ See the project [Makefile](./Makefile) for a list of all the available commands.
 
 Once the containers have fired up open a web browser and navigate to [http://localhost:3000](http://localhost:3000) to open the app. To login, click on the 'dev' organizations logo (there should only be the one logo) and the username (email) is any of the users (listed in the 'users' sheet) of the [lib/devdata/dev_tenant.xlsx](lib/devdata/dev_tenant.xlsx) spreadsheet with the password set to `123456789`.
 
-*NOTE* If this is the first time you have run this you may need to stop the containers and run it again!
+_NOTE_ If this is the first time you have run this you may need to stop the containers and run it again!
 
 ## Debugging using Pry
 
@@ -38,7 +40,7 @@ Now when your code runs and gets to the `binding.pry` line it will halt and a Pr
 
 When you have finished dubugging just type `exit` in the Pry REPL session as you normally would. Keep this terminal attached for convenience if you need to use Pry again.
 
-NOTE: To detach the tty __without also terminating the Rails container__, you need to use the escape sequence __Ctrl+P__ followed by __Ctrl+Q__.
+NOTE: To detach the tty **without also terminating the Rails container**, you need to use the escape sequence **Ctrl+P** followed by **Ctrl+Q**.
 
 ## Troubleshooting
 
@@ -168,15 +170,15 @@ oscar_history_development
 client_histories
 > db.client_histories.find()[0]
 {
-	"_id" : ObjectId("5ef2fec9c245050001d8244f"),
-	"tenant" : "dev",
-	"object" : {
-		"id" : 11,
-		"code" : "",
-		"given_name" : "Darren",
-		"family_name" : "Jensen",
-		"gender" : "male",
-		"date_of_birth" : null,
+  "_id" : ObjectId("5ef2fec9c245050001d8244f"),
+  "tenant" : "dev",
+  "object" : {
+    "id" : 11,
+    "code" : "",
+    "given_name" : "Darren",
+    "family_name" : "Jensen",
+    "gender" : "male",
+    "date_of_birth" : null,
 
 ETC.....
 ```
@@ -227,7 +229,7 @@ Check the local [Makefile](./Makefile) for a complete list of available commands
 
 The Docker Compose file contains a pgAdmin service. After `docker-compose up` spins up all the services, its possible to connect to pgAdmin at [http://localhost:5050/](http://localhost:5050/). The pgAdmin username and password are in the `pgadmin` services definition in [docker-compose.yml](./docker-compose.yml). To connect to the oscar database, simply expand the OSCaR Server Group in the top left and click on the database. You will be asked to enter the db password (123456789).
 
-Note, if you only started the 'core' services and you want to fire up pgAdmin service too, then simply run the following command at your local terminal  (note this will also startup the `db` service (Postgres) if it is not running):
+Note, if you only started the 'core' services and you want to fire up pgAdmin service too, then simply run the following command at your local terminal (note this will also startup the `db` service (Postgres) if it is not running):
 
 ```
 docker-compose up pgadmin
