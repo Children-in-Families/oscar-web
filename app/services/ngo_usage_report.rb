@@ -39,7 +39,7 @@ class NgoUsageReport
   def ngo_referrals_info(beginning_of_month, end_of_month)
     tranferred_clients = PaperTrail::Version.where(item_type: 'Referral', event: 'create', created_at: beginning_of_month..end_of_month)
     {
-      tranferred_client_count: tranferred_clients.map{ |a| a.changeset.dig(:slug) && a.changeset[:slug][1] }.compact.uniq.count
+      tranferred_client_count: tranferred_clients.map { |a| a.changeset[:slug] && a.changeset[:slug][1] }.compact.uniq.count
     }
   end
 
