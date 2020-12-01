@@ -6,7 +6,7 @@ This readme is about running OSCaR in AWS ECR Fargate as Docker Container instan
 
 There are two steps:
 
-1. Run `cap staging deploy` as usual.
+1. Run `cap staging deploy` as usual (if using Docker start the container first `docker run -v ~/.ssh:/root/.ssh -it --entrypoint bash oscar-staging:latest`).
 1. SSH into the staging build server, cd into the `current` folder and run `./aws/ecs/deploy-oscar-staging-ecs.bash`.
 
 ## (Optional) check the contents of the image on the server
