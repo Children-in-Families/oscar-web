@@ -117,7 +117,7 @@ module GardenOfHomeImporter
         new_client['name_of_referee']     = workbook.row(row_index)[headers['* Name of Referee']]
         received_by_name                  = workbook.row(row_index)[headers['* Referral Received By']]
         received_by_name                  = received_by_name[/WTMY/] ? received_by_name : received_by_name.split(' ')
-        received_by_attr                  = received_by_name.is_a?(String) ? {first_name: received_by_name} : {first_name: received_by_name.first.squish, last_name: received_by_name.last.squish}
+        received_by_attr                  = received_by_name.is_a?(String) ? {first_name: received_by_name} : {first_name: received_by_name.last.squish, last_name: received_by_name.first.squish}
         new_client['received_by_id']      = create_user_received_by(received_by_attr)
         # followed_up_by_name               = workbook.row(row_index)[headers['First Follow-Up By']]
         # new_client['followed_up_by_id']   = User.find_by(first_name: followed_up_by_name).try(:id)
