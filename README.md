@@ -1,6 +1,7 @@
 # OSCaR
 
 ### Open Source Case-management and Record-keeping.
+[![Build Status](https://travis-ci.com/DevZep/oscar-web.svg?branch=stable)](https://travis-ci.com/DevZep/oscar-web)
 
 [![Build Status](https://travis-ci.com/DevZep/oscar-web.svg?branch=staging)](https://travis-ci.com/DevZep/oscar-web)
 
