@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20201124015604) do
+ActiveRecord::Schema.define(version: 20201201024015) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -292,6 +292,11 @@ ActiveRecord::Schema.define(version: 20201124015604) do
 
   add_index "case_worker_clients", ["client_id"], name: "index_case_worker_clients_on_client_id", using: :btree
   add_index "case_worker_clients", ["user_id"], name: "index_case_worker_clients_on_user_id", using: :btree
+
+  create_table "case_worker_families", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "family_id"
+  end
 
   create_table "case_worker_tasks", force: :cascade do |t|
     t.integer  "user_id"
@@ -816,6 +821,11 @@ ActiveRecord::Schema.define(version: 20201124015604) do
 
   add_index "domains", ["domain_group_id"], name: "index_domains_on_domain_group_id", using: :btree
 
+  create_table "donor_families", force: :cascade do |t|
+    t.integer "donor_id"
+    t.integer "family_id"
+  end
+
   create_table "donor_organizations", force: :cascade do |t|
     t.integer "donor_id"
     t.integer "organization_id"
@@ -920,6 +930,13 @@ ActiveRecord::Schema.define(version: 20201124015604) do
     t.integer  "commune_id"
     t.integer  "village_id"
     t.integer  "user_id"
+    t.integer  "received_by_id"
+    t.integer  "followed_up_by_id"
+    t.date     "initial_referral_date"
+    t.date     "follow_up_date"
+    t.integer  "referral_source_category_id"
+    t.integer  "referral_source_id"
+    t.string   "referee_contact"
   end
 
   add_index "families", ["commune_id"], name: "index_families_on_commune_id", using: :btree
@@ -2168,6 +2185,8 @@ ActiveRecord::Schema.define(version: 20201124015604) do
   add_foreign_key "case_notes", "custom_assessment_settings"
   add_foreign_key "case_worker_clients", "clients"
   add_foreign_key "case_worker_clients", "users"
+  add_foreign_key "case_worker_families", "families"
+  add_foreign_key "case_worker_families", "users"
   add_foreign_key "case_worker_tasks", "tasks"
   add_foreign_key "case_worker_tasks", "users"
   add_foreign_key "changelog_types", "changelogs"
@@ -2200,6 +2219,8 @@ ActiveRecord::Schema.define(version: 20201124015604) do
   add_foreign_key "custom_field_properties", "custom_fields"
   add_foreign_key "districts", "provinces"
   add_foreign_key "domains", "domain_groups"
+  add_foreign_key "donor_families", "donors"
+  add_foreign_key "donor_families", "families"
   add_foreign_key "donor_organizations", "donors"
   add_foreign_key "donor_organizations", "organizations"
   add_foreign_key "enter_ngo_users", "enter_ngos"
@@ -2210,6 +2231,8 @@ ActiveRecord::Schema.define(version: 20201124015604) do
   add_foreign_key "families", "communes"
   add_foreign_key "families", "districts"
   add_foreign_key "families", "users"
+  add_foreign_key "families", "users", column: "followed_up_by_id"
+  add_foreign_key "families", "users", column: "received_by_id"
   add_foreign_key "families", "villages"
   add_foreign_key "family_members", "families"
   add_foreign_key "global_identity_organizations", "organizations"

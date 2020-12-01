@@ -19,6 +19,14 @@ class Family < ActiveRecord::Base
   belongs_to :village
   belongs_to :user
 
+  belongs_to :received_by,      class_name: 'User',      foreign_key: 'received_by_id'
+  belongs_to :followed_up_by,   class_name: 'User',      foreign_key: 'followed_up_by_id'
+
+  has_many :donor_families, dependent: :destroy
+  has_many :donors, through: :donor_families
+  has_many :case_worker_families, dependent: :destroy
+  has_many :case_workers, through: :case_worker_families, validate: false
+
   has_many :cases, dependent: :destroy
   has_many :clients, through: :cases
   has_many :custom_field_properties, as: :custom_formable, dependent: :destroy
