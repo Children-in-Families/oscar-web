@@ -135,16 +135,16 @@ module GardenOfHomeImporter
         if province_name
           province = find_province(province_name.squish)
           new_client['province_id'] = province&.id
-          # pry_if_blank?(new_client['province_id'], province_name)
-          # district = find_district(province, district_name.squish)
-          # new_client['district_id'] = district&.id
-          # pry_if_blank?(new_client['district_id'], district_name)
-          # binding.pry if ["Chamkar Mon", "Sameakki Mean Chey"].exclude?(district_name) && district_name && district.nil?
-          # commune  = find_commune(district, commune_name.squish, new_client) if district && commune_name
-          # binding.pry if ["Boeng KangKorng 3", "Sameakki Mean Chey", "Kampong Svay"].exclude?(commune_name) && (commune_name && commune.nil?)
-          # new_client['commune_id'] = commune&.id
-          # pry_if_blank?(new_client['commune_id'], commune_name)
-          # new_client['village_id'] = find_village(commune, village_name)&.id if commune && village_name
+          pry_if_blank?(new_client['province_id'], province_name)
+          district = find_district(province, district_name&.squish)
+          new_client['district_id'] = district&.id
+          pry_if_blank?(new_client['district_id'], district_name)
+          binding.pry if district_name && district.nil?
+          commune  = find_commune(district, commune_name.squish, new_client) if district && commune_name
+          binding.pry if (commune_name && commune.nil?)
+          new_client['commune_id'] = commune&.id
+          pry_if_blank?(new_client['commune_id'], commune_name)
+          new_client['village_id'] = find_village(commune, village_name)&.id if commune && village_name
         end
 
         birth_province_name               = workbook.row(row_index)[headers['Client Birth Province']]
@@ -256,7 +256,7 @@ module GardenOfHomeImporter
     end
 
     def find_district(province, name)
-      return if province.nil?
+      return if province.nil? || name.nil?
       districts = province.districts.where("name ILIKE ?", "%#{name}")
       district = nil
       if districts.count == 1
