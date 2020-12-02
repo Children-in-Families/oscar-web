@@ -1,6 +1,9 @@
 # OSCaR
 
 ### Open Source Case-management and Record-keeping.
+
+[![Build Status](https://travis-ci.com/DevZep/oscar-web.svg?branch=master)](https://travis-ci.com/DevZep/oscar-web)
+
 [![Build Status](https://travis-ci.com/DevZep/oscar-web.svg?branch=stable)](https://travis-ci.com/DevZep/oscar-web)
 
 [![Build Status](https://travis-ci.com/DevZep/oscar-web.svg?branch=staging)](https://travis-ci.com/DevZep/oscar-web)
@@ -42,6 +45,14 @@ Now when your code runs and gets to the `binding.pry` line it will halt and a Pr
 When you have finished dubugging just type `exit` in the Pry REPL session as you normally would. Keep this terminal attached for convenience if you need to use Pry again.
 
 NOTE: To detach the tty **without also terminating the Rails container**, you need to use the escape sequence **Ctrl+P** followed by **Ctrl+Q**.
+
+## Pre-Commit and Pre-Push Hooks
+
+Using bash scripts to check commit and ran test before pushing to GitHub
+
+`chmod +x scripts/*.bash`
+And then run
+`./scripts/install-hooks.bash`
 
 ## Troubleshooting
 
