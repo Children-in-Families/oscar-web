@@ -1,11 +1,13 @@
 CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = do ->
   _init = ->
+    _initWizardForm()
     _initSelect2()
     _ajaxChangeDistrict()
     _cocoonCallback()
     _initDatePicker()
     _initIcheck()
 
+  _initWizardForm = ->
     $("#family-wizard-form").steps
       headerTag: 'h3'
       bodyTag: 'section'
@@ -36,6 +38,7 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
       _initIcheck()
 
   _initDatePicker = ->
+    console.log '_initDatePicker'
     $('.date-picker').datepicker
       autoclose: true,
       format: 'yyyy-mm-dd',

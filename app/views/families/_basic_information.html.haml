@@ -2,11 +2,25 @@
 %section.basic-information
   .row
     .col-sm-3
-      = f.input :received_by_id
-      = f.input :initial_referral_date
-      = f.input :case_worker_ids
-      = f.input :followed_up_by_id
-      = f.input :follow_up_date
+      = f.input :received_by_id, collection: []
+
+      .form-group
+        = f.label :initial_referral_date
+        .input-group.date
+          = f.input :initial_referral_date, label: false, wrapper: false, input_html: { class: 'date optional form-control date-picker' }, as: :string
+          %span.input-group-addon
+            %i.fa.fa-calendar-check-o
+
+      = f.input :case_worker_ids, collection: []
+      = f.input :followed_up_by_id, collection: []
+
+      .form-group
+        = f.label :follow_up_date
+        .input-group.date
+          = f.input :follow_up_date, label: false, wrapper: false, input_html: { class: 'date optional form-control date-picker' }, as: :string
+          %span.input-group-addon
+            %i.fa.fa-calendar-check-o
+
     .col-sm-9
       .row
         .col-sm-3
@@ -14,18 +28,18 @@
         .col-sm-3
           = f.input :name_en
         .col-sm-3
-          = f.input :family_type
+          = f.input :family_type, collection: []
         .col-sm-3
           = f.input :code
       .row
         .col-sm-3
-          = f.input :province_id
+          = f.input :province_id, collection: []
         .col-sm-3
-          = f.input :district_id
+          = f.input :district_id, collection: []
         .col-sm-3
-          = f.input :commune_id
+          = f.input :commune_id, collection: []
         .col-sm-3
-          = f.input :village_id
+          = f.input :village_id, collection: []
       .row
         .col-sm-2
           = f.input :street
@@ -34,20 +48,26 @@
         .col-sm-3
           = f.input :phone_number
         .col-sm-2
-          = f.input :id_poor
+          = f.input :id_poor, collection: []
         .col-sm-3
-          = f.input :contract_date
+          .form-group
+            = f.label :contract_date
+            .input-group.date
+              = f.input :contract_date, label: false, wrapper: false, input_html: { class: 'date optional form-control date-picker' }, as: :string
+              %span.input-group-addon
+                %i.fa.fa-calendar-check-o
+
       .row
         .col-sm-3
-          = f.input :referral_source_category_id
+          = f.input :referral_source_category_id, collection: []
         .col-sm-3
-          = f.input :referral_source_id
+          = f.input :referral_source_id, collection: []
         .col-sm-3
           = f.input :referee_phone_number
         .col-sm-3
-          = f.input :donor_ids
+          = f.input :donor_ids, collection: []
       .row
         .col-sm-3
-          = f.input :community_ids
+          = f.input :community_ids, collection: []
         .col-sm-9
-          = f.input :relevant_information
+          = f.input :relevant_information, input_html: { rows: 4 }
