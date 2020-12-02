@@ -420,7 +420,7 @@ class Client < ActiveRecord::Base
   end
 
   def set_slug_as_alias
-    org = Organization.current
+    short_name = Apartment::Tenant.current
     if archived_slug.present?
       if slug.in? Client.pluck(:slug)
         random_char = slug.split('-')[0]
@@ -428,7 +428,7 @@ class Client < ActiveRecord::Base
       end
     else
       random_char = generate_random_char
-      Organization.switch_to org.short_name
+      Organization.switch_to short_name
       paper_trail.without_versioning { |obj| obj.update_columns(slug: "#{random_char}-#{id}", archived_slug: "#{Organization.current.try(:short_name)}-#{id}") }
     end
   end
