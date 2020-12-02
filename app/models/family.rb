@@ -10,6 +10,8 @@ class Family < ActiveRecord::Base
 
   acts_as_paranoid
 
+  attr_accessor :community_ids
+
   delegate :name, to: :province, prefix: true, allow_nil: true
   delegate :name, to: :district, prefix: true, allow_nil: true
 

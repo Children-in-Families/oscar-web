@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20201201024015) do
+ActiveRecord::Schema.define(version: 20201201091524) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -937,6 +937,11 @@ ActiveRecord::Schema.define(version: 20201201024015) do
     t.integer  "referral_source_category_id"
     t.integer  "referral_source_id"
     t.string   "referee_contact"
+    t.string   "name_en"
+    t.string   "phone_number"
+    t.string   "id_poor"
+    t.text     "relevant_information"
+    t.string   "referee_phone_number"
   end
 
   add_index "families", ["commune_id"], name: "index_families_on_commune_id", using: :btree

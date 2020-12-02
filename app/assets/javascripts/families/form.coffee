@@ -6,6 +6,15 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
     _initDatePicker()
     _initIcheck()
 
+    $("#family-wizard-form").steps
+      headerTag: 'h3'
+      bodyTag: 'section'
+      enableAllSteps: true
+      transitionEffect: 'slideLeft'
+      autoFocus: true
+      labels:
+        finish: 'Done'
+
   _initIcheck = ->
     $('.i-checks').iCheck
       checkboxClass: 'icheckbox_square-green'

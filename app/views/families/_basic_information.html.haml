@@ -1,0 +1,53 @@
+%h3 Basic Family Information
+%section.basic-information
+  .row
+    .col-sm-3
+      = f.input :received_by_id
+      = f.input :initial_referral_date
+      = f.input :case_worker_ids
+      = f.input :followed_up_by_id
+      = f.input :follow_up_date
+    .col-sm-9
+      .row
+        .col-sm-3
+          = f.input :name
+        .col-sm-3
+          = f.input :name_en
+        .col-sm-3
+          = f.input :family_type
+        .col-sm-3
+          = f.input :code
+      .row
+        .col-sm-3
+          = f.input :province_id
+        .col-sm-3
+          = f.input :district_id
+        .col-sm-3
+          = f.input :commune_id
+        .col-sm-3
+          = f.input :village_id
+      .row
+        .col-sm-2
+          = f.input :street
+        .col-sm-2
+          = f.input :house
+        .col-sm-3
+          = f.input :phone_number
+        .col-sm-2
+          = f.input :id_poor
+        .col-sm-3
+          = f.input :contract_date
+      .row
+        .col-sm-3
+          = f.input :referral_source_category_id
+        .col-sm-3
+          = f.input :referral_source_id
+        .col-sm-3
+          = f.input :referee_phone_number
+        .col-sm-3
+          = f.input :donor_ids
+      .row
+        .col-sm-3
+          = f.input :community_ids
+        .col-sm-9
+          = f.input :relevant_information
