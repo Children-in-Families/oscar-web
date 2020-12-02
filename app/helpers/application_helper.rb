@@ -374,4 +374,13 @@ module ApplicationHelper
     end
     ngos
   end
+
+  def initial_referral_date_picker_format(entity)
+    if entity.class == Client
+      "#{entity.initial_referral_date&.year}, #{entity.initial_referral_date&.month}, #{entity.initial_referral_date&.day}"
+    else
+      # Todo
+      "#{entity.created_at&.year}, #{entity.created_at&.month}, #{entity.created_at&.day}"
+    end
+  end
 end

@@ -3829,6 +3829,7 @@ en:
     new:
       new_family_title: New Family
     show:
+      accept: Accept
       add_form: Add Form
       additional_forms: Family's Active Forms
       additional_info: Additional Information
@@ -3874,6 +3875,77 @@ en:
     version:
       back: Back
       modification_of: Changelog of
+  family:
+    enter_ngos:
+      create:
+        failed_create: Failed to update the family.
+        successfully_created: Family has been successfully updated.
+      edit_form:
+        accept: Accept
+        accept_ngo_form: Enter NGO Form
+        accepted_date: Accepted Date
+        case_worker_or_staff: Case Worker / Staff
+      form:
+        accept: Accept
+        accept_ngo_form: Enter NGO Form
+        accepted_date: Accepted Date
+        accepting: Accepting...
+        case_worker_or_staff: Case Worker / Staff
+      update:
+        failed_update: Failed to update the family.
+        successfully_updated: Family has been successfully updated.
+    exit_ngos:
+      create:
+        failed_create: Failed to update the client.
+        successfully_created: Client has been successfully updated.
+      edit_form:
+        case_worker_or_staff: Case Worker / Staff
+        exit_btn: Exit
+        exit_circumstance: Exit Circumstance
+        exit_date: Exit Date
+        exit_ngo: Exit Client from NGO
+        exit_note: Exit Note
+        exit_reason_options:
+          agency_lack_resource: Agency lacks sufficient resources
+          client_died: Client died
+          client_does_not_meet_service_criteria: Client does not meet / no longer meets service criteria
+          client_does_not_required_support: Client does not require / no longer requires support
+          client_move_out_international: Client is/moved outside NGO target area (International)
+          client_move_out_within_cambodia: Client is/moved outside NGO target area (within Cambodia)
+          client_refuse_service: Client refused service
+          other_reason: Other
+        exit_reasons: Reason for Exit / Case Rejection
+        exit_status: Status
+        exiting: Exiting...
+        other_info_of_exit: Other - More Information
+        reject_client: Reject Client
+        rejected_note: Rejected Note
+      form:
+        case_worker_or_staff: Case Worker / Staff
+        exit_btn: Exit
+        exit_circumstance: Exit Circumstance
+        exit_date: Exit Date
+        exit_ngo: Exit Client from NGO
+        exit_note: Exit Note
+        exit_reason_options:
+          agency_lack_resource: Agency lacks sufficient resources
+          client_died: Client died
+          client_does_not_meet_service_criteria: Client does not meet / no longer meets service criteria
+          client_does_not_required_support: Client does not require / no longer requires support
+          client_move_out_international: Client is/moved outside NGO target area (International)
+          client_move_out_within_cambodia: Client is/moved outside NGO target area (within Cambodia)
+          client_refuse_service: Client refused service
+          other_reason: Other
+        exit_reasons: Reason for Exit / Case Rejection
+        exit_status: Status
+        exiting: Exiting...
+        other_info_of_exit: Other - More Information
+        other_option:
+        reject_client: Reject Client
+        rejected_note: Rejected Note
+      update:
+        failed_update: Failed to update the client.
+        successfully_updated: Client has been successfully updated.
   faq: FAQ
   field_label_cannot_be_blank: field label can't be blank
   form_builder:

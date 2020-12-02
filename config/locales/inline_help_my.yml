@@ -149,6 +149,9 @@ my:
       family_type: Choose based on the client’s current situation. You should update this when the situation changes. <strong>Birth family </strong> – Client stays with own family, choose an option indicating if only one or both parents exist. <strong>Child-headed household</strong> – Primary carer is still a child (usually a teenager). No legal adults in the household. The client stays alone but the family may exist in another province. <strong>Domestically adopted</strong> – Client adopted within own country.<strong>Short term/emergency foster care</strong> – Client is cared for by another family for a short period (maximum 3 months). <strong>Long term foster care</strong> – Client is cared for by another family for an unlimited period. <strong>No family</strong> – Client is orphan; no family member or relatives are involved. <strong>Extended family/kinship care</strong> – Client is cared for by relatives.
       name: Could be anyone who is caring for the client including caregiver, family members, relatives or organization staff.
       show:
+        accepted: Accept indicates your organization will work with the family. The next step is to perform family assessment and enroll in the program stream(s).
+        ratanak:
+          accepted: Accept indicates your organization will work with the client. The next step is to enroll client in the program stream(s) and perform client assessment.
         active_program: View/Edit/Delete the enrollment information, add new tracking form(s), or exit family from the program(s).
         enroll_program: 'Enlist the family in existing program stream(s) here. Admin: If the program doesn’t exist, add a new program stream through <strong>Manage >> Program Streams</strong>.'
       status: Manually update the status. Active means one or more clients within a family are on support. If no client is currently under care, update as <strong>Inactive</strong>.

@@ -3814,6 +3814,7 @@ km:
     new:
       new_family_title: គ្រួសារថ្មី
     show:
+      accept: ទទួលយក
       add_form: បន្ថែមទម្រង់បែបបទទៅឲ្យគ្រួសារ
       additional_forms: ទម្រង់បែបបទរបស់គ្រួសារដែលកំពុងប្រើ
       additional_info: ព័ត៌មានលំអិតបន្ថែម
@@ -3857,6 +3858,76 @@ km:
     version:
       back: ត្រលប់ក្រោយ
       modification_of: ប្រវត្តិកំណែរបស់
+  family:
+    enter_ngos:
+      create:
+        failed_create: គ្រួសារមិនត្រូវបានកែសម្រួលដោយជោគជ័យ
+        successfully_created: គ្រួសារត្រូវបានកែសម្រួលដោយជោគជ័យ
+      edit_form:
+        accept: ទទួលយក
+        accept_ngo_form: ទទួលចូលអង្គការ
+        accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
+        case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
+      form:
+        accept: ទទួលយក
+        accept_ngo_form: ទទួលចូលអង្គការ
+        accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
+        accepting: កំពុងទទួលយក...
+        case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
+      update:
+        failed_update: គ្រួសារមិនត្រូវបានកែសម្រួលដោយជោគជ័យ
+        successfully_updated: គ្រួសារត្រូវបានកែសម្រួលដោយជោគជ័យ
+    exit_ngos:
+      create:
+        failed_create: គ្រួសារមិនត្រូវបានកែសម្រួលដោយជោគជ័យ
+        successfully_created: គ្រួសារត្រូវបានកែសម្រួលដោយជោគជ័យ
+      edit_form:
+        case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
+        exit_btn: ចាកចេញ
+        exit_circumstance: ស្ថានភាពនៃការចាកចេញ
+        exit_date: ថ្ងៃចាកចេញ
+        exit_ngo: ចាកចេញពីអង្គការ
+        exit_note: កំណត់ហេតុនៃការចាកចេញ
+        exit_reason_options:
+          agency_lack_resource: អង្គភាពខ្វះធនធានគ្រប់គ្រាន់
+          client_died: អតិថិជនបានទទួលមរណៈភាព
+          client_does_not_meet_service_criteria: អតិថិជនមិនត្រូវ​ /​ ឈប់ត្រូវតាមលក្ខខណ្ឌសេវាកម្ម
+          client_does_not_required_support: អតិថិជនមិនត្រូវការ / ឈប់ត្រូវការការឧបត្ថម្ភ
+          client_move_out_international: អតិថិជននៅក្រៅ / ចាកចេញទៅក្រៅតំបន់គោលដៅអង្គការ (អន្តរជាតិ)
+          client_move_out_within_cambodia: អតិថិជននៅក្រៅ / ចាកចេញទៅក្រៅតំបន់គោលដៅអង្គការ (ក្នុងប្រទេសកម្ពុជា)
+          client_refuse_service: អតិថិជនបដិសេធមិនទទួលយកសេវាកម្ម
+          other_reason: ផ្សេងៗ
+        exit_reasons: មូលហេតុនៃការចាកចេញ
+        exit_status: ស្ថានភាព
+        exiting: កំពុងចាកចេញពីអង្គការ...
+        other_info_of_exit: ព័ត៌មានបន្ថែមនៃការចាកចេញ
+        reject_client: មិនទទួលយកអតិថិជន
+        rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
+      form:
+        case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
+        exit_btn: ចាកចេញ
+        exit_circumstance: ស្ថានភាពនៃការចាកចេញ
+        exit_date: ថ្ងៃចាកចេញ
+        exit_ngo: ចាកចេញពីអង្គការ
+        exit_note: កំណត់ហេតុនៃការចាកចេញ
+        exit_reason_options:
+          agency_lack_resource: អង្គភាពខ្វះធនធានគ្រប់គ្រាន់
+          client_died: អតិថិជនបានទទួលមរណៈភាព
+          client_does_not_meet_service_criteria: អតិថិជនមិនត្រូវ​ /​ ឈប់ត្រូវតាមលក្ខខណ្ឌសេវាកម្ម
+          client_does_not_required_support: អតិថិជនមិនត្រូវការ / ឈប់ត្រូវការការឧបត្ថម្ភ
+          client_move_out_international: អតិថិជននៅក្រៅ / ចាកចេញទៅក្រៅតំបន់គោលដៅអង្គការ (អន្តរជាតិ)
+          client_move_out_within_cambodia: អតិថិជននៅក្រៅ / ចាកចេញទៅក្រៅតំបន់គោលដៅអង្គការ (ក្នុងប្រទេសកម្ពុជា)
+          client_refuse_service: អតិថិជនបដិសេធមិនទទួលយកសេវាកម្ម
+          other_reason: ផ្សេងៗ
+        exit_reasons: មូលហេតុនៃការចាកចេញ
+        exit_status: ស្ថានភាព
+        exiting: កំពុងចាកចេញ...
+        other_info_of_exit: ព័ត៌មានបន្ថែមនៃការចាកចេញ
+        reject_client: មិនទទួលយកគ្រួសារ
+        rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
+      update:
+        failed_update: គ្រួសារមិនត្រូវបានកែសម្រួលដោយជោគជ័យ
+        successfully_updated: គ្រួសារត្រូវបានកែសម្រួលដោយជោគជ័យ
   faq: សំនួរចម្លើយ
   field_label_cannot_be_blank: ផ្នែកនៃទម្រង់មិនអាចរំលង
   form_builder:

@@ -7,6 +7,7 @@ class Family < ActiveRecord::Base
     'Short Term / Emergency Foster Care', 'Long Term Foster Care',
     'Domestically Adopted', 'Child-Headed Household', 'No Family', 'Other']
   STATUSES = ['Active', 'Inactive']
+  NEW_STATUSES = ['Accepted', 'Exited', 'Active', 'Inactive', 'Referred'].freeze
 
   acts_as_paranoid
 
@@ -23,6 +24,8 @@ class Family < ActiveRecord::Base
   has_many :clients, through: :cases
   has_many :custom_field_properties, as: :custom_formable, dependent: :destroy
   has_many :custom_fields, through: :custom_field_properties, as: :custom_formable
+  has_many :enter_ngos, as: :acceptable, dependent: :destroy
+  has_many :exit_ngos, as: :rejectable, dependent: :destroy
   has_many :enrollments, as: :programmable, dependent: :destroy
   has_many :program_streams, through: :enrollments, as: :programmable
   has_many :family_members, dependent: :destroy
@@ -35,8 +38,10 @@ class Family < ActiveRecord::Base
 
   validates :family_type, presence: true, inclusion: { in: TYPES }
   validates :code, uniqueness: { case_sensitive: false }, if: 'code.present?'
-  validates :status, presence: true, inclusion: { in: STATUSES }
+  validates :status, presence: true, inclusion: { in: NEW_STATUSES }
   validate :client_must_only_belong_to_a_family
+  # Todo
+  # validates :user_ids, presence: true, on: :update, unless: :exit_ngo?
 
   after_save :save_family_in_client
 
@@ -87,6 +92,10 @@ class Family < ActiveRecord::Base
 
   def birth_family_both_parents?
     family_type == 'Birth Family (Both Parents)'
+  end
+
+  def referred?
+    status == 'Referred'
   end
 
   def exit_ngo?

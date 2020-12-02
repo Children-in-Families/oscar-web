@@ -3,6 +3,7 @@ class ExitNgo < ActiveRecord::Base
   acts_as_paranoid double_tap_destroys_fully: true
 
   belongs_to :client, with_deleted: true
+  belongs_to :rejectable, polymorphic: true, with_deleted: true
 
   alias_attribute :new_date, :exit_date
 
@@ -12,14 +13,15 @@ class ExitNgo < ActiveRecord::Base
 
   validates :exit_circumstance, :exit_date, :exit_note, :exit_reasons, presence: true
 
-  after_create :update_client_status
+  after_create :update_entity_status
   after_save :create_exit_ngo_history
 
   private
 
-  def update_client_status
-    client.status = 'Exited'
-    client.save(validate: false)
+  def update_entity_status
+    entity = client.present? ? client : acceptable
+    entity.status = 'Exited'
+    entity.save(validate: false)
   end
 
   def create_exit_ngo_history

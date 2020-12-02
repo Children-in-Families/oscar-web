@@ -4,6 +4,7 @@ describe ExitNgo do
   end
   describe ExitNgo, 'associations' do
     it { is_expected.to belong_to(:client) }
+    it { is_expected.to belong_to(:rejectable) }
   end
 
   describe ExitNgo, 'validations' do
@@ -15,7 +16,7 @@ describe ExitNgo do
 
   describe ExitNgo, 'callbacks' do
     context 'after_create' do
-      context 'update_client_status' do
+      context 'update_entity_status' do
         let!(:user_manager){ create(:user, :manager) }
         context 'referred_client' do
           let!(:client){ create(:client) }
