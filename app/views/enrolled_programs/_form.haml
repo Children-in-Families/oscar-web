@@ -26,5 +26,5 @@
   .ibox-footer
     = hidden_field_tag :program_stream_id, @program_stream.id
     = hidden_field_tag :program_stream_name, @program_stream.name
-    = f.submit t('.save'), class: 'btn btn-primary form-btn'
+    = f.submit t('.save'), class: 'btn btn-primary form-btn', data: { disable_with: t('saving') }
     = cancel_enrollment_form_link

@@ -429,14 +429,14 @@ describe ProgramStream do
 
   describe ProgramStream, 'methods' do
     let!(:programmable) { create(:family, :inactive) }
-    let!(:active_program) { create(:program_stream, :attached_with_family) }
+    let!(:active_program) { create(:program_stream, :attached_with_family, quantity: 1) }
     let!(:active_enrollment) { create(:enrollment, programmable: programmable, program_stream: active_program)}
     let!(:inactive_program) { create(:program_stream, :attached_with_family) }
     let!(:exit_enrollment) { create(:enrollment, programmable: programmable, program_stream: inactive_program, status: 'Exited')}
 
     let!(:client) { create(:client) }
     let!(:second_client) { create(:client) }
-    let!(:program_stream) { create(:program_stream) }
+    let!(:program_stream) { create(:program_stream, quantity: 3) }
     let!(:program_stream_active) { create(:program_stream) }
     let!(:program_stream_inactive) { create(:program_stream) }
     let!(:client_enrollment) { create(:client_enrollment, client: client, program_stream: program_stream, status: 'Exited')}
@@ -447,6 +447,16 @@ describe ProgramStream do
     let!(:tracking) { create(:tracking, program_stream: program_stream) }
     let!(:client_enrollment_tracking) { create(:client_enrollment_tracking, tracking: tracking, client_enrollment: client_enrollment) }
     field = [{"name"=>"email", "type"=>"text", "label"=>"email", "subtype"=>"email", "required"=>true, "className"=>"form-control"}, {"max"=>"5", "min"=>"1", "name"=>"age", "type"=>"number", "label"=>"age", "required"=>true, "className"=>"form-control"}, {"name"=>"description", "type"=>"text", "label"=>"description", "subtype"=>"text", "required"=>true, "className"=>"form-control"}]
+
+    context 'number_available_for_entity' do
+      it 'should return number of available enrollment for client' do
+        expect(active_program.number_available_for_entity).to eq 0
+      end
+
+      it 'should return number of available enrollment for entity' do
+        expect(program_stream.number_available_for_entity).to eq 2
+      end
+    end
 
     context 'attached_to_client?' do
       it 'should return true if entity type is Client' do

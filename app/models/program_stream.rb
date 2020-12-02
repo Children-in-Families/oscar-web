@@ -126,8 +126,9 @@ class ProgramStream < ActiveRecord::Base
     client_enrollments.last
   end
 
-  def number_available_for_client
-    quantity - client_enrollments.active.size
+  def number_available_for_entity
+    enrolls = attached_to_client? ? client_enrollments : enrollments
+    quantity - enrolls.active.size
   end
 
   def enroll?(obj, entity_type = nil)
