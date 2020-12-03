@@ -71,7 +71,6 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     $('.score_option .btn-option').attr('required','required')
 
 
-    # score with def
     $('.col-xs-12').on 'click', '.score_option .btn-option', ->
       return if $(@).closest(".root-wizard").attr("id") == 'readonly-rootwizard'
 
@@ -93,7 +92,6 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       domainId    = $(@).parents('.score_option').data("domain-id")
 
       $(@).addClass("btn-secondary")
-      #$(@).addClass("btn-#{scoreColor}")
       $($(@).siblings().get(-1)).val(score)
 
       if(scoreColor == 'danger' or scoreColor == 'warning' or scoreColor == 'success')
@@ -146,7 +144,6 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       domainId    = $(@).parents('.score_option').data("domain-id")
 
       $(@).children('label').addClass("label-default active-label")
-      # $(@).children('label').addClass("label-#{scoreColor} active-label")
 
       if(scoreColor == 'danger' or scoreColor == 'warning' or scoreColor == 'success')
         unless _disableRequiredFields()
@@ -295,6 +292,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
   _appendSaveButton = ->
     if $('#rootwizard').find('a[href="#finish"]:visible').length == 0 && $("#btn-save").length == 0
       $('#rootwizard').find("[aria-label=Pagination]").append("<li><a id='btn-save' href='#save' class='btn btn-info' style='background: #21b9bb;'></a></li>")
+
   _appendSaveCancel = ->
     unless $('#rootwizard').find('a[id="btn-cancel"]:visible').length
       assessmentHref = $('a.btn-back-default').first().attr('href')
@@ -304,18 +302,17 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     $(document).on 'click', "#rootwizard a[href='#save']", ->
       currentIndex = $("#rootwizard").steps("getCurrentIndex")
       newIndex = currentIndex + 1
-
-      if !_disableRequiredFields() && (!form.valid() || !_validateScore(form) || !_filedsValidator(currentIndex, newIndex))
+      if !_disableRequiredFields() && (!$(form).valid() || !_validateScore(form) || !_filedsValidator(currentIndex, newIndex))
         _filedsValidator(currentIndex, newIndex)
         _scrollToError(form)
         return false
       else
         unless _disableRequiredFields()
           form.submit (e) ->
-            if form.valid()
+            if $(form).valid()
               btnSaving = $('#rootwizard').data('saving')
               $("a[href='#save']").addClass('disabled').text(btnSaving)
-        form.submit()
+        $(form).submit()
 
   _formEdit = (rootId, currentIndex) ->
     currentTab  = "#{rootId}-p-#{currentIndex}"
@@ -330,12 +327,10 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
 
     scoreColor  = scoreOption.data("score-#{chosenScore}")
 
-    # score without def
     scoreOption.find("label label:contains(#{chosenScore})").addClass("label-default active-label")
 
     btnScore = scoreOption.find('input:hidden').val()
     $(scoreOption.find("div[data-score='#{btnScore}']").get(0)).addClass("btn-secondary")
-    # $(scoreOption.find("div[data-score='#{btnScore}']").get(0)).addClass("btn-#{scoreOption.data("score-#{btnScore}")}")
     domainName = $(@).data('goal-option')
     name = 'assessment[assessment_domains_attributes]['+ "#{currentIndex}" +'][goal_required]\']'
     radioName = '\'' + name
@@ -451,7 +446,6 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
 
     $('a.remove-task').on 'click', (e) ->
       _deleteTask(e)
-      # _initTaskRequire()
       currentIndex = $("#rootwizard").steps("getCurrentIndex")
       tasksList = $("#rootwizard-p-#{currentIndex} li.list-group-item")
       if tasksList.length
@@ -632,9 +626,11 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       $(".domain-#{domainId} .task_required").show()
 
   _handleAppendDomainAtTheEnd = (currentIndex) ->
-    if $("form#new_assessment").length
+    if $("form.assessment-form").length
       currentTab   = "#rootwizard-p-#{currentIndex}"
       domainId     = $(currentTab).find('.score_option').data('domain-id')
+
+      $('a#btn-save').hide() if $("#{currentTab} .task-required-option input[value='true']").is(':checked')
 
       $("#{currentTab} .task-required-option input").on 'ifChecked', (event) ->
         if $(@).attr('value') == 'true'
@@ -647,7 +643,6 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
           taskClone        = currentTableObj.find('.add-task-btn-wrapper').clone()
           taskArisingClone = currentTableObj.find('.task-arising').clone()
           textRequiredClone = currentTableObj.find('.task_required').clone()
-
           taskArisingClone.find('.task-required-option').remove()
           unless $("#required-task-wrapper-domain-#{domainId}").length
             $(".domain-last .ibox-content").append(

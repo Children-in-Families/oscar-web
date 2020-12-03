@@ -9,6 +9,8 @@
 
     %title= current_organization.try(:short_name) == 'mho'?  "Mother's Heart Organisation" : "OSCaR - Open Source Case-management and Record-keeping"
     %script{:src => "https://cdn.jsdelivr.net/npm/interactjs@1.4.1/dist/interact.min.js"}
+
+    = render 'layouts/error_tracking'
     = javascript_pack_tag    'application'
     = stylesheet_pack_tag    'application'
     = stylesheet_link_tag    'application', media: 'all'
@@ -16,7 +18,7 @@
 
   %body{id: "#{controller_name}-#{params[:action]}", class: "pace-done #{authorized_body}"}
     = render 'layouts/identifier' if Rails.env.staging? || Rails.env.demo?
-    #wrapper{ data: flash_alert }
+    #wrapper{ data: { **flash_alert, confirm: I18n.t('are_you_sure'), yes: I18n.t('yes'), no: I18n.t('disagree') },  }
       = render 'layouts/side_menu' if user_signed_in?
       - if user_signed_in?
         #page-wrapper.gray-bg

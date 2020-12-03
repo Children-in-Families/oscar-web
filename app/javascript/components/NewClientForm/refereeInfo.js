@@ -20,8 +20,10 @@ export default props => {
   const genderLists = [
     { label: T.translate("refereeInfo.female"), value: 'female' },
     { label: T.translate("refereeInfo.male"), value: 'male' },
+    { label: T.translate("refereeInfo.lgbt"), value: 'lgbt' },
+    { label: T.translate("refereeInfo.unknown"), value: 'unknown' },
+    { label: t(translation, 'default_client_fields.gender_list.prefer_not_to_say'), value: 'prefer_not_to_say' },
     { label: T.translate("refereeInfo.other"), value: 'other' },
-    { label: T.translate("refereeInfo.unknown"), value: 'unknown'}
   ]
 
   const yesNoOpts = [
@@ -131,6 +133,9 @@ export default props => {
       }).success(res => {
         const dataState = { districts: setDistricts, communes: setCommunes, villages: setVillages, townships: setTownships, subdistricts: setSubdistricts }
         dataState[child](res.data)
+      })
+      .error((res) => {
+        onerror(res.responseText)
       })
   }
 

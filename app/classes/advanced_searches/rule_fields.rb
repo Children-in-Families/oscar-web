@@ -62,15 +62,15 @@ module AdvancedSearches
     end
 
     def gender_list
-      [Client::GENDER_OPTIONS, I18n.t('default_client_fields.gender_list').values].transpose.to_h
+      [Client::GENDER_OPTIONS, Client::GENDER_OPTIONS.map { |value| I18n.t("default_client_fields.gender_list.#{value.gsub('other', 'other_gender')}") }].transpose.to_h
     end
 
     def case_note_type_options
-      [CaseNote::INTERACTION_TYPE, I18n.t('.case_notes.form.type_options').values].transpose.map{|k, v| { k => v }  }
+      [CaseNote::INTERACTION_TYPE, I18n.t('.case_notes.form.type_options').values].transpose.map { |k, v| { k => v }  }
     end
 
     def exit_reasons_options
-      ExitNgo::EXIT_REASONS.map{|s| { s => s }  }
+      ExitNgo::EXIT_REASONS.map { |s| { s => s }  }
     end
 
     def client_status
@@ -169,6 +169,11 @@ module AdvancedSearches
         {
           text_fields: ['street_line1', 'street_line2'],
           drop_down_fields: [['township_id', townships], ['state_id', states]]
+        }
+      else
+        {
+          text_fields: ['house_number', 'street_number'],
+          drop_down_fields: [['province_id', provinces], ['district_id', districts], ['birth_province_id', birth_provinces], ['commune_id', communes], ['village_id', villages] ]
         }
       end
     end

@@ -65,47 +65,8 @@ module AdvancedSearchHelper
 
   def format_header(key)
     translations = {
-      # national_id_number: I18n.t('datagrid.columns.clients.national_id_number'),
-      # passport_number: I18n.t('datagrid.columns.clients.passport_number'),
-      # marital_status: I18n.t('datagrid.columns.clients.marital_status'),
-      # nationality: I18n.t('datagrid.columns.clients.nationality'),
-      # ethnicity: I18n.t('datagrid.columns.clients.ethnicity'),
-      # location_of_concern: I18n.t('datagrid.columns.clients.location_of_concern'),
-      # type_of_trafficking: I18n.t('datagrid.columns.clients.type_of_trafficking'),
-      # education_background: I18n.t('datagrid.columns.clients.education_background'),
-      # department: I18n.t('datagrid.columns.clients.department'),
-      # presented_id: I18n.t('datagrid.columns.clients.presented_id'),
-      # id_number: I18n.t('datagrid.columns.clients.id_number'),
-      # legacy_brcs_id: I18n.t('datagrid.columns.clients.legacy_brcs_id'),
-      # whatsapp: I18n.t('datagrid.columns.clients.whatsapp'),
-      # other_phone_number: I18n.t('datagrid.columns.clients.other_phone_number'),
-      # brsc_branch: I18n.t('datagrid.columns.clients.brsc_branch'),
-      # preferred_language: I18n.t('datagrid.columns.clients.preferred_language'),
-      # current_island: I18n.t('datagrid.columns.current_address', column: I18n.t('datagrid.columns.clients.current_island')),
-      # current_street: I18n.t('datagrid.columns.current_address', column: I18n.t('datagrid.columns.clients.current_street')),
-      # current_po_box: I18n.t('datagrid.columns.current_address', column: I18n.t('datagrid.columns.clients.current_po_box')),
-      # current_city: I18n.t('datagrid.columns.current_address', column: I18n.t('datagrid.columns.clients.current_city')),
-      # current_settlement: I18n.t('datagrid.columns.current_address', column: I18n.t('datagrid.columns.clients.current_settlement')),
-      # current_resident_own_or_rent: I18n.t('datagrid.columns.current_address', column: I18n.t('datagrid.columns.clients.current_resident_own_or_rent')),
-      # current_household_type: I18n.t('datagrid.columns.current_address', column: I18n.t('datagrid.columns.clients.current_household_type')),
-      # island2: I18n.t('datagrid.columns.other_address', column: I18n.t('datagrid.columns.clients.island2')),
-      # street2: I18n.t('datagrid.columns.other_address', column: I18n.t('datagrid.columns.clients.street2')),
-      # po_box2: I18n.t('datagrid.columns.other_address', column: I18n.t('datagrid.columns.clients.po_box2')),
-      # city2: I18n.t('datagrid.columns.other_address', column: I18n.t('datagrid.columns.clients.city2')),
-      # settlement2: I18n.t('datagrid.columns.other_address', column: I18n.t('datagrid.columns.clients.settlement2')),
-      # resident_own_or_rent2: I18n.t('datagrid.columns.other_address', column: I18n.t('datagrid.columns.clients.resident_own_or_rent2')),
-      # household_type2: I18n.t('datagrid.columns.other_address', column: I18n.t('datagrid.columns.clients.household_type2')),
       given_name: I18n.t('advanced_search.fields.given_name'),
       family_name: I18n.t('advanced_search.fields.family_name'),
-      # national_id: I18n.t('datagrid.columns.clients.national_id'),
-      # birth_cert: I18n.t('datagrid.columns.clients.birth_cert'),
-      # family_book: I18n.t('datagrid.columns.clients.family_book'),
-      # passport: I18n.t('datagrid.columns.clients.passport'),
-      # travel_doc: I18n.t('datagrid.columns.clients.travel_doc'),
-      # referral_doc: I18n.t('datagrid.columns.clients.referral_doc'),
-      # local_consent: I18n.t('datagrid.columns.clients.local_consent'),
-      # police_interview: I18n.t('datagrid.columns.clients.police_interview'),
-      # other_legal_doc: I18n.t('datagrid.columns.clients.other_legal_doc'),
       local_given_name: "#{I18n.t('advanced_search.fields.local_given_name')} #{country_scope_label_translation}",
       local_family_name: "#{I18n.t('advanced_search.fields.local_family_name')} #{country_scope_label_translation}",
       carer: I18n.t('advanced_search.fields.carer'),
@@ -157,7 +118,6 @@ module AdvancedSearchHelper
       able_state: I18n.t('advanced_search.fields.able_state'),
       has_been_in_orphanage: I18n.t('advanced_search.fields.has_been_in_orphanage'),
       user_id: I18n.t('advanced_search.fields.user_id'),
-      # id_poor: I18n.t('advanced_search.fields.id_poor'),
       enrollment: I18n.t('advanced_search.fields.enrollment'),
       tracking: I18n.t('advanced_search.fields.tracking'),
       exit_program: I18n.t('advanced_search.fields.exit_program'),
@@ -193,7 +153,6 @@ module AdvancedSearchHelper
       referee_phone: I18n.t('advanced_search.fields.referee_phone'),
       referee_email: I18n.t('advanced_search.fields.referee_email'),
       referee_relationship: I18n.t('advanced_search.fields.referee_relationship'),
-      # time_in_care: I18n.t('advanced_search.fields.time_in_care'),
       time_in_cps: I18n.t('advanced_search.fields.time_in_cps'),
       time_in_ngo: I18n.t('advanced_search.fields.time_in_ngo'),
       assessment_number: I18n.t('advanced_search.fields.assessment_number', assessment: I18n.t('clients.show.assessment')),
@@ -202,12 +161,9 @@ module AdvancedSearchHelper
       custom_csi_group: I18n.t('advanced_search.fields.custom_csi_group'),
       referral_source_category_id: I18n.t('advanced_search.fields.referral_source_category_id'),
       type_of_service:  I18n.t('advanced_search.fields.type_of_service'),
-      hotline: I18n.t('datagrid.columns.calls.hotline')
+      hotline: I18n.t('datagrid.columns.calls.hotline'),
+      **overdue_translations
     }
-
-    # Client::STACKHOLDER_CONTACTS_FIELDS.each do |field|
-    #   translations[field] = I18n.t("datagrid.columns.clients.#{field}")
-    # end
 
     translations[key.to_sym] || ''
   end

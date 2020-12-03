@@ -27,11 +27,12 @@ export default props => {
   const locationOfConcernOptions = countryList().getData().map(a => ({ label: a.label, value: a.label }))
 
   const genderLists = [
-    { label: T.translate("refereeInfo.female"), value: 'female' },
-    { label: T.translate("refereeInfo.male"), value: 'male' },
-    { label: T.translate("refereeInfo.other"), value: 'other' },
-    { label: T.translate("refereeInfo.unknown"), value: 'unknown' },
-    { label: t(translation, 'default_client_fields.gender_list.prefer_not_to_say'), value: 'prefer_not_to_say' }
+    { label: T.translate("genderLists.female"), value: 'female' },
+    { label: T.translate("genderLists.male"), value: 'male' },
+    { label: T.translate("genderLists.lgbt"), value: 'lgbt' },
+    { label: T.translate("genderLists.unknown"), value: 'unknown' },
+    { label: T.translate("genderLists.prefer_not_to_say"), value: 'prefer_not_to_say' },
+    { label: T.translate("genderLists.other"), value: 'other' }
   ]
   const phoneEmailOwnerOpts = phoneOwners.map(phone => ({ label: T.translate("phoneOwner." + phone.label), value: phone.value }))
   const birthProvincesLists = birthProvinces.map(province => ({label: province[0], options: province[1].map(value => ({label: value[0], value: value[1]}))}))
@@ -112,6 +113,9 @@ export default props => {
     }).success(res => {
       const dataState = { districts: setDistricts, communes: setCommunes, villages: setVillages }
       dataState[child](res.data)
+    })
+    .error((res) => {
+      onerror(res.responseText)
     })
   }
 
@@ -353,7 +357,7 @@ export default props => {
       </div>
 
       <div className="row">
-      
+
          {
          fieldsVisibility.ethnicity == true &&
          <div className="col-xs-12 col-md-6 col-lg-3">

@@ -20,3 +20,14 @@
 .radio_buttons div.iradio_square-green {
   margin-right: 5px;
 }
+
+.btn-toastr-confirm {
+  color: #333333
+}
+
+#toast-container > .toast-warning{
+  &:before {
+    content: "\f071";
+  }
+  background-image: none !important;
+}

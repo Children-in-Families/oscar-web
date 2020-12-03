@@ -9,6 +9,7 @@ CIF.Common =
     @addLocalstorageAttribute()
     @checkValidationErrorExistOnSaving()
     @preventEditOnDatePicker()
+    @confirmOnCancelBotton()
 
   preventEditOnDatePicker: ->
     $('.date-picker').datepicker
@@ -114,3 +115,30 @@ CIF.Common =
 
       return
 
+  confirmOnCancelBotton: ->
+    $(document).on 'click', 'a.btn.btn-default.form-btn, form button.btn.btn-default:not(".editable-cancel"), a#btn-cancel', (e)->
+      window.thisLink = $(@).attr('href')
+      confirmText = $('#wrapper').data('confirm')
+      textYes     = $('#wrapper').data('yes')
+      textNo     = $('#wrapper').data('no')
+
+      e.preventDefault();
+
+      toastr.warning "<br /><button class='btn btn-success m-r-xs' type='button' value='yes'>#{textYes}</button><button class='btn btn-default btn-toastr-confirm' type='button'  value='no' >#{textNo}</button>", confirmText,
+        preventDuplicates: true
+        closeButton: true
+        allowHtml: true
+        timeOut: 0,
+        extendedTimeOut: 0,
+        showDuration: '400'
+        tapToDismiss: false
+        positionClass: 'toast-top-center'
+        onclick: () ->
+          value = event.target.value
+          if value == 'yes'
+            $('.modal').modal('hide')
+            history.back()
+            return true
+          else
+            $('.toast-close-button').closest('.toast').remove();
+            return false

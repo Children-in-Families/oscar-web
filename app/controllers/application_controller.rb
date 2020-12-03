@@ -1,7 +1,5 @@
 class ApplicationController < ActionController::Base
   include Pundit
-  # Prevent CSRF attacks by raising an exception.
-  # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :null_session, except: :index, if: proc { |c| c.request.format == 'application/json' }
   before_action :store_user_location!, if: :storable_location?
   before_action :configure_permitted_parameters, if: :devise_controller?
@@ -9,6 +7,7 @@ class ApplicationController < ActionController::Base
   before_action :set_locale, :override_translation
   before_action :set_paper_trail_whodunnit, :current_setting
   before_action :prevent_routes
+  before_action :set_raven_context
 
   rescue_from ActiveRecord::RecordNotFound do |exception|
     render file: "#{Rails.root}/app/views/errors/404", layout: false, status: :not_found
@@ -18,7 +17,6 @@ class ApplicationController < ActionController::Base
   helper_method :field_settings
 
   rescue_from CanCan::AccessDenied do |exception|
-    # redirect_to root_url, alert: exception.message
     if exception.subject.inspect.include?("Client") && (exception.action).to_s.include?("show")
       flash[:notice] = t('unauthorized.case_worker_unauthorized')
     else
@@ -65,7 +63,6 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.for(:account_update) << :domain_warning
     devise_parameter_sanitizer.for(:account_update) << :gender
     devise_parameter_sanitizer.for(:account_update) << :preferred_language
-    # devise_parameter_sanitizer.for(:account_update) << :staff_performance_notification
     devise_parameter_sanitizer.for(:account_update) << :referral_notification
   end
 
@@ -125,6 +122,17 @@ class ApplicationController < ActionController::Base
       redirect_to root_path, notice: t('unauthorized.you_cannot_access_this_page')
     elsif current_setting.try(:enable_client_form) == false && params[:controller] == "clients"
       redirect_to root_path, notice: t('unauthorized.you_cannot_access_this_page')
+    end
+  end
+
+  def set_raven_context
+    Raven.tags_context(
+      language: I18n.locale
+    )
+    if current_user
+      Raven.user_context(id: current_user.id, organization: Apartment::Tenant.current)
+    else
+      Raven.user_context(ip: request.ip)
     end
   end
 end

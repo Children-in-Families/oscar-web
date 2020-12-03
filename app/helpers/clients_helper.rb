@@ -190,7 +190,6 @@ module ClientsHelper
       date_of_custom_assessments:    t('datagrid.columns.clients.date_of_custom_assessments', assessment: t('clients.show.assessment')),
       changelog:                     t('datagrid.columns.clients.changelog'),
       live_with:                     t('datagrid.columns.clients.live_with'),
-      # id_poor:                       t('datagrid.columns.clients.id_poor'),
       program_streams:               t('datagrid.columns.clients.program_streams'),
       program_enrollment_date:       t('datagrid.columns.clients.program_enrollment_date'),
       program_exit_date:             t('datagrid.columns.clients.program_exit_date'),
@@ -204,6 +203,7 @@ module ClientsHelper
       referral_source_category_id:   t('datagrid.columns.clients.referral_source_category'),
       type_of_service:               t('datagrid.columns.type_of_service'),
       hotline:                       t('datagrid.columns.calls.hotline'),
+      **overdue_translations,
       **Client::HOTLINE_FIELDS.map{ |field| [field.to_sym, I18n.t("datagrid.columns.clients.#{field}")] }.to_h
     }
 
@@ -212,6 +212,15 @@ module ClientsHelper
     end
 
     label_tag "#{column}_", label_column[column.to_sym]
+  end
+
+  def overdue_translations
+    {
+      has_overdue_assessment: I18n.t("datagrid.form.has_overdue_assessment", assessment: I18n.t('clients.show.assessment')),
+      has_overdue_forms: I18n.t("datagrid.form.has_overdue_forms"),
+      has_overdue_task: I18n.t("datagrid.form.has_overdue_task"),
+      no_case_note: I18n.t("datagrid.form.no_case_note")
+    }
   end
 
   def local_name_label(name_type = :local_given_name)
@@ -303,7 +312,6 @@ module ClientsHelper
     value.is_a?(Array) ? value.delete_if(&:empty?).present? : value.present?
   end
 
-  # legacy method
   def form_builder_format_key(value)
     value.downcase.parameterize('_')
   end
@@ -321,7 +329,6 @@ module ClientsHelper
     result.join(' | ')
   end
 
-  # legacy method
   def group_entity_by(value)
     value.group_by{ |field| field.split('_').first}
   end
@@ -334,7 +341,6 @@ module ClientsHelper
     keyword.downcase.parameterize.gsub('-', '__')
   end
 
-  # legacy method
   def field_not_render(field)
     field.split('_').first
   end
@@ -515,7 +521,8 @@ module ClientsHelper
       referral_source_category_id_: t('datagrid.columns.clients.referral_source_category'),
       type_of_service_: t('datagrid.columns.type_of_service'),
       assessment_completed_date_: t('datagrid.columns.calls.assessment_completed_date', assessment: t('clients.show.assessment')),
-      hotline_call_: t('datagrid.columns.calls.hotline_call')
+      hotline_call_: t('datagrid.columns.calls.hotline_call'),
+      **overdue_translations
     }
 
     (Client::HOTLINE_FIELDS + Call::FIELDS).each do |field_name|
@@ -688,9 +695,9 @@ module ClientsHelper
 
     query_string  = get_query_string(results, form_type, properties_field)
     if form_type == 'formbuilder'
-      properties_result = object.where(query_string.reject(&:blank?).join(" AND "))
+      properties_result = object.where(query_string.reject(&:blank?).join(" #{basic_rules['condition']} "))
     else
-      properties_result = object.joins(:client_enrollment).where(client_enrollments: { program_stream_id: selected_program_stream }).where(query_string.reject(&:blank?).join(" AND "))
+      properties_result = object.joins(:client_enrollment).where(client_enrollments: { program_stream_id: selected_program_stream }).where(query_string.reject(&:blank?).join(" #{basic_rules['condition']} "))
     end
   end
 
@@ -926,12 +933,6 @@ module ClientsHelper
             client_enrollment_trackings = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: column.name.to_s.split('__').third }, client_enrollment_trackings: { client_enrollment_id: ids })
             properties = form_builder_query(client_enrollment_trackings, 'tracking', column.name.to_s.gsub('&qoute;', '"')).properties_by(format_field_value)
             count += property_filter(properties, format_field_value).size
-          # elsif class_name[/^(exitprogram)/i].present?
-          #   ids = client.client_enrollments.inactive.ids
-          #   leave_programs = LeaveProgram.joins(:program_stream).where(program_streams: { name: column.header.split('|').first.squish }, leave_programs: { client_enrollment_id: ids })
-          #   properties = form_builder_query(leave_programs, 'exitprogram', column.name.to_s.gsub('&qoute;', '"')).properties_by(format_field_value)
-          #   # count += date_filter(object, class_name).flatten.count
-          #   # count += trackings.flatten.reject(&:blank?).count
           elsif class_name == 'quantitative-type'
             quantitative_type_values = client.quantitative_cases.joins(:quantitative_type).where(quantitative_types: {name: column.header }).pluck(:value)
             quantitative_type_values = property_filter(quantitative_type_values, column.header.split('|').third.try(:strip) || column.header.strip)
@@ -1331,5 +1332,9 @@ module ClientsHelper
 
   def get_address(address_name)
     @client.public_send("#{address_name}") ? [@client.public_send("#{address_name}").slice('id', 'name')] : []
+  end
+
+  def saved_search_column_visibility(field_key)
+    default_setting(field_key, @client_default_columns) || params[field_key.to_sym].present? || (@visible_fields && @visible_fields[field_key]).present?
   end
 end

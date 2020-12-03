@@ -188,6 +188,9 @@ Rails.application.routes.draw do
     end
 
     mount_devise_token_auth_for 'User', at: '/v1/auth', skip: [:passwords]
+
+    mount_devise_token_auth_for 'AdminUser', at: 'v1/admin_auth'
+
     resources :form_builder_attachments, only: :destroy
 
     resources :provinces, only: :index do
@@ -264,7 +267,7 @@ Rails.application.routes.draw do
     # resources :referral_sources
 
     namespace :v1, default: { format: :json } do
-      resources :organizations, only: [:index, :create] do
+      resources :organizations, only: [:index, :create, :update, :destroy] do
         collection do
           get :clients
           post 'clients/upsert' => 'organizations#upsert'

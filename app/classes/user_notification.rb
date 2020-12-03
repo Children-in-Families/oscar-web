@@ -152,12 +152,6 @@ class UserNotification
     due_today_custom_assessments_count >= 1
   end
 
-  # def ec_notification(day)
-  #   if @user.admin? || @user.ec_manager?
-  #     Client.exit_in_week(day)
-  #   end
-  # end
-
   def any_user_custom_field_frequency_overdue?
     user_custom_field_frequency_overdue_count >= 1
   end
@@ -305,11 +299,6 @@ class UserNotification
   def count
     count_notification = 0
     setting = Setting.first
-    # if @user.admin? || @user.ec_manager?
-    #   (83..90).each do |item|
-    #     count_notification += 1 if ec_notification(item).present?
-    #   end
-    # end
     if @user.admin? || @user.manager?
       count_notification += 1 if any_user_custom_field_frequency_overdue?
       count_notification += 1 if any_user_custom_field_frequency_due_today?

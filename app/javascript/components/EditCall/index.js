@@ -65,7 +65,7 @@ export default props => {
   }
 
   const handleCancel = () => {
-    document.location.href = `/calls/${callData.id}`
+    document.location.href = `/calls/${callData.id}${window.location.search}`
   }
 
   const handleSave = () => {
@@ -90,9 +90,8 @@ export default props => {
             window.open(`${url}?notice=${message}`, '_blank');
           });
         }
-      })
-      .error(err => {
-        console.log("err: ", err);
+      }).error((res) => {
+        onerror(res.responseText)
       })
     }
   }

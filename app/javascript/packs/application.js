@@ -7,7 +7,6 @@
 // To reference this file, add <%= javascript_pack_tag 'application' %> to the appropriate
 // layout file, like app/views/layouts/application.html.erb
 
-
 // Uncomment to copy all static images under ../images to the output folder and reference
 // them with the image_pack_tag helper in views (e.g <%= image_pack_tag 'rails.png' %>)
 // or the `imagePath` JavaScript helper below.
@@ -16,9 +15,10 @@
 // const imagePath = (name) => images(name, true)
 
 // Support component names relative to this directory:
-import 'primereact/resources/themes/nova-light/theme.css';
-import 'primereact/resources/primereact.min.css';
-import 'primeicons/primeicons.css';
+import "primereact/resources/themes/nova-light/theme.css";
+import "primereact/resources/primereact.min.css";
+import "primeicons/primeicons.css";
+
 var componentRequireContext = require.context("components", true);
 var ReactRailsUJS = require("react_ujs");
 ReactRailsUJS.useContext(componentRequireContext);

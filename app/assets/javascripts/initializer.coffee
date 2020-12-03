@@ -16,5 +16,6 @@ CIF.Initializer =
     if @currentPage()
       CIF.Initializer.exec(@currentPage())
 
+
 $(document).on 'ready page:load', ->
   CIF.Initializer.init()

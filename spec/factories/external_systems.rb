@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :external_system do
-    name "MyString"
-    url "MyString"
-    token "MyString"
+    name "External System"
+    url ""
+    token "email@example.com"
   end
 end

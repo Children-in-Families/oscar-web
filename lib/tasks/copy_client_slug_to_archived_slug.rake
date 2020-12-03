@@ -3,7 +3,6 @@ namespace :client_archived_slug do
   task :copy, [:short_name]  => :environment do |task, args|
     short_name = args.short_name
     Organization.switch_to short_name
-    # next if short_name == 'shared'
     Client.all.each do |client|
       random_char = ('a'..'z').to_a.sample(3).join()
 

@@ -37,7 +37,6 @@ class Case < ActiveRecord::Base
     if ['Birth Family (Both Parents)', 'Birth Family (Only Mother)',
       'Birth Family (Only Father)', 'Domestically Adopted',
       'Child-Headed Household', 'No Family', 'Other'].include?(family.family_type)
-      # self.exited    = true
       self.exit_date = Date.today
       self.exit_note = family.family_type
     end

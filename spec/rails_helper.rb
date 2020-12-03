@@ -35,6 +35,10 @@ RSpec.configure do |config|
   # instead of true.
   config.use_transactional_fixtures = false
 
+  config.after(:each) do
+    I18n.locale = :en
+  end
+
   config.append_after(:each) do
     Capybara.reset_sessions!
   end

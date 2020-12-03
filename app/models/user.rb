@@ -8,14 +8,10 @@ class User < ActiveRecord::Base
   MANAGERS = ROLES.select { |role| role if role.include?('manager') }
   LANGUAGES = { en: :english, km: :khmer, my: :burmese }.freeze
 
-  GENDER_OPTIONS = ['female', 'male', 'other', 'prefer not to say']
+  GENDER_OPTIONS  = ['female', 'male', 'lgbt', 'unknown', 'prefer_not_to_say', 'other']
 
   devise :database_authenticatable, :registerable,
        :recoverable, :rememberable, :trackable, :validatable
-
-  # has_one_time_password
-  # enum otp_module: { otp_module_disabled: 0, otp_module_enabled: 1 }
-  # attr_accessor :otp_code_token
 
   has_paper_trail
 
@@ -333,6 +329,7 @@ class User < ActiveRecord::Base
         user.manager_ids = find_manager_manager(user.manager_id, user.manager_ids)
         user.save
       end
+      self.update_columns(manager_id: nil, manager_ids: [])
     end
   end
 
@@ -387,12 +384,6 @@ class User < ActiveRecord::Base
       quantitative_type_permissions.build(quantitative_type_id: qt.id)
     end
   end
-
-  # def otp_module_changeable?
-  #   # set it to false until the client request this feature
-  #   # as the user is unable to access their device/token
-  #   false
-  # end
 
   private
 

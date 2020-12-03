@@ -8,7 +8,7 @@ describe Client do
     it { is_expected.to have_many(:sponsors).dependent(:destroy) }
     it { is_expected.to have_many(:donors).through(:sponsors) }
     it { is_expected.to have_many(:cases).dependent(:destroy) }
-    it { is_expected.to have_many(:tasks).dependent(:destroy) }
+    it { is_expected.to have_many(:tasks).dependent(:nullify) }
     it { is_expected.to have_many(:case_notes).dependent(:destroy) }
     it { is_expected.to have_many(:assessments).dependent(:destroy) }
     it { is_expected.to have_many(:agency_clients).dependent(:destroy) }
@@ -316,7 +316,7 @@ describe Client do
       it { expect(client.can_create_assessment?(true)).to be_truthy }
       it { expect(no_csi_client.can_create_assessment?(true)).to be_truthy }
       it { expect(client_with_two_csi.can_create_assessment?(true)).to be_truthy }
-      it { expect(other_client.can_create_assessment?(true)).to be_falsey }
+      it { expect(other_client.can_create_assessment?(true)).to be_truthy }
 
       context 'previous assessment is not completed' do
         let!(:client_3){ create(:client, :accepted) }
@@ -342,10 +342,12 @@ describe Client do
 
     context '#next_case_note_date' do
       let!(:client_1){ create(:client, :accepted) }
-      let!(:lastest_case_note){ create(:case_note, client: client_1, meeting_date: Date.today) }
-      let!(:case_note){ create(:case_note, client: other_client, meeting_date: 30.days.ago) }
+      let(:lastest_case_note){ build(:case_note, client: client_1, meeting_date: Date.today) }
+      let(:case_note){ build(:case_note, client: other_client, meeting_date: 30.days.ago) }
 
       it 'should be last case note + 30 days' do
+        lastest_case_note.save(validate: false)
+        case_note.save(validate: false)
         expect(client_1.next_case_note_date).to eq((lastest_case_note.meeting_date + 30.days).to_date)
       end
 

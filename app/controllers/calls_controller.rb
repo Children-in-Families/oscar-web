@@ -66,7 +66,6 @@ class CallsController < AdminController
     @call = Call.find(params[:call_id])
     @referee = @call.referee
 
-    # OVERRIDE THE country_address_fields method
     @current_provinces = Province.order(:name)
     @referee_districts = @referee&.province&.districts || []
     @referee_communes = @referee&.province&.districts&.flat_map(&:communes) || []
@@ -117,7 +116,6 @@ class CallsController < AdminController
     @phone_owners = Client::PHONE_OWNERS.map{|owner| {label: owner, value: owner.downcase}}
     @referral_source = []
     @referral_source_category = referral_source_name(ReferralSource.parent_categories)
-    # country_address_fields
   end
 
   def referral_source_name(referral_source)
@@ -143,8 +141,6 @@ class CallsController < AdminController
     Organization.switch_to current_org
 
     @current_provinces        = Province.order(:name)
-    # @states = State.order(:name)
-    # @townships = []
 
     @districts = []
     @subdistricts = []

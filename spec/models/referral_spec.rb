@@ -8,14 +8,16 @@ describe Referral do
 
   describe Referral, 'validations' do
     it { is_expected.to validate_presence_of(:client_name) }
-    it { is_expected.to validate_presence_of(:slug) }
     it { is_expected.to validate_presence_of(:date_of_referral) }
     it { is_expected.to validate_presence_of(:referred_from) }
     it { is_expected.to validate_presence_of(:referred_to) }
     it { is_expected.to validate_presence_of(:referral_reason) }
     it { is_expected.to validate_presence_of(:name_of_referee) }
     it { is_expected.to validate_presence_of(:referral_phone) }
+    before { allow(subject).to receive(:slug_exist?).and_return('abcd-123') }
+    before { allow(subject).to receive(:making_referral?).and_return(true) }
     it { is_expected.to validate_presence_of(:referee_id) }
+    it { is_expected.to validate_presence_of(:consent_form) }
 
     context 'consent_form' do
       it 'invalid' do
@@ -24,7 +26,7 @@ describe Referral do
       end
 
       it 'valid' do
-        referral = FactoryGirl.build(:referral, referred_to: 'app', consent_form: nil)
+        referral = FactoryGirl.build(:referral, referred_to: 'app', consent_form: [UploadedFile.new(File.open(File.join(Rails.root, '/spec/supports/file.docx')))])
         expect(referral.valid?).to be_truthy
       end
     end

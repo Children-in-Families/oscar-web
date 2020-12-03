@@ -113,6 +113,7 @@ describe User do
 
       it "update manager level_1 managed_by manager level_2" do
         manager_level_1.update(manager_id: manager_level_2.id)
+        manager_level_1.set_manager_ids
         case_worker.save
         expect(manager_level_1.manager_ids).to include(manager_level_2.id)
         expect(case_worker.reload.manager_ids).to include(manager_level_1.id, manager_level_2.id)
@@ -120,7 +121,9 @@ describe User do
 
       it "update manager level_2 managed_by manager level_3" do
         manager_level_2.update(manager_id: manager_level_3.id)
+        manager_level_2.set_manager_ids
         manager_level_1.update(manager_id: manager_level_2.id)
+        manager_level_1.set_manager_ids
         case_worker.save
 
         expect(manager_level_2.reload.manager_ids).to include(manager_level_3.id)
@@ -130,15 +133,21 @@ describe User do
 
       it "update manager A to manager B" do
         manager_level_1.update(manager_id: manager_level_2.id)
+        manager_level_1.set_manager_ids
         manager_level_2.update(manager_id: manager_level_3.id)
+        manager_level_2.set_manager_ids
         case_worker.update(manager_id: other_manager.id)
+        case_worker.set_manager_ids
         expect(case_worker.manager_ids).not_to include(manager_level_1.id, manager_level_2.id, manager_level_3.id)
       end
 
       it "update case worker manager manager_level_1 to other_manager" do
         manager_level_2.update(manager_id: manager_level_3.id)
+        manager_level_2.set_manager_ids
         other_manager.update(manager_id: manager_level_2.id)
+        other_manager.set_manager_ids
         case_worker.update(manager_id: other_manager.id)
+        case_worker.set_manager_ids
         expect(case_worker.manager_ids).to include(other_manager.id, manager_level_2.id, manager_level_3.id)
       end
     end
@@ -146,7 +155,7 @@ describe User do
     context 'build permission' do
       let!(:client) { create(:client) }
       let!(:assessment) { create(:assessment, client: client) }
-      let!(:case_note) { create(:case_note, client: client, assessment: assessment) }
+      let!(:case_note) { create(:case_note, single_domain_group: false, client: client, assessment: assessment) }
       let!(:custom_field) { create(:custom_field) }
       let!(:program_stream) { create(:program_stream) }
 
@@ -441,6 +450,7 @@ describe User do
                                                             subordinate, strategic_overviewer)
       end
       it 'current user is Manager' do
+        subordinate.set_manager_ids
         expect(User.self_and_subordinates(manager)).to include(manager, subordinate)
       end
     end

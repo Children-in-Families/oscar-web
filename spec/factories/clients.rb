@@ -15,6 +15,7 @@ FactoryGirl.define do
     relevant_referral_information { FFaker::Lorem.paragraph }
     referral_source_category_id 4
 
+    association :global_identity
     association :received_by, factory: :user
 
     before(:create) do |client|
@@ -22,7 +23,7 @@ FactoryGirl.define do
     end
 
     after(:build) do |client|
-      client.class.skip_callback(:save, :after, :create_client_history, :create_or_update_shared_client, :mark_referral_as_saved)
+      client.class.skip_callback(:save, :after, :create_client_history, :create_or_update_shared_client, :mark_referral_as_saved, :global_identity_organizations)
       client.stub(:generate_random_char).and_return('abcd')
     end
 

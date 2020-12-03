@@ -23,7 +23,6 @@ class NgoUsageReport
       user_count: User.non_devs.count,
       user_added_count: previous_month_users.where(event: 'create').count,
       user_deleted_count: previous_month_users.where(event: 'destroy').count,
-      # should use PaperTrail instead for the visits
       login_per_month: Visit.excludes_non_devs.total_logins(beginning_of_month, end_of_month).count
     }
   end
@@ -40,7 +39,7 @@ class NgoUsageReport
   def ngo_referrals_info(beginning_of_month, end_of_month)
     tranferred_clients = PaperTrail::Version.where(item_type: 'Referral', event: 'create', created_at: beginning_of_month..end_of_month)
     {
-      tranferred_client_count: tranferred_clients.map{ |a| a.changeset.dig(:slug) && a.changeset[:slug][1] }.compact.uniq.count
+      tranferred_client_count: tranferred_clients.map { |a| a.changeset[:slug] && a.changeset[:slug][1] }.compact.uniq.count
     }
   end
 
@@ -87,14 +86,12 @@ class NgoUsageReport
     user_worksheet.insert_row(0, user_columns)
     client_worksheet.insert_row(0, client_columns)
 
-    #learning worksheet
     learning_worksheet.insert_row(0, learning_columns)
     learning_worksheet.insert_row(1, sub_learning_columns)
     sub_learning_columns.length.times do |i|
       learning_worksheet.row(0).set_format(i, header_format)
       learning_worksheet.row(1).set_format(i, header_format)
     end
-    # merge_cells(start_row, start_col, end_row, end_col)
     learning_worksheet.merge_cells(0, 0, 0, 5)
     learning_worksheet.merge_cells(0, 6, 0, 8)
     learning_worksheet.merge_cells(1, 0, 1, 1)
@@ -111,7 +108,6 @@ class NgoUsageReport
     user_length_of_column   = user_columns.length
     client_length_of_column = client_columns.length
 
-    #ngo_sheet
     ngo_length_of_column.times do |i|
       ngo_worksheet.row(0).set_format(i, header_format)
     end
@@ -122,7 +118,6 @@ class NgoUsageReport
     ngo_worksheet.column(2).width = 15
     ngo_worksheet.column(3).width = 20
 
-    #user_sheet
     user_length_of_column.times do |i|
       user_worksheet.row(0).set_format(i, header_format)
     end
@@ -130,7 +125,6 @@ class NgoUsageReport
     user_worksheet.row(0).height   = 30
     (0..4).each {|index| user_worksheet.column(index).width = 30 }
 
-    #client_sheet
     client_length_of_column.times do |i|
       client_worksheet.row(0).set_format(i, header_format)
     end
@@ -165,7 +159,6 @@ class NgoUsageReport
       ngo_worksheet.insert_row(index += 1, ngo_values)
       user_worksheet.insert_row(index, user_values)
       client_worksheet.insert_row(index, client_values)
-      # learning_worksheet.insert_row(index + 2, learning_data.flatten)
 
       ngo_length_of_column.times do |i|
         ngo_worksheet.row(index).set_format(i, column_date_format) if i == 1

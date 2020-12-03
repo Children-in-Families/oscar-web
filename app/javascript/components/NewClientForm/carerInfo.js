@@ -26,6 +26,9 @@ export default props => {
       const dataState = { districts: setDistricts, communes: setCommunes, villages: setVillages, townships: setTownships, subdistricts: setSubdistricts }
       dataState[child](res.data)
     })
+    .error((res) => {
+      onerror(res.responseText)
+    })
   }
 
   const onCheckSameAsClient = data => {
@@ -128,10 +131,12 @@ export default props => {
   }, [carer.same_as_client, client])
 
   const genderLists = [
-    { label: T.translate("refereeInfo.female"), value: 'female' },
-    { label: T.translate("refereeInfo.male"), value: 'male' },
-    { label: T.translate("refereeInfo.other"), value: 'other' },
-    { label: T.translate("refereeInfo.unknown"), value: 'unknown' }
+    { label: T.translate("genderLists.female"), value: 'female' },
+    { label: T.translate("genderLists.male"), value: 'male' },
+    { label: T.translate("genderLists.lgbt"), value: 'lgbt' },
+    { label: T.translate("genderLists.unknown"), value: 'unknown' },
+    { label: T.translate("genderLists.prefer_not_to_say"), value: 'prefer_not_to_say' },
+    { label: T.translate("genderLists.other"), value: 'other' }
   ]
   const familyLists = families.map(family => ({ label: family.name, value: family.id }))
 

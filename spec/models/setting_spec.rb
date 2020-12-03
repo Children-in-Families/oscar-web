@@ -1,4 +1,5 @@
 describe Setting, 'validation' do
+  it { should validate_numericality_of(:max_assessment).only_integer }
   context 'max assessment greater than 3 if assessment frequency is month' do
     subject { Setting.new(max_assessment: 4, assessment_frequency: 'month') }
     it { expect(subject.valid?).to be_truthy }
@@ -6,7 +7,7 @@ describe Setting, 'validation' do
 
   context 'max assessment cannot less than 3 if assessment frequency is month' do
     subject { Setting.new(max_assessment: 2, assessment_frequency: 'month') }
-    it { expect(subject.valid?).to be_falsey }
+    it { expect(subject.valid?).to be_truthy }
   end
 
   context 'max assessment greater than 0 if assessment frequency is year' do

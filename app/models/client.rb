@@ -110,6 +110,7 @@ class Client < ActiveRecord::Base
   before_update :disconnect_client_user_relation, if: :exiting_ngo?
   after_create :set_slug_as_alias, :save_client_global_organization, :save_external_system_global
   after_save :create_client_history, :mark_referral_as_saved, :create_or_update_shared_client
+  after_commit :remove_family_from_case_worker
 
   scope :given_name_like,                          ->(value) { where('clients.given_name iLIKE :value OR clients.local_given_name iLIKE :value', { value: "%#{value.squish}%"}) }
   scope :family_name_like,                         ->(value) { where('clients.family_name iLIKE :value OR clients.local_family_name iLIKE :value', { value: "%#{value.squish}%"}) }
@@ -164,7 +165,7 @@ class Client < ActiveRecord::Base
 
       shared_clients.compact.bsearch do |client|
         client = client.split('&')
-        input_name_field  = "#{options[:given_name]} #{options[:family_name]} #{options[:local_family_name]} #{options[:local_given_name]}".squish
+        input_name_field  = field_name_concatenate(options)
         client_name_field = client[0].squish
         field_name = compare_matching(input_name_field, client_name_field)
         dob        = date_of_birth_matching(options[:date_of_birth], client.last.squish)
@@ -199,7 +200,7 @@ class Client < ActiveRecord::Base
       address_hash = { cv: 1, cc: 2, cd: 3, cp: 4 }
       result = shared_clients.compact.bsearch do |client|
         client = client.split('&')
-        input_name_field     = "#{options[:given_name]} #{options[:family_name]} #{options[:local_family_name]} #{options[:local_given_name]}".squish
+        input_name_field     = field_name_concatenate(options)
         client_name_field    = client[0].squish
         field_name = compare_matching(input_name_field, client_name_field)
         dob        = date_of_birth_matching(options[:date_of_birth], client.last.squish)
@@ -211,6 +212,10 @@ class Client < ActiveRecord::Base
         end
       end
       return false
+    end
+
+    def field_name_concatenate(options)
+      "#{options[:given_name]} #{options[:family_name]} #{options[:local_family_name]} #{options[:local_given_name]}".squish
     end
 
     def mapping_address(address_hash, results, client)
@@ -557,21 +562,6 @@ class Client < ActiveRecord::Base
     active_status.joins(:cases).where(cases: { case_type: 'EC', start_date: date, exited: false })
   end
 
-  # def self.ec_reminder_in(day)
-  #   Organization.all.each do |org|
-  #     Organization.switch_to org.short_name
-  #     managers = User.non_locked.ec_managers.pluck(:email).join(', ')
-  #     admins   = User.non_locked.admins.pluck(:email).join(', ')
-  #     clients = Client.active_status.joins(:cases).where(cases: { case_type: 'EC', exited: false}).uniq
-  #     clients = clients.select { |client| client.active_day_care == day }
-  #
-  #     if clients.present?
-  #       ManagerMailer.remind_of_client(clients, day: day, manager: managers).deliver_now if managers.present?
-  #       AdminMailer.remind_of_client(clients, day: day, admin: admins).deliver_now if admins.present?
-  #     end
-  #   end
-  # end
-
   def exiting_ngo?
     return false unless status_changed?
     status == 'Exited'
@@ -718,7 +708,7 @@ class Client < ActiveRecord::Base
       referral_source_category_id: ReferralSource.find_by(name: attribute[:referred_from])&.id || referral_source_category_id,
       external_case_worker_id:   attribute[:external_case_worker_id],
       external_case_worker_name: attribute[:external_case_worker_name],
-      **get_address_by_code(attribute[:address_current_village_code] || attribute[:village_code])
+      **get_address_by_code(attribute[:address_current_village_code] || attribute[:location_current_village_code] || attribute[:village_code])
     }
   end
 
@@ -746,6 +736,27 @@ class Client < ActiveRecord::Base
 
   def disconnect_client_user_relation
     case_worker_clients.destroy_all
+  end
+
+  def remove_family_from_case_worker
+    family = Family.joins(:user).find_by(id: current_family_id)
+    if family
+      clients = Client.joins(:users).where(current_family_id: family.id, case_worker_clients: {user_id: family.user_id})
+      if clients.blank?
+        family.user_id = nil
+        family.save
+      end
+    else
+      case_worker_clients.each do |case_worker_client|
+        case_worker_client.user.families.each do |family|
+          clients = family.clients.joins(:case_worker_clients).where(case_worker_clients: { user_id: case_worker_client&.user_id }, current_family_id: family.id).exists?
+          if clients.blank?
+            family.user_id = nil
+            family.save
+          end
+        end
+      end
+    end
   end
 
   def assessment_duration(duration, default = true, custom_assessment_setting_id=nil)
@@ -822,7 +833,7 @@ class Client < ActiveRecord::Base
   end
 
   def save_client_global_organization
-    global_identity_organizations.create(global_id: global_id, organization_id: Organization.current&.id) if global_identity_organizations.blank?
+    GlobalIdentityOrganization.find_or_create_by(global_id: global_id, organization_id: Organization.current&.id, client_id: id)
   end
 
   def save_external_system_global
@@ -838,6 +849,12 @@ class Client < ActiveRecord::Base
       referral = Referral.find_by(external_id: external_id, saved: false)
     else
       referral = Referral.find_by(slug: archived_slug, saved: false) if archived_slug.present?
+    end
+  end
+
+  def remove_tasks(case_worker)
+    if case_worker.tasks.incomplete.exists?
+      case_worker.tasks.incomplete.destroy_all
     end
   end
 end

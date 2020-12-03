@@ -15,6 +15,7 @@ module AdvancedSearches
     SENSITIVITY_FIELDS = %w(given_name family_name local_given_name local_family_name kid_id code school_name school_grade street_number house_number village commune live_with relevant_referral_information telephone_number name_of_referee main_school_contact what3words address_type concern_address_type)
     SHARED_FIELDS = %w(given_name family_name local_given_name local_family_name gender birth_province_id date_of_birth live_with telephone_number)
     CALL_FIELDS = Call::FIELDS
+    OVERDUE_FIELDS = %w(has_overdue_assessment has_overdue_forms has_overdue_task no_case_note)
 
     def initialize(clients, basic_rules)
       @clients     = clients
@@ -120,8 +121,11 @@ module AdvancedSearches
           service_query = AdvancedSearches::Hotline::CallSqlBuilder.new().get_sql
           @sql_string << service_query[:id]
           @values << service_query[:values]
+        elsif OVERDUE_FIELDS.include?(field)
+          overdue_form = AdvancedSearches::OverdueFormSqlBuilder.new(@clients, field, operator, value).get_sql
+          @sql_string << overdue_form[:id]
+          @values << overdue_form[:values]
         elsif field != nil && form_builder.first != 'type_of_service'
-          # value = field == 'grade' ? validate_integer(value) : value
           base_sql(field, operator, value)
         else
           nested_query =  AdvancedSearches::ClientBaseSqlBuilder.new(@clients, rule).generate
@@ -129,9 +133,6 @@ module AdvancedSearches
           nested_query[:values].select{ |v| @values << v }
         end
       end
-
-      # @sql_string << nested_query[:sql_string]
-      # nested_query[:values].select{ |v| @values << v }
 
       @sql_string = @sql_string.join(" #{@condition} ")
       @sql_string = "(#{@sql_string})" if @sql_string.present?

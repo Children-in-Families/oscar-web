@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { SelectInput, TextInput, Checkbox, RadioGroup } from "../Commons/inputs";
 import { setDefaultLanguage } from './helper'
+import toastr from 'toastr/toastr'
+import { confirmCancel } from '../Commons/confirmCancel'
+
 import Address from "../NewCall/address"
+import './styles.scss'
 // import TaskModal from "../NewCall/addTaskModal"
 
 export default props => {
@@ -28,10 +32,12 @@ export default props => {
   const [loading, setLoading] = useState(false)
 
   const genderLists = [
-    { label: T.translate("editCallReferee.index.genderLists.female"), value: "female" },
-    { label: T.translate("editCallReferee.index.genderLists.male"), value: "male" },
-    { label: T.translate("editCallReferee.index.genderLists.other"), value: "other" },
-    { label: T.translate("editCallReferee.index.genderLists.unknown"), value: "unknown" }
+    { label: T.translate("genderLists.female"), value: 'female' },
+    { label: T.translate("genderLists.male"), value: 'male' },
+    { label: T.translate("genderLists.lgbt"), value: 'lgbt' },
+    { label: T.translate("genderLists.unknown"), value: 'unknown' },
+    { label: T.translate("genderLists.prefer_not_to_say"), value: 'prefer_not_to_say' },
+    { label: T.translate("genderLists.other"), value: 'other' }
   ];
 
   const ageOpts = [
@@ -117,7 +123,7 @@ export default props => {
   }
 
   const handleCancel = () => {
-    document.location.href = `/calls/${call.id}`
+    confirmCancel(toastr, `/calls/${call.id}${window.location.search}`)
   }
 
   const handleSave = () => {
@@ -136,8 +142,8 @@ export default props => {
         const message = T.translate("editCallReferee.index.referee_has_been_updated")
         document.location.href = `/calls/${response.call.id}?notice=${message}&locale=${url}`
       })
-      .error(err => {
-        console.log("err: ", err);
+      .error((res) => {
+        onerror(res.responseText)
       })
     }
   }

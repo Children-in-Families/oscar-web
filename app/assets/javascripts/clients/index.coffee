@@ -36,11 +36,9 @@ CIF.ClientsIndex = do ->
     _formatReportxAxis()
     _handleScrollTable()
     _handleColumnVisibilityParams()
-    # _handleUncheckColumnVisibility()
     _getClientPath()
     _checkClientSearchForm()
     _initAdavanceSearchFilter()
-    # _toggleCollapseFilter()
     _toggleCollapseFilter(tour)
     _handleAutoCollapse()
     _overdueAssessmentSearch()
@@ -53,12 +51,10 @@ CIF.ClientsIndex = do ->
     _overdueFormsSearch()
     _removeOverdueFormsSearch()
     _setDefaultCheckColumnVisibilityAll()
-    # _removeProgramStreamExitDate()
     _clearingLocalStorage()
     _handleDomainScoreInputValue()
     _handleDomainScoreFilterValue()
     _reloadFilter()
-    # _addTourTip()
     _addTourTip(tour)
     _extendDataTableSort()
     _addDataTableToAssessmentScoreData()
@@ -97,9 +93,6 @@ CIF.ClientsIndex = do ->
 
   _addDataTableToAssessmentScoreData = ->
     fileName = $('.assessment-domain-score').data('filename')
-    # url = $('#hidden_api_assessment').data('assessment-params')
-    # columns = $('#hidden_assessment_domain_headers').data('headers')
-    #csi-assessment-score, #custom-assessment-score
     _handleAjaxRequestToAssessment("#csi-assessment-score", fileName)
     _handleAjaxRequestToAssessment("#custom-assessment-score", fileName) if $("#custom-assessment-score")
     $('.assessment-domain-score').on 'shown.bs.modal', (e) ->
@@ -124,12 +117,6 @@ CIF.ClientsIndex = do ->
       columnDefs: [{ type: 'formatted-num', targets: 0 }]
       columns: columns
       dom: 'lBrtip'
-      # buttons: [{
-      #   extend: 'excelHtml5'
-      #   filename: fileName
-      #   title: ''
-      #   exportOptions: { modifier: { page: 'all', search: 'none' } }
-      # }]
       lengthMenu: [
         [
           10
@@ -163,33 +150,19 @@ CIF.ClientsIndex = do ->
       $('#wizard-referral-data').show()
       yesBtn = $('#wizard-referral-data').closest('section').find('.btn[data-value="yes"]')
       $(yesBtn).removeClass('btn-default').addClass('btn-primary active')
-    # else
-    #   noBtn = $('#wizard-referral-data').closest('section').find('.btn[data-value="no"]')
-    #   $(noBtn).removeClass('btn-default').addClass('btn-primary active')
 
     if $('#wizard-custom-form .custom-form-column .i-checks').is(':checked')
       $('#wizard-custom-form').show()
       yesBtn = $('#wizard-custom-form').closest('section').find('.btn[data-value="yes"]')
       $(yesBtn).removeClass('btn-default').addClass('btn-primary active')
-    # else
-    #   noBtn = $('#wizard-custom-form').closest('section').find('.btn[data-value="no"]')
-    #   $(noBtn).removeClass('btn-default').addClass('btn-primary active')
-
     if $('#wizard-program-stream .program-stream-column .i-checks').is(':checked')
       $('#wizard-program-stream').show()
       yesBtn = $('#wizard-program-stream').closest('section').find('.btn[data-value="yes"]')
       $(yesBtn).removeClass('btn-default').addClass('btn-primary active')
-    # else
-    #   noBtn = $('#wizard-program-stream').closest('section').find('.btn[data-value="no"]')
-    #   $(noBtn).removeClass('btn-default').addClass('btn-primary active')
-
     if $('#wizard-client .client-column .i-checks').is(':checked')
       $('#wizard-client').show()
       yesBtn = $('#wizard-client').closest('section').find('.btn[data-value="yes"]')
       $(yesBtn).removeClass('btn-default').addClass('btn-primary active')
-    # else
-    #   noBtn = $('#wizard-client').closest('section').find('.btn[data-value="no"]')
-    #   $(noBtn).removeClass('btn-default').addClass('btn-primary active')
 
   _removeReferralDataColumnsInWizardClientColumn = ->
     $('#report-builder-wizard #referral-data').remove()
@@ -502,9 +475,6 @@ CIF.ClientsIndex = do ->
     advanceFilter.removeOperatorInWizardBuilder()
     advanceFilter.handleHotlineFilter()
 
-  # _removeProgramStreamExitDate = ->
-  #   $('#client-advance-search-form').find('#program_enrollment_date,#program_exit_date').remove()
-
   _handleColumnVisibilityParams = ->
     $('button#search').on 'click', ->
       allCheckboxes = $('#client-search-form, #client-advance-search-wizard').find('#new_client_grid ul input[type=checkbox]')
@@ -530,9 +500,9 @@ CIF.ClientsIndex = do ->
 
   _infiniteScroll = ->
     $("table.clients .page").infinitescroll
-      navSelector: "ul.pagination" # selector for the paged navigation (it will be hidden)
-      nextSelector: "ul.pagination a[rel=next]" # selector for the NEXT link (to page 2)
-      itemSelector: "table.clients tbody tr" # selector for all items you'll retrieve
+      navSelector: "ul.pagination"
+      nextSelector: "ul.pagination a[rel=next]"
+      itemSelector: "table.clients tbody tr"
       loading: {
         img: 'http://i.imgur.com/qkKy8.gif'
         msgText: $('.clients-table').data('info-load')

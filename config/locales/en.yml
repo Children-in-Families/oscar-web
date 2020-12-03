@@ -499,6 +499,7 @@ en:
         year_6: Year 6
         year_7: Year 7
         year_8: Year 8
+        bachelors: Bachelors
       school_name: School Name
       search: Search
       slug: ID
@@ -571,7 +572,7 @@ en:
       destroy:
         successfully_deleted: Attachment has been successfully deleted.
         successfully_updated: Attachment has been successfully updated.
-  are_you_sure: Are you sure you want to delete?
+  are_you_sure: Are you sure?
   assessments:
     add_task_form:
       completion_date: Completion Date
@@ -2688,10 +2689,11 @@ en:
         gender: Gender
         gender_list:
           female: Female
+          lgbt: LGBT
           male: Male
           other_gender: Other
+          prefer_not_to_say: Prefer not to answer/Non-specified
           unknown: Unknown
-          prefer_not_to_say: Prefer not to answer
         house: House
         household_income: Monthly Household Income
         id: ID
@@ -2795,6 +2797,7 @@ en:
         has_dob: 'Yes'
         house_number: House Number
         id: ID
+        locality: Locality
         male: Male
         name: Name
         no_dob: 'No'
@@ -2922,10 +2925,11 @@ en:
     gender: Gender
     gender_list:
       female: Female
+      lgbt: LGBT
       male: Male
       other_gender: Other
+      prefer_not_to_say: Prefer not to answer/Non-specified
       unknown: Unknown
-      prefer_not_to_say: Prefer not to answer
     referee_relationship:
       self: Self
       family_member: Family Member
@@ -3377,6 +3381,7 @@ en:
   devise_token_auth:
     sessions:
       not_confirmed: Your account is not activated yet.
+  disagree: 'No'
   districts:
     create:
       failed_create: Failed to create a district.
@@ -3607,7 +3612,7 @@ en:
         male: Male
         other_gender: Other
         unknown: Unknown
-        prefer_not_to_say: Prefer not to answer
+        prefer_not_to_say: Prefer not to answer/Non-specified
   errors:
     messages:
       already_confirmed: was already confirmed, please try signing in
@@ -4438,6 +4443,7 @@ en:
         max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
   must_be_uniq: field label must be uniq
   mutual_dependence_has_been_modified: Prerequisite Programs cannot be changed or added because it breaks the previous conditions.
+  'no': 'No'
   notifications:
     case_note_due_today:
       client_case_note_due_today: Client Case Note Due Today
@@ -5662,9 +5668,11 @@ en:
       start_date: Start Date
     gender_list:
       female: Female
+      lgbt: LGBT
       male: Male
       other_gender: Other
-      prefer_not_to_say: Prefer not to say
+      prefer_not_to_say: Prefer not to answer/Non-specified
+      unknown: Unknown
     index:
       add_new_user: Add New User
       export_xls: Export to XLS
@@ -5757,3 +5765,4 @@ en:
     next_label: Next Page
     page_gap: "..."
     previous_label: Previous Page
+  'yes': "Yes"

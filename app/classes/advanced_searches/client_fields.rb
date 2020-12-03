@@ -40,31 +40,6 @@ module AdvancedSearches
 
     def text_type_list
       [
-        # 'national_id_number',
-        # 'passport_number',
-        # 'neighbor_name',
-        # 'neighbor_phone',
-        # 'dosavy_name',
-        # 'dosavy_phone',
-        # 'chief_commune_name',
-        # 'chief_commune_phone',
-        # 'chief_village_name',
-        # 'chief_village_phone',
-        # 'ccwc_name',
-        # 'ccwc_phone',
-        # 'legal_team_name',
-        # 'legal_representative_name',
-        # 'legal_team_phone',
-        # 'other_agency_name',
-        # 'other_representative_name',
-        # 'other_agency_phone',
-        # 'department',
-        # 'education_background',
-        # 'id_number',
-        # 'legacy_brcs_id',
-        # 'other_phone_number',
-        # 'current_household_type', 'household_type2', 'current_street', 'street2', 'current_po_box', 'po_box2',
-        # 'brsc_branch', 'current_settlement', 'settlement2',
         'given_name', 'family_name',
         'local_given_name', 'local_family_name', 'family', 'slug', 'school_name',
         'other_info_of_exit', 'exit_note', 'main_school_contact', 'what3words', 'kid_id', 'code',
@@ -94,16 +69,6 @@ module AdvancedSearches
     def drop_down_type_list
       [
         ['location_of_concern', Client.where.not(location_of_concern: [nil, '']).distinct.pluck(:location_of_concern).map{ |a| { a => a }}],
-        # ['nationality', Client::NATIONALITIES.map{ |a| { a => a }}],
-        # ['ethnicity', Client::ETHNICITY.map{ |a| { a => a }}],
-        # ['type_of_trafficking', Client::TRAFFICKING_TYPES.map{ |a| { a => a }}],
-        # ['marital_status', Client::MARITAL_STATUSES.map{ |a| { a => a }}],
-        # ['presented_id', Client::BRC_PRESENTED_IDS.map{ |pi| { pi => pi }}],
-        # ['preferred_language', Client::BRC_PREFERED_LANGS.map{ |pi| { pi => pi }}],
-        # ['current_resident_own_or_rent', Client::BRC_RESIDENT_TYPES.map{ |rt| { rt => rt }}],
-        # ['resident_own_or_rent2', Client::BRC_RESIDENT_TYPES.map{ |rt| { rt => rt }}],
-        # ['current_island', Client::BRC_BRANCHES.map{ |island| { island => island }}],
-        # ['island2', Client::BRC_BRANCHES.map{ |island| { island => island }}],
         ['created_by', user_select_options ],
         ['gender', gender_list],
         ['status', client_status],
@@ -112,16 +77,10 @@ module AdvancedSearches
         ['referral_source_id', referral_source_options],
         ['followed_up_by_id', followed_up_by_options],
         ['has_been_in_government_care', { true: 'Yes', false: 'No' }],
-        # ['national_id', { true: 'Yes', false: 'No' }],
-        # ['birth_cert', { true: 'Yes', false: 'No' }],
-        # ['family_book', { true: 'Yes', false: 'No' }],
-        # ['passport', { true: 'Yes', false: 'No' }],
-        # ['travel_doc', { true: 'Yes', false: 'No' }],
-        # ['referral_doc', { true: 'Yes', false: 'No' }],
-        # ['local_consent', { true: 'Yes', false: 'No' }],
-        # ['police_interview', { true: 'Yes', false: 'No' }],
-        # ['other_legal_doc', { true: 'Yes', false: 'No' }],
-        # ['whatsapp', { true: 'Yes', false: 'No' }],
+        ['has_overdue_assessment', { true: 'Yes', false: 'No'}],
+        ['has_overdue_forms', { true: 'Yes', false: 'No'}],
+        ['has_overdue_task', { true: 'Yes', false: 'No'}],
+        ['no_case_note', { true: 'Yes', false: 'No'}],
         ['has_been_in_orphanage', { true: 'Yes', false: 'No' }],
         ['user_id', user_select_options],
         ['donor_name', donor_options],
@@ -147,7 +106,7 @@ module AdvancedSearches
     end
 
     def gender_list
-      [Client::GENDER_OPTIONS.sort, I18n.t('default_client_fields.gender_list').values].transpose.to_h
+      [Client::GENDER_OPTIONS, Client::GENDER_OPTIONS.map{|value| I18n.t("default_client_fields.gender_list.#{ value.gsub('other', 'other_gender') }") }].transpose.to_h
     end
 
     def exit_reasons_options
