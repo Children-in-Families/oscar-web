@@ -93,6 +93,8 @@ module GardenOfHomeImporter
         new_client                        = {}
         new_client['given_name']          = workbook.row(row_index)[headers['Given Name (English)']]
         new_client['family_name']         = workbook.row(row_index)[headers['Family Name (English)']]
+        new_client['local_given_name']    = workbook.row(row_index)[headers['Given Name (Khmer)']]
+        new_client['local_family_name']   = workbook.row(row_index)[headers['Family Name (Khmer)']]
         new_client['gender']              = workbook.row(row_index)[headers['* Gender']]&.downcase
         family_id                         = workbook.row(row_index)[headers['Family ID']]
         new_client['current_family_id']   = Family.find_by(code: family_id).try(:id)
