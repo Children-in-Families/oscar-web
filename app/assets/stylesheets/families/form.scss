@@ -39,4 +39,18 @@ body[id='families-update'] {
   .famliy-street {
     clear: both;
   }
+
+  #family-wizard-form {
+    &.wiz-2-steps {
+      ul li {
+        width: 50%;
+      }
+    }
+
+    &.wiz-3-steps {
+      ul li {
+        width: 33.3%;
+      }
+    }
+  }
 }

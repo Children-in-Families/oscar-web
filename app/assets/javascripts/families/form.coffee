@@ -15,6 +15,7 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
       enableAllSteps: true
       transitionEffect: 'slideLeft'
       autoFocus: true
+      titleTemplate: '#title#'
       labels:
         finish: 'Done'
 

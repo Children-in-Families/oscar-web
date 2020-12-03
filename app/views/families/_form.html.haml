@@ -1,7 +1,7 @@
 = simple_form_for(@family) do |f|
   .ibox-content
     = error_notification(f)
-    #family-wizard-form
+    #family-wizard-form{ class: "wiz-#{ @quantitative_types.any? ? 3 : 2 }-steps" }
       = render partial: 'basic_information', locals: { f: f }
       = render partial: 'family_members', locals: { f: f }
       - if @quantitative_types.any?
