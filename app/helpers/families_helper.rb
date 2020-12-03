@@ -164,4 +164,8 @@ module FamiliesHelper
   def children_exist?
     @results && !@results.zero?
   end
+
+  def family_exit_circumstance_value
+    @family.status == 'Accepted' ? 'Exited Family' : 'Rejected Referral'
+  end
 end

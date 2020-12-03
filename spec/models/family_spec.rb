@@ -159,7 +159,7 @@ describe Family, 'scopes' do
 end
 
 describe Family, 'instance methods' do
-  let!(:referred_family){ create(:family, :referred) }
+  let!(:referred_family){ create(:family) }
   let!(:inactive_family){ create(:family, :inactive) }
   let!(:birth_family){ create(:family, :birth_family_both_parents) }
   let!(:ec_family){ create(:family, :emergency) }

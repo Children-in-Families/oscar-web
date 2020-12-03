@@ -14,7 +14,7 @@ FactoryGirl.define do
     association :district, factory: :district
     association :province, factory: :province
     family_type 'Extended Family / Kinship Care'
-    status 'Active'
+    status 'Referred'
     street { FFaker::Address.street_address }
     house { FFaker::Address.street_address }
     sequence(:code){|n| Time.now.to_f.to_s.last(4) + n.to_s }
@@ -55,7 +55,7 @@ FactoryGirl.define do
       status 'Exited'
     end
 
-    trait :referred do
+    trait :accepted do
       status 'Referred'
     end
   end
