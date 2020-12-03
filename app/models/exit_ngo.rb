@@ -19,7 +19,7 @@ class ExitNgo < ActiveRecord::Base
   private
 
   def update_entity_status
-    entity = client.present? ? client : acceptable
+    entity = client.present? ? client : rejectable
     entity.status = 'Exited'
     entity.save(validate: false)
   end

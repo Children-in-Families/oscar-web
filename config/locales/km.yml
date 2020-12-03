@@ -3846,6 +3846,7 @@ km:
       province: ខេត្ត
       read_less: អានតិច
       read_more: អានបន្ថែម
+      reject: មិនទទួលយក
       relation: ទំនាក់ទំនងជាមួយកុមារ
       remove_member: លុបសមាជិក
       significant_family_member_count: ចំនួនសមាជិកគ្រួសារដែលចូលរួមរកប្រាក់ចំណូល

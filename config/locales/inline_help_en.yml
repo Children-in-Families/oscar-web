@@ -139,7 +139,9 @@ en:
       date: N/A
       notes:
         lists:
-          list1: The case will remain in the database and show the <strong>Exit</strong> status. Case Worker(s)/Staff will be removed from the exited client and can no longer see the case in the OSCaR system. Only the Admin/Manager can see exited clients.
+          client: client
+          family: family
+          list1: The case will remain in the database and show the <strong>Exit</strong> status. Case Worker(s)/Staff will be removed from the exited %{entity} and can no longer see the case in the OSCaR system. Only the Admin/Manager can see exited %{entity}.
       reason: Select a reason from the list. If you choose <strong>Other</strong>, please ensure to enter details in the <strong>More Information</strong> field below.
     families:
       caregiver_info: Details of the caregiver/family. Include details like their job, income, living situation, etc.
@@ -151,7 +153,8 @@ en:
       show:
         accepted: Accept indicates your organization will work with the family. The next step is to perform family assessment and enroll in the program stream(s).
         ratanak:
-          accepted: Accept indicates your organization will work with the client. The next step is to enroll client in the program stream(s) and perform client assessment.
+          accepted: Accept indicates your organization will work with the family. The next step is to enroll family in the program stream(s) and perform family assessment.
+        reject: Reject indicates your organization cannot work with the family for some reason. The case will remain in the database and show <strong>Exited</strong> status with exit circumstance as <strong>Reject Referral</strong>.
         active_program: View/Edit/Delete the enrollment information, add new tracking form(s), or exit family from the program(s).
         enroll_program: 'Enlist the family in existing program stream(s) here. Admin: If the program doesn’t exist, add a new program stream through <strong>Manage >> Program Streams</strong>.'
       status: Manually update the status. Active means one or more clients within a family are on support. If no client is currently under care, update as <strong>Inactive</strong>.
