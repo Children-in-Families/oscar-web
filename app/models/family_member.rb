@@ -1,6 +1,7 @@
 class FamilyMember < ActiveRecord::Base
   extend Enumerize
   belongs_to :family
+  belongs_to :client
 
   has_paper_trail
 
@@ -12,7 +13,9 @@ class FamilyMember < ActiveRecord::Base
 
   after_commit :save_aggregation_data, on: [:create, :update], if: :brc?
 
-  attr_accessor :client, :monthly_income
+  def is_client
+    client_id?
+  end
 
   private
 

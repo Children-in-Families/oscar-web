@@ -3,7 +3,7 @@
     .col-sm-4
       .col-sm-2
         .i-checks
-          = f.input :client, as: :boolean, label: false, type: 'checkbox', checked: f.object.client.present?, class: 'form-input'
+          = f.input :is_client, as: :boolean, label: false, type: 'checkbox', checked: f.object.is_client, class: 'form-input'
       .col-sm-5
         = f.input :adult_name, label: false
       .col-sm-5

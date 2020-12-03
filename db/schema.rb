@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20201201091524) do
+ActiveRecord::Schema.define(version: 20201203223334) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -951,16 +951,18 @@ ActiveRecord::Schema.define(version: 20201201091524) do
   add_index "families", ["village_id"], name: "index_families_on_village_id", using: :btree
 
   create_table "family_members", force: :cascade do |t|
-    t.string   "adult_name",    default: ""
+    t.string   "adult_name",                              default: ""
     t.date     "date_of_birth"
-    t.string   "occupation",    default: ""
-    t.string   "relation",      default: ""
+    t.string   "occupation",                              default: ""
+    t.string   "relation",                                default: ""
     t.integer  "family_id"
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
-    t.boolean  "guardian",      default: false
+    t.datetime "created_at",                                              null: false
+    t.datetime "updated_at",                                              null: false
+    t.boolean  "guardian",                                default: false
     t.string   "gender"
     t.text     "note"
+    t.integer  "client_id"
+    t.decimal  "monthly_income", precision: 10, scale: 2
   end
 
   add_index "family_members", ["family_id"], name: "index_family_members_on_family_id", using: :btree
@@ -2239,6 +2241,7 @@ ActiveRecord::Schema.define(version: 20201201091524) do
   add_foreign_key "families", "users", column: "followed_up_by_id"
   add_foreign_key "families", "users", column: "received_by_id"
   add_foreign_key "families", "villages"
+  add_foreign_key "family_members", "clients"
   add_foreign_key "family_members", "families"
   add_foreign_key "global_identity_organizations", "organizations"
   add_foreign_key "government_form_children_plans", "children_plans"
