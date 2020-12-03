@@ -127,6 +127,7 @@ module GardenOfHomeImporter
         new_client['school_name']         = workbook.row(row_index)[headers['School Name']]
         new_client['main_school_contact'] = workbook.row(row_index)[headers['Main School Contact']]
         grade                             = workbook.row(row_index)[headers['School Grade']]
+        grade                             = grade && grade.is_a?(Integer) ? grade.to_s : grade
         new_client['school_grade']        = [Client::GRADES, I18n.t('advanced_search.fields.school_grade_list').values].transpose.to_h[grade]
 
         province_name                     = workbook.row(row_index)[headers['Current Province']]
