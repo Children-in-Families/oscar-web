@@ -453,6 +453,7 @@ my:
       rated_for_id_poor: Client ကိုဆင်းရဲသောသူသည် ID အတှကျ rated ဖြစ်ပါတယ်
       received_by: မွ လက္ခံသည္။
       received_by_id: မွ လက္ခံသည္။
+      referral_email: လွှဲပြောင်းအီးမေးလ်
       referral_phone: လႊဲေျပာင္းရမည့္ ဖုန္းနံပါတ္
       referral_source: လႊဲေျပာင္းရမည့္သူ
       referral_source_category_id: လွှဲပြောင်းအရင်းအမြစ်ကဏ္ဍ
@@ -2962,6 +2963,7 @@ my:
     name: နာမည္
     province: ေမြးရာ ခ႐ိုင္
     received_by: မွ လက္ခံသည္။
+    referral_email: လွှဲပြောင်းအီးမေးလ်
     referral_phone: လႊဲေျပာင္းရမည့္ ဖုန္းနံပါတ္
     referral_source: လႊဲေျပာင္းရမည့္ ရင္းျမစ္
     reject_note: ျငင္းပယ္သည့္ မွတ္စု
@@ -5041,6 +5043,7 @@ my:
       external_referral_warning: သင်လက်ရှိအော်စကာအသုံးပြုနေခြင်းမရှိပါရန်သင့် client ကိုရည်ညွှန်းရန်ကြိုးစားနေသောအန်ဂျီအို။ သင့်ရဲ့ပစ်မှတ်အဖွဲ့အစည်းကမှပေးပို့ဖို့ဒီလွှဲပြောင်းပုံစံများ၏မိတ္တူကို print ထုတ်ပါ။
       name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
       ngo_name: NGO အမည်ဖြင့်
+      referral_email: လွှဲပြောင်းအီးမေးလ်
       referral_phone: လႊဲေျပာင္းရမည့္ ဖုန္းနံပါတ္
       referral_reason: လွှဲပြောင်းအကြောင်းပြချက်
       referred_from: ကနေရည်ညွှန်း
@@ -5058,6 +5061,7 @@ my:
       edit_btn: ပြင်ဆင်ရန်
       name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
       referral_forms: ဂီယာ
+      referral_email: လွှဲပြောင်းအီးမေးလ်
       referral_phone: လႊဲေျပာင္းရမည့္ ဖုန္းနံပါတ္
       referral_reason: လွှဲပြောင်းအကြောင်းပြချက်
       referred_from: ကနေရည်ညွှန်း
@@ -5081,11 +5085,13 @@ my:
           client_name: ကေလးနာမည္
           date_of_referral: လွှဲပြောင်း၏နေ့စွဲ
           name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
+          referral_email: လွှဲပြောင်းအီးမေးလ်
           referral_phone: လႊဲေျပာင္းရမည့္ ဖုန္းနံပါတ္
           referral_reason: လွှဲပြောင်းအကြောင်းပြချက်
           referred_from: ကနေရည်ညွှန်း
           referred_to: ရည်ညွှန်း
       preview_download: အစမ္းၾကည့္႐ႈရန္ႏွင့္ ေဒါင္းလုတ္
+      referral_email: လွှဲပြောင်းအီးမေးလ်
       referral_phone: လႊဲေျပာင္းရမည့္ ဖုန္းနံပါတ္
       referral_reason: လွှဲပြောင်းအကြောင်းပြချက်
       referred_from: ကနေရည်ညွှန်း

@@ -11,6 +11,10 @@ module ReferralsHelper
     referral.persisted? ? referral.referral_phone : current_user.mobile
   end
 
+  def referral_email(referral)
+    referral.persisted? ? referral.referee_email : current_user.email
+  end
+
   def referee_id(referral)
     referral.persisted? ? referral.referee_id : current_user.id
   end
