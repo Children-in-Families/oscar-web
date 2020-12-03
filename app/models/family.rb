@@ -8,6 +8,8 @@ class Family < ActiveRecord::Base
     'Domestically Adopted', 'Child-Headed Household', 'No Family', 'Other']
   STATUSES = ['Active', 'Inactive']
 
+  ID_POOR = ['No', 'Level 1', 'Level 2'].freeze
+
   acts_as_paranoid
 
   attr_accessor :community_ids
@@ -20,6 +22,7 @@ class Family < ActiveRecord::Base
   belongs_to :commune
   belongs_to :village
   belongs_to :user
+  belongs_to :referral_source
 
   belongs_to :received_by,      class_name: 'User',      foreign_key: 'received_by_id'
   belongs_to :followed_up_by,   class_name: 'User',      foreign_key: 'followed_up_by_id'
