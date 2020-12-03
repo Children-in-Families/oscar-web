@@ -61,7 +61,7 @@
         .col-sm-3
           = f.input :referral_source_category_id, collection: referral_source_name(ReferralSource.parent_categories)
         .col-sm-3
-          = f.input :referral_source_id, collection: ReferralSource.all, label_method: :name, value_method: :id
+          = f.input :referral_source_id, collection: (@family.referral_source.present? ? ReferralSource.where(id: @family.referral_source_id).map { |r| [r.try(:name), r.id] } : []), input_html: { data: { sources: ReferralSource.pluck(:id, :name, :ancestry) } }
         .col-sm-3
           = f.input :referee_phone_number
         .col-sm-3

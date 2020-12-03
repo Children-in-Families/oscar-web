@@ -6,6 +6,7 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
     _cocoonCallback()
     _initDatePicker()
     _initIcheck()
+    _onChangeReferralSourceCategory()
 
   _initWizardForm = ->
     $("#family-wizard-form").steps
@@ -16,6 +17,17 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
       autoFocus: true
       labels:
         finish: 'Done'
+
+  _onChangeReferralSourceCategory = ->
+    referralSources = $("#family_referral_source_id").data("sources")
+
+    $('#family_referral_source_category_id').change ->
+      $("#family_referral_source_id").val(null).trigger('change')
+      $("#family_referral_source_id").find('option[value!=""]').remove()
+
+      for categorySource in referralSources
+        if $(@).val() == categorySource[2]
+          $("#family_referral_source_id").append("<option value='#{categorySource[0]}'>#{categorySource[1]}</option>")
 
   _initIcheck = ->
     $('.i-checks').iCheck
@@ -38,7 +50,6 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
       _initIcheck()
 
   _initDatePicker = ->
-    console.log '_initDatePicker'
     $('.date-picker').datepicker
       autoclose: true,
       format: 'yyyy-mm-dd',
