@@ -59,6 +59,7 @@ class Referral < ActiveRecord::Base
       referral_reason: attribute[:reason_for_referral].presence || 'N/A',
       name_of_referee: attribute[:external_case_worker_name],
       referral_phone: attribute[:external_case_worker_mobile],
+      referee_email: attribute[:external_case_worker_email],
       referee_id: attribute[:external_case_worker_id],
       client_name: "#{attribute[:given_name]} #{attribute[:family_name]}".squish,
       consent_form: [],

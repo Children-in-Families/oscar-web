@@ -167,7 +167,7 @@ module Api
           :given_name, :family_name, :gender, :date_of_birth, :location_current_village_code,
           :address_current_village_code, :reason_for_referral, :reason_for_exiting,
           :organization_id, :organization_name, :external_case_worker_name,
-          :external_case_worker_id, :external_case_worker_mobile,
+          :external_case_worker_id, :external_case_worker_mobile, :external_case_worker_email,
           services: [:uuid, :name]
         )
       end
