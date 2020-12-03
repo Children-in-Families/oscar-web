@@ -3907,6 +3907,7 @@ en:
       province: Province
       read_less: read less
       read_more: read more
+      reject: Reject
       relation: Relationship with Children
       remove_member: Remove Member
       significant_family_member_count: Significant Family Member Count
@@ -3940,15 +3941,16 @@ en:
         successfully_updated: Family has been successfully updated.
     exit_ngos:
       create:
-        failed_create: Failed to update the client.
-        successfully_created: Client has been successfully updated.
+        failed_create: Failed to update the family.
+        successfully_created: Family has been successfully updated.
       edit_form:
         case_worker_or_staff: Case Worker / Staff
         exit_btn: Exit
         exit_circumstance: Exit Circumstance
         exit_date: Exit Date
-        exit_ngo: Exit Client from NGO
+        exit_ngo: Exit Family from NGO
         exit_note: Exit Note
+        # Todo
         exit_reason_options:
           agency_lack_resource: Agency lacks sufficient resources
           client_died: Client died

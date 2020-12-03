@@ -31,14 +31,30 @@ describe ExitNgo do
 
           it { expect(client.reload.status).to eq('Exited') }
         end
+
+        context 'referred_family' do
+          let!(:family){ create(:family) }
+          let!(:exit_ngo) { create(:exit_ngo, rejectable: family) }
+
+          it { expect(family.reload.status).to eq('Exited') }
+        end
+
+        context 'accepted_family' do
+          let!(:family){ create(:family, :accepted) }
+          let!(:exit_ngo) { create(:exit_ngo, rejectable: family) }
+
+          it { expect(family.reload.status).to eq('Exited') }
+        end
       end
     end
   end
 
   describe ExitNgo, 'scopes' do
+    let!(:client){ create(:client) }
+    let!(:family){ create(:family) }
     let!(:manager){ create(:user, :manager) }
-    let!(:exit_ngo_1){ create(:exit_ngo) }
-    let!(:exit_ngo_2){ create(:exit_ngo) }
+    let!(:exit_ngo_1){ create(:exit_ngo, client: client) }
+    let!(:exit_ngo_2){ create(:exit_ngo, rejectable: family) }
 
     context '.most_recents' do
       subject { ExitNgo.most_recents.first }

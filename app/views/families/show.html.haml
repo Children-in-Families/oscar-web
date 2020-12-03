@@ -1,5 +1,16 @@
 .row.gray-bg
   .col-xs-12.family
+    - if @family.referred?
+      %button.btn.btn-success.agree-btn{ data: { class_name: 'accept-family', disable_with: t('.accepting'), 'target' => "#accept-family", 'toggle' => 'modal', trigger: "hover", content: "#{Organization.ratanak? ? I18n.t('inline_help.families.show.ratanak.accepted') : I18n.t('inline_help.families.show.accepted')}", placement: "auto" } }= t('.accept')
+      = render 'families/accept_family'
+      %button.btn.btn-danger.mini-margin{ class: 'agree-btn', data: { target: '#exitFromNgo', toggle: "modal", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.families.show.reject')}", placement: "auto" } } #{t('.reject')}
+      = render 'family/exit_ngos/form', family: @family
+    -# Todo
+    -# - elsif @family.exit_ngo?
+    -#   %button.btn.btn-success.mini-margin.enter-ngo-for-family{ class: 'agree-btn', data: { class_name: 'accept-family', disable_with: t('.accepting'), 'target' => "#enter-ngo-form", 'toggle' => 'modal', trigger: "hover", content: "#{I18n.t('inline_help.families.show.accepted')}", placement: "auto" } } #{t('.accept')}
+    -#   = render 'family/enter_ngos/form', family: @family
+    -#   %button.btn.btn-danger.mini-margin{ disabled: 'disabled', class: 'agree-btn', data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.families.show.reject')}", placement: "auto" } }= t('.reject')
+
     .btn-group.small-btn-margin
       %button.btn-sm.btn.btn-success.dropdown-toggle{ 'data-toggle' => 'dropdown', class: ('disabled' if @group_family_custom_fields.empty?) }
         = t('.additional_forms')
@@ -18,16 +29,6 @@
           - @free_family_forms.each do |custom_field|
             %li
               %p= link_to custom_field.form_title, new_family_custom_field_property_path(@family, custom_field_id: custom_field)
-    - if @family.referred?
-      %button.btn.btn-success.agree-btn{ data: { class_name: 'accept-family', disable_with: t('.accepting'), 'target' => "#accept-family", 'toggle' => 'modal', trigger: "hover", content: "#{Organization.ratanak? ? I18n.t('inline_help.families.show.ratanak.accepted') : I18n.t('inline_help.families.show.accepted')}", placement: "auto" } }= t('.accept')
-      = render 'families/accept_family'
-    -#   %button.btn.btn-danger.mini-margin{ class: 'agree-btn', data: { target: '#exitFromNgo', toggle: "modal", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.families.show.reject')}", placement: "auto" } } #{t('.reject')}
-    -#   = render 'family/exit_ngos/form', family: @family
-
-    -# - elsif @family.exit_ngo?
-    -#   %button.btn.btn-success.mini-margin.enter-ngo-for-family{ class: 'agree-btn', data: { class_name: 'accept-family', disable_with: t('.accepting'), 'target' => "#enter-ngo-form", 'toggle' => 'modal', trigger: "hover", content: "#{I18n.t('inline_help.families.show.accepted')}", placement: "auto" } } #{t('.accept')}
-    -#   = render 'family/enter_ngos/form', family: @family
-    -#   %button.btn.btn-danger.mini-margin{ disabled: 'disabled', class: 'agree-btn', data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.families.show.reject')}", placement: "auto" } }= t('.reject')
 
     - if @family.enrollments.active.count > 0
       = link_to family_enrolled_programs_path(@family), data: { toggle: "popover", html: 'true', trigger: 'hover', content: "#{I18n.t('inline_help.families.show.active_program')}", placement: "auto" } do
