@@ -12,6 +12,8 @@ class FamilyMember < ActiveRecord::Base
 
   after_commit :save_aggregation_data, on: [:create, :update], if: :brc?
 
+  attr_accessor :client, :monthly_income
+
   private
 
   def save_aggregation_data

@@ -1,2 +1,27 @@
 %h3 Family Member Information
 %section.family-members
+  .row
+    .col-sm-4
+      .col-sm-2
+        %p Client?
+      .col-sm-5
+        %p Name
+      .col-sm-5
+        %p Gender
+    .col-sm-4
+      .col-sm-6
+        %p Date of Birth
+      .col-sm-6
+        %p Family Role
+    .col-sm-4
+      .col-sm-5
+        %p Occupation
+      .col-sm-5
+        %p Monthly Income in USD
+      .col-sm-2
+        %p Guardian
+  .row#family-members
+    = f.simple_fields_for :family_members do |member|
+      = render 'family_member_fields', f: member
+    .links
+      = link_to_add_association t('.add_new_member'), f, :family_members, class: 'btn btn-primary add_new_member'
