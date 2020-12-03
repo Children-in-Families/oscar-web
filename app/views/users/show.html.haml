@@ -88,7 +88,7 @@
                   = t('.gender')
                 %td
                   %strong
-                    = t("enumerize.defaults.gender.#{@user.gender.parameterize.underscore}") if @user.gender
+                    = t("enumerize.defaults.gender.#{@user.gender.parameterize.underscore&.gsub('other', 'other_gender')}") if @user.gender
               %tr
                 %td.spacing-first-col
                   = t('.start_date')
