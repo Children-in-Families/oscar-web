@@ -22,7 +22,7 @@
                     %td.align-justify
                       = key.html_safe
                     %td.align-justify
-                      - key = convert_bracket(key)
+                      - key = convert_bracket(key, @client_enrollment.properties)
                       - if type == 'file'
                         = render 'shared/form_builder/list_attachment', label: key, resource: @client_enrollment
                       - else

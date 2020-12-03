@@ -37,8 +37,8 @@
                                 %td.align-justify
                                   = key.html_safe
                                 %td.align-justify
-                                  - key = convert_bracket(key)
+                                  - key = convert_bracket(key, enrollment_tracking.properties.clone)
                                   - if type == 'file'
                                     = render 'shared/form_builder/list_attachment', label: key, resource: enrollment_tracking
                                   - else
-                                    = display_custom_properties(enrollment_tracking.properties[key])
+                                    = display_custom_properties(enrollment_tracking.properties[key] || enrollment_tracking.properties[key.gsub(/(&amp;#91;).*(&amp;#93;)$/, '')])
