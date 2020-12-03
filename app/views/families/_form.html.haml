@@ -4,4 +4,5 @@
     #family-wizard-form
       = render partial: 'basic_information', locals: { f: f }
       = render partial: 'family_members', locals: { f: f }
-      = render partial: 'additional_information', locals: { f: f }
+      - if @quantitative_types.any?
+        = render partial: 'additional_information', locals: { f: f }

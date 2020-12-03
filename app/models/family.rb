@@ -32,6 +32,9 @@ class Family < ActiveRecord::Base
   has_many :case_worker_families, dependent: :destroy
   has_many :case_workers, through: :case_worker_families, validate: false
 
+  has_many :family_quantitative_cases, dependent: :destroy
+  has_many :quantitative_cases, through: :family_quantitative_cases
+
   has_many :cases, dependent: :destroy
   has_many :clients, through: :cases
   has_many :custom_field_properties, as: :custom_formable, dependent: :destroy

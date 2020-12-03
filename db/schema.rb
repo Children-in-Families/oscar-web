@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20201203223334) do
+ActiveRecord::Schema.define(version: 20201203224858) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -972,6 +972,13 @@ ActiveRecord::Schema.define(version: 20201203223334) do
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
     t.integer  "priority"
+  end
+
+  create_table "family_quantitative_cases", force: :cascade do |t|
+    t.integer  "quantitative_case_id"
+    t.integer  "family_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "field_setting_translations", force: :cascade do |t|
@@ -2243,6 +2250,8 @@ ActiveRecord::Schema.define(version: 20201203223334) do
   add_foreign_key "families", "villages"
   add_foreign_key "family_members", "clients"
   add_foreign_key "family_members", "families"
+  add_foreign_key "family_quantitative_cases", "families"
+  add_foreign_key "family_quantitative_cases", "quantitative_cases"
   add_foreign_key "global_identity_organizations", "organizations"
   add_foreign_key "government_form_children_plans", "children_plans"
   add_foreign_key "government_form_children_plans", "government_forms"
