@@ -52,5 +52,9 @@ body[id='families-update'] {
         width: 33.3%;
       }
     }
+
+    label.control-label {
+      text-transform: capitalize;
+    }
   }
 }

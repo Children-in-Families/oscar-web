@@ -3,25 +3,28 @@
   .row
     .col-sm-4
       .col-sm-2
-        %p Client?
+        %label.control-lable= t('activerecord.attributes.family_member.is_client')
       .col-sm-5
-        %p Name
+        %label.control-lable= t('activerecord.attributes.family_member.adult_name')
       .col-sm-5
-        %p Gender
+        %label.control-lable= t('activerecord.attributes.family_member.gender')
     .col-sm-4
       .col-sm-6
-        %p Date of Birth
+        %label.control-lable= t('activerecord.attributes.family_member.date_of_birth')
       .col-sm-6
-        %p Family Role
+        %label.control-lable= t('activerecord.attributes.family_member.relation')
     .col-sm-4
       .col-sm-5
-        %p Occupation
+        %label.control-lable= t('activerecord.attributes.family_member.occupation')
       .col-sm-5
-        %p Monthly Income in USD
+        %label.control-lable= t('activerecord.attributes.family_member.monthly_income')
       .col-sm-2
-        %p Guardian
+        %label.control-lable= t('activerecord.attributes.family_member.guardian')
   .row#family-members
     = f.simple_fields_for :family_members do |member|
       = render 'family_member_fields', f: member
     .links
       = link_to_add_association t('.add_new_member'), f, :family_members, class: 'btn btn-primary add_new_member'
+  .row
+    .col-sm-12.text-right
+      = f.input :dependable_income, as: :radio_buttons, collection: [[t('.yes'), true],[t('.no'), false]]

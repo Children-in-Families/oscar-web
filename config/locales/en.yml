@@ -107,9 +107,40 @@ en:
         phone: Carer Phone Number
         email: Carer Email Address
         carer_information: Carer Information?
+      family:
+        id_poor: Has ID Poor?
+        case_worker_ids: Case Worker/Staff Assigned
+        code: Manual ID
+        commune_id: Commune/Sangkat
+        community_ids: Community/Group
+        contract_date: Family Contract Date
+        custom_forms: Custom Forms
+        dependable_income: Dependable Income
+        district_id: District/Khan
+        donor_ids: Donor
+        family_type: Family Type
+        followed_up_by_id: First Follow Up By
+        follow_up_date: First Follow Up Date
+        house: House Number
+        id: ID
+        initial_referral_date: Date of Referral
+        name: Head Household Name (Khmer)
+        name_en: Head Household Name (Latin)
+        province_id: Province
+        received_by_id: Received by Staff Member
+        referee_phone_number: Referee Phone Number
+        street: Street Number
+        village_id: Village
+        'yes': 'Yes'
       family_member:
-        adult_name: Name of Adult Member
+        adult_name: Name
         gender: Gender
+        guardian: Guardian
+        date_of_birth: Date of Birth
+        is_client: Client?
+        monthly_income: Monthly Income (USD)
+        occupation: Occupation
+        relation: Role in Family
       referee:
         referee_address: Address
     default:
@@ -2702,7 +2733,6 @@ en:
         male_children_count: Male Children Count
         manage: Manage
         member_count: Family Members
-        name: Name
         'no': 'No'
         province: Province
         significant_family_member_count: Significant Family Member Count
@@ -3687,13 +3717,14 @@ en:
       member_count: Member Count
       name: Name
       new_family_title: Add New Family
-      'no': 'No'
       province: Province
       significant_family_member_count: Significant Family Member Count
       status: Status
       street: Street
       village: Village
-      'yes': 'Yes'
+      family_members:
+        'no': 'No'
+        'yes': 'Yes'
     index:
       add_new_family: Add New Family
       clients: Clients
