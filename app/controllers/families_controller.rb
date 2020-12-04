@@ -34,6 +34,7 @@ class FamiliesController < AdminController
   def new
     @quantitative_types = QuantitativeType.where('visible_on LIKE ?', "%family%")
     @family = Family.new
+    @family.family_members.new
     @selected_children = params[:children]
   end
 
