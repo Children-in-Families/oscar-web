@@ -4297,6 +4297,9 @@ en:
       new_referral_client:
         one: You have 1 new referral client
         other: You have %{count} new referral clients
+      new_referral_family:
+        one: You have 1 new referral family
+        other: You have %{count} new referral families
       no_task: Nothing to notify.
       overdue_and_due_today_count:
         one: and 1 due today
@@ -4546,6 +4549,8 @@ en:
       form: Form
       partners: Partner
       users: User
+    family_referrals:
+      referral_families: Referral Families
     program_stream_notify:
       review_client: Clients need to be reviewed
     referrals:

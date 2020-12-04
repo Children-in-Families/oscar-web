@@ -4302,6 +4302,9 @@ my:
       new_referral_client:
         one: သငျသညျသစ် 1 ဖောက်သည်ရည်ညွှန်းပြီ
         other: သငျသညျသစ်တစ်ခုဖောက်သည်ရည်ညွှန်းပြီ%{count}
+      new_referral_family:
+        one: သင့်တွင်လွှဲပြောင်းမိသားစုအသစ် ၁ ခုရှိသည်
+        other: သင့်တွင်% {count} လွှဲပြောင်းမိသားစုအသစ်များရှိသည်
       no_task: အသိေပးစရာမရွိပါ
       overdue_and_due_today_count:
         one: နှင့် 1 ယနေ့ကြောင့်
@@ -4557,6 +4560,8 @@ my:
       form: ပံုစံ
       partners: လက္တြဲေဖာ္
       users: အသံုးျပဳသူ
+    family_referrals:
+      referral_families: လွှဲပြောင်းမိသားစုများ
     program_stream_notify:
       review_client: အမႈသည္မ်ားကို ျပန္လည္သံုးသပ္ရန္ လိုအပ္သည္
     referrals:

@@ -4281,6 +4281,9 @@ km:
       new_referral_client:
         one: អ្នកមានអតិថិជនបញ្ជូនបន្តថ្មីចំនួន1
         other: អ្នកមានអតិថិជនបញ្ជូនបន្តថ្មីចំនួន%{count}
+      new_referral_family:
+        one: អ្នកមានគ្រួសារបញ្ជូនបន្តថ្មីចំនួន1
+        other: អ្នកមានគ្រួសារបញ្ជូនបន្តថ្មីចំនួន%{count}
       no_task: មិនមានពត៌មានដែលត្រូវបង្ហាញ
       overdue_and_due_today_count:
         one: ហើយនិងមានចំនួន1ដែលត្រូវបំពេញនៅថ្ងៃនេះ
@@ -4525,6 +4528,8 @@ km:
       form: ទម្រង់បែបបទ
       partners: ដៃគូ
       users: ឣ្នកប្រើ
+    family_referrals:
+      referral_families: គ្រួសារដែលត្រូវបានបញ្ជូនមក
     program_stream_notify:
       review_client: អតិថិជនដែលត្រូវការត្រួតពិនិត្យ
     referrals:
