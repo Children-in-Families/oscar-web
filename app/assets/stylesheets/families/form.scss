@@ -41,6 +41,10 @@ body[id='families-update'] {
   }
 
   #family-wizard-form {
+    .content > .body {
+      width: 100%;
+    }
+
     &.wiz-2-steps {
       ul li {
         width: 50%;
@@ -55,6 +59,31 @@ body[id='families-update'] {
 
     label.control-label {
       text-transform: capitalize;
+    }
+
+    .pl-0 {
+      padding-left: 0 !important;
+    }
+
+    .pr-0 {
+      padding-right: 0 !important;
+    }
+
+    .family_dependable_income {
+      span.radio {
+        padding-left: 10px;
+        display: inline-block;
+      }
+    }
+
+    .i-checks.family_family_members_guardian {
+      position: relative;
+
+      a.remove_fields {
+        position: absolute;
+        right: 10px;
+        top: -5px;
+      }
     }
   }
 }

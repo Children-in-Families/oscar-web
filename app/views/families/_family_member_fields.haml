@@ -1,28 +1,27 @@
-.nested-fields
-  .row
-    .col-sm-4
-      .col-sm-2
-        .i-checks
-          = f.input :is_client, as: :boolean, label: false, type: 'checkbox', checked: f.object.is_client, class: 'form-input'
-      .col-sm-5
-        = f.input :adult_name, label: false
-      .col-sm-5
-        = f.input :gender, label: false
-    .col-sm-4
-      .col-sm-6
-        .form-group
-          .input-group.date
-            = f.input :date_of_birth, label: false, wrapper: false, input_html: { class: 'date optional form-control date-picker' }, as: :string
-            %span.input-group-addon
-              %i.fa.fa-calendar-check-o
-      .col-sm-6
-        = f.input :relation, collection: drop_down_relation, label: false
-    .col-sm-4
-      .col-sm-5
-        = f.input :occupation, label: false
-      .col-sm-5
-        = f.input :monthly_income, label: false
-      .col-sm-2
-        .i-checks
-          = f.input :guardian, label: false, type: 'checkbox', checked: f.object.guardian?, class: 'form-input'
-        = link_to_remove_association t('.remove_member'), f, class: 'btn btn-danger btn-remove remove_member'
+.nested-fields.row
+  .col-sm-4.pl-0.pr-0
+    .col-sm-2.pl-0
+      .i-checks
+        = f.input :is_client, as: :boolean, label: false, type: 'checkbox', checked: f.object.is_client, class: 'form-input'
+    .col-sm-5
+      = f.input :adult_name, label: false
+    .col-sm-5.pl-0
+      = f.input :gender, label: false
+  .col-sm-4.pl-0.pr-0
+    .col-sm-6.pl-0
+      .form-group
+        .input-group.date
+          = f.input :date_of_birth, label: false, wrapper: false, input_html: { class: 'date optional form-control date-picker' }, as: :string
+          %span.input-group-addon
+            %i.fa.fa-calendar-check-o
+    .col-sm-6.pl-0
+      = f.input :relation, collection: drop_down_relation, label: false
+  .col-sm-4.pl-0.pr-0
+    .col-sm-5.pl-0
+      = f.input :occupation, label: false
+    .col-sm-4.pl-0
+      = f.input :monthly_income, label: false
+    .col-sm-3.pl-0.pr-0
+      .i-checks.family_family_members_guardian
+        = f.input :guardian, label: false, type: 'checkbox', checked: f.object.guardian?, class: 'form-input'
+        = link_to_remove_association 'X', f
