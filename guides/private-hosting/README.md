@@ -20,7 +20,7 @@ So with that, lets get started and setup OSCaR in AWS.
 
 ### Video Tutorial
 
-I've made a video walkthough of this guide which you can view [here]().
+I've made a video walkthough of this guide which you can view [here](https://www.youtube.com/watch?v=HGyn8rWH-24).
 
 ### Setup OSCaR on EC2
 
