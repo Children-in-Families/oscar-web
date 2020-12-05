@@ -11,12 +11,16 @@ Please also note that we will not dive too deep into the specifics of AWS and wi
 Having said that the underlying technology will always be the same and we will be using:
 
 * Ubuntu Server 20.04 LTS 64-bit (x86)
-* Docker Runtimer  (19.03.14)
+* Docker Runtime  (19.03.14)
 * Docker Compose (1.27.4)
 * Postgres 11.8
 * Mongo DB 4.2.10
 
 So with that, lets get started and setup OSCaR in AWS.
+
+### Video Tutorial
+
+I've made a video walkthough of this guide which you can view [here]().
 
 ### Setup OSCaR on EC2
 
@@ -37,9 +41,8 @@ Now you need to SSH into the instance by following the instructions provided in 
 
 Once you have logged into your instance using the instructions provided by AWS you can create a new developer account on the server that you will use going forward.
 
-1. Add your public ssh key to authorized keys list on the server
+1. Add your public ssh key to authorized keys file on the server (usually found in `~/.ssh/authenticated_keys`)
 1. Create a new developer account using the [create-user.sh](./create-user.sh) script
-1. Add the server to your local .ssh config
 1. Update the server hostname so you know where you are: `hostnamectl set-hostname oscarprivatedemo`
 
 ## Installing Docker on Ubuntu
@@ -61,7 +64,7 @@ sudo usermod -aG docker ${USER}
 su - ${USER}
 ```
 
-### Install Docker Compose on Ubuntu Server 20.04
+### Install Docker Compose
 
 We will install Docker Compose 1.27.4
 
@@ -99,7 +102,7 @@ OSCaR is packaged with a number of make commands to start up the services.
 ```
 cd oscar-web
 git checkout stable
-dc up --no-deps app db
+dc up --no-deps app db mongo
 ```
 
 ### Compile the static assets
@@ -115,18 +118,17 @@ Compile the assets using the following command:
 ```
 rake assets:precompile
 ```
-### Update Route 53 to point your domain to your server
+### Add a new sub-domain to your private domians DNS record to point your IP to your private server
 
-OSCaR needs a domain to run and a sub-domain for each tenant. If you have just one tenant then that is all you need.
+OSCaR needs a domain to run and a sub-domain for each tenant. If you have just one tenant then that is all you need. For this demo the tenant is called 'dev' and the sub-domain must be called 'dev'.
 
-1. Add an 'A Record' to your Route 53 table using your own domain and the subdimain you want to use for your tenant / instance in your private version of OSCaR. In this private demo the sub-domain is 'dev' and you need to point to the public IP of the instance.
-1. Now open your browser and visit the the site.
+1. Add an 'A Record' to your Route 53 table using your own domain and the sub-domain you want to use for your tenant / instance in your private version of OSCaR. In this private demo the sub-domain is 'dev' and you need to point to the public IP of the instance.
 
 ### Login to OSCaR
 
-Open your new 'dev' instance via this url: `http://dev.YOUR-DOMAIN.com:3000/users/sign_in`
+Open your new 'dev' instance via this url (replace 'YOUR-DOMAIN' with your own private domain that you own): `http://dev.YOUR-DOMAIN.com:3000/users/sign_in`
 
-The sample account username and password is `team@oscarhq.com` password is `123456789`
+The sample account username and password is `team@oscarhq.com` password is `123456789`. Note this is obviously NOT SECURE!
 
 ### Next steps
 
@@ -144,4 +146,3 @@ Now that you have the demo version running in your private cloud you will want t
 ### Support
 
 All of the above steps are able to be comleted by an expereinced DevOps engineer. Anything that is specific for OSCaR configuration (such as settiing up a new Tenant) will be provided in our README. If anything is missing from our documentation or you have any questions please do not hesitate to reach out to us.
-If you require any technical support, please reach out to the team at [DevZep](www.devzep.com).
