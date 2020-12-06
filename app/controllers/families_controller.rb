@@ -32,8 +32,15 @@ class FamiliesController < AdminController
   end
 
   def new
-    @family = Family.new
-    @selected_children = params[:children]
+    if params[:referral_id].present?
+      current_org = Organization.current
+      find_referral_by_params
+      Organization.switch_to @family_referral.referred_from
+      attributes = fetch_family_attibutes(@family_referral.slug, current_org)
+    else
+      @family = Family.new
+      @selected_children = params[:children]
+    end
   end
 
   def create
@@ -95,7 +102,7 @@ class FamiliesController < AdminController
                             :male_children_count, :female_adult_count,
                             :male_adult_count, :family_type, :status, :contract_date,
                             :address, :province_id, :district_id, :house, :street,
-                            :commune_id, :village_id,
+                            :commune_id, :village_id, :slug,
                             custom_field_ids: [],
                             children: [],
                             family_members_attributes: [:id, :gender, :note, :adult_name, :date_of_birth, :occupation, :relation, :guardian, :_destroy]
@@ -119,5 +126,41 @@ class FamiliesController < AdminController
 
   def find_family
     @family = Family.find(params[:id])
+  end
+
+  def find_referral_by_params
+    @family_referral ||= FamilyReferral.find_by(id: params[:referral_id])
+    raise ActiveRecord::RecordNotFound if @family_referral.nil?
+  end
+
+  def fetch_family_attibutes(family_slug, current_org)
+    attributes = Family.find_by(slug: family_slug).try(:attributes)
+
+    if attributes.present?
+      province_name = Province.find_by(id: attributes['province_id']).try(:name)
+      district_code = District.find_by(id: attributes['district_id']).try(:code)
+      village_code = Village.find_by(id: attributes['village_id']).try(:code)
+      commune_code = Commune.find_by(id: attributes['commune_id']).try(:code)
+
+      Organization.switch_to current_org.short_name
+      province_id = Province.find_by(name: province_name).try(:id)
+      district_id = District.find_by(code: district_code).try(:id)
+      village_id = Village.find_by(code: village_code).try(:id)
+      commune_id = Commune.find_by(code: commune_code).try(:id)
+
+      attributes = attributes.slice('name', 'house', 'street', 'slug').merge!({province_id: province_id, district_id: district_id, commune_id: commune_id, village_id: village_id})
+
+      @family.province = Province.find_by(id: province_id)
+      @family.district = District.find_by(id: district_id)
+      @family.commune = Commune.find_by(id: commune_id)
+      @family.village = Village.find_by(id: village_id)
+
+      @provinces = Province.order(:name)
+      @districts = @family.province.present? ? @family.province.districts.order(:name) : []
+      @communes  = @family.district.present? ? @family.district.communes.order(:code) : []
+      @villages  = @family.commune.present? ? @family.commune.villages.order(:code) : []
+    end
+    @family = Family.new(attributes)
+    @selected_children = params[:children]
   end
 end

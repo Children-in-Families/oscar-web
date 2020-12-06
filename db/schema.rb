@@ -11,13 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20201203072103) do
+ActiveRecord::Schema.define(version: 20201204141537) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
   enable_extension "pgcrypto"
-  enable_extension "uuid-ossp"
 
   create_table "able_screening_questions", force: :cascade do |t|
     t.string   "question"
@@ -946,6 +945,7 @@ ActiveRecord::Schema.define(version: 20201203072103) do
     t.integer  "commune_id"
     t.integer  "village_id"
     t.integer  "user_id"
+    t.string   "slug",                            default: ""
   end
 
   add_index "families", ["commune_id"], name: "index_families_on_commune_id", using: :btree
@@ -975,6 +975,26 @@ ActiveRecord::Schema.define(version: 20201203072103) do
     t.datetime "updated_at",              null: false
     t.integer  "priority"
   end
+
+  create_table "family_referrals", force: :cascade do |t|
+    t.string   "slug",             default: ""
+    t.date     "date_of_referral"
+    t.string   "referred_to",      default: ""
+    t.string   "referred_from",    default: ""
+    t.text     "referral_reason",  default: ""
+    t.string   "name_of_referee",  default: ""
+    t.string   "referral_phone",   default: ""
+    t.string   "name_of_family",   default: ""
+    t.string   "ngo_name",         default: ""
+    t.integer  "referee_id"
+    t.boolean  "saved",            default: false
+    t.string   "consent_form",     default: [],                 array: true
+    t.integer  "family_id"
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+  end
+
+  add_index "family_referrals", ["family_id"], name: "index_family_referrals_on_family_id", using: :btree
 
   create_table "field_setting_translations", force: :cascade do |t|
     t.integer  "field_setting_id", null: false
@@ -2244,6 +2264,7 @@ ActiveRecord::Schema.define(version: 20201203072103) do
   add_foreign_key "families", "users"
   add_foreign_key "families", "villages"
   add_foreign_key "family_members", "families"
+  add_foreign_key "family_referrals", "families"
   add_foreign_key "global_identity_organizations", "organizations"
   add_foreign_key "government_form_children_plans", "children_plans"
   add_foreign_key "government_form_children_plans", "government_forms"

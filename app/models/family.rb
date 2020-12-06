@@ -26,6 +26,7 @@ class Family < ActiveRecord::Base
   has_many :enrollments, as: :programmable, dependent: :destroy
   has_many :program_streams, through: :enrollments, as: :programmable
   has_many :family_members, dependent: :destroy
+  has_many :family_referrals, dependent: :destroy
 
   accepts_nested_attributes_for :family_members, reject_if: :all_blank, allow_destroy: true
 
@@ -38,7 +39,8 @@ class Family < ActiveRecord::Base
   validates :status, presence: true, inclusion: { in: STATUSES }
   validate :client_must_only_belong_to_a_family
 
-  after_save :save_family_in_client
+  after_create :assign_slug
+  after_save :save_family_in_client, :mark_referral_as_saved
 
   scope :address_like,               ->(value) { where('address iLIKE ?', "%#{value.squish}%") }
   scope :caregiver_information_like, ->(value) { where('caregiver_information iLIKE ?', "%#{value.squish}%") }
@@ -168,5 +170,20 @@ class Family < ActiveRecord::Base
   def stale_paranoid_value
     self.paranoid_value = self.class.delete_now_value
     clear_attribute_changes([self.class.paranoid_column])
+  end
+
+  def assign_slug
+    return if self.slug.present?
+    self.slug = "#{Organization.current.short_name}-#{self.id}"
+    self.save(validate: false)
+  end
+
+  def mark_referral_as_saved
+    if self.slug.split('-').first != Organization.current.short_name
+      referral = FamilyReferral.find_by(slug: self.slug)
+      return if referral.nil?
+      referral.saved = true
+      referral.save(validate: false)
+    end
   end
 end

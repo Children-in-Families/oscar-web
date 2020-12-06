@@ -3857,6 +3857,10 @@ my:
       province: ခ႐ိုင္
       read_less: ဒီထက်ကိုဖတ်ရှု
       read_more: ဆက်ဖတ်ရန်
+      referral_forms: ဂီယာ
+      refer_family: ရည်ညွှန်းမိသားစု
+      referred_from: ကနေရည်ညွှန်း
+      referred_to: ရည်ညွှန်း
       relation: ကလေးတွေနဲ့အတူဆက်သွယ်ပါ
       remove_member: ဖယ်ထုတ်ထား
       significant_family_member_count: ႀကီးမားေသာ မိသားစု၀င္အေရအတြက္
@@ -3869,6 +3873,78 @@ my:
     version:
       back: ေနာက္သို႔
       modification_of: "၏ ေျပာင္းလဲမႈ မွတ္တမ္း"
+  family_referrals:
+    confirm_referral:
+      body_second: သင်ရည်ညွှန်းလိုသောမိသားစုသည်ပစ်မှတ်ထားသော NGO တွင်ရှိပြီးဖြစ်သည်။
+      body_third: သင်ဤမိသားစုကိုရည်ညွှန်းပြီးဖြစ်သည်၊ ကျေးဇူးပြုပြီးတုံ့ပြန်မှုကိုစောင့်ပါ။
+      title: သတိပေးခြင်း
+    consent_form_fields:
+      consent_form: သဘောတူညီချက်ပုံစံ
+    create:
+      failed_create: တစ်ဦးလွှဲပြောင်းဖန်တီးရန်မအောင်မြင်ခဲ့ပါ။
+      successfully_created: ရည်ညွန်းအောင်မြင်စွာဖန်တီးလိုက်ပါပြီ။
+    edit:
+      edit_referral: ပြင်ဆင်ရန်လွှဲပြောင်း
+    form:
+      consent_form: သဘောတူညီချက်ပုံစံ
+      date_of_referral: လွှဲပြောင်း၏နေ့စွဲ
+      external_referral_warning: သင်၏မိသားစုကိုရည်ညွှန်းရန်ကြိုးစားနေသော NGO သည် OSCaR ကိုလက်ရှိအသုံးပြုနေခြင်းမဟုတ်ပါ။ သင်၏ရည်မှန်းထားသောအဖွဲ့အစည်းသို့ပေးပို့ရန်ဤလွှဲပြောင်းပုံစံမိတ္တူတစ်စောင်ကို print ထုတ်ပါ။
+      family_id: မိသားစုမှတ်ပုံတင်
+      family_name: နာမည်
+      name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
+      ngo_name: NGO အမည်ဖြင့်
+      referral_phone: လႊဲေျပာင္းရမည့္ ဖုန္းနံပါတ္
+      referral_reason: လွှဲပြောင်းအကြောင်းပြချက်
+      referred_from: ကနေရည်ညွှန်း
+      referred_to: ရည်ညွှန်း
+      save: ကယ်ဆယ်
+      save_and_download: ကယ်တင် & Download
+      type_of_service: ဝန်ဆောင်မှုအမျိုးအစား
+    index:
+      cannot_edit_referral: ပစ်မှတ်အန်ဂျီအိုပြီးသားဒီလွှဲပြောင်းလက်ခံခဲ့သည်ကြောင့်သင်ဤလွှဲပြောင်းတည်းဖြတ်မရနိုင်ပါ
+      consent_form: သဘောတူညီချက်ပုံစံ
+      date_of_referral: လွှဲပြောင်း၏နေ့စွဲ
+      detail: အသေးစိတ်
+      edit_btn: ပြင်ဆင်ရန်
+      family_id: မိသားစုမှတ်ပုံတင်
+      family_name: နာမည်
+      name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
+      referral_forms: ဂီယာ
+      referral_phone: လႊဲေျပာင္းရမည့္ ဖုန္းနံပါတ္
+      referral_reason: လွှဲပြောင်းအကြောင်းပြချက်
+      referred_from: ကနေရည်ညွှန်း
+      referred_to: ရည်ညွှန်း
+      select_ngos: အဖွဲ့အစည်းကရှေးခယျြ
+    new:
+      new_referral: ဂီယာ Add
+    show:
+      cannot_edit_referral: ပစ်မှတ်အန်ဂျီအိုပြီးသားဒီလွှဲပြောင်းလက်ခံခဲ့သည်ကြောင့်သင်ဤလွှဲပြောင်းတည်းဖြတ်မရနိုင်ပါ
+      consent_form: သဘောတူညီချက်ပုံစံ
+      date_of_referral: လွှဲပြောင်း၏နေ့စွဲ
+      download_referral_form: ဒေါင်းလုပ်လွှဲပြောင်းပုံစံ
+      external_referral_warning: သင်၏မိသားစုကိုရည်ညွှန်းရန်ကြိုးစားနေသော NGO သည် OSCaR ကိုလက်ရှိအသုံးပြုနေခြင်းမဟုတ်ပါ။ သင်၏ရည်မှန်းထားသောအဖွဲ့အစည်းသို့ပေးပို့ရန်ဤလွှဲပြောင်းပုံစံမိတ္တူတစ်စောင်ကို print ထုတ်ပါ။
+      family_id: မိသားစုမှတ်ပုံတင်
+      family_name: နာမည်
+      name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
+      ngo_name: NGO အမည်ဖြင့်
+      pdf:
+        haml:
+          date_of_referral: လွှဲပြောင်း၏နေ့စွဲ
+          family_id: မိသားစုမှတ်ပုံတင်
+          family_name: နာမည်
+          name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
+          referral_phone: လႊဲေျပာင္းရမည့္ ဖုန္းနံပါတ္
+          referral_reason: လွှဲပြောင်းအကြောင်းပြချက်
+          referred_from: ကနေရည်ညွှန်း
+          referred_to: ရည်ညွှန်း
+      preview_download: အစမ္းၾကည့္႐ႈရန္ႏွင့္ ေဒါင္းလုတ္
+      referral_phone: လႊဲေျပာင္းရမည့္ ဖုန္းနံပါတ္
+      referral_reason: လွှဲပြောင်းအကြောင်းပြချက်
+      referred_from: ကနေရည်ညွှန်း
+      referred_to: ရည်ညွှန်း
+      type_of_service: ဝန်ဆောင်မှုအမျိုးအစား
+    update:
+      successfully_updated: ရည်ညွန်းအောင်မြင်စွာ updated ခဲ့တာဖြစ်ပါတယ်။
   faq: မၾကာခဏေမးေလ့ရွိေသာ ေမးခြန္းမ်ား
   field_label_cannot_be_blank: ကြင္းအညႊန္းကို ကြက္လပ္ခ်န္၍ မရပါ
   form_builder:
@@ -4355,6 +4431,9 @@ my:
       new_referral_client:
         one: သငျသညျသစ် 1 ဖောက်သည်ရည်ညွှန်းပြီ
         other: သငျသညျသစ်တစ်ခုဖောက်သည်ရည်ညွှန်းပြီ%{count}
+      new_referral_family:
+        one: သင့်တွင်လွှဲပြောင်းမိသားစုအသစ် ၁ ခုရှိသည်
+        other: သင့်တွင်% {count} လွှဲပြောင်းမိသားစုအသစ်များရှိသည်
       no_task: အသိေပးစရာမရွိပါ
       overdue_and_due_today_count:
         one: နှင့် 1 ယနေ့ကြောင့်
@@ -4612,6 +4691,8 @@ my:
       form: ပံုစံ
       partners: လက္တြဲေဖာ္
       users: အသံုးျပဳသူ
+    family_referrals:
+      referral_families: လွှဲပြောင်းမိသားစုများ
     program_stream_notify:
       review_client: အမႈသည္မ်ားကို ျပန္လည္သံုးသပ္ရန္ လိုအပ္သည္
     referrals:

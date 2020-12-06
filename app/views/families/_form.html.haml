@@ -10,6 +10,7 @@
             %a{:role => "button", :tabIndex => "0",  data: { toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.families.name')}", placement: "right" } }
               = fa_icon "info-circle", class: 'text-info m-xs'
             = f.input :name, wrapper: false, label: false
+            = f.hidden_field :slug, wrapper: false, label: false
         .col-xs-12.col-sm-6.col-md-4
           .form-group.string.optional.family_code
             %label.string.optional.control-label{:for => "family_code"}

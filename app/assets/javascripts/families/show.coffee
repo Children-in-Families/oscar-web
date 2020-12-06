@@ -4,6 +4,7 @@ CIF.FamiliesShow = do ->
     _getClientPath()
     _handleScrollTable()
     _buttonHelpTextPophover()
+    _ajaxCheckReferral()
 
   _fixedHeaderTableColumns = ->
     $('.clients-table').removeClass('table-responsive')
@@ -36,5 +37,36 @@ CIF.FamiliesShow = do ->
   
   _buttonHelpTextPophover = ->
     $("button[data-content]").popover();
+
+  _ajaxCheckReferral = ->
+    $('a.target-ngo').on 'click', (e) ->
+      e.preventDefault()
+      self= @
+      id= @.id
+      href = @.href
+      data = {
+        org: id
+        familyId: $('#family-id').val()
+      }
+      $.ajax
+        type: 'GET'
+        url: '/api/family_referrals/compare'
+        data: data
+        success: (response) ->
+          modalTitle = $('#hidden_title').val()
+          modalTextFirst  = $('#body_first').val()
+          modalTextSecond = $('#hidden_body_second').val()
+          modalTextThird  = $('#hidden_body_third').val()
+          responseText = response.text
+          if responseText == 'create referral'
+            window.location.replace href
+          else if responseText == 'already exist'
+            $('#confirm-referral-modal .modal-header .modal-title').text(modalTitle)
+            $('#confirm-referral-modal .modal-body').html(modalTextSecond)
+            $('#confirm-referral-modal').modal('show')
+          else if responseText == 'already referred'
+            $('#confirm-referral-modal .modal-header .modal-title').text(modalTitle)
+            $('#confirm-referral-modal .modal-body').html(modalTextThird)
+            $('#confirm-referral-modal').modal('show')
 
   { init: _init }
