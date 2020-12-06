@@ -1,4 +1,4 @@
-CIF.FamilyReferralsNew = CIF.FamilyReferralsCreate = CIF.FamilyReferralsUpdate = CIF.FamilyReferralsEdit = do ->
+CIF.Family_referralsNew = CIF.Family_referralsCreate = CIF.Family_referralsUpdate = CIF.Family_referralsEdit = do ->
 
   _init = ->
     _initSelect2()

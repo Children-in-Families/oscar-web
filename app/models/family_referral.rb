@@ -83,7 +83,7 @@ class FamilyReferral < ActiveRecord::Base
     return if self.non_oscar_ngo? || current_org.short_name == referred_to
     Organization.switch_to referred_to
     referral = FamilyReferral.find_or_initialize_by(slug: attributes['slug'], saved: false)
-    referral.attributes = attributes.except('id', 'created_at', 'updated_at', 'consent_form')
+    referral.attributes = attributes.except('id', 'created_at', 'updated_at', 'consent_form', 'family_id').merge({family_id: nil})
     referral.consent_form = consent_form
     referral.save
     Organization.switch_to current_org.short_name

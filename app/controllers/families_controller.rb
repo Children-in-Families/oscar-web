@@ -149,6 +149,16 @@ class FamiliesController < AdminController
       commune_id = Commune.find_by(code: commune_code).try(:id)
 
       attributes = attributes.slice('name', 'house', 'street', 'slug').merge!({province_id: province_id, district_id: district_id, commune_id: commune_id, village_id: village_id})
+
+      @family.province = Province.find_by(id: province_id)
+      @family.district = District.find_by(id: district_id)
+      @family.commune = Commune.find_by(id: commune_id)
+      @family.village = Village.find_by(id: village_id)
+
+      @provinces = Province.order(:name)
+      @districts = @family.province.present? ? @family.province.districts.order(:name) : []
+      @communes  = @family.district.present? ? @family.district.communes.order(:code) : []
+      @villages  = @family.commune.present? ? @family.commune.villages.order(:code) : []
     end
     @family = Family.new(attributes)
     @selected_children = params[:children]
