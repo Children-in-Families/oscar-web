@@ -32,7 +32,6 @@ class FamiliesController < AdminController
   end
 
   def new
-    @quantitative_types = QuantitativeType.where('visible_on LIKE ?', "%family%")
     @family = Family.new
     @family.family_members.new
     @selected_children = params[:children]
@@ -41,7 +40,8 @@ class FamiliesController < AdminController
   def create
     @family = Family.new(family_params)
     @family.user_id = current_user.id
-    if @family.save
+
+    if @family.save!
       redirect_to @family, notice: t('.successfully_created')
     else
       @selected_children = family_params[:children]
@@ -89,19 +89,23 @@ class FamiliesController < AdminController
   private
 
   def family_params
-    params['family']['children'].delete_if(&:blank?)
     params.require(:family).permit(
-                            :name, :code, :case_history, :caregiver_information,
-                            :significant_family_member_count, :household_income,
-                            :dependable_income, :female_children_count,
-                            :male_children_count, :female_adult_count,
-                            :male_adult_count, :family_type, :status, :contract_date,
-                            :address, :province_id, :district_id, :house, :street,
-                            :commune_id, :village_id,
-                            custom_field_ids: [],
-                            children: [],
-                            family_members_attributes: [:id, :gender, :note, :adult_name, :date_of_birth, :occupation, :relation, :guardian, :_destroy]
-                            )
+      :name, :code,
+      :dependable_income, :family_type, :status, :contract_date,
+      :address, :province_id, :district_id, :house, :street,
+      :commune_id, :village_id,
+      :followed_up_by_id, :follow_up_date, :name_en, :phone_number, :id_poor, :referral_source_id,
+      :referee_phone_number, :relevant_information,
+      :received_by_id, :initial_referral_date, :referral_source_category_id,
+      donor_ids: [], community_ids: [],
+      case_worker_ids: [],
+      custom_field_ids: [],
+      family_members_attributes: [
+        :monthly_income, :client_id,
+        :id, :gender, :note, :adult_name, :date_of_birth,
+        :occupation, :relation, :guardian, :_destroy
+      ]
+    )
   end
 
   def find_association
