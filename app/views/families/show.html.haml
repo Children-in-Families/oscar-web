@@ -19,51 +19,53 @@
             %li
               %p= link_to custom_field.form_title, new_family_custom_field_property_path(@family, custom_field_id: custom_field)
 
-  .row
-    %div{ class: "col-md-9"}
-      %table.table.small.m-b-xs#main-info
-        %tbody
-          %tr
-            %td{rowspan: '4'}
-            %td
-              = "#{Family.human_attribute_name(:name_en)} :"
-              %strong= @family.name_en
-            %td
-              = "#{Family.human_attribute_name(:status)} :"
-              %strong= @family.status
-          %tr
-            %td
-              = "#{Family.human_attribute_name(:name)} :"
-              %strong= @family.name
-            %td
-              = "#{Family.human_attribute_name(:gender)} :"
-              %strong= '......'
-          %tr
-            %td
-              = "#{Family.human_attribute_name(:id)} :"
-              %strong= @family.id
-            %td
-              = "#{Family.human_attribute_name(:code)} :"
-              %strong= @family.code
-          %tr
-            %td
-              = "#{t('.current_province')} :"
-              %strong= @family.province_name
-            %td
-              = "#{t('.created_by')} :"
-              %strong= @family.user&.name
-    .col-md-3
+  %div{ class: "col-md-9"}
+    %table.table.small.m-b-xs#main-info
+      %tbody
+        %tr
+          %td{rowspan: '4'}
+          %td
+            = "#{Family.human_attribute_name(:name_en)} :"
+            %strong= @family.name_en
+          %td
+            = "#{Family.human_attribute_name(:status)} :"
+            %strong= @family.status
+        %tr
+          %td
+            = "#{Family.human_attribute_name(:name)} :"
+            %strong= @family.name
+          %td
+            = "#{Family.human_attribute_name(:gender)} :"
+            %strong
+        %tr
+          %td
+            = "#{Family.human_attribute_name(:id)} :"
+            %strong= @family.id
+          %td
+            = "#{Family.human_attribute_name(:code)} :"
+            %strong= @family.code
+        %tr
+          %td
+            = "#{t('.current_province')} :"
+            %strong= @family.province_name
+          %td
+            = "#{t('.created_by')} :"
+            %strong= @family.user&.name
+  .col-md-3
+
+  .col-sm-12
+    .panel.panel-default.case-management-tool-set
+      .panel-body.text-center{ style: 'min-height: 50px; background-color: yellow;' }
+        %h3 Case Management Tool Set
 
 .ibox-content
+  .row.agreegate
+    .col-sm-12.col-md-4
+    .col-sm-12.col-md-4
+    .col-sm-12.col-md-4
   .row.family-summary
     .col-sm-12
       %table.table.table-bordered
-        %tr
-          %td.spacing-first-col
-            = t('.code')
-          %td
-            %strong
-              = @family.code
         %tr
           %td.spacing-first-col
             = t('.case_history')
@@ -78,35 +80,6 @@
             %td
               %strong
                 = merged_address_family(@family)
-        %tr
-          %td.spacing-first-col
-            = t('.member_count')
-          %td
-            %strong
-              = pluralize(@family.member_count, 'Person')
-
-        %tr
-          %td.spacing-first-col
-            = t('.caregiver_information')
-          %td
-            %strong
-              = @family.caregiver_information
-
-        - if policy(@family).show?(:member_count)
-          %tr
-            %td.spacing-first-col
-              = t('.significant_family_member_count')
-            %td
-              %strong
-                = @family.significant_family_member_count
-
-        - if policy(@family).show?(:household_income)
-          %tr
-            %td.spacing-first-col
-              = t('.household_income')
-            %td
-              %strong
-                = @family.household_income
 
         - if policy(@family).show?(:dependable_income)
           %tr
@@ -115,34 +88,6 @@
             %td
               %strong
                 = human_boolean(@family.dependable_income)
-
-        %tr
-          %td.spacing-first-col
-            = t('.female_children_count')
-          %td
-            %strong
-              = @family.female_children_count.to_i
-
-        %tr
-          %td.spacing-first-col
-            = t('.male_children_count')
-          %td
-            %strong
-              = @family.male_children_count.to_i
-
-        %tr
-          %td.spacing-first-col
-            = t('.female_adult_count')
-          %td
-            %strong
-              = @family.female_adult_count.to_i
-
-        %tr
-          %td.spacing-first-col
-            = t('.male_adult_count')
-          %td
-            %strong
-              = @family.male_adult_count.to_i
 
         - if policy(@family).show?(:contract_date)
           %tr
@@ -159,12 +104,7 @@
             %td
               %strong
                 = family_type_translation(@family.family_type)
-        %tr
-          %td.spacing-first-col
-            = t('.status')
-          %td
-            %strong
-              = @family.status
+
   - if @family.family_members.present?
     .row.family-summary
       .col-sm-12
@@ -177,11 +117,10 @@
             - if policy(FamilyMember).show?(:occupation)
               %th= t('.occupation')
             - if policy(FamilyMember).show?(:relation)
-              %th= t('.relation')
+              %th= Family.human_attribute_name(:relation)
             - if policy(FamilyMember).show?(:guardian)
               %th= t('.guardian')
-            - if policy(FamilyMember).show?(:note)
-              %th= t('.note')
+
           %tbody
           - @family.family_members.each do |member|
             %tr
@@ -197,8 +136,6 @@
                 %td= member.relation
               - if policy(FamilyMember).show?(:guardian)
                 %td= human_boolean(member.guardian)
-              - if policy(FamilyMember).show?(:note)
-                %th= member.note
 
 .row
   .col-xs-12.clients
