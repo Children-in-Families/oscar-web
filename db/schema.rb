@@ -17,6 +17,7 @@ ActiveRecord::Schema.define(version: 20201204141537) do
   enable_extension "plpgsql"
   enable_extension "hstore"
   enable_extension "pgcrypto"
+  enable_extension "uuid-ossp"
 
   create_table "able_screening_questions", force: :cascade do |t|
     t.string   "question"
