@@ -7,7 +7,7 @@ class Family < ActiveRecord::Base
     'Birth Family (Only Father)', 'Extended Family / Kinship Care',
     'Short Term / Emergency Foster Care', 'Long Term Foster Care',
     'Domestically Adopted', 'Child-Headed Household', 'No Family', 'Other']
-  STATUSES = ['Active', 'Inactive']
+  STATUSES = ['Active', 'Inactive', 'Referred']
 
   ID_POOR = ['No', 'Level 1', 'Level 2'].freeze
 
@@ -28,6 +28,7 @@ class Family < ActiveRecord::Base
   belongs_to :received_by,      class_name: 'User',      foreign_key: 'received_by_id'
   belongs_to :followed_up_by,   class_name: 'User',      foreign_key: 'followed_up_by_id'
 
+  has_many :cases
   has_many :donor_families, dependent: :destroy
   has_many :donors, through: :donor_families
   has_many :case_worker_families, dependent: :destroy
@@ -45,6 +46,7 @@ class Family < ActiveRecord::Base
   has_paper_trail
 
   before_validation :assign_family_type, if: [:new_record?, :brc?]
+  before_validation :assign_status
 
   validates :family_type, presence: true, inclusion: { in: TYPES }
   validates :code, uniqueness: { case_sensitive: false }, if: :code?
@@ -60,6 +62,16 @@ class Family < ActiveRecord::Base
 
   def member_count
     brc? ? family_members.count : (male_adult_count.to_i + female_adult_count.to_i + male_children_count.to_i + female_children_count.to_i)
+  end
+
+  def monthly_average_income
+    countable_member = family_members.select(&:monthly_income?)
+
+    if countable_member.any?
+      countable_member.map(&:monthly_income).sum / countable_member.count
+    else
+      'N/A'
+    end
   end
 
   def emergency?
@@ -121,6 +133,10 @@ class Family < ActiveRecord::Base
   end
 
   private
+
+  def assign_status
+    self.status ||= 'Referred'
+  end
 
   def assign_family_type
     self.family_type = 'Other'

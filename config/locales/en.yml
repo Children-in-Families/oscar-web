@@ -3751,18 +3751,19 @@ en:
       date_of_birth: Date of Birth
       dependable_income: Dependable Income
       family_type: Family Type
-      female_adult_count: Female Adult Count
-      female_children_count: Female Children Count
+      female_adult_count: Number of Adule Females
+      female_children_count: Number of Girls
       gender: Gender
       general_info: About Family
       guardian: Guardian
       house: House
       household_income: Monthly Household Income
       id: ID
-      male_adult_count: Male Adult Count
-      male_children_count: Male Children Count
-      member_count: Member Count
+      male_adult_count: Number of Adule Males
+      male_children_count: Number of Boys
+      member_count: Number of Family Members
       name: Name
+      monthly_average_income: Monthly Average Income
       'no': 'No'
       note: Relevant Referral Information / Notes
       occupation: Occupation

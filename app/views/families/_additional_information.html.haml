@@ -1,6 +1,6 @@
 %h3 Additional Information
 %section.additional-information
-  - QuantitativeType.where('visible_on LIKE ?', "%family%").each do |quantitative_type|
+  - @quantitative_types.each do |quantitative_type|
     .row
       .form-group.select.optional
         = f.label "quantitative_type_ids[#{quantitative_type.id}][]", quantitative_type.name

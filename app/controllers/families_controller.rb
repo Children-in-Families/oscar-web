@@ -8,6 +8,7 @@ class FamiliesController < AdminController
   before_action :build_advanced_search, only: [:index]
   before_action :find_association, except: [:index, :destroy, :version]
   before_action :find_family, only: [:show, :edit, :update, :destroy]
+  before_action :load_quantative_types, only: [:new, :edit, :create, :update]
 
   def index
     @default_columns = Setting.first.try(:family_default_columns)
@@ -87,6 +88,10 @@ class FamiliesController < AdminController
   end
 
   private
+
+  def load_quantative_types
+    @quantitative_types = QuantitativeType.where('visible_on LIKE ?', "%family%")
+  end
 
   def family_params
     params.require(:family).permit(

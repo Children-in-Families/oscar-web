@@ -61,8 +61,31 @@
 .ibox-content
   .row.agreegate
     .col-sm-12.col-md-4
+      %table.table.table-bordered
+        %tr
+          %td.spacing-first-col= t('.male_adult_count')
+          %td= @family.male_adult_count
+        %tr
+          %td.spacing-first-col= t('.female_adult_count')
+          %td= @family.female_adult_count
     .col-sm-12.col-md-4
+      %table.table.table-bordered
+        %tr
+          %td.spacing-first-col= t('.male_children_count')
+          %td= @family.male_children_count
+        %tr
+          %td.spacing-first-col= t('.female_children_count')
+          %td= @family.female_children_count
     .col-sm-12.col-md-4
+      %table.table.table-bordered
+        %tr
+          %tr
+            %td.spacing-first-col= t('.member_count')
+            %td= @family.member_count
+        %tr
+          %tr
+            %td.spacing-first-col= t('.monthly_average_income')
+            %td= @family.monthly_average_income
   .row.family-summary
     .col-sm-12
       %table.table.table-bordered
@@ -104,6 +127,55 @@
             %td
               %strong
                 = family_type_translation(@family.family_type)
+
+        %tr
+          %td.spacing-first-col
+            = t('.referral_source_category')
+          %td
+            %strong
+              = referral_source_category(@family.referral_source_category_id)
+        %tr
+          %td.spacing-first-col
+            = t('.referral_source')
+          %td
+            %strong
+              = @family.referral_source
+        %tr
+          %td.spacing-first-col
+            = t('.received_by')
+          %td
+            %strong
+              = @family.received_by&.name
+              = user @family.received_by, true
+
+        %tr
+          %td.spacing-first-col
+            = t('.followed_up_by')
+          %td
+            %strong
+              = @family.followed_up_by&.name
+              = user @family.followed_up_by, true
+
+        %tr
+          %td.spacing-first-col
+            = t('.case_worker_or_staff')
+          %td
+            %strong
+              - @family.case_workers.distinct.sort.each do |case_worker|
+                %strong.label.label-default
+                  = user case_worker
+        %tr
+          %td.spacing-first-col
+            = t('.initial_referral_date')
+          %td
+            %strong
+              = date_format(@family.initial_referral_date)
+        %tr
+          %td.spacing-first-col
+            = t('.follow_up_date')
+          %td
+            %strong
+              = date_format(@family.follow_up_date)
 
   - if @family.family_members.present?
     .row.family-summary
