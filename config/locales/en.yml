@@ -108,6 +108,7 @@ en:
         email: Carer Email Address
         carer_information: Carer Information?
       family:
+        id: Automatic ID
         id_poor: Has ID Poor?
         case_worker_ids: Case Worker/Staff Assigned
         code: Manual ID
@@ -3745,6 +3746,8 @@ en:
       case_history: Case History
       code: Family ID
       contract_date: Contract Date
+      created_by: Created by
+      current_province: Current Province
       date_of_birth: Date of Birth
       dependable_income: Dependable Income
       family_type: Family Type

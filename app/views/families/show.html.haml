@@ -1,4 +1,4 @@
-.row
+.row.gray-bg
   .col-xs-12.family
     .btn-group.small-btn-margin
       %button.btn-sm.btn.btn-success.dropdown-toggle{ 'data-toggle' => 'dropdown', class: ('disabled' if @group_family_custom_fields.empty?) }
@@ -19,165 +19,186 @@
             %li
               %p= link_to custom_field.form_title, new_family_custom_field_property_path(@family, custom_field_id: custom_field)
 
-    .ibox.mini-margin
-      .ibox-title
-        %h5= "#{t('.general_info')} #{@family.name}"
-        .ibox-tools
-          %a.collapse-link
-            .btn.btn-outline.btn-primary
-              %i.fa.fa-chevron-up
-          - if can? :manage, Family
-            %small
-              = link_to edit_family_path(@family) do
-                .btn.btn-outline.btn-success
-                  %i.fa.fa-pencil
-              = remove_link(@family, { family_case: @results || 0 }, 'btn-md')
+  .row
+    %div{ class: "col-md-9"}
+      %table.table.small.m-b-xs#main-info
+        %tbody
+          %tr
+            %td{rowspan: '4'}
+            %td
+              = "#{Family.human_attribute_name(:name_en)} :"
+              %strong= @family.name_en
+            %td
+              = "#{Family.human_attribute_name(:status)} :"
+              %strong= @family.status
+          %tr
+            %td
+              = "#{Family.human_attribute_name(:name)} :"
+              %strong= @family.name
+            %td
+              = "#{Family.human_attribute_name(:gender)} :"
+              %strong= '......'
+          %tr
+            %td
+              = "#{Family.human_attribute_name(:id)} :"
+              %strong= @family.id
+            %td
+              = "#{Family.human_attribute_name(:code)} :"
+              %strong= @family.code
+          %tr
+            %td
+              = "#{t('.current_province')} :"
+              %strong= @family.province_name
+            %td
+              = "#{t('.created_by')} :"
+              %strong= @family.user&.name
+    .col-md-3
 
-      .ibox-content
-        .row.family-summary
-          .col-sm-12
-            %table.table.table-bordered
-              %tr
-                %td.spacing-first-col
-                  = t('.code')
+.ibox-content
+  .row.family-summary
+    .col-sm-12
+      %table.table.table-bordered
+        %tr
+          %td.spacing-first-col
+            = t('.code')
+          %td
+            %strong
+              = @family.code
+        %tr
+          %td.spacing-first-col
+            = t('.case_history')
+          %td
+            %strong
+              = family_case_history(@family)
+
+        - if policy(@family).show?(:province_id)
+          %tr
+            %td.spacing-first-col
+              = t('.address')
+            %td
+              %strong
+                = merged_address_family(@family)
+        %tr
+          %td.spacing-first-col
+            = t('.member_count')
+          %td
+            %strong
+              = pluralize(@family.member_count, 'Person')
+
+        %tr
+          %td.spacing-first-col
+            = t('.caregiver_information')
+          %td
+            %strong
+              = @family.caregiver_information
+
+        - if policy(@family).show?(:member_count)
+          %tr
+            %td.spacing-first-col
+              = t('.significant_family_member_count')
+            %td
+              %strong
+                = @family.significant_family_member_count
+
+        - if policy(@family).show?(:household_income)
+          %tr
+            %td.spacing-first-col
+              = t('.household_income')
+            %td
+              %strong
+                = @family.household_income
+
+        - if policy(@family).show?(:dependable_income)
+          %tr
+            %td.spacing-first-col
+              = "#{t('.dependable_income')}?"
+            %td
+              %strong
+                = human_boolean(@family.dependable_income)
+
+        %tr
+          %td.spacing-first-col
+            = t('.female_children_count')
+          %td
+            %strong
+              = @family.female_children_count.to_i
+
+        %tr
+          %td.spacing-first-col
+            = t('.male_children_count')
+          %td
+            %strong
+              = @family.male_children_count.to_i
+
+        %tr
+          %td.spacing-first-col
+            = t('.female_adult_count')
+          %td
+            %strong
+              = @family.female_adult_count.to_i
+
+        %tr
+          %td.spacing-first-col
+            = t('.male_adult_count')
+          %td
+            %strong
+              = @family.male_adult_count.to_i
+
+        - if policy(@family).show?(:contract_date)
+          %tr
+            %td.spacing-first-col
+              = t('.contract_date')
+            %td
+              %strong
+                = date_format(@family.contract_date)
+
+        - if policy(@family).show?(:family_type)
+          %tr
+            %td.spacing-first-col
+              = t('.family_type')
+            %td
+              %strong
+                = family_type_translation(@family.family_type)
+        %tr
+          %td.spacing-first-col
+            = t('.status')
+          %td
+            %strong
+              = @family.status
+  - if @family.family_members.present?
+    .row.family-summary
+      .col-sm-12
+        %table.table.table-bordered
+          %thead
+            %th= t('activerecord.attributes.family_member.adult_name')
+            %th= t('.date_of_birth')
+            - if policy(FamilyMember).show?(:gender)
+              %th= t('activerecord.attributes.family_member.gender')
+            - if policy(FamilyMember).show?(:occupation)
+              %th= t('.occupation')
+            - if policy(FamilyMember).show?(:relation)
+              %th= t('.relation')
+            - if policy(FamilyMember).show?(:guardian)
+              %th= t('.guardian')
+            - if policy(FamilyMember).show?(:note)
+              %th= t('.note')
+          %tbody
+          - @family.family_members.each do |member|
+            %tr
+              %td= member.adult_name
+              %td= date_format member.date_of_birth
+              - if policy(FamilyMember).show?(:gender)
                 %td
-                  %strong
-                    = @family.code
-              %tr
-                %td.spacing-first-col
-                  = t('.case_history')
-                %td
-                  %strong
-                    = family_case_history(@family)
-
-              - if policy(@family).show?(:province_id)
-                %tr
-                  %td.spacing-first-col
-                    = t('.address')
-                  %td
-                    %strong
-                      = merged_address_family(@family)
-              %tr
-                %td.spacing-first-col
-                  = t('.member_count')
-                %td
-                  %strong
-                    = pluralize(@family.member_count, 'Person')
-
-              %tr
-                %td.spacing-first-col
-                  = t('.caregiver_information')
-                %td
-                  %strong
-                    = @family.caregiver_information
-
-              - if policy(@family).show?(:member_count)
-                %tr
-                  %td.spacing-first-col
-                    = t('.significant_family_member_count')
-                  %td
-                    %strong
-                      = @family.significant_family_member_count
-
-              - if policy(@family).show?(:household_income)
-                %tr
-                  %td.spacing-first-col
-                    = t('.household_income')
-                  %td
-                    %strong
-                      = @family.household_income
-
-              - if policy(@family).show?(:dependable_income)
-                %tr
-                  %td.spacing-first-col
-                    = "#{t('.dependable_income')}?"
-                  %td
-                    %strong
-                      = human_boolean(@family.dependable_income)
-
-              %tr
-                %td.spacing-first-col
-                  = t('.female_children_count')
-                %td
-                  %strong
-                    = @family.female_children_count.to_i
-
-              %tr
-                %td.spacing-first-col
-                  = t('.male_children_count')
-                %td
-                  %strong
-                    = @family.male_children_count.to_i
-
-              %tr
-                %td.spacing-first-col
-                  = t('.female_adult_count')
-                %td
-                  %strong
-                    = @family.female_adult_count.to_i
-
-              %tr
-                %td.spacing-first-col
-                  = t('.male_adult_count')
-                %td
-                  %strong
-                    = @family.male_adult_count.to_i
-
-              - if policy(@family).show?(:contract_date)
-                %tr
-                  %td.spacing-first-col
-                    = t('.contract_date')
-                  %td
-                    %strong
-                      = date_format(@family.contract_date)
-
-              - if policy(@family).show?(:family_type)
-                %tr
-                  %td.spacing-first-col
-                    = t('.family_type')
-                  %td
-                    %strong
-                      = family_type_translation(@family.family_type)
-              %tr
-                %td.spacing-first-col
-                  = t('.status')
-                %td
-                  %strong
-                    = @family.status
-        - if @family.family_members.present?
-          .row.family-summary
-            .col-sm-12
-              %table.table.table-bordered
-                %thead
-                  %th= t('activerecord.attributes.family_member.adult_name')
-                  %th= t('.date_of_birth')
-                  - if policy(FamilyMember).show?(:gender)
-                    %th= t('activerecord.attributes.family_member.gender')
-                  - if policy(FamilyMember).show?(:occupation)
-                    %th= t('.occupation')
-                  - if policy(FamilyMember).show?(:relation)
-                    %th= t('.relation')
-                  - if policy(FamilyMember).show?(:guardian)
-                    %th= t('.guardian')
-                  - if policy(FamilyMember).show?(:note)
-                    %th= t('.note')
-                %tbody
-                - @family.family_members.each do |member|
-                  %tr
-                    %td= member.adult_name
-                    %td= date_format member.date_of_birth
-                    - if policy(FamilyMember).show?(:gender)
-                      %td
-                        - if member.gender?
-                          = t("enumerize.defaults.gender.#{member.gender}")
-                    - if policy(FamilyMember).show?(:occupation)
-                      %td= member.occupation
-                    - if policy(FamilyMember).show?(:relation)
-                      %td= member.relation
-                    - if policy(FamilyMember).show?(:guardian)
-                      %td= human_boolean(member.guardian)
-                    - if policy(FamilyMember).show?(:note)
-                      %th= member.note
+                  - if member.gender?
+                    = t("enumerize.defaults.gender.#{member.gender}")
+              - if policy(FamilyMember).show?(:occupation)
+                %td= member.occupation
+              - if policy(FamilyMember).show?(:relation)
+                %td= member.relation
+              - if policy(FamilyMember).show?(:guardian)
+                %td= human_boolean(member.guardian)
+              - if policy(FamilyMember).show?(:note)
+                %th= member.note
 
 .row
   .col-xs-12.clients
