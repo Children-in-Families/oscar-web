@@ -125,6 +125,42 @@ So with that, if you are:
 - Want to run a privately hosted vesion of OSCaR in the cloud then visit the [private hosting guide](./guides/private-hosting)
 - Want to run a local vesion of OSCaR on your laptop or home computer as a developer then visit [developer guide](./guides/developer)
 
+### Code Linting
+
+#### Sorbe
+
+`bundle exec rake rails_rbi:model`
+For more instruction please read: [sorbet-rails](https://github.com/chanzuckerberg/sorbet-rails)
+
+#### Rubocop
+
+`rubocop app/models/bar.rb`
+
+#### Text Editors Rubocop ruby linters
+
+So if you use Vcode, you should use the plugin [ruby-rubocop](https://marketplace.visualstudio.com/items?itemName=misogi.ruby-rubocop) and if you use sublime you should use [SublimeLinterRubocop](https://packagecontrol.io/packages/SublimeLinter-rubocop) and this bellow is the sublime config
+
+```
+// SublimeLinter Settings - User
+{
+  "debug": true,
+  "linters": {
+    "rubocop": {
+      "executable": "/Users/your_user_name/.rbenv/shims/rubocop",
+      "excludes": ["**/*.js.erb"],
+      "args": ["--config", ".rubocop.yml"]
+    }
+  },
+  "paths": {
+    "osx": [
+      "~/.rbenv/shims"
+    ]
+  }
+}
+```
+
+Noted: /Users/your_user_name/.rbenv/shims/rubocop you might use RVM so you can find rubocop by running `which rubocop` and use that path and see the path if you use `Linux` change key to Linux and use `rvm` path instead
+
 ### Issue Reporting
 
 If you experience with bugs or need further improvement, please create a new issue under [Issues](https://github.com/devzep/oscar-web/issues).
