@@ -18,7 +18,7 @@
             %tr
               %td= t('.family_id')
               %td
-                %strong= @family_referral.slug
+                %strong= @family_referral.slug || @family.id
 
             %tr
               %td= t('.referred_from')

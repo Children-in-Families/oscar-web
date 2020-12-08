@@ -8,7 +8,7 @@ module Api
       end
   
       def find_family_in_organization
-        if params[:org] == 'external referral'
+        if params[:org] == 'external referral' || params[:org] == 'MoSVY External System'
           { text: 'create referral' }
         else
           current_org = Organization.current.short_name
