@@ -105,6 +105,7 @@ class FamiliesController < AdminController
       donor_ids: [], community_ids: [],
       case_worker_ids: [],
       custom_field_ids: [],
+      quantitative_case_ids: [],
       family_members_attributes: [
         :monthly_income, :client_id,
         :id, :gender, :note, :adult_name, :date_of_birth,

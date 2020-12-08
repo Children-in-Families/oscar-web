@@ -139,7 +139,7 @@
             = t('.referral_source')
           %td
             %strong
-              = @family.referral_source
+              = @family.referral_source&.name
         %tr
           %td.spacing-first-col
             = t('.received_by')
@@ -176,6 +176,32 @@
           %td
             %strong
               = date_format(@family.follow_up_date)
+
+        %tr
+          %td.spacing-first-col
+            = t('.referee_phone_number')
+          %td
+            %strong
+              = @family.referee_phone_number
+
+        %tr
+          %td.spacing-first-col
+            = t('.donor')
+          %td
+            %strong
+              - @family.donors.distinct.each do|donor|
+                %strong.label.label-default.donor
+                  = donor.name
+
+        - @family.quantitative_cases.group_by(&:quantitative_type).each do |qtypes|
+          - next unless quantitative_type_readable?(qtypes.first.id)
+          %tr
+            %td.align-justify.spacing-first-col
+              = qtypes.first.name
+            %td.align-justify
+              - qtypes.last.each do |qcase|
+                %strong.label.label-default
+                  = qcase.value
 
   - if @family.family_members.present?
     .row.family-summary
