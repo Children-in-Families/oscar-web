@@ -55,6 +55,7 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
       autoclose: true,
       format: 'yyyy-mm-dd',
       todayHighlight: true,
+      startDate: '1899,01,01',
       disableTouchKeyboard: true
 
   _ajaxChangeDistrict = ->
