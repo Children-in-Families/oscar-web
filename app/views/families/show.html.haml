@@ -35,7 +35,7 @@
               %li= link_to t('.referred_from'), family_family_referrals_path(@family, referral_type: 'referred_from')
               
         .btn-group.small-btn-margin
-          %button.btn-sm.btn.btn-warning.dropdown-toggle.btn-fit#add-referral-btn{ data: { toggle: "dropdown", html: 'true', trigger: 'hover', content: "#{I18n.t('inline_help.family.show.refer_family')}", placement: "auto" } }
+          %button.btn-sm.btn.btn-warning.dropdown-toggle.btn-fit#add-referral-btn{ data: { toggle: "dropdown", html: 'true', trigger: 'hover', content: "#{I18n.t('inline_help.families.show.refer_family')}", placement: "auto" } }
             = t('.refer_family')
             %span.caret
           %ul.dropdown-menu.btn-fit.scrollable-dropdown-menu.referral-forms

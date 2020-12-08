@@ -202,6 +202,11 @@ km:
       show:
         active_program: View/Edit/Delete the enrollment information, add new tracking form(s), or exit family from the program(s).
         enroll_program: 'Enlist the family in existing program stream(s) here. Admin: If the program doesn’t exist, add a new program stream through <strong>Manage >> Program Streams</strong>.'
+        referral_form: |
+          សូមរកមើលបែបបទបញ្ជូនទាំងអស់ទៅតាមស្ថានភាពដូចតទៅនេះ
+          បញ្ជូនទៅអង្គការដទៃ - ប្រសិនបើអ្នកបញ្ជូនគ្រួសារទៅអង្គការផ្សេង។
+          បញ្ជូនមកពីអង្គការដទៃ - ប្រសិនបើគ្រួសារត្រូវបានបញ្ជូនមកពីអង្គការផ្សេង។
+        refer_family: នៅពេលបញ្ជូនគ្រួសារទៅអង្គការដទៃ សូមយកឈ្មោះអង្គការមួយពីក្នុងបញ្ជី។ ប្រសិនបើ ឈ្មោះអង្គការមិនមាននៅក្នុងបញ្ជីទេ រើសយក ខ្ញុំអត់ឃើញអង្គការដែលខ្ញុំកំពុងរក ដើម្បីបោះពុម្ភបែបបទចេញមក ហើយផ្ញើវាទៅអង្គភាពនេះ។
       status: ត្រូវធ្វើបច្ចុប្បន្នភាពស្ថានភាពដោយផ្ទាល់។ ស្ថានភាព Active មានន័យអតិថិជនម្នាក់ ឬច្រើន នៅក្នុងគ្រួសារតែមួយ ទទួលបានជំនួយឧបត្ថម្ភ។ ប្រសិនបើ គ្មានអតិថិជនកំពុងស្ថិតនៅក្រោមការថែទាំ សូមធ្វើការផ្លាស់ប្តូរវាទៅជា ស្ថានភាព Inactive ។
     partner:
       background: ប្រវត្តិសង្ខេបនៃអង្គការជាដៃគូ។ រួមមានចក្ខុវិស័យ បេសកកម្ម និងសេវាកម្មរបស់ពួកគេ។
