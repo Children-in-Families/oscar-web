@@ -8,6 +8,19 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
     _initIcheck()
     _onChangeReferralSourceCategory()
 
+
+  _validateForm = ->
+    valid = true
+
+    for select in $("select.required")
+      $(select).trigger("change")
+      if $(select).closest(".form-group").find(".select2-choice").hasClass("error")
+        console.log select
+        valid = false
+
+    console.log valid
+    valid
+
   _initWizardForm = ->
     $("#family-wizard-form").steps
       headerTag: 'h3'
@@ -18,6 +31,8 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
       titleTemplate: '#title#'
       labels:
         finish: 'Done'
+      onStepChanging: (event, currentIndex, newIndex) ->
+        (currentIndex > newIndex) || _validateForm()
 
   _onChangeReferralSourceCategory = ->
     referralSources = $("#family_referral_source_id").data("sources")
@@ -38,7 +53,17 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
   _initSelect2 = ->
     $('select').select2
       allowClear: true
-      # _clearSelectedOption()
+
+    $('select.required').on "change", (e) ->
+      $select = $(@)
+      $select.closest(".form-group").find(".select2-choice, .select2-choices").removeClass("error")
+      $select.closest(".form-group").find("label.control-label").removeClass("error")
+      $select.closest(".form-group").find("label.error").remove()
+
+      if $select.val() == null || $select.val().length == 0
+        $select.closest(".form-group").find(".select2-choice, .select2-choices").addClass("error")
+        $select.closest(".form-group").find("label.control-label").addClass("error")
+        $select.closest(".form-group").append("<label class='error'>This field is required.</label>")
 
   _clearSelectedOption = ->
     formAction = $('body').attr('id')
