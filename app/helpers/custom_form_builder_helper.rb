@@ -23,6 +23,8 @@ module CustomFormBuilderHelper
         value.reject{ |i| i.empty? }.each do |c|
           concat content_tag(:strong, c.gsub('&amp;qoute;', '&quot;').html_safe, class: 'label label-margin')
         end
+      elsif value.is_a?(Hash)
+        display_custom_properties(value.values.flatten)
       else
         concat value.gsub('&amp;qoute;', '&quot;').html_safe if value.present?
       end

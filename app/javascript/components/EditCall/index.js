@@ -90,9 +90,8 @@ export default props => {
             window.open(`${url}?notice=${message}`, '_blank');
           });
         }
-      })
-      .error(err => {
-        console.log("err: ", err);
+      }).error((res) => {
+        onerror(res.responseText)
       })
     }
   }

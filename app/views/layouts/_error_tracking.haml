@@ -1,0 +1,5 @@
+- if Rails.env.production? || Rails.env.staging?
+  :javascript
+    window.SENTRY_DSN = "#{ENV['SENTRY_DSN']}"
+    window.SENTRY_RELEASE = "#{SENTRY_RELEASE}"
+  = javascript_pack_tag 'error_tracking'
