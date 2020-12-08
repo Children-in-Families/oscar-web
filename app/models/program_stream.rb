@@ -153,7 +153,7 @@ class ProgramStream < ActiveRecord::Base
   end
 
   def set_program_completed
-    if !tracking_required && (trackings.empty? || trackings.pluck(:name).include?('') || trackings.pluck(:fields).include?([]))
+    if !tracking_required && (trackings.empty? || trackings.map(&:name).include?('') || trackings.map(&:fields).include?([]))
       self.completed = false
       true
     else
