@@ -98,7 +98,11 @@
           %tr
             %tr
               %td.spacing-first-col= t('.monthly_average_income')
-              %td= @family.monthly_average_income
+              %td
+                - if @family.monthly_average_income.instance_of?(String)
+                  = @family.monthly_average_income
+                - else
+                  = number_to_currency(@family.monthly_average_income)
     .row.family-summary
       .col-sm-12
         %table.table.table-bordered
