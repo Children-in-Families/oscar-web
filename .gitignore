@@ -42,7 +42,8 @@ yarn-debug.log*
 /node_modules
 ~$*
 TODO.md
+staging.env
+NOTES.md
 REVISION
 GIT_REVISION
-NOTES.md
-staging.env
+sorbet

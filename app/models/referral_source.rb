@@ -12,23 +12,20 @@ class ReferralSource < ActiveRecord::Base
   scope :child_referrals,          ->        { where.not(name: REFERRAL_SOURCES) }
 
   private
-    def update_client_referral_source
-      clients = Client.where(referral_source_id: self.id)
-      clients.each do |client|
-        client.referral_source_category_id = self.try(:ancestry)
-        client.save(validate: false)
-      end
-    end
 
-    def restrict_update
-      if REFERRAL_SOURCES.include?(name_was)
-        errors.add(:base, 'Referral Source cannot be updated')
-      end
+  def update_client_referral_source
+    clients = Client.where(referral_source_id: self.id)
+    clients.each do |client|
+      client.referral_source_category_id = self.try(:ancestry)
+      client.save(validate: false)
     end
+  end
 
-    def restrict_delete
-      if REFERRAL_SOURCES.include?(self.name)
-        errors.add(:base, 'Referral Source cannot be deleted')
-      end
-    end
+  def restrict_update
+    errors.add(:base, 'Referral Source cannot be updated') if REFERRAL_SOURCES.include?(name_was)
+  end
+
+  def restrict_delete
+    errors.add(:base, 'Referral Source cannot be deleted') if REFERRAL_SOURCES.include?(self.name)
+  end
 end

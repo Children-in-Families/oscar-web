@@ -124,8 +124,6 @@ class FamilyGrid < BaseGrid
       significant_family_member_count: :aggregrate,
       female_children_count: :aggregrate,
       male_children_count: :aggregrate,
-      female_adult_count: :aggregrate,
-      male_adult_count: :aggregrate,
       village_id: :address,
       commune_id: :address,
       district_id: :address,
