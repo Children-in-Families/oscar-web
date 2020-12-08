@@ -30,7 +30,9 @@ Rails.application.configure do
   # The :test delivery method accumulates sent emails in the
   # ActionMailer::Base.deliveries array.
   config.action_mailer.delivery_method = :test
-  config.action_mailer.default_url_options = { host: 'lvh.me', port: 3000 }
+  config.action_mailer.default_url_options = { host: 'lvh.me', port: 3001 }
+
+  config.logger = ActiveSupport::Logger.new(config.paths['log'].first, 1, 50 * 1024 * 1024)
 
   # Randomize the order test cases are executed.
   config.active_support.test_order = :random
@@ -40,6 +42,7 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
-
-  config.assets.initialize_on_precompile = true
+  # config.assets.initialize_on_precompile = true
+  # config.assets.debug = true
+  # config.assets.digest = true
 end
