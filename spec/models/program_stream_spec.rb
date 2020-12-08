@@ -476,6 +476,7 @@ describe ProgramStream do
       end
     end
 
+    # legacy
     context 'last_enrollment' do
       it 'should return last record of program stream' do
         expect(program_stream.last_enrollment).to eq second_client_enrollment
