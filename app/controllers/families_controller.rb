@@ -113,6 +113,7 @@ class FamiliesController < AdminController
       case_worker_ids: [],
       custom_field_ids: [],
       quantitative_case_ids: [],
+      documents: [],
       family_members_attributes: [
         :monthly_income, :client_id,
         :id, :gender, :note, :adult_name, :date_of_birth,

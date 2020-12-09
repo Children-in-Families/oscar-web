@@ -7,7 +7,7 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
     _initDatePicker()
     _initIcheck()
     _onChangeReferralSourceCategory()
-
+    _initUploader()
 
   _validateForm = ->
     valid = true
@@ -18,6 +18,14 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
         valid = false
 
     valid
+
+  _initUploader = ->
+    $('.file .optional').fileinput
+      showUpload: false
+      removeClass: 'btn btn-danger btn-outline'
+      browseLabel: 'Browse'
+      theme: "explorer"
+      allowedFileExtensions: ['jpg', 'png', 'jpeg', 'doc', 'docx', 'xls', 'xlsx', 'pdf']
 
   _initWizardForm = ->
     $("#family-wizard-form").steps
