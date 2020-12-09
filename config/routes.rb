@@ -363,6 +363,8 @@ Rails.application.routes.draw do
       get 'client_forms' => 'settings#client_forms'
       get 'integration' => 'settings#integration'
 
+      get :family_case_management
+
       resources :field_settings, only: [:index] do
         collection do
           put :bulk_update
