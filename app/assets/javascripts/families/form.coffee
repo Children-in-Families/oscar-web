@@ -12,9 +12,9 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
   _validateForm = ->
     valid = true
 
-    for select in $("select.required")
-      $(select).trigger("change")
-      if $(select).closest(".form-group").find(".select2-choice").hasClass("error")
+    for select in $("select.required, input.required")
+      $(select).trigger("validate")
+      if $(select).hasClass("error") || $(select).closest(".form-group").find(".select2-choice").hasClass("error")
         valid = false
 
     valid
@@ -31,6 +31,8 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
         finish: 'Save'
       onStepChanging: (event, currentIndex, newIndex) ->
         (currentIndex > newIndex) || _validateForm()
+      onFinishing: (event, currentIndex) ->
+        $("#family-form").submit()
 
   _onChangeReferralSourceCategory = ->
     referralSources = $("#family_referral_source_id").data("sources")
@@ -53,12 +55,17 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
       allowClear: true
 
     $('select.required').on "change", (e) ->
+      $(@).trigger("validate")
+
+    $('select.required, input.required').on "validate", (e) ->
       $select = $(@)
+      $select.removeClass("error")
       $select.closest(".form-group").find(".select2-choice, .select2-choices").removeClass("error")
       $select.closest(".form-group").find("label.control-label").removeClass("error")
       $select.closest(".form-group").find("label.error").remove()
 
       if $select.val() == null || $select.val().length == 0
+        $select.addClass("error")
         $select.closest(".form-group").find(".select2-choice, .select2-choices").addClass("error")
         $select.closest(".form-group").find("label.control-label").addClass("error")
         $select.closest(".form-group").append("<label class='error'>This field is required.</label>")
@@ -75,11 +82,15 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
 
   _initDatePicker = ->
     $('.date-picker').datepicker
-      autoclose: true,
-      format: 'yyyy-mm-dd',
-      todayHighlight: true,
-      startDate: '1899,01,01',
+      autoclose: true
+      format: 'yyyy-mm-dd'
+      todayHighlight: true
+      startDate: '1899,01,01'
+      clearBtn: true
       disableTouchKeyboard: true
+
+    $('.date-picker').on "hide", (e) ->
+      $(e.currentTarget).trigger("validate")
 
   _ajaxChangeDistrict = ->
     mainAddress = $('#family_province_id, #family_district_id, #family_commune_id')
