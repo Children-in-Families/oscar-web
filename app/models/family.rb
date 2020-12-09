@@ -1,14 +1,19 @@
 class Family < ActiveRecord::Base
   include EntityTypeCustomField
+  include FamilyScope
   include Brc::Family
 
   TYPES = ['Birth Family (Both Parents)', 'Birth Family (Only Mother)',
     'Birth Family (Only Father)', 'Extended Family / Kinship Care',
     'Short Term / Emergency Foster Care', 'Long Term Foster Care',
     'Domestically Adopted', 'Child-Headed Household', 'No Family', 'Other']
-  STATUSES = ['Active', 'Inactive']
+  STATUSES = ['Active', 'Inactive', 'Referred']
+
+  ID_POOR = ['No', 'Level 1', 'Level 2'].freeze
 
   acts_as_paranoid
+
+  attr_accessor :community_ids
 
   delegate :name, to: :province, prefix: true, allow_nil: true
   delegate :name, to: :district, prefix: true, allow_nil: true
@@ -18,9 +23,21 @@ class Family < ActiveRecord::Base
   belongs_to :commune
   belongs_to :village
   belongs_to :user
+  belongs_to :referral_source
 
-  has_many :cases, dependent: :destroy
-  has_many :clients, through: :cases
+  belongs_to :received_by,      class_name: 'User',      foreign_key: 'received_by_id'
+  belongs_to :followed_up_by,   class_name: 'User',      foreign_key: 'followed_up_by_id'
+
+  has_many :cases
+  has_many :donor_families, dependent: :destroy
+  has_many :donors, through: :donor_families
+  has_many :case_worker_families, dependent: :destroy
+  has_many :case_workers, through: :case_worker_families, validate: false
+
+  has_many :family_quantitative_cases, dependent: :destroy
+  has_many :quantitative_cases, through: :family_quantitative_cases
+  has_many :viewable_quantitative_cases, -> { joins(:quantitative_type).where('quantitative_types.visible_on LIKE ?', "%family%") }, through: :family_quantitative_cases, source: :quantitative_case
+
   has_many :custom_field_properties, as: :custom_formable, dependent: :destroy
   has_many :custom_fields, through: :custom_field_properties, as: :custom_formable
   has_many :enrollments, as: :programmable, dependent: :destroy
@@ -32,37 +49,14 @@ class Family < ActiveRecord::Base
   has_paper_trail
 
   before_validation :assign_family_type, if: [:new_record?, :brc?]
+  before_validation :assign_status
 
   validates :family_type, presence: true, inclusion: { in: TYPES }
-  validates :code, uniqueness: { case_sensitive: false }, if: 'code.present?'
-  validates :status, presence: true, inclusion: { in: STATUSES }
-  validate :client_must_only_belong_to_a_family
+  validates :code, uniqueness: { case_sensitive: false }, if: :code?
+  validates :status, inclusion: { in: STATUSES }, allow_blank: true
+  validates :received_by_id, :initial_referral_date, :case_worker_ids, :referral_source_category_id, presence: true
 
   after_save :save_family_in_client
-
-  scope :address_like,               ->(value) { where('address iLIKE ?', "%#{value.squish}%") }
-  scope :caregiver_information_like, ->(value) { where('caregiver_information iLIKE ?', "%#{value.squish}%") }
-  scope :case_history_like,          ->(value) { where('case_history iLIKE ?', "%#{value.squish}%") }
-  scope :family_id_like,             ->(value) { where('code iLIKE ?', "%#{value.squish}%") }
-  scope :street_like,                ->(value) { where('street iLIKE ?', "%#{value.squish}%") }
-  scope :house_like,                 ->(value) { where('house iLIKE ?', "%#{value.squish}%") }
-  scope :emergency,                  ->        { where(family_type: 'Short Term / Emergency Foster Care') }
-  scope :foster,                     ->        { where(family_type: 'Long Term Foster Care') }
-  scope :kinship,                    ->        { where(family_type: 'Extended Family / Kinship Care') }
-  scope :birth_family_both_parents,  ->        { where(family_type: 'Birth Family (Both Parents)') }
-  scope :birth_family_only_father,   ->        { where(family_type: 'Birth Family (Only Father)') }
-  scope :birth_family_only_mother,   ->        { where(family_type: 'Birth Family (Only Mother)') }
-  scope :domestically_adopted,       ->        { where(family_type: 'Domestically Adopted') }
-  scope :child_headed_household,     ->        { where(family_type: 'Child-Headed Household') }
-  scope :no_family,                  ->        { where(family_type: 'No Family') }
-  scope :other,                      ->        { where(family_type: 'Other') }
-  scope :active,                     ->        { where(status: 'Active') }
-  scope :inactive,                   ->        { where(status: 'Inactive') }
-  scope :name_like,                  ->(value) { where('name iLIKE ?', "%#{value.squish}%") }
-  scope :province_are,               ->        { joins(:province).pluck('provinces.name', 'provinces.id').uniq }
-  scope :as_non_cases,               ->        { where.not(family_type: ['Short Term / Emergency Foster Care', 'Long Term Foster Care', 'Extended Family / Kinship Care']) }
-  scope :by_status,                  ->(value) { where(status: value) }
-  scope :by_family_type,             ->(value) { where(family_type: value) }
 
   def self.update_brc_aggregation_data
     Organization.switch_to 'brc'
@@ -71,6 +65,16 @@ class Family < ActiveRecord::Base
 
   def member_count
     brc? ? family_members.count : (male_adult_count.to_i + female_adult_count.to_i + male_children_count.to_i + female_children_count.to_i)
+  end
+
+  def monthly_average_income
+    countable_member = family_members.select(&:monthly_income?)
+
+    if countable_member.any?
+      countable_member.map(&:monthly_income).sum / countable_member.count
+    else
+      'N/A'
+    end
   end
 
   def emergency?
@@ -136,6 +140,10 @@ class Family < ActiveRecord::Base
   end
 
   private
+
+  def assign_status
+    self.status ||= 'Referred'
+  end
 
   def assign_family_type
     self.family_type = 'Other'
