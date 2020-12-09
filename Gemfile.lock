@@ -721,6 +721,8 @@ GEM
       faraday (> 0.8, < 2.0)
     select2-rails (3.5.9.3)
       thor (~> 0.14)
+    sentry-raven (2.13.0)
+      faraday (>= 0.7.6, < 1.0)
     sexp_processor (4.14.1)
     shoulda-matchers (3.1.1)
       activesupport (>= 4.0.0)
@@ -927,6 +929,7 @@ DEPENDENCIES
   s3
   sass-rails (~> 5.0)
   select2-rails (~> 3.5.9.3)
+  sentry-raven (~> 2.13)
   shoulda-matchers
   shoulda-whenever (~> 0.0.2)
   sidekiq (~> 4.1.0)

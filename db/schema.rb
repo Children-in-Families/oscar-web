@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20201203224858) do
+ActiveRecord::Schema.define(version: 20201204141537) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -845,6 +845,32 @@ ActiveRecord::Schema.define(version: 20201203224858) do
 
   add_index "donors", ["global_id"], name: "index_donors_on_global_id", using: :btree
 
+  create_table "enrollment_trackings", force: :cascade do |t|
+    t.integer  "enrollment_id"
+    t.integer  "tracking_id"
+    t.jsonb    "properties",    default: {}
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
+
+  add_index "enrollment_trackings", ["enrollment_id"], name: "index_enrollment_trackings_on_enrollment_id", using: :btree
+  add_index "enrollment_trackings", ["tracking_id"], name: "index_enrollment_trackings_on_tracking_id", using: :btree
+
+  create_table "enrollments", force: :cascade do |t|
+    t.jsonb    "properties",        default: {}
+    t.string   "status",            default: "Active"
+    t.date     "enrollment_date"
+    t.datetime "deleted_at"
+    t.string   "programmable_type"
+    t.integer  "programmable_id"
+    t.integer  "program_stream_id"
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
+  end
+
+  add_index "enrollments", ["deleted_at"], name: "index_enrollments_on_deleted_at", using: :btree
+  add_index "enrollments", ["program_stream_id"], name: "index_enrollments_on_program_stream_id", using: :btree
+
   create_table "enter_ngo_users", force: :cascade do |t|
     t.integer "user_id"
     t.integer "enter_ngo_id"
@@ -942,6 +968,7 @@ ActiveRecord::Schema.define(version: 20201203224858) do
     t.string   "id_poor"
     t.text     "relevant_information"
     t.string   "referee_phone_number"
+    t.string   "slug",                            default: ""
   end
 
   add_index "families", ["commune_id"], name: "index_families_on_commune_id", using: :btree
@@ -980,6 +1007,26 @@ ActiveRecord::Schema.define(version: 20201203224858) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "family_referrals", force: :cascade do |t|
+    t.string   "slug",             default: ""
+    t.date     "date_of_referral"
+    t.string   "referred_to",      default: ""
+    t.string   "referred_from",    default: ""
+    t.text     "referral_reason",  default: ""
+    t.string   "name_of_referee",  default: ""
+    t.string   "referral_phone",   default: ""
+    t.string   "name_of_family",   default: ""
+    t.string   "ngo_name",         default: ""
+    t.integer  "referee_id"
+    t.boolean  "saved",            default: false
+    t.string   "consent_form",     default: [],                 array: true
+    t.integer  "family_id"
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+  end
+
+  add_index "family_referrals", ["family_id"], name: "index_family_referrals_on_family_id", using: :btree
 
   create_table "field_setting_translations", force: :cascade do |t|
     t.integer  "field_setting_id", null: false
@@ -1284,10 +1331,12 @@ ActiveRecord::Schema.define(version: 20201203224858) do
     t.integer  "program_stream_id"
     t.date     "exit_date"
     t.datetime "deleted_at"
+    t.integer  "enrollment_id"
   end
 
   add_index "leave_programs", ["client_enrollment_id"], name: "index_leave_programs_on_client_enrollment_id", using: :btree
   add_index "leave_programs", ["deleted_at"], name: "index_leave_programs_on_deleted_at", using: :btree
+  add_index "leave_programs", ["enrollment_id"], name: "index_leave_programs_on_enrollment_id", using: :btree
 
   create_table "locations", force: :cascade do |t|
     t.string   "name",         default: ""
@@ -1469,6 +1518,7 @@ ActiveRecord::Schema.define(version: 20201203224858) do
     t.integer  "mutual_dependence", default: [],                 array: true
     t.boolean  "tracking_required", default: false
     t.datetime "archived_at"
+    t.string   "entity_type",       default: ""
   end
 
   add_index "program_streams", ["archived_at"], name: "index_program_streams_on_archived_at", using: :btree
@@ -1655,6 +1705,7 @@ ActiveRecord::Schema.define(version: 20201203224858) do
     t.string   "client_gender",             default: ""
     t.date     "client_date_of_birth"
     t.string   "village_code",              default: ""
+    t.string   "referee_email"
   end
 
   add_index "referrals", ["client_global_id"], name: "index_referrals_on_client_global_id", using: :btree
@@ -2237,6 +2288,9 @@ ActiveRecord::Schema.define(version: 20201203224858) do
   add_foreign_key "donor_families", "families"
   add_foreign_key "donor_organizations", "donors"
   add_foreign_key "donor_organizations", "organizations"
+  add_foreign_key "enrollment_trackings", "enrollments"
+  add_foreign_key "enrollment_trackings", "trackings"
+  add_foreign_key "enrollments", "program_streams"
   add_foreign_key "enter_ngo_users", "enter_ngos"
   add_foreign_key "enter_ngo_users", "users"
   add_foreign_key "enter_ngos", "clients"
@@ -2252,6 +2306,7 @@ ActiveRecord::Schema.define(version: 20201203224858) do
   add_foreign_key "family_members", "families"
   add_foreign_key "family_quantitative_cases", "families"
   add_foreign_key "family_quantitative_cases", "quantitative_cases"
+  add_foreign_key "family_referrals", "families"
   add_foreign_key "global_identity_organizations", "organizations"
   add_foreign_key "government_form_children_plans", "children_plans"
   add_foreign_key "government_form_children_plans", "government_forms"
@@ -2273,6 +2328,7 @@ ActiveRecord::Schema.define(version: 20201203224858) do
   add_foreign_key "hotlines", "calls"
   add_foreign_key "hotlines", "clients"
   add_foreign_key "leave_programs", "client_enrollments"
+  add_foreign_key "leave_programs", "enrollments"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
   add_foreign_key "partners", "organization_types"

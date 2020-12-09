@@ -245,7 +245,7 @@
                 - if policy(FamilyMember).show?(:gender)
                   %td
                     - if member.gender?
-                      = t("enumerize.defaults.gender.#{member.gender}")
+                      = t("enumerize.defaults.gender.#{member.gender&.gsub('other', 'other_gender')}")
                 - if policy(FamilyMember).show?(:occupation)
                   %td= member.occupation
                 - if policy(FamilyMember).show?(:relation)
