@@ -22,6 +22,7 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
   _initUploader = ->
     $('.file .optional').fileinput
       showUpload: false
+      showPreview: false
       removeClass: 'btn btn-danger btn-outline'
       browseLabel: 'Browse'
       theme: "explorer"
