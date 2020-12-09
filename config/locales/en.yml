@@ -3727,6 +3727,9 @@ en:
       province: Province
       significant_family_member_count: Significant Family Member Count
       status: Status
+      step_1_title: Basic Family Information
+      step_2_title: Family Member Information
+      step_3_title: Additional Information
       street: Street
       village: Village
       family_members:

@@ -107,9 +107,41 @@ km:
         name: ឈ្មោះអ្នកថែទាំ
         phone: លេខទូរស័ព្ទអ្នកថែទាំ
         carer_information: ព័ត៌មានអ្នកថែទាំ?
+      family:
+        id: Automatic ID
+        id_poor: Has ID Poor?
+        case_worker_ids: Case Worker/Staff Assigned
+        code: Manual ID
+        commune_id: Commune/Sangkat
+        community_ids: Community/Group
+        contract_date: Family Contract Date
+        custom_forms: Custom Forms
+        dependable_income: Dependable Income
+        district_id: District/Khan
+        donor_ids: Donor
+        family_type: Family Type
+        followed_up_by_id: First Follow Up By
+        follow_up_date: First Follow Up Date
+        house: House Number
+        id: ID
+        initial_referral_date: Date of Referral
+        name: Head Household Name (Khmer)
+        name_en: Head Household Name (Latin)
+        province_id: Province
+        received_by_id: Received by Staff Member
+        referee_phone_number: Referee Phone Number
+        street: Street Number
+        village_id: Village
+        'yes': 'Yes'
       family_member:
-        adult_name: Name of Adult Member
+        adult_name: Name
         gender: Gender
+        guardian: Guardian
+        date_of_birth: Date of Birth
+        is_client: Client?
+        monthly_income: Monthly Income (USD)
+        occupation: Occupation
+        relation: Role in Family
       referee:
         referee_address: ឣាសយដ្ឋាន
     default:
@@ -3682,9 +3714,14 @@ km:
       province: ខេត្ត
       significant_family_member_count: ចំនួនសមាជិកគ្រួសារដែលចូលរួមរកប្រាក់ចំណូល
       status: ស្ថានភាព
+      step_1_title: Basic Family Information
+      step_2_title: Family Member Information
+      step_3_title: Additional Information
       street: ផ្លូវ
       village: ភូមិ
-      'yes': បាទ/ចាស
+      family_members:
+        'no': ទេ
+        'yes': បាទ/ចាស
     index:
       add_new_family: បន្ថែមគ្រួសារថ្មី
       clients: អតិថិជន
@@ -3704,6 +3741,8 @@ km:
       case_history: ប្រវត្តិគ្រួសារ
       code: លេខសំគាល់គ្រួសារ
       contract_date: កាលបរិច្ឆេទនៃកិច្ចសន្យា
+      created_by: Created by
+      current_province: ខេត្ត
       date_of_birth: ថ្ងៃខែ​ឆ្នាំ​កំណើត
       dependable_income: ប្រាក់ចំណូលទៀងទាត់
       family_type: ប្រភេទគ្រួសារ
