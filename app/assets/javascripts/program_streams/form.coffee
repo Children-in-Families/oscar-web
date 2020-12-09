@@ -1,8 +1,10 @@
 CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = CIF.Program_streamsUpdate = do ->
   @programStreamId = $('#program_stream_id').val()
-  ENROLLMENT_URL   = "/api/program_streams/#{@programStreamId}/enrollment_fields"
+
+  ENTITY_TYPE      = $("#program_stream_entity_type").val()
+  ENROLLMENT_URL   = "/api/program_streams/#{@programStreamId}/enrollment_fields" + "?entity_type=#{ENTITY_TYPE}"
   EXIT_PROGRAM_URL = "/api/program_streams/#{@programStreamId}/exit_program_fields"
-  TRACKING_URL     = "/api/program_streams/#{@programStreamId}/tracking_fields"
+  TRACKING_URL     = "/api/program_streams/#{@programStreamId}/tracking_fields" + "?entity_type=#{ENTITY_TYPE}"
   TRACKING = ''
   DATA_TABLE_ID = ''
   @formBuilder = []
@@ -163,6 +165,16 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
   _handleSaveProgramStream = ->
     $('#btn-save-draft').on 'click', ->
+      # prevent saving if name or services is blank on first step
+      if $('#description').is(':visible')
+        form = $('#program-stream')
+        form.valid()
+        name = $('#program_stream_name').val() == ''
+        services = $('#type-of-service select').val() == null
+        serviceSelect2 = $('.program_stream_services')
+        _handleServiceValidation(services, serviceSelect2)
+        return false if name || services
+
       labelFields = $('[name="label"].fld-label')
       for labelField in labelFields
         labelField.textContent = labelField.textContent.replace(/;/g, '')
@@ -215,8 +227,9 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       ),100
 
   _handleInitProgramRules = ->
+    url = '/api/program_stream_add_rule/get_fields' + '?entity_type=' + ENTITY_TYPE
     $.ajax
-      url: '/api/program_stream_add_rule/get_fields'
+      url: url
       method: 'GET'
       success: (response) ->
         fieldList = response.program_stream_add_rule
@@ -510,7 +523,6 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       labelFields = $(tracking).find('label.field-label')
       # if fields[name].length <= labelFields.length
       #   $(tracking).find('.ibox-footer .remove_fields').remove()
-
       $(labelFields).each (index, label) ->
         text = label.textContent.allReplace(specialCharacters)
 
@@ -547,7 +559,8 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     trackings = $('#trackings .nested-fields')
     specialCharacters = { '&amp;': '&', '&lt;': '<', '&gt;': '>' }
     for tracking in trackings
-      trackingName = $(tracking).find('input.string.optional.readonly.form-control')
+      # trackingName = $(tracking).find('input.string.optional.readonly.form-control')
+      trackingName = $(tracking).find('input.string.optional.form-control')
       continue if $(trackingName).length == 0
       name = $(trackingName).val()
       labelFields = $(tracking).find('label.field-label')
@@ -610,28 +623,31 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         allCheckboxOption = $('#trackings .checkbox-group-field .sortable-options .ui-sortable-handle .option-label')
         trackingCheckbox = $('div[data-tracking_checkbox_option]').data('tracking_checkbox_option')
         jQuery.map(allCheckboxOption, (e) ->
-          trackingCheckbox.forEach (tracking_checkbox_value) ->
-            if tracking_checkbox_value == e.value
-              $(e).attr('disabled', 'true')
-              $(e).parent().children('a.remove.btn').remove()
+          if trackingCheckbox != ""
+            trackingCheckbox.forEach (tracking_checkbox_value) ->
+              if tracking_checkbox_value == e.value
+                $(e).attr('disabled', 'true')
+                $(e).parent().children('a.remove.btn').remove()
         )
     else if $(parent).attr('class').includes('radio-group-field')
         allRadioOption = $('#trackings .radio-group-field .sortable-options .ui-sortable-handle .option-label')
         trackingRadio = $('div[data-tracking_radio_option]').data('tracking_radio_option')
         jQuery.map(allRadioOption, (e) ->
-          trackingRadio.forEach (tracking_radio_value) ->
-            if tracking_radio_value == e.value
-              $(e).attr('disabled', 'true')
-              $(e).parent().children('a.remove.btn').remove()
+          if trackingRadio != ""
+            trackingRadio.forEach (tracking_radio_value) ->
+              if tracking_radio_value == e.value
+                $(e).attr('disabled', 'true')
+                $(e).parent().children('a.remove.btn').remove()
         )
     else if $(parent).attr('class').includes('select-field')
         allSelectOption = $('#trackings .select-field .sortable-options .ui-sortable-handle .option-label')
         trackingSelect = $('div[data-tracking-select-option]').data('tracking-select-option')
         jQuery.map(allSelectOption, (e) ->
-          trackingSelect.forEach (tracking_selected_value) ->
-            if tracking_selected_value == e.value
-              $(e).attr('disabled', 'true')
-              $(e).parent().children('a.remove.btn').remove()
+           if trackingSelect != ""
+            trackingSelect.forEach (tracking_selected_value) ->
+              if tracking_selected_value == e.value
+                $(e).attr('disabled', 'true')
+                $(e).parent().children('a.remove.btn').remove()
         )
 
   _removeActionFormBuilderExitProgram = (label) ->
@@ -879,4 +895,3 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           removeError($(this.parentElement))
 
   { init: _init }
-

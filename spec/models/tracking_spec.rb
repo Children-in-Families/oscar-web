@@ -6,6 +6,8 @@ describe Tracking do
     it { is_expected.to belong_to(:program_stream) }
     it { is_expected.to have_many(:client_enrollments).through(:client_enrollment_trackings) }
     it { is_expected.to have_many(:client_enrollment_trackings).dependent(:restrict_with_error) }
+    it { is_expected.to have_many(:enrollments).through(:enrollment_trackings) }
+    it { is_expected.to have_many(:enrollment_trackings).dependent(:restrict_with_error) }
   end
 
   describe Tracking, 'validations' do
@@ -43,16 +45,33 @@ describe Tracking do
     before do
       allow_any_instance_of(Client).to receive(:generate_random_char).and_return("abcd")
     end
+    let!(:family_program_stream){ create(:program_stream, :attached_with_family) }
+    let!(:family_tracking) { create(:tracking, program_stream: family_program_stream) }
+    let!(:enrollment) { create(:enrollment, program_stream: family_program_stream)}
+    let!(:enrollment_tracking) { create(:enrollment_tracking, tracking: family_tracking, enrollment: enrollment) }
     let!(:program_stream) { create(:program_stream) }
     let!(:program_stream_other) { create(:program_stream) }
     let!(:tracking) { create(:tracking, program_stream: program_stream) }
     let!(:tracking_other) { create(:tracking, program_stream: program_stream_other) }
     let!(:client_enrollment) { create(:client_enrollment, program_stream: program_stream)}
     let!(:client_enrollment_tracking) { create(:client_enrollment_tracking, tracking: tracking, client_enrollment: client_enrollment) }
+    field = [{"name"=>"email", "type"=>"text", "label"=>"email", "subtype"=>"email", "required"=>true, "className"=>"form-control"}, {"max"=>"5", "min"=>"1", "name"=>"age", "type"=>"number", "label"=>"age", "required"=>true, "className"=>"form-control"}, {"name"=>"description", "type"=>"text", "label"=>"description", "subtype"=>"text", "required"=>true, "className"=>"form-control"}]
 
     it 'is_used?' do
       expect(tracking.is_used?).to be_truthy
       expect(tracking_other.is_used?).to be_falsey
+    end
+
+    context 'modify field label from e-mail to email' do
+      it 'auto_update_trackings of client' do
+        tracking.update(fields: field)
+        expect(client_enrollment_tracking.reload.properties).to eq({"email"=>"test@example.com", "age"=>"3", "description"=>"this is testing"})
+      end
+
+      it 'auto_update_trackings of programmable' do
+        family_tracking.update(fields: field)
+        expect(enrollment_tracking.reload.properties).to eq({"email"=>"test@example.com", "age"=>"3", "description"=>"this is testing"})
+      end
     end
   end
 

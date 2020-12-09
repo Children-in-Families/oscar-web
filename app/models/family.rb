@@ -23,6 +23,8 @@ class Family < ActiveRecord::Base
   has_many :clients, through: :cases
   has_many :custom_field_properties, as: :custom_formable, dependent: :destroy
   has_many :custom_fields, through: :custom_field_properties, as: :custom_formable
+  has_many :enrollments, as: :programmable, dependent: :destroy
+  has_many :program_streams, through: :enrollments, as: :programmable
   has_many :family_members, dependent: :destroy
 
   accepts_nested_attributes_for :family_members, reject_if: :all_blank, allow_destroy: true
@@ -85,6 +87,10 @@ class Family < ActiveRecord::Base
 
   def birth_family_both_parents?
     family_type == 'Birth Family (Both Parents)'
+  end
+
+  def exit_ngo?
+    status == 'Exited'
   end
 
   def inactive?

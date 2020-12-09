@@ -1,0 +1,45 @@
+.row
+  .col-xs-12
+    .ibox
+      .ibox-title
+        %h5= "#{@programmable.name} - #{@tracking.name} - #{@program_stream.name}"
+        .ibox-tools
+          - unless @enrollment.program_stream.tracking_required?
+            - if can? :manage, EnrollmentTracking
+              = enrolled_tracking_new_link(@tracking.id)
+          - if params[:family_id]
+            = link_to family_enrolled_program_enrolled_program_trackings_path(@programmable, @enrollment, tracking_id: @tracking.id) do
+              .btn.btn-success.btn-outline= t('.back')
+      .ibox-content
+        - @enrollment_trackings.each_slice(2) do |n_enrollment_trackings|
+          .row
+            - n_enrollment_trackings.each do |enrollment_tracking|
+              .col-xs-12.col-md-6
+                .ibox.border-left-right.border-bottom
+                  .ibox-title
+                    %h5= t('.created_at')
+                    %span.label.label-primary
+                      = date_format(enrollment_tracking.created_at)
+                    .ibox-tools
+                      - if can? :manage, EnrollmentTracking
+                        = enrolled_tracking_edit_link(enrollment_tracking)
+                        = enrollment_tracking_destroy_link(enrollment_tracking)
+                  .ibox-content
+                    .table-responsive
+                      %table.table.table-bordered
+                        - tracking_report(enrollment_tracking).map{|field| [field['type'], field['label']]}.each do |type, key|
+                          - unless type == 'separateLine'
+                            - if type == 'paragraph'
+                              %tr
+                                %td.align-justify{colspan: '2'}
+                                  = key.html_safe
+                            - else
+                              %tr
+                                %td.align-justify
+                                  = key.html_safe
+                                %td.align-justify
+                                  - key = convert_bracket(key)
+                                  - if type == 'file'
+                                    = render 'shared/form_builder/list_attachment', label: key, resource: enrollment_tracking
+                                  - else
+                                    = display_custom_properties(enrollment_tracking.properties[key])

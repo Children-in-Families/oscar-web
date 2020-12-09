@@ -1,8 +1,8 @@
 
-= link_to program_stream_path(program_stream), class: 'btn btn-outline btn-info btn-xs' do
+= link_to program_stream_path(program_stream, entity_type: program_stream.entity_type), class: 'btn btn-outline btn-info btn-xs' do
   = fa_icon('eye')
 - if can? :update, ProgramStream
-  = link_to edit_program_stream_path(program_stream), class: 'btn btn-outline btn-success btn-xs' do
+  = link_to edit_program_stream_path(program_stream, entity_type: program_stream.entity_type), class: 'btn btn-outline btn-success btn-xs' do
     = fa_icon('pencil')
 
 - if can? :delete, ProgramStream

@@ -980,7 +980,7 @@ module ClientsHelper
     label = case value.class.table_name
             when 'enter_ngos' then t('.accepted_date')
             when 'exit_ngos' then t('.exit_date')
-            when 'client_enrollments' then "#{value.program_stream.try(:name)} Entry"
+            when 'client_enrollments', 'enrollments' then "#{value.program_stream.try(:name)} Entry"
             when 'leave_programs' then "#{value.program_stream.name} Exit"
             when 'clients' then t('.initial_referral_date')
             when 'referrals'
