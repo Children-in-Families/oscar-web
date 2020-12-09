@@ -210,15 +210,16 @@
                   %strong.label.label-default.donor
                     = donor.name
 
-          - @family.quantitative_cases.group_by(&:quantitative_type).each do |qtypes|
-            - next unless quantitative_type_readable?(qtypes.first.id)
-            %tr
-              %td.align-justify.spacing-first-col
-                = qtypes.first.name
-              %td.align-justify
-                - qtypes.last.each do |qcase|
-                  %strong.label.label-default
-                    = qcase.value
+          - if show_family_CRD?
+            - @family.viewable_quantitative_cases.group_by(&:quantitative_type).each do |qtypes|
+              - next unless quantitative_type_readable?(qtypes.first.id)
+              %tr
+                %td.align-justify.spacing-first-col
+                  = qtypes.first.name
+                %td.align-justify
+                  - qtypes.last.each do |qcase|
+                    %strong.label.label-default
+                      = qcase.value
 
     - if @family.family_members.present?
       .row.family-summary

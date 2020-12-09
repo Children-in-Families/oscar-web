@@ -13,6 +13,10 @@ module ApplicationHelper
     end
   end
 
+  def show_family_CRD?
+    @show_family_CRD ||= QuantitativeType.where('visible_on LIKE ?', "%family%").any?
+  end
+
   def notification_client_exit(day)
     if day == 90
       t('.client_is_end_ec_today', count: @notification.ec_notification(day).count)

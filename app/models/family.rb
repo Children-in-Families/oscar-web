@@ -36,6 +36,7 @@ class Family < ActiveRecord::Base
 
   has_many :family_quantitative_cases, dependent: :destroy
   has_many :quantitative_cases, through: :family_quantitative_cases
+  has_many :viewable_quantitative_cases, -> { joins(:quantitative_type).where('quantitative_types.visible_on LIKE ?', "%family%") }, through: :family_quantitative_cases, source: :quantitative_case
 
   has_many :custom_field_properties, as: :custom_formable, dependent: :destroy
   has_many :custom_fields, through: :custom_field_properties, as: :custom_formable
