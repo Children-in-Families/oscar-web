@@ -21,30 +21,24 @@ class UserNotification
     client_ids = []
     custom_client_ids = []
     clients = @user.clients.joins(:assessments).active_accepted_status
-    if @user.deactivated_at.present? && clients.present?
-      clients = clients.where('clients.created_at > ?', @user.activated_at)
-    end
+    clients = clients.where('clients.created_at > ?', @user.activated_at) if @user.deactivated_at.present? && clients.present?
+
     clients.each do |client|
       if Setting.first.enable_default_assessment && client.eligible_default_csi? && client.assessments.defaults.any?
         if client_ids.exclude?(client.id)
           repeat_notifications = client.assessment_notification_dates(Setting.first)
-          if(repeat_notifications.include?(Date.today))
-            client_ids << client.id
-          end
+          client_ids << client.id if repeat_notifications.include?(Date.today)
         end
       end
 
-      if CustomAssessmentSetting.any_custom_assessment_enable?
-        CustomAssessmentSetting.all.each do |custom_assessment|
-          if client.eligible_custom_csi?(custom_assessment) && client.assessments.customs.any?
-            if custom_client_ids.exclude?(client.id)
-              repeat_notifications = client.assessment_notification_dates(custom_assessment)
-              if(repeat_notifications.include?(Date.today))
-                custom_client_ids << client.id
-              end
-            end
-          end
-        end
+      next if CustomAssessmentSetting.any_custom_assessment_enable?
+
+      CustomAssessmentSetting.all.each do |custom_assessment|
+        next if client.eligible_custom_csi?(custom_assessment) && client.assessments.customs.any?
+        next if custom_client_ids.exclude?(client.id)
+
+        repeat_notifications = client.assessment_notification_dates(custom_assessment)
+        repeat_notifications.include?(Date.today) && custom_client_ids << client.id
       end
     end
     default_clients = clients.where(id: client_ids).uniq
@@ -89,16 +83,16 @@ class UserNotification
     program_streams_by_user.each do |program_stream|
       rules = program_stream.rules
       client_ids = program_stream.client_enrollments.active.pluck(:client_id).uniq
-      client_ids = client_ids & @clients.ids
+      client_ids &= @clients.ids
       clients = Client.active_accepted_status.where(id: client_ids)
 
-      clients_after_filter = AdvancedSearches::ClientAdvancedSearch.new(rules, clients).filter
+      clients_after_filter = rules['rules'].present? ? AdvancedSearches::ClientAdvancedSearch.new(rules, clients).filter : []
 
       if clients_after_filter.any?
         clients_change = clients.where.not(id: clients_after_filter.ids).ids
         client_wrong_program_rules << [program_stream, clients_change] if clients_change.any?
-      else
-        client_wrong_program_rules << [program_stream, clients.ids] if clients.any?
+      elsif clients.any?
+        client_wrong_program_rules << [program_stream, clients.ids]
       end
     end
     client_wrong_program_rules
