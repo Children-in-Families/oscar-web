@@ -51,12 +51,12 @@
           %td
             = "#{t('.created_by')} :"
             %strong= @family.user&.name
-  .col-md-3
 
-  .col-sm-12
-    .panel.panel-default.case-management-tool-set
-      .panel-body.text-center{ style: 'min-height: 50px; background-color: yellow;' }
-        %h3 Case Management Tool Set
+  - unless current_setting.hide_family_case_management_tool?
+    .col-sm-12
+      .panel.panel-default.case-management-tool-set
+        .panel-body.text-center{ style: 'min-height: 50px; background-color: yellow;' }
+          %h3 Case Management Tool Set
 
 - if @family.enrollments.active.count > 0
   = link_to family_enrolled_programs_path(@family), data: { toggle: "popover", html: 'true', trigger: 'hover', content: "#{I18n.t('inline_help.families.show.active_program')}", placement: "auto" } do
@@ -154,70 +154,71 @@
                 %strong
                   = family_type_translation(@family.family_type)
 
-          %tr
-            %td.spacing-first-col
-              = t('.referral_source_category')
-            %td
-              %strong
-                = referral_source_category(@family.referral_source_category_id)
-          %tr
-            %td.spacing-first-col
-              = t('.referral_source')
-            %td
-              %strong
-                = @family.referral_source&.name
-          %tr
-            %td.spacing-first-col
-              = t('.received_by')
-            %td
-              %strong
-                = @family.received_by&.name
-                = user @family.received_by, true
+          - unless current_setting.hide_family_case_management_tool?
+            %tr
+              %td.spacing-first-col
+                = t('.referral_source_category')
+              %td
+                %strong
+                  = referral_source_category(@family.referral_source_category_id)
+            %tr
+              %td.spacing-first-col
+                = t('.referral_source')
+              %td
+                %strong
+                  = @family.referral_source&.name
+            %tr
+              %td.spacing-first-col
+                = t('.received_by')
+              %td
+                %strong
+                  = @family.received_by&.name
+                  = user @family.received_by, true
 
-          %tr
-            %td.spacing-first-col
-              = t('.followed_up_by')
-            %td
-              %strong
-                = @family.followed_up_by&.name
-                = user @family.followed_up_by, true
+            %tr
+              %td.spacing-first-col
+                = t('.followed_up_by')
+              %td
+                %strong
+                  = @family.followed_up_by&.name
+                  = user @family.followed_up_by, true
 
-          %tr
-            %td.spacing-first-col
-              = t('.case_worker_or_staff')
-            %td
-              %strong
-                - @family.case_workers.distinct.sort.each do |case_worker|
-                  %strong.label.label-default
-                    = user case_worker
-          %tr
-            %td.spacing-first-col
-              = t('.initial_referral_date')
-            %td
-              %strong
-                = date_format(@family.initial_referral_date)
-          %tr
-            %td.spacing-first-col
-              = t('.follow_up_date')
-            %td
-              %strong
-                = date_format(@family.follow_up_date)
+            %tr
+              %td.spacing-first-col
+                = t('.case_worker_or_staff')
+              %td
+                %strong
+                  - @family.case_workers.distinct.sort.each do |case_worker|
+                    %strong.label.label-default
+                      = user case_worker
+            %tr
+              %td.spacing-first-col
+                = t('.initial_referral_date')
+              %td
+                %strong
+                  = date_format(@family.initial_referral_date)
+            %tr
+              %td.spacing-first-col
+                = t('.follow_up_date')
+              %td
+                %strong
+                  = date_format(@family.follow_up_date)
 
-          %tr
-            %td.spacing-first-col
-              = t('.referee_phone_number')
-            %td
-              %strong
-                = @family.referee_phone_number
+            %tr
+              %td.spacing-first-col
+                = t('.referee_phone_number')
+              %td
+                %strong
+                  = @family.referee_phone_number
 
-          %tr
-            %td.spacing-first-col
-              = t('.donor')
-            %td
-              %strong
-                - @family.donors.distinct.each do|donor|
-                  %strong.label.label-default.donor
-                    = donor.name
+            %tr
+              %td.spacing-first-col
+                = t('.donor')
+              %td
+                %strong
+                  - @family.donors.distinct.each do|donor|
+                    %strong.label.label-default.donor
+                      = donor.name
           - if @family.documents.any?
             - @family.documents.each_with_index do |attachment, index|
               %tr

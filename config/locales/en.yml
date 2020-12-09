@@ -5333,6 +5333,8 @@ en:
       default_columns: Default Columns
       family_default_columns: Family
       partner_default_columns: Partner
+    family_case_management:
+      hide_family_case_management_tool: Hide Administrative Information and Case Management tools
     index:
       csi_tools: Assessment Tools
       custom_assessment: Custom Assessment Tool
