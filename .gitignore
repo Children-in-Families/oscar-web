@@ -43,3 +43,6 @@ yarn-debug.log*
 ~$*
 TODO.md
 NOTES.md
+REVISION
+GIT_REVISION
+sorbet

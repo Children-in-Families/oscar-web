@@ -123,3 +123,5 @@ group :test do
   gem 'rspec-activemodel-mocks', '~> 1.1'
   gem 'timecop',              '~> 0.8.1'
 end
+
+gem "sentry-raven", "~> 2.13"

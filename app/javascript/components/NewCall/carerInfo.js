@@ -23,6 +23,9 @@ export default props => {
       const dataState = { districts: setDistricts, communes: setCommunes, villages: setVillages }
       dataState[child](res.data)
     })
+    .error((res) => {
+      onerror(res.responseText)
+    })
   }
 
   const onCheckSameAsClient = data => {
