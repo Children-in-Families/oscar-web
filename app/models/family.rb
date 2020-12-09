@@ -13,6 +13,7 @@ class Family < ActiveRecord::Base
 
   acts_as_paranoid
 
+  mount_uploaders :documents, FileUploader
   attr_accessor :community_ids
 
   delegate :name, to: :province, prefix: true, allow_nil: true
