@@ -1,5 +1,23 @@
 .row.gray-bg
   .col-xs-12.family
+    - if !@family.referred?
+      .btn-group.small-btn-margin
+        %button.btn-sm.btn.btn-warning.dropdown-toggle.btn-fit.exit-ngo-for-family{ data: { toggle: "dropdown", trigger: 'hover', content: "#{I18n.t('inline_help.families.show.exit_ngo')}", placement: "auto" }, id: 'add-family-to-case', class: ('disabled' if @family.exit_ngo?) }
+          = t('.exit_ngo_btn')
+          %span.caret
+        %ul.dropdown-menu.btn-fit
+          %li
+            - if @family.enrollments.active.count > 0
+              %a{"data-target" => '#remaining-programs-modal', "data-toggle" => 'modal'}
+                .text-warning= t('.exit_ngo_btn')
+            - else
+              %a{"data-target" => '#exitFromNgo', "data-toggle" => 'modal'}
+                .text-warning= t('.exit_ngo_btn')
+      - if @family.enrollments.active.count > 0
+        = render 'remaining_programs', family: @family
+      - else
+        = render 'family/exit_ngos/form', family: @family
+
     - if @family.referred?
       %button.btn.btn-success.agree-btn{ data: { class_name: 'accept-family', disable_with: t('.accepting'), 'target' => "#accept-family", 'toggle' => 'modal', trigger: "hover", content: "#{Organization.ratanak? ? I18n.t('inline_help.families.show.ratanak.accepted') : I18n.t('inline_help.families.show.accepted')}", placement: "auto" } }= t('.accept')
       = render 'families/accept_family'

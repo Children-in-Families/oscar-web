@@ -3869,6 +3869,9 @@ en:
       results: Results
     new:
       new_family_title: New Family
+    remaining_programs:
+      close: Close
+      warning: Warning
     show:
       accept: Accept
       add_form: Add Form
@@ -3886,6 +3889,7 @@ en:
       date_of_birth: Date of Birth
       dependable_income: Dependable Income
       enrolled_program_streams: Family's Active Program Streams
+      exit_ngo_btn: Exit Family From NGO
       family_type: Family Type
       female_adult_count: Number of Adule Females
       female_children_count: Number of Girls
@@ -3953,45 +3957,45 @@ en:
         # Todo
         exit_reason_options:
           agency_lack_resource: Agency lacks sufficient resources
-          client_died: Client died
-          client_does_not_meet_service_criteria: Client does not meet / no longer meets service criteria
-          client_does_not_required_support: Client does not require / no longer requires support
-          client_move_out_international: Client is/moved outside NGO target area (International)
-          client_move_out_within_cambodia: Client is/moved outside NGO target area (within Cambodia)
-          client_refuse_service: Client refused service
+          family_died: Family died
+          family_does_not_meet_service_criteria: Family does not meet / no longer meets service criteria
+          family_does_not_required_support: Family does not require / no longer requires support
+          family_move_out_international: Family is/moved outside NGO target area (International)
+          family_move_out_within_cambodia: Family is/moved outside NGO target area (within Cambodia)
+          family_refuse_service: Family refused service
           other_reason: Other
         exit_reasons: Reason for Exit / Case Rejection
         exit_status: Status
         exiting: Exiting...
         other_info_of_exit: Other - More Information
-        reject_client: Reject Client
+        reject_family: Reject Family
         rejected_note: Rejected Note
       form:
         case_worker_or_staff: Case Worker / Staff
         exit_btn: Exit
         exit_circumstance: Exit Circumstance
         exit_date: Exit Date
-        exit_ngo: Exit Client from NGO
+        exit_ngo: Exit Family from NGO
         exit_note: Exit Note
         exit_reason_options:
           agency_lack_resource: Agency lacks sufficient resources
-          client_died: Client died
-          client_does_not_meet_service_criteria: Client does not meet / no longer meets service criteria
-          client_does_not_required_support: Client does not require / no longer requires support
-          client_move_out_international: Client is/moved outside NGO target area (International)
-          client_move_out_within_cambodia: Client is/moved outside NGO target area (within Cambodia)
-          client_refuse_service: Client refused service
+          family_died: Family died
+          family_does_not_meet_service_criteria: Family does not meet / no longer meets service criteria
+          family_does_not_required_support: Family does not require / no longer requires support
+          family_move_out_international: Family is/moved outside NGO target area (International)
+          family_move_out_within_cambodia: Family is/moved outside NGO target area (within Cambodia)
+          family_refuse_service: Family refused service
           other_reason: Other
         exit_reasons: Reason for Exit / Case Rejection
         exit_status: Status
         exiting: Exiting...
         other_info_of_exit: Other - More Information
         other_option:
-        reject_client: Reject Client
+        reject_family: Reject Family
         rejected_note: Rejected Note
       update:
-        failed_update: Failed to update the client.
-        successfully_updated: Client has been successfully updated.
+        failed_update: Failed to update the family.
+        successfully_updated: Family has been successfully updated.
   faq: FAQ
   field_label_cannot_be_blank: field label can't be blank
   form_builder:
