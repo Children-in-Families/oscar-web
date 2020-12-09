@@ -52,8 +52,9 @@ class Family < ActiveRecord::Base
 
   validates :family_type, presence: true, inclusion: { in: TYPES }
   validates :code, uniqueness: { case_sensitive: false }, if: :code?
-  validates :status, inclusion: { in: STATUSES }, allow_blank: true
+  validates :status, inclusion: { in: STATUSES }
   validates :received_by_id, :initial_referral_date, :case_worker_ids, :referral_source_category_id, presence: true, if: :case_management_record?
+  validate :client_must_only_belong_to_a_family
 
   after_save :save_family_in_client
 
