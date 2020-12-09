@@ -1,4 +1,4 @@
-= simple_form_for @family, html: { id: 'family-form' } do |f|
+= simple_form_for @family, html: { id: 'family-form', data: { cancel_url: @family.persisted? ? family_path(@family) : families_path } } do |f|
   .ibox-content
     = error_notification(f)
     #family-wizard-form{ class: "wiz-#{ @quantitative_types.any? ? 3 : 2 }-steps" }

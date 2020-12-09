@@ -27,12 +27,17 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
       transitionEffect: 'slideLeft'
       autoFocus: true
       titleTemplate: '#title#'
+      enableCancelButton: true
       labels:
         finish: 'Save'
       onStepChanging: (event, currentIndex, newIndex) ->
         (currentIndex > newIndex) || _validateForm()
       onFinishing: (event, currentIndex) ->
         $("#family-form").submit()
+      onCanceled: ->
+        result = confirm('Are you sure?')
+        if result
+          window.location = $("#family-form").data("cancelUrl")
 
   _onChangeReferralSourceCategory = ->
     referralSources = $("#family_referral_source_id").data("sources")

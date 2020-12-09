@@ -45,6 +45,13 @@ body[id='families-update'] {
       width: 100%;
     }
 
+    .actions {
+      li:last-child {
+        position: absolute;
+        left: 0;
+      }
+    }
+
     a[href='#finish'] {
       background-color: #1AB394;
     }
