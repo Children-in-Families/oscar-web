@@ -45,14 +45,18 @@ body[id='families-update'] {
       width: 100%;
     }
 
+    a[href='#finish'] {
+      background-color: #1AB394;
+    }
+
     &.wiz-2-steps {
-      ul li {
+      ul[role='tablist'] li {
         width: 50%;
       }
     }
 
     &.wiz-3-steps {
-      ul li {
+      ul[role='tablist'] li {
         width: 33.3%;
       }
     }

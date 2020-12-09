@@ -15,10 +15,8 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
     for select in $("select.required")
       $(select).trigger("change")
       if $(select).closest(".form-group").find(".select2-choice").hasClass("error")
-        console.log select
         valid = false
 
-    console.log valid
     valid
 
   _initWizardForm = ->
@@ -30,7 +28,7 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
       autoFocus: true
       titleTemplate: '#title#'
       labels:
-        finish: 'Done'
+        finish: 'Save'
       onStepChanging: (event, currentIndex, newIndex) ->
         (currentIndex > newIndex) || _validateForm()
 
