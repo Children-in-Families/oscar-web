@@ -14,7 +14,7 @@ class Family < ActiveRecord::Base
   acts_as_paranoid
 
   mount_uploaders :documents, FileUploader
-  attr_accessor :community_ids
+  attr_accessor :community_ids, :case_management_record
 
   delegate :name, to: :province, prefix: true, allow_nil: true
   delegate :name, to: :district, prefix: true, allow_nil: true
@@ -51,12 +51,12 @@ class Family < ActiveRecord::Base
   has_paper_trail
 
   before_validation :assign_family_type, if: [:new_record?, :brc?]
-  before_validation :assign_status
+  before_validation :assign_status, unless: :status?
 
   validates :family_type, presence: true, inclusion: { in: TYPES }
   validates :code, uniqueness: { case_sensitive: false }, if: :code?
   validates :status, inclusion: { in: STATUSES }, allow_blank: true
-  validates :received_by_id, :initial_referral_date, :case_worker_ids, :referral_source_category_id, presence: true
+  validates :received_by_id, :initial_referral_date, :case_worker_ids, :referral_source_category_id, presence: true, if: :case_management_record?
 
   after_create :assign_slug
   after_save :save_family_in_client, :mark_referral_as_saved
@@ -142,10 +142,14 @@ class Family < ActiveRecord::Base
     end
   end
 
+  def case_management_record?
+    @case_management_record == true
+  end
+
   private
 
   def assign_status
-    self.status ||= 'Referred'
+    self.status = (case_management_record? ? 'Referred' : 'Active')
   end
 
   def assign_family_type

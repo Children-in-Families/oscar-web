@@ -48,6 +48,7 @@ class FamiliesController < AdminController
   def create
     @family = Family.new(family_params)
     @family.user_id = current_user.id
+    @family.case_management_record = !current_setting.hide_family_case_management_tool?
 
     if @family.save
       redirect_to @family, notice: t('.successfully_created')
@@ -73,6 +74,7 @@ class FamiliesController < AdminController
   end
 
   def update
+    @family.case_management_record = !current_setting.hide_family_case_management_tool?
     if @family.update_attributes(family_params)
       redirect_to @family, notice: t('.successfully_updated')
     else
