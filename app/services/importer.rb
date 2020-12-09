@@ -79,7 +79,8 @@ module Importer
         name = workbook.row(row)[headers['Name']]
 
         QuantitativeType.create(
-          name: name
+          name: name,
+          visible_on: ['client']
         )
       end
     end
@@ -123,8 +124,11 @@ module Importer
           attributes['name'] = "#{values[2].squish} / #{values[3].squish}".squish
           attributes['code'] = values[1].squish
           attributes['province_id'] = province_id
+
+          pp attributes
           district = District.find_or_create_by(attributes)
           district_id = district&.id
+          pp district_id
         elsif row_type.strip == "ឃុំ" || row_type.strip == "សង្កាត់"
           data = values[1..3].map(&:squish)
           data << district_id

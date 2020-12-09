@@ -142,12 +142,12 @@ module FamiliesHelper
   end
 
   def drop_down_relation
-    if params[:locale] == 'en'
-      FamilyMember::EN_RELATIONS
-    elsif params[:locale] == 'km'
+    if params[:locale] == 'km'
       FamilyMember::KM_RELATIONS
     elsif params[:locale] == 'my'
       FamilyMember::MY_RELATIONS
+    else
+      FamilyMember::EN_RELATIONS
     end
   end
 

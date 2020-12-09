@@ -170,6 +170,10 @@ If you experience with bugs or need further improvement, please create a new iss
 
 Pull requests are very welcome. Before submitting a pull request, please make sure that your changes are well tested. Pull requests without tests will not be accepted.
 
+#### Not sure what to work on?
+
+Perhaps pick one of the [existing issues](https://github.com/DevZep/oscar-web/issues) or submit an issue and then work on that. Alternatively, please feel free to reach out to one of the supporting authors either at DevZep or CIF as indicated below.
+
 ### Authors
 
 OSCaR is developed in partnership by [DevZep Consulting (Cambodia)](http://www.devzep.com) and [CIF](http://www.childreninfamilies.org)
