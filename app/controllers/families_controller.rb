@@ -42,7 +42,7 @@ class FamiliesController < AdminController
     @family = Family.new(family_params)
     @family.user_id = current_user.id
 
-    if @family.save!
+    if @family.save
       redirect_to @family, notice: t('.successfully_created')
     else
       @selected_children = family_params[:children]

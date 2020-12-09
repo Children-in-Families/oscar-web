@@ -55,6 +55,29 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
       checkboxClass: 'icheckbox_square-green'
       radioClass: 'iradio_square-green'
 
+    $('.i-checks.is-client').on "ifChecked", _onMarkAsClient
+    $('.i-checks.is-client').on "ifUnchecked", _onUnmarkAsClient
+
+    $('.i-checks.is-client').iCheck('toggle')
+    $('.i-checks.is-client').iCheck('toggle')
+
+  _onUnmarkAsClient = ->
+    familyRow = $(@).closest(".nested-fields")
+    familyRow.find('[name$="[client_id]"]').addClass("hidden")
+    familyRow.find('[name$="[client_id]"]').val(null)
+    familyRow.find('[name$="[adult_name]"]').removeClass("hidden")
+    familyRow.find('[name$="[adult_name]"]').attr("disabled", false)
+    familyRow.find('[name$="[gender]"]').attr("disabled", false)
+    familyRow.find('[name$="[date_of_birth]"]').attr("disabled", false)
+
+  _onMarkAsClient = ->
+    familyRow = $(@).closest(".nested-fields")
+    familyRow.find('[name$="[client_id]"]').removeClass("hidden")
+    familyRow.find('[name$="[adult_name]"]').addClass("hidden")
+    familyRow.find('[name$="[adult_name]"]').attr("disabled", true)
+    familyRow.find('[name$="[gender]"]').attr("disabled", true)
+    familyRow.find('[name$="[date_of_birth]"]').attr("disabled", true)
+
   _initSelect2 = ->
     $('select').select2
       allowClear: true
@@ -74,6 +97,7 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
         $select.closest(".form-group").find(".select2-choice, .select2-choices").addClass("error")
         $select.closest(".form-group").find("label.control-label").addClass("error")
         $select.closest(".form-group").append("<label class='error'>This field is required.</label>")
+
 
   _clearSelectedOption = ->
     formAction = $('body').attr('id')

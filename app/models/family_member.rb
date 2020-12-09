@@ -12,12 +12,23 @@ class FamilyMember < ActiveRecord::Base
   enumerize :gender, in: ['female', 'male', 'lgbt', 'unknown', 'prefer_not_to_say', 'other'], scope: true, predicates: { prefix: true }
 
   after_commit :save_aggregation_data, on: [:create, :update], if: :brc?
+  after_commit :save_client_data
 
   def is_client
     client_id?
   end
 
   private
+
+  def save_client_data
+    if client.present?
+      update_columns(
+        adult_name: client.name,
+        gender: client.gender,
+        date_of_birth: client.date_of_birth
+      )
+    end
+  end
 
   def save_aggregation_data
     family&.save_aggregation_data
