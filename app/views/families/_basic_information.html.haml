@@ -74,3 +74,10 @@
             = f.input :community_ids, collection: []
         .col-sm-9
           = f.input :relevant_information, input_html: { rows: 4 }
+        .col-sm-12
+          = f.label :documents
+          = f.input :documents, label: false, as: :file, input_html: { multiple: true }
+          %p
+            %i.small="#{t('assessments.attachment_fields.allow_file_size')} (.jpg, .jpeg, .png, .doc, .docx, .xls, .xlsx, .pdf)"
+          %p
+            %i.small= t('assessments.attachment_fields.max_file_size')

@@ -210,6 +210,15 @@
                   - @family.donors.distinct.each do|donor|
                     %strong.label.label-default.donor
                       = donor.name
+          - if @family.documents.any?
+            - @family.documents.each_with_index do |attachment, index|
+              %tr
+                %td.spacing-first-col
+                  - if index == 0
+                    = Family.human_attribute_name(:documents)
+                %td
+                  = original_filename(attachment)
+                  = link_to preview_or_download(attachment), attachment.url, class: 'btn btn-info btn-sm btn-download', target: target_blank(attachment)
 
           - if show_family_CRD?
             - @family.viewable_quantitative_cases.group_by(&:quantitative_type).each do |qtypes|
