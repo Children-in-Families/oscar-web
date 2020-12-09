@@ -38,7 +38,7 @@
                   = t('.exit_reasons')
                 %a{:role => "button", :tabIndex => "0",  data:{ toggle: "popover", html: 'true', trigger: "focus", content: "#{I18n.t('inline_help.exit_form.reason')}", placement: "auto" } }
                   = fa_icon "info-circle", class: 'text-info m-xs'
-                = f.input :exit_reasons, as: :check_boxes, collection: [ExitNgo::EXIT_REASONS.sort, t('.exit_reason_options').values].transpose, label_method: :second, value_method: :first, label: false
+                = f.input :exit_reasons, as: :check_boxes, collection: [ExitNgo::FAMILY_EXIT_REASONS.sort, t('.exit_reason_options').values].transpose, label_method: :second, value_method: :first, label: false
               .form-inputs
                 = f.input :other_info_of_exit, label: t('.other_info_of_exit')
 

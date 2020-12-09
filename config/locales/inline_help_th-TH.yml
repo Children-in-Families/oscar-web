@@ -136,6 +136,7 @@ th-TH:
       name: Could be anyone who is caring for the client including caregiver, family members, relatives or organization staff.
       show:
         accepted: Accept indicates your organization will work with the client. The next step is to perform client assessment and enroll in the program stream(s).
+        exit_ngo: This will close the case. That indicates, the organization will not spend more resources on this family. However, the record will remain in the OSCaR system.
         active_program: View/Edit/Delete the enrollment information, add new tracking form(s), or exit family from the program(s).
         enroll_program: 'Enlist the family in existing program stream(s) here. Admin: If the program doesn’t exist, add a new program stream through <strong>Manage >> Program Streams</strong>.'
         reject: Reject indicates your organization cannot work with the family for some reason. The case will remain in the database and show <strong>Exited</strong> status with exit circumstance as <strong>Reject Referral</strong>.

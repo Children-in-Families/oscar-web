@@ -3858,6 +3858,9 @@ km:
       results: លទ្ធផល
     new:
       new_family_title: គ្រួសារថ្មី
+    remaining_programs:
+      close: បិទ
+      warning: ប្រុងប្រយ័ត្ន
     show:
       accept: ទទួលយក
       add_form: បន្ថែមទម្រង់បែបបទទៅឲ្យគ្រួសារ
@@ -3874,7 +3877,8 @@ km:
       current_province: ខេត្ត
       date_of_birth: ថ្ងៃខែ​ឆ្នាំ​កំណើត
       dependable_income: ប្រាក់ចំណូលទៀងទាត់
-      enrolled_program_streams: Family's Active Program Streams
+      enrolled_program_streams: កម្មវិធីចម្បងរបស់គ្រួសារ
+      exit_ngo_btn: ចាកចេញពីអង្គការ
       family_type: ប្រភេទគ្រួសារ
       female_adult_count: ចំនួនមនុស្សស្រីពេញវ័យ
       female_children_count: ចំនួនក្មេងស្រី
@@ -3938,18 +3942,18 @@ km:
         exit_note: កំណត់ហេតុនៃការចាកចេញ
         exit_reason_options:
           agency_lack_resource: អង្គភាពខ្វះធនធានគ្រប់គ្រាន់
-          client_died: អតិថិជនបានទទួលមរណៈភាព
-          client_does_not_meet_service_criteria: អតិថិជនមិនត្រូវ​ /​ ឈប់ត្រូវតាមលក្ខខណ្ឌសេវាកម្ម
-          client_does_not_required_support: អតិថិជនមិនត្រូវការ / ឈប់ត្រូវការការឧបត្ថម្ភ
-          client_move_out_international: អតិថិជននៅក្រៅ / ចាកចេញទៅក្រៅតំបន់គោលដៅអង្គការ (អន្តរជាតិ)
-          client_move_out_within_cambodia: អតិថិជននៅក្រៅ / ចាកចេញទៅក្រៅតំបន់គោលដៅអង្គការ (ក្នុងប្រទេសកម្ពុជា)
-          client_refuse_service: អតិថិជនបដិសេធមិនទទួលយកសេវាកម្ម
+          family_died: គ្រួសារបានទទួលមរណៈភាព
+          family_does_not_meet_service_criteria: គ្រួសារមិនត្រូវ​ /​ ឈប់ត្រូវតាមលក្ខខណ្ឌសេវាកម្ម
+          family_does_not_required_support: គ្រួសារមិនត្រូវការ / ឈប់ត្រូវការការឧបត្ថម្ភ
+          family_move_out_international: គ្រួសារនៅក្រៅ / ចាកចេញទៅក្រៅតំបន់គោលដៅអង្គការ (អន្តរជាតិ)
+          family_move_out_within_cambodia: គ្រួសារនៅក្រៅ / ចាកចេញទៅក្រៅតំបន់គោលដៅអង្គការ (ក្នុងប្រទេសកម្ពុជា)
+          family_refuse_service: គ្រួសារបដិសេធមិនទទួលយកសេវាកម្ម
           other_reason: ផ្សេងៗ
         exit_reasons: មូលហេតុនៃការចាកចេញ
         exit_status: ស្ថានភាព
         exiting: កំពុងចាកចេញពីអង្គការ...
         other_info_of_exit: ព័ត៌មានបន្ថែមនៃការចាកចេញ
-        reject_client: មិនទទួលយកអតិថិជន
+        reject_family: មិនទទួលយកគ្រួសារ
         rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
       form:
         case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
@@ -3960,18 +3964,18 @@ km:
         exit_note: កំណត់ហេតុនៃការចាកចេញ
         exit_reason_options:
           agency_lack_resource: អង្គភាពខ្វះធនធានគ្រប់គ្រាន់
-          client_died: អតិថិជនបានទទួលមរណៈភាព
-          client_does_not_meet_service_criteria: អតិថិជនមិនត្រូវ​ /​ ឈប់ត្រូវតាមលក្ខខណ្ឌសេវាកម្ម
-          client_does_not_required_support: អតិថិជនមិនត្រូវការ / ឈប់ត្រូវការការឧបត្ថម្ភ
-          client_move_out_international: អតិថិជននៅក្រៅ / ចាកចេញទៅក្រៅតំបន់គោលដៅអង្គការ (អន្តរជាតិ)
-          client_move_out_within_cambodia: អតិថិជននៅក្រៅ / ចាកចេញទៅក្រៅតំបន់គោលដៅអង្គការ (ក្នុងប្រទេសកម្ពុជា)
-          client_refuse_service: អតិថិជនបដិសេធមិនទទួលយកសេវាកម្ម
+          family_died: គ្រួសារបានទទួលមរណៈភាព
+          family_does_not_meet_service_criteria: គ្រួសារមិនត្រូវ​ /​ ឈប់ត្រូវតាមលក្ខខណ្ឌសេវាកម្ម
+          family_does_not_required_support: គ្រួសារមិនត្រូវការ / ឈប់ត្រូវការការឧបត្ថម្ភ
+          family_move_out_international: គ្រួសារនៅក្រៅ / ចាកចេញទៅក្រៅតំបន់គោលដៅអង្គការ (អន្តរជាតិ)
+          family_move_out_within_cambodia: គ្រួសារនៅក្រៅ / ចាកចេញទៅក្រៅតំបន់គោលដៅអង្គការ (ក្នុងប្រទេសកម្ពុជា)
+          family_refuse_service: គ្រួសារបដិសេធមិនទទួលយកសេវាកម្ម
           other_reason: ផ្សេងៗ
         exit_reasons: មូលហេតុនៃការចាកចេញ
         exit_status: ស្ថានភាព
         exiting: កំពុងចាកចេញ...
         other_info_of_exit: ព័ត៌មានបន្ថែមនៃការចាកចេញ
-        reject_client: មិនទទួលយកគ្រួសារ
+        reject_family: មិនទទួលយកគ្រួសារ
         rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
       update:
         failed_update: គ្រួសារមិនត្រូវបានកែសម្រួលដោយជោគជ័យ
