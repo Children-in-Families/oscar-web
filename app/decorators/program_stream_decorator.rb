@@ -36,7 +36,7 @@ class ProgramStreamDecorator < Draper::Decorator
   end
 
   def place_available
-    model.quantity.present? ? model.number_available_for_client : ''
+    model.quantity.present? ? model.number_available_for_entity : ''
   end
 
   def enrolled

@@ -8,7 +8,7 @@
             = enrollment_edit_link
             = enrollment_destroy_link
             - if params[:family_id]
-              = link_to t('.back'), report_family_enrollments_path(@programmable, program_stream_id: @program_stream), class: 'btn btn-back-default btn-default form-btn margin-btn'
+              = link_to t('.back'), report_family_enrollments_path(@programmable, program_stream_id: @program_stream), class: 'btn btn-back-default btn-default min-width-btn margin-btn'
       .ibox-content
         .table-responsive
           %table.table.table-bordered
