@@ -39,7 +39,7 @@
                               %td.align-justify
                                 - key = convert_bracket(key, custom_field_property.properties)
                                 - if type == 'file'
-                                  = render 'shared/form_builder/list_attachment', label: converted_key, resource: custom_field_property
+                                  = render 'shared/form_builder/list_attachment', label: key, resource: custom_field_property
                                 - else
                                   = display_custom_properties(custom_field_property.properties[key])
 

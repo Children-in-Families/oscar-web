@@ -93,6 +93,8 @@ module GardenOfHomeImporter
         new_client                        = {}
         new_client['given_name']          = workbook.row(row_index)[headers['Given Name (English)']]
         new_client['family_name']         = workbook.row(row_index)[headers['Family Name (English)']]
+        new_client['local_given_name']    = workbook.row(row_index)[headers['Given Name (Khmer)']]
+        new_client['local_family_name']   = workbook.row(row_index)[headers['Family Name (Khmer)']]
         new_client['gender']              = workbook.row(row_index)[headers['* Gender']]&.downcase
         family_id                         = workbook.row(row_index)[headers['Family ID']]
         new_client['current_family_id']   = Family.find_by(code: family_id).try(:id)
@@ -117,7 +119,7 @@ module GardenOfHomeImporter
         new_client['name_of_referee']     = workbook.row(row_index)[headers['* Name of Referee']]
         received_by_name                  = workbook.row(row_index)[headers['* Referral Received By']]
         received_by_name                  = received_by_name[/WTMY/] ? received_by_name : received_by_name.split(' ')
-        received_by_attr                  = received_by_name.is_a?(String) ? {first_name: received_by_name} : {first_name: received_by_name.first.squish, last_name: received_by_name.last.squish}
+        received_by_attr                  = received_by_name.is_a?(String) ? {first_name: received_by_name} : {first_name: received_by_name.last.squish, last_name: received_by_name.first.squish}
         new_client['received_by_id']      = create_user_received_by(received_by_attr)
         # followed_up_by_name               = workbook.row(row_index)[headers['First Follow-Up By']]
         # new_client['followed_up_by_id']   = User.find_by(first_name: followed_up_by_name).try(:id)
@@ -125,6 +127,7 @@ module GardenOfHomeImporter
         new_client['school_name']         = workbook.row(row_index)[headers['School Name']]
         new_client['main_school_contact'] = workbook.row(row_index)[headers['Main School Contact']]
         grade                             = workbook.row(row_index)[headers['School Grade']]
+        grade                             = grade && grade.is_a?(Integer) ? grade.to_s : grade
         new_client['school_grade']        = [Client::GRADES, I18n.t('advanced_search.fields.school_grade_list').values].transpose.to_h[grade]
 
         province_name                     = workbook.row(row_index)[headers['Current Province']]
@@ -135,16 +138,16 @@ module GardenOfHomeImporter
         if province_name
           province = find_province(province_name.squish)
           new_client['province_id'] = province&.id
-          # pry_if_blank?(new_client['province_id'], province_name)
-          # district = find_district(province, district_name.squish)
-          # new_client['district_id'] = district&.id
-          # pry_if_blank?(new_client['district_id'], district_name)
-          # binding.pry if ["Chamkar Mon", "Sameakki Mean Chey"].exclude?(district_name) && district_name && district.nil?
-          # commune  = find_commune(district, commune_name.squish, new_client) if district && commune_name
-          # binding.pry if ["Boeng KangKorng 3", "Sameakki Mean Chey", "Kampong Svay"].exclude?(commune_name) && (commune_name && commune.nil?)
-          # new_client['commune_id'] = commune&.id
-          # pry_if_blank?(new_client['commune_id'], commune_name)
-          # new_client['village_id'] = find_village(commune, village_name)&.id if commune && village_name
+          pry_if_blank?(new_client['province_id'], province_name)
+          district = find_district(province, district_name&.squish)
+          new_client['district_id'] = district&.id
+          pry_if_blank?(new_client['district_id'], district_name)
+          binding.pry if district_name && district.nil?
+          commune  = find_commune(district, commune_name.squish, new_client) if district && commune_name
+          binding.pry if (commune_name && commune.nil?)
+          new_client['commune_id'] = commune&.id
+          pry_if_blank?(new_client['commune_id'], commune_name)
+          new_client['village_id'] = find_village(commune, village_name)&.id if commune && village_name
         end
 
         birth_province_name               = workbook.row(row_index)[headers['Client Birth Province']]
@@ -256,7 +259,7 @@ module GardenOfHomeImporter
     end
 
     def find_district(province, name)
-      return if province.nil?
+      return if province.nil? || name.nil?
       districts = province.districts.where("name ILIKE ?", "%#{name}")
       district = nil
       if districts.count == 1

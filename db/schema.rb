@@ -1652,6 +1652,7 @@ ActiveRecord::Schema.define(version: 20201122105417) do
     t.string   "client_gender",             default: ""
     t.date     "client_date_of_birth"
     t.string   "village_code",              default: ""
+    t.string   "referee_email"
   end
 
   add_index "referrals", ["client_global_id"], name: "index_referrals_on_client_global_id", using: :btree
