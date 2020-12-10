@@ -158,6 +158,11 @@ Rails.application.routes.draw do
   resources :referees, only: [:index, :show]
 
   resources :families do
+    scope module: 'family' do
+      resources :exit_ngos, only: [:create, :update]
+      resources :enter_ngos, only: [:create, :update]
+    end
+
     resources :custom_field_properties
     get 'version' => 'families#version'
 

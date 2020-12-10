@@ -4,6 +4,7 @@ describe EnterNgo do
   end
 
   describe EnterNgo, 'associations' do
+    it { is_expected.to belong_to(:acceptable) }
     it { is_expected.to belong_to(:client) }
     it { is_expected.to have_many(:enter_ngo_users).dependent(:destroy) }
     it { is_expected.to have_many(:users).through(:enter_ngo_users) }
@@ -32,12 +33,33 @@ describe EnterNgo do
           end
         end
       end
+
+      # Todo
+      context 'exited_entity' do
+        context 'user_ids' do
+          let!(:manager){create(:user, :manager) }
+          let!(:exited_family) { create(:family, :exited) }
+
+          it 'invalid' do
+            enter_ngo = FactoryGirl.build(:enter_ngo, acceptable: exited_family)
+            enter_ngo.save
+            expect(enter_ngo.valid?).to be_falsey
+            expect(enter_ngo.errors.full_messages).to include("User ids can't be blank")
+          end
+
+          xit 'valid' do
+            enter_ngo = FactoryGirl.build(:enter_ngo, acceptable: exited_family, user_ids: [manager.id])
+            enter_ngo.save
+            expect(enter_ngo.valid?).to be_truthy
+          end
+        end
+      end
     end
   end
 
   describe EnterNgo, 'callbacks' do
     context 'after_create' do
-      context 'update_client_status' do
+      context 'update_entity_status' do
         let!(:manager){ create(:user, :manager) }
         context 'exited_client' do
           let!(:client){ create(:client, :exited) }
@@ -45,13 +67,22 @@ describe EnterNgo do
 
           it { expect(client.reload.status).to eq('Accepted') }
         end
+
+        # Todo
+        xcontext 'exited_entity' do
+          let!(:family){ create(:family, :exited) }
+          let!(:enter_ngo) { create(:enter_ngo, acceptable: family, user_ids: [manager.id]) }
+
+          it { expect(family.reload.status).to eq('Accepted') }
+        end
       end
     end
   end
 
   describe EnterNgo, 'scopes' do
-    let!(:enter_ngo_1){ create(:enter_ngo, created_at: Time.now - 1.day) }
-    let!(:enter_ngo_2){ create(:enter_ngo, created_at: Time.now) }
+    let!(:client){ create(:client) }
+    let!(:enter_ngo_1){ create(:enter_ngo, client: client, created_at: Time.now - 1.day) }
+    let!(:enter_ngo_2){ create(:enter_ngo, client: client, created_at: Time.now) }
 
     context '.most_recents' do
       subject { EnterNgo.most_recents.first }
