@@ -40,14 +40,6 @@ When you have finished dubugging just type `exit` in the Pry REPL session as you
 
 NOTE: To detach the tty **without also terminating the Rails container**, you need to use the escape sequence **Ctrl+P** followed by **Ctrl+Q**.
 
-## Pre-Commit and Pre-Push Hooks
-
-Using bash scripts to check commit and ran test before pushing to GitHub
-
-`chmod +x scripts/*.bash`
-And then run
-`./scripts/install-hooks.bash`
-
 ## Troubleshooting
 
 #### Issue pending migrations when starting Docker container
@@ -286,3 +278,11 @@ So if you use Vcode, you should use the plugin [ruby-rubocop](https://marketplac
 ```
 
 Noted: /Users/your_user_name/.rbenv/shims/rubocop you might use RVM so you can find rubocop by running `which rubocop` and use that path and see the path if you use `Linux` change key to Linux and use `rvm` path instead
+
+## Pre-Commit and Pre-Push Hooks
+
+Using bash scripts to check commit and ran test before pushing to GitHub
+
+`chmod +x scripts/*.bash`
+And then run
+`./scripts/install-hooks.bash`

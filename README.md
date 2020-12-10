@@ -16,9 +16,9 @@ We have three guides available depending on how you are wanting to use OSCaR, ei
 
 So with that, if you are:
 
-- Looking for the hosted version of OSCaR, please visit out official [OSCaR Website](https://www.oscarhq.com)
-- Want to run a privately hosted vesion of OSCaR in the cloud then visit the [private hosting guide](./guides/private-hosting)
-- Want to run a local vesion of OSCaR on your laptop or home computer as a developer then visit [developer guide](./guides/developer)
+- Looking for the **hosted version of OSCaR**, please visit out official [OSCaR Website](https://www.oscarhq.com)
+- Want to **run a privately hosted vesion of OSCaR in the cloud** then visit the [private hosting guide](./guides/private-hosting)
+- Want to **run a local vesion of OSCaR on your laptop** or home computer as a developer then visit [developer guide](./guides/developer)
 
 ### Issue Reporting
 
