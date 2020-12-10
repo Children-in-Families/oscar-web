@@ -259,6 +259,6 @@ class ProgramStreamsController < AdminController
   end
 
   def find_entity_type
-    @entity_type = params['entity_type']
+    @entity_type = params['entity_type'] || params[:program_stream][:entity_type]
   end
 end

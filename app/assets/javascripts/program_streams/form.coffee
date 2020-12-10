@@ -1,11 +1,7 @@
 CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = CIF.Program_streamsUpdate = do ->
   @programStreamId = $('#program_stream_id').val()
 
-  queryString = window.location.search
-  urlParams = new URLSearchParams(queryString)
-  ENTITY_TYPE = urlParams.get('entity_type')
-
-  # pass corresponding entity type from url
+  ENTITY_TYPE      = $("#program_stream_entity_type").val()
   ENROLLMENT_URL   = "/api/program_streams/#{@programStreamId}/enrollment_fields" + "?entity_type=#{ENTITY_TYPE}"
   EXIT_PROGRAM_URL = "/api/program_streams/#{@programStreamId}/exit_program_fields"
   TRACKING_URL     = "/api/program_streams/#{@programStreamId}/tracking_fields" + "?entity_type=#{ENTITY_TYPE}"
