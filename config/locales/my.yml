@@ -3861,6 +3861,7 @@ my:
     new:
       new_family_title: မိသားစုအသစ္
     show:
+      accept: လက္ခံသည္
       add_form: ပံုစံအသစ္
       additional_forms: ထပ္ေဆာင္းပံုစံမ်ား
       additional_info: ထပ္ေဆာင္းသတင္းအခ်က္အလက္မ်ား
@@ -3906,6 +3907,76 @@ my:
     version:
       back: ေနာက္သို႔
       modification_of: "၏ ေျပာင္းလဲမႈ မွတ္တမ္း"
+  family:
+    enter_ngos:
+      create:
+        failed_create: အပ်ဒိတ်လုပ်မပေးနိုငျ
+        successfully_created: မိသားစုကိုအောင်မြင်စွာကယ်တင်နိုင်ခဲ့သည်
+      edit_form:
+        accept: လက္ခံသည္
+        accept_ngo_form: NGO ရိုက်ထည့်ပါ
+        accepted_date: လက်ခံခဲ့သည်နေ့စွဲ
+        case_worker_or_staff: ဝန်ထမ်းများ
+      form:
+        accept: လက္ခံသည္
+        accept_ngo_form: NGO ရိုက်ထည့်ပါ
+        accepted_date: လက်ခံခဲ့သည်နေ့စွဲ
+        accepting: လက်ခံ...
+        case_worker_or_staff: ဝန်ထမ်းများ
+      update:
+        failed_update: အပ်ဒိတ်လုပ်မပေးနိုငျ
+        successfully_updated: မိသားစုကိုအောင်မြင်စွာကယ်တင်နိုင်ခဲ့သည်
+    exit_ngos:
+      create:
+        failed_create: အပ်ဒိတ်လုပ်မပေးနိုငျ
+        successfully_created: အမႈသည္ကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ထည့္သြင္းၿပီပါၿပီ
+      edit_form:
+        case_worker_or_staff: အမႈျခင္းရာအတြက္ ေဆာင္ရြက္ေပးသူ/ ၀န္ထမ္း
+        exit_btn: ထြက္ရန္
+        exit_circumstance: ထွက်ပေါက်အခြေအနေ
+        exit_date: ထြက္သည့္ရက္စြဲ
+        exit_ngo: NGOမွ ထြက္ရန္
+        exit_note: ထြက္သည့္မွတ္စု
+        exit_reason_options:
+          agency_lack_resource: Agency lacks sufficient resources
+          client_died: Client died
+          client_does_not_meet_service_criteria: Client does not meet / no longer meets service criteria
+          client_does_not_required_support: Client does not require / no longer requires support
+          client_move_out_international: Client is/moved outside NGO target area (International)
+          client_move_out_within_cambodia: Client is/moved outside NGO target area (within Cambodia)
+          client_refuse_service: Client refused service
+          other_reason: Other
+        exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
+        exit_status: အေနအထား
+        exiting: မထွက်...
+        other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
+        reject_client: client ကိုငြင်းပယ်
+        rejected_note: ျငင္းပယ္သည့္ မွတ္စု
+      form:
+        case_worker_or_staff: အမႈျခင္းရာအတြက္ ေဆာင္ရြက္ေပးသူ/ ၀န္ထမ္း
+        exit_btn: ထြက္ရန္
+        exit_circumstance: ထွက်ပေါက်အခြေအနေ
+        exit_date: ထြက္သည့္ရက္စြဲ
+        exit_ngo: NGOမွ ထြက္ရန္
+        exit_note: ထြက္သည့္မွတ္စု
+        exit_reason_options:
+          agency_lack_resource: Agency lacks sufficient resources
+          client_died: Client died
+          client_does_not_meet_service_criteria: Client does not meet / no longer meets service criteria
+          client_does_not_required_support: Client does not require / no longer requires support
+          client_move_out_international: Client is/moved outside NGO target area (International)
+          client_move_out_within_cambodia: Client is/moved outside NGO target area (within Cambodia)
+          client_refuse_service: Client refused service
+          other_reason: Other
+        exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
+        exit_status: အေနအထား
+        exiting: မထွက်...
+        other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
+        reject_client: client ကိုငြင်းပယ်
+        rejected_note: ျငင္းပယ္သည့္ မွတ္စု
+      update:
+        failed_update: အပ်ဒိတ်လုပ်မပေးနိုငျ
+        successfully_updated: အမႈသည္ကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ထည့္သြင္းၿပီပါၿပီ
   faq: မၾကာခဏေမးေလ့ရွိေသာ ေမးခြန္းမ်ား
   field_label_cannot_be_blank: ကြင္းအညႊန္းကို ကြက္လပ္ခ်န္၍ မရပါ
   form_builder:

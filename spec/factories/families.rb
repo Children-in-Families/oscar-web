@@ -50,5 +50,13 @@ FactoryGirl.define do
     trait :inactive do
       status 'Inactive'
     end
+
+    trait :exited do
+      status 'Exited'
+    end
+
+    trait :referred do
+      status 'Referred'
+    end
   end
 end

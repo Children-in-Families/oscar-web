@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :enter_ngo do
     accepted_date FFaker::Time.date
-    association :client, factory: :client
+    # association :client, factory: :client
     created_at { Time.now }
 
     after(:build) do |enter_ngo|
