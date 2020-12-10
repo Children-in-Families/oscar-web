@@ -1,5 +1,6 @@
 class DashboardsController < AdminController
   before_action :task_of_user, :find_overhaul_task_params, :find_tasks, only: [:index]
+  caches_page :index
 
   def index
     @setting = Setting.first

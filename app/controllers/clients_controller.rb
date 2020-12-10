@@ -4,6 +4,7 @@ class ClientsController < AdminController
   include ClientAdvancedSearchesConcern
   include ClientGridOptions
 
+  caches_action :index
   before_action :assign_active_client_prams, only: :index
   before_action :format_search_params, only: [:index]
   before_action :get_quantitative_fields, :get_hotline_fields, :hotline_call_column, only: [:index]
