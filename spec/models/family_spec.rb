@@ -1,7 +1,6 @@
 describe Family, 'validation' do
   it { is_expected.to validate_presence_of(:family_type) }
   it { is_expected.to validate_inclusion_of(:family_type).in_array(Family::TYPES)}
-  it { is_expected.to validate_presence_of(:status) }
   it { is_expected.to validate_inclusion_of(:status).in_array(Family::STATUSES)}
 end
 

@@ -1,0 +1,83 @@
+%h3= t('families.form.step_1_title')
+%section.basic-information
+  .row
+    - unless current_setting.hide_family_case_management_tool?
+      .col-sm-3
+        = f.input :received_by_id, required: true, collection: User.deleted_user.non_strategic_overviewers.order(:first_name, :last_name), label_method: :name, value_method: :id
+
+        .form-group
+          = f.label :initial_referral_date, class: 'control-label'
+          .input-group.date
+            = f.input :initial_referral_date, required: true, label: false, wrapper: false, input_html: { class: 'date optional form-control date-picker' }, as: :string
+            %span.input-group-addon
+              %i.fa.fa-calendar-check-o
+
+        = f.input :case_worker_ids, required: true, collection: User.deleted_user.non_strategic_overviewers.order(:first_name, :last_name), label_method: :name, value_method: :id, input_html: { multiple: true }
+        = f.input :followed_up_by_id, collection: User.deleted_user.non_strategic_overviewers.order(:first_name, :last_name), label_method: :name, value_method: :id
+
+        .form-group
+          = f.label :follow_up_date
+          .input-group.date
+            = f.input :follow_up_date, label: false, wrapper: false, input_html: { class: 'date optional form-control date-picker' }, as: :string
+            %span.input-group-addon
+              %i.fa.fa-calendar-check-o
+
+    %div{ class: "#{current_setting.hide_family_case_management_tool? ? 'col-sm-12' : 'col-sm-9'}"}
+      .row
+        .col-sm-3
+          = f.input :name
+        .col-sm-3
+          = f.input :name_en
+        .col-sm-3
+          = f.input :family_type, collection: Family.mapping_family_type_translation, label_method: :second, value_method: :first
+        .col-sm-3
+          = f.input :code
+      .row
+        .col-sm-3
+          = f.input :province_id, collection: @provinces, input_html: { data: { type: 'provinces', 'subaddress' => 'district' } }
+        .col-sm-3
+          = f.input :district_id, collection: @districts, input_html: { data: { type: 'districts', 'subaddress' => 'commune' } }
+        .col-sm-3
+          = f.input :commune_id, collection: @communes.map{|c| [c.name, c.id] }, input_html: { data: { type: 'communes', 'subaddress' => 'village' } }, hint: (@family.old_commune if @family.commune_id.nil?)
+        .col-sm-3
+          = f.input :village_id, collection: @villages.map{|v| [v.name, v.id] }, input_html: { data: { type: 'villages' } }, hint: (@family.old_village if @family.village_id.nil?)
+      .row
+        .col-sm-2
+          = f.input :street
+        .col-sm-2
+          = f.input :house
+        .col-sm-3
+          = f.input :phone_number
+        .col-sm-2
+          = f.input :id_poor, collection: Family::ID_POOR
+        .col-sm-3
+          .form-group
+            = f.label :contract_date
+            .input-group.date
+              = f.input :contract_date, label: false, wrapper: false, input_html: { class: 'date optional form-control date-picker' }, as: :string
+              %span.input-group-addon
+                %i.fa.fa-calendar-check-o
+
+      - unless current_setting.hide_family_case_management_tool?
+        .row
+          .col-sm-3
+            = f.input :referral_source_category_id, required: true, collection: referral_source_name(ReferralSource.parent_categories)
+          .col-sm-3
+            = f.input :referral_source_id, collection: (@family.referral_source.present? ? ReferralSource.where(id: @family.referral_source_id).map { |r| [r.try(:name), r.id] } : []), input_html: { data: { sources: ReferralSource.pluck(:id, :name, :ancestry) } }
+          .col-sm-3
+            = f.input :referee_phone_number
+          .col-sm-3
+            = f.input :donor_ids, collection: Donor.order(:name), label_method: :name, value_method: :id, input_html: { multiple: true }
+      .row
+        - unless current_setting.hide_family_case_management_tool?
+          .col-sm-3
+            = f.input :community_ids, collection: []
+        .col-sm-9
+          = f.input :relevant_information, input_html: { rows: 4 }
+        .col-sm-12
+          = f.label :documents
+          = f.input :documents, label: false, as: :file, input_html: { multiple: true }
+          %p
+            %i.small="#{t('assessments.attachment_fields.allow_file_size')} (.jpg, .jpeg, .png, .doc, .docx, .xls, .xlsx, .pdf)"
+          %p
+            %i.small= t('assessments.attachment_fields.max_file_size')

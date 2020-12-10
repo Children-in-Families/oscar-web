@@ -39,4 +39,84 @@ body[id='families-update'] {
   .famliy-street {
     clear: both;
   }
+
+  #family-wizard-form {
+    .content > .body {
+      width: 100%;
+    }
+
+    .btn-file {
+      margin-bottom: 0;
+    }
+
+    .file.family_documents {
+      margin-right: 0;
+    }
+
+    .actions {
+      li:last-child {
+        position: absolute;
+        left: 0;
+      }
+    }
+
+    a[href='#finish'] {
+      background-color: #1AB394;
+    }
+
+    &.wiz-2-steps {
+      ul[role='tablist'] li {
+        width: 50%;
+      }
+    }
+
+    &.wiz-3-steps {
+      ul[role='tablist'] li {
+        width: 33.3%;
+      }
+    }
+
+    label.control-label {
+      text-transform: capitalize;
+    }
+
+    label.error {
+      margin-left: 0;
+      color: red;
+
+      &:not(.control-label) {
+        font-weight: normal;
+      }
+    }
+
+    .pl-0 {
+      padding-left: 0 !important;
+    }
+
+    .pr-0 {
+      padding-right: 0 !important;
+    }
+
+    .family_dependable_income {
+      span.radio {
+        padding-left: 10px;
+        display: inline-block;
+      }
+    }
+
+
+    .select2-choice.error, .select2-choices.error, input.error {
+      border-color: red !important;
+    }
+
+    .i-checks.family_family_members_guardian {
+      position: relative;
+
+      a.remove_fields {
+        position: absolute;
+        right: 10px;
+        top: 0;
+      }
+    }
+  }
 }
