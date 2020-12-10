@@ -29,7 +29,9 @@ class Family < ActiveRecord::Base
   belongs_to :received_by,      class_name: 'User',      foreign_key: 'received_by_id'
   belongs_to :followed_up_by,   class_name: 'User',      foreign_key: 'followed_up_by_id'
 
-  has_many :cases
+  has_many :cases, dependent: :destroy
+  has_many :clients, through: :cases
+
   has_many :donor_families, dependent: :destroy
   has_many :donors, through: :donor_families
   has_many :case_worker_families, dependent: :destroy
