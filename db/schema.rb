@@ -667,9 +667,9 @@ ActiveRecord::Schema.define(version: 20201204141537) do
     t.string   "other_agency_name"
     t.string   "other_representative_name"
     t.string   "other_agency_phone"
-    t.string   "locality"
     t.string   "national_id_number"
     t.string   "passport_number"
+    t.string   "locality"
   end
 
   add_index "clients", ["commune_id"], name: "index_clients_on_commune_id", using: :btree
@@ -920,6 +920,11 @@ ActiveRecord::Schema.define(version: 20201204141537) do
     t.integer  "village_id"
     t.integer  "user_id"
     t.string   "slug",                            default: ""
+    t.string   "name_en"
+    t.string   "phone_number"
+    t.string   "id_poor"
+    t.text     "relevant_information"
+    t.string   "referee_phone_number"
   end
 
   add_index "families", ["commune_id"], name: "index_families_on_commune_id", using: :btree
