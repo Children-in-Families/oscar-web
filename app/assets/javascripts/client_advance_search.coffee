@@ -797,6 +797,9 @@ class CIF.ClientAdvanceSearch
       if btnID == 'search'
         builderElement = '#builder'
         builderForm = '.main-report-builder'
+        if $('#builder').queryBuilder('getSQL', false, true)
+          sql_sting = $('#builder').queryBuilder('getSQL', false, true).sql
+          $('#client_advanced_search_raw_sql').val(sql_sting)
         programValues = if self.programSelected.length > 0 then "[#{self.programSelected}]"
         customFormValues = if self.customFormSelected.length > 0 then "[#{self.customFormSelected}]"
       else
@@ -806,10 +809,6 @@ class CIF.ClientAdvanceSearch
         customFormValues = if self.wizardCustomFormSelected.length > 0 then "[#{self.wizardCustomFormSelected}]"
 
       basicRules = $(builderElement).queryBuilder('getRules', { skip_empty: true, allow_invalid: true })
-
-      if $('#builder').queryBuilder('getSQL', false, true)
-        sql_sting = $('#builder').queryBuilder('getSQL', false, true).sql
-        $('#raw_sql').val(sql_sting)
 
       self.setValueToProgramAssociation()
       $('#client_advanced_search_custom_form_selected').val(customFormValues)
