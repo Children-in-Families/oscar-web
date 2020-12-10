@@ -14,11 +14,13 @@ class FamilyMember < ActiveRecord::Base
   after_commit :save_aggregation_data, on: [:create, :update], if: :brc?
   after_commit :save_client_data
 
+  def self.update_client_relevant_data(family_member_id)
+    find(family_member_id).save_client_data
+  end
+
   def is_client
     client_id?
   end
-
-  private
 
   def save_client_data
     if client.present?
@@ -29,6 +31,8 @@ class FamilyMember < ActiveRecord::Base
       )
     end
   end
+
+  private
 
   def save_aggregation_data
     family&.save_aggregation_data

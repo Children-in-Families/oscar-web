@@ -1659,6 +1659,7 @@ ActiveRecord::Schema.define(version: 20201209212526) do
     t.integer  "township_id"
     t.integer  "subdistrict_id"
     t.string   "locality"
+    t.string   "referee_email"
   end
 
   add_index "referees", ["commune_id"], name: "index_referees_on_commune_id", using: :btree

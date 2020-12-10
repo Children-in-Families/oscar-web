@@ -29,7 +29,9 @@ class Family < ActiveRecord::Base
   belongs_to :received_by,      class_name: 'User',      foreign_key: 'received_by_id'
   belongs_to :followed_up_by,   class_name: 'User',      foreign_key: 'followed_up_by_id'
 
-  has_many :cases
+  has_many :cases, dependent: :destroy
+  has_many :clients, through: :cases
+
   has_many :donor_families, dependent: :destroy
   has_many :donors, through: :donor_families
   has_many :case_worker_families, dependent: :destroy
@@ -55,8 +57,9 @@ class Family < ActiveRecord::Base
 
   validates :family_type, presence: true, inclusion: { in: TYPES }
   validates :code, uniqueness: { case_sensitive: false }, if: :code?
-  validates :status, inclusion: { in: STATUSES }, allow_blank: true
+  validates :status, inclusion: { in: STATUSES }
   validates :received_by_id, :initial_referral_date, :case_worker_ids, :referral_source_category_id, presence: true, if: :case_management_record?
+  validate :client_must_only_belong_to_a_family
 
   after_create :assign_slug
   after_save :save_family_in_client, :mark_referral_as_saved
