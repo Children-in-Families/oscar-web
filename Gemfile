@@ -1,13 +1,18 @@
 source 'https://rubygems.org'
+git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
+ruby '2.5.3'
 # gem 'rails',                  '4.2.2'
 gem 'rails',                  '~> 5.2', '<= 5.2.4.4'
 gem 'pg',                     '~> 0.18.4'
+gem 'puma',                   '~> 3.11'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'sass-rails',             '~> 6.0'
 gem 'uglifier',               '~> 4.2'
 gem 'coffee-rails',           '~> 5.0'
+gem 'bootsnap',               '>= 1.1.0', require: false
+gem 'mini_racer',             platforms: :ruby
 gem 'jbuilder',               '~> 2.10', '>= 2.10.1'
 gem 'simple_form',            '~> 5.0', '>= 5.0.3'
 gem 'bootstrap-sass',         '~> 3.4', '>= 3.4.1'
@@ -77,6 +82,7 @@ gem 'ulid',                   '~> 1.2'
 gem 'dalli',                  '~> 2.7', '>= 2.7.11'
 
 group :development, :test do
+   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'pry'
   gem 'rspec-rails'
   gem 'factory_girl_rails',   '~> 4.9'
@@ -124,3 +130,5 @@ group :test do
   gem 'rspec-activemodel-mocks', '~> 1.1'
   gem 'timecop',              '~> 0.8.1'
 end
+
+gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
