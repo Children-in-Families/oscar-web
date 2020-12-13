@@ -673,9 +673,9 @@ ActiveRecord::Schema.define(version: 20201209212526) do
     t.string   "other_agency_name"
     t.string   "other_representative_name"
     t.string   "other_agency_phone"
-    t.string   "locality"
     t.string   "national_id_number"
     t.string   "passport_number"
+    t.string   "locality"
   end
 
   add_index "clients", ["commune_id"], name: "index_clients_on_commune_id", using: :btree
@@ -1659,7 +1659,6 @@ ActiveRecord::Schema.define(version: 20201209212526) do
     t.integer  "township_id"
     t.integer  "subdistrict_id"
     t.string   "locality"
-    t.string   "referee_email"
   end
 
   add_index "referees", ["commune_id"], name: "index_referees_on_commune_id", using: :btree

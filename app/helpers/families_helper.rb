@@ -164,4 +164,8 @@ module FamiliesHelper
   def children_exist?
     @results && !@results.zero?
   end
+
+  def name_km_en
+    @family.name_en? ? "#{@family.name} - #{@family.name_en}" : "#{@family.name}"
+  end
 end
