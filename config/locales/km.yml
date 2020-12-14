@@ -3780,6 +3780,28 @@ km:
   families:
     actions:
       are_you_sure: តើអ្នកប្រាកដហើយថាចង់លុប?
+    case_history_detail:
+      accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
+      family: ឈ្មោះគ្រួសារ
+      family_id: លេខសំគាល់គ្រួសារ
+      consent_form: ទម្រង់យល់ព្រម
+      date_of_referral: កាលបរិច្ឆេទបញ្ជូន
+      enrollment_date: កាលបរិច្ឆេទចុះឈ្មោះ
+      exit_circumstance: ស្ថានភាពនៃការចាកចេញ
+      exit_date: ថ្ងៃចាកចេញពីអង្គការ
+      exit_note: កំណត់ហេតុនៃការចាកចេញ
+      exit_program_date: ថ្ងៃចាកចេញពីកម្មវិធី
+      exit_reasons: មូលហេតុនៃការចាកចេញ
+      external_referral: ផ្ទេរចេញទៅ
+      initial_referral_date: កាលបរិចេ្ឆទនៃការបញ្ជូនដំបូង
+      internal_referral: ផ្ទេរចូលពី
+      name_of_referee: ឈ្មោះអ្នកបញ្ជូន
+      other_info_of_exit: ព័ត៌មានបន្ថែមនៃការចាកចេញ
+      preview_download: មើលនិងទាញយក
+      referee_phone_number: លេខទូរស័ព្ទរបស់អ្នកបញ្ជូនករណី
+      referral_reasons: មូលហេតុនៃការបញ្ជូន
+      referred_from: បញ្ជូនមកពីអង្គការដទៃ
+      referred_to: បញ្ជូនទៅអង្គការដទៃ
     create:
       successfully_created: គ្រួសារត្រូវបានបង្កើតដោយជោគជ័យ
     destroy:

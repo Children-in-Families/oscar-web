@@ -17,6 +17,10 @@ class ExitNgo < ActiveRecord::Base
   after_create :update_entity_status
   after_save :create_exit_ngo_history
 
+  def attached_to_family?
+    rejectable_type == 'Family'
+  end
+
   private
 
   def update_entity_status

@@ -23,11 +23,10 @@
       = render 'families/accept_family'
       %button.btn.btn-danger.mini-margin{ class: 'agree-btn', data: { target: '#exitFromNgo', toggle: "modal", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.families.show.reject')}", placement: "auto" } } #{t('.reject')}
       = render 'family/exit_ngos/form', family: @family
-    -# Todo
-    -# - elsif @family.exit_ngo?
-    -#   %button.btn.btn-success.mini-margin.enter-ngo-for-family{ class: 'agree-btn', data: { class_name: 'accept-family', disable_with: t('.accepting'), 'target' => "#enter-ngo-form", 'toggle' => 'modal', trigger: "hover", content: "#{I18n.t('inline_help.families.show.accepted')}", placement: "auto" } } #{t('.accept')}
-    -#   = render 'family/enter_ngos/form', family: @family
-    -#   %button.btn.btn-danger.mini-margin{ disabled: 'disabled', class: 'agree-btn', data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.families.show.reject')}", placement: "auto" } }= t('.reject')
+    - elsif @family.exit_ngo?
+      %button.btn.btn-success.mini-margin.enter-ngo-for-family{ class: 'agree-btn', data: { class_name: 'accept-family', disable_with: t('.accepting'), 'target' => "#enter-ngo-form", 'toggle' => 'modal', trigger: "hover", content: "#{I18n.t('inline_help.families.show.accepted')}", placement: "auto" } } #{t('.accept')}
+      = render 'family/enter_ngos/form', family: @family
+      %button.btn.btn-danger.mini-margin{ disabled: 'disabled', class: 'agree-btn', data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.families.show.reject')}", placement: "auto" } }= t('.reject')
 
     .btn-group.small-btn-margin
       %button.btn-sm.btn.btn-success.dropdown-toggle{ 'data-toggle' => 'dropdown', class: ('disabled' if @group_family_custom_fields.empty?) }
@@ -269,6 +268,34 @@
                     %strong.label.label-default
                       = qcase.value
 
+    - if @case_histories.any?
+      .row
+        .col-xs-12
+          %table.table.table-bordered.table-hover#case-history-table
+            %thead
+              %tr
+                %th= t('.case_histories')
+                - unless Rails.env.production?
+                  %th= t('.created_date')
+                %th= t('.date')
+                %th.text-center= t('.detail')
+            %tbody
+              - @case_histories.each_with_index do |case_history, index|
+                - case_history_name = case_history.class.table_name
+                %tr.case-history-row{ data: {date: case_history.new_date, classname: case_history_name,name: case_history_label(case_history), created_date: case_history.created_at} }
+                  %td= case_history_label(case_history)
+                  - unless Rails.env.production?
+                    %td= case_history.created_at.to_s
+                  %td= date_format(case_history.new_date)
+                  %td
+                    .text-center
+                      %button.btn.btn-outline.btn-primary.btn-xs{'data-target' => "#case_history_#{index}", 'data-toggle' => 'modal'}= fa_icon('eye')
+                      - if current_user.admin?
+                        - if ['enter_ngos', 'exit_ngos'].include?(case_history_name)
+                          %button.btn.btn-outline.btn-success.btn-xs.edit-case-history-ngo{ data: { class_name: case_history_name },'data-target' => "##{case_history_name}-#{case_history.id}", 'data-toggle' => 'modal' }= fa_icon('pencil')
+                        = family_case_history_links(case_history, case_history_name)
+                    = render 'case_history_detail', object: case_history, index: index
+                    = render_case_history_family(case_history, case_history_name)
     - if @family.family_members.present?
       .row.family-summary
         .col-sm-12

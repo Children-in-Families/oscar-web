@@ -1,5 +1,6 @@
 CIF.FamiliesShow = do ->
   _init = ->
+    _initSelect2()
     _initICheckBox()
     _fixedHeaderTableColumns()
     _getClientPath()
@@ -8,6 +9,9 @@ CIF.FamiliesShow = do ->
     _enterNgoModalValidation()
     _initDatePicker()
     _exitNgoModalValidation()
+
+  _initSelect2 = ->
+    $('select').select2()
 
   _initICheckBox = ->
     $('.i-checks').iCheck

@@ -68,4 +68,15 @@ describe ExitNgo do
       end
     end
   end
+
+  describe EnterNgo, 'methods' do
+    let(:family){ create(:family) }
+    let(:exit_ngo_1){ create(:exit_ngo, rejectable: family) }
+
+    context '.attached_to_family?' do
+      it 'return true' do
+        expect(exit_ngo_1.attached_to_family?).to be_truthy
+      end
+    end
+  end
 end
