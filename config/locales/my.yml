@@ -3897,13 +3897,17 @@ my:
       adult_name: အတူတူအိမျ၌နထေိုငျသူမြားလူကြီးများ
       are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
       caregiver_information: ေစာင့္ေရွာက္သူအခ်က္အလက္
+      case_histories: Case Histories
       case_history: အမႈသမုိင္း
       code: မိသားစုမွတ္ပံုတင္
       contract_date: စာခ်ဳပ္ရက္စြဲ
-      created_by: Created by
+      created_by: မှဖန်တီးသည်
+      created_date: ဖန်တီးထားသောရက်စွဲ
       current_province: ခ႐ိုင္
+      date: ရက်စွဲ
       date_of_birth: မွေးရက်
       dependable_income: မွီခိုႏုိင္ေလာက္ေသာ ၀င္ေငြ
+      detail: အသေးစိတ်
       enrolled_program_streams: Family's Active Program Streams
       exit_ngo_btn: Exit Family From NGO
       family_type: မိသားစုအမ်ိဳးအစား

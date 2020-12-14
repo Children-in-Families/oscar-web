@@ -3892,13 +3892,17 @@ km:
       adult_name: ឈ្មោះមនុស្សពេញវ័យដែលរស់នៅក្នុងផ្ទះជាមួយគ្នា
       are_you_sure: តើអ្នកប្រាកដហើយ?
       caregiver_information: ព័ត៌មាននៃអ្នកថែទាំ
+      case_histories: ប្រវត្តិនៃករណី
       case_history: ប្រវត្តិគ្រួសារ
       code: លេខសំគាល់គ្រួសារ
       contract_date: កាលបរិច្ឆេទនៃកិច្ចសន្យា
-      created_by: Created by
+      created_by: បង្កើតឡើងដោយ
+      created_date: កាលបរិច្ឆេទនៃការបង្កើត
       current_province: ខេត្ត
+      date: កាលបរិច្ឆេទ
       date_of_birth: ថ្ងៃខែ​ឆ្នាំ​កំណើត
       dependable_income: ប្រាក់ចំណូលទៀងទាត់
+      detail: ព័ត៌មានលំអិត
       enrolled_program_streams: កម្មវិធីចម្បងរបស់គ្រួសារ
       exit_ngo_btn: ចាកចេញពីអង្គការ
       family_type: ប្រភេទគ្រួសារ

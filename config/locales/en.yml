@@ -3906,13 +3906,17 @@ en:
       adult_name: Name of Adult Member
       are_you_sure: Are you sure you want to delete?
       caregiver_information: Caregiver Information
+      case_histories: Case Histories
       case_history: Case History
       code: Family ID
       contract_date: Contract Date
       created_by: Created by
+      created_date: Created Date
       current_province: Current Province
+      date: Date
       date_of_birth: Date of Birth
       dependable_income: Dependable Income
+      detail: Detail
       enrolled_program_streams: Family's Active Program Streams
       exit_ngo_btn: Exit Family From NGO
       family_type: Family Type
