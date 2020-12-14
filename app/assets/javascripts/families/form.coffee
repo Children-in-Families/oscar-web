@@ -67,13 +67,17 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
     $('.i-checks.is-client').on "ifChecked", _onMarkAsClient
     $('.i-checks.is-client').on "ifUnchecked", _onUnmarkAsClient
 
-    $('.i-checks.is-client').iCheck('toggle')
-    $('.i-checks.is-client').iCheck('toggle')
+    $.each $(".nested-fields"), (index, row) ->
+      familyRow = $(row)
+      select = familyRow.find('[name$="[client_id]"]')
+      familyRow.find('[name$="[gender]"]').attr("disabled", !select.hasClass("hidden"))
+      familyRow.find('[name$="[date_of_birth]"]').attr("disabled", !select.hasClass("hidden"))
 
   _onUnmarkAsClient = ->
     familyRow = $(@).closest(".nested-fields")
     familyRow.find('[name$="[client_id]"]').addClass("hidden")
     familyRow.find('[name$="[client_id]"]').val(null)
+    familyRow.find('[name$="[client_id]"]').trigger('change')
     familyRow.find('[name$="[adult_name]"]').removeClass("hidden")
     familyRow.find('[name$="[adult_name]"]').attr("disabled", false)
     familyRow.find('[name$="[gender]"]').attr("disabled", false)
@@ -81,11 +85,22 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
 
   _onMarkAsClient = ->
     familyRow = $(@).closest(".nested-fields")
+
     familyRow.find('[name$="[client_id]"]').removeClass("hidden")
     familyRow.find('[name$="[adult_name]"]').addClass("hidden")
     familyRow.find('[name$="[adult_name]"]').attr("disabled", true)
     familyRow.find('[name$="[gender]"]').attr("disabled", true)
+    familyRow.find('[name$="[gender]"]').attr("disabled", true)
     familyRow.find('[name$="[date_of_birth]"]').attr("disabled", true)
+
+    familyRow.find('[name$="[client_id]"]').change (e)->
+      data = $(@).find("option:selected").data()
+
+      familyRow.find('[name$="[gender]"]').val(data.gender)
+      familyRow.find('[name$="[gender]"]').trigger('change')
+      familyRow.find('[name$="[date_of_birth]"]').datepicker('update', data.dateOfBirth);
+
+
 
   _initSelect2 = ->
     $('select').select2
