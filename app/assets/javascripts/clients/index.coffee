@@ -534,7 +534,6 @@ CIF.ClientsIndex = do ->
       allowClear: true
       dropdownAutoWidth : true,
       width: 'auto'
-      theme: "bootstrap"
 
   _formatReportxAxis = ->
     Highcharts.setOptions global: useUTC: false

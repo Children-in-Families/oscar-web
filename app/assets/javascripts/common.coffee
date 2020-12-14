@@ -10,6 +10,7 @@ CIF.Common =
     @checkValidationErrorExistOnSaving()
     @preventEditOnDatePicker()
     @confirmOnCancelBotton()
+    $.fn.select2.defaults.set( "theme", "bootstrap" )
 
   preventEditOnDatePicker: ->
     $('.date-picker').datepicker
