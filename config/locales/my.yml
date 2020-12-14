@@ -3847,7 +3847,10 @@ my:
       significant_family_member_count: ႀကီးမားေသာမိသားစုအေရအတြက္
       status: အေျခအေန
       step_1_title: Basic Family Information
+      step_11_title: Administrative Information
+      step_12_title: Family Information
       step_2_title: Family Member Information
+      step_21_title: Family Members
       step_3_title: Additional Information
       street: လမ္း
       village: ေက်းရြာ

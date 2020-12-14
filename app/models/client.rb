@@ -501,6 +501,16 @@ class Client < ActiveRecord::Base
     ].select(&:present?).join(', ')
   end
 
+  def to_select2
+    [
+      name, id, { data: {
+          date_of_birth: date_of_birth,
+          gender: gender
+        }
+      }
+    ]
+  end
+
   def time_in_cps
     date_time_in_cps   = { years: 0, months: 0, weeks: 0, days: 0 }
     return nil unless client_enrollments.present?

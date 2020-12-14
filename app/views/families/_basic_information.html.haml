@@ -1,5 +1,10 @@
 %h3= t('families.form.step_1_title')
 %section.basic-information
+  .row.sub-title
+    .col-sm-3
+      %h2= t('families.form.step_11_title')
+    .col-sm-9
+      %h2= t('families.form.step_12_title')
   .row
     - unless current_setting.hide_family_case_management_tool?
       .col-sm-3
