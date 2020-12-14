@@ -66,8 +66,8 @@
             = "#{Family.human_attribute_name(:name)} :"
             %strong= @family.name
           %td
-            = "#{Family.human_attribute_name(:gender)} :"
-            %strong
+            = "#{t('.created_by')} :"
+            %strong= @family.user&.name
         %tr
           %td
             = "#{Family.human_attribute_name(:id)} :"
@@ -80,8 +80,8 @@
             = "#{t('.current_province')} :"
             %strong= @family.province_name
           %td
-            = "#{t('.created_by')} :"
-            %strong= @family.user&.name
+
+  .col-md-3
 
   - unless current_setting.hide_family_case_management_tool?
     .col-sm-12
