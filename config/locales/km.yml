@@ -3715,7 +3715,10 @@ km:
       significant_family_member_count: ចំនួនសមាជិកគ្រួសារដែលចូលរួមរកប្រាក់ចំណូល
       status: ស្ថានភាព
       step_1_title: Basic Family Information
+      step_11_title: Administrative Information
+      step_12_title: Family Information
       step_2_title: Family Member Information
+      step_21_title: Family Members
       step_3_title: Additional Information
       street: ផ្លូវ
       village: ភូមិ

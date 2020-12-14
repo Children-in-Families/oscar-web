@@ -45,6 +45,16 @@ body[id='families-update'] {
       width: 100%;
     }
 
+    section {
+      &.basic-information, &.family-members {
+        padding-top: 0;
+      }
+
+      .sub-title {
+        padding: 15px 0;
+      }
+    }
+
     .btn-file {
       margin-bottom: 0;
     }

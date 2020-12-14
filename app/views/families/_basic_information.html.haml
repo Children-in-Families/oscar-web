@@ -1,5 +1,10 @@
 %h3= t('families.form.step_1_title')
 %section.basic-information
+  .row.sub-title
+    .col-sm-3
+      %h2= t('families.form.step_11_title')
+    .col-sm-9
+      %h2= t('families.form.step_12_title')
   .row
     .col-sm-3
       = f.input :received_by_id, collection: User.deleted_user.non_strategic_overviewers.order(:first_name, :last_name), label_method: :name, value_method: :id
