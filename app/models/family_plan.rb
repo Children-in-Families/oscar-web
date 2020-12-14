@@ -1,4 +1,4 @@
-class FamilyPlan < ActiveRecord::Base
+class FamilyPlan < ApplicationRecord
   has_paper_trail
 
   has_many :government_form_family_plans, dependent: :restrict_with_error

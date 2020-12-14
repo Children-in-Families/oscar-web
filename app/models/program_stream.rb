@@ -1,4 +1,4 @@
-class ProgramStream < ActiveRecord::Base
+class ProgramStream < ApplicationRecord
   include UpdateFieldLabelsFormBuilder
   FORM_BUILDER_FIELDS = ['enrollment', 'exit_program'].freeze
   acts_as_paranoid without_default_scope: true, column: :archived_at

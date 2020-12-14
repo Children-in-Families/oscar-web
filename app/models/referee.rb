@@ -1,4 +1,4 @@
-class Referee < ActiveRecord::Base
+class Referee < ApplicationRecord
   ADDRESS_TYPES    = ['Home', 'Business', 'RCI', 'Dormitory', 'Other'].freeze
   FIELDS = %w(id name gender adult anonymous phone email address_type outside province_id district_id commune_id village_id current_address house_number locality outside_address street_number created_at updated_at)
   GENDER_OPTIONS = ['female', 'male', 'lgbt', 'unknown', 'prefer_not_to_say', 'other']

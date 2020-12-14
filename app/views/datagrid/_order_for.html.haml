@@ -1,8 +1,8 @@
 - if params["controller"] == "clients"
   .order.pull-right
-    = button_to I18n.t('datagrid.table.order.asc').html_safe, ad_search_clients_path, params: params.merge(grid.param_name => grid.as_query.merge(order: column.name, descending: false)), class: 'asc btn btn-link', form_class: 'hidden-post-form', style: 'padding: 0'
-    = button_to I18n.t('datagrid.table.order.desc').html_safe, ad_search_clients_path, params: params.merge(grid.param_name => grid.as_query.merge(order: column.name, descending: true)), class: 'desc btn btn-link', form_class: 'hidden-post-form', style: 'padding: 0'
+    = button_to I18n.t('datagrid.table.order.asc').html_safe, ad_search_clients_path, params: request.parameters.merge(grid.param_name => grid.as_query.merge(order: column.name, descending: false)), class: 'asc btn btn-link', form_class: 'hidden-post-form', style: 'padding: 0'
+    = button_to I18n.t('datagrid.table.order.desc').html_safe, ad_search_clients_path, params: request.parameters.merge(grid.param_name => grid.as_query.merge(order: column.name, descending: true)), class: 'desc btn btn-link', form_class: 'hidden-post-form', style: 'padding: 0'
 - else
   .order.pull-right
-    = link_to(I18n.t('datagrid.table.order.asc').html_safe, url_for(params.merge(grid.param_name => grid.as_query.merge(order: column.name, descending: false))), class: 'asc')
-    = link_to(I18n.t('datagrid.table.order.desc').html_safe, url_for(params.merge(grid.param_name => grid.as_query.merge(order: column.name, descending: true))), class: 'desc')
+    = link_to(I18n.t('datagrid.table.order.asc').html_safe, url_for(request.parameters.merge(grid.param_name => grid.as_query.merge(order: column.name, descending: false))), class: 'asc')
+    = link_to(I18n.t('datagrid.table.order.desc').html_safe, url_for(request.parameters.merge(grid.param_name => grid.as_query.merge(order: column.name, descending: true))), class: 'desc')

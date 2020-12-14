@@ -1,4 +1,4 @@
-class AdvancedSearch < ActiveRecord::Base
+class AdvancedSearch < ApplicationRecord
   has_paper_trail
   belongs_to :user
 

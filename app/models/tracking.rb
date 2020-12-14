@@ -1,4 +1,4 @@
-class Tracking < ActiveRecord::Base
+class Tracking < ApplicationRecord
   include UpdateFieldLabelsFormBuilder
   FREQUENCIES = ['Daily', 'Weekly', 'Monthly', 'Yearly'].freeze
   acts_as_paranoid

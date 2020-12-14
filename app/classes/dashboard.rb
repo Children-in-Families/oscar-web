@@ -46,8 +46,8 @@ class Dashboard
 
   def program_stream_report_gender
     active_enrollments = Client.joins(:client_enrollments).where(client_enrollments: { status: 'Active' })
-    males = active_enrollments.where(clients: { gender: 'male' } ).uniq
-    females = active_enrollments.where(clients: { gender: 'female' } ).uniq
+    males = active_enrollments.where(clients: { gender: 'male' } ).distinct
+    females = active_enrollments.where(clients: { gender: 'female' } ).distinct
     [
       {
         name: I18n.t('classes.dashboard.males'),

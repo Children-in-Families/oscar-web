@@ -1,4 +1,4 @@
-class QuantitativeTypePermission < ActiveRecord::Base
+class QuantitativeTypePermission < ApplicationRecord
   belongs_to :user
   belongs_to :quantitative_type
 

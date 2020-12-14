@@ -1,4 +1,4 @@
-class Family < ActiveRecord::Base
+class Family < ApplicationRecord
   include EntityTypeCustomField
   include Brc::Family
 
@@ -32,7 +32,7 @@ class Family < ActiveRecord::Base
   before_validation :assign_family_type, if: [:new_record?, :brc?]
 
   validates :family_type, presence: true, inclusion: { in: TYPES }
-  validates :code, uniqueness: { case_sensitive: false }, if: 'code.present?'
+  validates :code, uniqueness: { case_sensitive: false }, if: -> { code.present? }
   validates :status, presence: true, inclusion: { in: STATUSES }
   validate :client_must_only_belong_to_a_family
 

@@ -1,4 +1,4 @@
-class DomainGroup < ActiveRecord::Base
+class DomainGroup < ApplicationRecord
   include ActionView::Helpers
 
   has_many :domains

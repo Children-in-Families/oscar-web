@@ -2,11 +2,11 @@ class ClientHistory
   include Mongoid::Document
   include Mongoid::Timestamps
 
-  store_in database: ->{ Organization.current.mho? ? ENV['MHO_HISTORY_DATABASE_NAME'] : ENV['HISTORY_DATABASE_NAME'] }
+  store_in database: -> { Organization.current.mho? ? ENV['MHO_HISTORY_DATABASE_NAME'] : ENV['HISTORY_DATABASE_NAME'] }
   default_scope { where(tenant: Organization.current.try(:short_name)) }
 
   field :object, type: Hash
-  field :tenant, type: String, default: ->{ Organization.current.short_name }
+  field :tenant, type: String, default: -> { Organization.current.short_name }
 
   embeds_many :agency_client_histories
   embeds_many :sponsor_histories
@@ -16,13 +16,13 @@ class ClientHistory
   embeds_many :client_family_histories
   embeds_many :client_quantitative_case_histories
 
-  after_save :create_sponsor_history, if: 'object.key?("donor_ids")'
-  after_save :create_agency_client_history, if: 'object.key?("agency_ids")'
-  after_save :create_case_worker_client_history, if: 'object.key?("user_ids")'
-  after_save :create_client_quantitative_case_history, if: 'object.key?("quantitative_case_ids")'
-  after_save :create_case_client_history,   if: 'object.key?("case_ids")'
-  after_save :create_client_family_history, if: 'object.key?("family_ids")'
-  after_save :create_client_custom_field_property_history, if: 'object.key?("custom_field_property_ids")'
+  after_save :create_sponsor_history, if: -> { object.key?('donor_ids') }
+  after_save :create_agency_client_history, if: -> { object.key?('agency_ids') }
+  after_save :create_case_worker_client_history, if: -> { object.key?('user_ids') }
+  after_save :create_client_quantitative_case_history, if: -> { object.key?('quantitative_case_ids') }
+  after_save :create_case_client_history,   if: -> { object.key?('case_ids') }
+  after_save :create_client_family_history, if: -> { object.key?('family_ids') }
+  after_save :create_client_custom_field_property_history, if: -> { object.key?('custom_field_property_ids') }
 
   def self.initial(client)
     attributes = client.attributes

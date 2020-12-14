@@ -1,2 +1,2 @@
-class ProgressNoteType < ActiveRecord::Base
+class ProgressNoteType < ApplicationRecord
 end

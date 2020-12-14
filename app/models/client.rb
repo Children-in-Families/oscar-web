@@ -1,4 +1,4 @@
-class Client < ActiveRecord::Base
+class Client < ApplicationRecord
   include ActionView::Helpers::DateHelper
   include EntityTypeCustomField
   include NextClientEnrollmentTracking
@@ -82,14 +82,14 @@ class Client < ActiveRecord::Base
 
   accepts_nested_attributes_for :tasks
 
-  has_many :families,       through: :cases
   has_many :cases,          dependent: :destroy
+  has_many :families,       through: :cases
   has_many :case_notes,     dependent: :destroy
   has_many :assessments,    dependent: :destroy
 
   has_paper_trail
 
-  validates :kid_id, uniqueness: { case_sensitive: false }, if: 'kid_id.present?'
+  validates :kid_id, uniqueness: { case_sensitive: false }, if: -> { kid_id.present? }
   validates :user_ids, presence: true, on: :create
   validates :user_ids, presence: true, on: :update, unless: :exit_ngo?
   validates :initial_referral_date, :received_by_id, :gender, :referral_source_category_id, presence: true

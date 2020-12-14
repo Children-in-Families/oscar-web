@@ -1,4 +1,4 @@
-class Commune < ActiveRecord::Base
+class Commune < ApplicationRecord
   attr_accessor :name
   has_paper_trail
 

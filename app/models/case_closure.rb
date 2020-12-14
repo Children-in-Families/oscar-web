@@ -1,4 +1,4 @@
-class CaseClosure < ActiveRecord::Base
+class CaseClosure < ApplicationRecord
   has_paper_trail
 
   has_many :government_forms

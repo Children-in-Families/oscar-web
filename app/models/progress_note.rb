@@ -1,3 +1,3 @@
-class ProgressNote < ActiveRecord::Base
+class ProgressNote < ApplicationRecord
   belongs_to :client
 end

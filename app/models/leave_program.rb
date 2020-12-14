@@ -1,4 +1,4 @@
-class LeaveProgram < ActiveRecord::Base
+class LeaveProgram < ApplicationRecord
   include NestedAttributesConcern
   include ClientEnrollmentTrackingConcern
 
