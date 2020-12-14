@@ -3,30 +3,26 @@ describe Family, 'validation' do
   it { is_expected.to validate_inclusion_of(:family_type).in_array(Family::TYPES)}
   it { is_expected.to validate_inclusion_of(:status).in_array(Family::STATUSES)}
 
-  # Todo
-  # context 'user_ids' do
-  #   context 'on create' do
-  #     it { is_expected.to validate_presence_of(:user_ids) }
-  #   end
-  #   context 'on update unless exit_ngo' do
-  #     let!(:admin){ create(:user, :admin) } # required this object for the email to be sent
-  #     let!(:client){ create(:client, :accepted) }
-  #     let!(:exit_client){ create(:client, :exited) }
-  #     context 'no validate if exit ngo' do
-  #       before do
-  #         exit_client.user_ids = []
-  #       end
-  #       it { expect(exit_client.valid?).to be_truthy }
-  #     end
+  context 'case_worker_ids' do
+    context 'on update unless exit_ngo' do
+      let!(:admin){ create(:user, :admin) } # required this object for the email to be sent
+      let!(:family){ create(:family, :accepted) }
+      let!(:exit_family){ create(:family, :exited) }
+      context 'no validate if exit ngo' do
+        before do
+          exit_family.case_worker_ids = []
+        end
+        it { expect(exit_family.valid?).to be_truthy }
+      end
 
-  #     context 'validate if not exit ngo' do
-  #       before do
-  #         client.user_ids = []
-  #       end
-  #       it { expect(client.valid?).to be_falsey }
-  #     end
-  #   end
-  # end
+      context 'validate if not exit ngo' do
+        before do
+          family.case_worker_ids = []
+        end
+        it { expect(family.valid?).to be_falsey }
+      end
+    end
+  end
 end
 
 describe Family, 'associations' do

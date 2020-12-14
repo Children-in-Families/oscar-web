@@ -203,4 +203,8 @@ module FamiliesHelper
       current_translations[reason_translations.key(reason)]
     end.join(', ')
   end
+
+  def family_order_case_worker(family)
+    family.case_workers.distinct.sort
+  end
 end

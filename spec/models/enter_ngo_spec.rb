@@ -47,7 +47,7 @@ describe EnterNgo do
             expect(enter_ngo.errors.full_messages).to include("User ids can't be blank")
           end
 
-          xit 'valid' do
+          it 'valid' do
             enter_ngo = FactoryGirl.build(:enter_ngo, acceptable: exited_family, user_ids: [manager.id])
             enter_ngo.save
             expect(enter_ngo.valid?).to be_truthy

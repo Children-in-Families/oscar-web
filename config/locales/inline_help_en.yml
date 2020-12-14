@@ -132,8 +132,10 @@ en:
       donor_donor: For the clients who are financially supported by an organization or individual. Admin, If the donor is not in the list, add it from <strong>Manage &gt;&gt; Donors</strong>.
       donor_involved: For clients who will be managed jointly with other organization(s). You can choose more than one agency. Admin/Manager/Caseworker, If the organization is not in the list, add it from <strong>Manage &gt;&gt; Agencies</strong>.
     exit_form:
-      circumstance: 'The field will auto-updated to show: <strong>Rejected Referral</strong> – If you clicked the <strong>Reject</strong> button. [The organization rejected to take the referred case.] OR <strong>Exited Client</strong> – If you close the case through the <strong>Exit from NGO</strong> button. [The organization supported the client, but not continuing to support.]'
+      circumstance: 'The field will auto-updated to show: <strong>Rejected Referral</strong> – If you clicked the <strong>Reject</strong> button. [The organization rejected to take the referred case.] OR <strong>Exited %{entity}</strong> – If you close the case through the <strong>Exit from NGO</strong> button. [The organization supported the %{entity}, but not continuing to support.]'
+      client: Client
       date: N/A
+      family: Family
       notes:
         lists:
           client: client

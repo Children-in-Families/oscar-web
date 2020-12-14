@@ -62,8 +62,7 @@ class Family < ActiveRecord::Base
   validates :code, uniqueness: { case_sensitive: false }, if: 'code.present?'
   validates :status, inclusion: { in: STATUSES }
   validate :client_must_only_belong_to_a_family
-  # Todo
-  # validates :user_ids, presence: true, on: :update, unless: :exit_ngo?
+  validates :case_worker_ids, presence: true, on: :update, unless: :exit_ngo?
 
   after_save :save_family_in_client
 

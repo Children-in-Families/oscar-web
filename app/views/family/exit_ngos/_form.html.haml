@@ -45,16 +45,15 @@
             .col-xs-12.col-sm-6.col-md-6
               %label= t('.case_worker_or_staff')
               %br
-              -# Todo
-              -# - order_case_worker(@family).each do |case_worker|
-              -#   %strong.label.label-default
-              -#     = user case_worker
+              - family_order_case_worker(@family).each do |case_worker|
+                %strong.label.label-default
+                  = user case_worker
 
               .form_inputs
                 %label.date.required.control-label{ for: 'family_exit_circumstance' }
                   %abbr{ title: 'required' } *
                   = t('.exit_circumstance')
-                %a{:role => "button", :tabIndex => "0",  data:{ toggle: "popover", html: 'true', trigger: "focus", content: "#{I18n.t('inline_help.exit_form.circumstance')}", placement: "auto" } }
+                %a{:role => "button", :tabIndex => "0",  data:{ toggle: "popover", html: 'true', trigger: "focus", content: "#{I18n.t('inline_help.exit_form.circumstance', entity: t('inline_help.exit_form.family'))}", placement: "auto" } }
                   = fa_icon "info-circle", class: 'text-info m-xs'
                 = f.input :exit_circumstance, label: false, input_html: {value: family_exit_circumstance_value}, readonly: true, required: true
               .form-inputs

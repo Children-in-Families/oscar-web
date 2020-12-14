@@ -121,8 +121,10 @@ th-TH:
       donor_donor: For the clients who are financially supported by an organization or individual. Admin, If the donor is not in the list, add it from Manage &gt;&gt; Donors.
       donor_involved: For clients who will be managed jointly with other organization(s). You can choose more than one agency. Admin/Manager/Caseworker, If the organization is not in the list, add it from Manage &gt;&gt; Agencies.
     exit_form:
-      circumstance: 'The field will auto-updated to show: Rejected Referral – If you clicked the Reject button. [The organization rejected to take the referred case.] OR Exited Client – If you close the case through the Exit from NGO button. [The organization supported the client, but not continuing to support.]'
+      circumstance: 'The field will auto-updated to show: Rejected Referral – If you clicked the Reject button. [The organization rejected to take the referred case.] OR Exited %{entity} – If you close the case through the Exit from NGO button. [The organization supported the %{entity}, but not continuing to support.]'
+      client: Client
       date: N/A
+      family: Family
       notes:
         lists:
           list1: The case will remain in the database and show the Exit status. Case Worker(s)/Staff will be removed from the exited client and can no longer see the case in the OSCaR system. Only the Admin/Manager can see exited clients.
