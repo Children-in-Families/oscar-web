@@ -76,7 +76,7 @@
             .col-xs-12
               = render 'client/exit_ngos/form', client: @client
 
-        - elsif @client.status == 'Exited'
+        - elsif @client.exit_ngo?
           .row
             .col-xs-12
               %button.btn.btn-success.mini-margin.enter-ngo-for-client{ class: 'agree-btn', data: { class_name: 'accept-client', disable_with: t('.accepting'), 'target' => "#enter-ngo-form", 'toggle' => 'modal', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.accepted')}", placement: "auto" } } #{t('.accept')}

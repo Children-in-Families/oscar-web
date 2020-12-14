@@ -3787,6 +3787,28 @@ my:
   families:
     actions:
       are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသမား
+    case_history_detail:
+      accepted_date: လက်ခံခဲ့သည်နေ့စွဲ
+      family: မိသားစု
+      family_id: မိသားစုမှတ်ပုံတင်
+      consent_form: သဘောတူညီချက်ပုံစံ
+      date_of_referral: လွှဲပြောင်း၏နေ့စွဲ
+      enrollment_date: အစီအစဥ္တြင္ ၀င္ေရာက္သည့္ ရက္စြဲ
+      exit_circumstance: ထွက်ပေါက်အခြေအနေ
+      exit_date: ထြက္သည့္မွတ္စု
+      exit_note: ထြက္သည့္မွတ္စု
+      exit_program_date: အဆိုပါအစီအစဉ်ကိုစွန့်ခွာတွင်
+      exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
+      external_referral: ထွက်လွှဲပြောင်း
+      initial_referral_date: ကနဦး လႊဲေျပာင္းသည့္ ရက္စြဲ
+      internal_referral: ကနေပြောင်းရွှေ့
+      name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
+      other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
+      preview_download: အစမ္းၾကည့္ျခင္းႏွင့္ ေဒါင္းလုတ္
+      referee_phone_number: ဒိုင်လူကြီးဖုန်းနံပါတ်ကို
+      referral_reasons: လွှဲပြောင်းအကြောင်းပြချက်
+      referred_from: ကနေရည်ညွှန်း
+      referred_to: ကနေရည်ညွှန်း
     create:
       successfully_created: မိသားစုကို ေအာင္ျမင္စြာ ျပဳလုပ္ၿပီးပါၿပီ
     destroy:

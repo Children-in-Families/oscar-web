@@ -94,4 +94,15 @@ describe EnterNgo do
       end
     end
   end
+
+  describe EnterNgo, 'methods' do
+    let(:family){ create(:family) }
+    let(:enter_ngo_1){ create(:enter_ngo, acceptable: family) }
+
+    context '.attached_to_family?' do
+      it 'return true' do
+        expect(enter_ngo_1.attached_to_family?).to be_truthy
+      end
+    end
+  end
 end

@@ -19,13 +19,23 @@ class EnterNgo < ActiveRecord::Base
   after_create :update_entity_status
   after_save :create_enter_ngo_history
 
+  def attached_to_family?
+    acceptable_type == 'Family'
+  end
+
   private
 
   def update_entity_status
     entity = client.present? ? client : acceptable
     entity.status = 'Accepted'
+
     if user_ids.any?
-      entity.user_ids = self.user_ids
+      if client.present?
+        entity.user_ids = self.user_ids
+      elsif acceptable.present?
+        # note the relation between users and acceptable obj
+        entity.case_worker_ids = self.user_ids
+      end
     end
     entity.save(validate: false)
   end

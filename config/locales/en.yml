@@ -3792,6 +3792,28 @@ en:
   families:
     actions:
       are_you_sure: Are you sure you want to delete?
+    case_history_detail:
+      accepted_date: NGO Accept Date
+      family: Family
+      family_id: Family ID
+      consent_form: Consent Form
+      date_of_referral: Date of Referral
+      enrollment_date: Enrollment Date
+      exit_circumstance: Exit Circumstance
+      exit_date: NGO Exit Date
+      exit_note: Exit Note
+      exit_program_date: Exit Program Date
+      exit_reasons: Reason for Exit / Case Rejection
+      external_referral: External Referral
+      initial_referral_date:
+      internal_referral: Internal Referral
+      name_of_referee: Name Of Referee
+      other_info_of_exit: Other - More Information
+      preview_download: Preview & Download
+      referee_phone_number: Referee Phone Number
+      referral_reasons: Referral Reasons
+      referred_from: Referred from External Organisation
+      referred_to: Referred to External Organisation
     create:
       successfully_created: Family has been successfully created.
     destroy:
