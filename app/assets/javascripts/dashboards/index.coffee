@@ -271,8 +271,8 @@ CIF.DashboardsIndex = do ->
         en_full_name = "#{client.given_name} #{client.family_name}"
         local_full_name = "#{client.local_given_name} #{client.local_family_name}"
         markup = "<a href='clients/#{client.slug}'>#{en_full_name} | #{local_full_name} (#{client.id})</a>"
-        # <img class=\'img-thumb pull-left m-r-sm\' width=\'50\' src=\'' + asset_path(client.profile.photo.url + '\' />
-        $container = $('<div class=\'select2-result-repository clearfix\'>' + '<div class=\'select2-result-repository__avatar\'></div>' + '<div class=\'select2-result-repository__meta\'>' + '<div class=\'select2-result-client__full_name\'></div>' + '<div class=\'select2-result-client__slug\'></div>' + '<div class=\'select2-result-client_status\'> </div>' + '</div>' + '</div>' + '</div>')
+
+        $container = $("<div class='select2-result-repository clearfix'><div class='select2-result-repository__avatar'></div><div class='select2-result-repository__meta'><div class='select2-result-client__full_name'></div><div class='select2-result-client__slug'></div><div class='select2-result-client_status'></div></div></div></div>")
         $container.find('.select2-result-client__full_name').append markup
         $container.find('.select2-result-client__slug').text client.slug
         $container.find('.select2-result-client_status').append "Status: #{client.status}"
