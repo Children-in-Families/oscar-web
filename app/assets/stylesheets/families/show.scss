@@ -1,6 +1,12 @@
 body[id='families-show'] {
   @import 'clients/client_grid';
 
+  .agree-btn {
+    width: 100px;
+    text-align: center;
+    padding: 6px;
+  }
+
   .family {
     .family-detail {
       padding-top: 5px;

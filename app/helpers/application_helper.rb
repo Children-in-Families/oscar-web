@@ -380,4 +380,8 @@ module ApplicationHelper
     end
     ngos
   end
+
+  def initial_referral_date_picker_format(entity)
+    "#{entity.initial_referral_date&.year}, #{entity.initial_referral_date&.month}, #{entity.initial_referral_date&.day}"
+  end
 end

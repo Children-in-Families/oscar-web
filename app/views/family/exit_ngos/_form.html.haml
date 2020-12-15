@@ -5,7 +5,7 @@
         %button.close{"aria-label" => "Close", "data-dismiss" => "alert", :type => "button"}
           %span{"aria-hidden" => "true"} ×
         %ul
-          %li= I18n.t('inline_help.exit_form.notes.lists.list1').html_safe
+          %li= I18n.t('inline_help.exit_form.notes.lists.list1', entity: t('inline_help.exit_form.notes.lists.family')).html_safe
       .modal-header
         %button.close{"aria-label" => "#{t('.close')}", "data-dismiss" => 'modal'}
           %span{"aria-hidden" => 'true'} &times;
@@ -14,18 +14,17 @@
             .col-xs-12.col-sm-6
               %h4= t('.exit_ngo')
             .col-xs-12.col-sm-4
-              %h4= "Client ID - #{@client.slug}"
+              %h4= "Family ID - #{@family.id}"
 
       .modal-body
-        = simple_form_for [@client, @client.exit_ngos.build] do |f|
+        = simple_form_for [@family, @family.exit_ngos.build] do |f|
           = f.error_notification
           .row
             .col-xs-12.col-sm-6.col-md-6
-              %h3= @client.en_and_local_name
-              %h3= "#{@client.gender.try(:capitalize)} #{date_format(@client.date_of_birth)}"
+              %h3= @family.name
               .form-inputs
-                .form-group.date.client_exit_date
-                  %label.date.required.control-label{ for: 'client_exit_date' }
+                .form-group.date.family_exit_date
+                  %label.date.required.control-label{ for: 'family_exit_date' }
                     %abbr{ title: 'required' } *
                     = t('.exit_date')
                   .input-group
@@ -34,32 +33,32 @@
                       %i.fa.fa-calendar-check-o
 
               .form-inputs.i-checks
-                %label.date.required.control-label{ for: 'client_exit_reasons' }
+                %label.date.required.control-label{ for: 'family_exit_reasons' }
                   %abbr{ title: 'required' } *
                   = t('.exit_reasons')
                 %a{:role => "button", :tabIndex => "0",  data:{ toggle: "popover", html: 'true', trigger: "focus", content: "#{I18n.t('inline_help.exit_form.reason')}", placement: "auto" } }
                   = fa_icon "info-circle", class: 'text-info m-xs'
-                = f.input :exit_reasons, as: :check_boxes, collection: [ExitNgo::EXIT_REASONS.sort, t('.exit_reason_options').values].transpose, label_method: :second, value_method: :first, label: false
+                = f.input :exit_reasons, as: :check_boxes, collection: [ExitNgo::FAMILY_EXIT_REASONS.sort, t('.exit_reason_options').values].transpose, label_method: :second, value_method: :first, label: false
               .form-inputs
                 = f.input :other_info_of_exit, label: t('.other_info_of_exit')
 
             .col-xs-12.col-sm-6.col-md-6
               %label= t('.case_worker_or_staff')
               %br
-              - order_case_worker(@client).each do |case_worker|
+              - family_order_case_worker(@family).each do |case_worker|
                 %strong.label.label-default
                   = user case_worker
 
               .form_inputs
-                %label.date.required.control-label{ for: 'client_exit_circumstance' }
+                %label.date.required.control-label{ for: 'family_exit_circumstance' }
                   %abbr{ title: 'required' } *
                   = t('.exit_circumstance')
-                %a{:role => "button", :tabIndex => "0",  data:{ toggle: "popover", html: 'true', trigger: "focus", content: "#{I18n.t('inline_help.exit_form.circumstance', entity: t('inline_help.exit_form.client'))}", placement: "auto" } }
+                %a{:role => "button", :tabIndex => "0",  data:{ toggle: "popover", html: 'true', trigger: "focus", content: "#{I18n.t('inline_help.exit_form.circumstance', entity: t('inline_help.exit_form.family'))}", placement: "auto" } }
                   = fa_icon "info-circle", class: 'text-info m-xs'
-                = f.input :exit_circumstance, label: false, input_html: {value: exit_circumstance_value}, readonly: true, required: true
+                = f.input :exit_circumstance, label: false, input_html: {value: family_exit_circumstance_value}, readonly: true, required: true
               .form-inputs
                 = f.input :exit_note, label: t('.exit_note'), input_html: { rows: '14' }, required: true
 
           .text-right
-            %button.btn.btn-default= t('cancel')
+            %button.btn.btn-default.editable-cancel{ type: 'button', data: { dismiss: 'modal' } }= t('cancel')
             = f.submit t('.exit_btn'), class: 'btn btn-danger confirm-exit', disabled: :disabled, data: { disable_with: t('.exiting') }

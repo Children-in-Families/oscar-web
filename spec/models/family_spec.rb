@@ -2,6 +2,27 @@ describe Family, 'validation' do
   it { is_expected.to validate_presence_of(:family_type) }
   it { is_expected.to validate_inclusion_of(:family_type).in_array(Family::TYPES)}
   it { is_expected.to validate_inclusion_of(:status).in_array(Family::STATUSES)}
+
+  context 'case_worker_ids' do
+    context 'on update unless exit_ngo' do
+      let!(:admin){ create(:user, :admin) } # required this object for the email to be sent
+      let!(:family){ create(:family, :accepted) }
+      let!(:exit_family){ create(:family, :exited) }
+      context 'no validate if exit ngo' do
+        before do
+          exit_family.case_worker_ids = []
+        end
+        it { expect(exit_family.valid?).to be_truthy }
+      end
+
+      context 'validate if not exit ngo' do
+        before do
+          family.case_worker_ids = []
+        end
+        it { expect(family.valid?).to be_falsey }
+      end
+    end
+  end
 end
 
 describe Family, 'associations' do
@@ -14,6 +35,8 @@ describe Family, 'associations' do
   it { is_expected.to have_many(:custom_fields).through(:custom_field_properties) }
   it { is_expected.to have_many(:enrollments).dependent(:destroy) }
   it { is_expected.to have_many(:program_streams).through(:enrollments) }
+  it { is_expected.to have_many(:enter_ngos).dependent(:destroy) }
+  it { is_expected.to have_many(:exit_ngos).dependent(:destroy) }
 end
 
 describe Family, 'scopes' do
@@ -132,6 +155,7 @@ describe Family, 'scopes' do
 end
 
 describe Family, 'instance methods' do
+  let!(:referred_family){ create(:family) }
   let!(:inactive_family){ create(:family, :inactive) }
   let!(:birth_family){ create(:family, :birth_family_both_parents) }
   let!(:ec_family){ create(:family, :emergency) }
@@ -149,6 +173,10 @@ describe Family, 'instance methods' do
 
   context '#inactive?' do
     it { expect(inactive_family.inactive?).to be_truthy }
+  end
+
+  context '#referred?' do
+    it { expect(referred_family.referred?).to be_truthy }
   end
 
   context '#exit_ngo?' do

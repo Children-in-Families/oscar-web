@@ -23,7 +23,7 @@ RSpec.describe ClientHistory do
       end
 
       it 'creates case client history' do
-        expect(subject.case_client_histories.first.object).to include(client_case.attributes.slice('carer_address', 'carer_names', 'carer_phone_number', ))
+        expect(subject.case_client_histories.last.object).to include(client_case.attributes.slice('carer_address', 'carer_names', 'carer_phone_number', ))
       end
 
       it 'create client family history' do

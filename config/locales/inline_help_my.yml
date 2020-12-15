@@ -134,7 +134,7 @@ my:
       donor_donor: For the clients who are financially supported by an organization or individual. Admin, If the donor is not in the list, add it from Manage &gt;&gt; Donors.
       donor_involved: For clients who will be managed jointly with other organization(s). You can choose more than one agency. Admin/Manager/Caseworker, If the organization is not in the list, add it from Manage &gt;&gt; Agencies.
     exit_form:
-      circumstance: 'The field will auto-updated to show: Rejected Referral – If you clicked the Reject button. [The organization rejected to take the referred case.] OR Exited Client – If you close the case through the Exit from NGO button. [The organization supported the client, but not continuing to support.]'
+      circumstance: 'The field will auto-updated to show: Rejected Referral – If you clicked the Reject button. [The organization rejected to take the referred case.] OR Exited %{entity} – If you close the case through the Exit from NGO button. [The organization supported the %{entity}, but not continuing to support.]'
       date: N/A
       notes:
         lists:
@@ -148,6 +148,11 @@ my:
       family_type: Choose based on the client’s current situation. You should update this when the situation changes. <strong>Birth family </strong> – Client stays with own family, choose an option indicating if only one or both parents exist. <strong>Child-headed household</strong> – Primary carer is still a child (usually a teenager). No legal adults in the household. The client stays alone but the family may exist in another province. <strong>Domestically adopted</strong> – Client adopted within own country.<strong>Short term/emergency foster care</strong> – Client is cared for by another family for a short period (maximum 3 months). <strong>Long term foster care</strong> – Client is cared for by another family for an unlimited period. <strong>No family</strong> – Client is orphan; no family member or relatives are involved. <strong>Extended family/kinship care</strong> – Client is cared for by relatives.
       name: Could be anyone who is caring for the client including caregiver, family members, relatives or organization staff.
       show:
+        accepted: Accept indicates your organization will work with the family. The next step is to perform family assessment and enroll in the program stream(s).
+        exit_ngo: This will close the case. That indicates, the organization will not spend more resources on this family. However, the record will remain in the OSCaR system.
+        ratanak:
+          accepted: Accept indicates your organization will work with the family. The next step is to enroll family in the program stream(s) and perform family assessment.
+        reject: Reject indicates your organization cannot work with the family for some reason. The case will remain in the database and show Exited status with exit circumstance as Reject Referral.
         active_program: View/Edit/Delete the enrollment information, add new tracking form(s), or exit family from the program(s).
         enroll_program: 'Enlist the family in existing program stream(s) here. Admin: If the program doesn’t exist, add a new program stream through <strong>Manage >> Program Streams</strong>.'
       status: Manually update the status. Active means one or more clients within a family are on support. If no client is currently under care, update as <strong>Inactive</strong>.
