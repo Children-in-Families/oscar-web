@@ -12,7 +12,7 @@
         = f.input :received_by_id, required: true, collection: User.deleted_user.non_strategic_overviewers.order(:first_name, :last_name), label_method: :name, value_method: :id
 
         .form-group
-          = f.label :initial_referral_date, class: 'control-label'
+          = f.label :initial_referral_date, class: 'control-label', required: true
           .input-group.date
             = f.input :initial_referral_date, required: true, label: false, wrapper: false, input_html: { class: 'date optional form-control date-picker' }, as: :string
             %span.input-group-addon

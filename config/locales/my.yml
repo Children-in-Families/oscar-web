@@ -4567,6 +4567,7 @@ my:
       edit_profile: ပ႐ိုဖုိင္ ျပင္ဆင္ရန္
       en: အဂၤလိပ္
       families: မိသားစုမ်ား
+      family_form: Family Form
       interventions: ၾကား၀င္ေဆာင္ရြက္မႈမ်ား
       km: ကေမာၻဒီးယားဘာသာစကား
       locations: ေနရာမ်ား
@@ -5447,6 +5448,9 @@ my:
       default_columns: ပုံမှန်ကော်လံများ
       family_default_columns: မိသားစု
       partner_default_columns: လက္တြဲေဖာ္
+    family_case_management:
+      family_case_management: Family Case Management
+      hide_family_case_management_tool: Hide Administrative Information and Case Management tools
     index:
       csi_tools: ရရှိနိုင်အကဲဖြတ်
       custom_assessment: နာမတျောကို
