@@ -4641,6 +4641,7 @@ en:
       edit_profile: Edit Profile
       en: English
       families: Families
+      family_form: Family Form
       interventions: Interventions
       km: ខ្មែរ
       locations: Locations
@@ -5521,6 +5522,7 @@ en:
       family_default_columns: Family
       partner_default_columns: Partner
     family_case_management:
+      family_case_management: Family Case Management
       hide_family_case_management_tool: Hide Administrative Information and Case Management tools
     index:
       csi_tools: Assessment Tools
