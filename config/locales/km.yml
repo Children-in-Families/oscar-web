@@ -3780,6 +3780,28 @@ km:
   families:
     actions:
       are_you_sure: តើអ្នកប្រាកដហើយថាចង់លុប?
+    case_history_detail:
+      accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
+      family: ឈ្មោះគ្រួសារ
+      family_id: លេខសំគាល់គ្រួសារ
+      consent_form: ទម្រង់យល់ព្រម
+      date_of_referral: កាលបរិច្ឆេទបញ្ជូន
+      enrollment_date: កាលបរិច្ឆេទចុះឈ្មោះ
+      exit_circumstance: ស្ថានភាពនៃការចាកចេញ
+      exit_date: ថ្ងៃចាកចេញពីអង្គការ
+      exit_note: កំណត់ហេតុនៃការចាកចេញ
+      exit_program_date: ថ្ងៃចាកចេញពីកម្មវិធី
+      exit_reasons: មូលហេតុនៃការចាកចេញ
+      external_referral: ផ្ទេរចេញទៅ
+      initial_referral_date: កាលបរិចេ្ឆទនៃការបញ្ជូនដំបូង
+      internal_referral: ផ្ទេរចូលពី
+      name_of_referee: ឈ្មោះអ្នកបញ្ជូន
+      other_info_of_exit: ព័ត៌មានបន្ថែមនៃការចាកចេញ
+      preview_download: មើលនិងទាញយក
+      referee_phone_number: លេខទូរស័ព្ទរបស់អ្នកបញ្ជូនករណី
+      referral_reasons: មូលហេតុនៃការបញ្ជូន
+      referred_from: បញ្ជូនមកពីអង្គការដទៃ
+      referred_to: បញ្ជូនទៅអង្គការដទៃ
     create:
       successfully_created: គ្រួសារត្រូវបានបង្កើតដោយជោគជ័យ
     destroy:
@@ -3858,7 +3880,11 @@ km:
       results: លទ្ធផល
     new:
       new_family_title: គ្រួសារថ្មី
+    remaining_programs:
+      close: បិទ
+      warning: ប្រុងប្រយ័ត្ន
     show:
+      accept: ទទួលយក
       add_form: បន្ថែមទម្រង់បែបបទទៅឲ្យគ្រួសារ
       additional_forms: ទម្រង់បែបបទរបស់គ្រួសារដែលកំពុងប្រើ
       additional_info: ព័ត៌មានលំអិតបន្ថែម
@@ -3866,14 +3892,19 @@ km:
       adult_name: ឈ្មោះមនុស្សពេញវ័យដែលរស់នៅក្នុងផ្ទះជាមួយគ្នា
       are_you_sure: តើអ្នកប្រាកដហើយ?
       caregiver_information: ព័ត៌មាននៃអ្នកថែទាំ
+      case_histories: ប្រវត្តិនៃករណី
       case_history: ប្រវត្តិគ្រួសារ
       code: លេខសំគាល់គ្រួសារ
       contract_date: កាលបរិច្ឆេទនៃកិច្ចសន្យា
-      created_by: Created by
+      created_by: បង្កើតឡើងដោយ
+      created_date: កាលបរិច្ឆេទនៃការបង្កើត
       current_province: ខេត្ត
+      date: កាលបរិច្ឆេទ
       date_of_birth: ថ្ងៃខែ​ឆ្នាំ​កំណើត
       dependable_income: ប្រាក់ចំណូលទៀងទាត់
-      enrolled_program_streams: Family's Active Program Streams
+      detail: ព័ត៌មានលំអិត
+      enrolled_program_streams: កម្មវិធីចម្បងរបស់គ្រួសារ
+      exit_ngo_btn: ចាកចេញពីអង្គការ
       family_type: ប្រភេទគ្រួសារ
       female_adult_count: ចំនួនមនុស្សស្រីពេញវ័យ
       female_children_count: ចំនួនក្មេងស្រី
@@ -3896,6 +3927,7 @@ km:
       referral_forms: ទម្រង់បញ្ជូន
       referred_from: ប្រភពនៃការបញ្ជូន
       referred_to: បញ្ជូនទៅអង្គការដទៃ
+      reject: មិនទទួលយក
       relation: ទំនាក់ទំនងជាមួយកុមារ
       remove_member: លុបសមាជិក
       significant_family_member_count: ចំនួនសមាជិកគ្រួសារដែលចូលរួមរកប្រាក់ចំណូល
@@ -3980,6 +4012,76 @@ km:
       type_of_service: ប្រភេទសេវាកម្ម
     update:
       successfully_updated: ការបញ្ជូនត្រូវបានកែសម្រួលដោយជោគជ័យ
+  family:
+    enter_ngos:
+      create:
+        failed_create: គ្រួសារមិនត្រូវបានកែសម្រួលដោយជោគជ័យ
+        successfully_created: គ្រួសារត្រូវបានកែសម្រួលដោយជោគជ័យ
+      edit_form:
+        accept: ទទួលយក
+        accept_ngo_form: ទទួលចូលអង្គការ
+        accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
+        case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
+      form:
+        accept: ទទួលយក
+        accept_ngo_form: ទទួលចូលអង្គការ
+        accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
+        accepting: កំពុងទទួលយក...
+        case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
+      update:
+        failed_update: គ្រួសារមិនត្រូវបានកែសម្រួលដោយជោគជ័យ
+        successfully_updated: គ្រួសារត្រូវបានកែសម្រួលដោយជោគជ័យ
+    exit_ngos:
+      create:
+        failed_create: គ្រួសារមិនត្រូវបានកែសម្រួលដោយជោគជ័យ
+        successfully_created: គ្រួសារត្រូវបានកែសម្រួលដោយជោគជ័យ
+      edit_form:
+        case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
+        exit_btn: ចាកចេញ
+        exit_circumstance: ស្ថានភាពនៃការចាកចេញ
+        exit_date: ថ្ងៃចាកចេញ
+        exit_ngo: ចាកចេញពីអង្គការ
+        exit_note: កំណត់ហេតុនៃការចាកចេញ
+        exit_reason_options:
+          agency_lack_resource: អង្គភាពខ្វះធនធានគ្រប់គ្រាន់
+          family_died: គ្រួសារបានទទួលមរណៈភាព
+          family_does_not_meet_service_criteria: គ្រួសារមិនត្រូវ​ /​ ឈប់ត្រូវតាមលក្ខខណ្ឌសេវាកម្ម
+          family_does_not_required_support: គ្រួសារមិនត្រូវការ / ឈប់ត្រូវការការឧបត្ថម្ភ
+          family_move_out_international: គ្រួសារនៅក្រៅ / ចាកចេញទៅក្រៅតំបន់គោលដៅអង្គការ (អន្តរជាតិ)
+          family_move_out_within_cambodia: គ្រួសារនៅក្រៅ / ចាកចេញទៅក្រៅតំបន់គោលដៅអង្គការ (ក្នុងប្រទេសកម្ពុជា)
+          family_refuse_service: គ្រួសារបដិសេធមិនទទួលយកសេវាកម្ម
+          other_reason: ផ្សេងៗ
+        exit_reasons: មូលហេតុនៃការចាកចេញ
+        exit_status: ស្ថានភាព
+        exiting: កំពុងចាកចេញពីអង្គការ...
+        other_info_of_exit: ព័ត៌មានបន្ថែមនៃការចាកចេញ
+        reject_family: មិនទទួលយកគ្រួសារ
+        rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
+      form:
+        case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
+        exit_btn: ចាកចេញ
+        exit_circumstance: ស្ថានភាពនៃការចាកចេញ
+        exit_date: ថ្ងៃចាកចេញ
+        exit_ngo: ចាកចេញពីអង្គការ
+        exit_note: កំណត់ហេតុនៃការចាកចេញ
+        exit_reason_options:
+          agency_lack_resource: អង្គភាពខ្វះធនធានគ្រប់គ្រាន់
+          family_died: គ្រួសារបានទទួលមរណៈភាព
+          family_does_not_meet_service_criteria: គ្រួសារមិនត្រូវ​ /​ ឈប់ត្រូវតាមលក្ខខណ្ឌសេវាកម្ម
+          family_does_not_required_support: គ្រួសារមិនត្រូវការ / ឈប់ត្រូវការការឧបត្ថម្ភ
+          family_move_out_international: គ្រួសារនៅក្រៅ / ចាកចេញទៅក្រៅតំបន់គោលដៅអង្គការ (អន្តរជាតិ)
+          family_move_out_within_cambodia: គ្រួសារនៅក្រៅ / ចាកចេញទៅក្រៅតំបន់គោលដៅអង្គការ (ក្នុងប្រទេសកម្ពុជា)
+          family_refuse_service: គ្រួសារបដិសេធមិនទទួលយកសេវាកម្ម
+          other_reason: ផ្សេងៗ
+        exit_reasons: មូលហេតុនៃការចាកចេញ
+        exit_status: ស្ថានភាព
+        exiting: កំពុងចាកចេញ...
+        other_info_of_exit: ព័ត៌មានបន្ថែមនៃការចាកចេញ
+        reject_family: មិនទទួលយកគ្រួសារ
+        rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
+      update:
+        failed_update: គ្រួសារមិនត្រូវបានកែសម្រួលដោយជោគជ័យ
+        successfully_updated: គ្រួសារត្រូវបានកែសម្រួលដោយជោគជ័យ
   faq: សំនួរចម្លើយ
   field_label_cannot_be_blank: ផ្នែកនៃទម្រង់មិនអាចរំលង
   form_builder:

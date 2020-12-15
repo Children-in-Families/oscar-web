@@ -159,6 +159,11 @@ Rails.application.routes.draw do
 
   resources :families do
     resources :family_referrals
+    scope module: 'family' do
+      resources :exit_ngos, only: [:create, :update]
+      resources :enter_ngos, only: [:create, :update]
+    end
+
     resources :custom_field_properties
     get 'version' => 'families#version'
 

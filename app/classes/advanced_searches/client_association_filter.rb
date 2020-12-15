@@ -221,7 +221,7 @@ module AdvancedSearches
     end
 
     def exit_ngo_exit_reasons_query
-      exit_ngos = ExitNgo.all
+      exit_ngos = ExitNgo.attached_with_clients
       case @operator
       when 'equal'
         exit_ngos = exit_ngos.where('(? = ANY(exit_reasons))', @value.squish)
@@ -254,7 +254,7 @@ module AdvancedSearches
     end
 
     def exit_ngo_text_field_query(field)
-      exit_ngos = ExitNgo.all
+      exit_ngos = ExitNgo.attached_with_clients
       case @operator
       when 'equal'
         client_id  = exit_ngos.find_by("lower(#{field}) = ?", @value.downcase.squish).try(:client_id)

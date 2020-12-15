@@ -5,51 +5,6 @@
 - ngos = mapping_ngos(ngos)
 
 .row.gray-bg
-  .col-xs-12.family
-    .btn-group.small-btn-margin
-      %button.btn-sm.btn.btn-success.dropdown-toggle{ 'data-toggle' => 'dropdown', class: ('disabled' if @group_family_custom_fields.empty?) }
-        = t('.additional_forms')
-        %span.caret
-      %ul.dropdown-menu.scrollable-dropdown-menu
-        - @group_family_custom_fields.each do |_, family_custom_fields|
-          %li
-            %p= link_to family_custom_fields.first.custom_field.form_title, family_custom_field_properties_path(@family, custom_field_id: family_custom_fields.first.custom_field_id)
-
-    - if can? :manage, CustomFieldProperty
-      .btn-group.small-btn-margin
-        %button.btn-sm.btn.btn-success.dropdown-toggle{ 'data-toggle' => 'dropdown', class: ('disabled' if @free_family_forms.empty?) }
-          = t('.add_form')
-          %span.caret
-        %ul.dropdown-menu.scrollable-dropdown-menu
-          - @free_family_forms.each do |custom_field|
-            %li
-              %p= link_to custom_field.form_title, new_family_custom_field_property_path(@family, custom_field_id: custom_field)
-      - if current_organization.available_for_referral?
-        %input#family-id{ value: "#{@family.id}", type: 'hidden' }
-          .btn-group.small-btn-margin
-            %button.btn-sm.btn.btn-warning.dropdown-toggle.btn-fit{ data: { toggle: "dropdown", html: 'true', trigger: 'hover', content: "#{I18n.t('inline_help.families.show.referral_form')}", placement: "auto" }, class: ('disabled' if @family.family_referrals.empty?) }
-              = t('.referral_forms')
-              %span.caret
-            %ul.dropdown-menu.btn-fit.scrollable-dropdown-menu.referral-forms
-              %li= link_to t('.referred_to'), family_family_referrals_path(@family, referral_type: 'referred_to')
-              %li= link_to t('.referred_from'), family_family_referrals_path(@family, referral_type: 'referred_from')
-        .btn-group.small-btn-margin
-          %button.btn-sm.btn.btn-warning.dropdown-toggle.btn-fit#add-referral-btn{ data: { toggle: "dropdown", html: 'true', trigger: 'hover', content: "#{I18n.t('inline_help.families.show.refer_family')}", placement: "auto" } }
-            = t('.refer_family')
-            %span.caret
-          %ul.dropdown-menu.btn-fit.scrollable-dropdown-menu.referral-forms
-            - ngos.each do |value, key|
-              %li= link_to value, new_family_family_referral_url(@family, ngo: key, external_ngo_name: key == 'external referral' && value), :class => 'target-ngo', :value => "#{key}", :id => "#{key}"
-
-    - if @family.enrollments.active.count > 0
-      = link_to family_enrolled_programs_path(@family), data: { toggle: "popover", html: 'true', trigger: 'hover', content: "#{I18n.t('inline_help.families.show.active_program')}", placement: "auto" } do
-        .btn.btn-primary.small-btn-margin.btn-sm.btn-fit= t('.enrolled_program_streams')
-    - else
-      .btn.btn-primary.small-btn-margin.btn-sm.disabled.btn-fit{ data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.families.show.active_program')}", placement: "auto" } }
-        = t('.enrolled_program_streams')
-    = link_to family_enrollments_path(@family), data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.families.show.enroll_program')}", placement: "auto" } do
-      .btn.btn-primary.small-btn-margin.btn-sm.btn-fit= t('.program_streams')
-
   %div{ class: "col-md-9"}
     %table.table.small.m-b-xs#main-info
       %tbody
@@ -82,12 +37,85 @@
           %td
 
   .col-md-3
-
+    .row
+      - if @family.referred?
+        .col-xs-12
+          %button.btn.btn-success.agree-btn{ data: { class_name: 'accept-family', disable_with: t('.accepting'), 'target' => "#accept-family", 'toggle' => 'modal', trigger: "hover", content: "#{Organization.ratanak? ? I18n.t('inline_help.families.show.ratanak.accepted') : I18n.t('inline_help.families.show.accepted')}", placement: "auto" } }= t('.accept')
+          = render 'families/accept_family'
+        .col-xs-12
+          %button.btn.btn-danger.mini-margin{ class: 'agree-btn', data: { target: '#exitFromNgo', toggle: "modal", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.families.show.reject')}", placement: "auto" } } #{t('.reject')}
+          = render 'family/exit_ngos/form', family: @family
+      - elsif @family.exit_ngo?
+        .col-xs-12
+          %button.btn.btn-success.mini-margin.enter-ngo-for-family{ class: 'agree-btn', data: { class_name: 'accept-family', disable_with: t('.accepting'), 'target' => "#enter-ngo-form", 'toggle' => 'modal', trigger: "hover", content: "#{I18n.t('inline_help.families.show.accepted')}", placement: "auto" } } #{t('.accept')}
+          = render 'family/enter_ngos/form', family: @family
+        .col-xs-12
+          %button.btn.btn-danger.mini-margin{ disabled: 'disabled', class: 'agree-btn', data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.families.show.reject')}", placement: "auto" } }= t('.reject')
   - unless current_setting.hide_family_case_management_tool?
-    .col-sm-12
-      .panel.panel-default.case-management-tool-set
-        .panel-body.text-center{ style: 'min-height: 50px; background-color: yellow;' }
-          %h3 Case Management Tool Set
+    .col-xs-12.family
+      - if !@family.referred?
+        .btn-group.small-btn-margin
+          %button.btn-sm.btn.btn-warning.dropdown-toggle.btn-fit.exit-ngo-for-family{ data: { toggle: "dropdown", trigger: 'hover', content: "#{I18n.t('inline_help.families.show.exit_ngo')}", placement: "auto" }, id: 'add-family-to-case', class: ('disabled' if @family.exit_ngo?) }
+            = t('.exit_ngo_btn')
+            %span.caret
+          %ul.dropdown-menu.btn-fit
+            %li
+              - if @family.enrollments.active.count > 0
+                %a{"data-target" => '#remaining-programs-modal', "data-toggle" => 'modal'}
+                  .text-warning= t('.exit_ngo_btn')
+              - else
+                %a{"data-target" => '#exitFromNgo', "data-toggle" => 'modal'}
+                  .text-warning= t('.exit_ngo_btn')
+        - if @family.enrollments.active.count > 0
+          = render 'remaining_programs', family: @family
+        - else
+          = render 'family/exit_ngos/form', family: @family
+
+        .btn-group.small-btn-margin
+          %button.btn-sm.btn.btn-success.dropdown-toggle{ 'data-toggle' => 'dropdown', class: ('disabled' if @group_family_custom_fields.empty?) }
+            = t('.additional_forms')
+            %span.caret
+          %ul.dropdown-menu.scrollable-dropdown-menu
+            - @group_family_custom_fields.each do |_, family_custom_fields|
+              %li
+                %p= link_to family_custom_fields.first.custom_field.form_title, family_custom_field_properties_path(@family, custom_field_id: family_custom_fields.first.custom_field_id)
+
+        - if can? :manage, CustomFieldProperty
+          .btn-group.small-btn-margin
+            %button.btn-sm.btn.btn-success.dropdown-toggle{ 'data-toggle' => 'dropdown', class: ('disabled' if @free_family_forms.empty?) }
+              = t('.add_form')
+              %span.caret
+            %ul.dropdown-menu.scrollable-dropdown-menu
+              - @free_family_forms.each do |custom_field|
+                %li
+                  %p= link_to custom_field.form_title, new_family_custom_field_property_path(@family, custom_field_id: custom_field)
+
+        - if current_organization.available_for_referral?
+          %input#family-id{ value: "#{@family.id}", type: 'hidden' }
+            .btn-group.small-btn-margin
+              %button.btn-sm.btn.btn-warning.dropdown-toggle.btn-fit{ data: { toggle: "dropdown", html: 'true', trigger: 'hover', content: "#{I18n.t('inline_help.families.show.referral_form')}", placement: "auto" }, class: ('disabled' if @family.family_referrals.empty?) }
+                = t('.referral_forms')
+                %span.caret
+              %ul.dropdown-menu.btn-fit.scrollable-dropdown-menu.referral-forms
+                %li= link_to t('.referred_to'), family_family_referrals_path(@family, referral_type: 'referred_to')
+                %li= link_to t('.referred_from'), family_family_referrals_path(@family, referral_type: 'referred_from')
+          .btn-group.small-btn-margin
+            %button.btn-sm.btn.btn-warning.dropdown-toggle.btn-fit#add-referral-btn{ data: { toggle: "dropdown", html: 'true', trigger: 'hover', content: "#{I18n.t('inline_help.families.show.refer_family')}", placement: "auto" } }
+              = t('.refer_family')
+              %span.caret
+            %ul.dropdown-menu.btn-fit.scrollable-dropdown-menu.referral-forms
+              - ngos.each do |value, key|
+                %li= link_to value, new_family_family_referral_url(@family, ngo: key, external_ngo_name: key == 'external referral' && value), :class => 'target-ngo', :value => "#{key}", :id => "#{key}"
+
+        - if @family.enrollments.active.count > 0
+          = link_to family_enrolled_programs_path(@family), data: { toggle: "popover", html: 'true', trigger: 'hover', content: "#{I18n.t('inline_help.families.show.active_program')}", placement: "auto" } do
+            .btn.btn-primary.small-btn-margin.btn-sm.btn-fit= t('.enrolled_program_streams')
+        - else
+          .btn.btn-primary.small-btn-margin.btn-sm.disabled.btn-fit{ data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.families.show.active_program')}", placement: "auto" } }
+            = t('.enrolled_program_streams')
+        = link_to family_enrollments_path(@family), data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.families.show.enroll_program')}", placement: "auto" } do
+          .btn.btn-primary.small-btn-margin.btn-sm.btn-fit= t('.program_streams')
+
 
 - if @family.enrollments.active.count > 0
   = link_to family_enrolled_programs_path(@family), data: { toggle: "popover", html: 'true', trigger: 'hover', content: "#{I18n.t('inline_help.families.show.active_program')}", placement: "auto" } do
@@ -271,6 +299,34 @@
                     %strong.label.label-default
                       = qcase.value
 
+    - if @case_histories.any?
+      .row
+        .col-xs-12
+          %table.table.table-bordered.table-hover#case-history-table
+            %thead
+              %tr
+                %th= t('.case_histories')
+                - unless Rails.env.production?
+                  %th= t('.created_date')
+                %th= t('.date')
+                %th.text-center= t('.detail')
+            %tbody
+              - @case_histories.each_with_index do |case_history, index|
+                - case_history_name = case_history.class.table_name
+                %tr.case-history-row{ data: {date: case_history.new_date, classname: case_history_name,name: case_history_label(case_history), created_date: case_history.created_at} }
+                  %td= case_history_label(case_history)
+                  - unless Rails.env.production?
+                    %td= case_history.created_at.to_s
+                  %td= date_format(case_history.new_date)
+                  %td
+                    .text-center
+                      %button.btn.btn-outline.btn-primary.btn-xs{'data-target' => "#case_history_#{index}", 'data-toggle' => 'modal'}= fa_icon('eye')
+                      - if current_user.admin?
+                        - if ['enter_ngos', 'exit_ngos'].include?(case_history_name)
+                          %button.btn.btn-outline.btn-success.btn-xs.edit-case-history-ngo{ data: { class_name: case_history_name },'data-target' => "##{case_history_name}-#{case_history.id}", 'data-toggle' => 'modal' }= fa_icon('pencil')
+                        = family_case_history_links(case_history, case_history_name)
+                    = render 'case_history_detail', object: case_history, index: index
+                    = render_case_history_family(case_history, case_history_name)
     - if @family.family_members.present?
       .row.family-summary
         .col-sm-12

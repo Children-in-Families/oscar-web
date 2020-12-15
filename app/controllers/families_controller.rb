@@ -8,6 +8,7 @@ class FamiliesController < AdminController
   before_action :build_advanced_search, only: [:index]
   before_action :find_association, except: [:index, :destroy, :version]
   before_action :find_family, only: [:show, :edit, :update, :destroy]
+  before_action :find_case_histories, only: :show
   before_action :load_quantative_types, only: [:new, :edit, :create, :update]
 
   def index
@@ -125,6 +126,7 @@ class FamiliesController < AdminController
   end
 
   def find_association
+    @users     = User.deleted_user.non_strategic_overviewers.order(:first_name, :last_name)
     @provinces = Province.order(:name)
     @districts = @family.province.present? ? @family.province.districts.order(:name) : []
     @communes  = @family.district.present? ? @family.district.communes.order(:code) : []
@@ -178,5 +180,13 @@ class FamiliesController < AdminController
     @family = Family.new(attributes)
     @family.family_members.new
     @selected_children = params[:children]
+  end
+
+  def find_case_histories
+    enter_ngos = @family.enter_ngos
+    exit_ngos  = @family.exit_ngos
+    cps_enrollments = @family.enrollments
+    cps_leave_programs = LeaveProgram.joins(:enrollment).where("enrollments.programmable_id = ?", @family.id)
+    @case_histories = (enter_ngos + exit_ngos + cps_enrollments + cps_leave_programs).sort { |current_record, next_record| -([current_record.created_at, current_record.new_date] <=> [next_record.created_at, next_record.new_date]) }
   end
 end

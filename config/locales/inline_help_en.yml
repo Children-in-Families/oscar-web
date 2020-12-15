@@ -132,11 +132,15 @@ en:
       donor_donor: For the clients who are financially supported by an organization or individual. Admin, If the donor is not in the list, add it from <strong>Manage &gt;&gt; Donors</strong>.
       donor_involved: For clients who will be managed jointly with other organization(s). You can choose more than one agency. Admin/Manager/Caseworker, If the organization is not in the list, add it from <strong>Manage &gt;&gt; Agencies</strong>.
     exit_form:
-      circumstance: 'The field will auto-updated to show: <strong>Rejected Referral</strong> – If you clicked the <strong>Reject</strong> button. [The organization rejected to take the referred case.] OR <strong>Exited Client</strong> – If you close the case through the <strong>Exit from NGO</strong> button. [The organization supported the client, but not continuing to support.]'
+      circumstance: 'The field will auto-updated to show: <strong>Rejected Referral</strong> – If you clicked the <strong>Reject</strong> button. [The organization rejected to take the referred case.] OR <strong>Exited %{entity}</strong> – If you close the case through the <strong>Exit from NGO</strong> button. [The organization supported the %{entity}, but not continuing to support.]'
+      client: Client
       date: N/A
+      family: Family
       notes:
         lists:
-          list1: The case will remain in the database and show the <strong>Exit</strong> status. Case Worker(s)/Staff will be removed from the exited client and can no longer see the case in the OSCaR system. Only the Admin/Manager can see exited clients.
+          client: client
+          family: family
+          list1: The case will remain in the database and show the <strong>Exit</strong> status. Case Worker(s)/Staff will be removed from the exited %{entity} and can no longer see the case in the OSCaR system. Only the Admin/Manager can see exited %{entity}.
       reason: Select a reason from the list. If you choose <strong>Other</strong>, please ensure to enter details in the <strong>More Information</strong> field below.
     families:
       caregiver_info: Details of the caregiver/family. Include details like their job, income, living situation, etc.
@@ -146,6 +150,11 @@ en:
       family_type: Choose based on the client’s current situation. You should update this when the situation changes. <strong>Birth family </strong> – Client stays with own family, choose an option indicating if only one or both parents exist. <strong>Child-headed household</strong> – Primary carer is still a child (usually a teenager). No legal adults in the household. The client stays alone but the family may exist in another province. <strong>Domestically adopted</strong> – Client adopted within own country.<strong>Short term/emergency foster care</strong> – Client is cared for by another family for a short period (maximum 3 months). <strong>Long term foster care</strong> – Client is cared for by another family for an unlimited period. <strong>No family</strong> – Client is orphan; no family member or relatives are involved. <strong>Extended family/kinship care</strong> – Client is cared for by relatives.
       name: Could be anyone who is caring for the client including caregiver, family members, relatives or organization staff.
       show:
+        accepted: Accept indicates your organization will work with the family. The next step is to perform family assessment and enroll in the program stream(s).
+        exit_ngo: This will close the case. That indicates, the organization will not spend more resources on this family. However, the record will remain in the OSCaR system.
+        ratanak:
+          accepted: Accept indicates your organization will work with the family. The next step is to enroll family in the program stream(s) and perform family assessment.
+        reject: Reject indicates your organization cannot work with the family for some reason. The case will remain in the database and show <strong>Exited</strong> status with exit circumstance as <strong>Reject Referral</strong>.
         active_program: View/Edit/Delete the enrollment information, add new tracking form(s), or exit family from the program(s).
         enroll_program: 'Enlist the family in existing program stream(s) here. Admin: If the program doesn’t exist, add a new program stream through <strong>Manage >> Program Streams</strong>.'
         referral_form: View all referral forms under the following <strong>Referred to External Organization</strong> – If you sent the family to another organization. <strong>Referred From External Organization</strong> – If the family came to you through another organization.
