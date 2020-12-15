@@ -71,10 +71,9 @@ development:
     use_local_ip: false
     quiet: false
     headers:
-      'Access-Control-Allow-Origin': '*'
+      "Access-Control-Allow-Origin": "*"
     watch_options:
-      ignored: '**/node_modules/**'
-
+      ignored: "**/node_modules/**"
 
 test:
   <<: *default
@@ -84,6 +83,18 @@ test:
   public_output_path: packs-test
 
 staging:
+  <<: *default
+
+  # Production depends on precompilation of packs prior to booting for performance.
+  compile: false
+
+  # Extract and emit a css file
+  extract_css: true
+
+  # Cache manifest.json for performance
+  cache_manifest: true
+
+demo:
   <<: *default
 
   # Production depends on precompilation of packs prior to booting for performance.
