@@ -4314,6 +4314,7 @@ km:
       edit_profile: កែសម្រួលព័ត៌មានផ្ទាល់ខ្លួន
       en: English
       families: គ្រួសារ
+      family_form: Family Form
       interventions: ចំនុចដែលត្រូវធ្វើ
       km: ខ្មែរ
       locations: កន្លែង
@@ -5187,6 +5188,9 @@ km:
       default_columns: ជួរឈរលំនាំដើម
       family_default_columns: គ្រួសារ
       partner_default_columns: ដៃគូ
+    family_case_management:
+      family_case_management: Family Case Management
+      hide_family_case_management_tool: Hide Administrative Information and Case Management tools
     index:
       csi_tools: ឧបករណ៍ការបា៉ន់ប្រមាណ
       custom_assessment: ឧបករណ៍ការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
