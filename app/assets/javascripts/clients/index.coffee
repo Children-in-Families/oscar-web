@@ -532,7 +532,7 @@ CIF.ClientsIndex = do ->
     $('#clients-index select').select2
       minimumInputLength: 0
       allowClear: true
-      dropdownAutoWidth : true,
+      dropdownAutoWidth : true
       width: 'auto'
 
   _formatReportxAxis = ->

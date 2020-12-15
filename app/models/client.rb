@@ -37,24 +37,24 @@ class Client < ApplicationRecord
   delegate :name_en, to: :village, prefix: true, allow_nil: true
 
   belongs_to :referral_source,  counter_cache: true
-  belongs_to :province,         counter_cache: true
-  belongs_to :district
-  belongs_to :subdistrict
-  belongs_to :township
-  belongs_to :state
-  belongs_to :received_by,      class_name: 'User',      foreign_key: 'received_by_id',    counter_cache: true
-  belongs_to :followed_up_by,   class_name: 'User',      foreign_key: 'followed_up_by_id', counter_cache: true
-  belongs_to :birth_province,   class_name: 'Province',  foreign_key: 'birth_province_id', counter_cache: true
-  belongs_to :commune
-  belongs_to :village
-  belongs_to :referee
-  belongs_to :carer
-  belongs_to :call
+  belongs_to :province,         counter_cache: true, optional: true
+  belongs_to :district, optional: true
+  belongs_to :subdistrict, optional: true
+  belongs_to :township, optional: true
+  belongs_to :state, optional: true
+  belongs_to :received_by,      class_name: 'User',      foreign_key: 'received_by_id',    counter_cache: true, optional: true
+  belongs_to :followed_up_by,   class_name: 'User',      foreign_key: 'followed_up_by_id', counter_cache: true, optional: true
+  belongs_to :birth_province,   class_name: 'Province',  foreign_key: 'birth_province_id', counter_cache: true, optional: true
+  belongs_to :commune, optional: true
+  belongs_to :village, optional: true
+  belongs_to :referee, optional: true
+  belongs_to :carer, optional: true
+  belongs_to :call, optional: true
 
-  belongs_to :concern_province, class_name: 'Province',  foreign_key: 'concern_province_id'
-  belongs_to :concern_district, class_name: 'District',  foreign_key: 'concern_district_id'
-  belongs_to :concern_commune,  class_name: 'Commune',  foreign_key: 'concern_commune_id'
-  belongs_to :concern_village,  class_name: 'Village',  foreign_key: 'concern_village_id'
+  belongs_to :concern_province, class_name: 'Province',  foreign_key: 'concern_province_id', optional: true
+  belongs_to :concern_district, class_name: 'District',  foreign_key: 'concern_district_id', optional: true
+  belongs_to :concern_commune,  class_name: 'Commune',  foreign_key: 'concern_commune_id', optional: true
+  belongs_to :concern_village,  class_name: 'Village',  foreign_key: 'concern_village_id', optional: true
   belongs_to :global_identity,  class_name: 'GlobalIdentity', foreign_key: 'global_id', primary_key: :ulid
 
   has_many :hotlines, dependent: :destroy

@@ -168,7 +168,8 @@ CIF.DashboardsIndex = do ->
 
   _handleProgramStreamServiceSelect2 = ->
     $('.type-of-service select').select2
-      width: '100%'
+      dropdownAutoWidth : true
+      width: 'auto'
 
     createHeaderElement = (options, indexes)->
       html = ""
@@ -263,36 +264,73 @@ CIF.DashboardsIndex = do ->
       searchingClient = $("#searching_format-input").val()
       notFoundClient = $("#not_found_format-input").val()
       enterCharacters = $("#please_enter_more_char_format-input").val()
-      $('#search-client-select2').select2(
-        placeholder: searchForClient
-        minimumInputLength: 1
-        formatSearching: searchingClient
-        formatNoMatches: notFoundClient
-        formatInputTooShort: enterCharacters
+
+      formatClient = (client) ->
+        if client.loading
+          return client.text
+        en_full_name = "#{client.given_name} #{client.family_name}"
+        local_full_name = "#{client.local_given_name} #{client.local_family_name}"
+        markup = "<a href='clients/#{client.slug}'>#{en_full_name} | #{local_full_name} (#{client.id})</a>"
+        # <img class=\'img-thumb pull-left m-r-sm\' width=\'50\' src=\'' + asset_path(client.profile.photo.url + '\' />
+        $container = $('<div class=\'select2-result-repository clearfix\'>' + '<div class=\'select2-result-repository__avatar\'></div>' + '<div class=\'select2-result-repository__meta\'>' + '<div class=\'select2-result-client__full_name\'></div>' + '<div class=\'select2-result-client__slug\'></div>' + '<div class=\'select2-result-client_status\'> </div>' + '</div>' + '</div>' + '</div>')
+        $container.find('.select2-result-client__full_name').append markup
+        $container.find('.select2-result-client__slug').text client.slug
+        $container.find('.select2-result-client_status').append "Status: #{client.status}"
+        $container
+
+      formatClientSelection = (client) ->
+        if !client.slug
+          return client.text
+
+        win = window.open("clients/#{client.slug}", '_blank')
+        $('#search-client-select2').trigger("change")
+
+      $('#search-client-select2').select2
+        language: "km"
         ajax:
-          url: '/api/clients/search_client'
-          dataType: 'json'
-          quietMillis: 250
-          data: (term, page) ->
-            { q: term }
-          results: (data, page) ->
+          url: "/api/clients/search_client"
+          dataType: "json"
+          delay: 250
+          data: (params) ->
+            { q: params.term }
+          processResults: (data, params) ->
             { results: data }
           cache: true
-        initSelection: (element, callback) ->
-            id = $(element).select2('data', null).trigger("change")
-            return
-        formatResult: (client) ->
-          en_full_name = "#{client.given_name} #{client.family_name}"
-          local_full_name = "#{client.local_given_name} #{client.local_family_name}"
-          markup = "<a href='clients/#{client.slug}'>#{en_full_name} | #{local_full_name} (#{client.id})</a>"
+        placeholder: searchForClient
+        minimumInputLength: 1
+        templateResult: formatClient
+        templateSelection: formatClientSelection
 
-          return markup
-        formatSelection: (client) ->
-          win = window.open("clients/#{client.slug}", '_blank')
-          $('#search-client-select2').trigger("change")
-      ).on 'select2-blur select2-focus', ->
-        $(@).trigger("change")
-        return
+      # $('#search-client-select2').select2(
+      #   placeholder: searchForClient
+      #   minimumInputLength: 1
+      #   formatSearching: searchingClient
+      #   formatNoMatches: notFoundClient
+      #   formatInputTooShort: enterCharacters
+      #   ajax:
+      #     url: '/api/clients/search_client'
+      #     dataType: 'json'
+      #     quietMillis: 250
+      #     data: (term, page) ->
+      #       { q: term }
+      #     results: (data, page) ->
+      #       { results: data }
+      #     cache: true
+      #   initSelection: (element, callback) ->
+      #       id = $(element).select2('data', null).trigger("change")
+      #       return
+      #   formatResult: (client) ->
+      #     en_full_name = "#{client.given_name} #{client.family_name}"
+      #     local_full_name = "#{client.local_given_name} #{client.local_family_name}"
+      #     markup = "<a href='clients/#{client.slug}'>#{en_full_name} | #{local_full_name} (#{client.id})</a>"
+
+      #     return markup
+      #   formatSelection: (client) ->
+      #     win = window.open("clients/#{client.slug}", '_blank')
+      #     $('#search-client-select2').trigger("change")
+      # ).on 'select2-blur select2-focus', ->
+      #   $(@).trigger("change")
+      #   return
 
       $(window).focus(->
         $('#search-client-select2').trigger("change")

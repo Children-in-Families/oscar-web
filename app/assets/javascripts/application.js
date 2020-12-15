@@ -13,7 +13,9 @@
 //= require dataTables/dataTables.buttons.min
 //= require dataTables/jszip.min
 //= require thredded
-//= require select2
+//= require select2-full
+//= require select2_locale_km
+//= require select2_locale_en
 //= require editable/bootstrap-editable
 //= require editable/rails
 
