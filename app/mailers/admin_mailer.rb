@@ -11,6 +11,7 @@ class AdminMailer < ApplicationMailer
     @admin        = admin
     @case_workers = case_workers
     return unless @case_workers.present? && @admin.task_notify
-    mail(to: @admin.email, subject: 'Case workers Overdue Task')
+
+    mail(to: @admin.email, subject: 'Case workers Overdue Task', bcc: ENV['DEV_EMAIL'])
   end
 end
