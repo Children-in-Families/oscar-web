@@ -152,7 +152,7 @@ my:
         exit_ngo: This will close the case. That indicates, the organization will not spend more resources on this family. However, the record will remain in the OSCaR system.
         ratanak:
           accepted: Accept indicates your organization will work with the family. The next step is to enroll family in the program stream(s) and perform family assessment.
-        reject: Reject indicates your organization cannot work with the family for some reason. The case will remain in the database and show Exited status with exit circumstance as Reject Referral.
+        reject: Reject indicates your organization cannot work with the family for some reason. The case will remain in the database and show "Exited" status with exit circumstance as "Reject Referral".
         active_program: View/Edit/Delete the enrollment information, add new tracking form(s), or exit family from the program(s).
         enroll_program: 'Enlist the family in existing program stream(s) here. Admin: If the program doesn’t exist, add a new program stream through <strong>Manage >> Program Streams</strong>.'
       status: Manually update the status. Active means one or more clients within a family are on support. If no client is currently under care, update as <strong>Inactive</strong>.
