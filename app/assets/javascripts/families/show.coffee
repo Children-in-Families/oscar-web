@@ -67,7 +67,6 @@ CIF.FamiliesShow = do ->
             $('#confirm-referral-modal').modal('show')
 
   _globalIDToolTip = ->
-    debugger
     $('[data-toggle="tooltip"]').tooltip()
 
   { init: _init }
