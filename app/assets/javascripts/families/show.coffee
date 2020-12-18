@@ -4,6 +4,7 @@ CIF.FamiliesShow = do ->
     _getClientPath()
     _handleScrollTable()
     _ajaxCheckReferral()
+    _globalIDToolTip()
 
   _fixedHeaderTableColumns = ->
     $('.clients-table').removeClass('table-responsive')
@@ -64,5 +65,9 @@ CIF.FamiliesShow = do ->
             $('#confirm-referral-modal .modal-header .modal-title').text(modalTitle)
             $('#confirm-referral-modal .modal-body').html(modalTextThird)
             $('#confirm-referral-modal').modal('show')
+
+  _globalIDToolTip = ->
+    debugger
+    $('[data-toggle="tooltip"]').tooltip()
 
   { init: _init }

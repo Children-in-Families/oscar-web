@@ -17,6 +17,7 @@ ActiveRecord::Schema.define(version: 20201204141537) do
   enable_extension "plpgsql"
   enable_extension "hstore"
   enable_extension "pgcrypto"
+  enable_extension "uuid-ossp"
 
   create_table "able_screening_questions", force: :cascade do |t|
     t.string   "question"
@@ -919,12 +920,12 @@ ActiveRecord::Schema.define(version: 20201204141537) do
     t.integer  "commune_id"
     t.integer  "village_id"
     t.integer  "user_id"
-    t.string   "slug",                            default: ""
     t.string   "name_en"
     t.string   "phone_number"
     t.string   "id_poor"
     t.text     "relevant_information"
     t.string   "referee_phone_number"
+    t.string   "slug",                            default: ""
   end
 
   add_index "families", ["commune_id"], name: "index_families_on_commune_id", using: :btree
@@ -1828,6 +1829,10 @@ ActiveRecord::Schema.define(version: 20201204141537) do
   add_index "tasks", ["client_id"], name: "index_tasks_on_client_id", using: :btree
   add_index "tasks", ["deleted_at"], name: "index_tasks_on_deleted_at", using: :btree
   add_index "tasks", ["taskable_type", "taskable_id"], name: "index_tasks_on_taskable_type_and_taskable_id", using: :btree
+
+  create_table "test_tables", force: :cascade do |t|
+    t.string "test"
+  end
 
   create_table "thredded_categories", force: :cascade do |t|
     t.integer  "messageboard_id",             null: false
