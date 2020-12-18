@@ -2,9 +2,9 @@
 
 <img src='./app/assets/images/OSCaR_logo.png'>
 
-[![Build Status](https://travis-ci.com/DevZep/oscar-web.svg?branch=master)](https://travis-ci.com/DevZep/oscar-web)
-[![Build Status](https://travis-ci.com/DevZep/oscar-web.svg?branch=stable)](https://travis-ci.com/DevZep/oscar-web)
-[![Build Status](https://travis-ci.com/DevZep/oscar-web.svg?branch=staging)](https://travis-ci.com/DevZep/oscar-web)
+| Master Branch        | Stable Branch  |Staging Branch  |
+| ------------- |:-------------:|:-------------:|
+| [![Build Status](https://travis-ci.com/DevZep/oscar-web.svg?branch=master)](https://travis-ci.com/DevZep/oscar-web) | [![Build Status](https://travis-ci.com/DevZep/oscar-web.svg?branch=stable)](https://travis-ci.com/DevZep/oscar-web) | [![Build Status](https://travis-ci.com/DevZep/oscar-web.svg?branch=staging)](https://travis-ci.com/DevZep/oscar-web) |
 
 ### Open Source Case-management and Record-keeping.
 
