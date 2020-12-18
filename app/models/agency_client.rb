@@ -1,4 +1,4 @@
-class AgencyClient < ActiveRecord::Base
+class AgencyClient < ApplicationRecord
   belongs_to :agency
   belongs_to :client
 

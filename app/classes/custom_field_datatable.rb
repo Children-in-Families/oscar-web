@@ -2,10 +2,10 @@ class CustomFieldDatatable < ApplicationDatatable
   def initialize(view, type)
     @view = view
     @type = type
-    @fetch_custom_fields =  fetch_custom_fields
+    @fetch_custom_fields = fetch_custom_fields
   end
 
-  def as_json(options = {})
+  def as_json(_options = {})
     {
       recordsFiltered: total_entries,
       data: column_custom_fields
@@ -19,7 +19,7 @@ class CustomFieldDatatable < ApplicationDatatable
   end
 
   def fetch_custom_fields
-    eval("CustomField.#{@type}").order("lower(#{sort_column}) #{sort_direction}").page(page).per(per_page)
+    CustomField.public_send(@type).order("lower(#{sort_column}) #{sort_direction}").page(page).per(per_page) if @type
   end
 
   def columns
@@ -27,7 +27,7 @@ class CustomFieldDatatable < ApplicationDatatable
   end
 
   def column_custom_fields
-    @fetch_custom_fields.map{ |c| [c.form_title, link_custom_field(c)] }
+    @fetch_custom_fields.map { |c| [c.form_title, link_custom_field(c)] }
   end
 
   def link_custom_field(custom_field)

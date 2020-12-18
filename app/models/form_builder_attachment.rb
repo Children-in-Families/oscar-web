@@ -1,4 +1,4 @@
-class FormBuilderAttachment < ActiveRecord::Base
+class FormBuilderAttachment < ApplicationRecord
   mount_uploaders :file, FormBuilderAttachmentUploader
 
   belongs_to :form_buildable, polymorphic: true

@@ -25,7 +25,7 @@ module ClientsHelper
   end
 
   def order_case_worker(client)
-    client.users.distinct.sort
+    client.users.uniq.sort
   end
 
   def partner(partner)

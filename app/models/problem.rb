@@ -1,4 +1,4 @@
-class Problem < ActiveRecord::Base
+class Problem < ApplicationRecord
   has_paper_trail
 
   has_many :government_form_problems, dependent: :restrict_with_error

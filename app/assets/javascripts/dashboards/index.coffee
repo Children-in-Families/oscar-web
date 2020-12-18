@@ -1,12 +1,4 @@
 CIF.DashboardsIndex = do ->
-  @window.getService = (td, select_id)->
-    data = {id: td.children[0].value, text: td.children[0].text }
-
-    newOption = new Option(data.text, data.id, true, true)
-
-    # Append it to the select
-    $(".type-of-service select##{select_id.id}").append(newOption).trigger 'change'
-
   _init = ->
     # _clientGenderChart()
     # _clientStatusChart()
@@ -21,7 +13,8 @@ CIF.DashboardsIndex = do ->
     _initTrackingDatatable()
     _handleMultiForm()
     _handleProgramStreamServiceShow()
-    _handleProgramStreamServiceSelect2()
+    service_types = new CIF.ServiceTypes({ element: '.type-of-service', isFromDashboard: true })
+    service_types.selectServiceTypeTableResult()
     _updateProgramStream()
     _enableSaveReferralSource()
     _clickSaveReferral()
@@ -36,13 +29,13 @@ CIF.DashboardsIndex = do ->
         localStorage.setItem('from login', false)
 
   _enableSaveReferralSource = ->
-    $('.referral_source_ancestry .select').on 'select2-selected', (e) ->
-      classNames = this.className.split(' ')
-      saveBtnClass = ".save-" + classNames[2]
+    $('.referral_source_ancestry .select').on 'select2:select', (e) ->
+      referralId = this.id.match(/\d+/)[0]
+      saveBtnClass = ".save-" + referralId
       $(saveBtnClass).removeAttr 'disabled'
-    $('.referral_source_ancestry .select').on 'select2-removed', (e) ->
-      classNames = this.className.split(' ')
-      saveBtnClass = ".save-" + classNames[2]
+    $('.referral_source_ancestry .select').on 'select2:unselect', (e) ->
+      referralId = this.id.match(/\d+/)[0]
+      saveBtnClass = ".save-" + referralId
       $(saveBtnClass).attr('disabled', 'disabled')
 
   _clickSaveReferral = ->
@@ -75,6 +68,7 @@ CIF.DashboardsIndex = do ->
 
   _initSelect2 = ->
     $('select').select2
+      placeholder: "---Please select an option---",
       minimumInputLength: 0
       allowClear: true
 
@@ -165,76 +159,6 @@ CIF.DashboardsIndex = do ->
       $('.modal.in').removeClass('modal-popup')
       return
 
-
-  _handleProgramStreamServiceSelect2 = ->
-    $('.type-of-service select').select2
-      width: '100%'
-
-    createHeaderElement = (options, indexes)->
-      html = ""
-      indexes.forEach (entry) ->
-        html += "<th><b>#{options[entry][0]}</b></th>"
-      html
-
-    createRowElement = (options, indexes, select_id) ->
-      html = ""
-      indexes.forEach (entries) ->
-        td = ""
-        entries.forEach (index) ->
-          td += "<td width='' onclick='getService(this, #{select_id})'><option value='#{options[index][1]}'>#{options[index][0]}</option></td>"
-
-        html += "<tr>#{td}</tr>"
-      html
-
-    $('.type-of-service select').on 'select2-open', (e) ->
-      $('#select2-drop').addClass('drop')
-      arr = []
-      i = 0
-      while i < $('.type-of-service').data('custom').length
-        arr.push i
-        i++
-
-      options = $('.type-of-service').data('custom')
-      results = []
-      chunk_size = 13
-      while arr.length > 0
-        results.push arr.splice(0, chunk_size)
-
-      indexes = results.shift()
-      th  = createHeaderElement(options, indexes)
-      row = createRowElement(options, results, @id)
-
-      html = '<table class="table table-bordered" style="margin-top: 5px;margin-bottom: 0px;"><thead>' + th + '</thead><tbody>' + row + '</tbody></table>'
-      $('#select2-drop .select2-results').html $(html)
-      # $('.select2-results').prepend "#{html}"
-      return
-
-    removeError = (element) ->
-      element.removeClass('has-error')
-      element.find('.help-block').remove()
-
-    $('.type-of-service select').on 'select2-close', (e)->
-      uniqueArray = _.compact(_.uniq($(this).val()))
-      if uniqueArray.length > 0
-        removeError($(this.parentElement))
-        arrId = this.id.split('_')
-        $("#edit_program_stream_#{arrId[arrId.length - 1]} input[type='submit']").removeAttr('disabled')
-
-      if uniqueArray.length > 3
-        $(this.parentElement).append "<p class='help-block'>#{$('input#confirm-question').val()}</p>" if $(this.parentElement).find('.help-block').length == 0
-        $(this.parentElement).addClass('has-error')
-
-      return
-
-    $('.type-of-service select').on 'select2-removed', ->
-      uniqueArray = _.compact(_.uniq($(this).val()))
-      if uniqueArray.length <= 3
-        removeError($(this.parentElement))
-
-      if uniqueArray.length == 0
-        arrId = this.id.split('_')
-        $("#edit_program_stream_#{arrId[arrId.length - 1]} input[type='submit']").attr('disabled', 'disabled')
-
   _updateProgramStream = ->
     $('form.simple_form.program-stream').on 'submit', (e)->
       e.preventDefault
@@ -246,8 +170,8 @@ CIF.DashboardsIndex = do ->
           data: $(this).serialize()
           dataType: 'JSON'
           success: (json) ->
-            successImg = $("#edit_program_stream_#{json.program_stream.id} .save-success-#{json.program_stream.id}").removeClass('hide')
-            $("#edit_program_stream_#{json.program_stream.id} input[type='submit']").replaceWith(successImg)
+            successImg = $("#edit_program_stream_#{json.id || json.program_stream.id} .save-success-#{json.id || json.program_stream.id}").removeClass('hide')
+            $("#edit_program_stream_#{json.id || json.program_stream.id} input[type='submit']").replaceWith(successImg)
             return
           error: (response, status, msg) ->
             $("form[action='#{@url}'] .program_stream_services").append "<p class='help-block'>Failed to update program stream.</p>" if $(this.parentElement).find('.help-block').length == 0
@@ -263,34 +187,43 @@ CIF.DashboardsIndex = do ->
       searchingClient = $("#searching_format-input").val()
       notFoundClient = $("#not_found_format-input").val()
       enterCharacters = $("#please_enter_more_char_format-input").val()
+
+      formatClient = (client) ->
+        if client.loading
+          return client.text
+        en_full_name = "#{client.given_name} #{client.family_name}"
+        local_full_name = "#{client.local_given_name} #{client.local_family_name}"
+        markup = "<a href='clients/#{client.slug}'>#{en_full_name} | #{local_full_name} (#{client.id})</a>"
+
+        $container = $("<div class='select2-result-repository clearfix'><div class='select2-result-repository__avatar'></div><div class='select2-result-repository__meta'><div class='select2-result-client__full_name'></div><div class='select2-result-client__slug'></div><div class='select2-result-client_status'></div></div></div></div>")
+        $container.find('.select2-result-client__full_name').append markup
+        $container.find('.select2-result-client__slug').text client.slug
+        $container.find('.select2-result-client_status').append "Status: #{client.status}"
+        $container
+
+      formatClientSelection = (client) ->
+        if !client.slug
+          return client.text
+
+        win = window.open("clients/#{client.slug}", '_blank')
+        $('#search-client-select2').trigger("change")
+
       $('#search-client-select2').select2(
-        placeholder: searchForClient
-        minimumInputLength: 1
-        formatSearching: searchingClient
-        formatNoMatches: notFoundClient
-        formatInputTooShort: enterCharacters
+        language: "km"
         ajax:
-          url: '/api/clients/search_client'
-          dataType: 'json'
-          quietMillis: 250
-          data: (term, page) ->
-            { q: term }
-          results: (data, page) ->
+          url: "/api/clients/search_client"
+          dataType: "json"
+          delay: 250
+          data: (params) ->
+            { q: params.term }
+          processResults: (data, params) ->
             { results: data }
           cache: true
-        initSelection: (element, callback) ->
-            id = $(element).select2('data', null).trigger("change")
-            return
-        formatResult: (client) ->
-          en_full_name = "#{client.given_name} #{client.family_name}"
-          local_full_name = "#{client.local_given_name} #{client.local_family_name}"
-          markup = "<a href='clients/#{client.slug}'>#{en_full_name} | #{local_full_name} (#{client.id})</a>"
-
-          return markup
-        formatSelection: (client) ->
-          win = window.open("clients/#{client.slug}", '_blank')
-          $('#search-client-select2').trigger("change")
-      ).on 'select2-blur select2-focus', ->
+        placeholder: searchForClient
+        minimumInputLength: 1
+        templateResult: formatClient
+        templateSelection: formatClientSelection
+      ).on 'select2:closing select2:opening', ->
         $(@).trigger("change")
         return
 

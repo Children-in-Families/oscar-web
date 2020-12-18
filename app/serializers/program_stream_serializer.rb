@@ -3,6 +3,6 @@ class ProgramStreamSerializer < ActiveModel::Serializer
   has_many :trackings
 
   def enrollable_client_ids
-    AdvancedSearches::ClientAdvancedSearch.new(object.rules, Client.all).filter.ids if object.rules.present?
+    (AdvancedSearches::ClientAdvancedSearch.new(object.rules, Client.all).filter&.ids || []) if object.rules && object.rules['rules'].present?
   end
 end

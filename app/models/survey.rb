@@ -1,4 +1,4 @@
-class Survey < ActiveRecord::Base
+class Survey < ApplicationRecord
   belongs_to :client
 
 end

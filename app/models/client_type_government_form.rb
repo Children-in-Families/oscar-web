@@ -1,4 +1,4 @@
-class ClientTypeGovernmentForm < ActiveRecord::Base
+class ClientTypeGovernmentForm < ApplicationRecord
   has_paper_trail
 
   belongs_to :government_form

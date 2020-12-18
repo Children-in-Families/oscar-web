@@ -1,4 +1,4 @@
-class ActionResult < ActiveRecord::Base
+class ActionResult < ApplicationRecord
 
   has_paper_trail
 

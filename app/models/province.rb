@@ -1,4 +1,4 @@
-class Province < ActiveRecord::Base
+class Province < ApplicationRecord
   include AddressConcern
 
   has_paper_trail

@@ -13,7 +13,7 @@ CIF.ClientsIndex = do ->
           placement: 'bottom'
           smartPlacement: true
           orphan: true
-          template: "<div class='popover tour'>
+          template: "<div class='popover tour' data-toggle='popover' data-html='true' data-trigger= 'focus'>
                     <div class='arrow'></div>
                     <div class='popover-content'></div>
                     <div class='popover-navigation pull-right' style='padding: 5px;' >
@@ -530,8 +530,10 @@ CIF.ClientsIndex = do ->
 
   _enableSelect2 = ->
     $('#clients-index select').select2
-      minimumInputLength: 0,
+      minimumInputLength: 0
       allowClear: true
+      dropdownAutoWidth : true
+      width: 'auto'
 
   _formatReportxAxis = ->
     Highcharts.setOptions global: useUTC: false

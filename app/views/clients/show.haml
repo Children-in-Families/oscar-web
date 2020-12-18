@@ -12,7 +12,7 @@
             %tr
               %td{rowspan: '4'}
                 - if @client.profile?
-                  = image_tag @client.profile.photo, alt: @client.profile.file.filename, id: 'client_photo'
+                  = image_tag @client.profile.photo.url, alt: @client.profile.file.filename, id: 'client_photo'
               %td
                 = "#{t('.name')} :"
                 = editable @client, :given_name, value: @client.given_name, url: api_client_path(@client.id), pk: @client.id

@@ -1,4 +1,4 @@
-class Case < ActiveRecord::Base
+class Case < ApplicationRecord
   belongs_to :family, counter_cache: true
   belongs_to :client
   belongs_to :partner, counter_cache: true

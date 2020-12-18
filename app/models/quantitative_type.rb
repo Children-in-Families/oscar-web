@@ -1,4 +1,4 @@
-class QuantitativeType < ActiveRecord::Base
+class QuantitativeType < ApplicationRecord
   validates :name, presence: true, uniqueness: { case_sensitive: false }
 
   has_many :quantitative_cases

@@ -1,4 +1,4 @@
-class State < ActiveRecord::Base
+class State < ApplicationRecord
   has_many :townships
   has_many :clients, dependent: :restrict_with_error
 

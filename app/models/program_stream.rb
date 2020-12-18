@@ -1,4 +1,4 @@
-class ProgramStream < ActiveRecord::Base
+class ProgramStream < ApplicationRecord
   include UpdateFieldLabelsFormBuilder
   include ClientRetouch
   FORM_BUILDER_FIELDS = ['enrollment', 'exit_program'].freeze

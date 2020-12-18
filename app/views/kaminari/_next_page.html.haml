@@ -1,7 +1,7 @@
 %li
   - if params[:controller] == 'clients'
     - unless current_page.last?
-      - pagination_params = url.include?('page') ? params.merge(page: Rack::Utils.parse_nested_query(url)['page'].to_i) : params
+      - pagination_params = url.include?('page') ? request.parameters.merge(page: Rack::Utils.parse_nested_query(url)['page'].to_i) : params
       = button_to raw(t 'views.pagination.next'), ad_search_clients_path, params: pagination_params, :rel => 'next', :remote => remote, form_class: 'hidden-post-form'
   - else
     = link_to_unless current_page.last?, raw(t 'views.pagination.next'), url, :rel => 'next', :remote => remote

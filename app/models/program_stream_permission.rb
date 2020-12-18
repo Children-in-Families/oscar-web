@@ -1,4 +1,4 @@
-class ProgramStreamPermission < ActiveRecord::Base
+class ProgramStreamPermission < ApplicationRecord
   acts_as_paranoid
 
   belongs_to :user, with_deleted: true

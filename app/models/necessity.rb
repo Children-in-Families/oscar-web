@@ -1,4 +1,4 @@
-class Necessity < ActiveRecord::Base
+class Necessity < ApplicationRecord
   has_many :call_necessities, dependent: :restrict_with_error
   has_many :calls, through: :call_necessities
 

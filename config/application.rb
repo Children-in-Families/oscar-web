@@ -1,14 +1,29 @@
-require File.expand_path('../boot', __FILE__)
+require_relative 'boot'
 
-require "rails/all"
+require 'rails/all'
+
+# Pick the frameworks you want:
+require 'active_model/railtie'
+require 'active_job/railtie'
+require 'active_record/railtie'
+require 'active_storage/engine'
+require 'action_controller/railtie'
+require 'action_mailer/railtie'
+require 'action_view/railtie'
+require 'action_cable/engine'
+require 'sprockets/railtie'
+require 'apartment/elevators/subdomain'
 # Require the gems listed in Gemfile, including any gems
+
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
 module CifWeb
   class Application < Rails::Application
-    config.middleware.use 'Apartment::Elevators::Subdomain'
-    config.middleware.insert_before 'Warden::Manager', 'Apartment::Elevators::Subdomain'
+    config.load_defaults 5.2
+
+    config.middleware.use Apartment::Elevators::Subdomain
+    config.middleware.insert_before Warden::Manager, Apartment::Elevators::Subdomain
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
@@ -41,9 +56,6 @@ module CifWeb
           :methods => [:get, :post, :options, :delete, :put]
       end
     end
-
-    # Do not allow errors in after_commit/after_rollback callbacks.
-    config.active_record.raise_in_transactional_callbacks = true
 
     # custom error page
     config.exceptions_app = self.routes

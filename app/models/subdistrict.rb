@@ -1,4 +1,4 @@
-class Subdistrict < ActiveRecord::Base
+class Subdistrict < ApplicationRecord
   belongs_to :district
   has_many :clients, dependent: :restrict_with_error
 

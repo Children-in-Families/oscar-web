@@ -1,4 +1,4 @@
-class Interviewee < ActiveRecord::Base
+class Interviewee < ApplicationRecord
   has_paper_trail
 
   has_many :government_form_interviewees, dependent: :restrict_with_error

@@ -1,4 +1,4 @@
-class CustomFieldProperty < ActiveRecord::Base
+class CustomFieldProperty < ApplicationRecord
   include NestedAttributesConcern
   include ClientEnrollmentTrackingConcern
 

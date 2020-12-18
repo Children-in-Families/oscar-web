@@ -1,4 +1,4 @@
-class Changelog < ActiveRecord::Base
+class Changelog < ApplicationRecord
   belongs_to :user, counter_cache: true
   has_many :changelog_types, dependent: :destroy
 

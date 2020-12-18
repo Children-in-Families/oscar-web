@@ -1,4 +1,4 @@
-class FamilyMember < ActiveRecord::Base
+class FamilyMember < ApplicationRecord
   extend Enumerize
   belongs_to :family
 

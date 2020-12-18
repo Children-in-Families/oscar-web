@@ -1,4 +1,4 @@
-class CustomAssessmentSetting < ActiveRecord::Base
+class CustomAssessmentSetting < ApplicationRecord
   belongs_to :setting
   has_many   :domains, dependent: :destroy
   has_many   :case_notes, dependent: :restrict_with_error

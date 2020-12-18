@@ -42,7 +42,7 @@ module ApplicationHelper
   end
 
   def current_url(new_params)
-    url_for params: params.merge(new_params)
+    url_for params: request.parameters.merge(new_params)
   end
 
   def remove_link(object, associated_objects = {}, btn_size = 'btn-xs')
