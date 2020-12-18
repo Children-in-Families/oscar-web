@@ -14,11 +14,7 @@ Given that we are using Docker, then most common development tasks you will just
 make start_core
 ```
 
-This starts a Rails, Postgres and Webpack container. If you need the Mongo container running then execute the following command in a separate terminal:
-
-```
-make start_mongo
-```
+This starts a Rails, Postgres, Webpack and MongoDB.
 
 See the project [Makefile](./Makefile) for a list of all the available commands.
 
@@ -28,10 +24,10 @@ _NOTE_ If this is the first time you have run this you may need to stop the cont
 
 ### Running the tests
 
-To run the tests using Docker you can do the following:
+To run the tests using Docker you need to start up the core services as shown above and then you can do the following to run all the specs:
 
 ```
-make start_core
+make rspec
 ```
 
 ## Debugging using Pry
