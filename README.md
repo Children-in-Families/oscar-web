@@ -2,9 +2,11 @@
 
 <img src='./app/assets/images/OSCaR_logo.png'>
 
-| Master Branch        | Stable Branch  |
-| ------------- |:-------------:|
-| [![Build Status](https://travis-ci.com/DevZep/oscar-web.svg?branch=master)](https://travis-ci.com/DevZep/oscar-web)        | [![Build Status](https://travis-ci.com/DevZep/oscar-web.svg?branch=stable)](https://travis-ci.com/DevZep/oscar-web) |
+[![Build Status](https://travis-ci.com/DevZep/oscar-web.svg?branch=master)](https://travis-ci.com/DevZep/oscar-web)
+[![Build Status](https://travis-ci.com/DevZep/oscar-web.svg?branch=stable)](https://travis-ci.com/DevZep/oscar-web)
+[![Build Status](https://travis-ci.com/DevZep/oscar-web.svg?branch=staging)](https://travis-ci.com/DevZep/oscar-web)
+
+### Open Source Case-management and Record-keeping.
 
 OSCaR is an open source and free to use (under [AGPL](http://www.gnu.org/licenses/agpl-3.0-standalone.html)) software for case managment focusing on family care first policies of vulnerable children.
 

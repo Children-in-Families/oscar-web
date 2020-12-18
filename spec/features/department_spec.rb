@@ -1,4 +1,4 @@
-describe 'Department' do
+xdescribe 'Department' do
   let!(:admin){ create(:user, roles: 'admin') }
   let!(:department){ create(:department) }
   let!(:other_department){ create(:department) }

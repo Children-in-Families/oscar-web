@@ -4,7 +4,7 @@ build_app:
 
 # Just start the Rails app, webpack dev server and Postgres DB
 start_core:
-	docker-compose up --no-deps app db webpack
+	docker-compose up --no-deps app db mongo webpack
 
 start_mongo:
 	docker-compose up mongo
@@ -31,6 +31,9 @@ rails_attach:
 # Starts up a guard console in the app container
 guard_console:
 	docker exec -it app guard
+
+rspec:
+	docker exec -it app rspec spec
 
 # Starts up a mongo console in the mongo container
 mongo_console:

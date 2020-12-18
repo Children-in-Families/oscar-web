@@ -26,6 +26,14 @@ Once the containers have fired up open a web browser and navigate to [http://loc
 
 _NOTE_ If this is the first time you have run this you may need to stop the containers and run it again!
 
+### Running the tests
+
+To run the tests using Docker you can do the following:
+
+```
+make start_core
+```
+
 ## Debugging using Pry
 
 If you want to debug the Rails application using Pry you need to attach to the container running Rails first. To do that in a new terminal window run:
