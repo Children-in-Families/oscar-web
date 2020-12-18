@@ -70,26 +70,23 @@
           = render 'remaining_programs', family: @family
         - else
           = render 'family/exit_ngos/form', family: @family
-
         .btn-group.small-btn-margin
-          %button.btn-sm.btn.btn-success.dropdown-toggle{ 'data-toggle' => 'dropdown', class: ('disabled' if @group_family_custom_fields.empty?) }
+          %button.btn-sm.btn.btn-success.dropdown-toggle.btn-fit{ class: ('disabled' if @group_family_custom_fields.empty?), data: { toggle: "dropdown", trigger: 'hover', html: 'true', content: "#{I18n.t('inline_help.families.show.active_form')}", placement: "auto" } }
             = t('.additional_forms')
             %span.caret
           %ul.dropdown-menu.scrollable-dropdown-menu
             - @group_family_custom_fields.each do |_, family_custom_fields|
               %li
                 %p= link_to family_custom_fields.first.custom_field.form_title, family_custom_field_properties_path(@family, custom_field_id: family_custom_fields.first.custom_field_id)
-
         - if can? :manage, CustomFieldProperty
           .btn-group.small-btn-margin
-            %button.btn-sm.btn.btn-success.dropdown-toggle{ 'data-toggle' => 'dropdown', class: ('disabled' if @free_family_forms.empty?) }
+            %button.btn-sm.btn.btn-success.dropdown-toggle.btn-fit{ data: { toggle: "dropdown", trigger: 'hover', html: 'true', content: "#{I18n.t('inline_help.families.show.add_form')}", placement: "auto" }, class: ('disabled' if @free_family_forms.empty?) }
               = t('.add_form')
               %span.caret
             %ul.dropdown-menu.scrollable-dropdown-menu
               - @free_family_forms.each do |custom_field|
                 %li
                   %p= link_to custom_field.form_title, new_family_custom_field_property_path(@family, custom_field_id: custom_field)
-
         - if current_organization.available_for_referral?
           %input#family-id{ value: "#{@family.id}", type: 'hidden' }
             .btn-group.small-btn-margin

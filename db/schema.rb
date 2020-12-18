@@ -16,7 +16,6 @@ ActiveRecord::Schema.define(version: 20201209212526) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
-  enable_extension "uuid-ossp"
   enable_extension "pgcrypto"
 
   create_table "able_screening_questions", force: :cascade do |t|
@@ -1892,6 +1891,10 @@ ActiveRecord::Schema.define(version: 20201209212526) do
   add_index "tasks", ["client_id"], name: "index_tasks_on_client_id", using: :btree
   add_index "tasks", ["deleted_at"], name: "index_tasks_on_deleted_at", using: :btree
   add_index "tasks", ["taskable_type", "taskable_id"], name: "index_tasks_on_taskable_type_and_taskable_id", using: :btree
+
+  create_table "test_tables", force: :cascade do |t|
+    t.string "test"
+  end
 
   create_table "thredded_categories", force: :cascade do |t|
     t.integer  "messageboard_id",             null: false
