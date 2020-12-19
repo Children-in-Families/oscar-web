@@ -3940,6 +3940,10 @@ en:
       province: Province
       read_less: read less
       read_more: read more
+      refer_family: Refer Family
+      referral_forms: Referral Forms
+      referred_from: Referred From
+      referred_to: Referred To
       reject: Reject
       relation: Relationship with Children
       remove_member: Remove Member
@@ -4025,6 +4029,77 @@ en:
       update:
         failed_update: Failed to update the family.
         successfully_updated: Family has been successfully updated.
+  family_referrals:
+    confirm_referral:
+      body_second: The family you want to refer already existed in the target NGO.
+      body_third: You have already referred this family, please wait for the response.
+      title: Warning
+    consent_form_fields:
+      consent_form: Consent Form
+    create:
+      failed_create: Failed to create a Referral.
+      successfully_created: Referral has been successfully created.
+    edit:
+      edit_referral: Edit Referral
+    form:
+      consent_form: Please Upload Signed Referral Consent Form Here
+      date_of_referral: Date of Referral
+      external_referral_warning: The NGO that you are attempting to refer your family to is not currently using OSCaR. Please print a copy of this referral form to send to your target organisation.
+      family_id: Family ID
+      family_name: Name
+      name_of_referee: Case Worker Making the Referral
+      ngo_name: NGO Name
+      referral_phone: Contact Phone Number
+      referral_reason: What is the reason for this referral?
+      referred_from: Referred from
+      referred_to: Referred to
+      save: Save
+      save_and_download: Save & Download
+    index:
+      cannot_edit_referral: You cannot edit this referral because the target NGO already accepted this referral
+      consent_form: Consent Form
+      date_of_referral: Date of Referral
+      detail: Detail
+      edit_btn: Edit
+      family_id: Family ID
+      family_name: Name
+      name_of_referee: Name of Referee
+      referral_forms: Referral Forms
+      referral_phone: Referral Phone
+      referral_reason: What is the reason for this referral?
+      referred_from: Reffered From
+      referred_to: Referred To
+      select_ngos: Select NGOs
+    new:
+      new_referral: New Referral
+    show:
+      cannot_edit_referral: You cannot edit this referral because the target NGO already accepted this referral
+      consent_form: Consent Form
+      date_of_referral: Date of Referral
+      download_referral_form: Download Printable Referral Form
+      external_referral_warning: The NGO that you are attempting to refer your family to is not currently using OSCaR. Please print a copy of this referral form to send to your target organisation.
+      family_id: Family ID
+      family_name: Name
+      name_of_referee: Case Worker Making the Referral
+      ngo_name: NGO Name
+      pdf:
+        haml:
+          family_id: Family ID
+          family_name: Family Name
+          date_of_referral: Date of Referral
+          name_of_referee: Case Worker Making the Referral
+          referral_phone: Contact Phone Number
+          referral_reason: What is the reason for this referral?
+          referred_from: Reffered From
+          referred_to: Referred To
+      preview_download: Preview & Download
+      referral_phone: Contact Phone Number
+      referral_reason: What is the reason for this referral?
+      referred_from: Reffered From
+      referred_to: Referred To
+      type_of_service: Type of Service
+    update:
+      successfully_updated: Referral has been successfully updated.
   faq: FAQ
   field_label_cannot_be_blank: field label can't be blank
   form_builder:
@@ -4500,6 +4575,9 @@ en:
       new_referral_client:
         one: You have 1 new referral client
         other: You have %{count} new referral clients
+      new_referral_family:
+        one: You have 1 new referral family
+        other: You have %{count} new referral families
       no_task: Nothing to notify.
       overdue_and_due_today_count:
         one: and 1 due today
@@ -4752,6 +4830,8 @@ en:
       form: Form
       partners: Partner
       users: User
+    family_referrals:
+      referral_families: Referral Families
     program_stream_notify:
       review_client: Clients need to be reviewed
     referrals:

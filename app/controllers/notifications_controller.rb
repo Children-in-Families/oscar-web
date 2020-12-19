@@ -49,6 +49,14 @@ class NotificationsController < AdminController
     @repeat_referrals = @notification.repeat_referrals
   end
 
+  def family_referrals
+    @unsaved_family_referrals = @notification.unsaved_family_referrals
+  end
+
+  def repeat_family_referrals
+    @repeat_family_referrals = @notification.repeat_family_referrals
+  end
+
   private
 
   def entity_custom_field_notification(entity_custom_field)

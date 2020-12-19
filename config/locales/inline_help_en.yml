@@ -157,6 +157,10 @@ en:
         reject: Reject indicates your organization cannot work with the family for some reason. The case will remain in the database and show "Exited" status with exit circumstance as "Reject Referral".
         active_program: View/Edit/Delete the enrollment information, add new tracking form(s), or exit family from the program(s).
         enroll_program: 'Enlist the family in existing program stream(s) here. Admin: If the program doesn’t exist, add a new program stream through <strong>Manage >> Program Streams</strong>.'
+        active_form: Add/View/Edit the custom forms already applied to the family.
+        add_form: These custom forms are specific to your NGO. Select one from the list to load the form. Once you fill and save it, the form will be attached to the family.
+        referral_form: View all referral forms under the following <strong>Referred to External Organization</strong> – If you sent the family to another organization. <strong>Referred From External Organization</strong> – If the family came to you through another organization.
+        refer_family: When sending a family to another organization, select a name from the list. If the name is not in the list, select <strong>I don’t see the NGO I’m looking for</strong> to print the form and send it to the target organization.
       status: Manually update the status. Active means one or more clients within a family are on support. If no client is currently under care, update as <strong>Inactive</strong>.
     partner:
       background: A brief history of the partner organization. Include their vision, mission, and services.
