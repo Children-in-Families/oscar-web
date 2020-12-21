@@ -2,7 +2,7 @@
 basedir=$(dirname $0)
 version=$(${basedir}/version/getVersion.sh)
 instance_name=$(cat ${basedir}/instance_name)
-awsName=$(${basedir}/version/getAWSImageName.sh)
+awsName=$(${basedir}/version/getawsImageName.sh)
 
 echo Building version ${version} of ${instance_name}
 
