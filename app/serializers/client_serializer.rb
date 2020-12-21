@@ -160,9 +160,9 @@ class ClientSerializer < ActiveModel::Serializer
   end
 
   def tasks
-    overdue_tasks   = ActiveModel::ArraySerializer.new(object.tasks.overdue_incomplete, each_serializer: TaskSerializer)
-    today_tasks     = ActiveModel::ArraySerializer.new(object.tasks.today_incomplete, each_serializer: TaskSerializer)
-    upcoming_tasks  = ActiveModel::ArraySerializer.new(object.tasks.incomplete.upcoming, each_serializer: TaskSerializer)
+    overdue_tasks   = ActiveModel::Serializer::CollectionSerializer.new(object.tasks.overdue_incomplete, each_serializer: TaskSerializer)
+    today_tasks     = ActiveModel::Serializer::CollectionSerializer.new(object.tasks.today_incomplete, each_serializer: TaskSerializer)
+    upcoming_tasks  = ActiveModel::Serializer::CollectionSerializer.new(object.tasks.incomplete.upcoming, each_serializer: TaskSerializer)
     { overdue: overdue_tasks, today: today_tasks, upcoming: upcoming_tasks }
   end
 

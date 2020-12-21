@@ -20,7 +20,7 @@ module Api
           referred_clients, sql = get_sql_and_client_data(external_system_name, date_time_param)
           none_referred_clients = Client.find_by_sql(sql.squish)
           bulk_clients << referred_clients
-          bulk_clients << JSON.parse(ActiveModel::ArraySerializer.new(none_referred_clients, each_serializer: ClientShareExternalSerializer, context: current_user).to_json)
+          bulk_clients << JSON.parse(ActiveModel::Serializer::CollectionSerializer.new(none_referred_clients, each_serializer: ClientShareExternalSerializer, context: current_user).to_json)
         end
         Organization.switch_to 'public'
         render json: bulk_clients.flatten, root: :data
@@ -209,7 +209,7 @@ module Api
         clients = []
         if params.dig(:since_date).present?
           clients          = Client.referred_external(external_system_name).where('clients.created_at >= ? OR clients.updated_at >= ?', date_time_param, date_time_param).order('clients.updated_at DESC')
-          referred_clients = JSON.parse ActiveModel::ArraySerializer.new(clients.distinct.to_a, each_serializer: OrganizationClientSerializer, context: current_user).to_json
+          referred_clients = JSON.parse ActiveModel::Serializer::CollectionSerializer.new(clients.distinct.to_a, each_serializer: OrganizationClientSerializer, context: current_user).to_json
           if clients.present?
             sql << " WHERE (DATE(clients.created_at) >= '#{date_time_param}' OR DATE(clients.updated_at) >= '#{date_time_param}') AND clients.id NOT IN (#{clients.ids.join(', ')}) ORDER BY clients.updated_at DESC"
           else
@@ -217,7 +217,7 @@ module Api
           end
         else
           clients          = Client.referred_external(external_system_name).order('clients.updated_at DESC')
-          referred_clients = JSON.parse ActiveModel::ArraySerializer.new(clients.distinct.to_a, each_serializer: OrganizationClientSerializer, context: current_user).to_json
+          referred_clients = JSON.parse ActiveModel::Serializer::CollectionSerializer.new(clients.distinct.to_a, each_serializer: OrganizationClientSerializer, context: current_user).to_json
           if clients.present?
             sql << " WHERE clients.id NOT IN (#{clients.ids.join(', ')}) ORDER BY clients.updated_at DESC"
           else
