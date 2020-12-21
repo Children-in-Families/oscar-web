@@ -1,4 +1,4 @@
-class CreateExitNgo < ActiveRecord::Migration
+class CreateExitNgo < ActiveRecord::Migration[5.2]
   def change
     create_table :exit_ngos do |t|
       t.references :client, index: true, foreign_key: true

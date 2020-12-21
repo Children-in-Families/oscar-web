@@ -1,5 +1,5 @@
-class AddGradeToClient < ActiveRecord::Migration
- 
+class AddGradeToClient < ActiveRecord::Migration[5.2]
+
   def change
 
     add_column :clients, :grade, :integer, default: 0

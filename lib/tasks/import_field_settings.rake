@@ -37,8 +37,8 @@ namespace :field_settings do
       create_legal_doc_settting
 
       [20200707042500, 20200710033402, 20200710122049, 20200713035828, 20200714092201, 20200810055448, 20200810070640].each do |migration_version|
-        ActiveRecord::Migrator.run(:down, ActiveRecord::Migrator.migrations_path, migration_version)
-        ActiveRecord::Migrator.run(:up, ActiveRecord::Migrator.migrations_path, migration_version)
+        ActiveRecord::MigrationContext.new( ActiveRecord::Tasks::DatabaseTasks.migrations_paths ).down( migration_version )
+        ActiveRecord::MigrationContext.new( ActiveRecord::Tasks::DatabaseTasks.migrations_paths ).up( migration_version )
       end
     end
   end
@@ -52,7 +52,7 @@ namespace :field_settings do
       current_label: 'Government Forms',
       klass_name: :client,
       required: false,
-      visible: %w(brc ratanak).exclude?(Apartment::Tenant.current_tenant),
+      visible: %w(brc ratanak).exclude?(Apartment::Tenant.current),
       group: :client
     )
   end
@@ -67,7 +67,7 @@ namespace :field_settings do
       group: :assessment
     )
 
-    field_setting.update!(label: 'Review current need') if Apartment::Tenant.current_tenant == 'ratanak'
+    field_setting.update!(label: 'Review current need') if Apartment::Tenant.current == 'ratanak'
   end
 
   def create_legal_doc_settting
@@ -89,7 +89,7 @@ namespace :field_settings do
         current_label: label,
         label: label,
         required: false,
-        visible: (Apartment::Tenant.current_tenant == 'ratanak'),
+        visible: (Apartment::Tenant.current == 'ratanak'),
         group: :client
       )
     end

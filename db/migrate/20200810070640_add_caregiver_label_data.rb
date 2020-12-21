@@ -1,11 +1,11 @@
-class AddCaregiverLabelData < ActiveRecord::Migration
+class AddCaregiverLabelData < ActiveRecord::Migration[5.2]
   def up
-    return if Apartment::Tenant.current_tenant == 'shared'
+    return if Apartment::Tenant.current == 'shared'
 
     FieldSetting.create!(
       name: :email,
       current_label: 'Carer Email Address',
-      label: (Apartment::Tenant.current_tenant == 'ratanak' ? 'Caregiver Email Address' : nil),
+      label: (Apartment::Tenant.current == 'ratanak' ? 'Caregiver Email Address' : nil),
       klass_name: :carer,
       visible: true,
       group: :carer

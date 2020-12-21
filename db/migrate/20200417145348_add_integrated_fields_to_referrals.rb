@@ -1,4 +1,4 @@
-class AddIntegratedFieldsToReferrals < ActiveRecord::Migration
+class AddIntegratedFieldsToReferrals < ActiveRecord::Migration[5.2]
   def change
     add_column :referrals, :external_id, :string
     add_index :referrals, :external_id

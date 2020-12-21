@@ -1,4 +1,4 @@
-class CreateCaseContracts < ActiveRecord::Migration
+class CreateCaseContracts < ActiveRecord::Migration[5.2]
   def change
     create_table :case_contracts do |t|
       t.date :signed_on

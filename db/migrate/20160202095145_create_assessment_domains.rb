@@ -1,4 +1,4 @@
-class CreateAssessmentDomains < ActiveRecord::Migration
+class CreateAssessmentDomains < ActiveRecord::Migration[5.2]
   def change
     create_table :assessment_domains do |t|
       t.text :note, default: ''

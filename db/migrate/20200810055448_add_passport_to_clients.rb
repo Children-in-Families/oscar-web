@@ -1,8 +1,8 @@
-class AddPassportToClients < ActiveRecord::Migration
+class AddPassportToClients < ActiveRecord::Migration[5.2]
   FIELDS = [
     :national_id_number,
     :passport_number
-  ] 
+  ]
 
   def change
     add_column :clients, :national_id_number, :string
@@ -11,13 +11,13 @@ class AddPassportToClients < ActiveRecord::Migration
 
     reversible do |dir|
       dir.up do
-        if Apartment::Tenant.current_tenant != 'shared'
+        if Apartment::Tenant.current != 'shared'
           FIELDS.each do |name|
             field_setting = FieldSetting.create!(
               name: name,
               current_label: I18n.t("clients.form.#{name}"),
               klass_name: :client,
-              visible: Apartment::Tenant.current_tenant == 'ratanak',
+              visible: Apartment::Tenant.current == 'ratanak',
               group: :client
             )
           end

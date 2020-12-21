@@ -1,4 +1,4 @@
-class RemoveSomeColumnsFromClients < ActiveRecord::Migration
+class RemoveSomeColumnsFromClients < ActiveRecord::Migration[5.2]
   def change
     remove_column :clients, :difficulties
     remove_column :clients, :household_members

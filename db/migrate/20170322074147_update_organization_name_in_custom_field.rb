@@ -1,4 +1,4 @@
-class UpdateOrganizationNameInCustomField < ActiveRecord::Migration
+class UpdateOrganizationNameInCustomField < ActiveRecord::Migration[5.2]
   def change
     unprocessable_custom_fields = []
 
@@ -8,7 +8,7 @@ class UpdateOrganizationNameInCustomField < ActiveRecord::Migration
       begin
         if custom_field.ngo_name.blank?
           custom_field.update_attributes!(ngo_name: Organization.current.full_name)
-        end 
+        end
       rescue
         unprocessable_custom_fields << custom_field.id
       end

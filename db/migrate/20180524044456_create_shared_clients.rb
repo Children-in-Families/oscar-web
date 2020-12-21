@@ -1,4 +1,4 @@
-class CreateSharedClients < ActiveRecord::Migration
+class CreateSharedClients < ActiveRecord::Migration[5.2]
   def change
     create_table :shared_clients do |t|
       t.string :slug, default: ''

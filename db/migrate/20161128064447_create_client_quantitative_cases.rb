@@ -1,4 +1,4 @@
-class CreateClientQuantitativeCases < ActiveRecord::Migration
+class CreateClientQuantitativeCases < ActiveRecord::Migration[5.2]
   def change
     create_table :client_quantitative_cases do |t|
       t.references :quantitative_case

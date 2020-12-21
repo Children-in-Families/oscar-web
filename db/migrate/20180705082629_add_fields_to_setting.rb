@@ -1,4 +1,4 @@
-class AddFieldsToSetting < ActiveRecord::Migration
+class AddFieldsToSetting < ActiveRecord::Migration[5.2]
   def change
     add_column :settings, :org_name, :string, default: ''
     add_column :settings, :org_commune, :string, default: ''

@@ -1,4 +1,4 @@
-class CreateCallProtectionConcerns < ActiveRecord::Migration
+class CreateCallProtectionConcerns < ActiveRecord::Migration[5.2]
   def change
     create_table :call_protection_concerns do |t|
       t.references :call, index: true, foreign_key: true

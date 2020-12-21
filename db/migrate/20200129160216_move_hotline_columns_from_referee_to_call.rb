@@ -1,4 +1,4 @@
-class MoveHotlineColumnsFromRefereeToCall < ActiveRecord::Migration
+class MoveHotlineColumnsFromRefereeToCall < ActiveRecord::Migration[5.2]
   def change
     remove_column :referees, :answered_call, :boolean
     remove_column :referees, :called_before, :boolean

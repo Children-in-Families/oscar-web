@@ -1,4 +1,4 @@
-class CreateChangelog < ActiveRecord::Migration
+class CreateChangelog < ActiveRecord::Migration[5.2]
   def change
     create_table :changelogs do |t|
       t.string :version, default: ''

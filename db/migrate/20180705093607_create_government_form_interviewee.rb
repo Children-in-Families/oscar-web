@@ -1,4 +1,4 @@
-class CreateGovernmentFormInterviewee < ActiveRecord::Migration
+class CreateGovernmentFormInterviewee < ActiveRecord::Migration[5.2]
   def change
     create_table :government_form_interviewees do |t|
       t.references :government_form, index: true, foreign_key: true

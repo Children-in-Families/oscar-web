@@ -1,4 +1,4 @@
-class CreateCustomFieldProperties < ActiveRecord::Migration
+class CreateCustomFieldProperties < ActiveRecord::Migration[5.2]
   def change
     create_table :custom_field_properties do |t|
       t.jsonb :properties, default: {}

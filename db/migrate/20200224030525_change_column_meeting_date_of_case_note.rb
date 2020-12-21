@@ -1,4 +1,4 @@
-class ChangeColumnMeetingDateOfCaseNote < ActiveRecord::Migration
+class ChangeColumnMeetingDateOfCaseNote < ActiveRecord::Migration[5.2]
   def up
     change_column  :case_notes, :meeting_date, :datetime
 

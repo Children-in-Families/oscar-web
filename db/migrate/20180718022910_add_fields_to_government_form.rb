@@ -1,4 +1,4 @@
-class AddFieldsToGovernmentForm < ActiveRecord::Migration
+class AddFieldsToGovernmentForm < ActiveRecord::Migration[5.2]
   def change
     add_column :government_forms, :caseworker_assumption, :string, default: ''
     add_column :government_forms, :assumption_description, :text, default: ''

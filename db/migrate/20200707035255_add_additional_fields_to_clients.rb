@@ -1,4 +1,4 @@
-class AddAdditionalFieldsToClients < ActiveRecord::Migration
+class AddAdditionalFieldsToClients < ActiveRecord::Migration[5.2]
   def change
     add_column :clients, :marital_status, :string
     add_column :clients, :nationality, :string

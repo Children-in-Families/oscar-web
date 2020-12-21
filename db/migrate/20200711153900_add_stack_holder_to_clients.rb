@@ -1,4 +1,4 @@
-class AddStackHolderToClients < ActiveRecord::Migration
+class AddStackHolderToClients < ActiveRecord::Migration[5.2]
   def change
     add_column :clients, :neighbor_name, :string
     add_column :clients, :neighbor_phone, :string

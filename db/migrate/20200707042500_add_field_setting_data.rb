@@ -1,4 +1,4 @@
-class AddFieldSettingData < ActiveRecord::Migration
+class AddFieldSettingData < ActiveRecord::Migration[5.2]
   NEW_FIELDS = {
     marital_status: {
       label: 'Marital Status'
@@ -63,7 +63,7 @@ class AddFieldSettingData < ActiveRecord::Migration
   }
 
   def up
-    return if Apartment::Tenant.current_tenant == 'shared'
+    return if Apartment::Tenant.current == 'shared'
 
     NEW_FIELDS.each do |name, data|
       field_setting = FieldSetting.create!(
@@ -72,7 +72,7 @@ class AddFieldSettingData < ActiveRecord::Migration
         label: data[:label],
         klass_name: :client,
         required: false,
-        visible: (Apartment::Tenant.current_tenant == 'ratanak'),
+        visible: (Apartment::Tenant.current == 'ratanak'),
         group: data[:group] || :client
       )
     end
@@ -82,7 +82,7 @@ class AddFieldSettingData < ActiveRecord::Migration
         name: name,
         klass_name: :client,
         required: false,
-        visible: (Apartment::Tenant.current_tenant != 'ratanak'),
+        visible: (Apartment::Tenant.current != 'ratanak'),
         group: data[:group] || :client,
         current_label: data[:current_label]
       )
@@ -92,7 +92,7 @@ class AddFieldSettingData < ActiveRecord::Migration
       field_setting = FieldSetting.create!(
         name: name,
         klass_name: data[:klass_name].presence || :client,
-        label: (Apartment::Tenant.current_tenant == 'ratanak' ? data[:new_label] : nil),
+        label: (Apartment::Tenant.current == 'ratanak' ? data[:new_label] : nil),
         required: false,
         visible: true,
         group: data[:group].presence || :client,

@@ -1,4 +1,4 @@
-class CreateCustomAssessmentSettings < ActiveRecord::Migration
+class CreateCustomAssessmentSettings < ActiveRecord::Migration[5.2]
   def change
     create_table :custom_assessment_settings do |t|
       t.string :custom_assessment_name, default: "Custom Assessment"

@@ -1,4 +1,4 @@
-class CreateEnterNgoUser < ActiveRecord::Migration
+class CreateEnterNgoUser < ActiveRecord::Migration[5.2]
   def change
     create_table :enter_ngo_users do |t|
       t.references :user, index: true, foreign_key: true

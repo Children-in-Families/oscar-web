@@ -1,4 +1,4 @@
-class FnOscarDashboardClientQuantitativeCases < ActiveRecord::Migration
+class FnOscarDashboardClientQuantitativeCases < ActiveRecord::Migration[5.2]
   def change
     reversible do |dir|
       dir.up do

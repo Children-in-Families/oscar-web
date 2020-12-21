@@ -1,4 +1,4 @@
-class SetDeafultToClientAbleState < ActiveRecord::Migration
+class SetDeafultToClientAbleState < ActiveRecord::Migration[5.2]
   def up
     change_column_default :clients, :able_state, ''
 

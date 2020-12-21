@@ -1,4 +1,4 @@
-class CreateQuantitativeCases < ActiveRecord::Migration
+class CreateQuantitativeCases < ActiveRecord::Migration[5.2]
   def change
     create_table :quantitative_cases do |t|
       t.string :value, default: ''

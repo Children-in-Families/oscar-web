@@ -1,4 +1,4 @@
-class CreateCommune < ActiveRecord::Migration
+class CreateCommune < ActiveRecord::Migration[5.2]
   def change
     create_table :communes do |t|
       t.string :code, default: ''

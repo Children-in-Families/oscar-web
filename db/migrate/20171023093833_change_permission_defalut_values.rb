@@ -1,4 +1,4 @@
-class ChangePermissionDefalutValues < ActiveRecord::Migration
+class ChangePermissionDefalutValues < ActiveRecord::Migration[5.2]
   def change
     change_column_default :permissions, :case_notes_readable, true
     change_column_default :permissions, :case_notes_editable, true

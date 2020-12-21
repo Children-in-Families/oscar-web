@@ -1,4 +1,4 @@
-class CreateClientCustomFields < ActiveRecord::Migration
+class CreateClientCustomFields < ActiveRecord::Migration[5.2]
   def change
     create_table :client_custom_fields do |t|
       t.text :properties

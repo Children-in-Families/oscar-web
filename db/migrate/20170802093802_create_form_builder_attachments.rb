@@ -1,4 +1,4 @@
-class CreateFormBuilderAttachments < ActiveRecord::Migration
+class CreateFormBuilderAttachments < ActiveRecord::Migration[5.2]
   def change
     create_table :form_builder_attachments do |t|
       t.string :name, default: ''

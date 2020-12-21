@@ -1,4 +1,4 @@
-class ChangeGovernmentFormFields < ActiveRecord::Migration
+class ChangeGovernmentFormFields < ActiveRecord::Migration[5.2]
   def change
     remove_column :government_forms, :interview_commune, :integer
     remove_column :government_forms, :interview_village, :integer

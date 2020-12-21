@@ -1,4 +1,4 @@
-class CreateExternalSystemGlobalIdentities < ActiveRecord::Migration
+class CreateExternalSystemGlobalIdentities < ActiveRecord::Migration[5.2]
   def change
     create_table :external_system_global_identities do |t|
       t.references :external_system, index: true, foreign_key: true

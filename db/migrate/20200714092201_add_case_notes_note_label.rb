@@ -1,11 +1,11 @@
-class AddCaseNotesNoteLabel < ActiveRecord::Migration
+class AddCaseNotesNoteLabel < ActiveRecord::Migration[5.2]
   def up
-    return if Apartment::Tenant.current_tenant == 'shared'
+    return if Apartment::Tenant.current == 'shared'
 
     FieldSetting.create!(
       name: :note,
       current_label: 'Note',
-      label: (Apartment::Tenant.current_tenant == 'ratanak' ? 'Progress notes and next steps' : nil),
+      label: (Apartment::Tenant.current == 'ratanak' ? 'Progress notes and next steps' : nil),
       klass_name: :case_note,
       required: true,
       visible: true,

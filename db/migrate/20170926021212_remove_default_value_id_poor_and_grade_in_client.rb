@@ -1,4 +1,4 @@
-class RemoveDefaultValueIdPoorAndGradeInClient < ActiveRecord::Migration
+class RemoveDefaultValueIdPoorAndGradeInClient < ActiveRecord::Migration[5.2]
   def up
     change_column_default :clients, :id_poor, nil
     change_column_default :clients, :grade, nil

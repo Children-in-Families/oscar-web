@@ -1,4 +1,4 @@
-class AddCountryOriginToClient < ActiveRecord::Migration
+class AddCountryOriginToClient < ActiveRecord::Migration[5.2]
   def up
     add_column :clients, :country_origin, :string, default: ''
     add_column :shared_clients, :country_origin, :string, default: ''

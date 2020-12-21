@@ -1,4 +1,4 @@
-class AddFieldsDefaultValueToTracking < ActiveRecord::Migration
+class AddFieldsDefaultValueToTracking < ActiveRecord::Migration[5.2]
   def up
     change_column :trackings, :fields, :jsonb, default: {}
   end

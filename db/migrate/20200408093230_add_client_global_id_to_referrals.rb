@@ -1,9 +1,9 @@
-class AddClientGlobalIdToReferrals < ActiveRecord::Migration
+class AddClientGlobalIdToReferrals < ActiveRecord::Migration[5.2]
   def up
     add_column :referrals, :client_global_id, :string unless column_exists?(:referrals, :client_global_id)
     change_column :referrals, :client_global_id, :string if Referral.columns_hash["client_global_id"]&.type == :integer
     add_index :referrals, :client_global_id if !index_exists?(:referrals, :client_global_id)
-    
+
     if schema_search_path == "\"mrs\""
       if column_exists?(:referrals, :client_global_id)
         execute <<-SQL.squish

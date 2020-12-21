@@ -1,4 +1,4 @@
-class DeviseTokenAuthCreateAdminUsers < ActiveRecord::Migration
+class DeviseTokenAuthCreateAdminUsers < ActiveRecord::Migration[5.2]
   def change
     add_column :admin_users, :provider, :string, null: false, default: 'email'
     add_column :admin_users, :uid, :string, null: false, default: ''

@@ -6,7 +6,9 @@ class AddForeignTypeToVersionAssociations < ActiveRecord::Migration[5.2]
     remove_index :version_associations,
       name: "index_version_associations_on_foreign_key" if index_exists?(:version_associations, [:foreign_key_name, :foreign_key_id])
 
-    remove_index :version_associations, column: [:foreign_key_name, :foreign_key_id] if index_exists?(:version_associations, [:foreign_key_name, :foreign_key_id])
+    remove_index :version_associations, column: %i(foreign_key_name foreign_key_id foreign_type) if index_exists?(:version_associations, %i(foreign_key_name foreign_key_id foreign_type), name: "index_version_associations_on_foreign_key")
+
+    remove_index :version_associations, column: [:foreign_key_name, :foreign_key_id] if index_exists?(:version_associations, [:foreign_key_name, :foreign_key_id]) || index_exists?(:version_associations, [:foreign_key_name, :foreign_key_id], name: "index_version_associations_on_foreign_key")
 
     add_index :version_associations,
       %i(foreign_key_name foreign_key_id foreign_type),

@@ -1,4 +1,4 @@
-class CreateClientProblem < ActiveRecord::Migration
+class CreateClientProblem < ActiveRecord::Migration[5.2]
   def change
     create_table :client_problems do |t|
       t.integer :rank
