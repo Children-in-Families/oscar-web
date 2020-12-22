@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20201203072103) do
+ActiveRecord::Schema.define(version: 20201222115437) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -812,6 +812,24 @@ ActiveRecord::Schema.define(version: 20201203072103) do
     t.text     "score_3_local_definition",     default: ""
     t.text     "score_4_local_definition",     default: ""
     t.integer  "custom_assessment_setting_id"
+    t.string   "score_5_color",                default: ""
+    t.string   "score_6_color",                default: ""
+    t.string   "score_7_color",                default: ""
+    t.string   "score_8_color",                default: ""
+    t.string   "score_9_color",                default: ""
+    t.string   "score_10_color",               default: ""
+    t.text     "score_5_definition",           default: ""
+    t.text     "score_6_definition",           default: ""
+    t.text     "score_7_definition",           default: ""
+    t.text     "score_8_definition",           default: ""
+    t.text     "score_9_definition",           default: ""
+    t.text     "score_10_definition",          default: ""
+    t.text     "score_5_local_definition",     default: ""
+    t.text     "score_6_local_definition",     default: ""
+    t.text     "score_7_local_definition",     default: ""
+    t.text     "score_8_local_definition",     default: ""
+    t.text     "score_9_local_definition",     default: ""
+    t.text     "score_10_local_definition",    default: ""
   end
 
   add_index "domains", ["domain_group_id"], name: "index_domains_on_domain_group_id", using: :btree
