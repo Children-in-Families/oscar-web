@@ -1,4 +1,4 @@
-class AddClientsFieldToFamily < ActiveRecord::Migration
+class AddClientsFieldToFamily < ActiveRecord::Migration[5.2]
   def up
     add_column :families, :children, :integer, array: true, default: []
     # Ignore scope, because this migration added before deleted_at field added

@@ -1,5 +1,6 @@
 class ProgramStream < ApplicationRecord
   include UpdateFieldLabelsFormBuilder
+  include ClientRetouch
   FORM_BUILDER_FIELDS = ['enrollment', 'exit_program'].freeze
   acts_as_paranoid without_default_scope: true, column: :archived_at
 
@@ -153,7 +154,7 @@ class ProgramStream < ApplicationRecord
   end
 
   def set_program_completed
-    if !tracking_required && (trackings.empty? || trackings.pluck(:name).include?('') || trackings.pluck(:fields).include?([]))
+    if !tracking_required && (trackings.empty? || trackings.map(&:name).include?('') || trackings.map(&:fields).include?([]))
       self.completed = false
       true
     else

@@ -1,4 +1,4 @@
-class AddFieldToRefereeAndCarer < ActiveRecord::Migration
+class AddFieldToRefereeAndCarer < ActiveRecord::Migration[5.2]
   def change
     add_column :referees, :name, :string, default: ''
     add_column :referees, :phone, :string, default: ''

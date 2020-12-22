@@ -1,4 +1,4 @@
-class UpdateOldClientAliasId < ActiveRecord::Migration
+class UpdateOldClientAliasId < ActiveRecord::Migration[5.2]
   def change
     unprocessable_clients = []
 

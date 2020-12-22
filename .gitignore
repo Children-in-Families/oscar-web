@@ -42,3 +42,7 @@ yarn-debug.log*
 /node_modules
 ~$*
 TODO.md
+NOTES.md
+REVISION
+GIT_REVISION
+sorbet

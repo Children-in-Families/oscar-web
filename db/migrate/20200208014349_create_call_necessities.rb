@@ -1,4 +1,4 @@
-class CreateCallNecessities < ActiveRecord::Migration
+class CreateCallNecessities < ActiveRecord::Migration[5.2]
   def change
     create_table :call_necessities do |t|
       t.references :call, index: true, foreign_key: true

@@ -455,6 +455,7 @@ km:
       rated_for_id_poor: តើអតិថិជនមានប័ណ្ណក្រីក្រដែរឬទេ
       received_by: បុគ្គលិកទទួលករណី
       received_by_id: បុគ្គលិកទទួលករណី
+      referral_email: អ៊ីមែលរបស់អ្នកបញ្ជូនករណី
       referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
       referral_source: ប្រភពនៃការបញ្ជូន
       referral_source_category_id: ប្រភេទប្រភពនៃការបញ្ជូន
@@ -1697,6 +1698,7 @@ km:
       rated_for_id_poor: តើអតិថិជនត្រូវបានវាយតំលៃសំរាប់អត្តសញ្ញាណប័ណ្ណក្រីក្រដែរឬទេ?
       received_by: បុគ្គលិកទទួលករណី
       referee_called_before: តើអ្នកបញ្ជូនភ្ជាប់បានហៅទូរស័ព្ទមកកាន់បណ្តាញសុវត្ថិភាពកុមារពីមុនដែរឬទេ
+      referral_email: អ៊ីមែលរបស់អ្នកបញ្ជូនករណី
       referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
       referral_source: ប្រភពនៃការបញ្ជូន
       reject_note: កំណត់ហេតុនៃការមិនទទួលយក
@@ -2056,6 +2058,7 @@ km:
       received_by: បុគ្គលិកទទួលករណី
       refer_client: បញ្ជូនអតិថិជន
       referee_phone_number: លេខទូរស័ព្ទរបស់អ្នកបញ្ជូនករណី
+      referral_email: អ៊ីមែលរបស់អ្នកបញ្ជូនករណី
       referral_forms: បែបបទបញ្ជូន
       referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
       referral_source: ប្រភពនៃការបញ្ជូន
@@ -2609,6 +2612,7 @@ km:
         rated_for_id_poor: តើអតិថិជនមានប័ណ្ណក្រីក្រដែរឬទេ
         reason_for_family_separation: ការបែកចេញពីគ្រួសារ
         received_by: បុគ្គលិកទទួលករណី
+        referral_email: អ៊ីមែលរបស់អ្នកបញ្ជូនករណី
         referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
         referral_source: ប្រភពនៃការបញ្ជូន
         referral_source_category: ប្រភេទប្រភពនៃការបញ្ជូន
@@ -2953,6 +2957,7 @@ km:
     name: ឈ្មោះ
     province: ខេត្តកំណើត
     received_by: បុគ្គលិកទទួលករណី
+    referral_email: អ៊ីមែលរបស់អ្នកបញ្ជូនករណី
     referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
     referral_source: ប្រភពនៃការបញ្ជូន
     reject_note: កំណត់ហេតុនៃការមិនទទួលយក
@@ -5009,6 +5014,7 @@ km:
       external_referral_warning: អង្គការដែលអ្នកកំពុងព្យាយាមបញ្ជូនអតិថិជនរបស់អ្នកទៅបច្ចុប្បន្ននេះមិនកំពុងប្រើ OSCaR ទេ។ សូមបោះពុម្ពច្បាប់ចម្លងនៃទម្រង់បញ្ជូននេះដើម្បីផ្ញើទៅអង្គការគោលដៅរបស់អ្នក។
       name_of_referee: ឈ្មោះអ្នកបញ្ជូន
       ngo_name: ឈ្មោះអង្គការ
+      referral_email: អ៊ីមែលរបស់អ្នកបញ្ជូនករណី
       referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
       referral_reason: មូលហេតុនៃការបញ្ជូន
       referred_from: ប្រភពនៃការបញ្ជូន
@@ -5025,6 +5031,7 @@ km:
       detail: ព័ត៌មានលំអិត
       edit_btn: កែសម្រួល
       name_of_referee: ឈ្មោះអ្នកបញ្ជូន
+      referral_email: អ៊ីមែលរបស់អ្នកបញ្ជូនករណី
       referral_forms: ទម្រង់បញ្ជូន
       referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
       referral_reason: មូលហេតុនៃការបញ្ជូន
@@ -5049,11 +5056,13 @@ km:
           client_name: ឈ្មោះអតិថិជន
           date_of_referral: កាលបរិច្ឆេទបញ្ជូន
           name_of_referee: ឈ្មោះអ្នកបញ្ជូន
+          referral_email: អ៊ីមែលរបស់អ្នកបញ្ជូនករណី
           referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
           referral_reason: មូលហេតុនៃការបញ្ជូន
           referred_from: ប្រភពនៃការបញ្ជូន
           referred_to: បញ្ជូនទៅកាន់
       preview_download: មើលនិងទាញយក
+      referral_email: អ៊ីមែលរបស់អ្នកបញ្ជូនករណី
       referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
       referral_reason: មូលហេតុនៃការបញ្ជូន
       referred_from: ប្រភពនៃការបញ្ជូន

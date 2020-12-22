@@ -1,4 +1,4 @@
-class AddStackHolderDataToFieldSettings < ActiveRecord::Migration
+class AddStackHolderDataToFieldSettings < ActiveRecord::Migration[5.2]
   FIELDS = [
     :stakeholder_contacts,
     :neighbor_name,
@@ -20,14 +20,14 @@ class AddStackHolderDataToFieldSettings < ActiveRecord::Migration
   ]
 
   def up
-    return if Apartment::Tenant.current_tenant == 'shared'
+    return if Apartment::Tenant.current == 'shared'
 
     FIELDS.each do |name|
       field_setting = FieldSetting.create!(
         name: name,
         current_label: I18n.t("clients.form.#{name}"),
         klass_name: :client,
-        visible: Apartment::Tenant.current_tenant == 'ratanak',
+        visible: Apartment::Tenant.current == 'ratanak',
         group: :stakeholder_contacts
       )
     end

@@ -1,4 +1,4 @@
-class AddMissingFieldToCases < ActiveRecord::Migration
+class AddMissingFieldToCases < ActiveRecord::Migration[5.2]
   def change
     add_column :cases, :status, :string, default: ''
     add_column :cases, :placement_date, :date

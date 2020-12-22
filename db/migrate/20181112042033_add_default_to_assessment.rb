@@ -1,4 +1,4 @@
-class AddDefaultToAssessment < ActiveRecord::Migration
+class AddDefaultToAssessment < ActiveRecord::Migration[5.2]
  def up
    add_column :assessments, :default, :boolean, default: true
    Assessment.update_all(default: false) if ['mho', 'fsc', 'tlc'].include?(Organization.current.try(:short_name))

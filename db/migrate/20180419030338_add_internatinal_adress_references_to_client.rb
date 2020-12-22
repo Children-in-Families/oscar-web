@@ -1,4 +1,4 @@
-class AddInternatinalAdressReferencesToClient < ActiveRecord::Migration
+class AddInternatinalAdressReferencesToClient < ActiveRecord::Migration[5.2]
   def change
     add_reference :clients, :subdistrict, index: true, foreign_key: true
     add_reference :clients, :township, index: true, foreign_key: true

@@ -1155,7 +1155,7 @@ module ClientsHelper
       when 'is_not_empty'
         properties
       when 'between'
-        properties = properties.select{|value| value.to_date >= rule[:value].first.to_date && value.to_date <= rule[:value].last.to_date  }
+        properties = properties.is_a?(Array) ? properties.select { |value| value.to_date >= rule[:value].first.to_date && value.to_date <= rule[:value].last.to_date  } : [properties].flatten.compact
       end
     end
     properties || []

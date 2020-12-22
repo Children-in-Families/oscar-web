@@ -1,4 +1,4 @@
-class AddMultiStepFormFieldsToClient < ActiveRecord::Migration
+class AddMultiStepFormFieldsToClient < ActiveRecord::Migration[5.2]
   def change
     add_column :clients, :name_of_referee, :string, default: ''
     add_column :clients, :main_school_contact, :string, default: ''

@@ -1,4 +1,4 @@
-class CreateCalls < ActiveRecord::Migration
+class CreateCalls < ActiveRecord::Migration[5.2]
   def change
     create_table :calls do |t|
       t.references :referee, index: true, foreign_key: true

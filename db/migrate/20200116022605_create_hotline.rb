@@ -1,4 +1,4 @@
-class CreateHotline < ActiveRecord::Migration
+class CreateHotline < ActiveRecord::Migration[5.2]
   def change
     create_table :hotlines do |t|
       t.references :client, index: true, foreign_key: true

@@ -48,6 +48,8 @@
         .col-xs-12
           = f.input :referral_phone, input_html: { value: referee_phone(f.object) }, label: t('.referral_phone')
         .col-xs-12
+          = f.input :referee_email, input_html: { value: referral_email(f.object) }, label: t('.referral_email')
+        .col-xs-12
           = f.input :referral_reason, as: :text, label: t('.referral_reason')
         .col-xs-12
           #type-of-service{ data: {custom: services.to_json } }

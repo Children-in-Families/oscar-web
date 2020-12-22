@@ -1,4 +1,4 @@
-class CreateGovernmentFormProblem < ActiveRecord::Migration
+class CreateGovernmentFormProblem < ActiveRecord::Migration[5.2]
   def change
     create_table :government_form_problems do |t|
       t.integer :rank

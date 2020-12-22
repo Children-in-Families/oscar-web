@@ -1,4 +1,4 @@
-class AddClientGlobalIdToSharedClients < ActiveRecord::Migration
+class AddClientGlobalIdToSharedClients < ActiveRecord::Migration[5.2]
   def up
     add_column :shared_clients, :global_id, :string unless column_exists?(:shared_clients, :global_id)
     change_column :shared_clients, :global_id, :string

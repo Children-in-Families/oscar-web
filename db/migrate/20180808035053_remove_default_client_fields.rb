@@ -1,4 +1,4 @@
-class RemoveDefaultClientFields < ActiveRecord::Migration
+class RemoveDefaultClientFields < ActiveRecord::Migration[5.2]
   def up
     change_column_default :clients, :has_been_in_orphanage, nil
     change_column_default :clients, :has_been_in_government_care, nil

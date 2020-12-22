@@ -1,4 +1,4 @@
-class CreateQuarterlyReports < ActiveRecord::Migration
+class CreateQuarterlyReports < ActiveRecord::Migration[5.2]
   def change
     create_table :quarterly_reports do |t|
       t.date :visit_date

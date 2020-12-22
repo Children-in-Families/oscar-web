@@ -1,4 +1,4 @@
-class CreateClientTypeGovernmentForm < ActiveRecord::Migration
+class CreateClientTypeGovernmentForm < ActiveRecord::Migration[5.2]
   def change
     create_table :client_type_government_forms do |t|
       t.references :client_type, index: true, foreign_key: true

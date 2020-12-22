@@ -1,4 +1,4 @@
-class CreatePermissions < ActiveRecord::Migration
+class CreatePermissions < ActiveRecord::Migration[5.2]
   def change
     create_table :permissions do |t|
       t.belongs_to :user, index: true

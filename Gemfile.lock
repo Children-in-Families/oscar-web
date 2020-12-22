@@ -666,6 +666,8 @@ GEM
       faraday (> 0.8, < 2.0)
     select2-rails (4.0.13)
     semantic_range (2.3.1)
+    sentry-raven (2.13.0)
+      faraday (>= 0.7.6, < 1.0)
     sexp_processor (4.15.1)
     shoulda-matchers (4.0.1)
       activesupport (>= 4.2.0)
@@ -891,6 +893,7 @@ DEPENDENCIES
   s3
   sass-rails (~> 6.0)
   select2-rails (~> 4.0, >= 4.0.13)
+  sentry-raven (~> 2.13)
   shoulda-matchers
   shoulda-whenever (~> 0.0.2)
   sidekiq (~> 5.2, >= 5.2.9)

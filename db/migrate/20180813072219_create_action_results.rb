@@ -1,4 +1,4 @@
-class CreateActionResults < ActiveRecord::Migration
+class CreateActionResults < ActiveRecord::Migration[5.2]
   def change
     create_table :action_results do |t|
       t.text :action, default: ''

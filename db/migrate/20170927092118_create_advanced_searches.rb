@@ -1,4 +1,4 @@
-class CreateAdvancedSearches < ActiveRecord::Migration
+class CreateAdvancedSearches < ActiveRecord::Migration[5.2]
   def change
     create_table :advanced_searches do |t|
       t.string :name

@@ -1,4 +1,4 @@
-class AddIntegratedFieldsToClients < ActiveRecord::Migration
+class AddIntegratedFieldsToClients < ActiveRecord::Migration[5.2]
   def change
     add_column :clients, :external_id, :string
     add_index :clients, :external_id

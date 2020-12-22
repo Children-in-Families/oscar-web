@@ -42,7 +42,8 @@ module Importer
         name = workbook.row(row)[headers['Name']]
 
         Province.create(
-          name: name
+          name: name,
+          country: 'cambodia'
         )
       end
     end

@@ -1,4 +1,4 @@
-class CreateSetting < ActiveRecord::Migration
+class CreateSetting < ActiveRecord::Migration[5.2]
   def change
     create_table :settings do |t|
       t.string :assessment_frequency

@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 # rubocop:disable Metrics/ClassLength
 # rubocop:disable Metrics/MethodLength
-class CreateThredded < ActiveRecord::Migration
+class CreateThredded < ActiveRecord::Migration[5.2]
   def change
     unless table_exists?(:friendly_id_slugs)
       # The user might have installed FriendlyId separately already.

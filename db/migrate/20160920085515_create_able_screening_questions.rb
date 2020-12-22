@@ -1,4 +1,4 @@
-class CreateAbleScreeningQuestions < ActiveRecord::Migration
+class CreateAbleScreeningQuestions < ActiveRecord::Migration[5.2]
   def change
     create_table :able_screening_questions do |t|
       t.string :question

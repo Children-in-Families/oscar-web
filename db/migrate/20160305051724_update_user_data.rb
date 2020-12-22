@@ -1,4 +1,4 @@
-class UpdateUserData < ActiveRecord::Migration
+class UpdateUserData < ActiveRecord::Migration[5.2]
   def change
     User.all.each do |user|
       begin

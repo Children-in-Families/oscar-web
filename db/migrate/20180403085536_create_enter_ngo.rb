@@ -1,4 +1,4 @@
-class CreateEnterNgo < ActiveRecord::Migration
+class CreateEnterNgo < ActiveRecord::Migration[5.2]
   def change
     create_table :enter_ngos do |t|
       t.date :accepted_date

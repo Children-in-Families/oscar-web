@@ -1,4 +1,4 @@
-class FixApartmentContraintUserOrganization < ActiveRecord::Migration
+class FixApartmentContraintUserOrganization < ActiveRecord::Migration[5.2]
 
   def self.up
     remove_foreign_key :users, column: :organization_id

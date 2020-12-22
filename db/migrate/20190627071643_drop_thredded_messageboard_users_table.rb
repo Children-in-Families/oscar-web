@@ -1,4 +1,4 @@
-class DropThreddedMessageboardUsersTable < ActiveRecord::Migration
+class DropThreddedMessageboardUsersTable < ActiveRecord::Migration[5.2]
   def up
     drop_table :thredded_messageboard_users
   end

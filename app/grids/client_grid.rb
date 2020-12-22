@@ -468,7 +468,7 @@ class ClientGrid < BaseGrid
   column(:gender, header: -> { I18n.t('datagrid.columns.clients.gender') }) do |object|
     current_org = Organization.current
     Organization.switch_to 'shared'
-    gender = SharedClient.find_by(slug: object.slug).gender
+    gender = SharedClient.find_by(slug: object.slug)&.gender
     Organization.switch_to current_org.short_name
     gender.present? ? I18n.t("default_client_fields.gender_list.#{ gender.gsub('other', 'other_gender') }") : ''
   end
