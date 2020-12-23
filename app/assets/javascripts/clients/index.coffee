@@ -533,7 +533,6 @@ CIF.ClientsIndex = do ->
       minimumInputLength: 0
       allowClear: true
       dropdownAutoWidth : true
-      width: 'auto'
 
   _formatReportxAxis = ->
     Highcharts.setOptions global: useUTC: false
@@ -731,12 +730,12 @@ CIF.ClientsIndex = do ->
 
     $(document).on 'change', select2CsiOperator, (param)->
       filterSelected = $(this).parent().siblings().closest('.rule-filter-container').find('select option:selected').val()
-      if filterSelected.match(/domainscore_/g) || filterSelected.match(/all_domains/g)
+      if filterSelected && (filterSelected.match(/domainscore_/g) || filterSelected.match(/all_domains/g))
         _addSelectionOption(this, param)
 
     $(document).on 'change', wizardCsiFilter, (param)->
       filterSelected = $(this).parent().siblings().closest('.rule-filter-container').find('select option:selected').val()
-      if filterSelected.match(/domainscore_/g) || filterSelected.match(/all_domains/g)
+      if filterSelected && (filterSelected.match(/domainscore_/g) || filterSelected.match(/all_domains/g))
         _addSelectionOption(this, param)
 
   _handleDomainScoreFilterValue = ->
@@ -744,11 +743,11 @@ CIF.ClientsIndex = do ->
     wizardCsiFilter  = '#report-builder-wizard-modal .rules-list .rule-container .rule-filter-container select'
 
     $(document).on 'change', select2CsiFilter, (param)->
-      if param.val.match(/domainscore_/g) || param.val.match(/all_domains/g)
+      if param.val && (param.val.match(/domainscore_/g) || param.val.match(/all_domains/g))
         _addSelectionOption(this, param)
 
     $(document).on 'change', wizardCsiFilter, (param)->
-      if param.val.match(/domainscore_/g) || param.val.match(/all_domains/g)
+      if param.val && (param.val.match(/domainscore_/g) || param.val.match(/all_domains/g))
         _addSelectionOption(this, param)
 
   _reloadFilter = ->

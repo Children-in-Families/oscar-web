@@ -49,3 +49,13 @@
 select + .select2-container {
   width: 100% !important;
 }
+
+.select2-container.select2-container--bootstrap.select2-container--open {
+  z-index: 9999 !important;
+}
+
+.select2-container--bootstrap .select2-results__option--highlighted {
+  a {
+    color: white;
+  }
+}

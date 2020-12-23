@@ -47,36 +47,6 @@ CIF.CallsIndex = do ->
       deleteGroup: $('#builder, #wizard-builder').data('filter-translation-delete-group')
 
     $('#call-search-btn').val($('#call-search-btn').data('search'))
-    $.fn.queryBuilder.define 'select2', ((options) ->
-      if !$.fn.select2 or !$.fn.select2.constructor
-        Utils.error 'MissingLibrary', 'Select2 is required'
-      Selectors = $(".rule-operator-container [name$=_operator], .rule-filter-container [name$=_filter]")
-      if Selectors
-        @on 'afterCreateRuleFilters', (e, rule) ->
-          rule.$el.find(".rule-filter-container [name$=_filter]").select2 options
-          return
-        @on 'afterCreateRuleOperators', (e, rule) ->
-          rule.$el.find(".rule-operator-container [name$=_operator]").select2 options
-          return
-        @on 'afterUpdateRuleFilter', (e, rule) ->
-          rule.$el.find(".rule-filter-container [name$=_filter]").select2 options
-          rule.$el.find(".rule-value-container [name*=_value_]").select2(dropdownAutoWidth: true)
-          return
-        @on 'afterUpdateRuleOperator', (e, rule) ->
-          rule.$el.find(".rule-operator-container [name$=_operator]").select2 options
-          rule.$el.find(".rule-value-container [name*=_value_]").select2(dropdownAutoWidth: true)
-          return
-        @on 'beforeDeleteRule', (e, rule) ->
-          rule.$el.find(".rule-filter-container [name$=_filter]").select2 'destroy'
-          rule.$el.find(".rule-operator-container [name$=_operator]").select2 'destroy'
-          return
-      return
-    ),
-      container: 'body'
-      style: 'btn-inverse btn-xs'
-      width: '250px'
-      dropdownAutoWidth: true
-      showIcon: false
 
     filters = $("#call-builder-fields").data('fields')
     $('#builder').queryBuilder
