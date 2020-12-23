@@ -107,6 +107,36 @@ en:
         phone: Carer Phone Number
         email: Carer Email Address
         carer_information: Carer Information?
+      community:
+        case_worker_ids: Case Worker/Staff Assigned
+        commune_id: Commune/Sangkat
+        contract_date: Family Contract Date
+        district_id: District/Khan
+        documents: Upload Documents
+        donor_ids: Donor
+        formed_date: Date of Group/Community Formed
+        gender: Gender
+        id: ID
+        initial_referral_date: Date of Referral
+        name: Name (Khmer)
+        name_en: Name (Latin)
+        phone_number: Phone Number
+        province_id: Province
+        received_by_id: Receiving Staff Member
+        relevant_information: Relevant Information
+        representative_name: Represetative Name
+        role: Role in the Group/Community
+        village_id: Village
+        'yes': 'Yes'
+      community_member:
+        adule_female_count: Total Household Adult Females
+        adule_male_count: Total Household Adult Males
+        kid_female_count: Total Household Girls
+        kid_male_count: Total Household Boys
+        gender: Gender
+        is_family: Family?
+        name: Name
+        role: Role
       family:
         id: Automatic ID
         id_poor: Has ID Poor?
@@ -2156,6 +2186,119 @@ en:
     update:
       assessment_successfully_created: Assessment has been successfully created.
       successfully_updated: Client has been successfully updated.
+    version:
+      back: Back
+      modification_of: Changelog of
+  communities:
+    actions:
+      are_you_sure: Are you sure you want to delete?
+    create:
+      successfully_created: Family has been successfully created.
+    destroy:
+      alert: Family cannot be deleted.
+      successfully_deleted: Family has been successfully deleted.
+    edit:
+      edit_family_title: Edit Family
+    family_advanced_searches:
+      advanced_search:
+        add_new_filter: Add New Filter
+        add_new_group: Add Group
+        advanced_search: Report Builder
+        custom_form_column: Custom Form columns
+        delete_group: Delete
+        family_column: Family basic columns
+        no_results: No Result Found
+        reset: Reset
+        results: Results
+        search: Search
+      form_option:
+        basic_fields: Basic Fields
+        custom_form: Custom Form
+        filter_option: Please choose your query options below
+    community_member_fields:
+      remove_member: Remove Member
+    form:
+      add_new_member: Add New Member
+      address: Address
+      commune: Commune
+      district: District
+      family_members: Family Members
+      family_type: Family Type
+      female_adult_count: Female Adult Count
+      female_children_count: Female Children Count
+      id: ID
+      male_adult_count: Male Adult Count
+      male_children_count: Male Children Count
+      member_count: Member Count
+      name: Name
+      new_family_title: Add New Family
+      province: Province
+      significant_family_member_count: Significant Family Member Count
+      status: Status
+      step_1_title: Basic Group/Community Information
+      step_11_title: Administrative Information
+      step_12_title: Group/Community Information
+      step_2_title: Group/Community Member Information
+      step_21_title: Member Information
+      step_3_title: Additional Information
+      street: Street
+      village: Village
+      family_members:
+        'no': 'No'
+        'yes': 'Yes'
+    index:
+      add_new_family: Add New Family
+      clients: Clients
+      export_xls: Export to XLS
+      results: ResultsExport to XLS
+      report_builder: Report Builder
+      results: Results
+    new:
+      new_family_title: New Family
+    show:
+      add_form: Add Form
+      additional_forms: Family's Active Forms
+      additional_info: Additional Information
+      address: Address
+      adult_name: Name of Adult Member
+      are_you_sure: Are you sure you want to delete?
+      caregiver_information: Caregiver Information
+      case_history: Case History
+      code: Family ID
+      contract_date: Contract Date
+      created_by: Created by
+      current_province: Current Province
+      date_of_birth: Date of Birth
+      dependable_income: Dependable Income
+      family_type: Family Type
+      female_adult_count: Number of Adule Females
+      female_children_count: Number of Girls
+      gender: Gender
+      general_info: About Family
+      guardian: Guardian
+      house: House
+      household_income: Monthly Household Income
+      id: ID
+      male_adult_count: Number of Adule Males
+      male_children_count: Number of Boys
+      member_count: Number of Family Members
+      name: Name
+      monthly_average_income: Monthly Average Income
+      'no': 'No'
+      note: Relevant Referral Information / Notes
+      occupation: Occupation
+      province: Province
+      read_less: read less
+      read_more: read more
+      relation: Relationship with Children
+      remove_member: Remove Member
+      significant_family_member_count: Significant Family Member Count
+      status: Status
+      street: Street
+      'yes': 'Yes'
+    update:
+      not_allowed_to_detach_clients: You're not allowed to detach clients from the family through this form!
+      successfully_updated: Family has been successfully updated.
     version:
       back: Back
       modification_of: Changelog of

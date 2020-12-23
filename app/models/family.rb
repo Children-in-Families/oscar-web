@@ -69,6 +69,22 @@ class Family < ActiveRecord::Base
     brc? ? family_members.count : (male_adult_count.to_i + female_adult_count.to_i + male_children_count.to_i + female_children_count.to_i)
   end
 
+  def to_select2
+    [
+      display_name, id, { data: {
+          male_adult_count: male_adult_count,
+          female_adult_count: female_adult_count,
+          male_children_count: male_children_count,
+          female_children_count: female_children_count,
+        }
+      }
+    ]
+  end
+
+  def display_name
+    [name, name_en].select(&:present?).join(' - ').presence || "Family ##{id}"
+  end
+
   def monthly_average_income
     countable_member = family_members.select(&:monthly_income?)
 

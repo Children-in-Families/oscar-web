@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20201209212526) do
+ActiveRecord::Schema.define(version: 20201223050211) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -292,6 +292,11 @@ ActiveRecord::Schema.define(version: 20201209212526) do
 
   add_index "case_worker_clients", ["client_id"], name: "index_case_worker_clients_on_client_id", using: :btree
   add_index "case_worker_clients", ["user_id"], name: "index_case_worker_clients_on_user_id", using: :btree
+
+  create_table "case_worker_communities", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "community_id"
+  end
 
   create_table "case_worker_families", force: :cascade do |t|
     t.integer "user_id"
@@ -710,6 +715,57 @@ ActiveRecord::Schema.define(version: 20201209212526) do
 
   add_index "communes", ["district_id"], name: "index_communes_on_district_id", using: :btree
 
+  create_table "communities", force: :cascade do |t|
+    t.integer  "received_by_id"
+    t.date     "initial_referral_date"
+    t.integer  "referral_source_id"
+    t.integer  "referral_source_category_id"
+    t.string   "name",                        default: ""
+    t.string   "name_en"
+    t.date     "formed_date"
+    t.integer  "province_id"
+    t.integer  "district_id"
+    t.integer  "commune_id"
+    t.integer  "village_id"
+    t.string   "representative_name"
+    t.string   "gender"
+    t.string   "role"
+    t.string   "phone_number"
+    t.text     "relevant_information"
+    t.string   "documents",                   default: [], array: true
+    t.datetime "deleted_at"
+    t.string   "status",                      default: ""
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "community_donors", force: :cascade do |t|
+    t.integer "donor_id"
+    t.integer "community_id"
+  end
+
+  create_table "community_members", force: :cascade do |t|
+    t.string   "name",               default: ""
+    t.integer  "community_id"
+    t.integer  "family_id"
+    t.string   "gender"
+    t.string   "role"
+    t.integer  "adule_male_count"
+    t.integer  "adule_female_count"
+    t.integer  "kid_male_count"
+    t.integer  "kid_female_count"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "community_quantitative_cases", force: :cascade do |t|
+    t.integer  "quantitative_case_id"
+    t.integer  "community_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "custom_assessment_settings", force: :cascade do |t|
     t.string   "custom_assessment_name",      default: "Custom Assessment"
     t.integer  "max_custom_assessment",       default: 6
@@ -885,6 +941,8 @@ ActiveRecord::Schema.define(version: 20201209212526) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "deleted_at"
+    t.integer  "acceptable_id"
+    t.string   "acceptable_type"
   end
 
   add_index "enter_ngos", ["client_id"], name: "index_enter_ngos_on_client_id", using: :btree
@@ -900,6 +958,8 @@ ActiveRecord::Schema.define(version: 20201209212526) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "deleted_at"
+    t.integer  "rejectable_id"
+    t.string   "rejectable_type"
   end
 
   add_index "exit_ngos", ["client_id"], name: "index_exit_ngos_on_client_id", using: :btree
@@ -1659,6 +1719,7 @@ ActiveRecord::Schema.define(version: 20201209212526) do
     t.integer  "township_id"
     t.integer  "subdistrict_id"
     t.string   "locality"
+    t.string   "referee_email"
   end
 
   add_index "referees", ["commune_id"], name: "index_referees_on_commune_id", using: :btree
@@ -2252,6 +2313,8 @@ ActiveRecord::Schema.define(version: 20201209212526) do
   add_foreign_key "case_notes", "custom_assessment_settings"
   add_foreign_key "case_worker_clients", "clients"
   add_foreign_key "case_worker_clients", "users"
+  add_foreign_key "case_worker_communities", "communities"
+  add_foreign_key "case_worker_communities", "users"
   add_foreign_key "case_worker_families", "families"
   add_foreign_key "case_worker_families", "users"
   add_foreign_key "case_worker_tasks", "tasks"
@@ -2281,6 +2344,18 @@ ActiveRecord::Schema.define(version: 20201209212526) do
   add_foreign_key "clients", "townships"
   add_foreign_key "clients", "villages"
   add_foreign_key "communes", "districts"
+  add_foreign_key "communities", "communes"
+  add_foreign_key "communities", "districts"
+  add_foreign_key "communities", "provinces"
+  add_foreign_key "communities", "referral_sources"
+  add_foreign_key "communities", "users"
+  add_foreign_key "communities", "villages"
+  add_foreign_key "community_donors", "communities"
+  add_foreign_key "community_donors", "donors"
+  add_foreign_key "community_members", "communities"
+  add_foreign_key "community_members", "families"
+  add_foreign_key "community_quantitative_cases", "communities"
+  add_foreign_key "community_quantitative_cases", "quantitative_cases"
   add_foreign_key "custom_field_permissions", "custom_fields"
   add_foreign_key "custom_field_permissions", "users"
   add_foreign_key "custom_field_properties", "custom_fields"

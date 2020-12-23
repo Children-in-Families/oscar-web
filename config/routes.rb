@@ -163,6 +163,8 @@ Rails.application.routes.draw do
     get 'version' => 'families#version'
   end
 
+  resources :communities
+
   resources :partners do
     resources :custom_field_properties
     get 'version' => 'partners#version'
