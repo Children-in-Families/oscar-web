@@ -181,16 +181,4 @@ body[id="dashboards-index"] {
     cursor: not-allowed;
     color: #333333 !important;
   }
-
-  #client-search {
-  }
-  .select2-container.select2-container--bootstrap.select2-container--open {
-    z-index: 9999 !important;
-  }
-
-  .select2-container--bootstrap .select2-results__option--highlighted {
-    a {
-      color: white;
-    }
-  }
 }

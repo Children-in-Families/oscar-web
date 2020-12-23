@@ -36,7 +36,7 @@ class Client < ApplicationRecord
   delegate :name_en, to: :commune, prefix: true, allow_nil: true
   delegate :name_en, to: :village, prefix: true, allow_nil: true
 
-  belongs_to :referral_source,  counter_cache: true
+  belongs_to :referral_source,  counter_cache: true, optional: true
   belongs_to :province,         counter_cache: true, optional: true
   belongs_to :district, optional: true
   belongs_to :subdistrict, optional: true
@@ -424,13 +424,16 @@ class Client < ApplicationRecord
     if archived_slug.present?
       if slug.in? Client.pluck(:slug)
         random_char = slug.split('-')[0]
-        paper_trail.without_versioning { |obj| obj.update_columns(slug: "#{random_char}-#{id}") }
+        PaperTrail.request.disable_model(Client)
+        paper_trail { |obj| obj.update_columns(slug: "#{random_char}-#{id}") }
       end
     else
       random_char = generate_random_char
       Organization.switch_to short_name
-      paper_trail.without_versioning { |obj| obj.update_columns(slug: "#{random_char}-#{id}", archived_slug: "#{Organization.current.try(:short_name)}-#{id}") }
+      PaperTrail.request.disable_model(Client)
+      paper_trail { |obj| obj.update_columns(slug: "#{random_char}-#{id}", archived_slug: "#{Organization.current.try(:short_name)}-#{id}") }
     end
+    PaperTrail.request.enable_model(Client)
   end
 
   def generate_random_char
