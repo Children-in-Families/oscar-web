@@ -34,6 +34,7 @@ class Ability
       can :manage, Client, case_worker_clients: { user_id: user.id }
       can :manage, CustomFieldProperty, custom_formable_type: 'Client'
       can :manage, CustomFieldProperty, custom_formable_type: 'Family'
+      can :manage, CustomFieldProperty, custom_formable_type: 'Community'
       can :manage, ClientEnrollment
       can :manage, ClientEnrollmentTracking
       can :manage, LeaveProgram
@@ -68,6 +69,7 @@ class Ability
       can :manage, CustomFieldProperty, custom_formable_type: 'Client'
       can :manage, CustomFieldProperty, custom_formable_type: 'Family'
       can :manage, CustomFieldProperty, custom_formable_type: 'Partner'
+      can :manage, CustomFieldProperty, custom_formable_type: 'Community'
       can :manage, CustomField
       can :manage, ClientEnrollment
       can :manage, ClientEnrollmentTracking
@@ -92,6 +94,7 @@ class Ability
       can :manage, Client
       can :manage, CustomFieldProperty, custom_formable_type: 'Client'
       can :manage, CustomFieldProperty, custom_formable_type: 'Family'
+      can :manage, CustomFieldProperty, custom_formable_type: 'Community'
       can :manage, ClientEnrollment
       can :manage, ClientEnrollmentTracking
       can :manage, LeaveProgram
