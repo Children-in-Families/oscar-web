@@ -161,9 +161,9 @@ class Family < ActiveRecord::Base
   private
 
   def update_related_community_members
-    community_members.each do |community_member|
-      CommunityMember.delay.update_client_relevant_data(community_member.id)
-    end
+    # community_members.each do |community_member|
+    #   CommunityMember.delay.update_client_relevant_data(community_member.id)
+    # end
   end
 
   def assign_status
