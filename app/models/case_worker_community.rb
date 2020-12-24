@@ -4,5 +4,5 @@ class CaseWorkerCommunity < ActiveRecord::Base
   belongs_to :case_worker, class_name: 'User', foreign_key: :user_id
   belongs_to :community
 
-  validates :case_worker, :family, presence: true
+  validates :case_worker, :community, presence: true
 end

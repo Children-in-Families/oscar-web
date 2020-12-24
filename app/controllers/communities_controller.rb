@@ -7,7 +7,7 @@ class CommunitiesController < AdminController
   # before_action :basic_params, if: :has_params?, only: [:index]
   # before_action :build_advanced_search, only: [:index]
   before_action :find_association, except: [:index, :destroy, :version]
-  # before_action :find_community, only: [:show, :edit, :update, :destroy]
+  before_action :find_community, only: [:show, :edit, :update, :destroy]
   before_action :load_quantative_types, only: [:new, :edit, :create, :update]
 
   def index
@@ -38,40 +38,27 @@ class CommunitiesController < AdminController
   end
 
   def create
-    # @community = Family.new(family_params)
-    # @community.user_id = current_user.id
-    # @community.case_management_record = !current_setting.hide_family_case_management_tool?
-    #
-    # if @community.save
-    #   redirect_to @community, notice: t('.successfully_created')
-    # else
-    #   @selected_children = family_params[:children]
-    #   render :new
-    # end
+    @community = Community.new(community_params)
+    @community.user_id = current_user.id
+
+    if @community.save
+      redirect_to @community, notice: t('.successfully_created')
+    else
+      render :new
+    end
   end
 
-  def show
-    # custom_field_ids            = @community.custom_field_properties.pluck(:custom_field_id)
-    # @free_family_forms          = CustomField.family_forms.not_used_forms(custom_field_ids).order_by_form_title
-    # @group_family_custom_fields = @community.custom_field_properties.group_by(&:custom_field_id)
-    # client_ids = @community.current_clients.ids
-    # if client_ids.present?
-    #   @client_grid = ClientGrid.new(params[:client_grid])
-    #   @results = @client_grid.scope.where(current_family_id: @community.id).uniq.size
-    #   @client_grid.scope { |scope| scope.includes(:enter_ngos, :exit_ngos).where(id: client_ids).page(params[:page]).per(10).uniq }
-    # end
-  end
+  def show;end
 
   def edit
   end
 
   def update
-    # @community.case_management_record = !current_setting.hide_family_case_management_tool?
-    # if @community.update_attributes(family_params)
-    #   redirect_to @community, notice: t('.successfully_updated')
-    # else
-    #   render :edit
-    # end
+    if @community.update_attributes(community_params)
+      redirect_to @community, notice: t('.successfully_updated')
+    else
+      render :edit
+    end
   end
 
   def destroy
@@ -96,21 +83,30 @@ class CommunitiesController < AdminController
 
   def community_params
     params.require(:community).permit(
+      :received_by_id,
+      :initial_referral_date,
+      :referral_source_category_id,
+      :referral_source_id,
       :name,
-      :province_id, :district_id, :house, :street,
-      :commune_id, :village_id,
-      :followed_up_by_id, :follow_up_date, :name_en, :phone_number, :referral_source_id,
+      :name_en,
+      :formed_date,
+      :province_id,
+      :district_id,
+      :commune_id,
+      :village_id,
+      :representative_name,
+      :gender,
+      :role,
+      :phone_number,
       :relevant_information,
-      :received_by_id, :initial_referral_date, :referral_source_category_id,
       donor_ids: [],
       case_worker_ids: [],
-      custom_field_ids: [],
       quantitative_case_ids: [],
       documents: [],
       community_members_attributes: [
-        :monthly_income, :family_id,
-        :id, :gender, :adult_name, :date_of_birth,
-        :occupation, :relation, :guardian, :_destroy
+        :family_id,
+        :id, :gender, :name, :role,
+        :adule_male_count, :adule_female_count, :kid_male_count, :kid_female_count, :_destroy
       ]
     )
   end
