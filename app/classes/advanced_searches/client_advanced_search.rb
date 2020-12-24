@@ -9,7 +9,7 @@ module AdvancedSearches
     def filter
       query_array = []
       rules       = []
-      return Client.where(id: []) if @basic_rules && @basic_rules['rules'].blank?
+      return Client.where(id: []) if @basic_rules && @basic_rules['rules'].blank? || (@basic_rules && @basic_rules['rules']) == 'rules'
 
       client_base_sql = AdvancedSearches::ClientBaseSqlBuilder.new(@clients, @basic_rules).generate
       query_array << client_base_sql[:sql_string]

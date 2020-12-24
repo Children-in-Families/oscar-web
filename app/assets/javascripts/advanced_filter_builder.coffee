@@ -153,5 +153,5 @@ class CIF.AdvancedFilterBuilder
       e.rules and e.rules.forEach(cb)
       return
 
-    rules.forEach(cb)
+    rules.forEach(cb) if rules
     return results
