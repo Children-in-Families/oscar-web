@@ -117,7 +117,7 @@ en:
         formed_date: Date of Group/Community Formed
         gender: Gender
         id: Automatic ID
-        initial_referral_date: Date of Referral
+        initial_referral_date: NGO Accept Date
         name: Name (Khmer)
         name_en: Name (Latin)
         phone_number: Phone Number
@@ -2219,6 +2219,12 @@ en:
       family_members:
         'no': 'No'
         'yes': 'Yes'
+    index:
+      add_new_community: Add New Community
+      export_xls: Export to XLS
+      results: Results Export to XLS
+      report_builder: Report Builder
+      results: Results
     new:
       new_community_title: New Community
     show:

@@ -4,5 +4,5 @@ class CommunityDonor < ActiveRecord::Base
   belongs_to :donor
   belongs_to :community
 
-  validates :donor, :family, presence: true
+  validates :donor, :community, presence: true
 end

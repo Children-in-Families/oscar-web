@@ -1,23 +1,19 @@
 .row
   .col-xs-12.col-md-9
-    %button.btn.btn-primary.query.family-search{"aria-expanded" => 'false', "data-target" => '#family-search-form', "data-toggle" => 'collapse', type: 'button'}
+    %button.btn.btn-primary.query.community-search{"aria-expanded" => 'false', "data-target" => '#community-search-form', "data-toggle" => 'collapse', type: 'button'}
       = fa_icon('filter')
-    %button.btn.btn-primary.query.family-advance-search{"aria-expanded" => 'false', "data-target" => '#family-advance-search-form', "data-toggle" => 'collapse', type: 'button'}
+    %button.btn.btn-primary.query.community-advance-search{"aria-expanded" => 'false', "data-target" => '#community-advance-search-form', "data-toggle" => 'collapse', type: 'button'}
       = t('.report_builder')
   .col-xs-12.col-md-3
     .pull-right
       - if can? :manage, Family
-        = link_to "#{I18n.t('families.index.add_new_family')}", new_family_path, class: 'btn btn-primary'
-      = link_to "#{I18n.t('families.index.export_xls')}", current_url(format: 'xls'), class: 'btn btn-info btn-export'
-.row
-  .col-xs-12
-    .ibox-content#family-advance-search-form.collapse.main-report-builder
-      = render 'families/family_advanced_searches/advanced_search'
+        = link_to "#{I18n.t('communities.index.add_new_community')}", new_community_path, class: 'btn btn-primary'
+      /= link_to "#{I18n.t('communities.index.export_xls')}", current_url(format: 'xls'), class: 'btn btn-info btn-export'
 
 .row.ibox-space
   .col-xs-12
-    .ibox-content#family-search-form.collapse
-      = datagrid_form_for @family_grid, url: families_url, html: { class: 'grid-form' }
+    .ibox-content#community-search-form.collapse
+      = datagrid_form_for @community_grid, url: communities_url, html: { class: 'grid-form' }
 .row
   .col-xs-12
     .ibox.float-e-margins
@@ -25,7 +21,7 @@
         %h5= @results
         %span.label.label-info= t('.results')
       .ibox-content
-        .families-table
-          = datagrid_table @family_grid, html: { class: 'table table-bordered table-striped table-hover families'}
+        .communities-table
+          = datagrid_table @community_grid, html: { class: 'table table-bordered table-striped table-hover communities'}
       .ibox-footer.text-center
-        = paginate @family_grid.assets
+        = paginate @community_grid.assets

@@ -40,8 +40,7 @@ CIF.CommunitiesNew = CIF.CommunitiesCreate = CIF.CommunitiesEdit = CIF.Communiti
       labels:
         finish: 'Save'
       onStepChanging: (event, currentIndex, newIndex) ->
-        # (currentIndex > newIndex) || _validateForm()
-        true
+        (currentIndex > newIndex) || _validateForm()
       onFinishing: (event, currentIndex) ->
         $("#community-form").submit()
       onCanceled: ->

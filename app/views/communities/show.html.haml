@@ -57,13 +57,13 @@
         %table.table.table-bordered
           %tr
             %td.spacing-first-col= t('.male_count')
-            %td= @community.male_count
+            %td= @community.community_members.male.count
       .col-sm-12.col-md-4
         %table.table.table-bordered
           %tr
             %tr
               %td.spacing-first-col= t('.female_count')
-              %td= @community.female_count
+              %td= @community.community_members.female.count
     .row.agreegate
       .col-sm-12
         %h5= t('.all_beneficiaries')

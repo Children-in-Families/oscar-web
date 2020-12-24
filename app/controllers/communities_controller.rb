@@ -11,25 +11,21 @@ class CommunitiesController < AdminController
   before_action :load_quantative_types, only: [:new, :edit, :create, :update]
 
   def index
-    # @default_columns = Setting.first.try(:family_default_columns)
-    # @community_grid = FamilyGrid.new(params.fetch(:family_grid, {}).merge!(dynamic_columns: @custom_form_fields))
-    # @community_grid = @community_grid.scope { |scope| scope.accessible_by(current_ability) }
-    # @community_columns ||= FamilyColumnsVisibility.new(@community_grid, params.merge(column_form_builder: @custom_form_fields))
-    # @community_columns.visible_columns
-    # if has_params?
-    #   advanced_search
-    # else
-    #   respond_to do |f|
-    #     f.html do
-    #       @results = @community_grid.assets.size
-    #       @community_grid.scope { |scope| scope.accessible_by(current_ability).page(params[:page]).per(20) }
-    #     end
-    #     f.xls do
-    #       form_builder_report
-    #       send_data @community_grid.to_xls, filename: "family_report-#{Time.now}.xls"
-    #     end
-    #   end
-    # end
+    @community_grid = CommunityGrid.new(params.fetch(:community_grid, {}))
+    @community_grid = @community_grid.scope { |scope| scope.accessible_by(current_ability) }
+    @community_columns ||= FamilyColumnsVisibility.new(@community_grid, params.merge(column_form_builder: @custom_form_fields))
+    @community_columns.visible_columns
+
+    respond_to do |f|
+      f.html do
+        @results = @community_grid.assets.size
+        @community_grid.scope { |scope| scope.accessible_by(current_ability).page(params[:page]).per(20) }
+      end
+      f.xls do
+        form_builder_report
+        send_data @community_grid.to_xls, filename: "community_report-#{Time.now}.xls"
+      end
+    end
   end
 
   def new
