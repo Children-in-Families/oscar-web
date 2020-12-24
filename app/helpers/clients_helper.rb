@@ -911,7 +911,7 @@ module ClientsHelper
               data_filter = date_filter(client.assessments.defaults, "#{class_name}")
             else
               data_filter = date_filter(client.assessments.defaults, "#{class_name}")
-              count += data_filter.flatten.count if data_filter
+              count += data_filter.count if data_filter
             end
             count += data_filter ? data_filter.count : assessment_count
           elsif class_name[/^(date_of_custom_assessments)/i].present?
@@ -919,7 +919,7 @@ module ClientsHelper
               data_filter = date_filter(client.assessments.customs, "#{class_name}")
             else
               data_filter = date_filter(client.assessments.customs, "#{class_name}")
-              count += data_filter.flatten.count if data_filter
+              count += data_filter.count if data_filter
             end
           elsif class_name[/^(formbuilder)/i].present?
             if fields.last == 'Has This Form'
