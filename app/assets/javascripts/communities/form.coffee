@@ -77,6 +77,8 @@ CIF.CommunitiesNew = CIF.CommunitiesCreate = CIF.CommunitiesEdit = CIF.Communiti
       memberRow.find('[name$="[kid_male_count]"]').attr("disabled", !select.hasClass("hidden"))
       memberRow.find('[name$="[kid_female_count]"]').attr("disabled", !select.hasClass("hidden"))
 
+      _onChangeFamily(select)
+
   _onUnmarkAsFamily = ->
     memberRow = $(@).closest(".nested-fields")
     memberRow.find('[name$="[family_id]"]').addClass("hidden")
@@ -102,14 +104,18 @@ CIF.CommunitiesNew = CIF.CommunitiesCreate = CIF.CommunitiesEdit = CIF.Communiti
     memberRow.find('[name$="[kid_male_count]"]').attr("disabled", true)
     memberRow.find('[name$="[kid_female_count]"]').attr("disabled", true)
 
-    memberRow.find('[name$="[family_id]"]').change (e)->
+    _onChangeFamily(memberRow.find('[name$="[family_id]"]'))
+
+  _onChangeFamily = (select) ->
+    $select = $(select)
+    memberRow = $select.closest(".nested-fields")
+
+    $select.change (e)->
       data = $(@).find("option:selected").data()
-
-      memberRow.find('[name$="[gender]"]').val(data.gender)
-      memberRow.find('[name$="[gender]"]').trigger('change')
-      memberRow.find('[name$="[date_of_birth]"]').datepicker('update', data.dateOfBirth);
-
-
+      memberRow.find('[name$="[adule_male_count]"]').val(data.maleAdultCount)
+      memberRow.find('[name$="[adule_female_count]"]').val(data.femaleAdultCount)
+      memberRow.find('[name$="[kid_male_count]"]').val(data.maleChildrenCount)
+      memberRow.find('[name$="[kid_female_count]"]').val(data.femaleChildrenCount)
 
   _initSelect2 = ->
     $('select').select2

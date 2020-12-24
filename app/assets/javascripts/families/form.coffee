@@ -73,13 +73,17 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
       familyRow.find('[name$="[gender]"]').attr("disabled", !select.hasClass("hidden"))
       familyRow.find('[name$="[date_of_birth]"]').attr("disabled", !select.hasClass("hidden"))
 
+      _onChangeClient(select)
+
   _onUnmarkAsClient = ->
     familyRow = $(@).closest(".nested-fields")
     familyRow.find('[name$="[client_id]"]').addClass("hidden")
     familyRow.find('[name$="[client_id]"]').val(null)
     familyRow.find('[name$="[client_id]"]').trigger('change')
+
     familyRow.find('[name$="[adult_name]"]').removeClass("hidden")
     familyRow.find('[name$="[adult_name]"]').attr("disabled", false)
+
     familyRow.find('[name$="[gender]"]').attr("disabled", false)
     familyRow.find('[name$="[date_of_birth]"]').attr("disabled", false)
 
@@ -89,18 +93,22 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
     familyRow.find('[name$="[client_id]"]').removeClass("hidden")
     familyRow.find('[name$="[adult_name]"]').addClass("hidden")
     familyRow.find('[name$="[adult_name]"]').attr("disabled", true)
-    familyRow.find('[name$="[gender]"]').attr("disabled", true)
+
     familyRow.find('[name$="[gender]"]').attr("disabled", true)
     familyRow.find('[name$="[date_of_birth]"]').attr("disabled", true)
 
-    familyRow.find('[name$="[client_id]"]').change (e)->
+    _onChangeClient(familyRow.find('[name$="[client_id]"]'))
+
+  _onChangeClient = (select) ->
+    $select = $(select)
+    familyRow = $select.closest(".nested-fields")
+
+    $select.change (e)->
       data = $(@).find("option:selected").data()
 
       familyRow.find('[name$="[gender]"]').val(data.gender)
       familyRow.find('[name$="[gender]"]').trigger('change')
-      familyRow.find('[name$="[date_of_birth]"]').datepicker('update', data.dateOfBirth);
-
-
+      familyRow.find('[name$="[date_of_birth]"]').datepicker('update', data.dateOfBirth)
 
   _initSelect2 = ->
     $('select').select2

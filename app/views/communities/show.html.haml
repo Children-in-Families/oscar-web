@@ -167,13 +167,13 @@
         .col-sm-12
           %table.table.table-bordered
             %thead
-              %th= t('activerecord.attributes.community_members.name')
-              %th= t('activerecord.attributes.community_members.gender')
-              %th= t('activerecord.attributes.community_members.role')
-              %th= t('activerecord.attributes.community_members.adule_male_count')
-              %th= t('activerecord.attributes.community_members.adule_female_count')
-              %th= t('activerecord.attributes.community_members.kid_male_count')
-              %th= t('activerecord.attributes.community_members.kid_female_count')
+              %th= t('activerecord.attributes.community_member.name')
+              %th= t('activerecord.attributes.community_member.gender')
+              %th= t('activerecord.attributes.community_member.role')
+              %th= t('activerecord.attributes.community_member.adule_male_count')
+              %th= t('activerecord.attributes.community_member.adule_female_count')
+              %th= t('activerecord.attributes.community_member.kid_male_count')
+              %th= t('activerecord.attributes.community_member.kid_female_count')
 
             %tbody
             - @community.community_members.each do |member|

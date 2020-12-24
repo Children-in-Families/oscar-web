@@ -59,6 +59,7 @@ class Family < ActiveRecord::Base
   validate :client_must_only_belong_to_a_family
 
   after_save :save_family_in_client
+  after_commit :update_related_community_members, on: :update
 
   def self.update_brc_aggregation_data
     Organization.switch_to 'brc'
@@ -158,6 +159,12 @@ class Family < ActiveRecord::Base
   end
 
   private
+
+  def update_related_community_members
+    community_members.each do |community_member|
+      CommunityMember.delay.update_client_relevant_data(community_member.id)
+    end
+  end
 
   def assign_status
     self.status = (case_management_record? ? 'Referred' : 'Active')
