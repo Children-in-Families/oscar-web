@@ -2,11 +2,11 @@ module LeaveProgramsConcern
   def leave_program_params
     if properties_params.present?
       mappings = {}
-      properties_params.each do |k, v|
+      properties_params.each do |k, _|
         mappings[k] = k.gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;').gsub('%22', '"')
       end
-      formatted_params = properties_params.map {|k, v| [mappings[k], v] }.to_h
-      formatted_params.values.map{ |v| v.delete('') if (v.is_a?Array) && v.size > 1 }
+      formatted_params = properties_params.map { |k, v| [mappings[k], v] }.to_h
+      formatted_params.values.map { |v| v.delete('') if (v.is_a?Array) && v.size > 1 }
     end
 
     default_params = params.require(:leave_program).permit(:exit_date).merge!(program_stream_id: params[:program_stream_id])
