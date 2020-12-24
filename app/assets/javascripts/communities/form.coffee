@@ -1,4 +1,4 @@
-CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = do ->
+CIF.CommunitiesNew = CIF.CommunitiesCreate = CIF.CommunitiesEdit = CIF.CommunitiesUpdate = do ->
   _init = ->
     _initWizardForm()
     _initSelect2()
@@ -29,7 +29,7 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
       allowedFileExtensions: ['jpg', 'png', 'jpeg', 'doc', 'docx', 'xls', 'xlsx', 'pdf']
 
   _initWizardForm = ->
-    $("#family-wizard-form").steps
+    $("#community-wizard-form").steps
       headerTag: 'h3'
       bodyTag: 'section'
       enableAllSteps: true
@@ -42,73 +42,79 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
       onStepChanging: (event, currentIndex, newIndex) ->
         (currentIndex > newIndex) || _validateForm()
       onFinishing: (event, currentIndex) ->
-        $("#family-form").submit()
+        $("#community-form").submit()
       onCanceled: ->
         result = confirm('Are you sure?')
         if result
-          window.location = $("#family-form").data("cancelUrl")
+          window.location = $("#community-form").data("cancelUrl")
 
   _onChangeReferralSourceCategory = ->
-    referralSources = $("#family_referral_source_id").data("sources")
+    referralSources = $("#community_referral_source_id").data("sources")
 
-    $('#family_referral_source_category_id').change ->
-      $("#family_referral_source_id").val(null).trigger('change')
-      $("#family_referral_source_id").find('option[value!=""]').remove()
+    $('#community_referral_source_category_id').change ->
+      $("#community_referral_source_id").val(null).trigger('change')
+      $("#community_referral_source_id").find('option[value!=""]').remove()
 
       for categorySource in referralSources
         if $(@).val() == categorySource[2]
-          $("#family_referral_source_id").append("<option value='#{categorySource[0]}'>#{categorySource[1]}</option>")
+          $("#community_referral_source_id").append("<option value='#{categorySource[0]}'>#{categorySource[1]}</option>")
 
   _initIcheck = ->
     $('.i-checks').iCheck
       checkboxClass: 'icheckbox_square-green'
       radioClass: 'iradio_square-green'
 
-    $('.i-checks.is-client').on "ifChecked", _onMarkAsClient
-    $('.i-checks.is-client').on "ifUnchecked", _onUnmarkAsClient
+    $('.i-checks.is-family').on "ifChecked", _onMarkAsFamily
+    $('.i-checks.is-family').on "ifUnchecked", _onUnmarkAsFamily
 
     $.each $(".nested-fields"), (index, row) ->
-      familyRow = $(row)
-      select = familyRow.find('[name$="[client_id]"]')
-      familyRow.find('[name$="[gender]"]').attr("disabled", !select.hasClass("hidden"))
-      familyRow.find('[name$="[date_of_birth]"]').attr("disabled", !select.hasClass("hidden"))
+      memberRow = $(row)
+      select = memberRow.find('[name$="[family_id]"]')
 
-      _onChangeClient(select)
+      memberRow.find('[name$="[adule_male_count]"]').attr("disabled", !select.hasClass("hidden"))
+      memberRow.find('[name$="[adule_female_count]"]').attr("disabled", !select.hasClass("hidden"))
+      memberRow.find('[name$="[kid_male_count]"]').attr("disabled", !select.hasClass("hidden"))
+      memberRow.find('[name$="[kid_female_count]"]').attr("disabled", !select.hasClass("hidden"))
 
-  _onUnmarkAsClient = ->
-    familyRow = $(@).closest(".nested-fields")
-    familyRow.find('[name$="[client_id]"]').addClass("hidden")
-    familyRow.find('[name$="[client_id]"]').val(null)
-    familyRow.find('[name$="[client_id]"]').trigger('change')
+      _onChangeFamily(select)
 
-    familyRow.find('[name$="[adult_name]"]').removeClass("hidden")
-    familyRow.find('[name$="[adult_name]"]').attr("disabled", false)
+  _onUnmarkAsFamily = ->
+    memberRow = $(@).closest(".nested-fields")
+    memberRow.find('[name$="[family_id]"]').addClass("hidden")
+    memberRow.find('[name$="[family_id]"]').val(null)
+    memberRow.find('[name$="[family_id]"]').trigger('change')
+    memberRow.find('[name$="[name]"]').removeClass("hidden")
+    memberRow.find('[name$="[name]"]').attr("disabled", false)
 
-    familyRow.find('[name$="[gender]"]').attr("disabled", false)
-    familyRow.find('[name$="[date_of_birth]"]').attr("disabled", false)
+    memberRow.find('[name$="[adule_male_count]"]').attr("disabled", false)
+    memberRow.find('[name$="[adule_female_count]"]').attr("disabled", false)
+    memberRow.find('[name$="[kid_male_count]"]').attr("disabled", false)
+    memberRow.find('[name$="[kid_female_count]"]').attr("disabled", false)
 
-  _onMarkAsClient = ->
-    familyRow = $(@).closest(".nested-fields")
+  _onMarkAsFamily = ->
+    memberRow = $(@).closest(".nested-fields")
 
-    familyRow.find('[name$="[client_id]"]').removeClass("hidden")
-    familyRow.find('[name$="[adult_name]"]').addClass("hidden")
-    familyRow.find('[name$="[adult_name]"]').attr("disabled", true)
+    memberRow.find('[name$="[family_id]"]').removeClass("hidden")
+    memberRow.find('[name$="[name]"]').addClass("hidden")
+    memberRow.find('[name$="[name]"]').attr("disabled", true)
 
-    familyRow.find('[name$="[gender]"]').attr("disabled", true)
-    familyRow.find('[name$="[date_of_birth]"]').attr("disabled", true)
+    memberRow.find('[name$="[adule_male_count]"]').attr("disabled", true)
+    memberRow.find('[name$="[adule_female_count]"]').attr("disabled", true)
+    memberRow.find('[name$="[kid_male_count]"]').attr("disabled", true)
+    memberRow.find('[name$="[kid_female_count]"]').attr("disabled", true)
 
-    _onChangeClient(familyRow.find('[name$="[client_id]"]'))
+    _onChangeFamily(memberRow.find('[name$="[family_id]"]'))
 
-  _onChangeClient = (select) ->
+  _onChangeFamily = (select) ->
     $select = $(select)
-    familyRow = $select.closest(".nested-fields")
+    memberRow = $select.closest(".nested-fields")
 
     $select.change (e)->
       data = $(@).find("option:selected").data()
-
-      familyRow.find('[name$="[gender]"]').val(data.gender)
-      familyRow.find('[name$="[gender]"]').trigger('change')
-      familyRow.find('[name$="[date_of_birth]"]').datepicker('update', data.dateOfBirth)
+      memberRow.find('[name$="[adule_male_count]"]').val(data.maleAdultCount)
+      memberRow.find('[name$="[adule_female_count]"]').val(data.femaleAdultCount)
+      memberRow.find('[name$="[kid_male_count]"]').val(data.maleChildrenCount)
+      memberRow.find('[name$="[kid_female_count]"]').val(data.femaleChildrenCount)
 
   _initSelect2 = ->
     $('select').select2
@@ -130,13 +136,8 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
         $select.closest(".form-group").find("label.control-label").addClass("error")
         $select.closest(".form-group").append("<label class='error'>This field is required.</label>")
 
-
-  _clearSelectedOption = ->
-    formAction = $('body').attr('id')
-    $('#family_family_type').val('') unless formAction.includes('edit') || formAction.includes('update')
-
   _cocoonCallback = ->
-    $('#family-members').on 'cocoon:after-insert', ->
+    $('#community-members').on 'cocoon:after-insert', ->
       _initSelect2()
       _initDatePicker()
       _initIcheck()
@@ -154,7 +155,7 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
       $(e.currentTarget).trigger("validate")
 
   _ajaxChangeDistrict = ->
-    mainAddress = $('#family_province_id, #family_district_id, #family_commune_id')
+    mainAddress = $('#community_province_id, #community_district_id, #community_commune_id')
     mainAddress.on 'change', ->
       type       = $(@).data('type')
       typeId     = $(@).val()
@@ -163,21 +164,21 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
       if type == 'provinces'
         subResources = 'districts'
         subAddress =  switch subAddress
-                      when 'district' then $('#family_district_id')
+                      when 'district' then $('#community_district_id')
 
         $(subAddress).val(null).trigger('change')
         $(subAddress).find('option[value!=""]').remove()
       else if type == 'districts'
         subResources = 'communes'
         subAddress =  switch subAddress
-                      when 'commune' then $('#family_commune_id')
+                      when 'commune' then $('#community_commune_id')
 
         $(subAddress).val(null).trigger('change')
         $(subAddress).find('option[value!=""]').remove()
       else if type == 'communes'
         subResources = 'villages'
         subAddress =  switch subAddress
-                      when 'village' then $('#family_village_id')
+                      when 'village' then $('#community_village_id')
 
 
         $(subAddress).val(null).trigger('change')

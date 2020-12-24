@@ -181,6 +181,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :communities
+
   resources :partners do
     resources :custom_field_properties
     get 'version' => 'partners#version'
@@ -384,6 +386,7 @@ Rails.application.routes.draw do
       get 'integration' => 'settings#integration'
 
       get :family_case_management
+      get :community
 
       resources :field_settings, only: [:index] do
         collection do

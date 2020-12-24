@@ -65,6 +65,7 @@ class Family < ActiveRecord::Base
   validates :case_worker_ids, presence: true, on: :update, unless: :exit_ngo?
 
   after_save :save_family_in_client
+  after_commit :update_related_community_members, on: :update
 
   def self.update_brc_aggregation_data
     Organization.switch_to 'brc'
@@ -73,6 +74,22 @@ class Family < ActiveRecord::Base
 
   def member_count
     brc? ? family_members.count : (male_adult_count.to_i + female_adult_count.to_i + male_children_count.to_i + female_children_count.to_i)
+  end
+
+  def to_select2
+    [
+      display_name, id, { data: {
+          male_adult_count: male_adult_count,
+          female_adult_count: female_adult_count,
+          male_children_count: male_children_count,
+          female_children_count: female_children_count,
+        }
+      }
+    ]
+  end
+
+  def display_name
+    [name, name_en].select(&:present?).join(' - ').presence || "Family ##{id}"
   end
 
   def monthly_average_income
@@ -156,6 +173,12 @@ class Family < ActiveRecord::Base
   end
 
   private
+
+  def update_related_community_members
+    # community_members.each do |community_member|
+    #   CommunityMember.delay.update_client_relevant_data(community_member.id)
+    # end
+  end
 
   def assign_status
     self.status = (case_management_record? ? 'Referred' : 'Active')

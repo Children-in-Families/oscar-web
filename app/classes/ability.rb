@@ -105,6 +105,7 @@ class Ability
       can :manage, Family
     end
 
+    cannot :read, Community if Setting.first.hide_community?
     cannot :read, Partner if FieldSetting.hidden_group?('partner')
   end
 
