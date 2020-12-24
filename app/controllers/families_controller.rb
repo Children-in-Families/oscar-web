@@ -13,7 +13,7 @@ class FamiliesController < AdminController
     @default_columns = Setting.first.try(:family_default_columns)
     @family_grid = FamilyGrid.new(params.fetch(:family_grid, {}).merge!(dynamic_columns: @custom_form_fields))
     @family_grid = @family_grid.scope { |scope| scope.accessible_by(current_ability) }
-    @family_columns ||= FamilyColumnsVisibility.new(@family_grid, params.merge(column_form_builder: @custom_form_fields))
+    @family_columns ||= FamilyColumnsVisibility.new(@family_grid, request.parameters.merge(column_form_builder: @custom_form_fields))
     @family_columns.visible_columns
     if has_params?
       advanced_search

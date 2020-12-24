@@ -23,7 +23,7 @@ module AdvancedSearches
       @sql_string  = []
       @condition   = basic_rules['condition']
       basic_rules  = format_rule(basic_rules)
-      @basic_rules = basic_rules['rules'] || []
+      @basic_rules = basic_rules.dig('rules') || []
       @columns_visibility = []
     end
 

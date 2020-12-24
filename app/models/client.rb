@@ -106,9 +106,9 @@ class Client < ApplicationRecord
   validates_uniqueness_of :global_id, on: :create
 
   before_validation :assign_global_id, on: :create
-  before_create :set_country_origin
+  before_create :set_country_origin, :set_slug_as_alias
   before_update :disconnect_client_user_relation, if: :exiting_ngo?
-  after_create :set_slug_as_alias, :save_client_global_organization, :save_external_system_global
+  after_create :save_client_global_organization, :save_external_system_global
   after_save :create_client_history, :mark_referral_as_saved, :create_or_update_shared_client
   after_commit :remove_family_from_case_worker
 
@@ -118,13 +118,13 @@ class Client < ApplicationRecord
   scope :local_family_name_like,                   ->(value) { where('clients.local_family_name iLIKE ?', "%#{value.squish}%") }
   scope :slug_like,                                ->(value) { where('clients.slug iLIKE ?', "%#{value.squish}%") }
   scope :start_with_code,                          ->(value) { where('clients.code iLIKE ?', "#{value}%") }
-  scope :find_by_family_id,                        ->(value) { joins(cases: :family).where('families.id = ?', value).uniq }
+  scope :find_by_family_id,                        ->(value) { joins(cases: :family).where('families.id = ?', value).distinct }
   scope :status_like,                              ->        { CLIENT_STATUSES }
-  scope :is_received_by,                           ->        { joins(:received_by).pluck("CONCAT(users.first_name, ' ' , users.last_name)", 'users.id').uniq }
-  scope :referral_source_is,                       ->        { joins(:referral_source).where.not('referral_sources.name in (?)', ReferralSource::REFERRAL_SOURCES).pluck('referral_sources.name', 'referral_sources.id').uniq }
-  scope :is_followed_up_by,                        ->        { joins(:followed_up_by).pluck("CONCAT(users.first_name, ' ' , users.last_name)", 'users.id').uniq }
-  scope :province_is,                              ->        { joins(:province).pluck('provinces.name', 'provinces.id').uniq }
-  scope :birth_province_is,                        ->        { joins(:birth_province).pluck('provinces.name', 'provinces.id').uniq }
+  scope :is_received_by,                           ->        { joins(:received_by).distinct.pluck("CONCAT(users.first_name, ' ' , users.last_name)", 'users.id') }
+  scope :referral_source_is,                       ->        { joins(:referral_source).where.not('referral_sources.name in (?)', ReferralSource::REFERRAL_SOURCES).distinct.pluck('referral_sources.name', 'referral_sources.id') }
+  scope :is_followed_up_by,                        ->        { joins(:followed_up_by).distinct.pluck("CONCAT(users.first_name, ' ' , users.last_name)", 'users.id') }
+  scope :province_is,                              ->        { joins(:province).distinct.pluck('provinces.name', 'provinces.id') }
+  scope :birth_province_is,                        ->        { joins(:birth_province).distinct.pluck('provinces.name', 'provinces.id') }
   scope :accepted,                                 ->        { where(state: 'accepted') }
   scope :rejected,                                 ->        { where(state: 'rejected') }
   scope :male,                                     ->        { where(gender: 'male') }
@@ -431,7 +431,9 @@ class Client < ApplicationRecord
       random_char = generate_random_char
       Organization.switch_to short_name
       PaperTrail.request.disable_model(Client)
-      paper_trail { |obj| obj.update_columns(slug: "#{random_char}-#{id}", archived_slug: "#{Organization.current.try(:short_name)}-#{id}") }
+      current_value = ActiveRecord::Base.connection.execute('select last_value from clients_id_seq').first['last_value']
+      self.slug = "#{random_char}-#{current_value + 1}"
+      paper_trail { |obj| obj.update_columns(slug: "#{random_char}-#{current_value + 1}", archived_slug: "#{short_name}-#{current_value + 1}") }
     end
     PaperTrail.request.enable_model(Client)
   end

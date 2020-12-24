@@ -1,6 +1,7 @@
 module ProgramStreamHelper
 
   def format_rule(rules)
+    return {} if rules['rules'] == 'rules'
     if rules['rules'].present? && rules['rules'].any?
       forms_prefixed = ['domainscore', 'formbuilder', 'tracking', 'enrollment', 'enrollmentdate', 'programexitdate', 'exitprogramdate', 'exitprogram', 'quantitative']
       rules['rules'].each do |rule|
