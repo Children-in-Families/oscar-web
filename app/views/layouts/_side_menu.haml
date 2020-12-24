@@ -58,7 +58,7 @@
               %span.label.label-primary.pull-right= @family_count
 
         - if can?(:read, Community)
-          %li.main{ class: 'communities'.include?(controller_name) }
+          %li.main{ class: "#{'active' if 'communities'.include?(controller_name)}" }
             = link_to communities_path do
               = fa_icon('users')
               %span.nav-label= t('.communities')
