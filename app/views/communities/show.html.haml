@@ -15,17 +15,15 @@
             = "#{Community.human_attribute_name(:name)} :"
             %strong= @community.name
           %td
-            = "#{t('.created_by')} :"
-            %strong= @community.user&.name
+            = "#{t('.current_province')} :"
+            %strong= @community.province_name
         %tr
           %td
             = "#{Community.human_attribute_name(:id)} :"
             %strong= @community.id
-        %tr
           %td
-            = "#{t('.current_province')} :"
-            %strong= @community.province_name
-          %td
+            = "#{t('.created_by')} :"
+            %strong= @community.user&.name
 
   .col-md-3
   .col-sm-12
@@ -49,7 +47,7 @@
   .ibox-content
     .row.agreegate
       .col-sm-12
-        %h5 Direct Participants of the Group/Community
+        %h5= t('.direct_participants')
       .col-sm-12.col-md-4
         %table.table.table-bordered
           %tr
@@ -68,7 +66,7 @@
               %td= @community.female_count
     .row.agreegate
       .col-sm-12
-        %h5 To Count All Beneficiaries (direct members and their household members)
+        %h5= t('.all_beneficiaries')
       .col-sm-12.col-md-3
         %table.table.table-bordered
           %tr
@@ -95,6 +93,37 @@
         %table.table.table-bordered
           %tr
             %td.spacing-first-col
+              = Community.human_attribute_name(:representative_name)
+            %td
+              %strong
+                = @community.representative_name
+          %tr
+            %td.spacing-first-col
+              = Community.human_attribute_name(:gender)
+            %td
+              %strong
+                - if @community.gender?
+                  = t("enumerize.defaults.gender.#{@community.gender&.gsub('other', 'other_gender')}")
+          %tr
+            %td.spacing-first-col
+              = Community.human_attribute_name(:formed_date)
+            %td
+              %strong
+                = date_format @community.formed_date
+          %tr
+            %td.spacing-first-col
+              = Community.human_attribute_name(:role)
+            %td
+              %strong
+                = @community.role
+          %tr
+            %td.spacing-first-col
+              = Community.human_attribute_name(:phone_number)
+            %td
+              %strong
+                = @community.phone_number
+          %tr
+            %td.spacing-first-col
               = t('.address')
             %td
               %strong
@@ -113,7 +142,7 @@
                 = @community.referral_source&.name
           %tr
             %td.spacing-first-col
-              = t('.received_by')
+              = Community.human_attribute_name(:received_by_id)
             %td
               %strong
                 = @community.received_by&.name
@@ -121,7 +150,7 @@
 
           %tr
             %td.spacing-first-col
-              = t('.case_worker_or_staff')
+              = Community.human_attribute_name(:case_worker_ids)
             %td
               %strong
                 - @community.case_workers.distinct.sort.each do |case_worker|
@@ -129,14 +158,19 @@
                     = user case_worker
           %tr
             %td.spacing-first-col
-              = t('.initial_referral_date')
+              = Community.human_attribute_name(:initial_referral_date)
             %td
               %strong
                 = date_format(@community.initial_referral_date)
-
           %tr
             %td.spacing-first-col
-              = t('.donor')
+              = Community.human_attribute_name(:relevant_information)
+            %td
+              %strong
+                = @community.relevant_information
+          %tr
+            %td.spacing-first-col
+              = Community.human_attribute_name(:donor_ids)
             %td
               %strong
                 - @community.donors.distinct.each do|donor|
@@ -147,7 +181,7 @@
               %tr
                 %td.spacing-first-col
                   - if index == 0
-                    = Family.human_attribute_name(:documents)
+                    = Community.human_attribute_name(:documents)
                 %td
                   = original_filename(attachment)
                   = link_to preview_or_download(attachment), attachment.url, class: 'btn btn-info btn-sm btn-download', target: target_blank(attachment)
