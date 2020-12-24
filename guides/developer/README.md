@@ -14,17 +14,21 @@ Given that we are using Docker, then most common development tasks you will just
 make start_core
 ```
 
-This starts a Rails, Postgres and Webpack container. If you need the Mongo container running then execute the following command in a separate terminal:
-
-```
-make start_mongo
-```
+This starts a Rails, Postgres, Webpack and MongoDB.
 
 See the project [Makefile](./Makefile) for a list of all the available commands.
 
 Once the containers have fired up open a web browser and navigate to [http://localhost:3000](http://localhost:3000) to open the app. To login, click on the 'dev' organizations logo (there should only be the one logo) and the username (email) is any of the users (listed in the 'users' sheet) of the [lib/devdata/dev_tenant.xlsx](lib/devdata/dev_tenant.xlsx) spreadsheet with the password set to `123456789`.
 
 _NOTE_ If this is the first time you have run this you may need to stop the containers and run it again!
+
+### Running the tests
+
+To run the tests using Docker you need to start up the core services as shown above and then you can do the following to run all the specs:
+
+```
+make rspec
+```
 
 ## Debugging using Pry
 
@@ -39,14 +43,6 @@ Now when your code runs and gets to the `binding.pry` line it will halt and a Pr
 When you have finished dubugging just type `exit` in the Pry REPL session as you normally would. Keep this terminal attached for convenience if you need to use Pry again.
 
 NOTE: To detach the tty **without also terminating the Rails container**, you need to use the escape sequence **Ctrl+P** followed by **Ctrl+Q**.
-
-## Pre-Commit and Pre-Push Hooks
-
-Using bash scripts to check commit and ran test before pushing to GitHub
-
-`chmod +x scripts/*.bash`
-And then run
-`./scripts/install-hooks.bash`
 
 ## Troubleshooting
 
@@ -250,3 +246,47 @@ Note, if you only started the 'core' services and you want to fire up Mongo Expr
 ```
 docker-compose up mongo-express
 ```
+
+### Code Linting
+
+#### Sorbe
+
+`bundle exec rake rails_rbi:model`
+For more instruction please read: [sorbet-rails](https://github.com/chanzuckerberg/sorbet-rails)
+
+#### Rubocop
+
+`rubocop app/models/bar.rb`
+
+#### Text Editors Rubocop ruby linters
+
+So if you use Vcode, you should use the plugin [ruby-rubocop](https://marketplace.visualstudio.com/items?itemName=misogi.ruby-rubocop) and if you use sublime you should use [SublimeLinterRubocop](https://packagecontrol.io/packages/SublimeLinter-rubocop) and this bellow is the sublime config
+
+```
+// SublimeLinter Settings - User
+{
+  "debug": true,
+  "linters": {
+    "rubocop": {
+      "executable": "/Users/your_user_name/.rbenv/shims/rubocop",
+      "excludes": ["**/*.js.erb"],
+      "args": ["--config", ".rubocop.yml"]
+    }
+  },
+  "paths": {
+    "osx": [
+      "~/.rbenv/shims"
+    ]
+  }
+}
+```
+
+Noted: /Users/your_user_name/.rbenv/shims/rubocop you might use RVM so you can find rubocop by running `which rubocop` and use that path and see the path if you use `Linux` change key to Linux and use `rvm` path instead
+
+## Pre-Commit and Pre-Push Hooks
+
+Using bash scripts to check commit and ran test before pushing to GitHub
+
+`chmod +x scripts/*.bash`
+And then run
+`./scripts/install-hooks.bash`

@@ -10,15 +10,15 @@ RSpec.describe ClientHistory do
       let!(:client_case){ create(:case, client: client) }
 
       subject { ClientHistory.initial(client) }
-      it 'creates client quantitative_case history' do
+      xit 'creates client quantitative_case history' do
         expect(subject.client_quantitative_case_histories.first.object).to include(quantitative_case.attributes.slice('id', 'quantitative_type_id', 'value'))
       end
 
-      it 'creates agency client history' do
+      xit 'creates agency client history' do
         expect(subject.agency_client_histories.first.object).to include(agency.attributes.slice('agencies_clients_count', 'description', 'id', 'name', ))
       end
 
-      it 'creates sponsor history' do
+      xit 'creates sponsor history' do
         expect(subject.sponsor_histories.first.object).to include(donor.attributes.slice('code', 'description', 'id', 'name'))
       end
 
@@ -26,7 +26,7 @@ RSpec.describe ClientHistory do
         expect(subject.case_client_histories.last.object).to include(client_case.attributes.slice('carer_address', 'carer_names', 'carer_phone_number', ))
       end
 
-      it 'create client family history' do
+      xit 'create client family history' do
         expect(subject.client_family_histories.first.object).to include(client_case.family.attributes.slice('address', 'caregiver_information', 'user_id', 'village_id'))
       end
     end

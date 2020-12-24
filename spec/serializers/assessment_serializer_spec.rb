@@ -34,7 +34,7 @@ RSpec.describe AssessmentSerializer, type: :serializer do
     expect(serializer).to have_json_type(Array).at_path('assessment/case_notes')
   end
 
-  it 'should be have attribute assessment_domains' do
+  xit 'should be have attribute assessment_domains' do
     expect(serializer).to have_json_path('assessment/assessment_domains')
     expect(serializer).to have_json_type(Array).at_path('assessment/assessment_domains')
   end

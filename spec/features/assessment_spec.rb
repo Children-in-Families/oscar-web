@@ -1,4 +1,4 @@
-describe "Assessment" do
+xdescribe "Assessment" do
   let!(:user) { create(:user) }
   let!(:strategic_overviewer_1){ create(:user, :strategic_overviewer) }
   let!(:user_2){ create(:user) }

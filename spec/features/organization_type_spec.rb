@@ -1,4 +1,4 @@
-describe 'Organization Type' do
+xdescribe 'Organization Type' do
   let!(:admin){ create(:user, :admin) }
   let!(:organization_type){ create(:organization_type, name: 'ABC') }
   let!(:other_organization_type){ create(:organization_type) }

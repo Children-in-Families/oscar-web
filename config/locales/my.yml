@@ -3547,6 +3547,12 @@ my:
       score_2: ရမွတ္ ၂
       score_3: ရမွတ္ ၃
       score_4: ရမွတ္ ၄
+      score_5: ရမွတ္ ၅
+      score_6: ရမွတ္ ၆
+      score_7: ရမွတ္ ၇
+      score_8: ရမွတ္ ၈
+      score_9: ရမွတ္ ၉
+      score_10: ရမွတ္ ၁၀
       view: ျမင္ကြင္း
     domain_names:
       a1: 1A
@@ -3580,6 +3586,12 @@ my:
       score_2: ရမွတ္ ၂
       score_3: ရမွတ္ ၃
       score_4: ရမွတ္ ၄
+      score_5: ရမွတ္ ၅
+      score_6: ရမွတ္ ၆
+      score_7: ရမွတ္ ၇
+      score_8: ရမွတ္ ၈
+      score_9: ရမွတ္ ၉
+      score_10: ရမွတ္ ၁၀
     index:
       add_new_domain: ဒိုမိန္းအသစ္
       are_you_sure: ဖ်က္လုိသည္မွာ ေသခ်ာပါသလား
@@ -3591,6 +3603,12 @@ my:
       score_2: ရမွတ္ ၂
       score_3: ရမွတ္ ၃
       score_4: ရမွတ္ ၄
+      score_5: ရမွတ္ ၅
+      score_6: ရမွတ္ ၆
+      score_7: ရမွတ္ ၇
+      score_8: ရမွတ္ ၈
+      score_9: ရမွတ္ ၉
+      score_10: ရမွတ္ ၁၀
       view: ျမင္ကြင္း
     new:
       title: ဒိုမိန္းအသစ္

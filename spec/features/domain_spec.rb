@@ -1,4 +1,4 @@
-describe 'Domain' do
+xdescribe 'Domain' do
   let!(:admin){ create(:user, roles: 'admin') }
   let!(:domain_group){ create(:domain_group) }
   let!(:domain){ create(:domain, name: 'Cba Niamod Jo Johnston 1 Domain Abc') }

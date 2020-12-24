@@ -1,4 +1,4 @@
-describe 'ClientAdvancedSearch' do
+xdescribe 'ClientAdvancedSearch' do
   let!(:admin) { create(:user, roles: 'admin') }
 
   feature 'List client basic field', js: true do

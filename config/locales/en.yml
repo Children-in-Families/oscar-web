@@ -3553,6 +3553,12 @@ en:
       score_2: Score 2
       score_3: Score 3
       score_4: Score 4
+      score_5: Score 5
+      score_6: Score 6
+      score_7: Score 7
+      score_8: Score 8
+      score_9: Score 9
+      score_10: Score 10
       view: View
     domain_names:
       a1: 1A
@@ -3586,6 +3592,12 @@ en:
       score_2: Score 2
       score_3: Score 3
       score_4: Score 4
+      score_5: Score 5
+      score_6: Score 6
+      score_7: Score 7
+      score_8: Score 8
+      score_9: Score 9
+      score_10: Score 10
     index:
       add_new_domain: Add New Domain
       are_you_sure: Are you sure you want to delete?
@@ -3597,6 +3609,12 @@ en:
       score_2: Score 2
       score_3: Score 3
       score_4: Score 4
+      score_5: Score 5
+      score_6: Score 6
+      score_7: Score 7
+      score_8: Score 8
+      score_9: Score 9
+      score_10: Score 10
       view: View
     new:
       title: New Domain

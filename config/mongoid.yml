@@ -17,7 +17,7 @@ test:
     default:
       database: oscar_history_test
       hosts:
-        - localhost:27017
+        - <%= ENV["HISTORY_DATABASE_HOST"] || 'localhost' %>:27017
       options:
         read:
           mode: :primary
@@ -27,7 +27,7 @@ demo:
     default:
       database: <%= ENV["HISTORY_DATABASE_NAME"] %>
       hosts:
-        - localhost:27017
+        - <%= ENV["HISTORY_DATABASE_HOST"] || 'localhost' %>:27017
       options:
   options:
 ratanak_staging:
@@ -35,7 +35,7 @@ ratanak_staging:
     default:
       database: <%= ENV["HISTORY_DATABASE_NAME"] %>
       hosts:
-        - localhost:27017
+        - <%= ENV["HISTORY_DATABASE_HOST"] || 'localhost' %>:27017
       options:
   options:
 staging:
@@ -51,6 +51,6 @@ production:
     default:
       database: <%= ENV["HISTORY_DATABASE_NAME"] %>
       hosts:
-        - localhost:27017
+        - <%= ENV["HISTORY_DATABASE_HOST"] || 'localhost' %>:27017
       options:
   options:
