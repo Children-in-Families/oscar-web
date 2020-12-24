@@ -9,7 +9,7 @@
             %strong= @community.name_en
           %td
             = "#{Community.human_attribute_name(:status)} :"
-            %strong= @community.status
+            %strong= @community.status.titleize
         %tr
           %td
             = "#{Community.human_attribute_name(:name)} :"

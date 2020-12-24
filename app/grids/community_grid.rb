@@ -11,6 +11,10 @@ class CommunityGrid < BaseGrid
     scope.name_like(value)
   end
 
+  filter(:name_en, :string, header: -> { Community.human_attribute_name(:name_en) }) do |value, scope|
+    scope.name_like(value)
+  end
+
   filter(:id, :integer, header: -> { Community.human_attribute_name(:id) })
 
   filter(:status, :enum, select: Family::STATUSES, header: -> { Community.human_attribute_name(:status) }) do |value, scope|
@@ -47,10 +51,12 @@ class CommunityGrid < BaseGrid
     link_to entity_name(object), community_path(object)
   end
 
-  column(:name, html: false, header: -> { Community.human_attribute_name(:name) })
+  column(:name_en, html: true, order: 'LOWER(name_en)', header: -> { Community.human_attribute_name(:name_en) }) do |object|
+    entity_name(object)
+  end
 
   column(:status, header: -> { Community.human_attribute_name(:status) }) do |object|
-    object.status
+    object.status.titleize
   end
 
   column(:village, order: 'villages.name_kh', header: -> { Community.human_attribute_name(:village) }) do |object|

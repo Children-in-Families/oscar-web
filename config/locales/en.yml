@@ -4413,6 +4413,8 @@ en:
       client_forms: Hotline
       country: Country
       csi_tools: Assessment Tools
+      communities: Communities
+      community: Community
       custom_fields: Custom Form
       custom_labels: Custom Labels
       dashboards: Dashboards
@@ -5277,6 +5279,9 @@ en:
       switched_country_thailand: You’ve switched your country setting to Thailand.
     create:
       successfully_created: Setting have been successfully created.
+    community:
+      title: Communities
+      hide_community: Hide Communities
     custom_assessment_setting_fields:
       are_you_sure: Are you sure want to remove this assessment?
     custom_labels:

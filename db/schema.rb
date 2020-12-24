@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20201223050211) do
+ActiveRecord::Schema.define(version: 20201224082044) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -732,9 +732,9 @@ ActiveRecord::Schema.define(version: 20201223050211) do
     t.string   "role"
     t.string   "phone_number"
     t.text     "relevant_information"
-    t.string   "documents",                   default: [], array: true
+    t.string   "documents",                   default: [],                      array: true
     t.datetime "deleted_at"
-    t.string   "status",                      default: ""
+    t.string   "status",                      default: "accepted", null: false
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -1843,6 +1843,7 @@ ActiveRecord::Schema.define(version: 20201223050211) do
     t.boolean  "show_prev_assessment",                 default: false
     t.boolean  "two_weeks_assessment_reminder",        default: false
     t.boolean  "hide_family_case_management_tool",     default: true,                null: false
+    t.boolean  "hide_community",                       default: true,                null: false
   end
 
   add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree

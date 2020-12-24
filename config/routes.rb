@@ -366,6 +366,7 @@ Rails.application.routes.draw do
       get 'integration' => 'settings#integration'
 
       get :family_case_management
+      get :community
 
       resources :field_settings, only: [:index] do
         collection do

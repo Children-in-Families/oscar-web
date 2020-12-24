@@ -15,6 +15,7 @@ class Community < ActiveRecord::Base
   MY_RELATIONS = [ 'ဖခင်', 'မိခင်', 'အစ်ကို', 'အစ်မ', 'ဘကြီး', 'အဒေါ်', 'အဘိုး', 'အဖွါး', 'ဆွေမျိုး', 'အိမ်နီးချင်း', 'မိတျဆှေ']
 
   enumerize :gender, in: ['female', 'male', 'lgbt', 'unknown', 'prefer_not_to_say', 'other'], scope: :shallow, predicates: { prefix: true }
+  enumerize :status, in: ['accepted', 'rejected'], scope: :shallow, predicates: { prefix: true }
 
   belongs_to :province
   belongs_to :district

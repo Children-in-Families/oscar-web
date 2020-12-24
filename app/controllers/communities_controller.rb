@@ -1,5 +1,5 @@
 class CommunitiesController < AdminController
-  # load_and_authorize_resource
+  load_and_authorize_resource
   # include FamilyAdvancedSearchesConcern
   #
   # before_action :find_params_advanced_search, :get_custom_form, only: [:index]
