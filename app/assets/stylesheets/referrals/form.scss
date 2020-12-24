@@ -1,17 +1,18 @@
-body[id='referrals-new'],
-body[id='referrals-create'],
-body[id='referrals-edit'],
-body[id='referrals-update'] {
+body[id="referrals-new"],
+body[id="referrals-create"],
+body[id="referrals-edit"],
+body[id="referrals-update"] {
   .file {
     margin-right: 0px !important;
     border: none;
   }
 
-  label.disabled, input.disabled {
+  label.disabled,
+  input.disabled {
     color: #333 !important;
   }
 
-  #select2-drop {
+  .select2-dropdown {
     height: 349px;
     .select2-results {
       max-height: 340px;

@@ -7,15 +7,20 @@ class CIF.ServiceTypes
         return
 
       data = { id: td.children[0].value, text: td.children[0].text }
-      newOption = new Option(data.text, data.id, true, true)
       # Append it to the select
       typeOfServiceSelect = if select_id == null then $('#type-of-service select') else $(".type-of-service select##{select_id && select_id.id}")
-      typeOfServiceSelect.append(newOption).trigger 'change'
+      # Set the value, creating a new option if necessary
+      if typeOfServiceSelect.select2().val() == null
+        typeOfServiceSelect.val(data.id)
+      else
+        typeOfServiceSelect.val(_.uniq(_.concat(typeOfServiceSelect.select2().val(), data.id)))
+
+      typeOfServiceSelect.trigger('change')
 
   selectServiceTypeTableResult: ->
     isFromDashboard = @isFromDashboard
     element = @element
-    if $('li').hasClass('first current') or $('#program-stream-service').length > 0
+    if $('li').hasClass('first current') or $('#program-stream-service').length or $('.referral_services').length
       # $('#type-of-service select').select2()
 
       format = (state) ->
