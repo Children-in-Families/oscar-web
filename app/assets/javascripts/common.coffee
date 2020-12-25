@@ -20,18 +20,26 @@ CIF.Common =
       Selectors = $(".rule-operator-container [name$=_operator], .rule-filter-container [name$=_filter]")
       if Selectors
         @on 'afterCreateRuleFilters', (e, rule) ->
-          rule.$el.find(".rule-filter-container select[name$=_filter]").select2 options
+          selectInput = rule.$el.find(".rule-filter-container select[name$=_filter]")
+          selectInput.parent().css('minWidth', '250px')
+          selectInput.select2 options
           return
         @on 'afterCreateRuleOperators', (e, rule) ->
-          rule.$el.find(".rule-operator-container select[name$=_operator]").select2 options
+          selectInput = rule.$el.find(".rule-operator-container select[name$=_operator]")
+          selectInput.parent().css('minWidth', '150px')
+          selectInput.select2 options
           return
         @on 'afterUpdateRuleFilter', (e, rule) ->
           rule.$el.find(".rule-filter-container [name$=_filter]").select2 options
-          rule.$el.find(".rule-value-container select[name*=_value_]").select2(dropdownAutoWidth: true)
+          selectInput = rule.$el.find(".rule-value-container select[name*=_value_]")
+          selectInput.parent().css('minWidth', '250px')
+          selectInput.select2 options
           return
         @on 'afterUpdateRuleOperator', (e, rule) ->
           rule.$el.find(".rule-operator-container [name$=_operator]").select2 options
-          rule.$el.find(".rule-value-container select[name*=_value_]").select2(dropdownAutoWidth: true)
+          selectInput = rule.$el.find(".rule-value-container select[name*=_value_]")
+          selectInput.parent().css('minWidth', '250px')
+          selectInput.select2(dropdownAutoWidth: true)
           return
         @on 'beforeDeleteRule', (e, rule) ->
           rule.$el.find(".rule-filter-container select[name$=_filter]").select2 'destroy'
