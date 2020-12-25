@@ -206,6 +206,7 @@ class Family < ActiveRecord::Base
     if self.slug.split('-').first != Organization.current.short_name
       referral = FamilyReferral.find_by(slug: self.slug)
       return if referral.nil?
+      referral.family_id = id
       referral.saved = true
       referral.save(validate: false)
     end

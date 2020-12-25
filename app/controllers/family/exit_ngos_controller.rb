@@ -5,8 +5,7 @@ class Family::ExitNgosController < AdminController
   def create
     @exit_ngo = @family.exit_ngos.new(exit_ngo_params)
     if @exit_ngo.save
-      # Todo: after family referral feature is complete
-      # send_reject_referral_family_email
+      send_reject_referral_family_email
       redirect_to @family, notice: t('.successfully_created')
     else
       redirect_to @family, alert: t('.failed_create')
@@ -39,11 +38,10 @@ class Family::ExitNgosController < AdminController
     params[:exit_ngo][:exit_reasons].reject!(&:blank?)
   end
 
-  # Todo: after family referral feature is complete
-  # def send_reject_referral_family_email
-  #   return unless @family.referrals.received.present? && @exit_ngo.exit_circumstance == 'Rejected Referral'
-  #   referral = @family.referrals.received.last
-  #   current_org = current_organization.full_name
-  #   RejectReferralClientWorker.perform_async(current_user.name, current_org, referral.id)
-  # end
+  def send_reject_referral_family_email
+    return unless @family.family_referrals.received.present? && @exit_ngo.exit_circumstance == 'Rejected Referral'
+    referral = @family.family_referrals.received.last
+    current_org = current_organization.full_name
+    RejectReferralFamilyWorker.perform_async(current_user.name, current_org, referral.id)
+  end
 end
