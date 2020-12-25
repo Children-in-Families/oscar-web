@@ -4745,6 +4745,8 @@ my:
       client_forms: Client Forms
       country: ႏုိင္ငံ
       csi_tools: ရရှိနိုင်အကဲဖြတ်
+      communities: Community/Group
+      community: Community
       custom_fields: ပံုစံထုတ္စက္
       custom_labels: Custom Labels
       dashboards: ဒက္ရွ္ဘုတ္မ်ား
@@ -5618,6 +5620,9 @@ my:
       switched_country_thailand: သင္၏ ႏုိင္ငံအျပင္အဆင္ကို ထုိင္းႏုိင္ငံအျဖစ္ ေျပာင္းၿပီးပါၿပီ။
     create:
       successfully_created: အောင်မြင်စွာဖန်တီး
+    community:
+      title: Communities
+      hide_community: Hide Communities
     custom_assessment_setting_fields:
       are_you_sure: Are you sure want to remove this assessment?
     custom_labels:

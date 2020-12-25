@@ -58,11 +58,11 @@ class CommunitiesController < AdminController
   end
 
   def destroy
-    # if @community.current_clients.blank? && (@community.cases.present? && @community.cases.delete_all || true) && @community.destroy
-    #   redirect_to families_url, notice: t('.successfully_deleted')
-    # else
-    #   redirect_to family_path(@community), alert: t('.alert')
-    # end
+    if @community.destroy
+      redirect_to communities_path, notice: t('.successfully_deleted')
+    else
+      redirect_to community_path(@community), alert: t('.alert')
+    end
   end
 
   # def version

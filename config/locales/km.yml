@@ -4721,6 +4721,8 @@ km:
       client_forms: ទម្រង់អតិថិជន
       country: ប្រទេស
       csi_tools: ឧបករណ៍ការប៉ាន់ប្រមាណ
+      communities: Community/Group
+      community: Community
       custom_fields: ទម្រង់បែបបទ
       custom_labels: Custom Labels
       dashboards: តារាងទិន្នន័យ
@@ -5591,6 +5593,9 @@ km:
       switched_country_thailand: អ្នកបានប្ដូរការកំណត់ទៅជាប្រទេសថៃ
     create:
       successfully_created: ការកំណត់បានបង្កើតដោយជោគជ័យ
+    community:
+      title: Communities
+      hide_community: Hide Communities
     custom_assessment_setting_fields:
       are_you_sure: Are you sure want to remove this assessment?
     custom_labels:
