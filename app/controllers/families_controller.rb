@@ -145,6 +145,14 @@ class FamiliesController < AdminController
     @family = Family.find(params[:id])
   end
 
+  def find_case_histories
+    enter_ngos = @family.enter_ngos
+    exit_ngos  = @family.exit_ngos
+    cps_enrollments = @family.enrollments
+    cps_leave_programs = LeaveProgram.joins(:enrollment).where("enrollments.programmable_id = ?", @family.id)
+    @case_histories = (enter_ngos + exit_ngos + cps_enrollments + cps_leave_programs).sort { |current_record, next_record| -([current_record.created_at, current_record.new_date] <=> [next_record.created_at, next_record.new_date]) }
+  end
+
   def find_referral_by_params
     @family_referral ||= FamilyReferral.find_by(id: params[:referral_id])
     raise ActiveRecord::RecordNotFound if @family_referral.nil?
@@ -178,15 +186,7 @@ class FamiliesController < AdminController
       @villages  = @family.commune.present? ? @family.commune.villages.order(:code) : []
     end
     @family = Family.new(attributes)
-    @family.family_members.new
+    # @family.family_members.new
     @selected_children = params[:children]
-  end
-
-  def find_case_histories
-    enter_ngos = @family.enter_ngos
-    exit_ngos  = @family.exit_ngos
-    cps_enrollments = @family.enrollments
-    cps_leave_programs = LeaveProgram.joins(:enrollment).where("enrollments.programmable_id = ?", @family.id)
-    @case_histories = (enter_ngos + exit_ngos + cps_enrollments + cps_leave_programs).sort { |current_record, next_record| -([current_record.created_at, current_record.new_date] <=> [next_record.created_at, next_record.new_date]) }
   end
 end

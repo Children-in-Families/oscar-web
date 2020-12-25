@@ -4199,7 +4199,7 @@ my:
       update:
         failed_update: အပ်ဒိတ်လုပ်မပေးနိုငျ
         successfully_updated: အမႈသည္ကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ထည့္သြင္းၿပီပါၿပီ
-  faq: မၾကာခဏေမးေလ့ရွိေသာ ေမးခြန္းမ်ား
+  faq: အမြဲမေးလေ့ရှိသောမေးခွန်းများ
   field_label_cannot_be_blank: ကြင္းအညႊန္းကို ကြက္လပ္ခ်န္၍ မရပါ
   form_builder:
     custom_fields:
