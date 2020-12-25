@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_22_034750) do
+ActiveRecord::Schema.define(version: 2020_12_22_033904) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -2002,6 +2002,8 @@ ActiveRecord::Schema.define(version: 2020_12_22_034750) do
     t.integer "version_id"
     t.string "foreign_key_name", null: false
     t.integer "foreign_key_id"
+    t.string "foreign_type"
+    t.index ["foreign_key_name", "foreign_key_id", "foreign_type"], name: "index_version_associations_on_foreign_key"
     t.index ["version_id"], name: "index_version_associations_on_version_id"
   end
 
@@ -2012,9 +2014,9 @@ ActiveRecord::Schema.define(version: 2020_12_22_034750) do
     t.string "whodunnit"
     t.datetime "created_at"
     t.integer "transaction_id"
-    t.string "item_subtype"
     t.jsonb "object"
     t.jsonb "object_changes"
+    t.string "item_subtype"
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
     t.index ["transaction_id"], name: "index_versions_on_transaction_id"
   end
