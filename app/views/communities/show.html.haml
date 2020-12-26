@@ -28,7 +28,7 @@
   .col-md-3
   .col-sm-12
     .btn-group.small-btn-margin
-      %button.btn-sm.btn.btn-success.dropdown-toggle{ 'data-toggle' => 'dropdown', class: ('disabled' if @group_community_custom_fields.empty?) }
+      %button.btn-sm.btn.btn-success.dropdown-toggle.btn-fit{ class: ('disabled' if @group_community_custom_fields.empty?), data: { toggle: "dropdown", trigger: 'hover', html: 'true', content: "#{I18n.t('inline_help.communities.show.active_form')}", placement: "auto" } }
         = t('.additional_forms')
         %span.caret
       %ul.dropdown-menu.scrollable-dropdown-menu
@@ -38,7 +38,7 @@
 
     - if can? :manage, CustomFieldProperty
       .btn-group.small-btn-margin
-        %button.btn-sm.btn.btn-success.dropdown-toggle{ 'data-toggle' => 'dropdown', class: ('disabled' if @free_community_forms.empty?) }
+        %button.btn-sm.btn.btn-success.dropdown-toggle.btn-fit{ class: ('disabled' if @free_community_forms.empty?), data: { toggle: "dropdown", trigger: 'hover', html: 'true', content: "#{I18n.t('inline_help.communities.show.add_form')}", placement: "auto" } }
           = t('.add_form')
           %span.caret
         %ul.dropdown-menu.scrollable-dropdown-menu
