@@ -182,7 +182,9 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :communities
+  resources :communities do
+    resources :custom_field_properties
+  end
 
   resources :partners do
     resources :custom_field_properties
