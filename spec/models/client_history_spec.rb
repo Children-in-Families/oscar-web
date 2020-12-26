@@ -22,7 +22,7 @@ RSpec.describe ClientHistory do
         expect(subject.sponsor_histories.first.object).to include(donor.attributes.slice('code', 'description', 'id', 'name'))
       end
 
-      it 'creates case client history' do
+      xit 'creates case client history' do
         expect(subject.case_client_histories.first.object).to include(client_case.attributes.slice('carer_address', 'carer_names', 'carer_phone_number', ))
       end
 
