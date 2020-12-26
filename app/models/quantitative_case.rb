@@ -6,6 +6,9 @@ class QuantitativeCase < ActiveRecord::Base
   has_many :client_quantitative_cases
   has_many :clients, through: :client_quantitative_cases
 
+  has_many :family_quantitative_cases
+  has_many :families, through: :family_quantitative_cases
+
   has_paper_trail
 
   default_scope { order(value: :asc) }

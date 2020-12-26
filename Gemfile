@@ -87,6 +87,8 @@ group :development, :test do
   gem 'bullet',               '5.4.3'
   gem 'mongoid-rspec', '~> 4.0', '>= 4.0.1'
   gem 'thin',                 '~> 1.7'
+  gem 'danger',               '~> 5.16', '>= 5.16.1'
+  gem 'sorbet-rails'
 end
 
 group :staging, :ratanak_staging, :demo, :production do
@@ -121,3 +123,5 @@ group :test do
   gem 'rspec-activemodel-mocks', '~> 1.1'
   gem 'timecop',              '~> 0.8.1'
 end
+
+gem "sentry-raven", "~> 2.13"

@@ -1,10 +1,13 @@
-# OSCaR
+# OSCaR - Open Source Case-management and Record-keeping
 
 ### Open Source Case-management and Record-keeping.
 
+[![Build Status](https://travis-ci.com/DevZep/oscar-web.svg?branch=master)](https://travis-ci.com/DevZep/oscar-web)
+[![Build Status](https://travis-ci.com/DevZep/oscar-web.svg?branch=stable)](https://travis-ci.com/DevZep/oscar-web)
+
 ### Requirements
 
-* Docker Desktop (latest stable version for your platform)
+- Docker Desktop (latest stable version for your platform)
 
 ### Getting Started
 
@@ -24,7 +27,7 @@ See the project [Makefile](./Makefile) for a list of all the available commands.
 
 Once the containers have fired up open a web browser and navigate to [http://localhost:3000](http://localhost:3000) to open the app. To login, click on the 'dev' organizations logo (there should only be the one logo) and the username (email) is any of the users (listed in the 'users' sheet) of the [lib/devdata/dev_tenant.xlsx](lib/devdata/dev_tenant.xlsx) spreadsheet with the password set to `123456789`.
 
-*NOTE* If this is the first time you have run this you may need to stop the containers and run it again!
+_NOTE_ If this is the first time you have run this you may need to stop the containers and run it again!
 
 ## Debugging using Pry
 
@@ -38,7 +41,7 @@ Now when your code runs and gets to the `binding.pry` line it will halt and a Pr
 
 When you have finished dubugging just type `exit` in the Pry REPL session as you normally would. Keep this terminal attached for convenience if you need to use Pry again.
 
-NOTE: To detach the tty __without also terminating the Rails container__, you need to use the escape sequence __Ctrl+P__ followed by __Ctrl+Q__.
+NOTE: To detach the tty **without also terminating the Rails container**, you need to use the escape sequence **Ctrl+P** followed by **Ctrl+Q**.
 
 ## Troubleshooting
 
@@ -104,156 +107,75 @@ app |  exited with code 7
 
 Then, it means there is a Gem depenency missing. You should rebuild the image like this and then start the services again.
 
-```
-make build_app
-```
+> > > > > > > stable
 
-#### Issue version discrepency with a Gem
+### Open Source Case-management and Record-keeping.
 
-Sometimes you might start the service and the container cannot start because it returns an error due to a version discrepency with a Gem, something like this:
+OSCaR is an open source and free to use (under [AGPL](http://www.gnu.org/licenses/agpl-3.0-standalone.html)) software for case managment focusing on family care first policies of vulnerable children.
 
-```
-app | The bundle currently has ______ locked at x.y.z.
-app | Try running `bundle update ______`
-app |
-app | If you are updating multiple gems in your Gemfile at once,
-app | try passing them all to `bundle update`
-app | Run `bundle install` to install missing gems.
-app | exited with code 7
-```
+The service is available as a subscription via the [OSCaR Online Application](https://oscarhq.com) and can be run privately from this repository. For more information about using the hosted version via the online application please reach out to the support contacts there. If you are already using OSCaR and need support you can find the training manual available on the website as well as inline, contextual help thoughout the application.
 
-Then, it means there is a Gem version discrepency. You should rebuild the image like this and then start the services again.
+### OSCaR Guides
 
-```
-make build_app
-```
+We have three guides available depending on how you are wanting to use OSCaR, either via the hosted version, a private hosted version or locally to run tests or even contribute code to the project!
 
-#### Issue missing JavaScript dependency
+So with that, if you are:
 
-Then, it means there is a JavaScript package depenency missing. You should rebuild the image like this and then start the services again.
+- Looking for the hosted version of OSCaR, please visit out official [OSCaR Website](https://www.oscarhq.com)
+- Want to run a privately hosted vesion of OSCaR in the cloud then visit the [private hosting guide](./guides/private-hosting)
+- Want to run a local vesion of OSCaR on your laptop or home computer as a developer then visit [developer guide](./guides/developer)
 
-In your terminal you might see something like this or someother error representing a missing JavaScript module.
+### Code Linting
 
-Usually what's happened is the yarn.lock file contains a reference to a module that is not currently in your `node_modules` folder:
+#### Sorbe
 
-```
-Module not found: _____
-Error: Can't resolve _____
-```
+`bundle exec rake rails_rbi:model`
+For more instruction please read: [sorbet-rails](https://github.com/chanzuckerberg/sorbet-rails)
 
-To fix this issue, run the following commands:
+#### Rubocop
+
+`rubocop app/models/bar.rb`
+
+#### Text Editors Rubocop ruby linters
+
+So if you use Vcode, you should use the plugin [ruby-rubocop](https://marketplace.visualstudio.com/items?itemName=misogi.ruby-rubocop) and if you use sublime you should use [SublimeLinterRubocop](https://packagecontrol.io/packages/SublimeLinter-rubocop) and this bellow is the sublime config
 
 ```
-make yarn_install
-```
-
-#### Issue with Mongo DB
-
-If you find Mongo DB is in a state that is not consistent or causing some unexpected errors that appear to be related to the MongoDB collections, you can completely remove the Mongo DB data files and start again. Note that in follownig this process all your local MongoDB data will be erased so take a backup if you need to first.
-
-```
-docker-compose stop mongo
-rm -rf tmp/mongo
-make start_mongo
-```
-
-Using the OSCaR Web Application try saving a record to the database. For example, [Create a New Client](http://dev.start.localhost:3000/clients/new?country=cambodia&locale=en). Once this is finished you should be able to see the data saved in MongoDB via the console:
-
-```
-make mongo_console
-...
-> db
-oscar_history_development
-> show collections
-client_histories
-> db.client_histories.find()[0]
+// SublimeLinter Settings - User
 {
-	"_id" : ObjectId("5ef2fec9c245050001d8244f"),
-	"tenant" : "dev",
-	"object" : {
-		"id" : 11,
-		"code" : "",
-		"given_name" : "Darren",
-		"family_name" : "Jensen",
-		"gender" : "male",
-		"date_of_birth" : null,
-
-ETC.....
+  "debug": true,
+  "linters": {
+    "rubocop": {
+      "executable": "/Users/your_user_name/.rbenv/shims/rubocop",
+      "excludes": ["**/*.js.erb"],
+      "args": ["--config", ".rubocop.yml"]
+    }
+  },
+  "paths": {
+    "osx": [
+      "~/.rbenv/shims"
+    ]
+  }
+}
 ```
 
-### Issue starting the app container
-
-If you have an issue starting the container, perhaps because Rails does not start due to a dependency issue or something else and you just need to get into the container without starting rails or any services or you don't want to rebuild the entire image so you can debug this issue quickly, then run the following command (make sure you are in the project directory first as it mounts the current directort into this container):
-
-```
-make run_image_bash
-```
-
-### Gazetteer Data Import (OPTIONAL)
-
-Since importing the Gazetteer data takes sometime and the spreadsheet files are fairly large this as been left as an option if you need it.
-
-Firstly, download the [Cambodia Gazetteer Spreadsheets](https://drive.google.com/drive/folders/1ff0GbLahKc0roUB71yjFNDwLY328AeKE), extract the zip file into the following local project directory `vendor/data/villages/xlsx`.
-
-Now, inside the app container, run the following rake task where 'dev' is the name of the tenant / schema you want to import the Gazetteer Data into.
-
-```
-rake communes_and_villages:import['dev']
-```
-
-### Docker Commands
-
-Start bash session in the 'app' service container. Once you have a session, you can use it like you would normally use your local terminal, running `rake` tasks, starting the `rails c` console etc, etc
-
-To start a bash terminal that is running inside the Docker container run:
-
-```
-make bash_console
-```
-
-```
-make rails_console
-```
-
-There is also a make command to drop the database
-
-```
-make db_drop
-```
-
-Check the local [Makefile](./Makefile) for a complete list of available commands.
-
-### pgAdmin
-
-The Docker Compose file contains a pgAdmin service. After `docker-compose up` spins up all the services, its possible to connect to pgAdmin at [http://localhost:5050/](http://localhost:5050/). The pgAdmin username and password are in the `pgadmin` services definition in [docker-compose.yml](./docker-compose.yml). To connect to the oscar database, simply expand the OSCaR Server Group in the top left and click on the database. You will be asked to enter the db password (123456789).
-
-Note, if you only started the 'core' services and you want to fire up pgAdmin service too, then simply run the following command at your local terminal  (note this will also startup the `db` service (Postgres) if it is not running):
-
-```
-docker-compose up pgadmin
-```
-
-### Mongo Express
-
-The Docker Compose file contains a [Mongo Express](https://github.com/mongo-express/mongo-express) service. After `docker-compose up` spins up all the services, its possible to connect to Mongo Express at [http://localhost:8081/](http://localhost:8081/). There is no username or password required.
-
-Note, if you only started the 'core' services and you want to fire up Mongo Express service too, then simply run the following command at your local terminal (note this will also startup the `mongo` service (MongoDB) if it is not running):
-
-```
-docker-compose up mongo-express
-```
+Noted: /Users/your_user_name/.rbenv/shims/rubocop you might use RVM so you can find rubocop by running `which rubocop` and use that path and see the path if you use `Linux` change key to Linux and use `rvm` path instead
 
 ### Issue Reporting
 
-If you experience with bugs or need further improvement, please create a new issue under [Issues](https://github.com/rotati/oscar-web/issues).
+If you experience with bugs or need further improvement, please create a new issue under [Issues](https://github.com/devzep/oscar-web/issues).
 
 ### Contributing to OSCaR
 
 Pull requests are very welcome. Before submitting a pull request, please make sure that your changes are well tested. Pull requests without tests will not be accepted.
 
+#### Not sure what to work on?
+
+Perhaps pick one of the [existing issues](https://github.com/DevZep/oscar-web/issues) or submit an issue and then work on that. Alternatively, please feel free to reach out to one of the supporting authors either at DevZep or CIF as indicated below.
+
 ### Authors
 
-OSCaR is developed in partnership by [Rotati Consulting (Cambodia)](http://www.rotati.tech) and [CIF](http://www.childreninfamilies.org)
+OSCaR is developed in partnership by [DevZep Consulting (Cambodia)](http://www.devzep.com) and [CIF](http://www.childreninfamilies.org)
 
 ### License
 

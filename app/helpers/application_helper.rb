@@ -13,6 +13,10 @@ module ApplicationHelper
     end
   end
 
+  def show_family_CRD?
+    @show_family_CRD ||= QuantitativeType.where('visible_on LIKE ?', "%family%").any?
+  end
+
   def notification_client_exit(day)
     if day == 90
       t('.client_is_end_ec_today', count: @notification.ec_notification(day).count)
@@ -53,11 +57,11 @@ module ApplicationHelper
   end
 
   def is_active_controller(controller_name, class_name = nil)
-      if params[:controller] =~ /#{controller_name}/i
-       class_name == nil ? "active" : class_name
-      else
-        nil
-      end
+    if params[:controller] =~ /#{controller_name}/i
+      class_name == nil ? "active" : class_name
+    else
+      nil
+    end
   end
 
   def clients_menu_active
@@ -223,8 +227,10 @@ module ApplicationHelper
     Rails.application.routes.recognize_path(request.referrer)[:action] == 'search'
   end
 
-  def convert_bracket(value)
-    value.gsub(/\[/, '&#91;').gsub(/\]/, '&#93;')
+  def convert_bracket(value, properties = {})
+    value1 = value.gsub(/\[/, '&#91;').gsub(/\]/, '&#93;')
+    value2 = value.gsub('[', '&amp;#91;').gsub(']', '&amp;#93;')
+    properties[value1] ? value1 : value2
   end
 
   def default_setting(column, setting_default_columns)
