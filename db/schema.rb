@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20201203072103) do
+ActiveRecord::Schema.define(version: 20201220132742) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -200,6 +200,16 @@ ActiveRecord::Schema.define(version: 20201203072103) do
   end
 
   add_index "calls", ["referee_id"], name: "index_calls_on_referee_id", using: :btree
+
+  create_table "care_plans", force: :cascade do |t|
+    t.integer  "assessment_id"
+    t.integer  "client_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "care_plans", ["assessment_id"], name: "index_care_plans_on_assessment_id", using: :btree
+  add_index "care_plans", ["client_id"], name: "index_care_plans_on_client_id", using: :btree
 
   create_table "carers", force: :cascade do |t|
     t.string   "address_type",               default: ""
@@ -668,9 +678,9 @@ ActiveRecord::Schema.define(version: 20201203072103) do
     t.string   "other_agency_name"
     t.string   "other_representative_name"
     t.string   "other_agency_phone"
-    t.string   "locality"
     t.string   "national_id_number"
     t.string   "passport_number"
+    t.string   "locality"
   end
 
   add_index "clients", ["commune_id"], name: "index_clients_on_commune_id", using: :btree
@@ -834,32 +844,6 @@ ActiveRecord::Schema.define(version: 20201203072103) do
   end
 
   add_index "donors", ["global_id"], name: "index_donors_on_global_id", using: :btree
-
-  create_table "enrollment_trackings", force: :cascade do |t|
-    t.integer  "enrollment_id"
-    t.integer  "tracking_id"
-    t.jsonb    "properties",    default: {}
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-  end
-
-  add_index "enrollment_trackings", ["enrollment_id"], name: "index_enrollment_trackings_on_enrollment_id", using: :btree
-  add_index "enrollment_trackings", ["tracking_id"], name: "index_enrollment_trackings_on_tracking_id", using: :btree
-
-  create_table "enrollments", force: :cascade do |t|
-    t.jsonb    "properties",        default: {}
-    t.string   "status",            default: "Active"
-    t.date     "enrollment_date"
-    t.datetime "deleted_at"
-    t.string   "programmable_type"
-    t.integer  "programmable_id"
-    t.integer  "program_stream_id"
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
-  end
-
-  add_index "enrollments", ["deleted_at"], name: "index_enrollments_on_deleted_at", using: :btree
-  add_index "enrollments", ["program_stream_id"], name: "index_enrollments_on_program_stream_id", using: :btree
 
   create_table "enter_ngo_users", force: :cascade do |t|
     t.integer "user_id"
@@ -1050,6 +1034,23 @@ ActiveRecord::Schema.define(version: 20201203072103) do
   end
 
   add_index "global_services", ["uuid"], name: "index_global_services_on_uuid", unique: true, using: :btree
+
+  create_table "goals", force: :cascade do |t|
+    t.text     "description",          default: ""
+    t.integer  "assessment_domain_id"
+    t.integer  "domain_id"
+    t.integer  "client_id"
+    t.integer  "assessment_id"
+    t.integer  "care_plan_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "goals", ["assessment_domain_id"], name: "index_goals_on_assessment_domain_id", using: :btree
+  add_index "goals", ["assessment_id"], name: "index_goals_on_assessment_id", using: :btree
+  add_index "goals", ["care_plan_id"], name: "index_goals_on_care_plan_id", using: :btree
+  add_index "goals", ["client_id"], name: "index_goals_on_client_id", using: :btree
+  add_index "goals", ["domain_id"], name: "index_goals_on_domain_id", using: :btree
 
   create_table "government_form_children_plans", force: :cascade do |t|
     t.text     "goal",               default: ""
@@ -1279,12 +1280,10 @@ ActiveRecord::Schema.define(version: 20201203072103) do
     t.integer  "program_stream_id"
     t.date     "exit_date"
     t.datetime "deleted_at"
-    t.integer  "enrollment_id"
   end
 
   add_index "leave_programs", ["client_enrollment_id"], name: "index_leave_programs_on_client_enrollment_id", using: :btree
   add_index "leave_programs", ["deleted_at"], name: "index_leave_programs_on_deleted_at", using: :btree
-  add_index "leave_programs", ["enrollment_id"], name: "index_leave_programs_on_enrollment_id", using: :btree
 
   create_table "locations", force: :cascade do |t|
     t.string   "name",         default: ""
@@ -1466,7 +1465,6 @@ ActiveRecord::Schema.define(version: 20201203072103) do
     t.integer  "mutual_dependence", default: [],                 array: true
     t.boolean  "tracking_required", default: false
     t.datetime "archived_at"
-    t.string   "entity_type",       default: ""
   end
 
   add_index "program_streams", ["archived_at"], name: "index_program_streams_on_archived_at", using: :btree
@@ -1828,11 +1826,17 @@ ActiveRecord::Schema.define(version: 20201203072103) do
     t.integer  "taskable_id"
     t.string   "taskable_type"
     t.datetime "deleted_at"
+    t.integer  "goal_id"
   end
 
   add_index "tasks", ["client_id"], name: "index_tasks_on_client_id", using: :btree
   add_index "tasks", ["deleted_at"], name: "index_tasks_on_deleted_at", using: :btree
+  add_index "tasks", ["goal_id"], name: "index_tasks_on_goal_id", using: :btree
   add_index "tasks", ["taskable_type", "taskable_id"], name: "index_tasks_on_taskable_type_and_taskable_id", using: :btree
+
+  create_table "test_tables", force: :cascade do |t|
+    t.string "test"
+  end
 
   create_table "thredded_categories", force: :cascade do |t|
     t.integer  "messageboard_id",             null: false
@@ -2185,6 +2189,8 @@ ActiveRecord::Schema.define(version: 20201203072103) do
   add_foreign_key "call_protection_concerns", "calls"
   add_foreign_key "call_protection_concerns", "protection_concerns"
   add_foreign_key "calls", "referees"
+  add_foreign_key "care_plans", "assessments"
+  add_foreign_key "care_plans", "clients"
   add_foreign_key "carers", "communes"
   add_foreign_key "carers", "districts"
   add_foreign_key "carers", "provinces"
@@ -2231,9 +2237,6 @@ ActiveRecord::Schema.define(version: 20201203072103) do
   add_foreign_key "domains", "domain_groups"
   add_foreign_key "donor_organizations", "donors"
   add_foreign_key "donor_organizations", "organizations"
-  add_foreign_key "enrollment_trackings", "enrollments"
-  add_foreign_key "enrollment_trackings", "trackings"
-  add_foreign_key "enrollments", "program_streams"
   add_foreign_key "enter_ngo_users", "enter_ngos"
   add_foreign_key "enter_ngo_users", "users"
   add_foreign_key "enter_ngos", "clients"
@@ -2245,6 +2248,11 @@ ActiveRecord::Schema.define(version: 20201203072103) do
   add_foreign_key "families", "villages"
   add_foreign_key "family_members", "families"
   add_foreign_key "global_identity_organizations", "organizations"
+  add_foreign_key "goals", "assessment_domains"
+  add_foreign_key "goals", "assessments"
+  add_foreign_key "goals", "care_plans"
+  add_foreign_key "goals", "clients"
+  add_foreign_key "goals", "domains"
   add_foreign_key "government_form_children_plans", "children_plans"
   add_foreign_key "government_form_children_plans", "government_forms"
   add_foreign_key "government_form_family_plans", "family_plans"
@@ -2265,7 +2273,6 @@ ActiveRecord::Schema.define(version: 20201203072103) do
   add_foreign_key "hotlines", "calls"
   add_foreign_key "hotlines", "clients"
   add_foreign_key "leave_programs", "client_enrollments"
-  add_foreign_key "leave_programs", "enrollments"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
   add_foreign_key "partners", "organization_types"
@@ -2298,6 +2305,7 @@ ActiveRecord::Schema.define(version: 20201203072103) do
   add_foreign_key "subdistricts", "districts"
   add_foreign_key "surveys", "clients"
   add_foreign_key "tasks", "clients", on_delete: :nullify
+  add_foreign_key "tasks", "goals"
   add_foreign_key "townships", "states"
   add_foreign_key "trackings", "program_streams"
   add_foreign_key "users", "organizations"

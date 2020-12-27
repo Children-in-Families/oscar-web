@@ -5,6 +5,9 @@ class Assessment < ActiveRecord::Base
   has_many :domains,            through:   :assessment_domains
   has_many :case_notes,         dependent: :destroy
   has_many :tasks, as: :taskable, dependent: :destroy
+  has_many :goals, dependent: :destroy
+
+  has_one :care_plan, dependent: :destroy
 
   has_paper_trail
 
@@ -28,7 +31,7 @@ class Assessment < ActiveRecord::Base
   def set_assessment_completed
     empty_assessment_domains = []
     assessment_domains.each do |assessment_domain|
-      empty_assessment_domains << assessment_domain if (assessment_domain[:goal].empty? && assessment_domain[:goal_required] == true) || assessment_domain[:score].nil? || assessment_domain[:reason].empty?
+      empty_assessment_domains << assessment_domain if (assessment_domain[:score].nil? || assessment_domain[:reason].empty?)
     end
     if empty_assessment_domains.count.zero?
       self.completed = true
