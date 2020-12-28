@@ -114,6 +114,7 @@
 //= require program_streams/index
 //= require program_streams/show
 //= require client_enrollments/form
+//= require enrollments/form
 //= require leave_programs/form
 //= require client_enrollment_trackings/form
 //= require organizations/index
