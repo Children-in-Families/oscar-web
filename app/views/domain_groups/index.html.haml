@@ -24,7 +24,7 @@
               - @domain_groups.each do |domain_group|
                 %tr
                   - if Organization.current.short_name == 'aht'
-                    %td= t("dimensions.dimension_groups.#{domain_group.name.downcase.strip.parameterize('_')}")
+                    %td= t("dimensions.dimension_groups.#{domain_group.name.downcase.strip.parameterize.underscore}")
                   - else
                     %td= domain_group.name
                   %td= domain_group.description

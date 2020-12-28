@@ -22,7 +22,6 @@ class ReferralsController < AdminController
 
   def create
     @referral = @client.referrals.new(referral_params)
-    @referral.services << Service.where(id: referral_params[:service_ids])
     if @referral.save
       @client.update_attributes(referred_external: true) if find_external_system(@referral.referred_to)
       redirect_to client_referral_path(@client, @referral), notice: t('.successfully_created')
@@ -55,13 +54,11 @@ class ReferralsController < AdminController
                 disposition: 'attachment'
       end
     end
-
   end
 
   def update
     authorize @referral
     if @referral.update_attributes(referral_params)
-      @referral.services << Service.where(id: referral_params[:service_ids])
       redirect_to client_referral_path(@client, @referral), notice: t('.successfully_updated')
     else
       render :edit

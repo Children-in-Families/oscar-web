@@ -5,7 +5,7 @@ class Referral < ApplicationRecord
   mount_uploaders :consent_form, ConsentFormUploader
 
   belongs_to :client
-  has_and_belongs_to_many :services
+  has_and_belongs_to_many :services, validate: false, join_table: 'referrals_services'
 
   alias_attribute :new_date, :date_of_referral
 
