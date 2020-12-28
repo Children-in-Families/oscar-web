@@ -7,7 +7,7 @@ class Service < ApplicationRecord
 
   has_many   :program_stream_services, dependent: :destroy
   has_many   :program_streams, through: :program_stream_services
-  has_and_belongs_to_many :referrals
+  has_and_belongs_to_many :referrals, validate: false, join_table: 'referrals_services'
 
   validates :name, presence: true
 
