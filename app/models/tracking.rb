@@ -9,7 +9,6 @@ class Tracking < ApplicationRecord
 
   has_paper_trail
 
-
   validate :form_builder_field_uniqueness
   validate :presence_of_label
 
@@ -22,11 +21,15 @@ class Tracking < ApplicationRecord
 
   delegate :name, to: :program_stream, prefix: true, allow_nil: true
 
+  def fields
+    read_attribute(:fields).is_a?(String) ? JSON.parse(read_attribute(:fields)) : read_attribute(:fields)
+  end
+
   def form_builder_field_uniqueness
     return unless fields.present?
     labels = []
-    fields.map{ |obj| labels << obj['label'] if obj['label'] != 'Separation Line' && obj['type'] != 'paragraph' }
-    (errors.add :fields, "Fields duplicated!") unless (labels.uniq.length == labels.length)
+    fields.map { |obj| labels << obj['label'] if obj['label'] != 'Separation Line' && obj['type'] != 'paragraph' }
+    (errors.add :fields, 'Fields duplicated!') unless labels.uniq.length == labels.length
   end
 
   def is_used?

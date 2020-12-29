@@ -49,7 +49,7 @@ class ApplicationController < ActionController::Base
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:account_update) do |user_params|
-      user_params.permit(:first_name, :last_name, :date_of_birth, :job_title, :department_id, :start_date, :province_id, :mobile, :task_notify, :calendar_integration, :pin_code, :program_warning, :domain_warning, :gender, :preferred_language, :referral_notification)
+      user_params.permit(:first_name, :last_name, :date_of_birth, :job_title, :department_id, :start_date, :province_id, :mobile, :task_notify, :calendar_integration, :pin_code, :program_warning, :domain_warning, :gender, :preferred_language, :referral_notification, :current_password)
     end
   end
 

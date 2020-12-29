@@ -44,6 +44,14 @@ class ProgramStream < ApplicationRecord
     write_attribute(:name, name.try(:strip))
   end
 
+  def enrollment
+    read_attribute(:enrollment).is_a?(String) ? JSON.parse(read_attribute(:enrollment)) : read_attribute(:enrollment)
+  end
+
+  def exit_program
+    read_attribute(:exit_program).is_a?(String) ? JSON.parse(read_attribute(:exit_program)) : read_attribute(:exit_program)
+  end
+
   def build_permission
     User.deleted_user.non_strategic_overviewers.each do |user|
       self.program_stream_permissions.find_or_create_by(user: user)

@@ -3,10 +3,10 @@ class Setting < ApplicationRecord
 
   has_paper_trail
 
-  belongs_to :province
-  belongs_to :district
-  belongs_to :commune
-  belongs_to :screening_assessment_form, class_name: 'CustomField'
+  belongs_to :province, optional: true
+  belongs_to :district, optional: true
+  belongs_to :commune, optional: true
+  belongs_to :screening_assessment_form, class_name: 'CustomField', optional: true
 
   enumerize :assessment_score_order, in: ['random_order', 'ascending_order'], scope: true, predicates: true
 

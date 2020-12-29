@@ -206,7 +206,6 @@ export default (props) => {
       if (referee.state_id !== null)
         fetchData("states", referee.state_id, "townships");
     } else {
-      debugger;
       setDistricts([]);
       setSubdistricts([]);
       setTownships([]);

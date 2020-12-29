@@ -116,10 +116,10 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       for value in $(programExclusive).val()
         $(mutualDependence).find("option[value=#{value}]").attr('disabled', true)
 
-    $(programExclusive).on 'select2-selecting', (select)->
+    $(programExclusive).on 'select2:selecting', (select)->
       $(mutualDependence).find("option[value=#{select.val}]").attr('disabled', true)
 
-    $(programExclusive).on 'select2-removed', (select)->
+    $(programExclusive).on 'select2:unselect', (select)->
       $(mutualDependence).find("option[value=#{select.val}]").removeAttr('disabled')
 
   _selectOptonMutualDependence = (programExclusive, mutualDependence) ->
@@ -127,10 +127,10 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       for value in mutualDependence.val()
         $(programExclusive).find("option[value=#{value}]").attr('disabled', true)
 
-    $(mutualDependence).on 'select2-selecting', (select)->
+    $(mutualDependence).on 'select2:selecting', (select)->
       $(programExclusive).find("option[value=#{select.val}]").attr('disabled', true)
 
-    $(mutualDependence).on 'select2-removed', (select)->
+    $(mutualDependence).on 'select2:unselect', (select)->
       $(programExclusive).find("option[value=#{select.val}]").removeAttr('disabled')
 
   _handleSelectTab = ->
@@ -202,7 +202,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       save: $('.program-steps').data('save')
 
   _handleSelectOptionChange = ->
-    $('select').on 'select2-selecting', (e) ->
+    $('select').on 'select2:selecting', (e) ->
       setTimeout (->
         $('.rule-operator-container select, .rule-value-container select').select2(
           width: '180px'
@@ -214,7 +214,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       url: '/api/program_stream_add_rule/get_fields'
       method: 'GET'
       success: (response) ->
-        fieldList = response.program_stream_add_rule
+        fieldList =  if !response.program_stream_add_rule then response else response.program_stream_add_rule
         builder = new CIF.AdvancedFilterBuilder($('#program-rule'), fieldList, filterTranslation)
         builder.initRule()
         setTimeout (->
@@ -492,7 +492,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
           for labelField in labelFields
             text = labelField.textContent.allReplace(specialCharacters)
-            if fields.includes(text)
+            if fields && fields.includes(text)
               _removeActionFormBuilder(labelField, elementId)
 
   _hideActionInTracking = (fields) ->
@@ -535,7 +535,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
           for labelField in labelFields
             text = labelField.textContent.allReplace(specialCharacters)
-            if fields.includes(text)
+            if fields && fields.includes(text)
               _removeActionFormBuilderProgramStream(labelField)
 
   _hideActionInTrackingProgramStream = (fields) ->
@@ -674,7 +674,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
   _handleRemoveFrequency = ->
     frequencies = $('.program_stream_trackings_frequency select')
-    $(frequencies).on 'select2-removed', (element) ->
+    $(frequencies).on 'select2:unselect', (element) ->
       select          = element.currentTarget
       nestedField     = $(select).parents('.nested-fields')
       timeOfFrequency = $(nestedField).find('.program_stream_trackings_time_of_frequency input')
@@ -684,7 +684,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
   _handleSelectFrequency = ->
     frequencies = $('.program_stream_trackings_frequency select')
-    $(frequencies).on 'select2-selecting', (element) ->
+    $(frequencies).on 'select2:selecting', (element) ->
       select          = element.currentTarget
       frequencyNote   = select.parentElement.nextElementSibling
       frequencyValue  = _convertFrequency(element.val)
@@ -748,14 +748,14 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       _disableOptions(element)
 
   _filterSelecting = ->
-    $('.rule-filter-container select').on 'select2-selecting', ->
+    $('.rule-filter-container select').on 'select2:selecting', ->
       self = @
       setTimeout ( ->
         _opertatorSelecting()
       )
 
   _opertatorSelecting = ->
-    $('.rule-operator-container select').on 'select2-selected', ->
+    $('.rule-operator-container select').on 'select2:select', ->
       _disableOptions(@)
       _setDefaultBetweenSchoolGrade(@)
 

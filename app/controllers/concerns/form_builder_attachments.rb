@@ -10,7 +10,7 @@ module FormBuilderAttachments
         resource.form_builder_attachments.create(name: name, file: attachment[:file])
       else
         modify_files = form_builder_attachment.file
-        modify_files += attachment['file']
+        modify_files += attachment['file'] if attachment['file']
 
         form_builder_attachment = resource.form_builder_attachments.file_by_name(name)
         form_builder_attachment.file = modify_files

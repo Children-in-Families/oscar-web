@@ -11,7 +11,7 @@
                 - @custom_assessment_setting.each do |cs|
                   - if cs.enable_custom_assessment == true
                     %li{role: "presentation"}
-                      %a{"aria-controls" => "#{cs.custom_assessment_name.downcase.strip.parameterize('-')}-custom-csi-tools", "data-toggle" => "tab", href: "##{cs.custom_assessment_name.downcase.strip.parameterize('-')}-custom-csi-tools", role: "tab"}= cs.custom_assessment_name
+                      %a{"aria-controls" => "#{cs.custom_assessment_name.downcase.strip.parameterize}-custom-csi-tools", "data-toggle" => "tab", href: "##{cs.custom_assessment_name.downcase.strip.parameterize}-custom-csi-tools", role: "tab"}= cs.custom_assessment_name
           .tab-content
             = render 'csi_tool'
             - if @custom_domains.present?

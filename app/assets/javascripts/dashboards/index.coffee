@@ -206,7 +206,6 @@ CIF.DashboardsIndex = do ->
           return client.text
 
         win = window.open("clients/#{client.slug}", '_blank')
-        $('#search-client-select2').trigger("change")
 
       $('#search-client-select2').select2(
         language: "km"
@@ -223,19 +222,10 @@ CIF.DashboardsIndex = do ->
         minimumInputLength: 1
         templateResult: formatClient
         templateSelection: formatClientSelection
-      ).on 'select2:closing select2:opening', ->
-        $(@).trigger("change")
-        return
-
-      $(window).focus(->
-        $('#search-client-select2').trigger("change")
-        return
-      ).blur ->
-        $('#s2id_search-client-select2 .select2-chosen').attr('style', 'color: #999999').text(searchForClient) if $('#s2id_search-client-select2 .select2-chosen').val().length == 0
-        return
+      )
 
   _handleMultiFormAssessmentCaseNote = ->
-    $('#client-select-assessment').on('select2-selected', (e) ->
+    $('#client-select-assessment').on('select2:select', (e) ->
       $("ul#assessment-tab-dropdown a").removeClass('disabled')
       idClient = e.val
       if $('#csi-assessment-link').length
@@ -249,11 +239,11 @@ CIF.DashboardsIndex = do ->
 
       $("#assessment-tab-dropdown").removeClass('disabled')
       $(this).val('')
-    ).on 'select2-removed', () ->
+    ).on 'select2:unselect', () ->
       $("ul#assessment-tab-dropdown a").attr('href', "javascript:void(0)")
       $("ul#assessment-tab-dropdown a").addClass('disabled')
 
-    $('#client-select-case-note').on('select2-selected', (e) ->
+    $('#client-select-case-note').on('select2:select', (e) ->
       $("ul#casenote-tab-dropdown a").removeClass('disabled')
       idClient = e.val
       if $('#csi-case-note-link').length
@@ -265,7 +255,7 @@ CIF.DashboardsIndex = do ->
           url = $(element).attr('href').replace(/\/\//, "/#{idClient}/")
           $(element).attr('href', url)
       $(this).val('')
-    ).on 'select2-removed', () ->
+    ).on 'select2:unselect', () ->
       $("ul#casenote-tab-dropdown a").attr('href', "javascript:void(0)")
       $("ul#casenote-tab-dropdown a").addClass('disabled')
 

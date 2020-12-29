@@ -37,7 +37,7 @@ class CustomField < ApplicationRecord
   scope :order_by_form_title, ->    { order(:form_title) }
 
   def self.client_used_form
-    ids = CustomFieldProperty.where(custom_formable_type: 'Client').pluck(:custom_field_id).uniq
+    ids = CustomFieldProperty.where(custom_formable_type: 'Client').distinct.pluck(:custom_field_id)
     where(id: ids)
   end
 
@@ -55,6 +55,10 @@ class CustomField < ApplicationRecord
 
   def presence_of_fields
     errors.add(:fields, I18n.t('cannot_be_blank'))
+  end
+
+  def fields
+    read_attribute(:fields) && read_attribute(:fields).is_a?(String) ? JSON.parse(read_attribute(:fields)) : read_attribute(:fields)
   end
 
   def uniq_fields

@@ -54,8 +54,8 @@ class FamiliesController < AdminController
     client_ids = @family.current_clients.ids
     if client_ids.present?
       @client_grid = ClientGrid.new(params[:client_grid])
-      @results = @client_grid.scope.where(current_family_id: @family.id).uniq.size
-      @client_grid.scope { |scope| scope.includes(:enter_ngos, :exit_ngos).where(id: client_ids).page(params[:page]).per(10).uniq }
+      @results = @client_grid.scope.where(current_family_id: @family.id).distinct.size
+      @client_grid.scope { |scope| scope.includes(:enter_ngos, :exit_ngos).where(id: client_ids).page(params[:page]).per(10).distinct }
     end
   end
 
