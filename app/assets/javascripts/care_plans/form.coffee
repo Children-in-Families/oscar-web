@@ -7,6 +7,8 @@ CIF.Care_plansNew = CIF.Care_plansEdit = CIF.Care_plansCreate = CIF.Care_plansUp
     
     _translatePagination()
     _initDatePicker()
+    _initGoalTask()
+    _initDatePickerOnTaskClick()
   
    _initDatePicker = ->
     $('.date-picker').datepicker
@@ -50,5 +52,16 @@ CIF.Care_plansNew = CIF.Care_plansEdit = CIF.Care_plansCreate = CIF.Care_plansUp
       
       onFinished: ->
         form.submit()
+  
+  _initGoalTask = ->
+    $('.btn-add-goal').click()
+    $('.btn-add-task').click()
+    _initDatePicker()
+
+  _initDatePickerOnTaskClick = ->
+    $('body').on 'click', '.btn-add-task', ->
+      setTimeout (->
+        _initDatePicker()
+      ), 400
 
   { init: _init }

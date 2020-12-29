@@ -1,30 +1,31 @@
 = simple_form_for([@care_plan.client, @care_plan], html: { id: "#{action_name}-care_plan", class: 'care_plan-form' }) do |f|
-  = f.hidden_field :assessment_id, value: @assessment.id
+  - assessment = @assessment || Assessment.find_by(id: params[:care_plan][:assessment_id])
+  = f.hidden_field :assessment_id, value: assessment.id
   .row.care_plan-domains
     .col-xs-12
       #rootwizard.root-wizard{ data: { cancel: t('.cancel'), next: t('.next'), previous: t('.previous'), finish: t('.finish'), save: t('.save'), saving: t('saving'), action: params['action'] } }
-        - @assessment.assessment_domains.each do |ad|
-          = f.fields_for :assessment_domains, ad do |a|
-            - domain = a.object.domain
-            %h4= domain_name_translate(@assessment, domain)
-            %div{ class: "assessment-domain-item domain-#{domain.id}" }
-              .ibox
-                .ibox-title
-                  %h4= "#{@assessment.client.name}"
-                  %p= "Domains: #{a.object.domain.name} (#{a.object.domain.identity})"
-                  %p= "Goal: #{a.object.goal}"
-                  %p= "Score from assessment: #{a.object.score}"
-                .ibox-content
-                  .row
-                    .col-md-4.col-xs-12
-                      %p Goal
-                    .col-md-4.col-xs-12
-                      %p Task
-                    .col-md-4.col-xs-12
-                      %p Expecting Date
-                  .row
-                    .div.box
-                      - params.merge!({domain_id: a.object.domain.id, assessment_domain_id: a.object.id})
-                      = f.fields_for :goals do |goal|
-                        = render 'goal_fields', f: goal
-                        = link_to_add_association 'Add Goal', f, :goals
+        = f.simple_fields_for 'assessment_domains', order_assessment(assessment) do |ad|
+          = f.hidden_field :assessment_domain_id, value: ad.object.id
+          - domain = ad.object.domain
+          %h4= domain_name_translate(assessment, domain)
+          %div{ class: "assessment-domain-item domain-#{domain.id}" }
+            .ibox
+              .ibox-title
+                %h4= "#{assessment.client.name}"
+                %p= "Domains: #{ad.object.domain.name} (#{ad.object.domain.identity})"
+                %p= "Goal: #{strip_tags(score_definition(domain.send("translate_score_#{ad.object.score}_definition").to_s, ad.object.score))}"
+                %p= "Score from assessment: #{ad.object.score}"
+              .ibox-content
+                .row
+                  .col-md-4.col-xs-12
+                    %p Goal
+                  .col-md-4.col-xs-12
+                    %p Task
+                  .col-md-4.col-xs-12
+                    %p Expecting Date
+                .row
+                  .div.box
+                    - params.merge!({domain_id: ad.object.domain.id, assessment_domain_id: ad.object.id, assessment_id: assessment.id})
+                    = f.fields_for :goals do |goal|
+                      = render 'goal_fields', f: goal
+                    = link_to_add_association 'Add Goal', f, :goals, class: 'btn-add-goal'

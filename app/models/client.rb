@@ -87,6 +87,7 @@ class Client < ActiveRecord::Base
   has_many :case_notes,     dependent: :destroy
   has_many :assessments,    dependent: :destroy
   has_many :care_plans, dependent: :destroy
+  has_many :goals, dependent: :destroy
 
   has_paper_trail
 

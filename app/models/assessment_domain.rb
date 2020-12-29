@@ -10,6 +10,9 @@ class AssessmentDomain < ActiveRecord::Base
 
   belongs_to :assessment
   belongs_to :domain
+  belongs_to :care_plan
+
+  has_many :goals, dependent: :destroy
 
   has_paper_trail
 

@@ -3,12 +3,12 @@
     .col-md-4.col-xs-12
       = f.hidden_field :domain_id, value: params[:domain_id]
       = f.hidden_field :client_id, value: @client.slug
-      = f.hidden_field :assessment_id, value: @assessment.id
+      = f.hidden_field :assessment_id, value: params[:assessment_id]
       = f.hidden_field :assessment_domain_id, value: params[:assessment_domain_id]
       = f.text_field :description,  class: 'form-control'
-      = link_to_remove_association "Remove goal", f
+      = link_to_remove_association "Remove goal", f, class: 'btn-remove-goal'
     .col-md-8.col-xs-12
       .form-inputs.task-input
         = f.fields_for :tasks do |task|
           = render "task_fields", f: task
-        = link_to_add_association "Add task", f, :tasks
+        = link_to_add_association "Add task", f, :tasks, class: 'btn-add-task'

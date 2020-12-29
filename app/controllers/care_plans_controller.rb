@@ -1,4 +1,5 @@
 class CarePlansController < AdminController
+  include CreateNestedValue
   load_and_authorize_resource
 
   before_action :set_client, :get_all_assessments
@@ -14,12 +15,14 @@ class CarePlansController < AdminController
   def new
     @assessment = @client.assessments.find_by(id: params[:assessment])
     @care_plan = @client.care_plans.new()
-    @care_plan.goals.build.tasks.build
   end
 
   def create
     @care_plan = @client.care_plans.new(care_plan_params)
-    if @care_plan.save
+    if @care_plan.save(validate: false)
+      params[:care_plan][:goals_attributes].each do |goal|
+        create_nested_value(goal)
+      end
       redirect_to client_care_plans_path(@client), notice: t('.successfully_created')
     else
       render :new
@@ -46,19 +49,21 @@ class CarePlansController < AdminController
 
   def destroy
     if @care_plan.present?
+      @care_plan.goals.each do |goal|
+        goal.tasks.each do |task|
+          task.destroy_fully!
+        end
+        goal.destroy
+      end
       @care_plan.reload.destroy
-      redirect_to client_care_plans_path(@care_plan.client), notice: t('.successfully_deleted_care_plan')
+      redirect_to client_care_plans_path(@client), notice: t('.successfully_deleted_care_plan')
     end
   end
 
   private
 
   def care_plan_params
-    params.require(:care_plan).permit(:assessment_id, :client_id,
-      :goals_attributes => [:description, :domain_id, :_destroy,
-        :tasks_attributes => [:name, :domain_id, :completion_date, :_destroy]
-      ]
-    )
+    params.require(:care_plan).permit(:assessment_id, :client_id)
   end
 
   def set_client
