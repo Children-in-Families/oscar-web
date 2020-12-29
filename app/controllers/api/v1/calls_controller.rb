@@ -51,9 +51,11 @@ module Api
 
           client_urls = []
           client_ids = []
-          clients.each_with_index do |client, index|
+          response_object = {}
+          clients.each_with_index do |client, _|
             if client.valid?
               if referee.valid?
+                call.referee_id = referee.id
                 if call.valid?
                   referee.save if referee.id.nil?
                   carer.save if carer.id.nil?
@@ -69,14 +71,15 @@ module Api
                   client_urls.push(client_url(client))
                   client_ids.push(client.id)
                 else
-                  render json: call.errors, status: :unprocessable_entity
+                  response_object = { json: call.errors, status: :unprocessable_entity }
                 end
               else
-                render json: referee.errors, status: :unprocessable_entity
+                response_object = { json: referee.errors, status: :unprocessable_entity }
               end
             else
-              return render json: client.errors, status: :unprocessable_entity
+              response_object = { json: client.errors, status: :unprocessable_entity }
             end
+            return render(response_object) if response_object.present?
           end
           call.referee_id = referee.id
           call.client_ids = client_ids
@@ -136,7 +139,6 @@ module Api
         else
           render json: referee.errors
         end
-
       end
 
       def update
