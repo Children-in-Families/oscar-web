@@ -1,5 +1,6 @@
-CIF.EnrollmentsNew = CIF.EnrollmentsCreate = CIF.EnrollmentsEdit = CIF.EnrollmentsUpdate =
-CIF.Enrolled_programsNew = CIF.Enrolled_programsCreate = CIF.Enrolled_programsEdit = CIF.Enrolled_programsUpdate = do ->
+CIF.Enrollment_trackingsNew = CIF.Enrollment_trackingsCreate = CIF.Enrollment_trackingsEdit = CIF.Enrollment_trackingsUpdate = CIF.Enrolled_program_trackingsUpdate =
+CIF.Enrolled_program_trackingsNew = CIF.Enrolled_program_trackingsCreate = CIF.Enrolled_program_trackingsEdit = do ->
+
   _init = ->
     _initSelect2()
     _initFileInput()

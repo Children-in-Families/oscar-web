@@ -2,7 +2,7 @@ class ProgramStreamDecorator < Draper::Decorator
   delegate_all
 
   def enrollment_status_value(obj, entity_type = nil)
-    if ['Family'].include?(entity_type)
+    if ['Family', 'Community'].include?(entity_type)
       enrollments = model.enrollments.with_deleted.enrollments_by(obj).order(:created_at)
       return unless enrollments.present?
       enrollments.last.status
@@ -14,7 +14,7 @@ class ProgramStreamDecorator < Draper::Decorator
   end
 
   def enrollment_status_label(obj, entity_type = nil)
-    program_status = enrollment_status_value(obj, entity_type: entity_type)
+    program_status = enrollment_status_value(obj, entity_type)
     return if program_status.nil?
     program_status == 'Active' ? 'label label-primary' : 'label label-danger'
   end
