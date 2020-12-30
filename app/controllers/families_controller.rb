@@ -36,6 +36,7 @@ class FamiliesController < AdminController
   def new
     @family = Family.new
     @family.family_members.new
+    @family.community_member.new
     @selected_children = params[:children]
   end
 
@@ -65,6 +66,7 @@ class FamiliesController < AdminController
   end
 
   def edit
+    @family.community_member ||= CommunityMember.new
   end
 
   def update
@@ -97,7 +99,7 @@ class FamiliesController < AdminController
   end
 
   def family_params
-    params.require(:family).permit(
+    permitted_params = params.require(:family).permit(
       :name, :code,
       :dependable_income, :family_type, :status, :contract_date,
       :address, :province_id, :district_id, :house, :street,
@@ -110,12 +112,16 @@ class FamiliesController < AdminController
       custom_field_ids: [],
       quantitative_case_ids: [],
       documents: [],
+      community_member_attributes: [:id, :community_id, :_destroy],
       family_members_attributes: [
         :monthly_income, :client_id,
         :id, :gender, :note, :adult_name, :date_of_birth,
         :occupation, :relation, :guardian, :_destroy
       ]
     )
+
+    permitted_params[:community_member_attributes][:_destroy] = 1 if permitted_params.dig(:community_member_attributes, :community_id).blank?
+    permitted_params
   end
 
   def find_association

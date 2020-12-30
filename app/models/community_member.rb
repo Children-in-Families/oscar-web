@@ -12,6 +12,8 @@ class CommunityMember < ActiveRecord::Base
 
   enumerize :gender, in: ['female', 'male', 'lgbt', 'unknown', 'prefer_not_to_say', 'other'], scope: :shallow, predicates: { prefix: true }
 
+  validates :family_id, uniqueness: { scope: :community_id }, if: :family_id?
+
   after_commit :save_family_data, if: :persisted?
 
   def self.update_family_relevant_data(family_member_id)

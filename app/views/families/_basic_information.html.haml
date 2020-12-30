@@ -77,7 +77,8 @@
       .row
         - unless current_setting.hide_family_case_management_tool?
           .col-sm-3
-            = f.input :community_ids, collection: []
+            = f.simple_fields_for :community_member do |ff|
+              = ff.input :community_id, collection: Community.all, label_method: :display_name, value_method: :id
         .col-sm-9
           = f.input :relevant_information, input_html: { rows: 4 }
         .col-sm-12

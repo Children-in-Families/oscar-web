@@ -14,7 +14,7 @@ class Family < ActiveRecord::Base
   acts_as_paranoid
 
   mount_uploaders :documents, FileUploader
-  attr_accessor :community_ids, :case_management_record
+  attr_accessor :case_management_record
 
   delegate :name, to: :province, prefix: true, allow_nil: true
   delegate :name, to: :district, prefix: true, allow_nil: true
@@ -31,6 +31,9 @@ class Family < ActiveRecord::Base
 
   has_many :cases, dependent: :destroy
   has_many :clients, through: :cases
+
+  has_one  :community_member
+  has_one  :community, through: :community_member
 
   has_many :donor_families, dependent: :destroy
   has_many :donors, through: :donor_families
@@ -50,6 +53,7 @@ class Family < ActiveRecord::Base
   has_many :family_members, dependent: :destroy
 
   accepts_nested_attributes_for :family_members, reject_if: :all_blank, allow_destroy: true
+  accepts_nested_attributes_for :community_member, allow_destroy: true
 
   has_paper_trail
 
