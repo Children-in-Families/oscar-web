@@ -116,6 +116,8 @@ CIF.CommunitiesNew = CIF.CommunitiesCreate = CIF.CommunitiesEdit = CIF.Communiti
       memberRow.find('[name$="[kid_male_count]"]').val(data.maleChildrenCount)
       memberRow.find('[name$="[kid_female_count]"]').val(data.femaleChildrenCount)
 
+      _toggleDisableFamilySelect()
+
   _initSelect2 = ->
     $('select').select2
       allowClear: true
@@ -136,11 +138,30 @@ CIF.CommunitiesNew = CIF.CommunitiesCreate = CIF.CommunitiesEdit = CIF.Communiti
         $select.closest(".form-group").find("label.control-label").addClass("error")
         $select.closest(".form-group").append("<label class='error'>This field is required.</label>")
 
+  _toggleDisableFamilySelect = ->
+    $(".nested-fields [name$='[family_id]']")
+    $.each $(".nested-fields"), (index, row) ->
+      memberRow = $(row)
+      select = memberRow.find('[name$="[family_id]"]')
+      select.find("option").attr("disabled", false)
+
+      $.each $(".nested-fields"), (index, row) ->
+        tmpMemberRow = $(row)
+        tmpSelect = tmpMemberRow.find('[name$="[family_id]"]')
+
+        if tmpSelect.val().length > 0 && tmpSelect.attr("id") != select.attr("id")
+          select.find("option[value=#{tmpSelect.val()}]").attr("disabled", true)
+
   _cocoonCallback = ->
     $('#community-members').on 'cocoon:after-insert', ->
       _initSelect2()
       _initDatePicker()
       _initIcheck()
+
+      $.each $(".nested-fields"), (index, row) ->
+        memberRow = $(row)
+        select = memberRow.find('[name$="[family_id]"]')
+        select.trigger("change") if select.val().length > 0
 
   _initDatePicker = ->
     $('.date-picker').datepicker

@@ -148,6 +148,17 @@
           - unless current_setting.hide_family_case_management_tool?
             %tr
               %td.spacing-first-col
+                = Family.human_attribute_name(:community_ids)
+              %td
+                %strong
+                  - community = @family.community
+                  - if community.present?
+                    = community.display_name
+                    = link_to community_path(community) do
+                      = fa_icon 'external-link'
+                      
+            %tr
+              %td.spacing-first-col
                 = t('.referral_source_category')
               %td
                 %strong
