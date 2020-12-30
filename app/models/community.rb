@@ -40,10 +40,15 @@ class Community < ActiveRecord::Base
   has_many :custom_field_properties, as: :custom_formable, dependent: :destroy
   has_many :custom_fields, through: :custom_field_properties, as: :custom_formable
   has_many :community_members, dependent: :destroy
+  has_many :families, through: :community_members
 
   accepts_nested_attributes_for :community_members, reject_if: :all_blank, allow_destroy: true
 
   validates :received_by_id, :initial_referral_date, :case_worker_ids, presence: true
 
   has_paper_trail
+
+  def display_name
+    [name, name_en].select(&:present?).join(' - ').presence || "Community ##{id}"
+  end
 end
