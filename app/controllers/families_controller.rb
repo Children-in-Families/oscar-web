@@ -42,7 +42,7 @@ class FamiliesController < AdminController
     else
       @family = Family.new
       @family.family_members.new
-      @family.community_member.new
+      @family.community_member = CommunityMember.new
       @selected_children = params[:children]
     end
   end
