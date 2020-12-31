@@ -119,7 +119,10 @@ class FamiliesController < AdminController
       ]
     )
 
-    permitted_params[:community_member_attributes][:_destroy] = 1 if permitted_params.dig(:community_member_attributes, :community_id).blank?
+    if permitted_params[:community_member_attributes].present?
+      permitted_params[:community_member_attributes][:_destroy] = 1 if permitted_params.dig(:community_member_attributes, :community_id).blank?
+    end
+
     permitted_params
   end
 
