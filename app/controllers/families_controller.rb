@@ -36,7 +36,7 @@ class FamiliesController < AdminController
   def new
     @family = Family.new
     @family.family_members.new
-    @family.community_member.new
+    @family.community_member = CommunityMember.new
     @selected_children = params[:children]
   end
 
@@ -120,7 +120,10 @@ class FamiliesController < AdminController
       ]
     )
 
-    permitted_params[:community_member_attributes][:_destroy] = 1 if permitted_params.dig(:community_member_attributes, :community_id).blank?
+    if permitted_params[:community_member_attributes].present?
+      permitted_params[:community_member_attributes][:_destroy] = 1 if permitted_params.dig(:community_member_attributes, :community_id).blank?
+    end
+
     permitted_params
   end
 
