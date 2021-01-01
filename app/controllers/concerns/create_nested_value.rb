@@ -3,7 +3,7 @@ module CreateNestedValue
     assessment_id = goal_in_params.last[:assessment_id]
     assessment_domain_id = goal_in_params.last[:assessment_domain_id]
     description = goal_in_params.last[:description]
-
+    return if description == ""
     goal_attr = Goal.new(assessment_domain_id: assessment_domain_id, assessment_id: assessment_id, description: description).attributes
     goal = @care_plan.goals.create(goal_attr)
 

@@ -53,7 +53,7 @@ class CarePlansController < AdminController
         goal.tasks.each do |task|
           task.destroy_fully!
         end
-        goal.destroy
+        goal.reload.destroy
       end
       @care_plan.reload.destroy
       redirect_to client_care_plans_path(@client), notice: t('.successfully_deleted_care_plan')

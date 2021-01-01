@@ -50,18 +50,52 @@ CIF.Care_plansNew = CIF.Care_plansEdit = CIF.Care_plansCreate = CIF.Care_plansUp
       labels:
         finish: 'Done'
       
+      onInit: (event, currentIndex) ->
+        currentTab  = "#{rootId}-p-#{currentIndex}"
+        isGoalTaskRequired = $("#{currentTab}").find('.score-color').text()
+        _initGoalTaskEditPage(currentTab)
+        return true if isGoalTaskRequired == 'primary' || isGoalTaskRequired == 'info'
+        _requiredGoalTask(currentIndex, currentTab)
+
+      onStepChanging: (event, currentIndex, newIndex) ->
+        currentTab  = "#{rootId}-p-#{currentIndex}"
+        isGoalTaskRequired = $("#{currentTab}").find('.score-color').text()
+        return true if isGoalTaskRequired == 'primary' || isGoalTaskRequired == 'info'
+        _requiredGoalTask(currentIndex, currentTab)
+
+      onStepChanged: (event, currentIndex, priorIndex) ->
+        currentTab  = "#{rootId}-p-#{currentIndex}"
+        _initGoalTaskEditPage(currentTab)
+      
       onFinished: ->
         form.submit()
   
   _initGoalTask = ->
-    $('.btn-add-goal').click()
-    $('.btn-add-task').click()
+    $('#care_plans-new .btn-add-goal').click()
+    $('#care_plans-new .btn-add-task').click()
     _initDatePicker()
+
+  _initGoalTaskEditPage = (currentTab) ->
+    if $("#care_plans-edit #{currentTab} .goal-input-field").length == 0
+      $("#care_plans-edit #{currentTab} .btn-add-goal").click()
+      $("#care_plans-edit #{currentTab} .btn-add-task").click()
+      _initDatePicker()
 
   _initDatePickerOnTaskClick = ->
     $('body').on 'click', '.btn-add-task', ->
       setTimeout (->
         _initDatePicker()
       ), 400
+  
+  _requiredGoalTask = (currentIndex, currentTab) ->
+    goalValue = $("#{currentTab}").find('.goal-input-field')[0].value
+    taskValue = $("#{currentTab}").find('.task-input-field')[0].value
+    taskDateValue =  $("#{currentTab}").find('.task-date-field')[0].value
+    if goalValue == "" || taskValue == "" || taskDateValue == ""
+      $("#{currentTab}").find('.required-message').removeClass('hide')
+      return false
+    else
+      return true
 
   { init: _init }
+ 
