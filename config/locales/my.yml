@@ -795,6 +795,29 @@ my:
     other: "%{count} ထက္ ငယ္၍ မရပါ"
   cannot_remove: ဖ်က္ပစ္၍မရပါ။
   cannot_remove_or_update: အသံုးျပဳေနသည္ျဖစ္၍ ဖ်က္ပစ္ျခင္းသာ္လည္းေကာင္း၊ အသစ္ျပင္ဆင္ျခင္းေသာ္လည္းေကာင္း လုပ္၍မရပါ။
+  care_plans:
+    form:
+      cancel: ပယ်ဖျက်ပါ
+      finish: ပြီးပြီ
+      next: နောက်တစ်ခု
+      previous: ယခင်
+      save: သိမ်းဆည်းပါ
+    show:
+      are_you_sure: သင်ဖျက်လိုသည်သေချာလား?
+      back: နောက်ကျော
+      based_on: အကဲဖြတ်နံပါတ်ပေါ်တွင်အခြေခံသည်
+      care_plan: အတွက်စောင့်ရှောက်မှုအစီအစဉ်
+      care_plan_created_by: မှဖန်တီးသည်
+      dimensions: အရွယ်အစား
+      domain: ဒိုမိန်း
+      done_during: စဉ်အတွင်းလုပ်ပြီးပါပြီ
+      due_date: နောက်ဆုံးရက်
+      edit: တည်းဖြတ်ပါ
+      expected_date: မျှော်လင့်ထားသည့်နေ့စွဲ
+      goal: ရည်မှန်းချက်
+      on_date: အပေါ်
+      score: နိုင်ပြီ
+      task: လုပ်ငန်းတာဝန်များ
   case:
     quarterly_reports:
       index:

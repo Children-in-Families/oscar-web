@@ -806,8 +806,10 @@ en:
       care_plan_created_by: Created by
       dimensions: Dimensions
       domain: Domain
+      done_during: Done during
       due_date: Due Date
       edit: Edit
+      expected_date: Expected Date
       goal: Goal
       on_date: 'on'
       score: Score

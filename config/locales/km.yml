@@ -791,6 +791,29 @@ km:
   cannot_be_lower: មិនអាចតូចជាង %{count}
   cannot_remove: មិនអាចលុបបានទេ
   cannot_remove_or_update: មិនអាចលុបរឺកែសម្រួលបានទេដោយសារតែត្រូវបានប្រើរួចហើយ
+  care_plans:
+    form:
+      cancel: ទុកជាមោឃៈ
+      finish: រក្សាទុក
+      next: បន្ទាប់
+      previous: ត្រឡប់
+      save: រក្សាទុក
+    show:
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+      back: ត្រឡប់
+      based_on: ដោយផ្អែកលើការប៉ាន់ប្រមាណលេខ
+      care_plan: គម្រោងរក្សាសម្រាប់
+      care_plan_created_by: បង្កើតដោយ
+      dimensions: មាត្រដ្ឋាន
+      domain: កត្តា
+      done_during: បានបំពេញ
+      due_date: កាលបរិច្ឆេទ
+      edit: កែសម្រូល
+      expected_date: កំណត់កាលបរិច្ឆេទ
+      goal: គោលដៅ
+      on_date: 'កាលបរិច្ឆេទ:'
+      score: ពិន្ទុ
+      task: កាតព្វកិច្ច
   case:
     quarterly_reports:
       index:
