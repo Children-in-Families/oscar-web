@@ -798,6 +798,11 @@ en:
       next: Next
       previous: Previous
       save: Save
+    index:
+      assessment_created_on: Assessment created on
+      care_plan_history: Care Plan History
+      new_care_plan: New Care Plan
+      review_care_plan: Review Care Plan
     show:
       are_you_sure: Are you sure you want to delete?
       back: Back

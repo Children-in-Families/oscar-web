@@ -802,6 +802,11 @@ my:
       next: နောက်တစ်ခု
       previous: ယခင်
       save: သိမ်းဆည်းပါ
+    index:
+      assessment_created_on: အပေါ်အခြေခံပြီးအကဲဖြတ်
+      care_plan_history: စောင့်ရှောက်မှုအစီအစဉ်သမိုင်း
+      new_care_plan: စောင့်ရှောက်မှုအစီအစဉ်အသစ်
+      review_care_plan: စောင့်ရှောက်မှုအစီအစဉ်ကိုပြန်လည်ဆန်းစစ်ပါ
     show:
       are_you_sure: သင်ဖျက်လိုသည်သေချာလား?
       back: နောက်ကျော

@@ -2,10 +2,11 @@
   .col-sm-12.col-md-10.col-md-offset-1
     .ibox
       .ibox-title
-        %h5
-          %strong= link_to_client_show(@client)
-
-        %h5.margin-title= t('.care_plan_history', care_plan: t('clients.show.care_plan'))
+        .row.margin-title
+          %h5
+            %strong= link_to_client_show(@client)
+        .row.margin-title
+          %h5= t('.care_plan_history', care_plan: t('clients.show.care_plan'))
       .ibox-content
         - @assessments.each_with_index do |assessment, index|
           .row.margin-row
