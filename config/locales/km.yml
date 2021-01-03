@@ -3999,6 +3999,7 @@ km:
       warning: ប្រុងប្រយ័ត្ន
     show:
       accept: ទទួលយក
+      accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
       add_form: បន្ថែមទម្រង់បែបបទទៅឲ្យគ្រួសារ
       additional_forms: ទម្រង់បែបបទរបស់គ្រួសារដែលកំពុងប្រើ
       additional_info: ព័ត៌មានលំអិតបន្ថែម
@@ -4018,6 +4019,7 @@ km:
       dependable_income: ប្រាក់ចំណូលទៀងទាត់
       detail: ព័ត៌មានលំអិត
       enrolled_program_streams: កម្មវិធីចម្បងរបស់គ្រួសារ
+      exit_date: កាលបរិច្ឆេទនៃការចាកចេញពីអង្គការ
       exit_ngo_btn: ចាកចេញពីអង្គការ
       family_type: ប្រភេទគ្រួសារ
       female_adult_count: ចំនួនមនុស្សស្រីពេញវ័យ
@@ -4027,6 +4029,7 @@ km:
       house: ផ្ទះលេខ
       household_income: ប្រាក់ចំណូលគ្រួសារប្រចាំខែ
       id: លេខសំគាល់
+      initial_referral_date: កាលបរិចេ្ឆទនៃការបញ្ជូនដំបូង
       male_adult_count: ចំនួនមនុស្សប្រុសពេញវ័យ
       male_children_count: ចំនួនក្មេងប្រុស
       member_count: ចំនួនសមាជិកគ្រួសារ
