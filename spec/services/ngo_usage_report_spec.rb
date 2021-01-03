@@ -1,4 +1,4 @@
-describe NgoUsageReport, 'generator' do
+xdescribe NgoUsageReport, 'generator' do
   let(:beginning_of_month){ Date.today.beginning_of_month }
   let(:end_of_month){ Date.today.end_of_month }
   let!(:user_1){ create(:user) }

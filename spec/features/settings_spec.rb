@@ -1,4 +1,4 @@
-describe 'Settings' do
+xdescribe 'Settings' do
   let!(:admin) { create(:user, :admin) }
   let!(:setting) { Setting.first }
 

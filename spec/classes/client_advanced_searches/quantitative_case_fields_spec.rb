@@ -21,7 +21,7 @@ describe AdvancedSearches::QuantitativeCaseFields, 'Method' do
       expect(@quantitative_cases_fields.size).to equal 1
     end
 
-    it 'return field with id' do
+    xit 'return field with id' do
       expect(@fields[:id]).to include "quantitative__#{quantitative_case.id}"
     end
 
