@@ -3899,6 +3899,7 @@ en:
       warning: Warning
     show:
       accept: Accept
+      accepted_date: NGO Accept Date
       add_form: Add Form
       additional_forms: Family's Active Forms
       additional_info: Additional Information
@@ -3918,6 +3919,7 @@ en:
       dependable_income: Dependable Income
       detail: Detail
       enrolled_program_streams: Family's Active Program Streams
+      exit_date: NGO Exit Date
       exit_ngo_btn: Exit Family From NGO
       family_type: Family Type
       female_adult_count: Number of Adule Females
@@ -3928,6 +3930,7 @@ en:
       house: House
       household_income: Monthly Household Income
       id: ID
+      initial_referral_date: Initial Referral Date
       male_adult_count: Number of Adule Males
       male_children_count: Number of Boys
       member_count: Number of Family Members

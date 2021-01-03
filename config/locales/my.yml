@@ -3890,6 +3890,7 @@ my:
       warning: သတိေပးခ်က္
     show:
       accept: လက္ခံသည္
+      accepted_date: NGOက လက္ခံသည့္ ရက္စြဲ
       add_form: ပံုစံအသစ္
       additional_forms: ထပ္ေဆာင္းပံုစံမ်ား
       additional_info: ထပ္ေဆာင္းသတင္းအခ်က္အလက္မ်ား
@@ -3909,6 +3910,7 @@ my:
       dependable_income: မွီခိုႏုိင္ေလာက္ေသာ ၀င္ေငြ
       detail: အသေးစိတ်
       enrolled_program_streams: Family's Active Program Streams
+      exit_date: NGOမွ ထြက္သည့္ ရက္စြဲ
       exit_ngo_btn: Exit Family From NGO
       family_type: မိသားစုအမ်ိဳးအစား
       female_adult_count: အရြယ္ေရာက္မိသားစု၀င္အေရအတြက္
@@ -3918,6 +3920,7 @@ my:
       house: အိမ္နံပါတ္
       household_income: အိမ္ေထာင္စု၀င္ေငြ
       id: မွတ္ပံုတင္
+      initial_referral_date: ကနဦးလႊဲေျပာင္းရက္စြဲ
       male_adult_count: အရြယ္ေရာက္ အမ်ိဳးသား အေရအတြက္
       male_children_count: အရြယ္မေရာက္ေသးေသာ ေယာက်္ားေလးအေရအတြက္
       member_count: အဖြဲ႕၀င္အေရအတြက္

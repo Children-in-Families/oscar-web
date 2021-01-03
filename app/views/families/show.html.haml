@@ -316,6 +316,15 @@
                         = family_case_history_links(case_history, case_history_name)
                     = render 'case_history_detail', object: case_history, index: index
                     = render_case_history_family(case_history, case_history_name)
+              %tr
+                %td= t('.initial_referral_date')
+                - unless Rails.env.production?
+                  %td= @family.created_at.to_s
+                %td= date_format(@family.initial_referral_date)
+                %td
+                  .text-center
+                    %button.btn.btn-outline.btn-primary.btn-xs{'data-target' => "#case_history_initial_referral_date", 'data-toggle' => 'modal'}= fa_icon('eye')
+                  = render 'case_history_detail', object: @family, index: 'initial_referral_date'
     - if @family.family_members.present?
       .row.family-summary
         .col-sm-12
