@@ -10,7 +10,7 @@ CIF.Care_plansNew = CIF.Care_plansEdit = CIF.Care_plansCreate = CIF.Care_plansUp
     _initGoalTask()
     _initDatePickerOnTaskClick()
   
-   _initDatePicker = ->
+  _initDatePicker = ->
     $('.date-picker').datepicker
       autoclose: true,
       format: 'yyyy-mm-dd',
@@ -98,4 +98,3 @@ CIF.Care_plansNew = CIF.Care_plansEdit = CIF.Care_plansCreate = CIF.Care_plansUp
       return true
 
   { init: _init }
- 

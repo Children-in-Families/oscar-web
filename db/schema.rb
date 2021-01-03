@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20201220132742) do
+ActiveRecord::Schema.define(version: 20201228115536) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -122,8 +122,10 @@ ActiveRecord::Schema.define(version: 20201220132742) do
     t.string   "attachments",        default: [],    array: true
     t.boolean  "goal_required",      default: true
     t.boolean  "required_task_last", default: false
+    t.integer  "care_plan_id"
   end
 
+  add_index "assessment_domains", ["care_plan_id"], name: "index_assessment_domains_on_care_plan_id", using: :btree
   add_index "assessment_domains", ["score"], name: "index_assessment_domains_on_score", using: :btree
 
   create_table "assessments", force: :cascade do |t|
@@ -2180,6 +2182,7 @@ ActiveRecord::Schema.define(version: 20201220132742) do
   add_foreign_key "able_screening_questions", "stages"
   add_foreign_key "action_results", "government_forms"
   add_foreign_key "advanced_searches", "users"
+  add_foreign_key "assessment_domains", "care_plans"
   add_foreign_key "assessments", "clients"
   add_foreign_key "attachments", "able_screening_questions"
   add_foreign_key "attachments", "progress_notes"

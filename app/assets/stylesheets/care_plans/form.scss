@@ -1,0 +1,319 @@
+.wizard, .tabcontrol {
+  overflow: initial;
+  }
+  
+  body[id='care_plans-new'],
+  body[id='care_plans-create'],
+  body[id='care_plans-edit'],
+  body[id='care_plans-update'] {
+  #readonly-rootwizard {
+    textarea.disabled, textarea:disabled {
+    color: black !important;
+    }
+  }
+  
+  #prev-care_plan-container {
+    .care_plan-domains .ibox-title {
+    height: 58px;
+    }
+  }
+
+  .add-goal-btn{
+    float: right;
+    margin-right: 10px;
+    margin-top: 20px;
+  }
+
+  .btn-add-task{
+    float: right;
+  }
+
+  .nested-fields{
+    border: 1px solid black;
+    padding: 10px;
+    margin: 10px 10px 40px 10px;
+  }
+
+  .btn-remove-goal{
+    margin-top: 10px;
+  }
+
+  .task-form.nested-fields{
+    border: none;
+    padding: 0px;
+    margin: 0px;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+  }
+
+  .required-message{
+    color: red;
+  }
+
+  .root-wizard.wizard.clearfix{
+    padding: 20px;
+  }
+  
+  .care_plan-form.unrestricted_form {
+    .wizard {
+    .steps {
+      display: block;
+  
+      li {
+      width: auto;
+  
+      &:not(.current) a {
+        background-color: #9dc8e2;
+      }
+  
+      a {
+        color: #fff;
+        font-size: 12px;
+        padding: 0.5em 0.8em;
+      }
+      }
+    }
+    }
+  }
+  
+  .wizard {
+    .steps {
+    display: none;
+    }
+    .content {
+    background-color: #fff;
+    margin: 0;
+    .body {
+      width: 100%;
+      padding: 0;
+      label {
+      margin-bottom: 0;
+      }
+      input {
+      display: inline-block;
+      }
+    }
+    }
+    .actions {
+    padding: 20px 0;
+    }
+  }
+  .margin-title{
+    margin-left: 10px;
+  }
+  .button{
+    width: 110px;
+  }
+  .care_plan-domain-item {
+    span {
+    margin-left: 30px;
+    margin-right: 30px;
+    input {
+      margin-right: 10px;
+    }
+  
+    &:first-child {
+      margin-left: 0;
+    }
+  
+    &:last-child {
+      margin-right: 0;
+    }
+    }
+  }
+  #rootwizard{
+    .content{
+    height: auto;
+    }
+  }
+  .tasks-list{
+    margin-top: 16px;
+    padding: 0px;
+  }
+  ol li.list-group-item{
+    list-style: decimal inside;
+    display: list-item;
+  }
+  .care_plan_care_plan_domains_reason {
+    margin-top: 5px;
+    textarea {
+    height: 120px;
+    }
+  }
+  .well {
+    max-height: 400px;
+    overflow: scroll;
+  
+    ul {
+    margin-left: 25px;
+    li {
+      line-height: 30px;
+    }
+    }
+  }
+  
+  .wizard > .actions .disabled a{
+    border: 1px solid #acb3ac;
+    border-radius: 3px;
+    text-align: center;
+    display: inline;
+  }
+  .wizard > .actions a{
+    text-align: center;
+    display: inline;
+    border-radius: 3px;
+  }
+  .wrap-text-style {
+    white-space: normal;
+    text-align: center;
+  }
+  .score_option.is_error{
+    border: 1px solid #a94442;
+    border-radius: 2px;
+  }
+  .score_option {
+    border: 1px solid #fff;
+    padding: 8px 3px 8px 3px;
+    span{
+    padding: 0 20px 0 0;
+    }
+    em{
+    display: none !important;
+    }
+    text-align: center;
+    label, input {
+    display:block-inline;
+    }
+    input[type="radio"] {
+    opacity:0.011;
+    z-index:100;
+    }
+    input[type="radio"]:checked + label {
+    color: #fff;
+    }
+    input[type="radio"]:checked + em + label {
+    color: #fff;
+    }
+    label{
+    font-size: 16px;
+    .collection_radio_buttons {
+      padding: 8px;
+      border: 1px solid #CCC;
+      cursor: pointer;
+      z-index: 90;
+      width: 40px;
+      height: 40px;
+      border-radius: 5px;
+    }
+    label:hover {
+      background:#DDD;
+    }
+    }
+  }
+  textarea.error{
+    border: 1px solid #a94442;
+  }
+  em.error{
+    color: #a94442;
+    font-size: 14px;
+    font-weight: normal;
+    padding:3px;
+    text-align:left;;
+  }
+  .padding-bottom {
+    padding-bottom: 140px;
+  }
+  
+  #end-of-care_plan-msg {
+    border-radius: 4px;
+    padding: 15px;
+  }
+  
+  @media only screen and (max-device-width : 767px){
+    .care_plan-domain-item {
+    span {
+      margin-left: 0;
+      margin-right: 0;
+      input {
+      margin-right: 10px;
+      }
+  
+      &:first-child {
+      margin-left: -20px;
+      }
+  
+      &:last-child {
+      margin-right: 0;
+      }
+    }
+    }
+    .score_option {
+    padding: 8px 0 8px 0;
+    span{
+      padding: 0 0 0 0;
+    }
+    }
+  }
+  .links img, .nested-fields img {
+    width: 150px;
+    cursor: pointer;
+  }
+  
+  .file {
+    margin-right: 0;
+  }
+  
+  .show-attachment img {
+    margin: 0 auto;
+    width: 150px;
+  }
+  
+  .image-title{
+    width: 70%;
+  }
+  
+  .table.attachment-table tbody>tr>td{
+    vertical-align: top;
+  }
+  .table.attachment-table tbody>tr>td.vert-align{
+    vertical-align: middle;
+  }
+  
+  .btn-option {
+    border: 1px solid #999999;
+  }
+  
+  .goal-required-option, .task-required-option {
+    display: inline;
+    span {
+    display: inline-block;
+    margin-right: 20px;
+    }
+  
+    .radio_buttons.optional {
+    margin-left: 5px;
+    display: inline;
+    }
+  
+    label {
+    padding-left: 0;
+    }
+  }
+  
+  .task-arising {
+    .task-label {
+    display: inline-flex;
+    align-items: center;
+    }
+    .tasks-list {
+  
+    }
+  }
+  }
+  
+  #settings-index {
+  .icheckbox_square-green {
+    margin-right: 5px;
+  }
+  }
+  

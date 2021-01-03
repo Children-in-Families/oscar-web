@@ -796,12 +796,24 @@ my:
   cannot_remove: ဖ်က္ပစ္၍မရပါ။
   cannot_remove_or_update: အသံုးျပဳေနသည္ျဖစ္၍ ဖ်က္ပစ္ျခင္းသာ္လည္းေကာင္း၊ အသစ္ျပင္ဆင္ျခင္းေသာ္လည္းေကာင္း လုပ္၍မရပါ။
   care_plans:
+    create: 
+      successfully_created: Care Plan ကိုအောင်မြင်စွာဖန်တီးပြီးဖြစ်သည်။
     form:
+      add_goal: ရည်မှန်းချက်ထည့်ပါ
       cancel: ပယ်ဖျက်ပါ
+      domain: ဒိုမိန်း
+      expected_date: မျှော်လင့်ထားသည့်နေ့စွဲ
       finish: ပြီးပြီ
+      goal: ရည်မှန်းချက်
       next: နောက်တစ်ခု
       previous: ယခင်
+      required_message: အနည်းဆုံးရည်မှန်းချက်တစ်ခုနှင့်လုပ်ငန်းတစ်ခုကိုတစ်ခုပေါင်းထည့်ရန်လိုအပ်သည်။
       save: သိမ်းဆည်းပါ
+      score_from_assessment: အကဲဖြတ်ခြင်းမှရမှတ်
+      task: တာဝန်
+    goal_fields:
+      add_task: အလုပ်ထည့်ပါ
+      remove_goal: ရည်မှန်းချက်ကိုဖယ်ရှားလိုက်ပါ
     index:
       assessment_created_on: အပေါ်အခြေခံပြီးအကဲဖြတ်
       care_plan_history: စောင့်ရှောက်မှုအစီအစဉ်သမိုင်း
@@ -823,6 +835,8 @@ my:
       on_date: အပေါ်
       score: နိုင်ပြီ
       task: လုပ်ငန်းတာဝန်များ
+    update:
+      successfully_updated: စောင့်ရှောက်မှုအစီအစဉ်ကိုအောင်အောင်မြင်မြင် update လုပ်လိုက်ပြီ။
   case:
     quarterly_reports:
       index:

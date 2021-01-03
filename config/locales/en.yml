@@ -792,12 +792,24 @@ en:
   cannot_remove: cannot be removed
   cannot_remove_or_update: cannot be removed/updated since it is already in use.
   care_plans:
+    create: 
+      successfully_created: Care Plan has been successfully created.
     form:
+      add_goal: Add goal
       cancel: Cancel
+      domain: Domain
+      expected_date: Expected Date
       finish: Finish
+      goal: Goal
       next: Next
       previous: Previous
+      required_message: You need to add at least one goal and one task.
       save: Save
+      score_from_assessment: Score from assessment
+      task: Task
+    goal_fields:
+      add_task: Add task
+      remove_goal: Remove goal
     index:
       assessment_created_on: Assessment created on
       care_plan_history: Care Plan History
@@ -819,6 +831,8 @@ en:
       on_date: 'on'
       score: Score
       task: Tasks
+    update:
+      successfully_updated: Care Plan has been successfully updated.
   case:
     quarterly_reports:
       index:
