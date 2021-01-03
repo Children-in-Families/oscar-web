@@ -7,6 +7,7 @@ class EnrolledProgramsController < AdminController
   before_action :find_entity
   before_action :find_program_stream, except: :index
   before_action :find_enrollment, only: [:show, :edit, :update, :destroy]
+  before_action :get_attachments, only: [:edit, :update]
 
   def index
     program_streams = ProgramStreamDecorator.decorate_collection(ordered_program)
