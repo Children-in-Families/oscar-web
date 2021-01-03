@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20201224082044) do
+ActiveRecord::Schema.define(version: 20201228115536) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -122,8 +122,10 @@ ActiveRecord::Schema.define(version: 20201224082044) do
     t.string   "attachments",        default: [],    array: true
     t.boolean  "goal_required",      default: true
     t.boolean  "required_task_last", default: false
+    t.integer  "care_plan_id"
   end
 
+  add_index "assessment_domains", ["care_plan_id"], name: "index_assessment_domains_on_care_plan_id", using: :btree
   add_index "assessment_domains", ["score"], name: "index_assessment_domains_on_score", using: :btree
 
   create_table "assessments", force: :cascade do |t|
@@ -200,6 +202,16 @@ ActiveRecord::Schema.define(version: 20201224082044) do
   end
 
   add_index "calls", ["referee_id"], name: "index_calls_on_referee_id", using: :btree
+
+  create_table "care_plans", force: :cascade do |t|
+    t.integer  "assessment_id"
+    t.integer  "client_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "care_plans", ["assessment_id"], name: "index_care_plans_on_assessment_id", using: :btree
+  add_index "care_plans", ["client_id"], name: "index_care_plans_on_client_id", using: :btree
 
   create_table "carers", force: :cascade do |t|
     t.string   "address_type",               default: ""
@@ -678,9 +690,9 @@ ActiveRecord::Schema.define(version: 20201224082044) do
     t.string   "other_agency_name"
     t.string   "other_representative_name"
     t.string   "other_agency_phone"
-    t.string   "locality"
     t.string   "national_id_number"
     t.string   "passport_number"
+    t.string   "locality"
   end
 
   add_index "clients", ["commune_id"], name: "index_clients_on_commune_id", using: :btree
@@ -1181,6 +1193,23 @@ ActiveRecord::Schema.define(version: 20201224082044) do
   end
 
   add_index "global_services", ["uuid"], name: "index_global_services_on_uuid", unique: true, using: :btree
+
+  create_table "goals", force: :cascade do |t|
+    t.text     "description",          default: ""
+    t.integer  "assessment_domain_id"
+    t.integer  "domain_id"
+    t.integer  "client_id"
+    t.integer  "assessment_id"
+    t.integer  "care_plan_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "goals", ["assessment_domain_id"], name: "index_goals_on_assessment_domain_id", using: :btree
+  add_index "goals", ["assessment_id"], name: "index_goals_on_assessment_id", using: :btree
+  add_index "goals", ["care_plan_id"], name: "index_goals_on_care_plan_id", using: :btree
+  add_index "goals", ["client_id"], name: "index_goals_on_client_id", using: :btree
+  add_index "goals", ["domain_id"], name: "index_goals_on_domain_id", using: :btree
 
   create_table "government_form_children_plans", force: :cascade do |t|
     t.text     "goal",               default: ""
@@ -1737,7 +1766,6 @@ ActiveRecord::Schema.define(version: 20201224082044) do
     t.integer  "township_id"
     t.integer  "subdistrict_id"
     t.string   "locality"
-    t.string   "referee_email"
   end
 
   add_index "referees", ["commune_id"], name: "index_referees_on_commune_id", using: :btree
@@ -1963,11 +1991,17 @@ ActiveRecord::Schema.define(version: 20201224082044) do
     t.integer  "taskable_id"
     t.string   "taskable_type"
     t.datetime "deleted_at"
+    t.integer  "goal_id"
   end
 
   add_index "tasks", ["client_id"], name: "index_tasks_on_client_id", using: :btree
   add_index "tasks", ["deleted_at"], name: "index_tasks_on_deleted_at", using: :btree
+  add_index "tasks", ["goal_id"], name: "index_tasks_on_goal_id", using: :btree
   add_index "tasks", ["taskable_type", "taskable_id"], name: "index_tasks_on_taskable_type_and_taskable_id", using: :btree
+
+  create_table "test_tables", force: :cascade do |t|
+    t.string "test"
+  end
 
   create_table "thredded_categories", force: :cascade do |t|
     t.integer  "messageboard_id",             null: false
@@ -2311,6 +2345,7 @@ ActiveRecord::Schema.define(version: 20201224082044) do
   add_foreign_key "able_screening_questions", "stages"
   add_foreign_key "action_results", "government_forms"
   add_foreign_key "advanced_searches", "users"
+  add_foreign_key "assessment_domains", "care_plans"
   add_foreign_key "assessments", "clients"
   add_foreign_key "attachments", "able_screening_questions"
   add_foreign_key "attachments", "progress_notes"
@@ -2320,6 +2355,8 @@ ActiveRecord::Schema.define(version: 20201224082044) do
   add_foreign_key "call_protection_concerns", "calls"
   add_foreign_key "call_protection_concerns", "protection_concerns"
   add_foreign_key "calls", "referees"
+  add_foreign_key "care_plans", "assessments"
+  add_foreign_key "care_plans", "clients"
   add_foreign_key "carers", "communes"
   add_foreign_key "carers", "districts"
   add_foreign_key "carers", "provinces"
@@ -2404,6 +2441,11 @@ ActiveRecord::Schema.define(version: 20201224082044) do
   add_foreign_key "family_quantitative_cases", "quantitative_cases"
   add_foreign_key "family_referrals", "families"
   add_foreign_key "global_identity_organizations", "organizations"
+  add_foreign_key "goals", "assessment_domains"
+  add_foreign_key "goals", "assessments"
+  add_foreign_key "goals", "care_plans"
+  add_foreign_key "goals", "clients"
+  add_foreign_key "goals", "domains"
   add_foreign_key "government_form_children_plans", "children_plans"
   add_foreign_key "government_form_children_plans", "government_forms"
   add_foreign_key "government_form_family_plans", "family_plans"
@@ -2457,6 +2499,7 @@ ActiveRecord::Schema.define(version: 20201224082044) do
   add_foreign_key "subdistricts", "districts"
   add_foreign_key "surveys", "clients"
   add_foreign_key "tasks", "clients", on_delete: :nullify
+  add_foreign_key "tasks", "goals"
   add_foreign_key "townships", "states"
   add_foreign_key "trackings", "program_streams"
   add_foreign_key "users", "organizations"
