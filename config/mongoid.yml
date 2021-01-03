@@ -5,9 +5,9 @@ development:
       hosts:
         - <%= ENV["HISTORY_DATABASE_HOST"] || 'localhost' %>:27017
       options:
-        # user: <%= ENV['DATABASE_USER'] %>
-        # password: <%= ENV['DATABASE_PASSWORD'] %>
-        # auth_mech: :scram
+        user: <%= ENV['DATABASE_USER'] %>
+        password: <%= ENV['DATABASE_PASSWORD'] %>
+        auth_mech: :scram
         read:
           mode: primary
         max_pool_size: 1
