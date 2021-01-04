@@ -23,7 +23,7 @@ class ClientEnrolledProgramTrackingsController < AdminController
   end
 
   def create
-    @client_enrollment_tracking = @enrollment.client_enrollment_trackings.new(client_enrollment_tracking_params)
+    @client_enrollment_tracking = @enrollment.client_enrollment_trackings.new(program_tracking_params)
     authorize @client_enrollment_tracking
 
     if @client_enrollment_tracking.save
@@ -39,7 +39,7 @@ class ClientEnrolledProgramTrackingsController < AdminController
 
   def update
     authorize @client_enrollment_tracking
-    if @client_enrollment_tracking.update_attributes(client_enrollment_tracking_params)
+    if @client_enrollment_tracking.update_attributes(program_tracking_params)
       add_more_attachments(@client_enrollment_tracking)
       redirect_to report_client_client_enrolled_program_client_enrolled_program_trackings_path(@client, @enrollment, tracking_id: @tracking.id), notice: t('.successfully_updated')
     else
@@ -67,5 +67,11 @@ class ClientEnrolledProgramTrackingsController < AdminController
 
   def report
     @client_enrollment_trackings = @enrollment.client_enrollment_trackings.enrollment_trackings_by(@tracking)
+  end
+
+  private
+
+  def program_tracking_params
+    client_enrollment_tracking_params.permit(:tracking_id, properties: {}, form_builder_attachments_attributes: {})
   end
 end
