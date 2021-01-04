@@ -6,6 +6,10 @@ module ClientRetouch
   end
 
   def touch_client
-    client&.touch
+    if self.class.name == 'ProgramStream'
+      clients.joins(:referrals).where(referrals: { ngo_name: 'MoSVY External System' }).each(&:touch)
+    else
+      client&.touch
+    end
   end
 end

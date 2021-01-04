@@ -661,7 +661,7 @@ class ClientGrid < BaseGrid
   column(:date_of_birth, html: true, header: -> { I18n.t('datagrid.columns.clients.date_of_birth') }) do |object|
     current_org = Organization.current
     Organization.switch_to 'shared'
-    date_of_birth = SharedClient.find_by(slug: object.slug).date_of_birth
+    date_of_birth = SharedClient.find_by(slug: object.slug)&.date_of_birth
     Organization.switch_to current_org.short_name
     date_of_birth.present? ? date_of_birth.strftime("%d %B %Y") : ''
   end
