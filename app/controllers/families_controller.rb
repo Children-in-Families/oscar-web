@@ -135,6 +135,7 @@ class FamiliesController < AdminController
 
   def fetch_family_attibutes(family_slug, current_org)
     attributes = Family.find_by(slug: family_slug).try(:attributes)
+    referee_phone_number = @family_referral.referral_phone
 
     if attributes.present?
       province_name = Province.find_by(id: attributes['province_id']).try(:name)
@@ -148,8 +149,7 @@ class FamiliesController < AdminController
       village_id = Village.find_by(code: village_code).try(:id)
       commune_id = Commune.find_by(code: commune_code).try(:id)
 
-      attributes = attributes.slice('name', 'name_en', 'house', 'street', 'slug').merge!({province_id: province_id, district_id: district_id, commune_id: commune_id, village_id: village_id})
-
+      attributes = attributes.slice('name', 'name_en', 'house', 'street', 'slug', 'initial_referral_date').merge!({province_id: province_id, district_id: district_id, commune_id: commune_id, village_id: village_id, referee_phone_number: referee_phone_number})
       @family.province = Province.find_by(id: province_id)
       @family.district = District.find_by(id: district_id)
       @family.commune = Commune.find_by(id: commune_id)
