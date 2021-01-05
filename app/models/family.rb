@@ -69,11 +69,11 @@ class Family < ActiveRecord::Base
     brc? ? family_members.count : (male_adult_count.to_i + female_adult_count.to_i + male_children_count.to_i + female_children_count.to_i)
   end
 
-  def monthly_average_income
+  def total_monthly_income
     countable_member = family_members.select(&:monthly_income?)
 
     if countable_member.any?
-      countable_member.map(&:monthly_income).sum / countable_member.count
+      countable_member.map(&:monthly_income).sum
     else
       'N/A'
     end
