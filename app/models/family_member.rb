@@ -14,6 +14,8 @@ class FamilyMember < ActiveRecord::Base
   after_commit :save_aggregation_data, on: [:create, :update], if: :brc?
   after_commit :save_client_data
 
+  validates :client_id, uniqueness: { scope: :family_id }, if: :client_id?
+
   def self.update_client_relevant_data(family_member_id)
     find(family_member_id).save_client_data
   end

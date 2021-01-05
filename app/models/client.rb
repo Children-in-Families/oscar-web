@@ -57,7 +57,6 @@ class Client < ActiveRecord::Base
   belongs_to :concern_village,  class_name: 'Village',  foreign_key: 'concern_village_id'
   belongs_to :global_identity,  class_name: 'GlobalIdentity', foreign_key: 'global_id', primary_key: :ulid
 
-  has_many :family_members, dependent: :destroy
   has_many :hotlines, dependent: :destroy
   has_many :calls, through: :hotlines
   has_many :sponsors, dependent: :destroy
@@ -88,6 +87,9 @@ class Client < ActiveRecord::Base
   has_many :case_notes,     dependent: :destroy
   has_many :assessments,    dependent: :destroy
 
+  has_one  :family_member
+  has_one  :family, through: :family_member
+
   has_paper_trail
 
   validates :kid_id, uniqueness: { case_sensitive: false }, if: 'kid_id.present?'
@@ -113,7 +115,7 @@ class Client < ActiveRecord::Base
   after_save :create_client_history, :mark_referral_as_saved, :create_or_update_shared_client
 
   after_commit :remove_family_from_case_worker
-  after_commit :update_related_family_members, on: :update
+  after_commit :update_related_family_member, on: :update
 
   scope :given_name_like,                          ->(value) { where('clients.given_name iLIKE :value OR clients.local_given_name iLIKE :value', { value: "%#{value.squish}%"}) }
   scope :family_name_like,                         ->(value) { where('clients.family_name iLIKE :value OR clients.local_family_name iLIKE :value', { value: "%#{value.squish}%"}) }
@@ -228,9 +230,9 @@ class Client < ActiveRecord::Base
     end
   end
 
-  def family
-    Family.find(current_family_id) if current_family_id
-  end
+  # def family
+  #   Family.find(current_family_id) if current_family_id
+  # end
 
   def self.fetch_75_chars_of(value)
     number_of_char = (value.length * 75) / 100
@@ -739,10 +741,8 @@ class Client < ActiveRecord::Base
 
   private
 
-  def update_related_family_members
-    family_members.each do |family_member|
-      FamilyMember.delay.update_client_relevant_data(family_member.id)
-    end
+  def update_related_family_member
+    FamilyMember.delay.update_client_relevant_data(family_member.id) if family_member.present?
   end
 
   def create_client_history
@@ -758,7 +758,6 @@ class Client < ActiveRecord::Base
   end
 
   def remove_family_from_case_worker
-    family = Family.joins(:user).find_by(id: current_family_id)
     if family
       clients = Client.joins(:users).where(current_family_id: family.id, case_worker_clients: {user_id: family.user_id})
       if clients.blank?
