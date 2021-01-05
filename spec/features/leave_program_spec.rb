@@ -1,4 +1,4 @@
-describe LeaveProgram, 'Leave Program' do
+xdescribe LeaveProgram, 'Leave Program' do
   let!(:admin){ create(:user, roles: 'admin') }
   let!(:user) { create(:user) }
   let!(:client) { create(:client, date_of_birth: 10.years.ago, users: [admin, user]) }

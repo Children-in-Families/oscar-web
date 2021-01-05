@@ -1,4 +1,4 @@
-feature 'Case' do
+xfeature 'Case' do
   let!(:admin){ create(:user, roles: 'admin')}
   let!(:user){ create(:user)}
   let!(:client){ create(:client, :accepted, users: [user])}

@@ -1,4 +1,4 @@
-describe 'FamilyMember' do
+xdescribe 'FamilyMember' do
   feature 'index' do
     let!(:admin){ create(:user, :admin) }
     let!(:family) { create(:family, :emergency) }

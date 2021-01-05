@@ -1,4 +1,4 @@
-describe 'Multi Form' do
+xdescribe 'Multi Form' do
   let!(:user){ create(:user) }
   let!(:client_1){ create(:client, :accepted, users: [user]) }
   let!(:client_form_1){ create(:custom_field) }

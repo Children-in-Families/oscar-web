@@ -1,4 +1,4 @@
-feature 'custom_field_property' do
+xfeature 'custom_field_property' do
   let!(:admin){ create(:user, :admin) }
   let!(:user_1){ create(:user, :case_worker, first_name: 'John', last_name: 'Doe') }
 
