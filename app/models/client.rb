@@ -81,6 +81,7 @@ class Client < ActiveRecord::Base
   has_many :global_identity_organizations, class_name: 'GlobalIdentityOrganization', foreign_key: 'client_id', dependent: :destroy
 
   accepts_nested_attributes_for :tasks
+  accepts_nested_attributes_for :family_member, allow_destroy: true
 
   has_many :families,       through: :cases
   has_many :cases,          dependent: :destroy

@@ -167,6 +167,7 @@ module Api
             donor_ids: [],
             quantitative_case_ids: [],
             custom_field_ids: [],
+            family_member_attributes: [:id, :family_id, :_destroy],
             tasks_attributes: [:name, :domain_id, :completion_date],
             client_needs_attributes: [:id, :rank, :need_id],
             client_problems_attributes: [:id, :rank, :problem_id],
@@ -178,6 +179,10 @@ module Api
         next if field_setting.group != 'client' || field_setting.required? || field_setting.visible?
 
         client_params.except!(field_setting.name.to_sym)
+      end
+
+      if client_params[:family_member_attributes].present?
+        client_params[:family_member_attributes][:_destroy] = 1 if client_params.dig(:family_member_attributes, :family_id).blank?
       end
 
       Client::LEGAL_DOC_FIELDS.each do |attachment_field|
