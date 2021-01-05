@@ -1,4 +1,4 @@
-describe 'Changelog' do
+xdescribe 'Changelog' do
   let!(:admin){ create(:user, roles: 'admin') }
   let!(:changelog){ create(:changelog) }
 

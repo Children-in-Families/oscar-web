@@ -95,42 +95,42 @@ describe Dashboard, 'Method' do
       @family_type_statistic_report = Dashboard.new(Client.all).family_type_statistic
     end
 
-    it 'should return families Foster count' do
+    xit 'should return families Foster count' do
       family_type_statistic_report = @family_type_statistic_report
       expect(family_type_statistic_report.first[:y]).to eq(2)
     end
 
-    it 'should return clients Kinship count' do
+    xit 'should return clients Kinship count' do
       family_type_statistic_report = @family_type_statistic_report
       expect(family_type_statistic_report.second[:y]).to eq(2)
     end
 
-    it 'should return clients Emergency count' do
+    xit 'should return clients Emergency count' do
       family_type_statistic_report = @family_type_statistic_report
       expect(family_type_statistic_report.third[:y]).to eq(1)
     end
   end
 
   context '#family_count' do
-    it 'shoud return family count' do
+    xit 'shoud return family count' do
       expect(Dashboard.new(Client.all).family_count).to eq(5)
     end
   end
 
   context '#foster_count' do
-    it 'shoud return family of foster count' do
+    xit 'shoud return family of foster count' do
       expect(Dashboard.new(Client.all).foster_count).to eq(2)
     end
   end
 
   context '#kinship_count' do
-    it 'shoud return family of kinship count' do
+    xit 'shoud return family of kinship count' do
       expect(Dashboard.new(Client.all).kinship_count).to eq(2)
     end
   end
 
   context '#emergency_count' do
-    it 'shoud return family of emergency count' do
+    xit 'shoud return family of emergency count' do
       expect(Dashboard.new(Client.all).emergency_count).to eq(1)
     end
   end

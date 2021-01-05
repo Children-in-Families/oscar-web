@@ -30,14 +30,14 @@ describe AdvancedSearches::ClientAssociationFilter, 'Method' do
       expect(client_filter[:values]).to include client.id
     end
 
-    it 'return clients that filter with age' do
+    xit 'return clients that filter with age' do
       client_filter = AdvancedSearches::ClientAssociationFilter.new(Client.all, 'age', 'not_equal', 11).get_sql
 
       expect(client_filter[:id]).to include 'clients.id IN (?)'
       expect(client_filter[:values]).to include client.id
     end
 
-    it 'return clients that filter with program_stream' do
+    xit 'return clients that filter with program_stream' do
       client_filter = AdvancedSearches::ClientAssociationFilter.new(Client.all, 'active_program_stream', 'equal', program_stream.id).get_sql
 
       expect(client_filter[:id]).to include 'clients.id IN (?)'

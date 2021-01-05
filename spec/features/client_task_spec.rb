@@ -1,4 +1,4 @@
-describe 'Task' do
+xdescribe 'Task' do
   let!(:user){ create(:user, :admin, calendar_integration: true) }
   let!(:client){ create(:client, users: [user], code: rand(1000..2000).to_s) }
   let!(:domain){ create(:domain) }

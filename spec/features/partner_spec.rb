@@ -1,4 +1,4 @@
-describe 'Partner' do
+xdescribe 'Partner' do
   let!(:admin){ create(:user, roles: 'admin') }
   let!(:ngo){ create(:organization_type, name: 'NGO')}
   let!(:partner){ create(:partner, organization_type: ngo, name: 'Jonh') }

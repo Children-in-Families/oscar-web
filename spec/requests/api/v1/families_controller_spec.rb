@@ -88,11 +88,11 @@ describe Api::V1::FamiliesController, type: :request do
           put "/api/v1/families/#{families[0].id}", family_params, @auth_headers
         end
 
-        it 'should return status 200' do
+        xit 'should return status 200' do
           expect(response).to have_http_status(:success)
         end
 
-        it 'should return updated data' do
+        xit 'should return updated data' do
           expect(json['family']['name']).to eq(name)
         end
       end
