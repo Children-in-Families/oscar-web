@@ -21,7 +21,13 @@ class LeaveProgramsController < AdminController
     authorize @leave_program
     if @leave_program.update_attributes(leave_program_params)
       add_more_attachments(@leave_program)
-      path = params[:family_id] ? family_enrollment_leave_program_path(@entity, @enrollment, @leave_program) : client_client_enrollment_leave_program_path(@entity, @enrollment, @leave_program)
+      if params[:family_id]
+        path = family_enrollment_leave_program_path(@entity, @enrollment, @leave_program)
+      elsif params[:community_id]
+        path = community_enrollment_leave_program_path(@entity, @enrollment, @leave_program)
+      else
+        path = client_client_enrollment_leave_program_path(@entity, @enrollment, @leave_program)
+      end
       redirect_to path, notice: t('.successfully_updated')
     else
       render :edit
@@ -44,7 +50,7 @@ class LeaveProgramsController < AdminController
   end
 
   def find_entity_histories
-    if params[:family_id]
+    if params[:family_id] || params[:community_id]
       cps_enrollments = @entity.enrollments
       cps_leave_programs = LeaveProgram.joins(:enrollment).where("enrollments.programmable_id = ?", @entity.id)
       @case_histories = (cps_enrollments + cps_leave_programs).sort { |current_record, next_record| -([current_record.created_at, current_record.new_date] <=> [next_record.created_at, next_record.new_date]) }
