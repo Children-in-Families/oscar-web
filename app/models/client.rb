@@ -80,6 +80,9 @@ class Client < ActiveRecord::Base
   has_many :government_forms, dependent: :destroy
   has_many :global_identity_organizations, class_name: 'GlobalIdentityOrganization', foreign_key: 'client_id', dependent: :destroy
 
+  has_one  :family_member
+  has_one  :family, through: :family_member
+
   accepts_nested_attributes_for :tasks
   accepts_nested_attributes_for :family_member, allow_destroy: true
 
@@ -87,9 +90,6 @@ class Client < ActiveRecord::Base
   has_many :cases,          dependent: :destroy
   has_many :case_notes,     dependent: :destroy
   has_many :assessments,    dependent: :destroy
-
-  has_one  :family_member
-  has_one  :family, through: :family_member
 
   has_paper_trail
 

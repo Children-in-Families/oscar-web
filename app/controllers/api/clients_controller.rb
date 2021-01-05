@@ -28,6 +28,7 @@ module Api
     def create
       client_saved = false
       client = Client.new(client_params)
+
       client.transaction do
         if referee_params[:anonymous] == 'true'
           referee = Referee.new(referee_params)
@@ -181,8 +182,12 @@ module Api
         client_params.except!(field_setting.name.to_sym)
       end
 
-      if client_params[:family_member_attributes].present?
-        client_params[:family_member_attributes][:_destroy] = 1 if client_params.dig(:family_member_attributes, :family_id).blank?
+      if params[:family_member]
+        client_params[:family_member_attributes] = params[:family_member].permit([:id, :family_id])
+
+        if client_params[:family_member_attributes].present?
+          client_params[:family_member_attributes][:_destroy] = 1 if client_params.dig(:family_member_attributes, :family_id).blank?
+        end
       end
 
       Client::LEGAL_DOC_FIELDS.each do |attachment_field|
