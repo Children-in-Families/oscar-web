@@ -58,7 +58,7 @@
 #   end
 # end
 
-describe 'government_forms' do
+xdescribe 'government_forms' do
   let!(:user) { create(:user, :admin) }
   let!(:client) { create(:client, status: 'Accepted') }
   let!(:government_form_one) { create(:government_form, name: 'ទម្រង់ទី១: ព័ត៌មានបឋម', source_info: 'Info 1', client: client) }

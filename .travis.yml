@@ -29,7 +29,7 @@ before_install:
   - sudo cp /etc/postgresql/{10,11}/main/pg_hba.conf
   - sudo service postgresql restart 11
 script:
-  - bundle exec rspec spec/models
+  - bundle exec rspec spec
 services:
   - redis-server
   - mongodb

@@ -96,11 +96,11 @@ class Family < ActiveRecord::Base
     [name, name_en].select(&:present?).join(' - ').presence || "Family ##{id}"
   end
 
-  def monthly_average_income
+  def total_monthly_income
     countable_member = family_members.select(&:monthly_income?)
 
     if countable_member.any?
-      countable_member.map(&:monthly_income).sum / countable_member.count
+      countable_member.map(&:monthly_income).sum
     else
       'N/A'
     end

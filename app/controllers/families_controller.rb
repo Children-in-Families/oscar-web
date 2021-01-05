@@ -35,9 +35,13 @@ class FamiliesController < AdminController
 
   def new
     @family = Family.new
-    @family.family_members.new
     @family.community_member = CommunityMember.new
-    @selected_children = params[:children]
+
+    if params[:client].present?
+      @family.family_members.new(client_id: params[:client])
+    else
+      @family.family_members.new
+    end
   end
 
   def create

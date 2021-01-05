@@ -1,4 +1,4 @@
-describe 'Family' do
+xdescribe 'Family' do
   let!(:admin){ create(:user, roles: 'admin') }
   let!(:province){ create(:province, name:"Phnom Penh") }
   let!(:district){ create(:district, name: 'Toul Kork', province_id: province.id) }

@@ -1,4 +1,4 @@
-describe 'CaseNote' do
+xdescribe 'CaseNote' do
   let!(:user) { create(:user) }
   let!(:client) { create(:client, :accepted, users: [user]) }
   let!(:fc_case){ create(:case, case_type: 'FC', client: client) }

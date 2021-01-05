@@ -1,4 +1,4 @@
-describe 'Domain Group' do
+xdescribe 'Domain Group' do
   let!(:admin){ create(:user, roles: 'admin') }
   let!(:domain_group){ create(:domain_group) }
   let!(:other_domain_group){ create(:domain_group) }
