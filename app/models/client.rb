@@ -82,8 +82,8 @@ class Client < ApplicationRecord
 
   accepts_nested_attributes_for :tasks
 
-  has_many :cases,          dependent: :destroy
-  has_many :families,       through: :cases
+  has_many :cases,          dependent: :destroy, validate: false
+  has_many :families,       through: :cases, validate: false
   has_many :case_notes,     dependent: :destroy
   has_many :assessments,    dependent: :destroy
 

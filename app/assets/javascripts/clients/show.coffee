@@ -123,7 +123,7 @@ CIF.ClientsShow = do ->
       if element.dataset.classname == "leave_programs"
         leaveProgramDates.push(new Date (date))
       maxLeaveDate = Math.max.apply(Math, leaveProgramDates)
-      date = new Date(maxLeaveDate)
+      date = if typeof(maxLeaveDate) == 'number' then (new Date()) else new Date(maxLeaveDate)
       $(".exit_date").datepicker('setStartDate', date)
 
   _initSelect2 = ->
