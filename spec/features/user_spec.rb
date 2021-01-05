@@ -1,4 +1,4 @@
-describe 'User' do
+xdescribe 'User' do
   let!(:admin){ create(:user, :admin, pin_number: '11223') }
   let!(:used_user){ create(:user) }
   let!(:user){ create(:user) }

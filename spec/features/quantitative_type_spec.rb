@@ -1,4 +1,4 @@
-describe 'Quantitative Type' do
+xdescribe 'Quantitative Type' do
   let!(:admin){ create(:user, roles: 'admin') }
   let!(:quantitative_type){ create(:quantitative_type) }
   let!(:other_quantitative_type){ create(:quantitative_type) }
