@@ -129,6 +129,20 @@
                 %strong
                   = human_boolean(@family.dependable_income)
 
+          %tr
+            %td.spacing-first-col
+              = Family.human_attribute_name(:phone_number)
+            %td
+              %strong
+                = @family.phone_number
+
+          %tr
+            %td.spacing-first-col
+              = Family.human_attribute_name(:id_poor)
+            %td
+              %strong
+                = @family.id_poor
+
           - if policy(@family).show?(:contract_date)
             %tr
               %td.spacing-first-col
