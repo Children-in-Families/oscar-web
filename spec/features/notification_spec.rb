@@ -1,4 +1,4 @@
-describe 'Notification' do
+xdescribe 'Notification' do
   let!(:admin){ create(:user, roles: 'admin', referral_notification: true) }
   before do
     login_as(admin)
