@@ -29,7 +29,7 @@
                     %abbr{ title: 'required' } *
                     = t('.exit_date')
                   .input-group
-                    = f.text_field :exit_date, required: true, class: 'date form-control exit_date', type: 'text', name: 'exit_ngo[exit_date]'
+                    = f.text_field :exit_date, required: true, class: 'date form-control exit_date', type: 'text', name: 'exit_ngo[exit_date]', readonly: 'readonly'
                     %span.input-group-addon
                       %i.fa.fa-calendar-check-o
 

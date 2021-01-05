@@ -53,7 +53,7 @@ module Api
       end
 
       if client_saved
-        render json: { slug: client.slug, id: client.id }, status: :ok
+        render json: { slug: client.slug, id: client.id }, serializer: nil, status: :ok
       else
         render json: client.errors, status: :unprocessable_entity
       end
