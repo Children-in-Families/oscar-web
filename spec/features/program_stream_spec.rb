@@ -1,4 +1,4 @@
-feature 'program_stream' do
+xfeature 'program_stream' do
   let!(:admin){ create(:user, roles: 'admin') }
   let!(:domain) { create(:domain) }
   let!(:program_stream) { create(:program_stream, ngo_name: Organization.current.full_name) }

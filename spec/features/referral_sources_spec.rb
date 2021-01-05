@@ -1,4 +1,4 @@
-describe 'Referral Sources' do
+xdescribe 'Referral Sources' do
   let!(:admin){ create(:user, roles: 'admin') }
   let!(:referral_source){ create(:referral_source) }
   let!(:other_referral_source){ create(:referral_source) }

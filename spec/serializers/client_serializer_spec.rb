@@ -125,7 +125,7 @@ describe ClientSerializer, type: :serializer do
     expect(serializer).to have_json_type(Object).at_path('client/birth_province')
   end
 
-  it 'should be have attribute time_in_care' do
+  xit 'should be have attribute time_in_care' do
     expect(serializer).to have_json_path('client/time_in_care')
     expect(serializer).to have_json_type(String).at_path('client/time_in_care')
   end

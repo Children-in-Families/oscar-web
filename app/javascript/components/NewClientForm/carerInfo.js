@@ -8,7 +8,7 @@ import {
 import { t } from '../../utils/i18n'
 
 export default props => {
-  const { onChange, fieldsVisibility, translation, renderAddressSwitch, current_organization, id, hintText, data: { carerDistricts, carerCommunes, carerVillages, client, carer, clientRelationships, currentProvinces, currentStates, currentTownships, carerSubdistricts, families, addressTypes, T  } } = props
+  const { onChange, fieldsVisibility, translation, renderAddressSwitch, current_organization, id, hintText, data: { carerDistricts, carerCommunes, carerVillages, client, carer, clientRelationships, currentProvinces, currentStates, currentTownships, carerSubdistricts, families, familyMember, addressTypes, T  } } = props
 
   const clientRelationship = clientRelationships.map(relationship => ({label: T.translate("clientRelationShip."+relationship.label), value: relationship.value}))
   const [districts, setDistricts]         = useState(carerDistricts)
@@ -16,7 +16,6 @@ export default props => {
   const [villages, setVillages]           = useState(carerVillages)
   const [townships, setTownships]         = useState(currentTownships)
   const [subdistricts, setSubdistricts]   = useState(carerSubdistricts)
-
 
   const fetchData = (parent, data, child) => {
     $.ajax({
@@ -140,18 +139,6 @@ export default props => {
   ]
   const familyLists = families.map(family => ({ label: family.name, value: family.id }))
 
-  const onChangeFamily = ({ data, action, type }) => {
-    let values = []
-    if (action === 'select-option'){
-      values = client.family_ids
-      values.push(data)
-      values = values.filter((v, i, a) => a.indexOf(v) === i);
-      onChange('client', 'family_ids')({data: values, type})
-    }
-    // onChange('client', 'family_ids')({data: value, type})
-    onChange('client', 'current_family_id')({data: data, type})
-  }
-
   return (
     <div id={id} className="collapse">
       <br/>
@@ -215,11 +202,10 @@ export default props => {
         <div className="col-xs-12 col-md-6 col-lg-3">
           <SelectInput
             label={T.translate("carerInfo.family_record")}
-            options={familyLists} value={client.current_family_id}
-            onChange={onChangeFamily}
+            options={familyLists} value={familyMember.family_id}
+            onChange={onChange('familyMember', 'family_id')}
             hintText={hintText.carer.carer_family_record}
           />
-          <TextInput type="hidden" name="client[current_family_id]" value={ client.current_family_id } />
         </div>
       </div>
       <legend>
