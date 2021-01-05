@@ -153,12 +153,12 @@
               %td= @family.member_count
           %tr
             %tr
-              %td.spacing-first-col= t('.monthly_average_income')
+              %td.spacing-first-col= t('.total_income')
               %td
-                - if @family.monthly_average_income.instance_of?(String)
-                  = @family.monthly_average_income
+                - if @family.total_monthly_income.instance_of?(String)
+                  = @family.total_monthly_income
                 - else
-                  = number_to_currency(@family.monthly_average_income)
+                  = number_to_currency(@family.total_monthly_income)
     .row.family-summary
       .col-sm-12
         %table.table.table-bordered
@@ -184,6 +184,20 @@
               %td
                 %strong
                   = human_boolean(@family.dependable_income)
+
+          %tr
+            %td.spacing-first-col
+              = Family.human_attribute_name(:phone_number)
+            %td
+              %strong
+                = @family.phone_number
+
+          %tr
+            %td.spacing-first-col
+              = Family.human_attribute_name(:id_poor)
+            %td
+              %strong
+                = @family.id_poor
 
           - if policy(@family).show?(:contract_date)
             %tr

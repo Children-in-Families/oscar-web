@@ -138,3 +138,12 @@ body[id='communities-update'] {
     }
   }
 }
+
+
+.datepicker {
+  .datepicker-years, .datepicker-months, .datepicker-days {
+    .prev, .next {
+      padding: 5px 15px;
+    }
+  }
+}
