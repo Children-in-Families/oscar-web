@@ -23,7 +23,7 @@ module AdvancedSearches
       @sql_string  = []
       @condition   = basic_rules['condition']
       basic_rules  = format_rule(basic_rules)
-      @basic_rules = basic_rules['rules'] || []
+      @basic_rules = basic_rules.dig('rules') || []
       @columns_visibility = []
     end
 
@@ -32,7 +32,8 @@ module AdvancedSearches
         field    = rule['id']
         operator = rule['operator']
         value    = rule['value']
-        form_builder = field != nil ? field.split('__') : []
+
+        form_builder = !field.nil? ? field.split('__') : []
         if ASSOCIATION_FIELDS.include?(field)
           association_filter = AdvancedSearches::ClientAssociationFilter.new(@clients, field, operator, value).get_sql
           @sql_string << association_filter[:id]

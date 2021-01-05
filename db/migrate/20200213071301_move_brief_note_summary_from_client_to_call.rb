@@ -1,4 +1,4 @@
-class MoveBriefNoteSummaryFromClientToCall < ActiveRecord::Migration
+class MoveBriefNoteSummaryFromClientToCall < ActiveRecord::Migration[5.2]
   def change
     remove_column :clients, :brief_note_summary, :string
 

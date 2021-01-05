@@ -1,4 +1,4 @@
-class CreateGlobalIdentities < ActiveRecord::Migration
+class CreateGlobalIdentities < ActiveRecord::Migration[5.2]
   def up
     # drop_table :global_identities, force: :cascade if table_exists? :global_identities
 

@@ -1,4 +1,4 @@
-class DomainProgramStream < ActiveRecord::Base
+class DomainProgramStream < ApplicationRecord
   acts_as_paranoid
 
   belongs_to :program_stream

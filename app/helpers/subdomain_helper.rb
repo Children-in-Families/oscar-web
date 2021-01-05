@@ -6,10 +6,11 @@ module SubdomainHelper
     [subdomain, host].join
   end
 
-  def url_for(options = nil)
+  def url_for(options = {}, *params)
     if options.is_a?(Hash) && options.key?(:subdomain)
       options[:host] = with_subdomain(options.delete(:subdomain))
     end
-    super
+    # options = request.parameters
+    super(options, *params)
   end
 end

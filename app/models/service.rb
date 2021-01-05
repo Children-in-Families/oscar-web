@@ -1,4 +1,4 @@
-class Service < ActiveRecord::Base
+class Service < ApplicationRecord
   acts_as_paranoid
 
   belongs_to :global_service, class_name: 'GlobalService', foreign_key: 'uuid', primary_key: :uuid
@@ -7,7 +7,7 @@ class Service < ActiveRecord::Base
 
   has_many   :program_stream_services, dependent: :destroy
   has_many   :program_streams, through: :program_stream_services
-  has_and_belongs_to_many :referrals
+  has_and_belongs_to_many :referrals, validate: false, join_table: 'referrals_services'
 
   validates :name, presence: true
 

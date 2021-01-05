@@ -1,4 +1,4 @@
-class AddFieldsForExitNgoToClient < ActiveRecord::Migration
+class AddFieldsForExitNgoToClient < ActiveRecord::Migration[5.2]
   def change
     add_column :clients, :exit_reasons, :string, array: true, default: []
     add_column :clients, :exit_circumstance, :string, default: ''

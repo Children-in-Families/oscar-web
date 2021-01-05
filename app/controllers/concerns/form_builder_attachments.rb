@@ -3,18 +3,18 @@ module FormBuilderAttachments
     return unless attachment_params.present?
     attachment_params.each do |_k, attachment|
       name = attachment['name']
-      if name.present? && attachment['file'].present?
-        form_builder_attachment = resource.form_builder_attachments.file_by_name(name)
-        if form_builder_attachment.nil?
-          resource.form_builder_attachments.create(name: name, file: attachment[:file])
-        else
-          modify_files = form_builder_attachment.file
-          modify_files += attachment['file']
+      next if name.present? && attachment['file'].present?
 
-          form_builder_attachment = resource.form_builder_attachments.file_by_name(name)
-          form_builder_attachment.file = modify_files
-          form_builder_attachment.save
-        end
+      form_builder_attachment = resource.form_builder_attachments.file_by_name(name)
+      if form_builder_attachment.nil?
+        resource.form_builder_attachments.create(name: name, file: attachment[:file])
+      else
+        modify_files = form_builder_attachment.file
+        modify_files += attachment['file'] if attachment['file']
+
+        form_builder_attachment = resource.form_builder_attachments.file_by_name(name)
+        form_builder_attachment.file = modify_files
+        form_builder_attachment.save
       end
     end
   end
@@ -29,26 +29,26 @@ module FormBuilderAttachments
   end
 
   def attachment_params
-    if ['client_enrollments','client_enrolled_programs'].include?(controller_name)
-      params[:client_enrollment][:form_builder_attachments_attributes]
+    if ['client_enrollments', 'client_enrolled_programs'].include?(controller_name)
+      request.parameters[:client_enrollment][:form_builder_attachments_attributes]
     elsif ['client_enrollment_trackings', 'client_enrolled_program_trackings', 'client_trackings'].include?(controller_name)
-      params[:client_enrollment_tracking][:form_builder_attachments_attributes]
-    elsif ['leave_programs','leave_enrolled_programs'].include?(controller_name)
-      params[:leave_program][:form_builder_attachments_attributes]
+      request.parameters[:client_enrollment_tracking][:form_builder_attachments_attributes]
+    elsif ['leave_programs', 'leave_enrolled_programs'].include?(controller_name)
+      request.parameters[:leave_program][:form_builder_attachments_attributes]
     elsif ['custom_field_properties', 'client_custom_fields'].include?(controller_name)
-      params[:custom_field_property][:form_builder_attachments_attributes]
+      request.parameters[:custom_field_property][:form_builder_attachments_attributes]
     end
   end
 
   def properties_params
-    if ['client_enrollments','client_enrolled_programs'].include?(controller_name)
-      params[:client_enrollment][:properties]
+    if ['client_enrollments', 'client_enrolled_programs'].include?(controller_name)
+      request.parameters[:client_enrollment][:properties]
     elsif ['client_enrollment_trackings', 'client_enrolled_program_trackings', 'client_trackings'].include?(controller_name)
-      params[:client_enrollment_tracking][:properties]
-    elsif ['leave_programs','leave_enrolled_programs'].include?(controller_name)
-      params[:leave_program][:properties]
+      request.parameters[:client_enrollment_tracking][:properties]
+    elsif ['leave_programs', 'leave_enrolled_programs'].include?(controller_name)
+      request.parameters[:leave_program][:properties]
     elsif ['custom_field_properties', 'client_custom_fields'].include?(controller_name)
-      params[:custom_field_property][:properties]
+      request.parameters[:custom_field_property][:properties]
     end
   end
 end

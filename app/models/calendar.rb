@@ -1,4 +1,4 @@
-class Calendar < ActiveRecord::Base
+class Calendar < ApplicationRecord
   belongs_to :user
 
   scope :sync_status_false, -> { where(sync_status: false) }

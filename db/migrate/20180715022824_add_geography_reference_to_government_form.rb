@@ -1,4 +1,4 @@
-class AddGeographyReferenceToGovernmentForm < ActiveRecord::Migration
+class AddGeographyReferenceToGovernmentForm < ActiveRecord::Migration[5.2]
   def change
     add_reference :government_forms, :province, index: true, foreign_key: true
     add_reference :government_forms, :district, index: true, foreign_key: true

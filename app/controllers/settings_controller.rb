@@ -39,7 +39,7 @@ class SettingsController < AdminController
         f.html do
           if @setting.update_attributes(setting_params)
             if params[:default_columns].present? || params[:research_module].present? || params[:custom_labels].present? || params[:client_forms].present?
-              redirect_to :back, notice: t('.successfully_updated')
+              redirect_back fallback_location: settings_path, notice: t('.successfully_updated')
             else
               redirect_to settings_path, notice: t('.successfully_updated')
             end

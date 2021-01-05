@@ -124,7 +124,7 @@
                                     = text_field_tag 'Name', '', class: 'form-control'
                               .row
                                 .col-xs-12
-                                  - tracking['fields'].each do |field|
+                                  - (tracking.fields || tracking['fields']).each do |field|
                                     = render "program_streams/fields/#{field['type'].underscore}", field_props: field, full_width: true
 
           .panel.panel-default

@@ -1,4 +1,4 @@
-class PopulateClientAssessmentsCount < ActiveRecord::Migration
+class PopulateClientAssessmentsCount < ActiveRecord::Migration[5.2]
   def change
     remove_column :clients, :assessments_count, :integer
     add_column :clients, :assessments_count, :integer, default: 0, null: false

@@ -1,4 +1,4 @@
-class CreateSubdistricts < ActiveRecord::Migration
+class CreateSubdistricts < ActiveRecord::Migration[5.2]
   def change
     create_table :subdistricts do |t|
       t.string :name

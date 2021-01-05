@@ -1,4 +1,4 @@
-class AddFieldsToClient < ActiveRecord::Migration
+class AddFieldsToClient < ActiveRecord::Migration[5.2]
   def change
   	add_column :clients, :house_number, :string, default: ''
   	add_column :clients, :street_number, :string, default: ''

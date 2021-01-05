@@ -1,4 +1,4 @@
-class ClientRightGovernmentForm < ActiveRecord::Base
+class ClientRightGovernmentForm < ApplicationRecord
   has_paper_trail
   delegate :name, to: :client_right, prefix: true, allow_nil: true
 

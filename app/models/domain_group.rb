@@ -1,4 +1,4 @@
-class DomainGroup < ActiveRecord::Base
+class DomainGroup < ApplicationRecord
   include ActionView::Helpers
 
   has_many :domains
@@ -13,7 +13,7 @@ class DomainGroup < ActiveRecord::Base
   def default_domain_identities(custom_assessment_setting_id=nil)
     identities = Organization.current.try(:aht) == true ? "dimensions.dimension_identies" : "domains.domain_identies"
     domains.csi_domains.map do |domain|
-      domain_identity = I18n.t("#{identities}.#{domain.identity.strip.parameterize('_')}_#{domain.name.downcase}")
+      domain_identity = I18n.t("#{identities}.#{domain.identity.strip.parameterize.underscore}_#{domain.name.downcase}")
       domain_identity.gsub(/\(|\)/, '')
     end.join(', ')
   end

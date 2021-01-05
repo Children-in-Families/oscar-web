@@ -1,4 +1,4 @@
-class RemoveForeignKeyToGlobalIdentityOrganizations < ActiveRecord::Migration
+class RemoveForeignKeyToGlobalIdentityOrganizations < ActiveRecord::Migration[5.2]
   def up
     remove_foreign_key :global_identity_organizations, column: :global_id if foreign_keys(:global_identity_organizations).map(&:column).include?("global_id")
   end

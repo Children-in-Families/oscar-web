@@ -1,4 +1,4 @@
-class Township < ActiveRecord::Base
+class Township < ApplicationRecord
   belongs_to :state
   has_many :clients, dependent: :restrict_with_error
 

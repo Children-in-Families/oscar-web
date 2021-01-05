@@ -6,12 +6,13 @@ module ClientAdvancedSearchesConcern
       advanced_search = AdvancedSearch.find(params[:advanced_search_id])
       basic_rules = advanced_search.queries
     else
-      basic_rules  = JSON.parse @basic_filter_params || @wizard_basic_filter_params
+      basic_rules = JSON.parse @basic_filter_params || @wizard_basic_filter_params
     end
     $param_rules = find_params_advanced_search
-    clients      = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability))
 
-    @clients_by_user     = clients.filter
+    clients      = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability))
+    @clients_by_user = clients.filter
+
     columns_visibility
     custom_form_column
     program_stream_column
@@ -219,7 +220,7 @@ module ClientAdvancedSearchesConcern
   def find_params_advanced_search
     if params[:advanced_search_id]
       advanced_search = AdvancedSearch.find(params[:advanced_search_id])
-      @advanced_search_params = params[:client_advanced_search].merge("basic_rules" => advanced_search.queries)
+      @advanced_search_params = request.parameters[:client_advanced_search].merge("basic_rules" => advanced_search.queries)
     else
       @advanced_search_params = params[:client_advanced_search]
     end

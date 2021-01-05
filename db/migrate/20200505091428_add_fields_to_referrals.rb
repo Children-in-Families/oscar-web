@@ -1,4 +1,4 @@
-class AddFieldsToReferrals < ActiveRecord::Migration
+class AddFieldsToReferrals < ActiveRecord::Migration[5.2]
   def change
     add_column :referrals, :client_gender, :string, default: ""
     add_column :referrals, :client_date_of_birth, :date

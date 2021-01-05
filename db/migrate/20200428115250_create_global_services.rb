@@ -1,4 +1,4 @@
-class CreateGlobalServices < ActiveRecord::Migration
+class CreateGlobalServices < ActiveRecord::Migration[5.2]
   def change
     disable_extension 'uuid-ossp'
     enable_extension 'uuid-ossp'

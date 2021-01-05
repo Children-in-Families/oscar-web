@@ -1,4 +1,4 @@
-class CreateCarers < ActiveRecord::Migration
+class CreateCarers < ActiveRecord::Migration[5.2]
   def change
     create_table :carers do |t|
       t.string :address_type, default: ''

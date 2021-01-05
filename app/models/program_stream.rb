@@ -1,5 +1,6 @@
-class ProgramStream < ActiveRecord::Base
+class ProgramStream < ApplicationRecord
   include UpdateFieldLabelsFormBuilder
+  include ClientRetouch
   FORM_BUILDER_FIELDS = ['enrollment', 'exit_program'].freeze
   acts_as_paranoid without_default_scope: true, column: :archived_at
 
@@ -41,6 +42,14 @@ class ProgramStream < ActiveRecord::Base
 
   def name=(name)
     write_attribute(:name, name.try(:strip))
+  end
+
+  def enrollment
+    read_attribute(:enrollment).is_a?(String) ? JSON.parse(read_attribute(:enrollment)) : read_attribute(:enrollment)
+  end
+
+  def exit_program
+    read_attribute(:exit_program).is_a?(String) ? JSON.parse(read_attribute(:exit_program)) : read_attribute(:exit_program)
   end
 
   def build_permission

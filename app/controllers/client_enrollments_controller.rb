@@ -92,7 +92,6 @@ class ClientEnrollmentsController < AdminController
     program_streams               = client_enrollments_exited + client_enrollments_inactive
   end
 
-
   def find_client_histories
     enter_ngos = @client.enter_ngos
     exit_ngos  = @client.exit_ngos

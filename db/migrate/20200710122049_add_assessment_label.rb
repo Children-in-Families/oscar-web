@@ -1,11 +1,11 @@
-class AddAssessmentLabel < ActiveRecord::Migration
+class AddAssessmentLabel < ActiveRecord::Migration[5.2]
   def up
-    return if Apartment::Tenant.current_tenant == 'shared'
+    return if Apartment::Tenant.current == 'shared'
 
     FieldSetting.create!(
       name: :assessment,
       current_label: 'Assessment',
-      label: (Apartment::Tenant.current_tenant == 'ratanak' ? 'Assessment Matrix' : nil),
+      label: (Apartment::Tenant.current == 'ratanak' ? 'Assessment Matrix' : nil),
       klass_name: :assessment,
       required: true,
       label_only: true,

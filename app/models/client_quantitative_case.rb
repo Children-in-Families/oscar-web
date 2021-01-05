@@ -1,4 +1,4 @@
-class ClientQuantitativeCase < ActiveRecord::Base
+class ClientQuantitativeCase < ApplicationRecord
   belongs_to :client
   belongs_to :quantitative_case
 

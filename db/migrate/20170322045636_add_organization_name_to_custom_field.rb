@@ -1,4 +1,4 @@
-class AddOrganizationNameToCustomField < ActiveRecord::Migration
+class AddOrganizationNameToCustomField < ActiveRecord::Migration[5.2]
   def up
     if column_exists? :custom_fields, :ngo_name
       remove_column :custom_fields, :ngo_name

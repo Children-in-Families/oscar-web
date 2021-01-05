@@ -1,4 +1,4 @@
-class Department < ActiveRecord::Base
+class Department < ApplicationRecord
   has_many :users
   has_paper_trail
 

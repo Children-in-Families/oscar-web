@@ -1,4 +1,4 @@
-class Assessment < ActiveRecord::Base
+class Assessment < ApplicationRecord
   belongs_to :client, counter_cache: true
 
   has_many :assessment_domains, dependent: :destroy

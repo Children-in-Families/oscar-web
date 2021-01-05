@@ -1,4 +1,4 @@
-class FnOscarDashboardExitNgos < ActiveRecord::Migration
+class FnOscarDashboardExitNgos < ActiveRecord::Migration[5.2]
   def change
     reversible do |dir|
       dir.up do

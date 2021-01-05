@@ -26,6 +26,7 @@ class ReferralsController < AdminController
       @client.update_attributes(referred_external: true) if find_external_system(@referral.referred_to)
       redirect_to client_referral_path(@client, @referral), notice: t('.successfully_created')
     else
+      @referral.services.destroy_all
       render :new
     end
   end
@@ -53,7 +54,6 @@ class ReferralsController < AdminController
                 disposition: 'attachment'
       end
     end
-
   end
 
   def update
@@ -76,7 +76,7 @@ class ReferralsController < AdminController
   end
 
   def referral_params
-    params.require(:referral).permit(:referred_to, :referred_from, :name_of_referee, :referee_id, :referral_phone, :referee_email, :date_of_referral, :referral_reason, :client_name, :slug, :ngo_name, :client_global_id, consent_form: [], service_ids: [])
+    params.require(:referral).permit(:referred_to, :referred_from, :name_of_referee, :referee_id, :referral_phone, :referee_email, :date_of_referral, :referral_reason, :client_name, :slug, :ngo_name, :client_global_id, service_ids: [], consent_form: [])
   end
 
   def find_external_system(external_name)

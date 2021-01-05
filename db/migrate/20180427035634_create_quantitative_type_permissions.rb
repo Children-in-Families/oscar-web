@@ -1,4 +1,4 @@
-class CreateQuantitativeTypePermissions < ActiveRecord::Migration
+class CreateQuantitativeTypePermissions < ActiveRecord::Migration[5.2]
   def change
     create_table :quantitative_type_permissions do |t|
       t.references :user, index: true, foreign_key: true

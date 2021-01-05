@@ -4,6 +4,8 @@ class ClientsController < AdminController
   include ClientAdvancedSearchesConcern
   include ClientGridOptions
 
+  self.page_cache_directory = DomainCacheDirectory
+
   before_action :assign_active_client_prams, only: :index
   before_action :format_search_params, only: [:index]
   before_action :get_quantitative_fields, :get_hotline_fields, :hotline_call_column, only: [:index]
@@ -20,6 +22,7 @@ class ClientsController < AdminController
   before_action :quantitative_type_editable, only: [:edit, :update, :new, :create]
   before_action :quantitative_type_readable
   before_action :validate_referral, only: [:new, :edit]
+  caches_page :index
 
   def index
     @client_default_columns = Setting.first.try(:client_default_columns)

@@ -1,5 +1,5 @@
 require 'rake'
-class Organization < ActiveRecord::Base
+class Organization < ApplicationRecord
   SUPPORTED_LANGUAGES = %w(en km my).freeze
 
   mount_uploader :logo, ImageUploader

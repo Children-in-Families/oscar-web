@@ -1,4 +1,4 @@
-class DropClientNecessitiesAndClientProtectionConcerns < ActiveRecord::Migration
+class DropClientNecessitiesAndClientProtectionConcerns < ActiveRecord::Migration[5.2]
   def change
     drop_table :client_necessities do |t|
       t.references :client, index: true, foreign_key: true

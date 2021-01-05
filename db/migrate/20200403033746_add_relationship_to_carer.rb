@@ -1,4 +1,4 @@
-class AddRelationshipToCarer < ActiveRecord::Migration
+class AddRelationshipToCarer < ActiveRecord::Migration[5.2]
   def change
     add_column :carers, :suburb, :string, default: ''
     add_column :carers, :description_house_landmark, :string, default: ''

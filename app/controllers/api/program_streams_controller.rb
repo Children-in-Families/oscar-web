@@ -50,11 +50,11 @@ module Api
     end
 
     def list_program_streams
-      render json: TrackingDatatable.new(view_context), root: :data
+      render json: TrackingDatatable.new(view_context).to_json, root: :data, serializer: nil
     end
 
     def list_program_enrollments
-      render json: EnrollmentDatatable.new(view_context), root: :data
+      render json: EnrollmentDatatable.new(view_context).to_json, root: :data, serializer: nil
     end
 
     private

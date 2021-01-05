@@ -1,4 +1,4 @@
-class CaseWorkerClient < ActiveRecord::Base
+class CaseWorkerClient < ApplicationRecord
   has_paper_trail
 
   belongs_to :user

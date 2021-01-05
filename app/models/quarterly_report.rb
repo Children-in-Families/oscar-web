@@ -1,4 +1,4 @@
-class QuarterlyReport < ActiveRecord::Base
+class QuarterlyReport < ApplicationRecord
   belongs_to :case
   belongs_to :staff_information, class_name: 'User', foreign_key: 'staff_id'
 

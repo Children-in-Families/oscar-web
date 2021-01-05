@@ -1,4 +1,4 @@
-class Client < ActiveRecord::Base
+class Client < ApplicationRecord
   include ActionView::Helpers::DateHelper
   include EntityTypeCustomField
   include NextClientEnrollmentTracking
@@ -36,25 +36,25 @@ class Client < ActiveRecord::Base
   delegate :name_en, to: :commune, prefix: true, allow_nil: true
   delegate :name_en, to: :village, prefix: true, allow_nil: true
 
-  belongs_to :referral_source,  counter_cache: true
-  belongs_to :province,         counter_cache: true
-  belongs_to :district
-  belongs_to :subdistrict
-  belongs_to :township
-  belongs_to :state
-  belongs_to :received_by,      class_name: 'User',      foreign_key: 'received_by_id',    counter_cache: true
-  belongs_to :followed_up_by,   class_name: 'User',      foreign_key: 'followed_up_by_id', counter_cache: true
-  belongs_to :birth_province,   class_name: 'Province',  foreign_key: 'birth_province_id', counter_cache: true
-  belongs_to :commune
-  belongs_to :village
-  belongs_to :referee
-  belongs_to :carer
-  belongs_to :call
+  belongs_to :referral_source,  counter_cache: true, optional: true
+  belongs_to :province,         counter_cache: true, optional: true
+  belongs_to :district, optional: true
+  belongs_to :subdistrict, optional: true
+  belongs_to :township, optional: true
+  belongs_to :state, optional: true
+  belongs_to :received_by,      class_name: 'User',      foreign_key: 'received_by_id',    counter_cache: true, optional: true
+  belongs_to :followed_up_by,   class_name: 'User',      foreign_key: 'followed_up_by_id', counter_cache: true, optional: true
+  belongs_to :birth_province,   class_name: 'Province',  foreign_key: 'birth_province_id', counter_cache: true, optional: true
+  belongs_to :commune, optional: true
+  belongs_to :village, optional: true
+  belongs_to :referee, optional: true
+  belongs_to :carer, optional: true
+  belongs_to :call, optional: true
 
-  belongs_to :concern_province, class_name: 'Province',  foreign_key: 'concern_province_id'
-  belongs_to :concern_district, class_name: 'District',  foreign_key: 'concern_district_id'
-  belongs_to :concern_commune,  class_name: 'Commune',  foreign_key: 'concern_commune_id'
-  belongs_to :concern_village,  class_name: 'Village',  foreign_key: 'concern_village_id'
+  belongs_to :concern_province, class_name: 'Province',  foreign_key: 'concern_province_id', optional: true
+  belongs_to :concern_district, class_name: 'District',  foreign_key: 'concern_district_id', optional: true
+  belongs_to :concern_commune,  class_name: 'Commune',  foreign_key: 'concern_commune_id', optional: true
+  belongs_to :concern_village,  class_name: 'Village',  foreign_key: 'concern_village_id', optional: true
   belongs_to :global_identity,  class_name: 'GlobalIdentity', foreign_key: 'global_id', primary_key: :ulid
 
   has_many :hotlines, dependent: :destroy
@@ -82,14 +82,14 @@ class Client < ActiveRecord::Base
 
   accepts_nested_attributes_for :tasks
 
-  has_many :families,       through: :cases
-  has_many :cases,          dependent: :destroy
+  has_many :cases,          dependent: :destroy, validate: false
+  has_many :families,       through: :cases, validate: false
   has_many :case_notes,     dependent: :destroy
   has_many :assessments,    dependent: :destroy
 
   has_paper_trail
 
-  validates :kid_id, uniqueness: { case_sensitive: false }, if: 'kid_id.present?'
+  validates :kid_id, uniqueness: { case_sensitive: false }, if: -> { kid_id.present? }
   validates :user_ids, presence: true, on: :create
   validates :user_ids, presence: true, on: :update, unless: :exit_ngo?
   validates :initial_referral_date, :received_by_id, :gender, :referral_source_category_id, presence: true
@@ -106,9 +106,9 @@ class Client < ActiveRecord::Base
   validates_uniqueness_of :global_id, on: :create
 
   before_validation :assign_global_id, on: :create
-  before_create :set_country_origin
+  before_create :set_country_origin, :set_slug_as_alias
   before_update :disconnect_client_user_relation, if: :exiting_ngo?
-  after_create :set_slug_as_alias, :save_client_global_organization, :save_external_system_global
+  after_create :save_client_global_organization, :save_external_system_global
   after_save :create_client_history, :mark_referral_as_saved, :create_or_update_shared_client
   after_commit :remove_family_from_case_worker
 
@@ -118,13 +118,13 @@ class Client < ActiveRecord::Base
   scope :local_family_name_like,                   ->(value) { where('clients.local_family_name iLIKE ?', "%#{value.squish}%") }
   scope :slug_like,                                ->(value) { where('clients.slug iLIKE ?', "%#{value.squish}%") }
   scope :start_with_code,                          ->(value) { where('clients.code iLIKE ?', "#{value}%") }
-  scope :find_by_family_id,                        ->(value) { joins(cases: :family).where('families.id = ?', value).uniq }
+  scope :find_by_family_id,                        ->(value) { joins(cases: :family).where('families.id = ?', value).distinct }
   scope :status_like,                              ->        { CLIENT_STATUSES }
-  scope :is_received_by,                           ->        { joins(:received_by).pluck("CONCAT(users.first_name, ' ' , users.last_name)", 'users.id').uniq }
-  scope :referral_source_is,                       ->        { joins(:referral_source).where.not('referral_sources.name in (?)', ReferralSource::REFERRAL_SOURCES).pluck('referral_sources.name', 'referral_sources.id').uniq }
-  scope :is_followed_up_by,                        ->        { joins(:followed_up_by).pluck("CONCAT(users.first_name, ' ' , users.last_name)", 'users.id').uniq }
-  scope :province_is,                              ->        { joins(:province).pluck('provinces.name', 'provinces.id').uniq }
-  scope :birth_province_is,                        ->        { joins(:birth_province).pluck('provinces.name', 'provinces.id').uniq }
+  scope :is_received_by,                           ->        { joins(:received_by).distinct.pluck("CONCAT(users.first_name, ' ' , users.last_name)", 'users.id') }
+  scope :referral_source_is,                       ->        { joins(:referral_source).where.not('referral_sources.name in (?)', ReferralSource::REFERRAL_SOURCES).distinct.pluck('referral_sources.name', 'referral_sources.id') }
+  scope :is_followed_up_by,                        ->        { joins(:followed_up_by).distinct.pluck("CONCAT(users.first_name, ' ' , users.last_name)", 'users.id') }
+  scope :province_is,                              ->        { joins(:province).distinct.pluck('provinces.name', 'provinces.id') }
+  scope :birth_province_is,                        ->        { joins(:birth_province).distinct.pluck('provinces.name', 'provinces.id') }
   scope :accepted,                                 ->        { where(state: 'accepted') }
   scope :rejected,                                 ->        { where(state: 'rejected') }
   scope :male,                                     ->        { where(gender: 'male') }
@@ -424,13 +424,18 @@ class Client < ActiveRecord::Base
     if archived_slug.present?
       if slug.in? Client.pluck(:slug)
         random_char = slug.split('-')[0]
-        paper_trail.without_versioning { |obj| obj.update_columns(slug: "#{random_char}-#{id}") }
+        PaperTrail.request.disable_model(Client)
+        paper_trail { |obj| obj.update_columns(slug: "#{random_char}-#{id}") }
       end
     else
       random_char = generate_random_char
       Organization.switch_to short_name
-      paper_trail.without_versioning { |obj| obj.update_columns(slug: "#{random_char}-#{id}", archived_slug: "#{Organization.current.try(:short_name)}-#{id}") }
+      PaperTrail.request.disable_model(Client)
+      current_value = ActiveRecord::Base.connection.execute('select last_value from clients_id_seq').first['last_value']
+      self.slug = "#{random_char}-#{current_value + 1}"
+      paper_trail { |obj| obj.update_columns(slug: "#{random_char}-#{current_value + 1}", archived_slug: "#{short_name}-#{current_value + 1}") }
     end
+    PaperTrail.request.enable_model(Client)
   end
 
   def generate_random_char

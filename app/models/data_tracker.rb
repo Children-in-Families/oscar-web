@@ -1,3 +1,3 @@
-class DataTracker < ActiveRecord::Base
+class DataTracker < ApplicationRecord
   # intentionally left blank
 end

@@ -1,4 +1,4 @@
-class OrganizationType < ActiveRecord::Base
+class OrganizationType < ApplicationRecord
   has_many :partners, dependent: :restrict_with_error
 
   has_paper_trail

@@ -6,7 +6,7 @@ CIF.Referral_sourcesIndex = do ->
 
   _initSelect2 = ->
     $('select').select2()
-  
+
   _newReferralSourceValidation = ->
     data = {
       name: '#new_referral_source #referral_source_name',
@@ -36,7 +36,7 @@ CIF.Referral_sourcesIndex = do ->
     _modalButtonAction(form, btn, name, category)
     $(name).add(category).bind 'keyup change', ->
       _modalButtonAction(form, btn, name, category)
-    $('select').on 'select2-selected', ->
+    $('select').on 'select2:select', ->
       _modalButtonAction(form, btn, name, category)
 
   _modalButtonAction = (form, btn, name, category) ->
@@ -46,7 +46,7 @@ CIF.Referral_sourcesIndex = do ->
       $(form).find(btn).attr 'disabled', 'disabled'
     else
       $(form).find(btn).removeAttr 'disabled'
-    
-  
+
+
 
   { init: _init }

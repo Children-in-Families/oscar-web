@@ -1,4 +1,4 @@
-class CreateGovernmentFormFamilyPlans < ActiveRecord::Migration
+class CreateGovernmentFormFamilyPlans < ActiveRecord::Migration[5.2]
   def change
     create_table :government_form_family_plans do |t|
       t.string :goal, default: ''

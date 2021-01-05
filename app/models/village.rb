@@ -1,4 +1,4 @@
-class Village < ActiveRecord::Base
+class Village < ApplicationRecord
   has_paper_trail
 
   belongs_to :commune

@@ -1,4 +1,4 @@
-class LeaveProgram < ActiveRecord::Base
+class LeaveProgram < ApplicationRecord
   include NestedAttributesConcern
   include ClientEnrollmentTrackingConcern
 
@@ -10,7 +10,7 @@ class LeaveProgram < ActiveRecord::Base
   alias_attribute :new_date, :exit_date
 
   validates :exit_date, presence: true
-  validate :exit_date_value, if: 'exit_date.present?'
+  validate :exit_date_value, if: -> { exit_date.present? }
 
   after_save :create_leave_program_history
   after_create :update_enrollment_status, :set_client_status

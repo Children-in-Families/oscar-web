@@ -1,15 +1,15 @@
 #client-search.modal.fade{ role: 'dialog' }
-	.modal-dialog.modal-lg
-		.modal-content
-			.modal-body
-				.panel.panel-default#search-client
-					.panel-heading.heading-label.text-font
-						%h3.text-center= t('.search_client')
-					.panel-body
-						.row
-							.col-xs-12
-								= hidden_field :search_for_client, 'format-input', value: t('.search_for_client')
-								= hidden_field :searching, 'format-input', value: t('.searching')
-								= hidden_field :not_found, 'format-input', value: t('.not_found')
-								= hidden_field :please_enter_more_char, 'format-input', value: t('.please_enter_more')
-								= text_field_tag 'client-search', nil, class: 'form-control select2-search-client', id: 'search-client-select2'
+  .modal-dialog.modal-lg
+    .modal-content
+      .modal-body
+        .panel.panel-default#search-client
+          .panel-heading.heading-label.text-font
+            %h3.text-center= t('.search_client')
+          .panel-body
+            .row
+              .col-xs-12
+                = hidden_field :search_for_client, 'format-input', value: t('.search_for_client')
+                = hidden_field :searching, 'format-input', value: t('.searching')
+                = hidden_field :not_found, 'format-input', value: t('.not_found')
+                = hidden_field :please_enter_more_char, 'format-input', value: t('.please_enter_more')
+                = select_tag 'client-search', nil, prompt: t('.search_for_client'), class: 'form-control select2-search-client', id: 'search-client-select2'

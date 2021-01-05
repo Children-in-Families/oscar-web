@@ -1,4 +1,4 @@
-class CreateClientClientType < ActiveRecord::Migration
+class CreateClientClientType < ActiveRecord::Migration[5.2]
   def change
     create_table :client_client_types do |t|
       t.references :client, index: true, foreign_key: true

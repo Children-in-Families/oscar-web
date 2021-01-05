@@ -2,13 +2,16 @@ module AdvancedSearches
   class ClientAdvancedSearch
     def initialize(basic_rules, clients, overdue_assessment = false)
       @clients                = clients
-      @basic_rules            = basic_rules
+      @basic_rules            = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
       @overdue_assessment     = overdue_assessment
     end
 
     def filter
       query_array = []
       rules       = []
+
+      return Client.where(id: []) if @basic_rules && @basic_rules['rules'].blank?
+
       client_base_sql = AdvancedSearches::ClientBaseSqlBuilder.new(@clients, @basic_rules).generate
       query_array << client_base_sql[:sql_string]
       client_base_sql[:values].each{ |v| query_array << v }

@@ -1,4 +1,4 @@
-class CreateLeavePrograms < ActiveRecord::Migration
+class CreateLeavePrograms < ActiveRecord::Migration[5.2]
   def change
     create_table :leave_programs do |t|
       t.jsonb :properties

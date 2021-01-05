@@ -1,4 +1,4 @@
-class Need < ActiveRecord::Base
+class Need < ApplicationRecord
   has_paper_trail
 
   has_many :government_form_needs, dependent: :restrict_with_error

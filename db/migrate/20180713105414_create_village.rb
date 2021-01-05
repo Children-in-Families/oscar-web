@@ -1,4 +1,4 @@
-class CreateVillage < ActiveRecord::Migration
+class CreateVillage < ActiveRecord::Migration[5.2]
   def change
     create_table :villages do |t|
       t.string :code, default: ''

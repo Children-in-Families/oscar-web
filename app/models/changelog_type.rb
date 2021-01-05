@@ -1,4 +1,4 @@
-class ChangelogType < ActiveRecord::Base
+class ChangelogType < ApplicationRecord
   belongs_to :changelog
 
   default_scope { order(:change_type) }

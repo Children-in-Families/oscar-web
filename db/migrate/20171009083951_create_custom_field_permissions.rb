@@ -1,4 +1,4 @@
-class CreateCustomFieldPermissions < ActiveRecord::Migration
+class CreateCustomFieldPermissions < ActiveRecord::Migration[5.2]
   def change
     create_table :custom_field_permissions do |t|
       t.references :user, index: true, foreign_key: true

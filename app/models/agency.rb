@@ -1,4 +1,4 @@
-class Agency < ActiveRecord::Base
+class Agency < ApplicationRecord
   has_many :agency_clients
   has_many :clients, through: :agency_clients
   has_paper_trail

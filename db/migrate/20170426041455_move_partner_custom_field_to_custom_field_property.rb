@@ -1,4 +1,4 @@
-class MovePartnerCustomFieldToCustomFieldProperty < ActiveRecord::Migration
+class MovePartnerCustomFieldToCustomFieldProperty < ActiveRecord::Migration[5.2]
   def change
     # unused table
     drop_table :partner_custom_fields

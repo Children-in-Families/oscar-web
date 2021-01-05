@@ -1,4 +1,4 @@
-class CreateClientNecessities < ActiveRecord::Migration
+class CreateClientNecessities < ActiveRecord::Migration[5.2]
   def change
     create_table :client_necessities do |t|
       t.references :client, index: true, foreign_key: true

@@ -1,4 +1,4 @@
-class AddEnrollmentDefaultValueToProgramStream < ActiveRecord::Migration
+class AddEnrollmentDefaultValueToProgramStream < ActiveRecord::Migration[5.2]
   def up
     change_column :program_streams, :enrollment, :jsonb, default: {}
   end

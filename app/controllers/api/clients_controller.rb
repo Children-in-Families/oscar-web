@@ -1,9 +1,8 @@
 module Api
   class ClientsController < Api::ApplicationController
-
     def search_client
-      clients = Client.all.where("given_name ILIKE ? OR family_name ILIKE ? OR local_given_name ILIKE ? OR local_family_name ILIKE ? OR slug ILIKE ?", "%#{params[:q]}%", "%#{params[:q]}%", "%#{params[:q]}%", "%#{params[:q]}%", "%#{params[:q]}%").select(:id, :slug, :given_name, :family_name, :local_given_name, :local_family_name)
-      render json: clients, serializer: false
+      clients = Client.where('given_name ILIKE ? OR family_name ILIKE ? OR local_given_name ILIKE ? OR local_family_name ILIKE ? OR slug ILIKE ?', "%#{params[:q]}%", "%#{params[:q]}%", "%#{params[:q]}%", "%#{params[:q]}%", "%#{params[:q]}%").select(:id, :slug, :given_name, :family_name, :local_given_name, :local_family_name, :status, :profile)
+      render json: clients.to_json, serializer: nil
     end
 
     def compare
@@ -54,7 +53,7 @@ module Api
       end
 
       if client_saved
-        render json: { slug: client.slug, id: client.id }, status: :ok
+        render json: { slug: client.slug, id: client.id }, serializer: nil, status: :ok
       else
         render json: client.errors, status: :unprocessable_entity
       end
@@ -177,7 +176,7 @@ module Api
       field_settings.each do |field_setting|
         next if field_setting.group != 'client' || field_setting.required? || field_setting.visible?
 
-        client_params.except!(field_setting.name.to_sym)
+        client_params.to_h.except!(field_setting.name.to_sym)
       end
 
       Client::LEGAL_DOC_FIELDS.each do |attachment_field|

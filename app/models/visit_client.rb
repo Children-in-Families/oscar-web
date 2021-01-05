@@ -1,4 +1,4 @@
-class VisitClient < ActiveRecord::Base
+class VisitClient < ApplicationRecord
   acts_as_paranoid
 
   belongs_to :user, with_deleted: true

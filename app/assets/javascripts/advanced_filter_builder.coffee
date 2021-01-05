@@ -119,8 +119,10 @@ class CIF.AdvancedFilterBuilder
           month_has_changed: 'score has changed between month#'
           month_has_not_changed: 'score has not changed between month#'
       filters: @fieldList
-      plugins:
+      plugins: {
+        'select2': 'select2'
         'sortable': { 'inherit_no_sortable': false, 'inherit_no_drop': false }
+      }
 
   setRuleFromSavedSearch: ->
     self = @
@@ -151,5 +153,5 @@ class CIF.AdvancedFilterBuilder
       e.rules and e.rules.forEach(cb)
       return
 
-    rules.forEach(cb)
+    rules.forEach(cb) if rules
     return results

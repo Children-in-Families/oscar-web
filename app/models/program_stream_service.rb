@@ -1,4 +1,4 @@
-class ProgramStreamService < ActiveRecord::Base
+class ProgramStreamService < ApplicationRecord
   acts_as_paranoid
 
   belongs_to :program_stream

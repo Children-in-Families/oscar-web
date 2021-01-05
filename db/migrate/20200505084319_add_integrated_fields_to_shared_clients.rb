@@ -1,4 +1,4 @@
-class AddIntegratedFieldsToSharedClients < ActiveRecord::Migration
+class AddIntegratedFieldsToSharedClients < ActiveRecord::Migration[5.2]
   def change
     add_column :shared_clients, :external_id, :string
     add_index :shared_clients, :external_id

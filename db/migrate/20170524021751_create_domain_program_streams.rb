@@ -1,4 +1,4 @@
-class CreateDomainProgramStreams < ActiveRecord::Migration
+class CreateDomainProgramStreams < ActiveRecord::Migration[5.2]
   def change
     create_table :domain_program_streams do |t|
       t.integer :program_stream_id

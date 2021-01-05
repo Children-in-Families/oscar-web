@@ -1,4 +1,4 @@
-class AddHotlineFieldsToClient < ActiveRecord::Migration
+class AddHotlineFieldsToClient < ActiveRecord::Migration[5.2]
   def change
     add_column :clients, :nickname, :string, default: ''
     # Relationship to Caller

@@ -22,12 +22,40 @@
 }
 
 .btn-toastr-confirm {
-  color: #333333
+  color: #333333;
 }
 
-#toast-container > .toast-warning{
+#toast-container > .toast-warning {
   &:before {
     content: "\f071";
   }
   background-image: none !important;
+}
+
+#filter_form {
+  .row {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .row > [class*="col-"] {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+select + .select2-container {
+  width: 100% !important;
+}
+
+.select2-container.select2-container--bootstrap.select2-container--open {
+  z-index: 9999 !important;
+}
+
+.select2-container--bootstrap .select2-results__option--highlighted {
+  a {
+    color: white;
+  }
 }

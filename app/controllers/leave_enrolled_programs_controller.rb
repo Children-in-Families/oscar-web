@@ -16,7 +16,7 @@ class LeaveEnrolledProgramsController < AdminController
   end
 
   def create
-    @leave_program = @enrollment.create_leave_program(leave_program_params)
+    @leave_program = @enrollment.create_leave_program(leave_enrollment_program_params)
     if @leave_program.save
       redirect_to client_client_enrolled_program_leave_enrolled_program_path(@client, @enrollment, @leave_program), notice: t('.successfully_created')
     else
@@ -29,7 +29,7 @@ class LeaveEnrolledProgramsController < AdminController
   end
 
   def update
-    if @leave_program.update_attributes(leave_program_params)
+    if @leave_program.update_attributes(leave_enrollment_program_params)
       add_more_attachments(@leave_program)
       redirect_to client_client_enrolled_program_leave_enrolled_program_path(@client, @enrollment, @leave_program), notice: t('.successfully_updated')
     else
@@ -44,7 +44,6 @@ class LeaveEnrolledProgramsController < AdminController
   def destroy
     name = params[:file_name]
     index = params[:file_index].to_i
-    params_program_streams = params[:program_streams]
     if name.present? && index.present?
       delete_form_builder_attachment(@leave_program, name, index)
     end
@@ -55,8 +54,14 @@ class LeaveEnrolledProgramsController < AdminController
     enter_ngos = @client.enter_ngos
     exit_ngos  = @client.exit_ngos
     cps_enrollments = @client.client_enrollments
-    cps_leave_programs = LeaveProgram.joins(:client_enrollment).where("client_enrollments.client_id = ?", @client.id)
+    cps_leave_programs = LeaveProgram.joins(:client_enrollment).where('client_enrollments.client_id = ?', @client.id)
     referrals = @client.referrals
     @case_histories = (enter_ngos + exit_ngos + cps_enrollments + cps_leave_programs + referrals).sort { |current_record, next_record| -([current_record.created_at, current_record.new_date] <=> [next_record.created_at, next_record.new_date]) }
+  end
+
+  private
+
+  def leave_enrollment_program_params
+    leave_program_params.permit(:exit_date, :program_stream_id, form_builder_attachments_attributes: {}, properties: {})
   end
 end

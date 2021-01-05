@@ -6,12 +6,6 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
   TRACKING = ''
   DATA_TABLE_ID = ''
   @formBuilder = []
-  @window.getServiceData = (td)->
-    data = {id: td.children[0].value, text: td.children[0].text }
-
-    newOption = new Option(data.text, data.id, true, true)
-    # Append it to the select
-    $('#type-of-service select').append(newOption).trigger 'change'
 
   _init = ->
     @filterTranslation = ''
@@ -38,7 +32,8 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     _custom_field_list()
     _initDataTable()
     _filterSelecting()
-    _selectServiceTypeTableResult()
+    service_types = new CIF.ServiceTypes({ element: '#type-of-service', isFromDashboard: false })
+    service_types.selectServiceTypeTableResult()
 
   _initDataTable = ->
     $('.custom-field-table').each ->
@@ -121,10 +116,10 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       for value in $(programExclusive).val()
         $(mutualDependence).find("option[value=#{value}]").attr('disabled', true)
 
-    $(programExclusive).on 'select2-selecting', (select)->
+    $(programExclusive).on 'select2:selecting', (select)->
       $(mutualDependence).find("option[value=#{select.val}]").attr('disabled', true)
 
-    $(programExclusive).on 'select2-removed', (select)->
+    $(programExclusive).on 'select2:unselect', (select)->
       $(mutualDependence).find("option[value=#{select.val}]").removeAttr('disabled')
 
   _selectOptonMutualDependence = (programExclusive, mutualDependence) ->
@@ -132,10 +127,10 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       for value in mutualDependence.val()
         $(programExclusive).find("option[value=#{value}]").attr('disabled', true)
 
-    $(mutualDependence).on 'select2-selecting', (select)->
+    $(mutualDependence).on 'select2:selecting', (select)->
       $(programExclusive).find("option[value=#{select.val}]").attr('disabled', true)
 
-    $(mutualDependence).on 'select2-removed', (select)->
+    $(mutualDependence).on 'select2:unselect', (select)->
       $(programExclusive).find("option[value=#{select.val}]").removeAttr('disabled')
 
   _handleSelectTab = ->
@@ -207,7 +202,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       save: $('.program-steps').data('save')
 
   _handleSelectOptionChange = ->
-    $('select').on 'select2-selecting', (e) ->
+    $('select').on 'select2:selecting', (e) ->
       setTimeout (->
         $('.rule-operator-container select, .rule-value-container select').select2(
           width: '180px'
@@ -219,7 +214,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       url: '/api/program_stream_add_rule/get_fields'
       method: 'GET'
       success: (response) ->
-        fieldList = response.program_stream_add_rule
+        fieldList =  if !response.program_stream_add_rule then response else response.program_stream_add_rule
         builder = new CIF.AdvancedFilterBuilder($('#program-rule'), fieldList, filterTranslation)
         builder.initRule()
         setTimeout (->
@@ -497,7 +492,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
           for labelField in labelFields
             text = labelField.textContent.allReplace(specialCharacters)
-            if fields.includes(text)
+            if fields && fields.includes(text)
               _removeActionFormBuilder(labelField, elementId)
 
   _hideActionInTracking = (fields) ->
@@ -540,7 +535,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
           for labelField in labelFields
             text = labelField.textContent.allReplace(specialCharacters)
-            if fields.includes(text)
+            if fields && fields.includes(text)
               _removeActionFormBuilderProgramStream(labelField)
 
   _hideActionInTrackingProgramStream = (fields) ->
@@ -679,7 +674,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
   _handleRemoveFrequency = ->
     frequencies = $('.program_stream_trackings_frequency select')
-    $(frequencies).on 'select2-removed', (element) ->
+    $(frequencies).on 'select2:unselect', (element) ->
       select          = element.currentTarget
       nestedField     = $(select).parents('.nested-fields')
       timeOfFrequency = $(nestedField).find('.program_stream_trackings_time_of_frequency input')
@@ -689,7 +684,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
   _handleSelectFrequency = ->
     frequencies = $('.program_stream_trackings_frequency select')
-    $(frequencies).on 'select2-selecting', (element) ->
+    $(frequencies).on 'select2:selecting', (element) ->
       select          = element.currentTarget
       frequencyNote   = select.parentElement.nextElementSibling
       frequencyValue  = _convertFrequency(element.val)
@@ -753,14 +748,14 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       _disableOptions(element)
 
   _filterSelecting = ->
-    $('.rule-filter-container select').on 'select2-selecting', ->
+    $('.rule-filter-container select').on 'select2:selecting', ->
       self = @
       setTimeout ( ->
         _opertatorSelecting()
       )
 
   _opertatorSelecting = ->
-    $('.rule-operator-container select').on 'select2-selected', ->
+    $('.rule-operator-container select').on 'select2:select', ->
       _disableOptions(@)
       _setDefaultBetweenSchoolGrade(@)
 
@@ -804,79 +799,6 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         setTimeout( ->
           $(select).find('select').val('1').trigger('change')
         , 100)
-
-  _selectServiceTypeTableResult = () ->
-    if $('li').hasClass('first current')
-      # $('#type-of-service select').select2()
-
-      format = (state) ->
-        if !state.id
-          return state.text
-
-      serviceFormatSelection = (service) ->
-        service.text
-
-      $('#type-of-service select').select2
-        width: '100%'
-        formatSelection: serviceFormatSelection
-        escapeMarkup: (m) ->
-          m
-
-      createHeaderElement = (options, indexes)->
-        html = ""
-        indexes.forEach (entry) ->
-          html += "<th><b>#{options[entry][0]}</b></th>"
-        html
-
-      createRowElement = (options, indexes) ->
-        html = ""
-        indexes.forEach (entries) ->
-          td = ""
-          entries.forEach (index) ->
-            td += "<td width='' onclick='getServiceData(this)'><option value='#{options[index][1]}'>#{options[index][0]}</option></td>"
-
-          html += "<tr>#{td}</tr>"
-        html
-
-      $('#type-of-service select').on 'select2-open', (e) ->
-        arr = []
-        i = 0
-        while i < $('#type-of-service').data('custom').length
-          arr.push i
-          i++
-
-        options = $('#type-of-service').data('custom')
-        results = []
-        chunk_size = 13
-        while arr.length > 0
-          results.push arr.splice(0, chunk_size)
-
-        indexes = results.shift()
-        th  = createHeaderElement(options, indexes)
-        row = createRowElement(options, results)
-
-        html = '<table class="table table-bordered" style="margin-top: 5px;margin-bottom: 0px;"><thead>' + th + '</thead><tbody>' + row + '</tbody></table>'
-        $('#select2-drop .select2-results').html $(html)
-        # $('.select2-results').prepend "#{html}"
-        return
-
-      removeError = (element) ->
-        element.removeClass('has-error')
-        element.find('.help-block').remove()
-
-      $('#type-of-service select').on 'select2-close', (e)->
-        uniqueArray = _.compact(_.uniq($(this).val()))
-
-        if uniqueArray.length > 3
-          $(this.parentElement).append "<p class='help-block'>#{$('input#confirm-question').val()}</p>" if $(this.parentElement).find('.help-block').length == 0
-          $(this.parentElement).addClass('has-error')
-
-        return
-
-      $('#type-of-service select').on 'select2-removed', ->
-        uniqueArray = _.compact(_.uniq($(this).val()))
-        if uniqueArray.length <= 3
-          removeError($(this.parentElement))
 
   { init: _init }
 

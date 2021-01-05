@@ -11,7 +11,7 @@ CIF.UsersNew = CIF.UsersCreate = CIF.UsersEdit = CIF.UsersUpdate = CIF.Registrat
       radioClass: 'iradio_square-green'
 
   _initSelect2 = ->
-    $('select').select2({ allowClear: true }, _clearSelectedOption()).on('select2-removing', (e) ->
+    $('select').select2({ allowClear: true }, _clearSelectedOption()).on('select2:unselecting', (e) ->
       shouldRemove = true
       if $(@).attr('multiple').length > 0 and ($('body').attr('id') == 'users-update' or $('body').attr('id') == 'users-edit')
         path = "/api/clients/#{e.val}/find_client_case_worker?user_id=#{$('#user_id').val()}"
@@ -30,7 +30,7 @@ CIF.UsersNew = CIF.UsersCreate = CIF.UsersEdit = CIF.UsersUpdate = CIF.Registrat
         $('.select.optional.user_clients').append("<span class='help-block'>#{$('#warning_message').val()}</span>")
 
       return shouldRemove
-    ).on 'select2-selecting', (e) ->
+    ).on 'select2:selecting', (e) ->
       if $(@).attr('id').length > 0 and e.val != 'strategic overviewer'
         $('#clients-selection:hidden').removeClass('hide')
       else

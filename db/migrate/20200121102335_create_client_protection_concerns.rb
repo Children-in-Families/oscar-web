@@ -1,4 +1,4 @@
-class CreateClientProtectionConcerns < ActiveRecord::Migration
+class CreateClientProtectionConcerns < ActiveRecord::Migration[5.2]
   def change
     create_table :client_protection_concerns do |t|
       t.references :client, index: true, foreign_key: true

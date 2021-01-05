@@ -1,4 +1,4 @@
-class ChangeConsentFormColumnType < ActiveRecord::Migration
+class ChangeConsentFormColumnType < ActiveRecord::Migration[5.2]
   def up
     change_column :referrals, :consent_form, :string, array: true, default: [], using: "(string_to_array(consent_form, ','))"
   end

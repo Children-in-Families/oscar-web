@@ -1,5 +1,5 @@
 - @custom_assessment_setting.each do |cs|
-  %div.tab-pane{role: "tabpanel", id: "#{cs.custom_assessment_name.downcase.strip.parameterize('-')}-custom-csi-tools"}
+  %div.tab-pane{role: "tabpanel", id: "#{cs.custom_assessment_name.downcase.strip.parameterize}-custom-csi-tools"}
     .row
       .col-xs-12
         .ibox
@@ -13,4 +13,4 @@
                     = t('.add_new_domain')
           = render partial: 'domain_list', collection: cs.domains, as: :domain
           .text-center
-            = paginate @custom_assessment_paginate, params: { tab: "#{cs.custom_assessment_name.downcase.strip.parameterize('-')}-custom-csi-tools" }, :param_name => 'page_2'
+            = paginate @custom_assessment_paginate, params: { tab: "#{cs.custom_assessment_name.downcase.strip.parameterize}-custom-csi-tools" }, :param_name => 'page_2'

@@ -1,4 +1,4 @@
-class AddMoreFieldsToClients < ActiveRecord::Migration
+class AddMoreFieldsToClients < ActiveRecord::Migration[5.2]
   def change
     add_column :clients, :presented_id, :string
     add_column :clients, :id_number, :string

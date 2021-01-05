@@ -1,4 +1,4 @@
-class GovernmentFormChildrenPlan < ActiveRecord::Base
+class GovernmentFormChildrenPlan < ApplicationRecord
   has_paper_trail
 
   delegate :name, to: :children_plan, prefix: true, allow_nil: true

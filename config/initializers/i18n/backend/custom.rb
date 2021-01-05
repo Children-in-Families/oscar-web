@@ -25,11 +25,14 @@ module I18n::Backend::Custom
   def load_translations(*filenames)
     filenames = I18n.load_path if filenames.empty?
     filenames.flatten.each { |filename| load_file(filename) }
+    load_custom_labels = nil
 
-    if ActiveRecord::Base.connection.table_exists? 'settings'
-      nepal_commune_mapping if Setting.first&.country_name == 'nepal'
+    def database_exists?
+      nepal_commune_mapping if ActiveRecord::Base.connection.table_exists?('settings') && Setting.first&.country_name == 'nepal'
+      load_custom_labels if ActiveRecord::Base.connection.table_exists? 'field_settings'
+    rescue ActiveRecord::NoDatabaseError
+      false
     end
-    load_custom_labels if ActiveRecord::Base.connection.table_exists? 'field_settings'
   end
 
   def load_custom_labels

@@ -1,4 +1,4 @@
-class RemoveFieldsFromProgramStream < ActiveRecord::Migration
+class RemoveFieldsFromProgramStream < ActiveRecord::Migration[5.2]
   def change
     remove_column :program_streams, :tracking, :jsonb
     remove_column :program_streams, :frequency, :string

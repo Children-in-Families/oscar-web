@@ -1,4 +1,4 @@
-class UpdateVisitorRoleToStrategicOverviewer < ActiveRecord::Migration
+class UpdateVisitorRoleToStrategicOverviewer < ActiveRecord::Migration[5.2]
   def change
     unprocessable_users = []
 

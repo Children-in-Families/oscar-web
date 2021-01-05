@@ -1,2 +1,2 @@
-class Material < ActiveRecord::Base
+class Material < ApplicationRecord
 end

@@ -1,4 +1,4 @@
-class FieldSetting < ActiveRecord::Base
+class FieldSetting < ApplicationRecord
   self.inheritance_column = :_type_disabled
 
   translates :label

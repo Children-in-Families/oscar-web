@@ -1,5 +1,6 @@
 CIF.Common =
   init: ->
+    @queryBuilderSelect2PluginInit()
     @hideDynamicOperator()
     @validateFilterNumber()
     @customCheckBox()
@@ -10,6 +11,47 @@ CIF.Common =
     @checkValidationErrorExistOnSaving()
     @preventEditOnDatePicker()
     @confirmOnCancelBotton()
+    $.fn.select2.defaults.set( "theme", "bootstrap" )
+
+  queryBuilderSelect2PluginInit: ->
+    $.fn.queryBuilder.define 'select2', ((options) ->
+      if !$.fn.select2 or !$.fn.select2.constructor
+        Utils.error 'MissingLibrary', 'Select2 is required'
+      Selectors = $(".rule-operator-container [name$=_operator], .rule-filter-container [name$=_filter]")
+      if Selectors
+        @on 'afterCreateRuleFilters', (e, rule) ->
+          selectInput = rule.$el.find(".rule-filter-container select[name$=_filter]")
+          selectInput.parent().css('minWidth', '250px')
+          selectInput.select2 options
+          return
+        @on 'afterCreateRuleOperators', (e, rule) ->
+          selectInput = rule.$el.find(".rule-operator-container select[name$=_operator]")
+          selectInput.parent().css('minWidth', '150px')
+          selectInput.select2 options
+          return
+        @on 'afterUpdateRuleFilter', (e, rule) ->
+          rule.$el.find(".rule-filter-container [name$=_filter]").select2 options
+          selectInput = rule.$el.find(".rule-value-container select[name*=_value_]")
+          selectInput.parent().css('minWidth', '250px')
+          selectInput.select2 options
+          return
+        @on 'afterUpdateRuleOperator', (e, rule) ->
+          rule.$el.find(".rule-operator-container [name$=_operator]").select2 options
+          selectInput = rule.$el.find(".rule-value-container select[name*=_value_]")
+          selectInput.parent().css('minWidth', '250px')
+          selectInput.select2(dropdownAutoWidth: true)
+          return
+        @on 'beforeDeleteRule', (e, rule) ->
+          rule.$el.find(".rule-filter-container select[name$=_filter]").select2 'destroy'
+          rule.$el.find(".rule-operator-container select[name$=_operator]").select2 'destroy'
+          return
+      return
+    ),
+      container: 'body'
+      style: 'btn-inverse btn-xs'
+      width: '250px'
+      dropdownAutoWidth: true
+      showIcon: false
 
   preventEditOnDatePicker: ->
     $('.date-picker').datepicker

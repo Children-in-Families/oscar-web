@@ -1,4 +1,4 @@
-class AddDefaultFieldToClientEnrollmentTracking < ActiveRecord::Migration
+class AddDefaultFieldToClientEnrollmentTracking < ActiveRecord::Migration[5.2]
   def up
     change_column :client_enrollment_trackings, :properties, :jsonb, default: {}
   end

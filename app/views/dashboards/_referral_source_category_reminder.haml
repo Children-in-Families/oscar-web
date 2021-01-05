@@ -17,7 +17,7 @@
                     %label
                       %abbr{ title: 'required' } *
                       = t('.ancestry')
-                    = f.input :ancestry, collection: referral_source_name(ReferralSource.parent_categories), label: false, input_html: { class: "#{referral_source.id}" }
+                    = f.input :ancestry, collection: referral_source_name(ReferralSource.parent_categories), label: false, input_html: { class: "referral_source_ancestry select #{referral_source.id}", id: "referral_source_ancestry-#{referral_source.id}" }
                   .col-xs-2
                     = f.submit t('save'), class: "btn btn-primary form-btn save-#{referral_source.id} save-referral-btn", disabled: :disabled, data: { disable_with: "#{t('save')}..." }
                     = image_tag 'success.png', class: "save-success hide save-success#{referral_source.id}"

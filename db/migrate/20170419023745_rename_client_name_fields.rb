@@ -1,4 +1,4 @@
-class RenameClientNameFields < ActiveRecord::Migration
+class RenameClientNameFields < ActiveRecord::Migration[5.2]
   def change
     rename_column :clients, :first_name,       :given_name
     rename_column :clients, :last_name,        :family_name

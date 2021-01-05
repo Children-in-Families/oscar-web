@@ -25,7 +25,7 @@ module ClientsHelper
   end
 
   def order_case_worker(client)
-    client.users.distinct.sort
+    client.users.uniq.sort
   end
 
   def partner(partner)
@@ -313,7 +313,7 @@ module ClientsHelper
   end
 
   def form_builder_format_key(value)
-    value.downcase.parameterize('_')
+    value.downcase.parameterize.underscore
   end
 
   def form_builder_format(value)
@@ -911,7 +911,7 @@ module ClientsHelper
               data_filter = date_filter(client.assessments.defaults, "#{class_name}")
             else
               data_filter = date_filter(client.assessments.defaults, "#{class_name}")
-              count += data_filter.flatten.count if data_filter
+              count += data_filter.count if data_filter
             end
             count += data_filter ? data_filter.count : assessment_count
           elsif class_name[/^(date_of_custom_assessments)/i].present?
@@ -919,7 +919,7 @@ module ClientsHelper
               data_filter = date_filter(client.assessments.customs, "#{class_name}")
             else
               data_filter = date_filter(client.assessments.customs, "#{class_name}")
-              count += data_filter.flatten.count if data_filter
+              count += data_filter.count if data_filter
             end
           elsif class_name[/^(formbuilder)/i].present?
             if fields.last == 'Has This Form'
@@ -950,7 +950,7 @@ module ClientsHelper
 
       if count > 0 && class_name != 'case_note_type'
         class_name = class_name =~ /^(formbuilder)/i ? column.name.to_s : class_name
-        link_all = params['all_values'] != class_name ? button_to('All', ad_search_clients_path, params: params.merge(all_values: class_name), remote: false, form_class: 'all-values') : ''
+        link_all = params['all_values'] != class_name ? button_to('All', ad_search_clients_path, params: request.parameters.merge(all_values: class_name), remote: false, form_class: 'all-values') : ''
         [column.header.truncate(65),
           content_tag(:span, count, class: 'label label-info'),
           link_all

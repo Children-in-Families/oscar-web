@@ -1,4 +1,4 @@
-class UpdateReferences < ActiveRecord::Migration
+class UpdateReferences < ActiveRecord::Migration[5.2]
   def change
     remove_reference :case_notes,  :case
     remove_reference :assessments, :case

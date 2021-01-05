@@ -38,7 +38,7 @@ class ApplicationController < ActionController::Base
   end
 
   def field_settings
-    @field_settings ||= FieldSetting.where('for_instances IS NULL OR for_instances iLIKE ?', "#{current_organization.short_name}")
+    @field_settings ||= FieldSetting.where('for_instances IS NULL OR for_instances iLIKE ?', current_organization.short_name.to_s)
   end
 
   def pundit_user
@@ -48,22 +48,9 @@ class ApplicationController < ActionController::Base
   private
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.for(:account_update) << :first_name
-    devise_parameter_sanitizer.for(:account_update) << :last_name
-    devise_parameter_sanitizer.for(:account_update) << :date_of_birth
-    devise_parameter_sanitizer.for(:account_update) << :job_title
-    devise_parameter_sanitizer.for(:account_update) << :department_id
-    devise_parameter_sanitizer.for(:account_update) << :start_date
-    devise_parameter_sanitizer.for(:account_update) << :province_id
-    devise_parameter_sanitizer.for(:account_update) << :mobile
-    devise_parameter_sanitizer.for(:account_update) << :task_notify
-    devise_parameter_sanitizer.for(:account_update) << :calendar_integration
-    devise_parameter_sanitizer.for(:account_update) << :pin_code
-    devise_parameter_sanitizer.for(:account_update) << :program_warning
-    devise_parameter_sanitizer.for(:account_update) << :domain_warning
-    devise_parameter_sanitizer.for(:account_update) << :gender
-    devise_parameter_sanitizer.for(:account_update) << :preferred_language
-    devise_parameter_sanitizer.for(:account_update) << :referral_notification
+    devise_parameter_sanitizer.permit(:account_update) do |user_params|
+      user_params.permit(:first_name, :last_name, :date_of_birth, :job_title, :department_id, :start_date, :province_id, :mobile, :task_notify, :calendar_integration, :pin_code, :program_warning, :domain_warning, :gender, :preferred_language, :referral_notification, :current_password)
+    end
   end
 
   def find_association
