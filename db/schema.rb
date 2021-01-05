@@ -11,12 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20201222115437) do
+ActiveRecord::Schema.define(version: 20210105152037) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
-  enable_extension "pgcrypto"
   enable_extension "uuid-ossp"
 
   create_table "able_screening_questions", force: :cascade do |t|
@@ -105,8 +104,9 @@ ActiveRecord::Schema.define(version: 20201222115437) do
 
   create_table "ar_internal_metadata", primary_key: "key", force: :cascade do |t|
     t.string   "value"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.integer  "environment"
   end
 
   create_table "assessment_domains", force: :cascade do |t|
@@ -830,9 +830,11 @@ ActiveRecord::Schema.define(version: 20201222115437) do
     t.text     "score_8_local_definition",     default: ""
     t.text     "score_9_local_definition",     default: ""
     t.text     "score_10_local_definition",    default: ""
+    t.string   "domain_type"
   end
 
   add_index "domains", ["domain_group_id"], name: "index_domains_on_domain_group_id", using: :btree
+  add_index "domains", ["domain_type"], name: "index_domains_on_domain_type", using: :btree
 
   create_table "donor_organizations", force: :cascade do |t|
     t.integer "donor_id"
@@ -852,32 +854,6 @@ ActiveRecord::Schema.define(version: 20201222115437) do
   end
 
   add_index "donors", ["global_id"], name: "index_donors_on_global_id", using: :btree
-
-  create_table "enrollment_trackings", force: :cascade do |t|
-    t.integer  "enrollment_id"
-    t.integer  "tracking_id"
-    t.jsonb    "properties",    default: {}
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-  end
-
-  add_index "enrollment_trackings", ["enrollment_id"], name: "index_enrollment_trackings_on_enrollment_id", using: :btree
-  add_index "enrollment_trackings", ["tracking_id"], name: "index_enrollment_trackings_on_tracking_id", using: :btree
-
-  create_table "enrollments", force: :cascade do |t|
-    t.jsonb    "properties",        default: {}
-    t.string   "status",            default: "Active"
-    t.date     "enrollment_date"
-    t.datetime "deleted_at"
-    t.string   "programmable_type"
-    t.integer  "programmable_id"
-    t.integer  "program_stream_id"
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
-  end
-
-  add_index "enrollments", ["deleted_at"], name: "index_enrollments_on_deleted_at", using: :btree
-  add_index "enrollments", ["program_stream_id"], name: "index_enrollments_on_program_stream_id", using: :btree
 
   create_table "enter_ngo_users", force: :cascade do |t|
     t.integer "user_id"
@@ -1297,12 +1273,10 @@ ActiveRecord::Schema.define(version: 20201222115437) do
     t.integer  "program_stream_id"
     t.date     "exit_date"
     t.datetime "deleted_at"
-    t.integer  "enrollment_id"
   end
 
   add_index "leave_programs", ["client_enrollment_id"], name: "index_leave_programs_on_client_enrollment_id", using: :btree
   add_index "leave_programs", ["deleted_at"], name: "index_leave_programs_on_deleted_at", using: :btree
-  add_index "leave_programs", ["enrollment_id"], name: "index_leave_programs_on_enrollment_id", using: :btree
 
   create_table "locations", force: :cascade do |t|
     t.string   "name",         default: ""
@@ -1484,7 +1458,6 @@ ActiveRecord::Schema.define(version: 20201222115437) do
     t.integer  "mutual_dependence", default: [],                 array: true
     t.boolean  "tracking_required", default: false
     t.datetime "archived_at"
-    t.string   "entity_type",       default: ""
   end
 
   add_index "program_streams", ["archived_at"], name: "index_program_streams_on_archived_at", using: :btree
@@ -1868,22 +1841,24 @@ ActiveRecord::Schema.define(version: 20201222115437) do
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "position",   null: false
   end
 
+  add_index "thredded_messageboard_groups", ["name"], name: "index_thredded_messageboard_group_on_name", unique: true, using: :btree
+
   create_table "thredded_messageboards", force: :cascade do |t|
-    t.string   "name",                  limit: 255,                 null: false
+    t.string   "name",                  limit: 191,             null: false
     t.string   "slug",                  limit: 191
     t.text     "description"
     t.integer  "topics_count",                      default: 0
     t.integer  "posts_count",                       default: 0
-    t.boolean  "closed",                            default: false, null: false
     t.integer  "last_topic_id"
     t.integer  "messageboard_group_id"
-    t.datetime "created_at",                                        null: false
-    t.datetime "updated_at",                                        null: false
+    t.datetime "created_at",                                    null: false
+    t.datetime "updated_at",                                    null: false
+    t.integer  "position",                                      null: false
   end
 
-  add_index "thredded_messageboards", ["closed"], name: "index_thredded_messageboards_on_closed", using: :btree
   add_index "thredded_messageboards", ["messageboard_group_id"], name: "index_thredded_messageboards_on_messageboard_group_id", using: :btree
   add_index "thredded_messageboards", ["slug"], name: "index_thredded_messageboards_on_slug", using: :btree
 
@@ -1946,6 +1921,7 @@ ActiveRecord::Schema.define(version: 20201222115437) do
     t.string   "hash_id",      limit: 191,             null: false
     t.datetime "created_at",                           null: false
     t.datetime "updated_at",                           null: false
+    t.datetime "last_post_at"
   end
 
   add_index "thredded_private_topics", ["hash_id"], name: "index_thredded_private_topics_on_hash_id", using: :btree
@@ -1983,6 +1959,7 @@ ActiveRecord::Schema.define(version: 20201222115437) do
     t.integer  "moderation_state",                             null: false
     t.datetime "created_at",                                   null: false
     t.datetime "updated_at",                                   null: false
+    t.datetime "last_post_at"
   end
 
   add_index "thredded_topics", ["hash_id"], name: "index_thredded_topics_on_hash_id", using: :btree
@@ -2008,21 +1985,23 @@ ActiveRecord::Schema.define(version: 20201222115437) do
   add_index "thredded_user_details", ["user_id"], name: "index_thredded_user_details_on_user_id", using: :btree
 
   create_table "thredded_user_messageboard_preferences", force: :cascade do |t|
-    t.integer  "user_id",                          null: false
-    t.integer  "messageboard_id",                  null: false
-    t.boolean  "notify_on_mention", default: true, null: false
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
+    t.integer  "user_id",                                 null: false
+    t.integer  "messageboard_id",                         null: false
+    t.boolean  "follow_topics_on_mention", default: true, null: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
+    t.boolean  "followed_topic_emails",    default: true, null: false
   end
 
   add_index "thredded_user_messageboard_preferences", ["user_id", "messageboard_id"], name: "thredded_user_messageboard_preferences_user_id_messageboard_id", unique: true, using: :btree
 
   create_table "thredded_user_preferences", force: :cascade do |t|
-    t.integer  "user_id",                          null: false
-    t.boolean  "notify_on_mention", default: true, null: false
-    t.boolean  "notify_on_message", default: true, null: false
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
+    t.integer  "user_id",                                 null: false
+    t.boolean  "follow_topics_on_mention", default: true, null: false
+    t.boolean  "notify_on_message",        default: true, null: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
+    t.boolean  "followed_topic_emails",    default: true, null: false
   end
 
   add_index "thredded_user_preferences", ["user_id"], name: "index_thredded_user_preferences_on_user_id", using: :btree
@@ -2152,10 +2131,10 @@ ActiveRecord::Schema.define(version: 20201222115437) do
     t.integer  "item_id",        null: false
     t.string   "event",          null: false
     t.string   "whodunnit"
-    t.text     "object"
     t.datetime "created_at"
-    t.text     "object_changes"
     t.integer  "transaction_id"
+    t.jsonb    "object"
+    t.jsonb    "object_changes"
   end
 
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
@@ -2249,9 +2228,6 @@ ActiveRecord::Schema.define(version: 20201222115437) do
   add_foreign_key "domains", "domain_groups"
   add_foreign_key "donor_organizations", "donors"
   add_foreign_key "donor_organizations", "organizations"
-  add_foreign_key "enrollment_trackings", "enrollments"
-  add_foreign_key "enrollment_trackings", "trackings"
-  add_foreign_key "enrollments", "program_streams"
   add_foreign_key "enter_ngo_users", "enter_ngos"
   add_foreign_key "enter_ngo_users", "users"
   add_foreign_key "enter_ngos", "clients"
@@ -2283,7 +2259,6 @@ ActiveRecord::Schema.define(version: 20201222115437) do
   add_foreign_key "hotlines", "calls"
   add_foreign_key "hotlines", "clients"
   add_foreign_key "leave_programs", "client_enrollments"
-  add_foreign_key "leave_programs", "enrollments"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
   add_foreign_key "partners", "organization_types"

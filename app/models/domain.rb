@@ -1,4 +1,5 @@
 class Domain < ActiveRecord::Base
+  TYPES = [['Client', 'client'], ['Family', 'family'], ['Community', 'community']].freeze
   belongs_to :domain_group, counter_cache: true
 
   has_many   :assessment_domains, dependent: :restrict_with_error
@@ -11,7 +12,7 @@ class Domain < ActiveRecord::Base
 
   has_paper_trail
 
-  validates :domain_group, presence: true
+  validates :domain_group, :domain_type, presence: true
   validates :name, :identity, presence: true, uniqueness: { case_sensitive: false, scope: :custom_assessment_setting}
   validates :custom_assessment_setting_id, presence: true, if: :custom_domain?
 
