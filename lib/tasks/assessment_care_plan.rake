@@ -12,9 +12,9 @@ namespace :assessment_data_to_care_plan do
               goal = care_plan.goals.create(goal_attr)
               puts "- created goal #{goal.id} for care plan#{care_plan.id} in #{org.short_name}"
               client.tasks.by_domain_id(ad.domain_id).incomplete.each do |task|
-                task_attr = Task.new(domain_id: ad.domain_id, name: task.name, completion_date: task.completion_date, relation: 'assessment', goal_id: goal.id, client_id: client.id).attributes
-                goal.tasks.create(task_attr)
-                puts "- created tasks for #{goal.id} in #{org.short_name}"
+                next if task.goal_id.present?
+                task.update_attributes(goal_id: goal.id)
+                puts "- added goal_id #{goal.id} to task in #{org.short_name}"
               end
             end
           end
