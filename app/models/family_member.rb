@@ -12,7 +12,7 @@ class FamilyMember < ActiveRecord::Base
   enumerize :gender, in: ['female', 'male', 'lgbt', 'unknown', 'prefer_not_to_say', 'other'], scope: true, predicates: { prefix: true }
 
   after_commit :save_aggregation_data, on: [:create, :update], if: :brc?
-  after_commit :save_client_data
+  after_commit :save_client_data, on: :update
 
   validates :client_id, uniqueness: { scope: :family_id }, if: :client_id?
 

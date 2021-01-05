@@ -296,6 +296,10 @@ class Client < ActiveRecord::Base
     name.present? ? name : local_name
   end
 
+  def display_name
+    ["Client ##{id}", name].select(&:present?).join(' - ')
+  end
+
   def en_and_local_name
     en_name = "#{given_name} #{family_name}"
     local_name = "#{local_family_name} #{local_given_name}"
@@ -506,7 +510,7 @@ class Client < ActiveRecord::Base
 
   def to_select2
     [
-      name, id, { data: {
+      display_name, id, { data: {
           date_of_birth: date_of_birth,
           gender: gender
         }
