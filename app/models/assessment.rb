@@ -1,5 +1,6 @@
 class Assessment < ActiveRecord::Base
   belongs_to :client, counter_cache: true
+  belongs_to :family, counter_cache: true
 
   has_many :assessment_domains, dependent: :destroy
   has_many :domains,            through:   :assessment_domains

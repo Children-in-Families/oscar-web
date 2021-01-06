@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210105152037) do
+ActiveRecord::Schema.define(version: 20210106034921) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -132,9 +132,11 @@ ActiveRecord::Schema.define(version: 20210105152037) do
     t.integer  "client_id"
     t.boolean  "completed",  default: false
     t.boolean  "default",    default: true
+    t.integer  "family_id"
   end
 
   add_index "assessments", ["client_id"], name: "index_assessments_on_client_id", using: :btree
+  add_index "assessments", ["family_id"], name: "index_assessments_on_family_id", using: :btree
 
   create_table "attachments", force: :cascade do |t|
     t.string   "image"
@@ -940,6 +942,19 @@ ActiveRecord::Schema.define(version: 20210105152037) do
     t.integer  "commune_id"
     t.integer  "village_id"
     t.integer  "user_id"
+    t.integer  "received_by_id"
+    t.integer  "followed_up_by_id"
+    t.date     "initial_referral_date"
+    t.date     "follow_up_date"
+    t.integer  "referral_source_category_id"
+    t.integer  "referral_source_id"
+    t.string   "referee_contact"
+    t.string   "name_en"
+    t.string   "phone_number"
+    t.string   "id_poor"
+    t.text     "relevant_information"
+    t.string   "referee_phone_number"
+    t.string   "slug",                            default: ""
   end
 
   add_index "families", ["commune_id"], name: "index_families_on_commune_id", using: :btree
@@ -969,6 +984,26 @@ ActiveRecord::Schema.define(version: 20210105152037) do
     t.datetime "updated_at",              null: false
     t.integer  "priority"
   end
+
+  create_table "family_referrals", force: :cascade do |t|
+    t.string   "slug",             default: ""
+    t.date     "date_of_referral"
+    t.string   "referred_to",      default: ""
+    t.string   "referred_from",    default: ""
+    t.text     "referral_reason",  default: ""
+    t.string   "name_of_referee",  default: ""
+    t.string   "referral_phone",   default: ""
+    t.string   "name_of_family",   default: ""
+    t.string   "ngo_name",         default: ""
+    t.integer  "referee_id"
+    t.boolean  "saved",            default: false
+    t.string   "consent_form",     default: [],                 array: true
+    t.integer  "family_id"
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+  end
+
+  add_index "family_referrals", ["family_id"], name: "index_family_referrals_on_family_id", using: :btree
 
   create_table "field_setting_translations", force: :cascade do |t|
     t.integer  "field_setting_id", null: false
@@ -2236,8 +2271,11 @@ ActiveRecord::Schema.define(version: 20210105152037) do
   add_foreign_key "families", "communes"
   add_foreign_key "families", "districts"
   add_foreign_key "families", "users"
+  add_foreign_key "families", "users", column: "followed_up_by_id"
+  add_foreign_key "families", "users", column: "received_by_id"
   add_foreign_key "families", "villages"
   add_foreign_key "family_members", "families"
+  add_foreign_key "family_referrals", "families"
   add_foreign_key "global_identity_organizations", "organizations"
   add_foreign_key "government_form_children_plans", "children_plans"
   add_foreign_key "government_form_children_plans", "government_forms"

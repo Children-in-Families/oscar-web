@@ -1,0 +1,59 @@
+- if Organization.current.short_name == 'demo' || Organization.current.short_name == 'tutorials'
+  - ngos = Organization.test_ngos.exclude_current.order(:full_name).map{|org| [org.full_name, org.short_name, disabled: @family_referral.referred_to != org.short_name] }
+- else
+  - ngos = Organization.exclude_current.oscar.order(:full_name).map{|org| [org.full_name, org.short_name, disabled: @family_referral.referred_to != org.short_name] }
+- ngos = mapping_ngos(ngos)
+= simple_form_for [@family, @family_referral || @family.family_referral.build] do |f|
+  = f.hidden_field :slug, value: @family.slug
+  
+  .row
+    .col-xs-12.col-sm-8.col-sm-offset-2
+      %p.text-danger.external-referral-warning.text-hide
+        = t('.external_referral_warning')
+      .row
+        .col-xs-12
+          .form-group.date.optional{ class: ('has-error' if f.error :date_of_referral) }
+            %label.date.control-label{ for: 'date_of_referral' }
+              %abbr{ title: 'required' } *
+              = t('.date_of_referral')
+            .input-group.date
+              = f.text_field :date_of_referral, class: 'date form-control date-picker datepicker-dropdown', type: 'text', name: 'family_referral[date_of_referral]', value: referral_date(f.object)
+              %span.input-group-addon
+                %i.fa.fa-calendar-check-o
+            = f.error :date_of_referral
+      .row
+        .col-xs-12
+          = f.input :name_of_family, readonly: true, input_html: { value: name_km_en }, label: t('.family_name')
+        .col-xs-12
+          .form-group.required
+            %label.required.control-label
+              %abbr *
+              = t('.family_id')
+            = text_field_tag nil, @family.id, class: 'form-control', readonly: true
+
+        .col-xs-12
+          = f.input :referred_from, readonly: true, input_html: { value: Organization.current.full_name }, label: t('.referred_from')
+        - if params[:ngo] == 'external referral' || @family_referral.referred_to == 'external referral'
+          .col-xs-12
+            = f.hidden_field :referred_to, as: :select, collection: ngos, label: t('.referred_to'), disabled: f.object.persisted?
+          .col-xs-12
+            = f.input :ngo_name, label: t('.ngo_name'), readonly: f.object.ngo_name.present?
+        - else
+          .col-xs-12
+            = f.input :referred_to, as: :select, collection: ngos, label: t('.referred_to'), disabled: f.object.persisted?
+        .col-xs-12
+          = f.input :name_of_referee, input_html: { value: referee_name(f.object) }, label: t('.name_of_referee')
+        .col-xs-12
+          = f.input :referee_id, as: :hidden, input_html: { value: referee_id(f.object) }
+        .col-xs-12
+          = f.input :referral_phone, input_html: { value: referee_phone(f.object) }, label: t('.referral_phone')
+        .col-xs-12
+          = f.input :referral_reason, as: :text, label: t('.referral_reason')
+        .col-xs-12
+          = render 'family_referrals/consent_form_fields', f: f
+        .col-xs-12
+          = f.submit t('save'), class: 'btn btn-primary form-btn btn-save', data: { disable_with: t('saving') }
+          - if @family_referral.persisted?
+            = link_to t('cancel'), family_family_referral_path(@family, @family_referral), class: 'btn btn-default form-btn'
+          - else
+            = link_to t('cancel'), family_path(@family), class: 'btn btn-default form-btn'
