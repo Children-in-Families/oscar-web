@@ -16,8 +16,9 @@
           = f.input :score_1_definition, label: t('.interpretation')
         .col-xs-3
           = f.input :score_1_local_definition, label: "#{t('.interpretation')} (#{country_langauge})"
-        .col-xs-3
-          = f.input :domain_type, collection: Domain::TYPES, selected: f.object.domain_type, label: 'Attach with', input_html: { class: 'select2', disable: 'disabled' }
+        .col-xs-3{ id: 'domain-type-wrapper', data: { enable: f.object.persisted? || f.object.domain_type != 'client' ? 'false' : 'true' } }
+          = f.input :domain_type, collection: Domain::TYPES, selected: f.object.domain_type, label: 'Attach with', input_html: { class: 'select2' }
+          = f.hidden_field :domain_type, value: f.object.domain_type
         .col-xs-3
           #domain_custom_assessment_setting{ class: (f.object.domain_type != 'client') && 'hidden' }
             - if params[:copy] == "true" || !params[:custom_assessment_setting_id].present?

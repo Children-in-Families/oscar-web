@@ -12,7 +12,6 @@ class Assessment < ActiveRecord::Base
   validate :must_be_enable
   validate :allow_create, :eligible_client_age, if: :new_record?
 
-
   before_save :set_previous_score, :set_assessment_completed
 
   accepts_nested_attributes_for :assessment_domains

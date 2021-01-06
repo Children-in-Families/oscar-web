@@ -13,15 +13,17 @@ class Domain < ActiveRecord::Base
   has_paper_trail
 
   validates :domain_group, :domain_type, presence: true
-  validates :name, :identity, presence: true, uniqueness: { case_sensitive: false, scope: :custom_assessment_setting}
-  validates :custom_assessment_setting_id, presence: true, if: :custom_domain?
+  validates :name, :identity, presence: true, uniqueness: { case_sensitive: false, scope: :custom_assessment_setting }
+  validates :custom_assessment_setting_id, presence: true, if: :custom_domain? && :domain_type_client?
 
   default_scope { order('domain_group_id ASC, name ASC') }
 
   scope :assessment_domains_by_assessment_id, ->(id) { joins(:assessment_domains).where('assessment_domains.assessment_id = ?', id) }
   scope :order_by_identity, -> { order(:identity) }
-  scope :csi_domains, -> { where(custom_domain: false) }
-  scope :custom_csi_domains, -> { where(custom_domain: true) }
+  scope :csi_domains, -> { where(domain_type: 'client', custom_domain: false) }
+  scope :custom_csi_domains, -> { where(domain_type: 'client', custom_domain: true) }
+  scope :custom_domains, -> { where(custom_domain: true) }
+  scope :family_custom_csi_domains, -> { where(domain_type: 'family', custom_domain: true) }
 
   delegate :custom_assessment_name, to: :custom_assessment_setting, prefix: false, allow_nil: true
   enum domain_score_colors: { danger: 'Red', warning: 'Yellow', success: 'Blue', primary: 'Green' }
@@ -38,5 +40,9 @@ class Domain < ActiveRecord::Base
     define_method "translate_score_#{number}_definition" do
       I18n.locale == :en ? send("score_#{number}_definition".to_sym) : send("score_#{number}_local_definition".to_sym)
     end
+  end
+
+  def domain_type_client?
+    domain_type == 'client'
   end
 end

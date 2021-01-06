@@ -3574,6 +3574,7 @@ en:
       csi_tool: Assessment Tools
       custom_csi_tool: Custom Assessment Tools
       domains: Domains
+      family_csi_tool: Family Assessment Tools
       score_1: Score 1
       score_2: Score 2
       score_3: Score 3
