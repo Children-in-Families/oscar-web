@@ -19,15 +19,10 @@ module Families
       @prev_assessment = @family.assessments.last
       @assessment = @family.assessments.new(default: default?)
 
-      css = CustomAssessmentSetting.find_by(custom_assessment_name: params[:custom_name])
       if current_organization.try(:aht) == false
         authorize @assessment
       end
-      if css.present? && !policy(@assessment).create?(css)
-        redirect_to client_assessments_path(@family), alert: "#{I18n.t('assessments.index.next_review')} of #{css.custom_assessment_name}: #{date_format(@family.custom_next_assessment_date(nil, css.id))}"
-      else
-        @assessment.populate_notes(params[:default], params[:custom_name])
-      end
+      @assessment.populate_notes(params[:default], params[:custom_name])
     end
 
     def create

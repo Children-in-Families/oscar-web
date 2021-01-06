@@ -163,11 +163,16 @@ Rails.application.routes.draw do
       resources :enter_ngos, only: [:create, :update]
     end
 
+    scope module: 'client' do
+    end
+
     resources :family_referrals
     resources :custom_field_properties
     get 'version' => 'families#version'
+
     scope module: 'families' do
       resources :assessments
+      resources :tasks, except: [:new]
     end
 
     resources :enrollments do

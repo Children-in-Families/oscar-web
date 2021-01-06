@@ -51,6 +51,7 @@ class Family < ActiveRecord::Base
   has_many :family_members, dependent: :destroy
   has_many :family_referrals, dependent: :destroy
   has_many :assessments,    dependent: :destroy
+  has_many :tasks,          dependent: :nullify
 
   accepts_nested_attributes_for :family_members, reject_if: :all_blank, allow_destroy: true
 

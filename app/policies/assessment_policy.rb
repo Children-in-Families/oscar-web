@@ -12,6 +12,7 @@ class AssessmentPolicy < ApplicationPolicy
   def new?(association = 'client', value = '', custom_assessment = nil)
     return false if user.strategic_overviewer?
 
+    association = record.family_id ? 'family' : association
     setting = Setting.first
     if custom_assessment
       enable_assessment = record.default? ? setting.enable_default_assessment? && record.public_send(association).eligible_default_csi? : setting.enable_custom_assessment? && record.public_send(association).eligible_custom_csi?(custom_assessment)

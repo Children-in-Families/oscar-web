@@ -2,6 +2,8 @@ module CsiConcern
   extend ActiveSupport::Concern
 
   def eligible_default_csi?
+    return true if self.class.name == 'Family'
+
     return true if date_of_birth.nil?
 
     client_age = age_as_years
@@ -10,6 +12,8 @@ module CsiConcern
   end
 
   def eligible_custom_csi?(custom_assessment_setting)
+    return true if self.class.name == 'Family'
+
     return true if date_of_birth.nil?
 
     client_age = age_as_years
@@ -17,9 +21,28 @@ module CsiConcern
     client_age < age
   end
 
+  def age_as_years(date = Date.today)
+    ((date - date_of_birth) / 365).to_i
+  end
+
+  def age_extra_months(date = Date.today)
+    ((date - date_of_birth) % 365 / 31).to_i
+  end
+
+  def age
+    count_year_from_date('date_of_birth')
+  end
+
+  def count_year_from_date(field_date)
+    return nil if self.send(field_date).nil?
+    date_today = Date.today
+    year_count = distance_of_time_in_words_hash(date_today, self.send(field_date)).dig(:years)
+    year_count = year_count == 0 ? 'INVALID' : year_count
+  end
+
   def can_create_assessment?(default, value = '')
     latest_assessment = assessments.customs.joins(:domains).where(domains: { custom_assessment_setting_id: value }).distinct
-    return assessments.defaults.count.zero? || assessments.defaults.latest_record.completed? if default && domain_type == 'client'
+    return assessments.defaults.count.zero? || assessments.defaults.latest_record.completed? if default
 
     return (Date.today >= (latest_assessment.latest_record.created_at + assessment_duration('min', false)).to_date) && latest_assessment.latest_record.completed? if latest_assessment.count == 1
 

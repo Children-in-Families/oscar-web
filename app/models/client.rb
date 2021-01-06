@@ -350,25 +350,6 @@ class Client < ActiveRecord::Base
     cases.with_deleted.active.latest_kinship.presence || cases.with_deleted.active.latest_foster.presence
   end
 
-  def age_as_years(date = Date.today)
-    ((date - date_of_birth) / 365).to_i
-  end
-
-  def age_extra_months(date = Date.today)
-    ((date - date_of_birth) % 365 / 31).to_i
-  end
-
-  def age
-    count_year_from_date('date_of_birth')
-  end
-
-  def count_year_from_date(field_date)
-    return nil if self.send(field_date).nil?
-    date_today = Date.today
-    year_count = distance_of_time_in_words_hash(date_today, self.send(field_date)).dig(:years)
-    year_count = year_count == 0 ? 'INVALID' : year_count
-  end
-
   def active_kc?
     status == 'Active KC'
   end
