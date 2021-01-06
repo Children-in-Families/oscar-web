@@ -1,7 +1,7 @@
 class CreateGlobalServices < ActiveRecord::Migration
   def change
-    disable_extension 'uuid-ossp'
-    enable_extension 'uuid-ossp'
+    disable_extension "uuid-ossp" if extension_enabled?('uuid-ossp')
+    enable_extension "uuid-ossp"
     create_table :global_services, {
         :id           => false,
         :primary_key  => :uuid,

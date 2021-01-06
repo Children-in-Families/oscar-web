@@ -54,7 +54,7 @@
                 %label.date.required.control-label{ for: 'client_exit_circumstance' }
                   %abbr{ title: 'required' } *
                   = t('.exit_circumstance')
-                %a{:role => "button", :tabIndex => "0",  data:{ toggle: "popover", html: 'true', trigger: "focus", content: "#{I18n.t('inline_help.exit_form.circumstance')}", placement: "auto" } }
+                %a{:role => "button", :tabIndex => "0",  data:{ toggle: "popover", html: 'true', trigger: "focus", content: "#{I18n.t('inline_help.exit_form.circumstance', entity: t('inline_help.exit_form.client'))}", placement: "auto" } }
                   = fa_icon "info-circle", class: 'text-info m-xs'
                 = f.input :exit_circumstance, label: false, input_html: {value: exit_circumstance_value}, readonly: true, required: true
               .form-inputs
@@ -63,4 +63,3 @@
           .text-right
             %button.btn.btn-default= t('cancel')
             = f.submit t('.exit_btn'), class: 'btn btn-danger confirm-exit', disabled: :disabled, data: { disable_with: t('.exiting') }
-

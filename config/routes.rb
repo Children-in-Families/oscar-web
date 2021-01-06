@@ -3,7 +3,6 @@ Rails.application.routes.draw do
   root 'organizations#index'
 
   devise_for :users, controllers: { registrations: 'registrations', sessions: 'sessions', passwords: 'passwords' }
-
   use_doorkeeper do
     skip_controllers :applications, :authorized_applications
   end
@@ -159,11 +158,30 @@ Rails.application.routes.draw do
   resources :referees, only: [:index, :show]
 
   resources :families do
+    scope module: 'family' do
+      resources :exit_ngos, only: [:create, :update]
+      resources :enter_ngos, only: [:create, :update]
+    end
+
     resources :family_referrals
     resources :custom_field_properties
     get 'version' => 'families#version'
     scope module: 'families' do
       resources :assessments
+    end
+
+    resources :enrollments do
+      get :report, on: :collection
+      resources :enrollment_trackings
+      resources :leave_programs
+    end
+
+    resources :enrolled_programs do
+      get :report, on: :collection
+      resources :enrolled_program_trackings do
+        get :report, on: :collection
+      end
+      resources :leave_enrolled_programs
     end
   end
 
@@ -197,7 +215,9 @@ Rails.application.routes.draw do
       get :referral_source_category, on: :collection
     end
 
-    mount_devise_token_auth_for 'User', at: '/v1/auth', skip: [:passwords]
+    mount_devise_token_auth_for 'User', at: '/v1/auth', skip: [:passwords], controllers: {
+      sessions:  'overrides/sessions'
+    }
 
     mount_devise_token_auth_for 'AdminUser', at: 'v1/admin_auth'
 
@@ -372,6 +392,8 @@ Rails.application.routes.draw do
       get 'custom_labels' => 'settings#custom_labels'
       get 'client_forms' => 'settings#client_forms'
       get 'integration' => 'settings#integration'
+
+      get :family_case_management
 
       resources :field_settings, only: [:index] do
         collection do

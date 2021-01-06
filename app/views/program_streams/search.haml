@@ -27,10 +27,10 @@
                   %td.quantity= program_stream.quantity
                   %td.organization= program_stream.ngo_name
                   %td.actions
-                    = link_to preview_program_streams_path(program_stream_id: program_stream.id, ngo_name: program_stream.ngo_name), class: 'btn btn-outline btn-info btn-xs', title: t('.preview')  do
+                    = link_to preview_program_streams_path(program_stream_id: program_stream.id, ngo_name: program_stream.ngo_name, entity_type: program_stream.entity_type), class: 'btn btn-outline btn-info btn-xs', title: t('.preview')  do
                       = fa_icon('eye')
                     - if can? :create, ProgramStream
-                      = link_to new_program_stream_path(program_stream_id: program_stream.id, ngo_name: program_stream.ngo_name), class: 'btn btn-outline btn-success btn-xs', title: t('.copy') do
+                      = link_to new_program_stream_path(program_stream_id: program_stream.id, ngo_name: program_stream.ngo_name, entity_type: program_stream.entity_type), class: 'btn btn-outline btn-success btn-xs', title: t('.copy') do
                         = fa_icon('files-o')
       .text-center
         = paginate @program_streams

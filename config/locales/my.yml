@@ -105,9 +105,41 @@ my:
         name: မူလတန်းစောင့်ရှောက်သူအမည်အား
         phone: မူလတန်းအုပ်ထိန်းဖုန်းနံပါတ်ကို
         carer_information: Carer Information?
+      family:
+        id: Automatic ID
+        id_poor: Has ID Poor?
+        case_worker_ids: Case Worker/Staff Assigned
+        code: Manual ID
+        commune_id: Commune/Sangkat
+        community_ids: Community/Group
+        contract_date: Family Contract Date
+        custom_forms: Custom Forms
+        dependable_income: Dependable Income
+        district_id: District/Khan
+        donor_ids: Donor
+        family_type: Family Type
+        followed_up_by_id: First Follow Up By
+        follow_up_date: First Follow Up Date
+        house: House Number
+        id: ID
+        initial_referral_date: Date of Referral
+        name: Head Household Name (Khmer)
+        name_en: Head Household Name (Latin)
+        province_id: Province
+        received_by_id: Received by Staff Member
+        referee_phone_number: Referee Phone Number
+        street: Street Number
+        village_id: Village
+        'yes': 'Yes'
       family_member:
-        adult_name: Name of Adult Member
+        adult_name: Name
         gender: Gender
+        guardian: Guardian
+        date_of_birth: Date of Birth
+        is_client: Client?
+        monthly_income: Monthly Income (USD)
+        occupation: Occupation
+        relation: Role in Family
       referee:
         referee_address: Address
     default:
@@ -3622,6 +3654,131 @@ my:
     version:
       back: ေနာက္သုိ႔
       modification_of: "၏ ေျပာင္းလဲမႈ မွတ္တမ္း"
+  enrolled_program_trackings:
+    action:
+      new_tracking: New Tracking
+    create:
+      successfully_created: Tracking Program has been successfully created.
+    destroy:
+      successfully_deleted: Tracking Program has been successfully deleted.
+    edit:
+      edit_tracking: Edit Tracking
+    form:
+      cancel: Cancel
+      save: Save
+    index:
+      programs_list: Programs List
+      tracking_lists: Trackings List
+    new:
+      new_tracking: New Tracking
+    report:
+      are_you_sure: Are you sure you want to delete?
+      back: Back
+      created_at: Created Date
+      new_tracking: New Tracking
+    show:
+      back: Back
+      trackings_list: Trackings List
+    update:
+      successfully_updated: Tracking Program has been successfully updated.
+  enrolled_programs:
+    create:
+      successfully_created: Enrollment has been successfully created.
+    destroy:
+      successfully_deleted: Enrollment has been successfully deleted.
+    edit:
+      enrollment: Edit Enrollment
+    form:
+      accepted_date: "NGO Accept Date"
+      exit_date: "NGO Exit Date"
+      cancel: Cancel
+      enrollment_date: Enrollment Date
+      save: Save
+    index:
+      actions: Actions
+      back: Back
+      domain: Associated Domains
+      name: Program Name
+      program_lists: Programs List
+      quantity: Number of Place Available
+      report: Report
+      status: Status
+      view: View
+    manage:
+      enroll: Enroll
+      exit: Exit
+      full_program: This Program is full.
+      tracking: Trackings
+    new:
+      not_valid: Does not match with this program conditions.
+      new_enrollment: New Enrollment
+    report:
+      actions: Actions
+      date: Date
+      enrollment: Enrollment
+      exit: Exit
+      forms: Forms
+      programs_list: Programs List
+      report: Reports
+      tracking: Tracking
+      view: View
+    show:
+      are_you_sure: Are you sure you want to delete?
+      back: Back
+      enrollment_date: Enrolled on
+    update:
+      successfully_updated: Enrollment has been successfully updated.
+  enrollments:
+    create:
+      successfully_created: Enrollment has been successfully created.
+    destroy:
+      delete_attachment_successfully: Attachment has been successfully deleted.
+      successfully_deleted: Enrollment has been successfully deleted.
+    edit:
+      enrollment: Edit Enrollment
+    form:
+      accepted_date: "NGO Accept Date"
+      exit_date: "NGO Exit Date"
+      allow_file_size: Allowed file types
+      cancel: Cancel
+      enrollment_date: Enrollment Date
+      max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
+      not_an_email: not an email
+      save: Save
+    index:
+      actions: Actions
+      back: Back
+      domain: Associated Domains
+      name: Program Name
+      program_lists: Programs List
+      quantity: Number of Place Available
+      report: Report
+      status: Status
+      view: View
+    manage:
+      enroll: Enroll
+      exit: Exit
+      full_program: This Program is full
+      tracking: Trackings
+    new:
+      not_valid: Does not match with this program conditions.
+      new_enrollment: New Enrollment
+    report:
+      actions: Actions
+      date: Date
+      enrollment: Enrollment
+      exit: Exit
+      forms: Forms
+      programs_list: Programs List
+      report: Reports
+      tracking: Tracking
+      view: View
+    show:
+      are_you_sure: Are you sure you want to delete?
+      back: Back
+      enrollment_date: Enrolled on
+    update:
+      successfully_updated: Enrollment has been successfully updated.
   enumerize:
     defaults:
       gender:
@@ -3648,6 +3805,28 @@ my:
   families:
     actions:
       are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသမား
+    case_history_detail:
+      accepted_date: လက်ခံခဲ့သည်နေ့စွဲ
+      family: မိသားစု
+      family_id: မိသားစုမှတ်ပုံတင်
+      consent_form: သဘောတူညီချက်ပုံစံ
+      date_of_referral: လွှဲပြောင်း၏နေ့စွဲ
+      enrollment_date: အစီအစဥ္တြင္ ၀င္ေရာက္သည့္ ရက္စြဲ
+      exit_circumstance: ထွက်ပေါက်အခြေအနေ
+      exit_date: ထြက္သည့္မွတ္စု
+      exit_note: ထြက္သည့္မွတ္စု
+      exit_program_date: အဆိုပါအစီအစဉ်ကိုစွန့်ခွာတွင်
+      exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
+      external_referral: ထွက်လွှဲပြောင်း
+      initial_referral_date: ကနဦး လႊဲေျပာင္းသည့္ ရက္စြဲ
+      internal_referral: ကနေပြောင်းရွှေ့
+      name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
+      other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
+      preview_download: အစမ္းၾကည့္ျခင္းႏွင့္ ေဒါင္းလုတ္
+      referee_phone_number: ဒိုင်လူကြီးဖုန်းနံပါတ်ကို
+      referral_reasons: လွှဲပြောင်းအကြောင်းပြချက်
+      referred_from: ကနေရည်ညွှန်း
+      referred_to: ကနေရည်ညွှန်း
     create:
       successfully_created: မိသားစုကို ေအာင္ျမင္စြာ ျပဳလုပ္ၿပီးပါၿပီ
     destroy:
@@ -3707,6 +3886,12 @@ my:
       province: ခ႐ိုင္
       significant_family_member_count: ႀကီးမားေသာမိသားစုအေရအတြက္
       status: အေျခအေန
+      step_1_title: Basic Family Information
+      step_11_title: Administrative Information
+      step_12_title: Family Information
+      step_2_title: Family Member Information
+      step_21_title: Family Members
+      step_3_title: Additional Information
       street: လမ္း
       village: ေက်းရြာ
       'yes': မွန္ပါသည္
@@ -3718,7 +3903,12 @@ my:
       results: ရလဒ္မ်ား
     new:
       new_family_title: မိသားစုအသစ္
+    remaining_programs:
+      close: ပိတ္ရန္
+      warning: သတိေပးခ်က္
     show:
+      accept: လက္ခံသည္
+      accepted_date: NGOက လက္ခံသည့္ ရက္စြဲ
       add_form: ပံုစံအသစ္
       additional_forms: ထပ္ေဆာင္းပံုစံမ်ား
       additional_info: ထပ္ေဆာင္းသတင္းအခ်က္အလက္မ်ား
@@ -3726,11 +3916,20 @@ my:
       adult_name: အတူတူအိမျ၌နထေိုငျသူမြားလူကြီးများ
       are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
       caregiver_information: ေစာင့္ေရွာက္သူအခ်က္အလက္
+      case_histories: Case Histories
       case_history: အမႈသမုိင္း
       code: မိသားစုမွတ္ပံုတင္
       contract_date: စာခ်ဳပ္ရက္စြဲ
+      created_by: မှဖန်တီးသည်
+      created_date: ဖန်တီးထားသောရက်စွဲ
+      current_province: ခ႐ိုင္
+      date: ရက်စွဲ
       date_of_birth: မွေးရက်
       dependable_income: မွီခိုႏုိင္ေလာက္ေသာ ၀င္ေငြ
+      detail: အသေးစိတ်
+      enrolled_program_streams: Family's Active Program Streams
+      exit_date: NGOမွ ထြက္သည့္ ရက္စြဲ
+      exit_ngo_btn: Exit Family From NGO
       family_type: မိသားစုအမ်ိဳးအစား
       female_adult_count: အရြယ္ေရာက္မိသားစု၀င္အေရအတြက္
       female_children_count: အရြယ္မေရာက္ေသးေသာ မိန္းကေလး အေရအတြက္
@@ -3739,12 +3938,14 @@ my:
       house: အိမ္နံပါတ္
       household_income: အိမ္ေထာင္စု၀င္ေငြ
       id: မွတ္ပံုတင္
+      initial_referral_date: ကနဦးလႊဲေျပာင္းရက္စြဲ
       male_adult_count: အရြယ္ေရာက္ အမ်ိဳးသား အေရအတြက္
       male_children_count: အရြယ္မေရာက္ေသးေသာ ေယာက်္ားေလးအေရအတြက္
       member_count: အဖြဲ႕၀င္အေရအတြက္
       name: နာမည္
       'no': မဟုတ္ပါ
       occupation: အလုပ်အကိုင်
+      program_streams: Enroll Family to Program Streams
       province: ခ႐ိုင္
       read_less: ဒီထက်ကိုဖတ်ရှု
       read_more: ဆက်ဖတ်ရန်
@@ -3752,6 +3953,7 @@ my:
       refer_family: ရည်ညွှန်းမိသားစု
       referred_from: ကနေရည်ညွှန်း
       referred_to: ရည်ညွှန်း
+      reject: ျငင္းပယ္သည္
       relation: ကလေးတွေနဲ့အတူဆက်သွယ်ပါ
       remove_member: ဖယ်ထုတ်ထား
       significant_family_member_count: ႀကီးမားေသာ မိသားစု၀င္အေရအတြက္
@@ -3764,6 +3966,76 @@ my:
     version:
       back: ေနာက္သို႔
       modification_of: "၏ ေျပာင္းလဲမႈ မွတ္တမ္း"
+  family:
+    enter_ngos:
+      create:
+        failed_create: အပ်ဒိတ်လုပ်မပေးနိုငျ
+        successfully_created: မိသားစုကိုအောင်မြင်စွာကယ်တင်နိုင်ခဲ့သည်
+      edit_form:
+        accept: လက္ခံသည္
+        accept_ngo_form: NGO ရိုက်ထည့်ပါ
+        accepted_date: လက်ခံခဲ့သည်နေ့စွဲ
+        case_worker_or_staff: ဝန်ထမ်းများ
+      form:
+        accept: လက္ခံသည္
+        accept_ngo_form: NGO ရိုက်ထည့်ပါ
+        accepted_date: လက်ခံခဲ့သည်နေ့စွဲ
+        accepting: လက်ခံ...
+        case_worker_or_staff: ဝန်ထမ်းများ
+      update:
+        failed_update: အပ်ဒိတ်လုပ်မပေးနိုငျ
+        successfully_updated: မိသားစုကိုအောင်မြင်စွာကယ်တင်နိုင်ခဲ့သည်
+    exit_ngos:
+      create:
+        failed_create: အပ်ဒိတ်လုပ်မပေးနိုငျ
+        successfully_created: အမႈသည္ကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ထည့္သြင္းၿပီပါၿပီ
+      edit_form:
+        case_worker_or_staff: အမႈျခင္းရာအတြက္ ေဆာင္ရြက္ေပးသူ/ ၀န္ထမ္း
+        exit_btn: ထြက္ရန္
+        exit_circumstance: ထွက်ပေါက်အခြေအနေ
+        exit_date: ထြက္သည့္ရက္စြဲ
+        exit_ngo: NGOမွ ထြက္ရန္
+        exit_note: ထြက္သည့္မွတ္စု
+        exit_reason_options:
+          agency_lack_resource: Agency lacks sufficient resources
+          family_died: Family died
+          family_does_not_meet_service_criteria: Family does not meet / no longer meets service criteria
+          family_does_not_required_support: Family does not require / no longer requires support
+          family_move_out_international: Family is/moved outside NGO target area (International)
+          family_move_out_within_cambodia: Family is/moved outside NGO target area (within Cambodia)
+          family_refuse_service: Family refused service
+          other_reason: Other
+        exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
+        exit_status: အေနအထား
+        exiting: မထွက်...
+        other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
+        reject_family: family ကိုငြင်းပယ်
+        rejected_note: ျငင္းပယ္သည့္ မွတ္စု
+      form:
+        case_worker_or_staff: အမႈျခင္းရာအတြက္ ေဆာင္ရြက္ေပးသူ/ ၀န္ထမ္း
+        exit_btn: ထြက္ရန္
+        exit_circumstance: ထွက်ပေါက်အခြေအနေ
+        exit_date: ထြက္သည့္ရက္စြဲ
+        exit_ngo: NGOမွ ထြက္ရန္
+        exit_note: ထြက္သည့္မွတ္စု
+        exit_reason_options:
+          agency_lack_resource: Agency lacks sufficient resources
+          family_died: Family died
+          family_does_not_meet_service_criteria: Family does not meet / no longer meets service criteria
+          family_does_not_required_support: Family does not require / no longer requires support
+          family_move_out_international: Family is/moved outside NGO target area (International)
+          family_move_out_within_cambodia: Family is/moved outside NGO target area (within Cambodia)
+          family_refuse_service: Family refused service
+          other_reason: Other
+        exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
+        exit_status: အေနအထား
+        exiting: မထွက်...
+        other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
+        reject_family: family ကိုငြင်းပယ်
+        rejected_note: ျငင္းပယ္သည့္ မွတ္စု
+      update:
+        failed_update: အပ်ဒိတ်လုပ်မပေးနိုငျ
+        successfully_updated: အမႈသည္ကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ထည့္သြင္းၿပီပါၿပီ
   family_referrals:
     confirm_referral:
       body_second: သင်ရည်ညွှန်းလိုသောမိသားစုသည်ပစ်မှတ်ထားသော NGO တွင်ရှိပြီးဖြစ်သည်။
@@ -4395,6 +4667,7 @@ my:
       edit_profile: ပ႐ိုဖုိင္ ျပင္ဆင္ရန္
       en: အဂၤလိပ္
       families: မိသားစုမ်ား
+      family_form: Family Form
       interventions: ၾကား၀င္ေဆာင္ရြက္မႈမ်ား
       km: ကေမာၻဒီးယားဘာသာစကား
       locations: ေနရာမ်ား
@@ -4426,7 +4699,9 @@ my:
       thai: ထိုင္းစာ
   leave_enrolled_programs:
     create:
-      successfully_created: အမႈသည္သည္ အစိအစဥ္မွ ေအာင္ျမင္စြာ ထြက္ၿပီးပါၿပီ။
+      client: အမႈသည္သည္
+      family: အမႈသည္သည္
+      successfully_created: "%{entity} အစိအစဥ္မွ ေအာင္ျမင္စြာ ထြက္ၿပီးပါၿပီ။"
     edit:
       leave_program: အစီအစဥ္မွ ထြက္ျခင္းကို ျပင္ဆင္ရန္
     form:
@@ -4777,6 +5052,8 @@ my:
       previous: ေရွ႕တစ္ခု
       save: သိမ္းဆည္းရန္
     index:
+      attached_with_client: Attached with Client
+      attached_with_family: Attached with Family
       current_ngo: မိမိ NGO၏ အစီအစဥ္ စီးဆင္းမႈ
       demo_programs: Demo NGO၏ အစီအစဥ္ စီးဆင္းမႈ
       name: နာမတျောကို
@@ -5273,6 +5550,9 @@ my:
       default_columns: ပုံမှန်ကော်လံများ
       family_default_columns: မိသားစု
       partner_default_columns: လက္တြဲေဖာ္
+    family_case_management:
+      family_case_management: Family Case Management
+      hide_family_case_management_tool: Hide Administrative Information and Case Management tools
     index:
       csi_tools: ရရှိနိုင်အကဲဖြတ်
       custom_assessment: နာမတျောကို

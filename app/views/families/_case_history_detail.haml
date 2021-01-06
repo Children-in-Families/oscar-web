@@ -1,0 +1,79 @@
+.modal.fade{ role: 'dialog', tabindex: '-1', id: "case_history_#{index}", class: 'case-history-detail'}
+  .modal-dialog.modal-lg{ role: 'document'}
+    .modal-content
+      .modal-header
+        %button.close{"aria-label" => "#{t('.close')}", "data-dismiss" => 'modal'}
+          %span{"aria-hidden" => 'true'} &times;
+        %h4.modal-title
+          = case_history_label(object)
+
+      .modal-body
+        %table.table.table-bordered
+          %tbody
+            - case_history = object.class.table_name
+            - case case_history
+            - when "families"
+              %tr
+                %td= t('.initial_referral_date')
+                %td= date_format(object.initial_referral_date)
+            - when 'enter_ngos'
+              %tr
+                %td= t('.accepted_date')
+                %td= date_format(object.accepted_date)
+            - when 'exit_ngos'
+              %tr
+                %td= t('.exit_date')
+                %td= date_format(object.exit_date)
+              %tr
+                %td= t('.exit_circumstance')
+                %td= object.exit_circumstance
+              %tr
+                %td= t('.other_info_of_exit')
+                %td= object.other_info_of_exit
+              %tr
+                %td= t('.exit_reasons')
+                %td.exit-reason-label= family_translate_exit_reasons(object.exit_reasons) if object.exit_reasons.any?
+              %tr
+                %td= t('.exit_note')
+                %td= object.exit_note
+            - when 'enrollments'
+              %tr
+                %td= t('.enrollment_date')
+                %td= date_format(object.enrollment_date)
+              - if object.program_stream
+                - object.program_stream.enrollment.map{|properties| [properties['type'], properties['label']]}.each do |type, key|
+                  - unless type == 'separateLine'
+                    - if type == 'paragraph'
+                      %tr
+                        %td{colspan: '2'}
+                          = key.html_safe
+                    - else
+                      %tr
+                        %td
+                          = key.html_safe
+                        %td.exit-reason-label
+                          - key = convert_bracket(key, object.properties)
+                          - if type == 'file'
+                            = render 'shared/form_builder/list_attachment', label: key, resource: object
+                          - else
+                            = display_custom_properties(object.properties[key])
+            - when 'leave_programs'
+              %tr
+                %td= t('.exit_program_date')
+                %td= date_format(object.exit_date)
+              - object.program_stream.exit_program.map{|properties| [properties['type'], properties['label']]}.each do |type, key|
+                - unless type == 'separateLine'
+                  - if type == 'paragraph'
+                    %tr
+                      %td{colspan: '2'}
+                        = key.html_safe
+                  - else
+                    %tr
+                      %td
+                        = key.html_safe
+                      %td.exit-reason-label
+                        - key = convert_bracket(key, object.properties)
+                        - if type == 'file'
+                          = render 'shared/form_builder/list_attachment', label: key, resource: object
+                        - else
+                          = display_custom_properties(object.properties[key])

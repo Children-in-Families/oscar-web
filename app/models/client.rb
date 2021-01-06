@@ -3,6 +3,7 @@ class Client < ActiveRecord::Base
   include EntityTypeCustomField
   include NextClientEnrollmentTracking
   include ClientConstants
+  include CsiConcern
 
   extend FriendlyId
 
@@ -57,6 +58,7 @@ class Client < ActiveRecord::Base
   belongs_to :concern_village,  class_name: 'Village',  foreign_key: 'concern_village_id'
   belongs_to :global_identity,  class_name: 'GlobalIdentity', foreign_key: 'global_id', primary_key: :ulid
 
+  has_many :family_members, dependent: :destroy
   has_many :hotlines, dependent: :destroy
   has_many :calls, through: :hotlines
   has_many :sponsors, dependent: :destroy
@@ -110,7 +112,9 @@ class Client < ActiveRecord::Base
   before_update :disconnect_client_user_relation, if: :exiting_ngo?
   after_create :set_slug_as_alias, :save_client_global_organization, :save_external_system_global
   after_save :create_client_history, :mark_referral_as_saved, :create_or_update_shared_client
+
   after_commit :remove_family_from_case_worker
+  after_commit :update_related_family_members, on: :update
 
   scope :given_name_like,                          ->(value) { where('clients.given_name iLIKE :value OR clients.local_given_name iLIKE :value', { value: "%#{value.squish}%"}) }
   scope :family_name_like,                         ->(value) { where('clients.family_name iLIKE :value OR clients.local_family_name iLIKE :value', { value: "%#{value.squish}%"}) }
@@ -310,23 +314,6 @@ class Client < ActiveRecord::Base
     "#{given_name} #{family_name} (#{id})"
   end
 
-  def next_assessment_date(user_activated_date = nil)
-    return Date.today if assessments.defaults.latest_record.blank?
-    return nil if user_activated_date.present? && (assessments.defaults.latest_record.present? && assessments.defaults.latest_record.created_at < user_activated_date)
-    (assessments.defaults.latest_record.created_at + assessment_duration('max')).to_date
-  end
-
-  def custom_next_assessment_date(user_activated_date = nil, custom_assessment_setting_id=nil)
-    custom_assessments = []
-    custom_assessments = assessments.customs.joins(:domains).where(domains: {custom_assessment_setting_id: custom_assessment_setting_id}).distinct if custom_assessment_setting_id
-    if custom_assessment_setting_id && custom_assessments.present?
-      return nil if user_activated_date.present? && custom_assessments.latest_record.created_at < user_activated_date
-      (custom_assessments.latest_record&.created_at + assessment_duration('max', false, custom_assessment_setting_id)).to_date
-    else
-      Date.today
-    end
-  end
-
   def next_appointment_date
     return Date.today if assessments.count.zero?
 
@@ -335,27 +322,6 @@ class Client < ActiveRecord::Base
     next_appointment = [last_assessment, last_case_note].compact.sort { |a, b| b.try(:created_at) <=> a.try(:created_at) }.first
 
     next_appointment.created_at + 1.month
-  end
-
-
-  def can_create_assessment?(default, value='')
-    latest_assessment = assessments.customs.joins(:domains).where(domains: {custom_assessment_setting_id: value}).distinct
-    if default
-      # if assessments.defaults.count == 1
-      #   return (Date.today >= (assessments.defaults.latest_record.created_at + assessment_duration('min')).to_date) && assessments.defaults.latest_record.completed?
-      # elsif assessments.defaults.count >= 2
-      # end
-      return assessments.defaults.count == 0 || assessments.defaults.latest_record.completed?
-    else
-      if latest_assessment.count == 1
-        return (Date.today >= (latest_assessment.latest_record.created_at + assessment_duration('min', false)).to_date) && latest_assessment.latest_record.completed?
-      elsif latest_assessment.count >= 2
-        return latest_assessment.latest_record.completed?
-      else
-        return true
-      end
-    end
-    true
   end
 
   def next_case_note_date(user_activated_date = nil)
@@ -496,6 +462,16 @@ class Client < ActiveRecord::Base
       resident_own_or_rent2,
       household_type2
     ].select(&:present?).join(', ')
+  end
+
+  def to_select2
+    [
+      name, id, { data: {
+          date_of_birth: date_of_birth,
+          gender: gender
+        }
+      }
+    ]
   end
 
   def time_in_cps
@@ -649,20 +625,6 @@ class Client < ActiveRecord::Base
     []
   end
 
-  def eligible_default_csi?
-    return true if date_of_birth.nil?
-    client_age = age_as_years
-    age        = Setting.first.age || 18
-    client_age < age ? true : false
-  end
-
-  def eligible_custom_csi?(custom_assessment_setting)
-    return true if date_of_birth.nil?
-    client_age = age_as_years
-    age        = custom_assessment_setting.custom_age || 18
-    client_age < age ? true : false
-  end
-
   def country_origin_label
     country_origin.present? ? country_origin : 'cambodia'
   end
@@ -725,6 +687,12 @@ class Client < ActiveRecord::Base
   end
 
   private
+
+  def update_related_family_members
+    family_members.each do |family_member|
+      FamilyMember.delay.update_client_relevant_data(family_member.id)
+    end
+  end
 
   def create_client_history
     ClientHistory.initial(self)

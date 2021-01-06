@@ -1,0 +1,24 @@
+.modal.fade{ role: 'dialog', tabindex: '-1', id: 'accept-family' }
+  .modal-dialog{ role: 'document'}
+    .modal-content
+      .modal-header
+        %button.close{"aria-label" => "#{t('family.enter_ngos.form.close')}", "data-dismiss" => 'modal'}
+          %span{"aria-hidden" => 'true'} &times;
+        %h4.modal-title
+          = t('family.enter_ngos.form.accept_ngo_form')
+      .modal-body
+        = simple_form_for [@family, @family.enter_ngos.build] do |f|
+          = f.error_notification
+          .form-inputs
+            .form-group.date
+              %label.date.required.control-label
+                %abbr{ title: 'required' } *
+                = t('.accepted_date')
+              .input-group
+                = f.text_field :accepted_date, class: 'date form-control enter_date', type: 'text', readonly: 'readonly', name: 'enter_ngo[accepted_date]', data: { date_start_date: initial_referral_date_picker_format(@family) }
+                %span.input-group-addon
+                  %i.fa.fa-calendar-check-o
+
+          .text-right
+            %button.btn.btn-default.editable-cancel{"data-dismiss" => 'modal'}= t('cancel')
+            = f.submit t('family.enter_ngos.form.accept') , class: 'btn btn-success agree-btn', name: 'accept-family', data: { disable_with: t('family.enter_ngos.form.accepting') }

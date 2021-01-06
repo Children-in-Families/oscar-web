@@ -6,9 +6,9 @@ class ProgramStreamsController < AdminController
   before_action :authorize_program, only: [:edit, :update, :destroy]
   before_action :find_another_ngo_program_stream, if: -> { @ngo_name.present? }
   before_action :remove_html_tags, only: [:create, :update]
-  before_action :complete_program_steam, only: [:new, :create]
   before_action :available_exclusive_programs, :available_mutual_dependence_programs, only: [:edit, :update]
-  before_action :fetch_domains, only: [:new, :create, :edit, :update]
+  before_action :fetch_domains, :find_entity_type, only: [:new, :create, :edit, :update]
+  before_action :complete_program_steam, only: [:new, :create]
 
   def index
     @program_streams = paginate_collection(decorate_programs(column_order)).page(params[:page_1]).per(20)
@@ -40,7 +40,7 @@ class ProgramStreamsController < AdminController
     @program_stream = ProgramStream.new(program_stream_params)
     begin
       if program_stream_params[:domain_ids].reject(&:blank?).present? ? @program_stream.save(validate: false) : @program_stream.save
-        redirect_to program_stream_path(@program_stream), notice: t('.successfully_created')
+        redirect_to program_stream_path(@program_stream, entity_type: @program_stream.entity_type), notice: t('.successfully_created')
       else
         render :new
       end
@@ -53,7 +53,7 @@ class ProgramStreamsController < AdminController
   def update
     begin
       if @program_stream.update_attributes(program_stream_params)
-        redirect_to program_stream_path(@program_stream), notice: t('.successfully_updated')
+        redirect_to program_stream_path(@program_stream, entity_type: @program_stream.entity_type), notice: t('.successfully_updated')
       else
         render :edit
       end
@@ -110,7 +110,7 @@ class ProgramStreamsController < AdminController
   def program_stream_params
     ngo_name = current_organization.full_name
     delete_select_option_empty
-    default_params = [:name, :rules, :description, :enrollment, :exit_program, :tracking_required, :quantity, program_exclusive: [], mutual_dependence: [], domain_ids: [], service_ids: []]
+    default_params = [:entity_type, :name, :rules, :description, :enrollment, :exit_program, :tracking_required, :quantity, program_exclusive: [], mutual_dependence: [], domain_ids: [], service_ids: []]
     default_params << { trackings_attributes: [:name, :frequency, :time_of_frequency, :fields, :_destroy, :id] } unless program_without_tracking?
 
     params[:program_stream][:service_ids] = params[:program_stream][:service_ids].uniq
@@ -201,7 +201,7 @@ class ProgramStreamsController < AdminController
   end
 
   def complete_program_steam
-    @exclusive_programs = @mutual_dependences = ProgramStream.where.not(id: @program_stream).complete.ordered
+    @exclusive_programs = @mutual_dependences = ProgramStream.where.not(id: @program_stream).attached_with(@entity_type).complete.ordered
   end
 
   def search_program_streams
@@ -256,5 +256,9 @@ class ProgramStreamsController < AdminController
 
   def fetch_domains
     @csi_domains = Domain.csi_domains
+  end
+
+  def find_entity_type
+    @entity_type = params['entity_type'] || params[:program_stream][:entity_type]
   end
 end

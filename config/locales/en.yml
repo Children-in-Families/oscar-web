@@ -107,9 +107,41 @@ en:
         phone: Carer Phone Number
         email: Carer Email Address
         carer_information: Carer Information?
+      family:
+        id: Automatic ID
+        id_poor: Has ID Poor?
+        case_worker_ids: Case Worker/Staff Assigned
+        code: Manual ID
+        commune_id: Commune/Sangkat
+        community_ids: Community/Group
+        contract_date: Family Contract Date
+        custom_forms: Custom Forms
+        dependable_income: Dependable Income
+        district_id: District/Khan
+        donor_ids: Donor
+        family_type: Family Type
+        followed_up_by_id: First Follow Up By
+        follow_up_date: First Follow Up Date
+        house: House Number
+        id: ID
+        initial_referral_date: Date of Referral
+        name: Head Household Name (Khmer)
+        name_en: Head Household Name (Latin)
+        province_id: Province
+        received_by_id: Received by Staff Member
+        referee_phone_number: Referee Phone Number
+        street: Street Number
+        village_id: Village
+        'yes': 'Yes'
       family_member:
-        adult_name: Name of Adult Member
+        adult_name: Name
         gender: Gender
+        guardian: Guardian
+        date_of_birth: Date of Birth
+        is_client: Client?
+        monthly_income: Monthly Income (USD)
+        occupation: Occupation
+        relation: Role in Family
       referee:
         referee_address: Address
     default:
@@ -2707,7 +2739,6 @@ en:
         male_children_count: Male Children Count
         manage: Manage
         member_count: Family Members
-        name: Name
         'no': 'No'
         province: Province
         significant_family_member_count: Significant Family Member Count
@@ -3630,6 +3661,131 @@ en:
     version:
       back: Back
       modification_of: Changelog of
+  enrolled_program_trackings:
+    action:
+      new_tracking: New Tracking
+    create:
+      successfully_created: Tracking Program has been successfully created.
+    destroy:
+      successfully_deleted: Tracking Program has been successfully deleted.
+    edit:
+      edit_tracking: Edit Tracking
+    form:
+      cancel: Cancel
+      save: Save
+    index:
+      programs_list: Programs List
+      tracking_lists: Trackings List
+    new:
+      new_tracking: New Tracking
+    report:
+      are_you_sure: Are you sure you want to delete?
+      back: Back
+      created_at: Created Date
+      new_tracking: New Tracking
+    show:
+      back: Back
+      trackings_list: Trackings List
+    update:
+      successfully_updated: Tracking Program has been successfully updated.
+  enrolled_programs:
+    create:
+      successfully_created: Enrollment has been successfully created.
+    destroy:
+      successfully_deleted: Enrollment has been successfully deleted.
+    edit:
+      enrollment: Edit Enrollment
+    form:
+      accepted_date: "NGO Accept Date"
+      exit_date: "NGO Exit Date"
+      cancel: Cancel
+      enrollment_date: Enrollment Date
+      save: Save
+    index:
+      actions: Actions
+      back: Back
+      domain: Associated Domains
+      name: Program Name
+      program_lists: Programs List
+      quantity: Number of Place Available
+      report: Report
+      status: Status
+      view: View
+    manage:
+      enroll: Enroll
+      exit: Exit
+      full_program: This Program is full.
+      tracking: Trackings
+    new:
+      not_valid: Does not match with this program conditions.
+      new_enrollment: New Enrollment
+    report:
+      actions: Actions
+      date: Date
+      enrollment: Enrollment
+      exit: Exit
+      forms: Forms
+      programs_list: Programs List
+      report: Reports
+      tracking: Tracking
+      view: View
+    show:
+      are_you_sure: Are you sure you want to delete?
+      back: Back
+      enrollment_date: Enrolled on
+    update:
+      successfully_updated: Enrollment has been successfully updated.
+  enrollments:
+    create:
+      successfully_created: Enrollment has been successfully created.
+    destroy:
+      delete_attachment_successfully: Attachment has been successfully deleted.
+      successfully_deleted: Enrollment has been successfully deleted.
+    edit:
+      enrollment: Edit Enrollment
+    form:
+      accepted_date: "NGO Accept Date"
+      exit_date: "NGO Exit Date"
+      allow_file_size: Allowed file types
+      cancel: Cancel
+      enrollment_date: Enrollment Date
+      max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
+      not_an_email: not an email
+      save: Save
+    index:
+      actions: Actions
+      back: Back
+      domain: Associated Domains
+      name: Program Name
+      program_lists: Programs List
+      quantity: Number of Place Available
+      report: Report
+      status: Status
+      view: View
+    manage:
+      enroll: Enroll
+      exit: Exit
+      full_program: This Program is full
+      tracking: Trackings
+    new:
+      not_valid: Does not match with this program conditions.
+      new_enrollment: New Enrollment
+    report:
+      actions: Actions
+      date: Date
+      enrollment: Enrollment
+      exit: Exit
+      forms: Forms
+      programs_list: Programs List
+      report: Reports
+      tracking: Tracking
+      view: View
+    show:
+      are_you_sure: Are you sure you want to delete?
+      back: Back
+      enrollment_date: Enrolled on
+    update:
+      successfully_updated: Enrollment has been successfully updated.
   enumerize:
     defaults:
       gender:
@@ -3655,6 +3811,28 @@ en:
   families:
     actions:
       are_you_sure: Are you sure you want to delete?
+    case_history_detail:
+      accepted_date: NGO Accept Date
+      family: Family
+      family_id: Family ID
+      consent_form: Consent Form
+      date_of_referral: Date of Referral
+      enrollment_date: Enrollment Date
+      exit_circumstance: Exit Circumstance
+      exit_date: NGO Exit Date
+      exit_note: Exit Note
+      exit_program_date: Exit Program Date
+      exit_reasons: Reason for Exit / Case Rejection
+      external_referral: External Referral
+      initial_referral_date:
+      internal_referral: Internal Referral
+      name_of_referee: Name Of Referee
+      other_info_of_exit: Other - More Information
+      preview_download: Preview & Download
+      referee_phone_number: Referee Phone Number
+      referral_reasons: Referral Reasons
+      referred_from: Referred from External Organisation
+      referred_to: Referred to External Organisation
     create:
       successfully_created: Family has been successfully created.
     destroy:
@@ -3712,13 +3890,20 @@ en:
       member_count: Member Count
       name: Name
       new_family_title: Add New Family
-      'no': 'No'
       province: Province
       significant_family_member_count: Significant Family Member Count
       status: Status
+      step_1_title: Basic Family Information
+      step_11_title: Administrative Information
+      step_12_title: Family Information
+      step_2_title: Family Member Information
+      step_21_title: Family Members
+      step_3_title: Additional Information
       street: Street
       village: Village
-      'yes': 'Yes'
+      family_members:
+        'no': 'No'
+        'yes': 'Yes'
     index:
       add_new_family: Add New Family
       clients: Clients
@@ -3728,7 +3913,12 @@ en:
       results: Results
     new:
       new_family_title: New Family
+    remaining_programs:
+      close: Close
+      warning: Warning
     show:
+      accept: Accept
+      accepted_date: NGO Accept Date
       add_form: Add Form
       additional_forms: Family's Active Forms
       additional_info: Additional Information
@@ -3736,27 +3926,39 @@ en:
       adult_name: Name of Adult Member
       are_you_sure: Are you sure you want to delete?
       caregiver_information: Caregiver Information
+      case_histories: Case Histories
       case_history: Case History
       code: Family ID
       contract_date: Contract Date
+      created_by: Created by
+      created_date: Created Date
+      current_province: Current Province
+      date: Date
       date_of_birth: Date of Birth
       dependable_income: Dependable Income
+      detail: Detail
+      enrolled_program_streams: Family's Active Program Streams
+      exit_date: NGO Exit Date
+      exit_ngo_btn: Exit Family From NGO
       family_type: Family Type
-      female_adult_count: Female Adult Count
-      female_children_count: Female Children Count
+      female_adult_count: Number of Adule Females
+      female_children_count: Number of Girls
       gender: Gender
       general_info: About Family
       guardian: Guardian
       house: House
       household_income: Monthly Household Income
       id: ID
-      male_adult_count: Male Adult Count
-      male_children_count: Male Children Count
-      member_count: Member Count
+      initial_referral_date: Initial Referral Date
+      male_adult_count: Number of Adule Males
+      male_children_count: Number of Boys
+      member_count: Number of Family Members
       name: Name
+      monthly_average_income: Monthly Average Income
       'no': 'No'
       note: Relevant Referral Information / Notes
       occupation: Occupation
+      program_streams: Enroll Family to Program Streams
       province: Province
       read_less: read less
       read_more: read more
@@ -3764,6 +3966,7 @@ en:
       referral_forms: Referral Forms
       referred_from: Referred From
       referred_to: Referred To
+      reject: Reject
       relation: Relationship with Children
       remove_member: Remove Member
       significant_family_member_count: Significant Family Member Count
@@ -3776,6 +3979,78 @@ en:
     version:
       back: Back
       modification_of: Changelog of
+  family:
+    enter_ngos:
+      create:
+        failed_create: Failed to update the family.
+        successfully_created: Family has been successfully updated.
+      edit_form:
+        accept: Accept
+        accept_ngo_form: Enter NGO Form
+        accepted_date: Accepted Date
+        case_worker_or_staff: Case Worker / Staff
+      form:
+        accept: Accept
+        accept_ngo_form: Enter NGO Form
+        accepted_date: Accepted Date
+        accepting: Accepting...
+        case_worker_or_staff: Case Worker / Staff
+      update:
+        failed_update: Failed to update the family.
+        successfully_updated: Family has been successfully updated.
+    exit_ngos:
+      create:
+        failed_create: Failed to update the family.
+        successfully_created: Family has been successfully updated.
+      edit_form:
+        case_worker_or_staff: Case Worker / Staff
+        exit_btn: Exit
+        exit_circumstance: Exit Circumstance
+        exit_date: Exit Date
+        exit_ngo: Exit Family from NGO
+        exit_note: Exit Note
+        # Todo
+        exit_reason_options:
+          agency_lack_resource: Agency lacks sufficient resources
+          family_died: Family died
+          family_does_not_meet_service_criteria: Family does not meet / no longer meets service criteria
+          family_does_not_required_support: Family does not require / no longer requires support
+          family_move_out_international: Family is/moved outside NGO target area (International)
+          family_move_out_within_cambodia: Family is/moved outside NGO target area (within Cambodia)
+          family_refuse_service: Family refused service
+          other_reason: Other
+        exit_reasons: Reason for Exit / Case Rejection
+        exit_status: Status
+        exiting: Exiting...
+        other_info_of_exit: Other - More Information
+        reject_family: Reject Family
+        rejected_note: Rejected Note
+      form:
+        case_worker_or_staff: Case Worker / Staff
+        exit_btn: Exit
+        exit_circumstance: Exit Circumstance
+        exit_date: Exit Date
+        exit_ngo: Exit Family from NGO
+        exit_note: Exit Note
+        exit_reason_options:
+          agency_lack_resource: Agency lacks sufficient resources
+          family_died: Family died
+          family_does_not_meet_service_criteria: Family does not meet / no longer meets service criteria
+          family_does_not_required_support: Family does not require / no longer requires support
+          family_move_out_international: Family is/moved outside NGO target area (International)
+          family_move_out_within_cambodia: Family is/moved outside NGO target area (within Cambodia)
+          family_refuse_service: Family refused service
+          other_reason: Other
+        exit_reasons: Reason for Exit / Case Rejection
+        exit_status: Status
+        exiting: Exiting...
+        other_info_of_exit: Other - More Information
+        other_option:
+        reject_family: Reject Family
+        rejected_note: Rejected Note
+      update:
+        failed_update: Failed to update the family.
+        successfully_updated: Family has been successfully updated.
   family_referrals:
     confirm_referral:
       body_second: The family you want to refer already existed in the target NGO.
@@ -4388,6 +4663,7 @@ en:
       edit_profile: Edit Profile
       en: English
       families: Families
+      family_form: Family Form
       interventions: Interventions
       km: ខ្មែរ
       locations: Locations
@@ -4419,7 +4695,9 @@ en:
       thai: Thai
   leave_enrolled_programs:
     create:
-      successfully_created: Client has been successfully exited from the program.
+      client: Client
+      family: Family
+      successfully_created: "%{entity} has been successfully exited from the program."
     edit:
       leave_program: Edit Leave Program
     form:
@@ -4771,6 +5049,8 @@ en:
       previous: Previous
       save: Save
     index:
+      attached_with_client: Attached with Client
+      attached_with_family: Attached with Family
       current_ngo: My NGO's Program Streams
       demo_programs: Demo NGO's Program Streams
       name: Name
@@ -5263,6 +5543,9 @@ en:
       default_columns: Default Columns
       family_default_columns: Family
       partner_default_columns: Partner
+    family_case_management:
+      family_case_management: Family Case Management
+      hide_family_case_management_tool: Hide Administrative Information and Case Management tools
     index:
       csi_tools: Assessment Tools
       custom_assessment: Custom Assessment Tool

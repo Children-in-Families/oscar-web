@@ -21,6 +21,10 @@ module ApplicationHelper
     end
   end
 
+  def show_family_CRD?
+    @show_family_CRD ||= QuantitativeType.where('visible_on LIKE ?', "%family%").any?
+  end
+
   def notification_client_exit(day)
     if day == 90
       t('.client_is_end_ec_today', count: @notification.ec_notification(day).count)
@@ -386,5 +390,9 @@ module ApplicationHelper
       ngos << ["I don't see the NGO I'm looking for...", "external referral", disabled: @referral&.referred_to != 'external referral']
     end
     ngos
+  end
+
+  def initial_referral_date_picker_format(entity)
+    "#{entity.initial_referral_date&.year}, #{entity.initial_referral_date&.month}, #{entity.initial_referral_date&.day}"
   end
 end

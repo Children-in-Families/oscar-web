@@ -1,0 +1,3 @@
+- unless @enrollment.program_stream.tracking_required?
+  - if can? :manage, EnrollmentTracking
+    = enrolled_tracking_new_link(object.id)
