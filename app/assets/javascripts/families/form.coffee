@@ -19,6 +19,20 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
 
     valid
 
+  _toggleDisableFamilySelect = ->
+    $(".nested-fields [name$='[client_id]']")
+    $.each $(".nested-fields"), (index, row) ->
+      memberRow = $(row)
+      select = memberRow.find('[name$="[client_id]"]')
+      select.find("option").attr("disabled", false)
+
+      $.each $(".nested-fields"), (index, row) ->
+        tmpMemberRow = $(row)
+        tmpSelect = tmpMemberRow.find('[name$="[client_id]"]')
+
+        if tmpSelect.val().length > 0 && tmpSelect.attr("id") != select.attr("id")
+          select.find("option[value=#{tmpSelect.val()}]").attr("disabled", true)
+
   _initUploader = ->
     $('.file .optional').fileinput
       showUpload: false
@@ -100,7 +114,7 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
       familyRow.find('[name$="[gender]"]').trigger('change')
       familyRow.find('[name$="[date_of_birth]"]').datepicker('update', data.dateOfBirth);
 
-
+      _toggleDisableFamilySelect()
 
   _initSelect2 = ->
     $('select').select2
@@ -132,6 +146,11 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
       _initSelect2()
       _initDatePicker()
       _initIcheck()
+
+      $.each $(".nested-fields"), (index, row) ->
+        memberRow = $(row)
+        select = memberRow.find('[name$="[client_id]"]')
+        select.trigger("change") if select.val().length > 0
 
   _initDatePicker = ->
     $('.date-picker').datepicker

@@ -231,8 +231,12 @@ class Client < ActiveRecord::Base
     end
 
     def unattache_to_other_families(allowed_family_id = nil)
-      records = Client.joins("LEFT JOIN family_members ON clients.id = family_members.client_id WHERE family_members.family_id IS NULL")
-      records << FamilyMember.find_by(family_id: allowed_family_id).client if allowed_family_id.present?
+      records = joins("LEFT JOIN family_members ON clients.id = family_members.client_id WHERE family_members.family_id IS NULL")
+
+      if allowed_family_id.present?
+        records += joins(:family_member).where(family_members: { family_id: allowed_family_id})
+      end
+
       records
     end
   end
