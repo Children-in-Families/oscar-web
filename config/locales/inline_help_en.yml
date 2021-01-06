@@ -50,6 +50,8 @@ en:
         task_arising: You can either add task here or at the end of the assessment. <i class="fa fa-exclamation-triangle text-danger" aria-hidden="true"></i> If you prefer to add a task at the end of the assessment, you can’t save assessment in between.
       buttons:
         save: The client’s information will be created/saved. The Duplicate Checker feature will check for any duplicate entries and warn you if any are found.
+      care_plans:
+        button: Add a new care plan.
       case_notes:
         button: Document any communication or updates related to the client here.
         date: The actual date when the Case Worker interacted, communicated, and talked about or with the client.

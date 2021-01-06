@@ -138,3 +138,4 @@
 //= require field_settings/index
 //= require donors/index
 //= require family_referrals/form
+//= require care_plans/form

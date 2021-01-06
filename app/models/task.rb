@@ -5,6 +5,7 @@ class Task < ActiveRecord::Base
   belongs_to :user
   belongs_to :taskable, polymorphic: true
   belongs_to :family, counter_cache: true
+  belongs_to :goal
 
   has_paper_trail
   acts_as_paranoid
