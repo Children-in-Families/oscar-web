@@ -63,7 +63,7 @@ class Family < ActiveRecord::Base
   # validate :client_must_only_belong_to_a_family
 
   after_save :save_family_in_client
-  after_commit :update_related_community_members, on: :update
+  after_commit :update_related_community_member, on: :update
 
   def self.update_brc_aggregation_data
     Organization.switch_to 'brc'
@@ -164,10 +164,8 @@ class Family < ActiveRecord::Base
 
   private
 
-  def update_related_community_members
-    # community_members.each do |community_member|
-    #   CommunityMember.delay.update_client_relevant_data(community_member.id)
-    # end
+  def update_related_community_member
+    CommunityMember.delay.update_family_relevant_data(community_member.id) if community_member.present?
   end
 
   def assign_status
