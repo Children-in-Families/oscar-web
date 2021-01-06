@@ -5,7 +5,7 @@
         = f.input :is_client, as: :boolean, label: false, type: 'checkbox', checked: f.object.is_client, class: 'form-input'
     .col-sm-5
       .form-group.optional
-        = f.input :client_id, label: false, wrapper: false, collection: Client.all.map(&:to_select2), input_html: { class: "#{'hidden' unless f.object.client_id? }" }
+        = f.input :client_id, label: false, wrapper: false, collection: Client.unattache_to_other_families(@family.id).map(&:to_select2), input_html: { class: "#{'hidden' unless f.object.client_id? }" }
         = f.input :adult_name, label: false, wrapper: false, input_html: { class: "#{'hidden' if f.object.client_id? }" }
     .col-sm-5.pl-0
       = f.input :gender, label: false

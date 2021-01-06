@@ -66,12 +66,13 @@ class Family < ActiveRecord::Base
   validates :received_by_id, :initial_referral_date, :referral_source_category_id, presence: true, if: :case_management_record?
   validates :code, uniqueness: { case_sensitive: false }, if: 'code.present?'
   validates :status, inclusion: { in: STATUSES }
-  validate :client_must_only_belong_to_a_family
+
+  # validate :client_must_only_belong_to_a_family
   validates :case_worker_ids, presence: true, on: :update, if: -> { !exit_ngo? && case_management_record? }
 
   after_create :assign_slug
   after_save :save_family_in_client, :mark_referral_as_saved
-  after_commit :update_related_community_members, on: :update
+  after_commit :update_related_community_member, on: :update
 
   def self.update_brc_aggregation_data
     Organization.switch_to 'brc'
@@ -180,10 +181,8 @@ class Family < ActiveRecord::Base
 
   private
 
-  def update_related_community_members
-    # community_members.each do |community_member|
-    #   CommunityMember.delay.update_client_relevant_data(community_member.id)
-    # end
+  def update_related_community_member
+    CommunityMember.delay.update_family_relevant_data(community_member.id) if community_member.present?
   end
 
   def assign_status
