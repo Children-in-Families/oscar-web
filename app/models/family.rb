@@ -80,7 +80,7 @@ class Family < ActiveRecord::Base
   end
 
   def member_count
-    brc? ? family_members.count : (male_adult_count.to_i + female_adult_count.to_i + male_children_count.to_i + female_children_count.to_i)
+    family_members.count
   end
 
   def to_select2
