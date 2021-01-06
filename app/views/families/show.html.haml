@@ -206,7 +206,7 @@
                     = community.display_name
                     = link_to community_path(community) do
                       = fa_icon 'external-link'
-                      
+
             %tr
               %td.spacing-first-col
                 = t('.referral_source_category')
@@ -325,6 +325,8 @@
         .col-sm-12
           %table.table.table-bordered
             %thead
+              %th
+                Is Client?
               %th= t('activerecord.attributes.family_member.adult_name')
               %th= t('.date_of_birth')
               - if policy(FamilyMember).show?(:gender)
@@ -339,7 +341,13 @@
             %tbody
             - @family.family_members.each do |member|
               %tr
-                %td= member.adult_name
+                %td= human_boolean(member.client_id?)
+                %td
+                  - if member.client_id?
+                    = link_to member.adult_name, client_path(member.client)
+                  - else
+                    = member.adult_name
+
                 %td= date_format member.date_of_birth
                 - if policy(FamilyMember).show?(:gender)
                   %td
@@ -351,22 +359,3 @@
                   %td= member.relation
                 - if policy(FamilyMember).show?(:guardian)
                   %td= human_boolean(member.guardian)
-
-.row
-  .col-xs-12.clients
-    .ibox
-      - if children_exist?
-        .ibox-title
-          %h5= @results
-          %span.label.label-info= t('.results')
-        .ibox-content
-          .clients-table{ data: { 'read-more': t('.read_more'), 'read-less': t('.read_less') } }
-            = datagrid_table @client_grid, html: { class: 'table table-bordered table-striped table-hover clients'}
-        .ibox-footer.text-center
-          = paginate @client_grid.assets
-      - else
-        .ibox-title
-          %h5 0
-          %span.label.label-info= t('.results')
-        .ibox-content
-          %p= t('families.family_advanced_searches.advanced_search.no_result')
