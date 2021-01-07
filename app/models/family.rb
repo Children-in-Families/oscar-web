@@ -2,6 +2,7 @@ class Family < ActiveRecord::Base
   include EntityTypeCustomField
   include FamilyScope
   include Brc::Family
+  include CsiConcern
 
   TYPES = ['Birth Family (Both Parents)', 'Birth Family (Only Mother)',
     'Birth Family (Only Father)', 'Extended Family / Kinship Care',
@@ -52,7 +53,12 @@ class Family < ActiveRecord::Base
   has_many :program_streams, through: :enrollments, as: :programmable
   has_many :family_members, dependent: :destroy
   has_many :family_referrals, dependent: :destroy
+  has_many :assessments,    dependent: :destroy
+  has_many :tasks,          dependent: :nullify
+  has_many :care_plans,     dependent: :destroy
+  has_many :goals, dependent: :destroy
 
+  accepts_nested_attributes_for :tasks
   accepts_nested_attributes_for :family_members, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :community_member, allow_destroy: true
 

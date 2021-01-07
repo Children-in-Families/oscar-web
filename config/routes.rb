@@ -165,9 +165,16 @@ Rails.application.routes.draw do
       resources :exit_ngos, only: [:create, :update]
       resources :enter_ngos, only: [:create, :update]
     end
-
+    resources :family_referrals
     resources :custom_field_properties
     get 'version' => 'families#version'
+
+    scope module: 'families' do
+      resources :assessments
+      resources :care_plans
+      resources :tasks, except: [:new]
+      resources :goals, except: [:new]
+    end
 
     resources :enrollments do
       get :report, on: :collection

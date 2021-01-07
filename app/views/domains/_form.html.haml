@@ -16,11 +16,15 @@
           = f.input :score_1_definition, label: t('.interpretation')
         .col-xs-3
           = f.input :score_1_local_definition, label: "#{t('.interpretation')} (#{country_langauge})"
+        .col-xs-3{ id: 'domain-type-wrapper', data: { enable: f.object.persisted? || f.object.domain_type != 'client' ? 'false' : 'true' } }
+          = f.input :domain_type, collection: Domain::TYPES, selected: f.object.domain_type, label: 'Attach with', input_html: { class: 'select2' }
+          = f.hidden_field :domain_type, value: f.object.domain_type
         .col-xs-3
-          - if params[:copy] == "true" || !params[:custom_assessment_setting_id].present?
-            = f.input :custom_assessment_setting_id, collection: @custom_assessment_settings.map{ |ca| [ca.custom_assessment_name, ca.id]}, label: t('.custom_assessment_name'), include_blank: true, input_html: { class: 'select2' }
-          - else
-            = f.hidden_field :custom_assessment_setting_id
+          #domain_custom_assessment_setting{ class: (f.object.domain_type != 'client') && 'hidden' }
+            - if params[:copy] == "true" || !params[:custom_assessment_setting_id].present?
+              = f.input :custom_assessment_setting_id, collection: @custom_assessment_settings.map{ |ca| [ca.custom_assessment_name, ca.id]}, label: t('.custom_assessment_name'), include_blank: true, input_html: { class: 'select2' }
+            - else
+              = f.hidden_field :custom_assessment_setting_id
 
       - (2..10).each do |score|
         .row

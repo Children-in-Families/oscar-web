@@ -1,0 +1,85 @@
+.row.mini-margin
+  .col-xs-12.col-sm-10.col-sm-offset-1
+    .alert.alert-warning.alert-dismissible{ :role => "alert" }
+      %button.close{"aria-label" => "Close", "data-dismiss" => "alert", :type => "button"}
+        %span{"aria-hidden" => "true"} ×
+      %ul
+        %li= I18n.t('inline_help.clients.assessments.case_plan.lists.list1').html_safe
+        %li= I18n.t('inline_help.clients.assessments.case_plan.lists.list2').html_safe
+        %li= I18n.t('inline_help.clients.assessments.case_plan.lists.list3').html_safe
+        %li= I18n.t('inline_help.clients.assessments.case_plan.lists.list4').html_safe
+        %li= I18n.t('inline_help.clients.assessments.case_plan.lists.list5').html_safe
+    .ibox#assessment-info.center-block
+      .ibox-title
+        = link_to family_assessments_path(@assessment.family), class: 'btn btn-default' do
+          = I18n.t('assessments.show.back_to_assessment_history')
+      .ibox-content
+        .row
+          .col-xs-10
+            = render partial: 'incomplete_detail', locals: { assessment: @assessment }
+            %p
+              %b= "#{I18n.t('assessments.show.case_plan')} #{@assessment.family.name}"
+              %label{ class: "cursor-pointer #{@assessment.completed_label_class}", data: { toggle: :modal, target: "#modal-incomplete-assessment-#{@assessment.id}" } }
+                = @assessment.completed_status
+              %br
+              - if @assessment.index_of == 0
+                = "#{I18n.t('assessments.show.initial_assessment')}"
+              - else
+                = "#{I18n.t('assessments.show.based_on')} #{@assessment.index_of + 1}"
+              %br
+              = "#{I18n.t('assessments.show.assessment_created_by')} #{whodunnit('Assessment', @assessment)} #{I18n.t('assessments.show.on_date')} #{date_format(@assessment.created_at)}"
+          .col-xl-1.button-position
+            .pull-right
+              - if policy(@assessment).edit?
+                = link_to edit_family_assessment_path(@assessment.family, @assessment), class: 'btn btn-outline btn-success' do
+                  = fa_icon('pencil')
+              - if assessment_deleted?
+                = link_to family_assessment_path(@assessment.family, @assessment), method: 'delete', data: { confirm: I18n.t('assessments.show.are_you_sure') }, class: 'btn btn-outline btn-danger' do
+                  = fa_icon('trash')
+              - else
+                = link_to_if false, family_assessment_path(@assessment.family, @assessment), method: 'delete', data: { confirm: I18n.t('assessments.show.are_you_sure') }, class: 'btn btn-outline btn-danger disabled' do
+                  = fa_icon('trash')
+
+        - @assessment.assessment_domains_in_order.each do |ad|
+          .row
+            .col-xs-12
+              %div{class: "panel panel-#{ad.score_color_class}"}
+                .panel-heading
+                  %table.table.table-borderless
+                    %tbody
+                      %tr
+                        - if current_organization.try(:aht) == true
+                          = domain_name_for_aht(ad).html_safe
+                        - else
+                          %td.no-padding-bottom
+                            %b
+                              = I18n.t('assessments.show.domain')
+                              = "#{ad.domain.name} :"
+                          %td.no-padding-bottom
+                            %b= ad.domain.identity
+                        %td{rowspan: 4}
+                          .domain-score.text-center
+                            - unless @assessment.initial?
+                              %button{ 'data-original-title': "#{simple_format(ad.previous_score_definition)}", type: 'button', class: "btn btn-#{ad.previous_score_color_class} btn-xs", 'data-toggle': 'tooltip' }
+                                = "#{ad.previous_score}"
+                              %span{style: 'color:black;'} &#8594;
+                            %button{ 'data-original-title': "#{simple_format(ad.score_definition)}", type: 'button', class: "btn btn-#{ad.score_color_class} btn-xs", 'data-toggle': 'tooltip' }
+                              = "#{ad.score}"
+                      %tr
+                        %td.no-padding-top
+                          %b= "#{I18n.t('assessments.show.score')} #{ad.score}:"
+                        %td.no-padding-top
+                          %b= simple_format(ad.score_definition)
+                      %tr
+                        %td
+                          %b= "#{I18n.t('assessments.show.reason')}:"
+                        %td
+                          = ad.reason
+                      %tr
+                        %td
+                        %td
+                          - if ad.attachments.any?
+                            %br
+                            %button.btrn.btn-info.btn-sm{"data-target" => "#attachments#{ad.id}", "data-toggle" => "modal", :type => "button"}= I18n.t('assessments.show.show_attachment')
+                - if ad.attachments.any?
+                  = render 'attachment', { ad: ad }

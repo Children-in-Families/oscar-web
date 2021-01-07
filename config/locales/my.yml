@@ -858,8 +858,10 @@ my:
   cannot_remove: ဖ်က္ပစ္၍မရပါ။
   cannot_remove_or_update: အသံုးျပဳေနသည္ျဖစ္၍ ဖ်က္ပစ္ျခင္းသာ္လည္းေကာင္း၊ အသစ္ျပင္ဆင္ျခင္းေသာ္လည္းေကာင္း လုပ္၍မရပါ။
   care_plans:
-    create: 
+    create:
       successfully_created: Care Plan ကိုအောင်မြင်စွာဖန်တီးပြီးဖြစ်သည်။
+    destroy:
+      successfully_deleted: Care plans has been successfully deleted.
     form:
       add_goal: ရည်မှန်းချက်ထည့်ပါ
       cancel: ပယ်ဖျက်ပါ
@@ -3943,6 +3945,15 @@ my:
   families:
     actions:
       are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသမား
+    assessments:
+      create:
+        successfully_created: စိစစ္ခ်က္ကိုေအာင္ျမင္စြာျပဳလုပ္ၿပီးပါၿပီ။
+      destroy:
+        fail_delete_attachment: တြဲထားသည္ကို ဖ်က္မရ။
+        successfully_deleted: တြဲထားသည္ကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ။
+        successfully_deleted_assessment: Assessment has been successfully deleted.
+      update:
+        successfully_updated: အကဲျဖတ္ခ်က္ကို ေအာင္ျမင္စာ အသစ္တင္ၿပီးပါၿပီ။
     case_history_detail:
       accepted_date: လက်ခံခဲ့သည်နေ့စွဲ
       family: မိသားစု
@@ -4053,6 +4064,8 @@ my:
       address: လိပ္စာ
       adult_name: အတူတူအိမျ၌နထေိုငျသူမြားလူကြီးများ
       are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
+      assessment: အကဲဖြတ်
+      care_plan: အတွက်စောင့်ရှောက်မှုအစီအစဉ်
       caregiver_information: ေစာင့္ေရွာက္သူအခ်က္အလက္
       case_histories: Case Histories
       case_history: အမႈသမုိင္း
@@ -4098,6 +4111,24 @@ my:
       status: အေျခအေန
       street: လမ္း
       'yes': မွန္ပါသည္
+      view_tasks: လုပ္ေဆာင္ခ်က္မ်ား
+    tasks:
+      create:
+        successfully_created: လုပ္ငန္းကို ေအာင္ျမင္စြာ ဖန္တီးၿပီးပါၿပီ
+      destroy:
+        successfully_deleted: လုပ္ငန္းကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ
+      index:
+        add_all_to_calendar: ျပကၡဒိန္ထဲသုိ႔ အကုန္ထည့္ရန္
+        add_to_calendar: ျပကၡဒိန္ထဲသုိ႔ ထည့္ရန္
+        are_you_sure_you_want_to_delete: ဖ်က္လုိသည္မွာ ေသခ်ာပါသလား
+        back: ေနာက္သို႔
+        domain: ဒိုမိန္း
+        new_task: လုပ္ငန္းအသစ္
+        overdue_tasks: သတ္မွတ္ရက္ ေက်ာ္လြန္သြားေသာ လုပ္ငန္းမ်ား
+        today_tasks: ယေန လုပ္ငန္းမ်ား
+        upcoming_tasks: ေနာက္လာမည့္ လုပ္ငန္းမ်ား
+      update:
+        successfully_updated: လုပ္ငန္းကို ေအာင္ျမင္စြာ အသစ္ ျပင္ဆင္ၿပီးပါၿပီ
     update:
       not_allowed_to_detach_clients: ဤပံုစံျဖင့္ မိသားစုထံမွ အမႈသည္မ်ားကို ဖယ္ထုတ္၍ မရပါ
       successfully_updated: မိသားစုကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ ျဖည့္စြက္ၿပီးပါၿပီ

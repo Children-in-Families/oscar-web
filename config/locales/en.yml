@@ -854,8 +854,10 @@ en:
   cannot_remove: cannot be removed
   cannot_remove_or_update: cannot be removed/updated since it is already in use.
   care_plans:
-    create: 
+    create:
       successfully_created: Care Plan has been successfully created.
+    destroy:
+      successfully_deleted:  Care plans has been successfully deleted.
     form:
       add_goal: Add goal
       cancel: Cancel
@@ -3743,6 +3745,7 @@ en:
       csi_tool: Assessment Tools
       custom_csi_tool: Custom Assessment Tools
       domains: Domains
+      family_csi_tool: Family Assessment Tools
       score_1: Score 1
       score_2: Score 2
       score_3: Score 3
@@ -3948,6 +3951,15 @@ en:
   families:
     actions:
       are_you_sure: Are you sure you want to delete?
+    assessments:
+      create:
+        successfully_created: Assessment has been successfully created.
+      destroy:
+        fail_delete_attachment: Failed deleting attachment
+        successfully_deleted: Attachment has been successfully deleted.
+        successfully_deleted_assessment: Assessment has been successfully deleted.
+      update:
+        successfully_updated: Assessment has been successfully updated.
     case_history_detail:
       accepted_date: NGO Accept Date
       family: Family
@@ -4062,6 +4074,9 @@ en:
       address: Address
       adult_name: Name of Adult Member
       are_you_sure: Are you sure you want to delete?
+      assessment: Assessments
+      care_plan: Care plan
+      view_tasks: Tasks
       caregiver_information: Caregiver Information
       case_histories: Case Histories
       case_history: Case History
@@ -4110,6 +4125,24 @@ en:
       street: Street
       total_income: Total Monthly Income
       'yes': 'Yes'
+      view_tasks: Tasks
+    tasks:
+      create:
+        successfully_created: Task has successfully been created.
+      destroy:
+        successfully_deleted: Task has successfully been deleted.
+      index:
+        add_all_to_calendar: Add all to calendar
+        add_to_calendar: Add to calendar
+        are_you_sure_you_want_to_delete: Are you sure you want to delete?
+        back: Back
+        domain: Domain
+        new_task: New Task
+        overdue_tasks: Overdue Tasks
+        today_tasks: Today Tasks
+        upcoming_tasks: Upcoming Tasks
+      update:
+        successfully_updated: Task has successfully been updated.
     update:
       not_allowed_to_detach_clients: You're not allowed to detach clients from the family through this form!
       successfully_updated: Family has been successfully updated.

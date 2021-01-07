@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20201228115536) do
+ActiveRecord::Schema.define(version: 20210107044331) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -105,8 +105,9 @@ ActiveRecord::Schema.define(version: 20201228115536) do
 
   create_table "ar_internal_metadata", primary_key: "key", force: :cascade do |t|
     t.string   "value"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.integer  "environment"
   end
 
   create_table "assessment_domains", force: :cascade do |t|
@@ -134,9 +135,11 @@ ActiveRecord::Schema.define(version: 20201228115536) do
     t.integer  "client_id"
     t.boolean  "completed",  default: false
     t.boolean  "default",    default: true
+    t.integer  "family_id"
   end
 
   add_index "assessments", ["client_id"], name: "index_assessments_on_client_id", using: :btree
+  add_index "assessments", ["family_id"], name: "index_assessments_on_family_id", using: :btree
 
   create_table "attachments", force: :cascade do |t|
     t.string   "image"
@@ -208,10 +211,12 @@ ActiveRecord::Schema.define(version: 20201228115536) do
     t.integer  "client_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "family_id"
   end
 
   add_index "care_plans", ["assessment_id"], name: "index_care_plans_on_assessment_id", using: :btree
   add_index "care_plans", ["client_id"], name: "index_care_plans_on_client_id", using: :btree
+  add_index "care_plans", ["family_id"], name: "index_care_plans_on_family_id", using: :btree
 
   create_table "carers", force: :cascade do |t|
     t.string   "address_type",               default: ""
@@ -690,9 +695,9 @@ ActiveRecord::Schema.define(version: 20201228115536) do
     t.string   "other_agency_name"
     t.string   "other_representative_name"
     t.string   "other_agency_phone"
+    t.string   "locality"
     t.string   "national_id_number"
     t.string   "passport_number"
-    t.string   "locality"
   end
 
   add_index "clients", ["commune_id"], name: "index_clients_on_commune_id", using: :btree
@@ -903,9 +908,11 @@ ActiveRecord::Schema.define(version: 20201228115536) do
     t.text     "score_8_local_definition",     default: ""
     t.text     "score_9_local_definition",     default: ""
     t.text     "score_10_local_definition",    default: ""
+    t.string   "domain_type"
   end
 
   add_index "domains", ["domain_group_id"], name: "index_domains_on_domain_group_id", using: :btree
+  add_index "domains", ["domain_type"], name: "index_domains_on_domain_type", using: :btree
 
   create_table "donor_families", force: :cascade do |t|
     t.integer "donor_id"
@@ -1036,7 +1043,7 @@ ActiveRecord::Schema.define(version: 20201228115536) do
     t.integer  "cases_count",                     default: 0
     t.string   "case_history",                    default: ""
     t.datetime "deleted_at"
-    t.integer  "children",                        default: [],        array: true
+    t.integer  "children",                        default: [],                     array: true
     t.string   "status",                          default: ""
     t.integer  "district_id"
     t.string   "old_commune",                     default: ""
@@ -1059,9 +1066,13 @@ ActiveRecord::Schema.define(version: 20201228115536) do
     t.text     "relevant_information"
     t.string   "referee_phone_number"
     t.string   "slug",                            default: ""
-    t.string   "documents",                       default: [],        array: true
+    t.string   "documents",                       default: [],                     array: true
+    t.integer  "assessments_count",               default: 0,         null: false
+    t.integer  "care_plans_count",                default: 0,         null: false
   end
 
+  add_index "families", ["assessments_count"], name: "index_families_on_assessments_count", using: :btree
+  add_index "families", ["care_plans_count"], name: "index_families_on_care_plans_count", using: :btree
   add_index "families", ["commune_id"], name: "index_families_on_commune_id", using: :btree
   add_index "families", ["deleted_at"], name: "index_families_on_deleted_at", using: :btree
   add_index "families", ["district_id"], name: "index_families_on_district_id", using: :btree
@@ -1203,6 +1214,7 @@ ActiveRecord::Schema.define(version: 20201228115536) do
     t.integer  "care_plan_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "family_id"
   end
 
   add_index "goals", ["assessment_domain_id"], name: "index_goals_on_assessment_domain_id", using: :btree
@@ -1210,6 +1222,7 @@ ActiveRecord::Schema.define(version: 20201228115536) do
   add_index "goals", ["care_plan_id"], name: "index_goals_on_care_plan_id", using: :btree
   add_index "goals", ["client_id"], name: "index_goals_on_client_id", using: :btree
   add_index "goals", ["domain_id"], name: "index_goals_on_domain_id", using: :btree
+  add_index "goals", ["family_id"], name: "index_goals_on_family_id", using: :btree
 
   create_table "government_form_children_plans", force: :cascade do |t|
     t.text     "goal",               default: ""
@@ -1992,16 +2005,14 @@ ActiveRecord::Schema.define(version: 20201228115536) do
     t.string   "taskable_type"
     t.datetime "deleted_at"
     t.integer  "goal_id"
+    t.integer  "family_id"
   end
 
   add_index "tasks", ["client_id"], name: "index_tasks_on_client_id", using: :btree
   add_index "tasks", ["deleted_at"], name: "index_tasks_on_deleted_at", using: :btree
+  add_index "tasks", ["family_id"], name: "index_tasks_on_family_id", using: :btree
   add_index "tasks", ["goal_id"], name: "index_tasks_on_goal_id", using: :btree
   add_index "tasks", ["taskable_type", "taskable_id"], name: "index_tasks_on_taskable_type_and_taskable_id", using: :btree
-
-  create_table "test_tables", force: :cascade do |t|
-    t.string "test"
-  end
 
   create_table "thredded_categories", force: :cascade do |t|
     t.integer  "messageboard_id",             null: false
@@ -2019,22 +2030,24 @@ ActiveRecord::Schema.define(version: 20201228115536) do
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "position",   null: false
   end
 
+  add_index "thredded_messageboard_groups", ["name"], name: "index_thredded_messageboard_group_on_name", unique: true, using: :btree
+
   create_table "thredded_messageboards", force: :cascade do |t|
-    t.string   "name",                  limit: 255,                 null: false
+    t.string   "name",                  limit: 191,             null: false
     t.string   "slug",                  limit: 191
     t.text     "description"
     t.integer  "topics_count",                      default: 0
     t.integer  "posts_count",                       default: 0
-    t.boolean  "closed",                            default: false, null: false
     t.integer  "last_topic_id"
     t.integer  "messageboard_group_id"
-    t.datetime "created_at",                                        null: false
-    t.datetime "updated_at",                                        null: false
+    t.datetime "created_at",                                    null: false
+    t.datetime "updated_at",                                    null: false
+    t.integer  "position",                                      null: false
   end
 
-  add_index "thredded_messageboards", ["closed"], name: "index_thredded_messageboards_on_closed", using: :btree
   add_index "thredded_messageboards", ["messageboard_group_id"], name: "index_thredded_messageboards_on_messageboard_group_id", using: :btree
   add_index "thredded_messageboards", ["slug"], name: "index_thredded_messageboards_on_slug", using: :btree
 
@@ -2097,6 +2110,7 @@ ActiveRecord::Schema.define(version: 20201228115536) do
     t.string   "hash_id",      limit: 191,             null: false
     t.datetime "created_at",                           null: false
     t.datetime "updated_at",                           null: false
+    t.datetime "last_post_at"
   end
 
   add_index "thredded_private_topics", ["hash_id"], name: "index_thredded_private_topics_on_hash_id", using: :btree
@@ -2134,6 +2148,7 @@ ActiveRecord::Schema.define(version: 20201228115536) do
     t.integer  "moderation_state",                             null: false
     t.datetime "created_at",                                   null: false
     t.datetime "updated_at",                                   null: false
+    t.datetime "last_post_at"
   end
 
   add_index "thredded_topics", ["hash_id"], name: "index_thredded_topics_on_hash_id", using: :btree
@@ -2159,21 +2174,23 @@ ActiveRecord::Schema.define(version: 20201228115536) do
   add_index "thredded_user_details", ["user_id"], name: "index_thredded_user_details_on_user_id", using: :btree
 
   create_table "thredded_user_messageboard_preferences", force: :cascade do |t|
-    t.integer  "user_id",                          null: false
-    t.integer  "messageboard_id",                  null: false
-    t.boolean  "notify_on_mention", default: true, null: false
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
+    t.integer  "user_id",                                 null: false
+    t.integer  "messageboard_id",                         null: false
+    t.boolean  "follow_topics_on_mention", default: true, null: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
+    t.boolean  "followed_topic_emails",    default: true, null: false
   end
 
   add_index "thredded_user_messageboard_preferences", ["user_id", "messageboard_id"], name: "thredded_user_messageboard_preferences_user_id_messageboard_id", unique: true, using: :btree
 
   create_table "thredded_user_preferences", force: :cascade do |t|
-    t.integer  "user_id",                          null: false
-    t.boolean  "notify_on_mention", default: true, null: false
-    t.boolean  "notify_on_message", default: true, null: false
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
+    t.integer  "user_id",                                 null: false
+    t.boolean  "follow_topics_on_mention", default: true, null: false
+    t.boolean  "notify_on_message",        default: true, null: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
+    t.boolean  "followed_topic_emails",    default: true, null: false
   end
 
   add_index "thredded_user_preferences", ["user_id"], name: "index_thredded_user_preferences_on_user_id", using: :btree
@@ -2303,10 +2320,10 @@ ActiveRecord::Schema.define(version: 20201228115536) do
     t.integer  "item_id",        null: false
     t.string   "event",          null: false
     t.string   "whodunnit"
-    t.text     "object"
     t.datetime "created_at"
-    t.text     "object_changes"
     t.integer  "transaction_id"
+    t.jsonb    "object"
+    t.jsonb    "object_changes"
   end
 
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree

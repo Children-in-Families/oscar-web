@@ -1,0 +1,17 @@
+.nested-fields
+  .row
+    .col-md-4.col-xs-12
+      = f.hidden_field :domain_id, value: params[:domain_id]
+      = f.hidden_field :family_id, value: @family.id
+      = f.hidden_field :assessment_id, value: params[:assessment_id]
+      = f.hidden_field :assessment_domain_id, value: params[:assessment_domain_id]
+      = f.text_area :description,  class: 'form-control goal-input-field text-area'
+      = link_to_remove_association t('.remove_goal'), f, class: 'btn-remove-goal btn btn-xs btn-outline btn-danger'
+    .col-md-8.col-xs-12
+      .table-responsive
+        %table.table.table-hover
+          %tbody.task-input.tasks
+            = f.fields_for :tasks do |task|
+              = render "task_fields", f: task
+
+        = link_to_add_association t('.add_task'), f, :tasks, class: 'btn-add-task btn btn-outline btn-xs btn-success', data: {association_insertion_method: :append, association_insertion_node: '.table', association_insertion_traversal: 'prev'}

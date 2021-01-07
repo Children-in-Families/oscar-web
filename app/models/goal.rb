@@ -3,6 +3,7 @@ class Goal < ActiveRecord::Base
   belongs_to :assessment_domain
   belongs_to :client
   belongs_to :care_plan
+  belongs_to :family
 
   has_many :tasks, dependent: :destroy
 
