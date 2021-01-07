@@ -710,29 +710,6 @@ class Client < ActiveRecord::Base
     end
   end
 
-  def assessment_duration(duration, default = true, custom_assessment_setting_id=nil)
-    if duration == 'max'
-      setting = Setting.first
-      if default
-        assessment_period    = setting.max_assessment
-        assessment_frequency = setting.assessment_frequency
-      else
-        if custom_assessment_setting_id
-          custom_assessment_setting = CustomAssessmentSetting.find(custom_assessment_setting_id)
-          assessment_period    = custom_assessment_setting.max_custom_assessment
-          assessment_frequency = custom_assessment_setting.custom_assessment_frequency
-        else
-          assessment_period    = setting.max_custom_assessment
-          assessment_frequency = setting.custom_assessment_frequency
-        end
-      end
-    else
-      assessment_period = 3
-      assessment_frequency = 'month'
-    end
-    assessment_period.send(assessment_frequency)
-  end
-
   def mark_referral_as_saved
     referral = find_referral
     referral.update_attributes(client_id: id, saved: true) if referral.present?
@@ -740,6 +717,7 @@ class Client < ActiveRecord::Base
 
   def set_country_origin
     return if country_origin.present?
+
     country = Setting.first.try(:country_name)
     self.country_origin = country
   end

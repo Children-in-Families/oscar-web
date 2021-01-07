@@ -70,4 +70,27 @@ module CsiConcern
       Date.today
     end
   end
+
+  def assessment_duration(duration, default = true, custom_assessment_setting_id=nil)
+    if duration == 'max'
+      setting = Setting.first
+      if default || self.class.name == 'Family'
+        assessment_period    = setting.max_assessment
+        assessment_frequency = setting.assessment_frequency
+      else
+        if custom_assessment_setting_id
+          custom_assessment_setting = CustomAssessmentSetting.find(custom_assessment_setting_id)
+          assessment_period    = custom_assessment_setting.max_custom_assessment
+          assessment_frequency = custom_assessment_setting.custom_assessment_frequency
+        else
+          assessment_period    = setting.max_custom_assessment
+          assessment_frequency = setting.custom_assessment_frequency
+        end
+      end
+    else
+      assessment_period = 3
+      assessment_frequency = 'month'
+    end
+    assessment_period.send(assessment_frequency)
+  end
 end

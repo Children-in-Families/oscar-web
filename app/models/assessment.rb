@@ -12,7 +12,7 @@ class Assessment < ActiveRecord::Base
 
   has_paper_trail
 
-  validates :client, presence: true
+  validates :client, presence: true, if: :client_id?
   validate :must_be_enable
   validate :allow_create, :eligible_client_age, if: :new_record?
 
@@ -53,11 +53,15 @@ class Assessment < ActiveRecord::Base
     customs.most_recents.first
   end
 
-  def initial?(custom_assessment_setting_id=nil)
-    if default?
-      self == client.assessments.defaults.most_recents.last || client.assessments.defaults.count.zero?
-    else
-      self == client.assessments.customs.joins(:domains).where(domains: { custom_assessment_setting_id: custom_assessment_setting_id }).most_recents.last || client.assessments.customs.count.zero?
+  def initial?(custom_assessment_setting_id = nil)
+    if client_id
+      if default?
+        self == client.assessments.defaults.most_recents.last || client.assessments.defaults.count.zero?
+      else
+        self == client.assessments.customs.joins(:domains).where(domains: { custom_assessment_setting_id: custom_assessment_setting_id }).most_recents.last || client.assessments.customs.count.zero?
+      end
+    elsif family_id
+      self == family.assessments.customs.most_recents.last || family.assessments.customs.count.zero?
     end
   end
 
@@ -72,6 +76,13 @@ class Assessment < ActiveRecord::Base
     else
       domains = default == 'true' ? Domain.csi_domains : Domain.custom_csi_domains
     end
+    domains.each do |domain|
+      assessment_domains.build(domain: domain)
+    end
+  end
+
+  def populate_family_domains
+    domains = Domain.family_custom_csi_domains
     domains.each do |domain|
       assessment_domains.build(domain: domain)
     end

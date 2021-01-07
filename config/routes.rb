@@ -174,7 +174,9 @@ Rails.application.routes.draw do
 
     scope module: 'families' do
       resources :assessments
+      resources :care_plans
       resources :tasks, except: [:new]
+      resources :goals, except: [:new]
     end
 
     resources :enrollments do

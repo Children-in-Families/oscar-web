@@ -1,4 +1,4 @@
-= simple_form_for([assessment.client, assessment], html: { class: 'assessment-form unrestricted_form', data: { disable_required_fields: current_setting.disable_required_fields? } }) do |f|
+= simple_form_for([assessment.family, assessment], html: { class: 'assessment-form unrestricted_form', data: { disable_required_fields: current_setting.disable_required_fields? } }) do |f|
   = hidden_field_tag :current_user, current_user.roles
   = hidden_field_tag :default, params[:default] if params[:default]
   = hidden_field_tag :from_controller, @from_controller
@@ -7,7 +7,7 @@
       .ibox
         .ibox-title
           %h5
-            = "#{assessment.client.name}"
+            = "#{assessment.family.name}"
             - if current_setting.show_prev_assessment? && @prev_assessment.present?
               - if readonly
                 %span= " (Previous Assessment)"
@@ -16,7 +16,7 @@
 
           .ibox-tools
             - unless readonly
-              = link_to client_assessments_path(@client), class: 'btn btn-default btn-back-default button' do
+              = link_to family_assessments_path(@family), class: 'btn btn-default btn-back-default button' do
                 = t('.back')
         .ibox-content
           .root-wizard{ id:( readonly ? 'readonly-rootwizard' : 'rootwizard'), data: { cancel: t('.cancel'), next: t('.next'), previous: t('.previous'), finish: t('.finish'), save: t('.save'), saving: t('saving'), action: params['action'] } }
@@ -69,7 +69,7 @@
                     .form-group
                       - if !current_setting.disable_required_fields? && !readonly
                         - unless readonly
-                          %p.text-danger.task_required{ style: !@client.tasks.by_domain_id(domain).incomplete.empty? && 'display: none;' }
+                          %p.text-danger.task_required{ style: !@family.tasks.by_domain_id(domain).incomplete.empty? && 'display: none;' }
                             %abbr{ title: 'required' } *
                             = t('.at_least_one_task_required')
 
@@ -84,15 +84,15 @@
                                 %label= t('.add_task_confirm')
                                 = ad.input :required_task_last, as: :radio_buttons, collection: [['Yes', true], ['No', false]], label: false, input_html: { 'data-task-name': domain.name }, disabled: readonly
                         %ol.tasks-list{ type: '1'}
-                          - @client.tasks.by_domain_id(domain).where(taskable: assessment).incomplete.each do |task|
+                          - @family.tasks.by_domain_id(domain).where(taskable: assessment).incomplete.each do |task|
                             %li.list-group-item{style: 'padding-bottom: 11px'}
                               = task.name
                               - if can?(:destroy, Task) && !readonly
-                                %a.pull-right.remove-task.fa.fa-trash.btn.btn-outline.btn-danger.btn-xs{'data-url' => "/clients/#{@client.id}/tasks/#{task.id}", 'data-persisted' => 'true', :style => "margin: 0;"}
+                                %a.pull-right.remove-task.fa.fa-trash.btn.btn-outline.btn-danger.btn-xs{'data-url' => "/families/#{@family.id}/tasks/#{task.id}", 'data-persisted' => 'true', :style => "margin: 0;"}
                     - unless readonly
                       .form-group.add-task-btn-wrapper
-                        %button.assessment-task-btn.btn.btn-primary.pull-right{class: "#{(policy(@client).create?) ? '' : 'disabled'}", type: 'button', data: { toggle: "modal", domain_id: "#{domain.id}", target: "#tasksFromModal", trigger: "hover", content: "#{I18n.t('inline_help.clients.assessments.add_task')}", placement: "auto" } }
+                        %button.assessment-task-btn.btn.btn-primary.pull-right{class: "#{(policy(@family).create?) ? '' : 'disabled'}", type: 'button', data: { toggle: "modal", domain_id: "#{domain.id}", target: "#tasksFromModal", trigger: "hover", content: "#{I18n.t('inline_help.clients.assessments.add_task')}", placement: "auto" } }
                           = t('.add_task')
 
-- if policy(@client).create?
+- if policy(@family).create?
   = render 'add_task_form'

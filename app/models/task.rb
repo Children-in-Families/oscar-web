@@ -8,7 +8,7 @@ class Task < ActiveRecord::Base
   belongs_to :goal
 
   has_paper_trail
-  acts_as_paranoid
+  acts_as_paranoid double_tap_destroys_fully: false
 
   validates :name, presence: true
   validates :domain, presence: true

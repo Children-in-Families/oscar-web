@@ -14,7 +14,7 @@
 
                 - unless readonly
                   %td.vert-align.text-center
-                    .delete.fa.fa-trash.btn.btn-outline.btn-danger{ data: { url: (client_assessment_path(@assessment.client, @assessment, assessment_domain: ad.object, file_index: index)), comfirm: t('.are_you_sure') }}
+                    .delete.fa.fa-trash.btn.btn-outline.btn-danger{ data: { url: (family_assessment_path(@assessment.family, @assessment, assessment_domain: ad.object, file_index: index)), comfirm: t('.are_you_sure') }}
 
 - unless readonly
   .row

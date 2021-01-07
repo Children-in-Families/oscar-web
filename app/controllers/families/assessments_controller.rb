@@ -1,7 +1,6 @@
 module Families
   class AssessmentsController < ::AdminController
     include ApplicationHelper
-    include CreateBulkTask
 
     before_action :find_family
     before_action :find_assessment, only: [:edit, :update, :show, :destroy]
@@ -22,7 +21,7 @@ module Families
       if current_organization.try(:aht) == false
         authorize @assessment
       end
-      @assessment.populate_notes(params[:default], params[:custom_name])
+      @assessment.populate_family_domains
     end
 
     def create
@@ -30,24 +29,14 @@ module Families
       @assessment.default = params[:default]
       if current_organization.try(:aht) == true
         if @assessment.save(validate: false)
-          create_bulk_task(params[:task].uniq, @assessment) if params.has_key?(:task)
-          if params[:from_controller] == "dashboards"
-            redirect_to root_path, notice: t('.successfully_created')
-          else
-            redirect_to client_path(@family), notice: t('.successfully_created')
-          end
+          redirect_to family_path(@family), notice: t('.successfully_created')
         else
           render :new
         end
       else
         authorize @assessment
         if @assessment.save
-          create_bulk_task(params[:task].uniq, @assessment) if params.has_key?(:task)
-          if params[:from_controller] == "dashboards"
-            redirect_to root_path, notice: t('.successfully_created')
-          else
-            redirect_to client_path(@family), notice: t('.successfully_created')
-          end
+          redirect_to family_path(@family), notice: t('.successfully_created')
         else
           render :new
         end
@@ -67,8 +56,7 @@ module Families
       if @assessment.update_attributes(assessment_params)
         @assessment.update(updated_at: DateTime.now)
         @assessment.assessment_domains.update_all(assessment_id: @assessment.id)
-        create_bulk_task(params[:task], @assessment) if params.has_key?(:task)
-        redirect_to client_assessment_path(@family, @assessment), notice: t('.successfully_updated')
+        redirect_to family_assessment_path(@family, @assessment), notice: t('.successfully_updated')
       else
         render :edit
       end
@@ -84,7 +72,7 @@ module Families
       elsif @assessment.present?
         @assessment.assessment_domains.delete_all
         @assessment.reload.destroy
-        redirect_to client_assessments_path(@assessment.client), notice: t('.successfully_deleted_assessment')
+        redirect_to family_assessments_path(@assessment.family), notice: t('.successfully_deleted_assessment')
       end
     end
 
