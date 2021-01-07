@@ -13,7 +13,7 @@ class Domain < ActiveRecord::Base
   has_paper_trail
 
   validates :domain_group, :domain_type, presence: true
-  validates :name, :identity, presence: true, uniqueness: { case_sensitive: false, scope: :custom_assessment_setting }
+  validates :name, presence: true, uniqueness: { case_sensitive: false, scope: [:identity, :custom_assessment_setting_id, :domain_type] }
   validates :custom_assessment_setting_id, presence: true, if: :custom_domain? && :domain_type_client?
   validates :domain_type, inclusion: { in: TYPES.map(&:last) }, allow_blank: true
 
