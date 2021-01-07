@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210107044331) do
+ActiveRecord::Schema.define(version: 20210107090850) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -913,6 +913,7 @@ ActiveRecord::Schema.define(version: 20210107044331) do
 
   add_index "domains", ["domain_group_id"], name: "index_domains_on_domain_group_id", using: :btree
   add_index "domains", ["domain_type"], name: "index_domains_on_domain_type", using: :btree
+  add_index "domains", ["name", "identity", "custom_assessment_setting_id", "domain_type"], name: "index_domains_on_name_identity_custom_setting_domain_type", unique: true, using: :btree
 
   create_table "donor_families", force: :cascade do |t|
     t.integer "donor_id"
