@@ -12,7 +12,7 @@ class FamilyMember < ActiveRecord::Base
   enumerize :gender, in: ['female', 'male', 'lgbt', 'unknown', 'prefer_not_to_say', 'other'], scope: true, predicates: { prefix: true }
 
   after_commit :save_aggregation_data, on: [:create, :update]
-  after_commit :save_client_data, on: :update
+  after_commit :save_client_data, if: :persisted?
 
   validates :client_id, uniqueness: { scope: :family_id }, if: :client_id?
 
@@ -27,7 +27,7 @@ class FamilyMember < ActiveRecord::Base
   def save_client_data
     if client.present?
       update_columns(
-        adult_name: client.name,
+        adult_name: (client.name.presence || client.display_name),
         gender: client.gender,
         date_of_birth: client.date_of_birth
       )

@@ -232,11 +232,17 @@ class Client < ActiveRecord::Base
         client_address_matching(results[k], client[v].squish) if results[k]
       end
     end
-  end
 
-  # def family
-  #   Family.find(current_family_id) if current_family_id
-  # end
+    def unattache_to_other_families(allowed_family_id = nil)
+      records = joins("LEFT JOIN family_members ON clients.id = family_members.client_id WHERE family_members.family_id IS NULL")
+
+      if allowed_family_id.present?
+        records += joins(:family_member).where(family_members: { family_id: allowed_family_id})
+      end
+
+      records
+    end
+  end
 
   def self.fetch_75_chars_of(value)
     number_of_char = (value.length * 75) / 100
