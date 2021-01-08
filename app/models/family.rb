@@ -76,8 +76,18 @@ class Family < ActiveRecord::Base
     Family.find_each(&:save_aggregation_data)
   end
 
+  def self.unattache_to_other_communities(allowed_community_id = nil)
+    records = unscoped.joins("LEFT JOIN community_members ON families.id = community_members.family_id WHERE community_members.community_id IS NULL AND families.deleted_at IS NULL")
+
+    if allowed_community_id.present?
+      records += joins(:community_member).where(community_members: { community_id: allowed_community_id})
+    end
+
+    records
+  end
+
   def member_count
-    brc? ? family_members.count : (male_adult_count.to_i + female_adult_count.to_i + male_children_count.to_i + female_children_count.to_i)
+    family_members.count
   end
 
   def to_select2
