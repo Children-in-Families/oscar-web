@@ -63,9 +63,12 @@ describe Enrollment do
 
   describe Enrollment, 'scopes' do
     let!(:family) { create(:family, :inactive) }
-    let!(:program_stream) { create(:program_stream) }
+    let!(:program_stream) { create(:program_stream, :attached_with_family) }
     let!(:active_enrollment) { create(:enrollment, program_stream: program_stream, programmable: family)}
     let!(:inactive_enrollment) { create(:enrollment, program_stream: program_stream, programmable: family, status: 'Exited') }
+    let!(:community){ create(:community) }
+    let!(:community_program_stream) { create(:program_stream, :attached_with_community) }
+    let!(:community_enrollment) { create(:enrollment, program_stream: community_program_stream, programmable: community)}
 
     context 'enrollments_by' do
       subject{ Enrollment.enrollments_by(family) }
@@ -91,6 +94,17 @@ describe Enrollment do
         is_expected.not_to include(inactive_enrollment)
       end
     end
+
+    context 'attached_with' do
+      it 'return records attached with corresponding entity' do
+        expect(Enrollment.attached_with('Family')).to include(active_enrollment)
+        expect(Enrollment.attached_with('Community')).to include(community_enrollment)
+
+        expect(Enrollment.attached_with('Family')).not_to include(community_enrollment)
+        expect(Enrollment.attached_with('Community')).not_to include(active_enrollment)
+      end
+    end
+
 
     # context 'inactive' do
     #   subject{ Enrollment.inactive }
