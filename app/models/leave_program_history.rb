@@ -1,7 +1,7 @@
 class LeaveProgramHistory
   include Mongoid::Document
   include Mongoid::Timestamps
-  include HistoryConern
+  include HistoryConcern
 
   store_in database: ->{ Organization.current.mho? ? ENV['MHO_HISTORY_DATABASE_NAME'] : ENV['HISTORY_DATABASE_NAME'] }
   default_scope { where(tenant: Organization.current.try(:short_name)) }
