@@ -749,6 +749,7 @@ GEM
       ruby-ole (>= 1.0)
     sorbet-rails (0.4.0)
     spreadsheet (1.1.9)
+      ruby-ole (>= 1.0)
     sprockets (3.5.2)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
