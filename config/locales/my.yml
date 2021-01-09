@@ -810,12 +810,15 @@ my:
       required_message: အနည်းဆုံးရည်မှန်းချက်တစ်ခုနှင့်လုပ်ငန်းတစ်ခုကိုတစ်ခုပေါင်းထည့်ရန်လိုအပ်သည်။
       save: သိမ်းဆည်းပါ
       score_from_assessment: အကဲဖြတ်ခြင်းမှရမှတ်
+      scoring_statement: အမှတ်ပေးကြေညာချက်
       task: တာဝန်
     goal_fields:
       add_task: အလုပ်ထည့်ပါ
       remove_goal: ရည်မှန်းချက်ကိုဖယ်ရှားလိုက်ပါ
     index:
       assessment_created_on: အပေါ်အခြေခံပြီးအကဲဖြတ်
+      back: နောက်ကျော
+      care_plan_created_on: စောင့်ရှောက်မှုအစီအစဉ်ကိုအပေါ် created
       care_plan_history: စောင့်ရှောက်မှုအစီအစဉ်သမိုင်း
       new_care_plan: စောင့်ရှောက်မှုအစီအစဉ်အသစ်
       review_care_plan: စောင့်ရှောက်မှုအစီအစဉ်ကိုပြန်လည်ဆန်းစစ်ပါ
