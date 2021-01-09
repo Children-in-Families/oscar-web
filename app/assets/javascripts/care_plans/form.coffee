@@ -54,8 +54,8 @@ CIF.Care_plansNew = CIF.Care_plansEdit = CIF.Care_plansCreate = CIF.Care_plansUp
       onInit: (event, currentIndex) ->
         currentTab  = "#{rootId}-p-#{currentIndex}"
         isGoalTaskRequired = $("#{currentTab}").find('.score-color').text()
-        _appendSaveCancel()
         _appendSaveButton()
+        _appendSaveCancel()
         _initGoalTaskEditPage(currentTab)
         return true if isGoalTaskRequired == 'primary' || isGoalTaskRequired == 'info'
         _requiredGoalTask(currentIndex, currentTab)
@@ -70,8 +70,9 @@ CIF.Care_plansNew = CIF.Care_plansEdit = CIF.Care_plansCreate = CIF.Care_plansUp
         currentTab  = "#{rootId}-p-#{currentIndex}"
         _initGoalTaskEditPage(currentTab)
         if $(rootId).find('a[href="#finish"]:visible').length
-          if $(rootId).find('a[href="#finish"]:visible').length
-            $("#{rootId} a[href='#save']").hide()
+          $("#{rootId} a[href='#save']").hide()
+        else
+          $("#{rootId} a[href='#save']").show()
       
       onFinished: ->
         btnSaving = $(rootId).data('saving')
@@ -88,7 +89,9 @@ CIF.Care_plansNew = CIF.Care_plansEdit = CIF.Care_plansCreate = CIF.Care_plansUp
     if $("#care_plans-edit #{currentTab} .goal-input-field").length == 0
       $("#care_plans-edit #{currentTab} .btn-add-goal").click()
       $("#care_plans-edit #{currentTab} .btn-add-task").click()
-      _initDatePicker()
+    if $("#care_plans-edit #{currentTab} .task-input-field").length == 0
+      $("#care_plans-edit #{currentTab} .btn-add-task").click()
+    _initDatePicker()
 
   _initDatePickerOnTaskClick = ->
     $('body').on 'click', '.btn-add-task', ->
@@ -114,6 +117,7 @@ CIF.Care_plansNew = CIF.Care_plansEdit = CIF.Care_plansCreate = CIF.Care_plansUp
   _appendSaveButton = ->
     if $('#rootwizard').find('a[href="#finish"]:visible').length == 0 && $("#btn-save").length == 0
       $('#rootwizard').find("[aria-label=Pagination]").append("<li><a id='btn-save' href='#save' class='btn btn-info' style='background: #21b9bb;'></a></li>")
+      #
 
   _saveCarePlan = (form) ->
     $(document).on 'click', "#rootwizard a[href='#save']", ->

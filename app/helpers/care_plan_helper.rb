@@ -42,4 +42,12 @@ module CarePlanHelper
     return false if current_user.strategic_overviewer?
   end
 
+  def care_plan_status(care_plan)
+    care_plan.completed? ? 'Completed' : 'Incompleted'
+  end
+
+  def care_plan_label(care_plan)
+    care_plan.completed? ? 'label label-primary' : 'label label-danger'
+  end
+
 end

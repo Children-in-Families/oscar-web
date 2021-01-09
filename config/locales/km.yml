@@ -870,12 +870,15 @@ km:
       required_message: អ្នកត្រូវបង្កើតយ៉ាងតិចណាស់១គោលដៅ និងមួយកាតព្វកិច្ច
       save: រក្សាទុក
       score_from_assessment: ពិន្ទុកត្តាការប៉ាន់ប្រមាណ
+      scoring_statement: សេចក្តីថ្លែងការណ៍ពិន្ទុ
       task: កាតព្វកិច្ច
     goal_fields:
       add_task: បន្ថែមកាតព្វកិច្ច
       remove_goal: លុបគោលដៅ
     index:
       assessment_created_on: "%{assessment}ដែលបានបង្កើត"
+      back: ត្រឡប់
+      care_plan_created_on: គម្រោងថែទាំត្រូវបានបង្កើត
       care_plan_history: ប្រវត្តិគម្រោងថែរក្សា
       new_care_plan: បង្កើតគម្រោងថែរក្សាថ្មី
       review_care_plan: ពិនិត្យមើលគម្រោងថែរក្សា
