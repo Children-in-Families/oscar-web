@@ -89,7 +89,9 @@ CIF.Care_plansNew = CIF.Care_plansEdit = CIF.Care_plansCreate = CIF.Care_plansUp
     if $("#care_plans-edit #{currentTab} .goal-input-field").length == 0
       $("#care_plans-edit #{currentTab} .btn-add-goal").click()
       $("#care_plans-edit #{currentTab} .btn-add-task").click()
-      _initDatePicker()
+    if $("#care_plans-edit #{currentTab} .task-input-field").length == 0
+      $("#care_plans-edit #{currentTab} .btn-add-task").click()
+    _initDatePicker()
 
   _initDatePickerOnTaskClick = ->
     $('body').on 'click', '.btn-add-task', ->
