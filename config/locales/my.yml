@@ -2222,10 +2222,12 @@ my:
       created_by: Created by
       current_province: Current Province
       direct_participants: Direct Participants of the Group/Community
+      enrolled_program_streams: Community's Active Program Streams
       female_count: Number of Member Females
       general_info: About Community
       male_count: Number of Member Males
       member_count: Number of Members
+      program_streams: Enroll Community to Program Streams
       read_less: read less
       read_more: read more
       referral_source: Referral Source
@@ -3732,129 +3734,125 @@ my:
       modification_of: "၏ ေျပာင္းလဲမႈ မွတ္တမ္း"
   enrolled_program_trackings:
     action:
-      new_tracking: New Tracking
+      new_tracking: ေနာက္ေၾကာင္းအသစ္
     create:
-      successfully_created: Tracking Program has been successfully created.
+      successfully_created: ေနာက္ေၾကာင္းလုိက္သည့္အစီအစဥ္ကို ေအာင္ျမင္စြာျပဳလုပ္ၿပီးပါၿပီ
     destroy:
-      successfully_deleted: Tracking Program has been successfully deleted.
+      successfully_deleted: ေနာက္ေၾကာင္းလုိက္သည့္ အစီအစဥ္ကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ။
     edit:
-      edit_tracking: Edit Tracking
+      edit_tracking: ေနာက္ေၾကာင္းလိုက္ျခင္းကို ျပင္ရန္
     form:
-      cancel: Cancel
-      save: Save
+      cancel: ပယ္ဖ်က္သည္
+      save: သိမ္းဆည္းသည္
     index:
-      programs_list: Programs List
-      tracking_lists: Trackings List
+      programs_list: အစီအစဥ္စာရင္း
+      tracking_lists: ေနာက္ေၾကာင္းစာရင္း
     new:
-      new_tracking: New Tracking
+      new_tracking: ေနာက္ေၾကာင္းအသစ္
     report:
-      are_you_sure: Are you sure you want to delete?
-      back: Back
-      created_at: Created Date
-      new_tracking: New Tracking
+      are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
+      back: ေနာက္သို႔
+      created_at: ျပဳလုပ္သည့္ရက္စြဲ
+      new_tracking: ေနာက္ေၾကာင္းအသစ္
     show:
-      back: Back
-      trackings_list: Trackings List
+      back: ေနာက္သုိ႔
+      trackings_list: ခြေရာခံစာရင်း
     update:
-      successfully_updated: Tracking Program has been successfully updated.
+      successfully_updated: ေနာက္ေၾကာင္းလုိက္သည့္အစီအစသ္ကို ေအာင္ျမင္စြာ အသစ္ျပဳျပင္ၿပီးပါၿပီ။
   enrolled_programs:
     create:
-      successfully_created: Enrollment has been successfully created.
+      successfully_created: စာရင္းေပးသြင္းမႈကို ေအာင္ျမင္စြာျပဳလုပ္ၿပီးပါၿပီ။
     destroy:
-      successfully_deleted: Enrollment has been successfully deleted.
+      successfully_deleted: စာရင္းေပးသြင္းမႈကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပိ။
     edit:
-      enrollment: Edit Enrollment
+      enrollment: 'စာရင္းေပးသြင္းမႈကို ျပင္ဆင္ရန္ '
     form:
-      accepted_date: "NGO Accept Date"
-      exit_date: "NGO Exit Date"
-      cancel: Cancel
-      enrollment_date: Enrollment Date
-      save: Save
+      cancel: ပယ္ဖ်က္ရန္
+      enrollment_date: စာရင္းေပးသြင္းသည့္ ရက္စြဲ
+      save: သိမ္းဆည္းသည္
     index:
-      actions: Actions
-      back: Back
-      domain: Associated Domains
-      name: Program Name
-      program_lists: Programs List
-      quantity: Number of Place Available
-      report: Report
-      status: Status
-      view: View
+      actions: လုပ္ေဆာင္မႈမ်ား
+      back: ေနာက္သို႔
+      domain: ဒိုမိန္း
+      name: အစီအစဥ္နာမည္
+      program_lists: အစီအစဥ္စာရင္း
+      quantity: ေနရာလြတ္အေရအတြက္
+      report: အစီရင္ခံစာ
+      status: အေနအထား
+      view: ျမင္ကြင္း
     manage:
-      enroll: Enroll
-      exit: Exit
-      full_program: This Program is full.
-      tracking: Trackings
+      enroll: စာရင္းေပးသြင္းသည္။
+      exit: ထြက္သည္။
+      full_program: အစီအစဥ္ျပည္ေနပါၿပီ။
+      tracking: ေနာက္ေၾကာင္းမ်ား
     new:
-      not_valid: Does not match with this program conditions.
-      new_enrollment: New Enrollment
+      not_valid: ဤအစီအစဉ်အခြေအနေနှင့်မကိုက်ညီပါ
+      new_enrollment: စာရင္းေပးသြင္းမႈအသစ္
     report:
-      actions: Actions
-      date: Date
-      enrollment: Enrollment
-      exit: Exit
-      forms: Forms
-      programs_list: Programs List
-      report: Reports
-      tracking: Tracking
-      view: View
+      actions: လုပ္ေဆာင္မႈမ်ား
+      date: ရက္စြဲ
+      enrollment: စာရင္းေပးသြင္းမႈ
+      exit: ထြက္သည္
+      forms: ပံုစံမ်ား
+      programs_list: အစီအစဥ္စာရင္း
+      report: အစီရင္ခံစာမ်ား
+      tracking: ေနာက္ေၾကာင္း
+      view: ျမင္ကြင္း
     show:
-      are_you_sure: Are you sure you want to delete?
-      back: Back
-      enrollment_date: Enrolled on
+      are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား။
+      back: ေနာက္သုိ႔
+      enrollment_date: စာရင္းေပးသြင္းသည့္ ရက္စြဲ
     update:
-      successfully_updated: Enrollment has been successfully updated.
+      successfully_updated: စာရင္းေပးသြင္းမႈကို ေအာင္ျမင္စြာ အသစ္ျပန္ျပင္ၿပီးပါၿပီ
   enrollments:
     create:
-      successfully_created: Enrollment has been successfully created.
+      successfully_created: စာရင္းေပးသြင္းမႈကို ေအာင္ျမင္စြာ ျပဳလုပ္ၿပီးပါၿပီ
     destroy:
-      delete_attachment_successfully: Attachment has been successfully deleted.
-      successfully_deleted: Enrollment has been successfully deleted.
+      delete_attachment_successfully: တြဲထားသည္မ်ားကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ
+      successfully_deleted: စာရင္းေပးသြင္းမႈကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ
     edit:
-      enrollment: Edit Enrollment
+      enrollment: စာရင္းေပးသြင္းမႈကို ျပင္ဆင္ရန္
     form:
-      accepted_date: "NGO Accept Date"
-      exit_date: "NGO Exit Date"
-      allow_file_size: Allowed file types
-      cancel: Cancel
-      enrollment_date: Enrollment Date
-      max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
-      not_an_email: not an email
-      save: Save
+      allow_file_size: ခြင့္ျပဳေသာ ဖိုင္အမ်ိဳးအစားမ်ား
+      cancel: ပယ္ဖ်က္ရန္
+      enrollment_date: စာရင္းေပးသြင္းသည့္ ရက္စြဲ
+      max_file_size: "*အႀကီးဆံုးလက္ခံႏုိင္သည့္ ဖိုင္ဆုိဒ္ - တစ္ဖိုင္လွ်င္ ၅ မီဂါဘိုက္ႏႈန္းႏွင့္ တစ္ခါတင္လွ်င္ ၃၀ မီဂါဘိုက္"
+      not_an_email: အီးေမးလ္မဟုတ္ပါ
+      save: သိမ္းဆည္းရန္
     index:
-      actions: Actions
-      back: Back
-      domain: Associated Domains
-      name: Program Name
-      program_lists: Programs List
-      quantity: Number of Place Available
-      report: Report
-      status: Status
-      view: View
+      actions: လုပ္ေဆာင္မႈမ်ား
+      back: ေနာက္သို႔
+      domain: ဒိုမိန္း
+      name: အစီအစဥ္နာမည္
+      program_lists: အစီအစဥ္မ်ားစာရင္း
+      quantity: ရရွိႏုိင္ေသာေနရာ အေရအတြက္
+      report: အစီရင္ခံစာ
+      status: အေနအထား
+      view: ၾကည့္ရန္
     manage:
-      enroll: Enroll
-      exit: Exit
-      full_program: This Program is full
-      tracking: Trackings
+      enroll: စာရင္းေပးသြင္းရန္
+      exit: ထြက္၇န္
+      full_program: ဤအစီအစဥ္ ျပည့္ေနပါၿပီ။
+      tracking: ေနာက္ေၾကာင္းမ်ား
     new:
-      not_valid: Does not match with this program conditions.
-      new_enrollment: New Enrollment
+      not_valid: ဤအစီအစဉ်အခြေအနေနှင့်မကိုက်ညီပါ
+      new_enrollment: စာရင္ေပးသြင္းမႈအသစ္
     report:
-      actions: Actions
-      date: Date
-      enrollment: Enrollment
-      exit: Exit
-      forms: Forms
-      programs_list: Programs List
-      report: Reports
-      tracking: Tracking
-      view: View
+      actions: လုပ္ေဆာင္မႈမ်ား
+      date: ရက္စြဲ
+      enrollment: စာရင္းေပးသြင္းမႈ
+      exit: ထြက္ရန္
+      forms: ပံုစံမ်ား
+      programs_list: အစီအစဥ္မ်ားစာရင္း
+      report: အစီရင္ခံစာမ်ား
+      tracking: ေနာက္ေၾကာင္း
+      view: ျမင္ကြင္း
     show:
-      are_you_sure: Are you sure you want to delete?
-      back: Back
-      enrollment_date: Enrolled on
+      are_you_sure: ဖ်က္လုိသည္မွာ ေသခ်ာပါသလား
+      back: ေနာက္သို႔
+      enrollment_date: စာရင္းေပးသြင္းသည့္ရက္စြဲ
     update:
-      successfully_updated: Enrollment has been successfully updated.
+      successfully_updated: စာရင္းေပးသြင္းျခင္းကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ၿပီးပါၿပီ
   enumerize:
     defaults:
       gender:
