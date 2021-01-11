@@ -1,0 +1,99 @@
+.row
+  .col-xs-12
+    = simple_form_for([@case_note.family, @case_note], html: { id: 'case-note-form', novalidate: false, data: { translate: t('cannot_be_blank') } }) do |f|
+      = hidden_field_tag :current_user, current_user.roles
+      = hidden_field_tag :from_controller, @from_controller
+      = f.input :custom_assessment_setting_id, as: :hidden, input_html: { value: @custom_assessment_setting&.id || @case_note.custom_assessment_setting_id }
+      = f.input :custom, :as => :hidden, :input_html => { value: true }
+
+      .ibox
+        .ibox-title
+          %h5= t('case_notes.form.meeting_detail')
+        .ibox-content
+          .panel.panel-default
+            .panel-body
+              .row
+                .col-xs-12.col-md-6
+                  .form-group.date.optional.case_note_meeting_date{ class: ('has-error' if f.error :meeting_date) }
+                    %label.date.optional.control-label
+                      %abbr{ title: 'required' } *
+                      = t('case_notes.form.on_date')
+                    %a{:role => "button", :tabIndex => "0",  data: { toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.case_notes.date')}", placement: "right" } }
+                      = fa_icon "info-circle", class: 'text-info m-xs'
+                    .input-group.date
+                      = f.text_field :meeting_date, value: f.object.meeting_date && f.object.meeting_date.to_date, class: 'date optional form-control date-picker', type: 'text', name: 'case_note[meeting_date]', id: 'case_note_meeting_date'
+                      %span.input-group-addon
+                        %i.fa.fa-calendar-check-o
+                    = f.error :meeting_date
+                  .row
+                    .col-xs-12
+                      #meeting-date-message.text-danger
+              .row
+                .col-xs-12.col-md-6
+                  .form-group.string.required.case_note_attendee
+                    %label.string.required.control-label{:for => "case_note_attendee"}
+                      %abbr{:title => "required"} *
+                      = t('case_notes.form.present')
+                    %a{:role => "button", :tabIndex => "0",  data: { toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.case_notes.who')}", placement: "auto" } }
+                      = fa_icon "info-circle", class: 'text-info m-xs'
+                    = f.input :attendee, label: false, wrapper: false
+                    .row
+                      .col-xs-12
+                        #attendee-message.text-danger
+                .col-xs-12.col-md-6
+                  %label.select.required.control-label{:for => "case_note_interaction_type"}
+                    %abbr{:title => "required"} *
+                    = t('case_notes.form.type')
+                  %a{:role => "button", :tabIndex => "0",  data: { toggle: "popover", html: 'true', trigger: "focus", content: "#{I18n.t('inline_help.clients.case_notes.type')}", placement: "auto" } }
+                    = fa_icon "info-circle", class: 'text-info m-xs'
+                  = f.input :interaction_type, collection: [CaseNote::INTERACTION_TYPE, t('case_notes.form.type_options').values].transpose, label_method: :second, value_method: :first, label: false
+                  .row
+                    .col-xs-12
+                      #interaction-type.text-danger
+
+          .row
+            .col-xs-12
+              %label.string.required.control-label{:for => "case_note_note"}
+                %abbr{:title => "required"} *
+                = t('case_notes.form.note')
+              %a{:role => "button", :tabIndex => "0",  data: { toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.case_notes.note')}", placement: "right" } }
+                = fa_icon "info-circle", class: 'text-info m-xs'
+              = f.input :note, label: false, input_html: { value: @case_note.note.presence || @case_note_domain_group_note, rows: 6, placeholder: t('case_notes.form.note') }
+
+          .row
+            .col-xs-12
+              .form-group
+                = f.association :domain_groups, collection: @domain_groups, value_method: :id, label_method: lambda{ |object| object.family_domain_name }, label: t('case_notes.form.domain_groups'), selected: selected_domain_groups(@case_note), required: true, hint: t('case_notes.form.remove_domain_group_hint'), input_html: { multiple: true }
+
+          .row
+            .col-xs-12
+              - url = "/api/domain_groups/get_domains_by_domain_groups?family=true"
+              .case-note-task-btn.btn.btn-primary.btn-outline.pull-right{class: "#{policy(@family).create? ? '' : 'disabled'}", type: 'button', 'data-target' => "#tasksFromModal", 'data-persisted' => 'true', 'data-toggle' => 'modal', 'data-url': url}
+                = t('case_notes.form.add_task')
+              %p.text-right#add-task-message.text-warning.pull-right
+                = fa_icon 'warning'
+                = t('case_notes.form.add_task_message')
+
+
+          .row#on-going-task-label
+            .col-xs-12
+              %label{:for => "On going tasks"}= t('case_notes.form.on_going_tasks')
+
+          = f.simple_fields_for :case_note_domain_groups do |case_note_domain|
+            - next if case_note_domain.object.domain_group.nil?
+            = case_note_domain.input :attachments, as: :hidden
+            - if case_note_domain.object.any_assessment_domains?(@case_note) && enable_default_assessment?
+              = render 'form_with_assessment_domains', { domain_note: case_note_domain }
+            - else
+              - next if get_domains(case_note_domain).blank?
+              = render 'form_without_assessment_domains', { domain_note: case_note_domain }
+
+          .row
+            .col-xs-12
+              = render 'attachment_fields', { domain_note: f }
+
+        .ibox-footer
+          = f.submit t('case_notes.form.save'), class: 'btn btn-primary btn-form', id: 'case-note-submit-btn', data: { disable_with: t('saving') }
+          = link_to t('case_notes.form.back') , family_case_notes_path(@case_note.family), class: 'btn btn-default btn-form'
+    - if policy(@family).create?
+      = render 'add_task_form'
