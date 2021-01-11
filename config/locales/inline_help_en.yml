@@ -121,6 +121,10 @@ en:
         reject: Reject indicates your organization cannot work with the client for some reason. The case will remain in the database and show <strong>Exited</strong> status with exit circumstance as <strong>Reject Referral</strong>.
         status: "<strong>Accepted </strong>– Organization has accepted the case and working with the client. <strong>Active</strong> – Client is enrolled in one or more program streams. <strong>Exited</strong> – Organization has rejected the case or no longer supporting the client. <strong>Referred</strong> – Client record exists in the OSCaR system but not yet accepted or rejected."
         tasks: View all the overdue, current and upcoming tasks here. This is a read-only option for Managers and Caseworkers. New tasks can’t be added here.
+    communities:
+      show:
+        active_program: View/Edit/Delete the enrollment information, add new tracking form(s), or exit community from the program(s).
+        enroll_program: 'Enlist the community in existing program stream(s) here. Admin: If the program doesn’t exist, add a new program stream through <strong>Manage >> Program Streams</strong>.'
     custom:
       custom_id1: Alternate case identification (ID) number related to the client. In the case of jointly managed clients or clients referred through other organization(s), enter the ID that was used on the previous paperwork, record, or database. This will help in tracking client record. Admin, This field name is customizable. To change the name, go to <strong>Manage >> Setting >> Custom Labels</strong>. <i class="fa fa-exclamation-triangle text-danger" aria-hidden="true"></i> This is different from Client ID auto-generated in OSCaR for every case.
       custom_id2: Alternate case identification (ID) number related to the client. In the case of jointly managed clients or clients referred through other organization(s), enter the ID that was used on the previous paperwork, record, or database. This will help in tracking client record. Admin, This field name is customizable. To change the name, go to <strong>Manage >> Setting >> Custom Labels</strong>.

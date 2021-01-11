@@ -21,7 +21,8 @@ class Enrollment < ActiveRecord::Base
 
   scope :enrollments_by, -> (obj) { where(programmable_id: obj.id) }
   scope :find_by_program_stream_id, ->(value) { where(program_stream_id: value) }
-  scope :active, -> { where(status: 'Active') }
+  scope :active, -> { where(status: ['Active', 'active']) }
+  scope :attached_with,  -> (value) { where(programmable_type: value) }
   # may be used later in family grid
   # scope :inactive, -> { where(status: 'Exited') }
 
@@ -33,7 +34,7 @@ class Enrollment < ActiveRecord::Base
   after_destroy :reset_entity_status
 
   def active?
-    status == 'Active'
+    status.downcase == 'active'
   end
 
   def has_enrollment_tracking?
@@ -59,16 +60,16 @@ class Enrollment < ActiveRecord::Base
   private
 
   def set_entity_status
-    entity_status = 'Active'
-    if entity_status.present?
-      programmable.status = entity_status
-      programmable.save(validate: false)
-    end
+    entity_status = programmable_type == 'Family' ? 'Active' : 'active'
+    programmable.status = entity_status
+    programmable.save(validate: false)
   end
 
   def reset_entity_status
     return if programmable.enrollments.active.any?
-    programmable.status = 'Accepted'
+
+    entity_status = programmable_type == 'Family' ? 'Accepted' : 'accepted'
+    programmable.status = entity_status
     programmable.save(validate: false)
   end
 

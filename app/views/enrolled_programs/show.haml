@@ -8,6 +8,9 @@
               - if params[:family_id]
                 = link_to @programmable.name, family_path(@programmable)
                 = "- #{t('.enrollment_date')} #{date_format(@enrollment.enrollment_date)}"
+              - if params[:community_id]
+                = link_to @programmable.name, community_path(@programmable)
+                = "- #{t('.enrollment_date')} #{date_format(@enrollment.enrollment_date)}"
           .col-xs-12.col-sm-6.col-md-6
             .ibox-tools
               - if can? :manage, Enrollment
@@ -15,6 +18,8 @@
                 = enrolled_program_destroy_link
                 - if params[:family_id]
                   = link_to t('.back'), report_family_enrolled_programs_path(@programmable, program_stream_id: @program_stream), class: 'btn btn-back-default btn-default min-width-btn margin-btn'
+                - if params[:community_id]
+                  = link_to t('.back'), report_community_enrolled_programs_path(@programmable, program_stream_id: @program_stream), class: 'btn btn-back-default btn-default min-width-btn margin-btn'
       .ibox-content
         .table-responsive
           %table.table.table-bordered

@@ -7,11 +7,17 @@
             %h5
               - if params[:family_id]
                 = link_to @programmable.name, family_path(@programmable)
+              - if params[:community_id]
+                = link_to @programmable.name, community_path(@programmable)
               = " - #{t('.report')}"
           .col-xs-12.col-sm-6.col-md-6
             .ibox-tools
               - if params[:family_id]
                 = link_to family_enrollments_path(@programmable) do
+                  .btn.btn-primary
+                    = t('.programs_list')
+              - if params[:community_id]
+                = link_to community_enrollments_path(@programmable) do
                   .btn.btn-primary
                     = t('.programs_list')
       .ibox-content
@@ -32,6 +38,8 @@
                     %td
                       - if params[:family_id]
                         = link_to t('.view'), family_enrollment_leave_program_path(@programmable, enrollment, enrollment.leave_program)
+                      - if params[:community_id]
+                        = link_to t('.view'), community_enrollment_leave_program_path(@programmable, enrollment, enrollment.leave_program)
 
                 - if enrollment.has_enrollment_tracking?
                   - enrollment.enrollment_trackings.order(created_at: :DESC).each do |enrollment_tracking|
@@ -41,6 +49,8 @@
                       %td
                         - if params[:family_id]
                           = link_to t('.view'), family_enrollment_enrollment_tracking_path(@programmable, enrollment, enrollment_tracking)
+                        - if params[:community_id]
+                          = link_to t('.view'), community_enrollment_enrollment_tracking_path(@programmable, enrollment, enrollment_tracking)
 
                 %tr
                   %td
@@ -49,4 +59,7 @@
                   %td
                     - if params[:family_id]
                       = link_to family_enrollment_path(@programmable, enrollment, program_stream_id: @program_stream) do
+                        = t('.view')
+                    - if params[:community_id]
+                      = link_to community_enrollment_path(@programmable, enrollment, program_stream_id: @program_stream) do
                         = t('.view')

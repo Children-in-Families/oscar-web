@@ -7,6 +7,7 @@ class EnrolledProgramsController < AdminController
   before_action :find_entity
   before_action :find_program_stream, except: :index
   before_action :find_enrollment, only: [:show, :edit, :update, :destroy]
+  before_action :get_attachments, only: [:edit, :update]
 
   def index
     program_streams = ProgramStreamDecorator.decorate_collection(ordered_program)
@@ -22,7 +23,11 @@ class EnrolledProgramsController < AdminController
   def update
     if @enrollment.update_attributes(enrollment_params)
       add_more_attachments(@enrollment)
-      path = params[:family_id] ? family_enrolled_program_path(@programmable, @enrollment, program_stream_id: @program_stream) : '#'
+      if params[:family_id]
+        path = family_enrolled_program_path(@programmable, @enrollment, program_stream_id: @program_stream)
+      elsif params[:community_id]
+        path = community_enrolled_program_path(@programmable, @enrollment, program_stream_id: @program_stream)
+      end
       redirect_to path, notice: t('.successfully_updated')
     else
       render :edit
@@ -38,7 +43,11 @@ class EnrolledProgramsController < AdminController
       redirect_to request.referer, notice: t('.delete_attachment_successfully')
     else
       @enrollment.destroy_fully!
-      path = params[:family_id] ? report_family_enrolled_programs_path(@programmable, program_stream_id: @program_stream) : '#'
+      if params[:family_id]
+        path = report_family_enrolled_programs_path(@programmable, program_stream_id: @program_stream)
+      elsif params[:community_id]
+        path = report_community_enrolled_programs_path(@programmable, program_stream_id: @program_stream)
+      end
       redirect_to path, notice: t('.successfully_deleted')
     end
   end

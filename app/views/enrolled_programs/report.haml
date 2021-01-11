@@ -8,6 +8,10 @@
             = link_to family_enrolled_programs_path(@programmable) do
               .btn.btn-primary
                 = t('.programs_list')
+          - elsif params[:community_id]
+            = link_to community_enrolled_programs_path(@programmable) do
+              .btn.btn-primary
+                = t('.programs_list')
       .ibox-content
         .table-responsive
           %table.table.table-bordered.table-striped.table-hover
@@ -34,12 +38,15 @@
                       %td
                         - if params[:family_id]
                           = link_to t('.view'), family_enrolled_program_enrolled_program_tracking_path(@programmable, enrollment, enrollment_tracking)
+                        - elsif params[:community_id]
+                          = link_to t('.view'), community_enrolled_program_enrolled_program_tracking_path(@programmable, enrollment, enrollment_tracking)
 
                 %tr
                   %td
                     = date_format(enrollment.enrollment_date)
                   %td= t('.enrollment')
                   %td
-                    - enrolled_program_link = params[:family_id] ? family_enrolled_program_path(@programmable, enrollment, program_stream_id: @program_stream) : '#'
-                    = link_to enrolled_program_link do
-                      = t('.view')
+                    - if params[:family_id]
+                      = link_to t('.view'), family_enrolled_program_path(@programmable, enrollment, program_stream_id: @program_stream)
+                    - if params[:community_id]
+                      = link_to t('.view'), community_enrolled_program_path(@programmable, enrollment, program_stream_id: @program_stream)
