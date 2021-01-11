@@ -3,4 +3,4 @@
     - if program_stream.maximum_entity?
       .label.label-info= t('.full_program')
     - elsif program_stream.archived_at.nil?
-      = enrollment_new_link(program_stream, 'Family')
+      = enrollment_new_link(program_stream)

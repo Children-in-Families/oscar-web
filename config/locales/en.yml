@@ -2283,10 +2283,12 @@ en:
       created_by: Created by
       current_province: Current Province
       direct_participants: Direct Participants of the Group/Community
+      enrolled_program_streams: Community's Active Program Streams
       female_count: Number of Member Females
       general_info: About Community
       male_count: Number of Member Males
       member_count: Number of Members
+      program_streams: Enroll Community to Program Streams
       read_less: read less
       read_more: read more
       referral_source: Referral Source
@@ -4871,6 +4873,7 @@ en:
   leave_enrolled_programs:
     create:
       client: Client
+      community: Community
       family: Family
       successfully_created: "%{entity} has been successfully exited from the program."
     edit:
@@ -5225,6 +5228,7 @@ en:
       save: Save
     index:
       attached_with_client: Attached with Client
+      attached_with_community: Attached with Community
       attached_with_family: Attached with Family
       current_ngo: My NGO's Program Streams
       demo_programs: Demo NGO's Program Streams

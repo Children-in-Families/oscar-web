@@ -129,6 +129,8 @@ my:
       show:
         active_form: Add/View/Edit the custom forms already applied to the community.
         add_form: These custom forms are specific to your NGO. Select one from the list to load the form. Once you fill and save it, the form will be attached to the community.
+        active_program: View/Edit/Delete the enrollment information, add new tracking form(s), or exit community from the program(s).
+        enroll_program: 'Enlist the community in existing program stream(s) here. Admin: If the program doesn’t exist, add a new program stream through <strong>Manage >> Program Streams</strong>.'
     custom:
       custom_id1: Alternate case identification (ID) number related to the client. In the case of jointly managed clients or clients referred through other organization(s), enter the ID that was used on the previous paperwork, record, or database. This will help in tracking client record. Admin, This field name is customizable. To change the name, go to Manage >> Setting >> Custom Labels. This is different from Client ID auto-generated in OSCaR for every case.
       custom_id2: Alternate case identification (ID) number related to the client. In the case of jointly managed clients or clients referred through other organization(s), enter the ID that was used on the previous paperwork, record, or database. This will help in tracking client record. Admin, This field name is customizable. To change the name, go to Manage >> Setting >> Custom Labels.

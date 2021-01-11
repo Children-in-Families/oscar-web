@@ -17,5 +17,9 @@ FactoryGirl.define do
     trait :attached_with_family do
       entity_type 'Family'
     end
+
+    trait :attached_with_community do
+      entity_type 'Community'
+    end
   end
 end
