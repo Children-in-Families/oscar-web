@@ -10,6 +10,10 @@
             = link_to report_family_enrollments_path(@programmable, program_stream_id: @program_stream) do
               .btn.btn-default.btn-back-default
                 = t('.back')
+          - if params[:community_id]
+            = link_to report_community_enrollments_path(@programmable, program_stream_id: @program_stream) do
+              .btn.btn-default.btn-back-default
+                = t('.back')
       .ibox-content
         %h5= "#{t('created_by')} #{whodunnit('EnrollmentTracking', @enrollment_tracking.id)} #{t('at')}  #{ date_format @enrollment_tracking.created_at }"
         .table-responsive

@@ -6,12 +6,12 @@ FactoryGirl.define do
     association :program_stream, factory: :program_stream
 
     after(:build) do |enrollment|
-      enrollment.class.skip_callback(:save, :after, :create_enrollment_history)
+      enrollment.class.skip_callback(:save, :after, :create_entity_enrollment_history)
     end
 
     factory :enrollment_with_history do
       after(:build) do |enrollment|
-        enrollment.class.set_callback(:save, :after, :create_enrollment_history)
+        enrollment.class.set_callback(:save, :after, :create_entity_enrollment_history)
       end
     end
 
