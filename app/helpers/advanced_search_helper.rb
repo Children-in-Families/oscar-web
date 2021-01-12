@@ -170,6 +170,8 @@ module AdvancedSearchHelper
 
   def family_header(key)
     translations = {
+      csi_domain_scores:                        I18n.t('advanced_search.fields.csi_domain_scores'),
+      custom_csi_domain_scores:                 I18n.t('advanced_search.fields.custom_csi_domain_scores'),
       name:                                     I18n.t('datagrid.columns.families.name'),
       id:                                       I18n.t('datagrid.columns.families.id'),
       code:                                     I18n.t('datagrid.columns.families.code'),
