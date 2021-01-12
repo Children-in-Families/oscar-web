@@ -29,7 +29,7 @@ CIF.CommunitiesNew = CIF.CommunitiesCreate = CIF.CommunitiesEdit = CIF.Communiti
       allowedFileExtensions: ['jpg', 'png', 'jpeg', 'doc', 'docx', 'xls', 'xlsx', 'pdf']
 
   _initWizardForm = ->
-    window.savingCommunity == false
+    window.savingCommunity = false
 
     $("#community-wizard-form").steps
       headerTag: 'h3'
@@ -47,8 +47,7 @@ CIF.CommunitiesNew = CIF.CommunitiesCreate = CIF.CommunitiesEdit = CIF.Communiti
         if window.savingCommunity == false
           $("#community-form").submit()
           window.savingCommunity = true
-        else
-          false
+        return true
       onCanceled: ->
         result = confirm('Are you sure?')
         if result

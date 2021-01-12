@@ -61,8 +61,7 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
         if window.savingFamily == false
           $("#family-form").submit()
           window.savingFamily = true
-        else
-          false
+        return true
       onCanceled: ->
         result = confirm('Are you sure?')
         if result
