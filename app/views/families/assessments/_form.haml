@@ -16,11 +16,11 @@
                   %span= " (Current Assessment)"
                 - if current_organization.try(:aht) == true
                   %label.label.label-success
-                    = domain.name
+                    = "#{domain.name} (#{domain.identity})"
                 - else
                   %label.label.label-success
                     = t('.domain')
-                    = domain.name
+                    = "#{domain.name} (#{domain.identity})"
                 .ibox-tools
                   = link_to family_assessments_path(@family), class: 'btn btn-default btn-back-default button' do
                     = t('.back')

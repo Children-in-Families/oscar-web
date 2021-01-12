@@ -299,7 +299,7 @@ module AssessmentHelper
   end
 
   def domain_name_translate(assessment, domain)
-    if assessment.default
+    if assessment.default && assessment.client_id?
       t("domains.domain_names.#{domain.name.downcase.reverse}")
     else
       domain.name
