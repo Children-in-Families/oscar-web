@@ -71,7 +71,7 @@ class Assessment < ActiveRecord::Base
 
   def populate_notes(default, custom_name)
     if custom_name.present?
-      custom_assessment_id= CustomAssessmentSetting.find_by(custom_assessment_name: custom_name).id
+      custom_assessment_id = CustomAssessmentSetting.find_by(custom_assessment_name: custom_name).id
       domains = default == 'true' ? Domain.csi_domains : CustomAssessmentSetting.find_by(id: custom_assessment_id).domains
     else
       domains = default == 'true' ? Domain.csi_domains : Domain.custom_csi_domains
@@ -82,8 +82,8 @@ class Assessment < ActiveRecord::Base
   end
 
   def populate_family_domains
-    domains = Domain.family_custom_csi_domains
-    domains.each do |domain|
+    family_domains = Domain.family_custom_csi_domains
+    family_domains.where.not(id: domains.ids).each do |domain|
       assessment_domains.build(domain: domain)
     end
   end
