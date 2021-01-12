@@ -1,8 +1,9 @@
 class CaseNote < ActiveRecord::Base
-  INTERACTION_TYPE = ['Visit', 'Non face to face', '3rd Party','Supervision','Other'].freeze
+  INTERACTION_TYPE = ['Visit', 'Non face to face', '3rd Party', 'Supervision', 'Other'].freeze
   paginates_per 1
 
   belongs_to :client
+  belongs_to :family
   belongs_to :assessment
   belongs_to :custom_assessment_setting, required: false
   has_many   :case_note_domain_groups, dependent: :destroy
@@ -42,7 +43,8 @@ class CaseNote < ActiveRecord::Base
 
   def complete_tasks(params)
     return if params.nil?
-    params.each do |_index, param|
+    params.each do |_, param|
+      next unless param[:domain_group_id]
       case_note_domain_group = case_note_domain_groups.find_by(domain_group_id: param[:domain_group_id])
       task_ids = param[:task_ids] || []
       case_note_domain_group.tasks = Task.with_deleted.where(id: task_ids)
@@ -55,16 +57,22 @@ class CaseNote < ActiveRecord::Base
     where.not(meeting_date: nil).order(meeting_date: :desc).first
   end
 
+  def parent
+    family_id? ? family : client
+  end
+
   private
 
   def set_assessment
-    self.assessment = custom? ? client.assessments.custom_latest_record : client.assessments.default_latest_record
+    self.assessment = if custom?
+                        parent.assessments.custom_latest_record
+                      else
+                        client.assessments.default_latest_record
+                      end
   end
 
   def existence_domain_groups
-    if domain_groups.present? && selected_domain_group_ids.blank?
-      errors.add(:domain_groups, "#{I18n.t('domain_groups.form.domain_group')} #{I18n.t('cannot_be_blank')}")
-    end
+    errors.add(:domain_groups, "#{I18n.t('domain_groups.form.domain_group')} #{I18n.t('cannot_be_blank')}") if domain_groups.present? && selected_domain_group_ids.blank?
   end
 
   def enable_default_assessment?

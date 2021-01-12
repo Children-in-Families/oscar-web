@@ -89,33 +89,15 @@
               - ngos.each do |value, key|
                 %li= link_to value, new_family_family_referral_url(@family, ngo: key, external_ngo_name: key == 'external referral' && value), :class => 'target-ngo', :value => "#{key}", :id => "#{key}"
 
-        - if @family.enrollments.active.count > 0
-          = link_to family_enrolled_programs_path(@family), data: { toggle: "popover", html: 'true', trigger: 'hover', content: "#{I18n.t('inline_help.families.show.active_program')}", placement: "auto" } do
-            .btn.btn-primary.small-btn-margin.btn-sm.btn-fit= t('.enrolled_program_streams')
-        - else
-          .btn.btn-primary.small-btn-margin.btn-sm.disabled.btn-fit{ data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.families.show.active_program')}", placement: "auto" } }
-            = t('.enrolled_program_streams')
-        = link_to family_enrollments_path(@family), data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.families.show.enroll_program')}", placement: "auto" } do
-          .btn.btn-primary.small-btn-margin.btn-sm.btn-fit= t('.program_streams')
-  .col-xs-12.family
-    - if !@family.referred?
-      .btn-group.small-btn-margin
-        %button.btn-sm.btn.btn-success.dropdown-toggle.btn-fit{ class: ('disabled' if @group_family_custom_fields.empty?), data: { toggle: "dropdown", trigger: 'hover', html: 'true', content: "#{I18n.t('inline_help.families.show.active_form')}", placement: "auto" } }
-          = t('.additional_forms')
-          %span.caret
-        %ul.dropdown-menu.scrollable-dropdown-menu
-          - @group_family_custom_fields.each do |_, family_custom_fields|
-            %li
-              %p= link_to family_custom_fields.first.custom_field.form_title, family_custom_field_properties_path(@family, custom_field_id: family_custom_fields.first.custom_field_id)
-      - if can? :manage, CustomFieldProperty
-        .btn-group.small-btn-margin
-          %button.btn-sm.btn.btn-success.dropdown-toggle.btn-fit{ data: { toggle: "dropdown", trigger: 'hover', html: 'true', content: "#{I18n.t('inline_help.families.show.add_form')}", placement: "auto" }, class: ('disabled' if @free_family_forms.empty?) }
-            = t('.add_form')
-            %span.caret
-          %ul.dropdown-menu.scrollable-dropdown-menu
-            - @free_family_forms.each do |custom_field|
-              %li
-                %p= link_to custom_field.form_title, new_family_custom_field_property_path(@family, custom_field_id: custom_field)
+        - if can? :manage, CustomFieldProperty
+          .btn-group.small-btn-margin
+            %button.btn-sm.btn.btn-success.dropdown-toggle.btn-fit{ data: { toggle: "dropdown", trigger: 'hover', html: 'true', content: "#{I18n.t('inline_help.families.show.add_form')}", placement: "auto" }, class: ('disabled' if @free_family_forms.empty?) }
+              = t('.add_form')
+              %span.caret
+            %ul.dropdown-menu.scrollable-dropdown-menu
+              - @free_family_forms.each do |custom_field|
+                %li
+                  %p= link_to custom_field.form_title, new_family_custom_field_property_path(@family, custom_field_id: custom_field)
 
         = link_to family_tasks_path(@family), data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.clients.show.tasks')}", placement: "auto" } do
           %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit
@@ -131,6 +113,11 @@
             %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit
               %strong.count-margin= @family.care_plans.count
               = t('.care_plan')
+        - if (can? :manage, CaseNote) || (can? :edit, CaseNote)
+          = link_to family_case_notes_path(@family), class: (!case_notes_readable? && 'disabled' ), data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.clients.case_notes.button')}", placement: "auto" } do
+            %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit
+              %strong.count-margin= @family.case_notes.count
+              = t('clients.form.case_note')
 
         - if @family.enrollments.active.count > 0
           = link_to family_enrolled_programs_path(@family), data: { toggle: "popover", html: 'true', trigger: 'hover', content: "#{I18n.t('inline_help.families.show.active_program')}", placement: "auto" } do
