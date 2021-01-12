@@ -16,7 +16,8 @@ class FamilyMember < ActiveRecord::Base
 
   validates :client_id, uniqueness: { scope: :family_id }, if: :client_id?
 
-  def self.update_client_relevant_data(family_member_id)
+  def self.update_client_relevant_data(family_member_id, org_name)
+    Organization.switch_to(org_name)
     find(family_member_id).save_client_data
   end
 
