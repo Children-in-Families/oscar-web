@@ -47,6 +47,7 @@ module Families
     end
 
     def edit
+      @assessment.populate_family_domains
     end
 
     def update

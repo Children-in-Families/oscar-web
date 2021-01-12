@@ -37,6 +37,9 @@ describe Family, 'associations' do
   it { is_expected.to have_many(:program_streams).through(:enrollments) }
   it { is_expected.to have_many(:enter_ngos).dependent(:destroy) }
   it { is_expected.to have_many(:exit_ngos).dependent(:destroy) }
+  it { is_expected.to have_many(:assessments).dependent(:destroy) }
+  it { is_expected.to have_many(:tasks).dependent(:nullify) }
+  it { is_expected.to have_many(:goals).dependent(:destroy) }
 end
 
 describe Family, 'scopes' do
