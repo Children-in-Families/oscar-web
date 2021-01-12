@@ -189,7 +189,7 @@ class Family < ActiveRecord::Base
   private
 
   def update_related_community_member
-    CommunityMember.delay.update_family_relevant_data(community_member.id) if community_member.present?
+    CommunityMember.delay.update_family_relevant_data(community_member.id, Apartment::Tenant.current) if community_member.present?
   end
 
   def assign_status

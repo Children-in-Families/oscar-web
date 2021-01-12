@@ -16,8 +16,9 @@ class CommunityMember < ActiveRecord::Base
 
   after_commit :save_family_data, if: :persisted?
 
-  def self.update_family_relevant_data(family_member_id)
-    find(family_member_id).save_family_data
+  def self.update_family_relevant_data(community_member_id, org_name)
+    Organization.switch_to(org_name)
+    find(community_member_id).save_family_data
   end
 
   def is_family
