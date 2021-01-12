@@ -43,6 +43,8 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
       allowedFileExtensions: ['jpg', 'png', 'jpeg', 'doc', 'docx', 'xls', 'xlsx', 'pdf']
 
   _initWizardForm = ->
+    window.savingFamily = false
+
     $("#family-wizard-form").steps
       headerTag: 'h3'
       bodyTag: 'section'
@@ -56,7 +58,11 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
       onStepChanging: (event, currentIndex, newIndex) ->
         (currentIndex > newIndex) || _validateForm()
       onFinishing: (event, currentIndex) ->
-        $("#family-form").submit()
+        if window.savingFamily == false
+          $("#family-form").submit()
+          window.savingFamily = true
+        else
+          false
       onCanceled: ->
         result = confirm('Are you sure?')
         if result
