@@ -4,11 +4,15 @@ class FamilyGrid < BaseGrid
   attr_accessor :dynamic_columns
 
   scope do
-    Family.includes({cases: [:client]}, :village, :commune, :district, :province).order(:name)
+    Family.includes({cases: [:client], community_member: [:community], donor_families: [:donor], case_worker_families: [:case_worker], family_quantitative_cases: [:quantitative_case]}, :village, :commune, :district, :province).order(:name)
   end
 
-  filter(:name, :string, header: -> { I18n.t('datagrid.columns.families.name') }) do |value, scope|
+  filter(:name, :string, header: -> { Family.human_attribute_name(:name) }) do |value, scope|
     scope.name_like(value)
+  end
+
+  filter(:name_en, :string, header: -> { Family.human_attribute_name(:name_en) }) do |value, scope|
+    scope.name_en_like(value)
   end
 
   filter(:id, :integer, header: -> { I18n.t('datagrid.columns.families.id') })
@@ -37,6 +41,33 @@ class FamilyGrid < BaseGrid
     scope.case_history_like(value)
   end
 
+  filter(:id_poor, :enum, select: Family::ID_POOR, header: -> { Family.human_attribute_name(:id_poor) })
+  filter(:received_by_id, :enum, select: :user_options, header: -> { Family.human_attribute_name(:received_by_id) })
+  filter(:case_worker_ids, :enum, multiple: true, select: :user_options, header: -> { Family.human_attribute_name(:case_worker_ids) })
+  filter(:initial_referral_date, :date, header: -> { Family.human_attribute_name(:initial_referral_date) })
+  filter(:follow_up_date, :date, header: -> { Family.human_attribute_name(:follow_up_date) })
+
+  filter(:referral_source_category_id, :enum, select: :referral_source_category_options, header: -> { Family.human_attribute_name(:referral_source_category_id) })
+  filter(:referral_source_id, :enum, select: :referral_source_options, header: -> { Family.human_attribute_name(:referral_source_id) })
+
+  filter(:referee_phone_number, :string, header: -> { Family.human_attribute_name(:referee_phone_number) }) do |value, scope|
+    scope.referee_phone_number_like(value)
+  end
+
+  filter(:donor_ids, :enum, select: Donor.order(:name).pluck(:name, :id), header: -> { Family.human_attribute_name(:donor_ids) })
+  filter(:community_id, :enum, select: Community.all.map{ |c| [c.display_name, c.id]}, header: -> { Family.human_attribute_name(:community_id) })
+
+  def referral_source_options
+    current_user.present? ? Family.joins(:case_worker_families).where(case_worker_families: { user_id: current_user.id }).referral_source_is : Family.referral_source_is
+  end
+
+  def referral_source_category_options
+    if I18n.locale == :km
+      ReferralSource.where(id: Family.pluck(:referral_source_category_id).compact).pluck(:name, :id)
+    else
+      ReferralSource.where(id: Family.pluck(:referral_source_category_id).compact).pluck(:name_en, :id)
+    end
+  end
 
   filter(:significant_family_member_count, :integer, range: true, header: -> { I18n.t('datagrid.columns.families.significant_family_member_count') })
 
@@ -58,6 +89,10 @@ class FamilyGrid < BaseGrid
 
   filter(:house, :string, header: -> { I18n.t('datagrid.columns.families.house') }) do |value, scope|
     scope.house_like(value)
+  end
+
+  def user_options
+    User.deleted_user.non_strategic_overviewers.order(:first_name, :last_name).map{ |u| [u.name, u.id] }
   end
 
   def mapping_family_type_translation
@@ -113,6 +148,18 @@ class FamilyGrid < BaseGrid
       id: :general,
       code: :general,
       name: :general,
+      name_en: :general,
+      id_poor: :general,
+      case_worker_ids: :general,
+      followed_up_by_id: :general,
+      follow_up_date: :general,
+      referral_source_category_id: :general,
+      referral_source_id: :general,
+      referee_phone_number: :general,
+      donor_ids: :general,
+      community_id: :general,
+      initial_referral_date: :general,
+      received_by_id: :general,
       family_type: :aggregrate,
       status: :general,
       gender: :general,
@@ -137,11 +184,37 @@ class FamilyGrid < BaseGrid
 
   column(:code, header: -> { I18n.t('datagrid.columns.families.code') })
 
-  column(:name, html: true, order: 'LOWER(name)', header: -> { I18n.t('datagrid.columns.families.name') }) do |object|
+  column(:name, html: true, order: 'LOWER(name)', header: -> { Family.human_attribute_name(:name) }) do |object|
     link_to entity_name(object), family_path(object)
   end
 
-  column(:name, html: false, header: -> { I18n.t('datagrid.columns.families.name') })
+  column(:name_en, header: -> { Family.human_attribute_name(:name_en) })
+  column(:id_poor, header: -> { Family.human_attribute_name(:id_poor) })
+  column(:received_by_id, header: -> { Family.human_attribute_name(:received_by_id) }) do |object|
+    object.received_by&.name
+  end
+
+  column(:case_worker_ids, header: -> { Family.human_attribute_name(:case_worker_ids) }) do |object|
+    object.case_workers.map(&:name).join(', ')
+  end
+
+  column(:initial_referral_date, header: -> { Family.human_attribute_name(:initial_referral_date) })
+  column(:follow_up_date, header: -> { Family.human_attribute_name(:follow_up_date) })
+  column(:referral_source_category_id, header: -> { Family.human_attribute_name(:referral_source_category_id) }) do |object|
+    object.referral_source_category&.name
+  end
+
+  column(:referral_source_id, header: -> { Family.human_attribute_name(:referral_source_id) }) do |object|
+    object.referral_source&.name
+  end
+  column(:referee_phone_number, header: -> { Family.human_attribute_name(:referee_phone_number) })
+  column(:donor_ids, header: -> { Family.human_attribute_name(:donor_ids) }) do |object|
+    object.donors.map(&:name).join(', ')
+  end
+
+  column(:community_id, header: -> { Family.human_attribute_name(:community_id) }) do |object|
+    object.community&.display_name
+  end
 
   column(:family_type, header: -> { I18n.t('datagrid.columns.families.family_type') }) do |object|
     object.family_type

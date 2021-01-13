@@ -22,9 +22,12 @@ module FamilyScope
     scope :active,                     ->        { where(status: 'Active') }
     scope :inactive,                   ->        { where(status: 'Inactive') }
     scope :name_like,                  ->(value) { where('name iLIKE ?', "%#{value.squish}%") }
+    scope :name_en_like,               ->(value) { where('name_en iLIKE ?', "%#{value.squish}%") }
+    scope :referee_phone_number_like,  ->(value) { where('referee_phone_number iLIKE ?', "%#{value.squish}%") }
     scope :province_are,               ->        { joins(:province).pluck('provinces.name', 'provinces.id').uniq }
     scope :as_non_cases,               ->        { where.not(family_type: ['Short Term / Emergency Foster Care', 'Long Term Foster Care', 'Extended Family / Kinship Care']) }
     scope :by_status,                  ->(value) { where(status: value) }
     scope :by_family_type,             ->(value) { where(family_type: value) }
+    scope :referral_source_is,         ->        { joins(:referral_source).where.not('referral_sources.name in (?)', ReferralSource::REFERRAL_SOURCES).pluck('referral_sources.name', 'referral_sources.id').uniq }
   end
 end

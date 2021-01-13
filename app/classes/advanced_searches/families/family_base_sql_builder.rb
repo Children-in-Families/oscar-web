@@ -1,9 +1,9 @@
 module AdvancedSearches
   module Families
     class FamilyBaseSqlBuilder
-      ASSOCIATION_FIELDS = ['client_id', 'case_workers', 'gender', 'date_of_birth']
-      BLANK_FIELDS = %w(contract_date household_income dependable_income female_children_count male_children_count female_adult_count male_adult_count province_id significant_family_member_count district_id commune_id village_id id)
-      SENSITIVITY_FIELDS = %w(name code address case_history relevant_information family_type status)
+      ASSOCIATION_FIELDS = ['client_id', 'case_workers', 'gender', 'date_of_birth', 'received_by_id', 'case_worker_ids', 'followed_up_by_id', 'referral_source_category_id', 'referral_source_id', 'donor_ids', 'commune_id']
+      BLANK_FIELDS = %w(contract_date household_income dependable_income female_children_count male_children_count female_adult_count male_adult_count province_id significant_family_member_count district_id commune_id village_id id initial_referral_date follow_up_date referee_phone_number)
+      SENSITIVITY_FIELDS = %w(name name_en id_poor code address case_history relevant_information family_type status documents)
 
       def initialize(families, rules)
         @families = families

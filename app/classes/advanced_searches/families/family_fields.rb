@@ -36,11 +36,11 @@ module AdvancedSearches
       end
 
       def text_type_list
-        ['code', 'name', 'relevant_information', 'case_history', 'street', 'house']
+        ['code', 'name', 'name_en', 'relevant_information', 'case_history', 'street', 'house', 'referee_phone_number']
       end
 
       def date_type_list
-        ['date_of_birth', 'contract_date']
+        ['date_of_birth', 'contract_date', 'initial_referral_date', 'follow_up_date']
       end
 
       def drop_down_type_list
@@ -53,8 +53,37 @@ module AdvancedSearches
           ['dependable_income', { yes: 'Yes', no: 'No' }],
           ['client_id', clients],
           ['commune_id', communes],
-          ['village_id', villages]
+          ['village_id', villages],
+          ['id_poor', Family::ID_POOR],
+          ['received_by_id', user_options],
+          ['case_worker_ids', user_options],
+          ['followed_up_by_id', user_options],
+          ['referral_source_category_id', referral_source_category_options],
+          ['referral_source_id', referral_source_options],
+          ['donor_ids', Donor.order(:name).map{ |d| { d.id => d.name }}],
+          ['community_id', Community.all.map{ |d| { d.id => d.display_name }}],
+          ['documents', { true: 'Yes', false: 'No'}]
         ]
+      end
+
+      def user_options
+        User.deleted_user.non_strategic_overviewers.order(:first_name, :last_name).map{ |u| { u.id => u.name } }
+      end
+
+      def referral_source_options
+        referral_source_clients = @user.admin? ? Client.referral_source_is : Client.where(user_id: @user.id).referral_source_is
+        referral_source_clients.sort.map{|s| {s[1].to_s => s[0]}}
+      end
+
+      def referral_source_category_options
+        ref_cat_ids = Client.pluck(:referral_source_category_id).compact.uniq
+        if I18n.locale == :km
+          ref_cat_kh_names = ReferralSource.where(id: ref_cat_ids).pluck(:name, :id)
+          ref_cat_kh_names.sort.map{|s| {s[1].to_s => s[0]}}
+        else
+          ref_cat_en_names = ReferralSource.where(id: ref_cat_ids).pluck(:name_en, :id)
+          ref_cat_en_names.sort.map{|s| {s[1].to_s => s[0]}}
+        end
       end
 
       def family_type_options

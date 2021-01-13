@@ -29,6 +29,9 @@ class Family < ActiveRecord::Base
   belongs_to :received_by,      class_name: 'User',      foreign_key: 'received_by_id'
   belongs_to :followed_up_by,   class_name: 'User',      foreign_key: 'followed_up_by_id'
 
+  belongs_to :referral_source
+  belongs_to :referral_source_category, class_name: 'ReferralSource'
+
   has_many :cases, dependent: :destroy
   has_many :clients, through: :cases
 

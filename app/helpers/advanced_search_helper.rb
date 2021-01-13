@@ -170,7 +170,20 @@ module AdvancedSearchHelper
 
   def family_header(key)
     translations = {
-      name:                                     I18n.t('datagrid.columns.families.name'),
+      name:                                     Family.human_attribute_name(:name),
+      name_en:                                  Family.human_attribute_name(:name_en),
+      id_poor:                                  Family.human_attribute_name(:id_poor),
+      received_by_id:                           Family.human_attribute_name(:received_by_id),
+      initial_referral_date:                    Family.human_attribute_name(:initial_referral_date),
+      case_worker_ids:                          Family.human_attribute_name(:case_worker_ids),
+      followed_up_by_id:                        Family.human_attribute_name(:followed_up_by_id),
+      follow_up_date:                           Family.human_attribute_name(:follow_up_date),
+      referral_source_category_id:              Family.human_attribute_name(:referral_source_category_id),
+      referral_source_id:                       Family.human_attribute_name(:referral_source_id),
+      referee_phone_number:                     Family.human_attribute_name(:referee_phone_number),
+      donor_ids:                                Family.human_attribute_name(:donor_ids),
+      community_id:                             Family.human_attribute_name(:community_id),
+      documents:                                Family.human_attribute_name(:documents),
       id:                                       I18n.t('datagrid.columns.families.id'),
       code:                                     I18n.t('datagrid.columns.families.code'),
       family_type:                              I18n.t('datagrid.columns.families.family_type'),
