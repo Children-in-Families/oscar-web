@@ -96,8 +96,8 @@ class FamilyGrid < BaseGrid
 
   filter(:contract_date, :date, range: true, header: -> { I18n.t('datagrid.columns.families.contract_date') })
 
-  filter(:caregiver_information, :string, header: -> { I18n.t('datagrid.columns.families.caregiver_information') }) do |value, scope|
-    scope.caregiver_information_like(value)
+  filter(:relevant_information, :string, header: -> { Family.human_attribute_name(:relevant_information) }) do |value, scope|
+    scope.relevant_information_like(value)
   end
 
   def filer_section(filter_name)
@@ -109,7 +109,7 @@ class FamilyGrid < BaseGrid
       male_adult_count: :aggregrate,
       household_income: :general,
       contract_date: :general,
-      caregiver_information: :general,
+      relevant_information: :general,
       id: :general,
       code: :general,
       name: :general,
@@ -185,7 +185,7 @@ class FamilyGrid < BaseGrid
     render partial: 'families/members', locals: { object: object }
   end
 
-  column(:caregiver_information, order: 'LOWER(caregiver_information)', header: -> { I18n.t('datagrid.columns.families.caregiver_information') })
+  column(:relevant_information, order: 'LOWER(relevant_information)', header: -> { Family.human_attribute_name(:relevant_information) })
 
   column(:household_income, header: -> { I18n.t('datagrid.columns.families.household_income') })
 

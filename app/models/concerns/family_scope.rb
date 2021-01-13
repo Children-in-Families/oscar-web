@@ -4,6 +4,7 @@ module FamilyScope
   included do
     scope :address_like,               ->(value) { where('address iLIKE ?', "%#{value.squish}%") }
     scope :caregiver_information_like, ->(value) { where('caregiver_information iLIKE ?', "%#{value.squish}%") }
+    scope :relevant_information_like,  ->(value) { where('relevant_information iLIKE ?', "%#{value.squish}%") }
     scope :case_history_like,          ->(value) { where('case_history iLIKE ?', "%#{value.squish}%") }
     scope :family_id_like,             ->(value) { where('code iLIKE ?', "%#{value.squish}%") }
     scope :street_like,                ->(value) { where('street iLIKE ?', "%#{value.squish}%") }
