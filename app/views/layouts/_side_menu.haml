@@ -97,7 +97,7 @@
                     = link_to t('.field_settings'), field_settings_path
                   %li{ class: settings_menu_active('settings', 'client_forms')}
                     = link_to t('.client_forms'), client_forms_settings_path
-                  - if policy(current_setting).integration? && false
+                  - if policy(current_setting).integration?
                     %li{ class: settings_menu_active('settings', 'integration') }
                       = link_to t('.integration'), integration_settings_path
 
