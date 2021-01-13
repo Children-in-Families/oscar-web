@@ -685,7 +685,7 @@ class Client < ActiveRecord::Base
   private
 
   def update_related_family_member
-    FamilyMember.delay.update_client_relevant_data(family_member.id) if family_member.present?
+    FamilyMember.delay.update_client_relevant_data(family_member.id, Apartment::Tenant.current) if family_member.present?
   end
 
   def create_client_history
