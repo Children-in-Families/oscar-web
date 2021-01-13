@@ -192,7 +192,7 @@ module AdvancedSearchHelper
       male_adult_count:                         I18n.t('datagrid.columns.families.male_adult_count'),
       household_income:                         I18n.t('datagrid.columns.families.household_income'),
       contract_date:                            I18n.t('datagrid.columns.families.contract_date'),
-      caregiver_information:                    I18n.t('datagrid.columns.families.caregiver_information'),
+      relevant_information:                     Family.human_attribute_name(:relevant_information),
       changelog:                                I18n.t('datagrid.columns.families.changelog'),
       manage:                                   I18n.t('datagrid.columns.families.manage'),
       female_children_count:                    I18n.t('datagrid.columns.families.female_children_count'),

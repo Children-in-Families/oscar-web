@@ -36,7 +36,7 @@ module AdvancedSearches
       end
 
       def text_type_list
-        ['code', 'name', 'caregiver_information', 'case_history', 'street', 'house']
+        ['code', 'name', 'relevant_information', 'case_history', 'street', 'house']
       end
 
       def date_type_list

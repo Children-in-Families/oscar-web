@@ -14,7 +14,7 @@ class FamilyColumnsVisibility
       case_history_: :case_history,
       address_: :address,
       member_count_: :member_count,
-      caregiver_information_: :caregiver_information,
+      relevant_information_: :relevant_information,
       household_income_: :household_income,
       dependable_income_: :dependable_income,
       case_worker_: :case_worker,
