@@ -40,7 +40,7 @@
                     = date_format(Date.today)
             .col-xs-12.col-sm-4
               - if policy(@custom_assessment).create?()
-                = link_to new_family_assessment_path(@family, default: true), data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.assessments.index.default_button', assessment: t('families.show.assessment'))}", placement: "auto" } do
+                = link_to new_family_assessment_path(@family, default: false), data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.assessments.index.default_button', assessment: t('families.show.assessment'))}", placement: "auto" } do
                   .btn.btn-block.btn-primary.button
                     = "#{t('assessments.index.begin_now')} #{t('families.show.assessment')}"
               - else

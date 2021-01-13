@@ -10,17 +10,16 @@ module AdvancedSearches
       end
 
       def render
-        group                 = family_header('basic_fields')
+        group                 = family_header('family_basic_fields')
         number_fields         = number_type_list.map { |item| AdvancedSearches::FilterTypes.number_options(item, family_header(item), group) }
         text_fields           = text_type_list.map { |item| AdvancedSearches::FilterTypes.text_options(item, family_header(item), group) }
         date_picker_fields    = date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, family_header(item), group) }
         drop_list_fields      = drop_down_type_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, family_header(item.first), item.last, group) }
 
+        search_fields = text_fields + drop_list_fields + number_fields + date_picker_fields
         custom_domain_scores_options = !Setting.first.hide_family_case_management_tool? ? AdvancedSearches::CustomDomainScoreFields.render('family') : []
 
-        search_fields = text_fields + drop_list_fields + number_fields + date_picker_fields + custom_domain_scores_options
-
-        search_fields.sort_by { |f| f[:label].downcase }.select do |field|
+        (search_fields.sort_by { |f| f[:label].downcase } + custom_domain_scores_options).select do |field|
           field_name = field[:id]
           field_name = 'member_count' if field_name.to_s.include?('significant_family_member_count')
           policy(Family).show?(field_name.to_sym)

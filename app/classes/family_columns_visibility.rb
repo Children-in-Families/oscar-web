@@ -52,12 +52,25 @@ class FamilyColumnsVisibility
         defualt_columns = family_default_columns
       end
     end
+    domain_score_columns.each do |key, value|
+      @grid.column_names << value if family_default(key, defualt_columns) || @params[key]
+    end
     add_custom_builder_columns.each do |key, value|
       @grid.column_names << value if family_default(key, defualt_columns) || @params[key]
     end
   end
 
   private
+
+  def domain_score_columns
+    columns = columns_collection
+    Domain.family_custom_csi_domains.order_by_identity.each do |domain|
+      identity = domain.identity
+      field = domain.convert_custom_identity
+      columns = columns.merge!("#{field}_": field.to_sym)
+    end
+    columns
+  end
 
   def add_custom_builder_columns
     columns = columns_collection

@@ -348,7 +348,7 @@
                 = check_box_tag 'case_workers_', 'case_workers', checked = default_setting('case_workers_', @default_columns) || params[:case_workers_].present?, class: 'i-checks'
                 = label_tag 'case_workers_', t('datagrid.columns.families.case_workers')
           - unless current_setting.hide_family_case_management_tool?
-            = render partial: 'datagrid/custom_domain_score', locals: { custom_domains: Domain.family_custom_csi_domains.order_by_identity }
+            = render partial: 'datagrid/family_custom_domain_score', locals: { custom_domains: Domain.family_custom_csi_domains.order_by_identity }
 
           %li.divider.col-xs-12
           %li

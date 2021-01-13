@@ -15,6 +15,8 @@ class AssessmentDomain < ActiveRecord::Base
   has_many :goals, dependent: :destroy
 
   has_paper_trail
+  delegate :family, to: :assessment
+  delegate :id, to: :family, prefix: :family
 
   validates :domain, presence: true
 

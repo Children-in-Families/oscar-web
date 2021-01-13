@@ -211,4 +211,8 @@ module FamiliesHelper
   def name_km_en
     @family.name_en? ? "#{@family.name} - #{@family.name_en}" : "#{@family.name}"
   end
+
+  def family_saved_search_column_visibility(field_key)
+    default_setting(field_key, @default_columns) || params[field_key.to_sym].present? || (@visible_fields && @visible_fields[field_key]).present?
+  end
 end

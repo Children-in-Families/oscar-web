@@ -446,6 +446,7 @@ my:
       exit_program: ထြက္သည့္အစီအစဥ္
       exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
       family: မိသားစု
+      family_basic_fields: Family basic fields
       family_id: မိသားစုမွတ္ပံုတင္
       family_name: မ်ိဳး႐ိုးနာမည္
       follow_up_by: 'က ဆက္လက္ေဆာင္ရြက္သည္။ '

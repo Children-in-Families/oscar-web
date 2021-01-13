@@ -267,6 +267,22 @@ class FamilyGrid < BaseGrid
   end
 
   dynamic do
+    if !Setting.first.hide_family_case_management_tool?
+      column(:all_custom_csi_assessments, header: -> { I18n.t('datagrid.columns.clients.all_custom_csi_assessments') }, html: true) do |object|
+        render partial: 'families/all_csi_assessments', locals: { object: object.assessments.customs }
+      end
+
+      Domain.family_custom_csi_domains.order_by_identity.each do |domain|
+        identity = domain.identity
+        column("#{domain.convert_custom_identity}".to_sym, class: 'domain-scores', header: identity, html: true) do |family|
+          assessment = family.assessments.customs.latest_record
+          assessment.assessment_domains.find_by(domain_id: domain.id).try(:score) if assessment.present?
+        end
+      end
+    end
+  end
+
+  dynamic do
     column(:manage, html: true, class: 'text-center', header: -> { I18n.t('datagrid.columns.families.manage') }) do |object|
       render partial: 'families/actions', locals: { object: object }
     end

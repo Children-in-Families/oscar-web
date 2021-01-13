@@ -1,7 +1,7 @@
 module AdvancedSearches
   module Families
     class FamilyBaseSqlBuilder
-      ASSOCIATION_FIELDS = ['client_id', 'case_workers', 'gender', 'date_of_birth']
+      ASSOCIATION_FIELDS = ['client_id', 'case_workers', 'gender', 'date_of_birth', 'date_of_custom_assessments', 'assessment_completed_date', 'assessment_completed'].freeze
       BLANK_FIELDS = %w(contract_date household_income dependable_income female_children_count male_children_count female_adult_count male_adult_count province_id significant_family_member_count district_id commune_id village_id id)
       SENSITIVITY_FIELDS = %w(name code address case_history caregiver_information family_type status)
 
@@ -25,7 +25,10 @@ module AdvancedSearches
             association_filter = AdvancedSearches::Families::FamilyAssociationFilter.new(@families, field, operator, value).get_sql
             @sql_string << association_filter[:id]
             @values     << association_filter[:values]
-
+          elsif form_builder.first == 'domainscore' || field == 'all_domains' || field == 'all_custom_domains'
+            domain_scores = AdvancedSearches::Families::DomainScoreSqlBuilder.new(field, rule, @basic_rules).get_sql
+            @sql_string << "Families.id IN (?)"
+            @values << domain_scores[:values]&.flatten || []
           elsif form_builder.first == 'formbuilder'
             if form_builder.last == 'Has This Form'
               custom_form_value = CustomField.find_by(form_title: value, entity_type: 'Family').try(:id)

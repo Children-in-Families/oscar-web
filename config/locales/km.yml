@@ -448,6 +448,7 @@ km:
       exit_program: ចាកចេញពីកម្មវិធី
       exit_reasons: មូលហេតុនៃការចាកចេញ
       family: គ្រួសារ
+      family_basic_fields: ព័ត៌មានទូទៅរបស់គ្រួសារ
       family_id: លេខសម្គាល់គ្រួសារ
       family_name: នាមត្រកូលជាអក្សរឡាតាំង
       follow_up_by: បុគ្គលិកតាមដានករណី

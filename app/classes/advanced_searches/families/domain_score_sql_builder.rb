@@ -1,5 +1,5 @@
 module AdvancedSearches
-  class DomainScoreSqlBuilder
+  class Families::DomainScoreSqlBuilder
     include AssessmentHelper
     def initialize(field, rule, basic_rule)
       @form_builder = field != nil ? field.split('__') : []
@@ -11,21 +11,21 @@ module AdvancedSearches
     end
 
     def get_sql
-      sql_string = 'clients.id IN (?)'
+      sql_string = 'families.id IN (?)'
       case @form_builder.first
       when 'domainscore'
         values = domainscore_field_query
-      when 'all_domains' || 'all_custom_domains'
+      when 'all_custom_domains'
         values = all_domains_query
       end
       { id: sql_string, values: values }
     end
 
-    def return_dates(custom_domain, client)
+    def return_dates(custom_domain, family)
       if custom_domain == true
-        ordered_assessments = client.assessments.customs.order(:created_at)
+        ordered_assessments = family.assessments.customs.order(:created_at)
       else
-        ordered_assessments = client.assessments.defaults.order(:created_at)
+        ordered_assessments = family.assessments.defaults.order(:created_at)
       end
       dates = ordered_assessments.map(&:created_at).map{|date| date.strftime("%b, %Y") }
     end
@@ -35,35 +35,37 @@ module AdvancedSearches
       domain        = Domain.find(@domain_id)
       custom_domain = domain.try(:custom_domain)
       identity      = domain.identity
-      clients       = Client.joins(assessments: :assessment_domains)
+      families      = Family.joins(assessments: :assessment_domains)
       if $param_rules.nil?
-        clients.ids
+        families.ids
       else
         basic_rules = $param_rules['basic_rules']
         basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
         results = mapping_assessment_query_rules(basic_rules).reject(&:blank?)
         assessment_completed_sql, assessment_number = assessment_filter_values(results)
-        sql = "(assessments.completed = true #{assessment_completed_sql}) AND assessments.created_at = (SELECT created_at FROM assessments WHERE clients.id = assessments.client_id ORDER BY assessments.created_at limit 1 offset #{(assessment_number || 1) - 1})".squish
+        sql = "(assessments.completed = true #{assessment_completed_sql}) AND assessments.created_at = (SELECT created_at FROM assessments WHERE families.id = assessments.client_id ORDER BY assessments.created_at limit 1 offset #{(assessment_number || 1) - 1})".squish
         if assessment_completed_sql.present? && assessment_number.present?
-          clients = clients.where(assessment_domains: { score: @value.to_i, domain_id: @domain_id }).where(sql)
+          families = families.where(assessment_domains: { score: @value.to_i, domain_id: @domain_id }).where(sql)
         else
-          clients = clients.where(assessment_domains: { score: @value.to_i, domain_id: @domain_id })
+          family_ids = families.where(assessment_domains: { domain_id: @domain_id }).ids
+          assessments = Assessment.where(family_id: family_ids)
+          return family_ids = assessment_filter_domainscore_query(assessments.to_a).presence || family_ids
         end
-        clients.ids
+        families.ids
       end
     end
 
     def score_change_query
       return if @value.first == @value.last
-      client_ids = []
+      family_ids = []
       between_date_value = @basic_rules.second['value']
       custom_domain      = Domain.find(@domain_id).try(:custom_domain)
 
       case @operator
       when 'assessment_has_changed'
-        Client.includes(:assessments).distinct.each do |client|
-          next if (client.assessments.blank? || client.assessments.count < @value.last.to_i)
-          dates     = return_dates(custom_domain, client)
+        Family.includes(:assessments).distinct.each do |family|
+          next if (family.assessments.blank? || family.assessments.count < @value.last.to_i)
+          dates     = return_dates(custom_domain, family)
           date_from = between_date_value[0].to_date
           date_to   = between_date_value[1].to_date
           next unless dates[@value.first.to_i-1].present? && dates[@value.last.to_i-1].present?
@@ -72,18 +74,18 @@ module AdvancedSearches
           date      = dates.uniq[@value.last.to_i-1]
           if date.present?
             if custom_domain == true
-              number_assessments = client.assessments.customs.where("DATE(assessments.created_at) between ? AND ?", date.to_date.beginning_of_month, date.to_date.end_of_month)
+              number_assessments = family.assessments.customs.where("DATE(assessments.created_at) between ? AND ?", date.to_date.beginning_of_month, date.to_date.end_of_month)
             else
-              number_assessments = client.assessments.defaults.where("DATE(assessments.created_at) between ? AND ?", date.to_date.beginning_of_month, date.to_date.end_of_month)
+              number_assessments = family.assessments.defaults.where("DATE(assessments.created_at) between ? AND ?", date.to_date.beginning_of_month, date.to_date.end_of_month)
             end
             number_assessments  = number_assessments.joins(:assessment_domains).where("assessment_domains.domain_id = ? AND assessment_domains.previous_score != assessment_domains.score", @domain_id) if number_assessments.present?
-            client_ids          << client.id if number_assessments.present?
+            family_ids          << family.id if number_assessments.present?
           end
         end
       when 'assessment_has_not_changed'
-        Client.includes(:assessments).distinct.each do |client|
-          next if (client.assessments.blank? || client.assessments.count < @value.last.to_i)
-          dates     = return_dates(custom_domain, client)
+        Family.includes(:assessments).distinct.each do |family|
+          next if (family.assessments.blank? || family.assessments.count < @value.last.to_i)
+          dates     = return_dates(custom_domain, family)
           date_from = between_date_value[0].to_date
           date_to   = between_date_value[1].to_date
           next unless dates[@value.first.to_i-1].present? && dates[@value.last.to_i-1].present?
@@ -92,18 +94,18 @@ module AdvancedSearches
           date      = dates.uniq[@value.last.to_i-1]
           if date.present?
             if custom_domain == true
-              number_assessments  = client.assessments.customs.where("DATE(assessments.created_at) between ? AND ?", date.to_date.beginning_of_month, date.to_date.end_of_month)
+              number_assessments  = family.assessments.customs.where("DATE(assessments.created_at) between ? AND ?", date.to_date.beginning_of_month, date.to_date.end_of_month)
             else
-              number_assessments  = client.assessments.defaults.where("DATE(assessments.created_at) between ? AND ?", date.to_date.beginning_of_month, date.to_date.end_of_month)
+              number_assessments  = family.assessments.defaults.where("DATE(assessments.created_at) between ? AND ?", date.to_date.beginning_of_month, date.to_date.end_of_month)
             end
             number_assessments  = number_assessments.joins(:assessment_domains).where("assessment_domains.domain_id = ? AND (assessment_domains.previous_score IS NULL OR assessment_domains.previous_score = assessment_domains.score)", @domain_id) if number_assessments.present?
-            client_ids          << client.id if number_assessments.present?
+            family_ids          << family.id if number_assessments.present?
           end
         end
       when 'month_has_changed'
-        clients = Client.joins(:assessments).group(:id).having('COUNT(assessments) > 1')
-        clients.all.each do |client|
-          dates     = return_dates(custom_domain, client)
+        families = Family.joins(:assessments).group(:id).having('COUNT(assessments) > 1')
+        families.all.each do |family|
+          dates     = return_dates(custom_domain, family)
           date_from = between_date_value[0].to_date
           date_to   = between_date_value[1].to_date
           next unless dates.uniq[@value.first.to_i-1].present? && dates.uniq[@value.last.to_i-1].present?
@@ -112,18 +114,18 @@ module AdvancedSearches
           date      = dates.uniq[@value.last.to_i-1]
           if date.present?
             if custom_domain == true
-              month_assessments = client.assessments.customs.where("DATE(assessments.created_at) between ? AND ?", date.to_date.beginning_of_month, date.to_date.end_of_month)
+              month_assessments = family.assessments.customs.where("DATE(assessments.created_at) between ? AND ?", date.to_date.beginning_of_month, date.to_date.end_of_month)
             else
-              month_assessments = client.assessments.defaults.where("DATE(assessments.created_at) between ? AND ?", date.to_date.beginning_of_month, date.to_date.end_of_month)
+              month_assessments = family.assessments.defaults.where("DATE(assessments.created_at) between ? AND ?", date.to_date.beginning_of_month, date.to_date.end_of_month)
             end
             month_assessments   = month_assessments.joins(:assessment_domains).where("assessment_domains.domain_id = ? AND assessment_domains.previous_score != assessment_domains.score", @domain_id) if month_assessments.present?
-            client_ids          << client.id if month_assessments.present?
+            family_ids          << family.id if month_assessments.present?
           end
         end
       when 'month_has_not_changed'
-        clients = Client.joins(:assessments).group(:id).having('COUNT(assessments) > 1')
-        clients.all.each do |client|
-          dates     = return_dates(custom_domain, client)
+        families = Family.joins(:assessments).group(:id).having('COUNT(assessments) > 1')
+        families.all.each do |family|
+          dates     = return_dates(custom_domain, family)
           date_from = between_date_value[0].to_date
           date_to   = between_date_value[1].to_date
           next unless dates.uniq[@value.first.to_i-1].present? && dates.uniq[@value.last.to_i-1].present?
@@ -132,73 +134,65 @@ module AdvancedSearches
           date      = dates.uniq[@value.last.to_i-1]
           if date.present?
             if custom_domain == true
-              month_assessments = client.assessments.customs.where("DATE(assessments.created_at) between ? AND ?", date.to_date.beginning_of_month, date.to_date.end_of_month)
+              month_assessments = family.assessments.customs.where("DATE(assessments.created_at) between ? AND ?", date.to_date.beginning_of_month, date.to_date.end_of_month)
             else
-              month_assessments = client.assessments.defaults.where("DATE(assessments.created_at) between ? AND ?", date.to_date.beginning_of_month, date.to_date.end_of_month)
+              month_assessments = family.assessments.defaults.where("DATE(assessments.created_at) between ? AND ?", date.to_date.beginning_of_month, date.to_date.end_of_month)
             end
             month_assessments   = month_assessments.joins(:assessment_domains).where("assessment_domains.domain_id = ? AND (assessment_domains.previous_score IS NULL OR assessment_domains.previous_score = assessment_domains.score)", @domain_id) if month_assessments.present?
-            client_ids          << client.id if month_assessments.present?
+            family_ids          << family.id if month_assessments.present?
           end
         end
       end
-      return client_ids.uniq
+      return family_ids.uniq
     end
 
     def assessment_filter_domainscore_query(assessments)
-      client_ids = []
+      family_ids = []
 
       case @operator
       when 'equal'
         assessments.compact.uniq.each do |id|
-          assessment = Assessment.find_by(id: id)
-          ass_domain = assessment.assessment_domains.where(domain_id: @domain_id, score: @value)
-          client_ids << assessment.client_id if ass_domain.present?
+          assessment_domains = AssessmentDomain.where(assessment_id: id).where(domain_id: @domain_id, score: @value)
+          family_ids << assessment_domains.map(&:family_id) if assessment_domains.present?
         end
       when 'not_equal'
         assessments.compact.uniq.each do |id|
-          assessment = Assessment.find_by(id: id)
-          ass_domain = assessment.assessment_domains.where('domain_id = ? and score != ?', @domain_id, @value)
-          client_ids << assessment.client_id if ass_domain.present?
+          assessment_domains = AssessmentDomain.where(assessment_id: id).where('domain_id = ? and score != ?', @domain_id, @value)
+          family_ids << assessment_domains.map(&:family_id) if assessment_domains.present?
         end
       when 'less'
         assessments.compact.uniq.each do |id|
-          assessment = Assessment.find_by(id: id)
-          ass_domain = assessment.assessment_domains.where('domain_id = ? and score < ?', @domain_id, @value)
-          client_ids << assessment.client_id if ass_domain.present?
+          assessment_domains = AssessmentDomain.where(assessment_id: id).where('domain_id = ? and score < ?', @domain_id, @value)
+          family_ids << assessment_domains.map(&:family_id) if assessment_domains.present?
         end
       when 'less_or_equal'
         assessments.compact.uniq.each do |id|
-          assessment = Assessment.find_by(id: id)
-          ass_domain = assessment.assessment_domains.where('domain_id = ? and score <= ?', @domain_id, @value)
-          client_ids << assessment.client_id if ass_domain.present?
+          assessment_domains = AssessmentDomain.where(assessment_id: id).where('domain_id = ? and score <= ?', @domain_id, @value)
+          family_ids << assessment_domains.map(&:family_id) if assessment_domains.present?
         end
       when 'greater'
         assessments.compact.uniq.each do |id|
-          assessment = Assessment.find_by(id: id)
-          ass_domain = assessment.assessment_domains.where('domain_id = ? and score > ?', @domain_id, @value)
-          client_ids << assessment.client_id if ass_domain.present?
+          assessment_domains = AssessmentDomain.where(assessment_id: id).where('domain_id = ? and score > ?', @domain_id, @value)
+          family_ids << assessment_domains.map(&:family_id) if assessment_domains.present?
         end
       when 'greater_or_equal'
         assessments.compact.uniq.each do |id|
-          assessment = Assessment.find_by(id: id)
-          ass_domain = assessment.assessment_domains.where('domain_id = ? and score >= ?', @domain_id, @value)
-          client_ids << assessment.client_id if ass_domain.present?
+          assessment_domains = AssessmentDomain.where(assessment_id: id).where('domain_id = ? and score >= ?', @domain_id, @value)
+          family_ids << assessment_domains.map(&:family_id) if assessment_domains.present?
         end
       when 'is_empty'
         assessments.compact.uniq.each do |id|
-          assessment = Assessment.find_by(id: id)
-          ass_domain = assessment.assessment_domains.where('domain_id = ? and score = nil', @domain_id)
-          client_ids << assessment.client_id if ass_domain.present?
+          assessment_domains = AssessmentDomain.where(assessment_id: id).where('domain_id = ? and score = nil', @domain_id)
+          family_ids << assessment_domains.map(&:family_id) if assessment_domains.present?
         end
       when 'is_not_empty'
         assessments.compact.uniq.each do |id|
-          assessment = Assessment.find_by(id: id)
-          ass_domain = assessment.assessment_domains.where('domain_id = ? and score != nil', @domain_id)
-          client_ids << assessment.client_id if ass_domain.present?
+          assessment_domains = AssessmentDomain.where(assessment_id: id).where('domain_id = ? and score != nil', @domain_id)
+          family_ids << assessment_domains.map(&:family_id) if assessment_domains.present?
         end
       end
 
-      return client_ids.uniq
+      return family_ids.uniq
     end
 
     def only_domainscore_field_query
@@ -222,57 +216,57 @@ module AdvancedSearches
         assessments = assessments.where(assessment_domains: { domain_id: @domain_id, score: @value.first..@value.last })
       when 'is_empty'
         assessments = assessments.where('assessment_domains.domain_id = ? and assessment_domains.score IS NOT NULL', @domain_id)
-        client_ids  = Client.where.not(id: assessments.distinct.pluck(:client_id)).ids
+        family_ids  = Family.where.not(id: assessments.distinct.pluck(:client_id)).ids
       when 'is_not_empty'
         assessments = assessments.where('assessment_domains.domain_id = ? and assessment_domains.score IS NOT NULL', @domain_id)
       when 'assessment_has_changed'
         return if @value.first == @value.last
-        client_ids = []
-        clients = Client.includes(:assessments).distinct.each do |client|
-          next if (client.assessments.blank? || client.assessments.count < @value.last.to_i)
-          limit_assessments = client.assessments.order(:created_at).offset(@value.first.to_i - 1).limit(@value.last.to_i - (@value.first.to_i - 1))
+        family_ids = []
+        families = Family.includes(:assessments).distinct.each do |family|
+          next if (family.assessments.blank? || family.assessments.count < @value.last.to_i)
+          limit_assessments = family.assessments.order(:created_at).offset(@value.first.to_i - 1).limit(@value.last.to_i - (@value.first.to_i - 1))
           assessment        = limit_assessments.last.assessment_domains.where('assessment_domains.domain_id = ? and assessment_domains.previous_score != assessment_domains.score', @domain_id) if limit_assessments.present?
-          client_ids        << client.id if assessment.present?
+          family_ids        << family.id if assessment.present?
         end
-        return client_ids.flatten.uniq
+        return family_ids.flatten.uniq
       when 'assessment_has_not_changed'
         return if @value.first == @value.last
-        client_ids = []
-        clients = Client.includes(:assessments).distinct.each do |client|
-          next if (client.assessments.blank? || client.assessments.count < @value.last.to_i)
-          limit_assessments = client.assessments.order(:created_at).offset(@value.first.to_i - 1).limit(@value.last.to_i - (@value.first.to_i - 1))
+        family_ids = []
+        families = Family.includes(:assessments).distinct.each do |family|
+          next if (family.assessments.blank? || family.assessments.count < @value.last.to_i)
+          limit_assessments = family.assessments.order(:created_at).offset(@value.first.to_i - 1).limit(@value.last.to_i - (@value.first.to_i - 1))
           assessment        = limit_assessments.last.assessment_domains.where('assessment_domains.domain_id = ? and (assessment_domains.previous_score IS NULL or assessment_domains.previous_score = assessment_domains.score)', @domain_id) if limit_assessments.present?
-          client_ids        << client.id if assessment.present?
+          family_ids        << family.id if assessment.present?
         end
-        return client_ids.flatten.uniq
+        return family_ids.flatten.uniq
       when 'month_has_changed'
         return if @value.first == @value.last
-        client_ids = []
-        clients = Client.joins(:assessments).group(:id).having('COUNT(assessments) > 1')
-        clients = clients.all.each do |client|
-          ordered_assessments = client.assessments.order(:created_at)
+        family_ids = []
+        families = Family.joins(:assessments).group(:id).having('COUNT(assessments) > 1')
+        families = families.all.each do |family|
+          ordered_assessments = family.assessments.order(:created_at)
           dates               = ordered_assessments.map(&:created_at).map{|date| date.strftime("%b, %Y") }
           date                = dates.uniq[@value.last.to_i-1]
-          month_assessments   = client.assessments.where("DATE(assessments.created_at) between ? AND ?", date.to_date.beginning_of_month, date.to_date.end_of_month) if date.present?
+          month_assessments   = family.assessments.where("DATE(assessments.created_at) between ? AND ?", date.to_date.beginning_of_month, date.to_date.end_of_month) if date.present?
           month_assessments   = month_assessments.joins(:assessment_domains).where("assessment_domains.domain_id = ? AND assessment_domains.previous_score != assessment_domains.score", @domain_id) if month_assessments.present?
-          client_ids << client.id if month_assessments.present?
+          family_ids << family.id if month_assessments.present?
         end
-        return client_ids.flatten.uniq
+        return family_ids.flatten.uniq
       when 'month_has_not_changed'
         return if @value.first == @value.last
-        client_ids = []
-        clients = Client.joins(:assessments).group(:id).having('COUNT(assessments) > 1')
-        clients = clients.all.each do |client|
-          ordered_assessments = client.assessments.order(:created_at)
+        family_ids = []
+        families = Family.joins(:assessments).group(:id).having('COUNT(assessments) > 1')
+        families = families.all.each do |family|
+          ordered_assessments = family.assessments.order(:created_at)
           dates               = ordered_assessments.map(&:created_at).map{|date| date.strftime("%b, %Y") }
           date                = dates.uniq[@value.last.to_i-1]
-          month_assessments   = client.assessments.where("DATE(assessments.created_at) between ? AND ?", date.to_date.beginning_of_month, date.to_date.end_of_month) if date.present?
+          month_assessments   = family.assessments.where("DATE(assessments.created_at) between ? AND ?", date.to_date.beginning_of_month, date.to_date.end_of_month) if date.present?
           month_assessments   = month_assessments.joins(:assessment_domains).where("assessment_domains.domain_id = ? AND (assessment_domains.previous_score IS NULL OR assessment_domains.previous_score = assessment_domains.score)", @domain_id) if month_assessments.present?
-          client_ids << client.id if month_assessments.present?
+          family_ids << family.id if month_assessments.present?
         end
-        return client_ids.flatten.uniq
+        return family_ids.flatten.uniq
       end
-      client_ids = assessments.uniq.pluck(:client_id) unless @operator == 'is_empty'
+      family_ids = assessments.uniq.pluck(:client_id) unless @operator == 'is_empty'
     end
 
     def all_domains_query
@@ -302,8 +296,8 @@ module AdvancedSearches
       if @field == 'all_domains'
         if @basic_rules.flatten.any?{|rule| rule['field'] == 'assessment_number'}
           assess_number_value = get_month_assessment_number('assessment_number')
-          clients = Client.joins(assessments: :assessment_domains).reject do |client|
-            assessment = client.assessments.defaults.order(:created_at).limit(1).offset(assess_number_value.to_i - 1).first
+          families = Family.joins(assessments: :assessment_domains).reject do |family|
+            assessment = family.assessments.defaults.order(:created_at).limit(1).offset(assess_number_value.to_i - 1).first
             scores = assessment.assessment_domains.pluck(:score) if assessment.present?
             next if scores.blank?
             conditions = []
@@ -331,14 +325,14 @@ module AdvancedSearches
               (scores.compact.sum.to_f / assessment.assessment_domains.size.to_f).round != @value.to_i
             end
           end
-          clients.map(&:id)
+          families.map(&:id)
         elsif @basic_rules.flatten.any?{|rule| rule['field'] == 'month_number'}
-          clients = Client.joins(assessments: :assessment_domains).reject do |client|
+          families = Family.joins(assessments: :assessment_domains).reject do |family|
             month_number_value  = get_month_assessment_number('month_number')
-            ordered_assessments = client.assessments.defaults.order(:created_at)
+            ordered_assessments = family.assessments.defaults.order(:created_at)
             dates               = ordered_assessments.map(&:created_at).map{|date| date.strftime("%b, %Y") }
             date                = dates.uniq[month_number_value-1]
-            assessments         = client.assessments.defaults.where("DATE(assessments.created_at) between ? AND ?", date.to_date.beginning_of_month, date.to_date.end_of_month) if date.present?
+            assessments         = family.assessments.defaults.where("DATE(assessments.created_at) between ? AND ?", date.to_date.beginning_of_month, date.to_date.end_of_month) if date.present?
 
             next if assessments.blank?
             conditions = []
@@ -366,11 +360,11 @@ module AdvancedSearches
             end
             conditions.include?(true)
           end
-          clients.map(&:id).uniq
+          families.map(&:id).uniq
         else
-          client_ids = Client.includes(assessments: :assessment_domains).map do |client|
-            next if client.assessments.defaults.blank?
-            assessment = client.assessments.defaults.includes(:assessment_domains).reject do |assessment|
+          family_ids = Family.includes(assessments: :assessment_domains).map do |family|
+            next if family.assessments.defaults.blank?
+            assessment = family.assessments.defaults.includes(:assessment_domains).reject do |assessment|
               scores = assessment.assessment_domains.pluck(:score)
               conditions = []
               if operator == 'equal'
@@ -399,13 +393,13 @@ module AdvancedSearches
             end
             assessment.first.try(:client_id)
           end
-          client_ids.compact
+          family_ids.compact
         end
       elsif @field == 'all_custom_domains'
         if @basic_rules.flatten.any?{|rule| rule['field'] == 'assessment_number'}
           assess_number_value = get_month_assessment_number('assessment_number')
-          clients = Client.joins(assessments: :assessment_domains).reject do |client|
-            assessment = client.assessments.customs.order(:created_at).limit(1).offset(assess_number_value.to_i - 1).first
+          families = Family.joins(assessments: :assessment_domains).reject do |family|
+            assessment = family.assessments.customs.order(:created_at).limit(1).offset(assess_number_value.to_i - 1).first
             scores = assessment.assessment_domains.pluck(:score) if assessment.present?
             next if scores.blank?
             conditions = []
@@ -433,14 +427,14 @@ module AdvancedSearches
               (scores.compact.sum.to_f / assessment.assessment_domains.size.to_f).round != @value.to_i
             end
           end
-          clients.map(&:id)
+          families.map(&:id)
         elsif @basic_rules.flatten.any?{|rule| rule['field'] == 'month_number'}
-          clients = Client.joins(assessments: :assessment_domains).reject do |client|
+          families = Family.joins(assessments: :assessment_domains).reject do |family|
             month_number_value  = get_month_assessment_number('month_number')
-            ordered_assessments = client.assessments.customs.order(:created_at)
+            ordered_assessments = family.assessments.customs.order(:created_at)
             dates               = ordered_assessments.map(&:created_at).map{|date| date.strftime("%b, %Y") }
             date                = dates.uniq[month_number_value-1]
-            assessments         = client.assessments.customs.where("DATE(assessments.created_at) between ? AND ?", date.to_date.beginning_of_month, date.to_date.end_of_month) if date.present?
+            assessments         = family.assessments.customs.where("DATE(assessments.created_at) between ? AND ?", date.to_date.beginning_of_month, date.to_date.end_of_month) if date.present?
 
             next if assessments.blank?
             conditions = []
@@ -468,11 +462,11 @@ module AdvancedSearches
             end
             conditions.include?(true)
           end
-          clients.map(&:id)
+          families.map(&:id)
         else
-          client_ids = Client.includes(assessments: :assessment_domains).map do |client|
-            next if client.assessments.customs.blank?
-            assessment = client.assessments.customs.includes(:assessment_domains).reject do |assessment|
+          family_ids = Family.includes(assessments: :assessment_domains).map do |family|
+            next if family.assessments.customs.blank?
+            assessment = family.assessments.customs.includes(:assessment_domains).reject do |assessment|
               scores = assessment.assessment_domains.pluck(:score)
               conditions = []
               if operator == 'equal'
@@ -499,9 +493,9 @@ module AdvancedSearches
                 (scores.compact.sum.to_f / assessment.assessment_domains.size.to_f).round != @value.to_i
               end
             end
-            assessment.first.try(:client_id)
+            assessment.first.try(:family_id)
           end
-          client_ids.compact
+          family_ids.compact
         end
       end
     end

@@ -449,6 +449,7 @@ en:
       exit_program: Exit Program
       exit_reasons: Reason For Exit
       family: Family
+      family_basic_fields: Family Basic Fields
       family_id: Family ID
       family_name: Family Name (Latin)
       follow_up_by: First Follow-Up By
