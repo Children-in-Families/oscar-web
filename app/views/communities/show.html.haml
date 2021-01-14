@@ -1,0 +1,223 @@
+.row.gray-bg
+  %div{ class: "col-md-9"}
+    %table.table.small.m-b-xs#main-info
+      %tbody
+        %tr
+          %td{rowspan: '4'}
+          %td
+            = "#{Community.human_attribute_name(:name_en)} :"
+            %strong= @community.name_en
+          %td
+            = "#{Community.human_attribute_name(:status)} :"
+            %strong= @community.status.titleize
+        %tr
+          %td
+            = "#{Community.human_attribute_name(:name)} :"
+            %strong= @community.name
+          %td
+            = "#{t('.current_province')} :"
+            %strong= @community.province_name
+        %tr
+          %td
+            = "#{Community.human_attribute_name(:id)} :"
+            %strong= @community.id
+          %td
+            = "#{t('.created_by')} :"
+            %strong= @community.user&.name
+
+  .col-md-3
+  .col-sm-12
+    .panel.panel-default.case-management-tool-set
+      .panel-body.text-center{ style: 'min-height: 50px; background-color: yellow;' }
+        %h3 Case Management Tool Set
+
+.ibox.mini-margin
+  .ibox-title
+    %h5= "#{t('.general_info')} #{@community.name}"
+    .ibox-tools
+      %a.collapse-link
+        .btn.btn-outline.btn-primary
+          %i.fa.fa-chevron-up
+      - if can? :manage, Community
+        %small
+          = link_to edit_community_path(@community) do
+            .btn.btn-outline.btn-success
+              %i.fa.fa-pencil
+          = remove_link(@community, { }, 'btn-md')
+  .ibox-content
+    .row.agreegate
+      .col-sm-12
+        %h5= t('.direct_participants')
+      .col-sm-12.col-md-4
+        %table.table.table-bordered
+          %tr
+            %td.spacing-first-col= t('.member_count')
+            %td= @community.community_members.count
+      .col-sm-12.col-md-4
+        %table.table.table-bordered
+          %tr
+            %td.spacing-first-col= t('.male_count')
+            %td= @community.community_members.male.count
+      .col-sm-12.col-md-4
+        %table.table.table-bordered
+          %tr
+            %tr
+              %td.spacing-first-col= t('.female_count')
+              %td= @community.community_members.female.count
+    .row.agreegate
+      .col-sm-12
+        %h5= t('.all_beneficiaries')
+      .col-sm-12.col-md-3
+        %table.table.table-bordered
+          %tr
+            %td.spacing-first-col= t('.total_boys')
+            %td= @community.community_members.sum(:kid_male_count)
+      .col-sm-12.col-md-3
+        %table.table.table-bordered
+          %tr
+            %td.spacing-first-col= t('.total_girls')
+            %td= @community.community_members.sum(:kid_female_count)
+      .col-sm-12.col-md-3
+        %table.table.table-bordered
+          %tr
+            %td.spacing-first-col= t('.total_male')
+            %td= @community.community_members.sum(:adule_male_count)
+      .col-sm-12.col-md-3
+        %table.table.table-bordered
+          %tr
+            %td.spacing-first-col= t('.total_female')
+            %td= @community.community_members.sum(:adule_female_count)
+
+    .row.family-summary
+      .col-sm-12
+        %table.table.table-bordered
+          %tr
+            %td.spacing-first-col
+              = Community.human_attribute_name(:representative_name)
+            %td
+              %strong
+                = @community.representative_name
+          %tr
+            %td.spacing-first-col
+              = Community.human_attribute_name(:gender)
+            %td
+              %strong
+                - if @community.gender?
+                  = t("enumerize.defaults.gender.#{@community.gender&.gsub('other', 'other_gender')}")
+          %tr
+            %td.spacing-first-col
+              = Community.human_attribute_name(:formed_date)
+            %td
+              %strong
+                = date_format @community.formed_date
+          %tr
+            %td.spacing-first-col
+              = Community.human_attribute_name(:role)
+            %td
+              %strong
+                = @community.role
+          %tr
+            %td.spacing-first-col
+              = Community.human_attribute_name(:phone_number)
+            %td
+              %strong
+                = @community.phone_number
+          %tr
+            %td.spacing-first-col
+              = t('.address')
+            %td
+              %strong
+                = merged_address_community(@community)
+          %tr
+            %td.spacing-first-col
+              = t('.referral_source_category')
+            %td
+              %strong
+                = referral_source_category(@community.referral_source_category_id)
+          %tr
+            %td.spacing-first-col
+              = t('.referral_source')
+            %td
+              %strong
+                = @community.referral_source&.name
+          %tr
+            %td.spacing-first-col
+              = Community.human_attribute_name(:received_by_id)
+            %td
+              %strong
+                = @community.received_by&.name
+                = user @community.received_by, true
+
+          %tr
+            %td.spacing-first-col
+              = Community.human_attribute_name(:case_worker_ids)
+            %td
+              %strong
+                - @community.case_workers.distinct.sort.each do |case_worker|
+                  %strong.label.label-default
+                    = user case_worker
+          %tr
+            %td.spacing-first-col
+              = Community.human_attribute_name(:initial_referral_date)
+            %td
+              %strong
+                = date_format(@community.initial_referral_date)
+          %tr
+            %td.spacing-first-col
+              = Community.human_attribute_name(:relevant_information)
+            %td
+              %strong
+                = @community.relevant_information
+          %tr
+            %td.spacing-first-col
+              = Community.human_attribute_name(:donor_ids)
+            %td
+              %strong
+                - @community.donors.distinct.each do|donor|
+                  %strong.label.label-default.donor
+                    = donor.name
+          - if @community.documents.any?
+            - @community.documents.each_with_index do |attachment, index|
+              %tr
+                %td.spacing-first-col
+                  - if index == 0
+                    = Community.human_attribute_name(:documents)
+                %td
+                  = original_filename(attachment)
+                  = link_to preview_or_download(attachment), attachment.url, class: 'btn btn-info btn-sm btn-download', target: target_blank(attachment)
+
+          - @community.viewable_quantitative_cases.group_by(&:quantitative_type).each do |qtypes|
+            - next unless quantitative_type_readable?(qtypes.first.id)
+            %tr
+              %td.align-justify.spacing-first-col
+                = qtypes.first.name
+              %td.align-justify
+                - qtypes.last.each do |qcase|
+                  %strong.label.label-default
+                    = qcase.value
+
+    - if @community.community_members.present?
+      .row.family-summary
+        .col-sm-12
+          %table.table.table-bordered
+            %thead
+              %th= t('activerecord.attributes.community_member.name')
+              %th= t('activerecord.attributes.community_member.gender')
+              %th= t('activerecord.attributes.community_member.role')
+              %th= t('activerecord.attributes.community_member.adule_male_count')
+              %th= t('activerecord.attributes.community_member.adule_female_count')
+              %th= t('activerecord.attributes.community_member.kid_male_count')
+              %th= t('activerecord.attributes.community_member.kid_female_count')
+
+            %tbody
+            - @community.community_members.each do |member|
+              %tr
+                %td= member.name
+                %td
+                  - if member.gender?
+                    = t("enumerize.defaults.gender.#{member.gender&.gsub('other', 'other_gender')}")
+                %td= member.role
+                %td= member.adule_male_count
+                %td= member.adule_female_count
+                %td= member.kid_male_count
+                %td= member.kid_female_count

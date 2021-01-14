@@ -130,6 +130,8 @@
 //= require referral_sources/index
 //= require client_books/index
 //= require calls/form
+//= require communities/form
+//= require quantitative_types/index
 //= require calls/index
 //= require referees/index
 //= require field_settings/index

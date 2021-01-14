@@ -57,6 +57,7 @@ class Client < ActiveRecord::Base
   belongs_to :concern_village,  class_name: 'Village',  foreign_key: 'concern_village_id'
   belongs_to :global_identity,  class_name: 'GlobalIdentity', foreign_key: 'global_id', primary_key: :ulid
 
+  has_many :family_members, dependent: :destroy
   has_many :hotlines, dependent: :destroy
   has_many :calls, through: :hotlines
   has_many :sponsors, dependent: :destroy
@@ -110,7 +111,9 @@ class Client < ActiveRecord::Base
   before_update :disconnect_client_user_relation, if: :exiting_ngo?
   after_create :set_slug_as_alias, :save_client_global_organization, :save_external_system_global
   after_save :create_client_history, :mark_referral_as_saved, :create_or_update_shared_client
+
   after_commit :remove_family_from_case_worker
+  after_commit :update_related_family_members, on: :update
 
   scope :given_name_like,                          ->(value) { where('clients.given_name iLIKE :value OR clients.local_given_name iLIKE :value', { value: "%#{value.squish}%"}) }
   scope :family_name_like,                         ->(value) { where('clients.family_name iLIKE :value OR clients.local_family_name iLIKE :value', { value: "%#{value.squish}%"}) }
@@ -498,6 +501,16 @@ class Client < ActiveRecord::Base
     ].select(&:present?).join(', ')
   end
 
+  def to_select2
+    [
+      name, id, { data: {
+          date_of_birth: date_of_birth,
+          gender: gender
+        }
+      }
+    ]
+  end
+
   def time_in_cps
     date_time_in_cps   = { years: 0, months: 0, weeks: 0, days: 0 }
     return nil unless client_enrollments.present?
@@ -725,6 +738,12 @@ class Client < ActiveRecord::Base
   end
 
   private
+
+  def update_related_family_members
+    # family_members.each do |family_member|
+    #   FamilyMember.delay.update_family_relevant_data(family_member.id)
+    # end
+  end
 
   def create_client_history
     ClientHistory.initial(self)

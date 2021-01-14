@@ -1,6 +1,7 @@
 class FamilyMember < ActiveRecord::Base
   extend Enumerize
   belongs_to :family
+  belongs_to :client
 
   has_paper_trail
 
@@ -10,15 +11,30 @@ class FamilyMember < ActiveRecord::Base
 
   enumerize :gender, in: ['female', 'male', 'lgbt', 'unknown', 'prefer_not_to_say', 'other'], scope: true, predicates: { prefix: true }
 
-  after_commit :save_aggregation_data, on: [:create, :update], if: :brc?
+  after_commit :save_client_data
+  after_commit :save_aggregation_data, on: [:create, :update]
+
+  def self.update_client_relevant_data(family_member_id)
+    find(family_member_id).save_client_data
+  end
+
+  def is_client
+    client_id?
+  end
+
+  def save_client_data
+    if client.present?
+      update_columns(
+        adult_name: client.name,
+        gender: client.gender,
+        date_of_birth: client.date_of_birth
+      )
+    end
+  end
 
   private
 
   def save_aggregation_data
     family&.save_aggregation_data
-  end
-
-  def brc?
-    Organization.current&.short_name == 'brc'
   end
 end

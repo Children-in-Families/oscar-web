@@ -105,9 +105,71 @@ my:
         name: မူလတန်းစောင့်ရှောက်သူအမည်အား
         phone: မူလတန်းအုပ်ထိန်းဖုန်းနံပါတ်ကို
         carer_information: Carer Information?
-      family_member:
-        adult_name: Name of Adult Member
+      community:
+        case_worker_ids: Case Worker/Staff Assigned
+        commune_id: Commune/Sangkat
+        contract_date: Family Contract Date
+        district_id: District/Khan
+        documents: Upload Documents
+        donor_ids: Donor
+        formed_date: Date of Group/Community Formed
         gender: Gender
+        id: Automatic ID
+        initial_referral_date: Date of Referral
+        name: Name (Khmer)
+        name_en: Name (Latin)
+        phone_number: Phone Number
+        province_id: Province
+        received_by_id: Receiving Staff Member
+        relevant_information: Relevant Information
+        representative_name: Represetative Name
+        role: Role in the Group/Community
+        village_id: Village
+        'yes': 'Yes'
+      community_member:
+        adule_female_count: Total Household Adult Females
+        adule_male_count: Total Household Adult Males
+        kid_female_count: Total Household Girls
+        kid_male_count: Total Household Boys
+        gender: Gender
+        is_family: Family?
+        name: Name
+        role: Role
+      family:
+        id: Automatic ID
+        id_poor: Has ID Poor?
+        case_worker_ids: Case Worker/Staff Assigned
+        code: Manual ID
+        commune_id: Commune/Sangkat
+        community_ids: Community/Group
+        contract_date: Family Contract Date
+        custom_forms: Custom Forms
+        dependable_income: Dependable Income
+        district_id: District/Khan
+        donor_ids: Donor
+        family_type: Family Type
+        followed_up_by_id: First Follow Up By
+        follow_up_date: First Follow Up Date
+        house: House Number
+        id: ID
+        initial_referral_date: Date of Referral
+        name: Head Household Name (Khmer)
+        name_en: Head Household Name (Latin)
+        province_id: Province
+        received_by_id: Received by Staff Member
+        referee_phone_number: Referee Phone Number
+        street: Street Number
+        village_id: Village
+        'yes': 'Yes'
+      family_member:
+        adult_name: Name
+        gender: Gender
+        guardian: Guardian
+        date_of_birth: Date of Birth
+        is_client: Client?
+        monthly_income: Monthly Income (USD)
+        occupation: Occupation
+        relation: Role in Family
       referee:
         referee_address: Address
     default:
@@ -2115,6 +2177,70 @@ my:
     version:
       back: ေနာက္သို႔
       modification_of: "၏ ေျပာင္းလဲမႈမွတ္တမ္း"
+  communities:
+    actions:
+      are_you_sure: Are you sure you want to delete?
+    create:
+      successfully_created: Community has been successfully created.
+    destroy:
+      alert: Community cannot be deleted.
+      successfully_deleted: Community has been successfully deleted.
+    edit:
+      edit_community_title: Edit Community
+    community_member_fields:
+      remove_member: Remove Member
+    form:
+      add_new_member: Add New Member
+      address: Address
+      commune: Commune
+      district: District
+      new_community_title: Add New Community
+      province: Province
+      step_1_title: Basic Group/Community Information
+      step_11_title: Administrative Information
+      step_12_title: Group/Community Information
+      step_2_title: Group/Community Member Information
+      step_21_title: Member Information
+      step_3_title: Additional Information
+      street: Street
+      village: Village
+      family_members:
+        'no': 'No'
+        'yes': 'Yes'
+    index:
+      add_new_community: Add New Community
+      export_xls: Export to XLS
+      results: Results Export to XLS
+      report_builder: Report Builder
+      results: Results
+    new:
+      new_community_title: New Community
+    show:
+      address: Address
+      all_beneficiaries: To Count All Beneficiaries (direct members and their household members)
+      are_you_sure: Are you sure you want to delete?
+      created_by: Created by
+      current_province: Current Province
+      direct_participants: Direct Participants of the Group/Community
+      female_count: Number of Member Females
+      general_info: About Community
+      male_count: Number of Member Males
+      member_count: Number of Members
+      read_less: read less
+      read_more: read more
+      referral_source: Referral Source
+      referral_source_category: Referral Source Category
+      total_boys: Total Boys
+      total_female: Total Adult Females
+      total_girls: Total Girls
+      total_male: Total Adult Males
+      'yes': 'Yes'
+    update:
+      not_allowed_to_detach_clients: You're not allowed to detach clients from the family through this form!
+      successfully_updated: Family has been successfully updated.
+    version:
+      back: Back
+      modification_of: Changelog of
   created_by: တည်ထောင်ထားတဲ့
   custom_field_properties:
     attachment:
@@ -3707,6 +3833,12 @@ my:
       province: ခ႐ိုင္
       significant_family_member_count: ႀကီးမားေသာမိသားစုအေရအတြက္
       status: အေျခအေန
+      step_1_title: Basic Family Information
+      step_11_title: Administrative Information
+      step_12_title: Family Information
+      step_2_title: Family Member Information
+      step_21_title: Family Members
+      step_3_title: Additional Information
       street: လမ္း
       village: ေက်းရြာ
       'yes': မွန္ပါသည္
@@ -3729,6 +3861,8 @@ my:
       case_history: အမႈသမုိင္း
       code: မိသားစုမွတ္ပံုတင္
       contract_date: စာခ်ဳပ္ရက္စြဲ
+      created_by: Created by
+      current_province: ခ႐ိုင္
       date_of_birth: မွေးရက်
       dependable_income: မွီခိုႏုိင္ေလာက္ေသာ ၀င္ေငြ
       family_type: မိသားစုအမ်ိဳးအစား
@@ -4303,6 +4437,8 @@ my:
       client_forms: Client Forms
       country: ႏုိင္ငံ
       csi_tools: ရရှိနိုင်အကဲဖြတ်
+      communities: Community/Group
+      community: Community
       custom_fields: ပံုစံထုတ္စက္
       custom_labels: Custom Labels
       dashboards: ဒက္ရွ္ဘုတ္မ်ား
@@ -4316,6 +4452,7 @@ my:
       edit_profile: ပ႐ိုဖုိင္ ျပင္ဆင္ရန္
       en: အဂၤလိပ္
       families: မိသားစုမ်ား
+      family_form: Family Form
       interventions: ၾကား၀င္ေဆာင္ရြက္မႈမ်ား
       km: ကေမာၻဒီးယားဘာသာစကား
       locations: ေနရာမ်ား
@@ -5169,6 +5306,9 @@ my:
       switched_country_thailand: သင္၏ ႏုိင္ငံအျပင္အဆင္ကို ထုိင္းႏုိင္ငံအျဖစ္ ေျပာင္းၿပီးပါၿပီ။
     create:
       successfully_created: အောင်မြင်စွာဖန်တီး
+    community:
+      title: Communities
+      hide_community: Hide Communities
     custom_assessment_setting_fields:
       are_you_sure: Are you sure want to remove this assessment?
     custom_labels:
@@ -5192,6 +5332,9 @@ my:
       default_columns: ပုံမှန်ကော်လံများ
       family_default_columns: မိသားစု
       partner_default_columns: လက္တြဲေဖာ္
+    family_case_management:
+      family_case_management: Family Case Management
+      hide_family_case_management_tool: Hide Administrative Information and Case Management tools
     index:
       csi_tools: ရရှိနိုင်အကဲဖြတ်
       custom_assessment: နာမတျောကို

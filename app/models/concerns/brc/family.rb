@@ -2,7 +2,7 @@ module Brc::Family
   extend ActiveSupport::Concern
 
   included do
-    after_commit :save_aggregation_data, on: [:create, :update], if: :brc?
+    after_commit :save_aggregation_data, on: [:create, :update]
   end
 
   def save_aggregation_data
