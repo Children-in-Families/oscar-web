@@ -69,7 +69,7 @@ class FamilyGrid < BaseGrid
     end
   end
 
-  filter(:significant_family_member_count, :integer, range: true, header: -> { I18n.t('datagrid.columns.families.significant_family_member_count') })
+  filter(:significant_family_member_count, :integer, range: true, header: -> { I18n.t('families.show.member_count') })
 
   filter(:female_children_count, :integer, range: true, header: -> { I18n.t('datagrid.columns.families.female_children_count') })
 
@@ -274,7 +274,7 @@ class FamilyGrid < BaseGrid
     render partial: 'families/case_workers', locals: { object: object.children }
   end
 
-  column(:significant_family_member_count, header: -> { I18n.t('datagrid.columns.families.significant_family_member_count') })
+  column(:significant_family_member_count, header: -> { I18n.t('families.show.families.member_count') })
   column(:female_children_count, header: -> { I18n.t('datagrid.columns.families.female_children_count') })
   column(:male_children_count, header: -> { I18n.t('datagrid.columns.families.male_children_count') })
   column(:female_adult_count, header: -> { I18n.t('datagrid.columns.families.female_adult_count') })

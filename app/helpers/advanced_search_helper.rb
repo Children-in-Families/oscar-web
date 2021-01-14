@@ -192,7 +192,7 @@ module AdvancedSearchHelper
       date_of_birth:                            I18n.t('datagrid.columns.families.date_of_birth'),
       case_history:                             I18n.t('datagrid.columns.families.case_history'),
       address:                                  I18n.t('datagrid.columns.families.address'),
-      significant_family_member_count:          I18n.t('datagrid.columns.families.significant_family_member_count'),
+      significant_family_member_count:          I18n.t('families.show.member_count'),
       male_children_count:                      I18n.t('datagrid.columns.families.male_children_count'),
       province_id:                              I18n.t('datagrid.columns.families.province'),
       district_id:                              I18n.t('datagrid.columns.families.district'),

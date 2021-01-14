@@ -61,7 +61,7 @@ module FamiliesHelper
       date_of_birth:                            t('datagrid.columns.families.date_of_birth'),
       case_history:                             t('datagrid.columns.families.case_history'),
       address:                                  t('datagrid.columns.families.address'),
-      significant_family_member_count:          t('datagrid.columns.families.significant_family_member_count'),
+      significant_family_member_count:          t('families.show.member_count'),
       male_children_count:                      t('datagrid.columns.families.male_children_count'),
       province_id:                              t('datagrid.columns.families.province'),
       district_id:                              t('datagrid.columns.families.district'),
@@ -125,7 +125,7 @@ module FamiliesHelper
       manage_:                                   t('datagrid.columns.families.manage'),
       member_count_:                             t('datagrid.columns.families.member_count'),
       name_:                                     t('datagrid.columns.families.name'),
-      significant_family_member_count_:          t('datagrid.columns.families.significant_family_member_count')
+      significant_family_member_count_:          t('families.show.member_count')
     }
     label_tag "#{column}_", label_column[column.to_sym]
   end
