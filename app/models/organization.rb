@@ -21,6 +21,8 @@ class Organization < ActiveRecord::Base
   scope :skip_dup_checking_orgs, -> { where(short_name: ['demo', 'cwd', 'myan', 'rok', 'my']) }
   scope :only_integrated, -> { where(integrated: true) }
 
+  before_save :clean_supported_languages
+
   validates :full_name, :short_name, presence: true
   validates :short_name, uniqueness: { case_sensitive: false }
 

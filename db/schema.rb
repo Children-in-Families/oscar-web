@@ -679,9 +679,9 @@ ActiveRecord::Schema.define(version: 20201224082044) do
     t.string   "other_agency_name"
     t.string   "other_representative_name"
     t.string   "other_agency_phone"
-    t.string   "locality"
     t.string   "national_id_number"
     t.string   "passport_number"
+    t.string   "locality"
   end
 
   add_index "clients", ["commune_id"], name: "index_clients_on_commune_id", using: :btree
@@ -934,6 +934,8 @@ ActiveRecord::Schema.define(version: 20201224082044) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "deleted_at"
+    t.integer  "acceptable_id"
+    t.string   "acceptable_type"
   end
 
   add_index "enter_ngos", ["client_id"], name: "index_enter_ngos_on_client_id", using: :btree
@@ -949,6 +951,8 @@ ActiveRecord::Schema.define(version: 20201224082044) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "deleted_at"
+    t.integer  "rejectable_id"
+    t.string   "rejectable_type"
   end
 
   add_index "exit_ngos", ["client_id"], name: "index_exit_ngos_on_client_id", using: :btree
@@ -1684,6 +1688,7 @@ ActiveRecord::Schema.define(version: 20201224082044) do
     t.integer  "township_id"
     t.integer  "subdistrict_id"
     t.string   "locality"
+    t.string   "referee_email"
   end
 
   add_index "referees", ["commune_id"], name: "index_referees_on_commune_id", using: :btree
@@ -1914,6 +1919,10 @@ ActiveRecord::Schema.define(version: 20201224082044) do
   add_index "tasks", ["client_id"], name: "index_tasks_on_client_id", using: :btree
   add_index "tasks", ["deleted_at"], name: "index_tasks_on_deleted_at", using: :btree
   add_index "tasks", ["taskable_type", "taskable_id"], name: "index_tasks_on_taskable_type_and_taskable_id", using: :btree
+
+  create_table "test_tables", force: :cascade do |t|
+    t.string "test"
+  end
 
   create_table "thredded_categories", force: :cascade do |t|
     t.integer  "messageboard_id",             null: false

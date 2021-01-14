@@ -1,0 +1,30 @@
+.row
+  .col-xs-12
+    .ibox
+      .ibox-title
+        %h5= "#{@programmable.name} - #{t('.enrollment_date')} #{date_format(@enrollment.enrollment_date)}"
+        .ibox-tools
+          - if can? :manage, Enrollment
+            = enrollment_edit_link
+            = enrollment_destroy_link
+            - if params[:family_id]
+              = link_to t('.back'), report_family_enrollments_path(@programmable, program_stream_id: @program_stream), class: 'btn btn-back-default btn-default min-width-btn margin-btn'
+      .ibox-content
+        .table-responsive
+          %table.table.table-bordered
+            - @program_stream.enrollment.map{|properties| [properties['type'], properties['label']]}.each do |type, key|
+              - unless type == 'separateLine'
+                - if type == 'paragraph'
+                  %tr
+                    %td.align-justify{colspan: '2'}
+                      = key.html_safe
+                - else
+                  %tr
+                    %td.align-justify
+                      = key.html_safe
+                    %td.align-justify
+                      - key = convert_bracket(key)
+                      - if type == 'file'
+                        = render 'shared/form_builder/list_attachment', label: key, resource: @enrollment
+                      - else
+                        = display_custom_properties(@enrollment.properties[key])

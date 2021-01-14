@@ -382,10 +382,17 @@ module ApplicationHelper
     if controller_name == 'clients'
       ExternalSystem.all.each.map{ |external_system| ngos << [external_system.name, "external referral"] }
       ngos << ["I don't see the NGO I'm looking for...", "external referral"]
+    elsif controller_name == 'family_referrals'
+      ngos << ["MoSVY External System", "MoSVY External System"]
+      ngos << ["I don't see the NGO I'm looking for...", "external referral", disabled: @referral&.referred_to != 'external referral']
     else
       ngos << ["MoSVY External System", "MoSVY External System", disabled: @referral&.referred_to != 'external referral']
       ngos << ["I don't see the NGO I'm looking for...", "external referral", disabled: @referral&.referred_to != 'external referral']
     end
     ngos
+  end
+
+  def initial_referral_date_picker_format(entity)
+    "#{entity.initial_referral_date&.year}, #{entity.initial_referral_date&.month}, #{entity.initial_referral_date&.day}"
   end
 end

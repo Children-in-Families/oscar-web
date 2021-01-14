@@ -1,0 +1,3 @@
+- if params[:family_id]
+  %div{ class: "#{program_stream.enrollment_status_label(@programmable, 'Family')}"}
+    = program_stream.enrollment_status_value(@programmable, 'Family')

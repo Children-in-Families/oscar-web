@@ -3,13 +3,13 @@ module ClientEnrollmentTrackingConcern
   included do
     validate do |obj|
       case obj.class.name
-      when 'ClientEnrollment'
+      when 'ClientEnrollment', 'Enrollment'
         object_parameter(obj, 'program_stream', 'enrollment')
       when 'LeaveProgram'
         object_parameter(obj, 'program_stream', 'exit_program')
       when 'CustomFieldProperty'
         object_parameter(obj, 'custom_field', 'fields')
-      when 'ClientEnrollmentTracking'
+      when 'ClientEnrollmentTracking', 'EnrollmentTracking'
         object_parameter(obj, 'tracking', 'fields')
       end
     end
