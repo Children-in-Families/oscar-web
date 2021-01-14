@@ -150,16 +150,16 @@ class Families::CaseNotesController < ::AdminController
     @domain_groups = []
     if params[:action].in? ['edit', 'update']
       if @case_note.domain_groups.present?
-        @domain_groups = @case_note.domain_groups
+        @domain_groups = @case_note.domain_groups.distinct_by_family_domains
       else
-        @domain_groups = DomainGroup.joins(:domains).where(id: @case_note.selected_domain_group_ids)
+        @domain_groups = DomainGroup.joins(:domains).where(domains: { id: Domain.family_custom_csi_domains.ids }).where(id: @case_note.selected_domain_group_ids)
       end
     else
       domain_group_ids = Domain.family_custom_csi_domains.pluck(:domain_group_id).uniq
       @domain_groups = DomainGroup.where(id: domain_group_ids)
     end
 
-    case_note_domain_groups = CaseNoteDomainGroup.where(case_note: @case_note, domain_group: @domain_groups)
+    case_note_domain_groups = CaseNoteDomainGroup.where(case_note: @case_note, domain_group_id: @domain_groups.map(&:id))
     @case_note_domain_group_note = case_note_domain_groups.where.not(note: '').map do |cndg|
       group_name = cndg.domains(@case_note).map(&:identity).join(', ')
       "#{group_name}\n#{cndg.note}"

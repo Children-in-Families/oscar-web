@@ -118,6 +118,10 @@ class Assessment < ActiveRecord::Base
     Assessment.order(:created_at).where(client_id: client_id).pluck(:id).index(id)
   end
 
+  def parent
+    family_id? ? family : client
+  end
+
   private
 
   def allow_create
@@ -132,9 +136,9 @@ class Assessment < ActiveRecord::Base
   def set_previous_score
     if new_record? && !initial?
       if default?
-        previous_assessment = client.assessments.defaults.latest_record
+        previous_assessment = parent.assessments.defaults.latest_record
       else
-        previous_assessment = client.assessments.customs.latest_record
+        previous_assessment = parent.assessments.customs.latest_record
       end
       previous_assessment.assessment_domains.each do |previous_assessment_domain|
         assessment_domains.each do |assessment_domain|
