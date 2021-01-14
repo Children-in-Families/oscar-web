@@ -9,6 +9,7 @@ class DomainGroup < ActiveRecord::Base
   validates :name, presence: true, uniqueness: { case_sensitive: false }
 
   default_scope { order(:id, :name) }
+  scope :distinct_by_family_domains, -> { joins(:domains).where(domains: { id: Domain.family_custom_csi_domains.ids }).select("DISTINCT ON (domain_groups.id) domains.domain_group_id, domain_groups.*").order("domain_group_id") }
 
   def default_domain_identities(custom_assessment_setting_id=nil)
     identities = Organization.current.try(:aht) == true ? "dimensions.dimension_identies" : "domains.domain_identies"
