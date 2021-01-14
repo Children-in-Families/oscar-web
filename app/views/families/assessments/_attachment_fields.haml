@@ -14,13 +14,13 @@
 
                 - unless readonly
                   %td.vert-align.text-center
-                    .delete.fa.fa-trash.btn.btn-outline.btn-danger{ data: { url: (family_assessment_path(@assessment.family, @assessment, assessment_domain: ad.object, file_index: index)), comfirm: t('.are_you_sure') }}
+                    .delete.fa.fa-trash.btn.btn-outline.btn-danger{ data: { url: (family_assessment_path(@assessment.family, @assessment, assessment_domain: ad.object, file_index: index)), comfirm: t('assessments.attachment_fields.are_you_sure') }}
 
 - unless readonly
   .row
     .col-xs-12
-      = ad.input :attachments, label: t('.attachments'), as: :file, input_html: { multiple: true }
+      = ad.input :attachments, label: t('assessments.attachment_fields.attachments'), as: :file, input_html: { multiple: true }
   %p
-    %i.small="#{t('.allow_file_size')} (.jpg, .jpeg, .png, .doc, .docx, .xls, .xlsx, .pdf)"
+    %i.small="#{t('assessments.attachment_fields.allow_file_size')} (.jpg, .jpeg, .png, .doc, .docx, .xls, .xlsx, .pdf)"
   %p
-    %i.small= t('.max_file_size')
+    %i.small= t('assessments.attachment_fields.max_file_size')
