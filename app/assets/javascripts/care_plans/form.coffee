@@ -4,13 +4,13 @@ CIF.Care_plansNew = CIF.Care_plansEdit = CIF.Care_plansCreate = CIF.Care_plansUp
 
     for form in forms
       _loadSteps($(form))
-    
+
     _translatePagination()
     _initDatePicker()
     _initGoalTask()
     _initDatePickerOnTaskClick()
     _saveCarePlan(form)
-  
+
   _initDatePicker = ->
     $('.date-picker').datepicker
       autoclose: true,
@@ -50,7 +50,7 @@ CIF.Care_plansNew = CIF.Care_plansEdit = CIF.Care_plansCreate = CIF.Care_plansUp
       titleTemplate: 'Domain #title#'
       labels:
         finish: 'Done'
-      
+
       onInit: (event, currentIndex) ->
         currentTab  = "#{rootId}-p-#{currentIndex}"
         isGoalTaskRequired = $("#{currentTab}").find('.score-color').text()
@@ -73,13 +73,13 @@ CIF.Care_plansNew = CIF.Care_plansEdit = CIF.Care_plansCreate = CIF.Care_plansUp
           $("#{rootId} a[href='#save']").hide()
         else
           $("#{rootId} a[href='#save']").show()
-      
+
       onFinished: ->
         btnSaving = $(rootId).data('saving')
         $('a[href="#finish"]').addClass('btn disabled').css('font-size', '96%').text(btnSaving)
         $('.actions a:contains("Done")').removeAttr('href')
         form.submit()
-  
+
   _initGoalTask = ->
     $('#care_plans-new .btn-add-goal').click()
     $('#care_plans-new .btn-add-task').click()
@@ -98,8 +98,9 @@ CIF.Care_plansNew = CIF.Care_plansEdit = CIF.Care_plansCreate = CIF.Care_plansUp
       setTimeout (->
         _initDatePicker()
       ), 400
-  
+
   _requiredGoalTask = (currentIndex, currentTab) ->
+    return unless $("#{currentTab}").find('.goal-input-field').length
     goalValue = $("#{currentTab}").find('.goal-input-field')[0].value
     taskValue = $("#{currentTab}").find('.task-input-field')[0].value
     taskDateValue =  $("#{currentTab}").find('.task-date-field')[0].value
