@@ -6,6 +6,9 @@ class FamilyColumnsVisibility
 
   def columns_collection
     {
+      all_custom_csi_assessments_: :all_custom_csi_assessments,
+      assessment_completed_date_: :assessment_completed_date,
+      date_of_custom_assessments_: :date_of_custom_assessments,
       name_: :name,
       code_: :code,
       id_: :id,

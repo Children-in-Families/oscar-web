@@ -154,7 +154,8 @@ class FamilyGrid < BaseGrid
   column(:gender, html: true, header: -> { I18n.t('activerecord.attributes.family_member.gender') }) do |object|
     content_tag :ul, class: '' do
       object.family_members.map(&:gender).each do |gender|
-        concat(content_tag(:li, gender&.titleize))
+        next unless gender
+        concat(content_tag(:li, I18n.t("datagrid.columns.families.gender_list.#{gender.gsub('other', 'other_gender')}")))
       end
     end
   end
@@ -268,7 +269,7 @@ class FamilyGrid < BaseGrid
 
   dynamic do
     if !Setting.first.hide_family_case_management_tool?
-      column(:all_custom_csi_assessments, header: -> { I18n.t('datagrid.columns.clients.all_custom_csi_assessments') }, html: true) do |object|
+      column(:all_custom_csi_assessments, header: -> { I18n.t('datagrid.columns.all_custom_csi_assessments', assessment: t('families.show.assessment')) }, html: true) do |object|
         render partial: 'families/all_csi_assessments', locals: { object: object.assessments.customs }
       end
 
@@ -280,6 +281,29 @@ class FamilyGrid < BaseGrid
         end
       end
     end
+  end
+
+  column(:assessment_completed_date, header: -> { I18n.t('datagrid.columns.assessment_completed_date', assessment: I18n.t('families.show.assessment')) }, html: true) do |object|
+    if $param_rules && false
+      basic_rules = $param_rules['basic_rules']
+      basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
+      results = mapping_assessment_query_rules(basic_rules).reject(&:blank?)
+      assessment_completed_sql, assessment_number = assessment_filter_values(results)
+      sql = "(assessments.completed = true)".squish
+      if assessment_number.present? && assessment_completed_sql.present?
+        assessments = object.assessments.where(sql).limit(1).offset(assessment_number - 1).order('created_at')
+      elsif assessment_completed_sql.present?
+        sql = assessment_completed_sql[/assessments\.created_at.*/]
+        assessments = object.assessments.completed.where(sql).order('created_at')
+      end
+    else
+      assessments = object.assessments.completed.order('created_at')
+    end
+    render partial: 'families/assessments', locals: { object: assessments }
+  end
+
+  column(:date_of_custom_assessments, header: -> { I18n.t('datagrid.columns.date_of_custom_assessments', assessment: I18n.t('families.show.assessment')) }, html: true) do |object|
+    render partial: 'families/assessments', locals: { object: object.assessments.customs }
   end
 
   dynamic do
