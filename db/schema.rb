@@ -105,9 +105,8 @@ ActiveRecord::Schema.define(version: 20210111031945) do
 
   create_table "ar_internal_metadata", primary_key: "key", force: :cascade do |t|
     t.string   "value"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.integer  "environment"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "assessment_domains", force: :cascade do |t|
@@ -1783,6 +1782,7 @@ ActiveRecord::Schema.define(version: 20210111031945) do
     t.integer  "township_id"
     t.integer  "subdistrict_id"
     t.string   "locality"
+    t.string   "referee_email"
   end
 
   add_index "referees", ["commune_id"], name: "index_referees_on_commune_id", using: :btree
@@ -2034,24 +2034,22 @@ ActiveRecord::Schema.define(version: 20210111031945) do
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer  "position",   null: false
   end
 
-  add_index "thredded_messageboard_groups", ["name"], name: "index_thredded_messageboard_group_on_name", unique: true, using: :btree
-
   create_table "thredded_messageboards", force: :cascade do |t|
-    t.string   "name",                  limit: 191,             null: false
+    t.string   "name",                  limit: 255,                 null: false
     t.string   "slug",                  limit: 191
     t.text     "description"
     t.integer  "topics_count",                      default: 0
     t.integer  "posts_count",                       default: 0
+    t.boolean  "closed",                            default: false, null: false
     t.integer  "last_topic_id"
     t.integer  "messageboard_group_id"
-    t.datetime "created_at",                                    null: false
-    t.datetime "updated_at",                                    null: false
-    t.integer  "position",                                      null: false
+    t.datetime "created_at",                                        null: false
+    t.datetime "updated_at",                                        null: false
   end
 
+  add_index "thredded_messageboards", ["closed"], name: "index_thredded_messageboards_on_closed", using: :btree
   add_index "thredded_messageboards", ["messageboard_group_id"], name: "index_thredded_messageboards_on_messageboard_group_id", using: :btree
   add_index "thredded_messageboards", ["slug"], name: "index_thredded_messageboards_on_slug", using: :btree
 
@@ -2114,7 +2112,6 @@ ActiveRecord::Schema.define(version: 20210111031945) do
     t.string   "hash_id",      limit: 191,             null: false
     t.datetime "created_at",                           null: false
     t.datetime "updated_at",                           null: false
-    t.datetime "last_post_at"
   end
 
   add_index "thredded_private_topics", ["hash_id"], name: "index_thredded_private_topics_on_hash_id", using: :btree
@@ -2152,7 +2149,6 @@ ActiveRecord::Schema.define(version: 20210111031945) do
     t.integer  "moderation_state",                             null: false
     t.datetime "created_at",                                   null: false
     t.datetime "updated_at",                                   null: false
-    t.datetime "last_post_at"
   end
 
   add_index "thredded_topics", ["hash_id"], name: "index_thredded_topics_on_hash_id", using: :btree
@@ -2178,23 +2174,21 @@ ActiveRecord::Schema.define(version: 20210111031945) do
   add_index "thredded_user_details", ["user_id"], name: "index_thredded_user_details_on_user_id", using: :btree
 
   create_table "thredded_user_messageboard_preferences", force: :cascade do |t|
-    t.integer  "user_id",                                 null: false
-    t.integer  "messageboard_id",                         null: false
-    t.boolean  "follow_topics_on_mention", default: true, null: false
-    t.datetime "created_at",                              null: false
-    t.datetime "updated_at",                              null: false
-    t.boolean  "followed_topic_emails",    default: true, null: false
+    t.integer  "user_id",                          null: false
+    t.integer  "messageboard_id",                  null: false
+    t.boolean  "notify_on_mention", default: true, null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
   end
 
   add_index "thredded_user_messageboard_preferences", ["user_id", "messageboard_id"], name: "thredded_user_messageboard_preferences_user_id_messageboard_id", unique: true, using: :btree
 
   create_table "thredded_user_preferences", force: :cascade do |t|
-    t.integer  "user_id",                                 null: false
-    t.boolean  "follow_topics_on_mention", default: true, null: false
-    t.boolean  "notify_on_message",        default: true, null: false
-    t.datetime "created_at",                              null: false
-    t.datetime "updated_at",                              null: false
-    t.boolean  "followed_topic_emails",    default: true, null: false
+    t.integer  "user_id",                          null: false
+    t.boolean  "notify_on_mention", default: true, null: false
+    t.boolean  "notify_on_message", default: true, null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
   end
 
   add_index "thredded_user_preferences", ["user_id"], name: "index_thredded_user_preferences_on_user_id", using: :btree
@@ -2324,10 +2318,10 @@ ActiveRecord::Schema.define(version: 20210111031945) do
     t.integer  "item_id",        null: false
     t.string   "event",          null: false
     t.string   "whodunnit"
+    t.text     "object"
     t.datetime "created_at"
+    t.text     "object_changes"
     t.integer  "transaction_id"
-    t.jsonb    "object"
-    t.jsonb    "object_changes"
   end
 
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
