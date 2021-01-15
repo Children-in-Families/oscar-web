@@ -15,13 +15,24 @@ module LeaveProgramsConcern
     default_params
   end
 
-  def find_client
-    @client = Client.accessible_by(current_ability).friendly.find params[:client_id]
+  def find_entity
+    if params[:family_id]
+      @entity = Family.includes(enrollments: [:program_stream]).find(params[:family_id])
+    elsif params[:community_id]
+      @entity = Community.includes(enrollments: [:program_stream]).find(params[:community_id])
+    else
+      @entity = Client.accessible_by(current_ability).friendly.find(params[:client_id])
+    end
   end
 
   def find_enrollment
-    enrollment_id = params[:client_enrollment_id] || params[:client_enrolled_program_id]
-    @enrollment = @client.client_enrollments.find enrollment_id
+    client_enrollment_id = params[:client_enrollment_id] || params[:client_enrolled_program_id]
+    enrollment_id        = params[:enrollment_id] || params[:enrolled_program_id]
+    if client_enrollment_id
+      @enrollment = @entity.client_enrollments.find client_enrollment_id
+    elsif enrollment_id
+      @enrollment = @entity.enrollments.find enrollment_id
+    end
   end
 
   def find_program_stream

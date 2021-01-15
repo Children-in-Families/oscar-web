@@ -33,7 +33,7 @@ class Domain < ActiveRecord::Base
     I18n.locale == :en ? description : local_description
   end
 
-  (1..4).each do |number|
+  (1..10).each do |number|
     define_method "translate_score_#{number}_definition" do
       I18n.locale == :en ? send("score_#{number}_definition".to_sym) : send("score_#{number}_local_definition".to_sym)
     end

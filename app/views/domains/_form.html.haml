@@ -21,27 +21,16 @@
             = f.input :custom_assessment_setting_id, collection: @custom_assessment_settings.map{ |ca| [ca.custom_assessment_name, ca.id]}, label: t('.custom_assessment_name'), include_blank: true, input_html: { class: 'select2' }
           - else
             = f.hidden_field :custom_assessment_setting_id
-      .row
-        .col-xs-3
-          = f.input :score_2_color, collection: Domain.domain_score_colors.map{ |ds| [ds[1], ds[0]]}, label: t('.score_2'), include_blank: false, input_html: { class: 'select2' }
-        .col-xs-3
-          = f.input :score_2_definition, label: t('.interpretation')
-        .col-xs-3
-          = f.input :score_2_local_definition, label: "#{t('.interpretation')} (#{country_langauge})"
-      .row
-        .col-xs-3
-          = f.input :score_3_color, collection: Domain.domain_score_colors.map{ |ds| [ds[1], ds[0]]}, label: t('.score_3'), include_blank: false, input_html: { class: 'select2' }
-        .col-xs-3
-          = f.input :score_3_definition, label: t('.interpretation')
-        .col-xs-3
-          = f.input :score_3_local_definition, label: "#{t('.interpretation')} (#{country_langauge})"
-      .row
-        .col-xs-3
-          = f.input :score_4_color, collection: Domain.domain_score_colors.map{ |ds| [ds[1], ds[0]]}, label: t('.score_4'), include_blank: false, input_html: { class: 'select2' }
-        .col-xs-3
-          = f.input :score_4_definition, label: t('.interpretation')
-        .col-xs-3
-          = f.input :score_4_local_definition, label: "#{t('.interpretation')} (#{country_langauge})"
+
+      - (2..10).each do |score|
+        .row
+          .col-xs-3
+            = f.input "score_#{score}_color", collection: Domain.domain_score_colors.map{ |ds| [ds[1], ds[0]]}, label: t(".score_#{score}"), include_blank: false, input_html: { class: 'select2' }
+          .col-xs-3
+            = f.input "score_#{score}_definition", label: t('.interpretation')
+          .col-xs-3
+            = f.input "score_#{score}_local_definition", label: "#{t('.interpretation')} (#{country_langauge})"
+
       %hr
       .row
         .col-xs-12

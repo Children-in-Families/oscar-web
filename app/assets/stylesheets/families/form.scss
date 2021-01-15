@@ -1,7 +1,11 @@
 body[id='families-new'],
 body[id='families-create'],
 body[id='families-edit'],
-body[id='families-update'] {
+body[id='families-update'],
+body[id='communities-new'],
+body[id='communities-create'],
+body[id='communities-edit'],
+body[id='communities-update'] {
   margin-bottom: 50px;
 
   .icheckbox_square-green{
@@ -38,5 +42,108 @@ body[id='families-update'] {
 
   .famliy-street {
     clear: both;
+  }
+
+  #family-wizard-form, #community-wizard-form {
+    .content > .body {
+      width: 100%;
+    }
+
+    section {
+      &.basic-information, &.family-members {
+        padding-top: 0;
+      }
+
+      .sub-title {
+        padding: 15px 0;
+      }
+    }
+
+    .btn-file {
+      margin-bottom: 0;
+    }
+
+    .file.family_documents, .file.community_documents {
+      margin-right: 0;
+    }
+
+    .actions {
+      li:last-child {
+        position: absolute;
+        left: 0;
+      }
+    }
+
+    a[href='#finish'] {
+      background-color: #1AB394;
+    }
+
+    &.wiz-2-steps {
+      ul[role='tablist'] li {
+        width: 50%;
+      }
+    }
+
+    &.wiz-3-steps {
+      ul[role='tablist'] li {
+        width: 33.3%;
+      }
+    }
+
+    label.control-label {
+      text-transform: capitalize;
+    }
+
+    label.error {
+      margin-left: 0;
+      color: red;
+
+      &:not(.control-label) {
+        font-weight: normal;
+      }
+    }
+
+    .pl-0 {
+      padding-left: 0 !important;
+    }
+
+    .pr-0 {
+      padding-right: 0 !important;
+    }
+
+    .family_dependable_income {
+      span.radio {
+        padding-left: 10px;
+        display: inline-block;
+      }
+    }
+
+
+    .select2-choice.error, .select2-choices.error, input.error {
+      border-color: red !important;
+    }
+
+    .i-checks.family_family_members_guardian {
+      position: relative;
+    }
+
+    .position-relative {
+      position: relative;
+    }
+
+    a.remove_fields {
+      position: absolute;
+      right: 10px;
+      top: 0;
+    }
+  }
+}
+
+
+.datepicker {
+  .datepicker-years, .datepicker-months, .datepicker-days {
+    .prev, .next {
+      padding: 5px 15px;
+    }
   }
 }

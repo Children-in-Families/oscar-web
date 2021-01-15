@@ -1,13 +1,8 @@
 class AddGlobalIdToClients < ActiveRecord::Migration
   def up
-    if column_exists?(:clients, :global_id)
-      change_column :clients, :global_id, :string
-    else
-      add_column :clients, :global_id, :string
-    end
-
+    add_column :clients, :global_id, :string unless column_exists?(:clients, :global_id)
+    change_column :clients, :global_id, :string
     add_index :clients, :global_id if !index_exists?(:clients, :global_id)
-
 
     if table_exists?(:global_identity_tmp)
       execute <<-SQL.squish

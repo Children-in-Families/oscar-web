@@ -141,13 +141,34 @@ module FamiliesHelper
     current_address.join(', ')
   end
 
+  def merged_address_community(object)
+    current_address = []
+
+    if I18n.locale.to_s == 'km'
+      current_address << "#{I18n.t('datagrid.columns.families.village')} #{object.village.name_kh}" if object.village.present?
+      current_address << "#{I18n.t('datagrid.columns.families.commune')} #{object.commune.name_kh}" if object.commune.present?
+      current_address << object.district_name.split(' / ').first if object.district.present?
+      current_address << object.province_name.split(' / ').first if object.province.present?
+      current_address << 'កម្ពុជា' if Organization.current.short_name != 'brc'
+
+    else
+      current_address << "#{I18n.t('datagrid.columns.families.village')} #{object.village.name_en}" if object.village.present?
+      current_address << "#{I18n.t('datagrid.columns.families.commune')} #{object.commune.name_en}" if object.commune.present?
+      current_address << object.district_name.split(' / ').last if object.district.present?
+      current_address << object.province_name.split(' / ').last if object.province.present?
+      current_address << 'Cambodia' if Organization.current.short_name != 'brc'
+    end
+
+    current_address.join(', ')
+  end
+
   def drop_down_relation
-    if params[:locale] == 'en'
-      FamilyMember::EN_RELATIONS
-    elsif params[:locale] == 'km'
+    if params[:locale] == 'km'
       FamilyMember::KM_RELATIONS
     elsif params[:locale] == 'my'
       FamilyMember::MY_RELATIONS
+    else
+      FamilyMember::EN_RELATIONS
     end
   end
 
@@ -163,5 +184,52 @@ module FamiliesHelper
 
   def children_exist?
     @results && !@results.zero?
+  end
+
+  def family_exit_circumstance_value
+    @family.status == 'Accepted' ? 'Exited Family' : 'Rejected Referral'
+  end
+
+  def render_case_history_family(case_history, case_history_name)
+    case case_history_name
+    when 'enter_ngos'
+      render 'family/enter_ngos/edit_form', family: @family, enter_ngo: case_history
+    when 'exit_ngos'
+      render 'family/exit_ngos/edit_form', family: @family, exit_ngo: case_history
+    end
+  end
+
+  def family_case_history_links(case_history, case_history_name)
+    case case_history_name
+    when 'enrollments'
+      link_to edit_family_enrollment_path(@family, case_history, program_stream_id: case_history.program_stream_id) do
+        content_tag :div, class: 'btn btn-outline btn-success btn-xs' do
+          fa_icon('pencil')
+        end
+      end
+    when 'leave_programs'
+      enrollment = @family.enrollments.find(case_history.enrollment_id)
+      link_to edit_family_enrollment_leave_program_path(@family, enrollment, case_history) do
+        content_tag :div, class: 'btn btn-outline btn-success btn-xs' do
+          fa_icon('pencil')
+        end
+      end
+    end
+  end
+
+  def family_translate_exit_reasons(reasons)
+    reason_translations = I18n.backend.send(:translations)[:en][:family][:exit_ngos][:edit_form][:exit_reason_options]
+    current_translations = I18n.t('family.exit_ngos.edit_form.exit_reason_options')
+    reasons.map do |reason|
+      current_translations[reason_translations.key(reason)]
+    end.join(', ')
+  end
+
+  def family_order_case_worker(family)
+    family.case_workers.distinct.sort
+  end
+
+  def name_km_en
+    @family.name_en? ? "#{@family.name} - #{@family.name_en}" : "#{@family.name}"
   end
 end

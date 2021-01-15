@@ -661,7 +661,7 @@ class ClientGrid < BaseGrid
   column(:date_of_birth, html: true, header: -> { I18n.t('datagrid.columns.clients.date_of_birth') }) do |object|
     current_org = Organization.current
     Organization.switch_to 'shared'
-    date_of_birth = SharedClient.find_by(slug: object.slug).date_of_birth
+    date_of_birth = SharedClient.find_by(slug: object.slug)&.date_of_birth
     Organization.switch_to current_org.short_name
     date_of_birth.present? ? date_of_birth.strftime("%d %B %Y") : ''
   end
@@ -997,7 +997,7 @@ class ClientGrid < BaseGrid
     render partial: 'clients/referral', locals: { object: object }
   end
 
-  column(:date_of_custom_assessments, header: -> { I18n.t('datagrid.columns.clients.date_of_custom_assessments') }, html: true) do |object|
+  column(:date_of_custom_assessments, header: -> { I18n.t('datagrid.columns.clients.date_of_custom_assessments', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
     render partial: 'clients/assessments', locals: { object: object.assessments.customs }
   end
 

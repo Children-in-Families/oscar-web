@@ -1,0 +1,21 @@
+= simple_form_for([@programmable, @enrollment, @enrollment_tracking], url: enrollment_tracking_form_action, html: { class: 'entity-enrolled-program-tracking' }) do |f|
+  .ibox-content
+    %h3= "#{@programmable.name} - #{@tracking.name} - #{@program_stream.name}"
+    = f.simple_fields_for :properties, OpenStruct.new(@enrollment_tracking.properties) do |prop_f|
+      - @tracking.fields.each do |field|
+        .row
+          .col-xs-12{ class: field['type'] == 'paragraph' ? '' : 'col-md-6' }
+            - field['label'] = convert_bracket(field['label'])
+            - unless field['type'] == 'file'
+              = render "/shared/fields/#{field['type'].underscore}", f: prop_f, field_props: field, errors: @enrollment_tracking.errors.messages, entity: f
+            - else
+              = f.simple_fields_for :form_builder_attachments, @attachments.file_by_name(field['label']) || @attachments.build do |attachment|
+                = render 'shared/form_builder/attachment', f: attachment, property: field, entity: f, resource: @enrollment_tracking
+            .row
+              .col-xs-12
+                #message.text-danger
+  .ibox-footer
+    = hidden_field_tag :tracking_id, @tracking.id
+    = button_tag t('.save'), class: 'btn btn-primary form-btn', data: { disable_with: t('saving') }
+    - if params[:family_id]
+      = link_to t('.cancel'), report_family_enrolled_program_enrolled_program_trackings_path(@programmable, @enrollment, tracking_id: @tracking), class: 'btn btn-default form-btn'

@@ -124,17 +124,19 @@ const Forms = props => {
 
     switch (obj) {
       case 'client':
-        setClientData({...clientData, ...field})
+        setClientData({...clientData, ...field});
         break;
       case 'clientProfile':
-        setClientProfile({ profile: field})
+        setClientProfile({ profile: field});
         break;
       case 'referee':
-        setRefereeData({...refereeData, ...field })
+        setRefereeData({...refereeData, ...field });
         break;
       case 'carer':
-        setCarerData({...carerData, ...field })
+        setCarerData({...carerData, ...field });
         break;
+      default:
+        console.log('not match');
     }
   }
 
@@ -412,7 +414,6 @@ const Forms = props => {
           else
             return <Address hintText={inlineHelpTranslation} disabled={disabled} outside={objectData.outside || false} onChange={onChange} current_organization={current_organization} data={{addressTypes, currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, objectKey, objectData, T}} />
         }
-
     }
   }
 

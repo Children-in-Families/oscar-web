@@ -7,5 +7,3 @@
     = f.association :domains, collection: @csi_domains, multiple: true, label_method: :identity, value_method: :id, label: t('.domain')
   #type-of-service{ data: {custom: services.to_json } }
     = f.association :services, collection: services(false), multiple: true, label: t('.type_of_service')
-
-

@@ -5,6 +5,7 @@ describe CustomField do
   describe CustomField, 'associations' do
     it { is_expected.to have_many(:custom_field_properties).dependent(:restrict_with_error) }
     it { is_expected.to have_many(:clients).through(:custom_field_properties).source(:custom_formable) }
+    it { is_expected.to have_many(:communities).through(:custom_field_properties).source(:custom_formable) }
     it { is_expected.to have_many(:families).through(:custom_field_properties).source(:custom_formable) }
     it { is_expected.to have_many(:partners).through(:custom_field_properties).source(:custom_formable) }
     it { is_expected.to have_many(:users).through(:custom_field_properties).source(:custom_formable) }
@@ -99,6 +100,18 @@ describe CustomField do
         is_expected.not_to include(other_custom_field)
       end
     end
+
+    context 'community forms' do
+      let!(:custom_field) { create(:custom_field, form_title: 'Community Form', entity_type: 'Community') }
+      let!(:other_custom_field) { create(:custom_field, form_title: 'Prison Record', entity_type: 'Partner') }
+      subject { CustomField.community_forms }
+      it 'should include forms with community entity type' do
+        is_expected.to include(custom_field)
+      end
+      it 'should not include forms without community entity type' do
+        is_expected.not_to include(other_custom_field)
+      end
+    end
   end
 
   describe CustomField, 'CONSTANTS' do
@@ -106,7 +119,7 @@ describe CustomField do
       expect(CustomField::FREQUENCIES).to eq(['Daily', 'Weekly', 'Monthly', 'Yearly'])
     end
     it 'ENTITY_TYPES' do
-      expect(CustomField::ENTITY_TYPES).to eq(['Client', 'Family', 'Partner', 'User'])
+      expect(CustomField::ENTITY_TYPES).to eq(['Client', 'Community', 'Family', 'Partner', 'User'])
     end
   end
 

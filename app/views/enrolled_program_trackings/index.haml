@@ -1,0 +1,17 @@
+.ibox
+  .ibox-title
+    %h5= "#{@programmable.name} - #{t('.tracking_lists')}"
+    .ibox-tools
+      - if params[:family_id]
+        = link_to family_enrolled_programs_path(@programmable) do
+          .btn.btn-primary.btn-outline
+            = t('.programs_list')
+      - if params[:community_id]
+        = link_to community_enrolled_programs_path(@programmable) do
+          .btn.btn-primary.btn-outline
+            = t('.programs_list')
+  .ibox-content
+    .table-responsive
+      = datagrid_table @tracking_grid, html: { class: 'table table-bordered table-striped table-hover entity_enrolled_program_tracking'}
+  .ibox-footer
+    = paginate @tracking_grid.assets

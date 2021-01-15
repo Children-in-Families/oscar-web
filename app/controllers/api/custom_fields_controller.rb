@@ -17,10 +17,11 @@ module Api
     end
 
     def ngo_custom_fields
-      render json: CustomFormTrackingDatatable.new(view_context, params[:ngo_custom_field]), root: :data
+      render json: CustomFormTrackingDatatable.new(view_context, params[:ngo_custom_field], params[:entity_type]), root: :data
     end
 
     def list_custom_fields
+
       form_type = params[:type]
       @custom_field_data ||= CustomFieldDatatable.new(view_context, form_type)
       render json: @custom_field_data, root: :data

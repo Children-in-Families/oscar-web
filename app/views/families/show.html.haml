@@ -1,183 +1,372 @@
-.row
-  .col-xs-12.family
-    .btn-group.small-btn-margin
-      %button.btn-sm.btn.btn-success.dropdown-toggle{ 'data-toggle' => 'dropdown', class: ('disabled' if @group_family_custom_fields.empty?) }
-        = t('.additional_forms')
-        %span.caret
-      %ul.dropdown-menu.scrollable-dropdown-menu
-        - @group_family_custom_fields.each do |_, family_custom_fields|
-          %li
-            %p= link_to family_custom_fields.first.custom_field.form_title, family_custom_field_properties_path(@family, custom_field_id: family_custom_fields.first.custom_field_id)
+- if Organization.current.short_name == 'demo' || Organization.current.short_name == 'tutorials'
+  - ngos = Organization.test_ngos.exclude_current.order(:full_name).map{|org| [org.full_name, org.short_name] }
+- else
+  - ngos = Organization.exclude_current.oscar.order(:full_name).map{|org| [org.full_name, org.short_name] }
+- ngos = mapping_ngos(ngos)
 
-    - if can? :manage, CustomFieldProperty
-      .btn-group.small-btn-margin
-        %button.btn-sm.btn.btn-success.dropdown-toggle{ 'data-toggle' => 'dropdown', class: ('disabled' if @free_family_forms.empty?) }
-          = t('.add_form')
-          %span.caret
-        %ul.dropdown-menu.scrollable-dropdown-menu
-          - @free_family_forms.each do |custom_field|
+.row.gray-bg
+  %div{ class: "col-md-9"}
+    %table.table.small.m-b-xs#main-info
+      %tbody
+        %tr
+          %td{rowspan: '4'}
+          %td
+            = "#{Family.human_attribute_name(:name_en)} :"
+            %strong= @family.name_en
+          %td
+            = "#{Family.human_attribute_name(:status)} :"
+            %span= status_style(@family.status)
+        %tr
+          %td
+            = "#{Family.human_attribute_name(:name)} :"
+            %strong= @family.name
+          %td
+            = "#{t('.created_by')} :"
+            %strong= @family.user&.name
+        %tr
+          %td
+            = "#{Family.human_attribute_name(:id)} :"
+            %strong= @family.id
+          %td
+            = "#{Family.human_attribute_name(:code)} :"
+            %strong= @family.code
+        %tr
+          %td
+            = "#{t('.current_province')} :"
+            %strong= @family.province_name
+          %td
+
+  .col-md-3
+    .row
+      - if @family.referred?
+        .col-xs-12
+          %button.btn.btn-success.agree-btn{ data: { class_name: 'accept-family', disable_with: t('.accepting'), 'target' => "#accept-family", 'toggle' => 'modal', trigger: "hover", content: "#{Organization.ratanak? ? I18n.t('inline_help.families.show.ratanak.accepted') : I18n.t('inline_help.families.show.accepted')}", placement: "auto" } }= t('.accept')
+          = render 'families/accept_family'
+        .col-xs-12
+          %button.btn.btn-danger.mini-margin{ class: 'agree-btn', data: { target: '#exitFromNgo', toggle: "modal", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.families.show.reject')}", placement: "bottom" } } #{t('.reject')}
+          = render 'family/exit_ngos/form', family: @family
+      - elsif @family.exit_ngo?
+        .col-xs-12
+          %button.btn.btn-success.mini-margin.enter-ngo-for-family{ class: 'agree-btn', data: { class_name: 'accept-family', disable_with: t('.accepting'), 'target' => "#enter-ngo-form", 'toggle' => 'modal', trigger: "hover", content: "#{I18n.t('inline_help.families.show.accepted')}", placement: "auto" } } #{t('.accept')}
+          = render 'family/enter_ngos/form', family: @family
+        .col-xs-12
+          %button.btn.btn-danger.mini-margin{ disabled: 'disabled', class: 'agree-btn', data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.families.show.reject')}", placement: "bottom" } }= t('.reject')
+  - unless current_setting.hide_family_case_management_tool?
+    .col-xs-12.family
+      - if !@family.referred?
+        .btn-group.small-btn-margin
+          %button.btn-sm.btn.btn-warning.dropdown-toggle.btn-fit.exit-ngo-for-family{ data: { toggle: "dropdown", trigger: 'hover', content: "#{I18n.t('inline_help.families.show.exit_ngo')}", placement: "auto" }, id: 'add-family-to-case', class: ('disabled' if @family.exit_ngo?) }
+            = t('.exit_ngo_btn')
+            %span.caret
+          %ul.dropdown-menu.btn-fit
             %li
-              %p= link_to custom_field.form_title, new_family_custom_field_property_path(@family, custom_field_id: custom_field)
+              - if @family.enrollments.active.count > 0
+                %a{"data-target" => '#remaining-programs-modal', "data-toggle" => 'modal'}
+                  .text-warning= t('.exit_ngo_btn')
+              - else
+                %a{"data-target" => '#exitFromNgo', "data-toggle" => 'modal'}
+                  .text-warning= t('.exit_ngo_btn')
+        - if @family.enrollments.active.count > 0
+          = render 'remaining_programs', family: @family
+        - else
+          = render 'family/exit_ngos/form', family: @family
 
-    .ibox.mini-margin
-      .ibox-title
-        %h5= "#{t('.general_info')} #{@family.name}"
-        .ibox-tools
-          %a.collapse-link
-            .btn.btn-outline.btn-primary
-              %i.fa.fa-chevron-up
-          - if can? :manage, Family
-            %small
-              = link_to edit_family_path(@family) do
-                .btn.btn-outline.btn-success
-                  %i.fa.fa-pencil
-              = remove_link(@family, { family_case: @results || 0 }, 'btn-md')
+        .btn-group.small-btn-margin
+          %button.btn-sm.btn.btn-success.dropdown-toggle{ 'data-toggle' => 'dropdown', class: ('disabled' if @group_family_custom_fields.empty?) }
+            = t('.additional_forms')
+            %span.caret
+          %ul.dropdown-menu.scrollable-dropdown-menu
+            - @group_family_custom_fields.each do |_, family_custom_fields|
+              %li
+                %p= link_to family_custom_fields.first.custom_field.form_title, family_custom_field_properties_path(@family, custom_field_id: family_custom_fields.first.custom_field_id)
 
-      .ibox-content
-        .row.family-summary
-          .col-sm-12
-            %table.table.table-bordered
+        - if can? :manage, CustomFieldProperty
+          .btn-group.small-btn-margin
+            %button.btn-sm.btn.btn-success.dropdown-toggle{ 'data-toggle' => 'dropdown', class: ('disabled' if @free_family_forms.empty?) }
+              = t('.add_form')
+              %span.caret
+            %ul.dropdown-menu.scrollable-dropdown-menu
+              - @free_family_forms.each do |custom_field|
+                %li
+                  %p= link_to custom_field.form_title, new_family_custom_field_property_path(@family, custom_field_id: custom_field)
+        - if current_organization.available_for_referral?
+          %input#family-id{ value: "#{@family.id}", type: 'hidden' }
+            .btn-group.small-btn-margin
+              %button.btn-sm.btn.btn-warning.dropdown-toggle.btn-fit{ data: { toggle: "dropdown", html: 'true', trigger: 'hover', content: "#{I18n.t('inline_help.families.show.referral_form')}", placement: "auto" }, class: ('disabled' if @family.family_referrals.empty?) }
+                = t('.referral_forms')
+                %span.caret
+              %ul.dropdown-menu.btn-fit.scrollable-dropdown-menu.referral-forms
+                %li= link_to t('.referred_to'), family_family_referrals_path(@family, referral_type: 'referred_to')
+                %li= link_to t('.referred_from'), family_family_referrals_path(@family, referral_type: 'referred_from')
+
+          .btn-group.small-btn-margin
+            %button.btn-sm.btn.btn-warning.dropdown-toggle.btn-fit#add-referral-btn{ data: { toggle: "dropdown", html: 'true', trigger: 'hover', content: "#{I18n.t('inline_help.families.show.refer_family')}", placement: "auto" } }
+              = t('.refer_family')
+              %span.caret
+            %ul.dropdown-menu.btn-fit.scrollable-dropdown-menu.referral-forms
+              - ngos.each do |value, key|
+                %li= link_to value, new_family_family_referral_url(@family, ngo: key, external_ngo_name: key == 'external referral' && value), :class => 'target-ngo', :value => "#{key}", :id => "#{key}"
+        - if @family.enrollments.active.count > 0
+          = link_to family_enrolled_programs_path(@family), data: { toggle: "popover", html: 'true', trigger: 'hover', content: "#{I18n.t('inline_help.families.show.active_program')}", placement: "auto" } do
+            .btn.btn-primary.small-btn-margin.btn-sm.btn-fit= t('.enrolled_program_streams')
+        - else
+          .btn.btn-primary.small-btn-margin.btn-sm.disabled.btn-fit{ data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.families.show.active_program')}", placement: "auto" } }
+            = t('.enrolled_program_streams')
+        = link_to family_enrollments_path(@family), data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.families.show.enroll_program')}", placement: "auto" } do
+          .btn.btn-primary.small-btn-margin.btn-sm.btn-fit= t('.program_streams')
+
+.ibox.mini-margin
+  .ibox-title
+    %h5= "#{t('.general_info')} #{@family.name}"
+    .ibox-tools
+      %a.collapse-link
+        .btn.btn-outline.btn-primary
+          %i.fa.fa-chevron-up
+      - if can? :manage, Family
+        %small
+          = link_to edit_family_path(@family) do
+            .btn.btn-outline.btn-success
+              %i.fa.fa-pencil
+          = remove_link(@family, { family_case: @results || 0 }, 'btn-md')
+  .ibox-content
+    .row.agreegate
+      .col-sm-12.col-md-4
+        %table.table.table-bordered
+          %tr
+            %td.spacing-first-col= t('.male_adult_count')
+            %td= @family.male_adult_count
+          %tr
+            %td.spacing-first-col= t('.female_adult_count')
+            %td= @family.female_adult_count
+      .col-sm-12.col-md-4
+        %table.table.table-bordered
+          %tr
+            %td.spacing-first-col= t('.male_children_count')
+            %td= @family.male_children_count
+          %tr
+            %td.spacing-first-col= t('.female_children_count')
+            %td= @family.female_children_count
+      .col-sm-12.col-md-4
+        %table.table.table-bordered
+          %tr
+            %tr
+              %td.spacing-first-col= t('.member_count')
+              %td= @family.member_count
+          %tr
+            %tr
+              %td.spacing-first-col= t('.monthly_average_income')
+              %td
+                - if @family.monthly_average_income.instance_of?(String)
+                  = @family.monthly_average_income
+                - else
+                  = number_to_currency(@family.monthly_average_income)
+    .row.family-summary
+      .col-sm-12
+        %table.table.table-bordered
+          %tr
+            %td.spacing-first-col
+              = t('.case_history')
+            %td
+              %strong
+                = family_case_history(@family)
+
+          - if policy(@family).show?(:province_id)
+            %tr
+              %td.spacing-first-col
+                = t('.address')
+              %td
+                %strong
+                  = merged_address_family(@family)
+
+          - if policy(@family).show?(:dependable_income)
+            %tr
+              %td.spacing-first-col
+                = "#{t('.dependable_income')}?"
+              %td
+                %strong
+                  = human_boolean(@family.dependable_income)
+
+          - if policy(@family).show?(:contract_date)
+            %tr
+              %td.spacing-first-col
+                = t('.contract_date')
+              %td
+                %strong
+                  = date_format(@family.contract_date)
+
+          - if policy(@family).show?(:family_type)
+            %tr
+              %td.spacing-first-col
+                = t('.family_type')
+              %td
+                %strong
+                  = family_type_translation(@family.family_type)
+
+          - unless current_setting.hide_family_case_management_tool?
+            %tr
+              %td.spacing-first-col
+                = Family.human_attribute_name(:community_ids)
+              %td
+                %strong
+                  - community = @family.community
+                  - if community.present?
+                    = community.display_name
+                    = link_to community_path(community) do
+                      = fa_icon 'external-link'
+
+            %tr
+              %td.spacing-first-col
+                = t('.referral_source_category')
+              %td
+                %strong
+                  = referral_source_category(@family.referral_source_category_id)
+            %tr
+              %td.spacing-first-col
+                = t('.referral_source')
+              %td
+                %strong
+                  = @family.referral_source&.name
+            %tr
+              %td.spacing-first-col
+                = t('.received_by')
+              %td
+                %strong
+                  = @family.received_by&.name
+                  = user @family.received_by, true
+
+            %tr
+              %td.spacing-first-col
+                = t('.followed_up_by')
+              %td
+                %strong
+                  = @family.followed_up_by&.name
+                  = user @family.followed_up_by, true
+
+            %tr
+              %td.spacing-first-col
+                = t('.case_worker_or_staff')
+              %td
+                %strong
+                  - @family.case_workers.distinct.sort.each do |case_worker|
+                    %strong.label.label-default
+                      = user case_worker
+            %tr
+              %td.spacing-first-col
+                = t('.initial_referral_date')
+              %td
+                %strong
+                  = date_format(@family.initial_referral_date)
+            %tr
+              %td.spacing-first-col
+                = t('.follow_up_date')
+              %td
+                %strong
+                  = date_format(@family.follow_up_date)
+
+            %tr
+              %td.spacing-first-col
+                = t('.referee_phone_number')
+              %td
+                %strong
+                  = @family.referee_phone_number
+
+            %tr
+              %td.spacing-first-col
+                = t('.donor')
+              %td
+                %strong
+                  - @family.donors.distinct.each do|donor|
+                    %strong.label.label-default.donor
+                      = donor.name
+          - if @family.documents.any?
+            - @family.documents.each_with_index do |attachment, index|
               %tr
                 %td.spacing-first-col
-                  = t('.code')
+                  - if index == 0
+                    = Family.human_attribute_name(:documents)
                 %td
-                  %strong
-                    = @family.code
-              %tr
-                %td.spacing-first-col
-                  = t('.case_history')
-                %td
-                  %strong
-                    = family_case_history(@family)
+                  = original_filename(attachment)
+                  = link_to preview_or_download(attachment), attachment.url, class: 'btn btn-info btn-sm btn-download', target: target_blank(attachment)
 
-              - if policy(@family).show?(:province_id)
-                %tr
-                  %td.spacing-first-col
-                    = t('.address')
+          - if show_family_CRD?
+            - @family.viewable_quantitative_cases.group_by(&:quantitative_type).each do |qtypes|
+              - next unless quantitative_type_readable?(qtypes.first.id)
+              %tr
+                %td.align-justify.spacing-first-col
+                  = qtypes.first.name
+                %td.align-justify
+                  - qtypes.last.each do |qcase|
+                    %strong.label.label-default
+                      = qcase.value
+
+    - if @case_histories.any?
+      .row
+        .col-xs-12
+          %table.table.table-bordered.table-hover#case-history-table
+            %thead
+              %tr
+                %th= t('.case_histories')
+                - unless Rails.env.production?
+                  %th= t('.created_date')
+                %th= t('.date')
+                %th.text-center= t('.detail')
+            %tbody
+              - @case_histories.each_with_index do |case_history, index|
+                - case_history_name = case_history.class.table_name
+                %tr.case-history-row{ data: {date: case_history.new_date, classname: case_history_name,name: case_history_label(case_history), created_date: case_history.created_at} }
+                  %td= case_history_label(case_history)
+                  - unless Rails.env.production?
+                    %td= case_history.created_at.to_s
+                  %td= date_format(case_history.new_date)
                   %td
-                    %strong
-                      = merged_address_family(@family)
+                    .text-center
+                      %button.btn.btn-outline.btn-primary.btn-xs{'data-target' => "#case_history_#{index}", 'data-toggle' => 'modal'}= fa_icon('eye')
+                      - if current_user.admin?
+                        - if ['enter_ngos', 'exit_ngos'].include?(case_history_name)
+                          %button.btn.btn-outline.btn-success.btn-xs.edit-case-history-ngo{ data: { class_name: case_history_name },'data-target' => "##{case_history_name}-#{case_history.id}", 'data-toggle' => 'modal' }= fa_icon('pencil')
+                        = family_case_history_links(case_history, case_history_name)
+                    = render 'case_history_detail', object: case_history, index: index
+                    = render_case_history_family(case_history, case_history_name)
               %tr
-                %td.spacing-first-col
-                  = t('.member_count')
+                %td= t('.initial_referral_date')
+                - unless Rails.env.production?
+                  %td= @family.created_at.to_s
+                %td= date_format(@family.initial_referral_date)
                 %td
-                  %strong
-                    = pluralize(@family.member_count, 'Person')
+                  .text-center
+                    %button.btn.btn-outline.btn-primary.btn-xs{'data-target' => "#case_history_initial_referral_date", 'data-toggle' => 'modal'}= fa_icon('eye')
+                  = render 'case_history_detail', object: @family, index: 'initial_referral_date'
+    - if @family.family_members.present?
+      .row.family-summary
+        .col-sm-12
+          %table.table.table-bordered
+            %thead
+              %th= t('activerecord.attributes.family_member.adult_name')
+              %th= t('.date_of_birth')
+              - if policy(FamilyMember).show?(:gender)
+                %th= t('activerecord.attributes.family_member.gender')
+              - if policy(FamilyMember).show?(:occupation)
+                %th= t('.occupation')
+              - if policy(FamilyMember).show?(:relation)
+                %th= Family.human_attribute_name(:relation)
+              - if policy(FamilyMember).show?(:guardian)
+                %th= t('.guardian')
 
+            %tbody
+            - @family.family_members.each do |member|
               %tr
-                %td.spacing-first-col
-                  = t('.caregiver_information')
-                %td
-                  %strong
-                    = @family.caregiver_information
-
-              - if policy(@family).show?(:member_count)
-                %tr
-                  %td.spacing-first-col
-                    = t('.significant_family_member_count')
+                %td= member.adult_name
+                %td= date_format member.date_of_birth
+                - if policy(FamilyMember).show?(:gender)
                   %td
-                    %strong
-                      = @family.significant_family_member_count
-
-              - if policy(@family).show?(:household_income)
-                %tr
-                  %td.spacing-first-col
-                    = t('.household_income')
-                  %td
-                    %strong
-                      = @family.household_income
-
-              - if policy(@family).show?(:dependable_income)
-                %tr
-                  %td.spacing-first-col
-                    = "#{t('.dependable_income')}?"
-                  %td
-                    %strong
-                      = human_boolean(@family.dependable_income)
-
-              %tr
-                %td.spacing-first-col
-                  = t('.female_children_count')
-                %td
-                  %strong
-                    = @family.female_children_count.to_i
-
-              %tr
-                %td.spacing-first-col
-                  = t('.male_children_count')
-                %td
-                  %strong
-                    = @family.male_children_count.to_i
-
-              %tr
-                %td.spacing-first-col
-                  = t('.female_adult_count')
-                %td
-                  %strong
-                    = @family.female_adult_count.to_i
-
-              %tr
-                %td.spacing-first-col
-                  = t('.male_adult_count')
-                %td
-                  %strong
-                    = @family.male_adult_count.to_i
-
-              - if policy(@family).show?(:contract_date)
-                %tr
-                  %td.spacing-first-col
-                    = t('.contract_date')
-                  %td
-                    %strong
-                      = date_format(@family.contract_date)
-
-              - if policy(@family).show?(:family_type)
-                %tr
-                  %td.spacing-first-col
-                    = t('.family_type')
-                  %td
-                    %strong
-                      = family_type_translation(@family.family_type)
-              %tr
-                %td.spacing-first-col
-                  = t('.status')
-                %td
-                  %strong
-                    = @family.status
-        - if @family.family_members.present?
-          .row.family-summary
-            .col-sm-12
-              %table.table.table-bordered
-                %thead
-                  %th= t('activerecord.attributes.family_member.adult_name')
-                  %th= t('.date_of_birth')
-                  - if policy(FamilyMember).show?(:gender)
-                    %th= t('activerecord.attributes.family_member.gender')
-                  - if policy(FamilyMember).show?(:occupation)
-                    %th= t('.occupation')
-                  - if policy(FamilyMember).show?(:relation)
-                    %th= t('.relation')
-                  - if policy(FamilyMember).show?(:guardian)
-                    %th= t('.guardian')
-                  - if policy(FamilyMember).show?(:note)
-                    %th= t('.note')
-                %tbody
-                - @family.family_members.each do |member|
-                  %tr
-                    %td= member.adult_name
-                    %td= date_format member.date_of_birth
-                    - if policy(FamilyMember).show?(:gender)
-                      %td
-                        - if member.gender?
-                          = t("enumerize.defaults.gender.#{member.gender&.gsub('other', 'other_gender')}")
-                    - if policy(FamilyMember).show?(:occupation)
-                      %td= member.occupation
-                    - if policy(FamilyMember).show?(:relation)
-                      %td= member.relation
-                    - if policy(FamilyMember).show?(:guardian)
-                      %td= human_boolean(member.guardian)
-                    - if policy(FamilyMember).show?(:note)
-                      %th= member.note
+                    - if member.gender?
+                      = t("enumerize.defaults.gender.#{member.gender&.gsub('other', 'other_gender')}")
+                - if policy(FamilyMember).show?(:occupation)
+                  %td= member.occupation
+                - if policy(FamilyMember).show?(:relation)
+                  %td= member.relation
+                - if policy(FamilyMember).show?(:guardian)
+                  %td= human_boolean(member.guardian)
 
 .row
   .col-xs-12.clients
@@ -197,3 +386,6 @@
           %span.label.label-info= t('.results')
         .ibox-content
           %p= t('families.family_advanced_searches.advanced_search.no_result')
+
+.row
+  = render 'family_referrals/confirm_referral'

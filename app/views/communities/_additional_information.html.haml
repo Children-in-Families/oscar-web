@@ -1,0 +1,5 @@
+%h3= t('communities.form.step_3_title')
+%section.additional-information
+  - @quantitative_types.each do |quantitative_type|
+    .row
+      = f.input :quantitative_case_ids, label: quantitative_type.name, collection: quantitative_type.quantitative_cases, label_method: :value, vlaue_method: :id, input_html: {multiple: true}
