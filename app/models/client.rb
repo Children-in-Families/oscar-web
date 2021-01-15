@@ -80,7 +80,11 @@ class Client < ActiveRecord::Base
   has_many :government_forms, dependent: :destroy
   has_many :global_identity_organizations, class_name: 'GlobalIdentityOrganization', foreign_key: 'client_id', dependent: :destroy
 
+  has_one  :family_member
+  has_one  :family, through: :family_member
+
   accepts_nested_attributes_for :tasks
+  accepts_nested_attributes_for :family_member, allow_destroy: true
 
   has_many :families,       through: :cases
   has_many :cases,          dependent: :destroy
@@ -110,7 +114,9 @@ class Client < ActiveRecord::Base
   before_update :disconnect_client_user_relation, if: :exiting_ngo?
   after_create :set_slug_as_alias, :save_client_global_organization, :save_external_system_global
   after_save :create_client_history, :mark_referral_as_saved, :create_or_update_shared_client
+
   after_commit :remove_family_from_case_worker
+  after_commit :update_related_family_member, on: :update
 
   scope :given_name_like,                          ->(value) { where('clients.given_name iLIKE :value OR clients.local_given_name iLIKE :value', { value: "%#{value.squish}%"}) }
   scope :family_name_like,                         ->(value) { where('clients.family_name iLIKE :value OR clients.local_family_name iLIKE :value', { value: "%#{value.squish}%"}) }
@@ -223,10 +229,16 @@ class Client < ActiveRecord::Base
         client_address_matching(results[k], client[v].squish) if results[k]
       end
     end
-  end
 
-  def family
-    Family.find(current_family_id) if current_family_id
+    def unattache_to_other_families(allowed_family_id = nil)
+      records = joins("LEFT JOIN family_members ON clients.id = family_members.client_id WHERE family_members.family_id IS NULL")
+
+      if allowed_family_id.present?
+        records += joins(:family_member).where(family_members: { family_id: allowed_family_id})
+      end
+
+      records
+    end
   end
 
   def self.fetch_75_chars_of(value)
@@ -288,6 +300,10 @@ class Client < ActiveRecord::Base
     name       = "#{given_name} #{family_name}"
     local_name = "#{local_given_name} #{local_family_name}"
     name.present? ? name : local_name
+  end
+
+  def display_name
+    ["Client ##{id}", name].select(&:present?).join(' - ')
   end
 
   def en_and_local_name
@@ -496,6 +512,16 @@ class Client < ActiveRecord::Base
       resident_own_or_rent2,
       household_type2
     ].select(&:present?).join(', ')
+  end
+
+  def to_select2
+    [
+      display_name, id, { data: {
+          date_of_birth: date_of_birth,
+          gender: gender
+        }
+      }
+    ]
   end
 
   def time_in_cps
@@ -726,6 +752,10 @@ class Client < ActiveRecord::Base
 
   private
 
+  def update_related_family_member
+    FamilyMember.delay.update_client_relevant_data(family_member.id, Apartment::Tenant.current) if family_member.present?
+  end
+
   def create_client_history
     ClientHistory.initial(self)
   end
@@ -739,7 +769,6 @@ class Client < ActiveRecord::Base
   end
 
   def remove_family_from_case_worker
-    family = Family.joins(:user).find_by(id: current_family_id)
     if family
       clients = Client.joins(:users).where(current_family_id: family.id, case_worker_clients: {user_id: family.user_id})
       if clients.blank?

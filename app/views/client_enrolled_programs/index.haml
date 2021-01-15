@@ -30,7 +30,7 @@
               %td.status
                 = render 'status', program_stream: ps
               %td.name
-                = link_to ps.name, program_stream_path(ps, client: true)
+                = link_to ps.name, program_stream_path(ps, client: true, entity_type: ps.entity_type)
               %td.domain
                 - ps.domains_format.each do |domain|
                   %strong.label.label-default= domain

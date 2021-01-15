@@ -2,5 +2,10 @@
   .col-xs-12
     .ibox
       .ibox-title
-        %h5= "#{@client.en_and_local_name} - #{t('.new_exit_program')}"
+        %h5
+          - if params[:family_id]
+            = @entity.name
+          - elsif params[:client_id]
+            = @entity.en_and_local_name
+          = " - #{t('.new_exit_program')}"
       = render 'form'

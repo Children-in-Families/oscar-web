@@ -36,7 +36,7 @@ module ProgramStreamHelper
   end
 
   def program_stream_redirect_path
-    params[:client] == 'true' ? request.referer : program_streams_path
+    params[:client] == 'true' || params[:entity] == 'true' ? request.referer : program_streams_path
   end
 
   def format_placeholder(value)
@@ -85,7 +85,13 @@ module ProgramStreamHelper
     def group_field_types(program_stream, program_stream_step)
       group_field_types = Hash.new{|h,k| h[k] = []}
       group_by_option_type_label = form_builder_group_by_options_type_label(program_stream, program_stream_step)
-      group_selection_field_types = group_selection_field_types(program_stream, program_stream_step)
+
+      if program_stream.attached_to_family? || program_stream.attached_to_community?
+        group_selection_field_types = group_selection_field_types_entity(program_stream, program_stream_step)
+      else
+        group_selection_field_types = group_selection_field_types(program_stream, program_stream_step)
+      end
+
       group_selection_field_types&.compact.each do |selection_field_types|
         group_by_option_type_label.each do |type,labels|
           next unless labels.present?
@@ -119,6 +125,35 @@ module ProgramStreamHelper
       when 'exit_program'
         program_stream.client_enrollments.each do |client_enrollment|
           choosen_option_form_exit_program = client_enrollment.leave_program.properties if client_enrollment.leave_program&.properties.present?
+          group_value_field_types << choosen_option_form_exit_program
+        end
+        group_value_field_types&.reject(&:blank?)
+      else
+        []
+      end
+      group_value_field_types
+    end
+
+    def group_selection_field_types_entity(program_stream, program_stream_step)
+      group_value_field_types = []
+      case program_stream_step
+      when 'trackings'
+        program_stream.enrollments.attached_with(program_stream.entity_type).each do |enrollment|
+          enrollment.enrollment_trackings.each do |enrollment_tracking|
+            choosen_option_form_tracking = enrollment_tracking.properties if enrollment_tracking.properties.present?
+            group_value_field_types <<  choosen_option_form_tracking
+          end
+        end
+       group_value_field_types
+      when 'enrollment'
+        program_stream.enrollments.attached_with(program_stream.entity_type).each do |enrollment|
+          choosen_option_form = enrollment.properties if enrollment.properties.present?
+         group_value_field_types << choosen_option_form
+        end
+       group_value_field_types
+      when 'exit_program'
+        program_stream.enrollments.attached_with(program_stream.entity_type).each do |enrollment|
+          choosen_option_form_exit_program = enrollment.leave_program.properties if enrollment.leave_program&.properties.present?
           group_value_field_types << choosen_option_form_exit_program
         end
         group_value_field_types&.reject(&:blank?)

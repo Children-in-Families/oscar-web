@@ -28,21 +28,19 @@ module Api
     def create
       client_saved = false
       client = Client.new(client_params)
-      client.transaction do
-        if referee_params[:anonymous] == 'true'
-          referee = Referee.new(referee_params)
-          referee.save
-        else
-          referee = Referee.find_or_initialize_by(referee_params)
-          referee.save
-        end
 
+      client.transaction do
         if params.dig(:referee, :id).present?
           referee = Referee.find(params.dig(:referee, :id))
           referee.update(referee_params)
         else
-          referee = Referee.find_or_initialize_by(referee_params)
-          referee.save
+          if referee_params[:anonymous] == 'true'
+            referee = Referee.new(referee_params)
+            referee.save
+          else
+            referee = Referee.find_or_initialize_by(referee_params)
+            referee.save
+          end
         end
 
         carer = Carer.find_or_initialize_by(carer_params)
@@ -71,6 +69,7 @@ module Api
         client.carer_id = carer.id
         new_params = client.current_family_id ? client_params : client_params.except(:family_ids)
       end
+      
       if client.update_attributes(client_params.except(:referee_id, :carer_id))
         if params[:client][:assessment_id]
           assessment = Assessment.find(params[:client][:assessment_id])
@@ -167,6 +166,7 @@ module Api
             donor_ids: [],
             quantitative_case_ids: [],
             custom_field_ids: [],
+            family_member_attributes: [:id, :family_id, :_destroy],
             tasks_attributes: [:name, :domain_id, :completion_date],
             client_needs_attributes: [:id, :rank, :need_id],
             client_problems_attributes: [:id, :rank, :problem_id],
@@ -178,6 +178,14 @@ module Api
         next if field_setting.group != 'client' || field_setting.required? || field_setting.visible?
 
         client_params.except!(field_setting.name.to_sym)
+      end
+
+      if params[:family_member]
+        client_params[:family_member_attributes] = params[:family_member].permit([:id, :family_id])
+
+        if client_params[:family_member_attributes].present?
+          client_params[:family_member_attributes][:_destroy] = 1 if client_params.dig(:family_member_attributes, :family_id).blank?
+        end
       end
 
       Client::LEGAL_DOC_FIELDS.each do |attachment_field|

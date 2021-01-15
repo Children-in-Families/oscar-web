@@ -5,15 +5,29 @@
         .row
           .col-xs-12.col-sm-6.co-md-6
             %h5
-              = link_to @client.en_and_local_name, client_path(@client)
+              - if params[:client_id]
+                = link_to @entity.en_and_local_name, client_path(@entity)
+              - if params[:family_id]
+                = link_to @entity.name, family_path(@entity)
+              - if params[:community_id]
+                = link_to @entity.name, community_path(@entity)
               = " - #{t('.exit_date')} #{date_format(@leave_program.exit_date)}"
           .col-xs-12.col-sm-6.col-md-6
             .ibox-tools
               - if can? :manage, LeaveProgram
                 = leave_program_edit_link
-              = link_to report_client_client_enrollments_path(@client, program_stream_id: @program_stream) do
-                .btn.btn-default.btn-back-default
-                  = t('.back')
+              - if params[:client_id]
+                = link_to report_client_client_enrollments_path(@entity, program_stream_id: @program_stream) do
+                  .btn.btn-default.btn-back-default
+                    = t('.back')
+              - if params[:family_id]
+                = link_to report_family_enrollments_path(@entity, program_stream_id: @program_stream) do
+                  .btn.btn-default.btn-back-default
+                    = t('.back')
+              - if params[:community_id]
+                = link_to report_community_enrollments_path(@entity, program_stream_id: @program_stream) do
+                  .btn.btn-default.btn-back-default
+                    = t('.back')
       .ibox-content
         .table-responsive
           %table.table.table-bordered

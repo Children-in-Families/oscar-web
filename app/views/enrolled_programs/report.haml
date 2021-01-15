@@ -1,0 +1,52 @@
+.row
+  .col-xs-12
+    .ibox
+      .ibox-title
+        %h5= "#{@programmable.name} - #{t('.report')}"
+        .ibox-tools
+          - if params[:family_id]
+            = link_to family_enrolled_programs_path(@programmable) do
+              .btn.btn-primary
+                = t('.programs_list')
+          - elsif params[:community_id]
+            = link_to community_enrolled_programs_path(@programmable) do
+              .btn.btn-primary
+                = t('.programs_list')
+      .ibox-content
+        .table-responsive
+          %table.table.table-bordered.table-striped.table-hover
+            %thead
+              %tr
+                %th= t('.date')
+                %th= t('.forms')
+                %th= t('.actions')
+            %tbody
+              - @enrollments.each do |enrollment|
+                - if enrollment.leave_program.present?
+                  %tr
+                    %td
+                      = date_format(enrollment.leave_program.exit_date)
+                    %td= t('.exit')
+                    %td= link_to t('.view'), enrolled_program_leave_enrolled_program_link(enrollment)
+
+                
+                - if enrollment.has_enrollment_tracking?
+                  - enrollment.enrollment_trackings.order(created_at: :DESC).each do |enrollment_tracking|
+                    %tr
+                      %td= date_format(enrollment_tracking.created_at)
+                      %td= "#{t('.tracking')} (#{enrollment_tracking.tracking.try(:name)})"
+                      %td
+                        - if params[:family_id]
+                          = link_to t('.view'), family_enrolled_program_enrolled_program_tracking_path(@programmable, enrollment, enrollment_tracking)
+                        - elsif params[:community_id]
+                          = link_to t('.view'), community_enrolled_program_enrolled_program_tracking_path(@programmable, enrollment, enrollment_tracking)
+
+                %tr
+                  %td
+                    = date_format(enrollment.enrollment_date)
+                  %td= t('.enrollment')
+                  %td
+                    - if params[:family_id]
+                      = link_to t('.view'), family_enrolled_program_path(@programmable, enrollment, program_stream_id: @program_stream)
+                    - if params[:community_id]
+                      = link_to t('.view'), community_enrolled_program_path(@programmable, enrollment, program_stream_id: @program_stream)

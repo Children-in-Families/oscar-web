@@ -1,4 +1,11 @@
 body[id='program_streams-index'] {
+  .new-program {
+    ul {
+      right: 0;
+      left: auto;
+    }
+  }
+
   table.program-streams tbody tr:hover{
     cursor: pointer;
   }

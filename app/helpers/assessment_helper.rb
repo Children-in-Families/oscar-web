@@ -66,7 +66,10 @@ module AssessmentHelper
 
   def is_domain_definition(domain)
     domain.translate_score_1_definition.present? || domain.translate_score_2_definition.present? ||
-    domain.translate_score_3_definition.present? || domain.translate_score_4_definition.present?
+    domain.translate_score_3_definition.present? || domain.translate_score_4_definition.present? ||
+    domain.translate_score_5_definition.present? || domain.translate_score_6_definition.present? ||
+    domain.translate_score_7_definition.present? || domain.translate_score_8_definition.present? ||
+    domain.translate_score_9_definition.present? || domain.translate_score_10_definition.present?
   end
 
   def score_definition(definition, score)

@@ -107,9 +107,71 @@ km:
         name: ឈ្មោះអ្នកថែទាំ
         phone: លេខទូរស័ព្ទអ្នកថែទាំ
         carer_information: ព័ត៌មានអ្នកថែទាំ?
-      family_member:
-        adult_name: Name of Adult Member
+      community:
+        case_worker_ids: Case Worker/Staff Assigned
+        commune_id: Commune/Sangkat
+        contract_date: Family Contract Date
+        district_id: District/Khan
+        documents: Upload Documents
+        donor_ids: Donor
+        formed_date: Date of Group/Community Formed
         gender: Gender
+        id: Automatic ID
+        initial_referral_date: NGO Accept Date
+        name: Name (Khmer)
+        name_en: Name (Latin)
+        phone_number: Phone Number
+        province_id: Province
+        received_by_id: Receiving Staff Member
+        relevant_information: Relevant Information
+        representative_name: Represetative Name
+        role: Role in the Group/Community
+        village_id: Village
+        'yes': 'Yes'
+      community_member:
+        adule_female_count: Total Household Adult Females
+        adule_male_count: Total Household Adult Males
+        kid_female_count: Total Household Girls
+        kid_male_count: Total Household Boys
+        gender: Gender
+        is_family: Family?
+        name: Name
+        role: Role
+      family:
+        id: Automatic ID
+        id_poor: Has ID Poor?
+        case_worker_ids: Case Worker/Staff Assigned
+        code: Manual ID
+        commune_id: Commune/Sangkat
+        community_ids: Community/Group
+        contract_date: Family Contract Date
+        custom_forms: Custom Forms
+        dependable_income: Dependable Income
+        district_id: District/Khan
+        donor_ids: Donor
+        family_type: Family Type
+        followed_up_by_id: First Follow Up By
+        follow_up_date: First Follow Up Date
+        house: House Number
+        id: ID
+        initial_referral_date: Date of Referral
+        name: Head Household Name (Khmer)
+        name_en: Head Household Name (Latin)
+        province_id: Province
+        received_by_id: Received by Staff Member
+        referee_phone_number: Referee Phone Number
+        street: Street Number
+        village_id: Village
+        'yes': 'Yes'
+      family_member:
+        adult_name: Name
+        gender: Gender
+        guardian: Guardian
+        date_of_birth: Date of Birth
+        is_client: Client?
+        monthly_income: Monthly Income (USD)
+        occupation: Occupation
+        relation: Role in Family
       referee:
         referee_address: ឣាសយដ្ឋាន
     default:
@@ -2119,6 +2181,74 @@ km:
     version:
       back: ត្រលប់ក្រោយ
       modification_of: ប្រវត្តិកំណែរបស់
+  communities:
+    actions:
+      are_you_sure: Are you sure you want to delete?
+    create:
+      successfully_created: Community has been successfully created.
+    destroy:
+      alert: Community cannot be deleted.
+      successfully_deleted: Community has been successfully deleted.
+    edit:
+      edit_community_title: Edit Community
+    community_member_fields:
+      remove_member: Remove Member
+    form:
+      add_new_member: Add New Member
+      address: Address
+      commune: Commune
+      district: District
+      new_community_title: Add New Community
+      province: Province
+      step_1_title: Basic Group/Community Information
+      step_11_title: Administrative Information
+      step_12_title: Group/Community Information
+      step_2_title: Group/Community Member Information
+      step_21_title: Member Information
+      step_3_title: Additional Information
+      street: Street
+      village: Village
+      family_members:
+        'no': 'No'
+        'yes': 'Yes'
+    index:
+      add_new_community: Add New Community
+      export_xls: Export to XLS
+      results: Results Export to XLS
+      report_builder: Report Builder
+      results: Results
+    new:
+      new_community_title: New Community
+    show:
+      add_form: Add Form
+      additional_forms: Community's Active Forms
+      address: Address
+      all_beneficiaries: To Count All Beneficiaries (direct members and their household members)
+      are_you_sure: Are you sure you want to delete?
+      created_by: Created by
+      current_province: Current Province
+      direct_participants: Direct Participants of the Group/Community
+      enrolled_program_streams: កម្មវិធីចម្បងរបស់សហគមន៍
+      female_count: Number of Member Females
+      general_info: About Community
+      male_count: Number of Member Males
+      member_count: Number of Members
+      program_streams: បញ្ជូលសហគមន៍ក្នុងកម្មវិធីចម្បង
+      read_less: read less
+      read_more: read more
+      referral_source: Referral Source
+      referral_source_category: Referral Source Category
+      total_boys: Total Boys
+      total_female: Total Adult Females
+      total_girls: Total Girls
+      total_male: Total Adult Males
+      'yes': 'Yes'
+    update:
+      not_allowed_to_detach_clients: You're not allowed to detach clients from the family through this form!
+      successfully_updated: Family has been successfully updated.
+    version:
+      back: Back
+      modification_of: Changelog of
   created_by: បង្កើត​ឡើង​ដោយ
   custom_field_properties:
     attachment:
@@ -3509,6 +3639,12 @@ km:
       score_2: ពិន្ទុ 2
       score_3: ពិន្ទុ 3
       score_4: ពិន្ទុ 4
+      score_5: ពិន្ទុ 5
+      score_6: ពិន្ទុ 6
+      score_7: ពិន្ទុ 7
+      score_8: ពិន្ទុ 8
+      score_9: ពិន្ទុ 9
+      score_10: ពិន្ទុ 10
       view: មើល
     domain_names:
       a1: ១ក
@@ -3542,6 +3678,12 @@ km:
       score_2: ពិន្ទុ 2
       score_3: ពិន្ទុ 3
       score_4: ពិន្ទុ 4
+      score_5: ពិន្ទុ 5
+      score_6: ពិន្ទុ 6
+      score_7: ពិន្ទុ 7
+      score_8: ពិន្ទុ 8
+      score_9: ពិន្ទុ 9
+      score_10: ពិន្ទុ 10
     index:
       add_new_domain: បន្ថែមកត្តាថ្មី
       are_you_sure: តើអ្នកប្រាកដហើយ?
@@ -3553,6 +3695,12 @@ km:
       score_2: ពិន្ទុ 2
       score_3: ពិន្ទុ 3
       score_4: ពិន្ទុ 4
+      score_5: ពិន្ទុ 5
+      score_6: ពិន្ទុ 6
+      score_7: ពិន្ទុ 7
+      score_8: ពិន្ទុ 8
+      score_9: ពិន្ទុ 9
+      score_10: ពិន្ទុ 10
       view: មើល
     new:
       title: កត្តាថ្មី
@@ -3598,6 +3746,127 @@ km:
     version:
       back: ត្រលប់ក្រោយ
       modification_of: ប្រវត្តិកំណែរបស់
+  enrolled_program_trackings:
+    action:
+      new_tracking: បន្ថែមការតាមដានថ្មី
+    create:
+      successfully_created: ការតាមដានត្រូវបានរក្សាទុកដោយជោគជ័យ
+    destroy:
+      successfully_deleted: ការតាមដានត្រូវបានលុបដោយជោគជ័យ
+    edit:
+      edit_tracking: កែសម្រូលការតាមដាន
+    form:
+      cancel: ទុកជាមោឃៈ
+      save: រក្សាទុក
+    index:
+      programs_list: តារាងកម្មវិធី
+      tracking_lists: តារាងនៃការតាមដាន
+    new:
+      new_tracking: បន្ថែមការតាមដានថ្មី
+    report:
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+      back: ត្រលប់ក្រោយ
+      created_at: កាលបរិច្ឆេទៈ
+      new_tracking: បន្ថែមការតាមដានថ្មី
+    show:
+      back: ត្រលប់ក្រោយ
+      trackings_list: តារាងនៃការតាមដាន
+    update:
+      successfully_updated: ការតាមដានត្រូវបានកែសម្រួលដោយជោគជ័យ
+  enrolled_programs:
+    create:
+      successfully_created: ការចុះឈ្មោះត្រូវបានរក្សាទុកដោយជោគជ័យ
+    destroy:
+      successfully_deleted: ការចុះឈ្មោះត្រូវបានលុបដោយជោគជ័យ
+    edit:
+      enrollment: ទម្រង់បែបបទនៃចុះឈ្មោះ
+    form:
+      cancel: ទុកជាមោឃៈ
+      enrollment_date: ថ្ងៃចុះឈ្មោះ
+      save: រក្សាទុក
+    index:
+      actions: សកម្មភាព
+      back: ត្រលប់ក្រោយ
+      domain: កត្តា
+      name: ឈ្មោះកម្មវិធី
+      program_lists: តារាងកម្មវិធីចម្បង
+      quantity: ចំនួនកន្លែងដែលនៅទំនេរ
+      report: របាយការណ៍
+      status: ស្ថានភាព
+      view: មើល
+    manage:
+      enroll: ចុះឈ្មោះ
+      exit: ចាកចេញ
+      full_program: កម្មវិធីនេះពេញហើយ!
+      tracking: តាមដាន
+    new:
+      not_valid: មិនមានលក្ខខ័ណ្ឌគ្រប់គ្រាន់ដើម្បីចូលក្នុងកម្មវិធីនេះទេ
+      new_enrollment: ការចុះឈ្មោះថ្មី
+    report:
+      actions: សកម្មភាព
+      date: កាលបរិច្ឆេទ
+      enrollment: ចុះឈ្មោះ
+      exit: ចាកចេញ
+      forms: ទម្រង់បែបបទ
+      programs_list: តារាងកម្មវិធីចម្បង
+      report: របាយការណ៏
+      tracking: ការតាមដាន
+      view: មើល
+    show:
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+      back: ត្រលប់ក្រោយ
+      enrollment_date: កាលបរិច្ឆេទចុះឈ្មោះ
+    update:
+      successfully_updated: ការចុះឈ្មោះត្រូវបានកែសម្រួលដោយជោគជ័យ
+  enrollments:
+    create:
+      successfully_created: ការចុះឈ្មោះត្រូវបានរក្សាទុកដោយជោគជ័យ
+    destroy:
+      delete_attachment_successfully: ឯកសារភ្ជាប់ត្រូវបានលុបដោយជោគជ័យ
+      successfully_deleted: ការចុះឈ្មោះត្រូវបានលុបដោយជោគជ័យ
+    edit:
+      enrollment: ពិនិត្យកែប្រែទម្រង់បែបបទនៃការចុះឈ្មោះ
+    form:
+      allow_file_size: ប្រភេទឯកសារដែលបានអនុញ្ញាត
+      cancel: ទុកជាមោឃៈ
+      enrollment_date: ថ្ងៃចុះឈ្មោះ
+      max_file_size: '"*ទំហំឯកសារអតិបរមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."'
+      not_an_email: មិនមែនជាឣុីម៉ែល
+      save: រក្សាទុក
+    index:
+      actions: សកម្មភាព
+      back: ត្រលប់ក្រោយ
+      domain: កត្តា
+      name: ឈ្មោះកម្មវិធី
+      program_lists: តារាងកម្មវិធីចម្បង
+      quantity: ចំនួនកន្លែងដែលនៅទំនេរ
+      report: របាយការណ៍
+      status: ស្ថានភាព
+      view: មើល
+    manage:
+      enroll: ចុះឈ្មោះ
+      exit: ចាកចេញ
+      full_program: កម្មវិធីនេះពេញ
+      tracking: តាមដាន
+    new:
+      not_valid: មិនមានលក្ខខ័ណ្ឌគ្រប់គ្រាន់ដើម្បីចូលក្នុងកម្មវិធីនេះទេ
+      new_enrollment: ការចុះឈ្មោះថ្មី
+    report:
+      actions: សកម្មភាព
+      date: កាលបរិច្ឆេទ
+      enrollment: ចុះឈ្មោះ
+      exit: ចាកចេញ
+      forms: ទម្រង់បែបបទ
+      programs_list: តារាងកម្មវិធីចម្បង
+      report: របាយការណ៏
+      tracking: ការតាមដាន
+      view: មើល
+    show:
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+      back: ត្រលប់ក្រោយ
+      enrollment_date: កាលបរិច្ឆេទចុះឈ្មោះ
+    update:
+      successfully_updated: ការចុះឈ្មោះត្រូវបានកែសម្រួលដោយជោគជ័យ
   enumerize:
     defaults:
       gender:
@@ -3623,6 +3892,28 @@ km:
   families:
     actions:
       are_you_sure: តើអ្នកប្រាកដហើយថាចង់លុប?
+    case_history_detail:
+      accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
+      family: ឈ្មោះគ្រួសារ
+      family_id: លេខសំគាល់គ្រួសារ
+      consent_form: ទម្រង់យល់ព្រម
+      date_of_referral: កាលបរិច្ឆេទបញ្ជូន
+      enrollment_date: កាលបរិច្ឆេទចុះឈ្មោះ
+      exit_circumstance: ស្ថានភាពនៃការចាកចេញ
+      exit_date: ថ្ងៃចាកចេញពីអង្គការ
+      exit_note: កំណត់ហេតុនៃការចាកចេញ
+      exit_program_date: ថ្ងៃចាកចេញពីកម្មវិធី
+      exit_reasons: មូលហេតុនៃការចាកចេញ
+      external_referral: ផ្ទេរចេញទៅ
+      initial_referral_date: កាលបរិចេ្ឆទនៃការបញ្ជូនដំបូង
+      internal_referral: ផ្ទេរចូលពី
+      name_of_referee: ឈ្មោះអ្នកបញ្ជូន
+      other_info_of_exit: ព័ត៌មានបន្ថែមនៃការចាកចេញ
+      preview_download: មើលនិងទាញយក
+      referee_phone_number: លេខទូរស័ព្ទរបស់អ្នកបញ្ជូនករណី
+      referral_reasons: មូលហេតុនៃការបញ្ជូន
+      referred_from: បញ្ជូនមកពីអង្គការដទៃ
+      referred_to: បញ្ជូនទៅអង្គការដទៃ
     create:
       successfully_created: គ្រួសារត្រូវបានបង្កើតដោយជោគជ័យ
     destroy:
@@ -3682,9 +3973,17 @@ km:
       province: ខេត្ត
       significant_family_member_count: ចំនួនសមាជិកគ្រួសារដែលចូលរួមរកប្រាក់ចំណូល
       status: ស្ថានភាព
+      step_1_title: Basic Family Information
+      step_11_title: Administrative Information
+      step_12_title: Family Information
+      step_2_title: Family Member Information
+      step_21_title: Family Members
+      step_3_title: Additional Information
       street: ផ្លូវ
       village: ភូមិ
-      'yes': បាទ/ចាស
+      family_members:
+        'no': ទេ
+        'yes': បាទ/ចាស
     index:
       add_new_family: បន្ថែមគ្រួសារថ្មី
       clients: អតិថិជន
@@ -3693,7 +3992,12 @@ km:
       results: លទ្ធផល
     new:
       new_family_title: គ្រួសារថ្មី
+    remaining_programs:
+      close: បិទ
+      warning: ប្រុងប្រយ័ត្ន
     show:
+      accept: ទទួលយក
+      accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
       add_form: បន្ថែមទម្រង់បែបបទទៅឲ្យគ្រួសារ
       additional_forms: ទម្រង់បែបបទរបស់គ្រួសារដែលកំពុងប្រើ
       additional_info: ព័ត៌មានលំអិតបន្ថែម
@@ -3701,11 +4005,20 @@ km:
       adult_name: ឈ្មោះមនុស្សពេញវ័យដែលរស់នៅក្នុងផ្ទះជាមួយគ្នា
       are_you_sure: តើអ្នកប្រាកដហើយ?
       caregiver_information: ព័ត៌មាននៃអ្នកថែទាំ
+      case_histories: ប្រវត្តិនៃករណី
       case_history: ប្រវត្តិគ្រួសារ
       code: លេខសំគាល់គ្រួសារ
       contract_date: កាលបរិច្ឆេទនៃកិច្ចសន្យា
+      created_by: បង្កើតឡើងដោយ
+      created_date: កាលបរិច្ឆេទនៃការបង្កើត
+      current_province: ខេត្ត
+      date: កាលបរិច្ឆេទ
       date_of_birth: ថ្ងៃខែ​ឆ្នាំ​កំណើត
       dependable_income: ប្រាក់ចំណូលទៀងទាត់
+      detail: ព័ត៌មានលំអិត
+      enrolled_program_streams: កម្មវិធីចម្បងរបស់គ្រួសារ
+      exit_date: កាលបរិច្ឆេទនៃការចាកចេញពីអង្គការ
+      exit_ngo_btn: ចាកចេញពីអង្គការ
       family_type: ប្រភេទគ្រួសារ
       female_adult_count: ចំនួនមនុស្សស្រីពេញវ័យ
       female_children_count: ចំនួនក្មេងស្រី
@@ -3714,15 +4027,22 @@ km:
       house: ផ្ទះលេខ
       household_income: ប្រាក់ចំណូលគ្រួសារប្រចាំខែ
       id: លេខសំគាល់
+      initial_referral_date: កាលបរិចេ្ឆទនៃការបញ្ជូនដំបូង
       male_adult_count: ចំនួនមនុស្សប្រុសពេញវ័យ
       male_children_count: ចំនួនក្មេងប្រុស
       member_count: ចំនួនសមាជិកគ្រួសារ
       name: ឈ្មោះអ្នកថែទាំកុមារ
       'no': ទេ
       occupation: មុខរបរ
+      program_streams: បញ្ចូលគ្រួសារក្នុងកម្មវិធីចម្បង
       province: ខេត្ត
       read_less: អានតិច
       read_more: អានបន្ថែម
+      refer_family: បញ្ជូនគ្រួសារ
+      referral_forms: ទម្រង់បញ្ជូន
+      referred_from: ប្រភពនៃការបញ្ជូន
+      referred_to: បញ្ជូនទៅអង្គការដទៃ
+      reject: មិនទទួលយក
       relation: ទំនាក់ទំនងជាមួយកុមារ
       remove_member: លុបសមាជិក
       significant_family_member_count: ចំនួនសមាជិកគ្រួសារដែលចូលរួមរកប្រាក់ចំណូល
@@ -3735,6 +4055,148 @@ km:
     version:
       back: ត្រលប់ក្រោយ
       modification_of: ប្រវត្តិកំណែរបស់
+  family:
+    enter_ngos:
+      create:
+        failed_create: គ្រួសារមិនត្រូវបានកែសម្រួលដោយជោគជ័យ
+        successfully_created: គ្រួសារត្រូវបានកែសម្រួលដោយជោគជ័យ
+      edit_form:
+        accept: ទទួលយក
+        accept_ngo_form: ទទួលចូលអង្គការ
+        accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
+        case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
+      form:
+        accept: ទទួលយក
+        accept_ngo_form: ទទួលចូលអង្គការ
+        accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
+        accepting: កំពុងទទួលយក...
+        case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
+      update:
+        failed_update: គ្រួសារមិនត្រូវបានកែសម្រួលដោយជោគជ័យ
+        successfully_updated: គ្រួសារត្រូវបានកែសម្រួលដោយជោគជ័យ
+    exit_ngos:
+      create:
+        failed_create: គ្រួសារមិនត្រូវបានកែសម្រួលដោយជោគជ័យ
+        successfully_created: គ្រួសារត្រូវបានកែសម្រួលដោយជោគជ័យ
+      edit_form:
+        case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
+        exit_btn: ចាកចេញ
+        exit_circumstance: ស្ថានភាពនៃការចាកចេញ
+        exit_date: ថ្ងៃចាកចេញ
+        exit_ngo: ចាកចេញពីអង្គការ
+        exit_note: កំណត់ហេតុនៃការចាកចេញ
+        exit_reason_options:
+          agency_lack_resource: អង្គភាពខ្វះធនធានគ្រប់គ្រាន់
+          family_died: គ្រួសារបានទទួលមរណៈភាព
+          family_does_not_meet_service_criteria: គ្រួសារមិនត្រូវ​ /​ ឈប់ត្រូវតាមលក្ខខណ្ឌសេវាកម្ម
+          family_does_not_required_support: គ្រួសារមិនត្រូវការ / ឈប់ត្រូវការការឧបត្ថម្ភ
+          family_move_out_international: គ្រួសារនៅក្រៅ / ចាកចេញទៅក្រៅតំបន់គោលដៅអង្គការ (អន្តរជាតិ)
+          family_move_out_within_cambodia: គ្រួសារនៅក្រៅ / ចាកចេញទៅក្រៅតំបន់គោលដៅអង្គការ (ក្នុងប្រទេសកម្ពុជា)
+          family_refuse_service: គ្រួសារបដិសេធមិនទទួលយកសេវាកម្ម
+          other_reason: ផ្សេងៗ
+        exit_reasons: មូលហេតុនៃការចាកចេញ
+        exit_status: ស្ថានភាព
+        exiting: កំពុងចាកចេញពីអង្គការ...
+        other_info_of_exit: ព័ត៌មានបន្ថែមនៃការចាកចេញ
+        reject_family: មិនទទួលយកគ្រួសារ
+        rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
+      form:
+        case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
+        exit_btn: ចាកចេញ
+        exit_circumstance: ស្ថានភាពនៃការចាកចេញ
+        exit_date: ថ្ងៃចាកចេញ
+        exit_ngo: ចាកចេញពីអង្គការ
+        exit_note: កំណត់ហេតុនៃការចាកចេញ
+        exit_reason_options:
+          agency_lack_resource: អង្គភាពខ្វះធនធានគ្រប់គ្រាន់
+          family_died: គ្រួសារបានទទួលមរណៈភាព
+          family_does_not_meet_service_criteria: គ្រួសារមិនត្រូវ​ /​ ឈប់ត្រូវតាមលក្ខខណ្ឌសេវាកម្ម
+          family_does_not_required_support: គ្រួសារមិនត្រូវការ / ឈប់ត្រូវការការឧបត្ថម្ភ
+          family_move_out_international: គ្រួសារនៅក្រៅ / ចាកចេញទៅក្រៅតំបន់គោលដៅអង្គការ (អន្តរជាតិ)
+          family_move_out_within_cambodia: គ្រួសារនៅក្រៅ / ចាកចេញទៅក្រៅតំបន់គោលដៅអង្គការ (ក្នុងប្រទេសកម្ពុជា)
+          family_refuse_service: គ្រួសារបដិសេធមិនទទួលយកសេវាកម្ម
+          other_reason: ផ្សេងៗ
+        exit_reasons: មូលហេតុនៃការចាកចេញ
+        exit_status: ស្ថានភាព
+        exiting: កំពុងចាកចេញ...
+        other_info_of_exit: ព័ត៌មានបន្ថែមនៃការចាកចេញ
+        reject_family: មិនទទួលយកគ្រួសារ
+        rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
+      update:
+        failed_update: គ្រួសារមិនត្រូវបានកែសម្រួលដោយជោគជ័យ
+        successfully_updated: គ្រួសារត្រូវបានកែសម្រួលដោយជោគជ័យ
+  family_referrals:
+    confirm_referral:
+      body_second: គ្រួសារដែលអ្នកចង់បញ្ជូនមាននៅក្នុងអង្គការគោលដៅរួចទៅហើយ
+      body_third: អ្នកបានបញ្ជូនគ្រួសារនេះរួចហើយសូមរង់ចាំការឆ្លើយតប
+      title: ប្រុងប្រយ័ត្ន
+    consent_form_fields:
+      consent_form: ទម្រង់យល់ព្រម
+    create:
+      failed_create: ការបញ្ជូនមិនត្រូវបានបង្កើត
+      successfully_created: ការបញ្ជូនត្រូវបានបង្កើតដោយជោគជ័យ
+    edit:
+      edit_referral: កែសម្រួលទម្រង់បញ្ជូន
+    form:
+      consent_form: ទម្រង់យល់ព្រម
+      date_of_referral: កាលបរិច្ឆេទបញ្ជូន
+      external_referral_warning: អង្គការដែលអ្នកកំពុងព្យាយាមបញ្ជូនគ្រួសាររបស់អ្នកទៅបច្ចុប្បន្ននេះមិនកំពុងប្រើ OSCaR ទេ។ សូមបោះពុម្ពច្បាប់ចម្លងនៃទម្រង់បញ្ជូននេះដើម្បីផ្ញើទៅអង្គការគោលដៅរបស់អ្នក។
+      family_id: លេខសំគាល់គ្រួសារ
+      family_name: ឈ្មោះគ្រួសារ
+      name_of_referee: ឈ្មោះអ្នកបញ្ជូន
+      ngo_name: ឈ្មោះអង្គការ
+      referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
+      referral_reason: មូលហេតុនៃការបញ្ជូន
+      referred_from: ប្រភពនៃការបញ្ជូន
+      referred_to: បញ្ជូនទៅអង្គការដទៃ
+      save: រក្សាទុក
+      save_and_download: រក្សាទុក & ទាញយក
+      type_of_service: ប្រភេទសេវាកម្ម
+    index:
+      cannot_edit_referral: អ្នកមិនអាចកែសម្រួលការបញ្ជូននេះបានទេដោយសារអង្គការគោលដៅបានទទួលយកការបញ្ជូននេះរួចទៅហើយ
+      consent_form: ទម្រង់យល់ព្រម
+      date_of_referral: កាលបរិច្ឆេទបញ្ជូន
+      detail: ព័ត៌មានលំអិត
+      edit_btn: កែសម្រួល
+      family_id: លេខសំគាល់គ្រួសារ
+      family_name: ឈ្មោះគ្រួសារ
+      name_of_referee: ឈ្មោះអ្នកបញ្ជូន
+      referral_forms: ទម្រង់បញ្ជូន
+      referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
+      referral_reason: មូលហេតុនៃការបញ្ជូន
+      referred_from: ប្រភពនៃការបញ្ជូន
+      referred_to: បញ្ជូនទៅកាន់
+      select_ngos: ជ្រើសរើសអង្គការ
+    new:
+      new_referral: បន្ថែមទម្រង់បញ្ជូន
+    show:
+      cannot_edit_referral: អ្នកមិនអាចកែសម្រួលការបញ្ជូននេះបានទេដោយសារអង្គការគោលដៅបានទទួលយកការបញ្ជូននេះរួចទៅហើយ
+      consent_form: ទម្រង់យល់ព្រម
+      date_of_referral: កាលបរិច្ឆេទបញ្ជូន
+      download_referral_form: ទាញយកទម្រង់បញ្ជូន
+      external_referral_warning: អង្គការដែលអ្នកកំពុងព្យាយាមបញ្ជូនគ្រួសាររបស់អ្នកទៅ បច្ចុប្បន្ននេះមិនកំពុងប្រើ OSCaR ទេ។ សូមបោះពុម្ពច្បាប់ចម្លងនៃទម្រង់បញ្ជូននេះដើម្បីផ្ញើទៅអង្គការគោលដៅរបស់អ្នក។
+      family_id: លេខសំគាល់គ្រួសារ
+      family_name: ឈ្មោះគ្រួសារ
+      name_of_referee: ឈ្មោះអ្នកបញ្ជូន
+      ngo_name: ឈ្មោះអង្គការ
+      pdf:
+        haml:
+          date_of_referral: កាលបរិច្ឆេទបញ្ជូន
+          family_id: លេខសំគាល់គ្រួសារ
+          family_name: ឈ្មោះគ្រួសារ
+          name_of_referee: ឈ្មោះអ្នកបញ្ជូន
+          referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
+          referral_reason: មូលហេតុនៃការបញ្ជូន
+          referred_from: ប្រភពនៃការបញ្ជូន
+          referred_to: បញ្ជូនទៅកាន់
+      preview_download: មើលនិងទាញយក
+      referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
+      referral_reason: មូលហេតុនៃការបញ្ជូន
+      referred_from: ប្រភពនៃការបញ្ជូន
+      referred_to: បញ្ជូនទៅកាន់
+      type_of_service: ប្រភេទសេវាកម្ម
+    update:
+      successfully_updated: ការបញ្ជូនត្រូវបានកែសម្រួលដោយជោគជ័យ
   faq: សំនួរចម្លើយ
   field_label_cannot_be_blank: ផ្នែកនៃទម្រង់មិនអាចរំលង
   form_builder:
@@ -4210,6 +4672,9 @@ km:
       new_referral_client:
         one: អ្នកមានអតិថិជនបញ្ជូនបន្តថ្មីចំនួន1
         other: អ្នកមានអតិថិជនបញ្ជូនបន្តថ្មីចំនួន%{count}
+      new_referral_family:
+        one: អ្នកមានគ្រួសារបញ្ជូនបន្តថ្មីចំនួន1
+        other: អ្នកមានគ្រួសារបញ្ជូនបន្តថ្មីចំនួន%{count}
       no_task: មិនមានពត៌មានដែលត្រូវបង្ហាញ
       overdue_and_due_today_count:
         one: ហើយនិងមានចំនួន1ដែលត្រូវបំពេញនៅថ្ងៃនេះ
@@ -4259,6 +4724,8 @@ km:
       client_forms: ទម្រង់អតិថិជន
       country: ប្រទេស
       csi_tools: ឧបករណ៍ការប៉ាន់ប្រមាណ
+      communities: Community/Group
+      community: Community
       custom_fields: ទម្រង់បែបបទ
       custom_labels: Custom Labels
       dashboards: តារាងទិន្នន័យ
@@ -4272,6 +4739,7 @@ km:
       edit_profile: កែសម្រួលព័ត៌មានផ្ទាល់ខ្លួន
       en: English
       families: គ្រួសារ
+      family_form: Family Form
       interventions: ចំនុចដែលត្រូវធ្វើ
       km: ខ្មែរ
       locations: កន្លែង
@@ -4303,7 +4771,10 @@ km:
       thai: Thai
   leave_enrolled_programs:
     create:
-      successfully_created: អតិថិជនត្រូវបានចាកចេញពីកម្មវិធីដោយជោគជ័យ
+      client: អតិថិជន
+      community: សហគមន៍
+      family: គ្រួសារ
+      successfully_created: "%{entity}ត្រូវបានចាកចេញពីកម្មវិធីដោយជោគជ័យ"
     edit:
       leave_program: កែសម្រួលការចាកចេញពីកម្មវិធី
     form:
@@ -4454,6 +4925,8 @@ km:
       form: ទម្រង់បែបបទ
       partners: ដៃគូ
       users: ឣ្នកប្រើ
+    family_referrals:
+      referral_families: គ្រួសារដែលត្រូវបានបញ្ជូនមក
     program_stream_notify:
       review_client: អតិថិជនដែលត្រូវការត្រួតពិនិត្យ
     referrals:
@@ -4649,6 +5122,9 @@ km:
       previous: ទំព័រមុន
       save: រក្សាទុក
     index:
+      attached_with_client: សម្រាប់អតិថិជន
+      attached_with_community: សម្រាប់សហគមន៍
+      attached_with_family: សម្រាប់គ្រួសារ
       current_ngo: កម្មវិធីចម្បងរបស់អង្គការខ្ញុំ
       demo_programs: កម្មវិធីចម្បងរបស់អង្គការ Demo
       name: ឈ្មោះកម្មវិធី
@@ -5122,6 +5598,9 @@ km:
       switched_country_thailand: អ្នកបានប្ដូរការកំណត់ទៅជាប្រទេសថៃ
     create:
       successfully_created: ការកំណត់បានបង្កើតដោយជោគជ័យ
+    community:
+      title: Communities
+      hide_community: Hide Communities
     custom_assessment_setting_fields:
       are_you_sure: Are you sure want to remove this assessment?
     custom_labels:
@@ -5145,6 +5624,9 @@ km:
       default_columns: ជួរឈរលំនាំដើម
       family_default_columns: គ្រួសារ
       partner_default_columns: ដៃគូ
+    family_case_management:
+      family_case_management: Family Case Management
+      hide_family_case_management_tool: Hide Administrative Information and Case Management tools
     index:
       csi_tools: ឧបករណ៍ការបា៉ន់ប្រមាណ
       custom_assessment: ឧបករណ៍ការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន

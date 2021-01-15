@@ -1,0 +1,14 @@
+#confirm-repeat-referral-modal.modal.fade{ 'aria-hidden' => 'true', role: 'dialog' }
+  .modal-dialog
+    .modal-content.panel-warning
+      .modal-header.panel-heading
+        %button.close{ 'aria-hidden' => 'true', 'data-dismiss' => 'modal', type: 'button' } ×
+        %h4.modal-title= t('.title')
+      .modal-body.text-center
+        %input#body_first{ value: t('.body_first'), type: 'hidden' }
+      .text-center{style: 'margin-bottom: 10px'}
+        %input{:type => "checkbox", id: 'confirm-box', class: 'i-checks'}
+        = t('.confirm_box')
+      .modal-footer
+        %button.btn.btn-success{ 'data-dismiss' => 'modal', type: 'button' }
+          = t('.cancel')

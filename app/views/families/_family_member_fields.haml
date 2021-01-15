@@ -1,32 +1,30 @@
-.nested-fields
-  .row
-    .col-xs-12.col-sm-6.col-md-3
-      = f.input :adult_name, label: t('activerecord.attributes.family_member.adult_name')
-    .col-xs-12.col-sm-6.col-md-2
-      .form-group.date.optional.family_family_members_date_of_birth
-        %label.date.optional.control-label= t('.date_of_birth')
+.nested-fields.row
+  .col-sm-4.pl-0.pr-0
+    .col-sm-2.pl-0
+      .i-checks.is-client
+        = f.input :is_client, as: :boolean, label: false, type: 'checkbox', checked: f.object.is_client, class: 'form-input'
+    .col-sm-5
+      .form-group.optional
+        = f.input :client_id, label: false, wrapper: false, collection: Client.unattache_to_other_families(@family.id).map(&:to_select2), input_html: { class: "#{'hidden' unless f.object.client_id? }" }
+        = f.input :adult_name, label: false, wrapper: false, input_html: { class: "#{'hidden' if f.object.client_id? }" }
+    .col-sm-5.pl-0
+      = f.input :gender, label: false
+  .col-sm-4.pl-0.pr-0
+    .col-sm-6.pl-0
+      .form-group
         .input-group.date
-          = f.input_field :date_of_birth, class: 'date optional form-control date-picker', as: :string
+          = f.input :date_of_birth, label: false, wrapper: false, input_html: { class: 'date optional form-control date-picker' }, as: :string
           %span.input-group-addon
             %i.fa.fa-calendar-check-o
-    - if policy(FamilyMember).show?(:gender)
-      .col-xs-12.col-sm-6.col-md-2
-        = f.input :gender
-
-    - if policy(FamilyMember).show?(:occupation)
-      .col-xs-12.col-sm-6.col-md-2
-        = f.input :occupation, label: t('.occupation')
-    - if policy(FamilyMember).show?(:relation)
-      .col-xs-12.col-sm-6.col-md-3
-        = f.input :relation, collection: drop_down_relation, label: t('.relation'), class: 'select2'
-    - if policy(FamilyMember).show?(:guardian)
-      .col-xs-12.col-sm-6.col-md-2
-        %label= t('.guardian')
-        .i-checks
-          = f.input :guardian, type: 'checkbox', label: false, checked: f.object.guardian?, class: 'form-input'
-    - if policy(FamilyMember).show?(:note)
-      .col-xs-12.col-sm-6.col-md-4
-        = f.input :note, label: t('.note')
-  .row
-    .col-xs-12.col-sm-6.col-md-1
-      = link_to_remove_association t('.remove_member'), f, class: 'btn btn-danger btn-remove remove_member'
+    .col-sm-6.pl-0
+      = f.input :relation, collection: drop_down_relation, label: false
+  .col-sm-4.pl-0.pr-0
+    .col-sm-5.pl-0
+      = f.input :occupation, label: false
+    .col-sm-4.pl-0
+      = f.input :monthly_income, label: false
+    .col-sm-3.pl-0.pr-0
+      .i-checks.family_family_members_guardian
+        = f.input :guardian, label: false, type: 'checkbox', checked: f.object.guardian?, class: 'form-input'
+        = link_to_remove_association f, class: 'btn btn-outline btn-danger btn-xs' do
+          = fa_icon('trash')

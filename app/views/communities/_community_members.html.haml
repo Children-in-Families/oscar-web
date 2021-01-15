@@ -1,0 +1,31 @@
+%h3= t('communities.form.step_2_title')
+%section.community-members
+  .row.sub-title
+    .col-sm-12.pl-0
+      %h2= t('communities.form.step_21_title')
+  .row
+    .col-sm-6.pl-0.pr-0
+      .col-sm-2.pl-0
+        %label.control-lable= t('activerecord.attributes.community_member.is_family')
+      .col-sm-4
+        %label.control-lable= t('activerecord.attributes.community_member.name')
+      .col-sm-3.pl-0
+        %label.control-lable= t('activerecord.attributes.community_member.gender')
+      .col-sm-3.pl-0
+        %label.control-lable= t('activerecord.attributes.community_member.role')
+    .col-sm-6.pl-0.pr-0
+      .col-sm-3.pl-0
+        %label.control-lable= t('activerecord.attributes.community_member.adule_male_count')
+      .col-sm-3.pl-0
+        %label.control-lable= t('activerecord.attributes.community_member.adule_female_count')
+      .col-sm-3.pl-0
+        %label.control-lable= t('activerecord.attributes.community_member.kid_male_count')
+      .col-sm-3.pl-0
+        %label.control-lable= t('activerecord.attributes.community_member.kid_female_count')
+
+  #community-members
+    = f.simple_fields_for :community_members do |member|
+      = render 'community_member_fields', f: member
+    .links.row
+      .col-sm-12.pl-0
+      = link_to_add_association t('.add_new_member'), f, :community_members, class: 'btn btn-primary add_new_member'

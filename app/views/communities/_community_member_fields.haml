@@ -1,0 +1,26 @@
+.nested-fields.row
+  .col-sm-6.pl-0.pr-0
+    .col-sm-2.pl-0
+      .i-checks.is-family
+        = f.input :is_family, as: :boolean, label: false, type: 'checkbox', checked: f.object.is_family, class: 'form-input'
+    .col-sm-4
+      .form-group.optional
+        = f.input :family_id, label: false, wrapper: false, collection: Family.unattache_to_other_communities(@community.id).map(&:to_select2), input_html: { class: "#{'hidden' unless f.object.family_id? }" }
+        = f.input :name, label: false, wrapper: false, input_html: { class: "#{'hidden' if f.object.family_id? }" }
+    .col-sm-3.pl-0
+      = f.input :gender, label: false
+    .col-sm-3.pl-0
+      = f.input :role, label: false
+  .col-sm-6.pl-0.pr-0
+    .col-sm-3.pl-0
+      = f.input :adule_male_count, label: false
+    .col-sm-3.pl-0
+      = f.input :adule_female_count, label: false
+    .col-sm-3.pl-0
+      = f.input :kid_male_count, label: false
+    .col-sm-3.pl-0.pr-0
+      .col-sm-10.pl-0
+        = f.input :kid_female_count, label: false
+      .col-sm-2.pl-0.position-relative
+        = link_to_remove_association f, class: 'btn btn-outline btn-danger btn-xs' do
+          = fa_icon('trash')

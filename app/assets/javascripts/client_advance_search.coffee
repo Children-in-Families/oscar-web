@@ -920,7 +920,7 @@ class CIF.ClientAdvanceSearch
       elements = $('.select2-results .select2-results-dept-0')
       $.each elements, (index, item) ->
         if (filterValue.length == 1 || allDomainFilter.length == 1) and greaterOperator.length == 1
-          if item.textContent == '4'
+          if item.textContent == '10'
             $(item).addClass('not-allowed')
         else if (filterValue.length == 1 || allDomainFilter.length == 1) and lessOperator.length == 1
           if item.textContent == '1'

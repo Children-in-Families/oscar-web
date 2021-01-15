@@ -1,0 +1,69 @@
+.row
+  .col-xs-12.col-sm-12.col-md-12
+    .ibox
+      .ibox-title
+        %h5= "#{t('created_by')} #{@family_referral.name_of_referee} #{t('at')} #{date_format(@family_referral.created_at)}"
+        .text-right
+          - if @family_referral.non_oscar_ngo?
+            = link_to family_family_referral_path(@family, @family_referral, format: :pdf), class: 'btn btn-outline btn-info', target: :_blank do
+              = t('.download_referral_form')
+          - if policy(@family_referral).edit?
+            = link_to edit_family_family_referral_path(@family, @family_referral, referral_type: params[:referral_type]), class: 'button btn btn-outline btn-success ' do
+              = fa_icon('pencil')
+
+      .ibox-content
+        %section.overflow-case
+          %table.table.table-bordered
+            %tr
+              %td= t('.date_of_referral')
+              %td
+                %strong= date_format(@family_referral.date_of_referral)
+
+            %tr
+              %td= t('.family_name')
+              %td
+                %strong= @family_referral.name_of_family
+
+            %tr
+              %td= t('.family_id')
+              %td
+                %strong= @family_referral.family.id
+
+            %tr
+              %td= t('.referred_from')
+              %td
+                %strong= @family_referral.referred_from_ngo
+
+            %tr
+              %td= t('.referred_to')
+              %td
+                %strong= @family_referral.referred_to_ngo
+            - if @family_referral.ngo_name.present?
+              %tr
+                %td= t('.ngo_name')
+                %td
+                  %strong= @family_referral.ngo_name
+            %tr
+              %td= t('.name_of_referee')
+              %td
+                %strong= @family_referral.name_of_referee
+
+            %tr
+              %td= t('.referral_phone')
+              %td
+                %strong= @family_referral.referral_phone
+
+            %tr
+              %td= t('.referral_reason')
+              %td
+                %strong= @family_referral.referral_reason
+            %tr
+              %td
+                = t('.consent_form')
+              %td
+                - if @family_referral.consent_form.first.present?
+                  = link_to t('.preview_download'), @family_referral.consent_form.first.url, class: 'btn btn-info btn-sm btn-download', target: :_blank
+      .ibox-footer
+        .text-right
+          = link_to family_family_referrals_path(@family, referral_type: referral_type(@family_referral)), class: 'btn btn-default' do
+            = t('back')

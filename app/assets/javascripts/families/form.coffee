@@ -1,20 +1,156 @@
 CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = do ->
   _init = ->
+    _initWizardForm()
     _initSelect2()
     _ajaxChangeDistrict()
     _cocoonCallback()
     _initDatePicker()
     _initIcheck()
+    _onChangeReferralSourceCategory()
+    _initUploader()
+
+  _validateForm = ->
+    valid = true
+
+    for select in $("select.required, input.required")
+      $(select).trigger("validate")
+      if $(select).hasClass("error") || $(select).closest(".form-group").find(".select2-choice").hasClass("error")
+        valid = false
+
+    valid
+
+  _toggleDisableFamilySelect = ->
+    $(".nested-fields [name$='[client_id]']")
+    $.each $(".nested-fields"), (index, row) ->
+      memberRow = $(row)
+      select = memberRow.find('[name$="[client_id]"]')
+      select.find("option").attr("disabled", false)
+
+      $.each $(".nested-fields"), (index, row) ->
+        tmpMemberRow = $(row)
+        tmpSelect = tmpMemberRow.find('[name$="[client_id]"]')
+
+        if tmpSelect.val().length > 0 && tmpSelect.attr("id") != select.attr("id")
+          select.find("option[value=#{tmpSelect.val()}]").attr("disabled", true)
+
+  _initUploader = ->
+    $('.file .optional').fileinput
+      showUpload: false
+      showPreview: false
+      removeClass: 'btn btn-danger btn-outline'
+      browseLabel: 'Browse'
+      theme: "explorer"
+      allowedFileExtensions: ['jpg', 'png', 'jpeg', 'doc', 'docx', 'xls', 'xlsx', 'pdf']
+
+  _initWizardForm = ->
+    window.savingFamily = false
+
+    $("#family-wizard-form").steps
+      headerTag: 'h3'
+      bodyTag: 'section'
+      enableAllSteps: true
+      transitionEffect: 'slideLeft'
+      autoFocus: true
+      titleTemplate: '#title#'
+      enableCancelButton: true
+      labels:
+        finish: 'Save'
+      onStepChanging: (event, currentIndex, newIndex) ->
+        (currentIndex > newIndex) || _validateForm()
+      onFinishing: (event, currentIndex) ->
+        if window.savingFamily == false
+          $("#family-form").submit()
+          window.savingFamily = true
+        return true
+      onCanceled: ->
+        result = confirm('Are you sure?')
+        if result
+          window.location = $("#family-form").data("cancelUrl")
+
+  _onChangeReferralSourceCategory = ->
+    referralSources = $("#family_referral_source_id").data("sources")
+
+    $('#family_referral_source_category_id').change ->
+      $("#family_referral_source_id").val(null).trigger('change')
+      $("#family_referral_source_id").find('option[value!=""]').remove()
+
+      for categorySource in referralSources
+        if $(@).val() == categorySource[2]
+          $("#family_referral_source_id").append("<option value='#{categorySource[0]}'>#{categorySource[1]}</option>")
 
   _initIcheck = ->
     $('.i-checks').iCheck
       checkboxClass: 'icheckbox_square-green'
       radioClass: 'iradio_square-green'
 
+    $('.i-checks.is-client').on "ifChecked", _onMarkAsClient
+    $('.i-checks.is-client').on "ifUnchecked", _onUnmarkAsClient
+
+    $.each $(".nested-fields"), (index, row) ->
+      familyRow = $(row)
+      select = familyRow.find('[name$="[client_id]"]')
+      familyRow.find('[name$="[gender]"]').attr("disabled", !select.hasClass("hidden"))
+      familyRow.find('[name$="[date_of_birth]"]').attr("disabled", !select.hasClass("hidden"))
+
+      _onChangeClient(select)
+
+  _onUnmarkAsClient = ->
+    familyRow = $(@).closest(".nested-fields")
+    familyRow.find('[name$="[client_id]"]').addClass("hidden")
+    familyRow.find('[name$="[client_id]"]').val(null)
+    familyRow.find('[name$="[client_id]"]').trigger('change')
+
+    familyRow.find('[name$="[adult_name]"]').removeClass("hidden")
+    familyRow.find('[name$="[adult_name]"]').attr("disabled", false)
+
+    familyRow.find('[name$="[gender]"]').attr("disabled", false)
+    familyRow.find('[name$="[date_of_birth]"]').attr("disabled", false)
+
+  _onMarkAsClient = ->
+    familyRow = $(@).closest(".nested-fields")
+
+    familyRow.find('[name$="[client_id]"]').removeClass("hidden")
+    familyRow.find('[name$="[adult_name]"]').addClass("hidden")
+    familyRow.find('[name$="[adult_name]"]').attr("disabled", true)
+
+    familyRow.find('[name$="[gender]"]').attr("disabled", true)
+    familyRow.find('[name$="[date_of_birth]"]').attr("disabled", true)
+
+    _onChangeClient(familyRow.find('[name$="[client_id]"]'))
+
+  _onChangeClient = (select) ->
+    $select = $(select)
+    familyRow = $select.closest(".nested-fields")
+
+    $select.change (e)->
+      data = $(@).find("option:selected").data()
+
+      familyRow.find('[name$="[gender]"]').val(data.gender)
+      familyRow.find('[name$="[gender]"]').trigger('change')
+      familyRow.find('[name$="[date_of_birth]"]').datepicker('update', data.dateOfBirth)
+
+      _toggleDisableFamilySelect()
+
   _initSelect2 = ->
     $('select').select2
       allowClear: true
-      # _clearSelectedOption()
+
+    $('select.required').on "change", (e) ->
+      $(@).trigger("validate")
+
+    $('select.required, input.required').on "validate", (e) ->
+      $select = $(@)
+      $select.removeClass("error")
+      $select.closest(".form-group").find(".select2-choice, .select2-choices").removeClass("error")
+      $select.closest(".form-group").find("label.control-label").removeClass("error")
+      $select.closest(".form-group").find("label.error").remove()
+
+      if $select.val() == null || $select.val().length == 0
+        $select.addClass("error")
+        $select.closest(".form-group").find(".select2-choice, .select2-choices").addClass("error")
+        $select.closest(".form-group").find("label.control-label").addClass("error")
+        $select.closest(".form-group").append("<label class='error'>This field is required.</label>")
+
 
   _clearSelectedOption = ->
     formAction = $('body').attr('id')
@@ -26,12 +162,22 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
       _initDatePicker()
       _initIcheck()
 
+      $.each $(".nested-fields"), (index, row) ->
+        memberRow = $(row)
+        select = memberRow.find('[name$="[client_id]"]')
+        select.trigger("change") if select.val().length > 0
+
   _initDatePicker = ->
     $('.date-picker').datepicker
-      autoclose: true,
-      format: 'yyyy-mm-dd',
-      todayHighlight: true,
+      autoclose: true
+      format: 'yyyy-mm-dd'
+      todayHighlight: true
+      startDate: '1899,01,01'
+      clearBtn: true
       disableTouchKeyboard: true
+
+    $('.date-picker').on "hide", (e) ->
+      $(e.currentTarget).trigger("validate")
 
   _ajaxChangeDistrict = ->
     mainAddress = $('#family_province_id, #family_district_id, #family_commune_id')

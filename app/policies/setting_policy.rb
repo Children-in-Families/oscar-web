@@ -24,4 +24,6 @@ class SettingPolicy < ApplicationPolicy
   alias update? index?
   alias default_columns? index?
   alias integration? index?
+  alias family_case_management? client_forms?
+  alias community? client_forms?
 end

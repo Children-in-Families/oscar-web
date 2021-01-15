@@ -1,0 +1,58 @@
+.ibox
+  .ibox-title
+    .row
+      .col-xs-12.col-sm-6.co-md-6
+        %h5
+          - if params[:family_id]
+            = link_to @programmable.name, family_path(@programmable)
+            = " - #{t('.program_lists')}"
+          - elsif params[:community_id]
+            = link_to @programmable.name, community_path(@programmable)
+            = " - #{t('.program_lists')}"
+      .col-xs-12.col-sm-6.col-md-6
+        .ibox-tools
+          - if params[:family_id]
+            = link_to t('.back'), family_path(@programmable), class: 'btn btn-default btn-back-default btn-back'
+          - elsif params[:community_id]
+            = link_to t('.back'), community_path(@programmable), class: 'btn btn-default btn-back-default btn-back'
+  .ibox-content
+    .table-responsive
+      %table.table.table-bordered.table-striped.table-hover.entity_enrollment
+        %thead
+          %tr
+            %th.status
+              = t('.status')
+              .pull-right
+                = render 'order', column: :status
+            %th.name
+              = t('.name')
+              .pull-right
+                = render 'order', column: :name
+            %th.domain= t('.domain')
+            %th.quantity
+              = t('.quantity')
+              .pull-right
+                = render 'order', column: :quantity
+            %th.report= t('.report')
+            %th.manage= t('.actions')
+        %tbody
+          - @program_streams.each do |ps|
+            - next unless program_stream_readable?(ps.id)
+            - next if ps.enrollments.enrollments_by(@programmable).blank? && ps.archived_at.present?
+            %tr
+              %td.status
+                = render 'status', program_stream: ps
+              %td.name
+                = link_to_if ps.archived_at.nil?, ps.name, program_stream_path(ps, entity: true, entity_type: ps.entity_type)
+              %td.domain
+                - ps.domains_format.each do |domain|
+                  %strong.label.label-default= domain
+              %td.quantity
+                = ps.place_available
+              %td.report
+                = report_link_view(ps)
+              %td.manage
+                = render 'manage', program_stream: ps
+
+  .ibox-footer.text-center
+    = paginate @program_streams
