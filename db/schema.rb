@@ -210,8 +210,8 @@ ActiveRecord::Schema.define(version: 20210111031945) do
     t.integer  "client_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "family_id"
     t.boolean  "completed",     default: false
+    t.integer  "family_id"
   end
 
   add_index "care_plans", ["assessment_id"], name: "index_care_plans_on_assessment_id", using: :btree
@@ -697,9 +697,9 @@ ActiveRecord::Schema.define(version: 20210111031945) do
     t.string   "other_agency_name"
     t.string   "other_representative_name"
     t.string   "other_agency_phone"
-    t.string   "locality"
     t.string   "national_id_number"
     t.string   "passport_number"
+    t.string   "locality"
   end
 
   add_index "clients", ["commune_id"], name: "index_clients_on_commune_id", using: :btree
@@ -1782,7 +1782,6 @@ ActiveRecord::Schema.define(version: 20210111031945) do
     t.integer  "township_id"
     t.integer  "subdistrict_id"
     t.string   "locality"
-    t.string   "referee_email"
   end
 
   add_index "referees", ["commune_id"], name: "index_referees_on_commune_id", using: :btree
@@ -2017,6 +2016,10 @@ ActiveRecord::Schema.define(version: 20210111031945) do
   add_index "tasks", ["family_id"], name: "index_tasks_on_family_id", using: :btree
   add_index "tasks", ["goal_id"], name: "index_tasks_on_goal_id", using: :btree
   add_index "tasks", ["taskable_type", "taskable_id"], name: "index_tasks_on_taskable_type_and_taskable_id", using: :btree
+
+  create_table "test_tables", force: :cascade do |t|
+    t.string "test"
+  end
 
   create_table "thredded_categories", force: :cascade do |t|
     t.integer  "messageboard_id",             null: false

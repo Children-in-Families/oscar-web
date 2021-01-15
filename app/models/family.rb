@@ -80,6 +80,7 @@ class Family < ActiveRecord::Base
   after_create :assign_slug
   after_save :save_family_in_client, :mark_referral_as_saved
   after_commit :update_related_community_member, on: :update
+  after_commit :update_related_community_members, on: :update
 
   def self.update_brc_aggregation_data
     Organization.switch_to 'brc'
