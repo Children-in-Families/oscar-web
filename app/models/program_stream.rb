@@ -1,5 +1,6 @@
 class ProgramStream < ActiveRecord::Base
   include UpdateFieldLabelsFormBuilder
+  include ClientRetouch
   FORM_BUILDER_FIELDS = ['enrollment', 'exit_program'].freeze
   acts_as_paranoid without_default_scope: true, column: :archived_at
 
