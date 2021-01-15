@@ -721,6 +721,30 @@ CIF.ClientsIndex = do ->
         id: 4
         tag: '4'
       }
+      {
+        id: 5
+        tag: '5'
+      }
+      {
+        id: 6
+        tag: '6'
+      }
+      {
+        id: 7
+        tag: '7'
+      }
+      {
+        id: 8
+        tag: '8'
+      }
+      {
+        id: 9
+        tag: '9'
+      }
+      {
+        id: 10
+        tag: '10'
+      }
     ]
 
   _handleDomainScoreInputValue = ->

@@ -74,7 +74,7 @@
               .col-xs-12.col-sm-4.m-b-sm
                 - if css.domains.any?
                   - if policy(@custom_assessment).create?(css.id, css)
-                    = link_to new_client_assessment_path(@client, default: false, custom_name: css.custom_assessment_name), class: 'btn btn-block btn-primary button', data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.assessments.index.custom_button')}", placement: "auto" } do
+                    = link_to new_client_assessment_path(@client, default: false, custom_name: css.custom_assessment_name), class: 'btn btn-block btn-primary button', data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.assessments.index.custom_button', assessment: I18n.t('clients.show.assessment'))}", placement: "auto" } do
                       - if Organization.ratanak?
                         = "#{t('.begin_now')} #{t('clients.show.custom_assessment', assessment: t('clients.show.assessment'))}"
                       - else
@@ -86,7 +86,7 @@
                       - else
                         = "#{t('.begin_now')} #{css.custom_assessment_name}"
                 - else
-                  = link_to '#', data: { toggle: 'modal', target: '#customDomainsModal' }, class: 'btn btn-block btn-primary button', data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.assessments.index.custom_button')}", placement: "auto" } do
+                  = link_to '#', data: { toggle: 'modal', target: '#customDomainsModal' }, class: 'btn btn-block btn-primary button', data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.assessments.index.custom_button', assessment: I18n.t('clients.show.assessment'))}", placement: "auto" } do
                     - if Organization.ratanak?
                       = "#{t('.begin_now')} #{t('clients.show.custom_assessment', assessment: t('clients.show.assessment'))}"
                     - else

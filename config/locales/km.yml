@@ -3637,6 +3637,12 @@ km:
       score_2: ពិន្ទុ 2
       score_3: ពិន្ទុ 3
       score_4: ពិន្ទុ 4
+      score_5: ពិន្ទុ 5
+      score_6: ពិន្ទុ 6
+      score_7: ពិន្ទុ 7
+      score_8: ពិន្ទុ 8
+      score_9: ពិន្ទុ 9
+      score_10: ពិន្ទុ 10
       view: មើល
     domain_names:
       a1: ១ក
@@ -3670,6 +3676,12 @@ km:
       score_2: ពិន្ទុ 2
       score_3: ពិន្ទុ 3
       score_4: ពិន្ទុ 4
+      score_5: ពិន្ទុ 5
+      score_6: ពិន្ទុ 6
+      score_7: ពិន្ទុ 7
+      score_8: ពិន្ទុ 8
+      score_9: ពិន្ទុ 9
+      score_10: ពិន្ទុ 10
     index:
       add_new_domain: បន្ថែមកត្តាថ្មី
       are_you_sure: តើអ្នកប្រាកដហើយ?
@@ -3681,6 +3693,12 @@ km:
       score_2: ពិន្ទុ 2
       score_3: ពិន្ទុ 3
       score_4: ពិន្ទុ 4
+      score_5: ពិន្ទុ 5
+      score_6: ពិន្ទុ 6
+      score_7: ពិន្ទុ 7
+      score_8: ពិន្ទុ 8
+      score_9: ពិន្ទុ 9
+      score_10: ពិន្ទុ 10
       view: មើល
     new:
       title: កត្តាថ្មី

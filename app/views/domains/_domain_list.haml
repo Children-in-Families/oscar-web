@@ -35,11 +35,9 @@
   .panel-body
     %p= domain.translate_description.html_safe
   .penel-footer
-    .btn-option.btn-sm.btn.btn-block{ class: "btn-#{domain.score_1_color}" }
-      = score_definition(domain.translate_score_1_definition, 1)
-    .btn-option.btn-sm.btn.btn-block{ class: "btn-#{domain.score_2_color}" }
-      = score_definition(domain.translate_score_2_definition, 2)
-    .btn-option.btn-sm.btn.btn-block{ class: "btn-#{domain.score_3_color}" }
-      = score_definition(domain.translate_score_3_definition, 3)
-    .btn-option.btn-sm.btn.btn-block{ class: "btn-#{domain.score_4_color}" }
-      = score_definition(domain.translate_score_4_definition, 4)
+    - (1..10).each do |score|
+      - interpretation = domain.send("translate_score_#{score}_definition")
+      - score_color = domain.send("score_#{score}_color")
+      - if interpretation.present?
+        .btn-option.btn-sm.btn.btn-block{ class: "btn-#{score_color}" }
+          = score_definition(interpretation, score)
