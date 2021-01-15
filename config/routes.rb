@@ -163,6 +163,7 @@ Rails.application.routes.draw do
       resources :enter_ngos, only: [:create, :update]
     end
 
+    resources :family_referrals
     resources :custom_field_properties
     get 'version' => 'families#version'
 
@@ -207,11 +208,17 @@ Rails.application.routes.draw do
       get :program_stream_notify
       get :referrals
       get :repeat_referrals
+      get :family_referrals
+      get :repeat_family_referrals
     end
   end
 
   namespace :api do
     resources :referrals do
+      get :compare, on: :collection
+    end
+
+    resources :family_referrals do
       get :compare, on: :collection
     end
 

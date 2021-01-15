@@ -5,8 +5,8 @@ development:
       hosts:
         - <%= ENV["HISTORY_DATABASE_HOST"] || 'localhost' %>:27017
       options:
-        user: <%= ENV["DATABASE_USER"] %>
-        password: <%= ENV["DATABASE_PASSWORD"] %>
+        user: <%= ENV['DATABASE_USER'] %>
+        password: <%= ENV['DATABASE_PASSWORD'] %>
         auth_mech: :scram
         read:
           mode: primary
@@ -43,7 +43,7 @@ staging:
     default:
       database: <%= ENV["HISTORY_DATABASE_NAME"] %>
       hosts:
-        - <%= ENV["HISTORY_DATABASE_HOST"] %>:27017
+        - <%= ENV["HISTORY_DATABASE_HOST"] || 'localhost' %>:27017
       options:
   options:
 production:

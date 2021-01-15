@@ -40,6 +40,7 @@ class Ability
       can :manage, GovernmentForm
       can [:read, :create, :update], Partner
       can :manage, Referral
+      can :manage, FamilyReferral
       can :create, Task
       can :read, Task
       cannot [:edit, :update], ReferralSource
@@ -76,6 +77,7 @@ class Ability
       can :create, Task
       can :read, Task
       can :manage, Referral
+      can :manage, FamilyReferral
 
       family_ids = user.families.ids
       family_ids += User.joins(:clients).where(id: subordinate_users).where.not(clients: { current_family_id: nil }).select('clients.current_family_id AS client_current_family_id').map(&:client_current_family_id)
@@ -98,6 +100,7 @@ class Ability
       can :manage, GovernmentForm
       can [:read, :create, :update], Partner
       can :manage, Referral
+      can :manage, FamilyReferral
       can :create, Task
       can :read, Task
       cannot [:edit, :update], ReferralSource

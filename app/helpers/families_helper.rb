@@ -228,4 +228,8 @@ module FamiliesHelper
   def family_order_case_worker(family)
     family.case_workers.distinct.sort
   end
+
+  def name_km_en
+    @family.name_en? ? "#{@family.name} - #{@family.name_en}" : "#{@family.name}"
+  end
 end
