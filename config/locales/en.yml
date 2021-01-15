@@ -2228,6 +2228,8 @@ en:
     new:
       new_community_title: New Community
     show:
+      add_form: Add Form
+      additional_forms: Community's Active Forms
       address: Address
       all_beneficiaries: To Count All Beneficiaries (direct members and their household members)
       are_you_sure: Are you sure you want to delete?

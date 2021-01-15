@@ -27,6 +27,24 @@
 
   .col-md-3
   .col-sm-12
+    .btn-group.small-btn-margin
+      %button.btn-sm.btn.btn-success.dropdown-toggle.btn-fit{ class: ('disabled' if @group_community_custom_fields.empty?), data: { toggle: "dropdown", trigger: 'hover', html: 'true', content: "#{I18n.t('inline_help.communities.show.active_form')}", placement: "bottom" } }
+        = t('.additional_forms')
+        %span.caret
+      %ul.dropdown-menu.scrollable-dropdown-menu
+        - @group_community_custom_fields.each do |_, community_custom_fields|
+          %li
+            %p= link_to community_custom_fields.first.custom_field.form_title, community_custom_field_properties_path(@community, custom_field_id: community_custom_fields.first.custom_field_id)
+
+    - if can? :manage, CustomFieldProperty
+      .btn-group.small-btn-margin
+        %button.btn-sm.btn.btn-success.dropdown-toggle.btn-fit{ class: ('disabled' if @free_community_forms.empty?), data: { toggle: "dropdown", trigger: 'hover', html: 'true', content: "#{I18n.t('inline_help.communities.show.add_form')}", placement: "bottom" } }
+          = t('.add_form')
+          %span.caret
+        %ul.dropdown-menu.scrollable-dropdown-menu
+          - @free_community_forms.each do |custom_field|
+            %li
+              %p= link_to custom_field.form_title, new_community_custom_field_property_path(@community, custom_field_id: custom_field)
     - if @community.enrollments.active.count > 0
       = link_to community_enrolled_programs_path(@community), data: { toggle: "popover", html: 'true', trigger: 'hover', content: "#{I18n.t('inline_help.communities.show.active_program')}", placement: "auto" } do
         .btn.btn-primary.small-btn-margin.btn-sm.btn-fit= t('.enrolled_program_streams')

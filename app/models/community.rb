@@ -39,6 +39,8 @@ class Community < ActiveRecord::Base
   has_many :quantitative_cases, through: :community_quantitative_cases
   has_many :viewable_quantitative_cases, -> { joins(:quantitative_type).where('quantitative_types.visible_on LIKE ?', "%community%") }, through: :community_quantitative_cases, source: :quantitative_case
 
+  has_many :custom_field_properties, as: :custom_formable, dependent: :destroy
+  has_many :custom_fields, through: :custom_field_properties, as: :custom_formable
   has_many :community_members, dependent: :destroy
   has_many :families, through: :community_members
   has_many :enrollments, as: :programmable, dependent: :destroy

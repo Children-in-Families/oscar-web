@@ -44,7 +44,11 @@ class CommunitiesController < AdminController
     end
   end
 
-  def show;end
+  def show
+    custom_field_ids               = @community.custom_field_properties.pluck(:custom_field_id)
+    @free_community_forms          = CustomField.community_forms.not_used_forms(custom_field_ids).order_by_form_title
+    @group_community_custom_fields = @community.custom_field_properties.group_by(&:custom_field_id)
+  end
 
   def edit
   end
