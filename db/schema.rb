@@ -210,8 +210,8 @@ ActiveRecord::Schema.define(version: 20210111031945) do
     t.integer  "client_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "completed",     default: false
     t.integer  "family_id"
+    t.boolean  "completed",     default: false
   end
 
   add_index "care_plans", ["assessment_id"], name: "index_care_plans_on_assessment_id", using: :btree
