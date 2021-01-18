@@ -26,10 +26,10 @@
                       %td.text-center.text-middle= date_format(task.completion_date)
                       - if current_user.admin?
                         %td.text-center.margin-icon.text-middle
-                          = link_to edit_client_task_path(@family, task) do
+                          = link_to edit_family_task_path(@family, task) do
                             .btn.btn-outline.btn-success.btn-xs
                               %i.fa.fa-pencil
-                          = link_to client_task_path(@family, task), method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') } do
+                          = link_to family_task_path(@family, task), method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') } do
                             .btn.btn-outline.btn-danger.btn-xs
                               %i.fa.fa-trash
 
@@ -54,10 +54,10 @@
                       %td.text-center.text-middle= date_format(task.completion_date)
                       - if current_user.admin?
                         %td.text-center.margin-icon.text-middle
-                          = link_to edit_client_task_path(@family, task) do
+                          = link_to edit_family_task_path(@family, task) do
                             .btn.btn-outline.btn-success.btn-xs
                               %i.fa.fa-pencil
-                          = link_to client_task_path(@family, task), method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') } do
+                          = link_to family_task_path(@family, task), method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') } do
                             .btn.btn-outline.btn-danger.btn-xs
                               %i.fa.fa-trash
         .panel.panel-primary
@@ -78,9 +78,9 @@
                       %td.text-center.text-middle= date_format(task.completion_date)
                       - if current_user.admin?
                         %td.text-center.margin-icon.text-middle
-                          = link_to edit_client_task_path(@family, task) do
+                          = link_to edit_family_task_path(@family, task) do
                             .btn.btn-outline.btn-success.btn-xs
                               %i.fa.fa-pencil
-                          = link_to client_task_path(@family, task), method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') } do
+                          = link_to family_task_path(@family, task), method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') } do
                             .btn.btn-outline.btn-danger.btn-xs
                               %i.fa.fa-trash
