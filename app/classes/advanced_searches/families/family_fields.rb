@@ -41,11 +41,12 @@ module AdvancedSearches
       end
 
       def date_type_list
-        ['date_of_birth', 'contract_date']
+        ['date_of_birth', 'contract_date', 'case_note_date']
       end
 
       def drop_down_type_list
         [
+          ['case_note_type', case_note_type_options],
           ['family_type', family_type_options],
           ['status', status_options],
           ['gender', gender_options],
@@ -56,6 +57,10 @@ module AdvancedSearches
           ['commune_id', communes],
           ['village_id', villages]
         ]
+      end
+
+      def case_note_type_options
+        [CaseNote::INTERACTION_TYPE, I18n.t('case_notes.form.type_options').values].transpose.map { |k, v| { k => v }  }
       end
 
       def family_type_options

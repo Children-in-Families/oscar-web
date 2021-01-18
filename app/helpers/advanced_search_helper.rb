@@ -171,6 +171,8 @@ module AdvancedSearchHelper
   def family_header(key)
     translations = {
       family_basic_fields:                      I18n.t('advanced_search.fields.family_basic_fields'),
+      case_note_date:                           I18n.t('advanced_search.fields.case_note_date'),
+      case_note_type:                           I18n.t('advanced_search.fields.case_note_type'),
       csi_domain_scores:                        I18n.t('advanced_search.fields.csi_domain_scores'),
       custom_csi_domain_scores:                 I18n.t('advanced_search.fields.custom_csi_domain_scores'),
       name:                                     I18n.t('datagrid.columns.families.name'),

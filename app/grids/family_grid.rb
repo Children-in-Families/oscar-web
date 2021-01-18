@@ -241,6 +241,14 @@ class FamilyGrid < BaseGrid
     User.where(id: user_ids).map{|u| u.name }.join(', ')
   end
 
+  column(:case_note_date, header: -> { I18n.t('datagrid.columns.clients.case_note_date')}, html: true) do |object|
+    render partial: 'clients/case_note_date', locals: { object: object }
+  end
+
+  column(:case_note_type, header: -> { I18n.t('datagrid.columns.clients.case_note_type')}, html: true) do |object|
+    render partial: 'clients/case_note_type', locals: { object: object }
+  end
+
   dynamic do
     next unless dynamic_columns.present?
     dynamic_columns.each do |column_builder|

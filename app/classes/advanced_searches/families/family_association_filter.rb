@@ -1,6 +1,9 @@
 module AdvancedSearches
   module Families
     class FamilyAssociationFilter
+      include AssessmentHelper
+      include FormBuilderHelper
+
       def initialize(families, field, operator, values)
         @families  = families
         @field    = field
@@ -12,11 +15,15 @@ module AdvancedSearches
         sql_string = 'families.id IN (?)'
         case @field
         when 'client_id'
-          values = clients
+          values = families
         when 'case_workers'
           values = case_worker_field_query
         when 'gender'
           values = get_family_member_gender
+        when 'case_note_date'
+          values = advanced_case_note_query
+        when 'case_note_type'
+          values = advanced_case_note_query
         when 'date_of_birth'
           values = get_family_member_dob
         when /assessment_completed|assessment_completed_date/
@@ -29,13 +36,13 @@ module AdvancedSearches
 
       private
 
-      def clients
+      def families
         families = @families
         case @operator
         when 'equal'
-          families = families.joins(:clients).where('children && ARRAY[?]', @value.to_i)
+          families = families.joins(:families).where('children && ARRAY[?]', @value.to_i)
         when 'not_equal'
-          families = families.joins(:clients).where.not('children && ARRAY[?]', @value.to_i)
+          families = families.joins(:families).where.not('children && ARRAY[?]', @value.to_i)
         when 'is_empty'
           families = families.where(children: '{}')
         when 'is_not_empty'
@@ -180,6 +187,33 @@ module AdvancedSearches
           families = families.where.not(assessments: { created_at: nil })
         end
         families.ids
+      end
+
+      def advanced_case_note_query
+        results = []
+        @basic_rules  = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
+        basic_rules   = @basic_rules.is_a?(Hash) ? @basic_rules : JSON.parse(@basic_rules).with_indifferent_access
+        results       = mapping_allowed_param_value(basic_rules, ['case_note_date', 'case_note_type'], data_mapping=[])
+        query_string  = get_any_query_string(results, 'case_notes')
+        sql           = query_string.reject(&:blank?).map{|query| "(#{query})" }.join(" #{basic_rules[:condition]} ")
+        families      = Family.joins('LEFT OUTER JOIN case_notes ON case_notes.family_id = families.id')
+        families.where(sql).ids
+      end
+
+      def case_note_query_results(families, case_note_date_query_array, case_note_type_query_array)
+        results = []
+        if case_note_date_query_array.first.present? && case_note_type_query_array.first.blank?
+          results = families.where(case_note_date_query_array)
+        elsif case_note_date_query_array.first.blank? && case_note_type_query_array.first.present?
+          results = families.where(case_note_type_query_array)
+        else
+          results = families.where(case_note_date_query_array).or(families.where(case_note_type_query_array))
+        end
+        results
+      end
+
+      def case_note_basic_rules(basic_rules, field)
+        basic_rules.reject{|h| h['id'] != field }.map {|value| [value['id'], value['operator'], value['value']] }
       end
     end
   end
