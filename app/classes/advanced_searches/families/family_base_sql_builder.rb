@@ -37,6 +37,54 @@ module AdvancedSearches
               @sql_string << custom_field[:id]
               @values << custom_field[:values]
             end
+
+          elsif form_builder.first == 'quantitative'
+            quantitative_filter = AdvancedSearches::Families::QuantitativeCaseSqlBuilder.new(@families, rule).get_sql
+            @sql_string << quantitative_filter[:id]
+            @values << quantitative_filter[:values]
+
+          elsif form_builder.first == 'enrollment'
+            program_name = form_builder.second.gsub("&qoute;", '"')
+            program_stream = ProgramStream.find_by(name: program_name)
+            if program_stream.present?
+              enrollment_fields = AdvancedSearches::Families::FamilyEnrollmentSqlBuilder.new(program_stream.id, rule).get_sql
+              @sql_string << enrollment_fields[:id]
+              @values << enrollment_fields[:values]
+            end
+  
+          elsif form_builder.first == 'enrollmentdate'
+            program_name = form_builder.second.gsub("&qoute;", '"')
+            program_stream = ProgramStream.find_by(name: program_name)
+  
+            if program_stream
+              enrollment_date = AdvancedSearches::Families::FamilyEnrollmentDateSqlBuilder.new(program_stream.id, rule).get_sql
+              @sql_string << enrollment_date[:id]
+              @values << enrollment_date[:values]
+            else
+              @sql_string << "Families.id IN (?)"
+              @values << []
+            end
+          elsif form_builder.first == 'tracking'
+            tracking = Tracking.joins(:program_stream).where(program_streams: {name: form_builder.second}, trackings: {name: form_builder.third}).last
+  
+            if tracking
+              tracking_fields = AdvancedSearches::Families::FamilyTrackingSqlBuilder.new(tracking.id, rule, form_builder.second).get_sql
+              @sql_string << tracking_fields[:id]
+              @values << tracking_fields[:values]
+            end
+          elsif form_builder.first == 'exitprogram'
+            program_stream = ProgramStream.find_by(name: form_builder.second)
+            exit_program_fields = AdvancedSearches::Families::FamilyExitProgramSqlBuilder.new(program_stream.id, rule).get_sql
+            @sql_string << exit_program_fields[:id]
+            @values << exit_program_fields[:values]
+  
+          elsif form_builder.first == 'exitprogramdate' || form_builder.first == 'programexitdate'
+            program_stream = ProgramStream.find_by(name: form_builder.second)
+            if program_stream.present?
+              exit_date = AdvancedSearches::Families::FamilyProgramExitDateSqlBuilder.new(program_stream.id, rule).get_sql
+              @sql_string << exit_date[:id]
+              @values << exit_date[:values]
+            end
           elsif field != nil
             base_sql(field, operator, value)
           else

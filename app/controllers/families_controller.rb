@@ -2,8 +2,8 @@ class FamiliesController < AdminController
   load_and_authorize_resource
   include FamilyAdvancedSearchesConcern
 
-  before_action :find_params_advanced_search, :get_custom_form, only: [:index]
-  before_action :get_custom_form_fields, :family_builder_fields, only: [:index]
+  before_action :find_params_advanced_search, :get_custom_form, :get_program_streams, only: [:index]
+  before_action :get_custom_form_fields, :family_builder_fields, :get_quantitative_fields, only: [:index]
   before_action :basic_params, if: :has_params?, only: [:index]
   before_action :build_advanced_search, only: [:index]
   before_action :find_association, except: [:index, :destroy, :version]

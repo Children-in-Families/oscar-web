@@ -8,6 +8,7 @@ module FamilyAdvancedSearchesConcern
     $param_rules = find_params_advanced_search
     @families    = AdvancedSearches::Families::FamilyAdvancedSearch.new(basic_rules, Family.accessible_by(current_ability)).filter
     custom_form_column
+    program_stream_column
     respond_to do |f|
       f.html do
         @results                = @family_grid.scope { |scope| scope.where(id: @families.ids) }.assets.size
@@ -87,5 +88,54 @@ module FamilyAdvancedSearchesConcern
         end
       end
     end
+  end
+
+  def get_program_streams
+    program_ids = Enrollment.pluck(:program_stream_id).uniq
+    @program_streams = ProgramStream.where(id: program_ids).order(:name)
+  end
+
+  def program_stream_column
+    @program_stream_columns = program_stream_fields.group_by{ |field| field[:optgroup] } if params.dig(:family_advanced_search, :action_report_builder) == '#builder'
+  end
+
+  def program_stream_fields
+    @program_stream_fields = get_enrollment_fields + get_tracking_fields + get_exit_program_fields
+  end
+
+  def get_enrollment_fields
+    return [] if program_stream_values.empty? || !enrollment_check?
+    AdvancedSearches::EnrollmentFields.new(program_stream_values).render
+  end
+
+  def get_tracking_fields
+    return [] if program_stream_values.empty? || !tracking_check?
+    AdvancedSearches::TrackingFields.new(program_stream_values).render
+  end
+
+  def get_exit_program_fields
+    return [] if program_stream_values.empty? || !exit_program_check?
+    AdvancedSearches::ExitProgramFields.new(program_stream_values).render
+  end
+
+  def program_stream_values
+    program_stream_value? ? eval(@advanced_search_params[:program_selected]) : []
+  end
+
+  def enrollment_check?
+    @advanced_search_params.present? && @advanced_search_params[:enrollment_check].present?
+  end
+
+  def tracking_check?
+    @advanced_search_params.present? && @advanced_search_params[:tracking_check].present?
+  end
+
+  def exit_program_check?
+    @advanced_search_params.present? && @advanced_search_params[:exit_form_check].present?
+  end
+
+  def get_quantitative_fields
+    quantitative_fields = AdvancedSearches::QuantitativeCaseFields.new(current_user)
+    @quantitative_fields = quantitative_fields.render
   end
 end

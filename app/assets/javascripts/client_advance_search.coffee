@@ -306,6 +306,15 @@ class CIF.ClientAdvanceSearch
     $('.main-report-builder #program-stream-checkbox').on 'ifChecked', ->
       $('.main-report-builder .program-stream').show()
 
+  handleFamilyShowProgramStreamFilter: ->
+    self = @
+    if $('.main-report-builder #program-stream-checkbox').prop('checked')
+      $('.main-report-builder .program-stream').show()
+    if self.enrollmentCheckbox.prop('checked') || self.trackingCheckbox.prop('checked') || self.exitCheckbox.prop('checked') || self.programSelected.length > 0
+      $('.main-report-builder .program-association').show()
+    $('.main-report-builder #program-stream-checkbox').on 'ifChecked', ->
+      $('.main-report-builder .program-stream').show()
+
   handleHideProgramStreamSelect: ->
     self = @
     $('.main-report-builder .program-stream-checkbox').on 'ifUnchecked', ->
