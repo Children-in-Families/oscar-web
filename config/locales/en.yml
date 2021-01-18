@@ -4035,6 +4035,12 @@ en:
         successfully_created: Task has successfully been created.
       destroy:
         successfully_deleted: Task has successfully been deleted.
+      form:
+        back: Back
+        completion_date: Completion Date
+        domain: Domain
+        enter_task_detail: Enter task details
+        save: Save
       index:
         add_all_to_calendar: Add all to calendar
         add_to_calendar: Add to calendar

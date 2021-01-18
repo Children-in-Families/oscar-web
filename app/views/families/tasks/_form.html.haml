@@ -1,0 +1,18 @@
+= simple_form_for([@task.family, @task], html: { class: 'task-form' }) do |f|
+  = error_notification(f)
+
+  = f.association :domain, collection: Domain.all, label_method: ->(domain){damain_task_translation(domain)}, include_blank: false, label: t('.domain')
+  = f.input :name, label: t('.enter_task_detail')
+
+  .form-group.date.required.task_completion_date{ class: ('has-error' if f.error :completion_date) }
+    %label.date.required.control-label{ for: 'task_completion_date' }
+      %abbr{ title: 'required' } *
+      = t('.completion_date')
+    .input-group.date
+      = f.text_field :completion_date, class: 'date required form-control date-picker', type: 'text', name: 'task[completion_date]', id: 'task_completion_date'
+      %span.input-group-addon
+        %i.fa.fa-calendar-check-o
+    = f.error :completion_date
+
+  = f.submit t('.save'), class: 'btn btn-primary form-btn', data: { disable_with: t('saving') }
+  = link_to t('.back'), family_tasks_path(@task.family), class: 'btn btn-default form-btn'

@@ -4021,6 +4021,12 @@ my:
         successfully_created: လုပ္ငန္းကို ေအာင္ျမင္စြာ ဖန္တီးၿပီးပါၿပီ
       destroy:
         successfully_deleted: လုပ္ငန္းကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ
+      form:
+        back: ေနာက္သို႔
+        completion_date: အၿပီးသတ္သည့္ ရက္စြဲ
+        domain: ဒိုမိန္း
+        enter_task_detail: လုပ္ငန္းအေသးစိတ္ကို ထည့္သြင္းရန္
+        save: သိမ္းဆည္းရန္
       index:
         add_all_to_calendar: ျပကၡဒိန္ထဲသုိ႔ အကုန္ထည့္ရန္
         add_to_calendar: ျပကၡဒိန္ထဲသုိ႔ ထည့္ရန္

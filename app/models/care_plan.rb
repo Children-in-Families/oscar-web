@@ -10,4 +10,8 @@ class CarePlan < ActiveRecord::Base
 
   accepts_nested_attributes_for :goals, reject_if:  proc { |attributes| attributes['description'].blank? }, allow_destroy: true
   accepts_nested_attributes_for :assessment_domains
+
+  def parent
+    family_id? ? family : client
+  end
 end
