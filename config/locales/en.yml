@@ -846,6 +846,7 @@ en:
       remove_goal: Remove goal
     index:
       assessment_created_on: Assessment created on
+      back: Back
       care_plan_history: Care Plan History
       new_care_plan: New Care Plan
       review_care_plan: Review Care Plan

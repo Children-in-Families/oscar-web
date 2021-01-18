@@ -47,12 +47,12 @@ module CreateNestedValue
         goal.tasks.all.each(&:destroy_fully!)
         goal.reload.destroy
       else
-        update_goal_attributes(goal)
+        update_goal_attributes(goal, goal_in_params)
       end
     end
   end
 
-  def update_goal_attributes(goal)
+  def update_goal_attributes(goal, goal_in_params)
     goal.update_attributes(description: goal_in_params.last[:description])
     goal_in_params.last[:tasks_attributes].each do |task|
       task_id = task.last[:id]

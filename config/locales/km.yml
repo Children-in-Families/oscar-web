@@ -846,6 +846,7 @@ km:
       remove_goal: លុបគោលដៅ
     index:
       assessment_created_on: "%{assessment}ដែលបានបង្កើត"
+      back: ត្រឡប់
       care_plan_history: ប្រវត្តិគម្រោងថែរក្សា
       new_care_plan: បង្កើតគម្រោងថែរក្សាថ្មី
       review_care_plan: ពិនិត្យមើលគម្រោងថែរក្សា
