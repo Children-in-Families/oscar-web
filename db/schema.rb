@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210107090850) do
+ActiveRecord::Schema.define(version: 20210111031945) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -294,10 +294,12 @@ ActiveRecord::Schema.define(version: 20210107090850) do
     t.text     "note",                         default: ""
     t.integer  "custom_assessment_setting_id"
     t.string   "selected_domain_group_ids",    default: [],    array: true
+    t.integer  "family_id"
   end
 
   add_index "case_notes", ["client_id"], name: "index_case_notes_on_client_id", using: :btree
   add_index "case_notes", ["custom_assessment_setting_id"], name: "index_case_notes_on_custom_assessment_setting_id", using: :btree
+  add_index "case_notes", ["family_id"], name: "index_case_notes_on_family_id", using: :btree
 
   create_table "case_worker_clients", force: :cascade do |t|
     t.integer  "user_id"

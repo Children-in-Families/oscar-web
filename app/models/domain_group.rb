@@ -35,4 +35,9 @@ class DomainGroup < ActiveRecord::Base
     domain_identities = custom == 'true' ? custom_domain_identities(custom_assessment_setting_id) : default_domain_identities
     "Domain #{name} (#{domain_identities})"
   end
+
+  def family_domain_name
+    domain_identities = domains.family_custom_csi_domains.map(&:identity).join(', ')
+    "Domain #{name} (#{domain_identities})"
+  end
 end

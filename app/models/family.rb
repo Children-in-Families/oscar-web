@@ -53,6 +53,7 @@ class Family < ActiveRecord::Base
   has_many :assessments,    dependent: :destroy
   has_many :tasks,          dependent: :nullify
   has_many :care_plans,     dependent: :destroy
+  has_many :case_notes,     dependent: :destroy
   has_many :goals, dependent: :destroy
 
   accepts_nested_attributes_for :tasks

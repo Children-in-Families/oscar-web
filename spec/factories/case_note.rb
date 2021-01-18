@@ -8,6 +8,15 @@ FactoryGirl.define do
 
     transient do
       single_domain_group { false }
+      belong_to_family { false }
+    end
+
+    after(:build) do |case_note, options|
+      if options.belong_to_family
+        case_note.custom = true
+        case_note.family = create(:family)
+        case_note.assessment =  create(:assessment, family: case_note.family, client: nil, default: false)
+      end
     end
 
     after(:build) do |case_note, options|
