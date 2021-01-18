@@ -55,7 +55,7 @@ module CreateNestedValue
         goal.tasks.each(&:destroy_fully!)
         goal.reload.destroy
       else
-        update_goal_attributes(goal)
+        update_goal_attributes(goal, goal_in_params)
       end
     end
     set_care_plan_completed
@@ -77,7 +77,7 @@ module CreateNestedValue
     @care_plan.update_attributes(completed: true)
   end
 
-  def update_goal_attributes(goal)
+  def update_goal_attributes(goal, goal_in_params)
     goal.update_attributes(description: goal_in_params.last[:description])
     if goal_in_params.last[:tasks_attributes].present?
       goal_in_params.last[:tasks_attributes].each do |task|
