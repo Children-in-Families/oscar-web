@@ -23,3 +23,7 @@
                   = link_to I18n.t('care_plans.index.review_care_plan'),  family_care_plan_path(@family, assessment.care_plan.id)
                 - else
                   = link_to I18n.t('care_plans.index.new_care_plan'), new_family_care_plan_path(@family, :assessment => assessment.id)
+      .ibox-footer
+        .row
+          .col-xs-12.col-sm-6
+            = link_to t('case_plans.index.back'), family_path(@family), { class:'btn btn-default button' }

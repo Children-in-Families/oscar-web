@@ -847,6 +847,7 @@ km:
       remove_goal: លុបគោលដៅ
     index:
       assessment_created_on: "%{assessment}ដែលបានបង្កើត"
+      back: ត្រឡប់
       care_plan_history: ប្រវត្តិគម្រោងថែរក្សា
       new_care_plan: បង្កើតគម្រោងថែរក្សាថ្មី
       review_care_plan: ពិនិត្យមើលគម្រោងថែរក្សា
@@ -4017,6 +4018,12 @@ km:
         successfully_created: កាតព្វកិច្ចត្រូវបានបង្កើតដោយជោគជ័យ
       destroy:
         successfully_deleted: កាតព្វកិច្ចត្រូវបានលុបដោយជោគជ័យ
+      form:
+        back: ត្រលប់ក្រោយ
+        completion_date: ថ្ងៃកំនត់
+        domain: កត្តា
+        enter_task_detail: កាតព្វកិច្ចលំអិត
+        save: រក្សាទុក
       index:
         add_all_to_calendar: បន្ថែមកាតព្វកិច្ចទាំងអស់ទៅប្រតិទិន
         add_to_calendar: បន្ថែមកាតព្វកិច្ចទៅប្រតិទិន
