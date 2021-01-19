@@ -118,6 +118,10 @@ CIF.Care_plansNew = CIF.Care_plansEdit = CIF.Care_plansCreate = CIF.Care_plansUp
 
   _saveCarePlan = (form) ->
     $(document).on 'click', "#rootwizard a[href='#save']", ->
+      if $(form).valid()
+        btnSaving = $('#rootwizard').data('saving')
+        $("a[href='#save']").addClass('disabled').text(btnSaving)
+
       $(form).submit()
 
 
