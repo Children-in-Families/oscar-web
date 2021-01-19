@@ -11,7 +11,8 @@ module AdvancedSearches
         family_base_sql     = AdvancedSearches::Families::FamilyBaseSqlBuilder.new(@families, @basic_rules).generate
 
         query_array << family_base_sql[:sql_string]
-        family_base_values  = family_base_sql[:values].map{ |v| query_array << v }
+        family_base_values = family_base_sql[:values].map { |v| query_array << v }
+
         @families.where(query_array)
       end
     end

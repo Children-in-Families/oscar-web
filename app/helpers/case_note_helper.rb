@@ -79,19 +79,28 @@ module CaseNoteHelper
   def case_notes_editable?
     return true if current_user.admin? || current_user.hotline_officer?
     return false if current_user.strategic_overviewer?
+
     current_user.permission&.case_notes_editable
   end
 
   def tag_domain_group(case_note)
     domain_group_ids = selected_domain_groups(case_note)
     if domain_group_ids.present?
-      domain_groups = DomainGroup.joins(:domains).where(id: domain_group_ids).map{ |dg| [dg.domain_name("#{case_note.custom}", case_note.custom_assessment_setting_id), dg.id] }
-      options_for_select(domain_groups, domain_group_ids)
+      if case_note.family_id?
+        domain_groups = DomainGroup.joins(:domains).where(id: domain_group_ids).map { |dg| [dg.family_domain_name, dg.id] }
+      else
+        domain_groups = DomainGroup.joins(:domains).where(id: domain_group_ids).map { |dg| [dg.domain_name(case_note.custom.to_s, case_note.custom_assessment_setting_id), dg.id] }
+      end
     else
       domain_group_ids = case_note.case_note_domain_groups.where("attachments != '{}' OR note != ''").pluck(:domain_group_id)
-      domain_groups = case_note.domain_groups.map{ |dg| [dg.domain_name, dg.id] }
-      options_for_select(domain_groups, domain_group_ids)
+      if case_note.family_id?
+        domain_groups = case_note.domain_groups.map { |dg| [dg.family_domain_name, dg.id] }
+      else
+        domain_groups = case_note.domain_groups.map { |dg| [dg.domain_name, dg.id] }
+      end
     end
+
+    options_for_select(domain_groups, domain_group_ids)
   end
 
   def selected_domain_groups(case_note)

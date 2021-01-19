@@ -9,6 +9,9 @@ class CaseNoteDomainGroup < ActiveRecord::Base
 
   validates :domain_group, presence: true
 
+  delegate :family, to: :case_note
+  delegate :id, to: :family, prefix: true, allow_nil: true
+
   default_scope { order(:domain_group_id) }
 
   def completed_tasks

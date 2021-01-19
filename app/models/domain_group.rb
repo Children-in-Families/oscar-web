@@ -27,6 +27,10 @@ class DomainGroup < ActiveRecord::Base
     end
   end
 
+  def family_custom_domain_identities
+    domains.family_custom_csi_domains.map(&:identity).join(', ')
+  end
+
   def first_ordered?
     name == DomainGroup.first.name
   end
