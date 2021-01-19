@@ -20,7 +20,7 @@ module Families
 
     def create
       @care_plan = @family.care_plans.new(care_plan_params)
-      if @care_plan.save(validate: false)
+      if @care_plan.save
         params[:care_plan][:goals_attributes].each do |goal|
           create_nested_value(goal)
         end

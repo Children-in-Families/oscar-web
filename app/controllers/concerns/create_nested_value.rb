@@ -88,14 +88,14 @@ module CreateNestedValue
           completion_date = task.last[:completion_date]
           relation = task.last[:relation]
           goal_id = goal.id
-          task_attr = Task.new(domain_id: domain_id, name: name, completion_date: completion_date, relation: relation, goal_id: goal_id, client_id: @care_plan.client_id, user_id: current_user.id).attributes
+          task_attr = Task.new(domain_id: domain_id, name: name, completion_date: completion_date, relation: relation, goal_id: goal_id, client_id: @care_plan.client_id, user_id: current_user.id, family_id: @care_plan.family&.id).attributes
           goal.tasks.create(task_attr)
         else
           existed_task = Task.find_by(id: task_id)
           if task.last[:_destroy] == '1'
             existed_task.destroy_fully!
           else
-            existed_task.update_attributes(name: task.last[:name], completion_date: task.last[:completion_date])
+            existed_task.update_attributes(name: task.last[:name], completion_date: task.last[:completion_date], family_id: @care_plan.family&.id)
           end
         end
       end
