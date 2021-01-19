@@ -253,21 +253,7 @@
                   = label_tag 'all_csi_assessments_', t('datagrid.columns.all_csi_assessments', assessment: t('clients.show.assessment'))
             = render partial: 'datagrid/domain_score_columns_picker', collection: Domain.csi_domains.order_by_identity, as: :domain
           - if enable_custom_assessment?
-            %li.csi-header
-              %strong= t('.custom_csi_domain_scores')
-            %li
-              .visibility.col-sm-12
-                = check_box_tag 'date_of_custom_assessments_', 'date_of_custom_assessments', checked = saved_search_column_visibility('date_of_custom_assessments_'), class: 'i-checks'
-                = label_tag 'date_of_custom_assessments_', t('datagrid.columns.date_of_custom_assessments', assessment: t('clients.show.assessment'))
-            %li
-              .visibility.col-sm-12
-                = check_box_tag 'date_of_custom_assessments_', 'date_of_custom_assessments', checked = saved_search_column_visibility('date_of_custom_assessments_'), class: 'i-checks'
-                = label_tag 'date_of_custom_assessments_', t('datagrid.columns.assessment_completed_date', assessment: t('clients.show.assessment'))
-            %li
-              .visibility.col-sm-12
-                = check_box_tag 'all_custom_csi_assessments_', 'all_custom_csi_assessments', checked = saved_search_column_visibility('all_custom_csi_assessments_'), class: 'i-checks'
-                = label_tag 'all_custom_csi_assessments_', t('datagrid.columns.all_custom_csi_assessments', assessment: t('clients.show.assessment'))
-            = render partial: 'datagrid/domain_score_columns_picker', collection: Domain.custom_csi_domains.order_by_identity, as: :domain
+            = render partial: 'datagrid/custom_domain_score', locals: { custom_domains: Domain.custom_csi_domains.order_by_identity }
 
           - if Service.count > 0
             %li.type-of-service-header
@@ -361,6 +347,17 @@
               .visibility.col-sm-12
                 = check_box_tag 'case_workers_', 'case_workers', checked = default_setting('case_workers_', @default_columns) || params[:case_workers_].present?, class: 'i-checks'
                 = label_tag 'case_workers_', t('datagrid.columns.families.case_workers')
+          - unless current_setting.hide_family_case_management_tool?
+            %li
+              .visibility.col-sm-12
+                = check_box_tag 'case_note_date_', 'case_note_date', checked = family_saved_search_column_visibility('case_note_date_'), class: 'i-checks'
+                = label_tag 'case_note_date_', t('datagrid.columns.case_note_date')
+            %li
+              .visibility.col-sm-12
+                = check_box_tag 'case_note_type_', 'case_note_type', checked = family_saved_search_column_visibility('case_note_type_'), class: 'i-checks'
+                = label_tag 'case_note_type_', t('datagrid.columns.case_note_type')
+            = render partial: 'datagrid/family_custom_domain_score', locals: { custom_domains: Domain.family_custom_csi_domains.order_by_identity }
+
           %li.divider.col-xs-12
           %li
             .visibility.col-sm-12

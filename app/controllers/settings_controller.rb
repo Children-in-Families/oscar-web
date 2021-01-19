@@ -135,7 +135,7 @@ class SettingsController < AdminController
       :domain_3b, :domain_4a, :domain_4b, :domain_5a, :domain_5b, :domain_6a, :domain_6b, :assessments_due_to, :no_case_note, :overdue_task, :overdue_forms, :province_id, :birth_province_id, :commune, :house_number, :village, :street_number, :district]
     columns_name = filter_columns - filter_columns_not_used
     columns = columns_name.map { |name| "#{name.to_s}_" }
-    Domain.order_by_identity.each do |domain|
+    Domain.client_domians.order_by_identity.each do |domain|
       columns << "#{domain.convert_identity}_"
     end
     QuantitativeType.joins(:quantitative_cases).uniq.each do |quantitative_type|
@@ -147,8 +147,11 @@ class SettingsController < AdminController
 
   def family_default_columns
     columns = []
-    sub_columns = %w(member_count_ clients_ case_workers_ manage_ changelog_)
+    sub_columns = %w(member_count_ clients_ case_workers_ case_note_date_ case_note_type_ assessment_completed_date_ date_of_custom_assessments_ all_custom_csi_assessments_ manage_ changelog_)
     columns = FamilyGrid.new.filters.map{|f| "#{f.name.to_s}_" }
+    Domain.family_custom_csi_domains.order_by_identity.each do |domain|
+      columns << "#{domain.convert_custom_identity}_"
+    end
     columns.push(sub_columns).flatten
   end
 

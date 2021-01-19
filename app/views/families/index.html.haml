@@ -29,3 +29,5 @@
           = datagrid_table @family_grid, html: { class: 'table table-bordered table-striped table-hover families'}
       .ibox-footer.text-center
         = paginate @family_grid.assets
+
+= hidden_field(:hidden, :custom_csi_domain_scores, value: t('advanced_search.fields.custom_csi_domain_scores'))

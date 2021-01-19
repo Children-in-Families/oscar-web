@@ -170,6 +170,11 @@ module AdvancedSearchHelper
 
   def family_header(key)
     translations = {
+      family_basic_fields:                      I18n.t('advanced_search.fields.family_basic_fields'),
+      case_note_date:                           I18n.t('advanced_search.fields.case_note_date'),
+      case_note_type:                           I18n.t('advanced_search.fields.case_note_type'),
+      csi_domain_scores:                        I18n.t('advanced_search.fields.csi_domain_scores'),
+      custom_csi_domain_scores:                 I18n.t('advanced_search.fields.custom_csi_domain_scores'),
       name:                                     I18n.t('datagrid.columns.families.name'),
       id:                                       I18n.t('datagrid.columns.families.id'),
       code:                                     I18n.t('datagrid.columns.families.code'),
@@ -198,7 +203,8 @@ module AdvancedSearchHelper
       female_children_count:                    I18n.t('datagrid.columns.families.female_children_count'),
       female_adult_count:                       I18n.t('datagrid.columns.families.female_adult_count'),
       case_workers:                             I18n.t('datagrid.columns.families.case_workers'),
-      member_count:                             I18n.t('datagrid.columns.families.member_count')
+      member_count:                             I18n.t('datagrid.columns.families.member_count'),
+      assessment_completed_date: I18n.t('advanced_search.fields.assessment_completed_date', assessment: I18n.t('families.show.assessment')),
     }
     translations[key.to_sym] || ''
   end

@@ -10,15 +10,16 @@ module AdvancedSearches
       end
 
       def render
-        group                 = family_header('basic_fields')
+        group                 = family_header('family_basic_fields')
         number_fields         = number_type_list.map { |item| AdvancedSearches::FilterTypes.number_options(item, family_header(item), group) }
         text_fields           = text_type_list.map { |item| AdvancedSearches::FilterTypes.text_options(item, family_header(item), group) }
         date_picker_fields    = date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, family_header(item), group) }
         drop_list_fields      = drop_down_type_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, family_header(item.first), item.last, group) }
 
-        search_fields         = text_fields + drop_list_fields + number_fields + date_picker_fields
+        search_fields = text_fields + drop_list_fields + number_fields + date_picker_fields
+        custom_domain_scores_options = !Setting.first.hide_family_case_management_tool? ? AdvancedSearches::CustomDomainScoreFields.render('family') : []
 
-        search_fields.sort_by { |f| f[:label].downcase }.select do |field|
+        (search_fields.sort_by { |f| f[:label].downcase } + custom_domain_scores_options).select do |field|
           field_name = field[:id]
           field_name = 'member_count' if field_name.to_s.include?('significant_family_member_count')
           policy(Family).show?(field_name.to_sym)
@@ -40,11 +41,12 @@ module AdvancedSearches
       end
 
       def date_type_list
-        ['date_of_birth', 'contract_date']
+        ['date_of_birth', 'contract_date', 'case_note_date']
       end
 
       def drop_down_type_list
         [
+          ['case_note_type', case_note_type_options],
           ['family_type', family_type_options],
           ['status', status_options],
           ['gender', gender_options],
@@ -55,6 +57,10 @@ module AdvancedSearches
           ['commune_id', communes],
           ['village_id', villages]
         ]
+      end
+
+      def case_note_type_options
+        [CaseNote::INTERACTION_TYPE, I18n.t('case_notes.form.type_options').values].transpose.map { |k, v| { k => v }  }
       end
 
       def family_type_options

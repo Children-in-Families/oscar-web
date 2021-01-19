@@ -26,7 +26,7 @@ class FamiliesController < AdminController
           @family_grid.scope { |scope| scope.accessible_by(current_ability).page(params[:page]).per(20) }
         end
         f.xls do
-          form_builder_report
+          export_family_reports
           send_data @family_grid.to_xls, filename: "family_report-#{Time.now}.xls"
         end
       end

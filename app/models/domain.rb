@@ -21,6 +21,7 @@ class Domain < ActiveRecord::Base
 
   scope :assessment_domains_by_assessment_id, ->(id) { joins(:assessment_domains).where('assessment_domains.assessment_id = ?', id) }
   scope :order_by_identity, -> { order(:identity) }
+  scope :client_domians, -> { where(domain_type: 'client') }
   scope :csi_domains, -> { where(domain_type: 'client', custom_domain: false) }
   scope :custom_csi_domains, -> { where(domain_type: 'client', custom_domain: true) }
   scope :custom_domains, -> { where(custom_domain: true) }
@@ -31,6 +32,10 @@ class Domain < ActiveRecord::Base
 
   def convert_identity
     identity.downcase.parameterize('_')
+  end
+
+  def convert_custom_identity
+    "custom_#{identity.downcase.parameterize.underscore}"
   end
 
   def translate_description

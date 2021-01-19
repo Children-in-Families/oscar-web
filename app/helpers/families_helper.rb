@@ -51,6 +51,14 @@ module FamiliesHelper
     end
   end
 
+  def additional_columns
+    {
+      date_of_custom_assessments: t('datagrid.columns.date_of_custom_assessments', assessment: t('families.show.assessment')),
+      all_custom_csi_assessments: t('datagrid.columns.all_custom_csi_assessments', assessment: t('families.show.assessment')),
+      assessment_completed_date: t('datagrid.columns.assessment_completed_date', assessment: t('families.show.assessment'))
+    }
+  end
+
   def columns_family_visibility(column)
     label_column = {
       name:                                     t('datagrid.columns.families.name'),
@@ -77,7 +85,8 @@ module FamiliesHelper
       caregiver_information:                    t('datagrid.columns.families.caregiver_information'),
       changelog:                                t('datagrid.columns.families.changelog'),
       case_workers:                             t('datagrid.columns.families.case_workers'),
-      manage:                                   t('datagrid.columns.families.manage')
+      manage:                                   t('datagrid.columns.families.manage'),
+      **additional_columns
     }
     label_tag "#{column}_", label_column[column.to_sym]
   end
@@ -112,11 +121,11 @@ module FamiliesHelper
       manage_:                                   t('datagrid.columns.families.manage'),
       member_count_:                             t('datagrid.columns.families.member_count'),
       name_:                                     t('datagrid.columns.families.name'),
-      significant_family_member_count_:          t('datagrid.columns.families.significant_family_member_count')
+      significant_family_member_count_:          t('datagrid.columns.families.significant_family_member_count'),
+      **additional_columns
     }
     label_tag "#{column}_", label_column[column.to_sym]
   end
-
 
   def merged_address_family(object)
     current_address = []
@@ -231,5 +240,12 @@ module FamiliesHelper
 
   def family_order_case_worker(family)
     family.case_workers.distinct.sort
+  end
+  def name_km_en
+    @family.name_en? ? "#{@family.name} - #{@family.name_en}" : "#{@family.name}"
+  end
+
+  def family_saved_search_column_visibility(field_key)
+    default_setting(field_key, @default_columns) || params[field_key.to_sym].present? || (@visible_fields && @visible_fields[field_key]).present?
   end
 end
