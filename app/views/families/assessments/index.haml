@@ -26,7 +26,7 @@
               .btn.btn-block.btn-info.button{ class: ('disabled' unless case_notes_readable?) }
                 = link_to_if assessment_readable?, t('assessments.index.view_report'), family_assessment_path(@family, assessment)
 
-        - if @current_setting.enable_default_assessment && completed_initial_assessment?('defaults', 'family')
+        - if @current_setting.enable_default_assessment || completed_initial_assessment?('defaults', 'family')
           .row.margin-row
             .col-xs-12.col-sm-8
               %h5
