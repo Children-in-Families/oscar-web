@@ -76,11 +76,15 @@ module AssessmentHelper
     definition.present? ? simple_format(definition) : score
   end
 
-  def get_domains(cd, custom_assessment_setting_id=nil)
+  def get_domains(case_note_domain, custom_assessment_setting_id=nil)
     if params[:custom] == 'true'
-      cd.object.domain_group.custom_domain_identities(custom_assessment_setting_id)
+      if case_note_domain.object.family_id
+        case_note_domain.object.domain_group.family_custom_domain_identities
+      else
+        case_note_domain.object.domain_group.custom_domain_identities(custom_assessment_setting_id)
+      end
     else
-      cd.object.domain_group.default_domain_identities(custom_assessment_setting_id)
+      case_note_domain.object.domain_group.default_domain_identities(custom_assessment_setting_id)
     end
   end
 
