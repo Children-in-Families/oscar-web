@@ -28,7 +28,6 @@ export default (props) => {
 
       <div className="row">
         <div className="col-md-12 col-lg-9">
-          <b>DADOU</b>
           <SelectInput
             T={T}
             required
