@@ -1,8 +1,8 @@
 class CommunitiesController < AdminController
   load_and_authorize_resource
-  # include FamilyAdvancedSearchesConcern
-  #
-  # before_action :find_params_advanced_search, :get_custom_form, only: [:index]
+  include CommunityAdvancedSearchConcern
+
+  before_action :find_params_advanced_search, :get_custom_form, only: [:index]
   # before_action :get_custom_form_fields, :family_builder_fields, only: [:index]
   # before_action :basic_params, if: :has_params?, only: [:index]
   # before_action :build_advanced_search, only: [:index]
@@ -15,6 +15,8 @@ class CommunitiesController < AdminController
     @community_grid = @community_grid.scope { |scope| scope.accessible_by(current_ability) }
     @community_columns ||= FamilyColumnsVisibility.new(@community_grid, params.merge(column_form_builder: @custom_form_fields))
     @community_columns.visible_columns
+
+    advanced_search if has_params?
 
     respond_to do |f|
       f.html do

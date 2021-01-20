@@ -14,6 +14,6 @@
         .row.custom-form
           .col-xs-12
             .form-group#custom-form-data{ data: { value: custom_form_values } }
-              = select_tag(:nil, options_for_select(@custom_fields.pluck(:form_title, :id), custom_form_values), { multiple: true, class: 'form-control custom-form-select', id: 'custom-form-select' } )
+              = select_tag(:nil, options_for_select(@custom_fields&.pluck(:form_title, :id), custom_form_values), { multiple: true, class: 'form-control custom-form-select', id: 'custom-form-select' } )
 
 #opt-group-translation{ data: { basic_fields: t('.basic_fields'), custom_form: t('.custom_form') } }

@@ -2,12 +2,18 @@
   .col-xs-12.col-md-9
     %button.btn.btn-primary.query.community-search{"aria-expanded" => 'false', "data-target" => '#community-search-form', "data-toggle" => 'collapse', type: 'button'}
       = fa_icon('filter')
+    %button.m-l-xs.btn.btn-primary.query.call-advance-search{"aria-expanded" => 'false', "data-target" => '#community-advanced-search', "data-toggle" => 'collapse', type: 'button'}
+      = t('.report_builder')
   .col-xs-12.col-md-3
     .pull-right
       - if can? :manage, Family
         = link_to "#{I18n.t('communities.index.add_new_community')}", new_community_path, class: 'btn btn-primary'
       /= link_to "#{I18n.t('communities.index.export_xls')}", current_url(format: 'xls'), class: 'btn btn-info btn-export'
-
+.m-t-md
+.row
+  .col-xs-12
+    .ibox-content.collapse#community-advanced-search.main-report-builder{ class: params.has_key?(:query_builder_json) && 'in' }
+      = render 'communities/community_advanced_searches/advanced_search'
 .row.ibox-space
   .col-xs-12
     .ibox-content#community-search-form.collapse

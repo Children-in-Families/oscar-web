@@ -4,15 +4,15 @@
       .ibox-content.no-border
         .row
           .col-xs-12
-            = render 'families/family_advanced_searches/form_option'
+            = render 'communities/community_advanced_searches/form_option'
         .row.column-picker
           .col-xs-12.col-md-4
             %label= t('.family_column')
             #family-column
-              = datagrid_form_for @family_grid, url: families_url, html: { class: 'grid-form' }
+              = datagrid_form_for @community_grid, url: communities_url, html: { class: 'grid-form' }
           .col-xs-12.col-md-4
             %label= t('.custom_form_column')
-            = render 'families/family_advanced_searches/custom_form_column'
+            =# render 'communities/community_advanced_searches/custom_form_column'
 
         .row
           .col-xs-12
@@ -24,8 +24,8 @@
         %button#search.btn.btn-primary= t('.search')
         = link_to t('.reset'), families_path, class: 'btn btn-default'
 
-= simple_form_for :family_advanced_search, url: :families, method: 'GET', html: { id: 'advanced-search' } do |f|
+= simple_form_for :family_advanced_search, url: :communities, method: 'GET', html: { id: 'advanced-search' } do |f|
   = f.hidden_field :custom_form_selected
   = f.hidden_field :basic_rules
   = hidden_field_tag :locale, "#{params[:locale]}"
-  #family-builder-fields{ data: { fields: @builder_fields.to_json }}
+  #community-builder-fields{ data: { fields: @builder_fields.to_json }}

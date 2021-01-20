@@ -2213,6 +2213,7 @@ my:
       results: Results Export to XLS
       report_builder: Report Builder
       results: Results
+      searching: Searching...
     new:
       new_community_title: New Community
     show:

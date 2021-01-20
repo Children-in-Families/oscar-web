@@ -370,6 +370,33 @@
             .visibility.col-sm-12
               = check_box_tag 'changelog_', 'changelog', checked = default_setting('changelog_', @default_columns) || params[:changelog_].present?, class: 'i-checks'
               = label_tag 'changelog_', t('datagrid.columns.families.changelog')
+  - elsif controller_name == 'communities'
+    %ul.check-columns-visibility{ 'aria-labelledby': 'dropdownMenuDivider' }
+      %li.dropdown
+        %a.dropdown-toggle.btn.btn-default{ href: '#', data: { toggle: 'dropdown', trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.select_columns')}", placement: "right" } }
+          = t('datagrid.columns.select_columns')
+          %span.caret
+        .float-right
+          %span.p-xs.b-r-sm.btn.btn-sm.btn-default{ data: { toggle: 'popover', trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.overdue_filter_checkboxes')}", placement: "auto" } }
+            = check_box_tag 'no_case_note_check_box', 'no_case_note_check_box', checked = check_params_no_case_note, class: 'i-checks'
+            %label=t('.no_case_note')
+          %span.p-xs.b-r-sm.m-l.btn.btn-sm.btn-default{ data: { toggle: 'popover', trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.overdue_filter_checkboxes')}", placement: "auto" } }
+            = check_box_tag 'overdue-forms', 'overdue-forms', checked = check_params_has_over_forms, class: 'i-checks'
+            %label=t('.has_overdue_forms')
+          - if enable_any_csi_tools?
+            %span.p-xs.b-r-sm.m-l.btn.btn-sm.btn-default{ data: { toggle: 'popover', trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.overdue_filter_checkboxes')}", placement: "auto" } }
+              = check_box_tag 'overdue-assessment', 'overdue-assessment', checked = check_params_has_over_assessment, class: 'i-checks'
+              %label=t('.has_overdue_assessment', assessment: t('clients.show.assessment'))
+          %span.p-xs.b-r-sm.m-l.btn.btn-sm.btn-default{ data: { toggle: 'popover', trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.overdue_filter_checkboxes')}", placement: "auto" } }
+            = check_box_tag 'overdue-task', 'overdue-task', checked = check_params_has_overdue_task, class: 'i-checks'
+            %label=t('.has_overdue_task')
+
+        %ul.dropdown-menu.columns-visibility
+          %li
+            .all-visibility.col-sm-12
+              = check_box_tag 'all_', 'all', checked = params['all_'].present? || saved_search_column_visibility('all_'), class: 'i-checks all_'
+              = label_tag 'all_' do
+                %strong= t('datagrid.columns.show_all')
   #filter_form
     %hr/
     .row
