@@ -47,3 +47,6 @@ NOTES.md
 REVISION
 GIT_REVISION
 sorbet
+
+## AWS
+aws/ecs/private/*

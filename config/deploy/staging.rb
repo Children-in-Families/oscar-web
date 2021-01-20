@@ -10,7 +10,7 @@
 set :stage, 'staging'
 set :branch, proc { `git rev-parse --abbrev-ref staging`.chomp }
 
-server '52.220.217.164', user: 'deployer', roles: %w{app web db}
+server '3.0.131.11', user: 'deployer', roles: %w{app web db}
 
 # role-based syntax
 # ==================
