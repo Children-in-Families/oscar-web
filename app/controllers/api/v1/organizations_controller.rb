@@ -98,12 +98,7 @@ module Api
           client_organizations = GlobalIdentityOrganization.where(global_id: global_ids).pluck(:global_id, :organization_id, :client_id).group_by(&:second)
           client_organizations.each do |ngo_id, client_ngos|
             ngo = Organization.find(ngo_id)
-            Organization.switch_to ngo.short_name
-            Client.where(id: client_ngos.map(&:last)).each do |client|
-              client.external_id = data_hash[client.global_id].first
-              client.external_id_display = data_hash[client.global_id].last
-              client.save
-            end
+            Client.delay(queue: :priority).update_external_ids(ngo.short_name, client_ngos.map(&:last), data_hash)
           end
           render json: { message: 'Record saved.' }, root: :data
         else
