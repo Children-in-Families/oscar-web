@@ -242,11 +242,13 @@ class Client < ActiveRecord::Base
 
     def update_external_ids(short_name, client_ids, data_hash)
       Apartment::Tenant.switch(short_name) do
+        Client.skip_callback(:save, :after, :create_client_history)
         Client.where(id: client_ids).each do |client|
           client.external_id = data_hash[client.global_id].first
           client.external_id_display = data_hash[client.global_id].last
           client.save
         end
+        Client.set_callback(:save, :after, :create_client_history)
       end
     end
   end
