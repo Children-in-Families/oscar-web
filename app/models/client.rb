@@ -242,6 +242,15 @@ class Client < ActiveRecord::Base
 
       records
     end
+
+    def update_external_ids(short_name, client_ids, data_hash)
+      Apartment::Tenant.switch(short_name) do
+        Client.where(id: client_ids).each do |client|
+          attributes = { external_id: data_hash[client.global_id].first, external_id_display: data_hash[client.global_id].last }
+          client.update_columns(attributes)
+        end
+      end
+    end
   end
 
   def self.fetch_75_chars_of(value)
