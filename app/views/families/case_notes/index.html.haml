@@ -11,12 +11,12 @@
             .ibox-tools
               = link_to t('case_notes.index.back'), family_path(@family), { class: 'btn btn-default btn-back-default button' }
               - if can? :create, CaseNote
-                .btn-group#case-note-selection
-                  %button.btn.btn-primary.dropdown-toggle.btn-sm{ "aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button" }
-                    = t('shared.new_x', x: t('clients.form.case_note'))
-                    %span.caret
-                  %ul.dropdown-menu#case-note-dropdown
-                    - if @current_setting.enable_default_assessment
+                - if enable_any_csi_tools?
+                  .btn-group#case-note-selection
+                    %button.btn.btn-primary.dropdown-toggle.btn-sm{ "aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button" }
+                      = t('shared.new_x', x: t('clients.form.case_note'))
+                      %span.caret
+                    %ul.dropdown-menu#case-note-dropdown
                       %li
                         = new_link(@family)
 
