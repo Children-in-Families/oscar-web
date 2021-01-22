@@ -6,8 +6,8 @@ export $(cat .env | sed 's/#.*//g' | xargs)
 aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin $IMAGE_REPO_URL
 
 # build the docker image and push to an image repository
-docker build -t oscar-staging:latest .
-docker tag oscar-staging:latest $IMAGE_REPO_URL:latest
+docker build -t $IMAGE_NAME:latest .
+docker tag $IMAGE_NAME:latest $IMAGE_REPO_URL:latest
 docker push $IMAGE_REPO_URL:latest
 
 # update an AWS ECS service with the new image
