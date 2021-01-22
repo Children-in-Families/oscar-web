@@ -376,7 +376,7 @@
         %a.dropdown-toggle.btn.btn-default{ href: '#', data: { toggle: 'dropdown', trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.select_columns')}", placement: "right" } }
           = t('datagrid.columns.select_columns')
           %span.caret
-        .float-right
+        .float-right.pull-right
           %span.p-xs.b-r-sm.btn.btn-sm.btn-default{ data: { toggle: 'popover', trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.overdue_filter_checkboxes')}", placement: "auto" } }
             = check_box_tag 'no_case_note_check_box', 'no_case_note_check_box', checked = check_params_no_case_note, class: 'i-checks'
             %label=t('.no_case_note')

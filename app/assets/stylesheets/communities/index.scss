@@ -1,6 +1,29 @@
 body[id="communities-index"] {
   @import "iCheck/custom";
 
+  ul.check-columns-visibility {
+    padding-left: 0;
+    li {
+      list-style: none;
+    }
+    .columns-visibility {
+      height: 250px;
+      width: 390px;
+      overflow-y: scroll;
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+    .visibility {
+      margin: 2px 0 2px 0;
+      label {
+        font-weight: normal;
+      }
+    }
+    .all-visibility {
+      margin: 2px 0 2px 0;
+    }
+  }
+
   .pagination > {
     .active > form {
       background-color: #1ab394;
@@ -41,7 +64,7 @@ body[id="communities-index"] {
     }
   }
 
-  #community-search-form' {
+  #community-search-form {
     margin-top: 15px;
   }
 
