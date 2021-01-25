@@ -17,7 +17,7 @@
 .row.ibox-space
   .col-xs-12
     .ibox-content#family-search-form.collapse
-      = datagrid_form_for @family_grid, url: families_url, html: { class: 'grid-form' }
+      = datagrid_form_for @family_grid, url: advanced_search_families_url, html: { class: 'grid-form' }, method: :post
 .row
   .col-xs-12
     .ibox.float-e-margins

@@ -9,7 +9,7 @@
           .col-xs-12.col-md-4
             %label= t('.family_column')
             #family-column
-              = datagrid_form_for @family_grid, url: families_url, html: { class: 'grid-form' }
+              = datagrid_form_for @family_grid, url: advanced_search_families_url, html: { class: 'grid-form' }
           .col-xs-12.col-md-4
             %label= t('.custom_form_column')
             = render 'families/family_advanced_searches/custom_form_column'
@@ -24,7 +24,7 @@
         %button#search.btn.btn-primary= t('.search')
         = link_to t('.reset'), families_path, class: 'btn btn-default'
 
-= simple_form_for :family_advanced_search, url: :families, method: 'GET', html: { id: 'advanced-search' } do |f|
+= simple_form_for :family_advanced_search, url: :advanced_search_families, method: 'POST', html: { id: 'advanced-search' } do |f|
   = f.hidden_field :custom_form_selected
   = f.hidden_field :basic_rules
   = hidden_field_tag :locale, "#{params[:locale]}"
