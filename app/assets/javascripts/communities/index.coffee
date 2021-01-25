@@ -7,7 +7,7 @@ CIF.CommunitiesIndex = do ->
     _setDefaultCheckColumnVisibilityAll()
     _handleAutoCollapse()
     _toggleCollapseFilter()
-
+    _checkClientSearchForm()
 
   _initSelect2 = ->
     $('select').select2
@@ -55,7 +55,7 @@ CIF.CommunitiesIndex = do ->
 
   _hideClientFilters = ->
     dataFilters = $('#community-search-form .datagrid-filter')
-    displayColumns = '#client_grid_given_name, #client_grid_family_name, #client_grid_gender, #client_grid_slug, #client_grid_status, #client_grid_user_ids'
+    displayColumns = '#community_grid_name, #community_grid_name_en, #community_grid_id, #community_grid_status, #community_grid_gender, #community_grid_formed_date'
     $(dataFilters).hide()
     $(dataFilters).children("#{displayColumns}").parents('.datagrid-filter').show()
 
@@ -74,8 +74,10 @@ CIF.CommunitiesIndex = do ->
       form = $(@).attr('class')
       if form.includes('community-advanced-search')
         $('#filter_form').hide()
+        $('.float-right.pull-right').hide()
       else
         $('#filter_form').show()
+        $('.float-right.pull-right').show()
         _hideClientFilters()
 
   { init: _init }
