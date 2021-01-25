@@ -672,9 +672,9 @@ class Client < ActiveRecord::Base
   private
 
   def update_related_family_members
-    family_members.each do |family_member|
-      FamilyMember.delay.update_client_relevant_data(family_member.id)
-    end
+    # family_members.each do |family_member|
+    #   FamilyMember.delay.update_family_relevant_data(family_member.id)
+    # end
   end
 
   def create_client_history

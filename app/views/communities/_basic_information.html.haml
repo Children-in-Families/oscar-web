@@ -1,0 +1,66 @@
+%h3= t('communities.form.step_1_title')
+%section.basic-information
+  .row.sub-title
+    .col-sm-3
+      %h2= t('communities.form.step_11_title')
+    .col-sm-9
+      %h2= t('communities.form.step_12_title')
+  .row
+    .col-sm-3
+      = f.input :received_by_id, required: true, collection: User.deleted_user.non_strategic_overviewers.order(:first_name, :last_name), label_method: :name, value_method: :id
+
+      .form-group
+        = f.label :initial_referral_date, class: 'control-label', required: true
+        .input-group.date
+          = f.input :initial_referral_date, required: true, label: false, wrapper: false, input_html: { class: 'date optional form-control date-picker' }, as: :string
+          %span.input-group-addon
+            %i.fa.fa-calendar-check-o
+
+      = f.input :case_worker_ids, required: true, collection: User.deleted_user.non_strategic_overviewers.order(:first_name, :last_name), label_method: :name, value_method: :id, input_html: { multiple: true }
+      = f.input :referral_source_category_id, collection: referral_source_name(ReferralSource.parent_categories)
+      = f.input :referral_source_id, collection: (@community.referral_source.present? ? ReferralSource.where(id: @community.referral_source_id).map { |r| [r.try(:name), r.id] } : []), input_html: { data: { sources: ReferralSource.pluck(:id, :name, :ancestry) } }
+
+    %div.col-sm-9
+      .row
+        .col-sm-4
+          = f.input :name
+        .col-sm-4
+          = f.input :name_en
+        .col-sm-4
+          .form-group
+            = f.label :formed_date, class: 'control-label'
+            .input-group.date
+              = f.input :formed_date, label: false, wrapper: false, input_html: { class: 'date optional form-control date-picker' }, as: :string
+              %span.input-group-addon
+                %i.fa.fa-calendar-check-o
+      .row
+        .col-sm-3
+          = f.input :province_id, collection: @provinces, input_html: { data: { type: 'provinces', 'subaddress' => 'district' } }
+        .col-sm-3
+          = f.input :district_id, collection: @districts, input_html: { data: { type: 'districts', 'subaddress' => 'commune' } }
+        .col-sm-3
+          = f.input :commune_id, collection: @communes.map{|c| [c.name, c.id] }, input_html: { data: { type: 'communes', 'subaddress' => 'village' } }
+        .col-sm-3
+          = f.input :village_id, collection: @villages.map{|v| [v.name, v.id] }, input_html: { data: { type: 'villages' } }
+      .row
+        .col-sm-3
+          = f.input :representative_name
+        .col-sm-3
+          = f.input :gender
+        .col-sm-3
+          = f.input :role
+        .col-sm-3
+          = f.input :phone_number
+      .row
+        .col-sm-9
+          = f.input :relevant_information, input_html: { rows: 4 }
+        .col-sm-3
+          = f.input :donor_ids, collection: Donor.order(:name), label_method: :name, value_method: :id, input_html: { multiple: true }
+      .row
+        .col-sm-12
+          = f.label :documents
+          = f.input :documents, label: false, as: :file, input_html: { multiple: true }
+          %p
+            %i.small="#{t('assessments.attachment_fields.allow_file_size')} (.jpg, .jpeg, .png, .doc, .docx, .xls, .xlsx, .pdf)"
+          %p
+            %i.small= t('assessments.attachment_fields.max_file_size')

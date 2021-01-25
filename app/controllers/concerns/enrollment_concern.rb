@@ -30,6 +30,10 @@ module EnrollmentConcern
   def find_entity
     if params[:family_id].present?
       @programmable = Family.includes(enrollments: [:program_stream]).find(params[:family_id])
+      @entity_type  = 'Family'
+    elsif params[:community_id].present?
+      @programmable = Community.includes(enrollments: [:program_stream]).find(params[:community_id])
+      @entity_type  = 'Community'
     end
   end
 
@@ -40,12 +44,16 @@ module EnrollmentConcern
   def enrollment_index_path
     if params[:family_id]
       redirect_to family_enrollments_path(@programmable), alert: t('.not_valid')
+    elsif params[:community_id]
+      redirect_to community_enrollments_path(@programmable), alert: t('.not_valid')
     end
   end
 
   def entity_filtered
     if params[:family_id]
       @entity_filter ||= AdvancedSearches::Families::FamilyAdvancedSearch.new(@program_stream.rules, Family.all).filter
+    elsif params[:community_id]
+      @entity_filter ||= AdvancedSearches::Communities::CommunityAdvancedSearch.new(@program_stream.rules, Community.all).filter
     end
   end
 

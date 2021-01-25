@@ -39,7 +39,11 @@ class EnrollmentsController < AdminController
     authorize @enrollment
     if @enrollment.update_attributes(enrollment_params)
       add_more_attachments(@enrollment)
-      path = params[:family_id] ? family_enrollment_path(@programmable, @enrollment, program_stream_id: @program_stream) : '#'
+      if params[:family_id]
+        path = family_enrollment_path(@programmable, @enrollment, program_stream_id: @program_stream)
+      elsif params[:community_id]
+        path = community_enrollment_path(@programmable, @enrollment, program_stream_id: @program_stream)
+      end
       redirect_to path, notice: t('.successfully_updated')
     else
       render :edit
@@ -53,7 +57,11 @@ class EnrollmentsController < AdminController
     @enrollment = @programmable.enrollments.new(enrollment_params)
     authorize(@programmable) && authorize(@enrollment)
     if @enrollment.save
-      path = params[:family_id] ? family_enrolled_program_path(@programmable, @enrollment, program_stream_id: @program_stream) : '#'
+      if params[:family_id]
+        path = family_enrolled_program_path(@programmable, @enrollment, program_stream_id: @program_stream)
+      elsif params[:community_id]
+        path = community_enrolled_program_path(@programmable, @enrollment, program_stream_id: @program_stream)
+      end
       redirect_to path, notice: t('.successfully_created')
     else
       render :new
@@ -69,7 +77,13 @@ class EnrollmentsController < AdminController
       redirect_to request.referer, notice: t('.delete_attachment_successfully')
     else
       @enrollment.destroy_fully!
-      path = params[:family_id] ? report_family_enrollments_path(@programmable, program_stream_id: @program_stream) : '#'
+      if params[:family_id]
+        path = report_family_enrollments_path(@programmable, program_stream_id: @program_stream)
+      elsif params[:community_id]
+        path = report_community_enrollments_path(@programmable, program_stream_id: @program_stream)
+      else
+        path = '#'
+      end
       redirect_to path, notice: t('.successfully_deleted')
     end
   end
@@ -87,8 +101,8 @@ class EnrollmentsController < AdminController
     else
       all_programs = ProgramStream.where(id: current_user.program_stream_permissions.where(readable: true, user: current_user).pluck(:program_stream_id))
     end
-    all_programs = params[:family_id] ? all_programs.attached_with('Family') : all_programs
-    polymorphic = params[:family_id].present?
+    all_programs = params[:family_id] ? all_programs.attached_with('Family') : params[:community_id] ? all_programs.attached_with('Community') : all_programs
+    polymorphic = params[:family_id].present? || params[:community_id].present?
     enrollments_exited    = all_programs.inactive_enrollments(@programmable, polymorphic).complete
     enrollments_inactive  = all_programs.without_status_by(@programmable, polymorphic).complete
     program_streams       = enrollments_exited + enrollments_inactive

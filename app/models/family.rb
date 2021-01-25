@@ -15,7 +15,7 @@ class Family < ActiveRecord::Base
   acts_as_paranoid
 
   mount_uploaders :documents, FileUploader
-  attr_accessor :community_ids, :case_management_record
+  attr_accessor :case_management_record
 
   delegate :name, to: :province, prefix: true, allow_nil: true
   delegate :name, to: :district, prefix: true, allow_nil: true
@@ -32,6 +32,9 @@ class Family < ActiveRecord::Base
 
   has_many :cases, dependent: :destroy
   has_many :clients, through: :cases
+
+  has_one  :community_member
+  has_one  :community, through: :community_member
 
   has_many :donor_families, dependent: :destroy
   has_many :donors, through: :donor_families
@@ -58,6 +61,7 @@ class Family < ActiveRecord::Base
 
   accepts_nested_attributes_for :tasks
   accepts_nested_attributes_for :family_members, reject_if: :all_blank, allow_destroy: true
+  accepts_nested_attributes_for :community_member, allow_destroy: true
 
   has_paper_trail
 
@@ -72,6 +76,7 @@ class Family < ActiveRecord::Base
   validate :client_must_only_belong_to_a_family
   validates :case_worker_ids, presence: true, on: :update, unless: :exit_ngo?
 
+  after_commit :update_related_community_members, on: :update
   after_create :assign_slug
   after_save :save_family_in_client, :mark_referral_as_saved
 
@@ -82,6 +87,22 @@ class Family < ActiveRecord::Base
 
   def member_count
     brc? ? family_members.count : (male_adult_count.to_i + female_adult_count.to_i + male_children_count.to_i + female_children_count.to_i)
+  end
+
+  def to_select2
+    [
+      display_name, id, { data: {
+          male_adult_count: male_adult_count,
+          female_adult_count: female_adult_count,
+          male_children_count: male_children_count,
+          female_children_count: female_children_count,
+        }
+      }
+    ]
+  end
+
+  def display_name
+    [name, name_en].select(&:present?).join(' - ').presence || "Family ##{id}"
   end
 
   def monthly_average_income
@@ -165,6 +186,12 @@ class Family < ActiveRecord::Base
   end
 
   private
+
+  def update_related_community_members
+    # community_members.each do |community_member|
+    #   CommunityMember.delay.update_client_relevant_data(community_member.id)
+    # end
+  end
 
   def assign_status
     self.status = (case_management_record? ? 'Referred' : 'Active')

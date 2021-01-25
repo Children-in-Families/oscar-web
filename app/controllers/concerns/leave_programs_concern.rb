@@ -16,7 +16,13 @@ module LeaveProgramsConcern
   end
 
   def find_entity
-    @entity = params[:family_id] ? Family.includes(enrollments: [:program_stream]).find(params[:family_id]) : Client.accessible_by(current_ability).friendly.find(params[:client_id])
+    if params[:family_id]
+      @entity = Family.includes(enrollments: [:program_stream]).find(params[:family_id])
+    elsif params[:community_id]
+      @entity = Community.includes(enrollments: [:program_stream]).find(params[:community_id])
+    else
+      @entity = Client.accessible_by(current_ability).friendly.find(params[:client_id])
+    end
   end
 
   def find_enrollment

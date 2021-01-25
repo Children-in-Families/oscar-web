@@ -203,6 +203,19 @@ module AdvancedSearchHelper
     translations[key.to_sym] || ''
   end
 
+  def community_header(key)
+    translations = {
+      name:                                     I18n.t('datagrid.columns.families.name'),
+      id:                                       I18n.t('datagrid.columns.families.id'),
+      status:                                   I18n.t('datagrid.columns.families.status'),
+      province_id:                              I18n.t('datagrid.columns.families.province'),
+      district_id:                              I18n.t('datagrid.columns.families.district'),
+      commune_id:                               I18n.t('datagrid.columns.families.commune'),
+      village_id:                               I18n.t('datagrid.columns.families.village'),
+    }
+    translations[key.to_sym] || ''
+  end
+
   def partner_header(key)
     translations = {
       name:                                     I18n.t('datagrid.columns.partners.name'),

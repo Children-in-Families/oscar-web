@@ -38,8 +38,12 @@
                         %td
                           %b
                             = t('.domain')
-                            = t("domains.domain_names.#{ad.domain.name.downcase.reverse}") + ":"
-                            = t("domains.domain_identies.#{ad.domain.identity.strip.parameterize('_')}_#{ad.domain.name.downcase}")
+                            - if ad.domain.custom_domain?
+                              = ad.domain.name
+                              = ad.domain.identity
+                            - else
+                              = t("domains.domain_names.#{ad.domain.name.downcase.reverse}") + ":"
+                              = t("domains.domain_identies.#{ad.domain.identity.strip.parameterize('_')}_#{ad.domain.name.downcase}")
                         %td{rowspan: 1}
                           .domain-score.text-center
                             %button{ 'data-original-title': "#{simple_format(ad.score_definition)}", type: 'button', class: "btn btn-#{ad.score_color_class} btn-xs", 'data-toggle': 'tooltip' }
@@ -72,6 +76,9 @@
                               .col-md-4.col-xs-12
                                 = task.name
                               .col-md-2.col-xs-12
-                                = task.completion_date
-                              .col-md-2.col-xs-12
+                                = date_format(task.completion_date)
+                              - if task.completed?
+                                .col-md-2.col-xs-12
+                                  = date_format(task.updated_at)
+
 

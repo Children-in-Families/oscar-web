@@ -17,8 +17,14 @@ class LeaveEnrolledProgramsController < AdminController
   def create
     @leave_program = @enrollment.create_leave_program(leave_program_params)
     if @leave_program.save
-      path = params[:family_id] ? family_enrolled_program_leave_enrolled_program_path(@entity, @enrollment, @leave_program) : client_client_enrolled_program_leave_enrolled_program_path(@entity, @enrollment, @leave_program)
-      redirect_to path, notice: t('.successfully_created', entity: params[:family_id] ? t('.family') : t('.client'))
+      if params[:family_id]
+        path = family_enrolled_program_leave_enrolled_program_path(@entity, @enrollment, @leave_program)
+      elsif params[:community_id]
+        path = community_enrolled_program_leave_enrolled_program_path(@entity, @enrollment, @leave_program)
+      else
+        path = client_client_enrolled_program_leave_enrolled_program_path(@entity, @enrollment, @leave_program)
+      end
+      redirect_to path, notice: t('.successfully_created', entity: params[:family_id] ? t('.family') : params[:community_id] ? t('.community') : t('.client'))
     else
       render :new
     end
@@ -31,7 +37,13 @@ class LeaveEnrolledProgramsController < AdminController
   def update
     if @leave_program.update_attributes(leave_program_params)
       add_more_attachments(@leave_program)
-      path = params[:family_id] ? family_enrolled_program_leave_enrolled_program_path(@entity, @enrollment, @leave_program) : client_client_enrolled_program_leave_enrolled_program_path(@entity, @enrollment, @leave_program)
+      if params[:family_id]
+        path = family_enrolled_program_leave_enrolled_program_path(@entity, @enrollment, @leave_program)
+      elsif params[:community_id]
+        path = community_enrolled_program_leave_enrolled_program_path(@entity, @enrollment, @leave_program)
+      else
+        path = client_client_enrolled_program_leave_enrolled_program_path(@entity, @enrollment, @leave_program)
+      end
       redirect_to path, notice: t('.successfully_updated')
     else
       render :edit
