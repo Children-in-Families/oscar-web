@@ -13,7 +13,7 @@ module AdvancedSearches
   
       def get_sql
         sql_string = 'families.id IN (?)'
-        leave_programs = LeaveProgram.joins(:family_enrollment).where(program_stream_id: @program_stream_id)
+        leave_programs = LeaveProgram.joins(:enrollment).where(program_stream_id: @program_stream_id)
   
         type_format = ['select', 'radio-group', 'checkbox-group']
         if type_format.include?(@input_type)
@@ -48,10 +48,10 @@ module AdvancedSearches
         when 'is_empty'
           if @type == 'checkbox'
             properties_result = leave_programs.where.not("leave_programs.properties -> '#{@field}' ? ''")
-            family_ids        = properties_result.pluck('family_enrollments.programmable_id').uniq
+            family_ids        = properties_result.pluck('enrollments.programmable_id').uniq
           else
             properties_result = leave_programs.where.not("leave_programs.properties -> '#{@field}' ? '' OR (leave_programs.properties -> '#{@field}') IS NULL")
-            family_ids        = properties_result.pluck('family_enrollments.programmable_id').uniq
+            family_ids        = properties_result.pluck('enrollments.programmable_id').uniq
           end
   
           family_ids = Family.where.not(id: family_ids).ids
@@ -66,7 +66,7 @@ module AdvancedSearches
           properties_result = leave_programs.where("(leave_programs.properties ->> '#{@field}')#{ '::numeric' if integer? } BETWEEN '#{@value.first}' AND '#{@value.last}' AND leave_programs.properties ->> '#{@field}' != ''")
         end
   
-        family_ids = properties_result.pluck('family_enrollments.programmable_id').uniq
+        family_ids = properties_result.pluck('enrollments.programmable_id').uniq
         {id: sql_string, values: family_ids}
       end
   

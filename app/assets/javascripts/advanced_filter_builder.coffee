@@ -14,14 +14,6 @@ class CIF.AdvancedFilterBuilder
 
         window.customGroup["#{addRule.id}"] = addRule if window.customGroup["#{addRule.id}"] == undefined
         $('#builder_group_0').find('.rules-group-body .btn-custom-group').hide()
-      
-      if $('body#families-index').length
-        if localStorage.getItem(addRule.id) == addRule.id
-          addRule.$el.addClass('csi-group')
-          $("##{addRule.id} .group-conditions label.btn-primary").attr('disabled', 'disabled')
-
-        window.customGroup["#{addRule.id}"] = addRule if window.customGroup["#{addRule.id}"] == undefined
-        $('#builder_group_0').find('.rules-group-body .btn-custom-group').hide()
 
     $('#builder').on 'beforeDeleteGroup.queryBuilder', (parent, group) ->
       if $('body#clients-index').length

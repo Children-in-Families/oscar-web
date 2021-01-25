@@ -3,7 +3,8 @@ class FamiliesController < AdminController
   include FamilyAdvancedSearchesConcern
 
   before_action :find_params_advanced_search, :get_custom_form, :get_program_streams, only: [:index]
-  before_action :get_custom_form_fields, :family_builder_fields, :get_quantitative_fields, only: [:index]
+  before_action :get_custom_form_fields, :get_quantitative_fields, :family_builder_fields, only: [:index]
+  before_action :custom_form_fields, :program_stream_fields, only: [:index]
   before_action :basic_params, if: :has_params?, only: [:index]
   before_action :build_advanced_search, only: [:index]
   before_action :find_association, except: [:index, :destroy, :version]
@@ -13,9 +14,9 @@ class FamiliesController < AdminController
 
   def index
     @default_columns = Setting.first.try(:family_default_columns)
-    @family_grid = FamilyGrid.new(params.fetch(:family_grid, {}).merge!(dynamic_columns: @custom_form_fields))
+    @family_grid = FamilyGrid.new(params.fetch(:family_grid, {}).merge!(dynamic_columns: column_form_builder))
     @family_grid = @family_grid.scope { |scope| scope.accessible_by(current_ability) }
-    @family_columns ||= FamilyColumnsVisibility.new(@family_grid, params.merge(column_form_builder: @custom_form_fields))
+    @family_columns ||= FamilyColumnsVisibility.new(@family_grid, params.merge(column_form_builder: column_form_builder))
     @family_columns.visible_columns
     if has_params?
       advanced_search
@@ -196,5 +197,18 @@ class FamiliesController < AdminController
     end
     @family = Family.new(attributes)
     @selected_children = params[:children]
+  end
+
+  def column_form_builder
+    forms = []
+    if @custom_form_fields.present?
+      forms << @custom_form_fields
+    end
+
+    if @program_stream_fields.present?
+      forms << @program_stream_fields
+    end
+
+    forms.flatten
   end
 end

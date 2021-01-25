@@ -13,7 +13,7 @@
           .col-xs-12.col-md-4
             %label= t('.custom_form_column')
             = render 'families/family_advanced_searches/custom_form_column'
-          .col-xs-12{ class: current_setting.try(:enable_hotline) ? 'col-md-3' : 'col-md-4' }
+          .col-xs-12.col-md-4
             %label= t('.program_stream_column')
             = render 'families/family_advanced_searches/program_stream_column', program_stream_columns: @program_stream_columns
         .row
@@ -33,6 +33,8 @@
   = f.hidden_field :tracking_check
   = f.hidden_field :exit_form_check
   = f.hidden_field :basic_rules
+  = f.hidden_field :quantitative_check
+  = hidden_field_tag :data, params[:data]
   = hidden_field_tag :locale, "#{params[:locale]}"
   #family-builder-fields{ data: { fields: @builder_fields.to_json }}
   #quantitative-fields{ data: { fields: @quantitative_fields.to_json }}

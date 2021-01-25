@@ -3,6 +3,7 @@ module AdvancedSearches
     class FamilyTrackingSqlBuilder
       include FormBuilderHelper
       include FamiliesHelper
+      include ClientsHelper
   
       def initialize(tracking_id, rule, program_name=nil)
         @tracking_id   = tracking_id
@@ -17,11 +18,11 @@ module AdvancedSearches
   
       def get_sql
         sql_string = 'families.id IN (?)'
-        properties_field = 'family_enrollment_trackings.properties'
+        properties_field = 'enrollment_trackings.properties'
         if @operator != 'is_empty'
-          family_enrollment_trackings = EnrollmentTracking.joins(:family_enrollment).where(tracking_id: @tracking_id)
+          enrollment_trackings = EnrollmentTracking.joins(:enrollment).where(tracking_id: @tracking_id)
         else
-          family_enrollment_trackings = EnrollmentTracking.joins("LEFT OUTER JOIN family_enrollments ON family_enrollments.id = family_enrollment_trackings.family_enrollment_id")
+          enrollment_trackings = EnrollmentTracking.joins("LEFT OUTER JOIN enrollments ON enrollments.id = enrollment_trackings.enrollment_id")
         end
   
   
@@ -33,12 +34,12 @@ module AdvancedSearches
         query_string  = get_query_string(results, 'tracking', properties_field)
   
         if @operator != 'is_empty'
-          properties_result = family_enrollment_trackings.where(family_enrollments: { program_stream_id: selected_program_stream }).where(query_string.reject(&:blank?).join(" #{basic_rules['condition']} "))
+          properties_result = enrollment_trackings.where(enrollments: { program_stream_id: selected_program_stream }).where(query_string.reject(&:blank?).join(" #{basic_rules['condition']} "))
         else
-          properties_result = family_enrollment_trackings.where(query_string.reject(&:blank?).join(" #{basic_rules['condition']} "))
+          properties_result = enrollment_trackings.where(query_string.reject(&:blank?).join(" #{basic_rules['condition']} "))
         end
   
-        family_ids = properties_result.pluck('family_enrollments.programmable_id').uniq
+        family_ids = properties_result.pluck('enrollments.programmable_id').uniq
         {id: sql_string, values: family_ids}
       end
     end

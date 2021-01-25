@@ -2836,6 +2836,8 @@ en:
         manage: Manage
         member_count: Family Members
         'no': 'No'
+        quantitative: Custom Referral Data
+        program_streams: Program Streams
         province: Province
         significant_family_member_count: Significant Family Member Count
         status: Status

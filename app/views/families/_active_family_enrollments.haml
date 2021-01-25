@@ -1,0 +1,10 @@
+- if params[:data] == 'recent'
+  - recent_record = active_programs.order(created_at: :desc).first.try(:program_stream).try(:name)
+  - if recent_record.present?
+    %ul{'data-program_stream': '' }
+      %li= recent_record
+- else
+  %ul{'data-program_streams': '' }
+    - active_programs.each do |enrollment|
+      %li= enrollment.program_stream.name
+

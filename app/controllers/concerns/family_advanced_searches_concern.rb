@@ -36,7 +36,8 @@ module FamilyAdvancedSearchesConcern
   end
 
   def family_builder_fields
-    @builder_fields = get_family_basic_fields + custom_form_fields
+    @builder_fields = get_family_basic_fields + custom_form_fields + program_stream_fields
+    @builder_fields = @builder_fields + @quantitative_fields if quantitative_check?
   end
 
   def get_family_basic_fields
@@ -96,7 +97,7 @@ module FamilyAdvancedSearchesConcern
   end
 
   def program_stream_column
-    @program_stream_columns = program_stream_fields.group_by{ |field| field[:optgroup] } if params.dig(:family_advanced_search, :action_report_builder) == '#builder'
+    @program_stream_columns = program_stream_fields.group_by{ |field| field[:optgroup] }
   end
 
   def program_stream_fields
@@ -118,6 +119,10 @@ module FamilyAdvancedSearchesConcern
     AdvancedSearches::ExitProgramFields.new(program_stream_values).render
   end
 
+  def program_stream_value?
+    @advanced_search_params.present? && @advanced_search_params[:program_selected].present?
+  end
+
   def program_stream_values
     program_stream_value? ? eval(@advanced_search_params[:program_selected]) : []
   end
@@ -137,5 +142,9 @@ module FamilyAdvancedSearchesConcern
   def get_quantitative_fields
     quantitative_fields = AdvancedSearches::QuantitativeCaseFields.new(current_user)
     @quantitative_fields = quantitative_fields.render
+  end
+
+  def quantitative_check?
+    @advanced_search_params.present? && @advanced_search_params[:quantitative_check].present?
   end
 end
