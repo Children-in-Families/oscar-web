@@ -2837,6 +2837,8 @@ en:
         member_count: Family Members
         'no': 'No'
         quantitative: Custom Referral Data
+        program_enrollment_date: Program Enrollment Date
+        program_exit_date: Program Exit Date
         program_streams: Program Streams
         province: Province
         significant_family_member_count: Significant Family Member Count

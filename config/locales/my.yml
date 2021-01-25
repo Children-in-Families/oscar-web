@@ -2833,6 +2833,8 @@ my:
         name: နာမည္
         'no': မဟုတ္ပါ
         quantitative: ထုံးစံလွှဲပြောင်းဒေတာ
+        program_enrollment_date: အစီအစဥ္တြင္ ၀င္ေရာက္သည့္ ရက္စြဲ
+        program_exit_date: အစီအစဥ္မွထြက္သည့္ ရက္စြဲ
         program_streams: ပရိုဂရမ်စီး
         province: ခ႐ိုင္
         significant_family_member_count: မိသားစု၀င္မ်ားသည့္ အေရအတြက္

@@ -2827,6 +2827,8 @@ km:
         name: ឈ្មោះអ្នកថែទាំកុមារ
         'no': ទេ
         quantitative: ព័ត៌មានចំណុចជាក់លាក់នៃការបញ្ជូនបន្ថែម
+        program_enrollment_date: កាលបរិច្ឆេទចុះឈ្មោះ
+        program_exit_date: កាលបរិច្ឆេទនៃការចាកចេញពីកម្មវិធី
         program_streams: កម្មវិធីចម្បង
         province: ខេត្ត/ក្រុង
         significant_family_member_count: ចំនួនសមាជិកគ្រួសារដែលចូលរួមរកប្រាក់ចំណូល

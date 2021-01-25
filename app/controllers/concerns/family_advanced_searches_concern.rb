@@ -16,7 +16,7 @@ module FamilyAdvancedSearchesConcern
       end
       f.xls do
         @family_grid.scope { |scope| scope.where(id: @families.ids) }
-        form_builder_report
+        export_family_reports
         send_data @family_grid.to_xls, filename: "family_report-#{Time.now}.xls"
       end
     end
@@ -146,5 +146,16 @@ module FamilyAdvancedSearchesConcern
 
   def quantitative_check?
     @advanced_search_params.present? && @advanced_search_params[:quantitative_check].present?
+  end
+
+  def program_stream_report
+    @family_grid.column(:program_streams, header: I18n.t('datagrid.columns.families.program_streams')) do |family|
+      family.enrollments.active.map{ |c| c.program_stream.try(:name) }.uniq.join(', ')
+    end
+  end
+
+  def export_family_reports
+    form_builder_report
+    program_stream_report
   end
 end
