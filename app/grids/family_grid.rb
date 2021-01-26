@@ -100,6 +100,34 @@ class FamilyGrid < BaseGrid
     scope.caregiver_information_like(value)
   end
 
+  filter(:program_streams, :enum, multiple: true, select: :program_stream_options, header: -> { I18n.t('datagrid.columns.families.program_streams') }) do |name, scope|
+    program_stream_ids = ProgramStream.name_like(name).ids
+    ids = Family.joins(:enrollments).where(enrollments: { program_stream_id: program_stream_ids } ).pluck(:id).uniq
+    scope.where(id: ids)
+  end
+
+  def program_stream_options
+    ProgramStream.joins(:enrollments).complete.ordered.pluck(:name).uniq
+  end
+
+  def quantitative_type_options
+    QuantitativeType.all.map{ |t| [t.name, t.id] }
+  end
+
+  filter(:quantitative_types, :enum, select: :quantitative_type_options, header: -> { I18n.t('datagrid.columns.clients.quantitative_types') }) do |value, scope|
+    ids = Family.joins(:quantitative_cases).where(quantitative_cases: { quantitative_type_id: value.to_i }).pluck(:id).uniq
+    scope.where(id: ids)
+  end
+
+  def quantitative_cases
+    qType.present? ? QuantitativeType.find(qType.to_i).quantitative_cases.map{ |t| [t.value, t.id] } : QuantitativeCase.all.map{ |t| [t.value, t.id] }
+  end
+
+  filter(:quantitative_data, :enum, select: :quantitative_cases, header: -> { I18n.t('datagrid.columns.clients.quantitative_case_values') }) do |value, scope|
+    ids = Family.joins(:quantitative_cases).where(quantitative_cases: { id: value.to_i }).pluck(:id).uniq
+    scope.where(id: ids)
+  end
+
   def filer_section(filter_name)
     {
       street: :address,
@@ -248,30 +276,84 @@ class FamilyGrid < BaseGrid
   column(:case_note_type, header: -> { I18n.t('datagrid.columns.clients.case_note_type')}, html: true) do |object|
     render partial: 'clients/case_note_type', locals: { object: object }
   end
+  
+  column(:program_streams, html: true, order: false, header: -> { I18n.t('datagrid.columns.families.program_streams') }) do |object, a, b, c|
+    family_enrollments = family_program_stream_name(object.enrollments.active, 'active_program_stream')
+    render partial: 'families/active_family_enrollments', locals: { active_programs: family_enrollments }
+  end
 
   dynamic do
     next unless dynamic_columns.present?
     dynamic_columns.each do |column_builder|
       fields = column_builder[:id].gsub('&qoute;', '"').split('__')
       column(column_builder[:id].to_sym, class: 'form-builder', header: -> { form_builder_format_header(fields) }, html: true) do |object|
-        if fields.last == 'Has This Form'
-          properties = [object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Family'}).count]
-        else
-          properties_field = 'custom_field_properties.properties'
-          format_field_value = fields.last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
+        format_field_value = fields.last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
+        if fields.first == 'formbuilder'
+          if fields.last == 'Has This Form'
+            properties = [object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Family'}).count]
+          else
+            properties_field = 'custom_field_properties.properties'
+            # format_field_value = fields.last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
 
-          basic_rules  = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
-          basic_rules  = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
-          results      = mapping_form_builder_param_value(basic_rules, 'formbuilder')
+            basic_rules  = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
+            basic_rules  = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
+            results      = mapping_form_builder_param_value(basic_rules, 'formbuilder')
 
-          query_string = get_query_string(results, 'formbuilder', properties_field)
-          sql          = query_string.reverse.reject(&:blank?).map{|sql| "(#{sql})" }.join(" AND ")
+            query_string = get_query_string(results, 'formbuilder', properties_field)
+            sql          = query_string.reverse.reject(&:blank?).map{|sql| "(#{sql})" }.join(" AND ")
 
-          properties   = object.custom_field_properties.joins(:custom_field).where(sql).where(custom_fields: { form_title: fields.second, entity_type: 'Family'}).properties_by(format_field_value)
+            properties   = object.custom_field_properties.joins(:custom_field).where(sql).where(custom_fields: { form_title: fields.second, entity_type: 'Family'}).properties_by(format_field_value)
+          end
+        elsif fields.first == 'enrollmentdate'
+          properties = date_filter(object.enrollments.joins(:program_stream).where(program_streams: { name: fields.second }), fields.join('__')).map{|date| date_format(date.enrollment_date) }
+        elsif fields.first == 'enrollment'
+          properties = object.enrollments.joins(:program_stream).where(program_streams: { name: fields.second }).properties_by(format_field_value)
+        elsif fields.first == 'tracking'
+          ids = object.enrollments.ids
+          enrollment_trackings = EnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, enrollment_trackings: { enrollment_id: ids })
+          properties = family_form_builder_query(enrollment_trackings, fields.first, column_builder[:id].gsub('&qoute;', '"')).properties_by(format_field_value, enrollment_trackings)
+        elsif fields.first == 'exitprogramdate'
+          ids = object.enrollments.inactive.ids
+          properties = date_filter(LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { enrollment_id: ids }), fields.join('__')).map{|date| date_format(date.exit_date) }
+        elsif fields.first == 'exitprogram'
+          ids = object.enrollments.inactive.ids
+          if $param_rules.nil?
+            properties = LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { enrollment_id: ids }).properties_by(format_field_value)
+          else
+            basic_rules = $param_rules['basic_rules']
+            basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
+            results = mapping_exit_program_date_param_value(basic_rules)
+            query_string = get_exit_program_date_query_string(results)
+            properties = LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { enrollment_id: ids }).where(query_string).properties_by(format_field_value)
+          end
         end
+
         render partial: 'shared/form_builder_dynamic/properties_value', locals: { properties:  properties }
       end
 
+    end
+  end
+
+  dynamic do
+    quantitative_type_readable_ids = current_user.quantitative_type_permissions.readable.pluck(:quantitative_type_id) unless current_user.nil?
+    quantitative_types = QuantitativeType.joins(:quantitative_cases).distinct
+    quantitative_types.each do |quantitative_type|
+      if current_user.nil? || quantitative_type_readable_ids.include?(quantitative_type.id)
+        column(quantitative_type.name.to_sym, class: 'quantitative-type', header: -> { quantitative_type.name }, html: true) do |object|
+          quantitative_type_values = object.quantitative_cases.where(quantitative_type_id: quantitative_type.id).pluck(:value)
+          rule = get_rule(params, quantitative_type.name.squish)
+          if rule.presence && rule.dig(:type) == 'date'
+            quantitative_type_values = date_condition_filter(rule, quantitative_type_values)
+          elsif rule.present?
+            if rule.dig(:input) == 'select'
+              quantitative_type_values = select_condition_filter(rule, quantitative_type_values.flatten).presence || quantitative_type_values
+            else
+              quantitative_type_values = string_condition_filter(rule, quantitative_type_values.flatten).presence || quantitative_type_values
+            end
+          end
+          quantitative_type_values.join(', ')
+        end
+      end
     end
   end
 

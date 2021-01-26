@@ -86,6 +86,9 @@ module FamiliesHelper
       changelog:                                t('datagrid.columns.families.changelog'),
       case_workers:                             t('datagrid.columns.families.case_workers'),
       manage:                                   t('datagrid.columns.families.manage'),
+      program_streams:                          t('datagrid.columns.families.program_streams'),
+      program_enrollment_date:                  t('datagrid.columns.clients.program_enrollment_date'),
+      program_exit_date:                        t('datagrid.columns.clients.program_exit_date'),
       **additional_columns
     }
     label_tag "#{column}_", label_column[column.to_sym]
@@ -122,6 +125,7 @@ module FamiliesHelper
       member_count_:                             t('datagrid.columns.families.member_count'),
       name_:                                     t('datagrid.columns.families.name'),
       significant_family_member_count_:          t('datagrid.columns.families.significant_family_member_count'),
+      program_streams_:                          t('datagrid.columns.families.program_streams'),
       **additional_columns
     }
     label_tag "#{column}_", label_column[column.to_sym]
