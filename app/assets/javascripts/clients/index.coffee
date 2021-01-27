@@ -143,8 +143,6 @@ CIF.ClientsIndex = do ->
         $(tableId).css 'width': '100%'
         return
 
-
-
   _handleShowCustomFormSelect = ->
     if $('#wizard-referral-data .referral-data-column .i-checks').is(':checked')
       $('#wizard-referral-data').show()

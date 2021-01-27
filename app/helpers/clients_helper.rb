@@ -950,7 +950,7 @@ module ClientsHelper
 
       if count > 0 && class_name != 'case_note_type'
         class_name = class_name =~ /^(formbuilder)/i ? column.name.to_s : class_name
-        link_all = params['all_values'] != class_name ? button_to('All', ad_search_clients_path, params: params.merge(all_values: class_name), remote: false, form_class: 'all-values') : ''
+        link_all = params['all_values'] != class_name ? button_to('All', advanced_search_clients_path, params: params.merge(all_values: class_name), remote: false, form_class: 'all-values') : ''
         [column.header.truncate(65),
           content_tag(:span, count, class: 'label label-info'),
           link_all

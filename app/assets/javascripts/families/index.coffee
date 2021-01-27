@@ -80,8 +80,8 @@ CIF.FamiliesIndex = do ->
         $(@).parents('.columns-visibility').find('.visibility input[type=checkbox]').iCheck('uncheck')
 
   _handleAutoCollapse = ->
-    params = window.location.search.substr(1)
-    if params.includes('family_advanced_search')
+    action = $('#search-action').data('action') || 'family_grid'
+    if action == '#builder'
       $("button[data-target='#family-advance-search-form']").trigger('click')
     else
       $("button[data-target='#family-search-form']").trigger('click')

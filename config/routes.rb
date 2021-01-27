@@ -105,7 +105,7 @@ Rails.application.routes.draw do
     resources :referrals
 
     collection do
-      post '/ad_search', to: 'clients#index'
+      post '/advanced_search', to: 'clients#index'
       get :advanced_search
     end
 

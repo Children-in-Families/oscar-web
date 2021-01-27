@@ -19,7 +19,7 @@
       = t('.save_search_settings')
 
     - if params['commit'].present? || params['client_advanced_search'].present?
-      = button_to ad_search_clients_path, params: params.merge(format: 'xls', type: 'basic_info'), class: 'btn btn-primary btn-export clients-list', form_class: 'hidden-post-form', data: { toggle: 'popover', trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.export_to_xls')}", placement: "auto" }  do
+      = button_to advanced_search_clients_path, params: params.merge(format: 'xls', type: 'basic_info'), class: 'btn btn-primary btn-export clients-list', form_class: 'hidden-post-form', data: { toggle: 'popover', trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.export_to_xls')}", placement: "auto" }  do
         %i.fa.fa-download
         = t('.export_to_xls')
       - if enable_all_csi_tools?
@@ -73,7 +73,7 @@
 .row
   .col-xs-12
     .ibox-content#client-search-form.collapse
-      = datagrid_form_for @client_grid, url: ad_search_clients_url, html: { class: 'grid-form' }, method: :post
+      = datagrid_form_for @client_grid, url: advanced_search_clients_url, html: { class: 'grid-form' }, method: :post
 
 %input#params{ value: "#{params['client_advanced_search']}", type: 'hidden' }
 .row#client-statistic-body
@@ -103,9 +103,9 @@
           %span.label.label-info= t('.results')
           .ibox-tools
             - if params[:data] == 'recent'
-              = button_to t('.show_all'), ad_search_clients_path, params: params.merge({data: 'all'}), class: 'btn btn-primary', form_class: 'hidden-post-form', id: 'show-all'
+              = button_to t('.show_all'), advanced_search_clients_path, params: params.merge({data: 'all'}), class: 'btn btn-primary', form_class: 'hidden-post-form', id: 'show-all'
             - else
-              = button_to t('.most_recent'), ad_search_clients_path, params: params.merge({data: 'recent'}), class: 'btn btn-primary', form_class: 'hidden-post-form', id: 'most-recent'
+              = button_to t('.most_recent'), advanced_search_clients_path, params: params.merge({data: 'recent'}), class: 'btn btn-primary', form_class: 'hidden-post-form', id: 'most-recent'
 
         .ibox-content
           .clients-table{ data: { 'info-load': t('.load'), 'info-end': t('.end'), 'read-more': t('.read_more'), 'read-less': t('.read_less') } }

@@ -395,4 +395,9 @@ module ApplicationHelper
   def initial_referral_date_picker_format(entity)
     "#{entity.initial_referral_date&.year}, #{entity.initial_referral_date&.month}, #{entity.initial_referral_date&.day}"
   end
+
+  def advanced_search_url_dynamic
+    routes = Rails.application.routes.url_helpers
+    routes.public_send("advanced_search_#{params["controller"]}_path")
+  end
 end

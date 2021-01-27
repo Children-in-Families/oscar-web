@@ -22,6 +22,15 @@ module FamilyAdvancedSearchesConcern
     end
   end
 
+  def format_search_params
+    advanced_search_params = params[:family_advanced_search]
+    family_grid_params = params[:family_grid]
+    return unless (advanced_search_params.is_a? String) || (family_grid_params.is_a? String)
+
+    params[:family_advanced_search] = Rack::Utils.parse_nested_query(advanced_search_params)
+    params[:family_grid] = Rack::Utils.parse_nested_query(family_grid_params)
+  end
+
   def export_family_reports
     custom_all_csi_assessments
     if params[:client_advanced_search].present?
