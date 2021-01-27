@@ -66,6 +66,7 @@
 //= require footable.all.min
 
 //APPLICATION JS
+//= require advanced_search
 //= require client_advance_search
 //= require showmore
 

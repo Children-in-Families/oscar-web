@@ -47,14 +47,14 @@ module CommunityAdvancedSearchConcern
   end
 
   def custom_form_fields
-    @custom_form_fields = get_custom_form_fields + get_has_this_form_fields
+    @custom_form_fields = custom_fields + get_has_this_form_fields
   end
 
   def get_has_this_form_fields
     @has_this_form_fields = AdvancedSearches::HasThisFormFields.new(custom_form_values).render
   end
 
-  def get_custom_form_fields
+  def custom_fields
     @custom_forms = AdvancedSearches::CustomFields.new(custom_form_values).render
   end
 

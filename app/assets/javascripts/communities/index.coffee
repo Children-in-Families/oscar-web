@@ -8,6 +8,7 @@ CIF.CommunitiesIndex = do ->
     _handleAutoCollapse()
     _toggleCollapseFilter()
     _checkClientSearchForm()
+    _initAdavanceSearchFilter()
 
   _initSelect2 = ->
     $('select').select2
@@ -67,6 +68,11 @@ CIF.CommunitiesIndex = do ->
     $('#community-advanced-search').on 'show.bs.collapse', ->
       $('#community-statistic-body').hide()
       $('#community-search-form').collapse('hide')
+
+  _initAdavanceSearchFilter = ->
+    advanceFilter = new CIF.AdvancedSearch()
+    advanceFilter.initBuilderFilter('#community-builder-fields')
+    advanceFilter.setValueToBuilderSelected()
 
 
   _checkClientSearchForm = ->
