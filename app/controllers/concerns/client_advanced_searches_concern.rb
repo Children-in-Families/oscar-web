@@ -6,7 +6,7 @@ module ClientAdvancedSearchesConcern
       advanced_search = AdvancedSearch.find(params[:advanced_search_id])
       basic_rules = advanced_search.queries
     else
-      basic_rules  = JSON.parse @basic_filter_params || @wizard_basic_filter_params
+      basic_rules = JSON.parse @basic_filter_params || @wizard_basic_filter_params
     end
     $param_rules = find_params_advanced_search
     clients      = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability))

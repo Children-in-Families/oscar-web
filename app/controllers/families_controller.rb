@@ -2,9 +2,11 @@ class FamiliesController < AdminController
   load_and_authorize_resource
   include FamilyAdvancedSearchesConcern
 
-  before_action :find_params_advanced_search, :get_custom_form, :get_program_streams, only: [:index]
-  before_action :get_custom_form_fields, :get_quantitative_fields, :family_builder_fields, only: [:index]
   before_action :custom_form_fields, :program_stream_fields, only: [:index]
+  before_action :assign_active_family_prams, :format_search_params, only: [:index]
+  before_action :find_params_advanced_search, :get_custom_form, :get_program_streams, only: [:index]
+  before_action :find_params_advanced_search, :get_custom_form, only: [:index]
+  before_action :get_custom_form_fields, :get_quantitative_fields, :family_builder_fields, only: [:index]
   before_action :basic_params, if: :has_params?, only: [:index]
   before_action :build_advanced_search, only: [:index]
   before_action :find_association, except: [:index, :destroy, :version]
@@ -18,7 +20,7 @@ class FamiliesController < AdminController
     @family_grid = @family_grid.scope { |scope| scope.accessible_by(current_ability) }
     @family_columns ||= FamilyColumnsVisibility.new(@family_grid, params.merge(column_form_builder: column_form_builder))
     @family_columns.visible_columns
-    if has_params?
+    if has_params? || params[:advanced_search_id].present? || params[:family_advanced_search].present?
       advanced_search
     else
       respond_to do |f|
@@ -214,5 +216,14 @@ class FamiliesController < AdminController
     end
 
     forms.flatten
+  end
+
+  def assign_active_family_prams
+    return if params[:active_family].blank?
+
+    params[:family_advanced_search] = {
+      action_report_builder: '#builder',
+      basic_rules: "{\"condition\":\"AND\",\"rules\":[{\"id\":\"status\",\"field\":\"Status\",\"type\":\"string\",\"input\":\"select\",\"operator\":\"equal\",\"value\":\"Active\",\"data\":{\"values\":[{\"Accepted\":\"Accepted\"},{\"Active\":\"Active\"},{\"Exited\":\"Exited\"},{\"Referred\":\"Referred\"}],\"isAssociation\":false}}],\"valid\":true}"
+    }
   end
 end

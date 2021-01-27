@@ -1,9 +1,7 @@
 %li
-  - pagination_params = url.include?('page') ? params.merge(page: Rack::Utils.parse_nested_query(url)['page'].to_i) : params.merge(page: 1)
   - unless current_page.first?
-    - if params[:controller] == 'clients'
-      = button_to raw(t 'views.pagination.previous'), ad_search_clients_path, params: pagination_params, :rel => 'prev', :remote => remote, form_class: 'hidden-post-form'
-    - if params[:controller] == 'families'
-      = button_to raw(t 'views.pagination.previous'), advanced_search_families_path, params: pagination_params, :rel => 'prev', :remote => remote, form_class: 'hidden-post-form'
+    - pagination_params = url.include?('page') ? params.merge(page: Rack::Utils.parse_nested_query(url)['page'].to_i) : params.merge(page: 1)
+    - if params[:controller] == 'clients' || params[:controller] == 'families'
+      = button_to raw(t 'views.pagination.previous'), advanced_search_url_dynamic, params: pagination_params, :rel => 'prev', :remote => remote, form_class: 'hidden-post-form'
   - else
     = link_to_unless current_page.first?, raw(t 'views.pagination.previous'), url, :rel => 'prev', :remote => remote

@@ -152,11 +152,15 @@ body[id="families-index"] {
     }
   }
 
-  .family-column-picker, .custom-form, .program-stream, .selected-custom-form, .program-association {
+  .family-column-picker,
+  .custom-form,
+  .program-stream,
+  .selected-custom-form,
+  .program-association {
     display: none;
   }
 
-  .program-association{
+  .program-association {
     margin-left: 16px;
   }
 
@@ -164,5 +168,9 @@ body[id="families-index"] {
     color: inherit;
     background: white;
     border: 1px solid #e7eaec;
+  }
+
+  .family-action {
+    display: flex;
   }
 }
