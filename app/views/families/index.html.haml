@@ -5,11 +5,11 @@
     %button.btn.btn-primary.query.family-advance-search{"aria-expanded" => 'false', "data-target" => '#family-advance-search-form', "data-toggle" => 'collapse', type: 'button'}
       = t('.report_builder')
   .col-xs-12.col-md-3
-    .pull-right
+    .pull-right.family-action
       - if can? :manage, Family
-        = link_to "#{I18n.t('families.index.add_new_family')}", new_family_path, class: 'btn btn-primary'
+        = link_to "#{I18n.t('families.index.add_new_family')}", new_family_path, class: 'btn btn-primary m-r-sm'
       - if params['commit'].present? || params['family_advanced_search'].present?
-        = button_to advanced_search_families_path(format: 'xls', type: 'basic_info'), method: 'POST', class: 'btn btn-info btn-export', form_class: 'hidden-post-form', data: { toggle: 'popover', trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.export_to_xls')}", placement: "auto" }  do
+        = button_to advanced_search_families_path, params: params.merge(format: 'xls', type: 'basic_info'), class: 'btn btn-info btn-export', form_class: 'hidden-post-form', data: { toggle: 'popover', trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.export_to_xls')}", placement: "auto" }  do
           %i.fa.fa-download
           = t('families.index.export_xls')
       - else
