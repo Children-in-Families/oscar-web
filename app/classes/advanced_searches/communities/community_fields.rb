@@ -32,58 +32,21 @@ module AdvancedSearches
       end
 
       def text_type_list
-        ['name', 'name_en']
+        ['name']
       end
 
       def date_type_list
-        ['initial_referral_date', 'formed_date']
+        ['initial_referral_date']
       end
 
       def drop_down_type_list
         [
-          ['status', status_options],
-          ['province_id', provinces],
-          ['district_id', districts],
-          ['commune_id', communes],
-          ['village_id', villages]
+          ['status', status_options]
         ]
-      end
-
-      def community_type_options
-        Community.mapping_community_type_translation.to_h
       end
 
       def status_options
         Community::STATUSES
-      end
-
-      def provinces
-        Community.joins(:province).pluck('provinces.name', 'provinces.id').uniq.sort.map{|s| {s[1].to_s => s[0]}}
-      end
-
-      def districts
-        Community.joins(:district).pluck('districts.name', 'districts.id').uniq.sort.map{|s| {s[1].to_s => s[0]}}
-      end
-
-      def communes
-        Commune.joins(:families, district: :province).distinct.map{|commune| ["#{commune.name_kh} / #{commune.name_en} (#{commune.code})", commune.id]}.sort.map{|s| {s[1].to_s => s[0]}}
-      end
-
-      def villages
-        Village.joins(:families, commune: [district: :province]).distinct.map{|village| ["#{village.name_kh} / #{village.name_en} (#{village.code})", village.id]}.sort.map{|s| {s[1].to_s => s[0]}}
-      end
-
-      def clients
-        Client.joins(:families).order('lower(clients.given_name)').pluck('clients.given_name, clients.community_name, clients.id').uniq.map{|s| { s[2].to_s => "#{s[0]} #{s[1]}" } }
-      end
-
-      def case_workers_options
-        user_ids = Case.joins(:community).where.not(cases: { case_type: 'EC', exited: true }).pluck(:user_id).uniq
-        User.where(id: user_ids).order(:first_name, :last_name).map { |user| { user.id.to_s => user.name } }
-      end
-
-      def gender_options
-        CommunityMember.gender.values.map{ |value| [value, I18n.t("datagrid.columns.families.gender_list.#{value.gsub('other', 'other_gender')}")] }.to_h
       end
     end
   end

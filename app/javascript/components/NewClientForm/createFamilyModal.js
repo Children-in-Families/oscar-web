@@ -3,7 +3,7 @@ import { SelectInput } from '../Commons/inputs'
 import { RadioButton } from 'primereact/radiobutton'
 
 export default props => {
-  const { onChange, onSave, data: { families, clientData, T } } = props
+  const { onChange, onSave, data: { families, clientData, familyMemberData, T } } = props
 
   const [showSave, setShowSave]     = useState(false)
   const [showSelect, setShowSelect] = useState(false)
@@ -13,14 +13,7 @@ export default props => {
 
   const onChangeFamily = ({ data, action, type }) => {
     setShowSave(true)
-    let values = []
-    if (action === 'select-option'){
-      values = clientData.family_ids
-      values = values.filter((v, i, a) => a.indexOf(v) === i);
-      onChange('client', 'family_ids')({data: values, type})
-    }
-    // onChange('client', 'family_ids')({data: value, type})
-    onChange('client', 'current_family_id')({data: data, type})
+    onChange('familyMember', 'family_id')({data: data, type})
   }
 
   const handleCreateNewFamily = (boolean) => event => {
@@ -46,7 +39,7 @@ export default props => {
       let url = ''
 
       if(value === 'createNewFamilyRecord')
-        url = `/families/new?children=${response.id || clientData.id}`
+        url = `/families/new?client=${response.id || clientData.id}`
       else
         url = `/clients/${response.slug}?notice=` + T.translate("createFamilyModal.successfully_created")
 
@@ -86,7 +79,7 @@ export default props => {
         </div>
         <div className="col-xs-6">
           <p>{T.translate("createFamilyModal.attach_family_to_client")}</p>
-          { showSelect && <SelectInput options={familyLists} value={clientData.current_family_id && clientData.current_family_id} onChange={onChangeFamily} /> }
+          { showSelect && <SelectInput options={familyLists} value={familyMemberData.family_id} onChange={onChangeFamily} /> }
         </div>
       </div>
 
@@ -134,4 +127,3 @@ const styles = {
     pointerEvents: 'none'
   }
 }
-

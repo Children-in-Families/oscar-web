@@ -6,8 +6,8 @@ class ProgramStreamsController < AdminController
   before_action :authorize_program, only: [:edit, :update, :destroy]
   before_action :find_another_ngo_program_stream, if: -> { @ngo_name.present? }
   before_action :remove_html_tags, only: [:create, :update]
-  before_action :available_exclusive_programs, :available_mutual_dependence_programs, only: [:edit, :update]
   before_action :fetch_domains, :find_entity_type, only: [:new, :create, :edit, :update]
+  before_action :available_exclusive_programs, :available_mutual_dependence_programs, only: [:edit, :update]
   before_action :complete_program_steam, only: [:new, :create]
 
   def index
@@ -239,19 +239,28 @@ class ProgramStreamsController < AdminController
   end
 
   def available_exclusive_programs
-    client_ids = @program_stream.client_enrollments.active.pluck(:client_id).uniq
-    active_program_ids = ClientEnrollment.active.where(client_id: client_ids).pluck(:program_stream_id)
-    available_programs_for_exclusive = ProgramStream.where.not(id: active_program_ids).complete.ordered
+    if @entity_type == 'Client'
+      client_ids = @program_stream.client_enrollments.active.pluck(:client_id).uniq
+      active_program_ids = ClientEnrollment.active.where(client_id: client_ids).pluck(:program_stream_id)
+    else
+      entity_ids = @program_stream.enrollments.active.pluck(:programmable_id).uniq
+      active_program_ids = Enrollment.active.where(programmable_id: entity_ids).pluck(:program_stream_id)
+    end
+    available_programs_for_exclusive = ProgramStream.where.not(id: active_program_ids).attached_with(@entity_type).complete.ordered
     @exclusive_programs = available_programs_for_exclusive
   end
 
   def available_mutual_dependence_programs
-    all_programs = ProgramStream.where.not(id: @program_stream).complete.ordered
-
-    active_client_ids   = @program_stream.client_enrollments.active.pluck(:client_id).uniq
-    active_program_ids  = ClientEnrollment.active.where(client_id: active_client_ids).pluck(:program_stream_id)
-    mutuals_available   = ProgramStream.filter(active_program_ids).where.not(id: @program_stream.id).complete.ordered
-    @mutual_dependences = active_client_ids.any? ? mutuals_available : all_programs
+    all_programs = ProgramStream.where.not(id: @program_stream).attached_with(@entity_type).complete.ordered
+    if @entity_type == 'Client'
+      active_entity_ids   = @program_stream.client_enrollments.active.pluck(:client_id).uniq
+      active_program_ids  = ClientEnrollment.active.where(client_id: active_entity_ids).pluck(:program_stream_id)
+    else
+      active_entity_ids   = @program_stream.enrollments.active.pluck(:programmable_id).uniq
+      active_program_ids  = Enrollment.active.where(programmable_id: active_entity_ids).pluck(:program_stream_id)
+    end
+    mutuals_available   = ProgramStream.filter(active_program_ids).where.not(id: @program_stream.id).attached_with(@entity_type).complete.ordered
+    @mutual_dependences = active_entity_ids.any? ? mutuals_available : all_programs
   end
 
   def fetch_domains

@@ -50,6 +50,8 @@ en:
         task_arising: You can either add task here or at the end of the assessment. <i class="fa fa-exclamation-triangle text-danger" aria-hidden="true"></i> If you prefer to add a task at the end of the assessment, you can’t save assessment in between.
       buttons:
         save: The client’s information will be created/saved. The Duplicate Checker feature will check for any duplicate entries and warn you if any are found.
+      care_plans:
+        button: Add a new care plan.
       case_notes:
         button: Document any communication or updates related to the client here.
         date: The actual date when the Case Worker interacted, communicated, and talked about or with the client.
@@ -125,6 +127,8 @@ en:
       show:
         active_form: Add/View/Edit the custom forms already applied to the community.
         add_form: These custom forms are specific to your NGO. Select one from the list to load the form. Once you fill and save it, the form will be attached to the community.
+        active_program: View/Edit/Delete the enrollment information, add new tracking form(s), or exit community from the program(s).
+        enroll_program: 'Enlist the community in existing program stream(s) here. Admin: If the program doesn’t exist, add a new program stream through <strong>Manage >> Program Streams</strong>.'
     custom:
       custom_id1: Alternate case identification (ID) number related to the client. In the case of jointly managed clients or clients referred through other organization(s), enter the ID that was used on the previous paperwork, record, or database. This will help in tracking client record. Admin, This field name is customizable. To change the name, go to <strong>Manage >> Setting >> Custom Labels</strong>. <i class="fa fa-exclamation-triangle text-danger" aria-hidden="true"></i> This is different from Client ID auto-generated in OSCaR for every case.
       custom_id2: Alternate case identification (ID) number related to the client. In the case of jointly managed clients or clients referred through other organization(s), enter the ID that was used on the previous paperwork, record, or database. This will help in tracking client record. Admin, This field name is customizable. To change the name, go to <strong>Manage >> Setting >> Custom Labels</strong>.
@@ -155,14 +159,14 @@ en:
       name: Could be anyone who is caring for the client including caregiver, family members, relatives or organization staff.
       show:
         accepted: Accept indicates your organization will work with the family. The next step is to perform family assessment and enroll in the program stream(s).
+        active_form: Add/View/Edit the custom forms already applied to the family.
+        active_program: View/Edit/Delete the enrollment information, add new tracking form(s), or exit family from the program(s).
+        add_form: These custom forms are specific to your NGO. Select one from the list to load the form. Once you fill and save it, the form will be attached to the family.
+        enroll_program: 'Enlist the family in existing program stream(s) here. Admin: If the program doesn’t exist, add a new program stream through <strong>Manage >> Program Streams</strong>.'
         exit_ngo: This will close the case. That indicates, the organization will not spend more resources on this family. However, the record will remain in the OSCaR system.
         ratanak:
           accepted: Accept indicates your organization will work with the family. The next step is to enroll family in the program stream(s) and perform family assessment.
         reject: Reject indicates your organization cannot work with the family for some reason. The case will remain in the database and show "Exited" status with exit circumstance as "Reject Referral".
-        active_program: View/Edit/Delete the enrollment information, add new tracking form(s), or exit family from the program(s).
-        enroll_program: 'Enlist the family in existing program stream(s) here. Admin: If the program doesn’t exist, add a new program stream through <strong>Manage >> Program Streams</strong>.'
-        active_form: Add/View/Edit the custom forms already applied to the family.
-        add_form: These custom forms are specific to your NGO. Select one from the list to load the form. Once you fill and save it, the form will be attached to the family.
         referral_form: View all referral forms under the following <strong>Referred to External Organization</strong> – If you sent the family to another organization. <strong>Referred From External Organization</strong> – If the family came to you through another organization.
         refer_family: When sending a family to another organization, select a name from the list. If the name is not in the list, select <strong>I don’t see the NGO I’m looking for</strong> to print the form and send it to the target organization.
       status: Manually update the status. Active means one or more clients within a family are on support. If no client is currently under care, update as <strong>Inactive</strong>.

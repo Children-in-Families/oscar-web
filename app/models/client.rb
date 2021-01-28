@@ -57,7 +57,6 @@ class Client < ActiveRecord::Base
   belongs_to :concern_village,  class_name: 'Village',  foreign_key: 'concern_village_id'
   belongs_to :global_identity,  class_name: 'GlobalIdentity', foreign_key: 'global_id', primary_key: :ulid
 
-  has_many :family_members, dependent: :destroy
   has_many :hotlines, dependent: :destroy
   has_many :calls, through: :hotlines
   has_many :sponsors, dependent: :destroy
@@ -81,7 +80,11 @@ class Client < ActiveRecord::Base
   has_many :government_forms, dependent: :destroy
   has_many :global_identity_organizations, class_name: 'GlobalIdentityOrganization', foreign_key: 'client_id', dependent: :destroy
 
+  has_one  :family_member
+  has_one  :family, through: :family_member
+
   accepts_nested_attributes_for :tasks
+  accepts_nested_attributes_for :family_member, allow_destroy: true
 
   has_many :families,       through: :cases
   has_many :cases,          dependent: :destroy
@@ -113,7 +116,7 @@ class Client < ActiveRecord::Base
   after_save :create_client_history, :mark_referral_as_saved, :create_or_update_shared_client
 
   after_commit :remove_family_from_case_worker
-  after_commit :update_related_family_members, on: :update
+  after_commit :update_related_family_member, on: :update
 
   scope :given_name_like,                          ->(value) { where('clients.given_name iLIKE :value OR clients.local_given_name iLIKE :value', { value: "%#{value.squish}%"}) }
   scope :family_name_like,                         ->(value) { where('clients.family_name iLIKE :value OR clients.local_family_name iLIKE :value', { value: "%#{value.squish}%"}) }
@@ -226,10 +229,25 @@ class Client < ActiveRecord::Base
         client_address_matching(results[k], client[v].squish) if results[k]
       end
     end
-  end
 
-  def family
-    Family.find(current_family_id) if current_family_id
+    def unattache_to_other_families(allowed_family_id = nil)
+      records = joins("LEFT JOIN family_members ON clients.id = family_members.client_id WHERE family_members.family_id IS NULL")
+
+      if allowed_family_id.present?
+        records += joins(:family_member).where(family_members: { family_id: allowed_family_id})
+      end
+
+      records
+    end
+
+    def update_external_ids(short_name, client_ids, data_hash)
+      Apartment::Tenant.switch(short_name) do
+        Client.where(id: client_ids).each do |client|
+          attributes = { external_id: data_hash[client.global_id].first, external_id_display: data_hash[client.global_id].last }
+          client.update_columns(attributes)
+        end
+      end
+    end
   end
 
   def self.fetch_75_chars_of(value)
@@ -293,6 +311,10 @@ class Client < ActiveRecord::Base
     name.present? ? name : local_name
   end
 
+  def display_name
+    ["Client ##{id}", name].select(&:present?).join(' - ')
+  end
+
   def en_and_local_name
     en_name = "#{given_name} #{family_name}"
     local_name = "#{local_family_name} #{local_given_name}"
@@ -348,12 +370,12 @@ class Client < ActiveRecord::Base
       #   return (Date.today >= (assessments.defaults.latest_record.created_at + assessment_duration('min')).to_date) && assessments.defaults.latest_record.completed?
       # elsif assessments.defaults.count >= 2
       # end
-      return assessments.defaults.count == 0 || assessments.defaults.latest_record.completed?
+      return assessments.defaults.count == 0 || assessments.defaults.latest_record.try(:completed?)
     else
       if latest_assessment.count == 1
-        return (Date.today >= (latest_assessment.latest_record.created_at + assessment_duration('min', false)).to_date) && latest_assessment.latest_record.completed?
+        return (Date.today >= (latest_assessment.latest_record.created_at + assessment_duration('min', false)).to_date) && latest_assessment.latest_record.try(:completed?)
       elsif latest_assessment.count >= 2
-        return latest_assessment.latest_record.completed?
+        return latest_assessment.latest_record.try(:completed?)
       else
         return true
       end
@@ -503,7 +525,7 @@ class Client < ActiveRecord::Base
 
   def to_select2
     [
-      name, id, { data: {
+      display_name, id, { data: {
           date_of_birth: date_of_birth,
           gender: gender
         }
@@ -739,10 +761,8 @@ class Client < ActiveRecord::Base
 
   private
 
-  def update_related_family_members
-    # family_members.each do |family_member|
-    #   FamilyMember.delay.update_family_relevant_data(family_member.id)
-    # end
+  def update_related_family_member
+    FamilyMember.delay.update_client_relevant_data(family_member.id, Apartment::Tenant.current) if family_member.present? && family_member.persisted?
   end
 
   def create_client_history
@@ -758,7 +778,6 @@ class Client < ActiveRecord::Base
   end
 
   def remove_family_from_case_worker
-    family = Family.joins(:user).find_by(id: current_family_id)
     if family
       clients = Client.joins(:users).where(current_family_id: family.id, case_worker_clients: {user_id: family.user_id})
       if clients.blank?
