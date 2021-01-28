@@ -23,7 +23,7 @@ class Families::CaseNotesController < ::AdminController
   def new
     @from_controller = params[:from]
     @case_note = @family.case_notes.new(custom: true)
-    @case_note.assessment = @family.assessments.default_latest_record
+    @case_note.assessment = @family.assessments.custom_latest_record
     @case_note.populate_notes(nil, 'false')
   end
 

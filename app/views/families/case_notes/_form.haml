@@ -74,7 +74,6 @@
                 = fa_icon 'warning'
                 = t('case_notes.form.add_task_message')
 
-
           .row#on-going-task-label
             .col-xs-12
               %label{:for => "On going tasks"}= t('case_notes.form.on_going_tasks')
@@ -82,7 +81,7 @@
           = f.simple_fields_for :case_note_domain_groups do |case_note_domain|
             - next if case_note_domain.object.domain_group.nil?
             = case_note_domain.input :attachments, as: :hidden
-            - if case_note_domain.object.any_assessment_domains?(@case_note) && enable_default_assessment?
+            - if case_note_domain.object.any_assessment_domains?(@case_note) && !current_setting.hide_family_case_management_tool?
               = render 'form_with_assessment_domains', { domain_note: case_note_domain }
             - else
               - next if get_domains(case_note_domain).blank?
