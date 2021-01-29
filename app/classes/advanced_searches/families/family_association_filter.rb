@@ -15,7 +15,7 @@ module AdvancedSearches
         sql_string = 'families.id IN (?)'
         case @field
         when 'client_id'
-          values = families
+          values = list_families
         when 'case_workers'
           values = case_worker_field_query
         when 'gender'
@@ -36,18 +36,19 @@ module AdvancedSearches
 
       private
 
-      def families
+      def list_families
         families = @families
         case @operator
         when 'equal'
-          families = families.joins(:families).where('children && ARRAY[?]', @value.to_i)
+          families = families.joins(:clients).where('children && ARRAY[?]', @value.to_i)
         when 'not_equal'
-          families = families.joins(:families).where.not('children && ARRAY[?]', @value.to_i)
+          families = families.joins(:clients).where.not('children && ARRAY[?]', @value.to_i)
         when 'is_empty'
           families = families.where(children: '{}')
         when 'is_not_empty'
           families = families.where.not(children: '{}')
         end
+
         families.ids
       end
 
