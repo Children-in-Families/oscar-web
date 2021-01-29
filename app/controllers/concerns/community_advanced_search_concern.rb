@@ -29,17 +29,17 @@ module CommunityAdvancedSearchConcern
     @custom_form_columns = custom_form_fields.group_by{ |field| field[:optgroup] }
   end
 
-  def get_custom_form
+  def list_custom_form
     form_ids = CustomFieldProperty.where(custom_formable_type: 'Community').pluck(:custom_field_id).uniq
     @custom_fields = CustomField.where(id: form_ids).order_by_form_title
   end
 
-  def family_builder_fields
-    @builder_fields = get_family_basic_fields + custom_form_fields
+  def community_builder_fields
+    @builder_fields = community_basic_fields + custom_form_fields
   end
 
-  def get_family_basic_fields
-    AdvancedSearches::Families::FamilyFields.new(user: current_user, pundit_user: pundit_user).render
+  def community_basic_fields
+    AdvancedSearches::Communities::CommunityFields.new(user: current_user, pundit_user: pundit_user).render
   end
 
   def custom_form_values

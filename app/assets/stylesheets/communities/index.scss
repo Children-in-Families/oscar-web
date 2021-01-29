@@ -68,8 +68,101 @@ body[id="communities-index"] {
     margin-top: 15px;
   }
 
+  #community-advanced-search {
+    margin-top: 20px;
+  }
+
+  ul.family-clients-list,
+  ul.family-members-list {
+    padding-left: 20px;
+  }
+
+  td.manage a {
+    margin: 0 5px;
+    text-decoration: none;
+  }
+
+  .popover-content {
+    max-height: 150px;
+    overflow-y: scroll;
+  }
+
   .columns-visibility {
     margin-bottom: 20px;
     margin-bottom: 20px;
+  }
+
+  .ibox-content.no-border {
+    border-style: none;
+  }
+
+  .custom-form,
+  .selected-custom-form {
+    display: none;
+  }
+  .checkbox-margin {
+    padding-left: 18px;
+  }
+
+  .basic-filter-error,
+  .custom-form-error {
+    color: red;
+    display: none;
+  }
+
+  .btn-group.group-actions {
+    button[data-add="rule"] {
+      background-color: #1ab394;
+      border-color: #1ab394;
+      color: #ffffff;
+    }
+    button {
+      margin-right: 5px;
+    }
+  }
+
+  .rule-operator-container {
+    select {
+      width: 180px;
+    }
+  }
+
+  .rule-value-container {
+    border-left: none;
+    select,
+    input {
+      width: 180px;
+    }
+    input.form-control {
+      padding: 6px 12px;
+    }
+  }
+
+  #program-stream-wrapper {
+    .form-group.program-stream {
+      margin-left: 0;
+    }
+  }
+
+  .family-column-picker,
+  .custom-form,
+  .program-stream,
+  .selected-custom-form,
+  .program-association {
+    display: none;
+  }
+
+  .program-association {
+    margin-left: 16px;
+  }
+
+  .ladda-button {
+    color: inherit;
+    background: white;
+    border: 1px solid #e7eaec;
+  }
+
+  .family-action {
+    display: flex;
   }
 }

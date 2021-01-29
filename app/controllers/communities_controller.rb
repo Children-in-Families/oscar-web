@@ -2,7 +2,7 @@ class CommunitiesController < AdminController
   load_and_authorize_resource
   include CommunityAdvancedSearchConcern
 
-  before_action :find_params_advanced_search, :get_custom_form, only: [:index]
+  before_action :find_params_advanced_search, :list_custom_form, only: [:index]
   before_action :custom_form_fields, :community_builder_fields, only: [:index]
   # before_action :basic_params, if: :has_params?, only: [:index]
   # before_action :build_advanced_search, only: [:index]

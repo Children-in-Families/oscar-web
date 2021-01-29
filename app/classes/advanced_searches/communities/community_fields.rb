@@ -32,21 +32,26 @@ module AdvancedSearches
       end
 
       def text_type_list
-        ['name']
+        ['name', 'phone_number', 'role', 'representative_name']
       end
 
       def date_type_list
-        ['initial_referral_date']
+        ['initial_referral_date', 'formed_date']
       end
 
       def drop_down_type_list
         [
-          ['status', status_options]
+          ['status', status_options],
+          ['gender', gender_options]
         ]
       end
 
       def status_options
         Community::STATUSES
+      end
+
+      def gender_options
+        Community.gender.values.map{ |value| [value, I18n.t("gender_list.#{value.gsub('other', 'other_gender')}")] }.to_h
       end
     end
   end
