@@ -678,6 +678,7 @@ en:
       reason_placeholder_family: Enter your observations on the family's situation, based on what you have see and been told by the client and their family.
       save: Save
       score_label: Choose which of the following descriptions most closely describe the client's situation, base on your observation.
+      score_label_family: Choose which of the following descriptions most closely describe the family's situation, base on your observation.
       set_goal: Would you like to set a goal?
       tasks_arising: 'Tasks arising:'
     incomplete_detail:
@@ -702,6 +703,7 @@ en:
       reason_placeholder_family: Enter your observations on the family's situation, based on what you have see and been told by the client and their family.
       save: Save
       score_label: Choose which of the following descriptions most closely describe the client's situation, base on your observation.
+      score_label_family: Choose which of the following descriptions most closely describe the family's situation, base on your observation.
       set_goal: Would you like to set a goal?
       tasks_arising: 'Tasks arising:'
     index:
