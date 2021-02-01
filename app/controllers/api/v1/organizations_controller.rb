@@ -16,7 +16,6 @@ module Api
         external_system_name = ExternalSystem.find_by(token: @current_user.email)&.name || ''
         date_time_param = Time.parse(params[:since_date]) if params[:since_date].present?
         end_date_param = Time.parse(params[:end_date]) if params[:end_date].present?
-        end_date = Time.parse(params[:end_date])
         Organization.only_integrated.pluck(:short_name).map do |short_name|
           Organization.switch_to short_name
           if end_date_param
