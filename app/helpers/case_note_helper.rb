@@ -146,7 +146,8 @@ module CaseNoteHelper
   end
 
   def case_note_the_latest_tasks(tasks)
-    tasks.reject { |task| !task.created_at.today? || task.completed }
+    # tasks.reject { |task| !task.created_at.today? | task.completed }
+    tasks
   end
 
   def case_note_domain_without_assessment(domain_note, case_note)
