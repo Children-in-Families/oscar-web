@@ -19,7 +19,7 @@ module CreateNestedValue
         goal.tasks.create(task_attr)
       end
     end
-    set_care_plan_completed
+    set_care_plan_completed(@care_plan)
   end
 
   def update_nested_value(goal_in_params)
@@ -58,23 +58,30 @@ module CreateNestedValue
         update_goal_attributes(goal, goal_in_params)
       end
     end
-    set_care_plan_completed
+    set_care_plan_completed(@care_plan)
   end
 
-  def set_care_plan_completed
+  def set_care_plan_completed(care_plan)
     required_assessment_domains = []
 
-    @care_plan.assessment.assessment_domains.each do |assessment_domain|
+    care_plan.assessment.assessment_domains.each do |assessment_domain|
       required_assessment_domains << assessment_domain if assessment_domain[:score] == 1 || assessment_domain[:score] == 2
     end
 
     required_assessment_domains.each do |ad|
-      if @care_plan.goals.where(assessment_domain_id: ad.id).empty? || (@care_plan.goals.where(assessment_domain_id: ad.id).present? && @care_plan.goals.where(assessment_domain_id: ad.id).first.tasks.empty?)
-        @care_plan.update_attributes(completed: false)
+      if care_plan.goals.where(assessment_domain_id: ad.id).empty? || (care_plan.goals.where(assessment_domain_id: ad.id).present? && care_plan.goals.where(assessment_domain_id: ad.id).first.tasks.empty?)
+        care_plan.update_attributes(completed: false)
+        return true
+      end
+
+      next if care_plan.goals.where(assessment_domain_id: ad.id).first.tasks.completed.present?
+      if care_plan.goals.where(assessment_domain_id: ad.id).first.tasks.completed.blank?
+        care_plan.update_attributes(completed: false)
         return true
       end
     end
-    @care_plan.update_attributes(completed: true)
+
+    care_plan.update_attributes(completed: true)
   end
 
   def update_goal_attributes(goal, goal_in_params)
