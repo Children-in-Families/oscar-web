@@ -1,57 +1,60 @@
-import React, { useState } from 'react'
-import DatePicker from 'react-date-picker'
-import './datepicker.scss'
+import React, { useState } from "react";
+import { DateInput } from "semantic-ui-calendar-react";
+import "./datepicker.scss";
 
-export default props => {
-  const formatStringToDate = value => {
-    if(value) {
-      // const toAarray = value.split('-')
-      // const year = toAarray[0]
-      // const month = toAarray[1] - 1
-      // const day = toAarray[2]
-
-      return new Date(value)
+export default (props) => {
+  const formatStringToDate = (value) => {
+    if (value) {
+      return new Date(value).toLocaleDateString();
     }
-  }
 
-  const { isError, onChange, value, getCurrentDate, T, hintText,inlineClassName, ...others } = props
-  const [currentDate, setDate] = useState(value)
+    return "";
+  };
 
-  const formatDateToString = value => {
-    if(value) {
-      const formatedDate = value.getDate()
-      const formatedMonth = value.getMonth() + 1
-      const formatedYear = value.getFullYear()
+  const {
+    isError,
+    onChange,
+    value,
+    getCurrentDate,
+    T,
+    hintText,
+    inlineClassName,
+    ...others
+  } = props;
+  const [currentDate, setDate] = useState(value);
 
-      return formatedYear + '-' + formatedMonth + '-' + formatedDate
-    } else
-      return null
-  }
+  const formatDateToString = (value) => {
+    if (value) {
+      const formatedDate = value.getDate();
+      const formatedMonth = value.getMonth() + 1;
+      const formatedYear = value.getFullYear();
 
-  const onChangeDate = date => {
+      return formatedYear + "-" + formatedMonth + "-" + formatedDate;
+    } else return null;
+  };
 
-    if(date && date.getFullYear() > 1900){
-      onChange({data: formatDateToString(date), type: 'date'})
-      setDate(formatDateToString(date))
+  const onChangeDate = (event, { name, value }) => {
+    if (value) {
+      onChange({ data: value, type: name });
+      setDate(value);
     } else {
-      if(date === null) {
-        onChange({data: null, type: 'date'})
-        setDate(null)
-      } else if (value && new Date(value).getFullYear() > 1970){
-        onChange({data: formatDateToString(new Date(value)), type: 'date'})
-        setDate(value)
+      if (value === null) {
+        onChange({ data: null, type: "date" });
+        setDate(null);
+      } else if (value && new Date(value).getFullYear() > 1970) {
+        onChange({ data: formatDateToString(new Date(value)), type: "date" });
+        setDate(value);
       }
     }
-  }
+  };
 
   return (
-    <div className='form-group'>
-      <label style={isError && styles.errorText || {} }>
-        { props.required && <abbr title='required'>* </abbr> }
+    <div className="form-group">
+      <label style={(isError && styles.errorText) || {}}>
+        {props.required && <abbr title="required">* </abbr>}
         {props.label}
       </label>
-      {
-        inlineClassName &&
+      {inlineClassName && (
         <a
           tabIndex="0"
           data-toggle="popover"
@@ -59,31 +62,46 @@ export default props => {
           data-html="true"
           data-placement="bottom"
           data-trigger="focus"
-          data-content={ hintText || 'N/A' }>
-          <i className={`fa fa-info-circle text-info m-xs ${inlineClassName}`}></i>
+          data-content={hintText || "N/A"}
+        >
+          <i
+            className={`fa fa-info-circle text-info m-xs ${inlineClassName}`}
+          ></i>
         </a>
-
-      }
-      <DatePicker
-        className={isError && "error" || ""}
-        onChange={onChangeDate}
+      )}
+      <DateInput
+        className={`${(isError && "error") || ""} calendar-input`}
+        placeholder="../../...."
+        name="date"
+        dateFormat="DD/MM/YYYY"
+        closable
+        clearable={false}
+        animation="scale"
+        duration={200}
+        hideMobileKeyboard
         value={formatStringToDate(currentDate || value)}
+        iconPosition="left"
+        onChange={onChangeDate}
         minDate={new Date(1899, 12, 1)}
-        maxDate={getCurrentDate && new Date() || null}
-        />
-      { isError && <span style={ styles.errorText }>{ T.translate("validation.cannot_blank") }</span> }
+        maxDate={(getCurrentDate && new Date()) || null}
+      />
+      {isError && (
+        <span style={styles.errorText}>
+          {T.translate("validation.cannot_blank")}
+        </span>
+      )}
     </div>
-  )
-}
+  );
+};
 
 const styles = {
   errorText: {
-    color: 'red'
+    color: "red",
   },
   errorInput: {
-    borderColor: 'red'
+    borderColor: "red",
   },
   box: {
-    boxShadow: 'none'
-  }
-}
+    boxShadow: "none",
+  },
+};
