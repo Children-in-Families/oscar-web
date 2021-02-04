@@ -36,8 +36,8 @@ class Task < ActiveRecord::Base
     where(user_id: user.id)
   end
 
-  def self.set_complete
-    update_all(completed: true)
+  def self.set_complete(case_note)
+    update_all(completed: true, completion_date: case_note.meeting_date, taskable_id: case_note.id, taskable_type: case_note.class.to_s)
   end
 
   def self.filter(params)

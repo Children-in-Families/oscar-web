@@ -82,8 +82,8 @@
                               .col-md-4.col-xs-12
                                 = task.name
                               .col-md-2.col-xs-12
-                                = task.completion_date
+                                = date_format(task.created_at)
                               - if task.completed?
                                 .col-md-2.col-xs-12
-                                  = date_format(task.updated_at)
+                                  = date_format(task.completion_date)
 
