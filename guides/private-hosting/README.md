@@ -149,4 +149,4 @@ All of the above steps are able to be comleted by an expereinced DevOps engineer
 
 ### Troubleshooting
 
-Try checking our [Developer Troubleshooting Guide](../developer/README.md)
+Try checking our [Developer Troubleshooting Guide](../developer/README.md#troubleshooting)
