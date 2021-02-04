@@ -22,6 +22,7 @@ class CommunityGrid < BaseGrid
   end
 
   filter(:gender, :enum, select: :gender_options, header: -> { Community.human_attribute_name(:gender) })
+  filter(:role, header: -> { I18n.t('activerecord.attributes.community.role') })
 
   filter(:formed_date, :date, header: -> { Community.human_attribute_name(:formed_date) })
 
@@ -58,6 +59,15 @@ class CommunityGrid < BaseGrid
   column(:status, header: -> { Community.human_attribute_name(:status) }) do |object|
     object.status.titleize
   end
+
+  column(:gender, header: -> { I18n.t('activerecord.attributes.community.gender') }) do |object|
+    gender = object.gender
+    gender.present? ? I18n.t("gender_list.#{gender.gsub('other', 'other_gender')}") : ''
+  end
+
+  column(:role, header: -> { I18n.t('activerecord.attributes.community.role') })
+
+  column(:formed_date, header: -> { I18n.t('activerecord.attributes.community.formed_date') })
 
   column(:village, order: 'villages.name_kh', header: -> { Community.human_attribute_name(:village) }) do |object|
     object.village_name

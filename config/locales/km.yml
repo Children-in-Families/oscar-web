@@ -4287,6 +4287,13 @@ km:
         edit: កែសម្រួល
       update:
         successfully_updated: ទម្រង់បែបបទត្រូវបានកែសម្រួលដោយជោគជ័យ
+  gender_list:
+    female: ស្រី
+    lgbt: LGBT
+    male: ប្រុស
+    other_gender: ផ្សេងៗ
+    prefer_not_to_say: សុំមិន​និយាយ​ល្អ​ជាង
+    unknown: អត់ទាន់ដឹង
   government_forms:
     create:
       successfully_created: ទម្រង់ត្រូវបានបង្កើតដោយជោគជ័យ

@@ -9,6 +9,8 @@ CIF.CommunitiesIndex = do ->
     _toggleCollapseFilter()
     _checkClientSearchForm()
     _initAdavanceSearchFilter()
+    _fixedHeaderTableColumns()
+    _handleScrollTable()
 
   _initSelect2 = ->
     $('select').select2
@@ -85,5 +87,37 @@ CIF.CommunitiesIndex = do ->
         $('#filter_form').show()
         $('.float-right.pull-right').show()
         _hideClientFilters()
+
+  _fixedHeaderTableColumns = ->
+    sInfoShow = $('#sinfo').data('infoshow')
+    sInfoTo = $('#sinfo').data('infoto')
+    sInfoTotal = $('#sinfo').data('infototal')
+    $('.communities-table').removeClass('table-responsive')
+    if !$('table.communities tbody tr td').hasClass('noresults')
+      $('table.communities').dataTable(
+        'sScrollY': 'auto'
+        'bFilter': false
+        'bAutoWidth': true
+        'bSort': false
+        'sScrollX': '100%'
+        'bInfo': false
+        'bLengthChange': false
+        'bPaginate': false
+      )
+    else
+      $('.communities-table').addClass('table-responsive')
+
+  _handleScrollTable = ->
+    $(window).load ->
+      ua = navigator.userAgent
+      unless /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(ua)
+        $('.communities-table .dataTables_scrollBody').niceScroll
+          scrollspeed: 30
+          cursorwidth: 10
+          cursoropacitymax: 0.4
+        _handleResizeWindow()
+
+  _handleResizeWindow = ->
+    window.dispatchEvent new Event('resize')
 
   { init: _init }

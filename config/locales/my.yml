@@ -4292,6 +4292,13 @@ my:
         edit: ျပင္ဆင္ရန္
       update:
         successfully_updated: အေကာက္ခြန္ပံုစံကုိ ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ျဖည့္စြက္ၿပီးပါၿပီ
+  gender_list:
+    female: Female
+    lgbt: LGBT
+    male: Male
+    other_gender: Other
+    prefer_not_to_say: Prefer not to answer/Non-specified
+    unknown: Unknown
   government_forms:
     create:
       successfully_created: ပုံသဏ္ဌာန်ကိုအောင်မြင်စွာဖန်တီးလိုက်ပါပြီ
