@@ -50,11 +50,11 @@
                               = "#{ad.score}"
                       %tr
                         %td.no-padding-top
-                          %b= "#{t('.score')} #{ad.score}: #{(ad.score_definition).html_safe}" 
+                          %b= "#{t('.score')} #{ad.score}: #{(ad.score_definition).html_safe}"
                   .row
                     .col-md-12.col-xs-12
                       .col-md-4.col-xs-12
-                        %p= t('.goal') 
+                        %p= t('.goal')
                       .col-md-4.col-xs-12
                         %p= t('.task')
                       .col-md-2.col-xs12
@@ -76,9 +76,9 @@
                               .col-md-4.col-xs-12
                                 = task.name
                               .col-md-2.col-xs-12
-                                = date_format(task.completion_date)
+                                = date_format(task.created_at)
                               - if task.completed?
                                 .col-md-2.col-xs-12
-                                  = date_format(task.updated_at)
+                                  = date_format(task.completion_date)
 
 

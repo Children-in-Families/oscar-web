@@ -74,6 +74,7 @@ class CaseNotesController < AdminController
         @case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes])
       end
       create_bulk_task(params[:task], @case_note) if params.has_key?(:task)
+      @case_note.tasks.update_all(completion_date: @case_note.meeting_date)
       redirect_to client_case_notes_path(@client), notice: t('.successfully_updated')
     else
       render :edit
