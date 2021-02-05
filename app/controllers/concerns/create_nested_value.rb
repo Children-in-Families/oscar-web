@@ -12,10 +12,10 @@ module CreateNestedValue
       goal_in_params.last[:tasks_attributes].each do |task|
         domain_id = task.last[:domain_id]
         name = task.last[:name]
-        completion_date =  task.last[:completion_date]
+        expected_date =  task.last[:expected_date]
         relation =  task.last[:relation]
         goal_id = goal.id
-        task_attr = Task.new(domain_id: domain_id, name: name, completion_date: completion_date, relation: relation, goal_id: goal_id, client_id: @care_plan.client_id, user_id: current_user.id, family_id: @care_plan.family&.id).attributes
+        task_attr = Task.new(domain_id: domain_id, name: name, expected_date: expected_date, relation: relation, goal_id: goal_id, client_id: @care_plan.client_id, user_id: current_user.id, family_id: @care_plan.family&.id).attributes
         goal.tasks.create(task_attr)
       end
     end
@@ -40,10 +40,10 @@ module CreateNestedValue
       goal_in_params.last[:tasks_attributes].each do |task|
         domain_id = task.last[:domain_id]
         name = task.last[:name]
-        completion_date = task.last[:completion_date]
+        expected_date = task.last[:expected_date]
         relation = task.last[:relation]
         goal_id = goal.id
-        task_attr = Task.new(domain_id: domain_id, name: name, completion_date: completion_date, relation: relation, goal_id: goal_id, client_id: @care_plan.client_id, user_id: current_user.id, family_id: @care_plan.family&.id).attributes
+        task_attr = Task.new(domain_id: domain_id, name: name, expected_date: expected_date, relation: relation, goal_id: goal_id, client_id: @care_plan.client_id, user_id: current_user.id, family_id: @care_plan.family&.id).attributes
         goal.tasks.create(task_attr)
       end
     else
@@ -73,12 +73,6 @@ module CreateNestedValue
         care_plan.update_attributes(completed: false)
         return true
       end
-
-      next if care_plan.goals.where(assessment_domain_id: ad.id).first.tasks.completed.present?
-      if care_plan.goals.where(assessment_domain_id: ad.id).first.tasks.completed.blank?
-        care_plan.update_attributes(completed: false)
-        return true
-      end
     end
 
     care_plan.update_attributes(completed: true)
@@ -92,17 +86,17 @@ module CreateNestedValue
         if task_id.nil?
           domain_id = task.last[:domain_id]
           name = task.last[:name]
-          completion_date = task.last[:completion_date]
+          expected_date = task.last[:expected_date]
           relation = task.last[:relation]
           goal_id = goal.id
-          task_attr = Task.new(domain_id: domain_id, name: name, completion_date: completion_date, relation: relation, goal_id: goal_id, client_id: @care_plan.client_id, user_id: current_user.id, family_id: @care_plan.family&.id).attributes
+          task_attr = Task.new(domain_id: domain_id, name: name, expected_date: expected_date, relation: relation, goal_id: goal_id, client_id: @care_plan.client_id, user_id: current_user.id, family_id: @care_plan.family&.id).attributes
           goal.tasks.create(task_attr)
         else
           existed_task = Task.find_by(id: task_id)
           if task.last[:_destroy] == '1'
             existed_task.destroy_fully!
           else
-            existed_task.update_attributes(name: task.last[:name], completion_date: task.last[:completion_date], family_id: @care_plan.family&.id)
+            existed_task.update_attributes(name: task.last[:name], expected_date: task.last[:expected_date], family_id: @care_plan.family&.id)
           end
         end
       end

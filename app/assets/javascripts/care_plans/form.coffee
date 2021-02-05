@@ -15,6 +15,7 @@ CIF.Care_plansNew = CIF.Care_plansEdit = CIF.Care_plansCreate = CIF.Care_plansUp
     $('.date-picker').datepicker
       autoclose: true,
       format: 'yyyy-mm-dd',
+      dateFormat: 'yyyy-mm-dd',
       todayHighlight: true,
       disableTouchKeyboard: true,
       startDate: '1899,01,01',
