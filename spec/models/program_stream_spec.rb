@@ -15,10 +15,12 @@ describe ProgramStream do
     it { is_expected.to have_many(:services).through(:program_stream_services) }
     it { is_expected.to have_many(:enrollments).dependent(:destroy) }
     it { is_expected.to have_many(:families).through(:enrollments).source(:programmable) }
+    it { is_expected.to have_many(:communities).through(:enrollments).source(:programmable) }
   end
 
   describe ProgramStream, 'scope' do
     let!(:family_program_stream)  { create(:program_stream, :attached_with_family, name: 'efg') }
+    let!(:community_program_stream)  { create(:program_stream, :attached_with_community, name: 'Community CPS') }
     let!(:first_program_stream)  { create(:program_stream, name: 'def') }
     let!(:second_program_stream) { create(:program_stream, name: 'abc') }
     let!(:third_program_stream)  { create(:program_stream, name: 'abcf', mutual_dependence: [second_program_stream.id, first_program_stream.id]) }

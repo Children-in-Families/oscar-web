@@ -1,5 +1,5 @@
 class GoalsController < AdminController
-  #commented because not in use
+  #commented because not in use yet
   
   # load_and_authorize_resource
   # before_action :find_care_plan
@@ -68,24 +68,24 @@ class GoalsController < AdminController
   #       full
   #     end
   #   end
-  end
+  # end
 
-  HEX = '[0-9a-v]'
-  def decode32hex(str)
-    str.gsub(/\G\s*(#{HEX}{8}|#{HEX}{7}=|#{HEX}{5}={3}|#{HEX}{4}={4}|#{HEX}{2}={6}|(\S))/imno) do
-      raise "invalid base32" if $2
-      s = $1
-      s.tr("=", "0").to_i(32).divmod(256).pack("NC")[0,(s.count("^=")*5).div(8)]
-    end
-  end
+  # HEX = '[0-9a-v]'
+  # def decode32hex(str)
+  #   str.gsub(/\G\s*(#{HEX}{8}|#{HEX}{7}=|#{HEX}{5}={3}|#{HEX}{4}={4}|#{HEX}{2}={6}|(\S))/imno) do
+  #     raise "invalid base32" if $2
+  #     s = $1
+  #     s.tr("=", "0").to_i(32).divmod(256).pack("NC")[0,(s.count("^=")*5).div(8)]
+  #   end
+  # end
 
-  def find_goal
-    @goal = @care_plan.goals.find(params[:id])
-  end
+  # def find_goal
+  #   @goal = @care_plan.goals.find(params[:id])
+  # end
 
-  def authorize_client
-    authorize @client, :create?
-  end
+  # def authorize_client
+  #   authorize @client, :create?
+  # end
 
 end
   

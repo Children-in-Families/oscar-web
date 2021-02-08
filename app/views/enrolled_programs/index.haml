@@ -4,6 +4,8 @@
     .ibox-tools
       - if params[:family_id]
         = link_to t('.back'), family_path(@programmable), class: 'btn btn-default btn-back-default btn-back'
+      - elsif params[:community_id]
+        = link_to t('.back'), community_path(@programmable), class: 'btn btn-default btn-back-default btn-back'
   .ibox-content
     .table-responsive
       %table.table.table-bordered.table-striped.table-hover.enrollment
@@ -38,7 +40,10 @@
               %td.quantity
                 = ps.place_available
               %td.report
-                = link_to t('.view'), report_family_enrolled_programs_path(@programmable, program_stream_id: ps)
+                - if params[:family_id]
+                  = link_to t('.view'), report_family_enrolled_programs_path(@programmable, program_stream_id: ps)
+                - elsif params[:community_id]
+                  = link_to t('.view'), report_community_enrolled_programs_path(@programmable, program_stream_id: ps)
               %td.manage
                 = render 'manage', program_stream: ps
 

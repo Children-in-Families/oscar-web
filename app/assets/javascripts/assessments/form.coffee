@@ -257,8 +257,10 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
   _filedsValidator = (currentIndex, newIndex ) ->
     return true if _disableRequiredFields()
 
-    currentTab   = "#rootwizard-p-#{currentIndex}"
-    scoreOption  = $("#{currentTab} .score_option")
+    currentTab  = "#rootwizard-p-#{currentIndex}"
+    scoreOption = $("#{currentTab} .score_option")
+    reason      = $("#{currentTab} .reason").val()
+    return false unless reason
 
     isScoreExist = if (scoreOption.children().last().val().length or $(currentTab).find('.active-label').length) then false else true
 

@@ -11,8 +11,8 @@ class FamilyMember < ActiveRecord::Base
 
   enumerize :gender, in: ['female', 'male', 'lgbt', 'unknown', 'prefer_not_to_say', 'other'], scope: true, predicates: { prefix: true }
 
-  after_commit :save_aggregation_data, on: [:create, :update], if: :brc?
   after_commit :save_client_data
+  after_commit :save_aggregation_data, on: [:create, :update]
 
   def self.update_client_relevant_data(family_member_id)
     find(family_member_id).save_client_data
@@ -36,9 +36,5 @@ class FamilyMember < ActiveRecord::Base
 
   def save_aggregation_data
     family&.save_aggregation_data
-  end
-
-  def brc?
-    Organization.current&.short_name == 'brc'
   end
 end

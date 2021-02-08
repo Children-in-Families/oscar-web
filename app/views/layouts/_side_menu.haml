@@ -57,6 +57,13 @@
               %span.nav-label= t('.families')
               %span.label.label-primary.pull-right= @family_count
 
+        - if can?(:read, Community)
+          %li.main{ class: "#{'active' if 'communities'.include?(controller_name)}" }
+            = link_to communities_path do
+              = fa_icon('users')
+              %span.nav-label= t('.communities')
+              %span.label.label-primary.pull-right= @community_count
+
         - if can? :read, Partner
           %li.main{ class: partners_menu_active }
             = link_to partners_path do
@@ -97,10 +104,11 @@
                     = link_to t('.field_settings'), field_settings_path
                   %li{ class: settings_menu_active('settings', 'client_forms')}
                     = link_to t('.client_forms'), client_forms_settings_path
+                  %li{ class: settings_menu_active('settings', 'family_case_management')}
+                    = link_to t('.family_form'), family_case_management_settings_path
+                  %li{ class: settings_menu_active('settings', 'community')}
+                    = link_to t('.community'), community_settings_path
                   - if policy(current_setting).integration?
-                    %li{ class: settings_menu_active('settings', 'family_case_management')}
-                      = link_to t('.family_form'), family_case_management_settings_path
-                  - if policy(current_setting).integration? && false
                     %li{ class: settings_menu_active('settings', 'integration') }
                       = link_to t('.integration'), integration_settings_path
 

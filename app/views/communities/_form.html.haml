@@ -1,0 +1,8 @@
+= simple_form_for @community, html: { id: 'community-form', data: { cancel_url: @community.persisted? ? community_path(@community) : communities_path } } do |f|
+  .ibox-content
+    = error_notification(f)
+    #community-wizard-form{ class: "wiz-#{ @quantitative_types.any? ? 3 : 2 }-steps" }
+      = render partial: 'basic_information', locals: { f: f }
+      = render partial: 'community_members', locals: { f: f }
+      - if @quantitative_types.any?
+        = render partial: 'additional_information', locals: { f: f }

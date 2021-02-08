@@ -19,6 +19,8 @@ module EnrollmentTrackingsConcern
   def find_entity
     if params[:family_id].present?
       @programmable = Family.includes(enrollments: [:program_stream]).find(params[:family_id])
+    elsif params[:community_id].present?
+      @programmable = Community.includes(enrollments: [:program_stream]).find(params[:community_id])
     end
   end
 

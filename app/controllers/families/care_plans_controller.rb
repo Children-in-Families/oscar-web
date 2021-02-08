@@ -20,7 +20,7 @@ module Families
 
     def create
       @care_plan = @family.care_plans.new(care_plan_params)
-      if @care_plan.save(validate: false)
+      if @care_plan.save
         params[:care_plan][:goals_attributes].each do |goal|
           create_nested_value(goal)
         end
@@ -69,7 +69,7 @@ module Families
     end
 
     def care_plan_update_params
-      params.require(:care_plan).permit(:assessment_id, :family_id, goals_attributes: [:id, :assessment_domain_id, :assessment_id, :description, :_destroy, tasks_attributes: [:id, :domain_id, :name, :completion_date, :relation, :_destroy]])
+      params.require(:care_plan).permit(:assessment_id, :family_id, goals_attributes: [:id, :assessment_domain_id, :assessment_id, :description, :_destroy, tasks_attributes: [:id, :domain_id, :name, :expected_date, :relation, :_destroy]])
     end
 
     def set_family

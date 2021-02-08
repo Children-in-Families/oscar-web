@@ -26,7 +26,11 @@ class EnrolledProgramTrackingsController < AdminController
     @enrollment_tracking = @enrollment.enrollment_trackings.new(enrollment_tracking_params)
     authorize @enrollment_tracking
     if @enrollment_tracking.save
-      path = params[:family_id] ? report_family_enrolled_program_enrolled_program_trackings_path(@programmable, @enrollment, tracking_id: @tracking.id) : '#' 
+      if params[:family_id]
+        path = report_family_enrolled_program_enrolled_program_trackings_path(@programmable, @enrollment, tracking_id: @tracking.id)
+      elsif params[:community_id]
+        path = report_community_enrolled_program_enrolled_program_trackings_path(@programmable, @enrollment, tracking_id: @tracking.id)
+      end
       redirect_to path, notice: t('.successfully_created')
     else
       render :new
@@ -41,7 +45,11 @@ class EnrolledProgramTrackingsController < AdminController
     authorize @enrollment_tracking
     if @enrollment_tracking.update_attributes(enrollment_tracking_params)
       add_more_attachments(@enrollment_tracking)
-      path = params[:family_id] ? report_family_enrolled_program_enrolled_program_trackings_path(@programmable, @enrollment, tracking_id: @tracking.id) : '#'
+      if params[:family_id]
+        path = report_family_enrolled_program_enrolled_program_trackings_path(@programmable, @enrollment, tracking_id: @tracking.id)
+      elsif params[:community_id]
+        path = report_community_enrolled_program_enrolled_program_trackings_path(@programmable, @enrollment, tracking_id: @tracking.id)
+      end
       redirect_to path, notice: t('.successfully_updated')
     else
       render :edit
@@ -62,7 +70,11 @@ class EnrolledProgramTrackingsController < AdminController
       redirect_to request.referer, notice: t('.delete_attachment_successfully')
     else
       @enrollment_tracking.destroy
-      path = params[:family_id] ? report_family_enrolled_program_enrolled_program_trackings_path(@programmable, @enrollment, tracking_id: @enrollment_tracking.tracking.id) : '#'
+      if params[:family_id]
+        path = report_family_enrolled_program_enrolled_program_trackings_path(@programmable, @enrollment, tracking_id: @enrollment_tracking.tracking.id)
+      elsif params[:community_id]
+        path = report_community_enrolled_program_enrolled_program_trackings_path(@programmable, @enrollment, tracking_id: @enrollment_tracking.tracking.id)
+      end
       redirect_to path, notice: t('.successfully_deleted')
     end
   end

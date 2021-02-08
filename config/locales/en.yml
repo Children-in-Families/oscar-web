@@ -107,6 +107,36 @@ en:
         phone: Carer Phone Number
         email: Carer Email Address
         carer_information: Carer Information?
+      community:
+        case_worker_ids: Case Worker/Staff Assigned
+        commune_id: Commune/Sangkat
+        contract_date: Family Contract Date
+        district_id: District/Khan
+        documents: Upload Documents
+        donor_ids: Donor
+        formed_date: Date of Group/Community Formed
+        gender: Gender
+        id: Automatic ID
+        initial_referral_date: NGO Accept Date
+        name: Name (Khmer)
+        name_en: Name (Latin)
+        phone_number: Phone Number
+        province_id: Province
+        received_by_id: Receiving Staff Member
+        relevant_information: Relevant Information
+        representative_name: Represetative Name
+        role: Role in the Group/Community
+        village_id: Village
+        'yes': 'Yes'
+      community_member:
+        adule_female_count: Total Household Adult Females
+        adule_male_count: Total Household Adult Males
+        kid_female_count: Total Household Girls
+        kid_male_count: Total Household Boys
+        gender: Gender
+        is_family: Family?
+        name: Name
+        role: Role
       family:
         id: Automatic ID
         id_poor: Has ID Poor?
@@ -644,8 +674,10 @@ en:
       previous: Previous
       reason: Observation
       reason_placeholder: Enter your observations on the client's situation, based on what you have see and been told by the client and their family.
+      reason_placeholder_family: Enter your observations on the family's situation, based on what you have see and been told by the client and their family.
       save: Save
       score_label: Choose which of the following descriptions most closely describe the client's situation, base on your observation.
+      score_label_family: Choose which of the following descriptions most closely describe the family's situation, base on your observation.
       set_goal: Would you like to set a goal?
       tasks_arising: 'Tasks arising:'
     incomplete_detail:
@@ -667,8 +699,10 @@ en:
       previous: Previous
       reason: Observation
       reason_placeholder: Enter your observations on the client's situation, based on what you have see and been told by the client and their family.
+      reason_placeholder_family: Enter your observations on the family's situation, based on what you have see and been told by the client and their family.
       save: Save
       score_label: Choose which of the following descriptions most closely describe the client's situation, base on your observation.
+      score_label_family: Choose which of the following descriptions most closely describe the family's situation, base on your observation.
       set_goal: Would you like to set a goal?
       tasks_arising: 'Tasks arising:'
     index:
@@ -840,6 +874,7 @@ en:
       required_message: You need to add at least one goal and one task.
       save: Save
       score_from_assessment: Score from assessment
+      scoring_statement: Scoring Statement
       task: Task
     goal_fields:
       add_task: Add task
@@ -847,6 +882,7 @@ en:
     index:
       assessment_created_on: Assessment created on
       back: Back
+      care_plan_created_on: Care Plan created on
       care_plan_history: Care Plan History
       new_care_plan: New Care Plan
       review_care_plan: Review Care Plan
@@ -2201,6 +2237,72 @@ en:
     update:
       assessment_successfully_created: Assessment has been successfully created.
       successfully_updated: Client has been successfully updated.
+    version:
+      back: Back
+      modification_of: Changelog of
+  communities:
+    actions:
+      are_you_sure: Are you sure you want to delete?
+    create:
+      successfully_created: Community has been successfully created.
+    destroy:
+      alert: Community cannot be deleted.
+      successfully_deleted: Community has been successfully deleted.
+    edit:
+      edit_community_title: Edit Community
+    community_member_fields:
+      remove_member: Remove Member
+    form:
+      add_new_member: Add New Member
+      address: Address
+      commune: Commune
+      district: District
+      new_community_title: Add New Community
+      province: Province
+      step_1_title: Basic Group/Community Information
+      step_11_title: Administrative Information
+      step_12_title: Group/Community Information
+      step_2_title: Group/Community Member Information
+      step_21_title: Member Information
+      step_3_title: Additional Information
+      street: Street
+      village: Village
+      family_members:
+        'no': 'No'
+        'yes': 'Yes'
+    index:
+      add_new_community: Add New Community
+      export_xls: Export to XLS
+      results: Results Export to XLS
+      report_builder: Report Builder
+      results: Results
+    new:
+      new_community_title: New Community
+    show:
+      add_form: Add Form
+      additional_forms: Community's Active Forms
+      address: Address
+      all_beneficiaries: To Count All Beneficiaries (direct members and their household members)
+      are_you_sure: Are you sure you want to delete?
+      created_by: Created by
+      current_province: Current Province
+      direct_participants: Direct Participants of the Group/Community
+      female_count: Number of Member Females
+      general_info: About Community
+      male_count: Number of Member Males
+      member_count: Number of Members
+      read_less: read less
+      read_more: read more
+      referral_source: Referral Source
+      referral_source_category: Referral Source Category
+      total_boys: Total Boys
+      total_female: Total Adult Females
+      total_girls: Total Girls
+      total_male: Total Adult Males
+      'yes': 'Yes'
+    update:
+      not_allowed_to_detach_clients: You're not allowed to detach clients from the family through this form!
+      successfully_updated: Family has been successfully updated.
     version:
       back: Back
       modification_of: Changelog of
@@ -4731,6 +4833,8 @@ en:
       client_forms: Hotline
       country: Country
       csi_tools: Assessment Tools
+      communities: Community/Group
+      community: Community
       custom_fields: Custom Form
       custom_labels: Custom Labels
       dashboards: Dashboards
@@ -5131,6 +5235,7 @@ en:
       save: Save
     index:
       attached_with_client: Attached with Client
+      attached_with_community: Attached with Community
       attached_with_family: Attached with Family
       current_ngo: My NGO's Program Streams
       demo_programs: Demo NGO's Program Streams
@@ -5601,6 +5706,9 @@ en:
       switched_country_thailand: You’ve switched your country setting to Thailand.
     create:
       successfully_created: Setting have been successfully created.
+    community:
+      title: Communities
+      hide_community: Hide Communities
     custom_assessment_setting_fields:
       are_you_sure: Are you sure want to remove this assessment?
     custom_labels:
@@ -5861,6 +5969,8 @@ en:
     update:
       successfully_updated: Survey has been successfully updated.
   tasks:
+    completion_date: Completion Date
+    expected_date: Expected Date
     filter:
       filter_by_user: Filter By User
       select_user: Select User

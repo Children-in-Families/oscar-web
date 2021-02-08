@@ -132,10 +132,12 @@
 //= require referral_sources/index
 //= require client_books/index
 //= require calls/form
+//= require communities/form
+//= require communities/show
 //= require quantitative_types/index
 //= require calls/index
 //= require referees/index
 //= require field_settings/index
 //= require donors/index
-//= require family_referrals/form
 //= require care_plans/form
+//= require family_referrals/form

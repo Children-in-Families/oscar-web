@@ -5,6 +5,8 @@ module Api
         @program_stream_fields = AdvancedSearches::RuleFields.new(user: current_user).render
       elsif params[:entity_type] == 'Family'
         @program_stream_fields = AdvancedSearches::Families::FamilyFields.new(user: current_user, pundit_user: pundit_user).render
+      elsif params[:entity_type] == 'Community'
+        @program_stream_fields = AdvancedSearches::Communities::CommunityFields.new(user: current_user, pundit_user: pundit_user).render
       end
       render json: @program_stream_fields
     end
