@@ -1,5 +1,6 @@
 class AddExpectedDateToTasks < ActiveRecord::Migration
   def change
-    add_column :tasks, :expected_date, :datetime
+    rename_column :tasks, :completion_date, :expected_date
+    add_column :tasks, :completion_date, :datetime
   end
 end

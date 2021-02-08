@@ -5957,6 +5957,8 @@ km:
     update:
       successfully_updated: ការស្ទង់មតិត្រូវបានកែសម្រួលដោយជោគជ័យ
   tasks:
+    completion_date: ថ្ងៃកំណត់
+    expected_date: កំណត់កាលបរិច្ឆេទ
     filter:
       filter_by_user: ស្វែងរកតាមរយៈអ្នកប្រើប្រាស់
       select_user: ជ្រើសរើស

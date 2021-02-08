@@ -5985,6 +5985,8 @@ my:
     update:
       successfully_updated: စစ္တမ္းကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ျဖည့္စြက္ၿပီးပါၿပီ
   tasks:
+    completion_date: ၿပီးစီးသည့္ ရက္စြဲ
+    expected_date: မျှော်လင့်ထားသည့်နေ့စွဲ
     filter:
       filter_by_user: အသံုးျပဳသူက ျပဳလုပ္ထားသည္ စိစစ္ခ်က္မ်ား
       select_user: အသံုးျပဳသူကို ေရြးခ်ယ္ရန္
