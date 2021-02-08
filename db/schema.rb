@@ -1993,7 +1993,7 @@ ActiveRecord::Schema.define(version: 20210205073631) do
 
   create_table "tasks", force: :cascade do |t|
     t.string   "name",                      default: ""
-    t.date     "completion_date"
+    t.date     "expected_date"
     t.datetime "remind_at"
     t.boolean  "completed",                 default: false
     t.integer  "user_id"
@@ -2009,7 +2009,7 @@ ActiveRecord::Schema.define(version: 20210205073631) do
     t.datetime "deleted_at"
     t.integer  "family_id"
     t.integer  "goal_id"
-    t.datetime "expected_date"
+    t.datetime "completion_date"
   end
 
   add_index "tasks", ["client_id"], name: "index_tasks_on_client_id", using: :btree

@@ -10,9 +10,6 @@ class CarePlansController < AdminController
       redirect_to root_path, alert: t('unauthorized.default') unless current_user.permission.case_notes_readable
     end
     @care_plans = @client.care_plans.page(params[:page])
-    @care_plans.each do |care_plan|
-      set_care_plan_completed(care_plan)
-    end
   end
 
   def new

@@ -5969,6 +5969,8 @@ en:
     update:
       successfully_updated: Survey has been successfully updated.
   tasks:
+    completion_date: Completion Date
+    expected_date: Expected Date
     filter:
       filter_by_user: Filter By User
       select_user: Select User
