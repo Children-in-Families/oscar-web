@@ -25,7 +25,7 @@
               %abbr{ title: 'required' } *
               = t('.completion_date')
             .input-group.date
-              = text_field :task, :completion_date, class: 'date required form-control date-picker', id: 'task_completion_date'
+              = text_field :task, :expected_date, class: 'date required form-control date-picker', id: 'task_completion_date'
               %span.input-group-addon
                 %i.fa.fa-calendar-check-o
             %span.help-block.task_completion_date_help

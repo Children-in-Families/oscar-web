@@ -48,12 +48,14 @@ class CaseNote < ActiveRecord::Base
       case_note_domain_group = case_note_domain_groups.find_by(domain_group_id: param[:domain_group_id])
       task_ids = param[:task_ids] || []
       case_note_tasks = Task.with_deleted.where(id: task_ids)
+      next if case_note_tasks.reject(&:blank?).blank?
+
       task_attributes = case_note_tasks.map do |task|
         task.attributes.slice('name', 'expected_date', 'remind_at', 'completed', 'user_id', 'case_note_domain_group_id', 'domain_id', 'client_id', 'relation', 'family_id', 'goal_id', 'completion_date')
       end
       new_tasks = tasks.create(task_attributes)
       case_note_domain_group.tasks = new_tasks
-      case_note_domain_group.tasks.with_deleted.set_complete
+      case_note_domain_group.tasks.with_deleted.set_complete(self)
       case_note_domain_group.save
     end
   end

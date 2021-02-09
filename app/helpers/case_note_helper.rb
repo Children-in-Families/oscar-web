@@ -112,7 +112,7 @@ module CaseNoteHelper
     ongoing_tasks = []
     today_tasks = []
     cdg.domains(case_note).each do |domain|
-      tasks = case_note.parent.tasks.where(domain_id: domain.id)
+      tasks = case_note.tasks.where(domain_id: domain.id)
       ongoing_tasks << tasks.by_case_note_domain_group(cdg)
       today_tasks << case_note_the_latest_tasks(tasks.by_case_note_domain_group(cdg))
       assessment_domain = domain.assessment_domains.find_by(assessment_id: case_note.assessment_id)
@@ -146,8 +146,7 @@ module CaseNoteHelper
   end
 
   def case_note_the_latest_tasks(tasks)
-    # tasks.reject { |task| !task.created_at.today? | task.completed }
-    tasks
+    tasks.reject { |task| !task.created_at.today? }
   end
 
   def case_note_domain_without_assessment(domain_note, case_note)
