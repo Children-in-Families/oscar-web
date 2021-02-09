@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210205073631) do
+ActiveRecord::Schema.define(version: 20210209075214) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -2011,6 +2011,7 @@ ActiveRecord::Schema.define(version: 20210205073631) do
     t.integer  "family_id"
     t.datetime "expected_date"
     t.datetime "completion_date"
+    t.boolean  "cloned",                    default: false
   end
 
   add_index "tasks", ["client_id"], name: "index_tasks_on_client_id", using: :btree

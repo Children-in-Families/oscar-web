@@ -51,8 +51,11 @@ class CaseNote < ActiveRecord::Base
       next if case_note_tasks.reject(&:blank?).blank?
 
       task_attributes = case_note_tasks.map do |task|
-        task.attributes.slice('name', 'expected_date', 'remind_at', 'completed', 'user_id', 'case_note_domain_group_id', 'domain_id', 'client_id', 'relation', 'family_id', 'goal_id', 'completion_date')
+        attr = task.attributes.slice('name', 'expected_date', 'remind_at', 'completed', 'user_id', 'case_note_domain_group_id', 'domain_id', 'client_id', 'relation', 'family_id', 'goal_id', 'completion_date')
+        attr['cloned'] = true
+        attr
       end
+
       new_tasks = tasks.create(task_attributes)
       case_note_domain_group.tasks = new_tasks
       case_note_domain_group.tasks.with_deleted.set_complete(self)
