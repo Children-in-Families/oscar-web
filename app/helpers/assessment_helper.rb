@@ -140,10 +140,10 @@ module AssessmentHelper
           sql = assessment_completed_sql[/assessments\.created_at.*/]
           assessments = object.assessments.defaults.completed.where(sql).order('created_at')
         end
-        sub_query_string = get_assessment_query_string([results[0].reject{|arr| arr[:field] != identity }], identity, domain_id, object.id)
-        assessment_domains = assessments.map{|assessment| assessment.assessment_domains.joins(:domain).where(sub_query_string.reject(&:blank?).join(" AND ")).where(domains: { identity: identity }) }.flatten.uniq
+        sub_query_string = get_assessment_query_string([results[0].reject { |arr| arr[:field] != identity }], identity, domain_id, object.id)
+        assessments.map { |assessment| assessment.assessment_domains.joins(:domain).where(sub_query_string.reject(&:blank?).join(' AND ')).where(domains: { identity: identity }) }.flatten.uniq
       else
-        assessments = object.assessments.defaults.joins(:assessment_domains).distinct
+        object.assessments.defaults.includes(:assessment_domains).map { |assessment| assessment.assessment_domains.joins(:domain).where(domains: { identity: identity }) }.flatten.uniq
       end
     end
   end
