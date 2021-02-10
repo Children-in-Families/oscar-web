@@ -124,7 +124,7 @@ module AssessmentHelper
     else
       basic_rules = $param_rules['basic_rules']
       basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
-      results = mapping_assessment_query_rules(basic_rules).reject(&:blank?)
+      results = mapping_assessment_query_rules(basic_rules, identity).reject(&:blank?)
       assessment_completed_sql, assessment_number = assessment_filter_values(results)
 
       if results.present?
@@ -139,7 +139,14 @@ module AssessmentHelper
         sub_query_string = get_assessment_query_string([results[0].reject { |arr| arr[:field] != identity }], identity, domain_id, object.id)
         assessments.map { |assessment| assessment.assessment_domains.joins(:domain).where(sub_query_string.reject(&:blank?).join(' AND ')).where(domains: { identity: identity }) }.flatten.uniq
       else
-        object.assessments.defaults.includes(:assessment_domains).map { |assessment| assessment.assessment_domains.joins(:domain).where(domains: { identity: identity }) }.flatten.uniq
+        rule = basic_rules['rules'].select {|h| h['id'] == 'date_of_assessments' }.first
+        if rule.present?
+          date_of_assessments_query = date_of_assessments_query_string(rule[:id], rule['field'], rule['operator'], rule['value'])
+          assessments = object.assessments.defaults.where(date_of_assessments_query)
+        else
+          assessments = object.assessments.defaults
+        end
+        assessments.includes(:assessment_domains).map { |assessment| assessment.assessment_domains.joins(:domain).where(domains: { identity: identity }) }.flatten.uniq
       end
     end
   end
@@ -151,9 +158,9 @@ module AssessmentHelper
         mapping_assessment_query_rules(h, field_name=nil, data_mapping)
       end
       if field_name.nil?
-       next if !(h[:id] =~ /^(domainscore|assessment_completed|assessment_completed_date|assessment_number|month_number|date_nearest)/i)
-      else
-       next if h[:id] != field_name
+        next if h[:id] !~ /^(domainscore|assessment_completed|assessment_completed_date|assessment_number|month_number|date_nearest)/i
+      elsif h[:id] != field_name
+        next
       end
       h[:condition] = data[:condition]
       rule_array << h
@@ -210,7 +217,7 @@ module AssessmentHelper
     end
   end
 
-  def date_of_assessments_query_string(id, field, operator, value, type, input_type, domain_id)
+  def date_of_assessments_query_string(id, field, operator, value)
     case operator
     when 'equal'
       "date(assessments.created_at) = #{value.to_date}"
