@@ -146,3 +146,7 @@ Now that you have the demo version running in your private cloud you will want t
 ### Support
 
 All of the above steps are able to be comleted by an expereinced DevOps engineer. Anything that is specific for OSCaR configuration (such as settiing up a new Tenant) will be provided in our README. If anything is missing from our documentation or you have any questions please do not hesitate to reach out to us.
+
+### Troubleshooting
+
+Try checking our [Developer Troubleshooting Guide](../developer/README.md#troubleshooting)
