@@ -240,6 +240,10 @@ class FamilyGrid < BaseGrid
     User.where(id: user_ids).map{|u| u.name }.join(', ')
   end
 
+  column(:direct_beneficiaries, header: -> { I18n.t('datagrid.columns.families.direct_beneficiaries') }) do |object|
+    object.cases.pluck(:client_id).uniq.count
+  end
+
   dynamic do
     next unless dynamic_columns.present?
     dynamic_columns.each do |column_builder|

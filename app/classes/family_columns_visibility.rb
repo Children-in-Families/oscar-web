@@ -35,7 +35,8 @@ class FamilyColumnsVisibility
       female_adult_count_: :female_adult_count,
       male_adult_count_: :male_adult_count,
       gender_: :gender,
-      date_of_birth_: :date_of_birth
+      date_of_birth_: :date_of_birth,
+      direct_beneficiaries_: :direct_beneficiaries
     }
   end
 

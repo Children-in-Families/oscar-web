@@ -77,7 +77,8 @@ module FamiliesHelper
       caregiver_information:                    t('datagrid.columns.families.caregiver_information'),
       changelog:                                t('datagrid.columns.families.changelog'),
       case_workers:                             t('datagrid.columns.families.case_workers'),
-      manage:                                   t('datagrid.columns.families.manage')
+      manage:                                   t('datagrid.columns.families.manage'),
+      direct_beneficiaries_:                    t('datagrid.columns.families.direct_beneficiaries')
     }
     label_tag "#{column}_", label_column[column.to_sym]
   end
@@ -112,7 +113,8 @@ module FamiliesHelper
       manage_:                                   t('datagrid.columns.families.manage'),
       member_count_:                             t('datagrid.columns.families.member_count'),
       name_:                                     t('datagrid.columns.families.name'),
-      significant_family_member_count_:          t('datagrid.columns.families.significant_family_member_count')
+      significant_family_member_count_:          t('datagrid.columns.families.significant_family_member_count'),
+      direct_beneficiaries_:                     t('datagrid.columns.families.direct_beneficiaries')
     }
     label_tag "#{column}_", label_column[column.to_sym]
   end

@@ -2692,6 +2692,7 @@ km:
         house_number: ផ្ទះលេខ
         id: លេខសំគាល់
         id_poor: កំរិតប័ណ្ណក្រីក្រ
+        indirect_beneficiaries: អ្នកទទួលផលដោយប្រយោល
         initial_referral_date: កាលបរិចេ្ឆទនៃការបញ្ជូនដំបូង
         kid_id: លេខកូដផ្ទាល់ខ្លួនទី២
         lesotho: ឡឹសូថូ
@@ -2802,6 +2803,7 @@ km:
         contract_date: កាលបរិច្ឆេទនៃកិច្ចសន្យា
         date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
         dependable_income: ប្រាក់ចំណូលទៀងទាត់
+        direct_beneficiaries: អ្នកទទួលផលផ្ទាល់
         district: ស្រុក/ខណ្ឌ
         family: គ្រួសារ
         family_preservation: ករណីអភិរក្សគ្រួសារ?

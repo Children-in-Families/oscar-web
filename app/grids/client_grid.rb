@@ -1028,6 +1028,14 @@ class ClientGrid < BaseGrid
     cps_lists.join(", ")
   end
 
+  column(:indirect_beneficiaries, header: -> { I18n.t('datagrid.columns.clients.indirect_beneficiaries') }) do |object|
+    result = 0
+    object.cases.pluck(:family_id).uniq.each do |family_id|
+      result += Family.find_by(id: family_id).family_members.where(client_id: nil).count
+    end
+    result
+  end
+
   dynamic do
     if enable_default_assessment?
       column(:all_csi_assessments, header: -> { I18n.t('datagrid.columns.clients.all_csi_assessments', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|

@@ -522,6 +522,7 @@ module ClientsHelper
       type_of_service_: t('datagrid.columns.type_of_service'),
       assessment_completed_date_: t('datagrid.columns.calls.assessment_completed_date', assessment: t('clients.show.assessment')),
       hotline_call_: t('datagrid.columns.calls.hotline_call'),
+      indirect_beneficiaries_: t('datagrid.columns.clients.indirect_beneficiaries'),
       **overdue_translations
     }
 
