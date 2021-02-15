@@ -83,9 +83,10 @@
                       %h4= "Domain Groups"
                     .panel-body
                       = select_tag "", tag_domain_group(case_note), multiple: true, disabled: true
+
               - case_note.case_note_domain_groups.where(domain_group_id: case_note.selected_domain_group_ids.map(&:to_i)).each do |cdg|
                 - list_goals, ongoing_tasks, today_tasks = list_family_goals_and_tasks(cdg, case_note)
-                - if cdg.completed_tasks.any? || list_goals.present? || ongoing_tasks.flatten.present?
+                - if list_goals.present? || today_tasks.flatten.any? || cdg.completed_tasks.any?
                   .ibox.border-left-right.border-bottom
                     .ibox-title
                       - custom_assessment_setting_id = find_custom_assessment_setting_id(cdg, case_note)
@@ -96,7 +97,7 @@
                             - ad = domain.assessment_domains.find_by(assessment_id: case_note.assessment_id)
                             - next if ad.nil?
                             %a.collapse-link
-                              %label.margin-score.case-note-domain-score{ class: "label label-#{ad.score_color_class} label-lg", 'data-original-title': "#{simple_format(ad.score_definition)}", 'data-toggle': 'tooltip' }
+                              %label.margin-score.case-note-domain-score{ class: "label label-#{ad&.score_color_class || 'default'} label-lg", 'data-original-title': "#{simple_format(ad.score_definition)}", 'data-toggle': 'tooltip' }
                                 = ad.score
                     .ibox-content
                       .row
@@ -123,7 +124,7 @@
                                       = "#{index + 1}. "
                                       = task.name
 
-                        - the_latest_tasks = today_tasks.flatten
+                        - the_latest_tasks = today_tasks.flatten.uniq
                         - if the_latest_tasks.present?
                           .col-xs-12.col-sm-6
                             .panel.panel-default

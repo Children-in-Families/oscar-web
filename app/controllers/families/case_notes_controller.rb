@@ -53,6 +53,7 @@ class Families::CaseNotesController < ::AdminController
   end
 
   def edit
+    @case_note.populate_notes(nil, 'false')
     unless current_user.admin? || current_user.strategic_overviewer?
       redirect_to root_path, alert: t('unauthorized.default') unless current_user.permission.case_notes_editable
     end
