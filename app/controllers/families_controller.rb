@@ -45,6 +45,7 @@ class FamiliesController < AdminController
     else
       @family = Family.new
       @family.community_member = CommunityMember.new
+      @selected_children = params[:children]
 
       if params[:client].present?
         @family.family_members.new(client_id: params[:client])

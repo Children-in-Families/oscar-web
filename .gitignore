@@ -42,11 +42,14 @@ yarn-debug.log*
 /node_modules
 ~$*
 TODO.md
-staging.env
-NOTES.md
 REVISION
 GIT_REVISION
 sorbet
 
 ## AWS
 aws/ecs/private/*
+NOTES.md
+staging.env
+
+# aws private
+aws/ecs/private/

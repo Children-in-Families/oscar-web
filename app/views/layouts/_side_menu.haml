@@ -108,7 +108,7 @@
                     = link_to t('.family_form'), family_case_management_settings_path
                   %li{ class: settings_menu_active('settings', 'community')}
                     = link_to t('.community'), community_settings_path
-                  - if policy(current_setting).integration? && false
+                  - if policy(current_setting).integration?
                     %li{ class: settings_menu_active('settings', 'integration') }
                       = link_to t('.integration'), integration_settings_path
 
