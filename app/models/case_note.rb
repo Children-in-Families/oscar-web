@@ -26,6 +26,10 @@ class CaseNote < ActiveRecord::Base
   before_create :set_assessment
 
   def populate_notes(custom_id, custom_case_note)
+    # family_domains = Domain.family_custom_csi_domains
+    # family_domains.where.not(id: domains.ids).each do |domain|
+    #   assessment_domains.build(domain: domain)
+    # end
     if custom_case_note == "true"
       custom_domain_setting = CustomAssessmentSetting.find(custom_id)
       return [] if custom_domain_setting.nil?
@@ -35,7 +39,7 @@ class CaseNote < ActiveRecord::Base
       end
     else
       domain_group_ids = Domain.csi_domains.where(custom_assessment_setting_id: nil).pluck(:domain_group_id).uniq
-      domain_group_ids.each do |domain_group_id|
+      DomainGroup.where.not(id: domain_group_ids).ids.each do |domain_group_id|
         case_note_domain_groups.build(domain_group_id: domain_group_id)
       end
     end
@@ -50,14 +54,7 @@ class CaseNote < ActiveRecord::Base
       case_note_tasks = Task.with_deleted.where(id: task_ids)
       next if case_note_tasks.reject(&:blank?).blank?
 
-      task_attributes = case_note_tasks.map do |task|
-        attr = task.attributes.slice('name', 'expected_date', 'remind_at', 'completed', 'user_id', 'case_note_domain_group_id', 'domain_id', 'client_id', 'relation', 'family_id', 'goal_id', 'completion_date')
-        attr['cloned'] = true
-        attr
-      end
-
-      new_tasks = tasks.create(task_attributes)
-      case_note_domain_group.tasks = new_tasks
+      case_note_domain_group.tasks = case_note_tasks
       case_note_domain_group.tasks.with_deleted.set_complete(self)
       case_note_domain_group.save
     end
