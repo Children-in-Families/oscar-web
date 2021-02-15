@@ -42,7 +42,7 @@ class Assessment < ActiveRecord::Base
   end
 
   def self.latest_record
-    most_recents.first || []
+    most_recents.first
   end
 
   def self.default_latest_record

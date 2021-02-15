@@ -1,16 +1,33 @@
   module LeaveProgramHelper
     def leave_program_form_action_path
       if action_name.in?(%(new create))
-        params[:family_id] ? family_enrolled_program_leave_enrolled_programs_path(@entity, @enrollment) : client_client_enrolled_program_leave_enrolled_programs_path(@entity, @enrollment)
+        if params[:family_id]
+          family_enrolled_program_leave_enrolled_programs_path(@entity, @enrollment)
+        elsif params[:community_id]
+          community_enrolled_program_leave_enrolled_programs_path(@entity, @enrollment)
+        else
+          client_client_enrolled_program_leave_enrolled_programs_path(@entity, @enrollment)
+        end
       else
-        params[:family_id] ? family_enrolled_program_leave_enrolled_program_path(@entity, @enrollment, @leave_program) : client_client_enrolled_program_leave_enrolled_program_path(@entity, @enrollment, @leave_program)
+        if params[:family_id]
+          family_enrolled_program_leave_enrolled_program_path(@entity, @enrollment, @leave_program)
+        elsif params[:community_id]
+          community_enrolled_program_leave_enrolled_program_path(@entity, @enrollment, @leave_program)
+        else
+          client_client_enrolled_program_leave_enrolled_program_path(@entity, @enrollment, @leave_program)
+        end
       end
     end
 
     def leave_program_edit_link
-      path = params[:family_id] ?
-              edit_family_enrollment_leave_program_path(@entity, @enrollment, @leave_program, program_stream_id: @program_stream) :
-              edit_client_client_enrollment_leave_program_path(@entity, @enrollment, @leave_program, program_stream_id: @program_stream)
+      if params[:family_id]
+        path = edit_family_enrollment_leave_program_path(@entity, @enrollment, @leave_program, program_stream_id: @program_stream)
+      elsif params[:community_id]
+        path = edit_community_enrollment_leave_program_path(@entity, @enrollment, @leave_program, program_stream_id: @program_stream)
+      else
+        path = edit_client_client_enrollment_leave_program_path(@entity, @enrollment, @leave_program, program_stream_id: @program_stream)
+      end
+
       if program_permission_editable?(@program_stream)
         link_to path do
           content_tag :div, class: 'btn btn-success btn-outline' do

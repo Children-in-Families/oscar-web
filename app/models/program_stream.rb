@@ -10,6 +10,7 @@ class ProgramStream < ActiveRecord::Base
   has_many   :clients, through: :client_enrollments
   has_many   :enrollments, dependent: :destroy
   has_many   :families, through: :enrollments, source: :programmable, source_type: 'Family'
+  has_many   :communities, through: :enrollments, source: :programmable, source_type: 'Community'
   has_many   :trackings, dependent: :destroy
   has_many   :leave_programs, dependent: :destroy
 
@@ -102,7 +103,7 @@ class ProgramStream < ActiveRecord::Base
   end
 
   def enroll?(obj, entity_type = nil)
-    if ['Family'].include?(entity_type)
+    if ['Family', 'Community'].include?(entity_type)
       enrolls = enrollments.enrollments_by(obj).order(:created_at)
       (enrolls.present? && enrolls.first.status == 'Exited') || enrolls.empty?
     else
@@ -135,6 +136,10 @@ class ProgramStream < ActiveRecord::Base
     entity_type == 'Family'
   end
 
+  def attached_to_community?
+    entity_type == 'Community'
+  end
+
   private
 
   def rules_edition
@@ -161,6 +166,13 @@ class ProgramStream < ActiveRecord::Base
     elsif attached_to_family?
       families.each do |family|
         program_stream_ids = family.enrollments.active.pluck(:program_stream_id).to_set
+        can_edit_program = false
+        can_edit_program = check_if_can_edit(can_edit_program, program_stream_ids)
+        break if can_edit_program
+      end
+    elsif attached_to_community?
+      communities.each do |community|
+        program_stream_ids = community.enrollments.active.pluck(:program_stream_id).to_set
         can_edit_program = false
         can_edit_program = check_if_can_edit(can_edit_program, program_stream_ids)
         break if can_edit_program
@@ -195,6 +207,11 @@ class ProgramStream < ActiveRecord::Base
       active_ids         = enrollments.active.pluck(:programmable_id).uniq
       active_entities    = Family.where(id: active_ids)
       entities           = AdvancedSearches::Families::FamilyAdvancedSearch.new(rules, active_entities)
+      entities.filter.ids
+    elsif attached_to_community?
+      active_ids         = enrollments.active.pluck(:programmable_id).uniq
+      active_entities    = Community.where(id: active_ids)
+      entities           = AdvancedSearches::Communities::CommunityAdvancedSearch.new(rules, active_entities)
       entities.filter.ids
     end
   end

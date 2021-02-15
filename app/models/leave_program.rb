@@ -41,7 +41,8 @@ class LeaveProgram < ActiveRecord::Base
     if self.enrollment_id
       entity = self.enrollment.programmable
       if entity.enrollments.active.empty?
-        entity.status = 'Accepted'
+        entity_status = self.enrollment.programmable_type == 'Family' ? 'Accepted' : 'accepted'
+        entity.status = entity_status
         entity.save(validate: false)
       end
     else

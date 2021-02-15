@@ -125,6 +125,12 @@ my:
         reject: Reject indicates your organization cannot work with the client for some reason. The case will remain in the database and show Exited status with exit circumstance as Reject Referral.
         status: Accepted – Organization has accepted the case and working with the client. Active – Client is enrolled in one or more program streams. Exited – Organization has rejected the case or no longer supporting the client. Referred – Client record exists in the OSCaR system but not yet accepted or rejected.
         tasks: View all the overdue, current and upcoming tasks here. This is a read-only option for Managers and Caseworkers. New tasks can’t be added here.
+    communities:
+      show:
+        active_form: Add/View/Edit the custom forms already applied to the community.
+        add_form: These custom forms are specific to your NGO. Select one from the list to load the form. Once you fill and save it, the form will be attached to the community.
+        active_program: View/Edit/Delete the enrollment information, add new tracking form(s), or exit community from the program(s).
+        enroll_program: 'Enlist the community in existing program stream(s) here. Admin: If the program doesn’t exist, add a new program stream through <strong>Manage >> Program Streams</strong>.'
     custom:
       custom_id1: Alternate case identification (ID) number related to the client. In the case of jointly managed clients or clients referred through other organization(s), enter the ID that was used on the previous paperwork, record, or database. This will help in tracking client record. Admin, This field name is customizable. To change the name, go to Manage >> Setting >> Custom Labels. This is different from Client ID auto-generated in OSCaR for every case.
       custom_id2: Alternate case identification (ID) number related to the client. In the case of jointly managed clients or clients referred through other organization(s), enter the ID that was used on the previous paperwork, record, or database. This will help in tracking client record. Admin, This field name is customizable. To change the name, go to Manage >> Setting >> Custom Labels.
@@ -151,14 +157,14 @@ my:
       name: Could be anyone who is caring for the client including caregiver, family members, relatives or organization staff.
       show:
         accepted: Accept indicates your organization will work with the family. The next step is to perform family assessment and enroll in the program stream(s).
+        active_form: Add/View/Edit the custom forms already applied to the family.
+        active_program: View/Edit/Delete the enrollment information, add new tracking form(s), or exit family from the program(s).
+        add_form: These custom forms are specific to your NGO. Select one from the list to load the form. Once you fill and save it, the form will be attached to the family.
+        enroll_program: 'Enlist the family in existing program stream(s) here. Admin: If the program doesn’t exist, add a new program stream through <strong>Manage >> Program Streams</strong>.'
         exit_ngo: This will close the case. That indicates, the organization will not spend more resources on this family. However, the record will remain in the OSCaR system.
         ratanak:
           accepted: Accept indicates your organization will work with the family. The next step is to enroll family in the program stream(s) and perform family assessment.
         reject: Reject indicates your organization cannot work with the family for some reason. The case will remain in the database and show "Exited" status with exit circumstance as "Reject Referral".
-        active_program: View/Edit/Delete the enrollment information, add new tracking form(s), or exit family from the program(s).
-        enroll_program: 'Enlist the family in existing program stream(s) here. Admin: If the program doesn’t exist, add a new program stream through <strong>Manage >> Program Streams</strong>.'
-        active_form: Add/View/Edit the custom forms already applied to the family.
-        add_form: These custom forms are specific to your NGO. Select one from the list to load the form. Once you fill and save it, the form will be attached to the family.
         referral_form: View all referral forms under the following <strong>Referred to External Organization</strong> – If you sent the family to another organization. <strong>Referred From External Organization</strong> – If the family came to you through another organization.
         refer_family: When sending a family to another organization, select a name from the list. If the name is not in the list, select <strong>I don’t see the NGO I’m looking for</strong> to print the form and send it to the target organization.
       status: Manually update the status. Active means one or more clients within a family are on support. If no client is currently under care, update as <strong>Inactive</strong>.

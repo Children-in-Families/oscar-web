@@ -108,6 +108,8 @@ class CustomFieldPropertiesController < AdminController
       @custom_formable = Partner.includes(custom_field_properties: [:custom_field]).find(params[:partner_id])
     elsif params[:user_id].present?
       @custom_formable = User.includes(custom_field_properties: [:custom_field]).find(params[:user_id])
+    elsif params[:community_id].present?
+      @custom_formable = Community.includes(custom_field_properties: [:custom_field]).find(params[:community_id])
     end
   end
 

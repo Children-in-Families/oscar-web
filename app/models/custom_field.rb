@@ -2,13 +2,14 @@ class CustomField < ActiveRecord::Base
   include UpdateFieldLabelsFormBuilder
 
   FREQUENCIES  = ['Daily', 'Weekly', 'Monthly', 'Yearly'].freeze
-  ENTITY_TYPES = ['Client', 'Family', 'Partner', 'User'].freeze
+  ENTITY_TYPES = ['Client', 'Community', 'Family', 'Partner', 'User'].freeze
 
   has_many :custom_field_properties, dependent: :restrict_with_error
   has_many :clients, through: :custom_field_properties, source: :custom_formable, source_type: 'Client'
   has_many :users, through: :custom_field_properties, source: :custom_formable, source_type: 'User'
   has_many :partners, through: :custom_field_properties, source: :custom_formable, source_type: 'Partner'
   has_many :families, through: :custom_field_properties, source: :custom_formable, source_type: 'Family'
+  has_many :communities, through: :custom_field_properties, source: :custom_formable, source_type: 'Community'
   has_many :custom_field_permissions, dependent: :destroy
   has_many :user_permissions, through: :custom_field_permissions
 
@@ -30,6 +31,7 @@ class CustomField < ActiveRecord::Base
   scope :by_form_title,  ->(value)  { where('form_title iLIKE ?', "%#{value.squish}%") }
   scope :client_forms,   ->         { where(entity_type: 'Client') }
   scope :family_forms,   ->         { where(entity_type: 'Family') }
+  scope :community_forms, ->        { where(entity_type: 'Community') }
   scope :partner_forms,  ->         { where(entity_type: 'Partner') }
   scope :user_forms,     ->         { where(entity_type: 'User') }
   scope :not_used_forms, ->(value)  { where.not(id: value) }

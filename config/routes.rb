@@ -198,6 +198,23 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :communities do
+    resources :custom_field_properties
+    resources :enrollments do
+      get :report, on: :collection
+      resources :enrollment_trackings
+      resources :leave_programs
+    end
+
+    resources :enrolled_programs do
+      get :report, on: :collection
+      resources :enrolled_program_trackings do
+        get :report, on: :collection
+      end
+      resources :leave_enrolled_programs
+    end
+  end
+
   resources :partners do
     resources :custom_field_properties
     get 'version' => 'partners#version'
@@ -408,6 +425,7 @@ Rails.application.routes.draw do
       get 'integration' => 'settings#integration'
 
       get :family_case_management
+      get :community
 
       resources :field_settings, only: [:index] do
         collection do

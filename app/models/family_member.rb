@@ -11,10 +11,13 @@ class FamilyMember < ActiveRecord::Base
 
   enumerize :gender, in: ['female', 'male', 'lgbt', 'unknown', 'prefer_not_to_say', 'other'], scope: true, predicates: { prefix: true }
 
-  after_commit :save_aggregation_data, on: [:create, :update], if: :brc?
-  after_commit :save_client_data
+  after_commit :save_aggregation_data, on: [:create, :update]
+  after_commit :save_client_data, if: :persisted?
 
-  def self.update_client_relevant_data(family_member_id)
+  validates :client_id, uniqueness: { scope: :family_id }, if: :client_id?
+
+  def self.update_client_relevant_data(family_member_id, org_name)
+    Organization.switch_to(org_name)
     find(family_member_id).save_client_data
   end
 
@@ -25,7 +28,7 @@ class FamilyMember < ActiveRecord::Base
   def save_client_data
     if client.present?
       update_columns(
-        adult_name: client.name,
+        adult_name: (client.name.presence || client.display_name),
         gender: client.gender,
         date_of_birth: client.date_of_birth
       )
@@ -36,9 +39,5 @@ class FamilyMember < ActiveRecord::Base
 
   def save_aggregation_data
     family&.save_aggregation_data
-  end
-
-  def brc?
-    Organization.current&.short_name == 'brc'
   end
 end

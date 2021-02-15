@@ -19,6 +19,20 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
 
     valid
 
+  _toggleDisableFamilySelect = ->
+    $(".nested-fields [name$='[client_id]']")
+    $.each $(".nested-fields"), (index, row) ->
+      memberRow = $(row)
+      select = memberRow.find('[name$="[client_id]"]')
+      select.find("option").attr("disabled", false)
+
+      $.each $(".nested-fields"), (index, row) ->
+        tmpMemberRow = $(row)
+        tmpSelect = tmpMemberRow.find('[name$="[client_id]"]')
+
+        if tmpSelect.val().length > 0 && tmpSelect.attr("id") != select.attr("id")
+          select.find("option[value=#{tmpSelect.val()}]").attr("disabled", true)
+
   _initUploader = ->
     $('.file .optional').fileinput
       showUpload: false
@@ -29,6 +43,8 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
       allowedFileExtensions: ['jpg', 'png', 'jpeg', 'doc', 'docx', 'xls', 'xlsx', 'pdf']
 
   _initWizardForm = ->
+    window.savingFamily = false
+
     $("#family-wizard-form").steps
       headerTag: 'h3'
       bodyTag: 'section'
@@ -42,7 +58,10 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
       onStepChanging: (event, currentIndex, newIndex) ->
         (currentIndex > newIndex) || _validateForm()
       onFinishing: (event, currentIndex) ->
-        $("#family-form").submit()
+        if window.savingFamily == false
+          $("#family-form").submit()
+          window.savingFamily = true
+        return true
       onCanceled: ->
         result = confirm('Are you sure?')
         if result
@@ -73,13 +92,17 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
       familyRow.find('[name$="[gender]"]').attr("disabled", !select.hasClass("hidden"))
       familyRow.find('[name$="[date_of_birth]"]').attr("disabled", !select.hasClass("hidden"))
 
+      _onChangeClient(select)
+
   _onUnmarkAsClient = ->
     familyRow = $(@).closest(".nested-fields")
     familyRow.find('[name$="[client_id]"]').addClass("hidden")
     familyRow.find('[name$="[client_id]"]').val(null)
     familyRow.find('[name$="[client_id]"]').trigger('change')
+
     familyRow.find('[name$="[adult_name]"]').removeClass("hidden")
     familyRow.find('[name$="[adult_name]"]').attr("disabled", false)
+
     familyRow.find('[name$="[gender]"]').attr("disabled", false)
     familyRow.find('[name$="[date_of_birth]"]').attr("disabled", false)
 
@@ -89,18 +112,24 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
     familyRow.find('[name$="[client_id]"]').removeClass("hidden")
     familyRow.find('[name$="[adult_name]"]').addClass("hidden")
     familyRow.find('[name$="[adult_name]"]').attr("disabled", true)
-    familyRow.find('[name$="[gender]"]').attr("disabled", true)
+
     familyRow.find('[name$="[gender]"]').attr("disabled", true)
     familyRow.find('[name$="[date_of_birth]"]').attr("disabled", true)
 
-    familyRow.find('[name$="[client_id]"]').change (e)->
+    _onChangeClient(familyRow.find('[name$="[client_id]"]'))
+
+  _onChangeClient = (select) ->
+    $select = $(select)
+    familyRow = $select.closest(".nested-fields")
+
+    $select.change (e)->
       data = $(@).find("option:selected").data()
 
       familyRow.find('[name$="[gender]"]').val(data.gender)
       familyRow.find('[name$="[gender]"]').trigger('change')
-      familyRow.find('[name$="[date_of_birth]"]').datepicker('update', data.dateOfBirth);
+      familyRow.find('[name$="[date_of_birth]"]').datepicker('update', data.dateOfBirth)
 
-
+      _toggleDisableFamilySelect()
 
   _initSelect2 = ->
     $('select').select2
@@ -132,6 +161,11 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
       _initSelect2()
       _initDatePicker()
       _initIcheck()
+
+      $.each $(".nested-fields"), (index, row) ->
+        memberRow = $(row)
+        select = memberRow.find('[name$="[client_id]"]')
+        select.trigger("change") if select.val().length > 0
 
   _initDatePicker = ->
     $('.date-picker').datepicker

@@ -47,3 +47,6 @@ REVISION
 GIT_REVISION
 NOTES.md
 staging.env
+
+# aws private
+aws/ecs/private/

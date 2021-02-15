@@ -105,6 +105,36 @@ my:
         name: မူလတန်းစောင့်ရှောက်သူအမည်အား
         phone: မူလတန်းအုပ်ထိန်းဖုန်းနံပါတ်ကို
         carer_information: Carer Information?
+      community:
+        case_worker_ids: Case Worker/Staff Assigned
+        commune_id: Commune/Sangkat
+        contract_date: Family Contract Date
+        district_id: District/Khan
+        documents: Upload Documents
+        donor_ids: Donor
+        formed_date: Date of Group/Community Formed
+        gender: Gender
+        id: Automatic ID
+        initial_referral_date: Date of Referral
+        name: Name (Khmer)
+        name_en: Name (Latin)
+        phone_number: Phone Number
+        province_id: Province
+        received_by_id: Receiving Staff Member
+        relevant_information: Relevant Information
+        representative_name: Represetative Name
+        role: Role in the Group/Community
+        village_id: Village
+        'yes': 'Yes'
+      community_member:
+        adule_female_count: Total Household Adult Females
+        adule_male_count: Total Household Adult Males
+        kid_female_count: Total Household Girls
+        kid_male_count: Total Household Boys
+        gender: Gender
+        is_family: Family?
+        name: Name
+        role: Role
       family:
         id: Automatic ID
         id_poor: Has ID Poor?
@@ -2193,6 +2223,74 @@ my:
     version:
       back: ေနာက္သို႔
       modification_of: "၏ ေျပာင္းလဲမႈမွတ္တမ္း"
+  communities:
+    actions:
+      are_you_sure: Are you sure you want to delete?
+    create:
+      successfully_created: Community has been successfully created.
+    destroy:
+      alert: Community cannot be deleted.
+      successfully_deleted: Community has been successfully deleted.
+    edit:
+      edit_community_title: Edit Community
+    community_member_fields:
+      remove_member: Remove Member
+    form:
+      add_new_member: Add New Member
+      address: Address
+      commune: Commune
+      district: District
+      new_community_title: Add New Community
+      province: Province
+      step_1_title: Basic Group/Community Information
+      step_11_title: Administrative Information
+      step_12_title: Group/Community Information
+      step_2_title: Group/Community Member Information
+      step_21_title: Member Information
+      step_3_title: Additional Information
+      street: Street
+      village: Village
+      family_members:
+        'no': 'No'
+        'yes': 'Yes'
+    index:
+      add_new_community: Add New Community
+      export_xls: Export to XLS
+      results: Results Export to XLS
+      report_builder: Report Builder
+      results: Results
+    new:
+      new_community_title: New Community
+    show:
+      add_form: Add Form
+      additional_forms: Community's Active Forms
+      address: Address
+      all_beneficiaries: To Count All Beneficiaries (direct members and their household members)
+      are_you_sure: Are you sure you want to delete?
+      created_by: Created by
+      current_province: Current Province
+      direct_participants: Direct Participants of the Group/Community
+      enrolled_program_streams: Community's Active Program Streams
+      female_count: Number of Member Females
+      general_info: About Community
+      male_count: Number of Member Males
+      member_count: Number of Members
+      program_streams: Enroll Community to Program Streams
+      read_less: read less
+      read_more: read more
+      referral_source: Referral Source
+      referral_source_category: Referral Source Category
+      total_boys: Total Boys
+      total_female: Total Adult Females
+      total_girls: Total Girls
+      total_male: Total Adult Males
+      'yes': 'Yes'
+    update:
+      not_allowed_to_detach_clients: You're not allowed to detach clients from the family through this form!
+      successfully_updated: Family has been successfully updated.
+    version:
+      back: Back
+      modification_of: Changelog of
   created_by: တည်ထောင်ထားတဲ့
   custom_field_properties:
     attachment:
@@ -3702,129 +3800,125 @@ my:
       modification_of: "၏ ေျပာင္းလဲမႈ မွတ္တမ္း"
   enrolled_program_trackings:
     action:
-      new_tracking: New Tracking
+      new_tracking: ေနာက္ေၾကာင္းအသစ္
     create:
-      successfully_created: Tracking Program has been successfully created.
+      successfully_created: ေနာက္ေၾကာင္းလုိက္သည့္အစီအစဥ္ကို ေအာင္ျမင္စြာျပဳလုပ္ၿပီးပါၿပီ
     destroy:
-      successfully_deleted: Tracking Program has been successfully deleted.
+      successfully_deleted: ေနာက္ေၾကာင္းလုိက္သည့္ အစီအစဥ္ကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ။
     edit:
-      edit_tracking: Edit Tracking
+      edit_tracking: ေနာက္ေၾကာင္းလိုက္ျခင္းကို ျပင္ရန္
     form:
-      cancel: Cancel
-      save: Save
+      cancel: ပယ္ဖ်က္သည္
+      save: သိမ္းဆည္းသည္
     index:
-      programs_list: Programs List
-      tracking_lists: Trackings List
+      programs_list: အစီအစဥ္စာရင္း
+      tracking_lists: ေနာက္ေၾကာင္းစာရင္း
     new:
-      new_tracking: New Tracking
+      new_tracking: ေနာက္ေၾကာင္းအသစ္
     report:
-      are_you_sure: Are you sure you want to delete?
-      back: Back
-      created_at: Created Date
-      new_tracking: New Tracking
+      are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
+      back: ေနာက္သို႔
+      created_at: ျပဳလုပ္သည့္ရက္စြဲ
+      new_tracking: ေနာက္ေၾကာင္းအသစ္
     show:
-      back: Back
-      trackings_list: Trackings List
+      back: ေနာက္သုိ႔
+      trackings_list: ခြေရာခံစာရင်း
     update:
-      successfully_updated: Tracking Program has been successfully updated.
+      successfully_updated: ေနာက္ေၾကာင္းလုိက္သည့္အစီအစသ္ကို ေအာင္ျမင္စြာ အသစ္ျပဳျပင္ၿပီးပါၿပီ။
   enrolled_programs:
     create:
-      successfully_created: Enrollment has been successfully created.
+      successfully_created: စာရင္းေပးသြင္းမႈကို ေအာင္ျမင္စြာျပဳလုပ္ၿပီးပါၿပီ။
     destroy:
-      successfully_deleted: Enrollment has been successfully deleted.
+      successfully_deleted: စာရင္းေပးသြင္းမႈကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပိ။
     edit:
-      enrollment: Edit Enrollment
+      enrollment: 'စာရင္းေပးသြင္းမႈကို ျပင္ဆင္ရန္ '
     form:
-      accepted_date: "NGO Accept Date"
-      exit_date: "NGO Exit Date"
-      cancel: Cancel
-      enrollment_date: Enrollment Date
-      save: Save
+      cancel: ပယ္ဖ်က္ရန္
+      enrollment_date: စာရင္းေပးသြင္းသည့္ ရက္စြဲ
+      save: သိမ္းဆည္းသည္
     index:
-      actions: Actions
-      back: Back
-      domain: Associated Domains
-      name: Program Name
-      program_lists: Programs List
-      quantity: Number of Place Available
-      report: Report
-      status: Status
-      view: View
+      actions: လုပ္ေဆာင္မႈမ်ား
+      back: ေနာက္သို႔
+      domain: ဒိုမိန္း
+      name: အစီအစဥ္နာမည္
+      program_lists: အစီအစဥ္စာရင္း
+      quantity: ေနရာလြတ္အေရအတြက္
+      report: အစီရင္ခံစာ
+      status: အေနအထား
+      view: ျမင္ကြင္း
     manage:
-      enroll: Enroll
-      exit: Exit
-      full_program: This Program is full.
-      tracking: Trackings
+      enroll: စာရင္းေပးသြင္းသည္။
+      exit: ထြက္သည္။
+      full_program: အစီအစဥ္ျပည္ေနပါၿပီ။
+      tracking: ေနာက္ေၾကာင္းမ်ား
     new:
-      not_valid: Does not match with this program conditions.
-      new_enrollment: New Enrollment
+      not_valid: ဤအစီအစဉ်အခြေအနေနှင့်မကိုက်ညီပါ
+      new_enrollment: စာရင္းေပးသြင္းမႈအသစ္
     report:
-      actions: Actions
-      date: Date
-      enrollment: Enrollment
-      exit: Exit
-      forms: Forms
-      programs_list: Programs List
-      report: Reports
-      tracking: Tracking
-      view: View
+      actions: လုပ္ေဆာင္မႈမ်ား
+      date: ရက္စြဲ
+      enrollment: စာရင္းေပးသြင္းမႈ
+      exit: ထြက္သည္
+      forms: ပံုစံမ်ား
+      programs_list: အစီအစဥ္စာရင္း
+      report: အစီရင္ခံစာမ်ား
+      tracking: ေနာက္ေၾကာင္း
+      view: ျမင္ကြင္း
     show:
-      are_you_sure: Are you sure you want to delete?
-      back: Back
-      enrollment_date: Enrolled on
+      are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား။
+      back: ေနာက္သုိ႔
+      enrollment_date: စာရင္းေပးသြင္းသည့္ ရက္စြဲ
     update:
-      successfully_updated: Enrollment has been successfully updated.
+      successfully_updated: စာရင္းေပးသြင္းမႈကို ေအာင္ျမင္စြာ အသစ္ျပန္ျပင္ၿပီးပါၿပီ
   enrollments:
     create:
-      successfully_created: Enrollment has been successfully created.
+      successfully_created: စာရင္းေပးသြင္းမႈကို ေအာင္ျမင္စြာ ျပဳလုပ္ၿပီးပါၿပီ
     destroy:
-      delete_attachment_successfully: Attachment has been successfully deleted.
-      successfully_deleted: Enrollment has been successfully deleted.
+      delete_attachment_successfully: တြဲထားသည္မ်ားကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ
+      successfully_deleted: စာရင္းေပးသြင္းမႈကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ
     edit:
-      enrollment: Edit Enrollment
+      enrollment: စာရင္းေပးသြင္းမႈကို ျပင္ဆင္ရန္
     form:
-      accepted_date: "NGO Accept Date"
-      exit_date: "NGO Exit Date"
-      allow_file_size: Allowed file types
-      cancel: Cancel
-      enrollment_date: Enrollment Date
-      max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
-      not_an_email: not an email
-      save: Save
+      allow_file_size: ခြင့္ျပဳေသာ ဖိုင္အမ်ိဳးအစားမ်ား
+      cancel: ပယ္ဖ်က္ရန္
+      enrollment_date: စာရင္းေပးသြင္းသည့္ ရက္စြဲ
+      max_file_size: "*အႀကီးဆံုးလက္ခံႏုိင္သည့္ ဖိုင္ဆုိဒ္ - တစ္ဖိုင္လွ်င္ ၅ မီဂါဘိုက္ႏႈန္းႏွင့္ တစ္ခါတင္လွ်င္ ၃၀ မီဂါဘိုက္"
+      not_an_email: အီးေမးလ္မဟုတ္ပါ
+      save: သိမ္းဆည္းရန္
     index:
-      actions: Actions
-      back: Back
-      domain: Associated Domains
-      name: Program Name
-      program_lists: Programs List
-      quantity: Number of Place Available
-      report: Report
-      status: Status
-      view: View
+      actions: လုပ္ေဆာင္မႈမ်ား
+      back: ေနာက္သို႔
+      domain: ဒိုမိန္း
+      name: အစီအစဥ္နာမည္
+      program_lists: အစီအစဥ္မ်ားစာရင္း
+      quantity: ရရွိႏုိင္ေသာေနရာ အေရအတြက္
+      report: အစီရင္ခံစာ
+      status: အေနအထား
+      view: ၾကည့္ရန္
     manage:
-      enroll: Enroll
-      exit: Exit
-      full_program: This Program is full
-      tracking: Trackings
+      enroll: စာရင္းေပးသြင္းရန္
+      exit: ထြက္၇န္
+      full_program: ဤအစီအစဥ္ ျပည့္ေနပါၿပီ။
+      tracking: ေနာက္ေၾကာင္းမ်ား
     new:
-      not_valid: Does not match with this program conditions.
-      new_enrollment: New Enrollment
+      not_valid: ဤအစီအစဉ်အခြေအနေနှင့်မကိုက်ညီပါ
+      new_enrollment: စာရင္ေပးသြင္းမႈအသစ္
     report:
-      actions: Actions
-      date: Date
-      enrollment: Enrollment
-      exit: Exit
-      forms: Forms
-      programs_list: Programs List
-      report: Reports
-      tracking: Tracking
-      view: View
+      actions: လုပ္ေဆာင္မႈမ်ား
+      date: ရက္စြဲ
+      enrollment: စာရင္းေပးသြင္းမႈ
+      exit: ထြက္ရန္
+      forms: ပံုစံမ်ား
+      programs_list: အစီအစဥ္မ်ားစာရင္း
+      report: အစီရင္ခံစာမ်ား
+      tracking: ေနာက္ေၾကာင္း
+      view: ျမင္ကြင္း
     show:
-      are_you_sure: Are you sure you want to delete?
-      back: Back
-      enrollment_date: Enrolled on
+      are_you_sure: ဖ်က္လုိသည္မွာ ေသခ်ာပါသလား
+      back: ေနာက္သို႔
+      enrollment_date: စာရင္းေပးသြင္းသည့္ရက္စြဲ
     update:
-      successfully_updated: Enrollment has been successfully updated.
+      successfully_updated: စာရင္းေပးသြင္းျခင္းကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ၿပီးပါၿပီ
   enumerize:
     defaults:
       gender:
@@ -4735,6 +4829,8 @@ my:
       client_forms: Client Forms
       country: ႏုိင္ငံ
       csi_tools: ရရှိနိုင်အကဲဖြတ်
+      communities: Community/Group
+      community: Community
       custom_fields: ပံုစံထုတ္စက္
       custom_labels: Custom Labels
       dashboards: ဒက္ရွ္ဘုတ္မ်ား
@@ -4781,6 +4877,7 @@ my:
   leave_enrolled_programs:
     create:
       client: အမႈသည္သည္
+      community: ရပ်ရွာ
       family: အမႈသည္သည္
       successfully_created: "%{entity} အစိအစဥ္မွ ေအာင္ျမင္စြာ ထြက္ၿပီးပါၿပီ။"
     edit:
@@ -5134,6 +5231,7 @@ my:
       save: သိမ္းဆည္းရန္
     index:
       attached_with_client: Attached with Client
+      attached_with_community: Attached with Community
       attached_with_family: Attached with Family
       current_ngo: မိမိ NGO၏ အစီအစဥ္ စီးဆင္းမႈ
       demo_programs: Demo NGO၏ အစီအစဥ္ စီးဆင္းမႈ
@@ -5608,6 +5706,9 @@ my:
       switched_country_thailand: သင္၏ ႏုိင္ငံအျပင္အဆင္ကို ထုိင္းႏုိင္ငံအျဖစ္ ေျပာင္းၿပီးပါၿပီ။
     create:
       successfully_created: အောင်မြင်စွာဖန်တီး
+    community:
+      title: Communities
+      hide_community: Hide Communities
     custom_assessment_setting_fields:
       are_you_sure: Are you sure want to remove this assessment?
     custom_labels:

@@ -209,6 +209,15 @@ module AdvancedSearchHelper
     translations[key.to_sym] || ''
   end
 
+  def community_header(key)
+    translations = {
+      initial_referral_date:                    I18n.t('advanced_search.fields.initial_referral_date'),
+      name:                                     I18n.t('datagrid.columns.families.name'),
+      status:                                   I18n.t('datagrid.columns.families.status'),
+    }
+    translations[key.to_sym] || ''
+  end
+
   def partner_header(key)
     translations = {
       name:                                     I18n.t('datagrid.columns.partners.name'),

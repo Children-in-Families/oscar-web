@@ -1,7 +1,11 @@
 body[id='families-new'],
 body[id='families-create'],
 body[id='families-edit'],
-body[id='families-update'] {
+body[id='families-update'],
+body[id='communities-new'],
+body[id='communities-create'],
+body[id='communities-edit'],
+body[id='communities-update'] {
   margin-bottom: 50px;
 
   .icheckbox_square-green{
@@ -40,7 +44,7 @@ body[id='families-update'] {
     clear: both;
   }
 
-  #family-wizard-form {
+  #family-wizard-form, #community-wizard-form {
     .content > .body {
       width: 100%;
     }
@@ -59,7 +63,7 @@ body[id='families-update'] {
       margin-bottom: 0;
     }
 
-    .file.family_documents {
+    .file.family_documents, .file.community_documents {
       margin-right: 0;
     }
 
@@ -121,12 +125,16 @@ body[id='families-update'] {
 
     .i-checks.family_family_members_guardian {
       position: relative;
+    }
 
-      a.remove_fields {
-        position: absolute;
-        right: 10px;
-        top: 0;
-      }
+    .position-relative {
+      position: relative;
+    }
+
+    a.remove_fields {
+      position: absolute;
+      right: 10px;
+      top: 0;
     }
   }
 }

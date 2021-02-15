@@ -49,6 +49,12 @@ describe Tracking do
     let!(:family_tracking) { create(:tracking, program_stream: family_program_stream) }
     let!(:enrollment) { create(:enrollment, program_stream: family_program_stream)}
     let!(:enrollment_tracking) { create(:enrollment_tracking, tracking: family_tracking, enrollment: enrollment) }
+    
+    let!(:community_program_stream){ create(:program_stream, :attached_with_community) }
+    let!(:community_tracking) { create(:tracking, program_stream: community_program_stream) }
+    let!(:community_enrollment) { create(:enrollment, program_stream: community_program_stream)}
+    let!(:community_enrollment_tracking) { create(:enrollment_tracking, tracking: community_tracking, enrollment: community_enrollment) }
+
     let!(:program_stream) { create(:program_stream) }
     let!(:program_stream_other) { create(:program_stream) }
     let!(:tracking) { create(:tracking, program_stream: program_stream) }
@@ -68,9 +74,14 @@ describe Tracking do
         expect(client_enrollment_tracking.reload.properties).to eq({"email"=>"test@example.com", "age"=>"3", "description"=>"this is testing"})
       end
 
-      it 'auto_update_trackings of programmable' do
+      it 'auto_update_trackings of programmable type Family' do
         family_tracking.update(fields: field)
         expect(enrollment_tracking.reload.properties).to eq({"email"=>"test@example.com", "age"=>"3", "description"=>"this is testing"})
+      end
+
+      it 'auto_update_trackings of programmable type Community' do
+        community_tracking.update(fields: field)
+        expect(community_enrollment_tracking.reload.properties).to eq({"email"=>"test@example.com", "age"=>"3", "description"=>"this is testing"})
       end
     end
   end
