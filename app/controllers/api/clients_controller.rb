@@ -69,7 +69,7 @@ module Api
         client.carer_id = carer.id
         new_params = client.current_family_id ? client_params : client_params.except(:family_ids)
       end
-      
+
       if client.update_attributes(client_params.except(:referee_id, :carer_id))
         if params[:client][:assessment_id]
           assessment = Assessment.find(params[:client][:assessment_id])
