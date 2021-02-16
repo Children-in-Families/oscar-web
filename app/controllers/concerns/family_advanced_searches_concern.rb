@@ -236,7 +236,8 @@ module FamilyAdvancedSearchesConcern
         records = 'family.assessments.defaults'
       end
       @family_grid.column(column, class: 'domain-scores', header: identity) do |family|
-        assessment_domains = map_assessment_and_score(family, identity, domain.id)
+        assessments = map_assessment_and_score(family, identity, domain.id)
+        assessment_domains = assessments.includes(:assessment_domains).map { |assessment| assessment.assessment_domains.joins(:domain).where(domains: { id: domain.id }) }.flatten.uniq
         assessment_domains.map{|assessment_domain| assessment_domain.try(:score) }.join(', ')
       end
     end
