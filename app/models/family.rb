@@ -220,10 +220,8 @@ class Family < ActiveRecord::Base
     self.children.each do |child|
       client = Client.find_by(id: child)
       next if client.nil?
-      client.families << self
       client.current_family_id = self.id
-      client.families.uniq
-      client.save(validate: false)
+      client.update_columns(current_family_id: self.id)
     end
   end
 
