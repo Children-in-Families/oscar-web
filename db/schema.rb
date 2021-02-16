@@ -1067,10 +1067,10 @@ ActiveRecord::Schema.define(version: 20201224082044) do
     t.string   "id_poor"
     t.text     "relevant_information"
     t.string   "referee_phone_number"
+    t.string   "slug",                            default: ""
+    t.string   "documents",                       default: [],                     array: true
     t.integer  "assessments_count",               default: 0,         null: false
     t.integer  "care_plans_count",                default: 0,         null: false
-    t.string   "documents",                       default: [],        array: true
-    t.string   "slug",                            default: ""
   end
 
   add_index "families", ["assessments_count"], name: "index_families_on_assessments_count", using: :btree
@@ -2008,6 +2008,7 @@ ActiveRecord::Schema.define(version: 20201224082044) do
     t.datetime "deleted_at"
     t.integer  "family_id"
     t.integer  "goal_id"
+    t.datetime "expected_date"
   end
 
   add_index "tasks", ["client_id"], name: "index_tasks_on_client_id", using: :btree

@@ -249,6 +249,11 @@ class FamilyGrid < BaseGrid
     render partial: 'clients/case_note_type', locals: { object: object }
   end
 
+  column(:program_streams, html: true, order: false, header: -> { I18n.t('datagrid.columns.families.program_streams') }) do |object, a, b, c|
+    family_enrollments = family_program_stream_name(object.enrollments.active, 'active_program_stream')
+    render partial: 'families/active_family_enrollments', locals: { active_programs: family_enrollments }
+  end
+
   dynamic do
     next unless dynamic_columns.present?
     dynamic_columns.each do |column_builder|
@@ -286,7 +291,7 @@ class FamilyGrid < BaseGrid
         identity = domain.identity
         column("#{domain.convert_custom_identity}".to_sym, class: 'domain-scores', header: identity, html: true) do |family|
           assessments = map_assessment_and_score(family, identity, domain_id)
-          assessment_domains = assessments.includes(:assessment_domains).map { |assessment| assessment.assessment_domains.joins(:domain).where(domains: { identity: identity }) }.flatten.uniq
+          assessment_domains = assessments.includes(:assessment_domains).map { |assessment| assessment.assessment_domains.joins(:domain).where(domains: { id: domain_id }) }.flatten.uniq
           render  partial: 'families/list_domain_score', locals: { assessment_domains: assessment_domains }
         end
       end

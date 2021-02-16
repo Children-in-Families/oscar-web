@@ -144,6 +144,7 @@ module AssessmentHelper
         assessments.map { |assessment| assessment.assessment_domains.joins(:domain).where(sub_query_string.reject(&:blank?).join(' AND ')).where(domains: { identity: identity }) }.flatten.uniq
       else
         rule = basic_rules['rules'].select { |h| h['id'] == 'date_of_assessments' || h['id'] == 'date_of_custom_assessments' }.first
+
         if rule.present?
           date_of_assessments_query = date_of_assessments_query_string(rule[:id], rule['field'], rule['operator'], rule['value'])
           assessments = object.assessments.where(date_of_assessments_query)
