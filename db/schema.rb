@@ -1069,10 +1069,10 @@ ActiveRecord::Schema.define(version: 20210215070551) do
     t.string   "id_poor"
     t.text     "relevant_information"
     t.string   "referee_phone_number"
-    t.string   "slug",                            default: ""
-    t.string   "documents",                       default: [],                     array: true
     t.integer  "assessments_count",               default: 0,         null: false
     t.integer  "care_plans_count",                default: 0,         null: false
+    t.string   "documents",                       default: [],        array: true
+    t.string   "slug",                            default: ""
   end
 
   add_index "families", ["assessments_count"], name: "index_families_on_assessments_count", using: :btree

@@ -1046,7 +1046,8 @@ class ClientGrid < BaseGrid
         domain_id = domain.id
         identity = domain.identity
         column(domain.convert_identity.to_sym, class: 'domain-scores', header: identity, html: true) do |client|
-          assessment_domains = map_assessment_and_score(client, identity, domain_id)
+          assessments = map_assessment_and_score(client, identity, domain_id)
+          assessment_domains = assessments.includes(:assessment_domains).map { |assessment| assessment.assessment_domains.joins(:domain).where(domains: { identity: identity }) }.flatten.uniq
           render  partial: 'clients/list_domain_score', locals: { assessment_domains: assessment_domains }
         end
       end

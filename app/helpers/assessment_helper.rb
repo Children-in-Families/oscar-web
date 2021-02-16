@@ -124,7 +124,7 @@ module AssessmentHelper
   def map_assessment_and_score(object, identity, domain_id)
     sub_query_string = []
     if $param_rules.nil?
-      assessments = object.assessments.defaults.joins(:assessment_domains).distinct
+      assessments = object.assessments.joins(:assessment_domains).distinct
     else
       basic_rules = $param_rules['basic_rules']
       basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
@@ -135,22 +135,22 @@ module AssessmentHelper
         assessments = []
         sql = "(assessments.completed = true)".squish
         if assessment_number.present? && assessment_completed_sql.present?
-          assessments = object.assessments.defaults.where(sql).limit(1).offset(assessment_number - 1).order('created_at')
+          assessments = object.assessments.where(sql).limit(1).offset(assessment_number - 1).order('created_at')
         elsif assessment_completed_sql.present?
           sql = assessment_completed_sql[/assessments\.created_at.*/]
-          assessments = object.assessments.defaults.completed.where(sql).order('created_at')
+          assessments = object.assessments.completed.where(sql).order('created_at')
         end
         sub_query_string = get_assessment_query_string([results[0].reject { |arr| arr[:field] != identity }], identity, domain_id, object.id)
         assessments.map { |assessment| assessment.assessment_domains.joins(:domain).where(sub_query_string.reject(&:blank?).join(' AND ')).where(domains: { identity: identity }) }.flatten.uniq
       else
-        rule = basic_rules['rules'].select {|h| h['id'] == 'date_of_assessments' }.first
+        rule = basic_rules['rules'].select { |h| h['id'] == 'date_of_assessments' || h['id'] == 'date_of_custom_assessments' }.first
         if rule.present?
           date_of_assessments_query = date_of_assessments_query_string(rule[:id], rule['field'], rule['operator'], rule['value'])
-          assessments = object.assessments.defaults.where(date_of_assessments_query)
+          assessments = object.assessments.where(date_of_assessments_query)
         else
-          assessments = object.assessments.defaults
+          assessments = object.assessments
         end
-        assessments.includes(:assessment_domains).map { |assessment| assessment.assessment_domains.joins(:domain).where(domains: { identity: identity }) }.flatten.uniq
+        assessments
       end
     end
   end

@@ -364,36 +364,25 @@ class FamilyGrid < BaseGrid
       end
 
       Domain.family_custom_csi_domains.order_by_identity.each do |domain|
+        domain_id = domain.id
         identity = domain.identity
         column("#{domain.convert_custom_identity}".to_sym, class: 'domain-scores', header: identity, html: true) do |family|
-          assessment = family.assessments.customs.latest_record
-          assessment.assessment_domains.find_by(domain_id: domain.id).try(:score) if assessment.present?
+          assessments = map_assessment_and_score(family, identity, domain_id)
+          assessment_domains = assessments.includes(:assessment_domains).map { |assessment| assessment.assessment_domains.joins(:domain).where(domains: { identity: identity }) }.flatten.uniq
+          render  partial: 'families/list_domain_score', locals: { assessment_domains: assessment_domains }
         end
       end
     end
   end
 
   column(:assessment_completed_date, header: -> { I18n.t('datagrid.columns.assessment_completed_date', assessment: I18n.t('families.show.assessment')) }, html: true) do |object|
-    if $param_rules && false
-      basic_rules = $param_rules['basic_rules']
-      basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
-      results = mapping_assessment_query_rules(basic_rules).reject(&:blank?)
-      assessment_completed_sql, assessment_number = assessment_filter_values(results)
-      sql = "(assessments.completed = true)".squish
-      if assessment_number.present? && assessment_completed_sql.present?
-        assessments = object.assessments.where(sql).limit(1).offset(assessment_number - 1).order('created_at')
-      elsif assessment_completed_sql.present?
-        sql = assessment_completed_sql[/assessments\.created_at.*/]
-        assessments = object.assessments.completed.where(sql).order('created_at')
-      end
-    else
-      assessments = object.assessments.completed.order('created_at')
-    end
+    assessments = map_assessment_and_score(object, '', nil)
     render partial: 'families/assessments', locals: { object: assessments }
   end
 
   column(:date_of_custom_assessments, header: -> { I18n.t('datagrid.columns.date_of_custom_assessments', assessment: I18n.t('families.show.assessment')) }, html: true) do |object|
-    render partial: 'families/assessments', locals: { object: object.assessments.customs }
+    assessments = map_assessment_and_score(object, '', nil)
+    render partial: 'families/assessments', locals: { object: assessments }
   end
 
   dynamic do
