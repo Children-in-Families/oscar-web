@@ -44,7 +44,7 @@ class FamiliesController < AdminController
       attributes = fetch_family_attibutes(@family_referral.slug, current_org)
     else
       @family = Family.new
-      @family.community_member = CommunityMember.new
+      @family.build_community_member
       @selected_children = params[:children]
 
       if params[:client].present?
@@ -81,7 +81,7 @@ class FamiliesController < AdminController
   end
 
   def edit
-    @family.community_member ||= CommunityMember.new
+    @family.build_community_member
   end
 
   def update

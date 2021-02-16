@@ -276,7 +276,7 @@ class FamilyGrid < BaseGrid
   column(:case_note_type, header: -> { I18n.t('datagrid.columns.clients.case_note_type')}, html: true) do |object|
     render partial: 'clients/case_note_type', locals: { object: object }
   end
-  
+
   column(:program_streams, html: true, order: false, header: -> { I18n.t('datagrid.columns.families.program_streams') }) do |object, a, b, c|
     family_enrollments = family_program_stream_name(object.enrollments.active, 'active_program_stream')
     render partial: 'families/active_family_enrollments', locals: { active_programs: family_enrollments }
