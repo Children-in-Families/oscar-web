@@ -15,7 +15,7 @@ class CaseNoteDomainGroup < ActiveRecord::Base
   default_scope { order(:domain_group_id) }
 
   def completed_tasks
-    tasks.with_deleted.completed
+    tasks.completed
   end
 
   def on_going_tasks
