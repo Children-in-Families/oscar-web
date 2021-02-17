@@ -9,7 +9,6 @@
         = "#{t('case_notes.form_with_assessment_domains.dimensions')} #{domain_note.object.domain_group.name}"
       - else
         = "#{t('case_notes.form_with_assessment_domains.domain')} #{domain_note.object.domain_group.name}"
-      = "(#{get_domains(domain_note)})"
       - domain_note_by_case_note.each do |domain|
         - ad = domain.assessment_domains.find_by(assessment_id: @case_note.assessment_id)
         - next if ad.nil?
