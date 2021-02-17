@@ -7,7 +7,8 @@ module CreateBulkTask
       task_attr['taskable_id'] = parent.id
       task_attr['taskable_type'] = case_note.class.to_s
       task_attr['expected_date'] = case_note.meeting_date.to_s
-      task_attr.merge('case_note_id'=> "#{parent.id}", user_id: current_user.id)
+
+      task_attr.merge('case_note_id' => parent.id.to_s, user_id: current_user.id, casenote_domain_group_id: task_attr['casenote_domain_group_id'].to_s)
     end
 
     tasks = case_note.parent.tasks.create(task_attr)
