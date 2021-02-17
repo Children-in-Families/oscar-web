@@ -120,6 +120,7 @@ module CaseNoteHelper
         list_goals << assessment_domain.goal
       end
     end
+    today_tasks << list_today_tasks(cdg, case_note)
 
     [list_goals, ongoing_tasks, today_tasks]
   end
@@ -137,8 +138,13 @@ module CaseNoteHelper
         list_goals << assessment_domain.goal
       end
     end
+    today_tasks << list_today_tasks(cdg, case_note)
 
     [list_goals, ongoing_tasks, today_tasks]
+  end
+
+  def list_today_tasks(cdg, case_note)
+    Task.where(case_note_id: case_note.id.to_s, casenote_domain_group_id: cdg.id.to_s).where.not(id: case_note.tasks.completed.ids)
   end
 
   def case_note_ongoing_tasks(tasks)

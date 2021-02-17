@@ -29,4 +29,4 @@
               %strong
                 = assessment_domain.domain.name
 
-            = render 'tasks_list', { domain_note: domain_note, domain: domain, tasks: tasks }
+            = render 'tasks_list', { domain_note: domain_note, domain: domain, tasks: tasks, case_note_domain_group_id: domain_note.object.id }
