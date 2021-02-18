@@ -397,6 +397,22 @@
               = check_box_tag 'all_', 'all', checked = params['all_'].present? || saved_search_column_visibility('all_'), class: 'i-checks all_'
               = label_tag 'all_' do
                 %strong= t('datagrid.columns.show_all')
+
+          - grid.filters.each do |f|
+            - next if f.name == :assessments_due_to || f.name == :no_case_note || f.name == :overdue_task || f.name == :overdue_forms
+            - next if controller_name == 'clients' && !policy(Client).show?(f.name.to_s)
+
+            - unless selected_country == 'cambodia'
+              - next if f.name.in?([:commune, :village, :street_number, :house_number, :current_address])
+
+            - unless selected_country.in?(['cambodia', 'thailand'])
+              - next if f.name.in?([:province_id, :birth_province_id, :district])
+
+            %li{ id: f.name }
+              .visibility.col-sm-12
+                = check_box_tag "#{f.name}_", f.name, checked = saved_search_column_visibility("#{f.name}_"), class: 'i-checks'
+                = columns_visibility f.name
+
   #filter_form
     %hr/
     .row

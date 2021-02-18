@@ -6,17 +6,17 @@ module CommunityAdvancedSearchConcern
     basic_rules  = JSON.parse @basic_filter_params
     $param_rules = nil
     $param_rules = find_params_advanced_search
-    @families    = AdvancedSearches::Families::FamilyAdvancedSearch.new(basic_rules, Family.accessible_by(current_ability)).filter
+    @communities = AdvancedSearches::Communities::CommunityAdvancedSearch.new(basic_rules, Community.accessible_by(current_ability)).filter
     custom_form_column
     respond_to do |f|
       f.html do
-        @results                = @family_grid.scope { |scope| scope.where(id: @families.ids) }.assets.size
-        @family_grid.scope { |scope| scope.where(id: @families.ids).page(params[:page]).per(20) }
+        @results = @community_grid.scope { |scope| scope.where(id: @communities.ids) }.assets.size
+        @community_grid.scope { |scope| scope.where(id: @communities.ids).page(params[:page]).per(20) }
       end
       f.xls do
-        @family_grid.scope { |scope| scope.where(id: @families.ids) }
+        @community_grid.scope { |scope| scope.where(id: @communities.ids) }
         form_builder_report
-        send_data @family_grid.to_xls, filename: "family_report-#{Time.now}.xls"
+        send_data @community_grid.to_xls, filename: "community_report-#{Time.now}.xls"
       end
     end
   end
@@ -67,23 +67,23 @@ module CommunityAdvancedSearchConcern
   end
 
   def find_params_advanced_search
-    @advanced_search_params = params[:family_advanced_search]
+    @advanced_search_params = params[:community_advanced_search]
   end
 
   def basic_params
-    @basic_filter_params  = @advanced_search_params[:basic_rules]
+    @basic_filter_params = @advanced_search_params[:basic_rules]
   end
 
   def form_builder_report
     @custom_form_fields.each do |field|
       fields = field[:id].split('__')
-      @family_grid.column(field[:id].to_sym, header: form_builder_format_header(fields)) do |family|
+      @community_grid.column(field[:id].to_sym, header: form_builder_format_header(fields)) do |community|
         if fields.last == 'Has This Form'
-          custom_field_properties = family.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Family'}).count
+          community.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Community' }).count
         else
           format_field_value = fields.last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
-          custom_field_properties = family.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Family'}).properties_by(format_field_value)
-          custom_field_properties.map{ |properties| format_properties_value(properties) }.join(' | ')
+          custom_field_properties = community.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Community' }).properties_by(format_field_value)
+          custom_field_properties.map { |properties| format_properties_value(properties) }.join(' | ')
         end
       end
     end

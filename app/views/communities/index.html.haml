@@ -6,9 +6,9 @@
       = t('.report_builder')
   .col-xs-12.col-md-3
     .pull-right
-      - if can? :manage, Family
+      - if can? :manage, Community
         = link_to "#{I18n.t('communities.index.add_new_community')}", new_community_path, class: 'btn btn-primary'
-      /= link_to "#{I18n.t('communities.index.export_xls')}", current_url(format: 'xls'), class: 'btn btn-info btn-export'
+      = link_to "#{I18n.t('communities.index.export_xls')}", current_url(format: 'xls'), class: 'btn btn-info btn-export'
 .m-t-md
 .row
   .col-xs-12

@@ -1,4 +1,5 @@
 class CommunityGrid < BaseGrid
+  include ApplicationHelper
   include ClientsHelper
 
   attr_accessor :dynamic_columns
@@ -48,12 +49,16 @@ class CommunityGrid < BaseGrid
 
   column(:id, header: -> { Community.human_attribute_name(:id) })
 
-  column(:name, html: true, order: 'LOWER(name)', header: -> { Community.human_attribute_name(:name) }) do |object|
-    link_to entity_name(object), community_path(object)
+  column(:name, order: 'LOWER(name)', header: -> { Community.human_attribute_name(:name) }) do |object|
+    format(object.name) do |value|
+      link_to entity_name(object), community_path(object)
+    end
   end
 
-  column(:name_en, html: true, order: 'LOWER(name_en)', header: -> { Community.human_attribute_name(:name_en) }) do |object|
-    entity_name(object)
+  column(:name_en, order: 'LOWER(name_en)', header: -> { Community.human_attribute_name(:name_en) }) do |object|
+    format(object.name_en) do |value|
+      entity_name(object)
+    end
   end
 
   column(:status, header: -> { Community.human_attribute_name(:status) }) do |object|
@@ -68,6 +73,11 @@ class CommunityGrid < BaseGrid
   column(:role, header: -> { I18n.t('activerecord.attributes.community.role') })
 
   column(:formed_date, header: -> { I18n.t('activerecord.attributes.community.formed_date') })
+  column(:initial_referral_date, header: -> { I18n.t('activerecord.attributes.community.initial_referral_date') })
+
+  column(:representative_name, header: -> { I18n.t('activerecord.attributes.community.representative_name') })
+
+  column(:phone_number, header: -> { I18n.t('activerecord.attributes.community.phone_number') })
 
   column(:village, order: 'villages.name_kh', header: -> { Community.human_attribute_name(:village) }) do |object|
     object.village_name
@@ -85,11 +95,15 @@ class CommunityGrid < BaseGrid
     object.province_name
   end
 
+  column(:received_by_id, header: -> { Community.human_attribute_name(:received_by_id) }) do |object|
+    object.received_by.name
+  end
+
   dynamic do
     next unless dynamic_columns.present?
     dynamic_columns.each do |column_builder|
       fields = column_builder[:id].gsub('&qoute;', '"').split('__')
-      column(column_builder[:id].to_sym, class: 'form-builder', header: -> { form_builder_format_header(fields) }, html: true) do |object|
+      column(column_builder[:id].to_sym, class: 'form-builder', header: -> { form_builder_format_header(fields) }) do |object|
         if fields.last == 'Has This Form'
           properties = [object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Family'}).count]
         else
@@ -105,9 +119,10 @@ class CommunityGrid < BaseGrid
 
           properties   = object.custom_field_properties.joins(:custom_field).where(sql).where(custom_fields: { form_title: fields.second, entity_type: 'Community'}).properties_by(format_field_value)
         end
-        render partial: 'shared/form_builder_dynamic/properties_value', locals: { properties:  properties }
+        format(properties) do |properties|
+          render partial: 'shared/form_builder_dynamic/properties_value', locals: { properties:  properties }
+        end
       end
-
     end
   end
 end

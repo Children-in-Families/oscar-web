@@ -13,19 +13,21 @@ class CommunitiesController < AdminController
   def index
     @community_grid = CommunityGrid.new(params.fetch(:community_grid, {}))
     @community_grid = @community_grid.scope { |scope| scope.accessible_by(current_ability) }
-    @community_columns ||= FamilyColumnsVisibility.new(@community_grid, params.merge(column_form_builder: @custom_form_fields))
+    @community_columns ||= CommunityColumnsVisibility.new(@community_grid, params.merge(column_form_builder: @custom_form_fields))
     @community_columns.visible_columns
 
-    advanced_search if has_params?
-
-    respond_to do |f|
-      f.html do
-        @results = @community_grid.assets.size
-        @community_grid.scope { |scope| scope.accessible_by(current_ability).page(params[:page]).per(20) }
-      end
-      f.xls do
-        form_builder_report
-        send_data @community_grid.to_xls, filename: "community_report-#{Time.now}.xls"
+    if has_params?
+      advanced_search
+    else
+      respond_to do |f|
+        f.html do
+          @results = @community_grid.assets.size
+          @community_grid.scope { |scope| scope.accessible_by(current_ability).page(params[:page]).per(20) }
+        end
+        f.xls do
+          form_builder_report
+          send_data @community_grid.to_xls, filename: "community_report-#{Time.now}.xls"
+        end
       end
     end
   end
