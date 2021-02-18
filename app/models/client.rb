@@ -759,6 +759,14 @@ class Client < ActiveRecord::Base
     end
   end
 
+  def indirect_beneficiaries
+    result = 0
+    self.cases.pluck(:family_id).uniq.each do |family_id|
+      result += Family.find_by(id: family_id).family_members.where(client_id: nil).count
+    end
+    result
+  end
+
   private
 
   def update_related_family_member

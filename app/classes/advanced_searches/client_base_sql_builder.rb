@@ -9,7 +9,7 @@ module AdvancedSearches
                           'exit_circumstance', 'exit_reasons', 'referred_to', 'referred_from', 'time_in_cps', 'time_in_ngo',
                           'assessment_number', 'month_number', 'date_nearest', 'assessment_completed','date_of_referral',
                           'referee_name', 'referee_phone', 'referee_email', 'carer_name', 'carer_phone', 'carer_email',
-                          'client_contact_phone', 'client_email_address', 'phone_owner', 'referee_relationship']
+                          'client_contact_phone', 'client_email_address', 'phone_owner', 'referee_relationship', 'active_clients']
 
     BLANK_FIELDS = ['created_at', 'date_of_birth', 'initial_referral_date', 'follow_up_date', 'has_been_in_orphanage', 'has_been_in_government_care', 'province_id', 'referral_source_id', 'birth_province_id', 'received_by_id', 'followed_up_by_id', 'district_id', 'subdistrict_id', 'township_id', 'state_id', 'commune_id', 'village_id', 'referral_source_category_id']
     SENSITIVITY_FIELDS = %w(given_name family_name local_given_name local_family_name kid_id code school_name school_grade street_number house_number village commune live_with relevant_referral_information telephone_number name_of_referee main_school_contact what3words address_type concern_address_type)

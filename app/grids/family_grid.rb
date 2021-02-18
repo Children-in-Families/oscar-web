@@ -129,7 +129,8 @@ class FamilyGrid < BaseGrid
       district_id: :address,
       province_id: :address,
       manage: :aggregrate,
-      changelo: :aggregrate
+      changelo: :aggregrate,
+      active_families: :general
     }[filter_name]
   end
 
@@ -241,7 +242,7 @@ class FamilyGrid < BaseGrid
   end
 
   column(:direct_beneficiaries, header: -> { I18n.t('datagrid.columns.families.direct_beneficiaries') }) do |object|
-    object.cases.pluck(:client_id).uniq.count
+    object.member_count
   end
 
   dynamic do

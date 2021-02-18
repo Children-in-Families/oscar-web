@@ -19,6 +19,8 @@ module AdvancedSearches
           values = get_family_member_gender
         when 'date_of_birth'
           values = get_family_member_dob
+        when 'active_families'
+          values = get_active_families
         end
         { id: sql_string, values: values }
       end
@@ -94,6 +96,32 @@ module AdvancedSearches
         end
         families.ids
       end
+
+      def get_active_families
+        families = @families.joins(:enrollments).where(:enrollments => {:status => 'Active'})
+        case @operator
+        when 'equal'
+          families = families.where('date(enrollments.enrollment_date) = ?', @value.to_date)
+        when 'not_equal'
+          families = families.where('date(enrollments.enrollment_date) != ?', @value.to_date)
+        when 'less'
+          families = families.where('date(enrollments.enrollment_date) < ?', @value.to_date)
+        when 'less_or_equal'
+          families = families.where('date(enrollments.enrollment_date) <= ?', @value.to_date)
+        when 'greater'
+          families = families.where('date(enrollments.enrollment_date) > ?', @value.to_date)
+        when 'greater_or_equal'
+          families = families.where('date(enrollments.enrollment_date) >= ?', @value.to_date)
+        when 'between'
+          families = families.where('date(enrollments.enrollment_date) BETWEEN ? AND ?', @value[0].to_date, @value[1].to_date)
+        when 'is_empty'
+          families = families.where('date(enrollments.enrollment_date) IS NULL')
+        when 'is_not_empty'
+          families = families.where('date(enrollments.enrollment_date) IS NOT NULL')
+        end
+        families.ids
+      end
+
     end
   end
 end

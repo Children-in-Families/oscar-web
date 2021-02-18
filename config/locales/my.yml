@@ -423,6 +423,7 @@ my:
     fields:
       able: Able
       able_state: Able အေနအထား
+      active_clients: Active Clients
       active_program_stream: အစီအမံစီဆင္းမႈ
       address: လိပ္စာ
       age: အသက္
@@ -2797,6 +2798,7 @@ my:
       exit_note: ထြက္သည့္မွတ္စု
       exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
       families:
+        active_families: Active Families in Specific Period
         address: လိပ္စာ
         caregiver_information: ေစာင့္ေရွာက္သူ၏ အခ်က္အလက္
         case_history: အမႈသမိုင္း

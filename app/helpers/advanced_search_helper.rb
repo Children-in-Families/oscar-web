@@ -162,6 +162,7 @@ module AdvancedSearchHelper
       referral_source_category_id: I18n.t('advanced_search.fields.referral_source_category_id'),
       type_of_service:  I18n.t('advanced_search.fields.type_of_service'),
       hotline: I18n.t('datagrid.columns.calls.hotline'),
+      active_clients: I18n.t('advanced_search.fields.active_clients'),
       **overdue_translations
     }
 
@@ -198,7 +199,8 @@ module AdvancedSearchHelper
       female_children_count:                    I18n.t('datagrid.columns.families.female_children_count'),
       female_adult_count:                       I18n.t('datagrid.columns.families.female_adult_count'),
       case_workers:                             I18n.t('datagrid.columns.families.case_workers'),
-      member_count:                             I18n.t('datagrid.columns.families.member_count')
+      member_count:                             I18n.t('datagrid.columns.families.member_count'),
+      active_families:                          I18n.t('datagrid.columns.families.active_families')
     }
     translations[key.to_sym] || ''
   end

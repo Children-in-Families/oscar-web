@@ -425,6 +425,7 @@ km:
     fields:
       able: ឣតិថិជនក្នុងកម្មវិធី អែបល
       able_state: ស្ថានភាព អែបល
+      active_clients: Active Clients in Specific Period
       active_program_stream: កំពុងចូលរួមកម្មវិធីចម្បង
       address: ឣាសយដ្ឋាន
       age: អាយុ
@@ -2791,6 +2792,7 @@ km:
       exit_note: កំណត់ហេតុនៃការចាកចេញ
       exit_reasons: មូលហេតុនៃការចាកចេញ
       families:
+        active_families: Active Families in Specific Period
         address: ឣាសយដ្ឋាន
         caregiver_information: ព័ត៌មាននៃអ្នកថែទាំ
         case_history: ប្រវត្តិគ្រួសារ

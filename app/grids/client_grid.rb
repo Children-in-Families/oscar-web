@@ -1029,11 +1029,7 @@ class ClientGrid < BaseGrid
   end
 
   column(:indirect_beneficiaries, header: -> { I18n.t('datagrid.columns.clients.indirect_beneficiaries') }) do |object|
-    result = 0
-    object.cases.pluck(:family_id).uniq.each do |family_id|
-      result += Family.find_by(id: family_id).family_members.where(client_id: nil).count
-    end
-    result
+    object.indirect_beneficiaries
   end
 
   dynamic do

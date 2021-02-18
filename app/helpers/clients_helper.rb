@@ -943,6 +943,8 @@ module ClientsHelper
             count += type_of_services.count
           elsif class_name == 'date_of_call'
             count += client.calls.distinct.count
+          elsif class_name == 'indirect_beneficiaries'
+            count += client.indirect_beneficiaries
           else
             count += date_filter(client.send(klass.to_sym), class_name).count
           end

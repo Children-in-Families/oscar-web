@@ -425,6 +425,7 @@ en:
     fields:
       able: Able
       able_state: Able State
+      active_clients: Active Clients in Specific Period
       active_program_stream: Active Program Stream
       address: Address
       age: Age
@@ -2802,6 +2803,7 @@ en:
       exit_note: NGO Exit Note
       exit_reasons: Reason For Exit
       families:
+        active_families: Active Families in Specific Period
         address: Address
         caregiver_information: Caregiver Information
         case_history: Case History
