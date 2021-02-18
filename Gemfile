@@ -75,6 +75,8 @@ gem 'globalize', '~> 5.1.0'
 gem 'enumerize', '~> 2.3.1'
 gem 'ulid',                   '~> 1.2'
 gem 'aws-healthcheck'
+gem 'activerecord-session_store', '~> 1.1', '>= 1.1.3'
+gem 'dalli',                  '~> 2.7', '>= 2.7.11'
 
 group :development, :test do
   gem 'pry'
