@@ -134,6 +134,7 @@ Rails.application.routes.draw do
     resources :government_forms
     resources :assessments
     resources :case_notes
+    resources :care_plans
     resources :cases do
       scope module: 'case' do
         resources :quarterly_reports, only: [:index, :show]
@@ -141,6 +142,7 @@ Rails.application.routes.draw do
     end
     scope module: 'client' do
       resources :tasks, except: [:new]
+      resources :goals, except: [:new]
     end
     # resources :surveys
     get 'version' => 'clients#version'
@@ -163,9 +165,20 @@ Rails.application.routes.draw do
       resources :enter_ngos, only: [:create, :update]
     end
 
+    scope module: 'client' do
+    end
+
     resources :family_referrals
     resources :custom_field_properties
     get 'version' => 'families#version'
+
+    scope module: 'families' do
+      resources :assessments
+      resources :care_plans
+      resources :case_notes
+      resources :tasks, except: [:new]
+      resources :goals, except: [:new]
+    end
 
     resources :enrollments do
       get :report, on: :collection
@@ -339,6 +352,7 @@ Rails.application.routes.draw do
 
         scope module: 'client_tasks' do
           resources :tasks, only: [:create, :update, :destroy]
+          resources :goals, only: [:create, :update, :destroy]
         end
         resources :client_enrollments, only: [:create, :update, :destroy] do
           resources :client_enrollment_trackings, only: [:create, :update, :destroy]

@@ -674,8 +674,10 @@ en:
       previous: Previous
       reason: Observation
       reason_placeholder: Enter your observations on the client's situation, based on what you have see and been told by the client and their family.
+      reason_placeholder_family: Enter your observations on the family's situation, based on what you have see and been told by the client and their family.
       save: Save
       score_label: Choose which of the following descriptions most closely describe the client's situation, base on your observation.
+      score_label_family: Choose which of the following descriptions most closely describe the family's situation, base on your observation.
       set_goal: Would you like to set a goal?
       tasks_arising: 'Tasks arising:'
     incomplete_detail:
@@ -697,8 +699,10 @@ en:
       previous: Previous
       reason: Observation
       reason_placeholder: Enter your observations on the client's situation, based on what you have see and been told by the client and their family.
+      reason_placeholder_family: Enter your observations on the family's situation, based on what you have see and been told by the client and their family.
       save: Save
       score_label: Choose which of the following descriptions most closely describe the client's situation, base on your observation.
+      score_label_family: Choose which of the following descriptions most closely describe the family's situation, base on your observation.
       set_goal: Would you like to set a goal?
       tasks_arising: 'Tasks arising:'
     index:
@@ -853,6 +857,53 @@ en:
   cannot_be_lower: can't be lower than %{count}
   cannot_remove: cannot be removed
   cannot_remove_or_update: cannot be removed/updated since it is already in use.
+  care_plans:
+    create:
+      successfully_created: Care Plan has been successfully created.
+    destroy:
+      successfully_deleted:  Care plans has been successfully deleted.
+    form:
+      add_goal: Add goal
+      cancel: Cancel
+      domain: Domain
+      expected_date: Expected Date
+      finish: Finish
+      goal: Goal
+      next: Next
+      previous: Previous
+      required_message: You need to add at least one goal and one task.
+      save: Save
+      score_from_assessment: Score from assessment
+      scoring_statement: Scoring Statement
+      task: Task
+    goal_fields:
+      add_task: Add task
+      remove_goal: Remove goal
+    index:
+      assessment_created_on: Assessment created on
+      back: Back
+      care_plan_created_on: Care Plan created on
+      care_plan_history: Care Plan History
+      new_care_plan: New Care Plan
+      review_care_plan: Review Care Plan
+    show:
+      are_you_sure: Are you sure you want to delete?
+      back: Back
+      based_on: Based on Assessment Number
+      care_plan: Care Plan For
+      care_plan_created_by: Created by
+      dimensions: Dimensions
+      domain: Domain
+      done_during: Done during
+      due_date: Due Date
+      edit: Edit
+      expected_date: Expected Date
+      goal: Goal
+      on_date: 'on'
+      score: Score
+      task: Tasks
+    update:
+      successfully_updated: Care Plan has been successfully updated.
   case:
     quarterly_reports:
       index:
@@ -3703,6 +3754,7 @@ en:
       csi_tool: Assessment Tools
       custom_csi_tool: Custom Assessment Tools
       domains: Domains
+      family_csi_tool: Family Assessment Tools
       score_1: Score 1
       score_2: Score 2
       score_3: Score 3
@@ -3908,6 +3960,15 @@ en:
   families:
     actions:
       are_you_sure: Are you sure you want to delete?
+    assessments:
+      create:
+        successfully_created: Assessment has been successfully created.
+      destroy:
+        fail_delete_attachment: Failed deleting attachment
+        successfully_deleted: Attachment has been successfully deleted.
+        successfully_deleted_assessment: Assessment has been successfully deleted.
+      update:
+        successfully_updated: Assessment has been successfully updated.
     case_history_detail:
       accepted_date: NGO Accept Date
       family: Family
@@ -4022,6 +4083,9 @@ en:
       address: Address
       adult_name: Name of Adult Member
       are_you_sure: Are you sure you want to delete?
+      assessment: Assessments
+      care_plan: Care plan
+      view_tasks: Tasks
       caregiver_information: Caregiver Information
       case_histories: Case Histories
       case_history: Case History
@@ -4070,6 +4134,30 @@ en:
       street: Street
       total_income: Total Monthly Income
       'yes': 'Yes'
+      view_tasks: Tasks
+    tasks:
+      create:
+        successfully_created: Task has successfully been created.
+      destroy:
+        successfully_deleted: Task has successfully been deleted.
+      form:
+        back: Back
+        completion_date: Completion Date
+        domain: Domain
+        enter_task_detail: Enter task details
+        save: Save
+      index:
+        add_all_to_calendar: Add all to calendar
+        add_to_calendar: Add to calendar
+        are_you_sure_you_want_to_delete: Are you sure you want to delete?
+        back: Back
+        domain: Domain
+        new_task: New Task
+        overdue_tasks: Overdue Tasks
+        today_tasks: Today Tasks
+        upcoming_tasks: Upcoming Tasks
+      update:
+        successfully_updated: Task has successfully been updated.
     update:
       not_allowed_to_detach_clients: You're not allowed to detach clients from the family through this form!
       successfully_updated: Family has been successfully updated.
@@ -5884,6 +5972,8 @@ en:
     update:
       successfully_updated: Survey has been successfully updated.
   tasks:
+    completion_date: Completion Date
+    expected_date: Expected Date
     filter:
       filter_by_user: Filter By User
       select_user: Select User

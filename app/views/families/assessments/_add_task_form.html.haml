@@ -1,0 +1,33 @@
+.modal.fade{ role: 'dialog', tabindex: '-1', id: "tasksFromModal"}
+  .modal-dialog{ role: 'document'}
+    .modal-content
+      .modal-header
+        %button.close{"aria-label" => 'Close', "data-dismiss" => 'modal'}
+          %span{"aria-hidden" => 'true'} &times;
+        %h4.modal-title
+          = t('.title')
+      .modal-body
+        = form_tag(family_tasks_path(@family), name: 'task', id: 'assessment_domain_task') do
+          = hidden_field :task, 'domain_id'
+          = hidden_field :task, 'relation', value: 'assessment'
+          %p#hidden-error-message.hide
+            = I18n.t('errors.messages.blank')
+          .form-group.required.task_name
+            %label.date.required.control-label{ for: 'task_name' }
+              %abbr{ title: 'required' } *
+              = t('.enter_task_detail')
+            = text_field :task, 'name', class: 'form-control'
+            %span.help-block.task_name_help
+
+
+          .form-group.date.required.task_completion_date
+            %label.date.required.control-label{ for: 'task_completion_date' }
+              %abbr{ title: 'required' } *
+              = t('.completion_date')
+            .input-group.date
+              = text_field :task, :expected_date, class: 'date required form-control date-picker', id: 'task_completion_date'
+              %span.input-group-addon
+                %i.fa.fa-calendar-check-o
+            %span.help-block.task_completion_date_help
+
+          = button_tag t('.save'), type: 'button', class: 'btn btn-primary add-task-btn'

@@ -1,0 +1,169 @@
+.row
+  .col-xs-12
+    .ibox
+      .ibox-title
+        .row
+          .col-xs-12.col-sm-6.co-md-6
+            %h5
+              = t('shared.x_lists_of', x: t('clients.form.case_note'))
+              = link_to @family.name, family_path(@family)
+          .col-xs-12.col-sm-6.col-md-6
+            .ibox-tools
+              = link_to t('case_notes.index.back'), family_path(@family), { class: 'btn btn-default btn-back-default button' }
+              - if can? :create, CaseNote
+                - if enable_any_csi_tools?
+                  .btn-group#case-note-selection
+                    %button.btn.btn-primary.dropdown-toggle.btn-sm{ "aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button" }
+                      = t('shared.new_x', x: t('clients.form.case_note'))
+                      %span.caret
+                    %ul.dropdown-menu#case-note-dropdown
+                      %li
+                        - if case_notes_editable? && policy(@family).create?
+                          = link_to new_polymorphic_path([@family, 'case_note'], custom: false) do
+                            = t('domains.index.family_csi_tool')
+                        - else
+                          = link_to_if false, '' do
+                            = content_tag :a, class: 'disabled' do
+                              = t('domains.index.family_csi_tool')
+
+                    #customDomainsModal.modal.fade{"aria-labelledby" => "customDomainsModalLabel", :role => "dialog", :tabindex => "-1"}
+                      .modal-dialog{:role => "document"}
+                        .modal-content.panel-warning
+                          .modal-header.panel-heading
+                            %button.btn-modal-cancel.close{ 'aria-hidden' => 'true', 'data-dismiss' => 'modal', type: 'button' } ×
+                            %h4.text-left
+                              %i.fa.fa-warning.fa-x2
+                              = t('case_notes.index.no_custom_domains_available')
+                          .modal-body.text-center
+                            = t('case_notes.index.please_add_custom_domains')
+
+                - elsif case_notes_editable? && policy(@family).create?
+                  = link_to t('case_notes.index.new_case_note'), new_family_case_note_path(@family, custom: @current_setting.enable_default_assessment), class: 'btn btn-primary'
+
+      .ibox-content
+        - @case_notes.each do |case_note|
+          .panel.panel-info
+            .panel-heading
+              .row
+                .col-xs-8
+                  %h3= display_case_note_attendee(case_note)
+                  %p= "#{t('created_by')} #{whodunnit('CaseNote', case_note.id)} #{t('at')} #{date_format(case_note.created_at)}"
+                .col-xs-4.text-right
+                  %h4
+                    = t('shared.x_on', x: t('clients.form.case_note'))
+                    = date_format(case_note.meeting_date) if case_note.meeting_date
+                    - if (can? :manage, CaseNote) || (can? :edit, CaseNote)
+                      - cdg = case_note.case_note_domain_groups.first
+                      = edit_link(@family, case_note, cdg)
+                    - if current_user.admin?
+                      = destroy_link(@family, case_note)
+
+            .panel-body
+              - if case_note.note.present?
+                .row
+                  .col-xs-12
+                    .panel.panel-default
+                      .panel-heading
+                        %h4= t('case_notes.index.note')
+                      .panel-body
+                        = simple_format case_note.note
+              - else
+                - combined_notes = case_note.case_note_domain_groups.pluck(:note).uniq.join("\n")
+                .row
+                  .col-xs-12
+                    .panel.panel-default
+                      .panel-heading
+                        %h4= t('case_notes.index.note')
+                      .panel-body
+                        = simple_format combined_notes
+              .row
+                .col-xs-12
+                  .panel.panel-default
+                    .panel-heading
+                      %h4= "Domain Groups"
+                    .panel-body
+                      = select_tag "", tag_domain_group(case_note), multiple: true, disabled: true
+
+              - case_note.case_note_domain_groups.where(domain_group_id: case_note.selected_domain_group_ids.map(&:to_i)).each do |cdg|
+                - list_goals, ongoing_tasks, today_tasks = list_family_goals_and_tasks(cdg, case_note)
+                - if list_goals.present? || today_tasks.flatten.any? || cdg.completed_tasks.any?
+                  .ibox.border-left-right.border-bottom
+                    .ibox-title
+                      - custom_assessment_setting_id = find_custom_assessment_setting_id(cdg, case_note)
+                      %h5= cdg.domain_identities(custom_assessment_setting_id)
+                      - if case_note.assessment_id.present?
+                        .ibox-tools
+                          - cdg.domains(case_note).each do |domain|
+                            - ad = domain.assessment_domains.find_by(assessment_id: case_note.assessment_id)
+                            - next if ad.nil?
+                            %a.collapse-link
+                              %label.margin-score.case-note-domain-score{ class: "label label-#{ad&.score_color_class || 'default'} label-lg", 'data-original-title': "#{simple_format(ad.score_definition)}", 'data-toggle': 'tooltip' }
+                                = ad.score
+                    .ibox-content
+                      .row
+                        - if list_goals.present?
+                          .col-xs-12.col-sm-6
+                            .panel.panel-default
+                              .panel-heading
+                                %h4= t('case_notes.index.goal')
+                              .panel-body.no-padding
+                                %ul.list-group
+                                  - list_goals.flatten.each_with_index do |goal, index|
+                                    %li.list-group-item
+                                      = "#{index + 1}. "
+                                      = goal
+                        - if cdg.completed_tasks.any?
+                          .col-xs-12.col-sm-6
+                            .panel.panel-default
+                              .panel-heading
+                                %h4= t('case_notes.index.completed_tasks')
+                              .panel-body.no-padding
+                                %ul.list-group
+                                  - cdg.completed_tasks.each_with_index do |task, index|
+                                    %li.list-group-item
+                                      = "#{index + 1}. "
+                                      = task.name
+
+                        - the_latest_tasks = today_tasks.flatten.uniq
+                        - if the_latest_tasks.present?
+                          .col-xs-12.col-sm-6
+                            .panel.panel-default
+                              .panel-heading
+                                %h4= t('tasks.task_added')
+                              .panel-body.no-padding
+                                %ul.list-group
+                                  - the_latest_tasks.each_with_index do |task, index|
+                                    %li.list-group-item
+                                      = "#{index + 1}. "
+                                      = task.name
+
+                        - ongoing_tasks = case_note_ongoing_tasks(ongoing_tasks)
+                        - if ongoing_tasks.present?
+                          .col-xs-12.col-sm-6
+                            .panel.panel-default
+                              .panel-heading
+                                %h4= t('case_notes.form.on_going_tasks')
+                              .panel-body.no-padding
+                                %ul.list-group
+                                  - ongoing_tasks.each_with_index do |task, index|
+                                    %li.list-group-item
+                                      = "#{index + 1}. "
+                                      = task.name
+
+
+              .row
+                - file_names = case_note.case_note_domain_groups.pluck(:attachments).reject(&:blank?)
+                - case_note.case_note_domain_groups.each do |cdg|
+                  - next if cdg.attachments.blank?
+                  - attachment_names = cdg.attachments.map{|a| a.file.path.split('/').last }
+                  - next if file_names.exclude? attachment_names
+                  - file_names.delete(attachment_names)
+                  .col-xs-12.col-sm-6
+                    .panel.panel-default
+                      .panel-heading
+                        %h4= t('case_notes.index.attachments')
+                      .panel-body
+                        = render 'attachment', cdg: cdg
+      .ibox-footer
+        .text-center
+          = paginate @case_notes

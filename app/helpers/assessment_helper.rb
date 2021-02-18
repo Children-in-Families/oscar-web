@@ -76,17 +76,21 @@ module AssessmentHelper
     definition.present? ? simple_format(definition) : score
   end
 
-  def get_domains(cd, custom_assessment_setting_id=nil)
+  def get_domains(case_note_domain, custom_assessment_setting_id=nil)
     if params[:custom] == 'true'
-      cd.object.domain_group.custom_domain_identities(custom_assessment_setting_id)
+      if case_note_domain.object.family_id
+        case_note_domain.object.domain_group.family_custom_domain_identities
+      else
+        case_note_domain.object.domain_group.custom_domain_identities(custom_assessment_setting_id)
+      end
     else
-      cd.object.domain_group.default_domain_identities(custom_assessment_setting_id)
+      case_note_domain.object.domain_group.default_domain_identities(custom_assessment_setting_id)
     end
   end
 
-  def completed_initial_assessment?(type)
-    return true if eval("@client.assessments.#{type}.count") == 0
-    eval("@client.assessments.#{type}.order(created_at: :asc).first.completed")
+  def completed_initial_assessment?(type, obj = 'client')
+    return true if eval("@#{obj}.assessments.#{type}.count") == 0
+    eval("@#{obj}.assessments.#{type}.order(created_at: :asc).first.completed")
   end
 
   def domain_translation_header(ad)
@@ -306,7 +310,7 @@ module AssessmentHelper
   end
 
   def domain_name_translate(assessment, domain)
-    if assessment.default
+    if assessment.default && assessment.client_id?
       t("domains.domain_names.#{domain.name.downcase.reverse}")
     else
       domain.name

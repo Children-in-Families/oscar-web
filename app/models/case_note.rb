@@ -1,8 +1,9 @@
 class CaseNote < ActiveRecord::Base
-  INTERACTION_TYPE = ['Visit', 'Non face to face', '3rd Party','Supervision','Other'].freeze
+  INTERACTION_TYPE = ['Visit', 'Non face to face', '3rd Party', 'Supervision', 'Other'].freeze
   paginates_per 1
 
   belongs_to :client
+  belongs_to :family
   belongs_to :assessment
   belongs_to :custom_assessment_setting, required: false
   has_many   :case_note_domain_groups, dependent: :destroy
@@ -25,6 +26,10 @@ class CaseNote < ActiveRecord::Base
   before_create :set_assessment
 
   def populate_notes(custom_id, custom_case_note)
+    # family_domains = Domain.family_custom_csi_domains
+    # family_domains.where.not(id: domains.ids).each do |domain|
+    #   assessment_domains.build(domain: domain)
+    # end
     if custom_case_note == "true"
       custom_domain_setting = CustomAssessmentSetting.find(custom_id)
       return [] if custom_domain_setting.nil?
@@ -34,7 +39,7 @@ class CaseNote < ActiveRecord::Base
       end
     else
       domain_group_ids = Domain.csi_domains.where(custom_assessment_setting_id: nil).pluck(:domain_group_id).uniq
-      domain_group_ids.each do |domain_group_id|
+      DomainGroup.where.not(id: domain_groups.ids).where(id: domain_group_ids).ids.each do |domain_group_id|
         case_note_domain_groups.build(domain_group_id: domain_group_id)
       end
     end
@@ -42,11 +47,15 @@ class CaseNote < ActiveRecord::Base
 
   def complete_tasks(params)
     return if params.nil?
-    params.each do |_index, param|
+    params.each do |_, param|
+      next unless param[:domain_group_id]
       case_note_domain_group = case_note_domain_groups.find_by(domain_group_id: param[:domain_group_id])
       task_ids = param[:task_ids] || []
-      case_note_domain_group.tasks = Task.with_deleted.where(id: task_ids)
-      case_note_domain_group.tasks.with_deleted.set_complete
+      case_note_tasks = Task.with_deleted.where(id: task_ids)
+      next if case_note_tasks.reject(&:blank?).blank?
+
+      case_note_domain_group.tasks += case_note_tasks
+      case_note_domain_group.tasks.with_deleted.set_complete(self)
       case_note_domain_group.save
     end
   end
@@ -55,16 +64,22 @@ class CaseNote < ActiveRecord::Base
     where.not(meeting_date: nil).order(meeting_date: :desc).first
   end
 
+  def parent
+    family_id? ? family : client
+  end
+
   private
 
   def set_assessment
-    self.assessment = custom? ? client.assessments.custom_latest_record : client.assessments.default_latest_record
+    self.assessment = if custom?
+                        parent.assessments.custom_latest_record
+                      else
+                        client.assessments.default_latest_record
+                      end
   end
 
   def existence_domain_groups
-    if domain_groups.present? && selected_domain_group_ids.blank?
-      errors.add(:domain_groups, "#{I18n.t('domain_groups.form.domain_group')} #{I18n.t('cannot_be_blank')}")
-    end
+    errors.add(:domain_groups, "#{I18n.t('domain_groups.form.domain_group')} #{I18n.t('cannot_be_blank')}") if domain_groups.present? && selected_domain_group_ids.blank?
   end
 
   def enable_default_assessment?

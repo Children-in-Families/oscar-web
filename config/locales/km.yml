@@ -673,8 +673,10 @@ km:
       previous: ទំព័រមុន
       reason: ការសង្កេត
       reason_placeholder: បញ្ចូលការសង្កេតរបស់អ្នកទៅលើស្ថានភាពរបស់អតិថិជនដោយផ្អែកលើអ្វីដែលអ្នកបានឃើញហើយត្រូវបានប្រាប់ដោយអតិថិជននិងគ្រួសាររបស់ពួកគេ។
+      reason_placeholder_family: បញ្ចូលការសង្កេតរបស់អ្នកទៅលើស្ថានភាពរបស់គ្រួសារដោយផ្អែកលើអ្វីដែលអ្នកបានឃើញហើយត្រូវបានប្រាប់ដោយអតិថិជននិងគ្រួសាររបស់ពួកគេ។
       save: រក្សាទុក
       score_label: ជ្រើសរើសការពិពណ៌នាខាងក្រោមណាមួយដែលរៀបរាប់យ៉ាងដិតដល់អំពីស្ថានភាពរបស់អតិថិជនដោយផ្អែកលើការសង្កេតរបស់អ្នក។
+      score_label_family: ជ្រើសរើសការពិពណ៌នាខាងក្រោមណាមួយដែលរៀបរាប់យ៉ាងដិតដល់អំពីស្ថានភាពរបស់គ្រួសារដោយផ្អែកលើការសង្កេតរបស់អ្នក។
       set_goal: តើអ្នកចង់កំណត់គោលដៅទេ?
       tasks_arising: កាតព្វកិច្ចកើតឡើង៖
     incomplete_detail:
@@ -696,8 +698,10 @@ km:
       previous: ទំព័រមុន
       reason: ការសង្កេត
       reason_placeholder: បញ្ចូលការសង្កេតរបស់អ្នកទៅលើស្ថានភាពរបស់អតិថិជនដោយផ្អែកលើអ្វីដែលអ្នកបានឃើញហើយត្រូវបានប្រាប់ដោយអតិថិជននិងគ្រួសាររបស់ពួកគេ។
+      reason_placeholder_family: បញ្ចូលការសង្កេតរបស់អ្នកទៅលើស្ថានភាពរបស់គ្រួសារដោយផ្អែកលើអ្វីដែលអ្នកបានឃើញហើយត្រូវបានប្រាប់ដោយអតិថិជននិងគ្រួសាររបស់ពួកគេ។
       save: រក្សាទុក
       score_label: ជ្រើសរើសការពិពណ៌នាខាងក្រោមណាមួយដែលរៀបរាប់យ៉ាងដិតដល់អំពីស្ថានភាពរបស់អតិថិជនដោយផ្អែកលើការសង្កេតរបស់អ្នក។
+      score_label_family: ជ្រើសរើសការពិពណ៌នាខាងក្រោមណាមួយដែលរៀបរាប់យ៉ាងដិតដល់អំពីស្ថានភាពរបស់គ្រួសារដោយផ្អែកលើការសង្កេតរបស់អ្នក។
       set_goal: តើអ្នកចង់កំណត់គោលដៅទេ?
       tasks_arising: កាតព្វកិច្ចកើតឡើង៖
     index:
@@ -853,6 +857,53 @@ km:
   cannot_be_lower: មិនអាចតូចជាង %{count}
   cannot_remove: មិនអាចលុបបានទេ
   cannot_remove_or_update: មិនអាចលុបរឺកែសម្រួលបានទេដោយសារតែត្រូវបានប្រើរួចហើយ
+  care_plans:
+    create:
+      successfully_created: គម្រោងថែរក្សាត្រូវបានបង្កើតដោយជោគជ័យ
+    destroy:
+      successfully_deleted: គម្រោងថែរក្សាត្រូវបានកែសម្រួលដោយជោគជ័យ
+    form:
+      add_goal: បន្ថែមគោលដៅ
+      cancel: ទុកជាមោឃៈ
+      domain: កត្តា
+      expected_date: កំណត់កាលបរិច្ឆេទ
+      finish: រក្សាទុក
+      goal: គោលដៅ
+      next: បន្ទាប់
+      previous: ត្រឡប់
+      required_message: អ្នកត្រូវបង្កើតយ៉ាងតិចណាស់១គោលដៅ និងមួយកាតព្វកិច្ច
+      save: រក្សាទុក
+      score_from_assessment: ពិន្ទុកត្តាការប៉ាន់ប្រមាណ
+      scoring_statement: សេចក្តីថ្លែងការណ៍ពិន្ទុ
+      task: កាតព្វកិច្ច
+    goal_fields:
+      add_task: បន្ថែមកាតព្វកិច្ច
+      remove_goal: លុបគោលដៅ
+    index:
+      assessment_created_on: "%{assessment}ដែលបានបង្កើត"
+      back: ត្រឡប់
+      care_plan_created_on: គម្រោងថែទាំត្រូវបានបង្កើត
+      care_plan_history: ប្រវត្តិគម្រោងថែរក្សា
+      new_care_plan: បង្កើតគម្រោងថែរក្សាថ្មី
+      review_care_plan: ពិនិត្យមើលគម្រោងថែរក្សា
+    show:
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+      back: ត្រឡប់
+      based_on: ដោយផ្អែកលើការប៉ាន់ប្រមាណលេខ
+      care_plan: គម្រោងរក្សាសម្រាប់
+      care_plan_created_by: បង្កើតដោយ
+      dimensions: មាត្រដ្ឋាន
+      domain: កត្តា
+      done_during: បានបំពេញ
+      due_date: កាលបរិច្ឆេទ
+      edit: កែសម្រូល
+      expected_date: កំណត់កាលបរិច្ឆេទ
+      goal: គោលដៅ
+      on_date: 'កាលបរិច្ឆេទ:'
+      score: ពិន្ទុ
+      task: កាតព្វកិច្ច
+    update:
+      successfully_updated: គម្រោងថែរក្សាត្រូវបានកែសម្រួលដោយជោគជ័យ
   case:
     quarterly_reports:
       index:
@@ -3892,6 +3943,15 @@ km:
   families:
     actions:
       are_you_sure: តើអ្នកប្រាកដហើយថាចង់លុប?
+    assessments:
+      create:
+        successfully_created: ការប៉ាន់ប្រមាណត្រូវបានបង្កើតដោយជោគជ័យ
+      destroy:
+        fail_delete_attachment: បានបរាជ័យក្នុងការលុបឯកសារភ្ជាប់
+        successfully_deleted: ឯកសារភ្ជាប់ត្រូវបានកែសម្រួលដោយជោគជ័យ
+        successfully_deleted_assessment: ការប៉ាន់ប្រមាណត្រូវបានលុបដោយជោគជ័យ។
+      update:
+        successfully_updated: ការប៉ាន់ប្រមាណត្រូវបានកែសម្រួលដោយជោគជ័យ
     case_history_detail:
       accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
       family: ឈ្មោះគ្រួសារ
@@ -4004,6 +4064,8 @@ km:
       address: ឣាសយដ្ឋាន
       adult_name: ឈ្មោះមនុស្សពេញវ័យដែលរស់នៅក្នុងផ្ទះជាមួយគ្នា
       are_you_sure: តើអ្នកប្រាកដហើយ?
+      assessment: ការប៉ាន់ប្រមាណ
+      care_plan: គម្រោងរក្សា
       caregiver_information: ព័ត៌មាននៃអ្នកថែទាំ
       case_histories: ប្រវត្តិនៃករណី
       case_history: ប្រវត្តិគ្រួសារ
@@ -4049,6 +4111,30 @@ km:
       status: ស្ថានភាព
       street: ផ្លូវ
       'yes': បាទ/ចាស
+      view_tasks: កាតព្វកិច្ច
+    tasks:
+      create:
+        successfully_created: កាតព្វកិច្ចត្រូវបានបង្កើតដោយជោគជ័យ
+      destroy:
+        successfully_deleted: កាតព្វកិច្ចត្រូវបានលុបដោយជោគជ័យ
+      form:
+        back: ត្រលប់ក្រោយ
+        completion_date: ថ្ងៃកំនត់
+        domain: កត្តា
+        enter_task_detail: កាតព្វកិច្ចលំអិត
+        save: រក្សាទុក
+      index:
+        add_all_to_calendar: បន្ថែមកាតព្វកិច្ចទាំងអស់ទៅប្រតិទិន
+        add_to_calendar: បន្ថែមកាតព្វកិច្ចទៅប្រតិទិន
+        are_you_sure_you_want_to_delete: តើអ្នកប្រាកដហើយ?
+        back: ត្រលប់ក្រោយ
+        domain: កត្តា
+        new_task: កាតព្វកិច្ចថ្មី
+        overdue_tasks: កាតព្វកិច្ចផុតកំណត់
+        today_tasks: កាតព្វកិច្ចថ្ងៃនេះ
+        upcoming_tasks: កាតព្វកិច្ចបន្ទាប់
+      update:
+        successfully_updated: កាតព្វកិច្ចត្រូវបានកែសម្រួលដោយជោគជ័យ
     update:
       not_allowed_to_detach_clients: អ្នកមិនអាចយកអតិថិជនចេញពីគ្រួសារតាមទម្រង់នេះបានទេ
       successfully_updated: គ្រួសារត្រូវបានកែសម្រួលដោយជោគជ័យ
@@ -5861,6 +5947,8 @@ km:
     update:
       successfully_updated: ការស្ទង់មតិត្រូវបានកែសម្រួលដោយជោគជ័យ
   tasks:
+    completion_date: ថ្ងៃកំណត់
+    expected_date: កំណត់កាលបរិច្ឆេទ
     filter:
       filter_by_user: ស្វែងរកតាមរយៈអ្នកប្រើប្រាស់
       select_user: ជ្រើសរើស
