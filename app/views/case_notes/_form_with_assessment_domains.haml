@@ -32,4 +32,4 @@
               - if assessment_domain.present? && assessment_domain.goal?
                 = assessment_domain.goal
 
-            = render 'tasks_list', { domain_note: domain_note, domain: domain, tasks: tasks, case_note_domain_group_id: domain_note.object.id }
+            = render 'tasks_list', { domain_note: domain_note, domain: domain, tasks: tasks }
