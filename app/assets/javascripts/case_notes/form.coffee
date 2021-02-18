@@ -131,8 +131,8 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
       taskDate = $('#task_completion_date').val()
 
       if taskName.length > 0 && taskDate.length > 0
-        CaseNoteDomainGroupId = $("#tasks-domain-#{domainId}").data('case-note-domain-group-id')
-        _addElementToDom(taskName, taskDate, domainId, relation, actionUrl, CaseNoteDomainGroupId)
+        DomainGroupId = $("#tasks-domain-#{domainId}").data('domain-group-identity')
+        _addElementToDom(taskName, taskDate, domainId, relation, actionUrl, DomainGroupId)
         $('.add-task-btn').removeAttr('disabled')
         $('#tasksFromModal').modal('hide')
         _hideShowOnGoingTaskLable()
@@ -142,7 +142,7 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
         $('.add-task-btn').removeAttr('disabled')
 
 
-  _addElementToDom = (taskName, taskDate, domainId, relation, actionUrl, case_note_domain_group_id = null) ->
+  _addElementToDom = (taskName, taskDate, domainId, relation, actionUrl, domain_group_identity = null) ->
     appendElement  = $(".domain-#{domainId} .task-arising");
     deleteUrl      = undefined
     element        = undefined
@@ -151,7 +151,7 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
     deleteLink     = "<a class='pull-right remove-task fa fa-trash btn btn-outline btn-danger btn-xs' href='javascript:void(0)' data-url='#{deleteUrl}' style='margin: 0;'></a>" if $('#current_user').val() == 'admin'
     taskNameOrign  = taskName
     taskName       = taskName.replace(/,/g, '&#44;').replace(/'/g, 'apos').replace(/"/g, 'qout')
-    taskObj        = { name: taskName, expected_date: taskDate, domain_id: domainId, relation: relation, casenote_domain_group_id: case_note_domain_group_id }
+    taskObj        = { name: taskName, expected_date: taskDate, domain_id: domainId, relation: relation, domain_group_identity: domain_group_identity }
     taskObj        = JSON.stringify(taskObj)
     element        = "<li class='list-group-item' style='padding-bottom: 11px;'>#{taskNameOrign}#{deleteLink} <input name='task[]' type='hidden' value='#{taskObj}'></li>"
 
