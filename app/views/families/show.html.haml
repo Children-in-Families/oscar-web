@@ -89,16 +89,6 @@
               - ngos.each do |value, key|
                 %li= link_to value, new_family_family_referral_url(@family, ngo: key, external_ngo_name: key == 'external referral' && value), :class => 'target-ngo', :value => "#{key}", :id => "#{key}"
 
-        - if can? :manage, CustomFieldProperty
-          .btn-group.small-btn-margin
-            %button.btn-sm.btn.btn-success.dropdown-toggle.btn-fit{ data: { toggle: "dropdown", trigger: 'hover', html: 'true', content: "#{I18n.t('inline_help.families.show.add_form')}", placement: "auto" }, class: ('disabled' if @free_family_forms.empty?) }
-              = t('.add_form')
-              %span.caret
-            %ul.dropdown-menu.scrollable-dropdown-menu
-              - @free_family_forms.each do |custom_field|
-                %li
-                  %p= link_to custom_field.form_title, new_family_custom_field_property_path(@family, custom_field_id: custom_field)
-
         = link_to family_tasks_path(@family), data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.clients.show.tasks')}", placement: "auto" } do
           %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit
             %strong.count-margin= @family.tasks.incomplete.count
