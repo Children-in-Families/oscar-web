@@ -144,7 +144,7 @@ module CaseNoteHelper
   end
 
   def list_today_tasks(cdg, case_note)
-    Task.where(case_note_id: case_note.id.to_s, casenote_domain_group_id: cdg.id.to_s).where.not(id: case_note.tasks.completed.ids)
+    Task.where(case_note_id: case_note.id.to_s, domain_group_identity: cdg.domain_group_id.to_s).where.not(id: case_note.tasks.completed.ids).distinct
   end
 
   def case_note_ongoing_tasks(tasks)
