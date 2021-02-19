@@ -17,7 +17,7 @@
             .row
               .col-xs-12
                 %table.table.table-bordered
-                  - @tasks.incomplete.overdue.each do |task|
+                  - (@tasks.incomplete.overdue.presence || @tasks.incomplete.overdue_completed_date).each do |task|
                     %tr
                       %td.text-middle
                         = "#{t('.domain')}:"
@@ -45,7 +45,7 @@
             .row
               .col-xs-12
                 %table.table.table-bordered
-                  - @tasks.incomplete.today.each do |task|
+                  - (@tasks.incomplete.today.presence || @tasks.incomplete.today_completed_date).each do |task|
                     %tr
                       %td.text-middle
                         = "#{t('.domain')}:"
@@ -72,7 +72,7 @@
             .row
               .col-xs-12
                 %table.table.table-bordered
-                  - @tasks.incomplete.upcoming.each do |task|
+                  - (@tasks.incomplete.upcoming.presence || @tasks.incomplete.upcoming_completed_date).each do |task|
                     %tr
                       %td.text-middle
                         = "#{t('.domain')}:"

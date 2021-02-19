@@ -22,7 +22,7 @@
                           = new_link
                       - if @custom_assessment_settings.present?
                         - @custom_assessment_settings.each do |cs|
-                          - if cs.domains.any?
+                          - if cs.domains.any? && Domain.custom_csi_domain_setting(cs.id).present?
                             %li
                               = link_to new_client_case_note_path(@client, default: false, custom_name: cs.custom_assessment_name), class: 'btn btn-default custom-assessment-link' do
                                 = new_custom_link(cs.custom_assessment_name)
