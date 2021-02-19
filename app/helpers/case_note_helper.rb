@@ -120,6 +120,7 @@ module CaseNoteHelper
         list_goals << assessment_domain.goal
       end
     end
+
     today_tasks << list_today_tasks(cdg, case_note)
 
     [list_goals, ongoing_tasks, today_tasks]

@@ -19,11 +19,12 @@ class Domain < ActiveRecord::Base
 
   default_scope { order('domain_group_id ASC, name ASC') }
 
-  scope :assessment_domains_by_assessment_id, ->(id) { joins(:assessment_domains).where('assessment_domains.assessment_id = ?', id) }
+  scope :assessment_domains_by_assessment_id, ->(ass_id) { joins(:assessment_domains).where('assessment_domains.assessment_id = ?', ass_id) }
   scope :order_by_identity, -> { order(:identity) }
   scope :client_domians, -> { where(domain_type: 'client') }
   scope :csi_domains, -> { where(domain_type: 'client', custom_domain: false) }
   scope :custom_csi_domains, -> { where(domain_type: 'client', custom_domain: true) }
+  scope :custom_csi_domain_setting, ->(cas_id) { where(domain_type: 'client', custom_domain: true, custom_assessment_setting_id: cas_id) }
   scope :custom_domains, -> { where(custom_domain: true) }
   scope :family_custom_csi_domains, -> { where(domain_type: 'family', custom_domain: true) }
 
