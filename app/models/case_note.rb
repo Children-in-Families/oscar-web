@@ -54,7 +54,7 @@ class CaseNote < ActiveRecord::Base
       case_note_tasks = Task.with_deleted.where(id: task_ids)
       next if case_note_tasks.reject(&:blank?).blank?
 
-      case_note_domain_group.tasks += case_note_tasks
+      case_note_domain_group.tasks << case_note_tasks
       case_note_domain_group.tasks.with_deleted.set_complete(self)
       case_note_domain_group.save
     end
