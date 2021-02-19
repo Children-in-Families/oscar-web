@@ -91,7 +91,7 @@
                       = select_tag "", tag_domain_group(case_note), multiple: true, disabled: true
               - case_note.case_note_domain_groups.where(domain_group_id: case_note.selected_domain_group_ids.map(&:to_i)).each do |cdg|
                 - list_goals, ongoing_tasks, today_tasks = list_goals_and_tasks(cdg, case_note)
-                - if cdg.completed_tasks.any? || list_goals.present? || ongoing_tasks.flatten.present?
+                - if list_goals.present? || today_tasks.flatten.any? || cdg.completed_tasks.any?
                   .ibox.border-left-right.border-bottom
                     .ibox-title
                       - custom_assessment_setting_id = find_custom_assessment_setting_id(cdg, case_note)
