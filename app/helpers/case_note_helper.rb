@@ -122,7 +122,6 @@ module CaseNoteHelper
     end
 
     today_tasks << list_today_tasks(cdg, case_note)
-
     [list_goals, ongoing_tasks, today_tasks]
   end
 
