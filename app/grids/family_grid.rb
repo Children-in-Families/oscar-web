@@ -157,7 +157,8 @@ class FamilyGrid < BaseGrid
       district_id: :address,
       province_id: :address,
       manage: :aggregrate,
-      changelo: :aggregrate
+      changelo: :aggregrate,
+      active_families: :general
     }[filter_name]
   end
 
@@ -282,9 +283,8 @@ class FamilyGrid < BaseGrid
     render partial: 'families/active_family_enrollments', locals: { active_programs: family_enrollments }
   end
 
-  column(:program_streams, html: true, order: false, header: -> { I18n.t('datagrid.columns.families.program_streams') }) do |object, a, b, c|
-    family_enrollments = family_program_stream_name(object.enrollments.active, 'active_program_stream')
-    render partial: 'families/active_family_enrollments', locals: { active_programs: family_enrollments }
+  column(:direct_beneficiaries, header: -> { I18n.t('datagrid.columns.families.direct_beneficiaries') }) do |object|
+    object.member_count
   end
 
   dynamic do

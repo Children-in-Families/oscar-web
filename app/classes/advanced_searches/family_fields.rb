@@ -33,7 +33,7 @@ module AdvancedSearches
     end
 
     def date_type_list
-      ['contract_date']
+      ['contract_date', 'active_families']
     end
 
     def drop_down_type_list

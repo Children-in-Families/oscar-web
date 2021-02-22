@@ -75,6 +75,14 @@ class CommunityGrid < BaseGrid
     object.province_name
   end
 
+  column(:direct_beneficiaries, header: -> { Community.human_attribute_name(:direct_beneficiaries) }) do |object|
+    object.direct_beneficiaries
+  end
+
+  column(:indirect_beneficiaries, header: -> { Community.human_attribute_name(:indirect_beneficiaries) }) do |object|
+    object.indirect_beneficiaries
+  end
+
   dynamic do
     next unless dynamic_columns.present?
     dynamic_columns.each do |column_builder|

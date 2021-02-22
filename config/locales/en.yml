@@ -425,6 +425,7 @@ en:
     fields:
       able: Able
       able_state: Able State
+      active_clients: Active Clients in Specific Period
       active_program_stream: Active Program Stream
       address: Address
       age: Age
@@ -2754,6 +2755,7 @@ en:
         house_number: House
         id: ID
         id_poor: ID Poor
+        indirect_beneficiaries: Indirect Beneficiaries
         initial_referral_date: Initial Referral Date
         kid_id: Custom ID Number2
         lesotho: Lesotho
@@ -2854,6 +2856,7 @@ en:
       exit_note: NGO Exit Note
       exit_reasons: Reason For Exit
       families:
+        active_families: Active Families in Specific Period
         address: Address
         caregiver_information: Caregiver Information
         case_history: Case History
@@ -2866,6 +2869,7 @@ en:
         contract_date: Contract Date
         date_of_birth: Date of Birth
         dependable_income: Dependable Income
+        direct_beneficiaries: Direct Beneficiaries
         district: District
         family: Family
         family_preservation: Family Preservation?

@@ -127,7 +127,7 @@ class SettingsController < AdminController
   def client_default_columns
     columns = []
     sub_columns = %w(time_in_cps_ time_in_ngo_ rejected_note_ exit_reasons_ exit_circumstance_ other_info_of_exit_ exit_note_ what3words_ main_school_contact_ rated_for_id_poor_ name_of_referee_
-      family_ family_id_ case_note_date_ case_note_type_ date_of_assessments_ assessment_completed_date_ all_csi_assessments_ date_of_custom_assessments_ all_custom_csi_assessments_ manage_ changelog_ type_of_service_)
+      family_ family_id_ case_note_date_ case_note_type_ date_of_assessments_ assessment_completed_date_ all_csi_assessments_ date_of_custom_assessments_ all_custom_csi_assessments_ manage_ changelog_ type_of_service_ indirect_beneficiaries_)
     sub_columns += Client::HOTLINE_FIELDS.map{ |field| "#{field}_" }
     sub_columns += Call::FIELDS.map{ |field| "#{field}_" }
     filter_columns = ClientGrid.new.filters.map(&:name).select{ |field_name| policy(Client).show?(field_name) }
@@ -147,7 +147,7 @@ class SettingsController < AdminController
 
   def family_default_columns
     columns = []
-    sub_columns = %w(member_count_ clients_ case_workers_ case_note_date_ case_note_type_ assessment_completed_date_ date_of_custom_assessments_ all_custom_csi_assessments_ manage_ changelog_)
+    sub_columns = %w(member_count_ clients_ case_workers_ case_note_date_ case_note_type_ assessment_completed_date_ date_of_custom_assessments_ all_custom_csi_assessments_ manage_ changelog_ direct_beneficiaries_)
     columns = FamilyGrid.new.filters.map{|f| "#{f.name.to_s}_" }
     Domain.family_custom_csi_domains.order_by_identity.each do |domain|
       columns << "#{domain.convert_custom_identity}_"

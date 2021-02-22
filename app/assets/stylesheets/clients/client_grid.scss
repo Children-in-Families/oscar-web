@@ -64,7 +64,7 @@ body[id='client_advanced_searches-index'] {
     th.case_note_date, th.case_note_type, th.plot, th.road, th.postal_code,
     th.time_in_care, th.time_in_cps, th.time_in_ngo, th.referee_name, th.referee_phone, th.referee_email,
     th.carer_name, th.carer_phone, th.carer_email, th.phone_owner,
-    th.client_contact_phone, th.address_type, th.client_email, th.client_address_type {
+    th.client_contact_phone, th.address_type, th.client_email, th.client_address_type, th.indirect_beneficiaries {
       min-width: 150px;
     }
 

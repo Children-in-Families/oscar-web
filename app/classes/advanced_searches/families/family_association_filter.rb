@@ -30,6 +30,8 @@ module AdvancedSearches
           values = date_of_completed_assessments_query(nil)
         when 'date_of_custom_assessments'
           values = date_of_assessments_query(false)
+        when 'active_families'
+          values = get_active_families
         end
         { id: sql_string, values: values }
       end
@@ -132,31 +134,27 @@ module AdvancedSearches
         families.ids
       end
 
-      def date_of_completed_assessments_query(type)
-        if type.nil?
-          families = @families.joins(:assessments).where(assessments: { completed: true })
-        else
-          families = @families.joins(:assessments).where(assessments: { completed: true, default: type })
-        end
+      def get_active_families
+        families = @families.joins(:enrollments).where(:enrollments => {:status => 'Active'})
         case @operator
         when 'equal'
-          families = families.where('date(assessments.created_at) = ?', @value.to_date)
+          families = families.where('date(enrollments.enrollment_date) = ?', @value.to_date)
         when 'not_equal'
-          families = families.where('date(assessments.created_at) != ? OR assessments.created_at IS NULL', @value.to_date)
+          families = families.where('date(enrollments.enrollment_date) != ?', @value.to_date)
         when 'less'
-          families = families.where('date(assessments.created_at) < ?', @value.to_date)
+          families = families.where('date(enrollments.enrollment_date) < ?', @value.to_date)
         when 'less_or_equal'
-          families = families.where('date(assessments.created_at) <= ?', @value.to_date)
+          families = families.where('date(enrollments.enrollment_date) <= ?', @value.to_date)
         when 'greater'
-          families = families.where('date(assessments.created_at) > ?', @value.to_date)
+          families = families.where('date(enrollments.enrollment_date) > ?', @value.to_date)
         when 'greater_or_equal'
-          families = families.where('date(assessments.created_at) >= ?', @value.to_date)
+          families = families.where('date(enrollments.enrollment_date) >= ?', @value.to_date)
         when 'between'
-          families = families.where('date(assessments.created_at) BETWEEN ? AND ? ', @value[0].to_date, @value[1].to_date)
+          families = families.where('date(enrollments.enrollment_date) BETWEEN ? AND ?', @value[0].to_date, @value[1].to_date)
         when 'is_empty'
-          families = Family.includes(:assessments).where(assessments: { completed: true, created_at: nil })
+          families = families.where('date(enrollments.enrollment_date) IS NULL')
         when 'is_not_empty'
-          families = families.where.not(assessments: { created_at: nil })
+          families = families.where('date(enrollments.enrollment_date) IS NOT NULL')
         end
         families.ids
       end

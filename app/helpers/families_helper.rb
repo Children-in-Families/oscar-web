@@ -89,6 +89,7 @@ module FamiliesHelper
       program_streams:                          t('datagrid.columns.families.program_streams'),
       program_enrollment_date:                  t('datagrid.columns.clients.program_enrollment_date'),
       program_exit_date:                        t('datagrid.columns.clients.program_exit_date'),
+      direct_beneficiaries_:                    t('datagrid.columns.families.direct_beneficiaries'),
       **additional_columns
     }
     label_tag "#{column}_", label_column[column.to_sym]
@@ -126,6 +127,7 @@ module FamiliesHelper
       name_:                                     t('datagrid.columns.families.name'),
       significant_family_member_count_:          t('datagrid.columns.families.significant_family_member_count'),
       program_streams_:                          t('datagrid.columns.families.program_streams'),
+      direct_beneficiaries_:                     t('datagrid.columns.families.direct_beneficiaries'),
       **additional_columns
     }
     label_tag "#{column}_", label_column[column.to_sym]
@@ -251,5 +253,23 @@ module FamiliesHelper
 
   def family_saved_search_column_visibility(field_key)
     default_setting(field_key, @default_columns) || params[field_key.to_sym].present? || (@visible_fields && @visible_fields[field_key]).present?
+  end
+
+  def family_header_counter(grid, column)
+    count = 0
+    if datagrid_column_classes(grid, column) == 'direct_beneficiaries'
+      @families.each do |family|
+        count += family.member_count
+      end
+    end
+
+    if count > 0
+      class_name = column.name.to_s
+      [column.header.truncate(65),
+        content_tag(:span, count, class: 'label label-info')
+      ].join(' ').html_safe
+    else
+      column.header.truncate(65)
+    end
   end
 end

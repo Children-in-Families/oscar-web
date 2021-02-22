@@ -41,7 +41,8 @@ class FamilyColumnsVisibility
       male_adult_count_: :male_adult_count,
       gender_: :gender,
       date_of_birth_: :date_of_birth,
-      program_streams_: :program_streams
+      program_streams_: :program_streams,
+      direct_beneficiaries_: :direct_beneficiaries
     }
   end
 

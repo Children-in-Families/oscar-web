@@ -92,6 +92,8 @@ module AdvancedSearches
         values = referee_relationship_query
       when /protection_concern_id|necessity_id/
         values = protection_concern_and_necessity(@field)
+      when 'active_clients'
+        values = active_clients_query
       end
       { id: sql_string, values: values }
     end
@@ -973,6 +975,32 @@ module AdvancedSearches
       sql          = query_string.reject(&:blank?).map{|query| "(#{query})" }.join(" #{@basic_rules[:condition]} ")
 
       client_ids = Client.includes(calls: klass_name.to_sym).where(sql).references(calls: klass_name.to_sym).distinct.ids
+    end
+
+    def active_clients_query
+      clients = @clients.joins(:client_enrollments).where(:client_enrollments => {:status => 'Active'}).distinct
+
+      case @operator
+      when 'equal'
+        client_ids = clients.where('date(client_enrollments.enrollment_date) = ?', @value.to_date ).distinct.ids
+      when 'not_equal'
+        client_ids = clients.where('date(client_enrollments.enrollment_date) != ?', @value.to_date ).distinct.ids
+      when 'between'
+        client_ids = clients.where('date(client_enrollments.enrollment_date) BETWEEN ? AND ?', @value[0].to_date, @value[1].to_date ).distinct.ids
+      when 'less'
+        client_ids = clients.where('date(client_enrollments.enrollment_date) < ?', @value.to_date ).distinct.ids
+      when 'less_or_equal'
+        client_ids = clients.where('date(client_enrollments.enrollment_date) <= ?', @value.to_date ).distinct.ids
+      when 'greater'
+        client_ids = clients.where('date(client_enrollments.enrollment_date) > ?', @value.to_date ).distinct.ids
+      when 'greater_or_equal'
+        client_ids = clients.where('date(client_enrollments.enrollment_date) >= ?', @value.to_date ).distinct.ids
+      when 'is_empty'
+        client_ids = clients.where('client_enrollments.enrollment_date IS NULL').distinct.ids
+      when 'is_not_empty'
+        client_ids = clients.where('client_enrollments.enrollment_date IS NOT NULL').distinct.ids
+      end
+      clients = client_ids.present? ? client_ids : []
     end
   end
 end

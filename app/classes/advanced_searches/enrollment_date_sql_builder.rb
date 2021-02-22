@@ -1,6 +1,6 @@
 module AdvancedSearches
   class EnrollmentDateSqlBuilder
-     def initialize(program_stream_id, rule)
+    def initialize(program_stream_id, rule)
       @program_stream_id = program_stream_id
       @operator = rule['operator']
       @value    = rule['value']

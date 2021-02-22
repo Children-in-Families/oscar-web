@@ -137,6 +137,11 @@
 
           %li
             .visibility.col-sm-12
+              = check_box_tag 'indirect_beneficiaries_', 'indirect_beneficiaries', checked = saved_search_column_visibility('indirect_beneficiaries_'), class: 'i-checks'
+              = label_tag 'indirect_beneficiaries_', t('datagrid.columns.clients.indirect_beneficiaries')
+
+          %li
+            .visibility.col-sm-12
               = check_box_tag 'rejected_note_', 'rejected_note', checked = saved_search_column_visibility('rejected_note_'), class: 'i-checks'
               = label_tag 'rejected_note_', t('datagrid.columns.rejected_note')
           %li
@@ -358,6 +363,10 @@
                 = label_tag 'case_note_type_', t('datagrid.columns.case_note_type')
             = render partial: 'datagrid/family_custom_domain_score', locals: { custom_domains: Domain.family_custom_csi_domains.order_by_identity }
 
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'direct_beneficiaries_', 'direct_beneficiaries', checked = default_setting('direct_beneficiaries_', @default_columns) || params[:direct_beneficiaries_].present?, class: 'i-checks'
+              = label_tag 'direct_beneficiaries_', t('datagrid.columns.families.direct_beneficiaries')
           %li.divider.col-xs-12
           %li
             .visibility.col-sm-12

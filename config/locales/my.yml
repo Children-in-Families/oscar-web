@@ -423,6 +423,7 @@ my:
     fields:
       able: Able
       able_state: Able အေနအထား
+      active_clients: Active Clients
       active_program_stream: အစီအမံစီဆင္းမႈ
       address: လိပ္စာ
       age: အသက္
@@ -2727,6 +2728,7 @@ my:
         house_number: အိမ္နံပါတ္
         id: မွတ္ပံုတင္
         id_poor: လူဆင္းရဲ မွတ္ပံုတင္
+        indirect_beneficiaries: သွယ်ဝိုက်အကျိုးခံစားခွင့်ရှိသူများ
         initial_referral_date: ကနဦးလြဲေျပာင္းမႈ ရက္စြဲ
         kid_id: Custom ID Number2
         lesotho: လက္ဆူးသူႏိုင္ငံ
@@ -2849,6 +2851,7 @@ my:
       exit_note: ထြက္သည့္မွတ္စု
       exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
       families:
+        active_families: Active Families in Specific Period
         address: လိပ္စာ
         caregiver_information: ေစာင့္ေရွာက္သူ၏ အခ်က္အလက္
         case_history: အမႈသမိုင္း
@@ -2861,6 +2864,7 @@ my:
         contract_date: စာခ်ဳပ္ရက္စြဲ
         date_of_birth: ေမြးရက္၊ လ၊ ႏွစ္
         dependable_income: မွီခိုႏုိင္ေလာက္ေသာ ၀င္ေငြ
+        direct_beneficiaries: တိုက်ရိုက်အကျိုးခံစားခွင့်ရှိသူများ
         district: ခ႐ိုင္
         family: မိသားစု
         family_preservation: မိသားစု၏ ေစာင့္ေရွာက္မႈ ရွိပါသလား

@@ -1037,6 +1037,10 @@ class ClientGrid < BaseGrid
     cps_lists.join(", ")
   end
 
+  column(:indirect_beneficiaries, header: -> { I18n.t('datagrid.columns.clients.indirect_beneficiaries') }) do |object|
+    object.indirect_beneficiaries
+  end
+
   dynamic do
     if enable_default_assessment?
       column(:all_csi_assessments, header: -> { I18n.t('datagrid.columns.clients.all_csi_assessments', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|

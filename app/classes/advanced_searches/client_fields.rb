@@ -62,7 +62,7 @@ module AdvancedSearches
     def date_type_list
       [
         'date_of_birth', 'initial_referral_date', 'follow_up_date', 'exit_date', 'accepted_date',
-        'case_note_date', 'created_at', 'date_of_referral'
+        'case_note_date', 'created_at', 'date_of_referral', 'active_clients'
       ].compact
     end
 
