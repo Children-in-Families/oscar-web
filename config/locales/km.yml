@@ -115,18 +115,19 @@ km:
         documents: Upload Documents
         donor_ids: Donor
         formed_date: Date of Group/Community Formed
-        gender: Gender
+        gender: ភេទ
         id: Automatic ID
         initial_referral_date: NGO Accept Date
         name: Name (Khmer)
         name_en: Name (Latin)
-        phone_number: Phone Number
-        province_id: Province
-        received_by_id: Receiving Staff Member
+        phone_number: លេខទូរស័ព្ទ
+        province_id: ខេត្តបច្ចុប្បន្ន
+        received_by_id: បុគ្គលិកទទួលករណី
         relevant_information: Relevant Information
         representative_name: Represetative Name
         role: Role in the Group/Community
-        village_id: Village
+        status: ស្ថានភាព
+        village_id: ភូមិ
         'yes': 'Yes'
       community_member:
         adule_female_count: Total Household Adult Females
@@ -2271,6 +2272,7 @@ km:
       results: Results Export to XLS
       report_builder: Report Builder
       results: Results
+      searching: កំពុងស្វែងរក...
     new:
       new_community_title: New Community
     show:
@@ -4387,6 +4389,13 @@ km:
         edit: កែសម្រួល
       update:
         successfully_updated: ទម្រង់បែបបទត្រូវបានកែសម្រួលដោយជោគជ័យ
+  gender_list:
+    female: ស្រី
+    lgbt: LGBT
+    male: ប្រុស
+    other_gender: ផ្សេងៗ
+    prefer_not_to_say: សុំមិន​និយាយ​ល្អ​ជាង
+    unknown: អត់ទាន់ដឹង
   government_forms:
     create:
       successfully_created: ទម្រង់ត្រូវបានបង្កើតដោយជោគជ័យ
