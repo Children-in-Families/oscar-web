@@ -115,18 +115,19 @@ km:
         documents: Upload Documents
         donor_ids: Donor
         formed_date: Date of Group/Community Formed
-        gender: Gender
+        gender: ភេទ
         id: Automatic ID
         initial_referral_date: NGO Accept Date
         name: Name (Khmer)
         name_en: Name (Latin)
-        phone_number: Phone Number
-        province_id: Province
-        received_by_id: Receiving Staff Member
+        phone_number: លេខទូរស័ព្ទ
+        province_id: ខេត្តបច្ចុប្បន្ន
+        received_by_id: បុគ្គលិកទទួលករណី
         relevant_information: Relevant Information
         representative_name: Represetative Name
         role: Role in the Group/Community
-        village_id: Village
+        status: ស្ថានភាព
+        village_id: ភូមិ
         'yes': 'Yes'
       community_member:
         adule_female_count: Total Household Adult Females

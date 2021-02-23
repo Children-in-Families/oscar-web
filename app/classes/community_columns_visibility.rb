@@ -5,46 +5,13 @@ class CommunityColumnsVisibility
   end
 
   def columns_collection
-    {
-      name_: :name,
-      name_en: :name_en,
-      code_: :code,
-      id_: :id,
-      family_type_: :family_type,
-      status_: :status,
-      case_history_: :case_history,
-      address_: :address,
-      member_count_: :member_count,
-      caregiver_information_: :caregiver_information,
-      household_income_: :household_income,
-      dependable_income_: :dependable_income,
-      case_worker_: :case_worker,
-      significant_family_member_count_: :significant_family_member_count,
-      contract_date_: :contract_date,
-      province_id_: :province,
-      district_id_: :district,
-      house_: :house,
-      street_: :street,
-      commune_id_: :commune,
-      village_id_: :village,
-      manage_: :manage,
-      changelog_: :changelog,
-      clients_: :cases,
-      case_workers_: :case_workers,
-      female_children_count_: :female_children_count,
-      male_children_count_: :male_children_count,
-      female_adult_count_: :female_adult_count,
-      male_adult_count_: :male_adult_count,
-      gender_: :gender,
-      date_of_birth_: :date_of_birth,
-      role_: :role
-    }
+    @grid.columns.map(&:name).map { |column| ["#{column}_".to_sym, column]  }.to_h
   end
 
   def visible_columns
     @grid.column_names = []
     community_default_columns = Setting.first.try(:community_default_columns)
-    params = @params.keys.select{ |k| k.match(/\_$/) }
+    params = @params.keys.select { |k| k.match(/\_$/) }
     if params.present? && community_default_columns.present?
       defualt_columns = params - community_default_columns
     else

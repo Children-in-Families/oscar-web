@@ -36,6 +36,7 @@ module CommunityAdvancedSearchConcern
 
   def community_builder_fields
     @builder_fields = community_basic_fields + custom_form_fields
+    @builder_fields = @builder_fields + @quantitative_fields if quantitative_check?
   end
 
   def community_basic_fields
@@ -47,15 +48,20 @@ module CommunityAdvancedSearchConcern
   end
 
   def custom_form_fields
-    @custom_form_fields = custom_fields + get_has_this_form_fields
+    @custom_form_fields = custom_fields + has_this_form_fields
   end
 
-  def get_has_this_form_fields
+  def has_this_form_fields
     @has_this_form_fields = AdvancedSearches::HasThisFormFields.new(custom_form_values).render
   end
 
   def custom_fields
     @custom_forms = AdvancedSearches::CustomFields.new(custom_form_values).render
+  end
+
+  def quantitative_fields
+    quantitative_fields = AdvancedSearches::QuantitativeCaseFields.new(current_user)
+    @quantitative_fields ||= quantitative_fields.render
   end
 
   def custom_form_value?
@@ -64,6 +70,10 @@ module CommunityAdvancedSearchConcern
 
   def has_params?
     @advanced_search_params.present? && @advanced_search_params[:basic_rules].present?
+  end
+
+  def quantitative_check?
+    @advanced_search_params.present? && @advanced_search_params[:quantitative_check].present?
   end
 
   def find_params_advanced_search

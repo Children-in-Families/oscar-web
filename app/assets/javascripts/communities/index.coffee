@@ -76,6 +76,10 @@ CIF.CommunitiesIndex = do ->
     advanceFilter.initBuilderFilter('#community-builder-fields')
     advanceFilter.setValueToBuilderSelected()
 
+    advanceFilter.handleAddQuantitativeFilter()
+    advanceFilter.handleRemoveQuantitativFilter()
+
+
 
   _checkClientSearchForm = ->
     $("button.query").on 'click', ->

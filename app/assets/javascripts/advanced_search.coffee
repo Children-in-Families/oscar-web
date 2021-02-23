@@ -62,7 +62,6 @@ class CIF.AdvancedSearch
   initBuilderFilter: (id)->
     builderFields = $(id).data('fields')
     @.getTranslation()
-    debugger;
     if !_.isEmpty(@filterTranslation) and !_.isEmpty(builderFields)
       advanceSearchBuilder = new CIF.AdvancedFilterBuilder($('#builder'), builderFields, @filterTranslation)
       advanceSearchBuilder.initRule()
@@ -109,3 +108,47 @@ class CIF.AdvancedSearch
       )
 
   ######################################################################################################################
+
+  handleAddQuantitativeFilter: ->
+    self = @
+    fields = $('#quantitative-fields').data('fields')
+    $('#quantitative-type-checkbox').on 'ifChecked', ->
+      $('#builder').queryBuilder('addFilter', fields) if $('#builder:visible').length > 0
+      self.initSelect2()
+
+  handleRemoveQuantitativFilter: ->
+    self = @
+    $('#quantitative-type-checkbox').on 'ifUnchecked', ->
+      self.handleRemoveFilterBuilder(self.QUANTITATIVE_TRANSLATE, self.QUANTITATIVE_TRANSLATE)
+
+  handleRemoveFilterBuilder: (resourceName, resourcelabel, elementBuilder = '#builder') ->
+    self = @
+    filterSelects = $('.main-report-builder .rule-container .rule-filter-container select')
+    for select in filterSelects
+      optGroup  = $(':selected', select).parents('optgroup')
+      if $(select).val() != '-1' and optGroup[0] != undefined and optGroup[0].label != self.BASIC_FIELD_TRANSLATE and optGroup[0].label != self.DOMAIN_SCORES_TRANSLATE
+        label = optGroup[0].label.split('|')
+        if $(label).last()[0].trim() == resourcelabel.trim() and label[0].trim() == resourceName.trim()
+          container = $(select).parents('.rule-container')
+          $(container).find('select').select2('destroy')
+          $(container).find('.rule-header button').trigger('click')
+    setTimeout ( ->
+      if $('.rule-container .rule-filter-container select').length == 0
+        $('button[data-add="rule"]').trigger('click')
+        filterSelects = $('.rule-container .rule-filter-container select')
+      self.handleRemoveBuilderOption(filterSelects, resourceName, resourcelabel)
+      )
+
+  handleRemoveBuilderOption: (filterSelects, resourceName, resourcelabel) ->
+    values = []
+    optGroups = $(filterSelects[0]).find('optgroup')
+    for optGroup in optGroups
+      label = optGroup.label
+      if label != self.BASIC_FIELD_TRANSLATE and label != self.DOMAIN_SCORES_TRANSLATE
+        labelValue = label.split('|')
+        if $(labelValue).last()[0].trim() == resourcelabel.trim() and labelValue[0].trim() == resourceName.trim()
+          $(optGroup).find('option').each ->
+            values.push $(@).val()
+    $('#builder').queryBuilder('removeFilter', values)
+    @initSelect2()
+

@@ -124,6 +124,7 @@ my:
         relevant_information: Relevant Information
         representative_name: Represetative Name
         role: Role in the Group/Community
+        status: Status
         village_id: Village
         'yes': 'Yes'
       community_member:

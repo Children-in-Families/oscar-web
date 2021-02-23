@@ -4,6 +4,14 @@
   %label **
 .well
   .row
+    .col-xs-12{ class: 'col-md-4' }
+      #quantitative-type
+        .row
+          .col-xs-12
+            .form-group
+              = check_box_tag :nil, '1', quantitative_check, { class: 'i-checks quantitative-type-checkbox', id: 'quantitative-type-checkbox' }
+              %label= t('advanced_search.fields.quantitative')
+
     .col-xs-12.col-md-4
       .custom-form-wrapper
         .row
@@ -16,4 +24,4 @@
             .form-group#custom-form-data{ data: { value: custom_form_values } }
               = select_tag(:nil, options_for_select(@custom_fields&.pluck(:form_title, :id), custom_form_values), { multiple: true, class: 'form-control custom-form-select', id: 'custom-form-select' } )
 
-#opt-group-translation{ data: { basic_fields: t('.basic_fields'), custom_form: t('.custom_form') } }
+#opt-group-translation{ data: { basic_fields: t('.basic_fields'), custom_form: t('.custom_form'), quantitative: t('advanced_search.fields.quantitative') } }

@@ -4,6 +4,7 @@ class CommunitiesController < AdminController
 
   before_action :find_params_advanced_search, :list_custom_form, only: [:index]
   before_action :custom_form_fields, :community_builder_fields, only: [:index]
+  before_action :quantitative_fields, only: [:index]
   # before_action :basic_params, if: :has_params?, only: [:index]
   # before_action :build_advanced_search, only: [:index]
   before_action :find_association, except: [:index, :destroy, :version]

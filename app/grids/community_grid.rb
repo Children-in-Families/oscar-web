@@ -8,24 +8,24 @@ class CommunityGrid < BaseGrid
     Community.includes(:village, :commune, :district, :province, :community_members).order(:name)
   end
 
-  filter(:name, :string, header: -> { Community.human_attribute_name(:name) }) do |value, scope|
+  filter(:name, :string, header: -> { I18n.t('activerecord.attributes.community.name') }) do |value, scope|
     scope.name_like(value)
   end
 
-  filter(:name_en, :string, header: -> { Community.human_attribute_name(:name_en) }) do |value, scope|
+  filter(:name_en, :string, header: -> { I18n.t('activerecord.attributes.community.name_en') }) do |value, scope|
     scope.name_like(value)
   end
 
-  filter(:id, :integer, header: -> { Community.human_attribute_name(:id) })
+  filter(:id, :integer, header: -> { I18n.t('activerecord.attributes.community.id') })
 
-  filter(:status, :enum, select: Family::STATUSES, header: -> { Community.human_attribute_name(:status) }) do |value, scope|
+  filter(:status, :enum, select: Family::STATUSES, header: -> { I18n.t('activerecord.attributes.community.status') }) do |value, scope|
     scope.by_status(value)
   end
 
-  filter(:gender, :enum, select: :gender_options, header: -> { Community.human_attribute_name(:gender) })
+  filter(:gender, :enum, select: :gender_options, header: -> { I18n.t('activerecord.attributes.community.gender') })
   filter(:role, header: -> { I18n.t('activerecord.attributes.community.role') })
 
-  filter(:formed_date, :date, header: -> { Community.human_attribute_name(:formed_date) })
+  filter(:formed_date, :date, header: -> { I18n.t('activerecord.attributes.community.formed_date') })
 
   def commune_options
     Community.joins(:commune).map{|f| [f.commune.code_format, f.commune_id]}.uniq
@@ -47,21 +47,21 @@ class CommunityGrid < BaseGrid
     Community.gender.values.map{ |value| [I18n.t("datagrid.columns.families.gender_list.#{value.gsub('other', 'other_gender')}"), value] }
   end
 
-  column(:id, header: -> { Community.human_attribute_name(:id) })
+  column(:id, header: -> { I18n.t('activerecord.attributes.community.id') })
 
-  column(:name, order: 'LOWER(name)', header: -> { Community.human_attribute_name(:name) }) do |object|
+  column(:name, order: 'LOWER(name)', header: -> { I18n.t('activerecord.attributes.community.name') }) do |object|
     format(object.name) do |value|
       link_to entity_name(object), community_path(object)
     end
   end
 
-  column(:name_en, order: 'LOWER(name_en)', header: -> { Community.human_attribute_name(:name_en) }) do |object|
+  column(:name_en, order: 'LOWER(name_en)', header: -> { I18n.t('activerecord.attributes.community.name_en') }) do |object|
     format(object.name_en) do |value|
       entity_name(object)
     end
   end
 
-  column(:status, header: -> { Community.human_attribute_name(:status) }) do |object|
+  column(:status, header: -> { I18n.t('activerecord.attributes.community.status') }) do |object|
     object.status.titleize
   end
 
@@ -79,23 +79,23 @@ class CommunityGrid < BaseGrid
 
   column(:phone_number, header: -> { I18n.t('activerecord.attributes.community.phone_number') })
 
-  column(:village, order: 'villages.name_kh', header: -> { Community.human_attribute_name(:village) }) do |object|
+  column(:village, order: 'villages.name_kh', header: -> { I18n.t('activerecord.attributes.community.village_id') }) do |object|
     object.village_name
   end
 
-  column(:commune, order: 'communes.name_kh', header: -> { Community.human_attribute_name(:commune) }) do |object|
+  column(:commune, order: 'communes.name_kh', header: -> { I18n.t('activerecord.attributes.community.commune_id') }) do |object|
     object.commune_name
   end
 
-  column(:district, order: 'districts.name', header: -> { Community.human_attribute_name(:district) }) do |object|
+  column(:district, order: 'districts.name', header: -> { I18n.t('activerecord.attributes.community.district_id') }) do |object|
     object.district_name
   end
 
-  column(:province, order: 'provinces.name', header: -> { Community.human_attribute_name(:province) }) do |object|
+  column(:province, order: 'provinces.name', header: -> { I18n.t('activerecord.attributes.community.province_id') }) do |object|
     object.province_name
   end
 
-  column(:received_by_id, header: -> { Community.human_attribute_name(:received_by_id) }) do |object|
+  column(:received_by_id, header: -> { I18n.t('activerecord.attributes.community.received_by_id') }) do |object|
     object.received_by.name
   end
 
