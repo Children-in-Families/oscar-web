@@ -5,7 +5,7 @@ namespace :assessment_data_to_care_plan do
       Organization.switch_to org.short_name
       Client.joins(:assessments).distinct.each do |client|
         client.assessments.completed.each do |assessment|
-          care_plan = CarePlan.create(client_id: client.id, assessment_id: assessment.id, completed: true)
+          care_plan = CarePlan.create(client_id: client.id, assessment_id: assessment.id, completed: true, created_at: assessment.created_at)
           assessment.assessment_domains.each do |ad|
             if ad.goal != ""
               goal_attr = Goal.new(assessment_domain_id: ad.id, assessment_id: assessment.id, description: ad.goal, client_id: client.id).attributes
