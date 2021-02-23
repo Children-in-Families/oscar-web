@@ -7,7 +7,7 @@ CIF.CommunitiesIndex = do ->
     _setDefaultCheckColumnVisibilityAll()
     _handleAutoCollapse()
     _toggleCollapseFilter()
-    _checkClientSearchForm()
+    _checkCommunitySearchForm()
     _initAdavanceSearchFilter()
     _fixedHeaderTableColumns()
     _handleScrollTable()
@@ -52,11 +52,14 @@ CIF.CommunitiesIndex = do ->
   _handleAutoCollapse = ->
     action = $('#search-action').data('action') || 'community_grid'
     if action == '#builder'
-      $("button[data-target='#community-advanced-search']").trigger('click')
+      adButton = $("button[data-target='#community-advanced-search']")
+      adButton.trigger('click')
+      form = $(adButton).attr('class')
+      _hideShowBasicField(form)
     else
       $("button[data-target='#community-search-form']").trigger('click')
 
-  _hideClientFilters = ->
+  _hideCBasicFilters = ->
     dataFilters = $('#community-search-form .datagrid-filter')
     displayColumns = '#community_grid_name, #community_grid_name_en, #community_grid_id, #community_grid_status, #community_grid_gender, #community_grid_formed_date'
     $(dataFilters).hide()
@@ -72,25 +75,33 @@ CIF.CommunitiesIndex = do ->
       $('#community-search-form').collapse('hide')
 
   _initAdavanceSearchFilter = ->
-    advanceFilter = new CIF.AdvancedSearch()
+    advanceFilter = new CIF.AdvancedSearch('/api/community_advanced_searches/get_custom_field')
     advanceFilter.initBuilderFilter('#community-builder-fields')
     advanceFilter.setValueToBuilderSelected()
 
     advanceFilter.handleAddQuantitativeFilter()
     advanceFilter.handleRemoveQuantitativFilter()
 
+    advanceFilter.handleShowCustomFormSelect()
+    advanceFilter.customFormSelectChange()
+    advanceFilter.customFormSelectRemove()
+    advanceFilter.handleHideCustomFormSelect()
 
+    advanceFilter.handleSearch()
 
-  _checkClientSearchForm = ->
+  _checkCommunitySearchForm = ->
     $("button.query").on 'click', ->
       form = $(@).attr('class')
-      if form.includes('community-advanced-search')
-        $('#filter_form').hide()
-        $('.float-right.pull-right').hide()
-      else
-        $('#filter_form').show()
-        $('.float-right.pull-right').show()
-        _hideClientFilters()
+      _hideShowBasicField(form)
+
+  _hideShowBasicField = (form) ->
+    if form.includes('community-advanced-search')
+      $('#filter_form').hide()
+      $('.float-right.pull-right').hide()
+    else
+      $('#filter_form').show()
+      $('.float-right.pull-right').show()
+      _hideCBasicFilters()
 
   _fixedHeaderTableColumns = ->
     sInfoShow = $('#sinfo').data('infoshow')

@@ -7,7 +7,7 @@ module CommunityAdvancedSearchConcern
     $param_rules = nil
     $param_rules = find_params_advanced_search
     @communities = AdvancedSearches::Communities::CommunityAdvancedSearch.new(basic_rules, Community.accessible_by(current_ability)).filter
-    custom_form_column
+    custom_form_columns
     respond_to do |f|
       f.html do
         @results = @community_grid.scope { |scope| scope.where(id: @communities.ids) }.assets.size
@@ -25,18 +25,18 @@ module CommunityAdvancedSearchConcern
     @advanced_search = AdvancedSearch.new
   end
 
-  def custom_form_column
-    @custom_form_columns = custom_form_fields.group_by{ |field| field[:optgroup] }
+  def custom_form_columns
+    @custom_form_columns ||= custom_form_fields.group_by{ |field| field[:optgroup] }
   end
 
   def list_custom_form
     form_ids = CustomFieldProperty.where(custom_formable_type: 'Community').pluck(:custom_field_id).uniq
-    @custom_fields = CustomField.where(id: form_ids).order_by_form_title
+    @list_custom_form ||= CustomField.where(id: form_ids).order_by_form_title
   end
 
   def community_builder_fields
     @builder_fields = community_basic_fields + custom_form_fields
-    @builder_fields = @builder_fields + @quantitative_fields if quantitative_check?
+    @builder_fields += @quantitative_fields if quantitative_check?
   end
 
   def community_basic_fields
@@ -48,15 +48,15 @@ module CommunityAdvancedSearchConcern
   end
 
   def custom_form_fields
-    @custom_form_fields = custom_fields + has_this_form_fields
+    @custom_form_fields ||= custom_fields + this_form_fields
   end
 
-  def has_this_form_fields
-    @has_this_form_fields = AdvancedSearches::HasThisFormFields.new(custom_form_values).render
+  def this_form_fields
+    @this_form_fields ||= AdvancedSearches::HasThisFormFields.new(custom_form_values).render
   end
 
   def custom_fields
-    @custom_forms = AdvancedSearches::CustomFields.new(custom_form_values).render
+    @custom_fields ||= AdvancedSearches::CustomFields.new(custom_form_values).render
   end
 
   def quantitative_fields

@@ -1,5 +1,5 @@
 class CIF.AdvancedSearch
-  constructor: () ->
+  constructor: (customFormUrl) ->
     @filterTranslation   = ''
     @customFormSelected  = []
     @programSelected     = []
@@ -8,6 +8,7 @@ class CIF.AdvancedSearch
     @DOMAIN_SCORES_TRANSLATE  = $(optionTranslation).data('csiDomainScores')
     @BASIC_FIELD_TRANSLATE    = $(optionTranslation).data('basicFields')
     @CUSTOM_FORM_TRANSLATE    = $(optionTranslation).data('customForm')
+    @CUSTOM_FORM_URL          = customFormUrl
 
     @ENROLLMENT_TRANSLATE     = $(optionTranslation).data('enrollment')
     @TRACKING_TRANSTATE       = $(optionTranslation).data('tracking')
@@ -97,7 +98,6 @@ class CIF.AdvancedSearch
     self = @
     basicQueryRules = $('#builder').data('basic-search-rules')
     unless basicQueryRules == undefined or _.isEmpty(basicQueryRules.rules)
-      self.handleAddHotlineFilter()
       $('#builder').queryBuilder('setRules', basicQueryRules)
 
   initRuleOperatorSelect2: (rowBuilderRule) ->
@@ -152,3 +152,116 @@ class CIF.AdvancedSearch
     $('#builder').queryBuilder('removeFilter', values)
     @initSelect2()
 
+  ######################################################################################
+  handleShowCustomFormSelect: ->
+    if $('#custom-form-checkbox').prop('checked')
+      $('.custom-form').show()
+    $('#custom-form-checkbox').on 'ifChecked', ->
+      $('.custom-form').show()
+
+  customFormSelectChange: ->
+    self = @
+    $('.custom-form-wrapper select').on 'select2-selecting', (element) ->
+      self.customFormSelected.push(element.val)
+      self.addCustomBuildersFields(element.val, self.CUSTOM_FORM_URL)
+
+  addCustomBuildersFields: (ids, url, loader=undefined) ->
+    self = @
+    action  = _.last(url.split('/'))
+    controllerName = url.split('/')[2]
+    element = if action == 'get_custom_field' then '.main-report-builder .custom-form-column' else '.main-report-builder .program-stream-column'
+    $.ajax
+      url: url
+      data: { ids: ids }
+      method: 'GET'
+      success: (response) ->
+        fieldList = response[controllerName]
+        debugger;
+        $('#builder').queryBuilder('addFilter', fieldList)
+        self.initSelect2()
+        self.addFieldToColumnPicker(element, fieldList)
+        loader.stop() if loader
+        return
+
+  addFieldToColumnPicker: (element, fieldList) ->
+    self = @
+    customFormColumnPicker = $("#{element} ul.append-child")
+    fieldsGroupByOptgroup = _.groupBy(fieldList, 'optgroup')
+    _.forEach fieldsGroupByOptgroup, (values, key) ->
+      headerClass = self.formBuiderFormatHeader(key)
+      $(customFormColumnPicker).append("<li class='dropdown-header #{headerClass}'>#{key}</li>")
+      _.forEach values, (value) ->
+        fieldName = value.id
+        keyword   = _.first(fieldName.split('__'))
+        checkField  = fieldName
+        label       = value.label
+        $(customFormColumnPicker).append(self.checkboxElement(checkField, headerClass, label))
+
+      $("input.i-checks.#{headerClass}").iCheck
+        checkboxClass: 'icheckbox_square-green'
+
+    return
+
+  formBuiderFormatHeader: (value) ->
+    keyWords = value.split('|')
+    name = _.first(keyWords).trim()
+    label = _.last(keyWords).trim()
+    combine = "#{name} #{label}"
+    @formatSpecialCharacter(combine)
+
+  checkboxElement: (field, name, label) ->
+    "<li class='visibility checkbox-margin #{name}'>
+      <input type='checkbox' name='#{field}_' id='#{field}_' value='#{field}' class='i-checks #{name}' style='position: absolute; opacity: 0;'>
+      <label for='#{field}_'>#{label}</label>
+    </li>"
+
+  customFormSelectRemove: ->
+    self = @
+    $('.main-report-builder .custom-form-wrapper select').on 'select2-removed', (element) ->
+      removeValue = element.choice.text
+      formTitle   = removeValue.trim()
+      formTitle   = self.formatSpecialCharacter("#{formTitle} Custom Form")
+
+      self.removeCheckboxColumnPicker('.main-report-builder .custom-form-column', formTitle)
+      $.map self.customFormSelected, (val, i) ->
+        if parseInt(val) == parseInt(element.val) then self.customFormSelected.splice(i, 1)
+
+      self.handleRemoveFilterBuilder(removeValue, self.CUSTOM_FORM_TRANSLATE)
+
+  handleHideCustomFormSelect: ->
+    self = @
+    $('#custom-form-checkbox').on 'ifUnchecked', ->
+      $('.custom-form-column ul.append-child li').remove()
+
+      $('select.custom-form-select option:selected').each ->
+        formTitle = $(@).text()
+        self.handleRemoveFilterBuilder(formTitle, self.CUSTOM_FORM_TRANSLATE)
+
+      self.customFormSelected = []
+      $('select.custom-form-select').select2('val', '')
+      $('.custom-form').hide()
+
+  #======================================Handle Search================================
+
+  handleSearch: ->
+    self = @
+    $('#search').on 'click', ->
+      basicRules = $('#builder').queryBuilder('getRules', { skip_empty: true, allow_invalid: true })
+      # customFormValues = "[#{$('#family-advance-search-form').find('#custom-form-select').select2('val')}]"
+      customFormValues = if self.customFormSelected.length > 0 then "[#{self.customFormSelected}]"
+
+      $('#community_advanced_search_custom_form_selected').val(customFormValues)
+
+      if (_.isEmpty(basicRules.rules) and !basicRules.valid) or (!(_.isEmpty(basicRules.rules)) and basicRules.valid)
+        $('#builder').find('.has-error').removeClass('has-error')
+        $('#community_advanced_search_basic_rules').val(self.handleStringfyRules(basicRules))
+        self.handleSelectFieldVisibilityCheckBox()
+        $('#advanced-search').submit()
+
+  handleStringfyRules: (rules) ->
+    rules = JSON.stringify(rules)
+    return rules.replace(/null/g, '""')
+
+  handleSelectFieldVisibilityCheckBox: (builder = '.main-report-builder')->
+    checkedFields = $(builder).find('.visibility .checked input, .all-visibility .checked input')
+    $('form#advanced-search').append(checkedFields)
