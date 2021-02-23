@@ -18,7 +18,6 @@ class Community < ActiveRecord::Base
   enumerize :gender, in: ['female', 'male', 'lgbt', 'unknown', 'prefer_not_to_say', 'other'], scope: :shallow, predicates: { prefix: true }
   enumerize :status, in: ['accepted', 'rejected', 'active'], scope: :shallow, predicates: { prefix: true }
 
-
   belongs_to :province
   belongs_to :district
   belongs_to :commune
