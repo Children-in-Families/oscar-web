@@ -8,14 +8,25 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
     _initIcheck()
     _onChangeReferralSourceCategory()
     _initUploader()
+    _initSelect2SingleSelect()
 
-  _validateForm = ->
+  _initSelect2SingleSelect = () ->
+    $('select.single-select').select2
+      maximumSelectionSize: 1
+      allowClear: true
+
+  _validateForm = (currentIndex) ->
     valid = true
-
-    for select in $("select.required, input.required")
+    for select in $("select.family-type.required, input.required")
       $(select).trigger("validate")
       if $(select).hasClass("error") || $(select).closest(".form-group").find(".select2-choice").hasClass("error")
         valid = false
+
+    if(currentIndex == 2)
+      for select in $("select.required, input.required")
+        $(select).trigger("validate")
+        if $(select).hasClass("error") || $(select).closest(".form-group").find(".select2-choice").hasClass("error")
+          valid = false
 
     valid
 
@@ -56,9 +67,9 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
       labels:
         finish: 'Save'
       onStepChanging: (event, currentIndex, newIndex) ->
-        (currentIndex > newIndex) || _validateForm()
+        (currentIndex > newIndex) || _validateForm(currentIndex)
       onFinishing: (event, currentIndex) ->
-        if window.savingFamily == false
+        if window.savingFamily == false && _validateForm(currentIndex)
           $("#family-form").submit()
           window.savingFamily = true
         return true
