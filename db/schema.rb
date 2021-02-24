@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20201224082044) do
+ActiveRecord::Schema.define(version: 20210224095120) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -2271,8 +2271,8 @@ ActiveRecord::Schema.define(version: 20201224082044) do
     t.string   "whodunnit"
     t.datetime "created_at"
     t.integer  "transaction_id"
-    t.jsonb    "object"
-    t.jsonb    "object_changes"
+    t.text     "object"
+    t.text     "object_changes"
   end
 
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
