@@ -11,6 +11,15 @@
           .form-inputs
             = f.input :name, label: t('.name')
             = f.input :visible_on, required: true, selected: f.object.visible_on.presence || ['client'], collection: QuantitativeType::VISIBLE_ON.map{ |option| [option.titleize, option] }, include_hidden: false, input_html: { class: 'select2', multiple: true }
+            .input-group.col-md-12
+              .col-md-6
+                .i-checks
+                  %label= t('.is_required')
+                  = f.input :is_required, as: :boolean, label: false, type: 'checkbox', checked: f.object.is_required, class: 'form-input'
+              .col-md-6
+                .i-checks
+                  %label= t('.is_multi_select')
+                  = f.input :is_multi_select, as: :boolean, label: false, type: 'checkbox', checked: f.object.is_required, class: 'form-input'
             = f.simple_fields_for :quantitative_cases do |quantitative_case|
               = render 'quantitative_case_fields', f: quantitative_case
           .links
