@@ -5403,6 +5403,8 @@ my:
     form:
       add_quantitative_data: ပမာဏအခ်က္အလက္ထည့္သြင္းရန္
       cancel: ပယ္ဖ်က္ရန္
+      is_multi_select: Multiselection?
+      is_required: Required?
       name: နာမည္
       quantitative_type: ပမာဏအမ်ိဳးအစား
       save: သိမ္းဆည္းရန္

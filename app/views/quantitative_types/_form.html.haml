@@ -19,7 +19,7 @@
               .col-md-6
                 .i-checks
                   %label= t('.is_multi_select')
-                  = f.input :is_multi_select, as: :boolean, label: false, type: 'checkbox', checked: f.object.is_required, class: 'form-input'
+                  = f.input :multiple, as: :boolean, label: false, type: 'checkbox', checked: f.object.is_required, class: 'form-input'
             = f.simple_fields_for :quantitative_cases do |quantitative_case|
               = render 'quantitative_case_fields', f: quantitative_case
           .links

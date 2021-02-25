@@ -1675,7 +1675,6 @@ ActiveRecord::Schema.define(version: 20210222210209) do
     t.boolean  "multiple",                 default: true
     t.string   "visible_on",               default: "---\n- client\n"
     t.boolean  "is_required",              default: false
-    t.boolean  "is_multi_select",          default: false
   end
 
   create_table "quarterly_reports", force: :cascade do |t|
@@ -2274,9 +2273,9 @@ ActiveRecord::Schema.define(version: 20210222210209) do
     t.integer  "item_id",        null: false
     t.string   "event",          null: false
     t.string   "whodunnit"
-    t.text     "object"
+    t.jsonb    "object"
     t.datetime "created_at"
-    t.text     "object_changes"
+    t.jsonb    "object_changes"
     t.integer  "transaction_id"
   end
 

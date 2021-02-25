@@ -48,7 +48,7 @@ class QuantitativeTypesController < AdminController
             :name,
             :description,
             :is_required,
-            :is_multi_select,
+            :multiple,
             visible_on: [],
             quantitative_cases_attributes: [:id, :value, :_destroy]
           )

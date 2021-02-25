@@ -5376,6 +5376,8 @@ km:
     form:
       add_quantitative_data: បន្ថែមទិន្ន័យនៃបរិមាណ
       cancel: ទុកជាមោឃៈ
+      is_multi_select: Multiselection?
+      is_required: Required?
       name: ប្រភេទ
       quantitative_type: ព័ត៌មានចំណុចជាក់លាក់នៃការបញ្ជូនបន្ថែម
       save: រក្សាទុក
