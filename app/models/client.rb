@@ -239,6 +239,15 @@ class Client < ActiveRecord::Base
 
       records
     end
+
+    def update_external_ids(short_name, client_ids, data_hash)
+      Apartment::Tenant.switch(short_name) do
+        Client.where(id: client_ids).each do |client|
+          attributes = { external_id: data_hash[client.global_id].first, external_id_display: data_hash[client.global_id].last }
+          client.update_columns(attributes)
+        end
+      end
+    end
   end
 
   def self.fetch_75_chars_of(value)
@@ -361,12 +370,12 @@ class Client < ActiveRecord::Base
       #   return (Date.today >= (assessments.defaults.latest_record.created_at + assessment_duration('min')).to_date) && assessments.defaults.latest_record.completed?
       # elsif assessments.defaults.count >= 2
       # end
-      return assessments.defaults.count == 0 || assessments.defaults.latest_record.completed?
+      return assessments.defaults.count == 0 || assessments.defaults.latest_record.try(:completed?)
     else
       if latest_assessment.count == 1
-        return (Date.today >= (latest_assessment.latest_record.created_at + assessment_duration('min', false)).to_date) && latest_assessment.latest_record.completed?
+        return (Date.today >= (latest_assessment.latest_record.created_at + assessment_duration('min', false)).to_date) && latest_assessment.latest_record.try(:completed?)
       elsif latest_assessment.count >= 2
-        return latest_assessment.latest_record.completed?
+        return latest_assessment.latest_record.try(:completed?)
       else
         return true
       end
@@ -771,18 +780,12 @@ class Client < ActiveRecord::Base
   def remove_family_from_case_worker
     if family
       clients = Client.joins(:users).where(current_family_id: family.id, case_worker_clients: {user_id: family.user_id})
-      if clients.blank?
-        family.user_id = nil
-        family.save
-      end
+      family.update_columns(user_id: nil) if clients.blank?
     else
       case_worker_clients.each do |case_worker_client|
         case_worker_client.user.families.each do |family|
           clients = family.clients.joins(:case_worker_clients).where(case_worker_clients: { user_id: case_worker_client&.user_id }, current_family_id: family.id).exists?
-          if clients.blank?
-            family.user_id = nil
-            family.save
-          end
+          family.update_columns(user_id: nil) if clients.blank?
         end
       end
     end

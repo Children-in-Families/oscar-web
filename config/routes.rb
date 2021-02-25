@@ -183,6 +183,7 @@ Rails.application.routes.draw do
   end
 
   resources :communities do
+    resources :custom_field_properties
     resources :enrollments do
       get :report, on: :collection
       resources :enrollment_trackings
@@ -196,7 +197,6 @@ Rails.application.routes.draw do
       end
       resources :leave_enrolled_programs
     end
-    resources :custom_field_properties
   end
 
   resources :partners do

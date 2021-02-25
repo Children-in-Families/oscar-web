@@ -51,8 +51,8 @@
           = render 'family/enter_ngos/form', family: @family
         .col-xs-12
           %button.btn.btn-danger.mini-margin{ disabled: 'disabled', class: 'agree-btn', data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.families.show.reject')}", placement: "bottom" } }= t('.reject')
-  - unless current_setting.hide_family_case_management_tool?
-    .col-xs-12.family
+  .col-xs-12.family
+    - unless current_setting.hide_family_case_management_tool?
       - if !@family.referred?
         .btn-group.small-btn-margin
           %button.btn-sm.btn.btn-warning.dropdown-toggle.btn-fit.exit-ngo-for-family{ data: { toggle: "dropdown", trigger: 'hover', content: "#{I18n.t('inline_help.families.show.exit_ngo')}", placement: "auto" }, id: 'add-family-to-case', class: ('disabled' if @family.exit_ngo?) }
@@ -80,7 +80,7 @@
               %ul.dropdown-menu.btn-fit.scrollable-dropdown-menu.referral-forms
                 %li= link_to t('.referred_to'), family_family_referrals_path(@family, referral_type: 'referred_to')
                 %li= link_to t('.referred_from'), family_family_referrals_path(@family, referral_type: 'referred_from')
-                
+
           .btn-group.small-btn-margin
             %button.btn-sm.btn.btn-warning.dropdown-toggle.btn-fit#add-referral-btn{ data: { toggle: "dropdown", html: 'true', trigger: 'hover', content: "#{I18n.t('inline_help.families.show.refer_family')}", placement: "auto" } }
               = t('.refer_family')
@@ -96,7 +96,7 @@
             = t('.enrolled_program_streams')
         = link_to family_enrollments_path(@family), data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.families.show.enroll_program')}", placement: "auto" } do
           .btn.btn-primary.small-btn-margin.btn-sm.btn-fit= t('.program_streams')
-  .col-xs-12.family
+
     - if !@family.referred?
       .btn-group.small-btn-margin
         %button.btn-sm.btn.btn-success.dropdown-toggle{ 'data-toggle' => 'dropdown', class: ('disabled' if @group_family_custom_fields.empty?) }
@@ -115,6 +115,7 @@
             - @free_family_forms.each do |custom_field|
               %li
                 %p= link_to custom_field.form_title, new_family_custom_field_property_path(@family, custom_field_id: custom_field)
+
 .ibox.mini-margin
   .ibox-title
     %h5= "#{t('.general_info')} #{@family.name}"

@@ -160,6 +160,7 @@ class CreateDonorOrganization < ActiveRecord::Migration
         'Mith Samlanh',
         'Friends International',
         'KMR',
+        'KOMAR RIKREAY CAMBODIA',
         'Holt',
         'Tentative - Voice'
       ],

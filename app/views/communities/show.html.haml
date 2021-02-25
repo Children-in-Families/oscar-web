@@ -45,6 +45,7 @@
           - @free_community_forms.each do |custom_field|
             %li
               %p= link_to custom_field.form_title, new_community_custom_field_property_path(@community, custom_field_id: custom_field)
+
     - if @community.enrollments.active.count > 0
       = link_to community_enrolled_programs_path(@community), data: { toggle: "popover", html: 'true', trigger: 'hover', content: "#{I18n.t('inline_help.communities.show.active_program')}", placement: "auto" } do
         .btn.btn-primary.small-btn-margin.btn-sm.btn-fit= t('.enrolled_program_streams')
