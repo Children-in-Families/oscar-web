@@ -5531,6 +5531,8 @@ en:
     form:
       add_quantitative_data: Add Custom Referral Data Option
       cancel: Cancel
+      is_multi_select: Multiselection?
+      is_required: Required?
       name: Name
       quantitative_type: Custom Referral Data
       save: Save
