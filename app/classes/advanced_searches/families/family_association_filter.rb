@@ -133,30 +133,52 @@ module AdvancedSearches
         end
         families.ids
       end
+      
+      def active_family_between(start_date, end_date)
+        enrollments = Enrollment.where(status: 'Active')
+        family_ids = []
+        enrollments.each do |enrollment|
+          enrollment_date = enrollment.enrollment_date
+
+          if enrollment.leave_program.present?
+            exit_date = enrollment.leave_program.exit_date
+            if !exit_date.between?(start_date, end_date) && enrollment_date.between?(start_date, end_date)
+              family_ids << enrollment.programmable_id
+            elsif !exit_date.between(start_date, end_date) && !enrollment_date.between?(start_date, end_date)
+              family_ids << enrollment.programmable_id if exit_date < start_date || exit_date > end_date
+            end
+          else
+            family_ids << enrollment.programmable_id if enrollment_date.between?(start_date, end_date) || enrollment_date < start_date
+          end
+        end
+        family_ids
+      end
 
       def get_active_families
         families = @families.joins(:enrollments).where(:enrollments => {:status => 'Active'})
+
         case @operator
         when 'equal'
-          families = families.where('date(enrollments.enrollment_date) = ?', @value.to_date)
+          family_ids = families.where('date(enrollments.enrollment_date) = ?', @value.to_date).ids
         when 'not_equal'
-          families = families.where('date(enrollments.enrollment_date) != ?', @value.to_date)
+          family_ids = families.where('date(enrollments.enrollment_date) != ?', @value.to_date).ids
         when 'less'
-          families = families.where('date(enrollments.enrollment_date) < ?', @value.to_date)
+          family_ids = families.where('date(enrollments.enrollment_date) < ?', @value.to_date).ids
         when 'less_or_equal'
-          families = families.where('date(enrollments.enrollment_date) <= ?', @value.to_date)
+          family_ids = families.where('date(enrollments.enrollment_date) <= ?', @value.to_date).ids
         when 'greater'
-          families = families.where('date(enrollments.enrollment_date) > ?', @value.to_date)
+          family_ids = families.where('date(enrollments.enrollment_date) > ?', @value.to_date).ids
         when 'greater_or_equal'
-          families = families.where('date(enrollments.enrollment_date) >= ?', @value.to_date)
+          family_ids = families.where('date(enrollments.enrollment_date) >= ?', @value.to_date).ids
         when 'between'
-          families = families.where('date(enrollments.enrollment_date) BETWEEN ? AND ?', @value[0].to_date, @value[1].to_date)
+          family_ids = active_family_between(@value[0].to_date, @value[1].to_date)
         when 'is_empty'
-          families = families.where('date(enrollments.enrollment_date) IS NULL')
+          family_ids = families.where('date(enrollments.enrollment_date) IS NULL').ids
         when 'is_not_empty'
-          families = families.where('date(enrollments.enrollment_date) IS NOT NULL')
+          family_ids = families.where('date(enrollments.enrollment_date) IS NOT NULL').ids
         end
-        families.ids
+
+        families = family_ids.present? ? family_ids : []
       end
 
       def date_of_completed_assessments_query(type)

@@ -977,6 +977,26 @@ module AdvancedSearches
       client_ids = Client.includes(calls: klass_name.to_sym).where(sql).references(calls: klass_name.to_sym).distinct.ids
     end
 
+    def active_client_between(start_date, end_date)
+      enrollments = ClientEnrollment.where(status: 'Active')
+      client_ids = []
+      enrollments.each do |enrollment|
+        enrollment_date = enrollment.enrollment_date
+
+        if enrollment.leave_program.present?
+          exit_date = enrollment.leave_program.exit_date
+          if !exit_date.between?(start_date, end_date) && enrollment_date.between?(start_date, end_date)
+            client_ids << enrollment.client_id
+          elsif !exit_date.between(start_date, end_date) && !enrollment_date.between?(start_date, end_date)
+            client_ids << enrollment.client_id if exit_date < start_date || exit_date > end_date
+          end
+        else
+          client_ids << enrollment.client_id if enrollment_date.between?(start_date, end_date) || enrollment_date < start_date
+        end
+      end
+      client_ids
+    end
+
     def active_clients_query
       clients = @clients.joins(:client_enrollments).where(:client_enrollments => {:status => 'Active'}).distinct
 
@@ -986,7 +1006,7 @@ module AdvancedSearches
       when 'not_equal'
         client_ids = clients.where('date(client_enrollments.enrollment_date) != ?', @value.to_date ).distinct.ids
       when 'between'
-        client_ids = clients.where('date(client_enrollments.enrollment_date) BETWEEN ? AND ?', @value[0].to_date, @value[1].to_date ).distinct.ids
+        client_ids = active_client_between(@value[0].to_date, @value[1].to_date)
       when 'less'
         client_ids = clients.where('date(client_enrollments.enrollment_date) < ?', @value.to_date ).distinct.ids
       when 'less_or_equal'
