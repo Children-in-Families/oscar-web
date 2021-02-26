@@ -12,11 +12,11 @@
       .form-group
         = f.label :initial_referral_date, class: 'control-label', required: true
         .input-group.date
-          = f.input :initial_referral_date, required: true, label: false, wrapper: false, input_html: { class: 'date optional form-control date-picker' }, as: :string, input_html: { class: 'referral-date' }
+          = f.input :initial_referral_date, required: true, label: false, wrapper: false, input_html: { class: 'date optional form-control date-picker referral-date' }, as: :string
           %span.input-group-addon
             %i.fa.fa-calendar-check-o
 
-      = f.input :case_worker_ids, required: true, collection: User.deleted_user.non_strategic_overviewers.order(:first_name, :last_name), label_method: :name, value_method: :id, input_html: { multiple: true }, input_html: { class: 'caseworker' }
+      = f.input :case_worker_ids, required: true, collection: User.deleted_user.non_strategic_overviewers.order(:first_name, :last_name), label_method: :name, value_method: :id, input_html: { multiple: true, class: 'caseworker' }
       = f.input :referral_source_category_id, collection: referral_source_name(ReferralSource.parent_categories)
       = f.input :referral_source_id, collection: (@community.referral_source.present? ? ReferralSource.where(id: @community.referral_source_id).map { |r| [r.try(:name), r.id] } : []), input_html: { data: { sources: ReferralSource.pluck(:id, :name, :ancestry) } }
 
