@@ -978,17 +978,15 @@ module AdvancedSearches
     end
 
     def active_client_between(start_date, end_date)
-      enrollments = ClientEnrollment.where(status: 'Active')
+      enrollments = ClientEnrollment.all
       client_ids = []
       enrollments.each do |enrollment|
         enrollment_date = enrollment.enrollment_date
 
         if enrollment.leave_program.present?
           exit_date = enrollment.leave_program.exit_date
-          if !exit_date.between?(start_date, end_date) && enrollment_date.between?(start_date, end_date)
-            client_ids << enrollment.client_id
-          elsif !exit_date.between(start_date, end_date) && !enrollment_date.between?(start_date, end_date)
-            client_ids << enrollment.client_id if exit_date < start_date || exit_date > end_date
+          if enrollment_date < start_date || enrollment_date.between?(start_date, end_date)
+            client_ids << enrollment.client_id if exit_date.between?(start_date, end_date) || exit_date > end_date
           end
         else
           client_ids << enrollment.client_id if enrollment_date.between?(start_date, end_date) || enrollment_date < start_date
