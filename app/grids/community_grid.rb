@@ -1,9 +1,9 @@
 class CommunityGrid < BaseGrid
   include ApplicationHelper
   include ClientsHelper
+  include FormBuilderHelper
 
-  attr_accessor :dynamic_columns
-
+  attr_accessor :current_user, :qType, :dynamic_columns, :param_data
   scope do
     Community.includes(:village, :commune, :district, :province, :community_members).order(:name)
   end
@@ -79,19 +79,19 @@ class CommunityGrid < BaseGrid
 
   column(:phone_number, header: -> { I18n.t('activerecord.attributes.community.phone_number') })
 
-  column(:village, order: 'villages.name_kh', header: -> { I18n.t('activerecord.attributes.community.village_id') }) do |object|
+  column(:village_id, order: 'villages.name_kh', header: -> { I18n.t('activerecord.attributes.community.village_id') }) do |object|
     object.village_name
   end
 
-  column(:commune, order: 'communes.name_kh', header: -> { I18n.t('activerecord.attributes.community.commune_id') }) do |object|
+  column(:commune_id, order: 'communes.name_kh', header: -> { I18n.t('activerecord.attributes.community.commune_id') }) do |object|
     object.commune_name
   end
 
-  column(:district, order: 'districts.name', header: -> { I18n.t('activerecord.attributes.community.district_id') }) do |object|
+  column(:district_id, order: 'districts.name', header: -> { I18n.t('activerecord.attributes.community.district_id') }) do |object|
     object.district_name
   end
 
-  column(:province, order: 'provinces.name', header: -> { I18n.t('activerecord.attributes.community.province_id') }) do |object|
+  column(:province_id, order: 'provinces.name', header: -> { I18n.t('activerecord.attributes.community.province_id') }) do |object|
     object.province_name
   end
 

@@ -1,4 +1,6 @@
 class SettingsController < AdminController
+  include CommunityHelper
+
   before_action :find_setting, only: [:index, :default_columns, :research_module, :custom_labels, :client_forms, :integration, :family_case_management, :community]
   before_action :country_address_fields, only: [:edit, :update]
 
@@ -59,6 +61,7 @@ class SettingsController < AdminController
     authorize @setting
     @client_default_columns = client_default_columns
     @family_default_columns = family_default_columns
+    @community_default_columns = community_default_columns
     @partner_default_columns = partner_default_columns
   end
 
@@ -111,7 +114,7 @@ class SettingsController < AdminController
                                     :sharing_data, :custom_id1_latin, :custom_id1_local, :custom_id2_latin, :custom_id2_local,
                                     :enable_hotline, :enable_client_form, :assessment_score_order, :disable_required_fields,
                                     :hide_family_case_management_tool, :hide_community,
-                                    client_default_columns: [], family_default_columns: [],
+                                    client_default_columns: [], family_default_columns: [], community_default_columns: [],
                                     partner_default_columns: [], user_default_columns: [],
                                     custom_assessment_settings_attributes: [:id, :custom_assessment_name, :max_custom_assessment, :custom_assessment_frequency, :custom_age, :enable_custom_assessment, :_destroy])
   end
@@ -148,14 +151,23 @@ class SettingsController < AdminController
   def family_default_columns
     columns = []
     sub_columns = %w(member_count_ clients_ case_workers_ manage_ changelog_)
-    columns = FamilyGrid.new.filters.map{|f| "#{f.name.to_s}_" }
+    columns = FamilyGrid.new.filters.map { |f| "#{f.name.to_s}_" }
+    columns.push(sub_columns).flatten
+  end
+
+  def community_default_columns
+    columns = []
+    sub_columns = %w(manage_ changelog_)
+    community_grid = CommunityGrid.new
+    community_grid_columns(community_grid)
+    columns = community_grid.filters.map { |f| "#{f.name.to_s}_" }
     columns.push(sub_columns).flatten
   end
 
   def partner_default_columns
     columns = []
     sub_columns = %w(manage_ changelog_)
-    columns = PartnerGrid.new.filters.map{|f| "#{f.name.to_s}_" }
+    columns = PartnerGrid.new.filters.map { |f| "#{f.name}_" }
     columns.push(sub_columns).flatten
   end
 

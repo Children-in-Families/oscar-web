@@ -7,7 +7,10 @@ module CommunityAdvancedSearchConcern
     $param_rules = nil
     $param_rules = find_params_advanced_search
     @communities = AdvancedSearches::Communities::CommunityAdvancedSearch.new(basic_rules, Community.accessible_by(current_ability)).filter
+
+    columns_visibility
     custom_form_columns
+
     respond_to do |f|
       f.html do
         @results = @community_grid.scope { |scope| scope.where(id: @communities.ids) }.assets.size
@@ -26,7 +29,7 @@ module CommunityAdvancedSearchConcern
   end
 
   def custom_form_columns
-    @custom_form_columns ||= custom_form_fields.group_by{ |field| field[:optgroup] }
+    @custom_form_columns ||= custom_form_fields.group_by{ |field| field[:optgroup] } if params.dig(:community_advanced_search, :action_report_builder) == '#builder'
   end
 
   def list_custom_form
@@ -52,11 +55,11 @@ module CommunityAdvancedSearchConcern
   end
 
   def this_form_fields
-    @this_form_fields ||= AdvancedSearches::HasThisFormFields.new(custom_form_values).render
+    @this_form_fields ||= AdvancedSearches::HasThisFormFields.new(custom_form_values, 'Community').render
   end
 
   def custom_fields
-    @custom_fields ||= AdvancedSearches::CustomFields.new(custom_form_values).render
+    @custom_fields ||= AdvancedSearches::CustomFields.new(custom_form_values, 'Community').render
   end
 
   def quantitative_fields

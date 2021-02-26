@@ -11,6 +11,7 @@ CIF.CommunitiesIndex = do ->
     _initAdavanceSearchFilter()
     _fixedHeaderTableColumns()
     _handleScrollTable()
+    _getClientPath()
 
   _initSelect2 = ->
     $('select').select2
@@ -82,10 +83,10 @@ CIF.CommunitiesIndex = do ->
     advanceFilter.handleAddQuantitativeFilter()
     advanceFilter.handleRemoveQuantitativFilter()
 
-    advanceFilter.handleShowCustomFormSelect()
     advanceFilter.customFormSelectChange()
     advanceFilter.customFormSelectRemove()
     advanceFilter.handleHideCustomFormSelect()
+    advanceFilter.handleShowCustomFormSelect()
 
     advanceFilter.handleSearch()
 
@@ -131,6 +132,12 @@ CIF.CommunitiesIndex = do ->
           cursorwidth: 10
           cursoropacitymax: 0.4
         _handleResizeWindow()
+
+  _getClientPath = ->
+    return if $('table.communities tbody tr').text().trim() == 'No results found' || $('table.communities tbody tr').text().trim() == 'មិនមានលទ្ធផល' || $('table.communities tbody tr').text().trim() == 'No data available in table'
+    $('table.communities tbody tr').click (e) ->
+      return if $(e.target).hasClass('btn') || $(e.target).hasClass('fa') || $(e.target).is('a')
+      window.open($(@).data('href'), '_blank')
 
   _handleResizeWindow = ->
     window.dispatchEvent new Event('resize')

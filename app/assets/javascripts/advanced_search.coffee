@@ -98,6 +98,7 @@ class CIF.AdvancedSearch
     self = @
     basicQueryRules = $('#builder').data('basic-search-rules')
     unless basicQueryRules == undefined or _.isEmpty(basicQueryRules.rules)
+      self.handleShowCustomFormSelect()
       $('#builder').queryBuilder('setRules', basicQueryRules)
 
   initRuleOperatorSelect2: (rowBuilderRule) ->
@@ -176,7 +177,6 @@ class CIF.AdvancedSearch
       method: 'GET'
       success: (response) ->
         fieldList = response[controllerName]
-        debugger;
         $('#builder').queryBuilder('addFilter', fieldList)
         self.initSelect2()
         self.addFieldToColumnPicker(element, fieldList)

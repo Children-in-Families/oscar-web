@@ -41,6 +41,7 @@ class CommunityColumnsVisibility
 
   def family_default(column, setting_community_default_columns)
     return false if setting_community_default_columns.nil?
+
     setting_community_default_columns.include?(column.to_s) if @params.dig(:community_grid, :descending).present? || (@params[:community_advanced_search].present? && @params.dig(:community_grid, :descending).present?) || @params[:community_grid].nil? || @params[:community_advanced_search].nil?
   end
 end
