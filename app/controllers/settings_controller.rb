@@ -158,9 +158,7 @@ class SettingsController < AdminController
   def community_default_columns
     columns = []
     sub_columns = %w(manage_ changelog_)
-    community_grid = CommunityGrid.new
-    community_grid_columns(community_grid)
-    columns = community_grid.filters.map { |f| "#{f.name.to_s}_" }
+    columns = community_grid_columns.map{ |k, _| "#{k}_" }
     columns.push(sub_columns).flatten
   end
 

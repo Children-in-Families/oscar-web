@@ -22,7 +22,7 @@ class CommunityColumnsVisibility
       end
     end
     add_custom_builder_columns.each do |key, value|
-      @grid.column_names << value if family_default(key, defualt_columns) || @params[key]
+      @grid.column_names << value if community_default(key, defualt_columns) || @params[key]
     end
   end
 
@@ -39,7 +39,7 @@ class CommunityColumnsVisibility
     columns
   end
 
-  def family_default(column, setting_community_default_columns)
+  def community_default(column, setting_community_default_columns)
     return false if setting_community_default_columns.nil?
 
     setting_community_default_columns.include?(column.to_s) if @params.dig(:community_grid, :descending).present? || (@params[:community_advanced_search].present? && @params.dig(:community_grid, :descending).present?) || @params[:community_grid].nil? || @params[:community_advanced_search].nil?
