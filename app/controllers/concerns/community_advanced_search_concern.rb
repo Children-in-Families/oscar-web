@@ -1,6 +1,6 @@
 module CommunityAdvancedSearchConcern
   extend ActiveSupport::Concern
-  include ClientsHelper
+  include CommunityHelper
 
   def advanced_search
     basic_rules  = JSON.parse @basic_filter_params
@@ -18,7 +18,7 @@ module CommunityAdvancedSearchConcern
       end
       f.xls do
         @community_grid.scope { |scope| scope.where(id: @communities.ids) }
-        form_builder_report
+        custom_referral_data_report
         send_data @community_grid.to_xls, filename: "community_report-#{Time.now}.xls"
       end
     end
@@ -39,7 +39,7 @@ module CommunityAdvancedSearchConcern
 
   def community_builder_fields
     @builder_fields = community_basic_fields + custom_form_fields
-    @builder_fields += @quantitative_fields if quantitative_check?
+    @builder_fields += quantitative_fields if quantitative_check?
   end
 
   def community_basic_fields

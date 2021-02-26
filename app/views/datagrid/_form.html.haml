@@ -413,6 +413,14 @@
                 = check_box_tag "#{k}_", k, checked = selected_commuity_column("#{k}_"), class: 'i-checks'
                 = header_name
 
+          #referral-data
+            - QuantitativeType.joins(:quantitative_cases).uniq.each do |quantitative_type|
+              - next unless quantitative_type_readable?(quantitative_type.id)
+              %li
+                .visibility.col-sm-12
+                  = check_box_tag "#{quantitative_type.name}_", quantitative_type.name, checked = selected_commuity_column("#{quantitative_type.name}_"), class: 'i-checks'
+                  = label_tag "#{quantitative_type.name}_", quantitative_type.name
+
   #filter_form
     %hr/
     .row

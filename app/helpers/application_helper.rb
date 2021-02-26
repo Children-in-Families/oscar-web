@@ -340,8 +340,6 @@ module ApplicationHelper
     enable_default_assessment? || enable_custom_assessment?
   end
 
-
-
   def country_langauge
     return 'Swahili' if current_organization.short_name == 'cccu'
     country = current_setting.try(:country_name)

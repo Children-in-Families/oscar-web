@@ -1,5 +1,6 @@
 module CommunityGridOptions
   extend ActiveSupport::Concern
+  include ClientsHelper
   include AssessmentHelper
 
   def choose_grid
@@ -314,7 +315,7 @@ module CommunityGridOptions
       if current_user.nil? || quantitative_type_readable_ids.include?(quantitative_type.id)
         @community_grid.column(quantitative_type.name.to_sym, class: 'quantitative-type', header: -> { quantitative_type.name }) do |object|
           quantitative_type_values = object.quantitative_cases.where(quantitative_type_id: quantitative_type.id).pluck(:value)
-          rule = get_rule(params, quantitative_type.name.squish)
+          rule = get_community_rule(params, quantitative_type.name.squish)
           if rule.presence && rule.dig(:type) == 'date'
             quantitative_type_values = date_condition_filter(rule, quantitative_type_values).presence || quantitative_type_values
           elsif rule.presence

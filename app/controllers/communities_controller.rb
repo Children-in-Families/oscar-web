@@ -13,11 +13,6 @@ class CommunitiesController < AdminController
   before_action :load_quantative_types, only: [:new, :edit, :create, :update]
 
   def index
-    # @community_grid = CommunityGrid.new(params.fetch(:community_grid, {}))
-    # @community_grid = @community_grid.scope { |scope| scope.accessible_by(current_ability) }
-    # @community_columns ||= CommunityColumnsVisibility.new(@community_grid, params.merge(column_form_builder: @custom_form_fields))
-    # @community_columns.visible_columns
-
     if has_params?
       advanced_search
     else

@@ -251,6 +251,7 @@ class CIF.AdvancedSearch
       customFormValues = if self.customFormSelected.length > 0 then "[#{self.customFormSelected}]"
 
       $('#community_advanced_search_custom_form_selected').val(customFormValues)
+      if $('#quantitative-type-checkbox').prop('checked') then $('#community_advanced_search_quantitative_check').val(1)
 
       if (_.isEmpty(basicRules.rules) and !basicRules.valid) or (!(_.isEmpty(basicRules.rules)) and basicRules.valid)
         $('#builder').find('.has-error').removeClass('has-error')

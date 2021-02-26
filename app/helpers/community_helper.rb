@@ -16,4 +16,14 @@ module CommunityHelper
   def selected_commuity_column(field_key)
     default_setting(field_key, @community_default_columns) || params[field_key.to_sym].present?
   end
+
+  def get_community_rule(params, field)
+    return unless params.dig('community_advanced_search').present? && params.dig('community_advanced_search', 'basic_rules').present?
+    base_rules = eval params.dig('community_advanced_search', 'basic_rules')
+    rules = base_rules.dig(:rules) if base_rules.presence
+
+    index = find_rules_index(rules, field) if rules.presence
+
+    rule  = rules[index] if index.presence
+  end
 end
