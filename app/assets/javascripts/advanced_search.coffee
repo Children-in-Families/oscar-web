@@ -98,6 +98,7 @@ class CIF.AdvancedSearch
     self = @
     basicQueryRules = $('#builder').data('basic-search-rules')
     unless basicQueryRules == undefined or _.isEmpty(basicQueryRules.rules)
+      self.handleShowCustomFormSelect()
       $('#builder').queryBuilder('setRules', basicQueryRules)
 
   initRuleOperatorSelect2: (rowBuilderRule) ->
@@ -176,7 +177,6 @@ class CIF.AdvancedSearch
       method: 'GET'
       success: (response) ->
         fieldList = response[controllerName]
-        debugger;
         $('#builder').queryBuilder('addFilter', fieldList)
         self.initSelect2()
         self.addFieldToColumnPicker(element, fieldList)
@@ -251,6 +251,7 @@ class CIF.AdvancedSearch
       customFormValues = if self.customFormSelected.length > 0 then "[#{self.customFormSelected}]"
 
       $('#community_advanced_search_custom_form_selected').val(customFormValues)
+      if $('#quantitative-type-checkbox').prop('checked') then $('#community_advanced_search_quantitative_check').val(1)
 
       if (_.isEmpty(basicRules.rules) and !basicRules.valid) or (!(_.isEmpty(basicRules.rules)) and basicRules.valid)
         $('#builder').find('.has-error').removeClass('has-error')

@@ -403,7 +403,11 @@ class User < ActiveRecord::Base
   end
 
   def exited_clients(user_ids)
-    client_ids = PaperTrail::Version.where(item_type: 'CaseWorkerClient', event: 'create').joins(:version_associations).where(version_associations: { foreign_key_name: 'user_id', foreign_key_id: user_ids }).distinct.map(&:object_changes).map{|a| YAML::load a }.map{|a| (a['client_id'] || [])[1] }
+    client_ids = PaperTrail::Version.where(item_type: 'CaseWorkerClient', event: 'create').joins(:version_associations).where(version_associations: { foreign_key_name: 'user_id', foreign_key_id: user_ids }).distinct.map(&:object_changes).map do |a|
+      next unless a
+
+      YAML::load a
+    end.compact.map { |a| (a['client_id'] || [])[1] }
     Client.where(id: client_ids, status: 'Exited').ids
   end
 end
