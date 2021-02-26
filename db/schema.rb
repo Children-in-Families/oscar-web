@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210222210209) do
+ActiveRecord::Schema.define(version: 20210225102546) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1863,6 +1863,16 @@ ActiveRecord::Schema.define(version: 20210222210209) do
   add_index "services", ["parent_id"], name: "index_services_on_parent_id", using: :btree
   add_index "services", ["uuid"], name: "index_services_on_uuid", using: :btree
 
+  create_table "sessions", force: :cascade do |t|
+    t.string   "session_id", null: false
+    t.text     "data"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "sessions", ["session_id"], name: "index_sessions_on_session_id", unique: true, using: :btree
+  add_index "sessions", ["updated_at"], name: "index_sessions_on_updated_at", using: :btree
+
   create_table "settings", force: :cascade do |t|
     t.string   "assessment_frequency",                 default: "month"
     t.integer  "min_assessment"
@@ -1907,6 +1917,7 @@ ActiveRecord::Schema.define(version: 20210222210209) do
     t.boolean  "two_weeks_assessment_reminder",        default: false
     t.boolean  "hide_family_case_management_tool",     default: true,                null: false
     t.boolean  "hide_community",                       default: true,                null: false
+    t.string   "community_default_columns",            default: [],                               array: true
   end
 
   add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree
@@ -2325,10 +2336,10 @@ ActiveRecord::Schema.define(version: 20210222210209) do
     t.integer  "item_id",        null: false
     t.string   "event",          null: false
     t.string   "whodunnit"
-    t.jsonb    "object"
     t.datetime "created_at"
-    t.jsonb    "object_changes"
     t.integer  "transaction_id"
+    t.text     "object"
+    t.text     "object_changes"
   end
 
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree

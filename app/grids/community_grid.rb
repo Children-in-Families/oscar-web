@@ -1,9 +1,11 @@
 class CommunityGrid < BaseGrid
+  extend ActionView::Helpers::TextHelper
   include ApplicationHelper
+  include CommunityHelper
+  include FormBuilderHelper
   include ClientsHelper
 
-  attr_accessor :dynamic_columns
-
+  attr_accessor :current_user, :qType, :dynamic_columns, :param_data
   scope do
     Community.includes(:village, :commune, :district, :province, :community_members).order(:name)
   end
@@ -79,19 +81,19 @@ class CommunityGrid < BaseGrid
 
   column(:phone_number, header: -> { I18n.t('activerecord.attributes.community.phone_number') })
 
-  column(:village, order: 'villages.name_kh', header: -> { I18n.t('activerecord.attributes.community.village_id') }) do |object|
+  column(:village_id, order: 'villages.name_kh', header: -> { I18n.t('activerecord.attributes.community.village_id') }) do |object|
     object.village_name
   end
 
-  column(:commune, order: 'communes.name_kh', header: -> { I18n.t('activerecord.attributes.community.commune_id') }) do |object|
+  column(:commune_id, order: 'communes.name_kh', header: -> { I18n.t('activerecord.attributes.community.commune_id') }) do |object|
     object.commune_name
   end
 
-  column(:district, order: 'districts.name', header: -> { I18n.t('activerecord.attributes.community.district_id') }) do |object|
+  column(:district_id, order: 'districts.name', header: -> { I18n.t('activerecord.attributes.community.district_id') }) do |object|
     object.district_name
   end
 
-  column(:province, order: 'provinces.name', header: -> { I18n.t('activerecord.attributes.community.province_id') }) do |object|
+  column(:province_id, order: 'provinces.name', header: -> { I18n.t('activerecord.attributes.community.province_id') }) do |object|
     object.province_name
   end
 
@@ -129,6 +131,29 @@ class CommunityGrid < BaseGrid
         end
         format(properties) do |properties|
           render partial: 'shared/form_builder_dynamic/properties_value', locals: { properties:  properties }
+        end
+      end
+    end
+  end
+
+  dynamic do
+    quantitative_type_readable_ids = current_user.quantitative_type_permissions.readable.pluck(:quantitative_type_id) unless current_user.nil?
+    quantitative_types = QuantitativeType.joins(:quantitative_cases).distinct
+    quantitative_types.each do |quantitative_type|
+      if current_user.nil? || quantitative_type_readable_ids.include?(quantitative_type.id)
+        column(quantitative_type.name.to_sym, class: 'quantitative-type', header: -> { quantitative_type.name }, html: true) do |object|
+          quantitative_type_values = object.quantitative_cases.where(quantitative_type_id: quantitative_type.id).pluck(:value)
+          rule = get_community_rule(params, quantitative_type.name.squish)
+          if rule.presence && rule.dig(:type) == 'date'
+            quantitative_type_values = date_condition_filter(rule, quantitative_type_values)
+          elsif rule.present?
+            if rule.dig(:input) == 'select'
+              quantitative_type_values = select_condition_filter(rule, quantitative_type_values.flatten).presence || quantitative_type_values
+            else
+              quantitative_type_values = string_condition_filter(rule, quantitative_type_values.flatten).presence || quantitative_type_values
+            end
+          end
+          quantitative_type_values.join(', ')
         end
       end
     end

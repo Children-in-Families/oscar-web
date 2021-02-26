@@ -57,11 +57,11 @@ module AdvancedSearchHelper
   end
 
   def has_advanced_search?
-    params[:client_advanced_search].present? || params[:family_advanced_search].present? || params[:partner_advanced_search].present?
+    params[:client_advanced_search].present? || params[:family_advanced_search].present? || params[:partner_advanced_search].present? || params[:community_advanced_search].present?
   end
 
   def advanced_search_params
-    params[:client_advanced_search] || params[:family_advanced_search] || params[:partner_advanced_search]
+    params[:client_advanced_search] || params[:family_advanced_search] || params[:partner_advanced_search] || params[:community_advanced_search]
   end
 
   def format_header(key)

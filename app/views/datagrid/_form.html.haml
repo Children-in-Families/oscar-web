@@ -403,20 +403,29 @@
               = check_box_tag 'all_', 'all', checked = params['all_'].present? || saved_search_column_visibility('all_'), class: 'i-checks all_'
               = label_tag 'all_' do
                 %strong= t('datagrid.columns.show_all')
-          - [grid.columns.map(&:name), grid.header].transpose.each do |column_name, header_name|
-            - next if column_name == :assessments_due_to || column_name == :no_case_note || column_name == :overdue_task || column_name == :overdue_forms
-            - next if controller_name == 'clients' && !policy(Client).show?(column_name.to_s)
+
+          - community_grid_columns.each do |k, header_name|
+            - next if k == :assessments_due_to || k == :no_case_note || k == :overdue_task || k == :overdue_forms
+            - next if controller_name == 'clients' && !policy(Client).show?(k.to_s)
 
             - unless selected_country == 'cambodia'
-              - next if column_name.in?([:commune, :village, :street_number, :house_number, :current_address])
+              - next if k.in?([:commune, :village, :street_number, :house_number, :current_address])
 
             - unless selected_country.in?(['cambodia', 'thailand'])
-              - next if column_name.in?([:province_id, :birth_province_id, :district])
+              - next if k.in?([:province_id, :birth_province_id, :district])
 
-            %li{ id: column_name }
+            %li{ id: k.to_s }
               .visibility.col-sm-12
-                = check_box_tag "#{column_name}_", column_name, checked = saved_search_column_visibility("#{column_name}_"), class: 'i-checks'
+                = check_box_tag "#{k}_", k, checked = selected_commuity_column("#{k}_"), class: 'i-checks'
                 = header_name
+
+          #referral-data
+            - QuantitativeType.joins(:quantitative_cases).uniq.each do |quantitative_type|
+              - next unless quantitative_type_readable?(quantitative_type.id)
+              %li
+                .visibility.col-sm-12
+                  = check_box_tag "#{quantitative_type.name}_", quantitative_type.name, checked = selected_commuity_column("#{quantitative_type.name}_"), class: 'i-checks'
+                  = label_tag "#{quantitative_type.name}_", quantitative_type.name
 
   #filter_form
     %hr/
