@@ -135,17 +135,15 @@ module AdvancedSearches
       end
       
       def active_family_between(start_date, end_date)
-        enrollments = Enrollment.where(status: 'Active')
+        enrollments = Enrollment.all
         family_ids = []
         enrollments.each do |enrollment|
           enrollment_date = enrollment.enrollment_date
 
           if enrollment.leave_program.present?
             exit_date = enrollment.leave_program.exit_date
-            if !exit_date.between?(start_date, end_date) && enrollment_date.between?(start_date, end_date)
-              family_ids << enrollment.programmable_id
-            elsif !exit_date.between(start_date, end_date) && !enrollment_date.between?(start_date, end_date)
-              family_ids << enrollment.programmable_id if exit_date < start_date || exit_date > end_date
+            if enrollment_date < start_date || enrollment_date.between?(start_date, end_date)
+              family_ids << enrollment.programmable_id if exit_date.between?(start_date, end_date) || exit_date > end_date
             end
           else
             family_ids << enrollment.programmable_id if enrollment_date.between?(start_date, end_date) || enrollment_date < start_date
