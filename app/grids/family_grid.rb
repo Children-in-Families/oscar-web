@@ -155,7 +155,7 @@ class FamilyGrid < BaseGrid
     content_tag :ul, class: '' do
       object.family_members.map(&:gender).each do |gender|
         next unless gender
-        concat(content_tag(:li, gender&.titleize))
+        concat(content_tag(:li, I18n.t("datagrid.columns.families.gender_list.#{gender.gsub('other', 'other_gender')}")))
       end
     end
   end
@@ -241,6 +241,19 @@ class FamilyGrid < BaseGrid
     User.where(id: user_ids).map{|u| u.name }.join(', ')
   end
 
+  column(:case_note_date, header: -> { I18n.t('datagrid.columns.clients.case_note_date')}, html: true) do |object|
+    render partial: 'clients/case_note_date', locals: { object: object }
+  end
+
+  column(:case_note_type, header: -> { I18n.t('datagrid.columns.clients.case_note_type')}, html: true) do |object|
+    render partial: 'clients/case_note_type', locals: { object: object }
+  end
+
+  column(:program_streams, html: true, order: false, header: -> { I18n.t('datagrid.columns.families.program_streams') }) do |object, a, b, c|
+    family_enrollments = family_program_stream_name(object.enrollments.active, 'active_program_stream')
+    render partial: 'families/active_family_enrollments', locals: { active_programs: family_enrollments }
+  end
+
   dynamic do
     next unless dynamic_columns.present?
     dynamic_columns.each do |column_builder|
@@ -265,6 +278,34 @@ class FamilyGrid < BaseGrid
       end
 
     end
+  end
+
+  dynamic do
+    if !Setting.first.hide_family_case_management_tool?
+      column(:all_custom_csi_assessments, header: -> { I18n.t('datagrid.columns.all_custom_csi_assessments', assessment: t('families.show.assessment')) }, html: true) do |object|
+        render partial: 'families/all_csi_assessments', locals: { object: object.assessments.customs }
+      end
+
+      Domain.family_custom_csi_domains.order_by_identity.each do |domain|
+        domain_id = domain.id
+        identity = domain.identity
+        column("#{domain.convert_custom_identity}".to_sym, class: 'domain-scores', header: identity, html: true) do |family|
+          assessments = map_assessment_and_score(family, identity, domain_id)
+          assessment_domains = assessments.includes(:assessment_domains).map { |assessment| assessment.assessment_domains.joins(:domain).where(domains: { id: domain_id }) }.flatten.uniq
+          render  partial: 'families/list_domain_score', locals: { assessment_domains: assessment_domains }
+        end
+      end
+    end
+  end
+
+  column(:assessment_completed_date, header: -> { I18n.t('datagrid.columns.assessment_completed_date', assessment: I18n.t('families.show.assessment')) }, html: true) do |object|
+    assessments = map_assessment_and_score(object, '', nil)
+    render partial: 'families/assessments', locals: { object: assessments }
+  end
+
+  column(:date_of_custom_assessments, header: -> { I18n.t('datagrid.columns.date_of_custom_assessments', assessment: I18n.t('families.show.assessment')) }, html: true) do |object|
+    assessments = map_assessment_and_score(object, '', nil)
+    render partial: 'families/assessments', locals: { object: assessments }
   end
 
   dynamic do

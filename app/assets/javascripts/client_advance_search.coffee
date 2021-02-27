@@ -821,7 +821,7 @@ class CIF.ClientAdvanceSearch
       if $('#wizard-enrollment-checkbox').prop('checked') then $('#client_advanced_search_wizard_enrollment_check').val(1)
       if $('#wizard-tracking-checkbox').prop('checked') then $('#client_advanced_search_wizard_tracking_check').val(1)
       if $('#wizard-exit-form-checkbox').prop('checked') then $('#client_advanced_search_wizard_exit_form_check').val(1)
-      $('#client_advanced_search_action_report_builder').val(builderElement)
+      $('#client_advanced_search_action_report_builder, #family_advanced_search_action_report_builder').val(builderElement)
 
       if (_.isEmpty(basicRules.rules) and !basicRules.valid) or (!(_.isEmpty(basicRules.rules)) and basicRules.valid)
         $(builderElement).find('.has-error').removeClass('has-error')

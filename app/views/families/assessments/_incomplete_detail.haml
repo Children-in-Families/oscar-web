@@ -1,0 +1,51 @@
+.modal.fade{ role: 'dialog', tabindex: '-1', id: "modal-incomplete-assessment-#{assessment.id}"}
+  .modal-dialog.modal-lg{ role: 'document'}
+    .modal-content
+      .modal-header
+        %button.close{"aria-label" => 'Close', "data-dismiss" => 'modal'}
+          %span{"aria-hidden" => 'true'} &times;
+      .modal-body
+        .table-responsive
+          %table.table.table-bordered.table-striped.table-hover
+            %thead
+              %tr
+                %th
+                - assessment.domains.order('assessment_domains.created_at').pluck(:name).each do |domain_name|
+                  %th
+                    = domain_name
+            %tbody
+              - assessment_domains = assessment.assessment_domains.order(:created_at)
+              %tr
+                %th{ scope: :row }= t('.score')
+                - assessment_domains.each do |assessment_domain|
+                  %td
+                    - if assessment_domain.score.blank?
+                      = fa_icon 'times', class: 'text-danger'
+                    - else
+                      = fa_icon 'check', class: 'text-success'
+              %tr
+                %th{ scope: :row }= t('.reason')
+                - assessment_domains.each do |assessment_domain|
+                  %td
+                    - if assessment_domain.reason.blank?
+                      = fa_icon 'times', class: 'text-danger'
+                    - else
+                      = fa_icon 'check', class: 'text-success'
+
+              %tr
+                %th{ scope: :row }= t('.goal')
+                - assessment_domains.each do |assessment_domain|
+                  %td
+                    - if assessment_domain.goal.blank?
+                      = fa_icon 'times', class: 'text-danger'
+                    - else
+                      = fa_icon 'check', class: 'text-success'
+
+              %tr
+                %th{ scope: :row }= t('.task')
+                - assessment_domains.each do |assessment_domain|
+                  %td
+                    - if @family.tasks.by_domain_id(assessment_domain.domain_id).size.zero?
+                      = fa_icon 'times', class: 'text-danger'
+                    - else
+                      = fa_icon 'check', class: 'text-success'

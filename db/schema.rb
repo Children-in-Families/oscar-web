@@ -17,7 +17,6 @@ ActiveRecord::Schema.define(version: 20210224095120) do
   enable_extension "plpgsql"
   enable_extension "hstore"
   enable_extension "uuid-ossp"
-  enable_extension "pgcrypto"
 
   create_table "able_screening_questions", force: :cascade do |t|
     t.string   "question"
@@ -123,8 +122,10 @@ ActiveRecord::Schema.define(version: 20210224095120) do
     t.string   "attachments",        default: [],    array: true
     t.boolean  "goal_required",      default: true
     t.boolean  "required_task_last", default: false
+    t.integer  "care_plan_id"
   end
 
+  add_index "assessment_domains", ["care_plan_id"], name: "index_assessment_domains_on_care_plan_id", using: :btree
   add_index "assessment_domains", ["score"], name: "index_assessment_domains_on_score", using: :btree
 
   create_table "assessments", force: :cascade do |t|
@@ -133,9 +134,11 @@ ActiveRecord::Schema.define(version: 20210224095120) do
     t.integer  "client_id"
     t.boolean  "completed",  default: false
     t.boolean  "default",    default: true
+    t.integer  "family_id"
   end
 
   add_index "assessments", ["client_id"], name: "index_assessments_on_client_id", using: :btree
+  add_index "assessments", ["family_id"], name: "index_assessments_on_family_id", using: :btree
 
   create_table "attachments", force: :cascade do |t|
     t.string   "image"
@@ -201,6 +204,19 @@ ActiveRecord::Schema.define(version: 20210224095120) do
   end
 
   add_index "calls", ["referee_id"], name: "index_calls_on_referee_id", using: :btree
+
+  create_table "care_plans", force: :cascade do |t|
+    t.integer  "assessment_id"
+    t.integer  "client_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "family_id"
+    t.boolean  "completed",     default: false
+  end
+
+  add_index "care_plans", ["assessment_id"], name: "index_care_plans_on_assessment_id", using: :btree
+  add_index "care_plans", ["client_id"], name: "index_care_plans_on_client_id", using: :btree
+  add_index "care_plans", ["family_id"], name: "index_care_plans_on_family_id", using: :btree
 
   create_table "carers", force: :cascade do |t|
     t.string   "address_type",               default: ""
@@ -279,10 +295,12 @@ ActiveRecord::Schema.define(version: 20210224095120) do
     t.text     "note",                         default: ""
     t.integer  "custom_assessment_setting_id"
     t.string   "selected_domain_group_ids",    default: [],    array: true
+    t.integer  "family_id"
   end
 
   add_index "case_notes", ["client_id"], name: "index_case_notes_on_client_id", using: :btree
   add_index "case_notes", ["custom_assessment_setting_id"], name: "index_case_notes_on_custom_assessment_setting_id", using: :btree
+  add_index "case_notes", ["family_id"], name: "index_case_notes_on_family_id", using: :btree
 
   create_table "case_worker_clients", force: :cascade do |t|
     t.integer  "user_id"
@@ -892,9 +910,12 @@ ActiveRecord::Schema.define(version: 20210224095120) do
     t.text     "score_8_local_definition",     default: ""
     t.text     "score_9_local_definition",     default: ""
     t.text     "score_10_local_definition",    default: ""
+    t.string   "domain_type"
   end
 
   add_index "domains", ["domain_group_id"], name: "index_domains_on_domain_group_id", using: :btree
+  add_index "domains", ["domain_type"], name: "index_domains_on_domain_type", using: :btree
+  add_index "domains", ["name", "identity", "custom_assessment_setting_id", "domain_type"], name: "index_domains_on_name_identity_custom_setting_domain_type", unique: true, using: :btree
 
   create_table "donor_families", force: :cascade do |t|
     t.integer "donor_id"
@@ -1025,7 +1046,7 @@ ActiveRecord::Schema.define(version: 20210224095120) do
     t.integer  "cases_count",                     default: 0
     t.string   "case_history",                    default: ""
     t.datetime "deleted_at"
-    t.integer  "children",                        default: [],        array: true
+    t.integer  "children",                        default: [],                     array: true
     t.string   "status",                          default: ""
     t.integer  "district_id"
     t.string   "old_commune",                     default: ""
@@ -1047,10 +1068,14 @@ ActiveRecord::Schema.define(version: 20210224095120) do
     t.string   "id_poor"
     t.text     "relevant_information"
     t.string   "referee_phone_number"
-    t.string   "documents",                       default: [],        array: true
     t.string   "slug",                            default: ""
+    t.string   "documents",                       default: [],                     array: true
+    t.integer  "assessments_count",               default: 0,         null: false
+    t.integer  "care_plans_count",                default: 0,         null: false
   end
 
+  add_index "families", ["assessments_count"], name: "index_families_on_assessments_count", using: :btree
+  add_index "families", ["care_plans_count"], name: "index_families_on_care_plans_count", using: :btree
   add_index "families", ["commune_id"], name: "index_families_on_commune_id", using: :btree
   add_index "families", ["deleted_at"], name: "index_families_on_deleted_at", using: :btree
   add_index "families", ["district_id"], name: "index_families_on_district_id", using: :btree
@@ -1182,6 +1207,25 @@ ActiveRecord::Schema.define(version: 20210224095120) do
   end
 
   add_index "global_services", ["uuid"], name: "index_global_services_on_uuid", unique: true, using: :btree
+
+  create_table "goals", force: :cascade do |t|
+    t.text     "description",          default: ""
+    t.integer  "assessment_domain_id"
+    t.integer  "domain_id"
+    t.integer  "client_id"
+    t.integer  "assessment_id"
+    t.integer  "care_plan_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "family_id"
+  end
+
+  add_index "goals", ["assessment_domain_id"], name: "index_goals_on_assessment_domain_id", using: :btree
+  add_index "goals", ["assessment_id"], name: "index_goals_on_assessment_id", using: :btree
+  add_index "goals", ["care_plan_id"], name: "index_goals_on_care_plan_id", using: :btree
+  add_index "goals", ["client_id"], name: "index_goals_on_client_id", using: :btree
+  add_index "goals", ["domain_id"], name: "index_goals_on_domain_id", using: :btree
+  add_index "goals", ["family_id"], name: "index_goals_on_family_id", using: :btree
 
   create_table "government_form_children_plans", force: :cascade do |t|
     t.text     "goal",               default: ""
@@ -1949,7 +1993,7 @@ ActiveRecord::Schema.define(version: 20210224095120) do
 
   create_table "tasks", force: :cascade do |t|
     t.string   "name",                      default: ""
-    t.date     "completion_date"
+    t.date     "expected_date"
     t.datetime "remind_at"
     t.boolean  "completed",                 default: false
     t.integer  "user_id"
@@ -1963,10 +2007,15 @@ ActiveRecord::Schema.define(version: 20210224095120) do
     t.integer  "taskable_id"
     t.string   "taskable_type"
     t.datetime "deleted_at"
+    t.integer  "family_id"
+    t.integer  "goal_id"
+    t.datetime "completion_date"
   end
 
   add_index "tasks", ["client_id"], name: "index_tasks_on_client_id", using: :btree
   add_index "tasks", ["deleted_at"], name: "index_tasks_on_deleted_at", using: :btree
+  add_index "tasks", ["family_id"], name: "index_tasks_on_family_id", using: :btree
+  add_index "tasks", ["goal_id"], name: "index_tasks_on_goal_id", using: :btree
   add_index "tasks", ["taskable_type", "taskable_id"], name: "index_tasks_on_taskable_type_and_taskable_id", using: :btree
 
   create_table "thredded_categories", force: :cascade do |t|
@@ -2311,6 +2360,7 @@ ActiveRecord::Schema.define(version: 20210224095120) do
   add_foreign_key "able_screening_questions", "stages"
   add_foreign_key "action_results", "government_forms"
   add_foreign_key "advanced_searches", "users"
+  add_foreign_key "assessment_domains", "care_plans"
   add_foreign_key "assessments", "clients"
   add_foreign_key "attachments", "able_screening_questions"
   add_foreign_key "attachments", "progress_notes"
@@ -2320,6 +2370,8 @@ ActiveRecord::Schema.define(version: 20210224095120) do
   add_foreign_key "call_protection_concerns", "calls"
   add_foreign_key "call_protection_concerns", "protection_concerns"
   add_foreign_key "calls", "referees"
+  add_foreign_key "care_plans", "assessments"
+  add_foreign_key "care_plans", "clients"
   add_foreign_key "carers", "communes"
   add_foreign_key "carers", "districts"
   add_foreign_key "carers", "provinces"
@@ -2404,6 +2456,11 @@ ActiveRecord::Schema.define(version: 20210224095120) do
   add_foreign_key "family_quantitative_cases", "quantitative_cases"
   add_foreign_key "family_referrals", "families"
   add_foreign_key "global_identity_organizations", "organizations"
+  add_foreign_key "goals", "assessment_domains"
+  add_foreign_key "goals", "assessments"
+  add_foreign_key "goals", "care_plans"
+  add_foreign_key "goals", "clients"
+  add_foreign_key "goals", "domains"
   add_foreign_key "government_form_children_plans", "children_plans"
   add_foreign_key "government_form_children_plans", "government_forms"
   add_foreign_key "government_form_family_plans", "family_plans"
@@ -2457,6 +2514,7 @@ ActiveRecord::Schema.define(version: 20210224095120) do
   add_foreign_key "subdistricts", "districts"
   add_foreign_key "surveys", "clients"
   add_foreign_key "tasks", "clients", on_delete: :nullify
+  add_foreign_key "tasks", "goals"
   add_foreign_key "townships", "states"
   add_foreign_key "trackings", "program_streams"
   add_foreign_key "users", "organizations"

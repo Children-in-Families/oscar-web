@@ -71,19 +71,6 @@
                           = ad.reason
                       %tr
                         %td
-                          %b= "#{t('.goal')}:"
-                        %td
-                          = ad.try(:goal)
-                      - incomplete_tasks = @client.tasks.by_domain_id(ad.domain_id).incomplete
-                      - if incomplete_tasks.any?
-                        %tr
-                          %td
-                            %b= "#{t('.task')}:"
-                          %td
-                            - incomplete_tasks.each do |task|
-                              %li= "#{task.name} (#{t('.due_date')}: #{date_format(task.completion_date)})"
-                      %tr
-                        %td
                         %td
                           - if ad.attachments.any?
                             %br

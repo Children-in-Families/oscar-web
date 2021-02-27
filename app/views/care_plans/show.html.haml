@@ -1,0 +1,77 @@
+.row.mini-margin
+  .col-xs-12.col-sm-10.col-sm-offset-1
+    .alert.alert-warning.alert-dismissible{ :role => "alert" }
+      %button.close{"aria-label" => "Close", "data-dismiss" => "alert", :type => "button"}
+        %span{"aria-hidden" => "true"} ×
+      %ul
+        %li= I18n.t('inline_help.clients.assessments.case_plan.lists.list1').html_safe
+        %li= I18n.t('inline_help.clients.assessments.case_plan.lists.list2').html_safe
+        %li= I18n.t('inline_help.clients.assessments.case_plan.lists.list3').html_safe
+        %li= I18n.t('inline_help.clients.assessments.case_plan.lists.list4').html_safe
+        %li= I18n.t('inline_help.clients.assessments.case_plan.lists.list5').html_safe
+    .ibox#care_plan-info.center-block
+      .ibox-title
+        .row
+          .col-xs-10
+            %p
+              %b= "#{t('.care_plan')} #{@care_plan.client.name}"
+              %br
+              = "#{t('.care_plan_created_by')} #{whodunnit('CarePlan', @care_plan)} #{t('.on_date')} #{date_format(@care_plan.created_at)}"
+          .col-xl-1.button-position
+            .pull-right
+              = link_to client_care_plans_path(@care_plan.client), class: 'btn btn-default' do
+                = t('.back')
+              - if policy(@care_plan.assessment).edit?
+                = care_plan_edit_link(@care_plan.client, @care_plan)
+              - if current_user.admin?
+                = care_plan_destroy_link(@care_plan.client, @care_plan)
+      .ibox-content
+        - @care_plan.assessment.assessment_domains_in_order.each do |ad|
+          - next if ad.goals.empty?
+          .row
+            .col-xs-12
+              %div{class: "panel panel-#{ad.score_color_class}"}
+                .panel-heading
+                  %table.table.table-borderless
+                    %tbody
+                      %tr
+                        %td
+                          %b
+                            = t('.domain')
+                            = t("domains.domain_names.#{ad.domain.name.downcase.reverse}") + ":"
+                            = t("domains.domain_identies.#{ad.domain.identity.strip.parameterize('_')}_#{ad.domain.name.downcase}")
+                        %td{rowspan: 1}
+                          .domain-score.text-center
+                            %button{ 'data-original-title': "#{simple_format(ad.score_definition)}", type: 'button', class: "btn btn-#{ad.score_color_class} btn-xs", 'data-toggle': 'tooltip' }
+                              = "#{ad.score}"
+                      %tr
+                        %td.no-padding-top
+                          %b= "#{t('.score')} #{ad.score}: #{(ad.score_definition).html_safe}" 
+                  .row
+                    .col-md-12.col-xs-12
+                      .col-md-4.col-xs-12
+                        %p= t('.goal') 
+                      .col-md-4.col-xs-12
+                        %p= t('.task')
+                      .col-md-2.col-xs12
+                        %p= t('.expected_date')
+                      .col-md-2.col-xs-12
+                        %p= t('.done_during')
+                  .row
+                    - ad.goals.each do |goal|
+                      .col-md-12.col-xs-12.goal-cover
+                        - if goal.tasks.empty?
+                          .col-md-4.col-xs-12
+                            = goal.description
+                        - else
+                          - goal.tasks.each_with_index do |task, index|
+                            .row
+                              .col-md-4.col-xs-12
+                                - if index == 0
+                                  = goal.description
+                              .col-md-4.col-xs-12
+                                = task.name
+                              .col-md-2.col-xs-12
+                                = task.completion_date
+                              .col-md-2.col-xs-12
+

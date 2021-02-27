@@ -1,17 +1,20 @@
 class Assessment < ActiveRecord::Base
   belongs_to :client, counter_cache: true
+  belongs_to :family, counter_cache: true
 
   has_many :assessment_domains, dependent: :destroy
   has_many :domains,            through:   :assessment_domains
   has_many :case_notes,         dependent: :destroy
   has_many :tasks, as: :taskable, dependent: :destroy
+  has_many :goals, dependent: :destroy
+
+  has_one :care_plan, dependent: :destroy
 
   has_paper_trail
 
-  validates :client, presence: true
+  validates :client, presence: true, if: :client_id?
   validate :must_be_enable
   validate :allow_create, :eligible_client_age, if: :new_record?
-
 
   before_save :set_previous_score, :set_assessment_completed
 
@@ -28,7 +31,7 @@ class Assessment < ActiveRecord::Base
   def set_assessment_completed
     empty_assessment_domains = []
     assessment_domains.each do |assessment_domain|
-      empty_assessment_domains << assessment_domain if (assessment_domain[:goal].empty? && assessment_domain[:goal_required] == true) || assessment_domain[:score].nil? || assessment_domain[:reason].empty?
+      empty_assessment_domains << assessment_domain if (assessment_domain[:score].nil? || assessment_domain[:reason].empty?)
     end
     if empty_assessment_domains.count.zero?
       self.completed = true
@@ -50,11 +53,15 @@ class Assessment < ActiveRecord::Base
     customs.most_recents.first
   end
 
-  def initial?(custom_assessment_setting_id=nil)
-    if default?
-      self == client.assessments.defaults.most_recents.last || client.assessments.defaults.count.zero?
-    else
-      self == client.assessments.customs.joins(:domains).where(domains: { custom_assessment_setting_id: custom_assessment_setting_id }).most_recents.last || client.assessments.customs.count.zero?
+  def initial?(custom_assessment_setting_id = nil)
+    if client_id
+      if default?
+        self == client.assessments.defaults.most_recents.last || client.assessments.defaults.count.zero?
+      else
+        self == client.assessments.customs.joins(:domains).where(domains: { custom_assessment_setting_id: custom_assessment_setting_id }).most_recents.last || client.assessments.customs.count.zero?
+      end
+    elsif family_id
+      self == family.assessments.customs.most_recents.last || family.assessments.customs.count.zero?
     end
   end
 
@@ -64,12 +71,19 @@ class Assessment < ActiveRecord::Base
 
   def populate_notes(default, custom_name)
     if custom_name.present?
-      custom_assessment_id= CustomAssessmentSetting.find_by(custom_assessment_name: custom_name).id
+      custom_assessment_id = CustomAssessmentSetting.find_by(custom_assessment_name: custom_name).id
       domains = default == 'true' ? Domain.csi_domains : CustomAssessmentSetting.find_by(id: custom_assessment_id).domains
     else
       domains = default == 'true' ? Domain.csi_domains : Domain.custom_csi_domains
     end
     domains.each do |domain|
+      assessment_domains.build(domain: domain)
+    end
+  end
+
+  def populate_family_domains
+    family_domains = Domain.family_custom_csi_domains
+    family_domains.where.not(id: domains.ids).each do |domain|
       assessment_domains.build(domain: domain)
     end
   end
@@ -104,6 +118,10 @@ class Assessment < ActiveRecord::Base
     Assessment.order(:created_at).where(client_id: client_id).pluck(:id).index(id)
   end
 
+  def parent
+    family_id? ? family : client
+  end
+
   private
 
   def allow_create
@@ -118,9 +136,9 @@ class Assessment < ActiveRecord::Base
   def set_previous_score
     if new_record? && !initial?
       if default?
-        previous_assessment = client.assessments.defaults.latest_record
+        previous_assessment = parent.assessments.defaults.latest_record
       else
-        previous_assessment = client.assessments.customs.latest_record
+        previous_assessment = parent.assessments.customs.latest_record
       end
       previous_assessment.assessment_domains.each do |previous_assessment_domain|
         assessment_domains.each do |assessment_domain|

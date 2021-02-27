@@ -1,0 +1,29 @@
+body[id=care_plans-index] {
+    .button {
+      min-width: 165px;
+    }
+    .push-bottom {
+      margin-bottom: 15px;
+    }
+    .margin-title{
+      margin-left: 10px;
+    }
+    .margin-row{
+      margin: 8px 0 8px 0;
+    }
+    .disabled{
+      color: #7f817f !important;
+    }
+    .disabled-li{
+      pointer-events: none !important;
+      color: #7f817f !important;
+    }
+  
+    .btn.button {
+      a {
+        display: block;
+        color: white;
+      }
+    }
+  }
+  
