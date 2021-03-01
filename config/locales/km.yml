@@ -115,12 +115,12 @@ km:
         documents: Upload Documents
         donor_ids: Donor
         formed_date: Date of Group/Community Formed
-        gender: Gender
+        gender: ភេទ
         id: Automatic ID
-        initial_referral_date: NGO Accept Date
+        initial_referral_date: កាលបរិចេ្ឆទនៃការបញ្ជូនដំបូង
         name: Name (Khmer)
         name_en: Name (Latin)
-        phone_number: Phone Number
+        phone_number: លេខទូរស័ព្ទ
         province_id: Province
         received_by_id: Receiving Staff Member
         relevant_information: Relevant Information
@@ -133,45 +133,53 @@ km:
         adule_male_count: Total Household Adult Males
         kid_female_count: Total Household Girls
         kid_male_count: Total Household Boys
-        gender: Gender
-        is_family: Family?
-        name: Name
-        role: Role
+        gender: ភេទ
       family:
-        id: Automatic ID
-        id_poor: Has ID Poor?
-        case_worker_ids: Case Worker/Staff Assigned
-        code: Manual ID
-        commune_id: Commune/Sangkat
-        community_ids: Community/Group
-        contract_date: Family Contract Date
+        id: លេខសំគាល់
+        id_poor: កំរិតប័ណ្ណក្រីក្រ
+        case_worker_ids: បុគ្គលិកគ្រប់គ្រងករណី
+        code: លេខសំគាល់គ្រួសារ
+        commune_id: ឃុំ/សង្កាត់
+        community_id: Community/Group
+        contract_date: កាលបរិច្ឆេទនៃកិច្ចសន្យា
         custom_forms: Custom Forms
-        dependable_income: Dependable Income
-        district_id: District/Khan
+        dependable_income: ប្រាក់ចំណូលទៀងទាត់
+        district_id: ស្រុក/ខណ្ឌ
+        documents: Upload Documents
         donor_ids: Donor
-        family_type: Family Type
-        followed_up_by_id: First Follow Up By
-        follow_up_date: First Follow Up Date
+        family_preservation: ករណីអភិរក្សគ្រួសារ?
+        family_type: ប្រភេទគ្រួសារ
+        female_adult_count: ចំនួនមនុស្សស្រីពេញវ័យ
+        female_children_count: ចំនួនក្មេងស្រី
+        followed_up_by_id: បុគ្គលិកតាមដានករណី
+        follow_up_date: កាលបរិច្ឆេទតាមដានដំបូង
+        gender: ភេទ
         house: House Number
-        id: ID
-        initial_referral_date: Date of Referral
-        name: Head Household Name (Khmer)
+        id: លេខសំគាល់
+        initial_referral_date: កាលបរិចេ្ឆទនៃការបញ្ជូនដំបូង
+        name: ឈ្មោះអ្នកថែទាំកុមារ
         name_en: Head Household Name (Latin)
-        province_id: Province
-        received_by_id: Received by Staff Member
-        referee_phone_number: Referee Phone Number
-        street: Street Number
-        village_id: Village
+        'no': ទេ
+        phone_number: លេខទូរស័ព្ទ
+        province: ខេត្ត/ក្រុង
+        province_id: ខេត្ត/ក្រុង
+        received_by_id:  បុគ្គលិកទទួលករណី
+        referee_phone_number: លេខទូរស័ព្ទរបស់អ្នកបញ្ជូនករណី
+        referral_source_category_id: ប្រភេទប្រភពនៃការបញ្ជូន
+        referral_source_id: ប្រភពនៃការបញ្ជូន
+        relevant_information: Relevant Information
+        street: ផ្លូវ
+        village_id: ភូមិ
         'yes': 'Yes'
       family_member:
-        adult_name: Name
-        gender: Gender
-        guardian: Guardian
-        date_of_birth: Date of Birth
+        adult_name: ឈ្មោះមនុស្សពេញវ័យ
+        gender: ភេទ
+        guardian: អាណាព្យាបាល
+        date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
         is_client: Client?
         monthly_income: Monthly Income (USD)
-        occupation: Occupation
-        relation: Role in Family
+        occupation: មុខរបរ
+        relation: ទំនាក់ទំនងជាមួយកុមារ
       referee:
         referee_address: ឣាសយដ្ឋាន
     default:
@@ -2282,8 +2290,8 @@ km:
       program_streams: បញ្ជូលសហគមន៍ក្នុងកម្មវិធីចម្បង
       read_less: read less
       read_more: read more
-      referral_source: Referral Source
-      referral_source_category: Referral Source Category
+      referral_source: ប្រភពនៃការបញ្ជូន
+      referral_source_category: ប្រភេទប្រភពនៃការបញ្ជូន
       total_boys: Total Boys
       total_female: Total Adult Females
       total_girls: Total Girls
@@ -2845,16 +2853,24 @@ km:
         clients: ឣតិថិជន
         code: លេខសំគាល់គ្រួសារ
         commune: ឃុំ/សង្កាត់
+        commune_id: ឃុំ/សង្កាត់
+        community_id: Community/Group
         contract_date: កាលបរិច្ឆេទនៃកិច្ចសន្យា
+        custom_forms: ទម្រង់បែបបទ
         date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
         dependable_income: ប្រាក់ចំណូលទៀងទាត់
         district: ស្រុក/ខណ្ឌ
+        district_id: ស្រុក/ខណ្ឌ
+        documents: Upload Documents
+        donor_ids: Donor
         family: គ្រួសារ
         family_preservation: ករណីអភិរក្សគ្រួសារ?
         family_type: ប្រភេទគ្រួសារ
         female: ស្រី
         female_adult_count: ចំនួនមនុស្សស្រីពេញវ័យ
         female_children_count: ចំនួនក្មេងស្រី
+        followed_up_by_id: បុគ្គលិកតាមដានករណី
+        follow_up_date: កាលបរិច្ឆេទតាមដានដំបូង
         form_title: ឈ្មោះទម្រង់បែបបទ
         gender: ភេទ
         gender_list:
@@ -2867,20 +2883,32 @@ km:
         house: ផ្ទះលេខ
         household_income: ប្រាក់ចំណូលគ្រួសារប្រចាំខែ
         id: លេខសំគាល់
+        id_poor: កំរិតប័ណ្ណក្រីក្រ
+        initial_referral_date: កាលបរិចេ្ឆទនៃការបញ្ជូនដំបូង
         male: ប្រុស
         male_adult_count: ចំនួនមនុស្សប្រុសពេញវ័យ
         male_children_count: ចំនួនក្មេងប្រុស
         manage: សកម្មភាព
         member_count: ចំនួនសមាជិកគ្រួសារ
         name: ឈ្មោះអ្នកថែទាំកុមារ
+        name_en: Head Household Name (Latin)
         'no': ទេ
+        phone_number: លេខទូរស័ព្ទ
         province: ខេត្ត/ក្រុង
+        province_id: ខេត្ត/ក្រុង
+        received_by: បុគ្គលិកទទួលករណី
+        received_by_id: បុគ្គលិកទទួលករណី
+        referee_phone_number: លេខទូរស័ព្ទរបស់អ្នកបញ្ជូនករណី
+        referral_source_category_id: ប្រភេទប្រភពនៃការបញ្ជូន
+        referral_source_id: ប្រភពនៃការបញ្ជូន
+        relevant_information: Relevant Information
         significant_family_member_count: ចំនួនសមាជិកគ្រួសារដែលចូលរួមរកប្រាក់ចំណូល
         status: ស្ថានភាព
         street: ផ្លូវ
         total: សរុប
         view: មើល
         village: ភូមិ
+        village_id: ភូមិ
         'yes': បាទ/ចាស
       family: គ្រួសារ
       family_id: លេខសម្គាល់គ្រួសារ
@@ -2984,8 +3012,8 @@ km:
       support_amount: ប្រាក់ឧបត្ថម្ភ
       support_note: ពត៌មានពីប្រាក់ឧប្ថម្ភ
       time_in_care: រយៈពេលមើលថែទាំ
-      time_in_cps:
-      time_in_ngo:
+      time_in_cps: រយៈពេលស្ថិតនៅក្នុងកម្មវិធីចម្បង
+      time_in_ngo: រយៈពេលនៅក្នុងអង្គការ
       trackings:
         action: សកម្មភាព
         frequency: ភាពញឹកញាប់
@@ -3196,6 +3224,11 @@ km:
     name: ឈ្មោះអ្នកថែទាំកុមារ
     'no': ទេ
     province: ខេត្ត/ក្រុង
+    received_by: បុគ្គលិកទទួលករណី
+    received_by_id: Received by Staff Member
+    referee_phone_number: លេខទូរស័ព្ទរបស់អ្នកបញ្ជូនករណី
+    referral_source_category_id: ប្រភេទប្រភពនៃការបញ្ជូន
+    referral_source_id: ប្រភពនៃការបញ្ជូន
     significant_family_member_count: ចំនួនសមាជិកគ្រួសារដែលចូលរួមរកប្រាក់ចំណូល
     'yes': បាទ/ចាស
   default_government_report_fields:
