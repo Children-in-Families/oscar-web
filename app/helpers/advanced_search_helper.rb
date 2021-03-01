@@ -1,5 +1,6 @@
 module AdvancedSearchHelper
   include ClientsHelper
+  include FamiliesHelper
 
   def custom_form_values(report_builder = '#builder')
     has_custom_form_selected = has_advanced_search? && advanced_search_params[:custom_form_selected].present? && (advanced_search_params[:action_report_builder].present? ? report_builder == advanced_search_params[:action_report_builder] : true)
@@ -171,44 +172,7 @@ module AdvancedSearchHelper
   end
 
   def family_header(key)
-    translations = {
-      family_basic_fields:                      I18n.t('advanced_search.fields.family_basic_fields'),
-      case_note_date:                           I18n.t('advanced_search.fields.case_note_date'),
-      case_note_type:                           I18n.t('advanced_search.fields.case_note_type'),
-      csi_domain_scores:                        I18n.t('advanced_search.fields.csi_domain_scores'),
-      custom_csi_domain_scores:                 I18n.t('advanced_search.fields.custom_csi_domain_scores'),
-      name:                                     I18n.t('datagrid.columns.families.name'),
-      id:                                       I18n.t('datagrid.columns.families.id'),
-      code:                                     I18n.t('datagrid.columns.families.code'),
-      family_type:                              I18n.t('datagrid.columns.families.family_type'),
-      status:                                   I18n.t('datagrid.columns.families.status'),
-      gender:                                   I18n.t('activerecord.attributes.family_member.gender'),
-      date_of_birth:                            I18n.t('datagrid.columns.families.date_of_birth'),
-      case_history:                             I18n.t('datagrid.columns.families.case_history'),
-      address:                                  I18n.t('datagrid.columns.families.address'),
-      significant_family_member_count:          I18n.t('datagrid.columns.families.significant_family_member_count'),
-      male_children_count:                      I18n.t('datagrid.columns.families.male_children_count'),
-      province_id:                              I18n.t('datagrid.columns.families.province'),
-      district_id:                              I18n.t('datagrid.columns.families.district'),
-      commune_id:                               I18n.t('datagrid.columns.families.commune'),
-      village_id:                               I18n.t('datagrid.columns.families.village'),
-      street:                                   I18n.t('datagrid.columns.families.street'),
-      house:                                    I18n.t('datagrid.columns.families.house'),
-      client_id:                                I18n.t('datagrid.columns.families.client'),
-      dependable_income:                        I18n.t('datagrid.columns.families.dependable_income'),
-      male_adult_count:                         I18n.t('datagrid.columns.families.male_adult_count'),
-      household_income:                         I18n.t('datagrid.columns.families.household_income'),
-      contract_date:                            I18n.t('datagrid.columns.families.contract_date'),
-      caregiver_information:                    I18n.t('datagrid.columns.families.caregiver_information'),
-      changelog:                                I18n.t('datagrid.columns.families.changelog'),
-      manage:                                   I18n.t('datagrid.columns.families.manage'),
-      female_children_count:                    I18n.t('datagrid.columns.families.female_children_count'),
-      female_adult_count:                       I18n.t('datagrid.columns.families.female_adult_count'),
-      case_workers:                             I18n.t('datagrid.columns.families.case_workers'),
-      member_count:                             I18n.t('datagrid.columns.families.member_count'),
-      assessment_completed_date: I18n.t('advanced_search.fields.assessment_completed_date', assessment: I18n.t('families.show.assessment')),
-      active_families:                          I18n.t('datagrid.columns.families.active_families')
-    }
+    translations = map_family_field_labels
     translations[key.to_sym] || ''
   end
 

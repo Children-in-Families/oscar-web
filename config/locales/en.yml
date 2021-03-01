@@ -161,6 +161,8 @@ en:
         province_id: Province
         received_by_id: Received by Staff Member
         referee_phone_number: Referee Phone Number
+        referral_source_category_id: Referral Source Category
+        referral_source_id: Referral Source
         street: Street Number
         village_id: Village
         'yes': 'Yes'
@@ -2879,22 +2881,29 @@ en:
         caregiver_information: Caregiver Information
         case_history: Case History
         case_workers: Case Workers
+        case_worker_ids: Case Worker/Staff Assigned
         changelogs: Changelog
         client: Client
         clients: Clients
-        code: Family ID
+        code: Manual ID
         commune: Commune
-        contract_date: Contract Date
+        commune_id: Commune/Sangkat
+        community_ids: Community/Group
+        contract_date: Family Contract Date
+        custom_forms: Custom Forms
         date_of_birth: Date of Birth
         dependable_income: Dependable Income
         direct_beneficiaries: Direct Beneficiaries
         district: District
+        district_id: District/Khan
         family: Family
         family_preservation: Family Preservation?
         family_type: Family Type
         female: Female
         female_adult_count: Female Adult Count
         female_children_count: Female Children Count
+        followed_up_by_id: First Follow Up By
+        follow_up_date: First Follow Up Date
         form_title: Form Title
         gender: Gender
         gender_list:
@@ -2904,26 +2913,38 @@ en:
           other_gender: Other
           prefer_not_to_say: Prefer not to answer/Non-specified
           unknown: Unknown
-        house: House
+        house: House Number
         household_income: Monthly Household Income
-        id: ID
+        id: Automatic ID
+        id_poor: Has ID Poor?
+        initial_referral_date: Date of Referral
         male: Male
         male_adult_count: Male Adult Count
         male_children_count: Male Children Count
         manage: Manage
         member_count: Family Members
+        name: Head Household Name (Khmer)
+        name_en: Head Household Name (Latin)
         'no': 'No'
         quantitative: Custom Referral Data
         program_enrollment_date: Program Enrollment Date
         program_exit_date: Program Exit Date
         program_streams: Program Streams
+        phone_number: Phone Number
         province: Province
+        province_id: Province
+        received_by: Received by Staff Member
+        received_by_id: Received by Staff Member
+        referee_phone_number: Referee Phone Number
+        referral_source_category_id: Referral Source Category
+        referral_source_id: Referral Source
         significant_family_member_count: Significant Family Member Count
         status: Status
         street: Street
         total: Total
         view: View
         village: Village
+        village_id: Village
         'yes': 'Yes'
       family: Family
       family_id: Family ID
