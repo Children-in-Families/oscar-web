@@ -2,7 +2,7 @@ module AdvancedSearches
   module Families
     class FamilyBaseSqlBuilder
       ASSOCIATION_FIELDS = ['client_id', 'case_workers', 'gender', 'date_of_birth', 'date_of_custom_assessments', 'assessment_completed_date', 'assessment_completed', 'case_note_date', 'case_note_type'].freeze
-      BLANK_FIELDS = %w(contract_date household_income dependable_income female_children_count male_children_count female_adult_count male_adult_count province_id significant_family_member_count district_id commune_id village_id id)
+      BLANK_FIELDS = %w(contract_date household_income dependable_income female_children_count male_children_count female_adult_count male_adult_count province_id significant_family_member_count district_id commune_id village_id id referral_source_id)
       SENSITIVITY_FIELDS = %w(name code address case_history caregiver_information family_type status)
 
       def initialize(families, rules)
@@ -107,14 +107,16 @@ module AdvancedSearches
           if BLANK_FIELDS.include? field
             @sql_string << "families.#{field} IS NULL"
           else
-            @sql_string << "(families.#{field} IS NULL OR families.#{field} = '')"
+            not_integer_field = field[/\_id/] ? '' : "OR families.#{field} != ''"
+            @sql_string << "(families.#{field} IS NULL #{not_integer_field})"
           end
 
         when 'is_not_empty'
           if BLANK_FIELDS.include? field
             @sql_string << "families.#{field} IS NOT NULL"
           else
-            @sql_string << "(families.#{field} IS NOT NULL AND families.#{field} != '')"
+            not_integer_field = field[/\_id/] ? '' : "AND families.#{field} != ''"
+            @sql_string << "(families.#{field} IS NOT NULL #{not_integer_field})"
           end
 
         when 'between'
