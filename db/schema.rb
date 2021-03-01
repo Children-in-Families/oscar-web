@@ -2010,10 +2010,12 @@ ActiveRecord::Schema.define(version: 20210224095120) do
     t.integer  "family_id"
     t.integer  "goal_id"
     t.datetime "completion_date"
+    t.string   "domain_group_identity"
   end
 
   add_index "tasks", ["client_id"], name: "index_tasks_on_client_id", using: :btree
   add_index "tasks", ["deleted_at"], name: "index_tasks_on_deleted_at", using: :btree
+  add_index "tasks", ["domain_group_identity"], name: "index_tasks_on_domain_group_identity", using: :btree
   add_index "tasks", ["family_id"], name: "index_tasks_on_family_id", using: :btree
   add_index "tasks", ["goal_id"], name: "index_tasks_on_goal_id", using: :btree
   add_index "tasks", ["taskable_type", "taskable_id"], name: "index_tasks_on_taskable_type_and_taskable_id", using: :btree
@@ -2034,7 +2036,10 @@ ActiveRecord::Schema.define(version: 20210224095120) do
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "position",   null: false
   end
+
+  add_index "thredded_messageboard_groups", ["name"], name: "index_thredded_messageboard_group_on_name", unique: true, using: :btree
 
   create_table "thredded_messageboards", force: :cascade do |t|
     t.string   "name",                  limit: 191,             null: false
@@ -2046,6 +2051,7 @@ ActiveRecord::Schema.define(version: 20210224095120) do
     t.integer  "messageboard_group_id"
     t.datetime "created_at",                                    null: false
     t.datetime "updated_at",                                    null: false
+    t.integer  "position",                                      null: false
   end
 
   add_index "thredded_messageboards", ["messageboard_group_id"], name: "index_thredded_messageboards_on_messageboard_group_id", using: :btree
@@ -2110,6 +2116,7 @@ ActiveRecord::Schema.define(version: 20210224095120) do
     t.string   "hash_id",      limit: 191,             null: false
     t.datetime "created_at",                           null: false
     t.datetime "updated_at",                           null: false
+    t.datetime "last_post_at"
   end
 
   add_index "thredded_private_topics", ["hash_id"], name: "index_thredded_private_topics_on_hash_id", using: :btree
@@ -2147,6 +2154,7 @@ ActiveRecord::Schema.define(version: 20210224095120) do
     t.integer  "moderation_state",                             null: false
     t.datetime "created_at",                                   null: false
     t.datetime "updated_at",                                   null: false
+    t.datetime "last_post_at"
   end
 
   add_index "thredded_topics", ["hash_id"], name: "index_thredded_topics_on_hash_id", using: :btree
