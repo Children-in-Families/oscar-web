@@ -2,6 +2,7 @@ module AdvancedSearches
   module Families
     class FamilyFields
       include AdvancedSearchHelper
+      include AdvancedSearchFieldHelper
       include Pundit
 
       def initialize(options = {})
@@ -37,7 +38,7 @@ module AdvancedSearches
       end
 
       def text_type_list
-        ['code', 'name', 'caregiver_information', 'case_history', 'street', 'house']
+        ['code', 'name', 'name_en', 'phone_number', 'caregiver_information', 'case_history', 'street', 'house']
       end
 
       def date_type_list
@@ -55,7 +56,12 @@ module AdvancedSearches
           ['dependable_income', { yes: 'Yes', no: 'No' }],
           ['client_id', clients],
           ['commune_id', communes],
-          ['village_id', villages]
+          ['village_id', villages],
+          ['id_poor', family_id_poor],
+          ['received_by_id', received_by_options('Family')],
+          ['followed_up_by_id', followed_up_by_options('Family')],
+          ['referral_source_category_id', referral_source_category_options('Family')],
+          ['referral_source_id', referral_source_options('Family')],
         ]
       end
 
@@ -89,6 +95,10 @@ module AdvancedSearches
 
       def clients
         Client.joins(:families).order('lower(clients.given_name)').pluck('clients.given_name, clients.family_name, clients.id').uniq.map{|s| { s[2].to_s => "#{s[0]} #{s[1]}" } }
+      end
+
+      def family_id_poor
+        Family::ID_POOR.map { |s| { s => s } }
       end
 
       def case_workers_options

@@ -1,47 +1,13 @@
 class FamilyColumnsVisibility
+  include FamiliesHelper
+
   def initialize(grid, params)
     @grid   = grid
     @params = params
   end
 
   def columns_collection
-    {
-      all_custom_csi_assessments_: :all_custom_csi_assessments,
-      assessment_completed_date_: :assessment_completed_date,
-      case_note_date_: :case_note_date,
-      case_note_type_: :case_note_type,
-      date_of_custom_assessments_: :date_of_custom_assessments,
-      name_: :name,
-      code_: :code,
-      id_: :id,
-      family_type_: :family_type,
-      status_: :status,
-      case_history_: :case_history,
-      address_: :address,
-      member_count_: :member_count,
-      caregiver_information_: :caregiver_information,
-      household_income_: :household_income,
-      dependable_income_: :dependable_income,
-      case_worker_: :case_worker,
-      significant_family_member_count_: :significant_family_member_count,
-      contract_date_: :contract_date,
-      province_id_: :province,
-      district_id_: :district,
-      house_: :house,
-      street_: :street,
-      commune_id_: :commune,
-      village_id_: :village,
-      manage_: :manage,
-      changelog_: :changelog,
-      clients_: :cases,
-      case_workers_: :case_workers,
-      female_children_count_: :female_children_count,
-      male_children_count_: :male_children_count,
-      female_adult_count_: :female_adult_count,
-      male_adult_count_: :male_adult_count,
-      gender_: :gender,
-      date_of_birth_: :date_of_birth
-    }
+    map_family_field_labels.keys.map { |family_label_key| ["#{family_label_key}_".to_sym, family_label_key] }.to_h
   end
 
   def visible_columns

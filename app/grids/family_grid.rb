@@ -11,6 +11,10 @@ class FamilyGrid < BaseGrid
     scope.name_like(value)
   end
 
+  filter(:name_en, :string, header: -> { I18n.t('datagrid.columns.families.name_en') }) do |value, scope|
+    scope.name_like(value)
+  end
+
   filter(:id, :integer, header: -> { I18n.t('datagrid.columns.families.id') })
 
   filter(:code, :string, header: -> { I18n.t('datagrid.columns.families.code') }) do |value, scope|
@@ -44,6 +48,8 @@ class FamilyGrid < BaseGrid
 
   filter(:male_children_count, :integer, range: true, header: -> { I18n.t('datagrid.columns.families.male_children_count') })
 
+  filter(:received_by_id, :enum, select: :province_options, header: -> { I18n.t('datagrid.columns.families.received_by_id') })
+
   filter(:province_id, :enum, select: :province_options, header: -> { I18n.t('datagrid.columns.families.province') })
 
   filter(:district_id, :enum, select: :district_options, header: -> { I18n.t('datagrid.columns.families.district') })
@@ -59,6 +65,8 @@ class FamilyGrid < BaseGrid
   filter(:house, :string, header: -> { I18n.t('datagrid.columns.families.house') }) do |value, scope|
     scope.house_like(value)
   end
+
+  filter(:phone_number, :string, header: -> { I18n.t('datagrid.columns.families.phone_number') })
 
   def mapping_family_type_translation
     [I18n.t('default_family_fields.family_type_list').values, I18n.backend.send(:translations)[:en][:default_family_fields][:family_type_list].values].transpose
@@ -84,6 +92,12 @@ class FamilyGrid < BaseGrid
     FamilyMember.gender.values.map{ |value| [I18n.t("datagrid.columns.families.gender_list.#{value.gsub('other', 'other_gender')}"), value] }
   end
 
+  def family_id_poor
+    Family::ID_POOR
+  end
+
+  filter(:id_poor, :enum, select: :family_id_poor, header: -> { I18n.t('datagrid.columns.families.id_poor') })
+
   filter(:dependable_income, :xboolean, header: -> { I18n.t('datagrid.columns.families.dependable_income') }) do |value, scope|
     value ? scope.where(dependable_income: true) : scope.where(dependable_income: false)
   end
@@ -94,7 +108,11 @@ class FamilyGrid < BaseGrid
 
   filter(:household_income, :float, range: true, header: -> { I18n.t('datagrid.columns.families.household_income') })
 
-  filter(:contract_date, :date, range: true, header: -> { I18n.t('datagrid.columns.families.contract_date') })
+  filter(:contract_date, :date, header: -> { I18n.t('datagrid.columns.families.contract_date') })
+
+  filter(:initial_referral_date, :date, header: -> { I18n.t('datagrid.columns.families.initial_referral_date') })
+
+  filter(:follow_up_date, :date, header: -> { I18n.t('datagrid.columns.families.follow_up_date') })
 
   filter(:caregiver_information, :string, header: -> { I18n.t('datagrid.columns.families.caregiver_information') }) do |value, scope|
     scope.caregiver_information_like(value)
@@ -108,11 +126,15 @@ class FamilyGrid < BaseGrid
       female_adult_count: :aggregrate,
       male_adult_count: :aggregrate,
       household_income: :general,
+      follow_up_date: :general,
       contract_date: :general,
       caregiver_information: :general,
       id: :general,
+      id_poor: :general,
       code: :general,
       name: :general,
+      name_en: :general,
+      phone_number: :general,
       family_type: :aggregrate,
       status: :general,
       gender: :general,
@@ -139,6 +161,13 @@ class FamilyGrid < BaseGrid
 
   column(:name, html: true, order: 'LOWER(name)', header: -> { I18n.t('datagrid.columns.families.name') }) do |object|
     link_to entity_name(object), family_path(object)
+  end
+
+  column(:name_en, order: 'LOWER(name_en)', header: -> { I18n.t('datagrid.columns.families.name_en') }) do |object|
+
+    format(object.name_en) do |value|
+      link_to value, family_path(object) if value.present?
+    end
   end
 
   column(:name, html: false, header: -> { I18n.t('datagrid.columns.families.name') })
@@ -176,6 +205,8 @@ class FamilyGrid < BaseGrid
     object.family_members.map{ |member| member.date_of_birth&.strftime("%d %B %Y") }.compact.join(", ")
   end
 
+  column(:id_poor, header: -> { I18n.t('datagrid.columns.families.id_poor') })
+
   column(:case_history, html: true, header: -> { I18n.t('datagrid.columns.families.case_history') }) do |object|
     family_case_history(object)
   end
@@ -209,11 +240,43 @@ class FamilyGrid < BaseGrid
   column(:male_adult_count, header: -> { I18n.t('datagrid.columns.families.male_adult_count') })
 
   date_column(:contract_date, html: true, header: -> { I18n.t('datagrid.columns.families.contract_date') })
+  date_column(:initial_referral_date, header: -> { I18n.t('datagrid.columns.families.initial_referral_date') })
+  date_column(:follow_up_date, header: -> { I18n.t('datagrid.columns.families.follow_up_date') })
+
   column(:contract_date, html: false, header: -> { I18n.t('datagrid.columns.families.contract_date') }) do |object|
     object.contract_date.present? ? object.contract_date : ''
   end
 
+  column(:received_by_id, header: -> { I18n.t('datagrid.columns.families.received_by_id') }) do |object|
+    format(object.received_by) do |received_by|
+      user received_by if received_by
+    end
+  end
+
+  column(:followed_up_by_id, header: -> { I18n.t('datagrid.columns.families.followed_up_by_id') }) do |object|
+    format(object.followed_up_by) do |followed_up_by|
+      user followed_up_by if followed_up_by
+    end
+  end
+
+  column(:referral_source_id, header: -> { I18n.t('datagrid.columns.families.referral_source_id') }) do |object|
+    format(object.referral_source) do |referral_source|
+      referral_source.name if referral_source
+    end
+  end
+
+  column(:referral_source_category_id, header: -> { I18n.t('datagrid.columns.families.referral_source_category_id') }) do |object|
+    format(object.referral_source_category_id) do |referral_source_category_id|
+      if I18n.locale == :km
+        ReferralSource.find_by(id: referral_source_category_id).try(:name)
+      else
+        ReferralSource.find_by(id: referral_source_category_id).try(:name_en)
+      end
+    end
+  end
+
   column(:house, header: -> { I18n.t('datagrid.columns.families.house') })
+  column(:phone_number, header: -> { I18n.t('datagrid.columns.families.phone_number') })
   column(:street, header: -> { I18n.t('datagrid.columns.families.street') })
 
   column(:village, order: 'villages.name_kh', header: -> { I18n.t('datagrid.columns.families.village') }) do |object|
