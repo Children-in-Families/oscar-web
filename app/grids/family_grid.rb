@@ -146,6 +146,21 @@ class FamilyGrid < BaseGrid
     scope.where(id: ids)
   end
 
+  filter(:referral_source_id, :enum, select: :referral_source_options, header: -> { I18n.t('datagrid.columns.families.referral_source_id') })
+  filter(:referral_source_category_id, :enum, select: :referral_source_category_options, header: -> { I18n.t('datagrid.columns.families.referral_source_category_id') })
+
+  def referral_source_options
+    current_user.present? ? Family.joins(:case_worker_clients).where(case_worker_clients: { user_id: current_user.id }).referral_source_is : Family.referral_source_is
+  end
+
+  def referral_source_category_options
+    if I18n.locale == :km
+      ReferralSource.where(id: Family.pluck(:referral_source_category_id).compact).pluck(:name, :id)
+    else
+      ReferralSource.where(id: Family.pluck(:referral_source_category_id).compact).pluck(:name_en, :id)
+    end
+  end
+
   def filer_section(filter_name)
     {
       street: :address,
