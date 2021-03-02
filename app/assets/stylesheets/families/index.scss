@@ -149,4 +149,28 @@ body[id="families-index"] {
   .family-action {
     display: flex;
   }
+
+  #program-stream-wrapper {
+    .form-group.program-stream {
+      margin-left: 0;
+    }
+  }
+
+  .family-column-picker,
+  .custom-form,
+  .program-stream,
+  .selected-custom-form,
+  .program-association {
+    display: none;
+  }
+
+  .program-association {
+    margin-left: 16px;
+  }
+
+  .ladda-button {
+    color: inherit;
+    background: white;
+    border: 1px solid #e7eaec;
+  }
 }

@@ -18,6 +18,8 @@ class CIF.AdvancedFilterBuilder
     $('#builder').on 'beforeDeleteGroup.queryBuilder', (parent, group) ->
       if $('body#clients-index').length
         localStorage.setItem("#{group.id}", null)
+      if $('body#families-index').length
+        localStorage.setItem("#{group.id}", null)
 
   builderOption: (builderId)->
     $(builderId).queryBuilder

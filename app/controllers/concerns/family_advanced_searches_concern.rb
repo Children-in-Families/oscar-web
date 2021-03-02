@@ -9,6 +9,7 @@ module FamilyAdvancedSearchesConcern
     $param_rules = find_params_advanced_search
     @families    = AdvancedSearches::Families::FamilyAdvancedSearch.new(basic_rules, Family.accessible_by(current_ability)).filter
     custom_form_column
+    program_stream_column
     respond_to do |f|
       f.html do
         @results                = @family_grid.scope { |scope| scope.where(id: @families.ids) }.assets.size
@@ -33,7 +34,7 @@ module FamilyAdvancedSearchesConcern
 
   def export_family_reports
     custom_all_csi_assessments
-    if params[:client_advanced_search].present?
+    if params[:family_advanced_search].present?
       form_builder_report
     end
     csi_domain_score_report
@@ -41,6 +42,7 @@ module FamilyAdvancedSearchesConcern
     custom_date_of_assessments
     case_note_date_report
     case_note_type_report
+    program_stream_report
   end
 
   def build_advanced_search
@@ -57,7 +59,8 @@ module FamilyAdvancedSearchesConcern
   end
 
   def family_builder_fields
-    @builder_fields = get_family_basic_fields + custom_form_fields
+    @builder_fields = get_family_basic_fields + custom_form_fields + program_stream_fields
+    @builder_fields = @builder_fields + @quantitative_fields if quantitative_check?
   end
 
   def get_family_basic_fields
@@ -184,7 +187,6 @@ module FamilyAdvancedSearchesConcern
     end
   end
 
-
   def custom_all_csi_assessments
     return unless params['type'] == 'basic_info' && @family_columns.visible_columns[:all_custom_csi_assessments_].present?
     domain_score_report('custom')
@@ -228,6 +230,69 @@ module FamilyAdvancedSearchesConcern
         assessment_domains = assessments.includes(:assessment_domains).map { |assessment| assessment.assessment_domains.joins(:domain).where(domains: { id: domain.id }) }.flatten.uniq
         assessment_domains.map{|assessment_domain| assessment_domain.try(:score) }.join(', ')
       end
+    end
+  end
+
+  def get_program_streams
+    program_ids = Enrollment.pluck(:program_stream_id).uniq
+    @program_streams = ProgramStream.where(id: program_ids).order(:name)
+  end
+
+  def program_stream_column
+    @program_stream_columns = program_stream_fields.group_by{ |field| field[:optgroup] }
+  end
+
+  def program_stream_fields
+    @program_stream_fields = get_enrollment_fields + get_tracking_fields + get_exit_program_fields
+  end
+
+  def get_enrollment_fields
+    return [] if program_stream_values.empty? || !enrollment_check?
+    AdvancedSearches::EnrollmentFields.new(program_stream_values).render
+  end
+
+  def get_tracking_fields
+    return [] if program_stream_values.empty? || !tracking_check?
+    AdvancedSearches::TrackingFields.new(program_stream_values).render
+  end
+
+  def get_exit_program_fields
+    return [] if program_stream_values.empty? || !exit_program_check?
+    AdvancedSearches::ExitProgramFields.new(program_stream_values).render
+  end
+
+  def program_stream_value?
+    @advanced_search_params.present? && @advanced_search_params[:program_selected].present?
+  end
+
+  def program_stream_values
+    program_stream_value? ? eval(@advanced_search_params[:program_selected]) : []
+  end
+
+  def enrollment_check?
+    @advanced_search_params.present? && @advanced_search_params[:enrollment_check].present?
+  end
+
+  def tracking_check?
+    @advanced_search_params.present? && @advanced_search_params[:tracking_check].present?
+  end
+
+  def exit_program_check?
+    @advanced_search_params.present? && @advanced_search_params[:exit_form_check].present?
+  end
+
+  def get_quantitative_fields
+    quantitative_fields = AdvancedSearches::QuantitativeCaseFields.new(current_user, 'family')
+    @quantitative_fields = quantitative_fields.render
+  end
+
+  def quantitative_check?
+    @advanced_search_params.present? && @advanced_search_params[:quantitative_check].present?
+  end
+
+  def program_stream_report
+    @family_grid.column(:program_streams, header: I18n.t('datagrid.columns.families.program_streams')) do |family|
+      family.enrollments.active.map{ |c| c.program_stream.try(:name) }.uniq.join(', ')
     end
   end
 end

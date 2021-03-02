@@ -8,7 +8,8 @@ module AdvancedSearchHelper
   end
 
   def program_stream_values(report_builder = '#builder')
-    has_program_selected = has_advanced_search? && advanced_search_params[:program_selected].present? && report_builder == advanced_search_params[:action_report_builder]
+    # has_program_selected = has_advanced_search? && advanced_search_params[:program_selected].present? && report_builder == advanced_search_params[:action_report_builder]
+    has_program_selected = has_advanced_search? && advanced_search_params[:program_selected].present? && (advanced_search_params[:action_report_builder].present? ? report_builder == advanced_search_params[:action_report_builder] : true)
     has_program_selected ? eval(advanced_search_params[:program_selected]) : []
   end
 

@@ -2897,8 +2897,12 @@ en:
         name_en: Head Household Name (Latin)
         'no': 'No'
         phone_number: Phone Number
+        program_enrollment_date: Program Enrollment Date
+        program_exit_date: Program Exit Date
+        program_streams: Program Streams
         province: Province
         province_id: Province
+        quantitative: Custom Referral Data
         received_by: Received by Staff Member
         received_by_id: Received by Staff Member
         referee_phone_number: Referee Phone Number
@@ -4028,7 +4032,12 @@ en:
       form_option:
         basic_fields: Basic Fields
         custom_form: Custom Form
+        enrollment: Enrollment
+        exit_program: Exit Program
         filter_option: Please choose your query options below
+        program_stream: Program Stream
+        quantitative: Custom Referral Data
+        tracking: Tracking
     family_member_fields:
       adult_name: Name of Adult Member
       date_of_birth: Date of Birth

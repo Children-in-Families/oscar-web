@@ -44,7 +44,7 @@ class FamilyColumnsVisibility
   end
 
   def add_custom_builder_columns
-    columns = columns_collection
+    columns = quantitative_type_columns
     if @params[:column_form_builder].present?
       @params[:column_form_builder].each do |column|
         field   = column['id']
@@ -57,5 +57,14 @@ class FamilyColumnsVisibility
   def family_default(column, setting_family_default_columns)
     return false if setting_family_default_columns.nil?
     setting_family_default_columns.include?(column.to_s) if @params.dig(:family_grid, :descending).present? || (@params[:family_advanced_search].present? && @params.dig(:family_grid, :descending).present?) || @params[:family_grid].nil? || @params[:family_advanced_search].nil?
+  end
+
+  def quantitative_type_columns
+    columns = columns_collection
+    QuantitativeType.joins(:quantitative_cases).uniq.each do |quantitative_type|
+      field = quantitative_type.name
+      columns = columns.merge!("#{field}_": field.to_sym)
+    end
+    columns
   end
 end

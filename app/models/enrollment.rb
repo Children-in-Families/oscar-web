@@ -24,7 +24,7 @@ class Enrollment < ActiveRecord::Base
   scope :active, -> { where(status: ['Active', 'active']) }
   scope :attached_with,  -> (value) { where(programmable_type: value) }
   # may be used later in family grid
-  # scope :inactive, -> { where(status: 'Exited') }
+  scope :inactive, -> { where(status: 'Exited') }
 
   # may be used later in family book
   # delegate :name, to: :program_stream, prefix: true, allow_nil: true
@@ -42,11 +42,11 @@ class Enrollment < ActiveRecord::Base
   end
 
   # may be used later in family grid
-  # def self.properties_by(value)
-  #   value = value.gsub(/\'+/, "''")
-  #   field_properties = select("enrollments.id, enrollments.properties ->  '#{value}' as field_properties").collect(&:field_properties)
-  #   field_properties.select(&:present?)
-  # end
+  def self.properties_by(value)
+    value = value.gsub(/\'+/, "''")
+    field_properties = select("enrollments.id, enrollments.properties ->  '#{value}' as field_properties").collect(&:field_properties)
+    field_properties.select(&:present?)
+  end
 
   def get_form_builder_attachment(value)
     form_builder_attachments.find_by(name: value)

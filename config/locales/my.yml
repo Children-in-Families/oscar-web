@@ -2880,6 +2880,10 @@ my:
         member_count: မိသားစု၀င္
         name: နာမည္
         'no': မဟုတ္ပါ
+        quantitative: ထုံးစံလွှဲပြောင်းဒေတာ
+        program_enrollment_date: အစီအစဥ္တြင္ ၀င္ေရာက္သည့္ ရက္စြဲ
+        program_exit_date: အစီအစဥ္မွထြက္သည့္ ရက္စြဲ
+        program_streams: ပရိုဂရမ်စီး
         province: ခ႐ိုင္
         significant_family_member_count: မိသားစု၀င္မ်ားသည့္ အေရအတြက္
         status: အေနအထား
@@ -3998,7 +4002,12 @@ my:
       form_option:
         basic_fields: အေျခခံအခ်က္အလက္ ကြက္လပ္မ်ား
         custom_form: အေကာက္ခြန္ ပံုစံ
+        enrollment: စာရင်းသွင်း
+        exit_program: ထွက်ပေါက်အစီအစဉ်
         filter_option: သင္၏ ေမးျမန္းမႈအမ်ိဳးအစားကို ေအာက္တြင္ ေက်းဇူးျပဳ၍ ေရြးခ်ယ္ပါ။
+        program_stream: ပရိုဂရမ်စီး
+        quantitative: အရေအတွက်
+        tracking: ခြေရာခံခြင်း
     family_member_fields:
       adult_name: အတူတူအိမျ၌နထေိုငျသူမြားလူကြီးများ
       date_of_birth: မွေးရက်
