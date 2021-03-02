@@ -206,13 +206,9 @@ module AdvancedSearchHelper
 
   def community_header(key)
     translations = {
+      initial_referral_date:                    I18n.t('advanced_search.fields.initial_referral_date'),
       name:                                     I18n.t('datagrid.columns.families.name'),
-      id:                                       I18n.t('datagrid.columns.families.id'),
       status:                                   I18n.t('datagrid.columns.families.status'),
-      province_id:                              I18n.t('datagrid.columns.families.province'),
-      district_id:                              I18n.t('datagrid.columns.families.district'),
-      commune_id:                               I18n.t('datagrid.columns.families.commune'),
-      village_id:                               I18n.t('datagrid.columns.families.village'),
     }
     translations[key.to_sym] || ''
   end

@@ -10,6 +10,9 @@
           - if params[:family_id]
             = link_to family_enrolled_program_enrolled_program_trackings_path(@programmable, @enrollment, tracking_id: @tracking.id) do
               .btn.btn-success.btn-outline= t('.back')
+          - if params[:community_id]
+            = link_to community_enrolled_program_enrolled_program_trackings_path(@programmable, @enrollment, tracking_id: @tracking.id) do
+              .btn.btn-success.btn-outline= t('.back')
       .ibox-content
         - @enrollment_trackings.each_slice(2) do |n_enrollment_trackings|
           .row

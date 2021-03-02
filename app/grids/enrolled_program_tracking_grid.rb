@@ -9,7 +9,13 @@ class EnrolledProgramTrackingGrid
   column(:frequency, html: true, header: -> { I18n.t('datagrid.columns.trackings.frequency') } )
 
   column(:report, html: true, header: -> { I18n.t('datagrid.columns.trackings.report') } ) do |object|
-    path = params[:family_id] ? report_family_enrolled_program_enrolled_program_trackings_path(@programmable, @enrollment, tracking_id: object.id) : '#'
+    if params[:family_id]
+      path = report_family_enrolled_program_enrolled_program_trackings_path(@programmable, @enrollment, tracking_id: object.id)
+    elsif params[:community_id]
+      path = report_community_enrolled_program_enrolled_program_trackings_path(@programmable, @enrollment, tracking_id: object.id)
+    else
+      path = '#'
+    end
     link_to t('.view'), path
   end
 

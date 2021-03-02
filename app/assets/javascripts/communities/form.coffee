@@ -29,6 +29,8 @@ CIF.CommunitiesNew = CIF.CommunitiesCreate = CIF.CommunitiesEdit = CIF.Communiti
       allowedFileExtensions: ['jpg', 'png', 'jpeg', 'doc', 'docx', 'xls', 'xlsx', 'pdf']
 
   _initWizardForm = ->
+    window.savingCommunity = false
+
     $("#community-wizard-form").steps
       headerTag: 'h3'
       bodyTag: 'section'
@@ -42,7 +44,10 @@ CIF.CommunitiesNew = CIF.CommunitiesCreate = CIF.CommunitiesEdit = CIF.Communiti
       onStepChanging: (event, currentIndex, newIndex) ->
         (currentIndex > newIndex) || _validateForm()
       onFinishing: (event, currentIndex) ->
-        $("#community-form").submit()
+        if window.savingCommunity == false
+          $("#community-form").submit()
+          window.savingCommunity = true
+        return true
       onCanceled: ->
         result = confirm('Are you sure?')
         if result

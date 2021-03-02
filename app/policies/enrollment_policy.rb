@@ -10,7 +10,11 @@ class EnrollmentPolicy < ApplicationPolicy
 
   def edit?
     entity = record.programmable
-    (entity.exit_ngo? && user.admin?) || (!entity.exit_ngo? && !user.strategic_overviewer?)
+    if record.programmable_type == 'Community'
+      !user.strategic_overviewer?
+    else
+      (entity.exit_ngo? && user.admin?) || (!entity.exit_ngo? && !user.strategic_overviewer?)
+    end
   end
 
   alias new? create?

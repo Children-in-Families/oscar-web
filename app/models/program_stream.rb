@@ -209,11 +209,10 @@ class ProgramStream < ActiveRecord::Base
       entities           = AdvancedSearches::Families::FamilyAdvancedSearch.new(rules, active_entities)
       entities.filter.ids
     elsif attached_to_community?
-      # Todo: init Community report builder
-      # active_ids         = enrollments.active.pluck(:programmable_id).uniq
-      # active_entities    = Community.where(id: active_ids)
-      # entities           = AdvancedSearches::Communities::CommunityAdvancedSearch.new(rules, active_entities)
-      # entities.filter.ids
+      active_ids         = enrollments.active.pluck(:programmable_id).uniq
+      active_entities    = Community.where(id: active_ids)
+      entities           = AdvancedSearches::Communities::CommunityAdvancedSearch.new(rules, active_entities)
+      entities.filter.ids
     end
   end
 
