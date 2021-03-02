@@ -432,12 +432,15 @@
                 = header_name
 
           #referral-data
-            - QuantitativeType.joins(:quantitative_cases).uniq.each do |quantitative_type|
-              - next unless quantitative_type_readable?(quantitative_type.id)
+            - quantitative_fields = @quantitative_fields.map { |quantitative_field|  quantitative_field.slice(:id, :field) }
+            - quantitative_fields.each do |quantitative_type|
+              - quantitative_type_id = quantitative_type[:id]
+              - quantitative_type_name = quantitative_type[:field]
+              - next unless quantitative_type_readable?(quantitative_type_id[/\d+/])
               %li
                 .visibility.col-sm-12
-                  = check_box_tag "#{quantitative_type.name}_", quantitative_type.name, checked = selected_commuity_column("#{quantitative_type.name}_"), class: 'i-checks'
-                  = label_tag "#{quantitative_type.name}_", quantitative_type.name
+                  = check_box_tag "#{quantitative_type_name}_", quantitative_type_name, checked = default_setting("#{quantitative_type_name}_", @default_columns) || params["#{quantitative_type_name}_"].present?, class: 'i-checks'
+                  = label_tag "#{quantitative_type_name}_", quantitative_type_name
 
   #filter_form
     %hr/
