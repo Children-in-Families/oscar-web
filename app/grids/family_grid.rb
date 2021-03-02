@@ -203,18 +203,18 @@ class FamilyGrid < BaseGrid
 
   column(:code, header: -> { I18n.t('datagrid.columns.families.code') })
 
-  column(:name, html: true, order: 'LOWER(name)', header: -> { I18n.t('datagrid.columns.families.name') }) do |object|
-    link_to entity_name(object), family_path(object)
+  column(:name, order: 'LOWER(name)', header: -> { I18n.t('datagrid.columns.families.name') }) do |object|
+    format(object.name) do |value|
+      link_to entity_name(object), family_path(object) if value.present?
+    end
   end
 
   column(:name_en, order: 'LOWER(name_en)', header: -> { I18n.t('datagrid.columns.families.name_en') }) do |object|
-
     format(object.name_en) do |value|
       link_to value, family_path(object) if value.present?
     end
   end
 
-  column(:name, html: false, header: -> { I18n.t('datagrid.columns.families.name') })
 
   column(:family_type, header: -> { I18n.t('datagrid.columns.families.family_type') }) do |object|
     object.family_type
