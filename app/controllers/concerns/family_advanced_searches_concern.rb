@@ -43,6 +43,7 @@ module FamilyAdvancedSearchesConcern
     custom_date_of_assessments
     case_note_date_report
     case_note_type_report
+    program_stream_report
   end
 
   def build_advanced_search
@@ -187,7 +188,6 @@ module FamilyAdvancedSearchesConcern
     end
   end
 
-
   def custom_all_csi_assessments
     return unless params['type'] == 'basic_info' && @family_columns.visible_columns[:all_custom_csi_assessments_].present?
     domain_score_report('custom')
@@ -233,6 +233,7 @@ module FamilyAdvancedSearchesConcern
       end
     end
   end
+
   def get_program_streams
     program_ids = Enrollment.pluck(:program_stream_id).uniq
     @program_streams = ProgramStream.where(id: program_ids).order(:name)
@@ -295,9 +296,4 @@ module FamilyAdvancedSearchesConcern
       family.enrollments.active.map{ |c| c.program_stream.try(:name) }.uniq.join(', ')
     end
   end
-
-  # def export_family_reports
-  #   form_builder_report
-  #   program_stream_report
-  # end
 end

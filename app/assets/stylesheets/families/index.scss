@@ -146,6 +146,10 @@ body[id="families-index"] {
     }
   }
 
+  .family-action {
+    display: flex;
+  }
+
   #program-stream-wrapper {
     .form-group.program-stream {
       margin-left: 0;
@@ -168,9 +172,5 @@ body[id="families-index"] {
     color: inherit;
     background: white;
     border: 1px solid #e7eaec;
-  }
-
-  .family-action {
-    display: flex;
   }
 }

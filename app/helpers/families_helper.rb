@@ -115,8 +115,12 @@ module FamiliesHelper
       female_children_count:                    I18n.t('datagrid.columns.families.female_children_count'),
       female_adult_count:                       I18n.t('datagrid.columns.families.female_adult_count'),
       male_children_count:                      I18n.t('datagrid.columns.families.male_children_count'),
+      clients:                                  I18n.t('datagrid.columns.families.clients'),
       client_id:                                I18n.t('datagrid.columns.families.client'),
       manage:                                   I18n.t('datagrid.columns.families.manage'),
+      program_streams:                          I18n.t('datagrid.columns.families.program_streams'),
+      program_enrollment_date:                  I18n.t('datagrid.columns.clients.program_enrollment_date'),
+      program_exit_date:                        I18n.t('datagrid.columns.clients.program_exit_date'),
       **additional_columns
     }
   end

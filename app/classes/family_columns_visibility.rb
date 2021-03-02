@@ -61,7 +61,7 @@ class FamilyColumnsVisibility
 
   def quantitative_type_columns
     columns = columns_collection
-    QuantitativeType.joins(:quantitative_cases).uniq.each do |quantitative_type|
+    QuantitativeType.joins(:quantitative_cases).where('quantitative_types.visible_on LIKE ?', "%family%").uniq.each do |quantitative_type|
       field = quantitative_type.name
       columns = columns.merge!("#{field}_": field.to_sym)
     end

@@ -37,7 +37,6 @@
   = f.hidden_field :quantitative_check
   = hidden_field_tag :data, params[:data]
   = f.hidden_field :action_report_builder, value: '#builder'
-
   = hidden_field_tag :locale, "#{params[:locale]}"
   #family-builder-fields{ data: { fields: @builder_fields.to_json }}
   #quantitative-fields{ data: { fields: @quantitative_fields.to_json }}

@@ -2925,13 +2925,13 @@ en:
         name: Head Household Name (Khmer)
         name_en: Head Household Name (Latin)
         'no': 'No'
-        quantitative: Custom Referral Data
+        phone_number: Phone Number
         program_enrollment_date: Program Enrollment Date
         program_exit_date: Program Exit Date
         program_streams: Program Streams
-        phone_number: Phone Number
         province: Province
         province_id: Province
+        quantitative: Custom Referral Data
         received_by: Received by Staff Member
         received_by_id: Received by Staff Member
         referee_phone_number: Referee Phone Number

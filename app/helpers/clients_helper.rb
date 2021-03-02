@@ -535,7 +535,7 @@ module ClientsHelper
       field = domain.convert_identity
       label_column = label_column.merge!("#{field}_": identity)
     end
-    QuantitativeType.joins(:quantitative_cases).uniq.each do |quantitative_type|
+    QuantitativeType.joins(:quantitative_cases).where('quantitative_types.visible_on LIKE ?', "%client%").uniq.each do |quantitative_type|
       field = quantitative_type.name
       label_column = label_column.merge!("#{field}_": quantitative_type.name)
     end
@@ -1372,7 +1372,7 @@ module ClientsHelper
     if current_organization.short_name != 'brc'
       QuantitativeType.all
     else
-      QuantitativeType.unscoped.order("substring(quantitative_types.name, '^[0-9]+')::int, substring(quantitative_types.name, '[^0-9]*$')")
+      QuantitativeType.unscoped.where('quantitative_types.visible_on LIKE ?', "%client%").order("substring(quantitative_types.name, '^[0-9]+')::int, substring(quantitative_types.name, '[^0-9]*$')")
     end
   end
 
