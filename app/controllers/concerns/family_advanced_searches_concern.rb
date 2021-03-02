@@ -76,11 +76,11 @@ module FamilyAdvancedSearchesConcern
   end
 
   def get_has_this_form_fields
-    @has_this_form_fields = AdvancedSearches::HasThisFormFields.new(custom_form_values).render
+    @has_this_form_fields = AdvancedSearches::HasThisFormFields.new(custom_form_values, 'Family').render
   end
 
   def get_custom_form_fields
-    @custom_forms = AdvancedSearches::CustomFields.new(custom_form_values).render
+    @custom_forms = AdvancedSearches::CustomFields.new(custom_form_values, 'Family').render
   end
 
   def custom_form_value?

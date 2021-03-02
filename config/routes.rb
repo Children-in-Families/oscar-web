@@ -386,6 +386,16 @@ Rails.application.routes.draw do
         put '/edit/referee', to: 'calls#update_referee'
       end
     end
+
+    resources :community_advanced_searches, only: [] do
+      collection do
+        get :get_custom_field
+        get :get_basic_field
+        # get :get_enrollment_field
+        # get :get_tracking_field
+        # get :get_exit_program_field
+      end
+    end
   end
 
   namespace :multiple_form do

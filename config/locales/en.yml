@@ -126,6 +126,7 @@ en:
         relevant_information: Relevant Information
         representative_name: Represetative Name
         role: Role in the Group/Community
+        status: Status
         village_id: Village
         'yes': 'Yes'
       community_member:
@@ -2246,6 +2247,22 @@ en:
       successfully_deleted: Community has been successfully deleted.
     edit:
       edit_community_title: Edit Community
+    community_advanced_searches:
+      advanced_search:
+        add_new_filter: Add New Filter
+        add_new_group: Add Group
+        advanced_search: Report Builder
+        custom_form_column: Custom Form columns
+        delete_group: Delete
+        family_column: Family basic columns
+        no_results: No Result Found
+        reset: Reset
+        results: Results
+        search: Search
+      form_option:
+        basic_fields: Basic Fields
+        custom_form: Custom Form
+        filter_option: Please choose your query options below
     community_member_fields:
       remove_member: Remove Member
     form:
@@ -2272,6 +2289,7 @@ en:
       results: Results Export to XLS
       report_builder: Report Builder
       results: Results
+      searching: Searching...
     new:
       new_community_title: New Community
     show:
@@ -4422,6 +4440,13 @@ en:
         edit: Edit
       update:
         successfully_updated: Custom Form has been successfully updated.
+  gender_list:
+    female: Female
+    lgbt: LGBT
+    male: Male
+    other_gender: Other
+    prefer_not_to_say: Prefer not to answer/Non-specified
+    unknown: Unknown
   government_forms:
     create:
       successfully_created: Form has been successfully created.
