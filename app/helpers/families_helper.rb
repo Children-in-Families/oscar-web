@@ -121,6 +121,7 @@ module FamiliesHelper
       program_streams:                          I18n.t('datagrid.columns.families.program_streams'),
       program_enrollment_date:                  I18n.t('datagrid.columns.clients.program_enrollment_date'),
       program_exit_date:                        I18n.t('datagrid.columns.clients.program_exit_date'),
+      direct_beneficiaries:                     I18n.t('datagrid.columns.families.direct_beneficiaries'),
       **additional_columns
     }
   end
