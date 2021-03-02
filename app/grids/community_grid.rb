@@ -130,7 +130,7 @@ class CommunityGrid < BaseGrid
 
   dynamic do
     quantitative_type_readable_ids = current_user.quantitative_type_permissions.readable.pluck(:quantitative_type_id) unless current_user.nil?
-    quantitative_types = QuantitativeType.joins(:quantitative_cases).distinct
+    quantitative_types = QuantitativeType.joins(:quantitative_cases).where('quantitative_types.visible_on LIKE ?', "%community%").distinct
     quantitative_types.each do |quantitative_type|
       if current_user.nil? || quantitative_type_readable_ids.include?(quantitative_type.id)
         column(quantitative_type.name.to_sym, class: 'quantitative-type', header: -> { quantitative_type.name }, html: true) do |object|

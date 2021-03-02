@@ -63,7 +63,7 @@ module CommunityAdvancedSearchConcern
   end
 
   def quantitative_fields
-    quantitative_fields = AdvancedSearches::QuantitativeCaseFields.new(current_user)
+    quantitative_fields = AdvancedSearches::QuantitativeCaseFields.new(current_user, 'community')
     @quantitative_fields ||= quantitative_fields.render
   end
 
