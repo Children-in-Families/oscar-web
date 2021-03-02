@@ -1,6 +1,6 @@
 FROM ruby:2.3.3
 
-RUN apt-get update -qq && apt-get install -y nodejs postgresql-client memcached vim
+RUN apt-get update -qq && apt-get install -y nodejs postgresql-client vim
 RUN mkdir /app
 WORKDIR /app
 
