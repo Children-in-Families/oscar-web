@@ -137,7 +137,7 @@ class SettingsController < AdminController
     filter_columns_not_used = [:has_date_of_birth, :quantitative_data, :quantitative_types, :all_domains, :domain_1a, :domain_1b, :domain_2a, :domain_2b, :domain_3a,
       :domain_3b, :domain_4a, :domain_4b, :domain_5a, :domain_5b, :domain_6a, :domain_6b, :assessments_due_to, :no_case_note, :overdue_task, :overdue_forms, :province_id, :birth_province_id, :commune, :house_number, :village, :street_number, :district]
     columns_name = filter_columns - filter_columns_not_used
-    columns = columns_name.map { |name| "#{name.to_s}_" }
+    columns = columns_name.map { |name| "#{name}_" }
     Domain.client_domians.order_by_identity.each do |domain|
       columns << "#{domain.convert_identity}_"
     end
@@ -151,7 +151,7 @@ class SettingsController < AdminController
   def family_default_columns
     columns = []
     sub_columns = %w(member_count_ clients_ case_workers_ case_note_date_ case_note_type_ assessment_completed_date_ date_of_custom_assessments_ all_custom_csi_assessments_ manage_ changelog_ direct_beneficiaries_)
-    columns = FamilyGrid.new.filters.map{|f| "#{f.name.to_s}_" }
+    columns = FamilyGrid.new.filters.map { |f| "#{f.name}_" }
     Domain.family_custom_csi_domains.order_by_identity.each do |domain|
       columns << "#{domain.convert_custom_identity}_"
     end
@@ -161,7 +161,7 @@ class SettingsController < AdminController
   def community_default_columns
     columns = []
     sub_columns = %w(manage_ changelog_)
-    columns = community_grid_columns.map{ |k, _| "#{k}_" }
+    columns = community_grid_columns.map { |k, _| "#{k}_" }
     columns.push(sub_columns).flatten
   end
 
