@@ -76,6 +76,7 @@ module FamiliesHelper
 
   def map_family_field_labels
     {
+      active_families:                          I18n.t('datagrid.columns.families.active_families'),
       name:                                     I18n.t('datagrid.columns.families.name'),
       name_en:                                  I18n.t('datagrid.columns.families.name_en'),
       id:                                       I18n.t('datagrid.columns.families.id'),

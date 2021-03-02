@@ -139,8 +139,6 @@ en:
         name: Name
         role: Role
       family:
-        id: Automatic ID
-        id_poor: Has ID Poor?
         case_worker_ids: Case Worker/Staff Assigned
         code: Manual ID
         commune_id: Commune/Sangkat
@@ -154,7 +152,8 @@ en:
         followed_up_by_id: First Follow Up By
         follow_up_date: First Follow Up Date
         house: House Number
-        id: ID
+        id: Automatic ID
+        id_poor: Has ID Poor?
         initial_referral_date: Date of Referral
         name: Head Household Name (Khmer)
         name_en: Head Household Name (Latin)
@@ -4096,11 +4095,12 @@ en:
       female_children_count: Female Children Count
       house: House
       household_income: Monthly Household Income
-      id: ID
+      id: Automatic ID
       male_adult_count: Male Adult Count
       male_children_count: Male Children Count
       member_count: Member Count
-      name: Name
+      name: Head Household Name (Khmer)
+      name_en: Head Household Name (Latin)
       new_family_title: Add New Family
       province: Province
       significant_family_member_count: Significant Family Member Count
@@ -4163,12 +4163,13 @@ en:
       guardian: Guardian
       house: House
       household_income: Monthly Household Income
-      id: ID
+      id: Automatic ID
       initial_referral_date: Initial Referral Date
       male_adult_count: Number of Adule Males
       male_children_count: Number of Boys
       member_count: Number of Family Members
-      name: Name
+      name: Head Household Name (Khmer)
+      name_en: Head Household Name (Latin)
       'no': 'No'
       note: Relevant Referral Information / Notes
       occupation: Occupation
