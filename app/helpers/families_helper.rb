@@ -65,11 +65,6 @@ module FamiliesHelper
   end
 
   def default_family_columns_visibility(column)
-    label_column = map_family_field_labels
-    label_tag "#{column}_", label_column[column]
-  end
-
-  def default_family_columns_visibility(column)
     label_column = map_family_field_labels.map { |k, v| ["#{k}_", v] }.to_h
     label_tag "#{column}_", label_column[column]
   end
