@@ -306,6 +306,15 @@ class CIF.ClientAdvanceSearch
     $('.main-report-builder #program-stream-checkbox').on 'ifChecked', ->
       $('.main-report-builder .program-stream').show()
 
+  handleFamilyShowProgramStreamFilter: ->
+    self = @
+    if $('.main-report-builder #program-stream-checkbox').prop('checked')
+      $('.main-report-builder .program-stream').show()
+    if self.enrollmentCheckbox.prop('checked') || self.trackingCheckbox.prop('checked') || self.exitCheckbox.prop('checked') || self.programSelected.length > 0
+      $('.main-report-builder .program-association').show()
+    $('.main-report-builder #program-stream-checkbox').on 'ifChecked', ->
+      $('.main-report-builder .program-stream').show()
+
   handleHideProgramStreamSelect: ->
     self = @
     $('.main-report-builder .program-stream-checkbox').on 'ifUnchecked', ->
@@ -821,7 +830,7 @@ class CIF.ClientAdvanceSearch
       if $('#wizard-enrollment-checkbox').prop('checked') then $('#client_advanced_search_wizard_enrollment_check').val(1)
       if $('#wizard-tracking-checkbox').prop('checked') then $('#client_advanced_search_wizard_tracking_check').val(1)
       if $('#wizard-exit-form-checkbox').prop('checked') then $('#client_advanced_search_wizard_exit_form_check').val(1)
-      $('#client_advanced_search_action_report_builder').val(builderElement)
+      $('#client_advanced_search_action_report_builder, #family_advanced_search_action_report_builder').val(builderElement)
 
       if (_.isEmpty(basicRules.rules) and !basicRules.valid) or (!(_.isEmpty(basicRules.rules)) and basicRules.valid)
         $(builderElement).find('.has-error').removeClass('has-error')
@@ -835,8 +844,12 @@ class CIF.ClientAdvanceSearch
       basicRules = $('#builder').queryBuilder('getRules', { skip_empty: true, allow_invalid: true })
       # customFormValues = "[#{$('#family-advance-search-form').find('#custom-form-select').select2('val')}]"
       customFormValues = if self.customFormSelected.length > 0 then "[#{self.customFormSelected}]"
+      programValues = if self.programSelected.length > 0 then "[#{self.programSelected}]"
 
+      self.setValueToFamilyProgramAssociation()
       $('#family_advanced_search_custom_form_selected').val(customFormValues)
+      $('#family_advanced_search_program_selected').val(programValues)
+      if $('#quantitative-type-checkbox').prop('checked') then $('#family_advanced_search_quantitative_check').val(1)
 
       if (_.isEmpty(basicRules.rules) and !basicRules.valid) or (!(_.isEmpty(basicRules.rules)) and basicRules.valid)
         $('#builder').find('.has-error').removeClass('has-error')
@@ -868,6 +881,15 @@ class CIF.ClientAdvanceSearch
     if @trackingCheckbox.is(":checked") || @wizardTrackingCheckbox.is(':checked') then $(trackingCheck).val(1)
     if @exitCheckbox.is(":checked") || @wizardExitCheckbox.is(':checked') then $(exitFormCheck).val(1)
     if ($('#hotline-checkbox').prop('checked')) then $('#client_advanced_search_hotline_check').val(1)
+
+  setValueToFamilyProgramAssociation: ->
+    enrollmentCheck = $('#family_advanced_search_enrollment_check')
+    trackingCheck   = $('#family_advanced_search_tracking_check')
+    exitFormCheck   = $('#family_advanced_search_exit_form_check')
+
+    if @enrollmentCheckbox.is(":checked") then $(enrollmentCheck).val(1)
+    if @trackingCheckbox.is(":checked") then $(trackingCheck).val(1)
+    if @exitCheckbox.is(":checked") then $(exitFormCheck).val(1)
 
   handleStringfyRules: (rules) ->
     rules = JSON.stringify(rules)

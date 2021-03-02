@@ -2,11 +2,15 @@ describe Assessment do
   before do
     allow_any_instance_of(Client).to receive(:generate_random_char).and_return("abcd")
   end
+
   describe Assessment, 'associations' do
-    it { is_expected.to belong_to(:client) }
-    it { is_expected.to have_many(:assessment_domains) }
-    it { is_expected.to have_many(:domains) }
-    it { is_expected.to have_many(:case_notes) }
+    it { is_expected.to belong_to(:client).counter_cache(true) }
+    it { is_expected.to belong_to(:family).counter_cache(true) }
+    it { is_expected.to have_many(:assessment_domains).dependent(:destroy) }
+    it { is_expected.to have_many(:domains).through(:assessment_domains) }
+    it { is_expected.to have_many(:case_notes).dependent(:destroy) }
+    it { is_expected.to have_many(:tasks).dependent(:destroy) }
+    it { is_expected.to have_many(:goals).dependent(:destroy) }
 
     it { is_expected.to accept_nested_attributes_for(:assessment_domains) }
   end

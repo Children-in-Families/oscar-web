@@ -534,7 +534,7 @@ module ClientsHelper
       field = domain.convert_identity
       label_column = label_column.merge!("#{field}_": identity)
     end
-    QuantitativeType.joins(:quantitative_cases).uniq.each do |quantitative_type|
+    QuantitativeType.joins(:quantitative_cases).where('quantitative_types.visible_on LIKE ?', "%client%").uniq.each do |quantitative_type|
       field = quantitative_type.name
       label_column = label_column.merge!("#{field}_": quantitative_type.name)
     end
@@ -608,6 +608,34 @@ module ClientsHelper
         properties_result = object.includes(client: :program_streams).where(sql_partial).references(:program_streams).distinct
       else
         properties_result = object.includes(client: :program_streams).where(query_string.reject(&:blank?).join(" #{basic_rules[:condition]} ")).references(:program_streams).distinct
+      end
+    else
+      object
+    end
+  end
+
+  def family_program_stream_name(object, rule)
+    properties_field = 'enrollment_trackings.properties'
+    basic_rules  = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
+    return object if basic_rules.nil?
+    basic_rules  = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
+    results      = mapping_form_builder_param_value(basic_rules, rule)
+    query_string  = get_query_string(results, rule, properties_field)
+    default_value_param = params['all_values']
+    if default_value_param
+      object
+    elsif rule == 'tracking'
+      properties_result = object.joins(:enrollment_trackings).where(query_string.reject(&:blank?).join(" #{basic_rules[:condition]} ")).distinct
+    elsif rule == 'active_program_stream'
+      mew_query_string = query_string.reject(&:blank?).join(" #{basic_rules[:condition]} ")
+      program_stream_ids = mew_query_string&.scan(/program_streams\.id = (\d+)/)&.flatten || []
+      if program_stream_ids.size >= 2
+        sql_partial = mew_query_string.gsub(/program_streams\.id = \d+/, "program_streams.id IN (#{program_stream_ids.join(", ")})")
+        # properties_result = object.includes(programmable: :program_streams).where(sql_partial).references(:program_streams).distinct
+        properties_result = object.includes(programmable: :program_streams).where(sql_partial)
+      else
+        # properties_result = object.includes(programmable: :program_streams).where(query_string.reject(&:blank?).join(" #{basic_rules[:condition]} ")).references(:program_streams).distinct
+        properties_result = object.includes(programmable: :program_streams).where(query_string.reject(&:blank?).join(" #{basic_rules[:condition]} "))
       end
     else
       object
@@ -698,6 +726,25 @@ module ClientsHelper
       properties_result = object.where(query_string.reject(&:blank?).join(" #{basic_rules['condition']} "))
     else
       properties_result = object.joins(:client_enrollment).where(client_enrollments: { program_stream_id: selected_program_stream }).where(query_string.reject(&:blank?).join(" #{basic_rules['condition']} "))
+    end
+  end
+
+  def family_form_builder_query(object, form_type, field_name, properties_field=nil)
+    return object if params['all_values'].present?
+    properties_field = properties_field.present? ? properties_field : 'enrollment_trackings.properties'
+
+    selected_program_stream = $param_rules['program_selected'].presence ? JSON.parse($param_rules['program_selected']) : []
+    basic_rules  = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
+    basic_rules  = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
+    results      = mapping_form_builder_param_value(basic_rules, form_type)
+
+    return object if results.flatten.blank?
+
+    query_string  = get_query_string(results, form_type, properties_field)
+    if form_type == 'formbuilder'
+      properties_result = object.where(query_string.reject(&:blank?).join(" #{basic_rules['condition']} "))
+    else
+      properties_result = object.joins(:enrollment).where(enrollments: { program_stream_id: selected_program_stream }).where(query_string.reject(&:blank?).join(" #{basic_rules['condition']} "))
     end
   end
 
@@ -950,7 +997,7 @@ module ClientsHelper
 
       if count > 0 && class_name != 'case_note_type'
         class_name = class_name =~ /^(formbuilder)/i ? column.name.to_s : class_name
-        link_all = params['all_values'] != class_name ? button_to('All', ad_search_clients_path, params: params.merge(all_values: class_name), remote: false, form_class: 'all-values') : ''
+        link_all = params['all_values'] != class_name ? button_to('All', advanced_search_clients_path, params: params.merge(all_values: class_name), remote: false, form_class: 'all-values') : ''
         [column.header.truncate(65),
           content_tag(:span, count, class: 'label label-info'),
           link_all
@@ -1322,7 +1369,7 @@ module ClientsHelper
     if current_organization.short_name != 'brc'
       QuantitativeType.all
     else
-      QuantitativeType.unscoped.order("substring(quantitative_types.name, '^[0-9]+')::int, substring(quantitative_types.name, '[^0-9]*$')")
+      QuantitativeType.unscoped.where('quantitative_types.visible_on LIKE ?', "%client%").order("substring(quantitative_types.name, '^[0-9]+')::int, substring(quantitative_types.name, '[^0-9]*$')")
     end
   end
 

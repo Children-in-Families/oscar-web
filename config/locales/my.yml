@@ -477,6 +477,7 @@ my:
       exit_program: ထြက္သည့္အစီအစဥ္
       exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
       family: မိသားစု
+      family_basic_fields: Family basic fields
       family_id: မိသားစုမွတ္ပံုတင္
       family_name: မ်ိဳး႐ိုးနာမည္
       follow_up_by: 'က ဆက္လက္ေဆာင္ရြက္သည္။ '
@@ -858,6 +859,51 @@ my:
     other: "%{count} ထက္ ငယ္၍ မရပါ"
   cannot_remove: ဖ်က္ပစ္၍မရပါ။
   cannot_remove_or_update: အသံုးျပဳေနသည္ျဖစ္၍ ဖ်က္ပစ္ျခင္းသာ္လည္းေကာင္း၊ အသစ္ျပင္ဆင္ျခင္းေသာ္လည္းေကာင္း လုပ္၍မရပါ။
+  care_plans:
+    create:
+      successfully_created: Care Plan ကိုအောင်မြင်စွာဖန်တီးပြီးဖြစ်သည်။
+    destroy:
+      successfully_deleted: Care plans has been successfully deleted.
+    form:
+      add_goal: ရည်မှန်းချက်ထည့်ပါ
+      cancel: ပယ်ဖျက်ပါ
+      domain: ဒိုမိန်း
+      expected_date: မျှော်လင့်ထားသည့်နေ့စွဲ
+      finish: ပြီးပြီ
+      goal: ရည်မှန်းချက်
+      next: နောက်တစ်ခု
+      previous: ယခင်
+      required_message: အနည်းဆုံးရည်မှန်းချက်တစ်ခုနှင့်လုပ်ငန်းတစ်ခုကိုတစ်ခုပေါင်းထည့်ရန်လိုအပ်သည်။
+      save: သိမ်းဆည်းပါ
+      score_from_assessment: အကဲဖြတ်ခြင်းမှရမှတ်
+      task: တာဝန်
+    goal_fields:
+      add_task: အလုပ်ထည့်ပါ
+      remove_goal: ရည်မှန်းချက်ကိုဖယ်ရှားလိုက်ပါ
+    index:
+      assessment_created_on: အပေါ်အခြေခံပြီးအကဲဖြတ်
+      back: နောက်ကျော
+      care_plan_history: စောင့်ရှောက်မှုအစီအစဉ်သမိုင်း
+      new_care_plan: စောင့်ရှောက်မှုအစီအစဉ်အသစ်
+      review_care_plan: စောင့်ရှောက်မှုအစီအစဉ်ကိုပြန်လည်ဆန်းစစ်ပါ
+    show:
+      are_you_sure: သင်ဖျက်လိုသည်သေချာလား?
+      back: နောက်ကျော
+      based_on: အကဲဖြတ်နံပါတ်ပေါ်တွင်အခြေခံသည်
+      care_plan: အတွက်စောင့်ရှောက်မှုအစီအစဉ်
+      care_plan_created_by: မှဖန်တီးသည်
+      dimensions: အရွယ်အစား
+      domain: ဒိုမိန်း
+      done_during: စဉ်အတွင်းလုပ်ပြီးပါပြီ
+      due_date: နောက်ဆုံးရက်
+      edit: တည်းဖြတ်ပါ
+      expected_date: မျှော်လင့်ထားသည့်နေ့စွဲ
+      goal: ရည်မှန်းချက်
+      on_date: အပေါ်
+      score: နိုင်ပြီ
+      task: လုပ်ငန်းတာဝန်များ
+    update:
+      successfully_updated: စောင့်ရှောက်မှုအစီအစဉ်ကိုအောင်အောင်မြင်မြင် update လုပ်လိုက်ပြီ။
   case:
     quarterly_reports:
       index:
@@ -2836,6 +2882,10 @@ my:
         member_count: မိသားစု၀င္
         name: နာမည္
         'no': မဟုတ္ပါ
+        quantitative: ထုံးစံလွှဲပြောင်းဒေတာ
+        program_enrollment_date: အစီအစဥ္တြင္ ၀င္ေရာက္သည့္ ရက္စြဲ
+        program_exit_date: အစီအစဥ္မွထြက္သည့္ ရက္စြဲ
+        program_streams: ပရိုဂရမ်စီး
         province: ခ႐ိုင္
         significant_family_member_count: မိသားစု၀င္မ်ားသည့္ အေရအတြက္
         status: အေနအထား
@@ -3901,6 +3951,15 @@ my:
   families:
     actions:
       are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသမား
+    assessments:
+      create:
+        successfully_created: စိစစ္ခ်က္ကိုေအာင္ျမင္စြာျပဳလုပ္ၿပီးပါၿပီ။
+      destroy:
+        fail_delete_attachment: တြဲထားသည္ကို ဖ်က္မရ။
+        successfully_deleted: တြဲထားသည္ကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ။
+        successfully_deleted_assessment: Assessment has been successfully deleted.
+      update:
+        successfully_updated: အကဲျဖတ္ခ်က္ကို ေအာင္ျမင္စာ အသစ္တင္ၿပီးပါၿပီ။
     case_history_detail:
       accepted_date: လက်ခံခဲ့သည်နေ့စွဲ
       family: မိသားစု
@@ -3945,7 +4004,12 @@ my:
       form_option:
         basic_fields: အေျခခံအခ်က္အလက္ ကြက္လပ္မ်ား
         custom_form: အေကာက္ခြန္ ပံုစံ
+        enrollment: စာရင်းသွင်း
+        exit_program: ထွက်ပေါက်အစီအစဉ်
         filter_option: သင္၏ ေမးျမန္းမႈအမ်ိဳးအစားကို ေအာက္တြင္ ေက်းဇူးျပဳ၍ ေရြးခ်ယ္ပါ။
+        program_stream: ပရိုဂရမ်စီး
+        quantitative: အရေအတွက်
+        tracking: ခြေရာခံခြင်း
     family_member_fields:
       adult_name: အတူတူအိမျ၌နထေိုငျသူမြားလူကြီးများ
       date_of_birth: မွေးရက်
@@ -4011,6 +4075,8 @@ my:
       address: လိပ္စာ
       adult_name: အတူတူအိမျ၌နထေိုငျသူမြားလူကြီးများ
       are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
+      assessment: အကဲဖြတ်
+      care_plan: အတွက်စောင့်ရှောက်မှုအစီအစဉ်
       caregiver_information: ေစာင့္ေရွာက္သူအခ်က္အလက္
       case_histories: Case Histories
       case_history: အမႈသမုိင္း
@@ -4056,6 +4122,30 @@ my:
       status: အေျခအေန
       street: လမ္း
       'yes': မွန္ပါသည္
+      view_tasks: လုပ္ေဆာင္ခ်က္မ်ား
+    tasks:
+      create:
+        successfully_created: လုပ္ငန္းကို ေအာင္ျမင္စြာ ဖန္တီးၿပီးပါၿပီ
+      destroy:
+        successfully_deleted: လုပ္ငန္းကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ
+      form:
+        back: ေနာက္သို႔
+        completion_date: အၿပီးသတ္သည့္ ရက္စြဲ
+        domain: ဒိုမိန္း
+        enter_task_detail: လုပ္ငန္းအေသးစိတ္ကို ထည့္သြင္းရန္
+        save: သိမ္းဆည္းရန္
+      index:
+        add_all_to_calendar: ျပကၡဒိန္ထဲသုိ႔ အကုန္ထည့္ရန္
+        add_to_calendar: ျပကၡဒိန္ထဲသုိ႔ ထည့္ရန္
+        are_you_sure_you_want_to_delete: ဖ်က္လုိသည္မွာ ေသခ်ာပါသလား
+        back: ေနာက္သို႔
+        domain: ဒိုမိန္း
+        new_task: လုပ္ငန္းအသစ္
+        overdue_tasks: သတ္မွတ္ရက္ ေက်ာ္လြန္သြားေသာ လုပ္ငန္းမ်ား
+        today_tasks: ယေန လုပ္ငန္းမ်ား
+        upcoming_tasks: ေနာက္လာမည့္ လုပ္ငန္းမ်ား
+      update:
+        successfully_updated: လုပ္ငန္းကို ေအာင္ျမင္စြာ အသစ္ ျပင္ဆင္ၿပီးပါၿပီ
     update:
       not_allowed_to_detach_clients: ဤပံုစံျဖင့္ မိသားစုထံမွ အမႈသည္မ်ားကို ဖယ္ထုတ္၍ မရပါ
       successfully_updated: မိသားစုကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ ျဖည့္စြက္ၿပီးပါၿပီ

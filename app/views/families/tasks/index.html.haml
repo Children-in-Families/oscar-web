@@ -1,0 +1,86 @@
+.row
+  .col-xs-12.col-md-10.col-md-offset-1
+    .ibox
+      .ibox-title
+        %h5= @family.name
+        .ibox-tools
+          = link_to family_path(@family) do
+            .btn.btn-default.btn-width.btn-back-default
+              = t('.back')
+      .ibox-content
+        .panel.panel-danger
+          .panel-heading
+            .row
+              .col-xs-6
+                = t('.overdue_tasks')
+          .panel-body
+            .row
+              .col-xs-12
+                %table.table.table-bordered
+                  - @tasks.incomplete.overdue.each do |task|
+                    %tr
+                      %td.text-middle
+                        = "#{t('.domain')}:"
+                        = task.domain.name
+                      %td.task-name= task.name
+                      %td.text-center.text-middle= date_format(task.completion_date)
+                      - if current_user.admin?
+                        %td.text-center.margin-icon.text-middle
+                          = link_to edit_family_task_path(@family, task) do
+                            .btn.btn-outline.btn-success.btn-xs
+                              %i.fa.fa-pencil
+                          = link_to family_task_path(@family, task), method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') } do
+                            .btn.btn-outline.btn-danger.btn-xs
+                              %i.fa.fa-trash
+
+        .panel.panel-info
+          .panel-heading
+            .row
+              .col-xs-6
+                = t('.today_tasks')
+          .panel-body
+            .row
+              .col-xs-12
+                %table.table.table-bordered
+                  - @tasks.incomplete.today.each do |task|
+                    %tr
+                      %td.text-middle
+                        = "#{t('.domain')}:"
+                        - if task.domain.custom_domain?
+                          = t("domains.domain_names.#{task.domain.name.downcase}")
+                        - else
+                          = t("domains.domain_names.#{task.domain.name.downcase.reverse}")
+                      %td= task.name
+                      %td.text-center.text-middle= date_format(task.completion_date)
+                      - if current_user.admin?
+                        %td.text-center.margin-icon.text-middle
+                          = link_to edit_family_task_path(@family, task) do
+                            .btn.btn-outline.btn-success.btn-xs
+                              %i.fa.fa-pencil
+                          = link_to family_task_path(@family, task), method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') } do
+                            .btn.btn-outline.btn-danger.btn-xs
+                              %i.fa.fa-trash
+        .panel.panel-primary
+          .panel-heading
+            .row
+              .col-xs-6
+                = t('.upcoming_tasks')
+          .panel-body
+            .row
+              .col-xs-12
+                %table.table.table-bordered
+                  - @tasks.incomplete.upcoming.each do |task|
+                    %tr
+                      %td.text-middle
+                        = "#{t('.domain')}:"
+                        = task.domain.name
+                      %td= task.name
+                      %td.text-center.text-middle= date_format(task.completion_date)
+                      - if current_user.admin?
+                        %td.text-center.margin-icon.text-middle
+                          = link_to edit_family_task_path(@family, task) do
+                            .btn.btn-outline.btn-success.btn-xs
+                              %i.fa.fa-pencil
+                          = link_to family_task_path(@family, task), method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') } do
+                            .btn.btn-outline.btn-danger.btn-xs
+                              %i.fa.fa-trash

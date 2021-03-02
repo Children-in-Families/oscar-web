@@ -1,0 +1,87 @@
+.row.mini-margin
+  .col-xs-12.col-sm-10.col-sm-offset-1
+    .alert.alert-warning.alert-dismissible{ :role => "alert" }
+      %button.close{"aria-label" => "Close", "data-dismiss" => "alert", :type => "button"}
+        %span{"aria-hidden" => "true"} ×
+      %ul
+        %li= I18n.t('inline_help.clients.assessments.case_plan.lists.list1').html_safe
+        %li= I18n.t('inline_help.clients.assessments.case_plan.lists.list2').html_safe
+        %li= I18n.t('inline_help.clients.assessments.case_plan.lists.list3').html_safe
+        %li= I18n.t('inline_help.clients.assessments.case_plan.lists.list4').html_safe
+        %li= I18n.t('inline_help.clients.assessments.case_plan.lists.list5').html_safe
+    .ibox#care_plan-info.center-block
+      .ibox-title
+        .row
+          .col-xs-10
+            %p
+              %b= "#{t('care_plans.show.care_plan')} #{@care_plan.family.name}"
+              %br
+              = "#{t('care_plans.show.care_plan_created_by')} #{whodunnit('CarePlan', @care_plan)} #{t('care_plans.show.on_date')} #{date_format(@care_plan.created_at)}"
+          .col-xl-1.button-position
+            .pull-right
+              = link_to family_care_plans_path(@care_plan.family), class: 'btn btn-default' do
+                = t('care_plans.show.back')
+              - if policy(@care_plan.assessment).edit?
+                - if care_plan_editable?
+                  = link_to(edit_family_care_plan_path(@care_plan.family, @care_plan), class: 'btn btn-outline btn-success') do
+                    = fa_icon('pencil')
+                - else
+                  = link_to_if(false, edit_family_care_plan_path(@care_plan.family, @care_plan), class: 'btn btn-outline btn-success disabled') do
+                    = fa_icon('pencil')
+              - if current_user.admin?
+                - if care_plan_deleted?
+                  = link_to(family_care_plan_path(@care_plan.family, @care_plan), method: 'delete', data: { confirm: t('care_plans.show.are_you_sure') }, class: 'btn btn-outline btn-danger') do
+                    = fa_icon('trash')
+                - else
+                  = link_to_if(false, family_care_plan_path(@care_plan.family, @care_plan), method: 'delete', data: { confirm: t('care_plans.show.are_you_sure') }, class: 'btn btn-outline btn-danger disabled') do
+                    = fa_icon('trash')
+      .ibox-content
+        - @care_plan.assessment.assessment_domains_in_order.each do |ad|
+          - next if ad.goals.empty?
+          .row
+            .col-xs-12
+              %div{class: "panel panel-#{ad.score_color_class}"}
+                .panel-heading
+                  %table.table.table-borderless
+                    %tbody
+                      %tr
+                        %td
+                          %b
+                            = t('care_plans.show.domain')
+                            = "#{ad.domain.name} :"
+                            = ad.domain.identity
+                        %td{rowspan: 1}
+                          .domain-score.text-center
+                            %button{ 'data-original-title': "#{simple_format(ad.score_definition)}", type: 'button', class: "btn btn-#{ad.score_color_class} btn-xs", 'data-toggle': 'tooltip' }
+                              = "#{ad.score}"
+                      %tr
+                        %td.no-padding-top
+                          %b= "#{t('care_plans.show.score')} #{ad.score}: #{(ad.score_definition).html_safe}"
+                  .row
+                    .col-md-12.col-xs-12
+                      .col-md-4.col-xs-12
+                        %p= t('care_plans.show.goal')
+                      .col-md-4.col-xs-12
+                        %p= t('care_plans.show.task')
+                      .col-md-2.col-xs12
+                        %p= t('care_plans.show.expected_date')
+                      .col-md-2.col-xs-12
+                        %p= t('care_plans.show.done_during')
+                  .row
+                    - ad.goals.each do |goal|
+                      .col-md-12.col-xs-12.goal-cover
+                        - if goal.tasks.empty?
+                          .col-md-4.col-xs-12
+                            = goal.description
+                        - else
+                          - goal.tasks.each_with_index do |task, index|
+                            .row
+                              .col-md-4.col-xs-12
+                                - if index == 0
+                                  = goal.description
+                              .col-md-4.col-xs-12
+                                = task.name
+                              .col-md-2.col-xs-12
+                                = task.completion_date
+                              .col-md-2.col-xs-12
+

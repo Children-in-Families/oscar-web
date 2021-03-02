@@ -4,6 +4,7 @@ describe CaseNote do
   end
   describe CaseNote, 'associations' do
     it { is_expected.to belong_to(:client) }
+    it { is_expected.to belong_to(:family) }
     it { is_expected.to belong_to(:assessment) }
     it { is_expected.to have_many(:case_note_domain_groups) }
     it { is_expected.to have_many(:domain_groups) }
@@ -66,6 +67,27 @@ describe CaseNote do
 
       it 'should not have first object as the latest case note by meeting date' do
         expect(latest_case_note).not_to eq(case_note)
+      end
+    end
+
+    context 'family casenote' do
+      let!(:family_case_note) { create(:case_note, belong_to_family: true) }
+      context '#parent' do
+        it 'should belong to a client' do
+          expect(case_note.parent.class.name).to eq('Client')
+        end
+
+        it 'should not belong to the family' do
+          expect(case_note.parent.class.name).not_to eq('Family')
+        end
+
+        it 'should belong to the family' do
+          expect(family_case_note.parent.class.name).to eq('Family')
+        end
+
+        it 'should not belong to the client' do
+          expect(family_case_note.parent.class.name).not_to eq('Client')
+        end
       end
     end
   end

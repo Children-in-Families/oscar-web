@@ -298,7 +298,6 @@ module AdvancedSearches
       end
     end
 
-
     def domainscore_query(operator)
       if @field == 'all_domains'
         if @basic_rules.flatten.any?{|rule| rule['field'] == 'assessment_number'}
