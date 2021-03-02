@@ -2013,7 +2013,6 @@ ActiveRecord::Schema.define(version: 20210225102546) do
     t.integer  "goal_id"
     t.integer  "family_id"
     t.datetime "expected_date"
-    t.datetime "completion_date"
     t.string   "domain_group_identity"
   end
 

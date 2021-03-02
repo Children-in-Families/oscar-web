@@ -282,7 +282,7 @@ module FamilyAdvancedSearchesConcern
   end
 
   def get_quantitative_fields
-    quantitative_fields = AdvancedSearches::QuantitativeCaseFields.new(current_user)
+    quantitative_fields = AdvancedSearches::QuantitativeCaseFields.new(current_user, 'family')
     @quantitative_fields = quantitative_fields.render
   end
 
