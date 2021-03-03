@@ -210,6 +210,8 @@ Rails.application.routes.draw do
       end
       resources :leave_enrolled_programs
     end
+
+    get 'version' => 'communities#version'
   end
 
   resources :partners do

@@ -441,6 +441,14 @@
                 .visibility.col-sm-12
                   = check_box_tag "#{quantitative_type_name}_", quantitative_type_name, checked = default_setting("#{quantitative_type_name}_", @default_columns) || params["#{quantitative_type_name}_"].present?, class: 'i-checks'
                   = label_tag "#{quantitative_type_name}_", quantitative_type_name
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'manage_', 'manage', checked =  default_setting('manage_', @default_columns) || params[:manage_].present?, class: 'i-checks'
+              = label_tag 'manage_', t('datagrid.columns.manage')
+          / %li
+          /   .visibility.col-sm-12
+          /     = check_box_tag 'changelog_', 'changelog', checked =  default_setting('changelog_', @default_columns) || params[:changelog_].present?, class: 'i-checks'
+          /     = label_tag 'changelog_', t('datagrid.columns.changelog')
 
   #filter_form
     %hr/

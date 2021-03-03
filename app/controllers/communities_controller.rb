@@ -71,11 +71,11 @@ class CommunitiesController < AdminController
     end
   end
 
-  # def version
-  #   page = params[:per_page] || 20
-  #   @community   = Family.find(params[:family_id])
-  #   @versions = @community.versions.reorder(created_at: :desc).page(params[:page]).per(page)
-  # end
+  def version
+    page = params[:per_page] || 20
+    @community   = Community.find(params[:family_id])
+    @versions = @community.versions.reorder(created_at: :desc).page(params[:page]).per(page)
+  end
 
   private
 

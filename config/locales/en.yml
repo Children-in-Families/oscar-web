@@ -123,6 +123,8 @@ en:
         phone_number: Phone Number
         province_id: Province
         received_by_id: Receiving Staff Member
+        referral_source_category_id: Referral Source Category
+        referral_source_id: Referral Source
         relevant_information: Relevant Information
         representative_name: Represetative Name
         role: Role in the Group/Community
@@ -2280,6 +2282,8 @@ en:
       district: District
       new_community_title: Add New Community
       province: Province
+      referral_source_category_id: Referral Source Category
+      referral_source_id: Referral Source
       step_1_title: Basic Group/Community Information
       step_11_title: Administrative Information
       step_12_title: Group/Community Information

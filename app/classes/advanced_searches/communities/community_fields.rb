@@ -2,6 +2,7 @@ module AdvancedSearches
   module Communities
     class CommunityFields
       include AdvancedSearchHelper
+      include AdvancedSearchFieldHelper
       include Pundit
 
       def initialize(options = {})
@@ -28,11 +29,11 @@ module AdvancedSearches
       end
 
       def number_type_list
-        []
+        %w[adule_male_count adule_female_count kid_male_count kid_female_count]
       end
 
       def text_type_list
-        ['name', 'phone_number', 'role', 'representative_name']
+        ['name', 'name_en', 'phone_number', 'role', 'representative_name']
       end
 
       def date_type_list
@@ -46,7 +47,9 @@ module AdvancedSearches
           ['province_id', provinces],
           ['district_id', districts],
           ['commune_id', communes],
-          ['village_id', villages]
+          ['village_id', villages],
+          ['referral_source_category_id', referral_source_category_options('Community')],
+          ['referral_source_id', referral_source_options('Community')]
         ]
       end
 

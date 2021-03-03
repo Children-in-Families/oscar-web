@@ -29,6 +29,21 @@ class CommunityGrid < BaseGrid
 
   filter(:formed_date, :date, header: -> { I18n.t('activerecord.attributes.community.formed_date') })
 
+  filter(:referral_source_id, :enum, select: :referral_source_options, header: -> { I18n.t('activerecord.attributes.community.referral_source_id') })
+  filter(:referral_source_category_id, :enum, select: :referral_source_category_options, header: -> { I18n.t('activerecord.attributes.community.referral_source_category_id') })
+
+  def referral_source_options
+    current_user.present? ? Community.joins(:case_worker_clients).where(case_worker_clients: { user_id: current_user.id }).referral_source_is : Community.referral_source_is
+  end
+
+  def referral_source_category_options
+    if I18n.locale == :km
+      ReferralSource.where(id: Community.pluck(:referral_source_category_id).compact).pluck(:name, :id)
+    else
+      ReferralSource.where(id: Community.pluck(:referral_source_category_id).compact).pluck(:name_en, :id)
+    end
+  end
+
   def commune_options
     Community.joins(:commune).map{|f| [f.commune.code_format, f.commune_id]}.uniq
   end
@@ -46,7 +61,7 @@ class CommunityGrid < BaseGrid
   end
 
   def gender_options
-    Community.gender.values.map{ |value| [I18n.t("datagrid.columns.families.gender_list.#{value.gsub('other', 'other_gender')}"), value] }
+    Community.gender.values.map{ |value| [I18n.t("activerecord.attributes.community.gender_list.#{value.gsub('other', 'other_gender')}"), value] }
   end
 
   column(:id, header: -> { I18n.t('activerecord.attributes.community.id') })
@@ -109,6 +124,37 @@ class CommunityGrid < BaseGrid
     object.received_by.name
   end
 
+  column(:referral_source_id, header: -> { I18n.t('activerecord.attributes.community.referral_source_id') }) do |object|
+    format(object.referral_source) do |referral_source|
+      referral_source.name if referral_source
+    end
+  end
+
+  column(:referral_source_category_id, header: -> { I18n.t('activerecord.attributes.community.referral_source_category_id') }) do |object|
+    format(object.referral_source_category_id) do |referral_source_category_id|
+      if I18n.locale == :km
+        ReferralSource.find_by(id: referral_source_category_id).try(:name)
+      else
+        ReferralSource.find_by(id: referral_source_category_id).try(:name_en)
+      end
+    end
+  end
+
+  dynamic do
+    community_member_columns.each do |k, v|
+      next if k == :is_family
+      column(k, class: 'community-member', header: -> { v }) do |object|
+        if k.to_s[/count/].present?
+          format(object.community_members.sum(k)) do |value|
+            value
+          end
+        else
+          format(object.community_members.pluck(k)) { |values| values.join }
+        end
+      end
+    end
+  end
+
   dynamic do
     next unless dynamic_columns.present?
     dynamic_columns.each do |column_builder|
@@ -157,5 +203,14 @@ class CommunityGrid < BaseGrid
         end
       end
     end
+  end
+
+  dynamic do
+    column(:manage, html: true, class: 'text-center', header: -> { I18n.t('datagrid.columns.families.manage') }) do |object|
+      render partial: 'communities/actions', locals: { object: object }
+    end
+    # column(:changelog, html: true, class: 'text-center', header: -> { I18n.t('datagrid.columns.families.changelogs') }) do |object|
+    #   link_to t('datagrid.columns.families.view'), community_version_path(object)
+    # end
   end
 end
