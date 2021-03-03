@@ -74,7 +74,7 @@ class CommunityGrid < BaseGrid
 
   column(:name_en, order: 'LOWER(name_en)', header: -> { I18n.t('activerecord.attributes.community.name_en') }) do |object|
     format(object.name_en) do |value|
-      entity_name(object)
+      link_to value, community_path(object)
     end
   end
 

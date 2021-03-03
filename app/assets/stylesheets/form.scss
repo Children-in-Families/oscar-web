@@ -22,10 +22,10 @@
 }
 
 .btn-toastr-confirm {
-  color: #333333
+  color: #333333;
 }
 
-#toast-container > .toast-warning{
+#toast-container > .toast-warning {
   &:before {
     content: "\f071";
   }

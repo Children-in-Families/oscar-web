@@ -76,7 +76,7 @@ CIF.CommunitiesIndex = do ->
       $('#community-search-form').collapse('hide')
 
   _initAdavanceSearchFilter = ->
-    advanceFilter = new CIF.AdvancedSearch('/api/community_advanced_searches/get_custom_field')
+    advanceFilter = new CIF.AdvancedSearch('#community-builder', '/api/community_advanced_searches/get_custom_field')
     advanceFilter.initBuilderFilter('#community-builder-fields')
     advanceFilter.setValueToBuilderSelected()
 
