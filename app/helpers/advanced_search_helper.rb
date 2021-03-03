@@ -187,7 +187,7 @@ module AdvancedSearchHelper
       id:                                       I18n.t('activerecord.attributes.community.formed_date'),
       initial_referral_date:                    I18n.t('activerecord.attributes.community.initial_referral_date'),
       phone_number:                             I18n.t('activerecord.attributes.community.phone_number'),
-      province_id:                              I18n.t('advanced_search.fields.province'),
+      province_id:                              I18n.t('activerecord.attributes.community.province_id'),
       district_id:                              I18n.t('advanced_search.fields.district'),
       commune_id:                               I18n.t('advanced_search.fields.commune'),
       village_id:                               I18n.t('advanced_search.fields.village'),

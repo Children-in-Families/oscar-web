@@ -66,8 +66,8 @@
 //= require footable.all.min
 
 //APPLICATION JS
-//= require advanced_search
 //= require client_advance_search
+//= require advanced_search
 //= require showmore
 
 //= require check_duplicate_array.js
@@ -93,6 +93,9 @@
 //= require families/index
 //= require families/form
 //= require families/show
+//= require communities/index
+//= require communities/form
+//= require communities/show
 //= require users/show
 //= require users/index
 //= require users/form
@@ -133,9 +136,6 @@
 //= require referral_sources/index
 //= require client_books/index
 //= require calls/form
-//= require communities/index
-//= require communities/form
-//= require communities/show
 //= require quantitative_types/index
 //= require calls/index
 //= require referees/index

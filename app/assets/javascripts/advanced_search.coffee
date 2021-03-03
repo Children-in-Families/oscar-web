@@ -1,10 +1,11 @@
 class CIF.AdvancedSearch
-  constructor: (customFormUrl) ->
+  constructor: (builderId, customFormUrl) ->
     @filterTranslation   = ''
     @customFormSelected  = []
     @programSelected     = []
     optionTranslation    = $('#opt-group-translation')
 
+    @builderId = builderId
     @DOMAIN_SCORES_TRANSLATE  = $(optionTranslation).data('csiDomainScores')
     @BASIC_FIELD_TRANSLATE    = $(optionTranslation).data('basicFields')
     @CUSTOM_FORM_TRANSLATE    = $(optionTranslation).data('customForm')
@@ -25,9 +26,9 @@ class CIF.AdvancedSearch
 
   getTranslation: ->
     @filterTranslation =
-      addFilter: $('#builder').data('filter-translation-add-filter')
-      addGroup: $('#builder').data('filter-translation-add-group')
-      deleteGroup: $('#builder').data('filter-translation-delete-group')
+      addFilter: $(@builderId).data('filter-translation-add-filter')
+      addGroup: $(@builderId).data('filter-translation-add-group')
+      deleteGroup: $(@builderId).data('filter-translation-delete-group')
 
   formatSpecialCharacter: (value) ->
     filedName = value.toLowerCase().replace(/[^a-zA-Z0-9]+/gi, ' ').trim() || value.trim()
@@ -38,10 +39,10 @@ class CIF.AdvancedSearch
 
   filterSelectChange: ->
     self = @
-    $('.rule-filter-container select').on 'select2-close', ->
+    $('.rule-filter-container select.form-control').on 'select2-close', ->
       ruleParentId = $(@).closest("div[id^='builder_rule']").attr('id')
       setTimeout ( ->
-        $("##{ruleParentId} .rule-operator-container select, .rule-value-container select").select2(width: 'resolve')
+        $("##{ruleParentId} .rule-operator-container select.form-control, .rule-value-container select.form-control").select2(width: 'resolve')
       )
 
   handleResizeWindow: ->
@@ -64,20 +65,29 @@ class CIF.AdvancedSearch
     builderFields = $(id).data('fields')
     @.getTranslation()
     if !_.isEmpty(@filterTranslation) and !_.isEmpty(builderFields)
-      advanceSearchBuilder = new CIF.AdvancedFilterBuilder($('#builder'), builderFields, @filterTranslation)
+      advanceSearchBuilder = new CIF.AdvancedFilterBuilder($(@builderId), builderFields, @filterTranslation)
       advanceSearchBuilder.initRule()
       advanceSearchBuilder.setRuleFromSavedSearch()
 
+      # $(@builderId).on 'afterCreateRuleInput.queryBuilder', (e, rule) ->
+      #   if rule.filter.plugin == 'datepicker'
+      #     $input = rule.$el.find('.rule-value-container [name*=_value_]')
+      #     $($input).datepicker(rule.filter.plugin_config)
+      #     $input.on 'dp.change', ->
+      #       debugger;
+      #       $input.trigger 'change'
+      #       return
+      #   return
+
     @.basicFilterSetRule()
     @.initSelect2()
-    @.initRuleOperatorSelect2($('#builder'))
-
+    @.initRuleOperatorSelect2($(@builderId))
 
   initSelect2: ->
     $('#custom-form-select, #program-stream-select, #quantitative-case-select').select2()
-    $('#builder select').select2()
+    $("#{@builderId} select").select2()
     setTimeout ( ->
-      ids = ['#custom-form-select', '#program-stream-select', '#quantitative-case-select', '#builder']
+      ids = ['#custom-form-select', '#program-stream-select', '#quantitative-case-select', @builderId]
       $.each ids, (index, item) ->
         $("#{item} .rule-filter-container select").select2(width: '250px')
         $("#{item} .rule-operator-container select, .rule-value-container select").select2(width: 'resolve')
@@ -96,16 +106,22 @@ class CIF.AdvancedSearch
 
   basicFilterSetRule: ->
     self = @
-    basicQueryRules = $('#builder').data('basic-search-rules')
+    basicQueryRules = $(@builderId).data('basic-search-rules')
     unless basicQueryRules == undefined or _.isEmpty(basicQueryRules.rules)
       self.handleShowCustomFormSelect()
-      $('#builder').queryBuilder('setRules', basicQueryRules)
+      $(@builderId).queryBuilder('setRules', basicQueryRules)
 
   initRuleOperatorSelect2: (rowBuilderRule) ->
-    operatorSelect = $(rowBuilderRule).find('.rule-operator-container select')
+    operatorSelect = $(rowBuilderRule).find('.rule-filter-container select.form-control')
     $(operatorSelect).on 'select2-close', ->
       setTimeout ( ->
-        $(rowBuilderRule).find('.rule-value-container select').select2(width: '180px')
+        $(rowBuilderRule).find('.rule-operator-container select.form-control').select2(width: '180px')
+      )
+
+    operatorSelect = $(rowBuilderRule).find('.rule-operator-container select.form-control')
+    $(operatorSelect).on 'select2-close', ->
+      setTimeout ( ->
+        $(rowBuilderRule).find('.rule-value-container select.form-control').select2(width: '180px')
       )
 
   ######################################################################################################################
@@ -114,7 +130,7 @@ class CIF.AdvancedSearch
     self = @
     fields = $('#quantitative-fields').data('fields')
     $('#quantitative-type-checkbox').on 'ifChecked', ->
-      $('#builder').queryBuilder('addFilter', fields) if $('#builder:visible').length > 0
+      $(@builderId).queryBuilder('addFilter', fields) if $("#{@builderId}:visible").length > 0
       self.initSelect2()
 
   handleRemoveQuantitativFilter: ->
@@ -122,7 +138,7 @@ class CIF.AdvancedSearch
     $('#quantitative-type-checkbox').on 'ifUnchecked', ->
       self.handleRemoveFilterBuilder(self.QUANTITATIVE_TRANSLATE, self.QUANTITATIVE_TRANSLATE)
 
-  handleRemoveFilterBuilder: (resourceName, resourcelabel, elementBuilder = '#builder') ->
+  handleRemoveFilterBuilder: (resourceName, resourcelabel, elementBuilder = @builderId) ->
     self = @
     filterSelects = $('.main-report-builder .rule-container .rule-filter-container select')
     for select in filterSelects
@@ -150,7 +166,7 @@ class CIF.AdvancedSearch
         if $(labelValue).last()[0].trim() == resourcelabel.trim() and labelValue[0].trim() == resourceName.trim()
           $(optGroup).find('option').each ->
             values.push $(@).val()
-    $('#builder').queryBuilder('removeFilter', values)
+    $(@builderId).queryBuilder('removeFilter', values)
     @initSelect2()
 
   ######################################################################################
@@ -177,7 +193,7 @@ class CIF.AdvancedSearch
       method: 'GET'
       success: (response) ->
         fieldList = response[controllerName]
-        $('#builder').queryBuilder('addFilter', fieldList)
+        $(@builderId).queryBuilder('addFilter', fieldList)
         self.initSelect2()
         self.addFieldToColumnPicker(element, fieldList)
         loader.stop() if loader
@@ -246,7 +262,7 @@ class CIF.AdvancedSearch
   handleSearch: ->
     self = @
     $('#search').on 'click', ->
-      basicRules = $('#builder').queryBuilder('getRules', { skip_empty: true, allow_invalid: true })
+      basicRules = $(@builderId).queryBuilder('getRules', { skip_empty: true, allow_invalid: true })
       # customFormValues = "[#{$('#family-advance-search-form').find('#custom-form-select').select2('val')}]"
       customFormValues = if self.customFormSelected.length > 0 then "[#{self.customFormSelected}]"
 
@@ -254,7 +270,7 @@ class CIF.AdvancedSearch
       if $('#quantitative-type-checkbox').prop('checked') then $('#community_advanced_search_quantitative_check').val(1)
 
       if (_.isEmpty(basicRules.rules) and !basicRules.valid) or (!(_.isEmpty(basicRules.rules)) and basicRules.valid)
-        $('#builder').find('.has-error').removeClass('has-error')
+        $(@builderId).find('.has-error').removeClass('has-error')
         $('#community_advanced_search_basic_rules').val(self.handleStringfyRules(basicRules))
         self.handleSelectFieldVisibilityCheckBox()
         $('#advanced-search').submit()
