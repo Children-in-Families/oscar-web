@@ -123,6 +123,8 @@ my:
         received_by_id: Receiving Staff Member
         relevant_information: Relevant Information
         representative_name: Represetative Name
+        referral_source_category_id: Referral Source Category
+        referral_source_id: Referral Source
         role: Role in the Group/Community
         status: Status
         village_id: Village

@@ -1,7 +1,7 @@
 module AdvancedSearches
   module Communities
     class CommunityBaseSqlBuilder
-      ASSOCIATION_FIELDS = []
+      ASSOCIATION_FIELDS = %w[adule_male_count adule_female_count kid_male_count kid_female_count is_family].freeze
       BLANK_FIELDS = %w(initial_referral_date)
       SENSITIVITY_FIELDS = %w(name status)
 

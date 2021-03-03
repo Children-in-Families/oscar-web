@@ -1,6 +1,7 @@
 module AdvancedSearchHelper
   include ClientsHelper
   include FamiliesHelper
+  include CommunityHelper
 
   def custom_form_values(report_builder = '#builder')
     has_custom_form_selected = has_advanced_search? && advanced_search_params[:custom_form_selected].present? && (advanced_search_params[:action_report_builder].present? ? report_builder == advanced_search_params[:action_report_builder] : true)
@@ -178,8 +179,9 @@ module AdvancedSearchHelper
   def community_header(key)
     translations = {
       initial_referral_date:                    I18n.t('advanced_search.fields.initial_referral_date'),
-      name:                                     I18n.t('datagrid.columns.families.name'),
-      status:                                   I18n.t('datagrid.columns.families.status'),
+      name:                                     I18n.t('activerecord.attributes.community.name'),
+      name_en:                                  I18n.t('activerecord.attributes.community.name_en'),
+      status:                                   I18n.t('activerecord.attributes.community.status'),
       formed_date:                              I18n.t('activerecord.attributes.community.formed_date'),
       gender:                                   I18n.t('activerecord.attributes.community.gender'),
       id:                                       I18n.t('activerecord.attributes.community.formed_date'),
@@ -192,7 +194,10 @@ module AdvancedSearchHelper
       received_by_id:                           I18n.t('advanced_search.fields.received_by_id'),
       relevant_information:                     I18n.t('activerecord.attributes.community.relevant_information'),
       representative_name:                      I18n.t('activerecord.attributes.community.representative_name'),
+      referral_source_category_id:              I18n.t('activerecord.attributes.community.referral_source_category_id'),
+      referral_source_id:                       I18n.t('activerecord.attributes.community.referral_source_id'),
       role:                                     I18n.t('activerecord.attributes.community.role'),
+      **community_member_columns
     }
     translations[key.to_sym] || ''
   end

@@ -123,6 +123,8 @@ km:
         phone_number: លេខទូរស័ព្ទ
         province_id: ខេត្តបច្ចុប្បន្ន
         received_by_id: បុគ្គលិកទទួលករណី
+        referral_source_category_id: ប្រភេទប្រភពនៃការបញ្ជូន
+        referral_source_id: ប្រភពនៃការបញ្ជូន
         relevant_information: Relevant Information
         representative_name: Represetative Name
         role: Role in the Group/Community

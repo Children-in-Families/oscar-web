@@ -51,6 +51,8 @@ class Community < ActiveRecord::Base
 
   has_paper_trail
 
+  scope :referral_source_is,         ->        { joins(:referral_source).where.not('referral_sources.name in (?)', ReferralSource::REFERRAL_SOURCES).pluck('referral_sources.name', 'referral_sources.id').uniq }
+
   def display_name
     [name, name_en].select(&:present?).join(' - ').presence || "Community ##{id}"
   end
