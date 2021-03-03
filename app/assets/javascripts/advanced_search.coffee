@@ -180,6 +180,7 @@ class CIF.AdvancedSearch
     self = @
     $('.custom-form-wrapper select').on 'select2-selecting', (element) ->
       self.customFormSelected.push(element.val)
+      $('#community_advanced_search_custom_form_selected').val(element.val)
       self.addCustomBuildersFields(element.val, self.CUSTOM_FORM_URL)
 
   addCustomBuildersFields: (ids, url, loader=undefined) ->
@@ -193,7 +194,7 @@ class CIF.AdvancedSearch
       method: 'GET'
       success: (response) ->
         fieldList = response[controllerName]
-        $(@builderId).queryBuilder('addFilter', fieldList)
+        $(self.builderId).queryBuilder('addFilter', fieldList)
         self.initSelect2()
         self.addFieldToColumnPicker(element, fieldList)
         loader.stop() if loader
@@ -262,15 +263,15 @@ class CIF.AdvancedSearch
   handleSearch: ->
     self = @
     $('#search').on 'click', ->
-      basicRules = $(@builderId).queryBuilder('getRules', { skip_empty: true, allow_invalid: true })
-      # customFormValues = "[#{$('#family-advance-search-form').find('#custom-form-select').select2('val')}]"
+      basicRules = $(self.builderId).queryBuilder('getRules', { skip_empty: true, allow_invalid: true })
+      customFormValues = "[#{$('#community-advanced-search').find('#custom-form-select').select2('val')}]"
       customFormValues = if self.customFormSelected.length > 0 then "[#{self.customFormSelected}]"
 
       $('#community_advanced_search_custom_form_selected').val(customFormValues)
       if $('#quantitative-type-checkbox').prop('checked') then $('#community_advanced_search_quantitative_check').val(1)
 
       if (_.isEmpty(basicRules.rules) and !basicRules.valid) or (!(_.isEmpty(basicRules.rules)) and basicRules.valid)
-        $(@builderId).find('.has-error').removeClass('has-error')
+        $(self.builderId).find('.has-error').removeClass('has-error')
         $('#community_advanced_search_basic_rules').val(self.handleStringfyRules(basicRules))
         self.handleSelectFieldVisibilityCheckBox()
         $('#advanced-search').submit()
