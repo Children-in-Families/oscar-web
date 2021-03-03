@@ -29,7 +29,7 @@ module CommunityAdvancedSearchConcern
   end
 
   def custom_form_columns
-    @custom_form_columns ||= custom_form_fields.group_by{ |field| field[:optgroup] } if params.dig(:community_advanced_search, :action_report_builder) == '#builder'
+    @custom_form_columns ||= custom_form_fields.group_by{ |field| field[:optgroup] } if params.dig(:community_advanced_search, :action_report_builder) == '#community-builder'
   end
 
   def list_custom_form
@@ -47,7 +47,7 @@ module CommunityAdvancedSearchConcern
   end
 
   def custom_form_values
-    custom_form_value? ? eval(@advanced_search_params[:custom_form_selected]) : []
+    @custom_form_values ||= custom_form_value? ? eval(@advanced_search_params[:custom_form_selected]) : []
   end
 
   def custom_form_fields

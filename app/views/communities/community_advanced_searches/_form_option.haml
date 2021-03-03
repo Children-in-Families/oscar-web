@@ -17,11 +17,11 @@
         .row
           .col-xs-12
             .form-group
-              = check_box_tag :nil, '1', custom_form_values.present?, { class: 'i-checks custom-form-checkbox', id: 'custom-form-checkbox' }
+              = check_box_tag :nil, '1', @custom_form_values.present?, { class: 'i-checks custom-form-checkbox', id: 'custom-form-checkbox' }
               %label= t('advanced_search.fields.custom_form')
         .row.custom-form
           .col-xs-12
-            .form-group#custom-form-data{ data: { value: custom_form_values } }
-              = select_tag(:nil, options_for_select(@list_custom_form&.pluck(:form_title, :id), custom_form_values), { multiple: true, class: 'form-control custom-form-select', id: 'custom-form-select' } )
+            .form-group#custom-form-data{ data: { value: @custom_form_values } }
+              = select_tag(:nil, options_for_select(@list_custom_form&.pluck(:form_title, :id), @custom_form_values), { multiple: true, class: 'form-control custom-form-select', id: 'custom-form-select' } )
 
 #opt-group-translation{ data: { basic_fields: t('advanced_search.fields.basic_fields'), custom_form: t('advanced_search.fields.custom_form'), quantitative: t('advanced_search.fields.quantitative') } }

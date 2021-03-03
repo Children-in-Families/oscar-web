@@ -52,7 +52,7 @@ CIF.CommunitiesIndex = do ->
 
   _handleAutoCollapse = ->
     action = $('#search-action').data('action') || 'community_grid'
-    if action == '#builder'
+    if action == '#community-builder'
       adButton = $("button[data-target='#community-advanced-search']")
       adButton.trigger('click')
       form = $(adButton).attr('class')

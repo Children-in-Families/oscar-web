@@ -74,7 +74,6 @@ class CIF.AdvancedSearch
       #     $input = rule.$el.find('.rule-value-container [name*=_value_]')
       #     $($input).datepicker(rule.filter.plugin_config)
       #     $input.on 'dp.change', ->
-      #       debugger;
       #       $input.trigger 'change'
       #       return
       #   return
@@ -130,7 +129,7 @@ class CIF.AdvancedSearch
     self = @
     fields = $('#quantitative-fields').data('fields')
     $('#quantitative-type-checkbox').on 'ifChecked', ->
-      $(@builderId).queryBuilder('addFilter', fields) if $("#{@builderId}:visible").length > 0
+      $(self.builderId).queryBuilder('addFilter', fields) if $("#{self.builderId}:visible").length > 0
       self.initSelect2()
 
   handleRemoveQuantitativFilter: ->
@@ -180,7 +179,7 @@ class CIF.AdvancedSearch
     self = @
     $('.custom-form-wrapper select').on 'select2-selecting', (element) ->
       self.customFormSelected.push(element.val)
-      $('#community_advanced_search_custom_form_selected').val(element.val)
+      # $('#community_advanced_search_custom_form_selected').val(element.val)
       self.addCustomBuildersFields(element.val, self.CUSTOM_FORM_URL)
 
   addCustomBuildersFields: (ids, url, loader=undefined) ->
