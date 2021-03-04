@@ -15,15 +15,23 @@
                 %p{:class => "hide score-color"}= score_color
                 %h4= "#{assessment.family.name}"
                 %p= "#{t('care_plans.form.domain')} #{ad.object.domain.name} #{ad.object.domain.identity} #{ad.object.domain.name}"
-                %p= "#{t('care_plans.form.goal')}: #{strip_tags(score_definition(domain.send("translate_score_#{ad.object.score}_definition").to_s, ad.object.score))}"
-                %p= "#{t('care_plans.form.score_from_assessment')} #{ad.object.score}"
+                %p= "#{t('care_plans.form.scoring_statement')}: #{strip_tags(score_definition(domain.send("translate_score_#{ad.object.score}_definition").to_s, ad.object.score))}"
+                %p
+                  = "#{t('care_plans.form.score_from_assessment')} :"
+                  %span.btn.btn-default= ad.object.score
               .ibox-content
                 %p.hide.required-message= t('care_plans.form.required_message')
                 .row.goal-task-title
                   .col-md-4.col-xs-12
-                    %p= t('care_plans.form.goal')
+                    %label.date.required.control-label{ for: 'goal' }
+                      - if ad.object.domain["score_#{ad.object.score}_color"] != 'primary'
+                        %abbr{ title: 'required' } *
+                      = t('care_plans.form.goal')
                   .col-md-4.col-xs-12
-                    %p= t('care_plans.form.task')
+                    %label.date.required.control-label{ for: 'task' }
+                      - if ad.object.domain["score_#{ad.object.score}_color"] != 'primary'
+                        %abbr{ title: 'required' } *
+                      = t('care_plans.form.task')
                   .col-md-4.col-xs-12
                     %p= t('care_plans.form.expected_date')
                 .row

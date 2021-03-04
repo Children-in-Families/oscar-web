@@ -10,16 +10,27 @@
       .ibox-content
         - @assessments.each_with_index do |assessment, index|
           .row.margin-row
-            .col-xs-12.col-sm-8
+            .col-xs-12.col-sm-4
               %h5
                 = t('.assessment_created_on', assessment: t('clients.show.assessment'))
                 %b
                   = date_format(assessment.created_at)
                 = "(#{assessment.domains.last.custom_assessment_setting.custom_assessment_name})" if assessment.domains.last&.custom_assessment_setting.present?
-
+            .col-xs-12.col-sm-4
+              %h5
+                - if assessment.care_plan.present?
+                  = t('.care_plan_created_on')
+                  %b
+                    = date_format(assessment.care_plan.created_at)
+                    %span{class: care_plan_label(assessment.care_plan)}= care_plan_status(assessment.care_plan)
             .col-xs-12.col-sm-4
               .btn.btn-block.btn-info.button{ class: ('disabled' unless case_notes_readable?) }
                 - if assessment.care_plan.present?
                   = link_to t('.review_care_plan'),  client_care_plan_path(@client, assessment.care_plan.id)
                 - else
                   = link_to t('.new_care_plan'), new_client_care_plan_path(@client, :assessment => assessment.id)
+
+      .ibox-footer
+        .row
+          .col-xs-12.col-sm-6
+            = link_to t('.back'), client_path(@client), { class:'btn btn-default button' }

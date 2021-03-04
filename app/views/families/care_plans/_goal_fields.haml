@@ -2,7 +2,7 @@
   .row
     .col-md-4.col-xs-12
       = f.hidden_field :domain_id, value: params[:domain_id]
-      = f.hidden_field :family_id, value: @family.id
+      = f.hidden_field :family_id, value: @family.slug
       = f.hidden_field :assessment_id, value: params[:assessment_id]
       = f.hidden_field :assessment_domain_id, value: params[:assessment_domain_id]
       = f.text_area :description,  class: 'form-control goal-input-field text-area'

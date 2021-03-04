@@ -679,8 +679,10 @@ en:
       previous: Previous
       reason: Observation
       reason_placeholder: Enter your observations on the client's situation, based on what you have see and been told by the client and their family.
+      reason_placeholder_family: Enter your observations on the family's situation, based on what you have see and been told by the client and their family.
       save: Save
       score_label: Choose which of the following descriptions most closely describe the client's situation, base on your observation.
+      score_label_family: Choose which of the following descriptions most closely describe the family's situation, base on your observation.
       set_goal: Would you like to set a goal?
       tasks_arising: 'Tasks arising:'
     incomplete_detail:
@@ -702,8 +704,10 @@ en:
       previous: Previous
       reason: Observation
       reason_placeholder: Enter your observations on the client's situation, based on what you have see and been told by the client and their family.
+      reason_placeholder_family: Enter your observations on the family's situation, based on what you have see and been told by the client and their family.
       save: Save
       score_label: Choose which of the following descriptions most closely describe the client's situation, base on your observation.
+      score_label_family: Choose which of the following descriptions most closely describe the family's situation, base on your observation.
       set_goal: Would you like to set a goal?
       tasks_arising: 'Tasks arising:'
     index:
@@ -875,6 +879,7 @@ en:
       required_message: You need to add at least one goal and one task.
       save: Save
       score_from_assessment: Score from assessment
+      scoring_statement: Scoring Statement
       task: Task
     goal_fields:
       add_task: Add task
@@ -882,6 +887,7 @@ en:
     index:
       assessment_created_on: Assessment created on
       back: Back
+      care_plan_created_on: Care Plan created on
       care_plan_history: Care Plan History
       new_care_plan: New Care Plan
       review_care_plan: Review Care Plan
@@ -6027,6 +6033,8 @@ en:
     update:
       successfully_updated: Survey has been successfully updated.
   tasks:
+    completion_date: Completion Date
+    expected_date: Expected Date
     filter:
       filter_by_user: Filter By User
       select_user: Select User

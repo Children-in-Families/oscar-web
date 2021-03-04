@@ -94,4 +94,8 @@ body[id=case_notes-create] {
     margin-top: 15px;
     display: none;
   }
+
+  .btn-default.case-note-domain-score {
+    pointer-events: none;
+  }
 }

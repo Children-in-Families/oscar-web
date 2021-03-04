@@ -48,7 +48,7 @@ class CaseNote < ActiveRecord::Base
       case_note_domain_group = case_note_domain_groups.find_by(domain_group_id: param[:domain_group_id])
       task_ids = param[:task_ids] || []
       case_note_domain_group.tasks = Task.with_deleted.where(id: task_ids)
-      case_note_domain_group.tasks.with_deleted.set_complete
+      case_note_domain_group.tasks.with_deleted.set_complete(self)
       case_note_domain_group.save
     end
   end
