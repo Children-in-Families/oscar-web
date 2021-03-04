@@ -87,6 +87,7 @@ CIF.CommunitiesIndex = do ->
     advanceFilter.customFormSelectRemove()
     advanceFilter.handleHideCustomFormSelect()
     advanceFilter.handleShowCustomFormSelect()
+    advanceFilter.addRuleCallback()
 
     advanceFilter.handleSearch()
 

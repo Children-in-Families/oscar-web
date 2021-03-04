@@ -112,7 +112,7 @@ class CIF.AdvancedSearch
 
   initRuleOperatorSelect2: (rowBuilderRule) ->
     operatorSelect = $(rowBuilderRule).find('.rule-filter-container select.form-control')
-    $(operatorSelect).on 'select2-close', ->
+    $(document).on 'select2-close', operatorSelect, ->
       setTimeout ( ->
         $(rowBuilderRule).find('.rule-operator-container select.form-control').select2(width: '180px')
       )
@@ -256,6 +256,24 @@ class CIF.AdvancedSearch
       self.customFormSelected = []
       $('select.custom-form-select').select2('val', '')
       $('.custom-form').hide()
+
+  handleSelectOptionChange: (obj)->
+    self = @
+    if obj != undefined
+      rowBuilderRule = obj.$el[0]
+      ruleFiltersSelect = $(rowBuilderRule).find('.rule-filter-container select')
+      $(ruleFiltersSelect).on 'select2-close', ->
+        ruleParentId = $(@).closest("div[id^='builder_rule']").attr('id')
+        setTimeout ( ->
+          $("##{ruleParentId} .rule-operator-container select, .rule-value-container select").select2(width: 'resolve')
+          self.initRuleOperatorSelect2(rowBuilderRule)
+        )
+
+  addRuleCallback: ->
+    self = @
+    $(@builderId).on 'afterCreateRuleFilters.queryBuilder', (_e, obj) ->
+      self.initSelect2()
+      self.handleSelectOptionChange(obj)
 
   #======================================Handle Search================================
 
