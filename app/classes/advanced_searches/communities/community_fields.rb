@@ -29,7 +29,7 @@ module AdvancedSearches
       end
 
       def number_type_list
-        %w[adule_male_count adule_female_count kid_male_count kid_female_count]
+        %w[adule_male_count adule_female_count kid_male_count kid_female_count member_count male_count female_count]
       end
 
       def text_type_list
