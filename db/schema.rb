@@ -2015,6 +2015,7 @@ ActiveRecord::Schema.define(version: 20210225102546) do
     t.datetime "expected_date"
     t.string   "domain_group_identity"
     t.datetime "completion_date"
+    t.string   "domain_group_identity"
   end
 
   add_index "tasks", ["client_id"], name: "index_tasks_on_client_id", using: :btree

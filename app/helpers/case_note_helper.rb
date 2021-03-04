@@ -112,7 +112,7 @@ module CaseNoteHelper
     ongoing_tasks = []
     today_tasks = []
     cdg.domains(case_note).each do |domain|
-      tasks = case_note.parent.tasks.where(domain_id: domain.id)
+      tasks = case_note.tasks.where(domain_id: domain.id)
       ongoing_tasks << tasks.by_case_note_domain_group(cdg)
       today_tasks << case_note_the_latest_tasks(tasks.by_case_note_domain_group(cdg))
       assessment_domain = domain.assessment_domains.find_by(assessment_id: case_note.assessment_id)
@@ -120,8 +120,31 @@ module CaseNoteHelper
         list_goals << assessment_domain.goal
       end
     end
+    today_tasks << list_today_tasks(cdg, case_note)
 
     [list_goals, ongoing_tasks, today_tasks]
+  end
+
+  def list_family_goals_and_tasks(cdg, case_note)
+    list_goals = []
+    ongoing_tasks = []
+    today_tasks = []
+    cdg.domains(case_note).each do |domain|
+      tasks = case_note.tasks.where(domain_id: domain.id)
+      today_tasks << tasks.by_case_note_domain_group(cdg)
+      today_tasks << case_note_the_latest_tasks(tasks.by_case_note_domain_group(cdg))
+      assessment_domain = domain.assessment_domains.find_by(assessment_id: case_note.assessment_id)
+      if assessment_domain.present? && assessment_domain.goal?
+        list_goals << assessment_domain.goal
+      end
+    end
+    today_tasks << list_today_tasks(cdg, case_note)
+
+    [list_goals, ongoing_tasks, today_tasks]
+  end
+
+  def list_today_tasks(cdg, case_note)
+    Task.where(case_note_id: case_note.id.to_s, domain_group_identity: cdg.domain_group_id.to_s).where.not(id: case_note.tasks.completed.ids).distinct
   end
 
   def case_note_ongoing_tasks(tasks)
@@ -129,7 +152,7 @@ module CaseNoteHelper
   end
 
   def case_note_the_latest_tasks(tasks)
-    tasks.reject { |task| !task.created_at.today? || task.completed }
+    tasks.reject { |task| !task.created_at.today? }
   end
 
   def case_note_domain_without_assessment(domain_note, case_note)

@@ -17,9 +17,14 @@
                       = t('shared.new_x', x: t('clients.form.case_note'))
                       %span.caret
                     %ul.dropdown-menu#case-note-dropdown
-                      - if @current_setting.enable_default_assessment
-                        %li
-                          = new_link(@family)
+                      %li
+                        - if case_notes_editable? && policy(@family).create?
+                          = link_to new_polymorphic_path([@family, 'case_note'], custom: false) do
+                            = t('domains.index.family_csi_tool')
+                        - else
+                          = link_to_if false, '' do
+                            = content_tag :a, class: 'disabled' do
+                              = t('domains.index.family_csi_tool')
 
                     #customDomainsModal.modal.fade{"aria-labelledby" => "customDomainsModalLabel", :role => "dialog", :tabindex => "-1"}
                       .modal-dialog{:role => "document"}
@@ -78,9 +83,10 @@
                       %h4= "Domain Groups"
                     .panel-body
                       = select_tag "", tag_domain_group(case_note), multiple: true, disabled: true
+
               - case_note.case_note_domain_groups.where(domain_group_id: case_note.selected_domain_group_ids.map(&:to_i)).each do |cdg|
-                - list_goals, ongoing_tasks, today_tasks = list_goals_and_tasks(cdg, case_note)
-                - if cdg.completed_tasks.any? || list_goals.present? || ongoing_tasks.flatten.present?
+                - list_goals, ongoing_tasks, today_tasks = list_family_goals_and_tasks(cdg, case_note)
+                - if list_goals.present? || today_tasks.flatten.any? || cdg.completed_tasks.any?
                   .ibox.border-left-right.border-bottom
                     .ibox-title
                       - custom_assessment_setting_id = find_custom_assessment_setting_id(cdg, case_note)
@@ -91,7 +97,7 @@
                             - ad = domain.assessment_domains.find_by(assessment_id: case_note.assessment_id)
                             - next if ad.nil?
                             %a.collapse-link
-                              %label.margin-score.case-note-domain-score{ class: "label label-#{ad.score_color_class} label-lg", 'data-original-title': "#{simple_format(ad.score_definition)}", 'data-toggle': 'tooltip' }
+                              %label.margin-score.case-note-domain-score{ class: "label label-#{ad&.score_color_class || 'default'} label-lg", 'data-original-title': "#{simple_format(ad.score_definition)}", 'data-toggle': 'tooltip' }
                                 = ad.score
                     .ibox-content
                       .row
@@ -118,7 +124,7 @@
                                       = "#{index + 1}. "
                                       = task.name
 
-                        - the_latest_tasks = today_tasks.flatten
+                        - the_latest_tasks = today_tasks.flatten.uniq
                         - if the_latest_tasks.present?
                           .col-xs-12.col-sm-6
                             .panel.panel-default

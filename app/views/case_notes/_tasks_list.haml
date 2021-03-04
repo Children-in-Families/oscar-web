@@ -1,4 +1,4 @@
-.panel-body{ id: "tasks-domain-#{domain.id}" }
+.panel-body{ id: "tasks-domain-#{domain.id}", data: { domain_group_identity: domain_note.object.domain_group_id } }
   .row
     .col-xs-12
       = domain_note.association :tasks, collection: tasks.map{ |t| [t.name, t.id, { data: { completed: t.completed } }] }, as: :check_boxes, label: t('.on_going_tasks'), input_html: { class: 'i-checks task' }

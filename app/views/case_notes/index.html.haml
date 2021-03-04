@@ -129,7 +129,7 @@
                                       = "#{index + 1}. "
                                       = task.name
 
-                        - the_latest_tasks = today_tasks.flatten
+                        - the_latest_tasks = today_tasks.flatten.uniq
                         - if the_latest_tasks.present?
                           .col-xs-12.col-sm-6
                             .panel.panel-default
