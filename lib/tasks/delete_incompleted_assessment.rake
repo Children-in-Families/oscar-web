@@ -3,14 +3,15 @@ namespace :incompleted_assessment do
   task delete: :environment do
     Organization.all.each do |org|
       next if org.short_name == 'shared'
-      Organization.switch_to org.short_name
-      incompleted_assessment = []
-      Assessment.incompleted.each do |assessment|
-        incompleted_assessment << assessment.id if (Date.today - assessment.created_at.to_date).to_i > 7
-      end
-      Assessment.where(id: incompleted_assessment).delete_all if incompleted_assessment.present?
 
+      Organization.switch_to org.short_name
+
+      setting = Setting.first_or_initialize
+      next if setting.never_delete_incomplete_assessment?
+
+      Assessment.incompleted.where("created_at < ?", setting.delete_incomplete_after_period.ago).delete_all
     end
+
     puts 'Incompleted assesssment deleted!!!'
   end
 end
