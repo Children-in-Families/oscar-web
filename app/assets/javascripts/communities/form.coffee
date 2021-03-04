@@ -8,14 +8,26 @@ CIF.CommunitiesNew = CIF.CommunitiesCreate = CIF.CommunitiesEdit = CIF.Communiti
     _initIcheck()
     _onChangeReferralSourceCategory()
     _initUploader()
+    _initSelect2SingleSelect()
 
-  _validateForm = ->
+  _initSelect2SingleSelect = () ->
+    $('select.single-select').select2
+      maximumSelectionSize: 1
+      allowClear: true
+
+  _validateForm = (currentIndex) ->
     valid = true
 
-    for select in $("select.required, input.required")
+    for select in $("select.received-by.required, select.referral-date.required, select.caseworker.required, input.required")
       $(select).trigger("validate")
       if $(select).hasClass("error") || $(select).closest(".form-group").find(".select2-choice").hasClass("error")
         valid = false
+
+    if(currentIndex == 2)
+      for select in $("select.required, input.required")
+        $(select).trigger("validate")
+        if $(select).hasClass("error") || $(select).closest(".form-group").find(".select2-choice").hasClass("error")
+          valid = false
 
     valid
 
@@ -42,9 +54,9 @@ CIF.CommunitiesNew = CIF.CommunitiesCreate = CIF.CommunitiesEdit = CIF.Communiti
       labels:
         finish: 'Save'
       onStepChanging: (event, currentIndex, newIndex) ->
-        (currentIndex > newIndex) || _validateForm()
+        (currentIndex > newIndex) || _validateForm(currentIndex)
       onFinishing: (event, currentIndex) ->
-        if window.savingCommunity == false
+        if window.savingCommunity == false && _validateForm(currentIndex)
           $("#community-form").submit()
           window.savingCommunity = true
         return true
