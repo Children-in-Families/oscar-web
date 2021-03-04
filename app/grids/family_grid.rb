@@ -291,30 +291,39 @@ class FamilyGrid < BaseGrid
   end
 
   column(:received_by_id, header: -> { I18n.t('datagrid.columns.families.received_by_id') }) do |object|
-    format(object.received_by) do |received_by|
-      user received_by if received_by
+    format(object.received_by&.name) do |user_name|
+      if can? :read, User
+        link_to user_name, user_path(object.received_by) if object.received_by.present?
+      elsif user_name.present?
+        user_name
+      end
     end
   end
 
   column(:followed_up_by_id, header: -> { I18n.t('datagrid.columns.families.followed_up_by_id') }) do |object|
-    format(object.followed_up_by) do |followed_up_by|
-      user followed_up_by if followed_up_by
+    format(object.followed_up_by&.name) do |user_name|
+      if can? :read, User
+        link_to user_name, user_path(object.followed_up_by) if object.followed_up_by.present?
+      elsif user_name.present?
+        user_name
+      end
     end
   end
 
   column(:referral_source_id, header: -> { I18n.t('datagrid.columns.families.referral_source_id') }) do |object|
-    format(object.referral_source) do |referral_source|
-      referral_source.name if referral_source
+    format(object.referral_source&.name) do |referral_source_name|
+      referral_source_name
     end
   end
 
   column(:referral_source_category_id, header: -> { I18n.t('datagrid.columns.families.referral_source_category_id') }) do |object|
-    format(object.referral_source_category_id) do |referral_source_category_id|
-      if I18n.locale == :km
-        ReferralSource.find_by(id: referral_source_category_id).try(:name)
-      else
-        ReferralSource.find_by(id: referral_source_category_id).try(:name_en)
-      end
+    if I18n.locale == :km
+      referral_source_name = ReferralSource.find_by(id: object.referral_source_category_id).try(:name)
+    else
+      referral_source_name = ReferralSource.find_by(id: object.referral_source_category_id).try(:name_en)
+    end
+    format(referral_source_name) do |referral_source_name|
+      referral_source_name
     end
   end
 
@@ -323,19 +332,19 @@ class FamilyGrid < BaseGrid
   column(:street, header: -> { I18n.t('datagrid.columns.families.street') })
 
   column(:village, order: 'villages.name_kh', header: -> { I18n.t('datagrid.columns.families.village') }) do |object|
-    object.village.try(:code_format)
+    format(object.village.try(:code_format)) { |value| value }
   end
 
   column(:commune, order: 'communes.name_kh', header: -> { I18n.t('datagrid.columns.families.commune') }) do |object|
-    object.commune.try(:name)
+    format(object.commune.try(:name)) { |value| value }
   end
 
   column(:district, order: 'districts.name', header: -> { I18n.t('datagrid.columns.families.district') }) do |object|
-    object.district_name
+    format(object.district_name) { |value| value }
   end
 
   column(:province, order: 'provinces.name', header: -> { I18n.t('datagrid.columns.families.province') }) do |object|
-    object.province_name
+    format(object.province_name) { |value| value }
   end
 
   column(:cases, header: -> { I18n.t('datagrid.columns.families.clients') }, html: false) do |object|
