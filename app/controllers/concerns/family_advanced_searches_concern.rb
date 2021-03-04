@@ -35,6 +35,7 @@ module FamilyAdvancedSearchesConcern
   def export_family_reports
     custom_all_csi_assessments
     if params[:family_advanced_search].present?
+      custom_referral_data_report
       form_builder_report
       program_stream_report
     end
@@ -98,6 +99,25 @@ module FamilyAdvancedSearchesConcern
 
   def basic_params
     @basic_filter_params  = @advanced_search_params[:basic_rules]
+  end
+
+  def custom_referral_data_report
+    quantitative_type_readable_ids = current_user.quantitative_type_permissions.readable.pluck(:quantitative_type_id) unless current_user.nil?
+    quantitative_types = QuantitativeType.joins(:quantitative_cases).where('quantitative_types.visible_on LIKE ?', "%family%").distinct
+    quantitative_types.each do |quantitative_type|
+      if current_user.nil? || quantitative_type_readable_ids.include?(quantitative_type.id)
+        @family_grid.column(quantitative_type.name.to_sym, class: 'quantitative-type', header: -> { quantitative_type.name }) do |object|
+          quantitative_type_values = object.quantitative_cases.where(quantitative_type_id: quantitative_type.id).pluck(:value)
+          rule = get_rule(params, quantitative_type.name.squish)
+          if rule.presence && rule.dig(:type) == 'date'
+            quantitative_type_values = date_condition_filter(rule, quantitative_type_values).presence || quantitative_type_values
+          elsif rule.presence
+            quantitative_type_values = select_condition_filter(rule, quantitative_type_values.flatten).presence || quantitative_type_values
+          end
+          quantitative_type_values.join(', ')
+        end
+      end
+    end
   end
 
   def form_builder_report
@@ -204,12 +224,12 @@ module FamilyAdvancedSearchesConcern
     end
 
     if params[:data].presence == 'recent'
-      @family_grid.column(column.to_sym, header: t(".#{column}", assessment: I18n.t('families.show.assessment'))) do |family|
+      @family_grid.column(column.to_sym, header: I18n.t("datagrid.columns.#{column}", assessment: I18n.t('families.show.assessment'))) do |family|
         recent_assessment = eval(records).latest_record
         "#{recent_assessment.created_at} => #{recent_assessment.assessment_domains_score}" if recent_assessment.present?
       end
     else
-      @family_grid.column(column.to_sym, header: t(".#{column}", assessment: I18n.t('families.show.assessment'))) do |family|
+      @family_grid.column(column.to_sym, header: I18n.t("datagrid.columns.#{column}", assessment: I18n.t('families.show.assessment'))) do |family|
         eval(records).map(&:basic_info).join("\x0D\x0A")
       end
     end
@@ -229,7 +249,7 @@ module FamilyAdvancedSearchesConcern
       @family_grid.column(column, class: 'domain-scores', header: identity) do |family|
         assessments = map_assessment_and_score(family, identity, domain.id)
         assessment_domains = assessments.includes(:assessment_domains).map { |assessment| assessment.assessment_domains.joins(:domain).where(domains: { id: domain.id }) }.flatten.uniq
-        assessment_domains.map{|assessment_domain| assessment_domain.try(:score) }.join(', ')
+        assessment_domains.map { |assessment_domain| assessment_domain.try(:score) }.join(', ')
       end
     end
   end
@@ -293,7 +313,7 @@ module FamilyAdvancedSearchesConcern
 
   def program_stream_report
     @family_grid.column(:program_streams, header: I18n.t('datagrid.columns.families.program_streams')) do |family|
-      family.enrollments.active.map{ |c| c.program_stream.try(:name) }.uniq.join(', ')
+      family.enrollments.active.map { |c| c.program_stream.try(:name) }.uniq.join(', ')
     end
   end
 end
