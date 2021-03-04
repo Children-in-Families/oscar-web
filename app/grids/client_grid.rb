@@ -986,6 +986,15 @@ class ClientGrid < BaseGrid
       elsif assessment_completed_sql.present?
         sql = assessment_completed_sql[/assessments\.created_at.*/]
         assessments = object.assessments.defaults.completed.where(sql).order('created_at')
+      else
+        rule = basic_rules['rules'].select {|h| h['id'] == 'date_of_assessments' }.first
+        if rule.present?
+          date_of_assessments_query = date_of_assessments_query_string(rule[:id], rule['field'], rule['operator'], rule['value'])
+          assessments = object.assessments.defaults.where(date_of_assessments_query)
+        else
+          assessments = object.assessments.defaults
+        end
+        assessments = object.assessments.defaults.completed.where(sql).order('created_at')
       end
     else
       assessments = object.assessments.defaults.order('created_at')
@@ -1042,7 +1051,7 @@ class ClientGrid < BaseGrid
         identity = domain.identity
         column(domain.convert_identity.to_sym, class: 'domain-scores', header: identity, html: true) do |client|
           assessment_domains = map_assessment_and_score(client, identity, domain_id)
-          assessment_domains.map{|assessment_domain| assessment_domain.try(:score) }.join(', ')
+          render  partial: 'clients/list_domain_score', locals: { assessment_domains: assessment_domains }
         end
       end
     end

@@ -155,6 +155,7 @@ class FamilyGrid < BaseGrid
   column(:gender, html: true, header: -> { I18n.t('activerecord.attributes.family_member.gender') }) do |object|
     content_tag :ul, class: '' do
       object.family_members.map(&:gender).each do |gender|
+        next unless gender
         concat(content_tag(:li, gender&.titleize))
       end
     end

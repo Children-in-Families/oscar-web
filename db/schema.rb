@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20201224082044) do
+ActiveRecord::Schema.define(version: 20210224095120) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1999,8 +1999,8 @@ ActiveRecord::Schema.define(version: 20201224082044) do
     t.boolean  "closed",                            default: false, null: false
     t.integer  "last_topic_id"
     t.integer  "messageboard_group_id"
-    t.datetime "created_at",                                        null: false
-    t.datetime "updated_at",                                        null: false
+    t.datetime "created_at",                                    null: false
+    t.datetime "updated_at",                                    null: false
   end
 
   add_index "thredded_messageboards", ["closed"], name: "index_thredded_messageboards_on_closed", using: :btree
@@ -2272,10 +2272,10 @@ ActiveRecord::Schema.define(version: 20201224082044) do
     t.integer  "item_id",        null: false
     t.string   "event",          null: false
     t.string   "whodunnit"
-    t.jsonb    "object"
     t.datetime "created_at"
-    t.jsonb    "object_changes"
     t.integer  "transaction_id"
+    t.text     "object"
+    t.text     "object_changes"
   end
 
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
