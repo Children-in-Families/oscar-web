@@ -23,6 +23,12 @@ module AdvancedSearches
           else
             values = query_community_members(nil, @value.map(&:to_date))
           end
+        when /member_count|male_count|female_count/
+          if @operator != 'between'
+            values = count_community_members(@value.to_i)
+          else
+            values = count_community_members(nil, @value.map(&:to_i))
+          end
         when /count/
           if @operator != 'between'
             values = query_community_members(@value.to_i)
@@ -103,6 +109,40 @@ module AdvancedSearches
           communities = communities.where("#{sql} >= ?", value)
         when 'between'
           communities = communities.where("#{sql} BETWEEN ? AND ? ", values[0], values[1])
+        when 'is_empty'
+          communities = Community.includes(:community_members).where("community_members.#{@field} = NULL")
+        when 'is_not_empty'
+          communities = communities.where("community_members.#{@field} != NULL")
+        end
+        communities.ids
+      end
+
+      def count_community_members(value, values = [])
+        communities = @communities.joins(:community_members).distinct
+        sql = ''
+        if @field == 'member_count'
+          sql = ''
+        elsif @field == 'male_count'
+          sql = "AND community_members.gender = 'male'"
+        else
+          sql = "AND community_members.gender = 'female'"
+        end
+
+        case @operator
+        when 'equal'
+          communities = communities.group(:id, 'community_members.gender').having("COUNT(community_members) = ? #{sql}", value)
+        when 'not_equal'
+          communities = communities.group(:id, 'community_members.gender').having("COUNT(community_members) != ? #{sql}", value)
+        when 'less'
+          communities = communities.group(:id, 'community_members.gender').having("COUNT(community_members) < ? #{sql}", value)
+        when 'less_or_equal'
+          communities = communities.group(:id, 'community_members.gender').having("COUNT(community_members) <= ? #{sql}", value)
+        when 'greater'
+          communities = communities.group(:id, 'community_members.gender').having("COUNT(community_members) > ? #{sql}", value)
+        when 'greater_or_equal'
+          communities = communities.group(:id, 'community_members.gender').having("COUNT(community_members) >= ? #{sql}", value)
+        when 'between'
+          communities = communities.group(:id, 'community_members.gender').having("COUNT(community_members) BETWEEN ? AND ? #{sql}", values[0], values[1])
         when 'is_empty'
           communities = Community.includes(:community_members).where("community_members.#{@field} = NULL")
         when 'is_not_empty'

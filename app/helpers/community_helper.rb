@@ -5,7 +5,10 @@ module CommunityHelper
   end
 
   def community_member_columns
-    I18n.t("activerecord.attributes.community_member").slice(:adule_male_count, :adule_female_count, :kid_male_count, :kid_female_count)
+    {
+      **I18n.t("activerecord.attributes.community_member").slice(:adule_male_count, :adule_female_count, :kid_male_count, :kid_female_count),
+      **I18n.t("communities.show").slice(:member_count, :male_count, :female_count)
+    }
   end
 
   def community_columns_visibility(column)

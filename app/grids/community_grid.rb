@@ -144,7 +144,13 @@ class CommunityGrid < BaseGrid
     community_member_columns.each do |k, v|
       next if k == :is_family
       column(k, class: 'community-member', header: -> { v }) do |object|
-        if k.to_s[/count/].present?
+        if k.to_s == 'member_count'
+          format(object.community_members.count) { |value| value}
+        elsif k.to_s == 'male_count'
+          format(object.community_members.male.count) { |value| value}
+        elsif k.to_s == 'female_count'
+          format(object.community_members.female.count) { |value| value}
+        elsif k.to_s[/count/].present?
           format(object.community_members.sum(k)) do |value|
             value
           end
