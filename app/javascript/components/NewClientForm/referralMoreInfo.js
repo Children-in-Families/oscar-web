@@ -9,7 +9,7 @@ import { t } from '../../utils/i18n'
 export default props => {
   const { onChange, renderAddressSwitch, translation, fieldsVisibility, current_organization, hintText,
           data: { errorFields, carerDistricts, carerCommunes, brc_presented_ids,
-                  carerVillages, carer, client, clientRelationships, currentProvinces,
+                  carerVillages, carer, client, familyMember, clientRelationships, currentProvinces,
                   currentDistricts, currentCommunes, currentVillages, donors, agencies, currentStates, currentTownships, carerSubdistricts,
                   schoolGrade, families, ratePoor, addressTypes, T, customId1, customId2
                 }
@@ -47,7 +47,7 @@ export default props => {
         </div>
       </div>
 
-      <CareInfo id="careInfo"  translation={translation} fieldsVisibility={fieldsVisibility} current_organization={current_organization} data={{ carer, client, clientRelationships, carerDistricts, carerCommunes, carerVillages, currentProvinces, currentDistricts, carerSubdistricts, currentCommunes, currentVillages, currentStates, currentTownships, families, addressTypes, T }} onChange={onChange} renderAddressSwitch={renderAddressSwitch} hintText={hintText} />
+      <CareInfo id="careInfo"  translation={translation} fieldsVisibility={fieldsVisibility} current_organization={current_organization} data={{ carer, client, familyMember, clientRelationships, carerDistricts, carerCommunes, carerVillages, currentProvinces, currentDistricts, carerSubdistricts, currentCommunes, currentVillages, currentStates, currentTownships, families, addressTypes, T }} onChange={onChange} renderAddressSwitch={renderAddressSwitch} hintText={hintText} />
 
       {
         fieldsVisibility.client_school_information == true &&

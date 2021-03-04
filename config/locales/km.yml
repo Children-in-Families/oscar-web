@@ -2279,10 +2279,12 @@ km:
       created_by: Created by
       current_province: Current Province
       direct_participants: Direct Participants of the Group/Community
+      enrolled_program_streams: កម្មវិធីចម្បងរបស់សហគមន៍
       female_count: Number of Member Females
       general_info: About Community
       male_count: Number of Member Males
       member_count: Number of Members
+      program_streams: បញ្ជូលសហគមន៍ក្នុងកម្មវិធីចម្បង
       read_less: read less
       read_more: read more
       referral_source: Referral Source
@@ -3797,129 +3799,125 @@ km:
       modification_of: ប្រវត្តិកំណែរបស់
   enrolled_program_trackings:
     action:
-      new_tracking: New Tracking
+      new_tracking: បន្ថែមការតាមដានថ្មី
     create:
-      successfully_created: Tracking Program has been successfully created.
+      successfully_created: ការតាមដានត្រូវបានរក្សាទុកដោយជោគជ័យ
     destroy:
-      successfully_deleted: Tracking Program has been successfully deleted.
+      successfully_deleted: ការតាមដានត្រូវបានលុបដោយជោគជ័យ
     edit:
-      edit_tracking: Edit Tracking
+      edit_tracking: កែសម្រូលការតាមដាន
     form:
-      cancel: Cancel
-      save: Save
+      cancel: ទុកជាមោឃៈ
+      save: រក្សាទុក
     index:
-      programs_list: Programs List
-      tracking_lists: Trackings List
+      programs_list: តារាងកម្មវិធី
+      tracking_lists: តារាងនៃការតាមដាន
     new:
-      new_tracking: New Tracking
+      new_tracking: បន្ថែមការតាមដានថ្មី
     report:
-      are_you_sure: Are you sure you want to delete?
-      back: Back
-      created_at: Created Date
-      new_tracking: New Tracking
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+      back: ត្រលប់ក្រោយ
+      created_at: កាលបរិច្ឆេទៈ
+      new_tracking: បន្ថែមការតាមដានថ្មី
     show:
-      back: Back
-      trackings_list: Trackings List
+      back: ត្រលប់ក្រោយ
+      trackings_list: តារាងនៃការតាមដាន
     update:
-      successfully_updated: Tracking Program has been successfully updated.
+      successfully_updated: ការតាមដានត្រូវបានកែសម្រួលដោយជោគជ័យ
   enrolled_programs:
     create:
-      successfully_created: Enrollment has been successfully created.
+      successfully_created: ការចុះឈ្មោះត្រូវបានរក្សាទុកដោយជោគជ័យ
     destroy:
-      successfully_deleted: Enrollment has been successfully deleted.
+      successfully_deleted: ការចុះឈ្មោះត្រូវបានលុបដោយជោគជ័យ
     edit:
-      enrollment: Edit Enrollment
+      enrollment: ទម្រង់បែបបទនៃចុះឈ្មោះ
     form:
-      accepted_date: "NGO Accept Date"
-      exit_date: "NGO Exit Date"
-      cancel: Cancel
-      enrollment_date: Enrollment Date
-      save: Save
+      cancel: ទុកជាមោឃៈ
+      enrollment_date: ថ្ងៃចុះឈ្មោះ
+      save: រក្សាទុក
     index:
-      actions: Actions
-      back: Back
-      domain: Associated Domains
-      name: Program Name
-      program_lists: Programs List
-      quantity: Number of Place Available
-      report: Report
-      status: Status
-      view: View
+      actions: សកម្មភាព
+      back: ត្រលប់ក្រោយ
+      domain: កត្តា
+      name: ឈ្មោះកម្មវិធី
+      program_lists: តារាងកម្មវិធីចម្បង
+      quantity: ចំនួនកន្លែងដែលនៅទំនេរ
+      report: របាយការណ៍
+      status: ស្ថានភាព
+      view: មើល
     manage:
-      enroll: Enroll
-      exit: Exit
-      full_program: This Program is full.
-      tracking: Trackings
+      enroll: ចុះឈ្មោះ
+      exit: ចាកចេញ
+      full_program: កម្មវិធីនេះពេញហើយ!
+      tracking: តាមដាន
     new:
-      not_valid: Does not match with this program conditions.
-      new_enrollment: New Enrollment
+      not_valid: មិនមានលក្ខខ័ណ្ឌគ្រប់គ្រាន់ដើម្បីចូលក្នុងកម្មវិធីនេះទេ
+      new_enrollment: ការចុះឈ្មោះថ្មី
     report:
-      actions: Actions
-      date: Date
-      enrollment: Enrollment
-      exit: Exit
-      forms: Forms
-      programs_list: Programs List
-      report: Reports
-      tracking: Tracking
-      view: View
+      actions: សកម្មភាព
+      date: កាលបរិច្ឆេទ
+      enrollment: ចុះឈ្មោះ
+      exit: ចាកចេញ
+      forms: ទម្រង់បែបបទ
+      programs_list: តារាងកម្មវិធីចម្បង
+      report: របាយការណ៏
+      tracking: ការតាមដាន
+      view: មើល
     show:
-      are_you_sure: Are you sure you want to delete?
-      back: Back
-      enrollment_date: Enrolled on
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+      back: ត្រលប់ក្រោយ
+      enrollment_date: កាលបរិច្ឆេទចុះឈ្មោះ
     update:
-      successfully_updated: Enrollment has been successfully updated.
+      successfully_updated: ការចុះឈ្មោះត្រូវបានកែសម្រួលដោយជោគជ័យ
   enrollments:
     create:
-      successfully_created: Enrollment has been successfully created.
+      successfully_created: ការចុះឈ្មោះត្រូវបានរក្សាទុកដោយជោគជ័យ
     destroy:
-      delete_attachment_successfully: Attachment has been successfully deleted.
-      successfully_deleted: Enrollment has been successfully deleted.
+      delete_attachment_successfully: ឯកសារភ្ជាប់ត្រូវបានលុបដោយជោគជ័យ
+      successfully_deleted: ការចុះឈ្មោះត្រូវបានលុបដោយជោគជ័យ
     edit:
-      enrollment: Edit Enrollment
+      enrollment: ពិនិត្យកែប្រែទម្រង់បែបបទនៃការចុះឈ្មោះ
     form:
-      accepted_date: "NGO Accept Date"
-      exit_date: "NGO Exit Date"
-      allow_file_size: Allowed file types
-      cancel: Cancel
-      enrollment_date: Enrollment Date
-      max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
-      not_an_email: not an email
-      save: Save
+      allow_file_size: ប្រភេទឯកសារដែលបានអនុញ្ញាត
+      cancel: ទុកជាមោឃៈ
+      enrollment_date: ថ្ងៃចុះឈ្មោះ
+      max_file_size: '"*ទំហំឯកសារអតិបរមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."'
+      not_an_email: មិនមែនជាឣុីម៉ែល
+      save: រក្សាទុក
     index:
-      actions: Actions
-      back: Back
-      domain: Associated Domains
-      name: Program Name
-      program_lists: Programs List
-      quantity: Number of Place Available
-      report: Report
-      status: Status
-      view: View
+      actions: សកម្មភាព
+      back: ត្រលប់ក្រោយ
+      domain: កត្តា
+      name: ឈ្មោះកម្មវិធី
+      program_lists: តារាងកម្មវិធីចម្បង
+      quantity: ចំនួនកន្លែងដែលនៅទំនេរ
+      report: របាយការណ៍
+      status: ស្ថានភាព
+      view: មើល
     manage:
-      enroll: Enroll
-      exit: Exit
-      full_program: This Program is full
-      tracking: Trackings
+      enroll: ចុះឈ្មោះ
+      exit: ចាកចេញ
+      full_program: កម្មវិធីនេះពេញ
+      tracking: តាមដាន
     new:
-      not_valid: Does not match with this program conditions.
-      new_enrollment: New Enrollment
+      not_valid: មិនមានលក្ខខ័ណ្ឌគ្រប់គ្រាន់ដើម្បីចូលក្នុងកម្មវិធីនេះទេ
+      new_enrollment: ការចុះឈ្មោះថ្មី
     report:
-      actions: Actions
-      date: Date
-      enrollment: Enrollment
-      exit: Exit
-      forms: Forms
-      programs_list: Programs List
-      report: Reports
-      tracking: Tracking
-      view: View
+      actions: សកម្មភាព
+      date: កាលបរិច្ឆេទ
+      enrollment: ចុះឈ្មោះ
+      exit: ចាកចេញ
+      forms: ទម្រង់បែបបទ
+      programs_list: តារាងកម្មវិធីចម្បង
+      report: របាយការណ៏
+      tracking: ការតាមដាន
+      view: មើល
     show:
-      are_you_sure: Are you sure you want to delete?
-      back: Back
-      enrollment_date: Enrolled on
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+      back: ត្រលប់ក្រោយ
+      enrollment_date: កាលបរិច្ឆេទចុះឈ្មោះ
     update:
-      successfully_updated: Enrollment has been successfully updated.
+      successfully_updated: ការចុះឈ្មោះត្រូវបានកែសម្រួលដោយជោគជ័យ
   enumerize:
     defaults:
       gender:
@@ -4860,6 +4858,7 @@ km:
   leave_enrolled_programs:
     create:
       client: អតិថិជន
+      community: សហគមន៍
       family: គ្រួសារ
       successfully_created: "%{entity}ត្រូវបានចាកចេញពីកម្មវិធីដោយជោគជ័យ"
     edit:

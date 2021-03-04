@@ -20,7 +20,7 @@ describe ProgramStream do
 
   describe ProgramStream, 'scope' do
     let!(:family_program_stream)  { create(:program_stream, :attached_with_family, name: 'efg') }
-    let!(:community_program_stream)  { create(:program_stream, :attached_with_community, name: 'Community CPS') }
+    let!(:community_program_stream)  { create(:program_stream, :attached_with_community, name: 'h CPS') }
     let!(:first_program_stream)  { create(:program_stream, name: 'def') }
     let!(:second_program_stream) { create(:program_stream, name: 'abc') }
     let!(:third_program_stream)  { create(:program_stream, name: 'abcf', mutual_dependence: [second_program_stream.id, first_program_stream.id]) }
@@ -28,16 +28,19 @@ describe ProgramStream do
     context 'attached_with' do
       it 'return records attached with corresponding entity' do
         expect(ProgramStream.attached_with('Client')).to include(first_program_stream, second_program_stream, third_program_stream)
-        expect(ProgramStream.attached_with('Client')).not_to include(family_program_stream)
+        expect(ProgramStream.attached_with('Client')).not_to include(family_program_stream, community_program_stream)
 
         expect(ProgramStream.attached_with('Family')).to include(family_program_stream)
-        expect(ProgramStream.attached_with('Family')).not_to include(first_program_stream, second_program_stream, third_program_stream)
+        expect(ProgramStream.attached_with('Family')).not_to include(first_program_stream, second_program_stream, third_program_stream, community_program_stream)
+
+        expect(ProgramStream.attached_with('Community')).to include(community_program_stream)
+        expect(ProgramStream.attached_with('Community')).not_to include(first_program_stream, second_program_stream, third_program_stream, family_program_stream)
       end
     end
 
     context 'ordered' do
       it 'return the correct order of name' do
-        expect(ProgramStream.ordered).to eq [second_program_stream, third_program_stream, first_program_stream, family_program_stream]
+        expect(ProgramStream.ordered).to eq [second_program_stream, third_program_stream, first_program_stream, family_program_stream, community_program_stream]
       end
     end
 

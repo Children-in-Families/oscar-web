@@ -17,6 +17,8 @@ describe LeaveProgram do
     let!(:program_stream) { create(:program_stream)}
     let!(:family) { create(:family, :inactive) }
     let!(:entity_program_stream) { create(:program_stream, :attached_with_family)}
+    let!(:community) { create(:community) }
+    let!(:community_program_stream) { create(:program_stream, :attached_with_community)}
 
     context 'custom form email validator' do
       it 'return is not an email' do
@@ -62,11 +64,21 @@ describe LeaveProgram do
       end
     end
 
-    context 'exit_date_value of entity' do
+    context 'exit_date_value of entity Family' do
       it 'should be any date after program enrollment date' do
         properties = {"e-mail"=>"test@example.com", "age"=>"5", "description"=>"this is testing"}
         enrollment = FactoryGirl.create(:enrollment, program_stream: entity_program_stream, programmable: family, properties: properties, enrollment_date: '2017-06-08')
         leave_program = FactoryGirl.build(:leave_program, enrollment: enrollment, program_stream: entity_program_stream, properties: properties, exit_date: '2017-06-07')
+        leave_program.save
+        expect(leave_program.errors[:exit_date]).to include('The exit date you have selected is invalid. Please select a date after your program enrollment date.')
+      end
+    end
+
+    context 'exit_date_value of entity Community' do
+      it 'should be any date after program enrollment date' do
+        properties = {"e-mail"=>"test@example.com", "age"=>"5", "description"=>"this is testing"}
+        enrollment = FactoryGirl.create(:enrollment, program_stream: community_program_stream, programmable: community, properties: properties, enrollment_date: '2017-06-08')
+        leave_program = FactoryGirl.build(:leave_program, enrollment: enrollment, program_stream: community_program_stream, properties: properties, exit_date: '2017-06-07')
         leave_program.save
         expect(leave_program.errors[:exit_date]).to include('The exit date you have selected is invalid. Please select a date after your program enrollment date.')
       end
@@ -110,6 +122,10 @@ describe LeaveProgram do
     let!(:program_stream) { create(:program_stream, :attached_with_family) }
     let!(:enrollment) { create(:enrollment, program_stream: program_stream, programmable: family) }
 
+    let!(:community) { create(:community) }
+    let!(:community_program_stream) { create(:program_stream, :attached_with_community) }
+    let!(:community_enrollment) { create(:enrollment, program_stream: community_program_stream, programmable: community) }
+
     context 'after_create' do
       context 'set_entity_status' do
         context 'The client is not active in any cases EC/FC/KC' do
@@ -129,20 +145,37 @@ describe LeaveProgram do
           end
         end
 
-        context 'if entity is not active in other enrollments' do
+        context 'if Family entity is not active in other enrollments' do
           let!(:leave_program) { create(:leave_program, enrollment: enrollment, program_stream: program_stream) }
           it 'status should be Accepted' do
             expect(family.status).to eq('Accepted')
           end
         end
 
-        context 'if entity is still active in other enrollments' do
+        context 'if Family entity is still active in other enrollments' do
           let!(:program_stream_two) { create(:program_stream, :attached_with_family) }
           let!(:enrollment_two) { create(:enrollment, program_stream: program_stream_two, programmable: family) }
           let!(:leave_program) { create(:leave_program, enrollment: enrollment, program_stream: program_stream) }
           it 'status should remain Active' do
             family.reload
             expect(family.status).to eq('Active')
+          end
+        end
+
+        context 'if Community entity is not active in other enrollments' do
+          let!(:leave_program) { create(:leave_program, enrollment: community_enrollment, program_stream: community_program_stream) }
+          it 'status should be accepted' do
+            expect(community.status).to eq('accepted')
+          end
+        end
+
+        context 'if Community entity is still active in other enrollments' do
+          let!(:program_stream_two) { create(:program_stream, :attached_with_community) }
+          let!(:enrollment_two) { create(:enrollment, program_stream: program_stream_two, programmable: community) }
+          let!(:leave_program) { create(:leave_program, enrollment: community_enrollment, program_stream: community_program_stream) }
+          it 'status should remain active' do
+            community.reload
+            expect(community.status).to eq('active')
           end
         end
       end
@@ -154,10 +187,17 @@ describe LeaveProgram do
         end
       end
 
-      context 'update_enrollment_status of entity' do
+      context 'update_enrollment_status of Family entity' do
         let!(:leave_program) { create(:leave_program, enrollment: enrollment, program_stream: program_stream) }
         it 'set enrollment status to Exited' do
           expect(enrollment.status).to eq('Exited')
+        end
+      end
+
+      context 'update_enrollment_status of Community entity' do
+        let!(:leave_program) { create(:leave_program, enrollment: community_enrollment, program_stream: community_program_stream) }
+        it 'set enrollment status to Exited' do
+          expect(community_enrollment.status).to eq('Exited')
         end
       end
     end

@@ -1,0 +1,4 @@
+%ul
+  - assessment_domains.each do |asd|
+    - next if asd.score.blank?
+    %li= asd.score
