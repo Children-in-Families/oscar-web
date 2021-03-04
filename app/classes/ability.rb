@@ -83,6 +83,7 @@ class Ability
 
       family_ids = user.families.ids
       family_ids += User.joins(:clients).where(id: subordinate_users).where.not(clients: { current_family_id: nil }).select('clients.current_family_id AS client_current_family_id').map(&:client_current_family_id)
+      family_ids += User.joins(:families).where(id: subordinate_users).select('families.id AS family_id').map(&:family_id)
       family_ids += Client.where(id: exited_client_ids).pluck(:current_family_id)
       family_ids += user.clients.pluck(:current_family_id)
 
