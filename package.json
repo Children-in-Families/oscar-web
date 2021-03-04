@@ -30,6 +30,8 @@
     "react-time-picker": "^3.9.0",
     "react-transition-group": "^4.3.0",
     "react_ujs": "^2.6.0",
+    "semantic-ui-calendar-react": "^0.15.3",
+    "semantic-ui-react": "^2.0.3",
     "toastr": "^2.1.4"
   },
   "devDependencies": {
