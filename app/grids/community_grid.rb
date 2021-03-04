@@ -112,6 +112,14 @@ class CommunityGrid < BaseGrid
     object.province_name
   end
 
+  column(:direct_beneficiaries, header: -> { Community.human_attribute_name(:direct_beneficiaries) }) do |object|
+    object.direct_beneficiaries
+  end
+
+  column(:indirect_beneficiaries, header: -> { Community.human_attribute_name(:indirect_beneficiaries) }) do |object|
+    object.indirect_beneficiaries
+  end
+  
   column(:received_by_id, header: -> { I18n.t('activerecord.attributes.community.received_by_id') }) do |object|
     object.received_by.name
   end

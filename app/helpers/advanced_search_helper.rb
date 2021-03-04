@@ -165,6 +165,7 @@ module AdvancedSearchHelper
       referral_source_category_id: I18n.t('advanced_search.fields.referral_source_category_id'),
       type_of_service:  I18n.t('advanced_search.fields.type_of_service'),
       hotline: I18n.t('datagrid.columns.calls.hotline'),
+      active_clients: I18n.t('advanced_search.fields.active_clients'),
       **overdue_translations
     }
 

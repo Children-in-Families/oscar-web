@@ -711,6 +711,13 @@ class Client < ActiveRecord::Base
     end
   end
 
+  def indirect_beneficiaries
+    result = 0
+    family_id = self.family_member.try(:family_id)
+    result = Family.find_by(id: family_id).family_members.where(client_id: nil).count if family_id.present?
+    result
+  end
+
   private
 
   def update_related_family_member

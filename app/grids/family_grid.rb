@@ -194,7 +194,8 @@ class FamilyGrid < BaseGrid
       district_id: :address,
       province_id: :address,
       manage: :aggregrate,
-      changelo: :aggregrate
+      changelo: :aggregrate,
+      active_families: :general
     }[filter_name]
   end
 
@@ -356,6 +357,10 @@ class FamilyGrid < BaseGrid
     User.where(id: user_ids).map{|u| u.name }.join(', ')
   end
 
+  column(:direct_beneficiaries, header: -> { I18n.t('datagrid.columns.families.direct_beneficiaries') }) do |object|
+    object.member_count
+  end
+  
   column(:case_note_date, header: -> { I18n.t('datagrid.columns.clients.case_note_date')}, html: true) do |object|
     render partial: 'clients/case_note_date', locals: { object: object }
   end

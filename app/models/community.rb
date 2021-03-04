@@ -56,4 +56,16 @@ class Community < ActiveRecord::Base
   def display_name
     [name, name_en].select(&:present?).join(' - ').presence || "Community ##{id}"
   end
+
+  def direct_beneficiaries
+    self.community_members.count
+  end
+
+  def indirect_beneficiaries
+    count = 0
+    self.community_members.where.not(family_id: nil) do |member|
+      count += member.where(family_id: member.family_id).member_count - 1 if member.where(family_id: member.family_id).member_count != 0
+    end
+    count
+  end
 end

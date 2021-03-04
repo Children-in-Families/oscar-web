@@ -121,6 +121,7 @@ module FamiliesHelper
       program_streams:                          I18n.t('datagrid.columns.families.program_streams'),
       program_enrollment_date:                  I18n.t('datagrid.columns.clients.program_enrollment_date'),
       program_exit_date:                        I18n.t('datagrid.columns.clients.program_exit_date'),
+      direct_beneficiaries:                     I18n.t('datagrid.columns.families.direct_beneficiaries'),
       **additional_columns
     }
   end
@@ -238,6 +239,24 @@ module FamiliesHelper
 
   def name_km_en
     @family.name_en? ? "#{@family.name} - #{@family.name_en}" : "#{@family.name}"
+  end
+
+  def family_header_counter(grid, column)
+    count = 0
+    if datagrid_column_classes(grid, column) == 'direct_beneficiaries'
+      @families.each do |family|
+        count += family.member_count
+      end
+    end
+
+    if count > 0
+      class_name = column.name.to_s
+      [column.header.truncate(65),
+        content_tag(:span, count, class: 'label label-info')
+      ].join(' ').html_safe
+    else
+      column.header.truncate(65)
+    end
   end
 
   def family_saved_search_column_visibility(field_key)

@@ -522,6 +522,7 @@ module ClientsHelper
       type_of_service_: t('datagrid.columns.type_of_service'),
       assessment_completed_date_: t('datagrid.columns.calls.assessment_completed_date', assessment: t('clients.show.assessment')),
       hotline_call_: t('datagrid.columns.calls.hotline_call'),
+      indirect_beneficiaries_: t('datagrid.columns.clients.indirect_beneficiaries'),
       **overdue_translations
     }
 
@@ -989,6 +990,8 @@ module ClientsHelper
             count += type_of_services.count
           elsif class_name == 'date_of_call'
             count += client.calls.distinct.count
+          elsif class_name == 'indirect_beneficiaries'
+            count += client.indirect_beneficiaries
           else
             count += date_filter(client.send(klass.to_sym), class_name).count
           end

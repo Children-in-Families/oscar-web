@@ -26,6 +26,8 @@ module AdvancedSearches
           values = advanced_case_note_query
         when 'date_of_birth'
           values = get_family_member_dob
+        when 'active_families'
+          values = get_active_families
         when /assessment_completed|assessment_completed_date/
           values = date_of_completed_assessments_query(nil)
         when 'date_of_custom_assessments'
@@ -105,6 +107,51 @@ module AdvancedSearches
           families = families.where.not(family_members: { date_of_birth: nil })
         end
         families.ids
+      end
+
+      def active_family_between(start_date, end_date)
+        enrollments = Enrollment.all
+        family_ids = []
+        enrollments.each do |enrollment|
+          enrollment_date = enrollment.enrollment_date
+
+          if enrollment.leave_program.present?
+            exit_date = enrollment.leave_program.exit_date
+            if enrollment_date < start_date || enrollment_date.between?(start_date, end_date)
+              family_ids << enrollment.programmable_id if exit_date.between?(start_date, end_date) || exit_date > end_date
+            end
+          else
+            family_ids << enrollment.programmable_id if enrollment_date.between?(start_date, end_date) || enrollment_date < start_date
+          end
+        end
+        family_ids
+      end
+
+      def get_active_families
+        families = @families.joins(:enrollments).where(:enrollments => {:status => 'Active'})
+
+        case @operator
+        when 'equal'
+          family_ids = families.where('date(enrollments.enrollment_date) = ?', @value.to_date).ids
+        when 'not_equal'
+          family_ids = families.where('date(enrollments.enrollment_date) != ?', @value.to_date).ids
+        when 'less'
+          family_ids = families.where('date(enrollments.enrollment_date) < ?', @value.to_date).ids
+        when 'less_or_equal'
+          family_ids = families.where('date(enrollments.enrollment_date) <= ?', @value.to_date).ids
+        when 'greater'
+          family_ids = families.where('date(enrollments.enrollment_date) > ?', @value.to_date).ids
+        when 'greater_or_equal'
+          family_ids = families.where('date(enrollments.enrollment_date) >= ?', @value.to_date).ids
+        when 'between'
+          family_ids = active_family_between(@value[0].to_date, @value[1].to_date)
+        when 'is_empty'
+          family_ids = families.where('date(enrollments.enrollment_date) IS NULL').ids
+        when 'is_not_empty'
+          family_ids = families.where('date(enrollments.enrollment_date) IS NOT NULL').ids
+        end
+
+        families = family_ids.present? ? family_ids : []
       end
 
       def date_of_assessments_query(type)
