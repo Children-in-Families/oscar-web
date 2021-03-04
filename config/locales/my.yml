@@ -2016,6 +2016,7 @@ my:
       close: ပိတ္ရန္
       warning: သတိေပးခ်က္
     show:
+      care_plan: Care plan
       marital_status: Marital Status
       nationality: Nationality
       ethnicity: Ethnicity

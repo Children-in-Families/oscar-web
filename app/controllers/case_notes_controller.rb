@@ -68,6 +68,7 @@ class CaseNotesController < AdminController
   end
 
   def update
+
     if @case_note.update_attributes(case_note_params) && @case_note.save
       if params.dig(:case_note, :case_note_domain_groups_attributes)
         add_more_attachments(params[:case_note][:attachments]) if params.dig(:case_note, :attachments)

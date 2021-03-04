@@ -28,11 +28,11 @@
                   .col-md-4.col-xs-12
                     - if ad.object.domain["score_#{ad.object.score}_color"] != 'primary'
                       %abbr{ title: 'required' } *
-                      = t('.goal')
+                    = t('.goal')
                   .col-md-4.col-xs-12
                     - if ad.object.domain["score_#{ad.object.score}_color"] != 'primary'
                       %abbr{ title: 'required' } *
-                      = t('.task')
+                    = t('.task')
                   .col-md-4.col-xs-12
                     %p= t('.expected_date')
                 .row

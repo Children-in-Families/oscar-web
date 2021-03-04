@@ -2020,6 +2020,7 @@ en:
       close: Close
       warning: Warning
     show:
+      care_plan: Care plan
       marital_status: Marital Status
       nationality: Nationality
       ethnicity: Ethnicity
