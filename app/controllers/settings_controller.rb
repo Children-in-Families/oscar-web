@@ -1,4 +1,6 @@
 class SettingsController < AdminController
+  include CommunityHelper
+
   before_action :find_setting, only: [:index, :default_columns, :research_module, :custom_labels, :client_forms, :integration, :family_case_management, :community]
   before_action :country_address_fields, only: [:edit, :update]
 
@@ -59,6 +61,7 @@ class SettingsController < AdminController
     authorize @setting
     @client_default_columns = client_default_columns
     @family_default_columns = family_default_columns
+    @community_default_columns = community_default_columns
     @partner_default_columns = partner_default_columns
   end
 
@@ -111,7 +114,7 @@ class SettingsController < AdminController
                                     :sharing_data, :custom_id1_latin, :custom_id1_local, :custom_id2_latin, :custom_id2_local,
                                     :enable_hotline, :enable_client_form, :assessment_score_order, :disable_required_fields,
                                     :hide_family_case_management_tool, :hide_community,
-                                    client_default_columns: [], family_default_columns: [],
+                                    client_default_columns: [], family_default_columns: [], community_default_columns: [],
                                     partner_default_columns: [], user_default_columns: [],
                                     custom_assessment_settings_attributes: [:id, :custom_assessment_name, :max_custom_assessment, :custom_assessment_frequency, :custom_age, :enable_custom_assessment, :_destroy])
   end
@@ -135,7 +138,7 @@ class SettingsController < AdminController
       :domain_3b, :domain_4a, :domain_4b, :domain_5a, :domain_5b, :domain_6a, :domain_6b, :assessments_due_to, :no_case_note, :overdue_task, :overdue_forms, :province_id, :birth_province_id, :commune, :house_number, :village, :street_number, :district]
     columns_name = filter_columns - filter_columns_not_used
     columns = columns_name.map { |name| "#{name.to_s}_" }
-    Domain.order_by_identity.each do |domain|
+    Domain.client_domians.order_by_identity.each do |domain|
       columns << "#{domain.convert_identity}_"
     end
     QuantitativeType.joins(:quantitative_cases).uniq.each do |quantitative_type|
@@ -147,15 +150,25 @@ class SettingsController < AdminController
 
   def family_default_columns
     columns = []
-    sub_columns = %w(member_count_ clients_ case_workers_ manage_ changelog_)
+    sub_columns = %w(member_count_ clients_ case_workers_ case_note_date_ case_note_type_ assessment_completed_date_ date_of_custom_assessments_ all_custom_csi_assessments_ manage_ changelog_)
     columns = FamilyGrid.new.filters.map{|f| "#{f.name.to_s}_" }
+    Domain.family_custom_csi_domains.order_by_identity.each do |domain|
+      columns << "#{domain.convert_custom_identity}_"
+    end
+    columns.push(sub_columns).flatten
+  end
+
+  def community_default_columns
+    columns = []
+    sub_columns = %w(manage_ changelog_)
+    columns = community_grid_columns.map{ |k, _| "#{k}_" }
     columns.push(sub_columns).flatten
   end
 
   def partner_default_columns
     columns = []
     sub_columns = %w(manage_ changelog_)
-    columns = PartnerGrid.new.filters.map{|f| "#{f.name.to_s}_" }
+    columns = PartnerGrid.new.filters.map { |f| "#{f.name}_" }
     columns.push(sub_columns).flatten
   end
 

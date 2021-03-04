@@ -123,9 +123,12 @@ en:
         phone_number: Phone Number
         province_id: Province
         received_by_id: Receiving Staff Member
+        referral_source_category_id: Referral Source Category
+        referral_source_id: Referral Source
         relevant_information: Relevant Information
         representative_name: Represetative Name
         role: Role in the Group/Community
+        status: Status
         village_id: Village
         'yes': 'Yes'
       community_member:
@@ -138,8 +141,6 @@ en:
         name: Name
         role: Role
       family:
-        id: Automatic ID
-        id_poor: Has ID Poor?
         case_worker_ids: Case Worker/Staff Assigned
         code: Manual ID
         commune_id: Commune/Sangkat
@@ -153,13 +154,16 @@ en:
         followed_up_by_id: First Follow Up By
         follow_up_date: First Follow Up Date
         house: House Number
-        id: ID
+        id: Automatic ID
+        id_poor: Has ID Poor?
         initial_referral_date: Date of Referral
         name: Head Household Name (Khmer)
         name_en: Head Household Name (Latin)
         province_id: Province
         received_by_id: Received by Staff Member
         referee_phone_number: Referee Phone Number
+        referral_source_category_id: Referral Source Category
+        referral_source_id: Referral Source
         street: Street Number
         village_id: Village
         'yes': 'Yes'
@@ -479,6 +483,7 @@ en:
       exit_program: Exit Program
       exit_reasons: Reason For Exit
       family: Family
+      family_basic_fields: Family Basic Fields
       family_id: Family ID
       family_name: Family Name (Latin)
       follow_up_by: First Follow-Up By
@@ -853,6 +858,51 @@ en:
   cannot_be_lower: can't be lower than %{count}
   cannot_remove: cannot be removed
   cannot_remove_or_update: cannot be removed/updated since it is already in use.
+  care_plans:
+    create:
+      successfully_created: Care Plan has been successfully created.
+    destroy:
+      successfully_deleted:  Care plans has been successfully deleted.
+    form:
+      add_goal: Add goal
+      cancel: Cancel
+      domain: Domain
+      expected_date: Expected Date
+      finish: Finish
+      goal: Goal
+      next: Next
+      previous: Previous
+      required_message: You need to add at least one goal and one task.
+      save: Save
+      score_from_assessment: Score from assessment
+      task: Task
+    goal_fields:
+      add_task: Add task
+      remove_goal: Remove goal
+    index:
+      assessment_created_on: Assessment created on
+      back: Back
+      care_plan_history: Care Plan History
+      new_care_plan: New Care Plan
+      review_care_plan: Review Care Plan
+    show:
+      are_you_sure: Are you sure you want to delete?
+      back: Back
+      based_on: Based on Assessment Number
+      care_plan: Care Plan For
+      care_plan_created_by: Created by
+      dimensions: Dimensions
+      domain: Domain
+      done_during: Done during
+      due_date: Due Date
+      edit: Edit
+      expected_date: Expected Date
+      goal: Goal
+      on_date: 'on'
+      score: Score
+      task: Tasks
+    update:
+      successfully_updated: Care Plan has been successfully updated.
   case:
     quarterly_reports:
       index:
@@ -2199,6 +2249,22 @@ en:
       successfully_deleted: Community has been successfully deleted.
     edit:
       edit_community_title: Edit Community
+    community_advanced_searches:
+      advanced_search:
+        add_new_filter: Add New Filter
+        add_new_group: Add Group
+        advanced_search: Report Builder
+        custom_form_column: Custom Form columns
+        delete_group: Delete
+        family_column: Family basic columns
+        no_results: No Result Found
+        reset: Reset
+        results: Results
+        search: Search
+      form_option:
+        basic_fields: Basic Fields
+        custom_form: Custom Form
+        filter_option: Please choose your query options below
     community_member_fields:
       remove_member: Remove Member
     form:
@@ -2208,6 +2274,8 @@ en:
       district: District
       new_community_title: Add New Community
       province: Province
+      referral_source_category_id: Referral Source Category
+      referral_source_id: Referral Source
       step_1_title: Basic Group/Community Information
       step_11_title: Administrative Information
       step_12_title: Group/Community Information
@@ -2225,6 +2293,7 @@ en:
       results: Results Export to XLS
       report_builder: Report Builder
       results: Results
+      searching: Searching...
     new:
       new_community_title: New Community
     show:
@@ -2805,21 +2874,28 @@ en:
         caregiver_information: Caregiver Information
         case_history: Case History
         case_workers: Case Workers
+        case_worker_ids: Case Worker/Staff Assigned
         changelogs: Changelog
         client: Client
         clients: Clients
-        code: Family ID
+        code: Manual ID
         commune: Commune
-        contract_date: Contract Date
+        commune_id: Commune/Sangkat
+        community_ids: Community/Group
+        contract_date: Family Contract Date
+        custom_forms: Custom Forms
         date_of_birth: Date of Birth
         dependable_income: Dependable Income
         district: District
+        district_id: District/Khan
         family: Family
         family_preservation: Family Preservation?
         family_type: Family Type
         female: Female
         female_adult_count: Female Adult Count
         female_children_count: Female Children Count
+        followed_up_by_id: First Follow Up By
+        follow_up_date: First Follow Up Date
         form_title: Form Title
         gender: Gender
         gender_list:
@@ -2829,26 +2905,38 @@ en:
           other_gender: Other
           prefer_not_to_say: Prefer not to answer/Non-specified
           unknown: Unknown
-        house: House
+        house: House Number
         household_income: Monthly Household Income
-        id: ID
+        id: Automatic ID
+        id_poor: Has ID Poor?
+        initial_referral_date: Date of Referral
         male: Male
         male_adult_count: Male Adult Count
         male_children_count: Male Children Count
         manage: Manage
         member_count: Family Members
+        name: Head Household Name (Khmer)
+        name_en: Head Household Name (Latin)
         'no': 'No'
-        quantitative: Custom Referral Data
+        phone_number: Phone Number
         program_enrollment_date: Program Enrollment Date
         program_exit_date: Program Exit Date
         program_streams: Program Streams
         province: Province
+        province_id: Province
+        quantitative: Custom Referral Data
+        received_by: Received by Staff Member
+        received_by_id: Received by Staff Member
+        referee_phone_number: Referee Phone Number
+        referral_source_category_id: Referral Source Category
+        referral_source_id: Referral Source
         significant_family_member_count: Significant Family Member Count
         status: Status
         street: Street
         total: Total
         view: View
         village: Village
+        village_id: Village
         'yes': 'Yes'
       family: Family
       family_id: Family ID
@@ -3707,6 +3795,7 @@ en:
       csi_tool: Assessment Tools
       custom_csi_tool: Custom Assessment Tools
       domains: Domains
+      family_csi_tool: Family Assessment Tools
       score_1: Score 1
       score_2: Score 2
       score_3: Score 3
@@ -3912,6 +4001,15 @@ en:
   families:
     actions:
       are_you_sure: Are you sure you want to delete?
+    assessments:
+      create:
+        successfully_created: Assessment has been successfully created.
+      destroy:
+        fail_delete_attachment: Failed deleting attachment
+        successfully_deleted: Attachment has been successfully deleted.
+        successfully_deleted_assessment: Assessment has been successfully deleted.
+      update:
+        successfully_updated: Assessment has been successfully updated.
     case_history_detail:
       accepted_date: NGO Accept Date
       family: Family
@@ -3990,11 +4088,12 @@ en:
       female_children_count: Female Children Count
       house: House
       household_income: Monthly Household Income
-      id: ID
+      id: Automatic ID
       male_adult_count: Male Adult Count
       male_children_count: Male Children Count
       member_count: Member Count
-      name: Name
+      name: Head Household Name (Khmer)
+      name_en: Head Household Name (Latin)
       new_family_title: Add New Family
       province: Province
       significant_family_member_count: Significant Family Member Count
@@ -4031,6 +4130,9 @@ en:
       address: Address
       adult_name: Name of Adult Member
       are_you_sure: Are you sure you want to delete?
+      assessment: Assessments
+      care_plan: Care plan
+      view_tasks: Tasks
       caregiver_information: Caregiver Information
       case_histories: Case Histories
       case_history: Case History
@@ -4054,12 +4156,13 @@ en:
       guardian: Guardian
       house: House
       household_income: Monthly Household Income
-      id: ID
+      id: Automatic ID
       initial_referral_date: Initial Referral Date
       male_adult_count: Number of Adule Males
       male_children_count: Number of Boys
       member_count: Number of Family Members
-      name: Name
+      name: Head Household Name (Khmer)
+      name_en: Head Household Name (Latin)
       'no': 'No'
       note: Relevant Referral Information / Notes
       occupation: Occupation
@@ -4079,6 +4182,30 @@ en:
       street: Street
       total_income: Total Monthly Income
       'yes': 'Yes'
+      view_tasks: Tasks
+    tasks:
+      create:
+        successfully_created: Task has successfully been created.
+      destroy:
+        successfully_deleted: Task has successfully been deleted.
+      form:
+        back: Back
+        completion_date: Completion Date
+        domain: Domain
+        enter_task_detail: Enter task details
+        save: Save
+      index:
+        add_all_to_calendar: Add all to calendar
+        add_to_calendar: Add to calendar
+        are_you_sure_you_want_to_delete: Are you sure you want to delete?
+        back: Back
+        domain: Domain
+        new_task: New Task
+        overdue_tasks: Overdue Tasks
+        today_tasks: Today Tasks
+        upcoming_tasks: Upcoming Tasks
+      update:
+        successfully_updated: Task has successfully been updated.
     update:
       not_allowed_to_detach_clients: You're not allowed to detach clients from the family through this form!
       successfully_updated: Family has been successfully updated.
@@ -4317,6 +4444,13 @@ en:
         edit: Edit
       update:
         successfully_updated: Custom Form has been successfully updated.
+  gender_list:
+    female: Female
+    lgbt: LGBT
+    male: Male
+    other_gender: Other
+    prefer_not_to_say: Prefer not to answer/Non-specified
+    unknown: Unknown
   government_forms:
     create:
       successfully_created: Form has been successfully created.

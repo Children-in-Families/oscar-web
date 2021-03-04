@@ -1,0 +1,4 @@
+- if current_setting.disable_required_fields?
+  = render 'unrestricted_form', assessment: @assessment, readonly: false
+- else
+  = render 'form'

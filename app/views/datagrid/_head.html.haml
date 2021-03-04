@@ -8,6 +8,9 @@
       - next unless policy(Client).show?(column.name.to_s)
 
     - next if column.header == t('.changelog') && !current_user.admin?
-    %th{class: datagrid_column_classes(grid, column), title: column.header, data: { header: header_classes(grid, column).parameterize } }
-      = header_counter(grid, column)
+    %th{ class: datagrid_column_classes(grid, column), title: column.header, data: { header: header_classes(grid, column).parameterize } }
+      - if grid.instance_of?(ClientGrid)
+        = header_counter(grid, column)
+      - else
+        = column.header.truncate(65)
       = datagrid_order_for(grid, column, options) if column.supports_order? && options[:order]

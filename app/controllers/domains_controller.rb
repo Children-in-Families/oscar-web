@@ -12,15 +12,16 @@ class DomainsController < AdminController
     @custom_domain_results = Domain.custom_csi_domains.count
     @custom_assessment_setting = @current_setting.custom_assessment_settings
     @custom_assessment_paginate = CustomAssessmentSetting.joins(:domains).page(params[:page_2]).per(10)
+    @family_custom_domains = Domain.family_custom_csi_domains.page(params[:page_2]).per(10)
   end
 
   def new
     if params[:copy] != 'true'
-      @domain = Domain.new(custom_assessment_setting_id: params[:custom_assessment_setting_id])
+      @domain = Domain.new(custom_assessment_setting_id: params[:custom_assessment_setting_id], domain_type: params[:domain_type])
     else
       @domain     = Domain.find(params[:domain_id])
       domain_attr = @domain.attributes.except('id')
-      @domain     = Domain.new(domain_attr)
+      @domain     = Domain.new(domain_attr.merge(domain_type: params[:domain_type]))
     end
   end
 
@@ -67,7 +68,7 @@ class DomainsController < AdminController
       :score_1_color, :score_2_color, :score_3_color, :score_4_color,
       :score_1_definition, :score_2_definition, :score_3_definition, :score_4_definition,
       :score_1_local_definition, :score_2_local_definition, :score_3_local_definition, :score_4_local_definition,
-      :custom_assessment_setting_id,
+      :custom_assessment_setting_id, :domain_type,
       :score_5_color, :score_6_color, :score_7_color, :score_8_color, :score_9_color, :score_10_color,
       :score_5_definition, :score_6_definition, :score_7_definition, :score_8_definition, :score_9_definition, :score_10_definition,
       :score_5_local_definition, :score_6_local_definition, :score_7_local_definition, :score_8_local_definition, :score_9_local_definition, :score_10_local_definition
@@ -75,7 +76,7 @@ class DomainsController < AdminController
   end
 
   def find_domain
-    @domain = Domain.custom_csi_domains.find(params[:id])
+    @domain = Domain.custom_domains.find(params[:id])
   end
 
   def find_domain_group

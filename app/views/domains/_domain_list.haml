@@ -26,7 +26,7 @@
           = link_to domain_version_path(domain), class: 'btn btn-outline btn-success margin-left' do
             = t('.changelog')
         - if can? :manage, Domain
-          = link_to new_domain_path(domain_id: domain.id, copy: true), class: 'btn btn-outline btn-success margin-left' do
+          = link_to new_domain_path(domain_id: domain.id, copy: true, domain_type: domain.domain_type), class: 'btn btn-outline btn-success margin-left' do
             = fa_icon('copy')
         - if domain.custom_domain?
           = link_to edit_domain_path(domain), class: 'btn btn-outline btn-success margin-left' do

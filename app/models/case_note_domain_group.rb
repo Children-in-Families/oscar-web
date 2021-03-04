@@ -9,6 +9,9 @@ class CaseNoteDomainGroup < ActiveRecord::Base
 
   validates :domain_group, presence: true
 
+  delegate :family, to: :case_note
+  delegate :id, to: :family, prefix: true, allow_nil: true
+
   default_scope { order(:domain_group_id) }
 
   def completed_tasks
@@ -20,8 +23,14 @@ class CaseNoteDomainGroup < ActiveRecord::Base
   end
 
   def any_assessment_domains?(case_note)
-    domains = if case_note.custom?
-                case_note.custom_assessment_setting_id.nil? ? domain_group.domains.custom_csi_domains : domain_group.domains.custom_csi_domains.where(custom_assessment_setting_id: case_note.custom_assessment_setting_id)
+    domains = if case_note.custom? && case_note.custom_assessment_setting_id.present?
+                domain_group.domains.custom_csi_domains.where(custom_assessment_setting_id: case_note.custom_assessment_setting_id)
+              elsif case_note.custom?
+                if case_note.family_id?
+                  domain_group.domains.family_custom_csi_domains
+                else
+                  domain_group.domains.custom_csi_domains
+                end
               else
                 domain_group.domains.csi_domains
               end
@@ -31,14 +40,27 @@ class CaseNoteDomainGroup < ActiveRecord::Base
 
   def domains(case_note)
     return [] unless domain_group
+
     if case_note.custom?
-      case_note.custom_assessment_setting_id.present? ? domain_group.domains.custom_csi_domains.where(custom_assessment_setting_id: case_note.custom_assessment_setting_id) : domain_group.domains.custom_csi_domains
+      return domain_group.domains.custom_csi_domains.where(custom_assessment_setting_id: case_note.custom_assessment_setting_id) if case_note.custom_assessment_setting_id.present?
+
+      if case_note.family_id?
+        domain_group.domains.family_custom_csi_domains
+      else
+        domain_group.domains.custom_csi_domains
+      end
     else
       domain_group.domains.csi_domains
     end
   end
 
-  def domain_identities(custom_assessment_setting_id=nil)
-    case_note.custom? ? domain_group.custom_domain_identities(custom_assessment_setting_id) : domain_group.default_domain_identities
+  def domain_identities(custom_assessment_setting_id = nil)
+    return domain_group.custom_domain_identities(custom_assessment_setting_id) if case_note.custom? && case_note.client_id?
+
+    if case_note.family_id?
+      domain_group.family_domain_name
+    else
+      domain_group.default_domain_identities
+    end
   end
 end

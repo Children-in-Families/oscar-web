@@ -1,29 +1,31 @@
 class CommunitiesController < AdminController
   load_and_authorize_resource
-  # include FamilyAdvancedSearchesConcern
-  #
-  # before_action :find_params_advanced_search, :get_custom_form, only: [:index]
-  # before_action :get_custom_form_fields, :family_builder_fields, only: [:index]
-  # before_action :basic_params, if: :has_params?, only: [:index]
-  # before_action :build_advanced_search, only: [:index]
+  include CommunityAdvancedSearchConcern
+  include CommunityGridOptions
+
+  before_action :find_params_advanced_search, :list_custom_form, only: [:index]
+  before_action :custom_form_fields, :community_builder_fields, only: [:index]
+  before_action :quantitative_fields, only: [:index]
+  before_action :basic_params, if: :has_params?, only: [:index]
+  before_action :choose_grid, :build_advanced_search, only: [:index]
   before_action :find_association, except: [:index, :destroy, :version]
   before_action :find_community, only: [:show, :edit, :update, :destroy]
   before_action :load_quantative_types, only: [:new, :edit, :create, :update]
 
   def index
-    @community_grid = CommunityGrid.new(params.fetch(:community_grid, {}))
-    @community_grid = @community_grid.scope { |scope| scope.accessible_by(current_ability) }
-    @community_columns ||= FamilyColumnsVisibility.new(@community_grid, params.merge(column_form_builder: @custom_form_fields))
-    @community_columns.visible_columns
-
-    respond_to do |f|
-      f.html do
-        @results = @community_grid.assets.size
-        @community_grid.scope { |scope| scope.accessible_by(current_ability).page(params[:page]).per(20) }
-      end
-      f.xls do
-        form_builder_report
-        send_data @community_grid.to_xls, filename: "community_report-#{Time.now}.xls"
+    if has_params?
+      advanced_search
+    else
+      columns_visibility
+      respond_to do |f|
+        f.html do
+          @results = @community_grid.assets.size
+          @community_grid.scope { |scope| scope.accessible_by(current_ability).page(params[:page]).per(20) }
+        end
+        f.xls do
+          form_builder_report
+          send_data @community_grid.to_xls, filename: "community_report-#{Time.now}.xls"
+        end
       end
     end
   end
@@ -69,11 +71,11 @@ class CommunitiesController < AdminController
     end
   end
 
-  # def version
-  #   page = params[:per_page] || 20
-  #   @community   = Family.find(params[:family_id])
-  #   @versions = @community.versions.reorder(created_at: :desc).page(params[:page]).per(page)
-  # end
+  def version
+    page = params[:per_page] || 20
+    @community   = Community.find(params[:family_id])
+    @versions = @community.versions.reorder(created_at: :desc).page(params[:page]).per(page)
+  end
 
   private
 

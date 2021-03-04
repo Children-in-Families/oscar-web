@@ -1,4 +1,44 @@
-body[id='families-index'] {
+body[id="families-index"] {
+  .pagination > {
+    .active > form {
+      background-color: #1ab394;
+      border-color: #1ab394;
+      color: white;
+      cursor: default;
+      z-index: 2;
+    }
+
+    li:first-child > form > input {
+      border-bottom-left-radius: 4px;
+      border-top-left-radius: 4px;
+    }
+
+    li:last-child > form > input {
+      border-bottom-right-radius: 4px;
+      border-top-right-radius: 4px;
+    }
+
+    li > form {
+      position: relative;
+      float: left;
+      color: #337ab7;
+      background-color: #fff;
+      input {
+        border: 1px solid #ddd;
+        margin-left: -1px;
+        padding: 6px 12px;
+        line-height: 1.42857143;
+        background-color: transparent;
+      }
+      &:hover {
+        z-index: 2;
+        color: #23527c;
+        background-color: #eeeeee;
+        border-color: #ddd;
+      }
+    }
+  }
+
   #family-search-form {
     margin-top: 20px;
   }
@@ -7,7 +47,8 @@ body[id='families-index'] {
     margin-top: 20px;
   }
 
-  ul.family-clients-list, ul.family-members-list {
+  ul.family-clients-list,
+  ul.family-members-list {
     padding-left: 20px;
   }
   td.manage a {
@@ -15,20 +56,23 @@ body[id='families-index'] {
     text-decoration: none;
   }
 
-  .popover-content{
+  .popover-content {
     max-height: 150px;
     overflow-y: scroll;
   }
 
   table.families {
     margin-bottom: 0;
-    th, td {
+    th,
+    td {
       min-width: 200px !important;
     }
-    th.name, td.name {
+    th.name,
+    td.name {
       min-width: 250px !important;
     }
-    th.significant_family_member_count, td.significant_family_member_count {
+    th.significant_family_member_count,
+    td.significant_family_member_count {
       min-width: 275px !important;
     }
   }
@@ -45,7 +89,10 @@ body[id='families-index'] {
     cursor: pointer;
   }
 
-  table.families, .dataTables_scrollHeadInner, .dataTables_scrollHead, .dataTables_scrollBody {
+  table.families,
+  .dataTables_scrollHeadInner,
+  .dataTables_scrollHead,
+  .dataTables_scrollBody {
     width: 100% !important;
   }
 
@@ -57,23 +104,25 @@ body[id='families-index'] {
     border-style: none;
   }
 
-  .custom-form, .selected-custom-form {
+  .custom-form,
+  .selected-custom-form {
     display: none;
   }
   .checkbox-margin {
     padding-left: 18px;
   }
 
-  .basic-filter-error, .custom-form-error {
+  .basic-filter-error,
+  .custom-form-error {
     color: red;
     display: none;
   }
 
   .btn-group.group-actions {
-    button[data-add='rule'] {
+    button[data-add="rule"] {
       background-color: #1ab394;
       border-color: #1ab394;
-      color: #FFFFFF;
+      color: #ffffff;
     }
     button {
       margin-right: 5px;
@@ -88,12 +137,17 @@ body[id='families-index'] {
 
   .rule-value-container {
     border-left: none;
-    select, input {
+    select,
+    input {
       width: 180px;
     }
     input.form-control {
       padding: 6px 12px;
     }
+  }
+
+  .family-action {
+    display: flex;
   }
 
   #program-stream-wrapper {
@@ -102,11 +156,15 @@ body[id='families-index'] {
     }
   }
 
-  .family-column-picker, .custom-form, .program-stream, .selected-custom-form, .program-association {
+  .family-column-picker,
+  .custom-form,
+  .program-stream,
+  .selected-custom-form,
+  .program-association {
     display: none;
   }
 
-  .program-association{
+  .program-association {
     margin-left: 16px;
   }
 

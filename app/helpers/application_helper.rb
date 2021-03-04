@@ -247,6 +247,7 @@ module ApplicationHelper
     return false unless params.dig(:client_grid, :descending).present? || (params[:client_advanced_search].present? && params.dig(:client_grid, :descending).present?) || params[:client_grid].nil? || params[:client_advanced_search].nil?
     return false unless params.dig(:family_grid, :descending).present? || (params[:family_advanced_search].present? && params.dig(:family_grid, :descending).present?) || params[:family_grid].nil? || params[:family_advanced_search].nil?
     return false unless params.dig(:partner_grid, :descending).present? || (params[:partner_advanced_search].present? && params.dig(:partner_grid, :descending).present?) || params[:partner_grid].nil? || params[:partner_advanced_search].nil?
+    return false unless params.dig(:community_grid, :descending).present? || (params[:community_advanced_search].present? && params.dig(:community_grid, :descending).present?) || params[:community_grid].nil? || params[:community_advanced_search].nil?
     setting_default_columns.include?(column.to_s)
   end
 
@@ -339,8 +340,6 @@ module ApplicationHelper
     enable_default_assessment? || enable_custom_assessment?
   end
 
-
-
   def country_langauge
     return 'Swahili' if current_organization.short_name == 'cccu'
     country = current_setting.try(:country_name)
@@ -394,5 +393,10 @@ module ApplicationHelper
 
   def initial_referral_date_picker_format(entity)
     "#{entity.initial_referral_date&.year}, #{entity.initial_referral_date&.month}, #{entity.initial_referral_date&.day}"
+  end
+
+  def advanced_search_url_dynamic
+    routes = Rails.application.routes.url_helpers
+    routes.public_send("advanced_search_#{params["controller"]}_path")
   end
 end

@@ -534,7 +534,7 @@ module ClientsHelper
       field = domain.convert_identity
       label_column = label_column.merge!("#{field}_": identity)
     end
-    QuantitativeType.joins(:quantitative_cases).uniq.each do |quantitative_type|
+    QuantitativeType.joins(:quantitative_cases).where('quantitative_types.visible_on LIKE ?', "%client%").uniq.each do |quantitative_type|
       field = quantitative_type.name
       label_column = label_column.merge!("#{field}_": quantitative_type.name)
     end
@@ -997,7 +997,7 @@ module ClientsHelper
 
       if count > 0 && class_name != 'case_note_type'
         class_name = class_name =~ /^(formbuilder)/i ? column.name.to_s : class_name
-        link_all = params['all_values'] != class_name ? button_to('All', ad_search_clients_path, params: params.merge(all_values: class_name), remote: false, form_class: 'all-values') : ''
+        link_all = params['all_values'] != class_name ? button_to('All', advanced_search_clients_path, params: params.merge(all_values: class_name), remote: false, form_class: 'all-values') : ''
         [column.header.truncate(65),
           content_tag(:span, count, class: 'label label-info'),
           link_all
@@ -1369,7 +1369,7 @@ module ClientsHelper
     if current_organization.short_name != 'brc'
       QuantitativeType.all
     else
-      QuantitativeType.unscoped.order("substring(quantitative_types.name, '^[0-9]+')::int, substring(quantitative_types.name, '[^0-9]*$')")
+      QuantitativeType.unscoped.where('quantitative_types.visible_on LIKE ?', "%client%").order("substring(quantitative_types.name, '^[0-9]+')::int, substring(quantitative_types.name, '[^0-9]*$')")
     end
   end
 

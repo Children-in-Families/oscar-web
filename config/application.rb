@@ -24,8 +24,9 @@ module CifWeb
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
 
     # Autoload path
+    config.enable_dependency_loading = true
     config.autoload_paths << "#{Rails.root}/lib"
-    config.autoload_paths << Rails.root.join('app/classes/**/*')
+    config.autoload_paths += Dir[Rails.root.join('app/classes/**/*')]
 
     # Override rails template engine: erb to haml
     config.generators do |g|

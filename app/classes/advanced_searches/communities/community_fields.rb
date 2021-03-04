@@ -2,6 +2,7 @@ module AdvancedSearches
   module Communities
     class CommunityFields
       include AdvancedSearchHelper
+      include AdvancedSearchFieldHelper
       include Pundit
 
       def initialize(options = {})
@@ -28,25 +29,52 @@ module AdvancedSearches
       end
 
       def number_type_list
-        []
+        %w[adule_male_count adule_female_count kid_male_count kid_female_count member_count male_count female_count]
       end
 
       def text_type_list
-        ['name']
+        ['name', 'name_en', 'phone_number', 'role', 'representative_name']
       end
 
       def date_type_list
-        ['initial_referral_date']
+        ['initial_referral_date', 'formed_date']
       end
 
       def drop_down_type_list
         [
-          ['status', status_options]
+          ['status', status_options],
+          ['gender', gender_options],
+          ['province_id', provinces],
+          ['district_id', districts],
+          ['commune_id', communes],
+          ['village_id', villages],
+          ['referral_source_category_id', referral_source_category_options('Community')],
+          ['referral_source_id', referral_source_options('Community')]
         ]
       end
 
       def status_options
         Community::STATUSES
+      end
+
+      def gender_options
+        Community.gender.values.map{ |value| [value, I18n.t("gender_list.#{value.gsub('other', 'other_gender')}")] }.to_h
+      end
+
+      def provinces
+        Community.joins(:province).pluck('provinces.name', 'provinces.id').uniq.sort.map{|s| {s[1].to_s => s[0]}}
+      end
+
+      def districts
+        Community.joins(:district).pluck('districts.name', 'districts.id').uniq.sort.map{|s| {s[1].to_s => s[0]}}
+      end
+
+      def communes
+        Commune.joins(:communities, district: :province).distinct.map { |commune| ["#{commune.name_kh} / #{commune.name_en} (#{commune.code})", commune.id] }.sort.map { |s| { s[1].to_s => s[0] } }
+      end
+
+      def villages
+        Village.joins(:communities, commune: [district: :province]).distinct.map { |village| ["#{village.name_kh} / #{village.name_en} (#{village.code})", village.id] }.sort.map { |s| { s[1].to_s => s[0] } }
       end
     end
   end

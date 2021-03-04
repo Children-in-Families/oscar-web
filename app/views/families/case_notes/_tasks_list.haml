@@ -1,0 +1,9 @@
+.panel-body{ id: "tasks-domain-#{domain.id}" }
+  .row
+    .col-xs-12
+      = domain_note.association :tasks, collection: tasks.map{ |t| [t.name, t.id, { data: { completed: t.completed } }] }, as: :check_boxes, label: t('case_notes.form.on_going_tasks'), input_html: { class: 'i-checks task' }
+
+      %div{ class: 'task-arising hidden' }
+        %label.control-label
+          = t('case_notes.form.tasks_arising')
+        %ol.list-group{ type: '1'}

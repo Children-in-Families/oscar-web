@@ -22,7 +22,7 @@ module AdvancedSearches
           qt.name,
           quantitative_cases(qt),
           opt_group
-          )
+        )
       end
 
       quantitative_cases.sort_by { |f| f[:label].downcase }

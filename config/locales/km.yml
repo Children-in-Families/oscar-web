@@ -115,63 +115,74 @@ km:
         documents: Upload Documents
         donor_ids: Donor
         formed_date: Date of Group/Community Formed
-        gender: Gender
+        gender: ភេទ
         id: Automatic ID
-        initial_referral_date: NGO Accept Date
+        initial_referral_date: កាលបរិចេ្ឆទនៃការបញ្ជូនដំបូង
         name: Name (Khmer)
         name_en: Name (Latin)
-        phone_number: Phone Number
-        province_id: Province
-        received_by_id: Receiving Staff Member
+        phone_number: លេខទូរស័ព្ទ
+        province_id: ខេត្តបច្ចុប្បន្ន
+        received_by_id: បុគ្គលិកទទួលករណី
+        referral_source_category_id: ប្រភេទប្រភពនៃការបញ្ជូន
+        referral_source_id: ប្រភពនៃការបញ្ជូន
         relevant_information: Relevant Information
         representative_name: Represetative Name
         role: Role in the Group/Community
-        village_id: Village
+        status: ស្ថានភាព
+        village_id: ភូមិ
         'yes': 'Yes'
       community_member:
         adule_female_count: Total Household Adult Females
         adule_male_count: Total Household Adult Males
         kid_female_count: Total Household Girls
         kid_male_count: Total Household Boys
-        gender: Gender
-        is_family: Family?
-        name: Name
-        role: Role
+        gender: ភេទ
       family:
-        id: Automatic ID
-        id_poor: Has ID Poor?
-        case_worker_ids: Case Worker/Staff Assigned
-        code: Manual ID
-        commune_id: Commune/Sangkat
-        community_ids: Community/Group
-        contract_date: Family Contract Date
+        id: លេខសំគាល់
+        id_poor: កំរិតប័ណ្ណក្រីក្រ
+        case_worker_ids: បុគ្គលិកគ្រប់គ្រងករណី
+        code: លេខសំគាល់គ្រួសារ
+        commune_id: ឃុំ/សង្កាត់
+        community_id: Community/Group
+        contract_date: កាលបរិច្ឆេទនៃកិច្ចសន្យា
         custom_forms: Custom Forms
-        dependable_income: Dependable Income
-        district_id: District/Khan
+        dependable_income: ប្រាក់ចំណូលទៀងទាត់
+        district_id: ស្រុក/ខណ្ឌ
+        documents: Upload Documents
         donor_ids: Donor
-        family_type: Family Type
-        followed_up_by_id: First Follow Up By
-        follow_up_date: First Follow Up Date
+        family_preservation: ករណីអភិរក្សគ្រួសារ?
+        family_type: ប្រភេទគ្រួសារ
+        female_adult_count: ចំនួនមនុស្សស្រីពេញវ័យ
+        female_children_count: ចំនួនក្មេងស្រី
+        followed_up_by_id: បុគ្គលិកតាមដានករណី
+        follow_up_date: កាលបរិច្ឆេទតាមដានដំបូង
+        gender: ភេទ
         house: House Number
-        id: ID
-        initial_referral_date: Date of Referral
-        name: Head Household Name (Khmer)
+        id: លេខសំគាល់
+        initial_referral_date: កាលបរិចេ្ឆទនៃការបញ្ជូនដំបូង
+        name: ឈ្មោះអ្នកថែទាំកុមារ
         name_en: Head Household Name (Latin)
-        province_id: Province
-        received_by_id: Received by Staff Member
-        referee_phone_number: Referee Phone Number
-        street: Street Number
-        village_id: Village
+        'no': ទេ
+        phone_number: លេខទូរស័ព្ទ
+        province: ខេត្ត/ក្រុង
+        province_id: ខេត្ត/ក្រុង
+        received_by_id:  បុគ្គលិកទទួលករណី
+        referee_phone_number: លេខទូរស័ព្ទរបស់អ្នកបញ្ជូនករណី
+        referral_source_category_id: ប្រភេទប្រភពនៃការបញ្ជូន
+        referral_source_id: ប្រភពនៃការបញ្ជូន
+        relevant_information: Relevant Information
+        street: ផ្លូវ
+        village_id: ភូមិ
         'yes': 'Yes'
       family_member:
-        adult_name: Name
-        gender: Gender
-        guardian: Guardian
-        date_of_birth: Date of Birth
+        adult_name: ឈ្មោះមនុស្សពេញវ័យ
+        gender: ភេទ
+        guardian: អាណាព្យាបាល
+        date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
         is_client: Client?
         monthly_income: Monthly Income (USD)
-        occupation: Occupation
-        relation: Role in Family
+        occupation: មុខរបរ
+        relation: ទំនាក់ទំនងជាមួយកុមារ
       referee:
         referee_address: ឣាសយដ្ឋាន
     default:
@@ -478,6 +489,7 @@ km:
       exit_program: ចាកចេញពីកម្មវិធី
       exit_reasons: មូលហេតុនៃការចាកចេញ
       family: គ្រួសារ
+      family_basic_fields: ព័ត៌មានទូទៅរបស់គ្រួសារ
       family_id: លេខសម្គាល់គ្រួសារ
       family_name: នាមត្រកូលជាអក្សរឡាតាំង
       follow_up_by: បុគ្គលិកតាមដានករណី
@@ -853,6 +865,51 @@ km:
   cannot_be_lower: មិនអាចតូចជាង %{count}
   cannot_remove: មិនអាចលុបបានទេ
   cannot_remove_or_update: មិនអាចលុបរឺកែសម្រួលបានទេដោយសារតែត្រូវបានប្រើរួចហើយ
+  care_plans:
+    create:
+      successfully_created: គម្រោងថែរក្សាត្រូវបានបង្កើតដោយជោគជ័យ
+    destroy:
+      successfully_deleted: គម្រោងថែរក្សាត្រូវបានកែសម្រួលដោយជោគជ័យ
+    form:
+      add_goal: បន្ថែមគោលដៅ
+      cancel: ទុកជាមោឃៈ
+      domain: កត្តា
+      expected_date: កំណត់កាលបរិច្ឆេទ
+      finish: រក្សាទុក
+      goal: គោលដៅ
+      next: បន្ទាប់
+      previous: ត្រឡប់
+      required_message: អ្នកត្រូវបង្កើតយ៉ាងតិចណាស់១គោលដៅ និងមួយកាតព្វកិច្ច
+      save: រក្សាទុក
+      score_from_assessment: ពិន្ទុកត្តាការប៉ាន់ប្រមាណ
+      task: កាតព្វកិច្ច
+    goal_fields:
+      add_task: បន្ថែមកាតព្វកិច្ច
+      remove_goal: លុបគោលដៅ
+    index:
+      assessment_created_on: "%{assessment}ដែលបានបង្កើត"
+      back: ត្រឡប់
+      care_plan_history: ប្រវត្តិគម្រោងថែរក្សា
+      new_care_plan: បង្កើតគម្រោងថែរក្សាថ្មី
+      review_care_plan: ពិនិត្យមើលគម្រោងថែរក្សា
+    show:
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+      back: ត្រឡប់
+      based_on: ដោយផ្អែកលើការប៉ាន់ប្រមាណលេខ
+      care_plan: គម្រោងរក្សាសម្រាប់
+      care_plan_created_by: បង្កើតដោយ
+      dimensions: មាត្រដ្ឋាន
+      domain: កត្តា
+      done_during: បានបំពេញ
+      due_date: កាលបរិច្ឆេទ
+      edit: កែសម្រូល
+      expected_date: កំណត់កាលបរិច្ឆេទ
+      goal: គោលដៅ
+      on_date: 'កាលបរិច្ឆេទ:'
+      score: ពិន្ទុ
+      task: កាតព្វកិច្ច
+    update:
+      successfully_updated: គម្រោងថែរក្សាត្រូវបានកែសម្រួលដោយជោគជ័យ
   case:
     quarterly_reports:
       index:
@@ -2217,6 +2274,7 @@ km:
       results: Results Export to XLS
       report_builder: Report Builder
       results: Results
+      searching: កំពុងស្វែងរក...
     new:
       new_community_title: New Community
     show:
@@ -2236,8 +2294,8 @@ km:
       program_streams: បញ្ជូលសហគមន៍ក្នុងកម្មវិធីចម្បង
       read_less: read less
       read_more: read more
-      referral_source: Referral Source
-      referral_source_category: Referral Source Category
+      referral_source: ប្រភពនៃការបញ្ជូន
+      referral_source_category: ប្រភេទប្រភពនៃការបញ្ជូន
       total_boys: Total Boys
       total_female: Total Adult Females
       total_girls: Total Girls
@@ -2799,16 +2857,24 @@ km:
         clients: ឣតិថិជន
         code: លេខសំគាល់គ្រួសារ
         commune: ឃុំ/សង្កាត់
+        commune_id: ឃុំ/សង្កាត់
+        community_id: Community/Group
         contract_date: កាលបរិច្ឆេទនៃកិច្ចសន្យា
+        custom_forms: ទម្រង់បែបបទ
         date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
         dependable_income: ប្រាក់ចំណូលទៀងទាត់
         district: ស្រុក/ខណ្ឌ
+        district_id: ស្រុក/ខណ្ឌ
+        documents: Upload Documents
+        donor_ids: Donor
         family: គ្រួសារ
         family_preservation: ករណីអភិរក្សគ្រួសារ?
         family_type: ប្រភេទគ្រួសារ
         female: ស្រី
         female_adult_count: ចំនួនមនុស្សស្រីពេញវ័យ
         female_children_count: ចំនួនក្មេងស្រី
+        followed_up_by_id: បុគ្គលិកតាមដានករណី
+        follow_up_date: កាលបរិច្ឆេទតាមដានដំបូង
         form_title: ឈ្មោះទម្រង់បែបបទ
         gender: ភេទ
         gender_list:
@@ -2821,24 +2887,36 @@ km:
         house: ផ្ទះលេខ
         household_income: ប្រាក់ចំណូលគ្រួសារប្រចាំខែ
         id: លេខសំគាល់
+        id_poor: កំរិតប័ណ្ណក្រីក្រ
+        initial_referral_date: កាលបរិចេ្ឆទនៃការបញ្ជូនដំបូង
         male: ប្រុស
         male_adult_count: ចំនួនមនុស្សប្រុសពេញវ័យ
         male_children_count: ចំនួនក្មេងប្រុស
         manage: សកម្មភាព
         member_count: ចំនួនសមាជិកគ្រួសារ
         name: ឈ្មោះអ្នកថែទាំកុមារ
+        name_en: Head Household Name (Latin)
         'no': ទេ
-        quantitative: ព័ត៌មានចំណុចជាក់លាក់នៃការបញ្ជូនបន្ថែម
+        phone_number: លេខទូរស័ព្ទ
         program_enrollment_date: កាលបរិច្ឆេទចុះឈ្មោះ
         program_exit_date: កាលបរិច្ឆេទនៃការចាកចេញពីកម្មវិធី
         program_streams: កម្មវិធីចម្បង
         province: ខេត្ត/ក្រុង
+        province_id: ខេត្ត/ក្រុង
+        quantitative: ព័ត៌មានចំណុចជាក់លាក់នៃការបញ្ជូនបន្ថែម
+        received_by: បុគ្គលិកទទួលករណី
+        received_by_id: បុគ្គលិកទទួលករណី
+        referee_phone_number: លេខទូរស័ព្ទរបស់អ្នកបញ្ជូនករណី
+        referral_source_category_id: ប្រភេទប្រភពនៃការបញ្ជូន
+        referral_source_id: ប្រភពនៃការបញ្ជូន
+        relevant_information: Relevant Information
         significant_family_member_count: ចំនួនសមាជិកគ្រួសារដែលចូលរួមរកប្រាក់ចំណូល
         status: ស្ថានភាព
         street: ផ្លូវ
         total: សរុប
         view: មើល
         village: ភូមិ
+        village_id: ភូមិ
         'yes': បាទ/ចាស
       family: គ្រួសារ
       family_id: លេខសម្គាល់គ្រួសារ
@@ -2942,8 +3020,8 @@ km:
       support_amount: ប្រាក់ឧបត្ថម្ភ
       support_note: ពត៌មានពីប្រាក់ឧប្ថម្ភ
       time_in_care: រយៈពេលមើលថែទាំ
-      time_in_cps:
-      time_in_ngo:
+      time_in_cps: រយៈពេលស្ថិតនៅក្នុងកម្មវិធីចម្បង
+      time_in_ngo: រយៈពេលនៅក្នុងអង្គការ
       trackings:
         action: សកម្មភាព
         frequency: ភាពញឹកញាប់
@@ -3154,6 +3232,11 @@ km:
     name: ឈ្មោះអ្នកថែទាំកុមារ
     'no': ទេ
     province: ខេត្ត/ក្រុង
+    received_by: បុគ្គលិកទទួលករណី
+    received_by_id: Received by Staff Member
+    referee_phone_number: លេខទូរស័ព្ទរបស់អ្នកបញ្ជូនករណី
+    referral_source_category_id: ប្រភេទប្រភពនៃការបញ្ជូន
+    referral_source_id: ប្រភពនៃការបញ្ជូន
     significant_family_member_count: ចំនួនសមាជិកគ្រួសារដែលចូលរួមរកប្រាក់ចំណូល
     'yes': បាទ/ចាស
   default_government_report_fields:
@@ -3896,6 +3979,15 @@ km:
   families:
     actions:
       are_you_sure: តើអ្នកប្រាកដហើយថាចង់លុប?
+    assessments:
+      create:
+        successfully_created: ការប៉ាន់ប្រមាណត្រូវបានបង្កើតដោយជោគជ័យ
+      destroy:
+        fail_delete_attachment: បានបរាជ័យក្នុងការលុបឯកសារភ្ជាប់
+        successfully_deleted: ឯកសារភ្ជាប់ត្រូវបានកែសម្រួលដោយជោគជ័យ
+        successfully_deleted_assessment: ការប៉ាន់ប្រមាណត្រូវបានលុបដោយជោគជ័យ។
+      update:
+        successfully_updated: ការប៉ាន់ប្រមាណត្រូវបានកែសម្រួលដោយជោគជ័យ
     case_history_detail:
       accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
       family: ឈ្មោះគ្រួសារ
@@ -4013,6 +4105,8 @@ km:
       address: ឣាសយដ្ឋាន
       adult_name: ឈ្មោះមនុស្សពេញវ័យដែលរស់នៅក្នុងផ្ទះជាមួយគ្នា
       are_you_sure: តើអ្នកប្រាកដហើយ?
+      assessment: ការប៉ាន់ប្រមាណ
+      care_plan: គម្រោងរក្សា
       caregiver_information: ព័ត៌មាននៃអ្នកថែទាំ
       case_histories: ប្រវត្តិនៃករណី
       case_history: ប្រវត្តិគ្រួសារ
@@ -4058,6 +4152,30 @@ km:
       status: ស្ថានភាព
       street: ផ្លូវ
       'yes': បាទ/ចាស
+      view_tasks: កាតព្វកិច្ច
+    tasks:
+      create:
+        successfully_created: កាតព្វកិច្ចត្រូវបានបង្កើតដោយជោគជ័យ
+      destroy:
+        successfully_deleted: កាតព្វកិច្ចត្រូវបានលុបដោយជោគជ័យ
+      form:
+        back: ត្រលប់ក្រោយ
+        completion_date: ថ្ងៃកំនត់
+        domain: កត្តា
+        enter_task_detail: កាតព្វកិច្ចលំអិត
+        save: រក្សាទុក
+      index:
+        add_all_to_calendar: បន្ថែមកាតព្វកិច្ចទាំងអស់ទៅប្រតិទិន
+        add_to_calendar: បន្ថែមកាតព្វកិច្ចទៅប្រតិទិន
+        are_you_sure_you_want_to_delete: តើអ្នកប្រាកដហើយ?
+        back: ត្រលប់ក្រោយ
+        domain: កត្តា
+        new_task: កាតព្វកិច្ចថ្មី
+        overdue_tasks: កាតព្វកិច្ចផុតកំណត់
+        today_tasks: កាតព្វកិច្ចថ្ងៃនេះ
+        upcoming_tasks: កាតព្វកិច្ចបន្ទាប់
+      update:
+        successfully_updated: កាតព្វកិច្ចត្រូវបានកែសម្រួលដោយជោគជ័យ
     update:
       not_allowed_to_detach_clients: អ្នកមិនអាចយកអតិថិជនចេញពីគ្រួសារតាមទម្រង់នេះបានទេ
       successfully_updated: គ្រួសារត្រូវបានកែសម្រួលដោយជោគជ័យ
@@ -4295,6 +4413,13 @@ km:
         edit: កែសម្រួល
       update:
         successfully_updated: ទម្រង់បែបបទត្រូវបានកែសម្រួលដោយជោគជ័យ
+  gender_list:
+    female: ស្រី
+    lgbt: LGBT
+    male: ប្រុស
+    other_gender: ផ្សេងៗ
+    prefer_not_to_say: សុំមិន​និយាយ​ល្អ​ជាង
+    unknown: អត់ទាន់ដឹង
   government_forms:
     create:
       successfully_created: ទម្រង់ត្រូវបានបង្កើតដោយជោគជ័យ

@@ -2,6 +2,7 @@ class FamiliesController < AdminController
   load_and_authorize_resource
   include FamilyAdvancedSearchesConcern
 
+  before_action :assign_active_family_prams, :format_search_params, only: [:index]
   before_action :find_params_advanced_search, :get_custom_form, :get_program_streams, only: [:index]
   before_action :get_custom_form_fields, :get_quantitative_fields, :family_builder_fields, only: [:index]
   before_action :custom_form_fields, :program_stream_fields, only: [:index]
@@ -18,7 +19,7 @@ class FamiliesController < AdminController
     @family_grid = @family_grid.scope { |scope| scope.accessible_by(current_ability) }
     @family_columns ||= FamilyColumnsVisibility.new(@family_grid, params.merge(column_form_builder: column_form_builder))
     @family_columns.visible_columns
-    if has_params?
+    if has_params? || params[:advanced_search_id].present? || params[:family_advanced_search].present?
       advanced_search
     else
       respond_to do |f|
@@ -175,6 +176,7 @@ class FamiliesController < AdminController
 
   def fetch_family_attibutes(family_slug, current_org)
     attributes = Family.find_by(slug: family_slug).try(:attributes)
+    referee_phone_number = @family_referral.referral_phone
 
     if attributes.present?
       province_name = Province.find_by(id: attributes['province_id']).try(:name)
@@ -188,8 +190,7 @@ class FamiliesController < AdminController
       village_id = Village.find_by(code: village_code).try(:id)
       commune_id = Commune.find_by(code: commune_code).try(:id)
 
-      attributes = attributes.slice('name', 'name_en', 'house', 'street', 'slug').merge!({province_id: province_id, district_id: district_id, commune_id: commune_id, village_id: village_id})
-
+      attributes = attributes.slice('name', 'name_en', 'house', 'street', 'slug', 'initial_referral_date').merge!({province_id: province_id, district_id: district_id, commune_id: commune_id, village_id: village_id, referee_phone_number: referee_phone_number})
       @family.province = Province.find_by(id: province_id)
       @family.district = District.find_by(id: district_id)
       @family.commune = Commune.find_by(id: commune_id)
@@ -202,6 +203,15 @@ class FamiliesController < AdminController
     end
     @family = Family.new(attributes)
     @selected_children = params[:children]
+  end
+
+  def assign_active_family_prams
+    return if params[:active_family].blank?
+
+    params[:family_advanced_search] = {
+      action_report_builder: '#builder',
+      basic_rules: "{\"condition\":\"AND\",\"rules\":[{\"id\":\"status\",\"field\":\"Status\",\"type\":\"string\",\"input\":\"select\",\"operator\":\"equal\",\"value\":\"Active\",\"data\":{\"values\":[{\"Accepted\":\"Accepted\"},{\"Active\":\"Active\"},{\"Exited\":\"Exited\"},{\"Referred\":\"Referred\"}],\"isAssociation\":false}}],\"valid\":true}"
+    }
   end
 
   def column_form_builder

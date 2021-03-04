@@ -5,21 +5,21 @@
         %tr
           %td{rowspan: '4'}
           %td
-            = "#{Community.human_attribute_name(:name_en)} :"
+            = "#{t('activerecord.attributes.community.name_en')} :"
             %strong= @community.name_en
           %td
-            = "#{Community.human_attribute_name(:status)} :"
+            = "#{t('activerecord.attributes.community.status')} :"
             %strong= @community.status.titleize
         %tr
           %td
-            = "#{Community.human_attribute_name(:name)} :"
+            = "#{t('activerecord.attributes.community.name')} :"
             %strong= @community.name
           %td
             = "#{t('.current_province')} :"
             %strong= @community.province_name
         %tr
           %td
-            = "#{Community.human_attribute_name(:id)} :"
+            = "#{t('activerecord.attributes.community.id')} :"
             %strong= @community.id
           %td
             = "#{t('.created_by')} :"
@@ -117,32 +117,32 @@
         %table.table.table-bordered
           %tr
             %td.spacing-first-col
-              = Community.human_attribute_name(:representative_name)
+              = t('activerecord.attributes.community.representative_name')
             %td
               %strong
                 = @community.representative_name
           %tr
             %td.spacing-first-col
-              = Community.human_attribute_name(:gender)
+              = t('activerecord.attributes.community.gender')
             %td
               %strong
                 - if @community.gender?
                   = t("enumerize.defaults.gender.#{@community.gender&.gsub('other', 'other_gender')}")
           %tr
             %td.spacing-first-col
-              = Community.human_attribute_name(:formed_date)
+              = t('activerecord.attributes.community.formed_date')
             %td
               %strong
                 = date_format @community.formed_date
           %tr
             %td.spacing-first-col
-              = Community.human_attribute_name(:role)
+              = t('activerecord.attributes.community.role')
             %td
               %strong
                 = @community.role
           %tr
             %td.spacing-first-col
-              = Community.human_attribute_name(:phone_number)
+              = t('activerecord.attributes.community.phone_number')
             %td
               %strong
                 = @community.phone_number
@@ -166,7 +166,7 @@
                 = @community.referral_source&.name
           %tr
             %td.spacing-first-col
-              = Community.human_attribute_name(:received_by_id)
+              = t('activerecord.attributes.community.received_by_id')
             %td
               %strong
                 = @community.received_by&.name
@@ -174,7 +174,7 @@
 
           %tr
             %td.spacing-first-col
-              = Community.human_attribute_name(:case_worker_ids)
+              = t('activerecord.attributes.community.case_worker_ids')
             %td
               %strong
                 - @community.case_workers.distinct.sort.each do |case_worker|
@@ -182,19 +182,19 @@
                     = user case_worker
           %tr
             %td.spacing-first-col
-              = Community.human_attribute_name(:initial_referral_date)
+              = t('activerecord.attributes.community.initial_referral_date')
             %td
               %strong
                 = date_format(@community.initial_referral_date)
           %tr
             %td.spacing-first-col
-              = Community.human_attribute_name(:relevant_information)
+              = t('activerecord.attributes.community.relevant_information')
             %td
               %strong
                 = @community.relevant_information
           %tr
             %td.spacing-first-col
-              = Community.human_attribute_name(:donor_ids)
+              = t('activerecord.attributes.community.donor_ids')
             %td
               %strong
                 - @community.donors.distinct.each do|donor|
@@ -205,7 +205,7 @@
               %tr
                 %td.spacing-first-col
                   - if index == 0
-                    = Community.human_attribute_name(:documents)
+                    = t('activerecord.attributes.community.documents')
                 %td
                   = original_filename(attachment)
                   = link_to preview_or_download(attachment), attachment.url, class: 'btn btn-info btn-sm btn-download', target: target_blank(attachment)

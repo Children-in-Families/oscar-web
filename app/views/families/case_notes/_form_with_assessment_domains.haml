@@ -1,0 +1,36 @@
+= domain_note.hidden_field :note
+= domain_note.hidden_field :domain_group_id
+- domain_note_by_case_note = domain_note.object.domains(@case_note)
+
+.ibox.case-note-domain-group{ id: "domain-#{domain_note.object.domain_group.id}" }
+  .ibox-title
+    %h5
+      - if current_organization.try(:aht) == true
+        = "#{t('case_notes.form_with_assessment_domains.dimensions')} #{domain_note.object.domain_group.name}"
+      - else
+        = "#{t('case_notes.form_with_assessment_domains.domain')} #{domain_note.object.domain_group.name}"
+      = "(#{get_domains(domain_note)})"
+      - domain_note_by_case_note.each do |domain|
+        - ad = domain.assessment_domains.find_by(assessment_id: @case_note.assessment_id)
+        - next if ad.nil?
+        %button.case-note-domain-score{ 'data-original-title': "#{simple_format(ad.score_definition)}", type: 'button', class: "btn btn-#{ad.score_color_class} btn-sm", 'data-toggle': 'tooltip' }
+          = "#{domain.name}: #{domain.identity}"
+
+
+  .ibox-content
+    .row
+      .col-xs-12
+        - domain_note_by_case_note.each do |domain|
+          - assessment_domain = @case_note.assessment.assessment_domains.find_by(domain_id: domain.id) if @case_note.assessment.present?
+          - tasks = @case_note.family.tasks.incomplete.where(domain_id: domain.id)
+          - if domain_note.object.persisted?
+            - tasks = tasks.by_case_note_domain_group(domain_note.object)
+          - next if assessment_domain.nil?
+          .panel{ class: "panel-#{assessment_domain.score_color_class} task-domain-#{domain.id} #{!selected_domain_group(domain_note.object) && hidden_class(tasks, assessment_domain.goal?)}" }
+            .panel-heading
+              %strong
+                = "#{assessment_domain.domain.name} #{t('case_notes.form_with_assessment_domains.goal')} -"
+              - if assessment_domain.present? && assessment_domain.goal?
+                = assessment_domain.goal
+
+            = render 'tasks_list', { domain_note: domain_note, domain: domain, tasks: tasks }

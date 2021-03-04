@@ -18,7 +18,6 @@ class Community < ActiveRecord::Base
   enumerize :gender, in: ['female', 'male', 'lgbt', 'unknown', 'prefer_not_to_say', 'other'], scope: :shallow, predicates: { prefix: true }
   enumerize :status, in: ['accepted', 'rejected', 'active'], scope: :shallow, predicates: { prefix: true }
 
-
   belongs_to :province
   belongs_to :district
   belongs_to :commune
@@ -51,6 +50,8 @@ class Community < ActiveRecord::Base
   validates :received_by_id, :initial_referral_date, :case_worker_ids, presence: true
 
   has_paper_trail
+
+  scope :referral_source_is,         ->        { joins(:referral_source).where.not('referral_sources.name in (?)', ReferralSource::REFERRAL_SOURCES).pluck('referral_sources.name', 'referral_sources.id').uniq }
 
   def display_name
     [name, name_en].select(&:present?).join(' - ').presence || "Community ##{id}"
