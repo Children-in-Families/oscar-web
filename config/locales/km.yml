@@ -2828,6 +2828,10 @@ km:
         member_count: ចំនួនសមាជិកគ្រួសារ
         name: ឈ្មោះអ្នកថែទាំកុមារ
         'no': ទេ
+        quantitative: ព័ត៌មានចំណុចជាក់លាក់នៃការបញ្ជូនបន្ថែម
+        program_enrollment_date: កាលបរិច្ឆេទចុះឈ្មោះ
+        program_exit_date: កាលបរិច្ឆេទនៃការចាកចេញពីកម្មវិធី
+        program_streams: កម្មវិធីចម្បង
         province: ខេត្ត/ក្រុង
         significant_family_member_count: ចំនួនសមាជិកគ្រួសារដែលចូលរួមរកប្រាក់ចំណូល
         status: ស្ថានភាព
@@ -3936,7 +3940,12 @@ km:
       form_option:
         basic_fields: ពត៌មានទូទៅរបសគ្រួសារ
         custom_form: ទម្រង់បែបបទ
+        enrollment: ទម្រង់បែបបទនៃចុះឈ្មោះ
+        exit_program: ចាកចេញពីកម្មវិធី
         filter_option: សូមជ្រើសរើសសំណួររបស់អ្នកខាងក្រោម
+        program_stream: កម្មវិធីចម្បង
+        quantitative: ព័ត៌មានចំណុចជាក់លាក់នៃការបញ្ជូនបន្ថែម
+        tracking: តាមដាន
     family_member_fields:
       adult_name: ឈ្មោះមនុស្សពេញវ័យ
       date_of_birth: ថ្ងៃខែ​ឆ្នាំ​កំណើត

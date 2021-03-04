@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20201224082044) do
+ActiveRecord::Schema.define(version: 20210225102546) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1862,6 +1862,7 @@ ActiveRecord::Schema.define(version: 20201224082044) do
     t.boolean  "two_weeks_assessment_reminder",        default: false
     t.boolean  "hide_family_case_management_tool",     default: true,                null: false
     t.boolean  "hide_community",                       default: true,                null: false
+    t.string   "community_default_columns",            default: [],                               array: true
   end
 
   add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree
@@ -1985,10 +1986,7 @@ ActiveRecord::Schema.define(version: 20201224082044) do
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer  "position",   null: false
   end
-
-  add_index "thredded_messageboard_groups", ["name"], name: "index_thredded_messageboard_group_on_name", unique: true, using: :btree
 
   create_table "thredded_messageboards", force: :cascade do |t|
     t.string   "name",                  limit: 191,             null: false
@@ -2000,7 +1998,6 @@ ActiveRecord::Schema.define(version: 20201224082044) do
     t.integer  "messageboard_group_id"
     t.datetime "created_at",                                    null: false
     t.datetime "updated_at",                                    null: false
-    t.integer  "position",                                      null: false
   end
 
   add_index "thredded_messageboards", ["messageboard_group_id"], name: "index_thredded_messageboards_on_messageboard_group_id", using: :btree
@@ -2065,7 +2062,6 @@ ActiveRecord::Schema.define(version: 20201224082044) do
     t.string   "hash_id",      limit: 191,             null: false
     t.datetime "created_at",                           null: false
     t.datetime "updated_at",                           null: false
-    t.datetime "last_post_at"
   end
 
   add_index "thredded_private_topics", ["hash_id"], name: "index_thredded_private_topics_on_hash_id", using: :btree
@@ -2103,7 +2099,6 @@ ActiveRecord::Schema.define(version: 20201224082044) do
     t.integer  "moderation_state",                             null: false
     t.datetime "created_at",                                   null: false
     t.datetime "updated_at",                                   null: false
-    t.datetime "last_post_at"
   end
 
   add_index "thredded_topics", ["hash_id"], name: "index_thredded_topics_on_hash_id", using: :btree
@@ -2277,8 +2272,8 @@ ActiveRecord::Schema.define(version: 20201224082044) do
     t.string   "whodunnit"
     t.datetime "created_at"
     t.integer  "transaction_id"
-    t.jsonb    "object"
-    t.jsonb    "object_changes"
+    t.text     "object"
+    t.text     "object_changes"
   end
 
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree

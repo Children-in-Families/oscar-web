@@ -14,6 +14,7 @@ CIF.FamiliesIndex = do ->
     _hideFamilyFilters()
     # _setDefaultCheckColumnVisibilityAll()
     _initCheckbox()
+    _quantitativeCaesByQuantitativeType()
 
   _initCheckbox = ->
     $('.i-checks').iCheck
@@ -30,6 +31,21 @@ CIF.FamiliesIndex = do ->
     advanceFilter.customFormSelectChange()
     advanceFilter.customFormSelectRemove()
     advanceFilter.handleHideCustomFormSelect()
+
+    advanceFilter.handleFamilyShowProgramStreamFilter()
+    advanceFilter.handleHideProgramStreamSelect()
+    advanceFilter.handleProgramSelectChange()
+    advanceFilter.triggerEnrollmentFields()
+    advanceFilter.triggerTrackingFields()
+    advanceFilter.triggerExitProgramFields()
+
+    advanceFilter.handleSelect2RemoveProgram()
+    advanceFilter.handleUncheckedEnrollment()
+    advanceFilter.handleUncheckedTracking()
+    advanceFilter.handleUncheckedExitProgram()
+
+    advanceFilter.handleAddQuantitativeFilter()
+    advanceFilter.handleRemoveQuantitativFilter()
 
     advanceFilter.handleFamilySearch()
     advanceFilter.addRuleCallback()
@@ -146,5 +162,35 @@ CIF.FamiliesIndex = do ->
     $('table.families tbody tr').click (e) ->
       return if $(e.target).hasClass('btn') || $(e.target).hasClass('fa') || $(e.target).hasClass('case-history')
       window.location = $(this).data('href')
+
+  _quantitativeCaesByQuantitativeType = ->
+    self = @
+    quantitativeType = $('#family_grid_quantitative_types')
+    closeTag = $('.quantitative_data').find('abbr')
+    quantitativeData = $('#family_grid_quantitative_data')
+    quantitativeType.on 'change',  ->
+      qValue = quantitativeType.val()
+      quantitativeCaesText = $('.quantitative_data').find('.select2-chosen')
+      quantitativeCaesText.text('')
+      closeTag.hide()
+      _quantitativeCaes(qValue)
+    quantitativeData.on 'change', ->
+      closeTag.show()
+    closeTag.click ->
+      closeTag.hide()
+
+  _quantitativeCaes = (qValue) ->
+    $.ajax
+      url: '/quantitative_data?id=' + qValue
+      method: 'GET'
+      success: (response) ->
+        data = response.data
+        option = []
+        $('#family_grid_quantitative_data').html('')
+        $('#family_grid_quantitative_data').append '<option value=""></option>'
+
+        $(data).each (index, value) ->
+          $('#family_grid_quantitative_data').append '<option value="' + data[index].id + '">' + data[index].value + '</option>'
+      error: (error) ->
 
   { init: _init }

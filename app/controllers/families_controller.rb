@@ -2,8 +2,9 @@ class FamiliesController < AdminController
   load_and_authorize_resource
   include FamilyAdvancedSearchesConcern
 
-  before_action :find_params_advanced_search, :get_custom_form, only: [:index]
-  before_action :get_custom_form_fields, :family_builder_fields, only: [:index]
+  before_action :find_params_advanced_search, :get_custom_form, :get_program_streams, only: [:index]
+  before_action :get_custom_form_fields, :get_quantitative_fields, :family_builder_fields, only: [:index]
+  before_action :custom_form_fields, :program_stream_fields, only: [:index]
   before_action :basic_params, if: :has_params?, only: [:index]
   before_action :build_advanced_search, only: [:index]
   before_action :find_association, except: [:index, :destroy, :version]
@@ -13,9 +14,9 @@ class FamiliesController < AdminController
 
   def index
     @default_columns = Setting.first.try(:family_default_columns)
-    @family_grid = FamilyGrid.new(params.fetch(:family_grid, {}).merge!(dynamic_columns: @custom_form_fields))
+    @family_grid = FamilyGrid.new(params.fetch(:family_grid, {}).merge!(dynamic_columns: column_form_builder))
     @family_grid = @family_grid.scope { |scope| scope.accessible_by(current_ability) }
-    @family_columns ||= FamilyColumnsVisibility.new(@family_grid, params.merge(column_form_builder: @custom_form_fields))
+    @family_columns ||= FamilyColumnsVisibility.new(@family_grid, params.merge(column_form_builder: column_form_builder))
     @family_columns.visible_columns
     if has_params?
       advanced_search
@@ -26,7 +27,7 @@ class FamiliesController < AdminController
           @family_grid.scope { |scope| scope.accessible_by(current_ability).page(params[:page]).per(20) }
         end
         f.xls do
-          form_builder_report
+          export_family_reports
           send_data @family_grid.to_xls, filename: "family_report-#{Time.now}.xls"
         end
       end
@@ -41,7 +42,7 @@ class FamiliesController < AdminController
       attributes = fetch_family_attibutes(@family_referral.slug, current_org)
     else
       @family = Family.new
-      @family.community_member = CommunityMember.new
+      @family.build_community_member
       @selected_children = params[:children]
 
       if params[:client].present?
@@ -78,7 +79,7 @@ class FamiliesController < AdminController
   end
 
   def edit
-    @family.community_member ||= CommunityMember.new
+    @family.build_community_member
   end
 
   def update
@@ -201,5 +202,18 @@ class FamiliesController < AdminController
     end
     @family = Family.new(attributes)
     @selected_children = params[:children]
+  end
+
+  def column_form_builder
+    forms = []
+    if @custom_form_fields.present?
+      forms << @custom_form_fields
+    end
+
+    if @program_stream_fields.present?
+      forms << @program_stream_fields
+    end
+
+    forms.flatten
   end
 end

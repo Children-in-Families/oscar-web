@@ -13,7 +13,9 @@
           .col-xs-12.col-md-4
             %label= t('.custom_form_column')
             = render 'families/family_advanced_searches/custom_form_column'
-
+          .col-xs-12.col-md-4
+            %label= t('.program_stream_column')
+            = render 'families/family_advanced_searches/program_stream_column', program_stream_columns: @program_stream_columns
         .row
           .col-xs-12
             #builder.advanced-search-builder{ 'data-basic-search-rules' => @basic_filter_params, 'data-filter-translation' => { add_filter: t('.add_new_filter'), add_group: t('.add_new_group'), delete_group: t('.delete_group') }}
@@ -26,6 +28,14 @@
 
 = simple_form_for :family_advanced_search, url: :families, method: 'GET', html: { id: 'advanced-search' } do |f|
   = f.hidden_field :custom_form_selected
+  = f.hidden_field :program_selected
+  = f.hidden_field :enrollment_check
+  = f.hidden_field :tracking_check
+  = f.hidden_field :exit_form_check
   = f.hidden_field :basic_rules
+  = f.hidden_field :quantitative_check
+  = hidden_field_tag :data, params[:data]
   = hidden_field_tag :locale, "#{params[:locale]}"
   #family-builder-fields{ data: { fields: @builder_fields.to_json }}
+  #quantitative-fields{ data: { fields: @quantitative_fields.to_json }}
+
