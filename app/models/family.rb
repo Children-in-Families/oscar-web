@@ -70,23 +70,34 @@ class Family < ActiveRecord::Base
 
   validates :family_type, presence: true, inclusion: { in: TYPES }
 
-  validates :received_by_id, :initial_referral_date, :case_worker_ids, :referral_source_category_id, presence: true, if: :case_management_record?
+  validates :received_by_id, :initial_referral_date, :referral_source_category_id, presence: true, if: :case_management_record?
   validates :code, uniqueness: { case_sensitive: false }, if: 'code.present?'
   validates :status, inclusion: { in: STATUSES }
-  validate :client_must_only_belong_to_a_family
-  validates :case_worker_ids, presence: true, on: :update, unless: :exit_ngo?
 
-  after_commit :update_related_community_members, on: :update
+  # validate :client_must_only_belong_to_a_family
+  validates :case_worker_ids, presence: true, on: :update, if: -> { !exit_ngo? && case_management_record? }
+
   after_create :assign_slug
   after_save :save_family_in_client, :mark_referral_as_saved
+  after_commit :update_related_community_member, on: :update
 
   def self.update_brc_aggregation_data
     Organization.switch_to 'brc'
     Family.find_each(&:save_aggregation_data)
   end
 
+  def self.unattache_to_other_communities(allowed_community_id = nil)
+    records = unscoped.joins("LEFT JOIN community_members ON families.id = community_members.family_id WHERE community_members.community_id IS NULL AND families.deleted_at IS NULL")
+
+    if allowed_community_id.present?
+      records += joins(:community_member).where(community_members: { community_id: allowed_community_id})
+    end
+
+    records
+  end
+
   def member_count
-    brc? ? family_members.count : (male_adult_count.to_i + female_adult_count.to_i + male_children_count.to_i + female_children_count.to_i)
+    family_members.count
   end
 
   def to_select2
@@ -105,11 +116,11 @@ class Family < ActiveRecord::Base
     [name, name_en].select(&:present?).join(' - ').presence || "Family ##{id}"
   end
 
-  def monthly_average_income
+  def total_monthly_income
     countable_member = family_members.select(&:monthly_income?)
 
     if countable_member.any?
-      countable_member.map(&:monthly_income).sum / countable_member.count
+      countable_member.map(&:monthly_income).sum
     else
       'N/A'
     end
@@ -187,10 +198,8 @@ class Family < ActiveRecord::Base
 
   private
 
-  def update_related_community_members
-    # community_members.each do |community_member|
-    #   CommunityMember.delay.update_client_relevant_data(community_member.id)
-    # end
+  def update_related_community_member
+    CommunityMember.delay.update_family_relevant_data(community_member.id, Apartment::Tenant.current) if community_member.present? && community_member.persisted?
   end
 
   def assign_status
@@ -218,10 +227,8 @@ class Family < ActiveRecord::Base
     self.children.each do |child|
       client = Client.find_by(id: child)
       next if client.nil?
-      client.families << self
       client.current_family_id = self.id
-      client.families.uniq
-      client.save(validate: false)
+      client.update_columns(current_family_id: self.id)
     end
   end
 

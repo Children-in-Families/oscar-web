@@ -193,6 +193,19 @@ If you have an issue starting the container, perhaps because Rails does not star
 make run_image_bash
 ```
 
+### Issue with missing DB Schema
+
+You may experience the following error:
+
+```
+One of the following schema(s) is invalid: "dev" "public", "shared_extensions"
+```
+
+If you do, you likely need to add the `shared_extensions` schema to your database. To do so:
+
+1. Start up a Rails Console using `rails c`
+1. In the console run: `ActiveRecord::Base.connection.execute 'CREATE SCHEMA IF NOT EXISTS shared_extensions;'`
+
 ### Gazetteer Data Import (OPTIONAL)
 
 Since importing the Gazetteer data takes sometime and the spreadsheet files are fairly large this as been left as an option if you need it.

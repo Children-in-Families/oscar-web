@@ -1,8 +1,8 @@
 module AdvancedSearches
   module Communities
     class CommunityBaseSqlBuilder
-      ASSOCIATION_FIELDS = ['case_workers']
-      BLANK_FIELDS = %w(id)
+      ASSOCIATION_FIELDS = []
+      BLANK_FIELDS = %w(initial_referral_date)
       SENSITIVITY_FIELDS = %w(name status)
 
       def initialize(communities, rules)
@@ -11,7 +11,6 @@ module AdvancedSearches
         @sql_string = []
         @condition = rules['condition']
         @basic_rules = rules['rules'] || []
-
         @columns_visibility = []
       end
 
@@ -21,23 +20,30 @@ module AdvancedSearches
           operator = rule['operator']
           value    = rule['value']
           form_builder = field != nil ? field.split('__') : []
-          if ASSOCIATION_FIELDS.include?(field)
-            association_filter = AdvancedSearches::Communities::CommunityAssociationFilter.new(@communities, field, operator, value).get_sql
-            @sql_string << association_filter[:id]
-            @values     << association_filter[:values]
+          # if ASSOCIATION_FIELDS.include?(field)
+          #   association_filter = AdvancedSearches::Communities::CommunityAssociationFilter.new(@communities, field, operator, value).get_sql
+          #   @sql_string << association_filter[:id]
+          #   @values     << association_filter[:values]
 
-          elsif form_builder.first == 'formbuilder'
-            if form_builder.last == 'Has This Form'
-              custom_form_value = CustomField.find_by(form_title: value, entity_type: 'Community').try(:id)
-              @sql_string << "Communities.id IN (?)"
-              @values << @communities.joins(:custom_fields).where('custom_fields.id = ?', custom_form_value).uniq.ids
-            else
-              custom_form = CustomField.find_by(form_title: form_builder.second, entity_type: 'Community')
-              custom_field = AdvancedSearches::EntityCustomFormSqlBuilder.new(custom_form, rule, 'community').get_sql
-              @sql_string << custom_field[:id]
-              @values << custom_field[:values]
-            end
-          elsif field != nil
+          # elsif form_builder.first == 'formbuilder'
+          #   if form_builder.last == 'Has This Form'
+          #     custom_form_value = CustomField.find_by(form_title: value, entity_type: 'Community').try(:id)
+          #     @sql_string << "Communities.id IN (?)"
+          #     @values << @communities.joins(:custom_fields).where('custom_fields.id = ?', custom_form_value).uniq.ids
+          #   else
+          #     custom_form = CustomField.find_by(form_title: form_builder.second, entity_type: 'Community')
+          #     custom_field = AdvancedSearches::EntityCustomFormSqlBuilder.new(custom_form, rule, 'community').get_sql
+          #     @sql_string << custom_field[:id]
+          #     @values << custom_field[:values]
+          #   end
+          # elsif field != nil
+          #   base_sql(field, operator, value)
+          # else
+          #   nested_query =  AdvancedSearches::Communities::CommunityBaseSqlBuilder.new(@communities, rule).generate
+          #   @sql_string << nested_query[:sql_string]
+          #   nested_query[:values].select{ |v| @values << v }
+          # end
+          if field != nil
             base_sql(field, operator, value)
           else
             nested_query =  AdvancedSearches::Communities::CommunityBaseSqlBuilder.new(@communities, rule).generate
