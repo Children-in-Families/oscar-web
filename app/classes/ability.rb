@@ -86,6 +86,7 @@ class Ability
 
       family_ids = user.families.ids
       family_ids += User.joins(:clients).where(id: subordinate_users).where.not(clients: { current_family_id: nil }).select('clients.current_family_id AS client_current_family_id').map(&:client_current_family_id)
+      family_ids += User.joins(:families).where(id: subordinate_users).select('families.id AS family_id').map(&:family_id)
       family_ids += Client.where(id: exited_client_ids).pluck(:current_family_id)
       family_ids += user.clients.pluck(:current_family_id)
 
@@ -119,11 +120,7 @@ class Ability
   end
 
   def exited_clients(user_ids)
-    client_ids = PaperTrail::Version.where(item_type: 'CaseWorkerClient', event: 'create').joins(:version_associations).where(version_associations: { foreign_key_name: 'user_id', foreign_key_id: user_ids }).distinct.map(&:object_changes).map do |a|
-      next unless a
-
-      YAML::load a
-    end.compact.map{|a| (a['client_id'] || [])[1] }
+    client_ids = CaseWorkerClient.where(id: PaperTrail::Version.where(item_type: 'CaseWorkerClient', event: 'create').joins(:version_associations).where(version_associations: { foreign_key_name: 'user_id', foreign_key_id: user_ids }).distinct.map(&:item_id)).pluck(:client_id).uniq
     Client.where(id: client_ids, status: 'Exited').ids
   end
 end
