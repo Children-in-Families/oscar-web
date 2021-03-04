@@ -332,19 +332,19 @@ class FamilyGrid < BaseGrid
   column(:phone_number, header: -> { I18n.t('datagrid.columns.families.phone_number') })
   column(:street, header: -> { I18n.t('datagrid.columns.families.street') })
 
-  column(:village, order: 'villages.name_kh', header: -> { I18n.t('datagrid.columns.families.village') }) do |object|
+  column(:village_id, order: 'villages.name_kh', header: -> { I18n.t('datagrid.columns.families.village') }) do |object|
     format(object.village.try(:code_format)) { |value| value }
   end
 
-  column(:commune, order: 'communes.name_kh', header: -> { I18n.t('datagrid.columns.families.commune') }) do |object|
+  column(:commune_id, order: 'communes.name_kh', header: -> { I18n.t('datagrid.columns.families.commune') }) do |object|
     format(object.commune.try(:name)) { |value| value }
   end
 
-  column(:district, order: 'districts.name', header: -> { I18n.t('datagrid.columns.families.district') }) do |object|
+  column(:district_id, order: 'districts.name', header: -> { I18n.t('datagrid.columns.families.district') }) do |object|
     format(object.district_name) { |value| value }
   end
 
-  column(:province, order: 'provinces.name', header: -> { I18n.t('datagrid.columns.families.province') }) do |object|
+  column(:province_id, order: 'provinces.name', header: -> { I18n.t('datagrid.columns.families.province') }) do |object|
     format(object.province_name) { |value| value }
   end
 
