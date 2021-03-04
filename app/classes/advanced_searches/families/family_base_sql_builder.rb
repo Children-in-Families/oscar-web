@@ -54,11 +54,9 @@ module AdvancedSearches
               @sql_string << enrollment_fields[:id]
               @values << enrollment_fields[:values]
             end
-  
           elsif form_builder.first == 'enrollmentdate'
             program_name = form_builder.second.gsub("&qoute;", '"')
             program_stream = ProgramStream.find_by(name: program_name)
-  
             if program_stream
               enrollment_date = AdvancedSearches::Families::FamilyEnrollmentDateSqlBuilder.new(program_stream.id, rule).get_sql
               @sql_string << enrollment_date[:id]
@@ -69,7 +67,6 @@ module AdvancedSearches
             end
           elsif form_builder.first == 'tracking'
             tracking = Tracking.joins(:program_stream).where(program_streams: {name: form_builder.second}, trackings: {name: form_builder.third}).last
-  
             if tracking
               tracking_fields = AdvancedSearches::Families::FamilyTrackingSqlBuilder.new(tracking.id, rule, form_builder.second).get_sql
               @sql_string << tracking_fields[:id]
@@ -80,7 +77,6 @@ module AdvancedSearches
             exit_program_fields = AdvancedSearches::Families::FamilyExitProgramSqlBuilder.new(program_stream.id, rule).get_sql
             @sql_string << exit_program_fields[:id]
             @values << exit_program_fields[:values]
-  
           elsif form_builder.first == 'exitprogramdate' || form_builder.first == 'programexitdate'
             program_stream = ProgramStream.find_by(name: form_builder.second)
             if program_stream.present?
@@ -154,14 +150,20 @@ module AdvancedSearches
         when 'is_empty'
           if BLANK_FIELDS.include? field
             @sql_string << "families.#{field} IS NULL"
-          else
-            not_integer_field = field[/\_id/] ? '' : "OR families.#{field} != ''"
-            @sql_string << "(families.#{field} IS NULL #{not_integer_field})"
-          end
+        elsif SENSITIVITY_FIELDS.include?(field)
+          @sql_string << "families.#{field} = '' OR families.#{field} IS NULL"
+          @values << value.downcase.squish
+        else
+          not_integer_field = field[/\_id/] ? '' : "OR families.#{field} != ''"
+          @sql_string << "(families.#{field} IS NULL #{not_integer_field})"
+        end
 
         when 'is_not_empty'
           if BLANK_FIELDS.include? field
             @sql_string << "families.#{field} IS NOT NULL"
+          elsif SENSITIVITY_FIELDS.include?(field)
+            @sql_string << "lower(families.#{field}) != '' AND families.#{field} IS NOT NULL"
+            @values << value.downcase.squish
           else
             not_integer_field = field[/\_id/] ? '' : "AND families.#{field} != ''"
             @sql_string << "(families.#{field} IS NOT NULL #{not_integer_field})"

@@ -11,6 +11,7 @@ class FamiliesController < AdminController
   before_action :find_association, except: [:index, :destroy, :version]
   before_action :find_family, only: [:show, :edit, :update, :destroy]
   before_action :find_case_histories, only: :show
+  before_action :quantitative_type_readable
   before_action :load_quantative_types, only: [:new, :edit, :create, :update]
 
   def index
@@ -225,5 +226,18 @@ class FamiliesController < AdminController
     end
 
     forms.flatten
+  end
+
+  def assign_active_family_prams
+    return if params[:active_family].blank?
+
+    params[:family_advanced_search] = {
+      action_report_builder: '#builder',
+      basic_rules: "{\"condition\":\"AND\",\"rules\":[{\"id\":\"status\",\"field\":\"Status\",\"type\":\"string\",\"input\":\"select\",\"operator\":\"equal\",\"value\":\"Active\",\"data\":{\"values\":[{\"Accepted\":\"Accepted\"},{\"Active\":\"Active\"},{\"Exited\":\"Exited\"},{\"Referred\":\"Referred\"}],\"isAssociation\":false}}],\"valid\":true}"
+    }
+  end
+
+  def quantitative_type_readable
+    @quantitative_type_readable_ids = current_user.quantitative_type_permissions.readable.pluck(:quantitative_type_id)
   end
 end
