@@ -297,7 +297,21 @@ const Forms = props => {
   const handleSave = () => (callback, forceSave) => {
     forceSave = forceSave === undefined ? false : forceSave
 
-    if (handleValidation()) {
+    let valid = true;
+    let divs = $(".required-true")
+
+    for (let i =0; i< divs.length; i++) {
+      if ($(divs[i]).find("div.css-1rhbuit-multiValue").length == 0 && $(divs[i]).find("div.css-1uccc91-singleValue").length == 0 ) {
+        divs[i].firstElementChild.style.borderColor = "red"
+        valid = false;
+      }
+      else {
+        divs[i].firstElementChild.style.borderColor = "black"
+        valid = true;
+      }
+    }
+
+    if (handleValidation() && valid) {
       handleCheckValue(refereeData)
       handleCheckValue(clientData)
       handleCheckValue(carerData)

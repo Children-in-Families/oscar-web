@@ -47,6 +47,8 @@ class QuantitativeTypesController < AdminController
           .permit(
             :name,
             :description,
+            :is_required,
+            :multiple,
             visible_on: [],
             quantitative_cases_attributes: [:id, :value, :_destroy]
           )

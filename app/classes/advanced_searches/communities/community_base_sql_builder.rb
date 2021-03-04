@@ -1,7 +1,7 @@
 module AdvancedSearches
   module Communities
     class CommunityBaseSqlBuilder
-      ASSOCIATION_FIELDS = []
+      ASSOCIATION_FIELDS = %w[adule_male_count adule_female_count kid_male_count kid_female_count member_count male_count female_count].freeze
       BLANK_FIELDS = %w(initial_referral_date)
       SENSITIVITY_FIELDS = %w(name status)
 
@@ -20,36 +20,47 @@ module AdvancedSearches
           operator = rule['operator']
           value    = rule['value']
           form_builder = field != nil ? field.split('__') : []
-          # if ASSOCIATION_FIELDS.include?(field)
-          #   association_filter = AdvancedSearches::Communities::CommunityAssociationFilter.new(@communities, field, operator, value).get_sql
-          #   @sql_string << association_filter[:id]
-          #   @values     << association_filter[:values]
+          if ASSOCIATION_FIELDS.include?(field)
+            association_filter = AdvancedSearches::Communities::CommunityAssociationFilter.new(@communities, field, operator, value).get_sql
+            @sql_string << association_filter[:id]
+            @values     << association_filter[:values]
 
-          # elsif form_builder.first == 'formbuilder'
-          #   if form_builder.last == 'Has This Form'
-          #     custom_form_value = CustomField.find_by(form_title: value, entity_type: 'Community').try(:id)
-          #     @sql_string << "Communities.id IN (?)"
-          #     @values << @communities.joins(:custom_fields).where('custom_fields.id = ?', custom_form_value).uniq.ids
-          #   else
-          #     custom_form = CustomField.find_by(form_title: form_builder.second, entity_type: 'Community')
-          #     custom_field = AdvancedSearches::EntityCustomFormSqlBuilder.new(custom_form, rule, 'community').get_sql
-          #     @sql_string << custom_field[:id]
-          #     @values << custom_field[:values]
-          #   end
-          # elsif field != nil
-          #   base_sql(field, operator, value)
-          # else
-          #   nested_query =  AdvancedSearches::Communities::CommunityBaseSqlBuilder.new(@communities, rule).generate
-          #   @sql_string << nested_query[:sql_string]
-          #   nested_query[:values].select{ |v| @values << v }
-          # end
-          if field != nil
+          elsif form_builder.first == 'formbuilder'
+            if form_builder.last == 'Has This Form'
+              custom_form_value = CustomField.find_by(form_title: value, entity_type: 'Community').try(:id)
+              @sql_string << "Communities.id IN (?)"
+              @values << @communities.joins(:custom_fields).where('custom_fields.id = ?', custom_form_value).uniq.ids
+            elsif rule['operator'] == 'is_empty'
+              community_ids = Community.joins(:custom_fields).where(custom_fields: { form_title: form_builder.second }).ids
+              @sql_string << "Communities.id NOT IN (?)"
+              @values << community_ids
+            else
+              custom_form = CustomField.find_by(form_title: form_builder.second, entity_type: 'Community')
+              custom_field = AdvancedSearches::EntityCustomFormSqlBuilder.new(custom_form, rule, 'community').get_sql
+
+              @sql_string << custom_field[:id]
+              @values << custom_field[:values]
+            end
+
+          elsif form_builder.first == 'quantitative'
+            quantitative_filter = AdvancedSearches::QuantitativeCaseSqlBuilder.new(@communities, rule, 'communities').get_sql
+            @sql_string << quantitative_filter[:id]
+            @values << quantitative_filter[:values]
+
+          elsif field != nil
             base_sql(field, operator, value)
           else
             nested_query =  AdvancedSearches::Communities::CommunityBaseSqlBuilder.new(@communities, rule).generate
             @sql_string << nested_query[:sql_string]
             nested_query[:values].select{ |v| @values << v }
           end
+          # if field != nil
+          #   base_sql(field, operator, value)
+          # else
+          #   nested_query =  AdvancedSearches::Communities::CommunityBaseSqlBuilder.new(@communities, rule).generate
+          #   @sql_string << nested_query[:sql_string]
+          #   nested_query[:values].select{ |v| @values << v }
+          # end
         end
 
         @sql_string = @sql_string.join(" #{@condition} ")

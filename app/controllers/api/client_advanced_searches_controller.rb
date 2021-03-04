@@ -9,7 +9,7 @@ module Api
       custom_form_ids = params[:ids]
       advanced_filter_custom_field = AdvancedSearches::CustomFields.new(custom_form_ids).render
       advanced_filter_custom_field << AdvancedSearches::HasThisFormFields.new(custom_form_ids).render.first
-      render json: advanced_filter_custom_field
+      render json: advanced_filter_custom_field.compact
     end
 
     def get_enrollment_field

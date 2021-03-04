@@ -13,4 +13,6 @@
         = header_counter(grid, column)
       - elsif grid.instance_of?(FamilyGrid)
         = family_header_counter(grid, column)
+      - else
+        = column.header.truncate(65)
       = datagrid_order_for(grid, column, options) if column.supports_order? && options[:order]

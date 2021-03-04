@@ -6,7 +6,9 @@ describe Task do
     it { is_expected.to belong_to(:domain)}
     it { is_expected.to belong_to(:case_note_domain_group)}
     it { is_expected.to belong_to(:client)}
-    it { is_expected.to belong_to(:user)}
+    it { is_expected.to belong_to(:user) }
+    it { is_expected.to belong_to(:family) }
+    it { is_expected.to belong_to(:goal) }
   end
 
   describe Task, 'validations' do

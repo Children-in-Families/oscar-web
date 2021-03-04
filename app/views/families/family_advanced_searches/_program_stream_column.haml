@@ -1,0 +1,21 @@
+.program-stream-column
+  %ul.check-columns-visibility
+    %li.dropdown
+      %a.ladda-button.ladda-button-columns-visibility.dropdown-toggle.btn.btn-default{ data: { toggle: 'dropdown', style: 'expand-right', spinner_color: "#333333" }, href: '#' }
+        = t('datagrid.columns.select_columns')
+        %span.caret
+      %ul.dropdown-menu.columns-visibility.append-child
+        -# %li.visibility.checkbox-margin
+        -#   = check_box_tag 'program_enrollment_date_', 'program_enrollment_date', checked = params['program_enrollment_date_'].present?, class: 'i-checks'
+        -#   = columns_visibility 'program_enrollment_date'
+        -# %li.visibility.checkbox-margin
+        -#   = check_box_tag 'program_exit_date_', 'program_exit_date', checked = params['program_exit_date_'].present?, class: 'i-checks'
+        -#   = columns_visibility 'program_exit_date'
+        - if program_stream_columns.present?
+          - program_stream_columns.each do |key, fields|
+            %li.dropdown-header{ class: format_class_header(key) }
+              = key
+            - fields.each do |field|
+              %li.visibility.checkbox-margin{ class: format_class_header(key) }
+                = check_box_tag "#{field[:id]}_", field[:id], params[:"#{field[:id]}_"].present?, class: 'i-checks'
+                = label_tag "#{field[:id]}_", field[:label]

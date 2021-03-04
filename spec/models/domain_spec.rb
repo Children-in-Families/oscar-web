@@ -8,9 +8,10 @@ describe Domain, 'validations' do
   it { is_expected.to validate_presence_of(:name) }
   it { is_expected.to validate_presence_of(:identity) }
   it { is_expected.to validate_presence_of(:domain_group) }
+  it { is_expected.to validate_presence_of(:domain_type) }
+  it { is_expected.to validate_inclusion_of(:domain_type).in_array(Domain::TYPES.map(&:last))}
 
-  xit { is_expected.to validate_uniqueness_of(:name).case_insensitive.scoped_to(:custom_assessment_setting) }
-  xit { is_expected.to validate_uniqueness_of(:identity).case_insensitive.scoped_to(:custom_assessment_setting) }
+  it { is_expected.to validate_uniqueness_of(:name).case_insensitive.scoped_to([:identity, :custom_assessment_setting_id, :domain_type]) }
 end
 
 describe Domain, 'methods' do

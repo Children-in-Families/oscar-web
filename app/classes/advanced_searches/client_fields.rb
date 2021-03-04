@@ -3,6 +3,7 @@ module AdvancedSearches
     include AdvancedSearchHelper
     include ClientsHelper
     include ApplicationHelper
+    include AdvancedSearchFieldHelper
     include Pundit
 
     def initialize(options = {})
@@ -168,34 +169,8 @@ module AdvancedSearches
       State.joins(:clients).pluck(:name, :id).uniq.sort.map{|s| {s[1].to_s => s[0]}}
     end
 
-    def received_by_options
-      recevied_by_clients = @user.admin? || @user.manager? ? Client.is_received_by : Client.where(user_id: @user.id).is_received_by
-      recevied_by_clients.sort.map{|s| {s[1].to_s => s[0]}}
-    end
-
-    def referral_source_options
-      referral_source_clients = @user.admin? ? Client.referral_source_is : Client.where(user_id: @user.id).referral_source_is
-      referral_source_clients.sort.map{|s| {s[1].to_s => s[0]}}
-    end
-
-    def referral_source_category_options
-      ref_cat_ids = Client.pluck(:referral_source_category_id).compact.uniq
-      if I18n.locale == :km
-        ref_cat_kh_names = ReferralSource.where(id: ref_cat_ids).pluck(:name, :id)
-        ref_cat_kh_names.sort.map{|s| {s[1].to_s => s[0]}}
-      else
-        ref_cat_en_names = ReferralSource.where(id: ref_cat_ids).pluck(:name_en, :id)
-        ref_cat_en_names.sort.map{|s| {s[1].to_s => s[0]}}
-      end
-    end
-
     def get_type_of_services
       Service.only_children.pluck(:name, :id).uniq.sort.map{|s| {s[1].to_s => s[0]}}
-    end
-
-    def followed_up_by_options
-      followed_up_clients = @user.admin? || @user.manager? ? Client.is_followed_up_by : Client.where(user_id: @user.id).is_followed_up_by
-      followed_up_clients.sort.map{|s| {s[1].to_s => s[0]}}
     end
 
     def agencies_options

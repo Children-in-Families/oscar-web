@@ -1,13 +1,13 @@
 module CaseNoteHelper
-  def edit_link(client, case_note, cdg=nil)
+  def edit_link(obj, case_note, cdg=nil)
     custom_assessment_setting_id = find_custom_assessment_setting_id(cdg, case_note) if cdg
     custom_name = CustomAssessmentSetting.find(custom_assessment_setting_id).try(:custom_assessment_name) if custom_assessment_setting_id
     if case_notes_editable? && policy(case_note).edit?
-      link_to(edit_client_case_note_path(client, case_note, custom: case_note.custom, custom_name: custom_name), class: 'btn btn-primary') do
+      link_to(edit_polymorphic_path([obj, case_note], custom: case_note.custom, custom_name: custom_name), class: 'btn btn-primary') do
         fa_icon('pencil')
       end
     else
-      link_to_if(false, edit_client_case_note_path(client, case_note)) do
+      link_to_if(false, edit_polymorphic_path([obj, case_note])) do
         content_tag :div, class: 'btn btn-primary disabled' do
           fa_icon('pencil')
         end
@@ -15,13 +15,13 @@ module CaseNoteHelper
     end
   end
 
-  def destroy_link(client, case_note)
+  def destroy_link(obj, case_note)
     if case_notes_deleted?
-      link_to(client_case_note_path(client, case_note, custom: case_note.custom), method: 'delete', data: { confirm: t('.are_you_sure') }, class: 'btn btn-danger') do
+      link_to(polymorphic_path([obj, case_note], custom: case_note.custom), method: 'delete', data: { confirm: t('case_notes.index.are_you_sure') }, class: 'btn btn-danger') do
         fa_icon('trash')
       end
     else
-      link_to_if(false, client_case_note_path(client, case_note), method: 'delete', data: { confirm: t('.are_you_sure') }) do
+      link_to_if(false, polymorphic_path([obj, case_note]), method: 'delete', data: { confirm: t('case_notes.index.are_you_sure') }) do
         content_tag :div, class: 'btn btn-danger disabled' do
           fa_icon('trash')
         end
@@ -29,9 +29,9 @@ module CaseNoteHelper
     end
   end
 
-  def new_link
-    if case_notes_editable? && policy(@client).create?
-      link_to new_client_case_note_path(@client, custom: false) do
+  def new_link(obj=@client)
+    if case_notes_editable? && policy(obj).create?
+      link_to new_polymorphic_path([obj, 'case_note'], custom: false) do
         @current_setting.default_assessment
       end
     else
@@ -43,9 +43,9 @@ module CaseNoteHelper
     end
   end
 
-  def new_custom_link(custom_assessment_name)
-    if case_notes_editable? && policy(@client).create?
-      link_to new_client_case_note_path(@client, custom: true, custom_name: custom_assessment_name) do
+  def new_custom_link(custom_assessment_name, obj=@client)
+    if case_notes_editable? && policy(obj).create?
+      link_to new_polymorphic_path([obj, 'case_note'], custom: true, custom_name: custom_assessment_name) do
         custom_assessment_name
       end
     else
@@ -79,19 +79,28 @@ module CaseNoteHelper
   def case_notes_editable?
     return true if current_user.admin? || current_user.hotline_officer?
     return false if current_user.strategic_overviewer?
+
     current_user.permission&.case_notes_editable
   end
 
   def tag_domain_group(case_note)
     domain_group_ids = selected_domain_groups(case_note)
     if domain_group_ids.present?
-      domain_groups = DomainGroup.joins(:domains).where(id: domain_group_ids).map{ |dg| [dg.domain_name("#{case_note.custom}", case_note.custom_assessment_setting_id), dg.id] }
-      options_for_select(domain_groups, domain_group_ids)
+      if case_note.family_id?
+        domain_groups = DomainGroup.joins(:domains).where(id: domain_group_ids).map { |dg| [dg.family_domain_name, dg.id] }
+      else
+        domain_groups = DomainGroup.joins(:domains).where(id: domain_group_ids).map { |dg| [dg.domain_name(case_note.custom.to_s, case_note.custom_assessment_setting_id), dg.id] }
+      end
     else
       domain_group_ids = case_note.case_note_domain_groups.where("attachments != '{}' OR note != ''").pluck(:domain_group_id)
-      domain_groups = case_note.domain_groups.map{ |dg| [dg.domain_name, dg.id] }
-      options_for_select(domain_groups, domain_group_ids)
+      if case_note.family_id?
+        domain_groups = case_note.domain_groups.map { |dg| [dg.family_domain_name, dg.id] }
+      else
+        domain_groups = case_note.domain_groups.map { |dg| [dg.domain_name, dg.id] }
+      end
     end
+
+    options_for_select(domain_groups, domain_group_ids)
   end
 
   def selected_domain_groups(case_note)
@@ -103,7 +112,7 @@ module CaseNoteHelper
     ongoing_tasks = []
     today_tasks = []
     cdg.domains(case_note).each do |domain|
-      tasks = case_note.client.tasks.where(domain_id: domain.id)
+      tasks = case_note.tasks.where(domain_id: domain.id)
       ongoing_tasks << tasks.by_case_note_domain_group(cdg)
       today_tasks << case_note_the_latest_tasks(tasks.by_case_note_domain_group(cdg))
       assessment_domain = domain.assessment_domains.find_by(assessment_id: case_note.assessment_id)
@@ -112,19 +121,42 @@ module CaseNoteHelper
       end
     end
 
+    today_tasks << list_today_tasks(cdg, case_note)
     [list_goals, ongoing_tasks, today_tasks]
   end
 
+  def list_family_goals_and_tasks(cdg, case_note)
+    list_goals = []
+    ongoing_tasks = []
+    today_tasks = []
+    cdg.domains(case_note).each do |domain|
+      tasks = case_note.tasks.where(domain_id: domain.id)
+      today_tasks << tasks.by_case_note_domain_group(cdg)
+      today_tasks << case_note_the_latest_tasks(tasks.by_case_note_domain_group(cdg))
+      assessment_domain = domain.assessment_domains.find_by(assessment_id: case_note.assessment_id)
+      if assessment_domain.present? && assessment_domain.goal?
+        list_goals << assessment_domain.goal
+      end
+    end
+    today_tasks << list_today_tasks(cdg, case_note)
+
+    [list_goals, ongoing_tasks, today_tasks]
+  end
+
+  def list_today_tasks(cdg, case_note)
+    Task.where(case_note_id: case_note.id.to_s, domain_group_identity: cdg.domain_group_id.to_s).where.not(id: case_note.tasks.completed.ids).distinct
+  end
+
   def case_note_ongoing_tasks(tasks)
-    ongoin_tasks = tasks.flatten.reject{ |task| task.completed || task.created_at.today? }
+    ongoin_tasks = tasks.flatten.reject { |task| task.completed || task.created_at.today? }
   end
 
   def case_note_the_latest_tasks(tasks)
-    tasks.reject{ |task| !task.created_at.today? || task.completed }
+    tasks.reject { |task| !task.created_at.today? }
   end
 
   def case_note_domain_without_assessment(domain_note, case_note)
-    persisted_case_note = domain_note.object.domains(case_note).any?{|domain| case_note.client.tasks.where(domain_id: domain.id).by_case_note_domain_group(domain_note.object).present? } && case_note.persisted?
+    persisted_case_note = domain_note.object.domains(case_note).any? { |domain| case_note.parent.tasks.where(domain_id: domain.id).by_case_note_domain_group(domain_note.object).present? } && case_note.persisted?
     domain_note_by_case_note = domain_note.object.domains(case_note)
     [persisted_case_note, domain_note_by_case_note]
   end

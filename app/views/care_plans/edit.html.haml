@@ -1,0 +1,10 @@
+- unless Organization.ratanak?
+  .alert.alert-warning.alert-dismissible{ :role => "alert" }
+    %button.close{"aria-label" => "Close", "data-dismiss" => "alert", :type => "button"}
+      %span{"aria-hidden" => "true"} ×
+    %ul
+      %li= I18n.t('inline_help.assessments.notes.lists.list1').html_safe
+
+.row
+  = render 'form'
+

@@ -6,7 +6,7 @@ class CIF.AdvancedFilterBuilder
 
   initRule: ->
     $(@element.selector).queryBuilder(@builderOption(@element.selector))
-    $('#builder').on 'afterAddGroup.queryBuilder', (parent, addRule, level) ->
+    $(@element.selector).on 'afterAddGroup.queryBuilder', (parent, addRule, level) ->
       if $('body#clients-index').length
         if localStorage.getItem(addRule.id) == addRule.id
           addRule.$el.addClass('csi-group')
@@ -15,8 +15,10 @@ class CIF.AdvancedFilterBuilder
         window.customGroup["#{addRule.id}"] = addRule if window.customGroup["#{addRule.id}"] == undefined
         $('#builder_group_0').find('.rules-group-body .btn-custom-group').hide()
 
-    $('#builder').on 'beforeDeleteGroup.queryBuilder', (parent, group) ->
+    $(@element.selector).on 'beforeDeleteGroup.queryBuilder', (parent, group) ->
       if $('body#clients-index').length
+        localStorage.setItem("#{group.id}", null)
+      if $('body#families-index').length
         localStorage.setItem("#{group.id}", null)
 
   builderOption: (builderId)->
@@ -134,14 +136,14 @@ class CIF.AdvancedFilterBuilder
         values = self.getSaveSearchFields(rules.rules)
         $($(this).find('input')[0]).iCheck('check') if values.includes(fieldCheckedBoxValue)
 
-      $('#builder').queryBuilder('setRules', rules) unless _.isEmpty(rules.rules)
+      $(@element.selector).queryBuilder('setRules', rules) unless _.isEmpty(rules.rules)
 
     return
 
   handleAddHotlineFilter: ->
     fields = $('#hotline-fields').data('fields')
     if $('#hotline-checkbox').is(':checked')
-      $('#builder').queryBuilder('addFilter', fields)
+      $(@element.selector).queryBuilder('addFilter', fields)
       return
 
   getSaveSearchFields: (rules)->

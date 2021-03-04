@@ -196,7 +196,7 @@ class ClientColumnsVisibility
 
   def quantitative_type_columns
     columns = domain_score_columns
-    QuantitativeType.joins(:quantitative_cases).uniq.each do |quantitative_type|
+    QuantitativeType.joins(:quantitative_cases).where('quantitative_types.visible_on LIKE ?', "%client%").uniq.each do |quantitative_type|
       field = quantitative_type.name
       columns = columns.merge!("#{field}_": field.to_sym)
     end

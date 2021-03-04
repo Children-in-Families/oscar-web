@@ -11,6 +11,7 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
     _scrollToError()
     _hideShowOnGoingTaskLable()
     _hideAddNewTask()
+    _handleFormSubmit()
 
   _initICheckBox = ->
     $('.i-checks').iCheck
@@ -130,7 +131,8 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
       taskDate = $('#task_completion_date').val()
 
       if taskName.length > 0 && taskDate.length > 0
-        _addElementToDom(taskName, taskDate, domainId, relation, actionUrl)
+        DomainGroupId = $("#tasks-domain-#{domainId}").data('domain-group-identity')
+        _addElementToDom(taskName, taskDate, domainId, relation, actionUrl, DomainGroupId)
         $('.add-task-btn').removeAttr('disabled')
         $('#tasksFromModal').modal('hide')
         _hideShowOnGoingTaskLable()
@@ -140,7 +142,7 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
         $('.add-task-btn').removeAttr('disabled')
 
 
-  _addElementToDom = (taskName, taskDate, domainId, relation, actionUrl) ->
+  _addElementToDom = (taskName, taskDate, domainId, relation, actionUrl, domain_group_identity = null) ->
     appendElement  = $(".domain-#{domainId} .task-arising");
     deleteUrl      = undefined
     element        = undefined
@@ -149,7 +151,7 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
     deleteLink     = "<a class='pull-right remove-task fa fa-trash btn btn-outline btn-danger btn-xs' href='javascript:void(0)' data-url='#{deleteUrl}' style='margin: 0;'></a>" if $('#current_user').val() == 'admin'
     taskNameOrign  = taskName
     taskName       = taskName.replace(/,/g, '&#44;').replace(/'/g, 'apos').replace(/"/g, 'qout')
-    taskObj        = { name: taskName, completion_date: taskDate, domain_id: domainId, relation: relation }
+    taskObj        = { name: taskName, expected_date: taskDate, domain_id: domainId, relation: relation, domain_group_identity: domain_group_identity }
     taskObj        = JSON.stringify(taskObj)
     element        = "<li class='list-group-item' style='padding-bottom: 11px;'>#{taskNameOrign}#{deleteLink} <input name='task[]' type='hidden' value='#{taskObj}'></li>"
 
@@ -289,5 +291,29 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
           if $("##{task.id} span.checkbox").length == 0
             $("##{task.id} label.check_boxes").hide()
 
+  _handleFormSubmit = ->
+    submitText = $('#case-note-submit-btn').val()
+    $(document).on 'submit', 'form#case-note-form', (e) ->
+      inValidate = false
+      $.each $("select.required, input.required:not('#task_completion_date'), #case_note_note, #case_note_meeting_date, #case_note_interaction_type"), (index, element)->
+        value = $(element).val()
+        $(".#{element.id}").removeClass('has-error')
+        if _.isEmpty(value)
+          if ['case_note_meeting_date', 'case_note_interaction_type'].includes(element.id)
+            $(".#{element.id}").addClass('has-error')
+          else
+            $(element).parent().addClass('has-error')
+          inValidate = true
+
+      if inValidate
+        setTimeout (->
+          $('#case-note-submit-btn').removeAttr('disabled')
+          $('#case-note-submit-btn').val(submitText)
+          return
+        ), 500
+        e.preventDefault()
+        return false
+
+      return true
 
   { init: _init }

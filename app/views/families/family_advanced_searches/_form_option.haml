@@ -4,6 +4,14 @@
   %label **
 .well
   .row
+    .col-xs-12{ class: current_setting.try(:enable_hotline) ? 'col-md-3' : 'col-md-4' }
+      #quantitative-type
+        .row
+          .col-xs-12
+            .form-group
+              -# = check_box_tag :nil, '1', quantitative_check, { class: 'i-checks quantitative-type-checkbox', id: 'quantitative-type-checkbox' }
+              = check_box_tag :nil, '1', quantitative_check, { class: 'i-checks quantitative-type-checkbox', id: 'quantitative-type-checkbox' }
+              %label= t('.quantitative')
     .col-xs-12.col-md-4
       .custom-form-wrapper
         .row
@@ -15,5 +23,27 @@
           .col-xs-12
             .form-group#custom-form-data{ data: { value: custom_form_values } }
               = select_tag(:nil, options_for_select(@custom_fields.pluck(:form_title, :id), custom_form_values), { multiple: true, class: 'form-control custom-form-select', id: 'custom-form-select' } )
-
-#opt-group-translation{ data: { basic_fields: t('.basic_fields'), custom_form: t('.custom_form') } }
+    .col-xs-12{ class: current_setting.try(:enable_hotline) ? 'col-md-3' : 'col-md-4' }
+      .program-stream-wrapper
+        .row
+          .col-xs-12
+            .form-group
+              = check_box_tag :nil, '1', program_stream_values.present?, { class: 'i-checks program-stream-checkbox', id: 'program-stream-checkbox' }
+              %label= t('.program_stream')
+        .row.program-stream
+          .col-xs-12
+            .form-group#program-stream-data{ data: { value: program_stream_values } }
+              = select_tag(:nil, options_for_select(@program_streams.pluck(:name, :id), program_stream_values), { multiple: true, id: 'program-stream-select', class: 'form-control program-stream-select' } )
+        .row
+          .col-xs-12
+            .program-association
+              .form-group
+                = check_box_tag :nil, '1', enrollment_check, { class: 'i-checks enrollment-checkbox', id: 'enrollment-checkbox' }
+                %label= t('.enrollment')
+              .form-group
+                = check_box_tag :nil, '1', tracking_check, { class: 'i-checks tracking-checkbox', id: 'tracking-checkbox' }
+                %label= t('.tracking')
+              .form-group
+                = check_box_tag :nil, '1', exit_form_check, { class: 'i-checks exit-form-checkbox', id: 'exit-form-checkbox' }
+                %label= t('.exit_program')
+#opt-group-translation{ data: { enrollment: t('.enrollment'), tracking: t('.tracking'), exit_program: t('.exit_program'), basic_fields: t('.basic_fields'), custom_form: t('.custom_form'), quantitative: t('.quantitative') } }

@@ -1,14 +1,14 @@
 module AdvancedSearches
   class CustomFields
-
     include AdvancedSearchHelper
-
-    def initialize(custom_form_ids)
+    attr_reader :attach_with
+    def initialize(custom_form_ids, attach_with = 'Client')
       @custom_form_ids = custom_form_ids
       @number_type_list     = []
       @text_type_list       = []
       @date_type_list       = []
       @drop_down_type_list  = []
+      @attach_with          = attach_with
 
       generate_field_by_type
     end
@@ -25,10 +25,13 @@ module AdvancedSearches
     end
 
     def generate_field_by_type
-      @custom_fields = CustomField.where(id: @custom_form_ids)
+      if attach_with == 'Community'
+        @custom_fields = CustomField.where(id: @custom_form_ids, entity_type: attach_with)
+      else
+        @custom_fields = CustomField.where(id: @custom_form_ids)
+      end
 
       @custom_fields.each do |custom_field|
-
         custom_field.fields.each do |json_field|
           json_field['label'] = json_field['label'].gsub('&amp;', '&').gsub('&lt;', '<').gsub('&gt;', '>')
           if json_field['type'] == 'text' || json_field['type'] == 'textarea'
@@ -48,6 +51,7 @@ module AdvancedSearches
     end
 
     private
+
     def format_label(value)
       value.split('__').last
     end

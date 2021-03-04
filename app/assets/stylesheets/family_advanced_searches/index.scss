@@ -1,0 +1,112 @@
+body[id='family_advanced_searches-index'] {
+  #family-advance-search-form {
+    margin-top: 16px;
+  }
+
+  select#select-custom-form {
+    width: 180px;
+  }
+
+  li.select2-disabled div:hover {
+    cursor: not-allowed;
+  }
+
+  .btn-export {
+    margin-top: 0;
+  }
+
+  .btn-group.group-actions {
+    button[data-add='rule'] {
+      background-color: #1ab394;
+      border-color: #1ab394;
+      color: #FFFFFF;
+    }
+    button {
+      margin-right: 5px;
+    }
+  }
+
+  .rule-container {
+    border-radius: 0;
+    padding: 10px;
+    margin: 5px 0;
+  }
+
+  .rule-operator-container {
+    select {
+      width: 180px;
+    }
+  }
+
+  .rule-value-container {
+    border-left: none;
+    select, input {
+      width: 180px;
+    }
+    input.form-control {
+      padding: 6px 12px;
+    }
+  }
+
+  .order {
+    display: inline-block;
+    float: right;
+  }
+
+  .basic-filter-error, .custom-form-error {
+    color: red;
+    display: none;
+  }
+
+  .custom-form, .program-stream, .selected-custom-form, .program-association {
+    display: none;
+  }
+
+  .program-association, .program-stream {
+    margin-left: 16px;
+  }
+
+  th.form-builder, td.form-builder {
+    min-width: 480px;
+  }
+
+  .checkbox-margin {
+    padding-left: 18px;
+  }
+
+  .disabled-column {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  table.familys.table tr th {
+    cursor: default;
+  }
+
+  .csi-header, .referee-header, .carer-header, .type-of-service-header, .hotline-call-header {
+    padding: 5px 16px;
+    strong {
+      font-size: 13px;
+    }
+  }
+
+  th.domain-scores, td.domain-scores {
+    min-width: 200px;
+  }
+
+  .modal#save-query {
+    .modal-footer {
+      text-align: left;
+    }
+    .btn-cancel {
+      margin: 10px 10px 10px 0;
+    }
+  }
+
+  .nav-tabs {
+    margin-bottom: 10px;
+    li.active a {
+      border-bottom-color: #fff;
+    }
+  }
+}

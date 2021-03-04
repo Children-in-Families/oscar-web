@@ -51,74 +51,80 @@ module FamiliesHelper
     end
   end
 
-  def columns_family_visibility(column)
-    label_column = {
-      name:                                     t('datagrid.columns.families.name'),
-      id:                                       t('datagrid.columns.families.id'),
-      code:                                     t('datagrid.columns.families.code'),
-      family_type:                              t('datagrid.columns.families.family_type'),
-      status:                                   t('datagrid.columns.families.status'),
-      gender:                                   t('activerecord.attributes.family_member.gender'),
-      date_of_birth:                            t('datagrid.columns.families.date_of_birth'),
-      case_history:                             t('datagrid.columns.families.case_history'),
-      address:                                  t('datagrid.columns.families.address'),
-      significant_family_member_count:          t('datagrid.columns.families.significant_family_member_count'),
-      male_children_count:                      t('datagrid.columns.families.male_children_count'),
-      province_id:                              t('datagrid.columns.families.province'),
-      district_id:                              t('datagrid.columns.families.district'),
-      commune_id:                               t('datagrid.columns.families.commune'),
-      village_id:                               t('datagrid.columns.families.village'),
-      street:                                   t('datagrid.columns.families.street'),
-      house:                                    t('datagrid.columns.families.house'),
-      dependable_income:                        t('datagrid.columns.families.dependable_income'),
-      male_adult_count:                         t('datagrid.columns.families.male_adult_count'),
-      household_income:                         t('datagrid.columns.families.household_income'),
-      contract_date:                            t('datagrid.columns.families.contract_date'),
-      caregiver_information:                    t('datagrid.columns.families.caregiver_information'),
-      changelog:                                t('datagrid.columns.families.changelog'),
-      case_workers:                             t('datagrid.columns.families.case_workers'),
-      manage:                                   t('datagrid.columns.families.manage'),
-      direct_beneficiaries_:                    t('datagrid.columns.families.direct_beneficiaries')
+  def additional_columns
+    {
+      date_of_custom_assessments: I18n.t('datagrid.columns.date_of_custom_assessments', assessment: I18n.t('families.show.assessment')),
+      all_custom_csi_assessments: I18n.t('datagrid.columns.all_custom_csi_assessments', assessment: I18n.t('families.show.assessment')),
+      assessment_completed_date: I18n.t('datagrid.columns.assessment_completed_date', assessment: I18n.t('families.show.assessment'))
     }
+  end
+
+  def columns_family_visibility(column)
+    label_column = map_family_field_labels
     label_tag "#{column}_", label_column[column.to_sym]
   end
 
   def default_family_columns_visibility(column)
-    label_column = {
-      address_:                                  t('datagrid.columns.families.address'),
-      province_id_:                              t('datagrid.columns.families.province'),
-      district_id_:                              t('datagrid.columns.families.district'),
-      commune_id_:                               t('datagrid.columns.families.commune'),
-      village_id_:                               t('datagrid.columns.families.village'),
-      street_:                                   t('datagrid.columns.families.street'),
-      house_:                                    t('datagrid.columns.families.house'),
-      caregiver_information_:                    t('datagrid.columns.families.caregiver_information'),
-      case_history_:                             t('datagrid.columns.families.case_history'),
-      clients_:                                  t('datagrid.columns.families.clients'),
-      case_workers_:                             t('datagrid.columns.families.case_workers'),
-      changelog_:                                t('datagrid.columns.families.changelogs'),
-      code_:                                     t('datagrid.columns.families.code'),
-      contract_date_:                            t('datagrid.columns.families.contract_date'),
-      dependable_income_:                        t('datagrid.columns.families.dependable_income'),
-      family_type_:                              t('datagrid.columns.families.family_type'),
-      status_:                                   t('datagrid.columns.families.status'),
-      gender_:                                   t('activerecord.attributes.family_member.gender'),
-      date_of_birth_:                            t('datagrid.columns.families.date_of_birth'),
-      female_adult_count_:                       t('datagrid.columns.families.female_adult_count'),
-      female_children_count_:                    t('datagrid.columns.families.female_children_count'),
-      household_income_:                         t('datagrid.columns.families.household_income'),
-      id_:                                       t('datagrid.columns.families.id'),
-      male_adult_count_:                         t('datagrid.columns.families.male_adult_count'),
-      male_children_count_:                      t('datagrid.columns.families.male_children_count'),
-      manage_:                                   t('datagrid.columns.families.manage'),
-      member_count_:                             t('datagrid.columns.families.member_count'),
-      name_:                                     t('datagrid.columns.families.name'),
-      significant_family_member_count_:          t('datagrid.columns.families.significant_family_member_count'),
-      direct_beneficiaries_:                     t('datagrid.columns.families.direct_beneficiaries')
-    }
-    label_tag "#{column}_", label_column[column.to_sym]
+    label_column = map_family_field_labels.map { |k, v| ["#{k}_", v] }.to_h
+    label_tag "#{column}_", label_column[column]
   end
 
+  def map_family_field_labels
+    {
+      active_families:                          I18n.t('datagrid.columns.families.active_families'),
+      name:                                     I18n.t('datagrid.columns.families.name'),
+      name_en:                                  I18n.t('datagrid.columns.families.name_en'),
+      id:                                       I18n.t('datagrid.columns.families.id'),
+      code:                                     I18n.t('datagrid.columns.families.code'),
+      id_poor:                                  I18n.t('datagrid.columns.families.id_poor'),
+      family_type:                              I18n.t('datagrid.columns.families.family_type'),
+      status:                                   I18n.t('datagrid.columns.families.status'),
+      gender:                                   I18n.t('activerecord.attributes.family_member.gender'),
+      date_of_birth:                            I18n.t('datagrid.columns.families.date_of_birth'),
+      follow_up_date:                           I18n.t('datagrid.columns.families.follow_up_date'),
+      case_history:                             I18n.t('datagrid.columns.families.case_history'),
+      address:                                  I18n.t('datagrid.columns.families.address'),
+      phone_number:                             I18n.t('datagrid.columns.families.phone_number'),
+      significant_family_member_count:          I18n.t('datagrid.columns.families.significant_family_member_count'),
+      male_children_count:                      I18n.t('datagrid.columns.families.male_children_count'),
+      province:                                 I18n.t('datagrid.columns.families.province'),
+      province_id:                              I18n.t('datagrid.columns.families.province_id'),
+      district:                                 I18n.t('datagrid.columns.families.district'),
+      district_id:                              I18n.t('datagrid.columns.families.district_id'),
+      commune:                                  I18n.t('datagrid.columns.families.commune'),
+      commune_id:                               I18n.t('datagrid.columns.families.commune_id'),
+      village:                                  I18n.t('datagrid.columns.families.village'),
+      village_id:                               I18n.t('datagrid.columns.families.village_id'),
+      received_by:                              I18n.t('datagrid.columns.families.received_by'),
+      received_by_id:                           I18n.t('datagrid.columns.families.received_by_id'),
+      followed_up_by_id:                        I18n.t('datagrid.columns.families.followed_up_by_id'),
+      referral_source_id:                       I18n.t('datagrid.columns.families.referral_source_id'),
+      referral_source_category_id:              I18n.t('datagrid.columns.families.referral_source_category_id'),
+      street:                                   I18n.t('datagrid.columns.families.street'),
+      house:                                    I18n.t('datagrid.columns.families.house'),
+      dependable_income:                        I18n.t('datagrid.columns.families.dependable_income'),
+      male_adult_count:                         I18n.t('datagrid.columns.families.male_adult_count'),
+      household_income:                         I18n.t('datagrid.columns.families.household_income'),
+      contract_date:                            I18n.t('datagrid.columns.families.contract_date'),
+      initial_referral_date:                    I18n.t('datagrid.columns.families.initial_referral_date'),
+      caregiver_information:                    I18n.t('datagrid.columns.families.caregiver_information'),
+      changelog:                                I18n.t('datagrid.columns.families.changelog'),
+      case_workers:                             I18n.t('datagrid.columns.families.case_workers'),
+      case_note_date:                           I18n.t('advanced_search.fields.case_note_date'),
+      case_note_type:                           I18n.t('advanced_search.fields.case_note_type'),
+      female_children_count:                    I18n.t('datagrid.columns.families.female_children_count'),
+      female_adult_count:                       I18n.t('datagrid.columns.families.female_adult_count'),
+      male_children_count:                      I18n.t('datagrid.columns.families.male_children_count'),
+      clients:                                  I18n.t('datagrid.columns.families.clients'),
+      client_id:                                I18n.t('datagrid.columns.families.client'),
+      manage:                                   I18n.t('datagrid.columns.families.manage'),
+      program_streams:                          I18n.t('datagrid.columns.families.program_streams'),
+      program_enrollment_date:                  I18n.t('datagrid.columns.clients.program_enrollment_date'),
+      program_exit_date:                        I18n.t('datagrid.columns.clients.program_exit_date'),
+      direct_beneficiaries:                     I18n.t('datagrid.columns.families.direct_beneficiaries'),
+      **additional_columns
+    }
+  end
 
   def merged_address_family(object)
     current_address = []
@@ -251,5 +257,9 @@ module FamiliesHelper
     else
       column.header.truncate(65)
     end
+  end
+
+  def family_saved_search_column_visibility(field_key)
+    default_setting(field_key, @default_columns) || params[field_key.to_sym].present? || (@visible_fields && @visible_fields[field_key]).present?
   end
 end

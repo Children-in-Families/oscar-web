@@ -138,6 +138,12 @@
               %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit
                 %strong.count-margin= @client.assessments.count
                 = t('.assessment')
+          - if enable_any_csi_tools?
+            = link_to client_care_plans_path(@client), data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.clients.care_plans.button', care_plan: t('clients.show.care_plan') )}", placement: "auto" } do
+              %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit
+                %strong.count-margin= @client.care_plans.count
+                = t('.care_plan')
+
           - if (can? :manage, CaseNote) || (can? :edit, CaseNote)
             %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit{ class: ('disabled' unless case_notes_readable?), data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.clients.case_notes.button')}", placement: "auto" } }
               = link_to_if case_notes_readable?, "#{@client.case_notes.count} #{t('clients.form.case_note')}", client_case_notes_path(@client)

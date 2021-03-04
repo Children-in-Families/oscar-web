@@ -258,21 +258,7 @@
                   = label_tag 'all_csi_assessments_', t('datagrid.columns.all_csi_assessments', assessment: t('clients.show.assessment'))
             = render partial: 'datagrid/domain_score_columns_picker', collection: Domain.csi_domains.order_by_identity, as: :domain
           - if enable_custom_assessment?
-            %li.csi-header
-              %strong= t('.custom_csi_domain_scores')
-            %li
-              .visibility.col-sm-12
-                = check_box_tag 'date_of_custom_assessments_', 'date_of_custom_assessments', checked = saved_search_column_visibility('date_of_custom_assessments_'), class: 'i-checks'
-                = label_tag 'date_of_custom_assessments_', t('datagrid.columns.date_of_custom_assessments', assessment: t('clients.show.assessment'))
-            %li
-              .visibility.col-sm-12
-                = check_box_tag 'date_of_custom_assessments_', 'date_of_custom_assessments', checked = saved_search_column_visibility('date_of_custom_assessments_'), class: 'i-checks'
-                = label_tag 'date_of_custom_assessments_', t('datagrid.columns.assessment_completed_date', assessment: t('clients.show.assessment'))
-            %li
-              .visibility.col-sm-12
-                = check_box_tag 'all_custom_csi_assessments_', 'all_custom_csi_assessments', checked = saved_search_column_visibility('all_custom_csi_assessments_'), class: 'i-checks'
-                = label_tag 'all_custom_csi_assessments_', t('datagrid.columns.all_custom_csi_assessments', assessment: t('clients.show.assessment'))
-            = render partial: 'datagrid/domain_score_columns_picker', collection: Domain.custom_csi_domains.order_by_identity, as: :domain
+            = render partial: 'datagrid/custom_domain_score', locals: { custom_domains: Domain.custom_csi_domains.order_by_identity }
 
           - if Service.count > 0
             %li.type-of-service-header
@@ -370,6 +356,29 @@
               .visibility.col-sm-12
                 = check_box_tag 'direct_beneficiaries_', 'direct_beneficiaries', checked = default_setting('direct_beneficiaries_', @default_columns) || params[:direct_beneficiaries_].present?, class: 'i-checks'
                 = label_tag 'direct_beneficiaries_', t('datagrid.columns.families.direct_beneficiaries')
+
+            #referral-data
+              - quantitative_fields = @quantitative_fields.map { |quantitative_field|  quantitative_field.slice(:id, :field) }
+              - quantitative_fields.each do |quantitative_type|
+                - quantitative_type_id = quantitative_type[:id]
+                - quantitative_type_name = quantitative_type[:field]
+                - next unless quantitative_type_readable?(quantitative_type_id[/\d+/])
+                %li
+                  .visibility.col-sm-12
+                    = check_box_tag "#{quantitative_type_name}_", quantitative_type_name, checked = default_setting("#{quantitative_type_name}_", @default_columns) || params["#{quantitative_type_name}_"].present?, class: 'i-checks'
+                    = label_tag "#{quantitative_type_name}_", quantitative_type_name
+
+          - unless current_setting.hide_family_case_management_tool?
+            %li
+              .visibility.col-sm-12
+                = check_box_tag 'case_note_date_', 'case_note_date', checked = family_saved_search_column_visibility('case_note_date_'), class: 'i-checks'
+                = label_tag 'case_note_date_', t('datagrid.columns.case_note_date')
+            %li
+              .visibility.col-sm-12
+                = check_box_tag 'case_note_type_', 'case_note_type', checked = family_saved_search_column_visibility('case_note_type_'), class: 'i-checks'
+                = label_tag 'case_note_type_', t('datagrid.columns.case_note_type')
+            = render partial: 'datagrid/family_custom_domain_score', locals: { custom_domains: Domain.family_custom_csi_domains.order_by_identity }
+
           %li.divider.col-xs-12
           %li
             .visibility.col-sm-12
@@ -379,6 +388,68 @@
             .visibility.col-sm-12
               = check_box_tag 'changelog_', 'changelog', checked = default_setting('changelog_', @default_columns) || params[:changelog_].present?, class: 'i-checks'
               = label_tag 'changelog_', t('datagrid.columns.families.changelog')
+  - elsif controller_name == 'communities'
+    %ul.check-columns-visibility{ 'aria-labelledby': 'dropdownMenuDivider' }
+      %li.dropdown
+        %a.dropdown-toggle.btn.btn-default{ href: '#', data: { toggle: 'dropdown', trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.select_columns')}", placement: "right" } }
+          = t('datagrid.columns.select_columns')
+          %span.caret
+        .float-right.pull-right
+          %span.p-xs.b-r-sm.btn.btn-sm.btn-default{ data: { toggle: 'popover', trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.overdue_filter_checkboxes')}", placement: "auto" } }
+            = check_box_tag 'no_case_note_check_box', 'no_case_note_check_box', checked = check_params_no_case_note, class: 'i-checks'
+            %label=t('.no_case_note')
+          %span.p-xs.b-r-sm.m-l.btn.btn-sm.btn-default{ data: { toggle: 'popover', trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.overdue_filter_checkboxes')}", placement: "auto" } }
+            = check_box_tag 'overdue-forms', 'overdue-forms', checked = check_params_has_over_forms, class: 'i-checks'
+            %label=t('.has_overdue_forms')
+          - if enable_any_csi_tools?
+            %span.p-xs.b-r-sm.m-l.btn.btn-sm.btn-default{ data: { toggle: 'popover', trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.overdue_filter_checkboxes')}", placement: "auto" } }
+              = check_box_tag 'overdue-assessment', 'overdue-assessment', checked = check_params_has_over_assessment, class: 'i-checks'
+              %label=t('.has_overdue_assessment', assessment: t('clients.show.assessment'))
+          %span.p-xs.b-r-sm.m-l.btn.btn-sm.btn-default{ data: { toggle: 'popover', trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.overdue_filter_checkboxes')}", placement: "auto" } }
+            = check_box_tag 'overdue-task', 'overdue-task', checked = check_params_has_overdue_task, class: 'i-checks'
+            %label=t('.has_overdue_task')
+
+        %ul.dropdown-menu.columns-visibility
+          %li
+            .all-visibility.col-sm-12
+              = check_box_tag 'all_', 'all', checked = params['all_'].present? || saved_search_column_visibility('all_'), class: 'i-checks all_'
+              = label_tag 'all_' do
+                %strong= t('datagrid.columns.show_all')
+
+          - community_grid_columns.each do |k, header_name|
+            - next if k == :assessments_due_to || k == :no_case_note || k == :overdue_task || k == :overdue_forms
+            - next if controller_name == 'clients' && !policy(Client).show?(k.to_s)
+
+            - unless selected_country == 'cambodia'
+              - next if k.in?([:commune, :village, :street_number, :house_number, :current_address])
+
+            - unless selected_country.in?(['cambodia', 'thailand'])
+              - next if k.in?([:province_id, :birth_province_id, :district])
+
+            %li{ id: k.to_s }
+              .visibility.col-sm-12
+                = check_box_tag "#{k}_", k, checked = selected_commuity_column("#{k}_"), class: 'i-checks'
+                = header_name
+
+          #referral-data
+            - quantitative_fields = @quantitative_fields.map { |quantitative_field|  quantitative_field.slice(:id, :field) }
+            - quantitative_fields.each do |quantitative_type|
+              - quantitative_type_id = quantitative_type[:id]
+              - quantitative_type_name = quantitative_type[:field]
+              - next unless quantitative_type_readable?(quantitative_type_id[/\d+/])
+              %li
+                .visibility.col-sm-12
+                  = check_box_tag "#{quantitative_type_name}_", quantitative_type_name, checked = default_setting("#{quantitative_type_name}_", @default_columns) || params["#{quantitative_type_name}_"].present?, class: 'i-checks'
+                  = label_tag "#{quantitative_type_name}_", quantitative_type_name
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'manage_', 'manage', checked =  default_setting('manage_', @default_columns) || params[:manage_].present?, class: 'i-checks'
+              = label_tag 'manage_', t('datagrid.columns.manage')
+          / %li
+          /   .visibility.col-sm-12
+          /     = check_box_tag 'changelog_', 'changelog', checked =  default_setting('changelog_', @default_columns) || params[:changelog_].present?, class: 'i-checks'
+          /     = label_tag 'changelog_', t('datagrid.columns.changelog')
+
   #filter_form
     %hr/
     .row
@@ -400,4 +471,5 @@
           = f.submit I18n.t('datagrid.form.search').html_safe, class: 'btn btn-primary datagrid-submit', id: 'client-grid-search-btn'
           - empty_parameter = Rails.version >= '4.1.0' && Rails.version <= '4.1.2' ? nil : {}
           - grid_path = grid.to_param == 'client_grid' ? clients_url : url_for(grid.to_param => empty_parameter)
+          - grid_path = grid.to_param == 'family_grid' ? families_url : grid_path
           = link_to I18n.t('datagrid.form.reset').html_safe, grid_path, :class => 'btn btn-default btn-outline datagrid-reset', data: controller_name == 'clients' && { toggle: 'popover', trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.reset')}", placement: "right" }

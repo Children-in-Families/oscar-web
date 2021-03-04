@@ -1,0 +1,26 @@
+- attachments = ad.object.attachments
+- if attachments.present?
+  .row
+    .col-xs-12
+      .table-responsive
+        %table.table.table-bordered.table-hover.attachment-table
+          %tbody.assessment_domain
+            - attachments.each_with_index do |attachment, index|
+              %tr.row-file
+                %td.image-title.vert-align
+                  = original_filename(attachment)
+                %td.vert-align
+                  = link_to preview_or_download(attachment), attachment.url, class: 'btn btn-info btn-sm btn-download', target: target_blank(attachment)
+
+                - unless readonly
+                  %td.vert-align.text-center
+                    .delete.fa.fa-trash.btn.btn-outline.btn-danger{ data: { url: (family_assessment_path(@assessment.family, @assessment, assessment_domain: ad.object, file_index: index)), comfirm: t('assessments.attachment_fields.are_you_sure') }}
+
+- unless readonly
+  .row
+    .col-xs-12
+      = ad.input :attachments, label: t('assessments.attachment_fields.attachments'), as: :file, input_html: { multiple: true }
+  %p
+    %i.small="#{t('assessments.attachment_fields.allow_file_size')} (.jpg, .jpeg, .png, .doc, .docx, .xls, .xlsx, .pdf)"
+  %p
+    %i.small= t('assessments.attachment_fields.max_file_size')

@@ -75,6 +75,7 @@ gem 'globalize', '~> 5.1.0'
 gem 'enumerize', '~> 2.3.1'
 gem 'ulid',                   '~> 1.2'
 gem 'aws-healthcheck'
+gem 'redis-session-store',    '~> 0.11.3'
 
 group :development, :test do
   gem 'pry'

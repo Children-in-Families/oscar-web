@@ -17,11 +17,11 @@ class EnrollmentTracking < ActiveRecord::Base
   after_save :create_entity_enrollment_tracking_history
 
   # may be used later in family grid
-  # def self.properties_by(value, object=nil)
-  #   value = value.gsub(/\'+/, "''")
-  #   field_properties = select("client_enrollment_trackings.id, client_enrollment_trackings.properties ->  '#{value}' as field_properties").collect(&:field_properties)
-  #   field_properties.select(&:present?)
-  # end
+  def self.properties_by(value, object=nil)
+    value = value.gsub(/\'+/, "''")
+    field_properties = select("enrollment_trackings.id, enrollment_trackings.properties ->  '#{value}' as field_properties").collect(&:field_properties)
+    field_properties.select(&:present?)
+  end
 
   def get_form_builder_attachment(value)
     form_builder_attachments.find_by(name: value)

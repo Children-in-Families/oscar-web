@@ -2,14 +2,16 @@ module AdvancedSearches
   class QuantitativeCaseFields
     include AdvancedSearchHelper
 
-    def initialize(user)
+    attr_reader :visible_on
+    def initialize(user, visible_on = 'client')
       @user = user
+      @visible_on = visible_on
     end
 
     def render
       opt_group = format_header('quantitative')
       if @user.admin? || @user.strategic_overviewer?
-        quantitative_types = QuantitativeType.includes(:quantitative_cases)
+        quantitative_types = QuantitativeType.includes(:quantitative_cases).where('quantitative_types.visible_on LIKE ?', "%#{visible_on}%")
       else
         quantitative_type_ids = @user.quantitative_type_permissions.readable.pluck(:quantitative_type_id)
         quantitative_types = QuantitativeType.includes(:quantitative_cases).where(id: quantitative_type_ids)
@@ -20,7 +22,7 @@ module AdvancedSearches
           qt.name,
           quantitative_cases(qt),
           opt_group
-          )
+        )
       end
 
       quantitative_cases.sort_by { |f| f[:label].downcase }

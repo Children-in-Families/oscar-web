@@ -16,7 +16,6 @@
         %button.case-note-domain-score{ 'data-original-title': "#{simple_format(ad.score_definition)}", type: 'button', class: "btn btn-#{ad.score_color_class} btn-sm", 'data-toggle': 'tooltip' }
           = "#{domain.name}: #{domain.identity}"
 
-
   .ibox-content
     .row
       .col-xs-12
@@ -29,8 +28,6 @@
           .panel{ class: "panel-#{assessment_domain.score_color_class} task-domain-#{domain.id} #{!selected_domain_group(domain_note.object) && hidden_class(tasks, assessment_domain.goal?)}" }
             .panel-heading
               %strong
-                = "#{assessment_domain.domain.name} #{t('.goal')} -"
-              - if assessment_domain.present? && assessment_domain.goal?
-                = assessment_domain.goal
+                = "#{assessment_domain.domain.name} #{t('.goal')}"
 
             = render 'tasks_list', { domain_note: domain_note, domain: domain, tasks: tasks }

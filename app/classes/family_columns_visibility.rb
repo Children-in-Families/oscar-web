@@ -1,43 +1,13 @@
 class FamilyColumnsVisibility
+  include FamiliesHelper
+
   def initialize(grid, params)
     @grid   = grid
     @params = params
   end
 
   def columns_collection
-    {
-      name_: :name,
-      code_: :code,
-      id_: :id,
-      family_type_: :family_type,
-      status_: :status,
-      case_history_: :case_history,
-      address_: :address,
-      member_count_: :member_count,
-      caregiver_information_: :caregiver_information,
-      household_income_: :household_income,
-      dependable_income_: :dependable_income,
-      case_worker_: :case_worker,
-      significant_family_member_count_: :significant_family_member_count,
-      contract_date_: :contract_date,
-      province_id_: :province,
-      district_id_: :district,
-      house_: :house,
-      street_: :street,
-      commune_id_: :commune,
-      village_id_: :village,
-      manage_: :manage,
-      changelog_: :changelog,
-      clients_: :cases,
-      case_workers_: :case_workers,
-      female_children_count_: :female_children_count,
-      male_children_count_: :male_children_count,
-      female_adult_count_: :female_adult_count,
-      male_adult_count_: :male_adult_count,
-      gender_: :gender,
-      date_of_birth_: :date_of_birth,
-      direct_beneficiaries_: :direct_beneficiaries
-    }
+    map_family_field_labels.keys.map { |family_label_key| ["#{family_label_key}_".to_sym, family_label_key] }.to_h
   end
 
   def visible_columns
@@ -53,6 +23,9 @@ class FamilyColumnsVisibility
         defualt_columns = family_default_columns
       end
     end
+    domain_score_columns.each do |key, value|
+      @grid.column_names << value if family_default(key, defualt_columns) || @params[key]
+    end
     add_custom_builder_columns.each do |key, value|
       @grid.column_names << value if family_default(key, defualt_columns) || @params[key]
     end
@@ -60,8 +33,18 @@ class FamilyColumnsVisibility
 
   private
 
-  def add_custom_builder_columns
+  def domain_score_columns
     columns = columns_collection
+    Domain.family_custom_csi_domains.order_by_identity.each do |domain|
+      identity = domain.identity
+      field = domain.convert_custom_identity
+      columns = columns.merge!("#{field}_": field.to_sym)
+    end
+    columns
+  end
+
+  def add_custom_builder_columns
+    columns = quantitative_type_columns
     if @params[:column_form_builder].present?
       @params[:column_form_builder].each do |column|
         field   = column['id']
@@ -74,5 +57,14 @@ class FamilyColumnsVisibility
   def family_default(column, setting_family_default_columns)
     return false if setting_family_default_columns.nil?
     setting_family_default_columns.include?(column.to_s) if @params.dig(:family_grid, :descending).present? || (@params[:family_advanced_search].present? && @params.dig(:family_grid, :descending).present?) || @params[:family_grid].nil? || @params[:family_advanced_search].nil?
+  end
+
+  def quantitative_type_columns
+    columns = columns_collection
+    QuantitativeType.joins(:quantitative_cases).where('quantitative_types.visible_on LIKE ?', "%family%").uniq.each do |quantitative_type|
+      field = quantitative_type.name
+      columns = columns.merge!("#{field}_": field.to_sym)
+    end
+    columns
   end
 end

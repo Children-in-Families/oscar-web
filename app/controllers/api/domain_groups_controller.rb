@@ -11,6 +11,8 @@ module Api
       domain_groups = JSON.parse(params[:domain_group_ids])
       if params[:custom] == 'true'
         Domain.where(domain_group_id: domain_groups, custom_assessment_setting_id: params['custom_assessment_setting_id']).custom_csi_domains
+      elsif params[:family] == 'true'
+        Domain.where(domain_group_id: domain_groups).family_custom_csi_domains
       else
         Domain.where(domain_group_id: domain_groups).csi_domains
       end
