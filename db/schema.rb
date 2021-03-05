@@ -1069,8 +1069,8 @@ ActiveRecord::Schema.define(version: 20210225102546) do
     t.string   "id_poor"
     t.text     "relevant_information"
     t.string   "referee_phone_number"
-    t.string   "slug",                            default: ""
     t.string   "documents",                       default: [],                     array: true
+    t.string   "slug",                            default: ""
     t.integer  "assessments_count",               default: 0,         null: false
     t.integer  "care_plans_count",                default: 0,         null: false
   end
@@ -2012,7 +2012,7 @@ ActiveRecord::Schema.define(version: 20210225102546) do
     t.datetime "deleted_at"
     t.integer  "goal_id"
     t.integer  "family_id"
-    t.datetime "expected_date"
+    t.datetime "completion_date"
     t.string   "domain_group_identity"
   end
 

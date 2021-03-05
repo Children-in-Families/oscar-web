@@ -244,10 +244,6 @@ module FamiliesHelper
     @family.name_en? ? "#{@family.name} - #{@family.name_en}" : "#{@family.name}"
   end
 
-  def family_saved_search_column_visibility(field_key)
-    default_setting(field_key, @default_columns) || params[field_key.to_sym].present? || (@visible_fields && @visible_fields[field_key]).present?
-  end
-
   def family_header_counter(grid, column)
     count = 0
     if datagrid_column_classes(grid, column) == 'direct_beneficiaries'
@@ -264,5 +260,9 @@ module FamiliesHelper
     else
       column.header.truncate(65)
     end
+  end
+
+  def family_saved_search_column_visibility(field_key)
+    default_setting(field_key, @default_columns) || params[field_key.to_sym].present? || (@visible_fields && @visible_fields[field_key]).present?
   end
 end
