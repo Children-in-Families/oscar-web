@@ -6,7 +6,7 @@ module CreateBulkTask
       task_attr['name'] = task_attr['name'].gsub('qout', '"').gsub('apos', "'")
       task_attr['taskable_id'] = parent.id
       task_attr['taskable_type'] = case_note.class.to_s
-      task_attr['expected_date'] = case_note.meeting_date.to_s
+      task_attr['expected_date'] = task_attr['expected_date']
 
       task_attr.merge('case_note_id' => parent.id.to_s, user_id: current_user.id, domain_group_identity: task_attr['domain_group_identity'].to_s)
     end
