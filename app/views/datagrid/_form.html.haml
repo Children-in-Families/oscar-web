@@ -383,7 +383,8 @@
             .visibility.col-sm-12
               = check_box_tag 'direct_beneficiaries_', 'direct_beneficiaries', checked = default_setting('direct_beneficiaries_', @default_columns) || params[:direct_beneficiaries_].present?, class: 'i-checks'
               = label_tag 'direct_beneficiaries_', t('datagrid.columns.families.direct_beneficiaries')
-         %li.divider.col-xs-12
+
+          %li.divider.col-xs-12
           %li
             .visibility.col-sm-12
               = check_box_tag 'manage_', 'manage', checked = default_setting('manage_', @default_columns) || params[:manage_].present?, class: 'i-checks'
