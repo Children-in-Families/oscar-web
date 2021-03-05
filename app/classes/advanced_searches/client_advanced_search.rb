@@ -2,7 +2,7 @@ module AdvancedSearches
   class ClientAdvancedSearch
     def initialize(basic_rules, clients, overdue_assessment = false)
       @clients                = clients
-      @basic_rules            = basic_rules
+      @basic_rules            = basic_rules.is_a?(String) ? JSON.parse(basic_rules) : basic_rules
       @overdue_assessment     = overdue_assessment
     end
 
