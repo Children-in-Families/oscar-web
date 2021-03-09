@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210225102546) do
+ActiveRecord::Schema.define(version: 20210309033131) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -308,9 +308,11 @@ ActiveRecord::Schema.define(version: 20210225102546) do
     t.integer  "client_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "deleted_at"
   end
 
   add_index "case_worker_clients", ["client_id"], name: "index_case_worker_clients_on_client_id", using: :btree
+  add_index "case_worker_clients", ["deleted_at"], name: "index_case_worker_clients_on_deleted_at", using: :btree
   add_index "case_worker_clients", ["user_id"], name: "index_case_worker_clients_on_user_id", using: :btree
 
   create_table "case_worker_communities", force: :cascade do |t|
@@ -1069,8 +1071,8 @@ ActiveRecord::Schema.define(version: 20210225102546) do
     t.string   "id_poor"
     t.text     "relevant_information"
     t.string   "referee_phone_number"
-    t.string   "documents",                       default: [],                     array: true
     t.string   "slug",                            default: ""
+    t.string   "documents",                       default: [],                     array: true
     t.integer  "assessments_count",               default: 0,         null: false
     t.integer  "care_plans_count",                default: 0,         null: false
   end
@@ -1996,7 +1998,7 @@ ActiveRecord::Schema.define(version: 20210225102546) do
 
   create_table "tasks", force: :cascade do |t|
     t.string   "name",                      default: ""
-    t.date     "expected_date"
+    t.date     "completion_date"
     t.datetime "remind_at"
     t.boolean  "completed",                 default: false
     t.integer  "user_id"
@@ -2012,7 +2014,7 @@ ActiveRecord::Schema.define(version: 20210225102546) do
     t.datetime "deleted_at"
     t.integer  "goal_id"
     t.integer  "family_id"
-    t.datetime "completion_date"
+    t.datetime "expected_date"
     t.string   "domain_group_identity"
   end
 
@@ -2039,7 +2041,10 @@ ActiveRecord::Schema.define(version: 20210225102546) do
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "position",   null: false
   end
+
+  add_index "thredded_messageboard_groups", ["name"], name: "index_thredded_messageboard_group_on_name", unique: true, using: :btree
 
   create_table "thredded_messageboards", force: :cascade do |t|
     t.string   "name",                  limit: 191,             null: false
@@ -2051,6 +2056,7 @@ ActiveRecord::Schema.define(version: 20210225102546) do
     t.integer  "messageboard_group_id"
     t.datetime "created_at",                                    null: false
     t.datetime "updated_at",                                    null: false
+    t.integer  "position",                                      null: false
   end
 
   add_index "thredded_messageboards", ["messageboard_group_id"], name: "index_thredded_messageboards_on_messageboard_group_id", using: :btree
@@ -2115,6 +2121,7 @@ ActiveRecord::Schema.define(version: 20210225102546) do
     t.string   "hash_id",      limit: 191,             null: false
     t.datetime "created_at",                           null: false
     t.datetime "updated_at",                           null: false
+    t.datetime "last_post_at"
   end
 
   add_index "thredded_private_topics", ["hash_id"], name: "index_thredded_private_topics_on_hash_id", using: :btree
@@ -2152,6 +2159,7 @@ ActiveRecord::Schema.define(version: 20210225102546) do
     t.integer  "moderation_state",                             null: false
     t.datetime "created_at",                                   null: false
     t.datetime "updated_at",                                   null: false
+    t.datetime "last_post_at"
   end
 
   add_index "thredded_topics", ["hash_id"], name: "index_thredded_topics_on_hash_id", using: :btree
