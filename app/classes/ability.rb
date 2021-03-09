@@ -56,7 +56,7 @@ class Ability
       end
 
       can :create, Family
-      can :manage, Family, id: family_ids.compact.uniq
+      can :manage, Family, id: family_ids.flatten.compact.uniq
 
     elsif user.manager?
       subordinate_users = User.where('manager_ids && ARRAY[:user_id] OR id = :user_id', { user_id: user.id }).map(&:id)
