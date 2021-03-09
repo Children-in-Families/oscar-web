@@ -136,37 +136,6 @@
               %li
                 %p= link_to custom_field.form_title, new_family_custom_field_property_path(@family, custom_field_id: custom_field)
 
-    .ibox.mini-margin
-      .ibox-title
-        %h5= "#{t('.general_info')} #{@family.name}"
-        .ibox-tools
-          %a.collapse-link
-            .btn.btn-outline.btn-primary
-              %i.fa.fa-chevron-up
-          - if can? :manage, Family
-            %small
-              = link_to edit_family_path(@family) do
-                .btn.btn-outline.btn-success
-                  %i.fa.fa-pencil
-              = remove_link(@family, { family_case: @results || 0 }, 'btn-md')
-
-      .ibox-content
-        .row.family-summary
-          .col-sm-12
-            %table.table.table-bordered
-              %tr
-                %td.spacing-first-col
-                  = t('.code')
-                %td
-                  %strong
-                    = @family.code
-              %tr
-                %td.spacing-first-col
-                  = t('.case_history')
-                %td
-                  %strong
-                    = family_case_history(@family)
-
 .ibox.mini-margin
   .ibox-title
     %h5= "#{t('.general_info')} #{@family.name}"
@@ -215,6 +184,12 @@
     .row.family-summary
       .col-sm-12
         %table.table.table-bordered
+          %tr
+            %td.spacing-first-col
+              = t('.code')
+            %td
+              %strong
+                = @family.code
           %tr
             %td.spacing-first-col
               = t('.case_history')
