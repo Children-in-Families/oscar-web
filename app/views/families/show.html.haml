@@ -137,20 +137,6 @@
     = link_to family_enrollments_path(@family), data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.families.show.enroll_program')}", placement: "auto" } do
       .btn.btn-primary.small-btn-margin.btn-sm.btn-fit= t('.program_streams')
 
-    .ibox.mini-margin
-      .ibox-title
-        %h5= "#{t('.general_info')} #{@family.name}"
-        .ibox-tools
-          %a.collapse-link
-            .btn.btn-outline.btn-primary
-              %i.fa.fa-chevron-up
-          - if can? :manage, Family
-            %small
-              = link_to edit_family_path(@family) do
-                .btn.btn-outline.btn-success
-                  %i.fa.fa-pencil
-              = remove_link(@family, { family_case: @results || 0 }, 'btn-md')
-
 .ibox.mini-margin
   .ibox-title
     %h5= "#{t('.general_info')} #{@family.name}"
@@ -199,6 +185,12 @@
     .row.family-summary
       .col-sm-12
         %table.table.table-bordered
+          %tr
+            %td.spacing-first-col
+              = t('.code')
+            %td
+              %strong
+                = @family.code
           %tr
             %td.spacing-first-col
               = t('.case_history')
