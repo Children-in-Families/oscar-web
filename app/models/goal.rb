@@ -11,5 +11,5 @@ class Goal < ActiveRecord::Base
 
   validates :description, presence: true
 
-  accepts_nested_attributes_for :tasks, reject_if:  proc { |attributes| attributes['name'].blank? &&  attributes['completion_date'].blank? }, allow_destroy: true
+  accepts_nested_attributes_for :tasks, reject_if:  proc { |attributes| attributes['name'].blank? &&  attributes['expected_date'].blank? }, allow_destroy: true
 end
