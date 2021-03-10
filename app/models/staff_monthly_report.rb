@@ -46,7 +46,7 @@ class StaffMonthlyReport
     start_date = 1.month.ago.beginning_of_month.to_date
     end_date = 1.month.ago.end_of_month.to_date
     (start_date..end_date).each do |date|
-      incomplete_today_task_histories_count = TaskHistory.where({ '$and' => [{'object.completion_date' => date}, {'object.completed' => false}, {'object.user_id': user.id}] }).group_by{|t| t.object['id'] }.size
+      incomplete_today_task_histories_count = TaskHistory.where({ '$and' => [{'object.expected_date' => date}, {'object.completed' => false}, {'object.user_id': user.id}] }).group_by{|t| t.object['id'] }.size
       due_today_tasks_count += incomplete_today_task_histories_count
     end
     return 0 if due_today_tasks_count == 0
@@ -59,7 +59,7 @@ class StaffMonthlyReport
     start_date = 1.month.ago.beginning_of_month.to_date
     end_date = 1.month.ago.end_of_month.to_date
     (start_date..end_date).each do |date|
-      incomplete_overdue_task_histories_count = TaskHistory.lte('object.completion_date' => date).where({ '$and' => [{'object.completed' => false}, {'object.user_id': user.id}] }).group_by{|t| t.object['id'] }.size
+      incomplete_overdue_task_histories_count = TaskHistory.lte('object.expected_date' => date).where({ '$and' => [{'object.completed' => false}, {'object.user_id': user.id}] }).group_by{|t| t.object['id'] }.size
       overdue_tasks_count = incomplete_overdue_task_histories_count
     end
     return 0 if overdue_tasks_count == 0
