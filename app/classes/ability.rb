@@ -47,6 +47,7 @@ class Ability
       cannot [:edit, :update], ReferralSource
       cannot :destroy, Client
       can :manage, CarePlan
+      can :manage, Enrollment
 
       family_ids = user.families.ids
       family_ids << CaseWorkerFamily.where(user_id: user.id).pluck(:family_id)
@@ -55,7 +56,7 @@ class Ability
       end
 
       can :create, Family
-      can :manage, Family, id: family_ids.compact.uniq
+      can :manage, Family, id: family_ids.flatten.compact.uniq
 
     elsif user.manager?
       subordinate_users = User.where('manager_ids && ARRAY[:user_id] OR id = :user_id', { user_id: user.id }).map(&:id)
@@ -83,6 +84,7 @@ class Ability
       can :manage, Referral
       can :manage, FamilyReferral
       can :manage, CarePlan
+      can :manage, Enrollment
 
       family_ids = user.families.ids
       family_ids += User.joins(:clients).where(id: subordinate_users).where.not(clients: { current_family_id: nil }).select('clients.current_family_id AS client_current_family_id').map(&:client_current_family_id)

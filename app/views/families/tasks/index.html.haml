@@ -23,7 +23,7 @@
                         = "#{t('.domain')}:"
                         = task.domain.name
                       %td.task-name= task.name
-                      %td.text-center.text-middle= date_format(task.completion_date)
+                      %td.text-center.text-middle= date_format(task.expected_date)
                       - if current_user.admin?
                         %td.text-center.margin-icon.text-middle
                           = link_to edit_family_task_path(@family, task) do
@@ -51,7 +51,7 @@
                         - else
                           = t("domains.domain_names.#{task.domain.name.downcase.reverse}")
                       %td= task.name
-                      %td.text-center.text-middle= date_format(task.completion_date)
+                      %td.text-center.text-middle= date_format(task.expected_date)
                       - if current_user.admin?
                         %td.text-center.margin-icon.text-middle
                           = link_to edit_family_task_path(@family, task) do
@@ -75,7 +75,7 @@
                         = "#{t('.domain')}:"
                         = task.domain.name
                       %td= task.name
-                      %td.text-center.text-middle= date_format(task.completion_date)
+                      %td.text-center.text-middle= date_format(task.expected_date)
                       - if current_user.admin?
                         %td.text-center.margin-icon.text-middle
                           = link_to edit_family_task_path(@family, task) do

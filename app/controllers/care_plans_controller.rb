@@ -34,9 +34,9 @@ class CarePlansController < AdminController
   end
 
   def edit
-    unless current_user.admin? || current_user.strategic_overviewer?
-      redirect_to root_path, alert: t('unauthorized.default') unless current_user.permission.care_plans_editable
-    end
+    # unless current_user.admin? || current_user.strategic_overviewer?
+    #   redirect_to root_path, alert: t('unauthorized.default') unless current_user.permission.care_plans_editable
+    # end
   end
 
   def update
