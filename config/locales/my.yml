@@ -4118,6 +4118,7 @@ my:
       male_children_count: အရြယ္မေရာက္ေသးေသာ ေယာက်္ားေလးအေရအတြက္
       member_count: အဖြဲ႕၀င္အေရအတြက္
       name: နာမည္
+      name_en: Head Household Name (Latin)
       'no': မဟုတ္ပါ
       occupation: အလုပ်အကိုင်
       program_streams: Enroll Family to Program Streams
