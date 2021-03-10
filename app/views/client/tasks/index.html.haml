@@ -26,7 +26,7 @@
                         - else
                           = t("domains.domain_names.#{task.domain.name.downcase.reverse}")
                       %td.task-name= task.name
-                      %td.text-center.text-middle= date_format(task.completion_date)
+                      %td.text-center.text-middle= date_format(task.expected_date)
                       - if current_user.admin?
                         %td.text-center.margin-icon.text-middle
                           = link_to edit_client_task_path(@client, task) do
@@ -54,7 +54,7 @@
                         - else
                           = t("domains.domain_names.#{task.domain.name.downcase.reverse}")
                       %td= task.name
-                      %td.text-center.text-middle= date_format(task.completion_date)
+                      %td.text-center.text-middle= date_format(task.expected_date)
                       - if current_user.admin?
                         %td.text-center.margin-icon.text-middle
                           = link_to edit_client_task_path(@client, task) do
@@ -81,7 +81,7 @@
                         - else
                           = t("domains.domain_names.#{task.domain.name.downcase.reverse}")
                       %td= task.name
-                      %td.text-center.text-middle= date_format(task.completion_date)
+                      %td.text-center.text-middle= date_format(task.expected_date)
                       - if current_user.admin?
                         %td.text-center.margin-icon.text-middle
                           = link_to edit_client_task_path(@client, task) do
