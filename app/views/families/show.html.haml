@@ -11,24 +11,24 @@
         %tr
           %td{rowspan: '4'}
           %td
-            = "#{Family.human_attribute_name(:name_en)} :"
+            = "#{t('.name_en')} :"
             %strong= @family.name_en
           %td
-            = "#{Family.human_attribute_name(:status)} :"
+            = "#{t('.status')} :"
             %span= status_style(@family.status)
         %tr
           %td
-            = "#{Family.human_attribute_name(:name)} :"
+            = "#{t('.name')} :"
             %strong= @family.name
           %td
             = "#{t('.created_by')} :"
             %strong= @family.user&.name
         %tr
           %td
-            = "#{Family.human_attribute_name(:id)} :"
+            = "#{t('.id')} :"
             %strong= @family.id
           %td
-            = "#{Family.human_attribute_name(:code)} :"
+            = "#{t('.code')} :"
             %strong= @family.code
         %tr
           %td
@@ -210,14 +210,14 @@
 
           %tr
             %td.spacing-first-col
-              = Family.human_attribute_name(:phone_number)
+              = t('.phone_number')
             %td
               %strong
                 = @family.phone_number
 
           %tr
             %td.spacing-first-col
-              = Family.human_attribute_name(:id_poor)
+              = t('.id_poor')
             %td
               %strong
                 = @family.id_poor
@@ -241,7 +241,7 @@
           - unless current_setting.hide_family_case_management_tool?
             %tr
               %td.spacing-first-col
-                = Family.human_attribute_name(:community_ids)
+                = t('.community_ids')
               %td
                 %strong
                   - community = @family.community
@@ -319,7 +319,7 @@
               %tr
                 %td.spacing-first-col
                   - if index == 0
-                    = Family.human_attribute_name(:documents)
+                    = t('.documents')
                 %td
                   = original_filename(attachment)
                   = link_to preview_or_download(attachment), attachment.url, class: 'btn btn-info btn-sm btn-download', target: target_blank(attachment)
@@ -386,7 +386,7 @@
               - if policy(FamilyMember).show?(:occupation)
                 %th= t('.occupation')
               - if policy(FamilyMember).show?(:relation)
-                %th= Family.human_attribute_name(:relation)
+                %th= t('.relation')
               - if policy(FamilyMember).show?(:guardian)
                 %th= t('.guardian')
 
