@@ -326,7 +326,7 @@ module AssessmentHelper
       end
     else
       content_tag(:nil) do
-        content_tag(:td, content_tag(:b, "#{t('.dimensions')}:"), class: "no-padding-bottom") + content_tag(:td, content_tag(:b, t("dimensions.dimensions_identies.#{ad.domain.identity}"), class: "no-padding-bottom"))
+        content_tag(:td, content_tag(:b, "#{t('dimensions.dimension_list.dimensions')}: "), class: "no-padding-bottom") + content_tag(:td, content_tag(:b, t("dimensions.dimensions_identies.#{ad.domain.identity}"), class: "no-padding-bottom"))
       end
     end
   end
