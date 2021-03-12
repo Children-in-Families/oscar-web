@@ -1223,6 +1223,7 @@ my:
         completion_date: အၿပီးသတ္သည့္ ရက္စြဲ
         domain: ဒိုမိန္း
         enter_task_detail: လုပ္ငန္းအေသးစိတ္ကို ထည့္သြင္းရန္
+        expected_date:  မျှော်လင့်ထားသည့်နေ့စွဲ
         save: သိမ္းဆည္းရန္
       form_by_assessment:
         add_task: လုပ္ငန္း ထည့္သြင္းရန္
@@ -6005,7 +6006,7 @@ my:
       successfully_updated: စစ္တမ္းကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ျဖည့္စြက္ၿပီးပါၿပီ
   tasks:
     completion_date: ၿပီးစီးသည့္ ရက္စြဲ
-    expected_date: မျှော်လင့်ထားသည့်နေ့စွဲ
+    expected_date:  မျှော်လင့်ထားသည့်နေ့စွဲ မျှော်လင့်ထားသည့်နေ့စွဲ
     filter:
       filter_by_user: အသံုးျပဳသူက ျပဳလုပ္ထားသည္ စိစစ္ခ်က္မ်ား
       select_user: အသံုးျပဳသူကို ေရြးခ်ယ္ရန္

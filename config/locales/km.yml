@@ -1226,6 +1226,7 @@ km:
         completion_date: ថ្ងៃកំនត់
         domain: កត្តា
         enter_task_detail: កាតព្វកិច្ចលំអិត
+        expected_date: កំណត់កាលបរិច្ឆេទ
         save: រក្សាទុក
       form_by_assessment:
         add_task: បន្ថែមកាតព្វកិច្ច

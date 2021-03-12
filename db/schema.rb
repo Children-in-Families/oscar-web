@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210225102546) do
+ActiveRecord::Schema.define(version: 20210309104446) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -308,20 +308,28 @@ ActiveRecord::Schema.define(version: 20210225102546) do
     t.integer  "client_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "deleted_at"
   end
 
   add_index "case_worker_clients", ["client_id"], name: "index_case_worker_clients_on_client_id", using: :btree
+  add_index "case_worker_clients", ["deleted_at"], name: "index_case_worker_clients_on_deleted_at", using: :btree
   add_index "case_worker_clients", ["user_id"], name: "index_case_worker_clients_on_user_id", using: :btree
 
   create_table "case_worker_communities", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "community_id"
+    t.integer  "user_id"
+    t.integer  "community_id"
+    t.datetime "deleted_at"
   end
 
+  add_index "case_worker_communities", ["deleted_at"], name: "index_case_worker_communities_on_deleted_at", using: :btree
+
   create_table "case_worker_families", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "family_id"
+    t.integer  "user_id"
+    t.integer  "family_id"
+    t.datetime "deleted_at"
   end
+
+  add_index "case_worker_families", ["deleted_at"], name: "index_case_worker_families_on_deleted_at", using: :btree
 
   create_table "case_worker_tasks", force: :cascade do |t|
     t.integer  "user_id"

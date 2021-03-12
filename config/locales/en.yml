@@ -1221,6 +1221,7 @@ en:
         completion_date: Completion Date
         domain: Domain
         enter_task_detail: Enter task details
+        expected_date: Expected Date
         save: Save
       form_by_assessment:
         add_task: Add Task
