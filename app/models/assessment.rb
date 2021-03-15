@@ -30,8 +30,9 @@ class Assessment < ActiveRecord::Base
 
   def set_assessment_completed
     empty_assessment_domains = []
+    setting = Setting.first
     assessment_domains.each do |assessment_domain|
-      empty_assessment_domains << assessment_domain if (assessment_domain[:score].nil? || assessment_domain[:reason].empty?)
+      empty_assessment_domains << assessment_domain if ((!setting.disable_required_fields && assessment_domain[:score].nil?) || assessment_domain[:reason].empty?)
     end
     if empty_assessment_domains.count.zero?
       self.completed = true
