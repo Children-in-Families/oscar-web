@@ -16,7 +16,7 @@
             %p
               %b= "#{t('.care_plan')} #{@care_plan.client.name}"
               %br
-              = "#{t('.care_plan_created_by')} #{whodunnit('CarePlan', @care_plan)} #{t('.on_date')} #{date_format(@care_plan.created_at)}"
+              = "#{t('.care_plan_created_by')} #{whodunnit('CarePlan', @care_plan.id)} #{t('.on_date')} #{date_format(@care_plan.created_at)}"
           .col-xl-1.button-position
             .pull-right
               = link_to client_care_plans_path(@care_plan.client), class: 'btn btn-default' do

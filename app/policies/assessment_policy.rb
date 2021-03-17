@@ -32,7 +32,7 @@ class AssessmentPolicy < ApplicationPolicy
     return true if enable_assessment && user.admin?
 
     editable_user = user.admin? ? true : user.permission&.assessments_editable
-    enable_assessment && (editable_user && !record.client&.exit_ngo? && Date.current <= record.created_at + 6.days || user.admin?)
+    enable_assessment && (editable_user && !record.client&.exit_ngo? || user.admin?)
   end
 
   alias create? new?
