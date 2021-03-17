@@ -738,13 +738,13 @@ class Client < ActiveRecord::Base
 
   def remove_family_from_case_worker
     if family
-      clients = Client.joins(:users).where(current_family_id: family.id, case_worker_clients: {user_id: family.user_id})
-      family.update_columns(user_id: nil) if clients.blank?
+      clients = Client.joins(:users).where(current_family_id: family.id, case_worker_clients: { user_id: family.user_id })
+      family.case_worker_families.destroy_all if clients.blank?
     else
       case_worker_clients.each do |case_worker_client|
         case_worker_client.user.families.each do |family|
           clients = family.clients.joins(:case_worker_clients).where(case_worker_clients: { user_id: case_worker_client&.user_id }, current_family_id: family.id).exists?
-          family.update_columns(user_id: nil) if clients.blank?
+          family.case_worker_families.destroy_all if clients.blank?
         end
       end
     end

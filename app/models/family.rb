@@ -102,7 +102,8 @@ class Family < ActiveRecord::Base
 
   def to_select2
     [
-      display_name, id, { data: {
+      display_name, id, {
+        data: {
           male_adult_count: male_adult_count,
           female_adult_count: female_adult_count,
           male_children_count: male_children_count,
