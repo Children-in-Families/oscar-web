@@ -95,6 +95,7 @@ class FamiliesController < AdminController
   end
 
   def destroy
+    @family.case_worker_families.with_deleted.each(&:destroy_fully!)
     if @family.current_clients.blank? && (@family.cases.present? && @family.cases.delete_all || true) && @family.destroy
       redirect_to families_url, notice: t('.successfully_deleted')
     else

@@ -88,8 +88,12 @@ class AssessmentsController < AdminController
         f.json { render json: { message: message }, status: '200' }
       end
     elsif @assessment.present?
-      @assessment.assessment_domains.delete_all
-      @assessment.reload.destroy
+      @assessment.transaction do
+        @assessment.goals.each do |goal|
+          goal.tasks.update_all(goal_id: nil)
+        end
+        @assessment.reload.destroy
+      end
       redirect_to client_assessments_path(@assessment.client), notice: t('.successfully_deleted_assessment')
     end
   end
