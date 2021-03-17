@@ -302,7 +302,8 @@ module ApplicationHelper
   def whodunnit(type, id)
     user_id = PaperTrail::Version.find_by(event: 'create', item_type: type, item_id: id).try(:whodunnit)
     if user_id.blank? || (user_id.present? && user_id.include?('@rotati'))
-      user_id = type.constantize.find(id).parent.user_id
+      object = type.constantize.find(id)
+      usser_id = object.has_attribute?(:user_id) ? object&.user_id : object&.parent&.user_id
       return 'OSCaR Team' unless user_id
     end
 
