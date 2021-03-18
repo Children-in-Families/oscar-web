@@ -71,15 +71,13 @@ module Families
           f.json { render json: { message: message }, status: '200' }
         end
       elsif @assessment.present?
-        # @assessment.assessment_domains.destroy_all
-        @assessment.transaction do
-          @assessment.goals.each do |goal|
-            goal.tasks.update_all(goal_id: nil)
-          end
-          @assessment.reload.destroy
+        if @assessment.destroy
+          redirect_to family_assessments_path(@assessment.family), notice: t('.successfully_deleted_assessment')
+        else
+          messages = @assessment.errors.full_messages.uniq.join('\n')
+          redirect_to [@family, @assessment], alert: messages
         end
 
-        redirect_to family_assessments_path(@assessment.family), notice: t('.successfully_deleted_assessment')
       end
     end
 

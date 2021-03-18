@@ -3,8 +3,10 @@ namespace :assessment_data_to_care_plan do
   task :move, [:short_name] => :environment do |task, args|
     Organization.all.each do |org|
       Organization.switch_to org.short_name
+      puts "starting NGO #{org.short_name}"
       Client.joins(:assessments).distinct.each do |client|
         client.assessments.completed.each do |assessment|
+          next if CarePlan.find_by(client_id: client.id, assessment_id: assessment.id).present?
           care_plan = CarePlan.create(client_id: client.id, assessment_id: assessment.id, completed: true, created_at: assessment.created_at)
           assessment.assessment_domains.each do |ad|
             if ad.goal != ""
