@@ -659,6 +659,7 @@ my:
     create:
       successfully_created: စိစစ္ခ်က္ကိုေအာင္ျမင္စြာျပဳလုပ္ၿပီးပါၿပီ။
     destroy:
+      alert: Assessment can not delete, there is an associated Care Plan with this Assessment.
       fail_delete_attachment: တြဲထားသည္ကို ဖ်က္မရ။
       successfully_deleted: တြဲထားသည္ကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ။
       successfully_deleted_assessment: Assessment has been successfully deleted.

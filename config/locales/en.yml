@@ -663,6 +663,7 @@ en:
     create:
       successfully_created: Assessment has been successfully created.
     destroy:
+      alert: Assessment can not delete, there is an associated Care Plan with this Assessment.
       fail_delete_attachment: Failed deleting attachment
       successfully_deleted: Attachment has been successfully deleted.
       successfully_deleted_assessment: Assessment has been successfully deleted.

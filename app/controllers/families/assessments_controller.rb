@@ -75,7 +75,7 @@ module Families
           redirect_to family_assessments_path(@assessment.family), notice: t('.successfully_deleted_assessment')
         else
           messages = @assessment.errors.full_messages.uniq.join('\n')
-          redirect_to [@family, @assessment], alert: messages
+          redirect_to [@family, @assessment], alert: messages[/care plan exists/] ? t('assessments.destroy.alert') : messages
         end
 
       end

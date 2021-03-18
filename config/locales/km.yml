@@ -669,6 +669,7 @@ km:
     create:
       successfully_created: ការប៉ាន់ប្រមាណត្រូវបានបង្កើតដោយជោគជ័យ
     destroy:
+      alert: Assessment can not delete, there is an associated Care Plan with this Assessment.
       fail_delete_attachment: បានបរាជ័យក្នុងការលុបឯកសារភ្ជាប់
       successfully_deleted: ឯកសារភ្ជាប់ត្រូវបានកែសម្រួលដោយជោគជ័យ
       successfully_deleted_assessment: ការប៉ាន់ប្រមាណត្រូវបានលុបដោយជោគជ័យ។
