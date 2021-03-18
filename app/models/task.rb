@@ -5,7 +5,7 @@ class Task < ActiveRecord::Base
   belongs_to :user
   belongs_to :taskable, polymorphic: true
   belongs_to :family
-  belongs_to :goal
+  belongs_to :goal, required: false
 
   has_paper_trail
   acts_as_paranoid double_tap_destroys_fully: false

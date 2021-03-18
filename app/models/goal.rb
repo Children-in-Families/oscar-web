@@ -5,7 +5,7 @@ class Goal < ActiveRecord::Base
   belongs_to :care_plan
   belongs_to :family
 
-  has_many :tasks, dependent: :destroy
+  has_many :tasks, dependent: :nullify
 
   has_paper_trail
 
