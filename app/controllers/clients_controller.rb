@@ -176,10 +176,7 @@ class ClientsController < AdminController
       @client.enter_ngos.each(&:destroy_fully!)
       @client.exit_ngos.each(&:destroy_fully!)
       @client.client_enrollments.each(&:destroy_fully!)
-      @client.assessments.delete_all
       @client.cases.delete_all
-      @client.tasks.update_all(client_id: nil)
-      @client.tasks.destroy_all
       @client.case_worker_clients.with_deleted.each(&:destroy_fully!)
       deleted = @client.reload.destroy
     end
