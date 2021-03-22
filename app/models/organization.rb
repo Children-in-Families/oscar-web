@@ -57,17 +57,25 @@ class Organization < ActiveRecord::Base
       if org
         Rake::Task.clear
         CifWeb::Application.load_tasks
-        general_data_file = Rails.root.join('lib/devdata/general.xlsx')
         service_data_file = Rails.root.join('lib/devdata/services/service.xlsx')
         Apartment::Tenant.switch(org.short_name) do
+          is_nepal = Organization.current.try(:country) == 'nepal'
+          if is_nepal
+            general_data_file = Rails.root.join('lib/devdata/general_en.xlsx')
+          else
+            general_data_file = Rails.root.join('lib/devdata/general.xlsx')
+          end
           Rake::Task['db:seed'].invoke
           ImportStaticService::DateService.new('Services', org.short_name, service_data_file).import
           Importer::Import.new('Agency', general_data_file).agencies
           Importer::Import.new('Department', general_data_file).departments
-          Importer::Import.new('Province', general_data_file).provinces
-
-          Rake::Task['communes_and_villages:import'].invoke
-          Rake::Task['communes_and_villages:import'].reenable
+          if is_nepal
+            Rake::Task['nepali_provinces:import'].invoke
+          else
+            Importer::Import.new('Province', general_data_file).provinces
+            Rake::Task['communes_and_villages:import'].invoke
+            Rake::Task['communes_and_villages:import'].reenable
+          end
           Importer::Import.new('Quantitative Type', general_data_file).quantitative_types
           Importer::Import.new('Quantitative Case', general_data_file).quantitative_cases
           Rake::Task["field_settings:import"].invoke(org.short_name)
