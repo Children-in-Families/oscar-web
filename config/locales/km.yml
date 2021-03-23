@@ -731,7 +731,7 @@ km:
       three_month_assessment: "%{assessment}ទៀងទាត់"
       view_report: ពិនិត្យរបាយការណ៍
     show:
-      are_you_sure: តើអ្នកប្រាកដហើយ?
+      are_you_sure: ប្រសិនបើអ្នកលុបការវាយតំលៃ គម្រោងថែរក្សាដែលទាក់ទងទាំងអស់ក៏នឹងត្រូវលុបចោលដែរ។ តើអ្នកប្រាកដហើយ?
       assessment_completed_by: ការប៉ាន់ប្រមាណបំពេញដោយ៖
       assessment_completed_for: ការប៉ាន់ប្រមាណសម្រាប់
       assessment_created_by: ការប៉ាន់ប្រមាណបង្កើតដោយ៖

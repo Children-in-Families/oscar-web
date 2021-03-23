@@ -8,7 +8,7 @@ class Assessment < ActiveRecord::Base
   has_many :tasks, as: :taskable, dependent: :destroy
   has_many :goals, dependent: :destroy
 
-  has_one :care_plan, inverse_of: :assessment, dependent: :restrict_with_error
+  has_one :care_plan, inverse_of: :assessment, dependent: :destroy
 
   has_paper_trail
 
