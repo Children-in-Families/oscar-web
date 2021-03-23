@@ -725,7 +725,7 @@ en:
       three_month_assessment: "3 Monthly %{assessment}"
       view_report: View Report
     show:
-      are_you_sure: Are you sure you want to delete?
+      are_you_sure: if you delete the assessments all their care plans will also be deleted. Are you sure you want to delete?
       assessment_completed_by: Assessment completed by
       assessment_completed_for: Assessment for
       assessment_created_by: Completed by

@@ -92,7 +92,7 @@ class AssessmentsController < AdminController
         redirect_to client_assessments_path(@assessment.client), notice: t('.successfully_deleted_assessment')
       else
         messages = @assessment.errors.full_messages.uniq.join('\n')
-        redirect_to [@client, @assessment], alert: messages[/care plan exists/] ? t('.alert') : messages
+        redirect_to [@client, @assessment], alert: messages
       end
     end
   end
