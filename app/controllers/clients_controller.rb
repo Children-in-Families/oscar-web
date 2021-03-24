@@ -181,6 +181,7 @@ class ClientsController < AdminController
       deleted = @client.reload.destroy
     end
     if deleted
+      Task.with_deleted.where(client_id: @client.id).each(&:destroy_fully!)
       redirect_to clients_url, notice: t('.successfully_deleted')
     else
       messages = @client.errors.full_messages.uniq.join('\n')
