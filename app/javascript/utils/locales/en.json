@@ -192,6 +192,9 @@
     "Stranger": "Stranger"
   },
   "clientRelationShip": {
+    "Husband": "Husband",
+    "Son": "Son",
+    "Daughter": "Daughter",
     "Parent": "Parent",
     "Grandparent": "Grandparent",
     "Aunt / Uncle": "Aunt / Uncle",
