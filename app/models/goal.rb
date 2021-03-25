@@ -5,11 +5,19 @@ class Goal < ActiveRecord::Base
   belongs_to :care_plan
   belongs_to :family
 
-  has_many :tasks, dependent: :nullify
+  has_many :tasks, dependent: :destroy
 
   has_paper_trail
 
   validates :description, presence: true
 
-  accepts_nested_attributes_for :tasks, reject_if:  proc { |attributes| attributes['name'].blank? &&  attributes['expected_date'].blank? }, allow_destroy: true
+  before_destroy :delete_tasks
+
+  accepts_nested_attributes_for :tasks, reject_if:  proc { |attributes| attributes['name'].blank? && attributes['expected_date'].blank? }, allow_destroy: true
+
+  private
+
+  def delete_tasks
+    tasks.with_deleted.each(&:destroy_fully!)
+  end
 end
