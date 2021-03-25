@@ -179,6 +179,7 @@ class ClientsController < AdminController
       @client.cases.delete_all
       @client.tasks.update_all(client_id: nil)
       @client.tasks.destroy_all
+      @client.case_worker_clients.each(&:destroy_fully!)
       @client.reload.destroy
     end
 

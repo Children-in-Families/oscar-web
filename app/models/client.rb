@@ -120,6 +120,7 @@ class Client < ActiveRecord::Base
 
   after_commit :remove_family_from_case_worker
   after_commit :update_related_family_member, on: :update
+  after_destroy :remove_referee
 
   scope :given_name_like,                          ->(value) { where('clients.given_name iLIKE :value OR clients.local_given_name iLIKE :value', { value: "%#{value.squish}%"}) }
   scope :family_name_like,                         ->(value) { where('clients.family_name iLIKE :value OR clients.local_family_name iLIKE :value', { value: "%#{value.squish}%"}) }
@@ -828,5 +829,9 @@ class Client < ActiveRecord::Base
     if case_worker.tasks.incomplete.exists?
       case_worker.tasks.incomplete.destroy_all
     end
+  end
+
+  def remove_referee
+    referee.destroy
   end
 end
