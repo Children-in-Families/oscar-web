@@ -21,7 +21,7 @@ module Importer
     def agencies
       ((workbook.first_row + 1)..workbook.last_row).each do |row|
         name = workbook.row(row)[headers['Name']]
-        Agency.create(
+        Agency.find_or_create_by(
           name: name
         )
       end
@@ -31,7 +31,7 @@ module Importer
       ((workbook.first_row + 1)..workbook.last_row).each do |row|
         name = workbook.row(row)[headers['Name']]
 
-        Department.create(
+        Department.find_or_create_by(
           name: name
         )
       end
@@ -41,7 +41,7 @@ module Importer
       ((workbook.first_row + 1)..workbook.last_row).each do |row|
         name = workbook.row(row)[headers['Name']]
 
-        Province.create(
+        Province.find_or_create_by(
           name: name,
           country: 'cambodia'
         )
@@ -67,7 +67,7 @@ module Importer
         name = workbook.row(row)[headers['name']]
         name_en = workbook.row(row)[headers['name_en']]
 
-        ReferralSource.create(
+        ReferralSource.find_or_create_by(
           name: name,
           name_en: name_en
         )
@@ -78,7 +78,7 @@ module Importer
       ((workbook.first_row + 1)..workbook.last_row).each do |row|
         name = workbook.row(row)[headers['Name']]
 
-        QuantitativeType.create(
+        QuantitativeType.find_or_create_by(
           name: name,
           visible_on: ['client']
         )
@@ -91,7 +91,7 @@ module Importer
         type    = workbook.row(row)[headers['Type']]
         type_id = QuantitativeType.find_by(name: type).id
 
-        QuantitativeCase.create(
+        QuantitativeCase.find_or_create_by(
           value: value,
           quantitative_type_id: type_id
         )
