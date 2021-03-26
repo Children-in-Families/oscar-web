@@ -669,6 +669,7 @@ km:
     create:
       successfully_created: ការប៉ាន់ប្រមាណត្រូវបានបង្កើតដោយជោគជ័យ
     destroy:
+      alert: Assessment can not delete, there is an associated Care Plan with this Assessment.
       fail_delete_attachment: បានបរាជ័យក្នុងការលុបឯកសារភ្ជាប់
       successfully_deleted: ឯកសារភ្ជាប់ត្រូវបានកែសម្រួលដោយជោគជ័យ
       successfully_deleted_assessment: ការប៉ាន់ប្រមាណត្រូវបានលុបដោយជោគជ័យ។
@@ -730,7 +731,7 @@ km:
       three_month_assessment: "%{assessment}ទៀងទាត់"
       view_report: ពិនិត្យរបាយការណ៍
     show:
-      are_you_sure: តើអ្នកប្រាកដហើយ?
+      are_you_sure: ប្រសិនបើអ្នកលុបការវាយតំលៃ គម្រោងថែរក្សាដែលទាក់ទងទាំងអស់ក៏នឹងត្រូវលុបចោលដែរ។ តើអ្នកប្រាកដហើយ?
       assessment_completed_by: ការប៉ាន់ប្រមាណបំពេញដោយ៖
       assessment_completed_for: ការប៉ាន់ប្រមាណសម្រាប់
       assessment_created_by: ការប៉ាន់ប្រមាណបង្កើតដោយ៖
