@@ -4,11 +4,7 @@ import "./datepicker.scss";
 
 export default (props) => {
   const formatStringToDate = (value) => {
-    if (value) {
-      return new Date(value).toLocaleDateString();
-    }
-
-    return "";
+    return value;
   };
 
   const {
@@ -71,9 +67,9 @@ export default (props) => {
       )}
       <DateInput
         className={`${(isError && "error") || ""} calendar-input`}
-        placeholder="../../...."
+        placeholder="..../../.."
         name="date"
-        dateFormat="DD/MM/YYYY"
+        dateFormat="YYYY-MM-DD"
         closable
         clearable={false}
         animation="scale"

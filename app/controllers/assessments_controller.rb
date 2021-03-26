@@ -88,9 +88,12 @@ class AssessmentsController < AdminController
         f.json { render json: { message: message }, status: '200' }
       end
     elsif @assessment.present?
-      @assessment.assessment_domains.delete_all
-      @assessment.reload.destroy
-      redirect_to client_assessments_path(@assessment.client), notice: t('.successfully_deleted_assessment')
+      if @assessment.destroy
+        redirect_to client_assessments_path(@assessment.client), notice: t('.successfully_deleted_assessment')
+      else
+        messages = @assessment.errors.full_messages.uniq.join('\n')
+        redirect_to [@client, @assessment], alert: messages
+      end
     end
   end
 

@@ -73,10 +73,6 @@ class ClientsController < AdminController
         cps_leave_programs = LeaveProgram.joins(:client_enrollment).where("client_enrollments.client_id = ?", @client.id)
         referrals = @client.referrals
         @case_histories = (enter_ngos + exit_ngos + cps_enrollments + cps_leave_programs + referrals).sort { |current_record, next_record| -([current_record.created_at, current_record.new_date] <=> [next_record.created_at, next_record.new_date]) }
-        if @client.family.present?
-          @family_grid = FamilyGrid.new
-          @family_grid = @family_grid.scope { |scope| scope.accessible_by(current_ability).where(id: @client.current_family_id) }
-        end
       end
       format.pdf do
         form        = params[:form]
@@ -171,18 +167,22 @@ class ClientsController < AdminController
   end
 
   def destroy
+    deleted = false
     @client.transaction do
       @client.enter_ngos.each(&:destroy_fully!)
       @client.exit_ngos.each(&:destroy_fully!)
       @client.client_enrollments.each(&:destroy_fully!)
-      @client.assessments.delete_all
       @client.cases.delete_all
-      @client.tasks.update_all(client_id: nil)
-      @client.tasks.destroy_all
-      @client.reload.destroy
+      @client.case_worker_clients.with_deleted.each(&:destroy_fully!)
+      deleted = @client.reload.destroy
     end
-
-    redirect_to clients_url, notice: t('.successfully_deleted')
+    if deleted
+      Task.with_deleted.where(client_id: @client.id).each(&:destroy_fully!)
+      redirect_to clients_url, notice: t('.successfully_deleted')
+    else
+      messages = @client.errors.full_messages.uniq.join('\n')
+      redirect_to @client, alert: messages
+    end
   end
 
   def quantitative_case

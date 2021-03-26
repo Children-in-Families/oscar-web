@@ -5,7 +5,7 @@ class Task < ActiveRecord::Base
   belongs_to :user
   belongs_to :taskable, polymorphic: true
   belongs_to :family
-  belongs_to :goal
+  belongs_to :goal, required: false
 
   has_paper_trail
   acts_as_paranoid double_tap_destroys_fully: false
@@ -36,7 +36,7 @@ class Task < ActiveRecord::Base
   scope :exclude_exited_ngo_clients, -> { where(client_id: Client.active_accepted_status.ids) }
 
   after_save :create_task_history
-  after_commit :save_parent_parent_id
+  after_commit :save_parent_parent_id, :on => [:create, :update]
 
   def self.of_user(user)
     where(user_id: user.id)

@@ -1,9 +1,15 @@
 namespace :nepali_provinces do
   desc "Import Nepali addesses"
-  task import: :environment do
-    Organization.switch_to 'wtmy'
+  task :import, [:tenant] => [:environment] do |task, args|
+    Apartment::Tenant.switch(args[:tenant]) if args[:tenant]
+
     Spreadsheet.client_encoding = 'UTF-8'
-    book = Spreadsheet.open Rails.root.join('vendor/data/organizations/nepal_provinces_and_districts_with_postal_code.xls')
+    if Rails.env.development?
+      book = Spreadsheet.open Rails.root.join('vendor/data/organizations/nepal_provinces_and_districts_with_postal_code.xls')
+    else
+      book = Spreadsheet.open Rails.root.join('../../shared/vendor/data/organizations/nepal_provinces_and_districts_with_postal_code.xls')
+    end
+
     book.worksheets.each_with_index do |sheet, index|
       next if index == 0
       province_name = sheet.row(0).first

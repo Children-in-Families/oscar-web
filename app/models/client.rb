@@ -81,7 +81,7 @@ class Client < ActiveRecord::Base
   has_many :government_forms, dependent: :destroy
   has_many :global_identity_organizations, class_name: 'GlobalIdentityOrganization', foreign_key: 'client_id', dependent: :destroy
 
-  has_one  :family_member
+  has_one  :family_member, dependent: :restrict_with_error
   has_one  :family, through: :family_member
 
   accepts_nested_attributes_for :tasks
@@ -207,11 +207,12 @@ class Client < ActiveRecord::Base
 
       birth_province_name = Province.find_by_code(options[:birth_province_code])
       address_hash = { cv: 1, cc: 2, cd: 3, cp: 4 }
-      result = shared_clients.compact.bsearch do |client|
+      result = shared_clients.compact.each do |client|
         client = client.split('&')
         input_name_field     = field_name_concatenate(options)
         client_name_field    = client[0].squish
         field_name = compare_matching(input_name_field, client_name_field)
+
         dob        = date_of_birth_matching(options[:date_of_birth], client.last.squish)
         addresses  = mapping_address(address_hash, results, client)
         bp         = birth_province_matching(birth_province_name, client[5].squish)
@@ -224,12 +225,12 @@ class Client < ActiveRecord::Base
     end
 
     def field_name_concatenate(options)
-      "#{options[:given_name]} #{options[:family_name]} #{options[:local_family_name]} #{options[:local_given_name]}".squish
+      "#{options[:given_name]} #{options[:family_name]} #{options[:local_given_name]} #{options[:local_family_name]}".squish
     end
 
     def mapping_address(address_hash, results, client)
       address_hash.map do |k, v|
-        client_address_matching(results[k], client[v].squish) if results[k]
+        client_address_matching(results[k], client[v].squish) if results && results[k]
       end
     end
 
@@ -656,6 +657,8 @@ class Client < ActiveRecord::Base
 
   def create_or_update_shared_client
     current_org = Organization.current
+    client_current_province = province_name
+    client_district = district_name
     client_commune = "#{self.try(&:commune_name_kh)} / #{self.try(&:commune_name_en)}"
     client_village = "#{self.try(&:village_name_kh)} / #{self.try(&:village_name_en)}"
     client = self.slice(:given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth, :telephone_number, :live_with, :slug, :archived_slug, :birth_province_id, :country_origin, :global_id, :external_id, :external_id_display, :mosvy_number, :external_case_worker_name, :external_case_worker_id)
@@ -674,7 +677,7 @@ class Client < ActiveRecord::Base
     name_field = "#{self.given_name} #{self.family_name} #{self.local_given_name} #{self.local_family_name}".squish
     client_birth_province = Province.find_by(id: self.birth_province_id).try(&:name)
 
-    client[:duplicate_checker] = "#{name_field} & #{client_village} & #{client_commune} & #{self.try(&:district_name)} & #{self.try(&:province_name)} & #{client_birth_province} & #{self.try(&:date_of_birth)}"
+    client[:duplicate_checker] = "#{name_field} & #{client_village} & #{client_commune} & #{client_district} & #{client_current_province} & #{client_birth_province} & #{self.try(&:date_of_birth)}"
     shared_client = SharedClient.find_by(archived_slug: client['archived_slug'])
     shared_client.present? ? shared_client.update(client) : SharedClient.create(client)
     Organization.switch_to current_org.short_name

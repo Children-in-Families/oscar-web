@@ -184,6 +184,9 @@
     "Stranger": "ជនចម្លែក"
   },
   "clientRelationShip": {
+    "Husband": "ប្តី",
+    "Son": "កូនប្រស",
+    "Daughter": "កូនស្រី",
     "Parent": "ឪពុកម្តាយ",
     "Grandparent": "ជីតា",
     "Aunt / Uncle": "អ្នកមីង / ​លោកពូ",

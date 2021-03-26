@@ -624,17 +624,6 @@
                         = link_to call_path(call) do
                           %button.btn.btn-outline.btn-primary.btn-xs= fa_icon('eye')
 
-- if @family_grid.present?
-  .row
-    .col-xs-12
-      .ibox.float-e-margins
-        .ibox-title
-          %h5= @results
-          %span.label.label-info= t('.results')
-        .ibox-content
-          .families-table
-            = datagrid_table @family_grid, order: false, html: { class: 'table table-bordered table-striped table-hover families'}
-
 .row
   -# = render 'placement'
   = render 'referrals/confirm_referral'
