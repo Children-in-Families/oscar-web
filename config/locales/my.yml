@@ -659,6 +659,7 @@ my:
     create:
       successfully_created: စိစစ္ခ်က္ကိုေအာင္ျမင္စြာျပဳလုပ္ၿပီးပါၿပီ။
     destroy:
+      alert: Assessment can not delete, there is an associated Care Plan with this Assessment.
       fail_delete_attachment: တြဲထားသည္ကို ဖ်က္မရ။
       successfully_deleted: တြဲထားသည္ကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ။
       successfully_deleted_assessment: Assessment has been successfully deleted.
@@ -720,7 +721,7 @@ my:
       three_month_assessment: သုံးလစဉ်အကဲဖြတ်
       view_report: အစီခံစာကို ၾကည့္ရန္
     show:
-      are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
+      are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား အကယ်၍ အကဲဖြတ်ချက်များကိုသင်ပယ်ဖျက်ပါက ၄ င်းတို့၏စောင့်ရှောက်မှုအစီအစဉ်များကိုလည်းဖျက်သိမ်းလိမ့်မည်။
       assessment_completed_by: က စိစစ္မႈကို ျဖည္ထားပါသည္။
       assessment_completed_for: အဘို့အပြီးစီးခဲ့အကဲဖြတ်
       assessment_created_by: အသုံးပြုနေသူများကဖန်တီးအကဲဖြတ်
