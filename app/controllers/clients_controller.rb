@@ -73,10 +73,6 @@ class ClientsController < AdminController
         cps_leave_programs = LeaveProgram.joins(:client_enrollment).where("client_enrollments.client_id = ?", @client.id)
         referrals = @client.referrals
         @case_histories = (enter_ngos + exit_ngos + cps_enrollments + cps_leave_programs + referrals).sort { |current_record, next_record| -([current_record.created_at, current_record.new_date] <=> [next_record.created_at, next_record.new_date]) }
-        if @client.family.present?
-          @family_grid = FamilyGrid.new
-          @family_grid = @family_grid.scope { |scope| scope.accessible_by(current_ability).where(id: @client.current_family_id) }
-        end
       end
       format.pdf do
         form        = params[:form]
