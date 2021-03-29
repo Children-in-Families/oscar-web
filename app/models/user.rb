@@ -154,7 +154,8 @@ class User < ActiveRecord::Base
 
     if self.deactivated_at.nil?
       clients.active_accepted_status.each do |client|
-        next if !client.eligible_default_csi? && !(client.assessments.customs.present?)
+        next if (!client.eligible_default_csi? && !client.assessments.customs.present?) || client.assessments.defaults.count.zero?
+
         custom_assessment_setting_ids = client.assessments.customs.map{|ca| ca.domains.pluck(:custom_assessment_setting_id ) }.flatten.uniq
         if setting.enable_default_assessment? && setting.enable_custom_assessment?
           client_next_asseement_date = client.next_assessment_date.to_date
@@ -191,7 +192,8 @@ class User < ActiveRecord::Base
       end
     else
       clients.active_accepted_status.each do |client|
-        next if !client.eligible_default_csi? && !(client.assessments.customs.present?)
+        next if (!client.eligible_default_csi? && !client.assessments.customs.present?) || client.assessments.defaults.count.zero?
+
         custom_assessment_setting_ids = client.assessments.customs.map{|ca| ca.domains.pluck(:custom_assessment_setting_id ) }.flatten.uniq
         if setting.enable_default_assessment? && setting.enable_custom_assessment?
           client_next_asseement_date = client.next_assessment_date(self.activated_at)
@@ -290,6 +292,8 @@ class User < ActiveRecord::Base
 
     if self.deactivated_at.nil?
       clients.active_accepted_status.each do |client|
+        next if client.case_notes.count.zero?
+
         client_next_case_note_date = client.next_case_note_date.to_date
         if client_next_case_note_date < Date.today
           overdue << client
@@ -299,8 +303,11 @@ class User < ActiveRecord::Base
       end
     else
       clients.active_accepted_status.each do |client|
+        next if client.case_notes.count.zero?
+
         client_next_case_note_date = client.next_case_note_date(self.activated_at)
         next if client_next_case_note_date.nil?
+
         if client_next_case_note_date.to_date < Date.today
           overdue << client
         elsif client_next_case_note_date.to_date == Date.today
