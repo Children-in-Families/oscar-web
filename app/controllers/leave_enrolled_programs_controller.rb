@@ -51,6 +51,7 @@ class LeaveEnrolledProgramsController < AdminController
   end
 
   def show
+    @client = @leave_program.client_enrollment.client
     check_user_permission('readable')
   end
 
