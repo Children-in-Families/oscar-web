@@ -23,7 +23,6 @@ module AdvancedSearches
       }
     end
 
-
     def self.school_grade_options
       current_translations = I18n.t('advanced_search.fields.school_grade_list')
       Client::GRADES.map do|s|

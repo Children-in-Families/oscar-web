@@ -28,7 +28,6 @@ module Api
     def create
       client_saved = false
       client = Client.new(client_params)
-
       client.transaction do
         if params.dig(:referee, :id).present?
           referee = Referee.find(params.dig(:referee, :id))
