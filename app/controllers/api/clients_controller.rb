@@ -49,7 +49,6 @@ module Api
         client.carer_id = carer.id
         client_saved = client.save
       end
-
       if client_saved
         render json: { slug: client.slug, id: client.id }, status: :ok
       else
