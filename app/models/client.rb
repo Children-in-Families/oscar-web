@@ -112,7 +112,6 @@ class Client < ActiveRecord::Base
   validates :global_id, presence: true
   validates_uniqueness_of :global_id, on: :create
 
-  after_initialize :set_slug
   before_validation :assign_global_id, on: :create
   before_create :set_country_origin
   before_update :disconnect_client_user_relation, if: :exiting_ngo?
@@ -704,12 +703,6 @@ class Client < ActiveRecord::Base
   end
 
   private
-
-  def set_slug
-    short_name = Apartment::Tenant.current
-    self.slug = generate_random_char
-    Apartment::Tenant.switch short_name
-  end
 
   def update_related_family_member
     FamilyMember.delay.update_client_relevant_data(family_member.id, Apartment::Tenant.current) if family_member.present? && family_member.persisted?
