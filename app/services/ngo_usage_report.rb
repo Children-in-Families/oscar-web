@@ -208,7 +208,6 @@ class NgoUsageReport
     generate(date_time, previous_month)
   end
 
-
   private
 
   def generate(date_time, previous_month)
@@ -216,6 +215,7 @@ class NgoUsageReport
   end
 
   def mapping_learning_module_date(setting, data)
-    [setting[:ngo_short_name].upcase, data.last['updated_at']&.last&.strftime("%d-%m-%Y")] if data.present?
+    updated_at_date = data.last['updated_at'].try(:last) || data.last['updated_at'] if data.present?
+    [setting[:ngo_short_name].upcase, updated_at_date&.strftime("%d-%m-%Y")]
   end
 end

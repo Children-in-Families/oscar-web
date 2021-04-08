@@ -54,7 +54,8 @@ class Setting < ActiveRecord::Base
 
   def current_sharing_with_research_module
     return [] unless sharing_data
-    versions.order(created_at: :asc).map(&:object_changes).map{|a| YAML::load a}.select{|a| a['sharing_data'] }
+
+    versions.order(created_at: :asc).map(&:object_changes).map { |a| a && YAML::load(a) }.compact.select { |a| a['sharing_data'] }
   end
 
   def max_assessment_duration
