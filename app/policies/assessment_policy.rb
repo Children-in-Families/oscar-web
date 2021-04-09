@@ -20,7 +20,6 @@ class AssessmentPolicy < ApplicationPolicy
       enable_assessment = record.default? ? setting.enable_default_assessment? && record.public_send(association).eligible_default_csi? : setting.enable_custom_assessment?
     end
     editable_user = user.admin? ? true : user.permission&.assessments_editable
-
     enable_assessment && editable_user && !record.public_send(association).exit_ngo? && record.public_send(association).can_create_assessment?(record.default, value)
   end
 
