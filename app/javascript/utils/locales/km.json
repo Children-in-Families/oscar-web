@@ -538,7 +538,16 @@
         "Not A Phone Call": "មិនមែនការហៅតាមទូរស័ព្ទ",
         "Start Datetime": "ពេលវេលានៃការហៅទូរស័ព្ទបានចាប់ផ្តើម",
         "Other More Information": "ព័ត៌មានផ្សេងទៀត",
-        "Brief Note Summary": "កំណត់ត្រាខ្លីដោយសង្ខេបពីការហៅទូរស័ព្ទ"
+        "Brief Note Summary": "កំណត់ត្រាខ្លីដោយសង្ខេបពីការហៅទូរស័ព្ទ",
+        "Suburb": "Suburb",
+        "Description House Landmark": "Description House Landmark",
+        "Directions": "Directions",
+        "Street Line1": "Street Line1",
+        "Street Line2": "Street Line2",
+        "Plot": "Plot",
+        "Road": "Road",
+        "Postal Code": "Postal Code",
+        "Locality": "Locality"
       }
     }
   },

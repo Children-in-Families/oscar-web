@@ -546,7 +546,16 @@
         "Not A Phone Call": "Not A Phone Call",
         "Start Datetime": "Time of Call",
         "Other More Information": "Other More Information",
-        "Brief Note Summary": "Brief Note Summary"
+        "Brief Note Summary": "Brief Note Summary",
+        "Suburb": "Suburb",
+        "Description House Landmark": "Description House Landmark",
+        "Directions": "Directions",
+        "Street Line1": "Street Line1",
+        "Street Line2": "Street Line2",
+        "Plot": "Plot",
+        "Road": "Road",
+        "Postal Code": "Postal Code",
+        "Locality": "Locality"
       }
     }
   },

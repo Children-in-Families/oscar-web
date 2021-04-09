@@ -33,7 +33,7 @@ module Api
 
       def create
         if org = Organization.create_and_build_tenant(params.permit(:demo, :full_name, :short_name, :logo, supported_languages: []))
-          OrganizationWorker.perform_async(org)
+          OrganizationWorker.perform_async(org.id)
           render json: org, status: :ok
         else
           render json: { msg: org.errors }, status: :unprocessable_entity
