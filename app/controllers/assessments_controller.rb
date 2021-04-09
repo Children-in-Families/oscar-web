@@ -21,9 +21,8 @@ class AssessmentsController < AdminController
     @assessment = @client.assessments.new(default: default?)
 
     css = CustomAssessmentSetting.find_by(custom_assessment_name: params[:custom_name])
-    if current_organization.try(:aht) == false
-      authorize @assessment
-    end
+    authorize(@assessment, :new?, css.try(:id)) if current_organization.try(:aht) == false
+
     if css.present? && !policy(@assessment).create?(css)
       redirect_to client_assessments_path(@client), alert: "#{I18n.t('assessments.index.next_review')} of #{css.custom_assessment_name}: #{date_format(@client.custom_next_assessment_date(nil, css.id))}"
     else
