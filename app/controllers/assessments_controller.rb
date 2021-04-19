@@ -20,12 +20,11 @@ class AssessmentsController < AdminController
     @prev_assessment = @client.assessments.last
     @assessment = @client.assessments.new(default: default?)
 
-    css = CustomAssessmentSetting.find_by(custom_assessment_name: params[:custom_name])
-    if current_organization.try(:aht) == false
-      authorize @assessment
-    end
-    if css.present? && !policy(@assessment).create?(css)
-      redirect_to client_assessments_path(@client), alert: "#{I18n.t('assessments.index.next_review')} of #{css.custom_assessment_name}: #{date_format(@client.custom_next_assessment_date(nil, css.id))}"
+    @custom_assessment_setting = find_custom_assessment_setting
+    authorize(@assessment, :new?, @custom_assessment_setting.try(:id)) if current_organization.try(:aht) == false
+
+    if @custom_assessment_setting.present? && !policy(@assessment).create?(@custom_assessment_setting.try(:id))
+      redirect_to client_assessments_path(@client), alert: "#{I18n.t('assessments.index.next_review')} of #{@custom_assessment_setting.custom_assessment_name}: #{date_format(@client.custom_next_assessment_date(nil, @custom_assessment_setting.id))}"
     else
       @assessment.populate_notes(params[:default], params[:custom_name])
     end
@@ -46,7 +45,8 @@ class AssessmentsController < AdminController
         render :new
       end
     else
-      authorize @assessment
+      css = find_custom_assessment_setting
+      authorize @assessment, :create?, css.try(:id)
       if @assessment.save
         create_bulk_task(params[:task].uniq, @assessment) if params.has_key?(:task)
         if params[:from_controller] == "dashboards"
@@ -55,7 +55,7 @@ class AssessmentsController < AdminController
           redirect_to client_path(@client), notice: t('.successfully_created')
         end
       else
-        render :new
+        render :new, custom_name: css.name
       end
     end
   end
@@ -146,5 +146,9 @@ class AssessmentsController < AdminController
 
   def fetch_available_custom_domains
     @custom_domains = Domain.custom_csi_domains
+  end
+
+  def find_custom_assessment_setting
+    CustomAssessmentSetting.find_by(custom_assessment_name: params[:custom_name])
   end
 end
