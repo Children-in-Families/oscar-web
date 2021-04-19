@@ -79,7 +79,7 @@ module CsiConcern
         assessment_period    = setting.max_assessment
         assessment_frequency = setting.assessment_frequency
       else
-        if custom_assessment_setting_id
+        if custom_assessment_setting_id.present?
           custom_assessment_setting = CustomAssessmentSetting.find(custom_assessment_setting_id)
           assessment_period    = custom_assessment_setting.max_custom_assessment
           assessment_frequency = custom_assessment_setting.custom_assessment_frequency
