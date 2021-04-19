@@ -9,7 +9,7 @@ If your interested in how this is setup, there is a tutorial on the AWS website 
 There are two steps:
 
 1. Run `cap staging deploy` as usual (if using Docker start the container first `docker run -v ~/.ssh:/root/.ssh -it --entrypoint bash oscar-staging:latest`).
-1. SSH into the staging build server, cd into the `current` folder and run `./aws/ecs/deploy-oscar-staging-ecs.bash`.
+1. SSH into the staging build server, cd into the `current` folder and run `./aws/ecs/deploy-oscar-ecs.bash`.
 
 ## (Optional) check the contents of the image on the server
 
