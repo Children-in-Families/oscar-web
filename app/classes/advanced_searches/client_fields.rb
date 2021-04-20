@@ -177,10 +177,6 @@ module AdvancedSearches
       Agency.order(:name).map { |s| { s.id.to_s => s.name } }
     end
 
-    def user_select_options
-      User.non_strategic_overviewers.order(:first_name, :last_name).map { |user| { user.id.to_s => user.name } }
-    end
-
     def donor_options
       Donor.order(:name).map { |donor| { donor.id.to_s => donor.name } }
     end
@@ -229,7 +225,6 @@ module AdvancedSearches
           ]
         }
       end
-
     end
 
     def rated_id_poor

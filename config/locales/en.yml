@@ -2885,6 +2885,7 @@ en:
         address: Address
         caregiver_information: Caregiver Information
         case_history: Case History
+        case_worker_name: Case Worker Name
         case_workers: Case Workers
         case_worker_ids: Case Worker/Staff Assigned
         changelogs: Changelog

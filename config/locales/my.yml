@@ -2861,6 +2861,7 @@ my:
         address: လိပ္စာ
         caregiver_information: ေစာင့္ေရွာက္သူ၏ အခ်က္အလက္
         case_history: အမႈသမိုင္း
+        case_worker_name: အမႈအတြက္ေဆာင္ရြက္ေပးသူ
         case_workers: အမႈအတြက္ေဆာင္ရြက္ေပးသူ
         changelogs: ေျပာင္းလဲမႈ မွတ္တမ္း
         client: အမႈသည္မ်ား

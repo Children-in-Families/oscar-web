@@ -273,8 +273,11 @@ class FamilyGrid < BaseGrid
     render partial: 'families/clients', locals: { object: object }
   end
 
-  column(:case_workers, html: true, header: -> { I18n.t('datagrid.columns.families.case_workers') }) do |object|
-    render partial: 'families/case_workers', locals: { case_workers: object.case_workers }
+  column(:case_workers, header: -> { I18n.t('datagrid.columns.families.case_worker_name') }) do |object|
+    case_workers = object.case_workers
+    format(case_workers.map(&:name).join(', ')) do |_|
+      render partial: 'families/case_workers', locals: { case_workers: case_workers }
+    end
   end
 
   column(:significant_family_member_count, header: -> { I18n.t('datagrid.columns.families.significant_family_member_count') })
@@ -352,9 +355,11 @@ class FamilyGrid < BaseGrid
     Client.where(id: object.children).map(&:name).join(', ')
   end
 
-  column(:case_workers, header: -> { I18n.t('datagrid.columns.families.case_workers') }, html: false) do |object|
-    user_ids = Client.where(id: object.children).joins(:case_worker_clients).map(&:user_ids).flatten.uniq
-    User.where(id: user_ids).map{|u| u.name }.join(', ')
+  column(:clients, header: -> { I18n.t('datagrid.columns.families.clients') }) do |object|
+    clients = Client.where(current_family_id: object.id)
+    format(clients.map(&:name).join(', ')) do |_|
+      family_clients_list(object)
+    end
   end
 
   column(:direct_beneficiaries, header: -> { I18n.t('datagrid.columns.families.direct_beneficiaries') }) do |object|

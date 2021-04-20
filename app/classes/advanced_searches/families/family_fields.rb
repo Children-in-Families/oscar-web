@@ -54,6 +54,7 @@ module AdvancedSearches
           ['province_id', provinces],
           ['district_id', districts],
           ['dependable_income', { yes: 'Yes', no: 'No' }],
+          ['case_workers', user_select_options],
           ['client_id', clients],
           ['commune_id', communes],
           ['village_id', villages],
