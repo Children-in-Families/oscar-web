@@ -274,7 +274,7 @@ class FamilyGrid < BaseGrid
   end
 
   column(:case_workers, html: true, header: -> { I18n.t('datagrid.columns.families.case_workers') }) do |object|
-    render partial: 'families/case_workers', locals: { object: object.children }
+    render partial: 'families/case_workers', locals: { case_workers: object.case_workers }
   end
 
   column(:significant_family_member_count, header: -> { I18n.t('datagrid.columns.families.significant_family_member_count') })
@@ -382,7 +382,7 @@ class FamilyGrid < BaseGrid
     next unless dynamic_columns.present?
     dynamic_columns.each do |column_builder|
       fields = column_builder[:id].gsub('&qoute;', '"').split('__')
-      column(column_builder[:id].to_sym, class: 'form-builder', header: -> { form_builder_format_header(fields) }, html: true) do |object|
+      column(column_builder[:id].to_sym, class: 'form-builder', header: -> { form_builder_format_header(fields) }) do |object|
         format_field_value = fields.last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
         if fields.first == 'formbuilder'
           if fields.last == 'Has This Form'
@@ -424,7 +424,9 @@ class FamilyGrid < BaseGrid
           end
         end
 
-        render partial: 'shared/form_builder_dynamic/properties_value', locals: { properties:  properties }
+        format(properties.join(", ")) do |values|
+          render partial: 'shared/form_builder_dynamic/properties_value', locals: { properties:  values.split(',') } if values.present?
+        end
       end
 
     end
