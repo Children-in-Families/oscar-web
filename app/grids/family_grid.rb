@@ -356,7 +356,7 @@ class FamilyGrid < BaseGrid
   end
 
   column(:clients, header: -> { I18n.t('datagrid.columns.families.clients') }) do |object|
-    clients = Client.where(current_family_id: object.id)
+    clients = object.family_members.joins(:client).map(&:client)
     format(clients.map(&:name).join(', ')) do |_|
       family_clients_list(object)
     end
