@@ -23,8 +23,8 @@ module FamiliesHelper
 
   def family_clients_list(object)
     content_tag(:ul, class: 'family-clients-list') do
-      object.children.each do |child_id|
-        client = Client.find_by(id: child_id)
+      object.family_members.joins(:client).each do |memeber|
+        client = memeber.client
         concat(content_tag(:li, link_to(entity_name(client), client_path(client)))) if client.present?
       end
     end
