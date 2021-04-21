@@ -39,7 +39,7 @@
         .col-xs-12#clients-selection{class: (@user.strategic_overviewer? || !@user.persisted?) && 'hide' }
           = hidden_field_tag :user_id, params[:id]
           = hidden_field_tag :warning_message, I18n.t('users.warning_message')
-          = f.association :clients, collection: Client.active_accepted_referred_status, label_method: :latin_name_with_id, value_method: :id, selected: @client_ids, multi: true, label: t('.clients')
+          = f.association :clients, collection: Client.active_accepted_referred_status, label_method: :name, value_method: :id, selected: @client_ids, multi: true, label: t('.clients')
 
   .ibox-footer
     = f.submit t('save'), class: 'btn btn-primary form-btn', data: { disable_with: t('saving') }
