@@ -340,6 +340,10 @@ class Client < ActiveRecord::Base
     "#{given_name} #{family_name} (#{id})"
   end
 
+  def en_and_local_name_with_id
+    "#{en_and_local_name} (#{id})"
+  end
+
   def next_appointment_date
     return Date.today if assessments.count.zero?
 
