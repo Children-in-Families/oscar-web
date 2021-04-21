@@ -36,7 +36,7 @@ module FamilyAdvancedSearchesConcern
     custom_all_csi_assessments
     if params[:family_advanced_search].present?
       custom_referral_data_report
-      form_builder_report
+      # form_builder_report
     end
     csi_domain_score_report
     default_date_of_completed_assessments
