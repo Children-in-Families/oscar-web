@@ -32,8 +32,8 @@ module Api
       end
 
       def create
-        if org = Organization.create_and_build_tenant(params.permit(:demo, :full_name, :short_name, :logo, supported_languages: []))
-          OrganizationWorker.perform_async(org.id)
+        if org = Organization.create_and_build_tenant(organization_params)
+          OrganizationWorker.perform_async(org.id, org.referral_source_category_name)
           render json: org, status: :ok
         else
           render json: { msg: org.errors }, status: :unprocessable_entity
@@ -110,17 +110,6 @@ module Api
         else
           render json: { error: client.errors, message: 'Record error. Please check OSCaR logs for details.' }, root: :data, status: :unprocessable_entity
         end
-      end
-
-      def create
-        if org = Organization.create_and_build_tenant(organization_params)
-          Organization.delay(queue: :priority).seed_generic_data(org.id, org.referral_source_category_name)
-          render json: org, status: :ok
-        else
-          render json: { msg: org.errors }, status: :unprocessable_entity
-        end
-      rescue => e
-        render json: e.message, status: :unprocessable_entity
       end
 
       def update
