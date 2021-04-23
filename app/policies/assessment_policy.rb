@@ -24,7 +24,7 @@ class AssessmentPolicy < ApplicationPolicy
   end
 
   def edit?
-    return false if user.strategic_overviewer?
+    return false unless user.admin?
 
     setting = Setting.first
     enable_assessment = record.default? ? setting.enable_default_assessment? : setting.enable_custom_assessment?
