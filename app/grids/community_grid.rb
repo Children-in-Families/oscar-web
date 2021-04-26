@@ -33,7 +33,7 @@ class CommunityGrid < BaseGrid
   filter(:referral_source_category_id, :enum, select: :referral_source_category_options, header: -> { I18n.t('activerecord.attributes.community.referral_source_category_id') })
 
   def referral_source_options
-    current_user.present? ? Community.joins(:case_worker_clients).where(case_worker_clients: { user_id: current_user.id }).referral_source_is : Community.referral_source_is
+    current_user.present? ? Community.joins(:case_worker_communities).where(case_worker_communities: { user_id: current_user.id }).referral_source_is : Community.referral_source_is
   end
 
   def referral_source_category_options
