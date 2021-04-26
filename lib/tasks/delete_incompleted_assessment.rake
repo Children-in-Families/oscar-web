@@ -2,7 +2,7 @@ namespace :incompleted_assessment do
   desc "Delete incompleted assessment after one week of creation"
   task delete: :environment do
     Organization.all.each do |org|
-      next if org.short_name == 'shared'
+      next if org.short_name == 'shared' || org.short_name == 'ratanak'
 
       Organization.switch_to org.short_name
 
