@@ -55,7 +55,6 @@ class Organization < ActiveRecord::Base
     def seed_generic_data(org_id, referral_source_category_name=nil)
       org = find_by(id: org_id)
       if org
-        Rake::Task.clear
         CifWeb::Application.load_tasks
         service_data_file = Rails.root.join('lib/devdata/services/service.xlsx')
         Apartment::Tenant.switch(org.short_name) do
