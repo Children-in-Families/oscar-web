@@ -28,6 +28,6 @@ namespace :communes_and_villages do
       data.import
     end
 
-    puts "FINISH | #{Organization.current.short_name} | at #{Time.now.to_s}"
+    puts "FINISH | #{args[:tenant]} | at #{Time.now.to_s}"
   end
 end
