@@ -69,10 +69,10 @@ class Organization < ActiveRecord::Base
           Importer::Import.new('Agency', general_data_file).agencies
           Importer::Import.new('Department', general_data_file).departments
           if is_nepal
-            Rake::Task['nepali_provinces:import'].invoke
+            Rake::Task['nepali_provinces:import'].invoke(org.short_name)
           else
             Importer::Import.new('Province', general_data_file).provinces
-            Rake::Task['communes_and_villages:import'].invoke
+            Rake::Task['communes_and_villages:import'].invoke(org.short_name)
             Rake::Task['communes_and_villages:import'].reenable
           end
           Importer::Import.new('Quantitative Type', general_data_file).quantitative_types

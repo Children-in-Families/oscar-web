@@ -8,7 +8,7 @@ namespace :communes_and_villages do
     end
 
     Organization.switch_to args[:tenant] if args[:tenant]
-    puts "START | #{Organization.current.short_name} | at #{Time.now.to_s}"
+    puts "START | #{args[:tenant]} | at #{Time.now.to_s}"
 
     # files.each do |file_name|
     #   puts "Importing: #{file_name}"
