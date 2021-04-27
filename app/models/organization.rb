@@ -58,18 +58,20 @@ class Organization < ActiveRecord::Base
         CifWeb::Application.load_tasks
         service_data_file = Rails.root.join('lib/devdata/services/service.xlsx')
         Apartment::Tenant.switch(org.short_name) do
-          is_nepal = Organization.current.try(:country) == 'nepal'
+          is_nepal = org.try(:country) == 'nepal'
           if is_nepal
             general_data_file = Rails.root.join('lib/devdata/general_en.xlsx')
           else
             general_data_file = Rails.root.join('lib/devdata/general.xlsx')
           end
           Rake::Task['db:seed'].invoke
+          Rake::Task['db:seed'].reenable
           ImportStaticService::DateService.new('Services', org.short_name, service_data_file).import
           Importer::Import.new('Agency', general_data_file).agencies
           Importer::Import.new('Department', general_data_file).departments
           if is_nepal
             Rake::Task['nepali_provinces:import'].invoke(org.short_name)
+            Rake::Task['nepali_provinces:import'].reenable
           else
             Importer::Import.new('Province', general_data_file).provinces
             Rake::Task['communes_and_villages:import'].invoke(org.short_name)
@@ -78,6 +80,7 @@ class Organization < ActiveRecord::Base
           Importer::Import.new('Quantitative Type', general_data_file).quantitative_types
           Importer::Import.new('Quantitative Case', general_data_file).quantitative_cases
           Rake::Task["field_settings:import"].invoke(org.short_name)
+          Rake::Task["field_settings:import"].reenable
           referral_source_category = ReferralSource.find_by(name_en: referral_source_category_name)
           if referral_source_category
             referral_source = ReferralSource.find_or_create_by(name: "#{org.full_name} - OSCaR Referral")
@@ -86,6 +89,7 @@ class Organization < ActiveRecord::Base
             ReferralSource.find_or_create_by(name: "#{org.full_name} - OSCaR Referral")
           end
         end
+        Apartment::Tenant.switch(org.short_name)
       end
     end
 
@@ -140,26 +144,26 @@ class Organization < ActiveRecord::Base
 
   private
 
-    def upsert_referral_source_category
-      current_org = Apartment::Tenant.current
-      org_full_name = self.full_name
-      rs_category_name = self.referral_source_category_name
+  def upsert_referral_source_category
+    current_org = Apartment::Tenant.current
+    org_full_name = self.full_name
+    rs_category_name = self.referral_source_category_name
 
-      Organization.all.pluck(:short_name).each do |org_short_name|
-        Apartment::Tenant.switch! org_short_name
-        referral_source = ReferralSource.find_or_create_by(name: "#{org_full_name} - OSCaR Referral")
-        rs_category = ReferralSource.find_by(name_en: rs_category_name)
-        referral_source.update_attributes(ancestry: "#{rs_category.id}") if rs_category
-      end
-      Apartment::Tenant.switch! current_org
+    Organization.all.pluck(:short_name).each do |org_short_name|
+      Apartment::Tenant.switch! org_short_name
+      referral_source = ReferralSource.find_or_create_by(name: "#{org_full_name} - OSCaR Referral")
+      rs_category = ReferralSource.find_by(name_en: rs_category_name)
+      referral_source.update_attributes(ancestry: "#{rs_category.id}") if rs_category
     end
+    Apartment::Tenant.switch! current_org
+  end
 
-    def delete_referral_source_category
-      org_full_name = self.full_name
-      Organization.all.pluck(:short_name).each do |org_short_name|
-        Apartment::Tenant.switch! org_short_name
-        referral_source = ReferralSource.find_by(name: "#{org_full_name} - OSCaR Referral")
-        referral_source.destroy if referral_source
-      end
+  def delete_referral_source_category
+    org_full_name = self.full_name
+    Organization.all.pluck(:short_name).each do |org_short_name|
+      Apartment::Tenant.switch! org_short_name
+      referral_source = ReferralSource.find_by(name: "#{org_full_name} - OSCaR Referral")
+      referral_source.destroy if referral_source
     end
+  end
 end

@@ -8,7 +8,7 @@ namespace :communes_and_villages do
     end
 
     Organization.switch_to args[:tenant] if args[:tenant]
-    puts "START | #{args[:tenant]} | at #{Time.now.to_s}"
+    pp "START | #{args[:tenant]} | at #{Time.now.to_s}"
 
     # files.each do |file_name|
     #   puts "Importing: #{file_name}"
@@ -28,6 +28,6 @@ namespace :communes_and_villages do
       data.import
     end
 
-    puts "FINISH | #{args[:tenant]} | at #{Time.now.to_s}"
+    pp "FINISH | #{args[:tenant]} | at #{Time.now.to_s}"
   end
 end
