@@ -125,18 +125,18 @@ class CommunityGrid < BaseGrid
   end
 
   column(:referral_source_id, header: -> { I18n.t('activerecord.attributes.community.referral_source_id') }) do |object|
-    format(object.referral_source) do |referral_source|
-      referral_source.name if referral_source
+    referral_source_name = I18n.locale == :km ? object.referral_source.name : (object.referral_source.name_en.presence || object.referral_source.name)
+
+    format(referral_source_name) do |referral_source_name|
+      referral_source_name if referral_source_name
     end
   end
 
   column(:referral_source_category_id, header: -> { I18n.t('activerecord.attributes.community.referral_source_category_id') }) do |object|
-    format(object.referral_source_category_id) do |referral_source_category_id|
-      if I18n.locale == :km
-        ReferralSource.find_by(id: referral_source_category_id).try(:name)
-      else
-        ReferralSource.find_by(id: referral_source_category_id).try(:name_en)
-      end
+    referral_source_category_name = I18n.locale == :km ? object.referral_source_category.name : (object.referral_source_category.name_en.presence || object.referral_source_category.name)
+
+    format(referral_source_category_name) do |_name|
+      _name
     end
   end
 
