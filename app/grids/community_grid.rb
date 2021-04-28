@@ -33,7 +33,7 @@ class CommunityGrid < BaseGrid
   filter(:referral_source_category_id, :enum, select: :referral_source_category_options, header: -> { I18n.t('activerecord.attributes.community.referral_source_category_id') })
 
   def referral_source_options
-    current_user.present? ? Community.joins(:case_worker_clients).where(case_worker_clients: { user_id: current_user.id }).referral_source_is : Community.referral_source_is
+    current_user.present? ? Community.joins(:case_worker_communities).where(case_worker_communities: { user_id: current_user.id }).referral_source_is : Community.referral_source_is
   end
 
   def referral_source_category_options
@@ -119,24 +119,24 @@ class CommunityGrid < BaseGrid
   column(:indirect_beneficiaries, header: -> { Community.human_attribute_name(:indirect_beneficiaries) }) do |object|
     object.indirect_beneficiaries
   end
-  
+
   column(:received_by_id, header: -> { I18n.t('activerecord.attributes.community.received_by_id') }) do |object|
     object.received_by.name
   end
 
   column(:referral_source_id, header: -> { I18n.t('activerecord.attributes.community.referral_source_id') }) do |object|
-    format(object.referral_source) do |referral_source|
-      referral_source.name if referral_source
+    referral_source_name = I18n.locale == :km ? object.referral_source.name : (object.referral_source.name_en.presence || object.referral_source.name)
+
+    format(referral_source_name) do |referral_source_name|
+      referral_source_name if referral_source_name
     end
   end
 
   column(:referral_source_category_id, header: -> { I18n.t('activerecord.attributes.community.referral_source_category_id') }) do |object|
-    format(object.referral_source_category_id) do |referral_source_category_id|
-      if I18n.locale == :km
-        ReferralSource.find_by(id: referral_source_category_id).try(:name)
-      else
-        ReferralSource.find_by(id: referral_source_category_id).try(:name_en)
-      end
+    referral_source_category_name = I18n.locale == :km ? object.referral_source_category.name : (object.referral_source_category.name_en.presence || object.referral_source_category.name)
+
+    format(referral_source_category_name) do |_name|
+      _name
     end
   end
 

@@ -30,7 +30,7 @@
               = "#{t('.assessment_created_by')} #{whodunnit('Assessment', @assessment)} #{t('.on_date')} #{date_format(@assessment.created_at)}"
           .col-xl-1.button-position
             .pull-right
-              - if policy(@assessment).edit?
+              - if policy(@assessment).edit? && can?(:manage, Assessment)
                 = assessment_edit_link(@assessment.client, @assessment)
               - if current_user.admin?
                 = assessment_destroy_link(@assessment.client, @assessment)

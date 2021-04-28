@@ -543,7 +543,7 @@ module ClientsHelper
   end
 
   def quantitative_type_readable?(quantitative_type_id)
-    current_user.admin? || current_user.strategic_overviewer? || @quantitative_type_readable_ids.include?(quantitative_type_id)
+    current_user.admin? || current_user.strategic_overviewer? || (@quantitative_type_readable_ids && @quantitative_type_readable_ids.include?(quantitative_type_id))
   end
 
   def quantitative_type_cannot_editable?(quantitative_type_id)
@@ -732,7 +732,7 @@ module ClientsHelper
   end
 
   def family_form_builder_query(object, form_type, field_name, properties_field=nil)
-    return object if params['all_values'].present?
+    return object if $param_rules['all_values'].present?
     properties_field = properties_field.present? ? properties_field : 'enrollment_trackings.properties'
 
     selected_program_stream = $param_rules['program_selected'].presence ? JSON.parse($param_rules['program_selected']) : []

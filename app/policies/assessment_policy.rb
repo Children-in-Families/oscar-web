@@ -17,14 +17,16 @@ class AssessmentPolicy < ApplicationPolicy
     if custom_assessment
       enable_assessment = record.default? ? setting.enable_default_assessment? && record.public_send(association).eligible_default_csi? : setting.enable_custom_assessment? && record.public_send(association).eligible_custom_csi?(custom_assessment)
     else
-      enable_assessment = record.default? ? setting.enable_default_assessment? && record.public_send(association).eligible_default_csi? : setting.enable_custom_assessment?
+      enable_assessment = record.default? || record.family_id? ? setting.enable_default_assessment? && record.public_send(association).eligible_default_csi? : setting.enable_custom_assessment?
     end
     editable_user = user.admin? ? true : user.permission&.assessments_editable
     enable_assessment && editable_user && !record.public_send(association).exit_ngo? && record.public_send(association).can_create_assessment?(record.default, value)
   end
 
   def edit?
-    return false if user.strategic_overviewer?
+    return true if Apartment::Tenant.current == 'ratanak'
+
+    return false if can_edit?(user, record)
 
     setting = Setting.first
     enable_assessment = record.default? ? setting.enable_default_assessment? : setting.enable_custom_assessment?
@@ -32,6 +34,12 @@ class AssessmentPolicy < ApplicationPolicy
 
     editable_user = user.admin? ? true : user.permission&.assessments_editable
     enable_assessment && (editable_user && !record.client&.exit_ngo? || user.admin?)
+  end
+
+  def can_edit?(user, assessment)
+    return assessment.object.created_at < 7.days.ago unless user.strategic_overviewer?
+
+    true
   end
 
   alias create? new?
