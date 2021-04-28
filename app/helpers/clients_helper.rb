@@ -1113,7 +1113,7 @@ module ClientsHelper
   end
 
   def return_default_filter(object, rule, results)
-    rule[/^(#{$param_rules['all_values']})/i].present? || object.blank? || results.blank? || results.class.name[/activerecord/i].present?
+    rule[/^(#{$param_rules && $param_rules['all_values']})/i].present? || object.blank? || results.blank? || results.class.name[/activerecord/i].present?
   end
 
   def case_workers_option(client_id, editable_input=false)
