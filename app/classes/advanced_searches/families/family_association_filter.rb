@@ -58,13 +58,13 @@ module AdvancedSearches
         family_ids = []
         case @operator
         when 'equal'
-          family_ids = Case.joins(:family).non_emergency.active.where(user_id: @value).pluck(:family_id).uniq
+          family_ids = @families.joins(:case_worker_families).where(case_worker_families: { user_id: @value }).ids
         when 'not_equal'
-          family_ids = Case.joins(:family).where.not(cases: { case_type: 'EC', exited: true, user_id: @value }).pluck(:family_id).uniq
+          family_ids = Family.includes(:case_worker_families).where.not(case_worker_families: { user_id: @value }).references(:case_worker_families).ids
         when 'is_empty'
-          family_ids = @families.where.not(id: Case.joins(:family).where.not(cases: { case_type: 'EC', exited: true }).pluck(:family_id).uniq).ids
+          family_ids = Family.includes(:case_worker_families).where.not(id: Family.joins(:case_worker_families).ids).references(:case_worker_families).ids
         when 'is_not_empty'
-          family_ids = @families.where(id: Case.joins(:family).where.not(cases: { case_type: 'EC', exited: true }).pluck(:family_id).uniq).ids
+          family_ids = Family.joins(:case_worker_families).ids
         end
         family_ids
       end

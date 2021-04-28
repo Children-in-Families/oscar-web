@@ -250,4 +250,8 @@ module AdvancedSearchHelper
       end
     end
   end
+
+  def user_select_options
+    User.non_strategic_overviewers.order(:first_name, :last_name).map { |user| { user.id.to_s => user.name } }
+  end
 end

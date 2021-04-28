@@ -559,8 +559,9 @@ module ClientsHelper
 
   def client_advanced_search_data(object, rule)
     @data = {}
-    return object unless params[:client_advanced_search].present? && params[:client_advanced_search][:basic_rules].present?
-    @data   = JSON.parse(params[:client_advanced_search][:basic_rules]).with_indifferent_access
+    return object unless $param_rules.present?
+
+    @data   =  $param_rules['basic_rules'].is_a?(String) ? JSON.parse($param_rules['basic_rules']).with_indifferent_access : $param_rules['basic_rules']
     @data[:rules].reject{ |h| h[:id] != rule }.map { |value| [value[:id], value[:operator], value[:value]] }
   end
 
@@ -882,6 +883,7 @@ module ClientsHelper
     end
 
     relation = rule[/^(enrollmentdate)|^(exitprogramdate)/i] ? "#{klass_name[rule]}.#{field_name}" : "#{klass_name[field_name.to_sym]}.#{field_name}"
+    relation = object.first&.class&.name == 'Enrollment' ? "enrollments.#{field_name}" : relation
 
     hashes   = mapping_query_result(results)
     sql_hash = mapping_query_date(object, hashes, relation)
@@ -1111,7 +1113,7 @@ module ClientsHelper
   end
 
   def return_default_filter(object, rule, results)
-    rule[/^(#{params['all_values']})/i].present? || object.blank? || results.blank? || results.class.name[/activerecord/i].present?
+    rule[/^(#{$param_rules['all_values']})/i].present? || object.blank? || results.blank? || results.class.name[/activerecord/i].present?
   end
 
   def case_workers_option(client_id, editable_input=false)

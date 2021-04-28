@@ -23,8 +23,8 @@ module FamiliesHelper
 
   def family_clients_list(object)
     content_tag(:ul, class: 'family-clients-list') do
-      object.children.each do |child_id|
-        client = Client.find_by(id: child_id)
+      object.family_members.joins(:client).each do |memeber|
+        client = memeber.client
         concat(content_tag(:li, link_to(entity_name(client), client_path(client)))) if client.present?
       end
     end
@@ -109,7 +109,7 @@ module FamiliesHelper
       initial_referral_date:                    I18n.t('datagrid.columns.families.initial_referral_date'),
       caregiver_information:                    I18n.t('datagrid.columns.families.caregiver_information'),
       changelog:                                I18n.t('datagrid.columns.families.changelog'),
-      case_workers:                             I18n.t('datagrid.columns.families.case_workers'),
+      case_workers:                             I18n.t('datagrid.columns.families.case_worker_name'),
       case_note_date:                           I18n.t('advanced_search.fields.case_note_date'),
       case_note_type:                           I18n.t('advanced_search.fields.case_note_type'),
       female_children_count:                    I18n.t('datagrid.columns.families.female_children_count'),
