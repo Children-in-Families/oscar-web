@@ -147,6 +147,7 @@ class Client < ActiveRecord::Base
   scope :exited_ngo,                               ->        { where(status: 'Exited') }
   scope :non_exited_ngo,                           ->        { where.not(status: ['Exited', 'Referred']) }
   scope :active_accepted_status,                   ->        { where(status: ['Active', 'Accepted']) }
+  scope :active_accepted_referred_status,          ->        { where(status: ['Active', 'Accepted', 'Referred']) }
   scope :referred_external,                        -> (external_system_name)       { joins(:referrals).where("clients.referred_external = ? AND referrals.ngo_name = ?", true, external_system_name) }
 
   class << self
@@ -337,6 +338,10 @@ class Client < ActiveRecord::Base
 
   def latin_name_with_id
     "#{given_name} #{family_name} (#{id})"
+  end
+
+  def en_and_local_name_with_id
+    "#{en_and_local_name} (#{id})"
   end
 
   def next_appointment_date
