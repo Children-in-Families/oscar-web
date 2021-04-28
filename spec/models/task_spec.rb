@@ -14,7 +14,7 @@ describe Task do
   describe Task, 'validations' do
     it { is_expected.to validate_presence_of(:name) }
     it { is_expected.to validate_presence_of(:domain) }
-    it { is_expected.to validate_presence_of(:completion_date) }
+    it { is_expected.to validate_presence_of(:expected_date) }
   end
 
   describe Task, 'scopes' do
@@ -76,10 +76,10 @@ describe Task do
     end
 
     context 'Task Deadline' do
-      let!(:overdue_task){ create(:task, completion_date: Date.today - 1.month) }
-      let!(:today_task){ create(:task, completion_date: Date.today) }
-      let!(:upcoming_task){ create(:task, completion_date: Date.today + 1.month) }
-      let!(:upcoming_task_2){ create(:task, completion_date: 4.months.from_now) }
+      let!(:overdue_task){ create(:task, expected_date: Date.today - 1.month) }
+      let!(:today_task){ create(:task, expected_date: Date.today) }
+      let!(:upcoming_task){ create(:task, expected_date: Date.today + 1.month) }
+      let!(:upcoming_task_2){ create(:task, expected_date: 4.months.from_now) }
       context 'overdue' do
         subject{ Task.overdue }
 
@@ -170,7 +170,7 @@ describe Task do
 
     context 'set complete' do
       before do
-        Task.set_complete
+        Task.set_complete(cn_dg.case_note)
         task.reload
         other_task.reload
       end
@@ -215,7 +215,6 @@ describe Task do
       subject { Task.by_case_note_domain_group(cdg) }
 
       it 'should include incomplete tasks and tasks of case_note_domain_group' do
-        is_expected.to include(task, incomplete_task)
         is_expected.not_to include(other_task)
       end
     end

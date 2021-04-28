@@ -30,6 +30,13 @@ module Api
       end
 
       def destroy
+        @client.transaction do
+          @client.enter_ngos.each(&:destroy_fully!)
+          @client.exit_ngos.each(&:destroy_fully!)
+          @client.client_enrollments.each(&:destroy_fully!)
+          @client.cases.delete_all
+          @client.case_worker_clients.with_deleted.each(&:destroy_fully!)
+        end
         @client.reload.destroy
         head 204
       end
