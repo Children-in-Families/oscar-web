@@ -543,7 +543,7 @@ module ClientsHelper
   end
 
   def quantitative_type_readable?(quantitative_type_id)
-    current_user.admin? || current_user.strategic_overviewer? || @quantitative_type_readable_ids.include?(quantitative_type_id)
+    current_user.admin? || current_user.strategic_overviewer? || (@quantitative_type_readable_ids && @quantitative_type_readable_ids.include?(quantitative_type_id))
   end
 
   def quantitative_type_cannot_editable?(quantitative_type_id)
