@@ -20,5 +20,5 @@
         %p.warning-message= t('.body_second', sender_email: ENV['SENDER_EMAIL'])
         %button#confirm.btn.btn-warning{ type: 'button', data: { confirm: t('.confirm'), dismiss: 'modal' } }
           = t('.confirm')
-        %button.btn-modal-cancel.btn.btn-default{ 'data-dismiss' => 'modal', type: 'button' }
+        %button.btn-modal-cancel.btn.btn-default.editable-cancel{ 'data-dismiss' => 'modal', type: 'button' }
           = t('.close')

@@ -29,7 +29,7 @@
                     %abbr{ title: 'required' } *
                     = t('.exit_date')
                   .input-group
-                    = f.text_field :exit_date, required: true, class: 'date form-control exit_date', type: 'text', name: 'exit_ngo[exit_date]'
+                    = f.text_field :exit_date, required: true, class: 'date form-control exit_date', type: 'text', name: 'exit_ngo[exit_date]', autocomplete: 'off'
                     %span.input-group-addon
                       %i.fa.fa-calendar-check-o
 
@@ -61,5 +61,5 @@
                 = f.input :exit_note, label: t('.exit_note'), input_html: { rows: '14' }, required: true
 
           .text-right
-            %button.btn.btn-default= t('cancel')
+            %button.btn.btn-default.editable-cancel{"data-dismiss" => 'modal'}= t('cancel')
             = f.submit t('.exit_btn'), class: 'btn btn-danger confirm-exit', disabled: :disabled, data: { disable_with: t('.exiting') }
