@@ -303,8 +303,11 @@ module ApplicationHelper
     user_id = PaperTrail::Version.find_by(event: 'create', item_type: type, item_id: id).try(:whodunnit)
     if user_id.blank? || (user_id.present? && user_id.include?('@rotati'))
       object = type.constantize.find(id)
-      usser_id = object.has_attribute?(:user_id) ? object&.user_id : object.try(:parent)&.user_id
-      return 'OSCaR Team' unless user_id
+      user_id = object.has_attribute?(:user_id) ? object&.user_id : object.try(:parent)&.user_id
+      if user_id.nil?
+        user_ids = object.try(:parent)&.users&.ids
+        return User.where(id: user_ids).first.try(:name) || 'OSCaR Team'
+      end
     end
 
     User.find_by(id: user_id).try(:name) || ''
