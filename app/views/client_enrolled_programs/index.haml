@@ -1,6 +1,8 @@
 .ibox
   .ibox-title
-    %h5= "#{@client.en_and_local_name} - #{t('.program_lists')}"
+    %h5
+      = link_to @client.en_and_local_name, client_path(@client)
+      = " - #{t('.program_lists')}"
     .ibox-tools
       = link_to t('.back'), client_path(@client), class: 'btn btn-default btn-back-default btn-back'
   .ibox-content

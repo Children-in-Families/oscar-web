@@ -16,7 +16,7 @@
                 %abbr{ title: 'required' } *
                 = t('.accepted_date')
               .input-group
-                = f.text_field :accepted_date, class: 'date form-control enter_date', type: 'text', name: 'enter_ngo[accepted_date]'
+                = f.text_field :accepted_date, class: 'date form-control enter_date', type: 'text', name: 'enter_ngo[accepted_date]', autocomplete: 'off'
                 %span.input-group-addon
                   %i.fa.fa-calendar-check-o
 
@@ -28,5 +28,5 @@
               = f.association :users, collection: @users, include_blank: false, multiple: true, label: false
 
           .text-right
-            %button.btn.btn-default{"data-dismiss" => 'modal'}= t('cancel')
+            %button.btn.btn-default.editable-cancel{"data-dismiss" => 'modal'}= t('cancel')
             = f.submit t('.accept') , class: 'btn btn-success agree-btn', name: 'accept-client', data: { disable_with: t('.accepting') }
