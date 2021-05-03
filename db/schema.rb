@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210309104446) do
+ActiveRecord::Schema.define(version: 20210503142332) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -2408,6 +2408,7 @@ ActiveRecord::Schema.define(version: 20210309104446) do
   add_foreign_key "client_client_types", "client_types"
   add_foreign_key "client_client_types", "clients"
   add_foreign_key "client_enrollment_trackings", "client_enrollments"
+  add_foreign_key "client_enrollment_trackings", "client_enrollments"
   add_foreign_key "client_enrollments", "clients"
   add_foreign_key "client_enrollments", "program_streams"
   add_foreign_key "client_interviewees", "clients"
@@ -2457,6 +2458,7 @@ ActiveRecord::Schema.define(version: 20210309104446) do
   add_foreign_key "enter_ngos", "clients"
   add_foreign_key "exit_ngos", "clients"
   add_foreign_key "external_system_global_identities", "external_systems"
+  add_foreign_key "external_system_global_identities", "global_identities", column: "global_id", primary_key: "ulid"
   add_foreign_key "families", "communes"
   add_foreign_key "families", "districts"
   add_foreign_key "families", "users"
