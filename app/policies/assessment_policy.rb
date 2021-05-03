@@ -25,21 +25,19 @@ class AssessmentPolicy < ApplicationPolicy
 
   def edit?
     return true if Apartment::Tenant.current == 'ratanak'
-
-    return false if can_edit?(user, record)
-
     setting = Setting.first
     enable_assessment = record.default? ? setting.enable_default_assessment? : setting.enable_custom_assessment?
     return true if enable_assessment && user.admin?
+
+    return false if can_edit?(user, record)
 
     editable_user = user.admin? ? true : user.permission&.assessments_editable
     enable_assessment && (editable_user && !record.client&.exit_ngo? || user.admin?)
   end
 
   def can_edit?(user, assessment)
-    return assessment.object.created_at < 7.days.ago unless user.strategic_overviewer?
-
-    true
+    assessment_object = assessment.class.name == "AssessmentDecorator" ? assessment.object : assessment
+    return assessment_object.created_at < 7.days.ago unless user.strategic_overviewer?
   end
 
   alias create? new?
