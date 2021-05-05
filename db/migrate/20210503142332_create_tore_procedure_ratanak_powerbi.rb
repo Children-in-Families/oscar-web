@@ -2,12 +2,12 @@ class CreateToreProcedureRatanakPowerbi < ActiveRecord::Migration
   def up
     if schema_search_path =~ /^\"public\"/
       execute <<-SQL.squish
-        CREATE OR REPLACE PROCEDURE sp_ratanak_powerbi(
+        set autocommit off;
+        CREATE OR REPLACE PROCEDURE "public"."sp_ratanak_powerbi"(
             INOUT _message TEXT = '',
             INOUT _result_clients refcursor = 'client_results',
             INOUT _result_users refcursor = 'user_results'
-          )
-        LANGUAGE plpgsql
+          ) LANGUAGE plpgsql SECURITY DEFINER
         AS
         $$
         BEGIN
