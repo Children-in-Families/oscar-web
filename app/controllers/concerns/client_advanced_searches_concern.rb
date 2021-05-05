@@ -21,7 +21,7 @@ module ClientAdvancedSearchesConcern
         @csi_statistics         = CsiStatistic.new(@client_grid.scope.where(id: @clients_by_user.ids).accessible_by(current_ability)).assessment_domain_score.to_json
         @enrollments_statistics = ActiveEnrollmentStatistic.new(@client_grid.scope.where(id: @clients_by_user.ids).accessible_by(current_ability)).statistic_data.to_json
         clients                 = @client_grid.scope { |scope| scope.where(id: @clients_by_user.ids).accessible_by(current_ability) }.assets
-        @results                = clients.size
+        @results                = clients
         @client_grid = @client_grid.scope { |scope| scope.where(id: @clients_by_user.ids).accessible_by(current_ability).page(params[:page]).per(20) }
       end
       f.xls do
