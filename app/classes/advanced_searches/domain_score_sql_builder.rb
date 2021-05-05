@@ -35,7 +35,7 @@ module AdvancedSearches
       domain        = Domain.find(@domain_id)
       custom_domain = domain.try(:custom_domain)
       identity      = domain.identity
-      clients       = Client.joins(assessments: :assessment_domains)
+      clients       = Client.includes(assessments: :assessment_domains).references(:assessments)
       if $param_rules.nil?
         clients.ids
       else
@@ -44,12 +44,24 @@ module AdvancedSearches
         results = mapping_assessment_query_rules(basic_rules).reject(&:blank?)
         assessment_completed_sql, assessment_number = assessment_filter_values(results)
         sql = "(assessments.completed = true #{assessment_completed_sql}) AND assessments.created_at = (SELECT created_at FROM assessments WHERE clients.id = assessments.client_id ORDER BY assessments.created_at limit 1 offset #{(assessment_number || 1) - 1})".squish
+        score = @value.to_i.zero? ? nil : @value.to_i
         if assessment_completed_sql.present? && assessment_number.present?
-          clients = clients.where(assessment_domains: { score: @value.to_i, domain_id: @domain_id }).where(sql)
+          clients.where(assessment_domains: { score: score, domain_id: @domain_id }).where(sql)
         else
-          clients = clients.where(assessment_domains: { score: @value.to_i, domain_id: @domain_id })
+          clients = domainscore_operator(clients, @operator, score, sql)
         end
         clients.ids
+      end
+    end
+
+    def domainscore_operator(clients, operator, score, sql)
+      case operator
+      when 'is_empty'
+        clients.where("assessment_domains.score IS NULL AND assessment_domains.domain_id = ?", @domain_id)
+      when 'is_not_empty'
+        clients.where("assessment_domains.score IS NOT NULL AND assessment_domains.domain_id = ?", @domain_id)
+      else
+        clients.where(assessment_domains: { score: score, domain_id: @domain_id })
       end
     end
 
