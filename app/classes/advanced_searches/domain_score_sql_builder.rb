@@ -56,8 +56,18 @@ module AdvancedSearches
 
     def domainscore_operator(clients, operator, score, sql)
       case operator
+      when 'not_equal'
+        clients.where("assessment_domains.score != ? AND assessment_domains.domain_id = ?", score, @domain_id)
+      when 'less'
+        clients.where("assessment_domains.score < ? AND assessment_domains.domain_id = ?", score, @domain_id)
+      when 'less_or_equal'
+        clients.where("assessment_domains.score <= ? AND assessment_domains.domain_id = ?", score, @domain_id)
+      when 'greater'
+        clients.where("assessment_domains.score > ? AND assessment_domains.domain_id = ?", score, @domain_id)
+      when 'greater_or_equal'
+        clients.where("assessment_domains.score >= ? AND assessment_domains.domain_id = ?", score, @domain_id)
       when 'is_empty'
-        clients.where("assessment_domains.score IS NULL AND assessment_domains.domain_id = ?", @domain_id)
+        clients.where("assessment_domains.score IS NULL")
       when 'is_not_empty'
         clients.where("assessment_domains.score IS NOT NULL AND assessment_domains.domain_id = ?", @domain_id)
       else
