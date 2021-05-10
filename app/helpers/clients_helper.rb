@@ -910,7 +910,6 @@ module ClientsHelper
     count = 0
     class_name  = header_classes(grid, column)
     class_name  = class_name == "call-field" ? column.name.to_s : class_name
-
     if Client::HEADER_COUNTS.include?(class_name) || class_name[/^(enrollmentdate)/i] || class_name[/^(exitprogramdate)/i] || class_name[/^(formbuilder)/i] || class_name[/^(tracking)/i]
       association = "#{class_name}_count"
       klass_name  = { exit_date: 'exit_ngos', accepted_date: 'enter_ngos', case_note_date: 'case_notes', case_note_type: 'case_notes', date_of_assessments: 'assessments', date_of_custom_assessments: 'assessments', formbuilder__Client: 'custom_field_properties' }
@@ -1013,6 +1012,11 @@ module ClientsHelper
     else
       column.header.truncate(65)
     end
+  end
+
+  def family_counter
+    count = @results.joins(:family).distinct.count(:family_id)
+    content_tag(:span, count, class: 'label label-info')
   end
 
   def case_note_count(client)
@@ -1165,7 +1169,6 @@ module ClientsHelper
   def date_format(date)
     date.strftime('%d %B %Y') if date.present?
   end
-
 
   def country_scope_label_translation
     return '' if Setting.first.try(:country_name) == 'nepal'
