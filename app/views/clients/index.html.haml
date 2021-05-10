@@ -99,7 +99,7 @@
     .col-xs-12
       .ibox
         .ibox-title
-          %h5= @results
+          %h5= @results.size
           %span.label.label-info= t('.results')
           .ibox-tools
             - if params[:data] == 'recent'

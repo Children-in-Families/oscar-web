@@ -296,13 +296,14 @@ module ClientGridOptions
       identity = domain.identity
       if domain.custom_domain
         column = "custom_#{domain.convert_identity}".to_sym
-        records = 'client.assessments.customs'
       else
         column = domain.convert_identity.to_sym
-        records = 'client.assessments.defaults'
       end
       @client_grid.column(column, class: 'domain-scores', header: identity) do |client|
         assessment_domains = map_assessment_and_score(client, identity, domain.id)
+        assessment_results = map_assessment_and_score(client, identity, domain.id)
+        assessments = domain.custom_domain ? assessment_results.customs : assessment_results
+        assessment_domains = assessments.includes(:assessment_domains).map { |assessment| assessment.assessment_domains.joins(:domain).where(domains: { identity: identity }) }.flatten.uniq
         assessment_domains.map{|assessment_domain| assessment_domain.try(:score) }.join(', ')
       end
     end
