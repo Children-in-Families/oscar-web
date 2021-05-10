@@ -588,23 +588,23 @@ module AdvancedSearches
       values = validate_family_id(@value)
       case @operator
       when 'equal'
-        client_ids = @clients.where(current_family_id: values).ids
+        client_ids = @clients.joins(:family_members).where("family_members.family_id = ?", values).ids
       when 'not_equal'
-        client_ids = @clients.where.not(current_family_id: values).ids
+        client_ids = @clients.joins(:family_members).where("family_members.family_id != ?", values).ids
       when 'less'
-        client_ids = @clients.where('clients.current_family_id < ?', values).ids
+        client_ids = @clients.joins(:family_members).where("family_members.family_id > ?", values).ids
       when 'less_or_equal'
-        client_ids = @clients.where('clients.current_family_id <= ?', values).ids
+        client_ids = @clients.joins(:family_members).where("family_members.family_id <= ?", values).ids
       when 'greater'
-        client_ids = @clients.where('clients.current_family_id > ?', values).ids
+        client_ids = @clients.joins(:family_members).where("family_members.family_id > ?", values).ids
       when 'greater_or_equal'
-        client_ids = @clients.where('clients.current_family_id >= ?', values).ids
+        client_ids = @clients.joins(:family_members).where("family_members.family_id => ?", values).ids
       when 'between'
-        client_ids = @clients.where(current_family_id: values[0]..values[1]).ids
+        client_ids = clients.joins(:family_members).where(family_members: { family_id: values[0]..values[1] }).ids
       when 'is_empty'
-        client_ids = @clients.where(current_family_id: nil).ids
+        client_ids = Client.includes(:family_members).references(:family_members).where("family_members.family_id IS NULL").ids
       when 'is_not_empty'
-        client_ids = @clients.where.not(current_family_id: nil).ids
+        client_ids = Client.joins(:family_members).where("family_members.family_id IS NOT NULL").ids
       end
 
       clients = client_ids.present? ? client_ids : []
@@ -613,17 +613,17 @@ module AdvancedSearches
     def family_name_field_query
       case @operator
       when 'equal'
-        client_ids = @clients.where("current_family_id = (SELECT id FROM families WHERE lower(families.name) = ?)", @value.downcase).ids
+        client_ids = @clients.joins(family_members: :family).where("lower(families.name) = ?", @value.downcase).ids
       when 'not_equal'
-        client_ids = Client.where("clients.current_family_id != (SELECT id FROM families WHERE lower(families.name) = ?) OR clients.current_family_id IS NULL", @value.downcase).ids
+        client_ids = Client.joins(family_members: :family).where("lower(families.name) = ?) OR family_members.family_id IS NULL", @value.downcase).ids
       when 'contains'
-        client_ids = @clients.joins(:families).where("lower(families.name) iLike ?", "%#{@value.downcase}%").ids
+        client_ids = @clients.joins(family_members: :family).where("lower(families.name) iLike ?", "%#{@value.downcase}%").ids
       when 'not_contains'
-        client_ids = @clients.joins(:families).where("lower(families.name) NOT iLike ?", "%#{@value.downcase}%").ids
+        client_ids = @clients.joins(family_members: :family).where("lower(families.name) NOT iLike ? OR family_members.family_id IS NULL", "%#{@value.downcase}%").ids
       when 'is_empty'
-        client_ids = Client.where("clients.current_family_id IS NULL").ids
+        client_ids = Client.includes(:family_members).references(:family_members).where("family_members.family_id IS NULL").ids
       when 'is_not_empty'
-        client_ids = Client.where("clients.current_family_id IS NOT NULL").ids
+        client_ids = Client.joins(:family_members).where("family_members.family_id IS NOT NULL").ids
       end
 
       clients = client_ids.present? ? client_ids : []
