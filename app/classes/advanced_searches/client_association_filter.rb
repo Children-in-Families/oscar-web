@@ -331,7 +331,7 @@ module AdvancedSearches
     end
 
     def date_of_assessments_query(type)
-      if type.nil?
+      if type
         clients = @clients.joins(:assessments)
       else
         clients = @clients.joins(:assessments).where(assessments: { default: type })
