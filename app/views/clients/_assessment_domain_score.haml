@@ -18,4 +18,4 @@
           = hidden_field(:hidden, :assessment_domain_headers, class: 'assessment-domain-headers', data: { headers: assess_header_mapping(true).to_json } )
 
       .modal-footer
-        %button.btn.btn-default.form-btn{"data-dismiss" => "modal", :type => "button"}= t('.close')
+        %button.btn.btn-default.form-btn.editable-cancel{"data-dismiss" => "modal", :type => "button"}= t('.close')

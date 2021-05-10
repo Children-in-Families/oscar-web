@@ -2,7 +2,9 @@
   .col-xs-12
     .ibox
       .ibox-title
-        %h5= "#{@client.en_and_local_name} - #{t('.report')}"
+        %h5
+          = link_to @client.en_and_local_name, client_path(@client)
+          = " - #{t('.report')}"
         .ibox-tools
           = link_to client_client_enrolled_programs_path(@client) do
             .btn.btn-primary
