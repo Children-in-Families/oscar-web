@@ -1,0 +1,41 @@
+= simple_form_for([@case_conference.client, @case_conference], html: { id: "#{action_name}-case_conference", class: 'case_conference-form horizontal_form' }) do |f|
+  = hidden_field_tag :current_user, current_user.roles
+  .row.assessments
+    .col-xs-12
+      .ibox
+        .ibox-title
+          %h5= "#{@case_conference.client.name}"
+          %span= " (Current case_conference)"
+          .ibox-tools
+            = link_to client_case_conferences_path(@client), class: 'btn btn-default btn-back-default button' do
+              = t('.back')
+        .ibox-content
+          .row
+            .col-md-6
+              = f.label :case_conference_date
+              .input-group.date
+                = f.text_field :case_conference_date, value: f.object.case_conference_date && f.object.case_conference_date.to_date, class: 'date optional form-control date-picker m-b-md', type: 'text', name: 'case_conference[case_conference_date]', id: 'case_conference_date'
+                %span.input-group-addon
+                  %i.fa.fa-calendar-check-o
+                = f.error :case_conference_date
+            .col-md-6
+              = f.input :user_ids, label: 'Attendants',required: true, collection: User.deleted_user.non_strategic_overviewers.order(:first_name, :last_name), label_method: :name, value_method: :id, input_html: { multiple: true }
+          .hr-line-dashed
+          %h3.m-b-lg Presenting problem
+          = f.simple_fields_for 'case_conference_domains' do |ccd|
+            = ccd.hidden_field :domain_id
+            = ccd.input :presenting_problem, label: "#{ccd.object.domain.identity} (#{ccd.object.domain.name})"
+          .hr-line-dashed
+          %h3.m-b-lg Support and Barriers to client engagement
+          = f.input :client_strength
+          = f.input :client_limitation
+          = f.input :client_engagement
+          = f.input :local_resource
+          = f.input :attachments, label: t('.attachment'), as: :file, input_html: { multiple: true }
+          %p
+            %i.small="#{t('.allow_file_size')} (.jpg, .jpeg, .png, .doc, .docx, .xls, .xlsx, .pdf)"
+          %p
+            %i.small= t('.max_file_size')
+        .ibox-footer
+          = f.submit t('.save'), class: 'btn btn-primary btn-form', id: 'case-note-submit-btn', data: { disable_with: t('saving') }
+          = link_to t('.back') , client_case_conferences_path(@case_conference.client), class: 'btn btn-default btn-form'
