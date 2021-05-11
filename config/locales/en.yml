@@ -2024,6 +2024,7 @@ en:
       warning: Warning
     show:
       care_plan: Care plan
+      case_conference: Case Conference
       marital_status: Marital Status
       nationality: Nationality
       ethnicity: Ethnicity
