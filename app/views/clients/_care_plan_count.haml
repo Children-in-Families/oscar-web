@@ -1,0 +1,6 @@
+.tooltip-demo.text-center
+  %span.btn.btn-info.btn-xs
+    - if params[:data] == 'recent'
+      = "#{t('datagrid.columns.clients.care_plan_total')} : #{object.order(created_at: :desc).first.present? ? 1 : 0 }"
+    - else
+      = "#{t('datagrid.columns.clients.care_plan_total')} : #{object.count}"

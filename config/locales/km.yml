@@ -448,6 +448,7 @@ km:
       birth_province: ស្រុកកំណើត
       birth_province_id: ស្រុកកំណើត
       cambodia: កម្ពុជា
+      care_plan: គម្រោងរក្សាសម្រាប់
       carer: អ្នកថែទាំ
       carer_name: ឈ្មោះអ្នកថែទាំ
       carer_phone: លេខទូរស័ព្ទអ្នកថែទាំ
@@ -2627,6 +2628,9 @@ km:
         neighbor_phone: Phone Number
         dosavy_name: "DoSAVY: Name"
         dosavy_phone: Phone Number
+        care_plan_count: Number of Care Plan
+        care_plan_completed_date: Care Plan Completed Date
+        care_plan_total: Total
         chief_commune_name: "Chief of Commune/Commune Council Member: Name"
         chief_commune_phone: Phone Number
         chief_village_name: "Chief of Village: Name"

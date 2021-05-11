@@ -166,6 +166,7 @@ module AdvancedSearchHelper
       type_of_service:  I18n.t('advanced_search.fields.type_of_service'),
       hotline: I18n.t('datagrid.columns.calls.hotline'),
       active_clients: I18n.t('advanced_search.fields.active_clients'),
+      care_plan: I18n.t('advanced_search.fields.care_plan'),
       **overdue_translations
     }
 

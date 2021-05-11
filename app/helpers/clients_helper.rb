@@ -219,7 +219,9 @@ module ClientsHelper
       has_overdue_assessment: I18n.t("datagrid.form.has_overdue_assessment", assessment: I18n.t('clients.show.assessment')),
       has_overdue_forms: I18n.t("datagrid.form.has_overdue_forms"),
       has_overdue_task: I18n.t("datagrid.form.has_overdue_task"),
-      no_case_note: I18n.t("datagrid.form.no_case_note")
+      no_case_note: I18n.t("datagrid.form.no_case_note"),
+      care_plan_completed_date: I18n.t('datagrid.columns.clients.care_plan_completed_date'),
+      care_plan_count: I18n.t('datagrid.columns.clients.care_plan_count')
     }
   end
 
@@ -415,13 +417,13 @@ module ClientsHelper
 
   def default_columns_visibility(column)
     label_column = {
-      marital_status: t('datagrid.columns.clients.marital_status'),
-      nationality: t('datagrid.columns.clients.nationality'),
-      ethnicity: t('datagrid.columns.clients.ethnicity'),
-      location_of_concern: t('datagrid.columns.clients.location_of_concern'),
-      type_of_trafficking: t('datagrid.columns.clients.type_of_trafficking'),
-      education_background: t('datagrid.columns.clients.education_background'),
-      department: t('datagrid.columns.clients.department'),
+      marital_status_: t('datagrid.columns.clients.marital_status'),
+      nationality_: t('datagrid.columns.clients.nationality'),
+      ethnicity_: t('datagrid.columns.clients.ethnicity'),
+      location_of_concern_: t('datagrid.columns.clients.location_of_concern'),
+      type_of_trafficking_: t('datagrid.columns.clients.type_of_trafficking'),
+      education_background_: t('datagrid.columns.clients.education_background'),
+      department_: t('datagrid.columns.clients.department'),
       presented_id_:                  t('datagrid.columns.clients.presented_id'),
       id_number_:                     t('datagrid.columns.clients.id_number'),
       legacy_brcs_id_:                t('datagrid.columns.clients.legacy_brcs_id'),
@@ -523,7 +525,7 @@ module ClientsHelper
       assessment_completed_date_: t('datagrid.columns.calls.assessment_completed_date', assessment: t('clients.show.assessment')),
       hotline_call_: t('datagrid.columns.calls.hotline_call'),
       indirect_beneficiaries_: t('datagrid.columns.clients.indirect_beneficiaries'),
-      **overdue_translations
+      **overdue_translations.map{ |k, v| ["#{k}_".to_sym, v] }.to_h
     }
 
     (Client::HOTLINE_FIELDS + Call::FIELDS).each do |field_name|
@@ -866,7 +868,7 @@ module ClientsHelper
 
     return object if return_default_filter(object, rule, results)
 
-    klass_name  = { exit_date: 'exit_ngos', accepted_date: 'enter_ngos', meeting_date: 'case_notes', case_note_type: 'case_notes', created_at: 'assessments' , date_of_referral: 'referrals'}
+    klass_name  = { exit_date: 'exit_ngos', accepted_date: 'enter_ngos', meeting_date: 'case_notes', case_note_type: 'case_notes', created_at: 'assessments' , date_of_referral: 'referrals', care_plan_completed_date: 'care_plans'}
 
     if rule == 'case_note_date'
       field_name = 'meeting_date'

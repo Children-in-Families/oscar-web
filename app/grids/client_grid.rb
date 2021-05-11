@@ -1013,6 +1013,20 @@ class ClientGrid < BaseGrid
     render partial: 'clients/assessments', locals: { object: object.assessments.customs }
   end
 
+  column(:care_plan_completed_date, header: -> { I18n.t('datagrid.columns.clients.care_plan_completed_date') }) do |object|
+    dates = object.care_plans.pluck(:created_at).map { |_date| _date.strftime('%d %B %Y') }
+    format(dates.join(", ")) do |value|
+      render partial: 'clients/care_plans', locals: { object: object.care_plans }
+    end
+  end
+
+  column(:care_plan_count, header: -> { I18n.t('datagrid.columns.clients.care_plan_count') }) do |object|
+    total_count = object.care_plans.count
+    format(total_count) do |value|
+      render partial: 'clients/care_plan_count', locals: { object: object.care_plans }
+    end
+  end
+
   column(:time_in_ngo, header: -> { I18n.t('datagrid.columns.clients.time_in_ngo') }) do |object|
     if object.time_in_ngo.present?
       time_in_ngo = object.time_in_ngo
