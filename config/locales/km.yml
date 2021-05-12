@@ -2069,6 +2069,7 @@ km:
       warning: ប្រុងប្រយ័ត្ន
     show:
       care_plan: គម្រោងរក្សា
+      case_conference: Case Conference
       marital_status: Marital Status
       nationality: Nationality
       ethnicity: Ethnicity
