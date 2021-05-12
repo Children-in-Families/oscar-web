@@ -1,4 +1,5 @@
 class ClientColumnsVisibility
+
   def initialize(grid, params)
     @grid   = grid
     @params = params
@@ -161,6 +162,8 @@ class ClientColumnsVisibility
       address_type_: :address_type,
       client_email_: :client_email,
       indirect_beneficiaries_: :indirect_beneficiaries,
+      care_plan_completed_date_: :care_plan_completed_date,
+      care_plan_count_: :care_plan_count
     }
   end
 

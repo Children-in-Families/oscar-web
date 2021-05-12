@@ -1,0 +1,10 @@
+- if params[:data] == 'recent' && object
+  - recent_record = object.most_recents.first.try(:created_at)
+  - if recent_record.present?
+    %ul{'data-care_plan_completed_date': '' }
+      %li= date_format(recent_record)
+- else
+  - if object.present?
+    %ul{'data-care_plan_completed_date': '' }
+      - date_filter(object, 'care_plan_completed_date').each do |care_plan|
+        %li= date_format(care_plan.created_at)

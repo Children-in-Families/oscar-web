@@ -1013,6 +1013,14 @@ class ClientGrid < BaseGrid
     render partial: 'clients/assessments', locals: { object: object.assessments.customs }
   end
 
+  column(:care_plan_completed_date, header: -> { I18n.t('datagrid.columns.clients.care_plan_completed_date') }, html: true) do |object|
+    render partial: 'clients/care_plans', locals: { object: object.care_plans }
+  end
+
+  column(:care_plan_count, header: -> { I18n.t('datagrid.columns.clients.care_plan_count') }, html: true) do |object|
+    render partial: 'clients/care_plan_count', locals: { object: object.care_plans }
+  end
+
   column(:time_in_ngo, header: -> { I18n.t('datagrid.columns.clients.time_in_ngo') }) do |object|
     if object.time_in_ngo.present?
       time_in_ngo = object.time_in_ngo
