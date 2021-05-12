@@ -35,6 +35,8 @@ module ClientGridOptions
     program_exit_date_report
     default_date_of_assessments
     default_date_of_completed_assessments
+    care_plan_completed_date
+    care_plan_count
     custom_date_of_assessments
     case_note_date_report
     case_note_type_report
@@ -255,6 +257,18 @@ module ClientGridOptions
         end
         assessments.map{ |a| a.created_at.to_date.to_formatted_s }.join(', ') if assessments.any?
       end
+    end
+  end
+
+  def care_plan_completed_date
+    @client_grid.column(:care_plan_completed_date, header: -> { I18n.t('datagrid.columns.clients.care_plan_completed_date') }) do |object|
+      date_filter(object.care_plans, 'care_plan_completed_date').map{ |care_plan| date_format(care_plan.created_at) }.join(", ")
+    end
+  end
+
+  def care_plan_count
+    @client_grid.column(:care_plan_count, header: -> { I18n.t('datagrid.columns.clients.care_plan_count') }) do |object|
+      date_filter(object.care_plans, 'care_plan_completed_date').count
     end
   end
 
