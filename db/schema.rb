@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210511042016) do
+ActiveRecord::Schema.define(version: 20210512095151) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -133,11 +133,13 @@ ActiveRecord::Schema.define(version: 20210511042016) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "client_id"
-    t.boolean  "completed",  default: false
-    t.boolean  "default",    default: true
+    t.boolean  "completed",          default: false
+    t.boolean  "default",            default: true
     t.integer  "family_id"
+    t.integer  "case_conference_id"
   end
 
+  add_index "assessments", ["case_conference_id"], name: "index_assessments_on_case_conference_id", using: :btree
   add_index "assessments", ["client_id"], name: "index_assessments_on_client_id", using: :btree
   add_index "assessments", ["family_id"], name: "index_assessments_on_family_id", using: :btree
 
@@ -288,19 +290,19 @@ ActiveRecord::Schema.define(version: 20210511042016) do
   add_index "case_conference_users", ["user_id"], name: "index_case_conference_users_on_user_id", using: :btree
 
   create_table "case_conferences", force: :cascade do |t|
-    t.datetime "case_conference_date"
+    t.datetime "meeting_date"
     t.text     "client_strength"
     t.text     "client_limitation"
     t.text     "client_engagement"
     t.text     "local_resource"
-    t.string   "attachments",          default: [],              array: true
+    t.string   "attachments",       default: [],              array: true
     t.integer  "client_id"
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
   end
 
-  add_index "case_conferences", ["case_conference_date"], name: "index_case_conferences_on_case_conference_date", using: :btree
   add_index "case_conferences", ["client_id"], name: "index_case_conferences_on_client_id", using: :btree
+  add_index "case_conferences", ["meeting_date"], name: "index_case_conferences_on_meeting_date", using: :btree
 
   create_table "case_contracts", force: :cascade do |t|
     t.date     "signed_on"

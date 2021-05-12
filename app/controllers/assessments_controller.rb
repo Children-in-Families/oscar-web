@@ -2,7 +2,7 @@ class AssessmentsController < AdminController
   include ApplicationHelper
   include CreateBulkTask
 
-  before_action :find_client
+  before_action :find_client, :list_all_case_conferences
   before_action :find_assessment, only: [:edit, :update, :show, :destroy]
   before_action :authorize_client, only: [:new, :create]
   before_action :authorize_assessment, only: [:show, :edit, :update]
@@ -150,5 +150,9 @@ class AssessmentsController < AdminController
 
   def find_custom_assessment_setting
     CustomAssessmentSetting.find_by(custom_assessment_name: params[:custom_name])
+  end
+
+  def list_all_case_conferences
+    @case_conferences = @client.case_conferences if Organization.ratanak?
   end
 end

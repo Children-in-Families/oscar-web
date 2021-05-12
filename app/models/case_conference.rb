@@ -1,7 +1,10 @@
 class CaseConference < ActiveRecord::Base
-  mount_uploader :attachments, ImageUploader
+  mount_uploaders :attachments, ConsentFormUploader
+  has_paper_trail
 
   belongs_to :client
+
+  has_one :assessment, inverse_of: :case_conference, dependent: :destroy
 
   has_many :case_conference_domains, dependent: :destroy
   has_many :domains, through: :case_conference_domains
@@ -20,5 +23,9 @@ class CaseConference < ActiveRecord::Base
 
   def initial?
     self == client.case_conferences.most_recents.last || client.case_conferences.count.zero?
+  end
+
+  def index_of
+    CaseConference.order(:created_at).where(client_id: client_id).pluck(:id).index(id)
   end
 end

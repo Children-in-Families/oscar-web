@@ -1,7 +1,8 @@
 class CaseConferencesController < AdminController
+  load_and_authorize_resource
   include ApplicationHelper
 
-  before_filter :find_client
+  before_action :find_client, :find_case_conference
 
   def index
     @case_conferences = @client.case_conferences
@@ -24,9 +25,25 @@ class CaseConferencesController < AdminController
     end
   end
 
+  def edit
+  end
+
+  def update
+    authorize @case_conference
+    if @case_conference.update_attributes(case_conference_params)
+      redirect_to [@client, @case_conference], notice: t('.successfully_updated')
+    else
+      render :edit
+    end
+  end
+
+  def destroy
+
+  end
+
   private
 
-  def find_model
+  def find_case_conference
     @case_conference = CaseConference.find(params[:id]) if params[:id]
   end
 
@@ -36,8 +53,8 @@ class CaseConferencesController < AdminController
 
   def case_conference_params
     params.require(:case_conference).permit(
-      :case_conference_date, :client_strength, :client_limitation,
-      :client_engagement, :local_resource, attachments: [], user_ids: [],
+      :meeting_date, :client_strength, :client_limitation,
+      :client_engagement, :local_resource, user_ids: [], attachments: [],
       case_conference_domains_attributes: [:id, :domain_id, :presenting_problem]
     )
   end

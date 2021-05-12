@@ -25,7 +25,7 @@
           .row
             .col-xs-12.col-sm-8
               %h5
-                - if @client.assessments.defaults.any?
+                - if @client.case_conferences.any?
                   = t('.next_review')
                   %b
                     = date_format(@client.next_assessment_date)
