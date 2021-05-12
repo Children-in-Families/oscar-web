@@ -563,7 +563,7 @@ module ClientsHelper
     @data = {}
     return object unless $param_rules.present?
 
-    @data   =  $param_rules['basic_rules'].is_a?(String) ? JSON.parse($param_rules['basic_rules']).with_indifferent_access : $param_rules['basic_rules']
+    @data = $param_rules['basic_rules'].is_a?(String) ? JSON.parse($param_rules['basic_rules']).with_indifferent_access : $param_rules['basic_rules']
     @data[:rules].reject{ |h| h[:id] != rule }.map { |value| [value[:id], value[:operator], value[:value]] }
   end
 
@@ -865,14 +865,13 @@ module ClientsHelper
     sub_query_array  = []
     field_name       = ''
     results          = client_advanced_search_data(object, rule)
-
     return object if return_default_filter(object, rule, results)
 
-    klass_name  = { exit_date: 'exit_ngos', accepted_date: 'enter_ngos', meeting_date: 'case_notes', case_note_type: 'case_notes', created_at: 'assessments' , date_of_referral: 'referrals', care_plan_completed_date: 'care_plans'}
+    klass_name = { exit_date: 'exit_ngos', accepted_date: 'enter_ngos', meeting_date: 'case_notes', case_note_type: 'case_notes', created_at: 'assessments' , date_of_referral: 'referrals', care_plan_completed_date: 'care_plans' }.with_indifferent_access
 
     if rule == 'case_note_date'
       field_name = 'meeting_date'
-    elsif rule.in?(['date_of_assessments', 'date_of_custom_assessments'])
+    elsif rule.in?(['date_of_assessments', 'date_of_custom_assessments', 'care_plan_completed_date'])
       field_name = 'created_at'
     elsif rule[/^(exitprogramdate)/i].present? || object.class.to_s[/^(leaveprogram)/i]
       klass_name.merge!(rule => 'leave_programs')
@@ -884,7 +883,7 @@ module ClientsHelper
       field_name = rule
     end
 
-    relation = rule[/^(enrollmentdate)|^(exitprogramdate)/i] ? "#{klass_name[rule]}.#{field_name}" : "#{klass_name[field_name.to_sym]}.#{field_name}"
+    relation = rule[/^(enrollmentdate)|^(exitprogramdate)|^(care_plan_completed_date)/i] ? "#{klass_name[rule]}.#{field_name}" : "#{klass_name[field_name.to_sym]}.#{field_name}"
     relation = object.first&.class&.name == 'Enrollment' ? "enrollments.#{field_name}" : relation
 
     hashes   = mapping_query_result(results)
@@ -1018,6 +1017,11 @@ module ClientsHelper
 
   def family_counter
     count = @results.joins(:family).distinct.count(:family_id)
+    content_tag(:span, count, class: 'label label-info')
+  end
+
+  def care_plan_counter
+    count = @results.joins(:care_plans).distinct.count
     content_tag(:span, count, class: 'label label-info')
   end
 

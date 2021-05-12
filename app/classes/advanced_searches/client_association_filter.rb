@@ -94,6 +94,10 @@ module AdvancedSearches
         values = protection_concern_and_necessity(@field)
       when 'active_clients'
         values = active_clients_query
+      when 'care_plan_counter'
+        values = care_plan_counter
+      when 'care_plan_completed_date'
+        values = date_query(Client, @clients, :care_plans, 'care_plans.created_at')
       end
       { id: sql_string, values: values }
     end
@@ -106,7 +110,7 @@ module AdvancedSearches
       when 'equal'
         clients = clients.where('date(referrals.date_of_referral) = ?', @value.to_date)
       when 'not_equal'
-        clients = clients.where("date(referrals.date_of_referral) != ? OR referrals.date_of_referral IS NULL", @value.to_date)
+        clients = Client.includes(:referrals).references(:referrals).where("date(referrals.date_of_referral) != ? OR referrals.date_of_referral IS NULL", @value.to_date)
       when 'less'
         clients = clients.where('date(referrals.date_of_referral) < ?', @value.to_date)
       when 'less_or_equal'
@@ -1019,6 +1023,31 @@ module AdvancedSearches
         client_ids = clients.where('client_enrollments.enrollment_date IS NOT NULL').distinct.ids
       end
       clients = client_ids.present? ? client_ids : []
+    end
+
+    def date_query(klass_name, objects, association, field_name)
+      result_objects = objects.joins(association).distinct
+      case @operator
+      when 'equal'
+        results = result_objects.where("date(#{field_name}) = ?", @value.to_date)
+      when 'not_equal'
+        results = klass_name.includes(association).references(association).where("date(#{field}) != ? OR #{field} IS NULL", @value.to_date)
+      when 'less'
+        results = result_objects.where("date(#{field_name}) < ?", @value.to_date)
+      when 'less_or_equal'
+        results = result_objects.where("date(#{field_name}) <= ?", @value.to_date)
+      when 'greater'
+        results = result_objects.where("date(#{field_name}) > ?", @value.to_date)
+      when 'greater_or_equal'
+        results = result_objects.where("date(#{field_name}) >= ?", @value.to_date)
+      when 'between'
+        results = result_objects.where("date(#{field_name}) BETWEEN ? AND ? ", @value[0].to_date, @value[1].to_date)
+      when 'is_empty'
+        results = klass_name.includes(association).references(association).where("#{field_name} IS NULL")
+      when 'is_not_empty'
+        results = result_objects.where("#{field_name} IS NOT NULL")
+      end
+      results.ids
     end
   end
 end
