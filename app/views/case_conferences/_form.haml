@@ -15,7 +15,7 @@
         .ibox-content
           .row
             .col-md-6
-              = f.label :meeting_date
+              = f.label :meeting_date, label: t('.meeting_date')
               .input-group.date
                 = f.text_field :meeting_date, value: f.object.meeting_date && f.object.meeting_date.to_date, class: 'date optional form-control date-picker m-b-md', type: 'text', name: 'case_conference[meeting_date]', id: 'meeting_date'
                 %span.input-group-addon
