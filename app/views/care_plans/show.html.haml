@@ -15,6 +15,7 @@
           .col-xs-10
             %p
               %b= "#{t('.care_plan', care_plan: t('clients.care_plan'))} #{@care_plan.client.name}"
+              %span{ class: "cursor-pointer #{care_plan_label(@care_plan)}", data: { toggle: :modal, target: "#modal-incomplete-assessment-#{@care_plan.assessment.id}" } }= care_plan_status(@care_plan)
               %br
               = "#{t('.care_plan_created_by')} #{whodunnit('CarePlan', @care_plan.id)} #{t('.on_date')} #{date_format(@care_plan.created_at)}"
           .col-xl-1.button-position
@@ -81,4 +82,4 @@
                                 .col-md-2.col-xs-12
                                   = date_format(task.completion_date)
 
-
+        = render partial: 'incomplete_detail', locals: { assessment: @care_plan.assessment }

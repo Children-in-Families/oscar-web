@@ -10,8 +10,7 @@
         = t('assessments.index.assessment_created_on', assessment: t('clients.show.assessment'))
         %b
           = date_format(assessment.created_at)
-        = render partial: 'incomplete_detail', locals: { assessment: assessment }
-        %label{ class: "cursor-pointer #{assessment.completed? ? 'label label-primary' : 'label label-danger'}", data: { toggle: :modal, target: "#modal-incomplete-assessment-#{assessment.id}" } }= "#{assessment.completed? ? 'Completed' : 'Incompleted'}"
+        %label{ class: "cursor-pointer #{assessment.completed? ? 'label label-primary' : 'label label-danger'}" }= "#{assessment.completed? ? 'Completed' : 'Incompleted'}"
   .col-xs-12.col-sm-4
     - if assessment.present?
       .btn.btn-block.btn-info.button{ class: ('disabled' unless case_conference_readable?) }
