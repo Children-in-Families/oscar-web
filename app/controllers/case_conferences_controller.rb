@@ -12,6 +12,7 @@ class CaseConferencesController < AdminController
   end
 
   def new
+    @prev_case_conference = @client.case_conferences.last
     @case_conference = @client.case_conferences.new
     @case_conference.populate_presenting_problems
   end

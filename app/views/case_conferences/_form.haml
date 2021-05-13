@@ -1,11 +1,13 @@
-= simple_form_for([@case_conference.client, @case_conference], html: { id: "#{action_name}-case_conference", class: 'case_conference-form horizontal_form' }) do |f|
-  = hidden_field_tag :current_user, current_user.roles
-  .row.assessments
-    .col-xs-12
+.row
+  - if @prev_case_conference
+    .col-xs-6
+      = render 'details', case_conference: @prev_case_conference
+  %div{ class: @prev_case_conference ? 'col-xs-6' : 'col-xs-12' }
+    = simple_form_for([@client, @case_conference], html: { id: "#{action_name}-case_conference", class: 'case_conference-form horizontal_form' }) do |f|
       .ibox
         .ibox-title
           %h5
-            = "#{@case_conference.client.name}"
+            = "#{@client.name}"
             %small= " (Current #{t('.case_conference')})"
           .ibox-tools
             = link_to client_case_conferences_path(@client), class: 'btn btn-default btn-back-default button' do
@@ -25,7 +27,7 @@
           %fieldset.scheduler-border
             %legend.scheduler-border
               %h3.text-success= t('.presenting_problem')
-            = f.simple_fields_for 'case_conference_domains' do |ccd|
+            = f.simple_fields_for :case_conference_domains, @case_conference.case_conference_order_by_domain_name do |ccd|
               = ccd.hidden_field :domain_id
               = ccd.input :presenting_problem, label: "#{ccd.object.domain.identity} (#{ccd.object.domain.name})"
           .hr-line-dashed

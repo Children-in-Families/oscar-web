@@ -20,7 +20,8 @@
             .col-xs-12.col-sm-4
               .btn.btn-block.btn-info.button{ class: ('disabled' unless case_conference_readable?) }
                 = link_to_if case_conference_readable?, t('.view_report'), client_case_conference_path(@client, case_conference), class: 'text-white'
-        .m-t-sm
+          .m-t-sm
+
         - if @current_setting.enable_default_assessment
           .row
             .col-xs-12.col-sm-8

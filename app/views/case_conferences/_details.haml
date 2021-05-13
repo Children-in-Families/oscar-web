@@ -1,0 +1,83 @@
+.row
+  .col-xs-12
+    .ibox#care-conference-info.center-block
+      .ibox-title
+        %h5
+          = "#{@client.name}"
+          %small= " (Current #{t('case_conferences.show.case_conference')})"
+        .ibox-tools
+          - unless @prev_case_conference
+            = link_to client_case_conferences_path(@client), class: 'btn btn-default btn-back-default button' do
+              = t('case_conferences.show.back')
+      .ibox-content
+        .row
+          .col-xs-10
+            %p
+              %b= "#{t('case_conferences.show.case_conference')} #{case_conference.client.name}"
+              %br
+              - if case_conference.index_of == 0
+                = "#{t('case_conferences.show.initial_case_conference')}"
+              - else
+                = "#{t('case_conferences.show.base_on')} #{case_conference.index_of + 1}"
+              %br
+              = "#{t('case_conferences.show.created_by')} #{whodunnit('CaseConference', case_conference)} #{t('case_conferences.show.on_date')} #{date_format(case_conference.created_at)}"
+          .col-xl-1.button-position
+            - unless @prev_case_conference
+              .pull-right
+                - if policy(case_conference).edit?
+                  = link_to(edit_client_case_conference_path(case_conference.client, case_conference), class: 'btn btn-outline btn-success') do
+                    = fa_icon('pencil')
+                - if current_user.admin?
+                  = link_to(client_case_conference_path(case_conference.client, case_conference), class: 'btn btn-outline btn-danger', method: 'delete', data: { confirm: t('case_conferences.show.are_you_sure') }) do
+                    = fa_icon('trash')
+        %table.table.small.m-b-xs#main-info
+          %tbody
+            %tr
+              %td
+                %strong= "#{t('case_conferences.show.meeting_date')} :"
+                %strong= date_format case_conference.meeting_date
+              %td
+                %strong= "#{t('case_conferences.show.attendants')} :"
+                %strong
+                  - order_case_worker(case_conference).each do |case_worker|
+                    %strong.label.label-default
+                      = user case_worker
+        %hr/
+        .row
+          .col-md-12
+            .panel.panel-default
+              .panel-heading
+                %h5= t('case_conferences.show.presenting_problem')
+              .panel-body
+                - case_conference.case_conference_order_by_domain_name.each do |ccd|
+                  %dl.small.m-t-md
+                    %dt= "#{ccd.domain.identity} (#{ccd.domain.name})"
+                    %dd= ccd.presenting_problem
+        .row
+          .col-md-12
+            .panel.panel-default
+              .panel-heading
+                %h5= t('case_conferences.show.presenting_problem')
+              .panel-body
+                %dl.small.m-t-md
+                  %dt= t('case_conferences.show.client_strength')
+                  %dd= case_conference.client_strength
+                %dl.small.m-t-md
+                  %dt= t('case_conferences.show.client_limitation')
+                  %dd= case_conference.client_limitation
+                %dl.small.m-t-md
+                  %dt= t('case_conferences.show.client_engagement')
+                  %dd= case_conference.client_engagement
+                %dl.small.m-t-md
+                  %dt= t('case_conferences.show.local_resource')
+                  %dd= case_conference.local_resource
+
+                %dl.small.m-t-md
+                  %dt= t('case_conferences.show.attachments')
+                  %dd
+                    - if case_conference.attachments.any?
+                      = render 'attachment', { case_conference: case_conference }
+                      %button.btrn.btn-info.btn-sm{"data-target" => "#attachments-#{case_conference.id}", "data-toggle" => "modal", :type => "button"}= t('case_conferences.show.show_attachment')
+
+
+

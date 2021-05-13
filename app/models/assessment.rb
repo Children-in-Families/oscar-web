@@ -79,7 +79,8 @@ class Assessment < ActiveRecord::Base
       domains = default == 'true' ? Domain.csi_domains : Domain.custom_csi_domains
     end
     domains.each do |domain|
-      assessment_domains.build(domain: domain)
+      case_conference_domain = case_conference.case_conference_domains.find_by(domain_id: domain.id) if case_conference
+      assessment_domains.build(domain: domain, reason: case_conference_domain&.presenting_problem)
     end
   end
 

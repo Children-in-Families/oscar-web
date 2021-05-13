@@ -13,12 +13,7 @@
           - @assessmets.each_with_index do |assessment, index|
             .row.margin-row
               = render 'assessment_lists', assessment: assessment
-
-        - if @current_setting.enable_default_assessment && completed_initial_assessment?('defaults')
-          - if Organization.ratanak?
-            - @case_conferences.each do |case_conference|
-              = render 'new_ratanak_assessment', case_conference: case_conference
-          - else
+          - if @current_setting.enable_default_assessment && completed_initial_assessment?('defaults')
             = render 'new_assessment'
 
 

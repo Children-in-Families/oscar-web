@@ -18,7 +18,7 @@ class AssessmentsController < AdminController
   def new
     @from_controller = params[:from]
     @prev_assessment = @client.assessments.last
-    @assessment = @client.assessments.new(default: default?)
+    @assessment = @client.assessments.new(default: default?, case_conference_id: params[:case_conference])
 
     @custom_assessment_setting = find_custom_assessment_setting
     authorize(@assessment, :new?, @custom_assessment_setting.try(:id)) if current_organization.try(:aht) == false
@@ -116,8 +116,8 @@ class AssessmentsController < AdminController
   end
 
   def assessment_params
-    default_params = params.require(:assessment).permit(:default, assessment_domains_attributes: [:id, :domain_id, :score, :reason, :goal, :goal_required, :required_task_last])
-    default_params = params.require(:assessment).permit(:default, assessment_domains_attributes: [:id, :domain_id, :score, :reason, :goal, :goal_required, :required_task_last, attachments: []]) if action_name == 'create'
+    default_params = params.require(:assessment).permit(:default, :case_conference_id, assessment_domains_attributes: [:id, :domain_id, :score, :reason, :goal, :goal_required, :required_task_last])
+    default_params = params.require(:assessment).permit(:default, :case_conference_id, assessment_domains_attributes: [:id, :domain_id, :score, :reason, :goal, :goal_required, :required_task_last, attachments: []]) if action_name == 'create'
     default_params
   end
 
