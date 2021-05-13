@@ -146,6 +146,8 @@ Rails.application.routes.draw do
     end
     # resources :surveys
     get 'version' => 'clients#version'
+
+    resources :case_conferences
   end
 
   resources :attachments, only: [:index] do

@@ -2,7 +2,7 @@ class AssessmentsController < AdminController
   include ApplicationHelper
   include CreateBulkTask
 
-  before_action :find_client
+  before_action :find_client, :list_all_case_conferences
   before_action :find_assessment, only: [:edit, :update, :show, :destroy]
   before_action :authorize_client, only: [:new, :create]
   before_action :authorize_assessment, only: [:show, :edit, :update]
@@ -18,7 +18,7 @@ class AssessmentsController < AdminController
   def new
     @from_controller = params[:from]
     @prev_assessment = @client.assessments.last
-    @assessment = @client.assessments.new(default: default?)
+    @assessment = @client.assessments.new(default: default?, case_conference_id: params[:case_conference])
 
     @custom_assessment_setting = find_custom_assessment_setting
     authorize(@assessment, :new?, @custom_assessment_setting.try(:id)) if current_organization.try(:aht) == false
@@ -116,8 +116,8 @@ class AssessmentsController < AdminController
   end
 
   def assessment_params
-    default_params = params.require(:assessment).permit(:default, assessment_domains_attributes: [:id, :domain_id, :score, :reason, :goal, :goal_required, :required_task_last])
-    default_params = params.require(:assessment).permit(:default, assessment_domains_attributes: [:id, :domain_id, :score, :reason, :goal, :goal_required, :required_task_last, attachments: []]) if action_name == 'create'
+    default_params = params.require(:assessment).permit(:default, :case_conference_id, assessment_domains_attributes: [:id, :domain_id, :score, :reason, :goal, :goal_required, :required_task_last])
+    default_params = params.require(:assessment).permit(:default, :case_conference_id, assessment_domains_attributes: [:id, :domain_id, :score, :reason, :goal, :goal_required, :required_task_last, attachments: []]) if action_name == 'create'
     default_params
   end
 
@@ -150,5 +150,9 @@ class AssessmentsController < AdminController
 
   def find_custom_assessment_setting
     CustomAssessmentSetting.find_by(custom_assessment_name: params[:custom_name])
+  end
+
+  def list_all_case_conferences
+    @case_conferences = @client.case_conferences if Organization.ratanak?
   end
 end

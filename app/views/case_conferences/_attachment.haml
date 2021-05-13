@@ -1,0 +1,15 @@
+%div{class: 'modal fade', id: "attachments-#{case_conference.id}", :role => "dialog"}
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{"data-dismiss" => "modal", :type => "button"} ×
+        %h4.modal-title= t('.attachments')
+      .modal-body
+        %table.table.table-bordered
+          - case_conference.attachments.each_with_index do |attachment, index|
+            %tr
+              %td= original_filename(attachment)
+              %td
+                = link_to preview_or_download(attachment), attachment.url, class: 'btn btn-info btn-sm btn-download', target: target_blank(attachment)
+      .modal-footer
+        %button.btn.btn-default{:type => "button", "data-dismiss" => "modal"} Close

@@ -720,9 +720,11 @@ en:
       back: Back
       begin_now: Add New
       initial_assessment: "Initial %{assessment} on"
+      new_assessment: New Assessment
       next_review: Next Review on
       no_custom_domains_available: No Custom Domains Available
       please_add_custom_domains: You may want to add some Custom Domains before you can perform this action.
+      review_assessment: Review Assessment
       three_month_assessment: "3 Monthly %{assessment}"
       view_report: View Report
     show:
@@ -939,6 +941,49 @@ en:
         what_future_teachings_or_trainings_could_help_the_client: What future teachings/trainings could help the client?
         what_is_my_plan_for_the_next_visit_to_the_client: What is my plan for the next visit to the client?
         with_id: With ID
+  case_conferences:
+    case_conference_attr: &CASE_CONFERENCE_ATTR
+      allow_file_size: Allowed file types
+      are_you_sure: Are you sure you want to delete?
+      attendants: Attendants
+      back: Back
+      base_on: Base on Case Conference Number
+      cancel: Cancel
+      case_conference: Case Conference
+      meeting_date: Case Conference Date
+      client_engagement: Support and Barriers to client engagement
+      created_by: Created By
+      initial_case_conference: Initial Case Conference
+      local_resource: Resources/services in local community
+      on_date: On Date
+      presenting_problem: Presenting problem
+      save: Save
+      show_attachment: Show Attachments
+    create:
+      successfully_created: Case Conference has successfully been created.
+    destroy:
+      fail_delete_attachment: Failed deleting attachment
+      successfully_deleted: Attachment has been successfully deleted.
+      successfully_deleted_case_note: Case Conference has been successfully deleted.
+    form:
+      <<: *CASE_CONFERENCE_ATTR
+    index:
+      assessment_completed_on: "%{assessment} completed on"
+      assessment_created_on: "%{assessment} created on"
+      assessment_history: "%{assessment} History"
+      back: Back
+      begin_now: Add New
+      case_conference: Case Conference
+      initial_assessment: "Initial %{assessment} on"
+      next_review: Next Review on
+      no_custom_domains_available: No Custom Domains Available
+      please_add_custom_domains: You may want to add some Custom Domains before you can perform this action.
+      three_month_assessment: "3 Monthly %{assessment}"
+      view_report: View Report
+    show:
+      <<: *CASE_CONFERENCE_ATTR
+    update:
+      successfully_updated: Case Conference has successfully been updated.
   case_notes:
     add_task_form:
       completion_date: Completion Date
@@ -2027,6 +2072,7 @@ en:
       warning: Warning
     show:
       care_plan: Care plan
+      case_conference: Case Conference
       marital_status: Marital Status
       nationality: Nationality
       ethnicity: Ethnicity

@@ -1,0 +1,40 @@
+.row
+  .col-sm-12.col-md-10.col-md-offset-1
+    .ibox
+      .ibox-title
+        %h5
+          %strong= link_to_client_show(@client)
+          %small= t('.case_conference')
+      .ibox-content
+        - @case_conferences.each_with_index do |case_conference, index|
+          .row
+            .col-xs-12.col-sm-8
+              %h5
+                - if case_conference.initial?
+                  = t('.initial_assessment', assessment: t('.case_conference'))
+                - else
+                  = t('.assessment_created_on', assessment: t('.case_conference'))
+                %b
+                  = date_format(case_conference.created_at)
+
+            .col-xs-12.col-sm-4
+              .btn.btn-block.btn-info.button{ class: ('disabled' unless case_conference_readable?) }
+                = link_to_if case_conference_readable?, t('.view_report'), client_case_conference_path(@client, case_conference), class: 'text-white'
+          .m-t-sm
+
+        - if @current_setting.enable_default_assessment
+          .row
+            .col-xs-12.col-sm-8
+              %h5
+                - if @client.case_conferences.any?
+                  = t('.next_review')
+                  %b
+                    = date_format(@client.next_assessment_date)
+                - else
+                  = t('.initial_assessment', assessment: t('.case_conference'))
+                  %b
+                    = date_format(Date.today)
+            .col-xs-12.col-sm-4
+              = link_to new_client_case_conference_path(@client) do
+                .btn.btn-block.btn-primary.button
+                  = "#{t('.begin_now')} #{t('.case_conference')}"
