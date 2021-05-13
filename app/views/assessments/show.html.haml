@@ -18,7 +18,7 @@
           .col-xs-10
             %p
               %b= "#{t('.case_plan')} #{@assessment.client.name}"
-              %label
+              %label{ class: "cursor-pointer #{@assessment.completed_label_class}" }
                 = @assessment.completed_status
               %br
               - if @assessment.index_of == 0
