@@ -11,6 +11,9 @@ class CaseConference < ActiveRecord::Base
   has_many :case_conference_users, dependent: :destroy
   has_many :users, through: :case_conference_users
 
+  validates :meeting_date, presence: true
+  validates :user_ids, presence: true
+
   accepts_nested_attributes_for :case_conference_domains
   scope :most_recents, -> { order(created_at: :desc) }
 

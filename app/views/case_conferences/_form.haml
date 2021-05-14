@@ -20,7 +20,7 @@
                 = f.text_field :meeting_date, value: f.object.meeting_date && f.object.meeting_date.to_date, class: 'date optional form-control date-picker m-b-md', type: 'text', name: 'case_conference[meeting_date]', id: 'meeting_date'
                 %span.input-group-addon
                   %i.fa.fa-calendar-check-o
-                = f.error :meeting_date
+              = f.error :meeting_date, class: 'text-danger'
             .col-md-6
               = f.input :user_ids, label: t('.attendants'),required: true, collection: User.deleted_user.non_strategic_overviewers.order(:first_name, :last_name), label_method: :name, value_method: :id, input_html: { multiple: true }
           .hr-line-dashed
