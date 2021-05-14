@@ -7,6 +7,9 @@ class Task < ActiveRecord::Base
   belongs_to :family
   belongs_to :goal, required: false
 
+  has_many :service_delivery_tasks, dependent: :restrict_with_error
+  has_many :service_deliveries, through:   :service_delivery_tasks
+
   has_paper_trail
   acts_as_paranoid double_tap_destroys_fully: false
 

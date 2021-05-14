@@ -3,6 +3,16 @@
     .col-xs-12
       = domain_note.association :tasks, collection: tasks.map{ |t| [t.name, t.id, { data: { completed: t.completed } }] }, as: :check_boxes, label: t('.on_going_tasks'), input_html: { class: 'i-checks task' }
 
+      %label{:for => ""}= t('.on_going_tasks')
+      - tasks.each do |task|
+        = domain_note.simple_fields_for task do |t|
+          .checkbox-primary
+            = check_box_tag "#{t.object_name}[]", task.id, task.completed, class: 'i-checks'
+            = label_tag task.name
+          = t.input :service_delivery_task_ids, label: t('service_deliveries.index.service_provided'), collection: ServiceDelivery.all, label_method: :name, value_method: :id, input_html: { multiple: true }
+
+
+
       %div{ class: 'task-arising hidden' }
         %label.control-label
           = t('.tasks_arising')

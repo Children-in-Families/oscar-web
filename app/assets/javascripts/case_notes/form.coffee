@@ -12,6 +12,7 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
     _hideShowOnGoingTaskLable()
     _hideAddNewTask()
     _handleFormSubmit()
+    _initServiceDeliverySelect2()
 
   _initICheckBox = ->
     $('.i-checks').iCheck
@@ -25,6 +26,10 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
 
   _initSelect2CasenoteInteractionType = ->
     $('#case_note_interaction_type').select2
+      width: '100%'
+
+  _initServiceDeliverySelect2 = ->
+    $("[id$='_task_service_delivery_task_ids']").select2
       width: '100%'
 
   _initSelect2CasenoteDomainGroups = ->

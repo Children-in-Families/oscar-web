@@ -1,5 +1,17 @@
 Rails.application.routes.draw do
 
+  get 'service_deliveries/index'
+
+  get 'service_deliveries/new'
+
+  get 'service_deliveries/create'
+
+  get 'service_deliveries/edit'
+
+  get 'service_deliveries/update'
+
+  get 'service_deliveries/destroy'
+
   root 'organizations#index'
 
   devise_for :users, controllers: { registrations: 'registrations', sessions: 'sessions', passwords: 'passwords' }
@@ -446,6 +458,8 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  resources :service_deliveries, except: :show
 
   if Rails.env.development?
     mount LetterOpenerWeb::Engine, at: "/letter_opener"

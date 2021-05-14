@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210503135806) do
+ActiveRecord::Schema.define(version: 20210514142805) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1852,6 +1852,22 @@ ActiveRecord::Schema.define(version: 20210503135806) do
     t.integer "service_id"
   end
 
+  create_table "service_deliveries", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "service_delivery_tasks", force: :cascade do |t|
+    t.integer  "task_id"
+    t.integer  "service_delivery_id"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+  end
+
+  add_index "service_delivery_tasks", ["service_delivery_id"], name: "index_service_delivery_tasks_on_service_delivery_id", using: :btree
+  add_index "service_delivery_tasks", ["task_id"], name: "index_service_delivery_tasks_on_task_id", using: :btree
+
   create_table "service_types", force: :cascade do |t|
     t.string   "name",       default: ""
     t.datetime "created_at",              null: false
@@ -2520,6 +2536,8 @@ ActiveRecord::Schema.define(version: 20210503135806) do
   add_foreign_key "referees", "townships"
   add_foreign_key "referees", "villages"
   add_foreign_key "referrals", "clients"
+  add_foreign_key "service_delivery_tasks", "service_deliveries"
+  add_foreign_key "service_delivery_tasks", "tasks"
   add_foreign_key "services", "global_services", column: "uuid", primary_key: "uuid"
   add_foreign_key "settings", "communes"
   add_foreign_key "settings", "districts"
