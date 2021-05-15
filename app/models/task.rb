@@ -7,6 +7,9 @@ class Task < ActiveRecord::Base
   belongs_to :family
   belongs_to :goal, required: false
 
+  has_many :service_delivery_tasks, dependent: :restrict_with_error
+  has_many :service_deliveries, through:   :service_delivery_tasks
+
   has_paper_trail
   acts_as_paranoid double_tap_destroys_fully: false
 
@@ -78,6 +81,12 @@ class Task < ActiveRecord::Base
 
   def create_task_history
     # TaskHistory.initial(self)
+  end
+
+  def create_service_delivery_tasks(the_service_delivery_task_ids)
+    the_service_delivery_task_ids.each do |service_delivery_id|
+      service_delivery_tasks.create(service_delivery_id: service_delivery_id)
+    end
   end
 
   private

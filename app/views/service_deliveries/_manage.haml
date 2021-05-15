@@ -1,0 +1,4 @@
+- if can? :manage, ServiceDelivery
+  = link_to edit_service_delivery_path(object), class: 'btn btn-xs btn-success btn-outline' do
+    = fa_icon('pencil')
+  = remove_link(object, { case: 0 })

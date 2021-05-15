@@ -1,0 +1,9 @@
+= simple_form_for(@service_delivery, html: { id: "#{action_name}-service_delivery", class: 'service_delivery-form' }) do |f|
+  = error_notification(f)
+  = f.input :name, label: t('.service_provided')
+  .ibox-footer
+    = f.submit t('save'), class: 'btn btn-primary form-btn', data: { disable_with: t('saving') }
+    - if @service_delivery.persisted?
+      = link_to t('cancel'), service_delivery_path(@service_delivery), class: 'btn btn-outline btn-default form-btn'
+    - else
+      = link_to t('cancel'), service_deliveries_path, class: 'btn btn-outline btn-default form-btn'

@@ -10,6 +10,7 @@ class Ability
     can :manage, Call
     can :manage, Referee
     can :manage, CaseConference
+    can :manage, ServiceDelivery
 
     if user.nil?
       can :manage, Client

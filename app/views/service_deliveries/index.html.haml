@@ -1,0 +1,24 @@
+.row
+  .col-xs-12
+    .ibox#service-delivery-ibox
+      .ibox-title
+        %h5
+          = t('.service_deliveries')
+          %span.label.label-info.m-r-xs= @service_deliveries.count
+        - if can? :manage, ServiceDelivery
+          = link_to t('.add_new_service_delivery'), new_service_delivery_path, class: 'btn btn-primary'
+      .ibox-content
+        .table-responsive
+          %table.table.table-bordered.table-striped.table-hover
+            %thead
+              %tr
+                %th= t('.id')
+                %th= t('.service_provided')
+                %th.text-center= t('.manage')
+            %tbody
+              - @service_deliveries.each do |service_delivery|
+                %tr
+                  %td= service_delivery.id
+                  %td= service_delivery.name
+                  %th.text-center
+                    = render 'manage', object: service_delivery

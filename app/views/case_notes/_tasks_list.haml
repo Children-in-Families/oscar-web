@@ -1,7 +1,18 @@
 .panel-body{ id: "tasks-domain-#{domain.id}", data: { domain_group_identity: domain_note.object.domain_group_id } }
   .row
     .col-xs-12
-      = domain_note.association :tasks, collection: tasks.map{ |t| [t.name, t.id, { data: { completed: t.completed } }] }, as: :check_boxes, label: t('.on_going_tasks'), input_html: { class: 'i-checks task' }
+      %label{:for => ""}= t('.on_going_tasks')
+      .m-r-sm
+        - tasks.each do |task|
+          .checkbox-primary
+            = check_box_tag "case_note[case_note_domain_groups_attributes][#{domain_note.index}][task_ids][]", task.id, task.completed, class: 'i-checks task'
+            = label_tag task.name
+          - if Organization.ratanak?
+            .service-delivery.hide.m-b-sm{ id: "service-delivery-task-#{task.id}" }
+              %label.m-t-xs{ :for => "service-delivery-task-ids" }= t('service_deliveries.index.service_provided')
+              %select.service-delivery-task-ids.select.optional.form-control{ multiple: 'multiple', :name => "#{domain_note.object_name}[task][#{task.id}][service_delivery_task_ids][]" }
+                - ServiceDelivery.all.each do |service_delivery|
+                  %option{ :value => service_delivery.id }= service_delivery.name
 
       %div{ class: 'task-arising hidden' }
         %label.control-label
