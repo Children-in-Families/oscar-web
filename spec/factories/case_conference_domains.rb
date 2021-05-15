@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :case_conference_domain do
-    domain nil
-    case_conference nil
+    domain
+    case_conference
     presenting_problem "MyText"
   end
 end
