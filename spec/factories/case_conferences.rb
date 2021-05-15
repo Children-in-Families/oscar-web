@@ -5,6 +5,5 @@ FactoryGirl.define do
     client_limitation "MyText"
     client_engagement "MyText"
     local_resource "MyText"
-    attachment "MyString"
   end
 end
