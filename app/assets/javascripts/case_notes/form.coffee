@@ -15,9 +15,13 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
     _initServiceDeliverySelect2()
 
   _initICheckBox = ->
-    $('.i-checks').iCheck
+    $('.i-checks').iCheck(
       checkboxClass: 'icheckbox_square-green'
       radioClass: 'iradio_square-green'
+    ).on('ifChecked', ->
+      $("#service-delivery-task-#{@.value}").toggleClass('service-delivery hide show')
+    ).on 'ifUnchecked', ->
+      $("#service-delivery-task-#{@.value}").toggleClass('show service-delivery hide')
 
   _initScoreTooltip = ->
     $('.case-note-domain-score').tooltip
@@ -29,7 +33,7 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
       width: '100%'
 
   _initServiceDeliverySelect2 = ->
-    $("[id$='_task_service_delivery_task_ids']").select2
+    $("select.service-delivery-task-ids").select2
       width: '100%'
 
   _initSelect2CasenoteDomainGroups = ->

@@ -83,6 +83,12 @@ class Task < ActiveRecord::Base
     # TaskHistory.initial(self)
   end
 
+  def create_service_delivery_tasks(the_service_delivery_task_ids)
+    the_service_delivery_task_ids.each do |service_delivery_id|
+      service_delivery_tasks.create(service_delivery_id: service_delivery_id)
+    end
+  end
+
   private
 
   def save_parent_parent_id

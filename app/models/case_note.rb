@@ -53,7 +53,7 @@ class CaseNote < ActiveRecord::Base
       task_ids = param[:task_ids] || []
       case_note_tasks = Task.with_deleted.where(id: task_ids)
       next if case_note_tasks.reject(&:blank?).blank?
-
+      service_delivery_task(param, case_note_tasks)
       case_note_tasks.update_all(case_note_domain_group_id: case_note_domain_group.id)
       case_note_domain_group.reload
       case_note_domain_group.tasks.with_deleted.set_complete(self)
@@ -67,6 +67,15 @@ class CaseNote < ActiveRecord::Base
 
   def parent
     family_id? ? family : client
+  end
+
+  def service_delivery_task(param, case_note_tasks)
+    if Organization.ratanak?
+      case_note_tasks.each do |task|
+        service_delivery_task_ids = param['task'][task.id.to_s]['service_delivery_task_ids'].reject(&:blank?)
+        task.create_service_delivery_tasks(service_delivery_task_ids)
+      end
+    end
   end
 
   private
