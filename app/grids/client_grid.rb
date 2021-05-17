@@ -1017,8 +1017,7 @@ class ClientGrid < BaseGrid
     render partial: 'clients/care_plans', locals: { object: object.care_plans }
   end
 
-  column(:care_plan_count, header: -> { I18n.t('datagrid.columns.clients.care_plan_count') }, html: true) do |object|
-    render partial: 'clients/care_plan_count', locals: { object: object.care_plans }
+  column(:care_plan_count, header: -> { I18n.t('datagrid.columns.clients.care_plan_count') }, html: true, class: 'hide') do |object|
   end
 
   column(:time_in_ngo, header: -> { I18n.t('datagrid.columns.clients.time_in_ngo') }) do |object|
