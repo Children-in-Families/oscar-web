@@ -57,13 +57,15 @@ CIF.Care_plansNew = CIF.Care_plansEdit = CIF.Care_plansCreate = CIF.Care_plansUp
         _appendSaveButton()
         _appendSaveCancel()
         _initGoalTaskEditPage(currentTab)
-        return true if isGoalTaskRequired == 'primary' || isGoalTaskRequired == 'info'
+        taskValue = $("#{currentTab}").find('.task-input-field')[0].value
+        return true if (isGoalTaskRequired == 'primary' || isGoalTaskRequired == 'info') && taskValue == ""
         _requiredGoalTask(currentIndex, currentTab)
 
       onStepChanging: (event, currentIndex, newIndex) ->
         currentTab  = "#{rootId}-p-#{currentIndex}"
         isGoalTaskRequired = $("#{currentTab}").find('.score-color').text()
-        return true if isGoalTaskRequired == 'primary' || isGoalTaskRequired == 'info'
+        taskValue = $("#{currentTab}").find('.task-input-field')[0].value
+        return true if (isGoalTaskRequired == 'primary' || isGoalTaskRequired == 'info') && taskValue == ""
         _requiredGoalTask(currentIndex, currentTab)
 
       onStepChanged: (event, currentIndex, priorIndex) ->
@@ -108,7 +110,11 @@ CIF.Care_plansNew = CIF.Care_plansEdit = CIF.Care_plansCreate = CIF.Care_plansUp
       $("#{currentTab}").find('.required-message').removeClass('hide')
       return false
     else
-      return true
+      if taskValue != "" && taskDateValue == ""
+        $("#{currentTab}").find('.required-message').removeClass('hide')
+        return false
+      else
+        return true
 
   _appendSaveCancel = ->
     unless $('#rootwizard').find('a[id="btn-cancel"]:visible').length
