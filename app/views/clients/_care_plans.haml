@@ -5,6 +5,10 @@
       %li= date_format(recent_record)
 - else
   - if object.present?
-    %ul{'data-care_plan_completed_date': '' }
-      - date_filter(object, 'care_plan_completed_date').each do |care_plan|
+    - case_plans = date_filter(object, 'care_plan_completed_date')
+    %span.btn.btn-info.btn-xs
+      = "#{I18n.t('datagrid.columns.clients.care_plan_count')}: "
+      = case_plans.count
+    %ul{ 'data-care_plan_completed_date': '' }
+      - case_plans.each do |care_plan|
         %li= date_format(care_plan.created_at)

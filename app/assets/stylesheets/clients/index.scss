@@ -485,4 +485,10 @@ body[id='clients-index'] {
     background: white;
     border: 1px solid #e7eaec;
   }
+  .care_plan_completed_date .td-content .showmore_content, .care_plan_completed_date .td-content {
+    &:first-child {
+      height: 25px !important;
+      margin-left: 20px;
+    }
+  }
 }

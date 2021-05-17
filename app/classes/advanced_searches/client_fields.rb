@@ -22,7 +22,6 @@ module AdvancedSearches
       text_fields           << carer_text_fields.map { |item| AdvancedSearches::FilterTypes.text_options(item, format_header(item), carer_group) }
       date_picker_fields    = date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, format_header(item), group) }
       date_picker_fields    += care_plan_date_fields.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, format_header(item), care_plan_group) }
-      number_fields         += care_plan_number_fields.map { |item| AdvancedSearches::FilterTypes.number_options(item, format_header(item), care_plan_group) }
       drop_list_fields      = drop_down_type_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last, group) }
       csi_options           = AdvancedSearches::CsiFields.render
       school_grade_options  = AdvancedSearches::SchoolGradeFields.render
@@ -72,10 +71,6 @@ module AdvancedSearches
 
     def care_plan_date_fields
       ['care_plan_completed_date']
-    end
-
-    def care_plan_number_fields
-      ['care_plan_count']
     end
 
     def drop_down_type_list
