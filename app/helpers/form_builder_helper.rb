@@ -337,6 +337,10 @@ module FormBuilderHelper
     end
   end
 
+  def custom_form_with_has_form(object, fields)
+    object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client' })
+  end
+
   private
 
   def format_value(value, input_type)
