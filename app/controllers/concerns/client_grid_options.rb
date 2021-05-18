@@ -1,6 +1,7 @@
 module ClientGridOptions
   extend ActiveSupport::Concern
   include ClientsHelper
+  include FormBuilderHelper
   include AssessmentHelper
 
   def choose_grid
@@ -345,7 +346,7 @@ module ClientGridOptions
             end
           else
             if fields.last == 'Has This Form'
-              properties = client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).count
+              properties = custom_form_with_has_form(client, fields).count
             else
               if $param_rules
                 custom_field_id = client.custom_fields.find_by(form_title: fields.second)&.id
@@ -356,6 +357,7 @@ module ClientGridOptions
                 sql          = query_string.reverse.reject(&:blank?).map{|sql| "(#{sql})" }.join(" AND ")
 
                 custom_field_properties = client.custom_field_properties.where(custom_field_id: custom_field_id).where(sql).properties_by(format_field_value)
+                custom_field_properties = custom_field_properties.blank? ? custom_form_with_has_form(client, fields).properties_by(format_field_value) : custom_field_properties
               else
                 custom_field_properties = client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).properties_by(format_field_value)
               end
