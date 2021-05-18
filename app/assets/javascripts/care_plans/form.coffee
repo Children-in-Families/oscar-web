@@ -57,14 +57,14 @@ CIF.Care_plansNew = CIF.Care_plansEdit = CIF.Care_plansCreate = CIF.Care_plansUp
         _appendSaveButton()
         _appendSaveCancel()
         _initGoalTaskEditPage(currentTab)
-        taskValue = $("#{currentTab}").find('.task-input-field')[0].value
+        taskValue = _taskRequiredField(currentTab)
         return true if (isGoalTaskRequired == 'primary' || isGoalTaskRequired == 'info') && taskValue == ""
         _requiredGoalTask(currentIndex, currentTab)
 
       onStepChanging: (event, currentIndex, newIndex) ->
         currentTab  = "#{rootId}-p-#{currentIndex}"
         isGoalTaskRequired = $("#{currentTab}").find('.score-color').text()
-        taskValue = $("#{currentTab}").find('.task-input-field')[0].value
+        taskValue = _taskRequiredField(currentTab)
         return true if (isGoalTaskRequired == 'primary' || isGoalTaskRequired == 'info') && taskValue == ""
         _requiredGoalTask(currentIndex, currentTab)
 
@@ -81,6 +81,9 @@ CIF.Care_plansNew = CIF.Care_plansEdit = CIF.Care_plansCreate = CIF.Care_plansUp
         $('a[href="#finish"]').addClass('btn disabled').css('font-size', '96%').text(btnSaving)
         $('.actions a:contains("Done")').removeAttr('href')
         form.submit()
+
+  _taskRequiredField = (currentTab) ->
+    $("#{currentTab}").find('.task-input-field')[0] && $("#{currentTab}").find('.task-input-field')[0].value
 
   _initGoalTask = ->
     $('#care_plans-new .btn-add-goal').click()
