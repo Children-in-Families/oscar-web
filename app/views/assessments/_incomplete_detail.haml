@@ -16,20 +16,18 @@
             %tbody
               - assessment_domains = assessment.assessment_domains.order(:created_at)
               %tr
-                %th{ scope: :row }= t('.goal')
+                %th{ scope: :row }= t('.score')
                 - assessment_domains.each do |assessment_domain|
                   %td
-                    - if @client.goals.find_by(assessment_domain_id: assessment_domain.id).blank?
+                    - if assessment_domain.score.blank?
                       = fa_icon 'times', class: 'text-danger'
                     - else
                       = fa_icon 'check', class: 'text-success'
-
               %tr
-                %th{ scope: :row }= t('.task')
+                %th{ scope: :row }= t('.reason')
                 - assessment_domains.each do |assessment_domain|
-                  - goal = @client.goals.find_by(assessment_domain_id: assessment_domain.id)
                   %td
-                    - if goal && goal.tasks.count.zero?
+                    - if assessment_domain.reason.blank?
                       = fa_icon 'times', class: 'text-danger'
                     - else
                       = fa_icon 'check', class: 'text-success'

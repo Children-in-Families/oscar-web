@@ -16,9 +16,10 @@
       .ibox-content
         .row
           .col-xs-10
+            = render partial: 'incomplete_detail', locals: { assessment: @assessment }
             %p
               %b= "#{t('.case_plan')} #{@assessment.client.name}"
-              %label{ class: "cursor-pointer #{@assessment.completed_label_class}" }
+              %label{ class: "cursor-pointer #{@assessment.completed_label_class}", data: { toggle: :modal, target: "#modal-incomplete-assessment-#{@assessment.id}" } }
                 = @assessment.completed_status
               %br
               - if @assessment.index_of == 0
