@@ -15,6 +15,7 @@
               = render 'assessment_lists', assessment: assessment
           - if @current_setting.enable_default_assessment && completed_initial_assessment?('defaults')
             = render 'new_assessment'
+
         - if @current_setting.enable_custom_assessment && completed_initial_assessment?('customs')
           .row.margin-row
             - @custom_assessment_settings.each do |css|

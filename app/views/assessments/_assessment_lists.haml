@@ -7,8 +7,8 @@
     %b
       = date_format(assessment.created_at)
     = "(#{assessment.domains.last.custom_assessment_setting.custom_assessment_name})" if assessment.domains.last&.custom_assessment_setting.present?
-
-    %label{ class: "cursor-pointer #{assessment.completed_label_class}" }
+    = render partial: 'incomplete_detail', locals: { assessment: assessment }
+    %label{ class: "cursor-pointer #{assessment.completed_label_class}", data: { toggle: :modal, target: "#modal-incomplete-assessment-#{assessment.id}" } }
       = assessment.completed_status
 
 .col-xs-12.col-sm-4
