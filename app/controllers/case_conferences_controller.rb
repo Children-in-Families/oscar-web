@@ -2,6 +2,7 @@ class CaseConferencesController < AdminController
   load_and_authorize_resource
   include ApplicationHelper
 
+  before_action :autorize_case_conference, only: [:edit, :update, :destroy]
   before_action :find_client, :find_case_conference
 
   def index
@@ -30,7 +31,6 @@ class CaseConferencesController < AdminController
   end
 
   def update
-    authorize @case_conference
     if @case_conference.update_attributes(case_conference_params)
       redirect_to [@client, @case_conference], notice: t('.successfully_updated')
     else
@@ -39,10 +39,13 @@ class CaseConferencesController < AdminController
   end
 
   def destroy
-
   end
 
   private
+
+  def autorize_case_conference
+    authorize @case_conference
+  end
 
   def find_case_conference
     @case_conference = CaseConference.find(params[:id]) if params[:id]

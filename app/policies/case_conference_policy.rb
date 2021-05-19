@@ -1,4 +1,6 @@
 class CaseConferencePolicy < ApplicationPolicy
+  include CaseConferenceHelper
+
   def index?
     Setting.first.enable_default_assessment || Setting.first.enable_custom_assessment
   end
@@ -19,13 +21,11 @@ class CaseConferencePolicy < ApplicationPolicy
   end
 
   def edit?
-    return true if Apartment::Tenant.current == 'ratanak'
     setting = Setting.first
-    enable_assessment = record.default? ? setting.enable_default_assessment? : setting.enable_custom_assessment?
-    return true if enable_assessment && user.admin?
+    enable_assessment = setting.enable_default_assessment?
+    return true if setting.enable_default_assessment? && user.admin?
 
-    return false if can_edit?(user, record)
-
+    return false if can_edit?(user, record) || case_conference_editable?(record.meeting_date)
     editable_user = user.admin? ? true : user.permission&.assessments_editable
     enable_assessment && (editable_user && !record.client&.exit_ngo? || user.admin?)
   end
