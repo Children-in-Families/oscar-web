@@ -11,11 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
-ActiveRecord::Schema.define(version: 20210514142805) do
-=======
 ActiveRecord::Schema.define(version: 20210519061845) do
->>>>>>> 2021051023-add-case-conference-ratanak
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
