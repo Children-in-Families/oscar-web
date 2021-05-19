@@ -16,6 +16,7 @@ class CaseConference < ActiveRecord::Base
 
   accepts_nested_attributes_for :case_conference_domains
   scope :most_recents, -> { order(created_at: :desc) }
+  scope :latest_record, -> { most_recents.first }
 
   def populate_presenting_problems
     domains = Domain.csi_domains.order(:name)
@@ -34,5 +35,13 @@ class CaseConference < ActiveRecord::Base
 
   def case_conference_order_by_domain_name
     case_conference_domains.joins(:domain).order('domains.name').presence || case_conference_domains
+  end
+
+  def can_create_case_conference?
+    setting = Setting.first
+    assessment_period    = setting.max_assessment
+    assessment_frequency = setting.assessment_frequency
+    assessment_min_max = assessment_period.send(assessment_frequency)
+    (Date.today >= client.next_case_conference_date(user_activated_date = nil))
   end
 end

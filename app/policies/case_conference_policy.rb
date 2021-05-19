@@ -15,9 +15,9 @@ class CaseConferencePolicy < ApplicationPolicy
     return false if user.strategic_overviewer?
 
     setting = Setting.first
-    enable_assessment = record.default? ? setting.enable_default_assessment? : setting.enable_custom_assessment?
+    enable_assessment = setting.enable_default_assessment?
     editable_user = user.admin? ? true : user.permission&.assessments_editable
-    enable_assessment && editable_user
+    enable_assessment && editable_user && record.can_create_case_conference?
   end
 
   def edit?
