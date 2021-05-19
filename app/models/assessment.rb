@@ -84,6 +84,16 @@ class Assessment < ActiveRecord::Base
     end
   end
 
+  def repopulate_notes
+    case_conference && case_conference.case_conference_domains.each do |case_conference_domain|
+      assessment_domain = assessment_domains.find_by(domain_id: case_conference_domain.domain_id)
+      if assessment_domain
+        assessment_domain.reason = case_conference_domain.presenting_problem
+        assessment_domain.save
+      end
+    end
+  end
+
   def populate_family_domains
     family_domains = Domain.family_custom_csi_domains
     family_domains.where.not(id: domains.ids).each do |domain|

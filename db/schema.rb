@@ -11,7 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20210514142805) do
+=======
+ActiveRecord::Schema.define(version: 20210519061845) do
+>>>>>>> 2021051023-add-case-conference-ratanak
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1971,6 +1975,8 @@ ActiveRecord::Schema.define(version: 20210514142805) do
     t.boolean  "hide_family_case_management_tool",     default: true,                null: false
     t.boolean  "hide_community",                       default: true,                null: false
     t.string   "community_default_columns",            default: [],                               array: true
+    t.integer  "case_conference_limit",                default: 0
+    t.string   "case_conference_frequency",            default: "week"
   end
 
   add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree

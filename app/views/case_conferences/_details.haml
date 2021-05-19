@@ -21,9 +21,9 @@
                 = "#{t('case_conferences.show.base_on')} #{case_conference.index_of + 1}"
               %br
               = "#{t('case_conferences.show.created_by')} #{whodunnit('CaseConference', case_conference)} #{t('case_conferences.show.on_date')} #{date_format(case_conference.created_at)}"
-          .col-xl-1.button-position
+          .col-xl-1
             - unless @prev_case_conference
-              .pull-right
+              .pull-right.m-r-sm
                 - if policy(case_conference).edit?
                   = link_to(edit_client_case_conference_path(case_conference.client, case_conference), class: 'btn btn-outline btn-success') do
                     = fa_icon('pencil')
@@ -57,7 +57,7 @@
           .col-md-12
             .panel.panel-default
               .panel-heading
-                %h5= t('case_conferences.show.presenting_problem')
+                %h5= t('case_conferences.show.client_support')
               .panel-body
                 %dl.small.m-t-md
                   %dt= t('case_conferences.show.client_strength')

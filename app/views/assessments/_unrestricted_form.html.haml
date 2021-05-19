@@ -31,7 +31,7 @@
                 #required-scroll
                 %label.text.required.control-label{"aria-required" => "true" }
                   = t('.reason')
-                = ad.input :reason, label: false, placeholder: t('.reason_placeholder'), required: !current_setting.disable_required_fields?, input_html: { class: 'reason' }, disabled: readonly
+                = ad.input :reason, label: false, placeholder: t('.reason_placeholder'), required: !current_setting.disable_required_fields?, input_html: { class: 'reason text-black', style: "color: black !important" }, disabled: true
                 %label= t('.score_label')
                 %a{:role => "button", :tabIndex => "0",  data: { toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.assessments.observation').html_safe}", placement: "right" } }
                   = fa_icon "info-circle", class: 'text-info m-xs'

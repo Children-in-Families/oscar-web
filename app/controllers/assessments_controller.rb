@@ -64,6 +64,7 @@ class AssessmentsController < AdminController
   end
 
   def edit
+    @assessment.repopulate_notes
   end
 
   def update
