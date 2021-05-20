@@ -1,3 +1,9 @@
+html[lang="my"] {
+  body, h1, h2, h3, h4, h5, h6, p, label, a, ul li, ul li a, text, tspan {
+    font-family: 'Pyidaungsu', 'Padauk', sans-serif;
+  }
+}
+
 body[id='agencies-version'],
 body[id='changelogs-version'],
 body[id='clients-version'],

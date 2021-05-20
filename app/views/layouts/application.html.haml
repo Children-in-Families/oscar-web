@@ -1,7 +1,7 @@
 !!!
-%html
+%html{ lang: params[:locale] || I18n.locale.to_s }
   %head
-    %meta{:charset => "utf-8"}
+    %meta{:charset => "utf-8" }
     %meta{:content => "IE=edge", "http-equiv" => "X-UA-Compatible"}
     %meta{:content => "width=device-width, initial-scale=1", :name => "viewport"}
     %meta{:content => "", :name => "description"}
@@ -14,6 +14,7 @@
     = javascript_pack_tag    'application'
     = stylesheet_pack_tag    'application'
     = stylesheet_link_tag    'application', media: 'all'
+    = render 'layouts/fonts.html.erb'
     = csrf_meta_tags
 
   %body{id: "#{controller_name}-#{params[:action]}", class: "pace-done #{authorized_body}"}
