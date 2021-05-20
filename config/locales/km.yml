@@ -980,6 +980,7 @@ km:
       back: Back
       begin_now: Add New
       case_conference: Case Conference
+      case_conference_edit_duration: Case Conference Editable Duration
       initial_assessment: "Initial %{assessment} on"
       new_assessment: New Assessment
       next_review: Next Review on

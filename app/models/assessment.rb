@@ -30,17 +30,27 @@ class Assessment < ActiveRecord::Base
   DUE_STATES        = ['Due Today', 'Overdue']
 
   def set_assessment_completed
-    empty_assessment_domains = []
-    setting = Setting.first
-    assessment_domains.each do |assessment_domain|
-      empty_assessment_domains << assessment_domain if ((!setting.disable_required_fields && assessment_domain[:score].nil?) || assessment_domain[:reason].empty?)
-    end
+    empty_assessment_domains = check_reason_and_score
     if empty_assessment_domains.count.zero?
       self.completed = true
     else
       self.completed = false
       true
     end
+  end
+
+  def check_reason_and_score
+    empty_assessment_domains = []
+    setting = Setting.first
+    is_ratanak = Organization.ratanak?
+    assessment_domains.each do |assessment_domain|
+      if is_ratanak
+        empty_assessment_domains << assessment_domain if ((setting.disable_required_fields && assessment_domain[:score].nil?) || assessment_domain[:reason].empty?)
+      else
+        empty_assessment_domains << assessment_domain if ((!setting.disable_required_fields && assessment_domain[:score].nil?) || assessment_domain[:reason].empty?)
+      end
+    end
+    empty_assessment_domains
   end
 
   def self.latest_record
