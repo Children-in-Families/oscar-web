@@ -1015,6 +1015,7 @@ module ClientsHelper
   end
 
   def family_counter
+    return unless controller_name == 'clients'
     count = @results.joins(:family).distinct.count(:family_id)
     content_tag(:span, count, class: 'label label-info')
   end
