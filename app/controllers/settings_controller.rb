@@ -113,7 +113,7 @@ class SettingsController < AdminController
                                     :never_delete_incomplete_assessment, :show_prev_assessment,
                                     :sharing_data, :custom_id1_latin, :custom_id1_local, :custom_id2_latin, :custom_id2_local,
                                     :enable_hotline, :enable_client_form, :assessment_score_order, :disable_required_fields,
-                                    :hide_family_case_management_tool, :hide_community,
+                                    :hide_family_case_management_tool, :hide_community, :case_conference_limit, :case_conference_frequency,
                                     client_default_columns: [], family_default_columns: [], community_default_columns: [],
                                     partner_default_columns: [], user_default_columns: [],
                                     custom_assessment_settings_attributes: [:id, :custom_assessment_name, :max_custom_assessment, :custom_assessment_frequency, :custom_age, :enable_custom_assessment, :_destroy])

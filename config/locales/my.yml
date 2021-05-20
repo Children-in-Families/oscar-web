@@ -975,6 +975,7 @@ my:
       back: Back
       begin_now: Add New
       case_conference: Case Conference
+      case_conference_edit_duration: Case Conference Editable Duration
       initial_assessment: "Initial %{assessment} on"
       next_review: Next Review on
       no_custom_domains_available: No Custom Domains Available

@@ -26,12 +26,12 @@ class CaseConferencePolicy < ApplicationPolicy
     return true if setting.enable_default_assessment? && user.admin?
 
     return false if can_edit?(user, record) || case_conference_editable?(record.meeting_date)
-    editable_user = user.admin? ? true : user.permission&.assessments_editable
+    editable_user = user.admin? ? true : (user.permission&.assessments_editable)
     enable_assessment && (editable_user && !record.client&.exit_ngo? || user.admin?)
   end
 
   def can_edit?(user, case_conference)
-    return case_conference.created_at < 7.days.ago unless user.strategic_overviewer?
+    return (case_conference.assessment && case_conference.assessment.completed?) unless user.strategic_overviewer?
   end
 
   alias create? new?
