@@ -8,8 +8,8 @@ module ApplicationHelper
       asset = Rails.application.assets_manifest.assets[path]
     end
     throw "Could not find asset '#{path}'" if asset.nil?
-    base64 = Base64.encode64(asset.to_s).gsub(/\s/, "")
-    "data:#{asset.content_type};base64,#{Rack::Utils.escape(base64)}"
+    content_type = asset.try(:content_type) || "application/x-font-ttf"
+    "data:#{content_type};base64,#{Rack::Utils.escape(base64)}"
   end
 
   def asset_exist?(path)
