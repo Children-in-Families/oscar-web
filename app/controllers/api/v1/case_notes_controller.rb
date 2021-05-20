@@ -9,7 +9,7 @@ module Api
         case_note = @client.case_notes.new(case_note_params)
         case_note.assessment = @client.assessments.custom_latest_record
         if case_note.save
-          case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes])
+          case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes], current_user.id)
           render json: case_note
         else
           render json: case_note.errors, status: :unprocessable_entity
@@ -23,7 +23,7 @@ module Api
           params[:case_note][:case_note_domain_groups_attributes].each do |d|
             add_more_attachments(d.second[:attachments], d.second[:id])
           end
-          case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes])
+          case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes], current_user.id)
           render json: case_note
         else
           render json: case_note.errors, status: :unprocessable_entity

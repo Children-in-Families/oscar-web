@@ -1,7 +1,10 @@
 class ServiceDeliveriesController < AdminController
   before_action :find_service_delivery, except: :index
+  before_action :find_sub_category, except: [:index, :destroy]
+
   def index
-    @service_deliveries = ServiceDelivery.all
+    @main_services = ServiceDelivery.only_parents
+    @service_deliveries = ServiceDelivery.only_children
   end
 
   def new
@@ -30,7 +33,7 @@ class ServiceDeliveriesController < AdminController
 
   def destroy
     if @service_delivery.destroy
-      redirect_to service_deliveries_path, notice: t('.successfully_deleted_assessment')
+      redirect_to service_deliveries_path, notice: t('.successfully_deleted')
     else
       messages = @service_delivery.errors.full_messages.uniq.join('\n')
       redirect_to service_deliveries_path, alert: messages
@@ -40,10 +43,14 @@ class ServiceDeliveriesController < AdminController
   private
 
   def service_delivery_params
-    params.require(:service_delivery).permit(:name)
+    params.require(:service_delivery).permit(:name, :parent_id)
   end
 
   def find_service_delivery
     @service_delivery = ServiceDelivery.find(params[:id]) if params[:id]
+  end
+
+  def find_sub_category
+    @sub_categories = ServiceDelivery.where(parent_id: params['parent_id']) if params['parent_id']
   end
 end

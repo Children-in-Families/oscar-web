@@ -6,6 +6,7 @@ class Task < ActiveRecord::Base
   belongs_to :taskable, polymorphic: true
   belongs_to :family
   belongs_to :goal, required: false
+  belongs_to :completed_by, class_name: 'User', foreign_key: 'completed_by_id'
 
   has_many :service_delivery_tasks, dependent: :restrict_with_error
   has_many :service_deliveries, through:   :service_delivery_tasks
@@ -45,8 +46,8 @@ class Task < ActiveRecord::Base
     where(user_id: user.id)
   end
 
-  def self.set_complete(case_note)
-    update_all(completed: true, completion_date: case_note.meeting_date, taskable_id: case_note.id, taskable_type: case_note.class.to_s)
+  def self.set_complete(case_note, completed_by_id)
+    update_all(completed: true, completion_date: case_note.meeting_date, taskable_id: case_note.id, taskable_type: case_note.class.to_s, completed_by_id: completed_by_id)
   end
 
   def self.filter(params)
@@ -87,6 +88,14 @@ class Task < ActiveRecord::Base
     the_service_delivery_task_ids.each do |service_delivery_id|
       service_delivery_tasks.create(service_delivery_id: service_delivery_id)
     end
+  end
+
+  def map_service_deliveries
+    service_deliveries.map(&:name)
+  end
+
+  def who_complete_the_task
+    completed_by&.name
   end
 
   private

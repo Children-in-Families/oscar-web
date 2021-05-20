@@ -29,7 +29,7 @@
                 %td.col-xs-3= @setting.default_assessment
                 %td.col-xs-6.task-name.border-left-right
                 %td.col-xs-3= date_format(client_next_default_assessment)
-            - if @setting.enable_custom_assessment && @assessment_params && upcoming_custom_assessments_any?(client) && client.user_ids.include?(@user.id) && client.eligible_custom_csi?
+            - if @setting.enable_custom_assessment && @assessment_params && upcoming_custom_assessments_any?(client) && client.user_ids.include?(@user.id)
               %tr
                 %td.col-xs-3= @setting.custom_assessment
                 %td.col-xs-6.task-name.border-left-right

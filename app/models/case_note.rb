@@ -45,7 +45,7 @@ class CaseNote < ActiveRecord::Base
     end
   end
 
-  def complete_tasks(params)
+  def complete_tasks(params, current_user_id = nil)
     return if params.nil?
     params.each do |_, param|
       next unless param[:domain_group_id]
@@ -53,10 +53,10 @@ class CaseNote < ActiveRecord::Base
       task_ids = param[:task_ids] || []
       case_note_tasks = Task.with_deleted.where(id: task_ids)
       next if case_note_tasks.reject(&:blank?).blank?
-      service_delivery_task(param, case_note_tasks)
       case_note_tasks.update_all(case_note_domain_group_id: case_note_domain_group.id)
       case_note_domain_group.reload
-      case_note_domain_group.tasks.with_deleted.set_complete(self)
+      case_note_domain_group.tasks.with_deleted.set_complete(self, current_user_id)
+      service_delivery_task(param, case_note_tasks)
       case_note_domain_group.save
     end
   end
@@ -74,6 +74,8 @@ class CaseNote < ActiveRecord::Base
       case_note_tasks.each do |task|
         service_delivery_task_ids = param['task'][task.id.to_s]['service_delivery_task_ids'].reject(&:blank?)
         task.create_service_delivery_tasks(service_delivery_task_ids)
+        task.reload
+        task.update_columns(completion_date: param['task'][task.id.to_s]['completion_date']) if param['task'][task.id.to_s]['completion_date'].present?
       end
     end
   end

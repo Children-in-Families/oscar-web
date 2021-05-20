@@ -2252,6 +2252,7 @@ en:
       relevant_referral_information: Relevant Referral Information
       school_grade: School Grade
       school_name: School Name
+      service_received: Services Received
       state: Accept/Reject
       status: Status
       street_number: Street
@@ -5885,6 +5886,27 @@ en:
   field_settings:
     update:
       successfully_updated: Setting have been successfully updated.
+  service_deliveries:
+    _attr: &SERVICE_DELIVERY_ATTR
+      add_new_service_delivery: Add New Service Delivery
+      category: Category
+      id: ID
+      manage: Manage
+      service_deliveries: Service Deliveries
+      service_provided: Service Provided
+    create:
+      successfully_created: Service has been successfully created.
+    destroy:
+      alert: Service cannot be deleted.
+      successfully_deleted: Service has been successfully deleted.
+    form:
+       <<: *SERVICE_DELIVERY_ATTR
+    index:
+      <<: *SERVICE_DELIVERY_ATTR
+    new:
+      <<: *SERVICE_DELIVERY_ATTR
+    update:
+      successfully_updated: Service has been successfully updated.
   shared:
     x_lists_of: "%{x} lists of"
     new_x: "New %{x}"
