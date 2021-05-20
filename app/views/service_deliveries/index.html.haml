@@ -39,5 +39,5 @@
                                   %td= service_delivery.name
                                   %td= service_delivery.parent.name
                                   %th.text-center
-                                    = render 'manage', object: service_delivery
+                                    = render 'manage', object: service_delivery, parent_id: main_service.id
 
