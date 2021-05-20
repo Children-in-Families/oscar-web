@@ -5802,6 +5802,27 @@ km:
   field_settings:
     update:
       successfully_updated: ការកំណត់បានកែសម្រួលដោយជោគជ័យ
+  service_deliveries:
+    _attr: &SERVICE_DELIVERY_ATTR
+      add_new_service_delivery: Add New Service Delivery
+      category: Category
+      id: ID
+      manage: Manage
+      service_deliveries: Service Deliveries
+      service_provided: Service Provided
+    create:
+      successfully_created: Service has been successfully created.
+    destroy:
+      alert: Service cannot be deleted.
+      successfully_deleted: Service has been successfully deleted.
+    form:
+       <<: *SERVICE_DELIVERY_ATTR
+    index:
+      <<: *SERVICE_DELIVERY_ATTR
+    new:
+      <<: *SERVICE_DELIVERY_ATTR
+    update:
+      successfully_updated: Service has been successfully updated.
   shared:
     x_lists_of: "បញ្ជី%{x}"
     new_x: "%{x}ថ្មី"

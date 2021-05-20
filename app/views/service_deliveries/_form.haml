@@ -1,6 +1,11 @@
 = simple_form_for(@service_delivery, html: { id: "#{action_name}-service_delivery", class: 'service_delivery-form' }) do |f|
   = error_notification(f)
-  = f.input :name, label: t('.service_provided')
+  = hidden_field_tag :parent_id, params['parent_id']
+  .row
+    .col-xs-12.col-md-6
+      = f.input :name, label: t('.service_provided')
+    .col-xs-12.col-md-6
+      = f.input :parent_id, collection: @sub_categories, label_method: :name, value_method: :id, label: t('.category')
   .ibox-footer
     = f.submit t('save'), class: 'btn btn-primary form-btn', data: { disable_with: t('saving') }
     - if @service_delivery.persisted?

@@ -1,26 +1,43 @@
 .row
   .col-xs-12
-    .ibox#service-delivery-ibox
+    .ibox.min-margin-layout
       .ibox-title
         %h5
           = t('.service_deliveries')
-          %span.label.label-info.m-r-xs= @service_deliveries.count
-        - if can? :manage, ServiceDelivery
-          = link_to t('.add_new_service_delivery'), new_service_delivery_path, class: 'btn btn-primary'
       .ibox-content
-        .table-responsive
-          %table.table.table-bordered.table-striped.table-hover
-            %thead
-              %tr
-                %th= t('.id')
-                %th= t('.service_provided')
-                %th= t('.category')
-                %th.text-center= t('.manage')
-            %tbody
-              - @service_deliveries.each do |service_delivery|
-                %tr
-                  %td= service_delivery.id
-                  %td= service_delivery.name
-                  %td= service_delivery.parent.name
-                  %th.text-center
-                    = render 'manage', object: service_delivery
+        %div
+          %ul.nav.nav-tabs.csi-tab{role: "service-deliver-list"}
+            - @main_services.each_with_index do |main_service, index|
+              - tab_id = main_service.name.downcase.strip.parameterize
+              %li{ role: "presentation", class: index.zero? && 'active' }
+                %a{"aria-controls" => "#{tab_id}", "data-toggle" => "tab", href: "##{tab_id}", role: "tab"}= main_service.name
+          .tab-content
+            - @main_services.each_with_index do |main_service, index|
+              - tab_id = main_service.name.downcase.strip.parameterize
+              .tab-pane{ role: "tabpanel", id: "#{tab_id}", class: index.zero? && 'active' }
+                .row
+                  .col-xs-12
+                    .ibox
+                      .ibox-title.domain-ibox
+                        %h5= main_service.name
+                        .ibox-tools
+                          - if can? :manage, ServiceDelivery
+                            = link_to t('.add_new_service_delivery'), new_service_delivery_path(parent_id: main_service.id), class: 'btn btn-primary'
+                      .ibox-content
+                        .table-responsive
+                          %table.table.table-bordered.table-striped.table-hover
+                            %thead
+                              %tr
+                                %th= t('.id')
+                                %th= t('.service_provided')
+                                %th= t('.category')
+                                %th.text-center= t('.manage')
+                            %tbody
+                              - main_service.children.map(&:children).flatten.each do |service_delivery|
+                                %tr
+                                  %td= service_delivery.id
+                                  %td= service_delivery.name
+                                  %td= service_delivery.parent.name
+                                  %th.text-center
+                                    = render 'manage', object: service_delivery
+
