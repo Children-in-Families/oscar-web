@@ -8,9 +8,14 @@
             = check_box_tag "case_note[case_note_domain_groups_attributes][#{domain_note.index}][task_ids][]", task.id, task.completed, class: 'i-checks task'
             = label_tag task.name
           - if Organization.ratanak?
+            - input_name = "#{domain_note.object_name}[task][#{task.id}]"
             .service-delivery.hide.m-b-sm{ id: "service-delivery-task-#{task.id}" }
+              %label.m-t-xs{ :for => "completion_date" }= t('tasks.completion_date')
+              .row
+                .col-xs-12.col-md-4.col-lg-4
+                  = text_field_tag "#{input_name}[completion_date]", "", class: 'date form-control date-picker'
               %label.m-t-xs{ :for => "service-delivery-task-ids" }= t('service_deliveries.index.service_provided')
-              %select.service-delivery-task-ids.select.optional.form-control{ multiple: 'multiple', :name => "#{domain_note.object_name}[task][#{task.id}][service_delivery_task_ids][]" }
+              %select.service-delivery-task-ids.select.optional.form-control{ multiple: 'multiple', :name => "#{input_name}[service_delivery_task_ids][]" }
                 - ServiceDelivery.all.each do |service_delivery|
                   %option{ :value => service_delivery.id }= service_delivery.name
 

@@ -14,11 +14,13 @@
               %tr
                 %th= t('.id')
                 %th= t('.service_provided')
+                %th= t('.category')
                 %th.text-center= t('.manage')
             %tbody
               - @service_deliveries.each do |service_delivery|
                 %tr
                   %td= service_delivery.id
                   %td= service_delivery.name
+                  %td= service_delivery.parent.name
                   %th.text-center
                     = render 'manage', object: service_delivery

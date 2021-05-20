@@ -1,7 +1,7 @@
 class ServiceDeliveriesController < AdminController
   before_action :find_service_delivery, except: :index
   def index
-    @service_deliveries = ServiceDelivery.all
+    @service_deliveries = ServiceDelivery.only_children
   end
 
   def new
@@ -30,7 +30,7 @@ class ServiceDeliveriesController < AdminController
 
   def destroy
     if @service_delivery.destroy
-      redirect_to service_deliveries_path, notice: t('.successfully_deleted_assessment')
+      redirect_to service_deliveries_path, notice: t('.successfully_deleted')
     else
       messages = @service_delivery.errors.full_messages.uniq.join('\n')
       redirect_to service_deliveries_path, alert: messages
