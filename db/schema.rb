@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210503135806) do
+ActiveRecord::Schema.define(version: 20210519061845) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -133,11 +133,13 @@ ActiveRecord::Schema.define(version: 20210503135806) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "client_id"
-    t.boolean  "completed",  default: false
-    t.boolean  "default",    default: true
+    t.boolean  "completed",          default: false
+    t.boolean  "default",            default: true
     t.integer  "family_id"
+    t.integer  "case_conference_id"
   end
 
+  add_index "assessments", ["case_conference_id"], name: "index_assessments_on_case_conference_id", using: :btree
   add_index "assessments", ["client_id"], name: "index_assessments_on_client_id", using: :btree
   add_index "assessments", ["family_id"], name: "index_assessments_on_family_id", using: :btree
 
@@ -265,6 +267,42 @@ ActiveRecord::Schema.define(version: 20210503135806) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "case_conference_domains", force: :cascade do |t|
+    t.integer  "domain_id"
+    t.integer  "case_conference_id"
+    t.text     "presenting_problem"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
+  add_index "case_conference_domains", ["case_conference_id"], name: "index_case_conference_domains_on_case_conference_id", using: :btree
+  add_index "case_conference_domains", ["domain_id"], name: "index_case_conference_domains_on_domain_id", using: :btree
+
+  create_table "case_conference_users", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "case_conference_id"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
+  add_index "case_conference_users", ["case_conference_id"], name: "index_case_conference_users_on_case_conference_id", using: :btree
+  add_index "case_conference_users", ["user_id"], name: "index_case_conference_users_on_user_id", using: :btree
+
+  create_table "case_conferences", force: :cascade do |t|
+    t.datetime "meeting_date"
+    t.text     "client_strength"
+    t.text     "client_limitation"
+    t.text     "client_engagement"
+    t.text     "local_resource"
+    t.string   "attachments",       default: [],              array: true
+    t.integer  "client_id"
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+  end
+
+  add_index "case_conferences", ["client_id"], name: "index_case_conferences_on_client_id", using: :btree
+  add_index "case_conferences", ["meeting_date"], name: "index_case_conferences_on_meeting_date", using: :btree
 
   create_table "case_contracts", force: :cascade do |t|
     t.date     "signed_on"
@@ -1917,6 +1955,8 @@ ActiveRecord::Schema.define(version: 20210503135806) do
     t.boolean  "hide_family_case_management_tool",     default: true,                null: false
     t.boolean  "hide_community",                       default: true,                null: false
     t.string   "community_default_columns",            default: [],                               array: true
+    t.integer  "case_conference_limit",                default: 0
+    t.string   "case_conference_frequency",            default: "week"
   end
 
   add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree
@@ -2392,6 +2432,11 @@ ActiveRecord::Schema.define(version: 20210503135806) do
   add_foreign_key "carers", "subdistricts"
   add_foreign_key "carers", "townships"
   add_foreign_key "carers", "villages"
+  add_foreign_key "case_conference_domains", "case_conferences"
+  add_foreign_key "case_conference_domains", "domains"
+  add_foreign_key "case_conference_users", "case_conferences"
+  add_foreign_key "case_conference_users", "users"
+  add_foreign_key "case_conferences", "clients"
   add_foreign_key "case_contracts", "cases"
   add_foreign_key "case_notes", "clients"
   add_foreign_key "case_notes", "custom_assessment_settings"

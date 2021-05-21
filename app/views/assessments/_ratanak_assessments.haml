@@ -1,0 +1,25 @@
+.row.margin-row
+  .col-xs-12.col-sm-4
+    %h5
+      = t('assessments.index.assessment_created_on', assessment: t('clients.show.case_conference'))
+      %b
+        = date_format(case_conference.created_at)
+  .col-xs-12.col-sm-4
+    %h5
+      - if assessment.present?
+        = t('assessments.index.assessment_created_on', assessment: t('clients.show.assessment'))
+        %b
+          = date_format(assessment.created_at)
+        = render partial: 'incomplete_detail', locals: { assessment: assessment }
+        %label{ class: "cursor-pointer #{assessment.completed? ? 'label label-primary' : 'label label-danger'}", data: { toggle: :modal, target: "#modal-incomplete-assessment-#{assessment.id}" } }= "#{assessment.completed? ? 'Completed' : 'Incompleted'}"
+      - else
+        = t('assessments.index.initial_assessment', assessment: t('clients.show.assessment'))
+        %b
+          = date_format(Date.today)
+  .col-xs-12.col-sm-4
+    - if assessment.present?
+      .btn.btn-block.btn-info.button{ class: ('disabled' unless case_conference_readable?) }
+        = link_to t('assessments.index.review_assessment'),  client_assessment_path(@client, assessment.id)
+    - else
+      .btn.btn-block.btn-primary.button{ class: ('disabled' unless case_conference_readable?) }
+        = link_to "#{t('assessments.index.begin_now')} #{t('clients.show.assessment')}", new_client_assessment_path(@client, default: true, :case_conference => case_conference.id)

@@ -133,6 +133,11 @@
             %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit
               %strong.count-margin= @client.tasks.incomplete.count
               = t('.view_tasks')
+          - if Organization.ratanak?
+            = link_to client_case_conferences_path(@client) do
+              %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit
+                %strong.count-margin= @client.case_conferences.count
+                = t('.case_conference')
           - if enable_any_csi_tools?
             = link_to client_assessments_path(@client), data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.clients.assessments.button', assessment: t('clients.show.assessment') )}", placement: "auto" } do
               %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit

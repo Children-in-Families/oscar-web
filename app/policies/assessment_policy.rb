@@ -24,7 +24,6 @@ class AssessmentPolicy < ApplicationPolicy
   end
 
   def edit?
-    return true if Apartment::Tenant.current == 'ratanak'
     setting = Setting.first
     enable_assessment = record.default? ? setting.enable_default_assessment? : setting.enable_custom_assessment?
     return true if enable_assessment && user.admin?
@@ -36,7 +35,9 @@ class AssessmentPolicy < ApplicationPolicy
   end
 
   def can_edit?(user, assessment)
-    assessment_object = assessment.class.name == "AssessmentDecorator" ? assessment.object : assessment
+    assessment_object = assessment.class.name == 'AssessmentDecorator' ? assessment.object : assessment
+    return true if assessment.completed? && Organization.ratanak?
+
     return assessment_object.created_at < 7.days.ago unless user.strategic_overviewer?
   end
 

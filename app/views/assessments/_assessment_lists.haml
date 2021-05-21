@@ -1,0 +1,17 @@
+.col-xs-12.col-sm-8
+  %h5
+    - if assessment.initial?(assessment.domains.last && assessment.domains.last.custom_assessment_setting_id)
+      = t('.initial_assessment', assessment: t('clients.show.assessment'))
+    - else
+      = t('.assessment_created_on', assessment: t('clients.show.assessment'))
+    %b
+      = date_format(assessment.created_at)
+    = "(#{assessment.domains.last.custom_assessment_setting.custom_assessment_name})" if assessment.domains.last&.custom_assessment_setting.present?
+
+    = render partial: 'incomplete_detail', locals: { assessment: assessment }
+    %label{ class: "cursor-pointer #{assessment.completed_label_class}", data: { toggle: :modal, target: "#modal-incomplete-assessment-#{assessment.id}" } }
+      = assessment.completed_status
+
+.col-xs-12.col-sm-4
+  .btn.btn-block.btn-info.button{ class: ('disabled' unless case_notes_readable?) }
+    = link_to_if assessment_readable?, t('.view_report'), client_assessment_path(@client, assessment)

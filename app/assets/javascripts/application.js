@@ -143,3 +143,4 @@
 //= require donors/index
 //= require care_plans/form
 //= require family_referrals/form
+//= require case_conferences/form

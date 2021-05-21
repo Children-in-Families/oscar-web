@@ -6,51 +6,15 @@
           %strong= link_to_client_show(@client)
         %h5.margin-title= t('.assessment_history', assessment: t('clients.show.assessment'))
       .ibox-content
-        - @assessmets.each_with_index do |assessment, index|
-          .row.margin-row
-            .col-xs-12.col-sm-8
-              %h5
-                - if assessment.initial?(assessment.domains.last && assessment.domains.last.custom_assessment_setting_id)
-                  = t('.initial_assessment', assessment: t('clients.show.assessment'))
-                - else
-                  = t('.assessment_created_on', assessment: t('clients.show.assessment'))
-                %b
-                  = date_format(assessment.created_at)
-                = "(#{assessment.domains.last.custom_assessment_setting.custom_assessment_name})" if assessment.domains.last&.custom_assessment_setting.present?
-                = render partial: 'incomplete_detail', locals: { assessment: assessment }
-                %label{ class: "cursor-pointer #{assessment.completed_label_class}", data: { toggle: :modal, target: "#modal-incomplete-assessment-#{assessment.id}" } }
-                  = assessment.completed_status
-
-            .col-xs-12.col-sm-4
-              .btn.btn-block.btn-info.button{ class: ('disabled' unless case_notes_readable?) }
-                = link_to_if assessment_readable?, t('.view_report'), client_assessment_path(@client, assessment)
-
-        - if @current_setting.enable_default_assessment && completed_initial_assessment?('defaults')
-          .row.margin-row
-            .col-xs-12.col-sm-8
-              %h5
-                - if @client.assessments.defaults.any?
-                  = t('.next_review')
-                  %b
-                    = date_format(@client.next_assessment_date)
-                - else
-                  = t('.initial_assessment', assessment: t('clients.show.assessment'))
-                  %b
-                    = date_format(Date.today)
-            .col-xs-12.col-sm-4
-              - if policy(@default_assessment).create?()
-                = link_to new_client_assessment_path(@client, default: true), data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.assessments.index.default_button', assessment: t('clients.show.assessment'))}", placement: "auto" } do
-                  .btn.btn-block.btn-primary.button
-                    - if Organization.ratanak?
-                      = "#{t('.begin_now')} #{t('clients.show.assessment')}"
-                    - else
-                      = "#{t('.begin_now')} #{@current_setting.default_assessment}"
-              - else
-                .btn.btn-block.btn-default.button.disabled{ data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.assessments.index.default_button', assessment: t('clients.show.assessment'))}", placement: "auto" } }
-                  - if Organization.ratanak?
-                    = "#{t('.begin_now')} #{t('clients.show.assessment')}"
-                  - else
-                    = "#{t('.begin_now')} #{@current_setting.default_assessment}"
+        - if Organization.ratanak?
+          - @case_conferences.each do |case_conference|
+            = render 'ratanak_assessments', case_conference: case_conference, assessment: case_conference.assessment
+        - else
+          - @assessmets.each_with_index do |assessment, index|
+            .row.margin-row
+              = render 'assessment_lists', assessment: assessment
+          - if @current_setting.enable_default_assessment && completed_initial_assessment?('defaults')
+            = render 'new_assessment'
 
         - if @current_setting.enable_custom_assessment && completed_initial_assessment?('customs')
           .row.margin-row
