@@ -15,7 +15,7 @@ class ClientsController < AdminController
 
   before_action :find_client, only: [:show, :edit, :update, :destroy]
   before_action :assign_client_attributes, only: [:show, :edit]
-  before_action :set_association, except: [:index, :destroy, :version]
+  before_action :set_association, except: [:index, :destroy, :version, :service_receive]
   before_action :choose_grid, only: [:index]
   before_action :quantitative_type_editable, only: [:edit, :update, :new, :create]
   before_action :quantitative_type_readable
@@ -197,6 +197,11 @@ class ClientsController < AdminController
     page = params[:per_page] || 20
     @client   = Client.accessible_by(current_ability).friendly.find(params[:client_id]).decorate
     @versions = @client.versions.reorder(created_at: :desc).page(params[:page]).per(page)
+  end
+
+  def service_receive
+    @client = Client.accessible_by(current_ability).friendly.find(params[:client_id])
+    @tasks = @client.tasks.joins(:service_deliveries).select('DISTINCT ON (tasks.id, service_deliveries.id) tasks.id, completion_date, service_deliveries.name, (SELECT name from service_deliveries as sd where sd.id = service_deliveries.parent_id) as category, tasks.completed_by_id')
   end
 
   private

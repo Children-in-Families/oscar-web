@@ -9,6 +9,7 @@ class Ability
     can :preview, ProgramStream
     can :manage, Call
     can :manage, Referee
+    can :manage, ServiceDelivery
     can :manage, CaseConference
 
     if user.nil?

@@ -2250,6 +2250,7 @@ km:
       relevant_referral_information: ព័ត៌មានសំខាន់ៗដែលពាក់ព័ន្ធនឹងការបញ្ជូនករណី
       school_grade: កម្រិតថ្នាក់
       school_name: ឈ្មោះសាលារៀន
+      service_received: Service Received
       state: ទទួល/បដិសេធ
       status: ស្ថានភាព
       street_number: ផ្លូវ
@@ -5850,6 +5851,28 @@ km:
   field_settings:
     update:
       successfully_updated: ការកំណត់បានកែសម្រួលដោយជោគជ័យ
+  results: លទ្ធផល
+  service_deliveries:
+    _attr: &SERVICE_DELIVERY_ATTR
+      add_new_service_delivery: Add New Service Delivery
+      category: Category
+      id: ID
+      manage: Manage
+      service_deliveries: Service Deliveries
+      service_provided: Service Provided
+    create:
+      successfully_created: Service has been successfully created.
+    destroy:
+      alert: Service cannot be deleted.
+      successfully_deleted: Service has been successfully deleted.
+    form:
+       <<: *SERVICE_DELIVERY_ATTR
+    index:
+      <<: *SERVICE_DELIVERY_ATTR
+    new:
+      <<: *SERVICE_DELIVERY_ATTR
+    update:
+      successfully_updated: Service has been successfully updated.
   shared:
     x_lists_of: "បញ្ជី%{x}"
     new_x: "%{x}ថ្មី"

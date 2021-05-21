@@ -2236,6 +2236,7 @@ my:
       relevant_referral_information: သက္ဆုိင္ေသာ လႊဲေျပာင္းျခင္း အခ်က္အလက္
       school_grade: ေက်ာင္းအဆင့္
       school_name: ေက်ာင္းနာမည္
+      service_received: Service Received
       state: လက္ခံသည္/ ျငင္းပယ္သည္
       status: အေနအထား
       street_number: လမ္း
@@ -5842,6 +5843,28 @@ my:
   field_settings:
     update:
       successfully_updated: အောင်မြင်စွာဖြည့်ပါ
+  results: Results
+  service_deliveries:
+    _attr: &SERVICE_DELIVERY_ATTR
+      add_new_service_delivery: Add New Service Delivery
+      category: Category
+      id: ID
+      manage: Manage
+      service_deliveries: Service Deliveries
+      service_provided: Service Provided
+    create:
+      successfully_created: Service has been successfully created.
+    destroy:
+      alert: Service cannot be deleted.
+      successfully_deleted: Service has been successfully deleted.
+    form:
+       <<: *SERVICE_DELIVERY_ATTR
+    index:
+      <<: *SERVICE_DELIVERY_ATTR
+    new:
+      <<: *SERVICE_DELIVERY_ATTR
+    update:
+      successfully_updated: Service has been successfully updated.
   shared:
     x_lists_of: "%{x}စာရင်း"
     new_x: "အသစ်%{x}"

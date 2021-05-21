@@ -38,7 +38,7 @@ class CaseNotesController < AdminController
     @case_note.meeting_date = "#{@case_note.meeting_date.strftime("%Y-%m-%d")}, #{Time.now.strftime("%H:%M:%S")}"
     if @case_note.save
       add_more_attachments(params[:case_note][:attachments]) if params.dig(:case_note, :attachments)
-      @case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes]) if params.dig(:case_note, :case_note_domain_groups_attributes)
+      @case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes], current_user.id) if params.dig(:case_note, :case_note_domain_groups_attributes)
       create_bulk_task(params[:task], @case_note) if params.has_key?(:task)
       if params[:from_controller] == "dashboards"
         redirect_to root_path, notice: t('.successfully_created')
@@ -68,14 +68,12 @@ class CaseNotesController < AdminController
   end
 
   def update
-
     if @case_note.update_attributes(case_note_params) && @case_note.save
       if params.dig(:case_note, :case_note_domain_groups_attributes)
         add_more_attachments(params[:case_note][:attachments]) if params.dig(:case_note, :attachments)
-        @case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes])
+        @case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes], current_user.id)
       end
       create_bulk_task(params[:task], @case_note) if params.has_key?(:task)
-      @case_note.tasks.update_all(completion_date: @case_note.meeting_date)
       redirect_to client_case_notes_path(@client), notice: t('.successfully_updated')
     else
       render :edit

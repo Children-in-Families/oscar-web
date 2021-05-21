@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210519061845) do
+ActiveRecord::Schema.define(version: 20210519191513) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1890,6 +1890,25 @@ ActiveRecord::Schema.define(version: 20210519061845) do
     t.integer "service_id"
   end
 
+  create_table "service_deliveries", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "parent_id"
+  end
+
+  add_index "service_deliveries", ["parent_id"], name: "index_service_deliveries_on_parent_id", using: :btree
+
+  create_table "service_delivery_tasks", force: :cascade do |t|
+    t.integer  "task_id"
+    t.integer  "service_delivery_id"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+  end
+
+  add_index "service_delivery_tasks", ["service_delivery_id"], name: "index_service_delivery_tasks_on_service_delivery_id", using: :btree
+  add_index "service_delivery_tasks", ["task_id"], name: "index_service_delivery_tasks_on_task_id", using: :btree
+
   create_table "service_types", force: :cascade do |t|
     t.string   "name",       default: ""
     t.datetime "created_at",              null: false
@@ -2062,9 +2081,11 @@ ActiveRecord::Schema.define(version: 20210519061845) do
     t.integer  "family_id"
     t.datetime "completion_date"
     t.string   "domain_group_identity"
+    t.integer  "completed_by_id"
   end
 
   add_index "tasks", ["client_id"], name: "index_tasks_on_client_id", using: :btree
+  add_index "tasks", ["completed_by_id"], name: "index_tasks_on_completed_by_id", using: :btree
   add_index "tasks", ["deleted_at"], name: "index_tasks_on_deleted_at", using: :btree
   add_index "tasks", ["domain_group_identity"], name: "index_tasks_on_domain_group_identity", using: :btree
   add_index "tasks", ["family_id"], name: "index_tasks_on_family_id", using: :btree
@@ -2565,6 +2586,8 @@ ActiveRecord::Schema.define(version: 20210519061845) do
   add_foreign_key "referees", "townships"
   add_foreign_key "referees", "villages"
   add_foreign_key "referrals", "clients"
+  add_foreign_key "service_delivery_tasks", "service_deliveries"
+  add_foreign_key "service_delivery_tasks", "tasks"
   add_foreign_key "services", "global_services", column: "uuid", primary_key: "uuid"
   add_foreign_key "settings", "communes"
   add_foreign_key "settings", "districts"
