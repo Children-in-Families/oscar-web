@@ -865,10 +865,11 @@ en:
   cannot_remove: cannot be removed
   cannot_remove_or_update: cannot be removed/updated since it is already in use.
   care_plans:
+    care_plan: Care plan
     create:
-      successfully_created: Care Plan has been successfully created.
+      successfully_created: "%{care_plan} has been successfully created."
     destroy:
-      successfully_deleted:  Care plans has been successfully deleted.
+      successfully_deleted: "%{care_plan} has been successfully deleted."
     form:
       add_goal: Add goal
       cancel: Cancel
@@ -889,15 +890,15 @@ en:
     index:
       assessment_created_on: Assessment created on
       back: Back
-      care_plan_created_on: Care Plan created on
-      care_plan_history: Care Plan History
-      new_care_plan: New Care Plan
-      review_care_plan: Review Care Plan
+      care_plan_created_on: "%{care_plan} created on"
+      care_plan_history: "%{care_plan} History"
+      new_care_plan: "New %{care_plan}"
+      review_care_plan: "Review %{care_plan}"
     show:
       are_you_sure: Are you sure you want to delete?
       back: Back
       based_on: Based on Assessment Number
-      care_plan: Care Plan For
+      care_plan: "%{care_plan} For"
       care_plan_created_by: Created by
       dimensions: Dimensions
       domain: Domain
@@ -910,7 +911,7 @@ en:
       score: Score
       task: Tasks
     update:
-      successfully_updated: Care Plan has been successfully updated.
+      successfully_updated: "%{care_plan} has been successfully updated."
   case:
     quarterly_reports:
       index:
@@ -1485,6 +1486,7 @@ en:
     update:
       successfully_updated: Enrollment has been successfully updated.
   clients:
+    care_plan: Care plan
     actions:
       are_you_sure: Are you sure you want to delete?
     address_forms:
