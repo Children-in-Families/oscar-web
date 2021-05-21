@@ -6,7 +6,7 @@
           %h5
             %strong= link_to_client_show(@client)
         .row.margin-title
-          %h5= t('.care_plan_history', care_plan: t('clients.show.care_plan'))
+          %h5= t('.care_plan_history', care_plan: t('clients.care_plan'))
       .ibox-content
         - @assessments.each_with_index do |assessment, index|
           .row.margin-row
@@ -19,16 +19,16 @@
             .col-xs-12.col-sm-4
               %h5
                 - if assessment.care_plan.present?
-                  = t('.care_plan_created_on')
+                  = t('.care_plan_created_on', care_plan: t('clients.care_plan'))
                   %b
                     = date_format(assessment.care_plan.created_at)
                     %span{class: care_plan_label(assessment.care_plan)}= care_plan_status(assessment.care_plan)
             .col-xs-12.col-sm-4
               .btn.btn-block.btn-info.button{ class: ('disabled' unless case_notes_readable?) }
                 - if assessment.care_plan.present?
-                  = link_to t('.review_care_plan'),  client_care_plan_path(@client, assessment.care_plan.id)
+                  = link_to t('.review_care_plan', care_plan: t('clients.care_plan')),  client_care_plan_path(@client, assessment.care_plan.id)
                 - else
-                  = link_to t('.new_care_plan'), new_client_care_plan_path(@client, :assessment => assessment.id)
+                  = link_to t('.new_care_plan', care_plan: t('clients.care_plan')), new_client_care_plan_path(@client, :assessment => assessment.id)
 
       .ibox-footer
         .row
