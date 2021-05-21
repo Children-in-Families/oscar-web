@@ -1,0 +1,48 @@
+.row
+  - if @prev_case_conference
+    .col-xs-6
+      = render 'details', case_conference: @prev_case_conference
+  %div{ class: @prev_case_conference ? 'col-xs-6' : 'col-xs-12' }
+    = simple_form_for([@client, @case_conference], html: { id: "#{action_name}-case_conference", class: 'case_conference-form horizontal_form' }) do |f|
+      .ibox
+        .ibox-title
+          %h5
+            = "#{@client.name}"
+            %small= " (Current #{t('.case_conference')})"
+          .ibox-tools
+            = link_to client_case_conferences_path(@client), class: 'btn btn-default btn-back-default button' do
+              = t('.back')
+        .ibox-content
+          .row
+            .col-md-6
+              = f.label :meeting_date, label: t('.meeting_date')
+              .input-group.date
+                = f.text_field :meeting_date, value: f.object.meeting_date && f.object.meeting_date.to_date, class: 'date optional form-control date-picker m-b-md', type: 'text', name: 'case_conference[meeting_date]', id: 'meeting_date'
+                %span.input-group-addon
+                  %i.fa.fa-calendar-check-o
+              = f.error :meeting_date, class: 'text-danger'
+            .col-md-6
+              = f.input :user_ids, label: t('.attendants'),required: true, collection: User.deleted_user.non_strategic_overviewers.order(:first_name, :last_name), label_method: :name, value_method: :id, input_html: { multiple: true }
+          .hr-line-dashed
+          %fieldset.scheduler-border
+            %legend.scheduler-border
+              %h3.text-success= t('.presenting_problem')
+            = f.simple_fields_for :case_conference_domains, @case_conference.case_conference_order_by_domain_name do |ccd|
+              = ccd.hidden_field :domain_id
+              = ccd.input :presenting_problem, label: "#{ccd.object.domain.identity} (#{ccd.object.domain.name})"
+          .hr-line-dashed
+          %fieldset.scheduler-border
+            %legend.scheduler-border
+              %h3.text-success= t('.client_support')
+            = f.input :client_strength
+            = f.input :client_limitation
+            = f.input :client_engagement
+            = f.input :local_resource, label: t('.local_resource')
+            = f.input :attachments, label: t('.attachment'), as: :file, input_html: { multiple: true, name: 'case_conference[attachments][]' }
+            %p
+              %i.small="#{t('.allow_file_size')} (.jpg, .jpeg, .png, .doc, .docx, .xls, .xlsx, .pdf)"
+            %p
+              %i.small= t('.max_file_size')
+        .ibox-footer
+          = f.submit t('.save'), class: 'btn btn-primary btn-form', id: 'case-note-submit-btn', data: { disable_with: t('saving') }
+          = link_to t('.back') , client_case_conferences_path(@case_conference.client), class: 'btn btn-default btn-form'

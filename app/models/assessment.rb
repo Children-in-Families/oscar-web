@@ -1,6 +1,7 @@
 class Assessment < ActiveRecord::Base
   belongs_to :client, counter_cache: true
   belongs_to :family, counter_cache: true
+  belongs_to :case_conference
 
   has_many :assessment_domains, dependent: :destroy
   has_many :domains,            through:   :assessment_domains
@@ -29,17 +30,27 @@ class Assessment < ActiveRecord::Base
   DUE_STATES        = ['Due Today', 'Overdue']
 
   def set_assessment_completed
-    empty_assessment_domains = []
-    setting = Setting.first
-    assessment_domains.each do |assessment_domain|
-      empty_assessment_domains << assessment_domain if ((!setting.disable_required_fields && assessment_domain[:score].nil?) || assessment_domain[:reason].empty?)
-    end
+    empty_assessment_domains = check_reason_and_score
     if empty_assessment_domains.count.zero?
       self.completed = true
     else
       self.completed = false
       true
     end
+  end
+
+  def check_reason_and_score
+    empty_assessment_domains = []
+    setting = Setting.first
+    is_ratanak = Organization.ratanak?
+    assessment_domains.each do |assessment_domain|
+      if is_ratanak
+        empty_assessment_domains << assessment_domain if ((setting.disable_required_fields && assessment_domain[:score].nil?) || assessment_domain[:reason].empty?)
+      else
+        empty_assessment_domains << assessment_domain if ((!setting.disable_required_fields && assessment_domain[:score].nil?) || assessment_domain[:reason].empty?)
+      end
+    end
+    empty_assessment_domains
   end
 
   def self.latest_record
@@ -78,7 +89,18 @@ class Assessment < ActiveRecord::Base
       domains = default == 'true' ? Domain.csi_domains : Domain.custom_csi_domains
     end
     domains.each do |domain|
-      assessment_domains.build(domain: domain)
+      case_conference_domain = case_conference.case_conference_domains.find_by(domain_id: domain.id) if case_conference
+      assessment_domains.build(domain: domain, reason: case_conference_domain&.presenting_problem)
+    end
+  end
+
+  def repopulate_notes
+    case_conference && case_conference.case_conference_domains.each do |case_conference_domain|
+      assessment_domain = assessment_domains.find_by(domain_id: case_conference_domain.domain_id)
+      if assessment_domain
+        assessment_domain.reason = case_conference_domain.presenting_problem
+        assessment_domain.save
+      end
     end
   end
 

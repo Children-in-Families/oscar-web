@@ -7,6 +7,8 @@ class Domain < ActiveRecord::Base
   has_many   :tasks, dependent: :restrict_with_error
   has_many   :domain_program_streams, dependent: :restrict_with_error
   has_many   :program_streams, through: :domain_program_streams
+  has_many :case_conference_domains, dependent: :destroy
+  has_many :case_conferences, through: :case_conference_domains
 
   belongs_to :custom_assessment_setting, required: false
 

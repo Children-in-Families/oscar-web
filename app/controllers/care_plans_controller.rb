@@ -23,7 +23,7 @@ class CarePlansController < AdminController
       params[:care_plan][:goals_attributes].each do |goal|
         create_nested_value(goal)
       end
-      redirect_to client_care_plans_path(@client), notice: t('.successfully_created')
+      redirect_to client_care_plans_path(@client), notice: t('.successfully_created', care_plan: t('clients.care_plan'))
     else
       render :new
     end
@@ -44,7 +44,7 @@ class CarePlansController < AdminController
       care_plan_update_params[:goals_attributes].each do |goal|
         update_nested_value(goal)
       end
-      redirect_to client_care_plans_path(@client), notice: t('.successfully_updated')
+      redirect_to client_care_plans_path(@client), notice: t('.successfully_updated', care_plan: t('clients.care_plan'))
     else
       render :edit
     end
@@ -59,7 +59,7 @@ class CarePlansController < AdminController
         goal.reload.destroy
       end
       @care_plan.reload.destroy
-      redirect_to client_care_plans_path(@client), notice: t('care_plans.destroy.successfully_deleted')
+      redirect_to client_care_plans_path(@client), notice: t('care_plans.destroy.successfully_deleted', care_plan: t('clients.care_plan'))
     end
   end
 
