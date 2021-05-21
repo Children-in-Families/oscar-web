@@ -13,13 +13,7 @@
     - if policy(@default_assessment).create?()
       = link_to new_client_assessment_path(@client, default: true), data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.assessments.index.default_button', assessment: t('clients.show.assessment'))}", placement: "auto" } do
         .btn.btn-block.btn-primary.button
-          - if Organization.ratanak?
-            = "#{t('assessments.index.begin_now')} #{t('clients.show.assessment')}"
-          - else
-            = "#{t('assessments.index.begin_now')} #{@current_setting.default_assessment}"
+          = "#{t('assessments.index.begin_now')} #{@current_setting.default_assessment}"
     - else
       .btn.btn-block.btn-default.button.disabled{ data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.assessments.index.default_button', assessment: t('clients.show.assessment'))}", placement: "auto" } }
-        - if Organization.ratanak?
-          = "#{t('assessments.index.begin_now')} #{t('clients.show.assessment')}"
-        - else
-          = "#{t('assessments.index.begin_now')} #{@current_setting.default_assessment}"
+        = "#{t('assessments.index.begin_now')} #{@current_setting.default_assessment}"
