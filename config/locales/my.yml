@@ -5796,6 +5796,7 @@ my:
   field_settings:
     update:
       successfully_updated: အောင်မြင်စွာဖြည့်ပါ
+  results: Results
   service_deliveries:
     _attr: &SERVICE_DELIVERY_ATTR
       add_new_service_delivery: Add New Service Delivery

@@ -5833,6 +5833,7 @@ en:
   field_settings:
     update:
       successfully_updated: Setting have been successfully updated.
+  results: Results
   service_deliveries:
     _attr: &SERVICE_DELIVERY_ATTR
       add_new_service_delivery: Add New Service Delivery
