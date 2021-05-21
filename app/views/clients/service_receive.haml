@@ -11,19 +11,20 @@
             .ibox-tools
               = link_to I18n.t('case_notes.index.back'), client_path(@client), { class: 'btn btn-default btn-back-default button' }
       .ibox-content
-        .table-responsive
+        = @tasks.size
+        %span.label.label-info= t('results')
+        .table-responsive.m-t-xs
           %table.table.table-bordered.table-striped.table-hover
             %thead
               %tr
                 %th= t('.task_completed_date')
                 %th= t('.service_provided')
+                %th= t('service_deliveries.index.category')
                 %th.text-center= t('.done_by')
             %tbody
-              - @tasks.each do |task_completed_date, tasks|
+              - @tasks.each do |task|
                 %tr
-                  %td= date_format(task_completed_date)
-                  %td
-                    %ul
-                      - tasks.map(&:second).flatten.uniq.each do |service_delivery|
-                        %li= service_delivery
-                  %td= tasks.map(&:third).uniq.join(', ')
+                  %td= date_format(task.completion_date)
+                  %td= task.name
+                  %td= task.category
+                  %td= task.completed_by&.name

@@ -201,10 +201,7 @@ class ClientsController < AdminController
 
   def service_receive
     @client = Client.accessible_by(current_ability).friendly.find(params[:client_id])
-    tasks = @client.tasks.joins(:service_deliveries).map do |task|
-      [task.completion_date, task.map_service_deliveries, task.who_complete_the_task]
-    end
-    @tasks = tasks.group_by(&:first).sort
+    @tasks = @client.tasks.joins(:service_deliveries).select('DISTINCT ON (tasks.id, service_deliveries.id) tasks.id, completion_date, service_deliveries.name, (SELECT name from service_deliveries as sd where sd.id = service_deliveries.parent_id) as category, tasks.completed_by_id')
   end
 
   private

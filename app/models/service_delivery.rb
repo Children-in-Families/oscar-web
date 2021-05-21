@@ -7,5 +7,6 @@ class ServiceDelivery < ActiveRecord::Base
 
   scope :only_parents,  -> { where(parent_id: nil) }
   scope :only_children, -> { where.not(parent_id: nil) }
+  scope :list_sub_service_categories, -> { where(parent_id: only_parents.ids) }
   scope :names,         -> { only_children.pluck(:name) }
 end

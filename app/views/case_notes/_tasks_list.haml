@@ -16,8 +16,10 @@
                   = text_field_tag "#{input_name}[completion_date]", "", class: 'date form-control date-picker'
               %label.m-t-xs{ :for => "service-delivery-task-ids" }= t('service_deliveries.index.service_provided')
               %select.service-delivery-task-ids.select.optional.form-control{ multiple: 'multiple', :name => "#{input_name}[service_delivery_task_ids][]" }
-                - ServiceDelivery.all.each do |service_delivery|
-                  %option{ :value => service_delivery.id }= service_delivery.name
+                - ServiceDelivery.list_sub_service_categories.each do |sub_service_category|
+                  %optgroup{ label: sub_service_category.name }
+                    - sub_service_category.children.each do |child|
+                      %option{ :value => child.id }= child.name
 
       %div{ class: 'task-arising hidden' }
         %label.control-label
