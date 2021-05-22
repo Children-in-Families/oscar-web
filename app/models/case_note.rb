@@ -72,8 +72,11 @@ class CaseNote < ActiveRecord::Base
   def service_delivery_task(param, case_note_tasks)
     if Organization.ratanak?
       case_note_tasks.each do |task|
+        next if param['task'][task.id.to_s]
+
         service_delivery_task_ids = param['task'][task.id.to_s]['service_delivery_task_ids'].reject(&:blank?)
-        task.create_service_delivery_tasks(service_delivery_task_ids)
+        task.create_service_delivery_tasks(service_delivery_task_ids) if service_delivery_task_ids.present?
+
         task.reload
         task.update_columns(completion_date: param['task'][task.id.to_s]['completion_date']) if param['task'][task.id.to_s]['completion_date'].present?
       end
