@@ -5,7 +5,7 @@
         %h5
           %strong= link_to_client_show(@client)
         %h5.margin-title= t('.assessment_history', assessment: t('clients.show.assessment'))
-      .ibox-conten
+      .ibox-content
         - if Organization.ratanak?
           - @case_conferences.each do |case_conference|
             = render 'ratanak_assessments', case_conference: case_conference, assessment: case_conference.assessment
