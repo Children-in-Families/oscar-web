@@ -438,6 +438,7 @@ my:
       birth_province: ေမြးရပ္ျပည္နယ္
       birth_province_id: ေမြးရပ္ျပည္နယ္
       cambodia: ကေမာၻဒီးယား
+      care_plan: Care Plan
       carer: Carer
       carer_name: Carer Name
       carer_phone: Carer Phone Number
@@ -2649,6 +2650,9 @@ my:
         neighbor_phone: Phone Number
         dosavy_name: "DoSAVY: Name"
         dosavy_phone: Phone Number
+        care_plan_count: Number of Care Plan
+        care_plan_completed_date: Care Plan Completed Date
+        care_plan_total: Total
         chief_commune_name: "Chief of Commune/Commune Council Member: Name"
         chief_commune_phone: Phone Number
         chief_village_name: "Chief of Village: Name"

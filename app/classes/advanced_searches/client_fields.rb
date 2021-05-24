@@ -15,11 +15,13 @@ module AdvancedSearches
       group                 = format_header('basic_fields')
       referee_group         = format_header('referee')
       carer_group           = format_header('carer')
+      care_plan_group       = format_header('care_plan')
       number_fields         = number_type_list.map { |item| AdvancedSearches::FilterTypes.number_options(item, format_header(item), group) }
       text_fields           = text_type_list.map { |item| AdvancedSearches::FilterTypes.text_options(item, format_header(item), group) }
       text_fields           << referee_text_fields.map { |item| AdvancedSearches::FilterTypes.text_options(item, format_header(item), referee_group) }
       text_fields           << carer_text_fields.map { |item| AdvancedSearches::FilterTypes.text_options(item, format_header(item), carer_group) }
       date_picker_fields    = date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, format_header(item), group) }
+      date_picker_fields    += care_plan_date_fields.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, format_header(item), care_plan_group) }
       drop_list_fields      = drop_down_type_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last, group) }
       csi_options           = AdvancedSearches::CsiFields.render
       school_grade_options  = AdvancedSearches::SchoolGradeFields.render
@@ -65,6 +67,10 @@ module AdvancedSearches
         'date_of_birth', 'initial_referral_date', 'follow_up_date', 'exit_date', 'accepted_date',
         'case_note_date', 'created_at', 'date_of_referral', 'active_clients'
       ].compact
+    end
+
+    def care_plan_date_fields
+      ['care_plan_completed_date']
     end
 
     def drop_down_type_list
