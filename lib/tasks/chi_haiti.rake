@@ -98,14 +98,14 @@ module ChiHaiti
         new_client['donor_id']            = Donor.find_by(name: donor_name).try(:id)
 
         new_client['date_of_birth']       = workbook.row(row_index)[headers['Date of Birth']].to_s
-        new_client['initial_referral_date'] = workbook.row(row_index)[headers['* Date of Referral']].to_s&.presence || '2020-09-01'
-        referral_source_category_name     = workbook.row(row_index)[headers['*Referral Source Category']]
-        referral_source_name              = workbook.row(row_index)[headers['Referral Source']]
+        new_client['initial_referral_date'] = headers['* Date of Referral'] && workbook.row(row_index)[headers['* Date of Referral']].to_s&.presence || Time.now.to_s
+        referral_source_category_name     = headers['*Referral Source Category'] && workbook.row(row_index)[headers['*Referral Source Category']] || 'Non-Government Organization'
+        referral_source_name              = headers['Referral Source'] && workbook.row(row_index)[headers['Referral Source']] || 'Church'
         new_client['referral_source_category_id'] = ReferralSource.find_by(name_en: referral_source_category_name)&.id
         new_client['referral_source_id']  = find_or_create_referral_source(referral_source_name, new_client['referral_source_category_id'])
 
-        referee_name                      = workbook.row(row_index)[headers['* Name of Referee']]
-        referee_phone                     = workbook.row(row_index)[headers['Referee Phone Number']]
+        referee_name                      = headers['* Name of Referee'] && workbook.row(row_index)[headers['* Name of Referee']] || 'Anonymous'
+        referee_phone                     = headers['Referee Phone Number'] && workbook.row(row_index)[headers['Referee Phone Number']] || '123456789'
         new_client['referee_id']          = create_referee(name: referee_name, phone: referee_phone)
 
         new_client['rated_for_id_poor']   = workbook.row(row_index)[headers['Is the Client Rated for ID Poor?']] || ''
@@ -113,9 +113,8 @@ module ChiHaiti
         new_client['has_been_in_government_care'] = workbook.row(row_index)[headers['Has the client lived in government care?']]&.squish&.downcase == 'yes' ? true : false
         new_client['relevant_referral_information']  = workbook.row(row_index)[headers['Relevant Referral Information / Notes']] || ''
         new_client['name_of_referee']     = workbook.row(row_index)[headers['* Name of Referee']]
-        received_by_name                  = workbook.row(row_index)[headers['* Receiving Staff Member']]
-        received_by_name                  = received_by_name[/WTMY/] ? received_by_name : received_by_name.split(' ')
-        received_by_attr                  = received_by_name.is_a?(String) ? {first_name: received_by_name} : {first_name: received_by_name.first.squish, last_name: received_by_name.last.squish}
+        received_by_name                  = workbook.row(row_index)[headers['* Receiving Staff Member']] || 'Cindy Morquette'
+        received_by_attr                  = { first_name: received_by_name.first.squish, last_name: received_by_name.last.squish }
         new_client['received_by_id']      = create_user_received_by(received_by_attr)
         followed_up_by_name               = workbook.row(row_index)[headers['First Follow-Up By']]
         new_client['followed_up_by_id']   = User.find_by(first_name: followed_up_by_name).try(:id)
