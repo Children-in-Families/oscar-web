@@ -22,7 +22,7 @@
             .pull-right
               = link_to client_care_plans_path(@care_plan.client), class: 'btn btn-default' do
                 = t('.back')
-              - if policy(@care_plan.assessment).edit?
+              - if policy(@care_plan).edit?
                 = care_plan_edit_link(@care_plan.client, @care_plan)
               - if current_user.admin?
                 = care_plan_destroy_link(@care_plan.client, @care_plan)
