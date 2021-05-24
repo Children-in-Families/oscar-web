@@ -26,7 +26,7 @@ class CarePlanPolicy < ApplicationPolicy
     def edit?
       return false if user.strategic_overviewer?
       setting = Setting.first
-      enable_assessment = record.default? ? setting.enable_default_assessment? : setting.enable_custom_assessment?
+      enable_assessment = record ? setting.enable_default_assessment? : setting.enable_custom_assessment?
       return true if enable_assessment && user.admin?
       editable_user = user.admin? ? true : user.permission&.assessments_editable
       enable_assessment && (editable_user && !record.client.exit_ngo? && Date.current <= record.created_at + 30.days || user.admin?)
