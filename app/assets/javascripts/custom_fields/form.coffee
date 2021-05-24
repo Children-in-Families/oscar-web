@@ -14,6 +14,7 @@ CIF.Custom_fieldsNew = CIF.Custom_fieldsCreate = CIF.Custom_fieldsEdit = CIF.Cus
     _convertFrequency()
     _removeSearchCustomFields()
     _initICheckBox()
+    _labelHandleInput()
 
   _initICheckBox = ->
     $('.i-checks').iCheck
@@ -207,5 +208,16 @@ CIF.Custom_fieldsNew = CIF.Custom_fieldsCreate = CIF.Custom_fieldsEdit = CIF.Cus
             $(e).attr('disabled', 'true')
             $(e).parent().children('a.remove.btn').remove()
       )
+
+  _labelHandleInput = () ->
+    $(document).on 'keypress paste', '[name="label"].fld-label',  (event) ->
+      if event.type == 'keypress'
+        return false if event.originalEvent.key == "[" or event.originalEvent.key == "]"
+      else
+        key = event.originalEvent.clipboardData.getData('Text')
+        if key and key.match(/\[|\]/)
+          event.preventDefault()
+          return false
+      true
 
   { init: _init }
