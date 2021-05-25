@@ -11,7 +11,7 @@ module ChiHaiti
     end
 
     def import_all
-      sheets = ['users', 'clients']
+      sheets = ['families', 'users', 'clients']
       sheets.each do |sheet_name|
         sheet_index = workbook.sheets.index(sheet_name)
         workbook.default_sheet = workbook.sheets[sheet_index]
@@ -153,8 +153,7 @@ module ChiHaiti
         new_client['code']                = workbook.row(row_index)[headers['Custom ID Number 1']]
         new_client['kid_id']              = workbook.row(row_index)[headers['Custom ID Number 2']]
         case_worker_name                  = workbook.row(row_index)[headers['* Case Worker / Staff']]
-        case_worker_name                  = case_worker_name[/WTMY/] ? case_worker_name : case_worker_name.split(' ').first
-        new_client['user_id']             = User.find_by(first_name: case_worker_name).try(:id)
+        new_client['user_id']             = User.find_by(first_name: case_worker_name.split(' ').first).try(:id) if case_worker_name
         new_client['user_ids']            = [new_client['user_id']]
 
         carer_name        = workbook.row(row_index)[headers['Primary Carer Name']]
@@ -232,29 +231,29 @@ module ChiHaiti
       if districts.count == 1
         district = districts.first
       else
-        puts "Error: districts" if name.downcase != 'n/a'
+        puts "Error: districts" if name && name.downcase != 'n/a'
       end
       district
     end
 
     def find_commune(district, name, new_client={})
-      communes = district.communes.where(name_en: name)
+      communes = district && district.communes.where(name_en: name)
       commune = nil
-      if communes.count == 1
+      if communes && communes.count == 1
         commune = communes.first
       else
-        puts "Error: communes" if name.downcase != 'n/a'
+        puts "Error: communes" if name && name.downcase != 'n/a'
       end
       commune
     end
 
     def find_village(commune, name)
-      villages = commune.villages.where(name_en: name)
+      villages = communes && commune.villages.where(name_en: name)
       village = nil
-      if villages.count == 1
+      if villages && villages.count == 1
         village = villages.first
       else
-        puts "Error: villages" if name.downcase != 'n/a'
+        puts "Error: villages" if name && name.downcase != 'n/a'
       end
       village
     end

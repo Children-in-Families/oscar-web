@@ -39,7 +39,7 @@ CIF.Care_plansNew = CIF.Care_plansEdit = CIF.Care_plansCreate = CIF.Care_plansUp
 
   _loadSteps = (form) ->
     bodyTag = 'div'
-    # bodyTag = '.assessment-wizard-domain-item'
+    bodyTag = '.assessment-wizard-domain-item'
     rootId = "##{$(form).find(".root-wizard").attr("id")}"
     $(rootId).steps
       headerTag: 'h4'
