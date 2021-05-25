@@ -6,7 +6,7 @@
           %strong= link_to_client_show(@client)
           %small= t('.case_conference')
       .ibox-content
-        - @case_conferences.each_with_index do |case_conference, index|
+        - @case_conferences.order_by_meeting_date.each_with_index do |case_conference, index|
           .row
             .col-xs-12.col-sm-8
               %h5
