@@ -1,4 +1,4 @@
-module ChiHaiti
+  module ChiHaiti
   class Import
     attr_accessor :path, :headers, :workbook, :workbook_second_row
 
@@ -98,7 +98,11 @@ module ChiHaiti
         new_client['donor_id']            = Donor.find_by(name: donor_name).try(:id)
 
         new_client['date_of_birth']       = workbook.row(row_index)[headers['Date of Birth']].to_s
-        new_client['initial_referral_date'] = headers['* Date of Referral'] && workbook.row(row_index)[headers['* Date of Referral']].to_s&.presence || Time.now.to_s
+        begin
+          new_client['initial_referral_date'] = headers['* Date of Referral'].present? && workbook.row(row_index)[headers['* Date of Referral']] && workbook.row(row_index)[headers['* Date of Referral']].to_s&.presence.to_date.strftime("%Y-%m-%d") || Time.now.to_s
+        rescue Exception => e
+          binding.pry
+        end
         referral_source_category_name     = headers['*Referral Source Category'] && workbook.row(row_index)[headers['*Referral Source Category']] || 'Non-Government Organization'
         referral_source_name              = headers['Referral Source'] && workbook.row(row_index)[headers['Referral Source']] || 'Church'
         new_client['referral_source_category_id'] = ReferralSource.find_by(name_en: referral_source_category_name)&.id
@@ -113,8 +117,8 @@ module ChiHaiti
         new_client['has_been_in_government_care'] = workbook.row(row_index)[headers['Has the client lived in government care?']]&.squish&.downcase == 'yes' ? true : false
         new_client['relevant_referral_information']  = workbook.row(row_index)[headers['Relevant Referral Information / Notes']] || ''
         new_client['name_of_referee']     = workbook.row(row_index)[headers['* Name of Referee']]
-        received_by_name                  = workbook.row(row_index)[headers['* Receiving Staff Member']] || 'Cindy Morquette'
-        received_by_attr                  = { first_name: received_by_name.first.squish, last_name: received_by_name.last.squish }
+        received_by_name                  = workbook.row(row_index)[headers['* Receiving Staff Member']] || 'Cindy'
+        received_by_attr                  = { first_name: received_by_name.squish }
         new_client['received_by_id']      = create_user_received_by(received_by_attr)
         followed_up_by_name               = workbook.row(row_index)[headers['First Follow-Up By']]
         new_client['followed_up_by_id']   = User.find_by(first_name: followed_up_by_name).try(:id)
