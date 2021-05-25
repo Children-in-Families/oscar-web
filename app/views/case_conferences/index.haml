@@ -15,7 +15,7 @@
                 - else
                   = t('.assessment_created_on', assessment: t('.case_conference'))
                 %b
-                  = date_format(case_conference.created_at)
+                  = date_format(case_conference.meeting_date)
 
             .col-xs-12.col-sm-4
               .btn.btn-block.btn-info.button{ class: ('disabled' unless case_conference_readable?) }
