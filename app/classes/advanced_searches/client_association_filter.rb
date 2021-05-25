@@ -94,6 +94,10 @@ module AdvancedSearches
         values = protection_concern_and_necessity(@field)
       when 'active_clients'
         values = active_clients_query
+      when 'care_plan_counter'
+        values = care_plan_counter
+      when 'care_plan_completed_date'
+        values = date_query(Client, @clients, :care_plans, 'care_plans.created_at')
       end
       { id: sql_string, values: values }
     end
@@ -106,7 +110,7 @@ module AdvancedSearches
       when 'equal'
         clients = clients.where('date(referrals.date_of_referral) = ?', @value.to_date)
       when 'not_equal'
-        clients = clients.where("date(referrals.date_of_referral) != ? OR referrals.date_of_referral IS NULL", @value.to_date)
+        clients = Client.includes(:referrals).references(:referrals).where("date(referrals.date_of_referral) != ? OR referrals.date_of_referral IS NULL", @value.to_date)
       when 'less'
         clients = clients.where('date(referrals.date_of_referral) < ?', @value.to_date)
       when 'less_or_equal'
@@ -588,23 +592,23 @@ module AdvancedSearches
       values = validate_family_id(@value)
       case @operator
       when 'equal'
-        client_ids = @clients.where(current_family_id: values).ids
+        client_ids = @clients.joins(:family_members).where("family_members.family_id = ?", values).ids
       when 'not_equal'
-        client_ids = @clients.where.not(current_family_id: values).ids
+        client_ids = @clients.joins(:family_members).where("family_members.family_id != ?", values).ids
       when 'less'
-        client_ids = @clients.where('clients.current_family_id < ?', values).ids
+        client_ids = @clients.joins(:family_members).where("family_members.family_id > ?", values).ids
       when 'less_or_equal'
-        client_ids = @clients.where('clients.current_family_id <= ?', values).ids
+        client_ids = @clients.joins(:family_members).where("family_members.family_id <= ?", values).ids
       when 'greater'
-        client_ids = @clients.where('clients.current_family_id > ?', values).ids
+        client_ids = @clients.joins(:family_members).where("family_members.family_id > ?", values).ids
       when 'greater_or_equal'
-        client_ids = @clients.where('clients.current_family_id >= ?', values).ids
+        client_ids = @clients.joins(:family_members).where("family_members.family_id => ?", values).ids
       when 'between'
-        client_ids = @clients.where(current_family_id: values[0]..values[1]).ids
+        client_ids = clients.joins(:family_members).where(family_members: { family_id: values[0]..values[1] }).ids
       when 'is_empty'
-        client_ids = @clients.where(current_family_id: nil).ids
+        client_ids = Client.includes(:family_members).references(:family_members).where("family_members.family_id IS NULL").ids
       when 'is_not_empty'
-        client_ids = @clients.where.not(current_family_id: nil).ids
+        client_ids = Client.joins(:family_members).where("family_members.family_id IS NOT NULL").ids
       end
 
       clients = client_ids.present? ? client_ids : []
@@ -613,17 +617,17 @@ module AdvancedSearches
     def family_name_field_query
       case @operator
       when 'equal'
-        client_ids = @clients.where("current_family_id = (SELECT id FROM families WHERE lower(families.name) = ?)", @value.downcase).ids
+        client_ids = @clients.joins(family_members: :family).where("lower(families.name) = ?", @value.downcase).ids
       when 'not_equal'
-        client_ids = Client.where("clients.current_family_id != (SELECT id FROM families WHERE lower(families.name) = ?) OR clients.current_family_id IS NULL", @value.downcase).ids
+        client_ids = Client.joins(family_members: :family).where("lower(families.name) = ?) OR family_members.family_id IS NULL", @value.downcase).ids
       when 'contains'
-        client_ids = @clients.joins(:families).where("lower(families.name) iLike ?", "%#{@value.downcase}%").ids
+        client_ids = @clients.joins(family_members: :family).where("lower(families.name) iLike ?", "%#{@value.downcase}%").ids
       when 'not_contains'
-        client_ids = @clients.joins(:families).where("lower(families.name) NOT iLike ?", "%#{@value.downcase}%").ids
+        client_ids = @clients.joins(family_members: :family).where("lower(families.name) NOT iLike ? OR family_members.family_id IS NULL", "%#{@value.downcase}%").ids
       when 'is_empty'
-        client_ids = Client.where("clients.current_family_id IS NULL").ids
+        client_ids = Client.includes(:family_members).references(:family_members).where("family_members.family_id IS NULL").ids
       when 'is_not_empty'
-        client_ids = Client.where("clients.current_family_id IS NOT NULL").ids
+        client_ids = Client.joins(:family_members).where("family_members.family_id IS NOT NULL").ids
       end
 
       clients = client_ids.present? ? client_ids : []
@@ -1019,6 +1023,31 @@ module AdvancedSearches
         client_ids = clients.where('client_enrollments.enrollment_date IS NOT NULL').distinct.ids
       end
       clients = client_ids.present? ? client_ids : []
+    end
+
+    def date_query(klass_name, objects, association, field_name)
+      result_objects = objects.joins(association).distinct
+      case @operator
+      when 'equal'
+        results = result_objects.where("date(#{field_name}) = ?", @value.to_date)
+      when 'not_equal'
+        results = klass_name.includes(association).references(association).where("date(#{field}) != ? OR #{field} IS NULL", @value.to_date)
+      when 'less'
+        results = result_objects.where("date(#{field_name}) < ?", @value.to_date)
+      when 'less_or_equal'
+        results = result_objects.where("date(#{field_name}) <= ?", @value.to_date)
+      when 'greater'
+        results = result_objects.where("date(#{field_name}) > ?", @value.to_date)
+      when 'greater_or_equal'
+        results = result_objects.where("date(#{field_name}) >= ?", @value.to_date)
+      when 'between'
+        results = result_objects.where("date(#{field_name}) BETWEEN ? AND ? ", @value[0].to_date, @value[1].to_date)
+      when 'is_empty'
+        results = klass_name.includes(association).references(association).where("#{field_name} IS NULL")
+      when 'is_not_empty'
+        results = result_objects.where("#{field_name} IS NOT NULL")
+      end
+      results.ids
     end
   end
 end

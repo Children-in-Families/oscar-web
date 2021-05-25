@@ -1,6 +1,7 @@
 module ClientGridOptions
   extend ActiveSupport::Concern
   include ClientsHelper
+  include FormBuilderHelper
   include AssessmentHelper
 
   def choose_grid
@@ -35,6 +36,8 @@ module ClientGridOptions
     program_exit_date_report
     default_date_of_assessments
     default_date_of_completed_assessments
+    care_plan_completed_date
+    care_plan_count
     custom_date_of_assessments
     case_note_date_report
     case_note_type_report
@@ -258,6 +261,18 @@ module ClientGridOptions
     end
   end
 
+  def care_plan_completed_date
+    @client_grid.column(:care_plan_completed_date, header: -> { I18n.t('datagrid.columns.clients.care_plan_completed_date') }) do |object|
+      date_filter(object.care_plans, 'care_plan_completed_date').map{ |care_plan| date_format(care_plan.created_at) }.join(", ")
+    end
+  end
+
+  def care_plan_count
+    @client_grid.column(:care_plan_count, header: -> { I18n.t('datagrid.columns.clients.care_plan_count') }) do |object|
+      date_filter(object.care_plans, 'care_plan_completed_date').count
+    end
+  end
+
   def default_all_csi_assessments
     return unless params['type'] == 'basic_info' && @client_columns.visible_columns[:all_csi_assessments_].present?
     domain_score_report('default')
@@ -346,7 +361,7 @@ module ClientGridOptions
             end
           else
             if fields.last == 'Has This Form'
-              properties = client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).count
+              properties = custom_form_with_has_form(client, fields).count
             else
               if $param_rules
                 custom_field_id = client.custom_fields.find_by(form_title: fields.second)&.id
@@ -357,6 +372,7 @@ module ClientGridOptions
                 sql          = query_string.reverse.reject(&:blank?).map{|sql| "(#{sql})" }.join(" AND ")
 
                 custom_field_properties = client.custom_field_properties.where(custom_field_id: custom_field_id).where(sql).properties_by(format_field_value)
+                custom_field_properties = custom_field_properties.blank? ? custom_form_with_has_form(client, fields).properties_by(format_field_value) : custom_field_properties
               else
                 custom_field_properties = client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).properties_by(format_field_value)
               end

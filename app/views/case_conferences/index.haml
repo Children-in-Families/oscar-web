@@ -6,7 +6,7 @@
           %strong= link_to_client_show(@client)
           %small= t('.case_conference')
       .ibox-content
-        - @case_conferences.each_with_index do |case_conference, index|
+        - @case_conferences.order_by_meeting_date.each_with_index do |case_conference, index|
           .row
             .col-xs-12.col-sm-8
               %h5
@@ -15,7 +15,7 @@
                 - else
                   = t('.assessment_created_on', assessment: t('.case_conference'))
                 %b
-                  = date_format(case_conference.created_at)
+                  = date_format(case_conference.meeting_date)
 
             .col-xs-12.col-sm-4
               .btn.btn-block.btn-info.button{ class: ('disabled' unless case_conference_readable?) }

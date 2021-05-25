@@ -1013,6 +1013,13 @@ class ClientGrid < BaseGrid
     render partial: 'clients/assessments', locals: { object: object.assessments.customs }
   end
 
+  column(:care_plan_completed_date, header: -> { I18n.t('datagrid.columns.clients.care_plan_completed_date') }, html: true) do |object|
+    render partial: 'clients/care_plans', locals: { object: object.care_plans }
+  end
+
+  column(:care_plan_count, header: -> { I18n.t('datagrid.columns.clients.care_plan_count') }, html: true, class: 'hide') do |object|
+  end
+
   column(:time_in_ngo, header: -> { I18n.t('datagrid.columns.clients.time_in_ngo') }) do |object|
     if object.time_in_ngo.present?
       time_in_ngo = object.time_in_ngo
@@ -1092,7 +1099,7 @@ class ClientGrid < BaseGrid
             end
           else
             if fields.last == 'Has This Form'
-              properties = [object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).count]
+              properties = [custom_form_with_has_form(object, fields).count]
             else
               if $param_rules
                 custom_field_id = object.custom_fields.find_by(form_title: fields.second)&.id
@@ -1102,7 +1109,8 @@ class ClientGrid < BaseGrid
                 query_string = get_query_string(results, 'formbuilder', 'custom_field_properties.properties')
                 sql          = query_string.reverse.reject(&:blank?).map{|sql| "(#{sql})" }.join(" AND ")
 
-                properties      = object.custom_field_properties.where(custom_field_id: custom_field_id).where(sql).properties_by(format_field_value)
+                properties = object.custom_field_properties.where(custom_field_id: custom_field_id).where(sql).properties_by(format_field_value)
+                properties = properties.blank? ? custom_form_with_has_form(object, fields).properties_by(format_field_value) : properties
               else
                 properties = form_builder_query(object.custom_field_properties, fields.second, column_builder[:id].gsub('&qoute;', '"'), 'custom_field_properties.properties').properties_by(format_field_value)
               end
@@ -1173,5 +1181,9 @@ class ClientGrid < BaseGrid
     column(:changelog, html: true, class: 'text-center', header: -> { I18n.t('datagrid.columns.clients.changelogs') }) do |object|
       link_to t('datagrid.columns.clients.view'), client_version_path(object)
     end
+  end
+
+  def custom_form_with_has_form(object, fields)
+    [object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).count]
   end
 end
