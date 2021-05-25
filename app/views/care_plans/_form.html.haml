@@ -9,7 +9,7 @@
           - score_color = ad.object.domain.send("score_#{ad.object.score}_color") if ad.object.score
           - domain = ad.object.domain
           %h4= domain_name_translate(assessment, domain)
-          %div{ class: "assessment-domain-item domain-#{domain.id}" }
+          %div{ class: "assessment-domain-item assessment-wizard-domain-item domain-#{domain.id}" }
             .ibox
               .ibox-title
                 %p{:class => "hide score-color"}= score_color

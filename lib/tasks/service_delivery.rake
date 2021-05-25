@@ -23,5 +23,4 @@ namespace :service_delivery do
       end
     end
   end
-
 end

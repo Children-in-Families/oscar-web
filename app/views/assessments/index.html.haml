@@ -7,7 +7,7 @@
         %h5.margin-title= t('.assessment_history', assessment: t('clients.show.assessment'))
       .ibox-content
         - if Organization.ratanak?
-          - @case_conferences.each do |case_conference|
+          - @case_conferences.order_by_meeting_date.each do |case_conference|
             = render 'ratanak_assessments', case_conference: case_conference, assessment: case_conference.assessment
         - else
           - @assessmets.each_with_index do |assessment, index|

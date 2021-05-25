@@ -20,7 +20,7 @@
               - else
                 = "#{t('case_conferences.show.base_on')} #{case_conference.index_of + 1}"
               %br
-              = "#{t('case_conferences.show.created_by')} #{whodunnit('CaseConference', case_conference)} #{t('case_conferences.show.on_date')} #{date_format(case_conference.created_at)}"
+              = "#{t('case_conferences.show.created_by')} #{whodunnit('CaseConference', case_conference)} #{t('case_conferences.show.on_date')} #{date_format(case_conference.meeting_date)}"
           .col-xl-1
             - unless @prev_case_conference
               .pull-right.m-r-sm

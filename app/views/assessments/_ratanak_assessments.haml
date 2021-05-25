@@ -3,7 +3,7 @@
     %h5
       = t('assessments.index.assessment_created_on', assessment: t('clients.show.case_conference'))
       %b
-        = date_format(case_conference.created_at)
+        = date_format(case_conference.meeting_date)
   .col-xs-12.col-sm-4
     %h5
       - if assessment.present?
