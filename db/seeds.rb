@@ -1800,6 +1800,7 @@ else
     Domain.find_or_create_by(
       name: domain[:name],
       identity: domain[:identity],
+      domain_type: 'client',
       description: domain[:description],
       local_description: domain[:local_description],
       domain_group_id: dg.id,
