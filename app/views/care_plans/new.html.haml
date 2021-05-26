@@ -1,3 +1,7 @@
 .row
-  = render 'form'
+  - if current_setting.disable_required_fields?
+    = render 'unrestricted_form', readonly: false
+  - else
+    = render 'form'
+
 

@@ -39,7 +39,7 @@ CIF.Care_plansNew = CIF.Care_plansEdit = CIF.Care_plansCreate = CIF.Care_plansUp
 
   _loadSteps = (form) ->
     bodyTag = 'div'
-    # bodyTag = '.assessment-wizard-domain-item'
+    bodyTag = '.assessment-wizard-domain-item' if _disableRequiredFields()
     rootId = "##{$(form).find(".root-wizard").attr("id")}"
     $(rootId).steps
       headerTag: 'h4'
@@ -81,6 +81,11 @@ CIF.Care_plansNew = CIF.Care_plansEdit = CIF.Care_plansCreate = CIF.Care_plansUp
         $('a[href="#finish"]').addClass('btn disabled').css('font-size', '96%').text(btnSaving)
         $('.actions a:contains("Done")').removeAttr('href')
         form.submit()
+
+  _disableRequiredFields = ->
+    formid = $('form.care_plan-form').attr('id')
+    form   = $('#'+formid)
+    form.data("disableRequiredFields")
 
   _taskRequiredField = (currentTab) ->
     $("#{currentTab}").find('.task-input-field')[0] && $("#{currentTab}").find('.task-input-field')[0].value
