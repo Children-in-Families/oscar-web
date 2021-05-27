@@ -13,7 +13,19 @@ class ClientPolicy < ApplicationPolicy
       :referral_doc,
       :local_consent,
       :police_interview,
-      :other_legal_doc
+      :other_legal_doc,
+      :ngo_partner,
+      :mosavy,
+      :dosavy,
+      :msdhs,
+      :complain,
+      :warrant,
+      :verdict,
+      :short_form_of_ocdm,
+      :short_form_of_mosavy_dosavy,
+      :detail_form_of_mosavy_dosavy,
+      :short_form_of_judicial_police,
+      :detail_form_of_judicial_police
     ]
 
     field_settings.where(name: fields).any? && fields.any?{ |field| show?(field) }
