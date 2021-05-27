@@ -11,6 +11,7 @@ class ExitNgo < ActiveRecord::Base
   FAMILY_EXIT_REASONS = ['Family is/moved outside NGO target area (within Cambodia)', 'Family is/moved outside NGO target area (International)', 'Family refused service', 'Family does not meet / no longer meets service criteria', 'Family died', 'Family does not require / no longer requires support', 'Agency lacks sufficient resources', 'Other']
 
   scope :most_recents, -> { order(created_at: :desc) }
+  scope :attached_with_clients, -> { where.not(client_id: nil) }
 
   validates :exit_circumstance, :exit_date, :exit_note, :exit_reasons, presence: true
 
