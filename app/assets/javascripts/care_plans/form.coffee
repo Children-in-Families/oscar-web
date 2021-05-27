@@ -1,7 +1,6 @@
 CIF.Care_plansNew = CIF.Care_plansEdit = CIF.Care_plansCreate = CIF.Care_plansUpdate = do ->
   _init = ->
     forms = $('form.care_plan-form')
-
     for form in forms
       _loadSteps($(form))
 
@@ -39,8 +38,9 @@ CIF.Care_plansNew = CIF.Care_plansEdit = CIF.Care_plansCreate = CIF.Care_plansUp
 
   _loadSteps = (form) ->
     bodyTag = 'div'
-    bodyTag = '.assessment-wizard-domain-item' if _disableRequiredFields()
+    bodyTag = '.care-plan-wizard-domain-item' if _disableRequiredFields()
     rootId = "##{$(form).find(".root-wizard").attr("id")}"
+
     $(rootId).steps
       headerTag: 'h4'
       bodyTag: bodyTag
@@ -65,6 +65,8 @@ CIF.Care_plansNew = CIF.Care_plansEdit = CIF.Care_plansCreate = CIF.Care_plansUp
         currentTab  = "#{rootId}-p-#{currentIndex}"
         isGoalTaskRequired = $("#{currentTab}").find('.score-color').text()
         taskValue = _taskRequiredField(currentTab)
+
+        return true if _disableRequiredFields() || rootId == '#readonly-rootwizard'
         return true if (isGoalTaskRequired == 'primary' || isGoalTaskRequired == 'info') && taskValue == ""
         _requiredGoalTask(currentIndex, currentTab)
 
@@ -75,8 +77,12 @@ CIF.Care_plansNew = CIF.Care_plansEdit = CIF.Care_plansCreate = CIF.Care_plansUp
           $("#{rootId} a[href='#save']").hide()
         else
           $("#{rootId} a[href='#save']").show()
+      onFinishing: (event, currentIndex, newIndex) ->
+        return false if rootId == '#readonly-rootwizard'
 
       onFinished: ->
+        return if rootId == '#readonly-rootwizard'
+
         btnSaving = $(rootId).data('saving')
         $('a[href="#finish"]').addClass('btn disabled').css('font-size', '96%').text(btnSaving)
         $('.actions a:contains("Done")').removeAttr('href')

@@ -1,7 +1,17 @@
 .row
-  - if current_setting.disable_required_fields?
-    = render 'unrestricted_form', readonly: false
+  - if current_setting.show_prev_assessment? && @prev_care_plan.present?
+    .col-md-6
+      = render 'unrestricted_form', care_plan: @prev_care_plan, readonly: true
+    .col-md-6
+      - if current_setting.disable_required_fields?
+        = render 'unrestricted_form', care_plan: @care_plan, readonly: false
+      - else
+        = render 'form'
   - else
-    = render 'form'
+    .col-md-12
+      - if current_setting.disable_required_fields?
+        = render 'unrestricted_form', care_plan: @care_plan, readonly: false
+      - else
+        = render 'form'
 
 
