@@ -196,7 +196,7 @@ module AdvancedSearches
       if case_worker_id && @operator == 'equal'
         clients = @clients.joins(:versions, :case_worker_clients).where(case_worker_clients: { user_id: case_worker_id })
       else
-        clients = @clients.joins(:versions)
+        clients = @clients.includes(:versions).references(:versions)
       end
 
       user    = User.find(@value) if @value.present?
@@ -206,22 +206,19 @@ module AdvancedSearches
       case @operator
       when 'equal'
         if user.email == ENV['OSCAR_TEAM_EMAIL']
-          client_ids = clients.where("versions.event = ? AND (versions.whodunnit = ? OR versions.whodunnit iLike ?)", 'create', @value, "%rotati%").distinct.ids
-          if client_ids.blank?
-            client_ids = clients.group(:id).having("COUNT(versions) = (SELECT COUNT(*) FROM versions WHERE versions.item_type = ? AND versions.item_id = clients.id AND versions.event = ?)", 'Client', 'update').ids
-          else
-            none_event_create_client_ids = clients.group(:id).having("COUNT(versions) = (SELECT COUNT(*) FROM versions WHERE versions.item_type = ? AND versions.item_id = clients.id AND versions.event = ?)", 'Client', 'update').ids
-          end
-          return (client_ids + none_event_create_client_ids)
+          client_ids = clients.where("versions.event = ? AND versions.whodunnit = ?", 'create', @value).distinct.ids
         else
-          client_ids = clients.where("versions.event = ? AND versions.whodunnit = ?", 'create', @value).ids
+          client_ids = clients.where("(versions.event = ? AND versions.whodunnit = ?) OR clients.user_id = ?", 'create', @value, @value).ids
         end
+        client_ids
       when 'not_equal'
-        client_ids = clients.where("versions.event = ? AND versions.whodunnit != ?", 'create', @value).distinct.ids
+        ids = clients.where("(versions.event = ? AND versions.whodunnit = ?) OR clients.user_id = ?", 'create', @value, @value).ids
+        client_ids = clients.where.not(id: ids).ids
       when 'is_empty'
-        client_ids = []
+        client_ids = clients.group("clients.id, versions.id").having("COUNT(versions) = 0").ids
       when 'is_not_empty'
-        client_ids = clients.ids
+        client_ids = clients.group("clients.id, versions.id").having("COUNT(versions) = 0").ids
+        client_ids = clients.where.not(id: client_ids).ids
       end
       client_ids
     end
