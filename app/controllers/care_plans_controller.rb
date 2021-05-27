@@ -14,6 +14,7 @@ class CarePlansController < AdminController
 
   def new
     @assessment = @client.assessments.find_by(id: params[:assessment])
+    @prev_care_plan = @client.care_plans.last
     @care_plan = @client.care_plans.new()
   end
 
