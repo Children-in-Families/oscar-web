@@ -1,8 +1,8 @@
 .row
   - if current_setting.show_prev_assessment? && @prev_care_plan.present?
-    .col-md-6
+    .col-md-5
       = render 'unrestricted_form', care_plan: @prev_care_plan, readonly: true
-    .col-md-6
+    .col-md-7
       - if current_setting.disable_required_fields?
         = render 'unrestricted_form', care_plan: @care_plan, readonly: false
       - else
