@@ -155,4 +155,18 @@ body[id='clients-edit'], body[id='clients-update'] {
     background-image: none !important;
   }
 
+  fieldset.legal-form-border {
+    border: solid 1px #DDD !important;
+    padding: 0 10px 10px 10px;
+    border-bottom: none;
+    margin-bottom: 25px;
+    border-radius: 4px;
+  }
+
+  legend.legal-form-border {
+    width: auto !important;
+    border: none;
+    font-size: 14px;
+  }
+
 }

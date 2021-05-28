@@ -76,7 +76,6 @@ class ClientPolicy < ApplicationPolicy
 
     return false if Organization.brc? && (hidden_fields.include?(field) || hidden_fields.map{|f| f + '_'}.include?(field))
 
-
     field_setting = field_settings.find do |field_setting|
       field_setting.name == field &&
       field_setting.klass_name == 'client' &&
