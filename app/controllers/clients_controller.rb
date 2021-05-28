@@ -293,7 +293,7 @@ class ClientsController < AdminController
     end
 
     find_referral_by_params if params[:referral_id]
-    @carer = @client.carer.present? ? @client.carer : Carer.new
+    @carer = @client && @client.carer.present? ? @client.carer : Carer.new
     @referee = @client.referee.present? ? @client.referee : Referee.new(name: @referral&.name_of_referee, phone: @referral&.referral_phone, email: @referral&.referee_email)
     @referee.anonymous = true if current_organization.short_name == 'brc' && @referee.new_record?
     @referee_relationships = Client::RELATIONSHIP_TO_CALLER.map { |relationship| { label: relationship, value: relationship.downcase } }
