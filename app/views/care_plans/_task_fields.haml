@@ -3,7 +3,10 @@
   = f.hidden_field :relation, value: 'assessment'
   .row
     .col-md-6
-      = f.text_area :name, class: 'form-control task-input-field'
+      - if Organization.ratanak?
+        = f.text_area :name, class: 'form-control task-input-field'
+      - else
+        = f.text_field :name, class: 'form-control task-input-field'
     .col-md-4
       .input-group.date
         = f.text_field :expected_date, class: 'date required form-control date-picker task-date-field', id: 'task_completion_date', value: f.object.expected_date&.strftime('%Y-%m-%d')
