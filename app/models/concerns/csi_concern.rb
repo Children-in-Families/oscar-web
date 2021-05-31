@@ -74,6 +74,10 @@ module CsiConcern
       return nil if user_activated_date.present? && custom_assessments.latest_record.created_at < user_activated_date
 
       (custom_assessments.latest_record&.created_at + assessment_duration('max', false, custom_assessment_setting_id)).to_date
+    elsif self.class.name == 'Family'
+      return nil if user_activated_date.present? && assessments.customs.latest_record.created_at < user_activated_date
+
+      (assessments.customs.latest_record&.created_at + assessment_duration('max', false, custom_assessment_setting_id)).to_date
     else
       Date.today
     end
