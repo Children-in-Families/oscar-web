@@ -83,6 +83,16 @@ namespace :field_settings do
       :other_legal_doc => 'Others'
     }
 
+    if Apartment::Tenant.current_tenant == 'ratanak'
+      fields = fields.merge(
+        :legal_documents => 'Referral Source Documents',
+        :travel_doc => 'Laissez-Passer',
+        :referral_doc => 'Screening Interview Form',
+        :local_consent => 'Legal Representation',
+        :police_interview => 'Letter from Immigration Police',
+      )
+    end
+
     fields.each do |name, label|
       field_setting = FieldSetting.find_or_initialize_by(name: name, klass_name: :client)
       field_setting.update!(

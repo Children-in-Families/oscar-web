@@ -163,10 +163,15 @@ body[id='clients-edit'], body[id='clients-update'] {
     border-radius: 4px;
   }
 
-  legend.legal-form-border {
-    width: auto !important;
-    border: none;
-    font-size: 14px;
+  legend {
+    &.legal-form-border {
+      width: auto !important;
+      border: none;
+      font-size: 14px;
+    }
+    span {
+      font-size: 12px;
+    }
   }
 
 }

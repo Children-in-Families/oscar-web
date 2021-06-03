@@ -16,6 +16,12 @@ export default props => {
 
   const [clientData, setClientData]   = useState({...client})
 
+  const legalDocOptions = [
+    { value: "Labour Trafficking", label: t(translation, 'clients.form.labor_trafficking_legal_doc_option') },
+    { value: "Sexual Trafficking", label: t(translation, 'clients.form.sex_trafficking_legal_doc_option') },
+    { value: "Other", label: t(translation, 'clients.form.other_legal_doc_option') }
+  ];
+
   const onCheckBoxChange = (obj, field) => event => {
     const inputType = ['date', 'select', 'checkbox', 'radio', 'file']
     const value = inputType.includes(event.type) ? event.data : event.target.value
@@ -36,6 +42,11 @@ export default props => {
     onChange('client', {[field]: data.data})({type: 'checkbox'})
   }
 
+  const onChangeLegalDocOption = (field) => (data) => {
+    const value = data.data;
+     onChange('client', {[field]: value})({type: 'radio'})
+  }
+
   return (
     <div className="containerClass">
       <legend>
@@ -45,9 +56,9 @@ export default props => {
           </div>
         </div>
       </legend>
-      <fieldset class="legal-form-border">
-        <legend class="legal-form-border">
-          <h3 class="text-success">Identification Documents</h3>
+      <fieldset className="legal-form-border">
+        <legend className="legal-form-border">
+          <h3 className="text-success">{ t(translation, 'clients.form.indentification_doc') }</h3>
         </legend>
         {
           fieldsVisibility.national_id == true &&
@@ -138,9 +149,9 @@ export default props => {
         }
       </fieldset>
 
-      <fieldset class="legal-form-border">
-        <legend class="legal-form-border">
-          <h3 class="text-success">Temporary Travel Documents</h3>
+      <fieldset className="legal-form-border">
+        <legend className="legal-form-border">
+          <h3 className="text-success">{ t(translation, 'clients.form.temp_travel_doc') }</h3>
         </legend>
         {
           fieldsVisibility.travel_doc == true &&
@@ -186,9 +197,9 @@ export default props => {
         }
       </fieldset>
 
-      <fieldset class="legal-form-border">
-        <legend class="legal-form-border">
-          <h3 class="text-success">Referral Documents</h3>
+      <fieldset className="legal-form-border">
+        <legend className="legal-form-border">
+          <h3 className="text-success">{ t(translation, 'clients.form.referral_document') }</h3>
         </legend>
         {
           fieldsVisibility.ngo_partner == true &&
@@ -279,9 +290,9 @@ export default props => {
         }
       </fieldset>
 
-      <fieldset class="legal-form-border">
-        <legend class="legal-form-border">
-          <h3 class="text-success">Legal Proceeding Documents</h3>
+      <fieldset className="legal-form-border">
+        <legend className="legal-form-border">
+          <h3 className="text-success">{ t(translation, 'clients.form.legal_processing_doc') }</h3>
         </legend>
         {
           fieldsVisibility.complain == true &&
@@ -372,9 +383,9 @@ export default props => {
         }
       </fieldset>
 
-      <fieldset class="legal-form-border">
-        <legend class="legal-form-border">
-          <h3 class="text-success">Forms for Identification of Victim of Human Trafficking</h3>
+      <fieldset className="legal-form-border">
+        <legend className="legal-form-border">
+          <h3 className="text-success">{ t(translation, 'clients.form.form_indentification') }</h3>
         </legend>
         {
           fieldsVisibility.referral_doc == true &&
@@ -382,6 +393,17 @@ export default props => {
             <div className="row">
               <div className="col-xs-12 col-md-6 col-lg-3">
                 <Checkbox label={ t(translation, 'clients.form.referral_doc') } checked={client.referral_doc} onChange={onCheckBoxChange('client', 'referral_doc')} />
+              </div>
+               <div className="col-xs-12">
+                {
+                  client.referral_doc &&
+                  <RadioGroup
+                    inline
+                    options={legalDocOptions}
+                    onChange={onChangeLegalDocOption('referral_doc_option')}
+                    value={client.referral_doc_option}
+                  />
+                }
               </div>
               <div className="col-xs-12">
                 <FileUploadInput
@@ -402,8 +424,19 @@ export default props => {
           fieldsVisibility.short_form_of_ocdm == true &&
           <legend>
             <div className="row">
-              <div className="col-xs-12 col-md-6 col-lg-3">
+              <div className="col-xs-12">
                 <Checkbox label={ t(translation, 'clients.form.short_form_of_ocdm') } checked={client.short_form_of_ocdm} onChange={onCheckBoxChange('client', 'short_form_of_ocdm')} />
+              </div>
+               <div className="col-xs-12">
+                {
+                  client.short_form_of_ocdm &&
+                  <RadioGroup
+                    inline
+                    options={legalDocOptions}
+                    onChange={onChangeLegalDocOption('short_form_of_ocdm_option')}
+                    value={client.short_form_of_ocdm_option}
+                  />
+                }
               </div>
               <div className="col-xs-12">
                 <FileUploadInput
@@ -424,9 +457,21 @@ export default props => {
           fieldsVisibility.short_form_of_mosavy_dosavy == true &&
           <legend>
             <div className="row">
-              <div className="col-xs-12 col-md-6 col-lg-3">
+              <div className="col-xs-12">
                 <Checkbox label={ t(translation, 'clients.form.short_form_of_mosavy_dosavy') } checked={client.short_form_of_mosavy_dosavy} onChange={onCheckBoxChange('client', 'short_form_of_mosavy_dosavy')} />
               </div>
+              <div className="col-xs-12">
+                {
+                  client.short_form_of_mosavy_dosav &&
+                  <RadioGroup
+                    inline
+                    options={legalDocOptions}
+                    onChange={onChangeLegalDocOption('short_form_of_mosavy_dosav_option')}
+                    value={client.short_form_of_mosavy_dosav_option}
+                  />
+                }
+              </div>
+              <div className="col-xs-12"></div>
               <div className="col-xs-12">
                 <FileUploadInput
                   label=""
@@ -446,9 +491,21 @@ export default props => {
           fieldsVisibility.detail_form_of_mosavy_dosavy == true &&
           <legend>
             <div className="row">
-              <div className="col-xs-12 col-md-6 col-lg-3">
+              <div className="col-xs-12">
                 <Checkbox label={ t(translation, 'clients.form.detail_form_of_mosavy_dosavy') } checked={client.detail_form_of_mosavy_dosavy} onChange={onCheckBoxChange('client', 'detail_form_of_mosavy_dosavy')} />
               </div>
+              <div className="col-xs-12">
+                {
+                  client.detail_form_of_mosavy_dosavy &&
+                  <RadioGroup
+                    inline
+                    options={legalDocOptions}
+                    onChange={onChangeLegalDocOption('detail_form_of_mosavy_dosavy_option')}
+                    value={client.detail_form_of_mosavy_dosavy_option}
+                  />
+                }
+              </div>
+              <div className="col-xs-12"></div>
               <div className="col-xs-12">
                 <FileUploadInput
                   label=""
@@ -465,11 +522,56 @@ export default props => {
         }
 
         {
+          fieldsVisibility.short_form_of_judicial_police == true &&
+          <legend>
+            <div className="row">
+              <div className="col-xs-12">
+                <Checkbox label={ t(translation, 'clients.form.short_form_of_judicial_police') } checked={client.short_form_of_judicial_police} onChange={onCheckBoxChange('client', 'short_form_of_judicial_police')} />
+              </div>
+              <div className="col-xs-12">
+                {
+                  client.short_form_of_judicial_police &&
+                  <RadioGroup
+                    inline
+                    options={legalDocOptions}
+                    onChange={onChangeLegalDocOption('short_form_of_judicial_police_option')}
+                    value={client.short_form_of_judicial_police_option}
+                  />
+                }
+              </div>
+              <div className="col-xs-12"></div>
+              <div className="col-xs-12">
+                <FileUploadInput
+                  label=""
+                  onChange={onAttachmentsChange('short_form_of_judicial_police_files')}
+                  object={client.short_form_of_judicial_police_files}
+                  onChangeCheckbox={onRemoveAttachments('remove_short_form_of_judicial_police_files')}
+                  removeAttachmentcheckBoxValue={client.remove_short_form_of_judicial_police_files}
+                  showFilePond={client.short_form_of_judicial_police}
+                  T={T}
+                />
+              </div>
+            </div>
+          </legend>
+        }
+
+        {
           fieldsVisibility.detail_form_of_judicial_police == true &&
           <legend>
             <div className="row">
-              <div className="col-xs-12 col-md-6 col-lg-3">
+              <div className="col-xs-12">
                 <Checkbox label={ t(translation, 'clients.form.detail_form_of_judicial_police') } checked={client.detail_form_of_judicial_police} onChange={onCheckBoxChange('client', 'detail_form_of_judicial_police')} />
+              </div>
+              <div className="col-xs-12">
+                {
+                  client.detail_form_of_judicial_police &&
+                  <RadioGroup
+                    inline
+                    options={legalDocOptions}
+                    onChange={onChangeLegalDocOption('detail_form_of_judicial_police_option')}
+                    value={client.detail_form_of_judicial_police_option}
+                  />
+                }
               </div>
               <div className="col-xs-12">
                 <FileUploadInput
@@ -479,28 +581,6 @@ export default props => {
                   onChangeCheckbox={onRemoveAttachments('remove_detail_form_of_judicial_police_files')}
                   removeAttachmentcheckBoxValue={client.remove_detail_form_of_judicial_police_files}
                   showFilePond={client.detail_form_of_judicial_police}
-                  T={T}
-                />
-              </div>
-            </div>
-          </legend>
-        }
-
-        {
-          fieldsVisibility.short_form_of_judicial_police == true &&
-          <legend>
-            <div className="row">
-              <div className="col-xs-12 col-md-6 col-lg-3">
-                <Checkbox label={ t(translation, 'clients.form.short_form_of_judicial_police') } checked={client.short_form_of_judicial_police} onChange={onCheckBoxChange('client', 'short_form_of_judicial_police')} />
-              </div>
-              <div className="col-xs-12">
-                <FileUploadInput
-                  label=""
-                  onChange={onAttachmentsChange('short_form_of_judicial_police_files')}
-                  object={client.short_form_of_judicial_police_files}
-                  onChangeCheckbox={onRemoveAttachments('remove_short_form_of_judicial_police_files')}
-                  removeAttachmentcheckBoxValue={client.remove_short_form_of_judicial_police_files}
-                  showFilePond={client.short_form_of_judicial_police}
                   T={T}
                 />
               </div>

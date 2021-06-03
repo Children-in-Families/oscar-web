@@ -14,15 +14,21 @@ class AddFieldsLegalDocToClients < ActiveRecord::Migration
     add_column :clients, :warrant_files, :string, default: [], array: true
     add_column :clients, :verdict, :string
     add_column :clients, :verdict_files, :string, default: [], array: true
+    add_column :clients, :referral_doc_option, :string
     add_column :clients, :short_form_of_ocdm, :string
+    add_column :clients, :short_form_of_ocdm_option, :string
     add_column :clients, :short_form_of_ocdm_files, :string, default: [], array: true
     add_column :clients, :short_form_of_mosavy_dosavy, :string
+    add_column :clients, :short_form_of_mosavy_dosavy_option, :string
     add_column :clients, :short_form_of_mosavy_dosavy_files, :string, default: [], array: true
     add_column :clients, :detail_form_of_mosavy_dosavy, :string
+    add_column :clients, :detail_form_of_mosavy_dosavy_option, :string
     add_column :clients, :detail_form_of_mosavy_dosavy_files, :string, default: [], array: true
     add_column :clients, :short_form_of_judicial_police, :string
+    add_column :clients, :short_form_of_judicial_police_option, :string
     add_column :clients, :short_form_of_judicial_police_files, :string, default: [], array: true
     add_column :clients, :detail_form_of_judicial_police, :string
+    add_column :clients, :detail_form_of_judicial_police_option, :string
     add_column :clients, :detail_form_of_judicial_police_files, :string, default: [], array: true
   end
 end
