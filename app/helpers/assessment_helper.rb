@@ -141,7 +141,7 @@ module AssessmentHelper
           assessments = object.assessments.completed.where(sql).order('created_at')
         end
         sub_query_string = get_assessment_query_string([results[0].reject { |arr| arr[:field] != identity }], identity, domain_id, object.id)
-        assessments.map { |assessment| assessment.assessment_domains.joins(:domain).where(sub_query_string.reject(&:blank?).join(' AND ')).where(domains: { identity: identity }) }.flatten.uniq
+        assessments = assessments.joins(:domains).where(sub_query_string.reject(&:blank?).join(' AND ')).where(domains: { identity: identity })
       else
         rule = basic_rules['rules'].select { |h| h['id'] == 'date_of_assessments' || h['id'] == 'date_of_custom_assessments' }.first
 
