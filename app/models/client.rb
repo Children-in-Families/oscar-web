@@ -18,6 +18,18 @@ class Client < ActiveRecord::Base
   mount_uploaders :local_consent_files, FileUploader
   mount_uploaders :police_interview_files, FileUploader
   mount_uploaders :other_legal_doc_files, FileUploader
+  mount_uploaders :ngo_partner_files, FileUploader
+  mount_uploaders :mosavy_files, FileUploader
+  mount_uploaders :dosavy_files, FileUploader
+  mount_uploaders :msdhs_files, FileUploader
+  mount_uploaders :complain_files, FileUploader
+  mount_uploaders :warrant_files, FileUploader
+  mount_uploaders :verdict_files, FileUploader
+  mount_uploaders :short_form_of_ocdm_files, FileUploader
+  mount_uploaders :short_form_of_mosavy_dosavy_files, FileUploader
+  mount_uploaders :detail_form_of_mosavy_dosavy_files, FileUploader
+  mount_uploaders :short_form_of_judicial_police_files, FileUploader
+  mount_uploaders :detail_form_of_judicial_police_files, FileUploader
 
   attr_accessor :assessment_id
   attr_accessor :organization, :case_type
