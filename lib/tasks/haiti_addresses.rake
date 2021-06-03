@@ -9,10 +9,23 @@ namespace :haiti_addresses do
     district_id = nil
     (2..workbook.last_row).each do |row_index|
       rows = workbook.row(row_index)
-      rows.each do |province_name, district_name, commune_name|
+      province_name, district_name, commune_name = rows
+      begin
         province_id = Province.find_or_create_by(name: province_name, country: 'haiti').id if province_name
-        district_id = District.find_or_create_by(name: district_name, province_id: province_id, code: "#{province_id}#{row_index}").id if province_id && district_name
-        Commune.find_or_create_by(name_en: commune_name, district_id: district_id, code: "#{province_id}#{district_id}#{row_index}") if district_id
+        district_id = District.find_or_initialize_by(name: district_name) do |district|
+          district.province_id = province_id
+          district.code = "#{province_id}#{row_index}"
+          district.save
+        end.id if province_id && district_name
+        commune = Commune.find_or_initialize_by(name_en: commune_name) do |commune|
+          commune.name_kh = commune_name
+          commune.district_id = district_id
+          commune.code = "#{province_id}#{district_id}#{row_index}"
+          commune.district_type = 'haiti'
+          commune.save
+        end if district_id && commune_name
+      rescue => exception
+        puts exception
       end
     end
   end
