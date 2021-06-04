@@ -180,7 +180,7 @@
           family.children << client.id
           family.save
         end
-
+        new_client['country_origin'] = 'haiti'
         client.case_worker_clients.find_or_create_by(user_id: new_client['user_id']) if new_client['user_id'].present?
       end
     end

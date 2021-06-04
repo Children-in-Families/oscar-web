@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { TextInput, SelectInput, TextArea } from "../Commons/inputs";
+import { t } from '../../utils/i18n';
 
 export default (props) => {
   const {
@@ -8,6 +9,7 @@ export default (props) => {
     current_organization,
     hintText,
     outside,
+    translation,
     data: {
       client,
       currentProvinces,
@@ -160,7 +162,7 @@ export default (props) => {
       <div className="row">
         <div className="col-xs-12 col-md-6 col-lg-3">
           <SelectInput
-            label={T.translate("address.provicne")}
+            label={t(translation, 'clients.show.province')}
             options={provinces}
             isDisabled={disabled}
             value={objectData.province_id}
@@ -177,7 +179,7 @@ export default (props) => {
 
         <div className="col-xs-12 col-md-6 col-lg-3">
           <SelectInput
-            label={T.translate("address.district")}
+            label={t(translation, 'clients.show.district')}
             isDisabled={disabled}
             options={districts}
             value={objectData.district_id}
@@ -194,7 +196,7 @@ export default (props) => {
 
         <div className="col-xs-12 col-md-6 col-lg-3">
           <SelectInput
-            label={T.translate("address.commune")}
+            label={t(translation, 'clients.show.commune')}
             isDisabled={disabled}
             options={communes}
             value={objectData.commune_id}
