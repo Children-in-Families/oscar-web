@@ -47,7 +47,7 @@ class UserGrid < BaseGrid
 
   filter(:roles, :enum, select: User::ROLES.map{|val| [val.titleize, val]},  header: -> { I18n.t('datagrid.columns.users.roles') })
 
-  filter(:province_id, :enum, select: :province_options,  header: -> { FieldSetting.find_by(name: 'province_id', klass_name: 'user').try(:label) || I18n.t('datagrid.columns.users.province') })
+  filter(:province_id, :enum, select: :province_options,  header: -> { I18n.t('datagrid.columns.users.province') })
   def province_options
     User.province_are
   end
@@ -96,7 +96,7 @@ class UserGrid < BaseGrid
     object.start_date.present? ? object.start_date : ''
   end
 
-  column(:province, order: 'provinces.name', header: -> { FieldSetting.find_by(name: 'province_id', klass_name: 'user').try(:label) || I18n.t('datagrid.columns.users.province') }) do |object|
+  column(:province, order: 'provinces.name', header: -> { I18n.t('datagrid.columns.users.province') }) do |object|
     object.province.try(:name)
   end
 

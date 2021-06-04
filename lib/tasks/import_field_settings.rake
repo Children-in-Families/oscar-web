@@ -132,7 +132,7 @@ namespace :field_settings do
       end
 
       ['user', 'partner'].each do |klass_name|
-        field_setting = FieldSetting.find_or_initialize_by(name: 'province_id', klass_name: klass_name)
+        field_setting = FieldSetting.find_or_initialize_by(name: 'province', klass_name: klass_name)
         field_setting.update!(
           current_label: 'Department',
           label: 'Department',

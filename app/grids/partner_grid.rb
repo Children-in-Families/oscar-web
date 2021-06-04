@@ -38,7 +38,7 @@ class PartnerGrid < BaseGrid
     scope.background_like(value)
   end
 
-  filter(:province_id, :enum, select: :province_options, header: -> { FieldSetting.find_by(name: 'province_id', klass_name: 'partner').try(:label) || I18n.t('datagrid.columns.partners.province') })
+  filter(:province_id, :enum, select: :province_options, header: -> { I18n.t('datagrid.columns.partners.province') })
   def province_options
     Partner.province_are
   end
@@ -83,7 +83,7 @@ class PartnerGrid < BaseGrid
   column(:background, header: -> { I18n.t('datagrid.columns.partners.background') })
   column(:address, header: -> { I18n.t('datagrid.columns.partners.address') })
 
-  column(:province, order: 'provinces.name', header: -> { FieldSetting.find_by(name: 'province_id', klass_name: 'partner').try(:label) || I18n.t('datagrid.columns.partners.province') }) do |object|
+  column(:province, order: 'provinces.name', header: -> { I18n.t('datagrid.columns.partners.province') }) do |object|
     object.province.try(:name)
   end
 
