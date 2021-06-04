@@ -112,7 +112,7 @@ namespace :field_settings do
       current_province: 'Current Department',
       birth_province: 'Birth Department',
       province: 'Department',
-      district: 'Arrondisement',
+      district: 'Arrondissement',
       commune: 'Commune',
       province_id: 'Department',
       district_id: 'Arrondisement',
@@ -138,6 +138,17 @@ namespace :field_settings do
           required: false,
           visible: (short_name == 'chi'),
           group: :family
+        )
+      end
+
+      ['user', 'partner'].each do |klass_name|
+        field_setting = FieldSetting.find_or_initialize_by(name: 'province', klass_name: klass_name)
+        field_setting.update!(
+          current_label: 'Department',
+          label: 'Department',
+          required: false,
+          visible: (short_name == 'chi'),
+          group: klass_name
         )
       end
     end
