@@ -127,7 +127,7 @@ class AssessmentsController < AdminController
     remain_attachment = assessment_domain.attachments
     deleted_attachment = remain_attachment.delete_at(index)
     deleted_attachment.try(:remove_images!)
-    remain_attachment.empty? ? assessment_domain.remove_attachments! : (assessment_domain.attachments = remain_attachment )
+    remain_attachment.try(:empty?) ? assessment_domain.remove_attachments! : (assessment_domain.attachments = remain_attachment )
     message = t('.fail_delete_attachment') unless assessment_domain.save
   end
 

@@ -686,15 +686,7 @@ class ClientGrid < BaseGrid
 
   column(:created_by, header: -> { I18n.t('datagrid.columns.clients.created_by') }) do |object|
     user_id = PaperTrail::Version.find_by(event: 'create', item_type: 'Client', item_id: object.id).try(:whodunnit)
-    if user_id.blank? || (user_id.present? && user_id.include?('@rotati'))
-      user_id = object&.user_id
-      if user_id.nil?
-        user_ids = object.users&.ids
-        return User.where(id: user_ids).first.try(:name) || 'OSCaR Team'
-      end
-    end
-
-    User.find_by(id: user_id).try(:name) || ''
+    User.find_by(id: user_id || object.user_id).try(:name) || ''
   end
 
   dynamic do

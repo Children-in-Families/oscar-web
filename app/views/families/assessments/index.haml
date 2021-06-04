@@ -25,8 +25,7 @@
             .col-xs-12.col-sm-4
               .btn.btn-block.btn-info.button{ class: ('disabled' unless case_notes_readable?) }
                 = link_to_if assessment_readable?, t('assessments.index.view_report'), family_assessment_path(@family, assessment)
-
-        - if @current_setting.enable_default_assessment || completed_initial_assessment?('defaults', 'family')
+        - if @current_setting.enable_default_assessment? && @custom_assessment_settings.blank?
           .row.margin-row
             .col-xs-12.col-sm-8
               %h5
@@ -35,17 +34,65 @@
                   %b
                     = date_format(@family.next_assessment_date)
                 - else
-                  = t('assessments.index.initial_assessment', assessment: t('families.show.assessment'))
+                  = t('assessments.index.initial_assessment', assessment: t('clients.show.assessment'))
                   %b
                     = date_format(Date.today)
             .col-xs-12.col-sm-4
               - if policy(@custom_assessment).create?()
-                = link_to new_family_assessment_path(@family, default: false), data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.assessments.index.default_button', assessment: t('families.show.assessment'))}", placement: "auto" } do
+                = link_to new_family_assessment_path(@family, default: true) do
                   .btn.btn-block.btn-primary.button
-                    = "#{t('assessments.index.begin_now')} #{t('families.show.assessment')}"
+                    = "#{t('assessments.index.begin_now')} #{@current_setting.default_assessment}"
               - else
-                .btn.btn-block.btn-default.button.disabled{ data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.assessments.index.default_button', assessment: t('families.show.assessment'))}", placement: "auto" } }
-                  = "#{t('assessments.index.begin_now')} #{t('families.show.assessment')}"
+                .btn.btn-block.btn-default.button.disabled
+                  = "#{t('assessments.index.begin_now')} #{@current_setting.default_assessment}"
+
+        - if @current_setting.enable_custom_assessment? || completed_initial_assessment?('defaults', 'family')
+          .row.margin-row
+            - @custom_assessment_settings.each do |css|
+              .col-xs-12.col-sm-8
+                %h5
+                  - if current_organization.try(:aht) == true
+                    = t('assessments.index.initial_assessment', assessment: t('clients.show.assessment'))
+                    %b
+                      = date_format(Date.today)
+                  - else
+                    - if @family.assessments.customs.any?
+                      = t('assessments.index.next_review')
+                      %b
+                        = date_format(@family.custom_next_assessment_date(nil, css.id))
+                    - else
+                      = t('assessments.index.initial_assessment', assessment: t('clients.show.assessment'))
+                      %b
+                        = date_format(Date.today)
+              .col-xs-12.col-sm-4.m-b-sm
+                - if css.domains.any?
+                  - if policy(@custom_assessment).create?(css.id, css)
+                    = link_to new_family_assessment_path(@family, default: false, custom_name: css.custom_assessment_name), class: 'btn btn-block btn-primary button' do
+                      - if Organization.ratanak?
+                        = "#{t('assessments.index.begin_now')} #{t('clients.show.custom_assessment', assessment: t('clients.show.assessment'))}"
+                      - else
+                        = "#{t('assessments.index.begin_now')} #{css.custom_assessment_name}"
+                  - else
+                    .btn.btn-block.btn-default.button.disabled
+                      = "#{t('assessments.index.begin_now')} #{css.custom_assessment_name}"
+                - else
+                  = link_to '#', data: { toggle: 'modal', target: '#customDomainsModal' }, class: 'btn btn-block btn-primary button' do
+                    - if Organization.ratanak?
+                      = "#{t('assessments.index.begin_now')} #{t('clients.show.custom_assessment', assessment: t('clients.show.assessment'))}"
+                    - else
+                      = "#{t('assessments.index.begin_now')} #{css.custom_assessment_name}"
+
+                #customDomainsModal.modal.fade{"aria-labelledby" => "customDomainsModalLabel", :role => "dialog", :tabindex => "-1"}
+                  .modal-dialog{:role => "document"}
+                    .modal-content.panel-warning
+                      .modal-header.panel-heading
+                        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+                          %span{"aria-hidden" => "true"} ×
+                        %h4
+                          %i.fa.fa-warning.fa-x2
+                          = t('assessments.index.no_custom_domains_available')
+                      .modal-body.text-center
+                        = t('assessments.index.please_add_custom_domains')
 
               #customDomainsModal.modal.fade{"aria-labelledby" => "customDomainsModalLabel", :role => "dialog", :tabindex => "-1"}
                 .modal-dialog{:role => "document"}
