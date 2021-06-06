@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210527140833) do
+ActiveRecord::Schema.define(version: 20210606021955) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -2006,6 +2006,7 @@ ActiveRecord::Schema.define(version: 20210527140833) do
     t.string   "community_default_columns",            default: [],                               array: true
     t.integer  "case_conference_limit",                default: 0
     t.string   "case_conference_frequency",            default: "week"
+    t.boolean  "use_previous_care_plan"
   end
 
   add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree

@@ -110,7 +110,7 @@ class SettingsController < AdminController
                                     :case_note_frequency, :org_name, :province_id, :district_id, :commune_id,
                                     :delete_incomplete_after_period_unit, :use_screening_assessment, :screening_assessment_form_id,
                                     :delete_incomplete_after_period_value, :two_weeks_assessment_reminder,
-                                    :never_delete_incomplete_assessment, :show_prev_assessment,
+                                    :never_delete_incomplete_assessment, :show_prev_assessment, :use_previous_care_plan,
                                     :sharing_data, :custom_id1_latin, :custom_id1_local, :custom_id2_latin, :custom_id2_local,
                                     :enable_hotline, :enable_client_form, :assessment_score_order, :disable_required_fields,
                                     :hide_family_case_management_tool, :hide_community, :case_conference_limit, :case_conference_frequency,

@@ -79,6 +79,7 @@ CIF.Care_plansNew = CIF.Care_plansEdit = CIF.Care_plansCreate = CIF.Care_plansUp
           $("#{rootId} a[href='#save']").show()
       onFinishing: (event, currentIndex, newIndex) ->
         return false if rootId == '#readonly-rootwizard'
+        return true
 
       onFinished: ->
         return if rootId == '#readonly-rootwizard'
@@ -97,8 +98,10 @@ CIF.Care_plansNew = CIF.Care_plansEdit = CIF.Care_plansCreate = CIF.Care_plansUp
     $("#{currentTab}").find('.task-input-field')[0] && $("#{currentTab}").find('.task-input-field')[0].value
 
   _initGoalTask = ->
-    $('#care_plans-new .btn-add-goal').click()
-    $('#care_plans-new .btn-add-task').click()
+    unless $('#care_plan_id').length
+      $('#care_plans-new .btn-add-goal').click()
+      $('#care_plans-new .btn-add-task').click()
+
     _initDatePicker()
 
   _initGoalTaskEditPage = (currentTab) ->
