@@ -11,7 +11,11 @@
       .table-responsive
         %table.table.table-hover
           %tbody.task-input.tasks
-            = f.fields_for :tasks do |task|
-              = render "task_fields", f: task
-
-        = link_to_add_association t('.add_task'), f, :tasks, class: 'btn-add-task btn btn-outline btn-xs btn-success', data: {association_insertion_method: :append, association_insertion_node: '.table', association_insertion_traversal: 'prev'}
+            - if f.object.persisted?
+              = f.fields_for :tasks, f.object.tasks do |task|
+                = render "task_fields", f: task
+            - if !f.object.persisted?
+              = f.fields_for :tasks do |task|
+                = render "task_fields", f: task
+        - if !f.object.persisted?
+          = link_to_add_association t('.add_task'), f, :tasks, class: 'btn-add-task btn btn-outline btn-xs btn-success', data: {association_insertion_method: :append, association_insertion_node: '.table', association_insertion_traversal: 'prev'}

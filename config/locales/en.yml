@@ -5884,6 +5884,9 @@ en:
       delete_incomplete_assessment: Delete incomplete assessment after certain period of time
     update:
       successfully_updated: Setting have been successfully updated.
+    use_previous_care_plan:
+      previous_care_plan: Previous Care Plan
+      use_previous_care_plan: Use Previous Care Plan
   field_settings:
     update:
       successfully_updated: Setting have been successfully updated.
