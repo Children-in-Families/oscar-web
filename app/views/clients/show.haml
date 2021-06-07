@@ -107,10 +107,16 @@
           - if current_organization.available_for_referral?
             %input#client-id{ value: "#{@client.slug}", type: 'hidden' }
             .btn-group.small-btn-margin
-              %button.btn-sm.btn.btn-warning.dropdown-toggle.btn-fit{ data: { toggle: "dropdown", html: 'true', trigger: 'hover', content: "#{I18n.t('inline_help.clients.show.referral_form')}", placement: "auto" }, class: ('disabled' if @client.referrals.empty?) }
+              %button.btn-sm.btn.btn-warning.dropdown-toggle.btn-fit{ data: { toggle: "dropdown", html: 'true', trigger: 'hover', content: "#{I18n.t('inline_help.clients.show.referral_form')}", placement: "auto" }, class: ('disabled' if @client.internal_referrals.empty? && @client.referrals.empty?) }
                 = t('.referral_forms')
                 %span.caret
               %ul.dropdown-menu.btn-fit.scrollable-dropdown-menu.referral-forms
+                - @internal_referrals.each do |internal_referral|
+                  %li
+                    = link_to client_internal_referral_path(@client, internal_referral.id) do
+                      = "Internal Referral To"
+                      = internal_referral.program_name
+                      = date_format(internal_referral.referral_date)
                 %li= link_to t('.referred_to'), client_referrals_path(@client, referral_type: 'referred_to')
                 %li= link_to t('.referred_from'), client_referrals_path(@client, referral_type: 'referred_from')
             .btn-group.small-btn-margin
@@ -596,7 +602,7 @@
                     - @internal_referrals.each do |internal_referral|
                       %tr
                         %td= "Internal Referral To #{internal_referral.program_name}"
-                        %td= date_format(internal_referral.created_at)
+                        %td= date_format(internal_referral.referral_date)
                         - unless Rails.env.production?
                           %td
                         %td.text-center
