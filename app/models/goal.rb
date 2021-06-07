@@ -14,6 +14,7 @@ class Goal < ActiveRecord::Base
   before_destroy :delete_tasks
 
   accepts_nested_attributes_for :tasks, reject_if:  proc { |attributes| attributes['name'].blank? && attributes['expected_date'].blank? }, allow_destroy: true
+  scope :find_by_domain, ->(domain_id) { joins(:assessment_domain).where(assessment_domains: { domain_id: domain_id }).first }
 
   private
 

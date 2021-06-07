@@ -6,7 +6,6 @@ CIF.Care_plansNew = CIF.Care_plansEdit = CIF.Care_plansCreate = CIF.Care_plansUp
 
     _translatePagination()
     _initDatePicker()
-    _initGoalTask()
     _initDatePickerOnTaskClick()
     _saveCarePlan(form)
 
@@ -56,7 +55,7 @@ CIF.Care_plansNew = CIF.Care_plansEdit = CIF.Care_plansCreate = CIF.Care_plansUp
         isGoalTaskRequired = $("#{currentTab}").find('.score-color').text()
         _appendSaveButton()
         _appendSaveCancel()
-        _initGoalTaskEditPage(currentTab)
+        _initGoalTaskPage(currentTab)
         taskValue = _taskRequiredField(currentTab)
         return true if (isGoalTaskRequired == 'primary' || isGoalTaskRequired == 'info') && taskValue == ""
         _requiredGoalTask(currentIndex, currentTab)
@@ -72,7 +71,7 @@ CIF.Care_plansNew = CIF.Care_plansEdit = CIF.Care_plansCreate = CIF.Care_plansUp
 
       onStepChanged: (event, currentIndex, priorIndex) ->
         currentTab  = "#{rootId}-p-#{currentIndex}"
-        _initGoalTaskEditPage(currentTab)
+        _initGoalTaskPage(currentTab)
         if $(rootId).find('a[href="#finish"]:visible').length
           $("#{rootId} a[href='#save']").hide()
         else
@@ -97,19 +96,12 @@ CIF.Care_plansNew = CIF.Care_plansEdit = CIF.Care_plansCreate = CIF.Care_plansUp
   _taskRequiredField = (currentTab) ->
     $("#{currentTab}").find('.task-input-field')[0] && $("#{currentTab}").find('.task-input-field')[0].value
 
-  _initGoalTask = ->
-    unless $('#care_plan_id').length
-      $('#care_plans-new .btn-add-goal').click()
-      $('#care_plans-new .btn-add-task').click()
-
-    _initDatePicker()
-
-  _initGoalTaskEditPage = (currentTab) ->
-    if $("#care_plans-edit #{currentTab} .goal-input-field").length == 0
-      $("#care_plans-edit #{currentTab} .btn-add-goal").click()
-      $("#care_plans-edit #{currentTab} .btn-add-task").click()
-    if $("#care_plans-edit #{currentTab} .task-input-field").length == 0
-      $("#care_plans-edit #{currentTab} .btn-add-task").click()
+  _initGoalTaskPage = (currentTab) ->
+    if $(".care_plan-form #{currentTab} .goal-input-field").length == 0
+      $(".care_plan-form #{currentTab} .btn-add-goal").click()
+      $(".care_plan-form #{currentTab} .btn-add-task").click()
+    if $(".care_plan-form #{currentTab} .task-input-field").length == 0
+      $(".care_plan-form #{currentTab} .btn-add-task").click()
     _initDatePicker()
 
   _initDatePickerOnTaskClick = ->
