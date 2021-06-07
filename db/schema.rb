@@ -11,13 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210519191513) do
+ActiveRecord::Schema.define(version: 20210607043929) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
-  enable_extension "uuid-ossp"
   enable_extension "pgcrypto"
+  enable_extension "uuid-ossp"
 
   create_table "able_screening_questions", force: :cascade do |t|
     t.string   "question"
@@ -544,136 +544,136 @@ ActiveRecord::Schema.define(version: 20210519191513) do
   end
 
   create_table "clients", force: :cascade do |t|
-    t.string   "code",                             default: ""
-    t.string   "given_name",                       default: ""
-    t.string   "family_name",                      default: ""
-    t.string   "gender",                           default: ""
+    t.string   "code",                                  default: ""
+    t.string   "given_name",                            default: ""
+    t.string   "family_name",                           default: ""
+    t.string   "gender",                                default: ""
     t.date     "date_of_birth"
-    t.string   "status",                           default: "Referred"
+    t.string   "status",                                default: "Referred"
     t.date     "initial_referral_date"
-    t.string   "referral_phone",                   default: ""
+    t.string   "referral_phone",                        default: ""
     t.integer  "birth_province_id"
     t.integer  "received_by_id"
     t.integer  "followed_up_by_id"
     t.date     "follow_up_date"
-    t.string   "current_address",                  default: ""
-    t.string   "school_name",                      default: ""
-    t.string   "school_grade",                     default: ""
+    t.string   "current_address",                       default: ""
+    t.string   "school_name",                           default: ""
+    t.string   "school_grade",                          default: ""
     t.boolean  "has_been_in_orphanage"
-    t.boolean  "able",                             default: false
+    t.boolean  "able",                                  default: false
     t.boolean  "has_been_in_government_care"
-    t.text     "relevant_referral_information",    default: ""
-    t.string   "archive_state",                    default: ""
-    t.text     "rejected_note",                    default: ""
+    t.text     "relevant_referral_information",         default: ""
+    t.string   "archive_state",                         default: ""
+    t.text     "rejected_note",                         default: ""
     t.integer  "province_id"
     t.integer  "referral_source_id"
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "completed",                        default: false
-    t.text     "reason_for_referral",              default: ""
-    t.boolean  "is_receiving_additional_benefits", default: false
-    t.text     "background",                       default: ""
+    t.boolean  "completed",                             default: false
+    t.text     "reason_for_referral",                   default: ""
+    t.boolean  "is_receiving_additional_benefits",      default: false
+    t.text     "background",                            default: ""
     t.integer  "grade"
     t.string   "slug"
-    t.string   "able_state",                       default: ""
+    t.string   "able_state",                            default: ""
     t.integer  "donor_id"
-    t.string   "local_given_name",                 default: ""
-    t.string   "local_family_name",                default: ""
-    t.string   "kid_id",                           default: ""
-    t.string   "house_number",                     default: ""
-    t.string   "street_number",                    default: ""
-    t.string   "old_village",                      default: ""
-    t.string   "old_commune",                      default: ""
-    t.string   "archive_district",                 default: ""
-    t.string   "live_with",                        default: ""
+    t.string   "local_given_name",                      default: ""
+    t.string   "local_family_name",                     default: ""
+    t.string   "kid_id",                                default: ""
+    t.string   "house_number",                          default: ""
+    t.string   "street_number",                         default: ""
+    t.string   "old_village",                           default: ""
+    t.string   "old_commune",                           default: ""
+    t.string   "archive_district",                      default: ""
+    t.string   "live_with",                             default: ""
     t.integer  "id_poor"
-    t.integer  "rice_support",                     default: 0
-    t.text     "exit_note",                        default: ""
+    t.integer  "rice_support",                          default: 0
+    t.text     "exit_note",                             default: ""
     t.date     "exit_date"
     t.date     "accepted_date"
-    t.string   "gov_city",                         default: ""
-    t.string   "gov_commune",                      default: ""
-    t.string   "gov_district",                     default: ""
+    t.string   "gov_city",                              default: ""
+    t.string   "gov_commune",                           default: ""
+    t.string   "gov_district",                          default: ""
     t.date     "gov_date"
-    t.string   "gov_village_code",                 default: ""
-    t.string   "gov_client_code",                  default: ""
-    t.string   "gov_interview_village",            default: ""
-    t.string   "gov_interview_commune",            default: ""
-    t.string   "gov_interview_district",           default: ""
-    t.string   "gov_interview_city",               default: ""
-    t.string   "gov_caseworker_name",              default: ""
-    t.string   "gov_caseworker_phone",             default: ""
-    t.string   "gov_carer_name",                   default: ""
-    t.string   "gov_carer_relationship",           default: ""
-    t.string   "gov_carer_home",                   default: ""
-    t.string   "gov_carer_street",                 default: ""
-    t.string   "gov_carer_village",                default: ""
-    t.string   "gov_carer_commune",                default: ""
-    t.string   "gov_carer_district",               default: ""
-    t.string   "gov_carer_city",                   default: ""
-    t.string   "gov_carer_phone",                  default: ""
-    t.string   "gov_information_source",           default: ""
-    t.text     "gov_referral_reason",              default: ""
-    t.text     "gov_guardian_comment",             default: ""
-    t.text     "gov_caseworker_comment",           default: ""
+    t.string   "gov_village_code",                      default: ""
+    t.string   "gov_client_code",                       default: ""
+    t.string   "gov_interview_village",                 default: ""
+    t.string   "gov_interview_commune",                 default: ""
+    t.string   "gov_interview_district",                default: ""
+    t.string   "gov_interview_city",                    default: ""
+    t.string   "gov_caseworker_name",                   default: ""
+    t.string   "gov_caseworker_phone",                  default: ""
+    t.string   "gov_carer_name",                        default: ""
+    t.string   "gov_carer_relationship",                default: ""
+    t.string   "gov_carer_home",                        default: ""
+    t.string   "gov_carer_street",                      default: ""
+    t.string   "gov_carer_village",                     default: ""
+    t.string   "gov_carer_commune",                     default: ""
+    t.string   "gov_carer_district",                    default: ""
+    t.string   "gov_carer_city",                        default: ""
+    t.string   "gov_carer_phone",                       default: ""
+    t.string   "gov_information_source",                default: ""
+    t.text     "gov_referral_reason",                   default: ""
+    t.text     "gov_guardian_comment",                  default: ""
+    t.text     "gov_caseworker_comment",                default: ""
     t.integer  "district_id"
-    t.string   "telephone_number",                 default: ""
-    t.string   "name_of_referee",                  default: ""
-    t.string   "main_school_contact",              default: ""
-    t.string   "rated_for_id_poor",                default: ""
-    t.string   "what3words",                       default: ""
-    t.string   "exit_reasons",                     default: [],                      array: true
-    t.string   "exit_circumstance",                default: ""
-    t.string   "other_info_of_exit",               default: ""
-    t.string   "suburb",                           default: ""
-    t.string   "description_house_landmark",       default: ""
-    t.string   "directions",                       default: ""
-    t.string   "street_line1",                     default: ""
-    t.string   "street_line2",                     default: ""
-    t.string   "plot",                             default: ""
-    t.string   "road",                             default: ""
-    t.string   "postal_code",                      default: ""
+    t.string   "telephone_number",                      default: ""
+    t.string   "name_of_referee",                       default: ""
+    t.string   "main_school_contact",                   default: ""
+    t.string   "rated_for_id_poor",                     default: ""
+    t.string   "what3words",                            default: ""
+    t.string   "exit_reasons",                          default: [],                      array: true
+    t.string   "exit_circumstance",                     default: ""
+    t.string   "other_info_of_exit",                    default: ""
+    t.string   "suburb",                                default: ""
+    t.string   "description_house_landmark",            default: ""
+    t.string   "directions",                            default: ""
+    t.string   "street_line1",                          default: ""
+    t.string   "street_line2",                          default: ""
+    t.string   "plot",                                  default: ""
+    t.string   "road",                                  default: ""
+    t.string   "postal_code",                           default: ""
     t.integer  "subdistrict_id"
     t.integer  "township_id"
     t.integer  "state_id"
-    t.string   "country_origin",                   default: ""
+    t.string   "country_origin",                        default: ""
     t.integer  "commune_id"
     t.integer  "village_id"
     t.string   "profile"
     t.integer  "referral_source_category_id"
     t.string   "archived_slug"
-    t.integer  "assessments_count",                default: 0,          null: false
+    t.integer  "assessments_count",                     default: 0,          null: false
     t.integer  "current_family_id"
-    t.boolean  "outside",                          default: false
-    t.string   "outside_address",                  default: ""
-    t.string   "address_type",                     default: ""
-    t.string   "client_phone",                     default: ""
-    t.string   "phone_owner",                      default: ""
-    t.string   "client_email",                     default: ""
-    t.string   "referee_relationship",             default: ""
+    t.boolean  "outside",                               default: false
+    t.string   "outside_address",                       default: ""
+    t.string   "address_type",                          default: ""
+    t.string   "client_phone",                          default: ""
+    t.string   "phone_owner",                           default: ""
+    t.string   "client_email",                          default: ""
+    t.string   "referee_relationship",                  default: ""
     t.integer  "referee_id"
     t.integer  "carer_id"
-    t.string   "nickname",                         default: ""
-    t.string   "relation_to_referee",              default: ""
-    t.boolean  "concern_is_outside",               default: false
-    t.string   "concern_outside_address",          default: ""
+    t.string   "nickname",                              default: ""
+    t.string   "relation_to_referee",                   default: ""
+    t.boolean  "concern_is_outside",                    default: false
+    t.string   "concern_outside_address",               default: ""
     t.integer  "concern_province_id"
     t.integer  "concern_district_id"
     t.integer  "concern_commune_id"
     t.integer  "concern_village_id"
-    t.string   "concern_street",                   default: ""
-    t.string   "concern_house",                    default: ""
-    t.string   "concern_address",                  default: ""
-    t.string   "concern_address_type",             default: ""
-    t.string   "concern_phone",                    default: ""
-    t.string   "concern_phone_owner",              default: ""
-    t.string   "concern_email",                    default: ""
-    t.string   "concern_email_owner",              default: ""
-    t.string   "concern_location",                 default: ""
-    t.boolean  "concern_same_as_client",           default: false
-    t.string   "location_description",             default: ""
-    t.string   "phone_counselling_summary",        default: ""
+    t.string   "concern_street",                        default: ""
+    t.string   "concern_house",                         default: ""
+    t.string   "concern_address",                       default: ""
+    t.string   "concern_address_type",                  default: ""
+    t.string   "concern_phone",                         default: ""
+    t.string   "concern_phone_owner",                   default: ""
+    t.string   "concern_email",                         default: ""
+    t.string   "concern_email_owner",                   default: ""
+    t.string   "concern_location",                      default: ""
+    t.boolean  "concern_same_as_client",                default: false
+    t.string   "location_description",                  default: ""
+    t.string   "phone_counselling_summary",             default: ""
     t.string   "presented_id"
     t.string   "id_number"
     t.string   "other_phone_number"
@@ -693,34 +693,34 @@ ActiveRecord::Schema.define(version: 20210519191513) do
     t.string   "resident_own_or_rent2"
     t.string   "household_type2"
     t.string   "legacy_brcs_id"
-    t.boolean  "whatsapp",                         default: false
+    t.boolean  "whatsapp",                              default: false
     t.string   "external_id"
     t.string   "external_id_display"
     t.string   "mosvy_number"
     t.string   "external_case_worker_name"
     t.string   "external_case_worker_id"
-    t.boolean  "other_phone_whatsapp",             default: false
-    t.string   "preferred_language",               default: "English"
-    t.boolean  "national_id",                      default: false,      null: false
-    t.boolean  "birth_cert",                       default: false,      null: false
-    t.boolean  "family_book",                      default: false,      null: false
-    t.boolean  "passport",                         default: false,      null: false
-    t.boolean  "travel_doc",                       default: false,      null: false
-    t.boolean  "referral_doc",                     default: false,      null: false
-    t.boolean  "local_consent",                    default: false,      null: false
-    t.boolean  "police_interview",                 default: false,      null: false
-    t.boolean  "other_legal_doc",                  default: false,      null: false
-    t.string   "national_id_files",                default: [],                      array: true
-    t.string   "birth_cert_files",                 default: [],                      array: true
-    t.string   "family_book_files",                default: [],                      array: true
-    t.string   "passport_files",                   default: [],                      array: true
-    t.string   "travel_doc_files",                 default: [],                      array: true
-    t.string   "referral_doc_files",               default: [],                      array: true
-    t.string   "local_consent_files",              default: [],                      array: true
-    t.string   "police_interview_files",           default: [],                      array: true
-    t.string   "other_legal_doc_files",            default: [],                      array: true
+    t.boolean  "other_phone_whatsapp",                  default: false
+    t.string   "preferred_language",                    default: "English"
+    t.boolean  "national_id",                           default: false,      null: false
+    t.boolean  "birth_cert",                            default: false,      null: false
+    t.boolean  "family_book",                           default: false,      null: false
+    t.boolean  "passport",                              default: false,      null: false
+    t.boolean  "travel_doc",                            default: false,      null: false
+    t.boolean  "referral_doc",                          default: false,      null: false
+    t.boolean  "local_consent",                         default: false,      null: false
+    t.boolean  "police_interview",                      default: false,      null: false
+    t.boolean  "other_legal_doc",                       default: false,      null: false
+    t.string   "national_id_files",                     default: [],                      array: true
+    t.string   "birth_cert_files",                      default: [],                      array: true
+    t.string   "family_book_files",                     default: [],                      array: true
+    t.string   "passport_files",                        default: [],                      array: true
+    t.string   "travel_doc_files",                      default: [],                      array: true
+    t.string   "referral_doc_files",                    default: [],                      array: true
+    t.string   "local_consent_files",                   default: [],                      array: true
+    t.string   "police_interview_files",                default: [],                      array: true
+    t.string   "other_legal_doc_files",                 default: [],                      array: true
     t.string   "global_id"
-    t.boolean  "referred_external",                default: false
+    t.boolean  "referred_external",                     default: false
     t.string   "marital_status"
     t.string   "nationality"
     t.string   "ethnicity"
@@ -747,6 +747,36 @@ ActiveRecord::Schema.define(version: 20210519191513) do
     t.string   "locality"
     t.string   "national_id_number"
     t.string   "passport_number"
+    t.string   "ngo_partner"
+    t.string   "ngo_partner_files",                     default: [],                      array: true
+    t.string   "mosavy"
+    t.string   "mosavy_files",                          default: [],                      array: true
+    t.string   "dosavy"
+    t.string   "dosavy_files",                          default: [],                      array: true
+    t.string   "msdhs"
+    t.string   "msdhs_files",                           default: [],                      array: true
+    t.string   "complain"
+    t.string   "complain_files",                        default: [],                      array: true
+    t.string   "warrant"
+    t.string   "warrant_files",                         default: [],                      array: true
+    t.string   "verdict"
+    t.string   "verdict_files",                         default: [],                      array: true
+    t.string   "referral_doc_option"
+    t.string   "short_form_of_ocdm"
+    t.string   "short_form_of_ocdm_option"
+    t.string   "short_form_of_ocdm_files",              default: [],                      array: true
+    t.string   "short_form_of_mosavy_dosavy"
+    t.string   "short_form_of_mosavy_dosavy_option"
+    t.string   "short_form_of_mosavy_dosavy_files",     default: [],                      array: true
+    t.string   "detail_form_of_mosavy_dosavy"
+    t.string   "detail_form_of_mosavy_dosavy_option"
+    t.string   "detail_form_of_mosavy_dosavy_files",    default: [],                      array: true
+    t.string   "short_form_of_judicial_police"
+    t.string   "short_form_of_judicial_police_option"
+    t.string   "short_form_of_judicial_police_files",   default: [],                      array: true
+    t.string   "detail_form_of_judicial_police"
+    t.string   "detail_form_of_judicial_police_option"
+    t.string   "detail_form_of_judicial_police_files",  default: [],                      array: true
   end
 
   add_index "clients", ["commune_id"], name: "index_clients_on_commune_id", using: :btree
@@ -1482,6 +1512,33 @@ ActiveRecord::Schema.define(version: 20210519191513) do
   add_index "hotlines", ["call_id"], name: "index_hotlines_on_call_id", using: :btree
   add_index "hotlines", ["client_id"], name: "index_hotlines_on_client_id", using: :btree
 
+  create_table "internal_referral_program_streams", force: :cascade do |t|
+    t.integer  "internal_referral_id"
+    t.integer  "program_stream_id"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  add_index "internal_referral_program_streams", ["internal_referral_id"], name: "index_internal_referral_program_streams_on_internal_referral_id", using: :btree
+  add_index "internal_referral_program_streams", ["program_stream_id"], name: "index_internal_referral_program_streams_on_program_stream_id", using: :btree
+
+  create_table "internal_referrals", force: :cascade do |t|
+    t.datetime "referral_date"
+    t.integer  "client_id"
+    t.integer  "user_id"
+    t.text     "client_representing_problem"
+    t.text     "emergency_note"
+    t.text     "referral_reason"
+    t.text     "referral_decision"
+    t.string   "attachments",                 default: [],              array: true
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
+  end
+
+  add_index "internal_referrals", ["client_id"], name: "index_internal_referrals_on_client_id", using: :btree
+  add_index "internal_referrals", ["referral_date"], name: "index_internal_referrals_on_referral_date", using: :btree
+  add_index "internal_referrals", ["user_id"], name: "index_internal_referrals_on_user_id", using: :btree
+
   create_table "interventions", force: :cascade do |t|
     t.string   "action",     default: ""
     t.datetime "created_at"
@@ -1673,6 +1730,16 @@ ActiveRecord::Schema.define(version: 20210519191513) do
   add_index "program_stream_services", ["deleted_at"], name: "index_program_stream_services_on_deleted_at", using: :btree
   add_index "program_stream_services", ["program_stream_id"], name: "index_program_stream_services_on_program_stream_id", using: :btree
   add_index "program_stream_services", ["service_id"], name: "index_program_stream_services_on_service_id", using: :btree
+
+  create_table "program_stream_users", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "program_stream_id"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
+
+  add_index "program_stream_users", ["program_stream_id"], name: "index_program_stream_users_on_program_stream_id", using: :btree
+  add_index "program_stream_users", ["user_id"], name: "index_program_stream_users_on_user_id", using: :btree
 
   create_table "program_streams", force: :cascade do |t|
     t.string   "name"
@@ -1976,6 +2043,7 @@ ActiveRecord::Schema.define(version: 20210519191513) do
     t.string   "community_default_columns",            default: [],                               array: true
     t.integer  "case_conference_limit",                default: 0
     t.string   "case_conference_frequency",            default: "week"
+    t.boolean  "use_previous_care_plan"
   end
 
   add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree
@@ -2560,6 +2628,8 @@ ActiveRecord::Schema.define(version: 20210519191513) do
   add_foreign_key "government_forms", "villages"
   add_foreign_key "hotlines", "calls"
   add_foreign_key "hotlines", "clients"
+  add_foreign_key "internal_referral_program_streams", "internal_referrals"
+  add_foreign_key "internal_referral_program_streams", "program_streams"
   add_foreign_key "leave_programs", "client_enrollments"
   add_foreign_key "leave_programs", "enrollments"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"

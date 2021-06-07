@@ -1,19 +1,6 @@
 Rails.application.routes.draw do
 
-  get 'service_deliveries/index'
-
-  get 'service_deliveries/new'
-
-  get 'service_deliveries/create'
-
-  get 'service_deliveries/edit'
-
-  get 'service_deliveries/update'
-
-  get 'service_deliveries/destroy'
-
   root 'organizations#index'
-
   devise_for :users, controllers: { registrations: 'registrations', sessions: 'sessions', passwords: 'passwords' }
   use_doorkeeper do
     skip_controllers :applications, :authorized_applications
@@ -116,7 +103,7 @@ Rails.application.routes.draw do
 
   resources :clients do
     resources :referrals
-
+    resources :internal_referrals
     collection do
       post '/advanced_search', to: 'clients#index'
       get :advanced_search

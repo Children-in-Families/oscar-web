@@ -95,6 +95,7 @@ class Client < ActiveRecord::Base
   has_many :care_plans, dependent: :destroy
   has_many :goals, dependent: :destroy
   has_many :case_conferences, dependent: :destroy
+  has_many :internal_referrals, dependent: :destroy
 
   has_paper_trail
 
