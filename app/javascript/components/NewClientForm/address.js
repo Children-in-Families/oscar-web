@@ -162,7 +162,7 @@ export default (props) => {
       <div className="row">
         <div className="col-xs-12 col-md-6 col-lg-3">
           <SelectInput
-            label={t(translation, 'clients.show.province')}
+            label={t(translation, 'clients.show.province')[objectKey]}
             options={provinces}
             isDisabled={disabled}
             value={objectData.province_id}
