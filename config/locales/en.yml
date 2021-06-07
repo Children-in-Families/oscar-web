@@ -5885,8 +5885,8 @@ en:
     update:
       successfully_updated: Setting have been successfully updated.
     use_previous_care_plan:
-      previous_care_plan: Previous Care Plan
-      use_previous_care_plan: Use Previous Care Plan
+      previous_care_plan: Previous %{care_plan}
+      use_previous_care_plan: Use Previous %{care_plan}
   field_settings:
     update:
       successfully_updated: Setting have been successfully updated.

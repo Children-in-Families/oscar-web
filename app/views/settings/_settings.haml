@@ -18,11 +18,11 @@
   .panel-heading
     %h3
       Ratanak
-      = t('.previous_care_plan')
+      = t('.previous_care_plan', care_plan: t('clients.care_plan'))
   .panel-body
     .row
     .i-checks.integration
-      %label= t('.use_previous_care_plan')
+      %label= t('.use_previous_care_plan', care_plan: t('clients.care_plan'))
       = f.input :use_previous_care_plan, as: :radio_buttons, collection: [[I18n.t('settings.client_forms.yes'), true],[I18n.t('settings.client_forms.no'), false]], label: false
 
 .panel.panel-default

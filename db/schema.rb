@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210606021955) do
+ActiveRecord::Schema.define(version: 20210607043929) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1512,6 +1512,33 @@ ActiveRecord::Schema.define(version: 20210606021955) do
   add_index "hotlines", ["call_id"], name: "index_hotlines_on_call_id", using: :btree
   add_index "hotlines", ["client_id"], name: "index_hotlines_on_client_id", using: :btree
 
+  create_table "internal_referral_program_streams", force: :cascade do |t|
+    t.integer  "internal_referral_id"
+    t.integer  "program_stream_id"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  add_index "internal_referral_program_streams", ["internal_referral_id"], name: "index_internal_referral_program_streams_on_internal_referral_id", using: :btree
+  add_index "internal_referral_program_streams", ["program_stream_id"], name: "index_internal_referral_program_streams_on_program_stream_id", using: :btree
+
+  create_table "internal_referrals", force: :cascade do |t|
+    t.datetime "referral_date"
+    t.integer  "client_id"
+    t.integer  "user_id"
+    t.text     "client_representing_problem"
+    t.text     "emergency_note"
+    t.text     "referral_reason"
+    t.text     "referral_decision"
+    t.string   "attachments",                 default: [],              array: true
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
+  end
+
+  add_index "internal_referrals", ["client_id"], name: "index_internal_referrals_on_client_id", using: :btree
+  add_index "internal_referrals", ["referral_date"], name: "index_internal_referrals_on_referral_date", using: :btree
+  add_index "internal_referrals", ["user_id"], name: "index_internal_referrals_on_user_id", using: :btree
+
   create_table "interventions", force: :cascade do |t|
     t.string   "action",     default: ""
     t.datetime "created_at"
@@ -1703,6 +1730,16 @@ ActiveRecord::Schema.define(version: 20210606021955) do
   add_index "program_stream_services", ["deleted_at"], name: "index_program_stream_services_on_deleted_at", using: :btree
   add_index "program_stream_services", ["program_stream_id"], name: "index_program_stream_services_on_program_stream_id", using: :btree
   add_index "program_stream_services", ["service_id"], name: "index_program_stream_services_on_service_id", using: :btree
+
+  create_table "program_stream_users", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "program_stream_id"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
+
+  add_index "program_stream_users", ["program_stream_id"], name: "index_program_stream_users_on_program_stream_id", using: :btree
+  add_index "program_stream_users", ["user_id"], name: "index_program_stream_users_on_user_id", using: :btree
 
   create_table "program_streams", force: :cascade do |t|
     t.string   "name"
@@ -2591,6 +2628,8 @@ ActiveRecord::Schema.define(version: 20210606021955) do
   add_foreign_key "government_forms", "villages"
   add_foreign_key "hotlines", "calls"
   add_foreign_key "hotlines", "clients"
+  add_foreign_key "internal_referral_program_streams", "internal_referrals"
+  add_foreign_key "internal_referral_program_streams", "program_streams"
   add_foreign_key "leave_programs", "client_enrollments"
   add_foreign_key "leave_programs", "enrollments"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
