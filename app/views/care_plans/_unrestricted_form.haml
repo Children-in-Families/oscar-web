@@ -1,4 +1,4 @@
-= simple_form_for([care_plan.client, care_plan], url: (!readonly && action_name == 'new') ? client_care_plans_path(care_plan.client) : client_care_plans_path(care_plan.client, care_plan), method: (!readonly && action_name == 'new') ? :POST : :PATCH, html: { id: "#{action_name}-care_plan", class: 'care_plan-form unrestricted_form', data: { disable_required_fields: current_setting.disable_required_fields? } }) do |f|
+= simple_form_for([care_plan.client, care_plan], url: (!readonly && action_name == 'new') ? client_care_plans_path(care_plan.client) : client_care_plan_path(care_plan.client, care_plan), method: (!readonly && action_name == 'new') ? :POST : :PATCH, html: { id: "#{action_name}-care_plan", class: 'care_plan-form unrestricted_form', data: { disable_required_fields: current_setting.disable_required_fields? } }) do |f|
   - assessment = @assessment || Assessment.find_by(id: params[:care_plan][:assessment_id])
   = f.hidden_field :assessment_id, value: assessment.id
   = f.hidden_field :id, value: nil if !readonly && care_plan.persisted? && action_name == 'new'
@@ -59,11 +59,14 @@
                     .div.box
                       - params.merge!({domain_id: ad.object.domain.id, assessment_domain_id: ad.object.id, assessment_id: assessment.id})
                       .goals
+                        - if f.object.persisted? && action_name == 'new' && f.object.goals.find_by_domain(domain.id).tasks.incomplete.upcoming.present?
+                          = f.fields_for :goals, f.object.goals do |goal|
+                            - if goal.object.assessment_domain.domain_id == domain.id
+                              = render 'goal_fields', f: goal
+
                         = f.fields_for :goals do |goal|
                           - if care_plan.persisted?
                             - if goal.object.assessment_domain_id == ad.object.id
-                              = render 'goal_fields', f: goal
-                            - elsif  goal.object.assessment_domain.domain_id == domain.id
                               = render 'goal_fields', f: goal
                           - else
                             = render 'goal_fields', f: goal
