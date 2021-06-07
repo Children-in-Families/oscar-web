@@ -20,6 +20,12 @@ class ProgramStream < ActiveRecord::Base
   has_many   :program_stream_services, dependent: :destroy
   has_many   :services, through: :program_stream_services
 
+  has_many :internal_referral_program_streams, dependent: :destroy
+  has_many :internal_referrals, through: :internal_referral_program_streams
+
+  has_many :program_stream_users, dependent: :destroy
+  has_many :internal_referral_users, through: :program_stream_users
+
   has_paper_trail
 
   accepts_nested_attributes_for :trackings, allow_destroy: true
@@ -44,6 +50,7 @@ class ProgramStream < ActiveRecord::Base
   scope  :name_like,      ->(value)  { where(name: value) }
   scope  :by_name,        ->(value)  { where('name iLIKE ?', "%#{value.squish}%") }
   scope  :attached_with,  -> (value) { where(entity_type: value) }
+  scope  :with_internal_referral_users,  -> { joins(:program_stream_users).distinct }
 
   def name=(name)
     write_attribute(:name, name.try(:strip))
