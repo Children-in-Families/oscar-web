@@ -5915,11 +5915,10 @@ en:
       assessment_score_order: Assessment Score Order
       assessment_strictness: Assessment Strictness
       delete_incomplete_assessment: Delete incomplete assessment after certain period of time
-    update:
-      successfully_updated: Setting have been successfully updated.
-    use_previous_care_plan:
       previous_care_plan: Previous %{care_plan}
       use_previous_care_plan: Use Previous %{care_plan}
+    update:
+      successfully_updated: Setting have been successfully updated.
   field_settings:
     update:
       successfully_updated: Setting have been successfully updated.

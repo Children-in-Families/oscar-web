@@ -5911,11 +5911,10 @@ km:
       assessment_score_order: Assessment Score Order
       assessment_strictness: Assessment Strictness
       delete_incomplete_assessment: Delete incomplete assessment after certain period of time
-    update:
-      successfully_updated: ការកំណត់បានកែសម្រួលដោយជោគជ័យ
-    use_previous_care_plan:
       previous_care_plan: ផែនការថែទាំចុងក្រោយ
       use_previous_care_plan: ប្រើទិន្នន័យ​ផែនការថែទាំចុងក្រោយ
+    update:
+      successfully_updated: ការកំណត់បានកែសម្រួលដោយជោគជ័យ
   field_settings:
     update:
       successfully_updated: ការកំណត់បានកែសម្រួលដោយជោគជ័យ
