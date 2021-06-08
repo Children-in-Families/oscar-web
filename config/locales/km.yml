@@ -949,23 +949,24 @@ km:
         with_id: ជាមួយលេខសម្គាល់
   case_conferences:
     case_conference_attr: &CASE_CONFERENCE_ATTR
-      allow_file_size: Allowed file types
-      are_you_sure: Are you sure you want to delete?
-      attendants: Attendants
-      back: Back
+      allow_file_size: ប្រភេទឯកសារដែលបានអនុញ្ញាត
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+      attendants: ឯកសារភ្ជាប់
+      back: ត្រឡប់ក្រោយ
       base_on: Base on Case Conference Number
-      cancel: Cancel
+      cancel: ទុកជាមោឃៈ
       case_conference: Case Conference
       meeting_date: Case Conference Date
-      client_engagement: Client Engagement
-      client_support: Support and Barriers to client engagement
-      created_by: Created By
+      client_engagement: ការចូលរួមរបស់អតិថិជន
+      client_strength: ចំណុចខ្លាំងរបស់អតិថិជន
+      client_support: ការគាំទ្រនិងរនាំងរបស់អតិថិជនក្នុងការចូលរួម
+      created_by: បង្កើតដោយ
       initial_case_conference: Initial Case Conference
-      local_resource: Resources/services in local community
-      on_date: On Date
-      presenting_problem: Presenting problem
-      save: Save
-      show_attachment: Show Attachments
+      local_resource: ធានធាន/សេវាក្នុងសហគមន៍
+      on_date: ថ្ងៃកំនត់
+      presenting_problem: បញ្ហាកំពុងលេចឡើង
+      save: រក្សាទុក
+      show_attachment: បង្ហាញឯកសារភ្ជាប់
     create:
       successfully_created: Case Conference has successfully been created.
     destroy:
