@@ -1028,7 +1028,7 @@ module AdvancedSearches
       when 'equal'
         results = result_objects.where("date(#{field_name}) = ?", @value.to_date)
       when 'not_equal'
-        results = klass_name.includes(association).references(association).where("date(#{field}) != ? OR #{field} IS NULL", @value.to_date)
+        results = klass_name.includes(association).references(association).where("date(#{field_name}) != ? OR #{field} IS NULL", @value.to_date)
       when 'less'
         results = result_objects.where("date(#{field_name}) < ?", @value.to_date)
       when 'less_or_equal'
