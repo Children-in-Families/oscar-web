@@ -40,6 +40,7 @@ class Task < ActiveRecord::Base
   scope :exclude_exited_ngo_clients, -> { where(client_id: Client.active_accepted_status.ids) }
 
   after_save :create_task_history
+  after_save :update_previous_task_to_completed, if: :completed?
   after_commit :save_parent_parent_id, :on => [:create, :update]
 
   def self.of_user(user)
@@ -106,4 +107,9 @@ class Task < ActiveRecord::Base
 
     update_columns(family_id: parent_family_id, client_id: parent_client_id)
   end
+
+  def update_previous_task_to_completed
+    Task.find_by(id: previous_id, completed: false)&.update_attributes(completed: true, completion_date: Time.now) if previous_id
+  end
+
 end

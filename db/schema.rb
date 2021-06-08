@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210607043929) do
+ActiveRecord::Schema.define(version: 20210608092146) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -2150,6 +2150,7 @@ ActiveRecord::Schema.define(version: 20210607043929) do
     t.datetime "completion_date"
     t.string   "domain_group_identity"
     t.integer  "completed_by_id"
+    t.integer  "previous_id"
   end
 
   add_index "tasks", ["client_id"], name: "index_tasks_on_client_id", using: :btree
@@ -2158,6 +2159,7 @@ ActiveRecord::Schema.define(version: 20210607043929) do
   add_index "tasks", ["domain_group_identity"], name: "index_tasks_on_domain_group_identity", using: :btree
   add_index "tasks", ["family_id"], name: "index_tasks_on_family_id", using: :btree
   add_index "tasks", ["goal_id"], name: "index_tasks_on_goal_id", using: :btree
+  add_index "tasks", ["previous_id"], name: "index_tasks_on_previous_id", using: :btree
   add_index "tasks", ["taskable_type", "taskable_id"], name: "index_tasks_on_taskable_type_and_taskable_id", using: :btree
 
   create_table "thredded_categories", force: :cascade do |t|
