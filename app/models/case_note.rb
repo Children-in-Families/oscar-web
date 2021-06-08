@@ -79,7 +79,7 @@ class CaseNote < ActiveRecord::Base
         task.create_service_delivery_tasks(service_delivery_task_ids) if service_delivery_task_ids.present?
 
         task.reload
-        task.update_columns(completion_date: task_param['completion_date']) if task_param['completion_date'].present?
+        task.update_attributes(completion_date: task_param['completion_date']) if task_param['completion_date'].present?
       end
     end
   end
