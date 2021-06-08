@@ -1596,6 +1596,7 @@ km:
       export_to_xls: ទាញចេញជាឯកសារប្រភេទ XLS
     book:
       book: បណ្តុំព័ត៌មានអតិថិជន
+    care_plan: គម្រោងរក្សា
     case_history_detail:
       accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
       client: ឈ្មោះអតិថិជន

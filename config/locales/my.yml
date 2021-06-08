@@ -1592,6 +1592,7 @@ my:
       export_to_xls: XLS အျဖစ္ ထုတ္ရန္
     book:
       book: Client Book
+    care_plan: Care plan
     case_history_detail:
       accepted_date: လက်ခံခဲ့သည်နေ့စွဲ
       client: ကေလးနာမည္
