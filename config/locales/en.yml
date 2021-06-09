@@ -5923,6 +5923,7 @@ en:
       service_deliveries: Service Deliveries
       service_provided: Service Provided
       service_received: Service Received
+      task_completed_date: Task Completed Date
     create:
       successfully_created: Service has been successfully created.
     destroy:
