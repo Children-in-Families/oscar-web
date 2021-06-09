@@ -22,7 +22,7 @@
     .text-muted= @client.name
   = f.input :user_id, label: t('internal_referrals.form.user_id'), required: true, collection: User.all, label_method: :name, value_method: :id, selected: current_user.id
   = f.input :program_stream_ids, label: t('internal_referrals.form.program_stream_ids'), required: true, collection: ProgramStream.with_internal_referral_users, label_method: :name, value_method: :id, input_html: { multiple: true }
-  = f.label :client_representing_problem
+  = f.label :client_representing_problem, = t('.client_representing_problem')
   .help-block= t('.client_representing_problem_note')
   = f.input :client_representing_problem, label: false
   = f.input :emergency_note, label: t('.emergency_note')
