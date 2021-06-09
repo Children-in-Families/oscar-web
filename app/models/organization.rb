@@ -73,6 +73,7 @@ class Organization < ActiveRecord::Base
             Rake::Task['nepali_provinces:import'].invoke(org.short_name)
           elsif country == 'haiti'
             Rake::Task['haiti_addresses:import'].invoke(org.short_name)
+            Rake::Task['haiti_addresses:import'].reenable
           else
             Importer::Import.new('Province', general_data_file).provinces
             Rake::Task['communes_and_villages:import'].invoke(org.short_name)
@@ -90,6 +91,8 @@ class Organization < ActiveRecord::Base
             ReferralSource.find_or_create_by(name: "#{org.full_name} - OSCaR Referral")
           end
         end
+        Rake::Task['haiti_addresses:import'].invoke('shared')
+        Rake::Task['haiti_addresses:import'].reenable
         Apartment::Tenant.switch(org.short_name)
       end
     end
