@@ -1,9 +1,9 @@
 namespace :haiti_addresses do
   desc "Import Haiti haiti_addresses"
-  task import: :environment do
-    ['chi', 'shared'].each do |short_name|
+  task :import, [:short_name] => :environment do |task, args|
+    ['shared', args.short_name].each do |short_name|
       Organization.switch_to short_name
-      path = Rails.root.join("vendor/data/organizations/Haiti_Administrative_Divisions.xlsx")
+      path = Rails.root.join("lib/devdata/Haiti_Administrative_Divisions.xlsx")
       workbook = Roo::Excelx.new(path)
       workbook.default_sheet = 'Sheet1'
       province_id = nil
