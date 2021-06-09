@@ -4761,7 +4761,7 @@ my:
   internal_referrals:
     internal_referral_attr: &INTERNAL_REFERRAL_ATTR
       are_you_sure: Are you sure you want to delete?
-      attachments: File Upload
+      attachments: Attachments
       client_id: Client ID
       client_name: Client Name
       client_representing_problem: CLIENT'S PRESENTING PROBLEMS
