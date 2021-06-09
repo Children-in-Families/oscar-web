@@ -4795,12 +4795,15 @@ km:
       client_id: Client ID
       client_name: Client Name
       client_representing_problem: CLIENT'S PRESENTING PROBLEMS
+      client_representing_problem_note: "What issues/needs does the client say he or she needs help addressing:"
       emergency_note: "កំណត់ចំណាំ៖ តម្រូវការបន្ទាន់/វិបត្តិ"
       new_internal_referral: New Internal Referral
       program_stream_ids: Referred To
       referral_date: Date of Internal Referral
       referral_decision: មូលហេតុក្នុងការបញ្ជូននិងអនុសាសន៍
+      referral_decision_note: "Action/intervention taken:"
       referral_reason: REFERRAL DECISION (to be approved by case management supervisor)
+      referral_reason_note: "The referral source’s reason for referral:"
       user_id: Referred from
     create:
       failed_create: ការបញ្ជូនមិនត្រូវបានបង្កើត
