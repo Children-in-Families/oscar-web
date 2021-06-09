@@ -951,13 +951,15 @@ km:
     case_conference_attr: &CASE_CONFERENCE_ATTR
       allow_file_size: ប្រភេទឯកសារដែលបានអនុញ្ញាត
       are_you_sure: តើអ្នកប្រាកដហើយ?
-      attendants: ឯកសារភ្ជាប់
+      attachments: ឯកសារភ្ជាប់
+      attendants: Attendants
       back: ត្រឡប់ក្រោយ
       base_on: Base on Case Conference Number
       cancel: ទុកជាមោឃៈ
       case_conference: Case Conference
       meeting_date: Case Conference Date
       client_engagement: ការចូលរួមរបស់អតិថិជន
+      client_limitation:  Client limitations
       client_strength: ចំណុចខ្លាំងរបស់អតិថិជន
       client_support: ការគាំទ្រនិងរនាំងរបស់អតិថិជនក្នុងការចូលរួម
       created_by: បង្កើតដោយ

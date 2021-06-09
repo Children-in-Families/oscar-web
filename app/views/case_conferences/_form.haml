@@ -38,7 +38,7 @@
             = f.input :client_limitation, label: t('.client_limitation')
             = f.input :client_engagement, label: t('.client_engagement')
             = f.input :local_resource, label: t('.local_resource')
-            = f.input :attachments, label: t('.attachment'), as: :file, input_html: { multiple: true, name: 'case_conference[attachments][]' }
+            = f.input :attachments, label: t('.attachments'), as: :file, input_html: { multiple: true, name: 'case_conference[attachments][]' }
             %p
               %i.small="#{t('.allow_file_size')} (.jpg, .jpeg, .png, .doc, .docx, .xls, .xlsx, .pdf)"
             %p
