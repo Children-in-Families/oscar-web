@@ -11,7 +11,7 @@ class CarePlan < ActiveRecord::Base
   accepts_nested_attributes_for :goals, reject_if:  proc { |attributes| attributes['description'].blank? }, allow_destroy: true
   accepts_nested_attributes_for :assessment_domains
 
-  after_save :complete_previouse_tasks, if: :completed?
+  after_save :complete_previouse_tasks
 
   scope :completed, -> { where(completed: true) }
   scope :incompleted, -> { where(completed: false) }
