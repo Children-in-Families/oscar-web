@@ -5,6 +5,7 @@ class ServiceDeliveriesController < AdminController
   def index
     @main_services = ServiceDelivery.only_parents
     @service_deliveries = ServiceDelivery.only_children
+    @categories = ServiceDelivery.where(parent_id: @main_services.ids)
   end
 
   def new
