@@ -16,8 +16,6 @@ export default (props) => {
     value: grade[0],
   }));
 
-  console.log("school schoolGrade", schoolGrade);
-  console.log("school grade list", schoolGradeLists);
   return (
     <div id={id} className="collapse">
       <br />
