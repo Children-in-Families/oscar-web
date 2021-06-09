@@ -17,7 +17,7 @@ module CsiConcern
     return true if date_of_birth.nil?
 
     client_age = age_as_years
-    age        = custom_assessment_setting.custom_age || 18
+    age        = custom_assessment_setting&.custom_age || 18
     client_age < age
   end
 

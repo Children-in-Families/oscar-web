@@ -907,7 +907,14 @@ module ClientsHelper
     end
 
     query_array = mapping_query_string_with_query_value(sql_hash, @data[:condition])
-    sql_string = object.where(query_array).where(sub_query_array)
+
+    if rule == 'date_of_assessments'
+      sql_string = object.where(query_array).where(default: true).where(sub_query_array)
+    elsif rule == 'date_of_custom_assessments'
+      sql_string = object.where(query_array).where(default: false).where(sub_query_array)
+    else
+      sql_string = object.where(query_array).where(sub_query_array)
+    end
 
     sql_string.present? && sql_hash[:sql_string].present? ? sql_string : []
   end
