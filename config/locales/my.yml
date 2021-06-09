@@ -5921,6 +5921,7 @@ my:
       manage: Manage
       service_deliveries: Service Deliveries
       service_provided: Service Provided
+      service_received: Service Received
     create:
       successfully_created: Service has been successfully created.
     destroy:
