@@ -48,7 +48,7 @@ module I18n::Backend::Custom
         # pp path
 
         path.each do |k|
-          next if data.nil?
+          # next if data.nil?
           if k == path.last
             # pp '=========================='
             # pp data[k]

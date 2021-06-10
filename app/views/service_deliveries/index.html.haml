@@ -3,7 +3,7 @@
     .ibox.min-margin-layout
       .ibox-title
         %h5
-          = t('.service_deliveries')
+          = t('service_deliveries.index.service_delivery')
       .ibox-content
         %div
           %ul.nav.nav-tabs.csi-tab{role: "service-deliver-list"}
@@ -22,16 +22,16 @@
                         %h5= main_service.name
                         .ibox-tools
                           - if can? :manage, ServiceDelivery
-                            = link_to t('.add_new_service_delivery'), new_service_delivery_path(parent_id: main_service.id), class: 'btn btn-primary'
+                            = link_to t('service_deliveries.index.add_new_service_delivery'), new_service_delivery_path(parent_id: main_service.id), class: 'btn btn-primary'
                       .ibox-content
                         .table-responsive
                           %table.table.table-bordered.table-striped.table-hover
                             %thead
                               %tr
-                                %th= t('.id')
-                                %th= t('.service_provided')
-                                %th= t('.category')
-                                %th.text-center= t('.manage')
+                                %th= t('service_deliveries.index.id')
+                                %th= t('service_deliveries.index.service_provided')
+                                %th= t('service_deliveries.index.category')
+                                %th.text-center= t('service_deliveries.index.manage')
                             %tbody
                               - main_service.children.map(&:children).flatten.each do |service_delivery|
                                 %tr

@@ -5913,14 +5913,14 @@ en:
   field_settings:
     update:
       successfully_updated: Setting have been successfully updated.
-  results: Results
   service_deliveries:
     _attr: &SERVICE_DELIVERY_ATTR
       add_new_service_delivery: Add New Service Delivery
       category: Category
+      done_by: Done by
       id: ID
       manage: Manage
-      service_deliveries: Service Deliveries
+      service_delivery: Service Deliveries
       service_provided: Service Provided
       service_received: Service Received
       task_completed_date: Task Completed Date
@@ -5930,13 +5930,14 @@ en:
       alert: Service cannot be deleted.
       successfully_deleted: Service has been successfully deleted.
     form:
-       <<: *SERVICE_DELIVERY_ATTR
+      <<: *SERVICE_DELIVERY_ATTR
     index:
       <<: *SERVICE_DELIVERY_ATTR
     new:
       <<: *SERVICE_DELIVERY_ATTR
     update:
       successfully_updated: Service has been successfully updated.
+  results: Results
   shared:
     x_lists_of: "%{x} lists of"
     new_x: "New %{x}"
