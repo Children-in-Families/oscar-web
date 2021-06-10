@@ -41,7 +41,7 @@ namespace :field_settings do
         ActiveRecord::Migrator.run(:up, ActiveRecord::Migrator.migrations_path, migration_version)
       end
 
-      family_address_setting(org.short_name)
+      family_address_setting(org)
     end
   end
 
@@ -107,36 +107,45 @@ namespace :field_settings do
     end
   end
 
-  def family_address_setting(short_name)
+  def family_address_setting(org)
     fields = {
       current_province: 'Current Department',
       birth_province: 'Birth Department',
       province: 'Department',
       district: 'Arrondissement',
-      commune: 'Commune',
+      commune: 'Commune'
+    }
+
+    field_ids = {
       province_id: 'Department',
-      district_id: 'Arrondisement',
+      district_id: 'Arrondissement',
       commune_id: 'Commune'
     }
-    if short_name == 'chi'
-      fields.each do |name, label|
+
+    if org.country == 'haiti'
+      concern_fields = {
+        concern_province_id: 'Department',
+        concern_district_id: 'Arrondissement',
+        concern_commune_id: 'Commune',
+      }
+      fields.merge(concern_fields).each do |name, label|
         field_setting = FieldSetting.find_or_initialize_by(name: name, klass_name: :client)
         field_setting.update!(
           current_label: label,
           label: label,
           required: false,
-          visible: (short_name == 'chi'),
+          visible: (org.country == 'haiti'),
           group: :client
         )
       end
 
-      fields.each do |name, label|
+      field_ids.each do |name, label|
         field_setting = FieldSetting.find_or_initialize_by(name: name, klass_name: :family)
         field_setting.update!(
           current_label: label,
           label: label,
           required: false,
-          visible: (short_name == 'chi'),
+          visible: (org.country == 'haiti'),
           group: :family
         )
       end
@@ -147,7 +156,7 @@ namespace :field_settings do
           current_label: 'Department',
           label: 'Department',
           required: false,
-          visible: (short_name == 'chi'),
+          visible: (org.country == 'haiti'),
           group: klass_name
         )
       end
