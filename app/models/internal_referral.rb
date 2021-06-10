@@ -18,7 +18,7 @@ class InternalReferral < ActiveRecord::Base
   def sent_email_to_user
     program_streams.each do |program_stream|
       program_stream.program_stream_users.each do |program_user|
-        CaseWorkerClient.find_or_create_by(client_id: client.id, user_id: program_user.id)
+        CaseWorkerClient.find_or_create_by(client_id: client.id, user_id: program_user.user_id)
       end
     end
     InternalReferralWorker.perform_async(user.id, client.id, program_streams.ids)
