@@ -5925,16 +5925,16 @@ km:
   field_settings:
     update:
       successfully_updated: ការកំណត់បានកែសម្រួលដោយជោគជ័យ
-  results: លទ្ធផល
   service_deliveries:
-    _attr: &SERVICE_DELIVERY_ATTR
+    service_delivery_attr: &SERVICE_DELIVERY_ATTR
       add_new_service_delivery: Add New Service Delivery
       category: Category
+      done_by: Done by
       id: ID
       manage: Manage
-      service_deliveries: Service Deliveries
-      service_provided: Service Provided
-      service_received: Service Received
+      service_delivery: ការផ្តល់សេវា
+      service_provided: សេវាដែលបានផ្តល់ឲ្យ
+      service_received: សេវាដែលបានទទួល
       task_completed_date: Task Completed Date
     create:
       successfully_created: Service has been successfully created.
@@ -5942,13 +5942,15 @@ km:
       alert: Service cannot be deleted.
       successfully_deleted: Service has been successfully deleted.
     form:
-       <<: *SERVICE_DELIVERY_ATTR
+      <<: *SERVICE_DELIVERY_ATTR
     index:
       <<: *SERVICE_DELIVERY_ATTR
+      service_received: សេវាដែលបានទទួល
     new:
       <<: *SERVICE_DELIVERY_ATTR
     update:
       successfully_updated: Service has been successfully updated.
+  results: លទ្ធផល
   shared:
     x_lists_of: "បញ្ជី%{x}"
     new_x: "%{x}ថ្មី"
