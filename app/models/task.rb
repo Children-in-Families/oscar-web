@@ -8,7 +8,7 @@ class Task < ActiveRecord::Base
   belongs_to :goal, required: false
   belongs_to :completed_by, class_name: 'User', foreign_key: 'completed_by_id'
 
-  has_many :service_delivery_tasks, dependent: :restrict_with_error
+  has_many :service_delivery_tasks, dependent: :destroy
   has_many :service_deliveries, through:   :service_delivery_tasks
 
   has_paper_trail
