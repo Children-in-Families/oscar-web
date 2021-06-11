@@ -945,6 +945,7 @@ en:
     case_conference_attr: &CASE_CONFERENCE_ATTR
       allow_file_size: Allowed file types
       are_you_sure: Are you sure you want to delete?
+      attachments: Attachments
       attendants: Attendants
       back: Back
       base_on: Base on Case Conference Number
@@ -952,6 +953,8 @@ en:
       case_conference: Case Conference
       meeting_date: Case Conference Date
       client_engagement: Client Engagement
+      client_limitation:  Client limitations
+      client_strength: Client Strengths
       client_support: Support and Barriers to client engagement
       created_by: Created By
       initial_case_conference: Initial Case Conference
@@ -1534,7 +1537,28 @@ en:
     update:
       successfully_updated: Enrollment has been successfully updated.
   clients:
-    care_plan: Care plan
+    attr: &LEGAL_DOC_ATTR
+      complain: Complaint
+      detail_form_of_judicial_police: Detailed Form for Identification of Victim of Human Trafficking (Judicial Police)
+      detail_form_of_mosavy_dosavy: Detailed Form for Identification of Victim of Human Trafficking (MoSAVY/DoSAVY)
+      dosavy: DoSAVY
+      form_indentification: Forms for Identification of Victim of Human Trafficking
+      indentification_doc: Identification Documents
+      labor_trafficking_legal_doc_option: Labour Trafficking
+      legal_processing_doc: Legal Proceeding Documents
+      mosavy: MoSAVY
+      msdhs: MSDHS
+      ngo_partner: NGO Partner
+      other_legal_doc_option: Other
+      referral_document: Referral Documents
+      sex_trafficking_legal_doc_option: Sexual Trafficking
+      short_form_of_judicial_police: Short Interview Form for Identification of Victim of Human Trafficking (Judicial Police)
+      short_form_of_mosavy_dosavy: Short Interview Form for Identification of Victim of Human Trafficking (MoSAVY/DoSAVY)
+      short_form_of_ocdm: Short Interview Form for Identification of Victim of Human Trafficking (Officials of the Cambodian Diplomatic Mission)
+      temp_travel_doc: Temporary Travel Documents
+      travel_doc: Laissez-Passer
+      verdict: Verdict
+      warrant: Warran
     actions:
       are_you_sure: Are you sure you want to delete?
     address_forms:
@@ -1542,6 +1566,13 @@ en:
         commune: Address - Commune/Sangkat
         current_province: Current Province
         district: Address - District/Khan
+        house_number: Address - House#
+        street_number: Address - Street
+        village: Address - Village
+      haiti_address_form:
+        commune: Arrondisement
+        current_province: Current Department
+        district: Address - Arrondisement
         house_number: Address - House#
         street_number: Address - Street
         village: Address - Village
@@ -1574,6 +1605,7 @@ en:
       export_to_xls: Export to XLS
     book:
       book: Client Book For
+    care_plan: Care plan
     case_history_detail:
       accepted_date: NGO Accept Date
       client: Client
@@ -1741,6 +1773,7 @@ en:
       reject_client: Reject Client
       rejected_note: Rejected Note
     form:
+      <<: *LEGAL_DOC_ATTR
       national_id_number: National ID Number
       passport_number: Passport Number
       neighbor_name: "Neighbor/Friend: Name"
@@ -2233,6 +2266,7 @@ en:
       province: Birth Province
       province:
         cambodia: Birth Province
+        haiti: Birth Apartment
         lesotho: Birth Suburb
         myanmar: Birth State
         thailand: Birth Province
@@ -5889,28 +5923,31 @@ en:
   field_settings:
     update:
       successfully_updated: Setting have been successfully updated.
-  results: Results
   service_deliveries:
     _attr: &SERVICE_DELIVERY_ATTR
       add_new_service_delivery: Add New Service Delivery
       category: Category
+      done_by: Done by
       id: ID
       manage: Manage
-      service_deliveries: Service Deliveries
+      service_delivery: Service Deliveries
       service_provided: Service Provided
+      service_received: Service Received
+      task_completed_date: Task Completed Date
     create:
       successfully_created: Service has been successfully created.
     destroy:
       alert: Service cannot be deleted.
       successfully_deleted: Service has been successfully deleted.
     form:
-       <<: *SERVICE_DELIVERY_ATTR
+      <<: *SERVICE_DELIVERY_ATTR
     index:
       <<: *SERVICE_DELIVERY_ATTR
     new:
       <<: *SERVICE_DELIVERY_ATTR
     update:
       successfully_updated: Service has been successfully updated.
+  results: Results
   shared:
     x_lists_of: "%{x} lists of"
     new_x: "New %{x}"

@@ -419,4 +419,8 @@ module ApplicationHelper
     routes = Rails.application.routes.url_helpers
     routes.public_send("advanced_search_#{params["controller"]}_path")
   end
+
+  def has_service_delivery?
+    !ServiceDelivery.count.zero?
+  end
 end

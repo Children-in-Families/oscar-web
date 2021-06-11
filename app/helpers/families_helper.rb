@@ -87,14 +87,6 @@ module FamiliesHelper
       phone_number:                             I18n.t('datagrid.columns.families.phone_number'),
       significant_family_member_count:          I18n.t('datagrid.columns.families.significant_family_member_count'),
       male_children_count:                      I18n.t('datagrid.columns.families.male_children_count'),
-      province:                                 I18n.t('datagrid.columns.families.province'),
-      province_id:                              I18n.t('datagrid.columns.families.province_id'),
-      district:                                 I18n.t('datagrid.columns.families.district'),
-      district_id:                              I18n.t('datagrid.columns.families.district_id'),
-      commune:                                  I18n.t('datagrid.columns.families.commune'),
-      commune_id:                               I18n.t('datagrid.columns.families.commune_id'),
-      village:                                  I18n.t('datagrid.columns.families.village'),
-      village_id:                               I18n.t('datagrid.columns.families.village_id'),
       received_by:                              I18n.t('datagrid.columns.families.received_by'),
       received_by_id:                           I18n.t('datagrid.columns.families.received_by_id'),
       followed_up_by_id:                        I18n.t('datagrid.columns.families.followed_up_by_id'),
@@ -122,8 +114,20 @@ module FamiliesHelper
       program_enrollment_date:                  I18n.t('datagrid.columns.clients.program_enrollment_date'),
       program_exit_date:                        I18n.t('datagrid.columns.clients.program_exit_date'),
       direct_beneficiaries:                     I18n.t('datagrid.columns.families.direct_beneficiaries'),
-      **additional_columns
+      **additional_columns,
+      **family_address_translation
     }
+  end
+
+  def family_address_translation
+    field_keys = %W(province province_id district district_id commune commune_id village)
+    translations = {}
+    field_keys.each do |key_translation|
+      translations[key_translation.to_sym] = FieldSetting.find_by(name: key_translation).try(:label) || I18n.t("datagrid.columns.clients.#{key_translation}")
+      translations["#{key_translation}_".to_sym] = FieldSetting.find_by(name: key_translation).try(:label) || I18n.t("datagrid.columns.families.#{key_translation}")
+    end
+    translations['village_id'.to_sym] = FieldSetting.find_by(name: 'village_id').try(:label) || I18n.t('datagrid.columns.families.village_id')
+    translations
   end
 
   def merged_address_family(object)

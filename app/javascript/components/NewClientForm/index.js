@@ -403,6 +403,7 @@ const Forms = props => {
                     outside={objectData.outside || false}
                     onChange={onChange}
                     current_organization={current_organization}
+                    translation={translation}
                     data={{
                       addressTypes,
                       currentDistricts: addresses.districts || refereeDistricts,
@@ -422,6 +423,7 @@ const Forms = props => {
             return <Address hintText={inlineHelpTranslation} disabled={disabled}
                           outside={objectData.outside || false} onChange={onChange}
                           current_organization={current_organization}
+                          translation={translation}
                           data={{
                             addressTypes,
                             currentDistricts: addresses.districts || carerDistricts,
@@ -433,7 +435,7 @@ const Forms = props => {
           if(country_name === 'nepal')
             return <NepalAddress hintText={inlineHelpTranslation} disabled={disabled} outside={objectData.outside || false} onChange={onChange} current_organization={current_organization} data={{addressTypes, currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, objectKey, objectData, T}} />
           else
-            return <Address hintText={inlineHelpTranslation} disabled={disabled} outside={objectData.outside || false} onChange={onChange} current_organization={current_organization} data={{addressTypes, currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, objectKey, objectData, T}} />
+            return <Address hintText={inlineHelpTranslation} translation={translation} disabled={disabled} outside={objectData.outside || false} onChange={onChange} current_organization={current_organization} data={{addressTypes, currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, objectKey, objectData, T}} />
         }
     }
   }

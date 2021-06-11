@@ -35,9 +35,9 @@ module ClientAdvancedSearchesConcern
   def format_search_params
     advanced_search_params = params[:client_advanced_search]
     client_grid_params = params[:client_grid]
-    return unless (advanced_search_params.is_a? String) || (client_grid_params.is_a? String)
-    params[:client_advanced_search] = Rack::Utils.parse_nested_query(advanced_search_params)
-    params[:client_grid] = Rack::Utils.parse_nested_query(client_grid_params)
+    params[:client_advanced_search] = Rack::Utils.parse_nested_query(advanced_search_params) if advanced_search_params.is_a? String
+    params[:client_grid] = Rack::Utils.parse_nested_query(client_grid_params) if client_grid_params.is_a? String
+    params
   end
 
   def build_advanced_search
@@ -231,5 +231,54 @@ module ClientAdvancedSearchesConcern
     else
       @basic_filter_params  = @advanced_search_params[:basic_rules]
     end
+  end
+
+  def legal_doc_params
+    [
+      :ngo_partner,
+      :remove_ngo_partner_files,
+      :mosavy,
+      :remove_mosavy_files,
+      :dosavy,
+      :remove_dosavy_files,
+      :msdhs,
+      :remove_msdhs_files,
+      :complain,
+      :remove_complain_files,
+      :warrant,
+      :remove_warrant_files,
+      :verdict,
+      :remove_verdict_files,
+      :referral_doc_option,
+      :short_form_of_ocdm,
+      :short_form_of_ocdm_option,
+      :remove_short_form_of_ocdm_files,
+      :short_form_of_mosavy_dosavy,
+      :short_form_of_mosavy_dosavy_option,
+      :remove_short_form_of_mosavy_dosavy_files,
+      :detail_form_of_mosavy_dosavy,
+      :detail_form_of_mosavy_dosavy_option,
+      :remove_detail_form_of_mosavy_dosavy_files,
+      :short_form_of_judicial_police,
+      :short_form_of_judicial_police_option,
+      :remove_short_form_of_judicial_police_files,
+      :detail_form_of_judicial_police,
+      :detail_form_of_judicial_police_option,
+      :remove_detail_form_of_judicial_police_files,
+      {
+        ngo_partner_files: [],
+        mosavy_files: [],
+        dosavy_files: [],
+        msdhs_files: [],
+        complain_files: [],
+        warrant_files: [],
+        verdict_files: [],
+        short_form_of_ocdm_files: [],
+        short_form_of_mosavy_dosavy_files: [],
+        detail_form_of_mosavy_dosavy_files: [],
+        short_form_of_judicial_police_files: [],
+        detail_form_of_judicial_police_files: []
+      }
+    ]
   end
 end

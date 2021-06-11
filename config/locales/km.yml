@@ -949,23 +949,26 @@ km:
         with_id: ជាមួយលេខសម្គាល់
   case_conferences:
     case_conference_attr: &CASE_CONFERENCE_ATTR
-      allow_file_size: Allowed file types
-      are_you_sure: Are you sure you want to delete?
+      allow_file_size: ប្រភេទឯកសារដែលបានអនុញ្ញាត
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+      attachments: ឯកសារភ្ជាប់
       attendants: Attendants
-      back: Back
+      back: ត្រឡប់ក្រោយ
       base_on: Base on Case Conference Number
-      cancel: Cancel
+      cancel: ទុកជាមោឃៈ
       case_conference: Case Conference
       meeting_date: Case Conference Date
-      client_engagement: Client Engagement
-      client_support: Support and Barriers to client engagement
-      created_by: Created By
+      client_engagement: ការចូលរួមរបស់អតិថិជន
+      client_limitation:  Client limitations
+      client_strength: ចំណុចខ្លាំងរបស់អតិថិជន
+      client_support: ការគាំទ្រនិងរនាំងរបស់អតិថិជនក្នុងការចូលរួម
+      created_by: បង្កើតដោយ
       initial_case_conference: Initial Case Conference
-      local_resource: Resources/services in local community
-      on_date: On Date
-      presenting_problem: Presenting problem
-      save: Save
-      show_attachment: Show Attachments
+      local_resource: ធានធាន/សេវាក្នុងសហគមន៍
+      on_date: ថ្ងៃកំនត់
+      presenting_problem: បញ្ហាកំពុងលេចឡើង
+      save: រក្សាទុក
+      show_attachment: បង្ហាញឯកសារភ្ជាប់
     create:
       successfully_created: Case Conference has successfully been created.
     destroy:
@@ -1534,6 +1537,28 @@ km:
     update:
       successfully_updated: ការចុះឈ្មោះត្រូវបានកែសម្រួលដោយជោគជ័យ
   clients:
+    attr: &LEGAL_DOC_ATTR
+      complain: ពាក្យបណ្ដឹង
+      detail_form_of_judicial_police: ទម្រង់លម្អិតសម្រាប់ការសម្ភាសកំណត់អត្តសញ្ញាណបឋមជនរងគ្រោះដោយអំពើជួញដូរមនុស្ស (នគរបាលយុត្តិធម៌)
+      detail_form_of_mosavy_dosavy: ទម្រង់លម្អិតសម្រាប់ការសម្ភាសកំណត់អត្តសញ្ញាណបឋមជនរងគ្រោះដោយអំពើជួញដូរមនុស្ស (ក្រសួង ស.អ.យ/មន្ទីរ ស.អ.យ)
+      dosavy: មន្ទីរ ស.អ.យ
+      form_indentification: ទម្រង់សម្ភាសន៍កំណត់អត្តសញ្ញាណជនរងគ្រោះដោយអំពើជួញដូរមនុស្ស
+      indentification_doc: ឯកសារអត្តសញ្ញាណ
+      labor_trafficking_legal_doc_option: ការជួញដូរពលកម្ម
+      legal_processing_doc: ឯកសារនិតិវិធីច្បាប់
+      mosavy: ក្រសួង ស.អ.យ
+      msdhs: ក្រសួងអភិវឌ្ឍន៍សង្គមនិងសន្តិសុខ (ថៃ)
+      ngo_partner: អង្គការក្រៅរដ្ឋាភិបាលជាដៃគូ
+      other_legal_doc_option: ផ្សេងៗ
+      referral_document: ឯកសារបញ្ជូន
+      sex_trafficking_legal_doc_option: ការជួញដូរផ្លូវភេទ
+      short_form_of_judicial_police: ទម្រង់សម្ភាសន៍ខ្លីសម្រាប់ការសម្ភាសកំណត់អត្តសញ្ញាណបឋមជនរងគ្រោះដោយអំពើជួញដូរមនុស្ស (នគរបាលយុត្តិធម៌)
+      short_form_of_mosavy_dosavy: ទម្រង់សម្ភាសន៍ខ្លីសម្រាប់ការសម្ភាសកំណត់អត្តសញ្ញាណបឋមជនរងគ្រោះដោយអំពើជួញដូរមនុស្ស (ក្រសួង ស.អ.យ/មន្ទីរ ស.អ.យ)
+      short_form_of_ocdm: ទម្រង់សម្ភាសន៍ខ្លីសម្រាប់ការសម្ភាសកំណត់អត្តសញ្ញាណបឋមជនរងគ្រោះដោយអំពើជួញដូរមនុស្ស (មន្ត្រីស្ថានទូត)
+      temp_travel_doc: លិខិតធ្វើដំណើរបណ្តោះអាសន្ន
+      travel_doc: លិខិតធ្វើដំណើរបណ្តោះអាសន្នពីស្ថានទូត
+      verdict: ដីការសម្រេច
+      warrant: ដីការកោះហៅ
     actions:
       are_you_sure: តើអ្នកប្រាកដហើយថាចង់លុប?
     address_forms:
@@ -1740,6 +1765,7 @@ km:
       reject_client: មិនទទួលយកអតិថិជន
       rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
     form:
+      <<: *LEGAL_DOC_ATTR
       national_id_number: National ID Number
       passport_number: Passport Number
       neighbor_name: "Neighbor/Friend: Name"
@@ -1861,6 +1887,7 @@ km:
       island2: Island
       kid_id: លេខកូដឣតិថិជន
       live_with: រស់នៅជាមួយ
+      local_consent: លិខិតពឹងពាក់មេធាវី
       local_family_name: នាមត្រកូលជាអក្សរខ្មែរ
       local_given_name: នាមខ្លួនជាអក្សរខ្មែរ
       name: ឈ្មោះ
@@ -1869,6 +1896,7 @@ km:
       other_phone_whatsapp: Whatsapp? (Phone Number - Alternate)
       phone_owner: ម្ចាស់ទូរស័ព្ទ
       po_box2: PO Box
+      police_interview: លិខិតពីប៉ូលីសអន្តោប្រវេសន៍
       presented_id: Presented ID
       previous: ត្រឡប់
       province: ខេត្ត/ក្រុង
@@ -1876,6 +1904,7 @@ km:
       received_by: បុគ្គលិកទទួលករណី
       referee_called_before: តើអ្នកបញ្ជូនភ្ជាប់បានហៅទូរស័ព្ទមកកាន់បណ្តាញសុវត្ថិភាពកុមារពីមុនដែរឬទេ
       referral_email: អ៊ីមែលរបស់អ្នកបញ្ជូនករណី
+      referral_doc: ទម្រង់សម្ភាសន៍បឋម
       referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
       referral_source: ប្រភពនៃការបញ្ជូន
       reject_note: កំណត់ហេតុនៃការមិនទទួលយក
@@ -1942,6 +1971,7 @@ km:
       profile: រូបថត
       province:
         cambodia: ខេត្តកំណើត
+        haiti: ខេត្តកំណើត
         lesotho: ខេត្តកំណើត
         myanmar: ខេត្តកំណើត
         thailand: ខេត្តកំណើត
@@ -5857,28 +5887,32 @@ km:
   field_settings:
     update:
       successfully_updated: ការកំណត់បានកែសម្រួលដោយជោគជ័យ
-  results: លទ្ធផល
   service_deliveries:
-    _attr: &SERVICE_DELIVERY_ATTR
+    service_delivery_attr: &SERVICE_DELIVERY_ATTR
       add_new_service_delivery: Add New Service Delivery
       category: Category
+      done_by: Done by
       id: ID
       manage: Manage
-      service_deliveries: Service Deliveries
-      service_provided: Service Provided
+      service_delivery: ការផ្តល់សេវា
+      service_provided: សេវាដែលបានផ្តល់ឲ្យ
+      service_received: សេវាដែលបានទទួល
+      task_completed_date: Task Completed Date
     create:
       successfully_created: Service has been successfully created.
     destroy:
       alert: Service cannot be deleted.
       successfully_deleted: Service has been successfully deleted.
     form:
-       <<: *SERVICE_DELIVERY_ATTR
+      <<: *SERVICE_DELIVERY_ATTR
     index:
       <<: *SERVICE_DELIVERY_ATTR
+      service_received: សេវាដែលបានទទួល
     new:
       <<: *SERVICE_DELIVERY_ATTR
     update:
       successfully_updated: Service has been successfully updated.
+  results: លទ្ធផល
   shared:
     x_lists_of: "បញ្ជី%{x}"
     new_x: "%{x}ថ្មី"

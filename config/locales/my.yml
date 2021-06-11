@@ -945,6 +945,7 @@ my:
     case_conference_attr: &CASE_CONFERENCE_ATTR
       allow_file_size: Allowed file types
       are_you_sure: Are you sure you want to delete?
+      attachments: attachments
       attendants: Attendants
       back: Back
       base_on: Base on Case Conference Number
@@ -952,6 +953,8 @@ my:
       case_conference: Case Conference
       meeting_date: Case Conference Date
       client_engagement: Client Engagement
+      client_limitation:  Client limitations
+      client_strength: Client Strengths
       client_support: Support and Barriers to client engagement
       created_by: Created By
       initial_case_conference: Initial Case Conference
@@ -1529,6 +1532,28 @@ my:
     update:
       successfully_updated: စာရင္းေပးသြင္းျခင္းကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ၿပီးပါၿပီ
   clients:
+    attr: &LEGAL_DOC_ATTR
+      complain: Complaint
+      detail_form_of_judicial_police: Detailed Form for Identification of Victim of Human Trafficking (Judicial Police)
+      detail_form_of_mosavy_dosavy: Detailed Form for Identification of Victim of Human Trafficking (MoSAVY/DoSAVY)
+      dosavy: DoSAVY
+      form_indentification: Forms for Identification of Victim of Human Trafficking
+      indentification_doc: Identification Documents
+      labor_trafficking_legal_doc_option: Labour Trafficking
+      legal_processing_doc: Legal Proceeding Documents
+      mosavy: MoSAVY
+      msdhs: MSDHS
+      ngo_partner: NGO Partner
+      other_legal_doc_option: Other
+      referral_document: Referral Documents
+      sex_trafficking_legal_doc_option: Sexual Trafficking
+      short_form_of_judicial_police: Short Interview Form for Identification of Victim of Human Trafficking (Judicial Police)
+      short_form_of_mosavy_dosavy: Short Interview Form for Identification of Victim of Human Trafficking (MoSAVY/DoSAVY)
+      short_form_of_ocdm: Short Interview Form for Identification of Victim of Human Trafficking (Officials of the Cambodian Diplomatic Mission)
+      temp_travel_doc: Temporary Travel Documents
+      travel_doc: Laissez-Passer
+      verdict: Verdict
+      warrant: Warran
     actions:
       are_you_sure: ဖ်က္လုိသည္မွာ ေသခ်ာပါသလား
     address_forms:
@@ -1735,6 +1760,7 @@ my:
       reject_client: client ကိုငြင်းပယ်
       rejected_note: ျငင္းပယ္သည့္ မွတ္စု
     form:
+      <<: *LEGAL_DOC_ATTR
       national_id_number: National ID Number
       passport_number: Passport Number
       national_id_number: National ID Number
@@ -1938,6 +1964,7 @@ my:
       profile: ရုပ်ပုံ
       province:
         cambodia: Birth Province
+        haiti: Birth Apartment
         lesotho: Birth Suburb
         myanmar: ေမြးဖြားရာ ခ႐ိုင္
         thailand: Birth Province
@@ -5849,28 +5876,31 @@ my:
   field_settings:
     update:
       successfully_updated: အောင်မြင်စွာဖြည့်ပါ
-  results: Results
   service_deliveries:
     _attr: &SERVICE_DELIVERY_ATTR
       add_new_service_delivery: Add New Service Delivery
       category: Category
+      done_by: Done by
       id: ID
       manage: Manage
-      service_deliveries: Service Deliveries
+      service_delivery: Service Deliveries
       service_provided: Service Provided
+      service_received: Service Received
+      task_completed_date: Task Completed Date
     create:
       successfully_created: Service has been successfully created.
     destroy:
       alert: Service cannot be deleted.
       successfully_deleted: Service has been successfully deleted.
     form:
-       <<: *SERVICE_DELIVERY_ATTR
+      <<: *SERVICE_DELIVERY_ATTR
     index:
       <<: *SERVICE_DELIVERY_ATTR
     new:
       <<: *SERVICE_DELIVERY_ATTR
     update:
       successfully_updated: Service has been successfully updated.
+  results: Results
   shared:
     x_lists_of: "%{x}စာရင်း"
     new_x: "အသစ်%{x}"
