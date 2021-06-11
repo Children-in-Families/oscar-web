@@ -5,7 +5,7 @@
         .row
           .col-xs-12.col-sm-6.co-md-6
             %h5
-              = t('.service_received')
+              = t('service_deliveries.index.service_received')
               = link_to_client_show(@client)
           .col-xs-12.col-sm-6.col-md-6
             .ibox-tools
@@ -17,8 +17,8 @@
           %table.table.table-bordered.table-striped.table-hover
             %thead
               %tr
-                %th= t('.task_completed_date')
-                %th= t('.service_provided')
+                %th= t('service_deliveries.index.task_completed_date')
+                %th= t('service_deliveries.index.service_provided')
                 %th= t('service_deliveries.index.category')
                 %th.text-center= t('.done_by')
             %tbody
