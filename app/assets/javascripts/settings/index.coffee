@@ -30,9 +30,15 @@ CIF.SettingsIndex = CIF.SettingsEdit = CIF.SettingsUpdate = CIF.SettingsCreate =
 
       if $(this).attr("id") == "setting_use_screening_assessment"
         $(".screening-assessment-form").removeClass("hidden")
+
+      if $(this).attr("id") == "setting_disable_required_fields"
+        $("#care-plan-setting").removeClass('hidden')
     ).on('ifUnchecked', ->
       if $(this).attr("id") == "setting_use_screening_assessment"
         $(".screening-assessment-form").addClass("hidden")
+
+      if $(this).attr("id") == "setting_disable_required_fields"
+        $("#care-plan-setting").addClass('hidden')
     )
 
   _toggleDeleteIncomplete = ->
