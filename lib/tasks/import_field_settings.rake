@@ -40,6 +40,8 @@ namespace :field_settings do
         ActiveRecord::Migrator.run(:down, ActiveRecord::Migrator.migrations_path, migration_version)
         ActiveRecord::Migrator.run(:up, ActiveRecord::Migrator.migrations_path, migration_version)
       end
+
+      family_address_setting(org)
     end
   end
 
@@ -102,6 +104,53 @@ namespace :field_settings do
         visible: (Apartment::Tenant.current_tenant == 'ratanak'),
         group: :client
       )
+    end
+  end
+
+  def family_address_setting(org)
+    fields = {
+      current_province: 'Current Department',
+      birth_province: 'Birth Department',
+      province: 'Department',
+      district: 'Arrondissement',
+      commune: 'Commune',
+      province_id: 'Department',
+      district_id: 'Arrondisement',
+      commune_id: 'Commune'
+    }
+    if org.country == 'haiti'
+      fields.each do |name, label|
+        field_setting = FieldSetting.find_or_initialize_by(name: name, klass_name: :client)
+        field_setting.update!(
+          current_label: label,
+          label: label,
+          required: false,
+          visible: (org.country == 'haiti'),
+          group: :client
+        )
+      end
+
+      fields.each do |name, label|
+        field_setting = FieldSetting.find_or_initialize_by(name: name, klass_name: :family)
+        field_setting.update!(
+          current_label: label,
+          label: label,
+          required: false,
+          visible: (org.country == 'haiti'),
+          group: :family
+        )
+      end
+
+      ['user', 'partner'].each do |klass_name|
+        field_setting = FieldSetting.find_or_initialize_by(name: 'province', klass_name: klass_name)
+        field_setting.update!(
+          current_label: 'Department',
+          label: 'Department',
+          required: false,
+          visible: (org.country == 'haiti'),
+          group: klass_name
+        )
+      end
     end
   end
 end

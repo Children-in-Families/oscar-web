@@ -7,14 +7,41 @@
       .ibox-content
         %div
           %ul.nav.nav-tabs.csi-tab{role: "service-deliver-list"}
+            %li{ role: "presentation", class: 'active' }
+              %a{"aria-controls" => "categories", "data-toggle" => "tab", href: "#categories", role: "tab"} Categories
             - @main_services.each_with_index do |main_service, index|
               - tab_id = main_service.name.downcase.strip.parameterize
-              %li{ role: "presentation", class: index.zero? && 'active' }
+              %li{ role: "presentation", class:'' }
                 %a{"aria-controls" => "#{tab_id}", "data-toggle" => "tab", href: "##{tab_id}", role: "tab"}= main_service.name
           .tab-content
+            .tab-pane{ role: "tabpanel", id: "categories", class: 'active' }
+              .row
+                .col-xs-12
+                  .ibox
+                    .ibox-title.domain-ibox
+                      %h5 Categories
+                      .ibox-tools
+
+                    .ibox-content
+                      .table-responsive
+                        %table.table.table-bordered.table-striped.table-hover
+                          %thead
+                            %tr
+                              %th= t('.id')
+                              %th= t('.service_provided')
+                              %th= t('.category')
+                              %th.text-center= t('.manage')
+                          %tbody
+                            - @categories.each do |category|
+                              %tr
+                                %td= category.id
+                                %td= category.name
+                                %td= category.parent.name
+                                %th.text-center
+                                  = render 'manage', object: category, parent_id: category.parent.id
             - @main_services.each_with_index do |main_service, index|
               - tab_id = main_service.name.downcase.strip.parameterize
-              .tab-pane{ role: "tabpanel", id: "#{tab_id}", class: index.zero? && 'active' }
+              .tab-pane{ role: "tabpanel", id: "#{tab_id}", class: '' }
                 .row
                   .col-xs-12
                     .ibox

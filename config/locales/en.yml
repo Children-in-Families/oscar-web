@@ -1569,6 +1569,13 @@ en:
         house_number: Address - House#
         street_number: Address - Street
         village: Address - Village
+      haiti_address_form:
+        commune: Arrondisement
+        current_province: Current Department
+        district: Address - Arrondisement
+        house_number: Address - House#
+        street_number: Address - Street
+        village: Address - Village
       lesotho_address_form:
         description_house_landmark: Description of the house and a landmark
         directions: Directions
@@ -2259,6 +2266,7 @@ en:
       province: Birth Province
       province:
         cambodia: Birth Province
+        haiti: Birth Apartment
         lesotho: Birth Suburb
         myanmar: Birth State
         thailand: Birth Province
