@@ -10,6 +10,7 @@ module Families
 
     def index
       @custom_assessment  = @family.assessments.new(default: false)
+      @custom_assessment_settings = CustomAssessmentSetting.all.where(enable_custom_assessment: true)
       @assessmets = AssessmentDecorator.decorate_collection(@family.assessments.order(:created_at))
     end
 
@@ -18,14 +19,14 @@ module Families
       @prev_assessment = @family.assessments.last
       @assessment = @family.assessments.new(default: default?)
 
-      if current_organization.try(:aht) == false
-        authorize @assessment
-      end
+      authorize @assessment if current_organization.try(:aht) == false
+
       @assessment.populate_family_domains
     end
 
     def create
       @assessment = @family.assessments.new(assessment_params)
+
       @assessment.default = params[:default]
       if current_organization.try(:aht) == true
         if @assessment.save(validate: false)

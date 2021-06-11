@@ -152,7 +152,7 @@ class Assessment < ActiveRecord::Base
   end
 
   def must_be_enable
-    enable = default? || family_id? ? Setting.first.enable_default_assessment : Setting.first.enable_custom_assessment
+    enable = default? ? Setting.first.enable_default_assessment : Setting.first.enable_custom_assessment
     enable ? true : errors.add(:base, 'Assessment tool must be enable in setting')
   end
 

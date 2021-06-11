@@ -155,7 +155,6 @@ module ClientsHelper
       local_family_name:             t('datagrid.columns.clients.local_family_name'),
       gender:                        t('datagrid.columns.clients.gender'),
       date_of_birth:                 t('datagrid.columns.clients.date_of_birth'),
-      birth_province_id:             t('datagrid.columns.clients.birth_province'),
       status:                        t('datagrid.columns.clients.status'),
       received_by_id:                t('datagrid.columns.clients.received_by'),
       followed_up_by_id:             t('datagrid.columns.clients.follow_up_by'),
@@ -165,13 +164,9 @@ module ClientsHelper
       follow_up_date:                t('datagrid.columns.clients.follow_up_date'),
       agencies_name:                 t('datagrid.columns.clients.agencies_involved'),
       donors_name:                   t('datagrid.columns.clients.donor'),
-      province_id:                   t('datagrid.columns.clients.current_province'),
       current_address:               t('datagrid.columns.clients.current_address'),
       house_number:                  t('datagrid.columns.clients.house_number'),
       street_number:                 t('datagrid.columns.clients.street_number'),
-      village:                       t('datagrid.columns.clients.village'),
-      commune:                       t('datagrid.columns.clients.commune'),
-      district:                      t('datagrid.columns.clients.district'),
       school_name:                   t('datagrid.columns.clients.school_name'),
       school_grade:                  t('datagrid.columns.clients.school_grade'),
       able_state:                    t('datagrid.columns.clients.able_state'),
@@ -204,6 +199,7 @@ module ClientsHelper
       type_of_service:               t('datagrid.columns.type_of_service'),
       hotline:                       t('datagrid.columns.calls.hotline'),
       **overdue_translations,
+      **client_address_translation,
       **Client::HOTLINE_FIELDS.map{ |field| [field.to_sym, I18n.t("datagrid.columns.clients.#{field}")] }.to_h
     }
 
@@ -223,6 +219,20 @@ module ClientsHelper
       care_plan_completed_date: I18n.t('datagrid.columns.clients.care_plan_completed_date'),
       care_plan_count: I18n.t('datagrid.columns.clients.care_plan_count')
     }
+  end
+
+  def client_address_translation
+    translations = {}
+    ['province','district','commune','village', 'birth_province_id'].each do |key_translation|
+      translations[key_translation.to_sym] = FieldSetting.find_by(name: key_translation).try(:label) || I18n.t("datagrid.columns.clients.#{key_translation}")
+      translations["#{key_translation}_".to_sym] = FieldSetting.find_by(name: key_translation).try(:label) || I18n.t("datagrid.columns.clients.#{key_translation}")
+    end
+    translations['village_id'.to_sym] = FieldSetting.find_by(name: 'village_id').try(:label) || I18n.t('datagrid.columns.clients.village')
+    translations['province_id'.to_sym] = FieldSetting.find_by(name: 'current_province', klass_name: 'client').try(:label) || t('datagrid.columns.clients.current_province')
+    translations['province_id_'.to_sym] = FieldSetting.find_by(name: 'current_province', klass_name: 'client').try(:label) || t('datagrid.columns.clients.current_province')
+    translations['birth_province_id'.to_sym] = FieldSetting.find_by(name: 'birth_province', klass_name: 'client').try(:label) || t('datagrid.columns.clients.birth_province')
+    translations['birth_province_id_'.to_sym] = FieldSetting.find_by(name: 'birth_province', klass_name: 'client').try(:label) || t('datagrid.columns.clients.birth_province')
+    translations
   end
 
   def local_name_label(name_type = :local_given_name)
@@ -459,7 +469,6 @@ module ClientsHelper
       gender_: t('datagrid.columns.clients.gender'),
       date_of_birth_: t('datagrid.columns.clients.date_of_birth'),
       status_: t('datagrid.columns.clients.status'),
-      birth_province_id_: t('datagrid.columns.clients.birth_province'),
       initial_referral_date_: t('datagrid.columns.clients.initial_referral_date'),
       referral_phone_: t('datagrid.columns.clients.referral_phone'),
       received_by_id_: t('datagrid.columns.clients.received_by'),
@@ -468,13 +477,9 @@ module ClientsHelper
       follow_up_date_: t('datagrid.columns.clients.follow_up_date'),
       agencies_name_: t('datagrid.columns.clients.agencies_involved'),
       donors_name_: t('datagrid.columns.clients.donor'),
-      province_id_: t('datagrid.columns.clients.current_province'),
       current_address_: t('datagrid.columns.clients.current_address'),
       house_number_: t('datagrid.columns.clients.house_number'),
       street_number_: t('datagrid.columns.clients.street_number'),
-      village_: t('datagrid.columns.clients.village'),
-      commune_: t('datagrid.columns.clients.commune'),
-      district_: t('datagrid.columns.clients.district'),
       school_name_: t('datagrid.columns.clients.school_name'),
       school_grade_: t('datagrid.columns.clients.school_grade'),
       has_been_in_orphanage_: t('datagrid.columns.clients.has_been_in_orphanage'),
@@ -525,7 +530,8 @@ module ClientsHelper
       assessment_completed_date_: t('datagrid.columns.calls.assessment_completed_date', assessment: t('clients.show.assessment')),
       hotline_call_: t('datagrid.columns.calls.hotline_call'),
       indirect_beneficiaries_: t('datagrid.columns.clients.indirect_beneficiaries'),
-      **overdue_translations.map{ |k, v| ["#{k}_".to_sym, v] }.to_h
+      **overdue_translations.map{ |k, v| ["#{k}_".to_sym, v] }.to_h,
+      **client_address_translation
     }
 
     (Client::HOTLINE_FIELDS + Call::FIELDS).each do |field_name|
@@ -1022,6 +1028,7 @@ module ClientsHelper
   end
 
   def care_plan_counter
+    return unless controller_name == 'clients'
     count = @results.joins(:care_plans).distinct.count
     content_tag(:span, count, class: 'label label-info')
   end

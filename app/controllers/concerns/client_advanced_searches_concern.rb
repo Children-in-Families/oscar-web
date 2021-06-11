@@ -35,9 +35,9 @@ module ClientAdvancedSearchesConcern
   def format_search_params
     advanced_search_params = params[:client_advanced_search]
     client_grid_params = params[:client_grid]
-    return unless (advanced_search_params.is_a? String) || (client_grid_params.is_a? String)
-    params[:client_advanced_search] = Rack::Utils.parse_nested_query(advanced_search_params)
-    params[:client_grid] = Rack::Utils.parse_nested_query(client_grid_params)
+    params[:client_advanced_search] = Rack::Utils.parse_nested_query(advanced_search_params) if advanced_search_params.is_a? String
+    params[:client_grid] = Rack::Utils.parse_nested_query(client_grid_params) if client_grid_params.is_a? String
+    params
   end
 
   def build_advanced_search
