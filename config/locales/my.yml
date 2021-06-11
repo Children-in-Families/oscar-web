@@ -1197,6 +1197,19 @@ my:
         failed_update: အပ်ဒိတ်လုပ်မပေးနိုငျ
         successfully_updated: အမႈသည္ကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ထည့္သြင္းၿပီပါၿပီ
     exit_ngos:
+      attr_exit_reason: &EXIT_REASON_ATTR
+        exit_reason_options:
+          agency_lack_resource: Agency lacks sufficient resources
+          client_died: Client died
+          client_does_not_meet_service_criteria: Client does not meet / no longer meets service criteria
+          client_does_not_required_support: Client does not require / no longer requires support
+          client_missing: Client Missing
+          client_move_out_international: Client is/moved outside NGO target area (International)
+          client_move_out_within_cambodia: Client is/moved outside NGO target area (within Cambodia)
+          client_refuse_service: Client refused service
+          client_run_away: Client Run away
+          client_transfer: Transfer to another organization
+          other_reason: Other
       create:
         failed_create: အပ်ဒိတ်လုပ်မပေးနိုငျ
         successfully_created: အမႈသည္ကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ထည့္သြင္းၿပီပါၿပီ
@@ -1207,15 +1220,7 @@ my:
         exit_date: ထြက္သည့္ရက္စြဲ
         exit_ngo: NGOမွ ထြက္ရန္
         exit_note: ထြက္သည့္မွတ္စု
-        exit_reason_options:
-          agency_lack_resource: Agency lacks sufficient resources
-          client_died: Client died
-          client_does_not_meet_service_criteria: Client does not meet / no longer meets service criteria
-          client_does_not_required_support: Client does not require / no longer requires support
-          client_move_out_international: Client is/moved outside NGO target area (International)
-          client_move_out_within_cambodia: Client is/moved outside NGO target area (within Cambodia)
-          client_refuse_service: Client refused service
-          other_reason: Other
+        <<: *EXIT_REASON_ATTR
         exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
         exit_status: အေနအထား
         exiting: မထွက်...
@@ -1229,15 +1234,7 @@ my:
         exit_date: ထြက္သည့္ရက္စြဲ
         exit_ngo: NGOမွ ထြက္ရန္
         exit_note: ထြက္သည့္မွတ္စု
-        exit_reason_options:
-          agency_lack_resource: Agency lacks sufficient resources
-          client_died: Client died
-          client_does_not_meet_service_criteria: Client does not meet / no longer meets service criteria
-          client_does_not_required_support: Client does not require / no longer requires support
-          client_move_out_international: Client is/moved outside NGO target area (International)
-          client_move_out_within_cambodia: Client is/moved outside NGO target area (within Cambodia)
-          client_refuse_service: Client refused service
-          other_reason: Other
+        <<: *EXIT_REASON_ATTR
         exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
         exit_status: အေနအထား
         exiting: မထွက်...

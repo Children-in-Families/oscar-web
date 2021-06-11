@@ -1196,6 +1196,19 @@ en:
         failed_update: Failed to update the client.
         successfully_updated: Client has been successfully updated.
     exit_ngos:
+      attr_exit_reason: &EXIT_REASON_ATTR
+        exit_reason_options:
+          agency_lack_resource: Agency lacks sufficient resources
+          client_died: Client died
+          client_does_not_meet_service_criteria: Client does not meet / no longer meets service criteria
+          client_does_not_required_support: Client does not require / no longer requires support
+          client_missing: Client is missing
+          client_move_out_international: Client is/moved outside NGO target area (International)
+          client_move_out_within_cambodia: Client is/moved outside NGO target area (within Cambodia)
+          client_refuse_service: Client refused service
+          client_run_away: Client run away
+          client_transfer: Client transfer to another organization
+          other_reason: Other
       create:
         failed_create: Failed to update the client.
         successfully_created: Client has been successfully updated.
@@ -1206,15 +1219,7 @@ en:
         exit_date: Exit Date
         exit_ngo: Exit Client from NGO
         exit_note: Exit Note
-        exit_reason_options:
-          agency_lack_resource: Agency lacks sufficient resources
-          client_died: Client died
-          client_does_not_meet_service_criteria: Client does not meet / no longer meets service criteria
-          client_does_not_required_support: Client does not require / no longer requires support
-          client_move_out_international: Client is/moved outside NGO target area (International)
-          client_move_out_within_cambodia: Client is/moved outside NGO target area (within Cambodia)
-          client_refuse_service: Client refused service
-          other_reason: Other
+        <<: *EXIT_REASON_ATTR
         exit_reasons: Reason for Exit / Case Rejection
         exit_status: Status
         exiting: Exiting...
@@ -1228,15 +1233,7 @@ en:
         exit_date: Exit Date
         exit_ngo: Exit Client from NGO
         exit_note: Exit Note
-        exit_reason_options:
-          agency_lack_resource: Agency lacks sufficient resources
-          client_died: Client died
-          client_does_not_meet_service_criteria: Client does not meet / no longer meets service criteria
-          client_does_not_required_support: Client does not require / no longer requires support
-          client_move_out_international: Client is/moved outside NGO target area (International)
-          client_move_out_within_cambodia: Client is/moved outside NGO target area (within Cambodia)
-          client_refuse_service: Client refused service
-          other_reason: Other
+        <<: *EXIT_REASON_ATTR
         exit_reasons: Reason for Exit / Case Rejection
         exit_status: Status
         exiting: Exiting...

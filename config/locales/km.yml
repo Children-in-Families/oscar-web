@@ -1202,6 +1202,19 @@ km:
         failed_update: អតិថិជនមិនត្រូវបានកែសម្រួលដោយជោគជ័យ
         successfully_updated: អតិថិជនត្រូវបានកែសម្រួលដោយជោគជ័យ
     exit_ngos:
+      attr_exit_reason: &EXIT_REASON_ATTR
+        exit_reason_options:
+          agency_lack_resource: អង្គភាពខ្វះធនធានគ្រប់គ្រាន់
+          client_died: អតិថិជនបានទទួលមរណៈភាព
+          client_does_not_meet_service_criteria: អតិថិជនមិនត្រូវ​ /​ ឈប់ត្រូវតាមលក្ខខណ្ឌសេវាកម្ម
+          client_does_not_required_support: អតិថិជនមិនត្រូវការ / ឈប់ត្រូវការការឧបត្ថម្ភ
+          client_missing: អតិថិជនបាត់ខ្លួន
+          client_move_out_international: អតិថិជននៅក្រៅ / ចាកចេញទៅក្រៅតំបន់គោលដៅអង្គការ (អន្តរជាតិ)
+          client_move_out_within_cambodia: អតិថិជននៅក្រៅ / ចាកចេញទៅក្រៅតំបន់គោលដៅអង្គការ (ក្នុងប្រទេសកម្ពុជា)
+          client_refuse_service: អតិថិជនបដិសេធមិនទទួលយកសេវាកម្ម
+          client_run_away: អតិថិជនរត់គេចខ្លួន
+          client_transfer: អតិថិជនត្រូវបានបញ្ជូនទៅកាន់អង្គការផ្សេង
+          other_reason: ផ្សេងៗ
       create:
         failed_create: អតិថិជនមិនត្រូវបានកែសម្រួលដោយជោគជ័យ
         successfully_created: អតិថិជនត្រូវបានកែសម្រួលដោយជោគជ័យ
@@ -1212,15 +1225,7 @@ km:
         exit_date: ថ្ងៃចាកចេញ
         exit_ngo: ចាកចេញពីអង្គការ
         exit_note: កំណត់ហេតុនៃការចាកចេញ
-        exit_reason_options:
-          agency_lack_resource: អង្គភាពខ្វះធនធានគ្រប់គ្រាន់
-          client_died: អតិថិជនបានទទួលមរណៈភាព
-          client_does_not_meet_service_criteria: អតិថិជនមិនត្រូវ​ /​ ឈប់ត្រូវតាមលក្ខខណ្ឌសេវាកម្ម
-          client_does_not_required_support: អតិថិជនមិនត្រូវការ / ឈប់ត្រូវការការឧបត្ថម្ភ
-          client_move_out_international: អតិថិជននៅក្រៅ / ចាកចេញទៅក្រៅតំបន់គោលដៅអង្គការ (អន្តរជាតិ)
-          client_move_out_within_cambodia: អតិថិជននៅក្រៅ / ចាកចេញទៅក្រៅតំបន់គោលដៅអង្គការ (ក្នុងប្រទេសកម្ពុជា)
-          client_refuse_service: អតិថិជនបដិសេធមិនទទួលយកសេវាកម្ម
-          other_reason: ផ្សេងៗ
+        <<: *EXIT_REASON_ATTR
         exit_reasons: មូលហេតុនៃការចាកចេញ
         exit_status: ស្ថានភាព
         exiting: កំពុងចាកចេញពីអង្គការ...
@@ -1234,15 +1239,7 @@ km:
         exit_date: ថ្ងៃចាកចេញ
         exit_ngo: ចាកចេញពីអង្គការ
         exit_note: កំណត់ហេតុនៃការចាកចេញ
-        exit_reason_options:
-          agency_lack_resource: អង្គភាពខ្វះធនធានគ្រប់គ្រាន់
-          client_died: អតិថិជនបានទទួលមរណៈភាព
-          client_does_not_meet_service_criteria: អតិថិជនមិនត្រូវ​ /​ ឈប់ត្រូវតាមលក្ខខណ្ឌសេវាកម្ម
-          client_does_not_required_support: អតិថិជនមិនត្រូវការ / ឈប់ត្រូវការការឧបត្ថម្ភ
-          client_move_out_international: អតិថិជននៅក្រៅ / ចាកចេញទៅក្រៅតំបន់គោលដៅអង្គការ (អន្តរជាតិ)
-          client_move_out_within_cambodia: អតិថិជននៅក្រៅ / ចាកចេញទៅក្រៅតំបន់គោលដៅអង្គការ (ក្នុងប្រទេសកម្ពុជា)
-          client_refuse_service: អតិថិជនបដិសេធមិនទទួលយកសេវាកម្ម
-          other_reason: ផ្សេងៗ
+        <<: *EXIT_REASON_ATTR
         exit_reasons: មូលហេតុនៃការចាកចេញ
         exit_status: ស្ថានភាព
         exiting: កំពុងចាកចេញ...
