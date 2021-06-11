@@ -58,8 +58,8 @@ class Organization < ActiveRecord::Base
         CifWeb::Application.load_tasks
         service_data_file = Rails.root.join('lib/devdata/services/service.xlsx')
         Apartment::Tenant.switch(org.short_name) do
-          is_nepal = org.try(:country) == 'nepal'
-          if is_nepal
+          country = org.try(:country)
+          if country == 'nepal'
             general_data_file = Rails.root.join('lib/devdata/general_en.xlsx')
           else
             general_data_file = Rails.root.join('lib/devdata/general.xlsx')
@@ -69,9 +69,11 @@ class Organization < ActiveRecord::Base
           ImportStaticService::DateService.new('Services', org.short_name, service_data_file).import
           Importer::Import.new('Agency', general_data_file).agencies
           Importer::Import.new('Department', general_data_file).departments
-          if is_nepal
+          if country == 'nepal'
             Rake::Task['nepali_provinces:import'].invoke(org.short_name)
-            Rake::Task['nepali_provinces:import'].reenable
+          elsif country == 'haiti'
+            Rake::Task['haiti_addresses:import'].invoke(org.short_name)
+            Rake::Task['haiti_addresses:import'].reenable
           else
             Importer::Import.new('Province', general_data_file).provinces
             Rake::Task['communes_and_villages:import'].invoke(org.short_name)
@@ -89,6 +91,8 @@ class Organization < ActiveRecord::Base
             ReferralSource.find_or_create_by(name: "#{org.full_name} - OSCaR Referral")
           end
         end
+        Rake::Task['haiti_addresses:import'].invoke('shared')
+        Rake::Task['haiti_addresses:import'].reenable
         Apartment::Tenant.switch(org.short_name)
       end
     end

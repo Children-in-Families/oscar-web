@@ -442,6 +442,7 @@ en:
       birth_province: Client Birth Province
       birth_province_id: Birth Province
       cambodia: Cambodia
+      care_plan: Care Plan
       carer: Carer
       carer_name: Carer Name
       carer_phone: Carer Phone Number
@@ -1544,6 +1545,13 @@ en:
         house_number: Address - House#
         street_number: Address - Street
         village: Address - Village
+      haiti_address_form:
+        commune: Arrondisement
+        current_province: Current Department
+        district: Address - Arrondisement
+        house_number: Address - House#
+        street_number: Address - Street
+        village: Address - Village
       lesotho_address_form:
         description_house_landmark: Description of the house and a landmark
         directions: Directions
@@ -2232,6 +2240,7 @@ en:
       province: Birth Province
       province:
         cambodia: Birth Province
+        haiti: Birth Apartment
         lesotho: Birth Suburb
         myanmar: Birth State
         thailand: Birth Province
@@ -2698,6 +2707,9 @@ en:
         neighbor_phone: Phone Number
         dosavy_name: "DoSAVY: Name"
         dosavy_phone: Phone Number
+        care_plan_count: Number of Care Plan
+        care_plan_completed_date: Care Plan Completed Date
+        care_plan_total: Total
         chief_commune_name: "Chief of Commune/Commune Council Member: Name"
         chief_commune_phone: Phone Number
         chief_village_name: "Chief of Village: Name"
@@ -4815,6 +4827,41 @@ en:
     update:
       successfully_updated: Government Report has been successfully updated.
   has_been_added_to_calendar: This event has already been added to calendar.
+  internal_referrals:
+    internal_referral_attr: &INTERNAL_REFERRAL_ATTR
+      are_you_sure: Are you sure you want to delete?
+      attachments: Attachments
+      client_id: Client ID
+      client_name: Client Name
+      client_representing_problem: CLIENT'S PRESENTING PROBLEMS
+      client_representing_problem_note: "What issues/needs does the client say he or she needs help addressing:"
+      emergency_note: "NOTE: EMERGENCY/CRISIS NEEDS"
+      new_internal_referral: New Internal Referral
+      program_stream_ids: Referred To
+      referral_date: Date of Internal Referral
+      referral_decision: REASON FOR REFERRAL AND RECOMMNEDATIONS
+      referral_decision_note: "Action/intervention taken:"
+      referral_reason: REFERRAL DECISION (to be approved by case management supervisor)
+      referral_reason_note: "The referral source’s reason for referral:"
+      user_id: Referred from
+    create:
+      successfully_created: Internal Referral has successfully been created.
+    destroy:
+      successfully_deleted: Attachment has been successfully deleted.
+      successfully_deleted: Internal Referral has been successfully deleted.
+    form:
+      <<: *INTERNAL_REFERRAL_ATTR
+      allow_file_size: Allowed file types
+      cancel: Cancel
+      exit_date: Exit Date
+      max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
+      save: Save
+    index:
+      <<: *INTERNAL_REFERRAL_ATTR
+    show:
+      <<: *INTERNAL_REFERRAL_ATTR
+    update:
+      successfully_updated: Internal Referral has successfully been updated.
   interventions:
     create:
       failed_create: Failed to create an intervention.
@@ -5387,6 +5434,7 @@ en:
       domain: Associated Domains
       name: Name
       service_confirm_question: Are you sure your program does this many things? If it does, keep choosing services, but if not, try to keep it simple!
+      users: Users
       type_of_service: Type of service
     program_rule:
       add_new_filter: Add New Filter

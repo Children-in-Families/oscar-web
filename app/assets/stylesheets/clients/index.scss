@@ -218,7 +218,7 @@ body[id='clients-index'] {
     cursor: default;
   }
 
-  .csi-header, .referee-header, .carer-header, .type-of-service-header, .hotline-call-header {
+  .csi-header, .referee-header, .carer-header, .type-of-service-header, .hotline-call-header, .care-plan-header {
     padding: 5px 16px;
     strong {
       font-size: 13px;
@@ -484,5 +484,11 @@ body[id='clients-index'] {
     color: inherit;
     background: white;
     border: 1px solid #e7eaec;
+  }
+  .care_plan_completed_date .td-content .showmore_content, .care_plan_completed_date .td-content {
+    &:first-child {
+      height: 25px !important;
+      margin-left: 20px;
+    }
   }
 }

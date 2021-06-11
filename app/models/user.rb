@@ -44,6 +44,9 @@ class User < ActiveRecord::Base
   has_many :families, dependent: :nullify
   has_many :case_conference_users, dependent: :destroy
   has_many :case_conferences, through: :case_conference_users
+  has_many :internal_referrals, dependent: :destroy
+  has_many :program_stream_users, dependent: :destroy
+  has_many :propgram_streams, through: :program_stream_users
 
   accepts_nested_attributes_for :custom_field_permissions
   accepts_nested_attributes_for :program_stream_permissions

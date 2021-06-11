@@ -39,7 +39,7 @@ CIF.Care_plansNew = CIF.Care_plansEdit = CIF.Care_plansCreate = CIF.Care_plansUp
 
   _loadSteps = (form) ->
     bodyTag = 'div'
-    # bodyTag = '.assessment-wizard-domain-item'
+    bodyTag = '.assessment-wizard-domain-item'
     rootId = "##{$(form).find(".root-wizard").attr("id")}"
     $(rootId).steps
       headerTag: 'h4'
@@ -57,13 +57,15 @@ CIF.Care_plansNew = CIF.Care_plansEdit = CIF.Care_plansCreate = CIF.Care_plansUp
         _appendSaveButton()
         _appendSaveCancel()
         _initGoalTaskEditPage(currentTab)
-        return true if isGoalTaskRequired == 'primary' || isGoalTaskRequired == 'info'
+        taskValue = _taskRequiredField(currentTab)
+        return true if (isGoalTaskRequired == 'primary' || isGoalTaskRequired == 'info') && taskValue == ""
         _requiredGoalTask(currentIndex, currentTab)
 
       onStepChanging: (event, currentIndex, newIndex) ->
         currentTab  = "#{rootId}-p-#{currentIndex}"
         isGoalTaskRequired = $("#{currentTab}").find('.score-color').text()
-        return true if isGoalTaskRequired == 'primary' || isGoalTaskRequired == 'info'
+        taskValue = _taskRequiredField(currentTab)
+        return true if (isGoalTaskRequired == 'primary' || isGoalTaskRequired == 'info') && taskValue == ""
         _requiredGoalTask(currentIndex, currentTab)
 
       onStepChanged: (event, currentIndex, priorIndex) ->
@@ -79,6 +81,9 @@ CIF.Care_plansNew = CIF.Care_plansEdit = CIF.Care_plansCreate = CIF.Care_plansUp
         $('a[href="#finish"]').addClass('btn disabled').css('font-size', '96%').text(btnSaving)
         $('.actions a:contains("Done")').removeAttr('href')
         form.submit()
+
+  _taskRequiredField = (currentTab) ->
+    $("#{currentTab}").find('.task-input-field')[0] && $("#{currentTab}").find('.task-input-field')[0].value
 
   _initGoalTask = ->
     $('#care_plans-new .btn-add-goal').click()
@@ -108,7 +113,11 @@ CIF.Care_plansNew = CIF.Care_plansEdit = CIF.Care_plansCreate = CIF.Care_plansUp
       $("#{currentTab}").find('.required-message').removeClass('hide')
       return false
     else
-      return true
+      if taskValue != "" && taskDateValue == ""
+        $("#{currentTab}").find('.required-message').removeClass('hide')
+        return false
+      else
+        return true
 
   _appendSaveCancel = ->
     unless $('#rootwizard').find('a[id="btn-cancel"]:visible').length

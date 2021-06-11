@@ -5,6 +5,7 @@ class ServiceDeliveriesController < AdminController
   def index
     @main_services = ServiceDelivery.only_parents
     @service_deliveries = ServiceDelivery.only_children
+    @categories = ServiceDelivery.where(parent_id: @main_services.ids)
   end
 
   def new
@@ -51,6 +52,6 @@ class ServiceDeliveriesController < AdminController
   end
 
   def find_sub_category
-    @sub_categories = ServiceDelivery.where(parent_id: params['parent_id']) if params['parent_id']
+    @sub_categories = ServiceDelivery.where('id = ? OR parent_id = ?', params['parent_id'], params['parent_id']) if params['parent_id']
   end
 end

@@ -15,7 +15,8 @@ class CaseConference < ActiveRecord::Base
   validates :user_ids, presence: true
 
   accepts_nested_attributes_for :case_conference_domains
-  scope :most_recents, -> { order(created_at: :desc) }
+  scope :most_recents, -> { order(meeting_date: :desc) }
+  scope :order_by_meeting_date, -> { order(:meeting_date) }
   scope :latest_record, -> { most_recents.first }
 
   def populate_presenting_problems

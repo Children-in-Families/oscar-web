@@ -1,0 +1,50 @@
+.row
+  .col-xs-12.col-sm-12.col-md-12
+    .ibox
+      .ibox-title
+        %h5= "#{t('created_by')} #{@internal_referral.user.name} #{t('at')} #{date_format(@internal_referral.created_at)}"
+        .text-right
+          = link_to t('back'), client_path(@client), class: 'button btn btn-outline btn-default'
+          - if "policy(@internal_referral).edit?"
+            = link_to  edit_client_internal_referral_path(@client, @internal_referral), class: 'button btn btn-outline btn-success ' do
+              = fa_icon('pencil')
+          - if current_user.admin?
+            = link_to(client_internal_referral_path(@client, @internal_referral), class: 'btn btn-outline btn-danger', method: 'delete', data: { confirm: t('internal_referrals.show.are_you_sure') }) do
+              = fa_icon('trash')
+      .ibox-content
+        %section.overflow-case
+          %p
+            %b= "#{t('.referral_date')}:"
+            = date_format(@internal_referral.referral_date)
+          %p
+            %b= "#{t('.client_id')}:"
+            = @internal_referral.client.slug
+          %p
+            %b= "#{t('.client_name')}:"
+            = @internal_referral.client.name
+          %p
+            %b= "#{t('.user_id')}:"
+            = @internal_referral.user.name
+          %p
+            %b= "#{t('.program_stream_ids')}:"
+            %ul
+              - @internal_referral.program_streams.distinct.each do |program|
+                %li= program.name
+          %p
+            %b= "#{t('.client_representing_problem')}:"
+            %p= @internal_referral.client_representing_problem
+          %p
+            %b= "#{t('.emergency_note')}:"
+            %p= @internal_referral.emergency_note
+          %p
+            %b= "#{t('.referral_reason')}:"
+            %p= @internal_referral.referral_reason
+          %p
+            %b= "#{t('.referral_decision')}:"
+            %p= @internal_referral.referral_decision
+          %p
+            %b= "#{t('.attachments')}:"
+            - if  @internal_referral.attachments.any?
+              = render 'attachment', { internal_referral: @internal_referral }
+              %button.btrn.btn-info.btn-sm{"data-target" => "#attachments-#{@internal_referral.id}", "data-toggle" => "modal", :type => "button"}= t('case_conferences.show.show_attachment')
+

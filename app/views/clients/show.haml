@@ -107,10 +107,16 @@
           - if current_organization.available_for_referral?
             %input#client-id{ value: "#{@client.slug}", type: 'hidden' }
             .btn-group.small-btn-margin
-              %button.btn-sm.btn.btn-warning.dropdown-toggle.btn-fit{ data: { toggle: "dropdown", html: 'true', trigger: 'hover', content: "#{I18n.t('inline_help.clients.show.referral_form')}", placement: "auto" }, class: ('disabled' if @client.referrals.empty?) }
+              %button.btn-sm.btn.btn-warning.dropdown-toggle.btn-fit{ data: { toggle: "dropdown", html: 'true', trigger: 'hover', content: "#{I18n.t('inline_help.clients.show.referral_form')}", placement: "auto" }, class: ('disabled' if @client.internal_referrals.empty? && @client.referrals.empty?) }
                 = t('.referral_forms')
                 %span.caret
               %ul.dropdown-menu.btn-fit.scrollable-dropdown-menu.referral-forms
+                - @internal_referrals.each do |internal_referral|
+                  %li
+                    = link_to client_internal_referral_path(@client, internal_referral.id) do
+                      = "Internal Referral To"
+                      = internal_referral.program_name
+                      = date_format(internal_referral.referral_date)
                 %li= link_to t('.referred_to'), client_referrals_path(@client, referral_type: 'referred_to')
                 %li= link_to t('.referred_from'), client_referrals_path(@client, referral_type: 'referred_from')
             .btn-group.small-btn-margin
@@ -118,6 +124,8 @@
                 = t('.refer_client')
                 %span.caret
               %ul.dropdown-menu.btn-fit.scrollable-dropdown-menu.referral-forms
+                - if Organization.ratanak?
+                  %li= link_to 'Internal Referral', new_client_internal_referral_path(@client)
                 - ngos.each do |value, key|
                   %li= link_to value, new_client_referral_url(@client, ngo: key, external_ngo_name: key == 'external referral' && value), :class => 'target-ngo', :value => "#{key}", :id => "#{key}"
           = link_to client_books_path(@client), data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.client_book')}", placement: "auto" } do
@@ -228,9 +236,10 @@
                 %li
                   = link_to client_government_forms_path(@client, form: 'six') do
                     %span.text-success= t('.government_form_six')
-          = link_to client_service_receives_path(@client) do
-            %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit
-              = t('.service_received')
+          - if has_service_delivery?
+            = link_to client_service_receives_path(@client) do
+              %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit
+                = t('.service_received')
 
 
 .row.mini-margin
@@ -589,6 +598,19 @@
                     %th= t('.date')
                     %th.text-center= t('.detail')
                 %tbody
+                  - if Organization.ratanak?
+                    - @internal_referrals.each do |internal_referral|
+                      %tr
+                        %td= "Internal Referral To #{internal_referral.program_name}"
+                        %td= date_format(internal_referral.referral_date)
+                        - unless Rails.env.production?
+                          %td
+                        %td.text-center
+                          = link_to client_internal_referral_path(@client, internal_referral.id), class: 'btn btn-outline btn-primary btn-xs' do
+                            = fa_icon('eye')
+                          = link_to edit_client_internal_referral_path(@client, internal_referral.id), class: 'btn btn-outline btn-success btn-xs' do
+                            = fa_icon('pencil')
+
                   - @case_histories.each_with_index do |case_history, index|
                     - case_history_name = case_history.class.table_name
                     %tr.case-history-row{ data: {date: case_history.new_date, classname: case_history_name,name: case_history_label(case_history), created_date: case_history.created_at} }

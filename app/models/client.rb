@@ -88,12 +88,14 @@ class Client < ActiveRecord::Base
   accepts_nested_attributes_for :family_member, allow_destroy: true
 
   has_many :families,       through: :cases
+  has_many :family_members, dependent: :destroy
   has_many :cases,          dependent: :destroy
   has_many :case_notes,     dependent: :destroy
   has_many :assessments,    dependent: :destroy
   has_many :care_plans, dependent: :destroy
   has_many :goals, dependent: :destroy
   has_many :case_conferences, dependent: :destroy
+  has_many :internal_referrals, dependent: :destroy
 
   has_paper_trail
 

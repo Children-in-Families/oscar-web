@@ -9,7 +9,7 @@
           - score_color = ad.object.domain.send("score_#{ad.object.score}_color") if ad.object.score
           - domain = ad.object.domain
           %h4= domain_name_translate(assessment, domain)
-          %div{ class: "assessment-domain-item domain-#{domain.id}" }
+          %div{ class: "assessment-domain-item assessment-wizard-domain-item domain-#{domain.id}" }
             .ibox
               .ibox-title
                 %p{:class => "hide score-color"}= score_color
@@ -26,16 +26,19 @@
                   %span.btn.btn-default= ad.object.score
               .ibox-content
                 %p.hide.required-message= t('.required_message')
+                - required_asterisk = ad.object.domain["score_#{ad.object.score}_color"] != 'primary'
                 .row.goal-task-title
                   .col-md-4.col-xs-12
-                    - if ad.object.domain["score_#{ad.object.score}_color"] != 'primary'
+                    - if required_asterisk
                       %abbr{ title: 'required' } *
                     = t('.goal')
                   .col-md-4.col-xs-12
-                    - if ad.object.domain["score_#{ad.object.score}_color"] != 'primary'
+                    - if required_asterisk
                       %abbr{ title: 'required' } *
                     = t('.task')
                   .col-md-4.col-xs-12
+                    - if required_asterisk
+                      %abbr{ title: 'required' } *
                     %p= t('.expected_date')
                 .row
                   .div.box

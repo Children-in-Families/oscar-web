@@ -232,7 +232,8 @@
             %li
               .visibility.col-sm-12
                 = check_box_tag "#{hotline_field}_", hotline_field, checked = saved_search_column_visibility("#{hotline_field}_"), class: 'i-checks'
-                = label_tag "#{hotline_field}_", t("datagrid.columns.clients.#{hotline_field}")
+                = label_tag "#{hotline_field}_", concern_translation(hotline_field)
+
           - if enable_default_assessment?
             - if current_organization.try(:aht) == true
               %li.csi-header
@@ -260,6 +261,16 @@
           - if enable_custom_assessment?
             = render partial: 'datagrid/custom_domain_score', locals: { custom_domains: Domain.custom_csi_domains.order_by_identity }
 
+          %li.care-plan-header
+            %strong= t('advanced_search.fields.care_plan')
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'care_plan_completed_date_', 'care_plan_completed_date', checked = saved_search_column_visibility('care_plan_completed_date_'), class: 'i-checks'
+              = label_tag 'care_plan_completed_date_', t('datagrid.columns.care_plan_completed_date')
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'care_plan_count_', 'care_plan_count', checked = saved_search_column_visibility('care_plan_count_'), class: 'i-checks'
+              = label_tag 'care_plan_count_', t('datagrid.columns.care_plan_count')
           - if Service.count > 0
             %li.type-of-service-header
               %strong= t('.type_of_service')
