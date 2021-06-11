@@ -9,12 +9,12 @@ module PartnersHelper
       address:                                  t('datagrid.columns.partners.address'),
       organization_type:                        t('datagrid.columns.partners.organization_type'),
       affiliation:                              t('datagrid.columns.partners.affiliation'),
-      province_id:                              t('datagrid.columns.partners.province'),
       engagement:                               t('datagrid.columns.partners.engagement'),
       background:                               t('datagrid.columns.partners.background'),
       start_date:                               t('datagrid.columns.partners.start_date'),
       manage:                                   t('datagrid.columns.clients.manage'),
-      changelog:                                t('datagrid.columns.clients.changelogs')
+      changelog:                                t('datagrid.columns.clients.changelogs'),
+      **partner_address_translation
     }
     label_tag "#{column}_", label_column[column.to_sym]
   end
@@ -33,9 +33,16 @@ module PartnersHelper
       manage_:                       t('datagrid.columns.clients.manage'),
       name_:                         t('datagrid.columns.partners.name'),
       organization_type_:            t('datagrid.columns.partners.organization_type'),
-      province_id_:                  t('datagrid.columns.partners.province'),
       start_date_:                   t('datagrid.columns.partners.start_date'),
+      **partner_address_translation
     }
     label_tag "#{column}_", label_column[column.to_sym]
+  end
+
+  def partner_address_translation
+    translations = {}
+    translations['province_id'.to_sym] = FieldSetting.find_by(name: 'province_id', klass_name: 'partner').try(:label) || t('datagrid.columns.partners.province')
+    translations['province_id_'.to_sym] = FieldSetting.find_by(name: 'province_id', klass_name: 'partner').try(:label) || t('datagrid.columns.partners.province')
+    translations
   end
 end

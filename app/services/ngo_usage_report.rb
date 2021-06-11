@@ -148,6 +148,8 @@ class NgoUsageReport
       user_values            = [setting[:ngo_name], ngo_users[:user_count], ngo_users[:user_added_count], ngo_users[:user_deleted_count], ngo_users[:login_per_month]]
       client_values          = [setting[:ngo_name], ngo_clients[:client_count], ngo_clients[:client_added_count], ngo_clients[:client_deleted_count], ngo_referrals[:tranferred_client_count]]
 
+      next if Setting.first.blank?
+
       start_sharing_data     = Setting.first.start_sharing_this_month(date_time)
       stop_sharing_data      = Setting.first.stop_sharing_this_month(date_time)
       current_sharing_data   = Setting.first.current_sharing_with_research_module

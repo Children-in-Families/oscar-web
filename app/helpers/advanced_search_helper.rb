@@ -88,8 +88,6 @@ module AdvancedSearchHelper
       referral_phone: I18n.t('advanced_search.fields.referral_phone'),
       house_number: I18n.t('advanced_search.fields.house_number'),
       street_number: I18n.t('advanced_search.fields.street_number'),
-      commune_id: I18n.t('advanced_search.fields.commune'),
-      village_id: I18n.t('advanced_search.fields.village'),
       suburb: I18n.t('advanced_search.fields.suburb'),
       description_house_landmark: I18n.t('advanced_search.fields.description_house_landmark'),
       directions: I18n.t('advanced_search.fields.directions'),
@@ -99,7 +97,6 @@ module AdvancedSearchHelper
       plot: I18n.t('advanced_search.fields.plot'),
       road: I18n.t('advanced_search.fields.road'),
       postal_code: I18n.t('advanced_search.fields.postal_code'),
-      district_id: I18n.t('advanced_search.fields.district'),
       subdistrict_id: I18n.t('advanced_search.fields.subdistrict'),
       township_id: I18n.t('advanced_search.fields.township'),
       state_id: I18n.t('advanced_search.fields.state'),
@@ -113,8 +110,6 @@ module AdvancedSearchHelper
       agency_name: I18n.t('advanced_search.fields.agency_name'),
       donor_name: I18n.t('advanced_search.fields.donor_id'),
       received_by_id: I18n.t('advanced_search.fields.received_by_id'),
-      birth_province_id: I18n.t('advanced_search.fields.birth_province_id'),
-      province_id: I18n.t('advanced_search.fields.province_id'),
       referral_source_id: I18n.t('advanced_search.fields.referral_source_id'),
       followed_up_by_id: I18n.t('advanced_search.fields.followed_up_by_id'),
       has_been_in_government_care: I18n.t('advanced_search.fields.has_been_in_government_care'),
@@ -167,7 +162,8 @@ module AdvancedSearchHelper
       hotline: I18n.t('datagrid.columns.calls.hotline'),
       active_clients: I18n.t('advanced_search.fields.active_clients'),
       care_plan: I18n.t('advanced_search.fields.care_plan'),
-      **overdue_translations
+      **overdue_translations,
+      **address_translation
     }
 
     translations[key.to_sym] || ''
@@ -189,17 +185,14 @@ module AdvancedSearchHelper
       id:                                       I18n.t('activerecord.attributes.community.formed_date'),
       initial_referral_date:                    I18n.t('activerecord.attributes.community.initial_referral_date'),
       phone_number:                             I18n.t('activerecord.attributes.community.phone_number'),
-      province_id:                              I18n.t('activerecord.attributes.community.province_id'),
-      district_id:                              I18n.t('advanced_search.fields.district'),
-      commune_id:                               I18n.t('advanced_search.fields.commune'),
-      village_id:                               I18n.t('advanced_search.fields.village'),
       received_by_id:                           I18n.t('advanced_search.fields.received_by_id'),
       relevant_information:                     I18n.t('activerecord.attributes.community.relevant_information'),
       representative_name:                      I18n.t('activerecord.attributes.community.representative_name'),
       referral_source_category_id:              I18n.t('activerecord.attributes.community.referral_source_category_id'),
       referral_source_id:                       I18n.t('activerecord.attributes.community.referral_source_id'),
       role:                                     I18n.t('activerecord.attributes.community.role'),
-      **community_member_columns
+      **community_member_columns,
+      **address_translation
     }
     translations[key.to_sym] || ''
   end
@@ -214,12 +207,22 @@ module AdvancedSearchHelper
       address:                                  I18n.t('datagrid.columns.partners.address'),
       organization_type_id:                     I18n.t('datagrid.columns.partners.organization_type'),
       affiliation:                              I18n.t('datagrid.columns.partners.affiliation'),
-      province_id:                              I18n.t('datagrid.columns.partners.province'),
       engagement:                               I18n.t('datagrid.columns.partners.engagement'),
       background:                               I18n.t('datagrid.columns.partners.background'),
       start_date:                               I18n.t('datagrid.columns.partners.start_date'),
+      **address_translation
     }
     translations[key.to_sym] || ''
+  end
+
+  def address_translation
+    translations = {}
+    ['province', 'district', 'commune', 'village', 'birth_province', 'province_id', 'district_id', 'commune_id'].each do |key_translation|
+      translations[key_translation.to_sym] = FieldSetting.find_by(name: key_translation).try(:label) || I18n.t("advanced_search.fields.#{key_translation}")
+    end
+    translations['village_id'.to_sym] = FieldSetting.find_by(name: 'village_id').try(:label) || I18n.t('datagrid.columns.clients.village')
+    translations['birth_province_id'.to_sym] = FieldSetting.find_by(name: 'birth_province').try(:label) || I18n.t('datagrid.columns.clients.birth_province')
+    translations
   end
 
   def save_search_params(search_params)
@@ -254,5 +257,13 @@ module AdvancedSearchHelper
 
   def user_select_options
     User.non_strategic_overviewers.order(:first_name, :last_name).map { |user| { user.id.to_s => user.name } }
+  end
+
+  def concern_translation(hotline_field)
+    if %W(concern_province_id concern_district_id concern_commune_id concern_village_id).include? hotline_field
+      address_translation[hotline_field.gsub('concern_', '').to_sym]
+    else
+      I18n.t("datagrid.columns.clients.#{hotline_field}")
+    end
   end
 end

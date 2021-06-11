@@ -232,7 +232,8 @@
             %li
               .visibility.col-sm-12
                 = check_box_tag "#{hotline_field}_", hotline_field, checked = saved_search_column_visibility("#{hotline_field}_"), class: 'i-checks'
-                = label_tag "#{hotline_field}_", t("datagrid.columns.clients.#{hotline_field}")
+                = label_tag "#{hotline_field}_", concern_translation(hotline_field)
+
           - if enable_default_assessment?
             - if current_organization.try(:aht) == true
               %li.csi-header
