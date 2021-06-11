@@ -1,13 +1,11 @@
 CIF.Care_plansNew = CIF.Care_plansEdit = CIF.Care_plansCreate = CIF.Care_plansUpdate = do ->
   _init = ->
     forms = $('form.care_plan-form')
-
     for form in forms
       _loadSteps($(form))
 
     _translatePagination()
     _initDatePicker()
-    _initGoalTask()
     _initDatePickerOnTaskClick()
     _saveCarePlan(form)
 
@@ -39,8 +37,9 @@ CIF.Care_plansNew = CIF.Care_plansEdit = CIF.Care_plansCreate = CIF.Care_plansUp
 
   _loadSteps = (form) ->
     bodyTag = 'div'
-    bodyTag = '.assessment-wizard-domain-item'
+    bodyTag = '.care-plan-wizard-domain-item' if _disableRequiredFields()
     rootId = "##{$(form).find(".root-wizard").attr("id")}"
+
     $(rootId).steps
       headerTag: 'h4'
       bodyTag: bodyTag
@@ -56,7 +55,7 @@ CIF.Care_plansNew = CIF.Care_plansEdit = CIF.Care_plansCreate = CIF.Care_plansUp
         isGoalTaskRequired = $("#{currentTab}").find('.score-color').text()
         _appendSaveButton()
         _appendSaveCancel()
-        _initGoalTaskEditPage(currentTab)
+        _initGoalTaskPage(currentTab)
         taskValue = _taskRequiredField(currentTab)
         return true if (isGoalTaskRequired == 'primary' || isGoalTaskRequired == 'info') && taskValue == ""
         _requiredGoalTask(currentIndex, currentTab)
@@ -65,37 +64,44 @@ CIF.Care_plansNew = CIF.Care_plansEdit = CIF.Care_plansCreate = CIF.Care_plansUp
         currentTab  = "#{rootId}-p-#{currentIndex}"
         isGoalTaskRequired = $("#{currentTab}").find('.score-color').text()
         taskValue = _taskRequiredField(currentTab)
+
+        return true if _disableRequiredFields() || rootId == '#readonly-rootwizard'
         return true if (isGoalTaskRequired == 'primary' || isGoalTaskRequired == 'info') && taskValue == ""
         _requiredGoalTask(currentIndex, currentTab)
 
       onStepChanged: (event, currentIndex, priorIndex) ->
         currentTab  = "#{rootId}-p-#{currentIndex}"
-        _initGoalTaskEditPage(currentTab)
+        _initGoalTaskPage(currentTab)
         if $(rootId).find('a[href="#finish"]:visible').length
           $("#{rootId} a[href='#save']").hide()
         else
           $("#{rootId} a[href='#save']").show()
+      onFinishing: (event, currentIndex, newIndex) ->
+        return false if rootId == '#readonly-rootwizard'
+        return true
 
       onFinished: ->
+        return if rootId == '#readonly-rootwizard'
+
         btnSaving = $(rootId).data('saving')
         $('a[href="#finish"]').addClass('btn disabled').css('font-size', '96%').text(btnSaving)
         $('.actions a:contains("Done")').removeAttr('href')
         form.submit()
 
+  _disableRequiredFields = ->
+    formid = $('form.care_plan-form').attr('id')
+    form   = $('#'+formid)
+    form.data("disableRequiredFields")
+
   _taskRequiredField = (currentTab) ->
     $("#{currentTab}").find('.task-input-field')[0] && $("#{currentTab}").find('.task-input-field')[0].value
 
-  _initGoalTask = ->
-    $('#care_plans-new .btn-add-goal').click()
-    $('#care_plans-new .btn-add-task').click()
-    _initDatePicker()
-
-  _initGoalTaskEditPage = (currentTab) ->
-    if $("#care_plans-edit #{currentTab} .goal-input-field").length == 0
-      $("#care_plans-edit #{currentTab} .btn-add-goal").click()
-      $("#care_plans-edit #{currentTab} .btn-add-task").click()
-    if $("#care_plans-edit #{currentTab} .task-input-field").length == 0
-      $("#care_plans-edit #{currentTab} .btn-add-task").click()
+  _initGoalTaskPage = (currentTab) ->
+    if $(".care_plan-form #{currentTab} .goal-input-field").length == 0
+      $(".care_plan-form #{currentTab} .btn-add-goal").click()
+      $(".care_plan-form #{currentTab} .btn-add-task").click()
+    if $(".care_plan-form #{currentTab} .task-input-field").length == 0
+      $(".care_plan-form #{currentTab} .btn-add-task").click()
     _initDatePicker()
 
   _initDatePickerOnTaskClick = ->

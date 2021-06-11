@@ -14,7 +14,8 @@ class CarePlansController < AdminController
 
   def new
     @assessment = @client.assessments.find_by(id: params[:assessment])
-    @care_plan = @client.care_plans.new()
+    @prev_care_plan = @client.care_plans.last
+    @care_plan = Setting.first.try(:use_previous_care_plan) && @prev_care_plan || @client.care_plans.new()
   end
 
   def create
