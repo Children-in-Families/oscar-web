@@ -1,0 +1,35 @@
+%h1 Listing internal_referrals
+
+%table
+  %thead
+    %tr
+      %th Referral date
+      %th Client
+      %th User
+      %th Client representing problem
+      %th Emergency note
+      %th Referral reason
+      %th Referral decision
+      %th Attachments
+      %th
+      %th
+      %th
+
+  %tbody
+    - @internal_referrals.each do |internal_referral|
+      %tr
+        %td= internal_referral.referral_date
+        %td= internal_referral.client_id
+        %td= internal_referral.user_id
+        %td= internal_referral.client_representing_problem
+        %td= internal_referral.emergency_note
+        %td= internal_referral.referral_reason
+        %td= internal_referral.referral_decision
+        %td= internal_referral.attachments
+        %td= link_to 'Show', internal_referral
+        %td= link_to 'Edit', edit_internal_referral_path(internal_referral)
+        %td= link_to 'Destroy', internal_referral, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Internal referral', new_internal_referral_path

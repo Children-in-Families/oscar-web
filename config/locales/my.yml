@@ -4785,6 +4785,41 @@ my:
     update:
       successfully_updated: အစိုးရအစီရင္ခံစာကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ၿပီးပါၿပီ
   has_been_added_to_calendar: ဤပြဲကို ျပကၡဒိန္တြင္ ထည့္ၿပီးပါၿပီ
+  internal_referrals:
+    internal_referral_attr: &INTERNAL_REFERRAL_ATTR
+      are_you_sure: Are you sure you want to delete?
+      attachments: Attachments
+      client_id: Client ID
+      client_name: Client Name
+      client_representing_problem: CLIENT'S PRESENTING PROBLEMS
+      client_representing_problem_note: "What issues/needs does the client say he or she needs help addressing:"
+      emergency_note: "NOTE: EMERGENCY/CRISIS NEEDS"
+      new_internal_referral: New Internal Referral
+      program_stream_ids: Referred To
+      referral_date: Date of Internal Referral
+      referral_decision: REASON FOR REFERRAL AND RECOMMNEDATIONS
+      referral_decision_note: "Action/intervention taken:"
+      referral_reason: REFERRAL DECISION (to be approved by case management supervisor)
+      referral_reason_note: "The referral source’s reason for referral:"
+      user_id: Referred from
+    create:
+      successfully_created: Internal Referral has successfully been created.
+    destroy:
+      successfully_deleted: Attachment has been successfully deleted.
+      successfully_deleted: Internal Referral has been successfully deleted.
+    form:
+      <<: *INTERNAL_REFERRAL_ATTR
+      allow_file_size: Allowed file types
+      cancel: Cancel
+      exit_date: Exit Date
+      max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
+      save: Save
+    index:
+      <<: *INTERNAL_REFERRAL_ATTR
+    show:
+      <<: *INTERNAL_REFERRAL_ATTR
+    update:
+      successfully_updated: Internal Referral has successfully been updated.
   interventions:
     create:
       failed_create: ၾကားျဖတ္အစိအမံကို ျပဳလုပ္ျခင္း မေအာင္ျမင္ပါ။
@@ -5374,6 +5409,7 @@ my:
       domain: ဒိုမိန္း
       name: နာမည္
       service_confirm_question: သင့်ရဲ့ program ကိုဒီအရာများစွာကိုမသင်သေချာပါသလား? ကန်ဆောင်မှုများရွေးချယ်ရာတွင်စောင့်ရှောက်ပေမယ့်လျှင်မပါဘူးဆိုရင်, ရိုးရှင်းသောစောင့်ရှောက်ဖို့ကြိုးစား!
+      users: Users
       type_of_service: ဝန်ဆောင်မှုအမျိုးအစား
     program_rule:
       add_new_filter: စိစစ္မႈအသစ္ထည့္ရန္

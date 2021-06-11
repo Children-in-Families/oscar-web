@@ -4818,6 +4818,43 @@ km:
     update:
       successfully_updated: របាយការណ៍ត្រូវបានកែសម្រួលដោយជោគជ័យ។
   has_been_added_to_calendar: ព្រឹត្តិការណ៍នេះត្រូវបានបន្ថែមទៅក្នុងប្រតិទិនរួចហើយ
+  internal_referrals:
+    internal_referral_attr: &INTERNAL_REFERRAL_ATTR
+      are_you_sure: Are you sure you want to delete?
+      attachments: Attachments
+      client_id: Client ID
+      client_name: Client Name
+      client_representing_problem: CLIENT'S PRESENTING PROBLEMS
+      client_representing_problem_note: "What issues/needs does the client say he or she needs help addressing:"
+      emergency_note: "កំណត់ចំណាំ៖ តម្រូវការបន្ទាន់/វិបត្តិ"
+      new_internal_referral: New Internal Referral
+      program_stream_ids: Referred To
+      referral_date: Date of Internal Referral
+      referral_decision: មូលហេតុក្នុងការបញ្ជូននិងអនុសាសន៍
+      referral_decision_note: "Action/intervention taken:"
+      referral_reason: REFERRAL DECISION (to be approved by case management supervisor)
+      referral_reason_note: "The referral source’s reason for referral:"
+      user_id: Referred from
+    create:
+      failed_create: ការបញ្ជូនមិនត្រូវបានបង្កើត
+      successfully_created: ការបញ្ជូនត្រូវបានបង្កើតដោយជោគជ័យ
+    destroy:
+      failed_delete: ការបញ្ជូនត្រូវធ្វើមិនអាចលុបបានទេ
+      successfully_deleted: ការបញ្ជូនត្រូវធ្វើត្រូវបានលុបដោយជោគជ័យ
+      unsuccessfully_deleted: ការបញ្ជូនត្រូវធ្វើមិនអាចលុបបានទេ
+    form:
+      <<: *INTERNAL_REFERRAL_ATTR
+      allow_file_size: Allowed file types
+      cancel: Cancel
+      exit_date: Exit Date
+      max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
+      save: Save
+    index:
+      <<: *INTERNAL_REFERRAL_ATTR
+    show:
+      <<: *INTERNAL_REFERRAL_ATTR
+    update:
+      successfully_updated: ការបញ្ជូនត្រូវបានកែសម្រួលដោយជោគជ័យ
   interventions:
     create:
       failed_create: ចំនុចដែលត្រូវធ្វើមិនអាចបង្កើតបានដោយជោគជ័យ
@@ -5385,6 +5422,7 @@ km:
       domain: កត្តា
       name: ឈ្មោះកម្មវិធី
       service_confirm_question: តើអ្នកប្រាកដថាកម្មវិធីរបស់អ្នកធ្វើនេះច្រើនទេ? បើមិនដូច្នោះទេចូរជ្រើសរើសការជ្រើសរើសសេវាកម្មប៉ុន្តែបើមិនដូច្នោះចូរព្យាយាមរក្សាវាឱ្យសាមញ្ញ!
+      users: អ្នកគ្រប់គ្រងកម្នវិធី
       type_of_service: ប្រភេទសេវាកម្ម
     program_rule:
       add_new_filter: បន្ថែមលក្ខខ័ណ្ឌថ្មី

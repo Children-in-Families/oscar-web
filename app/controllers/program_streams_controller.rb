@@ -110,7 +110,7 @@ class ProgramStreamsController < AdminController
   def program_stream_params
     ngo_name = current_organization.full_name
     delete_select_option_empty
-    default_params = [:entity_type, :name, :rules, :description, :enrollment, :exit_program, :tracking_required, :quantity, program_exclusive: [], mutual_dependence: [], domain_ids: [], service_ids: []]
+    default_params = [:entity_type, :name, :rules, :description, :enrollment, :exit_program, :tracking_required, :quantity, program_exclusive: [], mutual_dependence: [], domain_ids: [], service_ids: [], internal_referral_user_ids: []]
     default_params << { trackings_attributes: [:name, :frequency, :time_of_frequency, :fields, :_destroy, :id] } unless program_without_tracking?
 
     params[:program_stream][:service_ids] = params[:program_stream][:service_ids].uniq
