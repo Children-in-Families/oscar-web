@@ -113,13 +113,22 @@ namespace :field_settings do
       birth_province: 'Birth Department',
       province: 'Department',
       district: 'Arrondissement',
-      commune: 'Commune',
+      commune: 'Commune'
+    }
+
+    field_ids = {
       province_id: 'Department',
-      district_id: 'Arrondisement',
+      district_id: 'Arrondissement',
       commune_id: 'Commune'
     }
+
     if org.country == 'haiti'
-      fields.each do |name, label|
+      concern_fields = {
+        concern_province_id: 'Department',
+        concern_district_id: 'Arrondissement',
+        concern_commune_id: 'Commune',
+      }
+      fields.merge(concern_fields).each do |name, label|
         field_setting = FieldSetting.find_or_initialize_by(name: name, klass_name: :client)
         field_setting.update!(
           current_label: label,
@@ -130,7 +139,7 @@ namespace :field_settings do
         )
       end
 
-      fields.each do |name, label|
+      field_ids.each do |name, label|
         field_setting = FieldSetting.find_or_initialize_by(name: name, klass_name: :family)
         field_setting.update!(
           current_label: label,
