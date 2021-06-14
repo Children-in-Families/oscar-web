@@ -2,6 +2,7 @@ module FamilyAdvancedSearchesConcern
   extend ActiveSupport::Concern
   include ClientsHelper
   include AssessmentHelper
+  include CarePlanHelper
 
   def advanced_search
     basic_rules  = JSON.parse @basic_filter_params
@@ -41,6 +42,8 @@ module FamilyAdvancedSearchesConcern
     csi_domain_score_report
     default_date_of_completed_assessments
     custom_date_of_assessments
+    care_plan_completed_date
+    care_plan_count
     case_note_date_report
     case_note_type_report
     program_stream_report

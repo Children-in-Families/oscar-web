@@ -24,4 +24,13 @@ module AdvancedSearchFieldHelper
     referral_sources = @user.admin? ? klass_name.constantize.referral_source_is : klass_name.constantize.where(user_id: @user.id).referral_source_is
     referral_sources.sort.map { |s| { s[1].to_s => s[0] } }
   end
+
+  def mapping_care_plan_date_lable_translation
+    care_plan_group = format_header('care_plan')
+    care_plan_date_fields.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, format_header(item), care_plan_group) }
+  end
+
+  def care_plan_date_fields
+    ['care_plan_completed_date']
+  end
 end

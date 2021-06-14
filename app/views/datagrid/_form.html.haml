@@ -388,8 +388,18 @@
               .visibility.col-sm-12
                 = check_box_tag 'case_note_type_', 'case_note_type', checked = family_saved_search_column_visibility('case_note_type_'), class: 'i-checks'
                 = label_tag 'case_note_type_', t('datagrid.columns.case_note_type')
-            = render partial: 'datagrid/family_custom_domain_score', locals: { custom_domains: Domain.family_custom_csi_domains.order_by_identity }
+            %li.care-plan-header.m-l-sm
+              %strong= t('advanced_search.fields.care_plan')
+            %li
+              .visibility.col-sm-12
+                = check_box_tag 'care_plan_completed_date_', 'care_plan_completed_date', checked = family_saved_search_column_visibility('care_plan_completed_date_'), class: 'i-checks'
+                = label_tag 'care_plan_completed_date_', t('datagrid.columns.care_plan_completed_date')
+            %li
+              .visibility.col-sm-12
+                = check_box_tag 'care_plan_count_', 'care_plan_count', checked = family_saved_search_column_visibility('care_plan_count_'), class: 'i-checks'
+                = label_tag 'care_plan_count_', t('datagrid.columns.care_plan_count')
 
+            = render partial: 'datagrid/family_custom_domain_score', locals: { custom_domains: Domain.family_custom_csi_domains.order_by_identity }
           %li.divider.col-xs-12
           %li
             .visibility.col-sm-12

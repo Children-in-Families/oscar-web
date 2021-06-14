@@ -20,7 +20,6 @@ module Families
       @assessment = @family.assessments.new(default: default?)
 
       authorize @assessment if current_organization.try(:aht) == false
-
       @assessment.populate_family_domains
     end
 

@@ -38,7 +38,7 @@
                   %b
                     = date_format(Date.today)
             .col-xs-12.col-sm-4
-              - if policy(@custom_assessment).create?()
+              - if policy(@custom_assessment).create?(@custom_assessment.id)
                 = link_to new_family_assessment_path(@family, default: true) do
                   .btn.btn-block.btn-primary.button
                     = "#{t('assessments.index.begin_now')} #{@current_setting.default_assessment}"
@@ -105,6 +105,58 @@
                         = t('assessments.index.no_custom_domains_available')
                     .modal-body.text-center
                       = t('assessments.index.please_add_custom_domains')
+
+
+      - if @current_setting.enable_custom_assessment && completed_initial_assessment?('defaults', 'family')
+        .row.margin-row
+          - @custom_assessment_settings.each do |css|
+            .col-xs-12.col-sm-8
+              %h5
+                - if current_organization.try(:aht) == true
+                  = t('.initial_assessment', assessment: t('clients.show.assessment'))
+                  %b
+                    = date_format(Date.today)
+                - else
+                  - if @client.assessments.customs.any?
+                    = t('.next_review')
+                    %b
+                      = date_format(@client.custom_next_assessment_date(nil, css.id))
+                  - else
+                    = t('.initial_assessment', assessment: t('clients.show.assessment'))
+                    %b
+                      = date_format(Date.today)
+            .col-xs-12.col-sm-4.m-b-sm
+              - if css.domains.any?
+                - if policy(@custom_assessment).create?(css.id, css)
+                  = link_to new_client_assessment_path(@client, default: false, custom_name: css.custom_assessment_name), class: 'btn btn-block btn-primary button', data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.assessments.index.custom_button', assessment: I18n.t('clients.show.assessment'))}", placement: "auto" } do
+                    - if Organization.ratanak?
+                      = "#{t('.begin_now')} #{t('clients.show.custom_assessment', assessment: t('clients.show.assessment'))}"
+                    - else
+                      = "#{t('.begin_now')} #{css.custom_assessment_name}"
+                - else
+                  .btn.btn-block.btn-default.button.disabled
+                    - if Organization.ratanak?
+                      = "#{t('.begin_now')} #{t('clients.show.custom_assessment', assessment: t('clients.show.assessment'))}"
+                    - else
+                      = "#{t('.begin_now')} #{css.custom_assessment_name}"
+              - else
+                = link_to '#', data: { toggle: 'modal', target: '#customDomainsModal' }, class: 'btn btn-block btn-primary button', data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.assessments.index.custom_button', assessment: I18n.t('clients.show.assessment'))}", placement: "auto" } do
+                  - if Organization.ratanak?
+                    = "#{t('.begin_now')} #{t('clients.show.custom_assessment', assessment: t('clients.show.assessment'))}"
+                  - else
+                    = "#{t('.begin_now')} #{css.custom_assessment_name}"
+
+              #customDomainsModal.modal.fade{"aria-labelledby" => "customDomainsModalLabel", :role => "dialog", :tabindex => "-1"}
+                .modal-dialog{:role => "document"}
+                  .modal-content.panel-warning
+                    .modal-header.panel-heading
+                      %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+                        %span{"aria-hidden" => "true"} ×
+                      %h4
+                        %i.fa.fa-warning.fa-x2
+                        = t('.no_custom_domains_available')
+                    .modal-body.text-center
+                      = t('.please_add_custom_domains')
       .ibox-footer
         .row
           .col-xs-12.col-sm-6
