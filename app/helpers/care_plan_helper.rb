@@ -65,5 +65,4 @@ module CarePlanHelper
   def grid_object
     @client_grid || @family_grid
   end
-
 end

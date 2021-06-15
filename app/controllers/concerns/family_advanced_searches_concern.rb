@@ -13,7 +13,7 @@ module FamilyAdvancedSearchesConcern
     program_stream_column
     respond_to do |f|
       f.html do
-        @results                = @family_grid.scope { |scope| scope.where(id: @families.ids) }.assets.size
+        @results                = @family_grid.scope { |scope| scope.where(id: @families.ids) }.assets
         @family_grid.scope { |scope| scope.where(id: @families.ids).page(params[:page]).per(20) }
       end
       f.xls do
