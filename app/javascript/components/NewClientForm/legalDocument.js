@@ -388,31 +388,31 @@ export default props => {
           <h3 className="text-success">{ t(translation, 'clients.form.form_indentification') }</h3>
         </legend>
         {
-          fieldsVisibility.referral_doc == true &&
+          fieldsVisibility.screening_interview_form == true &&
           <legend>
             <div className="row">
               <div className="col-xs-12 col-md-6 col-lg-3">
-                <Checkbox label={ t(translation, 'clients.form.referral_doc') } checked={client.referral_doc} onChange={onCheckBoxChange('client', 'referral_doc')} />
+                <Checkbox label={ t(translation, 'clients.form.screening_interview_form') } checked={client.screening_interview_form} onChange={onCheckBoxChange('client', 'screening_interview_form')} />
               </div>
                <div className="col-xs-12">
                 {
-                  client.referral_doc &&
+                  client.screening_interview_form &&
                   <RadioGroup
                     inline
                     options={legalDocOptions}
-                    onChange={onChangeLegalDocOption('referral_doc_option')}
-                    value={client.referral_doc_option}
+                    onChange={onChangeLegalDocOption('screening_interview_form_option')}
+                    value={client.screening_interview_form_option}
                   />
                 }
               </div>
               <div className="col-xs-12">
                 <FileUploadInput
                   label=""
-                  onChange={onAttachmentsChange('referral_doc_files')}
-                  object={client.referral_doc_files}
-                  onChangeCheckbox={onRemoveAttachments('remove_referral_doc_files')}
-                  removeAttachmentcheckBoxValue={client.remove_referral_doc_files}
-                  showFilePond={client.referral_doc}
+                  onChange={onAttachmentsChange('screening_interview_form_files')}
+                  object={client.screening_interview_form_files}
+                  onChangeCheckbox={onRemoveAttachments('remove_screening_interview_form_files')}
+                  removeAttachmentcheckBoxValue={client.remove_screening_interview_form_files}
+                  showFilePond={client.screening_interview_form}
                   T={T}
                 />
               </div>
@@ -462,12 +462,12 @@ export default props => {
               </div>
               <div className="col-xs-12">
                 {
-                  client.short_form_of_mosavy_dosav &&
+                  client.short_form_of_mosavy_dosavy &&
                   <RadioGroup
                     inline
                     options={legalDocOptions}
-                    onChange={onChangeLegalDocOption('short_form_of_mosavy_dosav_option')}
-                    value={client.short_form_of_mosavy_dosav_option}
+                    onChange={onChangeLegalDocOption('short_form_of_mosavy_dosavy_option')}
+                    value={client.short_form_of_mosavy_dosavy_option}
                   />
                 }
               </div>
@@ -556,11 +556,11 @@ export default props => {
         }
 
         {
-          fieldsVisibility.detail_form_of_judicial_police == true &&
+          fieldsVisibility.police_interview == true &&
           <legend>
             <div className="row">
               <div className="col-xs-12">
-                <Checkbox label={ t(translation, 'clients.form.detail_form_of_judicial_police') } checked={client.detail_form_of_judicial_police} onChange={onCheckBoxChange('client', 'detail_form_of_judicial_police')} />
+                <Checkbox label={ t(translation, 'clients.form.detail_form_of_judicial_police') } checked={client.police_interview} onChange={onCheckBoxChange('client', 'police_interview')} />
               </div>
               <div className="col-xs-12">
                 {
@@ -576,11 +576,11 @@ export default props => {
               <div className="col-xs-12">
                 <FileUploadInput
                   label=""
-                  onChange={onAttachmentsChange('detail_form_of_judicial_police_files')}
-                  object={client.detail_form_of_judicial_police_files}
-                  onChangeCheckbox={onRemoveAttachments('remove_detail_form_of_judicial_police_files')}
-                  removeAttachmentcheckBoxValue={client.remove_detail_form_of_judicial_police_files}
-                  showFilePond={client.detail_form_of_judicial_police}
+                  onChange={onAttachmentsChange('police_interview_files')}
+                  object={client.police_interview_files}
+                  onChangeCheckbox={onRemoveAttachments('remove_police_interview_files')}
+                  removeAttachmentcheckBoxValue={client.remove_police_interview_files}
+                  showFilePond={client.police_interview}
                   T={T}
                 />
               </div>
