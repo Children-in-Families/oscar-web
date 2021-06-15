@@ -4830,9 +4830,9 @@ km:
       new_internal_referral: New Internal Referral
       program_stream_ids: Referred To
       referral_date: Date of Internal Referral
-      referral_decision: មូលហេតុក្នុងការបញ្ជូននិងអនុសាសន៍
+      referral_decision: REFERRAL DECISION (to be approved by case management supervisor)
       referral_decision_note: "Action/intervention taken:"
-      referral_reason: REFERRAL DECISION (to be approved by case management supervisor)
+      referral_reason: មូលហេតុក្នុងការបញ្ជូននិងអនុសាសន៍
       referral_reason_note: "The referral source’s reason for referral:"
       user_id: Referred from
     create:
