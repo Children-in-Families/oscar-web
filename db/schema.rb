@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210608092146) do
+ActiveRecord::Schema.define(version: 20210615173912) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -747,36 +747,38 @@ ActiveRecord::Schema.define(version: 20210608092146) do
     t.string   "locality"
     t.string   "national_id_number"
     t.string   "passport_number"
-    t.string   "ngo_partner"
     t.string   "ngo_partner_files",                     default: [],                      array: true
-    t.string   "mosavy"
     t.string   "mosavy_files",                          default: [],                      array: true
-    t.string   "dosavy"
     t.string   "dosavy_files",                          default: [],                      array: true
-    t.string   "msdhs"
     t.string   "msdhs_files",                           default: [],                      array: true
-    t.string   "complain"
     t.string   "complain_files",                        default: [],                      array: true
-    t.string   "warrant"
     t.string   "warrant_files",                         default: [],                      array: true
-    t.string   "verdict"
     t.string   "verdict_files",                         default: [],                      array: true
     t.string   "referral_doc_option"
-    t.string   "short_form_of_ocdm"
     t.string   "short_form_of_ocdm_option"
     t.string   "short_form_of_ocdm_files",              default: [],                      array: true
-    t.string   "short_form_of_mosavy_dosavy"
     t.string   "short_form_of_mosavy_dosavy_option"
     t.string   "short_form_of_mosavy_dosavy_files",     default: [],                      array: true
-    t.string   "detail_form_of_mosavy_dosavy"
     t.string   "detail_form_of_mosavy_dosavy_option"
     t.string   "detail_form_of_mosavy_dosavy_files",    default: [],                      array: true
-    t.string   "short_form_of_judicial_police"
     t.string   "short_form_of_judicial_police_option"
     t.string   "short_form_of_judicial_police_files",   default: [],                      array: true
-    t.string   "detail_form_of_judicial_police"
+    t.boolean  "screening_interview_form",              default: false
     t.string   "detail_form_of_judicial_police_option"
     t.string   "detail_form_of_judicial_police_files",  default: [],                      array: true
+    t.string   "screening_interview_form_option"
+    t.string   "screening_interview_form_files",        default: [],                      array: true
+    t.boolean  "ngo_partner",                           default: false
+    t.boolean  "mosavy",                                default: false
+    t.boolean  "dosavy",                                default: false
+    t.boolean  "msdhs",                                 default: false
+    t.boolean  "complain",                              default: false
+    t.boolean  "warrant",                               default: false
+    t.boolean  "verdict",                               default: false
+    t.boolean  "short_form_of_ocdm",                    default: false
+    t.boolean  "short_form_of_mosavy_dosavy",           default: false
+    t.boolean  "detail_form_of_mosavy_dosavy",          default: false
+    t.boolean  "short_form_of_judicial_police",         default: false
   end
 
   add_index "clients", ["commune_id"], name: "index_clients_on_commune_id", using: :btree

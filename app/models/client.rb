@@ -26,6 +26,7 @@ class Client < ActiveRecord::Base
   mount_uploaders :warrant_files, FileUploader
   mount_uploaders :verdict_files, FileUploader
   mount_uploaders :short_form_of_ocdm_files, FileUploader
+  mount_uploaders :screening_interview_form_files, FileUploader
   mount_uploaders :short_form_of_mosavy_dosavy_files, FileUploader
   mount_uploaders :detail_form_of_mosavy_dosavy_files, FileUploader
   mount_uploaders :short_form_of_judicial_police_files, FileUploader
