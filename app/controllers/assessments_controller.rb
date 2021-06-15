@@ -1,6 +1,7 @@
 class AssessmentsController < AdminController
   include ApplicationHelper
   include CreateBulkTask
+  include AssessmentHelper
 
   before_action :find_client, :list_all_case_conferences
   before_action :find_assessment, only: [:edit, :update, :show, :destroy]
@@ -147,10 +148,6 @@ class AssessmentsController < AdminController
 
   def fetch_available_custom_domains
     @custom_domains = Domain.custom_csi_domains
-  end
-
-  def find_custom_assessment_setting
-    CustomAssessmentSetting.find_by(custom_assessment_name: params[:custom_name])
   end
 
   def list_all_case_conferences

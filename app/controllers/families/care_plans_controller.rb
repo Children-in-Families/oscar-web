@@ -3,7 +3,7 @@ module Families
     include CreateNestedValue
     load_and_authorize_resource
 
-    before_action :set_family, :get_all_assessments
+    before_action :set_family, :find_all_assessments
     before_action :set_care_plan, :find_assessment, only: [:edit, :update]
 
     def index
@@ -79,7 +79,7 @@ module Families
       @family = Family.accessible_by(current_ability).find(params[:family_id])
     end
 
-    def get_all_assessments
+    def find_all_assessments
       @assessments = @family.assessments.completed
     end
 

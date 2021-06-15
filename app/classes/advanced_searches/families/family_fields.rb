@@ -16,7 +16,7 @@ module AdvancedSearches
         text_fields           = text_type_list.map { |item| AdvancedSearches::FilterTypes.text_options(item, family_header(item), group) }
         date_picker_fields    = date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, family_header(item), group) }
         drop_list_fields      = drop_down_type_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, family_header(item.first), item.last, group) }
-
+        date_picker_fields    += mapping_care_plan_date_lable_translation
         search_fields = text_fields + drop_list_fields + number_fields + date_picker_fields
         custom_domain_scores_options = !Setting.first.hide_family_case_management_tool? ? AdvancedSearches::CustomDomainScoreFields.render('family') : []
 

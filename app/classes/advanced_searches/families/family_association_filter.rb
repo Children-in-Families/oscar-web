@@ -1,6 +1,7 @@
 module AdvancedSearches
   module Families
     class FamilyAssociationFilter
+      include AdvancedSearchHelper
       include AssessmentHelper
       include FormBuilderHelper
 
@@ -32,6 +33,8 @@ module AdvancedSearches
           values = date_of_assessments_query(false)
         when 'active_families'
           values = get_active_families
+        when 'care_plan_completed_date'
+          values = date_query(Family, @families, :care_plans, 'care_plans.created_at')
         end
         { id: sql_string, values: values }
       end

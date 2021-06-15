@@ -1,6 +1,7 @@
 module AdvancedSearches
   class ClientAssociationFilter
     include ActionView::Helpers::DateHelper
+    include AdvancedSearchHelper
     include AssessmentHelper
     include FormBuilderHelper
     include ClientsHelper
@@ -1016,31 +1017,6 @@ module AdvancedSearches
         client_ids = clients.where('client_enrollments.enrollment_date IS NOT NULL').distinct.ids
       end
       clients = client_ids.present? ? client_ids : []
-    end
-
-    def date_query(klass_name, objects, association, field_name)
-      result_objects = objects.joins(association).distinct
-      case @operator
-      when 'equal'
-        results = result_objects.where("date(#{field_name}) = ?", @value.to_date)
-      when 'not_equal'
-        results = klass_name.includes(association).references(association).where("date(#{field_name}) != ? OR #{field} IS NULL", @value.to_date)
-      when 'less'
-        results = result_objects.where("date(#{field_name}) < ?", @value.to_date)
-      when 'less_or_equal'
-        results = result_objects.where("date(#{field_name}) <= ?", @value.to_date)
-      when 'greater'
-        results = result_objects.where("date(#{field_name}) > ?", @value.to_date)
-      when 'greater_or_equal'
-        results = result_objects.where("date(#{field_name}) >= ?", @value.to_date)
-      when 'between'
-        results = result_objects.where("date(#{field_name}) BETWEEN ? AND ? ", @value[0].to_date, @value[1].to_date)
-      when 'is_empty'
-        results = klass_name.includes(association).references(association).where("#{field_name} IS NULL")
-      when 'is_not_empty'
-        results = result_objects.where("#{field_name} IS NOT NULL")
-      end
-      results.ids
     end
   end
 end

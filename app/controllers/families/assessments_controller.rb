@@ -1,11 +1,11 @@
 module Families
   class AssessmentsController < ::AdminController
     include ApplicationHelper
+    include AssessmentHelper
 
     before_action :find_family
     before_action :find_assessment, only: [:edit, :update, :show, :destroy]
     before_action :authorize_client, only: [:new, :create]
-    before_action :authorize_assessment, only: [:show, :edit, :update]
     before_action :fetch_available_custom_domains, only: :index
 
     def index
@@ -19,9 +19,13 @@ module Families
       @prev_assessment = @family.assessments.last
       @assessment = @family.assessments.new(default: default?)
 
-      authorize @assessment if current_organization.try(:aht) == false
-
-      @assessment.populate_family_domains
+      @custom_assessment_setting = find_custom_assessment_setting
+      authorize @assessment, :new?, @custom_assessment_setting.id  if current_organization.try(:aht) == false
+      if @custom_assessment_setting.present? && !policy(@assessment).create?(@custom_assessment_setting.try(:id))
+        redirect_to family_assessments_path(@family), alert: "#{I18n.t('assessments.index.next_review')} of #{@custom_assessment_setting.custom_assessment_name}: #{date_format(@family.custom_next_assessment_date(nil, @custom_assessment_setting.id))}"
+      else
+        @assessment.populate_family_domains
+      end
     end
 
     def create
@@ -35,7 +39,8 @@ module Families
           render :new
         end
       else
-        authorize @assessment
+        css = find_custom_assessment_setting
+        authorize @assessment, :create?, css.try(:id)
         if @assessment.save
           redirect_to family_path(@family), notice: t('.successfully_created')
         else
@@ -94,10 +99,6 @@ module Families
 
     def authorize_client
       authorize @family, :create?
-    end
-
-    def authorize_assessment
-      authorize @assessment
     end
 
     def assessment_params

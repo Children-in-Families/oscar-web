@@ -55,7 +55,9 @@ module FamiliesHelper
     {
       date_of_custom_assessments: I18n.t('datagrid.columns.date_of_custom_assessments', assessment: I18n.t('families.show.assessment')),
       all_custom_csi_assessments: I18n.t('datagrid.columns.all_custom_csi_assessments', assessment: I18n.t('families.show.assessment')),
-      assessment_completed_date: I18n.t('datagrid.columns.assessment_completed_date', assessment: I18n.t('families.show.assessment'))
+      assessment_completed_date: I18n.t('datagrid.columns.assessment_completed_date', assessment: I18n.t('families.show.assessment')),
+      care_plan_completed_date: I18n.t('datagrid.columns.clients.care_plan_completed_date'),
+      care_plan_count: I18n.t('datagrid.columns.clients.care_plan_count')
     }
   end
 
@@ -72,6 +74,7 @@ module FamiliesHelper
   def map_family_field_labels
     {
       active_families:                          I18n.t('datagrid.columns.families.active_families'),
+      care_plan:                                I18n.t('advanced_search.fields.care_plan'),
       name:                                     I18n.t('datagrid.columns.families.name'),
       name_en:                                  I18n.t('datagrid.columns.families.name_en'),
       id:                                       I18n.t('datagrid.columns.families.id'),
@@ -123,7 +126,7 @@ module FamiliesHelper
     field_keys = %W(province province_id district district_id commune commune_id village)
     translations = {}
     field_keys.each do |key_translation|
-      translations[key_translation.to_sym] = FieldSetting.find_by(name: key_translation).try(:label) || I18n.t("datagrid.columns.clients.#{key_translation}")
+      translations[key_translation.to_sym] = FieldSetting.find_by(name: key_translation).try(:label) || I18n.t("datagrid.columns.families.#{key_translation}")
       translations["#{key_translation}_".to_sym] = FieldSetting.find_by(name: key_translation).try(:label) || I18n.t("datagrid.columns.families.#{key_translation}")
     end
     translations['village_id'.to_sym] = FieldSetting.find_by(name: 'village_id').try(:label) || I18n.t('datagrid.columns.families.village_id')

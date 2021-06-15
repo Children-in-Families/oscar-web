@@ -1035,7 +1035,7 @@ module ClientsHelper
   end
 
   def care_plan_counter
-    return unless controller_name == 'clients'
+    return unless controller_name == 'clients' || controller_name == 'families'
     count = @results.joins(:care_plans).distinct.count
     content_tag(:span, count, class: 'label label-info')
   end
