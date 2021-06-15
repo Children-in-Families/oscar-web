@@ -763,9 +763,9 @@ ActiveRecord::Schema.define(version: 20210615173912) do
     t.string   "detail_form_of_mosavy_dosavy_files",    default: [],                      array: true
     t.string   "short_form_of_judicial_police_option"
     t.string   "short_form_of_judicial_police_files",   default: [],                      array: true
-    t.boolean  "screening_interview_form",              default: false
     t.string   "detail_form_of_judicial_police_option"
     t.string   "detail_form_of_judicial_police_files",  default: [],                      array: true
+    t.boolean  "screening_interview_form",              default: false
     t.string   "screening_interview_form_option"
     t.string   "screening_interview_form_files",        default: [],                      array: true
     t.boolean  "ngo_partner",                           default: false
