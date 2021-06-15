@@ -4795,9 +4795,9 @@ my:
       new_internal_referral: New Internal Referral
       program_stream_ids: Referred To
       referral_date: Date of Internal Referral
-      referral_decision: REASON FOR REFERRAL AND RECOMMNEDATIONS
+      referral_decision: REFERRAL DECISION (to be approved by case management supervisor)
       referral_decision_note: "Action/intervention taken:"
-      referral_reason: REFERRAL DECISION (to be approved by case management supervisor)
+      referral_reason: REASON FOR REFERRAL AND RECOMMNEDATIONS
       referral_reason_note: "The referral source’s reason for referral:"
       user_id: Referred from
     create:
