@@ -267,6 +267,8 @@ module ClientAdvancedSearchesConcern
       :remove_short_form_of_judicial_police_files,
       :detail_form_of_judicial_police,
       :detail_form_of_judicial_police_option,
+      :letter_from_immigration_police,
+      :remove_letter_from_immigration_police_files,
       :remove_detail_form_of_judicial_police_files,
       {
         ngo_partner_files: [],
@@ -281,7 +283,8 @@ module ClientAdvancedSearchesConcern
         short_form_of_mosavy_dosavy_files: [],
         detail_form_of_mosavy_dosavy_files: [],
         short_form_of_judicial_police_files: [],
-        detail_form_of_judicial_police_files: []
+        detail_form_of_judicial_police_files: [],
+        letter_from_immigration_police_files: []
       }
     ]
   end
