@@ -1527,7 +1527,7 @@ en:
       exit: Exit
       forms: Forms
       programs_list: Programs List
-      report: Reports
+      report: Reports`
       tracking: Tracking
       view: View
     show:
@@ -1546,6 +1546,7 @@ en:
       indentification_doc: Identification Documents
       labor_trafficking_legal_doc_option: Labour Trafficking
       legal_processing_doc: Legal Proceeding Documents
+      letter_from_immigration_police: Letter from Immigration Police
       mosavy: MoSAVY
       msdhs: MSDHS
       ngo_partner: NGO Partner
