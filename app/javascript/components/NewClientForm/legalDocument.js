@@ -175,20 +175,20 @@ export default props => {
           </legend>
         }
         {
-          fieldsVisibility.police_interview == true &&
+          fieldsVisibility.letter_from_immigration_police == true &&
           <legend>
             <div className="row">
               <div className="col-xs-12 col-md-6 col-lg-3">
-                <Checkbox label={ t(translation, 'clients.form.police_interview') } checked={client.police_interview} onChange={onCheckBoxChange('client', 'police_interview')} />
+                <Checkbox label={ t(translation, 'clients.form.letter_from_immigration_police') } checked={client.letter_from_immigration_police} onChange={onCheckBoxChange('client', 'letter_from_immigration_police')} />
               </div>
               <div className="col-xs-12">
                 <FileUploadInput
                   label=""
-                  onChange={onAttachmentsChange('police_interview_files')}
-                  object={client.police_interview_files}
-                  onChangeCheckbox={onRemoveAttachments('remove_police_interview_files')}
-                  removeAttachmentcheckBoxValue={client.remove_police_interview_files}
-                  showFilePond={client.police_interview}
+                  onChange={onAttachmentsChange('letter_from_immigration_police_files')}
+                  object={client.letter_from_immigration_police_files}
+                  onChangeCheckbox={onRemoveAttachments('remove_letter_from_immigration_police_files')}
+                  removeAttachmentcheckBoxValue={client.remove_letter_from_immigration_police_files}
+                  showFilePond={client.letter_from_immigration_police}
                   T={T}
                 />
               </div>
@@ -233,10 +233,10 @@ export default props => {
               <div className="col-xs-12">
                 <FileUploadInput
                   label=""
-                  onChange={onAttachmentsChange('mosavy_files')}
-                  object={client.mosavy_files}
-                  onChangeCheckbox={onRemoveAttachments('remove_mosavy_files')}
-                  removeAttachmentcheckBoxValue={client.remove_mosavy_files}
+                  onChange={onAttachmentsChange('referral_doc_files')}
+                  object={client.referral_doc_files}
+                  onChangeCheckbox={onRemoveAttachments('remove_referral_doc_files')}
+                  removeAttachmentcheckBoxValue={client.remove_referral_doc_files}
                   showFilePond={client.mosavy}
                   T={T}
                 />
@@ -408,11 +408,11 @@ export default props => {
               <div className="col-xs-12">
                 <FileUploadInput
                   label=""
-                  onChange={onAttachmentsChange('screening_interview_form_files')}
-                  object={client.screening_interview_form_files}
-                  onChangeCheckbox={onRemoveAttachments('remove_screening_interview_form_files')}
-                  removeAttachmentcheckBoxValue={client.remove_screening_interview_form_files}
-                  showFilePond={client.screening_interview_form}
+                  onChange={onAttachmentsChange('police_interview_files')}
+                  object={client.police_interview_files}
+                  onChangeCheckbox={onRemoveAttachments('remove_police_interview_files')}
+                  removeAttachmentcheckBoxValue={client.remove_police_interview_files}
+                  showFilePond={client.police_interview}
                   T={T}
                 />
               </div>
