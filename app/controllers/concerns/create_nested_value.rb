@@ -10,12 +10,13 @@ module CreateNestedValue
 
     if goal_in_params.last[:tasks_attributes].present?
       goal_in_params.last[:tasks_attributes].each do |task|
+        previous_id = task.last[:id]
         domain_id = task.last[:domain_id]
         name = task.last[:name]
         expected_date =  task.last[:expected_date]
         relation =  task.last[:relation]
         goal_id = goal.id
-        task_attr = Task.new(domain_id: domain_id, name: name, expected_date: expected_date, relation: relation, goal_id: goal_id, client_id: @care_plan.client_id, user_id: current_user.id, family_id: @care_plan.family&.id).attributes
+        task_attr = Task.new(domain_id: domain_id, name: name, previous_id: previous_id, expected_date: expected_date, relation: relation, goal_id: goal_id, client_id: @care_plan.client_id, user_id: current_user.id, family_id: @care_plan.family&.id).attributes
         goal.tasks.create(task_attr)
       end
     end
@@ -38,12 +39,13 @@ module CreateNestedValue
       goal = @care_plan.goals.create(goal_attr)
 
       goal_in_params.last[:tasks_attributes].each do |task|
+        previous_id = task.last[:id]
         domain_id = task.last[:domain_id]
         name = task.last[:name]
         expected_date = task.last[:expected_date]
         relation = task.last[:relation]
         goal_id = goal.id
-        task_attr = Task.new(domain_id: domain_id, name: name, expected_date: expected_date, relation: relation, goal_id: goal_id, client_id: @care_plan.client_id, user_id: current_user.id, family_id: @care_plan.family&.id).attributes
+        task_attr = Task.new(domain_id: domain_id, previous_id: previous_id, name: name, expected_date: expected_date, relation: relation, goal_id: goal_id, client_id: @care_plan.client_id, user_id: current_user.id, family_id: @care_plan.family&.id).attributes
         goal.tasks.create(task_attr)
       end
     else

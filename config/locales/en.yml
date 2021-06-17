@@ -945,6 +945,7 @@ en:
     case_conference_attr: &CASE_CONFERENCE_ATTR
       allow_file_size: Allowed file types
       are_you_sure: Are you sure you want to delete?
+      attachments: Attachments
       attendants: Attendants
       back: Back
       base_on: Base on Case Conference Number
@@ -952,6 +953,8 @@ en:
       case_conference: Case Conference
       meeting_date: Case Conference Date
       client_engagement: Client Engagement
+      client_limitation:  Client limitations
+      client_strength: Client Strengths
       client_support: Support and Barriers to client engagement
       created_by: Created By
       initial_case_conference: Initial Case Conference
@@ -1196,6 +1199,19 @@ en:
         failed_update: Failed to update the client.
         successfully_updated: Client has been successfully updated.
     exit_ngos:
+      attr_exit_reason: &EXIT_REASON_ATTR
+        exit_reason_options:
+          agency_lack_resource: Agency lacks sufficient resources
+          client_died: Client died
+          client_does_not_meet_service_criteria: Client does not meet / no longer meets service criteria
+          client_does_not_required_support: Client does not require / no longer requires support
+          client_missing: Client is missing
+          client_move_out_international: Client is/moved outside NGO target area (International)
+          client_move_out_within_cambodia: Client is/moved outside NGO target area (within Cambodia)
+          client_refuse_service: Client refused service
+          client_run_away: Client run away
+          client_transfer: Client transfer to another organization
+          other_reason: Other
       create:
         failed_create: Failed to update the client.
         successfully_created: Client has been successfully updated.
@@ -1206,15 +1222,7 @@ en:
         exit_date: Exit Date
         exit_ngo: Exit Client from NGO
         exit_note: Exit Note
-        exit_reason_options:
-          agency_lack_resource: Agency lacks sufficient resources
-          client_died: Client died
-          client_does_not_meet_service_criteria: Client does not meet / no longer meets service criteria
-          client_does_not_required_support: Client does not require / no longer requires support
-          client_move_out_international: Client is/moved outside NGO target area (International)
-          client_move_out_within_cambodia: Client is/moved outside NGO target area (within Cambodia)
-          client_refuse_service: Client refused service
-          other_reason: Other
+        <<: *EXIT_REASON_ATTR
         exit_reasons: Reason for Exit / Case Rejection
         exit_status: Status
         exiting: Exiting...
@@ -1228,15 +1236,7 @@ en:
         exit_date: Exit Date
         exit_ngo: Exit Client from NGO
         exit_note: Exit Note
-        exit_reason_options:
-          agency_lack_resource: Agency lacks sufficient resources
-          client_died: Client died
-          client_does_not_meet_service_criteria: Client does not meet / no longer meets service criteria
-          client_does_not_required_support: Client does not require / no longer requires support
-          client_move_out_international: Client is/moved outside NGO target area (International)
-          client_move_out_within_cambodia: Client is/moved outside NGO target area (within Cambodia)
-          client_refuse_service: Client refused service
-          other_reason: Other
+        <<: *EXIT_REASON_ATTR
         exit_reasons: Reason for Exit / Case Rejection
         exit_status: Status
         exiting: Exiting...
@@ -1524,7 +1524,7 @@ en:
       exit: Exit
       forms: Forms
       programs_list: Programs List
-      report: Reports
+      report: Reports`
       tracking: Tracking
       view: View
     show:
@@ -1534,7 +1534,30 @@ en:
     update:
       successfully_updated: Enrollment has been successfully updated.
   clients:
-    care_plan: Care plan
+    attr: &LEGAL_DOC_ATTR
+      complain: Complaint
+      detail_form_of_judicial_police: Detailed Form for Identification of Victim of Human Trafficking (Judicial Police)
+      detail_form_of_mosavy_dosavy: Detailed Form for Identification of Victim of Human Trafficking (MoSAVY/DoSAVY)
+      dosavy: DoSAVY
+      form_indentification: Forms for Identification of Victim of Human Trafficking
+      indentification_doc: Identification Documents
+      labor_trafficking_legal_doc_option: Labour Trafficking
+      legal_processing_doc: Legal Proceeding Documents
+      letter_from_immigration_police: Letter from Immigration Police
+      mosavy: MoSAVY
+      msdhs: MSDHS
+      ngo_partner: NGO Partner
+      other_legal_doc_option: Other
+      referral_document: Referral Documents
+      screening_interview_form: Screening Interview Form
+      sex_trafficking_legal_doc_option: Sexual Trafficking
+      short_form_of_judicial_police: Short Interview Form for Identification of Victim of Human Trafficking (Judicial Police)
+      short_form_of_mosavy_dosavy: Short Interview Form for Identification of Victim of Human Trafficking (MoSAVY/DoSAVY)
+      short_form_of_ocdm: Short Interview Form for Identification of Victim of Human Trafficking (Officials of the Cambodian Diplomatic Mission)
+      temp_travel_doc: Temporary Travel Documents
+      travel_doc: Laissez-Passer
+      verdict: Verdict
+      warrant: Warran
     actions:
       are_you_sure: Are you sure you want to delete?
     address_forms:
@@ -1581,6 +1604,7 @@ en:
       export_to_xls: Export to XLS
     book:
       book: Client Book For
+    care_plan: Care plan
     case_history_detail:
       accepted_date: NGO Accept Date
       client: Client
@@ -1748,6 +1772,7 @@ en:
       reject_client: Reject Client
       rejected_note: Rejected Note
     form:
+      <<: *LEGAL_DOC_ATTR
       national_id_number: National ID Number
       passport_number: Passport Number
       neighbor_name: "Neighbor/Friend: Name"
@@ -4827,6 +4852,41 @@ en:
     update:
       successfully_updated: Government Report has been successfully updated.
   has_been_added_to_calendar: This event has already been added to calendar.
+  internal_referrals:
+    internal_referral_attr: &INTERNAL_REFERRAL_ATTR
+      are_you_sure: Are you sure you want to delete?
+      attachments: Attachments
+      client_id: Client ID
+      client_name: Client Name
+      client_representing_problem: CLIENT'S PRESENTING PROBLEMS
+      client_representing_problem_note: "What issues/needs does the client say he or she needs help addressing:"
+      emergency_note: "NOTE: EMERGENCY/CRISIS NEEDS"
+      new_internal_referral: New Internal Referral
+      program_stream_ids: Referred To
+      referral_date: Date of Internal Referral
+      referral_decision: REFERRAL DECISION (to be approved by case management supervisor)
+      referral_decision_note: "Action/intervention taken:"
+      referral_reason: REASON FOR REFERRAL AND RECOMMNEDATIONS
+      referral_reason_note: "The referral source’s reason for referral:"
+      user_id: Referred from
+    create:
+      successfully_created: Internal Referral has successfully been created.
+    destroy:
+      successfully_deleted: Attachment has been successfully deleted.
+      successfully_deleted: Internal Referral has been successfully deleted.
+    form:
+      <<: *INTERNAL_REFERRAL_ATTR
+      allow_file_size: Allowed file types
+      cancel: Cancel
+      exit_date: Exit Date
+      max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
+      save: Save
+    index:
+      <<: *INTERNAL_REFERRAL_ATTR
+    show:
+      <<: *INTERNAL_REFERRAL_ATTR
+    update:
+      successfully_updated: Internal Referral has successfully been updated.
   interventions:
     create:
       failed_create: Failed to create an intervention.
@@ -5399,6 +5459,7 @@ en:
       domain: Associated Domains
       name: Name
       service_confirm_question: Are you sure your program does this many things? If it does, keep choosing services, but if not, try to keep it simple!
+      users: Users
       type_of_service: Type of service
     program_rule:
       add_new_filter: Add New Filter
@@ -5890,33 +5951,38 @@ en:
       assessment_score_order: Assessment Score Order
       assessment_strictness: Assessment Strictness
       delete_incomplete_assessment: Delete incomplete assessment after certain period of time
+      previous_care_plan: Previous %{care_plan}
+      use_previous_care_plan: Use Previous %{care_plan}
     update:
       successfully_updated: Setting have been successfully updated.
   field_settings:
     update:
       successfully_updated: Setting have been successfully updated.
-  results: Results
   service_deliveries:
     _attr: &SERVICE_DELIVERY_ATTR
       add_new_service_delivery: Add New Service Delivery
       category: Category
+      done_by: Done by
       id: ID
       manage: Manage
-      service_deliveries: Service Deliveries
+      service_delivery: Service Deliveries
       service_provided: Service Provided
+      service_received: Service Received
+      task_completed_date: Task Completed Date
     create:
       successfully_created: Service has been successfully created.
     destroy:
       alert: Service cannot be deleted.
       successfully_deleted: Service has been successfully deleted.
     form:
-       <<: *SERVICE_DELIVERY_ATTR
+      <<: *SERVICE_DELIVERY_ATTR
     index:
       <<: *SERVICE_DELIVERY_ATTR
     new:
       <<: *SERVICE_DELIVERY_ATTR
     update:
       successfully_updated: Service has been successfully updated.
+  results: Results
   shared:
     x_lists_of: "%{x} lists of"
     new_x: "New %{x}"

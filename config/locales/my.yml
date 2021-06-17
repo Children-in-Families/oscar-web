@@ -945,6 +945,7 @@ my:
     case_conference_attr: &CASE_CONFERENCE_ATTR
       allow_file_size: Allowed file types
       are_you_sure: Are you sure you want to delete?
+      attachments: attachments
       attendants: Attendants
       back: Back
       base_on: Base on Case Conference Number
@@ -952,6 +953,8 @@ my:
       case_conference: Case Conference
       meeting_date: Case Conference Date
       client_engagement: Client Engagement
+      client_limitation:  Client limitations
+      client_strength: Client Strengths
       client_support: Support and Barriers to client engagement
       created_by: Created By
       initial_case_conference: Initial Case Conference
@@ -1197,6 +1200,19 @@ my:
         failed_update: အပ်ဒိတ်လုပ်မပေးနိုငျ
         successfully_updated: အမႈသည္ကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ထည့္သြင္းၿပီပါၿပီ
     exit_ngos:
+      attr_exit_reason: &EXIT_REASON_ATTR
+        exit_reason_options:
+          agency_lack_resource: Agency lacks sufficient resources
+          client_died: Client died
+          client_does_not_meet_service_criteria: Client does not meet / no longer meets service criteria
+          client_does_not_required_support: Client does not require / no longer requires support
+          client_missing: Client Missing
+          client_move_out_international: Client is/moved outside NGO target area (International)
+          client_move_out_within_cambodia: Client is/moved outside NGO target area (within Cambodia)
+          client_refuse_service: Client refused service
+          client_run_away: Client Run away
+          client_transfer: Transfer to another organization
+          other_reason: Other
       create:
         failed_create: အပ်ဒိတ်လုပ်မပေးနိုငျ
         successfully_created: အမႈသည္ကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ထည့္သြင္းၿပီပါၿပီ
@@ -1207,15 +1223,7 @@ my:
         exit_date: ထြက္သည့္ရက္စြဲ
         exit_ngo: NGOမွ ထြက္ရန္
         exit_note: ထြက္သည့္မွတ္စု
-        exit_reason_options:
-          agency_lack_resource: Agency lacks sufficient resources
-          client_died: Client died
-          client_does_not_meet_service_criteria: Client does not meet / no longer meets service criteria
-          client_does_not_required_support: Client does not require / no longer requires support
-          client_move_out_international: Client is/moved outside NGO target area (International)
-          client_move_out_within_cambodia: Client is/moved outside NGO target area (within Cambodia)
-          client_refuse_service: Client refused service
-          other_reason: Other
+        <<: *EXIT_REASON_ATTR
         exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
         exit_status: အေနအထား
         exiting: မထွက်...
@@ -1229,15 +1237,7 @@ my:
         exit_date: ထြက္သည့္ရက္စြဲ
         exit_ngo: NGOမွ ထြက္ရန္
         exit_note: ထြက္သည့္မွတ္စု
-        exit_reason_options:
-          agency_lack_resource: Agency lacks sufficient resources
-          client_died: Client died
-          client_does_not_meet_service_criteria: Client does not meet / no longer meets service criteria
-          client_does_not_required_support: Client does not require / no longer requires support
-          client_move_out_international: Client is/moved outside NGO target area (International)
-          client_move_out_within_cambodia: Client is/moved outside NGO target area (within Cambodia)
-          client_refuse_service: Client refused service
-          other_reason: Other
+        <<: *EXIT_REASON_ATTR
         exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
         exit_status: အေနအထား
         exiting: မထွက်...
@@ -1529,6 +1529,30 @@ my:
     update:
       successfully_updated: စာရင္းေပးသြင္းျခင္းကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ၿပီးပါၿပီ
   clients:
+    attr: &LEGAL_DOC_ATTR
+      complain: Complaint
+      detail_form_of_judicial_police: Detailed Form for Identification of Victim of Human Trafficking (Judicial Police)
+      detail_form_of_mosavy_dosavy: Detailed Form for Identification of Victim of Human Trafficking (MoSAVY/DoSAVY)
+      dosavy: DoSAVY
+      form_indentification: Forms for Identification of Victim of Human Trafficking
+      indentification_doc: Identification Documents
+      labor_trafficking_legal_doc_option: Labour Trafficking
+      legal_processing_doc: Legal Proceeding Documents
+      letter_from_immigration_police: Letter from Immigration Police
+      mosavy: MoSAVY
+      msdhs: MSDHS
+      ngo_partner: NGO Partner
+      other_legal_doc_option: Other
+      referral_document: Referral Documents
+      screening_interview_form: Screening Interview Form
+      sex_trafficking_legal_doc_option: Sexual Trafficking
+      short_form_of_judicial_police: Short Interview Form for Identification of Victim of Human Trafficking (Judicial Police)
+      short_form_of_mosavy_dosavy: Short Interview Form for Identification of Victim of Human Trafficking (MoSAVY/DoSAVY)
+      short_form_of_ocdm: Short Interview Form for Identification of Victim of Human Trafficking (Officials of the Cambodian Diplomatic Mission)
+      temp_travel_doc: Temporary Travel Documents
+      travel_doc: Laissez-Passer
+      verdict: Verdict
+      warrant: Warran
     actions:
       are_you_sure: ဖ်က္လုိသည္မွာ ေသခ်ာပါသလား
     address_forms:
@@ -1735,6 +1759,7 @@ my:
       reject_client: client ကိုငြင်းပယ်
       rejected_note: ျငင္းပယ္သည့္ မွတ္စု
     form:
+      <<: *LEGAL_DOC_ATTR
       national_id_number: National ID Number
       passport_number: Passport Number
       national_id_number: National ID Number
@@ -4759,6 +4784,41 @@ my:
     update:
       successfully_updated: အစိုးရအစီရင္ခံစာကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ၿပီးပါၿပီ
   has_been_added_to_calendar: ဤပြဲကို ျပကၡဒိန္တြင္ ထည့္ၿပီးပါၿပီ
+  internal_referrals:
+    internal_referral_attr: &INTERNAL_REFERRAL_ATTR
+      are_you_sure: Are you sure you want to delete?
+      attachments: Attachments
+      client_id: Client ID
+      client_name: Client Name
+      client_representing_problem: CLIENT'S PRESENTING PROBLEMS
+      client_representing_problem_note: "What issues/needs does the client say he or she needs help addressing:"
+      emergency_note: "NOTE: EMERGENCY/CRISIS NEEDS"
+      new_internal_referral: New Internal Referral
+      program_stream_ids: Referred To
+      referral_date: Date of Internal Referral
+      referral_decision: REFERRAL DECISION (to be approved by case management supervisor)
+      referral_decision_note: "Action/intervention taken:"
+      referral_reason: REASON FOR REFERRAL AND RECOMMNEDATIONS
+      referral_reason_note: "The referral source’s reason for referral:"
+      user_id: Referred from
+    create:
+      successfully_created: Internal Referral has successfully been created.
+    destroy:
+      successfully_deleted: Attachment has been successfully deleted.
+      successfully_deleted: Internal Referral has been successfully deleted.
+    form:
+      <<: *INTERNAL_REFERRAL_ATTR
+      allow_file_size: Allowed file types
+      cancel: Cancel
+      exit_date: Exit Date
+      max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
+      save: Save
+    index:
+      <<: *INTERNAL_REFERRAL_ATTR
+    show:
+      <<: *INTERNAL_REFERRAL_ATTR
+    update:
+      successfully_updated: Internal Referral has successfully been updated.
   interventions:
     create:
       failed_create: ၾကားျဖတ္အစိအမံကို ျပဳလုပ္ျခင္း မေအာင္ျမင္ပါ။
@@ -5348,6 +5408,7 @@ my:
       domain: ဒိုမိန္း
       name: နာမည္
       service_confirm_question: သင့်ရဲ့ program ကိုဒီအရာများစွာကိုမသင်သေချာပါသလား? ကန်ဆောင်မှုများရွေးချယ်ရာတွင်စောင့်ရှောက်ပေမယ့်လျှင်မပါဘူးဆိုရင်, ရိုးရှင်းသောစောင့်ရှောက်ဖို့ကြိုးစား!
+      users: Users
       type_of_service: ဝန်ဆောင်မှုအမျိုးအစား
     program_rule:
       add_new_filter: စိစစ္မႈအသစ္ထည့္ရန္
@@ -5843,33 +5904,38 @@ my:
       assessment_score_order: Assessment Score Order
       assessment_strictness: Assessment Strictness
       delete_incomplete_assessment: Delete incomplete assessment after certain period of time
+      previous_care_plan: Previous %{care_plan}
+      use_previous_care_plan: Use Previous %{care_plan}
     update:
       successfully_updated: အောင်မြင်စွာဖြည့်ပါ
   field_settings:
     update:
       successfully_updated: အောင်မြင်စွာဖြည့်ပါ
-  results: Results
   service_deliveries:
     _attr: &SERVICE_DELIVERY_ATTR
       add_new_service_delivery: Add New Service Delivery
       category: Category
+      done_by: Done by
       id: ID
       manage: Manage
-      service_deliveries: Service Deliveries
+      service_delivery: Service Deliveries
       service_provided: Service Provided
+      service_received: Service Received
+      task_completed_date: Task Completed Date
     create:
       successfully_created: Service has been successfully created.
     destroy:
       alert: Service cannot be deleted.
       successfully_deleted: Service has been successfully deleted.
     form:
-       <<: *SERVICE_DELIVERY_ATTR
+      <<: *SERVICE_DELIVERY_ATTR
     index:
       <<: *SERVICE_DELIVERY_ATTR
     new:
       <<: *SERVICE_DELIVERY_ATTR
     update:
       successfully_updated: Service has been successfully updated.
+  results: Results
   shared:
     x_lists_of: "%{x}စာရင်း"
     new_x: "အသစ်%{x}"

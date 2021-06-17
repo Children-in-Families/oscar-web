@@ -907,7 +907,14 @@ module ClientsHelper
     end
 
     query_array = mapping_query_string_with_query_value(sql_hash, @data[:condition])
-    sql_string = object.where(query_array).where(sub_query_array)
+
+    if rule == 'date_of_assessments'
+      sql_string = object.where(query_array).where(default: true).where(sub_query_array)
+    elsif rule == 'date_of_custom_assessments'
+      sql_string = object.where(query_array).where(default: false).where(sub_query_array)
+    else
+      sql_string = object.where(query_array).where(sub_query_array)
+    end
 
     sql_string.present? && sql_hash[:sql_string].present? ? sql_string : []
   end
@@ -967,15 +974,15 @@ module ClientsHelper
               data_filter = date_filter(client.assessments.defaults, "#{class_name}")
             else
               data_filter = date_filter(client.assessments.defaults, "#{class_name}")
-              count += data_filter.flatten.count if data_filter
             end
-            count += data_filter ? data_filter.count : assessment_count
+
+            count += data_filter.present? ? data_filter.flatten.count : 0
           elsif class_name[/^(date_of_custom_assessments)/i].present?
             if params['all_values'] == class_name
               data_filter = date_filter(client.assessments.customs, "#{class_name}")
             else
               data_filter = date_filter(client.assessments.customs, "#{class_name}")
-              count += data_filter.flatten.count if data_filter
+              count += data_filter.flatten.count if data_filter.present?
             end
           elsif class_name[/^(formbuilder)/i].present?
             if fields.last == 'Has This Form'

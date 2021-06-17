@@ -10,7 +10,8 @@
             -# = f.input_field :enable_custom_assessment, class: 'i-checks', as: :boolean
             -# %label= t('.custom_assessment')
         .ibox-content
-          = render 'case_conference', f: f
+          - if Organization.ratanak?
+            = render 'case_conference', f: f
           = render 'assessment_setting', f: f
           = render 'case_note', f: f
           = render 'settings', f: f

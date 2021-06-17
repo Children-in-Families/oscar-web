@@ -1,0 +1,11 @@
+%h3= "Dear #{@user_name},"
+%p There is a new client referral for your review and action.
+%ul
+  %li= "Client Name: #{@client.name}"
+  %li= "Client ID: #{@client.slug}"
+  %li= "Referred from: #{@user.name}"
+  %li= "Referred to: #{@program_stream.try(:name)}"
+= link_to 'Check the client on OSCaR', client_url(@client, subdomain: 'ratanak', country: 'cambodia', locale: 'en'), target: :_blank
+
+%p
+%p Thanks,

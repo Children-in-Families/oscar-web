@@ -58,11 +58,12 @@ module ClientGridOptions
     else
       @client_grid.column(:exit_reasons, header: I18n.t('datagrid.columns.clients.exit_reasons')) do |client|
         if client.exit_ngos.any?
-          reasons = []
-          client.exit_ngos.most_recents.pluck(:exit_reasons).select(&:present?).each do |reason|
-            reasons << reason.join(', ')
+          reasons = [ExitNgo::EXIT_REASONS.sort, I18n.t('client.exit_ngos.form.exit_reason_options').values].transpose.to_h
+          results = ''
+          client.exit_ngos.most_recents.each do |exit_ngo|
+            results = exit_ngo.exit_reasons.map{ |reason| reasons[reason] }.join(', ') if exit_ngo.exit_reasons.present?
           end
-          reasons.join(', ')
+          results
         end
       end
     end

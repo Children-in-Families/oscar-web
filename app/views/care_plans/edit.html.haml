@@ -6,5 +6,7 @@
       %li= I18n.t('inline_help.assessments.notes.lists.list1').html_safe
 
 .row
-  = render 'form'
-
+  - if current_setting.disable_required_fields?
+    = render 'unrestricted_form', care_plan: @care_plan, readonly: false
+  - else
+    = render 'form'
