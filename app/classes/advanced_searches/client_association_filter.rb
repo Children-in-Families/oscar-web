@@ -332,11 +332,7 @@ module AdvancedSearches
     end
 
     def date_of_assessments_query(type)
-      if type
-        clients = @clients.joins(:assessments)
-      else
-        clients = @clients.joins(:assessments).where(assessments: { default: type })
-      end
+      clients = @clients.joins(:assessments).where(assessments: { default: type })
       case @operator
       when 'equal'
         clients = clients.where('date(assessments.created_at) = ?', @value.to_date)
@@ -353,19 +349,15 @@ module AdvancedSearches
       when 'between'
         clients = clients.where('date(assessments.created_at) BETWEEN ? AND ? ', @value[0].to_date, @value[1].to_date)
       when 'is_empty'
-        clients = Client.includes(:assessments).where(assessments: { created_at: nil })
+        clients = Client.includes(:assessments).where(assessments: { created_at: nil , default: type})
       when 'is_not_empty'
-        clients = clients.where.not(assessments: { created_at: nil })
+        clients = clients.where(assessments: { default: type }).where.not(assessments: { created_at: nil })
       end
       clients.ids
     end
 
     def date_of_completed_assessments_query(type)
-      if type.nil?
-        clients = @clients.joins(:assessments).where(assessments: { completed: true })
-      else
-        clients = @clients.joins(:assessments).where(assessments: { completed: true, default: type })
-      end
+      clients = @clients.joins(:assessments).where(assessments: { completed: true, default: type })
       case @operator
       when 'equal'
         clients = clients.where('date(assessments.created_at) = ?', @value.to_date)
@@ -382,9 +374,9 @@ module AdvancedSearches
       when 'between'
         clients = clients.where('date(assessments.created_at) BETWEEN ? AND ? ', @value[0].to_date, @value[1].to_date)
       when 'is_empty'
-        clients = Client.includes(:assessments).where(assessments: { completed: true, created_at: nil })
+        clients = Client.includes(:assessments).where(assessments: { completed: true, created_at: nil, default: type })
       when 'is_not_empty'
-        clients = clients.where.not(assessments: { created_at: nil })
+        clients = clients.where(assessments: { default: type }).where.not(assessments: { created_at: nil })
       end
       clients.ids
     end
