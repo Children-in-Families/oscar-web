@@ -9,16 +9,26 @@ CIF.Custom_field_propertiesNew = CIF.Custom_field_propertiesCreate = CIF.Custom_
     _initICheckBox()
 
   _initICheckBox = ->
-    $('.i-checks').iCheck
+    $('.i-checks').iCheck(
       checkboxClass: 'icheckbox_square-green'
       radioClass: 'iradio_square-green'
+    ).on('ifChecked', (e) ->
+      self = @
+      setTimeout(->
+        if confirm('Clear selection/លុបចោលការជ្រើសរើស?')
+          $(self).closest('.radio_buttons').iCheck('uncheck');
+        else
+          return
+      , 0)
+    )
 
   _toggleCheckingRadioButton = ->
     $('input[type="radio"]').on 'ifChecked', (e) ->
       $(@).parents('span.radio').siblings('.radio').find('.iradio_square-green').removeClass('checked')
 
   _initSelect2 = ->
-    $('select').select2()
+    $('select').select2
+      allowClear: true
 
   _initUploader = ->
     $(".file").fileinput
