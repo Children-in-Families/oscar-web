@@ -554,21 +554,29 @@
             %table.table.table-bordered.table-hover#case-history-table
               %thead
                 %tr
-                  %th(colspan="4")
+                  %th(colspan="5")
                     = t('clients.form.legal_documents')
               %tbody
-                - %w(national_id birth_cert family_book passport travel_doc referral_doc local_consent police_interview other_legal_doc).each do |field|
-                  - attachments = @client.send("#{field}_files")
+                - legal_doc_options_hash = { "Labour Trafficking" => 'labor_trafficking_legal_doc_option', "Sexual Trafficking" => 'sex_trafficking_legal_doc_option', 'Other' => 'other_legal_doc_option' }
+                - %w(national_id passport birth_cert family_book travel_doc letter_from_immigration_police ngo_partner mosavy dosavy msdhs complain local_consent warrant verdict screening_interview_form short_form_of_ocdm short_form_of_mosavy_dosavy detail_form_of_mosavy_dosavy short_form_of_judicial_police police_interview other_legal_doc).each do |field|
+                  - if field == 'dosavy'
+                    - attachments = @client.send("referral_doc_files")
+                  - else
+                    - attachments = @client.send("#{field}_files")
 
                   - if policy(Client).show?(field.to_sym)
                     - if @client.send(field.to_sym)
                       %tr
                         %td(rowspan="#{ attachments.size + 1 }")
-                          %strong= t("clients.form.#{field}")
+                          - if field == 'police_interview'
+                            %strong= t("clients.form.detail_form_of_judicial_police")
+                          - else
+                            %strong= t("clients.form.#{field}")
                         %td(rowspan="#{ attachments.size + 1 }")
                           %strong
                             %span YES
-
+                        %td(rowspan="#{ attachments.size + 1 }")
+                          = t("clients.form.#{legal_doc_options_hash[@client.try("#{field}_option".to_sym)]}") if @client.try("#{field}_option".to_sym)
                         - if attachments.size == 0
                           %td(colspan="2") No attachment
 
@@ -584,6 +592,7 @@
                           %strong= t("clients.form.#{field}")
                         %td
                           %strong NO
+                        %td
                         %td(colspan="2")
 
         - if @case_histories.any?
