@@ -606,7 +606,7 @@ class Client < ActiveRecord::Base
       Organization.switch_to org.short_name
 
       setting = Setting.first_or_initialize
-      next if setting.disable_required_fields?
+      next if setting.disable_required_fields? || setting.never_delete_incomplete_assessment?
 
       if Setting.first.enable_default_assessment
         clients = joins(:assessments).where(assessments: { completed: false, default: true })
