@@ -3,7 +3,7 @@ class UserReminder
   end
 
   def remind
-    Organization.all.each do |org|
+    Organization.without_shared.each do |org|
       Organization.switch_to org.short_name
       remind_case_worker_with_forms(org)
       remind_case_workers(org)
