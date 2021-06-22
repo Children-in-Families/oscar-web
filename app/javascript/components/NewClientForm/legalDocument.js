@@ -408,10 +408,10 @@ export default props => {
               <div className="col-xs-12">
                 <FileUploadInput
                   label=""
-                  onChange={onAttachmentsChange('police_interview_files')}
-                  object={client.police_interview_files}
-                  onChangeCheckbox={onRemoveAttachments('remove_police_interview_files')}
-                  removeAttachmentcheckBoxValue={client.remove_police_interview_files}
+                  onChange={onAttachmentsChange('screening_interview_form_files')}
+                  object={client.screening_interview_form_files}
+                  onChangeCheckbox={onRemoveAttachments('remove_screening_interview_form_files')}
+                  removeAttachmentcheckBoxValue={client.remove_screening_interview_form_files}
                   showFilePond={client.police_interview}
                   T={T}
                 />
