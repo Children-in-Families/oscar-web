@@ -15,4 +15,4 @@
     = f.error :expected_date
 
   = f.submit t('.save'), class: 'btn btn-primary form-btn', data: { disable_with: t('saving') }
-  = link_to t('.back'), client_tasks_path(@task.client), class: 'btn btn-default form-btn'
+  = link_to t('.back'), client_tasks_path(@task.client), class: 'btn btn-default form-btn btn-back'
