@@ -573,7 +573,7 @@ class Client < ActiveRecord::Base
   end
 
   def self.notify_upcoming_csi_assessment
-    Organization.all.each do |org|
+    Organization.without_shared.each do |org|
       Organization.switch_to org.short_name
 
       next if !(Setting.first.enable_default_assessment) && !(Setting.first.enable_custom_assessment?)
@@ -603,7 +603,7 @@ class Client < ActiveRecord::Base
   end
 
   def self.notify_incomplete_daily_csi_assessment
-    Organization.all.each do |org|
+    Organization.without_shared.each do |org|
       Organization.switch_to org.short_name
 
       setting = Setting.first_or_initialize
@@ -641,10 +641,14 @@ class Client < ActiveRecord::Base
   end
 
   def assessment_notification_dates(setting)
-    recent_assessment_date = most_recent_csi_assessment
+    if setting.instance_of?(CustomAssessmentSetting)
+      recent_assessment_date = most_recent_custom_csi_assessment
+    else
+      recent_assessment_date = most_recent_csi_assessment
+    end
 
     unless setting.instance_of?(Setting)
-      recent_assessment_date = assessments.customs.most_recents.joins(:domains).where(custom_assessment_setting_id: setting.id).first.created_at.to_date
+      recent_assessment_date = assessments.customs.most_recents.joins(:domains).where(domains: { custom_assessment_setting_id: setting.id }).first.created_at.to_date
     end
 
     next_assessment_date = recent_assessment_date + setting.max_assessment_duration
