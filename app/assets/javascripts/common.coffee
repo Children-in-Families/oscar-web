@@ -10,6 +10,7 @@ CIF.Common =
     @checkValidationErrorExistOnSaving()
     @preventEditOnDatePicker()
     @confirmOnCancelBotton()
+    @iCheckClearOptionSelect()
 
   preventEditOnDatePicker: ->
     $('.date-picker').datepicker
@@ -142,3 +143,14 @@ CIF.Common =
           else
             $('.toast-close-button').closest('.toast').remove();
             return false
+
+  iCheckClearOptionSelect: ->
+    $(document).on('ifUnchecked', '.iradio_square-green input', (e) ->
+      self = @
+      setTimeout(->
+        if self.type == 'radio' && confirm('Clear selection/លុបចោលការជ្រើសរើស?')
+          $(self).closest('.radio_buttons.form-group').find('input').removeAttr('checked').iCheck('update');
+        else
+          return
+      , 0)
+    )
