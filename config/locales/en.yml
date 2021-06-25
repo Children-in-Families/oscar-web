@@ -1215,6 +1215,9 @@ en:
       create:
         failed_create: Failed to update the client.
         successfully_created: Client has been successfully updated.
+      destroy:
+        failed_to_delete: Exit NGO cannot be deleted.
+        successfully_deleted: Exit NGO has been successfully deleted.
       edit_form:
         case_worker_or_staff: Case Worker / Staff
         exit_btn: Exit
@@ -4335,8 +4338,11 @@ en:
         successfully_updated: Family has been successfully updated.
     exit_ngos:
       create:
-        failed_create: Failed to update the family.
-        successfully_created: Family has been successfully updated.
+        failed_create: Failed to update the exit NGO.
+        successfully_created: Exit NGO has been successfully updated.
+      destroy:
+        failed_to_delete: Exit NGO cannot be deleted.
+        successfully_deleted: Exit NGO has been successfully deleted.
       edit_form:
         case_worker_or_staff: Case Worker / Staff
         exit_btn: Exit

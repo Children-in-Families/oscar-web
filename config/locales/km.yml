@@ -1221,6 +1221,9 @@ km:
       create:
         failed_create: អតិថិជនមិនត្រូវបានកែសម្រួលដោយជោគជ័យ
         successfully_created: អតិថិជនត្រូវបានកែសម្រួលដោយជោគជ័យ
+      destroy:
+        alert: ចាកចេញពីអង្គការមិនអាចលុបបានទេ
+        successfully_deleted: ចាកចេញពីអង្គការត្រូវបានលុបដោយជោគជ័យ
       edit_form:
         case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
         exit_btn: ចាកចេញ
@@ -4301,8 +4304,11 @@ km:
         successfully_updated: គ្រួសារត្រូវបានកែសម្រួលដោយជោគជ័យ
     exit_ngos:
       create:
-        failed_create: គ្រួសារមិនត្រូវបានកែសម្រួលដោយជោគជ័យ
-        successfully_created: គ្រួសារត្រូវបានកែសម្រួលដោយជោគជ័យ
+        failed_create: ចាកចេញពីអង្គការមិនត្រូវបានកែសម្រួលដោយជោគជ័យ
+        successfully_created: ចាកចេញពីអង្គការត្រូវបានកែសម្រួលដោយជោគជ័យ
+      destroy:
+        alert: ចាកចេញពីអង្គការមិនអាចលុបបានទេ
+        successfully_deleted: ចាកចេញពីអង្គការត្រូវបានលុបដោយជោគជ័យ
       edit_form:
         case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
         exit_btn: ចាកចេញ

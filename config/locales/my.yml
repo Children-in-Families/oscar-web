@@ -1216,6 +1216,9 @@ my:
       create:
         failed_create: အပ်ဒိတ်လုပ်မပေးနိုငျ
         successfully_created: အမႈသည္ကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ထည့္သြင္းၿပီပါၿပီ
+      destroy:
+        alert: ចាកចេញពីអង្គការមិនអាចលុបបានទេ
+        successfully_deleted: ចាកចេញពីអង្គការត្រូវបានលុបដោយជោគជ័យ
       edit_form:
         case_worker_or_staff: အမႈျခင္းရာအတြက္ ေဆာင္ရြက္ေပးသူ/ ၀န္ထမ္း
         exit_btn: ထြက္ရန္
@@ -4270,6 +4273,9 @@ my:
       create:
         failed_create: အပ်ဒိတ်လုပ်မပေးနိုငျ
         successfully_created: အမႈသည္ကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ထည့္သြင္းၿပီပါၿပီ
+      destroy:
+        failed_to_delete: Exit NGO cannot be deleted.
+        successfully_deleted: Exit NGO has been successfully deleted.
       edit_form:
         case_worker_or_staff: အမႈျခင္းရာအတြက္ ေဆာင္ရြက္ေပးသူ/ ၀န္ထမ္း
         exit_btn: ထြက္ရန္
