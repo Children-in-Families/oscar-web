@@ -110,7 +110,7 @@ Rails.application.routes.draw do
     end
 
     scope module: 'client' do
-      resources :exit_ngos, only: [:create, :update]
+      resources :exit_ngos, only: [:create, :update, :destroy]
       resources :enter_ngos, only: [:create, :update]
     end
 
