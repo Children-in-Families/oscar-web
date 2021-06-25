@@ -62,4 +62,4 @@
           - if @referral.persisted?
             = link_to t('cancel'), client_referral_path(@client, @referral), class: 'btn btn-default form-btn'
           - else
-            = link_to t('cancel'), client_path(@client), class: 'btn btn-default form-btn'
+            = link_to t('cancel'), client_path(@client), class: 'btn btn-default form-btn btn-back'
