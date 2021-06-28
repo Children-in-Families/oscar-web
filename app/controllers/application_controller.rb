@@ -90,7 +90,8 @@ class ApplicationController < ActionController::Base
 
   def default_url_options(options = {})
     country = Setting.first.try(:country_name) || params[:country] || 'cambodia'
-    { locale: I18n.locale, country: country }.merge(options)
+    locale = current_user.preferred_language if user_signed_in?
+    { locale: locale || I18n.locale, country: country }.merge(options)
   end
 
   def after_sign_out_path_for(_resource_or_scope)
