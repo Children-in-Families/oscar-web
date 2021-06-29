@@ -23,16 +23,18 @@
   .col-xs-12
     .ibox-content#family-search-form.collapse
       = datagrid_form_for @family_grid, url: advanced_search_families_url, html: { class: 'grid-form' }, method: :post
-.row
-  .col-xs-12
-    .ibox.float-e-margins
-      .ibox-title
-        %h5= @results.size
-        %span.label.label-info= t('.results')
-      .ibox-content
-        .families-table
-          = datagrid_table @family_grid, html: { class: 'table table-bordered table-striped table-hover families'}
-      .ibox-footer.text-center
-        = paginate @family_grid.assets
+
+- if @results
+  .row
+    .col-xs-12
+      .ibox.float-e-margins
+        .ibox-title
+          %h5= @results.size
+          %span.label.label-info= t('.results')
+        .ibox-content
+          .families-table
+            = datagrid_table @family_grid, html: { class: 'table table-bordered table-striped table-hover families'}
+        .ibox-footer.text-center
+          = paginate @family_grid.assets
 
 = hidden_field(:hidden, :custom_csi_domain_scores, value: t('advanced_search.fields.custom_csi_domain_scores'))

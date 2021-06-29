@@ -18,14 +18,16 @@
   .col-xs-12
     .ibox-content#community-search-form.collapse
       = datagrid_form_for @community_grid, url: communities_url, html: { class: 'grid-form' }
-.row
-  .col-xs-12
-    .ibox.float-e-margins
-      .ibox-title
-        %h5= @results
-        %span.label.label-info= t('.results')
-      .ibox-content
-        .communities-table
-          = datagrid_table @community_grid, html: { class: 'table table-bordered table-striped table-hover communities'}
-      .ibox-footer.text-center
-        = paginate @community_grid.assets
+
+- if @results
+  .row
+    .col-xs-12
+      .ibox.float-e-margins
+        .ibox-title
+          %h5= @results
+          %span.label.label-info= t('.results')
+        .ibox-content
+          .communities-table
+            = datagrid_table @community_grid, html: { class: 'table table-bordered table-striped table-hover communities'}
+        .ibox-footer.text-center
+          = paginate @community_grid.assets
