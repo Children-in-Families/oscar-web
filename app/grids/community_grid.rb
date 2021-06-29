@@ -61,7 +61,7 @@ class CommunityGrid < BaseGrid
   end
 
   def gender_options
-    Community.gender.values.map{ |value| [I18n.t("activerecord.attributes.community.gender_list.#{value.gsub('other', 'other_gender')}"), value] }
+    Community.gender.values.map{ |value| [I18n.t("gender_list.#{value.gsub('other', 'other_gender')}"), value] }
   end
 
   column(:id, header: -> { I18n.t('activerecord.attributes.community.id') })

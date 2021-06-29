@@ -19,8 +19,10 @@ class CommunitiesController < AdminController
       columns_visibility
       respond_to do |f|
         f.html do
-          @results = @community_grid.assets.size
-          @community_grid.scope { |scope| scope.accessible_by(current_ability).page(params[:page]).per(20) }
+          if params[:community_grid].present?
+            @results = @community_grid.assets.size
+            @community_grid.scope { |scope| scope.accessible_by(current_ability).page(params[:page]).per(20) }
+          end
         end
         f.xls do
           form_builder_report
