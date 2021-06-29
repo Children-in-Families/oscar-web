@@ -1,6 +1,6 @@
 class ClientPolicy < ApplicationPolicy
   def create?
-    record.status != 'Exited' || user.admin?
+    record.status != 'Exited'
   end
 
   def show_legal_doc?
