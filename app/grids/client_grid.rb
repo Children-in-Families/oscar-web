@@ -348,9 +348,9 @@ class ClientGrid < BaseGrid
 
   filter(:exit_date, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.ngo_exit_date') })
 
-  filter(:no_case_note, :enum, select: %w(Yes No), header: -> { I18n.t('datagrid.form.no_case_note') }) do |value, scope|
+  filter(:no_case_note, :enum, select: %w(Yes No), header: -> { I18n.t('datagrid.form.no_case_note') }) do |value, scope, grid|
     if value == 'Yes'
-      scope.joins(:case_notes).where(case_notes: { id: case_note_overdue_ids })
+      scope.active_accepted_status.joins(:case_worker_clients).where(case_worker_clients: { user_id: grid.current_user.id }).joins(:case_notes).where(case_notes: { id: case_note_overdue_ids })
     end
   end
 
