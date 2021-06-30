@@ -116,7 +116,7 @@ CIF.Common =
       return
 
   confirmOnCancelBotton: ->
-    $(document).on 'click', 'a.btn.btn-default.form-btn, form button.btn.btn-default:not(".editable-cancel"), a#btn-cancel', (e)->
+    $(document).on 'click', 'a.btn.btn-default.form-btn:not(".btn-back"), form button.btn.btn-default:not(".editable-cancel"), a#btn-cancel', (e)->
       window.thisLink = $(@).attr('href')
       confirmText = $('#wrapper').data('confirm')
       textYes     = $('#wrapper').data('yes')
