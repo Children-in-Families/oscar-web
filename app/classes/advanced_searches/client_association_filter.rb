@@ -111,7 +111,7 @@ module AdvancedSearches
       when 'equal'
         clients = clients.where('date(referrals.date_of_referral) = ?', @value.to_date)
       when 'not_equal'
-        clients = Client.includes(:referrals).references(:referrals).where("date(referrals.date_of_referral) != ? OR referrals.date_of_referral IS NULL", @value.to_date)
+        clients = @clients.includes(:referrals).references(:referrals).where("date(referrals.date_of_referral) != ? OR referrals.date_of_referral IS NULL", @value.to_date)
       when 'less'
         clients = clients.where('date(referrals.date_of_referral) < ?', @value.to_date)
       when 'less_or_equal'
@@ -123,7 +123,7 @@ module AdvancedSearches
       when 'between'
         clients = clients.where('date(referrals.date_of_referral) BETWEEN ? AND ? ', @value[0].to_date, @value[1].to_date)
       when 'is_empty'
-        clients = Client.includes(:referrals).where(referrals: { date_of_referral: nil })
+        clients = @clients.includes(:referrals).where(referrals: { date_of_referral: nil })
       when 'is_not_empty'
         clients = clients.where.not(referrals: { date_of_referral: nil })
       end
@@ -233,7 +233,7 @@ module AdvancedSearches
         exit_ngos = exit_ngos.where.not('? = ANY(exit_reasons)', @value.squish)
       when 'is_empty'
         exit_ngos = exit_ngos.where("(exit_reasons = '{}')")
-        client_ids = Client.includes(:exit_ngos).where(exit_ngos: { id: [exit_ngos.ids, nil] }).distinct.ids
+        client_ids = @clients.includes(:exit_ngos).where(exit_ngos: { id: [exit_ngos.ids, nil] }).distinct.ids
         return client_ids
       when 'is_not_empty'
         exit_ngos = exit_ngos.where.not("(exit_reasons = '{}')")
@@ -250,7 +250,7 @@ module AdvancedSearches
       when 'not_equal'
         clients = clients.where.not(exit_ngos: { exit_circumstance: @value.squish })
       when 'is_empty'
-        clients = Client.includes(:exit_ngos).where(exit_ngos: { exit_circumstance: ['', nil] })
+        clients = @clients.includes(:exit_ngos).where(exit_ngos: { exit_circumstance: ['', nil] })
       when 'is_not_empty'
         clients = clients.where.not(exit_ngos: { exit_circumstance: '' })
       end
@@ -296,7 +296,7 @@ module AdvancedSearches
       when 'between'
         clients = clients.where(exit_ngos: { exit_date: @value[0]..@value[1] })
       when 'is_empty'
-        ids = Client.includes(:exit_ngos).where(exit_ngos: { exit_date: nil }).distinct.ids
+        ids = @clients.includes(:exit_ngos).where(exit_ngos: { exit_date: nil }).distinct.ids
         ids = ids << @clients.where.not(id: clients.ids).ids
         clients = @clients.where(id: ids.flatten.uniq)
       when 'is_not_empty'
@@ -323,7 +323,7 @@ module AdvancedSearches
       when 'between'
         clients = clients.where(enter_ngos: { accepted_date: @value[0]..@value[1] })
       when 'is_empty'
-        ids = Client.includes(:enter_ngos).where(enter_ngos: { accepted_date: nil }).distinct.ids
+        ids = @clients.includes(:enter_ngos).where(enter_ngos: { accepted_date: nil }).distinct.ids
         ids = ids << @clients.where.not(id: clients.distinct.ids).ids
         clients = @clients.where(id: ids.flatten.uniq)
       when 'is_not_empty'
@@ -350,7 +350,7 @@ module AdvancedSearches
       when 'between'
         clients = clients.where('date(assessments.created_at) BETWEEN ? AND ? ', @value[0].to_date, @value[1].to_date)
       when 'is_empty'
-        clients = Client.includes(:assessments).where(assessments: { created_at: nil , default: type})
+        clients = @clients.includes(:assessments).where(assessments: { created_at: nil , default: type})
       when 'is_not_empty'
         clients = clients.where(assessments: { default: type }).where.not(assessments: { created_at: nil })
       end
@@ -375,7 +375,7 @@ module AdvancedSearches
       when 'between'
         clients = clients.where('date(assessments.created_at) BETWEEN ? AND ? ', @value[0].to_date, @value[1].to_date)
       when 'is_empty'
-        clients = Client.includes(:assessments).where(assessments: { completed: true, created_at: nil, default: type })
+        clients = @clients.includes(:assessments).where(assessments: { completed: true, created_at: nil, default: type })
       when 'is_not_empty'
         clients = clients.where(assessments: { default: type }).where.not(assessments: { created_at: nil })
       end
@@ -523,9 +523,9 @@ module AdvancedSearches
       query_string  = get_query_string(results, 'active_program_stream', 'program_streams')
       case @operator
       when 'not_equal'
-        Client.includes(client_enrollments: :program_stream).where(query_string).references(:program_streams).distinct.ids
+        @clients.includes(client_enrollments: :program_stream).where(query_string).references(:program_streams).distinct.ids
       when 'is_empty'
-        Client.includes(client_enrollments: :program_stream).where(query_string).references(:program_streams).distinct.ids
+        @clients.includes(client_enrollments: :program_stream).where(query_string).references(:program_streams).distinct.ids
       when 'is_not_empty'
         clients.joins(client_enrollments: :program_stream).distinct.ids
       else
@@ -596,7 +596,7 @@ module AdvancedSearches
       when 'between'
         client_ids = clients.joins(:family_members).where(family_members: { family_id: values[0]..values[1] }).ids
       when 'is_empty'
-        client_ids = Client.includes(:family_members).references(:family_members).where("family_members.family_id IS NULL").ids
+        client_ids = @clients.includes(:family_members).references(:family_members).where("family_members.family_id IS NULL").ids
       when 'is_not_empty'
         client_ids = Client.joins(:family_members).where("family_members.family_id IS NOT NULL").ids
       end
@@ -615,9 +615,9 @@ module AdvancedSearches
       when 'not_contains'
         client_ids = @clients.joins(family_members: :family).where("lower(families.name) NOT iLike ? OR family_members.family_id IS NULL", "%#{@value.downcase}%").ids
       when 'is_empty'
-        client_ids = Client.includes(:family_members).references(:family_members).where("family_members.family_id IS NULL").ids
+        client_ids = @clients.includes(:family_members).references(:family_members).where("family_members.family_id IS NULL").ids
       when 'is_not_empty'
-        client_ids = Client.joins(:family_members).where("family_members.family_id IS NOT NULL").ids
+        client_ids = @clients.joins(:family_members).where("family_members.family_id IS NOT NULL").ids
       end
 
       clients = client_ids.present? ? client_ids : []
@@ -968,7 +968,7 @@ module AdvancedSearches
       query_string = get_any_query_string(results, klass_name)
       sql          = query_string.reject(&:blank?).map{|query| "(#{query})" }.join(" #{@basic_rules[:condition]} ")
 
-      client_ids = Client.includes(calls: klass_name.to_sym).where(sql).references(calls: klass_name.to_sym).distinct.ids
+      client_ids = @clients.includes(calls: klass_name.to_sym).where(sql).references(calls: klass_name.to_sym).distinct.ids
     end
 
     def active_client_between(start_date, end_date)
