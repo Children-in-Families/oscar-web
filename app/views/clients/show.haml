@@ -523,7 +523,13 @@
                     %td
                       %strong
                         = @client.public_send(field.to_sym)
-
+              - if @client.family
+                %tr
+                  %td.spacing-first-col= t('.families')
+                  %td
+                    %strong= @client.family.display_name
+                    = link_to family_path(@client.family) do
+                      = fa_icon 'external-link'
         - if @client.phone_counselling_summary.present?
           .row
             .col-xs-12
