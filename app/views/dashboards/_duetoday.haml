@@ -32,6 +32,7 @@
                 %td.col-xs-3= date_format(client_duetoday_default_assessment)
             - if @setting.enable_custom_assessment? && @assessment_params && client.user_ids.include?(@user.id)
               - custom_assessment_setting_ids = client_custom_assessment_setting(client)
+              - binding.pry
               - CustomAssessmentSetting.only_enable_custom_assessment.where(id: custom_assessment_setting_ids).each do |custom_assessment|
                 - next if !(duetoday_custom_assessments_any?(client, custom_assessment) && (client.eligible_default_csi? || client.eligible_custom_csi?(custom_assessment)))
                 %tr
