@@ -30,7 +30,7 @@ module CaseNoteHelper
   end
 
   def new_link(obj=@client)
-    if case_notes_editable? && policy(obj).create?
+    if case_notes_editable? && (policy(obj).create? || policy(CaseNote).create?)
       link_to new_polymorphic_path([obj, 'case_note'], custom: false) do
         @current_setting.default_assessment
       end

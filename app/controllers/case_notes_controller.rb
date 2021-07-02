@@ -142,6 +142,7 @@ class CaseNotesController < AdminController
   end
 
   def authorize_client
+    return true if current_user.admin?
     authorize @client, :create?
   end
 

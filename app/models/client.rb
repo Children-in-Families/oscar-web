@@ -312,6 +312,11 @@ class Client < ActiveRecord::Base
     status == 'Exited'
   end
 
+  def latest_exit_ngo
+    exit_ngos.most_recents.first
+  end
+
+
   def referred?
     status == 'Referred'
   end
