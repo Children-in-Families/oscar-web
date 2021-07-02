@@ -2,7 +2,9 @@
   .col-xs-12
     .ibox
       .ibox-title
-        %h5= "#{@client.en_and_local_name} - #{t('.enrollment_date')} #{date_format(@client_enrollment.enrollment_date)}"
+        %h5
+          %strong= link_to_client_show(@client)
+          = "- #{t('.enrollment_date')} #{date_format(@client_enrollment.enrollment_date)}"
         .ibox-tools
           - if can? :manage, ClientEnrollment
             = client_enrollment_edit_link

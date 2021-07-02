@@ -36,7 +36,7 @@ class ExitNgo < ActiveRecord::Base
   end
 
   def update_client_status
-    return if client.enter_ngos.blank?
+    return if client.enter_ngos.blank? && (client.client_enrollments.blank? || client.enter_ngos.blank?)
     client.update_column(:status, 'Accepted')
   end
 

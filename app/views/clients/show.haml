@@ -633,7 +633,7 @@
                           - if current_user.admin?
                             - if ['enter_ngos', 'exit_ngos'].include?(case_history_name)
                               %button.btn.btn-outline.btn-success.btn-xs.edit-case-history-ngo{ data: { class_name: case_history_name },'data-target' => "##{case_history_name}-#{case_history.id}", 'data-toggle' => 'modal' }= fa_icon('pencil')
-                            - if case_history_name == 'exit_ngos' && index == 0
+                            - if case_history_name == 'exit_ngos' && @client.latest_exit_ngo == case_history
                               = link_to client_exit_ngo_path(@client, case_history), class: 'btn btn-outline btn-danger btn-xs', method: 'delete', data: { confirm: t('.are_you_sure') } do
                                 = fa_icon 'trash'
                             = case_history_links(case_history, case_history_name)
