@@ -10,6 +10,8 @@ CIF.Internal_referralsNew = CIF.Internal_referralsCreate = CIF.Internal_referral
       useCurrent: false
       format: 'YYYY-MM-DD'
 
+    $('#referral_date').datepicker('setStartDate', $('#referral_date').data('date-start-date'));
+
   _initSelect2 = ->
     $('select').select2
       width: '100%'

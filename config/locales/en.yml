@@ -4861,6 +4861,8 @@ en:
       client_representing_problem: CLIENT'S PRESENTING PROBLEMS
       client_representing_problem_note: "What issues/needs does the client say he or she needs help addressing:"
       emergency_note: "NOTE: EMERGENCY/CRISIS NEEDS"
+      internal_referral: Internal Referral
+      internal_referral_edit_duration: Internal Referral Editable Duration
       new_internal_referral: New Internal Referral
       program_stream_ids: Referred To
       referral_date: Date of Internal Referral

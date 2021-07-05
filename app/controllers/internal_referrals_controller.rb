@@ -14,6 +14,7 @@ class InternalReferralsController < AdminController
   end
 
   def edit
+    authorize  @internal_referral, :edit?
   end
 
   def create
