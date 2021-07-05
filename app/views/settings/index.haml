@@ -12,6 +12,7 @@
         .ibox-content
           - if Organization.ratanak?
             = render 'case_conference', f: f
+            = render 'internal_referral', f: f
           = render 'assessment_setting', f: f
           = render 'case_note', f: f
           = render 'settings', f: f
