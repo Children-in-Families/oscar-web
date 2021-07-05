@@ -18,7 +18,7 @@ class FamilyMember < ActiveRecord::Base
 
   def self.update_client_relevant_data(family_member_id, org_name)
     Organization.switch_to(org_name)
-    find(family_member_id)&.save_client_data
+    find(family_member_id)&.save_client_data if exists?(family_member_id)
   end
 
   def is_client
