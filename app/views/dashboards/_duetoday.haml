@@ -11,7 +11,7 @@
       - client_duetoday_custom_assessment = client_custom_next_assessment_date(client, @user.activated_at)
       - next if skipped_duetoday_tasks?(today_tasks) && skipped_duetoday_forms?(today_forms, client) && skipped_duetoday_assessments?(client)
       - next if (client_duetoday_default_assessment.blank? && client_duetoday_custom_assessment.blank?) && today_tasks.blank? && today_forms[:today_forms].blank? && today_forms[:today_trackings].blank?
-      -# next if today_tasks.blank? && today_forms[:today_forms].blank?
+      - next if today_tasks.blank? && today_forms[:today_forms].blank? && ((client.assessments.defaults.count.zero? || client_duetoday_default_assessment != Date.today) && client.assessments.customs.count.zero?)
       .ibox.border-left-right.border-bottom
         .ibox-title
           %h5
@@ -30,7 +30,8 @@
                 %td.col-xs-3= @setting.default_assessment
                 %td.col-xs-6.task-name.border-left-right
                 %td.col-xs-3= date_format(client_duetoday_default_assessment)
-            - if @setting.enable_custom_assessment? && @assessment_params && client.user_ids.include?(@user.id)
+
+            - if (@setting.enable_custom_assessment? && @assessment_params && client.user_ids.include?(@user.id)) && !client.assessments.customs.count.zero?
               - custom_assessment_setting_ids = client_custom_assessment_setting(client)
               - CustomAssessmentSetting.only_enable_custom_assessment.where(id: custom_assessment_setting_ids).each do |custom_assessment|
                 - next if !(duetoday_custom_assessments_any?(client, custom_assessment) && (client.eligible_default_csi? || client.eligible_custom_csi?(custom_assessment)))
