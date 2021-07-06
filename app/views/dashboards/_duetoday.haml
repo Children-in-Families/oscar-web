@@ -10,8 +10,8 @@
       - client_duetoday_default_assessment = client.next_assessment_date(@user.activated_at)
       - client_duetoday_custom_assessment = client_custom_next_assessment_date(client, @user.activated_at)
       - next if skipped_duetoday_tasks?(today_tasks) && skipped_duetoday_forms?(today_forms, client) && skipped_duetoday_assessments?(client)
-      - next if client_duetoday_default_assessment.blank? && client_duetoday_custom_assessment.blank? && today_tasks.blank? && today_forms[:today_forms].blank? && today_forms[:today_trackings].blank?
-      - next if today_tasks.blank? && today_forms[:today_forms].blank?
+      - next if (client_duetoday_default_assessment.blank? && client_duetoday_custom_assessment.blank?) && today_tasks.blank? && today_forms[:today_forms].blank? && today_forms[:today_trackings].blank?
+      -# next if today_tasks.blank? && today_forms[:today_forms].blank?
       .ibox.border-left-right.border-bottom
         .ibox-title
           %h5
@@ -32,13 +32,19 @@
                 %td.col-xs-3= date_format(client_duetoday_default_assessment)
             - if @setting.enable_custom_assessment? && @assessment_params && client.user_ids.include?(@user.id)
               - custom_assessment_setting_ids = client_custom_assessment_setting(client)
-              - binding.pry
               - CustomAssessmentSetting.only_enable_custom_assessment.where(id: custom_assessment_setting_ids).each do |custom_assessment|
                 - next if !(duetoday_custom_assessments_any?(client, custom_assessment) && (client.eligible_default_csi? || client.eligible_custom_csi?(custom_assessment)))
                 %tr
                   %td.col-xs-3= custom_assessment.custom_assessment_name
                   %td.col-xs-6.task-name.border-left-right
                   %td.col-xs-3= date_format(client.custom_next_assessment_date(@user.activated_at, custom_assessment.id))
+              - CustomAssessmentSetting.only_enable_custom_assessment.where.not(id: custom_assessment_setting_ids).each do |custom_assessment_setting|
+                - next unless client.eligible_custom_csi?(custom_assessment_setting)
+                - client_overdue_custom_assessment = client.custom_next_assessment_date(@user.activated_at, custom_assessment_setting.id)
+                %tr
+                  %td.col-xs-3= custom_assessment_setting.custom_assessment_name
+                  %td.col-xs-6.task-name.border-left-right
+                  %td.col-xs-3= date_format(client_overdue_custom_assessment)
             - if @form_params
               - custom_field_index = 0
               - row_count = today_forms[:today_forms].size + today_forms[:today_trackings].size
