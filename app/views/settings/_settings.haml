@@ -16,9 +16,7 @@
 
 #care-plan-setting.panel.panel-default{ class: !f.object.disable_required_fields && 'hidden' }
   .panel-heading
-    %h3
-      Ratanak
-      = t('.previous_care_plan', care_plan: t('clients.care_plan'))
+    %h3= t('.previous_care_plan', care_plan: t('clients.care_plan'))
   .panel-body
     .row
     .i-checks.integration
