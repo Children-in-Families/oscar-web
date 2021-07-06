@@ -159,7 +159,7 @@ class User < ActiveRecord::Base
 
     if self.deactivated_at.nil?
       clients.active_accepted_status.each do |client|
-        # next if (!client.eligible_default_csi? && !client.assessments.customs.present?) || client.assessments.defaults.count.zero?
+        next if (!client.eligible_default_csi? && !client.assessments.customs.present?) || (client.assessments.defaults.count.zero? && client.assessments.customs.count.zero?)
 
         custom_assessment_setting_ids = client.assessments.customs.map{|ca| ca.domains.pluck(:custom_assessment_setting_id ) }.flatten.uniq
         if setting.enable_default_assessment? && setting.enable_custom_assessment?
@@ -169,21 +169,24 @@ class User < ActiveRecord::Base
           elsif client_next_asseement_date == Date.today
             due_today << client
           end
-          CustomAssessmentSetting.only_enable_custom_assessment.where(id: custom_assessment_setting_ids).each do |custom_assessment_setting|
-            client_custom_next_assessment_date = client.custom_next_assessment_date(nil, custom_assessment_setting.id)&.to_date
-            if  client_custom_next_assessment_date && client_custom_next_assessment_date < Date.today
-              customized_overdue << client
-            elsif  client_custom_next_assessment_date && client_custom_next_assessment_date == Date.today
-              customized_due_today << client
-            end
-          end
 
-          CustomAssessmentSetting.only_enable_custom_assessment.where.not(id: custom_assessment_setting_ids).each do |custom_assessment_setting|
-            client_custom_next_assessment_date = client.custom_next_assessment_date(nil, custom_assessment_setting.id)&.to_date
-            if client_custom_next_assessment_date.present? && client_custom_next_assessment_date.to_date < Date.today
-              customized_overdue << client
-            else
-              customized_due_today << client
+          if !client.assessments.customs.count.zero?
+            CustomAssessmentSetting.only_enable_custom_assessment.where(id: custom_assessment_setting_ids).each do |custom_assessment_setting|
+              client_custom_next_assessment_date = client.custom_next_assessment_date(nil, custom_assessment_setting.id)&.to_date
+              if  client_custom_next_assessment_date && client_custom_next_assessment_date < Date.today
+                customized_overdue << client
+              elsif client_custom_next_assessment_date && client_custom_next_assessment_date == Date.today
+                customized_due_today << client
+              end
+            end
+
+            CustomAssessmentSetting.only_enable_custom_assessment.where.not(id: custom_assessment_setting_ids).each do |custom_assessment_setting|
+              client_custom_next_assessment_date = client.custom_next_assessment_date(nil, custom_assessment_setting.id)&.to_date
+              if client_custom_next_assessment_date.present? && client_custom_next_assessment_date.to_date < Date.today
+                customized_overdue << client
+              elsif client_custom_next_assessment_date && client_custom_next_assessment_date == Date.today
+                customized_due_today << client
+              end
             end
           end
         elsif setting.enable_default_assessment?
@@ -193,7 +196,7 @@ class User < ActiveRecord::Base
           elsif client_next_asseement_date == Date.today
             due_today << client
           end
-        elsif setting.enable_custom_assessment?
+        elsif setting.enable_custom_assessment? && !client.assessments.customs.count.zero?
           CustomAssessmentSetting.only_enable_custom_assessment.where(id: custom_assessment_setting_ids).each do |custom_assessment_setting|
             client_custom_next_assessment_date = client.custom_next_assessment_date(nil, custom_assessment_setting.id).to_date
             if client_custom_next_assessment_date < Date.today
@@ -215,7 +218,7 @@ class User < ActiveRecord::Base
       end
     else
       clients.active_accepted_status.each do |client|
-        next if (!client.eligible_default_csi? && !client.assessments.customs.present?) || (client.assessments.defaults.count.zero? && client.assessments.custom.count.zero?)
+        next if (!client.eligible_default_csi? && !client.assessments.customs.present?) || (client.assessments.defaults.count.zero? && client.assessments.customs.count.zero?)
 
         custom_assessment_setting_ids = client.assessments.customs.map{|ca| ca.domains.pluck(:custom_assessment_setting_id ) }.flatten.uniq
         if setting.enable_default_assessment? && setting.enable_custom_assessment?
@@ -236,7 +239,7 @@ class User < ActiveRecord::Base
           end
         end
 
-        if setting.enable_custom_assessment?
+        if setting.enable_custom_assessment? && !client.assessments.customs.count.zero?
           CustomAssessmentSetting.only_enable_custom_assessment.where(id: custom_assessment_setting_ids).each do |custom_assessment_setting|
             client_custom_next_assessment_date = client.custom_next_assessment_date(self.activated_at, custom_assessment_setting.id)&.to_date
             if client_custom_next_assessment_date.present? && client_custom_next_assessment_date.to_date < Date.today
