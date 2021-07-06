@@ -62,6 +62,7 @@ class CaseNotesController < AdminController
   end
 
   def edit
+    authorize @case_note, :edit?
     unless current_user.admin? || current_user.strategic_overviewer?
       redirect_to root_path, alert: t('unauthorized.default') unless current_user.permission.case_notes_editable
     end
