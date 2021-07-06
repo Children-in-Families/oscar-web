@@ -111,6 +111,9 @@
                   - if policy(current_setting).integration?
                     %li{ class: settings_menu_active('settings', 'integration') }
                       = link_to t('.integration'), integration_settings_path
+                  - if Organization.ratanak?
+                    %li{ class: settings_menu_active('settings', 'custom_form')}
+                      = link_to t('.custom_form_limit'), custom_form_settings_path
 
             %li{ class: active_menu('agencies') }
               = link_to t('.agencies'), agencies_path

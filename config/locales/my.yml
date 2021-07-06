@@ -4982,6 +4982,7 @@ my:
       communities: Community/Group
       community: Community
       custom_fields: ပံုစံထုတ္စက္
+      custom_form_limit: Custom Form Limit
       custom_labels: Custom Labels
       dashboards: ဒက္ရွ္ဘုတ္မ်ား
       default_columns: ပုံမှန်ကော်လံများ

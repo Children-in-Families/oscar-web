@@ -5032,6 +5032,7 @@ en:
       communities: Community/Group
       community: Community
       custom_fields: Custom Form
+      custom_form_limit: Custom Form Limit
       custom_labels: Custom Labels
       dashboards: Dashboards
       default_columns: Default Columns
