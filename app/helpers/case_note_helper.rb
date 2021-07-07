@@ -198,4 +198,10 @@ module CaseNoteHelper
   def selected_domain_group(casenote_domai_group)
     @case_note.selected_domain_group_ids.compact.map(&:to_i).include?(casenote_domai_group.domain_group_id)
   end
+
+  def disabled_future_date_input
+    setting = @current_setting
+    setting.disabled_future_completion_date ? Date.today.strftime("%Y-%m-%d") : nil
+  end
+
 end
