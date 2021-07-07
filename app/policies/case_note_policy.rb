@@ -1,7 +1,7 @@
 class CaseNotePolicy < ApplicationPolicy
   def edit?
     if Organization.ratanak?
-      return true
+      return true if record.is_editable?
     else
       return true if user.admin?
     end
