@@ -17,7 +17,7 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
 
   _validateForm = (currentIndex) ->
     valid = true
-    for select in $("select.family-type.required, input.required")
+    for select in $("select.required, input.required")
       $(select).trigger("validate")
       if $(select).hasClass("error") || $(select).closest(".form-group").find(".select2-choice").hasClass("error")
         valid = false
