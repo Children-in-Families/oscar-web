@@ -15,7 +15,10 @@
                         .col-md-6
                           %h4.panel-title
                             %a{"aria-controls" => "collapse-#{group}", "aria-expanded" => "true", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapse-#{group}", :role => "button"}
-                              = group.titleize
+                              - if group == 'case_note'
+                                = t('settings.case_notes.case_note')
+                              - else
+                                = group.titleize
                         .col-md-6
                           - if group_setting = fields.find(&:group_setting?)
                             .text-right
