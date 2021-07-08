@@ -5934,6 +5934,7 @@ km:
       two_weeks_assessment_reminder: Send 2 notification at both 2 and 1 week prior to assessment
     case_notes:
       case_note: រយៈពេលអតិបរមារវាងកំណត់ត្រាករណីសម្រាប់អតិថិជន
+      case_note_edit_limit: កំណត់ការកែប្រែកំណត់ត្រាករណី
       disable_future_completion_date: បិទកាលបរិច្ឆេទសំរាប់កាតព្វកិច្ចក្នុងពេលអនាគត
       max_case_note: អតិបរមា
     client_forms:

@@ -5921,6 +5921,7 @@ my:
       two_weeks_assessment_reminder: Send 2 notification at both 2 and 1 week prior to assessment
     case_notes:
       case_note: ဖောက်သည်များအတွက်စံချိန်များအကြားကာလ၏အမြင့်ဆုံးနံပါတ်တစ်ခု
+      case_note_edit_limit: Case Note Edit Limitation
       disable_future_completion_date: Disable Future Completion Date for Task
       max_case_note: အများဆုံး
     client_forms:

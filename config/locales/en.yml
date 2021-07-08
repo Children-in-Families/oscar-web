@@ -897,6 +897,9 @@ en:
       care_plan_history: "%{care_plan} History"
       new_care_plan: "New %{care_plan}"
       review_care_plan: "Review %{care_plan}"
+    new:
+      current_care_plan: Current %{care_plan}
+      previous_care_plan: Previous %{care_plan}
     show:
       are_you_sure: Are you sure you want to delete?
       back: Back
@@ -5892,6 +5895,7 @@ en:
       two_weeks_assessment_reminder: Send 2 notification at both 2 and 1 week prior to assessment
     case_notes:
       case_note: Maximum time between case notes for client
+      case_note_edit_limit: Case Note Edit Limitation
       disable_future_completion_date: Disable Future Completion Date for Task
       max_case_note: Maximum
     client_forms:
