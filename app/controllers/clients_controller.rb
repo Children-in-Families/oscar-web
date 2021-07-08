@@ -20,6 +20,7 @@ class ClientsController < AdminController
   before_action :quantitative_type_editable, only: [:edit, :update, :new, :create]
   before_action :quantitative_type_readable
   before_action :validate_referral, only: [:new, :edit]
+  before_action :find_client_service_receive, only: [:service_receive, :new_service_receive]
 
   def index
     @client_default_columns = Setting.first.try(:client_default_columns)
@@ -201,15 +202,25 @@ class ClientsController < AdminController
   end
 
   def service_receive
-    @client = Client.accessible_by(current_ability).friendly.find(params[:client_id])
     @tasks = @client.tasks.joins(:service_deliveries).select('DISTINCT ON (tasks.id, service_deliveries.id) tasks.id, completion_date, service_deliveries.name, (SELECT name from service_deliveries as sd where sd.id = service_deliveries.parent_id) as category, tasks.completed_by_id')
   end
+
+  def new_service_receive
+    @task = @client.tasks.new
+
+  end
+
 
   private
 
   def find_client
     @client = Client.includes(custom_field_properties: [:custom_field], client_enrollments: [:program_stream]).accessible_by(current_ability).friendly.find(params[:id]).decorate
   end
+
+  def find_client_service_receive
+    @client = Client.accessible_by(current_ability).friendly.find(params[:client_id])
+  end
+
 
   def assign_client_attributes
     current_org = Organization.current
