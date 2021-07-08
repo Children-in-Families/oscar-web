@@ -8,9 +8,9 @@
         = "#{care_plan.client.name}"
         - if current_setting.show_prev_assessment? && @prev_care_plan.present?
           - if readonly
-            %span= " (Previous Care Plan)"
+            %span= t('care_plans.new.current_care_plan', care_plan: t('clients.care_plan') )
           - else
-            %span= " (Current Care Plan)"
+            %span= t('care_plans.new.previous_care_plan', care_plan: t('clients.care_plan'))
 
       .ibox-tools
         - unless readonly
