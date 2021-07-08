@@ -434,6 +434,7 @@ Rails.application.routes.draw do
       get 'custom_labels' => 'settings#custom_labels'
       get 'client_forms' => 'settings#client_forms'
       get 'integration' => 'settings#integration'
+      get 'custom_form' => 'settings#custom_form'
 
       get :family_case_management
       get :community

@@ -1,7 +1,7 @@
 class SettingsController < AdminController
   include CommunityHelper
 
-  before_action :find_setting, only: [:index, :default_columns, :research_module, :custom_labels, :client_forms, :integration, :family_case_management, :community]
+  before_action :find_setting, only: [:index, :default_columns, :research_module, :custom_labels, :client_forms, :integration, :family_case_management, :community, :custom_form]
   before_action :country_address_fields, only: [:edit, :update]
 
   def index
@@ -95,6 +95,11 @@ class SettingsController < AdminController
     end
   end
 
+  def custom_form
+    authorize @current_setting
+  end
+
+
   private
 
   def country_address_fields
@@ -115,6 +120,7 @@ class SettingsController < AdminController
                                     :enable_hotline, :enable_client_form, :assessment_score_order, :disable_required_fields,
                                     :hide_family_case_management_tool, :hide_community, :case_conference_limit, :case_conference_frequency,
                                     :internal_referral_limit, :internal_referral_frequency, :case_note_edit_limit, :case_note_edit_frequency, :disabled_future_completion_date,
+                                    :custom_field_limit, :custom_field_frequency,
                                     client_default_columns: [], family_default_columns: [], community_default_columns: [],
                                     partner_default_columns: [], user_default_columns: [],
                                     custom_assessment_settings_attributes: [:id, :custom_assessment_name, :max_custom_assessment, :custom_assessment_frequency, :custom_age, :enable_custom_assessment, :_destroy])

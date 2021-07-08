@@ -5075,6 +5075,7 @@ km:
       communities: Community/Group
       community: Community
       custom_fields: ទម្រង់បែបបទ
+      custom_form_limit: កំណាត់ទម្រង់បែបបទ
       custom_labels: Custom Labels
       dashboards: តារាងទិន្នន័យ
       default_columns: ជួរឈរលំនាំដើម
