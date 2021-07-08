@@ -3,6 +3,7 @@ class ClientsController < AdminController
 
   include ClientAdvancedSearchesConcern
   include ClientGridOptions
+  include CaseNoteConcern
 
   before_action :assign_active_client_prams, only: :index
   before_action :format_search_params, only: [:index]
@@ -15,7 +16,7 @@ class ClientsController < AdminController
 
   before_action :find_client, only: [:show, :edit, :update, :destroy]
   before_action :assign_client_attributes, only: [:show, :edit]
-  before_action :set_association, except: [:index, :destroy, :version, :service_receive]
+  before_action :set_association, except: [:index, :destroy, :version, :service_receive, :new_service_receive]
   before_action :choose_grid, only: [:index]
   before_action :quantitative_type_editable, only: [:edit, :update, :new, :create]
   before_action :quantitative_type_readable
@@ -206,8 +207,9 @@ class ClientsController < AdminController
   end
 
   def new_service_receive
-    @task = @client.tasks.new
-
+    @case_note = @client.case_notes.new
+    @case_note.populate_notes(nil, 'false')
+    fetch_domain_group
   end
 
 
