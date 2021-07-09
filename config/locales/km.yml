@@ -1538,6 +1538,7 @@ km:
       successfully_updated: ការចុះឈ្មោះត្រូវបានកែសម្រួលដោយជោគជ័យ
   clients:
     attr: &LEGAL_DOC_ATTR
+      add_service_received: បន្ថែមសេវាដែលបានទទួល
       complain: ពាក្យបណ្ដឹង
       detail_form_of_judicial_police: ទម្រង់លម្អិតសម្រាប់ការសម្ភាសកំណត់អត្តសញ្ញាណបឋមជនរងគ្រោះដោយអំពើជួញដូរមនុស្ស (នគរបាលយុត្តិធម៌)
       detail_form_of_mosavy_dosavy: ទម្រង់លម្អិតសម្រាប់ការសម្ភាសកំណត់អត្តសញ្ញាណបឋមជនរងគ្រោះដោយអំពើជួញដូរមនុស្ស (ក្រសួង ស.អ.យ/មន្ទីរ ស.អ.យ)
@@ -2104,6 +2105,7 @@ km:
       close: បិទ
       warning: ប្រុងប្រយ័ត្ន
     show:
+      <<: *LEGAL_DOC_ATTR
       care_plan: គម្រោងរក្សា
       case_conference: Case Conference
       marital_status: Marital Status
@@ -5937,6 +5939,7 @@ km:
       case_note: រយៈពេលអតិបរមារវាងកំណត់ត្រាករណីសម្រាប់អតិថិជន
       case_note_edit_limit: កំណត់ការកែប្រែកំណត់ត្រាករណី
       disable_future_completion_date: បិទកាលបរិច្ឆេទសំរាប់កាតព្វកិច្ចក្នុងពេលអនាគត
+      disabled_add_service_received: បិទការបង្កើត សេវាដែលបានទទួល
       max_case_note: អតិបរមា
     client_forms:
       hotline: លេខទូរស័ព្ទបន្ទាន់

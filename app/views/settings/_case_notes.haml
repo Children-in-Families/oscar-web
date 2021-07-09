@@ -38,3 +38,9 @@
           .i-checks.research-module
             %label=  t('.disable_future_completion_date')
             = f.input :disabled_future_completion_date, as: :radio_buttons, collection: [['Yes', true],['No', false]], label: false
+
+      .row
+        .col-xs-12.col-sm-4
+          .i-checks.research-module
+            %label=  t('.disabled_add_service_received')
+            = f.input :disabled_add_service_received, as: :radio_buttons, collection: [['Yes', true],['No', false]], label: false
