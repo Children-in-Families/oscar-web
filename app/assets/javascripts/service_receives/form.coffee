@@ -1,4 +1,4 @@
-CIF.ClientsNew_service_receive = do ->
+CIF.Service_receivesNew = CIF.Service_receivesCreate = do ->
   _init = ->
     _handleNewTask()
     # _hideCompletedTasks()
@@ -126,10 +126,9 @@ CIF.ClientsNew_service_receive = do ->
     taskNameOrign  = taskName
     taskName       = taskName.replace(/,/g, '&#44;').replace(/'/g, 'apos').replace(/"/g, 'qout')
     taskObj        = { name: taskName, expected_date: taskDate, domain_id: domainId, relation: relation, domain_group_identity: domain_group_identity }
-    taskObj        = JSON.stringify(taskObj)
-    element        = "<li class='list-group-item' style='padding-bottom: 11px;'>#{taskNameOrign}#{deleteLink} <input name='task[]' type='hidden' value='#{taskObj}'></li>"
+    taskObjString  = JSON.stringify(taskObj)
     element        = "<div class='checkbox-primary m-t-xs'>
-                        <div class='icheckbox_square-green' style='position: relative;'><input type='checkbox' name='case_note[case_note_domain_groups_attributes][domain][#{domainId}][tasks][]' value='#{taskObj}' id='task-domain-#{domainId}' class='i-checks task' style='position: absolute; opacity: 0;'></div>
+                        <div class='icheckbox_square-green' style='position: relative;'><input type='checkbox' name='domain_groups_attributes[tasks][]' value='#{taskObjString}' class='i-checks task task-domain-#{domainId}' style='position: absolute; opacity: 0;'></div>
                         <label>#{taskNameOrign}#{deleteLink}</label>
                       </div>"
     completionDateInputAndServiceDeliverSelectOptions = $("#domain-task-completed-date-service-delivery-#{domainId}").clone(true, true).removeClass('hide').attr('id', "domain-task-completed-date-service-delivery-#{taskName.replace(/\s+/g, '-').toLowerCase()}")
@@ -146,15 +145,25 @@ CIF.ClientsNew_service_receive = do ->
       checkboxClass: 'icheckbox_square-green'
       radioClass: 'iradio_square-green'
     ).on('ifChecked', ->
+      taskNameAttr = "domain_groups_attributes[domains][#{domainId}][tasks][#{taskName.replace(/\s+/g, '-').toLowerCase()}]"
       $("#tasks-domain-#{domainId} .task-arising ol").find("#{serviceDeliverTaskId} .service-delivery").toggleClass('service-delivery hide show')
       $("#{serviceDeliverTaskId} input.date.form-control").datepicker
         autoclose: true,
         format: 'yyyy-mm-dd',
         todayHighlight: true
+      .on 'change', ->
+        completionDateValue = $(@).val()
+        taskObj['completion_date'] = completionDateValue
+        $(@).closest('.checkbox-primary').find("input[type='checkbox']").val(JSON.stringify(taskObj))
       .datepicker 'setDate', null
 
-      $("#{serviceDeliverTaskId} select.service-delivery-task-ids").select2
+      $("#{serviceDeliverTaskId} select.service-delivery-task-ids").addClass('service-delivery-select').select2
         width: '100%'
+      .on 'change', ->
+        selectedValues = $(@).select2('val')
+        taskObj['service_delivery_ids'] = selectedValues
+        $(@).closest('.checkbox-primary').find("input[type='checkbox']").val(JSON.stringify(taskObj))
+
     ).on 'ifUnchecked', ->
       $("#tasks-domain-#{domainId} .task-arising ol").find("#{serviceDeliverTaskId} .m-b-sm").toggleClass('show service-delivery hide')
 
@@ -290,27 +299,27 @@ CIF.ClientsNew_service_receive = do ->
 
   _handleFormSubmit = ->
     submitText = $('#case-note-submit-btn').val()
-    $(document).on 'submit', 'form#case-note-form', (e) ->
+    $(document).on 'submit', 'form#service-receive-form', (e) ->
       inValidate = false
-      $.each $("select.required, input.required:not('#task_completion_date'), #case_note_note, #case_note_meeting_date, #case_note_interaction_type"), (index, element)->
+      $.each $("#case_note_domain_group_ids, #service-receive-form select.service-delivery-select, #service-receive-form input[type='checkbox'], #service-receive-form input.completion-date:visible"), (index, element)->
         value = $(element).val()
-        $(".#{element.id}").removeClass('has-error')
         if _.isEmpty(value)
-          if ['case_note_meeting_date', 'case_note_interaction_type'].includes(element.id)
-            $(".#{element.id}").addClass('has-error')
+          inValidate = true
+          if $(element).attr('class').match(/service-delivery-select/) && $(element).attr('class').match(/service-delivery-select/).length > 0 || 'case_note_domain_group_ids' == element.id
+            $(element).siblings('.select2-container').find('.select2-choices').attr('style', "border-color: #ED5565 !important;")
           else
             $(element).parent().addClass('has-error')
-          inValidate = true
 
       if inValidate
+        e.preventDefault()
         setTimeout (->
           $('#case-note-submit-btn').removeAttr('disabled')
           $('#case-note-submit-btn').val(submitText)
-          return
+          return false
         ), 500
-        e.preventDefault()
         return false
 
       return true
+
 
   { init: _init }

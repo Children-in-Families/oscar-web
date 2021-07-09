@@ -3,7 +3,6 @@ class ClientsController < AdminController
 
   include ClientAdvancedSearchesConcern
   include ClientGridOptions
-  include CaseNoteConcern
 
   before_action :assign_active_client_prams, only: :index
   before_action :format_search_params, only: [:index]
@@ -16,12 +15,11 @@ class ClientsController < AdminController
 
   before_action :find_client, only: [:show, :edit, :update, :destroy]
   before_action :assign_client_attributes, only: [:show, :edit]
-  before_action :set_association, except: [:index, :destroy, :version, :service_receive, :new_service_receive]
+  before_action :set_association, except: [:index, :destroy, :version]
   before_action :choose_grid, only: [:index]
   before_action :quantitative_type_editable, only: [:edit, :update, :new, :create]
   before_action :quantitative_type_readable
   before_action :validate_referral, only: [:new, :edit]
-  before_action :find_client_service_receive, only: [:service_receive, :new_service_receive]
 
   def index
     @client_default_columns = Setting.first.try(:client_default_columns)
@@ -202,27 +200,11 @@ class ClientsController < AdminController
     @versions = @client.versions.reorder(created_at: :desc).page(params[:page]).per(page)
   end
 
-  def service_receive
-    @tasks = @client.tasks.joins(:service_deliveries).select('DISTINCT ON (tasks.id, service_deliveries.id) tasks.id, completion_date, service_deliveries.name, (SELECT name from service_deliveries as sd where sd.id = service_deliveries.parent_id) as category, tasks.completed_by_id')
-  end
-
-  def new_service_receive
-    @case_note = @client.case_notes.new
-    @case_note.populate_notes(nil, 'false')
-    fetch_domain_group
-  end
-
-
   private
 
   def find_client
     @client = Client.includes(custom_field_properties: [:custom_field], client_enrollments: [:program_stream]).accessible_by(current_ability).friendly.find(params[:id]).decorate
   end
-
-  def find_client_service_receive
-    @client = Client.accessible_by(current_ability).friendly.find(params[:client_id])
-  end
-
 
   def assign_client_attributes
     current_org = Organization.current

@@ -10,18 +10,18 @@
           .col-xs-12.col-sm-6.col-md-6
             .ibox-tools
               = link_to I18n.t('case_notes.index.back'), client_path(@client), { class: 'btn btn-default btn-back-default button' }
-      = simple_form_for([@client, @case_note], html: { id: 'case-note-form', novalidate: false, data: { translate: t('cannot_be_blank') } }) do |f|
+      = simple_form_for([@client, @case_note], url: client_service_receives_path(@client), method: :POST, html: { id: 'service-receive-form', novalidate: false, data: { translate: t('cannot_be_blank') } }) do |f|
         .ibox-content
           .row
             .col-xs-12
               .form-group
-                = f.association :domain_groups, collection: DomainGroup.all, value_method: :id, label_method: lambda{ |object| object.domain_name(params[:custom]) }, label: t('.domain_groups'), required: true, hint: t('case_notes.form.remove_domain_group_hint'), input_html: { multiple: true }
+                = f.association :domain_groups, collection: DomainGroup.all, value_method: :id, label_method: lambda{ |object| object.domain_name(params[:custom]) }, label: t('case_notes.index.domain_groups'), required: true, hint: t('case_notes.form.remove_domain_group_hint'), input_html: { multiple: true }
 
           .row
             .col-xs-12
               - url = "/api/domain_groups/get_domains_by_domain_groups?custom=#{params[:custom]}&custom_assessment_setting_id=#{@case_note.custom_assessment_setting_id}"
               .case-note-task-btn.btn.btn-primary.btn-outline.pull-right{class: "#{policy(@client).create? ? '' : 'disabled'}", type: 'button', 'data-target' => "#tasksFromModal", 'data-persisted' => 'true', 'data-toggle' => 'modal', 'data-url': url}
-                = t('.add_task')
+                = t('case_notes.form.add_task')
               %p.text-right#add-task-message.text-warning.pull-right
                 = fa_icon 'warning'
                 = t('case_notes.form.add_task_message')
@@ -52,7 +52,6 @@
                     - else
                       = t("domains.domain_names.#{domain.name.downcase.reverse}")
                       = domain.identity
-
               .ibox-content
                 .row
                   .col-xs-12.col-md-6
@@ -60,7 +59,7 @@
                       - tasks = @case_note.client.tasks.incomplete.where(domain_id: domain.id)
                       - if case_note_domain.object.persisted?
                         - tasks = tasks.by_case_note_domain_group(case_note_domain.object)
-                      .panel{ class: "panel-primary panel-tasks-domain-#{ domain.id } #{!selected_domain_group(case_note_domain.object) && hidden_class(tasks)}", data: { domain_name_panel: domain.name } }
+                      .panel{ class: "panel-primary panel-tasks-domain-#{ domain.id } hidden", data: { domain_name_panel: domain.name } }
                         .panel-heading
                           %strong
                             = t('case_notes.form_without_assessment_domains.domain')
@@ -69,11 +68,31 @@
                             - else
                               = t("domains.domain_names.#{domain.name.downcase.reverse}")
                               = domain.identity
-                        = render 'case_notes/tasks_list', { domain_note: case_note_domain, domain: domain, tasks: tasks }
+                        .panel-body{ id: "tasks-domain-#{domain.id}", data: { domain_group_identity: case_note_domain.object.domain_group_id } }
+                          .row
+                            .col-xs-12
+                              .m-r-sm{ id: "domain-task-completed-date-service-delivery-#{domain.id}" }
+                                - input_name = "domain_groups_attributes[domains][#{domain.id}]"
+                                .service-delivery.hide.m-b-sm{ id: "service-delivery-task-#{domain.id}" }
+                                  %label.m-t-xs{ :for => "completion_date" }= t('case_notes.add_task_form.completion_date')
+                                  .row
+                                    .col-xs-12.col-md-4.col-lg-4
+                                      = text_field_tag "#{input_name}[completion_date]", "", class: 'date form-control completion-date', data: { date_end_date: disabled_future_date_input() }
+                                  %label.m-t-xs{ :for => "service-delivery-task-ids" }= t('service_deliveries.form.service_provided')
+                                  %select.service-delivery-task-ids.select.optional.form-control{ multiple: 'multiple', :name => "#{input_name}[service_delivery_task_ids][]" }
+                                    - ServiceDelivery.list_sub_service_categories.each do |sub_service_category|
+                                      %optgroup{ label: sub_service_category.name }
+                                        - sub_service_category.children.each do |child|
+                                          %option{ :value => child.id }= child.name
+
+                              %div{ class: 'task-arising hidden' }
+                                %label.control-label
+                                  = t('case_notes.form.tasks_arising')
+                                %ol.list-group{ type: '1'}
 
 
         .ibox-footer
           = f.submit t('save'), class: 'btn btn-primary btn-form', id: 'case-note-submit-btn', data: { disable_with: t('saving') }
-          = link_to t('back') , client_case_notes_path(@client), class: 'btn btn-default btn-form'
+          = link_to t('back') , client_service_receives_path(@client), class: 'btn btn-default btn-form'
       - if policy(@client).create?
         = render 'case_notes/add_task_form'

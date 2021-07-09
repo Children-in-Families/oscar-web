@@ -1,0 +1,2 @@
+module ServiceReceivesHelper
+end
