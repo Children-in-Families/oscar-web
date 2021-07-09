@@ -949,7 +949,7 @@ class ClientGrid < BaseGrid
     object.donors.pluck(:name).join(', ')
   end
 
-  column(:family_id, order: false, header: -> { I18n.t('datagrid.columns.families.code') }) do |object|
+  column(:family_id, order: false, header: -> { I18n.t('advanced_search.fields.family_id') }) do |object|
     object.family.try(:id)
   end
 
