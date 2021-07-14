@@ -17,6 +17,7 @@ class ExitNgo < ActiveRecord::Base
 
   after_create :update_entity_status
   after_save :create_exit_ngo_history
+  after_destroy :update_client_status
 
   def attached_to_family?
     rejectable_type == 'Family'
@@ -33,4 +34,10 @@ class ExitNgo < ActiveRecord::Base
   def create_exit_ngo_history
     ExitNgoHistory.initial(self)
   end
+
+  def update_client_status
+    return if client.enter_ngos.blank? && (client.client_enrollments.blank? || client.enter_ngos.blank?)
+    client.update_column(:status, 'Accepted')
+  end
+
 end

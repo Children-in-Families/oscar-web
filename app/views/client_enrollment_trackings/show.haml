@@ -2,7 +2,9 @@
   .col-xs-12
     .ibox
       .ibox-title
-        %h5= "#{@client.en_and_local_name} - #{@client_enrollment_tracking.tracking.try(:name)} - #{@program_stream.name}"
+        %h5
+          %strong= link_to_client_show(@client)
+          = "- #{@client_enrollment_tracking.tracking.try(:name)} - #{@program_stream.name}"
         .ibox-tools
           - if can? :manage, ClientEnrollmentTracking
             = client_enrollment_tracking_edit_link(@client_enrollment_tracking)
