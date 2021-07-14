@@ -15,7 +15,7 @@
                   %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit
                     = t('clients.show.add_service_received')
       .ibox-content
-        = @tasks.size
+        = @tasks.to_a.size
         %span.label.label-info= t('results')
         .table-responsive.m-t-xs
           %table.table.table-bordered.table-striped.table-hover
