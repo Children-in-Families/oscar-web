@@ -81,13 +81,6 @@ class CustomField < ActiveRecord::Base
     end
   end
 
-  def is_editable?
-    setting = Setting.first
-    max_duration = setting.try(:custom_field_limit).zero? ? 2 : setting.try(:custom_field_limit)
-    custom_field_frequency = setting.try(:custom_field_frequency)
-    created_at >= max_duration.send(custom_field_frequency).ago
-  end
-
   private
 
   def update_custom_field_label
