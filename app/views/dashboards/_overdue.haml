@@ -57,8 +57,8 @@
                       %td.col-xs-3= date_format(next_client_enrollment_tracking_date)
 
       - if @setting.enable_custom_assessment? && @assessment_params && client.user_ids.include?(@user.id) && client.assessments.customs.present?
-
         - custom_assessment_setting_ids = client.assessments.customs.map{|ca| ca.domains.pluck(:custom_assessment_setting_id ) }.flatten.uniq
+        - next if client.tasks.overdue_incomplete.blank? && custom_assessment_setting_ids.blank?
         .ibox.border-left-right.border-bottom
           .ibox-title
             %h5

@@ -291,13 +291,13 @@ module ApplicationHelper
     if @notification.any_overdue_custom_assessments? && @notification.any_due_today_custom_assessments?
       overdue_count = @notification.overdue_custom_assessments_count
       due_today_count = @notification.due_today_custom_assessments_count
-      "#{I18n.t('layouts.notification.assessments_count', count: overdue_count)} #{Setting.first.custom_assessment} #{I18n.t('layouts.notification.overdue_assessments', count: overdue_count)} #{I18n.t('layouts.notification.overdue_and_due_today_count', count: due_today_count)}"
+      "#{I18n.t('layouts.notification.assessments_count', count: overdue_count)} Custom Assessment #{I18n.t('layouts.notification.overdue_assessments', count: overdue_count)} #{I18n.t('layouts.notification.overdue_and_due_today_count', count: due_today_count)}"
     elsif @notification.any_overdue_custom_assessments?
       count = @notification.overdue_custom_assessments_count
-      "#{I18n.t('layouts.notification.assessments_count', count: count)} #{Setting.first.custom_assessment} #{I18n.t('layouts.notification.overdue_assessments', count: count)}"
+      "#{I18n.t('layouts.notification.assessments_count', count: count)} Custom Assessment #{I18n.t('layouts.notification.overdue_assessments', count: count)}"
     else
       count = @notification.due_today_custom_assessments_count
-      "#{I18n.t('layouts.notification.assessments_count', count: count)} #{Setting.first.custom_assessment} #{I18n.t('layouts.notification.due_today_assessments', count: count)}"
+      "#{I18n.t('layouts.notification.assessments_count', count: count)} Custom Assessment #{I18n.t('layouts.notification.due_today_assessments', count: count)}"
     end
   end
 
