@@ -17,7 +17,6 @@ class ServiceReceivesController < AdminController
   end
 
   def create
-    binding.pry
     if params[:domain_groups_attributes].dig(:tasks).blank?
       redirect_to new_client_service_receife_path(@client), alert: 'No task created.'
     else
