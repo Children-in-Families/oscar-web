@@ -13,7 +13,7 @@
               - if has_service_delivery? && !@current_setting.disabled_add_service_received || current_user.admin?
                 = link_to new_client_service_receife_path(@client) do
                   %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit
-                    = t('clients.show.add_service_received')
+                    = t('service_deliveries.index.add_new_service_delivery')
       .ibox-content
         = @tasks.to_a.size
         %span.label.label-info= t('results')
