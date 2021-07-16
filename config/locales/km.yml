@@ -5478,6 +5478,7 @@ km:
     tracking_fields:
       custom_fields: ទម្រង់បែបបទ
       frequency: ភាពញឹកញាប់
+      hidden: បិទ?
       name: ឈ្មោះ
       remove_tracking: លុបការតាមដាន
       time_of_frequency: ពេលវេលានៃភាពញឹកញាប់

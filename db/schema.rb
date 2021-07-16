@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210616083625) do
+ActiveRecord::Schema.define(version: 20210715090949) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -905,13 +905,14 @@ ActiveRecord::Schema.define(version: 20210616083625) do
   create_table "custom_fields", force: :cascade do |t|
     t.string   "entity_type",       default: ""
     t.text     "properties",        default: ""
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.string   "form_title",        default: ""
     t.string   "frequency",         default: ""
     t.integer  "time_of_frequency", default: 0
     t.string   "ngo_name",          default: ""
     t.jsonb    "fields"
+    t.boolean  "hidden",            default: false
   end
 
   create_table "departments", force: :cascade do |t|
@@ -2048,6 +2049,14 @@ ActiveRecord::Schema.define(version: 20210616083625) do
     t.integer  "case_conference_limit",                default: 0
     t.string   "case_conference_frequency",            default: "week"
     t.boolean  "use_previous_care_plan"
+    t.integer  "internal_referral_limit",              default: 0
+    t.string   "internal_referral_frequency",          default: "week"
+    t.integer  "custom_field_limit",                   default: 0
+    t.string   "custom_field_frequency",               default: "week"
+    t.boolean  "disabled_future_completion_date",      default: false
+    t.integer  "case_note_edit_limit",                 default: 0
+    t.string   "case_note_edit_frequency",             default: "week"
+    t.boolean  "disabled_add_service_received",        default: false
   end
 
   add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree
@@ -2383,9 +2392,10 @@ ActiveRecord::Schema.define(version: 20210616083625) do
     t.string   "frequency",         default: ""
     t.integer  "time_of_frequency"
     t.integer  "program_stream_id"
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.datetime "deleted_at"
+    t.boolean  "hidden",            default: false
   end
 
   add_index "trackings", ["deleted_at"], name: "index_trackings_on_deleted_at", using: :btree
