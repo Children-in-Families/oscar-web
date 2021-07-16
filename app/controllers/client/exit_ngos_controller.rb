@@ -22,6 +22,17 @@ class Client::ExitNgosController < AdminController
     end
   end
 
+  def destroy
+    @exit_ngo = @client.exit_ngos.find(params[:id])
+    authorize @exit_ngo, :destroy?
+    if @exit_ngo.destroy
+      redirect_to @client, notice: t('.successfully_deleted')
+    else
+      redirect_to @client, alert: t('.failed_update')
+    end
+  end
+
+
   private
 
   def find_client

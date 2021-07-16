@@ -195,7 +195,7 @@
                   %p= link_to client_custom_fields.first.custom_field.form_title, client_custom_field_properties_path(@client, custom_field_id: client_custom_fields.first.custom_field_id)
           - if can? :manage, CustomFieldProperty
             .btn-group.small-btn-margin
-              %button.btn-sm.btn.btn-success.dropdown-toggle.btn-fit{ data: { toggle: "dropdown", trigger: 'hover', html: 'true', content: "#{I18n.t('inline_help.clients.show.add_form')}", placement: "auto" }, class: ('disabled' if @free_client_forms.empty? || status_exited?(@client.status)) }
+              %button.btn-sm.btn.btn-success.dropdown-toggle.btn-fit{ data: { toggle: "dropdown", trigger: 'hover', html: 'true', content: "#{I18n.t('inline_help.clients.show.add_form')}", placement: "auto" }, class: ('disabled' if @free_client_forms.empty? || (status_exited?(@client.status) && !current_user.admin?)) }
                 = t('.add_form')
                 %span.caret
               %ul.dropdown-menu.btn-fit.scrollable-dropdown-menu.add-form
@@ -239,7 +239,7 @@
           - if has_service_delivery?
             = link_to client_service_receives_path(@client) do
               %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit
-                = t('service_deliveries.index.service_received')
+                = t('service_deliveries.index.service_delivery')
 
 
 .row.mini-margin
@@ -639,6 +639,9 @@
                           - if current_user.admin?
                             - if ['enter_ngos', 'exit_ngos'].include?(case_history_name)
                               %button.btn.btn-outline.btn-success.btn-xs.edit-case-history-ngo{ data: { class_name: case_history_name },'data-target' => "##{case_history_name}-#{case_history.id}", 'data-toggle' => 'modal' }= fa_icon('pencil')
+                            - if case_history_name == 'exit_ngos' && @client.latest_exit_ngo == case_history
+                              = link_to client_exit_ngo_path(@client, case_history), class: 'btn btn-outline btn-danger btn-xs', method: 'delete', data: { confirm: t('.are_you_sure') } do
+                                = fa_icon 'trash'
                             = case_history_links(case_history, case_history_name)
                         = render 'case_history_detail', object: case_history, index: index
                         = render_case_history(case_history, case_history_name)

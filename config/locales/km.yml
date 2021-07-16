@@ -1221,6 +1221,9 @@ km:
       create:
         failed_create: អតិថិជនមិនត្រូវបានកែសម្រួលដោយជោគជ័យ
         successfully_created: អតិថិជនត្រូវបានកែសម្រួលដោយជោគជ័យ
+      destroy:
+        alert: ចាកចេញពីអង្គការមិនអាចលុបបានទេ
+        successfully_deleted: ចាកចេញពីអង្គការត្រូវបានលុបដោយជោគជ័យ
       edit_form:
         case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
         exit_btn: ចាកចេញ
@@ -1535,6 +1538,7 @@ km:
       successfully_updated: ការចុះឈ្មោះត្រូវបានកែសម្រួលដោយជោគជ័យ
   clients:
     attr: &LEGAL_DOC_ATTR
+      add_service_received: បន្ថែមសេវាដែលបានទទួល
       complain: ពាក្យបណ្ដឹង
       detail_form_of_judicial_police: ទម្រង់លម្អិតសម្រាប់ការសម្ភាសកំណត់អត្តសញ្ញាណបឋមជនរងគ្រោះដោយអំពើជួញដូរមនុស្ស (នគរបាលយុត្តិធម៌)
       detail_form_of_mosavy_dosavy: ទម្រង់លម្អិតសម្រាប់ការសម្ភាសកំណត់អត្តសញ្ញាណបឋមជនរងគ្រោះដោយអំពើជួញដូរមនុស្ស (ក្រសួង ស.អ.យ/មន្ទីរ ស.អ.យ)
@@ -2100,6 +2104,7 @@ km:
       close: បិទ
       warning: ប្រុងប្រយ័ត្ន
     show:
+      <<: *LEGAL_DOC_ATTR
       care_plan: គម្រោងរក្សា
       case_conference: Case Conference
       marital_status: Marital Status
@@ -4301,8 +4306,11 @@ km:
         successfully_updated: គ្រួសារត្រូវបានកែសម្រួលដោយជោគជ័យ
     exit_ngos:
       create:
-        failed_create: គ្រួសារមិនត្រូវបានកែសម្រួលដោយជោគជ័យ
-        successfully_created: គ្រួសារត្រូវបានកែសម្រួលដោយជោគជ័យ
+        failed_create: ចាកចេញពីអង្គការមិនត្រូវបានកែសម្រួលដោយជោគជ័យ
+        successfully_created: ចាកចេញពីអង្គការត្រូវបានកែសម្រួលដោយជោគជ័យ
+      destroy:
+        alert: ចាកចេញពីអង្គការមិនអាចលុបបានទេ
+        successfully_deleted: ចាកចេញពីអង្គការត្រូវបានលុបដោយជោគជ័យ
       edit_form:
         case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
         exit_btn: ចាកចេញ
@@ -5856,8 +5864,11 @@ km:
       noted: 'ចំណាំ: ទីភ្នាក់ងារ USAID បានស្នើថា CSI មិនត្រូវបានប្រើសម្រាប់ការប៉ាន់ប្រមាណតាមតម្រូវការ។'
       show_prev_assessment: Show previous assessment while completing new assessment
       two_weeks_assessment_reminder: Send 2 notification at both 2 and 1 week prior to assessment
-    case_note:
+    case_notes:
       case_note: រយៈពេលអតិបរមារវាងកំណត់ត្រាករណីសម្រាប់អតិថិជន
+      case_note_edit_limit: កំណត់ការកែប្រែកំណត់ត្រាករណី
+      disable_future_completion_date: បិទកាលបរិច្ឆេទសំរាប់កាតព្វកិច្ចក្នុងពេលអនាគត
+      disabled_add_service_received: បិទការបង្កើត សេវាដែលបានទទួល
       max_case_note: អតិបរមា
     client_forms:
       hotline: លេខទូរស័ព្ទបន្ទាន់

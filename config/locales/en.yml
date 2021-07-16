@@ -897,6 +897,9 @@ en:
       care_plan_history: "%{care_plan} History"
       new_care_plan: "New %{care_plan}"
       review_care_plan: "Review %{care_plan}"
+    new:
+      current_care_plan: Current %{care_plan}
+      previous_care_plan: Previous %{care_plan}
     show:
       are_you_sure: Are you sure you want to delete?
       back: Back
@@ -1215,6 +1218,9 @@ en:
       create:
         failed_create: Failed to update the client.
         successfully_created: Client has been successfully updated.
+      destroy:
+        failed_to_delete: Exit NGO cannot be deleted.
+        successfully_deleted: Exit NGO has been successfully deleted.
       edit_form:
         case_worker_or_staff: Case Worker / Staff
         exit_btn: Exit
@@ -1535,6 +1541,7 @@ en:
       successfully_updated: Enrollment has been successfully updated.
   clients:
     attr: &LEGAL_DOC_ATTR
+      add_service_received: Add Services Received
       complain: Complaint
       detail_form_of_judicial_police: Detailed Form for Identification of Victim of Human Trafficking (Judicial Police)
       detail_form_of_mosavy_dosavy: Detailed Form for Identification of Victim of Human Trafficking (MoSAVY/DoSAVY)
@@ -2105,6 +2112,7 @@ en:
       close: Close
       warning: Warning
     show:
+      <<: *LEGAL_DOC_ATTR
       care_plan: Care plan
       case_conference: Case Conference
       marital_status: Marital Status
@@ -4335,8 +4343,11 @@ en:
         successfully_updated: Family has been successfully updated.
     exit_ngos:
       create:
-        failed_create: Failed to update the family.
-        successfully_created: Family has been successfully updated.
+        failed_create: Failed to update the exit NGO.
+        successfully_created: Exit NGO has been successfully updated.
+      destroy:
+        failed_to_delete: Exit NGO cannot be deleted.
+        successfully_deleted: Exit NGO has been successfully deleted.
       edit_form:
         case_worker_or_staff: Case Worker / Staff
         exit_btn: Exit
@@ -5890,8 +5901,11 @@ en:
       noted: 'Note: USAID has requested that the term CSI not be used for customized assessments.'
       show_prev_assessment: Show previous assessment while completing new assessment
       two_weeks_assessment_reminder: Send 2 notification at both 2 and 1 week prior to assessment
-    case_note:
+    case_notes:
       case_note: Maximum time between case notes for client
+      case_note_edit_limit: Case Note Edit Limitation
+      disable_future_completion_date: Disable Future Completion Date for Task
+      disabled_add_service_received: Disable Creating New Service Receive
       max_case_note: Maximum
     client_forms:
       hotline: Hotline
