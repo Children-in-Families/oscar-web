@@ -4551,6 +4551,7 @@ en:
         copy_to_tracking: Copy to Tracking
         edit: Edit
       update:
+        failed_to_update: Custom Form failed to update.
         successfully_updated: Custom Form has been successfully updated.
   gender_list:
     female: Female
@@ -5519,6 +5520,7 @@ en:
     tracking_fields:
       custom_fields: Custom Forms
       frequency: Frequency
+      hidden: Hide?
       name: Name
       remove_tracking: Remove Tracking
       time_of_frequency: Time of Frequency

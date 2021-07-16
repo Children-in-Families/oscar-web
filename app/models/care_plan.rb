@@ -20,6 +20,10 @@ class CarePlan < ActiveRecord::Base
     family_id? ? family : client
   end
 
+  def is_goals_tasks_exist?(domain_id)
+    goals.find_by_domain(domain_id).present? ? goals.find_by_domain(domain_id).first.tasks.incomplete.upcoming.present? : false
+  end
+
   private
 
   def complete_previouse_tasks
