@@ -5,7 +5,7 @@
         %h5= "#{t('created_by')} #{@internal_referral.user.name} #{t('at')} #{date_format(@internal_referral.created_at)}"
         .text-right
           = link_to t('back'), client_path(@client), class: 'button btn btn-outline btn-default'
-          - if "policy(@internal_referral).edit?"
+          - if policy(@internal_referral).edit?
             = link_to  edit_client_internal_referral_path(@client, @internal_referral), class: 'button btn btn-outline btn-success ' do
               = fa_icon('pencil')
           - if current_user.admin?

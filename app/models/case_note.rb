@@ -84,6 +84,13 @@ class CaseNote < ActiveRecord::Base
     end
   end
 
+  def is_editable?
+    setting = Setting.first
+    max_duration = setting.try(:max_case_note).zero? ? 2 : setting.try(:max_case_note)
+    case_note_frequency = setting.try(:case_note_frequency)
+    created_at >= max_duration.send(case_note_frequency).ago
+  end
+
   private
 
   def set_assessment

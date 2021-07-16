@@ -4867,6 +4867,8 @@ en:
       client_representing_problem: CLIENT'S PRESENTING PROBLEMS
       client_representing_problem_note: "What issues/needs does the client say he or she needs help addressing:"
       emergency_note: "NOTE: EMERGENCY/CRISIS NEEDS"
+      internal_referral: Internal Referral
+      internal_referral_edit_duration: Internal Referral Editable Duration
       new_internal_referral: New Internal Referral
       program_stream_ids: Referred To
       referral_date: Date of Internal Referral
@@ -5893,8 +5895,9 @@ en:
       noted: 'Note: USAID has requested that the term CSI not be used for customized assessments.'
       show_prev_assessment: Show previous assessment while completing new assessment
       two_weeks_assessment_reminder: Send 2 notification at both 2 and 1 week prior to assessment
-    case_note:
+    case_notes:
       case_note: Maximum time between case notes for client
+      disable_future_completion_date: Disable Future Completion Date for Task
       max_case_note: Maximum
     client_forms:
       hotline: Hotline
