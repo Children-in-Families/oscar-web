@@ -10,8 +10,12 @@
           .col-xs-12.col-sm-6.col-md-6
             .ibox-tools
               = link_to I18n.t('case_notes.index.back'), client_path(@client), { class: 'btn btn-default btn-back-default button' }
+              - if has_service_delivery? && !@current_setting.disabled_add_service_received || current_user.admin?
+                = link_to new_client_service_receife_path(@client) do
+                  %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit
+                    = t('service_deliveries.index.add_new_service_delivery')
       .ibox-content
-        = @tasks.size
+        = @tasks.to_a.size
         %span.label.label-info= t('results')
         .table-responsive.m-t-xs
           %table.table.table-bordered.table-striped.table-hover

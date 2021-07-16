@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210707140457) do
+ActiveRecord::Schema.define(version: 20210709113345) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -2053,6 +2053,9 @@ ActiveRecord::Schema.define(version: 20210707140457) do
     t.integer  "custom_field_limit",                   default: 0
     t.string   "custom_field_frequency",               default: "week"
     t.boolean  "disabled_future_completion_date",      default: false
+    t.integer  "case_note_edit_limit",                 default: 0
+    t.string   "case_note_edit_frequency",             default: "week"
+    t.boolean  "disabled_add_service_received",        default: false
   end
 
   add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree

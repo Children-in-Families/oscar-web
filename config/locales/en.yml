@@ -897,6 +897,9 @@ en:
       care_plan_history: "%{care_plan} History"
       new_care_plan: "New %{care_plan}"
       review_care_plan: "Review %{care_plan}"
+    new:
+      current_care_plan: Current %{care_plan}
+      previous_care_plan: Previous %{care_plan}
     show:
       are_you_sure: Are you sure you want to delete?
       back: Back
@@ -1538,6 +1541,7 @@ en:
       successfully_updated: Enrollment has been successfully updated.
   clients:
     attr: &LEGAL_DOC_ATTR
+      add_service_received: Add Services Received
       complain: Complaint
       detail_form_of_judicial_police: Detailed Form for Identification of Victim of Human Trafficking (Judicial Police)
       detail_form_of_mosavy_dosavy: Detailed Form for Identification of Victim of Human Trafficking (MoSAVY/DoSAVY)
@@ -2108,6 +2112,7 @@ en:
       close: Close
       warning: Warning
     show:
+      <<: *LEGAL_DOC_ATTR
       care_plan: Care plan
       case_conference: Case Conference
       marital_status: Marital Status
@@ -5897,7 +5902,9 @@ en:
       two_weeks_assessment_reminder: Send 2 notification at both 2 and 1 week prior to assessment
     case_notes:
       case_note: Maximum time between case notes for client
+      case_note_edit_limit: Case Note Edit Limitation
       disable_future_completion_date: Disable Future Completion Date for Task
+      disabled_add_service_received: Disable Creating New Service Receive
       max_case_note: Maximum
     client_forms:
       hotline: Hotline

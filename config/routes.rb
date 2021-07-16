@@ -99,7 +99,6 @@ Rails.application.routes.draw do
 
   get '/data_trackers' => 'data_trackers#index'
   get 'clients/:client_id/book' => 'client_books#index', as: 'client_books'
-  get 'clients/:client_id/service_receives' => 'clients#service_receive', as: 'client_service_receives'
 
   resources :clients do
     resources :referrals
@@ -148,6 +147,7 @@ Rails.application.routes.draw do
     get 'version' => 'clients#version'
 
     resources :case_conferences
+    resources :service_receives, only: [:index, :new, :create]
   end
 
   resources :attachments, only: [:index] do

@@ -1533,6 +1533,7 @@ my:
       successfully_updated: စာရင္းေပးသြင္းျခင္းကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ၿပီးပါၿပီ
   clients:
     attr: &LEGAL_DOC_ATTR
+      add_service_received: Add Services Received
       complain: Complaint
       detail_form_of_judicial_police: Detailed Form for Identification of Victim of Human Trafficking (Judicial Police)
       detail_form_of_mosavy_dosavy: Detailed Form for Identification of Victim of Human Trafficking (MoSAVY/DoSAVY)
@@ -2095,6 +2096,7 @@ my:
       close: ပိတ္ရန္
       warning: သတိေပးခ်က္
     show:
+      <<: *LEGAL_DOC_ATTR
       care_plan: Care plan
       case_conference: Case Conference
       marital_status: Marital Status
@@ -5850,7 +5852,9 @@ my:
       two_weeks_assessment_reminder: Send 2 notification at both 2 and 1 week prior to assessment
     case_notes:
       case_note: ဖောက်သည်များအတွက်စံချိန်များအကြားကာလ၏အမြင့်ဆုံးနံပါတ်တစ်ခု
+      case_note_edit_limit: Case Note Edit Limitation
       disable_future_completion_date: Disable Future Completion Date for Task
+      disabled_add_service_received: Disable Creating New Service Receive
       max_case_note: အများဆုံး
     client_forms:
       hotline: Hotline
