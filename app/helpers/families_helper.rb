@@ -181,13 +181,15 @@ module FamiliesHelper
   end
 
   def drop_down_relation
-    if params[:locale] == 'km'
+    relationship_values = case params[:locale]
+    when 'km'
       FamilyMember::KM_RELATIONS
-    elsif params[:locale] == 'my'
+    when 'my'
       FamilyMember::MY_RELATIONS
     else
       FamilyMember::EN_RELATIONS
     end
+    [relationship_values, FamilyMember::EN_RELATIONS].transpose
   end
 
   def family_type_translation(type)

@@ -35,7 +35,7 @@
         .col-sm-3
           = f.input :name_en
         .col-sm-3
-          = f.input :family_type, collection: Family.mapping_family_type_translation, label_method: :second, value_method: :first, input_html: { class: 'family-type' }
+          = f.input :family_type, collection: Family.mapping_family_type_translation, label_method: :last, value_method: :first,  input_html: { class: 'family-type' }
         .col-sm-3
           = f.input :code
       .row
