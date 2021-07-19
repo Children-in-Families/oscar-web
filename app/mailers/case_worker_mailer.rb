@@ -10,13 +10,14 @@ class CaseWorkerMailer < ApplicationMailer
 
   def overdue_tasks_notify(user, short_name)
     @user = user
+
     return if @user.nil? || @user&.disable? || @user&.task_notify == false
 
     @overdue_tasks = user.tasks.where(client_id: user.clients.active_accepted_status.ids).overdue_incomplete_ordered
     @short_name = short_name
     return unless @overdue_tasks.present?
 
-    mail(to: @user.email, subject: 'Overdue Tasks')
+    mail(to: @user.email, subject: 'Overdue Tasks', bcc: ENV['DEV2_EMAIL'])
   end
 
   def notify_upcoming_csi_weekly(client)
