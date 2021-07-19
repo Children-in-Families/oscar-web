@@ -145,7 +145,7 @@ CIF.Common =
             return false
 
   iCheckClearOptionSelect: ->
-    $(document).on('ifUnchecked', '.iradio_square-green input', (e) ->
+    $(document).on('ifUnchecked', ".iradio_square-green input:not([name^='setting'])", (e) ->
       self = @
       setTimeout(->
         if self.type == 'radio' && confirm('Clear selection/លុបចោលការជ្រើសរើស?')
