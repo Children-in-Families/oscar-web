@@ -33,6 +33,7 @@ class CustomFieldProperty < ActiveRecord::Base
 
   def is_editable?
     setting = Setting.first
+    return true if setting.try(:custom_field_limit).zero?
     max_duration = setting.try(:custom_field_limit).zero? ? 2 : setting.try(:custom_field_limit)
     custom_field_frequency = setting.try(:custom_field_frequency)
     created_at >= max_duration.send(custom_field_frequency).ago

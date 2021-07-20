@@ -16,6 +16,7 @@ class InternalReferral < ActiveRecord::Base
 
   def is_editable?
     setting = Setting.first
+    return true if setting.try(:internal_referral_limit).zero?
     max_duration = setting.try(:internal_referral_limit).zero? ? 2 : setting.try(:internal_referral_limit)
     internal_referral_frequency = setting.try(:internal_referral_frequency)
     created_at >= max_duration.send(internal_referral_frequency).ago
