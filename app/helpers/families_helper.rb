@@ -189,7 +189,7 @@ module FamiliesHelper
     else
       FamilyMember::EN_RELATIONS
     end
-    [relationship_values, FamilyMember::EN_RELATIONS].transpose
+    [FamilyMember::EN_RELATIONS, relationship_values].transpose
   end
 
   def family_type_translation(type)
