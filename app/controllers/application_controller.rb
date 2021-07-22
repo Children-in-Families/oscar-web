@@ -99,7 +99,9 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(_resource_or_scope)
-    stored_location_for(_resource_or_scope) || super ||  dashboards_path(locale: current_user&.preferred_language || 'en')
+    I18n.locale = current_user.preferred_language
+    flash[:notice] = I18n.t('devise.sessions.signed_in')
+    stored_location_for(_resource_or_scope) || dashboards_path(locale: current_user&.preferred_language || 'en') || super
   end
 
   def detect_browser
