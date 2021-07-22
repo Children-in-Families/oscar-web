@@ -109,7 +109,10 @@ module CreateNestedValue
   end
 
   def create_goal_tasks(tasks)
-    tasks.each { |task| Calendar.populate_tasks(task) }
+    tasks.each do |task|
+      next if task.expected_date.nil?
+      Calendar.populate_tasks(task)
+    end
   end
 
 end
