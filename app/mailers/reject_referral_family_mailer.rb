@@ -5,7 +5,6 @@ class RejectReferralFamilyMailer < ApplicationMailer
     @family_name = referral.name_of_family
     @name_of_referee = referral.name_of_referee
     referee_email = User.non_locked.notify_email.find_by(id: referral.referee_id).try(:email)
-    dev_email = ENV['DEV_EMAIL']
-    mail(to: referee_email, subject: 'Referral Family Rejection', bcc: dev_email)
+    mail(to: referee_email, subject: 'Referral Family Rejection')
   end
 end

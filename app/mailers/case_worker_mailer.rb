@@ -85,7 +85,7 @@ class CaseWorkerMailer < ApplicationMailer
     recievers.each_slice(50).to_a.each do |emails|
       next if emails.blank?
 
-      mail(to: emails, subject: subject, bcc: ENV['DEV_EMAIL'])
+      mail(to: emails, subject: subject)
     end
   end
 end

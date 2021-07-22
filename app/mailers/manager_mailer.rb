@@ -12,6 +12,6 @@ class ManagerMailer < ApplicationMailer
     @case_workers = case_workers
     return unless @case_workers.present? && @manager.task_notify
     # should list all case workers's tasks even their accounts are locked
-    mail(to: @manager.email, subject: 'Case workers Overdue Task', bcc: ENV['DEV_EMAIL'])
+    mail(to: @manager.email, subject: 'Case workers Overdue Task')
   end
 end
