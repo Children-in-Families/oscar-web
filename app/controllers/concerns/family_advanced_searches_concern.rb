@@ -1,5 +1,6 @@
 module FamilyAdvancedSearchesConcern
   extend ActiveSupport::Concern
+  include FamiliesHelper
   include ClientsHelper
   include AssessmentHelper
   include CarePlanHelper
@@ -34,6 +35,7 @@ module FamilyAdvancedSearchesConcern
   end
 
   def export_family_reports
+    family_members
     custom_all_csi_assessments
     if params[:family_advanced_search].present?
       custom_referral_data_report
@@ -316,6 +318,15 @@ module FamilyAdvancedSearchesConcern
   def program_stream_report
     @family_grid.column(:program_streams, header: I18n.t('datagrid.columns.families.program_streams')) do |family|
       family.enrollments.active.map { |c| c.program_stream.try(:name) }.uniq.join(', ')
+    end
+  end
+
+  def family_members
+    @family_grid.column(:relation, header: -> { I18n.t('families.family_member_fields.relation') }) do |object|
+      object.family_members.map(&:relation).map do |relation|
+        next if relation.empty?
+        drop_down_relation.to_h[relation]
+      end.compact.join(', ')
     end
   end
 end

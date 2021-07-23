@@ -3,6 +3,7 @@ module AdvancedSearches
     class FamilyFields
       include AdvancedSearchHelper
       include AdvancedSearchFieldHelper
+      include FamiliesHelper
       include Pundit
 
       def initialize(options = {})
@@ -63,6 +64,7 @@ module AdvancedSearches
           ['followed_up_by_id', followed_up_by_options('Family')],
           ['referral_source_category_id', referral_source_category_options('Family')],
           ['referral_source_id', referral_source_options('Family')],
+          ['relation', drop_down_relation.map { |k, v| { k => v }  }]
         ]
       end
 

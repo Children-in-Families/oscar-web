@@ -1,7 +1,8 @@
 class FamiliesController < AdminController
-  load_and_authorize_resource
+  load_and_authorize_resource except: :show
   include FamilyAdvancedSearchesConcern
 
+  before_action :redirect_to_index, except: :index
   before_action :assign_active_family_prams, :format_search_params, only: [:index]
   before_action :find_params_advanced_search, :get_custom_form, :get_program_streams, only: [:index]
   before_action :find_params_advanced_search, :get_custom_form, only: [:index]
@@ -148,6 +149,7 @@ class FamiliesController < AdminController
   end
 
   def find_association
+    return if @family.nil?
     @users     = User.deleted_user.non_strategic_overviewers.order(:first_name, :last_name)
     @provinces = Province.order(:name)
     @districts = @family.province.present? ? @family.province.districts.order(:name) : []
@@ -245,4 +247,9 @@ class FamiliesController < AdminController
   def quantitative_type_readable
     @quantitative_type_readable_ids = current_user.quantitative_type_permissions.readable.pluck(:quantitative_type_id)
   end
+
+  def redirect_to_index
+    redirect_to families_url if params[:id] == 'advanced_search'
+  end
+
 end
