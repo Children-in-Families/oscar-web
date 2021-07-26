@@ -4,11 +4,10 @@ class ReferralClientMailer < ApplicationMailer
     @referral_from = referral_from
     @existed = existed
     @role = role
-    dev_email = ENV['DEV_EMAIL']
     users.pluck(:email).each_slice(50).to_a.each do |emails|
       next if emails.blank?
 
-      mail(to: emails, subject: 'New referral client', bcc: dev_email)
+      mail(to: emails, subject: 'New referral client')
     end
   end
 end
