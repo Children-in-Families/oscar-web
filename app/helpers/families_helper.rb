@@ -97,6 +97,7 @@ module FamiliesHelper
       dependable_income:                        I18n.t('datagrid.columns.families.dependable_income'),
       male_adult_count:                         I18n.t('datagrid.columns.families.male_adult_count'),
       household_income:                         I18n.t('datagrid.columns.families.household_income'),
+      created_at:                               I18n.t('advanced_search.fields.created_at'),
       contract_date:                            I18n.t('datagrid.columns.families.contract_date'),
       initial_referral_date:                    I18n.t('datagrid.columns.families.initial_referral_date'),
       caregiver_information:                    I18n.t('datagrid.columns.families.caregiver_information'),

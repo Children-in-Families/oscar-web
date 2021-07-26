@@ -108,6 +108,8 @@ class FamilyGrid < BaseGrid
 
   filter(:household_income, :float, range: true, header: -> { I18n.t('datagrid.columns.families.household_income') })
 
+  filter(:created_at, :date, header: -> { I18n.t('advanced_search.fields.created_at') })
+
   filter(:contract_date, :date, header: -> { I18n.t('datagrid.columns.families.contract_date') })
 
   filter(:initial_referral_date, :date, header: -> { I18n.t('datagrid.columns.families.initial_referral_date') })
@@ -170,6 +172,7 @@ class FamilyGrid < BaseGrid
       male_adult_count: :aggregrate,
       household_income: :general,
       follow_up_date: :general,
+      created_at: :general,
       contract_date: :general,
       caregiver_information: :general,
       id: :general,
@@ -286,6 +289,7 @@ class FamilyGrid < BaseGrid
   column(:female_adult_count, header: -> { I18n.t('datagrid.columns.families.female_adult_count') })
   column(:male_adult_count, header: -> { I18n.t('datagrid.columns.families.male_adult_count') })
 
+  date_column(:created_at, header: -> { I18n.t('advanced_search.fields.created_at') })
   date_column(:contract_date, html: true, header: -> { I18n.t('datagrid.columns.families.contract_date') })
   date_column(:initial_referral_date, header: -> { I18n.t('datagrid.columns.families.initial_referral_date') })
   date_column(:follow_up_date, header: -> { I18n.t('datagrid.columns.families.follow_up_date') })
