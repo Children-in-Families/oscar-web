@@ -27,7 +27,7 @@
               - else
                 = "#{t('.based_on')} #{@assessment.index_of + 1}"
               %br
-              = "#{t('.assessment_created_by')} #{whodunnit('Assessment', @assessment)} #{t('.on_date')} #{date_format(@assessment.created_at)}"
+              = "#{t('.assessment_created_by')} #{whodunnit('Assessment', @assessment)} #{t('.on_date')} #{date_format(@assessment.completed_date)}"
           .col-xl-1.button-position
             .pull-right
               - if policy(@assessment).edit?

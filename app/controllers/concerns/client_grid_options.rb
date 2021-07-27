@@ -39,6 +39,7 @@ module ClientGridOptions
     care_plan_completed_date
     care_plan_count
     custom_date_of_assessments
+    default_date_of_completed_custom_assessments
     case_note_date_report
     case_note_type_report
     accepted_date_report
@@ -207,8 +208,13 @@ module ClientGridOptions
   end
 
   def default_date_of_completed_assessments
-    return unless @client_columns.visible_columns[:assessment_completed_date_].present?
+    return unless @client_columns.visible_columns[:completed_date_].present?
     date_of_completed_assessments
+  end
+
+  def default_date_of_completed_custom_assessments
+    return unless @client_columns.visible_columns[:custom_completed_date_].present?
+    date_of_completed_cusotm_assessments
   end
 
   def custom_date_of_assessments
@@ -239,25 +245,50 @@ module ClientGridOptions
 
   def date_of_completed_assessments
     records = 'client.assessments.defaults.completed'
-    column = 'assessment_completed_date'
+    column = 'completed_date'
 
     if params[:data].presence == 'recent'
-      @client_grid.column(column.to_sym, header: I18n.t("datagrid.columns.clients.#{column}", assessment: I18n.t('clients.show.assessment'))) do |client|
-        eval(records).latest_record.try(:created_at).to_date.to_formatted_s if eval(records).any?
+      @client_grid.column(column.to_sym, header: I18n.t("datagrid.columns.clients.assessment_completed_date", assessment: I18n.t('clients.show.assessment'))) do |client|
+        eval(records).latest_record.try(:completed_date).to_date.to_formatted_s if eval(records).any?
       end
     else
-      @client_grid.column(column.to_sym, header: I18n.t("datagrid.columns.clients.#{column}", assessment: I18n.t('clients.show.assessment'))) do |client|
+      @client_grid.column(column.to_sym, header: I18n.t("datagrid.columns.clients.assessment_completed_date", assessment: I18n.t('clients.show.assessment'))) do |client|
         assessments = []
         if $param_rules
           basic_rules = $param_rules['basic_rules']
           basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
           results = mapping_assessment_query_rules(basic_rules).reject(&:blank?)
-          query_string = get_assessment_query_string(results, 'assessment_completed_date', '', client.id, basic_rules)
+          query_string = get_assessment_query_string(results, 'completed_date', '', client.id, basic_rules)
           assessments = client.assessments.defaults.completed.where(query_string)
         else
           assessments = client.assessments.defaults.completed
         end
-        assessments.map{ |a| a.created_at.to_date.to_formatted_s }.join(', ') if assessments.any?
+        date_filter(assessments, 'completed_date').map{ |a| a.completed_date.to_date.to_formatted_s }.join(', ') if assessments.any?
+      end
+    end
+  end
+
+  def date_of_completed_cusotm_assessments
+    records = 'client.assessments.customs.completed'
+    column = 'custom_completed_date'
+
+    if params[:data].presence == 'recent'
+      @client_grid.column(column.to_sym, header: I18n.t("datagrid.columns.clients.assessment_custom_completed_date", assessment: I18n.t('clients.show.assessment'))) do |client|
+        eval(records).latest_record.try(:completed_date).to_date.to_formatted_s if eval(records).any?
+      end
+    else
+      @client_grid.column(column.to_sym, header: I18n.t("datagrid.columns.clients.assessment_custom_completed_date", assessment: I18n.t('clients.show.assessment'))) do |client|
+        assessments = []
+        if $param_rules
+          basic_rules = $param_rules['basic_rules']
+          basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
+          results = mapping_assessment_query_rules(basic_rules).reject(&:blank?)
+          query_string = get_assessment_query_string(results, 'completed_date', '', client.id, basic_rules)
+          assessments = client.assessments.customs.completed.where(query_string)
+        else
+          assessments = client.assessments.customs.completed
+        end
+        date_filter(assessments, 'completed_date').map{ |a| a.completed_date.to_date.to_formatted_s }.join(', ') if assessments.any?
       end
     end
   end

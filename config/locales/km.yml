@@ -1997,6 +1997,7 @@ km:
       all_csi_assessments: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
       all_custom_csi_assessments: ពិន្ទុកត្តាការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
       assessment_completed_date: "កាលបរិច្ឆេទ %{assessment}ដែលបានបំពេញ"
+      assessment_custom_completed_date: "កាលបរិច្ឆេទ %{assessment}ផ្ទាល់ខ្លួនដែលបានបំពេញ"
       assessment_data: "ទិន្នន័យពិន្ទុនៃ%{assessment}"
       assessment_number: ការប៉ាន់ប្រមាណ#
       assessments: ការប៉ាន់ប្រមាណ
@@ -2641,7 +2642,8 @@ km:
     columns:
       all_csi_assessments: "ពិន្ទុកត្តា%{assessment}CSI"
       all_custom_csi_assessments: "ពិន្ទុកត្តា%{assessment}ផ្ទាល់ខ្លួន"
-      assessment_completed_date: "%{assessment} Completed Date"
+      assessment_completed_date: "កាលបរិច្ឆេទ %{assessment}ដែលបានបំពេញ"
+      assessment_custom_completed_date: "កាលបរិច្ឆេទ %{assessment}ផ្ទាល់ខ្លួនដែលបានបំពេញ"
       all_result_framework_assessment: All Result Framework Assessment
       calls:
         answered_call: ឆ្លើយការហៅទូរស័ព្ទ
@@ -2770,6 +2772,7 @@ km:
         all_csi_assessments: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
         all_custom_csi_assessments: ពិន្ទុកត្តាការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
         assessment_completed_date: កាលបរិច្ឆេទ ការប៉ាន់ប្រមាណដែលបានបំពេញ
+      assessment_custom_completed_date: "កាលបរិច្ឆេទ %{assessment}ផ្ទាល់ខ្លួនដែលបានបំពេញ"
         any_assessments: មានការប៉ាន់ប្រមាណ
         assessments: ការប៉ាន់ប្រមាណ
         assessments_due_to: ដល់ពេលធ្វើការប៉ាន់ប្រមាណ

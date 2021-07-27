@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210709113345) do
+ActiveRecord::Schema.define(version: 20210727023556) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -137,10 +137,12 @@ ActiveRecord::Schema.define(version: 20210709113345) do
     t.boolean  "default",            default: true
     t.integer  "family_id"
     t.integer  "case_conference_id"
+    t.date     "completed_date"
   end
 
   add_index "assessments", ["case_conference_id"], name: "index_assessments_on_case_conference_id", using: :btree
   add_index "assessments", ["client_id"], name: "index_assessments_on_client_id", using: :btree
+  add_index "assessments", ["completed_date"], name: "index_assessments_on_completed_date", using: :btree
   add_index "assessments", ["family_id"], name: "index_assessments_on_family_id", using: :btree
 
   create_table "attachments", force: :cascade do |t|
@@ -905,13 +907,14 @@ ActiveRecord::Schema.define(version: 20210709113345) do
   create_table "custom_fields", force: :cascade do |t|
     t.string   "entity_type",       default: ""
     t.text     "properties",        default: ""
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.string   "form_title",        default: ""
     t.string   "frequency",         default: ""
     t.integer  "time_of_frequency", default: 0
     t.string   "ngo_name",          default: ""
     t.jsonb    "fields"
+    t.boolean  "hidden",            default: false
   end
 
   create_table "departments", force: :cascade do |t|
@@ -2391,9 +2394,10 @@ ActiveRecord::Schema.define(version: 20210709113345) do
     t.string   "frequency",         default: ""
     t.integer  "time_of_frequency"
     t.integer  "program_stream_id"
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.datetime "deleted_at"
+    t.boolean  "hidden",            default: false
   end
 
   add_index "trackings", ["deleted_at"], name: "index_trackings_on_deleted_at", using: :btree
