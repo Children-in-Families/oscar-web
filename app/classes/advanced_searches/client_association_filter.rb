@@ -37,8 +37,10 @@ module AdvancedSearches
         values = advanced_case_note_query
       when 'date_of_assessments'
         values = date_of_assessments_query(true)
-      when /assessment_completed|assessment_completed_date/
-        values = date_of_completed_assessments_query(nil)
+      when /assessment_completed|assessment_completed_date|^(completed_date)/
+        values = date_of_completed_assessments_query(true)
+      when 'custom_completed_date'
+        values = date_of_completed_assessments_query(false)
       when 'date_of_custom_assessments'
         values = date_of_assessments_query(false)
       when 'accepted_date'
@@ -361,23 +363,23 @@ module AdvancedSearches
       clients = @clients.joins(:assessments).where(assessments: { completed: true, default: type })
       case @operator
       when 'equal'
-        clients = clients.where('date(assessments.created_at) = ?', @value.to_date)
+        clients = clients.where('date(assessments.completed_date) = ?', @value.to_date)
       when 'not_equal'
-        clients = clients.where("date(assessments.created_at) != ? OR assessments.created_at IS NULL", @value.to_date)
+        clients = clients.where("date(assessments.completed_date) != ? OR assessments.completed_date IS NULL", @value.to_date)
       when 'less'
-        clients = clients.where('date(assessments.created_at) < ?', @value.to_date)
+        clients = clients.where('date(assessments.completed_date) < ?', @value.to_date)
       when 'less_or_equal'
-        clients = clients.where('date(assessments.created_at) <= ?', @value.to_date)
+        clients = clients.where('date(assessments.completed_date) <= ?', @value.to_date)
       when 'greater'
-        clients = clients.where('date(assessments.created_at) > ?', @value.to_date)
+        clients = clients.where('date(assessments.completed_date) > ?', @value.to_date)
       when 'greater_or_equal'
-        clients = clients.where('date(assessments.created_at) >= ?', @value.to_date)
+        clients = clients.where('date(assessments.completed_date) >= ?', @value.to_date)
       when 'between'
-        clients = clients.where('date(assessments.created_at) BETWEEN ? AND ? ', @value[0].to_date, @value[1].to_date)
+        clients = clients.where('date(assessments.completed_date) BETWEEN ? AND ? ', @value[0].to_date, @value[1].to_date)
       when 'is_empty'
-        clients = @clients.includes(:assessments).where(assessments: { completed: true, created_at: nil, default: type })
+        clients = @clients.includes(:assessments).where(assessments: { completed: true, completed_date: nil, default: type }).references(:assessments)
       when 'is_not_empty'
-        clients = clients.where(assessments: { default: type }).where.not(assessments: { created_at: nil })
+        clients = clients.where(assessments: { default: type }).where.not(assessments: { completed_date: nil })
       end
       clients.ids
     end

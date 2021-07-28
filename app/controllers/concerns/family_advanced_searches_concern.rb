@@ -42,10 +42,10 @@ module FamilyAdvancedSearchesConcern
       # form_builder_report
     end
     csi_domain_score_report
-    default_date_of_completed_assessments
     custom_date_of_assessments
     care_plan_completed_date
     care_plan_count
+    default_date_of_completed_assessments
     case_note_date_report
     case_note_type_report
     program_stream_report
@@ -166,7 +166,7 @@ module FamilyAdvancedSearchesConcern
   end
 
   def default_date_of_completed_assessments
-    return unless @family_columns.visible_columns[:assessment_completed_date_].present?
+    return unless @family_columns.visible_columns[:custom_completed_date_].present?
     date_of_completed_assessments
   end
 
@@ -201,13 +201,13 @@ module FamilyAdvancedSearchesConcern
     column = 'assessment_completed_date'
 
     if params[:data].presence == 'recent'
-      @family_grid.column(column.to_sym, header: I18n.t("datagrid.columns.#{column}", assessment: I18n.t('families.show.assessment'))) do |family|
+      @family_grid.column(:custom_completed_date, header: I18n.t("datagrid.columns.#{column}", assessment: I18n.t('families.show.assessment'))) do |family|
         eval(records).latest_record.try(:created_at).to_date.to_formatted_s if eval(records).any?
       end
     else
-      @family_grid.column(column.to_sym, header: I18n.t("datagrid.columns.#{column}", assessment: I18n.t('families.show.assessment'))) do |family|
+      @family_grid.column(:custom_completed_date, header: I18n.t("datagrid.columns.#{column}", assessment: I18n.t('families.show.assessment'))) do |family|
         assessments = map_assessment_and_score(family, '', nil)
-        assessments.map{ |a| a.created_at.to_date.to_formatted_s }.join(', ') if assessments.any?
+        assessments.map{ |a| a.completed_date.to_date.to_formatted_s }.join(', ') if assessments.any?
       end
     end
   end

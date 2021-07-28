@@ -33,8 +33,10 @@ class Assessment < ActiveRecord::Base
     empty_assessment_domains = check_reason_and_score
     if empty_assessment_domains.count.zero?
       self.completed = true
+      self.completed_date = Time.zone.now
     else
       self.completed = false
+      self.completed_date = nil
       true
     end
   end
