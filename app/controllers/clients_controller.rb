@@ -64,7 +64,7 @@ class ClientsController < AdminController
           readable_forms            = @client.custom_field_properties.where(custom_field_id: current_user.custom_field_permissions.where(readable: true).pluck(:custom_field_id))
         end
 
-        @free_client_forms          = available_editable_forms.client_forms.not_used_forms(custom_field_ids).order_by_form_title
+        @free_client_forms          = available_editable_forms.client_forms.where(hidden: false).not_used_forms(custom_field_ids).order_by_form_title
         @group_client_custom_fields = readable_forms.sort_by{ |c| c.custom_field.form_title }.group_by(&:custom_field_id)
         initial_visit_client
         enter_ngos = @client.enter_ngos

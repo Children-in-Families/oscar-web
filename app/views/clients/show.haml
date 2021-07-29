@@ -192,7 +192,10 @@
             %ul.dropdown-menu.btn-fit.scrollable-dropdown-menu.additional-forms
               - @group_client_custom_fields.each do |_, client_custom_fields|
                 %li
-                  %p= link_to client_custom_fields.first.custom_field.form_title, client_custom_field_properties_path(@client, custom_field_id: client_custom_fields.first.custom_field_id)
+                  %p
+                    = link_to client_custom_fields.first.custom_field.form_title, client_custom_field_properties_path(@client, custom_field_id: client_custom_fields.first.custom_field_id)
+                    - if client_custom_fields.first.custom_field.hidden
+                      %span.text-danger= fa_icon 'lock'
           - if can? :manage, CustomFieldProperty
             .btn-group.small-btn-margin
               %button.btn-sm.btn.btn-success.dropdown-toggle.btn-fit{ data: { toggle: "dropdown", trigger: 'hover', html: 'true', content: "#{I18n.t('inline_help.clients.show.add_form')}", placement: "auto" }, class: ('disabled' if @free_client_forms.empty? || (status_exited?(@client.status) && !current_user.admin?)) }

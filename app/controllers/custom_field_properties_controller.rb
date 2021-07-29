@@ -5,7 +5,7 @@ class CustomFieldPropertiesController < AdminController
 
   before_action :find_entity, :find_custom_field
   before_action :find_custom_field_property, only: [:edit, :update, :destroy]
-  before_action :authorize_client, only: [:new, :create]
+  before_action :authorize_client, :check_new_create_permission, only: [:new, :create]
   before_action :get_form_builder_attachments, only: [:edit, :update]
   before_action -> { check_user_permission('editable') }, except: [:index, :show]
   before_action -> { check_user_permission('readable') }, only: [:show, :index]
@@ -120,4 +120,10 @@ class CustomFieldPropertiesController < AdminController
       redirect_to root_path, alert: t('unauthorized.default') unless permission_set
     end
   end
+
+  def check_new_create_permission
+    return unless current_user.case_worker?
+    redirect_to root_path, alert: t('unauthorized.default') if @custom_field.hidden
+  end
+
 end

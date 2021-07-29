@@ -17,7 +17,7 @@ class ClientEnrolledProgramTrackingsController < AdminController
   end
 
   def new
-    @client_enrollment_tracking = @enrollment.client_enrollment_trackings.new
+    @client_enrollment_tracking = @enrollment.client_enrollment_trackings.new(tracking_id: @tracking.id)
     @attachment        = @client_enrollment_tracking.form_builder_attachments.build
     authorize @client_enrollment_tracking
   end

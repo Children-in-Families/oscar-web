@@ -115,6 +115,7 @@ module FamiliesHelper
       program_enrollment_date:                  I18n.t('datagrid.columns.clients.program_enrollment_date'),
       program_exit_date:                        I18n.t('datagrid.columns.clients.program_exit_date'),
       direct_beneficiaries:                     I18n.t('datagrid.columns.families.direct_beneficiaries'),
+      relation:                                 I18n.t('families.family_member_fields.relation'),
       **additional_columns,
       **family_address_translation
     }
@@ -179,13 +180,16 @@ module FamiliesHelper
   end
 
   def drop_down_relation
-    if params[:locale] == 'km'
+    locale = self.class.name && self.class.name[/FamilyFields/].present? ? I18n.locale.to_s : params[:locale]
+    relationship_values = case locale
+    when 'km'
       FamilyMember::KM_RELATIONS
-    elsif params[:locale] == 'my'
+    when 'my'
       FamilyMember::MY_RELATIONS
     else
       FamilyMember::EN_RELATIONS
     end
+    [FamilyMember::EN_RELATIONS, relationship_values].transpose
   end
 
   def family_type_translation(type)

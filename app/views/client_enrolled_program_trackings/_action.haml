@@ -1,4 +1,7 @@
 - unless @enrollment.program_stream.tracking_required?
   - if can? :manage, ClientEnrollmentTracking
-    = client_enrolled_program_tracking_new_link(object.id)
+    - if object.hidden
+      = client_enrolled_program_tracking_new_link(object.id, object.hidden)
+    - else
+      = client_enrolled_program_tracking_new_link(object.id)
 

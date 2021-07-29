@@ -12,8 +12,12 @@
               = f.input :frequency, collection: Tracking::FREQUENCIES, label: t('.frequency')
               %p.frequency-note
                 %i
-            .col-xs-12.col-md-4
+            .col-xs-12.col-md-3
               = f.input :time_of_frequency, label: t('.time_of_frequency'), input_html: { min: 0, value: f.object.time_of_frequency || 0}
+            .col-xs-12.col-md-1
+              %label.m-l-md= t('.hidden')
+              .i-checks
+                = f.input :hidden, as: :boolean, label: false, type: 'checkbox', checked: f.object.hidden?, class: 'form-input'
       .row
         .col-xs-12
           .tracking-builder

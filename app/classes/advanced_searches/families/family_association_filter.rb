@@ -32,6 +32,8 @@ module AdvancedSearches
           values = date_of_completed_assessments_query(nil)
         when 'date_of_custom_assessments'
           values = date_of_assessments_query(false)
+        when 'relation'
+          values = family_members
         end
         { id: sql_string, values: values }
       end
@@ -49,6 +51,22 @@ module AdvancedSearches
           families = families.where(children: '{}')
         when 'is_not_empty'
           families = families.where.not(children: '{}')
+        end
+
+        families.ids
+      end
+
+      def family_members
+        families = @families
+        case @operator
+        when 'equal'
+          families = families.joins(:family_members).where(family_members: { relation: @value })
+        when 'not_equal'
+          families = families.joins(:family_members).where.not(family_members: { relation: @value })
+        when 'is_empty'
+          families = Family.includes(:family_members).where(family_members: { relation: "" }).references(:family_members)
+        when 'is_not_empty'
+          families = Family.includes(:family_members).where.not(family_members: { relation: "" }).references(:family_members)
         end
 
         families.ids
