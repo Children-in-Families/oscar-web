@@ -423,4 +423,9 @@ module ApplicationHelper
   def has_service_delivery?
     !ServiceDelivery.count.zero?
   end
+
+  def request_method
+    (['clients', 'families'].include?(params[:controller]) && params[:action] == 'index') ?  'Post' : 'Get'
+  end
+
 end

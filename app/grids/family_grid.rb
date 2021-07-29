@@ -1,5 +1,6 @@
 class FamilyGrid < BaseGrid
   include ClientsHelper
+  include FamiliesHelper
 
   attr_accessor :dynamic_columns
 
@@ -189,13 +190,14 @@ class FamilyGrid < BaseGrid
       significant_family_member_count: :aggregrate,
       female_children_count: :aggregrate,
       male_children_count: :aggregrate,
+      relation: :aggregrate,
       village_id: :address,
       commune_id: :address,
       district_id: :address,
       province_id: :address,
       manage: :aggregrate,
       changelo: :aggregrate,
-      active_families: :general
+      active_families: :general,
     }[filter_name]
   end
 
@@ -249,7 +251,14 @@ class FamilyGrid < BaseGrid
     object.family_members.map{ |member| member.date_of_birth&.strftime("%d %B %Y") }.compact.join(", ")
   end
 
-  column(:id_poor, header: -> { I18n.t('datagrid.columns.families.id_poor') })
+  column(:relation,  html: true, header: -> { I18n.t('families.family_member_fields.relation') }) do |object|
+    content_tag :ul do
+      object.family_members.map(&:relation).compact.each do |relation|
+        next if relation.empty?
+        concat(content_tag(:li, drop_down_relation.to_h[relation]))
+      end
+    end
+  end
 
   column(:case_history, html: true, header: -> { I18n.t('datagrid.columns.families.case_history') }) do |object|
     family_case_history(object)
