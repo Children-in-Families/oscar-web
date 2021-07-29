@@ -75,8 +75,8 @@ module ClientEnrollmentTrackingHelper
     end
   end
 
-  def client_enrolled_program_tracking_new_link(id)
-    if program_permission_editable?(@enrollment.program_stream_id)
+  def client_enrolled_program_tracking_new_link(id, hidden = false)
+    if program_permission_editable?(@enrollment.program_stream_id) && !hidden
       link_to new_client_client_enrolled_program_client_enrolled_program_tracking_path(@client, @enrollment, tracking_id: id) do
         content_tag :div, class: 'btn btn-primary btn-xs' do
           t('.new_tracking')

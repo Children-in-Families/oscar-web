@@ -8,7 +8,12 @@ class ClientEnrollmentTrackingPolicy < ApplicationPolicy
     create?
   end
 
+  def new?
+    return false if record.tracking&.hidden
+    create?
+  end
 
-  alias new? create?
+
+
   alias update? create?
 end

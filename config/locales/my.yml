@@ -5470,6 +5470,7 @@ my:
     tracking_fields:
       custom_fields: အစီအစဥ္ပံုစံမ်ား
       frequency: အႀကိမ္ေရ
+      hidden: Hide?
       name: နာမည္
       remove_tracking: ေနာက္ေၾကာင္းလုိက္ျခင္းကို ဖယ္ရွားရန္
       time_of_frequency: အႀကိမ္အေရအတြက္
