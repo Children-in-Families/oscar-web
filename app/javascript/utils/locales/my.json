@@ -51,7 +51,7 @@
     "sam_as_client": "Same as Client"
   },
   "createFamilyModal": {
-    "wait_for_server_req": "Please wait while we are making a request to server.",
+    "wait_for_server_req": "Duplicate Checker is running, please wait for a moment...",
     "create_family_record": "Would you like to create a family record for this client, or attach them to an existing family?",
     "create_family": "Create a new family with client",
     "attach_family_to_client": "Attach with existing family record",
@@ -74,7 +74,7 @@
     "referral_info": "Client / Referral Information",
     "referral_more_info": "Client / Referral - More Information",
     "referral_vulnerability": "Client / Referral - Vulnerability Information and Referral Note",
-    "wait": "Please wait while we are making a request to server.",
+    "wait": "Duplicate Checker is running, please wait for a moment...",
     "duplicate_checker": "Duplicate Checker Running. Please give us a moment!",
     "cancel": "Cancel",
     "next": "Next",

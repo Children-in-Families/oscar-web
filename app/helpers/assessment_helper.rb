@@ -330,8 +330,4 @@ module AssessmentHelper
       end
     end
   end
-
-  def find_custom_assessment_setting
-    CustomAssessmentSetting.find_by(custom_assessment_name: params[:custom_name])
-  end
 end
