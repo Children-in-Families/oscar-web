@@ -1,10 +1,11 @@
 module Families
   class AssessmentsController < ::AdminController
     include ApplicationHelper
+    include AssessmentConcern
 
     before_action :find_family
     before_action :find_assessment, only: [:edit, :update, :show, :destroy]
-    before_action :authorize_client, only: [:new, :create]
+    before_action :find_custom_assessment_setting, :authorize_client, only: [:new, :create]
     before_action :authorize_assessment, only: [:show, :edit, :update]
     before_action :fetch_available_custom_domains, only: :index
 
@@ -18,8 +19,7 @@ module Families
       @from_controller = params[:from]
       @prev_assessment = @family.assessments.last
       @assessment = @family.assessments.new(default: default?)
-
-      authorize @assessment if current_organization.try(:aht) == false
+      authorize(@assessment, :new?, @custom_assessment_setting.try(:id)) if current_organization.try(:aht) == false
 
       @assessment.populate_family_domains
     end
@@ -35,7 +35,7 @@ module Families
           render :new
         end
       else
-        authorize @assessment
+        authorize(@assessment, :create?, @custom_assessment_setting.try(:id))
         if @assessment.save
           redirect_to family_path(@family), notice: t('.successfully_created')
         else
