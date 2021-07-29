@@ -1538,6 +1538,7 @@ km:
       successfully_updated: ការចុះឈ្មោះត្រូវបានកែសម្រួលដោយជោគជ័យ
   clients:
     attr: &LEGAL_DOC_ATTR
+      add_service_received: បន្ថែមសេវាដែលបានទទួល
       complain: ពាក្យបណ្ដឹង
       detail_form_of_judicial_police: ទម្រង់លម្អិតសម្រាប់ការសម្ភាសកំណត់អត្តសញ្ញាណបឋមជនរងគ្រោះដោយអំពើជួញដូរមនុស្ស (នគរបាលយុត្តិធម៌)
       detail_form_of_mosavy_dosavy: ទម្រង់លម្អិតសម្រាប់ការសម្ភាសកំណត់អត្តសញ្ញាណបឋមជនរងគ្រោះដោយអំពើជួញដូរមនុស្ស (ក្រសួង ស.អ.យ/មន្ទីរ ស.អ.យ)
@@ -2103,6 +2104,7 @@ km:
       close: បិទ
       warning: ប្រុងប្រយ័ត្ន
     show:
+      <<: *LEGAL_DOC_ATTR
       care_plan: គម្រោងរក្សា
       case_conference: Case Conference
       marital_status: Marital Status
@@ -4832,6 +4834,8 @@ km:
       client_representing_problem: CLIENT'S PRESENTING PROBLEMS
       client_representing_problem_note: "What issues/needs does the client say he or she needs help addressing:"
       emergency_note: "កំណត់ចំណាំ៖ តម្រូវការបន្ទាន់/វិបត្តិ"
+      internal_referral: ការបញ្ជូន
+      internal_referral_edit_duration:  Internal Referral Editable Duration
       new_internal_referral: New Internal Referral
       program_stream_ids: Referred To
       referral_date: Date of Internal Referral
@@ -5002,6 +5006,7 @@ km:
       communities: Community/Group
       community: Community
       custom_fields: ទម្រង់បែបបទ
+      custom_form_limit: កំណាត់ទម្រង់បែបបទ
       custom_labels: Custom Labels
       dashboards: តារាងទិន្នន័យ
       default_columns: ជួរឈរលំនាំដើម
@@ -5860,8 +5865,11 @@ km:
       noted: 'ចំណាំ: ទីភ្នាក់ងារ USAID បានស្នើថា CSI មិនត្រូវបានប្រើសម្រាប់ការប៉ាន់ប្រមាណតាមតម្រូវការ។'
       show_prev_assessment: Show previous assessment while completing new assessment
       two_weeks_assessment_reminder: Send 2 notification at both 2 and 1 week prior to assessment
-    case_note:
+    case_notes:
       case_note: រយៈពេលអតិបរមារវាងកំណត់ត្រាករណីសម្រាប់អតិថិជន
+      case_note_edit_limit: កំណត់ការកែប្រែកំណត់ត្រាករណី
+      disable_future_completion_date: បិទកាលបរិច្ឆេទសំរាប់កាតព្វកិច្ចក្នុងពេលអនាគត
+      disabled_add_service_received: បិទការបង្កើត សេវាដែលបានទទួល
       max_case_note: អតិបរមា
     client_forms:
       hotline: លេខទូរស័ព្ទបន្ទាន់

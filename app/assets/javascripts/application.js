@@ -145,3 +145,4 @@
 //= require family_referrals/form
 //= require case_conferences/form
 //= require internal_referrals/form
+//= require service_receives/form

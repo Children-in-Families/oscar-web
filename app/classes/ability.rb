@@ -11,6 +11,7 @@ class Ability
     can :manage, Referee
     can :manage, ServiceDelivery
     can :manage, CaseConference
+    can :manage, InternalReferral
 
     if user.nil?
       can :manage, Client

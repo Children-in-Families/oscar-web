@@ -33,4 +33,4 @@
                 - else
                   = t("domains.domain_names.#{domain.name.downcase.reverse}")
                   = domain.identity
-            = render 'tasks_list', { domain_note: domain_note, domain: domain, tasks: tasks }
+            = render 'case_notes/tasks_list', { domain_note: domain_note, domain: domain, tasks: tasks }

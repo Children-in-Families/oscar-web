@@ -8,8 +8,9 @@
         .ibox-tools
           - if can? :manage, ClientEnrollment
             = client_enrollment_edit_link
+          - if policy(@client_enrollment).destroy?
             = client_enrollment_destroy_link
-            = link_to t('.back'), report_client_client_enrollments_path(@client, program_stream_id: @program_stream), class: 'btn btn-back-default btn-default editable-cancel form-btn margin-btn'
+          = link_to t('.back'), report_client_client_enrollments_path(@client, program_stream_id: @program_stream), class: 'btn btn-back-default btn-default editable-cancel form-btn margin-btn'
       .ibox-content
         .table-responsive
           %table.table.table-bordered

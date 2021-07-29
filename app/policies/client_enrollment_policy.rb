@@ -20,6 +20,11 @@ class ClientEnrollmentPolicy < ApplicationPolicy
     ClientEnrollment.active.where(program_stream_id: record.program_stream).pluck(:client_id).uniq
   end
 
+  def destroy?
+    record.client.status != 'Exited'
+  end
+
+
   private
 
   def enrollments_by_client

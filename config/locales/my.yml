@@ -1533,6 +1533,7 @@ my:
       successfully_updated: စာရင္းေပးသြင္းျခင္းကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ၿပီးပါၿပီ
   clients:
     attr: &LEGAL_DOC_ATTR
+      add_service_received: Add Services Received
       complain: Complaint
       detail_form_of_judicial_police: Detailed Form for Identification of Victim of Human Trafficking (Judicial Police)
       detail_form_of_mosavy_dosavy: Detailed Form for Identification of Victim of Human Trafficking (MoSAVY/DoSAVY)
@@ -2095,6 +2096,7 @@ my:
       close: ပိတ္ရန္
       warning: သတိေပးခ်က္
     show:
+      <<: *LEGAL_DOC_ATTR
       care_plan: Care plan
       case_conference: Case Conference
       marital_status: Marital Status
@@ -4799,6 +4801,8 @@ my:
       client_representing_problem: CLIENT'S PRESENTING PROBLEMS
       client_representing_problem_note: "What issues/needs does the client say he or she needs help addressing:"
       emergency_note: "NOTE: EMERGENCY/CRISIS NEEDS"
+      internal_referral: Internal Referral
+      internal_referral_edit_duration: Internal Referral Editable Duration
       new_internal_referral: New Internal Referral
       program_stream_ids: Referred To
       referral_date: Date of Internal Referral
@@ -4986,6 +4990,7 @@ my:
       communities: Community/Group
       community: Community
       custom_fields: ပံုစံထုတ္စက္
+      custom_form_limit: Custom Form Limit
       custom_labels: Custom Labels
       dashboards: ဒက္ရွ္ဘုတ္မ်ား
       default_columns: ပုံမှန်ကော်လံများ
@@ -5847,8 +5852,11 @@ my:
       noted: 'မှတ်ချက်: USAID ကဟူသောဝေါဟာရကို CSI စိတ်ကြိုက်အကဲဖြတ်အတွက်အသုံးပြုမရကြောင်းမေတ္တာရပ်ခံခဲ့သည်။'
       show_prev_assessment: Show previous assessment while completing new assessment
       two_weeks_assessment_reminder: Send 2 notification at both 2 and 1 week prior to assessment
-    case_note:
+    case_notes:
       case_note: ဖောက်သည်များအတွက်စံချိန်များအကြားကာလ၏အမြင့်ဆုံးနံပါတ်တစ်ခု
+      case_note_edit_limit: Case Note Edit Limitation
+      disable_future_completion_date: Disable Future Completion Date for Task
+      disabled_add_service_received: Disable Creating New Service Receive
       max_case_note: အများဆုံး
     client_forms:
       hotline: Hotline

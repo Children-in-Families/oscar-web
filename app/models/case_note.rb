@@ -84,6 +84,14 @@ class CaseNote < ActiveRecord::Base
     end
   end
 
+  def is_editable?
+    setting = Setting.first
+    return true if setting.try(:case_note_edit_limit).zero?
+    case_note_edit_limit = setting.try(:case_note_edit_limit).zero? ? 2 : setting.try(:case_note_edit_limit)
+    edit_frequency = setting.try(:case_note_edit_frequency)
+    created_at >= case_note_edit_limit.send(edit_frequency).ago
+  end
+
   private
 
   def set_assessment

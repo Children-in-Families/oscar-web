@@ -18,6 +18,7 @@ module CreateNestedValue
         goal_id = goal.id
         task_attr = Task.new(domain_id: domain_id, name: name, previous_id: previous_id, expected_date: expected_date, relation: relation, goal_id: goal_id, client_id: @care_plan.client_id, user_id: current_user.id, family_id: @care_plan.family&.id).attributes
         goal.tasks.create(task_attr)
+        create_goal_tasks(goal.tasks)
       end
     end
     set_care_plan_completed(@care_plan)
@@ -47,6 +48,7 @@ module CreateNestedValue
         goal_id = goal.id
         task_attr = Task.new(domain_id: domain_id, previous_id: previous_id, name: name, expected_date: expected_date, relation: relation, goal_id: goal_id, client_id: @care_plan.client_id, user_id: current_user.id, family_id: @care_plan.family&.id).attributes
         goal.tasks.create(task_attr)
+        create_goal_tasks(goal.tasks)
       end
     else
       goal = Goal.find_by(id: goal_id)
@@ -93,6 +95,7 @@ module CreateNestedValue
           goal_id = goal.id
           task_attr = Task.new(domain_id: domain_id, name: name, expected_date: expected_date, relation: relation, goal_id: goal_id, client_id: @care_plan.client_id, user_id: current_user.id, family_id: @care_plan.family&.id).attributes
           goal.tasks.create(task_attr)
+          create_goal_tasks(goal.tasks)
         else
           existed_task = Task.find_by(id: task_id)
           if task.last[:_destroy] == '1'
@@ -104,4 +107,12 @@ module CreateNestedValue
       end
     end
   end
+
+  def create_goal_tasks(tasks)
+    tasks.each do |task|
+      next if task.expected_date.nil?
+      Calendar.populate_tasks(task)
+    end
+  end
+
 end
