@@ -22,7 +22,7 @@
             %strong= @family.name
           %td
             = "#{t('.created_by')} :"
-            %strong= @family.user&.name
+            %strong= "#{@family.user&.name} #{t('at')} #{ date_format @family.created_at }"
         %tr
           %td
             = "#{t('.id')} :"

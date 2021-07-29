@@ -43,7 +43,7 @@ module AdvancedSearches
       end
 
       def date_type_list
-        ['date_of_birth', 'contract_date', 'case_note_date', 'active_families']
+        ['created_at', 'date_of_birth', 'contract_date', 'case_note_date', 'active_families']
       end
 
       def drop_down_type_list
