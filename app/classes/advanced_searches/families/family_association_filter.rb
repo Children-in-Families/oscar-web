@@ -64,9 +64,9 @@ module AdvancedSearches
         when 'not_equal'
           families = families.joins(:family_members).where.not(family_members: { relation: @value })
         when 'is_empty'
-          families = Family.includes(:family_members).where(family_members: { relation: "" }).references(:family_members)
+          families = Family.includes(:family_members).references(:family_members).group(:id).having("COUNT(family_members.*) = 0")
         when 'is_not_empty'
-          families = Family.includes(:family_members).where.not(family_members: { relation: "" }).references(:family_members)
+          families = families.joins(:family_members).where.not(family_members: { relation: "" })
         end
 
         families.ids
