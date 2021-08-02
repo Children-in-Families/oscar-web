@@ -33,8 +33,6 @@ module AdvancedSearches
           values = date_of_completed_assessments_query(true)
         when 'date_of_custom_assessments'
           values = date_of_assessments_query(false)
-        when 'active_families'
-          values = get_active_families
         when 'care_plan_completed_date'
           values = date_query(Family, @families, :care_plans, 'care_plans.created_at')
         when 'relation'
@@ -69,9 +67,9 @@ module AdvancedSearches
         when 'not_equal'
           families = Family.includes(:family_members).where("NOT EXISTS (SELECT 1 FROM family_members WHERE family_members.family_id = families.id AND relation = ?)", @value).references(:family_members)
         when 'is_empty'
-          families = Family.includes(:family_members).where(family_members: { relation: "" }).references(:family_members)
+          families = Family.includes(:family_members).references(:family_members).group(:id).having("COUNT(family_members.*) = 0")
         when 'is_not_empty'
-          families = Family.includes(:family_members).where.not(family_members: { relation: "" }).references(:family_members)
+          families = families.joins(:family_members).where.not(family_members: { relation: "" })
         end
 
         families.ids
