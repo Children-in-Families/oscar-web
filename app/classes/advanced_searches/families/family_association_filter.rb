@@ -62,7 +62,7 @@ module AdvancedSearches
         when 'equal'
           families = families.joins(:family_members).where(family_members: { relation: @value })
         when 'not_equal'
-          families = families.joins(:family_members).where.not(family_members: { relation: @value })
+          families = Family.includes(:family_members).where("NOT EXISTS (SELECT 1 FROM family_members WHERE family_members.family_id = families.id AND relation = ?)", @value).references(:family_members)
         when 'is_empty'
           families = Family.includes(:family_members).where(family_members: { relation: "" }).references(:family_members)
         when 'is_not_empty'
