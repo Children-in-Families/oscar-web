@@ -154,7 +154,7 @@ en:
         followed_up_by_id: First Follow Up By
         follow_up_date: First Follow Up Date
         house: House Number
-        id: Automatic ID
+        id: Family ID
         id_poor: Has ID Poor?
         initial_referral_date: Date of Referral
         name: Head Household Name (Khmer)
@@ -487,7 +487,7 @@ en:
       exit_reasons: Reason For Exit
       family: Family
       family_basic_fields: Family Basic Fields
-      family_id: Family ID
+      family_id: Manual ID
       family_name: Family Name (Latin)
       follow_up_by: First Follow-Up By
       follow_up_date: First Follow-Up Date
@@ -3015,7 +3015,7 @@ en:
           unknown: Unknown
         house: House Number
         household_income: Monthly Household Income
-        id: Automatic ID
+        id: Family ID
         id_poor: Has ID Poor?
         initial_referral_date: Date of Referral
         male: Male
@@ -3047,7 +3047,7 @@ en:
         village_id: Village
         'yes': 'Yes'
       family: Family
-      family_id: Family ID
+      family_id: Manual ID
       family_preservation: Family Preservation
       form_title: Form Title
       history_of_disability_and_or_illness: History of disability and/or illness
@@ -4196,7 +4196,7 @@ en:
       female_children_count: Female Children Count
       house: House
       household_income: Monthly Household Income
-      id: Automatic ID
+      id: Family ID
       male_adult_count: Male Adult Count
       male_children_count: Male Children Count
       member_count: Member Count
@@ -4244,7 +4244,7 @@ en:
       caregiver_information: Caregiver Information
       case_histories: Case Histories
       case_history: Case History
-      code: Family ID
+      code: Manaul ID
       contract_date: Contract Date
       created_by: Created by
       created_date: Created Date
@@ -4264,7 +4264,7 @@ en:
       guardian: Guardian
       house: House
       household_income: Monthly Household Income
-      id: Automatic ID
+      id: Family ID
       initial_referral_date: Initial Referral Date
       male_adult_count: Number of Adule Males
       male_children_count: Number of Boys
