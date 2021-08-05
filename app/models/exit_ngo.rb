@@ -28,7 +28,9 @@ class ExitNgo < ActiveRecord::Base
   def update_entity_status
     entity = client.present? ? client : rejectable
     entity.status = 'Exited'
-    entity.save(validate: false)
+    if entity.save(validate: false)
+      entity.case_worker_clients.destroy_all
+    end
   end
 
   def create_exit_ngo_history
