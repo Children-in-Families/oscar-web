@@ -189,11 +189,13 @@ module AdvancedSearches
 
     def referral_to_options
       orgs = Organization.oscar.map { |org| { org.short_name => org.full_name } }
+      orgs << { "MoSVY External System" => "MoSVY External System" }
       orgs << { "external referral" => "I don't see the NGO I'm looking for" }
     end
 
     def referral_from_options
-      Organization.oscar.map { |org| { org.short_name => org.full_name } }
+      orgs = Organization.oscar.map { |org| { org.short_name => org.full_name } }
+      orgs << { "MoSVY External System" => "MoSVY External System" }
     end
 
     def setting_country_fields
