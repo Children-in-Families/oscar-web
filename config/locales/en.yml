@@ -971,7 +971,7 @@ en:
     destroy:
       fail_delete_attachment: Failed deleting attachment
       successfully_deleted: Attachment has been successfully deleted.
-      successfully_deleted_case_note: Case Conference has been successfully deleted.
+      successfully_deleted_case_conference: Case Conference has been successfully deleted.
     form:
       <<: *CASE_CONFERENCE_ATTR
     index:

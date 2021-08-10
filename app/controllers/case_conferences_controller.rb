@@ -39,6 +39,12 @@ class CaseConferencesController < AdminController
   end
 
   def destroy
+    if @case_conference.destroy
+      redirect_to client_case_conferences_path(@client), notice: t('.successfully_deleted')
+    else
+      messages = @case_conference.errors.full_messages.uniq.join('\n')
+      redirect_to [@client, @case_conference], alert: messages
+    end
   end
 
   private
