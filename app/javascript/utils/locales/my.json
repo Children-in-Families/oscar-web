@@ -134,7 +134,8 @@
     "phone_owner": "Phone Owner",
     "client_email": "Client Email Address",
     "profile": "Profile",
-    "remove": "Remove"
+    "remove": "Remove",
+    "for_testing": "Is This a test client?"
   },
   "referralMoreInfo": {
     "referral_more_info": "Client / Referral - More Information",

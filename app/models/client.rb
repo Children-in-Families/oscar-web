@@ -165,6 +165,8 @@ class Client < ActiveRecord::Base
   scope :active_accepted_status,                   ->        { where(status: ['Active', 'Accepted']) }
   scope :active_accepted_referred_status,          ->        { where(status: ['Active', 'Accepted', 'Referred']) }
   scope :referred_external,                        -> (external_system_name)       { joins(:referrals).where("clients.referred_external = ? AND referrals.ngo_name = ?", true, external_system_name) }
+  scope :test_clients,                             ->        { where(for_testing: true) }
+  scope :without_test_clients,                     ->        { where(for_testing: false) }
 
   class << self
     def find_shared_client(options)
