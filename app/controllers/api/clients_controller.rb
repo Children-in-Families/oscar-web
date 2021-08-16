@@ -106,7 +106,7 @@ module Api
             :concern_province_id, :concern_district_id, :concern_commune_id, :concern_village_id,
             :concern_street, :concern_house, :concern_address, :concern_address_type,
             :concern_phone, :concern_phone_owner, :concern_email, :concern_email_owner, :concern_location,
-            :national_id, :reason_for_referral,
+            :national_id, :reason_for_referral, :for_testing,
             :birth_cert,
             :family_book,
             :marital_status,

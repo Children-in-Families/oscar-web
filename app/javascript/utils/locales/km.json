@@ -134,7 +134,8 @@
     "phone_owner": "ម្ចាស់ទូរស័ព្ទ",
     "client_email": "អ៊ុីម៉ែលពាក់ព័ន្ធអតិថិជន",
     "profile": "ប្រវត្តិរូប",
-    "remove": "លុបចេញ"
+    "remove": "លុបចេញ",
+    "for_testing": "តើនេះជាអតិថិជនសាកល្បងមែនទេ?"
   },
   "referralMoreInfo": {
     "referral_more_info": "អតិថិជន / ការបញ្ជូន - ព័ត៌មានបន្ថែម",

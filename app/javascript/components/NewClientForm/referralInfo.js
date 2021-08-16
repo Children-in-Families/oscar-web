@@ -311,6 +311,12 @@ export default (props) => {
     onChange("client", { ...sharedServiceField })({ type: "radio" });
   };
 
+  const onChangeTestingClientRadioOption = (data) => {
+    const yesNoOpt = data.data;
+    const fieldValues = { for_testing: yesNoOpt };
+    onChange("client", { ...fieldValues })({ type: "radio" });
+  }
+
   return (
     <div className="containerClass">
       <legend>
@@ -320,6 +326,20 @@ export default (props) => {
           </div>
         </div>
       </legend>
+
+      <div className="row">
+        <div className="col-xs-12">
+          <RadioGroup
+            inline
+            required
+            label={T.translate("referralInfo.for_testing")}
+            options={yesNoOpts}
+            onChange={onChangeTestingClientRadioOption}
+            value={client.for_testing }
+          />
+        </div>
+      </div>
+
       <div className="row">
         <div className="col-xs-12 col-md-6 col-lg-3">
           <TextInput

@@ -30,9 +30,9 @@ class NgoUsageReport
   def ngo_clients_info(beginning_of_month, end_of_month)
     previous_month_clients = PaperTrail::Version.where(item_type: 'Client', created_at: beginning_of_month..end_of_month)
     {
-      client_count: Client.count,
-      client_added_count: previous_month_clients.where(event: 'create').count,
-      client_deleted_count: previous_month_clients.where(event: 'destroy').count
+      client_count: Client.without_test_clients.count,
+      client_added_count: previous_month_clients.where.not(item_id: Client.test_clients.ids).where(event: 'create').count,
+      client_deleted_count: previous_month_clients.where.not(item_id: Client.test_clients.ids).where(event: 'destroy').count
     }
   end
 

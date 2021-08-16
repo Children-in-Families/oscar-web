@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210727023556) do
+ActiveRecord::Schema.define(version: 20210816072637) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -783,6 +783,7 @@ ActiveRecord::Schema.define(version: 20210727023556) do
     t.boolean  "short_form_of_judicial_police",         default: false
     t.boolean  "letter_from_immigration_police",        default: false
     t.string   "letter_from_immigration_police_files",  default: [],                      array: true
+    t.boolean  "for_testing",                           default: false
   end
 
   add_index "clients", ["commune_id"], name: "index_clients_on_commune_id", using: :btree
