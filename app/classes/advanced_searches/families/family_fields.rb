@@ -60,6 +60,7 @@ module AdvancedSearches
           ['commune_id', communes],
           ['village_id', villages],
           ['id_poor', family_id_poor],
+          ['user_id', created_by_options('Family')],
           ['received_by_id', received_by_options('Family')],
           ['followed_up_by_id', followed_up_by_options('Family')],
           ['referral_source_category_id', referral_source_category_options('Family')],

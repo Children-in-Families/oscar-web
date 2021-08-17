@@ -9,6 +9,12 @@ module AdvancedSearchFieldHelper
     followed_up_clients.sort.map { |s| { s[1].to_s => s[0] } }
   end
 
+  def created_by_options(klass_name = 'Client')
+    created_by_objects = @user.admin? || @user.manager? ? klass_name.constantize.is_created_by : klass_name.constantize.where(user_id: @user.id).is_created_by
+    created_by_objects.sort.map { |s| { s[1].to_s => s[0] } }
+  end
+
+
   def referral_source_category_options(klass_name = 'Client')
     ref_cat_ids = klass_name.constantize.pluck(:referral_source_category_id).compact.uniq
     if I18n.locale == :km
