@@ -155,8 +155,6 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
           $(@options[i]).addClass('hidden')
         i++
 
-      results
-
     $('select.required').on "change", (e) ->
       $(@).trigger("validate")
 
