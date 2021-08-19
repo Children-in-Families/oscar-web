@@ -131,7 +131,6 @@ class Client < ActiveRecord::Base
 
   before_validation :assign_global_id, on: :create
   before_create :set_country_origin
-  before_update :disconnect_client_user_relation, if: :exiting_ngo?
   after_create :set_slug_as_alias, :save_client_global_organization, :save_external_system_global
   after_save :create_client_history, :mark_referral_as_saved, :create_or_update_shared_client
 
@@ -744,10 +743,6 @@ class Client < ActiveRecord::Base
 
   def notify_managers
     ClientMailer.exited_notification(self, User.deleted_user.managers.non_locked.pluck(:email)).deliver_now
-  end
-
-  def disconnect_client_user_relation
-    case_worker_clients.destroy_all
   end
 
   def remove_family_from_case_worker
