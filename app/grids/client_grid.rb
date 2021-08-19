@@ -645,13 +645,20 @@ class ClientGrid < BaseGrid
   column(:referred_to, order: false, header: -> { I18n.t('datagrid.columns.clients.referred_to') }) do |object|
     short_names = object.referrals.pluck(:referred_to)
     org_names   = Organization.where("organizations.short_name IN (?)", short_names).pluck(:full_name)
-    short_names.include?('external referral') ? org_names << "I don't see the NGO I'm looking for" : org_names
+    if short_names.include?('external referral')
+      org_names << "I don't see the NGO I'm looking for"
+    elsif short_names.include?("MoSVY External System")
+      org_names << "MoSVY External System"
+    end
     org_names.join(', ')
   end
 
   column(:referred_from, order: false, header: -> { I18n.t('datagrid.columns.clients.referred_from') }) do |object|
     short_names = object.referrals.pluck(:referred_from)
-    Organization.where("organizations.short_name IN (?)", short_names).pluck(:full_name).join(', ')
+    org_names = Organization.where("organizations.short_name IN (?)", short_names).pluck(:full_name)
+    org_names << "MoSVY External System" if short_names.include?("MoSVY External System")
+
+    org_names.join(', ')
   end
 
   column(:agency, order: false, header: -> { I18n.t('datagrid.columns.clients.agencies_involved') }) do |object|
