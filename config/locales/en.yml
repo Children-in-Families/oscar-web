@@ -799,7 +799,7 @@ en:
         "12": Other
       receiving_staff: Receiving Staff
       referee_answered_call: Did the referee answer this call or return a missed call?
-      referee_called_before: Has the referee called the Childsafe Hotline Before?
+      referee_called_before: Has the referee called Before?
       returning_missed_call: Returning Missed Call
       time_call_began: Time of Call
       time_call_ended: Time Call Ended
@@ -1913,7 +1913,7 @@ en:
       province: Birth Province
       rated_for_id_poor: Is client rated for ID Poor?
       received_by: Referral Received By
-      referee_called_before: Has the referee called the Childsafe Hotline Before?
+      referee_called_before: Has the referee called Before?
       referral_doc: 'Referral Documents'
       referral_email: Referee Email
       referral_phone: Referee Phone Number
