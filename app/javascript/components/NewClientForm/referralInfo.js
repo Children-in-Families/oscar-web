@@ -327,18 +327,19 @@ export default (props) => {
         </div>
       </legend>
 
-      <div className="row">
-        <div className="col-xs-12">
-          <RadioGroup
-            inline
-            required
-            label={T.translate("referralInfo.for_testing")}
-            options={yesNoOpts}
-            onChange={onChangeTestingClientRadioOption}
-            value={client.for_testing }
-          />
+      { client.isTestClient && <div className="row">
+          <div className="col-xs-12">
+            <RadioGroup
+              inline
+              required
+              label={T.translate("referralInfo.for_testing")}
+              options={yesNoOpts}
+              onChange={onChangeTestingClientRadioOption}
+              value={client.for_testing }
+            />
+          </div>
         </div>
-      </div>
+      }
 
       <div className="row">
         <div className="col-xs-12 col-md-6 col-lg-3">

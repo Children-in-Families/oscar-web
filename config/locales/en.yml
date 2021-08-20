@@ -5971,6 +5971,7 @@ en:
       delete_incomplete_assessment: Delete incomplete assessment after certain period of time
       previous_care_plan: Previous %{care_plan}
       use_previous_care_plan: Use Previous %{care_plan}
+    test_client: Test Client
     update:
       successfully_updated: Setting have been successfully updated.
   field_settings:
