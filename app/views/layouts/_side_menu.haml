@@ -114,7 +114,9 @@
                   - if Organization.ratanak?
                     %li{ class: settings_menu_active('settings', 'custom_form')}
                       = link_to t('.custom_form_limit'), custom_form_settings_path
-
+                  - if current_user.admin?
+                    %li{ class: settings_menu_active('settings', 'test_client')}
+                      = link_to t('settings.test_client'), test_client_settings_path
             %li{ class: active_menu('agencies') }
               = link_to t('.agencies'), agencies_path
             - if can? :read, :all
