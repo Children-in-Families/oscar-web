@@ -327,7 +327,7 @@ export default (props) => {
         </div>
       </legend>
 
-      { client.isTestClient && <div className="row">
+      { client.isTestClient && !client.for_testing && <div className="row">
           <div className="col-xs-12">
             <RadioGroup
               inline
