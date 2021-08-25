@@ -13,7 +13,7 @@
               %p.frequency-note
                 %i
             .col-xs-12.col-md-3
-              = f.input :time_of_frequency, label: t('.time_of_frequency'), input_html: { min: 0, value: f.object.time_of_frequency || 0}
+              = f.input :time_of_frequency, label: t('.time_of_frequency'), min_max: true, input_html: { min: '1', step: 'any', value: f.object.time_of_frequency || 0 }
             .col-xs-12.col-md-1
               %label.m-l-md= t('.hidden')
               .i-checks
