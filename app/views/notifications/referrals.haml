@@ -9,4 +9,4 @@
             %ul.list-group
               - @unsaved_referrals.each do |referral|
                 %li.list-group-item
-                  = link_to "#{referral.client_name} (#{referral.referred_to.upcase})", new_client_path(referral_id: referral.id), target: '_blank'
+                  = link_to "#{referral.client_name} (#{ngo_hash_mapping[referral.referred_to]})", new_client_path(referral_id: referral.id), target: '_blank'
