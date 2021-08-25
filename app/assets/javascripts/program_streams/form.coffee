@@ -566,7 +566,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       continue if $(trackingName).length == 0
       name = $(trackingName).val()
       labelFields = $(tracking).find('label.field-label')
-      if fields[name].length <= labelFields.length
+      if fields[name] && fields[name].length <= labelFields.length
         $(tracking).find('.ibox-footer .remove_fields').remove()
 
       $(labelFields).each (index, label) ->
