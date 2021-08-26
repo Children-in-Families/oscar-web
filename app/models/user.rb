@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
 
   GENDER_OPTIONS  = ['female', 'male', 'lgbt', 'unknown', 'prefer_not_to_say', 'other']
 
-  devise :database_authenticatable, :registerable,
+  devise :database_authenticatable, :registerable, :timeoutable,
        :recoverable, :rememberable, :trackable, :validatable
 
   has_paper_trail
