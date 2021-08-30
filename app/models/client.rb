@@ -191,7 +191,7 @@ class Client < ActiveRecord::Base
       addresses_hash = { cp: province_name, cd: district_name, cc: commune_name, cv: village_name, bp: birth_province_name }
       address_hash   = { cv: 1, cc: 2, cd: 3, cp: 4, bp: 5 }
 
-      shared_clients.compact.bsearch do |client|
+      shared_clients.compact.each do |client|
         client = client.split('&')
         input_name_field  = field_name_concatenate(options)
         client_name_field = client[0].squish

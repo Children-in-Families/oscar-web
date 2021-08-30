@@ -73,6 +73,10 @@ class FamilyGrid < BaseGrid
     [I18n.t('default_family_fields.family_type_list').values, I18n.backend.send(:translations)[:en][:default_family_fields][:family_type_list].values].transpose
   end
 
+  def created_by
+    Family.is_received_by
+  end
+
   def commune_options
     Family.joins(:commune).map{|f| [f.commune.code_format, f.commune_id]}.uniq
   end
@@ -110,6 +114,8 @@ class FamilyGrid < BaseGrid
   filter(:household_income, :float, range: true, header: -> { I18n.t('datagrid.columns.families.household_income') })
 
   filter(:created_at, :date, header: -> { I18n.t('advanced_search.fields.created_at') })
+
+  filter(:user_id, :enum, select: :created_by, header: -> { I18n.t('advanced_search.fields.created_by') })
 
   filter(:contract_date, :date, header: -> { I18n.t('datagrid.columns.families.contract_date') })
 
@@ -174,6 +180,7 @@ class FamilyGrid < BaseGrid
       household_income: :general,
       follow_up_date: :general,
       created_at: :general,
+      user_id: :general,
       contract_date: :general,
       caregiver_information: :general,
       id: :general,
@@ -299,6 +306,10 @@ class FamilyGrid < BaseGrid
   column(:male_adult_count, header: -> { I18n.t('datagrid.columns.families.male_adult_count') })
 
   date_column(:created_at, header: -> { I18n.t('advanced_search.fields.created_at') })
+  column(:user_id, header: -> { I18n.t('advanced_search.fields.created_by') }) do |object|
+    user = object.user
+    format(user&.name)
+  end
   date_column(:contract_date, html: true, header: -> { I18n.t('datagrid.columns.families.contract_date') })
   date_column(:initial_referral_date, header: -> { I18n.t('datagrid.columns.families.initial_referral_date') })
   date_column(:follow_up_date, header: -> { I18n.t('datagrid.columns.families.follow_up_date') })

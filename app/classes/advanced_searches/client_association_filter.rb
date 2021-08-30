@@ -164,11 +164,11 @@ module AdvancedSearches
       when 'equal'
         clients.where('referrals.referred_to = ?', @value).ids
       when 'not_equal'
-        clients.where('referrals.referred_to != ?', @value).ids
+        clients.where("NOT EXISTS (SELECT 1 FROM referrals WHERE referrals.client_id = clients.id AND referred_to = ?)", @value).ids
       when 'is_empty'
-        @clients.where.not(id: clients.ids).ids
+        Client.where.not(id: clients.ids).ids
       when 'is_not_empty'
-        @clients.where(id: clients.ids).ids
+        clients.ids
       end
     end
 
@@ -178,11 +178,11 @@ module AdvancedSearches
       when 'equal'
         clients.where('referrals.referred_from = ?', @value).ids
       when 'not_equal'
-        clients.where('referrals.referred_from != ?', @value).ids
+        clients.where("NOT EXISTS (SELECT 1 FROM referrals WHERE referrals.client_id = clients.id AND referred_from = ?)", @value).ids
       when 'is_empty'
-        @clients.where.not(id: clients.ids).ids
+        Client.where.not(id: clients.ids).ids
       when 'is_not_empty'
-        @clients.where(id: clients.ids).ids
+        clients.ids
       end
     end
 

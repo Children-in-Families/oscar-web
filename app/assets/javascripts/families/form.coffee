@@ -145,6 +145,15 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
   _initSelect2 = ->
     $('select').select2
       allowClear: true
+    .on 'select2-opening', ->
+      selectedValues = $.map($('select[id*=\'_client_id\']'), (element, index) ->
+        $(element).val()
+      )
+      i = 1
+      while i < @options.length
+        if _.includes(selectedValues, @options[i].value)
+          $(@options[i]).addClass('hidden')
+        i++
 
     $('select.required').on "change", (e) ->
       $(@).trigger("validate")
