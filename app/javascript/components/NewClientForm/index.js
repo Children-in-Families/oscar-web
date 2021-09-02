@@ -227,7 +227,7 @@ const Forms = props => {
       commune_id: clientData.commune_id || ''
     }
 
-    if(!clientData.id && clientData.outside === false) {
+    if(clientData.outside === false) {
       if(data.given_name !== '' || data.family_name !== '' || data.local_given_name !== '' || data.local_family_name !== '' || data.date_of_birth !== '' || data.birth_province_id !== '' || data.current_province_id !== '' || data.district_id !== '' || data.village_id !== '' || data.commune_id !== '') {
         $.ajax({
           type: 'GET',
