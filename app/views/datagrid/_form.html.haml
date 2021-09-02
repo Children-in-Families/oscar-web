@@ -224,15 +224,6 @@
               %li.csi-header
                 %strong= t('.result_framework_assessment')
               %li
-            - else
-              %li.hotline-header.m-l-sm
-                %strong= t('.concern_basic_fields')
-              %li
-          - Client::HOTLINE_FIELDS.each do |hotline_field|
-            %li
-              .visibility.col-sm-12
-                = check_box_tag "#{hotline_field}_", hotline_field, checked = saved_search_column_visibility("#{hotline_field}_"), class: 'i-checks'
-                = label_tag "#{hotline_field}_", concern_translation(hotline_field)
 
           - if enable_default_assessment?
             - if current_organization.try(:aht) == true
