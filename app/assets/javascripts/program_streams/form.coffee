@@ -900,7 +900,9 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     timeOfFrencyInputs = $("#steps-uid-0-p-" + currentIndex + " .program_stream_trackings_time_of_frequency input")
     hasZeroValue = false
     for timeOfFrencyInput in timeOfFrencyInputs
-      if $(timeOfFrencyInput).val() == '0'
+      timeOfFrencyInputAttrIndex = timeOfFrencyInput.id.match(/\d+/g)[0]
+      frequencyValue = $("#program_stream_trackings_attributes_#{timeOfFrencyInputAttrIndex}_frequency").val()
+      if !_.isEmpty(frequencyValue) && $(timeOfFrencyInput).val() == '0'
         hasZeroValue = true
         setTimeout( ->
           document.getElementById(timeOfFrencyInput.id).scrollIntoView({ behavior: 'smooth', block: 'start' })
