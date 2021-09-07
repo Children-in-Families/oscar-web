@@ -799,7 +799,7 @@ en:
         "12": Other
       receiving_staff: Receiving Staff
       referee_answered_call: Did the referee answer this call or return a missed call?
-      referee_called_before: Has the referee called the Childsafe Hotline Before?
+      referee_called_before: Has the referee called Before?
       returning_missed_call: Returning Missed Call
       time_call_began: Time of Call
       time_call_ended: Time Call Ended
@@ -1913,7 +1913,7 @@ en:
       province: Birth Province
       rated_for_id_poor: Is client rated for ID Poor?
       received_by: Referral Received By
-      referee_called_before: Has the referee called the Childsafe Hotline Before?
+      referee_called_before: Has the referee called Before?
       referral_doc: 'Referral Documents'
       referral_email: Referee Email
       referral_phone: Referee Phone Number
@@ -2215,6 +2215,7 @@ en:
       follow_up_by: First Follow-Up By
       follow_up_date: First Follow-Up Date
       followed_up_by: First Follow-Up By
+      for_testing: For Testing
       gender: Gender
       general_info: About Client
       given_name: Given Name (Latin)
@@ -5972,6 +5973,7 @@ en:
       delete_incomplete_assessment: Delete incomplete assessment after certain period of time
       previous_care_plan: Previous %{care_plan}
       use_previous_care_plan: Use Previous %{care_plan}
+    test_client: Test Client
     update:
       successfully_updated: Setting have been successfully updated.
   field_settings:
