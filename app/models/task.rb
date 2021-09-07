@@ -41,6 +41,7 @@ class Task < ActiveRecord::Base
 
   after_save :create_task_history
   after_commit :save_parent_parent_id, :on => [:create, :update]
+  after_commit :delete_tasks_from_google_calendar, if: :completed?
 
   def self.of_user(user)
     where(user_id: user.id)
@@ -105,5 +106,9 @@ class Task < ActiveRecord::Base
     parent_client_id = goal&.care_plan&.client_id || taskable&.client_id
 
     update_columns(family_id: parent_family_id, client_id: parent_client_id)
+  end
+
+  def delete_tasks_from_google_calendar
+
   end
 end
