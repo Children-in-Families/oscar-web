@@ -7,7 +7,7 @@ class Task < ActiveRecord::Base
   belongs_to :family
   belongs_to :goal, required: false
   belongs_to :completed_by, class_name: 'User', foreign_key: 'completed_by_id'
-  has_one    :calendar, dependent: :destroy
+  has_one    :calendar, dependent: :nullify
 
   has_many :service_delivery_tasks, dependent: :destroy
   has_many :service_deliveries, through:   :service_delivery_tasks

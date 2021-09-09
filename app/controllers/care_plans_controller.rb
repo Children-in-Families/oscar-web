@@ -79,7 +79,7 @@ class CarePlansController < AdminController
   end
 
   def get_all_assessments
-    @assessments = @client.assessments.completed
+    @assessments = @client.assessments.completed.order(:created_at)
   end
 
   def find_assessment
