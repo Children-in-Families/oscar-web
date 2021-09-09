@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210820032048) do
+ActiveRecord::Schema.define(version: 20210909053828) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -161,12 +161,15 @@ ActiveRecord::Schema.define(version: 20210820032048) do
     t.string   "title"
     t.datetime "start_date"
     t.datetime "end_date"
-    t.boolean  "sync_status", default: false
+    t.boolean  "sync_status",     default: false
     t.integer  "user_id"
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.string   "google_event_id"
+    t.integer  "task_id"
   end
 
+  add_index "calendars", ["task_id"], name: "index_calendars_on_task_id", using: :btree
   add_index "calendars", ["user_id"], name: "index_calendars_on_user_id", using: :btree
 
   create_table "call_necessities", force: :cascade do |t|

@@ -1,4 +1,6 @@
 module CreateNestedValue
+  include GoogleCalendarServiceConcern
+
   def create_nested_value(goal_in_params)
     assessment_id = goal_in_params.last[:assessment_id]
     assessment_domain_id = goal_in_params.last[:assessment_domain_id]
@@ -113,6 +115,7 @@ module CreateNestedValue
       next if task.expected_date.nil?
       Calendar.populate_tasks(task)
     end
+    create_events if session[:authorization]
   end
 
 end
