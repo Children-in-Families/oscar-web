@@ -587,7 +587,7 @@
                           %strong
                             %span YES
                         %td(rowspan="#{ attachments.size + 1 }")
-                          = t("clients.form.#{legal_doc_options_hash[@client.try("#{field}_option".to_sym)]}") if @client.try("#{field}_option".to_sym)
+                          = t("clients.form.#{legal_doc_options_hash[@client.try("#{field}_option".to_sym)]}") if @client.try("#{field}_option".to_sym).present?
                         - if attachments.size == 0
                           %td(colspan="2") No attachment
 
