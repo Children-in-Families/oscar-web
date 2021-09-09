@@ -794,7 +794,7 @@ my:
         "12": Other
       receiving_staff: Receiving Staff
       referee_answered_call: Did the referee answer this call or return a missed call?
-      referee_called_before: Has the referee called the Childsafe Hotline Before?
+      referee_called_before: Has the referee called Before?
       returning_missed_call: Returning Missed Call
       time_call_began: Time of Call
       time_call_ended: Time Call Ended
@@ -1900,7 +1900,7 @@ my:
       province: ေမြးဖြားရာ ခ႐ိုင္
       rated_for_id_poor: Is client rated for ID Poor?
       received_by: မွ လက္ခံသည္။
-      referee_called_before: Has the referee called the Childsafe Hotline Before?
+      referee_called_before: Has the referee called Before?
       referral_phone: လႊဲေျပာင္းရန္ ဖုန္းနံပါတ္
       referral_source: လြဲေျပာင္းရန္ ရင္းျမစ္
       reject_note: ျငင္းပယ္သည့္မွတ္စု
@@ -2199,6 +2199,7 @@ my:
       follow_up_by: မွ ဆက္လက္ေဆာင္ရြက္သည္
       follow_up_date: ဆက္လက္ေဆာင္ရြက္သည့္ ရက္စြဲ
       followed_up_by: မွ ဆက္လက္ေဆာင္ရြက္သည္
+      for_testing: စမ်းသပ်မှုများအတွက်
       gender: က်ားမ
       general_info: အမႈသည္၏ အေၾကာင္း
       given_name: ေမြးနာမည္
@@ -5921,6 +5922,7 @@ my:
       delete_incomplete_assessment: Delete incomplete assessment after certain period of time
       previous_care_plan: Previous %{care_plan}
       use_previous_care_plan: Use Previous %{care_plan}
+    test_client: Test Client
     update:
       successfully_updated: အောင်မြင်စွာဖြည့်ပါ
   field_settings:

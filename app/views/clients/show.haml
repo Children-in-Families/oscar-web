@@ -22,6 +22,8 @@
                   %a{:role => "button", :tabIndex => "0",  data:{ toggle: "popover", html: 'true', trigger: "focus", content: "#{I18n.t('inline_help.clients.show.status')}" } }
                     = fa_icon "info-circle", class: 'text-info m-xs'
                   = "#{t('.status')} :"
+                  - if @client.for_testing
+                    %span.show-status= status_style(t('.for_testing'))
                   %span.show-status= status_style(@client.status)
             %tr
               %td
