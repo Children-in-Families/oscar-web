@@ -4,7 +4,7 @@ build_app:
 
 # Just start the Rails app, webpack dev server and Postgres DB
 start_core:
-	docker-compose up --no-deps app db mongo webpack
+	docker-compose up --no-deps app db mongo webpack redis
 
 start_mongo:
 	docker-compose up mongo
@@ -56,7 +56,7 @@ yarn_install:
 
 # Create test database (run `make start_core` at least first!)
 db_create_test:
-	docker-compose run --no-deps -e RAILS_ENV=test --entrypoint "rake db:drop" app
+	# docker-compose run --no-deps -e RAILS_ENV=test --entrypoint "rake db:drop" app
 	docker-compose run --no-deps -e RAILS_ENV=test --entrypoint "rake db:create" app
 	docker-compose run --no-deps -e RAILS_ENV=test --entrypoint "rake db:schema:load" app
 
