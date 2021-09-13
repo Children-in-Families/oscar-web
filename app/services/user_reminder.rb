@@ -4,6 +4,7 @@ class UserReminder
 
   def remind
     Organization.without_shared.each do |org|
+      next if org.short_name != 'cif'
       Organization.switch_to org.short_name
       remind_case_worker_with_forms(org)
       remind_case_workers(org)
@@ -64,7 +65,6 @@ class UserReminder
           user.id if user.tasks.count > 0 && user.clients.count > 0
         end
         AdminWorker.perform_async('', user_ids, org.short_name) if user_ids.present?
-
       end
     end
   end
