@@ -16,6 +16,7 @@ module AdvancedSearchFieldHelper
 
 
   def referral_source_category_options(klass_name = 'Client')
+    return [] if klass_name.constantize.count.zero?
     ref_cat_ids = klass_name.constantize.pluck(:referral_source_category_id).compact.uniq
     if I18n.locale == :km
       ref_cat_kh_names = ReferralSource.where(id: ref_cat_ids).pluck(:name, :id)

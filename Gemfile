@@ -118,6 +118,7 @@ group :development do
   gem 'rack-mini-profiler',   '~> 1.0'
   gem 'metainspector'
   gem 'flay',                 '~> 2.12', '>= 2.12.1'
+  gem 'active_record_doctor', '~> 1.8'
 end
 
 group :test do
