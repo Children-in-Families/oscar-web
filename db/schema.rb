@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210913172941) do
+ActiveRecord::Schema.define(version: 20210913172942) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -152,6 +152,7 @@ ActiveRecord::Schema.define(version: 20210913172941) do
   add_index "assessments", ["client_id"], name: "index_assessments_on_client_id", using: :btree
   add_index "assessments", ["completed_date"], name: "index_assessments_on_completed_date", using: :btree
   add_index "assessments", ["default"], name: "index_assessments_on_default", where: "(\"default\" = true)", using: :btree
+  add_index "assessments", ["default"], name: "index_assessments_on_default_false", where: "(\"default\" = false)", using: :btree
   add_index "assessments", ["family_id"], name: "index_assessments_on_family_id", using: :btree
 
   create_table "attachments", force: :cascade do |t|
@@ -1383,8 +1384,6 @@ ActiveRecord::Schema.define(version: 20210913172941) do
     t.string  "ngo_name"
     t.integer "client_id"
   end
-
-  add_index "global_identity_tmp", ["client_id"], name: "index_global_identity_tmp_on_client_id", using: :btree
 
   create_table "global_services", id: false, force: :cascade do |t|
     t.uuid "uuid"

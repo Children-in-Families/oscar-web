@@ -1,10 +1,10 @@
 # Forces a rebild of the app image for example to update dependencies in the image
 build_app:
-	docker-compose build app
+	docker-compose build app sidekiq
 
 # Just start the Rails app, webpack dev server and Postgres DB
 start_core:
-	docker-compose up --no-deps app db mongo webpack redis
+	docker-compose up --no-deps app db mongo webpack redis sidekiq
 
 start_mongo:
 	docker-compose up mongo

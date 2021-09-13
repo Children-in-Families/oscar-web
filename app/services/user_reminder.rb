@@ -4,7 +4,6 @@ class UserReminder
 
   def remind
     Organization.without_shared.each do |org|
-      next if org.short_name != 'cif'
       Organization.switch_to org.short_name
       remind_case_worker_with_forms(org)
       remind_case_workers(org)
