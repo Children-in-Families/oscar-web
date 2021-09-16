@@ -308,7 +308,7 @@ class FamilyGrid < BaseGrid
   date_column(:created_at, header: -> { I18n.t('advanced_search.fields.created_at') })
   column(:user_id, header: -> { I18n.t('advanced_search.fields.created_by') }) do |object|
     user = object.user
-    format(user&.name)
+    format(user&.name || '')
   end
   date_column(:contract_date, html: true, header: -> { I18n.t('datagrid.columns.families.contract_date') })
   date_column(:initial_referral_date, header: -> { I18n.t('datagrid.columns.families.initial_referral_date') })
