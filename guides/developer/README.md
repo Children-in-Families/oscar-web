@@ -14,13 +14,29 @@ Given that we are using Docker, then most common development tasks you will just
 make start_core
 ```
 
-This starts a Rails, Postgres, Webpack and MongoDB.
+This starts a Rails, Postgres, Webpack, MongoDB and Redis.
 
 See the project [Makefile](./Makefile) for a list of all the available commands.
 
-Once the containers have fired up open a web browser and navigate to [http://localhost:3000](http://localhost:3000) to open the app. To login, click on the 'dev' organizations logo (there should only be the one logo) and the username (email) is any of the users (listed in the 'users' sheet) of the [lib/devdata/dev_tenant.xlsx](lib/devdata/dev_tenant.xlsx) spreadsheet with the password set to `123456789`.
+Once the containers have fired up open a web browser and navigate to [http://start.lvh.me:3000](http://start.lvh.me:3000) to open the app. To login, click on the 'dev' organizations logo (there should only be the one logo) and the username (email) is any of the users (listed in the 'users' sheet) of the [lib/devdata/dev_tenant.xlsx](lib/devdata/dev_tenant.xlsx) spreadsheet with the password set to `123456789`.
 
 _NOTE_ If this is the first time you have run this you may need to stop the containers and run it again!
+
+If you don't see the data in the database, the rake task `rake import:dev_env_data` in the `entrypoint.sh` might not run successfully. if that is so you can follow the step below:
+
+```
+make start_all # if requred containers are not yet started
+# open another terminal tap and run:
+make bash_console
+rake import:dev_env_data
+```
+If the rake task fails because it needs `shared` schema, go to the rails console and run `Apartment::Tenant.create('shared')`. While creating `shared` schema you might see another database error `uuid_generate_v4()` not found. If you the error, run `rails db` or go to the app database drop and create extension `uuid-ossp` by running:
+
+```
+DROP EXTENSION IF EXISTS "uuid-ossp";
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+```
+and then run `Apartment::Tenant.create('shared')` again.
 
 ### Running the tests
 

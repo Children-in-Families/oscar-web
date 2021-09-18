@@ -79,8 +79,8 @@ module Families
       @family = Family.accessible_by(current_ability).find(params[:family_id])
     end
 
-    def find_all_assessments
-      @assessments = @family.assessments.completed
+    def get_all_assessments
+      @assessments = @family.assessments.completed.order(:created_at)
     end
 
     def find_assessment

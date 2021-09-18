@@ -20,6 +20,7 @@ services:
       - READ_ONLY_DATABASE_USER=powerbi_dashboard_user
       - READ_ONLY_DATABASE_PASSWORD=123456789
       - WEBPACKER_DEV_SERVER_HOST=webpack
+      - REDIS_URL=redis://redis:6379/0
     volumes:
       - .:/app
     ports:
@@ -27,6 +28,7 @@ services:
     depends_on:
       - db
       - mongo
+      - redis
     stdin_open: true
     tty: true
   webpack:
@@ -90,3 +92,6 @@ services:
       - ME_CONFIG_MONGODB_ADMINPASSWORD=123456789
     ports:
       - '8081:8081'
+  redis:
+    image: 'redis:5.0.13'
+    container_name: 'redis'

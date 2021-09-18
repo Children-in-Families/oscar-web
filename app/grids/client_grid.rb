@@ -107,6 +107,7 @@ class ClientGrid < BaseGrid
   end
 
   def referral_source_category_options
+    return [] if Client.count.zero?
     if I18n.locale == :km
       ReferralSource.where(id: Client.pluck(:referral_source_category_id).compact).pluck(:name, :id)
     else

@@ -1,9 +1,9 @@
 class Calendar < ActiveRecord::Base
   belongs_to :user
-  belongs_to :task
+  belongs_to :task, required: false
 
   scope :sync_status_false, -> { where(sync_status: false) }
-  scope :completed_tasks, -> { joins(:task).where(tasks: { completed: true }).where.not(google_event_id: nil) }
+  scope :completed_tasks, -> { includes(:task).where("(tasks.completed IS TRUE AND google_event_id IS NOT NULL) OR (google_event_id IS NOT NULL AND task_id IS NULL)").references(:task) }
 
   def self.populate_tasks(task)
     task_name  = task.name
