@@ -582,27 +582,12 @@ class Client < ActiveRecord::Base
       Organization.switch_to org.short_name
 
       next if !(current_setting.enable_default_assessment) && !(current_setting.enable_custom_assessment?)
-      clients = joins(:assessments).active_accepted_status
+      clients = active_young_clients(self)
+      default_clients = clients_have_recent_default_assessments(clients)
+      custom_assessment_clients = clients_have_recent_custom_assessments(clients)
 
-      clients.each do |client|
-        if current_setting.enable_default_assessment && client.eligible_default_csi? && client.assessments.defaults.any?
-          repeat_notifications = client.assessment_notification_dates(current_setting)
-
-          if(repeat_notifications.include?(Date.today))
-            CaseWorkerMailer.notify_upcoming_csi_weekly(client).deliver_now
-          end
-        end
-
-        if current_setting.enable_custom_assessment && client.assessments.customs.any?
-          custom_assessment_setting_ids = client.assessments.customs.map{|ca| ca.domains.pluck(:custom_assessment_setting_id ) }.flatten.uniq
-
-          CustomAssessmentSetting.where(id: custom_assessment_setting_ids).each do |custom_assessment_setting|
-            repeat_notifications = client.assessment_notification_dates(custom_assessment_setting)
-            if(repeat_notifications.include?(Date.today)) && client.eligible_custom_csi?(custom_assessment_setting)
-              CaseWorkerMailer.notify_upcoming_csi_weekly(client).deliver_now
-            end
-          end
-        end
+      (default_clients + custom_assessment_clients).each do |client|
+        CaseWorkerMailer.notify_upcoming_csi_weekly(client).deliver_now
       end
     end
   end
@@ -611,26 +596,22 @@ class Client < ActiveRecord::Base
     Organization.without_shared.each do |org|
       Organization.switch_to org.short_name
 
-      setting = current_setting_or_initialize
+      setting = Setting.first_or_initialize
       next if setting.disable_required_fields? || setting.never_delete_incomplete_assessment?
 
-      if current_setting.enable_default_assessment
-        clients = joins(:assessments).where(assessments: { completed: false, default: true })
+      if setting.enable_default_assessment
+        clients = joins(:assessments).where(assessments: { completed: false, default: true }).where("(EXTRACT(year FROM age(current_date, coalesce(clients.date_of_birth, current_date))) :: int) < ?", setting.age || 18)
         clients.each do |client|
-          if client.eligible_default_csi? && client.assessments.defaults.any?
-            CaseWorkerMailer.notify_incomplete_daily_csi_assessments(client).deliver_now
-          end
+          CaseWorkerMailer.notify_incomplete_daily_csi_assessments(client).deliver_now
         end
       end
 
-      if current_setting.enable_custom_assessment?
-        clients = joins(:assessments).where(assessments: { completed: false, default: false })
+      if setting.enable_custom_assessment?
+        clients = joins(:assessments).where(assessments: { completed: false, default: false }).where("(EXTRACT(year FROM age(current_date, coalesce(clients.date_of_birth, current_date))) :: int) < ?", setting.age || 18)
         clients.each do |client|
           custom_assessment_setting_ids = client.assessments.customs.map{|ca| ca.domains.pluck(:custom_assessment_setting_id ) }.flatten.uniq
           CustomAssessmentSetting.where(id: custom_assessment_setting_ids).each do |custom_assessment_setting|
-            if client.eligible_custom_csi?(custom_assessment_setting) && client.assessments.customs.any?
-              CaseWorkerMailer.notify_incomplete_daily_csi_assessments(client, custom_assessment_setting).deliver_now
-            end
+            CaseWorkerMailer.notify_incomplete_daily_csi_assessments(client, custom_assessment_setting).deliver_now
           end
         end
       end

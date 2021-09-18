@@ -1,10 +1,9 @@
 class UserNotification
   include ProgramStreamHelper
+  include CsiConcern
 
   attr_reader :all_count, :current_setting, :enable_default_assessment, :any_custom_assessment_enable
   attr_accessor :upcoming_csi_assessments_count, :upcoming_custom_csi_assessments_count
-  ONE_WEEK = 1.week
-  TWO_WEEKS = 2.weeks
 
   def initialize(user, clients)
     @current_setting = Setting.first
@@ -29,19 +28,13 @@ class UserNotification
   def upcoming_csi_assessments
     client_ids = []
     custom_client_ids = []
-    clients = @clients.joins(:assessments).active_accepted_status
+    clients = active_young_clients(@clients)
     if @user.deactivated_at.present? && clients.any?
       clients = clients.where('clients.created_at > ?', @user.activated_at)
     end
 
-    clients_recent_assessment_dates = clients.merge(Assessment.defaults.most_recents).select("clients.id, assessments.created_at AS assessment_created_at")
-    client_ids = collect_clients_have_recent_assessment_dates(clients_recent_assessment_dates) if current_setting.try(:enable_default_assessment?)
-
-    clients_recent_custom_assessment_dates = clients.merge(Assessment.customs.most_recents.joins(:domains).where(domains: { custom_assessment_setting_id: CustomAssessmentSetting.all.ids })).uniq("client.ids, assessment_created_at AS assessment_created_at")
-    custom_assessment_client_ids = collect_clients_have_recent_assessment_dates(clients_recent_custom_assessment_dates) if current_setting.try(:any_custom_assessment_enable?)
-
-    default_clients = clients.where(id: client_ids).uniq
-    custom_assessment_clients = clients.where(id: custom_assessment_client_ids).uniq
+    default_clients = clients_have_recent_default_assessments(clients)
+    custom_assessment_clients = clients_have_recent_custom_assessments(clients)
 
     upcoming_csi_assessments_count = default_clients.count
     upcoming_custom_csi_assessments_count = custom_assessment_clients.count
@@ -377,15 +370,5 @@ class UserNotification
     end
     referral_type == 'new_referral' ? new_family_referrals : existing_family_referrals
   end
-
-  def collect_clients_have_recent_assessment_dates(client_ids_recent_assessment_dates)
-    max_assessment_duration = current_setting.max_assessment_duration
-    client_ids_recent_assessment_dates.map {|obj| [obj.id, obj.assessment_created_at] }.map do |client_id, recent_assessment_date|
-      next_assessment_date = recent_assessment_date + max_assessment_duration
-      repeat_notifications = current_setting.two_weeks_assessment_reminder? ? [(next_assessment_date - TWO_WEEKS), (next_assessment_date - ONE_WEEK)] : [next_assessment_date - ONE_WEEK]
-      client_id if repeat_notifications.include?(Date.today)
-    end.compact
-  end
-
 
 end
