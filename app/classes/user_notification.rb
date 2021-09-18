@@ -22,8 +22,8 @@ class UserNotification
   def upcoming_csi_assessments
     client_ids = []
     custom_client_ids = []
-    clients = @user.clients.joins(:assessments).active_accepted_status
-    if @user.deactivated_at.present? && clients.any?
+    clients = @clients.joins(:assessments).active_accepted_status
+    if @user.deactivated_at.present? && clients.present?
       clients = clients.where('clients.created_at > ?', @user.activated_at)
     end
     clients.each do |client|
@@ -80,9 +80,9 @@ class UserNotification
 
   def overdue_tasks_count
     if @user.deactivated_at.nil?
-      @user.tasks.overdue_incomplete.exclude_exited_ngo_clients.where(client_id: @user.clients.ids).size
+      @user.tasks.overdue_incomplete.exclude_exited_ngo_clients.where(client_id: @clients.ids).size
     else
-      @user.tasks.where('tasks.created_at > ?', @user.activated_at).overdue_incomplete.exclude_exited_ngo_clients.where(client_id: @user.clients.ids).size
+      @user.tasks.where('tasks.created_at > ?', @user.activated_at).overdue_incomplete.exclude_exited_ngo_clients.where(client_id: @clients.ids).size
     end
   end
 

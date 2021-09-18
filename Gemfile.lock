@@ -26,6 +26,8 @@ GEM
       rails-html-sanitizer (~> 1.0, >= 1.0.1)
     active_model_serializers (0.9.4)
       activemodel (>= 3.2)
+    active_record_doctor (1.8.0)
+      activerecord (>= 4.2.0)
     active_record_union (1.2.0)
       activerecord (>= 4.0)
     activejob (4.2.2)
@@ -859,6 +861,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_model_serializers
+  active_record_doctor (~> 1.8)
   acts_as_paranoid (~> 0.6.1)
   ancestry (~> 3.0, >= 3.0.5)
   apartment (~> 1.2)
