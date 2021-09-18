@@ -1,10 +1,13 @@
 class UserNotification
   include ProgramStreamHelper
 
-  attr_reader :all_count
+  attr_reader :all_count, :current_setting, :enable_default_assessment, :any_custom_assessment_enable
   attr_accessor :upcoming_csi_assessments_count, :upcoming_custom_csi_assessments_count
+  ONE_WEEK = 1.week
+  TWO_WEEKS = 2.weeks
 
   def initialize(user, clients)
+    @current_setting = Setting.first
     @user                                            = user
     @clients                                         = clients
     @assessments                                     = @user.assessment_either_overdue_or_due_today
@@ -30,36 +33,20 @@ class UserNotification
     if @user.deactivated_at.present? && clients.any?
       clients = clients.where('clients.created_at > ?', @user.activated_at)
     end
-    clients.each do |client|
-      if Setting.first.enable_default_assessment
-        if client_ids.exclude?(client.id)
-          repeat_notifications = client.assessment_notification_dates(Setting.first)
-          if(repeat_notifications.include?(Date.today))
-            client_ids << client.id
-          end
-        end
-      end
 
-      if CustomAssessmentSetting.any_custom_assessment_enable?
-        CustomAssessmentSetting.all.each do |custom_assessment|
-          if custom_client_ids.exclude?(client.id)
-            repeat_notifications = client.assessment_notification_dates(custom_assessment)
-            if(repeat_notifications.include?(Date.today))
-              custom_client_ids << client.id
-            end
-          end
-        end
-      end
-    end
+    clients_recent_assessment_dates = clients.merge(Assessment.defaults.most_recents).select("clients.id, assessments.created_at AS assessment_created_at")
+    client_ids = collect_clients_have_recent_assessment_dates(clients_recent_assessment_dates) if current_setting.try(:enable_default_assessment?)
+
+    clients_recent_custom_assessment_dates = clients.merge(Assessment.customs.most_recents.joins(:domains).where(domains: { custom_assessment_setting_id: CustomAssessmentSetting.all.ids })).uniq("client.ids, assessment_created_at AS assessment_created_at")
+    custom_assessment_client_ids = collect_clients_have_recent_assessment_dates(clients_recent_custom_assessment_dates) if current_setting.try(:any_custom_assessment_enable?)
+
     default_clients = clients.where(id: client_ids).uniq
-    custom_clients = clients.where(id: custom_client_ids).uniq
+    custom_assessment_clients = clients.where(id: custom_assessment_client_ids).uniq
 
     upcoming_csi_assessments_count = default_clients.count
-    upcoming_custom_csi_assessments_count = custom_clients.count
+    upcoming_custom_csi_assessments_count = custom_assessment_clients.count
 
-    ActiveRecord::Base.connection.clear_query_cache
-
-    { clients: default_clients, custom_clients: custom_clients }
+    { clients: default_clients, custom_clients: custom_assessment_clients }
   end
 
   def any_upcoming_csi_assessments?
@@ -316,7 +303,6 @@ class UserNotification
 
   def count
     count_notification = 0
-    setting = Setting.first
     if @user.admin? || @user.manager?
       count_notification += 1 if any_user_custom_field_frequency_overdue?
       count_notification += 1 if any_user_custom_field_frequency_due_today?
@@ -335,10 +321,10 @@ class UserNotification
     unless @user.strategic_overviewer?
       count_notification += 1 if any_due_today_tasks? || any_overdue_tasks?
       count_notification += 1 if any_client_forms_due_today? || any_client_forms_overdue?
-      count_notification += 1 if setting.enable_default_assessment && (any_overdue_assessments? || any_due_today_assessments?)
-      count_notification += 1 if setting.enable_custom_assessment? && (any_overdue_custom_assessments? || any_due_today_custom_assessments?)
-      count_notification += 1 if any_upcoming_csi_assessments? && Setting.first.enable_default_assessment
-      count_notification += 1 if any_upcoming_custom_csi_assessments? && Setting.first.enable_custom_assessment?
+      count_notification += 1 if current_setting.enable_default_assessment && (any_overdue_assessments? || any_due_today_assessments?)
+      count_notification += 1 if current_setting.enable_custom_assessment? && (any_overdue_custom_assessments? || any_due_today_custom_assessments?)
+      count_notification += 1 if any_upcoming_csi_assessments? && current_setting.enable_default_assessment
+      count_notification += 1 if any_upcoming_custom_csi_assessments? && current_setting.enable_custom_assessment?
       count_notification += 1 if any_client_case_note_overdue?
       count_notification += 1 if any_client_case_note_due_today?
     end
@@ -391,5 +377,15 @@ class UserNotification
     end
     referral_type == 'new_referral' ? new_family_referrals : existing_family_referrals
   end
+
+  def collect_clients_have_recent_assessment_dates(client_ids_recent_assessment_dates)
+    max_assessment_duration = current_setting.max_assessment_duration
+    client_ids_recent_assessment_dates.map {|obj| [obj.id, obj.assessment_created_at] }.map do |client_id, recent_assessment_date|
+      next_assessment_date = recent_assessment_date + max_assessment_duration
+      repeat_notifications = current_setting.two_weeks_assessment_reminder? ? [(next_assessment_date - TWO_WEEKS), (next_assessment_date - ONE_WEEK)] : [next_assessment_date - ONE_WEEK]
+      client_id if repeat_notifications.include?(Date.today)
+    end.compact
+  end
+
 
 end
