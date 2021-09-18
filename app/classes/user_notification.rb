@@ -23,7 +23,7 @@ class UserNotification
     client_ids = []
     custom_client_ids = []
     clients = @user.clients.joins(:assessments).active_accepted_status
-    if @user.deactivated_at.present? && clients.present?
+    if @user.deactivated_at.present? && clients.any?
       clients = clients.where('clients.created_at > ?', @user.activated_at)
     end
     clients.each do |client|
