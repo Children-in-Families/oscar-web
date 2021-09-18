@@ -26,7 +26,7 @@ class ServiceReceivesController < AdminController
         task.save!
         task.reload
         task.update_columns(client_id: @client.id)
-        task.create_service_delivery_tasks(attr['service_delivery_ids']) if attr['service_delivery_ids'].reject(&:blank?).present?
+        task.create_service_delivery_tasks(attr['service_delivery_ids']) if attr['service_delivery_ids'] && attr['service_delivery_ids'].reject(&:blank?).present?
       end
       redirect_to client_service_receives_path(@client), notice: 'Successfully created'
     end
