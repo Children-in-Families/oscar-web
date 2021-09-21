@@ -16,6 +16,7 @@ class Assessment < ActiveRecord::Base
   validates :client, presence: true, if: :client_id?
   validate :must_be_enable
   validate :allow_create, :eligible_client_age, if: :new_record?
+  validates_uniqueness_of :case_conference_id, on: :create
 
   before_save :set_previous_score, :set_assessment_completed
 
