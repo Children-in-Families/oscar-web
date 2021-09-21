@@ -1,14 +1,14 @@
 module CreateNestedValue
   include GoogleCalendarServiceConcern
 
-  def create_nested_value(goal_in_params)
+  def create_nested_value(care_plan, goal_in_params)
     assessment_id = goal_in_params.last[:assessment_id]
     assessment_domain_id = goal_in_params.last[:assessment_domain_id]
     description = goal_in_params.last[:description]
     return if description == ''
 
     goal_attr = Goal.new(assessment_domain_id: assessment_domain_id, assessment_id: assessment_id, description: description).attributes
-    goal = @care_plan.goals.create(goal_attr)
+    goal = care_plan.reload.goals.create(goal_attr)
 
     if goal_in_params.last[:tasks_attributes].present?
       goal_in_params.last[:tasks_attributes].each do |task|
@@ -23,7 +23,7 @@ module CreateNestedValue
         create_goal_tasks(goal.tasks)
       end
     end
-    set_care_plan_completed(@care_plan)
+    set_care_plan_completed(care_plan)
   end
 
   def update_nested_value(goal_in_params)

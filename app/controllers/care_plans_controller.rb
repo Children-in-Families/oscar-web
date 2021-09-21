@@ -20,9 +20,10 @@ class CarePlansController < AdminController
 
   def create
     @care_plan = @client.care_plans.new(care_plan_params)
-    if @care_plan.save(validate: false)
+    assessment = Assessment.find(@care_plan.assessment_id)
+    if assessment.care_plan.nil? && @care_plan.save(validate: false) || assessment.care_plan.reload.update_attributes(care_plan_params)
       params[:care_plan][:goals_attributes].each do |goal|
-        create_nested_value(goal)
+        create_nested_value(assessment.care_plan || @care_plan, goal)
       end
       redirect_to client_care_plans_path(@client), notice: t('.successfully_created', care_plan: t('clients.care_plan'))
     else
