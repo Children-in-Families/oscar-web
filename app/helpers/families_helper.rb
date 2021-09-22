@@ -1,4 +1,5 @@
 module FamiliesHelper
+
   def family_member_list(object)
     html_tags = []
 
@@ -52,11 +53,15 @@ module FamiliesHelper
   end
 
   def additional_columns
-    {
-      date_of_custom_assessments: I18n.t('datagrid.columns.date_of_custom_assessments', assessment: I18n.t('families.show.assessment')),
-      all_custom_csi_assessments: I18n.t('datagrid.columns.all_custom_csi_assessments', assessment: I18n.t('families.show.assessment')),
-      assessment_completed_date: I18n.t('datagrid.columns.assessment_completed_date', assessment: I18n.t('families.show.assessment'))
-    }
+    unless Setting.first.try(:hide_family_case_management_tool?)
+      {
+        date_of_custom_assessments: I18n.t('datagrid.columns.date_of_custom_assessments', assessment: I18n.t('families.show.assessment')),
+        all_custom_csi_assessments: I18n.t('datagrid.columns.all_custom_csi_assessments', assessment: I18n.t('families.show.assessment')),
+        assessment_completed_date: I18n.t('datagrid.columns.assessment_completed_date', assessment: I18n.t('families.show.assessment'))
+      }
+    else
+      {}
+    end
   end
 
   def columns_family_visibility(column)
@@ -102,7 +107,7 @@ module FamiliesHelper
       contract_date:                            I18n.t('datagrid.columns.families.contract_date'),
       initial_referral_date:                    I18n.t('datagrid.columns.families.initial_referral_date'),
       caregiver_information:                    I18n.t('datagrid.columns.families.caregiver_information'),
-      changelog:                                I18n.t('datagrid.columns.families.changelog'),
+      changelog:                                I18n.t('datagrid.columns.families.changelogs'),
       case_workers:                             I18n.t('datagrid.columns.families.case_worker_name'),
       case_note_date:                           I18n.t('advanced_search.fields.case_note_date'),
       case_note_type:                           I18n.t('advanced_search.fields.case_note_type'),
