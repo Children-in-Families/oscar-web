@@ -6,9 +6,12 @@ module AdvancedSearches
       include FamiliesHelper
       include Pundit
 
+      attr_reader :current_setting
+
       def initialize(options = {})
         @user = options[:user]
         @pundit_user = options[:pundit_user]
+        @current_setting = Setting.first
       end
 
       def render
@@ -19,7 +22,7 @@ module AdvancedSearches
         drop_list_fields      = drop_down_type_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, family_header(item.first), item.last, group) }
         date_picker_fields    += mapping_care_plan_date_lable_translation
         search_fields = text_fields + drop_list_fields + number_fields + date_picker_fields
-        custom_domain_scores_options = !Setting.first.hide_family_case_management_tool? ? AdvancedSearches::CustomDomainScoreFields.render('family') : []
+        custom_domain_scores_options = !current_setting.try(:hide_family_case_management_tool?) ? AdvancedSearches::CustomDomainScoreFields.render('family') : []
 
         (search_fields.sort_by { |f| f[:label].downcase } + custom_domain_scores_options).select do |field|
           field_name = field[:id]
@@ -43,12 +46,12 @@ module AdvancedSearches
       end
 
       def date_type_list
-        ['created_at', 'date_of_birth', 'contract_date', 'case_note_date', 'active_families']
+        ['created_at', 'date_of_birth', 'contract_date', !current_setting.try(:hide_family_case_management_tool?) ? 'case_note_date' : nil, 'active_families'].compact
       end
 
       def drop_down_type_list
         [
-          ['case_note_type', case_note_type_options],
+          !current_setting.try(:hide_family_case_management_tool?) ? ['case_note_type', case_note_type_options] : nil,
           ['family_type', family_type_options],
           ['status', status_options],
           ['gender', gender_options],
@@ -66,7 +69,7 @@ module AdvancedSearches
           ['referral_source_category_id', referral_source_category_options('Family')],
           ['referral_source_id', referral_source_options('Family')],
           ['relation', drop_down_relation.map { |k, v| { k => v }  }]
-        ]
+        ].compact
       end
 
       def case_note_type_options

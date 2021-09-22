@@ -162,10 +162,13 @@ class SettingsController < AdminController
 
   def family_default_columns
     columns = []
-    sub_columns = %w(member_count_ clients_ case_workers_ case_note_date_ case_note_type_ assessment_completed_date_ date_of_custom_assessments_ all_custom_csi_assessments_ manage_ direct_beneficiaries_ changelog_)
+    sub_columns = %w(member_count_ clients_ case_workers_ manage_ direct_beneficiaries_ changelog_)
     columns = FamilyGrid.new.filters.map{|f| "#{f.name.to_s}_" }
-    Domain.family_custom_csi_domains.order_by_identity.each do |domain|
-      columns << "#{domain.convert_custom_identity}_"
+    unless current_setting.hide_family_case_management_tool?
+      sub_columns += %w(case_note_date_ case_note_type_ assessment_completed_date_ date_of_custom_assessments_ all_custom_csi_assessments_)
+      Domain.family_custom_csi_domains.order_by_identity.each do |domain|
+        columns << "#{domain.convert_custom_identity}_"
+      end
     end
     columns.push(sub_columns).flatten
   end
