@@ -33,10 +33,10 @@ module AdvancedSearches
           values = date_of_completed_assessments_query(true)
         when 'date_of_custom_assessments'
           values = date_of_assessments_query(false)
-        when 'care_plan_completed_date'
-          values = date_query(Family, @families, :care_plans, 'care_plans.created_at')
         when 'relation'
           values = family_members
+        when 'care_plan_completed_date'
+          values = date_query(Family, @families, :care_plans, 'care_plans.created_at')
         end
         { id: sql_string, values: values }
       end
