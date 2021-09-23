@@ -26,8 +26,10 @@ class FamiliesController < AdminController
     else
       respond_to do |f|
         f.html do
-          @results = @family_grid.assets
-          @family_grid.scope { |scope| scope.accessible_by(current_ability).page(params[:page]).per(20) }
+          if params[:family_grid].present?
+            @results = @family_grid.assets
+            @family_grid.scope { |scope| scope.accessible_by(current_ability).page(params[:page]).per(20) }
+          end
         end
         f.xls do
           export_family_reports
