@@ -58,7 +58,7 @@ module AdvancedSearches
           ['province_id', provinces],
           ['district_id', districts],
           ['dependable_income', { yes: 'Yes', no: 'No' }],
-          ['case_workers', user_select_options],
+          !current_setting.try(:hide_family_case_management_tool?) ? ['case_workers', user_select_options] : nil,
           ['client_id', clients],
           ['commune_id', communes],
           ['village_id', villages],
