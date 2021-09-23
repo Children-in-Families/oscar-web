@@ -390,11 +390,18 @@ class FamilyGrid < BaseGrid
     object.member_count
   end
 
-  column(:case_note_date, header: -> { I18n.t('datagrid.columns.clients.case_note_date')}, html: true) do |object|
+  column(:care_plan_completed_date, header: -> { I18n.t('datagrid.columns.families.care_plan_completed_date') }, html: true) do |object|
+    render partial: 'shared/care_plans/care_plans', locals: { object: object.care_plans }
+  end
+
+  column(:care_plan_count, header: -> { I18n.t('datagrid.columns.families.care_plan_count') }, html: true, class: 'hide') do |object|
+  end
+
+  column(:case_note_date, header: -> { I18n.t('datagrid.columns.families.case_note_date')}, html: true) do |object|
     render partial: 'clients/case_note_date', locals: { object: object }
   end
 
-  column(:case_note_type, header: -> { I18n.t('datagrid.columns.clients.case_note_type')}, html: true) do |object|
+  column(:case_note_type, header: -> { I18n.t('datagrid.columns.families.case_note_type')}, html: true) do |object|
     render partial: 'clients/case_note_type', locals: { object: object }
   end
 

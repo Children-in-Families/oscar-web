@@ -2,7 +2,7 @@ class CarePlansController < AdminController
   include CreateNestedValue
   load_and_authorize_resource
 
-  before_action :set_client, :get_all_assessments
+  before_action :set_client, :find_all_assessments
   before_action :set_care_plan, :find_assessment, only: [:edit, :update]
 
   def index
@@ -78,7 +78,7 @@ class CarePlansController < AdminController
     @client = Client.accessible_by(current_ability).friendly.find(params[:client_id])
   end
 
-  def get_all_assessments
+  def find_all_assessments
     @assessments = @client.assessments.completed.order(:created_at)
   end
 
