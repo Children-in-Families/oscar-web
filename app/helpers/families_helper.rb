@@ -125,6 +125,7 @@ module FamiliesHelper
       program_exit_date:                        I18n.t('datagrid.columns.clients.program_exit_date'),
       direct_beneficiaries:                     I18n.t('datagrid.columns.families.direct_beneficiaries'),
       relation:                                 I18n.t('families.family_member_fields.relation'),
+      member_count:                             I18n.t('datagrid.columns.families.member_count'),
       **additional_columns,
       **family_address_translation
     }
