@@ -441,7 +441,7 @@
                   = t('.referral_source_category')
                 %td
                   %strong
-                    = referral_source_category(@client.referral_source_category_id)
+                    = editable @client, :referral_source_category_id, type: :select2, source: referral_source_name(ReferralSource.child_referrals).map{|name, id| { value: id, text: name } }, value: referral_source_category(@client.referral_source_category_id), url: api_client_path(@client.id), pk: @client.id
               %tr
                 %td.spacing-first-col
                   = t('.referral_source')
