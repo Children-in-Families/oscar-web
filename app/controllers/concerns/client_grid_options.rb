@@ -448,7 +448,7 @@ module ClientGridOptions
 
   def non_admin_client_grid
     data = params[:data].presence
-    if params.dig(:client_grid, :quantitative_types)
+    if params.dig(:client_grid, :quantitative_types).present?
       quantitative_types = params[:client_grid][:quantitative_types]
       @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(current_user: current_user, qType: quantitative_types, dynamic_columns: column_form_builder, param_data: data))
     else
