@@ -2944,6 +2944,7 @@ km:
         what3words: What3words
       date_of_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណ
       date_of_custom_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
+      date_of_family_assessment: កាលបរិច្ឆេទការប៉ាន់ប្រមាណគ្រួសារ
       exit_circumstance: ស្ថានភាពនៃការចាកចេញ
       exit_note: កំណត់ហេតុនៃការចាកចេញ
       exit_reasons: មូលហេតុនៃការចាកចេញ
