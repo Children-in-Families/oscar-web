@@ -55,7 +55,7 @@ module FamiliesHelper
   def additional_columns
     unless Setting.first.try(:hide_family_case_management_tool?)
       {
-        date_of_custom_assessments: I18n.t('datagrid.columns.date_of_custom_assessments', assessment: I18n.t('families.show.assessment')),
+        date_of_custom_assessments: I18n.t('datagrid.columns.date_of_family_assessment'),
         all_custom_csi_assessments: I18n.t('datagrid.columns.all_custom_csi_assessments', assessment: I18n.t('families.show.assessment')),
         assessment_completed_date: I18n.t('datagrid.columns.assessment_completed_date', assessment: I18n.t('families.show.assessment')),
         care_plan_completed_date: I18n.t('datagrid.columns.clients.care_plan_completed_date'),

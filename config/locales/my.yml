@@ -2939,6 +2939,7 @@ my:
         what3words: What3words
       date_of_assessments: စိစစ္အကဲျဖတ္မႈမ်ား ျပဳလုပ္သည့္ ရက္စြဲ
       date_of_custom_assessments: Custom စိစစ္အကဲျဖတ္မႈလုပ္သည့္ ရက္စြဲ
+      date_of_family_assessment: Date of Family Assessment
       exit_circumstance: ထွက်ပေါက်အခြေအနေ
       exit_note: ထြက္သည့္မွတ္စု
       exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
