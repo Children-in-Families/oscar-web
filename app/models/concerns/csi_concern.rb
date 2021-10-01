@@ -114,23 +114,34 @@ module CsiConcern
   end
 
   def clients_have_recent_default_assessments(clients)
-    sql = "clients.id, (SELECT assessments.created_at FROM assessments LIMIT 1) AS assessment_created_at"
+    sql =  "clients.id, (SELECT assessments.created_at FROM assessments ORDER BY assessments.created_at DESC LIMIT 1) AS assessment_created_at"
     clients_recent_assessment_dates = Client.joins(:assessments).where(id: clients.ids).merge(Assessment.defaults.most_recents).select(sql)
     client_ids = collect_clients_have_recent_assessment_dates(clients_recent_assessment_dates) if current_setting.try(:enable_default_assessment?)
     clients.where(id: client_ids).uniq
   end
 
   def clients_have_recent_custom_assessments(clients)
-    sql = "clients.id, (SELECT assessments.created_at FROM assessments LIMIT 1) AS assessment_created_at"
-    clients_recent_custom_assessment_dates = Client.joins(:assessments).where(id: clients.ids).merge(Assessment.customs.most_recents.joins(:domains).where(domains: { custom_assessment_setting_id: CustomAssessmentSetting.only_enable_custom_assessment.ids })).select(sql)
-    client_ids = collect_clients_have_recent_assessment_dates(clients_recent_custom_assessment_dates) if current_setting.try(:any_custom_assessment_enable?)
-    clients.where(id: client_ids).uniq
+    sql = "clients.id, (SELECT assessments.created_at FROM assessments ORDER BY assessments.created_at DESC LIMIT 1) AS assessment_created_at"
+    client_ids = []
+    CustomAssessmentSetting.only_enable_custom_assessment.each do |custom_assessment_setting|
+      clients_recent_custom_assessment_dates = Client.joins(:assessments).where(id: clients.ids).merge(Assessment.customs.most_recents.joins(:domains).where(domains: { custom_assessment_setting_id: CustomAssessmentSetting.only_enable_custom_assessment.ids })).select(sql)
+      client_ids << collect_clients_have_recent_custom_assessment_dates(clients_recent_custom_assessment_dates, custom_assessment_setting) if current_setting.try(:any_custom_assessment_enable?)
+    end
+    clients.where(id: client_ids.flatten).uniq
   end
 
   def collect_clients_have_recent_assessment_dates(client_ids_recent_assessment_dates)
     max_assessment_duration = current_setting.max_assessment_duration
-    client_ids_recent_assessment_dates.map {|obj| [obj.id, obj&.assessment_created_at] }.map do |client_id, recent_assessment_date|
+    client_ids_recent_assessment_dates.map {|obj| [obj.id, obj&.assessment_created_at] }.uniq.map do |client_id, recent_assessment_date|
       next_assessment_date = recent_assessment_date + max_assessment_duration
+      repeat_notifications = current_setting.two_weeks_assessment_reminder? ? [(next_assessment_date - TWO_WEEKS), (next_assessment_date - ONE_WEEK)] : [next_assessment_date - ONE_WEEK]
+      client_id if repeat_notifications.include?(Date.today)
+    end.compact
+  end
+
+  def collect_clients_have_recent_custom_assessment_dates(client_ids_recent_assessment_dates, custom_assessment_setting)
+    client_ids_recent_assessment_dates.map {|obj| [obj.id, obj&.assessment_created_at] }.uniq.map do |client_id, recent_assessment_date|
+      next_assessment_date = recent_assessment_date + assessment_duration('max', false, custom_assessment_setting.id)
       repeat_notifications = current_setting.two_weeks_assessment_reminder? ? [(next_assessment_date - TWO_WEEKS), (next_assessment_date - ONE_WEEK)] : [next_assessment_date - ONE_WEEK]
       client_id if repeat_notifications.include?(Date.today)
     end.compact

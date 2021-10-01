@@ -160,7 +160,7 @@ class User < ActiveRecord::Base
     current_ability = Ability.new(self)
     _clients = Client.accessible_by(current_ability)
     eligible_clients = active_young_clients(_clients, setting)
-    sql = "clients.id, (SELECT assessments.created_at FROM assessments LIMIT 1) AS assessment_created_at"
+    sql = "clients.id, (SELECT assessments.created_at FROM assessments ORDER BY assessments.created_at DESC LIMIT 1) AS assessment_created_at"
     if self.deactivated_at.nil?
       clients_recent_assessment_dates = Client.joins(:assessments).where(id: eligible_clients.ids).merge(Assessment.defaults.most_recents).select(sql)
     else
@@ -170,7 +170,7 @@ class User < ActiveRecord::Base
     clients_recent_assessment_dates.map {|obj| [obj.id, obj&.assessment_created_at] }.uniq.map do |client_id, recent_assessment_date|
       next_assessment_date = recent_assessment_date + setting.max_assessment_duration
       if next_assessment_date < Date.today
-        overdue << client_id
+        overdue << [client_id, next_assessment_date]
       elsif next_assessment_date == Date.today
         due_today << client_id
       end
@@ -192,7 +192,7 @@ class User < ActiveRecord::Base
       end.compact
     end
 
-    { overdue_count: overdue.count, due_today_count: due_today.count, custom_overdue_count: customized_overdue.flatten.uniq.count, custom_due_today_count: customized_due_today.flatten.uniq.count }
+    { overdue_count: overdue.count, overdue_assessment: overdue, due_today_count: due_today.count, custom_overdue_count: customized_overdue.flatten.uniq.count, custom_due_today_count: customized_due_today.flatten.uniq.count }
   end
 
   def client_custom_field_frequency_overdue_or_due_today
