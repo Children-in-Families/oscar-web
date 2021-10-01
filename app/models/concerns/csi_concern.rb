@@ -109,18 +109,20 @@ module CsiConcern
     assessment_period.send(assessment_frequency)
   end
 
-  def active_young_clients(clients)
-    clients.joins(:assessments).active_accepted_status.where("(EXTRACT(year FROM age(current_date, coalesce(clients.date_of_birth, current_date))) :: int) < ?", current_setting.age || 18)
+  def active_young_clients(clients, setting = nil)
+    clients.active_accepted_status.where("(EXTRACT(year FROM age(current_date, coalesce(clients.date_of_birth, current_date))) :: int) < ?", (setting || current_setting).age || 18)
   end
 
   def clients_have_recent_default_assessments(clients)
-    clients_recent_assessment_dates = Client.joins(:assessments).where(id: clients.ids).merge(Assessment.defaults.most_recents).select("clients.id, assessments.created_at AS assessment_created_at")
+    sql = "clients.id, (SELECT assessments.created_at FROM assessments LIMIT 1) AS assessment_created_at"
+    clients_recent_assessment_dates = Client.joins(:assessments).where(id: clients.ids).merge(Assessment.defaults.most_recents).select(sql)
     client_ids = collect_clients_have_recent_assessment_dates(clients_recent_assessment_dates) if current_setting.try(:enable_default_assessment?)
     clients.where(id: client_ids).uniq
   end
 
   def clients_have_recent_custom_assessments(clients)
-    clients_recent_custom_assessment_dates = Client.joins(:assessments).where(id: clients.ids).merge(Assessment.customs.most_recents.joins(:domains).where(domains: { custom_assessment_setting_id: CustomAssessmentSetting.all.ids })).select("clients.id, assessments.created_at AS assessment_created_at")
+    sql = "clients.id, (SELECT assessments.created_at FROM assessments LIMIT 1) AS assessment_created_at"
+    clients_recent_custom_assessment_dates = Client.joins(:assessments).where(id: clients.ids).merge(Assessment.customs.most_recents.joins(:domains).where(domains: { custom_assessment_setting_id: CustomAssessmentSetting.only_enable_custom_assessment.ids })).select(sql)
     client_ids = collect_clients_have_recent_assessment_dates(clients_recent_custom_assessment_dates) if current_setting.try(:any_custom_assessment_enable?)
     clients.where(id: client_ids).uniq
   end

@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
   include EntityTypeCustomFieldNotification
   include NextClientEnrollmentTracking
   include ClientOverdueAndDueTodayForms
+  include CsiConcern
 
   ROLES = ['admin', 'manager', 'case worker', 'hotline officer', 'strategic overviewer'].freeze
   MANAGERS = ROLES.select { |role| role if role.include?('manager') }
@@ -156,109 +157,39 @@ class User < ActiveRecord::Base
     due_today = []
     customized_overdue   = []
     customized_due_today = []
-
+    current_ability = Ability.new(self)
+    _clients = Client.accessible_by(current_ability)
+    eligible_clients = active_young_clients(_clients, setting)
+    sql = "clients.id, (SELECT assessments.created_at FROM assessments LIMIT 1) AS assessment_created_at"
     if self.deactivated_at.nil?
-      clients.active_accepted_status.each do |client|
-        next if (!client.eligible_default_csi? && !client.assessments.customs.present?) || (client.assessments.defaults.count.zero? && client.assessments.customs.count.zero?)
-
-        custom_assessment_setting_ids = client.assessments.customs.map{|ca| ca.domains.pluck(:custom_assessment_setting_id ) }.flatten.uniq
-        if setting.enable_default_assessment? && setting.enable_custom_assessment?
-          client_next_asseement_date = client.next_assessment_date.to_date
-          if client_next_asseement_date < Date.today
-            overdue << client
-          elsif client_next_asseement_date == Date.today
-            due_today << client
-          end
-
-          if !client.assessments.customs.count.zero?
-            CustomAssessmentSetting.only_enable_custom_assessment.where(id: custom_assessment_setting_ids).each do |custom_assessment_setting|
-              client_custom_next_assessment_date = client.custom_next_assessment_date(nil, custom_assessment_setting.id)&.to_date
-              if  client_custom_next_assessment_date && client_custom_next_assessment_date < Date.today
-                customized_overdue << client
-              elsif client_custom_next_assessment_date && client_custom_next_assessment_date == Date.today
-                customized_due_today << client
-              end
-            end
-
-            CustomAssessmentSetting.only_enable_custom_assessment.where.not(id: custom_assessment_setting_ids).each do |custom_assessment_setting|
-              client_custom_next_assessment_date = client.custom_next_assessment_date(nil, custom_assessment_setting.id)&.to_date
-              if client_custom_next_assessment_date.present? && client_custom_next_assessment_date.to_date < Date.today
-                customized_overdue << client
-              elsif client_custom_next_assessment_date && client_custom_next_assessment_date == Date.today
-                customized_due_today << client
-              end
-            end
-          end
-        elsif setting.enable_default_assessment?
-          client_next_asseement_date = client.next_assessment_date.to_date
-          if client_next_asseement_date < Date.today
-            overdue << client
-          elsif client_next_asseement_date == Date.today
-            due_today << client
-          end
-        elsif setting.enable_custom_assessment? && !client.assessments.customs.count.zero?
-          CustomAssessmentSetting.only_enable_custom_assessment.where(id: custom_assessment_setting_ids).each do |custom_assessment_setting|
-            client_custom_next_assessment_date = client.custom_next_assessment_date(nil, custom_assessment_setting.id).to_date
-            if client_custom_next_assessment_date < Date.today
-              customized_overdue << client
-            elsif client_custom_next_assessment_date == Date.today
-              customized_due_today << client
-            end
-          end
-
-          CustomAssessmentSetting.only_enable_custom_assessment.where.not(id: custom_assessment_setting_ids).each do |custom_assessment_setting|
-            client_custom_next_assessment_date = client.custom_next_assessment_date(self.activated_at, custom_assessment_setting.id)&.to_date
-            if client_custom_next_assessment_date.present? && client_custom_next_assessment_date.to_date < Date.today
-              customized_overdue << client
-            elsif client_custom_next_assessment_date.present? && client_custom_next_assessment_date.to_date == Date.today
-              customized_due_today << client
-            end
-          end
-        end
-      end
+      clients_recent_assessment_dates = Client.joins(:assessments).where(id: eligible_clients.ids).merge(Assessment.defaults.most_recents).select(sql)
     else
-      clients.active_accepted_status.each do |client|
-        next if (!client.eligible_default_csi? && !client.assessments.customs.present?) || (client.assessments.defaults.count.zero? && client.assessments.customs.count.zero?)
+      clients_recent_assessment_dates = Client.joins(:assessments).where(id: eligible_clients.ids).merge(Assessment.defaults.most_recents.where("assessments.created_at < ?", self.deactivated_at)).select(sql)
+    end
 
-        custom_assessment_setting_ids = client.assessments.customs.map{|ca| ca.domains.pluck(:custom_assessment_setting_id ) }.flatten.uniq
-        if setting.enable_default_assessment? && setting.enable_custom_assessment?
-          client_next_asseement_date = client.next_assessment_date(self.activated_at)
-          if client_next_asseement_date.present? && client_next_asseement_date.to_date < Date.today
-            overdue << client
-          elsif client_next_asseement_date.present? && client_next_asseement_date.to_date == Date.today
-            due_today << client
-          end
-
-        elsif setting.enable_default_assessment?
-          client_next_asseement_date = client.next_assessment_date(self.activated_at)
-          next if client_next_asseement_date.nil?
-          if client_next_asseement_date.to_date < Date.today
-            overdue << client
-          elsif client_next_asseement_date.to_date == Date.today
-            due_today << client
-          end
-        end
-
-        if setting.enable_custom_assessment? && !client.assessments.customs.count.zero?
-          CustomAssessmentSetting.only_enable_custom_assessment.where(id: custom_assessment_setting_ids).each do |custom_assessment_setting|
-            client_custom_next_assessment_date = client.custom_next_assessment_date(self.activated_at, custom_assessment_setting.id)&.to_date
-            if client_custom_next_assessment_date.present? && client_custom_next_assessment_date.to_date < Date.today
-              customized_overdue << client
-            elsif client_custom_next_assessment_date.present? && client_custom_next_assessment_date.to_date == Date.today
-              customized_due_today << client
-            end
-          end
-
-          CustomAssessmentSetting.only_enable_custom_assessment.where.not(id: custom_assessment_setting_ids).each do |custom_assessment_setting|
-            client_custom_next_assessment_date = client.custom_next_assessment_date(self.activated_at, custom_assessment_setting.id)&.to_date
-            if client_custom_next_assessment_date.present? && client_custom_next_assessment_date.to_date < Date.today
-              customized_overdue << client
-            elsif client_custom_next_assessment_date.present? && client_custom_next_assessment_date.to_date == Date.today
-              customized_due_today << client
-            end
-          end
-        end
+    clients_recent_assessment_dates.map {|obj| [obj.id, obj&.assessment_created_at] }.uniq.map do |client_id, recent_assessment_date|
+      next_assessment_date = recent_assessment_date + setting.max_assessment_duration
+      if next_assessment_date < Date.today
+        overdue << client_id
+      elsif next_assessment_date == Date.today
+        due_today << client_id
       end
+    end.compact
+
+    CustomAssessmentSetting.only_enable_custom_assessment.each do |custom_assessment_setting|
+      if self.deactivated_at.nil?
+        clients_recent_custom_assessment_dates = Client.joins(:assessments).where(id: eligible_clients.ids).merge(Assessment.customs.most_recents.joins(:domains).where(domains: { custom_assessment_setting_id: custom_assessment_setting.id })).select(sql)
+      else
+        clients_recent_custom_assessment_dates = Client.joins(:assessments).where(id: eligible_clients.ids).merge(Assessment.customs.most_recents.joins(:domains).where("assessments.created_at < ?", self.deactivated_at).where(domains: { custom_assessment_setting_id: custom_assessment_setting.id })).select(sql)
+      end
+      clients_recent_custom_assessment_dates.map {|obj| [obj.id, obj&.assessment_created_at] }.uniq.map do |client_id, recent_assessment_date|
+        next_assessment_date = recent_assessment_date + assessment_duration('max', false, custom_assessment_setting.id)
+        if next_assessment_date < Date.today
+          customized_overdue << client_id
+        elsif next_assessment_date == Date.today
+          customized_due_today << client_id
+        end
+      end.compact
     end
 
     { overdue_count: overdue.count, due_today_count: due_today.count, custom_overdue_count: customized_overdue.flatten.uniq.count, custom_due_today_count: customized_due_today.flatten.uniq.count }
