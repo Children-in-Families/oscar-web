@@ -114,20 +114,20 @@ module CsiConcern
   end
 
   def clients_have_recent_default_assessments(clients)
-    clients_recent_assessment_dates = clients.merge(Assessment.defaults.most_recents).select("clients.id, assessments.created_at AS assessment_created_at")
+    clients_recent_assessment_dates = Client.joins(:assessments).where(id: clients.ids).merge(Assessment.defaults.most_recents).select("clients.id, assessments.created_at AS assessment_created_at")
     client_ids = collect_clients_have_recent_assessment_dates(clients_recent_assessment_dates) if current_setting.try(:enable_default_assessment?)
     clients.where(id: client_ids).uniq
   end
 
   def clients_have_recent_custom_assessments(clients)
-    clients_recent_custom_assessment_dates = clients.merge(Assessment.customs.most_recents.joins(:domains).where(domains: { custom_assessment_setting_id: CustomAssessmentSetting.all.ids })).uniq("client.ids, assessment_created_at AS assessment_created_at")
+    clients_recent_custom_assessment_dates = Client.joins(:assessments).where(id: clients.ids).merge(Assessment.customs.most_recents.joins(:domains).where(domains: { custom_assessment_setting_id: CustomAssessmentSetting.all.ids })).select("clients.id, assessments.created_at AS assessment_created_at")
     client_ids = collect_clients_have_recent_assessment_dates(clients_recent_custom_assessment_dates) if current_setting.try(:any_custom_assessment_enable?)
     clients.where(id: client_ids).uniq
   end
 
   def collect_clients_have_recent_assessment_dates(client_ids_recent_assessment_dates)
     max_assessment_duration = current_setting.max_assessment_duration
-    client_ids_recent_assessment_dates.map {|obj| [obj.id, obj.assessment_created_at] }.map do |client_id, recent_assessment_date|
+    client_ids_recent_assessment_dates.map {|obj| [obj.id, obj&.assessment_created_at] }.map do |client_id, recent_assessment_date|
       next_assessment_date = recent_assessment_date + max_assessment_duration
       repeat_notifications = current_setting.two_weeks_assessment_reminder? ? [(next_assessment_date - TWO_WEEKS), (next_assessment_date - ONE_WEEK)] : [next_assessment_date - ONE_WEEK]
       client_id if repeat_notifications.include?(Date.today)
