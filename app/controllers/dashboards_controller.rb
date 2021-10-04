@@ -1,8 +1,9 @@
 class DashboardsController < AdminController
+  include CsiConcern
+
   before_action :task_of_user, :find_overhaul_task_params, :find_tasks, only: [:index]
 
   def index
-    @setting = Setting.first
     @program_streams = ProgramStream.includes(:program_stream_services, :services).where(program_stream_services: { service_id: nil }).attached_with('Client')
     @dashboard = Dashboard.new(Client.accessible_by(current_ability))
     @referral_sources = ReferralSource.child_referrals.where(ancestry: nil)
@@ -47,7 +48,10 @@ class DashboardsController < AdminController
     clients_duetoday = []
     clients_upcoming = []
     clients = []
-    Client.accessible_by(current_ability).active_accepted_status.distinct.each do |client|
+    @setting = Setting.first
+    _clients = Client.accessible_by(current_ability).active_accepted_status.distinct
+    eligible_clients = active_young_clients(_clients, @setting)
+    eligible_clients.each do |client|
       overdue_tasks = []
       today_tasks = []
       upcoming_tasks = []

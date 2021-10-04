@@ -89,7 +89,7 @@ module DashboardHelper
 
   def skipped_overdue_assessments?(client)
     skipped_assessments = nil
-    CustomAssessmentSetting.all.each do |custom_assessment|
+    CustomAssessmentSetting.only_enable_custom_assessment.each do |custom_assessment|
       if @setting.enable_custom_assessment? && @setting.enable_default_assessment
         skipped_assessments = (!overdue_assessments_any?(client) && !overdue_custom_assessments_any?(client)) || client.user_ids.exclude?(@user.id) || (!client.eligible_default_csi? && !client.eligible_custom_csi?(custom_assessment))
       elsif @setting.enable_default_assessment
