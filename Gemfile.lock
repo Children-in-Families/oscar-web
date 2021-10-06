@@ -147,8 +147,8 @@ GEM
       execjs
     coffee-script-source (1.12.2)
     colored2 (3.1.2)
-    concurrent-ruby (1.1.7)
-    connection_pool (2.2.3)
+    concurrent-ruby (1.1.9)
+    connection_pool (2.2.5)
     cork (0.3.0)
       colored2 (~> 3.1)
     crass (1.0.6)
@@ -661,7 +661,7 @@ GEM
       execjs
       railties (>= 3.2)
       tilt
-    redis (3.3.5)
+    redis (4.4.0)
     redis-session-store (0.11.3)
       actionpack (>= 3, < 7)
       redis (>= 3, < 5)
@@ -740,10 +740,10 @@ GEM
     shoulda-matchers (4.0.1)
       activesupport (>= 4.2.0)
     shoulda-whenever (0.0.2)
-    sidekiq (4.1.0)
-      concurrent-ruby (~> 1.0)
-      connection_pool (~> 2.2, >= 2.2.0)
-      redis (~> 3.2, >= 3.2.1)
+    sidekiq (5.2.0)
+      connection_pool (~> 2.2, >= 2.2.2)
+      rack-protection (>= 1.5.0)
+      redis (>= 3.3.5, < 5)
     signet (0.7.3)
       addressable (~> 2.3)
       faraday (~> 0.9)
@@ -949,7 +949,7 @@ DEPENDENCIES
   sentry-raven (~> 2.13)
   shoulda-matchers
   shoulda-whenever (~> 0.0.2)
-  sidekiq (~> 4.1.0)
+  sidekiq (~> 5.2.0)
   simple_form (~> 3.2)
   sinatra
   sorbet-rails
