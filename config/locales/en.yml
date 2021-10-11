@@ -2810,6 +2810,7 @@ en:
         carer_name: Carer Name
         carer_phone: Carer Phone
         carer_email: Carer Email
+        carer_relationship_to_client: Carer Relationship To Client
         case_note_date: Case Note Date
         case_note_type: Case Note Type
         case_type: Case Type
