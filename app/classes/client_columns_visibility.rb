@@ -158,6 +158,7 @@ class ClientColumnsVisibility
       carer_name_: :carer_name,
       carer_phone_: :carer_phone,
       carer_email_: :carer_email,
+      carer_relationship_to_client_: :carer_relationship_to_client,
       phone_owner_: :phone_owner,
       referee_relationship_to_client_: :referee_relationship_to_client,
       client_contact_phone_: :client_contact_phone,

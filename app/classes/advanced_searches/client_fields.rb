@@ -22,6 +22,7 @@ module AdvancedSearches
       date_picker_fields    = date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, format_header(item), group) }
       date_picker_fields    += mapping_care_plan_date_lable_translation
       drop_list_fields      = drop_down_type_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last, group) }
+      drop_list_fields      += carer_dropdown_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last, carer_group) }
       csi_options           = AdvancedSearches::CsiFields.render
       school_grade_options  = AdvancedSearches::SchoolGradeFields.render
       default_domain_scores_options = enable_default_assessment? ? AdvancedSearches::DomainScoreFields.render : []
@@ -101,6 +102,12 @@ module AdvancedSearches
         ['address_type', get_sql_address_types],
         ['phone_owner', get_sql_phone_owner]
       ].compact
+    end
+
+    def carer_dropdown_list
+      [
+        ['carer_relationship_to_client', list_carer_client_relations]
+      ]
     end
 
     def field_settings
@@ -240,6 +247,10 @@ module AdvancedSearches
 
     def get_sql_referee_relationship
       [Client::REFEREE_RELATIONSHIPS, I18n.t('default_client_fields.referee_relationship').values].transpose.to_h
+    end
+
+    def list_carer_client_relations
+      [Carer::CLIENT_RELATIONSHIPS, Carer::CLIENT_RELATIONSHIPS].transpose.to_h
     end
 
     def get_sql_address_types
