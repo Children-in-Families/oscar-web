@@ -35,7 +35,7 @@ class ClientEnrollment < ActiveRecord::Base
   end
 
   def has_client_enrollment_tracking?
-    client_enrollment_trackings.present?
+    client_enrollment_trackings.any?
   end
 
   def self.properties_by(value)
