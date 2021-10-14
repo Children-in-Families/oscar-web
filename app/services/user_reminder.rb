@@ -64,7 +64,6 @@ class UserReminder
           user.id if user.tasks.count > 0 && user.clients.count > 0
         end
         AdminWorker.perform_async('', user_ids, org.short_name) if user_ids.present?
-
       end
     end
   end

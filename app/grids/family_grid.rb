@@ -276,8 +276,10 @@ class FamilyGrid < BaseGrid
 
   column(:case_history, html: false, header: -> { I18n.t('datagrid.columns.families.case_history') })
 
-  column(:member_count, html: true, header: -> { I18n.t('datagrid.columns.families.member_count') }, order: ('families.female_children_count, families.male_children_count, families.female_adult_count, families.male_adult_count')) do |object|
-    render partial: 'families/members', locals: { object: object }
+  column(:member_count, header: -> { I18n.t('datagrid.columns.families.member_count') }, order: ('families.female_children_count, families.male_children_count, families.female_adult_count, families.male_adult_count')) do |object|
+    format(object.member_count) do |_|
+      render partial: 'families/members', locals: { object: object }
+    end
   end
 
   column(:caregiver_information, order: 'LOWER(caregiver_information)', header: -> { I18n.t('datagrid.columns.families.caregiver_information') })
