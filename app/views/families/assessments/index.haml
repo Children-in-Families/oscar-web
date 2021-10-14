@@ -34,17 +34,17 @@
                   %b
                     = date_format(@family.next_assessment_date)
                 - else
-                  = t('assessments.index.initial_assessment', assessment: t('clients.show.assessment'))
+                  = t('assessments.index.initial_assessment', assessment: t('families.family_assessment'))
                   %b
                     = date_format(Date.today)
             .col-xs-12.col-sm-4
               - if policy(@custom_assessment).create?(@custom_assessment.id)
                 = link_to new_family_assessment_path(@family, default: true) do
                   .btn.btn-block.btn-primary.button
-                    = "#{t('assessments.index.begin_now')} #{@current_setting.default_assessment}"
+                    = "#{t('assessments.index.begin_now')} #{t('families.family_assessment')}"
               - else
                 .btn.btn-block.btn-default.button.disabled
-                  = "#{t('assessments.index.begin_now')} #{@current_setting.default_assessment}"
+                  = "#{t('assessments.index.begin_now')} #{t('families.family_assessment')}"
 
         - if @current_setting.enable_custom_assessment? || completed_initial_assessment?('defaults', 'family')
           .row.margin-row
@@ -52,7 +52,7 @@
               .col-xs-12.col-sm-8
                 %h5
                   - if current_organization.try(:aht) == true
-                    = t('assessments.index.initial_assessment', assessment: t('clients.show.assessment'))
+                    = t('assessments.index.initial_assessment', assessment: t('families.family_assessment'))
                     %b
                       = date_format(Date.today)
                   - else
@@ -61,7 +61,7 @@
                       %b
                         = date_format(@family.custom_next_assessment_date(nil, css.id))
                     - else
-                      = t('assessments.index.initial_assessment', assessment: t('clients.show.assessment'))
+                      = t('assessments.index.initial_assessment', assessment: t('families.family_assessment'))
                       %b
                         = date_format(Date.today)
               .col-xs-12.col-sm-4.m-b-sm
@@ -69,18 +69,18 @@
                   - if policy(@custom_assessment).create?(css.id, css)
                     = link_to new_family_assessment_path(@family, default: false, custom_name: css.custom_assessment_name), class: 'btn btn-block btn-primary button' do
                       - if Organization.ratanak?
-                        = "#{t('assessments.index.begin_now')} #{t('clients.show.custom_assessment', assessment: t('clients.show.assessment'))}"
+                        = "#{t('assessments.index.begin_now')} #{t('clients.show.custom_assessment', assessment: t('families.family_assessment'))}"
                       - else
-                        = "#{t('assessments.index.begin_now')} #{css.custom_assessment_name}"
+                        = "#{t('assessments.index.begin_now')} #{t('families.family_assessment')}"
                   - else
                     .btn.btn-block.btn-default.button.disabled
-                      = "#{t('assessments.index.begin_now')} #{css.custom_assessment_name}"
+                      = "#{t('assessments.index.begin_now')} #{t('families.family_assessment')}"
                 - else
                   = link_to '#', data: { toggle: 'modal', target: '#customDomainsModal' }, class: 'btn btn-block btn-primary button' do
                     - if Organization.ratanak?
-                      = "#{t('assessments.index.begin_now')} #{t('clients.show.custom_assessment', assessment: t('clients.show.assessment'))}"
+                      = "#{t('assessments.index.begin_now')} #{t('clients.show.custom_assessment', assessment: t('families.family_assessment'))}"
                     - else
-                      = "#{t('assessments.index.begin_now')} #{css.custom_assessment_name}"
+                      = "#{t('assessments.index.begin_now')} #{t('families.family_assessment')}"
 
                 #customDomainsModal.modal.fade{"aria-labelledby" => "customDomainsModalLabel", :role => "dialog", :tabindex => "-1"}
                   .modal-dialog{:role => "document"}
