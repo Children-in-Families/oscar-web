@@ -50,26 +50,32 @@ module AdvancedSearches
       end
 
       def drop_down_type_list
+        case_management_tool_fields = if !current_setting.try(:hide_family_case_management_tool?)
+                                        [
+                                          ['case_note_type', case_note_type_options],
+                                          ['case_workers', user_select_options],
+                                          ['referral_source_category_id', referral_source_category_options('Family')],
+                                          ['referral_source_id', referral_source_options('Family')],
+                                          ['followed_up_by_id', followed_up_by_options('Family')]
+                                        ]
+                                      else
+                                        []
+                                      end
         [
-          !current_setting.try(:hide_family_case_management_tool?) ? ['case_note_type', case_note_type_options] : nil,
           ['family_type', family_type_options],
           ['status', status_options],
           ['gender', gender_options],
           ['province_id', provinces],
           ['district_id', districts],
           ['dependable_income', { yes: 'Yes', no: 'No' }],
-          !current_setting.try(:hide_family_case_management_tool?) ? ['case_workers', user_select_options] : nil,
           ['client_id', clients],
           ['commune_id', communes],
           ['village_id', villages],
           ['id_poor', family_id_poor],
           ['user_id', created_by_options('Family')],
           ['received_by_id', received_by_options('Family')],
-          ['followed_up_by_id', followed_up_by_options('Family')],
-          ['referral_source_category_id', referral_source_category_options('Family')],
-          ['referral_source_id', referral_source_options('Family')],
           ['relation', drop_down_relation.map { |k, v| { k => v }  }]
-        ].compact
+        ] + case_management_tool_fields
       end
 
       def case_note_type_options

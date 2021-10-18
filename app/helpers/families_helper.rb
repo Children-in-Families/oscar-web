@@ -287,4 +287,13 @@ module FamiliesHelper
   def family_saved_search_column_visibility(field_key)
     default_setting(field_key, @default_columns) || params[field_key.to_sym].present? || (@visible_fields && @visible_fields[field_key]).present?
   end
+
+  def skipped_assessment_tool_fields
+    if current_setting.hide_family_case_management_tool?
+      %i[initial_referral_date follow_up_date referral_source_id referral_source_category_id program_streams quantitative_types quantitative_data]
+    else
+      []
+    end
+  end
+
 end

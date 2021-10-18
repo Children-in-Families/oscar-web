@@ -14,8 +14,9 @@
             %label= t('.custom_form_column')
             = render 'families/family_advanced_searches/custom_form_column'
           .col-xs-12.col-md-4
-            %label= t('.program_stream_column')
-            = render 'families/family_advanced_searches/program_stream_column', program_stream_columns: @program_stream_columns
+            - unless current_setting.hide_family_case_management_tool?
+              %label= t('.program_stream_column')
+              = render 'families/family_advanced_searches/program_stream_column', program_stream_columns: @program_stream_columns
         .row
           .col-xs-12
             #builder.advanced-search-builder{ 'data-basic-search-rules' => @basic_filter_params, 'data-filter-translation' => { add_filter: t('.add_new_filter'), add_group: t('.add_new_group'), delete_group: t('.delete_group') }}
