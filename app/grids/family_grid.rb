@@ -152,24 +152,6 @@ class FamilyGrid < BaseGrid
     ProgramStream.joins(:enrollments).complete.ordered.pluck(:name).uniq
   end
 
-  def quantitative_type_options
-    QuantitativeType.all.map{ |t| [t.name, t.id] }
-  end
-
-  filter(:quantitative_types, :enum, select: :quantitative_type_options, header: -> { I18n.t('datagrid.columns.clients.quantitative_types') }) do |value, scope|
-    ids = Family.joins(:quantitative_cases).where(quantitative_cases: { quantitative_type_id: value.to_i }).pluck(:id).uniq
-    scope.where(id: ids)
-  end
-
-  def quantitative_cases
-    qType.present? ? QuantitativeType.find(qType.to_i).quantitative_cases.map{ |t| [t.value, t.id] } : QuantitativeCase.all.map{ |t| [t.value, t.id] }
-  end
-
-  filter(:quantitative_data, :enum, select: :quantitative_cases, header: -> { I18n.t('datagrid.columns.clients.quantitative_case_values') }) do |value, scope|
-    ids = Family.joins(:quantitative_cases).where(quantitative_cases: { id: value.to_i }).pluck(:id).uniq
-    scope.where(id: ids)
-  end
-
   def filer_section(filter_name)
     {
       street: :address,

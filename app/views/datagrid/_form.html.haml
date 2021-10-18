@@ -337,6 +337,7 @@
               - field_name = f.name
               - field_name = 'member_count' if field_name.to_s.include?('significant_family_member_count')
               - next unless policy(Family).show?(field_name)
+              - next if skipped_assessment_tool_fields.include?(f.name)
 
               %li
                 .visibility.col-sm-12
@@ -361,7 +362,7 @@
               .visibility.col-sm-12
                 = check_box_tag 'direct_beneficiaries_', 'direct_beneficiaries', checked = default_setting('direct_beneficiaries_', @default_columns) || params[:direct_beneficiaries_].present?, class: 'i-checks'
                 = label_tag 'direct_beneficiaries_', t('datagrid.columns.families.direct_beneficiaries')
-
+          - unless current_setting.hide_family_case_management_tool?
             #referral-data
               - quantitative_fields = @quantitative_fields.map { |quantitative_field|  quantitative_field.slice(:id, :field) }
               - quantitative_fields.each do |quantitative_type|
@@ -373,7 +374,6 @@
                     = check_box_tag "#{quantitative_type_name}_", quantitative_type_name, checked = default_setting("#{quantitative_type_name}_", @default_columns) || params["#{quantitative_type_name}_"].present?, class: 'i-checks'
                     = label_tag "#{quantitative_type_name}_", quantitative_type_name
 
-          - unless current_setting.hide_family_case_management_tool?
             %li
               .visibility.col-sm-12
                 = check_box_tag 'case_workers_', 'case_workers', checked = default_setting('case_workers_', @default_columns) || params[:case_workers_].present?, class: 'i-checks'
