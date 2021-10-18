@@ -16,7 +16,11 @@ class ClientPolicy < ApplicationPolicy
       :other_legal_doc
     ]
 
-    field_settings.where(name: fields).any? && fields.any?{ |field| show?(field) }
+    if Organization.ratanak?
+      field_settings.where(name: fields).any? && fields.any?{ |field| show?(field) }
+    else
+      field_settings.where(visible: true, name: fields).any? && fields.any?{ |field| show?(field) }
+    end
   end
 
   def brc_client_address?

@@ -80,7 +80,7 @@ module Families
     end
 
     def get_all_assessments
-      @assessments = @family.assessments.completed
+      @assessments = @family.assessments.completed.order(:created_at)
     end
 
     def find_assessment

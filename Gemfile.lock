@@ -2,6 +2,9 @@ GEM
   remote: https://rubygems.org/
   specs:
     CFPropertyList (2.3.6)
+    TimezoneParser (0.3.3)
+      insensitive_hash
+      tzinfo
     actionmailer (4.2.2)
       actionpack (= 4.2.2)
       actionview (= 4.2.2)
@@ -23,6 +26,8 @@ GEM
       rails-html-sanitizer (~> 1.0, >= 1.0.1)
     active_model_serializers (0.9.4)
       activemodel (>= 3.2)
+    active_record_doctor (1.8.0)
+      activerecord (>= 4.2.0)
     active_record_union (1.2.0)
       activerecord (>= 4.0)
     activejob (4.2.2)
@@ -410,6 +415,10 @@ GEM
       mime-types (>= 1.6)
       representable (~> 3.0)
       retriable (>= 2.0, < 4.0)
+    google_calendar (0.6.4)
+      TimezoneParser (~> 0.3.0)
+      json (>= 1.8.3)
+      signet (~> 0.7)
     googleauth (0.5.1)
       faraday (~> 0.9)
       jwt (~> 1.4)
@@ -449,6 +458,7 @@ GEM
     inline_svg (1.7.1)
       activesupport (>= 3.0)
       nokogiri (>= 1.6)
+    insensitive_hash (0.3.3)
     ipaddress (0.8.3)
     jbuilder (2.4.1)
       activesupport (>= 3.0.0, < 5.1)
@@ -653,7 +663,7 @@ GEM
       execjs
       railties (>= 3.2)
       tilt
-    redis (3.2.2)
+    redis (3.3.5)
     redis-session-store (0.11.3)
       actionpack (>= 3, < 7)
       redis (>= 3, < 5)
@@ -851,6 +861,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_model_serializers
+  active_record_doctor (~> 1.8)
   acts_as_paranoid (~> 0.6.1)
   ancestry (~> 3.0, >= 3.0.5)
   apartment (~> 1.2)
@@ -896,6 +907,7 @@ DEPENDENCIES
   fullcalendar-rails (~> 3.2.0.0)
   globalize (~> 5.1.0)
   google-api-client (~> 0.10)
+  google_calendar (~> 0.6.4)
   haml-rails (~> 0.9)
   jbuilder (~> 2.0)
   jquery-datatables-rails (~> 3.4)

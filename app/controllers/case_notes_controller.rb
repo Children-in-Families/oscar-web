@@ -2,6 +2,7 @@ class CaseNotesController < AdminController
   load_and_authorize_resource
   include CreateBulkTask
   include CaseNoteConcern
+  include GoogleCalendarServiceConcern
 
   before_action :set_client
   before_action :set_custom_assessment_setting, only: [:new, :create, :edit, :update]
@@ -75,6 +76,7 @@ class CaseNotesController < AdminController
         @case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes], current_user.id)
       end
       create_bulk_task(params[:task], @case_note) if params.has_key?(:task)
+      delete_events if session[:authorization]
       redirect_to client_case_notes_path(@client), notice: t('.successfully_updated')
     else
       render :edit

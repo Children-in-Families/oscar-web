@@ -21,7 +21,7 @@ class CarePlan < ActiveRecord::Base
   end
 
   def is_goals_tasks_exist?(domain_id)
-    goals.find_by_domain(domain_id).present? ? goals.find_by_domain(domain_id).first.tasks.incomplete.upcoming.present? : false
+    goals.find_by_domain(domain_id).present? ? goals.find_by_domain(domain_id).first.tasks.incomplete.upcoming.any? : false
   end
 
   private

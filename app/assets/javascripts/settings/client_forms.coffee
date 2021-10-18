@@ -1,4 +1,4 @@
-CIF.SettingsClient_forms = CIF.SettingsFamily_case_management = CIF.SettingsCommunity = do ->
+CIF.SettingsClient_forms = CIF.SettingsFamily_case_management = CIF.SettingsCommunity = CIF.SettingsTest_client = do ->
   _init = ->
     _initICheckBox()
 

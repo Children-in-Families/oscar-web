@@ -806,7 +806,7 @@ km:
         '12': ផ្សេងៗ
       receiving_staff: បុគ្គលិកទទួលករណី
       referee_answered_call: តើអ្នកបញ្ជូនបានឆ្លើយការហៅទូរស័ព្ទនេះ ឬបានហៅទូរស័ព្ទត្រឡប់មកវិញឬទេ?
-      referee_called_before: តើអ្នកបញ្ជូនភ្ជាប់បានហៅទូរស័ព្ទមកកាន់បណ្តាញសុវត្ថិភាពកុមារពីមុនដែរឬទេ
+      referee_called_before: តើអ្នកបញ្ជូនធ្លាប់បានហៅទូរស័ព្ទមកពីមុនដែរឬទេ?
       returning_missed_call: បានហៅទូរស័ព្ទវិញសម្រាប់ការខកខាន
       time_call_began: ពេលវេលានៃការហៅទូរស័ព្ទបានចាប់ផ្តើម
       time_call_ended: ពេលវេលានៃការហៅទូរស័ព្ទបានបញ្ចប់
@@ -1905,7 +1905,7 @@ km:
       province: ខេត្ត/ក្រុង
       rated_for_id_poor: តើអតិថិជនត្រូវបានវាយតំលៃសំរាប់អត្តសញ្ញាណប័ណ្ណក្រីក្រដែរឬទេ?
       received_by: បុគ្គលិកទទួលករណី
-      referee_called_before: តើអ្នកបញ្ជូនភ្ជាប់បានហៅទូរស័ព្ទមកកាន់បណ្តាញសុវត្ថិភាពកុមារពីមុនដែរឬទេ
+      referee_called_before: តើអ្នកបញ្ជូនធ្លាប់បានហៅទូរស័ព្ទមកពីមុនដែរឬទេ?
       referral_email: អ៊ីមែលរបស់អ្នកបញ្ជូនករណី
       referral_doc: ទម្រង់សម្ភាសន៍បឋម
       referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
@@ -2207,6 +2207,7 @@ km:
       follow_up_by: បុគ្គលិកតាមដានករណី
       follow_up_date: កាលបរិច្ឆេទតាមដានដំបូង
       followed_up_by: បុគ្គលិកតាមដានករណី
+      for_testing: សំរាប់សាកល្បង
       gender: ភេទ
       general_info: អំពីអតិថិជន
       given_name: នាមខ្លួនជាអក្សរឡាតាំង
@@ -5934,6 +5935,7 @@ km:
       delete_incomplete_assessment: Delete incomplete assessment after certain period of time
       previous_care_plan: ផែនការថែទាំចុងក្រោយ
       use_previous_care_plan: ប្រើទិន្នន័យ​ផែនការថែទាំចុងក្រោយ
+    test_client: អតិថិជនសាកល្បង
     update:
       successfully_updated: ការកំណត់បានកែសម្រួលដោយជោគជ័យ
   field_settings:

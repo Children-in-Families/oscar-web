@@ -75,7 +75,7 @@ module AdvancedSearches
         ids = []
         setting = Setting.first
         Client.joins(:assessments).active_accepted_status.each do |client|
-          next if !client.eligible_default_csi? && !(client.assessments.customs.present?)
+          next if !client.eligible_default_csi? && !(client.assessments.customs.any?)
           custom_assessment_setting_ids = client.assessments.customs.map{|ca| ca.domains.pluck(:custom_assessment_setting_id ) }.flatten.uniq
           if setting.enable_default_assessment? && setting.enable_custom_assessment?
             if client.next_assessment_date  < Date.today

@@ -1,4 +1,6 @@
 module CreateBulkTask
+  include GoogleCalendarServiceConcern
+
   def create_bulk_task(task_in_params, parent = nil)
     case_note = parent.class.to_s =~ /decorator/i ? parent.object : parent
     task_attr = task_in_params.map do |task|
@@ -13,5 +15,6 @@ module CreateBulkTask
 
     tasks = case_note.parent.tasks.create(task_attr)
     tasks.each { |task| Calendar.populate_tasks(task) }
+    create_events if session[:authorization]
   end
 end
