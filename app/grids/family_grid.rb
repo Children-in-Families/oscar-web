@@ -484,7 +484,7 @@ class FamilyGrid < BaseGrid
 
   dynamic do
     if !Setting.first.hide_family_case_management_tool?
-      column(:all_custom_csi_assessments, header: -> { I18n.t('datagrid.columns.all_custom_csi_assessments', assessment: t('families.show.assessment')) }, html: true) do |object|
+      column(:all_custom_csi_assessments, header: -> { I18n.t('datagrid.columns.all_custom_csi_assessments', assessment: t('families.family_assessment')) }, html: true) do |object|
         render partial: 'families/all_csi_assessments', locals: { object: object.assessments.customs }
       end
 
@@ -505,7 +505,7 @@ class FamilyGrid < BaseGrid
     render partial: 'families/assessments', locals: { object: assessments }
   end
 
-  column(:date_of_custom_assessments, header: -> { I18n.t('datagrid.columns.date_of_custom_assessments', assessment: I18n.t('families.show.assessment')) }, html: true) do |object|
+  column(:date_of_custom_assessments, header: -> { I18n.t('datagrid.columns.date_of_custom_assessments', assessment: I18n.t('families.family_assessment')) }, html: true) do |object|
     assessments = map_assessment_and_score(object, '', nil)
     render partial: 'families/assessments', locals: { object: assessments }
   end
