@@ -2664,7 +2664,7 @@ en:
   datagrid:
     columns:
       all_csi_assessments: All CSI %{assessment}
-      all_custom_csi_assessments: "All Custom %{assessment}"
+      all_custom_csi_assessments: "All %{assessment}"
       all_result_framework_assessment: All Result Framework Assessment
       assessment_completed_date: "%{assessment} Completed Date"
       assessment_custom_completed_date: "Custom %{assessment} Completed Date"
