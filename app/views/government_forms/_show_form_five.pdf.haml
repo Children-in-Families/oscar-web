@@ -71,6 +71,7 @@
                 %p= @government_form.recent_issues_and_progress
             %br/
 .footer{ style: 'page-break-after: always;' }
+
 .panel.panel-borderless.panel-no-margin{ style: 'border-top: 2px solid black; page-break-after: always;' }
   .panel-body.panel-border{ style: 'padding: 0px 10px 0px 10px;' }
     %table.with-word-wrap.table.no-margin-bottom{ style: 'margin-top: 10px; margin-bottom: 10px' }
@@ -80,7 +81,7 @@
           %br
           អ្នកកាន់ករណីត្រូវកត់ត្រានូវសេវា និងសកម្មភាពគ្រប់ពេលចុះត្រួតពិនិត្យកុមារ និងគ្រួសារ
         %thead
-          %tr{ style: 'background-color: #f9ebdf; page-break-inside: avoid;' }
+          %tr{ style: 'background-color: #f9ebdf; page-break-before: always;' }
             %th{ style: 'width: 100px; border:1px solid black; text-align: center; vertical-align: middle;' }
               កាលបរិច្ឆេទ
               %br
@@ -91,19 +92,20 @@
               ស្ថានភាពបច្ចុប្បន្នកុមារ និងគ្រួសារ
         %tbody
           - task_size = 0
-          - @case_notes.each do |tasks|
+          - @case_notes.each do |meeting_date, tasks, notes|
             - task_size += tasks.size
-            - tasks.each do |task|
-              %tr{ style: 'page-break-inside: avoid;' }
-                %td.text-center{ style: 'padding: 10px; border:1px solid black; min-height: 35px; vertical-align: middle;' }
-                  %p{ style: 'margin-bottom: auto;' }= task.first ? task.first.strftime('%d-%m-%Y') : ''
-                %td{ style: 'padding: 10px; border:1px solid black; min-height: 35px; vertical-align: middle;' }
-                  %p{ style: 'margin-bottom: auto;' }= task.second
-                %td{ style: 'padding: 10px; border:1px solid black; vertical-align: middle;' }
-                  %p.comment{ style: 'word-wrap: break-word; margin-bottom: auto;'}= task.last
+            %tr.alwaysbreak{ style: 'page-break-before: always;' }
+              %td.text-center{ style: 'padding: 10px; border:1px solid black; min-height: 35px; vertical-align: middle;' }
+                %p{ style: 'margin-bottom: auto;' }= meeting_date ? meeting_date.strftime('%d-%m-%Y') : ''
+              %td{ style: 'padding: 10px; border:1px solid black; min-height: 35px; vertical-align: middle;' }
+                %ul
+                  - tasks.each do |task|
+                    %li{ style: 'margin-bottom: auto;' }= task
+              %td{ style: 'padding: 10px; border:1px solid black; vertical-align: middle;' }
+                %p.comment{ style: 'word-wrap: break-word; margin-bottom: auto;'}= notes
 
           - (1..(16 - task_size)).each do |_|
-            %tr{ style: 'page-break-inside: avoid;' }
+            %tr.alwaysbreak{ style: 'page-break-before: always;' }
               %td{ style: 'border:1px solid black; text-align: center;' }
                 .comment{ style: 'min-height: 22px;' }
               %td{ style: 'border:1px solid black; text-align: center;' }
