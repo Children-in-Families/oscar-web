@@ -114,14 +114,14 @@ module CsiConcern
   end
 
   def clients_have_recent_default_assessments(clients)
-    sql =  "clients.id, (SELECT assessments.created_at FROM assessments ORDER BY assessments.created_at DESC LIMIT 1) AS assessment_created_at"
+    sql =  sql = "clients.id, (SELECT assessments.created_at FROM assessments WHERE assessments.client_id = clients.id AND assessments.default = true ORDER BY assessments.created_at DESC LIMIT 1) AS assessment_created_at"
     clients_recent_assessment_dates = Client.joins(:assessments).where(id: clients.ids).merge(Assessment.defaults.most_recents).select(sql)
     client_ids = collect_clients_have_recent_assessment_dates(clients_recent_assessment_dates) if current_setting.try(:enable_default_assessment?)
     clients.where(id: client_ids).uniq
   end
 
   def clients_have_recent_custom_assessments(clients)
-    sql = "clients.id, (SELECT assessments.created_at FROM assessments ORDER BY assessments.created_at DESC LIMIT 1) AS assessment_created_at"
+    sql = sql = "clients.id, (SELECT assessments.created_at FROM assessments WHERE assessments.client_id = clients.id AND assessments.default = false ORDER BY assessments.created_at DESC LIMIT 1) AS assessment_created_at"
     client_ids = []
     CustomAssessmentSetting.only_enable_custom_assessment.each do |custom_assessment_setting|
       clients_recent_custom_assessment_dates = Client.joins(:assessments).where(id: clients.ids).merge(Assessment.customs.most_recents.joins(:domains).where(domains: { custom_assessment_setting_id: CustomAssessmentSetting.only_enable_custom_assessment.ids })).select(sql)

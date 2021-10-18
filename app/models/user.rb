@@ -160,7 +160,7 @@ class User < ActiveRecord::Base
     current_ability = Ability.new(self)
     _clients = Client.accessible_by(current_ability)
     eligible_clients = active_young_clients(_clients, setting)
-    sql = "clients.id, (SELECT assessments.created_at FROM assessments ORDER BY assessments.created_at DESC LIMIT 1) AS assessment_created_at"
+    sql = "clients.id, (SELECT assessments.created_at FROM assessments WHERE assessments.client_id = clients.id AND assessments.default = true ORDER BY assessments.created_at DESC LIMIT 1) AS assessment_created_at"
     if self.deactivated_at.nil?
       clients_recent_assessment_dates = Client.joins(:assessments).where(id: eligible_clients.ids).merge(Assessment.defaults.most_recents).select(sql)
     else
@@ -177,6 +177,7 @@ class User < ActiveRecord::Base
     end.compact
 
     CustomAssessmentSetting.only_enable_custom_assessment.each do |custom_assessment_setting|
+      sql = "clients.id, (SELECT assessments.created_at FROM assessments WHERE assessments.client_id = clients.id AND assessments.default = false ORDER BY assessments.created_at DESC LIMIT 1) AS assessment_created_at"
       if self.deactivated_at.nil?
         clients_recent_custom_assessment_dates = Client.joins(:assessments).where(id: eligible_clients.ids).merge(Assessment.customs.most_recents.joins(:domains).where(domains: { custom_assessment_setting_id: custom_assessment_setting.id })).select(sql)
       else
