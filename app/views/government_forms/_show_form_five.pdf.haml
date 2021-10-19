@@ -80,21 +80,20 @@
           កំណត់ត្រាអំពីលទ្ធផល
           %br
           អ្នកកាន់ករណីត្រូវកត់ត្រានូវសេវា និងសកម្មភាពគ្រប់ពេលចុះត្រួតពិនិត្យកុមារ និងគ្រួសារ
-        %thead
-          %tr{ style: 'background-color: #f9ebdf; page-break-before: always;' }
-            %th{ style: 'width: 100px; border:1px solid black; text-align: center; vertical-align: middle;' }
-              កាលបរិច្ឆេទ
-              %br
-              (ថ្ងៃ/ខែ/ឆ្នាំ)
-            %th{ style: 'width: 200px; border:1px solid black; text-align: center; vertical-align: middle;' }
-              សេវាដែលបានផ្ដល់ជូនកុមារ និងគ្រួសារ
-            %th{ style: 'width: 200px; border:1px solid black; text-align: center; vertical-align: middle;' }
-              ស្ថានភាពបច្ចុប្បន្នកុមារ និងគ្រួសារ
+        %tr{ style: 'background-color: #f9ebdf;' }
+          %th{ style: 'width: 100px; border:1px solid black; text-align: center; vertical-align: middle;' }
+            កាលបរិច្ឆេទ
+            %br
+            (ថ្ងៃ/ខែ/ឆ្នាំ)
+          %th{ style: 'width: 200px; border:1px solid black; text-align: center; vertical-align: middle;' }
+            សេវាដែលបានផ្ដល់ជូនកុមារ និងគ្រួសារ
+          %th{ style: 'width: 200px; border:1px solid black; text-align: center; vertical-align: middle;' }
+            ស្ថានភាពបច្ចុប្បន្នកុមារ និងគ្រួសារ
         %tbody
           - task_size = 0
           - @case_notes.each do |meeting_date, tasks, notes|
             - task_size += tasks.size
-            %tr.alwaysbreak{ style: 'page-break-before: always;' }
+            %tr
               %td.text-center{ style: 'padding: 10px; border:1px solid black; min-height: 35px; vertical-align: middle;' }
                 %p{ style: 'margin-bottom: auto;' }= meeting_date ? meeting_date.strftime('%d-%m-%Y') : ''
               %td{ style: 'padding: 10px; border:1px solid black; min-height: 35px; vertical-align: middle;' }
@@ -102,10 +101,10 @@
                   - tasks.each do |task|
                     %li{ style: 'margin-bottom: auto;' }= task
               %td{ style: 'padding: 10px; border:1px solid black; vertical-align: middle;' }
-                %p.comment{ style: 'word-wrap: break-word; margin-bottom: auto;'}= notes
+                %p.comment{ style: 'word-wrap: break-word; margin-bottom: 5px;'}= notes
 
           - (1..(16 - task_size)).each do |_|
-            %tr.alwaysbreak{ style: 'page-break-before: always;' }
+            %tr
               %td{ style: 'border:1px solid black; text-align: center;' }
                 .comment{ style: 'min-height: 22px;' }
               %td{ style: 'border:1px solid black; text-align: center;' }
