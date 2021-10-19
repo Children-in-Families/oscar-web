@@ -13,7 +13,7 @@ class CustomAssessmentSetting < ActiveRecord::Base
   validates :max_custom_assessment, presence: true
   validates :custom_age, presence: true
 
-  scope :any_custom_assessment_enable?, -> { all.present? }
+  scope :any_custom_assessment_enable?, -> { all.any? }
   scope :only_enable_custom_assessment, -> { where(enable_custom_assessment: true) }
 
   def max_assessment_duration

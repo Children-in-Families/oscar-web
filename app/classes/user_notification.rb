@@ -2,7 +2,7 @@ class UserNotification
   include ProgramStreamHelper
   include CsiConcern
 
-  attr_reader :all_count, :current_setting, :enable_default_assessment, :any_custom_assessment_enable
+  attr_reader :all_count, :current_setting, :enable_default_assessment, :any_custom_assessment_enable, :assessments
   attr_accessor :upcoming_csi_assessments_count, :upcoming_custom_csi_assessments_count
 
   def initialize(user, clients)
