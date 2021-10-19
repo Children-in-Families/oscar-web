@@ -429,6 +429,12 @@
 
           .col-sm-12.col-md-6.second-table
             %table.table.table-bordered
+              - if current_organization.integrated?
+                %tr
+                  %td.spacing-first-col
+                    = "#{t('.mosvy_number')}"
+                    %td
+                      %strong= @client.mosvy_number
               %tr
                 %td.spacing-first-col
                   = "#{t('.client_global_identity')}"
