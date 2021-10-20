@@ -432,9 +432,9 @@
               - if current_organization.integrated?
                 %tr
                   %td.spacing-first-col
-                    = "#{t('.mosvy_number')}"
+                    = "#{t('.external_id_display')}"
                     %td
-                      %strong= @client.mosvy_number
+                      %strong= @client.external_id_display
               %tr
                 %td.spacing-first-col
                   = "#{t('.client_global_identity')}"
