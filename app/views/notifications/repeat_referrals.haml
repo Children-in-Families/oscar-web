@@ -9,4 +9,5 @@
             %ul.list-group
               - @repeat_referrals.each do |referral|
                 %li.list-group-item
-                  = link_to "#{referral.client_name} #{referral.slug}", edit_client_path(id: referral.slug, referral_id: referral.id), target: '_blank'
+                  - client = find_repeated_referred_client(referral)
+                  = link_to "#{referral.client_name} #{referral.slug}", edit_client_path(id: client&.slug, referral_id: referral.id), target: '_blank'
