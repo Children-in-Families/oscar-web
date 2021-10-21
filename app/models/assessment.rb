@@ -153,7 +153,7 @@ class Assessment < ActiveRecord::Base
 
   def must_be_enable
     enable = default? ? Setting.first.enable_default_assessment : Setting.first.enable_custom_assessment
-    enable ? true : errors.add(:base, 'Assessment tool must be enable in setting')
+    enable || family ? true : errors.add(:base, 'Assessment tool must be enable in setting')
   end
 
   def set_previous_score

@@ -29,17 +29,18 @@
           .row.margin-row
             .col-xs-12.col-sm-8
               %h5
-                - if @family.assessments.defaults.any?
+                - if @family.assessments.customs.any?
                   = t('assessments.index.next_review')
                   %b
-                    = date_format(@family.next_assessment_date)
+                    = date_format(@family.custom_next_assessment_date(nil, nil))
                 - else
                   = t('assessments.index.initial_assessment', assessment: t('families.family_assessment'))
                   %b
                     = date_format(Date.today)
+
             .col-xs-12.col-sm-4
-              - if @custom_assessment_settings.any? && policy(@custom_assessment).create?()
-                = link_to new_family_assessment_path(@family, default: true) do
+              - if policy(@custom_assessment).create?()
+                = link_to new_family_assessment_path(@family, default: false) do
                   .btn.btn-block.btn-primary.button
                     = "#{t('assessments.index.begin_now')} #{t('families.family_assessment')}"
               - else
