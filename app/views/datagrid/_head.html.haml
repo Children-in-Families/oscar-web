@@ -15,6 +15,7 @@
         = care_plan_counter() if header_classes(grid, column).parameterize == 'care_plan_completed_date'
       - elsif grid.instance_of?(FamilyGrid)
         = family_header_counter(grid, column)
+        = care_plan_counter() if header_classes(grid, column).parameterize == 'care_plan_completed_date'
       - else
         = column.header.truncate(65)
       = datagrid_order_for(grid, column, options) if column.supports_order? && options[:order]

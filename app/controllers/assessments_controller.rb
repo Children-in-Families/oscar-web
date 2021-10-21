@@ -2,6 +2,7 @@ class AssessmentsController < AdminController
   include ApplicationHelper
   include CreateBulkTask
   include AssessmentConcern
+  include AssessmentHelper
 
   before_action :find_client, :list_all_case_conferences
   before_action :find_assessment, only: [:edit, :update, :show, :destroy]

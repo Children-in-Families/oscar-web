@@ -3,6 +3,7 @@ module FamilyAdvancedSearchesConcern
   include FamiliesHelper
   include ClientsHelper
   include AssessmentHelper
+  include CarePlanHelper
 
   def advanced_search
     basic_rules  = JSON.parse @basic_filter_params
@@ -13,7 +14,7 @@ module FamilyAdvancedSearchesConcern
     program_stream_column
     respond_to do |f|
       f.html do
-        @results                = @family_grid.scope { |scope| scope.where(id: @families.ids) }.assets.size
+        @results                = @family_grid.scope { |scope| scope.where(id: @families.ids) }.assets
         @family_grid.scope { |scope| scope.where(id: @families.ids).page(params[:page]).per(20) }
       end
       f.xls do
@@ -43,6 +44,8 @@ module FamilyAdvancedSearchesConcern
     csi_domain_score_report
     default_date_of_completed_assessments
     custom_date_of_assessments
+    care_plan_completed_date
+    care_plan_count
     case_note_date_report
     case_note_type_report
     program_stream_report

@@ -27,7 +27,7 @@ class FamiliesController < AdminController
       respond_to do |f|
         f.html do
           if params[:family_grid].present?
-            @results = @family_grid.assets.size
+            @results = @family_grid.assets
             @family_grid.scope { |scope| scope.accessible_by(current_ability).page(params[:page]).per(20) }
           end
         end

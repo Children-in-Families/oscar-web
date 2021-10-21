@@ -106,7 +106,7 @@ class Assessment < ActiveRecord::Base
   end
 
   def populate_family_domains
-    family_domains = Domain.family_custom_csi_domains
+    family_domains = Domain.family_custom_csi_domains.presence || Domain.csi_domains
     family_domains.where.not(id: domains.ids).each do |domain|
       assessment_domains.build(domain: domain)
     end

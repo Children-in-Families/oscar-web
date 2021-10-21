@@ -2982,6 +2982,8 @@ en:
         active_families: Active Families in Specific Period
         address: Address
         caregiver_information: Caregiver Information
+        care_plan_count: Number of Care Plan
+        care_plan_completed_date: Care Plan Completed Date
         case_history: Case History
         case_worker_name: Case Worker Name
         case_workers: Case Workers
