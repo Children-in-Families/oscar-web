@@ -46,6 +46,7 @@ module Api
         if params[:organization].present? && clients_params['organization_name'].present?
           if clients_params['global_id'].present?
             find_client_global_identiy
+            create_second_referral
           else
             find_referral
           end
@@ -158,7 +159,7 @@ module Api
           :address_current_village_code, :reason_for_referral, :reason_for_exiting,
           :organization_id, :organization_name, :external_case_worker_name,
           :external_case_worker_id, :external_case_worker_mobile, :external_case_worker_email,
-          services: [:uuid, :name]
+          :lavel_of_risk, services: [:uuid, :name]
         )
       end
 
@@ -245,6 +246,14 @@ module Api
         clients = Client.find_by_sql(sql)
         JSON.parse ActiveModel::ArraySerializer.new(clients.to_a.uniq, each_serializer: ClientShareExternalSerializer, context: current_user).to_json
       end
+
+      def create_second_referral
+        external_system = ExternalSystem.find_by(token: @current_user.email)
+        external_system_id = external_system&.id
+        external_system_name = external_system&.name
+        referral = Referral.new(referral_attributes.merge(referred_from: external_system_name))
+      end
+
     end
   end
 end

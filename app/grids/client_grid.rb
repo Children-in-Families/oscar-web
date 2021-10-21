@@ -86,6 +86,10 @@ class ClientGrid < BaseGrid
 
   filter(:referred_from, :enum, select: :referral_from_options, header: -> { I18n.t('datagrid.columns.clients.referred_from') } )
 
+  filter(:referred_in, header: -> { I18n.t('datagrid.columns.clients.referred_in') } )
+
+  filter(:referred_out, header: -> { I18n.t('datagrid.columns.clients.referred_out') } )
+
   def referral_to_options
     orgs = Organization.oscar.map { |org| { org.short_name => org.full_name } }
     orgs << { "external referral" => "I don't see the NGO I'm looking for" }
@@ -660,6 +664,14 @@ class ClientGrid < BaseGrid
     org_names << "MoSVY External System" if short_names.include?("MoSVY External System")
 
     org_names.join(', ')
+  end
+
+  column(:referred_in, order: false, header: -> { I18n.t('advanced_search.fields.referred_in') }) do |object|
+    object.referrals.received.count
+  end
+
+  column(:referred_out, order: false, header: -> { I18n.t('advanced_search.fields.referred_out') }) do |object|
+    object.referrals.delivered.count
   end
 
   column(:agency, order: false, header: -> { I18n.t('datagrid.columns.clients.agencies_involved') }) do |object|

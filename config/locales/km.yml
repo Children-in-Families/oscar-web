@@ -1620,7 +1620,7 @@ km:
       other_info_of_exit: ព័ត៌មានបន្ថែមនៃការចាកចេញ
       preview_download: មើលនិងទាញយក
       referee_phone_number: លេខទូរស័ព្ទរបស់អ្នកបញ្ជូនករណី
-      referral_reasons: មូលហេតុនៃការបញ្ជូន
+      referral_reasons: កំណត់សំគាល់នៃការបញ្ជូន
       referred_from: បញ្ជូនមកពីអង្គការដទៃ
       referred_to: បញ្ជូនទៅអង្គការដទៃ
     client_advanced_searches:
@@ -4110,7 +4110,7 @@ km:
       other_info_of_exit: ព័ត៌មានបន្ថែមនៃការចាកចេញ
       preview_download: មើលនិងទាញយក
       referee_phone_number: លេខទូរស័ព្ទរបស់អ្នកបញ្ជូនករណី
-      referral_reasons: មូលហេតុនៃការបញ្ជូន
+      referral_reasons: កំណត់សំគាល់នៃការបញ្ជូន
       referred_from: បញ្ជូនមកពីអង្គការដទៃ
       referred_to: បញ្ជូនទៅអង្គការដទៃ
     create:
@@ -4380,7 +4380,7 @@ km:
       name_of_referee: ឈ្មោះអ្នកបញ្ជូន
       ngo_name: ឈ្មោះអង្គការ
       referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
-      referral_reason: មូលហេតុនៃការបញ្ជូន
+      referral_reason: កំណត់សំគាល់នៃការបញ្ជូន
       referred_from: ប្រភពនៃការបញ្ជូន
       referred_to: បញ្ជូនទៅអង្គការដទៃ
       save: រក្សាទុក
@@ -4397,7 +4397,7 @@ km:
       name_of_referee: ឈ្មោះអ្នកបញ្ជូន
       referral_forms: ទម្រង់បញ្ជូន
       referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
-      referral_reason: មូលហេតុនៃការបញ្ជូន
+      referral_reason: កំណត់សំគាល់នៃការបញ្ជូន
       referred_from: ប្រភពនៃការបញ្ជូន
       referred_to: បញ្ជូនទៅកាន់
       select_ngos: ជ្រើសរើសអង្គការ
@@ -4420,12 +4420,12 @@ km:
           family_name: ឈ្មោះគ្រួសារ
           name_of_referee: ឈ្មោះអ្នកបញ្ជូន
           referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
-          referral_reason: មូលហេតុនៃការបញ្ជូន
+          referral_reason: កំណត់សំគាល់នៃការបញ្ជូន
           referred_from: ប្រភពនៃការបញ្ជូន
           referred_to: បញ្ជូនទៅកាន់
       preview_download: មើលនិងទាញយក
       referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
-      referral_reason: មូលហេតុនៃការបញ្ជូន
+      referral_reason: កំណត់សំគាល់នៃការបញ្ជូន
       referred_from: ប្រភពនៃការបញ្ជូន
       referred_to: បញ្ជូនទៅកាន់
       type_of_service: ប្រភេទសេវាកម្ម
@@ -5751,6 +5751,7 @@ km:
       back: ត្រលប់ក្រោយ
       modification_of: ប្រវត្តិកំណែរបស់
   referrals:
+    level_of_risk: កម្រិតហានិភ័យ
     confirm_referral:
       body_second: អតិថិជនដែលអ្នកចង់បញ្ជូនមាននៅក្នុងអង្គការគោលដៅរួចទៅហើយ
       body_third: អ្នកបានបញ្ជូនអតិថិជននេះរួចហើយសូមរង់ចាំការឆ្លើយតប
@@ -5777,7 +5778,7 @@ km:
       ngo_name: ឈ្មោះអង្គការ
       referral_email: អ៊ីមែលរបស់អ្នកបញ្ជូនករណី
       referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
-      referral_reason: មូលហេតុនៃការបញ្ជូន
+      referral_reason: កំណត់សំគាល់នៃការបញ្ជូន
       referred_from: ប្រភពនៃការបញ្ជូន
       referred_to: បញ្ជូនទៅអង្គការដទៃ
       save: រក្សាទុក
@@ -5795,7 +5796,7 @@ km:
       referral_email: អ៊ីមែលរបស់អ្នកបញ្ជូនករណី
       referral_forms: ទម្រង់បញ្ជូន
       referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
-      referral_reason: មូលហេតុនៃការបញ្ជូន
+      referral_reason: កំណត់សំគាល់នៃការបញ្ជូន
       referred_from: ប្រភពនៃការបញ្ជូន
       referred_to: បញ្ជូនទៅកាន់
       select_ngos: ជ្រើសរើសអង្គការ
@@ -5819,13 +5820,13 @@ km:
           name_of_referee: ឈ្មោះអ្នកបញ្ជូន
           referral_email: អ៊ីមែលរបស់អ្នកបញ្ជូនករណី
           referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
-          referral_reason: មូលហេតុនៃការបញ្ជូន
+          referral_reason: កំណត់សំគាល់នៃការបញ្ជូន
           referred_from: ប្រភពនៃការបញ្ជូន
           referred_to: បញ្ជូនទៅកាន់
       preview_download: មើលនិងទាញយក
       referral_email: អ៊ីមែលរបស់អ្នកបញ្ជូនករណី
       referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
-      referral_reason: មូលហេតុនៃការបញ្ជូន
+      referral_reason: កំណត់សំគាល់នៃការបញ្ជូន
       referred_from: ប្រភពនៃការបញ្ជូន
       referred_to: បញ្ជូនទៅកាន់
       type_of_service: ប្រភេទសេវាកម្ម

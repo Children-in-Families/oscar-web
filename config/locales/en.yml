@@ -531,10 +531,12 @@ en:
       referral_source_category_id: Referral Source Category
       referral_source_id: Referral Source
       referred_from: Referred From
+      referred_in: Referred In
       referred_to: Referred To
       referred_to_ec: Referred To EC
       referred_to_fc: Referred To FC
       referred_to_kc: Referred To KC
+      referred_out: Referred Out
       referee: Referee
       referee_relationship: Referee Relationship to Client
       referee_name: Referee Name
@@ -4419,7 +4421,7 @@ en:
       name_of_referee: Case Worker Making the Referral
       ngo_name: NGO Name
       referral_phone: Contact Phone Number
-      referral_reason: What is the reason for this referral?
+      referral_reason: Referral Note
       referred_from: Referred from
       referred_to: Referred to
       save: Save
@@ -4435,7 +4437,7 @@ en:
       name_of_referee: Name of Referee
       referral_forms: Referral Forms
       referral_phone: Referral Phone
-      referral_reason: What is the reason for this referral?
+      referral_reason: Referral Note
       referred_from: Reffered From
       referred_to: Referred To
       select_ngos: Select NGOs
@@ -4458,12 +4460,12 @@ en:
           date_of_referral: Date of Referral
           name_of_referee: Case Worker Making the Referral
           referral_phone: Contact Phone Number
-          referral_reason: What is the reason for this referral?
+          referral_reason: Referral Note
           referred_from: Reffered From
           referred_to: Referred To
       preview_download: Preview & Download
       referral_phone: Contact Phone Number
-      referral_reason: What is the reason for this referral?
+      referral_reason: Referral Note
       referred_from: Reffered From
       referred_to: Referred To
       type_of_service: Type of Service
@@ -5793,6 +5795,7 @@ en:
       back: Back
       modification_of: Changelog of
   referrals:
+    level_of_risk: Level of Risk
     confirm_referral:
       body_second: The client you want to refer already existed in the target NGO.
       body_third: You have already referred this client, please wait for the response.
@@ -5818,7 +5821,7 @@ en:
       name_of_referee: Case Worker Making the Referral
       ngo_name: NGO Name
       referral_phone: Contact Phone Number
-      referral_reason: What is the reason for this referral?
+      referral_reason: Referral Note
       referred_from: Referred from
       referred_to: Referred to
       save: Save
@@ -5835,7 +5838,7 @@ en:
       name_of_referee: Name of Referee
       referral_forms: Referral Forms
       referral_phone: Referral Phone
-      referral_reason: What is the reason for this referral?
+      referral_reason: Referral Note
       referred_from: Reffered From
       referred_to: Referred To
       select_ngos: Select NGOs
@@ -5858,12 +5861,12 @@ en:
           date_of_referral: Date of Referral
           name_of_referee: Case Worker Making the Referral
           referral_phone: Contact Phone Number
-          referral_reason: What is the reason for this referral?
+          referral_reason: Referral Note
           referred_from: Reffered From
           referred_to: Referred To
       preview_download: Preview & Download
       referral_phone: Contact Phone Number
-      referral_reason: What is the reason for this referral?
+      referral_reason: Referral Note
       referred_from: Reffered From
       referred_to: Referred To
       type_of_service: Type of Service

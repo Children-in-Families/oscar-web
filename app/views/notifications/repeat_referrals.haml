@@ -10,4 +10,6 @@
               - @repeat_referrals.each do |referral|
                 %li.list-group-item
                   - client = find_repeated_referred_client(referral)
-                  = link_to "#{referral.client_name} #{referral.slug}", edit_client_path(id: client&.slug, referral_id: referral.id), target: '_blank'
+                  = link_to edit_client_path(id: client&.slug, referral_id: referral.id), target: '_blank' do
+                    = "#{referral.client_name} (#{ngo_hash_mapping[referral.referred_from]})"
+                    %span.label.label-primary= referral.level_of_risk&.capitalize

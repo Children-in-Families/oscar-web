@@ -11,7 +11,7 @@ class Referral < ActiveRecord::Base
 
   validates :client_name, :client_global_id, :date_of_referral, :referred_from,
             :referred_to, :referral_reason, :name_of_referee,
-            :referral_phone, presence: true
+            :referral_phone, :level_of_risk, presence: true
 
   validates :consent_form, presence: true, if: :making_referral?
   validates :referee_id, presence: true, if: :slug_exist?

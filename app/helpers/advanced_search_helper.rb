@@ -146,6 +146,8 @@ module AdvancedSearchHelper
       created_by: I18n.t('advanced_search.fields.created_by'),
       referred_to: I18n.t('advanced_search.fields.referred_to'),
       referred_from: I18n.t('advanced_search.fields.referred_from'),
+      referred_in: I18n.t('advanced_search.fields.referred_in'),
+      referred_out: I18n.t('advanced_search.fields.referred_out'),
       referee: I18n.t('advanced_search.fields.referee'),
       referee_name: I18n.t('advanced_search.fields.referee_name'),
       referee_phone: I18n.t('advanced_search.fields.referee_phone'),
