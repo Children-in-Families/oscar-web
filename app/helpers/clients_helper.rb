@@ -530,6 +530,10 @@ module ClientsHelper
       assessment_completed_date_: t('datagrid.columns.calls.assessment_completed_date', assessment: t('clients.show.assessment')),
       hotline_call_: t('datagrid.columns.calls.hotline_call'),
       indirect_beneficiaries_: t('datagrid.columns.clients.indirect_beneficiaries'),
+      carer_name_: t('activerecord.attributes.carer.name'),
+      carer_phone_: t('activerecord.attributes.carer.phone'),
+      carer_email_: t('activerecord.attributes.carer.email'),
+      carer_relationship_to_client_: t('datagrid.columns.clients.carer_relationship_to_client'),
       **overdue_translations.map{ |k, v| ["#{k}_".to_sym, v] }.to_h,
       **client_address_translation
     }

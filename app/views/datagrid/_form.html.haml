@@ -301,6 +301,10 @@
               .visibility.col-sm-12
                 = check_box_tag 'carer_phone_', 'carer_phone', checked = saved_search_column_visibility('carer_phone_'), class: 'i-checks'
                 = label_tag 'carer_phone_', t('datagrid.columns.carer_phone')
+            %li
+              .visibility.col-sm-12
+                = check_box_tag 'carer_relationship_to_client_', 'carer_relationship_to_client', checked = saved_search_column_visibility('carer_relationship_to_client_'), class: 'i-checks'
+                = label_tag 'carer_relationship_to_client_', t('datagrid.columns.clients.carer_relationship_to_client')
 
             %li.divider.col-xs-12
 

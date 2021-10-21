@@ -606,6 +606,10 @@ class ClientGrid < BaseGrid
     object.carer && object.carer.email
   end
 
+  column(:carer_relationship_to_client, header: -> { I18n.t('datagrid.columns.clients.carer_relationship_to_client') }) do |object|
+    object.carer&.client_relationship
+  end
+
   column(:referee_relationship_to_client, header: -> { I18n.t('datagrid.columns.clients.referee_relationship_to_client') }) do |object|
     object.referee_relationship
   end
