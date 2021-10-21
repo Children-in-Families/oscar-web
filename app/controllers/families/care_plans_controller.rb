@@ -22,7 +22,7 @@ module Families
       @care_plan = @family.care_plans.new(care_plan_params)
       if @care_plan.save
         params[:care_plan][:goals_attributes].each do |goal|
-          create_nested_value(goal)
+          create_nested_value(@care_plan, goal)
         end
         redirect_to family_care_plans_path(@family), notice: t('care_plans.create.successfully_created')
       else
