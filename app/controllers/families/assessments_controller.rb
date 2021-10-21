@@ -12,7 +12,7 @@ module Families
 
     def index
       @custom_assessment  = @family.assessments.new(default: false)
-      @custom_assessment_settings = CustomAssessmentSetting.all.where(enable_custom_assessment: true)
+      @custom_assessment_settings = []
       @assessmets = AssessmentDecorator.decorate_collection(@family.assessments.order(:created_at))
     end
 
@@ -44,6 +44,7 @@ module Families
         if @assessment.save
           redirect_to family_path(@family), notice: t('.successfully_created')
         else
+          flash[:alert] = @assessment.errors.full_messages
           render :new
         end
       end

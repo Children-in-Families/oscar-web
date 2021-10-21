@@ -43,12 +43,17 @@ module CsiConcern
   end
 
   def can_create_assessment?(default, custom_assessment_setting_id = '')
-    latest_assessment = assessments.customs.joins(:domains).where(domains: { custom_assessment_setting_id: custom_assessment_setting_id }).distinct
     return assessments.defaults.count.zero? || assessments.defaults.latest_record.completed? if default
+    if custom_assessment_setting_id.present?
+      latest_assessment = assessments.customs.joins(:domains).where(domains: { custom_assessment_setting_id: custom_assessment_setting_id }).distinct
+    else
+      latest_assessment = assessments.customs.joins(:domains).distinct
+    end
 
     assessment_min_max = custom_assessment_setting_id.present? ? assessment_duration('max', false, custom_assessment_setting_id) : assessment_duration('min', false)
-    return (Date.today >= (latest_assessment.latest_record.created_at + assessment_min_max).to_date) && latest_assessment.latest_record.completed? if latest_assessment.count == 1
-    return latest_assessment.latest_record.completed? if latest_assessment.count >= 2
+    return (Date.today >= (latest_assessment.latest_record.created_at + assessment_min_max).to_date) && latest_assessment.latest_record.completed? if latest_assessment.count >= 1
+
+    # return latest_assessment.latest_record.completed? if latest_assessment.count >= 2
 
     true
   end
