@@ -2973,7 +2973,7 @@ en:
         village_kh: Address - Village (Khmer)
         what3words: What3words
       date_of_assessments: "%{assessment} Created At"
-      date_of_custom_assessments: "Custom %{assessment} Created At"
+      date_of_custom_assessments: "%{assessment} Created At"
       date_of_family_assessment: Date of Family Assessment
       exit_circumstance: Exit Circumstance
       exit_note: NGO Exit Note
