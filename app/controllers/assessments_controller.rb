@@ -71,7 +71,8 @@ class AssessmentsController < AdminController
           redirect_to client_path(@client), notice: t('.successfully_created')
         end
       else
-        render :new, custom_name: css.name if css
+        flash[:alert] = @assessment.errors.full_messages
+        render :new, custom_name: css.custom_assessment_name if css
       end
     end
   end
