@@ -130,6 +130,7 @@ module AdvancedSearchHelper
       csi_domain_scores: I18n.t('advanced_search.fields.csi_domain_scores'),
       custom_csi_domain_scores: I18n.t('advanced_search.fields.custom_csi_domain_scores'),
       case_note_date: I18n.t('advanced_search.fields.case_note_date'),
+      no_case_note_date: I18n.t('advanced_search.fields.no_case_note_date'),
       case_note_type: I18n.t('advanced_search.fields.case_note_type'),
       date_of_assessments: I18n.t('advanced_search.fields.date_of_assessments', assessment: I18n.t('clients.show.assessment')),
       date_of_referral: I18n.t('advanced_search.fields.date_of_referral'),
