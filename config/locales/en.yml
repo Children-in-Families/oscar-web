@@ -6417,6 +6417,7 @@ en:
     default: You are not authorized to access this page.
     you_cannot_access_this_page: You cannot access this page.
   users:
+    archived_users: Archived Users
     actions:
       are_you_sure: Are you sure you want to delete?
     assessment_permission:
@@ -6433,6 +6434,7 @@ en:
       read_more: read more
     create:
       successfully_created: User has been successfully created.
+    current_users: Current Users
     custom_form_permission:
       can_edit: Can Edit
       can_view: Can View
@@ -6546,6 +6548,8 @@ en:
     quantitative_type_permission:
       can_edit: Can Edit
       can_view: Can View
+    restore:
+      successfully_restore: User has been successfully restored.
     show:
       add_form: Add Form
       additional_forms: User's Active Forms

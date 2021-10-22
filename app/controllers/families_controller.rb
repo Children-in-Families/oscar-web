@@ -150,7 +150,7 @@ class FamiliesController < AdminController
 
   def find_association
     return if @family.nil?
-    @users     = User.deleted_user.non_strategic_overviewers.order(:first_name, :last_name)
+    @users     = User.without_deleted_users.non_strategic_overviewers.order(:first_name, :last_name)
     @provinces = Province.order(:name)
     @districts = @family.province.present? ? @family.province.districts.order(:name) : []
     @communes  = @family.district.present? ? @family.district.communes.order(:code) : []

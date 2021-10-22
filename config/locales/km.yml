@@ -6453,6 +6453,7 @@ km:
     default: អ្នកមិនមានសិទ្ធិគ្រប់គ្រាន់ដើម្បីចូលទេ
     you_cannot_access_this_page: You cannot access this page.
   users:
+    archived_users: អ្នកប្រើប្រាស់ទុកមួយឡែក
     actions:
       are_you_sure: តើអ្នកប្រាកដហើយថាចង់លុប?
     assessment_permission:
@@ -6469,6 +6470,7 @@ km:
       read_more: អានបន្ថែម
     create:
       successfully_created: អ្នកប្រើប្រាស់ត្រូវបានបង្កើតដោយជោគជ័យ
+    current_users: អ្នកប្រើប្រាស់បច្ចុប្បន្ន
     custom_form_permission:
       can_edit: អាចកែបាន
       can_view: អាចមើលបាន
@@ -6582,6 +6584,8 @@ km:
     quantitative_type_permission:
       can_edit: អាចកែបាន
       can_view: អាចមើលបាន
+    restore:
+      successfully_restore: អ្នកប្រើត្រូវបានដាក់ឲ្យប្រើប្រាស់ឡើងវិញដោយជោគជ័យ។
     show:
       add_form: បន្ថែមទម្រង់បែបបទទៅឲ្យអ្នកប្រើប្រាស់
       additional_forms: ទម្រង់បែបបទរបស់អ្នកប្រើប្រាស់

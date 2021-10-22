@@ -7,7 +7,7 @@
       %h2= t('communities.form.step_12_title')
   .row
     .col-sm-3
-      = f.input :received_by_id, required: true, collection: User.deleted_user.non_strategic_overviewers.order(:first_name, :last_name), label_method: :name, value_method: :id, input_html: { class: 'received-by' }
+      = f.input :received_by_id, required: true, collection: User.without_deleted_users.non_strategic_overviewers.order(:first_name, :last_name), label_method: :name, value_method: :id, input_html: { class: 'received-by' }
 
       .form-group
         = f.label :initial_referral_date, class: 'control-label', required: true
@@ -16,7 +16,7 @@
           %span.input-group-addon
             %i.fa.fa-calendar-check-o
 
-      = f.input :case_worker_ids, required: true, collection: User.deleted_user.non_strategic_overviewers.order(:first_name, :last_name), label_method: :name, value_method: :id, input_html: { multiple: true, class: 'caseworker' }
+      = f.input :case_worker_ids, required: true, collection: User.without_deleted_users.non_strategic_overviewers.order(:first_name, :last_name), label_method: :name, value_method: :id, input_html: { multiple: true, class: 'caseworker' }
       = f.input :referral_source_category_id, collection: referral_source_name(ReferralSource.parent_categories)
       = f.input :referral_source_id, collection: (@community.referral_source.present? ? ReferralSource.where(id: @community.referral_source_id).map { |r| [r.try(:name), r.id] } : []), input_html: { data: { sources: ReferralSource.pluck(:id, :name, :ancestry) } }
 

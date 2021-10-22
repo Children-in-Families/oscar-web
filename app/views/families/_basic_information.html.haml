@@ -9,7 +9,7 @@
   .row
     - unless current_setting.hide_family_case_management_tool?
       .col-sm-3
-        = f.input :received_by_id, required: true, collection: User.deleted_user.non_strategic_overviewers.order(:first_name, :last_name), label_method: :name, value_method: :id
+        = f.input :received_by_id, required: true, collection: User.without_deleted_users.non_strategic_overviewers.order(:first_name, :last_name), label_method: :name, value_method: :id
 
         .form-group
           = f.label :initial_referral_date, class: 'control-label', required: true
@@ -18,8 +18,8 @@
             %span.input-group-addon
               %i.fa.fa-calendar-check-o
 
-        = f.input :case_worker_ids, required: true, collection: User.deleted_user.non_strategic_overviewers.order(:first_name, :last_name), label_method: :name, value_method: :id, input_html: { multiple: true }
-        = f.input :followed_up_by_id, collection: User.deleted_user.non_strategic_overviewers.order(:first_name, :last_name), label_method: :name, value_method: :id
+        = f.input :case_worker_ids, required: true, collection: User.without_deleted_users.non_strategic_overviewers.order(:first_name, :last_name), label_method: :name, value_method: :id, input_html: { multiple: true }
+        = f.input :followed_up_by_id, collection: User.without_deleted_users.non_strategic_overviewers.order(:first_name, :last_name), label_method: :name, value_method: :id
 
         .form-group
           = f.label :follow_up_date

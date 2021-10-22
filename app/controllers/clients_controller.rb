@@ -275,7 +275,7 @@ class ClientsController < AdminController
   def set_association
     @agencies        = Agency.order(:name)
     @donors          = Donor.order(:name)
-    @users           = User.deleted_user.non_strategic_overviewers.order(:first_name, :last_name)
+    @users           = User.without_deleted_users.non_strategic_overviewers.order(:first_name, :last_name)
     @interviewees    = Interviewee.order(:created_at)
     @client_types    = ClientType.order(:created_at)
     @needs           = Need.order(:created_at)
