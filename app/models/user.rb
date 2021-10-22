@@ -74,7 +74,8 @@ class User < ActiveRecord::Base
   scope :province_are,    ->        { joins(:province).pluck('provinces.name', 'provinces.id').uniq }
   scope :has_clients,     ->        { joins(:clients).without_json_fields.uniq }
   scope :managers,        ->        { where(roles: MANAGERS) }
-  scope :deleted_user,    ->        { where(deleted_at: nil) }
+  scope :deleted_users,    ->       { where.not(deleted_at: nil) }
+  scope :without_deleted_users, ->  { where(deleted_at: nil) }
   scope :non_strategic_overviewers, -> { where.not(roles: 'strategic overviewer') }
   scope :staff_performances,        -> { where(staff_performance_notification: true) }
   scope :non_devs,                  -> { where.not(email: [ENV['DEV_EMAIL'], ENV['DEV2_EMAIL'], ENV['DEV3_EMAIL']]) }
