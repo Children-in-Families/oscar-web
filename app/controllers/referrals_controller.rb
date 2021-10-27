@@ -76,7 +76,7 @@ class ReferralsController < AdminController
   end
 
   def referral_params
-    params.require(:referral).permit(:referred_to, :referred_from, :name_of_referee, :referee_id, :referral_phone, :referee_email, :date_of_referral, :referral_reason, :client_name, :slug, :ngo_name, :client_global_id, consent_form: [], service_ids: [])
+    params.require(:referral).permit(:referred_to, :referred_from, :name_of_referee, :referee_id, :referral_phone, :referee_email, :date_of_referral, :referral_reason, :client_name, :slug, :ngo_name, :client_global_id, :level_of_risk, consent_form: [], service_ids: [])
   end
 
   def find_external_system(external_name)

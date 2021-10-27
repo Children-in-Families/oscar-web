@@ -1618,7 +1618,7 @@ my:
       other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
       preview_download: အစမ္းၾကည့္ျခင္းႏွင့္ ေဒါင္းလုတ္
       referee_phone_number: ဒိုင်လူကြီးဖုန်းနံပါတ်ကို
-      referral_reasons: လွှဲပြောင်းအကြောင်းပြချက်
+      referral_reasons: ရည်ညွှန်းမှတ်စုများ
       referred_from: ကနေရည်ညွှန်း
       referred_to: ကနေရည်ညွှန်း
     client_advanced_searches:
@@ -4085,7 +4085,7 @@ my:
       other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
       preview_download: အစမ္းၾကည့္ျခင္းႏွင့္ ေဒါင္းလုတ္
       referee_phone_number: ဒိုင်လူကြီးဖုန်းနံပါတ်ကို
-      referral_reasons: လွှဲပြောင်းအကြောင်းပြချက်
+      referral_reasons: ရည်ညွှန်းမှတ်စုများ
       referred_from: ကနေရည်ညွှန်း
       referred_to: ကနေရည်ညွှန်း
     create:
@@ -5814,6 +5814,7 @@ my:
       back: ေနာက္သို႔
       modification_of: "၏ ေျပာင္းလဲမႈ"
   referrals:
+    level_of_risk: အန္တရာယ်အဆင့်
     confirm_referral:
       body_second: သငျသညျ alreay ရည်ညွှန်းချင်သော client ကိုပစ်မှတ်အန်ဂျီအိုနေပါသည်။
       body_third: သငျသညျပြီးသားဒီ client ကို, ထိုတုံ့ပြန်မှုကိုစောင့်ဆိုင်းကျေးဇူးပြုပြီးရည်ညွှန်းကြသည်။

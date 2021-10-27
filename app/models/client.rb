@@ -131,8 +131,8 @@ class Client < ActiveRecord::Base
 
   before_validation :assign_global_id, on: :create
   before_create :set_country_origin
-  after_create :set_slug_as_alias, :save_client_global_organization, :save_external_system_global
-  after_save :create_client_history, :mark_referral_as_saved, :create_or_update_shared_client
+  after_create :set_slug_as_alias, :save_client_global_organization, :save_external_system_global, :mark_referral_as_saved
+  after_save :create_client_history, :create_or_update_shared_client
 
   after_commit :remove_family_from_case_worker
   after_commit :update_related_family_member, on: :update

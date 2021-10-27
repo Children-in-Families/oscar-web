@@ -61,7 +61,9 @@ body[id="client_advanced_searches-index"] {
       text-align: center;
     }
 
-    th.changelog {
+    th.changelog,
+    th.referred_in,
+    th.referred_out {
       min-width: 100px;
     }
 

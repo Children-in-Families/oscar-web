@@ -64,6 +64,10 @@ module AdvancedSearches
         values = referred_to_query
       when 'referred_from'
         values = referred_from_query
+      when 'referred_in'
+        values = referred_in_out_query(Referral.received)
+      when 'referred_out'
+        values = referred_in_out_query(Referral.delivered)
       when 'time_in_cps'
         values = time_in_cps_query
       when 'time_in_ngo'
@@ -982,6 +986,56 @@ module AdvancedSearches
         client_ids = clients.where('client_enrollments.enrollment_date IS NOT NULL').distinct.ids
       end
       clients = client_ids.present? ? client_ids : []
+    end
+
+    def date_query(klass_name, objects, association, field_name)
+      result_objects = objects.joins(association).distinct
+      case @operator
+      when 'equal'
+        results = result_objects.where("date(#{field_name}) = ?", @value.to_date)
+      when 'not_equal'
+        results = klass_name.includes(association).references(association).where("date(#{field_name}) != ? OR #{field} IS NULL", @value.to_date)
+      when 'less'
+        results = result_objects.where("date(#{field_name}) < ?", @value.to_date)
+      when 'less_or_equal'
+        results = result_objects.where("date(#{field_name}) <= ?", @value.to_date)
+      when 'greater'
+        results = result_objects.where("date(#{field_name}) > ?", @value.to_date)
+      when 'greater_or_equal'
+        results = result_objects.where("date(#{field_name}) >= ?", @value.to_date)
+      when 'between'
+        results = result_objects.where("date(#{field_name}) BETWEEN ? AND ? ", @value[0].to_date, @value[1].to_date)
+      when 'is_empty'
+        results = klass_name.includes(association).references(association).where("#{field_name} IS NULL")
+      when 'is_not_empty'
+        results = result_objects.where("#{field_name} IS NOT NULL")
+      end
+      results.ids
+    end
+
+    def referred_in_out_query(referral_scope)
+      case @operator
+      when 'equal'
+        clients = @clients.joins(:referrals).merge(referral_scope).group(:id).having("COUNT(referrals.*) = ?", @value)
+      when 'not_equal'
+        client_ids = @clients.joins(:referrals).merge(referral_scope).group(:id).having("COUNT(referrals.*) = ?", @value).ids
+        clients = @clients.includes(:referrals).merge(referral_scope).references(:referrals).where("clients.id NOT IN (?)", client_ids)
+      when 'less'
+        clients = @clients.includes(:referrals).merge(referral_scope).references(:referrals).group(:id).having("COUNT(referrals.*) < ?", @value)
+      when 'less_or_equal'
+        clients = @clients.includes(:referrals).merge(referral_scope).references(:referrals).group(:id).having("COUNT(referrals.*) <= ?", @value)
+      when 'greater'
+        clients = @clients.joins(:referrals).merge(referral_scope).merge(referral_scope).group(:id).having("COUNT(referrals.*) > ?", @value)
+      when 'greater_or_equal'
+        clients = @clients.joins(:referrals).merge(referral_scope).merge(referral_scope).group(:id).having("COUNT(referrals.*) >= ?", @value)
+      when 'between'
+        clients = @clients.joins(:referrals).merge(referral_scope).merge(referral_scope).group(:id).having("COUNT(referrals.*) BETWEEN ? AND ?", @value.first, @value.last)
+      when 'is_empty'
+        clients = @clients.includes(:referrals).references(:referrals).group(:id).having("COUNT(referrals.*) = 0")
+      when 'is_not_empty'
+        clients = @clients.joins(:referrals).merge(referral_scope).group(:id).having("COUNT(referrals.*) > 0")
+      end
+      clients.ids
     end
   end
 end

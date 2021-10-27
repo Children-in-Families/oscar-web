@@ -144,6 +144,8 @@ class ClientColumnsVisibility
       created_by_: :created_by,
       referred_to_: :referred_to,
       referred_from_: :referred_from,
+      referred_in_: :referred_in,
+      referred_out_: :referred_out,
       date_of_referral_: :date_of_referral,
       # time_in_care_: :time_in_care,
       time_in_ngo_: :time_in_ngo,
