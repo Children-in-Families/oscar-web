@@ -105,7 +105,7 @@
               %tr
                 %td= t('referrals.level_of_risk')
                 %td
-                  %strong= @referral.level_of_risk&.capitalize
+                  %strong= object.level_of_risk&.capitalize
               - if object.consent_form.first&.url
                 %tr
                   %td= t('.consent_form')

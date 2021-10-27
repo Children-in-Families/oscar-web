@@ -44,9 +44,11 @@ module Api
 
       def upsert
         if params[:organization].present? && clients_params['organization_name'].present?
-          if clients_params['global_id'].present?
+          if clients_params['global_id'].present? && GlobalIdentity.find_by(ulid: clients_params['global_id'])
+            Apartment::Tenant.switch! clients_params[:organization_name]
+            create_referral if clients_params[:is_referred].present? && clients_params[:is_referred]
+
             find_client_global_identiy
-            create_second_referral
           else
             find_referral
           end
@@ -69,7 +71,7 @@ module Api
         global_identity = GlobalIdentity.find(clients_params['global_id'])
         short_name = global_identity.organizations.first&.short_name
         if short_name
-          Organization.switch_to short_name
+          Organization.switch_to short_name || clients_params[:organization_name]
           client = Client.find_by(global_id: clients_params['global_id'])
           attributes = Client.get_client_attribute(clients_params, client.referral_source_category_id) if client
           if client && client.update_attributes(attributes)
@@ -159,7 +161,8 @@ module Api
           :address_current_village_code, :reason_for_referral, :reason_for_exiting,
           :organization_id, :organization_name, :external_case_worker_name,
           :external_case_worker_id, :external_case_worker_mobile, :external_case_worker_email,
-          :lavel_of_risk, services: [:uuid, :name]
+          :level_of_risk, :is_referred,
+          services: [:uuid, :name]
         )
       end
 
@@ -172,7 +175,7 @@ module Api
           external_system = ExternalSystem.find_by(token: @current_user.email)
           external_system_id = external_system&.id
           external_system_name = external_system&.name
-          referral = Referral.new(referral_attributes.merge(referred_from: external_system_name))
+          referral = Referral.new(referral_attributes.merge(ngo_name: external_system_name, referred_from: external_system_name))
           if referral.save
             global_identity = GlobalIdentity.find_by(ulid: referral_attributes[:client_global_id])
             global_identity.external_system_global_identities.find_or_create_by(
@@ -188,6 +191,33 @@ module Api
           render json: { external_id: clients_params[:external_id], message: 'Record saved.' }
         end
       end
+
+      def create_referral
+        external_system = ExternalSystem.find_by(token: @current_user.email)
+        external_system_id = external_system&.id
+        external_system_name = external_system&.name
+        referral_attributes = Referral.get_referral_attribute(clients_params)
+        client = Client.find_by(external_id: referral_attributes[:external_id])
+        user = client.users.last
+        referral = Referral.new(
+          referral_attributes.merge(
+            ngo_name: external_system_name,
+            referred_from: external_system_name,
+            slug: client&.slug,
+            referee_id: user.id
+          )
+        )
+
+        if referral.save
+          global_identity = GlobalIdentity.find_by(ulid: referral_attributes[:client_global_id])
+          global_identity.external_system_global_identities.find_or_create_by(
+            external_system_id: external_system_id,
+            external_id: referral_attributes[:external_id],
+            organization_name: clients_params[:organization_name]
+          )
+        end
+      end
+
 
       def authenticate_admin_user!
         authenticate_or_request_with_http_token do |token, _options|
