@@ -2946,6 +2946,8 @@ my:
         address: လိပ္စာ
         caregiver_information: ေစာင့္ေရွာက္သူ၏ အခ်က္အလက္
         case_history: အမႈသမိုင္း
+        case_note_date: အမႈျခင္းရာမွတ္ခ်က္ေန႔စြဲ
+        case_note_type: အမႈျခင္းရာမွတ္ခ်က္အမ်ိဳးအစား
         case_worker_name: အမႈအတြက္ေဆာင္ရြက္ေပးသူ
         case_workers: အမႈအတြက္ေဆာင္ရြက္ေပးသူ
         changelogs: ေျပာင္းလဲမႈ မွတ္တမ္း

@@ -1,4 +1,6 @@
 class ClientColumnsVisibility
+  include ClientsHelper
+  include ActionView::Helpers::TranslationHelper
 
   def initialize(grid, params)
     @grid   = grid
@@ -165,7 +167,7 @@ class ClientColumnsVisibility
       indirect_beneficiaries_: :indirect_beneficiaries,
       care_plan_completed_date_: :care_plan_completed_date,
       care_plan_count_: :care_plan_count
-    }
+    }.merge(label_translations.keys.map{ |field| ["#{field}_".to_sym, field.to_sym] }.to_h)
   end
 
   def visible_columns

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210913172942) do
+ActiveRecord::Schema.define(version: 20211025080858) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1339,6 +1339,8 @@ ActiveRecord::Schema.define(version: 20210913172942) do
     t.boolean  "label_only",    default: false
   end
 
+  add_index "field_settings", ["name"], name: "index_field_settings_on_name", using: :btree
+
   create_table "form_builder_attachments", force: :cascade do |t|
     t.string   "name",                default: ""
     t.jsonb    "file",                default: []
@@ -2074,6 +2076,7 @@ ActiveRecord::Schema.define(version: 20210913172942) do
     t.date     "client_date_of_birth"
     t.string   "village_code",              default: ""
     t.string   "referee_email"
+    t.string   "level_of_risk"
   end
 
   add_index "referrals", ["client_global_id"], name: "index_referrals_on_client_global_id", using: :btree

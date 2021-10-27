@@ -1,4 +1,5 @@
 module ClientsHelper
+  include ActionView::Helpers::TranslationHelper
 
   def xeditable? client = nil
     (can?(:manage, client&.object) || can?(:edit, client&.object) || can?(:rud, client&.object)) ? true : false
@@ -106,8 +107,9 @@ module ClientsHelper
     }
   end
 
-  def columns_visibility(column)
-    label_column = {
+  def label_translations
+    labels = {
+      legal_documents: t('clients.show.legal_documents'),
       passport_number: t('datagrid.columns.clients.passport_number'),
       national_id_number: t('datagrid.columns.clients.national_id_number'),
       marital_status: t('datagrid.columns.clients.marital_status'),
@@ -141,15 +143,6 @@ module ClientsHelper
       resident_own_or_rent2:         t('datagrid.columns.other_address', column: t('datagrid.columns.clients.resident_own_or_rent2')),
       household_type2:               t('datagrid.columns.other_address', column: t('datagrid.columns.clients.household_type2')),
       given_name:                    t('datagrid.columns.clients.given_name'),
-      national_id: t('datagrid.columns.clients.national_id'),
-      birth_cert: t('datagrid.columns.clients.birth_cert'),
-      family_book: t('datagrid.columns.clients.family_book'),
-      passport: t('datagrid.columns.clients.passport'),
-      travel_doc: t('datagrid.columns.clients.travel_doc'),
-      referral_doc: t('datagrid.columns.clients.referral_doc'),
-      local_consent: t('datagrid.columns.clients.local_consent'),
-      police_interview: t('datagrid.columns.clients.police_interview'),
-      other_legal_doc: t('datagrid.columns.clients.other_legal_doc'),
       family_name:                   t('datagrid.columns.clients.family_name'),
       local_given_name:              t('datagrid.columns.clients.local_given_name'),
       local_family_name:             t('datagrid.columns.clients.local_family_name'),
@@ -200,8 +193,129 @@ module ClientsHelper
       hotline:                       t('datagrid.columns.calls.hotline'),
       **overdue_translations,
       **client_address_translation,
-      **Client::HOTLINE_FIELDS.map{ |field| [field.to_sym, I18n.t("datagrid.columns.clients.#{field}")] }.to_h
+      **Client::HOTLINE_FIELDS.map{ |field| [field.to_sym, I18n.t("datagrid.columns.clients.#{field}")] }.to_h,
+      **legal_doc_fields.map{|field| [field.to_sym, t("clients.show.#{field}")] }.to_h
     }
+
+    lable_translation_uderscore.map{|k, v| [k.to_s.gsub(/(\_)$/, '').to_sym, v] }.to_h.merge(labels)
+  end
+
+  def lable_translation_uderscore
+    {
+      marital_status_: t('datagrid.columns.clients.marital_status'),
+      nationality_: t('datagrid.columns.clients.nationality'),
+      ethnicity_: t('datagrid.columns.clients.ethnicity'),
+      location_of_concern_: t('datagrid.columns.clients.location_of_concern'),
+      type_of_trafficking_: t('datagrid.columns.clients.type_of_trafficking'),
+      education_background_: t('datagrid.columns.clients.education_background'),
+      department_: t('datagrid.columns.clients.department'),
+      presented_id_:                  t('datagrid.columns.clients.presented_id'),
+      id_number_:                     t('datagrid.columns.clients.id_number'),
+      legacy_brcs_id_:                t('datagrid.columns.clients.legacy_brcs_id'),
+      whatsapp_:                      t('datagrid.columns.clients.whatsapp'),
+      preferred_language_:            t('datagrid.columns.clients.preferred_language'),
+      other_phone_number_:            t('datagrid.columns.clients.other_phone_number'),
+      brsc_branch_:                   t('datagrid.columns.clients.brsc_branch'),
+      current_island_:                t('datagrid.columns.current_address', column: t('datagrid.columns.clients.current_island')),
+      current_street_:                t('datagrid.columns.current_address', column: t('datagrid.columns.clients.current_street')),
+      current_po_box_:                t('datagrid.columns.current_address', column: t('datagrid.columns.clients.current_po_box')),
+      current_settlement_:            t('datagrid.columns.current_address', column: t('datagrid.columns.clients.current_settlement')),
+      current_resident_own_or_rent_:  t('datagrid.columns.current_address', column: t('datagrid.columns.clients.current_resident_own_or_rent')),
+      current_household_type_:        t('datagrid.columns.current_address', column: t('datagrid.columns.clients.current_household_type')),
+      island2_:                       t('datagrid.columns.other_address', column: t('datagrid.columns.clients.island2')),
+      street2_:                       t('datagrid.columns.other_address', column: t('datagrid.columns.clients.street2')),
+      po_box2_:                       t('datagrid.columns.other_address', column: t('datagrid.columns.clients.po_box2')),
+      settlement2_:                   t('datagrid.columns.other_address', column: t('datagrid.columns.clients.settlement2')),
+      resident_own_or_rent2_:         t('datagrid.columns.other_address', column: t('datagrid.columns.clients.resident_own_or_rent2')),
+      household_type2_:               t('datagrid.columns.other_address', column: t('datagrid.columns.clients.household_type2')),
+      exit_reasons_: t('datagrid.columns.clients.exit_reasons'),
+      exit_circumstance_: t('datagrid.columns.clients.exit_circumstance'),
+      other_info_of_exit_: t('datagrid.columns.clients.other_info_of_exit'),
+      exit_note_: t('datagrid.columns.clients.exit_note'),
+      what3words_: t('datagrid.columns.clients.what3words'),
+      name_of_referee_: t('datagrid.columns.clients.name_of_referee'),
+      rated_for_id_poor_: t('datagrid.columns.clients.rated_for_id_poor'),
+      main_school_contact_: t('datagrid.columns.clients.main_school_contact'),
+      program_streams_: t('datagrid.columns.clients.program_streams'),
+      given_name_: t('datagrid.columns.clients.given_name'),
+      family_name_: t('datagrid.columns.clients.family_name'),
+      local_given_name_: local_name_label,
+      local_family_name_: local_name_label(:local_family_name),
+      gender_: t('datagrid.columns.clients.gender'),
+      date_of_birth_: t('datagrid.columns.clients.date_of_birth'),
+      status_: t('datagrid.columns.clients.status'),
+      initial_referral_date_: t('datagrid.columns.clients.initial_referral_date'),
+      referral_phone_: t('datagrid.columns.clients.referral_phone'),
+      received_by_id_: t('datagrid.columns.clients.received_by'),
+      referral_source_id_: t('datagrid.columns.clients.referral_source'),
+      followed_up_by_id_: t('datagrid.columns.clients.follow_up_by'),
+      follow_up_date_: t('datagrid.columns.clients.follow_up_date'),
+      agencies_name_: t('datagrid.columns.clients.agencies_involved'),
+      donors_name_: t('datagrid.columns.clients.donor'),
+      current_address_: t('datagrid.columns.clients.current_address'),
+      house_number_: t('datagrid.columns.clients.house_number'),
+      street_number_: t('datagrid.columns.clients.street_number'),
+      school_name_: t('datagrid.columns.clients.school_name'),
+      school_grade_: t('datagrid.columns.clients.school_grade'),
+      has_been_in_orphanage_: t('datagrid.columns.clients.has_been_in_orphanage'),
+      has_been_in_government_care_: t('datagrid.columns.clients.has_been_in_government_care'),
+      relevant_referral_information_: t('datagrid.columns.clients.relevant_referral_information'),
+      user_ids_: t('datagrid.columns.clients.case_worker'),
+      state_: t('datagrid.columns.clients.state'),
+      accepted_date_: t('datagrid.columns.clients.ngo_accepted_date'),
+      exit_date_: t('datagrid.columns.clients.ngo_exit_date'),
+      history_of_disability_and_or_illness_: t('datagrid.columns.clients.history_of_disability_and_or_illness'),
+      history_of_harm_: t('datagrid.columns.clients.history_of_harm'),
+      history_of_high_risk_behaviours_: t('datagrid.columns.clients.history_of_high_risk_behaviours'),
+      reason_for_family_separation_: t('datagrid.columns.clients.reason_for_family_separation'),
+      rejected_note_: t('datagrid.columns.clients.rejected_note'),
+      family_: t('datagrid.columns.clients.placements.family'),
+      code_: custom_id_translation('custom_id1'),
+      age_: t('datagrid.columns.clients.age'),
+      slug_: t('datagrid.columns.clients.id'),
+      kid_id_: custom_id_translation('custom_id2'),
+      family_id_: t('datagrid.columns.families.code'),
+      case_note_date_: t('datagrid.columns.clients.case_note_date'),
+      case_note_type_: t('datagrid.columns.clients.case_note_type'),
+      date_of_assessments_: t('datagrid.columns.clients.date_of_assessments', assessment: t('clients.show.assessment')),
+      date_of_referral_: t('datagrid.columns.clients.date_of_referral'),
+      all_csi_assessments_: t('datagrid.columns.clients.all_csi_assessments'),
+      date_of_custom_assessments_: t('datagrid.columns.clients.date_of_custom_assessments', assessment: t('clients.show.assessment')),
+      all_custom_csi_assessments_: t('datagrid.columns.clients.all_custom_csi_assessments', assessment: t('clients.show.assessment')),
+      manage_: t('datagrid.columns.clients.manage'),
+      changelog_: t('datagrid.columns.changelog'),
+      subdistrict_: t('datagrid.columns.clients.subdistrict'),
+      township_: t('datagrid.columns.clients.township'),
+      postal_code_: t('datagrid.columns.clients.postal_code'),
+      road_: t('datagrid.columns.clients.road'),
+      plot_: t('datagrid.columns.clients.plot'),
+      street_line1_: t('datagrid.columns.clients.street_line1'),
+      street_line2_: t('datagrid.columns.clients.street_line2'),
+      suburb_: t('datagrid.columns.clients.suburb'),
+      directions_: t('datagrid.columns.clients.directions'),
+      description_house_landmark_: t('datagrid.columns.clients.description_house_landmark'),
+      created_at_: t('datagrid.columns.clients.created_at'),
+      created_by_: t('datagrid.columns.clients.created_by'),
+      referred_to_: t('datagrid.columns.clients.referred_to'),
+      referred_from_: t('datagrid.columns.clients.referred_from'),
+      time_in_ngo_: t('datagrid.columns.clients.time_in_ngo'),
+      time_in_cps_: t('datagrid.columns.clients.time_in_cps'),
+      referral_source_category_id_: t('datagrid.columns.clients.referral_source_category'),
+      type_of_service_: t('datagrid.columns.type_of_service'),
+      assessment_completed_date_: t('datagrid.columns.calls.assessment_completed_date', assessment: t('clients.show.assessment')),
+      hotline_call_: t('datagrid.columns.calls.hotline_call'),
+      indirect_beneficiaries_: t('datagrid.columns.clients.indirect_beneficiaries'),
+      carer_name_: t('activerecord.attributes.carer.name'),
+      carer_phone_: t('activerecord.attributes.carer.phone'),
+      carer_email_: t('activerecord.attributes.carer.email'),
+      carer_relationship_to_client_: t('datagrid.columns.clients.carer_relationship_to_client'),
+      **overdue_translations.map{ |k, v| ["#{k}_".to_sym, v] }.to_h,
+      **client_address_translation
+    }
+  end
+
+  def columns_visibility(column)
+    label_column = label_translations.map{ |k, v| ["#{k}_".to_sym, v] }.to_h
 
     Client::STACKHOLDER_CONTACTS_FIELDS.each do |field|
       label_column[field] = t("datagrid.columns.clients.#{field}")
@@ -426,117 +540,8 @@ module ClientsHelper
   end
 
   def default_columns_visibility(column)
-    label_column = {
-      marital_status_: t('datagrid.columns.clients.marital_status'),
-      nationality_: t('datagrid.columns.clients.nationality'),
-      ethnicity_: t('datagrid.columns.clients.ethnicity'),
-      location_of_concern_: t('datagrid.columns.clients.location_of_concern'),
-      type_of_trafficking_: t('datagrid.columns.clients.type_of_trafficking'),
-      education_background_: t('datagrid.columns.clients.education_background'),
-      department_: t('datagrid.columns.clients.department'),
-      presented_id_:                  t('datagrid.columns.clients.presented_id'),
-      id_number_:                     t('datagrid.columns.clients.id_number'),
-      legacy_brcs_id_:                t('datagrid.columns.clients.legacy_brcs_id'),
-      whatsapp_:                      t('datagrid.columns.clients.whatsapp'),
-      preferred_language_:            t('datagrid.columns.clients.preferred_language'),
-      other_phone_number_:            t('datagrid.columns.clients.other_phone_number'),
-      brsc_branch_:                   t('datagrid.columns.clients.brsc_branch'),
-      current_island_:                t('datagrid.columns.current_address', column: t('datagrid.columns.clients.current_island')),
-      current_street_:                t('datagrid.columns.current_address', column: t('datagrid.columns.clients.current_street')),
-      current_po_box_:                t('datagrid.columns.current_address', column: t('datagrid.columns.clients.current_po_box')),
-      current_settlement_:            t('datagrid.columns.current_address', column: t('datagrid.columns.clients.current_settlement')),
-      current_resident_own_or_rent_:  t('datagrid.columns.current_address', column: t('datagrid.columns.clients.current_resident_own_or_rent')),
-      current_household_type_:        t('datagrid.columns.current_address', column: t('datagrid.columns.clients.current_household_type')),
-      island2_:                       t('datagrid.columns.other_address', column: t('datagrid.columns.clients.island2')),
-      street2_:                       t('datagrid.columns.other_address', column: t('datagrid.columns.clients.street2')),
-      po_box2_:                       t('datagrid.columns.other_address', column: t('datagrid.columns.clients.po_box2')),
-      settlement2_:                   t('datagrid.columns.other_address', column: t('datagrid.columns.clients.settlement2')),
-      resident_own_or_rent2_:         t('datagrid.columns.other_address', column: t('datagrid.columns.clients.resident_own_or_rent2')),
-      household_type2_:               t('datagrid.columns.other_address', column: t('datagrid.columns.clients.household_type2')),
-      exit_reasons_: t('datagrid.columns.clients.exit_reasons'),
-      exit_circumstance_: t('datagrid.columns.clients.exit_circumstance'),
-      other_info_of_exit_: t('datagrid.columns.clients.other_info_of_exit'),
-      exit_note_: t('datagrid.columns.clients.exit_note'),
-      what3words_: t('datagrid.columns.clients.what3words'),
-      name_of_referee_: t('datagrid.columns.clients.name_of_referee'),
-      rated_for_id_poor_: t('datagrid.columns.clients.rated_for_id_poor'),
-      main_school_contact_: t('datagrid.columns.clients.main_school_contact'),
-      program_streams_: t('datagrid.columns.clients.program_streams'),
-      given_name_: t('datagrid.columns.clients.given_name'),
-      family_name_: t('datagrid.columns.clients.family_name'),
-      local_given_name_: local_name_label,
-      local_family_name_: local_name_label(:local_family_name),
-      gender_: t('datagrid.columns.clients.gender'),
-      date_of_birth_: t('datagrid.columns.clients.date_of_birth'),
-      status_: t('datagrid.columns.clients.status'),
-      initial_referral_date_: t('datagrid.columns.clients.initial_referral_date'),
-      referral_phone_: t('datagrid.columns.clients.referral_phone'),
-      received_by_id_: t('datagrid.columns.clients.received_by'),
-      referral_source_id_: t('datagrid.columns.clients.referral_source'),
-      followed_up_by_id_: t('datagrid.columns.clients.follow_up_by'),
-      follow_up_date_: t('datagrid.columns.clients.follow_up_date'),
-      agencies_name_: t('datagrid.columns.clients.agencies_involved'),
-      donors_name_: t('datagrid.columns.clients.donor'),
-      current_address_: t('datagrid.columns.clients.current_address'),
-      house_number_: t('datagrid.columns.clients.house_number'),
-      street_number_: t('datagrid.columns.clients.street_number'),
-      school_name_: t('datagrid.columns.clients.school_name'),
-      school_grade_: t('datagrid.columns.clients.school_grade'),
-      has_been_in_orphanage_: t('datagrid.columns.clients.has_been_in_orphanage'),
-      has_been_in_government_care_: t('datagrid.columns.clients.has_been_in_government_care'),
-      relevant_referral_information_: t('datagrid.columns.clients.relevant_referral_information'),
-      user_ids_: t('datagrid.columns.clients.case_worker'),
-      state_: t('datagrid.columns.clients.state'),
-      accepted_date_: t('datagrid.columns.clients.ngo_accepted_date'),
-      exit_date_: t('datagrid.columns.clients.ngo_exit_date'),
-      history_of_disability_and_or_illness_: t('datagrid.columns.clients.history_of_disability_and_or_illness'),
-      history_of_harm_: t('datagrid.columns.clients.history_of_harm'),
-      history_of_high_risk_behaviours_: t('datagrid.columns.clients.history_of_high_risk_behaviours'),
-      reason_for_family_separation_: t('datagrid.columns.clients.reason_for_family_separation'),
-      rejected_note_: t('datagrid.columns.clients.rejected_note'),
-      family_: t('datagrid.columns.clients.placements.family'),
-      code_: custom_id_translation('custom_id1'),
-      age_: t('datagrid.columns.clients.age'),
-      slug_: t('datagrid.columns.clients.id'),
-      kid_id_: custom_id_translation('custom_id2'),
-      family_id_: t('datagrid.columns.families.code'),
-      case_note_date_: t('datagrid.columns.clients.case_note_date'),
-      case_note_type_: t('datagrid.columns.clients.case_note_type'),
-      date_of_assessments_: t('datagrid.columns.clients.date_of_assessments', assessment: t('clients.show.assessment')),
-      date_of_referral_: t('datagrid.columns.clients.date_of_referral'),
-      all_csi_assessments_: t('datagrid.columns.clients.all_csi_assessments'),
-      date_of_custom_assessments_: t('datagrid.columns.clients.date_of_custom_assessments', assessment: t('clients.show.assessment')),
-      all_custom_csi_assessments_: t('datagrid.columns.clients.all_custom_csi_assessments', assessment: t('clients.show.assessment')),
-      manage_: t('datagrid.columns.clients.manage'),
-      changelog_: t('datagrid.columns.changelog'),
-      subdistrict_: t('datagrid.columns.clients.subdistrict'),
-      township_: t('datagrid.columns.clients.township'),
-      postal_code_: t('datagrid.columns.clients.postal_code'),
-      road_: t('datagrid.columns.clients.road'),
-      plot_: t('datagrid.columns.clients.plot'),
-      street_line1_: t('datagrid.columns.clients.street_line1'),
-      street_line2_: t('datagrid.columns.clients.street_line2'),
-      suburb_: t('datagrid.columns.clients.suburb'),
-      directions_: t('datagrid.columns.clients.directions'),
-      description_house_landmark_: t('datagrid.columns.clients.description_house_landmark'),
-      created_at_: t('datagrid.columns.clients.created_at'),
-      created_by_: t('datagrid.columns.clients.created_by'),
-      referred_to_: t('datagrid.columns.clients.referred_to'),
-      referred_from_: t('datagrid.columns.clients.referred_from'),
-      time_in_ngo_: t('datagrid.columns.clients.time_in_ngo'),
-      time_in_cps_: t('datagrid.columns.clients.time_in_cps'),
-      referral_source_category_id_: t('datagrid.columns.clients.referral_source_category'),
-      type_of_service_: t('datagrid.columns.type_of_service'),
-      assessment_completed_date_: t('datagrid.columns.calls.assessment_completed_date', assessment: t('clients.show.assessment')),
-      hotline_call_: t('datagrid.columns.calls.hotline_call'),
-      indirect_beneficiaries_: t('datagrid.columns.clients.indirect_beneficiaries'),
-      carer_name_: t('activerecord.attributes.carer.name'),
-      carer_phone_: t('activerecord.attributes.carer.phone'),
-      carer_email_: t('activerecord.attributes.carer.email'),
-      carer_relationship_to_client_: t('datagrid.columns.clients.carer_relationship_to_client'),
-      **overdue_translations.map{ |k, v| ["#{k}_".to_sym, v] }.to_h,
-      **client_address_translation
-    }
+
+    label_column = label_translations.map{|k, v| [k] }
 
     (Client::HOTLINE_FIELDS + Call::FIELDS).each do |field_name|
       label_column["#{field_name}_".to_sym] = t("datagrid.columns.clients.#{field_name}")
@@ -1379,13 +1384,13 @@ module ClientsHelper
       if type == 'custom_id1'
         Setting.first.custom_id1_latin.present? ? Setting.first.custom_id1_latin : I18n.t("#{I18n.locale.to_s}.clients.other_detail.custom_id_number1")
       else
-        Setting.first.custom_id2_latin.present? ? Setting.first.custom_id2_latin : t('.custom_id_number2')
+        Setting.first.custom_id2_latin.present? ? Setting.first.custom_id2_latin : t('other_detail.custom_id_number2')
       end
     else
       if type == 'custom_id1'
-        Setting.first.custom_id1_local.present? ? Setting.first.custom_id1_local : t('.custom_id_number1')
+        Setting.first.custom_id1_local.present? ? Setting.first.custom_id1_local : t('other_detail.custom_id_number1')
       else
-        Setting.first.custom_id2_local.present? ? Setting.first.custom_id2_local : t('.custom_id_number2')
+        Setting.first.custom_id2_local.present? ? Setting.first.custom_id2_local : t('other_detail.custom_id_number2')
       end
     end
   end
@@ -1412,5 +1417,10 @@ module ClientsHelper
 
   def saved_search_column_visibility(field_key)
     default_setting(field_key, @client_default_columns) || params[field_key.to_sym].present? || (@visible_fields && @visible_fields[field_key]).present?
+  end
+
+  def legal_doc_fields
+    fields = %w(national_id passport birth_cert family_book travel_doc letter_from_immigration_police ngo_partner mosavy dosavy msdhs complain local_consent warrant verdict screening_interview_form short_form_of_ocdm short_form_of_mosavy_dosavy detail_form_of_mosavy_dosavy short_form_of_judicial_police police_interview other_legal_doc)
+    FieldSetting.without_hidden_fields.where(name: fields).pluck(:name)
   end
 end
