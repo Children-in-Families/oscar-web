@@ -346,7 +346,7 @@ class UserNotification
 
     referrals.each do |referral|
       referral_slug = referral.slug
-      client = Client.find_by(slug: referral_slug)
+      client = Client.find_by(slug: referral_slug) || Client.find_by(archived_slug: referral_slug)
       client.present? ? existing_client_referrals << referral : new_client_referrals << referral
     end
 
