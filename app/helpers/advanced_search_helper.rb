@@ -2,6 +2,7 @@ module AdvancedSearchHelper
   include ClientsHelper
   include FamiliesHelper
   include CommunityHelper
+  include ActionView::Helpers::TagHelper
 
   def custom_form_values(report_builder = '#builder')
     has_custom_form_selected = has_advanced_search? && advanced_search_params[:custom_form_selected].present? && (advanced_search_params[:action_report_builder].present? ? report_builder == advanced_search_params[:action_report_builder] : true)
@@ -172,6 +173,7 @@ module AdvancedSearchHelper
       **address_translation
     }
 
+    translations = label_translations.merge(translations)
     translations[key.to_sym] || ''
   end
 

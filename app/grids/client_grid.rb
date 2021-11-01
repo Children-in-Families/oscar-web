@@ -1096,6 +1096,14 @@ class ClientGrid < BaseGrid
   end
 
   dynamic do
+    legal_doc_fields.each do |legal_doc_field|
+      column(legal_doc_field.to_sym,  header: -> { I18n.t("clients.show.#{legal_doc_field}") }) do |object|
+        object.public_send(legal_doc_field) ? 'Yes' : 'No'
+      end
+    end
+  end
+
+  dynamic do
     if enable_default_assessment?
       column(:all_csi_assessments, header: -> { I18n.t('datagrid.columns.clients.all_csi_assessments', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
         render partial: 'clients/all_csi_assessments', locals: { object: object.assessments.defaults }
