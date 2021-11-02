@@ -57,7 +57,8 @@ body[id="client_advanced_searches-index"] {
     td.date_of_referral,
     td.referred_from,
     td.call-field,
-    td.client-hotline-field {
+    td.client-hotline-field,
+    td.legal-document-header {
       text-align: center;
     }
 
@@ -69,7 +70,8 @@ body[id="client_advanced_searches-index"] {
     th.school_grade,
     th.gender,
     th.cases,
-    th.case_start_date {
+    th.case_start_date,
+    th.legal-document-header {
       min-width: 130px;
     }
 

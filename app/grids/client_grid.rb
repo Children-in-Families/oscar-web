@@ -1057,7 +1057,7 @@ class ClientGrid < BaseGrid
 
   dynamic do
     legal_doc_fields.each do |legal_doc_field|
-      column(legal_doc_field.to_sym,  header: -> { I18n.t("clients.show.#{legal_doc_field}") }) do |object|
+      column(legal_doc_field.to_sym,  header: -> { I18n.t("clients.show.#{legal_doc_field}") }, class: 'legal-document-header') do |object|
         object.public_send(legal_doc_field) ? 'Yes' : 'No'
       end
     end
