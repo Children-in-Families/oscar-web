@@ -578,13 +578,15 @@ class Client < ActiveRecord::Base
   end
 
   def self.notify_upcoming_csi_assessment
+    obj = self.new
     Organization.without_shared.each do |org|
       Organization.switch_to org.short_name
-
+      current_setting = Setting.first_or_initialize
       next if !(current_setting.enable_default_assessment) && !(current_setting.enable_custom_assessment?)
-      clients = active_young_clients(self)
-      default_clients = clients_have_recent_default_assessments(clients)
-      custom_assessment_clients = clients_have_recent_custom_assessments(clients)
+
+      clients = obj.active_young_clients(self)
+      default_clients = obj.clients_have_recent_default_assessments(clients)
+      custom_assessment_clients = obj.clients_have_recent_custom_assessments(clients)
 
       (default_clients + custom_assessment_clients).each do |client|
         CaseWorkerMailer.notify_upcoming_csi_weekly(client).deliver_now
@@ -817,7 +819,7 @@ class Client < ActiveRecord::Base
   end
 
   def current_setting
-    @current_setting ||= Setting.first
+    @current_setting ||= Setting.first_or_initialize
   end
 
 end
