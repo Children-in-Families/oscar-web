@@ -184,7 +184,6 @@ module AdvancedSearchHelper
 
   def community_header(key)
     translations = {
-      initial_referral_date:                    I18n.t('advanced_search.fields.initial_referral_date'),
       name:                                     I18n.t('activerecord.attributes.community.name'),
       name_en:                                  I18n.t('activerecord.attributes.community.name_en'),
       status:                                   I18n.t('activerecord.attributes.community.status'),

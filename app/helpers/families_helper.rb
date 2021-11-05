@@ -116,7 +116,6 @@ module FamiliesHelper
       case_note_type:                           I18n.t('advanced_search.fields.case_note_type'),
       female_children_count:                    I18n.t('datagrid.columns.families.female_children_count'),
       female_adult_count:                       I18n.t('datagrid.columns.families.female_adult_count'),
-      male_children_count:                      I18n.t('datagrid.columns.families.male_children_count'),
       clients:                                  I18n.t('datagrid.columns.families.clients'),
       client_id:                                I18n.t('datagrid.columns.families.client'),
       manage:                                   I18n.t('datagrid.columns.families.manage'),
