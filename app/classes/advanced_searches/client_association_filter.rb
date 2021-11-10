@@ -38,7 +38,7 @@ module AdvancedSearches
       when 'date_of_assessments'
         values = date_of_assessments_query(true)
       when /assessment_completed|assessment_completed_date/
-        values = date_of_completed_assessments_query(nil)
+        values = date_of_completed_assessments_query(true)
       when 'date_of_custom_assessments'
         values = date_of_assessments_query(false)
       when 'accepted_date'
