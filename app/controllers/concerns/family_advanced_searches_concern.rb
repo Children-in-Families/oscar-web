@@ -1,7 +1,9 @@
 module FamilyAdvancedSearchesConcern
   extend ActiveSupport::Concern
+  include FamiliesHelper
   include ClientsHelper
   include AssessmentHelper
+  include CarePlanHelper
 
   def advanced_search
     basic_rules  = JSON.parse @basic_filter_params
@@ -12,7 +14,7 @@ module FamilyAdvancedSearchesConcern
     program_stream_column
     respond_to do |f|
       f.html do
-        @results                = @family_grid.scope { |scope| scope.where(id: @families.ids) }.assets.size
+        @results                = @family_grid.scope { |scope| scope.where(id: @families.ids) }.assets
         @family_grid.scope { |scope| scope.where(id: @families.ids).page(params[:page]).per(20) }
       end
       f.xls do
@@ -33,6 +35,7 @@ module FamilyAdvancedSearchesConcern
   end
 
   def export_family_reports
+    family_members
     custom_all_csi_assessments
     if params[:family_advanced_search].present?
       custom_referral_data_report
@@ -41,6 +44,8 @@ module FamilyAdvancedSearchesConcern
     csi_domain_score_report
     custom_date_of_assessments
     default_date_of_completed_assessments
+    care_plan_completed_date
+    care_plan_count
     case_note_date_report
     case_note_type_report
     program_stream_report
@@ -313,6 +318,15 @@ module FamilyAdvancedSearchesConcern
   def program_stream_report
     @family_grid.column(:program_streams, header: I18n.t('datagrid.columns.families.program_streams')) do |family|
       family.enrollments.active.map { |c| c.program_stream.try(:name) }.uniq.join(', ')
+    end
+  end
+
+  def family_members
+    @family_grid.column(:relation, header: -> { I18n.t('families.family_member_fields.relation') }) do |object|
+      object.family_members.map(&:relation).map do |relation|
+        next if relation.empty?
+        drop_down_relation.to_h[relation]
+      end.compact.join(', ')
     end
   end
 end

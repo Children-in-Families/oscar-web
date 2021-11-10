@@ -28,7 +28,9 @@ class ExitNgo < ActiveRecord::Base
   def update_entity_status
     entity = client.present? ? client : rejectable
     entity.status = 'Exited'
-    entity.save(validate: false)
+    if entity.save(validate: false)
+      entity.case_worker_clients.destroy_all
+    end
   end
 
   def create_exit_ngo_history
@@ -36,7 +38,7 @@ class ExitNgo < ActiveRecord::Base
   end
 
   def update_client_status
-    return if client.enter_ngos.blank? && (client.client_enrollments.blank? || client.enter_ngos.blank?)
+    return if client.enter_ngos.count.zero? && (client.client_enrollments.count.zero? || client.enter_ngos.count.zero?)
     client.update_column(:status, 'Accepted')
   end
 

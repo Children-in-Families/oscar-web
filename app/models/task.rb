@@ -7,6 +7,7 @@ class Task < ActiveRecord::Base
   belongs_to :family
   belongs_to :goal, required: false
   belongs_to :completed_by, class_name: 'User', foreign_key: 'completed_by_id'
+  has_one    :calendar, dependent: :nullify
 
   has_many :service_delivery_tasks, dependent: :destroy
   has_many :service_deliveries, through:   :service_delivery_tasks
@@ -41,6 +42,7 @@ class Task < ActiveRecord::Base
 
   after_save :create_task_history
   after_commit :save_parent_parent_id, :on => [:create, :update]
+  after_commit :delete_tasks_from_google_calendar, if: :completed?
 
   def self.of_user(user)
     where(user_id: user.id)
@@ -105,5 +107,9 @@ class Task < ActiveRecord::Base
     parent_client_id = goal&.care_plan&.client_id || taskable&.client_id
 
     update_columns(family_id: parent_family_id, client_id: parent_client_id)
+  end
+
+  def delete_tasks_from_google_calendar
+
   end
 end

@@ -1,7 +1,9 @@
 class Calendar < ActiveRecord::Base
   belongs_to :user
+  belongs_to :task, required: false
 
   scope :sync_status_false, -> { where(sync_status: false) }
+  scope :completed_tasks, -> { includes(:task).where("(tasks.completed IS TRUE AND google_event_id IS NOT NULL) OR (google_event_id IS NOT NULL AND task_id IS NULL)").references(:task) }
 
   def self.populate_tasks(task)
     task_name  = task.name
@@ -10,7 +12,7 @@ class Calendar < ActiveRecord::Base
     start_date = task.expected_date
     end_date   = (start_date + 1.day).to_s
 
-    create(title: title, start_date: start_date, end_date: end_date, user_id: task.user_id)
+    create(title: title, start_date: start_date, end_date: end_date, user_id: task.user_id, task_id: task.id)
   end
 
   def self.update_tasks(calendars, task_params)

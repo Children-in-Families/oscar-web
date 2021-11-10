@@ -34,6 +34,7 @@ module FormBuilderAttachmentsHelper
     if @custom_formable.present?
        @custom_formable.class.name == 'Client' ? policy(@custom_formable).create? : true
     else
+      return false if @client.nil?
       policy(@client).create?
     end
   end

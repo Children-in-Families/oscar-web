@@ -153,42 +153,42 @@ module AdvancedSearches
       when 'equal'
         assessments.compact.uniq.each do |id|
           assessment_domains = AssessmentDomain.where(assessment_id: id).where(domain_id: @domain_id, score: @value)
-          family_ids << assessment_domains.map(&:family_id) if assessment_domains.present?
+          family_ids << assessment_domains.map(&:family_id) if assessment_domains.any?
         end
       when 'not_equal'
         assessments.compact.uniq.each do |id|
           assessment_domains = AssessmentDomain.where(assessment_id: id).where('domain_id = ? and score != ?', @domain_id, @value)
-          family_ids << assessment_domains.map(&:family_id) if assessment_domains.present?
+          family_ids << assessment_domains.map(&:family_id) if assessment_domains.any?
         end
       when 'less'
         assessments.compact.uniq.each do |id|
           assessment_domains = AssessmentDomain.where(assessment_id: id).where('domain_id = ? and score < ?', @domain_id, @value)
-          family_ids << assessment_domains.map(&:family_id) if assessment_domains.present?
+          family_ids << assessment_domains.map(&:family_id) if assessment_domains.any?
         end
       when 'less_or_equal'
         assessments.compact.uniq.each do |id|
           assessment_domains = AssessmentDomain.where(assessment_id: id).where('domain_id = ? and score <= ?', @domain_id, @value)
-          family_ids << assessment_domains.map(&:family_id) if assessment_domains.present?
+          family_ids << assessment_domains.map(&:family_id) if assessment_domains.any?
         end
       when 'greater'
         assessments.compact.uniq.each do |id|
           assessment_domains = AssessmentDomain.where(assessment_id: id).where('domain_id = ? and score > ?', @domain_id, @value)
-          family_ids << assessment_domains.map(&:family_id) if assessment_domains.present?
+          family_ids << assessment_domains.map(&:family_id) if assessment_domains.any?
         end
       when 'greater_or_equal'
         assessments.compact.uniq.each do |id|
           assessment_domains = AssessmentDomain.where(assessment_id: id).where('domain_id = ? and score >= ?', @domain_id, @value)
-          family_ids << assessment_domains.map(&:family_id) if assessment_domains.present?
+          family_ids << assessment_domains.map(&:family_id) if assessment_domains.any?
         end
       when 'is_empty'
         assessments.compact.uniq.each do |id|
           assessment_domains = AssessmentDomain.where(assessment_id: id).where('domain_id = ? and score = nil', @domain_id)
-          family_ids << assessment_domains.map(&:family_id) if assessment_domains.present?
+          family_ids << assessment_domains.map(&:family_id) if assessment_domains.any?
         end
       when 'is_not_empty'
         assessments.compact.uniq.each do |id|
           assessment_domains = AssessmentDomain.where(assessment_id: id).where('domain_id = ? and score != nil', @domain_id)
-          family_ids << assessment_domains.map(&:family_id) if assessment_domains.present?
+          family_ids << assessment_domains.map(&:family_id) if assessment_domains.any?
         end
       end
 

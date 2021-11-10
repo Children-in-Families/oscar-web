@@ -41,6 +41,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     _initDataTable()
     _filterSelecting()
     _selectServiceTypeTableResult()
+    _handleTimeOfFrequencyInput()
 
   _initDataTable = ->
     $('.custom-field-table').each ->
@@ -256,6 +257,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       _handleSelectFrequency()
       _initFrequencyNote()
       _custom_field_list()
+      _initCheckbox()
 
   _initProgramBuilder = (element, data) ->
     builderOption = new CIF.CustomFormBuilder()
@@ -356,7 +358,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         else if $('#trackings').is(':visible')
           _checkDuplicateTrackingName()
           return true if $('#trackings').hasClass('hide-tracking-form')
-          return _handleCheckingDuplicateFields() and _handleCheckTrackingName()
+          return _handleCheckingDuplicateFields() and _handleCheckTrackingName() and _checkTimeOfFrequencyInput(currentIndex)
         else if $('#enrollment, #exit-program').is(':visible')
           return _handleCheckingDuplicateFields()
           return false if _handleCheckingDuplicateFields()
@@ -564,7 +566,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       continue if $(trackingName).length == 0
       name = $(trackingName).val()
       labelFields = $(tracking).find('label.field-label')
-      if fields[name].length <= labelFields.length
+      if fields[name] && fields[name].length <= labelFields.length
         $(tracking).find('.ibox-footer .remove_fields').remove()
 
       $(labelFields).each (index, label) ->
@@ -893,5 +895,32 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         uniqueArray = _.compact(_.uniq($(this).val()))
         if uniqueArray.length <= 3
           removeError($(this.parentElement))
+
+  _checkTimeOfFrequencyInput = (currentIndex) ->
+    timeOfFrencyInputs = $("#steps-uid-0-p-" + currentIndex + " .program_stream_trackings_time_of_frequency input")
+    hasZeroValue = false
+    for timeOfFrencyInput in timeOfFrencyInputs
+      timeOfFrencyInputAttrIndex = timeOfFrencyInput.id.match(/\d+/g)[0]
+      frequencyValue = $("#program_stream_trackings_attributes_#{timeOfFrencyInputAttrIndex}_frequency").val()
+      if !_.isEmpty(frequencyValue) && $(timeOfFrencyInput).val() == '0'
+        hasZeroValue = true
+        setTimeout( ->
+          document.getElementById(timeOfFrencyInput.id).scrollIntoView({ behavior: 'smooth', block: 'start' })
+        , 100)
+        return
+
+    return !hasZeroValue
+
+
+  _handleTimeOfFrequencyInput = ->
+    $("input[id^='program_stream_trackings_attributes']").on 'input', ->
+      if $(@).val() == "" || $(@).val() == "0"
+        $(@).val(0)
+        $(@).parent().addClass('has-error')
+        $('#btn-save-draft').addClass('hide')
+      else
+        $('#btn-save-draft').removeClass('hide')
+        $(@).parent().removeClass('has-error')
+
 
   { init: _init }

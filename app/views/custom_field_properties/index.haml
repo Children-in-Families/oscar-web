@@ -4,11 +4,11 @@
       .ibox-title
         %h5= @custom_field.form_title
         .ibox-tools
-          - if can? :manage, CustomFieldProperty
+          - if can?(:create, CustomFieldProperty) && (!@custom_field.hidden && current_user.case_worker?) || !current_user.case_worker?
             = custom_field_properties_new_link
-            = link_to polymorphic_path(@custom_formable) do
-              .btn.btn-outline.btn-success.form-btn
-                = t('.back')
+          = link_to polymorphic_path(@custom_formable) do
+            .btn.btn-outline.btn-success.form-btn
+              = t('.back')
       .ibox-content
         - @custom_field_properties.each do |custom_field_property|
           .row

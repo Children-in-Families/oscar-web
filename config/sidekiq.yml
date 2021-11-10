@@ -7,5 +7,5 @@ production:
   :concurrency: 2
 :queues:
   - default
-  - [send_email, 3]
+  - [send_email, 20]
   - [priority, 10]

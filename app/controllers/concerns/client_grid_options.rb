@@ -3,6 +3,7 @@ module ClientGridOptions
   include ClientsHelper
   include FormBuilderHelper
   include AssessmentHelper
+  include CarePlanHelper
 
   def choose_grid
     if current_user.admin? || current_user.strategic_overviewer?
@@ -293,18 +294,6 @@ module ClientGridOptions
     end
   end
 
-  def care_plan_completed_date
-    @client_grid.column(:care_plan_completed_date, header: -> { I18n.t('datagrid.columns.clients.care_plan_completed_date') }) do |object|
-      date_filter(object.care_plans, 'care_plan_completed_date').map{ |care_plan| date_format(care_plan.created_at) }.join(", ")
-    end
-  end
-
-  def care_plan_count
-    @client_grid.column(:care_plan_count, header: -> { I18n.t('datagrid.columns.clients.care_plan_count') }) do |object|
-      date_filter(object.care_plans, 'care_plan_completed_date').count
-    end
-  end
-
   def default_all_csi_assessments
     return unless params['type'] == 'basic_info' && @client_columns.visible_columns[:all_csi_assessments_].present?
     domain_score_report('default')
@@ -479,7 +468,7 @@ module ClientGridOptions
 
   def non_admin_client_grid
     data = params[:data].presence
-    if params.dig(:client_grid, :quantitative_types)
+    if params.dig(:client_grid, :quantitative_types).present?
       quantitative_types = params[:client_grid][:quantitative_types]
       @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(current_user: current_user, qType: quantitative_types, dynamic_columns: column_form_builder, param_data: data))
     else

@@ -22,6 +22,8 @@
                   %a{:role => "button", :tabIndex => "0",  data:{ toggle: "popover", html: 'true', trigger: "focus", content: "#{I18n.t('inline_help.clients.show.status')}" } }
                     = fa_icon "info-circle", class: 'text-info m-xs'
                   = "#{t('.status')} :"
+                  - if @client.for_testing
+                    %span.show-status= status_style(t('.for_testing'))
                   %span.show-status= status_style(@client.status)
             %tr
               %td
@@ -192,7 +194,10 @@
             %ul.dropdown-menu.btn-fit.scrollable-dropdown-menu.additional-forms
               - @group_client_custom_fields.each do |_, client_custom_fields|
                 %li
-                  %p= link_to client_custom_fields.first.custom_field.form_title, client_custom_field_properties_path(@client, custom_field_id: client_custom_fields.first.custom_field_id)
+                  %p
+                    = link_to client_custom_fields.first.custom_field.form_title, client_custom_field_properties_path(@client, custom_field_id: client_custom_fields.first.custom_field_id)
+                    - if client_custom_fields.first.custom_field.hidden
+                      %span.text-danger= fa_icon 'lock'
           - if can? :manage, CustomFieldProperty
             .btn-group.small-btn-margin
               %button.btn-sm.btn.btn-success.dropdown-toggle.btn-fit{ data: { toggle: "dropdown", trigger: 'hover', html: 'true', content: "#{I18n.t('inline_help.clients.show.add_form')}", placement: "auto" }, class: ('disabled' if @free_client_forms.empty? || (status_exited?(@client.status) && !current_user.admin?)) }
@@ -436,7 +441,7 @@
                   = t('.referral_source_category')
                 %td
                   %strong
-                    = referral_source_category(@client.referral_source_category_id)
+                    = editable @client, :referral_source_category_id, type: :select2, source: referral_source_name(ReferralSource.child_referrals).map{|name, id| { value: id, text: name } }, value: referral_source_category(@client.referral_source_category_id), url: api_client_path(@client.id), pk: @client.id
               %tr
                 %td.spacing-first-col
                   = t('.referral_source')
@@ -582,7 +587,7 @@
                           %strong
                             %span YES
                         %td(rowspan="#{ attachments.size + 1 }")
-                          = t("clients.form.#{legal_doc_options_hash[@client.try("#{field}_option".to_sym)]}") if @client.try("#{field}_option".to_sym)
+                          = t("clients.form.#{legal_doc_options_hash[@client.try("#{field}_option".to_sym)]}") if @client.try("#{field}_option".to_sym).present?
                         - if attachments.size == 0
                           %td(colspan="2") No attachment
 

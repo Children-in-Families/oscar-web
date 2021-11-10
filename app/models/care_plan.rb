@@ -11,6 +11,8 @@ class CarePlan < ActiveRecord::Base
   accepts_nested_attributes_for :goals, reject_if:  proc { |attributes| attributes['description'].blank? }, allow_destroy: true
   accepts_nested_attributes_for :assessment_domains
 
+  validates_uniqueness_of :assessment_id, on: :create
+
   after_save :complete_previouse_tasks
 
   scope :completed, -> { where(completed: true) }
@@ -21,7 +23,7 @@ class CarePlan < ActiveRecord::Base
   end
 
   def is_goals_tasks_exist?(domain_id)
-    goals.find_by_domain(domain_id).present? ? goals.find_by_domain(domain_id).first.tasks.incomplete.upcoming.present? : false
+    goals.find_by_domain(domain_id).present? ? goals.find_by_domain(domain_id).first.tasks.incomplete.upcoming.any? : false
   end
 
   private

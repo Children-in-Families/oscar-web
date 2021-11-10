@@ -17,7 +17,7 @@
           %span.input-group-addon
             %i.fa.fa-calendar-check-o
     .col-sm-6.pl-0
-      = f.input :relation, collection: drop_down_relation, label: false
+      = f.input :relation, collection: drop_down_relation, label: false, label_method: :last, value_method: :first
   .col-sm-4.pl-0.pr-0
     .col-sm-5.pl-0
       = f.input :occupation, label: false

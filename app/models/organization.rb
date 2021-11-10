@@ -2,6 +2,7 @@ require 'rake'
 class Organization < ActiveRecord::Base
   SUPPORTED_LANGUAGES = %w(en km my).freeze
 
+  has_paper_trail on: :update, only: :integrated
   mount_uploader :logo, ImageUploader
 
   has_many :employees, class_name: 'User'

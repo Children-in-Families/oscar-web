@@ -2,6 +2,7 @@
   = hidden_field_tag :current_user, current_user.roles
   = hidden_field_tag :default, params[:default] if params[:default]
   = hidden_field_tag :from_controller, @from_controller
+  = hidden_field_tag :custom_name, params[:custom_name] || @custom_assessment_setting.try(:custom_assessment_name)
   .row.assessment-domains
     .col-xs-12
       .ibox

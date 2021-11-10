@@ -18,7 +18,6 @@
             %span.caret
           %ul.dropdown-menu
             %li
-              - request_method = (params[:controller] == 'clients' && params[:action] == 'index') ?  'Post' : 'Get'
               - supported_languages = (current_organization&.supported_languages || Organization::SUPPORTED_LANGUAGES)
               - supported_languages.each do |supported_lang|
                 = link_to(url_for(params.merge({locale: supported_lang})), id: "lang-#{supported_lang}", method: request_method) do

@@ -1,9 +1,12 @@
 class UserNotification
   include ProgramStreamHelper
+  include CsiConcern
 
-  attr_reader :all_count
+  attr_reader :all_count, :current_setting, :enable_default_assessment, :any_custom_assessment_enable, :assessments
+  attr_accessor :upcoming_csi_assessments_count, :upcoming_custom_csi_assessments_count
 
   def initialize(user, clients)
+    @current_setting = Setting.first
     @user                                            = user
     @clients                                         = clients
     @assessments                                     = @user.assessment_either_overdue_or_due_today
@@ -14,44 +17,29 @@ class UserNotification
     @case_notes_overdue_and_due_today                = @user.case_note_overdue_and_due_today
     @unsaved_referrals                               = get_referrals('new_referral')
     @repeat_referrals                                = get_referrals('existing_client')
-    @unsaved_family_referrals                   = get_family_referrals('new_referral')
-    @repeat_family_referrals                      = get_family_referrals('existing_family')
+    @unsaved_family_referrals                        = get_family_referrals('new_referral')
+    @repeat_family_referrals                         = get_family_referrals('existing_family')
+    @upcoming_csi_assessments_count                  = 0
+    @upcoming_custom_csi_assessments_count           = 0
+    upcoming_csi_assessments
     @all_count                                       = count
   end
 
   def upcoming_csi_assessments
     client_ids = []
     custom_client_ids = []
-    clients = @user.clients.joins(:assessments).active_accepted_status
-    if @user.deactivated_at.present? && clients.present?
+    clients = active_young_clients(@clients)
+    if @user.deactivated_at.present? && clients.any?
       clients = clients.where('clients.created_at > ?', @user.activated_at)
     end
-    clients.each do |client|
-      if Setting.first.enable_default_assessment && client.eligible_default_csi? && client.assessments.defaults.any?
-        if client_ids.exclude?(client.id)
-          repeat_notifications = client.assessment_notification_dates(Setting.first)
-          if(repeat_notifications.include?(Date.today))
-            client_ids << client.id
-          end
-        end
-      end
 
-      if CustomAssessmentSetting.any_custom_assessment_enable?
-        CustomAssessmentSetting.all.each do |custom_assessment|
-          if client.eligible_custom_csi?(custom_assessment) && client.assessments.customs.any?
-            if custom_client_ids.exclude?(client.id)
-              repeat_notifications = client.assessment_notification_dates(custom_assessment)
-              if(repeat_notifications.include?(Date.today))
-                custom_client_ids << client.id
-              end
-            end
-          end
-        end
-      end
-    end
-    default_clients = clients.where(id: client_ids).uniq
-    custom_clients = clients.where(id: custom_client_ids).uniq
-    { clients: default_clients, custom_clients: custom_clients }
+    default_clients = clients_have_recent_default_assessments(clients)
+    custom_assessment_clients = clients_have_recent_custom_assessments(clients)
+
+    upcoming_csi_assessments_count = default_clients.count
+    upcoming_custom_csi_assessments_count = custom_assessment_clients.count
+
+    { clients: default_clients, custom_clients: custom_assessment_clients }
   end
 
   def any_upcoming_csi_assessments?
@@ -62,27 +50,11 @@ class UserNotification
     upcoming_custom_csi_assessments_count >= 1
   end
 
-  def upcoming_csi_assessments_count
-    client_upcoming_csi_assessments.count
-  end
-
-  def upcoming_custom_csi_assessments_count
-    client_upcoming_custom_csi_assessments.count
-  end
-
-  def client_upcoming_csi_assessments
-    upcoming_csi_assessments[:clients]
-  end
-
-  def client_upcoming_custom_csi_assessments
-    upcoming_csi_assessments[:custom_clients]
-  end
-
   def overdue_tasks_count
     if @user.deactivated_at.nil?
-      @user.tasks.overdue_incomplete.exclude_exited_ngo_clients.where(client_id: @user.clients.ids).size
+      @user.tasks.overdue_incomplete.exclude_exited_ngo_clients.where(client_id: @clients.ids).size
     else
-      @user.tasks.where('tasks.created_at > ?', @user.activated_at).overdue_incomplete.exclude_exited_ngo_clients.where(client_id: @user.clients.ids).size
+      @user.tasks.where('tasks.created_at > ?', @user.activated_at).overdue_incomplete.exclude_exited_ngo_clients.where(client_id: @clients.ids).size
     end
   end
 
@@ -324,7 +296,6 @@ class UserNotification
 
   def count
     count_notification = 0
-    setting = Setting.first
     if @user.admin? || @user.manager?
       count_notification += 1 if any_user_custom_field_frequency_overdue?
       count_notification += 1 if any_user_custom_field_frequency_due_today?
@@ -343,10 +314,10 @@ class UserNotification
     unless @user.strategic_overviewer?
       count_notification += 1 if any_due_today_tasks? || any_overdue_tasks?
       count_notification += 1 if any_client_forms_due_today? || any_client_forms_overdue?
-      count_notification += 1 if setting.enable_default_assessment && (any_overdue_assessments? || any_due_today_assessments?)
-      count_notification += 1 if setting.enable_custom_assessment? && (any_overdue_custom_assessments? || any_due_today_custom_assessments?)
-      count_notification += 1 if any_upcoming_csi_assessments? && Setting.first.enable_default_assessment
-      count_notification += 1 if any_upcoming_custom_csi_assessments? && Setting.first.enable_custom_assessment?
+      count_notification += 1 if current_setting.enable_default_assessment && (any_overdue_assessments? || any_due_today_assessments?)
+      count_notification += 1 if current_setting.enable_custom_assessment? && (any_overdue_custom_assessments? || any_due_today_custom_assessments?)
+      count_notification += 1 if any_upcoming_csi_assessments? && current_setting.enable_default_assessment
+      count_notification += 1 if any_upcoming_custom_csi_assessments? && current_setting.enable_custom_assessment?
       count_notification += 1 if any_client_case_note_overdue?
       count_notification += 1 if any_client_case_note_due_today?
     end

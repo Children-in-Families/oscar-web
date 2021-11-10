@@ -3,11 +3,15 @@ module AdvancedSearches
     class FamilyFields
       include AdvancedSearchHelper
       include AdvancedSearchFieldHelper
+      include FamiliesHelper
       include Pundit
+
+      attr_reader :current_setting
 
       def initialize(options = {})
         @user = options[:user]
         @pundit_user = options[:pundit_user]
+        @current_setting = Setting.first
       end
 
       def render
@@ -16,9 +20,9 @@ module AdvancedSearches
         text_fields           = text_type_list.map { |item| AdvancedSearches::FilterTypes.text_options(item, family_header(item), group) }
         date_picker_fields    = date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, family_header(item), group) }
         drop_list_fields      = drop_down_type_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, family_header(item.first), item.last, group) }
-
+        date_picker_fields    += mapping_care_plan_date_lable_translation unless current_setting.try(:hide_family_case_management_tool?)
         search_fields = text_fields + drop_list_fields + number_fields + date_picker_fields
-        custom_domain_scores_options = !Setting.first.hide_family_case_management_tool? ? AdvancedSearches::CustomDomainScoreFields.render('family') : []
+        custom_domain_scores_options = !current_setting.try(:hide_family_case_management_tool?) ? AdvancedSearches::CustomDomainScoreFields.render('family') : []
 
         (search_fields.sort_by { |f| f[:label].downcase } + custom_domain_scores_options).select do |field|
           field_name = field[:id]
@@ -42,28 +46,36 @@ module AdvancedSearches
       end
 
       def date_type_list
-        ['date_of_birth', 'contract_date', 'case_note_date', 'active_families']
+        ['created_at', 'date_of_birth', 'contract_date', !current_setting.try(:hide_family_case_management_tool?) ? 'case_note_date' : nil, 'active_families'].compact
       end
 
       def drop_down_type_list
+        case_management_tool_fields = if !current_setting.try(:hide_family_case_management_tool?)
+                                        [
+                                          ['case_note_type', case_note_type_options],
+                                          ['case_workers', user_select_options],
+                                          ['referral_source_category_id', referral_source_category_options('Family')],
+                                          ['referral_source_id', referral_source_options('Family')],
+                                          ['followed_up_by_id', followed_up_by_options('Family')]
+                                        ]
+                                      else
+                                        []
+                                      end
         [
-          ['case_note_type', case_note_type_options],
           ['family_type', family_type_options],
           ['status', status_options],
           ['gender', gender_options],
           ['province_id', provinces],
           ['district_id', districts],
           ['dependable_income', { yes: 'Yes', no: 'No' }],
-          ['case_workers', user_select_options],
           ['client_id', clients],
           ['commune_id', communes],
           ['village_id', villages],
           ['id_poor', family_id_poor],
+          ['user_id', created_by_options('Family')],
           ['received_by_id', received_by_options('Family')],
-          ['followed_up_by_id', followed_up_by_options('Family')],
-          ['referral_source_category_id', referral_source_category_options('Family')],
-          ['referral_source_id', referral_source_options('Family')],
-        ]
+          ['relation', drop_down_relation.map { |k, v| { k => v }  }]
+        ] + case_management_tool_fields
       end
 
       def case_note_type_options

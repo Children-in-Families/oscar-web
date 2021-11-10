@@ -1,5 +1,6 @@
 class FamilyGrid < BaseGrid
   include ClientsHelper
+  include FamiliesHelper
 
   attr_accessor :dynamic_columns
 
@@ -72,6 +73,10 @@ class FamilyGrid < BaseGrid
     [I18n.t('default_family_fields.family_type_list').values, I18n.backend.send(:translations)[:en][:default_family_fields][:family_type_list].values].transpose
   end
 
+  def created_by
+    Family.is_received_by
+  end
+
   def commune_options
     Family.joins(:commune).map{|f| [f.commune.code_format, f.commune_id]}.uniq
   end
@@ -108,6 +113,10 @@ class FamilyGrid < BaseGrid
 
   filter(:household_income, :float, range: true, header: -> { I18n.t('datagrid.columns.families.household_income') })
 
+  filter(:created_at, :date, header: -> { I18n.t('advanced_search.fields.created_at') })
+
+  filter(:user_id, :enum, select: :created_by, header: -> { I18n.t('advanced_search.fields.created_by') })
+
   filter(:contract_date, :date, header: -> { I18n.t('datagrid.columns.families.contract_date') })
 
   filter(:initial_referral_date, :date, header: -> { I18n.t('datagrid.columns.families.initial_referral_date') })
@@ -143,24 +152,6 @@ class FamilyGrid < BaseGrid
     ProgramStream.joins(:enrollments).complete.ordered.pluck(:name).uniq
   end
 
-  def quantitative_type_options
-    QuantitativeType.all.map{ |t| [t.name, t.id] }
-  end
-
-  filter(:quantitative_types, :enum, select: :quantitative_type_options, header: -> { I18n.t('datagrid.columns.clients.quantitative_types') }) do |value, scope|
-    ids = Family.joins(:quantitative_cases).where(quantitative_cases: { quantitative_type_id: value.to_i }).pluck(:id).uniq
-    scope.where(id: ids)
-  end
-
-  def quantitative_cases
-    qType.present? ? QuantitativeType.find(qType.to_i).quantitative_cases.map{ |t| [t.value, t.id] } : QuantitativeCase.all.map{ |t| [t.value, t.id] }
-  end
-
-  filter(:quantitative_data, :enum, select: :quantitative_cases, header: -> { I18n.t('datagrid.columns.clients.quantitative_case_values') }) do |value, scope|
-    ids = Family.joins(:quantitative_cases).where(quantitative_cases: { id: value.to_i }).pluck(:id).uniq
-    scope.where(id: ids)
-  end
-
   def filer_section(filter_name)
     {
       street: :address,
@@ -170,6 +161,8 @@ class FamilyGrid < BaseGrid
       male_adult_count: :aggregrate,
       household_income: :general,
       follow_up_date: :general,
+      created_at: :general,
+      user_id: :general,
       contract_date: :general,
       caregiver_information: :general,
       id: :general,
@@ -189,13 +182,14 @@ class FamilyGrid < BaseGrid
       significant_family_member_count: :aggregrate,
       female_children_count: :aggregrate,
       male_children_count: :aggregrate,
+      relation: :aggregrate,
       village_id: :address,
       commune_id: :address,
       district_id: :address,
       province_id: :address,
       manage: :aggregrate,
       changelo: :aggregrate,
-      active_families: :general
+      active_families: :general,
     }[filter_name]
   end
 
@@ -249,7 +243,14 @@ class FamilyGrid < BaseGrid
     object.family_members.map{ |member| member.date_of_birth&.strftime("%d %B %Y") }.compact.join(", ")
   end
 
-  column(:id_poor, header: -> { I18n.t('datagrid.columns.families.id_poor') })
+  column(:relation,  html: true, header: -> { I18n.t('families.family_member_fields.relation') }) do |object|
+    content_tag :ul do
+      object.family_members.map(&:relation).compact.each do |relation|
+        next if relation.empty?
+        concat(content_tag(:li, drop_down_relation.to_h[relation]))
+      end
+    end
+  end
 
   column(:case_history, html: true, header: -> { I18n.t('datagrid.columns.families.case_history') }) do |object|
     family_case_history(object)
@@ -257,8 +258,10 @@ class FamilyGrid < BaseGrid
 
   column(:case_history, html: false, header: -> { I18n.t('datagrid.columns.families.case_history') })
 
-  column(:member_count, html: true, header: -> { I18n.t('datagrid.columns.families.member_count') }, order: ('families.female_children_count, families.male_children_count, families.female_adult_count, families.male_adult_count')) do |object|
-    render partial: 'families/members', locals: { object: object }
+  column(:member_count, header: -> { I18n.t('datagrid.columns.families.member_count') }, order: ('families.female_children_count, families.male_children_count, families.female_adult_count, families.male_adult_count')) do |object|
+    format(object.member_count) do |_|
+      render partial: 'families/members', locals: { object: object }
+    end
   end
 
   column(:caregiver_information, order: 'LOWER(caregiver_information)', header: -> { I18n.t('datagrid.columns.families.caregiver_information') })
@@ -286,6 +289,11 @@ class FamilyGrid < BaseGrid
   column(:female_adult_count, header: -> { I18n.t('datagrid.columns.families.female_adult_count') })
   column(:male_adult_count, header: -> { I18n.t('datagrid.columns.families.male_adult_count') })
 
+  date_column(:created_at, header: -> { I18n.t('advanced_search.fields.created_at') })
+  column(:user_id, header: -> { I18n.t('advanced_search.fields.created_by') }) do |object|
+    user = object.user
+    format(user&.name || '')
+  end
   date_column(:contract_date, html: true, header: -> { I18n.t('datagrid.columns.families.contract_date') })
   date_column(:initial_referral_date, header: -> { I18n.t('datagrid.columns.families.initial_referral_date') })
   date_column(:follow_up_date, header: -> { I18n.t('datagrid.columns.families.follow_up_date') })
@@ -366,11 +374,18 @@ class FamilyGrid < BaseGrid
     object.member_count
   end
 
-  column(:case_note_date, header: -> { I18n.t('datagrid.columns.clients.case_note_date')}, html: true) do |object|
+  column(:care_plan_completed_date, header: -> { I18n.t('datagrid.columns.families.care_plan_completed_date') }, html: true) do |object|
+    render partial: 'shared/care_plans/care_plans', locals: { object: object.care_plans }
+  end
+
+  column(:care_plan_count, header: -> { I18n.t('datagrid.columns.families.care_plan_count') }, html: true, class: 'hide') do |object|
+  end
+
+  column(:case_note_date, header: -> { I18n.t('datagrid.columns.families.case_note_date')}, html: true) do |object|
     render partial: 'clients/case_note_date', locals: { object: object }
   end
 
-  column(:case_note_type, header: -> { I18n.t('datagrid.columns.clients.case_note_type')}, html: true) do |object|
+  column(:case_note_type, header: -> { I18n.t('datagrid.columns.families.case_note_type')}, html: true) do |object|
     render partial: 'clients/case_note_type', locals: { object: object }
   end
 

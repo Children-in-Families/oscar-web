@@ -222,5 +222,18 @@
         float: left;
       }
 
+      table.with-word-wrap {
+        table-layout: fixed;
+      }
+
+      table.with-word-wrap td {
+        white-space: normal !important;
+        word-wrap: break-word;
+      }
+
+      .alwaysbreak { page-break-before: always; }
+      .nobreak:before { clear:both; }
+      .nobreak { page-break-inside: avoid; }
+
   %body{ id: "#{controller_name}", style: 'background-color:#fff;padding-bottom:20px;padding-left:40px;padding-right:40px;', onload: 'pageNumber()' }
     = yield

@@ -107,6 +107,7 @@ class ClientGrid < BaseGrid
   end
 
   def referral_source_category_options
+    return [] if Client.count.zero?
     if I18n.locale == :km
       ReferralSource.where(id: Client.pluck(:referral_source_category_id).compact).pluck(:name, :id)
     else
@@ -605,6 +606,10 @@ class ClientGrid < BaseGrid
     object.carer && object.carer.email
   end
 
+  column(:carer_relationship_to_client, header: -> { I18n.t('datagrid.columns.clients.carer_relationship_to_client') }) do |object|
+    object.carer&.client_relationship
+  end
+
   column(:referee_relationship_to_client, header: -> { I18n.t('datagrid.columns.clients.referee_relationship_to_client') }) do |object|
     object.referee_relationship
   end
@@ -645,13 +650,20 @@ class ClientGrid < BaseGrid
   column(:referred_to, order: false, header: -> { I18n.t('datagrid.columns.clients.referred_to') }) do |object|
     short_names = object.referrals.pluck(:referred_to)
     org_names   = Organization.where("organizations.short_name IN (?)", short_names).pluck(:full_name)
-    short_names.include?('external referral') ? org_names << "I don't see the NGO I'm looking for" : org_names
+    if short_names.include?('external referral')
+      org_names << "I don't see the NGO I'm looking for"
+    elsif short_names.include?("MoSVY External System")
+      org_names << "MoSVY External System"
+    end
     org_names.join(', ')
   end
 
   column(:referred_from, order: false, header: -> { I18n.t('datagrid.columns.clients.referred_from') }) do |object|
     short_names = object.referrals.pluck(:referred_from)
-    Organization.where("organizations.short_name IN (?)", short_names).pluck(:full_name).join(', ')
+    org_names = Organization.where("organizations.short_name IN (?)", short_names).pluck(:full_name)
+    org_names << "MoSVY External System" if short_names.include?("MoSVY External System")
+
+    org_names.join(', ')
   end
 
   column(:agency, order: false, header: -> { I18n.t('datagrid.columns.clients.agencies_involved') }) do |object|
@@ -1034,7 +1046,7 @@ class ClientGrid < BaseGrid
   end
 
   column(:care_plan_completed_date, header: -> { I18n.t('datagrid.columns.clients.care_plan_completed_date') }, html: true) do |object|
-    render partial: 'clients/care_plans', locals: { object: object.care_plans }
+    render partial: 'shared/care_plans/care_plans', locals: { object: object.care_plans }
   end
 
   column(:care_plan_count, header: -> { I18n.t('datagrid.columns.clients.care_plan_count') }, html: true, class: 'hide') do |object|

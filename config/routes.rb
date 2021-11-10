@@ -423,6 +423,7 @@ Rails.application.routes.draw do
         get 'search' => 'custom_fields#search', as: :search
         get 'preview' => 'custom_fields#show', as: 'preview'
       end
+      get 'hidden' => 'custom_fields#hidden', as: :hidden, on: :member
     end
   end
 
@@ -438,6 +439,7 @@ Rails.application.routes.draw do
       get 'client_forms' => 'settings#client_forms'
       get 'integration' => 'settings#integration'
       get 'custom_form' => 'settings#custom_form'
+      get 'test_client' => 'settings#test_client'
 
       get :family_case_management
       get :community

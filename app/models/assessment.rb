@@ -16,6 +16,7 @@ class Assessment < ActiveRecord::Base
   validates :client, presence: true, if: :client_id?
   validate :must_be_enable
   validate :allow_create, :eligible_client_age, if: :new_record?
+  validates_uniqueness_of :case_conference_id, on: :create, if: :case_conference_id?
 
   before_save :set_previous_score, :set_assessment_completed
 
@@ -107,7 +108,7 @@ class Assessment < ActiveRecord::Base
   end
 
   def populate_family_domains
-    family_domains = Domain.family_custom_csi_domains
+    family_domains = Domain.family_custom_csi_domains.presence || Domain.csi_domains
     family_domains.where.not(id: domains.ids).each do |domain|
       assessment_domains.build(domain: domain)
     end

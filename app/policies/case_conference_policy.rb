@@ -34,6 +34,11 @@ class CaseConferencePolicy < ApplicationPolicy
     return (case_conference.assessment && case_conference.assessment.completed?) unless user.strategic_overviewer?
   end
 
+  def destroy?
+    user.admin?
+  end
+
+
   alias create? new?
   alias update? edit?
 end

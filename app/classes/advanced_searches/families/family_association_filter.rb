@@ -1,6 +1,7 @@
 module AdvancedSearches
   module Families
     class FamilyAssociationFilter
+      include AdvancedSearchHelper
       include AssessmentHelper
       include FormBuilderHelper
 
@@ -32,6 +33,10 @@ module AdvancedSearches
           values = date_of_completed_assessments_query(true)
         when 'date_of_custom_assessments'
           values = date_of_assessments_query(false)
+        when 'relation'
+          values = family_members
+        when 'care_plan_completed_date'
+          values = date_query(Family, @families, :care_plans, 'care_plans.created_at')
         end
         { id: sql_string, values: values }
       end
@@ -49,6 +54,22 @@ module AdvancedSearches
           families = families.where(children: '{}')
         when 'is_not_empty'
           families = families.where.not(children: '{}')
+        end
+
+        families.ids
+      end
+
+      def family_members
+        families = @families
+        case @operator
+        when 'equal'
+          families = families.joins(:family_members).where(family_members: { relation: @value })
+        when 'not_equal'
+          families = Family.includes(:family_members).where("NOT EXISTS (SELECT 1 FROM family_members WHERE family_members.family_id = families.id AND relation = ?)", @value).references(:family_members)
+        when 'is_empty'
+          families = Family.includes(:family_members).where(family_members: { relation: "" }).references(:family_members)
+        when 'is_not_empty'
+          families = Family.includes(:family_members).where.not(family_members: { relation: "" }).references(:family_members)
         end
 
         families.ids

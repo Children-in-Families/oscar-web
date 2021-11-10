@@ -154,7 +154,7 @@ en:
         followed_up_by_id: First Follow Up By
         follow_up_date: First Follow Up Date
         house: House Number
-        id: Automatic ID
+        id: Family ID
         id_poor: Has ID Poor?
         initial_referral_date: Date of Referral
         name: Head Household Name (Khmer)
@@ -487,7 +487,7 @@ en:
       exit_reasons: Reason For Exit
       family: Family
       family_basic_fields: Family Basic Fields
-      family_id: Family ID
+      family_id: Manual ID
       family_name: Family Name (Latin)
       follow_up_by: First Follow-Up By
       follow_up_date: First Follow-Up Date
@@ -800,7 +800,7 @@ en:
         "12": Other
       receiving_staff: Receiving Staff
       referee_answered_call: Did the referee answer this call or return a missed call?
-      referee_called_before: Has the referee called the Childsafe Hotline Before?
+      referee_called_before: Has the referee called Before?
       returning_missed_call: Returning Missed Call
       time_call_began: Time of Call
       time_call_ended: Time Call Ended
@@ -972,7 +972,7 @@ en:
     destroy:
       fail_delete_attachment: Failed deleting attachment
       successfully_deleted: Attachment has been successfully deleted.
-      successfully_deleted_case_note: Case Conference has been successfully deleted.
+      successfully_deleted_case_conference: Case Conference has been successfully deleted.
     form:
       <<: *CASE_CONFERENCE_ATTR
     index:
@@ -1914,7 +1914,7 @@ en:
       province: Birth Province
       rated_for_id_poor: Is client rated for ID Poor?
       received_by: Referral Received By
-      referee_called_before: Has the referee called the Childsafe Hotline Before?
+      referee_called_before: Has the referee called Before?
       referral_doc: 'Referral Documents'
       referral_email: Referee Email
       referral_phone: Referee Phone Number
@@ -2216,6 +2216,7 @@ en:
       follow_up_by: First Follow-Up By
       follow_up_date: First Follow-Up Date
       followed_up_by: First Follow-Up By
+      for_testing: For Testing
       gender: Gender
       general_info: About Client
       given_name: Given Name (Latin)
@@ -2812,6 +2813,7 @@ en:
         carer_name: Carer Name
         carer_phone: Carer Phone
         carer_email: Carer Email
+        carer_relationship_to_client: Carer Relationship To Client
         case_note_date: Case Note Date
         case_note_type: Case Note Type
         case_type: Case Type
@@ -2983,6 +2985,8 @@ en:
         active_families: Active Families in Specific Period
         address: Address
         caregiver_information: Caregiver Information
+        care_plan_count: Number of Care Plan
+        care_plan_completed_date: Care Plan Completed Date
         case_history: Case History
         case_worker_name: Case Worker Name
         case_workers: Case Workers
@@ -3020,7 +3024,7 @@ en:
           unknown: Unknown
         house: House Number
         household_income: Monthly Household Income
-        id: Automatic ID
+        id: Family ID
         id_poor: Has ID Poor?
         initial_referral_date: Date of Referral
         male: Male
@@ -3052,7 +3056,7 @@ en:
         village_id: Village
         'yes': 'Yes'
       family: Family
-      family_id: Family ID
+      family_id: Manual ID
       family_preservation: Family Preservation
       form_title: Form Title
       history_of_disability_and_or_illness: History of disability and/or illness
@@ -4201,7 +4205,7 @@ en:
       female_children_count: Female Children Count
       house: House
       household_income: Monthly Household Income
-      id: Automatic ID
+      id: Family ID
       male_adult_count: Male Adult Count
       male_children_count: Male Children Count
       member_count: Member Count
@@ -4249,7 +4253,7 @@ en:
       caregiver_information: Caregiver Information
       case_histories: Case Histories
       case_history: Case History
-      code: Family ID
+      code: Manaul ID
       contract_date: Contract Date
       created_by: Created by
       created_date: Created Date
@@ -4269,7 +4273,7 @@ en:
       guardian: Guardian
       house: House
       household_income: Monthly Household Income
-      id: Automatic ID
+      id: Family ID
       initial_referral_date: Initial Referral Date
       male_adult_count: Number of Adule Males
       male_children_count: Number of Boys
@@ -4559,6 +4563,7 @@ en:
         copy_to_tracking: Copy to Tracking
         edit: Edit
       update:
+        failed_to_update: Custom Form failed to update.
         successfully_updated: Custom Form has been successfully updated.
   gender_list:
     female: Female
@@ -5527,6 +5532,7 @@ en:
     tracking_fields:
       custom_fields: Custom Forms
       frequency: Frequency
+      hidden: Hide?
       name: Name
       remove_tracking: Remove Tracking
       time_of_frequency: Time of Frequency
@@ -5973,6 +5979,7 @@ en:
       delete_incomplete_assessment: Delete incomplete assessment after certain period of time
       previous_care_plan: Previous %{care_plan}
       use_previous_care_plan: Use Previous %{care_plan}
+    test_client: Test Client
     update:
       successfully_updated: Setting have been successfully updated.
   field_settings:

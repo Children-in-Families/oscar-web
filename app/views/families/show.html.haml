@@ -22,7 +22,7 @@
             %strong= @family.name
           %td
             = "#{t('.created_by')} :"
-            %strong= @family.user&.name
+            %strong= "#{@family.user&.name} #{t('at')} #{ date_format @family.created_at }"
         %tr
           %td
             = "#{t('.id')} :"
@@ -407,7 +407,7 @@
                 - if policy(FamilyMember).show?(:occupation)
                   %td= member.occupation
                 - if policy(FamilyMember).show?(:relation)
-                  %td= member.relation
+                  %td= drop_down_relation.to_h[member.relation]
                 - if policy(FamilyMember).show?(:guardian)
                   %td= human_boolean(member.guardian)
 

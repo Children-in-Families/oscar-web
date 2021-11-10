@@ -1,7 +1,7 @@
 class FormBuilder::CustomFieldsController < AdminController
   load_and_authorize_resource
 
-  before_action :set_custom_field, only: [:edit, :update, :destroy]
+  before_action :set_custom_field, only: [:edit, :update, :destroy, :hidden]
   before_action :remove_html_tags, only: [:create, :update]
 
   def index
@@ -63,6 +63,14 @@ class FormBuilder::CustomFieldsController < AdminController
   def search
     @custom_fields = Kaminari.paginate_array(search_custom_fields).page(params[:page]).per(20)
     redirect_to custom_fields_path, alert: t('.no_result') if @custom_fields.blank?
+  end
+
+  def hidden
+    if @custom_field.update({hidden: params[:hidden]})
+      redirect_to custom_fields_path, notice: t('form_builder.custom_fields.update.successfully_updated')
+    else
+      redirect_to custom_fields_path, alert: t('.failed_to_update')
+    end
   end
 
   private
@@ -131,7 +139,7 @@ class FormBuilder::CustomFieldsController < AdminController
   end
 
   def custom_field_params
-    params.require(:custom_field).permit(:entity_type, :fields, :form_title, :frequency, :time_of_frequency)
+    params.require(:custom_field).permit(:entity_type, :fields, :form_title, :frequency, :time_of_frequency, :hidden)
   end
 
   def remove_html_tags

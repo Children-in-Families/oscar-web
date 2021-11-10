@@ -1,7 +1,7 @@
 class SettingsController < AdminController
   include CommunityHelper
 
-  before_action :find_setting, only: [:index, :default_columns, :research_module, :custom_labels, :client_forms, :integration, :family_case_management, :community, :custom_form]
+  before_action :find_setting, except: [:create, :show, :edit, :update]
   before_action :country_address_fields, only: [:edit, :update]
 
   def index
@@ -99,6 +99,11 @@ class SettingsController < AdminController
     authorize @current_setting
   end
 
+  def test_client
+    authorize @current_setting
+  end
+
+
 
   private
 
@@ -120,7 +125,7 @@ class SettingsController < AdminController
                                     :enable_hotline, :enable_client_form, :assessment_score_order, :disable_required_fields,
                                     :hide_family_case_management_tool, :hide_community, :case_conference_limit, :case_conference_frequency,
                                     :internal_referral_limit, :internal_referral_frequency, :case_note_edit_limit, :case_note_edit_frequency, :disabled_future_completion_date,
-                                    :disabled_add_service_received, :custom_field_limit, :custom_field_frequency,
+                                    :disabled_add_service_received, :custom_field_limit, :custom_field_frequency, :test_client,
                                     client_default_columns: [], family_default_columns: [], community_default_columns: [],
                                     partner_default_columns: [], user_default_columns: [],
                                     custom_assessment_settings_attributes: [:id, :custom_assessment_name, :max_custom_assessment, :custom_assessment_frequency, :custom_age, :enable_custom_assessment, :_destroy])
@@ -136,7 +141,7 @@ class SettingsController < AdminController
 
   def client_default_columns
     columns = []
-    sub_columns = %w(time_in_cps_ time_in_ngo_ rejected_note_ exit_reasons_ exit_circumstance_ other_info_of_exit_ exit_note_ what3words_ main_school_contact_ rated_for_id_poor_ name_of_referee_
+    sub_columns = %w(carer_name_ carer_phone_ carer_email_ time_in_cps_ time_in_ngo_ rejected_note_ exit_reasons_ exit_circumstance_ other_info_of_exit_ exit_note_ what3words_ main_school_contact_ rated_for_id_poor_ name_of_referee_
       family_ family_id_ case_note_date_ case_note_type_ date_of_assessments_ assessment_completed_date_ all_csi_assessments_ date_of_custom_assessments_ all_custom_csi_assessments_ manage_ changelog_ type_of_service_ indirect_beneficiaries_)
     sub_columns += Client::HOTLINE_FIELDS.map{ |field| "#{field}_" }
     sub_columns += Call::FIELDS.map{ |field| "#{field}_" }
@@ -157,10 +162,13 @@ class SettingsController < AdminController
 
   def family_default_columns
     columns = []
-    sub_columns = %w(member_count_ clients_ case_workers_ case_note_date_ case_note_type_ assessment_completed_date_ date_of_custom_assessments_ all_custom_csi_assessments_ manage_ direct_beneficiaries_ changelog_)
+    sub_columns = %w(member_count_ clients_ case_workers_ manage_ direct_beneficiaries_ changelog_)
     columns = FamilyGrid.new.filters.map{|f| "#{f.name.to_s}_" }
-    Domain.family_custom_csi_domains.order_by_identity.each do |domain|
-      columns << "#{domain.convert_custom_identity}_"
+    unless current_setting.hide_family_case_management_tool?
+      sub_columns += %w(case_note_date_ case_note_type_ assessment_completed_date_ date_of_custom_assessments_ all_custom_csi_assessments_)
+      Domain.family_custom_csi_domains.order_by_identity.each do |domain|
+        columns << "#{domain.convert_custom_identity}_"
+      end
     end
     columns.push(sub_columns).flatten
   end
