@@ -316,12 +316,11 @@ module ClientsHelper
   end
 
   def columns_visibility(column)
-    label_column = label_translations.map{ |k, v| ["#{k}_".to_sym, v] }.to_h
+    label_column = label_translations.map{ |k, v| ["#{k}".to_sym, v] }.to_h
 
     Client::STACKHOLDER_CONTACTS_FIELDS.each do |field|
       label_column[field] = t("datagrid.columns.clients.#{field}")
     end
-
     label_tag "#{column}_", label_column[column.to_sym]
   end
 
@@ -542,7 +541,7 @@ module ClientsHelper
 
   def default_columns_visibility(column)
 
-    label_column = label_translations.map{|k, v| [k] }
+    label_column = label_translations.map{ |k, v| ["#{k}_".to_sym, v] }.to_h
 
     (Client::HOTLINE_FIELDS + Call::FIELDS).each do |field_name|
       label_column["#{field_name}_".to_sym] = t("datagrid.columns.clients.#{field_name}")
