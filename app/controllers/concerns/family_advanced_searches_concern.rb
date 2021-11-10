@@ -43,9 +43,9 @@ module FamilyAdvancedSearchesConcern
     end
     csi_domain_score_report
     custom_date_of_assessments
+    default_date_of_completed_assessments
     care_plan_completed_date
     care_plan_count
-    default_date_of_completed_assessments
     case_note_date_report
     case_note_type_report
     program_stream_report
