@@ -1,10 +1,10 @@
-body[id='clients-index'],
-body[id='families-index'],
-body[id='partners-index'],
-body[id='families-show'],
-body[id='users-show'],
-body[id='client_advanced_searches-index'] {
-  .export-client{
+body[id="clients-index"],
+body[id="families-index"],
+body[id="partners-index"],
+body[id="families-show"],
+body[id="users-show"],
+body[id="client_advanced_searches-index"] {
+  .export-client {
     margin-top: -16px;
   }
 
@@ -16,26 +16,48 @@ body[id='client_advanced_searches-index'] {
           font-size: 14px;
           height: 57px;
           .showmore_content {
-            position:relative;
-            overflow:hidden;
+            position: relative;
+            overflow: hidden;
           }
           .showmore_trigger {
-            width:100%;
+            width: 100%;
             text-align: center;
-            height:25px;
-            cursor:pointer;
+            height: 25px;
+            cursor: pointer;
           }
           .showmore_trigger span {
-            display:block;
+            display: block;
           }
         }
       }
     }
 
     th,
-    td.gender, td.status, td.follow_up_date, td.date_of_birth, td.school_grade, td.has_been_in_orphanage, td.has_been_in_government_care,
-    td.initial_referral_date, td.referral_phone, td.able, td.birth_province, td.province, td.state, td.case_start_date, td.type_of_service,
-    td.cases, td.accepted_date, td.exit_date, td.created_at, td.created_by, td.referred_to,td.date_of_referral, td.referred_from, td.call-field, td.client-hotline-field {
+    td.gender,
+    td.status,
+    td.follow_up_date,
+    td.date_of_birth,
+    td.school_grade,
+    td.has_been_in_orphanage,
+    td.has_been_in_government_care,
+    td.initial_referral_date,
+    td.referral_phone,
+    td.able,
+    td.birth_province,
+    td.province,
+    td.state,
+    td.case_start_date,
+    td.type_of_service,
+    td.cases,
+    td.accepted_date,
+    td.exit_date,
+    td.created_at,
+    td.created_by,
+    td.referred_to,
+    td.date_of_referral,
+    td.referred_from,
+    td.call-field,
+    td.client-hotline-field {
       text-align: center;
     }
 
@@ -43,15 +65,22 @@ body[id='client_advanced_searches-index'] {
       min-width: 100px;
     }
 
-    th.slug, th.school_grade, th.gender, th.cases, th.case_start_date {
+    th.slug,
+    th.school_grade,
+    th.gender,
+    th.cases,
+    th.case_start_date {
       min-width: 130px;
     }
 
-    th.state, th.township {
+    th.state,
+    th.township {
       min-width: 135px;
     }
 
-    th.date_of_assessments, th.assessment_completed_date {
+    th.date_of_assessments,
+    th.assessment_completed_date,
+    th.completed_date {
       min-width: 200px;
     }
 
@@ -59,65 +88,147 @@ body[id='client_advanced_searches-index'] {
       min-width: 250px;
     }
 
-    th.created_at, th.created_by, th.referred_to, th.referred_from, th.any_assessments,
-    th.able_state, th.house_number, th.street_number, th.village,
-    th.case_note_date, th.case_note_type, th.plot, th.road, th.postal_code,
-    th.time_in_care, th.time_in_cps, th.time_in_ngo, th.referee_name, th.referee_phone, th.referee_email,
-    th.carer_name, th.carer_phone, th.carer_email, th.phone_owner,
-    th.client_contact_phone, th.address_type, th.client_email, th.client_address_type, th.indirect_beneficiaries {
+    th.created_at,
+    th.created_by,
+    th.referred_to,
+    th.referred_from,
+    th.any_assessments,
+    th.able_state,
+    th.house_number,
+    th.street_number,
+    th.village,
+    th.case_note_date,
+    th.case_note_type,
+    th.plot,
+    th.road,
+    th.postal_code,
+    th.time_in_care,
+    th.time_in_cps,
+    th.time_in_ngo,
+    th.referee_name,
+    th.referee_phone,
+    th.referee_email,
+    th.carer_name,
+    th.carer_phone,
+    th.carer_email,
+    th.phone_owner,
+    th.client_contact_phone,
+    th.address_type,
+    th.client_email,
+    th.client_address_type,
+    th.indirect_beneficiaries {
       min-width: 150px;
     }
 
-    th.kid_id, th.street_line1, th.street_line2 {
+    th.kid_id,
+    th.street_line1,
+    th.street_line2 {
       min-width: 175px;
     }
 
-     th.code, th.given_name, th.family_name, th.live_with, th.local_given_name, th.local_family_name, th.care_plan_completed_date,
-     th.commune, th.district, th.suburb, th.directions, th.subdistrict, th.type_of_service, th.call-field, th.client-hotline-field {
+    th.code,
+    th.given_name,
+    th.family_name,
+    th.live_with,
+    th.local_given_name,
+    th.local_family_name,
+    th.care_plan_completed_date,
+    th.commune,
+    th.district,
+    th.suburb,
+    th.directions,
+    th.subdistrict,
+    th.type_of_service,
+    th.call-field,
+    th.client-hotline-field {
       min-width: 185px;
     }
 
-    th.name, th.status, th.manage, th.cases, th.has_this_form, th.protection_concern_id, th.necessity_id,
-    th.initial_referral_date, th.current_address, th.accepted_date, th.exit_date, th.brc-fields,
-    th.program_streams, th.program_enrollment_date, th.program_exit_date, th.exit_reasons, th.exit_circumstance,
-    th.family:not(.form-builder), th.family_id, th.other_info_of_exit, th.exit_note, th.main_school_contact, th.name_of_referee, th.what3words {
+    th.name,
+    th.status,
+    th.manage,
+    th.cases,
+    th.has_this_form,
+    th.protection_concern_id,
+    th.necessity_id,
+    th.initial_referral_date,
+    th.current_address,
+    th.accepted_date,
+    th.exit_date,
+    th.brc-fields,
+    th.program_streams,
+    th.program_enrollment_date,
+    th.program_exit_date,
+    th.exit_reasons,
+    th.exit_circumstance,
+    th.family:not(.form-builder),
+    th.family_id,
+    th.other_info_of_exit,
+    th.exit_note,
+    th.main_school_contact,
+    th.name_of_referee,
+    th.what3words {
       min-width: 200px;
     }
 
-    th.telephone_number, th.age, th.follow_up_date, th.received_by, th.followed_up_by, th.agency, th.date_of_birth,
-    th.school_name, th.referral_phone, th.referral_source, th.birth_province, th.province, th.referral_source_category,th.date_of_referral,
-    th.rejected_note, th.user, th.donor {
+    th.telephone_number,
+    th.age,
+    th.follow_up_date,
+    th.received_by,
+    th.followed_up_by,
+    th.agency,
+    th.date_of_birth,
+    th.school_name,
+    th.referral_phone,
+    th.referral_source,
+    th.birth_province,
+    th.province,
+    th.referral_source_category,
+    th.date_of_referral,
+    th.rejected_note,
+    th.user,
+    th.donor {
       min-width: 250px;
     }
 
-    th.all_csi_assessments, th.all_custom_csi_assessments {
+    th.all_csi_assessments,
+    th.all_custom_csi_assessments {
       min-width: 260px;
     }
 
-    th.has_been_in_government_care, th.relevant_referral_information, th.description_house_landmark, th.quantitative-type, th.rated_for_id_poor, th.referee_relationship_to_client {
+    th.has_been_in_government_care,
+    th.relevant_referral_information,
+    th.description_house_landmark,
+    th.quantitative-type,
+    th.rated_for_id_poor,
+    th.referee_relationship_to_client,
+    th.carer_relationship_to_client {
       min-width: 310px;
     }
 
-    th.reason_for_family_separation, th.history_of_high_risk_behaviours,
-    th.history_of_harm, th.history_of_disability_and_or_illness {
+    th.reason_for_family_separation,
+    th.history_of_high_risk_behaviours,
+    th.history_of_harm,
+    th.history_of_disability_and_or_illness {
       min-width: 360px;
     }
 
-    th.has_been_in_orphanage, th.protection_from_abuse_and_exploitation {
+    th.has_been_in_orphanage,
+    th.protection_from_abuse_and_exploitation {
       min-width: 280px;
     }
 
-    th[class^="tracking__"], td[class^="tracking__"] {
+    th[class^="tracking__"],
+    td[class^="tracking__"] {
       min-width: 280px;
     }
 
     td.manage {
       a {
-       margin: 0 5px;
-       text-decoration: none;
+        margin: 0 5px;
+        text-decoration: none;
       }
     }
-
   }
   ul.check-columns-visibility {
     padding-left: 0;
@@ -137,7 +248,7 @@ body[id='client_advanced_searches-index'] {
         font-weight: normal;
       }
     }
-    .all-visibility{
+    .all-visibility {
       margin: 2px 0 2px 0;
     }
   }
@@ -152,11 +263,14 @@ body[id='client_advanced_searches-index'] {
     }
   }
 
-  table.clients, .dataTables_scrollHeadInner, .dataTables_scrollHead, .dataTables_scrollBody {
+  table.clients,
+  .dataTables_scrollHeadInner,
+  .dataTables_scrollHead,
+  .dataTables_scrollBody {
     width: 100% !important;
   }
 
-  .dataTables_scrollHeadInner{
+  .dataTables_scrollHeadInner {
     padding-right: 0 !important;
   }
 

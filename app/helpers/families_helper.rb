@@ -1,4 +1,5 @@
 module FamiliesHelper
+
   def family_member_list(object)
     html_tags = []
 
@@ -52,11 +53,18 @@ module FamiliesHelper
   end
 
   def additional_columns
-    {
-      date_of_custom_assessments: I18n.t('datagrid.columns.date_of_family_assessment'),
-      all_custom_csi_assessments: I18n.t('datagrid.columns.all_custom_csi_assessments', assessment: I18n.t('families.show.assessment')),
-      assessment_completed_date: I18n.t('datagrid.columns.assessment_completed_date', assessment: I18n.t('families.show.assessment'))
-    }
+    unless Setting.first.try(:hide_family_case_management_tool?)
+      {
+        date_of_custom_assessments: I18n.t('datagrid.columns.date_of_custom_assessments', assessment: I18n.t('families.show.assessment')),
+        all_custom_csi_assessments: I18n.t('datagrid.columns.all_custom_csi_assessments', assessment: I18n.t('families.show.assessment')),
+        assessment_completed_date: I18n.t('datagrid.columns.assessment_completed_date', assessment: I18n.t('families.show.assessment')),
+        custom_completed_date: I18n.t('datagrid.columns.assessment_completed_date', assessment: I18n.t('families.show.assessment')),
+        care_plan_completed_date: I18n.t('datagrid.columns.clients.care_plan_completed_date'),
+        care_plan_count: I18n.t('datagrid.columns.clients.care_plan_count')
+      }
+    else
+      {}
+    end
   end
 
   def columns_family_visibility(column)
@@ -72,6 +80,7 @@ module FamiliesHelper
   def map_family_field_labels
     {
       active_families:                          I18n.t('datagrid.columns.families.active_families'),
+      care_plan:                                I18n.t('advanced_search.fields.care_plan'),
       name:                                     I18n.t('datagrid.columns.families.name'),
       name_en:                                  I18n.t('datagrid.columns.families.name_en'),
       id:                                       I18n.t('datagrid.columns.families.id'),
@@ -102,7 +111,7 @@ module FamiliesHelper
       contract_date:                            I18n.t('datagrid.columns.families.contract_date'),
       initial_referral_date:                    I18n.t('datagrid.columns.families.initial_referral_date'),
       caregiver_information:                    I18n.t('datagrid.columns.families.caregiver_information'),
-      changelog:                                I18n.t('datagrid.columns.families.changelog'),
+      changelog:                                I18n.t('datagrid.columns.families.changelogs'),
       case_workers:                             I18n.t('datagrid.columns.families.case_worker_name'),
       case_note_date:                           I18n.t('advanced_search.fields.case_note_date'),
       case_note_type:                           I18n.t('advanced_search.fields.case_note_type'),
@@ -127,7 +136,7 @@ module FamiliesHelper
     field_keys = %W(province province_id district district_id commune commune_id village)
     translations = {}
     field_keys.each do |key_translation|
-      translations[key_translation.to_sym] = FieldSetting.find_by(name: key_translation).try(:label) || I18n.t("datagrid.columns.clients.#{key_translation}")
+      translations[key_translation.to_sym] = FieldSetting.find_by(name: key_translation).try(:label) || I18n.t("datagrid.columns.families.#{key_translation}")
       translations["#{key_translation}_".to_sym] = FieldSetting.find_by(name: key_translation).try(:label) || I18n.t("datagrid.columns.families.#{key_translation}")
     end
     translations['province_id'.to_sym] = FieldSetting.find_by(name: 'province_id').try(:label) || I18n.t('datagrid.columns.families.province')
@@ -276,4 +285,13 @@ module FamiliesHelper
   def family_saved_search_column_visibility(field_key)
     default_setting(field_key, @default_columns) || params[field_key.to_sym].present? || (@visible_fields && @visible_fields[field_key]).present?
   end
+
+  def skipped_assessment_tool_fields
+    if current_setting.hide_family_case_management_tool?
+      %i[initial_referral_date follow_up_date referral_source_id referral_source_category_id program_streams quantitative_types quantitative_data]
+    else
+      []
+    end
+  end
+
 end

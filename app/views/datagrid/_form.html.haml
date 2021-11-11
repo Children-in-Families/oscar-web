@@ -237,10 +237,10 @@
               .visibility.col-sm-12
                 = check_box_tag 'date_of_assessments_', 'date_of_assessments', checked = saved_search_column_visibility('date_of_assessments_'), class: 'i-checks'
                 = label_tag 'date_of_assessments_', t('datagrid.columns.date_of_assessments', assessment: t('clients.show.assessment'))
-            %li
-              .visibility.col-sm-12
-                = check_box_tag 'assessment_completed_date_', 'date_of_assessments', checked = saved_search_column_visibility('assessment_completed_date_'), class: 'i-checks'
-                = label_tag 'assessment_completed_date_', t('datagrid.columns.assessment_completed_date', assessment: t('clients.show.assessment'))
+              %li
+                .visibility.col-sm-12
+                  = check_box_tag 'completed_date_', 'completed_date', checked = saved_search_column_visibility('completed_date_'), class: 'i-checks'
+                  = label_tag 'completed_date_', t('datagrid.columns.assessment_completed_date', assessment: t('clients.show.assessment'))
             %li
               .visibility.col-sm-12
                 = check_box_tag 'all_csi_assessments_', 'all_csi_assessments', checked = saved_search_column_visibility('all_csi_assessments_'), class: 'i-checks'
@@ -301,6 +301,10 @@
               .visibility.col-sm-12
                 = check_box_tag 'carer_phone_', 'carer_phone', checked = saved_search_column_visibility('carer_phone_'), class: 'i-checks'
                 = label_tag 'carer_phone_', t('datagrid.columns.carer_phone')
+            %li
+              .visibility.col-sm-12
+                = check_box_tag 'carer_relationship_to_client_', 'carer_relationship_to_client', checked = saved_search_column_visibility('carer_relationship_to_client_'), class: 'i-checks'
+                = label_tag 'carer_relationship_to_client_', t('datagrid.columns.clients.carer_relationship_to_client')
 
             %li.divider.col-xs-12
 
@@ -337,6 +341,7 @@
               - field_name = f.name
               - field_name = 'member_count' if field_name.to_s.include?('significant_family_member_count')
               - next unless policy(Family).show?(field_name)
+              - next if skipped_assessment_tool_fields.include?(f.name)
 
               %li
                 .visibility.col-sm-12
@@ -356,15 +361,12 @@
               .visibility.col-sm-12
                 = check_box_tag 'clients_', 'clients', checked = default_setting('clients_', @default_columns) || params[:clients_].present?, class: 'i-checks'
                 = label_tag 'clients_', t('datagrid.columns.families.clients')
-            %li
-              .visibility.col-sm-12
-                = check_box_tag 'case_workers_', 'case_workers', checked = default_setting('case_workers_', @default_columns) || params[:case_workers_].present?, class: 'i-checks'
-                = label_tag 'case_workers_', t('datagrid.columns.families.case_workers')
+
             %li
               .visibility.col-sm-12
                 = check_box_tag 'direct_beneficiaries_', 'direct_beneficiaries', checked = default_setting('direct_beneficiaries_', @default_columns) || params[:direct_beneficiaries_].present?, class: 'i-checks'
                 = label_tag 'direct_beneficiaries_', t('datagrid.columns.families.direct_beneficiaries')
-
+          - unless current_setting.hide_family_case_management_tool?
             #referral-data
               - quantitative_fields = @quantitative_fields.map { |quantitative_field|  quantitative_field.slice(:id, :field) }
               - quantitative_fields.each do |quantitative_type|
@@ -376,7 +378,10 @@
                     = check_box_tag "#{quantitative_type_name}_", quantitative_type_name, checked = default_setting("#{quantitative_type_name}_", @default_columns) || params["#{quantitative_type_name}_"].present?, class: 'i-checks'
                     = label_tag "#{quantitative_type_name}_", quantitative_type_name
 
-          - unless current_setting.hide_family_case_management_tool?
+            %li
+              .visibility.col-sm-12
+                = check_box_tag 'case_workers_', 'case_workers', checked = default_setting('case_workers_', @default_columns) || params[:case_workers_].present?, class: 'i-checks'
+                = label_tag 'case_workers_', t('datagrid.columns.families.case_workers')
             %li
               .visibility.col-sm-12
                 = check_box_tag 'case_note_date_', 'case_note_date', checked = family_saved_search_column_visibility('case_note_date_'), class: 'i-checks'
@@ -385,8 +390,18 @@
               .visibility.col-sm-12
                 = check_box_tag 'case_note_type_', 'case_note_type', checked = family_saved_search_column_visibility('case_note_type_'), class: 'i-checks'
                 = label_tag 'case_note_type_', t('datagrid.columns.case_note_type')
-            = render partial: 'datagrid/family_custom_domain_score', locals: { custom_domains: Domain.family_custom_csi_domains.order_by_identity }
+            %li.care-plan-header.m-l-sm
+              %strong= t('advanced_search.fields.care_plan')
+            %li
+              .visibility.col-sm-12
+                = check_box_tag 'care_plan_completed_date_', 'care_plan_completed_date', checked = family_saved_search_column_visibility('care_plan_completed_date_'), class: 'i-checks'
+                = label_tag 'care_plan_completed_date_', t('datagrid.columns.care_plan_completed_date')
+            %li
+              .visibility.col-sm-12
+                = check_box_tag 'care_plan_count_', 'care_plan_count', checked = family_saved_search_column_visibility('care_plan_count_'), class: 'i-checks'
+                = label_tag 'care_plan_count_', t('datagrid.columns.care_plan_count')
 
+            = render partial: 'datagrid/family_custom_domain_score', locals: { custom_domains: Domain.family_custom_csi_domains.order_by_identity }
           %li.divider.col-xs-12
           %li
             .visibility.col-sm-12

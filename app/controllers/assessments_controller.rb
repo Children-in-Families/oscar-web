@@ -2,6 +2,7 @@ class AssessmentsController < AdminController
   include ApplicationHelper
   include CreateBulkTask
   include AssessmentConcern
+  include AssessmentHelper
 
   before_action :find_client, :list_all_case_conferences
   before_action :find_assessment, only: [:edit, :update, :show, :destroy]
@@ -70,7 +71,8 @@ class AssessmentsController < AdminController
           redirect_to client_path(@client), notice: t('.successfully_created')
         end
       else
-        render :new, custom_name: css.name if css
+        flash[:alert] = @assessment.errors.full_messages
+        render :new, custom_name: css.custom_assessment_name if css
       end
     end
   end

@@ -9,7 +9,7 @@ class AssessmentPolicy < ApplicationPolicy
     enable_assessment && readable_user
   end
 
-  def new?(value = '', custom_assessment = nil)
+  def new?(value = nil, custom_assessment = nil)
     return false if user.strategic_overviewer?
 
     association = record.family_id ? 'family' : 'client'

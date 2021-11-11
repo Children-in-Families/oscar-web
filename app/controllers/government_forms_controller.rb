@@ -51,24 +51,17 @@ class GovernmentFormsController < AdminController
         @case_notes    = []
 
         @client.case_notes.order(meeting_date: :desc).each do |case_note|
-          meeting_dates = []
           tasks = []
-          notes = []
           case_note.case_note_domain_groups.each do |case_note_dg|
             case_note_dg.tasks.each do |task|
               tasks << task.name
             end
-            next if case_note_dg.note.blank?
-            notes << case_note_dg.note
           end
 
-          max_size = [tasks.count, notes.count].max
-          (1..max_size).each do |_|
-            meeting_dates << case_note.meeting_date
-          end
+          meeting_dates = case_note.meeting_date
+          notes = case_note.note
 
-          case_note = [meeting_dates, tasks, notes]
-          @case_notes << case_note[0].zip(*case_note[1..-1])
+          @case_notes << [meeting_dates, tasks, notes]
         end
 
         render  pdf:      @government_form.name,
