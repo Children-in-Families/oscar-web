@@ -61,7 +61,9 @@ body[id="client_advanced_searches-index"] {
       text-align: center;
     }
 
-    th.changelog {
+    th.changelog,
+    th.referred_in,
+    th.referred_out {
       min-width: 100px;
     }
 
@@ -79,7 +81,8 @@ body[id="client_advanced_searches-index"] {
     }
 
     th.date_of_assessments,
-    th.assessment_completed_date {
+    th.assessment_completed_date,
+    th.completed_date {
       min-width: 200px;
     }
 

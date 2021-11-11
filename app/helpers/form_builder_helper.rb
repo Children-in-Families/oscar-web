@@ -183,7 +183,7 @@ module FormBuilderHelper
   end
 
   def general_query(id, field, operator, value, type, class_name)
-    field_name = id == 'case_note_date' ? 'meeting_date' : id
+    field_name = (id == 'case_note_date' || id == 'no_case_note_date') ? 'meeting_date' : id
     field_name = field_name == 'case_note_type' ? 'interaction_type' : field_name
     field_name = field_name[/quantitative__\d+/].present? ? 'id' : field_name
     value      = !value.is_a?(Array) && type == 'string'  ? value.downcase : value

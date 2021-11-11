@@ -12,19 +12,68 @@
     .ibox.float-e-margins#user-search-form.collapse
       .ibox-content
         = datagrid_form_for @user_grid, url: users_url, html: { class: 'grid-form' }
+
+
 .row
   .col-xs-12
-    .ibox.float-e-margins
-      .ibox-title
-        %h5= @results
-        %span.label.label-info= t('.results')
-        .ibox-tools
-          %a.collapse-link
-            %i.fa.fa-chevron-up
-          %a.fullscreen-link
-            %i.fa.fa-expand
-      .ibox-content
-        .users-table
-          = datagrid_table @user_grid, html: { class: 'table table-bordered table-striped table-hover users'}
-      .ibox-footer.text-center
-        = paginate @user_grid.assets
+    %ul.nav.nav-tabs.users-tab{role: "tablist"}
+      %li.active{role: "presentation"}
+        %a{"aria-controls" => "current-users", "data-toggle" => "tab", href: "#current-users", role: "tab"}= t('users.current_users')
+      - if policy(current_user).restore?
+        %li{ role: "presentation" }
+          %a{"aria-controls" => "archived-users", "data-toggle" => "tab", href: "#archived-users", role: "tab"}= t('users.archived_users')
+    .tab-content
+      #current-users.tab-pane.active{role: "tabpanel"}
+        .ibox.float-e-margins
+          .ibox-title
+            %h5= @results
+            %span.label.label-info= t('.results')
+            .ibox-tools
+              %a.collapse-link
+                %i.fa.fa-chevron-up
+              %a.fullscreen-link
+                %i.fa.fa-expand
+          .ibox-content
+            .users-table
+              = datagrid_table @user_grid, html: { class: 'table table-bordered table-striped table-hover users'}
+          .ibox-footer.text-center
+            = paginate @user_grid.assets
+
+      #archived-users.tab-pane{role: "tabpanel"}
+        .ibox.float-e-margins
+          .ibox-title
+            %h5= @archived_users.count
+            %span.label.label-info= t('.results')
+            .ibox-tools
+              %a.collapse-link
+                %i.fa.fa-chevron-up
+              %a.fullscreen-link
+                %i.fa.fa-expand
+          .ibox-content
+            .users-table
+              %table{ class: 'table table-bordered table-striped table-hover users' }
+                %thead
+                  %tr
+                    %th= t('datagrid.columns.users.id')
+                    %th= t('datagrid.columns.users.first_name')
+                    %th= t('datagrid.columns.users.last_name')
+                    %th= t('datagrid.columns.users.gender')
+                    %th= t('datagrid.columns.users.mobile')
+                    %th= t('datagrid.columns.users.email')
+                    %th= t('datagrid.columns.users.job_title')
+                    %th= t('datagrid.columns.users.roles')
+                    %th= t('datagrid.columns.users.manage')
+                %tbody
+                  - @archived_users.each do |_user|
+                    %tr
+                      %td= _user.id
+                      %td= _user.first_name
+                      %td= _user.last_name
+                      %td= _user.gender
+                      %td= _user.mobile
+                      %td= _user.email
+                      %td= _user.job_title
+                      %td= _user.roles
+                      %td
+                        = link_to user_restore_path(_user), class: 'btn btn-outline btn-danger btn-xs' do
+                          = fa_icon 'undo'

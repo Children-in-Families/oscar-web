@@ -75,6 +75,7 @@ class ClientsController < AdminController
         @case_histories = (enter_ngos + exit_ngos + cps_enrollments + cps_leave_programs + referrals).sort { |current_record, next_record| -([current_record.created_at, current_record.new_date] <=> [next_record.created_at, next_record.new_date]) }
         @internal_referrals = @client.internal_referrals.joins(:program_streams).select('DISTINCT ON (internal_referrals.id, program_streams.id) internal_referrals.id, internal_referrals.referral_date, internal_referrals.client_id, program_streams.name program_name, internal_referrals.created_at')
       end
+
       format.pdf do
         form        = params[:form]
         form_title  = t(".government_form_#{form}")
@@ -172,7 +173,7 @@ class ClientsController < AdminController
     @client.transaction do
       @client.enter_ngos.each(&:destroy_fully!)
       @client.exit_ngos.each(&:destroy_fully!)
-      @client.client_enrollments.each(&:destroy_fully!)
+      @client.client_enrollments.with_deleted.each(&:destroy_fully!)
       @client.cases.delete_all
       @client.case_worker_clients.with_deleted.each(&:destroy_fully!)
       deleted = @client.reload.destroy
@@ -275,7 +276,7 @@ class ClientsController < AdminController
   def set_association
     @agencies        = Agency.order(:name)
     @donors          = Donor.order(:name)
-    @users           = User.deleted_user.non_strategic_overviewers.order(:first_name, :last_name)
+    @users           = User.without_deleted_users.non_strategic_overviewers.order(:first_name, :last_name)
     @interviewees    = Interviewee.order(:created_at)
     @client_types    = ClientType.order(:created_at)
     @needs           = Need.order(:created_at)
@@ -289,6 +290,7 @@ class ClientsController < AdminController
     end
 
     find_referral_by_params if params[:referral_id]
+
     @carer = @client && @client.carer.present? ? @client.carer : Carer.new
     @referee = @client.referee.present? ? @client.referee : Referee.new(name: @referral&.name_of_referee, phone: @referral&.referral_phone, email: @referral&.referee_email)
     @referee.anonymous = true if current_organization.short_name == 'brc' && @referee.new_record?

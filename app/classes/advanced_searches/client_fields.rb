@@ -20,6 +20,7 @@ module AdvancedSearches
       text_fields           << referee_text_fields.map { |item| AdvancedSearches::FilterTypes.text_options(item, format_header(item), referee_group) }
       text_fields           << carer_text_fields.map { |item| AdvancedSearches::FilterTypes.text_options(item, format_header(item), carer_group) }
       date_picker_fields    = date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, format_header(item), group) }
+      date_picker_fields    += [['no_case_note_date', I18n.t('advanced_search.fields.no_case_note_date')]].map{ |item| AdvancedSearches::CsiFields.date_between_only_options(item[0], item[1], group) }
       date_picker_fields    += mapping_care_plan_date_lable_translation
       drop_list_fields      = drop_down_type_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last, group) }
       drop_list_fields      += carer_dropdown_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last, carer_group) }
@@ -38,7 +39,7 @@ module AdvancedSearches
     private
 
     def number_type_list
-      ['family_id', 'age', 'time_in_cps', 'time_in_ngo']
+      ['family_id', 'age', 'time_in_cps', 'time_in_ngo', 'referred_in', 'referred_out']
     end
 
     def text_type_list

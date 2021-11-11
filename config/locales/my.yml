@@ -1538,12 +1538,14 @@ my:
       detail_form_of_judicial_police: Detailed Form for Identification of Victim of Human Trafficking (Judicial Police)
       detail_form_of_mosavy_dosavy: Detailed Form for Identification of Victim of Human Trafficking (MoSAVY/DoSAVY)
       dosavy: DoSAVY
+      external_id_display: ပြင်ပ ID display
       form_indentification: Forms for Identification of Victim of Human Trafficking
       indentification_doc: Identification Documents
       labor_trafficking_legal_doc_option: Labour Trafficking
       legal_processing_doc: Legal Proceeding Documents
       letter_from_immigration_police: Letter from Immigration Police
       mosavy: MoSAVY
+      mosvy_number: MoSVY Number
       msdhs: MSDHS
       ngo_partner: NGO Partner
       other_legal_doc_option: Other
@@ -1615,7 +1617,7 @@ my:
       other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
       preview_download: အစမ္းၾကည့္ျခင္းႏွင့္ ေဒါင္းလုတ္
       referee_phone_number: ဒိုင်လူကြီးဖုန်းနံပါတ်ကို
-      referral_reasons: လွှဲပြောင်းအကြောင်းပြချက်
+      referral_reasons: ရည်ညွှန်းမှတ်စုများ
       referred_from: ကနေရည်ညွှန်း
       referred_to: ကနေရည်ညွှန်း
     client_advanced_searches:
@@ -2617,8 +2619,8 @@ my:
       all_csi_assessments: အားလုံးအကဲဖြတ်
       all_custom_csi_assessments: Custom စိစစ္အကဲျဖတ္မႈမ်ားအားလံုး
       all_result_framework_assessment: All Result Framework Assessment
-      assessment_completed_date: "%{assessment} Completed Date"
       assessment_completed_date: ျပဳလုပ္သည့္ ရက္စြဲ အကဲဖြတ်အပေါ်ပြီးစီး
+      assessment_custom_completed_date: "Custom %{assessment} Completed Date"
       calls:
         answered_call: Answer Call
         brief_note_summary: Brief Note Summary
@@ -2741,6 +2743,7 @@ my:
         all_custom_csi_assessments: Custom စိစစ္အကဲျဖတ္မႈမ်ားအားလံုး
         any_assessments: စိစစ္အကဲျဖတ္မႈရွိသည္
         assessment_completed_date: ျပဳလုပ္သည့္ ရက္စြဲ အကဲဖြတ်အပေါ်ပြီးစီး
+        assessment_custom_completed_date: "Custom %{assessment} Completed Date"
         assessments: စိစစ္အကဲျဖတ္မႈမ်ား
         assessments_due_to: လုပ္ရေတာ့မည္ စိစစ္အကဲျဖတ္မႈမ်ား
         birth_province: ေမြးရာ ခ႐ိုင္
@@ -2938,6 +2941,7 @@ my:
         what3words: What3words
       date_of_assessments: စိစစ္အကဲျဖတ္မႈမ်ား ျပဳလုပ္သည့္ ရက္စြဲ
       date_of_custom_assessments: Custom စိစစ္အကဲျဖတ္မႈလုပ္သည့္ ရက္စြဲ
+      date_of_family_assessment: Date of Family Assessment
       exit_circumstance: ထွက်ပေါက်အခြေအနေ
       exit_note: ထြက္သည့္မွတ္စု
       exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
@@ -4080,7 +4084,7 @@ my:
       other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
       preview_download: အစမ္းၾကည့္ျခင္းႏွင့္ ေဒါင္းလုတ္
       referee_phone_number: ဒိုင်လူကြီးဖုန်းနံပါတ်ကို
-      referral_reasons: လွှဲပြောင်းအကြောင်းပြချက်
+      referral_reasons: ရည်ညွှန်းမှတ်စုများ
       referred_from: ကနေရည်ညွှန်း
       referred_to: ကနေရည်ညွှန်း
     create:
@@ -5739,6 +5743,7 @@ my:
       back: ေနာက္သို႔
       modification_of: "၏ ေျပာင္းလဲမႈ"
   referrals:
+    level_of_risk: အန္တရာယ်အဆင့်
     confirm_referral:
       body_second: သငျသညျ alreay ရည်ညွှန်းချင်သော client ကိုပစ်မှတ်အန်ဂျီအိုနေပါသည်။
       body_third: သငျသညျပြီးသားဒီ client ကို, ထိုတုံ့ပြန်မှုကိုစောင့်ဆိုင်းကျေးဇူးပြုပြီးရည်ညွှန်းကြသည်။
@@ -6365,6 +6370,7 @@ my:
     default: ဤစာမ်က္ႏွာကို ၀င္ေရာက္ရန္ အခြင့္မရွိပါ
     you_cannot_access_this_page: You cannot access this page.
   users:
+    archived_users: Archived Users
     actions:
       are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
     assessment_permission:
@@ -6381,6 +6387,7 @@ my:
       read_more: ဆက်ဖတ်ရန်
     create:
       successfully_created: အသံုးျပဳသူကို ေအာင္ျမင္စြာ ဖန္တီးၿပီးျဖစ္ပါသည္
+    current_users: Current Users
     custom_form_permission:
       can_edit: ျပင္ဆင္ႏုိင္ပါသည္။
       can_view: ၾကည့္႐ႈႏုိင္ပါသည္။
@@ -6494,6 +6501,8 @@ my:
     quantitative_type_permission:
       can_edit: ျပင္ဆင္ႏုိင္ပါသည္။
       can_view: ၾကည့္႐ႈႏုိင္ပါသည္။
+    restore:
+      successfully_restore: အသုံးပြုသူကိုအောင်မြင်စွာပြန်လည်ရယူပြီးပါပြီ
     show:
       add_form: ပံုစံ ထည့္သည္
       additional_forms: ထပ္ေဆာင္းပံုစံမ်ား

@@ -34,8 +34,10 @@ class Assessment < ActiveRecord::Base
     empty_assessment_domains = check_reason_and_score
     if empty_assessment_domains.count.zero?
       self.completed = true
+      self.completed_date = Time.zone.now
     else
       self.completed = false
+      self.completed_date = nil
       true
     end
   end
@@ -154,7 +156,7 @@ class Assessment < ActiveRecord::Base
 
   def must_be_enable
     enable = default? ? Setting.first.enable_default_assessment : Setting.first.enable_custom_assessment
-    enable ? true : errors.add(:base, 'Assessment tool must be enable in setting')
+    enable || family ? true : errors.add(:base, 'Assessment tool must be enable in setting')
   end
 
   def set_previous_score

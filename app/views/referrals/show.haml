@@ -62,6 +62,10 @@
               %td
                 %strong= @referral.services.distinct.map(&:name).join(', ')
             %tr
+              %td= t('referrals.level_of_risk')
+              %td
+                %strong= @referral.level_of_risk&.capitalize
+            %tr
               %td
                 = t('.consent_form')
               %td
