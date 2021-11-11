@@ -3,7 +3,7 @@
 %li
   .visibility.col-sm-12
     = check_box_tag 'date_of_custom_assessments_', 'date_of_custom_assessments', checked = family_saved_search_column_visibility('date_of_custom_assessments_'), class: 'i-checks'
-    = label_tag 'date_of_custom_assessments_', t('datagrid.columns.date_of_custom_assessments', assessment: t('families.show.assessment'))
+    = label_tag 'date_of_custom_assessments_', t('datagrid.columns.date_of_family_assessment')
 %li
   .visibility.col-sm-12
     = check_box_tag 'custom_completed_date_', 'completed_date', checked = family_saved_search_column_visibility('custom_completed_date_'), class: 'i-checks'
