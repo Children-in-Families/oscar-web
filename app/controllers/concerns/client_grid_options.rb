@@ -284,12 +284,12 @@ module ClientGridOptions
     end
 
     if params[:data].presence == 'recent'
-      @client_grid.column(column.to_sym, header: t(".#{column}", assessment: I18n.t('clients.show.assessment'))) do |client|
+      @client_grid.column(column.to_sym, header: t("datagrid.columns.clients.#{column}", assessment: I18n.t('clients.show.assessment'))) do |client|
         recent_assessment = eval(records).latest_record
         "#{recent_assessment.created_at} => #{recent_assessment.assessment_domains_score}" if recent_assessment.present?
       end
     else
-      @client_grid.column(column.to_sym, header: t(".#{column}", assessment: I18n.t('clients.show.assessment'))) do |client|
+      @client_grid.column(column.to_sym, header: t("datagrid.columns.clients.#{column}", assessment: I18n.t('clients.show.assessment'))) do |client|
         eval(records).map(&:basic_info).join("\x0D\x0A")
       end
     end
