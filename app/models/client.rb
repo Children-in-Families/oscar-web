@@ -136,6 +136,7 @@ class Client < ActiveRecord::Base
 
   after_commit :remove_family_from_case_worker
   after_commit :update_related_family_member, on: :update
+  after_commit :delete_referee, on: :destroy
 
   scope :given_name_like,                          ->(value) { where('clients.given_name iLIKE :value OR clients.local_given_name iLIKE :value', { value: "%#{value.squish}%"}) }
   scope :family_name_like,                         ->(value) { where('clients.family_name iLIKE :value OR clients.local_family_name iLIKE :value', { value: "%#{value.squish}%"}) }
@@ -722,7 +723,7 @@ class Client < ActiveRecord::Base
   end
 
   def notify_managers
-    ClientMailer.exited_notification(self, User.deleted_user.managers.non_locked.pluck(:email)).deliver_now
+    ClientMailer.exited_notification(self, User.without_deleted_users.managers.non_locked.pluck(:email)).deliver_now
   end
 
   def remove_family_from_case_worker
@@ -818,6 +819,11 @@ class Client < ActiveRecord::Base
 
   def current_setting
     @current_setting ||= Setting.first
+  end
+
+  def delete_referee
+    return if referee.clients.where.not(id: id).any?
+    referee.destroy
   end
 
 end

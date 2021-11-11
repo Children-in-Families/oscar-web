@@ -81,7 +81,8 @@ body[id="client_advanced_searches-index"] {
     }
 
     th.date_of_assessments,
-    th.assessment_completed_date {
+    th.assessment_completed_date,
+    th.completed_date {
       min-width: 200px;
     }
 
@@ -202,7 +203,8 @@ body[id="client_advanced_searches-index"] {
     th.description_house_landmark,
     th.quantitative-type,
     th.rated_for_id_poor,
-    th.referee_relationship_to_client {
+    th.referee_relationship_to_client,
+    th.carer_relationship_to_client {
       min-width: 310px;
     }
 

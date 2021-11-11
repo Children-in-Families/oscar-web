@@ -173,7 +173,7 @@ class ClientsController < AdminController
     @client.transaction do
       @client.enter_ngos.each(&:destroy_fully!)
       @client.exit_ngos.each(&:destroy_fully!)
-      @client.client_enrollments.each(&:destroy_fully!)
+      @client.client_enrollments.with_deleted.each(&:destroy_fully!)
       @client.cases.delete_all
       @client.case_worker_clients.with_deleted.each(&:destroy_fully!)
       deleted = @client.reload.destroy
@@ -276,7 +276,7 @@ class ClientsController < AdminController
   def set_association
     @agencies        = Agency.order(:name)
     @donors          = Donor.order(:name)
-    @users           = User.deleted_user.non_strategic_overviewers.order(:first_name, :last_name)
+    @users           = User.without_deleted_users.non_strategic_overviewers.order(:first_name, :last_name)
     @interviewees    = Interviewee.order(:created_at)
     @client_types    = ClientType.order(:created_at)
     @needs           = Need.order(:created_at)

@@ -27,7 +27,7 @@ class FamiliesController < AdminController
       respond_to do |f|
         f.html do
           if params[:family_grid].present?
-            @results = @family_grid.assets.size
+            @results = @family_grid.assets
             @family_grid.scope { |scope| scope.accessible_by(current_ability).page(params[:page]).per(20) }
           end
         end
@@ -149,7 +149,7 @@ class FamiliesController < AdminController
 
   def find_association
     return if @family.nil?
-    @users     = User.deleted_user.non_strategic_overviewers.order(:first_name, :last_name)
+    @users     = User.without_deleted_users.non_strategic_overviewers.order(:first_name, :last_name)
     @provinces = Province.order(:name)
     @districts = @family.province.present? ? @family.province.districts.order(:name) : []
     @communes  = @family.district.present? ? @family.district.communes.order(:code) : []

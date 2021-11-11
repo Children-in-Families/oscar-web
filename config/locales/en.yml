@@ -437,6 +437,7 @@ en:
       agency_name: Agency Name
       agency_names: Agency Name
       assessment_completed_date: "%{assessment} Completed Date"
+      assessment_custom_completed_date: "Custom %{assessment} Completed Date"
       assessment_number: "%{assessment}#"
       basic_fields: Client Basic Fields
       birth_province: Client Birth Province
@@ -467,7 +468,7 @@ en:
       custom_csi_domain_scores: Custom Domain Scores
       custom_csi_group: At
       custom_form: Custom Form
-      date_of_assessments: "Date of %{assessment}"
+      date_of_assessments: "%{assessment} Created At"
       date_of_birth: Date of Birth
       date_of_referral: Date of Referral
       description_house_landmark: Description of the house and a landmark
@@ -513,6 +514,7 @@ en:
       name_of_referee: Name of Referee
       ngo_accepted_date: NGO Accept Date
       ngo_exit_date: NGO Exit Date
+      no_case_note_date: No Case Note Date
       other_info_of_exit: Other - More Information
       phone_owner: Phone Owner
       placement_start_date: Placement Start Date
@@ -1548,12 +1550,14 @@ en:
       detail_form_of_judicial_police: Detailed Form for Identification of Victim of Human Trafficking (Judicial Police)
       detail_form_of_mosavy_dosavy: Detailed Form for Identification of Victim of Human Trafficking (MoSAVY/DoSAVY)
       dosavy: DoSAVY
+      external_id_display: External ID Display
       form_indentification: Forms for Identification of Victim of Human Trafficking
       indentification_doc: Identification Documents
       labor_trafficking_legal_doc_option: Labour Trafficking
       legal_processing_doc: Legal Proceeding Documents
       letter_from_immigration_police: Letter from Immigration Police
       mosavy: MoSAVY
+      mosvy_number: MoSVY Number
       msdhs: MSDHS
       ngo_partner: NGO Partner
       other_legal_doc_option: Other
@@ -2017,10 +2021,10 @@ en:
       custom_assessment: "Custom %{assessment}"
       custom_csi_domain_scores: Custom Domain Scores
       custom_csi_group: At
-      date_of_assessment: "Date of %{assessment}"
+      date_of_assessment: "%{assessment} Created At"
       assessment_completed: "%{assessment} Completed"
-      date_of_custom_assessment: "Date of Custom %{assessment}"
-      date_of_assessments: "Date of %{assessment}"
+      date_of_custom_assessment: "Custom %{assessment} Created At"
+      date_of_assessments: "%{assessment} Created At"
       domain_score: Domain Scores
       end: Loading end!
       export_to_xls: Export to XLS
@@ -2672,9 +2676,10 @@ en:
   datagrid:
     columns:
       all_csi_assessments: All CSI %{assessment}
-      all_custom_csi_assessments: "All Custom %{assessment}"
+      all_custom_csi_assessments: "All %{assessment}"
       all_result_framework_assessment: All Result Framework Assessment
       assessment_completed_date: "%{assessment} Completed Date"
+      assessment_custom_completed_date: "Custom %{assessment} Completed Date"
       calls:
         answered_call: Answer Call
         brief_note_summary: Brief Note Summary
@@ -2802,6 +2807,7 @@ en:
         all_custom_csi_assessments: "All Custom %{assessment}"
         any_assessments: Has Assessments
         assessment_completed_date: "%{assessment} Completed Date"
+        assessment_custom_completed_date: "Custom %{assessment} Completed Date"
         assessments: Assessments
         assessments_due_to: Assessments Due To
         birth_province: Client Birth Province
@@ -2812,6 +2818,7 @@ en:
         carer_name: Carer Name
         carer_phone: Carer Phone
         carer_email: Carer Email
+        carer_relationship_to_client: Carer Relationship To Client
         case_note_date: Case Note Date
         case_note_type: Case Note Type
         case_type: Case Type
@@ -2845,9 +2852,9 @@ en:
         current_province: Current Province
         current_province_en: Current Province (English)
         current_province_kh: Current Province (Khmer)
-        date_of_assessments: "Date of %{assessment}"
+        date_of_assessments: "%{assessment} Created At"
         date_of_birth: Date of Birth
-        date_of_custom_assessments: "Date of Custom %{assessment}"
+        date_of_custom_assessments: "Custom %{assessment} Created At"
         date_of_referral: Date of Referral
         description_house_landmark: Description of the house and a landmark
         directions: Directions
@@ -2974,8 +2981,9 @@ en:
         village_en: Address - Village (English)
         village_kh: Address - Village (Khmer)
         what3words: What3words
-      date_of_assessments: "Date of %{assessment}"
-      date_of_custom_assessments: "Date of Custom %{assessment}"
+      date_of_assessments: "%{assessment} Created At"
+      date_of_custom_assessments: "Custom %{assessment} Created At"
+      date_of_family_assessment: Date of Family Assessment
       exit_circumstance: Exit Circumstance
       exit_note: NGO Exit Note
       exit_reasons: Reason For Exit
@@ -2983,6 +2991,8 @@ en:
         active_families: Active Families in Specific Period
         address: Address
         caregiver_information: Caregiver Information
+        care_plan_count: Number of Care Plan
+        care_plan_completed_date: Care Plan Completed Date
         case_history: Case History
         case_worker_name: Case Worker Name
         case_workers: Case Workers
@@ -4173,6 +4183,7 @@ en:
         program_stream: Program Stream
         quantitative: Custom Referral Data
         tracking: Tracking
+    family_assessment: Family Assessment
     family_member_fields:
       adult_name: Name of Adult Member
       date_of_birth: Date of Birth
@@ -6417,6 +6428,7 @@ en:
     default: You are not authorized to access this page.
     you_cannot_access_this_page: You cannot access this page.
   users:
+    archived_users: Archived Users
     actions:
       are_you_sure: Are you sure you want to delete?
     assessment_permission:
@@ -6433,6 +6445,7 @@ en:
       read_more: read more
     create:
       successfully_created: User has been successfully created.
+    current_users: Current Users
     custom_form_permission:
       can_edit: Can Edit
       can_view: Can View
@@ -6546,6 +6559,8 @@ en:
     quantitative_type_permission:
       can_edit: Can Edit
       can_view: Can View
+    restore:
+      successfully_restore: User has been successfully restored.
     show:
       add_form: Add Form
       additional_forms: User's Active Forms

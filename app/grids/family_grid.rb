@@ -152,24 +152,6 @@ class FamilyGrid < BaseGrid
     ProgramStream.joins(:enrollments).complete.ordered.pluck(:name).uniq
   end
 
-  def quantitative_type_options
-    QuantitativeType.all.map{ |t| [t.name, t.id] }
-  end
-
-  filter(:quantitative_types, :enum, select: :quantitative_type_options, header: -> { I18n.t('datagrid.columns.clients.quantitative_types') }) do |value, scope|
-    ids = Family.joins(:quantitative_cases).where(quantitative_cases: { quantitative_type_id: value.to_i }).pluck(:id).uniq
-    scope.where(id: ids)
-  end
-
-  def quantitative_cases
-    qType.present? ? QuantitativeType.find(qType.to_i).quantitative_cases.map{ |t| [t.value, t.id] } : QuantitativeCase.all.map{ |t| [t.value, t.id] }
-  end
-
-  filter(:quantitative_data, :enum, select: :quantitative_cases, header: -> { I18n.t('datagrid.columns.clients.quantitative_case_values') }) do |value, scope|
-    ids = Family.joins(:quantitative_cases).where(quantitative_cases: { id: value.to_i }).pluck(:id).uniq
-    scope.where(id: ids)
-  end
-
   def filer_section(filter_name)
     {
       street: :address,
@@ -392,11 +374,18 @@ class FamilyGrid < BaseGrid
     object.member_count
   end
 
-  column(:case_note_date, header: -> { I18n.t('datagrid.columns.clients.case_note_date')}, html: true) do |object|
+  column(:care_plan_completed_date, header: -> { I18n.t('datagrid.columns.families.care_plan_completed_date') }, html: true) do |object|
+    render partial: 'shared/care_plans/care_plans', locals: { object: object.care_plans }
+  end
+
+  column(:care_plan_count, header: -> { I18n.t('datagrid.columns.families.care_plan_count') }, html: true, class: 'hide') do |object|
+  end
+
+  column(:case_note_date, header: -> { I18n.t('datagrid.columns.families.case_note_date')}, html: true) do |object|
     render partial: 'clients/case_note_date', locals: { object: object }
   end
 
-  column(:case_note_type, header: -> { I18n.t('datagrid.columns.clients.case_note_type')}, html: true) do |object|
+  column(:case_note_type, header: -> { I18n.t('datagrid.columns.families.case_note_type')}, html: true) do |object|
     render partial: 'clients/case_note_type', locals: { object: object }
   end
 
@@ -484,7 +473,7 @@ class FamilyGrid < BaseGrid
 
   dynamic do
     if !Setting.first.hide_family_case_management_tool?
-      column(:all_custom_csi_assessments, header: -> { I18n.t('datagrid.columns.all_custom_csi_assessments', assessment: t('families.show.assessment')) }, html: true) do |object|
+      column(:all_custom_csi_assessments, header: -> { I18n.t('datagrid.columns.all_custom_csi_assessments', assessment: t('families.family_assessment')) }, html: true) do |object|
         render partial: 'families/all_csi_assessments', locals: { object: object.assessments.customs }
       end
 
@@ -500,14 +489,14 @@ class FamilyGrid < BaseGrid
     end
   end
 
-  column(:assessment_completed_date, header: -> { I18n.t('datagrid.columns.assessment_completed_date', assessment: I18n.t('families.show.assessment')) }, html: true) do |object|
+  column(:date_of_custom_assessments, header: -> { I18n.t('datagrid.columns.date_of_family_assessment', assessment: I18n.t('families.show.assessment')) }, html: true) do |object|
     assessments = map_assessment_and_score(object, '', nil)
     render partial: 'families/assessments', locals: { object: assessments }
   end
 
-  column(:date_of_custom_assessments, header: -> { I18n.t('datagrid.columns.date_of_custom_assessments', assessment: I18n.t('families.show.assessment')) }, html: true) do |object|
+  column(:custom_completed_date, header: -> { I18n.t('datagrid.columns.assessment_completed_date', assessment: I18n.t('families.show.assessment')) }, html: true) do |object|
     assessments = map_assessment_and_score(object, '', nil)
-    render partial: 'families/assessments', locals: { object: assessments }
+    render partial: 'families/assessments/assessment_completed_dates', locals: { object: assessments }
   end
 
   dynamic do

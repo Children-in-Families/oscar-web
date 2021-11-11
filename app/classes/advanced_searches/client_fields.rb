@@ -15,14 +15,15 @@ module AdvancedSearches
       group                 = format_header('basic_fields')
       referee_group         = format_header('referee')
       carer_group           = format_header('carer')
-      care_plan_group       = format_header('care_plan')
       number_fields         = number_type_list.map { |item| AdvancedSearches::FilterTypes.number_options(item, format_header(item), group) }
       text_fields           = text_type_list.map { |item| AdvancedSearches::FilterTypes.text_options(item, format_header(item), group) }
       text_fields           << referee_text_fields.map { |item| AdvancedSearches::FilterTypes.text_options(item, format_header(item), referee_group) }
       text_fields           << carer_text_fields.map { |item| AdvancedSearches::FilterTypes.text_options(item, format_header(item), carer_group) }
       date_picker_fields    = date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, format_header(item), group) }
-      date_picker_fields    += care_plan_date_fields.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, format_header(item), care_plan_group) }
+      date_picker_fields    += [['no_case_note_date', I18n.t('advanced_search.fields.no_case_note_date')]].map{ |item| AdvancedSearches::CsiFields.date_between_only_options(item[0], item[1], group) }
+      date_picker_fields    += mapping_care_plan_date_lable_translation
       drop_list_fields      = drop_down_type_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last, group) }
+      drop_list_fields      += carer_dropdown_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last, carer_group) }
       csi_options           = AdvancedSearches::CsiFields.render
       school_grade_options  = AdvancedSearches::SchoolGradeFields.render
       default_domain_scores_options = enable_default_assessment? ? AdvancedSearches::DomainScoreFields.render : []
@@ -69,10 +70,6 @@ module AdvancedSearches
       ].compact
     end
 
-    def care_plan_date_fields
-      ['care_plan_completed_date']
-    end
-
     def drop_down_type_list
       [
         ['location_of_concern', Client.where.not(location_of_concern: [nil, '']).distinct.pluck(:location_of_concern).map{ |a| { a => a }}],
@@ -106,6 +103,12 @@ module AdvancedSearches
         ['address_type', get_sql_address_types],
         ['phone_owner', get_sql_phone_owner]
       ].compact
+    end
+
+    def carer_dropdown_list
+      [
+        ['carer_relationship_to_client', list_carer_client_relations]
+      ]
     end
 
     def field_settings
@@ -245,6 +248,10 @@ module AdvancedSearches
 
     def get_sql_referee_relationship
       [Client::REFEREE_RELATIONSHIPS, I18n.t('default_client_fields.referee_relationship').values].transpose.to_h
+    end
+
+    def list_carer_client_relations
+      [Carer::CLIENT_RELATIONSHIPS, Carer::CLIENT_RELATIONSHIPS].transpose.to_h
     end
 
     def get_sql_address_types

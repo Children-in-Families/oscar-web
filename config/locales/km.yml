@@ -1543,12 +1543,14 @@ km:
       detail_form_of_judicial_police: ទម្រង់លម្អិតសម្រាប់ការសម្ភាសកំណត់អត្តសញ្ញាណបឋមជនរងគ្រោះដោយអំពើជួញដូរមនុស្ស (នគរបាលយុត្តិធម៌)
       detail_form_of_mosavy_dosavy: ទម្រង់លម្អិតសម្រាប់ការសម្ភាសកំណត់អត្តសញ្ញាណបឋមជនរងគ្រោះដោយអំពើជួញដូរមនុស្ស (ក្រសួង ស.អ.យ/មន្ទីរ ស.អ.យ)
       dosavy: មន្ទីរ ស.អ.យ
+      external_id_display: ការបង្ហាញលេខសម្គាល់អង្គការខាងក្រៅ
       form_indentification: ទម្រង់សម្ភាសន៍កំណត់អត្តសញ្ញាណជនរងគ្រោះដោយអំពើជួញដូរមនុស្ស
       indentification_doc: ឯកសារអត្តសញ្ញាណ
       labor_trafficking_legal_doc_option: ការជួញដូរពលកម្ម
       legal_processing_doc: ឯកសារនិតិវិធីច្បាប់
       letter_from_immigration_police: លិខិតពីប៉ូលីសអន្តោប្រវេសន៍
       mosavy: ក្រសួង ស.អ.យ
+      mosvy_number: លេខសំគាល់ ស.អ.យ
       msdhs: ក្រសួងអភិវឌ្ឍន៍សង្គមនិងសន្តិសុខ (ថៃ)
       ngo_partner: អង្គការក្រៅរដ្ឋាភិបាលជាដៃគូ
       other_legal_doc_option: ផ្សេងៗ
@@ -1997,6 +1999,7 @@ km:
       all_csi_assessments: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
       all_custom_csi_assessments: ពិន្ទុកត្តាការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
       assessment_completed_date: "កាលបរិច្ឆេទ %{assessment}ដែលបានបំពេញ"
+      assessment_custom_completed_date: "កាលបរិច្ឆេទ %{assessment}ផ្ទាល់ខ្លួនដែលបានបំពេញ"
       assessment_data: "ទិន្នន័យពិន្ទុនៃ%{assessment}"
       assessment_number: ការប៉ាន់ប្រមាណ#
       assessments: ការប៉ាន់ប្រមាណ
@@ -2642,7 +2645,8 @@ km:
     columns:
       all_csi_assessments: "ពិន្ទុកត្តា%{assessment}CSI"
       all_custom_csi_assessments: "ពិន្ទុកត្តា%{assessment}ផ្ទាល់ខ្លួន"
-      assessment_completed_date: "%{assessment} Completed Date"
+      assessment_completed_date: "កាលបរិច្ឆេទ %{assessment}ដែលបានបំពេញ"
+      assessment_custom_completed_date: "កាលបរិច្ឆេទ %{assessment}ផ្ទាល់ខ្លួនដែលបានបំពេញ"
       all_result_framework_assessment: All Result Framework Assessment
       calls:
         answered_call: ឆ្លើយការហៅទូរស័ព្ទ
@@ -2771,6 +2775,7 @@ km:
         all_csi_assessments: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
         all_custom_csi_assessments: ពិន្ទុកត្តាការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
         assessment_completed_date: កាលបរិច្ឆេទ ការប៉ាន់ប្រមាណដែលបានបំពេញ
+        assessment_custom_completed_date: "កាលបរិច្ឆេទ %{assessment}ផ្ទាល់ខ្លួនដែលបានបំពេញ"
         any_assessments: មានការប៉ាន់ប្រមាណ
         assessments: ការប៉ាន់ប្រមាណ
         assessments_due_to: ដល់ពេលធ្វើការប៉ាន់ប្រមាណ
@@ -2782,6 +2787,7 @@ km:
         carer_name: ឈ្មោះអ្នកថែទាំ
         carer_phone: លេខទូរស័ព្ទអ្នកថែទាំ
         carer_email: អ៊ីមែលអ្នកថែទាំ
+        carer_relationship_to_client: ទំនាក់ទំនងជាមួយអ្នកថែទាំ
         case_note_date: កាលបរិច្ឆេទកំណត់ត្រាករណី
         case_note_type: ប្រភេទកំណត់ត្រាករណី
         case_type: ប្រភេទករណី
@@ -2944,6 +2950,7 @@ km:
         what3words: What3words
       date_of_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណ
       date_of_custom_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
+      date_of_family_assessment: កាលបរិច្ឆេទការប៉ាន់ប្រមាណគ្រួសារ
       exit_circumstance: ស្ថានភាពនៃការចាកចេញ
       exit_note: កំណត់ហេតុនៃការចាកចេញ
       exit_reasons: មូលហេតុនៃការចាកចេញ
@@ -6376,6 +6383,7 @@ km:
     default: អ្នកមិនមានសិទ្ធិគ្រប់គ្រាន់ដើម្បីចូលទេ
     you_cannot_access_this_page: You cannot access this page.
   users:
+    archived_users: អ្នកប្រើដែលបានលុប
     actions:
       are_you_sure: តើអ្នកប្រាកដហើយថាចង់លុប?
     assessment_permission:
@@ -6392,6 +6400,7 @@ km:
       read_more: អានបន្ថែម
     create:
       successfully_created: អ្នកប្រើប្រាស់ត្រូវបានបង្កើតដោយជោគជ័យ
+    current_users: អ្នកប្រើបច្ចុប្បន្ន
     custom_form_permission:
       can_edit: អាចកែបាន
       can_view: អាចមើលបាន
@@ -6505,6 +6514,8 @@ km:
     quantitative_type_permission:
       can_edit: អាចកែបាន
       can_view: អាចមើលបាន
+    restore:
+      successfully_restore: អ្នកប្រើត្រូវបានដាក់ឲ្យប្រើប្រាស់ឡើងវិញដោយជោគជ័យ។
     show:
       add_form: បន្ថែមទម្រង់បែបបទទៅឲ្យអ្នកប្រើប្រាស់
       additional_forms: ទម្រង់បែបបទរបស់អ្នកប្រើប្រាស់

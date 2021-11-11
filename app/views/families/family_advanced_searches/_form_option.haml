@@ -24,7 +24,7 @@
             .form-group#custom-form-data{ data: { value: custom_form_values } }
               = select_tag(:nil, options_for_select(@custom_fields.pluck(:form_title, :id), custom_form_values), { multiple: true, class: 'form-control custom-form-select', id: 'custom-form-select' } )
     .col-xs-12{ class: current_setting.try(:enable_hotline) ? 'col-md-3' : 'col-md-4' }
-      .program-stream-wrapper
+      .program-stream-wrapper{ class: current_setting.hide_family_case_management_tool? && 'hide' }
         .row
           .col-xs-12
             .form-group

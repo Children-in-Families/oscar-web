@@ -76,6 +76,7 @@ module AdvancedSearchHelper
       carer_name: I18n.t('activerecord.attributes.carer.name'),
       carer_phone: I18n.t('activerecord.attributes.carer.phone'),
       carer_email: I18n.t('activerecord.attributes.carer.email'),
+      carer_relationship_to_client: I18n.t('datagrid.columns.clients.carer_relationship_to_client'),
       client_contact_phone: I18n.t('advanced_search.fields.client_contact_phone'),
       address_type: I18n.t('advanced_search.fields.address_type'),
       client_email_address: I18n.t('advanced_search.fields.client_email_address'),
@@ -129,6 +130,7 @@ module AdvancedSearchHelper
       csi_domain_scores: I18n.t('advanced_search.fields.csi_domain_scores'),
       custom_csi_domain_scores: I18n.t('advanced_search.fields.custom_csi_domain_scores'),
       case_note_date: I18n.t('advanced_search.fields.case_note_date'),
+      no_case_note_date: I18n.t('advanced_search.fields.no_case_note_date'),
       case_note_type: I18n.t('advanced_search.fields.case_note_type'),
       date_of_assessments: I18n.t('advanced_search.fields.date_of_assessments', assessment: I18n.t('clients.show.assessment')),
       date_of_referral: I18n.t('advanced_search.fields.date_of_referral'),
@@ -157,6 +159,8 @@ module AdvancedSearchHelper
       time_in_ngo: I18n.t('advanced_search.fields.time_in_ngo'),
       assessment_number: I18n.t('advanced_search.fields.assessment_number', assessment: I18n.t('clients.show.assessment')),
       assessment_completed_date: I18n.t('advanced_search.fields.assessment_completed_date', assessment: I18n.t('clients.show.assessment')),
+      custom_completed_date: I18n.t('advanced_search.fields.assessment_custom_completed_date', assessment: I18n.t('clients.show.assessment')),
+      completed_date: I18n.t('advanced_search.fields.assessment_completed_date', assessment: I18n.t('clients.show.assessment')),
       month_number: I18n.t('advanced_search.fields.month_number'),
       custom_csi_group: I18n.t('advanced_search.fields.custom_csi_group'),
       referral_source_category_id: I18n.t('advanced_search.fields.referral_source_category_id'),
@@ -270,5 +274,30 @@ module AdvancedSearchHelper
     else
       I18n.t("datagrid.columns.clients.#{hotline_field}")
     end
+  end
+
+  def date_query(klass_name, objects, association, field_name)
+    result_objects = objects.joins(association).distinct
+    case @operator
+    when 'equal'
+      results = result_objects.where("date(#{field_name}) = ?", @value.to_date)
+    when 'not_equal'
+      results = klass_name.includes(association).references(association).where("date(#{field_name}) != ? OR #{field} IS NULL", @value.to_date)
+    when 'less'
+      results = result_objects.where("date(#{field_name}) < ?", @value.to_date)
+    when 'less_or_equal'
+      results = result_objects.where("date(#{field_name}) <= ?", @value.to_date)
+    when 'greater'
+      results = result_objects.where("date(#{field_name}) > ?", @value.to_date)
+    when 'greater_or_equal'
+      results = result_objects.where("date(#{field_name}) >= ?", @value.to_date)
+    when 'between'
+      results = result_objects.where("date(#{field_name}) BETWEEN ? AND ? ", @value[0].to_date, @value[1].to_date)
+    when 'is_empty'
+      results = klass_name.includes(association).references(association).where("#{field_name} IS NULL")
+    when 'is_not_empty'
+      results = result_objects.where("#{field_name} IS NOT NULL")
+    end
+    results.ids
   end
 end

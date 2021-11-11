@@ -610,6 +610,10 @@ class ClientGrid < BaseGrid
     object.carer && object.carer.email
   end
 
+  column(:carer_relationship_to_client, header: -> { I18n.t('datagrid.columns.clients.carer_relationship_to_client') }) do |object|
+    object.carer&.client_relationship
+  end
+
   column(:referee_relationship_to_client, header: -> { I18n.t('datagrid.columns.clients.referee_relationship_to_client') }) do |object|
     object.referee_relationship
   end
@@ -989,7 +993,7 @@ class ClientGrid < BaseGrid
     render partial: 'clients/assessments', locals: { object: object.assessments.defaults }
   end
 
-  column(:assessment_completed_date, header: -> { I18n.t('datagrid.columns.clients.assessment_completed_date', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
+  column(:completed_date, header: -> { I18n.t('datagrid.columns.clients.assessment_completed_date', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
     if $param_rules
       basic_rules = $param_rules['basic_rules']
       basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
@@ -997,10 +1001,10 @@ class ClientGrid < BaseGrid
       assessment_completed_sql, assessment_number = assessment_filter_values(results)
       sql = "(assessments.completed = true)".squish
       if assessment_number.present? && assessment_completed_sql.present?
-        assessments = object.assessments.defaults.where(sql).limit(1).offset(assessment_number - 1).order('created_at')
+        assessments = object.assessments.defaults.where(sql).limit(1).offset(assessment_number - 1).order('completed_date')
       elsif assessment_completed_sql.present?
-        sql = assessment_completed_sql[/assessments\.created_at.*/]
-        assessments = object.assessments.defaults.completed.where(sql).order('created_at')
+        sql = assessment_completed_sql[/assessments\.completed_date.*/]
+        assessments = object.assessments.defaults.completed.where(sql).order('completed_date')
       else
         rule = basic_rules['rules'].select {|h| h['id'] == 'date_of_assessments' }.first
         if rule.present?
@@ -1009,12 +1013,12 @@ class ClientGrid < BaseGrid
         else
           assessments = object.assessments.defaults
         end
-        assessments = object.assessments.defaults.completed.where(sql).order('created_at')
+        assessments = object.assessments.defaults.completed.where(sql).order('completed_date')
       end
     else
-      assessments = object.assessments.defaults.order('created_at')
+      assessments = object.assessments.defaults.order('completed_date')
     end
-    render partial: 'clients/assessments', locals: { object: assessments }
+    render partial: 'clients/completed_assessments', locals: { object: assessments }
   end
 
   column(:date_of_referral, header: -> { I18n.t('datagrid.columns.clients.date_of_referral') }, html: true) do |object|
@@ -1025,8 +1029,36 @@ class ClientGrid < BaseGrid
     render partial: 'clients/assessments', locals: { object: object.assessments.customs }
   end
 
+  column(:custom_completed_date, header: -> { I18n.t('datagrid.columns.clients.assessment_custom_completed_date', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
+    if $param_rules
+      basic_rules = $param_rules['basic_rules']
+      basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
+      results = mapping_assessment_query_rules(basic_rules).reject(&:blank?)
+      assessment_completed_sql, assessment_number = assessment_filter_values(results)
+      sql = "(assessments.completed = true)".squish
+      if assessment_number.present? && assessment_completed_sql.present?
+        assessments = object.assessments.customs.where(sql).limit(1).offset(assessment_number - 1).order('completed_date')
+      elsif assessment_completed_sql.present?
+        sql = assessment_completed_sql[/assessments\.completed_date.*/]
+        assessments = object.assessments.customs.completed.where(sql).order('completed_date')
+      else
+        rule = basic_rules['rules'].select {|h| h['id'] == 'date_of_assessments' }.first
+        if rule.present?
+          date_of_assessments_query = date_of_assessments_query_string(rule[:id], rule['field'], rule['operator'], rule['value'])
+          assessments = object.assessments.customs.where(date_of_assessments_query)
+        else
+          assessments = object.assessments.customs
+        end
+        assessments = object.assessments.customs.completed.where(sql).order('completed_date')
+      end
+    else
+      assessments = object.assessments.customs.order('completed_date')
+    end
+    render partial: 'clients/completed_assessments', locals: { object: assessments }
+  end
+
   column(:care_plan_completed_date, header: -> { I18n.t('datagrid.columns.clients.care_plan_completed_date') }, html: true) do |object|
-    render partial: 'clients/care_plans', locals: { object: object.care_plans }
+    render partial: 'shared/care_plans/care_plans', locals: { object: object.care_plans }
   end
 
   column(:care_plan_count, header: -> { I18n.t('datagrid.columns.clients.care_plan_count') }, html: true, class: 'hide') do |object|

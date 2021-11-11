@@ -1,6 +1,7 @@
 module AdvancedSearches
   class ClientAssociationFilter
     include ActionView::Helpers::DateHelper
+    include AdvancedSearchHelper
     include AssessmentHelper
     include FormBuilderHelper
     include ClientsHelper
@@ -32,12 +33,17 @@ module AdvancedSearches
         values = enrolled_program_stream_query
       when 'case_note_date'
         values = advanced_case_note_query
+      when 'no_case_note_date'
+        values = advanced_case_note_query
+        values = @clients.where.not(id: values).ids
       when 'case_note_type'
         values = advanced_case_note_query
       when 'date_of_assessments'
         values = date_of_assessments_query(true)
-      when /assessment_completed|assessment_completed_date/
-        values = date_of_completed_assessments_query(nil)
+      when /assessment_completed|assessment_completed_date|^(completed_date)/
+        values = date_of_completed_assessments_query(true)
+      when 'custom_completed_date'
+        values = date_of_completed_assessments_query(false)
       when 'date_of_custom_assessments'
         values = date_of_assessments_query(false)
       when 'accepted_date'
@@ -81,11 +87,13 @@ module AdvancedSearches
       when 'referee_email'
         values = referee_email_query
       when 'carer_name'
-        values = carer_name_query
+        values = carer_query('name')
       when 'carer_phone'
-        values = carer_phone_query
+        values = carer_query('phone')
       when 'carer_email'
-        values = carer_email_query
+        values = carer_query('email')
+      when 'carer_relationship_to_client'
+        values = carer_query('client_relationship')
       when 'client_contact_phone'
         values = client_contact_phone_query
       when 'client_email_address'
@@ -364,23 +372,23 @@ module AdvancedSearches
       clients = @clients.joins(:assessments).where(assessments: { completed: true, default: type })
       case @operator
       when 'equal'
-        clients = clients.where('date(assessments.created_at) = ?', @value.to_date)
+        clients = clients.where('date(assessments.completed_date) = ?', @value.to_date)
       when 'not_equal'
-        clients = clients.where("date(assessments.created_at) != ? OR assessments.created_at IS NULL", @value.to_date)
+        clients = clients.where("date(assessments.completed_date) != ? OR assessments.completed_date IS NULL", @value.to_date)
       when 'less'
-        clients = clients.where('date(assessments.created_at) < ?', @value.to_date)
+        clients = clients.where('date(assessments.completed_date) < ?', @value.to_date)
       when 'less_or_equal'
-        clients = clients.where('date(assessments.created_at) <= ?', @value.to_date)
+        clients = clients.where('date(assessments.completed_date) <= ?', @value.to_date)
       when 'greater'
-        clients = clients.where('date(assessments.created_at) > ?', @value.to_date)
+        clients = clients.where('date(assessments.completed_date) > ?', @value.to_date)
       when 'greater_or_equal'
-        clients = clients.where('date(assessments.created_at) >= ?', @value.to_date)
+        clients = clients.where('date(assessments.completed_date) >= ?', @value.to_date)
       when 'between'
-        clients = clients.where('date(assessments.created_at) BETWEEN ? AND ? ', @value[0].to_date, @value[1].to_date)
+        clients = clients.where('date(assessments.completed_date) BETWEEN ? AND ? ', @value[0].to_date, @value[1].to_date)
       when 'is_empty'
-        clients = @clients.includes(:assessments).where(assessments: { completed: true, created_at: nil, default: type })
+        clients = @clients.includes(:assessments).where(assessments: { completed: true, completed_date: nil, default: type }).references(:assessments)
       when 'is_not_empty'
-        clients = clients.where(assessments: { default: type }).where.not(assessments: { created_at: nil })
+        clients = clients.where(assessments: { default: type }).where.not(assessments: { completed_date: nil })
       end
       clients.ids
     end
@@ -486,7 +494,7 @@ module AdvancedSearches
 
       @basic_rules  = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
       basic_rules   = @basic_rules.is_a?(Hash) ? @basic_rules : JSON.parse(@basic_rules).with_indifferent_access
-      results       = mapping_allowed_param_value(basic_rules, ['case_note_date', 'case_note_type'], data_mapping=[])
+      results       = mapping_allowed_param_value(basic_rules, ['no_case_note_date', 'case_note_date', 'case_note_type'], data_mapping=[])
       query_string  = get_any_query_string(results, 'case_notes')
       sql           = query_string.reject(&:blank?).map{|query| "(#{query})" }.join(" #{basic_rules[:condition]} ")
       clients       = Client.joins('LEFT OUTER JOIN case_notes ON case_notes.client_id = clients.id')
@@ -829,58 +837,20 @@ module AdvancedSearches
       clients = client_ids.present? ? client_ids : []
     end
 
-    def carer_name_query
+    def carer_query(field)
       case @operator
       when 'equal'
-        client_ids = @clients.joins(:carer).where("lower(carers.name) = ?", @value.downcase).ids
+        client_ids = @clients.joins(:carer).where("lower(carers.#{field}) = ?", @value.downcase).ids
       when 'not_equal'
-        client_ids = @clients.joins(:carer).where.not("lower(carers.name) = ?", @value.downcase).ids
+        client_ids = @clients.includes(:carer).where("lower(carers.#{field}) != ? OR carers.#{field} IS NULL", @value.downcase).references(:carer).ids
       when 'contains'
-        client_ids = @clients.joins(:carer).where("lower(carers.name) iLike ?", "%#{@value.downcase}%").ids
+        client_ids = @clients.joins(:carer).where("lower(carers.#{field}) iLike ?", "%#{@value.downcase}%").ids
       when 'not_contains'
-        client_ids = @clients.joins(:carer).where("lower(carers.name) NOT iLike ?", "%#{@value.downcase}%").ids
+        client_ids = @clients.includes(:carer).where("lower(carers.#{field}) NOT iLike ?", "%#{@value.downcase}%").references(:carer).ids
       when 'is_empty'
-        client_ids = @clients.joins(:carer).where("carers.name = ?", "").ids
+        client_ids = @clients.includes(:carer).where("carers.#{field} = ? OR carers.#{field} IS NULL", "").references(:carer).ids
       when 'is_not_empty'
-        client_ids = @clients.joins(:carer).where.not("carers.name = ?", "").ids
-      end
-
-      clients = client_ids.present? ? client_ids : []
-    end
-
-    def carer_phone_query
-      case @operator
-      when 'equal'
-        client_ids = @clients.joins(:carer).where("lower(carers.phone) = ?", @value.downcase).ids
-      when 'not_equal'
-        client_ids = @clients.joins(:carer).where.not("lower(carers.phone) = ?", @value.downcase).ids
-      when 'contains'
-        client_ids = @clients.joins(:carer).where("lower(carers.phone) iLike ?", "%#{@value.downcase}%").ids
-      when 'not_contains'
-        client_ids = @clients.joins(:carer).where("lower(carers.phone) NOT iLike ?", "%#{@value.downcase}%").ids
-      when 'is_empty'
-        client_ids = @clients.joins(:carer).where("carers.phone = ?", "").ids
-      when 'is_not_empty'
-        client_ids = @clients.joins(:carer).where.not("carers.phone = ?", "").ids
-      end
-
-      clients = client_ids.present? ? client_ids : []
-    end
-
-    def carer_email_query
-      case @operator
-      when 'equal'
-        client_ids = @clients.joins(:carer).where("lower(carers.email) = ?", @value.downcase).ids
-      when 'not_equal'
-        client_ids = @clients.joins(:carer).where.not("lower(carers.email) = ?", @value.downcase).ids
-      when 'contains'
-        client_ids = @clients.joins(:carer).where("lower(carers.email) iLike ?", "%#{@value.downcase}%").ids
-      when 'not_contains'
-        client_ids = @clients.joins(:carer).where("lower(carers.email) NOT iLike ?", "%#{@value.downcase}%").ids
-      when 'is_empty'
-        client_ids = @clients.joins(:carer).where("carers.email = ?", "").ids
-      when 'is_not_empty'
-        client_ids = @clients.joins(:carer).where.not("carers.email = ?", "").ids
+        client_ids = @clients.joins(:carer).where.not("carers.#{field} = ?", "").ids
       end
 
       clients = client_ids.present? ? client_ids : []
