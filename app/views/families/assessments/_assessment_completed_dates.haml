@@ -1,0 +1,10 @@
+- if params[:data] == 'recent' && object
+  - recent_record = object.latest_record.try(:completed_date)
+  - if recent_record.present?
+    %ul{'data-date_of_assessments': '' }
+      %li= date_format(recent_record)
+- else
+  - if object.present?
+    %ul{'data-date_of_assessments': '' }
+      - date_filter(object, 'completed_date').each do |assessment|
+        %li= date_format(assessment.completed_date)

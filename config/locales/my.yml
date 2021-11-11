@@ -2617,8 +2617,8 @@ my:
       all_csi_assessments: အားလုံးအကဲဖြတ်
       all_custom_csi_assessments: Custom စိစစ္အကဲျဖတ္မႈမ်ားအားလံုး
       all_result_framework_assessment: All Result Framework Assessment
-      assessment_completed_date: "%{assessment} Completed Date"
       assessment_completed_date: ျပဳလုပ္သည့္ ရက္စြဲ အကဲဖြတ်အပေါ်ပြီးစီး
+      assessment_custom_completed_date: "Custom %{assessment} Completed Date"
       calls:
         answered_call: Answer Call
         brief_note_summary: Brief Note Summary
@@ -2741,6 +2741,7 @@ my:
         all_custom_csi_assessments: Custom စိစစ္အကဲျဖတ္မႈမ်ားအားလံုး
         any_assessments: စိစစ္အကဲျဖတ္မႈရွိသည္
         assessment_completed_date: ျပဳလုပ္သည့္ ရက္စြဲ အကဲဖြတ်အပေါ်ပြီးစီး
+        assessment_custom_completed_date: "Custom %{assessment} Completed Date"
         assessments: စိစစ္အကဲျဖတ္မႈမ်ား
         assessments_due_to: လုပ္ရေတာ့မည္ စိစစ္အကဲျဖတ္မႈမ်ား
         birth_province: ေမြးရာ ခ႐ိုင္
