@@ -1,18 +1,19 @@
 class UsersController < AdminController
   load_and_authorize_resource
 
-  before_action :find_user, only: [:show, :edit, :update, :destroy]
+  before_action :find_user, only: [:show, :edit, :update, :destroy, :restore]
   before_action :find_association, except: [:index, :destroy, :version]
 
   def index
     @user_grid = UserGrid.new(params[:user_grid])
+    @archived_users = User.deleted_users
     respond_to do |f|
       f.html do
-        @results = @user_grid.scope { |scope| scope.deleted_user.accessible_by(current_ability) }.assets.size
-        @user_grid.scope { |scope| scope.deleted_user.accessible_by(current_ability).page(params[:page]).per(20) }
+        @results = @user_grid.scope { |scope| scope.without_deleted_users.accessible_by(current_ability) }.assets.size
+        @user_grid.scope { |scope| scope.without_deleted_users.accessible_by(current_ability).page(params[:page]).per(20) }
       end
       f.xls do
-        @user_grid.scope { |scope| scope.deleted_user.accessible_by(current_ability) }
+        @user_grid.scope { |scope| scope.without_deleted_users.accessible_by(current_ability) }
         send_data @user_grid.to_xls, filename: "user_report-#{Time.now}.xls"
       end
     end
@@ -93,6 +94,16 @@ class UsersController < AdminController
     redirect_to users_path, notice: t('.successfully_disable')
   end
 
+  def restore
+    authorize(current_user, :restore?)
+    if @user.update(disable: false, deleted_at: nil)
+      redirect_to users_url, notice: t('.successfully_restore')
+    else
+      redirect_to users_url, alert: t('.alert')
+    end
+  end
+
+
   private
 
   def user_params
@@ -108,7 +119,7 @@ class UsersController < AdminController
   end
 
   def find_user
-    @user = User.find(params[:id])
+    @user = User.find(params[:id] || params[:user_id])
   end
 
   def find_association

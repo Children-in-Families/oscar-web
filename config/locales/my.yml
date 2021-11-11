@@ -6367,6 +6367,7 @@ my:
     default: ဤစာမ်က္ႏွာကို ၀င္ေရာက္ရန္ အခြင့္မရွိပါ
     you_cannot_access_this_page: You cannot access this page.
   users:
+    archived_users: Archived Users
     actions:
       are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
     assessment_permission:
@@ -6383,6 +6384,7 @@ my:
       read_more: ဆက်ဖတ်ရန်
     create:
       successfully_created: အသံုးျပဳသူကို ေအာင္ျမင္စြာ ဖန္တီးၿပီးျဖစ္ပါသည္
+    current_users: Current Users
     custom_form_permission:
       can_edit: ျပင္ဆင္ႏုိင္ပါသည္။
       can_view: ၾကည့္႐ႈႏုိင္ပါသည္။
@@ -6496,6 +6498,8 @@ my:
     quantitative_type_permission:
       can_edit: ျပင္ဆင္ႏုိင္ပါသည္။
       can_view: ၾကည့္႐ႈႏုိင္ပါသည္။
+    restore:
+      successfully_restore: အသုံးပြုသူကိုအောင်မြင်စွာပြန်လည်ရယူပြီးပါပြီ
     show:
       add_form: ပံုစံ ထည့္သည္
       additional_forms: ထပ္ေဆာင္းပံုစံမ်ား
