@@ -1546,7 +1546,6 @@ en:
   clients:
     attr: &LEGAL_DOC_ATTR
       add_service_received: Add Services Received
-      birth_cert: 'Birth Certificate'
       complain: Complaint
       detail_form_of_judicial_police: Detailed Form for Identification of Victim of Human Trafficking (Judicial Police)
       detail_form_of_mosavy_dosavy: Detailed Form for Identification of Victim of Human Trafficking (MoSAVY/DoSAVY)
@@ -1555,19 +1554,13 @@ en:
       form_indentification: Forms for Identification of Victim of Human Trafficking
       indentification_doc: Identification Documents
       labor_trafficking_legal_doc_option: Labour Trafficking
-      legal_documents: Legal Documentations
       legal_processing_doc: Legal Proceeding Documents
       letter_from_immigration_police: Letter from Immigration Police
-      local_consent: 'Legal consent'
       mosavy: MoSAVY
       mosvy_number: MoSVY Number
       msdhs: MSDHS
-      national_id: 'National ID'
       ngo_partner: NGO Partner
-      other_legal_doc: 'Others'
       other_legal_doc_option: Other
-      passport: 'Passport'
-      police_interview: 'Police interview'
       referral_document: Referral Documents
       screening_interview_form: Screening Interview Form
       sex_trafficking_legal_doc_option: Sexual Trafficking
@@ -1585,6 +1578,13 @@ en:
         commune: Address - Commune/Sangkat
         current_province: Current Province
         district: Address - District/Khan
+        house_number: Address - House#
+        street_number: Address - Street
+        village: Address - Village
+      haiti_address_form:
+        commune: Arrondisement
+        current_province: Current Department
+        district: Address - Arrondisement
         house_number: Address - House#
         street_number: Address - Street
         village: Address - Village
@@ -1617,6 +1617,7 @@ en:
       export_to_xls: Export to XLS
     book:
       book: Client Book For
+    care_plan: Care plan
     case_history_detail:
       accepted_date: NGO Accept Date
       client: Client
@@ -1639,7 +1640,6 @@ en:
       referral_reasons: Referral Reasons
       referred_from: Referred from External Organisation
       referred_to: Referred to External Organisation
-    care_plan: Care plan
     client_advanced_searches:
       advanced_search:
         add_custom_group: Add Assessment Filter
@@ -1813,12 +1813,14 @@ en:
       type_of_trafficking: Type of Trafficking
       education_background: Education Background
       department: Ratanak Team
+      legal_documents: Legal Documentations
       able: Able
       able_state: Able State
       address: Address
       agencies_involved: Other Agencies Involved
       agency_names: Agency Name
       answer: Answer
+      birth_cert: 'Birth Certificate'
       birth_province: Client Birth Province
       blank: can't be blank
       brsc_branch: BRCS Branch
@@ -1898,14 +1900,19 @@ en:
       island2: Island
       kid_id: Custom ID Number2
       live_with: Primary Carer Name
+      local_consent: 'Legal consent'
       local_family_name: Family Name
       local_given_name: Given Name
       name: Name
+      national_id: 'National ID'
       next: Next
+      other_legal_doc: 'Others'
       other_phone_number: Phone Number - Alternate
       other_phone_whatsapp: Whatsapp? (Phone Number - Alternate)
+      passport: 'Passport'
       phone_owner: Phone Owner
       po_box2: PO Box
+      police_interview: 'Police interview'
       preferred_language: Preferred Language
       presented_id: Presented ID
       previous: Previous
@@ -2975,7 +2982,7 @@ en:
         village_kh: Address - Village (Khmer)
         what3words: What3words
       date_of_assessments: "%{assessment} Created At"
-      date_of_custom_assessments: "%{assessment} Created At"
+      date_of_custom_assessments: "Custom %{assessment} Created At"
       date_of_family_assessment: Date of Family Assessment
       exit_circumstance: Exit Circumstance
       exit_note: NGO Exit Note
@@ -2987,8 +2994,6 @@ en:
         care_plan_count: Number of Care Plan
         care_plan_completed_date: Care Plan Completed Date
         case_history: Case History
-        case_note_date: Case Note Date
-        case_note_type: Case Note Type
         case_worker_name: Case Worker Name
         case_workers: Case Workers
         case_worker_ids: Case Worker/Staff Assigned
