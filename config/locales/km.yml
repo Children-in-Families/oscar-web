@@ -181,8 +181,13 @@ km:
         relation: តួនាទីក្នុងគ្រួសារ
       referee:
         referee_address: ឣាសយដ្ឋាន
+    create:
+      failed_create: បង្កើតបរាជ័យ
+      successfully_created: បង្កើតដោយជោគជ័យ
     default:
       blank: មិនអាចរំលង
+    destroy:
+      successfully_deleted: លុបដោយជោគជ័យ
     errors:
       models:
         able_screening_question:
@@ -427,6 +432,8 @@ km:
               wrong_length: ត្រូវតែមាន៥តួ
             roles:
               blank: មិនអាចរំលង
+    update:
+      successfully_updated: កែសម្រួលដោយជោគជ័យ
   add_event_success: ព្រឹត្តិការណ៍ត្រូវបានបន្ថែមទៅក្នុងប្រតិទិនដោយជោគជ័យ
   advanced_search:
     fields:

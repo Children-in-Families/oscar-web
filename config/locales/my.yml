@@ -175,8 +175,13 @@ my:
         relation: Role in Family
       referee:
         referee_address: Address
+    create:
+      failed_create: Failed to create
+      successfully_created: Successfully created.
     default:
       blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+    destroy:
+      successfully_deleted: Successfully deleted.
     errors:
       models:
         able_screening_question:
@@ -421,6 +426,8 @@ my:
               wrong_length: 5 ဇာတ်ကောင်ဖြစ်ရပါမည်
             roles:
               blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+    update:
+      successfully_updated: Successfully updated.
   add_event_success: ပြဲကို ျပကၡဒိန္ထဲသုိ႔ ေအာင္ျမင္စြာ ထည့္သြင္းၿပီးပါၿပီ။
   advanced_search:
     fields:
