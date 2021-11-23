@@ -64,7 +64,7 @@ class FamiliesController < AdminController
     @family.case_management_record = !current_setting.hide_family_case_management_tool?
 
     if @family.save
-      redirect_to @family, notice: t('.successfully_created')
+      redirect_to @family, notice: t('activerecord.create.failed_create')
     else
       @selected_children = family_params[:children]
       render :new
@@ -90,7 +90,7 @@ class FamiliesController < AdminController
   def update
     @family.case_management_record = !current_setting.hide_family_case_management_tool?
     if @family.update_attributes(family_params)
-      redirect_to @family, notice: t('.successfully_updated')
+      redirect_to @family, notice: t('activerecord.update.successfully_updated')
     else
       render :edit
     end
@@ -100,7 +100,7 @@ class FamiliesController < AdminController
     @family.case_worker_families.with_deleted.each(&:destroy_fully!)
     if @family.current_clients.blank? && (@family.cases.present? && @family.cases.delete_all || true) && @family.destroy
       Task.with_deleted.where(family_id: @family.id).each(&:destroy_fully!)
-      redirect_to families_url, notice: t('.successfully_deleted')
+      redirect_to families_url, notice: t('activerecord.destroy.successfully_deleted')
     else
       redirect_to family_path(@family), alert: t('.alert')
     end
