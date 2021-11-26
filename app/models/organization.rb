@@ -147,6 +147,12 @@ class Organization < ActiveRecord::Base
     end
   end
 
+  def integrated_date
+    date_of_integration = versions.find_by("object_changes = ?", "---\nintegrated:\n- false\n- true\n")&.created_at
+    date_of_integration && date_of_integration.strftime("%d %B %Y")
+  end
+
+
   private
 
   def upsert_referral_source_category
