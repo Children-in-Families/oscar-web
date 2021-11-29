@@ -69,6 +69,7 @@ module AdvancedSearchHelper
 
   def format_header(key)
     translations = {
+      family_type: I18n.t('datagrid.columns.families.family_type'),
       given_name: I18n.t('advanced_search.fields.given_name'),
       family_name: I18n.t('advanced_search.fields.family_name'),
       local_given_name: "#{I18n.t('advanced_search.fields.local_given_name')} #{country_scope_label_translation}",

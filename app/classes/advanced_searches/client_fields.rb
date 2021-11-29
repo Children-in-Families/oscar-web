@@ -105,7 +105,8 @@ module AdvancedSearches
         ['type_of_service', get_type_of_services],
         ['referee_relationship', get_sql_referee_relationship],
         ['address_type', get_sql_address_types],
-        ['phone_owner', get_sql_phone_owner]
+        ['phone_owner', get_sql_phone_owner],
+        ['family_type', family_type_list]
       ].compact
     end
 
@@ -269,6 +270,10 @@ module AdvancedSearches
 
     def get_sql_phone_owner
       [Client::PHONE_OWNERS, I18n.t('default_client_fields.phone_owner').values].transpose.to_h
+    end
+
+    def family_type_list
+      Family.mapping_family_type_translation.to_h
     end
   end
 end

@@ -981,6 +981,10 @@ class ClientGrid < BaseGrid
     object.family.try(:name)
   end
 
+  column(:family_type, order: false, header: -> { I18n.t('datagrid.columns.families.family_type') }) do |object|
+    object.family.try(:family_type)
+  end
+
   column(:case_note_date, header: -> { I18n.t('datagrid.columns.clients.case_note_date')}, html: true) do |object|
     render partial: 'clients/case_note_date', locals: { object: object }
   end

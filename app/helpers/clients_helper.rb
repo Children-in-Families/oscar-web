@@ -109,6 +109,7 @@ module ClientsHelper
 
   def label_translations
     labels = {
+      family_type: I18n.t('datagrid.columns.families.family_type'),
       legal_documents: t('clients.show.legal_documents'),
       passport_number: t('datagrid.columns.clients.passport_number'),
       national_id_number: t('datagrid.columns.clients.national_id_number'),

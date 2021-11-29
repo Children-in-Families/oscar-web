@@ -24,7 +24,9 @@ module AdvancedSearches
       when 'family_id'
         values = family_id_field_query
       when 'family'
-        values = family_name_field_query
+        values = family_field_query('name')
+      when 'famiy_type'
+        values = family_field_query('family_type')
       when 'age'
         values = age_field_query
       when 'active_program_stream'
@@ -615,16 +617,16 @@ module AdvancedSearches
       clients = client_ids.present? ? client_ids : []
     end
 
-    def family_name_field_query
+    def family_field_query(field_name)
       case @operator
       when 'equal'
-        client_ids = @clients.joins(family_members: :family).where("lower(families.name) = ?", @value.downcase).ids
+        client_ids = @clients.joins(family_members: :family).where("lower(families.#{field_name}) = ?", @value.downcase).ids
       when 'not_equal'
-        client_ids = Client.joins(family_members: :family).where("lower(families.name) = ?) OR family_members.family_id IS NULL", @value.downcase).ids
+        client_ids = Client.joins(family_members: :family).where("lower(families.#{field_name}) = ?) OR family_members.family_id IS NULL", @value.downcase).ids
       when 'contains'
-        client_ids = @clients.joins(family_members: :family).where("lower(families.name) iLike ?", "%#{@value.downcase}%").ids
+        client_ids = @clients.joins(family_members: :family).where("lower(families.#{field_name}) iLike ?", "%#{@value.downcase}%").ids
       when 'not_contains'
-        client_ids = @clients.joins(family_members: :family).where("lower(families.name) NOT iLike ? OR family_members.family_id IS NULL", "%#{@value.downcase}%").ids
+        client_ids = @clients.joins(family_members: :family).where("lower(families.#{field_name}) NOT iLike ? OR family_members.family_id IS NULL", "%#{@value.downcase}%").ids
       when 'is_empty'
         client_ids = @clients.includes(:family_members).references(:family_members).where("family_members.family_id IS NULL").ids
       when 'is_not_empty'
