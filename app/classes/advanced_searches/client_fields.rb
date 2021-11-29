@@ -264,7 +264,7 @@ module AdvancedSearches
     end
 
     def family_type_list
-      [I18n.backend.send(:translations)[:en][:default_family_fields][:family_type_list].values, I18n.t('default_family_fields.family_type_list').values].transpose.to_h
+      Family.mapping_family_type_translation.to_h
     end
   end
 end
