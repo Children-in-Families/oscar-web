@@ -197,6 +197,10 @@
               = label_tag 'family_id_', t('datagrid.columns.family_id')
           %li
             .visibility.col-sm-12
+              = check_box_tag 'family_type_', 'family', checked = saved_search_column_visibility('family_type_'), class: 'i-checks'
+              = label_tag 'family_type_', t('datagrid.columns.families.family_type')
+          %li
+            .visibility.col-sm-12
               = check_box_tag 'case_note_date_', 'case_note_date', checked = saved_search_column_visibility('case_note_date_'), class: 'i-checks'
               = label_tag 'case_note_date_', t('datagrid.columns.case_note_date')
           %li
