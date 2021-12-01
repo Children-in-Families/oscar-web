@@ -330,4 +330,13 @@ module AssessmentHelper
       end
     end
   end
+
+  def find_custom_assessment_setting
+    CustomAssessmentSetting.find_by(custom_assessment_name: params[:custom_name])
+  end
+
+  def any_family_domain?
+    Domain.where(domain_type: 'family').any?
+  end
+
 end
