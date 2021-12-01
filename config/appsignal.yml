@@ -4,7 +4,7 @@ default: &defaults
   push_api_key: "<%= ENV['APPSIGNAL_PUSH_API_KEY'] %>"
 
   # Your app's name
-  name: "cif"
+  name: "OSCaR"
 
   ignore_errors:
     - Apartment::TenantNotFound
