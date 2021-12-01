@@ -279,12 +279,12 @@ class NgoUsageReport
   end
 
   def cross_ngo_referrals_info(beginning_of_month, end_of_month)
-    referrals = Referral.where(created_at: beginning_of_month..end_of_month).where.not(referred_to: 'MoSVY External System')
+    referrals = Referral.delivered.where(created_at: beginning_of_month..end_of_month).where.not(referred_to: 'MoSVY External System')
     clients = Client.where(id: referrals.pluck(:client_id))
     {
       number_of_referrals: referrals.count,
       adult_females: adule_client_gender_count(clients, :female),
-      adult_males: adule_client_gender_count(clients, :female),
+      adult_males: adule_client_gender_count(clients),
       girls: under_18_client_gender_count(clients, :female),
       boys: under_18_client_gender_count(clients),
       others: other_client_gender_count(clients),
