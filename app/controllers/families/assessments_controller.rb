@@ -7,7 +7,6 @@ module Families
     before_action :find_family
     before_action :find_assessment, only: [:edit, :update, :show, :destroy]
     before_action :find_custom_assessment_setting, :authorize_client, only: [:new, :create]
-    before_action :authorize_assessment, only: [:show, :edit, :update]
     before_action :fetch_available_custom_domains, only: :index
 
     def index
@@ -30,6 +29,7 @@ module Families
     end
 
     def create
+      authorize_client
       @assessment = @family.assessments.new(assessment_params)
 
       @assessment.default = params[:default]
