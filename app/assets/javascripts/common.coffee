@@ -11,6 +11,7 @@ CIF.Common =
     @preventEditOnDatePicker()
     @confirmOnCancelBotton()
     @iCheckClearOptionSelect()
+    @printDiv()
 
   preventEditOnDatePicker: ->
     $('.date-picker').datepicker
@@ -154,3 +155,10 @@ CIF.Common =
           return
       , 0)
     )
+
+  printDiv: ->
+    $('.case-note-printable').on 'click', ->
+      caseNoteId = $(@).data('case-note-id')
+      debugger;
+      $("##{caseNoteId}").print()
+    return
