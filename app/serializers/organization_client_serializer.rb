@@ -46,7 +46,7 @@ class OrganizationClientSerializer < ActiveModel::Serializer
       end
     end.compact.flatten.uniq
 
-    Service.where(id: list_referrals&.service_ids || []).map do |service|
+    Service.where(id: list_referrals.map(&:service_ids).flatten || []).map do |service|
       service_types << {
         program_name: nil,
         enrollment_date: nil,
