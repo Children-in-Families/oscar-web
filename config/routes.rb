@@ -101,6 +101,8 @@ Rails.application.routes.draw do
   get '/data_trackers' => 'data_trackers#index'
   get 'clients/:client_id/book' => 'client_books#index', as: 'client_books'
 
+  get 'referrals/:id' => 'referrals#show', as: 'referral'
+
   resources :clients do
     resources :referrals
     resources :internal_referrals
