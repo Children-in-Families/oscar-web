@@ -47,7 +47,7 @@
                 .btn.btn-block.btn-default.button.disabled
                   = "#{t('assessments.index.begin_now')} #{t('families.family_assessment')}"
 
-        - if @current_setting.enable_custom_assessment? || completed_initial_assessment?('defaults', 'family')
+        - elsif @current_setting.enable_custom_assessment? || completed_initial_assessment?('defaults', 'family')
           .row.margin-row
             .col-xs-12.col-sm-8
               %h5
