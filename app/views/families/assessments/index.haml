@@ -39,12 +39,8 @@
                     = date_format(Date.today)
 
             .col-xs-12.col-sm-4
-              - if policy(@custom_assessment).create?()
-                = link_to new_family_assessment_path(@family, default: false) do
-                  .btn.btn-block.btn-primary.button
-                    = "#{t('assessments.index.begin_now')} #{t('families.family_assessment')}"
-              - else
-                .btn.btn-block.btn-default.button.disabled
+              = link_to new_family_assessment_path(@family, default: false) do
+                .btn.btn-block.btn-primary.button
                   = "#{t('assessments.index.begin_now')} #{t('families.family_assessment')}"
 
         - elsif @current_setting.enable_custom_assessment? || completed_initial_assessment?('defaults', 'family')
@@ -67,7 +63,7 @@
 
             .col-xs-12.col-sm-4.m-b-sm
               - if any_family_domain?
-                - if policy(@custom_assessment).create? || @family.assessments.count.zero?
+                - if @family.assessments.count.zero?
                   = link_to new_family_assessment_path(@family, default: false, custom_name: 'Family Assessment'), class: 'btn btn-block btn-primary button' do
                     - if Organization.ratanak?
                       = "#{t('assessments.index.begin_now')} #{t('clients.show.custom_assessment', assessment: t('families.family_assessment'))}"
