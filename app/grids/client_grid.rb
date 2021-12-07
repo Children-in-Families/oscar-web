@@ -618,7 +618,7 @@ class ClientGrid < BaseGrid
     object.referee_relationship
   end
 
-  column(:client_contact_phone, header: -> { I18n.t('datagrid.columns.clients.client_contact_phone') }) do |object|
+  column(:client_phone, header: -> { I18n.t('datagrid.columns.clients.client_phone') }) do |object|
     object.client_phone
   end
 
