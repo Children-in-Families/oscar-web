@@ -1,3 +1,81 @@
 .row
   .col-xs-12
-    %h1 Case Note Form
+    %h2.text-center
+      %strong  Case Note Form
+.row
+  .col-xs-6
+    %table.table.small.m-b-xs
+      %tr
+        %td.spacing-first-col
+          %strong Client’s Name:
+        %td
+          Sok Sideth
+      %tr
+        %td
+          %strong Visitation Date:
+        %td
+          26-Nov-2021
+      %tr
+        %td
+          %strong Case Note created by:
+        %td Bun Chanvirak
+
+  .col-xs-6
+    %table.table.small.m-b-xs
+      %tr
+        %td
+          %strong ID:
+        %td harp-0082
+      %tr
+        %td
+          %strong Type:
+        %td Non-face-to-face
+      %tr
+        %td
+          %strong Case Note on:
+        %td 26-Nov-2021
+  .col-xs-12
+    %strong Who was there during the visit or conversation?: Sokk Sideth, Brak Chantrea, Bun Chanvirak (Dynamics)
+
+.row.m-t-md
+  .col-xs-12
+    .panel.panel-default
+      .panel-heading
+        %h4= t('.note')
+      .panel-body
+        %p= case_note.note
+
+.row.m-t-md
+  .col-xs-12
+    .panel.panel-default
+      .panel-heading
+        %h4= t('.tasks')
+      .panel-body
+        %table.table
+          %th= t('.completed_tasks')
+          %th Expected Date:
+          %tbody
+            - case_note.tasks.completed.each do |task|
+              %tr
+                %td= task.name
+                %td= date_format task.completion_date
+        - if case_note.tasks.today_incomplete.any?
+          %table.table
+            %th= t('tasks.task_added')
+            %th Completed Date:
+            %tbody
+              - case_note.tasks.today_incomplete.each do |task|
+                %tr
+                  %td= task.name
+                  %td= date_format task.completion_date
+.row
+  .col-xs-12
+    %h4
+      %strong= t('.attachments')
+    %ul
+      - case_note.case_note_domain_groups.each do |cdg|
+        - next if cdg.attachments.blank?
+        - attachment_names = cdg.attachments.map{|a| a.file.path.split('/').last }
+        - next if file_names.exclude? attachment_names
+        - file_names.delete(attachment_names)
+        %li= render 'attachment', cdg: cdg

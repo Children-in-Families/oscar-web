@@ -58,15 +58,15 @@
                   %h4
                     = t('shared.x_on', x: t('clients.form.case_note'))
                     = date_format(case_note.meeting_date) if case_note.meeting_date
-                    = link_to '#', class: 'btn btn-warning case-note-printable', data: { case_note_id: "case-note-#{case_note.id}" } do
+                    = link_to '#', class: 'btn btn-warning printable-button', data: { printable_id: "printable-case-note-#{case_note.id}" } do
                       = fa_icon 'print'
                     - if (can? :edit?, CaseNote)
                       - cdg = case_note.case_note_domain_groups.first
                       = edit_link(@client, case_note, cdg)
                     - if current_user.admin?
                       = destroy_link(@client, case_note)
-            %div{ id: "case-note-#{case_note.id}" }
-              = render 'shared/printable_case_note', local: { case_note: case_note }
+            %div{ id: "printable-case-note-#{case_note.id}" }
+              = render 'shared/printable_case_note', case_note: case_note
             .panel-body
               - if case_note.note.present?
                 .row

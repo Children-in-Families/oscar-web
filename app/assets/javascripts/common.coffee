@@ -157,8 +157,7 @@ CIF.Common =
     )
 
   printDiv: ->
-    $('.case-note-printable').on 'click', ->
-      caseNoteId = $(@).data('case-note-id')
-      debugger;
-      $("##{caseNoteId}").print()
+    $('.printable-button').on 'click', ->
+      printableId = $(@).data('printable-id')
+      $("##{printableId}").print()
     return
