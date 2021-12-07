@@ -18,4 +18,4 @@
   %label.control-label{:for => "government_form_client_code"}= 'លេខកូដកុមារ'
   .input-group
     .input-group-addon#government_form_client_code_prefixed
-    = f.text_field :client_code, type: 'text', class: 'form-control', name: 'government_form[client_code]', id: 'government_form_client_code', maxlength: 2, value: @government_form.client_code.last(2)
+    = f.text_field :client_code, type: 'text', class: 'form-control', name: 'government_form[client_code]', id: 'government_form_client_code', maxlength: 4, value: @government_form.client_code.last(4)
