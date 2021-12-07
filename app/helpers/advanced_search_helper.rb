@@ -79,7 +79,7 @@ module AdvancedSearchHelper
       carer_phone: I18n.t('activerecord.attributes.carer.phone'),
       carer_email: I18n.t('activerecord.attributes.carer.email'),
       carer_relationship_to_client: I18n.t('datagrid.columns.clients.carer_relationship_to_client'),
-      client_contact_phone: I18n.t('advanced_search.fields.client_contact_phone'),
+      client_phone: I18n.t('datagrid.columns.clients.client_phone'),
       address_type: I18n.t('advanced_search.fields.address_type'),
       client_email_address: I18n.t('advanced_search.fields.client_email_address'),
       code: custom_id_translation('custom_id1'),

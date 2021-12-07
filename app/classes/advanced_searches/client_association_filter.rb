@@ -96,8 +96,8 @@ module AdvancedSearches
         values = carer_query('email')
       when 'carer_relationship_to_client'
         values = carer_query('client_relationship')
-      when 'client_contact_phone'
-        values = client_contact_phone_query
+      when 'client_phone'
+        values = client_phone_query
       when 'client_email_address'
         values = client_email_address_query
       when 'phone_owner'
@@ -858,7 +858,7 @@ module AdvancedSearches
       clients = client_ids.present? ? client_ids : []
     end
 
-    def client_contact_phone_query
+    def client_phone_query
       case @operator
       when 'equal'
         client_ids = @clients.where("client_phone = ?", @value.downcase).ids

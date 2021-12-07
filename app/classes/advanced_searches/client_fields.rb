@@ -50,7 +50,7 @@ module AdvancedSearches
         'given_name', 'family_name',
         'local_given_name', 'local_family_name', 'family', 'slug', 'school_name',
         'other_info_of_exit', 'exit_note', 'main_school_contact', 'what3words', 'kid_id', 'code',
-        'client_contact_phone', 'client_email_address', *setting_country_fields[:text_fields]
+        'client_phone', 'client_email_address', *setting_country_fields[:text_fields]
       ].compact
     end
 
