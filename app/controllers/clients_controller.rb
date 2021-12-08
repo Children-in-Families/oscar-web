@@ -292,16 +292,16 @@ class ClientsController < AdminController
     find_referral_by_params if params[:referral_id]
 
     @carer = @client && @client.carer.present? ? @client.carer : Carer.new
-    @referee = @client.referee.present? ? @client.referee : Referee.new(name: @referral&.name_of_referee, phone: @referral&.referral_phone, email: @referral&.referee_email)
+    @referee = @client && @client.referee.present? ? @client.referee : Referee.new(name: @referral&.name_of_referee, phone: @referral&.referral_phone, email: @referral&.referee_email)
     @referee.anonymous = true if current_organization.short_name == 'brc' && @referee.new_record?
     @referee_relationships = Client::RELATIONSHIP_TO_CALLER.map { |relationship| { label: relationship, value: relationship.downcase } }
     @client_relationships = Carer::CLIENT_RELATIONSHIPS.map { |relationship| { label: relationship, value: relationship.downcase } }
     @caller_relationships = Client::RELATIONSHIP_TO_CALLER.map { |relationship| { label: relationship, value: relationship.downcase } }
     @address_types = Client::ADDRESS_TYPES.map { |type| { label: type, value: type.downcase } }
     @phone_owners = Client::PHONE_OWNERS.map { |owner| { label: owner, value: owner.downcase } }
-    @referral_source = @client.referral_source.present? ? ReferralSource.where(id: @client.referral_source_id).map { |r| [r.try(:name), r.id] } : []
+    @referral_source = @client && @client.referral_source.present? ? ReferralSource.where(id: @client.referral_source_id).map { |r| [r.try(:name), r.id] } : []
     @referral_source_category = referral_source_name(ReferralSource.parent_categories)
-    country_address_fields
+    country_address_fields if @client
   end
 
   def country_address_fields
