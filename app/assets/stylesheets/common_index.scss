@@ -254,5 +254,10 @@ span.input-group-addon {
 @media print {
   [id^="printable"] {
     display: block;
+
+    footer {
+      position: fixed;
+      bottom: 0;
+    }
   }
 }
