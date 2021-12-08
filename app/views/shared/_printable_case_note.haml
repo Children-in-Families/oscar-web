@@ -13,7 +13,7 @@
       %tr
         %td.spacing-first-col
           %strong= "#{t('case_notes.client_name')}:"
-        %td= case_note.client.name
+        %td= case_note.parent.name
       %tr
         %td
           %strong= "#{t('case_notes.visitation_date')}:"
@@ -28,7 +28,7 @@
       %tr
         %td
           %strong= "#{t('id')}:"
-        %td= case_note.client.slug
+        %td= case_note.parent&.slug || case_note.parent.id
       %tr
         %td
           %strong= "#{t('case_notes.type')}:"
