@@ -1,36 +1,39 @@
-.select2-choice{
+.select2-choice {
   border: 1px solid #e5e6e7 !important;
   border-radius: 1px !important;
   box-shadow: none !important;
 }
 .datepicker table tr td.active.active,
-.datepicker table tr td.active:hover:hover{
-    background-color: #1ab394;
-    background-image: none;
-    color: white;
+.datepicker table tr td.active:hover:hover {
+  background-color: #1ab394;
+  background-image: none;
+  color: white;
 }
 .select2-results .select2-highlighted,
-.select2-highlighted:hover{
+.select2-highlighted:hover {
   background-color: #1ab394;
   color: white;
 }
-.select2-container .select2-choices .select2-search-field input, .select2-container .select2-choice, .select2-container .select2-choices{
+.select2-container .select2-choices .select2-search-field input,
+.select2-container .select2-choice,
+.select2-container .select2-choices {
   border-color: #e5e6e7 !important;
   box-shadow: none !important;
   border-radius: 1px !important;
 }
-.select2-drop-active{
+.select2-drop-active {
   border: 1px solid #1ab394 !important;
   border-top: none !important;
   box-shadow: none !important;
 }
-.datepicker.datepicker-dropdown.dropdown-menu{
+.datepicker.datepicker-dropdown.dropdown-menu {
   z-index: 330000 !important;
 }
-.ibox-title span{
+.ibox-title span {
   font-size: 12px;
 }
-.select2-container-active .select2-choice, .select2-container-multi.select2-container-active .select2-choices{
+.select2-container-active .select2-choice,
+.select2-container-multi.select2-container-active .select2-choices {
   box-shadow: none !important;
   border: 1px solid #1ab394 !important;
   border-radius: 1px !important;
@@ -38,12 +41,12 @@
 #toast-container > div {
   width: 400px !important;
 }
-.btn-back-default{
-  color: #756E6C !important;
+.btn-back-default {
+  color: #756e6c !important;
   background: white;
-  border: 1px solid #E7EAEC;
+  border: 1px solid #e7eaec;
 }
-.line-border{
+.line-border {
   border-top: 1px solid #86898c;
 }
 .log-min {
@@ -57,24 +60,25 @@
   border: 10px solid white;
   width: 100px;
 }
-.btn-back-default:hover{
-  color: #756E6C;
+.btn-back-default:hover {
+  color: #756e6c;
 }
-.min-margin-layout{
+.min-margin-layout {
   margin-top: 16px;
 }
-.boolean.optional{
+.boolean.optional {
   padding: 0;
 }
-.ibox-title > h5, .panel-heading > h5 {
+.ibox-title > h5,
+.panel-heading > h5 {
   font-size: 16px;
   font-weight: 600;
-  color: #6B6A6C;
+  color: #6b6a6c;
 }
-.mini-margin{
-    margin-top: 16px;
+.mini-margin {
+  margin-top: 16px;
 }
-.bg{
+.bg {
   background: white;
 }
 
@@ -103,18 +107,17 @@
     height: 60px;
     margin-top: -7px;
     img {
-      margin:0;
+      margin: 0;
       width: 30px;
       padding: 0;
     }
   }
-
 }
 
-.notify-margin{
+.notify-margin {
   margin-left: 20px;
 }
-.chevron-progess-note{
+.chevron-progess-note {
   margin-right: -16px;
 }
 
@@ -136,7 +139,7 @@
 }
 
 .staging-identifier {
-  background: #C52F24;
+  background: #c52f24;
   .message-staging {
     color: #fff;
     margin: 0;
@@ -149,13 +152,13 @@
 .record-count {
   margin: 15px 0;
 }
-.custom_column_manage{
+.custom_column_manage {
   width: 20%;
 }
-.custom_column_name{
+.custom_column_name {
   width: 40%;
 }
-.custom_column_description{
+.custom_column_description {
   width: 40%;
 }
 
@@ -242,4 +245,19 @@ span.input-group-addon {
 
 .popover {
   z-index: 9999;
+}
+
+[id^="printable"] {
+  display: none;
+}
+
+@media print {
+  [id^="printable"] {
+    display: block;
+
+    footer {
+      position: fixed;
+      bottom: 0;
+    }
+  }
 }
