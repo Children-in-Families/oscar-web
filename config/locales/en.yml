@@ -1014,6 +1014,9 @@ en:
       download: Download
       max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
       preview_download: Preview & Download
+    attendee: Who was there during the visit or conversation?
+    case_note_form: Case Note Form
+    client_name: Client’s Name
     create:
       successfully_created: Case Note has successfully been created.
     destroy:
@@ -1079,6 +1082,8 @@ en:
     show:
       case_note_on: Case note on
       present: Who was there during the visit or conversation?
+    type: Type
+    visitation_date: Visitation Date
     update:
       successfully_updated: Case Note has successfully been updated.
   cases:
@@ -4878,6 +4883,7 @@ en:
     update:
       successfully_updated: Government Report has been successfully updated.
   has_been_added_to_calendar: This event has already been added to calendar.
+  id: ID
   internal_referrals:
     internal_referral_attr: &INTERNAL_REFERRAL_ATTR
       are_you_sure: Are you sure you want to delete?

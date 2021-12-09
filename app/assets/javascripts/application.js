@@ -16,6 +16,7 @@
 //= require select2
 //= require editable/bootstrap-editable
 //= require editable/rails
+//= require jQuery.print
 
 //= require image_upload_previewer/image_upload_previewer
 //= require image_upload
