@@ -1,0 +1,74 @@
+%hr/
+.row
+  .col-xs-6
+    = image_tag Organization.current.logo, class: 'img-responsive'
+
+.row
+  .col-xs-12
+    %h2.text-center
+      %strong= t('assessments.assessment_form')
+.row
+  .col-xs-6
+    %table.table.small.m-b-xs
+      %tr
+        %td.spacing-first-col
+          %strong= "#{t('assessments.client_name')}:"
+        %td= assessment.parent.name
+      %tr
+        %td
+          %strong= "#{t('assessments.show.assessment_created_by')}:"
+        %td= whodunnit('Assessment', assessment)
+      %tr
+        %td
+          %strong= "#{t('assessments.show.based_on')}:"
+        %td= assessment.index_of + 1
+
+  .col-xs-6
+    %table.table.small.m-b-xs
+      %tr
+        %td
+          %strong= "#{t('id')}:"
+        %td= assessment.parent&.slug || assessment.parent.id
+      %tr
+        %td
+          %strong= "#{t('assessments.completed_date')}:"
+        %td= date_format assessment.completed_date
+
+- assessment.assessment_domains_in_order.each do |ad|
+  .row
+    .col-xs-12
+      %div{class: "panel panel-default"}
+        .panel-heading
+          %table.table.table-borderless
+            %tbody
+              %tr
+                - if current_organization.try(:aht) == true
+                  = domain_name_for_aht(ad).html_safe
+                - else
+                  %td.no-padding-bottom
+                    %b
+                      = t('assessments.show.domain')
+                      = t("domains.domain_names.#{ad.domain.name.downcase.reverse}") + ":"
+                  %td.no-padding-bottom
+                    %b= t("domains.domain_identies.#{ad.domain.identity.strip.parameterize('_')}_#{ad.domain.name.downcase}")
+                %td{rowspan: 4}
+                  .domain-score.text-center
+                    - unless @assessment.initial?
+                      %button{ 'data-original-title': "#{simple_format(ad.previous_score_definition)}", type: 'button', class: "btn btn-#{ad.previous_score_color_class} btn-xs", 'data-toggle': 'tooltip' }
+                        = "#{ad.previous_score}"
+                      %span{style: 'color:black;'} &#8594;
+                    %button{ 'data-original-title': "#{simple_format(ad.score_definition)}", type: 'button', class: "btn btn-#{ad.score_color_class} btn-xs", 'data-toggle': 'tooltip' }
+                      = "#{ad.score}"
+              %tr
+                %td.no-padding-top
+                  %b= "#{t('assessments.show.score')} #{ad.score}:"
+                %td.no-padding-top
+                  %b= simple_format(ad.score_definition)
+              %tr
+                %td
+                  %b= "#{t('assessments.show.reason')}:"
+                %td
+                  = ad.reason
+.row
+  .col-xs-6= image_tag 'Horizontal_RGB_294.png', class: 'img-responsive usaid-logo'
+  .col-xs-6= image_tag 'OSCaR_logo.png', class: 'img-responsive pull-right'

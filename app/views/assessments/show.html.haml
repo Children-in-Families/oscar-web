@@ -30,6 +30,8 @@
               = "#{t('.assessment_created_by')} #{whodunnit('Assessment', @assessment)} #{t('.on_date')} #{date_format(@assessment.completed_date)}"
           .col-xl-1.button-position
             .pull-right
+              = link_to '#', class: 'btn btn-warning btn-outline printable-button', data: { printable_id: "printable-assessment-#{@assessment.id}" } do
+                = fa_icon 'print'
               - if policy(@assessment).edit?
                 = assessment_edit_link(@assessment.client, @assessment)
               - if current_user.admin?
@@ -77,3 +79,5 @@
                             %button.btrn.btn-info.btn-sm{"data-target" => "#attachments#{ad.id}", "data-toggle" => "modal", :type => "button"}= t('.show_attachment')
                 - if ad.attachments.any?
                   = render 'attachment', { ad: ad }
+        %div{ id: "printable-assessment-#{@assessment.id}" }
+          = render 'shared/printable_assessment', assessment: @assessment
