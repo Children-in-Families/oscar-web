@@ -2,8 +2,8 @@
 
 <img src='./app/assets/images/OSCaR_logo.png'>
 
-| Master Branch        | Stable Branch  |Staging Branch  |
-| ------------- |:-------------:|:-------------:|
+| Master Branch                                                                                                       |                                                    Stable Branch                                                    |                                                    Staging Branch                                                    |
+| ------------------------------------------------------------------------------------------------------------------- | :-----------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------: |
 | [![Build Status](https://travis-ci.com/DevZep/oscar-web.svg?branch=master)](https://travis-ci.com/DevZep/oscar-web) | [![Build Status](https://travis-ci.com/DevZep/oscar-web.svg?branch=stable)](https://travis-ci.com/DevZep/oscar-web) | [![Build Status](https://travis-ci.com/DevZep/oscar-web.svg?branch=staging)](https://travis-ci.com/DevZep/oscar-web) |
 
 ### Open Source Case-management and Record-keeping.
@@ -36,7 +36,7 @@ Perhaps pick one of the [existing issues](https://github.com/DevZep/oscar-web/is
 
 ### Authors
 
-OSCaR is developed in partnership by [DevZep Consulting (Cambodia)](http://www.devzep.com) and [CIF](http://www.childreninfamilies.org)
+OSCaR is developed by [CIF](http://www.childreninfamilies.org)
 
 ### License
 
