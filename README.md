@@ -36,7 +36,7 @@ Perhaps pick one of the [existing issues](https://github.com/DevZep/oscar-web/is
 
 ### Authors
 
-OSCaR is developed by [CIF](http://www.childreninfamilies.org)
+OSCaR is developed in partnership by [DevZep Consulting (Cambodia)](http://www.devzep.com) and [CIF](http://www.childreninfamilies.org)
 
 ### License
 
