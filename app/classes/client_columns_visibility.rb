@@ -174,6 +174,7 @@ class ClientColumnsVisibility
   end
 
   def visible_columns
+    return [] if @grid.nil?
     @grid.column_names = []
     client_default_columns = Setting.first.try(:client_default_columns)
     params = @params.keys.select{ |k| k.match(/\_$/) }
