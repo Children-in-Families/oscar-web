@@ -91,15 +91,15 @@ module AdvancedSearches
     end
 
     def districts
-      District.order(:name).map { |s| { s.id.to_s => s.name } }
+      Client.joins(:district).pluck('districts.name', 'districts.id').uniq.sort.map{|s| {s[1].to_s => s[0]}}
     end
 
     def communes
-      Commune.all.map { |commune| ["#{commune.name_kh} / #{commune.name_en} (#{commune.code})", commune.id] }.sort.map{ |s| {s[1].to_s => s[0]} }
+      Commune.joins(:clients, district: :province).distinct.map{|commune| ["#{commune.name_kh} / #{commune.name_en} (#{commune.code})", commune.id]}.sort.map{|s| {s[1].to_s => s[0]}}
     end
 
     def villages
-      Village.all.map { |village| ["#{village.name_kh} / #{village.name_en} (#{village.code})", village.id] }.sort.map{ |s| {s[1].to_s => s[0]} }
+      Village.joins(:clients, commune: [district: :province]).distinct.map{|village| ["#{village.name_kh} / #{village.name_en} (#{village.code})", village.id]}.sort.map{|s| {s[1].to_s => s[0]}}
     end
 
     def subdistricts
