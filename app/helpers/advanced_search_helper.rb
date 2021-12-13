@@ -302,4 +302,28 @@ module AdvancedSearchHelper
     end
     results.ids
   end
+
+  def addresses_mapping(called_in)
+    if called_in == 'ProgramStreamAddRuleController'
+      [['province_id', provinces], ['district_id', districts], ['commune_id', communes]]
+    else
+      [['province_id', provinces], ['district_id', districts], ['birth_province_id', birth_provinces], ['commune_id', communes], ['village_id', villages]]
+    end
+  end
+
+  def provinces
+      Province.order(:name).map { |s| { s.id.to_s => s.name } }
+  end
+
+  def districts
+    District.order(:name).map { |s| { s.id.to_s => s.name } }
+  end
+
+  def communes
+    Commune.all.map { |commune| ["#{commune.name_kh} / #{commune.name_en} (#{commune.code})", commune.id] }.sort.map{ |s| {s[1].to_s => s[0]} }
+  end
+
+  def villages
+    Village.all.map { |village| ["#{village.name_kh} / #{village.name_en} (#{village.code})", village.id] }.sort.map{ |s| {s[1].to_s => s[0]} }
+  end
 end
