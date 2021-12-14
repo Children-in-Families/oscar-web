@@ -51,11 +51,6 @@ class LeaveEnrolledProgramsController < AdminController
   end
 
   def show
-    @client = if params[:client_id]
-      Client.accessible_by(current_ability).friendly.find(params[:client_id])
-    else
-      Family.accessible_by(current_ability).find(params[:family_id])
-    end
     check_user_permission('readable')
   end
 
