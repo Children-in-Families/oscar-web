@@ -108,6 +108,7 @@ module ClientsHelper
 
   def columns_visibility(column)
     label_column = {
+      family_type: I18n.t('datagrid.columns.families.family_type'),
       passport_number: t('datagrid.columns.clients.passport_number'),
       national_id_number: t('datagrid.columns.clients.national_id_number'),
       marital_status: t('datagrid.columns.clients.marital_status'),
@@ -428,6 +429,7 @@ module ClientsHelper
 
   def default_columns_visibility(column)
     label_column = {
+      family_type: I18n.t('datagrid.columns.families.family_type'),
       marital_status_: t('datagrid.columns.clients.marital_status'),
       nationality_: t('datagrid.columns.clients.nationality'),
       ethnicity_: t('datagrid.columns.clients.ethnicity'),
