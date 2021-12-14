@@ -9,7 +9,7 @@ module AdvancedSearches
                           'exit_circumstance', 'exit_reasons', 'referred_to', 'referred_from', 'time_in_cps', 'time_in_ngo',
                           'assessment_number', 'month_number', 'date_nearest', 'assessment_completed','date_of_referral',
                           'referee_name', 'referee_phone', 'referee_email', 'carer_name', 'carer_phone', 'carer_email',
-                          'client_contact_phone', 'client_email_address', 'phone_owner', 'referee_relationship', 'active_clients',
+                          'client_phone', 'client_email_address', 'phone_owner', 'referee_relationship', 'active_clients',
                           'care_plan_counter', 'care_plan_completed_date', 'completed_date', 'custom_completed_date', 'carer_relationship_to_client',
                           'referred_in', 'referred_out', 'family_type'
                         ]

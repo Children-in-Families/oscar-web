@@ -2825,6 +2825,7 @@ en:
         case_worker: Case Worker
         case_worker_or_staff: Case Worker / Staff
         changelogs: Changelog
+        client_phone: Client Contact Phone
         code: Custom ID Number1
         concern_address: Address Name
         concern_address_type: Address Type

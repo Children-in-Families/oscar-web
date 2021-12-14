@@ -209,8 +209,8 @@
               = label_tag 'referee_relationship_to_client_', t('datagrid.columns.referee_relationship_to_client')
           %li
             .visibility.col-sm-12
-              = check_box_tag 'client_contact_phone_', 'client_contact_phone', checked = saved_search_column_visibility('client_contact_phone_'), class: 'i-checks'
-              = label_tag 'client_contact_phone_', t('datagrid.columns.client_contact_phone')
+              = check_box_tag 'client_phone_', 'client_phone', checked = saved_search_column_visibility('client_phone_'), class: 'i-checks'
+              = label_tag 'client_phone_', t('datagrid.columns.clients.client_phone')
           %li
             .visibility.col-sm-12
               = check_box_tag 'address_type_', 'address_type', checked = saved_search_column_visibility('address_type_'), class: 'i-checks'
