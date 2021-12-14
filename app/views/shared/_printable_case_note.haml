@@ -78,12 +78,18 @@
     %h4
       %strong= t('.attachments')
     %ul
+      - file_names = case_note.case_note_domain_groups.pluck(:attachments).reject(&:blank?)
       - case_note.case_note_domain_groups.each do |cdg|
         - next if cdg.attachments.blank?
         - attachment_names = cdg.attachments.map{|a| a.file.path.split('/').last }
         - next if file_names.exclude? attachment_names
         - file_names.delete(attachment_names)
-        %li= render 'attachment', cdg: cdg
+        %li
+          .table-responsive
+            %table.table.table-bordered-less
+              - cdg.attachments.each_with_index do |attachment, index|
+                %tr
+                  %td= original_filename(attachment)
 
 %footer
   .row
