@@ -5,7 +5,7 @@ namespace :friend_donor do
       SELECT organizations.full_name, organizations.short_name FROM "public"."donors"
       INNER JOIN "public"."donor_organizations" ON "public"."donor_organizations"."donor_id" = "public"."donors"."id"
       INNER JOIN "public"."organizations" ON "public"."organizations"."id" = "public"."donor_organizations"."organization_id"
-      WHERE "public"."donors"."global_id" = '01DP5T928RGKA43E11YNAHAG6B'
+      WHERE "public"."donors"."global_id" = ''
     SQL
     organizations = ActiveRecord::Base.connection.execute(sql)
     organization_client_sql = organizations.map do |organization|
