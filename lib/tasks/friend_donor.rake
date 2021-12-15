@@ -140,6 +140,24 @@ namespace :friend_donor do
     domains = ActiveRecord::Base.connection.execute(domain_sql)
     write_data_to_spreadsheet(domain_worksheet, domains.to_a, format)
 
+    program_stream_service_worksheet = workbook.add_worksheet('Program Stream Service')
+    program_stream_service_sql = organizations.map do |organization|
+      <<-SQL
+        SELECT program_stream_services.id, '#{organization['short_name']}' organization_name, program_stream_services.program_stream_id, program_stream_services.service_id FROM #{organization['short_name']}.program_stream_services
+      SQL
+    end.join(' UNION ')
+    program_stream_services = ActiveRecord::Base.connection.execute(program_stream_service_sql)
+    write_data_to_spreadsheet(program_stream_service_worksheet, program_stream_services.to_a, format)
+
+    service_worksheet = workbook.add_worksheet('Services')
+    service_sql = organizations.map do |organization|
+      <<-SQL
+        SELECT services.id, '#{organization['short_name']}' organization_name, services.name, services.parent_id FROM #{organization['short_name']}.services
+      SQL
+    end.join(' UNION ')
+    services = ActiveRecord::Base.connection.execute(service_sql)
+    write_data_to_spreadsheet(service_worksheet, services.to_a, format)
+
     workbook.close
   end
 
