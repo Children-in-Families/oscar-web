@@ -21,6 +21,8 @@ services:
       - READ_ONLY_DATABASE_PASSWORD=123456789
       - WEBPACKER_DEV_SERVER_HOST=webpack
       - REDIS_URL=redis://redis:6379/0
+      - STC_DONOR_NAME=
+      - FD_DONOR_NAME=
     volumes:
       - .:/app
     ports:
