@@ -303,7 +303,7 @@ module AdvancedSearchHelper
   end
 
   def addresses_mapping(called_in)
-    if called_in == 'ProgramStreamAddRuleController'
+    if called_in == 'ProgramStreamAddRuleController' || self.class.name == "AdvancedSearches::Families::FamilyFields"
       [['province_id', provinces], ['district_id', districts], ['commune_id', communes]]
     else
       [['province_id', provinces], ['district_id', districts], ['birth_province_id', birth_provinces], ['commune_id', communes], ['village_id', villages]]
