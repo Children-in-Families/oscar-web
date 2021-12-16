@@ -23,6 +23,8 @@ RUN phantomjs --version
 # will be cached unless changes to one of those two files
 # are made.
 COPY Gemfile Gemfile.lock ./
+COPY package.json yarn.lock ./
+
 RUN gem install bundler -v 1.17.3
 RUN bundle install --verbose --jobs 20 --retry 5
 RUN npm install -g yarn
