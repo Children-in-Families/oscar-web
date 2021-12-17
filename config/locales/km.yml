@@ -5760,6 +5760,7 @@ km:
       modification_of: ប្រវត្តិកំណែរបស់
   referrals:
     level_of_risk: កម្រិតហានិភ័យ
+    client_status: ស្ថានភាពកុមារ
     confirm_referral:
       body_second: អតិថិជនដែលអ្នកចង់បញ្ជូនមាននៅក្នុងអង្គការគោលដៅរួចទៅហើយ
       body_third: អ្នកបានបញ្ជូនអតិថិជននេះរួចហើយសូមរង់ចាំការឆ្លើយតប

@@ -75,6 +75,7 @@ module Api
           client = Client.find_by(global_id: clients_params['global_id'])
           attributes = Client.get_client_attribute(clients_params, client.referral_source_category_id) if client
           if client && client.update_attributes(attributes)
+            client.referrals.last&.update_client_status(clients_params[:client_status]) if clients_params[:client_status]
             render json: { external_id: client.external_id, message: 'Record saved.' }
           else
             render json: { external_id: clients_params[:external_id], message: client.errors }, status: :unprocessable_entity

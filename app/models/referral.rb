@@ -78,6 +78,10 @@ class Referral < ActiveRecord::Base
     }
   end
 
+  def update_client_status(value)
+    update_column(:client_status, value)
+  end
+
   private
 
   def check_saved_referral_in_target_ngo
