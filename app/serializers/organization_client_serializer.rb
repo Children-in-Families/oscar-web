@@ -4,7 +4,8 @@ class OrganizationClientSerializer < ActiveModel::Serializer
   attributes :slug, :global_id, :external_id, :external_id_display, :mosvy_number, :mosvy_number, :given_name, :family_name,
              :gender, :date_of_birth, :location_current_village_code, :address_current_village_code,
              :organization_id, :organization_name, :external_case_worker_name, :external_case_worker_id, :reason_for_referral,
-             :services, :status, :case_worker_name, :case_worker_mobile, :is_referred, :referral_consent_form, :organization_address_code
+             :services, :status, :case_worker_name, :case_worker_mobile, :is_referred, :referral_consent_form, :organization_address_code,
+             :level_of_risk
 
   def organization_id
     Organization.current.id
@@ -46,7 +47,7 @@ class OrganizationClientSerializer < ActiveModel::Serializer
       end
     end.compact.flatten.uniq
 
-    Service.where(id: last_referral&.service_ids || []).map do |service|
+    Service.where(id: list_referrals.map(&:service_ids).flatten || []).map do |service|
       service_types << {
         program_name: nil,
         enrollment_date: nil,
@@ -86,6 +87,10 @@ class OrganizationClientSerializer < ActiveModel::Serializer
     object.village&.code || ''
   end
 
+  def level_of_risk
+    last_referral&.level_of_risk || object.level_of_risk || ''
+  end
+
   private
 
   def external_system_name
@@ -95,4 +100,9 @@ class OrganizationClientSerializer < ActiveModel::Serializer
   def last_referral
     object.referrals.get_external_systems(external_system_name).last
   end
+
+  def list_referrals
+    object.referrals.get_external_systems(external_system_name)
+  end
+
 end
