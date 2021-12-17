@@ -6018,6 +6018,7 @@ en:
       <<: *SERVICE_DELIVERY_ATTR
     update:
       successfully_updated: Service has been successfully updated.
+  referral_details: Referral Details
   results: Results
   shared:
     x_lists_of: "%{x} lists of"

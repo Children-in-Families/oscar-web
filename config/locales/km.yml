@@ -5975,6 +5975,7 @@ km:
       <<: *SERVICE_DELIVERY_ATTR
     update:
       successfully_updated: Service has been successfully updated.
+  referral_details: ព័ត៌មានលំអិតនៃការបញ្ជូន
   results: លទ្ធផល
   shared:
     x_lists_of: "បញ្ជី%{x}"
