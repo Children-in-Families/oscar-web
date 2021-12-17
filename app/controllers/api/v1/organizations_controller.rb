@@ -161,7 +161,7 @@ module Api
           :address_current_village_code, :reason_for_referral, :reason_for_exiting,
           :organization_id, :organization_name, :external_case_worker_name,
           :external_case_worker_id, :external_case_worker_mobile, :external_case_worker_email,
-          :level_of_risk, :is_referred,
+          :level_of_risk, :is_referred, :client_status,
           services: [:uuid, :name]
         )
       end

@@ -28,6 +28,10 @@
               %td= t('.client_id')
               %td
                 %strong= @referral.client.slug
+            %tr
+              %td= t('.client_status')
+              %td
+                %strong= @referral.client_status
 
             %tr
               %td= t('.referred_from')

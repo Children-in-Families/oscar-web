@@ -16,7 +16,7 @@ module ClientConstants
   CLIENT_LEVELS   = ['No', 'Level 1', 'Level 2']
 
   LEGAL_DOC_FIELDS = %w(
-    national_id_files
+    national_id_filee
     birth_cert_files
     family_book_files
     passport_files
