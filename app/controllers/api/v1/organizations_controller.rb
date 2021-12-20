@@ -75,8 +75,7 @@ module Api
           client = Client.find_by(global_id: clients_params['global_id'])
           attributes = Client.get_client_attribute(clients_params, client.referral_source_category_id) if client
           if client && client.update_attributes(attributes)
-            client.referrals.last&.update_client_status(clients_params[:client_status]) if clients_params[:client_status]
-            render json: { external_id: client.external_id, message: 'Record saved.' }
+            check_referral_status(client, clients_params['referral_status'])
           else
             render json: { external_id: clients_params[:external_id], message: client.errors }, status: :unprocessable_entity
           end
@@ -162,7 +161,7 @@ module Api
           :address_current_village_code, :reason_for_referral, :reason_for_exiting,
           :organization_id, :organization_name, :external_case_worker_name,
           :external_case_worker_id, :external_case_worker_mobile, :external_case_worker_email,
-          :level_of_risk, :is_referred, :client_status,
+          :level_of_risk, :is_referred, :referral_status,
           services: [:uuid, :name]
         )
       end
@@ -283,6 +282,15 @@ module Api
         external_system_id = external_system&.id
         external_system_name = external_system&.name
         referral = Referral.new(referral_attributes.merge(referred_from: external_system_name))
+      end
+
+      def check_referral_status(client, status)
+        if ['Accepted', 'Exited', 'Referred'].include?(status)
+          client.referrals.last&.update_referral_status(status)
+          render json: { external_id: client.external_id, message: 'Record saved.' }
+        else
+          render json: { external_id: client.external_id, message: "Referral status must be one of ['Accepted', 'Exited', 'Referred'].", status: :unprocessable_entity }
+        end
       end
 
     end

@@ -78,8 +78,8 @@ class Referral < ActiveRecord::Base
     }
   end
 
-  def update_client_status(value)
-    update_column(:client_status, value)
+  def update_referral_status(value)
+    update_column(:referral_status, value)
   end
 
   private

@@ -5808,7 +5808,6 @@ en:
       modification_of: Changelog of
   referrals:
     level_of_risk: Level of Risk
-    client_status: Client Status
     confirm_referral:
       body_second: The client you want to refer already existed in the target NGO.
       body_third: You have already referred this client, please wait for the response.
@@ -5857,6 +5856,7 @@ en:
       select_ngos: Select NGOs
     new:
       new_referral: New Referral
+    referral_status: Referral Status
     show:
       cannot_edit_referral: You cannot edit this referral because the target NGO already accepted this referral
       client_id: Client ID

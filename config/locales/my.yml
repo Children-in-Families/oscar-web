@@ -5745,7 +5745,6 @@ my:
       modification_of: "၏ ေျပာင္းလဲမႈ"
   referrals:
     level_of_risk: အန္တရာယ်အဆင့်
-    client_status: ဖောက်သည်အခြေအနေ
     confirm_referral:
       body_second: သငျသညျ alreay ရည်ညွှန်းချင်သော client ကိုပစ်မှတ်အန်ဂျီအိုနေပါသည်။
       body_third: သငျသညျပြီးသားဒီ client ကို, ထိုတုံ့ပြန်မှုကိုစောင့်ဆိုင်းကျေးဇူးပြုပြီးရည်ညွှန်းကြသည်။
@@ -5796,6 +5795,7 @@ my:
       select_ngos: အဖွဲ့အစည်းကရှေးခယျြ
     new:
       new_referral: ဂီယာ Add
+    referral_status: ရည်ညွှန်းမှုအခြေအနေ
     show:
       cannot_edit_referral: ပစ်မှတ်အန်ဂျီအိုပြီးသားဒီလွှဲပြောင်းလက်ခံခဲ့သည်ကြောင့်သင်ဤလွှဲပြောင်းတည်းဖြတ်မရနိုင်ပါ
       client_id: မွတ္ပံုတင္

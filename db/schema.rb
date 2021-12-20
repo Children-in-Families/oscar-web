@@ -2076,7 +2076,7 @@ ActiveRecord::Schema.define(version: 20211217032514) do
     t.string   "village_code",              default: ""
     t.string   "referee_email"
     t.string   "level_of_risk"
-    t.string   "client_status",             default: "Referred"
+    t.string   "referral_status",           default: "Referred"
   end
 
   add_index "referrals", ["client_global_id"], name: "index_referrals_on_client_global_id", using: :btree
