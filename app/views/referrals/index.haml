@@ -14,7 +14,7 @@
                 %th{ class: referred_from_hidden?(@referrals.first) }= t('.referred_from')
                 %th{ class: referred_to_hidden?(@referrals.first) }= t('.referred_to')
                 %th= t('.date_of_referral')
-                %th= t('referrals.client_status')
+                %th= t('referrals.referral_status')
                 %th.text-center.custom_column_manage= t('.detail')
             %tbody
               - @referrals.each do |referral|
@@ -26,7 +26,7 @@
                   - else
                     %td{ class: referred_to_hidden?(referral) }= referral.referred_to_ngo
                   %td= date_format(referral.date_of_referral)
-                  %td= status_style referral.client_status
+                  %td= status_style referral.referral_status
                   %td.text-center
                     -# - if policy(referral).edit?
                     -#   = link_to edit_client_referral_path(@client, referral, referral_type: params[:referral_type]), class: 'button btn btn-outline btn-success btn-xs' do

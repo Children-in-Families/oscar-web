@@ -13,6 +13,6 @@
                   = link_to client_path(id: client&.slug, referral_id: referral.id), target: '_blank' do
                     = "#{referral.client_name} (#{ngo_hash_mapping[referral.referred_from]})"
                     %span.label.label-primary= referral.level_of_risk&.capitalize
-                  = status_style referral.client_status
+                  = status_style referral.referral_status
                   = link_to client_referral_path(client, referral), target: '_blank', class: 'btn btn-primary btn-xs' do
                     = fa_icon 'external-link'

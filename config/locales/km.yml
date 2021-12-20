@@ -5649,7 +5649,6 @@ km:
       modification_of: ប្រវត្តិកំណែរបស់
   referrals:
     level_of_risk: កម្រិតហានិភ័យ
-    client_status: ស្ថានភាពកុមារ
     confirm_referral:
       body_second: អតិថិជនដែលអ្នកចង់បញ្ជូនមាននៅក្នុងអង្គការគោលដៅរួចហើយ
       body_third: អ្នកបានបញ្ជូនអតិថិជននេះរួចហើយ សូមរង់ចាំការឆ្លើយតប
@@ -5700,6 +5699,7 @@ km:
       select_ngos: ជ្រើសរើសអង្គការ
     new:
       new_referral: ទម្រង់បញ្ជូនថ្មី
+    referral_status: ស្ថានភាពទម្រង់បញ្ជូន
     show:
       cannot_edit_referral: អ្នកមិនអាចកែសម្រួលការបញ្ជូននេះបានទេ ដោយសារអង្គការគោលដៅបានទទួលយកការបញ្ជូននេះរួចហើយ
       client_id: អត្តលេខអតិថិជន
