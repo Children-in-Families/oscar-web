@@ -45,11 +45,11 @@ class Setting < ActiveRecord::Base
   end
 
   def start_sharing_this_month(date_time)
-    versions.where("to_char(created_at, 'YYYY-MM') = ?", date_time.to_date.strftime("%Y-%m")).map(&:object_changes).map{|a| YAML::load a}.select{|a| a['sharing_data']&.last == true }
+    versions.where("to_char(created_at, 'YYYY-MM') = ?", date_time.to_date.strftime("%Y-%m")).map(&:object_changes).map{|a| YAML::load a}.select{|a| (a['sharing_data'].is_a?(Array) ? a['sharing_data']&.last : a['sharing_data']) == true }
   end
 
   def stop_sharing_this_month(date_time)
-    versions.where("to_char(created_at, 'YYYY-MM') = ?", date_time.to_date.strftime("%Y-%m")).map(&:object_changes).map{|a| YAML::load a}.select{|a| a['sharing_data']&.last == false }
+    versions.where("to_char(created_at, 'YYYY-MM') = ?", date_time.to_date.strftime("%Y-%m")).map(&:object_changes).map{|a| YAML::load a}.select{|a| (a['sharing_data'].is_a?(Array) ? a['sharing_data']&.last : a['sharing_data']) == false }
   end
 
   def current_sharing_with_research_module
