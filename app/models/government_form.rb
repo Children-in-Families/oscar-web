@@ -52,6 +52,8 @@ class GovernmentForm < ActiveRecord::Base
   delegate :code, to: :village, prefix: true, allow_nil: true
   delegate :name, to: :case_closure, prefix: true, allow_nil: true
 
+  before_save :concat_client_code_with_village_code
+
   def populate_needs
     Need.all.each do |need|
       government_form_needs.build(need: need)
@@ -123,6 +125,10 @@ class GovernmentForm < ActiveRecord::Base
   end
 
   private
+
+  def concat_client_code_with_village_code
+    self.client_code = "#{village.try(:code)}#{client_code}"
+  end
 
   def mapping_government_form_needs
     attr_hash = {}
