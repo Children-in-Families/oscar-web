@@ -4720,6 +4720,7 @@ km:
     update:
       successfully_updated: របាយការណ៍ត្រូវបានកែសម្រួលដោយជោគជ័យ
   has_been_added_to_calendar: ព្រឹត្តិការណ៍នេះត្រូវបានបញ្ចូលទៅក្នុងប្រតិទិនរួចហើយ
+  id: លេខសំគាល
   internal_referrals:
     internal_referral_attr: &INTERNAL_REFERRAL_ATTR
       are_you_sure: តើអ្នកប្រាកដថាចង់លុបដែរឬទេ?
