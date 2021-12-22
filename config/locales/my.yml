@@ -2766,6 +2766,7 @@ my:
         case_worker: အမႈအတြက္ ေဆာင္ရြက္ေပးသူ
         case_worker_or_staff: အမႈအတြက္ ေဆာင္ရြက္ေပးသူ/ ၀န္ထမ္း
         changelogs: ေျပာင္းလဲမႈ မွတ္တမ္း
+        client_phone: Client Contact Phone
         code: Custom ID Number1
         concern_address: Address Name
         concern_address_type: Address Type

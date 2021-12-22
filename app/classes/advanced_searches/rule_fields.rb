@@ -6,6 +6,7 @@ module AdvancedSearches
 
     def initialize(options = {})
       @user = options[:user]
+      @called_in = options[:called_in]
     end
 
     def render
@@ -50,6 +51,7 @@ module AdvancedSearches
         ['has_been_in_orphanage', { true: 'Yes', false: 'No' }],
         ['user_id', user_select_options],
         ['donor_name', donor_options],
+        ['birth_province_id', birth_provinces],
         ['case_note_type', case_note_type_options],
         ['exit_reasons', exit_reasons_options],
         ['exit_circumstance', { 'Exited Client': 'Exited Client', 'Rejected Referral': 'Rejected Referral' }],
@@ -77,10 +79,6 @@ module AdvancedSearches
       Client::CLIENT_STATUSES.sort.map { |s| { s => s } }
     end
 
-    def provinces
-      Province.order(:name).map { |s| { s.id.to_s => s.name } }
-    end
-
     def birth_provinces
       current_org = Organization.current.short_name
       provinces = []
@@ -88,18 +86,6 @@ module AdvancedSearches
       Organization.pluck(:country).uniq.reject(&:blank?).each{ |country| provinces << Province.country_is(country).map{|p| { value: p.id.to_s, label: p.name, optgroup: country.titleize } } }
       Organization.switch_to current_org
       provinces.flatten
-    end
-
-    def districts
-      District.order(:name).map { |s| { s.id.to_s => s.name } }
-    end
-
-    def communes
-      Commune.all.map { |commune| ["#{commune.name_kh} / #{commune.name_en} (#{commune.code})", commune.id] }.sort.map{ |s| {s[1].to_s => s[0]} }
-    end
-
-    def villages
-      Village.all.map { |village| ["#{village.name_kh} / #{village.name_en} (#{village.code})", village.id] }.sort.map{ |s| {s[1].to_s => s[0]} }
     end
 
     def subdistricts
@@ -153,7 +139,7 @@ module AdvancedSearches
       when 'cambodia'
         {
           text_fields: ['house_number', 'street_number'],
-          drop_down_fields: [['province_id', provinces], ['district_id', districts], ['birth_province_id', birth_provinces], ['commune_id', communes], ['village_id', villages] ]
+          drop_down_fields: addresses_mapping(@called_in)
         }
       when 'lesotho'
         {
@@ -173,7 +159,7 @@ module AdvancedSearches
       else
         {
           text_fields: ['house_number', 'street_number'],
-          drop_down_fields: [['province_id', provinces], ['district_id', districts], ['birth_province_id', birth_provinces], ['commune_id', communes], ['village_id', villages] ]
+          drop_down_fields: addresses_mapping(@called_in)
         }
       end
     end

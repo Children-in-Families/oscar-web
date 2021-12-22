@@ -120,6 +120,7 @@ class ClientColumnsVisibility
       reason_for_family_separation_: :reason_for_family_separation,
       rejected_note_: :rejected_note,
       family_: :family,
+      family_type_: :family_type,
       code_: :code,
       age_: :age,
       slug_: :slug,
@@ -163,7 +164,7 @@ class ClientColumnsVisibility
       carer_relationship_to_client_: :carer_relationship_to_client,
       phone_owner_: :phone_owner,
       referee_relationship_to_client_: :referee_relationship_to_client,
-      client_contact_phone_: :client_contact_phone,
+      client_phone_: :client_phone,
       address_type_: :address_type,
       client_email_: :client_email,
       indirect_beneficiaries_: :indirect_beneficiaries,
@@ -173,6 +174,7 @@ class ClientColumnsVisibility
   end
 
   def visible_columns
+    return [] if @grid.nil?
     @grid.column_names = []
     client_default_columns = Setting.first.try(:client_default_columns)
     params = @params.keys.select{ |k| k.match(/\_$/) }
