@@ -4839,12 +4839,13 @@ km:
     update:
       successfully_updated: របាយការណ៍ត្រូវបានកែសម្រួលដោយជោគជ័យ។
   has_been_added_to_calendar: ព្រឹត្តិការណ៍នេះត្រូវបានបន្ថែមទៅក្នុងប្រតិទិនរួចហើយ
+  id: លេខសំគាល់
   internal_referrals:
     internal_referral_attr: &INTERNAL_REFERRAL_ATTR
-      are_you_sure: Are you sure you want to delete?
+      are_you_sure: តើអ្នកប្រាកដហើយ?
       attachments: Attachments
-      client_id: Client ID
-      client_name: Client Name
+      client_id: លេខសំគាល់អតិថិជន
+      client_name: ឈ្មោះអតិថិជន
       client_representing_problem: CLIENT'S PRESENTING PROBLEMS
       client_representing_problem_note: "What issues/needs does the client say he or she needs help addressing:"
       emergency_note: "កំណត់ចំណាំ៖ តម្រូវការបន្ទាន់/វិបត្តិ"
