@@ -29,4 +29,9 @@ module GovernmentFormsHelper
       wicked_pdf_image_tag 'picture.png', id: 'client_photo', class: 'pull-right', width: 100
     end
   end
+
+  def client_code_government_forms(client_code)
+    return client_code&.last(4) if client_code&.length == 4
+    client_code&.length <= 10 ? client_code.last(2) : client_code&.last(4)
+  end
 end
