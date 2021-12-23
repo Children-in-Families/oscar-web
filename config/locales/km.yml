@@ -861,7 +861,7 @@ km:
       add_goal: បន្ថែមគោលដៅ
       cancel: ទុកជាមោឃៈ
       domain: កត្តា
-      expected_date: កំណត់កាលបរិច្ឆេទ
+      expected_date: កាលបរិច្ឆេទរំពឹងទុក
       finish: រក្សាទុក
       goal: គោលដៅ
       next: ទំព័របន្ទាប់
@@ -891,7 +891,7 @@ km:
       done_during: បានបំពេញនៅ
       due_date: កាលបរិច្ឆេទ
       edit: កែសម្រួល
-      expected_date: កំណត់កាលបរិច្ឆេទ
+      expected_date: កាលបរិច្ឆេទរំពឹងទុក
       goal: គោលដៅ
       on_date: 'កាលបរិច្ឆេទ:'
       score: ពិន្ទុ
@@ -990,7 +990,7 @@ km:
       download: ទាញយក
       max_file_size: "*ទំហំឯកសារអតិបរមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកបាន."
       preview_download: មើលនិងទាញយក
-    attendee: តើ​នរណា​នៅ​ទីនោះ​ក្នុង​អំឡុង​ពេល​ទស្សនកិច្ច​ឬ​ការ​សន្ទនា?
+    attendee: តើអ្នកណាខ្លះចូលរួមក្នុងអំឡុងពេលសួរសុខទុក្ខ ឬសន្ទនា?
     case_note_form: កំណត់ត្រាករណី
     client_name: ឈ្មោះអតិថិជន
     create:
@@ -1016,8 +1016,8 @@ km:
       remove_domain_group_hint: អ្នកបានបង្កើតកាតព្វដែលភ្ជាប់ជាមួយក្រុមកត្តានេះ។ ដើម្បីលុបកត្តានេះបានសូមទៅលុបកាតព្វកិច្ចជាមុនសិន។
       save: រក្សាទុក
       tasks: កាតព្វកិច្ច
-      tasks_arising: កាតព្វកិច្ចបង្កើតថ្មី
-      type: ប្រភេទកំណត់ត្រាករណី
+      tasks_arising: កាតព្វកិច្ចកើតឡើង
+      type: ប្រភេទជំនួប
       type_options:
         visit: ជួបជាមួយអតិថិជនផ្ទាល់
         non_face_to_face: មិនបានជួបផ្ទាល់ជាមួយអតិថិជន
@@ -1250,7 +1250,7 @@ km:
         completion_date: កាលបរិច្ឆេទបញ្ចប់
         domain: កត្តា
         enter_task_detail: កាតព្វកិច្ចលម្អិត
-        expected_date: កំណត់កាលបរិច្ឆេទ
+        expected_date: កាលបរិច្ឆេទរំពឹងទុក
         save: រក្សាទុក
       form_by_assessment:
         add_task: បន្ថែមកាតព្វកិច្ច
@@ -4718,9 +4718,9 @@ km:
           village: ភូមិ
           year: ឆ្នាំ
     update:
-      successfully_updated: របាយការណ៍ត្រូវបានកែសម្រួលដោយជោគជ័យ
-  has_been_added_to_calendar: ព្រឹត្តិការណ៍នេះត្រូវបានបញ្ចូលទៅក្នុងប្រតិទិនរួចហើយ
-  id: លេខសំគាល
+      successfully_updated: របាយការណ៍ត្រូវបានកែសម្រួលដោយជោគជ័យ។
+  has_been_added_to_calendar: ព្រឹត្តិការណ៍នេះត្រូវបានបន្ថែមទៅក្នុងប្រតិទិនរួចហើយ
+  id: អត្តលេខ
   internal_referrals:
     internal_referral_attr: &INTERNAL_REFERRAL_ATTR
       are_you_sure: តើអ្នកប្រាកដថាចង់លុបដែរឬទេ?
@@ -6079,7 +6079,7 @@ km:
       successfully_updated: ការស្ទង់មតិត្រូវបានកែសម្រួលដោយជោគជ័យ
   tasks:
     completion_date: កាលបរិច្ឆេទបញ្ចប់
-    expected_date: កាលបរិច្ឆេទបញ្ចប់
+    expected_date: កាលបរិច្ឆេទរំពឹងទុក
     filter:
       filter_by_user: ស្វែងរកតាមរយៈអ្នកប្រើ
       select_user: ជ្រើសរើស
