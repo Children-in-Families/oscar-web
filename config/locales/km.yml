@@ -991,7 +991,7 @@ km:
       max_file_size: "*ទំហំឯកសារអតិបរមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកបាន."
       preview_download: មើលនិងទាញយក
     attendee: តើ​នរណា​នៅ​ទីនោះ​ក្នុង​អំឡុង​ពេល​ទស្សនកិច្ច​ឬ​ការ​សន្ទនា?
-    case_note_form: ទម្រង់​កំណត់​ហេតុ
+    case_note_form: កំណត់ត្រាករណី
     client_name: ឈ្មោះអតិថិជន
     create:
       successfully_created: កំណត់ត្រាករណីត្រូវបានបង្កើតដោយជោគជ័យ

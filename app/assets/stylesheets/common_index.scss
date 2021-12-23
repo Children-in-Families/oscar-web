@@ -1,33 +1,3 @@
-@font-face {
-  font-family: "Moul";
-  src: asset-url("Moul-Regular.ttf");
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Siemreap";
-  src: asset-url("Siemreap-Regular.ttf");
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Calibri";
-  src: asset-url("Calibri-Regular.ttf");
-  src: asset-url("Calibri-Regular.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Calibri";
-  src: asset-url("Calibri-Bold.TTF");
-  src: asset-url("Calibri-Bold.TTF") format("truetype");
-  font-weight: bold;
-  font-style: bold;
-}
-
 .select2-choice {
   border: 1px solid #e5e6e7 !important;
   border-radius: 1px !important;
@@ -283,14 +253,15 @@ span.input-group-addon {
 
 @media print {
   body {
-    font-family: Calibri, Siemreap, Arial, cursive;
+    font-family: "DejaVu Sans", "Khmer OS Siemreap", Arial, cursive;
   }
   h1,
   h2,
   h3,
   h4,
   h5 {
-    font-family: Calibri, "Moul", Arial, cursive;
+    font-family: "DejaVu Sans", "Khmer OS Muol", "Khmer OS Muol Light", Arial,
+      cursive;
   }
 
   .table-borderless tbody tr td {

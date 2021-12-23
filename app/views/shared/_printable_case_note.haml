@@ -5,8 +5,8 @@
 
 .row
   .col-xs-12
-    %h2.text-center
-      %strong= t('case_notes.case_note_form')
+    %h3.text-center
+      = t('case_notes.case_note_form')
 .row
   .col-xs-6
     %table.table.table-borderless.small.m-b-xs
@@ -76,7 +76,7 @@
 .row
   .col-xs-12
     %h4
-      %strong= t('case_notes.attachment_fields.attachments')
+      = t('case_notes.attachment_fields.attachments')
     %ul
       - file_names = case_note.case_note_domain_groups.pluck(:attachments).reject(&:blank?)
       - case_note.case_note_domain_groups.each do |cdg|
