@@ -72,7 +72,7 @@
               - today_tasks.each do |task|
                 %tr
                   %td= task.name
-                  %td= date_format task.completion_date
+                  %td= date_format task.expected_date
 .row
   .col-xs-12
     %h4
@@ -84,10 +84,6 @@
         - attachment_names = cdg.attachments.map{|a| a.file.path.split('/').last }
         - next if file_names.exclude? attachment_names
         - file_names.delete(attachment_names)
-        %li
-          .table-responsive
-            %table.table.table-bordered-less
-              - cdg.attachments.each_with_index do |attachment, index|
-                %tr
-                  %td= original_filename(attachment)
+        - cdg.attachments.each_with_index do |attachment, index|
+          %li= original_filename(attachment)
 
