@@ -1082,7 +1082,7 @@ km:
       case_note_on: កំណត់ត្រានៅថ្ងៃ
       present: វត្តមានឣ្នកចូលរួម
     type: ប្រភេទ
-    visitation_date: កាលបរិច្ឆេទចូលទស្សនា
+    visitation_date: កាលបរិច្ឆេទសួរសុខទុក
     update:
       successfully_updated: កំណត់ត្រាត្រូវបានកែសម្រួលដោយជោគជ័យ
   cases:
