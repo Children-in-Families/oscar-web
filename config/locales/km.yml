@@ -883,7 +883,7 @@ km:
       add_goal: បន្ថែមគោលដៅ
       cancel: ទុកជាមោឃៈ
       domain: កត្តា
-      expected_date: កំណត់កាលបរិច្ឆេទ
+      expected_date: កាលបរិច្ឆេទរំពឹងទុក
       finish: រក្សាទុក
       goal: គោលដៅ
       next: បន្ទាប់
@@ -913,8 +913,8 @@ km:
       domain: កត្តា
       done_during: បានបំពេញ
       due_date: កាលបរិច្ឆេទ
-      edit: កែសម្រូល
-      expected_date: កំណត់កាលបរិច្ឆេទ
+      edit: កែសម្រួល
+      expected_date: កាលបរិច្ឆេទរំពឹងទុក
       goal: គោលដៅ
       on_date: 'កាលបរិច្ឆេទ:'
       score: ពិន្ទុ
@@ -1013,8 +1013,8 @@ km:
       download: ទាញយក
       max_file_size: "*ទំហំឯកសារអតិបរមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
       preview_download: មើលនិងទាញយក
-    attendee: តើ​នរណា​នៅ​ទីនោះ​ក្នុង​អំឡុង​ពេល​ទស្សនកិច្ច​ឬ​ការ​សន្ទនា?
-    case_note_form: ទម្រង់​កំណត់​ហេតុ
+    attendee: តើអ្នកណាខ្លះចូលរួមក្នុងអំឡុងពេលសួរសុខទុក្ខ ឬសន្ទនា?
+    case_note_form: កំណត់ត្រាករណី
     client_name: ឈ្មោះអតិថិជន
     create:
       successfully_created: កំណត់ត្រាត្រូវបានបង្កើតដោយជោគជ័យ
@@ -1023,7 +1023,7 @@ km:
       successfully_deleted: ឯកសារភ្ជាប់ត្រូវបានកែសម្រួលដោយជោគជ័យ
       successfully_deleted_case_note: កំណត់ត្រាករណីត្រូវបានលុបដោយជោគជ័យ។
     form:
-      add_task: បន្ថែមកាតព្វកិច្ចថ្មី
+      add_task: កាតព្វកិច្ចដែលបានបន្ថែម
       add_task_message: Please select the domain group before you can add the task.
       back: ត្រលប់ក្រោយ
       completed_tasks: កាតព្វកិច្ចដែលបានធ្វើរួច
@@ -1040,7 +1040,7 @@ km:
       save: រក្សាទុក
       tasks: កាតព្វកិច្ច
       tasks_arising: កាតព្វកិច្ចកើតឡើង
-      type: ប្រភេទ
+      type: ប្រភេទជំនួប
       type_options:
         visit: ជួបជាមួយអតិថិជនផ្ទាល់
         non_face_to_face: មិនបានជួបផ្ទាល់ជាមួយអតិថិជន
@@ -1082,7 +1082,7 @@ km:
       case_note_on: កំណត់ត្រានៅថ្ងៃ
       present: វត្តមានឣ្នកចូលរួម
     type: ប្រភេទ
-    visitation_date: កាលបរិច្ឆេទចូលទស្សនា
+    visitation_date: កាលបរិច្ឆេទសួរសុខទុក
     update:
       successfully_updated: កំណត់ត្រាត្រូវបានកែសម្រួលដោយជោគជ័យ
   cases:
@@ -1283,8 +1283,8 @@ km:
         back: ត្រលប់ក្រោយ
         completion_date: ថ្ងៃកំនត់
         domain: កត្តា
-        enter_task_detail: កាតព្វកិច្ចលំអិត
-        expected_date: កំណត់កាលបរិច្ឆេទ
+        enter_task_detail: កាតព្វកិច្ចលម្អិត
+        expected_date: កាលបរិច្ឆេទរំពឹងទុក
         save: រក្សាទុក
       form_by_assessment:
         add_task: បន្ថែមកាតព្វកិច្ច
@@ -4839,7 +4839,7 @@ km:
     update:
       successfully_updated: របាយការណ៍ត្រូវបានកែសម្រួលដោយជោគជ័យ។
   has_been_added_to_calendar: ព្រឹត្តិការណ៍នេះត្រូវបានបន្ថែមទៅក្នុងប្រតិទិនរួចហើយ
-  id: លេខសំគាល់
+  id: អត្តលេខ
   internal_referrals:
     internal_referral_attr: &INTERNAL_REFERRAL_ATTR
       are_you_sure: តើអ្នកប្រាកដហើយ?
@@ -6193,8 +6193,8 @@ km:
     update:
       successfully_updated: ការស្ទង់មតិត្រូវបានកែសម្រួលដោយជោគជ័យ
   tasks:
-    completion_date: ថ្ងៃកំណត់
-    expected_date: កំណត់កាលបរិច្ឆេទ
+    completion_date: កាលបរិច្ឆេទបញ្ចប់
+    expected_date: កាលបរិច្ឆេទរំពឹងទុក
     filter:
       filter_by_user: ស្វែងរកតាមរយៈអ្នកប្រើប្រាស់
       select_user: ជ្រើសរើស
