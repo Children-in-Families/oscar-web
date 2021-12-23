@@ -283,27 +283,14 @@ span.input-group-addon {
 
 @media print {
   body {
-    font-family: Siemreap, Calibri, Arial, cursive;
+    font-family: Calibri, Siemreap, Arial, cursive;
   }
   h1,
   h2,
   h3,
   h4,
   h5 {
-    font-family: "Moul", Calibri, Arial, cursive;
-  }
-
-  html[lang="en"] {
-    body {
-      font-family: Calibri, Siemreap, Arial, cursive;
-    }
-    h1,
-    h2,
-    h3,
-    h4,
-    h5 {
-      font-family: Calibri, Arial, cursive;
-    }
+    font-family: Calibri, "Moul", Arial, cursive;
   }
 
   .table-borderless tbody tr td {
