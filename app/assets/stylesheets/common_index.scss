@@ -252,9 +252,17 @@ span.input-group-addon {
 }
 
 @media print {
-  body {
+  body,
+  p,
+  label,
+  a,
+  ul li,
+  ul li a,
+  text,
+  tspan {
     font-family: "DejaVu Sans", "Khmer OS Siemreap", Arial, cursive;
   }
+
   h1,
   h2,
   h3,
