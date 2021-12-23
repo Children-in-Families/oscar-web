@@ -52,10 +52,10 @@
           .panel.panel-info
             .panel-heading
               .row
-                .col-xs-8
+                .col-xs-7
                   %h3= display_case_note_attendee(case_note)
                   %p= "#{t('created_by')} #{whodunnit('CaseNote', case_note.id)} #{t('at')} #{date_format(case_note.created_at)}"
-                .col-xs-4.text-right
+                .col-xs-5.text-right
                   %h4
                     = t('shared.x_on', x: t('clients.form.case_note'))
                     = date_format(case_note.meeting_date) if case_note.meeting_date
