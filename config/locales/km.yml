@@ -2416,6 +2416,7 @@ km:
   completed_by: បញ្ចប់នៅថ្ងៃ
   completed_date: បញ្ចប់នៅថ្ងៃ
   created_by: បង្កើត​ឡើង​ដោយ
+  created_on: បង្កើតឡើងនៅថ្ងៃ
   custom_field_properties:
     attachment:
       are_you_sure: តើអ្នកប្រាកដហើយ?
@@ -5769,7 +5770,6 @@ km:
       back: ត្រលប់ក្រោយ
       modification_of: ប្រវត្តិកំណែរបស់
   referrals:
-    level_of_risk: កម្រិតហានិភ័យ
     confirm_referral:
       body_second: អតិថិជនដែលអ្នកចង់បញ្ជូនមាននៅក្នុងអង្គការគោលដៅរួចទៅហើយ
       body_third: អ្នកបានបញ្ជូនអតិថិជននេះរួចហើយសូមរង់ចាំការឆ្លើយតប
@@ -5818,8 +5818,10 @@ km:
       referred_from: ប្រភពនៃការបញ្ជូន
       referred_to: បញ្ជូនទៅកាន់
       select_ngos: ជ្រើសរើសអង្គការ
+    level_of_risk: កម្រិតហានិភ័យ
     new:
       new_referral: បន្ថែមទម្រង់បញ្ជូន
+    referral_form: ទំរង់បញ្ជូនករណី
     show:
       cannot_edit_referral: អ្នកមិនអាចកែសម្រួលការបញ្ជូននេះបានទេដោយសារអង្គការគោលដៅបានទទួលយកការបញ្ជូននេះរួចទៅហើយ
       client_id: លេខសំគាល់អតិថិជន
