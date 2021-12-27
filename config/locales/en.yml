@@ -654,6 +654,7 @@ en:
       enter_task_detail: Enter task details
       save: Save
       title: New Task
+    assessment_form: Assessment Form
     attachment:
       attachments: Attachments
       download: Download
@@ -665,6 +666,7 @@ en:
       download: Download
       max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
       preview_download: Preview & Download
+    client_name: Client's Name
     create:
       successfully_created: Assessment has been successfully created.
     destroy:
@@ -2441,6 +2443,8 @@ en:
     version:
       back: Back
       modification_of: Changelog of
+  completed_by: Completed by
+  completed_date: Completed Date
   created_by: Created by
   custom_field_properties:
     attachment:
