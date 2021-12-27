@@ -1,7 +1,7 @@
 %hr/
 .row
   .col-xs-6
-    = image_tag Organization.current.logo, class: 'img-responsive'
+    = image_tag Organization.current.logo, class: 'img-responsive', width: '105'
 
 .row
   .col-xs-12
@@ -58,7 +58,7 @@
       .panel-body
         %table.table
           %th= t('case_notes.form.completed_tasks')
-          %th{ style: "width: 20%;" }= "#{t('tasks.expected_date')}:"
+          %th{ style: "width: 20%;" }= "#{t('tasks.completion_date')}:"
           %tbody
             - case_note.tasks.completed.each do |task|
               %tr
@@ -67,7 +67,7 @@
         - if today_tasks.any?
           %table.table
             %th= t('tasks.task_added')
-            %th{ style: "width: 20%;" }= "#{t('tasks.completion_date')}:"
+            %th{ style: "width: 20%;" }= "#{t('tasks.expected_date')}:"
             %tbody
               - today_tasks.each do |task|
                 %tr

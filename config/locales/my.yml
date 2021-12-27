@@ -653,6 +653,7 @@ my:
       enter_task_detail: လုပ္ငန္းအေသးစိတ္ျဖည့္သြင္းရန္
       save: သိမ္းသည္။
       title: လုပ္ငန္းအသစ္
+    assessment_form: အကဲဖြတ်ပုံစံ
     attachment:
       attachments: တြဲထားသည္မ်ား
       download: ေဒါင္းလုတ္
@@ -664,6 +665,7 @@ my:
       download: ေဒါင္းလုတ္
       max_file_size: "*အႀကီးဆံုးဖိုင္ဆိုဒ္ - တစ္ဖိုင္ ၅ မီဂါဘိုက္ႏွင့္ တစ္ခါတင္ ၃၀ မီဂါဘိုက္"
       preview_download: အစမ္းၾကည့္ျခင္းႏွင့္ ေဒါင္းလုတ္
+    client_name: ဖောက်သည်အမည
     create:
       successfully_created: စိစစ္ခ်က္ကိုေအာင္ျမင္စြာျပဳလုပ္ၿပီးပါၿပီ။
     destroy:
@@ -2401,6 +2403,8 @@ my:
     version:
       back: Back
       modification_of: Changelog of
+  completed_by: ဖြင့် ပြီးမြောက်ခဲ့သည်။
+  completed_date: ပြီးစီးသည့်နေ့စွဲ
   created_by: တည်ထောင်ထားတဲ့
   custom_field_properties:
     attachment:
@@ -4889,7 +4893,7 @@ my:
       are_you_sure: Are you sure you want to delete?
       attachments: Attachments
       client_id: Client ID
-      client_name: Client Name
+      client_name: ဖောက်သည်အမည
       client_representing_problem: CLIENT'S PRESENTING PROBLEMS
       client_representing_problem_note: "What issues/needs does the client say he or she needs help addressing:"
       emergency_note: "NOTE: EMERGENCY/CRISIS NEEDS"

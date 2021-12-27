@@ -641,6 +641,7 @@ km:
       enter_task_detail: ព័ត៌មានពីកាតព្វកិច្ច
       save: រក្សាទុក
       title: បន្ថែមកាតព្វកិច្ចថ្មី
+    assessment_form: ទម្រង់ការប៉ាន់ប្រមាណ
     attachment:
       attachments: ឯកសារភ្ជាប់
       download: ទាញយក
@@ -652,6 +653,7 @@ km:
       download: ទាញយក
       max_file_size: "*ទំហំឯកសារអតិបរមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកបាន."
       preview_download: មើលនិងទាញយក
+    client_name: ឈ្មោះអតិថិជន
     create:
       successfully_created: ការប៉ាន់ប្រមាណត្រូវបានបង្កើតដោយជោគជ័យ
     destroy:
@@ -1058,7 +1060,7 @@ km:
     show:
       case_note_on: កំណត់ត្រាករណីនៅថ្ងៃ
       present: វត្តមានឣ្នកចូលរួម
-    type: ប្រភេទ
+    type: ប្រភេទជំនួប
     visitation_date: កាលបរិច្ឆេទសួរសុខទុក
     update:
       successfully_updated: កំណត់ត្រាករណីត្រូវបានកែសម្រួលដោយជោគជ័យ
@@ -2257,6 +2259,8 @@ km:
     version:
       back: ត្រឡប់ក្រោយ
       modification_of: ប្រវត្ដិនៃកំណែ
+  completed_by: បំពេញដោយ
+  completed_date: បញ្ចប់នៅថ្ងៃ
   created_by: បង្កើតដោយ
   custom_field_properties:
     attachment:
