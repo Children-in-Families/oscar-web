@@ -2406,6 +2406,7 @@ my:
   completed_by: ဖြင့် ပြီးမြောက်ခဲ့သည်။
   completed_date: ပြီးစီးသည့်နေ့စွဲ
   created_by: တည်ထောင်ထားတဲ့
+  created_on: ဖန်တီးခဲ့သည်။
   custom_field_properties:
     attachment:
       are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
@@ -5833,7 +5834,6 @@ my:
       back: ေနာက္သို႔
       modification_of: "၏ ေျပာင္းလဲမႈ"
   referrals:
-    level_of_risk: အန္တရာယ်အဆင့်
     confirm_referral:
       body_second: သငျသညျ alreay ရည်ညွှန်းချင်သော client ကိုပစ်မှတ်အန်ဂျီအိုနေပါသည်။
       body_third: သငျသညျပြီးသားဒီ client ကို, ထိုတုံ့ပြန်မှုကိုစောင့်ဆိုင်းကျေးဇူးပြုပြီးရည်ညွှန်းကြသည်။
@@ -5882,9 +5882,11 @@ my:
       referred_from: ကနေရည်ညွှန်း
       referred_to: ရည်ညွှန်း
       select_ngos: အဖွဲ့အစည်းကရှေးခယျြ
+    level_of_risk: အန္တရာယ်အဆင့်
     new:
       new_referral: ဂီယာ Add
     referral_status: ရည်ညွှန်းမှုအခြေအနေ
+    referral_form: လွှဲပြောင်းမှုပုံစံ
     show:
       cannot_edit_referral: ပစ်မှတ်အန်ဂျီအိုပြီးသားဒီလွှဲပြောင်းလက်ခံခဲ့သည်ကြောင့်သင်ဤလွှဲပြောင်းတည်းဖြတ်မရနိုင်ပါ
       client_id: မွတ္ပံုတင္
