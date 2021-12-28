@@ -2446,6 +2446,7 @@ en:
   completed_by: Completed by
   completed_date: Completed Date
   created_by: Created by
+  created_on: Created On
   custom_field_properties:
     attachment:
       are_you_sure: Are you sure you want to delete?
@@ -5817,7 +5818,6 @@ en:
       back: Back
       modification_of: Changelog of
   referrals:
-    level_of_risk: Level of Risk
     confirm_referral:
       body_second: The client you want to refer already existed in the target NGO.
       body_third: You have already referred this client, please wait for the response.
@@ -5858,14 +5858,17 @@ en:
       detail: Detail
       edit_btn: Edit
       name_of_referee: Name of Referee
+      referral_email: Referral Email
       referral_forms: Referral Forms
       referral_phone: Referral Phone
       referral_reason: Referral Note
       referred_from: Reffered From
       referred_to: Referred To
       select_ngos: Select NGOs
+    level_of_risk: Level of Risk
     new:
       new_referral: New Referral
+    referral_form: Referral Form
     show:
       cannot_edit_referral: You cannot edit this referral because the target NGO already accepted this referral
       client_id: Client ID
