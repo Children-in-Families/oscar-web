@@ -1,19 +1,24 @@
 %hr/
 .row
   .col-xs-6
-    = image_tag Organization.current.logo, class: 'img-responsive', width: '100'
+    = image_tag Organization.current.logo, class: 'img-responsive', width: '105'
 
 .row
   .col-xs-12
     %h3.text-center
       = t('assessments.assessment_form')
+    %h3.text-center
+      - if assessment.assessment_domains.first.domain.custom_assessment_setting.blank?
+        = "(#{t('domains.index.csi_tool')})"
+      - else
+        = "#{assessment.assessment_domains.first.domain.custom_assessment_setting&.custom_assessment_name}"
 .row
-  .col-xs-6
+  .col-xs-7
     %table.table.small.m-b-xs.table-borderless
       %tr
         %td.spacing-first-col
           %strong= "#{t('assessments.client_name')}:"
-        %td= assessment.parent.en_and_local_name
+        %td= assessment.parent.name
       %tr
         %td
           %strong= "#{t('created_by')}:"
@@ -23,7 +28,7 @@
           %strong= "#{t('assessments.show.based_on')}:"
         %td= assessment.index_of + 1
 
-  .col-xs-6
+  .col-xs-5
     %table.table.small.m-b-xs.table-borderless
       %tr
         %td
@@ -56,18 +61,15 @@
                 %td.no-padding-top
                   %b= "#{t('assessments.show.score')}:"
 
-                %td.no-padding-top
-                  %b
-                    .row
-                      .col-xs-2
-                        - unless assessment.initial?
-                          %button{ class: "btn btn-#{ad.previous_score_color_class} btn-xs" }
-                            = "#{ad.previous_score}"
-                          %span{ style: 'color: black;' } &#8594;
-                        %button{ class: "btn btn-#{ad.score_color_class} btn-xs" }
-                          = "#{ad.score}"
-                      .col-xs-10
-                        = simple_format(ad.score_definition)
+                %td.no-padding-top.domain-score-definition
+                  - unless assessment.initial?
+                    %button{ class: "btn btn-#{ad.previous_score_color_class} btn-xs" }
+                      = "#{ad.previous_score}"
+                    %span{ style: 'color: black;' } &#8594;
+                  %button{ class: "btn btn-#{ad.score_color_class} btn-xs" }
+                    = "#{ad.score}"
+
+                  %b.m-l-sm= simple_format(ad.score_definition)
               %tr
                 %td
                   %b= "#{t('assessments.show.reason')}:"
