@@ -9,7 +9,7 @@
       = t('referrals.referral_form')
 
 .row
-  .col-xs-6
+  .col-xs-7
     %table.table.table-borderless.small.m-b-xs
       %tr
         %td.spacing-first-col
@@ -24,14 +24,14 @@
           %strong= "#{t('referrals.show.referred_from')}:"
         %td= referral.referred_from_ngo
       %tr
-        %td
+        %td{ width: '190' }
           %strong= "#{t('referrals.show.name_of_referee')}:"
         %td= referral.name_of_referee
       %tr
         %td
           %strong= "#{t('referrals.show.referral_phone')}:"
         %td= referral.referral_phone
-  .col-xs-6
+  .col-xs-5
     %table.table.table-borderless.small.m-b-xs
       %tr
         %td

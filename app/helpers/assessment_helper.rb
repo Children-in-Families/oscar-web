@@ -339,4 +339,13 @@ module AssessmentHelper
     Domain.where(domain_type: 'family').any?
   end
 
+  def check_assessment_domain_exist?(assessment)
+    if assessment.assessment_domains.first.blank? || assessment.assessment_domains.first.domain.custom_assessment_setting.blank?
+      "(#{t('domains.index.csi_tool')})"
+    elsif assessment.assessment_domains.first.domain
+      "#{assessment.assessment_domains.first.domain.custom_assessment_setting&.custom_assessment_name}"
+    end
+  end
+
+
 end
