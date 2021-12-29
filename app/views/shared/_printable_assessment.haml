@@ -8,10 +8,7 @@
     %h3.text-center
       = t('assessments.assessment_form')
     %h3.text-center
-      - if assessment.assessment_domains.first.domain.custom_assessment_setting.blank?
-        = "(#{t('domains.index.csi_tool')})"
-      - else
-        = "#{assessment.assessment_domains.first.domain.custom_assessment_setting&.custom_assessment_name}"
+      = check_assessment_domain_exist?(assessment)
 .row
   .col-xs-7
     %table.table.small.m-b-xs.table-borderless
@@ -24,7 +21,7 @@
           %strong= "#{t('created_by')}:"
         %td= whodunnit('Assessment', assessment)
       %tr
-        %td
+        %td{ width: '175' }
           %strong= "#{t('assessments.show.based_on')}:"
         %td= assessment.index_of + 1
 
