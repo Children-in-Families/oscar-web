@@ -19,10 +19,10 @@
         = f.input :custom_assessment_name, label: false
     .col-xs-12.col-sm-3
       .form-group
-        = f.input :max_custom_assessment, label: false
+        = f.input :max_custom_assessment, label: false, disabled: f.object.custom_assessment_frequency == 'unlimited'
     .col-xs-12.col-sm-3
       .form-group
-        = f.input :custom_assessment_frequency, collection: %w(day week month year).map{ |freq| [freq.titleize, freq] }, input_html: { class: 'select2' }, label: false
+        = f.input :custom_assessment_frequency, collection: %w(day week month year unlimited).map{ |freq| [freq.titleize, freq] }, input_html: { class: 'select2' }, label: false
     .col-xs-12.col-sm-2
       .form-group
         = f.input :custom_age, placeholder: 'Age', label: false
