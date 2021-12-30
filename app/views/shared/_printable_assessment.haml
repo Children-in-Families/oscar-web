@@ -73,3 +73,13 @@
                   %b= "#{t('assessments.show.reason')}:"
                 %td
                   = ad.reason
+
+.row
+  .col-xs-12
+    %h3
+      = t('assessments.attachment.attachments')
+    %ul
+      - assessment.assessment_domains_in_order.each do |ad|
+        - next unless ad.attachments.any?
+        - ad.attachments.each_with_index do |attachment, index|
+          %li= original_filename(attachment)
