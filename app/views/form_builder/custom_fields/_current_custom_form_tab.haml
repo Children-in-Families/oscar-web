@@ -32,5 +32,6 @@
               - if can? :manage, CustomField
                 = link_to hidden_custom_field_path(custom_field, hidden: !custom_field.hidden), class: 'btn btn-outline btn-primary btn-xs' do
                   = fa_icon(custom_field.hidden ? 'lock' : 'unlock')
+
   .text-center
     = paginate @custom_fields, params: { tab: 'current_ngo' }, :param_name => 'page_1'

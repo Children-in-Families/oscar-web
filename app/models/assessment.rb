@@ -71,12 +71,12 @@ class Assessment < ActiveRecord::Base
   def initial?(custom_assessment_setting_id = nil)
     if client_id
       if default?
-        self == client.assessments.defaults.most_recents.last || client.assessments.defaults.count.zero?
+        (self == client.assessments.defaults.most_recents.last) || client.assessments.defaults.count.zero?
       else
-        self == client.assessments.customs.joins(:domains).where(domains: { custom_assessment_setting_id: custom_assessment_setting_id }).most_recents.last || client.assessments.customs.count.zero?
+        (self == client.assessments.customs.joins(:domains).where(domains: { custom_assessment_setting_id: custom_assessment_setting_id }).most_recents.last) || client.assessments.customs.count.zero?
       end
     elsif family_id
-      self == family.assessments.customs.most_recents.last || family.assessments.customs.count.zero?
+      (self == family.assessments.customs.most_recents.last) || family.assessments.customs.count.zero?
     end
   end
 
@@ -151,7 +151,11 @@ class Assessment < ActiveRecord::Base
   private
 
   def allow_create
-    errors.add(:base, "Assessment cannot be created due to either frequency period or previous assessment status") if client.present? && !client.can_create_assessment?(default)
+    custom_assessment_setting_id = nil
+    if default == false && assessment_domains.any?
+      custom_assessment_setting_id = assessment_domains.first.domain&.custom_assessment_setting_id
+    end
+    errors.add(:base, "Assessment cannot be created due to either frequency period or previous assessment status") if client.present? && !client.can_create_assessment?(default, custom_assessment_setting_id)
   end
 
   def must_be_enable

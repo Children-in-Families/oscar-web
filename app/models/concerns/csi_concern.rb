@@ -111,6 +111,7 @@ module CsiConcern
       assessment_frequency = 'month'
     end
 
+    return 0.day if assessment_frequency == 'unlimited'
     assessment_period.send(assessment_frequency)
   end
 
