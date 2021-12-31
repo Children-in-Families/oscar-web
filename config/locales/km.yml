@@ -1543,6 +1543,7 @@ km:
       enrollment_date: កាលបរិច្ឆេទចុះឈ្មោះ
     update:
       successfully_updated: ការចុះឈ្មោះត្រូវបានកែសម្រួលដោយជោគជ័យ
+  client_name: ឈ្មោះអតិថិជន
   clients:
     attr: &LEGAL_DOC_ATTR
       add_service_received: បន្ថែមសេវាដែលបានទទួល
@@ -4478,6 +4479,7 @@ km:
         search_custom_form: ស្វែងរកទម្រង់បែបបទ
         time_of_frequency: ពេលវេលានៃភាពញឹកញាប់
         type: ប្រើប្រាស់ជាមួយ
+      date_field: កាលបរិច្ឆេទ
       demo_custom_form_tab:
         are_you_sure: តើអ្នកប្រាកដហើយ?
         close: បិទ
