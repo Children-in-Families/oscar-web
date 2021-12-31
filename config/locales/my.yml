@@ -1545,6 +1545,7 @@ my:
       enrollment_date: စာရင္းေပးသြင္းသည့္ရက္စြဲ
     update:
       successfully_updated: စာရင္းေပးသြင္းျခင္းကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ၿပီးပါၿပီ
+  client_name: ကေလးနာမည
   clients:
     attr: &LEGAL_DOC_ATTR
       add_service_received: Add Services Received
@@ -4523,6 +4524,7 @@ my:
         search_custom_form: အေကာက္ခြန္ပံုစံ ရွာေဖြရန္
         time_of_frequency: အႀကိမ္အေရအတြက္
         type: အမ်ိဳးအစား
+      date_field: Date field
       demo_custom_form_tab:
         are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
         close: ပိန္ရန္
