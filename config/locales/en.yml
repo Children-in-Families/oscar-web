@@ -1541,7 +1541,7 @@ en:
       exit: Exit
       forms: Forms
       programs_list: Programs List
-      report: Reports`
+      report: Reports
       tracking: Tracking
       view: View
     show:
@@ -1550,6 +1550,7 @@ en:
       enrollment_date: Enrolled on
     update:
       successfully_updated: Enrollment has been successfully updated.
+  client_name: Client's Name
   clients:
     attr: &LEGAL_DOC_ATTR
       add_service_received: Add Services Received
@@ -4522,6 +4523,7 @@ en:
         search_custom_form: Search Custom Form
         time_of_frequency: Time of Frequency
         type: Attached with
+      date_field: Date field
       demo_custom_form_tab:
         are_you_sure: Are you sure you want to delete?
         close: Close

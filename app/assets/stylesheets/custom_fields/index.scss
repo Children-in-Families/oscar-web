@@ -1,4 +1,4 @@
-body[id='custom_fields-index'] {
+body[id="custom_fields-index"] {
   .manage {
     min-width: 100px;
     a {
@@ -24,11 +24,12 @@ body[id='custom_fields-index'] {
   }
   th.form_title,
   th.frequency,
-  th.organization, {
+  th.organization {
     min-width: 350px;
   }
 
-  th.type, th.manage {
-    min-width: 150px;
+  th.type,
+  th.manage {
+    min-width: 190px;
   }
 }
