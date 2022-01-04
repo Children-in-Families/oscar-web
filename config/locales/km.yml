@@ -877,6 +877,10 @@ km:
   cannot_remove: មិនអាចលុបបានទេ
   cannot_remove_or_update: មិនអាចលុបរឺកែសម្រួលបានទេដោយសារតែត្រូវបានប្រើរួចហើយ
   care_plans:
+    care_plan_form: ទម្រង់គម្រោងថែទាំ
+    care_plan: គម្រោងថែទាំ
+    care_plan_based_on:  ផ្អែកលើគម្រោងថែទាំ
+    completed_date: បញ្ចប់នៅថ្ងៃ
     create:
       successfully_created: គម្រោងថែរក្សាត្រូវបានបង្កើតដោយជោគជ័យ
     destroy:
@@ -5823,7 +5827,7 @@ km:
     level_of_risk: កម្រិតហានិភ័យ
     new:
       new_referral: បន្ថែមទម្រង់បញ្ជូន
-    referral_form: ទំរង់បញ្ជូនករណី
+    referral_form: ទម្រង់បញ្ជូនករណី
     show:
       cannot_edit_referral: អ្នកមិនអាចកែសម្រួលការបញ្ជូននេះបានទេដោយសារអង្គការគោលដៅបានទទួលយកការបញ្ជូននេះរួចទៅហើយ
       client_id: លេខសំគាល់អតិថិជន
