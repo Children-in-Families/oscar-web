@@ -15,11 +15,12 @@ module CustomFormBuilderHelper
     errors[field.to_sym].join(', ') if errors[field.to_sym].present?
   end
 
-  def display_custom_properties(value)
+  def display_custom_properties(value, type=nil)
     div = content_tag :div do
       if value =~ /(\d{4}[-\/]\d{1,2}[-\/]\d{1,2})/
         concat value.to_date.strftime('%d %B %Y')
       elsif value.is_a?(Array)
+        return value.join(', ') if type == 'select'
         value.reject{ |i| i.empty? }.each do |c|
           concat content_tag(:strong, c.gsub('&amp;qoute;', '&quot;').html_safe, class: 'label label-margin')
         end
