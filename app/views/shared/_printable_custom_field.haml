@@ -33,7 +33,7 @@
 
 .row
   .col-xs-12
-    .table-responsive
+    .table-responsive.m-t-md
       %table.table.table-bordered
         - custom_field_property.custom_field.fields.map{|a| [a['type'], a['label']]}.each do |type, key|
           - unless type == 'separateLine'
@@ -43,9 +43,9 @@
                   = key.html_safe
             - else
               %tr
-                %td.align-justify
+                %td.align-justify{ width: '50%' }
                   = key.html_safe
-                %td.align-justify
+                %td.align-justify{ width: '50%' }
                   - key = convert_bracket(key, custom_field_property.properties)
                   - if type == 'file'
                     - attachment_by_label = custom_field_property.get_form_builder_attachment(key)
