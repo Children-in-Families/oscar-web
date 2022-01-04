@@ -4471,7 +4471,7 @@ en:
       referral_forms: Referral Forms
       referral_phone: Referral Phone
       referral_reason: Referral Note
-      referred_from: Reffered From
+      referred_from: Referred From
       referred_to: Referred To
       select_ngos: Select NGOs
     new:
@@ -4494,12 +4494,12 @@ en:
           name_of_referee: Case Worker Making the Referral
           referral_phone: Contact Phone Number
           referral_reason: Referral Note
-          referred_from: Reffered From
+          referred_from: Referred From
           referred_to: Referred To
       preview_download: Preview & Download
       referral_phone: Contact Phone Number
       referral_reason: Referral Note
-      referred_from: Reffered From
+      referred_from: Referred From
       referred_to: Referred To
       type_of_service: Type of Service
     update:
@@ -5900,12 +5900,12 @@ en:
           name_of_referee: Case Worker Making the Referral
           referral_phone: Contact Phone Number
           referral_reason: Referral Note
-          referred_from: Reffered From
+          referred_from: Referred From
           referred_to: Referred To
       preview_download: Preview & Download
       referral_phone: Contact Phone Number
       referral_reason: Referral Note
-      referred_from: Reffered From
+      referred_from: Referred From
       referred_to: Referred To
       type_of_service: Type of Service
     update:
