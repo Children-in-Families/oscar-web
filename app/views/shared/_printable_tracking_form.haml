@@ -45,7 +45,7 @@
               %tr
                 %td.align-justify{ width: '50%' }
                   = key.html_safe
-                %td.align-justify{ width: '50%' }
+                %td{ width: '50%', style: "overflow-wrap: anywhere;" }
                   - key = convert_bracket(key, enrollment_tracking.properties.clone)
                   - if type == 'file'
                     - attachment_by_label = enrollment_tracking.get_form_builder_attachment(key)
