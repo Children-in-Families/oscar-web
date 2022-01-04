@@ -44,7 +44,7 @@
       %tr
         %td
           %strong= "#{t('referrals.show.referred_to')}:"
-        %td= referral.ngo_name
+        %td= referral.ngo_name.presence || ngo_hash_mapping[referral.referred_to]
       %tr
         %td
           %strong= "#{t('created_on')}:"
