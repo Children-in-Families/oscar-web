@@ -37,9 +37,9 @@
         %td= date_format assessment.completed_date
 
 - assessment.assessment_domains_in_order.each do |ad|
-  .row
+  .row{ style: "page-break-inside: avoid" }
     .col-xs-12
-      %div{class: "panel panel-default"}
+      %div{ class: "panel panel-default" }
         .panel-heading
           %table.table.table-borderless
             %tbody
