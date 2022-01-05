@@ -20,7 +20,7 @@ module CustomFormBuilderHelper
       if value =~ /(\d{4}[-\/]\d{1,2}[-\/]\d{1,2})/
         concat value.to_date.strftime('%d %B %Y')
       elsif value.is_a?(Array)
-        return value.join(', ') if type == 'select'
+        return value.join(', ') if type == 'select' || type == 'checkbox-group'
         value.reject{ |i| i.empty? }.each do |c|
           concat content_tag(:strong, c.gsub('&amp;qoute;', '&quot;').html_safe, class: 'label label-margin')
         end
