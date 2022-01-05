@@ -62,7 +62,7 @@ class NgoUsageReport
     client_columns = ['Organization', 'Added new client this month', 'Increased client as adult female', 'Increased client as adult male', 'Increased client as Girl', 'Increased client as Boy', 'Other', 'No DoB']
     cross_ngo_columns = ['Organization', 'No. of Clients referred', 'Adult Female', 'Adult Male', 'Girl', 'Boy', 'Other', 'Agency Name received the case']
 
-    cross_mosvy_columns_group = ['', '', '', 'NGO to MoSAVY', '', '', '', '', 'MoSAVY to NGO', '', '', '', '', '']
+    cross_mosvy_columns_group = ['', '', '', 'NGO to MoSAVY', '', '', '', '', '', 'MoSAVY to NGO', '', '', '', '', '']
     cross_mosvy_columns = ['Organization', 'Sign up date', 'Current Sharing', 'No. of Clients referred', 'Adult Female', 'Adult Male', 'Girl', 'Boy', 'Other', 'No. of Clients received', 'Adult Female', 'Adult Male', 'Girl', 'Boy', 'Other']
     learning_columns = ['Onboarding Date', '', '', '', '', '', 'Number of Logins', '', '']
     sub_learning_columns = ['Started Sharing This Month', '', 'Stopped Sharing This Month', '', 'Currently Sharing (All Time)', '', 'User', 'Organization Name', 'Login Count']
@@ -88,9 +88,9 @@ class NgoUsageReport
       number_format: 'mmmm d, yyyy'
     )
 
-    beginning_of_month = 1.month.ago.beginning_of_month
-    end_of_month       = 1.month.ago.end_of_month
-    previous_month     = 1.month.ago.strftime('%B %Y')
+    beginning_of_month = date_time.to_datetime.prev_month.beginning_of_month
+    end_of_month       = date_time.to_datetime.prev_month.end_of_month
+    previous_month     = date_time.to_datetime.prev_month.strftime('%B %Y')
 
     ngo_worksheet      = book.create_worksheet(name: "1. NGO Records-#{previous_month}")
     user_worksheet     = book.create_worksheet(name: "2. User Report-#{previous_month}")
@@ -107,8 +107,8 @@ class NgoUsageReport
 
     cross_mosvy_worksheet.insert_row(0, cross_mosvy_columns_group)
     cross_mosvy_worksheet.insert_row(1, cross_mosvy_columns)
-    cross_mosvy_worksheet.merge_cells(0, 3, 0, 7)
-    cross_mosvy_worksheet.merge_cells(0, 8, 0, 14)
+    cross_mosvy_worksheet.merge_cells(0, 3, 0, 8)
+    cross_mosvy_worksheet.merge_cells(0, 9, 0, 14)
     cross_mosvy_worksheet.row(1).height = 30
 
     cross_mosvy_columns.length.times do |i|
@@ -186,7 +186,7 @@ class NgoUsageReport
     stop_sharing_date = []
     all_learning_data = []
 
-    Organization.order(:created_at).without_shared.each_with_index do |org, index|
+    Organization.order(:created_at).where.not(short_name: ['demo', 'tutorials', 'shared']).order(:created_at).each_with_index do |org, index|
       Organization.switch_to org.short_name
       next if Setting.first.blank?
 
@@ -279,7 +279,7 @@ class NgoUsageReport
   end
 
   def cross_ngo_referrals_info(beginning_of_month, end_of_month)
-    referrals = Referral.delivered.where(created_at: beginning_of_month..end_of_month).where.not(referred_to: 'MoSVY External System')
+    referrals = Referral.delivered.where(created_at: beginning_of_month..end_of_month).where.not(ngo_name: 'MoSVY External System')
     clients = Client.where(id: referrals.pluck(:client_id))
     {
       number_of_referrals: referrals.count,
@@ -288,7 +288,7 @@ class NgoUsageReport
       girls: under_18_client_gender_count(clients, :female),
       boys: under_18_client_gender_count(clients),
       others: other_client_gender_count(clients),
-      referred_to: referrals.map{|referral| ngo_hash_mapping[referral.referred_to] }.join(', ')
+      referred_to: referrals.map{|referral| referral.ngo_name.presence || ngo_hash_mapping[referral.referred_to] }.join(', ')
     }
   end
 
@@ -303,41 +303,52 @@ class NgoUsageReport
   end
 
   def ngo_referral_client_info(beginning_of_month, end_of_month)
-    referrals = Referral.where(created_at: beginning_of_month..end_of_month).where(referred_to: 'MoSVY External System')
+    referrals = Referral.where(created_at: beginning_of_month..end_of_month).where("referred_to = ? AND (ngo_name = ? OR ngo_name = ?)", 'external referral', 'MoSVY', 'MoSVY External System')
     clients = Client.where(id: referrals.pluck(:client_id))
     {
       ngo_mosvy_referred_client_count: referrals.count,
       ngo_mosvy_adult_females: adule_client_gender_count(clients, :female),
       ngo_mosvy_adult_males: adule_client_gender_count(clients, :male),
       ngo_mosvy_girls: under_18_client_gender_count(clients, :female),
-      ngo_mosvy_boys: under_18_client_gender_count(clients),
+      ngo_mosvy_boys: under_18_client_gender_count(clients, :male),
       ngo_mosvy_others: other_client_gender_count(clients)
     }
   end
 
   def mosvy_referral_client_info(beginning_of_month, end_of_month)
-    referrals = Referral.where(created_at: beginning_of_month..end_of_month).where(saved: true, referred_from: 'MoSVY External System')
+    referrals = Referral.where(created_at: beginning_of_month..end_of_month).where(referred_from: 'MoSVY External System').where("ngo_name = ? OR ngo_name = ?", 'MoSVY', 'MoSVY External System')
     clients = Client.where(id: referrals.pluck(:client_id))
-
     {
       mosvy_ngo_referred_client_count: referrals.count,
-      mosvy_ngo_adult_females: adule_client_gender_count(clients, :female),
-      mosvy_ngo_adult_males: adule_client_gender_count(clients, :male),
-      mosvy_ngo_girls: under_18_client_gender_count(clients, :female),
-      mosvy_ngo_boys: under_18_client_gender_count(clients),
-      mosvy_ngo_others: other_client_gender_count(clients)
+      mosvy_ngo_adult_females: adule_client_gender_count(clients, :female, referrals),
+      mosvy_ngo_adult_males: adule_client_gender_count(clients, :male, referrals),
+      mosvy_ngo_girls: under_18_client_gender_count(clients, :female, referrals),
+      mosvy_ngo_boys: under_18_client_gender_count(clients, :male, referrals),
+      mosvy_ngo_others: other_client_gender_count(clients, referrals)
     }
   end
 
-  def adule_client_gender_count(clients, type = :male)
-    clients.public_send(type).where("(EXTRACT(year FROM age(current_date, clients.date_of_birth)) :: int) >= ?", 18).count
+  def adule_client_gender_count(clients, type = :male, referrals = nil)
+    if referrals
+      referrals.where("referrals.client_gender = ? AND (EXTRACT(year FROM age(current_date, referrals.client_date_of_birth)) :: int) >= ?", type.to_s, 18).count
+    else
+      clients.public_send(type).where("(EXTRACT(year FROM age(current_date, clients.date_of_birth)) :: int) >= ?", 18).count
+    end
   end
 
-  def under_18_client_gender_count(clients, type = :male)
-    clients.public_send(type).where("(EXTRACT(year FROM age(current_date, clients.date_of_birth)) :: int) < ?", 18).count
+  def under_18_client_gender_count(clients, type = :male, referrals = nil)
+    if referrals
+      referrals.where("referrals.client_gender = ? AND (EXTRACT(year FROM age(current_date, referrals.client_date_of_birth)) :: int) < ?", type.to_s, 18).count
+    else
+      clients.public_send(type).where("(EXTRACT(year FROM age(current_date, clients.date_of_birth)) :: int) < ?", 18).count
+    end
   end
 
-  def other_client_gender_count(clients)
-    clients.where("gender IS NOT NULL AND (gender NOT IN ('male', 'female') OR date_of_birth IS NULL)").count
+  def other_client_gender_count(clients, referrals = nil)
+    if referrals
+      referrals.where("client_gender IS NOT NULL AND (client_gender NOT IN ('male', 'female') OR client_date_of_birth IS NULL)").count
+    else
+      clients.where("gender IS NOT NULL AND (gender NOT IN ('male', 'female') OR date_of_birth IS NULL)").count
+    end
   end
 end

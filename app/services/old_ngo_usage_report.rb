@@ -73,9 +73,9 @@ class OldNgoUsageReport
       number_format: 'mmmm d, yyyy'
     )
 
-    beginning_of_month = 1.month.ago.beginning_of_month
-    end_of_month       = 1.month.ago.end_of_month
-    previous_month     = 1.month.ago.strftime('%B %Y')
+    beginning_of_month = date_time.to_datetime.prev_month.beginning_of_month
+    end_of_month       = date_time.to_datetime.prev_month.end_of_month
+    previous_month     = date_time.to_datetime.prev_month.strftime('%B %Y')
 
     ngo_worksheet      = book.create_worksheet(name: "NGO Records-#{previous_month}")
     user_worksheet     = book.create_worksheet(name: "User Report-#{previous_month}")
