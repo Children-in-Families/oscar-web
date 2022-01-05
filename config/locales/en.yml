@@ -874,7 +874,10 @@ en:
   cannot_remove: cannot be removed
   cannot_remove_or_update: cannot be removed/updated since it is already in use.
   care_plans:
+    care_plan_form: Care Plan Form
     care_plan: Care plan
+    care_plan_based_on: Care Plan Based on
+    completed_date: Completed Date
     create:
       successfully_created: "%{care_plan} has been successfully created."
     destroy:

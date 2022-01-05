@@ -871,6 +871,10 @@ my:
   cannot_remove: ဖ်က္ပစ္၍မရပါ။
   cannot_remove_or_update: အသံုးျပဳေနသည္ျဖစ္၍ ဖ်က္ပစ္ျခင္းသာ္လည္းေကာင္း၊ အသစ္ျပင္ဆင္ျခင္းေသာ္လည္းေကာင္း လုပ္၍မရပါ။
   care_plans:
+    care_plan_form: Care Plan Form
+    care_plan: Care plan
+    care_plan_based_on: Care Plan Based on
+    completed_date: ပြီးစီးသည့်နေ့စွဲ
     create:
       successfully_created: Care Plan ကိုအောင်မြင်စွာဖန်တီးပြီးဖြစ်သည်။
     destroy:
