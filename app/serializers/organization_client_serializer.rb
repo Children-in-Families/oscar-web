@@ -88,7 +88,7 @@ class OrganizationClientSerializer < ActiveModel::Serializer
   end
 
   def level_of_risk
-    last_referral&.level_of_risk || object.level_of_risk || ''
+    last_referral&.level_of_risk || ''
   end
 
   private
