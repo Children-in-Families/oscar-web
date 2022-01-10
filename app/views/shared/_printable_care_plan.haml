@@ -15,13 +15,9 @@
           %strong= "#{t('client_name')}:"
         %td= care_plan.parent.en_and_local_name
       %tr
-        %td
+        %td{ width: '120px' }
           %strong= "#{t('created_by')}:"
         %td= whodunnit('CarePlan', care_plan.id)
-      %tr
-        %td{ width: '120px' }
-          %strong= "#{t('care_plans.care_plan_based_on')}:"
-        %td= date_format(care_plan.created_at)
   .col-xs-6
     %table.table.table-borderless.small.m-b-xs
       %tr

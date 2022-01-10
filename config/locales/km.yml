@@ -855,9 +855,9 @@ km:
   cannot_remove: មិនអាចលុបបានទេ
   cannot_remove_or_update: មិនអាចលុបឬកែសម្រួលបានទេដោយសារតែត្រូវបានប្រើរួចហើយ
   care_plans:
-    care_plan_form: ទម្រង់គម្រោងថែទាំ
-    care_plan: គម្រោងថែទាំ
-    care_plan_based_on:  ផ្អែកលើគម្រោងថែទាំ
+    care_plan_form: ផែនការគាំទ្រករណី
+    care_plan: ផែនការគាំទ្រករណី
+    care_plan_based_on: ផ្អែកលើផែនការគាំទ្រករណី
     completed_date: បញ្ចប់នៅថ្ងៃ
     create:
       successfully_created: ផែនការគាំទ្រករណីត្រូវបានបង្កើតដោយជោគជ័យ
