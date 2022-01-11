@@ -4260,8 +4260,10 @@ en:
       view_tasks: Tasks
       caregiver_information: Caregiver Information
       case_histories: Case Histories
-      case_history: Case History
+      case_history: Relavent Information
+      case_worker_or_staff: Case Worker/Staff Assigned
       code: Manaul ID
+      community_ids: Community/Group
       contract_date: Contract Date
       created_by: Created by
       created_date: Created Date
@@ -4276,13 +4278,15 @@ en:
       family_type: Family Type
       female_adult_count: Number of Adule Females
       female_children_count: Number of Girls
+      follow_up_date: First Follow Up Date
+      followed_up_by: Followed Up By
       gender: Gender
-      general_info: About Family
+      general_info: Family Information
       guardian: Guardian
       house: House
       household_income: Monthly Household Income
       id: Family ID
-      initial_referral_date: Initial Referral Date
+      initial_referral_date: Date of Referral
       male_adult_count: Number of Adule Males
       male_children_count: Number of Boys
       member_count: Number of Family Members
@@ -4295,6 +4299,7 @@ en:
       province: Province
       read_less: read less
       read_more: read more
+      received_by: Received By Staff Member
       refer_family: Refer Family
       referral_forms: Referral Forms
       referred_from: Referred From
