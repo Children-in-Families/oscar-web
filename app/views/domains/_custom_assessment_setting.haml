@@ -8,7 +8,7 @@
             %span.label.label-info= t('.domains')
             .ibox-tools
               - if can? :manage, Domain
-                = link_to new_custom_assessment_setting_domain_path(cs) do
+                = link_to new_custom_assessment_setting_domain_path(cs, domain_type: 'client') do
                   .btn.btn.btn-primary.btn-add
                     = t('.add_new_domain')
           = render partial: 'domain_list', collection: cs.domains, as: :domain

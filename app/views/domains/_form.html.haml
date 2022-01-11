@@ -1,5 +1,6 @@
 = simple_form_for(@domain) do |f|
   .ibox-content
+    = hidden_field_tag :custom_assessment_setting_id, params[:custom_assessment_setting_id].presence || @custom_assessment_setting.id
     = error_notification(f)
     .form-inputs
       .row
@@ -20,8 +21,8 @@
           = f.input :domain_type, collection: Domain::TYPES, selected: f.object.domain_type, label: 'Attach with', input_html: { class: 'select2' }
           = f.hidden_field :domain_type, value: f.object.domain_type || params[:domain_type] if f.object.persisted? || !params[:copy] || f.object.domain_type != 'client'
         .col-xs-3
-          #domain_custom_assessment_setting{ class: (f.object.domain_type != 'client') && 'hidden' }
-            - if params[:copy] == "true" || !params[:custom_assessment_setting_id].present?
+          #domain_custom_assessment_setting{ class: (f.object.domain_type && f.object.domain_type != 'client') && 'hidden' }
+            - if params[:copy] == "true" || params[:custom_assessment_setting_id].present? || @custom_assessment_setting
               = f.input :custom_assessment_setting_id, collection: @custom_assessment_settings.map{ |ca| [ca.custom_assessment_name, ca.id]}, label: t('.custom_assessment_name'), include_blank: true, input_html: { class: 'select2' }
             - else
               = f.hidden_field :custom_assessment_setting_id
