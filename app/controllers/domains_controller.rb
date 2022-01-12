@@ -88,6 +88,6 @@ class DomainsController < AdminController
   end
 
   def find_custom_assessment_setting
-    @custom_assessment_setting = CustomAssessmentSetting.find(params[:custom_assessment_setting_id]) if params[:custom_assessment_setting_id]
+    @custom_assessment_setting = CustomAssessmentSetting.find(params[:custom_assessment_setting_id]) if params[:custom_assessment_setting_id].present?
   end
 end
