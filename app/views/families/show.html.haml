@@ -299,6 +299,7 @@
                     %strong.label.label-default.donor
                       = donor.name
             - family_hidden_fields_setting.each do |field|
+              - next if field == 'dependable_income'
               - next if @family.attributes.keys.exclude?(field)
               %tr
                 %td.spacing-first-col
