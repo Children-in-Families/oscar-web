@@ -14,11 +14,18 @@ class AssessmentPolicy < ApplicationPolicy
 
     association = record.family_id ? 'family' : 'client'
     setting = Setting.first
-    if (custom_assessment || !record.default?) && !CustomAssessmentSetting.count.zero?
+
+    if association == 'client' && (custom_assessment || !record.default?)
       custom_assessment = CustomAssessmentSetting.find(value) if value
       enable_assessment = record.default? ? setting.enable_default_assessment? && record.public_send(association).eligible_default_csi? : setting.enable_custom_assessment? && (custom_assessment && record.public_send(association)&.eligible_custom_csi?(custom_assessment))
     else
-      enable_assessment = record.default? || record.family_id? ? setting.enable_default_assessment? && record.public_send(association).eligible_default_csi? : setting.enable_custom_assessment?
+      enable_assessment = if record.default?
+        setting.enable_default_assessment? && record.public_send(association).eligible_default_csi?
+      elsif record.family_id?
+        setting.enable_default_assessment? || record.public_send(association).eligible_default_csi?
+      else
+        setting.enable_custom_assessment?
+      end
     end
 
     editable_user = user.admin? ? true : user.permission&.assessments_editable

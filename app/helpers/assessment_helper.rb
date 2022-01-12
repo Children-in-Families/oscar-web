@@ -143,7 +143,7 @@ module AssessmentHelper
         sub_query_string = get_assessment_query_string([results[0].reject { |arr| arr[:field] != identity }], identity, domain_id, object.id)
         assessments = assessments.joins(:domains).where(sub_query_string.reject(&:blank?).join(' AND ')).where(domains: { identity: identity })
       else
-        rule = basic_rules['rules'].select { |h| h['id'] == 'date_of_assessments' || h['id'] == 'date_of_custom_assessments' }.first
+        rule = basic_rules['rules'].select { |h| h['id'] == 'date_of_assessments' || h['id'] == 'completed_date' }.first
 
         if rule.present?
           date_of_assessments_query = date_of_assessments_query_string(rule[:id], rule['field'], rule['operator'], rule['value'])
@@ -163,7 +163,7 @@ module AssessmentHelper
         mapping_assessment_query_rules(h, field_name=nil, data_mapping)
       end
       if field_name.nil?
-        next if h[:id] !~ /^(domainscore|assessment_completed|assessment_completed_date|assessment_number|month_number|date_nearest)/i
+        next if h[:id] !~ /^(domainscore|assessment_completed|assessment_completed_date|completed_date|assessment_number|month_number|date_nearest)/i
       elsif h[:id] != field_name
         next
       end
@@ -181,7 +181,7 @@ module AssessmentHelper
         value = h[:value] == 0 ? 1 : h[:value]
         value = value.try(:to_i).present? ? h[:value] : 1
 
-        if h[:field][/assessment_completed|assessment_completed_date/]
+        if h[:field][/assessment_completed|assessment_completed_date|completed_date/]
           date_of_completed_assessments_query_string(h[:id], h[:field], h[:operator], h[:value], h[:type], h[:input])
         elsif h[:field] == identity && ['assessment_has_changed', 'assessment_has_not_changed', 'month_has_changed', 'month_has_not_changed'].exclude?(h[:operator])
           assessment_score_query_string(h[:id], h[:field], h[:operator], h[:value], h[:type], h[:input], domain_id)
@@ -225,17 +225,17 @@ module AssessmentHelper
   def date_of_assessments_query_string(id, field, operator, value)
     case operator
     when 'equal'
-      "date(assessments.created_at) = #{value.to_date}"
+      "date(assessments.created_at) = '#{value.to_date}'"
     when 'not_equal'
-      "date(assessments.created_at) != #{value.to_date} OR assessments.created_at IS NULL"
+      "date(assessments.created_at) != '#{value.to_date}' OR assessments.created_at IS NULL"
     when 'less'
-      "date(assessments.created_at) < #{value.to_date}"
+      "date(assessments.created_at) < '#{value.to_date}'"
     when 'less_or_equal'
-      "date(assessments.created_at) <= #{value.to_date}"
+      "date(assessments.created_at) <= '#{value.to_date}'"
     when 'greater'
-      "date(assessments.created_at) > #{value.to_date}"
+      "date(assessments.created_at) > '#{value.to_date}'"
     when 'greater_or_equal'
-      "date(assessments.created_at) >= #{value.to_date}"
+      "date(assessments.created_at) >= '#{value.to_date}'"
     when 'between'
       "(date(assessments.created_at) BETWEEN '#{value[0].to_date}' AND '#{value[1].to_date}')"
     when 'is_empty'
@@ -248,23 +248,23 @@ module AssessmentHelper
   def date_of_completed_assessments_query_string(id, field, operator, value, type, input_type)
     case operator
     when 'equal'
-      "assessments.completed = true AND date(assessments.created_at) = #{value.to_date}"
+      "assessments.completed = true AND date(assessments.completed_date) = '#{value.to_date}'"
     when 'not_equal'
-      "assessments.completed = true AND date(assessments.created_at) != #{value.to_date} OR assessments.created_at IS NULL"
+      "assessments.completed = true AND date(assessments.completed_date) != '#{value.to_date}' OR assessments.completed_date IS NULL"
     when 'less'
-      "assessments.completed = true AND date(assessments.created_at) < #{value.to_date}"
+      "assessments.completed = true AND date(assessments.completed_date) < '#{value.to_date}'"
     when 'less_or_equal'
-      "assessments.completed = true AND date(assessments.created_at) <= #{value.to_date}"
+      "assessments.completed = true AND date(assessments.completed_date) <= '#{value.to_date}'"
     when 'greater'
-      "assessments.completed = true AND date(assessments.created_at) > #{value.to_date}"
+      "assessments.completed = true AND date(assessments.completed_date) > '#{value.to_date}'"
     when 'greater_or_equal'
-      "assessments.completed = true AND date(assessments.created_at) >= #{value.to_date}"
+      "assessments.completed = true AND date(assessments.completed_date) >= '#{value.to_date}'"
     when 'between'
-      "assessments.completed = true AND (date(assessments.created_at) BETWEEN '#{value[0].to_date}' AND '#{value[1].to_date}')"
+      "assessments.completed = true AND (date(assessments.completed_date) BETWEEN '#{value[0].to_date}' AND '#{value[1].to_date}')"
     when 'is_empty'
-      "assessments.completed = true AND assessments.created_at IS NULL"
+      "assessments.completed = true AND assessments.completed_date IS NULL"
     when 'is_not_empty'
-      "assessments.completed = true AND assessments.created_at IS NOT NULL"
+      "assessments.completed = true AND assessments.completed_date IS NOT NULL"
     end
   end
 
@@ -334,4 +334,9 @@ module AssessmentHelper
   def find_custom_assessment_setting
     CustomAssessmentSetting.find_by(custom_assessment_name: params[:custom_name])
   end
+
+  def any_family_domain?
+    Domain.where(domain_type: 'family').any?
+  end
+
 end

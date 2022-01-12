@@ -62,7 +62,9 @@ body[id="client_advanced_searches-index"] {
       text-align: center;
     }
 
-    th.changelog {
+    th.changelog,
+    th.referred_in,
+    th.referred_out {
       min-width: 100px;
     }
 
@@ -81,7 +83,8 @@ body[id="client_advanced_searches-index"] {
     }
 
     th.date_of_assessments,
-    th.assessment_completed_date {
+    th.assessment_completed_date,
+    th.completed_date {
       min-width: 200px;
     }
 
@@ -113,7 +116,7 @@ body[id="client_advanced_searches-index"] {
     th.carer_phone,
     th.carer_email,
     th.phone_owner,
-    th.client_contact_phone,
+    th.client_phone,
     th.address_type,
     th.client_email,
     th.client_address_type,
@@ -164,6 +167,7 @@ body[id="client_advanced_searches-index"] {
     th.exit_circumstance,
     th.family:not(.form-builder),
     th.family_id,
+    th.family_type,
     th.other_info_of_exit,
     th.exit_note,
     th.main_school_contact,

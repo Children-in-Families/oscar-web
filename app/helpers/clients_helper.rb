@@ -174,6 +174,7 @@ module ClientsHelper
       case_note_date:                t('datagrid.columns.clients.case_note_date'),
       case_note_type:                t('datagrid.columns.clients.case_note_type'),
       date_of_assessments:           t('datagrid.columns.clients.date_of_assessments', assessment: t('clients.show.assessment')),
+      completed_date:                t('datagrid.columns.calls.assessment_completed_date', assessment: t('clients.show.assessment')),
       date_of_referral:              t('datagrid.columns.clients.date_of_referral'),
       date_of_custom_assessments:    t('datagrid.columns.clients.date_of_custom_assessments', assessment: t('clients.show.assessment')),
       changelog:                     t('datagrid.columns.clients.changelog'),
@@ -881,10 +882,12 @@ module ClientsHelper
     results          = client_advanced_search_data(object, rule)
     return object if return_default_filter(object, rule, results)
 
-    klass_name = { exit_date: 'exit_ngos', accepted_date: 'enter_ngos', meeting_date: 'case_notes', case_note_type: 'case_notes', created_at: 'assessments' , date_of_referral: 'referrals', care_plan_completed_date: 'care_plans' }.with_indifferent_access
+    klass_name = { exit_date: 'exit_ngos', accepted_date: 'enter_ngos', meeting_date: 'case_notes', case_note_type: 'case_notes', created_at: 'assessments', completed_date: 'assessments', date_of_referral: 'referrals', care_plan_completed_date: 'care_plans' }.with_indifferent_access
 
     if rule == 'case_note_date'
       field_name = 'meeting_date'
+    elsif rule == 'completed_date'
+      field_name = 'completed_date'
     elsif rule.in?(['date_of_assessments', 'date_of_custom_assessments', 'care_plan_completed_date'])
       field_name = 'created_at'
     elsif rule[/^(exitprogramdate)/i].present? || object.class.to_s[/^(leaveprogram)/i]

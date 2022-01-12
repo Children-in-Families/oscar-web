@@ -130,10 +130,10 @@ module FormBuilderHelper
       if type == 'checkbox'
         "NOT(#{properties_field} -> '#{field}' ? '')"
       else
-        "NOT(#{properties_field} -> '#{field}' ? '') OR NOT(#{properties_field} -> '#{field}') IS NULL"
+        "(NOT(#{properties_field} -> '#{field}' ? '') OR NOT(#{properties_field} -> '#{field}') IS NULL)"
       end
     when 'between'
-      "(#{properties_field} ->> '#{field}')#{ '::numeric' if integer?(type) } BETWEEN '#{value.first}' AND '#{value.last}' AND #{properties_field} ->> '#{field}' != ''"
+      "((#{properties_field} ->> '#{field}')#{ '::numeric' if integer?(type) } BETWEEN '#{value.first}' AND '#{value.last}' AND #{properties_field} ->> '#{field}' != '')"
     end
   end
 
@@ -183,7 +183,7 @@ module FormBuilderHelper
   end
 
   def general_query(id, field, operator, value, type, class_name)
-    field_name = id == 'case_note_date' ? 'meeting_date' : id
+    field_name = (id == 'case_note_date' || id == 'no_case_note_date') ? 'meeting_date' : id
     field_name = field_name == 'case_note_type' ? 'interaction_type' : field_name
     field_name = field_name[/quantitative__\d+/].present? ? 'id' : field_name
     value      = !value.is_a?(Array) && type == 'string'  ? value.downcase : value

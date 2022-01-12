@@ -11,6 +11,7 @@ module AdvancedSearches
       def initialize(options = {})
         @user = options[:user]
         @pundit_user = options[:pundit_user]
+        @called_in = options[:called_in]
         @current_setting = Setting.first
       end
 
@@ -65,16 +66,13 @@ module AdvancedSearches
           ['family_type', family_type_options],
           ['status', status_options],
           ['gender', gender_options],
-          ['province_id', provinces],
-          ['district_id', districts],
           ['dependable_income', { yes: 'Yes', no: 'No' }],
           ['client_id', clients],
-          ['commune_id', communes],
-          ['village_id', villages],
           ['id_poor', family_id_poor],
           ['user_id', created_by_options('Family')],
           ['received_by_id', received_by_options('Family')],
-          ['relation', drop_down_relation.map { |k, v| { k => v }  }]
+          ['relation', drop_down_relation.map { |k, v| { k => v }  }],
+          *addresses_mapping(@called_in)
         ] + case_management_tool_fields
       end
 
@@ -88,22 +86,6 @@ module AdvancedSearches
 
       def status_options
         Family::STATUSES
-      end
-
-      def provinces
-        Family.joins(:province).pluck('provinces.name', 'provinces.id').uniq.sort.map{|s| {s[1].to_s => s[0]}}
-      end
-
-      def districts
-        Family.joins(:district).pluck('districts.name', 'districts.id').uniq.sort.map{|s| {s[1].to_s => s[0]}}
-      end
-
-      def communes
-        Commune.joins(:families, district: :province).distinct.map{|commune| ["#{commune.name_kh} / #{commune.name_en} (#{commune.code})", commune.id]}.sort.map{|s| {s[1].to_s => s[0]}}
-      end
-
-      def villages
-        Village.joins(:families, commune: [district: :province]).distinct.map{|village| ["#{village.name_kh} / #{village.name_en} (#{village.code})", village.id]}.sort.map{|s| {s[1].to_s => s[0]}}
       end
 
       def clients

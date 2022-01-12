@@ -122,6 +122,7 @@ class ClientColumnsVisibility
       reason_for_family_separation_: :reason_for_family_separation,
       rejected_note_: :rejected_note,
       family_: :family,
+      family_type_: :family_type,
       code_: :code,
       age_: :age,
       slug_: :slug,
@@ -132,6 +133,8 @@ class ClientColumnsVisibility
       case_note_type_: :case_note_type,
       date_of_assessments_: :date_of_assessments,
       assessment_completed_date_: :assessment_completed_date,
+      custom_completed_date_: :custom_completed_date,
+      completed_date_: :completed_date,
       all_csi_assessments_: :all_csi_assessments,
       date_of_custom_assessments_: :date_of_custom_assessments,
       all_custom_csi_assessments_: :all_custom_csi_assessments,
@@ -144,6 +147,8 @@ class ClientColumnsVisibility
       created_by_: :created_by,
       referred_to_: :referred_to,
       referred_from_: :referred_from,
+      referred_in_: :referred_in,
+      referred_out_: :referred_out,
       date_of_referral_: :date_of_referral,
       # time_in_care_: :time_in_care,
       time_in_ngo_: :time_in_ngo,
@@ -161,7 +166,7 @@ class ClientColumnsVisibility
       carer_relationship_to_client_: :carer_relationship_to_client,
       phone_owner_: :phone_owner,
       referee_relationship_to_client_: :referee_relationship_to_client,
-      client_contact_phone_: :client_contact_phone,
+      client_phone_: :client_phone,
       address_type_: :address_type,
       client_email_: :client_email,
       indirect_beneficiaries_: :indirect_beneficiaries,
@@ -171,6 +176,7 @@ class ClientColumnsVisibility
   end
 
   def visible_columns
+    return [] if @grid.nil?
     @grid.column_names = []
     client_default_columns = Setting.first.try(:client_default_columns)
     params = @params.keys.select{ |k| k.match(/\_$/) }

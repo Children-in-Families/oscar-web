@@ -393,6 +393,7 @@
                   %td
                     %strong
                       = @client.carer.try(:phone)
+
               - if Setting.first.country_name == "cambodia" && !Organization.brc?
                 %tr
                   %td.spacing-first-col
@@ -429,6 +430,12 @@
 
           .col-sm-12.col-md-6.second-table
             %table.table.table-bordered
+              - if current_organization.integrated?
+                %tr
+                  %td.spacing-first-col
+                    = "#{t('.external_id_display')}"
+                    %td
+                      %strong= @client.external_id_display
               %tr
                 %td.spacing-first-col
                   = "#{t('.client_global_identity')}"
@@ -535,6 +542,20 @@
                     %strong= @client.family.display_name
                     = link_to family_path(@client.family) do
                       = fa_icon 'external-link'
+              %tr
+                %td.spacing-first-col
+                  = t('datagrid.columns.clients.client_phone')
+                %td
+                  %strong
+                    = @client.client_phone
+
+              %tr
+                %td.spacing-first-col
+                  = t('datagrid.columns.clients.concern_phone_owner')
+                %td
+                  %strong
+                    = @client.phone_owner&.capitalize
+
         - if @client.phone_counselling_summary.present?
           .row
             .col-xs-12

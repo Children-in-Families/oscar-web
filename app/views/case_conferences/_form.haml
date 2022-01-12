@@ -22,7 +22,7 @@
                   %i.fa.fa-calendar-check-o
               = f.error :meeting_date, class: 'text-danger'
             .col-md-6
-              = f.input :user_ids, label: t('.attendants'), required: true, collection: User.deleted_user.non_strategic_overviewers.order(:first_name, :last_name), label_method: :name, value_method: :id, input_html: { multiple: true }
+              = f.input :user_ids, label: t('.attendants'), required: true, collection: User.without_deleted_users.non_strategic_overviewers.order(:first_name, :last_name), label_method: :name, value_method: :id, input_html: { multiple: true }
           .hr-line-dashed
           %fieldset.scheduler-border
             %legend.scheduler-border

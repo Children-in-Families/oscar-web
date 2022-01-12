@@ -1543,12 +1543,14 @@ km:
       detail_form_of_judicial_police: ទម្រង់លម្អិតសម្រាប់ការសម្ភាសកំណត់អត្តសញ្ញាណបឋមជនរងគ្រោះដោយអំពើជួញដូរមនុស្ស (នគរបាលយុត្តិធម៌)
       detail_form_of_mosavy_dosavy: ទម្រង់លម្អិតសម្រាប់ការសម្ភាសកំណត់អត្តសញ្ញាណបឋមជនរងគ្រោះដោយអំពើជួញដូរមនុស្ស (ក្រសួង ស.អ.យ/មន្ទីរ ស.អ.យ)
       dosavy: មន្ទីរ ស.អ.យ
+      external_id_display: ការបង្ហាញលេខសម្គាល់អង្គការខាងក្រៅ
       form_indentification: ទម្រង់សម្ភាសន៍កំណត់អត្តសញ្ញាណជនរងគ្រោះដោយអំពើជួញដូរមនុស្ស
       indentification_doc: ឯកសារអត្តសញ្ញាណ
       labor_trafficking_legal_doc_option: ការជួញដូរពលកម្ម
       legal_processing_doc: ឯកសារនិតិវិធីច្បាប់
       letter_from_immigration_police: លិខិតពីប៉ូលីសអន្តោប្រវេសន៍
       mosavy: ក្រសួង ស.អ.យ
+      mosvy_number: លេខសំគាល់ ស.អ.យ
       msdhs: ក្រសួងអភិវឌ្ឍន៍សង្គមនិងសន្តិសុខ (ថៃ)
       ngo_partner: អង្គការក្រៅរដ្ឋាភិបាលជាដៃគូ
       other_legal_doc_option: ផ្សេងៗ
@@ -1620,7 +1622,7 @@ km:
       other_info_of_exit: ព័ត៌មានបន្ថែមនៃការចាកចេញ
       preview_download: មើលនិងទាញយក
       referee_phone_number: លេខទូរស័ព្ទរបស់អ្នកបញ្ជូនករណី
-      referral_reasons: មូលហេតុនៃការបញ្ជូន
+      referral_reasons: កំណត់សំគាល់នៃការបញ្ជូន
       referred_from: បញ្ជូនមកពីអង្គការដទៃ
       referred_to: បញ្ជូនទៅអង្គការដទៃ
     client_advanced_searches:
@@ -1997,6 +1999,7 @@ km:
       all_csi_assessments: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
       all_custom_csi_assessments: ពិន្ទុកត្តាការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
       assessment_completed_date: "កាលបរិច្ឆេទ %{assessment}ដែលបានបំពេញ"
+      assessment_custom_completed_date: "កាលបរិច្ឆេទ %{assessment}ផ្ទាល់ខ្លួនដែលបានបំពេញ"
       assessment_data: "ទិន្នន័យពិន្ទុនៃ%{assessment}"
       assessment_number: ការប៉ាន់ប្រមាណ#
       assessments: ការប៉ាន់ប្រមាណ
@@ -2642,7 +2645,8 @@ km:
     columns:
       all_csi_assessments: "ពិន្ទុកត្តា%{assessment}CSI"
       all_custom_csi_assessments: "ពិន្ទុកត្តា%{assessment}ផ្ទាល់ខ្លួន"
-      assessment_completed_date: "%{assessment} Completed Date"
+      assessment_completed_date: "កាលបរិច្ឆេទ %{assessment}ដែលបានបំពេញ"
+      assessment_custom_completed_date: "កាលបរិច្ឆេទ %{assessment}ផ្ទាល់ខ្លួនដែលបានបំពេញ"
       all_result_framework_assessment: All Result Framework Assessment
       calls:
         answered_call: ឆ្លើយការហៅទូរស័ព្ទ
@@ -2771,6 +2775,7 @@ km:
         all_csi_assessments: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
         all_custom_csi_assessments: ពិន្ទុកត្តាការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
         assessment_completed_date: កាលបរិច្ឆេទ ការប៉ាន់ប្រមាណដែលបានបំពេញ
+        assessment_custom_completed_date: "កាលបរិច្ឆេទ %{assessment}ផ្ទាល់ខ្លួនដែលបានបំពេញ"
         any_assessments: មានការប៉ាន់ប្រមាណ
         assessments: ការប៉ាន់ប្រមាណ
         assessments_due_to: ដល់ពេលធ្វើការប៉ាន់ប្រមាណ
@@ -2789,6 +2794,7 @@ km:
         case_worker: បុគ្គលិកគ្រប់គ្រងករណី
         case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
         changelogs: ប្រវត្តិកំណែ
+        client_phone: លេខទូរស័ព្ទរបស់អតិថិជន
         code: លេខកូដផ្ទាល់ខ្លួនទី១
         concern_address: អាសយដ្ឋាន - ឈ្មោះ
         concern_address_type: ប្រភេទអាសយដ្ឋាន
@@ -2945,6 +2951,7 @@ km:
         what3words: What3words
       date_of_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណ
       date_of_custom_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
+      date_of_family_assessment: កាលបរិច្ឆេទការប៉ាន់ប្រមាណគ្រួសារ
       exit_circumstance: ស្ថានភាពនៃការចាកចេញ
       exit_note: កំណត់ហេតុនៃការចាកចេញ
       exit_reasons: មូលហេតុនៃការចាកចេញ
@@ -4113,7 +4120,7 @@ km:
       other_info_of_exit: ព័ត៌មានបន្ថែមនៃការចាកចេញ
       preview_download: មើលនិងទាញយក
       referee_phone_number: លេខទូរស័ព្ទរបស់អ្នកបញ្ជូនករណី
-      referral_reasons: មូលហេតុនៃការបញ្ជូន
+      referral_reasons: កំណត់សំគាល់នៃការបញ្ជូន
       referred_from: បញ្ជូនមកពីអង្គការដទៃ
       referred_to: បញ្ជូនទៅអង្គការដទៃ
     create:
@@ -4383,7 +4390,7 @@ km:
       name_of_referee: ឈ្មោះអ្នកបញ្ជូន
       ngo_name: ឈ្មោះអង្គការ
       referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
-      referral_reason: មូលហេតុនៃការបញ្ជូន
+      referral_reason: កំណត់សំគាល់នៃការបញ្ជូន
       referred_from: ប្រភពនៃការបញ្ជូន
       referred_to: បញ្ជូនទៅអង្គការដទៃ
       save: រក្សាទុក
@@ -4400,7 +4407,7 @@ km:
       name_of_referee: ឈ្មោះអ្នកបញ្ជូន
       referral_forms: ទម្រង់បញ្ជូន
       referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
-      referral_reason: មូលហេតុនៃការបញ្ជូន
+      referral_reason: កំណត់សំគាល់នៃការបញ្ជូន
       referred_from: ប្រភពនៃការបញ្ជូន
       referred_to: បញ្ជូនទៅកាន់
       select_ngos: ជ្រើសរើសអង្គការ
@@ -4423,12 +4430,12 @@ km:
           family_name: ឈ្មោះគ្រួសារ
           name_of_referee: ឈ្មោះអ្នកបញ្ជូន
           referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
-          referral_reason: មូលហេតុនៃការបញ្ជូន
+          referral_reason: កំណត់សំគាល់នៃការបញ្ជូន
           referred_from: ប្រភពនៃការបញ្ជូន
           referred_to: បញ្ជូនទៅកាន់
       preview_download: មើលនិងទាញយក
       referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
-      referral_reason: មូលហេតុនៃការបញ្ជូន
+      referral_reason: កំណត់សំគាល់នៃការបញ្ជូន
       referred_from: ប្រភពនៃការបញ្ជូន
       referred_to: បញ្ជូនទៅកាន់
       type_of_service: ប្រភេទសេវាកម្ម
@@ -5754,6 +5761,7 @@ km:
       back: ត្រលប់ក្រោយ
       modification_of: ប្រវត្តិកំណែរបស់
   referrals:
+    level_of_risk: កម្រិតហានិភ័យ
     confirm_referral:
       body_second: អតិថិជនដែលអ្នកចង់បញ្ជូនមាននៅក្នុងអង្គការគោលដៅរួចទៅហើយ
       body_third: អ្នកបានបញ្ជូនអតិថិជននេះរួចហើយសូមរង់ចាំការឆ្លើយតប
@@ -5780,7 +5788,7 @@ km:
       ngo_name: ឈ្មោះអង្គការ
       referral_email: អ៊ីមែលរបស់អ្នកបញ្ជូនករណី
       referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
-      referral_reason: មូលហេតុនៃការបញ្ជូន
+      referral_reason: កំណត់សំគាល់នៃការបញ្ជូន
       referred_from: ប្រភពនៃការបញ្ជូន
       referred_to: បញ្ជូនទៅអង្គការដទៃ
       save: រក្សាទុក
@@ -5798,7 +5806,7 @@ km:
       referral_email: អ៊ីមែលរបស់អ្នកបញ្ជូនករណី
       referral_forms: ទម្រង់បញ្ជូន
       referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
-      referral_reason: មូលហេតុនៃការបញ្ជូន
+      referral_reason: កំណត់សំគាល់នៃការបញ្ជូន
       referred_from: ប្រភពនៃការបញ្ជូន
       referred_to: បញ្ជូនទៅកាន់
       select_ngos: ជ្រើសរើសអង្គការ
@@ -5822,13 +5830,13 @@ km:
           name_of_referee: ឈ្មោះអ្នកបញ្ជូន
           referral_email: អ៊ីមែលរបស់អ្នកបញ្ជូនករណី
           referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
-          referral_reason: មូលហេតុនៃការបញ្ជូន
+          referral_reason: កំណត់សំគាល់នៃការបញ្ជូន
           referred_from: ប្រភពនៃការបញ្ជូន
           referred_to: បញ្ជូនទៅកាន់
       preview_download: មើលនិងទាញយក
       referral_email: អ៊ីមែលរបស់អ្នកបញ្ជូនករណី
       referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
-      referral_reason: មូលហេតុនៃការបញ្ជូន
+      referral_reason: កំណត់សំគាល់នៃការបញ្ជូន
       referred_from: ប្រភពនៃការបញ្ជូន
       referred_to: បញ្ជូនទៅកាន់
       type_of_service: ប្រភេទសេវាកម្ម
@@ -6378,6 +6386,7 @@ km:
     default: អ្នកមិនមានសិទ្ធិគ្រប់គ្រាន់ដើម្បីចូលទេ
     you_cannot_access_this_page: You cannot access this page.
   users:
+    archived_users: អ្នកប្រើដែលបានលុប
     actions:
       are_you_sure: តើអ្នកប្រាកដហើយថាចង់លុប?
     assessment_permission:
@@ -6394,6 +6403,7 @@ km:
       read_more: អានបន្ថែម
     create:
       successfully_created: អ្នកប្រើប្រាស់ត្រូវបានបង្កើតដោយជោគជ័យ
+    current_users: អ្នកប្រើបច្ចុប្បន្ន
     custom_form_permission:
       can_edit: អាចកែបាន
       can_view: អាចមើលបាន
@@ -6507,6 +6517,8 @@ km:
     quantitative_type_permission:
       can_edit: អាចកែបាន
       can_view: អាចមើលបាន
+    restore:
+      successfully_restore: អ្នកប្រើត្រូវបានដាក់ឲ្យប្រើប្រាស់ឡើងវិញដោយជោគជ័យ។
     show:
       add_form: បន្ថែមទម្រង់បែបបទទៅឲ្យអ្នកប្រើប្រាស់
       additional_forms: ទម្រង់បែបបទរបស់អ្នកប្រើប្រាស់

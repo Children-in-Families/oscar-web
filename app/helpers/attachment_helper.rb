@@ -10,7 +10,7 @@ module AttachmentHelper
   end
 
   def preview_or_download(object)
-    return t('.preview_download') if pdf?(object) || image?(object)
+    return t('shared.form_builder.list_attachment.preview_download') if pdf?(object) || image?(object)
     t('.download')
   end
 

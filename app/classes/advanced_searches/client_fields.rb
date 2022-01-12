@@ -22,6 +22,7 @@ module AdvancedSearches
       text_fields           << referee_text_fields.map { |item| AdvancedSearches::FilterTypes.text_options(item, format_header(item), referee_group) }
       text_fields           << carer_text_fields.map { |item| AdvancedSearches::FilterTypes.text_options(item, format_header(item), carer_group) }
       date_picker_fields    = date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, format_header(item), group) }
+      date_picker_fields    += [['no_case_note_date', I18n.t('advanced_search.fields.no_case_note_date')]].map{ |item| AdvancedSearches::CsiFields.date_between_only_options(item[0], item[1], group) }
       date_picker_fields    += mapping_care_plan_date_lable_translation
       drop_list_fields      = drop_down_type_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last, group) }
       drop_list_fields      += carer_dropdown_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last, carer_group) }
@@ -41,7 +42,7 @@ module AdvancedSearches
     private
 
     def number_type_list
-      ['family_id', 'age', 'time_in_cps', 'time_in_ngo']
+      ['family_id', 'age', 'time_in_cps', 'time_in_ngo', 'referred_in', 'referred_out']
     end
 
     def text_type_list
@@ -49,7 +50,7 @@ module AdvancedSearches
         'given_name', 'family_name',
         'local_given_name', 'local_family_name', 'family', 'slug', 'school_name',
         'other_info_of_exit', 'exit_note', 'main_school_contact', 'what3words', 'kid_id', 'code',
-        'client_contact_phone', 'client_email_address', *setting_country_fields[:text_fields]
+        'client_phone', 'client_email_address', *setting_country_fields[:text_fields]
       ].compact
     end
 
@@ -104,7 +105,8 @@ module AdvancedSearches
         ['type_of_service', get_type_of_services],
         ['referee_relationship', get_sql_referee_relationship],
         ['address_type', get_sql_address_types],
-        ['phone_owner', get_sql_phone_owner]
+        ['phone_owner', get_sql_phone_owner],
+        ['family_type', family_type_list]
       ].compact
     end
 
@@ -268,6 +270,10 @@ module AdvancedSearches
 
     def get_sql_phone_owner
       [Client::PHONE_OWNERS, I18n.t('default_client_fields.phone_owner').values].transpose.to_h
+    end
+
+    def family_type_list
+      Family.mapping_family_type_translation.to_h
     end
   end
 end

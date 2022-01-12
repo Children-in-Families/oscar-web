@@ -55,6 +55,8 @@
           #type-of-service{ data: {custom: services.to_json } }
             = f.association :services, collection: services(false), multiple: true, label: t('.type_of_service')
         .col-xs-12
+          = f.input :level_of_risk, collection: ['High', 'Medium', 'Low', 'No Action'].zip(['high', 'medium', 'low', 'no action']), label: t('referrals.level_of_risk')
+        .col-xs-12
           = hidden_field_tag 'confirm-question', t('program_streams.program_detail.service_confirm_question')
           = render 'referrals/consent_form_fields', f: f
         .col-xs-12

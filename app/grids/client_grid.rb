@@ -86,6 +86,10 @@ class ClientGrid < BaseGrid
 
   filter(:referred_from, :enum, select: :referral_from_options, header: -> { I18n.t('datagrid.columns.clients.referred_from') } )
 
+  filter(:referred_in, header: -> { I18n.t('datagrid.columns.clients.referred_in') } )
+
+  filter(:referred_out, header: -> { I18n.t('datagrid.columns.clients.referred_out') } )
+
   def referral_to_options
     orgs = Organization.oscar.map { |org| { org.short_name => org.full_name } }
     orgs << { "external referral" => "I don't see the NGO I'm looking for" }
@@ -486,7 +490,7 @@ class ClientGrid < BaseGrid
 
   dynamic do
     yes_no = { true: 'Yes', false: 'No' }
-    content_headers = %w(concern_province_id concern_district_id concern_commune_id concern_village_id concern_street concern_house concern_address concern_address_type concern_phone concern_phone_owner concern_email concern_email_owner concern_same_as_client location_description)
+    content_headers = %w(concern_province_id concern_district_id concern_commune_id concern_village_id concern_street concern_house concern_address concern_address_type client_phone concern_phone_owner concern_email concern_email_owner concern_same_as_client location_description)
     client_hotline_fields.each do |hotline_field|
       value = ''
       header_text = content_headers.include?(hotline_field) ? "Concern #{I18n.t("datagrid.columns.clients.#{hotline_field}")}" : I18n.t("datagrid.columns.clients.#{hotline_field}")
@@ -614,7 +618,7 @@ class ClientGrid < BaseGrid
     object.referee_relationship
   end
 
-  column(:client_contact_phone, header: -> { I18n.t('datagrid.columns.clients.client_contact_phone') }) do |object|
+  column(:client_phone, header: -> { I18n.t('datagrid.columns.clients.client_phone') }) do |object|
     object.client_phone
   end
 
@@ -664,6 +668,14 @@ class ClientGrid < BaseGrid
     org_names << "MoSVY External System" if short_names.include?("MoSVY External System")
 
     org_names.join(', ')
+  end
+
+  column(:referred_in, order: false, header: -> { I18n.t('advanced_search.fields.referred_in') }) do |object|
+    object.referrals.received.count
+  end
+
+  column(:referred_out, order: false, header: -> { I18n.t('advanced_search.fields.referred_out') }) do |object|
+    object.referrals.delivered.count
   end
 
   column(:agency, order: false, header: -> { I18n.t('datagrid.columns.clients.agencies_involved') }) do |object|
@@ -969,6 +981,10 @@ class ClientGrid < BaseGrid
     object.family.try(:name)
   end
 
+  column(:family_type, order: false, header: -> { I18n.t('datagrid.columns.families.family_type') }) do |object|
+    object.family.try(:family_type)
+  end
+
   column(:case_note_date, header: -> { I18n.t('datagrid.columns.clients.case_note_date')}, html: true) do |object|
     render partial: 'clients/case_note_date', locals: { object: object }
   end
@@ -981,7 +997,7 @@ class ClientGrid < BaseGrid
     render partial: 'clients/assessments', locals: { object: object.assessments.defaults }
   end
 
-  column(:assessment_completed_date, header: -> { I18n.t('datagrid.columns.clients.assessment_completed_date', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
+  column(:completed_date, header: -> { I18n.t('datagrid.columns.clients.assessment_completed_date', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
     if $param_rules
       basic_rules = $param_rules['basic_rules']
       basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
@@ -989,10 +1005,10 @@ class ClientGrid < BaseGrid
       assessment_completed_sql, assessment_number = assessment_filter_values(results)
       sql = "(assessments.completed = true)".squish
       if assessment_number.present? && assessment_completed_sql.present?
-        assessments = object.assessments.defaults.where(sql).limit(1).offset(assessment_number - 1).order('created_at')
+        assessments = object.assessments.defaults.where(sql).limit(1).offset(assessment_number - 1).order('completed_date')
       elsif assessment_completed_sql.present?
-        sql = assessment_completed_sql[/assessments\.created_at.*/]
-        assessments = object.assessments.defaults.completed.where(sql).order('created_at')
+        sql = assessment_completed_sql[/assessments\.completed_date.*/]
+        assessments = object.assessments.defaults.completed.where(sql).order('completed_date')
       else
         rule = basic_rules['rules'].select {|h| h['id'] == 'date_of_assessments' }.first
         if rule.present?
@@ -1001,12 +1017,12 @@ class ClientGrid < BaseGrid
         else
           assessments = object.assessments.defaults
         end
-        assessments = object.assessments.defaults.completed.where(sql).order('created_at')
+        assessments = object.assessments.defaults.completed.where(sql).order('completed_date')
       end
     else
-      assessments = object.assessments.defaults.order('created_at')
+      assessments = object.assessments.defaults.order('completed_date')
     end
-    render partial: 'clients/assessments', locals: { object: assessments }
+    render partial: 'clients/completed_assessments', locals: { object: assessments }
   end
 
   column(:date_of_referral, header: -> { I18n.t('datagrid.columns.clients.date_of_referral') }, html: true) do |object|
@@ -1015,6 +1031,34 @@ class ClientGrid < BaseGrid
 
   column(:date_of_custom_assessments, header: -> { I18n.t('datagrid.columns.clients.date_of_custom_assessments', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
     render partial: 'clients/assessments', locals: { object: object.assessments.customs }
+  end
+
+  column(:custom_completed_date, header: -> { I18n.t('datagrid.columns.clients.assessment_custom_completed_date', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
+    if $param_rules
+      basic_rules = $param_rules['basic_rules']
+      basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
+      results = mapping_assessment_query_rules(basic_rules).reject(&:blank?)
+      assessment_completed_sql, assessment_number = assessment_filter_values(results)
+      sql = "(assessments.completed = true)".squish
+      if assessment_number.present? && assessment_completed_sql.present?
+        assessments = object.assessments.customs.where(sql).limit(1).offset(assessment_number - 1).order('completed_date')
+      elsif assessment_completed_sql.present?
+        sql = assessment_completed_sql[/assessments\.completed_date.*/]
+        assessments = object.assessments.customs.completed.where(sql).order('completed_date')
+      else
+        rule = basic_rules['rules'].select {|h| h['id'] == 'date_of_assessments' }.first
+        if rule.present?
+          date_of_assessments_query = date_of_assessments_query_string(rule[:id], rule['field'], rule['operator'], rule['value'])
+          assessments = object.assessments.customs.where(date_of_assessments_query)
+        else
+          assessments = object.assessments.customs
+        end
+        assessments = object.assessments.customs.completed.where(sql).order('completed_date')
+      end
+    else
+      assessments = object.assessments.customs.order('completed_date')
+    end
+    render partial: 'clients/completed_assessments', locals: { object: assessments }
   end
 
   column(:care_plan_completed_date, header: -> { I18n.t('datagrid.columns.clients.care_plan_completed_date') }, html: true) do |object|

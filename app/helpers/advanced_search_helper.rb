@@ -69,6 +69,7 @@ module AdvancedSearchHelper
 
   def format_header(key)
     translations = {
+      family_type: I18n.t('datagrid.columns.families.family_type'),
       given_name: I18n.t('advanced_search.fields.given_name'),
       family_name: I18n.t('advanced_search.fields.family_name'),
       local_given_name: "#{I18n.t('advanced_search.fields.local_given_name')} #{country_scope_label_translation}",
@@ -78,7 +79,7 @@ module AdvancedSearchHelper
       carer_phone: I18n.t('activerecord.attributes.carer.phone'),
       carer_email: I18n.t('activerecord.attributes.carer.email'),
       carer_relationship_to_client: I18n.t('datagrid.columns.clients.carer_relationship_to_client'),
-      client_contact_phone: I18n.t('advanced_search.fields.client_contact_phone'),
+      client_phone: I18n.t('datagrid.columns.clients.client_phone'),
       address_type: I18n.t('advanced_search.fields.address_type'),
       client_email_address: I18n.t('advanced_search.fields.client_email_address'),
       code: custom_id_translation('custom_id1'),
@@ -131,6 +132,7 @@ module AdvancedSearchHelper
       csi_domain_scores: I18n.t('advanced_search.fields.csi_domain_scores'),
       custom_csi_domain_scores: I18n.t('advanced_search.fields.custom_csi_domain_scores'),
       case_note_date: I18n.t('advanced_search.fields.case_note_date'),
+      no_case_note_date: I18n.t('advanced_search.fields.no_case_note_date'),
       case_note_type: I18n.t('advanced_search.fields.case_note_type'),
       date_of_assessments: I18n.t('advanced_search.fields.date_of_assessments', assessment: I18n.t('clients.show.assessment')),
       date_of_referral: I18n.t('advanced_search.fields.date_of_referral'),
@@ -148,6 +150,8 @@ module AdvancedSearchHelper
       created_by: I18n.t('advanced_search.fields.created_by'),
       referred_to: I18n.t('advanced_search.fields.referred_to'),
       referred_from: I18n.t('advanced_search.fields.referred_from'),
+      referred_in: I18n.t('advanced_search.fields.referred_in'),
+      referred_out: I18n.t('advanced_search.fields.referred_out'),
       referee: I18n.t('advanced_search.fields.referee'),
       referee_name: I18n.t('advanced_search.fields.referee_name'),
       referee_phone: I18n.t('advanced_search.fields.referee_phone'),
@@ -157,6 +161,8 @@ module AdvancedSearchHelper
       time_in_ngo: I18n.t('advanced_search.fields.time_in_ngo'),
       assessment_number: I18n.t('advanced_search.fields.assessment_number', assessment: I18n.t('clients.show.assessment')),
       assessment_completed_date: I18n.t('advanced_search.fields.assessment_completed_date', assessment: I18n.t('clients.show.assessment')),
+      custom_completed_date: I18n.t('advanced_search.fields.assessment_custom_completed_date', assessment: I18n.t('clients.show.assessment')),
+      completed_date: I18n.t('advanced_search.fields.assessment_completed_date', assessment: I18n.t('clients.show.assessment')),
       month_number: I18n.t('advanced_search.fields.month_number'),
       custom_csi_group: I18n.t('advanced_search.fields.custom_csi_group'),
       referral_source_category_id: I18n.t('advanced_search.fields.referral_source_category_id'),
@@ -296,5 +302,29 @@ module AdvancedSearchHelper
       results = result_objects.where("#{field_name} IS NOT NULL")
     end
     results.ids
+  end
+
+  def addresses_mapping(called_in)
+    if called_in == 'ProgramStreamAddRuleController' || self.class.name == "AdvancedSearches::Families::FamilyFields"
+      [['province_id', provinces], ['district_id', districts], ['commune_id', communes]]
+    else
+      [['province_id', provinces], ['district_id', districts], ['birth_province_id', birth_provinces], ['commune_id', communes], ['village_id', villages]]
+    end
+  end
+
+  def provinces
+      Province.order(:name).map { |s| { s.id.to_s => s.name } }
+  end
+
+  def districts
+    District.order(:name).map { |s| { s.id.to_s => s.name } }
+  end
+
+  def communes
+    Commune.all.map { |commune| ["#{commune.name_kh} / #{commune.name_en} (#{commune.code})", commune.id] }.sort.map{ |s| {s[1].to_s => s[0]} }
+  end
+
+  def villages
+    Village.all.map { |village| ["#{village.name_kh} / #{village.name_en} (#{village.code})", village.id] }.sort.map{ |s| {s[1].to_s => s[0]} }
   end
 end
