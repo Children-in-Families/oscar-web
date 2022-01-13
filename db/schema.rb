@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20211020030551) do
+ActiveRecord::Schema.define(version: 20211025080858) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1338,6 +1338,8 @@ ActiveRecord::Schema.define(version: 20211020030551) do
     t.string   "for_instances"
     t.boolean  "label_only",    default: false
   end
+
+  add_index "field_settings", ["name"], name: "index_field_settings_on_name", using: :btree
 
   create_table "form_builder_attachments", force: :cascade do |t|
     t.string   "name",                default: ""

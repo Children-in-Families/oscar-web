@@ -62,6 +62,7 @@ module ApplicationHelper
   end
 
   def human_boolean(boolean)
+    return (boolean ? 'បាទ/ចាស' : 'ទេ') if params[:locale] == 'km' || I18n.locale == :km
     boolean ? 'Yes' : 'No'
   end
 
