@@ -26,12 +26,12 @@
           = link_to domain_version_path(domain), class: 'btn btn-outline btn-success margin-left' do
             = t('.changelog')
         - if can? :manage, Domain
-          = link_to new_domain_path(domain_id: domain.id, copy: true, domain_type: domain.domain_type), class: 'btn btn-outline btn-success margin-left' do
+          = link_to new_domain_path(domain_id: domain.id, copy: true, domain_type: domain.domain_type, tab: custom_domain_setting_name, custom_assessment_setting_id: custom_assessment_setting_id), class: 'btn btn-outline btn-success margin-left' do
             = fa_icon('copy')
         - if domain.custom_domain?
-          = link_to edit_domain_path(domain), class: 'btn btn-outline btn-success margin-left' do
+          = link_to edit_domain_path(domain, tab: custom_domain_setting_name || 'csi-tools', custom_assessment_setting_id: custom_assessment_setting_id), class: 'btn btn-outline btn-success margin-left' do
             = fa_icon('pencil')
-          = remove_link(domain, {domain_task: domain.tasks.with_deleted.count, assessment_domains_size: domain.assessment_domains.size}, 'margin-left')
+          = remove_link(domain, {domain_task: domain.tasks.with_deleted.count, assessment_domains_size: domain.assessment_domains.size}, 'margin-left', custom_assessment_setting_id, custom_domain_setting_name)
   .panel-body
     %p= domain.translate_description.html_safe
   .penel-footer

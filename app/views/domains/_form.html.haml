@@ -1,5 +1,6 @@
 = simple_form_for(@domain) do |f|
   .ibox-content
+    = hidden_field_tag :tab, params[:tab]
     = hidden_field_tag :custom_assessment_setting_id, params[:custom_assessment_setting_id].presence || @custom_assessment_setting&.id
     = error_notification(f)
     .form-inputs
