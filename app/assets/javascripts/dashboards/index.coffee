@@ -95,7 +95,7 @@ CIF.DashboardsIndex = do ->
     data    = $(element).data('content-count')
     title    = $(element).data('title')
     report = new CIF.ReportCreator(data, title, '', element)
-    report.barChart()
+    report.donutChart()
 
   _clientProgramStream = ->
     element = $('#client-by-program-stream')

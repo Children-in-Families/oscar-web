@@ -10,33 +10,9 @@
     = render 'multiple_forms'
     = render 'client'
     = render 'go_to_client'
-
-  %ul.nav.nav-tabs.csi-tab{ role: "tablist" }
-    %li.active{role: "presentation"}
-      %a{"aria-controls" => "client-tab", "data-toggle" => "tab", href: "#client-tab", role: "tab"}= t('.client_dashboard')
-    %li{role: "presentation"}
-      %a{"aria-controls" => "family-tab", "data-toggle" => "tab", href: "#family-tab", role: "tab"}= t('.family_dashboard')
-    %li{role: "presentation"}
-      %a{"aria-controls" => "community-tab", "data-toggle" => "tab", href: "#community-tab", role: "tab"}= t('.community_dashboard')
-    %li{role: "presentation"}
-      %a{"aria-controls" => "hotline-tab", "data-toggle" => "tab", href: "#hotline-tab", role: "tab"}= t('.hotline_dashboard')
-  .tab-content
-    #client-tab.tab-pane.active{ role: "tabpanel" }
-      .row
-        = render 'client_program_stream_by_gender'
-      .row
-        - if can? :read, Family
-          = render 'family'
-        = render 'third_party'
-    #family-tab.tab-pane{ role: 'tabpanel' }
-      .row
-        .col-xs-12
-          %h3 Hello This is family panel
-    #community-tab.tab-pane{ role: 'tabpanel' }
-      .row
-        .col-xs-12
-          %h3 Hello This is Community panel
-    #hotline-tab.tab-pane{ role: 'tabpanel' }
-      .row
-        .col-xs-12
-          %h3 Hello This is Hotline panel
+  .row
+    = render 'client_program_stream_by_gender'
+  .row
+    - if can? :read, Family
+      = render 'family'
+    = render 'third_party'

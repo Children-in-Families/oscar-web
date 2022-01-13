@@ -4,48 +4,9 @@ class CIF.ReportCreator
     @title = title
     @yAxisTitle = yAxisTitle
     @element = element
-    @colors = ['f9c00c', '#4caf50', '#00695c', '#01579b', '#4dd0e1', '#2e7d32', '#4db6ac', '#00897b', '#a5d6a7', '#43a047', '#c5e1a5', '#7cb342', '#fdd835', '#fb8c00', '#6d4c41', '#757575',
+    @colors = ['#4caf50', '#00695c', '#01579b', '#4dd0e1', '#2e7d32', '#4db6ac', '#00897b', '#a5d6a7', '#43a047', '#c5e1a5', '#7cb342', '#fdd835', '#fb8c00', '#6d4c41', '#757575',
               '#ef9a9a', '#e53935', '#f48fb1', '#d81b60', '#ce93d8', '#8e24aa', '#b39ddb', '#7e57c2', '#9fa8da', '#3949ab', '#64b5f6', '#827717']
-   barChart: ->
-    theData = @data
-    if @data != undefined
-      $(@element).highcharts
-        chart:
-          type: 'bar'
-        legend:
-          verticalAlign: 'top'
-          y: 30
-        plotOptions:
-          series:
-            stacking: 'normal'
-          bar:
-            dataLabels:
-              enabled: true
-        tooltip:
-          shared: true
-          xDateFormat: '%b %Y'
-        title:
-          text: @title
-        xAxis: [
-          categories: @data[0].active_data.map (element) ->
-            element['name']
-          dateTimeLabelFormats:
-            month: '%b %Y'
-          tickmarkPlacement: 'on'
-        ]
-        yAxis: [
-          allowDecimals: false
-          title:
-            text: @yAxisTitle
-        ]
-        series: @data.map (element, index) ->
-          {
-            name: element['name']
-            data: theData[index].active_data.map((subElement) ->
-              subElement['y']
-            )
-          }
-      $('.highcharts-credits').css('display', 'none')
+
   lineChart: ->
     if @data != undefined
       $(@element).highcharts
