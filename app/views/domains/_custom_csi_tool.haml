@@ -10,6 +10,6 @@
               = link_to new_domain_path do
                 .btn.btn.btn-primary.btn-add
                   = t('.add_new_domain')
-        = render partial: 'domain_list', collection: @custom_domains, as: :domain
+        = render partial: 'domain_list', collection: @custom_domains, as: :domain, locals: { custom_domain_setting_name: nil, custom_assessment_setting_id: nil }
         .text-center
           = paginate @custom_domains, params: { tab: 'custom_domain' }, :param_name => 'page_2'

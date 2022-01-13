@@ -29,7 +29,7 @@ class DomainsController < AdminController
     @domain = Domain.new(domain_params)
     @domain.custom_domain = true
     if @domain.save
-      redirect_to domains_path(tab: 'custom_domain'), notice: t('.successfully_created')
+      redirect_to domains_path(tab: tab_name), notice: t('.successfully_created')
     else
       render :new
     end
@@ -40,7 +40,7 @@ class DomainsController < AdminController
 
   def update
     if @domain.update_attributes(domain_params)
-      redirect_to domains_path, notice: t('.successfully_updated')
+      redirect_to domains_path(tab: tab_name), notice: t('.successfully_updated')
     else
       render :edit
     end
@@ -48,9 +48,9 @@ class DomainsController < AdminController
 
   def destroy
     if @domain.destroy
-      redirect_to domains_url, notice: t('.successfully_deleted')
+      redirect_to domains_path(tab: tab_name), notice: t('.successfully_deleted')
     else
-      redirect_to domains_url, alert: t('.alert')
+      redirect_to domains_path(tab: tab_name), alert: t('.alert')
     end
   end
 
@@ -89,5 +89,10 @@ class DomainsController < AdminController
 
   def find_custom_assessment_setting
     @custom_assessment_setting = CustomAssessmentSetting.find(params[:custom_assessment_setting_id]) if params[:custom_assessment_setting_id].present?
+  end
+
+  def tab_name
+    return "#{@custom_assessment_setting.custom_assessment_name.downcase.strip.parameterize('-')}-custom-csi-tools" if @custom_assessment_setting
+    params[:tab].presence || 'csi-tools'
   end
 end
