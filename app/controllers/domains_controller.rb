@@ -3,7 +3,7 @@ class DomainsController < AdminController
 
   before_action :find_domain, only: [:edit, :update, :destroy]
   before_action :find_domain_group, except: [:index, :destroy]
-  before_action :find_custom_assessment_setting, except: :index
+  before_action :find_custom_assessment_settings, :find_custom_assessment_setting, except: :index
 
   def index
     @domains = Domain.csi_domains.page(params[:page_1]).per(10)
@@ -29,7 +29,7 @@ class DomainsController < AdminController
     @domain = Domain.new(domain_params)
     @domain.custom_domain = true
     if @domain.save
-      redirect_to domains_path(tab: 'custom_domain'), notice: t('.successfully_created')
+      redirect_to domains_path(tab: tab_name), notice: t('.successfully_created')
     else
       render :new
     end
@@ -40,7 +40,7 @@ class DomainsController < AdminController
 
   def update
     if @domain.update_attributes(domain_params)
-      redirect_to domains_path, notice: t('.successfully_updated')
+      redirect_to domains_path(tab: tab_name), notice: t('.successfully_updated')
     else
       render :edit
     end
@@ -48,9 +48,9 @@ class DomainsController < AdminController
 
   def destroy
     if @domain.destroy
-      redirect_to domains_url, notice: t('.successfully_deleted')
+      redirect_to domains_path(tab: tab_name), notice: t('.successfully_deleted')
     else
-      redirect_to domains_url, alert: t('.alert')
+      redirect_to domains_path(tab: tab_name), alert: t('.alert')
     end
   end
 
@@ -83,7 +83,16 @@ class DomainsController < AdminController
     @domain_group = DomainGroup.order(:name)
   end
 
-  def find_custom_assessment_setting
+  def find_custom_assessment_settings
     @custom_assessment_settings = CustomAssessmentSetting.all.where(enable_custom_assessment: true)
+  end
+
+  def find_custom_assessment_setting
+    @custom_assessment_setting = CustomAssessmentSetting.find(params[:custom_assessment_setting_id]) if params[:custom_assessment_setting_id].present?
+  end
+
+  def tab_name
+    return "#{@custom_assessment_setting.custom_assessment_name.downcase.strip.parameterize('-')}-custom-csi-tools" if @custom_assessment_setting
+    params[:tab].presence || 'csi-tools'
   end
 end
