@@ -6143,6 +6143,9 @@ km:
     stage: តំណាក់កាល
     update:
       successfully_updated: ដំណាក់ការត្រូវបានកែសម្រួលដោយជោគជ័យ
+  successfully_created: "%{klass} ត្រូវបានបង្កើតដោយជោគជ័យ."
+  successfully_deleted: "%{klass} ត្រូវបានលុបដោយជោគជ័យ."
+  successfully_updated: "%{klass} ត្រូវបានកែសម្រួលដោយជោគជ័យ."
   surveys:
     create:
       successfully_created: ការស្ទង់មតិត្រូវបានបង្កើតដោយជោគជ័យ

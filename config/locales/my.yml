@@ -6128,6 +6128,9 @@ my:
     stage: အဆင့္
     update:
       successfully_updated: အဆင့္ကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ျဖည့္စြက္ၿပီးပါၿပီ
+  successfully_created: "%{klass} has been successfully created."
+  successfully_deleted: "%{klass} has been successfully deleted."
+  successfully_updated: "%{klass} has been successfully updated."
   surveys:
     create:
       successfully_created: စစ္တမ္းကို ေအာင္ျမင္စြာ ျပဳလုပ္ၿပီးပါၿပီ
