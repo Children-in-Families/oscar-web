@@ -6216,6 +6216,9 @@ en:
     stage: Stage
     update:
       successfully_updated: Stage has been successfully updated.
+  successfully_created: "%{klass} has been successfully created."
+  successfully_deleted: "%{klass} has been successfully deleted."
+  successfully_updated: "%{klass} has been successfully updated."
   surveys:
     create:
       successfully_created: Survey has been successfully created.
