@@ -1,4 +1,4 @@
-#csi-tools.tab-pane.active{role: "tabpanel"}
+#csi-tools.tab-pane{ role: "tabpanel", class: ('active' if params[:tab] == 'csi-tools') }
   .row
     .col-xs-12
       .ibox
@@ -6,6 +6,6 @@
           %h5= @results
           %span.label.label-info= t('.domains')
 
-        = render partial: 'domain_list', collection: @domains, as: :domain
+        = render partial: 'domain_list', collection: @domains, as: :domain, locals: { custom_domain_setting_name: nil, custom_assessment_setting_id: nil }
         .text-center
-          = paginate @domains, params: { tab: 'csi_domain' }, :param_name => 'page_1'
+          = paginate @domains, params: { tab: 'csi-tools' }, :param_name => 'page_1'

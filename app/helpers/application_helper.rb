@@ -62,6 +62,7 @@ module ApplicationHelper
   end
 
   def human_boolean(boolean)
+    return (boolean ? 'បាទ/ចាស' : 'ទេ') if params[:locale] == 'km' || I18n.locale == :km
     boolean ? 'Yes' : 'No'
   end
 
@@ -69,9 +70,9 @@ module ApplicationHelper
     url_for params: params.merge(new_params)
   end
 
-  def remove_link(object, associated_objects = {}, btn_size = 'btn-xs')
+  def remove_link(object, associated_objects = {}, btn_size = 'btn-xs', custom_assessment_setting_id = nil, tab_name = nil)
     btn_status = associated_objects.values.sum.zero? ? nil : 'disabled'
-    link_to(object, method: 'delete',  data: { confirm: t('are_you_sure') }, class: "btn btn-outline btn-danger #{btn_size} #{btn_status}") do
+    link_to(domain_path(object, custom_assessment_setting_id: custom_assessment_setting_id, tab: tab_name || params[:tab]), method: 'delete',  data: { confirm: t('are_you_sure') }, class: "btn btn-outline btn-danger #{btn_size} #{btn_status}") do
       fa_icon('trash')
     end
   end
