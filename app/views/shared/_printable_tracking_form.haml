@@ -1,0 +1,57 @@
+%hr/
+.row
+  .col-xs-6
+    = image_tag Organization.current.logo, class: 'img-responsive', width: '100'
+
+.row
+  .col-xs-12
+    %h3.text-center
+      = "#{tracking.name} - #{program_stream.name}"
+
+.row
+  .col-xs-7
+    %table.table.table-borderless.small.m-b-xs
+      %tr
+        %td.spacing-first-col{ width: '90' }
+          %strong= "#{t('client_name')}:"
+        %td= client.en_and_local_name
+      %tr
+        %td
+          %strong= "#{t('created_by')}:"
+        %td= whodunnit(enrollment_tracking.class.name, enrollment_tracking.id)
+
+  .col-xs-5
+    %table.table.table-borderless.small.m-b-xs
+      %tr
+        %td
+          %strong= "#{t('id')}:"
+        %td= client.slug
+      %tr
+        %td
+          %strong= "#{t('created_on')}:"
+        %td= date_format(enrollment_tracking.created_at)
+
+.row
+  .col-xs-12
+    .table-responsive
+      %table.table.table-bordered
+        - tracking_report(enrollment_tracking).map{|field| [field['type'], field['label']]}.each do |type, key|
+          - unless type == 'separateLine'
+            - if type == 'paragraph'
+              %tr
+                %td.align-justify{colspan: '2'}
+                  = key.html_safe
+            - else
+              %tr
+                %td.align-justify
+                  = key.html_safe
+                %td.align-justify
+                  - key = convert_bracket(key, enrollment_tracking.properties.clone)
+                  - if type == 'file'
+                    - attachment_by_label = enrollment_tracking.get_form_builder_attachment(key)
+                    - if attachment_by_label.present?
+                      %ul
+                        - attachment_by_label.file.each_with_index do |attachment, index|
+                          %li= original_filename(attachment)
+                  - else
+                    = display_custom_properties(enrollment_tracking.properties[key] || enrollment_tracking.properties[key.gsub(/(&amp;#91;).*(&amp;#93;)$/, '')])
