@@ -1,5 +1,5 @@
-- @custom_assessment_setting.each do |cs|
-  - tab_name = "#{cs.custom_assessment_name.downcase.strip.parameterize('-')}-custom-csi-tools"
+- @custom_assessment_settings.each do |cs|
+  - tab_name = "#{cs.custom_assessment_name.downcase.strip.parameterize('-')}#{cs.id}-custom-csi-tools"
   %div.tab-pane{role: "tabpanel", id: tab_name, class: ('active' if params[:tab] == tab_name)}
     .row
       .col-xs-12

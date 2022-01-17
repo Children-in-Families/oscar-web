@@ -10,8 +10,8 @@ class DomainsController < AdminController
     @custom_domains = Domain.custom_csi_domains.page(params[:page_2]).per(10)
     @results = Domain.csi_domains.count
     @custom_domain_results = Domain.custom_csi_domains.count
-    @custom_assessment_setting = @current_setting.custom_assessment_settings
-    @custom_assessment_paginate = CustomAssessmentSetting.joins(:domains).page(params[:page_2]).per(10)
+    @custom_assessment_settings = @current_setting.custom_assessment_settings.where(enable_custom_assessment: true)
+    @custom_assessment_paginate = @custom_assessment_settings.joins(:domains).distinct.page(params[:page_2]).per(10)
     @family_custom_domains = Domain.family_custom_csi_domains.page(params[:page_2]).per(10)
   end
 
@@ -92,7 +92,7 @@ class DomainsController < AdminController
   end
 
   def tab_name
-    return "#{@custom_assessment_setting.custom_assessment_name.downcase.strip.parameterize('-')}-custom-csi-tools" if @custom_assessment_setting
+    return "#{@custom_assessment_setting.custom_assessment_name.downcase.strip.parameterize('-')}#{@custom_assessment_setting.id}-custom-csi-tools" if @custom_assessment_setting
     params[:tab].presence || 'csi-tools'
   end
 end
