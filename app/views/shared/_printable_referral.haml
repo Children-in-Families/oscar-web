@@ -1,0 +1,89 @@
+%hr/
+.row
+  .col-xs-6
+    = image_tag Organization.current.logo, class: 'img-responsive', width: '100'
+
+.row
+  .col-xs-12
+    %h3.text-center
+      = t('referrals.referral_form')
+
+.row
+  .col-xs-7
+    %table.table.table-borderless.small.m-b-xs
+      %tr
+        %td.spacing-first-col
+          %strong= "#{t('referrals.show.date_of_referral')}:"
+        %td= date_format referral.date_of_referral
+      %tr
+        %td
+          %strong= "#{t('referrals.show.client_name')}:"
+        %td= referral.client.en_and_local_name if referral.client_id?
+      %tr
+        %td
+          %strong= "#{t('referrals.show.referred_from')}:"
+        %td= referral.referred_from_ngo
+      %tr
+        %td{ width: '190' }
+          %strong= "#{t('referrals.show.name_of_referee')}:"
+        %td= referral.name_of_referee
+      %tr
+        %td
+          %strong= "#{t('referrals.show.referral_phone')}:"
+        %td= referral.referral_phone
+  .col-xs-5
+    %table.table.table-borderless.small.m-b-xs
+      %tr
+        %td
+          %strong= "#{t('created_by')}:"
+        %td= whodunnit('Referral', referral.id)
+      %tr
+        %td
+          %strong= "#{t('referrals.show.client_id')}:"
+        %td= referral.client_id || referral.client&.slug
+      %tr
+        %td
+          %strong= "#{t('referrals.show.referred_to')}:"
+        %td= referral.ngo_name.presence || ngo_hash_mapping[referral.referred_to]
+      %tr
+        %td
+          %strong= "#{t('created_on')}:"
+        %td= date_format(referral.created_at)
+      %tr
+        %td
+          %strong= "#{t('referrals.index.referral_email')}:"
+        %td= referral.referee_email
+
+.row
+  .col-xs-12
+    %h4
+      = t('referrals.show.referral_reason')
+  .col-xs-12
+    %p= referral.referral_reason
+
+.row
+  .col-xs-12
+    %h4
+      = t('referrals.show.type_of_service')
+  .col-xs-12
+    %ul
+      - referral.services.distinct.each do |service|
+        %li= service.name
+
+.row
+  .col-xs-12
+    %h4
+      = t('referrals.level_of_risk')
+  .col-xs-12
+    %ul
+      %li= referral.level_of_risk&.capitalize
+
+.row
+  .col-xs-12
+    %h4
+      = t('referrals.show.consent_form')
+  .col-xs-12
+    %ul
+      - referral.consent_form.first.present? && referral.consent_form.each do |attachment|
+        %li= original_filename(attachment)
+
