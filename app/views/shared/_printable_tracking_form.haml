@@ -33,7 +33,7 @@
 
 .row
   .col-xs-12
-    .table-responsive
+    .table-responsive.m-t-md
       %table.table.table-bordered
         - tracking_report(enrollment_tracking).map{|field| [field['type'], field['label']]}.each do |type, key|
           - unless type == 'separateLine'
@@ -43,9 +43,9 @@
                   = key.html_safe
             - else
               %tr
-                %td.align-justify
+                %td.align-justify{ width: '50%' }
                   = key.html_safe
-                %td.align-justify
+                %td{ width: '50%', style: "overflow-wrap: anywhere;" }
                   - key = convert_bracket(key, enrollment_tracking.properties.clone)
                   - if type == 'file'
                     - attachment_by_label = enrollment_tracking.get_form_builder_attachment(key)
@@ -54,4 +54,4 @@
                         - attachment_by_label.file.each_with_index do |attachment, index|
                           %li= original_filename(attachment)
                   - else
-                    = display_custom_properties(enrollment_tracking.properties[key] || enrollment_tracking.properties[key.gsub(/(&amp;#91;).*(&amp;#93;)$/, '')])
+                    =  display_custom_properties(enrollment_tracking.properties[key] || enrollment_tracking.properties[key.gsub(/(&amp;#91;).*(&amp;#93;)$/, '')], type)
