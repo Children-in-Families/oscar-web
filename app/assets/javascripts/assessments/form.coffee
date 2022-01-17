@@ -228,7 +228,6 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       chosenScore = scoreOption.find('label input:checked').val()
 
     scoreColor  = scoreOption.data("score-#{chosenScore}")
-
     scoreOption.find("label label:contains(#{chosenScore})").addClass("label-default active-label")
 
     btnScore = scoreOption.find('input:hidden').val()
