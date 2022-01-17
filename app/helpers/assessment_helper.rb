@@ -320,7 +320,7 @@ module AssessmentHelper
 
   def domain_name_for_aht(ad)
     if I18n.locale == :km
-      domain_header = ad.domain.local_description.scan(/<strong>(.*)<\/strong>/).flatten.first
+      domain_header = ad.domain.local_description.scan(/\p{Khmer}|[[:space:]]/).join.squish
       content_tag(:nil) do
         content_tag(:td, content_tag(:b, "#{domain_header.split('៖').first}៖"), class: "no-padding-bottom") + content_tag(:td, content_tag(:b, domain_header.split('៖').last, class: "no-padding-bottom"))
       end
