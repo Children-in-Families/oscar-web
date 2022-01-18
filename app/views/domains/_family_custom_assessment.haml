@@ -1,15 +1,15 @@
-#family-custom-csi-tools.tab-pane{role: "tabpanel"}
+#family-custom-domain.tab-pane{ role: "tabpanel", class: ('active' if params[:tab] == 'family-custom-domain') }
   .row
     .col-xs-12
       .ibox
         .ibox-title.domain-ibox
-          %h5= @family_custom_domains.size
+          %h5= Domain.family_custom_csi_domains.size
           %span.label.label-info= t('.domains')
           .ibox-tools
             - if can? :manage, Domain
-              = link_to new_domain_path(domain_type: 'family') do
+              = link_to new_domain_path(domain_type: 'family', tab: 'family-custom-domain') do
                 .btn.btn.btn-primary.btn-add
                   = t('.add_new_domain')
-        = render partial: 'domain_list', collection: @family_custom_domains, as: :domain
+        = render partial: 'domain_list', collection: @family_custom_domains, as: :domain, locals: { custom_domain_setting_name: 'family-custom-domain', custom_assessment_setting_id: nil }
         .text-center
           = paginate @family_custom_domains, params: { tab: 'family-custom-domain' }, :param_name => 'page_2'

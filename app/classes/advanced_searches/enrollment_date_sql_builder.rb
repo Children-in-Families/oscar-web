@@ -9,8 +9,8 @@ module AdvancedSearches
     def get_sql
       sql_string = 'clients.id IN (?)'
       client_enrollments = ClientEnrollment.where(program_stream_id: @program_stream_id)
-      param_rules = JSON.parse($param_rules['basic_rules'])
-
+      basic_rules = $param_rules['basic_rules']
+      param_rules = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
       enrollment_rules = iterate_param_rules(param_rules)
       query_string = enrollment_rules.map do |rules|
         client_enrollment_sql(rules['operator'], rules['field'], rules['value'], rules['input'], rules['type'])

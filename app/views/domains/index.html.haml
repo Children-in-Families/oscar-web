@@ -4,16 +4,17 @@
       .ibox-content
         %div
           %ul.nav.nav-tabs.csi-tab{role: "tablist"}
-            %li.active{role: "presentation"}
+            %li{role: "presentation", class: ('active' if params[:tab] == 'csi-tools') }
               %a{"aria-controls" => "csi-tools", "data-toggle" => "tab", href: "#csi-tools", role: "tab"}= t('.csi_tool')
             - if @custom_domains.present?
-              - if @custom_assessment_setting.joins(:domains).present?
-                - @custom_assessment_setting.each do |cs|
+              - if @custom_assessment_settings.joins(:domains).present?
+                - @custom_assessment_settings.each do |cs|
+                  - tab_name = "#{cs.custom_assessment_name.downcase.strip.parameterize('-')}#{cs.id}-custom-csi-tools"
                   - if cs.enable_custom_assessment == true
-                    %li{role: "presentation"}
-                      %a{"aria-controls" => "#{cs.custom_assessment_name.downcase.strip.parameterize('-')}-custom-csi-tools", "data-toggle" => "tab", href: "##{cs.custom_assessment_name.downcase.strip.parameterize('-')}-custom-csi-tools", role: "tab"}= cs.custom_assessment_name
-            %li{ role: "presentation" }
-              %a{"aria-controls" => "family-custom-csi-tools", "data-toggle" => "tab", href: "#family-custom-csi-tools", role: "tab"}= t('.family_csi_tool')
+                    %li{role: "presentation", class: ('active' if params[:tab] == tab_name) }
+                      %a{"aria-controls" => tab_name, "data-toggle" => "tab", href: "##{tab_name}", role: "tab"}= cs.custom_assessment_name
+            %li{ role: "presentation", class: ('active' if params[:tab] == 'family-custom-domain') }
+              %a{"aria-controls" => "family-custom-domain", "data-toggle" => "tab", href: "#family-custom-domain", role: "tab"}= t('.family_csi_tool')
           .tab-content
             = render 'csi_tool'
             - if @custom_domains.present?

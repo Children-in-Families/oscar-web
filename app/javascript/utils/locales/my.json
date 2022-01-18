@@ -470,7 +470,7 @@
       "case_worker": "Case Worker / Assigned Staff Manager",
       "contact_info": "Contact Information",
       "client_is_outside": "International",
-      "client_contact_phone": "Client Contact Phone",
+      "client_phone": "Client Contact Phone",
       "phone_owner": "Phone Owner",
       "client_email": "Client Email Contact",
       "email_owner": "Email Owner",
