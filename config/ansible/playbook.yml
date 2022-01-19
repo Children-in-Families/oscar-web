@@ -1,0 +1,11 @@
+---
+
+- hosts: oscarservers
+  remote_user: '{{ ssh_user }}'
+  roles:
+    - role: build
+      tags:
+        - build
+    - role: deploy
+      tags:
+        - deploy

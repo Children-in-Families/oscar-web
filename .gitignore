@@ -50,3 +50,8 @@ staging.env
 
 # aws private
 aws/ecs/private/
+
+# Deployment
+k8s-deploy
+config/ansible
+config/jenkins
