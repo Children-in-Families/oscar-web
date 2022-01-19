@@ -100,7 +100,7 @@ module AdvancedSearches
         if rules.has_key?('rules')
           iterate_param_rules(rules, values)
         else
-          values << rules if rules['id'][/^(enrollment_|enrollmentdate_)/].present?
+          values << rules unless rules['id'][/^(enrollment_|enrollmentdate_)/].present?
         end
       end
       values
