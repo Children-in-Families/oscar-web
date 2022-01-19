@@ -12,7 +12,6 @@ module AdvancedSearches
       basic_rules = $param_rules['basic_rules']
       param_rules = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
       enrollment_rules = iterate_param_rules(param_rules)
-      enrollment_rules = param_rules['rules'].select{|rules| rules['id'][/^(enrollment_)/].present? }
       query_string = enrollment_rules.map do |rules|
         client_enrollment_sql(rules['operator'], rules['field'], rules['value'], rules['input'], rules['type'])
       end.join(" #{param_rules['condition']} ")
@@ -101,7 +100,7 @@ module AdvancedSearches
         if rules.has_key?('rules')
           iterate_param_rules(rules, values)
         else
-          values << rules if rules['id'][/^(enrollment_|enrollmentdate_)/].present?
+          values << rules unless rules['id'][/^(enrollment_|enrollmentdate_)/].present?
         end
       end
       values
