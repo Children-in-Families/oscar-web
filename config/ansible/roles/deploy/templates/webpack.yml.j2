@@ -1,0 +1,50 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: 'app-{{ stage }}-{{ project_id }}-webpack'
+  namespace: '{{ k8s_namespace }}'
+  annotations:
+    reloader.stakater.com/auto: 'true'
+spec:
+  selector:
+    matchLabels:
+      app: 'app-{{ stage }}-{{ project_id }}-webpack'
+  template:
+    metadata:
+      labels:
+        app: 'app-{{ stage }}-{{ project_id }}-webpack'
+    spec:
+      imagePullSecrets:
+        - name: secret-{{ project_id }}
+      containers:
+        - image: {{ image_name }}/webapp:{{ version }}
+          name: 'app-{{ stage }}-{{ project_id }}-webpack'
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3035
+          env:
+            - name: RAIL_ENV
+              value: {{ rail_env }}
+            - name: WEBPACKER_DEV_SERVER_HOST
+              value: 0.0.0.0
+          command: [ "/bin/bash" ]
+          args: [ "-c", "rm -rf /app/public/packs; /app/bin/webpack-dev-server" ]
+          volumeMounts:
+            - name: tz-config
+              mountPath: /etc/localtime
+      volumes:
+        - name: tz-config
+          hostPath:
+            path: {{ tz_path }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: 'svc-{{ stage }}-{{ project_id }}-webpack'
+  namespace: '{{ k8s_namespace }}'
+spec:
+  ports:
+    - port: 3000
+  selector:
+    app: 'app-{{ stage }}-{{ project_id }}-webpack'
