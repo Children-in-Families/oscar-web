@@ -1,4 +1,4 @@
-#csi-tools.tab-pane{ role: "tabpanel", class: ('active' if params[:tab] == 'csi-tools') }
+#csi-tools.tab-pane{ role: "tabpanel", class: ('active' if params[:tab] == 'csi-tools' || params[:tab].blank?) }
   .row
     .col-xs-12
       .ibox
