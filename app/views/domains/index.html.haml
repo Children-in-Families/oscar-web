@@ -4,7 +4,7 @@
       .ibox-content
         %div
           %ul.nav.nav-tabs.csi-tab{role: "tablist"}
-            %li{role: "presentation", class: ('active' if params[:tab] == 'csi-tools') }
+            %li{role: "presentation", class: ('active' if params[:tab] == 'csi-tools' || params[:tab].blank?) }
               %a{"aria-controls" => "csi-tools", "data-toggle" => "tab", href: "#csi-tools", role: "tab"}= t('.csi_tool')
             - if @custom_domains.present?
               - if @custom_assessment_settings.joins(:domains).present?
