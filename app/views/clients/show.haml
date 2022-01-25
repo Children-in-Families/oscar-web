@@ -87,11 +87,7 @@
               %button.btn.btn-danger.mini-margin{ disabled: 'disabled', class: 'agree-btn', data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.clients.show.reject')}", placement: "auto" } }= t('.reject')
 
     - if @client.status != 'Referred'
-      - if Organization.current.short_name == 'demo' || Organization.current.short_name == 'tutorials'
-        - ngos = Organization.test_ngos.exclude_current.order(:full_name).map{|org| [org.full_name, org.short_name] }
-      - else
-        - ngos = Organization.exclude_current.oscar.order(:full_name).map{|org| [org.full_name, org.short_name] }
-      - ngos = mapping_ngos(ngos)
+      - ngos = mapping_ngos(select_ngos)
       .row
         .col-xs-12
           .btn-group.small-btn-margin
