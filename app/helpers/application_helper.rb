@@ -398,6 +398,16 @@ module ApplicationHelper
     ReferralSource.find_by(id: referral_source_cat).try(:name)
   end
 
+  def select_ngos
+    if Organization.current.short_name == 'demo' || Organization.current.short_name == 'tutorials'
+      Organization.test_ngos.exclude_current.order(:full_name).map{|org| [org.full_name, org.short_name] }
+    elsif Organization.current.short_name == 'cif'
+      Organization.exclude_current.visible_only_cif.where(demo: false).order(:full_name).map{|org| [org.full_name, org.short_name] }
+    else
+      Organization.exclude_current.oscar.order(:full_name).map{|org| [org.full_name, org.short_name] }
+    end
+  end
+
   def mapping_ngos(ngos)
     if controller_name == 'clients'
       ExternalSystem.all.each.map{ |external_system| ngos << [external_system.name, "external referral"] }
