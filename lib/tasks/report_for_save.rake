@@ -8,79 +8,85 @@ namespace :report_for_save do
       WHERE "public"."donors"."global_id" = '#{args.global_id}'
     SQL
     organizations = ActiveRecord::Base.connection.execute(sql)
-    headers = ['Client ID',
-      'Status',
-      'Gender',
-      'Current Address – Province',
-      'Date of birth',
-      'Birth province',
-      'CSI assessment initial date',
-      'CSI assessment latest date',
-      'CSI initial assessment\'s scores',
-      'CSI last assessment\'s scores',
-      'Custom Referral Data',
-      'Family ID',
-      'Initial referral date',
-      'NGO accepted date',
-      'NGO name',
-      'CPS name',
-      'CPS enrollment date',
-      'Service type',
-      'NGO exited date',
-      'Referral source category',
-      'Referral source']
+
+    domain_score_headers = ['1A', '1B', '2A', '2B',	'3A',	'3B',	'4A',	'4B',	'5A',	'5B',	'6A',	'6B']
+    headers = [
+      'Nº', 'Client ID', 'Status', 	'Gender',	'Date of birth',
+      'Birth province',	'Current province',	'Family ID',	'NGO Name',
+      'Initial referral date',	'NGO accepted date',	'NGO exited date',
+      "History of disability and/or illness",	'History of Harm',	"History of high-risk behaviours",
+      'Reason for Family Seperation',
+      'Initial date of CSI', *domain_score_headers,
+      'Latet date of CSI', *domain_score_headers,
+      'Referral Source Category', 'Referral Source'
+    ]
+
+    cps_headers = ['Client ID',	'NGO Name',	'CPS Name', 'CPS erollment date',	'Service types', 'CPS exited date']
 
     workbook = WriteXLSX.new("#{Rails.root}/clients-end-line-data-#{Date.today}.xlsx")
     client_worksheet = workbook.add_worksheet('Clients')
+    cps_worksheet = workbook.add_worksheet("Clients' Program Stream")
     format = workbook.add_format
     format.set_align('center')
 
-    organization_client_sql = organizations.map do |organization|
+    clients_data = []
+    cps_enrollments = []
+    organizations.each_with_index do |organization, index|
       Apartment::Tenant.switch organization['short_name']
       donor_ids = Donor.where("LOWER(donors.name) = 'fcf' OR LOWER(donors.name) = 'react'").ids
       clients = Client.joins(:donors).where(donor_id: donor_ids)
 
-      values = clients.map do |client|
+      quantitative_type_disability = QuantitativeType.pluck(:name).select{|custom_data| custom_data[/Family history of disability and\/or illness/i] }.first
+      quantitative_type_harm = QuantitativeType.pluck(:name).select{|custom_data| custom_data[/History of Harm/i] }.first
+      quantitative_type_behaviour = QuantitativeType.pluck(:name).select{|custom_data| custom_data[/History of high-risk behaviours/i] }.first
+      quantitative_type_separation = QuantitativeType.pluck(:name).select{|custom_data| custom_data[/Reason for Family Separation/i] }.first
+
+      clients.each do |client|
         default_assessments = client.assessments.defaults
-        qtypes = client.quantitative_cases.group_by(&:quantitative_type)
-        [
+        qtypes = client.quantitative_cases.group_by(&:quantitative_type).map{|quantitative, quantitative_cases| [quantitative.name, quantitative_cases.map(&:value).join(', ')] }.to_h
+
+        Apartment::Tenant.switch 'shared'
+        birth_province = client.birth_province && client.birth_province.name
+        Apartment::Tenant.switch organization['short_name']
+
+        values = [
+          index = index + 1,
           client.slug, client.status, client.gender.capitalize,
-          client.province.name, client.date_of_birth && format_date(client.date_of_birth),
-          client.birth_province && client.birth_province.name,
-          format_date(default_assessments.first.created_at),
-          default_assessments.count > 1 && format_date(client.assessments.last.created_at),
-          default_assessments.first.domains.pluck(:name, :score).map { |item| item.join(': ') }.join(', '),
-          default_assessments.last.domains.pluck(:name, :score).map { |item| item.join(': ') }.join(', '),
-          *qtypes.map{|qtype| qtype.last.map(&:value).join(', ') },
+          client.date_of_birth && format_date(client.date_of_birth),
+          birth_province,
+          client.province.name,
           client.current_family_id,
+          "#{organization['full_name']} (#{organization['short_name']})",
+          format_date(client.initial_referral_date),
           format_date(client.accepted_date),
-          "#{organization['full_name']}(#{organization['short_name']})",
-          client.program_streams.pluck(:name).join(', '),
-          client.client_enrollments.map{|client_enrollment| format_date(client_enrollment.enrollment_date) }.join(', '),
-          client.program_streams.map{|program_stream| "#{program_stream.name} => (#{program_stream.services.map(&:name).join(', ')})" }.join(', '),
-          format_date(client.exit_ngos.last.exit_date),
+          format_date(client.exit_date),
+          qtypes[quantitative_type_disability],
+          qtypes[quantitative_type_harm],
+          qtypes[quantitative_type_behaviour],
+          qtypes[quantitative_type_separation],
+          format_date(default_assessments.first.created_at),
+          *default_assessments.first.domains.pluck(:name, :score).map { |item| item.join(': ') },
+          default_assessments.count > 1 && format_date(client.assessments.last.created_at),
+          *default_assessments.last.domains.pluck(:name, :score).map { |item| item.join(': ') },
           referral_source_category(client.referral_source_category_id),
           client.referral_source && client.referral_source.name
         ]
+        clients_data << values
+
+        client.client_enrollments.each do |client_enrollment|
+          cps_enrollments << [client.slug, "#{organization['full_name']} (#{organization['short_name']})", client_enrollment.program_stream.name, format_date(client_enrollment.enrollment_date), client_enrollment.program_stream.services.distinct.map(&:name).join(', '), format_date(client_enrollment.leave_program && client_enrollment.leave_program.exit_date)]
+        end
       end
-
-      binding.pry
-
     end
 
-    service_worksheet = workbook.add_worksheet('Services')
-    service_sql = organizations.map do |organization|
-      <<-SQL
-        SELECT services.id, '#{organization['short_name']}' organization_name, services.name, services.parent_id FROM #{organization['short_name']}.services
-      SQL
-    end.join(' UNION ')
-    services = ActiveRecord::Base.connection.execute(service_sql)
-    write_data_to_spreadsheet(service_worksheet, services.to_a, format)
+    write_data_to_spreadsheet(client_worksheet, headers, clients_data, format)
+    write_data_to_spreadsheet(cps_worksheet, cps_headers, cps_enrollments, format)
 
     workbook.close
   end
 
   def format_date(date)
+    return '' if date.blank?
     date.strftime('%d %B %Y')
   end
 
@@ -88,14 +94,14 @@ namespace :report_for_save do
     ReferralSource.find_by(id: id).try(:name_en) || ReferralSource.find_by(id: id).try(:name)
   end
 
-  def write_data_to_spreadsheet(worksheet, data, format)
-    return if data.first.nil?
-    data.first.keys.each_with_index do |header, header_index|
+  def write_data_to_spreadsheet(worksheet, headers, values, format)
+    return if values.first.compact.blank?
+    headers.each_with_index do |header, header_index|
       worksheet.write(0, header_index, header, format)
     end
 
-    data.each_with_index do |data_hash, row_index|
-      data_hash.values.each_with_index do |column, column_index|
+    values.each_with_index do |data_hash, row_index|
+      data_hash.each_with_index do |column, column_index|
         worksheet.write(row_index + 1, column_index, column, format)
       end
     end
