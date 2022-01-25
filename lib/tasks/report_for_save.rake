@@ -22,15 +22,18 @@ namespace :report_for_save do
     ]
 
     cps_headers = ['Client ID',	'NGO Name',	'CPS Name', 'CPS erollment date',	'Service types', 'CPS exited date']
+    family_headers = ['ID', 'Name', 'NGO Name', 'Code', 'ID Poor', 'Relevent Information', 'Care giver information', 'Significant family member count', 'Address']
 
     workbook = WriteXLSX.new("#{Rails.root}/clients-end-line-data-#{Date.today}.xlsx")
     client_worksheet = workbook.add_worksheet('Clients')
     cps_worksheet = workbook.add_worksheet("Clients' Program Stream")
+    family_worksheet = workbook.add_worksheet("Families")
     format = workbook.add_format
     format.set_align('center')
 
     clients_data = []
     cps_enrollments = []
+    families = []
     organizations.each_with_index do |organization, index|
       Apartment::Tenant.switch organization['short_name']
       donor_ids = Donor.where("LOWER(donors.name) = 'fcf' OR LOWER(donors.name) = 'react'").ids
@@ -77,10 +80,15 @@ namespace :report_for_save do
           cps_enrollments << [client.slug, "#{organization['full_name']} (#{organization['short_name']})", client_enrollment.program_stream.name, format_date(client_enrollment.enrollment_date), client_enrollment.program_stream.services.distinct.map(&:name).join(', '), format_date(client_enrollment.leave_program && client_enrollment.leave_program.exit_date)]
         end
       end
+
+      Family.where(id: clients.pluck(:current_family_id).compact).each do |family|
+        families << [family.id, "#{family.name} #{family.name_en}", "#{organization['full_name']} (#{organization['short_name']})", family.code, family.id_poor, family.relevant_information, family.caregiver_information, family.significant_family_member_count, family.address]
+      end
     end
 
     write_data_to_spreadsheet(client_worksheet, headers, clients_data, format)
     write_data_to_spreadsheet(cps_worksheet, cps_headers, cps_enrollments, format)
+    write_data_to_spreadsheet(family_worksheet, family_headers, families, format)
 
     workbook.close
   end
