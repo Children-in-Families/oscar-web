@@ -1,8 +1,4 @@
-- if Organization.current.short_name == 'demo' || Organization.current.short_name == 'tutorials'
-  - ngos = Organization.test_ngos.exclude_current.order(:full_name).map{|org| [org.full_name, org.short_name, disabled: @referral.referred_to != org.short_name] }
-- else
-  - ngos = Organization.exclude_current.oscar.order(:full_name).map{|org| [org.full_name, org.short_name, disabled: @referral.referred_to != org.short_name] }
-- ngos = mapping_ngos(ngos)
+- ngos = mapping_ngos(select_ngos)
 = simple_form_for [@client, @referral || @client.referrals.build] do |f|
   = f.hidden_field :slug, value: @client.archived_slug
   = f.hidden_field :client_global_id, value: @client.global_id

@@ -11,6 +11,7 @@ CIF.Common =
     @preventEditOnDatePicker()
     @confirmOnCancelBotton()
     @iCheckClearOptionSelect()
+    @printDiv()
 
   preventEditOnDatePicker: ->
     $('.date-picker').datepicker
@@ -154,3 +155,9 @@ CIF.Common =
           return
       , 0)
     )
+
+  printDiv: ->
+    $('.printable-button').on 'click', ->
+      printableId = $(@).data('printable-id')
+      $("##{printableId}").print()
+    return

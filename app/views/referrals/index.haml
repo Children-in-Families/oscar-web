@@ -35,10 +35,16 @@
                     -#   %span.tool-tip{ 'data-placement' => 'top', 'data-toggle' => 'tooltip', 'title' => t('.cannot_edit_referral') }
                     -#     = link_to edit_client_referral_path(@client, referral), class: 'button btn btn-outline btn-success btn-xs disabled' do
                     -#       = fa_icon('pencil')
-
+                    = link_to '#', class: 'btn btn-sm btn-warning btn-xs btn-outline printable-button', data: { printable_id: "printable-referral-#{referral.id}" } do
+                      = fa_icon 'print'
                     = link_to client_referral_path(@client, referral) do
                       .btn.btn-sm.btn-info.btn-xs.btn-outline
                         = fa_icon('eye')
+
+        - @referrals.each do |referral|
+          %div{ id: "printable-referral-#{referral.id}" }
+            = render 'shared/printable_referral', referral: referral
+
       .ibox-footer
         .text-right
           = link_to client_path(@client), class: 'btn btn-default' do

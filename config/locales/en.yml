@@ -654,6 +654,7 @@ en:
       enter_task_detail: Enter task details
       save: Save
       title: New Task
+    assessment_form: Assessment Form
     attachment:
       attachments: Attachments
       download: Download
@@ -665,6 +666,7 @@ en:
       download: Download
       max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
       preview_download: Preview & Download
+    client_name: Client's Name
     create:
       successfully_created: Assessment has been successfully created.
     destroy:
@@ -872,7 +874,10 @@ en:
   cannot_remove: cannot be removed
   cannot_remove_or_update: cannot be removed/updated since it is already in use.
   care_plans:
+    care_plan_form: Care Plan Form
     care_plan: Care plan
+    care_plan_based_on: Care Plan Based on
+    completed_date: Completed Date
     create:
       successfully_created: "%{care_plan} has been successfully created."
     destroy:
@@ -1014,6 +1019,9 @@ en:
       download: Download
       max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
       preview_download: Preview & Download
+    attendee: Who was there during the visit or conversation?
+    case_note_form: Case Note Form
+    client_name: Client’s Name
     create:
       successfully_created: Case Note has successfully been created.
     destroy:
@@ -1079,6 +1087,8 @@ en:
     show:
       case_note_on: Case note on
       present: Who was there during the visit or conversation?
+    type: Type
+    visitation_date: Visitation Date
     update:
       successfully_updated: Case Note has successfully been updated.
   cases:
@@ -1534,7 +1544,7 @@ en:
       exit: Exit
       forms: Forms
       programs_list: Programs List
-      report: Reports`
+      report: Reports
       tracking: Tracking
       view: View
     show:
@@ -1543,6 +1553,7 @@ en:
       enrollment_date: Enrolled on
     update:
       successfully_updated: Enrollment has been successfully updated.
+  client_name: Client's Name
   clients:
     attr: &LEGAL_DOC_ATTR
       add_service_received: Add Services Received
@@ -2436,7 +2447,10 @@ en:
     version:
       back: Back
       modification_of: Changelog of
+  completed_by: Completed by
+  completed_date: Completed Date
   created_by: Created by
+  created_on: Created On
   custom_field_properties:
     attachment:
       are_you_sure: Are you sure you want to delete?
@@ -4452,7 +4466,7 @@ en:
       referral_forms: Referral Forms
       referral_phone: Referral Phone
       referral_reason: Referral Note
-      referred_from: Reffered From
+      referred_from: Referred From
       referred_to: Referred To
       select_ngos: Select NGOs
     new:
@@ -4475,12 +4489,12 @@ en:
           name_of_referee: Case Worker Making the Referral
           referral_phone: Contact Phone Number
           referral_reason: Referral Note
-          referred_from: Reffered From
+          referred_from: Referred From
           referred_to: Referred To
       preview_download: Preview & Download
       referral_phone: Contact Phone Number
       referral_reason: Referral Note
-      referred_from: Reffered From
+      referred_from: Referred From
       referred_to: Referred To
       type_of_service: Type of Service
     update:
@@ -4514,6 +4528,7 @@ en:
         search_custom_form: Search Custom Form
         time_of_frequency: Time of Frequency
         type: Attached with
+      date_field: Date field
       demo_custom_form_tab:
         are_you_sure: Are you sure you want to delete?
         close: Close
@@ -4881,6 +4896,7 @@ en:
     update:
       successfully_updated: Government Report has been successfully updated.
   has_been_added_to_calendar: This event has already been added to calendar.
+  id: ID
   internal_referrals:
     internal_referral_attr: &INTERNAL_REFERRAL_ATTR
       are_you_sure: Are you sure you want to delete?
@@ -5809,7 +5825,6 @@ en:
       back: Back
       modification_of: Changelog of
   referrals:
-    level_of_risk: Level of Risk
     confirm_referral:
       body_second: The client you want to refer already existed in the target NGO.
       body_third: You have already referred this client, please wait for the response.
@@ -5850,14 +5865,17 @@ en:
       detail: Detail
       edit_btn: Edit
       name_of_referee: Name of Referee
+      referral_email: Referral Email
       referral_forms: Referral Forms
       referral_phone: Referral Phone
       referral_reason: Referral Note
-      referred_from: Reffered From
+      referred_from: Referred From
       referred_to: Referred To
       select_ngos: Select NGOs
+    level_of_risk: Level of Risk
     new:
       new_referral: New Referral
+    referral_form: Referral Form
     referral_status: Referral Status
     show:
       cannot_edit_referral: You cannot edit this referral because the target NGO already accepted this referral
@@ -5877,12 +5895,12 @@ en:
           name_of_referee: Case Worker Making the Referral
           referral_phone: Contact Phone Number
           referral_reason: Referral Note
-          referred_from: Reffered From
+          referred_from: Referred From
           referred_to: Referred To
       preview_download: Preview & Download
       referral_phone: Contact Phone Number
       referral_reason: Referral Note
-      referred_from: Reffered From
+      referred_from: Referred From
       referred_to: Referred To
       type_of_service: Type of Service
     update:

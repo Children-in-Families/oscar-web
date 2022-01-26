@@ -1,0 +1,85 @@
+%hr/
+.row
+  .col-xs-6
+    = image_tag Organization.current.logo, class: 'img-responsive', width: '105'
+
+.row
+  .col-xs-12
+    %h3.text-center
+      = t('assessments.assessment_form')
+    %h3.text-center
+      = check_assessment_domain_exist?(assessment)
+.row
+  .col-xs-7
+    %table.table.small.m-b-xs.table-borderless
+      %tr
+        %td.spacing-first-col
+          %strong= "#{t('assessments.client_name')}:"
+        %td= assessment.parent.name
+      %tr
+        %td
+          %strong= "#{t('created_by')}:"
+        %td= whodunnit('Assessment', assessment)
+      %tr
+        %td{ width: '175' }
+          %strong= "#{t('assessments.show.based_on')}:"
+        %td= assessment.index_of + 1
+
+  .col-xs-5
+    %table.table.small.m-b-xs.table-borderless
+      %tr
+        %td
+          %strong= "#{t('id')}:"
+        %td= assessment.parent&.slug || assessment.parent.id
+      %tr
+        %td
+          %strong= "#{t('completed_date')}:"
+        %td= date_format assessment.completed_date
+
+- assessment.assessment_domains_in_order.each do |ad|
+  .row
+    .col-xs-12
+      %div{class: "panel panel-default"}
+        .panel-heading
+          %table.table.table-borderless
+            %tbody
+              %tr
+                - if current_organization.try(:aht) == true
+                  = domain_name_for_aht(ad).html_safe
+                - else
+                  %td.no-padding-bottom
+                    %b
+                      = t('assessments.show.domain')
+                      = t("domains.domain_names.#{ad.domain.name.downcase.reverse}") + ":"
+                  %td.no-padding-bottom
+                    %b= t("domains.domain_identies.#{ad.domain.identity.strip.parameterize('_')}_#{ad.domain.name.downcase}")
+
+              %tr
+                %td.no-padding-top
+                  %b= "#{t('assessments.show.score')}:"
+
+                %td.no-padding-top.domain-score-definition
+                  - unless assessment.initial?(ad.domain.custom_assessment_setting_id)
+                    %button{ class: "btn btn-#{ad.previous_score_color_class} btn-xs" }
+                      = "#{ad.previous_score}"
+                    %span{ style: 'color: black;' } &#8594;
+
+                  %button{ class: "btn btn-#{ad.score_color_class} btn-xs" }
+                    = "#{ad.score}"
+
+                  %b.m-l-sm= simple_format(ad.score_definition)
+              %tr
+                %td{ width: '75' }
+                  %b= "#{t('assessments.show.reason')}:"
+                %td{ style: "overflow-wrap: anywhere;" }
+                  = ad.reason
+
+.row
+  .col-xs-12
+    %h3
+      = t('assessments.attachment.attachments')
+    %ul
+      - assessment.assessment_domains_in_order.each do |ad|
+        - next unless ad.attachments.any?
+        - ad.attachments.each_with_index do |attachment, index|
+          %li= original_filename(attachment)

@@ -555,7 +555,7 @@ module AdvancedSearches
         client_have_enrollments = clients.where('client_enrollments.program_stream_id = ?', @value ).distinct.ids
         client_not_enrollments = clients.where('client_enrollments.program_stream_id != ?', @value ).distinct.ids
         client_empty_enrollments = @clients.where.not(id: clients.distinct.ids).ids
-        client_not_equal_ids = (client_not_enrollments+ client_empty_enrollments ) - client_have_enrollments
+        client_not_equal_ids = (client_not_enrollments + client_empty_enrollments ) - client_have_enrollments
       when 'is_empty'
         @clients.where.not(id: clients.distinct.ids).ids
       when 'is_not_empty'

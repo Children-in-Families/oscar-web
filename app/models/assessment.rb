@@ -71,12 +71,12 @@ class Assessment < ActiveRecord::Base
   def initial?(custom_assessment_setting_id = nil)
     if client_id
       if default?
-        self == client.assessments.defaults.most_recents.last || client.assessments.defaults.count.zero?
+        (self == client.assessments.defaults.most_recents.last) || client.assessments.defaults.count.zero?
       else
-        self == client.assessments.customs.joins(:domains).where(domains: { custom_assessment_setting_id: custom_assessment_setting_id }).most_recents.last || client.assessments.customs.count.zero?
+        (self == client.assessments.customs.joins(:domains).where(domains: { custom_assessment_setting_id: custom_assessment_setting_id }).most_recents.last) || client.assessments.customs.count.zero?
       end
     elsif family_id
-      self == family.assessments.customs.most_recents.last || family.assessments.customs.count.zero?
+      (self == family.assessments.customs.most_recents.last) || family.assessments.customs.count.zero?
     end
   end
 
@@ -86,7 +86,7 @@ class Assessment < ActiveRecord::Base
 
   def populate_notes(default, custom_name)
     if custom_name.present?
-      custom_assessment_id = CustomAssessmentSetting.find_by(custom_assessment_name: custom_name).id
+      custom_assessment_id = CustomAssessmentSetting.only_enable_custom_assessment.find_by(custom_assessment_name: custom_name).id
       domains = default == 'true' ? Domain.csi_domains : CustomAssessmentSetting.find_by(id: custom_assessment_id).domains
     else
       domains = default == 'true' ? Domain.csi_domains : Domain.custom_csi_domains
