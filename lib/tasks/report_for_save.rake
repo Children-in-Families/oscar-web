@@ -18,7 +18,8 @@ namespace :report_for_save do
       'Reason for Family Seperation',
       'Initial date of CSI', *domain_score_headers,
       'Latet date of CSI', *domain_score_headers,
-      'Referral Source Category', 'Referral Source'
+      'Referral Source Category', 'Referral Source',
+      'Donor'
     ]
 
     cps_headers = ['Client ID',	'NGO Name',	'CPS Name', 'CPS erollment date',	'Service types', 'CPS exited date']
@@ -37,7 +38,7 @@ namespace :report_for_save do
     organizations.each_with_index do |organization, index|
       Apartment::Tenant.switch organization['short_name']
       donor_ids = Donor.where("LOWER(donors.name) = 'fcf' OR LOWER(donors.name) = 'react'").ids
-      clients = Client.joins(:donors).where(donor_id: donor_ids)
+      clients = Client.joins(:donors).where(sponsors: { donor_id: donor_ids })
 
       quantitative_type_disability = QuantitativeType.pluck(:name).select{|custom_data| custom_data[/Family history of disability and\/or illness/i] }.first
       quantitative_type_harm = QuantitativeType.pluck(:name).select{|custom_data| custom_data[/History of Harm/i] }.first
@@ -57,7 +58,7 @@ namespace :report_for_save do
           client.slug, client.status, client.gender.capitalize,
           client.date_of_birth && format_date(client.date_of_birth),
           birth_province,
-          client.province.name,
+          client.province&.name,
           client.current_family_id,
           "#{organization['full_name']} (#{organization['short_name']})",
           format_date(client.initial_referral_date),
@@ -67,12 +68,13 @@ namespace :report_for_save do
           qtypes[quantitative_type_harm],
           qtypes[quantitative_type_behaviour],
           qtypes[quantitative_type_separation],
-          format_date(default_assessments.first.created_at),
-          *default_assessments.first.domains.pluck(:name, :score).map { |item| item.join(': ') },
+          default_assessments.first && format_date(default_assessments.first.created_at),
+          *(default_assessments.first && default_assessments.first.domains.pluck(:name, :score).map { |item| item.join(': ') } || 12.times.map{|_| "" }),
           default_assessments.count > 1 && format_date(client.assessments.last.created_at),
-          *default_assessments.last.domains.pluck(:name, :score).map { |item| item.join(': ') },
+          *(default_assessments.last && default_assessments.last.domains.pluck(:name, :score).map { |item| item.join(': ') } || 12.times.map{|_| "" }),
           referral_source_category(client.referral_source_category_id),
-          client.referral_source && client.referral_source.name
+          client.referral_source && client.referral_source.name,
+          client.donors.pluck(:name).join(', ')
         ]
         clients_data << values
 
@@ -86,9 +88,9 @@ namespace :report_for_save do
       end
     end
 
-    write_data_to_spreadsheet(client_worksheet, headers, clients_data, format)
-    write_data_to_spreadsheet(cps_worksheet, cps_headers, cps_enrollments, format)
-    write_data_to_spreadsheet(family_worksheet, family_headers, families, format)
+    write_data_to_spreadsheet2(client_worksheet, headers, clients_data, format)
+    write_data_to_spreadsheet2(cps_worksheet, cps_headers, cps_enrollments, format)
+    write_data_to_spreadsheet2(family_worksheet, family_headers, families, format)
 
     workbook.close
   end
@@ -102,7 +104,7 @@ namespace :report_for_save do
     ReferralSource.find_by(id: id).try(:name_en) || ReferralSource.find_by(id: id).try(:name)
   end
 
-  def write_data_to_spreadsheet(worksheet, headers, values, format)
+  def write_data_to_spreadsheet2(worksheet, headers, values, format)
     return if values.first.compact.blank?
     headers.each_with_index do |header, header_index|
       worksheet.write(0, header_index, header, format)
