@@ -1,0 +1,72 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: 'app-{{ stage }}-{{ project_id }}-sidekiq'
+  namespace: '{{ k8s_namespace }}'
+  annotations:
+    reloader.stakater.com/auto: 'true'
+spec:
+  selector:
+    matchLabels:
+      app: 'app-{{ stage }}-{{ project_id }}-sidekiq'
+  template:
+    metadata:
+      labels:
+        app: 'app-{{ stage }}-{{ project_id }}-sidekiq'
+    spec:
+      imagePullSecrets:
+        - name: secret-{{ project_id }}
+      containers:
+        - image: {{ image_name }}/webapp:{{ version }}
+          name: 'app-{{ stage }}-{{ project_id }}-sidekiq'
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          env:
+            - name: RAIL_ENV
+              value: {{ rail_env }}
+            - name: SECRET_KEY_BASE
+              value: {{ secret_key_base }}
+            - name: DATABASE_HOST
+              value: svc-{{ stage }}-{{ project_id }}-pg
+            - name: DATABASE_NAME
+              value: {{ pg_db_name }}
+            - name: DATABASE_NAME_TEST
+              value: {{ pg_db_name }}_test
+            - name: DATABASE_USER
+              value: {{ pg_db_user }}
+            - name: DATABASE_PASSWORD
+              value: "{{ pg_db_pass }}"
+            - name: SENDER_EMAIL
+              value: {{ oscar_team_email }}
+            - name: REDIS_URL
+              value: redis://svc-{{ stage }}-{{ project_id }}-redis:6379/0
+            - name: S3_BUCKET_NAME
+              value: {{ s3_bucket_name }}
+            - name: AWS_ACCESS_KEY_ID
+              value: {{ aws_access_key_id }}
+            - name: AWS_SECRET_ACCESS_KEY
+              value: {{ aws_secret_access_key }}
+            - name: FOG_REGION
+              value: {{ fog_region }}
+            - name: FOG_DIRECTORY
+              value: {{ fog_directory }}
+          volumeMounts:
+            - name: tz-config
+              mountPath: /etc/localtime
+      volumes:
+        - name: tz-config
+          hostPath:
+            path: {{ tz_path }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: 'svc-{{ stage }}-{{ project_id }}-sidekiq'
+  namespace: '{{ k8s_namespace }}'
+spec:
+  ports:
+    - port: 3000
+  selector:
+    app: 'app-{{ stage }}-{{ project_id }}-sidekiq'
