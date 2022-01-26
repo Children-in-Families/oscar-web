@@ -1,0 +1,25 @@
+---
+
+all:
+  hosts:
+    build:
+      ansible_connection: local
+
+    latest:
+      ansible_connection: local
+
+    demo:
+      ansible_connection: local
+
+    live:
+      ansible_host:
+      ansible_user:
+      ansible_ssh_private_key_file: ~/.ssh/id_rsa
+
+  children:
+    oscarservers:
+      hosts:
+        latest:
+        demo:
+        live:
+

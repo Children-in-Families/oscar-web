@@ -1,0 +1,32 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: 'pv-{{ stage }}-{{ project_id }}-osc'
+  labels:
+    app: 'pv-{{ stage }}-{{ project_id }}-osc'
+spec:
+  capacity:
+    storage: 2Gi
+  accessModes:
+    - ReadWriteMany
+  nfs:
+    server: '{{ nfs_server }}'
+    path: '{{ nfs_path }}'
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: 'pvc-{{ stage }}-{{ project_id }}-osc'
+  namespace: '{{ k8s_namespace }}'
+spec:
+  selector:
+    matchLabels:
+      app: 'pv-{{ stage }}-{{ project_id }}-osc'
+  accessModes:
+    - ReadWriteMany
+  storageClassName: ''
+  resources:
+    requests:
+      storage: 2Gi
