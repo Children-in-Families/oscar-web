@@ -5891,8 +5891,8 @@ my:
     level_of_risk: အန္တရာယ်အဆင့်
     new:
       new_referral: ဂီယာ Add
-    referral_status: ရည်ညွှန်းမှုအခြေအနေ
     referral_form: လွှဲပြောင်းမှုပုံစံ
+    referral_status: ရည်ညွှန်းမှုအခြေအနေ
     show:
       cannot_edit_referral: ပစ်မှတ်အန်ဂျီအိုပြီးသားဒီလွှဲပြောင်းလက်ခံခဲ့သည်ကြောင့်သင်ဤလွှဲပြောင်းတည်းဖြတ်မရနိုင်ပါ
       client_id: မွတ္ပံုတင္

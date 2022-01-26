@@ -5885,8 +5885,8 @@ en:
     level_of_risk: Level of Risk
     new:
       new_referral: New Referral
-    referral_status: Referral Status
     referral_form: Referral Form
+    referral_status: Referral Status
     show:
       cannot_edit_referral: You cannot edit this referral because the target NGO already accepted this referral
       client_id: Client ID
