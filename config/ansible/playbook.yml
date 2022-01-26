@@ -1,6 +1,6 @@
 ---
 
-- hosts: oscarservers
+- hosts: all
   remote_user: '{{ ssh_user }}'
   roles:
     - role: build
