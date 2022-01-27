@@ -9,7 +9,7 @@ class CustomAssessmentSetting < ActiveRecord::Base
   validates_numericality_of :max_custom_assessment, only_integer: true, greater_than: 0, if: -> { check_custom_assessment_frequency('year') }
   validates_numericality_of :custom_age, only_integer: true, greater_than: 0, less_than_or_equal_to: 100
 
-  validates :custom_assessment_name, presence: true
+  validates :custom_assessment_name, presence: true, uniqueness: { case_sensitive: true }
   validates :max_custom_assessment, presence: true
   validates :custom_age, presence: true
 

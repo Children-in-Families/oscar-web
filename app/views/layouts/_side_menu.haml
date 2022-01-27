@@ -126,7 +126,7 @@
                 = link_to t('.organization_types'), organization_types_path
               %li{ class: active_menu('domains') }
                 - if current_user.strategic_overviewer? || current_user.domain_warning?
-                  = link_to t('.domains'), domains_path
+                  = link_to t('.domains'), domains_path(tab: 'csi-tools')
                 - else
                   %a{"data-target" => "#domain-warning", "data-toggle" => "modal", :type => "button"}=t('.domains')
               %li{ class: active_menu('domain_groups') }

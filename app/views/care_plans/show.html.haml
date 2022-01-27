@@ -22,6 +22,8 @@
             .pull-right
               = link_to client_care_plans_path(@care_plan.client), class: 'btn btn-default' do
                 = t('.back')
+              = link_to '#', class: 'btn btn-warning btn-outline printable-button', data: { printable_id: "printable-care-plan-#{@care_plan.id}" } do
+                = fa_icon 'print'
               - if policy(@care_plan).edit?
                 = care_plan_edit_link(@care_plan.client, @care_plan)
               - if current_user.admin?
@@ -83,3 +85,5 @@
                                   = date_format(task.completion_date)
 
         = render partial: 'incomplete_detail', locals: { care_plan: @care_plan }
+        %div{ id: "printable-care-plan-#{@care_plan.id}" }
+          = render 'shared/printable_care_plan', care_plan: @care_plan

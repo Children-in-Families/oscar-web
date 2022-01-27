@@ -87,11 +87,7 @@
               %button.btn.btn-danger.mini-margin{ disabled: 'disabled', class: 'agree-btn', data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.clients.show.reject')}", placement: "auto" } }= t('.reject')
 
     - if @client.status != 'Referred'
-      - if Organization.current.short_name == 'demo' || Organization.current.short_name == 'tutorials'
-        - ngos = Organization.test_ngos.exclude_current.order(:full_name).map{|org| [org.full_name, org.short_name] }
-      - else
-        - ngos = Organization.exclude_current.oscar.order(:full_name).map{|org| [org.full_name, org.short_name] }
-      - ngos = mapping_ngos(ngos)
+      - ngos = mapping_ngos(select_ngos)
       .row
         .col-xs-12
           .btn-group.small-btn-margin
@@ -590,7 +586,7 @@
                     = t('clients.form.legal_documents')
               %tbody
                 - legal_doc_options_hash = { "Labour Trafficking" => 'labor_trafficking_legal_doc_option', "Sexual Trafficking" => 'sex_trafficking_legal_doc_option', 'Other' => 'other_legal_doc_option' }
-                - %w(national_id passport birth_cert family_book travel_doc letter_from_immigration_police ngo_partner mosavy dosavy msdhs complain local_consent warrant verdict screening_interview_form short_form_of_ocdm short_form_of_mosavy_dosavy detail_form_of_mosavy_dosavy short_form_of_judicial_police police_interview other_legal_doc).each do |field|
+                - legal_doc_fields.each do |field|
                   - if field == 'dosavy'
                     - attachments = @client.send("referral_doc_files")
                   - else
