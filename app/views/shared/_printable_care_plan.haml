@@ -33,7 +33,7 @@
   .col-xs-12
     - care_plan.assessment.assessment_domains_in_order.each do |ad|
       - next if ad.goals.empty?
-      .row
+      .row{ style: "page-break-inside: avoid" }
         .col-xs-12
           %div{class: "panel panel-#{ad.score_color_class}"}
             .panel-heading

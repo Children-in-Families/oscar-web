@@ -339,12 +339,12 @@ CIF.ClientsIndex = do ->
   _overdueFormsSearch = ->
     $('#overdue-forms.i-checks').on 'ifChecked', ->
       $('select#client_grid_overdue_forms').select2('val', 'Yes')
-      $('input.datagrid-submit').click()
+      # $('input.datagrid-submit').click()
 
   _removeOverdueFormsSearch = ->
     $('#overdue-forms.i-checks').on 'ifUnchecked', ->
       $('select#client_grid_overdue_forms').select2('val', '')
-      $('input.datagrid-submit').click()
+      # $('input.datagrid-submit').click()
 
   _hideOverdueAssessment = ->
     $('#client-advance-search-form .float-right').hide()
@@ -353,32 +353,32 @@ CIF.ClientsIndex = do ->
   _overdueAssessmentSearch = ->
     $('#overdue-assessment.i-checks').on 'ifChecked', ->
       $('select#client_grid_assessments_due_to').select2('val', 'Overdue')
-      $('input.datagrid-submit').click()
+      # $('input.datagrid-submit').click()
 
   _removeOverdueAssessmentSearch = ->
     $('#overdue-assessment.i-checks').on 'ifUnchecked', ->
       $('select#client_grid_assessments_due_to').select2('val', '')
-      $('input.datagrid-submit').click()
+      # $('input.datagrid-submit').click()
 
   _searchNoCaseNote = ->
     $('#no_case_note_check_box.i-checks').on 'ifChecked', ->
       $('select#client_grid_no_case_note').select2('val', 'Yes')
-      $('input.datagrid-submit').click()
+      # $('input.datagrid-submit').click()
 
   _removeSearchNoCaseNote = ->
     $('#no_case_note_check_box.i-checks').on 'ifUnchecked', ->
       $('select#client_grid_no_case_note').select2('val', 'No')
-      $('input.datagrid-submit').click()
+      # $('input.datagrid-submit').click()
 
   _searchOverdueTask = ->
     $('#overdue-task.i-checks').on 'ifChecked', ->
       $('select#client_grid_overdue_task').select2('val', 'Overdue')
-      $('input.datagrid-submit').click()
+      # $('input.datagrid-submit').click()
 
   _removeSearchOverdueTask = ->
     $('#overdue-task.i-checks').on 'ifUnchecked', ->
       $('select#client_grid_overdue_task').select2('val', '')
-      $('input.datagrid-submit').click()
+      # $('input.datagrid-submit').click()
 
   _setDefaultCheckColumnVisibilityAll = ->
     if $('#client-search-form .visibility .checked').length == 0
