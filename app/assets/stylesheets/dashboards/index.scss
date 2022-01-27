@@ -1,4 +1,4 @@
-body[id='dashboards-index'] {
+body[id="dashboards-index"] {
   #width-modal {
     li.active {
       margin-bottom: -1px;
@@ -7,21 +7,29 @@ body[id='dashboards-index'] {
       border-bottom: 2px solid #fff;
     }
 
-    th.name,  td.name {
+    th.name,
+    td.name {
       width: 60% !important;
     }
-    th.program-stream-name, td.program-stream-name, th.tracking-name, td.tracking-name {
+    th.program-stream-name,
+    td.program-stream-name,
+    th.tracking-name,
+    td.tracking-name {
       width: 40% !important;
     }
-    th.link, td.link {
+    th.link,
+    td.link {
       width: 20% !important;
     }
 
-    table.custom-field-table, .dataTables_scrollHeadInner, .dataTables_scrollHead, .dataTables_scrollBody {
+    table.custom-field-table,
+    .dataTables_scrollHeadInner,
+    .dataTables_scrollHead,
+    .dataTables_scrollBody {
       width: 100% !important;
     }
 
-    .dataTables_scrollHeadInner{
+    .dataTables_scrollHeadInner {
       padding-right: 0 !important;
     }
 
@@ -67,7 +75,7 @@ body[id='dashboards-index'] {
     }
   }
 
-  #program-stream-service{
+  #program-stream-service {
     .modal-dialog {
       width: 70%;
       padding: 0;
@@ -80,13 +88,14 @@ body[id='dashboards-index'] {
     // }
 
     .simple_form.program-stream {
-      input[type='submit'] {
+      input[type="submit"] {
         margin-top: 25px;
       }
     }
 
     .disabled.program_stream_name {
-      label, input {
+      label,
+      input {
         color: #333333 !important;
       }
     }
@@ -110,11 +119,11 @@ body[id='dashboards-index'] {
     }
   }
 
-  .referral-source-category-dialog{
+  .referral-source-category-dialog {
     overflow-y: initial !important;
   }
 
-  .referral-body{
+  .referral-body {
     height: 400px;
     overflow-y: auto;
   }
@@ -128,27 +137,27 @@ body[id='dashboards-index'] {
     margin-left: 30px;
   }
 
-  .modal-header{
+  .modal-header {
     background-color: #1ab394;
     color: white;
   }
 
-  #search-client{
+  #search-client {
     .heading-label {
       background-color: #186e6d;
       color: #fff;
     }
   }
 
-  #multiple-form-modal{
+  #multiple-form-modal {
     .modal-dialog {
-        width: 80%;
-        margin: 20px auto;
-        padding: 0 0 50px 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
+      width: 80%;
+      margin: 20px auto;
+      padding: 0 0 50px 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
     .modal-content {
       height: 80%;
@@ -156,7 +165,7 @@ body[id='dashboards-index'] {
       max-height: 90%;
       min-width: 90%;
       border-radius: 0;
-      overflow:auto;
+      overflow: auto;
       .modal-body .tab-content {
         height: 70vh;
       }
@@ -164,7 +173,7 @@ body[id='dashboards-index'] {
   }
   #case-note {
     .resize-margin {
-      margin-top:20px;
+      margin-top: 20px;
     }
   }
 

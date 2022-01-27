@@ -20,6 +20,8 @@
                     %span.label.label-primary
                       = date_format(enrollment_tracking.created_at)
                     .ibox-tools
+                      = link_to "#", class: 'btn btn-outline btn-warning printable-button', data: { printable_id: "printable-tracking-form-#{enrollment_tracking.id}" } do
+                        = fa_icon 'print'
                       - if can? :manage, ClientEnrollmentTracking
                         = client_enrolled_tracking_edit_link(enrollment_tracking)
                         = client_enrollment_tracking_destroy_link(enrollment_tracking)
@@ -42,3 +44,5 @@
                                     = render 'shared/form_builder/list_attachment', label: key, resource: enrollment_tracking
                                   - else
                                     = display_custom_properties(enrollment_tracking.properties[key] || enrollment_tracking.properties[key.gsub(/(&amp;#91;).*(&amp;#93;)$/, '')])
+              %div{ id: "printable-tracking-form-#{enrollment_tracking.id}" }
+                = render 'shared/printable_tracking_form', tracking: @tracking, client: @client, program_stream: @program_stream, enrollment_tracking: enrollment_tracking

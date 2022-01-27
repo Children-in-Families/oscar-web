@@ -5,6 +5,7 @@ class FieldSetting < ActiveRecord::Base
   validates :name, :group, presence: true
 
   default_scope -> { order(:created_at) }
+  scope :without_hidden_fields, -> { where(visible: true) }
 
   before_save :assign_type
 

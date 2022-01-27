@@ -7,7 +7,6 @@ module Families
     before_action :find_family
     before_action :find_assessment, only: [:edit, :update, :show, :destroy]
     before_action :find_custom_assessment_setting, :authorize_client, only: [:new, :create]
-    before_action :authorize_assessment, only: [:show, :edit, :update]
     before_action :fetch_available_custom_domains, only: :index
 
     def index
@@ -20,9 +19,9 @@ module Families
       @from_controller = params[:from]
       @prev_assessment = @family.assessments.last
       @assessment = @family.assessments.new(default: default?)
-      authorize(@assessment, :new?, @custom_assessment_setting.try(:id)) if current_organization.try(:aht) == false
+      # authorize(@assessment, :new?, @custom_assessment_setting.try(:id)) if @custom_assessment_setting && current_organization.try(:aht) == false
 
-      if @custom_assessment_setting.present? && !policy(@assessment).create?(@custom_assessment_setting.try(:id))
+      if @custom_assessment_setting.present? && (@custom_assessment_setting && !policy(@assessment).create?(@custom_assessment_setting.try(:id)))
         redirect_to family_assessments_path(@family), alert: "#{I18n.t('assessments.index.next_review')} of #{@custom_assessment_setting.custom_assessment_name}: #{date_format(@family.custom_next_assessment_date(nil, @custom_assessment_setting.id))}"
       else
         @assessment.populate_family_domains
@@ -30,6 +29,7 @@ module Families
     end
 
     def create
+      authorize_client
       @assessment = @family.assessments.new(assessment_params)
 
       @assessment.default = params[:default]
@@ -40,7 +40,7 @@ module Families
           render :new
         end
       else
-        authorize(@assessment, :create?, @custom_assessment_setting.try(:id))
+        # authorize(@assessment, :create?, @custom_assessment_setting.try(:id)) if @custom_assessment_setting
         if @assessment.save
           redirect_to family_path(@family), notice: t('.successfully_created')
         else

@@ -100,6 +100,7 @@ km:
         stage: តំណាក់កាល
         update:
           successfully_updated: ដំណាក់កាលត្រូវបានកែសម្រួលដោយជោគជ័យ
+  accepted_date: កាលបរិច្ឆេទចូលអង្គការ
   activerecord:
     attributes:
       carer:
@@ -641,6 +642,7 @@ km:
       enter_task_detail: ព័ត៌មានពីកាតព្វកិច្ច
       save: រក្សាទុក
       title: បន្ថែមកាតព្វកិច្ចថ្មី
+    assessment_form: ទម្រង់ការប៉ាន់ប្រមាណ
     attachment:
       attachments: ឯកសារភ្ជាប់
       download: ទាញយក
@@ -652,6 +654,7 @@ km:
       download: ទាញយក
       max_file_size: "*ទំហំឯកសារអតិបរមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកបាន."
       preview_download: មើលនិងទាញយក
+    client_name: ឈ្មោះអតិថិជន
     create:
       successfully_created: ការប៉ាន់ប្រមាណត្រូវបានបង្កើតដោយជោគជ័យ
     destroy:
@@ -853,6 +856,10 @@ km:
   cannot_remove: មិនអាចលុបបានទេ
   cannot_remove_or_update: មិនអាចលុបឬកែសម្រួលបានទេដោយសារតែត្រូវបានប្រើរួចហើយ
   care_plans:
+    care_plan_form: ផែនការគាំទ្រករណី
+    care_plan: ផែនការគាំទ្រករណី
+    care_plan_based_on: ផ្អែកលើផែនការគាំទ្រករណី
+    completed_date: បញ្ចប់នៅថ្ងៃ
     create:
       successfully_created: ផែនការគាំទ្រករណីត្រូវបានបង្កើតដោយជោគជ័យ
     destroy:
@@ -861,11 +868,12 @@ km:
       add_goal: បន្ថែមគោលដៅ
       cancel: ទុកជាមោឃៈ
       domain: កត្តា
-      expected_date: កំណត់កាលបរិច្ឆេទ
+      expected_date: កាលបរិច្ឆេទរំពឹងទុក
       finish: រក្សាទុក
       goal: គោលដៅ
       next: ទំព័របន្ទាប់
       previous: ទំព័រមុន
+      required_message: អ្នកត្រូវបង្កើតយ៉ាងតិចណាស់១គោលដៅ និងមួយកាតព្វកិច្
       save: រក្សាទុក
       score_from_assessment: ពិន្ទុពីការប៉ាន់ប្រមាណ
       scoring_statement: សេចក្តីថ្លែងការណ៍ពិន្ទុ
@@ -891,7 +899,7 @@ km:
       done_during: បានបំពេញនៅ
       due_date: កាលបរិច្ឆេទ
       edit: កែសម្រួល
-      expected_date: កំណត់កាលបរិច្ឆេទ
+      expected_date: កាលបរិច្ឆេទរំពឹងទុក
       goal: គោលដៅ
       on_date: 'កាលបរិច្ឆេទ:'
       score: ពិន្ទុ
@@ -990,6 +998,9 @@ km:
       download: ទាញយក
       max_file_size: "*ទំហំឯកសារអតិបរមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកបាន."
       preview_download: មើលនិងទាញយក
+    attendee: តើអ្នកណាខ្លះចូលរួមក្នុងអំឡុងពេលសួរសុខទុក្ខ ឬសន្ទនា?
+    case_note_form: កំណត់ត្រាករណី
+    client_name: ឈ្មោះអតិថិជន
     create:
       successfully_created: កំណត់ត្រាករណីត្រូវបានបង្កើតដោយជោគជ័យ
     destroy:
@@ -1014,7 +1025,7 @@ km:
       save: រក្សាទុក
       tasks: កាតព្វកិច្ច
       tasks_arising: កាតព្វកិច្ចបង្កើតថ្មី
-      type: ប្រភេទកំណត់ត្រាករណី
+      type: ប្រភេទជំនួប
       type_options:
         visit: ជួបជាមួយអតិថិជនផ្ទាល់
         non_face_to_face: មិនបានជួបផ្ទាល់ជាមួយអតិថិជន
@@ -1055,6 +1066,8 @@ km:
     show:
       case_note_on: កំណត់ត្រាករណីនៅថ្ងៃ
       present: វត្តមានឣ្នកចូលរួម
+    type: ប្រភេទជំនួប
+    visitation_date: កាលបរិច្ឆេទសួរសុខទុក
     update:
       successfully_updated: កំណត់ត្រាករណីត្រូវបានកែសម្រួលដោយជោគជ័យ
   cases:
@@ -1245,7 +1258,7 @@ km:
         completion_date: កាលបរិច្ឆេទបញ្ចប់
         domain: កត្តា
         enter_task_detail: កាតព្វកិច្ចលម្អិត
-        expected_date: កំណត់កាលបរិច្ឆេទ
+        expected_date: កាលបរិច្ឆេទរំពឹងទុក
         save: រក្សាទុក
       form_by_assessment:
         add_task: បន្ថែមកាតព្វកិច្ច
@@ -1502,6 +1515,7 @@ km:
       enrollment_date: កាលបរិច្ឆេទចុះឈ្មោះ
     update:
       successfully_updated: ការចុះឈ្មោះត្រូវបានកែសម្រួលដោយជោគជ័យ
+  client_name: ឈ្មោះអតិថិជន
   clients:
     attr: &LEGAL_DOC_ATTR
       add_service_received: បន្ថែមសេវាដែលបានទទួល
@@ -2253,6 +2267,10 @@ km:
       back: ត្រឡប់ក្រោយ
       modification_of: ប្រវត្ដិនៃកំណែ
   created_by: បង្កើតដោយ
+  completed_by: បញ្ចប់នៅថ្ងៃ
+  completed_date: បញ្ចប់នៅថ្ងៃ
+  created_by: បង្កើត​ឡើង​ដោយ
+  created_on: បង្កើតឡើងនៅថ្ងៃ
   custom_field_properties:
     attachment:
       are_you_sure: តើអ្នកប្រាកដហើយថាចង់លុបដែរឫទេ?
@@ -2638,6 +2656,7 @@ km:
         case_worker: បុគ្គលិកគ្រប់គ្រងករណី
         case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
         changelogs: ប្រវត្តិកំណែ
+        client_phone: លេខទូរស័ព្ទរបស់អតិថិជន
         code: លេខកូដផ្ទាល់ខ្លួនទី១
         concern_address: អាសយដ្ឋាន - ឈ្មោះ
         concern_address_type: ប្រភេទអាសយដ្ឋាន
@@ -2779,6 +2798,8 @@ km:
         address: ឣាសយដ្ឋាន
         caregiver_information: ព័ត៌មានអ្នកថែទាំ
         case_history: ប្រវត្តិគ្រួសារ
+        case_note_date: កាលបរិច្ឆេទកំណត់ត្រាករណី
+        case_note_type: ប្រភេទកំណត់ត្រាករណី
         case_worker_name: ឈ្មោះបុគ្គលិកគ្រប់គ្រងករណី
         case_workers: បុគ្គលិកគ្រប់គ្រងករណី
         case_worker_ids: បុគ្គលិកគ្រប់គ្រងករណី
@@ -4276,6 +4297,7 @@ km:
         search_custom_form: ស្វែងរកទម្រង់បែបបទ
         time_of_frequency: ពេលវេលានៃភាពញឹកញាប់
         type: ប្រើប្រាស់ជាមួយ
+      date_field: កាលបរិច្ឆេទ
       demo_custom_form_tab:
         are_you_sure: តើអ្នកប្រាកដថាចង់លុបដែរឬទេ?
         close: បិទ
@@ -4642,6 +4664,7 @@ km:
     update:
       successfully_updated: របាយការណ៍ត្រូវបានកែសម្រួលដោយជោគជ័យ
   has_been_added_to_calendar: ព្រឹត្តិការណ៍នេះត្រូវបានបញ្ចូលទៅក្នុងប្រតិទិនរួចហើយ
+  id: អត្តលេខ
   internal_referrals:
     internal_referral_attr: &INTERNAL_REFERRAL_ATTR
       are_you_sure: តើអ្នកប្រាកដថាចង់លុបដែរឬទេ?
@@ -5570,7 +5593,6 @@ km:
       back: ត្រឡប់ក្រោយ
       modification_of: ប្រវត្តិកំណែរបស់
   referrals:
-    level_of_risk: កម្រិតហានិភ័យ
     confirm_referral:
       body_second: អតិថិជនដែលអ្នកចង់បញ្ជូនមាននៅក្នុងអង្គការគោលដៅរួចហើយ
       body_third: អ្នកបានបញ្ជូនអតិថិជននេះរួចហើយ សូមរង់ចាំការឆ្លើយតប
@@ -5619,8 +5641,10 @@ km:
       referred_from: បញ្ជូនមកពីអង្គការដៃគូ
       referred_to: បញ្ជូនទៅអង្គការដៃគូ
       select_ngos: ជ្រើសរើសអង្គការ
+    level_of_risk: កម្រិតហានិភ័យ
     new:
       new_referral: ទម្រង់បញ្ជូនថ្មី
+    referral_form: ទម្រង់បញ្ជូនករណី
     show:
       cannot_edit_referral: អ្នកមិនអាចកែសម្រួលការបញ្ជូននេះបានទេ ដោយសារអង្គការគោលដៅបានទទួលយកការបញ្ជូននេះរួចហើយ
       client_id: អត្តលេខអតិថិជន
@@ -5951,6 +5975,9 @@ km:
     stage: តំណាក់កាល
     update:
       successfully_updated: ដំណាក់កាលត្រូវបានកែសម្រួលដោយជោគជ័យ
+  successfully_created: "%{klass} ត្រូវបានបង្កើតដោយជោគជ័យ."
+  successfully_deleted: "%{klass} ត្រូវបានលុបដោយជោគជ័យ."
+  successfully_updated: "%{klass} ត្រូវបានកែសម្រួលដោយជោគជ័យ."
   surveys:
     create:
       successfully_created: ការស្ទង់មតិត្រូវបានបង្កើតដោយជោគជ័យ
@@ -5998,7 +6025,7 @@ km:
       successfully_updated: ការស្ទង់មតិត្រូវបានកែសម្រួលដោយជោគជ័យ
   tasks:
     completion_date: កាលបរិច្ឆេទបញ្ចប់
-    expected_date: កាលបរិច្ឆេទបញ្ចប់
+    expected_date: កាលបរិច្ឆេទរំពឹងទុក
     filter:
       filter_by_user: ស្វែងរកតាមរយៈអ្នកប្រើ
       select_user: ជ្រើសរើស

@@ -490,7 +490,7 @@ class ClientGrid < BaseGrid
 
   dynamic do
     yes_no = { true: 'Yes', false: 'No' }
-    content_headers = %w(concern_province_id concern_district_id concern_commune_id concern_village_id concern_street concern_house concern_address concern_address_type concern_phone concern_phone_owner concern_email concern_email_owner concern_same_as_client location_description)
+    content_headers = %w(concern_province_id concern_district_id concern_commune_id concern_village_id concern_street concern_house concern_address concern_address_type client_phone concern_phone_owner concern_email concern_email_owner concern_same_as_client location_description)
     client_hotline_fields.each do |hotline_field|
       value = ''
       header_text = content_headers.include?(hotline_field) ? "Concern #{I18n.t("datagrid.columns.clients.#{hotline_field}")}" : I18n.t("datagrid.columns.clients.#{hotline_field}")
@@ -618,7 +618,7 @@ class ClientGrid < BaseGrid
     object.referee_relationship
   end
 
-  column(:client_contact_phone, header: -> { I18n.t('datagrid.columns.clients.client_contact_phone') }) do |object|
+  column(:client_phone, header: -> { I18n.t('datagrid.columns.clients.client_phone') }) do |object|
     object.client_phone
   end
 
@@ -981,6 +981,10 @@ class ClientGrid < BaseGrid
     object.family.try(:name)
   end
 
+  column(:family_type, order: false, header: -> { I18n.t('datagrid.columns.families.family_type') }) do |object|
+    object.family.try(:family_type)
+  end
+
   column(:case_note_date, header: -> { I18n.t('datagrid.columns.clients.case_note_date')}, html: true) do |object|
     render partial: 'clients/case_note_date', locals: { object: object }
   end
@@ -1093,6 +1097,14 @@ class ClientGrid < BaseGrid
 
   column(:indirect_beneficiaries, header: -> { I18n.t('datagrid.columns.clients.indirect_beneficiaries') }) do |object|
     object.indirect_beneficiaries
+  end
+
+  dynamic do
+    legal_doc_fields.each do |legal_doc_field|
+      column(legal_doc_field.to_sym,  header: -> { I18n.t("clients.show.#{legal_doc_field}") }, class: 'legal-document-header') do |object|
+        object.public_send(legal_doc_field) ? 'Yes' : 'No'
+      end
+    end
   end
 
   dynamic do

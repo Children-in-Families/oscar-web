@@ -100,6 +100,7 @@ en:
         stage: Stage
         update:
           successfully_updated: Successfully updated
+  accepted_date: Accepted Date
   activerecord:
     attributes:
       carer:
@@ -648,6 +649,7 @@ en:
       enter_task_detail: Enter task details
       save: Save
       title: New Task
+    assessment_form: Assessment Form
     attachment:
       attachments: Attachments
       download: Download
@@ -659,6 +661,7 @@ en:
       download: Download
       max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
       preview_download: Preview & Download
+    client_name: Client's Name
     create:
       successfully_created: Assessment has been successfully created.
     destroy:
@@ -861,7 +864,10 @@ en:
   cannot_remove: cannot be removed
   cannot_remove_or_update: cannot be removed/updated since it is already in use.
   care_plans:
+    care_plan_form: Care Plan Form
     care_plan: Care plan
+    care_plan_based_on: Care Plan Based on
+    completed_date: Completed Date
     create:
       successfully_created: "%{care_plan} has been successfully created."
     destroy:
@@ -1003,6 +1009,9 @@ en:
       download: Download
       max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
       preview_download: Preview & Download
+    attendee: Who was there during the visit or conversation?
+    case_note_form: Case Note Form
+    client_name: Client’s Name
     create:
       successfully_created: Case Note has successfully been created.
     destroy:
@@ -1068,6 +1077,8 @@ en:
     show:
       case_note_on: Case note on
       present: Who was there during the visit or conversation?
+    type: Type
+    visitation_date: Visitation Date
     update:
       successfully_updated: Case Note has successfully been updated.
   cases:
@@ -1521,9 +1532,11 @@ en:
       enrollment_date: Enrolled on
     update:
       successfully_updated: Enrollment has been successfully updated.
+  client_name: Client's Name
   clients:
     attr: &LEGAL_DOC_ATTR
       add_service_received: Add Services Received
+      birth_cert: 'Birth Certificate'
       complain: Complaint
       detail_form_of_judicial_police: Detailed Form for Identification of Victim of Human Trafficking (Judicial Police)
       detail_form_of_mosavy_dosavy: Detailed Form for Identification of Victim of Human Trafficking (MoSAVY/DoSAVY)
@@ -1532,13 +1545,19 @@ en:
       form_indentification: Forms for Identification of Victim of Human Trafficking
       indentification_doc: Identification Documents
       labor_trafficking_legal_doc_option: Labour Trafficking
+      legal_documents: Legal Documentations
       legal_processing_doc: Legal Proceeding Documents
       letter_from_immigration_police: Letter from Immigration Police
+      local_consent: 'Legal consent'
       mosavy: MoSAVY
       mosvy_number: MoSVY Number
       msdhs: MSDHS
+      national_id: 'National ID'
       ngo_partner: NGO Partner
+      other_legal_doc: 'Others'
       other_legal_doc_option: Other
+      passport: 'Passport'
+      police_interview: 'Police interview'
       referral_document: Referral Documents
       screening_interview_form: Screening Interview Form
       sex_trafficking_legal_doc_option: Sexual Trafficking
@@ -1767,14 +1786,12 @@ en:
       type_of_trafficking: Type of Trafficking
       education_background: Education Background
       department: Ratanak Team
-      legal_documents: Legal Documentations
       able: Able
       able_state: Able State
       address: Address
       agencies_involved: Other Agencies Involved
       agency_names: Agency Name
       answer: Answer
-      birth_cert: 'Birth Certificate'
       birth_province: Client Birth Province
       blank: can't be blank
       brsc_branch: BRCS Branch
@@ -1854,19 +1871,14 @@ en:
       island2: Island
       kid_id: Custom ID Number2
       live_with: Primary Carer Name
-      local_consent: 'Legal consent'
       local_family_name: Family Name
       local_given_name: Given Name
       name: Name
-      national_id: 'National ID'
       next: Next
-      other_legal_doc: 'Others'
       other_phone_number: Phone Number - Alternate
       other_phone_whatsapp: Whatsapp? (Phone Number - Alternate)
-      passport: 'Passport'
       phone_owner: Phone Owner
       po_box2: PO Box
-      police_interview: 'Police interview'
       preferred_language: Preferred Language
       presented_id: Presented ID
       previous: Previous
@@ -2025,11 +2037,13 @@ en:
       view_legacy_quarterly_reports: View Legacy Quarterly Reports
     referral_form:
       incomplete_fields_warning: Please complete all required client information before you can refer this client.
+      referral_form: OSCaR Inter-Organisation Referral Form
       title: Warning!
     remaining_programs:
       close: Close
       warning: Warning!
     show:
+      <<: *LEGAL_DOC_ATTR
       care_plan: Care plan
       case_conference: Case Conference
       marital_status: Marital Status
@@ -2306,7 +2320,10 @@ en:
     version:
       back: Back
       modification_of: Changelog of
+  completed_by: Completed by
+  completed_date: Completed Date
   created_by: Created by
+  created_on: Created On
   custom_field_properties:
     attachment:
       are_you_sure: Are you sure you want to delete?
@@ -2690,6 +2707,7 @@ en:
         case_worker: Case Worker
         case_worker_or_staff: Case Worker / Staff
         changelogs: Changelog
+        client_phone: Client Contact Phone
         code: Custom ID Number1
         concern_address: Address Name
         concern_address_type: Address Type
@@ -2834,6 +2852,8 @@ en:
         care_plan_count: Number of Care Plan
         care_plan_completed_date: Care Plan Completed Date
         case_history: Case History
+        case_note_date: Case Note Date
+        case_note_type: Case Note Type
         case_worker_name: Case Worker Name
         case_workers: Case Workers
         case_worker_ids: Case Worker/Staff Assigned
@@ -4273,8 +4293,8 @@ en:
       name_of_referee: Name of Referee
       referral_forms: Referral Forms
       referral_phone: Referral Phone
-      referral_reason: What is the reason for this referral?
-      referred_from: Reffered From
+      referral_reason: Referral Note
+      referred_from: Referred From
       referred_to: Referred To
       select_ngos: Select NGOs
     new:
@@ -4294,15 +4314,16 @@ en:
           date_of_referral: Date of Referral
           family_id: Family ID
           family_name: Family Name
-          name_of_referee: Name of Referee
-          referral_phone: Referee Phone Number
-          referral_reason: What is the reason for this referral?
-          referred_from: Reffered From
+          date_of_referral: Date of Referral
+          name_of_referee: Case Worker Making the Referral
+          referral_phone: Contact Phone Number
+          referral_reason: Referral Note
+          referred_from: Referred From
           referred_to: Referred To
       preview_download: Preview & Download
-      referral_phone: Referee Phone Number
-      referral_reason: What is the reason for this referral?
-      referred_from: Reffered From
+      referral_phone: Contact Phone Number
+      referral_reason: Referral Note
+      referred_from: Referred From
       referred_to: Referred To
       type_of_service: Type of Service
     update:
@@ -4336,6 +4357,7 @@ en:
         search_custom_form: Search Custom Form
         time_of_frequency: Time of Frequency
         type: Attached with
+      date_field: Date field
       demo_custom_form_tab:
         are_you_sure: Are you sure you want to delete?
         close: Close
@@ -4703,6 +4725,7 @@ en:
     update:
       successfully_updated: Government Report has been successfully updated.
   has_been_added_to_calendar: This event has already been added to calendar.
+  id: ID
   internal_referrals:
     internal_referral_attr: &INTERNAL_REFERRAL_ATTR
       are_you_sure: Are you sure you want to delete?
@@ -5633,7 +5656,6 @@ en:
       back: Back
       modification_of: Changelog of
   referrals:
-    level_of_risk: Level of Risk
     confirm_referral:
       body_second: The client you want to refer already existed in the target NGO.
       body_third: You have already referred this client, please wait for the response.
@@ -5675,15 +5697,17 @@ en:
       detail: Detail
       edit_btn: Edit
       name_of_referee: Name of Referee
-      referral_email: Referee Email
+      referral_email: Referral Email
       referral_forms: Referral Forms
       referral_phone: Referral Phone
-      referral_reason: What is the reason for this referral?
-      referred_from: Reffered From
+      referral_reason: Referral Note
+      referred_from: Referred From
       referred_to: Referred To
       select_ngos: Select NGOs
+    level_of_risk: Level of Risk
     new:
       new_referral: New Referral
+    referral_form: Referral Form
     show:
       cannot_edit_referral: You cannot edit this referral because the target NGO already accepted this referral
       client_id: Client ID
@@ -5699,17 +5723,17 @@ en:
           client_id: Client ID
           client_name: Client Name
           date_of_referral: Date of Referral
-          name_of_referee: Name of Referee
+          name_of_referee: Case Worker Making the Referral
           referral_email: Referee Email
-          referral_phone: Referee Phone Number
-          referral_reason: What is the reason for this referral?
-          referred_from: Reffered From
+          referral_phone: Contact Phone Number
+          referral_reason: Referral Note
+          referred_from: Referred From
           referred_to: Referred To
       preview_download: Preview & Download
       referral_email: Referee Email
-      referral_phone: Referee Phone Number
-      referral_reason: What is the reason for this referral?
-      referred_from: Reffered From
+      referral_phone: Contact Phone Number
+      referral_reason: Referral Note
+      referred_from: Referred From
       referred_to: Referred To
       type_of_service: Type of Service
     update:
@@ -6010,6 +6034,9 @@ en:
     stage: Stage
     update:
       successfully_updated: Stage has been successfully updated.
+  successfully_created: "%{klass} has been successfully created."
+  successfully_deleted: "%{klass} has been successfully deleted."
+  successfully_updated: "%{klass} has been successfully updated."
   surveys:
     create:
       successfully_created: Survey has been successfully created.

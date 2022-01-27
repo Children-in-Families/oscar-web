@@ -2,7 +2,7 @@ lock '3.9.0'
 
 # set :application, 'children-in-families-web'
 set :application, 'oscar-web'
-set :repo_url, "git@github.com:DevZep/#{fetch(:application)}.git"
+set :repo_url, "git@github.com:Children-in-Families/#{fetch(:application)}.git"
 
 if ENV['CISERVER']
   set :branch, `git rev-parse --abbrev-ref HEAD`.chomp

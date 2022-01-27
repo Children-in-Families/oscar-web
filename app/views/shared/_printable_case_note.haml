@@ -1,0 +1,89 @@
+%hr/
+.row
+  .col-xs-6
+    = image_tag Organization.current.logo, class: 'img-responsive', width: '100'
+
+.row
+  .col-xs-12
+    %h3.text-center
+      = t('case_notes.case_note_form')
+.row
+  .col-xs-7
+    %table.table.table-borderless.small.m-b-xs
+      %tr
+        %td.spacing-first-col
+          %strong= "#{t('case_notes.client_name')}:"
+        %td= case_note.parent.en_and_local_name
+      %tr
+        %td{ width: '120' }
+          %strong= "#{t('case_notes.visitation_date')}:"
+        %td= date_format case_note.meeting_date
+      %tr
+        %td
+          %strong= "#{t('created_by')}:"
+        %td= whodunnit('CaseNote', case_note.id)
+
+  .col-xs-5
+    %table.table.table-borderless.small.m-b-xs
+      %tr
+        %td
+          %strong= "#{t('id')}:"
+        %td= case_note.parent&.slug || case_note.parent.id
+      %tr
+        %td
+          %strong= "#{t('case_notes.type')}:"
+        %td= type = I18n.t("case_notes.form.type_options.#{case_note.interaction_type.downcase.split(' ').join('_').gsub(/3|other/, '3' => '', 'other' => 'other_option')}")
+      %tr
+        %td
+          %strong= "#{t('case_notes.show.case_note_on')}:"
+        %td= date_format(case_note.created_at)
+  .col-xs-12
+    .row
+      .col-xs-6
+        %strong= "#{t('case_notes.attendee')}"
+      .col-xs-6= case_note.attendee.capitalize
+.row.m-t-md
+  .col-xs-12
+    .panel.panel-default
+      .panel-heading
+        %h4= t('case_notes.form.note')
+      .panel-body
+        %p= case_note.note
+
+.row.m-t-md
+  .col-xs-12
+    .panel.panel-default
+      .panel-heading
+        %h4= t('case_notes.form.tasks')
+      .panel-body
+        %table.table
+          %th= t('case_notes.form.completed_tasks')
+          %th{ style: "width: 20%;" }= "#{t('tasks.completion_date')}:"
+          %tbody
+            - case_note.tasks.completed.each do |task|
+              %tr
+                %td= task.name
+                %td= date_format task.completion_date
+        - if today_tasks.any?
+          %table.table
+            %th= t('tasks.task_added')
+            %th{ style: "width: 20%;" }= "#{t('tasks.expected_date')}:"
+            %tbody
+              - today_tasks.each do |task|
+                %tr
+                  %td= task.name
+                  %td= date_format task.expected_date
+.row
+  .col-xs-12
+    %h4
+      = t('case_notes.attachment_fields.attachments')
+    %ul
+      - file_names = case_note.case_note_domain_groups.pluck(:attachments).reject(&:blank?)
+      - case_note.case_note_domain_groups.each do |cdg|
+        - next if cdg.attachments.blank?
+        - attachment_names = cdg.attachments.map{|a| a.file.path.split('/').last }
+        - next if file_names.exclude? attachment_names
+        - file_names.delete(attachment_names)
+        - cdg.attachments.each_with_index do |attachment, index|
+          %li= original_filename(attachment)
+

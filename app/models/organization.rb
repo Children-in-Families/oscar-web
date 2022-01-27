@@ -17,6 +17,7 @@ class Organization < ActiveRecord::Base
   scope :exclude_current, -> { where.not(short_name: Organization.current.short_name) }
   scope :oscar, -> { visible.where(demo: false) }
   scope :visible, -> { where.not(short_name: ['cwd', 'myan', 'rok', 'shared', 'my', 'tutorials', 'cifcp']) }
+  scope :visible_only_cif, -> { where.not(short_name: ['cwd', 'myan', 'rok', 'shared', 'my', 'tutorials']) }
   scope :test_ngos, -> { where(short_name: ['demo', 'tutorials']) }
   scope :cambodian, -> { where(country: 'cambodia') }
   scope :skip_dup_checking_orgs, -> { where(short_name: ['demo', 'cwd', 'myan', 'rok', 'my']) }
@@ -146,6 +147,12 @@ class Organization < ActiveRecord::Base
       Organization.test_ngos.pluck(:short_name).include?(self.short_name) || Organization.visible.pluck(:short_name).include?(self.short_name)
     end
   end
+
+  def integrated_date
+    date_of_integration = versions.find_by("object_changes = ?", "---\nintegrated:\n- false\n- true\n")&.created_at
+    date_of_integration && date_of_integration.strftime("%d %B %Y")
+  end
+
 
   private
 

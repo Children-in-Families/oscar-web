@@ -64,7 +64,7 @@ class FamiliesController < AdminController
     @family.case_management_record = !current_setting.hide_family_case_management_tool?
 
     if @family.save
-      redirect_to @family, notice: t('activerecord.create.failed_create')
+      redirect_to @family, notice: t('successfully_created', klass: 'Family')
     else
       @selected_children = family_params[:children]
       render :new
