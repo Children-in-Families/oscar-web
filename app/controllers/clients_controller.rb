@@ -391,7 +391,7 @@ class ClientsController < AdminController
     return if params[:referral_id].blank?
 
     find_referral_by_params
-    redirect_to root_path, alert: t('.referral_has_already_been_saved') if @referral.saved?
+    redirect_to root_path, alert: t('clients.edit.referral_has_already_been_saved') if @referral.saved?
   end
 
   def exited_clients(user_ids)
