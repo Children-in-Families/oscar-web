@@ -1,4 +1,4 @@
-body[id=assessments-show] {
+body[id="assessments-show"] {
   .domain-detail {
     background-color: #f5f5f5;
     width: 380px;
@@ -6,21 +6,23 @@ body[id=assessments-show] {
 
   .domain-score {
     background: white;
-    border-radius: 10px;
-    padding: 5px 10px;
+    border-radius: 5px;
+    padding: 5px 5px;
     min-width: 80px;
   }
   .button {
     min-width: 100px;
   }
-  .margin-asse{
+  .margin-asse {
     margin-top: -18px;
   }
   #assessment-info {
-    .label-primary, .label-danger {
+    .label-primary,
+    .label-danger {
       float: none;
     }
-    .table.table-borderless td, .table.table-borderless th {
+    .table.table-borderless td,
+    .table.table-borderless th {
       border: none;
     }
     .table.table-borderless td:first-child {
@@ -29,7 +31,10 @@ body[id=assessments-show] {
     .table.table-borderless td:nth-child(2) {
       width: 80%;
     }
-    .panel.panel-danger, .panel.panel-success, .panel.panel-warning, .panel.panel-primary {
+    .panel.panel-danger,
+    .panel.panel-success,
+    .panel.panel-warning,
+    .panel.panel-primary {
       border-color: white;
       .panel-heading {
         border-radius: 20px;
