@@ -4103,9 +4103,11 @@ en:
       view_tasks: Tasks
       caregiver_information: Caregiver Information
       case_histories: Case Histories
-      case_history: Case History
-      code: Family ID
-      contract_date: Family Contract Date
+      case_history: Relevant Information
+      case_worker_or_staff: Case Worker/Staff Assigned
+      code: Manaul ID
+      community_ids: Community/Group
+      contract_date: Contract Date
       created_by: Created by
       created_date: Created Date
       current_province: Current Province
@@ -4117,17 +4119,19 @@ en:
       exit_date: NGO Exit Date
       exit_ngo_btn: Exit Family From NGO
       family_type: Family Type
-      female_adult_count: Female Adult Count
-      female_children_count: Female Children Count
+      female_adult_count: Number of Adule Females
+      female_children_count: Number of Girls
+      follow_up_date: First Follow Up Date
+      followed_up_by: Followed Up By
       gender: Gender
-      general_info: About Family
+      general_info: Family Information
       guardian: Guardian
       house: House
       household_income: Monthly Household Income
       id: Family ID
-      initial_referral_date: Initial Referral Date
-      male_adult_count: Male Adult Count
-      male_children_count: Male Children Count
+      initial_referral_date: Date of Referral
+      male_adult_count: Number of Adule Males
+      male_children_count: Number of Boys
       member_count: Number of Family Members
       name: Head Household Name (Khmer)
       name_en: Head Household Name (Latin)
@@ -4138,6 +4142,7 @@ en:
       province: Province
       read_less: read less
       read_more: read more
+      received_by: Received By Staff Member
       refer_family: Refer Family
       referral_forms: Referral Forms
       referred_from: Referred From

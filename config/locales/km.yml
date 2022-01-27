@@ -4049,28 +4049,33 @@ km:
       caregiver_information: ព័ត៌មានអ្នកថែទាំ
       case_histories: ប្រវត្តិករណី
       case_history: ប្រវត្តិគ្រួសារ
-      code: អត្តលេខគ្រួសារ
-      contract_date: កាលបរិច្ឆេទកិច្ចសន្យាគ្រួសារ
-      created_by: បង្កើតដោយ
+      case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
+      code: លេខសំគាល់គ្រួសារ
+      community_ids: សហគមន៍/ក្រុម
+      contract_date: កាលបរិច្ឆេទនៃកិច្ចសន្យា
+      created_by: បង្កើតឡើងដោយ
       created_date: កាលបរិច្ឆេទនៃការបង្កើត
       current_province: ខេត្ត
       date: កាលបរិច្ឆេទ
       date_of_birth: ថ្ងៃខែឆ្នាំកំណើត
       dependable_income: ប្រាក់ចំណូលទៀងទាត់
-      detail: ព័ត៌មានលម្អិត
+      detail: ព័ត៌មានលំអិត
+      donor: ម្ចាស់ជំនួយ
       enrolled_program_streams: កម្មវិធីចម្បងរបស់គ្រួសារ
       exit_date: កាលបរិច្ឆេទការចាកចេញពីអង្គការ
       exit_ngo_btn: ចាកចេញពីអង្គការ
       family_type: ប្រភេទគ្រួសារ
       female_adult_count: ចំនួនមនុស្សស្រីពេញវ័យ
       female_children_count: ចំនួនក្មេងស្រី
-      gender: ភេទ
-      general_info: អំពីគ្រួសារ
+      follow_up_date: កាលបរិច្ឆេទតាមដានដំបូង
+      followed_up_by: បុគ្គលិកតាមដានករណី
+      general_info: ពត៌មានគ្រួសារ
       guardian: អាណាព្យាបាល
       house: ផ្ទះលេខ
       household_income: ប្រាក់ចំណូលគ្រួសារប្រចាំខែ
-      id: អត្តលេខគ្រួសារ
-      initial_referral_date: កាលបរិច្ឆេទបញ្ជូនដំបូង
+      id: លេខសំគាល់
+      id_poor: កំរិតប័ណ្ឌក្រីក្រ
+      initial_referral_date: កាលបរិចេ្ឆទនៃការបញ្ជូនដំបូង
       male_adult_count: ចំនួនមនុស្សប្រុសពេញវ័យ
       male_children_count: ចំនួនក្មេងប្រុស
       member_count: ចំនួនសមាជិកគ្រួសារ
@@ -4079,14 +4084,19 @@ km:
       'no': ទេ
       note: ព័ត៌មានសំខាន់ៗដែលពាក់ព័ន្ធ
       occupation: មុខរបរ
+      phone_number: លេខទូរសព្ទ
       program_streams: បញ្ចូលគ្រួសារក្នុងកម្មវិធីចម្បង
       province: ខេត្ត
       read_less: អានតិច
       read_more: អានបន្ថែម
+      received_by: បុគ្គលិកទទួលករណី
       refer_family: បញ្ជូនគ្រួសារ
+      referee_phone_number: លេខទូរស័ព្ទរបស់អ្នកបញ្ជូនករណី
       referral_forms: ទម្រង់បញ្ជូន
-      referred_from: បញ្ជូនមកពីអង្គការដៃគូ
-      referred_to: បញ្ជូនទៅអង្គការដៃគូ
+      referral_source: ប្រភពនៃការបញ្ជូន
+      referral_source_category: ប្រភេទឈ្មោះប្រភពនៃការបញ្ជូន
+      referred_from: ប្រភពនៃការបញ្ជូន
+      referred_to: បញ្ជូនទៅអង្គការដទៃ
       reject: មិនទទួលយក
       relation: ទំនាក់ទំនងជាមួយកុមារ
       remove_member: លុបសមាជិក
