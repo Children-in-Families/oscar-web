@@ -55,10 +55,16 @@ spec:
           volumeMounts:
             - name: tz-config
               mountPath: /etc/localtime
+            - name: vol-{{ stage }}-{{ project_id }}-osc
+              mountPath: /app/node_modules
+              subPath: nodemodules
       volumes:
         - name: tz-config
           hostPath:
             path: {{ tz_path }}
+        - name: vol-{{ stage }}-{{ project_id }}-osc
+          persistentVolumeClaim:
+            claimName: pvc-{{ stage }}-{{ project_id }}-osc
 ---
 apiVersion: v1
 kind: Service
