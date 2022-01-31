@@ -4358,6 +4358,7 @@ my:
       update:
         failed_update: အပ်ဒိတ်လုပ်မပေးနိုငျ
         successfully_updated: အမႈသည္ကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ထည့္သြင္းၿပီပါၿပီ
+  family_name: နာမည်
   family_referrals:
     confirm_referral:
       body_second: သင်ရည်ညွှန်းလိုသောမိသားစုသည်ပစ်မှတ်ထားသော NGO တွင်ရှိပြီးဖြစ်သည်။
