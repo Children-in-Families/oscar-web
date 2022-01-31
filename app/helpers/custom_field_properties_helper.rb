@@ -63,6 +63,18 @@ module CustomFieldPropertiesHelper
     end
   end
 
+  def display_custom_formable_name(custom_formable)
+    return custom_formable.display_name if custom_formable.class.name.downcase == 'family'
+
+    custom_field_property.custom_formable.en_and_local_name
+  end
+
+  def display_custom_formable_lebel(custom_formable)
+    return I18n.t('family_name') if custom_formable.class.name.downcase == 'family'
+
+    I18n.t('client_name')
+  end
+
   private
     def form_builder_selection_options_custom_form(custom_field)
       field_types                    = group_field_types_custom_form(custom_field)

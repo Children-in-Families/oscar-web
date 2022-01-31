@@ -4260,6 +4260,7 @@ en:
       update:
         failed_update: Failed to update the family.
         successfully_updated: Family has been successfully updated.
+  family_name: Family Name
   family_referrals:
     confirm_referral:
       body_second: The family you want to refer already existed in the target NGO.
