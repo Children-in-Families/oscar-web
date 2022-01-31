@@ -100,6 +100,7 @@ en:
         stage: Stage
         update:
           successfully_updated: Successfully updated
+  accepted_date: Accepted Date
   activerecord:
     attributes:
       carer:
@@ -2131,7 +2132,7 @@ en:
     referral_form:
       incomplete_fields_warning: Please complete all required client information before you can refer this client.
       referral_form: OSCaR Inter-Organisation Referral Form
-      title: Warning
+      title: Warning!
     remaining_programs:
       close: Close
       warning: Warning
@@ -5903,11 +5904,13 @@ en:
           client_name: Client Name
           date_of_referral: Date of Referral
           name_of_referee: Case Worker Making the Referral
+          referral_email: Referee Email
           referral_phone: Contact Phone Number
           referral_reason: Referral Note
           referred_from: Referred From
           referred_to: Referred To
       preview_download: Preview & Download
+      referral_email: Referee Email
       referral_phone: Contact Phone Number
       referral_reason: Referral Note
       referred_from: Referred From

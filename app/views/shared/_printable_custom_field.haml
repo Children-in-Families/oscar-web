@@ -14,7 +14,7 @@
       %tr
         %td.spacing-first-col{ width: '90' }
           %strong= "#{t('client_name')}:"
-        %td= custom_field_property.custom_formable.en_and_local_name
+        %td= custom_field_property.custom_formable&.en_and_local_name || custom_field_property.custom_formable&.name
       %tr
         %td
           %strong= "#{t('created_by')}:"

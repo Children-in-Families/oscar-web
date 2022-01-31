@@ -100,6 +100,7 @@ km:
         stage: តំណាក់កាល
         update:
           successfully_updated: ដំណាក់កាលត្រូវបានកែសម្រួលដោយជោគជ័យ
+  accepted_date: កាលបរិច្ឆេទចូលអង្គការ
   activerecord:
     attributes:
       carer:
@@ -872,6 +873,7 @@ km:
       goal: គោលដៅ
       next: ទំព័របន្ទាប់
       previous: ទំព័រមុន
+      required_message: អ្នកត្រូវបង្កើតយ៉ាងតិចណាស់១គោលដៅ និងមួយកាតព្វកិច្
       save: រក្សាទុក
       score_from_assessment: ពិន្ទុពីការប៉ាន់ប្រមាណ
       scoring_statement: សេចក្តីថ្លែងការណ៍ពិន្ទុ
@@ -1022,7 +1024,7 @@ km:
       remove_domain_group_hint: អ្នកបានបង្កើតកាតព្វដែលភ្ជាប់ជាមួយក្រុមកត្តានេះ។ ដើម្បីលុបកត្តានេះបានសូមទៅលុបកាតព្វកិច្ចជាមុនសិន។
       save: រក្សាទុក
       tasks: កាតព្វកិច្ច
-      tasks_arising: កាតព្វកិច្ចកើតឡើង
+      tasks_arising: កាតព្វកិច្ចបង្កើតថ្មី
       type: ប្រភេទជំនួប
       type_options:
         visit: ជួបជាមួយអតិថិជនផ្ទាល់
@@ -2266,7 +2268,7 @@ km:
       modification_of: ប្រវត្ដិនៃកំណែ
   completed_by: បញ្ចប់ដោយ
   completed_date: បញ្ចប់នៅថ្ងៃ
-  created_by: បង្កើត​ឡើង​ដោយ
+  created_by: បង្កើតឡើងដោយ
   created_on: បង្កើតឡើងនៅថ្ងៃ
   custom_field_properties:
     attachment:

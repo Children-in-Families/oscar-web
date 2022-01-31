@@ -98,6 +98,7 @@ my:
         stage: အဆင့္
         update:
           successfully_updated: ေအာင္ျမင္စြာ အသစ္ျဖည့္သြင္းၿပီ။
+  accepted_date: လက်ခံခဲ့သည်နေ့စွဲ
   activerecord:
     attributes:
       carer:
