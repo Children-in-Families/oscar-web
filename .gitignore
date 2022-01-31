@@ -50,3 +50,8 @@ staging.env
 
 # aws private
 aws/ecs/private/
+
+# Ignore spreadsheet fiels
+/*.csv
+/*.xls
+/*.xlsx
