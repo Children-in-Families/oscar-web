@@ -58,3 +58,7 @@ aws/ecs/private/
 k8s-deploy
 config/ansible
 config/jenkins
+# Ignore spreadsheet fiels
+/*.csv
+/*.xls
+/*.xlsx
