@@ -18,7 +18,8 @@ class Assessment < ActiveRecord::Base
   validate :allow_create, :eligible_client_age, if: :new_record?
   validates_uniqueness_of :case_conference_id, on: :create, if: :case_conference_id?
 
-  before_save :set_previous_score, :set_assessment_completed
+  before_save :set_previous_score
+  before_save :set_assessment_completed, unless: :completed?
 
   accepts_nested_attributes_for :assessment_domains
 
