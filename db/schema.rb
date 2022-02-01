@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20220105081845) do
+ActiveRecord::Schema.define(version: 20220201080631) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -2764,7 +2764,6 @@ ActiveRecord::Schema.define(version: 20220105081845) do
   add_foreign_key "enter_ngo_users", "enter_ngos"
   add_foreign_key "enter_ngo_users", "users"
   add_foreign_key "enter_ngos", "clients"
-  add_foreign_key "exit_ngos", "clients"
   add_foreign_key "external_system_global_identities", "external_systems"
   add_foreign_key "external_system_global_identities", "global_identities", column: "global_id", primary_key: "ulid"
   add_foreign_key "families", "communes"
