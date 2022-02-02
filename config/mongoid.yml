@@ -15,13 +15,12 @@ development:
 test:
   clients:
     default:
-      database: oscar_history_test
+      database: <%= ENV["HISTORY_DATABASE_NAME_TEST"] %>
       hosts:
         - <%= ENV["HISTORY_DATABASE_HOST"] || 'localhost' %>:27017
       options:
-        read:
-          mode: :primary
-        max_pool_size: 1
+        user: <%= ENV['DATABASE_USER'] %>
+        password: <%= ENV['DATABASE_PASSWORD'] %>
 demo:
   clients:
     default:

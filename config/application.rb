@@ -48,5 +48,8 @@ module CifWeb
 
     # custom error page
     config.exceptions_app = self.routes
+
+    # Mongod db database name
+    config.history_database_name = Rails.env.test? ? ENV['HISTORY_DATABASE_NAME_TEST'] : ENV['HISTORY_DATABASE_NAME']
   end
 end
