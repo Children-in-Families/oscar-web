@@ -965,7 +965,7 @@ class ClientGrid < BaseGrid
     object.rated_for_id_poor
   end
 
-  column(:user_id, order: false, header: -> { I18n.t('datagrid.columns.clients.case_worker_or_staff') }) do |object|
+  column(:user_id, order: false, header: -> { I18n.t('datagrid.columns.clients.case_worker') }) do |object|
     object.users.pluck(:first_name, :last_name).map{ |case_worker| "#{case_worker.first} #{case_worker.last}".squish }.join(', ')
   end
 
