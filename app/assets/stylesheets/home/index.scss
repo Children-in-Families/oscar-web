@@ -1,5 +1,7 @@
 #home-index {
-  .widget-tasks-panel, .widget-go-client-panel {
+  .widget-tasks-panel,
+  .widget-go-client-panel,
+  .widget-dashboard-panel-min-height {
     min-height: 98px;
     cursor: pointer;
   }
@@ -16,10 +18,10 @@
     color: white;
   }
 
-  .fa-3x{
+  .fa-3x {
     padding-top: 13px;
   }
-  .max-hight{
+  .max-hight {
     max-height: 200px;
   }
 
@@ -53,7 +55,12 @@
     }
   }
 
-  .client-panel, .family-panel, .program-stream-panel, .tasks-panel, .go-client-panel {
+  .client-panel,
+  .family-panel,
+  .program-stream-panel,
+  .tasks-panel,
+  .go-client-panel,
+  .widget-dashboard-panel {
     .top-bar {
       margin-bottom: 15px;
     }
@@ -69,7 +76,8 @@
     .widget-client-panel,
     .widget-tasks-panel,
     .widget-program-panel,
-    .widget-go-client-panel {
+    .widget-go-client-panel,
+    .widget-dashboard-panel-min-height {
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
       margin-bottom: 0;
@@ -173,7 +181,7 @@
     }
   }
   .widget-staff-panel {
-      background-color: #fe4365;
+    background-color: #fe4365;
     &:hover {
       background-color: #fe2149;
     }

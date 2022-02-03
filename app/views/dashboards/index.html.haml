@@ -1,16 +1,6 @@
 #home-index
   - if @referral_sources.any? && @current_user.admin?
     %p.check-ref-sources.hide referral_sources
-
-  = render 'dashboards/referral_source_category_reminder'
-  - if @program_streams.present?
-    = render 'dashboards/program_stream_services'
-  .row
-    = render 'active_tasks_side'
-    = render 'multiple_forms'
-    = render 'client'
-    = render 'go_to_client'
-
   %ul.nav.nav-tabs.csi-tab{ role: "tablist" }
     %li.active{role: "presentation"}
       %a{"aria-controls" => "client-tab", "data-toggle" => "tab", href: "#client-tab", role: "tab"}= t('.client_dashboard')
@@ -20,8 +10,18 @@
       %a{"aria-controls" => "community-tab", "data-toggle" => "tab", href: "#community-tab", role: "tab"}= t('.community_dashboard')
     %li{role: "presentation"}
       %a{"aria-controls" => "hotline-tab", "data-toggle" => "tab", href: "#hotline-tab", role: "tab"}= t('.hotline_dashboard')
+
   .tab-content
     #client-tab.tab-pane.active{ role: "tabpanel" }
+      = render 'dashboards/referral_source_category_reminder'
+      - if @program_streams.present?
+        = render 'dashboards/program_stream_services'
+      .row
+        = render 'active_tasks_side'
+        = render 'multiple_forms'
+        = render 'client'
+        = render 'go_to_client'
+        = render 'report_builder'
       .row
         = render 'client_program_stream_by_gender'
       .row
