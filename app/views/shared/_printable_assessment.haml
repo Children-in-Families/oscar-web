@@ -37,9 +37,9 @@
         %td= date_format assessment.completed_date
 
 - assessment.assessment_domains_in_order.each do |ad|
-  .row
+  .row{ style: "page-break-inside: avoid" }
     .col-xs-12
-      %div{class: "panel panel-default"}
+      %div{ class: "panel panel-default" }
         .panel-heading
           %table.table.table-borderless
             %tbody
@@ -59,11 +59,6 @@
                   %b= "#{t('assessments.show.score')}:"
 
                 %td.no-padding-top.domain-score-definition
-                  - unless assessment.initial?(ad.domain.custom_assessment_setting_id)
-                    %button{ class: "btn btn-#{ad.previous_score_color_class} btn-xs" }
-                      = "#{ad.previous_score}"
-                    %span{ style: 'color: black;' } &#8594;
-
                   %button{ class: "btn btn-#{ad.score_color_class} btn-xs" }
                     = "#{ad.score}"
 

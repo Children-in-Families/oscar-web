@@ -298,5 +298,8 @@ module FamiliesHelper
     FieldSetting.without_hidden_fields.where(klass_name: 'family').pluck(:name)
   end
 
+  def list_family_fields
+    FieldSetting.where(klass_name: 'family').pluck(:name)
+  end
 
 end

@@ -359,7 +359,7 @@
               - field_name = f.name
               - field_name = 'member_count' if field_name.to_s.include?('significant_family_member_count')
               - next unless policy(Family).show?(field_name)
-              - next if skipped_assessment_tool_fields.include?(f.name) || family_hidden_fields_setting.exclude?(f.name)
+              - next if skipped_assessment_tool_fields.include?(f.name) || (list_family_fields.include?(f.name) && family_hidden_fields_setting.exclude?(f.name))
 
               %li
                 .visibility.col-sm-12

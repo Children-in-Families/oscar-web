@@ -650,7 +650,7 @@
 
                   - @case_histories.each_with_index do |case_history, index|
                     - case_history_name = case_history.class.table_name
-                    %tr.case-history-row{ data: {date: case_history.new_date, classname: case_history_name,name: case_history_label(case_history), created_date: case_history.created_at} }
+                    %tr.case-history-row{ data: {date: case_history.new_date, classname: case_history_name, name: case_history_label(case_history), created_date: case_history.created_at} }
                       %td= case_history_label(case_history)
                       - unless Rails.env.production?
                         %td= case_history.created_at.to_s

@@ -83,7 +83,7 @@ class Families::CaseNotesController < ::AdminController
     elsif @case_note.present?
       @case_note.case_note_domain_groups.delete_all
       @case_note.reload.destroy
-      redirect_to family_case_notes_path(@case_note.client), notice: t('case_notes.destroy.successfully_deleted_case_note')
+      redirect_to family_case_notes_path(@case_note.parent), notice: t('case_notes.destroy.successfully_deleted_case_note')
     end
   end
 

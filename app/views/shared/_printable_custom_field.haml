@@ -13,8 +13,8 @@
     %table.table.table-borderless.small.m-b-xs
       %tr
         %td.spacing-first-col{ width: '90' }
-          %strong= "#{t('client_name')}:"
-        %td= custom_field_property.custom_formable.en_and_local_name
+          %strong= display_custom_formable_lebel(custom_field_property.custom_formable)
+        %td= display_custom_formable_name(custom_field_property.custom_formable)
       %tr
         %td
           %strong= "#{t('created_by')}:"

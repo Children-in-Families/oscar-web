@@ -11,9 +11,9 @@ class AdvancedSearchSaveQueriesController < AdminController
     @advanced_search = AdvancedSearch.new(advanced_search_params)
     @advanced_search.user_id = current_user.id
     if @advanced_search.save
-      redirect_to clients_path(save_search_params(@advanced_search.search_params).merge(advanced_search_id: @advanced_search.id)), notice: t('successfully_created', klass: 'Advanced Search')
+      redirect_to clients_path(save_search_params(@advanced_search.search_params).merge(advanced_search_id: @advanced_search.id)), notice: t('activerecord.create.successfully_created')
     else
-      redirect_to clients_path, alert: t('.failed_create')
+      redirect_to clients_path, alert: t('activerecord.create.failed_create')
     end
   end
 
@@ -22,7 +22,7 @@ class AdvancedSearchSaveQueriesController < AdminController
 
   def update
     if @advanced_search.update_attributes(advanced_search_params)
-      redirect_to clients_path(save_search_params(@advanced_search.search_params).merge(advanced_search_id: @advanced_search.id)), notice: t('successfully_updated', klass: 'Advanced Search')
+      redirect_to clients_path(save_search_params(@advanced_search.search_params).merge(advanced_search_id: @advanced_search.id)), notice: t('activerecord.update.successfully_updated')
     else
       render :edit
     end
@@ -30,7 +30,7 @@ class AdvancedSearchSaveQueriesController < AdminController
 
   def destroy
     @advanced_search.destroy
-    redirect_to clients_path, notice: t('successfully_deleted', klass: 'Advanced Search')
+    redirect_to clients_path, notice: t('activerecord.destroy.successfully_deleted')
   end
 
   private
