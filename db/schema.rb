@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20220201080631) do
+ActiveRecord::Schema.define(version: 20220207091012) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -2704,8 +2704,6 @@ ActiveRecord::Schema.define(version: 20220201080631) do
   add_foreign_key "case_contracts", "cases"
   add_foreign_key "case_notes", "clients"
   add_foreign_key "case_notes", "custom_assessment_settings"
-  add_foreign_key "case_worker_clients", "clients"
-  add_foreign_key "case_worker_clients", "users"
   add_foreign_key "case_worker_communities", "communities"
   add_foreign_key "case_worker_communities", "users"
   add_foreign_key "case_worker_families", "families"
@@ -2717,8 +2715,6 @@ ActiveRecord::Schema.define(version: 20220201080631) do
   add_foreign_key "client_client_types", "client_types"
   add_foreign_key "client_client_types", "clients"
   add_foreign_key "client_enrollment_trackings", "client_enrollments"
-  add_foreign_key "client_enrollments", "clients"
-  add_foreign_key "client_enrollments", "program_streams"
   add_foreign_key "client_interviewees", "clients"
   add_foreign_key "client_interviewees", "interviewees"
   add_foreign_key "client_needs", "clients"
@@ -2763,7 +2759,6 @@ ActiveRecord::Schema.define(version: 20220201080631) do
   add_foreign_key "enrollments", "program_streams"
   add_foreign_key "enter_ngo_users", "enter_ngos"
   add_foreign_key "enter_ngo_users", "users"
-  add_foreign_key "enter_ngos", "clients"
   add_foreign_key "external_system_global_identities", "external_systems"
   add_foreign_key "external_system_global_identities", "global_identities", column: "global_id", primary_key: "ulid"
   add_foreign_key "families", "communes"
