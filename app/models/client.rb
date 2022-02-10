@@ -829,7 +829,7 @@ class Client < ActiveRecord::Base
 
   def update_referral_status_on_target_ngo
     referral = referrals.received.last
-    return if referral.blank?
+    return if referral.blank? || referral.referred_from[/external system/i].present?
 
     current_ngo = Apartment::Tenant.current
     Apartment::Tenant.switch referral.referred_from
