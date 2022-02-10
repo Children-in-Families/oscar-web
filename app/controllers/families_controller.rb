@@ -13,7 +13,7 @@ class FamiliesController < AdminController
   before_action :find_association, except: [:index, :destroy, :version]
   before_action :find_family, only: [:show, :edit, :update, :destroy]
   before_action :find_case_histories, only: :show
-  before_action :quantitative_type_readable
+  before_action :quantitative_type_readable, except: :destroy
   before_action :load_quantative_types, only: [:new, :edit, :create, :update]
 
   def index
@@ -98,6 +98,7 @@ class FamiliesController < AdminController
   end
 
   def destroy
+    binding.pry
     @family.case_worker_families.with_deleted.each(&:destroy_fully!)
     if @family.current_clients.blank? && (@family.cases.present? && @family.cases.delete_all || true) && @family.destroy
       Task.with_deleted.where(family_id: @family.id).each(&:destroy_fully!)
