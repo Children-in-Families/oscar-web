@@ -4,6 +4,7 @@ module AdvancedSearches
     extend ApplicationHelper
 
     def self.render
+      address_translation
       csi_group  = format_header('custom_csi_group')
       csi_domain_options  = number_type_list.map { |item| number_filter_type(item, format_header(item), csi_group) }
       assessment_completed = [['assessment_completed', I18n.t('clients.index.assessment_completed', assessment: I18n.t('clients.show.assessment'))]].map{ |item| date_between_only_options(item[0], item[1], csi_group) }

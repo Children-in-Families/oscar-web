@@ -17,13 +17,14 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
 
   _validateForm = (currentIndex) ->
     valid = true
-    for select in $("select.required, input.required")
+    currentSection = "#family-wizard-form-p-#{currentIndex}"
+    for select in $("#{currentSection} select.required, #{currentSection} input.required")
       $(select).trigger("validate")
       if $(select).hasClass("error") || $(select).closest(".form-group").find(".select2-choice").hasClass("error")
         valid = false
 
     if(currentIndex == 2)
-      for select in $("select.required, input.required")
+      for select in $("#{currentSection} select.required, #{currentSection} input.required")
         $(select).trigger("validate")
         if $(select).hasClass("error") || $(select).closest(".form-group").find(".select2-choice").hasClass("error")
           valid = false
@@ -66,6 +67,8 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
       enableCancelButton: true
       labels:
         finish: 'Save'
+      onInit: (event, currentIndex) ->
+        _validateForm(currentIndex)
       onStepChanging: (event, currentIndex, newIndex) ->
         (currentIndex > newIndex) || _validateForm(currentIndex)
       onFinishing: (event, currentIndex) ->
