@@ -285,6 +285,7 @@ Rails.application.routes.draw do
       post :assessments, on: :collection
       get :search_client, on: :collection
       get :render_client_by_gender, on: :collection, as: 'client_by_gender'
+      get :render_active_client_by_donor, on: :collection, as: 'active_client_by_donor'
     end
     resources :custom_fields do
       collection do

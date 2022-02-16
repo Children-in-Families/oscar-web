@@ -94,6 +94,11 @@ module Api
       render json: client_data
     end
 
+    def render_active_client_by_donor
+      donor_data = Donor.includes(:clients).references(:clients).group("donors.name").count("clients.id")
+      render json: donor_data
+    end
+
     private
 
     def client_params

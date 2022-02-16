@@ -13,6 +13,7 @@ class CIF.ReportCreator
     subtitle = @yAxisTitle
     if @data != undefined
       $(@element).highcharts
+        colors: @colors
         chart: type: 'column'
         title: text: title
         subtitle: text: subtitle
@@ -29,9 +30,11 @@ class CIF.ReportCreator
           shared: true
           useHTML: true
         plotOptions: column:
-          pointPadding: 0.2
+          pointPadding: 0.05
           borderWidth: 0
         series: theData.series
+
+    $('.highcharts-credits').css('display', 'none')
 
   barChart: ->
     theData = @data

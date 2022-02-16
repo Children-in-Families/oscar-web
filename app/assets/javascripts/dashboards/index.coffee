@@ -366,6 +366,9 @@ CIF.DashboardsIndex = do ->
         if $("#{currentTab} #active-client:visible").length
           url = $("#active-client").data('url')
           _active_client_by_gender(url)
+        else if $("#{currentTab} #active-case-by-donor:visible").length
+          url = $("#active-case-by-donor").data('url')
+          _active_case_by_donor(url)
 
   _active_client_by_gender = (url) ->
     element = $('#active-client')
@@ -377,26 +380,30 @@ CIF.DashboardsIndex = do ->
       success: (response) ->
         data =
           categories: [
-            'Female'
-            'Male'
+            'Children'
+            'Adult'
             'Other'
           ]
           series: [
             {
-              name: 'Adult'
+              name: 'Female'
               data: [
+                response.girls
                 response.adult_females
-                response.adult_males
                 0
               ]
             }
             {
-              name: 'Children'
+              name: 'Male'
               data: [
-                response.girls
                 response.boys
-                response.others
+                response.adult_males
+                0
               ]
+            },
+            {
+              name: 'Other'
+              data: [0, 0, response.others]
             }
           ]
 
@@ -405,4 +412,45 @@ CIF.DashboardsIndex = do ->
       error: (response, status, msg) ->
         return
 
+  _active_case_by_donor = (url) ->
+    element = $('#active-case-by-donor')
+    title = element.data('title')
+    $.ajax
+      type: 'get'
+      url: url
+      dataType: 'JSON'
+      success: (response) ->
+        data =
+          categories: [
+            'Children'
+            'Adult'
+            'Other'
+          ]
+          series: [
+            {
+              name: 'Female'
+              data: [
+                response.girls
+                response.adult_females
+                0
+              ]
+            }
+            {
+              name: 'Male'
+              data: [
+                response.boys
+                response.adult_males
+                0
+              ]
+            },
+            {
+              name: 'Other'
+              data: [0, 0, response.others]
+            }
+          ]
+
+        report = new CIF.ReportCreator(data, title, '', element)
+        report.pieChart()
+      error: (response, status, msg) ->
+        return
   { init: _init }
