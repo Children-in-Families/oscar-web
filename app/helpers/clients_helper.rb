@@ -195,7 +195,8 @@ module ClientsHelper
       **overdue_translations,
       **client_address_translation,
       **Client::HOTLINE_FIELDS.map{ |field| [field.to_sym, I18n.t("datagrid.columns.clients.#{field}")] }.to_h,
-      **legal_doc_fields.map{|field| [field.to_sym, I18n.t("clients.show.#{field}")] }.to_h
+      **legal_doc_fields.map{|field| [field.to_sym, I18n.t("clients.show.#{field}")] }.to_h,
+      **client_address_translation
     }
 
     lable_translation_uderscore.map{|k, v| [k.to_s.gsub(/(\_)$/, '').to_sym, v] }.to_h.merge(labels)
@@ -310,8 +311,9 @@ module ClientsHelper
       carer_phone_: I18n.t('activerecord.attributes.carer.phone'),
       carer_email_: I18n.t('activerecord.attributes.carer.email'),
       carer_relationship_to_client_: I18n.t('datagrid.columns.clients.carer_relationship_to_client'),
-      **overdue_translations.map{ |k, v| ["#{k}_".to_sym, v] }.to_h,
-      **client_address_translation
+      province_id_: FieldSetting.find_by(name: 'current_province', klass_name: 'client').try(:label) || I18n.t('datagrid.columns.clients.current_province'),
+      birth_province_id_: FieldSetting.find_by(name: 'birth_province', klass_name: 'client').try(:label) || I18n.t('datagrid.columns.clients.birth_province'),
+      **overdue_translations.map{ |k, v| ["#{k}_".to_sym, v] }.to_h
     }
   end
 
@@ -343,9 +345,7 @@ module ClientsHelper
     end
     translations['village_id'.to_sym] = FieldSetting.find_by(name: 'village_id').try(:label) || I18n.t('datagrid.columns.clients.village')
     translations['province_id'.to_sym] = FieldSetting.find_by(name: 'current_province', klass_name: 'client').try(:label) || I18n.t('datagrid.columns.clients.current_province')
-    translations['province_id_'.to_sym] = FieldSetting.find_by(name: 'current_province', klass_name: 'client').try(:label) || I18n.t('datagrid.columns.clients.current_province')
     translations['birth_province_id'.to_sym] = FieldSetting.find_by(name: 'birth_province', klass_name: 'client').try(:label) || I18n.t('datagrid.columns.clients.birth_province')
-    translations['birth_province_id_'.to_sym] = FieldSetting.find_by(name: 'birth_province', klass_name: 'client').try(:label) || I18n.t('datagrid.columns.clients.birth_province')
     translations
   end
 
