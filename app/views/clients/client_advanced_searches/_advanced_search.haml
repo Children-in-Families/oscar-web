@@ -26,7 +26,7 @@
             %span.basic-filter-error
               %i Please Select Field to Filter
 
-        #search-action{ data: { action: params.dig(:client_advanced_search, :action_report_builder)} }
+        #search-action{ data: { action: params.dig(:builder) || params.dig(:client_advanced_search, :action_report_builder)} }
 
       .ibox-footer
         %button#search.btn.btn-primary= t('.search')
