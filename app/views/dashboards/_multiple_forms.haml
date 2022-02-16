@@ -1,44 +1,43 @@
-.col-xs-12.col-sm-3
-  .panel.panel-default.tasks-panel
-    .panel-body
-      .widget.style1.widget-tasks-panel{ 'data-target' => '#multiple-form-modal', 'data-toggle' => 'modal', type: 'button'}
-        .row.vertical-align
-          .col-xs-3
-            %i.fa.fa-folder-open-o.fa-3x
-          .col-xs-9.text-right
-            %span.text-font
-              = t('.add_new_document')
+.panel.panel-default.tasks-panel
+  .panel-body
+    .widget.style1.widget-tasks-panel{ 'data-target' => '#multiple-form-modal', 'data-toggle' => 'modal', type: 'button'}
+      .row.vertical-align
+        .col-xs-3
+          %i.fa.fa-folder-open-o.fa-3x
+        .col-xs-9.text-right
+          %span.text-font
+            = t('.add_new_document')
 
-  #multiple-form-modal.modal.fade{ "aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1", data: {backdrop: 'static', keyboard: 'false'} }
-    .modal-dialog#width-modal.modal-lg
-      .modal-content
-        .modal-body
-          %button.close{ 'data-dismiss': 'modal', type: 'button'} ×
-          %div
-            %h2.text-center=t('.kind_of_document')
-            %ul.nav.nav-tabs{role: "tablist"}
-              %li.active{role: "presentation"}
-                %a{"data-toggle": "tab", href: "#record", role: "tab"}
-                  = t('.record')
-              %li{role: "presentation"}
-                %a{"data-toggle": "tab", href: "#custom-fields", role: "tab"}
-                  = t('.form')
-              %li{role: "presentation"}
-                %a{"data-toggle": "tab", href: "#assessment", role: "tab"}
-                  = t('.assessment')
-              %li{role: "presentation"}
-                %a{"data-toggle": "tab", href: "#case-note", role: "tab"}
-                  = t('clients.form.case_note')
-              %li{role: "presentation"}
-                %a{"data-toggle": "tab", href: "#program-enrollment", role: "tab"}
-                  = t('.program_enrollment')
-              %li{role: "presentation"}
-                %a{"data-toggle": "tab", href: "#program-streams", role: "tab"}
-                  = t('.tracking_forms')
-            .tab-content
-              = render 'record_tab'
-              = render 'assessment_tab'
-              = render 'case_note_tab'
-              = render 'program_enrollment_tab'
-              = render 'custom_fields_tab'
-              = render 'program_streams_tab'
+#multiple-form-modal.modal.fade{ "aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1", data: {backdrop: 'static', keyboard: 'false'} }
+  .modal-dialog#width-modal.modal-lg
+    .modal-content
+      .modal-body
+        %button.close{ 'data-dismiss': 'modal', type: 'button'} ×
+        %div
+          %h2.text-center=t('.kind_of_document')
+          %ul.nav.nav-tabs{role: "tablist"}
+            %li.active{role: "presentation"}
+              %a{"data-toggle": "tab", href: "#record", role: "tab"}
+                = t('.record')
+            %li{role: "presentation"}
+              %a{"data-toggle": "tab", href: "#custom-fields", role: "tab"}
+                = t('.form')
+            %li{role: "presentation"}
+              %a{"data-toggle": "tab", href: "#assessment", role: "tab"}
+                = t('.assessment')
+            %li{role: "presentation"}
+              %a{"data-toggle": "tab", href: "#case-note", role: "tab"}
+                = t('clients.form.case_note')
+            %li{role: "presentation"}
+              %a{"data-toggle": "tab", href: "#program-enrollment", role: "tab"}
+                = t('.program_enrollment')
+            %li{role: "presentation"}
+              %a{"data-toggle": "tab", href: "#program-streams", role: "tab"}
+                = t('.tracking_forms')
+          .tab-content
+            = render 'record_tab'
+            = render 'assessment_tab'
+            = render 'case_note_tab'
+            = render 'program_enrollment_tab'
+            = render 'custom_fields_tab'
+            = render 'program_streams_tab'

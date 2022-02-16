@@ -17,13 +17,19 @@
       - if @program_streams.present?
         = render 'dashboards/program_stream_services'
       .row
-        = render 'active_tasks_side'
-        = render 'multiple_forms'
-        = render 'client'
-        = render 'go_to_client'
-        = render 'report_builder'
+        .col-xs-12.col-sm-3
+          = render 'active_tasks_side'
+        .col-xs-12.col-sm-3
+          = render 'multiple_forms'
+        .col-xs-12.col-sm-2
+          = render 'client'
+        .col-xs-12.col-sm-2
+          = render 'go_to_client'
+        .col-xs-12.col-sm-2
+          = render 'report_builder'
       .row
         = render 'client_program_stream_by_gender'
+        = render 'data_agregation'
       .row
         - if can? :read, Family
           = render 'family'

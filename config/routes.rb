@@ -284,6 +284,7 @@ Rails.application.routes.draw do
       get :find_client_case_worker, on: :member
       post :assessments, on: :collection
       get :search_client, on: :collection
+      get :render_client_by_gender, on: :collection, as: 'client_by_gender'
     end
     resources :custom_fields do
       collection do

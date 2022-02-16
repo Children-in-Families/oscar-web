@@ -6,7 +6,34 @@ class CIF.ReportCreator
     @element = element
     @colors = ['f9c00c', '#4caf50', '#00695c', '#01579b', '#4dd0e1', '#2e7d32', '#4db6ac', '#00897b', '#a5d6a7', '#43a047', '#c5e1a5', '#7cb342', '#fdd835', '#fb8c00', '#6d4c41', '#757575',
               '#ef9a9a', '#e53935', '#f48fb1', '#d81b60', '#ce93d8', '#8e24aa', '#b39ddb', '#7e57c2', '#9fa8da', '#3949ab', '#64b5f6', '#827717']
-   barChart: ->
+
+  columnChart: ->
+    theData = @data
+    title = @title
+    subtitle = @yAxisTitle
+    if @data != undefined
+      $(@element).highcharts
+        chart: type: 'column'
+        title: text: title
+        subtitle: text: subtitle
+        xAxis:
+          categories: theData.categories
+          crosshair: true
+        yAxis:
+          min: 0
+          title: text: subtitle
+        tooltip:
+          headerFormat: '<span style="font-size:10px">{point.key}</span><table>'
+          pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' + '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>'
+          footerFormat: '</table>'
+          shared: true
+          useHTML: true
+        plotOptions: column:
+          pointPadding: 0.2
+          borderWidth: 0
+        series: theData.series
+
+  barChart: ->
     theData = @data
     if @data != undefined
       $(@element).highcharts
@@ -46,6 +73,7 @@ class CIF.ReportCreator
             )
           }
       $('.highcharts-credits').css('display', 'none')
+
   lineChart: ->
     if @data != undefined
       $(@element).highcharts

@@ -12,7 +12,7 @@ CIF.DashboardsIndex = do ->
     # _clientStatusChart()
     _familyType()
     _resizeChart()
-    _clientProgramStreamByGender()
+    # _clientProgramStreamByGender()
     _clientProgramStream()
     _initSelect2()
     _openTaskListModal()
@@ -28,6 +28,7 @@ CIF.DashboardsIndex = do ->
     _loadModalReminder()
     _handleSearchClient()
     _handleMultiFormAssessmentCaseNote()
+    _loadSteps()
 
   _loadModalReminder = ->
     if localStorage.getItem('from login') == 'true'
@@ -336,5 +337,72 @@ CIF.DashboardsIndex = do ->
       $("ul#casenote-tab-dropdown a").attr('href', "javascript:void(0)")
       $("ul#casenote-tab-dropdown a").addClass('disabled')
 
+
+  _loadSteps = (form) ->
+    bodyTag = 'div'
+    rootId = "#rootwizard"
+    that = @
+    $(rootId).steps
+      headerTag: 'h4'
+      bodyTag: bodyTag
+      enableAllSteps: true
+      transitionEffect: 'slideLeft'
+      autoFocus: true
+      titleTemplate: 'Data #title#'
+      onInit: (event, currentIndex) ->
+        currentTab  = "#{rootId}-p-#{currentIndex}"
+        _clientProgramStreamByGender()
+        return
+
+      onStepChanging: (event, currentIndex, newIndex) ->
+        console.log 'onStepChanging'
+        currentTab  = "#{rootId}-p-#{currentIndex}"
+        return true
+
+      onStepChanged: (event, currentIndex, priorIndex) ->
+        console.log 'onStepChanged'
+        currentTab  = "#{rootId}-p-#{currentIndex}"
+        currentStep = $("#{rootId}-p-" + currentIndex)
+        if $("#{currentTab} #active-client:visible").length
+          url = $("#active-client").data('url')
+          _active_client_by_gender(url)
+
+  _active_client_by_gender = (url) ->
+    element = $('#active-client')
+    title = element.data('title')
+    $.ajax
+      type: 'get'
+      url: url
+      dataType: 'JSON'
+      success: (response) ->
+        data =
+          categories: [
+            'Female'
+            'Male'
+            'Other'
+          ]
+          series: [
+            {
+              name: 'Adult'
+              data: [
+                response.adult_females
+                response.adult_males
+                0
+              ]
+            }
+            {
+              name: 'Children'
+              data: [
+                response.girls
+                response.boys
+                response.others
+              ]
+            }
+          ]
+
+        report = new CIF.ReportCreator(data, title, '', element)
+        report.columnChart()
+      error: (response, status, msg) ->
+        return
 
   { init: _init }

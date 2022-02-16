@@ -81,6 +81,19 @@ module Api
       end
     end
 
+    def render_client_by_gender
+      clients = Client.active_status
+      client_data = {
+        client_count: clients.count,
+        adult_females: adule_client_gender_count(clients, :female),
+        adult_males: adule_client_gender_count(clients, :male),
+        girls: under_18_client_gender_count(clients, :female),
+        boys: under_18_client_gender_count(clients, :male),
+        others: other_client_gender_count(clients)
+      }
+      render json: client_data
+    end
+
     private
 
     def client_params
@@ -275,6 +288,18 @@ module Api
 
     def sort_direction
       params[:order]['0']['dir'] == "desc" ? "desc" : "asc"
+    end
+
+    def adule_client_gender_count(clients, type = :male)
+     clients.public_send(type).where("(EXTRACT(year FROM age(current_date, clients.date_of_birth)) :: int) >= ?", 18).count
+    end
+
+    def under_18_client_gender_count(clients, type = :male)
+      clients.public_send(type).where("(EXTRACT(year FROM age(current_date, clients.date_of_birth)) :: int) < ?", 18).count
+    end
+
+    def other_client_gender_count(clients)
+      clients.where("gender IS NOT NULL AND (gender NOT IN ('male', 'female') OR date_of_birth IS NULL)").count
     end
   end
 end
