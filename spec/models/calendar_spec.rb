@@ -11,7 +11,7 @@ describe Calendar do
     let!(:user_1){ create(:user) }
     let!(:user_2){ create(:user) }
     let!(:client_1){ create(:client, users: [user_1, user_2]) }
-    let!(:task_1){ create(:task, user: user_1, client: client_1, name: 'My Task', completion_date: Date.today) }
+    let!(:task_1){ create(:task, user: user_1, client: client_1, name: 'My Task') }
     context 'populate_tasks' do
       before do
         task_1.reload
@@ -28,11 +28,11 @@ describe Calendar do
         Calendar.populate_tasks(task_1)
 
         title      = "#{task_1.domain.name} - #{task_1.name}"
-        start_date = task_1.completion_date
+        start_date = task_1.expected_date
         end_date   = (start_date + 1.day).to_s
         calendars   = Calendar.where(title: title, start_date: start_date, end_date: end_date)
 
-        @task_params = { name: 'My Task Updated', completion_date: Date.tomorrow, domain_id: task_1.domain_id }
+        @task_params = { name: 'My Task Updated', expected_date: Date.tomorrow, domain_id: task_1.domain_id }
 
         Calendar.update_tasks(calendars, @task_params)
       end

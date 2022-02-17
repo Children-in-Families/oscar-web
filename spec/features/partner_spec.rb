@@ -1,4 +1,4 @@
-xdescribe 'Partner' do
+describe 'Partner' do
   let!(:admin){ create(:user, roles: 'admin') }
   let!(:ngo){ create(:organization_type, name: 'NGO')}
   let!(:partner){ create(:partner, organization_type: ngo, name: 'Jonh') }
@@ -22,14 +22,14 @@ xdescribe 'Partner' do
       expect(page).to have_link(nil, href: edit_partner_path(partner))
     end
     scenario 'delete link' do
-      expect(page).to have_css("a[href='#{partner_path(partner)}'][data-method='delete']")
+      expect(page).to have_css("a[href='#{domain_path(partner)}'][data-method='delete']")
     end
     scenario 'show link' do
       expect(page).to have_link(partner.name, href: partner_path(partner))
     end
   end
 
-  feature 'Create' do
+  xfeature 'Create' do
     before do
       visit new_partner_path
     end
@@ -41,12 +41,12 @@ xdescribe 'Partner' do
       expect(page).to have_content('Partner Name')
       expect(page).to have_content('test@example.com')
     end
-    xscenario 'invalid' do
+    scenario 'invalid' do
       click_button 'Save'
       expect(page).to have_content("can't be blank")
     end
   end
-  feature 'Edit', js: true do
+  xfeature 'Edit', js: true do
     before do
       visit edit_partner_path(partner)
     end
@@ -58,19 +58,19 @@ xdescribe 'Partner' do
       expect(page).to have_content('Updated Partner Name')
       expect(page).to have_content('test@example1.com')
     end
-    xscenario 'invalid'
+    scenario 'invalid'
   end
   feature 'Delete' do
     before do
       visit partners_path
     end
     scenario 'success', js: true do
-      find("a[href='#{partner_path(partner)}'][data-method='delete']").click
+      find("a[href='#{domain_path(partner)}'][data-method='delete']").click
       sleep 1
       expect(page).not_to have_content(partner.name)
     end
     scenario 'unsuccess' do
-      expect(page).to have_css("a[href='#{partner_path(other_partner)}'][class='btn btn-outline btn-danger btn-xs disabled']")
+      expect(page).to have_css("a[href='#{domain_path(other_partner)}'][class='btn btn-outline btn-danger btn-xs disabled']")
     end
   end
 
@@ -85,11 +85,11 @@ xdescribe 'Partner' do
       expect(page).to have_link(nil, href: edit_partner_path(partner))
     end
     scenario 'link to delete' do
-      expect(page).to have_css("a[href='#{partner_path(partner)}'][data-method='delete']")
+      expect(page).to have_css("a[href='#{domain_path(partner)}'][data-method='delete']")
     end
     scenario 'disable delete link' do
       visit partner_path(other_partner)
-      expect(page).to have_css("a[href='#{partner_path(other_partner)}'][data-method='delete'][class='btn btn-outline btn-danger btn-md disabled']")
+      expect(page).to have_css("a[href='#{domain_path(other_partner)}'][data-method='delete'][class='btn btn-outline btn-danger btn-md disabled']")
     end
   end
 

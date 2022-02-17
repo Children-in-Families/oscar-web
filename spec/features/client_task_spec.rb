@@ -1,10 +1,10 @@
-xdescribe 'Task' do
+describe 'Task' do
   let!(:user){ create(:user, :admin, calendar_integration: true) }
   let!(:client){ create(:client, users: [user], code: rand(1000..2000).to_s) }
   let!(:domain){ create(:domain) }
-  let!(:overdue_task){ create(:task, client: client, completion_date: Date.today - 6.month) }
-  let!(:today_task){ create(:task, client: client, completion_date: Date.today) }
-  let!(:upcoming_task){ create(:task, client: client, completion_date: Date.today + 6.month) }
+  let!(:overdue_task){ create(:task, client: client, expected_date: Date.today - 6.month) }
+  let!(:today_task){ create(:task, client: client, expected_date: Date.today) }
+  let!(:upcoming_task){ create(:task, client: client, expected_date: Date.today + 6.month) }
   let!(:incomplete_task){ create(:task, completed: false) }
   before do
     login_as(user)
@@ -16,20 +16,20 @@ xdescribe 'Task' do
     scenario 'overdue task' do
       panel = page.all(:css, '.panel').select { |p| p.all(:css, '.panel-heading').select { |pp| pp.text.include?('Overdue Tasks') }.first }.first
       expect(panel).to have_content(overdue_task.name)
-      expect(panel).to have_content(overdue_task.domain.name)
-      expect(panel).to have_content(date_format(overdue_task.completion_date))
+      expect(panel).to have_content(overdue_task.domain.name.downcase.reverse)
+      expect(panel).to have_content(date_format(overdue_task.expected_date))
     end
     scenario 'today task' do
       panel = page.all(:css, '.panel').select { |p| p.all(:css, '.panel-heading').select { |pp| pp.text.include?('Today Tasks') }.first }.first
       expect(panel).to have_content(today_task.name)
-      expect(panel).to have_content(today_task.domain.name)
-      expect(panel).to have_content(date_format(today_task.completion_date))
+      expect(panel).to have_content(today_task.domain.name.downcase.reverse)
+      expect(panel).to have_content(date_format(today_task.expected_date))
     end
     scenario 'upcoming task' do
       panel = page.all(:css, '.panel').select { |p| p.all(:css, '.panel-heading').select { |pp| pp.text.include?('Upcoming Tasks') }.first }.first
       expect(panel).to have_content(upcoming_task.name)
-      expect(panel).to have_content(upcoming_task.domain.name)
-      expect(panel).to have_content(date_format(upcoming_task.completion_date))
+      expect(panel).to have_content(upcoming_task.domain.name.downcase.reverse)
+      expect(panel).to have_content(date_format(upcoming_task.expected_date))
     end
     scenario 'edit link' do
       expect(page).to have_link(nil, href: edit_client_task_path(client, overdue_task))
