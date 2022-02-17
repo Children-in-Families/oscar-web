@@ -91,7 +91,7 @@
     "similar_record": "The client record you are saving has similarities to other records in OSCaR in the following fields:",
     "checking_message": "Please check with the client whether they have ever worked with another organisation that may have put their details into OSCaR.",
     "duplicate_message": "Duplicate Checker feature is currently in Beta testing, please Email: info@oscarhq.com if you have any issues with excessive false positive/negative results.",
-    "continue":"Continue",
+    "continue": "Continue",
     "client_confirm": "Client Confirmation",
     "warning": "Warning",
     "successfully_created": "Client has been successfully created",
@@ -218,7 +218,7 @@
     "Stranger": "Stranger",
     "Other": "Other"
   },
-  "schoolGrade":{
+  "schoolGrade": {
     "Bachelors": "Bachelors",
     "Kindergarten 1": "Kindergarten 1",
     "Kindergarten 2": "Kindergarten 2",
@@ -477,7 +477,7 @@
       "case_worker": "Case Worker / Assigned Staff Manager",
       "contact_info": "Contact Information",
       "client_is_outside": "International",
-      "client_contact_phone": "Client Contact Phone",
+      "client_phone": "Client Contact Phone",
       "phone_owner": "Phone Owner",
       "client_email": "Client Email Contact",
       "email_owner": "Email Owner",
@@ -571,14 +571,13 @@
       "Spam Call": "Spam Call",
       "Wrong Number": "Wrong Number"
     },
-    "listClient":{
+    "listClient": {
       "list_clients": "List Clients"
     },
     "referee": {
       "referee": "Referee"
     },
-    "index": {
-    }
+    "index": {}
   },
   "editCall": {
     "index": {

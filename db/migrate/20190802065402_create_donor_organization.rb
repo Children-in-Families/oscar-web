@@ -50,6 +50,7 @@ class CreateDonorOrganization < ActiveRecord::Migration
 
             GRANT CONNECT ON DATABASE "#{ENV['DATABASE_NAME']}" TO "#{ENV['POWER_BI_GROUP']}";
             GRANT USAGE ON SCHEMA public TO "#{ENV['POWER_BI_GROUP']}";
+            GRANT SELECT ON ALL TABLES IN SCHEMA public TO "#{ENV['READ_ONLY_DATABASE_USER']}";
 
             CREATE OR REPLACE FUNCTION get_birth_province_name(province_id int)
             RETURNS TEXT AS $$
@@ -64,7 +65,7 @@ class CreateDonorOrganization < ActiveRecord::Migration
             $$  LANGUAGE plpgsql
                 VOLATILE SECURITY DEFINER;
 
-            CREATE OR REPLACE FUNCTION "public"."fn_oscar_dashboard_clients"(donor_global_id varchar DEFAULT '')
+            CREATE OR REPLACE FUNCTION "public"."fn_oscar_dashboard_clients"(donor_global_id text)
               RETURNS TABLE("id" int4, "slug" varchar, "organization_name" varchar, "gender" varchar, "date_of_birth" varchar,
                             "status" varchar, "donor_id" int4, "province_id" int4, "province_name" varchar, "district_id" int4, "district_name" varchar,
                             "birth_province_id" int4, "assessments_count" int4, "follow_up_date" varchar, "initial_referral_date" varchar,
@@ -130,6 +131,7 @@ class CreateDonorOrganization < ActiveRecord::Migration
           execute <<-SQL.squish
             -- DROP INDEX IF EXISTS index_donors_on_global_id CASCADE;
             -- ALTER TABLE donors DROP COLUMN IF EXISTS global_id;
+            DROP TABLE IF EXISTS donor_organizations CASCADE;
 
             REVOKE CONNECT ON DATABASE "#{ENV['DATABASE_NAME']}" FROM "#{ENV['POWER_BI_GROUP']}";
             REVOKE USAGE ON SCHEMA public FROM "#{ENV['POWER_BI_GROUP']}";
@@ -150,7 +152,7 @@ class CreateDonorOrganization < ActiveRecord::Migration
     donors = [ENV['STC_DONOR_NAME'], ENV['FD_DONOR_NAME']]
     donor_organizations = {
       ENV['STC_DONOR_NAME'] => [
-        'Children in Families',
+        'Children In Families',
         'This Life Cambodia',
         'First Step Cambodia',
         "Cambodian Children's Trust",
@@ -159,10 +161,9 @@ class CreateDonorOrganization < ActiveRecord::Migration
         'Kaliyan Mith',
         'Mith Samlanh',
         'Friends International',
-        'KMR',
         'KOMAR RIKREAY CAMBODIA',
-        'Holt',
-        'Tentative - Voice'
+        'Holt International Cambodia',
+        'Voice'
       ],
       ENV['FD_DONOR_NAME'] => [
         'Kaliyan Mith',

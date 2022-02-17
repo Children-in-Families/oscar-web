@@ -9,8 +9,9 @@ module AdvancedSearches
     def get_sql
       sql_string = 'clients.id IN (?)'
       client_enrollments = ClientEnrollment.where(program_stream_id: @program_stream_id)
-      param_rules = JSON.parse($param_rules['basic_rules'])
-      enrollment_rules = param_rules['rules'].select{|rules| rules['id'][/^(enrollment_)/].present? }
+      basic_rules = $param_rules['basic_rules']
+      param_rules = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
+      enrollment_rules = iterate_param_rules(param_rules)
       query_string = enrollment_rules.map do |rules|
         client_enrollment_sql(rules['operator'], rules['field'], rules['value'], rules['input'], rules['type'])
       end.join(" #{param_rules['condition']} ")
@@ -48,7 +49,7 @@ module AdvancedSearches
       case operator
       when 'equal'
         if input_type == 'text' && field.exclude?('&')
-          properties_result = "lower(properties ->> '#{field}') = '#{alue}' "
+          properties_result = "lower(properties ->> '#{field}') = '#{value}' "
         else
           properties_result = "properties -> '#{field}' ? '#{value}' "
         end
@@ -59,13 +60,13 @@ module AdvancedSearches
           properties_result = "NOT(properties -> '#{field}' ? '#{value}') "
         end
       when 'less'
-        properties_result = "(properties ->> '#{field}')#{'::numeric' if integer? } < '#{value}' AND properties ->> '#{field}' != '' "
+        properties_result = "(properties ->> '#{field}')#{'::numeric' if integer?(type) } < '#{value}' AND properties ->> '#{field}' != '' "
       when 'less_or_equal'
-        properties_result = "(properties ->> '#{field}')#{ '::numeric' if integer? } <= '#{value}' AND properties ->> '#{field}' != '' "
+        properties_result = "(properties ->> '#{field}')#{ '::numeric' if integer?(type) } <= '#{value}' AND properties ->> '#{field}' != '' "
       when 'greater'
-        properties_result = "(properties ->> '#{field}')#{ '::numeric' if integer? } > '#{value}' AND properties ->> '#{field}' != '' "
+        properties_result = "(properties ->> '#{field}')#{ '::numeric' if integer?(type) } > '#{value}' AND properties ->> '#{field}' != '' "
       when 'greater_or_equal'
-        properties_result = "(properties ->> '#{field}')#{ '::numeric' if integer? } >= '#{value}' AND properties ->> '#{field}' != '' "
+        properties_result = "(properties ->> '#{field}')#{ '::numeric' if integer?(type) } >= '#{value}' AND properties ->> '#{field}' != '' "
       when 'contains'
         properties_result = "properties ->> '#{field}' ILIKE '%#{value.squish}%' "
       when 'not_contains'
@@ -83,9 +84,26 @@ module AdvancedSearches
           properties_result = "NOT(properties -> '#{@field}' ? '') OR (properties -> '#{@field}') IS NULL"
         end
       when 'between'
-        properties_result = "(properties ->> '#{field}')#{ '::numeric' if integer? } BETWEEN '#{value.first}' AND '#{value.last}' AND properties ->> '#{field}' != ''"
+        properties_result = "(properties ->> '#{field}')#{ '::numeric' if integer?(type) } BETWEEN '#{value.first}' AND '#{value.last}' AND properties ->> '#{field}' != ''"
       end
       properties_result
+    end
+
+    def program_stream_name_sql()
+
+    end
+
+    private
+
+    def iterate_param_rules(param_rules, values = [])
+      param_rules['rules'].each do |rules|
+        if rules.has_key?('rules')
+          iterate_param_rules(rules, values)
+        else
+          values << rules unless rules['id'][/^(enrollment_|enrollmentdate_)/].present?
+        end
+      end
+      values
     end
   end
 end
