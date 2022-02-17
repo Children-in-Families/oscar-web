@@ -1,4 +1,4 @@
-xdescribe 'Referral Sources' do
+describe 'Referral Sources' do
   let!(:admin){ create(:user, roles: 'admin') }
   let!(:referral_source){ create(:referral_source) }
   let!(:other_referral_source){ create(:referral_source) }
@@ -65,14 +65,14 @@ xdescribe 'Referral Sources' do
     scenario 'valid' do
       find("a[data-target='#referral_sourceModal-#{referral_source.id}']").click
       within("#referral_sourceModal-#{referral_source.id}") do
-        fill_in 'Name', with: 'testing'
+        fill_in 'Name', with: 'Referral Source'
         find(".referral_source_ancestry select option[value='#{referral_cat.id}']", visible: false).select_option
-        fill_in 'Name', with: 'testing'
+        fill_in 'Name', with: 'Referral Source'
         find(".referral_source_ancestry select option[value='#{referral_cat.id}']", visible: false).select_option
         page.find("input[type='submit'][value='Save']").click
       end
       wait_for_ajax
-      expect(page).to have_content('testing')
+      expect(page).to have_content('Referral Source')
     end
     scenario 'invalid' do
       find("a[data-target='#referral_sourceModal-#{referral_source.id}']").click

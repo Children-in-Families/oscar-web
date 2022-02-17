@@ -1,4 +1,4 @@
-xdescribe 'CaseNote' do
+describe 'CaseNote' do
   let!(:user) { create(:user) }
   let!(:client) { create(:client, :accepted, users: [user]) }
   let!(:fc_case){ create(:case, case_type: 'FC', client: client) }
@@ -83,7 +83,7 @@ xdescribe 'CaseNote' do
           Setting.first.update(enable_default_assessment: true, enable_custom_assessment: false)
           visit client_case_notes_path(client)
 
-          expect(page).to have_link('New case note', href: new_client_case_note_path(client, custom: false))
+          expect(page).to have_link('CSI Assessment', href: new_client_case_note_path(client, custom: false))
         end
         xscenario 'custom csi', js: true do
           Setting.first.update(enable_default_assessment: false, enable_custom_assessment: true)

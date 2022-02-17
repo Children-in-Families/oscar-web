@@ -1,4 +1,4 @@
-xdescribe 'Donor' do
+describe 'Donor' do
   let!(:admin){ create(:user, roles: 'admin') }
   let!(:donor){ create(:donor) }
   let!(:other_donor){ create(:donor) }
@@ -21,7 +21,7 @@ xdescribe 'Donor' do
       expect(page).to have_css("i[class='fa fa-pencil']")
     end
     scenario 'delete link' do
-      expect(page).to have_css("a[href='#{donor_path(donor)}'][data-method='delete']")
+      expect(page).to have_css("a[href='#{domain_path(donor)}'][data-method='delete']")
     end
   end
 
@@ -80,8 +80,7 @@ xdescribe 'Donor' do
       visit donors_path
     end
     scenario 'success' do
-      find("a[href='#{donor_path(donor)}'][data-method='delete']").click
-      wait_for_ajax
+      find("a[href='#{domain_path(donor)}'][data-method='delete']").click
       expect(page).not_to have_content(donor.name)
     end
     # scenario 'disable' do

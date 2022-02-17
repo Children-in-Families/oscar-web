@@ -13,6 +13,7 @@ RSpec.describe CustomAssessmentSetting, type: :model do
     end
     it { should validate_numericality_of(:max_custom_assessment).only_integer }
     it { is_expected.to validate_presence_of(:custom_assessment_name) }
+    it { is_expected.to validate_uniqueness_of(:custom_assessment_name)}
     it { is_expected.to validate_presence_of(:max_custom_assessment) }
     it { is_expected.to validate_presence_of(:custom_age) }
 

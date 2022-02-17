@@ -439,8 +439,8 @@ describe User do
     end
 
     context 'assessment_either_overdue_or_due_today' do
-      it{ expect(case_worker.assessment_either_overdue_or_due_today).to eq({overdue_count: 0, due_today_count: 0, custom_overdue_count: 0, custom_due_today_count: 0}) }
-      it{ expect(fifth_case_worker.assessment_either_overdue_or_due_today).to eq({overdue_count: 0, due_today_count: 0, custom_overdue_count: 0, custom_due_today_count: 0}) }
+      it{ expect(case_worker.assessment_either_overdue_or_due_today).to eq({overdue_count: 0, overdue_assessment: [], due_today_count: 0, custom_overdue_count: 0, custom_due_today_count: 0}) }
+      it{ expect(fifth_case_worker.assessment_either_overdue_or_due_today).to eq({overdue_count: 0, overdue_assessment: [], due_today_count: 0, custom_overdue_count: 0, custom_due_today_count: 0}) }
     end
 
     context 'self_and_subordinates' do

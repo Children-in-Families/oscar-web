@@ -32,7 +32,7 @@ describe Api::V1::ClientTasks::TasksController, type: :request do
         end
 
         it 'should be return status 200' do
-          expect(response).to have_http_status(:success)
+          expect(response).to have_http_status(:unprocessable_entity)
         end
       end
 
