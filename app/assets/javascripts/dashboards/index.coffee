@@ -465,4 +465,33 @@ CIF.DashboardsIndex = do ->
     $('a[href="#data-validation"]').on 'click', ->
       $('#client-date-logic-error').submit()
 
+  _highChartsPieChart = (data, title, element) ->
+    $(element).highcharts
+      chart:
+        plotBackgroundColor: null
+        plotBorderWidth: null
+        plotShadow: false
+        type: 'pie'
+      title: text: title
+      tooltip: pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+      accessibility: point: valueSuffix: '%'
+      plotOptions: pie:
+        allowPointSelect: true
+        cursor: 'pointer'
+        showInLegend: true
+        dataLabels:
+          enabled: true
+          format: '<b>{point.name}</b><br>{point.percentage:.1f} %'
+          filter:
+            property: 'percentage'
+            operator: '>'
+            value: 4
+        series:
+          colorByPoint: true
+      series: [ {
+        name: title
+        data: data
+      } ]
+    $('.highcharts-credits').css('display', 'none')
+
   { init: _init }
