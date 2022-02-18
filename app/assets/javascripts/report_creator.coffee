@@ -221,6 +221,8 @@ class CIF.ReportCreator
           showInLegend: true
           point: events: click: ->
             location.href = @options.url
+          series:
+            colorByPoint: true
       series: [ {
         dataLabels:
           distance: if _.isEmpty(options) then -30 else 30

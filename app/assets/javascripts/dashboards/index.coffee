@@ -420,37 +420,57 @@ CIF.DashboardsIndex = do ->
       url: url
       dataType: 'JSON'
       success: (response) ->
-        data =
-          categories: [
-            'Children'
-            'Adult'
-            'Other'
-          ]
-          series: [
-            {
-              name: 'Female'
-              data: [
-                response.girls
-                response.adult_females
-                0
-              ]
-            }
-            {
-              name: 'Male'
-              data: [
-                response.boys
-                response.adult_males
-                0
-              ]
-            },
-            {
-              name: 'Other'
-              data: [0, 0, response.others]
-            }
-          ]
+        data = Object.keys(response).map (key) ->
+          container = undefined
+          container = {}
+          container.name = key
+          container.y = response[key]
+          container
 
-        report = new CIF.ReportCreator(data, title, '', element)
-        report.pieChart()
+        _highChartsPieChart(data, title, element)
       error: (response, status, msg) ->
         return
+
+  # Make monochrome colors
+  _pieColors = do ->
+    colors = []
+    base = Highcharts.getOptions().colors[2]
+    i = undefined
+    i = 0
+    while i < 50
+      # Start out with a darkened base color (negative brighten), and end
+      # up with a much brighter color
+      colors.push Highcharts.color(base).brighten((i - 5) / 7).get()
+      i += 1
+    colors
+
+  _highChartsPieChart = (data, title, element) ->
+    $(element).highcharts
+      chart:
+        plotBackgroundColor: null
+        plotBorderWidth: null
+        plotShadow: false
+        type: 'pie'
+      title: text: title
+      tooltip: pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+      accessibility: point: valueSuffix: '%'
+      plotOptions: pie:
+        allowPointSelect: true
+        cursor: 'pointer'
+        showInLegend: true
+        dataLabels:
+          enabled: true
+          format: '<b>{point.name}</b><br>{point.percentage:.1f} %'
+          filter:
+            property: 'percentage'
+            operator: '>'
+            value: 4
+        series:
+          colorByPoint: true
+      series: [ {
+        name: title
+        data: data
+      } ]
+    $('.highcharts-credits').css('display', 'none')
+
   { init: _init }
