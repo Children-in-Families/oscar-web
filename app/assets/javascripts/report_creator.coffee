@@ -4,8 +4,78 @@ class CIF.ReportCreator
     @title = title
     @yAxisTitle = yAxisTitle
     @element = element
-    @colors = ['#4caf50', '#00695c', '#01579b', '#4dd0e1', '#2e7d32', '#4db6ac', '#00897b', '#a5d6a7', '#43a047', '#c5e1a5', '#7cb342', '#fdd835', '#fb8c00', '#6d4c41', '#757575',
+    @colors = ['f9c00c', '#4caf50', '#00695c', '#01579b', '#4dd0e1', '#2e7d32', '#4db6ac', '#00897b', '#a5d6a7', '#43a047', '#c5e1a5', '#7cb342', '#fdd835', '#fb8c00', '#6d4c41', '#757575',
               '#ef9a9a', '#e53935', '#f48fb1', '#d81b60', '#ce93d8', '#8e24aa', '#b39ddb', '#7e57c2', '#9fa8da', '#3949ab', '#64b5f6', '#827717']
+
+  columnChart: ->
+    theData = @data
+    title = @title
+    subtitle = @yAxisTitle
+    if @data != undefined
+      $(@element).highcharts
+        colors: @colors
+        chart: type: 'column'
+        title: text: title
+        subtitle: text: subtitle
+        xAxis:
+          categories: theData.categories
+          crosshair: true
+        yAxis:
+          min: 0
+          title: text: subtitle
+        tooltip:
+          headerFormat: '<span style="font-size:10px">{point.key}</span><table>'
+          pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' + '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>'
+          footerFormat: '</table>'
+          shared: true
+          useHTML: true
+        plotOptions: column:
+          pointPadding: 0.05
+          borderWidth: 0
+        series: theData.series
+
+    $('.highcharts-credits').css('display', 'none')
+
+  barChart: ->
+    theData = @data
+    if @data != undefined
+      $(@element).highcharts
+        chart:
+          type: 'bar'
+        legend:
+          verticalAlign: 'top'
+          y: 30
+        plotOptions:
+          series:
+            stacking: 'normal'
+          bar:
+            dataLabels:
+              enabled: true
+        tooltip:
+          shared: true
+          xDateFormat: '%b %Y'
+        title:
+          text: @title
+        xAxis: [
+          categories: @data[0].active_data.map (element) ->
+            element['name']
+          dateTimeLabelFormats:
+            month: '%b %Y'
+          tickmarkPlacement: 'on'
+        ]
+        yAxis: [
+          allowDecimals: false
+          title:
+            text: @yAxisTitle
+        ]
+        series: @data.map (element, index) ->
+          {
+            name: element['name']
+            data: theData[index].active_data.map((subElement) ->
+              subElement['y']
+            )
+          }
+      $('.highcharts-credits').css('display', 'none')
 
   lineChart: ->
     if @data != undefined
@@ -151,6 +221,8 @@ class CIF.ReportCreator
           showInLegend: true
           point: events: click: ->
             location.href = @options.url
+          series:
+            colorByPoint: true
       series: [ {
         dataLabels:
           distance: if _.isEmpty(options) then -30 else 30

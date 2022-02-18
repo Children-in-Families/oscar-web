@@ -12,7 +12,7 @@ CIF.DashboardsIndex = do ->
     # _clientStatusChart()
     _familyType()
     _resizeChart()
-    _clientProgramStreamByGender()
+    # _clientProgramStreamByGender()
     _clientProgramStream()
     _initSelect2()
     _openTaskListModal()
@@ -28,6 +28,7 @@ CIF.DashboardsIndex = do ->
     _loadModalReminder()
     _handleSearchClient()
     _handleMultiFormAssessmentCaseNote()
+    _loadSteps()
 
   _loadModalReminder = ->
     if localStorage.getItem('from login') == 'true'
@@ -95,7 +96,7 @@ CIF.DashboardsIndex = do ->
     data    = $(element).data('content-count')
     title    = $(element).data('title')
     report = new CIF.ReportCreator(data, title, '', element)
-    report.donutChart()
+    report.barChart()
 
   _clientProgramStream = ->
     element = $('#client-by-program-stream')
@@ -336,5 +337,140 @@ CIF.DashboardsIndex = do ->
       $("ul#casenote-tab-dropdown a").attr('href', "javascript:void(0)")
       $("ul#casenote-tab-dropdown a").addClass('disabled')
 
+
+  _loadSteps = (form) ->
+    bodyTag = 'div'
+    rootId = "#rootwizard"
+    that = @
+    $(rootId).steps
+      headerTag: 'h4'
+      bodyTag: bodyTag
+      enableAllSteps: true
+      transitionEffect: 'slideLeft'
+      autoFocus: true
+      titleTemplate: 'Data #title#'
+      onInit: (event, currentIndex) ->
+        currentTab  = "#{rootId}-p-#{currentIndex}"
+        _clientProgramStreamByGender()
+        return
+
+      onStepChanging: (event, currentIndex, newIndex) ->
+        console.log 'onStepChanging'
+        currentTab  = "#{rootId}-p-#{currentIndex}"
+        return true
+
+      onStepChanged: (event, currentIndex, priorIndex) ->
+        console.log 'onStepChanged'
+        currentTab  = "#{rootId}-p-#{currentIndex}"
+        currentStep = $("#{rootId}-p-" + currentIndex)
+        if $("#{currentTab} #active-client:visible").length
+          url = $("#active-client").data('url')
+          _active_client_by_gender(url)
+        else if $("#{currentTab} #active-case-by-donor:visible").length
+          url = $("#active-case-by-donor").data('url')
+          _active_case_by_donor(url)
+
+  _active_client_by_gender = (url) ->
+    element = $('#active-client')
+    title = element.data('title')
+    $.ajax
+      type: 'get'
+      url: url
+      dataType: 'JSON'
+      success: (response) ->
+        data =
+          categories: [
+            'Children'
+            'Adult'
+            'Other'
+          ]
+          series: [
+            {
+              name: 'Female'
+              data: [
+                response.girls
+                response.adult_females
+                0
+              ]
+            }
+            {
+              name: 'Male'
+              data: [
+                response.boys
+                response.adult_males
+                0
+              ]
+            },
+            {
+              name: 'Other'
+              data: [0, 0, response.others]
+            }
+          ]
+
+        report = new CIF.ReportCreator(data, title, '', element)
+        report.columnChart()
+      error: (response, status, msg) ->
+        return
+
+  _active_case_by_donor = (url) ->
+    element = $('#active-case-by-donor')
+    title = element.data('title')
+    $.ajax
+      type: 'get'
+      url: url
+      dataType: 'JSON'
+      success: (response) ->
+        data = Object.keys(response).map (key) ->
+          container = undefined
+          container = {}
+          container.name = key
+          container.y = response[key]
+          container
+
+        _highChartsPieChart(data, title, element)
+      error: (response, status, msg) ->
+        return
+
+  # Make monochrome colors
+  _pieColors = do ->
+    colors = []
+    base = Highcharts.getOptions().colors[2]
+    i = undefined
+    i = 0
+    while i < 50
+      # Start out with a darkened base color (negative brighten), and end
+      # up with a much brighter color
+      colors.push Highcharts.color(base).brighten((i - 5) / 7).get()
+      i += 1
+    colors
+
+  _highChartsPieChart = (data, title, element) ->
+    $(element).highcharts
+      chart:
+        plotBackgroundColor: null
+        plotBorderWidth: null
+        plotShadow: false
+        type: 'pie'
+      title: text: title
+      tooltip: pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+      accessibility: point: valueSuffix: '%'
+      plotOptions: pie:
+        allowPointSelect: true
+        cursor: 'pointer'
+        showInLegend: true
+        dataLabels:
+          enabled: true
+          format: '<b>{point.name}</b><br>{point.percentage:.1f} %'
+          filter:
+            property: 'percentage'
+            operator: '>'
+            value: 4
+        series:
+          colorByPoint: true
+      series: [ {
+        name: title
+        data: data
+      } ]
+    $('.highcharts-credits').css('display', 'none')
 
   { init: _init }
