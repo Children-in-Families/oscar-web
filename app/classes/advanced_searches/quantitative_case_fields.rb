@@ -6,6 +6,7 @@ module AdvancedSearches
     def initialize(user, visible_on = 'client')
       @user = user
       @visible_on = visible_on
+      address_translation
     end
 
     def render

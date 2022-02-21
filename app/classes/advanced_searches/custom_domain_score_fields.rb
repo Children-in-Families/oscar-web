@@ -3,6 +3,7 @@ module AdvancedSearches
     extend AdvancedSearchHelper
 
     def self.render(domain_type = 'client')
+      address_translation
       domain_score_group  = format_header('custom_csi_domain_scores')
       csi_domain_options  = domain_options(domain_type).map { |item| number_filter_type(item, domain_score_format(item), domain_score_group) }
       assessment_completed_date = [['assessment_completed_date', I18n.t('datagrid.columns.assessment_completed_date', assessment: I18n.t('clients.show.assessment'))]].map{ |item| date_picker_options(item[0], item[1], domain_score_group) }
