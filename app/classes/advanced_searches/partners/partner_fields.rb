@@ -4,6 +4,7 @@ module AdvancedSearches
       include AdvancedSearchHelper
 
       def render
+        address_translation
         group                 = partner_header('basic_fields')
         number_fields         = number_type_list.map { |item| AdvancedSearches::FilterTypes.number_options(item, partner_header(item), group) }
         text_fields           = text_type_list.map { |item| AdvancedSearches::FilterTypes.text_options(item, partner_header(item), group) }

@@ -171,10 +171,10 @@ module AdvancedSearchHelper
       active_clients: I18n.t('advanced_search.fields.active_clients'),
       care_plan: I18n.t('advanced_search.fields.care_plan'),
       **overdue_translations,
-      **address_translation
+      **@address_translation
     }
 
-    translations = label_translations.merge(translations)
+    translations = label_translations(@address_translation).merge(translations)
     translations[key.to_sym] || ''
   end
 
@@ -200,7 +200,7 @@ module AdvancedSearchHelper
       referral_source_id:                       I18n.t('activerecord.attributes.community.referral_source_id'),
       role:                                     I18n.t('activerecord.attributes.community.role'),
       **community_member_columns,
-      **address_translation
+      **@address_translation
     }
     translations[key.to_sym] || ''
   end
@@ -218,22 +218,22 @@ module AdvancedSearchHelper
       engagement:                               I18n.t('datagrid.columns.partners.engagement'),
       background:                               I18n.t('datagrid.columns.partners.background'),
       start_date:                               I18n.t('datagrid.columns.partners.start_date'),
-      **address_translation
+      **@address_translation
     }
     translations[key.to_sym] || ''
   end
 
   def address_translation
-    translations = {}
+    @address_translation ||= {}
     ['province', 'district', 'commune', 'village', 'birth_province', 'province_id', 'district_id', 'commune_id'].each do |key_translation|
-      translations[key_translation.to_sym] = FieldSetting.find_by(name: key_translation).try(:label) || I18n.t("advanced_search.fields.#{key_translation}")
+      @address_translation[key_translation.to_sym] = FieldSetting.find_by(name: key_translation).try(:label) || I18n.t("advanced_search.fields.#{key_translation}")
     end
-    translations['province_id'.to_sym] = FieldSetting.find_by(name: 'province_id').try(:label) || I18n.t('advanced_search.fields.province_id')
-    translations['district_id'.to_sym] = FieldSetting.find_by(name: 'district_id').try(:label) || I18n.t('datagrid.columns.clients.district')
-    translations['commune_id'.to_sym] = FieldSetting.find_by(name: 'commune_id').try(:label) || I18n.t('datagrid.columns.clients.commune')
-    translations['village_id'.to_sym] = FieldSetting.find_by(name: 'village_id').try(:label) || I18n.t('datagrid.columns.clients.village')
-    translations['birth_province_id'.to_sym] = FieldSetting.find_by(name: 'birth_province').try(:label) || I18n.t('datagrid.columns.clients.birth_province')
-    translations
+    @address_translation['province_id'.to_sym] = FieldSetting.find_by(name: 'province_id').try(:label) || I18n.t('advanced_search.fields.province_id')
+    @address_translation['district_id'.to_sym] = FieldSetting.find_by(name: 'district_id').try(:label) || I18n.t('datagrid.columns.clients.district')
+    @address_translation['commune_id'.to_sym] = FieldSetting.find_by(name: 'commune_id').try(:label) || I18n.t('datagrid.columns.clients.commune')
+    @address_translation['village_id'.to_sym] = FieldSetting.find_by(name: 'village_id').try(:label) || I18n.t('datagrid.columns.clients.village')
+    @address_translation['birth_province_id'.to_sym] = FieldSetting.find_by(name: 'birth_province').try(:label) || I18n.t('datagrid.columns.clients.birth_province')
+    @address_translation
   end
 
   def save_search_params(search_params)
@@ -272,7 +272,7 @@ module AdvancedSearchHelper
 
   def concern_translation(hotline_field)
     if %W(concern_province_id concern_district_id concern_commune_id concern_village_id).include? hotline_field
-      address_translation[hotline_field.gsub('concern_', '').to_sym]
+      @address_translation[hotline_field.gsub('concern_', '').to_sym]
     else
       I18n.t("datagrid.columns.clients.#{hotline_field}")
     end
