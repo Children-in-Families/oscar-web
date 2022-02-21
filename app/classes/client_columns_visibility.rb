@@ -1,10 +1,12 @@
 class ClientColumnsVisibility
+  include AdvancedSearchHelper
   include ClientsHelper
   include ActionView::Helpers::TranslationHelper
 
   def initialize(grid, params)
     @grid   = grid
     @params = params
+    address_translation
   end
 
   def columns_collection

@@ -9,6 +9,7 @@ module AdvancedSearches
         @user = options[:user]
         @pundit_user = options[:pundit_user]
         @called_in = options[:called_in]
+        address_translation
       end
 
       def render
