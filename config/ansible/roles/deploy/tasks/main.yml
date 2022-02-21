@@ -1,37 +1,13 @@
 ---
 
-- name: Internal | Create k8s deploy directory
-  file:
-    path: '{{ workspace }}/k8s-deploy'
-    state: directory
-    mode: 0755
+- name: Deploy webessentials servers
+  import_tasks: latest.yml
+  when: stage == 'latest'
 
-- name: Copy deployment files
-  template:
-    src: '{{ item }}'
-    dest: '{{ workspace }}/k8s-deploy/{{ item | basename | regex_replace("\.j2$", "") }}'
-  with_fileglob:
-    '../templates/*.j2'
+- name: Deploy staging servers
+  import_task: staging.yml
+  when: stage == 'demo'
 
-- name: K8s apply namespace and databases
-  shell: 'KUBECONFIG={{ kubeconfig }} kubectl apply -f {{ workspace }}/k8s-deploy/{{ item }}'
-  loop:
-    - namespace.yml
-    - pvc.yml
-    - redis.yml
-    - postgres.yml
-    - mongo.yml
-
-- name: K8s apply po and ing
-  shell: 'KUBECONFIG={{ kubeconfig }} kubectl apply -f {{ workspace }}/k8s-deploy/{{ item }} --wait=true'
-  loop:
-    - webapp.yml
-    - webpack.yml
-    - sidekiq.yml
-    - ingress.yml
-
-- name: Wait until container ready
-  shell: |
-    while [[ $(KUBECONFIG={{ kubeconfig }} kubectl -n {{ k8s_namespace }} get po -l app=app-{{ stage }}-{{ project_id }}-webapp -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" ]] ; do echo "waiting for pod" && sleep 1 ; done
-  args:
-    executable: /bin/bash
+- name: Deploy production servers
+  import_task: production.yml
+  when: stage == 'live'
