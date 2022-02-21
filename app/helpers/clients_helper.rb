@@ -1027,7 +1027,7 @@ module ClientsHelper
 
   def family_counter
     return unless controller_name == 'clients'
-    count = @results.joins(:family).distinct.count(:family_id)
+    count = @results.joins("INNER JOIN families on families.id = clients.current_family_id").distinct.count("clients.current_family_id")
     content_tag(:span, count, class: 'label label-info')
   end
 
