@@ -12,6 +12,7 @@ module AdvancedSearches
       @drop_down_type_list  ||= []
 
       generate_field_by_type
+      address_translation
     end
 
     def render

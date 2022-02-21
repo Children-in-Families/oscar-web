@@ -11,6 +11,7 @@ module AdvancedSearches
       @attach_with          = attach_with
 
       generate_field_by_type
+      address_translation
     end
 
     def render
