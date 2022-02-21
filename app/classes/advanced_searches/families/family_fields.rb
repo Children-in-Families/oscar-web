@@ -13,6 +13,7 @@ module AdvancedSearches
         @pundit_user = options[:pundit_user]
         @called_in = options[:called_in]
         @current_setting = Setting.first
+        address_translation
       end
 
       def render

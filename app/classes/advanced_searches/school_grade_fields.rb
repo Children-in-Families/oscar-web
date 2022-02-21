@@ -3,6 +3,7 @@ module AdvancedSearches
     extend AdvancedSearchHelper
 
     def self.render
+      address_translation
       school_grade  = ['School Grade'].map { |item| drop_list_options('school_grade', format_header('school_grade'), school_grade_options, format_header('basic_fields')) }
       school_grade
     end
