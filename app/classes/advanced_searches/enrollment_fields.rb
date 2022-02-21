@@ -13,6 +13,7 @@ module AdvancedSearches
       @enrollment_data_list = []
 
       generate_field_by_type
+      address_translation
     end
 
     def render
