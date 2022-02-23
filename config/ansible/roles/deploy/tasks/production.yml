@@ -1,16 +1,16 @@
 ---
 
 - name: Run bundle install
-  shell: bundle install --verbose --jobs 20 --retry 5
+  shell: 'bundle install --verbose --jobs 20 --retry 5'
   args:
     chdir: '{{ workspace }}'
 
 - name: Run yarn install
-  shell: yarn install
+  shell: 'yarn install'
   args:
     chdir: '{{ workspace }}'
 
 - name: Deploy to production server
-  shell: cap production deploy
+  shell: 'APPSIGNAL_PUSH_API_KEY={{ appsignal_push_api_key }} cap production deploy'
   args:
     chdir: '{{ workspace }}'
