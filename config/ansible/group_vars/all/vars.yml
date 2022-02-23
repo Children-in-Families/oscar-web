@@ -41,3 +41,5 @@ aws_access_key_id: '{{ aws_access_key_id_vault }}'
 aws_secret_access_key: '{{ aws_secret_access_key_vault }}'
 fog_region: 'ap-southeast-1'
 fog_directory:
+
+appsignal_push_api_key: '{{ appsignal_push_api_key_vault }}'
