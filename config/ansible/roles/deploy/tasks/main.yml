@@ -5,9 +5,9 @@
   when: stage == 'latest'
 
 - name: Deploy staging servers
-  import_task: staging.yml
+  import_tasks: staging.yml
   when: stage == 'demo'
 
 - name: Deploy production servers
-  import_task: production.yml
+  import_tasks: production.yml
   when: stage == 'live'
