@@ -1,10 +1,5 @@
 ---
 
-- name: Make sure bundle 1.17.3
-  shell: gem install bundler -v 1.17.3
-  args:
-    chdir: '{{ workspace }}'
-
 - name: Run bundle install
   shell: bundle install --verbose --jobs 20 --retry 5
   args:
