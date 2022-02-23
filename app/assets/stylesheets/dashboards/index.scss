@@ -182,10 +182,13 @@ body[id="dashboards-index"] {
     color: #333333 !important;
   }
 
-  // .highcharts-color-0 {
-  //   fill: #7cb5ec;
-  // }
-  // .highcharts-color-1 {
-  //   fill: #f9c00c;
-  // }
+  #data-validation-panel {
+    .panel-body {
+      height: 300px;
+    }
+    h2 {
+      margin: 50px auto;
+      text-align: center;
+    }
+  }
 }

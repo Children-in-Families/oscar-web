@@ -1,0 +1,16 @@
+.col-xs-12
+  .panel.panel-default#data-validation-panel.data-validation-panel
+    .panel-body
+      = link_to '#' do
+        .widget.style1.widget-program-panel
+          .row.vertical-align
+            .col-xs-5
+              %i.fa.fa-exclamation-triangle.fa-3x
+            .col-xs-7.text-right
+              %span.text-font
+                = t('.data_validation')
+      .row
+        .col-xs-12
+          %h2
+            Number of clients having date logic error:
+            = @date_validation_error_count

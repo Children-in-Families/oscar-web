@@ -95,6 +95,18 @@ CIF.DashboardsIndex = do ->
     element = $('#client-program-stream')
     data    = $(element).data('content-count')
     title    = $(element).data('title')
+    data =
+      categories: data[0].active_data.map (element) ->
+        element['name']
+      series: data.map (element, index) ->
+        {
+          name: element['name']
+          data: data[index].active_data.map((subElement) ->
+            subElement['y']
+          )
+          color: if index % 2 == 0 then '#f9c00c' else '#4caf50'
+        }
+
     report = new CIF.ReportCreator(data, title, '', element)
     report.barChart()
 
@@ -392,6 +404,7 @@ CIF.DashboardsIndex = do ->
                 response.adult_females
                 0
               ]
+              color: '#f9c00c'
             }
             {
               name: 'Male'
@@ -400,10 +413,12 @@ CIF.DashboardsIndex = do ->
                 response.adult_males
                 0
               ]
+              color: '#4caf50'
             },
             {
               name: 'Other'
               data: [0, 0, response.others]
+              color: '#00695c'
             }
           ]
 
@@ -427,7 +442,8 @@ CIF.DashboardsIndex = do ->
           container.y = response[key]
           container
 
-        _highChartsPieChart(data, title, element)
+        report = new CIF.ReportCreator(data, title, '', element)
+        report._highChartsPieChart()
       error: (response, status, msg) ->
         return
 
@@ -443,34 +459,5 @@ CIF.DashboardsIndex = do ->
       colors.push Highcharts.color(base).brighten((i - 5) / 7).get()
       i += 1
     colors
-
-  _highChartsPieChart = (data, title, element) ->
-    $(element).highcharts
-      chart:
-        plotBackgroundColor: null
-        plotBorderWidth: null
-        plotShadow: false
-        type: 'pie'
-      title: text: title
-      tooltip: pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-      accessibility: point: valueSuffix: '%'
-      plotOptions: pie:
-        allowPointSelect: true
-        cursor: 'pointer'
-        showInLegend: true
-        dataLabels:
-          enabled: true
-          format: '<b>{point.name}</b><br>{point.percentage:.1f} %'
-          filter:
-            property: 'percentage'
-            operator: '>'
-            value: 4
-        series:
-          colorByPoint: true
-      series: [ {
-        name: title
-        data: data
-      } ]
-    $('.highcharts-credits').css('display', 'none')
 
   { init: _init }
