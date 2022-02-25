@@ -2376,8 +2376,11 @@ km:
       previous: ទំព័រមុន
     go_to_client:
       go_to_client: ចូលទៅរកអតិថិជន
-    report_builder:
-      go_to_report_builder: ចូលទៅបង្កើតរបាយការណ៍
+    index:
+      client_dashboard: តារាងទិន្នន័យអតិថិជន
+      community_dashboard: Community Dashboard
+      family_dashboard: Family Dashboard
+      hotline_dashboard: Hotline Dashboard
     multiple_forms:
       add_new_document: បន្ថែមឯកសារថ្មី
       assessment: ការប៉ាន់ប្រមាណ
@@ -2443,8 +2446,8 @@ km:
       remind_later: រំលឹកខ្ញុំពេលក្រោយ
       program_stream_name: កម្មវិធីចម្បង
       tracking_name: ឈ្មោះទម្រង់តាមដាន
-    record_tab:
-      record_you_add: តើឯកសារប្រភេទណាដែលអ្នកចង់បន្ថែម?
+    report_builder:
+      go_to_report_builder: ចូលទៅបង្កើតរបាយការណ៍
     third_party:
       agencies: អង្គភាព
       partners: ដៃគូ
