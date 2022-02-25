@@ -81,7 +81,7 @@ module Api
     end
 
     def render_client_by_gender
-      clients = Client.active_status
+      clients = Client.accessible_by(current_ability).active_status
       client_data = {
         client_count: clients.count,
         adult_females: adule_client_gender_count(clients, :female),
@@ -94,8 +94,26 @@ module Api
     end
 
     def render_active_client_by_donor
-      donor_data = Donor.includes(:clients).references(:clients).group("donors.name").count("clients.id")
-      render json: donor_data
+      data = Donor.includes(:clients).references(:clients).where(clients: { id: Client.accessible_by(current_ability).active_status.ids }).group("donors.name").count("clients.id")
+      donors = Donor.pluck(:name, :id)
+      donor_data = data.map do |donor_name, client_count|
+        url = { "condition"=>"AND", "rules"=> [
+          {"id"=>"status", "field"=>"Status", "type"=>"string", "input"=>"select", "operator"=>"equal", "value"=>"Active", "data"=>{"values"=>[{"Accepted"=>"Accepted"}, {"Active"=>"Active"}, {"Exited"=>"Exited"}, {"Referred"=>"Referred"}], "isAssociation"=>false }},
+          {"id"=>"donor_name", "field"=>"Donor", "type"=>"string", "input"=>"select", "operator"=>"equal", "value"=> donors.to_h[donor_name], "data"=> { "values"=> donors.reverse.to_h, "isAssociation"=> true }, "valid"=>true }
+        ]}
+
+        {
+          name: donor_name,
+          y: client_count,
+          url: clients_path(
+            'client_advanced_search': {
+              action_report_builder: '#builder',
+              basic_rules: url.to_json
+            }
+          )
+        }
+      end
+      render json: { data: donor_data }
     end
 
     private

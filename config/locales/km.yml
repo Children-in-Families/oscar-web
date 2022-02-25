@@ -2324,7 +2324,7 @@ km:
       custom_assessment: ការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
       client_you_complete_for: តើអតិថិជនណាដែលអ្នកចង់បំពេញកំណត់ត្រាករណី?
       new_case_note: កំណត់ត្រាថ្មី
-    clients:
+    client:
       clients: អតិថិជន
     client_search:
       not_found: មិនមានលទ្ធផលដែលអ្នកកំពុងរក
@@ -2348,6 +2348,14 @@ km:
       next: ទំព័របន្ទាប់
       open_form: បើកទម្រង់
       previous: ទំព័រមុន
+    data_agregations:
+      active_case_by_donor: បំណែងចែកចំនួនអតិថិជនតាមម្ចាស់ជំនួយ
+      active_case_by_gender: បំណែងចែកចំនួនអតិថិជនបច្ចុប្បន្នតាមភេទ
+      active_progarm_streams_by_gender: បំណែងចែកចំនួនអតិថិជនបច្ចុប្បន្នតាមភេទ
+      data_agregation: បំណែងចែកទិន្នន័យ
+    data_validations:
+      data_validation: ការផ្ទៀងផ្ទាត់ទិន្នន័យ
+      number_of_logic_error: ចំនួនអតិថិជនមានកាលបរិច្ឆេទមិនត្រឹមត្រូវ៖
     duetoday:
       assessment: ការប៉ាន់ប្រមាណ
       assessments: ការប៉ាន់ប្រមាណ
@@ -2365,6 +2373,11 @@ km:
       previous: ទំព័រមុន
     go_to_client:
       go_to_client: ចូលទៅរកអតិថិជន
+    index:
+      client_dashboard: តារាងទិន្នន័យអតិថិជន
+      community_dashboard: Community Dashboard
+      family_dashboard: Family Dashboard
+      hotline_dashboard: Hotline Dashboard
     multiple_forms:
       add_new_document: បន្ថែមឯកសារថ្មី
       assessment: ការប៉ាន់ប្រមាណ
@@ -2430,8 +2443,8 @@ km:
       remind_later: រំលឹកខ្ញុំពេលក្រោយ
       program_stream_name: កម្មវិធីចម្បង
       tracking_name: ឈ្មោះទម្រង់តាមដាន
-    record_tab:
-      record_you_add: តើឯកសារប្រភេទណាដែលអ្នកចង់បន្ថែម?
+    report_builder:
+      go_to_report_builder: ចូលទៅបង្កើតរបាយការណ៍
     third_party:
       agencies: អង្គភាព
       partners: ដៃគូ
@@ -6473,7 +6486,7 @@ km:
   views:
     pagination:
       first: "&laquo; ដំបូង"
-      last: ចុងក្រោយ &raquo;
+      last: ចុងក្រោយ
       next: ទំព័របន្ទាប់ &rsaquo;
       previous: "&lsaquo; ទំព័រមុន"
       truncate: "&hellip;"

@@ -213,9 +213,7 @@ class CIF.ReportCreator
           cursor: 'pointer'
           showInLegend: true
           point: events: click: ->
-            location.href = @options.url
-          series:
-            colorByPoint: true
+            window.open(@options.url, '_blank')
       series: [ {
         dataLabels:
           distance: if _.isEmpty(options) then -30 else 30
@@ -241,6 +239,8 @@ class CIF.ReportCreator
         allowPointSelect: true
         cursor: 'pointer'
         showInLegend: true
+        point: events: click: ->
+          window.open(@options.url, '_blank')
         dataLabels:
           enabled: true
           format: '<b>{point.name}</b><br>{point.y}'

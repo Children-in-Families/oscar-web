@@ -46,18 +46,29 @@ class Dashboard
 
   def program_stream_report_gender
     active_enrollments = Client.joins(:client_enrollments).where(client_enrollments: { status: 'Active' })
-    males = active_enrollments.where(clients: { gender: 'male' } ).uniq
-    females = active_enrollments.where(clients: { gender: 'female' } ).uniq
+    males = active_enrollments.where(clients: { gender: 'male' } ).distinct
+    females = active_enrollments.where(clients: { gender: 'female' } ).distinct
+    others = active_enrollments.where("clients.gender ~ '^(lgbt|unknown|prefer_not_to_say|other)' OR clients.gender = ''").distinct
+
+    male = I18n.t('gender_list.male')
+    female = I18n.t('gender_list.female')
+    other = I18n.t('gender_list.other_gender')
+
     [
       {
-        name: I18n.t('classes.dashboard.males'),
+        name: male,
         y: males.size,
-        active_data: program_stream_report_by(males.ids, 'Male')
+        active_data: program_stream_report_by(males.ids, male)
       },
       {
-        name: I18n.t('classes.dashboard.females'),
+        name: female,
         y: females.size,
-        active_data: program_stream_report_by(females.ids, 'Female')
+        active_data: program_stream_report_by(females.ids, female)
+      },
+      {
+        name: other,
+        y: others.size,
+        active_data: program_stream_report_by(others.ids, other)
       }
     ]
   end
@@ -127,7 +138,7 @@ class Dashboard
       url = { 'condition': 'AND', 'rules': [{ 'id': 'active_program_stream', 'field': 'active_program_stream', 'type': 'string', 'input': 'select', 'operator': 'equal', 'value': p.id },
         { 'id': 'gender', 'field': 'gender', 'type': 'string', 'input': 'select', 'operator': 'equal', 'value': gender.downcase } ]}
       {
-        name: "#{p.name} (#{gender})",
+        name: "#{p.name}",
         y: p.client_enrollment_count,
         url: clients_path(
           client_advanced_search: {

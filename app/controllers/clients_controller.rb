@@ -34,10 +34,11 @@ class ClientsController < AdminController
       respond_to do |f|
         f.html do
           next unless params['commit'].present?
-          client_grid             = @client_grid.scope { |scope| scope.accessible_by(current_ability) }
+          # @client_grid is invoked from ClientGridOptions#choose_grid
+          client_grid             = @client_grid.scope { |scope| scope.accessible_by(current_ability).where(id: params[:client_ids]&.split || []) }
           @results                = client_grid.assets
           $client_data            = @clients
-          @client_grid            = @client_grid.scope { |scope| scope.accessible_by(current_ability).order(:id).page(params[:page]).per(20) }
+          @client_grid            = @client_grid.scope { |scope| scope.accessible_by(current_ability).where(id:  params[:client_ids]&.split || []).order(:id).page(params[:page]).per(20) }
         end
         f.xls do
           next unless params['commit'].present?

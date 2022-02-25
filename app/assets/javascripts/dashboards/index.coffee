@@ -29,6 +29,7 @@ CIF.DashboardsIndex = do ->
     _handleSearchClient()
     _handleMultiFormAssessmentCaseNote()
     _loadSteps()
+    _search_client_date_logic_error()
 
   _loadModalReminder = ->
     if localStorage.getItem('from login') == 'true'
@@ -104,7 +105,7 @@ CIF.DashboardsIndex = do ->
           data: data[index].active_data.map((subElement) ->
             subElement['y']
           )
-          color: if index % 2 == 0 then '#f9c00c' else '#4caf50'
+          color: if index == 0 then '#f9c00c' else if index == 1 then '#4caf50' else '#00695c'
         }
 
     report = new CIF.ReportCreator(data, title, '', element)
@@ -360,7 +361,11 @@ CIF.DashboardsIndex = do ->
       enableAllSteps: true
       transitionEffect: 'slideLeft'
       autoFocus: true
-      titleTemplate: 'Data #title#'
+      titleTemplate: '#title#'
+      labels:
+        finish: $(rootId).data('finish')
+        next: $(rootId).data('next')
+        previous: $(rootId).data('previous')
       onInit: (event, currentIndex) ->
         currentTab  = "#{rootId}-p-#{currentIndex}"
         _clientProgramStreamByGender()
@@ -384,6 +389,9 @@ CIF.DashboardsIndex = do ->
 
   _active_client_by_gender = (url) ->
     element = $('#active-client')
+    male = $("#rootwizard").data('male')
+    female = $("#rootwizard").data('female')
+    other = $("#rootwizard").data('other')
     title = element.data('title')
     $.ajax
       type: 'get'
@@ -398,7 +406,7 @@ CIF.DashboardsIndex = do ->
           ]
           series: [
             {
-              name: 'Female'
+              name: female
               data: [
                 response.girls
                 response.adult_females
@@ -407,7 +415,7 @@ CIF.DashboardsIndex = do ->
               color: '#f9c00c'
             }
             {
-              name: 'Male'
+              name: male
               data: [
                 response.boys
                 response.adult_males
@@ -416,7 +424,7 @@ CIF.DashboardsIndex = do ->
               color: '#4caf50'
             },
             {
-              name: 'Other'
+              name: other
               data: [0, 0, response.others]
               color: '#00695c'
             }
@@ -435,14 +443,7 @@ CIF.DashboardsIndex = do ->
       url: url
       dataType: 'JSON'
       success: (response) ->
-        data = Object.keys(response).map (key) ->
-          container = undefined
-          container = {}
-          container.name = key
-          container.y = response[key]
-          container
-
-        report = new CIF.ReportCreator(data, title, '', element)
+        report = new CIF.ReportCreator(response.data, title, '', element)
         report._highChartsPieChart()
       error: (response, status, msg) ->
         return
