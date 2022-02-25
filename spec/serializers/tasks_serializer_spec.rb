@@ -19,9 +19,9 @@ RSpec.describe TaskSerializer, type: :serializer do
     expect(serializer).to have_json_type(String).at_path('task/name')
   end
 
-  it 'should be have attribute completion_date' do
-    expect(serializer).to have_json_path('task/completion_date')
-    expect(serializer).to have_json_type(String).at_path('task/completion_date')
+  it 'should be have attribute expected_date' do
+    expect(serializer).to have_json_path('task/expected_date')
+    expect(serializer).to have_json_type(String).at_path('task/expected_date')
   end
 
   it 'should be have attribute domain' do
