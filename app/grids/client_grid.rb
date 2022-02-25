@@ -5,7 +5,7 @@ class ClientGrid < BaseGrid
   include FormBuilderHelper
   include AssessmentHelper
 
-  attr_accessor :current_user, :qType, :dynamic_columns, :param_data
+  attr_accessor :current_user, :qType, :dynamic_columns, :param_data, :client_ids
   COUNTRY_LANG = { "cambodia" => "(Khmer)", "thailand" => "(Thai)", "myanmar" => "(Burmese)", "lesotho" => "(Sesotho)", "uganda" => "(Swahili)" }
 
   scope do
