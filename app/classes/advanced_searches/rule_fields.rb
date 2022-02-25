@@ -7,6 +7,7 @@ module AdvancedSearches
     def initialize(options = {})
       @user = options[:user]
       @called_in = options[:called_in]
+      address_translation
     end
 
     def render
