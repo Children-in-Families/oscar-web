@@ -10,6 +10,13 @@ class DashboardsController < AdminController
     @select_client_options = Client.accessible_by(current_ability).active_accepted_status
     @custom_domains = Domain.custom_csi_domains
     @custom_assessment_settings = CustomAssessmentSetting.all.where(enable_custom_assessment: true)
+    sql = <<-SQL.squish
+      LEFT OUTER JOIN enter_ngos ON enter_ngos.client_id = clients.id
+      LEFT OUTER JOIN client_enrollments ON client_enrollments.client_id = clients.id
+      LEFT OUTER JOIN exit_ngos ON exit_ngos.client_id = clients.id
+    SQL
+    clients_error = Client.accessible_by(current_ability).joins(sql).where("(client_enrollments.enrollment_date < enter_ngos.accepted_date) OR (exit_ngos.exit_date < client_enrollments.enrollment_date)").distinct
+    @date_validation_error = { ids: clients_error.ids, count: clients_error.count }
   end
 
   def update_program_stream_service

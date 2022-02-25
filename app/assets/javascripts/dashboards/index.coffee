@@ -29,6 +29,7 @@ CIF.DashboardsIndex = do ->
     _handleSearchClient()
     _handleMultiFormAssessmentCaseNote()
     _loadSteps()
+    _search_client_date_logic_error()
 
   _loadModalReminder = ->
     if localStorage.getItem('from login') == 'true'
@@ -95,6 +96,18 @@ CIF.DashboardsIndex = do ->
     element = $('#client-program-stream')
     data    = $(element).data('content-count')
     title    = $(element).data('title')
+    data =
+      categories: data[0].active_data.map (element) ->
+        element['name']
+      series: data.map (element, index) ->
+        {
+          name: element['name']
+          data: data[index].active_data.map((subElement) ->
+            subElement['y']
+          )
+          color: if index == 0 then '#f9c00c' else if index == 1 then '#4caf50' else '#00695c'
+        }
+
     report = new CIF.ReportCreator(data, title, '', element)
     report.barChart()
 
@@ -348,7 +361,11 @@ CIF.DashboardsIndex = do ->
       enableAllSteps: true
       transitionEffect: 'slideLeft'
       autoFocus: true
-      titleTemplate: 'Data #title#'
+      titleTemplate: '#title#'
+      labels:
+        finish: $(rootId).data('finish')
+        next: $(rootId).data('next')
+        previous: $(rootId).data('previous')
       onInit: (event, currentIndex) ->
         currentTab  = "#{rootId}-p-#{currentIndex}"
         _clientProgramStreamByGender()
@@ -372,6 +389,9 @@ CIF.DashboardsIndex = do ->
 
   _active_client_by_gender = (url) ->
     element = $('#active-client')
+    male = $("#rootwizard").data('male')
+    female = $("#rootwizard").data('female')
+    other = $("#rootwizard").data('other')
     title = element.data('title')
     $.ajax
       type: 'get'
@@ -386,24 +406,27 @@ CIF.DashboardsIndex = do ->
           ]
           series: [
             {
-              name: 'Female'
+              name: female
               data: [
                 response.girls
                 response.adult_females
                 0
               ]
+              color: '#f9c00c'
             }
             {
-              name: 'Male'
+              name: male
               data: [
                 response.boys
                 response.adult_males
                 0
               ]
+              color: '#4caf50'
             },
             {
-              name: 'Other'
+              name: other
               data: [0, 0, response.others]
+              color: '#00695c'
             }
           ]
 
@@ -420,14 +443,8 @@ CIF.DashboardsIndex = do ->
       url: url
       dataType: 'JSON'
       success: (response) ->
-        data = Object.keys(response).map (key) ->
-          container = undefined
-          container = {}
-          container.name = key
-          container.y = response[key]
-          container
-
-        _highChartsPieChart(data, title, element)
+        report = new CIF.ReportCreator(response.data, title, '', element)
+        report._highChartsPieChart()
       error: (response, status, msg) ->
         return
 
@@ -444,33 +461,8 @@ CIF.DashboardsIndex = do ->
       i += 1
     colors
 
-  _highChartsPieChart = (data, title, element) ->
-    $(element).highcharts
-      chart:
-        plotBackgroundColor: null
-        plotBorderWidth: null
-        plotShadow: false
-        type: 'pie'
-      title: text: title
-      tooltip: pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-      accessibility: point: valueSuffix: '%'
-      plotOptions: pie:
-        allowPointSelect: true
-        cursor: 'pointer'
-        showInLegend: true
-        dataLabels:
-          enabled: true
-          format: '<b>{point.name}</b><br>{point.percentage:.1f} %'
-          filter:
-            property: 'percentage'
-            operator: '>'
-            value: 4
-        series:
-          colorByPoint: true
-      series: [ {
-        name: title
-        data: data
-      } ]
-    $('.highcharts-credits').css('display', 'none')
+  _search_client_date_logic_error = ->
+    $('a[href="#data-validation"]').on 'click', ->
+      $('#client-date-logic-error').submit()
 
   { init: _init }

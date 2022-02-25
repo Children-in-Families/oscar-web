@@ -4,7 +4,7 @@ class CIF.ReportCreator
     @title = title
     @yAxisTitle = yAxisTitle
     @element = element
-    @colors = ['f9c00c', '#4caf50', '#00695c', '#01579b', '#4dd0e1', '#2e7d32', '#4db6ac', '#00897b', '#a5d6a7', '#43a047', '#c5e1a5', '#7cb342', '#fdd835', '#fb8c00', '#6d4c41', '#757575',
+    @colors = ['#f9c00c', '#4caf50', '#00695c', '#01579b', '#4dd0e1', '#2e7d32', '#4db6ac', '#00897b', '#a5d6a7', '#43a047', '#c5e1a5', '#7cb342', '#fdd835', '#fb8c00', '#6d4c41', '#757575',
               '#ef9a9a', '#e53935', '#f48fb1', '#d81b60', '#ce93d8', '#8e24aa', '#b39ddb', '#7e57c2', '#9fa8da', '#3949ab', '#64b5f6', '#827717']
 
   columnChart: ->
@@ -14,7 +14,9 @@ class CIF.ReportCreator
     if @data != undefined
       $(@element).highcharts
         colors: @colors
-        chart: type: 'column'
+        chart:
+          type: 'column'
+          styledMode: true
         title: text: title
         subtitle: text: subtitle
         xAxis:
@@ -25,7 +27,7 @@ class CIF.ReportCreator
           title: text: subtitle
         tooltip:
           headerFormat: '<span style="font-size:10px">{point.key}</span><table>'
-          pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' + '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>'
+          pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' + '<td style="padding:0"><b>{point.y}</b></td></tr>'
           footerFormat: '</table>'
           shared: true
           useHTML: true
@@ -37,9 +39,9 @@ class CIF.ReportCreator
     $('.highcharts-credits').css('display', 'none')
 
   barChart: ->
-    theData = @data
     if @data != undefined
       $(@element).highcharts
+        colors: @colors
         chart:
           type: 'bar'
         legend:
@@ -57,8 +59,7 @@ class CIF.ReportCreator
         title:
           text: @title
         xAxis: [
-          categories: @data[0].active_data.map (element) ->
-            element['name']
+          categories: @data.categories
           dateTimeLabelFormats:
             month: '%b %Y'
           tickmarkPlacement: 'on'
@@ -68,13 +69,7 @@ class CIF.ReportCreator
           title:
             text: @yAxisTitle
         ]
-        series: @data.map (element, index) ->
-          {
-            name: element['name']
-            data: theData[index].active_data.map((subElement) ->
-              subElement['y']
-            )
-          }
+        series: @data.series
       $('.highcharts-credits').css('display', 'none')
 
   lineChart: ->
@@ -109,7 +104,6 @@ class CIF.ReportCreator
     self = @
     [green, blue, africa, brown, yellow] = ["#59b260", "#5096c9", "#1c8781", "#B2912F", "#DECF3F"]
     $(@element).highcharts
-      colors: @colors
       chart:
         type: 'pie'
         height: 550
@@ -188,7 +182,6 @@ class CIF.ReportCreator
   pieChart: (options = {})->
     self = @
     $(@element).highcharts
-      colors: @colors
       chart:
         height: if _.isEmpty(options) then 380 else 500
         backgroundColor: '#ecf0f1'
@@ -220,9 +213,7 @@ class CIF.ReportCreator
           cursor: 'pointer'
           showInLegend: true
           point: events: click: ->
-            location.href = @options.url
-          series:
-            colorByPoint: true
+            window.open(@options.url, '_blank')
       series: [ {
         dataLabels:
           distance: if _.isEmpty(options) then -30 else 30
@@ -232,6 +223,31 @@ class CIF.ReportCreator
             @point.name + ": " + @point.y
       }]
       responsive: unless _.isEmpty(options) then self.resposivePieChart()
+    $('.highcharts-credits').css('display', 'none')
+
+  _highChartsPieChart: (options = {}) ->
+    $(@element).highcharts
+      chart:
+        plotBackgroundColor: null
+        plotBorderWidth: null
+        plotShadow: false
+        type: 'pie'
+      title: text: @title
+      tooltip: pointFormat: '{series.name}: <b>{point.y}</b>'
+      accessibility: point: valueSuffix: '%'
+      plotOptions: pie:
+        allowPointSelect: true
+        cursor: 'pointer'
+        showInLegend: true
+        point: events: click: ->
+          window.open(@options.url, '_blank')
+        dataLabels:
+          enabled: true
+          format: '<b>{point.name}</b><br>{point.y}'
+      series: [ {
+        name: @title
+        data: @data
+      } ]
     $('.highcharts-credits').css('display', 'none')
 
   resposivePieChart: ->

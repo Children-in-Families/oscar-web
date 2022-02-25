@@ -2402,6 +2402,14 @@ en:
       next: Next
       open_form: Open Form
       previous: Previous
+    data_agregations:
+      active_case_by_donor: Active Case by Donors
+      active_case_by_gender: Active Case by Gender
+      active_progarm_streams_by_gender: Gender by Active Program Stream
+      data_agregation: Data Desegregation
+    data_validations:
+      data_validation: Data Validation
+      number_of_logic_error: 'Number of Clients have date logic errors:'
     duetoday:
       assessment: Assessment
       assessments: Assessments
@@ -2417,6 +2425,11 @@ en:
       previous: Previous
     go_to_client:
       go_to_client: Go to Client
+    index:
+      client_dashboard: Client Dashboard
+      community_dashboard: Community Dashboard
+      family_dashboard: Family Dashboard
+      hotline_dashboard: Hotline Dashboard
     multiple_forms:
       add_new_document: Add New Document
       assessment: Assessment
@@ -2484,8 +2497,8 @@ en:
       remind_later: Remind me later
       program_stream_name: Program Stream
       tracking_name: Tracking Form Name
-    record_tab:
-      record_you_add: What kind of record would you like to add?
+    report_builder:
+      go_to_report_builder: Go to Report Builder
     third_party:
       ables: Ables
       agencies: Agencies
