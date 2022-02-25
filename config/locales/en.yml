@@ -2405,6 +2405,14 @@ en:
       next: Next
       open_form: Open Form
       previous: Previous
+    data_agregations:
+      active_case_by_donor: Active Case by Donors
+      active_case_by_gender: Active Case by Gender
+      active_progarm_streams_by_gender: Gender by Active Program Stream
+      data_agregation: Data Desegregation
+    data_validations:
+      data_validation: Data Validation
+      number_of_logic_error: 'Number of Clients have date logic errors:'
     duetoday:
       assessment: Assessment
       assessments: Assessments
@@ -2418,8 +2426,15 @@ en:
       family_form: Family Form
       next: Next
       previous: Previous
+    index:
+      client_dashboard: Client Dashboard
+      community_dashboard: Community Dashboard
+      family_dashboard: Family Dashboard
+      hotline_dashboard: Hotline Dashboard
     go_to_client:
       go_to_client: Go to Client
+    report_builder:
+      go_to_report_builder: Go to Report Builder
     multiple_forms:
       add_new_document: Add New Document
       assessment: Assessment
