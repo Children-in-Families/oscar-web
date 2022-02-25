@@ -2423,15 +2423,13 @@ en:
       family_form: Family Form
       next: Next
       previous: Previous
+    go_to_client:
+      go_to_client: Go to Client
     index:
       client_dashboard: Client Dashboard
       community_dashboard: Community Dashboard
       family_dashboard: Family Dashboard
       hotline_dashboard: Hotline Dashboard
-    go_to_client:
-      go_to_client: Go to Client
-    report_builder:
-      go_to_report_builder: Go to Report Builder
     multiple_forms:
       add_new_document: Add New Document
       assessment: Assessment
@@ -2499,8 +2497,8 @@ en:
       remind_later: Remind me later
       program_stream_name: Program Stream
       tracking_name: Tracking Form Name
-    record_tab:
-      record_you_add: What kind of record would you like to add?
+    report_builder:
+      go_to_report_builder: Go to Report Builder
     third_party:
       ables: Ables
       agencies: Agencies
