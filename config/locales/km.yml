@@ -2326,7 +2326,7 @@ km:
       client_you_complete_for: តើអតិថិជនណាដែលអ្នកចង់បំពេញកំណត់ត្រាករណី?
       new_case_note: កំណត់ត្រាថ្មី
     client:
-      clients: អតិថិជន
+      clients: អតិថិជនបច្ចុប្បន្ន
     client_search:
       not_found: មិនមានលទ្ធផលដែលអ្នកកំពុងរក
       please_enter_more: សូមវាយបញ្ចូលអក្សរមួយ ឬច្រើន
@@ -2352,7 +2352,7 @@ km:
     data_agregations:
       active_case_by_donor: បំណែងចែកចំនួនអតិថិជនតាមម្ចាស់ជំនួយ
       active_case_by_gender: បំណែងចែកចំនួនអតិថិជនបច្ចុប្បន្នតាមភេទ
-      active_progarm_streams_by_gender: បំណែងចែកចំនួនអតិថិជនបច្ចុប្បន្នតាមភេទ
+      active_progarm_streams_by_gender: បំណែងចែកចំនួនអតិថិជនតាមភេទក្នុងកម្មវិធី
       data_agregation: បំណែងចែកទិន្នន័យ
     data_validations:
       data_validation: ការផ្ទៀងផ្ទាត់ទិន្នន័យ
