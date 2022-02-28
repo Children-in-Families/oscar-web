@@ -170,7 +170,7 @@ class ClientsController < AdminController
   end
 
   def destroy
-    if @client.destroy
+    if @client.delete
       EnterNgo.with_deleted.where(client_id: @client.id).each(&:destroy_fully!)
       ClientEnrollment.with_deleted.where(client_id: @client.id).delete_all
       Case.where(client_id: @client.id).delete_all
