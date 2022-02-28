@@ -2532,7 +2532,7 @@ en:
     client_program_stream_by_gender:
       active_progarm_streams_by_gender: Active Program Streams by client gender
       active_program_streams: Active Program Streams
-      client_active_in_programs: Active Program Streams
+      client_active_in_programs: Clients in Active Program Streams
     client_tab:
       action: Action
       client_form: Client Form
