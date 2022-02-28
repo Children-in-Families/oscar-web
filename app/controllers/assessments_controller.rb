@@ -24,7 +24,6 @@ class AssessmentsController < AdminController
 
     @custom_assessment_setting = find_custom_assessment_setting
     authorize(@assessment, :new?, @custom_assessment_setting.try(:id)) if current_organization.try(:aht) == false
-
     if @custom_assessment_setting.present? && !policy(@assessment).create?(@custom_assessment_setting.try(:id))
       redirect_to client_assessments_path(@client), alert: "#{I18n.t('assessments.index.next_review')} of #{@custom_assessment_setting.custom_assessment_name}: #{date_format(@client.custom_next_assessment_date(nil, @custom_assessment_setting.id))}"
     else

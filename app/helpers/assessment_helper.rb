@@ -320,7 +320,7 @@ module AssessmentHelper
 
   def domain_name_for_aht(ad)
     if I18n.locale == :km
-      domain_header = ad.domain.local_description.scan(/<strong>(.*)<\/strong>/).flatten.first
+      domain_header = ad.domain.local_description.scan(/\p{Khmer}|[[:space:]]/).join.squish
       content_tag(:nil) do
         content_tag(:td, content_tag(:b, "#{domain_header.split('៖').first}៖"), class: "no-padding-bottom") + content_tag(:td, content_tag(:b, domain_header.split('៖').last, class: "no-padding-bottom"))
       end
@@ -334,4 +334,18 @@ module AssessmentHelper
   def find_custom_assessment_setting
     CustomAssessmentSetting.find_by(custom_assessment_name: params[:custom_name])
   end
+
+  def any_family_domain?
+    Domain.where(domain_type: 'family').any?
+  end
+
+  def check_assessment_domain_exist?(assessment)
+    if assessment.assessment_domains.first.blank? || assessment.assessment_domains.first.domain.custom_assessment_setting.blank?
+      "(#{t('domains.index.csi_tool')})"
+    elsif assessment.assessment_domains.first.domain
+      "#{assessment.assessment_domains.first.domain.custom_assessment_setting&.custom_assessment_name}"
+    end
+  end
+
+
 end

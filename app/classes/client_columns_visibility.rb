@@ -1,4 +1,6 @@
 class ClientColumnsVisibility
+  include ClientsHelper
+  include ActionView::Helpers::TranslationHelper
 
   def initialize(grid, params)
     @grid   = grid
@@ -81,7 +83,7 @@ class ClientColumnsVisibility
       date_of_birth_: :date_of_birth,
       status_: :status,
       **Client::HOTLINE_FIELDS.map{ |field| ["#{field}_".to_sym, field.to_sym] }.to_h,
-      birth_province_id_: :birth_province,
+      birth_province_id_: :birth_province_id,
       initial_referral_date_: :initial_referral_date,
       # referral_phone_: :referral_phone,
       received_by_id_: :received_by,
@@ -89,8 +91,8 @@ class ClientColumnsVisibility
       followed_up_by_id_: :followed_up_by,
       follow_up_date_: :follow_up_date,
       agencies_name_: :agency,
-      donors_name_: :donor,
-      province_id_: :province,
+      donor_name_: :donor,
+      province_id_: :province_id,
       current_address_: :current_address,
       house_number_: :house_number,
       street_number_: :street_number,
@@ -111,7 +113,7 @@ class ClientColumnsVisibility
       has_been_in_orphanage_: :has_been_in_orphanage,
       has_been_in_government_care_: :has_been_in_government_care,
       relevant_referral_information_: :relevant_referral_information,
-      user_ids_: :user,
+      user_id_: :user,
       accepted_date_: :accepted_date,
       exit_date_: :exit_date,
       history_of_disability_and_or_illness_: :history_of_disability_and_or_illness,
@@ -120,6 +122,7 @@ class ClientColumnsVisibility
       reason_for_family_separation_: :reason_for_family_separation,
       rejected_note_: :rejected_note,
       family_: :family,
+      family_type_: :family_type,
       code_: :code,
       age_: :age,
       slug_: :slug,
@@ -163,16 +166,17 @@ class ClientColumnsVisibility
       carer_relationship_to_client_: :carer_relationship_to_client,
       phone_owner_: :phone_owner,
       referee_relationship_to_client_: :referee_relationship_to_client,
-      client_contact_phone_: :client_contact_phone,
+      client_phone_: :client_phone,
       address_type_: :address_type,
       client_email_: :client_email,
       indirect_beneficiaries_: :indirect_beneficiaries,
       care_plan_completed_date_: :care_plan_completed_date,
       care_plan_count_: :care_plan_count
-    }
+    }.merge(label_translations.keys.map{ |field| ["#{field}_".to_sym, field.to_sym] }.to_h)
   end
 
   def visible_columns
+    return [] if @grid.nil?
     @grid.column_names = []
     client_default_columns = Setting.first.try(:client_default_columns)
     params = @params.keys.select{ |k| k.match(/\_$/) }

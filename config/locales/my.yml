@@ -98,6 +98,7 @@ my:
         stage: အဆင့္
         update:
           successfully_updated: ေအာင္ျမင္စြာ အသစ္ျဖည့္သြင္းၿပီ။
+  accepted_date: လက်ခံခဲ့သည်နေ့စွဲ
   activerecord:
     attributes:
       carer:
@@ -175,8 +176,13 @@ my:
         relation: Role in Family
       referee:
         referee_address: Address
+    create:
+      failed_create: Failed to create
+      successfully_created: Successfully created.
     default:
       blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+    destroy:
+      successfully_deleted: Successfully deleted.
     errors:
       models:
         able_screening_question:
@@ -421,6 +427,8 @@ my:
               wrong_length: 5 ဇာတ်ကောင်ဖြစ်ရပါမည်
             roles:
               blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+    update:
+      successfully_updated: Successfully updated.
   add_event_success: ပြဲကို ျပကၡဒိန္ထဲသုိ႔ ေအာင္ျမင္စြာ ထည့္သြင္းၿပီးပါၿပီ။
   advanced_search:
     fields:
@@ -646,6 +654,7 @@ my:
       enter_task_detail: လုပ္ငန္းအေသးစိတ္ျဖည့္သြင္းရန္
       save: သိမ္းသည္။
       title: လုပ္ငန္းအသစ္
+    assessment_form: အကဲဖြတ်ပုံစံ
     attachment:
       attachments: တြဲထားသည္မ်ား
       download: ေဒါင္းလုတ္
@@ -657,6 +666,7 @@ my:
       download: ေဒါင္းလုတ္
       max_file_size: "*အႀကီးဆံုးဖိုင္ဆိုဒ္ - တစ္ဖိုင္ ၅ မီဂါဘိုက္ႏွင့္ တစ္ခါတင္ ၃၀ မီဂါဘိုက္"
       preview_download: အစမ္းၾကည့္ျခင္းႏွင့္ ေဒါင္းလုတ္
+    client_name: ဖောက်သည်အမည
     create:
       successfully_created: စိစစ္ခ်က္ကိုေအာင္ျမင္စြာျပဳလုပ္ၿပီးပါၿပီ။
     destroy:
@@ -869,6 +879,10 @@ my:
   cannot_remove: ဖ်က္ပစ္၍မရပါ။
   cannot_remove_or_update: အသံုးျပဳေနသည္ျဖစ္၍ ဖ်က္ပစ္ျခင္းသာ္လည္းေကာင္း၊ အသစ္ျပင္ဆင္ျခင္းေသာ္လည္းေကာင္း လုပ္၍မရပါ။
   care_plans:
+    care_plan_form: Care Plan Form
+    care_plan: Care plan
+    care_plan_based_on: Care Plan Based on
+    completed_date: ပြီးစီးသည့်နေ့စွဲ
     create:
       successfully_created: Care Plan ကိုအောင်မြင်စွာဖန်တီးပြီးဖြစ်သည်။
     destroy:
@@ -1006,6 +1020,9 @@ my:
       download: ေဒါင္းလုတ္
       max_file_size: "*အႀကီးဆံုး ဖိုင္ဆုိဒ္ - တစ္ဖိုင္လွ်င္ ၅ မီဂါဘိုက္ႏႈန္း ႏွင့္ တစ္ခါတင္လွ်င္ ၃၀ မီဂါဘိုက္ႏႈန္း"
       preview_download: နမူနာၾကည့္ရန္ႏွင့္ ေဒါင္းလုတ္
+    attendee: အလည်အပတ် ဒါမှမဟုတ် စကားစမြည်ပြောတုန်းက ဘယ်သူရှိလဲ။
+    case_note_form: Case Note Form
+    client_name: ဖောက်သည်အမည်
     create:
       successfully_created: အမႈျခင္းရာ မွတ္ခ်က္ကို ျပဳလုပ္ၿပီးပါၿပီ။
     destroy:
@@ -1071,6 +1088,8 @@ my:
     show:
       case_note_on: အမႈျခင္းရာမွတ္ခ်က္
       present: လာေရာက္ေတြ႕ဆံုစဥ္ သို႔မဟုတ္ စကားေျပာေနစဥ္ အနီးတြင္ မည္သူရွိခဲ့သနည္း။
+    type: အမျိုးအစား
+    visitation_date: လည်ပတ်မည့်ရက်စွဲ
     update:
       successfully_updated: အမႈျခင္းရာ မွတ္စုကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ၿပီးပါၿပီ။
   cases:
@@ -1531,6 +1550,7 @@ my:
       enrollment_date: စာရင္းေပးသြင္းသည့္ရက္စြဲ
     update:
       successfully_updated: စာရင္းေပးသြင္းျခင္းကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ၿပီးပါၿပီ
+  client_name: ကေလးနာမည
   clients:
     attr: &LEGAL_DOC_ATTR
       add_service_received: Add Services Received
@@ -2388,7 +2408,10 @@ my:
     version:
       back: Back
       modification_of: Changelog of
+  completed_by: ဖြင့် ပြီးမြောက်ခဲ့သည်။
+  completed_date: ပြီးစီးသည့်နေ့စွဲ
   created_by: တည်ထောင်ထားတဲ့
+  created_on: ဖန်တီးခဲ့သည်။
   custom_field_properties:
     attachment:
       are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
@@ -2761,6 +2784,7 @@ my:
         case_worker: အမႈအတြက္ ေဆာင္ရြက္ေပးသူ
         case_worker_or_staff: အမႈအတြက္ ေဆာင္ရြက္ေပးသူ/ ၀န္ထမ္း
         changelogs: ေျပာင္းလဲမႈ မွတ္တမ္း
+        client_phone: Client Contact Phone
         code: Custom ID Number1
         concern_address: Address Name
         concern_address_type: Address Type
@@ -2950,6 +2974,8 @@ my:
         address: လိပ္စာ
         caregiver_information: ေစာင့္ေရွာက္သူ၏ အခ်က္အလက္
         case_history: အမႈသမိုင္း
+        case_note_date: အမႈျခင္းရာမွတ္ခ်က္ေန႔စြဲ
+        case_note_type: အမႈျခင္းရာမွတ္ခ်က္အမ်ိဳးအစား
         case_worker_name: အမႈအတြက္ေဆာင္ရြက္ေပးသူ
         case_workers: အမႈအတြက္ေဆာင္ရြက္ေပးသူ
         changelogs: ေျပာင္းလဲမႈ မွတ္တမ္း
@@ -4331,6 +4357,7 @@ my:
       update:
         failed_update: အပ်ဒိတ်လုပ်မပေးနိုငျ
         successfully_updated: အမႈသည္ကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ထည့္သြင္းၿပီပါၿပီ
+  family_name: နာမည်
   family_referrals:
     confirm_referral:
       body_second: သင်ရည်ညွှန်းလိုသောမိသားစုသည်ပစ်မှတ်ထားသော NGO တွင်ရှိပြီးဖြစ်သည်။
@@ -4432,6 +4459,7 @@ my:
         search_custom_form: အေကာက္ခြန္ပံုစံ ရွာေဖြရန္
         time_of_frequency: အႀကိမ္အေရအတြက္
         type: အမ်ိဳးအစား
+      date_field: Date field
       demo_custom_form_tab:
         are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
         close: ပိန္ရန္
@@ -4803,7 +4831,7 @@ my:
       are_you_sure: Are you sure you want to delete?
       attachments: Attachments
       client_id: Client ID
-      client_name: Client Name
+      client_name: ဖောက်သည်အမည
       client_representing_problem: CLIENT'S PRESENTING PROBLEMS
       client_representing_problem_note: "What issues/needs does the client say he or she needs help addressing:"
       emergency_note: "NOTE: EMERGENCY/CRISIS NEEDS"
@@ -5743,7 +5771,6 @@ my:
       back: ေနာက္သို႔
       modification_of: "၏ ေျပာင္းလဲမႈ"
   referrals:
-    level_of_risk: အန္တရာယ်အဆင့်
     confirm_referral:
       body_second: သငျသညျ alreay ရည်ညွှန်းချင်သော client ကိုပစ်မှတ်အန်ဂျီအိုနေပါသည်။
       body_third: သငျသညျပြီးသားဒီ client ကို, ထိုတုံ့ပြန်မှုကိုစောင့်ဆိုင်းကျေးဇူးပြုပြီးရည်ညွှန်းကြသည်။
@@ -5792,8 +5819,10 @@ my:
       referred_from: ကနေရည်ညွှန်း
       referred_to: ရည်ညွှန်း
       select_ngos: အဖွဲ့အစည်းကရှေးခယျြ
+    level_of_risk: အန္တရာယ်အဆင့်
     new:
       new_referral: ဂီယာ Add
+    referral_form: လွှဲပြောင်းမှုပုံစံ
     show:
       cannot_edit_referral: ပစ်မှတ်အန်ဂျီအိုပြီးသားဒီလွှဲပြောင်းလက်ခံခဲ့သည်ကြောင့်သင်ဤလွှဲပြောင်းတည်းဖြတ်မရနိုင်ပါ
       client_id: မွတ္ပံုတင္
@@ -6126,6 +6155,9 @@ my:
     stage: အဆင့္
     update:
       successfully_updated: အဆင့္ကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ျဖည့္စြက္ၿပီးပါၿပီ
+  successfully_created: "%{klass} has been successfully created."
+  successfully_deleted: "%{klass} has been successfully deleted."
+  successfully_updated: "%{klass} has been successfully updated."
   surveys:
     create:
       successfully_created: စစ္တမ္းကို ေအာင္ျမင္စြာ ျပဳလုပ္ၿပီးပါၿပီ

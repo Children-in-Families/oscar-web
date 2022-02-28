@@ -28,14 +28,18 @@ If you don't see the data in the database, the rake task `rake import:dev_env_da
 make start_all # if requred containers are not yet started
 # open another terminal tap and run:
 make bash_console
+rake db:create
+rake db:schema:load
 rake import:dev_env_data
 ```
+
 If the rake task fails because it needs `shared` schema, go to the rails console and run `Apartment::Tenant.create('shared')`. While creating `shared` schema you might see another database error `uuid_generate_v4()` not found. If you the error, run `rails db` or go to the app database drop and create extension `uuid-ossp` by running:
 
 ```
 DROP EXTENSION IF EXISTS "uuid-ossp";
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 ```
+
 and then run `Apartment::Tenant.create('shared')` again.
 
 ### Running the tests

@@ -1,0 +1,58 @@
+%hr/
+.row
+  .col-xs-6
+    = image_tag Organization.current.logo, class: 'img-responsive', width: '100'
+
+.row
+  .col-xs-12
+    %h3.text-center
+      = custom_field.form_title
+
+.row
+  .col-xs-7
+    %table.table.table-borderless.small.m-b-xs
+      %tr
+        %td.spacing-first-col{ width: '90' }
+          %strong= display_custom_formable_lebel(custom_field_property.custom_formable)
+        %td= display_custom_formable_name(custom_field_property.custom_formable)
+      %tr
+        %td
+          %strong= "#{t('created_by')}:"
+        %td= whodunnit('CustomFieldProperty', custom_field_property.id)
+
+  .col-xs-5
+    %table.table.table-borderless.small.m-b-xs
+      %tr
+        %td
+          %strong= "#{t('id')}:"
+        %td= custom_field_property.custom_formable.slug
+      %tr
+        %td
+          %strong= "#{t('created_on')}:"
+        %td= date_format(custom_field_property.created_at)
+
+.row
+  .col-xs-12
+    .table-responsive.m-t-md
+      %table.table.table-bordered
+        - custom_field_property.custom_field.fields.map{|a| [a['type'], a['label']]}.each do |type, key|
+          - unless type == 'separateLine'
+            - if type == 'paragraph'
+              %tr
+                %td.align-justify{colspan: '2'}
+                  = key.html_safe
+            - else
+              %tr
+                %td.align-justify{ width: '50%' }
+                  = key.html_safe
+                %td.align-justify{ width: '50%' }
+                  - key = convert_bracket(key, custom_field_property.properties)
+                  - if type == 'file'
+                    - attachment_by_label = custom_field_property.get_form_builder_attachment(key)
+                    - if attachment_by_label.present?
+                      %ul
+                        - attachment_by_label.file.each_with_index do |attachment, index|
+                          %li= original_filename(attachment)
+
+                  - else
+                    = display_custom_properties(custom_field_property.properties[key], type)

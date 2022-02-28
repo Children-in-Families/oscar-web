@@ -29,7 +29,7 @@ class ExitNgo < ActiveRecord::Base
     entity = client.present? ? client : rejectable
     entity.status = 'Exited'
     if entity.save(validate: false)
-      entity.case_worker_clients.destroy_all
+      entity.public_send("case_worker_#{entity.class.name.downcase.pluralize}").destroy_all
     end
   end
 

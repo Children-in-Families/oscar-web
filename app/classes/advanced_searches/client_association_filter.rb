@@ -24,7 +24,9 @@ module AdvancedSearches
       when 'family_id'
         values = family_id_field_query
       when 'family'
-        values = family_name_field_query
+        values = family_field_query('name')
+      when 'family_type'
+        values = family_field_query('family_type')
       when 'age'
         values = age_field_query
       when 'active_program_stream'
@@ -94,8 +96,8 @@ module AdvancedSearches
         values = carer_query('email')
       when 'carer_relationship_to_client'
         values = carer_query('client_relationship')
-      when 'client_contact_phone'
-        values = client_contact_phone_query
+      when 'client_phone'
+        values = client_phone_query
       when 'client_email_address'
         values = client_email_address_query
       when 'phone_owner'
@@ -553,7 +555,7 @@ module AdvancedSearches
         client_have_enrollments = clients.where('client_enrollments.program_stream_id = ?', @value ).distinct.ids
         client_not_enrollments = clients.where('client_enrollments.program_stream_id != ?', @value ).distinct.ids
         client_empty_enrollments = @clients.where.not(id: clients.distinct.ids).ids
-        client_not_equal_ids = (client_not_enrollments+ client_empty_enrollments ) - client_have_enrollments
+        client_not_equal_ids = (client_not_enrollments + client_empty_enrollments ) - client_have_enrollments
       when 'is_empty'
         @clients.where.not(id: clients.distinct.ids).ids
       when 'is_not_empty'
@@ -615,18 +617,18 @@ module AdvancedSearches
       clients = client_ids.present? ? client_ids : []
     end
 
-    def family_name_field_query
+    def family_field_query(field_name)
       case @operator
       when 'equal'
-        client_ids = @clients.joins(family_members: :family).where("lower(families.name) = ?", @value.downcase).ids
+        client_ids = @clients.joins(family_members: :family).where("lower(families.#{field_name}) = ?", @value.downcase).ids
       when 'not_equal'
-        client_ids = Client.joins(family_members: :family).where("lower(families.name) = ?) OR family_members.family_id IS NULL", @value.downcase).ids
+        client_ids = Client.joins(family_members: :family).where("lower(families.#{field_name}) != ? OR family_members.family_id IS NULL", @value.downcase).ids
       when 'contains'
-        client_ids = @clients.joins(family_members: :family).where("lower(families.name) iLike ?", "%#{@value.downcase}%").ids
+        client_ids = @clients.joins(family_members: :family).where("lower(families.#{field_name}) iLike ?", "%#{@value.downcase}%").ids
       when 'not_contains'
-        client_ids = @clients.joins(family_members: :family).where("lower(families.name) NOT iLike ? OR family_members.family_id IS NULL", "%#{@value.downcase}%").ids
+        client_ids = @clients.joins(family_members: :family).where("lower(families.#{field_name}) NOT iLike ? OR family_members.family_id IS NULL", "%#{@value.downcase}%").ids
       when 'is_empty'
-        client_ids = @clients.includes(:family_members).references(:family_members).where("family_members.family_id IS NULL").ids
+        client_ids = Client.includes(:family_members).references(:family_members).group(:id).having("COUNT(family_members.*) = 0").ids
       when 'is_not_empty'
         client_ids = @clients.joins(:family_members).where("family_members.family_id IS NOT NULL").ids
       end
@@ -856,7 +858,7 @@ module AdvancedSearches
       clients = client_ids.present? ? client_ids : []
     end
 
-    def client_contact_phone_query
+    def client_phone_query
       case @operator
       when 'equal'
         client_ids = @clients.where("client_phone = ?", @value.downcase).ids

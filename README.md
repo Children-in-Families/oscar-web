@@ -2,8 +2,8 @@
 
 <img src='./app/assets/images/OSCaR_logo.png'>
 
-| Master Branch        | Stable Branch  |Staging Branch  |
-| ------------- |:-------------:|:-------------:|
+| Master Branch                                                                                                       |                                                    Stable Branch                                                    |                                                    Staging Branch                                                    |
+| ------------------------------------------------------------------------------------------------------------------- | :-----------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------: |
 | [![Build Status](https://travis-ci.com/DevZep/oscar-web.svg?branch=master)](https://travis-ci.com/DevZep/oscar-web) | [![Build Status](https://travis-ci.com/DevZep/oscar-web.svg?branch=stable)](https://travis-ci.com/DevZep/oscar-web) | [![Build Status](https://travis-ci.com/DevZep/oscar-web.svg?branch=staging)](https://travis-ci.com/DevZep/oscar-web) |
 
 ### Open Source Case-management and Record-keeping.
@@ -24,7 +24,7 @@ So with that, if you are:
 
 ### Issue Reporting
 
-If you experience with bugs or need further improvement, please create a new issue under [Issues](https://github.com/devzep/oscar-web/issues).
+If you experience with bugs or need further improvement, please create a new issue under [Issues](https://github.com/Children-in-Families/oscar-web/issues).
 
 ### Contributing to OSCaR
 
@@ -32,11 +32,11 @@ Pull requests are very welcome. Before submitting a pull request, please make su
 
 #### Not sure what to work on?
 
-Perhaps pick one of the [existing issues](https://github.com/DevZep/oscar-web/issues) or submit an issue and then work on that. Alternatively, please feel free to reach out to one of the supporting authors either at DevZep or CIF as indicated below.
+Perhaps pick one of the [existing issues](https://github.com/Children-in-Families/oscar-web/issues) or submit an issue and then work on that. Alternatively, please feel free to reach out to one of the supporting authors either at DevZep or CIF as indicated below.
 
 ### Authors
 
-OSCaR is developed in partnership by [DevZep Consulting (Cambodia)](http://www.devzep.com) and [CIF](http://www.childreninfamilies.org)
+OSCaR is developed by [CIF](http://www.childreninfamilies.org)
 
 ### License
 

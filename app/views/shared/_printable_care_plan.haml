@@ -1,0 +1,85 @@
+%hr/
+.row
+  .col-xs-6
+    = image_tag Organization.current.logo, class: 'img-responsive', width: '100'
+
+.row
+  .col-xs-12
+    %h3.text-center
+      = t('care_plans.care_plan_form')
+.row
+  .col-xs-6
+    %table.table.table-borderless.small.m-b-xs
+      %tr
+        %td.spacing-first-col
+          %strong= "#{t('client_name')}:"
+        %td= care_plan.parent.en_and_local_name
+      %tr
+        %td{ width: '120px' }
+          %strong= "#{t('created_by')}:"
+        %td= whodunnit('CarePlan', care_plan.id)
+  .col-xs-6
+    %table.table.table-borderless.small.m-b-xs
+      %tr
+        %td
+          %strong= "#{t('id')}:"
+        %td= care_plan.parent&.slug || care_plan.parent.id
+      %tr
+        %td
+          %strong= "#{t('care_plans.completed_date')}:"
+        %td= date_format care_plan.created_at
+
+.row
+  .col-xs-12
+    - care_plan.assessment.assessment_domains_in_order.each do |ad|
+      - next if ad.goals.empty?
+      .row{ style: "page-break-inside: avoid" }
+        .col-xs-12
+          %div{class: "panel panel-#{ad.score_color_class}"}
+            .panel-heading
+              %table.table.table-borderless
+                %tbody
+                  %tr
+                    %td
+                      %b
+                        = t('care_plans.show.domain')
+                        - if ad.domain.custom_domain?
+                          = ad.domain.name
+                          = ad.domain.identity
+                        - else
+                          = t("domains.domain_names.#{ad.domain.name.downcase.reverse}") + ":"
+                          = t("domains.domain_identies.#{ad.domain.identity.strip.parameterize('_')}_#{ad.domain.name.downcase}")
+
+                  %tr
+                    %td.no-padding-top
+                      %strong
+                        = "#{t('care_plans.show.score')}:"
+                        %button{ type: 'button', class: "btn btn-#{ad.score_color_class} btn-xs m-l-xs" }
+                          = "#{ad.score}"
+                        = ad.score_definition.html_safe
+
+              .row
+                - ad.goals.each do |goal|
+                  - if goal.tasks.empty?
+                    .col-xs-12
+                      %h5= t('care_plans.show.goal')
+                      = goal.description
+                  - else
+                    .col-xs-12
+                      %h5= t('care_plans.show.goal')
+                      = goal.description
+                    .col-xs-12
+                      %table.table.table-borderless.small.m-b-xs
+                        %thead
+                          %th{ width: '65%', style: "padding-left: 0px; margin-left: 0px;" }= t('care_plans.show.task')
+                          %th= t('care_plans.show.expected_date')
+                          %th= t('care_plans.show.done_during')
+                        %tbody
+                          - goal.tasks.each_with_index do |task, index|
+                            %tr
+                              %td
+                                = task.name
+                              %td= date_format(task.expected_date)
+                              %td
+                                - if task.completed?
+                                  = date_format(task.completion_date)

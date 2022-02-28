@@ -163,7 +163,7 @@ class ClientGrid < BaseGrid
 
   filter(:created_by, :enum, select: :user_select_options, header: -> { I18n.t('datagrid.columns.clients.created_by') })
 
-  filter(:user_ids, :enum, multiple: true, select: :case_worker_options, header: -> { I18n.t('datagrid.columns.clients.case_worker') }) do |ids, scope|
+  filter(:user_id, :enum, multiple: true, select: :case_worker_options, header: -> { I18n.t('datagrid.columns.clients.case_worker') }) do |ids, scope|
     ids = ids.map{ |id| id.to_i }
     if user_ids ||= User.where(id: ids).ids
       client_ids = Client.joins(:users).where(users: { id: user_ids }).ids.uniq
@@ -181,7 +181,7 @@ class ClientGrid < BaseGrid
     User.has_clients.map { |user| ["#{user.first_name} #{user.last_name}", user.id] }
   end
 
-  filter(:donors_name, :enum, select: :donor_select_options, header: -> { I18n.t('datagrid.columns.clients.donor') })
+  filter(:donor_name, :enum, select: :donor_select_options, header: -> { I18n.t('datagrid.columns.clients.donor') })
 
   def donor_select_options
     Donor.has_clients.map { |donor| [donor.name, donor.id] }
@@ -490,7 +490,7 @@ class ClientGrid < BaseGrid
 
   dynamic do
     yes_no = { true: 'Yes', false: 'No' }
-    content_headers = %w(concern_province_id concern_district_id concern_commune_id concern_village_id concern_street concern_house concern_address concern_address_type concern_phone concern_phone_owner concern_email concern_email_owner concern_same_as_client location_description)
+    content_headers = %w(concern_province_id concern_district_id concern_commune_id concern_village_id concern_street concern_house concern_address concern_address_type client_phone concern_phone_owner concern_email concern_email_owner concern_same_as_client location_description)
     client_hotline_fields.each do |hotline_field|
       value = ''
       header_text = content_headers.include?(hotline_field) ? "Concern #{I18n.t("datagrid.columns.clients.#{hotline_field}")}" : I18n.t("datagrid.columns.clients.#{hotline_field}")
@@ -618,7 +618,7 @@ class ClientGrid < BaseGrid
     object.referee_relationship
   end
 
-  column(:client_contact_phone, header: -> { I18n.t('datagrid.columns.clients.client_contact_phone') }) do |object|
+  column(:client_phone, header: -> { I18n.t('datagrid.columns.clients.client_phone') }) do |object|
     object.client_phone
   end
 
@@ -735,11 +735,11 @@ class ClientGrid < BaseGrid
         object.district_name
       end
 
-      column(:province, html: true, order: proc { |object| object.joins(:province).order('provinces.name')}, header: -> { I18n.t('datagrid.columns.clients.current_province') }) do |object|
+      column(:province_id, html: true, order: proc { |object| object.joins(:province).order('provinces.name')}, header: -> { I18n.t('datagrid.columns.clients.current_province') }) do |object|
         object.province_name
       end
 
-      column(:birth_province, html: true, header: -> { I18n.t('datagrid.columns.clients.birth_province') }) do |object|
+      column(:birth_province_id, html: true, header: -> { I18n.t('datagrid.columns.clients.birth_province') }) do |object|
         current_org = Organization.current
         Organization.switch_to 'shared'
         birth_province = SharedClient.find_by(slug: object.slug).birth_province_name
@@ -758,7 +758,7 @@ class ClientGrid < BaseGrid
           object.district.try(:name_kh)
         end
 
-        column(:province, html: false, order: proc { |object| object.joins(:province).order('provinces.name')}, header: -> { I18n.t('datagrid.columns.clients.current_province_kh') }) do |object|
+        column(:province_id, html: false, order: proc { |object| object.joins(:province).order('provinces.name')}, header: -> { I18n.t('datagrid.columns.clients.current_province_kh') }) do |object|
           identify_province_khmer = object.province&.name&.count "/"
           if identify_province_khmer == 1
             province = object.province.name.split('/').first
@@ -768,7 +768,7 @@ class ClientGrid < BaseGrid
 
         end
 
-        column(:birth_province, html: false, header: -> { I18n.t('datagrid.columns.clients.birth_province_kh') }) do |object|
+        column(:birth_province_id, html: false, header: -> { I18n.t('datagrid.columns.clients.birth_province_kh') }) do |object|
           current_org = Organization.current
           Organization.switch_to 'shared'
           birth_province = SharedClient.find_by(slug: object.slug).birth_province_name
@@ -795,7 +795,7 @@ class ClientGrid < BaseGrid
           object.district.present? ? object.district.name.split(' / ').last : nil
         end
 
-        column(:province, html: false, order: proc { |object| object.joins(:province).order('provinces.name')}, header: -> { I18n.t('datagrid.columns.clients.current_province_en') }) do |object|
+        column(:province_id, html: false, order: proc { |object| object.joins(:province).order('provinces.name')}, header: -> { I18n.t('datagrid.columns.clients.current_province_en') }) do |object|
           identify_province = object.province&.name&.count "/"
           if identify_province == 1
             province = object.province.name.split('/').last
@@ -805,7 +805,7 @@ class ClientGrid < BaseGrid
 
         end
 
-        column(:birth_province, html: false, header: -> { I18n.t('datagrid.columns.clients.birth_province_en') }) do |object|
+        column(:birth_province_id, html: false, header: -> { I18n.t('datagrid.columns.clients.birth_province_en') }) do |object|
           current_org = Organization.current
           Organization.switch_to 'shared'
           birth_province = SharedClient.find_by(slug: object.slug).birth_province_name
@@ -965,11 +965,11 @@ class ClientGrid < BaseGrid
     object.rated_for_id_poor
   end
 
-  column(:user, order: false, header: -> { I18n.t('datagrid.columns.clients.case_worker_or_staff') }) do |object|
+  column(:user_id, order: false, header: -> { I18n.t('datagrid.columns.clients.case_worker') }) do |object|
     object.users.pluck(:first_name, :last_name).map{ |case_worker| "#{case_worker.first} #{case_worker.last}".squish }.join(', ')
   end
 
-  column(:donor, order: false, header: -> { I18n.t('datagrid.columns.clients.donor')}) do |object|
+  column(:donor_name, order: false, header: -> { I18n.t('datagrid.columns.clients.donor')}) do |object|
     object.donors.pluck(:name).join(', ')
   end
 
@@ -979,6 +979,10 @@ class ClientGrid < BaseGrid
 
   column(:family, order: false, header: -> { I18n.t('datagrid.columns.clients.placements.family') }) do |object|
     object.family.try(:name)
+  end
+
+  column(:family_type, order: false, header: -> { I18n.t('datagrid.columns.families.family_type') }) do |object|
+    object.family.try(:family_type)
   end
 
   column(:case_note_date, header: -> { I18n.t('datagrid.columns.clients.case_note_date')}, html: true) do |object|
@@ -1093,6 +1097,14 @@ class ClientGrid < BaseGrid
 
   column(:indirect_beneficiaries, header: -> { I18n.t('datagrid.columns.clients.indirect_beneficiaries') }) do |object|
     object.indirect_beneficiaries
+  end
+
+  dynamic do
+    legal_doc_fields.each do |legal_doc_field|
+      column(legal_doc_field.to_sym,  header: -> { I18n.t("clients.show.#{legal_doc_field}") }, class: 'legal-document-header') do |object|
+        object.public_send(legal_doc_field) ? 'Yes' : 'No'
+      end
+    end
   end
 
   dynamic do
