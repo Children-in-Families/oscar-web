@@ -197,7 +197,8 @@ module Api
         external_system_id = external_system&.id
         external_system_name = external_system&.name
         referral_attributes = Referral.get_referral_attribute(clients_params)
-        client = Client.find_by(external_id: referral_attributes[:external_id])
+        client = Client.find_by(global_id: referral_attributes[:client_global_id])
+
         user = client.users.last
         referral = Referral.new(
           referral_attributes.merge(
