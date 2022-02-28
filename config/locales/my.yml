@@ -98,6 +98,7 @@ my:
         stage: အဆင့္
         update:
           successfully_updated: ေအာင္ျမင္စြာ အသစ္ျဖည့္သြင္းၿပီ။
+  accepted_date: လက်ခံခဲ့သည်နေ့စွဲ
   activerecord:
     attributes:
       carer:
@@ -175,8 +176,13 @@ my:
         relation: Role in Family
       referee:
         referee_address: Address
+    create:
+      failed_create: Failed to create
+      successfully_created: Successfully created.
     default:
       blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+    destroy:
+      successfully_deleted: Successfully deleted.
     errors:
       models:
         able_screening_question:
@@ -421,6 +427,8 @@ my:
               wrong_length: 5 ဇာတ်ကောင်ဖြစ်ရပါမည်
             roles:
               blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+    update:
+      successfully_updated: Successfully updated.
   add_event_success: ပြဲကို ျပကၡဒိန္ထဲသုိ႔ ေအာင္ျမင္စြာ ထည့္သြင္းၿပီးပါၿပီ။
   advanced_search:
     fields:
@@ -4349,6 +4357,7 @@ my:
       update:
         failed_update: အပ်ဒိတ်လုပ်မပေးနိုငျ
         successfully_updated: အမႈသည္ကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ထည့္သြင္းၿပီပါၿပီ
+  family_name: နာမည်
   family_referrals:
     confirm_referral:
       body_second: သင်ရည်ညွှန်းလိုသောမိသားစုသည်ပစ်မှတ်ထားသော NGO တွင်ရှိပြီးဖြစ်သည်။

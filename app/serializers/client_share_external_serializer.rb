@@ -1,8 +1,10 @@
 class ClientShareExternalSerializer < ActiveModel::Serializer
+  include OrganizationSerializerConcern
+
   attributes  :given_name, :family_name, :local_given_name, :local_family_name, :gender,
               :date_of_birth, :global_id, :slug, :external_id, :external_id_display, :status,
               :mosvy_number, :location_current_village_code, :case_worker_name, :case_worker_mobile,
-              :is_referred, :organization_name, :organization_address_code
+              :is_referred, :organization_name, :organization_address_code, :resource, :services
 
 
   def organization_name
@@ -54,7 +56,14 @@ class ClientShareExternalSerializer < ActiveModel::Serializer
 
   private
 
-  def external_system_name
-    ExternalSystem.find_by(token: context.email)&.name || ''
+  def resource
+    return 'primero' if external_id.present?
   end
+
+  def services
+    return related_services if external_id.present?
+
+    []
+  end
+
 end

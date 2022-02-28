@@ -399,9 +399,10 @@ module ApplicationHelper
   end
 
   def select_ngos
-    if Organization.current.short_name == 'demo' || Organization.current.short_name == 'tutorials'
+    current_short_name = Apartment::Tenant.current
+    if current_short_name == 'demo' || current_short_name == 'tutorials'
       Organization.test_ngos.exclude_current.order(:full_name).map{|org| [org.full_name, org.short_name] }
-    elsif Organization.current.short_name == 'cif'
+    elsif current_short_name == 'cif' || current_short_name == 'newsmile'
       Organization.exclude_current.visible_only_cif.where(demo: false).order(:full_name).map{|org| [org.full_name, org.short_name] }
     else
       Organization.exclude_current.oscar.order(:full_name).map{|org| [org.full_name, org.short_name] }

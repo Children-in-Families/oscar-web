@@ -8,14 +8,14 @@
     %h3.text-center
       = t('case_notes.case_note_form')
 .row
-  .col-xs-6
+  .col-xs-7
     %table.table.table-borderless.small.m-b-xs
       %tr
         %td.spacing-first-col
-          %strong= "#{t('case_notes.client_name')}:"
-        %td= case_note.parent.en_and_local_name
+          %strong= display_custom_formable_lebel(case_note.parent)
+        %td= display_custom_formable_name(case_note.parent)
       %tr
-        %td
+        %td{ width: '120' }
           %strong= "#{t('case_notes.visitation_date')}:"
         %td= date_format case_note.meeting_date
       %tr
@@ -23,7 +23,7 @@
           %strong= "#{t('created_by')}:"
         %td= whodunnit('CaseNote', case_note.id)
 
-  .col-xs-6
+  .col-xs-5
     %table.table.table-borderless.small.m-b-xs
       %tr
         %td
@@ -32,7 +32,7 @@
       %tr
         %td
           %strong= "#{t('case_notes.type')}:"
-        %td= case_note.interaction_type
+        %td= type = I18n.t("case_notes.form.type_options.#{case_note.interaction_type.downcase.split(' ').join('_').gsub(/3|other/, '3' => '', 'other' => 'other_option')}")
       %tr
         %td
           %strong= "#{t('case_notes.show.case_note_on')}:"

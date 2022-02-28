@@ -155,7 +155,7 @@ module ClientsHelper
       referral_source_id:            I18n.t('datagrid.columns.clients.referral_source'),
       follow_up_date:                I18n.t('datagrid.columns.clients.follow_up_date'),
       agencies_name:                 I18n.t('datagrid.columns.clients.agencies_involved'),
-      donors_name:                   I18n.t('datagrid.columns.clients.donor'),
+      donor_name:                    I18n.t('datagrid.columns.clients.donor'),
       current_address:               I18n.t('datagrid.columns.clients.current_address'),
       house_number:                  I18n.t('datagrid.columns.clients.house_number'),
       street_number:                 I18n.t('datagrid.columns.clients.street_number'),
@@ -165,7 +165,7 @@ module ClientsHelper
       has_been_in_orphanage:         I18n.t('datagrid.columns.clients.has_been_in_orphanage'),
       has_been_in_government_care:   I18n.t('datagrid.columns.clients.has_been_in_government_care'),
       relevant_referral_information: I18n.t('datagrid.columns.clients.relevant_referral_information'),
-      user_ids:                      I18n.t('datagrid.columns.clients.case_worker'),
+      user_id:                       I18n.t('datagrid.columns.clients.case_worker'),
       state:                         I18n.t('datagrid.columns.clients.state'),
       family_id:                     I18n.t('datagrid.columns.clients.family_id'),
       family:                        I18n.t('datagrid.columns.clients.family'),
@@ -194,7 +194,8 @@ module ClientsHelper
       **overdue_translations,
       **client_address_translation,
       **Client::HOTLINE_FIELDS.map{ |field| [field.to_sym, I18n.t("datagrid.columns.clients.#{field}")] }.to_h,
-      **legal_doc_fields.map{|field| [field.to_sym, I18n.t("clients.show.#{field}")] }.to_h
+      **legal_doc_fields.map{|field| [field.to_sym, I18n.t("clients.show.#{field}")] }.to_h,
+      **client_address_translation
     }
 
     lable_translation_uderscore.map{|k, v| [k.to_s.gsub(/(\_)$/, '').to_sym, v] }.to_h.merge(labels)
@@ -251,7 +252,7 @@ module ClientsHelper
       followed_up_by_id_: I18n.t('datagrid.columns.clients.follow_up_by'),
       follow_up_date_: I18n.t('datagrid.columns.clients.follow_up_date'),
       agencies_name_: I18n.t('datagrid.columns.clients.agencies_involved'),
-      donors_name_: I18n.t('datagrid.columns.clients.donor'),
+      donor_name_: I18n.t('datagrid.columns.clients.donor'),
       current_address_: I18n.t('datagrid.columns.clients.current_address'),
       house_number_: I18n.t('datagrid.columns.clients.house_number'),
       street_number_: I18n.t('datagrid.columns.clients.street_number'),
@@ -260,7 +261,7 @@ module ClientsHelper
       has_been_in_orphanage_: I18n.t('datagrid.columns.clients.has_been_in_orphanage'),
       has_been_in_government_care_: I18n.t('datagrid.columns.clients.has_been_in_government_care'),
       relevant_referral_information_: I18n.t('datagrid.columns.clients.relevant_referral_information'),
-      user_ids_: I18n.t('datagrid.columns.clients.case_worker'),
+      user_id_: I18n.t('datagrid.columns.clients.case_worker'),
       state_: I18n.t('datagrid.columns.clients.state'),
       accepted_date_: I18n.t('datagrid.columns.clients.ngo_accepted_date'),
       exit_date_: I18n.t('datagrid.columns.clients.ngo_exit_date'),
@@ -309,8 +310,9 @@ module ClientsHelper
       carer_phone_: I18n.t('activerecord.attributes.carer.phone'),
       carer_email_: I18n.t('activerecord.attributes.carer.email'),
       carer_relationship_to_client_: I18n.t('datagrid.columns.clients.carer_relationship_to_client'),
-      **overdue_translations.map{ |k, v| ["#{k}_".to_sym, v] }.to_h,
-      **client_address_translation
+      province_id_: FieldSetting.find_by(name: 'current_province', klass_name: 'client').try(:label) || I18n.t('datagrid.columns.clients.current_province'),
+      birth_province_id_: FieldSetting.find_by(name: 'birth_province', klass_name: 'client').try(:label) || I18n.t('datagrid.columns.clients.birth_province'),
+      **overdue_translations.map{ |k, v| ["#{k}_".to_sym, v] }.to_h
     }
   end
 
@@ -342,9 +344,7 @@ module ClientsHelper
     end
     translations['village_id'.to_sym] = FieldSetting.find_by(name: 'village_id').try(:label) || I18n.t('datagrid.columns.clients.village')
     translations['province_id'.to_sym] = FieldSetting.find_by(name: 'current_province', klass_name: 'client').try(:label) || I18n.t('datagrid.columns.clients.current_province')
-    translations['province_id_'.to_sym] = FieldSetting.find_by(name: 'current_province', klass_name: 'client').try(:label) || I18n.t('datagrid.columns.clients.current_province')
     translations['birth_province_id'.to_sym] = FieldSetting.find_by(name: 'birth_province', klass_name: 'client').try(:label) || I18n.t('datagrid.columns.clients.birth_province')
-    translations['birth_province_id_'.to_sym] = FieldSetting.find_by(name: 'birth_province', klass_name: 'client').try(:label) || I18n.t('datagrid.columns.clients.birth_province')
     translations
   end
 
@@ -1065,11 +1065,11 @@ module ClientsHelper
 
   def case_history_label(value)
     label = case value.class.table_name
-            when 'enter_ngos' then I18n.t('.accepted_date')
+            when 'enter_ngos' then I18n.t("accepted_date")
             when 'exit_ngos' then I18n.t('.exit_date')
             when 'client_enrollments', 'enrollments' then "#{value.program_stream.try(:name)} Entry"
             when 'leave_programs' then "#{value.program_stream.name} Exit"
-            when 'clients' then I18n.t('.initial_referral_date')
+            when 'clients', 'families' then I18n.t('.initial_referral_date')
             when 'referrals'
               if value.referred_to == current_organization.short_name
                 "#{t('.internal_referral')}: #{value.referred_from_ngo}"
