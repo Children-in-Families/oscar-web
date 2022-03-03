@@ -1,0 +1,43 @@
+= simple_form_for [@client, @screening_assessment] do |f|
+  .row
+    .col-md-6
+      = f.input :screening_assessment_date, label: 'Assessment Date', as: :string, wrapper: :horizontal_form, input_html: { class: 'date optional form-control date-picker' }
+    .col-md-6
+      = f.input :client_age, wrapper: :horizontal_form, readonly: true, input_html: { value: time_ago_in_words(@client.date_of_birth) }
+  .row
+    .col-md-6
+      = f.input :visitor, label: 'Who was there during the assessment?'
+    .col-md-6
+      = f.input :client_milestone_age, label: "Select Client's milestone age", collection: ['6 months', '12 months']
+  %fieldset.fieldset-border
+    %legend.legend-border
+      %h4.text-success
+        By age 6 months, the child can:
+    .row
+      .col-xs-12
+        .row
+          .col-xs-7
+            = f.label :smile_back_during_interaction
+          .col-xs-5
+            = f.collection_radio_buttons :smile_back_during_interaction, [['Yes', true], ['No', false]], :last, :first, wrapper_html: { class: 'row' }, item_wrapper_class: 'col-xs-12 col-sm-4 col-md-4 col-lg-2', label: false
+        .row
+          .col-xs-7.m-t-sm
+            = f.label :follow_object_passed_midline
+          .col-xs-5
+            = f.collection_radio_buttons :follow_object_passed_midline, [['Yes', true], ['No', false]], :last, :first, wrapper_html: { class: 'row' }, item_wrapper_class: 'col-xs-12 col-sm-4 col-md-4 col-lg-2', label: false
+        .row
+          .col-xs-7.m-t-sm
+            = f.label :turn_head_to_sound
+          .col-xs-5
+            = f.collection_radio_buttons :turn_head_to_sound, [['Yes', true], ['No', false]], :last, :first, wrapper_html: { class: 'row' }, item_wrapper_class: 'col-xs-12 col-sm-4 col-md-4 col-lg-2', label: false
+        .row
+          .col-xs-7.m-t-sm
+            = f.label :head_up_45_degree
+          .col-xs-5
+            = f.collection_radio_buttons :head_up_45_degree, [['Yes', true], ['No', false]], :last, :first, wrapper_html: { class: 'row' }, item_wrapper_class: 'col-xs-12 col-sm-4 col-md-4 col-lg-2', label: false
+  = f.input :note
+  = f.input :attachments, as: :file, input_html: { multiple: true, name: 'screening_assessment[attachments][]' }
+  .row
+    .col-xs-12
+      = f.submit t('save'), class: 'btn btn-primary btn-form', id: 'case-note-submit-btn', data: { disable_with: t('saving') }
+      = link_to t('back') , client_screening_assessments_path(@client), class: 'btn btn-default btn-form'

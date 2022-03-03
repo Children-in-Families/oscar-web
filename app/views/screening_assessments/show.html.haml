@@ -1,0 +1,18 @@
+.row.mini-margin
+  .col-xs-12.col-sm-10.col-sm-offset-1
+    .ibox#screening-assessment-info.center-block
+      .ibox-title
+        = link_to client_path(@client), class: 'btn btn-default' do
+          = fa_icon 'arrow-left'
+          = t('.back_to_clients')
+      .ibox-content
+        .row
+          .col-xs-10
+            %p
+              %b= "#{t('assessments.client_name')} #{@screening_assessment.client.name}"
+              - if @screening_assessment.one_off?
+                = t('.screening_assessment_one_off')
+              - else
+                = "#{t('.based_on')} #{@screening_assessment.index_of + 1}"
+              %br
+              = "#{t('.screening_assessment_created_by')} #{whodunnit('ScreeningAssessment', @screening_assessment)} #{t('.on_date')} #{date_format(@screening_assessment.screening_assessment_date)}"

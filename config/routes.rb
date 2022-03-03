@@ -149,6 +149,7 @@ Rails.application.routes.draw do
 
     resources :case_conferences
     resources :service_receives, only: [:index, :new, :create]
+    resources :screening_assessments
   end
 
   resources :attachments, only: [:index] do
