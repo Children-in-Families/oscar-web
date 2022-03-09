@@ -295,12 +295,12 @@ module ClientGridOptions
   end
 
   def default_all_csi_assessments
-    return unless params['type'] == 'basic_info' && @client_columns.visible_columns[:all_csi_assessments_].present?
+    return unless params['type'] == 'basic_info' && (@client_columns && @client_columns.visible_columns[:all_csi_assessments_].present?)
     domain_score_report('default')
   end
 
   def custom_all_csi_assessments
-    return unless params['type'] == 'basic_info' && @client_columns.visible_columns[:all_custom_csi_assessments_].present?
+    return unless params['type'] == 'basic_info' && (@client_columns && @client_columns.visible_columns[:all_custom_csi_assessments_].present?)
     domain_score_report('custom')
   end
 
