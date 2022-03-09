@@ -1412,7 +1412,7 @@ module ClientsHelper
   end
 
   def if_date_of_birth_blank(client)
-    client.date_of_birth.blank? ? '#screening-tool-warning' : new_client_screening_assessment_path(client)
+    client.date_of_birth.blank? ? '#screening-tool-warning' : new_client_screening_assessment_path(client, screening_type: 'one_off')
   end
 
   def has_of_warning_model_if_dob_blank(client)

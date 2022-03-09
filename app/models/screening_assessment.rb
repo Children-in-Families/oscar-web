@@ -1,4 +1,5 @@
 class ScreeningAssessment < ActiveRecord::Base
+  mount_uploaders :attachments, FileUploader
   belongs_to :client
 
   enum screening_type: { one_off: 'one_off', multiple: 'multiple' }

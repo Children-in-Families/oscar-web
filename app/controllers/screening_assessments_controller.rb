@@ -17,7 +17,7 @@ class ScreeningAssessmentsController <  AdminController
       redirect_to [@client, @screening_assessment], noted: t('successfully_created', klass: 'Screening Assessment')
     else
       flash[:alert] = @screning_assessment.errors.full_messages
-      render :new
+      render :new, screening_type: @screning_assessment.screening_type
     end
   end
 
@@ -36,7 +36,11 @@ class ScreeningAssessmentsController <  AdminController
   private
 
   def screening_assessment_params
-    params.require(:screening_assessment).permit(:screening_assessment_date, :client_age, :visitor, :client_milestone_age, :attachments, :note, :smile_back_during_interaction, :follow_object_passed_midline, :turn_head_to_sound, :head_up_45_degree, :client_id)
+    params.require(:screening_assessment).permit(
+      :screening_assessment_date, :client_age, :visitor, :client_milestone_age, :note,
+      :smile_back_during_interaction, :follow_object_passed_midline, :turn_head_to_sound,
+      :head_up_45_degree, :screening_type, :client_id, attachments: []
+    )
   end
 
   def find_screening_assessment

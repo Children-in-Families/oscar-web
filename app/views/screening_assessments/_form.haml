@@ -1,4 +1,6 @@
 = simple_form_for [@client, @screening_assessment] do |f|
+  = f.hidden_field :client_id
+  = f.hidden_field :screening_type, value: @screening_assessment.screening_type || params[:screening_type]
   .row
     .col-md-6
       = f.input :screening_assessment_date, label: 'Assessment Date', as: :string, wrapper: :horizontal_form, input_html: { class: 'date optional form-control date-picker' }
