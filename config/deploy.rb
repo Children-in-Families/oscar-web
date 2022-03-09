@@ -60,3 +60,5 @@ end
 set :passenger_restart_with_touch, true
 
 set :whenever_identifier, ->{ "#{fetch(:application)}_#{fetch(:stage)}" }
+set :appsignal_revision, `git log --pretty=format:'%h' -n 1 #{fetch(:branch)}`
+set :appsignal_user, "deployer"

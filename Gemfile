@@ -97,7 +97,7 @@ group :development, :test do
 end
 
 group :staging, :ratanak_staging, :demo, :production do
-  gem 'appsignal', git: 'https://github.com/appsignal/appsignal-ruby.git', branch: 'capistrano_appsignal_env'
+  gem 'appsignal', '~> 3.0', '>= 3.0.24'
   gem 'asset_sync'
 end
 
