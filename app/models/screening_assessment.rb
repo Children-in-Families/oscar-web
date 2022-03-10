@@ -6,4 +6,6 @@ class ScreeningAssessment < ActiveRecord::Base
   validates :screening_assessment_date, :visitor, :client_milestone_age, presence: :true
   validates :smile_back_during_interaction, :follow_object_passed_midline,
             :turn_head_to_sound, :head_up_45_degree, inclusion: { in: [true, false] }
+
+  scope :multiple_screening_assessments, -> { where(screening_type: 'multiple') }
 end
