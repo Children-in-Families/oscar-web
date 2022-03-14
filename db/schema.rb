@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20220303033525) do
+ActiveRecord::Schema.define(version: 20220314083655) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1000,6 +1000,45 @@ ActiveRecord::Schema.define(version: 20220303033525) do
     t.datetime "updated_at"
     t.integer  "users_count", default: 0
   end
+
+  create_table "developmental_marker_screening_assessments", force: :cascade do |t|
+    t.integer "developmental_marker_id"
+    t.integer "screening_assessment_id"
+    t.boolean "question_1",              default: false
+    t.boolean "question_2",              default: false
+    t.boolean "question_3",              default: false
+    t.boolean "question_4",              default: false
+  end
+
+  add_index "developmental_marker_screening_assessments", ["developmental_marker_id"], name: "index_marker_screening_assessments_on_marker_id", using: :btree
+  add_index "developmental_marker_screening_assessments", ["screening_assessment_id"], name: "index_marker_screening_assessments_on_screening_assessment_id", using: :btree
+
+  create_table "developmental_markers", force: :cascade do |t|
+    t.string   "name"
+    t.string   "name_local"
+    t.string   "short_decription"
+    t.string   "short_description_local"
+    t.string   "question_1"
+    t.string   "question_1_field"
+    t.string   "question_1_illustation"
+    t.string   "question_1_local"
+    t.string   "question_2"
+    t.string   "question_2_field"
+    t.string   "question_2_illustation"
+    t.string   "question_2_local"
+    t.string   "question_3"
+    t.string   "question_3_field"
+    t.string   "question_3_illustation"
+    t.string   "question_3_local"
+    t.string   "question_4"
+    t.string   "question_4_field"
+    t.string   "question_4_illustation"
+    t.string   "question_4_local"
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  add_index "developmental_markers", ["name"], name: "index_developmental_markers_on_name", using: :btree
 
   create_table "districts", force: :cascade do |t|
     t.string   "name"
@@ -2699,7 +2738,7 @@ ActiveRecord::Schema.define(version: 20220303033525) do
   add_foreign_key "action_results", "government_forms"
   add_foreign_key "advanced_searches", "users"
   add_foreign_key "assessment_domains", "care_plans"
-  add_foreign_key "assessments", "clients"
+  add_foreign_key "assessments", "clients", on_delete: :nullify
   add_foreign_key "attachments", "able_screening_questions"
   add_foreign_key "attachments", "progress_notes"
   add_foreign_key "calendars", "users"
@@ -2709,7 +2748,7 @@ ActiveRecord::Schema.define(version: 20220303033525) do
   add_foreign_key "call_protection_concerns", "protection_concerns"
   add_foreign_key "calls", "referees"
   add_foreign_key "care_plans", "assessments"
-  add_foreign_key "care_plans", "clients"
+  add_foreign_key "care_plans", "clients", on_delete: :nullify
   add_foreign_key "carers", "communes"
   add_foreign_key "carers", "districts"
   add_foreign_key "carers", "provinces"
@@ -2797,7 +2836,7 @@ ActiveRecord::Schema.define(version: 20220303033525) do
   add_foreign_key "goals", "assessment_domains"
   add_foreign_key "goals", "assessments"
   add_foreign_key "goals", "care_plans"
-  add_foreign_key "goals", "clients"
+  add_foreign_key "goals", "clients", on_delete: :nullify
   add_foreign_key "goals", "domains"
   add_foreign_key "government_form_children_plans", "children_plans"
   add_foreign_key "government_form_children_plans", "government_forms"
@@ -2851,7 +2890,7 @@ ActiveRecord::Schema.define(version: 20220303033525) do
   add_foreign_key "settings", "communes"
   add_foreign_key "settings", "districts"
   add_foreign_key "settings", "provinces"
-  add_foreign_key "sponsors", "clients"
+  add_foreign_key "sponsors", "clients", on_delete: :nullify
   add_foreign_key "sponsors", "donors"
   add_foreign_key "subdistricts", "districts"
   add_foreign_key "surveys", "clients"
