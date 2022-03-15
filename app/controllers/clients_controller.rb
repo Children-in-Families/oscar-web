@@ -6,7 +6,8 @@ class ClientsController < AdminController
 
   before_action :assign_active_client_prams, only: :index
   before_action :format_search_params, only: [:index]
-  before_action :get_quantitative_fields, :get_hotline_fields, :hotline_call_column, only: [:index]
+  before_action :get_quantitative_fields, only: :index
+  before_action :get_hotline_fields, :hotline_call_column, only: [:index], if: -> { Setting.first&.enable_hotline }
   before_action :find_params_advanced_search, :get_custom_form, :get_program_streams, only: [:index]
   before_action :get_custom_form_fields, :program_stream_fields, :custom_form_fields, :client_builder_fields, only: [:index]
   before_action :basic_params, if: :has_params?, only: [:index]

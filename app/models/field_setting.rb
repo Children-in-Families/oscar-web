@@ -21,12 +21,12 @@ class FieldSetting < ActiveRecord::Base
     exists?(group: group_name, type: :group, visible: false)
   end
 
-  def possible_key_match?(key_paths)
+  def self.possible_key_match?(obj, key_paths)
     key_paths.any? do |path|
-      path == self.group ||
-      path.to_s.pluralize == self.group.pluralize ||
-      path == self.klass_name ||
-      path.to_s.pluralize == self.klass_name.pluralize
+      path == obj.group ||
+      path.to_s.pluralize == obj.group.pluralize ||
+      path == obj.klass_name ||
+      path.to_s.pluralize == obj.klass_name.pluralize
     end
   end
 

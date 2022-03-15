@@ -33,27 +33,31 @@ module I18n::Backend::Custom
   end
 
   def load_custom_labels
-    FieldSetting.includes(:translations).find_each do |field_setting|
+    return if Apartment::Tenant.current == 'public'
+    Rails.cache.write("#{Apartment::Tenant.current}_field_setting", FieldSetting.includes(:translations).map(&:as_json)) unless Rails.cache.read("#{Apartment::Tenant.current}_field_setting")
+    Rails.cache.read("#{Apartment::Tenant.current}_field_setting").each do |field_setting|
       data = translations[I18n.locale]
       data.extend(HashDeepTraverse)
 
-      next if field_setting.label.blank?
+      # field_setting_struct = OpenStruct.new(field_setting)
+      next if field_setting.to_struct.label.blank?
       next if data.blank?
-      paths = data.full_paths(field_setting.name)
+
+      paths = data.full_paths(field_setting.to_struct.name)
       next if paths.blank?
+
       paths.each do |path|
-        next if path.count > 1 && !field_setting.possible_key_match?(path)
+        next if path.count > 1 && !FieldSetting.possible_key_match?(field_setting.to_struct, path)
+
         data = translations[I18n.locale]
-
         # pp path
-
         path.each do |k|
           # next if data.nil?
           if k == path.last
             # pp '=========================='
             # pp data[k]
             # pp '=========================='
-            data[k] = field_setting.label
+            data[k] = field_setting.to_struct.label
           else
             data = data[k]
           end
