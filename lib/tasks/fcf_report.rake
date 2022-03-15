@@ -19,8 +19,7 @@ namespace :fcf_report do
             client.slug,
             client.created_at.to_formatted_s(:long),
             "#{full_name}(#{short_name})",
-            client.initial_referral_date.to_formatted_s(:long),
-            ReferralSource.find_by(id: client.referral_source_category_id).try(:name),
+            client.initial_referral_date.to_formatted_s(:long),  name),
             client.referral_source_name,
             client.status
           ]
