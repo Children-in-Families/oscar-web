@@ -1,4 +1,4 @@
-xdescribe 'User' do
+describe 'User' do
   let!(:admin){ create(:user, :admin, pin_number: '11223') }
   let!(:used_user){ create(:user) }
   let!(:user){ create(:user) }
@@ -35,6 +35,31 @@ xdescribe 'User' do
     scenario 'pin_number must not be visible' do
       visit new_user_path
       expect(page).not_to have_css('#user_pin_number')
+    end
+  end
+
+  feature 'Create' do
+    before do
+      login_as(admin)
+      visit new_user_path
+      expect(page).to have_content('New User')
+    end
+    scenario 'valid' do
+      fill_in 'First Name (Latin)', with: 'Testing'
+      fill_in 'Last Name (Latin)', with: 'User'
+      find('#user_gender option[value="female"]', visible: false).select_option
+      fill_in 'Email', with: 'test@gmail.com'
+      fill_in 'user[password]', with: '12345678'
+      fill_in 'user[password_confirmation]', with: '12345678'
+      find('#user_roles option[value="admin"]', visible: false).select_option
+      find('input[value="Save"]').click
+      expect(page).to have_content('Testing User')
+      expect(page).to have_content('test@gmail.com')
+      expect(page).to have_content('Female')
+    end
+    scenario 'invalid' do
+      find('input[value="Save"]').click
+      expect(page).to have_content("can't be blank")
     end
   end
 
@@ -105,7 +130,7 @@ xdescribe 'User' do
     end
 
     scenario 'does not succeed' do
-      expect(page).to have_css("a[href='#{user_path(used_user)}'][data-method='delete'][class='btn btn-outline btn-danger btn-xs disabled']")
+      expect(page).to have_css("a[href='#{domain_path(used_user)}'][data-method='delete'][class='btn btn-outline btn-danger btn-xs disabled']")
     end
   end
 
