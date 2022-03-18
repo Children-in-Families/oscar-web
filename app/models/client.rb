@@ -648,7 +648,7 @@ class Client < ActiveRecord::Base
     country_origin.present? ? country_origin : 'cambodia'
   end
 
-  def create_or_update_shared_client
+  def create_or_update_shared_client(client_id = nil)
     current_org = Organization.current
     client_current_province = province_name
     client_district = district_name

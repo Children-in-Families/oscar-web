@@ -2,7 +2,7 @@ FactoryGirl.define do
   factory :developmental_marker do
     name "MyString"
     name_local "MyString"
-    short_decription "MyString"
+    short_description "MyString"
     short_description_local "MyString"
     question_1 "MyString"
     question_1_local "MyString"

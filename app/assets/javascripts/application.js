@@ -147,3 +147,4 @@
 //= require case_conferences/form
 //= require internal_referrals/form
 //= require service_receives/form
+//= require screening_assessments/form

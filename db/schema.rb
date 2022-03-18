@@ -1016,7 +1016,7 @@ ActiveRecord::Schema.define(version: 20220314083655) do
   create_table "developmental_markers", force: :cascade do |t|
     t.string   "name"
     t.string   "name_local"
-    t.string   "short_decription"
+    t.string   "short_description"
     t.string   "short_description_local"
     t.string   "question_1"
     t.string   "question_1_field"
@@ -2138,14 +2138,14 @@ ActiveRecord::Schema.define(version: 20220314083655) do
     t.string   "client_age"
     t.string   "visitor"
     t.string   "client_milestone_age"
-    t.string   "attachments"
+    t.string   "attachments",                   default: [],         array: true
     t.text     "note"
     t.boolean  "smile_back_during_interaction"
     t.boolean  "follow_object_passed_midline"
     t.boolean  "turn_head_to_sound"
     t.boolean  "head_up_45_degree"
     t.integer  "client_id"
-    t.string   "screening_type"
+    t.string   "screening_type",                default: "multiple"
   end
 
   add_index "screening_assessments", ["client_id"], name: "index_screening_assessments_on_client_id", using: :btree

@@ -3,7 +3,7 @@ class CreateDevelopmentalMarkers < ActiveRecord::Migration
     create_table :developmental_markers do |t|
       t.string :name
       t.string :name_local
-      t.string :short_decription
+      t.string :short_description
       t.string :short_description_local
       t.string :question_1
       t.string :question_1_field
@@ -38,7 +38,7 @@ class CreateDevelopmentalMarkers < ActiveRecord::Migration
           marker.name_local = names.last.squish
 
           cells = sheet.to_a
-          marker.short_decription = cells[1].second.squish
+          marker.short_description = cells[1].second.squish
           marker.short_description_local = cells[1].last.squish
 
           (1..4).each do |index|

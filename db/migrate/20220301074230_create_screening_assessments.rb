@@ -5,7 +5,7 @@ class CreateScreeningAssessments < ActiveRecord::Migration
       t.string :client_age
       t.string :visitor
       t.string :client_milestone_age
-      t.string :attachments
+      t.string :attachments, default: [],    array: true
       t.text :note
       t.boolean :smile_back_during_interaction
       t.boolean :follow_object_passed_midline

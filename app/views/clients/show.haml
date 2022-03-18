@@ -234,9 +234,9 @@
           = link_to client_client_enrollments_path(@client), data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.enroll_program')}", placement: "auto" } do
             .btn.btn-primary.small-btn-margin.btn-sm.btn-fit= t('.program_streams')
 
-          = link_to client_screening_assessments_path(@client) do
+          = link_to client_screening_assessments_path(@client), class: 'btn btn-primary small-btn-margin btn-sm btn-fit' do
             %strong.count-margin= @client.screening_assessments.multiple_screening_assessments.count
-            .btn.btn-primary.small-btn-margin.btn-sm.btn-fit= t('.cb_dmat')
+            = t('.cb_dmat')
 
           - if government_forms_visible? && policy(@client).show?(:government_forms) && current_organization&.country != 'nepal'
             .btn-group.small-btn-margin
@@ -737,5 +737,5 @@
         %p Client's age is empty.
         %p អាយុកុមារនៅទទេ។
       .modal-footer
-        = link_to t('ok'), new_client_screening_assessment_path(@client), class: 'btn btn-danger'
+        = link_to t('ok'), new_client_screening_assessment_path(@client, screening_type: 'one_off'), class: 'btn btn-danger'
         %button.btn.btn-default.editable-cancel{"data-dismiss" => 'modal'}= t('back')
