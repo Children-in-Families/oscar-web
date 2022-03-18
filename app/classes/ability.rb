@@ -54,6 +54,7 @@ class Ability
       can :manage, Enrollment
       can :manage, Community
       can :manage, EnrollmentTracking
+      can :manage, ScreeningAssessment, clients: { case_worker_clients: { user_id: user.id } }
 
       family_ids = user.families.ids
       family_ids << CaseWorkerFamily.where(user_id: user.id).pluck(:family_id)
@@ -94,6 +95,7 @@ class Ability
       can :manage, Enrollment
       can :manage, Community
       can :manage, EnrollmentTracking
+      can :manage, ScreeningAssessment, clients: { case_worker_clients: { user_id: user.id } }
 
       family_ids = user.families.ids
       family_ids += User.joins(:clients).where(id: subordinate_users).where.not(clients: { current_family_id: nil }).select('clients.current_family_id AS client_current_family_id').map(&:client_current_family_id)
@@ -125,6 +127,7 @@ class Ability
       cannot [:edit, :update], ReferralSource
       cannot :destroy, Client
       can :manage, Family
+      can :manage, ScreeningAssessment, clients: { case_worker_clients: { user_id: user.id } }
     end
 
     cannot :read, Community if Setting.first.hide_community?

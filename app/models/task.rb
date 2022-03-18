@@ -16,7 +16,7 @@ class Task < ActiveRecord::Base
   acts_as_paranoid double_tap_destroys_fully: false
 
   validates :name, presence: true
-  validates :domain, presence: true
+  validates :domain, presence: true, if: -> { taskable_type != 'ScreeningAssessment' }
   validates :expected_date, presence: true
 
   scope :completed,                       -> { where(completed: true) }
@@ -103,6 +103,7 @@ class Task < ActiveRecord::Base
   private
 
   def save_parent_parent_id
+    return if taskable_type == 'ScreeningAssessment'
     parent_family_id = goal&.care_plan&.family_id || taskable&.family_id
     parent_client_id = goal&.care_plan&.client_id || taskable&.client_id
 

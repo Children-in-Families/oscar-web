@@ -64,3 +64,13 @@
         = f.input :use_screening_assessment, input_html: { class: 'i-checks' }
       .col-xs-12.col-md-3.screening-assessment-form{ class: "#{'hidden' unless f.object.use_screening_assessment? }" }
         = f.input :screening_assessment_form_id, prompt: 'Please Choose', collection: CustomField.all, label: 'Choose Custom Form for Screening Assessment', label_method: :form_title, value_method: :id, input_html: { class: 'select2' }
+.panel.panel-default
+  .panel-heading
+    %h3 CB-DMAT Screening Tool
+  .panel-body
+    .row
+      .col-xs-12
+        = f.input :cbdmat_one_off, label: 'CB-DMAT Screening (one-off)', input_html: { class: 'i-checks' }
+      .col-xs-12
+        = f.input :cbdmat_ongoing, label: 'Ongoing CB-DMAT Assessment (Multiple)', input_html: { class: 'i-checks' }
+

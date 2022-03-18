@@ -170,7 +170,7 @@ describe Task do
 
     context 'set complete' do
       before do
-        Task.set_complete(cn_dg.case_note)
+        Task.set_complete(cn_dg.case_note, task.completed_by)
         task.reload
         other_task.reload
       end

@@ -1566,6 +1566,7 @@ en:
     attr: &LEGAL_DOC_ATTR
       add_service_received: Add Services Received
       complain: Complaint
+      cb_dmat: CB-DMAT
       detail_form_of_judicial_police: Detailed Form for Identification of Victim of Human Trafficking (Judicial Police)
       detail_form_of_mosavy_dosavy: Detailed Form for Identification of Victim of Human Trafficking (MoSAVY/DoSAVY)
       dosavy: DoSAVY
@@ -6070,6 +6071,27 @@ en:
       successfully_updated: Service has been successfully updated.
   referral_details: Referral Details
   results: Results
+  screening_assessments:
+    _attr: &SA_ATTR
+      add_new: Add New Screening Assessment
+      add_task: Add Task
+      attachments: Attachments
+      back_to_clients: Back to Client
+      based_on: Base on Screening Assessment
+      client_age: Client's Age
+      client_milestone_age: Client's Milestone Age
+      client_name: Client's Name
+      created_by: Created By
+      note: Note
+      on_date: On Date
+      screening_assessment: Screening Assessment
+      screening_assessment_date: Screening Assessment Date
+      tasks: Tasks
+      view_screening_assessment: View Screening Assessment
+      visitor: Visitor
+    show:
+      <<: *SA_ATTR
+
   shared:
     x_lists_of: "%{x} lists of"
     new_x: "New %{x}"
@@ -6286,6 +6308,7 @@ en:
   tasks:
     completion_date: Completion Date
     expected_date: Expected Date
+    title: Title
     filter:
       filter_by_user: Filter By User
       select_user: Select User

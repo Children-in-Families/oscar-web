@@ -1411,4 +1411,19 @@ module ClientsHelper
     fields = %w(national_id passport birth_cert family_book travel_doc letter_from_immigration_police ngo_partner mosavy dosavy msdhs complain local_consent warrant verdict screening_interview_form short_form_of_ocdm short_form_of_mosavy_dosavy detail_form_of_mosavy_dosavy short_form_of_judicial_police police_interview other_legal_doc)
     FieldSetting.without_hidden_fields.where(name: fields).pluck(:name)
   end
+
+  def if_date_of_birth_blank(client)
+    return '#screening-tool-warning' if client.date_of_birth.blank?
+    screening_assessment = @client.screening_assessments.first
+    if screening_assessment && screening_assessment.screening_type == 'one_off'
+      client_screening_assessment_path(client, screening_assessment)
+    else
+      new_client_screening_assessment_path(client, screening_type: 'one_off')
+    end
+  end
+
+  def has_of_warning_model_if_dob_blank(client)
+    return { "data-target": "#screening-tool-warning", "data-toggle": "modal" } if client.date_of_birth.blank?
+    {}
+  end
 end

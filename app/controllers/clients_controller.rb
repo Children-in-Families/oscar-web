@@ -176,8 +176,7 @@ class ClientsController < AdminController
       Case.where(client_id: @client.id).delete_all
       CaseWorkerClient.with_deleted.where(client_id: @client.id).each(&:destroy_fully!)
       Task.with_deleted.where(client_id: @client.id).each(&:destroy_fully!)
-      ExitNgo.with_deleted.where(client_id: @client.id).each(&:destroy_fully!)
-      redirect_to clients_url, notice: t('.successfully_deleted')
+       redirect_to clients_url, notice: t('.successfully_deleted')
     else
       messages = @client.errors.full_messages.uniq.join('\n')
       redirect_to @client, alert: messages

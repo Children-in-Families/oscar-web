@@ -1,0 +1,73 @@
+= simple_form_for [@client, @screening_assessment] do |f|
+  = f.hidden_field :client_id
+  = f.hidden_field :screening_type, value: params[:screening_type] || @screening_assessment.screening_type
+  .row
+    .col-md-6
+      = f.input :screening_assessment_date, label: 'Assessment Date', as: :string, wrapper: :horizontal_form, input_html: { value: f.object.screening_assessment_date&.to_date&.to_s, class: 'date optional form-control date-picker' }
+    .col-md-6
+      = f.input :client_age, wrapper: :horizontal_form, readonly: true, input_html: { value: time_ago_in_words(@client.date_of_birth) }
+  .row
+    .col-md-6
+      = f.input :visitor, label: 'Who was there during the assessment?'
+    .col-md-6
+      = f.input :client_milestone_age, label: "Select Client's milestone age", collection: DevelopmentalMarker.all.pluck(:name)
+  = f.input :note
+  - [*@developmental_marker_screening_assessments, *@screening_assessment.developmental_marker_screening_assessments].uniq{|dmsa| dmsa.developmental_marker_id }.each do |developmental_marker_screening_assessment|
+    = f.simple_fields_for 'developmental_marker_screening_assessments', developmental_marker_screening_assessment do |ff|
+      = ff.hidden_field :screening_assessment_id
+      = ff.hidden_field :developmental_marker_id
+      - developmental_marker = ff.object.developmental_marker
+      - is_marker_not_selected = developmental_marker.name != f.object.client_milestone_age
+      %fieldset.fieldset-border{ class: is_marker_not_selected && 'hidden', data: { developmental_marker_screening_assessment_name: developmental_marker.name }  }
+        = ff.hidden_field :_destroy, value: is_marker_not_selected
+        %legend.legend-border
+          %h4.text-success
+            = developmental_marker.short_description
+        .row
+          .col-xs-12
+            .row
+              .col-xs-2
+                = image_tag (developmental_marker.question_1_illustation || 'picture.png'), width: '150px', class: 'img-responsive'
+              .col-xs-6
+                = ff.label :question_1, developmental_marker.question_1
+              .col-xs-4
+                = ff.collection_radio_buttons :question_1, [['Yes', true], ['No', false]], :last, :first, wrapper_html: { class: 'row' }, item_wrapper_class: 'col-xs-6 col-md-3', label: false, disabled: is_marker_not_selected
+            %hr/
+            .row
+              .col-xs-2
+                = image_tag (developmental_marker.question_2_illustation || 'picture.png'), width: '150px', class: 'img-responsive'
+              .col-xs-6
+                = ff.label :question_2, developmental_marker.question_2
+              .col-xs-4
+                = ff.collection_radio_buttons :question_2, [['Yes', true], ['No', false]], :last, :first, wrapper_html: { class: 'row' }, item_wrapper_class: 'col-xs-6 col-md-3', label: false, disabled: is_marker_not_selected
+            %hr/
+            .row
+              .col-xs-2
+                = image_tag (developmental_marker.question_3_illustation || 'picture.png'), width: '150px', class: 'img-responsive'
+              .col-xs-6
+                = ff.label :question_3, developmental_marker.question_3
+              .col-xs-4
+                = ff.collection_radio_buttons :question_3, [['Yes', true], ['No', false]], :last, :first, wrapper_html: { class: 'row' }, item_wrapper_class: 'col-xs-6 col-md-3', label: false, disabled: is_marker_not_selected
+            %hr/
+            .row
+              .col-xs-2
+                = image_tag (developmental_marker.question_4_illustation || 'picture.png'), width: '150px', class: 'img-responsive'
+              .col-xs-6
+                = ff.label :question_4, developmental_marker.question_4
+              .col-xs-4
+                = ff.collection_radio_buttons :question_4, [['Yes', true], ['No', false]], :last, :first, wrapper_html: { class: 'row' }, item_wrapper_class: 'col-xs-6 col-md-3', label: false, disabled: is_marker_not_selected
+  .row
+    .col-xs-12.col-md-12.col-lg-6
+    .col-xs-12.col-md-12.col-lg-6
+      #tasks.hide
+        = f.simple_fields_for :tasks do |task|
+          = render 'task_fields', f: task
+        .links
+          = link_to_add_association t('screening_assessments.add_task'), f, :tasks, class: 'btn-add-task btn btn-outline btn-success pull-right'
+
+  = f.input :attachments, as: :file, input_html: { multiple: true }
+
+  .row
+    .col-xs-12
+      = f.submit t('save'), class: 'btn btn-primary btn-form', id: 'case-note-submit-btn', data: { disable_with: t('saving') }
+      = link_to t('back') , client_screening_assessments_path(@client), class: 'btn btn-default btn-form'
