@@ -45,11 +45,11 @@ module AdvancedSearches
         assessment_completed_sql, assessment_number = assessment_filter_values(results)
         sql = "(assessments.completed = true #{assessment_completed_sql}) AND assessments.created_at = (SELECT created_at FROM assessments WHERE clients.id = assessments.client_id ORDER BY assessments.created_at limit 1 offset #{(assessment_number || 1) - 1})".squish
 
+        score = [@value].flatten.map(&:to_i).sum.zero? ? nil : [@value].flatten.map(&:to_i)
         if assessment_completed_sql.present? && assessment_number.present?
-          score = @value.to_i.zero? ? nil : @value.to_i
           clients.where(assessment_domains: { score: score, domain_id: @domain_id }).where(sql)
         else
-          clients = domainscore_operator(clients, @operator, @value, sql)
+          clients = domainscore_operator(clients, @operator, score, sql)
         end
         clients.ids
       end
