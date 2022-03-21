@@ -96,9 +96,22 @@ CIF.DashboardsIndex = do ->
     element = $('#client-program-stream')
     data    = $(element).data('content-count')
     title    = $(element).data('title')
+
+    programNames = [
+                  data[0].active_data.map(({name}) ->
+                    name
+                  )
+                  data[1].active_data.map(({name}) ->
+                    name
+                  )
+                  data[2].active_data.map(({name}) ->
+                    name
+                  )
+                ]
+
+    categories = _.uniq(_.flatten(programNames))
     data =
-      categories: data[0].active_data.map (element) ->
-        element['name']
+      categories: categories
       series: data.map (element, index) ->
         {
           name: element['name']
@@ -108,6 +121,7 @@ CIF.DashboardsIndex = do ->
           color: if index == 0 then '#f9c00c' else if index == 1 then '#4caf50' else '#00695c'
         }
 
+    debugger;
     report = new CIF.ReportCreator(data, title, '', element)
     report.barChart()
 
