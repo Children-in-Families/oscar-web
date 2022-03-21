@@ -49,7 +49,7 @@ module AdvancedSearches
         if assessment_completed_sql.present? && assessment_number.present?
           clients.where(assessment_domains: { score: score, domain_id: @domain_id }).where(sql)
         else
-          clients = domainscore_operator(clients, @operator, @value, sql)
+          clients = domainscore_operator(clients, @operator, score, sql)
         end
         clients.ids
       end
