@@ -10,6 +10,8 @@ else
   ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 end
 
+set :appsignal_revision, `git log --pretty=format:'%h' -n 1 #{fetch(:branch)}`
+
 set :deploy_to, "/var/www/#{fetch(:application)}"
 
 set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', "public/packs", ".bundle", "node_modules")
@@ -61,4 +63,3 @@ set :passenger_restart_with_touch, true
 
 set :whenever_identifier, ->{ "#{fetch(:application)}_#{fetch(:stage)}" }
 
-require 'appsignal/capistrano'
