@@ -233,10 +233,10 @@
 
           = link_to client_client_enrollments_path(@client), data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.enroll_program')}", placement: "auto" } do
             .btn.btn-primary.small-btn-margin.btn-sm.btn-fit= t('.program_streams')
-
-          = link_to client_screening_assessments_path(@client), class: 'btn btn-primary small-btn-margin btn-sm btn-fit' do
-            %strong.count-margin= @client.screening_assessments.multiple_screening_assessments.count
-            = t('.cb_dmat')
+          - if current_setting.cbdmat_one_off || current_setting.cbdmat_ongoing
+            = link_to client_screening_assessments_path(@client), class: 'btn btn-primary small-btn-margin btn-sm btn-fit' do
+              %strong.count-margin= @client.screening_assessments.count
+              = t('.cb_dmat')
 
           - if government_forms_visible? && policy(@client).show?(:government_forms) && current_organization&.country != 'nepal'
             .btn-group.small-btn-margin

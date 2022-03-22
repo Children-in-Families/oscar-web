@@ -12,6 +12,10 @@
     .col-md-6
       = f.input :client_milestone_age, label: "Select Client's milestone age", collection: DevelopmentalMarker.all.pluck(:name)
   = f.input :note
+  %hr/
+  - if @previous_screening_assessment
+    = render 'previous_screening_assessment', screening_assessment: @previous_screening_assessment
+
   - [*@developmental_marker_screening_assessments, *@screening_assessment.developmental_marker_screening_assessments].uniq{|dmsa| dmsa.developmental_marker_id }.each do |developmental_marker_screening_assessment|
     = f.simple_fields_for 'developmental_marker_screening_assessments', developmental_marker_screening_assessment do |ff|
       = ff.hidden_field :screening_assessment_id
@@ -27,7 +31,7 @@
           .col-xs-12
             .row
               .col-xs-2
-                = image_tag (developmental_marker.question_1_illustation || 'picture.png'), width: '150px', class: 'img-responsive'
+                = image_tag ("cb_dmat/#{developmental_marker.name.parameterize.underscore}/#{developmental_marker.question_1_field}_question_1.png" || 'picture.png'), class: 'img-responsive'
               .col-xs-6
                 = ff.label :question_1, developmental_marker.question_1
               .col-xs-4
@@ -35,7 +39,7 @@
             %hr/
             .row
               .col-xs-2
-                = image_tag (developmental_marker.question_2_illustation || 'picture.png'), width: '150px', class: 'img-responsive'
+                = image_tag ("cb_dmat/#{developmental_marker.name.parameterize.underscore}/#{developmental_marker.question_2_field}_question_2.png" || 'picture.png'), class: 'img-responsive'
               .col-xs-6
                 = ff.label :question_2, developmental_marker.question_2
               .col-xs-4
@@ -43,7 +47,7 @@
             %hr/
             .row
               .col-xs-2
-                = image_tag (developmental_marker.question_3_illustation || 'picture.png'), width: '150px', class: 'img-responsive'
+                = image_tag ("cb_dmat/#{developmental_marker.name.parameterize.underscore}/#{developmental_marker.question_3_field}_question_3.png" || 'picture.png'), class: 'img-responsive'
               .col-xs-6
                 = ff.label :question_3, developmental_marker.question_3
               .col-xs-4
@@ -51,7 +55,7 @@
             %hr/
             .row
               .col-xs-2
-                = image_tag (developmental_marker.question_4_illustation || 'picture.png'), width: '150px', class: 'img-responsive'
+                = image_tag ("cb_dmat/#{developmental_marker.name.parameterize.underscore}/#{developmental_marker.question_4_field}_question_4.png" || 'picture.png'), class: 'img-responsive'
               .col-xs-6
                 = ff.label :question_4, developmental_marker.question_4
               .col-xs-4

@@ -5892,8 +5892,11 @@ en:
       screening_assessment: Screening Assessment
       screening_assessment_date: Screening Assessment Date
       tasks: Tasks
+      view_or_hide_last_screening_assessment: View or Hide Last Screening Assessment
       view_screening_assessment: View Screening Assessment
       visitor: Visitor
+    previous_screening_assessment:
+      <<: *SA_ATTR
     show:
       <<: *SA_ATTR
 

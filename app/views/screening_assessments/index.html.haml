@@ -18,8 +18,9 @@
             .col-xs-12.col-sm-4.m-b-sm
               = link_to client_screening_assessment_path(@client, screening_assessment), class: 'btn btn-block btn-primary button' do
                 = t('screening_assessments.view_screening_assessment')
-        .row.margin-row
-          .col-xs-12.col-sm-8
-          .col-xs-12.col-sm-4.m-b-sm
-            = link_to new_client_screening_assessment_path(@client), class: 'btn btn-block btn-primary button' do
-              = t('screening_assessments.add_new')
+        - if current_setting.cbdmat_ongoing
+          .row.margin-row
+            .col-xs-12.col-sm-8
+            .col-xs-12.col-sm-4.m-b-sm
+              = link_to new_client_screening_assessment_path(@client), class: 'btn btn-block btn-primary button' do
+                = t('screening_assessments.add_new')
