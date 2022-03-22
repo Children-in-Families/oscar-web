@@ -6,4 +6,6 @@ class DevelopmentalMarker < ActiveRecord::Base
 
   has_many :developmental_marker_screening_assessments, dependent: :destroy
   has_many :screening_assessments, through: :developmental_marker_screening_assessments
+
+  default_scope { order(:id) }
 end

@@ -2,12 +2,15 @@ class ScreeningAssessmentsController <  AdminController
   load_and_authorize_resource params: :screening_assessment_params
   before_action :find_screening_assessment, except: [:index, :new, :create]
   before_action :find_client
+  before_action :find_previous_screening_assessment, only: [:new, :create, :edit, :update]
 
   def index
-    @screening_assessments = @client.screening_assessments.multiple_screening_assessments.accessible_by(current_ability)
+    @screening_assessments = @client.screening_assessments.accessible_by(current_ability)
   end
 
   def new
+    raise Pundit::NotAuthorizedError unless current_setting.cbdmat_one_off && current_setting.cbdmat_ongoing
+
     @screening_assessment = @client.screening_assessments.new
     @screening_assessment.populate_developmental_markers
     @screening_assessment.tasks.build(name: 'Refer to specialist')
@@ -15,6 +18,12 @@ class ScreeningAssessmentsController <  AdminController
 
   def create
     @screning_assessment = @client.screening_assessments.new(screening_assessment_params)
+    if @screning_assessment.screening_type == 'one_off'
+      raise Pundit::NotAuthorizedError unless current_setting.cbdmat_one_off
+    elsif @screning_assessment.screening_type == 'multiple'
+      raise Pundit::NotAuthorizedError unless current_setting.cbdmat_ongoing
+    end
+
     if @screening_assessment.save
       redirect_to [@client, @screening_assessment], noted: t('successfully_created', klass: 'Screening Assessment')
     else
@@ -75,5 +84,9 @@ class ScreeningAssessmentsController <  AdminController
 
   def find_client
     @client = Client.friendly.find(params[:client_id])
+  end
+
+  def find_previous_screening_assessment
+    @previous_screening_assessment = ScreeningAssessment.where(client_id: @client.id).last
   end
 end
