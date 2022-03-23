@@ -98,4 +98,8 @@ body[id=case_notes-create] {
   .btn-default.case-note-domain-score {
     pointer-events: none;
   }
+
+  label.boolean {
+    font-weight: bold;
+  }
 }

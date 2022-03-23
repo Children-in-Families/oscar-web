@@ -145,7 +145,21 @@
                                     %li.list-group-item
                                       = "#{index + 1}. "
                                       = task.name
-
+              .row
+                .col-xs-12.col-md-6
+                  %h4= t('.screening_assessment_tasks')
+                  - @client.screening_assessments.each do |screening_assessment|
+                    - completed_tasks = screening_assessment.tasks.completed.where(case_note_id: case_note.id)
+                    - next unless completed_tasks.any?
+                    .panel.panel-default
+                      .panel-heading
+                        %h4= "#{t('.completed_tasks')}: #{screening_assessment.client_milestone_age}"
+                      .panel-body.no-padding
+                        %ul.list-group
+                          - completed_tasks.each_with_index do |task, index|
+                            %li.list-group-item
+                              = "#{index + 1}. "
+                              = task.name
 
               .row
                 - file_names = case_note.case_note_domain_groups.pluck(:attachments).reject(&:blank?)
@@ -162,6 +176,7 @@
                         = render 'attachment', cdg: cdg
           %div{ id: "printable-case-note-#{case_note.id}" }
             = render 'shared/printable_case_note', case_note: case_note, today_tasks: today_tasks.flatten.compact
+
       .ibox-footer
         .text-center
           = paginate @case_notes

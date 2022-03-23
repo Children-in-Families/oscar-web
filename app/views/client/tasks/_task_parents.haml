@@ -1,0 +1,9 @@
+- if task.domain_id?
+  = "#{t('tasks.index.domain')}:"
+  - if task.domain.custom_domain?
+    = t("domains.domain_names.#{task.domain.name.downcase}")
+  - else
+    = t("domains.domain_names.#{task.domain.name.downcase.reverse}")
+- else
+  = task.taskable_type.titleize
+  = task.taskable.client_milestone_age

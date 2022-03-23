@@ -3,7 +3,7 @@ class Task < ActiveRecord::Base
   belongs_to :case_note_domain_group
   belongs_to :client
   belongs_to :user
-  belongs_to :taskable, polymorphic: true
+  belongs_to :taskable, polymorphic: true, required: false
   belongs_to :family
   belongs_to :goal, required: false
   belongs_to :completed_by, class_name: 'User', foreign_key: 'completed_by_id'
