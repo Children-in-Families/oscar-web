@@ -4,10 +4,10 @@ class ApplicationController < ActionController::Base
   before_action :store_user_location!, if: :storable_location?
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :find_association, if: :devise_controller?
-  before_action :set_locale, :override_translation
-  before_action :set_paper_trail_whodunnit, :current_setting
+  # before_action :set_locale, :override_translation
+  # before_action :set_paper_trail_whodunnit, :current_setting
   before_action :prevent_routes
-  before_action :set_raven_context, :address_translation
+  # before_action :set_raven_context, :address_translation
 
   rescue_from ActiveRecord::RecordNotFound do |exception|
     render file: "#{Rails.root}/app/views/errors/404", layout: false, status: :not_found
@@ -30,16 +30,16 @@ class ApplicationController < ActionController::Base
   end
 
   def current_organization
-    Organization.current
+    @current_organization ||= Organization.current
   end
 
   def current_setting
-    @current_setting = Setting.first
+    @current_setting ||= Setting.first
   end
 
   def field_settings
     return @field_settings if defined? @field_settings
-    @field_settings = FieldSetting.where('for_instances IS NULL OR for_instances iLIKE ?', "#{current_organization.short_name}")
+    @field_settings ||= FieldSetting.where('for_instances IS NULL OR for_instances iLIKE ?', "#{current_organization.short_name}")
   end
 
   def pundit_user

@@ -22,48 +22,48 @@ module HashDeepTraverse
 end
 
 module I18n::Backend::Custom
-  def load_translations(*filenames)
-    filenames = I18n.load_path if filenames.empty?
-    filenames.flatten.each { |filename| load_file(filename) }
+  # def load_translations(*filenames)
+  #   filenames = I18n.load_path if filenames.empty?
+  #   filenames.flatten.each { |filename| load_file(filename) }
 
-    if ActiveRecord::Base.connection.table_exists? 'settings'
-      nepal_commune_mapping if Setting.first&.country_name == 'nepal'
-    end
-    load_custom_labels if ActiveRecord::Base.connection.table_exists? 'field_settings'
-  end
+  #   if ActiveRecord::Base.connection.table_exists? 'settings'
+  #     nepal_commune_mapping if Setting.first&.country_name == 'nepal'
+  #   end
+  #   load_custom_labels if ActiveRecord::Base.connection.table_exists? 'field_settings'
+  # end
 
   def load_custom_labels
-    return if Apartment::Tenant.current == 'public'
-    Rails.cache.write("#{Apartment::Tenant.current}_field_setting", FieldSetting.includes(:translations).map(&:as_json)) unless Rails.cache.read("#{Apartment::Tenant.current}_field_setting")
-    Rails.cache.read("#{Apartment::Tenant.current}_field_setting").each do |field_setting|
-      data = translations[I18n.locale]
-      data.extend(HashDeepTraverse)
+    # return if Apartment::Tenant.current == 'public'
+    # Rails.cache.fetch("#{Apartment::Tenant.current}_field_setting", FieldSetting.includes(:translations).map(&:as_json)) unless Rails.cache.read("#{Apartment::Tenant.current}_field_setting")
+    # Rails.cache.read("#{Apartment::Tenant.current}_field_setting").each do |field_setting|
+    #   data = translations[I18n.locale]
+    #   data.extend(HashDeepTraverse)
 
-      # field_setting_struct = OpenStruct.new(field_setting)
-      next if field_setting.to_struct.label.blank?
-      next if data.blank?
+    #   # field_setting_struct = OpenStruct.new(field_setting)
+    #   next if field_setting.to_struct.label.blank?
+    #   next if data.blank?
 
-      paths = data.full_paths(field_setting.to_struct.name)
-      next if paths.blank?
+    #   paths = data.full_paths(field_setting.to_struct.name)
+    #   next if paths.blank?
 
-      paths.each do |path|
-        next if path.count > 1 && !FieldSetting.possible_key_match?(field_setting.to_struct, path)
+    #   paths.each do |path|
+    #     next if path.count > 1 && !FieldSetting.possible_key_match?(field_setting.to_struct, path)
 
-        data = translations[I18n.locale]
-        # pp path
-        path.each do |k|
-          # next if data.nil?
-          if k == path.last
-            # pp '=========================='
-            # pp data[k]
-            # pp '=========================='
-            data[k] = field_setting.to_struct.label
-          else
-            data = data[k]
-          end
-        end
-      end
-    end
+    #     data = translations[I18n.locale]
+    #     # pp path
+    #     path.each do |k|
+    #       # next if data.nil?
+    #       if k == path.last
+    #         # pp '=========================='
+    #         # pp data[k]
+    #         # pp '=========================='
+    #         data[k] = field_setting.to_struct.label
+    #       else
+    #         data = data[k]
+    #       end
+    #     end
+    #   end
+    # end
   end
 
   def nepal_commune_mapping
