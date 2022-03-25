@@ -60,8 +60,10 @@ module FamilyAdvancedSearchesConcern
   end
 
   def get_custom_form
-    form_ids = CustomFieldProperty.where(custom_formable_type: 'Family').pluck(:custom_field_id).uniq
-    @custom_fields = CustomField.where(id: form_ids).order_by_form_title
+    Rails.cache.fetch(user_cache_id << "get_custom_form") do
+      form_ids = CustomFieldProperty.where(custom_formable_type: 'Family').pluck(:custom_field_id).uniq
+      @custom_fields = CustomField.where(id: form_ids).order_by_form_title
+    end
   end
 
   def family_builder_fields
@@ -78,7 +80,7 @@ module FamilyAdvancedSearchesConcern
   end
 
   def custom_form_fields
-      @custom_form_fields = get_custom_form_fields + get_has_this_form_fields
+    @custom_form_fields = get_custom_form_fields + get_has_this_form_fields
   end
 
   def get_has_this_form_fields
@@ -86,7 +88,9 @@ module FamilyAdvancedSearchesConcern
   end
 
   def get_custom_form_fields
-    @custom_forms = AdvancedSearches::CustomFields.new(custom_form_values, 'Family').render
+    Rails.cache.fetch(user_cache_id << "get_custom_form_fields") do
+      @custom_forms = AdvancedSearches::CustomFields.new(custom_form_values, 'Family').render
+    end
   end
 
   def custom_form_value?
@@ -98,7 +102,9 @@ module FamilyAdvancedSearchesConcern
   end
 
   def find_params_advanced_search
-    @advanced_search_params = params[:family_advanced_search]
+    Rails.cache.fetch(user_cache_id << "find_params_advanced_search") do
+      @advanced_search_params = params[:family_advanced_search]
+    end
   end
 
   def basic_params
@@ -267,7 +273,9 @@ module FamilyAdvancedSearchesConcern
   end
 
   def program_stream_fields
-    @program_stream_fields = get_enrollment_fields + get_tracking_fields + get_exit_program_fields
+    Rails.cache.fetch(user_cache_id << "program_stream_fields") do
+      @program_stream_fields = get_enrollment_fields + get_tracking_fields + get_exit_program_fields
+    end
   end
 
   def get_enrollment_fields
@@ -306,7 +314,10 @@ module FamilyAdvancedSearchesConcern
   end
 
   def get_quantitative_fields
-    quantitative_fields = AdvancedSearches::QuantitativeCaseFields.new(current_user, 'family')
+    Rails.cache.fetch(user_cache_id << "get_quantitative_fields") do
+      quantitative_fields = AdvancedSearches::QuantitativeCaseFields.new(current_user, 'family')
+    end
+
     @quantitative_fields = quantitative_fields.render
   end
 
