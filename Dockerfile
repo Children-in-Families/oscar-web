@@ -2,7 +2,7 @@ FROM ruby:2.3.3
 
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
 RUN curl --silent https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -
-RUN apt-get update -qq && apt-get install -y nodejs postgresql-client fonts-khmeros
+RUN apt-get update -qq && apt-get install -y nodejs postgresql-client fonts-khmeros memcached
 RUN mkdir /app
 WORKDIR /app
 
@@ -29,6 +29,7 @@ RUN gem install bundler -v 1.17.3
 RUN bundle install --verbose --jobs 20 --retry 5
 RUN npm install -g yarn
 RUN yarn install --check-files
+RUN service memcached start
 
 # Copy the main application.
 COPY . ./

@@ -16,7 +16,10 @@ class DashboardsController < AdminController
       LEFT OUTER JOIN exit_ngos ON exit_ngos.client_id = clients.id
     SQL
     clients_error = Client.accessible_by(current_ability).joins(sql).where("(client_enrollments.enrollment_date < enter_ngos.accepted_date) OR (exit_ngos.exit_date < client_enrollments.enrollment_date)").distinct
-    @date_validation_error = { ids: clients_error.ids, count: clients_error.count }
+
+    @date_validation_error = Rails.cache.fetch(["#{clients_error.count}", "#{Apartment::Tenant.current}_client_errors"]) do
+      { ids: clients_error.ids, count: clients_error.count }
+    end
   end
 
   def update_program_stream_service
@@ -26,6 +29,12 @@ class DashboardsController < AdminController
       next if program.last["service_ids"].nil?
       program_stream.update(service_ids: program.last["service_ids"].uniq)
     end
+  end
+
+  def client_data_validation
+    @date_validation_error = Rails.cache.fetch([params[:total_error], "#{Apartment::Tenant.current}_client_errors"])
+    clients = Client.accessible_by(current_ability).where(id: @date_validation_error[:ids]).page(params[:page]).per(15)
+    @client_grid = ClientGrid.new({ column_names: [:id, :slug, :given_name, :family_name, :local_given_name, :local_family_name, :status, :gender]}).scope { clients }
   end
 
   private

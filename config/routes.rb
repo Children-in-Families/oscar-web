@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   get '/redirect'       => 'calendars#redirect', as: 'redirect'
   get '/callback'       => 'calendars#callback', as: 'callback'
   get '/calendar/sync'  => 'calendars#sync'
+  get '/dashbaords/client_data_validation' => 'dashboards#client_data_validation'
 
   resources :calendars
 
