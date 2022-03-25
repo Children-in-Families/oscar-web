@@ -366,7 +366,9 @@ class ClientsController < AdminController
   end
 
   def quantitative_type_readable
-    @quantitative_type_readable_ids = current_user.quantitative_type_permissions.readable.pluck(:quantitative_type_id)
+    Rails.cache.fetch(user_cache_id) do
+      @quantitative_type_readable_ids = current_user.quantitative_type_permissions.readable.pluck(:quantitative_type_id)
+    end
   end
 
   def find_referral_by_params
