@@ -1,4 +1,6 @@
 class Donor < ActiveRecord::Base
+  after_commit :flush_cache
+
   has_many :sponsors, dependent: :restrict_with_error
   has_many :clients, through: :sponsors
   has_many :donor_organizations, dependent: :destroy
@@ -32,5 +34,9 @@ class Donor < ActiveRecord::Base
   def flush_cache
     Rails.cache.delete([Apartment::Tenant.current, 'Donor', id])
     Rails.cache.delete([Apartment::Tenant.current, 'Donor', 'cached_order_name'])
+  end
+  
+  def self.cached_find(id)
+    Rails.cache.fetch([Apartment::Tenant.current, name, id]) { find(id) }
   end
 end

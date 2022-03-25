@@ -1,4 +1,6 @@
 class ClientType < ActiveRecord::Base
+  after_commit :flush_cache
+
   has_paper_trail
 
   has_many :client_type_government_forms, dependent: :restrict_with_error
@@ -21,5 +23,9 @@ class ClientType < ActiveRecord::Base
   def flush_cache
     Rails.cache.delete([Apartment::Tenant.current, 'ClientType', id])
     Rails.cache.delete([Apartment::Tenant.current, 'ClientType', 'cached_order_created_at']) if created_at_changed?
+  end
+  
+  def self.cached_find(id)
+    Rails.cache.fetch([Apartment::Tenant.current, name, id]) { find(id) }
   end
 end

@@ -1,4 +1,6 @@
 class Agency < ActiveRecord::Base
+  after_commit :flush_cache
+
   has_many :agency_clients
   has_many :clients, through: :agency_clients
   has_paper_trail
@@ -28,5 +30,6 @@ class Agency < ActiveRecord::Base
   def flush_cache
     Rails.cache.delete([Apartment::Tenant.current, 'Agency', id])
     Rails.cache.delete([Apartment::Tenant.current, 'Agency', 'cached_order_name'])
+    Rails.cache.fetch([Apartment::Tenant.current, name, id]) { find(id) }
   end
 end

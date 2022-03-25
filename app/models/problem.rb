@@ -1,4 +1,6 @@
 class Problem < ActiveRecord::Base
+  after_commit :flush_cache
+
   has_paper_trail
 
   has_many :government_form_problems, dependent: :restrict_with_error
@@ -21,5 +23,9 @@ class Problem < ActiveRecord::Base
   def flush_cache
     Rails.cache.delete([Apartment::Tenant.current, 'Problem', id])
     Rails.cache.delete([Apartment::Tenant.current, 'Problem', 'cached_order_created_at']) if created_at_changed?
+  end
+  
+  def self.cached_find(id)
+    Rails.cache.fetch([Apartment::Tenant.current, name, id]) { find(id) }
   end
 end
