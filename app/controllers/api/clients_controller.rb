@@ -321,7 +321,7 @@ module Api
     end
 
     def other_client_gender_count(clients)
-      clients.where("gender IS NOT NULL AND (gender NOT IN ('male', 'female') OR date_of_birth IS NULL)").count
+      clients.where("gender IS NULL OR (gender NOT IN ('male', 'female'))").count
     end
   end
 end
