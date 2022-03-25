@@ -1,4 +1,5 @@
 class FieldSetting < ActiveRecord::Base
+  include CacheHelper
   self.inheritance_column = :_type_disabled
 
   translates :label
@@ -8,6 +9,7 @@ class FieldSetting < ActiveRecord::Base
   scope :without_hidden_fields, -> { where(visible: true) }
 
   before_save :assign_type
+  after_commit :flush_cache
 
   def field_setting?
     type == 'field'
@@ -30,9 +32,25 @@ class FieldSetting < ActiveRecord::Base
     end
   end
 
+  def self.cache_all
+    Rails.cache.fetch([Apartment::Tenant.current, 'field_settings']) { includes(:translations).to_a }
+  end
+
+  def cache_object
+    Rails.cache.fetch([Apartment::Tenant.current, self.class.name, self.id]) { self }
+  end
+
+  def self.cache_by_name(name)
+    Rails.cache.fetch([Apartment::Tenant::current, 'FieldSetting', name]) { find_by(name: name) }
+  end
+
   private
 
   def assign_type
     self.type ||= 'field'
+  end
+
+  def flush_cache
+    Rails.cache.delete(field_settings_cache_key)
   end
 end
