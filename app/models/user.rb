@@ -356,6 +356,10 @@ class User < ActiveRecord::Base
     end
   end
 
+  def cache_advance_saved_search
+    Rails.cache.fetch([Apartment::Tenant.current, self.class.name, self.id, 'advance_saved_search']) {  self.advanced_searches.order(:name).to_a }
+  end
+
   private
 
   def toggle_referral_notification

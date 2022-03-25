@@ -1,8 +1,12 @@
 class AdvancedSearch < ActiveRecord::Base
+  include CacheHelper
+
   has_paper_trail
   belongs_to :user
 
   validates :name, presence: true, uniqueness: { case_sensitive: false, scope: :user_id }
+
+  after_commit :flush_cache
 
   scope :non_of, ->(value) { where.not(user_id: value.id) }
   BROKEN_SAVE_SEARCH = [["demo", 19],["demo", 18],["demo", 39],["mtp", 15],["mtp", 25],["voice", 2],
@@ -25,6 +29,12 @@ class AdvancedSearch < ActiveRecord::Base
 
   def owner
     user.name
+  end
+
+  private
+
+  def flush_cache
+    Rails.cache.delete([Apartment::Tenant.current, 'User', user_id, 'advance_saved_search'])
   end
 end
 
