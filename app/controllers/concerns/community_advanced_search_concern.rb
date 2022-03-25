@@ -80,7 +80,10 @@ module CommunityAdvancedSearchConcern
   end
 
   def find_params_advanced_search
-    @advanced_search_params = params[:community_advanced_search]
+    Rails.cache.fetch(user_cache_id << "find_params_advanced_search") do
+      @advanced_search_params = params[:community_advanced_search]
+    end
+
   end
 
   def basic_params
