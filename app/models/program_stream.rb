@@ -42,6 +42,7 @@ class ProgramStream < ActiveRecord::Base
   before_save :set_program_completed, :destroy_tracking
   after_update :auto_update_exit_program, :auto_update_enrollment, :update_save_search
   after_create :build_permission
+  after_commit :flash_cache
 
   scope  :ordered,        ->         { order('lower(name) ASC') }
   scope  :complete,       ->         { where(completed: true) }
@@ -145,6 +146,13 @@ class ProgramStream < ActiveRecord::Base
 
   def attached_to_community?
     entity_type == 'Community'
+  end
+
+  def self.cache_program_steam_by_enrollment
+    Rails.cache.fetch([Apartment::Tenant.current, 'cache_program_steam_by_enrollment']) do 
+      program_ids = ClientEnrollment.pluck(:program_stream_id).uniq
+      ProgramStream.where(id: program_ids).order(:name).to_a
+    end
   end
 
   private
@@ -267,8 +275,6 @@ class ProgramStream < ActiveRecord::Base
     error_fields.uniq
   end
 
-  private
-
   def presence_of_label
     validate_label(enrollment, 'enrollment') if enrollment.any?
     validate_label(exit_program, 'exit_program') if exit_program.any?
@@ -330,5 +336,9 @@ class ProgramStream < ActiveRecord::Base
         end
       end
     end
+  end
+
+  def flash_cache
+    Rails.cache.delete([Apartment::Tenant.current, 'cache_program_steam_by_enrollment'])
   end
 end

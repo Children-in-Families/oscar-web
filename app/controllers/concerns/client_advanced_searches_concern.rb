@@ -49,8 +49,10 @@ module ClientAdvancedSearchesConcern
   end
 
   def fetch_advanced_search_queries
-    @my_advanced_searches    = current_user.advanced_searches.order(:name)
-    @other_advanced_searches = AdvancedSearch.includes(:user).non_of(current_user).order(:name)
+    Rails.cache.fetch(user_cache_id << "fetch_advanced_search_queries") do
+      @my_advanced_searches    = current_user.advanced_searches.order(:name)
+      @other_advanced_searches = AdvancedSearch.includes(:user).non_of(current_user).order(:name)
+    end
   end
 
   def custom_form_column
@@ -69,16 +71,20 @@ module ClientAdvancedSearchesConcern
   end
 
   def hotline_call_column
-    client_hotlines = get_client_hotline_fields.group_by{ |field| field[:optgroup] }
-    call_hotlines = get_hotline_fields.group_by{ |field| field[:optgroup] }
-    @hotline_call_columns = client_hotlines.merge(call_hotlines)
+    Rails.cache.fetch(user_cache_id << "hotline_call_column") do
+      client_hotlines = get_client_hotline_fields.group_by{ |field| field[:optgroup] }
+      call_hotlines = get_hotline_fields.group_by{ |field| field[:optgroup] }
+      @hotline_call_columns = client_hotlines.merge(call_hotlines)
+    end
   end
 
   def program_stream_fields
+    Rails.cache.fetch(user_cache_id << "program_stream_fields") do
     if params.dig(:client_advanced_search, :action_report_builder) == '#wizard-builder'
-      @wizard_program_stream_fields = get_enrollment_fields + get_tracking_fields + get_exit_program_fields
-    else
-      @program_stream_fields = get_enrollment_fields + get_tracking_fields + get_exit_program_fields
+        @wizard_program_stream_fields = get_enrollment_fields + get_tracking_fields + get_exit_program_fields
+      else
+        @program_stream_fields = get_enrollment_fields + get_tracking_fields + get_exit_program_fields
+      end
     end
   end
 
@@ -95,8 +101,7 @@ module ClientAdvancedSearchesConcern
   end
 
   def get_program_streams
-    program_ids = ClientEnrollment.pluck(:program_stream_id).uniq
-    @program_streams = ProgramStream.where(id: program_ids).order(:name)
+    @program_streams = ProgramStream.cache_program_steam_by_enrollment
   end
 
   def program_stream_values
@@ -104,7 +109,9 @@ module ClientAdvancedSearchesConcern
   end
 
   def get_client_basic_fields
-    AdvancedSearches::ClientFields.new(user: current_user, pundit_user: pundit_user).render
+    Rails.cache.fetch(user_cache_id << "get_client_basic_fields") do
+      AdvancedSearches::ClientFields.new(user: current_user, pundit_user: pundit_user).render
+    end
   end
 
   def get_hotline_fields
@@ -121,10 +128,10 @@ module ClientAdvancedSearchesConcern
         *get_dropdown_list(['phone_call_id', 'call_type', 'start_datetime', 'protection_concern_id', 'necessity_id']),
       ]
     }
-
-    hotline_fields = AdvancedSearches::AdvancedSearchFields.new('hotline', args).render
-
-    @hotline_fields = get_client_hotline_fields + hotline_fields
+    Rails.cache.fetch(user_cache_id << "get_hotline_fields") do
+      hotline_fields = AdvancedSearches::AdvancedSearchFields.new('hotline', args).render    
+      @hotline_fields = get_client_hotline_fields + hotline_fields
+    end
   end
 
   def get_client_hotline_fields
@@ -144,8 +151,8 @@ module ClientAdvancedSearchesConcern
       text_field: hotline_text_type_list, date_picker_field: [],
       dropdown_list_option: dropdown_list_options
     }
-
     @client_hotline_fields = AdvancedSearches::AdvancedSearchFields.new('concern_basic_fields', args).render
+    
   end
 
   def hotline_text_type_list
@@ -157,15 +164,19 @@ module ClientAdvancedSearchesConcern
   end
 
   def custom_form_fields
-    if params.dig(:client_advanced_search, :action_report_builder) == '#wizard-builder'
-      @wizard_custom_form_fields = get_custom_form_fields + get_has_this_form_fields
-    else
-      @custom_form_fields = get_custom_form_fields + get_has_this_form_fields
+    Rails.cache.fetch(user_cache_id << "custom_form_fields") do
+      if params.dig(:client_advanced_search, :action_report_builder) == '#wizard-builder'
+        @wizard_custom_form_fields = get_custom_form_fields + get_has_this_form_fields
+      else
+        @custom_form_fields = get_custom_form_fields + get_has_this_form_fields
+      end
     end
   end
 
   def get_custom_form_fields
-    @custom_forms = custom_form_values.empty? ? [] : AdvancedSearches::CustomFields.new(custom_form_values).render
+    Rails.cache.fetch(user_cache_id << "get_custom_form_fields") do
+      @custom_forms = custom_form_values.empty? ? [] : AdvancedSearches::CustomFields.new(custom_form_values).render
+    end
   end
 
   def get_has_this_form_fields
@@ -173,8 +184,10 @@ module ClientAdvancedSearchesConcern
   end
 
   def get_quantitative_fields
-    quantitative_fields = AdvancedSearches::QuantitativeCaseFields.new(current_user)
-    @quantitative_fields = quantitative_fields.render
+    Rails.cache.fetch(user_cache_id << "get_quantitative_fields") do
+      quantitative_fields = AdvancedSearches::QuantitativeCaseFields.new(current_user)
+      @quantitative_fields = quantitative_fields.render
+    end
   end
 
   def get_enrollment_fields
@@ -222,7 +235,9 @@ module ClientAdvancedSearchesConcern
 
   def find_params_advanced_search
     if params[:advanced_search_id]
-      advanced_search = AdvancedSearch.find(params[:advanced_search_id])
+      Rails.cache.fetch(user_cache_id << "find_params_advanced_search") do
+        advanced_search = AdvancedSearch.find(params[:advanced_search_id])
+      end
       @advanced_search_params = params[:client_advanced_search].merge("basic_rules" => advanced_search.queries)
     else
       @advanced_search_params = params[:client_advanced_search]
