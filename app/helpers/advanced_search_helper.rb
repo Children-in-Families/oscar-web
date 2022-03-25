@@ -227,13 +227,13 @@ module AdvancedSearchHelper
   def address_translation
     @address_translation ||= {}
     ['province', 'district', 'commune', 'village', 'birth_province', 'province_id', 'district_id', 'commune_id'].each do |key_translation|
-      @address_translation[key_translation.to_sym] = FieldSetting.find_by(name: key_translation).try(:label) || I18n.t("advanced_search.fields.#{key_translation}")
+      @address_translation[key_translation.to_sym] = FieldSetting.cache_by_name(key_translation).try(:label) || I18n.t("advanced_search.fields.#{key_translation}")
     end
-    @address_translation['province_id'.to_sym] = FieldSetting.find_by(name: 'province_id').try(:label) || I18n.t('advanced_search.fields.province_id')
-    @address_translation['district_id'.to_sym] = FieldSetting.find_by(name: 'district_id').try(:label) || I18n.t('datagrid.columns.clients.district')
-    @address_translation['commune_id'.to_sym] = FieldSetting.find_by(name: 'commune_id').try(:label) || I18n.t('datagrid.columns.clients.commune')
-    @address_translation['village_id'.to_sym] = FieldSetting.find_by(name: 'village_id').try(:label) || I18n.t('datagrid.columns.clients.village')
-    @address_translation['birth_province_id'.to_sym] = FieldSetting.find_by(name: 'birth_province').try(:label) || I18n.t('datagrid.columns.clients.birth_province')
+    @address_translation['province_id'.to_sym] = FieldSetting.cache_by_name('province_id').try(:label) || I18n.t('advanced_search.fields.province_id')
+    @address_translation['district_id'.to_sym] = FieldSetting.cache_by_name('district_id').try(:label) || I18n.t('datagrid.columns.clients.district')
+    @address_translation['commune_id'.to_sym] = FieldSetting.cache_by_name('commune_id').try(:label) || I18n.t('datagrid.columns.clients.commune')
+    @address_translation['village_id'.to_sym] = FieldSetting.cache_by_name('village_id').try(:label) || I18n.t('datagrid.columns.clients.village')
+    @address_translation['birth_province_id'.to_sym] = FieldSetting.cache_by_name('birth_province').try(:label) || I18n.t('datagrid.columns.clients.birth_province')
     @address_translation
   end
 

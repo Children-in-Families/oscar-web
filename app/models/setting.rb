@@ -1,5 +1,6 @@
 class Setting < ActiveRecord::Base
   extend Enumerize
+  include CacheHelper
 
   has_paper_trail
 
@@ -60,6 +61,10 @@ class Setting < ActiveRecord::Base
 
   def max_assessment_duration
     max_assessment.send(assessment_frequency.to_sym)
+  end
+
+  def self.cache_first
+    Rails.cache.fetch([Apartment::Tenant.current, 'current_setting']) { first }
   end
 
   private
