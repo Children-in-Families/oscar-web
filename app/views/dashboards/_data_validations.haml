@@ -1,7 +1,7 @@
 .col-xs-12
   .panel.panel-default#data-validation-panel.data-validation-panel
     .panel-body#data-validation
-      = link_to '#data-validation' do
+      = link_to dashbaords_client_data_validation_path(client_grid: '', total_error: @date_validation_error[:count]) do
         .widget.style1.widget-program-panel
           .row.vertical-align
             .col-xs-5
