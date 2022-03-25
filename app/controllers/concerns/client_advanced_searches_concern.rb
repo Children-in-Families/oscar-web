@@ -49,9 +49,9 @@ module ClientAdvancedSearchesConcern
   end
 
   def fetch_advanced_search_queries
-    Rails.cache.fetch(user_cache_id << "fetch_advanced_search_queries") do
-      @my_advanced_searches    = current_user.advanced_searches.order(:name)
-      @other_advanced_searches = AdvancedSearch.includes(:user).non_of(current_user).order(:name)
+    @my_advanced_searches    = current_user.cache_advance_saved_search
+    @other_advanced_searches =  Rails.cache.fetch(user_cache_id << "other_advanced_search_queries") do
+      AdvancedSearch.includes(:user).non_of(current_user).order(:name)
     end
   end
 
@@ -129,7 +129,7 @@ module ClientAdvancedSearchesConcern
       ]
     }
     Rails.cache.fetch(user_cache_id << "get_hotline_fields") do
-      hotline_fields = AdvancedSearches::AdvancedSearchFields.new('hotline', args).render    
+      hotline_fields = AdvancedSearches::AdvancedSearchFields.new('hotline', args).render
       @hotline_fields = get_client_hotline_fields + hotline_fields
     end
   end
@@ -152,7 +152,7 @@ module ClientAdvancedSearchesConcern
       dropdown_list_option: dropdown_list_options
     }
     @client_hotline_fields = AdvancedSearches::AdvancedSearchFields.new('concern_basic_fields', args).render
-    
+
   end
 
   def hotline_text_type_list
