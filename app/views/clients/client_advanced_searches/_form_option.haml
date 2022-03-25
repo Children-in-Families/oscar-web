@@ -34,7 +34,7 @@
         .row.program-stream
           .col-xs-12
             .form-group#program-stream-data{ data: { value: program_stream_values } }
-              = select_tag(:nil, options_for_select(@program_streams.pluck(:name, :id), program_stream_values), { multiple: true, id: 'program-stream-select', class: 'form-control program-stream-select' } )
+              = select_tag(:nil, options_for_select(@program_streams.map{|p| [p.name, p.id] }, program_stream_values), { multiple: true, id: 'program-stream-select', class: 'form-control program-stream-select' } )
         .row
           .col-xs-12
             .program-association
