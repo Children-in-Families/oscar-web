@@ -35,12 +35,4 @@ class Donor < ActiveRecord::Base
     Rails.cache.delete([Apartment::Tenant.current, 'Donor', id])
     Rails.cache.delete([Apartment::Tenant.current, 'Donor', 'cached_order_name'])
   end
-
-  def self.cached_find(id)
-    Rails.cache.fetch([Apartment::Tenant.current, self.class.name, id]) { find(id) }
-  end
-
-  def self.cached_order_name
-    Rails.cache.fetch([Apartment::Tenant.current, self.class.name, 'cached_order_name']) { order(:name).to_a }
-  end
 end

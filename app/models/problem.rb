@@ -24,12 +24,4 @@ class Problem < ActiveRecord::Base
     Rails.cache.delete([Apartment::Tenant.current, 'Problem', id])
     Rails.cache.delete([Apartment::Tenant.current, 'Problem', 'cached_order_created_at']) if created_at_changed?
   end
-
-  def self.cached_find(id)
-    Rails.cache.fetch([Apartment::Tenant.current, self.class.name, id]) { find(id) }
-  end
-
-  def self.cached_order_created_at
-    Rails.cache.fetch([Apartment::Tenant.current, self.class.name, 'cached_order_created_at']) { order(:created_at).to_a }
-  end
 end

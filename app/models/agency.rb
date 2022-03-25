@@ -18,10 +18,6 @@ class Agency < ActiveRecord::Base
   end
 
   def self.cached_order_name
-    Rails.cache.fetch([Apartment::Tenant.current, self.class.name, 'cached_order_name']) { order(:name).to_a }
-  end
-
-  def self.cached_order_name
     Rails.cache.fetch([Apartment::Tenant.current, 'Agency', 'cached_order_name']) { order(:name).to_a }
   end
 
@@ -34,6 +30,5 @@ class Agency < ActiveRecord::Base
   def flush_cache
     Rails.cache.delete([Apartment::Tenant.current, 'Agency', id])
     Rails.cache.delete([Apartment::Tenant.current, 'Agency', 'cached_order_name'])
-    Rails.cache.fetch([Apartment::Tenant.current, name, id]) { find(id) }
   end
 end
