@@ -1,4 +1,5 @@
 class District < ActiveRecord::Base
+  after_commit :flush_cache
   include AddressConcern
 
   has_paper_trail

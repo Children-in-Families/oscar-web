@@ -18,6 +18,10 @@ class Agency < ActiveRecord::Base
   end
 
   def self.cached_order_name
+    Rails.cache.fetch([Apartment::Tenant.current, self.class.name, 'cached_order_name']) { order(:name).to_a }
+  end
+
+  def self.cached_order_name
     Rails.cache.fetch([Apartment::Tenant.current, 'Agency', 'cached_order_name']) { order(:name).to_a }
   end
 
