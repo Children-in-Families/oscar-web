@@ -16,10 +16,15 @@ class Donor < ActiveRecord::Base
   validates :code, uniqueness: { case_sensitive: false }, if: 'code.present?'
 
   def self.cached_find(id)
-    Rails.cache.fetch([Apartment::Tenant.current, name, id]) { find(id) }
+    Rails.cache.fetch([Apartment::Tenant.current, self.class.name, id]) { find(id) }
+  end
+
+  def self.cached_order_name
+    Rails.cache.fetch([Apartment::Tenant.current, self.class.name, 'cached_order_name']) { order(:name).to_a }
   end
 
   def flush_cache
     Rails.cache.delete([Apartment::Tenant.current, self.class.name, id])
+    Rails.cache.delete([Apartment::Tenant.current, self.class.name, 'cached_order_name'])
   end
 end

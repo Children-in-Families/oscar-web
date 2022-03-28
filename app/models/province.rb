@@ -1,4 +1,5 @@
 class Province < ActiveRecord::Base
+  after_commit :flush_cache
   include AddressConcern
 
   has_paper_trail
@@ -32,5 +33,23 @@ class Province < ActiveRecord::Base
   def self.find_by_code(code)
     district = District.where("code LIKE ?", "#{code}%").first
     district&.province&.name
+  end
+
+  def self.cached_find(id)
+    Rails.cache.fetch([Apartment::Tenant.current, self.class.name, id]) { find(id) }
+  end
+
+  def self.cached_order_name
+    Rails.cache.fetch([Apartment::Tenant.current, self.class.name, 'cached_order_name']) { order(:name).to_a }
+  end
+
+  def cached_districts
+    Rails.cache.fetch([Apartment::Tenant.current, self.class.name, id, 'cached_districts']) { districts.order(:name).to_a }
+  end
+
+  def flush_cache
+    Rails.cache.delete([Apartment::Tenant.current, self.class.name, id])
+    Rails.cache.delete([Apartment::Tenant.current, self.class.name, 'cached_order_name'])
+    Rails.cache.delete([Apartment::Tenant.current, self.class.name, id, 'cached_districts'])
   end
 end
