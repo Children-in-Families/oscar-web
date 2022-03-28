@@ -3,7 +3,7 @@ module Api
     class SettingsController < Api::V1::BaseApiController
 
       def index
-        render json: Setting.first
+        render json: Setting.cache_first
       end
     end
   end

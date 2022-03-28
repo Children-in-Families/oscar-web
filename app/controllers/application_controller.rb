@@ -38,12 +38,12 @@ class ApplicationController < ActionController::Base
   end
 
   def current_setting
-    @current_setting = Setting.first
+    @current_setting = Setting.cache_first
   end
 
   def field_settings
     return @field_settings if defined? @field_settings
-    @field_settings = FieldSetting.where('for_instances IS NULL OR for_instances iLIKE ?', "#{current_organization.short_name}")
+    FieldSetting.cache_query_find_by_ngo_name
   end
 
   def pundit_user
@@ -53,7 +53,7 @@ class ApplicationController < ActionController::Base
   protected
 
   def address_translation
-    @address_translation ||= view_context.address_translation
+    @address_translation = view_context.address_translation
   end
 
 
@@ -101,7 +101,7 @@ class ApplicationController < ActionController::Base
   end
 
   def default_url_options(options = {})
-    country = Setting.first.try(:country_name) || params[:country] || 'cambodia'
+    country = Setting.cache_first.try(:country_name) || params[:country] || 'cambodia'
     local = params[:locale] if params[:locale] && I18n.available_locales.include?(params[:locale].to_sym)
     { locale: local || I18n.locale, country: country }.merge(options)
   end

@@ -213,7 +213,7 @@ module AdvancedSearches
     end
 
     def setting_country_fields
-      country = Setting.first.try(:country_name) || 'cambodia'
+      country = Setting.cache_first.try(:country_name) || 'cambodia'
       case country
       when 'lesotho'
         {
@@ -250,7 +250,7 @@ module AdvancedSearches
     end
 
     def rated_id_poor
-      if Setting.first.country_name == 'cambodia'
+      if Setting.cache_first.country_name == 'cambodia'
         [['rated_for_id_poor', [Client::CLIENT_LEVELS, I18n.t('clients.level').values].transpose.to_h]]
       else
         []

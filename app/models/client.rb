@@ -818,7 +818,7 @@ class Client < ActiveRecord::Base
   end
 
   def current_setting
-    @current_setting ||= Setting.first
+    @current_setting ||= Setting.cache_first
   end
 
   def delete_referee

@@ -41,6 +41,8 @@ class Setting < ActiveRecord::Base
   delegate :name, to: :province, prefix: true, allow_nil: true
   delegate :name, to: :district, prefix: true, allow_nil: true
 
+  after_commit :flush_cache
+
   def delete_incomplete_after_period
     delete_incomplete_after_period_value.send(delete_incomplete_after_period_unit.to_sym)
   end
@@ -71,5 +73,9 @@ class Setting < ActiveRecord::Base
 
   def custom_assessment_name
     errors.add(:custom_assessment, I18n.t('invalid_name')) if custom_assessment.downcase.include?('csi')
+  end
+
+  def flush_cache
+    Rails.cache.delete([Apartment::Tenant.current, 'current_setting'])
   end
 end
