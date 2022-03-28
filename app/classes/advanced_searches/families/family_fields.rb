@@ -12,7 +12,7 @@ module AdvancedSearches
         @user = options[:user]
         @pundit_user = options[:pundit_user]
         @called_in = options[:called_in]
-        @current_setting = Setting.first
+        @current_setting = Setting.cache_first
         address_translation
       end
 

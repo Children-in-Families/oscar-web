@@ -109,8 +109,8 @@ class SettingsController < AdminController
 
   def country_address_fields
     @provinces = Province.order(:name)
-    @districts = Setting.first.province.present? ? Setting.first.province.districts.order(:name) : []
-    @communes  = Setting.first.district.present? ? Setting.first.district.communes.order(:name_kh, :name_en) : []
+    @districts = Setting.cache_first.province.present? ? Setting.cache_first.province.districts.order(:name) : []
+    @communes  = Setting.cache_first.district.present? ? Setting.cache_first.district.communes.order(:name_kh, :name_en) : []
   end
 
   def setting_params
@@ -188,7 +188,7 @@ class SettingsController < AdminController
   end
 
   def international_address_columns
-    country = Setting.first.try(:country_name) || params[:country]
+    country = Setting.cache_first.try(:country_name) || params[:country]
     case country
     when 'thailand'
       %w(province_id_ birth_province_id_ district_ subdistrict_ postal_code_ plot_ road_)

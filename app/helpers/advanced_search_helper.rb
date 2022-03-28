@@ -225,7 +225,7 @@ module AdvancedSearchHelper
   end
 
   def address_translation
-    @address_translation ||= {}
+    @address_translation = {}
     ['province', 'district', 'commune', 'village', 'birth_province', 'province_id', 'district_id', 'commune_id'].each do |key_translation|
       @address_translation[key_translation.to_sym] = FieldSetting.cache_by_name(key_translation).try(:label) || I18n.t("advanced_search.fields.#{key_translation}")
     end
@@ -251,7 +251,7 @@ module AdvancedSearchHelper
   end
 
   def custom_id_translation(type)
-    @customer_id_setting ||= Setting.first
+    @customer_id_setting ||= Setting.cache_first
     if I18n.locale == :en || @customer_id_setting.country_name == 'lesotho'
       if type == 'custom_id1'
         @customer_id_setting.custom_id1_latin.present? ? @customer_id_setting.custom_id1_latin : I18n.t('clients.other_detail.custom_id_number1')

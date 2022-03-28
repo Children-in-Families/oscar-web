@@ -85,7 +85,7 @@ class CaseNote < ActiveRecord::Base
   end
 
   def is_editable?
-    setting = Setting.first
+    setting = Setting.cache_first
     return true if setting.try(:case_note_edit_limit).zero?
     case_note_edit_limit = setting.try(:case_note_edit_limit).zero? ? 2 : setting.try(:case_note_edit_limit)
     edit_frequency = setting.try(:case_note_edit_frequency)
@@ -107,7 +107,7 @@ class CaseNote < ActiveRecord::Base
   end
 
   def enable_default_assessment?
-    setting = Setting.first
+    setting = Setting.cache_first
     setting && setting.enable_default_assessment
   end
 

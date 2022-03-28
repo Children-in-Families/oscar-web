@@ -48,7 +48,7 @@ class DashboardsController < AdminController
     clients_duetoday = []
     clients_upcoming = []
     clients = []
-    @setting = Setting.first
+    @setting = Setting.cache_first
     _clients = Client.accessible_by(current_ability).active_accepted_status.distinct
     eligible_clients = active_young_clients(_clients, @setting)
     eligible_clients.each do |client|

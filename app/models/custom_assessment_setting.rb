@@ -16,6 +16,8 @@ class CustomAssessmentSetting < ActiveRecord::Base
   scope :any_custom_assessment_enable?, -> { all.any? }
   scope :only_enable_custom_assessment, -> { where(enable_custom_assessment: true) }
 
+  after_commit :flush_cache
+
   def max_assessment_duration
     max_custom_assessment.send(custom_assessment_frequency.to_sym)
   end
@@ -29,4 +31,15 @@ class CustomAssessmentSetting < ActiveRecord::Base
     end
   end
 
+  def self.cache_custom_assessment
+    Rails.cache.fetch([Apartment::Tenant.current, 'CustomAssessmentSetting', 'enable_custom_assessment', 'true']) do
+      only_enable_custom_assessment.to_a
+    end
+  end
+
+  private
+
+  def flush_cache
+    Rails.cache.fetch([Apartment::Tenant.current, 'CustomAssessmentSetting', 'enable_custom_assessment', 'true']) if enable_custom_assessment
+  end
 end
