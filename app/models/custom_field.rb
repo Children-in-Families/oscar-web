@@ -27,6 +27,7 @@ class CustomField < ActiveRecord::Base
   after_create :build_permission
   before_save :set_ngo_name, if: -> { ngo_name.blank? }
   after_update :update_custom_field_label,:update_save_search, if: -> { fields_changed? }
+  after_commit :flush_cache
 
   scope :by_form_title,  ->(value)  { where('form_title iLIKE ?', "%#{value.squish}%") }
   scope :client_forms,   ->         { where(entity_type: 'Client') }
@@ -81,6 +82,10 @@ class CustomField < ActiveRecord::Base
     end
   end
 
+  def self.cache_object(id)
+    Rails.cache.fetch([Apartment::Tenant.current, 'CustomField', id]) { find(id) }
+  end
+
   private
 
   def update_custom_field_label
@@ -120,5 +125,9 @@ class CustomField < ActiveRecord::Base
         end
       end
     end
+  end
+
+  def flush_cache
+    Rails.cache.delete([Apartment::Tenant.current, self.class.name, self.id])
   end
 end

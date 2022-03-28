@@ -41,7 +41,15 @@ class FieldSetting < ActiveRecord::Base
   end
 
   def self.cache_by_name(name)
-    Rails.cache.fetch([Apartment::Tenant::current, 'FieldSetting', name]) { find_by(name: name) }
+    Rails.cache.fetch([Apartment::Tenant::current, 'FieldSetting', name]) do
+      find_by(name: name)
+    end
+  end
+
+  def self.cache_query_find_by_ngo_name
+    Rails.cache.fetch([Apartment::Tenant.current, 'field_settings', 'cache_query_find_by_ngo_name']) do
+      where('for_instances IS NULL OR for_instances iLIKE ?', "%#{Apartment::Tenant.current}%").includes(:translations).order(:group, :name).to_a
+    end
   end
 
   private
@@ -52,5 +60,8 @@ class FieldSetting < ActiveRecord::Base
 
   def flush_cache
     Rails.cache.delete(field_settings_cache_key)
+    Rails.cache.delete([Apartment::Tenant.current, self.class.name, self.id])
+    Rails.cache.delete([Apartment::Tenant::current, 'FieldSetting', self.name])
+    Rails.cache.delete(field_settings_cache_key << 'cache_query_find_by_ngo_name')
   end
 end

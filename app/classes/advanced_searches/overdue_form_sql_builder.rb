@@ -27,7 +27,7 @@ module AdvancedSearches
 
       def no_case_note
         client_ids = []
-        setting = Setting.first
+        setting = Setting.cache_first
         max_case_note = setting.try(:max_case_note) || 30
         case_note_frequency = setting.try(:case_note_frequency) || 'day'
         case_note_period = max_case_note.send(case_note_frequency).ago
@@ -73,7 +73,7 @@ module AdvancedSearches
 
       def has_overdue_assessment
         ids = []
-        setting = Setting.first
+        setting = Setting.cache_first
         Client.joins(:assessments).active_accepted_status.each do |client|
           next if !client.eligible_default_csi? && !(client.assessments.customs.any?)
           custom_assessment_setting_ids = client.assessments.customs.map{|ca| ca.domains.pluck(:custom_assessment_setting_id ) }.flatten.uniq

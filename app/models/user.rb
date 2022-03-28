@@ -153,7 +153,7 @@ class User < ActiveRecord::Base
   end
 
   def assessment_either_overdue_or_due_today
-    setting = Setting.first
+    setting = Setting.cache_first
     overdue   = []
     due_today = []
     customized_overdue   = []
@@ -177,7 +177,7 @@ class User < ActiveRecord::Base
       end
     end.compact
 
-    CustomAssessmentSetting.only_enable_custom_assessment.each do |custom_assessment_setting|
+    CustomAssessmentSetting.cache_custom_assessment.each do |custom_assessment_setting|
       sql = "clients.id, (SELECT assessments.created_at FROM assessments WHERE assessments.client_id = clients.id AND assessments.default = false ORDER BY assessments.created_at DESC LIMIT 1) AS assessment_created_at"
       if self.deactivated_at.nil?
         clients_recent_custom_assessment_dates = Client.joins(:assessments).where(id: eligible_clients.ids).merge(Assessment.customs.most_recents.joins(:domains).where(domains: { custom_assessment_setting_id: custom_assessment_setting.id })).select(sql)

@@ -490,7 +490,7 @@ module ClientsHelper
   end
 
   def selected_country
-    country = Setting.first.try(:country_name) || params[:country].presence
+    country = Setting.cache_first.try(:country_name) || params[:country].presence
     country.nil? ? 'cambodia' : country
   end
 
@@ -1188,9 +1188,9 @@ module ClientsHelper
   end
 
   def country_scope_label_translation
-    return '' if Setting.first.try(:country_name) == 'nepal'
+    return '' if Setting.cache_first.try(:country_name) == 'nepal'
     if I18n.locale.to_s == 'en'
-      country_name = Setting.first.try(:country_name)
+      country_name = Setting.cache_first.try(:country_name)
       case country_name
       when 'cambodia' then '(Khmer)'
       when 'thailand' then '(Thai)'
@@ -1367,17 +1367,17 @@ module ClientsHelper
   end
 
   def custom_id_translation(type)
-    if I18n.locale != :km || Setting.first.country_name != 'lesotho'
+    if I18n.locale != :km || Setting.cache_first.country_name != 'lesotho'
       if type == 'custom_id1'
-        Setting.first.custom_id1_latin.present? ? Setting.first.custom_id1_latin : I18n.t("#{I18n.locale.to_s}.clients.other_detail.custom_id_number1")
+        Setting.cache_first.custom_id1_latin.present? ? Setting.cache_first.custom_id1_latin : I18n.t("#{I18n.locale.to_s}.clients.other_detail.custom_id_number1")
       else
-        Setting.first.custom_id2_latin.present? ? Setting.first.custom_id2_latin : I18n.t('other_detail.custom_id_number2')
+        Setting.cache_first.custom_id2_latin.present? ? Setting.cache_first.custom_id2_latin : I18n.t('other_detail.custom_id_number2')
       end
     else
       if type == 'custom_id1'
-        Setting.first.custom_id1_local.present? ? Setting.first.custom_id1_local : I18n.t('other_detail.custom_id_number1')
+        Setting.cache_first.custom_id1_local.present? ? Setting.cache_first.custom_id1_local : I18n.t('other_detail.custom_id_number1')
       else
-        Setting.first.custom_id2_local.present? ? Setting.first.custom_id2_local : I18n.t('other_detail.custom_id_number2')
+        Setting.cache_first.custom_id2_local.present? ? Setting.cache_first.custom_id2_local : I18n.t('other_detail.custom_id_number2')
       end
     end
   end
