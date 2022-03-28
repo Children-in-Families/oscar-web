@@ -1,8 +1,9 @@
 class Commune < ActiveRecord::Base
+  after_commit :flush_cache
   attr_accessor :name
   has_paper_trail
 
-  belongs_to :district
+  belongs_to :district, touch: true
   has_many :villages, dependent: :restrict_with_error
   has_many :government_forms, dependent: :restrict_with_error
   has_many :clients, dependent: :restrict_with_error
@@ -36,5 +37,18 @@ class Commune < ActiveRecord::Base
   def self.get_commune_name_by_code(commune_code)
     result = find_by(code: commune_code)
     { cp: result.district&.province&.name, cd: result.district&.name, cc: result&.name }
+  end
+
+  def self.cached_find(id)
+    Rails.cache.fetch([Apartment::Tenant.current, self.class.name, id]) { find(id) }
+  end
+
+  def self.cached_villages
+    Rails.cache.fetch([Apartment::Tenant.current, self.class.name, id, 'cached_villages']) { villages.order(:code) }
+  end
+
+  def flush_cache
+    Rails.cache.delete([Apartment::Tenant.current, self.class.name, id])
+    Rails.cache.delete([Apartment::Tenant.current, self.class.name, id, 'cached_villages'])
   end
 end

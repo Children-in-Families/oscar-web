@@ -108,7 +108,7 @@ class SettingsController < AdminController
   private
 
   def country_address_fields
-    @provinces = Province.order(:name)
+    @provinces = Province.cached_order_name
     @districts = Setting.cache_first.province.present? ? Setting.cache_first.province.districts.order(:name) : []
     @communes  = Setting.cache_first.district.present? ? Setting.cache_first.district.communes.order(:name_kh, :name_en) : []
   end
