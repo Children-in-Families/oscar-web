@@ -42,6 +42,7 @@ class AdvancedSearch < ActiveRecord::Base
   def flush_cache
     Rails.cache.delete([Apartment::Tenant.current, 'User', user_id, 'advance_saved_search'])
     Rails.cache.delete([Apartment::Tenant.current,  self.class.name, self.id])
+    Rails.cache.fetch([Apartment::Tenant.current,  self.class.name, self.id, "other_advanced_search_queries"])
   end
 end
 
