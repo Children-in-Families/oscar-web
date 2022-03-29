@@ -319,10 +319,7 @@ module FamilyAdvancedSearchesConcern
   end
 
   def get_quantitative_fields
-    Rails.cache.fetch(user_cache_id << "get_quantitative_fields") do
-      quantitative_fields = AdvancedSearches::QuantitativeCaseFields.new(current_user, 'family')
-    end
-    
+    quantitative_fields = AdvancedSearches::QuantitativeCaseFields.new(current_user, 'family')
     @quantitative_fields = quantitative_fields.render
   end
 

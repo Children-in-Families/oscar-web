@@ -11,4 +11,8 @@ module CacheHelper
     [Apartment::Tenant.current, 'current_setting']
   end
 
+
+  def custom_fields_cache
+    [Apartment::Tenant.current, 'custom_fields']
+  end
 end
