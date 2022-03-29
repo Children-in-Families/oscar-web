@@ -40,7 +40,7 @@ class Commune < ActiveRecord::Base
   end
 
   def self.cached_find(id)
-    Rails.cache.fetch([Apartment::Tenant.current, self.class.name, id]) { find(id) }
+    Rails.cache.fetch([Apartment::Tenant.current, 'Commune', id]) { find(id) }
   end
 
   def cached_villages
