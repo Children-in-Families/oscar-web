@@ -40,6 +40,7 @@ class CustomAssessmentSetting < ActiveRecord::Base
   private
 
   def flush_cache
-    Rails.cache.fetch([Apartment::Tenant.current, 'CustomAssessmentSetting', 'enable_custom_assessment', 'true']) if enable_custom_assessment
+    Rails.cache.delete([Apartment::Tenant.current, 'CustomAssessmentSetting', 'enable_custom_assessment', 'true']) if enable_custom_assessment
+    Rails.cache.delete([Apartment::Tenant.current, 'User', User.current_user.id, 'assessment_either_overdue_or_due_today']) if User.current_user.present?
   end
 end
