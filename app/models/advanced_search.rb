@@ -31,10 +31,17 @@ class AdvancedSearch < ActiveRecord::Base
     user.name
   end
 
+  def self.cached_advanced_search(params_id)
+    Rails.cache.fetch([Apartment::Tenant.current, 'AdvancedSearch', params_id]) do
+       self.find(params_id)
+    end
+  end
+
   private
 
   def flush_cache
     Rails.cache.delete([Apartment::Tenant.current, 'User', user_id, 'advance_saved_search'])
+    Rails.cache.delete([Apartment::Tenant.current,  self.class.name, self.id])
   end
 end
 

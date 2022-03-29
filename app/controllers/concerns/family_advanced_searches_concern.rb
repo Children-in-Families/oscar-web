@@ -80,9 +80,7 @@ module FamilyAdvancedSearchesConcern
   end
 
   def custom_form_fields
-    Rails.cache.fetch(user_cache_id << "custom_form_fields") do
       @custom_form_fields = get_custom_form_fields + get_has_this_form_fields
-    end
   end
 
   def get_has_this_form_fields
@@ -90,9 +88,7 @@ module FamilyAdvancedSearchesConcern
   end
 
   def get_custom_form_fields
-    Rails.cache.fetch(user_cache_id << "get_custom_form_fields") do
-      @custom_forms = AdvancedSearches::CustomFields.new(custom_form_values, 'Family').render
-    end
+    @custom_forms = AdvancedSearches::CustomFields.new(custom_form_values, 'Family').render
   end
 
   def custom_form_value?
@@ -319,10 +315,7 @@ module FamilyAdvancedSearchesConcern
   end
 
   def get_quantitative_fields
-    Rails.cache.fetch(user_cache_id << "get_quantitative_fields") do
-      quantitative_fields = AdvancedSearches::QuantitativeCaseFields.new(current_user, 'family')
-    end
-    
+    quantitative_fields = AdvancedSearches::QuantitativeCaseFields.new(current_user, 'family')
     @quantitative_fields = quantitative_fields.render
   end
 

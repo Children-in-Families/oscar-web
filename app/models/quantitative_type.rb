@@ -19,7 +19,29 @@ class QuantitativeType < ActiveRecord::Base
   scope :name_like, ->(name) { where('quantitative_types.name iLIKE ?', "%#{name}%") }
 
   after_create :build_permission
+  
+  after_commit :flush_cach 
 
+  def flush_cach
+    Rails.cache.delete([Apartment::Tenant.current, "QuantitativeType", "client"] )
+    Rails.cache.delete([Apartment::Tenant.current, "QuantitativeType", "community"] )
+    Rails.cache.delete([Apartment::Tenant.current, "QuantitativeType", "family"] )
+  end
+
+
+  def self.cach_by_visible_on(visible_on)
+    Rails.cache.fetch([Apartment::Tenant.current, "QuantitativeType", visible_on]) do
+      QuantitativeType.includes(:quantitative_cases).where('quantitative_types.visible_on LIKE ?', "%#{visible_on}%")
+    end
+  end
+
+  def self.cach_by_quantitative_type_ids(quantitative_type_ids)
+    Rails.cache.fetch([Apartment::Tenant.current, "quantitative_type_ids", quantitative_type_ids]) do
+      QuantitativeType.includes(:quantitative_cases).where(id: quantitative_type_ids)
+    end
+  end
+
+  
   private
 
   def validate_visible_on
