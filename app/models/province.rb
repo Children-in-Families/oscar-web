@@ -45,6 +45,10 @@ class Province < ActiveRecord::Base
     Rails.cache.fetch([Apartment::Tenant.current, 'Province', 'cached_order_name']) { order(:name).to_a }
   end
 
+  def self.cached_dropdown_list_option
+    Rails.cache.fetch([Apartment::Tenant.current, 'Province', 'dropdown_list_option']) {self.dropdown_list_option}
+  end
+
   def cached_districts
     Rails.cache.fetch([Apartment::Tenant.current, 'Province', id, 'cached_districts']) { districts.order(:name).to_a }
   end
