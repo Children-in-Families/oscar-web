@@ -105,8 +105,7 @@ module ClientAdvancedSearchesConcern
   end
 
   def get_client_basic_fields
-      # Static Fields
-      AdvancedSearches::ClientFields.new(user: current_user, pundit_user: pundit_user).render
+    AdvancedSearches::ClientFields.new(user: current_user, pundit_user: pundit_user).render
   end
 
   def get_hotline_fields
@@ -163,8 +162,7 @@ module ClientAdvancedSearchesConcern
   end
 
   def get_custom_form_fields
-    # Static Fields
-      @custom_forms = custom_form_values.empty? ? [] : AdvancedSearches::CustomFields.new(custom_form_values).render
+    @custom_forms = custom_form_values.empty? ? [] : AdvancedSearches::CustomFields.new(custom_form_values).render
   end
 
   def get_has_this_form_fields
@@ -172,8 +170,8 @@ module ClientAdvancedSearchesConcern
   end
 
   def get_quantitative_fields
-      quantitative_fields = AdvancedSearches::QuantitativeCaseFields.new(current_user)
-      @quantitative_fields = quantitative_fields.render
+    quantitative_fields = AdvancedSearches::QuantitativeCaseFields.new(current_user)
+    @quantitative_fields = quantitative_fields.render
   end
 
   def get_enrollment_fields
