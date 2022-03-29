@@ -36,11 +36,11 @@ class Province < ActiveRecord::Base
   end
 
   def self.cached_find(id)
-    Rails.cache.fetch([Apartment::Tenant.current, self.class.name, id]) { find(id) }
+    Rails.cache.fetch([Apartment::Tenant.current, 'Province', id]) { find(id) }
   end
 
   def self.cached_order_name
-    Rails.cache.fetch([Apartment::Tenant.current, self.class.name, 'cached_order_name']) { order(:name).to_a }
+    Rails.cache.fetch([Apartment::Tenant.current, 'Province', 'cached_order_name']) { order(:name).to_a }
   end
 
   def self.cached_dropdown_list_option
@@ -48,7 +48,7 @@ class Province < ActiveRecord::Base
   end
 
   def cached_districts
-    Rails.cache.fetch([Apartment::Tenant.current, self.class.name, id, 'cached_districts']) { districts.order(:name).to_a }
+    Rails.cache.fetch([Apartment::Tenant.current, 'Province', id, 'cached_districts']) { districts.order(:name).to_a }
   end
 
   def flush_cache
