@@ -1,5 +1,4 @@
 class District < ActiveRecord::Base
-  after_commit :flush_cache
   include AddressConcern
 
   has_paper_trail
@@ -46,6 +45,10 @@ class District < ActiveRecord::Base
 
   def cached_subdistricts
     Rails.cache.fetch([Apartment::Tenant.current, 'District', id, 'cached_subdistricts']) { subdistricts.order(:name).to_a }
+  end
+
+  def self.cached_dropdown_list_option
+    Rails.cache.fetch([Apartment::Tenant.current, 'District', 'dropdown_list_option']) { self.dropdown_list_option }
   end
 
   private

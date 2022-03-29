@@ -1,6 +1,4 @@
 class ClientType < ActiveRecord::Base
-  after_commit :flush_cache
-
   has_paper_trail
 
   has_many :client_type_government_forms, dependent: :restrict_with_error

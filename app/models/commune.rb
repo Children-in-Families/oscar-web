@@ -1,7 +1,6 @@
 class Commune < ActiveRecord::Base
   include AddressConcern
 
-  after_commit :flush_cache
   attr_accessor :name
   has_paper_trail
 

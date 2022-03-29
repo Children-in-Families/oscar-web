@@ -1,6 +1,4 @@
 class Interviewee < ActiveRecord::Base
-  after_commit :flush_cache
-
   has_paper_trail
 
   has_many :government_form_interviewees, dependent: :restrict_with_error

@@ -1,6 +1,4 @@
 class Problem < ActiveRecord::Base
-  after_commit :flush_cache
-
   has_paper_trail
 
   has_many :government_form_problems, dependent: :restrict_with_error

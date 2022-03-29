@@ -1,6 +1,4 @@
 class Agency < ActiveRecord::Base
-  after_commit :flush_cache
-
   has_many :agency_clients
   has_many :clients, through: :agency_clients
   has_paper_trail
