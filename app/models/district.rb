@@ -35,15 +35,15 @@ class District < ActiveRecord::Base
   end
 
   def self.cached_find(id)
-    Rails.cache.fetch([Apartment::Tenant.current, self.class.name, id]) { find(id) }
+    Rails.cache.fetch([Apartment::Tenant.current, 'District', id]) { find(id) }
   end
 
   def cached_communes
-    Rails.cache.fetch([Apartment::Tenant.current, self.class.name, id, 'cached_communes']) { communes.order(:code).to_a }
+    Rails.cache.fetch([Apartment::Tenant.current, 'District', id, 'cached_communes']) { communes.order(:code).to_a }
   end
 
   def cached_subdistricts
-    Rails.cache.fetch([Apartment::Tenant.current, self.class.name, id, 'cached_subdistricts']) { subdistricts.order(:name).to_a }
+    Rails.cache.fetch([Apartment::Tenant.current, 'District', id, 'cached_subdistricts']) { subdistricts.order(:name).to_a }
   end
 
   def self.cached_dropdown_list_option

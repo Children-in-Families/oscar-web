@@ -71,20 +71,16 @@ module ClientAdvancedSearchesConcern
   end
 
   def hotline_call_column
-    Rails.cache.fetch(user_cache_id << "hotline_call_column") do
       client_hotlines = get_client_hotline_fields.group_by{ |field| field[:optgroup] }
       call_hotlines = get_hotline_fields.group_by{ |field| field[:optgroup] }
       @hotline_call_columns = client_hotlines.merge(call_hotlines)
-    end
   end
 
   def program_stream_fields
-    Rails.cache.fetch(user_cache_id << "program_stream_fields") do
     if params.dig(:client_advanced_search, :action_report_builder) == '#wizard-builder'
-        @wizard_program_stream_fields = get_enrollment_fields + get_tracking_fields + get_exit_program_fields
-      else
-        @program_stream_fields = get_enrollment_fields + get_tracking_fields + get_exit_program_fields
-      end
+      @wizard_program_stream_fields = get_enrollment_fields + get_tracking_fields + get_exit_program_fields
+    else
+      @program_stream_fields = get_enrollment_fields + get_tracking_fields + get_exit_program_fields
     end
   end
 
@@ -109,9 +105,8 @@ module ClientAdvancedSearchesConcern
   end
 
   def get_client_basic_fields
-    # Rails.cache.fetch(user_cache_id << "get_client_basic_fields") do
+      # Static Fields
       AdvancedSearches::ClientFields.new(user: current_user, pundit_user: pundit_user).render
-    # end
   end
 
   def get_hotline_fields
@@ -143,9 +138,6 @@ module ClientAdvancedSearchesConcern
       ['concern_is_outside', { true: 'Yes', false: 'No' }],
       ['concern_same_as_client', { true: 'Yes', false: 'No' }]
     ]
-
-    binding.pry
-
     args = {
       translation: client_fields.merge({ concern_basic_fields: I18n.t('advanced_search.fields.concern_basic_fields') }), number_field: [],
       text_field: hotline_text_type_list, date_picker_field: [],
@@ -164,20 +156,16 @@ module ClientAdvancedSearchesConcern
   end
 
   def custom_form_fields
-    Rails.cache.fetch(user_cache_id << "custom_form_fields") do
-      if params.dig(:client_advanced_search, :action_report_builder) == '#wizard-builder'
-        @wizard_custom_form_fields = get_custom_form_fields + get_has_this_form_fields
-      else
-        @custom_form_fields = get_custom_form_fields + get_has_this_form_fields
-      end
+    if params.dig(:client_advanced_search, :action_report_builder) == '#wizard-builder'
+      @wizard_custom_form_fields = get_custom_form_fields + get_has_this_form_fields
+    else
+      @custom_form_fields = get_custom_form_fields + get_has_this_form_fields
     end
   end
 
   def get_custom_form_fields
-    # customFields
-    Rails.cache.fetch(user_cache_id << "get_custom_form_fields") do
+    # Static Fields
       @custom_forms = custom_form_values.empty? ? [] : AdvancedSearches::CustomFields.new(custom_form_values).render
-    end
   end
 
   def get_has_this_form_fields
@@ -234,9 +222,7 @@ module ClientAdvancedSearchesConcern
 
   def find_params_advanced_search
     if params[:advanced_search_id]
-      Rails.cache.fetch(user_cache_id << "find_params_advanced_search") do
-        advanced_search = AdvancedSearch.find(params[:advanced_search_id])
-      end
+      advanced_search = AdvancedSearch.cached_advanced_search(params[:advanced_search_id])
       @advanced_search_params = params[:client_advanced_search].merge("basic_rules" => advanced_search.queries)
     else
       @advanced_search_params = params[:client_advanced_search]
