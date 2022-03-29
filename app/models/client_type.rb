@@ -1,6 +1,4 @@
 class ClientType < ActiveRecord::Base
-  after_commit :flush_cache
-
   has_paper_trail
 
   has_many :client_type_government_forms, dependent: :restrict_with_error
@@ -8,16 +6,18 @@ class ClientType < ActiveRecord::Base
 
   validates :name, presence: true, uniqueness: { case_sensitive: false }
 
+  after_commit :flush_cache
+
   def self.cached_find(id)
-    Rails.cache.fetch([Apartment::Tenant.current, self.class.name, id]) { find(id) }
+    Rails.cache.fetch([Apartment::Tenant.current, 'ClientType', id]) { find(id) }
   end
 
   def self.cached_order_created_at
-    Rails.cache.fetch([Apartment::Tenant.current, self.class.name, 'cached_order_created_at']) { order(:created_at).to_a }
+    Rails.cache.fetch([Apartment::Tenant.current, 'ClientType', 'cached_order_created_at']) { order(:created_at).to_a }
   end
 
   def flush_cache
-    Rails.cache.delete([Apartment::Tenant.current, self.class.name, id])
-    Rails.cache.delete([Apartment::Tenant.current, self.class.name, 'cached_order_created_at'])
+    Rails.cache.delete([Apartment::Tenant.current, 'ClientType', id])
+    Rails.cache.delete([Apartment::Tenant.current, 'ClientType', 'cached_order_created_at'])
   end
 end
