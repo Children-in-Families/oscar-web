@@ -47,8 +47,14 @@ class Commune < ActiveRecord::Base
     Rails.cache.fetch([Apartment::Tenant.current, self.class.name, id, 'cached_villages']) { villages.order(:code) }
   end
 
+  def self.cached_dropdown_list_option
+    Rails.cache.fetch([Apartment::Tenant.current, 'commune', 'dropdown_list_option']) { self.dropdown_list_option }
+  end
+
   def flush_cache
     Rails.cache.delete([Apartment::Tenant.current, self.class.name, id])
     Rails.cache.delete([Apartment::Tenant.current, self.class.name, id, 'cached_villages'])
+    Rails.cache.delete([Apartment::Tenant.current, "commune", 'dropdown_list_option'])
+
   end
 end
