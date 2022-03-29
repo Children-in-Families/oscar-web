@@ -26,10 +26,10 @@ module I18n::Backend::Custom
     filenames = I18n.load_path if filenames.empty?
     filenames.flatten.each { |filename| load_file(filename) }
     if Apartment::Tenant.current != 'public'
-      if ActiveRecord::Base.connection.table_exists? 'settings'
+      if Organization.cache_table_exists? 'settings'
         nepal_commune_mapping if Setting.cache_first&.country_name == 'nepal'
       end
-      load_custom_labels if ActiveRecord::Base.connection.table_exists? 'field_settings'
+      load_custom_labels if Organization.cache_table_exists? 'field_settings'
     end
   end
 

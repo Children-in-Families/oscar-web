@@ -100,15 +100,15 @@ class Organization < ActiveRecord::Base
     end
 
     def brc?
-      current&.short_name == 'brc'
+      Apartment::Tenant.current == 'brc'
     end
 
     def shared?
-      current&.short_name == 'shared'
+      Apartment::Tenant.current == 'shared'
     end
 
     def ratanak?
-      current&.short_name == 'ratanak'
+      Apartment::Tenant.current == 'ratanak'
     end
   end
 
@@ -153,6 +153,11 @@ class Organization < ActiveRecord::Base
     date_of_integration && date_of_integration.strftime("%d %B %Y")
   end
 
+  def self.cache_table_exists?(table_name)
+    Rails.cache.fetch([Apartment::Tenant.current, 'table_name', table_name]) do
+      ActiveRecord::Base.connection.table_exists? table_name
+    end
+  end
 
   private
 
