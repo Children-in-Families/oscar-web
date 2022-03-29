@@ -109,9 +109,9 @@ module ClientAdvancedSearchesConcern
   end
 
   def get_client_basic_fields
-    Rails.cache.fetch(user_cache_id << "get_client_basic_fields") do
+    # Rails.cache.fetch(user_cache_id << "get_client_basic_fields") do
       AdvancedSearches::ClientFields.new(user: current_user, pundit_user: pundit_user).render
-    end
+    # end
   end
 
   def get_hotline_fields
@@ -170,6 +170,7 @@ module ClientAdvancedSearchesConcern
   end
 
   def get_custom_form_fields
+    # customFields
     Rails.cache.fetch(user_cache_id << "get_custom_form_fields") do
       @custom_forms = custom_form_values.empty? ? [] : AdvancedSearches::CustomFields.new(custom_form_values).render
     end
@@ -180,10 +181,8 @@ module ClientAdvancedSearchesConcern
   end
 
   def get_quantitative_fields
-    Rails.cache.fetch(user_cache_id << "get_quantitative_fields") do
       quantitative_fields = AdvancedSearches::QuantitativeCaseFields.new(current_user)
       @quantitative_fields = quantitative_fields.render
-    end
   end
 
   def get_enrollment_fields
