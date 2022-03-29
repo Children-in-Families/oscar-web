@@ -154,10 +154,10 @@ class FamiliesController < AdminController
   def find_association
     return if @family.nil?
     @users     = User.without_deleted_users.non_strategic_overviewers.order(:first_name, :last_name)
-    @provinces = Province.order(:name)
-    @districts = @family.province.present? ? @family.province.districts.order(:name) : []
-    @communes  = @family.district.present? ? @family.district.communes.order(:code) : []
-    @villages  = @family.commune.present? ? @family.commune.villages.order(:code) : []
+    @provinces = Province.cached_order_name
+    @districts = @family.province.present? ? @family.province.cached_districts : []
+    @communes  = @family.district.present? ? @family.district.cached_communes : []
+    @villages  = @family.commune.present? ? @family.commune.cached_villages : []
     if action_name.in?(['edit', 'update'])
       client_ids = Family.where.not(id: @family).pluck(:children).flatten.uniq - @family.children
     else
@@ -208,9 +208,9 @@ class FamiliesController < AdminController
       @family.village = Village.find_by(id: village_id)
 
       @provinces = Province.order(:name)
-      @districts = @family.province.present? ? @family.province.districts.order(:name) : []
-      @communes  = @family.district.present? ? @family.district.communes.order(:code) : []
-      @villages  = @family.commune.present? ? @family.commune.villages.order(:code) : []
+      @districts = @family.province.present? ? @family.province.cached_districts : []
+      @communes  = @family.district.present? ? @family.district.cached_communes : []
+      @villages  = @family.commune.present? ? @family.commune.cached_villages : []
     end
     @family = Family.new(attributes)
     @selected_children = params[:children]

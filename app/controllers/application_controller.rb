@@ -76,7 +76,7 @@ class ApplicationController < ActionController::Base
 
   def find_association
     @department = Department.order(:name)
-    @province   = Province.order(:name)
+    @province   = Province.cached_order_name
   end
 
   def set_locale
