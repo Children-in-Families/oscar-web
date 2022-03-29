@@ -33,4 +33,12 @@ class Village < ActiveRecord::Base
     result = find_by(code: village_code)
     { cp: result.commune&.district&.province&.name, cd: result.commune&.district&.name, cc: result.commune&.name, cv: result&.name }
   end
+
+  def self.cached_dropdown_list_option
+    Rails.cache.fetch([Apartment::Tenant.current, 'Village', 'dropdown_list_option']) {self.dropdown_list_option}
+  end
+  
+  def flush_cache
+    Rails.cache.delete([Apartment::Tenant.current, "Village", 'dropdown_list_option'])
+  end
 end
