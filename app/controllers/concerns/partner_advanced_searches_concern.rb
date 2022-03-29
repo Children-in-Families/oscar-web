@@ -49,15 +49,11 @@ module PartnerAdvancedSearchesConcern
   end
 
   def custom_form_fields
-    Rails.cache.fetch(user_cache_id << "get_custom_form_fields") do
-      @custom_form_fields = get_custom_form_fields + get_has_this_form_fields
-    end
+    @custom_form_fields = get_custom_form_fields + get_has_this_form_fields
   end
 
   def get_custom_form_fields
-    Rails.cache.fetch(user_cache_id << "get_custom_form_fields") do
-      @custom_forms = AdvancedSearches::CustomFields.new(custom_form_values).render
-    end
+    @custom_forms = AdvancedSearches::CustomFields.new(custom_form_values).render
   end
 
   def get_has_this_form_fields

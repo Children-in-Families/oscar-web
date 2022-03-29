@@ -88,9 +88,7 @@ module FamilyAdvancedSearchesConcern
   end
 
   def get_custom_form_fields
-    Rails.cache.fetch(user_cache_id << "get_custom_form_fields") do
-      @custom_forms = AdvancedSearches::CustomFields.new(custom_form_values, 'Family').render
-    end
+    @custom_forms = AdvancedSearches::CustomFields.new(custom_form_values, 'Family').render
   end
 
   def custom_form_value?
