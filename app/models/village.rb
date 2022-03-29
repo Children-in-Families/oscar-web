@@ -1,7 +1,7 @@
 class Village < ActiveRecord::Base
   has_paper_trail
 
-  belongs_to :commune
+  belongs_to :commune, touch: true
   has_many :government_forms, dependent: :restrict_with_error
   has_many :clients, dependent: :restrict_with_error
   has_many :families, dependent: :restrict_with_error
@@ -11,6 +11,8 @@ class Village < ActiveRecord::Base
   validates :code, presence: true, uniqueness: true
 
   scope :dropdown_list_option, -> { all.map{|c| { c.id => c.name } } }
+
+  after_commit :flush_cache
 
   def code_format
     "#{name_kh} / #{name_en} (#{code})"
@@ -35,7 +37,7 @@ class Village < ActiveRecord::Base
   end
 
   def self.cached_dropdown_list_option
-    Rails.cache.fetch([Apartment::Tenant.current, 'Village', 'dropdown_list_option']) {self.dropdown_list_option}
+    Rails.cache.fetch([Apartment::Tenant.current, 'Village', 'dropdown_list_option']) { self.dropdown_list_option }
   end
   
   def flush_cache

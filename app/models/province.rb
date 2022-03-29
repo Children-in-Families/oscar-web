@@ -1,5 +1,4 @@
 class Province < ActiveRecord::Base
-  after_commit :flush_cache
   include AddressConcern
 
   has_paper_trail
@@ -21,6 +20,8 @@ class Province < ActiveRecord::Base
   scope :official, -> { where.not(name: ['បោយប៉ែត/Poipet', 'Community', 'Other / ផ្សេងៗ', 'នៅ​ខាង​ក្រៅ​កម្ពុជា / Outside Cambodia']) }
 
   validates :name, presence: true, uniqueness: { case_sensitive: false, scope: :country }
+
+  after_commit :flush_cache
 
   def removeable?
     families.count.zero? && partners.count.zero? && users.count.zero? && clients.count.zero? && cases.count.zero?
@@ -52,9 +53,9 @@ class Province < ActiveRecord::Base
   end
 
   def flush_cache
-    Rails.cache.delete([Apartment::Tenant.current, self.class.name, id])
-    Rails.cache.delete([Apartment::Tenant.current, self.class.name, 'cached_order_name'])
-    Rails.cache.delete([Apartment::Tenant.current, self.class.name, id, 'cached_districts'])
-    Rails.cache.delete([Apartment::Tenant.current, "Province", 'dropdown_list_option'])
+    Rails.cache.delete([Apartment::Tenant.current, 'Province', id])
+    Rails.cache.delete([Apartment::Tenant.current, 'Province', 'cached_order_name'])
+    Rails.cache.delete([Apartment::Tenant.current, 'Province', id, 'cached_districts'])
+    Rails.cache.delete([Apartment::Tenant.current, 'Province', 'dropdown_list_option'])
   end
 end
