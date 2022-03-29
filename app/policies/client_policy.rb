@@ -17,9 +17,9 @@ class ClientPolicy < ApplicationPolicy
     ]
 
     if Organization.ratanak?
-      field_settings.where(name: fields).any? && fields.any?{ |field| show?(field) }
+      FieldSetting.show_legal_doc(fields) && fields.any?{ |field| show?(field) }
     else
-      field_settings.where(visible: true, name: fields).any? && fields.any?{ |field| show?(field) }
+      FieldSetting.show_legal_doc_visible(fields) && fields.any?{ |field| show?(field) }
     end
   end
 
@@ -45,7 +45,6 @@ class ClientPolicy < ApplicationPolicy
       :main_school_contact,
       :education_background
     ]
-
     field_settings.where(name: fields).any? && fields.any?{ |field| show?(field) }
   end
 
@@ -68,11 +67,7 @@ class ClientPolicy < ApplicationPolicy
 
     return false if Organization.brc? && (hidden_fields.include?(field) || hidden_fields.map{|f| f + '_'}.include?(field))
 
-    field_setting = field_settings.find do |field_setting|
-      field_setting.name == field &&
-      field_setting.klass_name == 'client' &&
-      (field_setting.for_instances.blank? || field_setting.for_instances.include?(Organization.current&.short_name))
-    end
+    field_setting = FieldSetting.cache_by_name_klass_name_instance(field, 'client')
 
     field_setting.present? ? (field_setting.required? || field_setting.visible?) : true
   end

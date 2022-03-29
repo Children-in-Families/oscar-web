@@ -77,5 +77,6 @@ class Setting < ActiveRecord::Base
 
   def flush_cache
     Rails.cache.delete([Apartment::Tenant.current, 'current_setting'])
+    Rails.cache.fetch([Apartment::Tenant.current, 'table_name', 'settings'])
   end
 end

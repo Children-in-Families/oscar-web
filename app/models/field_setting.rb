@@ -7,6 +7,7 @@ class FieldSetting < ActiveRecord::Base
 
   default_scope -> { order(:created_at) }
   scope :without_hidden_fields, -> { where(visible: true) }
+  scope :by_instances, ->(ngo_short_name) { where('for_instances IS NULL OR for_instances iLIKE ?', "%#{ngo_short_name}%").includes(:translations).order(:group, :name) }
 
   before_save :assign_type
   after_commit :flush_cache
@@ -20,7 +21,9 @@ class FieldSetting < ActiveRecord::Base
   end
 
   def self.hidden_group?(group_name)
-    exists?(group: group_name, type: :group, visible: false)
+    Rails.cache.fetch([Apartment::Tenant.current, 'field_settings', group_name, 'hidden_group']) do
+      exists?(group: group_name, type: :group, visible: false)
+    end
   end
 
   def possible_key_match?(key_paths)
@@ -46,9 +49,27 @@ class FieldSetting < ActiveRecord::Base
     end
   end
 
+  def self.cache_by_name_klass_name_instance(name, klass_name = 'client')
+    Rails.cache.fetch([Apartment::Tenant.current, 'FieldSetting', name, klass_name]) do
+      find_by(name: name, klass_name: klass_name)
+    end
+  end
+
   def self.cache_query_find_by_ngo_name
     Rails.cache.fetch([Apartment::Tenant.current, 'field_settings', 'cache_query_find_by_ngo_name']) do
-      where('for_instances IS NULL OR for_instances iLIKE ?', "%#{Apartment::Tenant.current}%").includes(:translations).order(:group, :name).to_a
+      by_instances(Apartment::Tenant.current)
+    end
+  end
+
+  def self.show_legal_doc(fields)
+    Rails.cache.fetch([Apartment::Tenant.current, 'field_settings', 'show_legal_doc']) do
+      by_instances(Apartment::Tenant.current).where(name: fields).any?
+    end
+  end
+
+  def self.show_legal_doc_visible(fields)
+    Rails.cache.fetch([Apartment::Tenant.current, 'field_settings', 'show_legal_doc', 'visible']) do
+      by_instances(Apartment::Tenant.current).where(visible: true, name: fields).any?
     end
   end
 
@@ -63,5 +84,9 @@ class FieldSetting < ActiveRecord::Base
     Rails.cache.delete([Apartment::Tenant.current, self.class.name, self.id])
     Rails.cache.delete([Apartment::Tenant::current, 'FieldSetting', self.name])
     Rails.cache.delete(field_settings_cache_key << 'cache_query_find_by_ngo_name')
+    Rails.cache.delete([Apartment::Tenant.current, 'FieldSetting', self.name, self.klass_name])
+    Rails.cache.delete([Apartment::Tenant.current, 'field_settings', 'show_legal_doc'])
+    Rails.cache.delete([Apartment::Tenant.current, 'table_name', 'field_settings'])
+    Rails.cache.delete([Apartment::Tenant.current, 'FieldSetting', self.group_name, 'hidden_group'])
   end
 end
