@@ -51,7 +51,7 @@ module ClientAdvancedSearchesConcern
   def fetch_advanced_search_queries
     @my_advanced_searches    = current_user.cache_advance_saved_search
     @other_advanced_searches =  Rails.cache.fetch(user_cache_id << "other_advanced_search_queries") do
-      AdvancedSearch.includes(:user).non_of(current_user).order(:name)
+      AdvancedSearch.includes(:user).non_of(current_user).order(:name).to_a
     end
   end
 
@@ -105,8 +105,7 @@ module ClientAdvancedSearchesConcern
   end
 
   def get_client_basic_fields
-      # Static Fields
-      AdvancedSearches::ClientFields.new(user: current_user, pundit_user: pundit_user).render
+    AdvancedSearches::ClientFields.new(user: current_user, pundit_user: pundit_user).render
   end
 
   def get_hotline_fields
@@ -164,8 +163,7 @@ module ClientAdvancedSearchesConcern
   end
 
   def get_custom_form_fields
-    # Static Fields
-      @custom_forms = custom_form_values.empty? ? [] : AdvancedSearches::CustomFields.new(custom_form_values).render
+    @custom_forms = custom_form_values.empty? ? [] : AdvancedSearches::CustomFields.new(custom_form_values).render
   end
 
   def get_has_this_form_fields
@@ -173,8 +171,8 @@ module ClientAdvancedSearchesConcern
   end
 
   def get_quantitative_fields
-      quantitative_fields = AdvancedSearches::QuantitativeCaseFields.new(current_user)
-      @quantitative_fields = quantitative_fields.render
+    quantitative_fields = AdvancedSearches::QuantitativeCaseFields.new(current_user)
+    @quantitative_fields = quantitative_fields.render
   end
 
   def get_enrollment_fields
