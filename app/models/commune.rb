@@ -43,8 +43,8 @@ class Commune < ActiveRecord::Base
     Rails.cache.fetch([Apartment::Tenant.current, self.class.name, id]) { find(id) }
   end
 
-  def self.cached_villages
-    Rails.cache.fetch([Apartment::Tenant.current, self.class.name, id, 'cached_villages']) { villages.order(:code) }
+  def cached_villages
+    Rails.cache.fetch([Apartment::Tenant.current, self.class.name, id, 'cached_villages']) { villages.order(:code).to_a }
   end
 
   def flush_cache

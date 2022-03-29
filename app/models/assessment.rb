@@ -20,6 +20,7 @@ class Assessment < ActiveRecord::Base
 
   before_save :set_previous_score
   before_save :set_assessment_completed, unless: :completed?
+  after_commit :flush_cache
 
   accepts_nested_attributes_for :assessment_domains
 
@@ -177,5 +178,9 @@ class Assessment < ActiveRecord::Base
         end
       end
     end
+  end
+
+  def flush_cache
+    Rails.cache.delete([Apartment::Tenant.current, 'User', User.current_user.id, 'assessment_either_overdue_or_due_today']) if User.current_user.present?
   end
 end

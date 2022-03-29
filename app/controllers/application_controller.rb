@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
   before_action :set_paper_trail_whodunnit, :current_setting
   before_action :prevent_routes
   before_action :set_raven_context, :address_translation
+  before_filter :set_current_user
 
   rescue_from ActiveRecord::RecordNotFound do |exception|
     render file: "#{Rails.root}/app/views/errors/404", layout: false, status: :not_found
@@ -52,6 +53,9 @@ class ApplicationController < ActionController::Base
     @address_translation = view_context.address_translation
   end
 
+  def set_current_user
+    User.current_user = current_user
+  end
 
   private
 

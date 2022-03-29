@@ -1,7 +1,7 @@
 class SettingsController < AdminController
   include CommunityHelper
 
-  before_action :find_setting, except: [:create, :show, :edit, :update]
+  before_action :find_setting, except: [:create]
   before_action :country_address_fields, only: [:edit, :update]
 
   def index
@@ -23,13 +23,13 @@ class SettingsController < AdminController
   end
 
   def edit
-    authorize @current_setting
-    render template: 'organizations/edit', locals: { current_setting: @current_setting }
+    authorize @setting
+    render template: 'organizations/edit', locals: { current_setting: @setting }
   end
 
   def update
-    authorize @current_setting
-    @setting = @current_setting
+    authorize @setting
+    @setting = @setting
     if params[:setting].has_key?(:org_form)
       if @setting.update_attributes(setting_params)
         redirect_to root_path, notice: t('.successfully_updated')
@@ -46,6 +46,7 @@ class SettingsController < AdminController
               redirect_to settings_path, notice: t('.successfully_updated')
             end
           else
+            flash[:alert] = @setting.errors.full_messages.join(", ")
             render :index
           end
         end
@@ -66,27 +67,27 @@ class SettingsController < AdminController
   end
 
   def research_module
-    authorize @current_setting
+    authorize @setting
   end
 
   def custom_labels
-    authorize @current_setting
+    authorize @setting
   end
 
   def client_forms
-    authorize @current_setting
+    authorize @setting
   end
 
   def community
-    authorize @current_setting
+    authorize @setting
   end
 
   def family_case_management
-    authorize @current_setting
+    authorize @setting
   end
 
   def integration
-    authorize @current_setting
+    authorize @setting
     attribute = params[:setting]
     if attribute && current_organization.update_attributes(integrated: attribute[:integrated])
       redirect_to integration_settings_path, notice: t('.successfully_updated')
@@ -96,14 +97,12 @@ class SettingsController < AdminController
   end
 
   def custom_form
-    authorize @current_setting
+    authorize @setting
   end
 
   def test_client
-    authorize @current_setting
+    authorize @setting
   end
-
-
 
   private
 
