@@ -40,7 +40,7 @@
                   .col-xs-12
                     %p Which Custom Forms would you like to show information from?
                     .form-group#wizard-custom-form-data{ data: { value: custom_form_values('#wizard-builder') } }
-                      = select_tag(:nil, options_for_select(@custom_fields.pluck(:form_title, :id), custom_form_values('#wizard-builder')), { multiple: true, id: 'wizard-custom-form-select', class: 'form-control' } )
+                      = select_tag(:nil, options_for_select(@custom_fields.map{|custom_field| [custom_field.form_title, custom_field.id] }, custom_form_values('#wizard-builder')), { multiple: true, id: 'wizard-custom-form-select', class: 'form-control' } )
                 %br
                 .loader.hidden
                 .row#custom-form-column
