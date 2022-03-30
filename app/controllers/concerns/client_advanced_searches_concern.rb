@@ -66,8 +66,8 @@ module ClientAdvancedSearchesConcern
   end
 
   def get_custom_form
-    form_ids = CustomFieldProperty.where(custom_formable_type: 'Client').pluck(:custom_field_id).uniq
-    @custom_fields = CustomField.where(id: form_ids).order_by_form_title
+    form_ids = CustomFieldProperty.cached_custom_formable_type
+    @custom_fields = CustomField.cached_order_by_form_title(form_ids)
   end
 
   def hotline_call_column
