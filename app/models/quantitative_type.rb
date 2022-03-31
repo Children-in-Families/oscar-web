@@ -57,7 +57,6 @@ class QuantitativeType < ActiveRecord::Base
     end
   end
 
-
   private
 
   def validate_visible_on
