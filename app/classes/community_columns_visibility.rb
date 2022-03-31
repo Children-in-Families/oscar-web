@@ -10,7 +10,7 @@ class CommunityColumnsVisibility
 
   def visible_columns
     @grid.column_names = []
-    community_default_columns = Setting.first.try(:community_default_columns)
+    community_default_columns = Setting.cache_first.try(:community_default_columns)
     params = @params.keys.select { |k| k.match(/\_$/) }
     if params.present? && community_default_columns.present?
       defualt_columns = params - community_default_columns

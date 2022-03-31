@@ -27,6 +27,7 @@ class CustomField < ActiveRecord::Base
   after_create :build_permission
   before_save :set_ngo_name, if: -> { ngo_name.blank? }
   after_update :update_custom_field_label,:update_save_search, if: -> { fields_changed? }
+  after_commit :flush_cache
 
   scope :by_form_title,  ->(value)  { where('form_title iLIKE ?', "%#{value.squish}%") }
   scope :client_forms,   ->         { where(entity_type: 'Client') }
@@ -81,6 +82,28 @@ class CustomField < ActiveRecord::Base
     end
   end
 
+  def self.cache_object(id)
+    Rails.cache.fetch([Apartment::Tenant.current, 'CustomField', id]) { find(id) }
+  end
+
+  def self.cached_order_by_form_title(form_ids)
+    Rails.cache.fetch([Apartment::Tenant.current, 'CustomField', 'cached_order_by_form_title', *form_ids.sort]) {
+      where(id: form_ids).order_by_form_title.to_a
+    }
+  end
+
+  def self.cached_custom_form_ids(custom_form_ids)
+    Rails.cache.fetch([Apartment::Tenant.current, 'CustomField', 'cached_custom_form_ids', *custom_form_ids.sort]) {
+      where(id: custom_form_ids).to_a
+    }
+  end
+
+  def self.cached_custom_form_ids_attach_with(custom_form_ids, attach_with)
+    Rails.cache.fetch([Apartment::Tenant.current, 'CustomField', 'cached_custom_form_ids_attach_with', *custom_form_ids.sort, attach_with]) {
+      where(id: custom_form_ids, entity_type: attach_with).to_a
+    }
+  end
+
   private
 
   def update_custom_field_label
@@ -120,5 +143,15 @@ class CustomField < ActiveRecord::Base
         end
       end
     end
+  end
+
+  def flush_cache
+    Rails.cache.delete([Apartment::Tenant.current, 'CustomField', self.id])
+    cached_order_by_form_title_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_order_by_form_title/].blank? }
+    cached_order_by_form_title_keys.each { |key| Rails.cache.delete(key) }
+    cached_custom_form_ids_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_custom_form_ids/].blank? }
+    cached_custom_form_ids_keys.each { |key| Rails.cache.delete(key) }
+    cached_custom_form_ids_attach_with_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_custom_form_ids_attach_with/].blank? }
+    cached_custom_form_ids_attach_with_keys.each { |key| Rails.cache.delete(key) }
   end
 end

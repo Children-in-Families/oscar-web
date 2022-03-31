@@ -4,7 +4,7 @@ class DistrictsController < AdminController
   before_action :find_district, only: [:update, :destroy]
 
   def index
-    @provinces = Province.order(:name)
+    @provinces = Province.cached_order_name
     @districts = District.joins(:province).order('provinces.name').order(:name).page(params[:page]).per(20)
     @results   = District.count
   end

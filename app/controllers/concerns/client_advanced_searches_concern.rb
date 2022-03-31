@@ -49,8 +49,10 @@ module ClientAdvancedSearchesConcern
   end
 
   def fetch_advanced_search_queries
-    @my_advanced_searches    = current_user.advanced_searches.order(:name)
-    @other_advanced_searches = AdvancedSearch.includes(:user).non_of(current_user).order(:name)
+    @my_advanced_searches    = current_user.cache_advance_saved_search
+    @other_advanced_searches =  Rails.cache.fetch(user_cache_id << "other_advanced_search_queries") do
+      AdvancedSearch.includes(:user).non_of(current_user).order(:name).to_a
+    end
   end
 
   def custom_form_column
@@ -64,8 +66,8 @@ module ClientAdvancedSearchesConcern
   end
 
   def get_custom_form
-    form_ids = CustomFieldProperty.where(custom_formable_type: 'Client').pluck(:custom_field_id).uniq
-    @custom_fields = CustomField.where(id: form_ids).order_by_form_title
+    form_ids = CustomFieldProperty.cached_custom_formable_type
+    @custom_fields = CustomField.cached_order_by_form_title(form_ids)
   end
 
   def hotline_call_column
@@ -95,8 +97,7 @@ module ClientAdvancedSearchesConcern
   end
 
   def get_program_streams
-    program_ids = ClientEnrollment.pluck(:program_stream_id).uniq
-    @program_streams = ProgramStream.where(id: program_ids).order(:name)
+    @program_streams = ProgramStream.cache_program_steam_by_enrollment
   end
 
   def program_stream_values
@@ -121,31 +122,28 @@ module ClientAdvancedSearchesConcern
         *get_dropdown_list(['phone_call_id', 'call_type', 'start_datetime', 'protection_concern_id', 'necessity_id']),
       ]
     }
-
-    hotline_fields = AdvancedSearches::AdvancedSearchFields.new('hotline', args).render
-
-    @hotline_fields = get_client_hotline_fields + hotline_fields
+      hotline_fields = AdvancedSearches::AdvancedSearchFields.new('hotline', args).render
+      @hotline_fields = get_client_hotline_fields + hotline_fields
   end
 
   def get_client_hotline_fields
     client_fields = I18n.t('datagrid.columns.clients')
     dropdown_list_options = [
       ['concern_address_type', [Client::ADDRESS_TYPES, Client::ADDRESS_TYPES.map{|type| I18n.t('default_client_fields.address_types')[type.downcase.to_sym] }].transpose.map{|k,v| { k.downcase => v } }],
-      ['concern_province_id', Province.dropdown_list_option],
-      ['concern_district_id', District.dropdown_list_option],
-      ['concern_commune_id', Commune.dropdown_list_option],
-      ['concern_village_id', Village.dropdown_list_option],
+      ['concern_province_id', Province.cached_dropdown_list_option],
+      ['concern_district_id', District.cached_dropdown_list_option],
+      ['concern_commune_id', Commune.cached_dropdown_list_option],
+      ['concern_village_id', Village.cached_dropdown_list_option],
       ['concern_is_outside', { true: 'Yes', false: 'No' }],
       ['concern_same_as_client', { true: 'Yes', false: 'No' }]
     ]
-
     args = {
       translation: client_fields.merge({ concern_basic_fields: I18n.t('advanced_search.fields.concern_basic_fields') }), number_field: [],
       text_field: hotline_text_type_list, date_picker_field: [],
       dropdown_list_option: dropdown_list_options
     }
-
     @client_hotline_fields = AdvancedSearches::AdvancedSearchFields.new('concern_basic_fields', args).render
+
   end
 
   def hotline_text_type_list
@@ -222,7 +220,7 @@ module ClientAdvancedSearchesConcern
 
   def find_params_advanced_search
     if params[:advanced_search_id]
-      advanced_search = AdvancedSearch.find(params[:advanced_search_id])
+      advanced_search = AdvancedSearch.cached_advanced_search(params[:advanced_search_id])
       @advanced_search_params = params[:client_advanced_search].merge("basic_rules" => advanced_search.queries)
     else
       @advanced_search_params = params[:client_advanced_search]

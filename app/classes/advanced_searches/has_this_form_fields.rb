@@ -20,7 +20,7 @@ module AdvancedSearches
     end
 
     def generate_field_by_type
-      custom_forms = CustomField.where(id: @custom_form_ids, entity_type: attach_with)
+      custom_forms = CustomField.cached_custom_form_ids_attach_with(@custom_form_ids, attach_with)
       custom_forms.each do |custom_form|
         drop_list_values = []
         drop_list_values << "formbuilder__#{custom_form.form_title}__Has This Form"

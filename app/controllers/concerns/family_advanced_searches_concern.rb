@@ -78,7 +78,7 @@ module FamilyAdvancedSearchesConcern
   end
 
   def custom_form_fields
-    @custom_form_fields = get_custom_form_fields + get_has_this_form_fields
+      @custom_form_fields = get_custom_form_fields + get_has_this_form_fields
   end
 
   def get_has_this_form_fields
@@ -259,8 +259,7 @@ module FamilyAdvancedSearchesConcern
   end
 
   def get_program_streams
-    program_ids = Enrollment.pluck(:program_stream_id).uniq
-    @program_streams = ProgramStream.where(id: program_ids).order(:name)
+    @program_streams = Enrollment.cache_program_steams
   end
 
   def program_stream_column

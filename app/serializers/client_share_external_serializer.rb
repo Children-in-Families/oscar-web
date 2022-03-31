@@ -43,7 +43,7 @@ class ClientShareExternalSerializer < ActiveModel::Serializer
   end
 
   def organization_address_code
-    setting = Setting.first
+    setting = Setting.cache_first
     return '' unless setting.province
     if setting.commune
       setting.commune.code

@@ -17,7 +17,7 @@ class FamiliesController < AdminController
   before_action :load_quantative_types, only: [:new, :edit, :create, :update]
 
   def index
-    @default_columns = Setting.first.try(:family_default_columns)
+    @default_columns = Setting.cache_first.try(:family_default_columns)
     @family_grid = FamilyGrid.new(params.fetch(:family_grid, {}).merge!(dynamic_columns: column_form_builder))
     @family_grid = @family_grid.scope { |scope| scope.accessible_by(current_ability) }
     @family_columns ||= FamilyColumnsVisibility.new(@family_grid, params.merge(column_form_builder: column_form_builder))
@@ -155,10 +155,10 @@ class FamiliesController < AdminController
   def find_association
     return if @family.nil?
     @users     = User.without_deleted_users.non_strategic_overviewers.order(:first_name, :last_name)
-    @provinces = Province.order(:name)
-    @districts = @family.province.present? ? @family.province.districts.order(:name) : []
-    @communes  = @family.district.present? ? @family.district.communes.order(:code) : []
-    @villages  = @family.commune.present? ? @family.commune.villages.order(:code) : []
+    @provinces = Province.cached_order_name
+    @districts = @family.province.present? ? @family.province.cached_districts : []
+    @communes  = @family.district.present? ? @family.district.cached_communes : []
+    @villages  = @family.commune.present? ? @family.commune.cached_villages : []
     if action_name.in?(['edit', 'update'])
       client_ids = Family.where.not(id: @family).pluck(:children).flatten.uniq - @family.children
     else
@@ -208,9 +208,9 @@ class FamiliesController < AdminController
       @family.village = Village.find_by(id: village_id)
 
       @provinces = Province.order(:name)
-      @districts = @family.province.present? ? @family.province.districts.order(:name) : []
-      @communes  = @family.district.present? ? @family.district.communes.order(:code) : []
-      @villages  = @family.commune.present? ? @family.commune.villages.order(:code) : []
+      @districts = @family.province.present? ? @family.province.cached_districts : []
+      @communes  = @family.district.present? ? @family.district.cached_communes : []
+      @villages  = @family.commune.present? ? @family.commune.cached_villages : []
     end
     @family = Family.new(attributes)
     # @family.family_members.new

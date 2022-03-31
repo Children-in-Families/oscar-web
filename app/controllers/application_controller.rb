@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
   before_action :set_paper_trail_whodunnit, :current_setting
   before_action :prevent_routes
   before_action :set_raven_context, :address_translation
+  before_filter :set_current_user
 
   rescue_from ActiveRecord::RecordNotFound do |exception|
     render file: "#{Rails.root}/app/views/errors/404", layout: false, status: :not_found
@@ -34,12 +35,12 @@ class ApplicationController < ActionController::Base
   end
 
   def current_setting
-    @current_setting = Setting.first
+    @current_setting = Setting.cache_first
   end
 
   def field_settings
     return @field_settings if defined? @field_settings
-    @field_settings = FieldSetting.where('for_instances IS NULL OR for_instances iLIKE ?', "#{current_organization.short_name}")
+    @field_settings ||= FieldSetting.cache_query_find_by_ngo_name
   end
 
   def pundit_user
@@ -49,9 +50,12 @@ class ApplicationController < ActionController::Base
   protected
 
   def address_translation
-    @address_translation ||= view_context.address_translation
+    @address_translation = view_context.address_translation
   end
 
+  def set_current_user
+    User.current_user = current_user
+  end
 
   private
 
@@ -76,7 +80,7 @@ class ApplicationController < ActionController::Base
 
   def find_association
     @department = Department.order(:name)
-    @province   = Province.order(:name)
+    @province   = Province.cached_order_name
   end
 
   def set_locale
@@ -97,7 +101,7 @@ class ApplicationController < ActionController::Base
   end
 
   def default_url_options(options = {})
-    country = Setting.first.try(:country_name) || params[:country] || 'cambodia'
+    country = Setting.cache_first.try(:country_name) || params[:country] || 'cambodia'
     local = params[:locale] if params[:locale] && I18n.available_locales.include?(params[:locale].to_sym)
     { locale: local || I18n.locale, country: country }.merge(options)
   end

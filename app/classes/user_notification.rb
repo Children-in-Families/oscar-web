@@ -6,7 +6,7 @@ class UserNotification
   attr_accessor :upcoming_csi_assessments_count, :upcoming_custom_csi_assessments_count
 
   def initialize(user, clients)
-    @current_setting = Setting.first
+    @current_setting = Setting.cache_first
     @user                                            = user
     @clients                                         = clients
     @assessments                                     = @user.assessment_either_overdue_or_due_today

@@ -1,6 +1,6 @@
 class FieldSettingsController < AdminController
   def index
-    @field_settings = FieldSetting.where('for_instances IS NULL OR for_instances iLIKE ?', "#{current_organization.short_name}").includes(:translations).order(:group, :name)
+    @field_settings = FieldSetting.cache_query_find_by_ngo_name
   end
 
   def bulk_update

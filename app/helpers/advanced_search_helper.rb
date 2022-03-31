@@ -224,15 +224,15 @@ module AdvancedSearchHelper
   end
 
   def address_translation
-    @address_translation ||= {}
+    @address_translation = {}
     ['province', 'district', 'commune', 'village', 'birth_province', 'province_id', 'district_id', 'commune_id'].each do |key_translation|
-      @address_translation[key_translation.to_sym] = FieldSetting.find_by(name: key_translation).try(:label) || I18n.t("advanced_search.fields.#{key_translation}")
+      @address_translation[key_translation.to_sym] = FieldSetting.cache_by_name(key_translation).try(:label) || I18n.t("advanced_search.fields.#{key_translation}")
     end
-    @address_translation['province_id'.to_sym] = FieldSetting.find_by(name: 'province_id').try(:label) || I18n.t('advanced_search.fields.province_id')
-    @address_translation['district_id'.to_sym] = FieldSetting.find_by(name: 'district_id').try(:label) || I18n.t('datagrid.columns.clients.district')
-    @address_translation['commune_id'.to_sym] = FieldSetting.find_by(name: 'commune_id').try(:label) || I18n.t('datagrid.columns.clients.commune')
-    @address_translation['village_id'.to_sym] = FieldSetting.find_by(name: 'village_id').try(:label) || I18n.t('datagrid.columns.clients.village')
-    @address_translation['birth_province_id'.to_sym] = FieldSetting.find_by(name: 'birth_province').try(:label) || I18n.t('datagrid.columns.clients.birth_province')
+    @address_translation['province_id'.to_sym] = FieldSetting.cache_by_name('province_id').try(:label) || I18n.t('advanced_search.fields.province_id')
+    @address_translation['district_id'.to_sym] = FieldSetting.cache_by_name('district_id').try(:label) || I18n.t('datagrid.columns.clients.district')
+    @address_translation['commune_id'.to_sym] = FieldSetting.cache_by_name('commune_id').try(:label) || I18n.t('datagrid.columns.clients.commune')
+    @address_translation['village_id'.to_sym] = FieldSetting.cache_by_name('village_id').try(:label) || I18n.t('datagrid.columns.clients.village')
+    @address_translation['birth_province_id'.to_sym] = FieldSetting.cache_by_name('birth_province').try(:label) || I18n.t('datagrid.columns.clients.birth_province')
     @address_translation
   end
 
@@ -250,7 +250,7 @@ module AdvancedSearchHelper
   end
 
   def custom_id_translation(type)
-    @customer_id_setting ||= Setting.first
+    @customer_id_setting ||= Setting.cache_first
     if I18n.locale == :en || @customer_id_setting.country_name == 'lesotho'
       if type == 'custom_id1'
         @customer_id_setting.custom_id1_latin.present? ? @customer_id_setting.custom_id1_latin : I18n.t('clients.other_detail.custom_id_number1')

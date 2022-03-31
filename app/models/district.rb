@@ -3,7 +3,7 @@ class District < ActiveRecord::Base
 
   has_paper_trail
 
-  belongs_to :province
+  belongs_to :province, touch: true
 
   has_many :clients, dependent: :restrict_with_error
   has_many :families, dependent: :restrict_with_error
@@ -14,6 +14,8 @@ class District < ActiveRecord::Base
 
   validates :province, presence: true
   validates :name, presence: true, uniqueness: { case_sensitive: false, scope: [:province_id] }
+
+  after_commit :flush_cache
 
   def name_kh
     name.split(' / ').first
@@ -31,5 +33,26 @@ class District < ActiveRecord::Base
   def self.get_district_name_by_code(district_code)
     result = find_by(code: district_code)
     { cp: result.province&.name, cd: result&.name }
+  end
+
+  def self.cached_find(id)
+    Rails.cache.fetch([Apartment::Tenant.current, 'District', id]) { find(id) }
+  end
+
+  def cached_communes
+    Rails.cache.fetch([Apartment::Tenant.current, 'District', id, 'cached_communes']) { communes.order(:code).to_a }
+  end
+
+  def cached_subdistricts
+    Rails.cache.fetch([Apartment::Tenant.current, 'District', id, 'cached_subdistricts']) { subdistricts.order(:name).to_a }
+  end
+
+  private
+
+  def flush_cache
+    Rails.cache.delete([Apartment::Tenant.current, 'District', id])
+    Rails.cache.delete([Apartment::Tenant.current, 'District', id, 'cached_communes'])
+    Rails.cache.delete([Apartment::Tenant.current, 'District', id, 'cached_subdistricts'])
+    Rails.cache.delete([Apartment::Tenant.current, "District", 'dropdown_list_option'])
   end
 end

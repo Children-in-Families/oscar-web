@@ -130,7 +130,7 @@ class Ability
       can :manage, ScreeningAssessment, clients: { case_worker_clients: { user_id: user.id } }
     end
 
-    cannot :read, Community if Setting.first.hide_community?
+    cannot :read, Community if Setting.cache_first.hide_community?
     cannot :read, Partner if FieldSetting.hidden_group?('partner')
   end
 
