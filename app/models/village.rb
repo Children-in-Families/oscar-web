@@ -14,8 +14,6 @@ class Village < ActiveRecord::Base
 
   after_commit :flush_cache
 
-  after_commit :flush_cache
-
   def code_format
     "#{name_kh} / #{name_en} (#{code})"
   end
