@@ -19,15 +19,7 @@ class QuantitativeType < ActiveRecord::Base
   scope :name_like, ->(name) { where('quantitative_types.name iLIKE ?', "%#{name}%") }
 
   after_create :build_permission
-  
-  after_commit :flush_cach 
-
-  def flush_cach
-    Rails.cache.delete([Apartment::Tenant.current, "QuantitativeType", "client"] )
-    Rails.cache.delete([Apartment::Tenant.current, "QuantitativeType", "community"] )
-    Rails.cache.delete([Apartment::Tenant.current, "QuantitativeType", "family"] )
-  end
-
+  after_commit :flush_cach
 
   def self.cach_by_visible_on(visible_on)
     Rails.cache.fetch([Apartment::Tenant.current, "QuantitativeType", visible_on]) do
@@ -41,7 +33,6 @@ class QuantitativeType < ActiveRecord::Base
     end
   end
 
-  
   private
 
   def validate_visible_on
@@ -54,5 +45,11 @@ class QuantitativeType < ActiveRecord::Base
     User.non_strategic_overviewers.each do |user|
       self.quantitative_type_permissions.find_or_create_by(user_id: user.id)
     end
+  end
+
+  def flush_cach
+    Rails.cache.delete([Apartment::Tenant.current, "QuantitativeType", "client"] )
+    Rails.cache.delete([Apartment::Tenant.current, "QuantitativeType", "community"] )
+    Rails.cache.delete([Apartment::Tenant.current, "QuantitativeType", "family"] )
   end
 end
