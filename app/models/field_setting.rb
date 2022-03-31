@@ -73,6 +73,13 @@ class FieldSetting < ActiveRecord::Base
     end
   end
 
+  def self.cache_legal_doc_fields
+    Rails.cache.fetch([Apartment::Tenant.current, 'FieldSetting' 'gelal_dock_fields']) do
+      fields = %w(national_id passport birth_cert family_book travel_doc letter_from_immigration_police ngo_partner mosavy dosavy msdhs complain local_consent warrant verdict screening_interview_form short_form_of_ocdm short_form_of_mosavy_dosavy detail_form_of_mosavy_dosavy short_form_of_judicial_police police_interview other_legal_doc)
+      FieldSetting.without_hidden_fields.where(name: fields).pluck(:name)
+    end
+  end
+
   private
 
   def assign_type
@@ -88,5 +95,6 @@ class FieldSetting < ActiveRecord::Base
     Rails.cache.delete([Apartment::Tenant.current, 'field_settings', 'show_legal_doc'])
     Rails.cache.delete([Apartment::Tenant.current, 'table_name', 'field_settings'])
     Rails.cache.delete([Apartment::Tenant.current, 'FieldSetting', self.group_name, 'hidden_group'])
+    Rails.cache.delete([Apartment::Tenant.current, 'FieldSetting', 'gelal_dock_fields'])
   end
 end
