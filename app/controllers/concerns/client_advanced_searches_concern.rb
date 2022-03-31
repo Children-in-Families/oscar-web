@@ -71,9 +71,9 @@ module ClientAdvancedSearchesConcern
   end
 
   def hotline_call_column
-      client_hotlines = get_client_hotline_fields.group_by{ |field| field[:optgroup] }
-      call_hotlines = get_hotline_fields.group_by{ |field| field[:optgroup] }
-      @hotline_call_columns = client_hotlines.merge(call_hotlines)
+    client_hotlines = get_client_hotline_fields.group_by{ |field| field[:optgroup] }
+    call_hotlines = get_hotline_fields.group_by{ |field| field[:optgroup] }
+    @hotline_call_columns = client_hotlines.merge(call_hotlines)
   end
 
   def program_stream_fields
