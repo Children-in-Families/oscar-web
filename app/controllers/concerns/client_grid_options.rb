@@ -17,10 +17,10 @@ module ClientGridOptions
     return if params['commit'].blank?
     if params[:advanced_search_id]
       advanced_search = AdvancedSearch.find(params[:advanced_search_id])
-      @client_columns ||= ClientColumnsVisibility.new(@client_grid, params.merge(advanced_search.field_visible).merge(column_form_builder: column_form_builder))
+      @client_columns = ClientColumnsVisibility.new(@client_grid, params.merge(advanced_search.field_visible).merge(column_form_builder: column_form_builder))
       @client_columns.visible_columns
     else
-      @client_columns ||= ClientColumnsVisibility.new(@client_grid, params.merge(column_form_builder: column_form_builder))
+      @client_columns = ClientColumnsVisibility.new(@client_grid, params.merge(column_form_builder: column_form_builder))
       @client_columns.visible_columns
     end
   end
