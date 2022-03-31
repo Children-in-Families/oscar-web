@@ -29,28 +29,29 @@
         #search-action{ data: { action: params.dig(:builder) || params.dig(:client_advanced_search, :action_report_builder)} }
 
       .ibox-footer
-        %button#search.btn.btn-primary= t('.search')
-        = link_to t('.reset'), clients_path, class: 'btn btn-default', data: { toggle: 'popover', trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.reset')}", placement: "right" }
+        = simple_form_for :client_advanced_search, url: :advanced_search_clients, method: 'POST', html: { id: 'advanced-search' } do |f|
+          = f.hidden_field :custom_form_selected
+          = f.hidden_field :program_selected
+          = f.hidden_field :enrollment_check
+          = f.hidden_field :tracking_check
+          = f.hidden_field :exit_form_check
+          = f.hidden_field :basic_rules
+          = f.hidden_field :quantitative_check
+          = f.hidden_field :hotline_check
+          = f.hidden_field :wizard_custom_form_check
+          = f.hidden_field :wizard_program_stream_check
+          = f.hidden_field :wizard_quantitative_check
+          = f.hidden_field :wizard_enrollment_check
+          = f.hidden_field :wizard_tracking_check
+          = f.hidden_field :wizard_exit_form_check
+          = f.hidden_field :action_report_builder
+          = hidden_field_tag :data, params[:data]
+          / = f.hidden_field :overdue_assessment
+          = hidden_field_tag :locale, "#{params[:locale]}"
+          #client-builder-fields{ data: { fields: @builder_fields.to_json }}
+          #quantitative-fields{ data: { fields: @quantitative_fields.to_json }}
+          #hotline-fields{ data: { fields: @hotline_fields.to_json } }
 
-= simple_form_for :client_advanced_search, url: :advanced_search_clients, method: 'POST', html: { id: 'advanced-search' } do |f|
-  = f.hidden_field :custom_form_selected
-  = f.hidden_field :program_selected
-  = f.hidden_field :enrollment_check
-  = f.hidden_field :tracking_check
-  = f.hidden_field :exit_form_check
-  = f.hidden_field :basic_rules
-  = f.hidden_field :quantitative_check
-  = f.hidden_field :hotline_check
-  = f.hidden_field :wizard_custom_form_check
-  = f.hidden_field :wizard_program_stream_check
-  = f.hidden_field :wizard_quantitative_check
-  = f.hidden_field :wizard_enrollment_check
-  = f.hidden_field :wizard_tracking_check
-  = f.hidden_field :wizard_exit_form_check
-  = f.hidden_field :action_report_builder
-  = hidden_field_tag :data, params[:data]
-  / = f.hidden_field :overdue_assessment
-  = hidden_field_tag :locale, "#{params[:locale]}"
-  #client-builder-fields{ data: { fields: @builder_fields.to_json }}
-  #quantitative-fields{ data: { fields: @quantitative_fields.to_json }}
-  #hotline-fields{ data: { fields: @hotline_fields.to_json } }
+          = f.submit t('.search'), class: 'btn btn-primary', id: 'search'
+          = link_to t('.reset'), clients_path, class: 'btn btn-default', data: { toggle: 'popover', trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.reset')}", placement: "right" }
+
