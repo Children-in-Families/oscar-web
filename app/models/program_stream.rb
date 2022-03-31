@@ -155,6 +155,12 @@ class ProgramStream < ActiveRecord::Base
     end
   end
 
+  def self.cached_program_ids(program_ids)
+    Rails.cache.fetch([Apartment::Tenant.current, 'ProgramStream', 'cached_program_ids', *program_ids.sort]) {
+      where(id: program_ids).to_a
+    }
+  end
+
   private
 
   def rules_edition
@@ -341,5 +347,7 @@ class ProgramStream < ActiveRecord::Base
   def flush_cache
     Rails.cache.delete([Apartment::Tenant.current, 'cache_program_steam_by_enrollment'])
     Rails.cache.delete([Apartment::Tenant.current, 'cache_active_program_options'])
+    cache_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_program_ids/].blank? }
+    cache_keys.each { |key| Rails.cache.delete(key) }
   end
 end
