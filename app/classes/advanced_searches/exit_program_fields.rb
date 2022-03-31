@@ -30,7 +30,7 @@ module AdvancedSearches
     end
 
     def generate_field_by_type
-      program_streams = ProgramStream.where(id: @program_ids)
+      program_streams = ProgramStream.cached_program_ids(@program_ids)
 
       program_streams.each do |program_stream|
         @exit_data_list << "exitprogramdate__#{program_stream.name}__Exit Date"
