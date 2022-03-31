@@ -1407,7 +1407,6 @@ module ClientsHelper
   end
 
   def legal_doc_fields
-    fields = %w(national_id passport birth_cert family_book travel_doc letter_from_immigration_police ngo_partner mosavy dosavy msdhs complain local_consent warrant verdict screening_interview_form short_form_of_ocdm short_form_of_mosavy_dosavy detail_form_of_mosavy_dosavy short_form_of_judicial_police police_interview other_legal_doc)
-    FieldSetting.without_hidden_fields.where(name: fields).pluck(:name)
+    FieldSetting.cache_legal_doc_fields
   end
 end
