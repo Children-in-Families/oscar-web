@@ -67,9 +67,16 @@ class Domain < ActiveRecord::Base
     end
   end
 
+  def self.cache_order_by_identity
+    Rails.cache.fetch([Apartment::Tenant.current, 'Domain', 'cache_order_by_identity']) do
+      Domain.order_by_identity.to_a
+    end
+  end
+
   private
 
   def flush_cache
     Rails.cache.delete([Apartment::Tenant.current, 'Domain', domain_type, 'domain_options'])
+    Rails.cache.delete([Apartment::Tenant.current, 'Domain', 'cache_order_by_identity'])
   end
 end
