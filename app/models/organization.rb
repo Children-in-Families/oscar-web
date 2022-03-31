@@ -166,6 +166,12 @@ class Organization < ActiveRecord::Base
     end
   end
 
+  def self.cache_visible_ngos
+    Rails.cache.fetch([Apartment::Tenant.current, 'Organization', 'visible']) do
+      Organization.visible.order(:created_at).to_a
+    end
+  end
+
   private
 
   def upsert_referral_source_category
@@ -193,5 +199,6 @@ class Organization < ActiveRecord::Base
 
   def flush_cache
     Rails.cache.delete([Apartment::Tenant.current, 'cache_mapping_ngo_names'])
+    Rails.cache.delete([Apartment::Tenant.current, 'Organization', 'visible'])
   end
 end

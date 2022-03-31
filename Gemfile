@@ -120,6 +120,7 @@ group :development do
   gem 'metainspector'
   gem 'flay',                 '~> 2.12', '>= 2.12.1'
   gem 'active_record_doctor', '~> 1.8'
+  gem 'lol_dba', '~> 2.2'
 end
 
 group :test do

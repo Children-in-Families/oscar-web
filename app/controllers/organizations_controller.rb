@@ -1,8 +1,8 @@
 class OrganizationsController < ApplicationController
   def index
-    @organizations = Organization.visible.order(:created_at)
+    @organizations = Organization.cache_visible_ngos
     if user_signed_in?
-      redirect_to dashboards_path(subdomain: Organization.current.short_name)
+      redirect_to dashboards_path(subdomain: Apartment::Tenant.current)
     else
       redirect_to root_url(subdomain: 'start') unless request.subdomain == 'start' || request.subdomain == 'mho'
     end
