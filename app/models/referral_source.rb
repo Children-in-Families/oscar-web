@@ -30,6 +30,18 @@ class ReferralSource < ActiveRecord::Base
     end
   end
 
+  def self.cache_referral_source_try_name(referral_source_category_id)
+    Rails.cache.fetch([Apartment::Tenant.current, 'ReferralSource', 'cache_referral_source_try_name']) {
+      find_by(id: referral_source_category_id).try(:name)
+    }
+  end
+
+  def self.cache_referral_source_try_name_en(referral_source_category_id)
+    Rails.cache.fetch([Apartment::Tenant.current, 'ReferralSource', 'cache_referral_source_try_name_en']) {
+      find_by(id: referral_source_category_id).try(:name_en)
+    }
+  end
+
   private
 
   def update_client_referral_source
@@ -52,5 +64,7 @@ class ReferralSource < ActiveRecord::Base
     Rails.cache.delete([Apartment::Tenant.current, 'ReferralSource', 'referral_source_options'])
     Rails.cache.delete([Apartment::Tenant.current, 'ReferralSource', 'cache_referral_source_category_options'])
     Rails.cache.delete([Apartment::Tenant.current, 'ReferralSource', 'cache_local_referral_source_category_options'])
+    Rails.cache.delete([Apartment::Tenant.current, 'ReferralSource', 'cache_referral_source_try_name'])
+    Rails.cache.delete([Apartment::Tenant.current, 'ReferralSource', 'cache_referral_source_try_name_en'])
   end
 end
