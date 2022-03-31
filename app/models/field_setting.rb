@@ -57,7 +57,7 @@ class FieldSetting < ActiveRecord::Base
 
   def self.cache_query_find_by_ngo_name
     Rails.cache.fetch([Apartment::Tenant.current, 'field_settings', 'cache_query_find_by_ngo_name']) do
-      by_instances(Apartment::Tenant.current)
+      by_instances(Apartment::Tenant.current).to_a
     end
   end
 

@@ -42,7 +42,7 @@ class ProgramStream < ActiveRecord::Base
   before_save :set_program_completed, :destroy_tracking
   after_update :auto_update_exit_program, :auto_update_enrollment, :update_save_search
   after_create :build_permission
-  after_commit :flash_cache
+  after_commit :flush_cache
 
   scope  :ordered,        ->         { order('lower(name) ASC') }
   scope  :complete,       ->         { where(completed: true) }
@@ -149,7 +149,7 @@ class ProgramStream < ActiveRecord::Base
   end
 
   def self.cache_program_steam_by_enrollment
-    Rails.cache.fetch([Apartment::Tenant.current, 'cache_program_steam_by_enrollment']) do 
+    Rails.cache.fetch([Apartment::Tenant.current, 'cache_program_steam_by_enrollment']) do
       program_ids = ClientEnrollment.pluck(:program_stream_id).uniq
       ProgramStream.where(id: program_ids).order(:name).to_a
     end
@@ -338,7 +338,8 @@ class ProgramStream < ActiveRecord::Base
     end
   end
 
-  def flash_cache
+  def flush_cache
     Rails.cache.delete([Apartment::Tenant.current, 'cache_program_steam_by_enrollment'])
+    Rails.cache.delete([Apartment::Tenant.current, 'cache_active_program_options'])
   end
 end

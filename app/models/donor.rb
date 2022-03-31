@@ -23,6 +23,10 @@ class Donor < ActiveRecord::Base
     Rails.cache.fetch([Apartment::Tenant.current, 'Donor', 'cached_order_name']) { order(:name).to_a }
   end
 
+  def self.cache_donor_options
+    Donor.cached_order_name.map { |donor| { donor.id.to_s => donor.name } }
+  end
+
   def flush_cache
     Rails.cache.delete([Apartment::Tenant.current, 'Donor', id])
     Rails.cache.delete([Apartment::Tenant.current, 'Donor', 'cached_order_name'])
