@@ -29,6 +29,7 @@ class ClientEnrollment < ActiveRecord::Base
   after_create :set_client_status
   after_save :create_client_enrollment_history
   after_destroy :reset_client_status
+  after_commit :flush_cache
 
   def active?
     status == 'Active'
@@ -69,6 +70,13 @@ class ClientEnrollment < ActiveRecord::Base
     enrollment_date.end_of_month.strftime '%b-%y'
   end
 
+  def self.cache_active_program_options
+    Rails.cache.fetch([Apartment::Tenant.current, 'cache_active_program_options']) do
+      program_ids = ClientEnrollment.active.pluck(:program_stream_id).uniq
+      ProgramStream.where(id: program_ids).order(:name).map { |ps| { ps.id.to_s => ps.name } }
+    end
+  end
+
   private
 
   def create_client_enrollment_history
@@ -79,5 +87,10 @@ class ClientEnrollment < ActiveRecord::Base
     if leave_program.present? && leave_program.exit_date < enrollment_date
       errors.add(:enrollment_date, I18n.t('invalid_program_enrollment_date'))
     end
+  end
+
+  def flush_cache
+    Rails.cache.delete([Apartment::Tenant.current, 'cache_program_steam_by_enrollment'])
+    Rails.cache.delete([Apartment::Tenant.current, 'cache_active_program_options'])
   end
 end

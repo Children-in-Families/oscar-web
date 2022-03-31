@@ -11,7 +11,21 @@ class Service < ActiveRecord::Base
 
   validates :name, presence: true
 
+  after_commit :flush_cache
+
   scope :only_parents,  -> { where(parent_id: nil) }
   scope :only_children, -> { where.not(parent_id: nil) }
   scope :names,         -> { only_children.pluck(:name) }
+
+  def self.cache_only_child_services
+    Rails.cache.fetch([Apartment::Tenant.current, 'Service', 'cache_only_child_services']) do
+      self.only_children.pluck(:name, :id).uniq.sort.map{|s| {s[1].to_s => s[0]}}
+    end
+  end
+
+  private
+
+  def flush_cache
+    Rails.cache.delete([Apartment::Tenant.current, 'Service', 'cache_only_child_services'])
+  end
 end
