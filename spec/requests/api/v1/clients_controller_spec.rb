@@ -5,7 +5,7 @@ describe Api::V1::ClientsController, type: :request do
     allow_any_instance_of(Client).to receive(:generate_random_char).and_return("abcd")
   end
 
-  let(:user) { create(:user) }
+  let(:user) { create(:user, :admin) }
   let!(:clients) { create_list(:client, 5, users: [user]) }
 
   describe 'GET #index' do
@@ -59,14 +59,14 @@ describe Api::V1::ClientsController, type: :request do
       end
     end
 
-    xcontext 'when user loged in' do
+    context 'when user loged in' do
       before do
         sign_in(user)
       end
 
       context 'when try to create client' do
         before do
-          client = { format: 'json', client: { gender: 'male', given_name: "example", user_ids: [user.id], initial_referral_date: '2018-02-19', received_by_id: user.id, name_of_referee: FFaker::Name.name, referral_source_id: referral_source.id } }
+          client = { format: 'json', client: { gender: 'male', given_name: "example", user_ids: [user.id], initial_referral_date: '2018-02-19', received_by_id: user.id, name_of_referee: FFaker::Name.name, referral_source_category_id: referral_source.id } }
           post "/api/v1/clients", client, @auth_headers
         end
 
