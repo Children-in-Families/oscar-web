@@ -48,9 +48,11 @@ class Province < ActiveRecord::Base
     Rails.cache.fetch([Apartment::Tenant.current, 'Province', id, 'cached_districts']) { districts.order(:name).to_a }
   end
 
+  private
+
   def flush_cache
     Rails.cache.delete([Apartment::Tenant.current, 'Province', id])
-    Rails.cache.delete([Apartment::Tenant.current, 'Province', 'cached_order_name'])
+    Rails.cache.delete([Apartment::Tenant.current, 'Province', 'cached_order_name']) if name_changed?
     Rails.cache.delete([Apartment::Tenant.current, 'Province', id, 'cached_districts'])
     Rails.cache.delete([Apartment::Tenant.current, 'Province', 'dropdown_list_option'])
   end
