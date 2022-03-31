@@ -510,6 +510,10 @@ GEM
     logging (2.2.2)
       little-plugger (~> 1.1)
       multi_json (~> 1.10)
+    lol_dba (2.2.0)
+      actionpack (>= 3.0, < 7.0)
+      activerecord (>= 3.0, < 7.0)
+      railties (>= 3.0, < 7.0)
     loofah (2.13.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -921,6 +925,7 @@ DEPENDENCIES
   launchy (~> 2.4, >= 2.4.3)
   letter_opener (~> 1.4.1)
   letter_opener_web (~> 1.3, >= 1.3.4)
+  lol_dba (~> 2.2)
   mail_interceptor (~> 0.0.7)
   metainspector
   mini_magick (~> 4.5)

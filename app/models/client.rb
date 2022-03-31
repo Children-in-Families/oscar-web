@@ -64,7 +64,6 @@ class Client < ActiveRecord::Base
   belongs_to :village
   belongs_to :referee
   belongs_to :carer
-  belongs_to :call
 
   belongs_to :concern_province, class_name: 'Province',  foreign_key: 'concern_province_id'
   belongs_to :concern_district, class_name: 'District',  foreign_key: 'concern_district_id'
