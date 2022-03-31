@@ -30,14 +30,14 @@ class ReferralSource < ActiveRecord::Base
     end
   end
 
-  def self.cached_referral_source_try_name(referral_source_category_id)
-    Rails.cache.fetch([Apartment::Tenant.current, 'ReferralSource', 'cached_referral_source_try_name', referral_source_category_id]) {
+  def self.cache_referral_source_try_name(referral_source_category_id)
+    Rails.cache.fetch([Apartment::Tenant.current, 'ReferralSource', 'cache_referral_source_try_name']) {
       find_by(id: referral_source_category_id).try(:name)
     }
   end
 
-  def self.cached_referral_source_try_name_en(referral_source_category_id)
-    Rails.cache.fetch([Apartment::Tenant.current, 'ReferralSource', 'cached_referral_source_try_name_en', referral_source_category_id]) {
+  def self.cache_referral_source_try_name_en(referral_source_category_id)
+    Rails.cache.fetch([Apartment::Tenant.current, 'ReferralSource', 'cache_referral_source_try_name_en']) {
       find_by(id: referral_source_category_id).try(:name_en)
     }
   end
@@ -64,9 +64,7 @@ class ReferralSource < ActiveRecord::Base
     Rails.cache.delete([Apartment::Tenant.current, 'ReferralSource', 'referral_source_options'])
     Rails.cache.delete([Apartment::Tenant.current, 'ReferralSource', 'cache_referral_source_category_options'])
     Rails.cache.delete([Apartment::Tenant.current, 'ReferralSource', 'cache_local_referral_source_category_options'])
-    cached_referral_source_try_name_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_referral_source_try_name/].blank? }
-    cached_referral_source_try_name_keys.each { |key| Rails.cache.delete(key) }
-    cached_referral_source_try_name_en_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_referral_source_try_name_en/].blank? }
-    cached_referral_source_try_name_en_keys.each { |key| Rails.cache.delete(key) }
+    Rails.cache.delete([Apartment::Tenant.current, 'ReferralSource', 'cache_referral_source_try_name'])
+    Rails.cache.delete([Apartment::Tenant.current, 'ReferralSource', 'cache_referral_source_try_name_en'])
   end
 end

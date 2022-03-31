@@ -1006,6 +1006,7 @@ class Client < ActiveRecord::Base
     cached_client_village_name_kh_keys.each { |key| Rails.cache.delete(key) }
     cached_client_referral_source_name_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_referral_source_name/].blank? }
     cached_client_referral_source_name_keys.each { |key| Rails.cache.delete(key) }
+<<<<<<< HEAD
     cached_client_assessment_number_completed_date_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_assessment_number_completed_date/].blank? }
     cached_client_assessment_number_completed_date_keys.each { |key| Rails.cache.delete(key) }
     cached_client_sql_assessment_completed_date_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_sql_assessment_completed_date/].blank? }
@@ -1024,6 +1025,8 @@ class Client < ActiveRecord::Base
     Rails.cache.delete([Apartment::Tenant.current, id, local_given_name_was || 'local_given_name']) if local_given_name_changed?
     Rails.cache.delete([Apartment::Tenant.current, id, local_family_name_was || 'local_family_name']) if local_family_name_changed?
     Rails.cache.fetch([I18n.locale, Apartment::Tenant.current, id, gender_was || 'gender']) if gender_changed?
+=======
+>>>>>>> ddef5fbee ([IMP] Apply cache client grid)
   end
 
 end
