@@ -30,6 +30,10 @@ class ApplicationController < ActionController::Base
     redirect_to root_path, alert: t('unauthorized.default')
   end
 
+  rescue_from ActionController::InvalidAuthenticityToken do |exception|
+    redirect_to root_path, alert: t('devise.failure.timeout')
+  end
+
   def current_organization
     Organization.current
   end
