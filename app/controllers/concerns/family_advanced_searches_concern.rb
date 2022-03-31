@@ -60,10 +60,8 @@ module FamilyAdvancedSearchesConcern
   end
 
   def get_custom_form
-    Rails.cache.fetch(user_cache_id << "get_custom_form") do
-      form_ids = CustomFieldProperty.where(custom_formable_type: 'Family').pluck(:custom_field_id).uniq
-      @custom_fields = CustomField.where(id: form_ids).order_by_form_title
-    end
+    form_ids = CustomFieldProperty.where(custom_formable_type: 'Family').pluck(:custom_field_id).uniq
+    @custom_fields = CustomField.where(id: form_ids).order_by_form_title
   end
 
   def family_builder_fields
@@ -100,9 +98,7 @@ module FamilyAdvancedSearchesConcern
   end
 
   def find_params_advanced_search
-    Rails.cache.fetch(user_cache_id << "find_params_advanced_search") do
-      @advanced_search_params = params[:family_advanced_search]
-    end
+    @advanced_search_params = params[:family_advanced_search]
   end
 
   def basic_params
@@ -263,10 +259,7 @@ module FamilyAdvancedSearchesConcern
   end
 
   def get_program_streams
-    Rails.cache.fetch(user_cache_id << "get_program_streams") do
-      program_ids = Enrollment.pluck(:program_stream_id).uniq
-      @program_streams = ProgramStream.where(id: program_ids).order(:name)
-    end
+    @program_streams = Enrollment.cache_program_steams
   end
 
   def program_stream_column
@@ -274,9 +267,7 @@ module FamilyAdvancedSearchesConcern
   end
 
   def program_stream_fields
-    Rails.cache.fetch(user_cache_id << "program_stream_fields") do
-      @program_stream_fields = get_enrollment_fields + get_tracking_fields + get_exit_program_fields
-    end
+    @program_stream_fields = get_enrollment_fields + get_tracking_fields + get_exit_program_fields
   end
 
   def get_enrollment_fields
