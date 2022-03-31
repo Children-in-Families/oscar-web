@@ -33,7 +33,11 @@ class QuantitativeType < ActiveRecord::Base
     end
   end
 
-
+  def self.cached_quantitative_cases
+    Rails.cache.fetch([Apartment::Tenant.current, 'QuantitativeType', 'cached_quantitative_cases']) {
+      joins(:quantitative_cases).distinct.to_a
+    }
+  end
 
   private
 
@@ -53,5 +57,6 @@ class QuantitativeType < ActiveRecord::Base
     Rails.cache.delete([Apartment::Tenant.current, "QuantitativeType", "client"] )
     Rails.cache.delete([Apartment::Tenant.current, "QuantitativeType", "community"] )
     Rails.cache.delete([Apartment::Tenant.current, "QuantitativeType", "family"] )
+    Rails.cache.delete([Apartment::Tenant.current, 'QuantitativeType', 'cached_quantitative_cases'] )
   end
 end
