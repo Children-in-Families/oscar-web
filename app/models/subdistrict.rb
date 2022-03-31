@@ -12,6 +12,8 @@ class Subdistrict < ActiveRecord::Base
     Rails.cache.fetch([Apartment::Tenant.current, self.name, id]) { find(id) }
   end
 
+  private
+
   def flush_cache
     Rails.cache.delete([Apartment::Tenant.current, self.class.name, id])
   end

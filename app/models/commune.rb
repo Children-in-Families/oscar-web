@@ -50,7 +50,7 @@ class Commune < ActiveRecord::Base
   end
 
   def self.cached_dropdown_list_option
-    Rails.cache.fetch([Apartment::Tenant.current, 'commune', 'dropdown_list_option']) { self.dropdown_list_option }
+    Rails.cache.fetch([Apartment::Tenant.current, 'Commune', 'dropdown_list_option']) { self.dropdown_list_option }
   end
 
   def self.cache_by_client_district_province_and_mapping_names
@@ -59,10 +59,12 @@ class Commune < ActiveRecord::Base
     end
   end
 
-  def flush_cache
-    Rails.cache.delete([Apartment::Tenant.current, self.class.name, id])
-    Rails.cache.delete([Apartment::Tenant.current, self.class.name, id, 'cached_villages'])
-    Rails.cache.delete([Apartment::Tenant.current, "commune", 'dropdown_list_option'])
+  private
 
+  def flush_cache
+    Rails.cache.delete([Apartment::Tenant.current, 'Commune', id])
+    Rails.cache.delete([Apartment::Tenant.current, 'Commune', id, 'cached_villages'])
+    Rails.cache.delete([Apartment::Tenant.current, "Commune", 'dropdown_list_option'])
+    Rails.cache.delete([Apartment::Tenant.current, "Commune", 'cache_by_client_district_province_and_mapping_names']) if name_changed?
   end
 end
