@@ -15,8 +15,7 @@ module AdvancedSearches
     private
 
     def self.domain_options
-
-        Domain.csi_domains.order_by_identity.map { |domain| "domainscore__#{domain.id}__#{domain.identity}" }
+      Domain.csi_domains.order_by_identity.map { |domain| "domainscore__#{domain.id}__#{domain.identity}" }
     end
 
     def self.domain_score_format(label)

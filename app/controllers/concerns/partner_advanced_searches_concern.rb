@@ -30,10 +30,8 @@ module PartnerAdvancedSearchesConcern
   end
 
   def get_custom_form
-    Rails.cache.fetch(user_cache_id << "get_custom_form") do
-      form_ids = CustomFieldProperty.where(custom_formable_type: 'Partner').pluck(:custom_field_id).uniq
-      @custom_fields = CustomField.where(id: form_ids).order_by_form_title
-    end
+    form_ids = CustomFieldProperty.where(custom_formable_type: 'Partner').pluck(:custom_field_id).uniq
+    @custom_fields = CustomField.where(id: form_ids).order_by_form_title
   end
 
   def partner_builder_fields
@@ -69,9 +67,7 @@ module PartnerAdvancedSearchesConcern
   end
 
   def find_params_advanced_search
-    Rails.cache.fetch(user_cache_id << "find_params_advanced_search") do
-      @advanced_search_params = params[:partner_advanced_search]
-    end
+    @advanced_search_params = params[:partner_advanced_search]
   end
 
   def basic_params
