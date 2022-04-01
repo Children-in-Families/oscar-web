@@ -756,6 +756,49 @@ class Client < ActiveRecord::Base
     end
   end
 
+  def self.cached_client_assessment_number_completed_date(object, sql, assessment_number)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_assessment_number_completed_date', object.id]) do
+      assessments = object.assessments.defaults.where(sql).limit(1).offset(assessment_number - 1).order('completed_date')
+    end
+  end
+
+  def self.cached_client_sql_assessment_completed_date(object, sql)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_sql_assessment_completed_date', object.id]) do
+      assessments = object.assessments.defaults.completed.where(sql).order('completed_date')
+    end
+  end
+
+  def self.cached_client_assessment_order_completed_date(object)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_assessment_order_completed_date', object.id]) do
+      assessments = object.assessments.defaults.order('completed_date')
+    end
+  end
+
+  def self.cached_client_assessment_custom_number_completed_date(object, sql, assessment_number)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_assessment_custom_number_completed_date', object.id]) do
+      assessments = object.assessments.customs.where(sql).limit(1).offset(assessment_number - 1).order('completed_date')
+    end
+  end
+
+  def self.cached_client_sql_assessment_custom_completed_date(object, sql)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_sql_assessment_custom_completed_date', object.id]) do
+      assessments = object.assessments.customs.completed.where(sql).order('completed_date')
+    end
+  end
+
+  def self.cached_client_assessment_custom_order_completed_date(object)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_assessment_custom_order_completed_date', object.id]) do
+      assessments = object.assessments.customs.order('completed_date')
+    end
+  end
+
+  def self.cached_client_assessment_domains(value, domain_id, scope)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_assessment_domains', domain_id]) do
+      ids = Assessment.joins(:assessment_domains).where("score#{operation} ? AND domain_id= ?", value, domain_id).ids
+      scope.joins(:assessments).where(assessments: { id: ids})
+    end
+  end
+
   private
 
   def update_related_family_member
@@ -893,6 +936,14 @@ class Client < ActiveRecord::Base
     cached_client_village_name_kh_keys.each { |key| Rails.cache.delete(key) }
     cached_client_referral_source_name_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_referral_source_name/].blank? }
     cached_client_referral_source_name_keys.each { |key| Rails.cache.delete(key) }
+    cached_client_assessment_number_completed_date_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_assessment_number_completed_date/].blank? }
+    cached_client_assessment_number_completed_date_keys.each { |key| Rails.cache.delete(key) }
+    cached_client_sql_assessment_completed_date_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_sql_assessment_completed_date/].blank? }
+    cached_client_sql_assessment_completed_date_keys.each { |key| Rails.cache.delete(key) }
+    cached_client_assessment_order_completed_date_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_assessment_order_completed_date/].blank? }
+    cached_client_assessment_order_completed_date_keys.each { |key| Rails.cache.delete(key) }
+    cached_client_assessment_domains_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_assessment_domains/].blank? }
+    cached_client_assessment_domains_keys.each { |key| Rails.cache.delete(key) }
   end
 
 end
