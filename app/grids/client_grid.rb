@@ -920,9 +920,9 @@ class ClientGrid < BaseGrid
   end
   column(:referral_source_category_id, order: proc { |object| Client.cached_client_referral_source_name(object) }, header: -> { I18n.t('datagrid.columns.clients.referral_source_category') }) do |object|
     if I18n.locale == :km
-      ReferralSource.cache_referral_source_try_name(object.referral_source_category_id)
+      ReferralSource.cached_referral_source_try_name(object.referral_source_category_id)
     else
-      ReferralSource.cache_referral_source_try_name_en(object.referral_source_category_id)
+      ReferralSource.cached_referral_source_try_name_en(object.referral_source_category_id)
     end
   end
 
