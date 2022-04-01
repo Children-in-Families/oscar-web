@@ -123,7 +123,7 @@ module AdvancedSearches
     end
 
     def field_settings
-      @field_settings = FieldSetting.all
+      @field_settings = FieldSetting.cache_all
     end
 
     def gender_list
