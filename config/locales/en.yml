@@ -543,9 +543,6 @@ en:
       referred_from: Referred From
       referred_in: Referred In
       referred_to: Referred To
-      referred_to_ec: Referred To EC
-      referred_to_fc: Referred To FC
-      referred_to_kc: Referred To KC
       referred_out: Referred Out
       referee: Referee
       referee_relationship: Referee Relationship to Client

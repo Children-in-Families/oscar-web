@@ -727,6 +727,44 @@ class Client < ActiveRecord::Base
     screening_assessments.find_by(screening_type: 'one_off')
   end
 
+  def self.cached_client_created_by(object)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_created_by', object.id]) do
+      user_id = PaperTrail::Version.find_by(event: 'create', item_type: 'Client', item_id: object.id).try(:whodunnit)
+      User.find_by(id: user_id || object.user_id).try(:name) || ''
+    end
+  end
+
+  def self.cached_client_province_name(object)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_province_name', object.id]) do
+      object.joins(:province).order('provinces.name')
+    end
+  end
+
+
+  def self.cached_client_district_name(object)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_district_name', object.id]) do
+      object.joins(:district).order('districts.name')
+    end
+  end
+
+  def self.cached_client_commune_name_kh(object)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_commune_name_kh', object.id]) do
+      object.joins(:commune).order('communes.name_kh')
+    end
+  end
+
+  def self.cached_client_village_name_kh(object)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_village_name_kh', object.id]) do
+      object.joins(:village).order('villages.name_kh')
+    end
+  end
+
+  def self.cached_client_referral_source_name(object)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_referral_source_name', object.id]) do
+      object.joins(:referral_source).order('referral_sources.name')
+    end
+  end
+
   private
 
   def update_related_family_member
@@ -866,6 +904,18 @@ class Client < ActiveRecord::Base
     Rails.cache.delete([Apartment::Tenant.current, 'Subdistrict', 'dropdown_list_option']) if subdistrict_id_changed?
     Rails.cache.delete([Apartment::Tenant.current, 'Township', 'dropdown_list_option']) if township_id_changed?
     Rails.cache.delete([Apartment::Tenant.current, 'State', 'dropdown_list_option']) if state_id_changed?
+    cached_client_created_by_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_created_by/].blank? }
+    cached_client_created_by_keys.each { |key| Rails.cache.delete(key) }
+    cached_client_province_name_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_province_name/].blank? }
+    cached_client_province_name_keys.each { |key| Rails.cache.delete(key) }
+    cached_client_district_name_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_district_name/].blank? }
+    cached_client_district_name_keys.each { |key| Rails.cache.delete(key) }
+    cached_client_commune_name_kh_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_commune_name_kh/].blank? }
+    cached_client_commune_name_kh_keys.each { |key| Rails.cache.delete(key) }
+    cached_client_village_name_kh_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_village_name_kh/].blank? }
+    cached_client_village_name_kh_keys.each { |key| Rails.cache.delete(key) }
+    cached_client_referral_source_name_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_referral_source_name/].blank? }
+    cached_client_referral_source_name_keys.each { |key| Rails.cache.delete(key) }
   end
 
 end
