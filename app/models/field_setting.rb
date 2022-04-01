@@ -55,9 +55,9 @@ class FieldSetting < ActiveRecord::Base
     end
   end
 
-  def self.cache_by_name_klass_name_instance(name, klass_name = 'client')
-    Rails.cache.fetch([Apartment::Tenant.current, 'FieldSetting', name, klass_name]) do
-      find_by(name: name, klass_name: klass_name)
+  def self.cache_by_name_klass_name_instance(field_name, klass_name = 'client')
+    Rails.cache.fetch([Apartment::Tenant.current, 'FieldSetting', field_name, klass_name]) do
+      find_by(name: field_name, klass_name: klass_name)
     end
   end
 
