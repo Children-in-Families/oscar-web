@@ -268,12 +268,11 @@ class ClientGrid < BaseGrid
   end
 
   def self.client_by_domain(operation, value, domain_id, scope)
-    ids = Assessment.joins(:assessment_domains).where("score#{operation} ? AND domain_id= ?", value, domain_id).ids
-    scope.joins(:assessments).where(assessments: { id: ids})
+    Client.cached_client_assessment_domains(value, domain_id, scope)
   end
 
   def self.get_domain(name)
-    domain = Domain.find_by(name: name)
+    domain = Domain.cache_find_by_name(name)
     domain.present?  ? Array.new([[domain.name, domain.id]]) : []
   end
 
@@ -1004,10 +1003,10 @@ class ClientGrid < BaseGrid
       assessment_completed_sql, assessment_number = assessment_filter_values(results)
       sql = "(assessments.completed = true)".squish
       if assessment_number.present? && assessment_completed_sql.present?
-        assessments = object.assessments.defaults.where(sql).limit(1).offset(assessment_number - 1).order('completed_date')
+        Client.cached_client_assessment_number_completed_date(object, sql, assessment_number)
       elsif assessment_completed_sql.present?
         sql = assessment_completed_sql[/assessments\.completed_date.*/]
-        assessments = object.assessments.defaults.completed.where(sql).order('completed_date')
+        Client.cached_client_sql_assessment_completed_date(object, sql)
       else
         rule = basic_rules['rules'].select {|h| h['id'] == 'date_of_assessments' }.first
         if rule.present?
@@ -1016,10 +1015,10 @@ class ClientGrid < BaseGrid
         else
           assessments = object.assessments.defaults
         end
-        assessments = object.assessments.defaults.completed.where(sql).order('completed_date')
+        Client.cached_client_sql_assessment_completed_date(object, sql)
       end
     else
-      assessments = object.assessments.defaults.order('completed_date')
+      Client.cached_client_assessment_order_completed_date(object)
     end
     render partial: 'clients/completed_assessments', locals: { object: assessments }
   end
@@ -1040,10 +1039,10 @@ class ClientGrid < BaseGrid
       assessment_completed_sql, assessment_number = assessment_filter_values(results)
       sql = "(assessments.completed = true)".squish
       if assessment_number.present? && assessment_completed_sql.present?
-        assessments = object.assessments.customs.where(sql).limit(1).offset(assessment_number - 1).order('completed_date')
+        Client.cached_client_assessment_custom_number_completed_date(object, sql, assessment_number)
       elsif assessment_completed_sql.present?
         sql = assessment_completed_sql[/assessments\.completed_date.*/]
-        assessments = object.assessments.customs.completed.where(sql).order('completed_date')
+        Client.cached_client_sql_assessment_custom_completed_date(object, sql)
       else
         rule = basic_rules['rules'].select {|h| h['id'] == 'date_of_assessments' }.first
         if rule.present?
@@ -1052,10 +1051,10 @@ class ClientGrid < BaseGrid
         else
           assessments = object.assessments.customs
         end
-        assessments = object.assessments.customs.completed.where(sql).order('completed_date')
+        Client.cached_client_sql_assessment_custom_completed_date(object, sql)
       end
     else
-      assessments = object.assessments.customs.order('completed_date')
+      Client.cached_client_assessment_custom_order_completed_date(object)
     end
     render partial: 'clients/completed_assessments', locals: { object: assessments }
   end
