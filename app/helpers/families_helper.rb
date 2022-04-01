@@ -136,13 +136,13 @@ module FamiliesHelper
     field_keys = %W(province province_id district district_id commune commune_id village)
     translations = {}
     field_keys.each do |key_translation|
-      translations[key_translation.to_sym] = FieldSetting.find_by(name: key_translation).try(:label) || I18n.t("datagrid.columns.families.#{key_translation}")
-      translations["#{key_translation}_".to_sym] = FieldSetting.find_by(name: key_translation).try(:label) || I18n.t("datagrid.columns.families.#{key_translation}")
+      translations[key_translation.to_sym] = FieldSetting.cache_by_name(key_translation).try(:label) || I18n.t("datagrid.columns.families.#{key_translation}")
+      translations["#{key_translation}_".to_sym] = FieldSetting.cache_by_name(key_translation).try(:label) || I18n.t("datagrid.columns.families.#{key_translation}")
     end
-    translations['province_id'.to_sym] = FieldSetting.find_by(name: 'province_id').try(:label) || I18n.t('datagrid.columns.families.province')
-    translations['district_id'.to_sym] = FieldSetting.find_by(name: 'district_id').try(:label) || I18n.t('datagrid.columns.families.district')
-    translations['commune_id'.to_sym] = FieldSetting.find_by(name: 'commune_id').try(:label) || I18n.t('datagrid.columns.families.commune')
-    translations['village_id'.to_sym] = FieldSetting.find_by(name: 'village_id').try(:label) || I18n.t('datagrid.columns.families.village_id')
+    translations['province_id'.to_sym] = FieldSetting.cache_by_name('province_id').try(:label) || I18n.t('datagrid.columns.families.province')
+    translations['district_id'.to_sym] = FieldSetting.cache_by_name('district_id').try(:label) || I18n.t('datagrid.columns.families.district')
+    translations['commune_id'.to_sym] = FieldSetting.cache_by_name('commune_id').try(:label) || I18n.t('datagrid.columns.families.commune')
+    translations['village_id'.to_sym] = FieldSetting.cache_by_name('village_id').try(:label) || I18n.t('datagrid.columns.families.village_id')
     translations
   end
 
