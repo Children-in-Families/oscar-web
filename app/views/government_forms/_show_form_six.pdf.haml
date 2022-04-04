@@ -44,7 +44,7 @@
           %td.text-right
             ថ្ងៃខែឆ្នាំកំណើត:
           %td.text-right
-            - if @father.present?
+            - if @father.present? && @father.date_of_birth.present?
               - @father.date_of_birth.strftime('%d%m%y').split('').each_with_index do |code, index|
                 - if index == 0
                   %span.first= code
