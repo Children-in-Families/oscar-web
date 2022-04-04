@@ -14,6 +14,7 @@ class ClientEnrollmentTracking < ActiveRecord::Base
   delegate :name, to: :program_stream, prefix: true
 
   after_save :create_client_enrollment_tracking_history
+  after_commit :flush_cache
 
   # validate do |obj|
   #   CustomFormPresentValidator.new(obj, 'tracking', 'fields').validate
@@ -31,9 +32,28 @@ class ClientEnrollmentTracking < ActiveRecord::Base
     form_builder_attachments.find_by(name: value)
   end
 
+  def self.cached_tracking_order_created_at(fields_third, ids)
+    Rails.cache.fetch([Apartment::Tenant.current, 'ClientEnrollmentTracking', 'cached_tracking_order_created_at', *fields_third, *ids.sort]) {
+      joins(:tracking).where(trackings: { name: fields_third }, client_enrollment_trackings: { client_enrollment_id: ids }).order(created_at: :desc).first.try(:properties)
+    }
+  end
+
+  def self.cached_client_enrollment_tracking(fields_third, ids)
+    Rails.cache.fetch([Apartment::Tenant.current, 'ClientEnrollmentTracking', 'cached_client_enrollment_tracking', *fields_third, *ids.sort]) {
+      joins(:tracking).where(trackings: { name: fields_third }, client_enrollment_trackings: { client_enrollment_id: ids }).to_a
+    }
+  end
+
   private
 
   def create_client_enrollment_tracking_history
     ClientEnrollmentTrackingHistory.initial(self)
+  end
+
+  def flush_cache
+    cached_tracking_order_created_at_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_tracking_order_created_at/].blank? }
+    cached_tracking_order_created_at_keys.each { |key| Rails.cache.delete(key) }
+    cached_client_enrollment_tracking_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_enrollment_tracking/].blank? }
+    cached_client_enrollment_tracking_keys.each { |key| Rails.cache.delete(key) }
   end
 end
