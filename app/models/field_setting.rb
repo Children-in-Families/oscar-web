@@ -94,7 +94,7 @@ class FieldSetting < ActiveRecord::Base
     Rails.cache.delete([Apartment::Tenant.current, 'FieldSetting', self.name, self.klass_name])
     Rails.cache.delete([Apartment::Tenant.current, 'field_settings', 'show_legal_doc'])
     Rails.cache.delete([Apartment::Tenant.current, 'table_name', 'field_settings'])
-    Rails.cache.delete([Apartment::Tenant.current, 'FieldSetting', self.group_name, 'hidden_group'])
+    Rails.cache.delete([Apartment::Tenant.current, 'FieldSetting', self.group, 'hidden_group'])
     Rails.cache.delete([Apartment::Tenant.current, 'FieldSetting', 'gelal_dock_fields'])
   end
 end
