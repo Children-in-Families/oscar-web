@@ -73,10 +73,18 @@ class Domain < ActiveRecord::Base
     end
   end
 
+  def self.cache_find_by_name(name)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Domain', 'cache_find_by_name', *name]) {
+      find_by(name: name)
+    }
+  end
+
   private
 
   def flush_cache
     Rails.cache.delete([Apartment::Tenant.current, 'Domain', domain_type, 'domain_options'])
     Rails.cache.delete([Apartment::Tenant.current, 'Domain', 'cache_order_by_identity'])
+    cache_find_by_name_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cache_find_by_name/].blank? }
+    cache_find_by_name_keys.each { |key| Rails.cache.delete(key) }
   end
 end

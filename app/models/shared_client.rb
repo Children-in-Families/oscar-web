@@ -23,7 +23,7 @@ class SharedClient < ActiveRecord::Base
 
   private
 
-  def flush_cach
+  def flush_cache
     Rails.cache.delete([Apartment::Tenant.current, 'SharedClient', 'cached_shared_client_date_of_birth'] )
     cached_shared_client_date_of_birth_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_shared_client_date_of_birth/].blank? }
     cached_shared_client_date_of_birth_keys.each { |key| Rails.cache.delete(key) }
