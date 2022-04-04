@@ -1163,7 +1163,7 @@ class ClientGrid < BaseGrid
                 query_string = get_query_string(results, 'formbuilder', 'custom_field_properties.properties')
                 sql          = query_string.reverse.reject(&:blank?).map{|sql| "(#{sql})" }.join(" AND ")
 
-                Client.cached_client_custom_field_properties_properties_by(object, custom_field_id, sql, format_field_value)
+                properties = Client.cached_client_custom_field_properties_properties_by(object, custom_field_id, sql, format_field_value)
                 properties = properties.blank? ? custom_form_with_has_form(object, fields).properties_by(format_field_value) : properties
               else
                 properties = form_builder_query(object.custom_field_properties, fields.second, column_builder[:id].gsub('&qoute;', '"'), 'custom_field_properties.properties').properties_by(format_field_value)
