@@ -104,6 +104,12 @@ class CustomField < ActiveRecord::Base
     }
   end
 
+  def self.cached_client_custom_field_find_by(fields_second)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_custom_field_find_by', *fields_second]) do
+      find_by(form_title: fields_second)&.id
+    end
+  end
+
   private
 
   def update_custom_field_label
@@ -153,5 +159,7 @@ class CustomField < ActiveRecord::Base
     cached_custom_form_ids_keys.each { |key| Rails.cache.delete(key) }
     cached_custom_form_ids_attach_with_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_custom_form_ids_attach_with/].blank? }
     cached_custom_form_ids_attach_with_keys.each { |key| Rails.cache.delete(key) }
+    cached_client_custom_field_find_by_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_custom_field_find_by/].blank? }
+    cached_client_custom_field_find_by_keys.each { |key| Rails.cache.delete(key) }
   end
 end
