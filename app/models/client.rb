@@ -813,7 +813,7 @@ class Client < ActiveRecord::Base
 
   def self.cached_client_custom_field_find_by(object, fields_second)
     Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_custom_field_find_by', object.id, *fields_second]) do
-      custom_field_id = object.custom_fields.find_by(form_title: fields_second)&.id
+      object.custom_fields.find_by(form_title: fields_second)&.id
     end
   end
 
