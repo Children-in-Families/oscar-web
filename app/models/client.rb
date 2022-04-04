@@ -889,7 +889,7 @@ class Client < ActiveRecord::Base
 
   def self.cached_client_custom_field_properties_properties_by(object, custom_field_id, sql, format_field_value)
     Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_custom_field_properties_properties_by', object.id, custom_field_id]) do
-      properties = object.custom_field_properties.where(custom_field_id: custom_field_id).where(sql).properties_by(format_field_value)
+      object.custom_field_properties.where(custom_field_id: custom_field_id).where(sql).properties_by(format_field_value)
     end
   end
 
