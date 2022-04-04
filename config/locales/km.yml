@@ -5821,6 +5821,35 @@ km:
     update:
       successfully_updated: Service has been successfully updated.
   results: លទ្ធផល
+  screening_assessments:
+    _attr: &SA_ATTR
+      add_new:  បន្ថែមទំរង់ការប៉ាន់ប្រមាណថ្មី
+      add_task: បន្ថែមកាតព្វកិច្ចថ្មី
+      attachments: ឯកសារភ្ជាប់
+      back_to_clients: ត្រឡប់ទៅកាន់អតិថិជន
+      based_on: ផ្អែកលើផែនការប៉ាន់ប្រមាណ
+      client_age: អាយុអតិថិជន
+      client_milestone_age:  ជ្រើសរើសកម្រិតអាយុអតិថិជន
+      client_name: ឈ្មោះអតិថិជន
+      created_by: បង្កើតដោយ
+      note: កំណត់ត្រា
+      on_date: នៅថ្ងៃ
+      screening_assessment: ការប៉ាន់ប្រមាណដំបូង
+      screening_assessment_date: កាលបរិច្ឆេទការប៉ាន់ប្រមាណ
+      tasks: កាតព្វកិច្ច
+      view_or_hide_last_screening_assessment: បង្ហាញរឺបិទការប៉ាន់ប្រមាណចុងក្រោយ
+      view_screening_assessment: បង្ហាញការប៉ាន់ប្រមាណ
+      visitor: វត្តមានអ្នកចូលរួម?
+    form:
+      <<: *SA_ATTR
+    previous_screening_assessment:
+      <<: *SA_ATTR
+    show:
+      <<: *SA_ATTR
+    task_fields:
+      expected_date: កាលបរិច្ឆេទរំពឹងទុក
+      task: កាតព្វកិច្ច
+
   shared:
     x_lists_of: "បញ្ជី%{x}"
     new_x: "%{x}ថ្មី"

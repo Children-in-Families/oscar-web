@@ -3,15 +3,15 @@
   = f.hidden_field :screening_type, value: params[:screening_type] || @screening_assessment.screening_type
   .row
     .col-md-6
-      = f.input :screening_assessment_date, label: 'Assessment Date', as: :string, wrapper: :horizontal_form, input_html: { value: f.object.screening_assessment_date&.to_date&.to_s, class: 'date optional form-control date-picker' }
+      = f.input :screening_assessment_date, label: t('.screening_assessment_date'), as: :string, wrapper: :horizontal_form, input_html: { value: f.object.screening_assessment_date&.to_date&.to_s, class: 'date optional form-control date-picker' }
     .col-md-6
-      = f.input :client_age, wrapper: :horizontal_form, readonly: true, input_html: { value: time_ago_in_words(@client.date_of_birth) }
+      = f.input :client_age, label: t('.client_age'), wrapper: :horizontal_form, readonly: true, input_html: { value: time_ago_in_words(@client.date_of_birth) }
   .row
     .col-md-6
-      = f.input :visitor, label: 'Who was there during the assessment?'
+      = f.input :visitor, label: t('.visitor')
     .col-md-6
-      = f.input :client_milestone_age, label: "Select Client's milestone age", collection: DevelopmentalMarker.all.pluck(:name)
-  = f.input :note
+      = f.input :client_milestone_age, label: t('.client_milestone_age'), collection: DevelopmentalMarker.all.pluck(:name)
+  = f.input :note, label: t('.note')
   %hr/
   - if @previous_screening_assessment
     = render 'previous_screening_assessment', screening_assessment: @previous_screening_assessment
@@ -67,9 +67,9 @@
         = f.simple_fields_for :tasks do |task|
           = render 'task_fields', f: task
         .links
-          = link_to_add_association t('screening_assessments.add_task'), f, :tasks, class: 'btn-add-task btn btn-outline btn-success pull-right'
+          = link_to_add_association t('.add_task'), f, :tasks, class: 'btn-add-task btn btn-outline btn-success pull-right'
 
-  = f.input :attachments, as: :file, input_html: { multiple: true }
+  = f.input :attachments, label: t('.attachments'), as: :file, input_html: { multiple: true }
 
   .row
     .col-xs-12
