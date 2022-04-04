@@ -6086,11 +6086,16 @@ en:
       tasks: Tasks
       view_or_hide_last_screening_assessment: View or Hide Last Screening Assessment
       view_screening_assessment: View Screening Assessment
-      visitor: Visitor
+      visitor: Who was there during the assessment?
+    form:
+      <<: *SA_ATTR
     previous_screening_assessment:
       <<: *SA_ATTR
     show:
       <<: *SA_ATTR
+    task_fields:
+      expected_date: Expected Date
+      task: Task
 
   shared:
     x_lists_of: "%{x} lists of"
