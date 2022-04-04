@@ -1,7 +1,7 @@
 .col-xs-12
   .panel.panel-default#data-validation-panel.data-validation-panel
-    .panel-body#data-validation
-      = link_to dashbaords_client_data_validation_path(client_grid: '', total_error: @date_validation_error[:count]) do
+    = link_to dashbaords_client_data_validation_path(client_grid: '', total_error: @date_validation_error[:count]) do
+      .panel-body#data-validation
         .widget.style1.widget-program-panel
           .row.vertical-align
             .col-xs-5
@@ -9,12 +9,12 @@
             .col-xs-7.text-right
               %span.text-font
                 = t('.data_validation')
-      .row
-        .col-xs-12
-          = simple_form_for Client.new, url: advanced_search_clients_path, method: :post, html: { class: 'hidden', id: 'client-date-logic-error' }  do |f|
-            = hidden_field_tag :client_ids, @date_validation_error[:ids]
-            = hidden_field_tag 'commit', 'commit'
-            = f.submit
-          %h2
-            = t('.number_of_logic_error')
-            = @date_validation_error[:count]
+        .row
+          .col-xs-12
+            = simple_form_for Client.new, url: advanced_search_clients_path, method: :post, html: { class: 'hidden', id: 'client-date-logic-error' }  do |f|
+              = hidden_field_tag :client_ids, @date_validation_error[:ids]
+              = hidden_field_tag 'commit', 'commit'
+              = f.submit
+            %h2
+              = t('.number_of_logic_error')
+              = @date_validation_error[:count]
