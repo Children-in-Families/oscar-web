@@ -94,7 +94,7 @@
               = render 'form_without_assessment_domains', { domain_note: case_note_domain }
           .row
             .col-xs-12
-              %label{:for => "Screening Assessments tasks"}= t('case_notes.form.screening_assessment_tasks')
+              %label{:for => "Screening Assessments tasks"}= t('case_notes.form.cb_dmat_assessment_task')
               - @client.screening_assessments.joins(:tasks).where(tasks: { completed: false }).distinct.each do |screening_assessment|
                 .panel{ class: "panel-default" }
                   .panel-heading

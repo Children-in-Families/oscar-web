@@ -1011,6 +1011,7 @@ km:
       add_task: បន្ថែមកាតព្វកិច្ចថ្មី
       add_task_message: សូមជ្រើសរើសក្រុមកត្តាមុនពេលអ្នកបន្ថែមកាតព្វកិច្ច
       back: ត្រឡប់ក្រោយ
+      cb_dmat_assessment_task: កាតព្វកិច្ចរបស់ CB-DMAT
       completed_tasks: កាតព្វកិច្ចដែលបានធ្វើរួច
       domain: កត្តា
       domain_groups: សូមជ្រើសរើសក្រុមកត្តាទាំងអស់ដែលអ្នកបានគាំទ្រដល់អតិថិជនក្នុងកំណត់ត្រាករណីនេះ។
@@ -1051,6 +1052,7 @@ km:
       begin_now: បង្កើតថ្មី
       case_note_lists: បញ្ជីកំណត់ត្រាករណី
       case_note_on: កំណត់ត្រាករណីនៅថ្ងៃ
+      cb_dmat_assessment_task: កាតព្វកិច្ចរបស់ CB-DMAT
       completed_tasks: កាតព្វកិច្ចដែលបានធ្វើរួច
       domain: កត្តា
       domain_groups: ក្រុមកត្តា
@@ -5908,22 +5910,22 @@ km:
   results: លទ្ធផល
   screening_assessments:
     _attr: &SA_ATTR
-      add_new:  បន្ថែមទំរង់ការប៉ាន់ប្រមាណថ្មី
-      add_task: បន្ថែមកាតព្វកិច្ចថ្មី
+      add_new: បន្ថែមការប៉ាន់ប្រមាណបឋម
+      add_task: បន្ថែមកាតព្វកិច្ច
       attachments: ឯកសារភ្ជាប់
-      back_to_clients: ត្រឡប់ទៅកាន់អតិថិជន
-      based_on: ផ្អែកលើផែនការប៉ាន់ប្រមាណ
+      back_to_clients: ត្រឡប់ទៅអតិថិជន
+      based_on: ផ្អែកលើការប៉ាន់ប្រមាណបឋម
       client_age: អាយុអតិថិជន
-      client_milestone_age:  ជ្រើសរើសកម្រិតអាយុអតិថិជន
+      client_milestone_age: កម្រិតអាយុអតិថិជន
       client_name: ឈ្មោះអតិថិជន
       created_by: បង្កើតដោយ
       note: កំណត់ត្រា
-      on_date: នៅថ្ងៃ
-      screening_assessment: ការប៉ាន់ប្រមាណដំបូង
-      screening_assessment_date: កាលបរិច្ឆេទការប៉ាន់ប្រមាណ
+      on_date: នៅថ្ងៃទី
+      screening_assessment: ការប៉ាន់ប្រមាណបឋម
+      screening_assessment_date: កាលបរិច្ឆេទការប៉ាន់ប្រមាណបឋម
       tasks: កាតព្វកិច្ច
-      view_or_hide_last_screening_assessment: បង្ហាញរឺបិទការប៉ាន់ប្រមាណចុងក្រោយ
-      view_screening_assessment: បង្ហាញការប៉ាន់ប្រមាណ
+      view_or_hide_last_screening_assessment: មើល ឬលាក់ការប៉ាន់ប្រមាណមុន
+      view_screening_assessment: មើលការប៉ាន់ប្រមាណបឋម
       visitor: វត្តមានអ្នកចូលរួម?
     form:
       <<: *SA_ATTR
@@ -5934,7 +5936,6 @@ km:
     task_fields:
       expected_date: កាលបរិច្ឆេទរំពឹងទុក
       task: កាតព្វកិច្ច
-
   shared:
     x_lists_of: "បញ្ជី%{x}"
     new_x: "%{x}ថ្មី"

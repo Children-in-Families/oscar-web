@@ -147,7 +147,7 @@
                                       = task.name
               .row
                 .col-xs-12.col-md-6
-                  %h4= t('.screening_assessment_tasks')
+                  %h4= t('.cb_dmat_assessment_task')
                   - @client.screening_assessments.each do |screening_assessment|
                     - completed_tasks = screening_assessment.tasks.completed.where(case_note_id: case_note.id)
                     - next unless completed_tasks.any?

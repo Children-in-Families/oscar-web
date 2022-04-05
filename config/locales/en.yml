@@ -1037,6 +1037,7 @@ en:
       add_task: Add Task
       add_task_message: Please select the domain group before you can add the task.
       back: Back
+      cb_dmat_assessment_task: CB-DMAT Assessment Tasks
       completed_tasks: Completed Tasks
       domain: Domain
       domain_groups: Please select all Domain Groups you supported the client with in this case note.
@@ -1077,6 +1078,7 @@ en:
       begin_now: Add New
       case_note_lists: Case note lists of
       case_note_on: Case note on
+      cb_dmat_assessment_task: CB-DMAT Assessment Tasks
       completed_tasks: Completed Tasks
       domain: Domain
       domain_groups: Domain Groups
