@@ -10,6 +10,7 @@
           .col-xs-10
             %p
               %b= "#{t('.client_name')} #{@screening_assessment.client.name}"
+              %br/
               - if @screening_assessment.one_off?
                 = t('.screening_assessment_one_off')
               - else

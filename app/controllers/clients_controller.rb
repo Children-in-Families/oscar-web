@@ -346,7 +346,7 @@ class ClientsController < AdminController
   end
 
   def initial_visit_client
-    referrer = Rails.application.routes.recognize_path(request.referrer.gsub(/[a-z]{3,}\-/, '').gsub('/?', '?'))
+    referrer = Rails.application.routes.recognize_path(request.referrer.gsub(/[a-z]{3,}\-/, '').gsub('/?', '?')) if request.referrer
     return unless referrer.present?
 
     white_list_referrers = %w[clients]

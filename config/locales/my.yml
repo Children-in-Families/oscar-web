@@ -1033,6 +1033,7 @@ my:
       add_task: လုပ္ငန္းအသစ္ထည့္သြင္းရန္
       add_task_message: Please select the domain group before you can add the task.
       back: ေနာက္သို႔
+      cb_dmat_assessment_task: CB-DMAT Assessment Tasks
       completed_tasks: ၿပီးၿပီးသား လုပ္ငန္းမ်ား
       domain: ဒိုမိန္း
       domain_groups: Please select all Domain Groups you supported the client with in this case note.
@@ -1072,6 +1073,7 @@ my:
       back: ေနာက္သို႔
       case_note_lists: အမႈျခင္းရာ မွတ္စု စာရင္း
       case_note_on: ဆုိင္ရာ အမႈျခင္းရာမွတ္စု
+      cb_dmat_assessment_task: CB-DMAT Assessment Tasks
       completed_tasks: ၿပီးစီးၿပီးသြားေသာ လုပ္ငန္းမ်ား
       domain: ဒိုမိန္း
       domain_groups: ဒိုမိန္း အုပ္စုမ်ား
