@@ -142,7 +142,7 @@ class SettingsController < AdminController
   def client_default_columns
     columns = []
     sub_columns = %w(carer_name_ carer_phone_ carer_email_ time_in_cps_ time_in_ngo_ rejected_note_ exit_reasons_ exit_circumstance_ other_info_of_exit_ exit_note_ what3words_ main_school_contact_ rated_for_id_poor_ name_of_referee_
-      family_ family_id_ case_note_date_ case_note_type_ date_of_assessments_ assessment_completed_date_ all_csi_assessments_ date_of_custom_assessments_ all_custom_csi_assessments_ manage_ changelog_ type_of_service_ indirect_beneficiaries_)
+      family_ family_id_ case_note_date_ case_note_type_ date_of_assessments_ assessment_completed_date_ all_csi_assessments_ date_of_custom_assessments_ custom_assessment_ custom_completed_date_ custom_assessment_ created_date_ all_custom_csi_assessments_ manage_ changelog_ type_of_service_ indirect_beneficiaries_)
     sub_columns += Client::HOTLINE_FIELDS.map{ |field| "#{field}_" }
     sub_columns += Call::FIELDS.map{ |field| "#{field}_" }
     filter_columns = ClientGrid.new.filters.map(&:name).select{ |field_name| policy(Client).show?(field_name) }

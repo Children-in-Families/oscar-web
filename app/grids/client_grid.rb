@@ -1029,8 +1029,15 @@ class ClientGrid < BaseGrid
     render partial: 'clients/referral', locals: { object: object }
   end
 
-  column(:date_of_custom_assessments, header: -> { I18n.t('datagrid.columns.clients.date_of_custom_assessments', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
+  column(:custom_assessment_created_date, header: -> { I18n.t('datagrid.columns.clients.custom_assessment_created_date', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
     render partial: 'clients/assessments', locals: { object: object.assessments.customs }
+  end
+
+  column(:custom_assessment, header: -> { I18n.t('datagrid.columns.clients.custom_assessment', assessment: I18n.t('clients.show.assessment')) }) do |object|
+    custom_assessment_names = object.assessments.customs.joins(domains: :custom_assessment_setting).pluck('custom_assessment_settings.custom_assessment_name')
+    format(custom_assessment_names) do |values|
+      values.join(", ")
+    end
   end
 
   column(:custom_completed_date, header: -> { I18n.t('datagrid.columns.clients.assessment_custom_completed_date', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|

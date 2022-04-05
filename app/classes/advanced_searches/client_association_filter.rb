@@ -44,9 +44,11 @@ module AdvancedSearches
         values = date_of_assessments_query(true)
       when /assessment_completed|assessment_completed_date|^(completed_date)/
         values = date_of_completed_assessments_query(true)
+      when 'custom_assessment'
+        values = search_custom_assessment
       when 'custom_completed_date'
         values = date_of_completed_assessments_query(false)
-      when 'date_of_custom_assessments'
+      when 'custom_assessment_created_date'
         values = date_of_assessments_query(false)
       when 'accepted_date'
         values = enter_ngo_accepted_date_query
@@ -649,6 +651,20 @@ module AdvancedSearches
         @clients.where.not(id: ids).ids
       when 'is_not_empty'
         @clients.where(id: ids).ids
+      end
+    end
+
+    def search_custom_assessment
+      clients = @clients.joins(assessments: :domains).where(assessments: {default: false})
+      case @operator
+      when 'equal'
+        client_ids = clients.where(domains: { custom_assessment_setting_id: @value }).distinct.ids
+      when 'not_equal'
+        client_ids = clients.where.not(domains: { custom_assessment_setting_id: @value }).distinct.ids
+      when 'is_empty'
+        client_ids = @clients.includes(assessments: :domains).group('clients.id, assessments.id, domains.id, domains.custom_assessment_setting_id').having("COUNT(domains.custom_assessment_setting_id) = 0").distinct.ids
+      when 'is_not_empty'
+        client_ids = @clients.includes(assessments: :domains).group('clients.id, assessments.id, domains.id, domains.custom_assessment_setting_id').having("COUNT(domains.custom_assessment_setting_id) > 0").distinct.ids
       end
     end
 

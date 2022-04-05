@@ -6,10 +6,11 @@ module AdvancedSearches
       address_translation
       domain_score_group  = format_header('custom_csi_domain_scores')
       csi_domain_options  = domain_options(domain_type).map { |item| number_filter_type(item, domain_score_format(item), domain_score_group) }
-      assessment_completed_date = [['assessment_completed_date', I18n.t('datagrid.columns.assessment_completed_date', assessment: I18n.t('clients.show.assessment'))]].map{ |item| date_picker_options(item[0], item[1], domain_score_group) }
-      date_of_assessments = [['date_of_custom_assessments', I18n.t('datagrid.columns.date_of_family_assessment', assessment: I18n.t('clients.show.assessment'))]].map{ |item| date_picker_options(item[0], item[1], domain_score_group) }
+      custom_assessments = ['custom_assessment'].map{ |item| drop_list_options(item, format_header(item), domain_score_group) }
+      assessment_completed_date = ['custom_completed_date'].map{ |item| date_picker_options(item, format_header(item), domain_score_group) }
+      date_of_assessments = ['custom_assessment_created_date'].map{ |item| date_picker_options(item, format_header(item), domain_score_group) }
       all_custom_domains  = ['All Custom Domains'].map { |item| number_filter_type(item.downcase.gsub(' ', '_'), domain_score_format(item), domain_score_group) }
-      date_of_assessments + assessment_completed_date + csi_domain_options + all_custom_domains
+      custom_assessments + date_of_assessments + assessment_completed_date + csi_domain_options + all_custom_domains
     end
 
     private
@@ -55,6 +56,22 @@ module AdvancedSearches
         input: 'number',
         values: ('1'..'10').to_a,
         operators: ['equal', 'not_equal', 'less', 'less_or_equal', 'greater', 'greater_or_equal', 'between', 'is_empty', 'is_not_empty', 'average', 'assessment_has_changed', 'assessment_has_not_changed', 'month_has_changed', 'month_has_not_changed']
+      }
+    end
+
+    def self.drop_list_options(field_name, label, group)
+      values = CustomAssessmentSetting.all.pluck(:id, :custom_assessment_name).map{|k, v| { k => v }  }
+      {
+        id: field_name,
+        field: label,
+        optgroup: group,
+        label: label,
+        type: 'string',
+        input: 'select',
+        values: values,
+        plugin: 'select2',
+        data: { values: values },
+        operators: ['equal', 'not_equal', 'is_empty', 'is_not_empty']
       }
     end
   end
