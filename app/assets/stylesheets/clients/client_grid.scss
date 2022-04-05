@@ -91,7 +91,9 @@ body[id="client_advanced_searches-index"] {
       min-width: 200px;
     }
 
-    th.date_of_custom_assessments {
+    th.date_of_custom_assessments,
+    th.custom_assessment_created_date,
+    th.custom_assessment {
       min-width: 250px;
     }
 

@@ -171,7 +171,8 @@ module AdvancedSearchHelper
       active_clients: I18n.t('advanced_search.fields.active_clients'),
       care_plan: I18n.t('advanced_search.fields.care_plan'),
       **overdue_translations,
-      **@address_translation
+      **@address_translation,
+      **custom_assessment_field_traslation_mapping
     }
 
     translations = label_translations(@address_translation).merge(translations)
