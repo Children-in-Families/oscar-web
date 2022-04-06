@@ -95,7 +95,7 @@ group :development, :test do
 end
 
 group :staging, :ratanak_staging, :demo, :production do
-  gem 'appsignal', '~> 1.1.9'
+  gem 'appsignal', '~> 3.0', '>= 3.0.24'
   gem 'asset_sync'
 end
 
