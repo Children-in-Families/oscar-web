@@ -169,18 +169,27 @@ class ClientsController < AdminController
   end
 
   def destroy
-    if @client.current_family_id? && @client.destroy
-      EnterNgo.with_deleted.where(client_id: @client.id).each(&:destroy_fully!)
-      ClientEnrollment.with_deleted.where(client_id: @client.id).delete_all
-      Case.where(client_id: @client.id).delete_all
-      CaseWorkerClient.with_deleted.where(client_id: @client.id).each(&:destroy_fully!)
-      Task.with_deleted.where(client_id: @client.id).each(&:destroy_fully!)
-      ExitNgo.with_deleted.where(client_id: @client.id).each(&:destroy_fully!)
-      redirect_to clients_url, notice: t('.successfully_deleted')
-    else
-      messages = "Can't delete client because the client is still attached with family"
-      redirect_to @client, alert: messages
+    ActiveRecord::Base.transaction do
+      if !@client.current_family_id? && @client.destroy
+        begin
+          EnterNgo.with_deleted.where(client_id: @client.id).each(&:destroy_fully!)
+          ClientEnrollment.with_deleted.where(client_id: @client.id).delete_all
+          Case.where(client_id: @client.id).delete_all
+          CaseWorkerClient.with_deleted.where(client_id: @client.id).each(&:destroy_fully!)
+          Task.with_deleted.where(client_id: @client.id).each(&:destroy_fully!)
+          ExitNgo.with_deleted.where(client_id: @client.id).each(&:destroy_fully!)
+          redirect_to clients_url, notice: t('.successfully_deleted')
+        rescue => exception
+          raise ActiveRecord::Rollback
+        end
+      else
+        messages = "Can't delete client because the client is still attached with family"
+        redirect_to @client, alert: messages
+      end
     end
+  rescue ActiveRecord::Rollback => exception
+    binding.pry
+    redirect_to @client, alert: exception
   end
 
   def quantitative_case
