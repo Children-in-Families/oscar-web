@@ -188,7 +188,6 @@ class ClientsController < AdminController
       end
     end
   rescue ActiveRecord::Rollback => exception
-    binding.pry
     redirect_to @client, alert: exception
   end
 
