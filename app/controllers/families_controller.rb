@@ -98,17 +98,25 @@ class FamiliesController < AdminController
   end
 
   def destroy
-    if @family.current_clients.blank? && @family.delete
-      @family.case_worker_families.with_deleted.each(&:destroy_fully!)
-      EnterNgo.with_deleted.where(acceptable_id: @family.id).each(&:destroy_fully!)
-      Enrollment.with_deleted.where(programmable_id: @family.id).delete_all
-      Case.where(family_id: @family.id).delete_all
-      ExitNgo.with_deleted.where(rejectable_id: @family.id).each(&:destroy_fully!)
-      Task.with_deleted.where(family_id: @family.id).each(&:destroy_fully!)
-      redirect_to families_url, notice: t('activerecord.destroy.successfully_deleted')
-    else
-      redirect_to family_path(@family), alert: t('.alert')
+    ActiveRecord::Base.transaction do
+      if @family.current_clients.blank? && @family.delete
+        begin
+          @family.case_worker_families.with_deleted.each(&:destroy_fully!)
+          EnterNgo.with_deleted.where(acceptable_id: @family.id).each(&:destroy_fully!)
+          Enrollment.with_deleted.where(programmable_id: @family.id).delete_all
+          Case.where(family_id: @family.id).delete_all
+          ExitNgo.with_deleted.where(rejectable_id: @family.id).each(&:destroy_fully!)
+          Task.with_deleted.where(family_id: @family.id).each(&:destroy_fully!)
+          redirect_to families_url, notice: t('activerecord.destroy.successfully_deleted')
+        rescue => exception
+          raise ActiveRecord::Rollback
+        end
+      else
+        redirect_to family_path(@family), alert: t('.alert')
+      end
     end
+  rescue ActiveRecord::Rollback => exception
+    redirect_to @client, alert: exception
   end
 
   def version
