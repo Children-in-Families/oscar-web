@@ -77,6 +77,24 @@ class ClientEnrollment < ActiveRecord::Base
     end
   end
 
+  def self.cached_client_order_enrollment_date(fields_second)
+    Rails.cache.fetch([Apartment::Tenant.current, 'ClientEnrollment', 'cached_client_order_enrollment_date', *fields_second]) do
+      joins(:program_stream).where(program_streams: { name: fields_second }).order(enrollment_date: :desc).first.try(:enrollment_date)
+    end
+  end
+
+  def self.cached_client_order_enrollment_date_properties(fields_second)
+    Rails.cache.fetch([Apartment::Tenant.current, 'ClientEnrollment', 'cached_client_order_enrollment_date_properties', *fields_second]) do
+      joins(:program_stream).where(program_streams: { name: fields_second }).order(enrollment_date: :desc).first.try(:properties)
+    end
+  end
+
+  def self.cached_client_enrollment_date_join(fields_second)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_enrollment_date_join', *fields_second]) do
+      joins(:program_stream).where(program_streams: { name: fields_second }).to_a
+    end
+  end
+
   private
 
   def create_client_enrollment_history
@@ -92,5 +110,11 @@ class ClientEnrollment < ActiveRecord::Base
   def flush_cache
     Rails.cache.delete([Apartment::Tenant.current, 'cache_program_steam_by_enrollment'])
     Rails.cache.delete([Apartment::Tenant.current, 'cache_active_program_options'])
+    cached_client_order_enrollment_date_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_order_enrollment_date/].blank? }
+    cached_client_order_enrollment_date_keys.each { |key| Rails.cache.delete(key) }
+    cached_client_order_enrollment_date_properties_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_order_enrollment_date_properties/].blank? }
+    cached_client_order_enrollment_date_properties_keys.each { |key| Rails.cache.delete(key) }
+    cached_client_enrollment_date_join_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_enrollment_date_join/].blank? }
+    cached_client_enrollment_date_join_keys.each { |key| Rails.cache.delete(key) }
   end
 end

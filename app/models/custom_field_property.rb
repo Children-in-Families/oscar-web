@@ -47,6 +47,24 @@ class CustomFieldProperty < ActiveRecord::Base
     }
   end
 
+  def self.cached_client_custom_field_properties_count(fields_second)
+    Rails.cache.fetch([Apartment::Tenant.current, 'CustomFieldProperty', 'cached_client_custom_field_properties_count', *fields_second]) {
+      joins(:custom_field).where(custom_fields: { form_title: fields_second, entity_type: 'Client'}).count
+    }
+  end
+
+  def self.cached_client_custom_field_properties_order(fields_second)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_custom_field_properties_order', *fields_second]) do
+      joins(:custom_field).where(custom_fields: { form_title: fields_second, entity_type: 'Client'}).order(created_at: :desc).first.try(:properties)
+    end
+  end
+
+  def self.cached_client_custom_field_properties_properties_by(custom_field_id, sql, format_field_value)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_custom_field_properties_properties_by', custom_field_id]) do
+      where(custom_field_id: custom_field_id).where(sql).properties_by(format_field_value)
+    end
+  end
+
   private
 
   def create_client_history
@@ -55,5 +73,11 @@ class CustomFieldProperty < ActiveRecord::Base
 
   def flush_cache
     Rails.cache.delete([Apartment::Tenant.current, 'CustomFieldProperty', 'cached_custom_formable_type'])
+    cached_client_custom_field_properties_count_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_custom_field_properties_count/].blank? }
+    cached_client_custom_field_properties_count_keys.each { |key| Rails.cache.delete(key) }
+    cached_client_custom_field_properties_order_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_custom_field_properties_order/].blank? }
+    cached_client_custom_field_properties_order_keys.each { |key| Rails.cache.delete(key) }
+    cached_client_custom_field_properties_properties_by_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_custom_field_properties_properties_by/].blank? }
+    cached_client_custom_field_properties_properties_by_keys.each { |key| Rails.cache.delete(key) }
   end
 end
