@@ -542,6 +542,7 @@ en:
       referral_source_id: Referral Source
       referred_from: Referred From
       referred_in: Referred In
+      referred_out: Referred Out
       referred_to: Referred To
       referred_out: Referred Out
       referee: Referee
