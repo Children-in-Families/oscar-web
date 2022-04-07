@@ -517,6 +517,7 @@ my:
       name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
       ngo_accepted_date: NGOက လက္ခံသည့္ ရက္စြဲ
       ngo_exit_date: NGOမွ ထြက္သည့္ ရက္စြဲ
+      no_case_note_date: No Case Note Date
       other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
       phone_owner: Phone Owner
       placement_start_date: ေနရာခ်ထားမႈစတင္သည့္ရက္စြဲ
@@ -1559,6 +1560,7 @@ my:
       detail_form_of_mosavy_dosavy: Detailed Form for Identification of Victim of Human Trafficking (MoSAVY/DoSAVY)
       dosavy: DoSAVY
       external_id_display: ပြင်ပ ID display
+      family_book: 'Family Book'
       form_indentification: Forms for Identification of Victim of Human Trafficking
       indentification_doc: Identification Documents
       labor_trafficking_legal_doc_option: Labour Trafficking
