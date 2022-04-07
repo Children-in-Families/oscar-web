@@ -1569,6 +1569,7 @@ my:
       form_indentification: Forms for Identification of Victim of Human Trafficking
       indentification_doc: Identification Documents
       labor_trafficking_legal_doc_option: Labour Trafficking
+      legal_documents: Legal Documents
       legal_processing_doc: Legal Proceeding Documents
       letter_from_immigration_police: Letter from Immigration Police
       local_consent: 'Legal consent'
