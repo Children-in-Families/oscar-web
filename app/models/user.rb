@@ -256,7 +256,7 @@ class User < ActiveRecord::Base
 
   def client_forms_overdue_or_due_today
     if self.deactivated_at.present?
-      active_accepted_clients = clients.where(created_at > self.activated_at).active_accepted_status
+      active_accepted_clients = clients.where("clients.created_at > ?", self.activated_at).active_accepted_status
     else
       active_accepted_clients = clients.active_accepted_status
     end

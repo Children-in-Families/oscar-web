@@ -25,6 +25,19 @@ module ClientConstants
     local_consent_files
     police_interview_files
     other_legal_doc_files
+    ngo_partner_files
+    dosavy_files
+    msdhs_files
+    complain_files
+    warrant_files
+    verdict_files
+    short_form_of_ocdm_files
+    screening_interview_form_files
+    short_form_of_mosavy_dosavy_files
+    detail_form_of_mosavy_dosavy_files
+    short_form_of_judicial_police_files
+    detail_form_of_judicial_police_files
+    letter_from_immigration_police_files
   )
 
   BRC_RESIDENT_TYPES = [

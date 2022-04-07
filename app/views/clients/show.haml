@@ -587,7 +587,7 @@
               %tbody
                 - legal_doc_options_hash = { "Labour Trafficking" => 'labor_trafficking_legal_doc_option', "Sexual Trafficking" => 'sex_trafficking_legal_doc_option', 'Other' => 'other_legal_doc_option' }
                 - legal_doc_fields.each do |field|
-                  - if field == 'dosavy'
+                  - if field == 'mosavy'
                     - attachments = @client.send("referral_doc_files")
                   - else
                     - attachments = @client.send("#{field}_files")
