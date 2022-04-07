@@ -517,6 +517,7 @@ en:
       name_of_referee: Name of Referee
       ngo_accepted_date: NGO Accept Date
       ngo_exit_date: NGO Exit Date
+      no_case_note_date: No Case Note Date
       other_info_of_exit: Other - More Information
       phone_owner: Phone Owner
       placement_start_date: Placement Start Date
@@ -535,6 +536,7 @@ en:
       referral_source_id: Referral Source
       referred_from: Referred From
       referred_in: Referred In
+      referred_out: Referred Out
       referred_to: Referred To
       referee: Referee
       referee_relationship: Referee Relationship to Client
