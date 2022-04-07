@@ -1530,6 +1530,7 @@ km:
       detail_form_of_mosavy_dosavy: ទម្រង់លម្អិតសម្រាប់ការសម្ភាសកំណត់អត្តសញ្ញាណបឋមជនរងគ្រោះដោយអំពើជួញដូរមនុស្ស (ក្រសួង ស.អ.យ/មន្ទីរ ស.អ.យ)
       dosavy: មន្ទីរ ស.អ.យ
       external_id_display: ការបង្ហាញលេខសម្គាល់អង្គការខាងក្រៅ
+      family_book: 'សៀវភៅគ្រួសារ'
       form_indentification: ទម្រង់សម្ភាសន៍កំណត់អត្តសញ្ញាណជនរងគ្រោះដោយអំពើជួញដូរមនុស្ស
       indentification_doc: ឯកសារអត្តសញ្ញាណ
       labor_trafficking_legal_doc_option: ការជួញដូរពលកម្ម
@@ -1767,7 +1768,7 @@ km:
       department: Ratanak Team
       national_id: 'National ID'
       birth_cert: 'Birth Certificate'
-      family_book: 'Family Book'
+      family_book: 'សៀវភៅគ្រួសារ'
       passport: 'Passport'
       travel_doc: 'Temporary Travel Document'
       referral_doc: 'Referral Documents'
