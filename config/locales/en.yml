@@ -1565,6 +1565,7 @@ en:
   clients:
     attr: &LEGAL_DOC_ATTR
       add_service_received: Add Services Received
+      birth_cert: 'Birth Certificate'
       complain: Complaint
       cb_dmat: CB-DMAT
       detail_form_of_judicial_police: Detailed Form for Identification of Victim of Human Trafficking (Judicial Police)
@@ -1576,11 +1577,16 @@ en:
       labor_trafficking_legal_doc_option: Labour Trafficking
       legal_processing_doc: Legal Proceeding Documents
       letter_from_immigration_police: Letter from Immigration Police
+      local_consent: 'Legal consent'
       mosavy: MoSAVY
       mosvy_number: MoSVY Number
       msdhs: MSDHS
+      national_id: 'National ID'
       ngo_partner: NGO Partner
+      other_legal_doc: 'Others'
       other_legal_doc_option: Other
+      passport: 'Passport'
+      police_interview: 'Police interview'
       referral_document: Referral Documents
       screening_interview_form: Screening Interview Form
       sex_trafficking_legal_doc_option: Sexual Trafficking

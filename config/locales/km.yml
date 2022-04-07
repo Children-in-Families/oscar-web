@@ -1523,7 +1523,9 @@ km:
   clients:
     attr: &LEGAL_DOC_ATTR
       add_service_received: បន្ថែមសេវាដែលបានទទួល
+      birth_cert: 'Birth Certificate'
       complain: ពាក្យបណ្ដឹង
+      cb_dmat: CB-DMAT
       detail_form_of_judicial_police: ទម្រង់លម្អិតសម្រាប់ការសម្ភាសកំណត់អត្តសញ្ញាណបឋមជនរងគ្រោះដោយអំពើជួញដូរមនុស្ស (នគរបាលយុត្តិធម៌)
       detail_form_of_mosavy_dosavy: ទម្រង់លម្អិតសម្រាប់ការសម្ភាសកំណត់អត្តសញ្ញាណបឋមជនរងគ្រោះដោយអំពើជួញដូរមនុស្ស (ក្រសួង ស.អ.យ/មន្ទីរ ស.អ.យ)
       dosavy: មន្ទីរ ស.អ.យ
@@ -1533,11 +1535,15 @@ km:
       labor_trafficking_legal_doc_option: ការជួញដូរពលកម្ម
       legal_processing_doc: ឯកសារនិតិវិធីច្បាប់
       letter_from_immigration_police: លិខិតពីប៉ូលីសអន្តោប្រវេសន៍
+      local_consent: 'Legal consent'
       mosavy: ក្រសួង ស.អ.យ
       mosvy_number: លេខសំគាល់ ស.អ.យ
       msdhs: ក្រសួងអភិវឌ្ឍន៍សង្គមនិងសន្តិសុខ (ថៃ)
       ngo_partner: អង្គការក្រៅរដ្ឋាភិបាលជាដៃគូ
+      national_id: 'National ID'
+      other_legal_doc: 'Others'
       other_legal_doc_option: ផ្សេងៗ
+      police_interview: 'Police interview'
       referral_document: ឯកសារបញ្ជូន
       screening_interview_form: ទម្រង់សម្ភាសន៍បឋម
       sex_trafficking_legal_doc_option: ការជួញដូរផ្លូវភេទ
