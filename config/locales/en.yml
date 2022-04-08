@@ -5770,6 +5770,9 @@ en:
     assessment_setting:
       age: age
       assessment: Customized Assessment Frequency Settings
+      assessment_notification: Assessment Notification
+      cb_dmat_multi: Ongoing CB-DMAT %{screening_assessment} (Multiple)
+      cb_dmat_one_off: CB-DMAT %{screening_assessment} (one-off)
       custom_assessment: Name
       default_assessment: CSI Assessment Frequency Settings
       default_assessment_framework: Result Framework Assessment Frequency Settings
@@ -5778,7 +5781,9 @@ en:
       max_assessment: Maximum time between assessments
       min_assessment: Minimum time between 1st and 2nd assessment
       name: Name
+      new_client_assessment: New Client Assessment
       noted: 'Note: USAID has requested that the term CSI not be used for customized assessments.'
+      screening_assessment: Screening Assessment
       show_prev_assessment: Show previous assessment while completing new assessment
       two_weeks_assessment_reminder: Send 2 notification at both 2 and 1 week prior to assessment
     case_notes:
@@ -5885,6 +5890,7 @@ en:
       attachments: Attachments
       back_to_clients: Back to Client
       based_on: Base on Screening Assessment
+      cb_dmat: CB-DMAT Screening Tool
       client_age: Client's Age
       client_milestone_age: Client's Milestone Age
       client_name: Client's Name

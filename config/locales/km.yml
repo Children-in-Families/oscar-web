@@ -5711,6 +5711,9 @@ km:
     assessment_setting:
       age: អាយុ
       assessment: ការកំណត់ភាពញឹកញ៉ាប់នៃការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
+      assessment_notification: Assessment Notification
+      cb_dmat_multi: Ongoing CB-DMAT %{screening_assessment} (Multiple)
+      cb_dmat_one_off: CB-DMAT %{screening_assessment} (one-off)
       custom_assessment: ឈ្មោះ
       default_assessment: ការកំណត់ភាពញឹកញ៉ាប់នៃការប៉ាន់ប្រមាណលំនាំដើម CSI
       default_assessment_framework: ការកំណត់ភាពញឹកញ៉ាប់នៃការប៉ាន់ប្រមាណលំនាំដើមក្របខ័ណ្ឌលទ្ធផល
@@ -5719,6 +5722,7 @@ km:
       max_assessment: រយៈពេលអតិបរមារវាងការបា៉ន់ប្រមាណ
       min_assessment: រយៈពេលអប្បបរមារវាងការប៉ាន់ប្រមាណទី 1 និងទី 2
       name: ឈ្មោះ
+      new_client_assessment: New Client Assessment
       noted: 'ចំណាំ: ទីភ្នាក់ងារ USAID បានស្នើថា CSI មិនត្រូវបានប្រើសម្រាប់ការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន។'
       show_prev_assessment: បង្ហាញការប៉ាន់ប្រមានលើកមុនពេលកំពុងបំពេញការប៉ាន់ប្រមាណថ្មី
       two_weeks_assessment_reminder: ផ្ញើការជូនដំណឹងចំនួន ២ដង នៅសប្តាហ៍ទី ២ និងទី ១ មុនពេលធ្វើការប៉ាន់ប្រមាណ
@@ -5830,6 +5834,7 @@ km:
       attachments: ឯកសារភ្ជាប់
       back_to_clients: ត្រឡប់ទៅអតិថិជន
       based_on: ផ្អែកលើការប៉ាន់ប្រមាណបឋម
+      cb_dmat: ការប៉ាន់ប្រមាណបឋម CB-DMAT
       client_age: អាយុអតិថិជន
       client_milestone_age: កម្រិតអាយុអតិថិជន
       client_name: ឈ្មោះអតិថិជន
