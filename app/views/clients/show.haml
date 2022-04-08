@@ -6,7 +6,7 @@
       %ul
         %li= Organization.ratanak? ?  I18n.t('inline_help.clients.show.notes.lists.ratanak.list1') : I18n.t('inline_help.clients.show.notes.lists.list1')
     .row
-      %div{ class: "col-md-#{ @client.referred? || @client.exit_ngo? ? '9' : '12' }"}
+      %div{ class: "col-md-#{ @client.referred? || @client.exit_ngo? || current_setting.cbdmat_one_off? ? '9' : '12' }"}
         %table.table.small.m-b-xs#main-info
           %tbody
             %tr
@@ -50,33 +50,27 @@
                   = "#{t('.current_province')} :"
                   %strong= editable @client, :province_id, type: :select2, source: @current_provinces, value: @client.province&.name, url: api_client_path(@client.id), pk: @client.id
       .col-md-3
+        .row
+          .col-xs-12
+            - if current_setting.cbdmat_one_off?
+              - if @client.one_off_screening_assessment.present?
+                %p= link_to t('screening_assessments._attr.cb_dmat'), client_screening_assessment_path(@client, @client.one_off_screening_assessment), class: 'btn btn-primary'
+              - else
+                %p= link_to t('screening_assessments._attr.cb_dmat'), if_date_of_birth_blank(@client), type: "button", **has_of_warning_model_if_dob_blank(@client), class: 'btn btn-primary'
         - if @client.status == 'Referred'
           .row
             .col-xs-12
               .row
                 - if current_setting.use_screening_assessment? && @client.referred?
                   .col-xs-12
-                    - if @client.require_screening_assessment?(current_setting) && current_setting.cbdmat_one_off
+                    - if @client.require_screening_assessment?(current_setting)
                       .btn-group.small-btn-margin
                         %button.btn-sm.btn.btn-success.dropdown-toggle.btn-fit{ data: { toggle: "dropdown", trigger: 'hover', html: 'true', content: "#{I18n.t('inline_help.clients.show.add_form')}", placement: "auto" }, class: ('disabled' if @free_client_forms.empty? || (status_exited?(@client.status) && !current_user.admin?)) }
                           = t('.complete_screening_tool')
                           %span.caret
                         %ul.dropdown-menu.btn-fit.scrollable-dropdown-menu.add-form
-                          %li
-                            %p= link_to 'CB-DMAT Screening Tool', if_date_of_birth_blank(@client), type: "button", **has_of_warning_model_if_dob_blank(@client)
                           %li
                             %p= link_to t('.complete_screening_assessment'), new_client_custom_field_property_path(@client, custom_field_id: current_setting.screening_assessment_form)
-                    - elsif current_setting.cbdmat_one_off
-                      .btn-group.small-btn-margin
-                        %button.btn-sm.btn.btn-success.dropdown-toggle.btn-fit{ data: { toggle: "dropdown", trigger: 'hover', html: 'true', content: "#{I18n.t('inline_help.clients.show.add_form')}", placement: "auto" }, class: ('disabled' if @free_client_forms.empty? || (status_exited?(@client.status) && !current_user.admin?)) }
-                          = t('.complete_screening_tool')
-                          %span.caret
-                        %ul.dropdown-menu.btn-fit.scrollable-dropdown-menu.add-form
-                          %li
-                            - if @client.one_off_screening_assessment.present?
-                              %p= link_to 'CB-DMAT Screening Tool', client_screening_assessment_path(@client, @client.one_off_screening_assessment)
-                            - else
-                              %p= link_to 'CB-DMAT Screening Tool', if_date_of_birth_blank(@client), type: "button", **has_of_warning_model_if_dob_blank(@client)
                     - elsif @client.require_screening_assessment?(current_setting)
                       = link_to t('.complete_screening_assessment'), new_client_custom_field_property_path(@client, custom_field_id: current_setting.screening_assessment_form), class: 'btn btn-success'
                     - elsif @client.custom_fields.include?(current_setting.screening_assessment_form)
