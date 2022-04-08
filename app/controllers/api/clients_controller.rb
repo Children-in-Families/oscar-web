@@ -151,12 +151,10 @@ module Api
             :remove_police_interview_files,
             :remove_other_legal_doc_files,
             *legal_doc_params,
-            national_id_files: [],
             birth_cert_files: [],
             family_book_files: [],
             passport_files: [],
             travel_doc_files: [],
-            referral_doc_files: [],
             local_consent_files: [],
             police_interview_files: [],
             other_legal_doc_files: [],
@@ -167,13 +165,12 @@ module Api
             donor_ids: [],
             quantitative_case_ids: [],
             custom_field_ids: [],
+            family_ids: [],
             family_member_attributes: [:id, :family_id, :_destroy],
             tasks_attributes: [:name, :domain_id, :completion_date],
             client_needs_attributes: [:id, :rank, :need_id],
-            client_problems_attributes: [:id, :rank, :problem_id],
-            family_ids: []
+            client_problems_attributes: [:id, :rank, :problem_id]
           )
-
 
       field_settings.each do |field_setting|
         next if field_setting.group != 'client' || field_setting.required? || field_setting.visible?
@@ -193,7 +190,7 @@ module Api
         doc_field = attachment_field.gsub('_files', '')
         remove_field = "remove_#{attachment_field}"
 
-        client_params[remove_field.to_sym] = true if client_params[doc_field.to_sym].in?([false, 'false'])
+        # client_params[remove_field.to_sym] = true if client_params[doc_field.to_sym].in?([false, 'false'])
       end
 
       client_params
