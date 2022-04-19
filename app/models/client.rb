@@ -579,7 +579,7 @@ class Client < ActiveRecord::Base
   end
 
   def self.notify_upcoming_csi_assessment
-    Organization.without_shared.each do |org|
+    Organization.oscar.without_shared.each do |org|
       Organization.switch_to org.short_name
 
       next if !(current_setting.enable_default_assessment) && !(current_setting.enable_custom_assessment?)
@@ -594,7 +594,7 @@ class Client < ActiveRecord::Base
   end
 
   def self.notify_incomplete_daily_csi_assessment
-    Organization.without_shared.each do |org|
+    Organization.oscar.without_shared.each do |org|
       Organization.switch_to org.short_name
 
       setting = Setting.first_or_initialize
