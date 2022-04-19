@@ -64,7 +64,7 @@ class Task < ActiveRecord::Base
   end
 
   def self.upcoming_incomplete_tasks
-    Organization.without_shared.each do |org|
+    Organization.oscar.without_shared.each do |org|
       Organization.switch_to org.short_name
       tasks    = with_deleted.incomplete.where(expected_date: Date.tomorrow).exclude_exited_ngo_clients
       user_ids = tasks.map(&:user_id).flatten.uniq
