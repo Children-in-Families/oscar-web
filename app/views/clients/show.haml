@@ -6,7 +6,7 @@
       %ul
         %li= Organization.ratanak? ?  I18n.t('inline_help.clients.show.notes.lists.ratanak.list1') : I18n.t('inline_help.clients.show.notes.lists.list1')
     .row
-      %div{ class: "col-md-#{ @client.referred? || @client.exit_ngo? || current_setting.cbdmat_one_off? ? '9' : '12' }"}
+      %div{ class: "col-md-#{ @client.referred? || @client.exit_ngo? ? '9' : '12' }"}
         %table.table.small.m-b-xs#main-info
           %tbody
             %tr
@@ -50,16 +50,16 @@
                   = "#{t('.current_province')} :"
                   %strong= editable @client, :province_id, type: :select2, source: @current_provinces, value: @client.province&.name, url: api_client_path(@client.id), pk: @client.id
       .col-md-3
-        .row
-          .col-xs-12
-            - if current_setting.cbdmat_one_off?
-              - if @client.one_off_screening_assessment.present?
-                %p= link_to t('screening_assessments._attr.cb_dmat'), client_screening_assessment_path(@client, @client.one_off_screening_assessment), class: 'btn btn-primary'
-              - else
-                %p= link_to t('screening_assessments._attr.cb_dmat'), if_date_of_birth_blank(@client), type: "button", **has_of_warning_model_if_dob_blank(@client), class: 'btn btn-primary'
         - if @client.status == 'Referred'
           .row
             .col-xs-12
+              .row
+                .col-xs-12
+                  - if current_setting.cbdmat_one_off?
+                    - if @client.one_off_screening_assessment.present?
+                      %p= link_to t('screening_assessments._attr.cb_dmat'), client_screening_assessment_path(@client, @client.one_off_screening_assessment), class: 'btn btn-primary'
+                    - else
+                      %p= link_to t('screening_assessments._attr.cb_dmat'), if_date_of_birth_blank(@client), type: "button", **has_of_warning_model_if_dob_blank(@client), class: 'btn btn-primary'
               .row
                 - if current_setting.use_screening_assessment? && @client.referred?
                   .col-xs-12
@@ -77,7 +77,7 @@
                       = link_to t('.view_screening_assessment'), client_custom_field_properties_path(@client, custom_field_id: current_setting.screening_assessment_form), class: 'btn btn-success'
 
                 .col-xs-12{ class: "#{'mini-margin' if current_setting.use_screening_assessment? && @client.referred? }" }
-                  - if @client.require_screening_assessment?(current_setting) || (@client.calls.any? && @client.calls.most_recents.first.case_action_not_required?)
+                  - if @client.one_off_screening_assessment.blank? || @client.require_screening_assessment?(current_setting) || (@client.calls.any? && @client.calls.most_recents.first.case_action_not_required?)
                     %button.btn.btn-success.agree-btn{ disabled: 'disabled', data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.clients.show.accepted')}", placement: "auto" } }
                       = t('.accept')
                   - else
