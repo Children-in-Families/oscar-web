@@ -1,3 +1,4 @@
 #!/bin/bash -ex
-exit 0
-
+echo "Testing"
+make db_create_test
+make rspec
