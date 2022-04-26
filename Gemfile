@@ -109,7 +109,7 @@ end
 group :development do
   gem 'letter_opener',        '~> 1.4.1'
   gem 'letter_opener_web',    '~> 1.3', '>= 1.3.4'
-  gem 'rubocop',              '~> 0.47.1', require: false
+  gem 'rubocop',              '~> 0.81.0', require: false
   gem 'capistrano',           '3.9.0'
   gem 'capistrano-rails',     '~> 1.1.1'
   gem 'capistrano-passenger', '~> 0.1.1'
