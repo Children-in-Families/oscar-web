@@ -1,0 +1,96 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: 'app-{{ stage }}-{{ project_id }}-webapp'
+  namespace: '{{ k8s_namespace }}'
+  annotations:
+    reloader.stakater.com/auto: 'true'
+spec:
+  selector:
+    matchLabels:
+      app: 'app-{{ stage }}-{{ project_id }}-webapp'
+  template:
+    metadata:
+      labels:
+        app: 'app-{{ stage }}-{{ project_id }}-webapp'
+    spec:
+      imagePullSecrets:
+        - name: secret-{{ project_id }}
+      containers:
+        - image: {{ image_name }}/webapp:{{ version }}
+          name: 'app-{{ stage }}-{{ project_id }}-webapp'
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          env:
+            - name: RAIL_ENV
+              value: {{ rail_env }}
+            - name: SECRET_KEY_BASE
+              value: {{ secret_key_base }}
+            - name: DATABASE_HOST
+              value: svc-{{ stage }}-{{ project_id }}-pg
+            - name: DATABASE_NAME
+              value: {{ pg_db_name }}
+            - name: DATABASE_NAME_TEST
+              value: {{ pg_db_name }}_test
+            - name: DATABASE_USER
+              value: {{ pg_db_user }}
+            - name: DATABASE_PASSWORD
+              value: "{{ pg_db_pass }}"
+            - name: HISTORY_DATABASE_NAME
+              value: {{ mongo_db_name }}
+            - name: HISTORY_DATABASE_NAME_TEST
+              value: {{ mongo_db_name }}_test
+            - name: HISTORY_DATABASE_HOST
+              value: svc-{{ stage }}-{{ project_id }}-mongo
+            - name: OSCAR_TEAM_EMAIL
+              value: {{ oscar_team_email }}
+            - name: OSCAR_TEAM_PASSWORD
+              value: "{{ oscar_team_pass }}"
+            - name: SENDER_EMAIL
+              value: {{ oscar_team_email }}
+            - name: POWER_BI_GROUP
+              value: {{ power_bin_group }}
+            - name: READ_ONLY_DATABASE_USER
+              value: {{ read_only_db_user }}
+            - name: READ_ONLY_DATABASE_PASSWORD
+              value: "{{ read_only_db_pass }}"
+            - name: WEBPACKER_DEV_SERVER_HOST
+              value: svc-{{ stage }}-{{ project_id }}-webpack
+            - name: REDIS_URL
+              value: redis://svc-{{ stage }}-{{ project_id }}-redis:6379/0
+            - name: S3_BUCKET_NAME
+              value: {{ s3_bucket_name }}
+            - name: AWS_ACCESS_KEY_ID
+              value: {{ aws_access_key_id }}
+            - name: AWS_SECRET_ACCESS_KEY
+              value: {{ aws_secret_access_key }}
+            - name: FOG_REGION
+              value: {{ fog_region }}
+            - name: FOG_DIRECTORY
+              value: {{ fog_directory }}
+          volumeMounts:
+            - name: tz-config
+              mountPath: /etc/localtime
+            - name: vol-{{ stage }}-{{ project_id }}-osc
+              mountPath: /app/node_modules
+              subPath: nodemodules
+      volumes:
+        - name: tz-config
+          hostPath:
+            path: {{ tz_path }}
+        - name: vol-{{ stage }}-{{ project_id }}-osc
+          persistentVolumeClaim:
+            claimName: pvc-{{ stage }}-{{ project_id }}-osc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: 'svc-{{ stage }}-{{ project_id }}-webapp'
+  namespace: '{{ k8s_namespace }}'
+spec:
+  ports:
+    - port: 3000
+  selector:
+    app: 'app-{{ stage }}-{{ project_id }}-webapp'
