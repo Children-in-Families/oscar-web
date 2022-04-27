@@ -175,7 +175,7 @@ module Api
       field_settings.each do |field_setting|
         next if field_setting.group != 'client' || field_setting.required? || field_setting.visible?
 
-        client_params.except!(field_setting.name.to_sym)
+        client_params.except!(field_setting.name.to_sym) unless field_setting.name == 'gender'
       end
 
       if params[:family_member]
