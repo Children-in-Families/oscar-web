@@ -1,0 +1,32 @@
+---
+
+- name: Copy other config files
+  template:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+    mode: 0755
+  loop:
+    - { src: 'Dockerfile', dest: '{{ workspace }}/Dockerfile' }
+
+- name: Run yarn install
+  shell: yarn install
+  args:
+    chdir: '{{ workspace }}'
+  
+- name: Build docker image
+  shell: 'docker build -t {{ image_name }}/webapp:latest .'
+  args:
+    chdir: '{{ workspace }}'
+
+- name: Tag docker image
+  shell: 'docker tag {{ image_name }}/webapp:latest {{ image_name }}/webapp:{{ version }}'
+  args:
+    chdir: '{{ workspace }}'
+
+- name: Push docker image to hub.web-essentials.co
+  shell: 'docker push {{ image_name }}/webapp:{{ item }}'
+  args:
+    chdir: '{{ workspace }}'
+  loop:
+    - '{{ version }}'
+    - 'latest'

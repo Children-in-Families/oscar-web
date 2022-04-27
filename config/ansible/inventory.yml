@@ -1,0 +1,23 @@
+---
+
+all:
+  hosts:
+    build:
+      ansible_connection: local
+
+    latest:
+      ansible_connection: local
+
+    demo:
+      ansible_connection: local
+
+    live:
+      ansible_connection: local
+
+  children:
+    oscarservers:
+      hosts:
+        latest:
+        demo:
+        live:
+
