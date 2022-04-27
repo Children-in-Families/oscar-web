@@ -1,7 +1,6 @@
 class ScreeningAssessmentsController <  AdminController
   load_and_authorize_resource params: :screening_assessment_params
   before_action :find_screening_assessment, except: [:index, :new, :create]
-  before_action :authorize_screening_assessment, only: [:new, :create]
   before_action :find_client
   before_action :find_previous_screening_assessment, only: [:new, :create, :edit, :update]
 
@@ -16,19 +15,14 @@ class ScreeningAssessmentsController <  AdminController
   end
 
   def create
-    @screning_assessment = @client.screening_assessments.new(screening_assessment_params)
-    if @screning_assessment.screening_type == 'one_off'
-      raise Pundit::NotAuthorizedError unless current_setting.cbdmat_one_off
-    elsif @screning_assessment.screening_type == 'multiple'
-      raise Pundit::NotAuthorizedError unless current_setting.cbdmat_ongoing
-    end
-
+    @screening_assessment = @client.screening_assessments.new(screening_assessment_params)
+    authorize_screening_assessment(@screening_assessment)
     if @screening_assessment.save
       redirect_to [@client, @screening_assessment], noted: t('successfully_created', klass: 'Screening Assessment')
     else
       @screening_assessment.populate_developmental_markers
       flash[:alert] = @screening_assessment.errors.full_messages.join(', ')
-      render :new, screening_type: @screning_assessment.screening_type
+      render :new, screening_type: @screening_assessment.screening_type
     end
   end
 
@@ -65,10 +59,10 @@ class ScreeningAssessmentsController <  AdminController
 
   private
 
-  def authorize_screening_assessment
-    if @screning_assessment.screening_type == 'one_off'
+  def authorize_screening_assessment(screening_assessment)
+    if screening_assessment.screening_type == 'one_off'
       raise Pundit::NotAuthorizedError unless current_setting.cbdmat_one_off
-    elsif @screning_assessment.screening_type == 'multiple'
+    elsif screening_assessment.screening_type == 'multiple'
       raise Pundit::NotAuthorizedError unless current_setting.cbdmat_ongoing
     end
   end
