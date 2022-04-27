@@ -87,16 +87,16 @@ class UsersController < AdminController
     @user.disable = !@user.disable
     @user.save(validate: false)
     if user_disable_status == false
-      @user.update_attributes(deactivated_at: DateTime.now.in_time_zone(Time.zone))
+      @user.update_attributes(deactivated_at: Time.zone.now)
     elsif user_disable_status == true
-      @user.update_attributes(activated_at: DateTime.now.in_time_zone(Time.zone))
+      @user.update_attributes(activated_at: Time.zone.now)
     end
     redirect_to users_path, notice: t('.successfully_disable')
   end
 
   def restore
     authorize(current_user, :restore?)
-    if @user.update(disable: false, deleted_at: nil)
+    if @user.update(disable: false, deleted_at: nil, activated_at: Time.zone.now)
       redirect_to users_url, notice: t('.successfully_restore')
     else
       redirect_to users_url, alert: t('.alert')

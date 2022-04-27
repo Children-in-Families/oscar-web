@@ -9,7 +9,7 @@ class ClientGrid < BaseGrid
   COUNTRY_LANG = { "cambodia" => "(Khmer)", "thailand" => "(Thai)", "myanmar" => "(Burmese)", "lesotho" => "(Sesotho)", "uganda" => "(Swahili)" }
 
   scope do
-    Client
+    Client.includes(:assessments)
   end
 
   %w(given_name family_name local_given_name local_family_name).each do |field_name|
@@ -916,10 +916,10 @@ class ClientGrid < BaseGrid
 
   column(:relevant_referral_information, header: -> { I18n.t('datagrid.columns.clients.relevant_referral_information') })
 
-  column(:referral_source, order: proc { |object| object.joins(:referral_source).order('referral_sources.name')}, header: -> { I18n.t('datagrid.columns.clients.referral_source') }) do |object|
+  column(:referral_source_id, order: proc { |object| object.joins(:referral_source).order('referral_sources.name')}, header: -> { I18n.t('datagrid.columns.clients.referral_source') }) do |object|
     object.referral_source.try(:name)
   end
-  column(:referral_source_category, order: proc { |object| object.joins(:referral_source).order('referral_sources.name')}, header: -> { I18n.t('datagrid.columns.clients.referral_source_category') }) do |object|
+  column(:referral_source_category_id, order: proc { |object| object.joins(:referral_source).order('referral_sources.name')}, header: -> { I18n.t('datagrid.columns.clients.referral_source_category') }) do |object|
     if I18n.locale == :km
       ReferralSource.find_by(id: object.referral_source_category_id).try(:name)
     else

@@ -45,6 +45,8 @@ body[id="client_advanced_searches-index"] {
     td.able,
     td.birth_province,
     td.province,
+    td.birth_province_id,
+    td.province_id,
     td.state,
     td.case_start_date,
     td.type_of_service,
@@ -84,6 +86,7 @@ body[id="client_advanced_searches-index"] {
 
     th.date_of_assessments,
     th.assessment_completed_date,
+    th.custom_completed_date,
     th.completed_date {
       min-width: 200px;
     }
@@ -187,10 +190,14 @@ body[id="client_advanced_searches-index"] {
     th.date_of_birth,
     th.school_name,
     th.referral_phone,
-    th.referral_source,
     th.birth_province,
+    th.birth_province_id,
     th.province,
+    th.province_id,
+    th.referral_source,
+    th.referral_source_id,
     th.referral_source_category,
+    th.referral_source_category_id,
     th.date_of_referral,
     th.rejected_note,
     th.user,

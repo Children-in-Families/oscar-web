@@ -1,10 +1,12 @@
 class ClientColumnsVisibility
+  include AdvancedSearchHelper
   include ClientsHelper
   include ActionView::Helpers::TranslationHelper
 
   def initialize(grid, params)
     @grid   = grid
     @params = params
+    address_translation
   end
 
   def columns_collection
@@ -87,7 +89,7 @@ class ClientColumnsVisibility
       initial_referral_date_: :initial_referral_date,
       # referral_phone_: :referral_phone,
       received_by_id_: :received_by,
-      referral_source_id_: :referral_source,
+      referral_source_id_: :referral_source_id,
       followed_up_by_id_: :followed_up_by,
       follow_up_date_: :follow_up_date,
       agencies_name_: :agency,
@@ -153,7 +155,7 @@ class ClientColumnsVisibility
       # time_in_care_: :time_in_care,
       time_in_ngo_: :time_in_ngo,
       time_in_cps_: :time_in_cps,
-      referral_source_category_id_: :referral_source_category,
+      referral_source_category_id_: :referral_source_category_id,
       type_of_service_: :type_of_service,
       referee_name_: :referee_name,
       referee_phone_: :referee_phone,
