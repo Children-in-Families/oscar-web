@@ -33,7 +33,7 @@ guard_console:
 	docker exec -it app guard
 
 rspec:
-	docker exec -it app rspec spec
+	docker-compose exec -T app rspec spec
 
 # Starts up a mongo console in the mongo container
 mongo_console:
