@@ -338,7 +338,7 @@ module ClientsHelper
   def local_name_label(name_type = :local_given_name)
     custom_field = FieldSetting.cache_by_name(name_type.to_s, 'client')
     label = I18n.t("datagrid.columns.clients.#{name_type}")
-    label = "#{label} #{country_scope_label_translation}" if custom_field.blank? || custom_field.label.blank?
+    label = "#{label} #{country_scope_label_translation}" if custom_field.blank? || custom_field.blank?
     label
   end
 
