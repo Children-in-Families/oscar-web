@@ -822,7 +822,7 @@ class Client < ActiveRecord::Base
   end
 
   def delete_referee
-    return if referee.clients.where.not(id: id).any?
+    return if referee.nil? || referee.clients.where.not(id: id).any?
     referee.destroy
   end
 
