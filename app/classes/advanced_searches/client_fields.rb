@@ -9,6 +9,7 @@ module AdvancedSearches
     def initialize(options = {})
       @user = options[:user]
       @pundit_user = options[:pundit_user]
+      address_translation
     end
 
     def render

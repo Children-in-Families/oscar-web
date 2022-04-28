@@ -106,7 +106,7 @@ module ClientsHelper
     }
   end
 
-  def label_translations
+  def label_translations(address_translation = {})
     labels = {
       legal_documents: I18n.t('clients.show.legal_documents'),
       passport_number: I18n.t('datagrid.columns.clients.passport_number'),
@@ -192,10 +192,9 @@ module ClientsHelper
       type_of_service:               I18n.t('datagrid.columns.type_of_service'),
       hotline:                       I18n.t('datagrid.columns.calls.hotline'),
       **overdue_translations,
-      **client_address_translation,
       **Client::HOTLINE_FIELDS.map{ |field| [field.to_sym, I18n.t("datagrid.columns.clients.#{field}")] }.to_h,
       **legal_doc_fields.map{|field| [field.to_sym, I18n.t("clients.show.#{field}")] }.to_h,
-      **client_address_translation
+      **@address_translation
     }
 
     lable_translation_uderscore.map{|k, v| [k.to_s.gsub(/(\_)$/, '').to_sym, v] }.to_h.merge(labels)
@@ -334,18 +333,6 @@ module ClientsHelper
       care_plan_completed_date: I18n.t('datagrid.columns.clients.care_plan_completed_date'),
       care_plan_count: I18n.t('datagrid.columns.clients.care_plan_count')
     }
-  end
-
-  def client_address_translation
-    translations = {}
-    ['province','district','commune','village', 'birth_province_id'].each do |key_translation|
-      translations[key_translation.to_sym] = FieldSetting.find_by(name: key_translation).try(:label) || I18n.t("datagrid.columns.clients.#{key_translation}")
-      translations["#{key_translation}_".to_sym] = FieldSetting.find_by(name: key_translation).try(:label) || I18n.t("datagrid.columns.clients.#{key_translation}")
-    end
-    translations['village_id'.to_sym] = FieldSetting.find_by(name: 'village_id').try(:label) || I18n.t('datagrid.columns.clients.village')
-    translations['province_id'.to_sym] = FieldSetting.find_by(name: 'current_province', klass_name: 'client').try(:label) || I18n.t('datagrid.columns.clients.current_province')
-    translations['birth_province_id'.to_sym] = FieldSetting.find_by(name: 'birth_province', klass_name: 'client').try(:label) || I18n.t('datagrid.columns.clients.birth_province')
-    translations
   end
 
   def local_name_label(name_type = :local_given_name)
@@ -539,7 +526,6 @@ module ClientsHelper
   end
 
   def default_columns_visibility(column)
-
     label_column = label_translations.map{ |k, v| ["#{k}_".to_sym, v] }.to_h
 
     (Client::HOTLINE_FIELDS + Call::FIELDS).each do |field_name|
@@ -1040,7 +1026,7 @@ module ClientsHelper
 
   def family_counter
     return unless controller_name == 'clients'
-    count = @results.joins(:family).distinct.count(:family_id)
+    count = @results.joins("INNER JOIN families on families.id = clients.current_family_id").distinct.count("clients.current_family_id")
     content_tag(:span, count, class: 'label label-info')
   end
 
@@ -1066,7 +1052,7 @@ module ClientsHelper
   def case_history_label(value)
     label = case value.class.table_name
             when 'enter_ngos' then I18n.t("accepted_date")
-            when 'exit_ngos' then I18n.t('.exit_date')
+            when 'exit_ngos' then I18n.t('clients.case_history_detail.exit_date')
             when 'client_enrollments', 'enrollments' then "#{value.program_stream.try(:name)} Entry"
             when 'leave_programs' then "#{value.program_stream.name} Exit"
             when 'clients', 'families' then I18n.t('.initial_referral_date')

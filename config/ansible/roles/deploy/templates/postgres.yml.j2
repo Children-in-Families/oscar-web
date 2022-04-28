@@ -1,0 +1,57 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: 'app-{{ stage }}-{{ project_id }}-pg'
+  namespace: '{{ k8s_namespace }}'
+  annotations:
+    reloader.stakater.com/auto: 'true'
+spec:
+  selector:
+    matchLabels:
+      app: 'app-{{ stage }}-{{ project_id }}-pg'
+  template:
+    metadata:
+      labels:
+        app: 'app-{{ stage }}-{{ project_id }}-pg'
+    spec:
+      imagePullSecrets:
+        - name: secret-osc
+      containers:
+        - image: {{ pg_db_ver }}
+          name: 'app-{{ stage }}-{{ project_id }}-pg'
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              value: {{ pg_db_name }}
+            - name: POSTGRES_USER
+              value: {{ pg_db_user }}
+            - name: POSTGRES_PASSWORD
+              value: "{{ pg_db_pass }}"
+          volumeMounts:
+            - name: tz-config
+              mountPath: /etc/localtime
+            - name: vol-{{ stage }}-{{ project_id }}-osc
+              mountPath: /data/postgres
+              subPath: pgdata
+      volumes:
+        - name: tz-config
+          hostPath:
+            path: /usr/share/zoneinfo/Asia/Phnom_Penh
+        - name: vol-{{ stage }}-{{ project_id }}-osc
+          persistentVolumeClaim:
+            claimName: pvc-{{ stage }}-{{ project_id }}-osc
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: 'svc-{{ stage }}-{{ project_id }}-pg'
+  namespace: '{{ k8s_namespace }}'
+spec:
+  ports:
+    - port: 5432
+  selector:
+    app: 'app-{{ stage }}-{{ project_id }}-pg'

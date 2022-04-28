@@ -1,0 +1,50 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: 'app-{{ stage }}-{{ project_id }}-redis'
+  namespace: '{{ k8s_namespace }}'
+  annotations:
+    reloader.stakater.com/auto: 'true'
+spec:
+  selector:
+    matchLabels:
+      app: 'app-{{ stage }}-{{ project_id }}-redis'
+  template:
+    metadata:
+      labels:
+        app: 'app-{{ stage }}-{{ project_id }}-redis'
+    spec:
+      imagePullSecrets:
+        - name: secret-osc
+      containers:
+        - image: {{ redis_ver }}
+          name: 'app-{{ stage }}-{{ project_id }}-redis'
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 6379
+          volumeMounts:
+            - name: tz-config
+              mountPath: /etc/localtime
+            - name: vol-{{ stage }}-{{ project_id }}-osc
+              mountPath: /data
+              subPath: redisdata
+      volumes:
+        - name: tz-config
+          hostPath:
+            path: /usr/share/zoneinfo/Asia/Phnom_Penh
+        - name: vol-{{ stage }}-{{ project_id }}-osc
+          persistentVolumeClaim:
+            claimName: pvc-{{ stage }}-{{ project_id }}-osc
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: 'svc-{{ stage }}-{{ project_id }}-redis'
+  namespace: '{{ k8s_namespace }}'
+spec:
+  ports:
+    - port: 6379
+  selector:
+    app: 'app-{{ stage }}-{{ project_id }}-redis'

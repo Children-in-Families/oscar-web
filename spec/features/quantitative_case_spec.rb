@@ -1,4 +1,4 @@
-xdescribe 'Quantitative Case' do
+describe 'Quantitative Case' do
   let!(:admin){ create(:user, roles: 'admin') }
   let!(:quantitative_type){ create(:quantitative_type) }
   let!(:quantitative_case){ create(:quantitative_case, quantitative_type: quantitative_type) }

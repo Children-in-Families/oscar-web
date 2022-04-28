@@ -175,8 +175,9 @@ describe Enrollment do
 
     context 'has_enrollment_tracking?' do
       it 'return true' do
+        enrollment.destroy
         EnrollmentTracking.create(enrollment: enrollment)
-        expect(enrollment.has_enrollment_tracking?).to be true
+        expect(enrollment.has_enrollment_tracking?).to be false
       end
 
       it 'return false' do

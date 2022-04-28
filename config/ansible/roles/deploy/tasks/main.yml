@@ -1,0 +1,13 @@
+---
+
+- name: Deploy webessentials servers
+  import_tasks: latest.yml
+  when: stage == 'latest'
+
+- name: Deploy staging servers
+  import_tasks: staging.yml
+  when: stage == 'demo'
+
+- name: Deploy production servers
+  import_tasks: production.yml
+  when: stage == 'live'

@@ -12,7 +12,7 @@ class FamiliesController < AdminController
   before_action :find_association, except: [:index, :destroy, :version]
   before_action :find_family, only: [:show, :edit, :update, :destroy]
   before_action :find_case_histories, only: :show
-  before_action :quantitative_type_readable
+  before_action :quantitative_type_readable, except: :destroy
   before_action :load_quantative_types, only: [:new, :edit, :create, :update]
 
   def index
@@ -97,13 +97,25 @@ class FamiliesController < AdminController
   end
 
   def destroy
-    @family.case_worker_families.with_deleted.each(&:destroy_fully!)
-    if @family.current_clients.blank? && (@family.cases.present? && @family.cases.delete_all || true) && @family.destroy
-      Task.with_deleted.where(family_id: @family.id).each(&:destroy_fully!)
-      redirect_to families_url, notice: t('activerecord.destroy.successfully_deleted')
-    else
-      redirect_to family_path(@family), alert: t('.alert')
+    ActiveRecord::Base.transaction do
+      if @family.current_clients.blank? && @family.delete
+        begin
+          @family.case_worker_families.with_deleted.each(&:destroy_fully!)
+          EnterNgo.with_deleted.where(acceptable_id: @family.id).each(&:destroy_fully!)
+          Enrollment.with_deleted.where(programmable_id: @family.id).delete_all
+          Case.where(family_id: @family.id).delete_all
+          ExitNgo.with_deleted.where(rejectable_id: @family.id).each(&:destroy_fully!)
+          Task.with_deleted.where(family_id: @family.id).each(&:destroy_fully!)
+          redirect_to families_url, notice: t('activerecord.destroy.successfully_deleted')
+        rescue => exception
+          raise ActiveRecord::Rollback
+        end
+      else
+        redirect_to family_path(@family), alert: t('.alert')
+      end
     end
+  rescue ActiveRecord::Rollback => exception
+    redirect_to @client, alert: exception
   end
 
   def version
