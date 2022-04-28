@@ -29,6 +29,10 @@
               %td= t('.client_id')
               %td
                 %strong= @referral.client.slug if @referral.client_id?
+            %tr
+              %td= t('referrals.referral_status')
+              %td
+                %strong= status_style @referral.referral_status
 
             %tr
               %td= t('.referred_from')
