@@ -309,8 +309,8 @@ module ClientsHelper
       carer_phone_: I18n.t('activerecord.attributes.carer.phone'),
       carer_email_: I18n.t('activerecord.attributes.carer.email'),
       carer_relationship_to_client_: I18n.t('datagrid.columns.clients.carer_relationship_to_client'),
-      province_id_: FieldSetting.find_by(name: 'current_province', klass_name: 'client').try(:label) || I18n.t('datagrid.columns.clients.current_province'),
-      birth_province_id_: FieldSetting.find_by(name: 'birth_province', klass_name: 'client').try(:label) || I18n.t('datagrid.columns.clients.birth_province'),
+      province_id_: FieldSetting.cache_by_name_klass_name_instance('current_province', 'client') || I18n.t('datagrid.columns.clients.current_province'),
+      birth_province_id_: FieldSetting.cache_by_name_klass_name_instance('birth_province', 'client') || I18n.t('datagrid.columns.clients.birth_province'),
       **overdue_translations.map{ |k, v| ["#{k}_".to_sym, v] }.to_h
     }
   end
@@ -336,9 +336,9 @@ module ClientsHelper
   end
 
   def local_name_label(name_type = :local_given_name)
-    custom_field = FieldSetting.find_by(name: name_type)
+    custom_field = FieldSetting.cache_by_name(name_type.to_s, 'client')
     label = I18n.t("datagrid.columns.clients.#{name_type}")
-    label = "#{label} #{country_scope_label_translation}" if custom_field.blank? || custom_field.label.blank?
+    label = "#{label} #{country_scope_label_translation}" if custom_field.blank? || custom_field.blank?
     label
   end
 
@@ -490,7 +490,7 @@ module ClientsHelper
   end
 
   def selected_country
-    country = Setting.first.try(:country_name) || params[:country].presence
+    country = Setting.cache_first.try(:country_name) || params[:country].presence
     country.nil? ? 'cambodia' : country
   end
 
@@ -1188,9 +1188,9 @@ module ClientsHelper
   end
 
   def country_scope_label_translation
-    return '' if Setting.first.try(:country_name) == 'nepal'
+    return '' if Setting.cache_first.try(:country_name) == 'nepal'
     if I18n.locale.to_s == 'en'
-      country_name = Setting.first.try(:country_name)
+      country_name = Setting.cache_first.try(:country_name)
       case country_name
       when 'cambodia' then '(Khmer)'
       when 'thailand' then '(Thai)'
@@ -1367,17 +1367,17 @@ module ClientsHelper
   end
 
   def custom_id_translation(type)
-    if I18n.locale != :km || Setting.first.country_name != 'lesotho'
+    if I18n.locale != :km || Setting.cache_first.country_name != 'lesotho'
       if type == 'custom_id1'
-        Setting.first.custom_id1_latin.present? ? Setting.first.custom_id1_latin : I18n.t("#{I18n.locale.to_s}.clients.other_detail.custom_id_number1")
+        Setting.cache_first.custom_id1_latin.present? ? Setting.cache_first.custom_id1_latin : I18n.t("#{I18n.locale.to_s}.clients.other_detail.custom_id_number1")
       else
-        Setting.first.custom_id2_latin.present? ? Setting.first.custom_id2_latin : I18n.t('other_detail.custom_id_number2')
+        Setting.cache_first.custom_id2_latin.present? ? Setting.cache_first.custom_id2_latin : I18n.t('other_detail.custom_id_number2')
       end
     else
       if type == 'custom_id1'
-        Setting.first.custom_id1_local.present? ? Setting.first.custom_id1_local : I18n.t('other_detail.custom_id_number1')
+        Setting.cache_first.custom_id1_local.present? ? Setting.cache_first.custom_id1_local : I18n.t('other_detail.custom_id_number1')
       else
-        Setting.first.custom_id2_local.present? ? Setting.first.custom_id2_local : I18n.t('other_detail.custom_id_number2')
+        Setting.cache_first.custom_id2_local.present? ? Setting.cache_first.custom_id2_local : I18n.t('other_detail.custom_id_number2')
       end
     end
   end
@@ -1407,7 +1407,6 @@ module ClientsHelper
   end
 
   def legal_doc_fields
-    fields = %w(national_id passport birth_cert family_book travel_doc letter_from_immigration_police ngo_partner mosavy dosavy msdhs complain local_consent warrant verdict screening_interview_form short_form_of_ocdm short_form_of_mosavy_dosavy detail_form_of_mosavy_dosavy short_form_of_judicial_police police_interview other_legal_doc)
-    FieldSetting.without_hidden_fields.where(name: fields).pluck(:name)
+    FieldSetting.cache_legal_doc_fields
   end
 end

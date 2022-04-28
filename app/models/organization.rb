@@ -32,6 +32,7 @@ class Organization < ActiveRecord::Base
   before_save :clean_supported_languages, if: :supported_languages?
   after_commit :upsert_referral_source_category, on: [:create, :update]
   after_commit :delete_referral_source_category, on: :destroy
+  after_commit :flush_cache
 
   class << self
     def current
@@ -100,15 +101,15 @@ class Organization < ActiveRecord::Base
     end
 
     def brc?
-      current&.short_name == 'brc'
+      Apartment::Tenant.current == 'brc'
     end
 
     def shared?
-      current&.short_name == 'shared'
+      Apartment::Tenant.current == 'shared'
     end
 
     def ratanak?
-      current&.short_name == 'ratanak'
+      Apartment::Tenant.current == 'ratanak'
     end
   end
 
@@ -153,6 +154,29 @@ class Organization < ActiveRecord::Base
     date_of_integration && date_of_integration.strftime("%d %B %Y")
   end
 
+  def self.cache_table_exists?(table_name)
+    Rails.cache.fetch([Apartment::Tenant.current, 'table_name', table_name]) do
+      ActiveRecord::Base.connection.table_exists? table_name
+    end
+  end
+
+  def self.cache_mapping_ngo_names
+    Rails.cache.fetch([Apartment::Tenant.current, 'cache_mapping_ngo_names']) do
+      Organization.oscar.map { |org| { org.short_name => org.full_name } }
+    end
+  end
+
+  def self.cache_visible_ngos
+    Rails.cache.fetch([Apartment::Tenant.current, 'Organization', 'visible']) do
+      Organization.visible.order(:created_at).to_a
+    end
+  end
+
+  def self.cached_organization_short_names(short_names)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Organization', 'cached_organization_short_names', *short_names.sort]) {
+      where("organizations.short_name IN (?)", short_names).pluck(:full_name)
+    }
+  end
 
   private
 
@@ -177,5 +201,12 @@ class Organization < ActiveRecord::Base
       referral_source = ReferralSource.find_by(name: "#{org_full_name} - OSCaR Referral")
       referral_source.destroy if referral_source
     end
+  end
+
+  def flush_cache
+    Rails.cache.delete([Apartment::Tenant.current, 'cache_mapping_ngo_names'])
+    Rails.cache.delete([Apartment::Tenant.current, 'Organization', 'visible'])
+    cached_organization_short_names_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_organization_short_names/].blank? }
+    cached_organization_short_names_keys.each { |key| Rails.cache.delete(key) }
   end
 end

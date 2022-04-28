@@ -15,11 +15,7 @@ module AdvancedSearches
     private
 
     def self.domain_options(domain_type = 'client')
-      if domain_type == 'family'
-        Domain.family_custom_csi_domains.order_by_identity.map { |domain| "domainscore__#{domain.id}__#{domain.identity}" }
-      else
-        Domain.custom_csi_domains.order_by_identity.map { |domain| "domainscore__#{domain.id}__#{domain.identity}" }
-      end
+      Domain.cache_domain_options(domain_type)
     end
 
     def self.domain_score_format(label)

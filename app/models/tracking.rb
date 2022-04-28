@@ -20,6 +20,7 @@ class Tracking < ActiveRecord::Base
   validates :name, uniqueness: { scope: :program_stream_id }
 
   after_update :auto_update_trackings
+  after_commit :flush_cache
 
   default_scope { order(:created_at) }
 
@@ -34,6 +35,16 @@ class Tracking < ActiveRecord::Base
 
   def is_used?
     client_enrollment_trackings.present?
+  end
+
+  def self.cache_object(id)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Tracking', id]) { find(id) }
+  end
+
+  def self.cached_program_stream_program_ids(program_ids)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Tracking', 'cached_program_stream_program_ids', *program_ids.sort]) {
+      joins(:program_stream).where(program_stream_id: program_ids).to_a
+    }
   end
 
   private
@@ -53,5 +64,11 @@ class Tracking < ActiveRecord::Base
     return unless self.fields_changed?
     enrollment_tracking_objs = self.program_stream.attached_to_client? ? self.client_enrollment_trackings : self.enrollment_trackings
     labels_update(self.fields_change.last, self.fields_was, enrollment_tracking_objs)
+  end
+
+  def flush_cache
+    Rails.cache.delete([Apartment::Tenant.current, 'Tracking', self.id])
+    cached_program_stream_program_ids_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_program_stream_program_ids/].blank? }
+    cached_program_stream_program_ids_keys.each { |key| Rails.cache.delete(key) }
   end
 end

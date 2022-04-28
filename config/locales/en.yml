@@ -517,6 +517,7 @@ en:
       name_of_referee: Name of Referee
       ngo_accepted_date: NGO Accept Date
       ngo_exit_date: NGO Exit Date
+      no_case_note_date: No Case Note Date
       other_info_of_exit: Other - More Information
       phone_owner: Phone Owner
       placement_start_date: Placement Start Date
@@ -536,6 +537,7 @@ en:
       referred_from: Referred From
       referred_in: Referred In
       referred_to: Referred To
+      referred_out: Referred Out
       referee: Referee
       referee_relationship: Referee Relationship to Client
       referee_name: Referee Name
@@ -1542,6 +1544,7 @@ en:
       detail_form_of_mosavy_dosavy: Detailed Form for Identification of Victim of Human Trafficking (MoSAVY/DoSAVY)
       dosavy: DoSAVY
       external_id_display: External ID Display
+      family_book: 'Family Book'
       form_indentification: Forms for Identification of Victim of Human Trafficking
       indentification_doc: Identification Documents
       labor_trafficking_legal_doc_option: Labour Trafficking

@@ -515,6 +515,7 @@ km:
       name_of_referee: ឈ្មោះអ្នកបញ្ជូន
       ngo_accepted_date: កាលបរិច្ឆេទចូលអង្គការ
       ngo_exit_date: កាលបរិច្ឆេទចាកចេញពីអង្គការ
+      no_case_note_date: មិនមានកាលបរិច្ឆេទកំណត់ត្រាករណី
       other_info_of_exit: ព័ត៌មានបន្ថែមនៃការចាកចេញ
       phone_owner: ម្ចាស់ទូរស័ព្ទ
       program_stream: កម្មវិធីចម្បង
@@ -1524,6 +1525,7 @@ km:
       detail_form_of_mosavy_dosavy: ទម្រង់លម្អិតសម្រាប់ការសម្ភាសកំណត់អត្តសញ្ញាណបឋមជនរងគ្រោះដោយអំពើជួញដូរមនុស្ស (ក្រសួង ស.អ.យ/មន្ទីរ ស.អ.យ)
       dosavy: មន្ទីរ ស.អ.យ
       external_id_display: ការបង្ហាញលេខសម្គាល់អង្គការខាងក្រៅ
+      family_book: 'សៀវភៅគ្រួសារ'
       form_indentification: ទម្រង់សម្ភាសន៍កំណត់អត្តសញ្ញាណជនរងគ្រោះដោយអំពើជួញដូរមនុស្ស
       indentification_doc: ឯកសារអត្តសញ្ញាណ
       labor_trafficking_legal_doc_option: ការជួញដូរពលកម្ម
@@ -1757,7 +1759,7 @@ km:
       department: Ratanak Team
       national_id: 'National ID'
       birth_cert: 'Birth Certificate'
-      family_book: 'Family Book'
+      family_book: 'សៀវភៅគ្រួសារ'
       passport: 'Passport'
       travel_doc: 'Temporary Travel Document'
       referral_doc: 'Referral Documents'

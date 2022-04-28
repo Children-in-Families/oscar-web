@@ -116,10 +116,10 @@ class CommunitiesController < AdminController
   end
 
   def find_association
-    @provinces = Province.order(:name)
-    @districts = @community&.province.present? ? @community.province.districts.order(:name) : []
-    @communes  = @community&.district.present? ? @community.district.communes.order(:code) : []
-    @villages  = @community&.commune.present? ? @community.commune.villages.order(:code) : []
+    @provinces = Province.cached_order_name
+    @districts = @community&.province.present? ? @community.province.cached_districts : []
+    @communes  = @community&.district.present? ? @community.district.cached_communes : []
+    @villages  = @community&.commune.present? ? @community.commune.cached_villages : []
   end
 
   def find_community

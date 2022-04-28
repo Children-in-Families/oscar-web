@@ -67,11 +67,11 @@ module AdvancedSearchHelper
     params[:client_advanced_search] || params[:family_advanced_search] || params[:partner_advanced_search] || params[:community_advanced_search]
   end
 
-  def format_header(key)
+  def format_header(key, group_name = 'client')
     translations = {
       family_type: I18n.t('datagrid.columns.families.family_type'),
-      given_name: I18n.t('advanced_search.fields.given_name'),
-      family_name: I18n.t('advanced_search.fields.family_name'),
+      given_name: FieldSetting.cache_by_name('given_name', group_name) || I18n.t('advanced_search.fields.given_name'),
+      family_name: FieldSetting.cache_by_name('family_name', group_name) || I18n.t('advanced_search.fields.given_name'),
       local_given_name: "#{I18n.t('advanced_search.fields.local_given_name')} #{country_scope_label_translation}",
       local_family_name: "#{I18n.t('advanced_search.fields.local_family_name')} #{country_scope_label_translation}",
       carer: I18n.t('advanced_search.fields.carer'),
@@ -171,10 +171,10 @@ module AdvancedSearchHelper
       active_clients: I18n.t('advanced_search.fields.active_clients'),
       care_plan: I18n.t('advanced_search.fields.care_plan'),
       **overdue_translations,
-      **@address_translation
+      **address_translation(group_name)
     }
 
-    translations = label_translations(@address_translation).merge(translations)
+    translations = label_translations(address_translation(group_name)).merge(translations)
     translations[key.to_sym] || ''
   end
 
@@ -201,7 +201,7 @@ module AdvancedSearchHelper
       referral_source_id:                       I18n.t('activerecord.attributes.community.referral_source_id'),
       role:                                     I18n.t('activerecord.attributes.community.role'),
       **community_member_columns,
-      **@address_translation
+      **address_translation('community')
     }
     translations[key.to_sym] || ''
   end
@@ -219,21 +219,21 @@ module AdvancedSearchHelper
       engagement:                               I18n.t('datagrid.columns.partners.engagement'),
       background:                               I18n.t('datagrid.columns.partners.background'),
       start_date:                               I18n.t('datagrid.columns.partners.start_date'),
-      **@address_translation
+      **address_translation('partner')
     }
     translations[key.to_sym] || ''
   end
 
-  def address_translation
-    @address_translation ||= {}
+  def address_translation(group_name = 'client')
+    @address_translation = {}
     ['province', 'district', 'commune', 'village', 'birth_province', 'province_id', 'district_id', 'commune_id'].each do |key_translation|
-      @address_translation[key_translation.to_sym] = FieldSetting.find_by(name: key_translation).try(:label) || I18n.t("advanced_search.fields.#{key_translation}")
+      @address_translation[key_translation.to_sym] = FieldSetting.cache_by_name(key_translation, group_name) || I18n.t("advanced_search.fields.#{key_translation}")
     end
-    @address_translation['province_id'.to_sym] = FieldSetting.find_by(name: 'province_id').try(:label) || I18n.t('advanced_search.fields.province_id')
-    @address_translation['district_id'.to_sym] = FieldSetting.find_by(name: 'district_id').try(:label) || I18n.t('datagrid.columns.clients.district')
-    @address_translation['commune_id'.to_sym] = FieldSetting.find_by(name: 'commune_id').try(:label) || I18n.t('datagrid.columns.clients.commune')
-    @address_translation['village_id'.to_sym] = FieldSetting.find_by(name: 'village_id').try(:label) || I18n.t('datagrid.columns.clients.village')
-    @address_translation['birth_province_id'.to_sym] = FieldSetting.find_by(name: 'birth_province').try(:label) || I18n.t('datagrid.columns.clients.birth_province')
+    @address_translation['province_id'.to_sym] = FieldSetting.cache_by_name('province_id', group_name) || I18n.t('advanced_search.fields.province_id')
+    @address_translation['district_id'.to_sym] = FieldSetting.cache_by_name('district_id', group_name) || I18n.t('datagrid.columns.clients.district')
+    @address_translation['commune_id'.to_sym] = FieldSetting.cache_by_name('commune_id', group_name) || I18n.t('datagrid.columns.clients.commune')
+    @address_translation['village_id'.to_sym] = FieldSetting.cache_by_name('village_id', group_name) || I18n.t('datagrid.columns.clients.village')
+    @address_translation['birth_province_id'.to_sym] = FieldSetting.cache_by_name('birth_province', group_name) || I18n.t('datagrid.columns.clients.birth_province')
     @address_translation
   end
 
@@ -251,7 +251,7 @@ module AdvancedSearchHelper
   end
 
   def custom_id_translation(type)
-    @customer_id_setting ||= Setting.first
+    @customer_id_setting ||= Setting.cache_first
     if I18n.locale == :en || @customer_id_setting.country_name == 'lesotho'
       if type == 'custom_id1'
         @customer_id_setting.custom_id1_latin.present? ? @customer_id_setting.custom_id1_latin : I18n.t('clients.other_detail.custom_id_number1')

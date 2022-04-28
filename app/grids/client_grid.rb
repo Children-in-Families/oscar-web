@@ -207,7 +207,7 @@ class ClientGrid < BaseGrid
 
   filter(:assessments_due_to, :enum, select: Assessment::DUE_STATES, header: -> { I18n.t('datagrid.columns.clients.assessments_due_to') }) do |value, scope|
     ids = []
-    setting = Setting.first
+    setting = Setting.cache_first
     if value == Assessment::DUE_STATES[0]
       Client.active_accepted_status.each do |client|
         next if !client.eligible_default_csi? && !(client.assessments.customs.present?)
@@ -268,12 +268,11 @@ class ClientGrid < BaseGrid
   end
 
   def self.client_by_domain(operation, value, domain_id, scope)
-    ids = Assessment.joins(:assessment_domains).where("score#{operation} ? AND domain_id= ?", value, domain_id).ids
-    scope.joins(:assessments).where(assessments: { id: ids})
+    Client.cached_client_assessment_domains(value, domain_id, scope)
   end
 
   def self.get_domain(name)
-    domain = Domain.find_by(name: name)
+    domain = Domain.cache_find_by_name(name)
     domain.present?  ? Array.new([[domain.name, domain.id]]) : []
   end
 
@@ -360,7 +359,7 @@ class ClientGrid < BaseGrid
   end
 
   def self.case_note_overdue_ids
-    setting = Setting.first
+    setting = Setting.cache_first
     max_case_note = setting.try(:max_case_note) || 30
     case_note_frequency = setting.try(:case_note_frequency) || 'day'
     case_note_period = max_case_note.send(case_note_frequency).ago
@@ -406,17 +405,17 @@ class ClientGrid < BaseGrid
   column(:kid_id, order:'clients.kid_id', header: -> { custom_id_translation('custom_id2') })
 
   def self.custom_id_translation(type)
-    if I18n.locale == :en || Setting.first.country_name == 'lesotho'
+    if I18n.locale == :en || Setting.cache_first.country_name == 'lesotho'
       if type == 'custom_id1'
-        Setting.first.custom_id1_latin.present? ? Setting.first.custom_id1_latin : I18n.t('clients.other_detail.custom_id_number1')
+        Setting.cache_first.custom_id1_latin.present? ? Setting.cache_first.custom_id1_latin : I18n.t('clients.other_detail.custom_id_number1')
       else
-        Setting.first.custom_id2_latin.present? ? Setting.first.custom_id2_latin : I18n.t('clients.other_detail.custom_id_number2')
+        Setting.cache_first.custom_id2_latin.present? ? Setting.cache_first.custom_id2_latin : I18n.t('clients.other_detail.custom_id_number2')
       end
     else
       if type == 'custom_id1'
-        Setting.first.custom_id1_local.present? ? Setting.first.custom_id1_local : I18n.t('clients.other_detail.custom_id_number1')
+        Setting.cache_first.custom_id1_local.present? ? Setting.cache_first.custom_id1_local : I18n.t('clients.other_detail.custom_id_number1')
       else
-        Setting.first.custom_id2_local.present? ? Setting.first.custom_id2_local : I18n.t('clients.other_detail.custom_id_number2')
+        Setting.cache_first.custom_id2_local.present? ? Setting.cache_first.custom_id2_local : I18n.t('clients.other_detail.custom_id_number2')
       end
     end
   end
@@ -456,7 +455,7 @@ class ClientGrid < BaseGrid
   end
 
   def self.dynamic_local_name
-    country = Setting.first.country_name
+    country = Setting.cache_first.country_name
     I18n.locale.to_s == 'en' ? COUNTRY_LANG[country] : ''
   end
 
@@ -526,7 +525,7 @@ class ClientGrid < BaseGrid
 
   dynamic do
     quantitative_type_readable_ids = current_user.quantitative_type_permissions.readable.pluck(:quantitative_type_id) unless current_user.nil?
-    quantitative_types = QuantitativeType.joins(:quantitative_cases).distinct
+    quantitative_types = QuantitativeType.cached_quantitative_cases
     quantitative_types.each do |quantitative_type|
       if current_user.nil? || quantitative_type_readable_ids.include?(quantitative_type.id)
         column(quantitative_type.name.to_sym, class: 'quantitative-type', header: -> { quantitative_type.name }, html: true) do |object|
@@ -665,7 +664,7 @@ class ClientGrid < BaseGrid
 
   column(:referred_to, order: false, header: -> { I18n.t('datagrid.columns.clients.referred_to') }) do |object|
     short_names = object.referrals.pluck(:referred_to)
-    org_names   = Organization.where("organizations.short_name IN (?)", short_names).pluck(:full_name)
+    org_names   = Organization.cached_organization_short_names(short_names)
     if short_names.include?('external referral')
       org_names << "I don't see the NGO I'm looking for"
     elsif short_names.include?("MoSVY External System")
@@ -676,7 +675,7 @@ class ClientGrid < BaseGrid
 
   column(:referred_from, order: false, header: -> { I18n.t('datagrid.columns.clients.referred_from') }) do |object|
     short_names = object.referrals.pluck(:referred_from)
-    org_names = Organization.where("organizations.short_name IN (?)", short_names).pluck(:full_name)
+    org_names = Organization.cached_organization_short_names(short_names)
     org_names << "MoSVY External System" if short_names.include?("MoSVY External System")
 
     org_names.join(', ')
@@ -697,7 +696,7 @@ class ClientGrid < BaseGrid
   column(:date_of_birth, html: true, header: -> { I18n.t('datagrid.columns.clients.date_of_birth') }) do |object|
     current_org = Organization.current
     Organization.switch_to 'shared'
-    date_of_birth = SharedClient.find_by(slug: object.slug)&.date_of_birth
+    date_of_birth = SharedClient.cached_shared_client_date_of_birth(object.slug)
     Organization.switch_to current_org.short_name
     date_of_birth.present? ? date_of_birth.strftime("%d %B %Y") : ''
   end
@@ -705,7 +704,7 @@ class ClientGrid < BaseGrid
   column(:date_of_birth, html: false, header: -> { I18n.t('datagrid.columns.clients.date_of_birth') }) do |object|
     current_org = Organization.current
     Organization.switch_to 'shared'
-    date_of_birth = SharedClient.find_by(slug: object.slug).date_of_birth
+    date_of_birth = SharedClient.cached_shared_client_date_of_birth(object.slug)
     Organization.switch_to current_org.short_name
     date_of_birth.present? ? date_of_birth : ''
   end
@@ -721,12 +720,11 @@ class ClientGrid < BaseGrid
   end
 
   column(:created_by, header: -> { I18n.t('datagrid.columns.clients.created_by') }) do |object|
-    user_id = PaperTrail::Version.find_by(event: 'create', item_type: 'Client', item_id: object.id).try(:whodunnit)
-    User.find_by(id: user_id || object.user_id).try(:name) || ''
+    Client.cached_client_created_by(object)
   end
 
   dynamic do
-    country = Setting.first.try(:country_name) || 'cambodia'
+    country = Setting.cache_first.try(:country_name) || 'cambodia'
     case country
     when 'cambodia'
       column(:current_address, order: 'clients.current_address', header: -> { I18n.t('datagrid.columns.clients.current_address') })
@@ -735,42 +733,42 @@ class ClientGrid < BaseGrid
 
       column(:street_number, header: -> { I18n.t('datagrid.columns.clients.street_number') })
 
-      column(:village, html: true, order:proc { |object| object.joins(:village).order('villages.name_kh')}, header: -> { I18n.t('datagrid.columns.clients.village') } ) do |object|
+      column(:village, html: true, order:proc { |object| Client.cached_client_village_name_kh(object) }, header: -> { I18n.t('datagrid.columns.clients.village') } ) do |object|
         object.village.try(:code_format)
       end
 
-      column(:commune, html: true, order: proc { |object| object.joins(:commune).order('communes.name_kh')}, header: -> { I18n.t('datagrid.columns.clients.commune') } ) do |object|
+      column(:commune, html: true, order: proc { |object| Client.cached_client_commune_name_kh(object) }, header: -> { I18n.t('datagrid.columns.clients.commune') } ) do |object|
         object.commune.try(:name)
       end
 
-      column(:district, html: true, order: proc { |object| object.joins(:district).order('districts.name')}, header: -> { I18n.t('datagrid.columns.clients.district') }) do |object|
+      column(:district, html: true, order: proc { |object| Client.cached_client_district_name(object) }, header: -> { I18n.t('datagrid.columns.clients.district') }) do |object|
         object.district_name
       end
 
-      column(:province_id, html: true, order: proc { |object| object.joins(:province).order('provinces.name')}, header: -> { I18n.t('datagrid.columns.clients.current_province') }) do |object|
+      column(:province_id, html: true, order: proc { |object| Client.cached_client_province_name(object) }, header: -> { I18n.t('datagrid.columns.clients.current_province') }) do |object|
         object.province_name
       end
 
       column(:birth_province_id, html: true, header: -> { I18n.t('datagrid.columns.clients.birth_province') }) do |object|
         current_org = Organization.current
         Organization.switch_to 'shared'
-        birth_province = SharedClient.find_by(slug: object.slug).birth_province_name
+        birth_province = SharedClient.cached_shared_client_birth_province_name(object.slug)
         Organization.switch_to current_org.short_name
         birth_province
       end
 
       if I18n.locale == :km
-        column(:village, html: false, order: proc { |object| object.joins(:village).order('villages.name_kh')}, header: -> { I18n.t('datagrid.columns.clients.village_kh') } ) do |object|
+        column(:village, html: false, order: proc { |object| Client.cached_client_village_name_kh(object) }, header: -> { I18n.t('datagrid.columns.clients.village_kh') } ) do |object|
           object.village.try(:name_kh)
         end
-        column(:commune, html: false, order: proc { |object| object.joins(:commune).order('communes.name_kh')}, header: -> { I18n.t('datagrid.columns.clients.commune_kh') } ) do |object|
+        column(:commune, html: false, order: proc { |object| Client.cached_client_commune_name_kh(object) }, header: -> { I18n.t('datagrid.columns.clients.commune_kh') } ) do |object|
           object.commune.try(:name_kh)
         end
-        column(:district, html: false, order: proc { |object| object.joins(:district).order('districts.name')}, header: -> { I18n.t('datagrid.columns.clients.district_kh') }) do |object|
+        column(:district, html: false, order: proc { |object| Client.cached_client_district_name(object) }, header: -> { I18n.t('datagrid.columns.clients.district_kh') }) do |object|
           object.district.try(:name_kh)
         end
 
-        column(:province_id, html: false, order: proc { |object| object.joins(:province).order('provinces.name')}, header: -> { I18n.t('datagrid.columns.clients.current_province_kh') }) do |object|
+        column(:province_id, html: false, order: proc { |object| Client.cached_client_province_name(object) }, header: -> { I18n.t('datagrid.columns.clients.current_province_kh') }) do |object|
           identify_province_khmer = object.province&.name&.count "/"
           if identify_province_khmer == 1
             province = object.province.name.split('/').first
@@ -783,7 +781,7 @@ class ClientGrid < BaseGrid
         column(:birth_province_id, html: false, header: -> { I18n.t('datagrid.columns.clients.birth_province_kh') }) do |object|
           current_org = Organization.current
           Organization.switch_to 'shared'
-          birth_province = SharedClient.find_by(slug: object.slug).birth_province_name
+          birth_province = SharedClient.cached_shared_client_birth_province_name(object.slug)
           identity_birth_province = birth_province&.count "/"
           if identity_birth_province == 1
             birth_province = birth_province.split('/').first
@@ -795,19 +793,19 @@ class ClientGrid < BaseGrid
         end
 
       else
-        column(:village, html: false, order: proc { |object| object.joins(:village).order('villages.name_kh')}, header: -> { I18n.t('datagrid.columns.clients.village_en') } ) do |object|
+        column(:village, html: false, order: proc { |object| Client.cached_client_village_name_kh(object) }, header: -> { I18n.t('datagrid.columns.clients.village_en') } ) do |object|
           object.village.try(:name_en)
         end
 
-        column(:commune, html: false, order: proc { |object| object.joins(:village).order('communes.name_kh')}, header: -> { I18n.t('datagrid.columns.clients.commune_en') } ) do |object|
+        column(:commune, html: false, order: proc { |object| Client.cached_client_commune_name_kh(object) }, header: -> { I18n.t('datagrid.columns.clients.commune_en') } ) do |object|
           object.commune.try(:name_en)
         end
 
-        column(:district, html: false, order: proc { |object| object.joins(:district).order('districts.name')}, header: -> { I18n.t('datagrid.columns.clients.district_en') }) do |object|
+        column(:district, html: false, order: proc { |object| Client.cached_client_district_name(object) }, header: -> { I18n.t('datagrid.columns.clients.district_en') }) do |object|
           object.district.present? ? object.district.name.split(' / ').last : nil
         end
 
-        column(:province_id, html: false, order: proc { |object| object.joins(:province).order('provinces.name')}, header: -> { I18n.t('datagrid.columns.clients.current_province_en') }) do |object|
+        column(:province_id, html: false, order: proc { |object| Client.cached_client_province_name(object) }, header: -> { I18n.t('datagrid.columns.clients.current_province_en') }) do |object|
           identify_province = object.province&.name&.count "/"
           if identify_province == 1
             province = object.province.name.split('/').last
@@ -820,7 +818,7 @@ class ClientGrid < BaseGrid
         column(:birth_province_id, html: false, header: -> { I18n.t('datagrid.columns.clients.birth_province_en') }) do |object|
           current_org = Organization.current
           Organization.switch_to 'shared'
-          birth_province = SharedClient.find_by(slug: object.slug).birth_province_name
+          birth_province = SharedClient.cached_shared_client_birth_province_name(object.slug)
           identity_birth_province = birth_province&.count "/"
           if identity_birth_province == 1
             birth_province = birth_province.split('/').last
@@ -838,26 +836,26 @@ class ClientGrid < BaseGrid
 
       column(:street_number, header: -> { I18n.t('datagrid.columns.clients.street_number') })
 
-      column(:village, order: proc { |object| object.joins(:village).order('villages.name_kh')}, header: -> { I18n.t('datagrid.columns.clients.village') } ) do |object|
+      column(:village, order: proc { |object| Client.cached_client_village_name_kh(object) }, header: -> { I18n.t('datagrid.columns.clients.village') } ) do |object|
         object.village.try(:code_format)
       end
 
-      column(:commune, order: proc { |object| object.joins(:commune).order('communes.name_kh')}, header: -> { I18n.t('datagrid.columns.clients.commune') } ) do |object|
+      column(:commune, order: proc { |object| Client.cached_client_commune_name_kh(object) }, header: -> { I18n.t('datagrid.columns.clients.commune') } ) do |object|
         object.commune.try(:name)
       end
 
-      column(:district, order: proc { |object| object.joins(:district).order('districts.name')}, header: -> { I18n.t('datagrid.columns.clients.district') }) do |object|
+      column(:district, order: proc { |object| Client.cached_client_district_name(object) }, header: -> { I18n.t('datagrid.columns.clients.district') }) do |object|
         object.district_name
       end
 
-      column(:province, order: proc { |object| object.joins(:province).order('provinces.name')}, header: -> { I18n.t('datagrid.columns.clients.current_province') }) do |object|
+      column(:province, order: proc { |object| Client.cached_client_province_name(object) }, header: -> { I18n.t('datagrid.columns.clients.current_province') }) do |object|
         object.province_name
       end
 
       column(:birth_province, header: -> { I18n.t('datagrid.columns.clients.birth_province') }) do |object|
         current_org = Organization.current
         Organization.switch_to 'shared'
-        birth_province = SharedClient.find_by(slug: object.slug).birth_province_name
+        birth_province = SharedClient.cached_shared_client_birth_province_name(object.slug)
         Organization.switch_to current_org.short_name
         birth_province
       end
@@ -868,7 +866,7 @@ class ClientGrid < BaseGrid
 
       column(:postal_code, header: -> { I18n.t('datagrid.columns.clients.postal_code') })
 
-      column(:district, order: proc { |object| object.joins(:district).order('districts.name')}, header: -> { I18n.t('datagrid.columns.clients.district') }) do |object|
+      column(:district, order: proc { |object| Client.cached_client_district_name(object) }, header: -> { I18n.t('datagrid.columns.clients.district') }) do |object|
         object.district_name
       end
 
@@ -876,14 +874,14 @@ class ClientGrid < BaseGrid
         object.subdistrict_name
       end
 
-      column(:province, order: proc { |object| object.joins(:province).order('provinces.name')}, header: -> { I18n.t('datagrid.columns.clients.current_province') }) do |object|
+      column(:province, order: proc { |object| Client.cached_client_province_name(object) }, header: -> { I18n.t('datagrid.columns.clients.current_province') }) do |object|
         object.province_name
       end
 
       column(:birth_province, header: -> { I18n.t('datagrid.columns.clients.birth_province') }) do |object|
         current_org = Organization.current
         Organization.switch_to 'shared'
-        birth_province = SharedClient.find_by(slug: object.slug).birth_province_name
+        birth_province = SharedClient.cached_shared_client_birth_province_name(object.slug)
         Organization.switch_to current_org.short_name
         birth_province
       end
@@ -928,14 +926,14 @@ class ClientGrid < BaseGrid
 
   column(:relevant_referral_information, header: -> { I18n.t('datagrid.columns.clients.relevant_referral_information') })
 
-  column(:referral_source_id, order: proc { |object| object.joins(:referral_source).order('referral_sources.name')}, header: -> { I18n.t('datagrid.columns.clients.referral_source') }) do |object|
+  column(:referral_source_id, order: proc { |object| Client.cached_client_referral_source_name(object) }, header: -> { I18n.t('datagrid.columns.clients.referral_source') }) do |object|
     object.referral_source.try(:name)
   end
-  column(:referral_source_category_id, order: proc { |object| object.joins(:referral_source).order('referral_sources.name')}, header: -> { I18n.t('datagrid.columns.clients.referral_source_category') }) do |object|
+  column(:referral_source_category_id, order: proc { |object| Client.cached_client_referral_source_name(object) }, header: -> { I18n.t('datagrid.columns.clients.referral_source_category') }) do |object|
     if I18n.locale == :km
-      ReferralSource.find_by(id: object.referral_source_category_id).try(:name)
+      ReferralSource.cached_referral_source_try_name(object.referral_source_category_id)
     else
-      ReferralSource.find_by(id: object.referral_source_category_id).try(:name_en)
+      ReferralSource.cached_referral_source_try_name_en(object.referral_source_category_id)
     end
   end
 
@@ -1017,10 +1015,10 @@ class ClientGrid < BaseGrid
       assessment_completed_sql, assessment_number = assessment_filter_values(results)
       sql = "(assessments.completed = true)".squish
       if assessment_number.present? && assessment_completed_sql.present?
-        assessments = object.assessments.defaults.where(sql).limit(1).offset(assessment_number - 1).order('completed_date')
+        assessments = Client.cached_client_assessment_number_completed_date(object, sql, assessment_number)
       elsif assessment_completed_sql.present?
         sql = assessment_completed_sql[/assessments\.completed_date.*/]
-        assessments = object.assessments.defaults.completed.where(sql).order('completed_date')
+        assessments = Client.cached_client_sql_assessment_completed_date(object, sql)
       else
         rule = basic_rules['rules'].select {|h| h['id'] == 'date_of_assessments' }.first
         if rule.present?
@@ -1029,10 +1027,10 @@ class ClientGrid < BaseGrid
         else
           assessments = object.assessments.defaults
         end
-        assessments = object.assessments.defaults.completed.where(sql).order('completed_date')
+        assessments = Client.cached_client_sql_assessment_completed_date(object, sql)
       end
     else
-      assessments = object.assessments.defaults.order('completed_date')
+      assessments = Client.cached_client_assessment_order_completed_date(object)
     end
     render partial: 'clients/completed_assessments', locals: { object: assessments }
   end
@@ -1053,10 +1051,10 @@ class ClientGrid < BaseGrid
       assessment_completed_sql, assessment_number = assessment_filter_values(results)
       sql = "(assessments.completed = true)".squish
       if assessment_number.present? && assessment_completed_sql.present?
-        assessments = object.assessments.customs.where(sql).limit(1).offset(assessment_number - 1).order('completed_date')
+        assessments = Client.cached_client_assessment_custom_number_completed_date(object, sql, assessment_number)
       elsif assessment_completed_sql.present?
         sql = assessment_completed_sql[/assessments\.completed_date.*/]
-        assessments = object.assessments.customs.completed.where(sql).order('completed_date')
+        assessments = Client.cached_client_sql_assessment_custom_completed_date(object, sql)
       else
         rule = basic_rules['rules'].select {|h| h['id'] == 'date_of_assessments' }.first
         if rule.present?
@@ -1065,10 +1063,10 @@ class ClientGrid < BaseGrid
         else
           assessments = object.assessments.customs
         end
-        assessments = object.assessments.customs.completed.where(sql).order('completed_date')
+        assessments = Client.cached_client_sql_assessment_custom_completed_date(object, sql)
       end
     else
-      assessments = object.assessments.customs.order('completed_date')
+      assessments = Client.cached_client_assessment_custom_order_completed_date(object)
     end
     render partial: 'clients/completed_assessments', locals: { object: assessments }
   end
@@ -1160,9 +1158,9 @@ class ClientGrid < BaseGrid
         if fields.first == 'formbuilder'
           if data == 'recent'
             if fields.last == 'Has This Form'
-              properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).count
+              properties = object.custom_field_properties.cached_client_custom_field_properties_count(fields.second)
             else
-              properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).order(created_at: :desc).first.try(:properties)
+              properties = object.custom_field_properties.cached_client_custom_field_properties_order(fields.second)
               properties = properties[format_field_value] if properties.present?
             end
           else
@@ -1170,14 +1168,14 @@ class ClientGrid < BaseGrid
               properties = [custom_form_with_has_form(object, fields).count]
             else
               if $param_rules
-                custom_field_id = object.custom_fields.find_by(form_title: fields.second)&.id
+                custom_field_id = object.custom_fields.cached_client_custom_field_find_by(fields.second)
                 basic_rules  = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
                 basic_rules  = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
                 results      = mapping_form_builder_param_value(basic_rules, 'formbuilder')
                 query_string = get_query_string(results, 'formbuilder', 'custom_field_properties.properties')
                 sql          = query_string.reverse.reject(&:blank?).map{|sql| "(#{sql})" }.join(" AND ")
 
-                properties = object.custom_field_properties.where(custom_field_id: custom_field_id).where(sql).properties_by(format_field_value)
+                properties = object.custom_field_properties.cached_client_custom_field_properties_properties_by(custom_field_id, sql, format_field_value)
                 properties = properties.blank? ? custom_form_with_has_form(object, fields).properties_by(format_field_value) : properties
               else
                 properties = form_builder_query(object.custom_field_properties, fields.second, column_builder[:id].gsub('&qoute;', '"'), 'custom_field_properties.properties').properties_by(format_field_value)
@@ -1186,32 +1184,32 @@ class ClientGrid < BaseGrid
           end
         elsif fields.first == 'enrollmentdate'
           if data == 'recent'
-            properties = date_format(object.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }).order(enrollment_date: :desc).first.try(:enrollment_date))
+            properties = date_format(object.client_enrollments.cached_client_order_enrollment_date(fields.second))
           else
-            properties = date_filter(object.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }), fields.join('__')).map{|date| date_format(date.enrollment_date) }
+            properties = date_filter(object.client_enrollments.cached_client_enrollment_date_join(fields.second), fields.join('__')).map{|date| date_format(date.enrollment_date) }
           end
         elsif fields.first == 'enrollment'
           if data == 'recent'
-            properties = object.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }).order(enrollment_date: :desc).first.try(:properties)
+            properties = object.client_enrollments.cached_client_order_enrollment_date_properties(fields.second)
             properties = properties[format_field_value] if properties.present?
           else
-            properties = object.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }).properties_by(format_field_value)
+            properties = object.client_enrollments.cached_client_enrollment_date_join(fields.second).properties_by(format_field_value)
           end
         elsif fields.first == 'tracking'
           ids = object.client_enrollments.ids
           if data == 'recent'
-            properties = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids }).order(created_at: :desc).first.try(:properties)
+            properties = ClientEnrollmentTracking.cached_tracking_order_created_at(fields.third, ids)
             properties = properties[format_field_value] if properties.present?
           else
-            client_enrollment_trackings = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids })
+            client_enrollment_trackings = ClientEnrollmentTracking.cached_client_enrollment_tracking(fields.third, ids)
             properties = form_builder_query(client_enrollment_trackings, fields.first, column_builder[:id].gsub('&qoute;', '"')).properties_by(format_field_value, client_enrollment_trackings)
           end
         elsif fields.first == 'exitprogramdate'
           ids = object.client_enrollments.inactive.ids
           if data == 'recent'
-            properties = date_format(LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }).order(exit_date: :desc).first.try(:exit_date))
+            properties = date_format(LeaveProgram.cached_program_exit_date(fields.second, ids))
           else
-            properties = date_filter(LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }), fields.join('__')).map{|date| date_format(date.exit_date) }
+            properties = date_filter(LeaveProgram.cached_program_stream_leave(fields.second, ids), fields.join('__')).map{|date| date_format(date.exit_date) }
           end
         elsif fields.first == 'exitprogram'
           ids = object.client_enrollments.inactive.ids

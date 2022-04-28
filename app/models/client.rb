@@ -64,7 +64,6 @@ class Client < ActiveRecord::Base
   belongs_to :village
   belongs_to :referee
   belongs_to :carer
-  belongs_to :call
 
   belongs_to :concern_province, class_name: 'Province',  foreign_key: 'concern_province_id'
   belongs_to :concern_district, class_name: 'District',  foreign_key: 'concern_district_id'
@@ -137,6 +136,7 @@ class Client < ActiveRecord::Base
   after_commit :remove_family_from_case_worker
   after_commit :update_related_family_member, on: :update
   after_commit :delete_referee, on: :destroy
+  after_commit :flush_cache
 
   scope :given_name_like,                          ->(value) { where('clients.given_name iLIKE :value OR clients.local_given_name iLIKE :value', { value: "%#{value.squish}%"}) }
   scope :family_name_like,                         ->(value) { where('clients.family_name iLIKE :value OR clients.local_family_name iLIKE :value', { value: "%#{value.squish}%"}) }
@@ -270,6 +270,12 @@ class Client < ActiveRecord::Base
           attributes = { external_id: data_hash[client.global_id].first, external_id_display: data_hash[client.global_id].last }
           client.update_columns(attributes)
         end
+      end
+    end
+
+    def cache_location_of_concern
+      Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'location_of_concern']) do
+        Client.where.not(location_of_concern: [nil, '']).pluck(:location_of_concern).map{ |a| { a => a } }
       end
     end
   end
@@ -712,6 +718,87 @@ class Client < ActiveRecord::Base
     result
   end
 
+  def self.cached_client_created_by(object)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_created_by', object.id]) do
+      user_id = PaperTrail::Version.find_by(event: 'create', item_type: 'Client', item_id: object.id).try(:whodunnit)
+      User.find_by(id: user_id || object.user_id).try(:name) || ''
+    end
+  end
+
+  def self.cached_client_province_name(object)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_province_name', object.id]) do
+      object.joins(:province).order('provinces.name')
+    end
+  end
+
+
+  def self.cached_client_district_name(object)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_district_name', object.id]) do
+      object.joins(:district).order('districts.name')
+    end
+  end
+
+  def self.cached_client_commune_name_kh(object)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_commune_name_kh', object.id]) do
+      object.joins(:commune).order('communes.name_kh')
+    end
+  end
+
+  def self.cached_client_village_name_kh(object)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_village_name_kh', object.id]) do
+      object.joins(:village).order('villages.name_kh')
+    end
+  end
+
+  def self.cached_client_referral_source_name(object)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_referral_source_name', object.id]) do
+      object.joins(:referral_source).order('referral_sources.name')
+    end
+  end
+
+  def self.cached_client_assessment_number_completed_date(object, sql, assessment_number)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_assessment_number_completed_date', object.id]) do
+      object.assessments.defaults.where(sql).limit(1).offset(assessment_number - 1).order('completed_date')
+    end
+  end
+
+  def self.cached_client_sql_assessment_completed_date(object, sql)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_sql_assessment_completed_date', object.id]) do
+      object.assessments.defaults.completed.where(sql).order('completed_date')
+    end
+  end
+
+  def self.cached_client_assessment_order_completed_date(object)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_assessment_order_completed_date', object.id]) do
+      object.assessments.defaults.order('completed_date')
+    end
+  end
+
+  def self.cached_client_assessment_custom_number_completed_date(object, sql, assessment_number)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_assessment_custom_number_completed_date', object.id]) do
+      object.assessments.customs.where(sql).limit(1).offset(assessment_number - 1).order('completed_date')
+    end
+  end
+
+  def self.cached_client_sql_assessment_custom_completed_date(object, sql)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_sql_assessment_custom_completed_date', object.id]) do
+      object.assessments.customs.completed.where(sql).order('completed_date')
+    end
+  end
+
+  def self.cached_client_assessment_custom_order_completed_date(object)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_assessment_custom_order_completed_date', object.id]) do
+      object.assessments.customs.order('completed_date')
+    end
+  end
+
+  def self.cached_client_assessment_domains(value, domain_id, scope)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_assessment_domains', domain_id]) do
+      ids = Assessment.joins(:assessment_domains).where("score#{operation} ? AND domain_id= ?", value, domain_id).ids
+      scope.joins(:assessments).where(assessments: { id: ids})
+    end
+  end
+
   private
 
   def update_related_family_member
@@ -818,12 +905,45 @@ class Client < ActiveRecord::Base
   end
 
   def current_setting
-    @current_setting ||= Setting.first
+    @current_setting ||= Setting.cache_first
   end
 
   def delete_referee
     return if referee.nil? || referee.clients.where.not(id: id).any?
     referee.destroy
+  end
+
+  def flush_cache
+    Rails.cache.delete([Apartment::Tenant.current, 'Client', 'location_of_concern']) if location_of_concern_changed?
+    Rails.cache.delete([Apartment::Tenant.current, self.class.name, 'received_by', received_by_id]) if received_by_id_changed?
+    Rails.cache.delete([Apartment::Tenant.current, self.class.name, 'followed_up_by', followed_up_by_id]) if followed_up_by_id_changed?
+    Rails.cache.delete([Apartment::Tenant.current, 'Province', 'dropdown_list_option']) if province_id_changed?
+    Rails.cache.delete([Apartment::Tenant.current, "District", 'dropdown_list_option']) if district_id_changed?
+    Rails.cache.delete([Apartment::Tenant.current, "Commune", 'dropdown_list_option']) if commune_id_changed?
+    Rails.cache.delete([Apartment::Tenant.current, 'Village', 'cache_village_name_by_client_commune_district_province']) if village_id_changed?
+    Rails.cache.delete([Apartment::Tenant.current, 'Subdistrict', 'dropdown_list_option']) if subdistrict_id_changed?
+    Rails.cache.delete([Apartment::Tenant.current, 'Township', 'dropdown_list_option']) if township_id_changed?
+    Rails.cache.delete([Apartment::Tenant.current, 'State', 'dropdown_list_option']) if state_id_changed?
+    cached_client_created_by_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_created_by/].blank? }
+    cached_client_created_by_keys.each { |key| Rails.cache.delete(key) }
+    cached_client_province_name_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_province_name/].blank? }
+    cached_client_province_name_keys.each { |key| Rails.cache.delete(key) }
+    cached_client_district_name_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_district_name/].blank? }
+    cached_client_district_name_keys.each { |key| Rails.cache.delete(key) }
+    cached_client_commune_name_kh_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_commune_name_kh/].blank? }
+    cached_client_commune_name_kh_keys.each { |key| Rails.cache.delete(key) }
+    cached_client_village_name_kh_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_village_name_kh/].blank? }
+    cached_client_village_name_kh_keys.each { |key| Rails.cache.delete(key) }
+    cached_client_referral_source_name_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_referral_source_name/].blank? }
+    cached_client_referral_source_name_keys.each { |key| Rails.cache.delete(key) }
+    cached_client_assessment_number_completed_date_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_assessment_number_completed_date/].blank? }
+    cached_client_assessment_number_completed_date_keys.each { |key| Rails.cache.delete(key) }
+    cached_client_sql_assessment_completed_date_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_sql_assessment_completed_date/].blank? }
+    cached_client_sql_assessment_completed_date_keys.each { |key| Rails.cache.delete(key) }
+    cached_client_assessment_order_completed_date_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_assessment_order_completed_date/].blank? }
+    cached_client_assessment_order_completed_date_keys.each { |key| Rails.cache.delete(key) }
+    cached_client_assessment_domains_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_assessment_domains/].blank? }
+    cached_client_assessment_domains_keys.each { |key| Rails.cache.delete(key) }
   end
 
 end

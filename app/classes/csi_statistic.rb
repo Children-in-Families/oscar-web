@@ -1,7 +1,7 @@
 class CsiStatistic
   def initialize(clients)
     @clients = clients
-    @@setting = Setting.first
+    @@setting = Setting.cache_first
   end
 
   def assessment_domain_score
