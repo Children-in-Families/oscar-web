@@ -10,7 +10,7 @@ class ScreeningAssessment < ActiveRecord::Base
   validates :screening_assessment_date, :visitor, :client_milestone_age, presence: :true
 
   accepts_nested_attributes_for :developmental_marker_screening_assessments, allow_destroy: true
-  accepts_nested_attributes_for :tasks, reject_if:  proc { |attributes| attributes['name'].blank? && attributes['expected_date'].blank? }, allow_destroy: true
+  accepts_nested_attributes_for :tasks, reject_if: proc { |attributes| attributes['name'].blank? && attributes['expected_date'].blank? }, allow_destroy: true
 
   scope :multiple_screening_assessments, -> { where(screening_type: 'multiple') }
 

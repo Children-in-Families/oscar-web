@@ -1,4 +1,4 @@
-= simple_form_for [@client, @screening_assessment] do |f|
+= simple_form_for [@client, @screening_assessment], html: { id: 'screening-assessment' }  do |f|
   = f.hidden_field :client_id
   = f.hidden_field :screening_type, value: params[:screening_type] || @screening_assessment.screening_type
   .row

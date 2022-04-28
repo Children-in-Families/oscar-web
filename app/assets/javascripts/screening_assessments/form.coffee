@@ -4,6 +4,7 @@ CIF.Screening_assessmentsNew = CIF.Screening_assessmentsCreate = CIF.Screening_a
     _initDatePicker()
     _cocoonCallback()
     _handleCheckBox()
+    _handleFormSubmitting()
 
   _handleMileStoneAgeSelect = ->
     mileStoneAge = $('#screening_assessment_client_milestone_age').val()
@@ -58,5 +59,11 @@ CIF.Screening_assessmentsNew = CIF.Screening_assessmentsCreate = CIF.Screening_a
 
     nameValue.map (value) ->
       !$(value).prop('checked')
+
+  _handleFormSubmitting = ->
+    $("form#screening-assessment").on 'submit', (e)->
+      e.preventDefault()
+      $("#tasks .nested-fields .row").remove() if _.every(_isInputRadioAllUnChecked())
+      @.submit()
 
   { init: _init }
