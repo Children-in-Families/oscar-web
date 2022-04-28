@@ -54,7 +54,7 @@ class ApplicationController < ActionController::Base
   protected
 
   def address_translation
-    @address_translation = view_context.address_translation
+    @address_translation = view_context.address_translation('client')
   end
 
   def set_current_user

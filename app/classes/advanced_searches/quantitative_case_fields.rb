@@ -17,7 +17,7 @@ module AdvancedSearches
         quantitative_type_ids = @user.quantitative_type_permissions.readable.pluck(:quantitative_type_id)
         quantitative_types = QuantitativeType.cach_by_quantitative_type_ids(quantitative_type_ids)
       end
-      
+
       quantitative_cases = quantitative_types.map do |qt|
         AdvancedSearches::FilterTypes.drop_list_options(
           "quantitative__#{qt.id}",

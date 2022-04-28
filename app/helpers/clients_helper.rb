@@ -311,8 +311,8 @@ module ClientsHelper
       carer_phone_: I18n.t('activerecord.attributes.carer.phone'),
       carer_email_: I18n.t('activerecord.attributes.carer.email'),
       carer_relationship_to_client_: I18n.t('datagrid.columns.clients.carer_relationship_to_client'),
-      province_id_: FieldSetting.cache_by_name_klass_name_instance('current_province', 'client').try(:label) || I18n.t('datagrid.columns.clients.current_province'),
-      birth_province_id_: FieldSetting.cache_by_name_klass_name_instance('birth_province', 'client').try(:label) || I18n.t('datagrid.columns.clients.birth_province'),
+      province_id_: FieldSetting.cache_by_name_klass_name_instance('current_province', 'client') || I18n.t('datagrid.columns.clients.current_province'),
+      birth_province_id_: FieldSetting.cache_by_name_klass_name_instance('birth_province', 'client') || I18n.t('datagrid.columns.clients.birth_province'),
       **overdue_translations.map{ |k, v| ["#{k}_".to_sym, v] }.to_h,
       **custom_assessment_field_traslation_mapping.map{ |k, v| ["#{k}_".to_sym, v] }.to_h
     }
@@ -347,9 +347,9 @@ module ClientsHelper
   end
 
   def local_name_label(name_type = :local_given_name)
-    custom_field = FieldSetting.cache_by_name(name_type.to_s)
+    custom_field = FieldSetting.cache_by_name(name_type.to_s, 'client')
     label = I18n.t("datagrid.columns.clients.#{name_type}")
-    label = "#{label} #{country_scope_label_translation}" if custom_field.blank? || custom_field.label.blank?
+    label = "#{label} #{country_scope_label_translation}" if custom_field.blank? || custom_field.blank?
     label
   end
 
