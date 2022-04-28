@@ -18,7 +18,7 @@ class ScreeningAssessmentsController <  AdminController
     @screening_assessment = @client.screening_assessments.new(screening_assessment_params)
     authorize_screening_assessment(@screening_assessment)
     if @screening_assessment.save
-      redirect_to [@client, @screening_assessment], noted: t('successfully_created', klass: 'Screening Assessment')
+      redirect_to [@client, @screening_assessment], notice: t('successfully_created', klass: 'Screening Assessment')
     else
       @screening_assessment.populate_developmental_markers
       flash[:alert] = @screening_assessment.errors.full_messages.join(', ')
@@ -40,7 +40,7 @@ class ScreeningAssessmentsController <  AdminController
 
   def update
     if @screening_assessment.update_attributes(screening_assessment_params)
-      redirect_to [@client, @screening_assessment], noted: t('successfully_updated', klass: 'Screening Assessment')
+      redirect_to [@client, @screening_assessment], notice: t('successfully_updated', klass: 'Screening Assessment')
     else
       @screening_assessment.populate_developmental_markers
       flash[:alert] = @screening_assessment.errors.full_messages.join(', ')
