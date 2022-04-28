@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   before_action :set_locale, :override_translation
   before_action :set_paper_trail_whodunnit, :current_setting
   before_action :prevent_routes
-  before_action :set_raven_context
+  before_action :set_raven_context, :address_translation
 
   rescue_from ActiveRecord::RecordNotFound do |exception|
     render file: "#{Rails.root}/app/views/errors/404", layout: false, status: :not_found
@@ -29,6 +29,10 @@ class ApplicationController < ActionController::Base
     redirect_to root_path, alert: t('unauthorized.default')
   end
 
+  rescue_from ActionController::InvalidAuthenticityToken do |exception|
+    redirect_to root_path, alert: t('devise.failure.timeout')
+  end
+
   def current_organization
     Organization.current
   end
@@ -45,6 +49,13 @@ class ApplicationController < ActionController::Base
   def pundit_user
     UserContext.new(current_user, field_settings)
   end
+
+  protected
+
+  def address_translation
+    @address_translation ||= view_context.address_translation
+  end
+
 
   private
 
