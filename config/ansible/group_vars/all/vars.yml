@@ -1,0 +1,45 @@
+---
+
+project_id:     'osc'
+project_name:   'oscar'
+ssh_user:       '{{ project_id }}'
+k8s_namespace:  '{{ project_id }}'
+domain_name:    'start.wehost.asia'
+rail_env:       ''
+
+image_name:     'hub.web-essentials.co/we/{{ project_id }}'
+
+ssh_user:       '{{ inventory_hostname }}-{{ project_name }}'
+kubeconfig:     '~/.kube/admin.conf'
+workspace:      '{{ lookup("env", "WORKSPACE") or lookup("env", "PWD") }}'
+tz_path:        '/usr/share/zoneinfo/Asia/Phnom_Penh'
+nfs_server:     '10.10.10.26'
+nfs_path:       '/volume1/export/{{ stage }}/{{ project_id }}'
+
+oscar_team_email: team@oscarhq.com
+oscar_team_pass: '{{ oscar_team_pass_vault }}'
+power_bin_group: power_bi_group
+
+read_only_db_user: powerbi_dashboard_user
+read_only_db_pass: '{{ read_only_db_pass_vault }}'
+
+redis_ver:      'redis:5.0.13'
+
+pg_db_ver:      'postgres:12.3'
+pg_db_user:     '{{ stage }}_{{ project_name | replace("-", "_") }}'
+pg_db_name:     '{{ stage }}_{{ project_name | replace("-", "_") }}'
+pg_db_pass:     '{{ pg_db_pass_vault }}'
+
+mongo_db_ver:   'mongo:4.2.10'
+mongo_db_user:  '{{ stage }}_history_{{ project_name | replace("-", "_") }}'
+mongo_db_name:  '{{ stage }}_history_{{ project_name | replace("-", "_") }}'
+mongo_db_pass:  '{{ mongo_db_pass_vault }}'
+
+secret_key_base: '{{ secret_key_base_vault }}'
+s3_bucket_name:
+aws_access_key_id: '{{ aws_access_key_id_vault }}'
+aws_secret_access_key: '{{ aws_secret_access_key_vault }}'
+fog_region: 'ap-southeast-1'
+fog_directory:
+
+appsignal_push_api_key: '{{ appsignal_push_api_key_vault }}'

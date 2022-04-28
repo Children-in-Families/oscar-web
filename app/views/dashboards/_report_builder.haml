@@ -1,0 +1,10 @@
+.panel.panel-default.widget-dashboard-panel
+  .panel-body
+    = link_to clients_path(builder: '#builder') do
+      .widget.style1.widget-dashboard-panel-min-height
+        .row.vertical-align
+          .col-xs-3
+            %i.fa.fa-file-text.fa-3x
+          .col-xs-9.text-right
+            %span.text-row
+              = t('.go_to_report_builder')

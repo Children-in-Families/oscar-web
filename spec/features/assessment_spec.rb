@@ -1,11 +1,13 @@
-xdescribe "Assessment" do
+describe "Assessment" do
   let!(:user) { create(:user) }
+  let!(:admin) { create(:user, :admin) }
   let!(:strategic_overviewer_1){ create(:user, :strategic_overviewer) }
   let!(:user_2){ create(:user) }
   let!(:client) { create(:client, :accepted, users: [user]) }
   let!(:client_a) { create(:client, :accepted, users: [user, user_2]) }
   let!(:client_b) { create(:client, :accepted, users: [user, user_2]) }
   let!(:fc_case) { create(:case, case_type: 'FC', client: client) }
+  let!(:family) { create(:family, :active, user: user) }
   let!(:domain) { create(:domain) }
   let!(:assessment_a){ create(:assessment, client: client_a) }
   let!(:assessment_b){ create(:assessment, client: client_b, created_at: 1.week.ago) } # this is 8 days
@@ -14,84 +16,9 @@ xdescribe "Assessment" do
     login_as(user)
   end
 
-  feature 'show' do
-    let!(:domain_1){ create(:domain, score_1_color: 'danger', score_1_definition: 'Poor', score_2_color: 'warning', score_2_definition: 'Good') }
-    let!(:assessment_1){ create(:assessment, client: client, created_at: 6.months.ago) }
-    let!(:assessment_2){ create(:assessment, client: client) }
-    let!(:assessment_domain_1){ create(:assessment_domain, score: 1, assessment: assessment_1, domain: domain_1) }
-    let!(:assessment_domain_2){ create(:assessment_domain, previous_score: 1, score: 2, assessment: assessment_2, domain: domain_1) }
-
-    feature 'CSI Assessment' do
-      before do
-        visit client_assessment_path(client, assessment_2)
-      end
-
-      scenario 'Case Plan' do
-        expect(page).to have_content("Case Plan for #{client.name}")
-        expect(page).to have_content("Based on Assessment Number 2")
-        expect(page).to have_content("Completed by OSCaR Team on #{date_format(Date.today)}")
-        expect(page).to have_css('.btn-danger[data-toggle="tooltip"][data-original-title="<p>Poor</p>"]', text: '1')
-        expect(page).to have_css('.btn-warning[data-toggle="tooltip"][data-original-title="<p>Good</p>"]', text: '2')
-      end
-
-      scenario 'status' do
-        expect(page).to have_content('Completed')
-      end
-
-      context 'edit link' do
-        context 'log in as case worker / manager / admin' do
-          context 'visible within 1 week' do
-            scenario 'eligiable age' do
-              visit client_assessment_path(client_a, assessment_a)
-
-              expect(page).to have_link(nil, href: edit_client_assessment_path(client_a, assessment_a))
-            end
-            scenario 'uneligiable age' do
-              client_a.update(date_of_birth: 20.years.ago)
-              visit client_assessment_path(client_a, assessment_a)
-
-              expect(page).to have_link(nil, href: edit_client_assessment_path(client_a, assessment_a))
-            end
-          end
-
-          scenario 'invisible after 1 week' do
-            visit client_assessment_path(client_b, assessment_b)
-
-            expect(page).not_to have_link(nil, href: edit_client_assessment_path(client_b, assessment_b))
-          end
-        end
-
-        context 'log in as strategic overviewer' do
-          before do
-            login_as(strategic_overviewer_1)
-          end
-
-          scenario 'invisible' do
-            visit client_assessment_path(client_b, assessment_b)
-            expect(page).not_to have_link(nil, href: edit_client_assessment_path(client_b, assessment_b))
-          end
-        end
-      end
-    end
-
-    feature 'Custom Assessment', js: true do
-      before { Setting.first.update(enable_custom_assessment: true) }
-      let!(:custom_assessment_1){ create(:assessment, client: client, default: false) }
-
-      context 'is not enabled' do
-        scenario 'unauthorized' do
-          Setting.first.update(enable_custom_assessment: false)
-          visit client_assessment_path(client, custom_assessment_1)
-
-          expect(page).to have_content('You are not authorized to access this page.')
-        end
-      end
-    end
-
-  end
-
   feature 'Create' do
     before do
+      login_as(admin)
       visit new_client_assessment_path(client, default: true)
     end
 
@@ -105,41 +32,36 @@ xdescribe "Assessment" do
       end
     end
 
-    def with_tasks(n)
-      choose('1')
-      expect(page).to have_css('.task_required')
-      expect(page).to have_css('.assessment-task-btn')
-      add_tasks(n)
+    scenario  'invalid for client', js: true do
+      click_link 'Done'
+      expect(page).to have_content('This field is required')
     end
 
-    def without_task
-      choose('4')
-      expect(page).to have_css('.label-success')
-      expect(page).not_to have_css('.label-danger')
-      expect(page).not_to have_css('.label-warning')
-      expect(page).not_to have_css('.label-info')
-    end
-
-    scenario 'valid', js: true do
-      with_tasks(1)
-      without_task
-
+    scenario  'valid for client', js: true do
       fill_in 'assessment_assessment_domains_attributes_0_reason', with: FFaker::Lorem.paragraph
-      fill_in "goal-text-area-#{domain.name.downcase.split.join('-')}", with: FFaker::Lorem.paragraph
-
-      click_link 'Save'
+      choose('1')
+      click_link 'Done'
       sleep 1
-      expect(page).to have_content(domain.name)
-      expect(page.find('.domain-score')).to have_content('4')
-      expect(Task.find_by(name: 'ABC').user_id).to eq(user.id)
+      expect(page).to have_content('Assessment has been successfully created.')
+      visit client_assessment_path(client, client.assessments.first)
+      expect(page).to have_content("Case Plan for #{client.name}")
+      expect(page).to have_content(domain.name.downcase.reverse)
     end
 
-    scenario  'invalid', js: true do
-      choose('1')
-
+    scenario 'valid for family', js: true do
+      visit new_family_assessment_path(family, default: true)
       fill_in 'assessment_assessment_domains_attributes_0_reason', with: FFaker::Lorem.paragraph
+      choose('1')
+      click_link 'Done'
+      sleep 1
+      expect(page).to have_content('Assessment has been successfully created.')
+      visit family_assessment_path(family, family.assessments.first)
+      expect(page).to have_content(domain.name)
+      expect(page).to have_content("Case Plan for #{family.name}")
+    end
 
-      click_link 'Save'
+    scenario  'invalid for family', js: true do
+      click_link 'Done'
       expect(page).to have_content('This field is required')
     end
 
@@ -196,18 +118,6 @@ xdescribe "Assessment" do
           expect(page).to have_link('Add New CSI Assessment', href: new_client_assessment_path(client_2, default: true))
         end
       end
-
-      context 'Custom Assessment' do
-        let!(:domain_1){ create(:domain, custom_domain: true) }
-        scenario 'after minimum assessment duration' do
-          visit client_assessments_path(client_1)
-          expect(page).to have_link('Add New Custom Assessment', href: new_client_assessment_path(client_1, default: false))
-        end
-        scenario 'after maximum assessment duration' do
-          visit client_assessments_path(client_2)
-          expect(page).to have_link('Add New Custom Assessment', href: new_client_assessment_path(client_2, default: false))
-        end
-      end
     end
 
     context 'assessments readable permission' do
@@ -221,13 +131,6 @@ xdescribe "Assessment" do
         expect(dashboards_path).to have_content(current_path)
       end
     end
-
-    let!(:client_3){ create(:client, :accepted, users: [user], date_of_birth: 18.years.ago) }
-    scenario 'create assessment button is disable for client whose age is over 18' do
-      visit client_assessments_path(client_3)
-      expect(page).to have_css('#disabled_assessment_button')
-    end
-
   end
 
   feature 'Update' do

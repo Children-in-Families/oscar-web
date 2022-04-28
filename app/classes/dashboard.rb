@@ -13,7 +13,7 @@ class Dashboard
   end
 
   def client_program_stream
-    program_streams = @program_streams.distinct.select("program_streams.id, program_streams.name, (SELECT COUNT(DISTINCT(client_enrollments.client_id)) FROM client_enrollments WHERE client_enrollments.program_stream_id = program_streams.id AND client_enrollments.status = 'Active') AS client_enrollment_count")
+    program_streams = ProgramStream.joins(:client_enrollments).group("program_streams.id, client_enrollments.status").select("program_streams.id, program_streams.name, COUNT(DISTINCT(client_enrollments.client_id)) AS client_enrollment_count").having("client_enrollments.status = 'Active'")
     program_streams.map do |p|
       url = { 'condition': 'AND', 'rules': [{ 'id': 'active_program_stream', 'field': 'active_program_stream', 'type': 'string', 'input': 'select', 'operator': 'equal', 'value': p.id }]}
       {
@@ -45,19 +45,29 @@ class Dashboard
   end
 
   def program_stream_report_gender
-    active_enrollments = Client.joins(:client_enrollments).where(client_enrollments: { status: 'Active' })
-    males = active_enrollments.where(clients: { gender: 'male' } ).uniq
-    females = active_enrollments.where(clients: { gender: 'female' } ).uniq
+    male = I18n.t('gender_list.male')
+    female = I18n.t('gender_list.female')
+    other = I18n.t('gender_list.other_gender')
+
+    male_data = program_stream_report_by('male')
+    female_data = program_stream_report_by('female')
+    other_data = program_stream_report_by('other')
+
     [
       {
-        name: I18n.t('classes.dashboard.males'),
-        y: males.size,
-        active_data: program_stream_report_by(males.ids, 'Male')
+        name: male,
+        y: male_data[:total],
+        active_data: male_data[:data]
       },
       {
-        name: I18n.t('classes.dashboard.females'),
-        y: females.size,
-        active_data: program_stream_report_by(females.ids, 'Female')
+        name: female,
+        y: female_data[:total],
+        active_data: female_data[:data]
+      },
+      {
+        name: other,
+        y: other_data[:total],
+        active_data: other_data[:data]
       }
     ]
   end
@@ -116,19 +126,24 @@ class Dashboard
 
   private
 
-  def program_stream_report_by(client_ids, gender)
-    if client_ids.present?
-      program_streams = @program_streams.where(client_enrollments: {client_id: client_ids}).select("program_streams.id, program_streams.name, (SELECT COUNT(DISTINCT(client_enrollments.id)) FROM client_enrollments WHERE (client_enrollments.program_stream_id = program_streams.id AND client_enrollments.status = 'Active') AND client_enrollments.client_id IN (#{client_ids.join(', ')})) AS client_enrollment_count")
-    else
-      program_streams = @program_streams.where(client_enrollments: {client_id: client_ids}).select("program_streams.id, program_streams.name, (SELECT COUNT(DISTINCT(client_enrollments.id)) FROM client_enrollments WHERE (client_enrollments.program_stream_id = program_streams.id AND client_enrollments.status = 'Active')) AS client_enrollment_count")
-    end
+  def program_stream_report_by(gender)
+    sql_condition = gender == 'other' ? "clients.gender NOT IN ('male', 'female') AND client_enrollments.status = 'Active'" : "clients.gender = '#{gender}' AND client_enrollments.status = 'Active'"
 
-    program_streams.map do |p|
-      url = { 'condition': 'AND', 'rules': [{ 'id': 'active_program_stream', 'field': 'active_program_stream', 'type': 'string', 'input': 'select', 'operator': 'equal', 'value': p.id },
-        { 'id': 'gender', 'field': 'gender', 'type': 'string', 'input': 'select', 'operator': 'equal', 'value': gender.downcase } ]}
+    program_streams = ProgramStream.joins(:clients).group("program_streams.id, clients.gender, client_enrollments.status")
+                                  .select("program_streams.id, program_streams.name, clients.gender AS client_gender, COUNT(DISTINCT(client_enrollments.client_id)) AS client_enrollment_count")
+                                  .having(sql_condition)
+
+    { total: program_streams.map(&:client_enrollment_count).sum, data: mapping_program_data(program_streams, gender) }
+  end
+
+  def mapping_program_data(program_streams, gender)
+    @program_streams.map do |ps|
+      client_enrollment_count_hash = program_streams.map{|ps| [ps.name, ps.client_enrollment_count] }.to_h
+      url = { 'condition': 'AND', 'rules': [{ 'id': 'active_program_stream', 'field': 'active_program_stream', 'type': 'string', 'input': 'select', 'operator': 'equal', 'value': ps.id },
+        { 'id': 'gender', 'field': 'gender', 'type': 'string', 'input': 'select', 'operator': 'equal', 'value': gender } ]}
       {
-        name: "#{p.name} (#{gender})",
-        y: p.client_enrollment_count,
+        name: ps.name,
+        y: client_enrollment_count_hash[ps.name] || 0,
         url: clients_path(
           client_advanced_search: {
             action_report_builder: '#builder',

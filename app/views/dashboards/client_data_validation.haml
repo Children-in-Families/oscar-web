@@ -1,0 +1,19 @@
+.row.mini-margin
+  .col-xs-12
+    .ibox
+      .ibox-title
+        %h5= @date_validation_error[:count]
+        %span.label.label-info= t('.results')
+
+      .ibox-content
+        .clients-table
+          %table.table.table-bordered.table-striped.table-hover.clients
+            = content_tag :div, 'hidden_param', class: 'hide', id: 'hidden-param', data: { 'hidden-param': url_for(params) }
+            %thead
+              = datagrid_header(@client_grid)
+            %tbody.page
+              = datagrid_rows(@client_grid, @client_grid.assets)
+
+          %span.hidden{id:"sinfo", 'data-infoshow' => t('.sInfoShow'), 'data-infoto' => t('.sInfoTo'), 'data-infototal' => t('.sInfoTotal')}
+      .ibox-footer.text-center
+        = paginate @client_grid.assets
