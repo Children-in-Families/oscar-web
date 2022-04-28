@@ -34,6 +34,7 @@ class ClientsController < AdminController
       respond_to do |f|
         f.html do
           next unless params['commit'].present?
+          # @client_grid is invoked from ClientGridOptions#choose_grid
           client_grid             = @client_grid.scope { |scope| scope.accessible_by(current_ability) }
           @results                = client_grid.assets
           $client_data            = @clients

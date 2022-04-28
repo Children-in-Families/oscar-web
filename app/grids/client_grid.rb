@@ -422,31 +422,37 @@ class ClientGrid < BaseGrid
   end
 
   column(:given_name, order: 'clients.given_name', header: -> { I18n.t('datagrid.columns.clients.given_name') }, html: true) do |object|
-    current_org = Organization.current
-    Organization.switch_to 'shared'
-    given_name = SharedClient.find_by(slug: object.slug).given_name
-    Organization.switch_to current_org.short_name
-    if given_name.present?
-      link_to given_name, client_path(object), target: :_blank
-    else
-      given_name
+    Rails.cache.fetch([Apartment::Tenant.current, object.id, object.given_name || 'given_name']) do
+      current_org = Organization.current
+      Organization.switch_to 'shared'
+      given_name = SharedClient.find_by(slug: object.slug).given_name
+      Organization.switch_to current_org.short_name
+      if given_name.present?
+        link_to given_name, client_path(object), target: :_blank
+      else
+        given_name
+      end
     end
   end
 
   column(:given_name, header: -> { I18n.t('datagrid.columns.clients.given_name') }, html: false) do |object|
-    current_org = Organization.current
-    Organization.switch_to 'shared'
-    given_name = SharedClient.find_by(slug: object.slug).given_name
-    Organization.switch_to current_org.short_name
-    given_name
+    Rails.cache.fetch([Apartment::Tenant.current, object.id, object.given_name || 'given_name']) do
+      current_org = Organization.current
+      Organization.switch_to 'shared'
+      given_name = SharedClient.find_by(slug: object.slug).given_name
+      Organization.switch_to current_org.short_name
+      given_name
+    end
   end
 
   column(:family_name, order: 'clients.family_name', header: -> { I18n.t('datagrid.columns.clients.family_name') }) do |object|
-    current_org = Organization.current
-    Organization.switch_to 'shared'
-    family_name = SharedClient.find_by(slug: object.slug).family_name
-    Organization.switch_to current_org.short_name
-    family_name
+    Rails.cache.fetch([Apartment::Tenant.current, object.id, object.family_name || 'family_name']) do
+      current_org = Organization.current
+      Organization.switch_to 'shared'
+      family_name = SharedClient.find_by(slug: object.slug).family_name
+      Organization.switch_to current_org.short_name
+      family_name
+    end
   end
 
   def self.dynamic_local_name
@@ -455,27 +461,33 @@ class ClientGrid < BaseGrid
   end
 
   column(:local_given_name, order: 'clients.local_given_name', header: -> { "#{I18n.t('datagrid.columns.clients.local_given_name')} #{ dynamic_local_name }" }) do |object|
-    current_org = Organization.current
-    Organization.switch_to 'shared'
-    local_given_name = SharedClient.find_by(slug: object.slug).local_given_name
-    Organization.switch_to current_org.short_name
-    local_given_name
+    Rails.cache.fetch([Apartment::Tenant.current, object.id, object.local_given_name || 'local_given_name']) do
+      current_org = Organization.current
+      Organization.switch_to 'shared'
+      local_given_name = SharedClient.find_by(slug: object.slug).local_given_name
+      Organization.switch_to current_org.short_name
+      local_given_name
+    end
   end
 
   column(:local_family_name, order: 'clients.local_family_name', header: -> { "#{I18n.t('datagrid.columns.clients.local_family_name')} #{ dynamic_local_name }" }) do |object|
-    current_org = Organization.current
-    Organization.switch_to 'shared'
-    local_family_name = SharedClient.find_by(slug: object.slug).local_family_name
-    Organization.switch_to current_org.short_name
-    local_family_name
+    Rails.cache.fetch([Apartment::Tenant.current, object.id, object.local_family_name || 'local_family_name']) do
+      current_org = Organization.current
+      Organization.switch_to 'shared'
+      local_family_name = SharedClient.find_by(slug: object.slug).local_family_name
+      Organization.switch_to current_org.short_name
+      local_family_name
+    end
   end
 
   column(:gender, header: -> { I18n.t('datagrid.columns.clients.gender') }) do |object|
-    current_org = Organization.current
-    Organization.switch_to 'shared'
-    gender = SharedClient.find_by(slug: object.slug)&.gender
-    Organization.switch_to current_org.short_name
-    gender.present? ? I18n.t("default_client_fields.gender_list.#{ gender.gsub('other', 'other_gender') }") : ''
+    Rails.cache.fetch([I18n.locale, Apartment::Tenant.current, object.id, object.gender || 'gender']) do
+      current_org = Organization.current
+      Organization.switch_to 'shared'
+      gender = SharedClient.find_by(slug: object.slug)&.gender
+      Organization.switch_to current_org.short_name
+      gender.present? ? I18n.t("default_client_fields.gender_list.#{ gender.gsub('other', 'other_gender') }") : ''
+    end
   end
 
   column(:status, header: -> { I18n.t('datagrid.columns.clients.status') }) do |object|
