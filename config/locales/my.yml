@@ -6011,6 +6011,7 @@ my:
       screening_assessment: Screening Assessment
       screening_assessment_date: Screening Assessment Date
       tasks: Tasks
+      view_cb_dmat: View CB-DMAT
       view_or_hide_last_screening_assessment: View or Hide Last Screening Assessment
       view_screening_assessment: View Screening Assessment
       visitor: Who was there during the assessment?
