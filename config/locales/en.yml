@@ -5714,6 +5714,7 @@ en:
     new:
       new_referral: New Referral
     referral_form: Referral Form
+    referral_status: Referral Status
     show:
       cannot_edit_referral: You cannot edit this referral because the target NGO already accepted this referral
       client_id: Client ID
@@ -5874,6 +5875,7 @@ en:
       <<: *SERVICE_DELIVERY_ATTR
     update:
       successfully_updated: Service has been successfully updated.
+  referral_details: Referral Details
   results: Results
   shared:
     x_lists_of: "%{x} lists of"

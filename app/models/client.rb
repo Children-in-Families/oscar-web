@@ -137,6 +137,7 @@ class Client < ActiveRecord::Base
   after_commit :remove_family_from_case_worker
   after_commit :update_related_family_member, on: :update
   after_commit :delete_referee, on: :destroy
+  after_save :update_referral_status_on_target_ngo, if: :status_changed?
 
   scope :given_name_like,                          ->(value) { where('clients.given_name iLIKE :value OR clients.local_given_name iLIKE :value', { value: "%#{value.squish}%"}) }
   scope :family_name_like,                         ->(value) { where('clients.family_name iLIKE :value OR clients.local_family_name iLIKE :value', { value: "%#{value.squish}%"}) }
@@ -824,6 +825,20 @@ class Client < ActiveRecord::Base
   def delete_referee
     return if referee.nil? || referee.clients.where.not(id: id).any?
     referee.destroy
+  end
+
+  def update_referral_status_on_target_ngo
+    referral = referrals.received.last
+    return if referral.blank? || referral.referred_from[/external system/i].present?
+
+    current_ngo = Apartment::Tenant.current
+    Apartment::Tenant.switch referral.referred_from
+    original_referral = Referral.where(slug: referral.slug).last
+    if original_referral
+      original_referral.referral_status = status
+      original_referral.save(validate: false)
+    end
+    Apartment::Tenant.switch current_ngo
   end
 
 end

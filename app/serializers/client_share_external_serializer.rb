@@ -2,7 +2,7 @@ class ClientShareExternalSerializer < ActiveModel::Serializer
   include OrganizationSerializerConcern
 
   attributes  :given_name, :family_name, :local_given_name, :local_family_name, :gender,
-              :date_of_birth, :global_id, :slug, :external_id, :external_id_display,
+              :date_of_birth, :global_id, :slug, :external_id, :external_id_display, :status,
               :mosvy_number, :location_current_village_code, :case_worker_name, :case_worker_mobile,
               :is_referred, :organization_name, :organization_address_code, :resource, :services
 
