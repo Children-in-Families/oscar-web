@@ -1,6 +1,7 @@
 module AdvancedSearches
   class ClientAssociationFilter
     include ActionView::Helpers::DateHelper
+    include AdvancedSearchHelper
     include AssessmentHelper
     include FormBuilderHelper
     include ClientsHelper
@@ -23,7 +24,9 @@ module AdvancedSearches
       when 'family_id'
         values = family_id_field_query
       when 'family'
-        values = family_name_field_query
+        values = family_field_query('name')
+      when 'family_type'
+        values = family_field_query('family_type')
       when 'age'
         values = age_field_query
       when 'active_program_stream'
@@ -32,12 +35,17 @@ module AdvancedSearches
         values = enrolled_program_stream_query
       when 'case_note_date'
         values = advanced_case_note_query
+      when 'no_case_note_date'
+        values = advanced_case_note_query
+        values = @clients.where.not(id: values).ids
       when 'case_note_type'
         values = advanced_case_note_query
       when 'date_of_assessments'
         values = date_of_assessments_query(true)
-      when /assessment_completed|assessment_completed_date/
-        values = date_of_completed_assessments_query(nil)
+      when /assessment_completed|assessment_completed_date|^(completed_date)/
+        values = date_of_completed_assessments_query(true)
+      when 'custom_completed_date'
+        values = date_of_completed_assessments_query(false)
       when 'date_of_custom_assessments'
         values = date_of_assessments_query(false)
       when 'accepted_date'
@@ -58,6 +66,10 @@ module AdvancedSearches
         values = referred_to_query
       when 'referred_from'
         values = referred_from_query
+      when 'referred_in'
+        values = referred_in_out_query(Referral.received)
+      when 'referred_out'
+        values = referred_in_out_query(Referral.delivered)
       when 'time_in_cps'
         values = time_in_cps_query
       when 'time_in_ngo'
@@ -77,13 +89,15 @@ module AdvancedSearches
       when 'referee_email'
         values = referee_email_query
       when 'carer_name'
-        values = carer_name_query
+        values = carer_query('name')
       when 'carer_phone'
-        values = carer_phone_query
+        values = carer_query('phone')
       when 'carer_email'
-        values = carer_email_query
-      when 'client_contact_phone'
-        values = client_contact_phone_query
+        values = carer_query('email')
+      when 'carer_relationship_to_client'
+        values = carer_query('client_relationship')
+      when 'client_phone'
+        values = client_phone_query
       when 'client_email_address'
         values = client_email_address_query
       when 'phone_owner'
@@ -110,7 +124,7 @@ module AdvancedSearches
       when 'equal'
         clients = clients.where('date(referrals.date_of_referral) = ?', @value.to_date)
       when 'not_equal'
-        clients = Client.includes(:referrals).references(:referrals).where("date(referrals.date_of_referral) != ? OR referrals.date_of_referral IS NULL", @value.to_date)
+        clients = @clients.includes(:referrals).references(:referrals).where("date(referrals.date_of_referral) != ? OR referrals.date_of_referral IS NULL", @value.to_date)
       when 'less'
         clients = clients.where('date(referrals.date_of_referral) < ?', @value.to_date)
       when 'less_or_equal'
@@ -122,7 +136,7 @@ module AdvancedSearches
       when 'between'
         clients = clients.where('date(referrals.date_of_referral) BETWEEN ? AND ? ', @value[0].to_date, @value[1].to_date)
       when 'is_empty'
-        clients = Client.includes(:referrals).where(referrals: { date_of_referral: nil })
+        clients = @clients.includes(:referrals).where(referrals: { date_of_referral: nil })
       when 'is_not_empty'
         clients = clients.where.not(referrals: { date_of_referral: nil })
       end
@@ -164,11 +178,11 @@ module AdvancedSearches
       when 'equal'
         clients.where('referrals.referred_to = ?', @value).ids
       when 'not_equal'
-        clients.where('referrals.referred_to != ?', @value).ids
+        clients.where("NOT EXISTS (SELECT 1 FROM referrals WHERE referrals.client_id = clients.id AND referred_to = ?)", @value).ids
       when 'is_empty'
-        @clients.where.not(id: clients.ids).ids
+        Client.where.not(id: clients.ids).ids
       when 'is_not_empty'
-        @clients.where(id: clients.ids).ids
+        clients.ids
       end
     end
 
@@ -178,11 +192,11 @@ module AdvancedSearches
       when 'equal'
         clients.where('referrals.referred_from = ?', @value).ids
       when 'not_equal'
-        clients.where('referrals.referred_from != ?', @value).ids
+        clients.where("NOT EXISTS (SELECT 1 FROM referrals WHERE referrals.client_id = clients.id AND referred_from = ?)", @value).ids
       when 'is_empty'
-        @clients.where.not(id: clients.ids).ids
+        Client.where.not(id: clients.ids).ids
       when 'is_not_empty'
-        @clients.where(id: clients.ids).ids
+        clients.ids
       end
     end
 
@@ -232,7 +246,7 @@ module AdvancedSearches
         exit_ngos = exit_ngos.where.not('? = ANY(exit_reasons)', @value.squish)
       when 'is_empty'
         exit_ngos = exit_ngos.where("(exit_reasons = '{}')")
-        client_ids = Client.includes(:exit_ngos).where(exit_ngos: { id: [exit_ngos.ids, nil] }).distinct.ids
+        client_ids = @clients.includes(:exit_ngos).where(exit_ngos: { id: [exit_ngos.ids, nil] }).distinct.ids
         return client_ids
       when 'is_not_empty'
         exit_ngos = exit_ngos.where.not("(exit_reasons = '{}')")
@@ -249,7 +263,7 @@ module AdvancedSearches
       when 'not_equal'
         clients = clients.where.not(exit_ngos: { exit_circumstance: @value.squish })
       when 'is_empty'
-        clients = Client.includes(:exit_ngos).where(exit_ngos: { exit_circumstance: ['', nil] })
+        clients = @clients.includes(:exit_ngos).where(exit_ngos: { exit_circumstance: ['', nil] })
       when 'is_not_empty'
         clients = clients.where.not(exit_ngos: { exit_circumstance: '' })
       end
@@ -295,7 +309,7 @@ module AdvancedSearches
       when 'between'
         clients = clients.where(exit_ngos: { exit_date: @value[0]..@value[1] })
       when 'is_empty'
-        ids = Client.includes(:exit_ngos).where(exit_ngos: { exit_date: nil }).distinct.ids
+        ids = @clients.includes(:exit_ngos).where(exit_ngos: { exit_date: nil }).distinct.ids
         ids = ids << @clients.where.not(id: clients.ids).ids
         clients = @clients.where(id: ids.flatten.uniq)
       when 'is_not_empty'
@@ -322,7 +336,7 @@ module AdvancedSearches
       when 'between'
         clients = clients.where(enter_ngos: { accepted_date: @value[0]..@value[1] })
       when 'is_empty'
-        ids = Client.includes(:enter_ngos).where(enter_ngos: { accepted_date: nil }).distinct.ids
+        ids = @clients.includes(:enter_ngos).where(enter_ngos: { accepted_date: nil }).distinct.ids
         ids = ids << @clients.where.not(id: clients.distinct.ids).ids
         clients = @clients.where(id: ids.flatten.uniq)
       when 'is_not_empty'
@@ -332,11 +346,7 @@ module AdvancedSearches
     end
 
     def date_of_assessments_query(type)
-      if type
-        clients = @clients.joins(:assessments)
-      else
-        clients = @clients.joins(:assessments).where(assessments: { default: type })
-      end
+      clients = @clients.joins(:assessments).where(assessments: { default: type })
       case @operator
       when 'equal'
         clients = clients.where('date(assessments.created_at) = ?', @value.to_date)
@@ -353,38 +363,34 @@ module AdvancedSearches
       when 'between'
         clients = clients.where('date(assessments.created_at) BETWEEN ? AND ? ', @value[0].to_date, @value[1].to_date)
       when 'is_empty'
-        clients = Client.includes(:assessments).where(assessments: { created_at: nil })
+        clients = @clients.includes(:assessments).where(assessments: { created_at: nil , default: type})
       when 'is_not_empty'
-        clients = clients.where.not(assessments: { created_at: nil })
+        clients = clients.where(assessments: { default: type }).where.not(assessments: { created_at: nil })
       end
       clients.ids
     end
 
     def date_of_completed_assessments_query(type)
-      if type.nil?
-        clients = @clients.joins(:assessments).where(assessments: { completed: true })
-      else
-        clients = @clients.joins(:assessments).where(assessments: { completed: true, default: type })
-      end
+      clients = @clients.joins(:assessments).where(assessments: { completed: true, default: type })
       case @operator
       when 'equal'
-        clients = clients.where('date(assessments.created_at) = ?', @value.to_date)
+        clients = clients.where('date(assessments.completed_date) = ?', @value.to_date)
       when 'not_equal'
-        clients = clients.where("date(assessments.created_at) != ? OR assessments.created_at IS NULL", @value.to_date)
+        clients = clients.where("date(assessments.completed_date) != ? OR assessments.completed_date IS NULL", @value.to_date)
       when 'less'
-        clients = clients.where('date(assessments.created_at) < ?', @value.to_date)
+        clients = clients.where('date(assessments.completed_date) < ?', @value.to_date)
       when 'less_or_equal'
-        clients = clients.where('date(assessments.created_at) <= ?', @value.to_date)
+        clients = clients.where('date(assessments.completed_date) <= ?', @value.to_date)
       when 'greater'
-        clients = clients.where('date(assessments.created_at) > ?', @value.to_date)
+        clients = clients.where('date(assessments.completed_date) > ?', @value.to_date)
       when 'greater_or_equal'
-        clients = clients.where('date(assessments.created_at) >= ?', @value.to_date)
+        clients = clients.where('date(assessments.completed_date) >= ?', @value.to_date)
       when 'between'
-        clients = clients.where('date(assessments.created_at) BETWEEN ? AND ? ', @value[0].to_date, @value[1].to_date)
+        clients = clients.where('date(assessments.completed_date) BETWEEN ? AND ? ', @value[0].to_date, @value[1].to_date)
       when 'is_empty'
-        clients = Client.includes(:assessments).where(assessments: { completed: true, created_at: nil })
+        clients = @clients.includes(:assessments).where(assessments: { completed: true, completed_date: nil, default: type }).references(:assessments)
       when 'is_not_empty'
-        clients = clients.where.not(assessments: { created_at: nil })
+        clients = clients.where(assessments: { default: type }).where.not(assessments: { completed_date: nil })
       end
       clients.ids
     end
@@ -490,7 +496,7 @@ module AdvancedSearches
 
       @basic_rules  = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
       basic_rules   = @basic_rules.is_a?(Hash) ? @basic_rules : JSON.parse(@basic_rules).with_indifferent_access
-      results       = mapping_allowed_param_value(basic_rules, ['case_note_date', 'case_note_type'], data_mapping=[])
+      results       = mapping_allowed_param_value(basic_rules, ['no_case_note_date', 'case_note_date', 'case_note_type'], data_mapping=[])
       query_string  = get_any_query_string(results, 'case_notes')
       sql           = query_string.reject(&:blank?).map{|query| "(#{query})" }.join(" #{basic_rules[:condition]} ")
       clients       = Client.joins('LEFT OUTER JOIN case_notes ON case_notes.client_id = clients.id')
@@ -530,9 +536,9 @@ module AdvancedSearches
       query_string  = get_query_string(results, 'active_program_stream', 'program_streams')
       case @operator
       when 'not_equal'
-        Client.includes(client_enrollments: :program_stream).where(query_string).references(:program_streams).distinct.ids
+        @clients.includes(client_enrollments: :program_stream).where(query_string).references(:program_streams).distinct.ids
       when 'is_empty'
-        Client.includes(client_enrollments: :program_stream).where(query_string).references(:program_streams).distinct.ids
+        @clients.includes(client_enrollments: :program_stream).where(query_string).references(:program_streams).distinct.ids
       when 'is_not_empty'
         clients.joins(client_enrollments: :program_stream).distinct.ids
       else
@@ -549,7 +555,7 @@ module AdvancedSearches
         client_have_enrollments = clients.where('client_enrollments.program_stream_id = ?', @value ).distinct.ids
         client_not_enrollments = clients.where('client_enrollments.program_stream_id != ?', @value ).distinct.ids
         client_empty_enrollments = @clients.where.not(id: clients.distinct.ids).ids
-        client_not_equal_ids = (client_not_enrollments+ client_empty_enrollments ) - client_have_enrollments
+        client_not_equal_ids = (client_not_enrollments + client_empty_enrollments ) - client_have_enrollments
       when 'is_empty'
         @clients.where.not(id: clients.distinct.ids).ids
       when 'is_not_empty'
@@ -603,7 +609,7 @@ module AdvancedSearches
       when 'between'
         client_ids = clients.joins(:family_members).where(family_members: { family_id: values[0]..values[1] }).ids
       when 'is_empty'
-        client_ids = Client.includes(:family_members).references(:family_members).where("family_members.family_id IS NULL").ids
+        client_ids = @clients.includes(:family_members).references(:family_members).where("family_members.family_id IS NULL").ids
       when 'is_not_empty'
         client_ids = Client.joins(:family_members).where("family_members.family_id IS NOT NULL").ids
       end
@@ -611,20 +617,20 @@ module AdvancedSearches
       clients = client_ids.present? ? client_ids : []
     end
 
-    def family_name_field_query
+    def family_field_query(field_name)
       case @operator
       when 'equal'
-        client_ids = @clients.joins(family_members: :family).where("lower(families.name) = ?", @value.downcase).ids
+        client_ids = @clients.joins(family_members: :family).where("lower(families.#{field_name}) = ?", @value.downcase).ids
       when 'not_equal'
-        client_ids = Client.joins(family_members: :family).where("lower(families.name) = ?) OR family_members.family_id IS NULL", @value.downcase).ids
+        client_ids = Client.joins(family_members: :family).where("lower(families.#{field_name}) != ? OR family_members.family_id IS NULL", @value.downcase).ids
       when 'contains'
-        client_ids = @clients.joins(family_members: :family).where("lower(families.name) iLike ?", "%#{@value.downcase}%").ids
+        client_ids = @clients.joins(family_members: :family).where("lower(families.#{field_name}) iLike ?", "%#{@value.downcase}%").ids
       when 'not_contains'
-        client_ids = @clients.joins(family_members: :family).where("lower(families.name) NOT iLike ? OR family_members.family_id IS NULL", "%#{@value.downcase}%").ids
+        client_ids = @clients.joins(family_members: :family).where("lower(families.#{field_name}) NOT iLike ? OR family_members.family_id IS NULL", "%#{@value.downcase}%").ids
       when 'is_empty'
-        client_ids = Client.includes(:family_members).references(:family_members).where("family_members.family_id IS NULL").ids
+        client_ids = Client.includes(:family_members).references(:family_members).group(:id).having("COUNT(family_members.*) = 0").ids
       when 'is_not_empty'
-        client_ids = Client.joins(:family_members).where("family_members.family_id IS NOT NULL").ids
+        client_ids = @clients.joins(:family_members).where("family_members.family_id IS NOT NULL").ids
       end
 
       clients = client_ids.present? ? client_ids : []
@@ -833,64 +839,26 @@ module AdvancedSearches
       clients = client_ids.present? ? client_ids : []
     end
 
-    def carer_name_query
+    def carer_query(field)
       case @operator
       when 'equal'
-        client_ids = @clients.joins(:carer).where("lower(carers.name) = ?", @value.downcase).ids
+        client_ids = @clients.joins(:carer).where("lower(carers.#{field}) = ?", @value.downcase).ids
       when 'not_equal'
-        client_ids = @clients.joins(:carer).where.not("lower(carers.name) = ?", @value.downcase).ids
+        client_ids = @clients.includes(:carer).where("lower(carers.#{field}) != ? OR carers.#{field} IS NULL", @value.downcase).references(:carer).ids
       when 'contains'
-        client_ids = @clients.joins(:carer).where("lower(carers.name) iLike ?", "%#{@value.downcase}%").ids
+        client_ids = @clients.joins(:carer).where("lower(carers.#{field}) iLike ?", "%#{@value.downcase}%").ids
       when 'not_contains'
-        client_ids = @clients.joins(:carer).where("lower(carers.name) NOT iLike ?", "%#{@value.downcase}%").ids
+        client_ids = @clients.includes(:carer).where("lower(carers.#{field}) NOT iLike ?", "%#{@value.downcase}%").references(:carer).ids
       when 'is_empty'
-        client_ids = @clients.joins(:carer).where("carers.name = ?", "").ids
+        client_ids = @clients.includes(:carer).where("carers.#{field} = ? OR carers.#{field} IS NULL", "").references(:carer).ids
       when 'is_not_empty'
-        client_ids = @clients.joins(:carer).where.not("carers.name = ?", "").ids
+        client_ids = @clients.joins(:carer).where.not("carers.#{field} = ?", "").ids
       end
 
       clients = client_ids.present? ? client_ids : []
     end
 
-    def carer_phone_query
-      case @operator
-      when 'equal'
-        client_ids = @clients.joins(:carer).where("lower(carers.phone) = ?", @value.downcase).ids
-      when 'not_equal'
-        client_ids = @clients.joins(:carer).where.not("lower(carers.phone) = ?", @value.downcase).ids
-      when 'contains'
-        client_ids = @clients.joins(:carer).where("lower(carers.phone) iLike ?", "%#{@value.downcase}%").ids
-      when 'not_contains'
-        client_ids = @clients.joins(:carer).where("lower(carers.phone) NOT iLike ?", "%#{@value.downcase}%").ids
-      when 'is_empty'
-        client_ids = @clients.joins(:carer).where("carers.phone = ?", "").ids
-      when 'is_not_empty'
-        client_ids = @clients.joins(:carer).where.not("carers.phone = ?", "").ids
-      end
-
-      clients = client_ids.present? ? client_ids : []
-    end
-
-    def carer_email_query
-      case @operator
-      when 'equal'
-        client_ids = @clients.joins(:carer).where("lower(carers.email) = ?", @value.downcase).ids
-      when 'not_equal'
-        client_ids = @clients.joins(:carer).where.not("lower(carers.email) = ?", @value.downcase).ids
-      when 'contains'
-        client_ids = @clients.joins(:carer).where("lower(carers.email) iLike ?", "%#{@value.downcase}%").ids
-      when 'not_contains'
-        client_ids = @clients.joins(:carer).where("lower(carers.email) NOT iLike ?", "%#{@value.downcase}%").ids
-      when 'is_empty'
-        client_ids = @clients.joins(:carer).where("carers.email = ?", "").ids
-      when 'is_not_empty'
-        client_ids = @clients.joins(:carer).where.not("carers.email = ?", "").ids
-      end
-
-      clients = client_ids.present? ? client_ids : []
-    end
-
-    def client_contact_phone_query
+    def client_phone_query
       case @operator
       when 'equal'
         client_ids = @clients.where("client_phone = ?", @value.downcase).ids
@@ -975,7 +943,7 @@ module AdvancedSearches
       query_string = get_any_query_string(results, klass_name)
       sql          = query_string.reject(&:blank?).map{|query| "(#{query})" }.join(" #{@basic_rules[:condition]} ")
 
-      client_ids = Client.includes(calls: klass_name.to_sym).where(sql).references(calls: klass_name.to_sym).distinct.ids
+      client_ids = @clients.includes(calls: klass_name.to_sym).where(sql).references(calls: klass_name.to_sym).distinct.ids
     end
 
     def active_client_between(start_date, end_date)
@@ -1045,6 +1013,31 @@ module AdvancedSearches
         results = result_objects.where("#{field_name} IS NOT NULL")
       end
       results.ids
+    end
+
+    def referred_in_out_query(referral_scope)
+      case @operator
+      when 'equal'
+        clients = @clients.joins(:referrals).merge(referral_scope).group(:id).having("COUNT(referrals.*) = ?", @value)
+      when 'not_equal'
+        client_ids = @clients.joins(:referrals).merge(referral_scope).group(:id).having("COUNT(referrals.*) = ?", @value).ids
+        clients = @clients.includes(:referrals).merge(referral_scope).references(:referrals).where("clients.id NOT IN (?)", client_ids)
+      when 'less'
+        clients = @clients.includes(:referrals).merge(referral_scope).references(:referrals).group(:id).having("COUNT(referrals.*) < ?", @value)
+      when 'less_or_equal'
+        clients = @clients.includes(:referrals).merge(referral_scope).references(:referrals).group(:id).having("COUNT(referrals.*) <= ?", @value)
+      when 'greater'
+        clients = @clients.joins(:referrals).merge(referral_scope).merge(referral_scope).group(:id).having("COUNT(referrals.*) > ?", @value)
+      when 'greater_or_equal'
+        clients = @clients.joins(:referrals).merge(referral_scope).merge(referral_scope).group(:id).having("COUNT(referrals.*) >= ?", @value)
+      when 'between'
+        clients = @clients.joins(:referrals).merge(referral_scope).merge(referral_scope).group(:id).having("COUNT(referrals.*) BETWEEN ? AND ?", @value.first, @value.last)
+      when 'is_empty'
+        clients = @clients.includes(:referrals).references(:referrals).group(:id).having("COUNT(referrals.*) = 0")
+      when 'is_not_empty'
+        clients = @clients.joins(:referrals).merge(referral_scope).group(:id).having("COUNT(referrals.*) > 0")
+      end
+      clients.ids
     end
   end
 end

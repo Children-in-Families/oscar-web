@@ -22,7 +22,7 @@
                   %i.fa.fa-calendar-check-o
               = f.error :meeting_date, class: 'text-danger'
             .col-md-6
-              = f.input :user_ids, label: t('.attendants'), required: true, collection: User.deleted_user.non_strategic_overviewers.order(:first_name, :last_name), label_method: :name, value_method: :id, input_html: { multiple: true }
+              = f.input :user_ids, label: t('.attendants'), required: true, collection: User.without_deleted_users.non_strategic_overviewers.order(:first_name, :last_name), label_method: :name, value_method: :id, input_html: { multiple: true }
           .hr-line-dashed
           %fieldset.scheduler-border
             %legend.scheduler-border
@@ -34,11 +34,11 @@
           %fieldset.scheduler-border
             %legend.scheduler-border
               %h3.text-success= t('.client_support')
-            = f.input :client_strength
-            = f.input :client_limitation
-            = f.input :client_engagement
+            = f.input :client_strength, label: t('.client_strength')
+            = f.input :client_limitation, label: t('.client_limitation')
+            = f.input :client_engagement, label: t('.client_engagement')
             = f.input :local_resource, label: t('.local_resource')
-            = f.input :attachments, label: t('.attachment'), as: :file, input_html: { multiple: true, name: 'case_conference[attachments][]' }
+            = f.input :attachments, label: t('.attachments'), as: :file, input_html: { multiple: true, name: 'case_conference[attachments][]' }
             %p
               %i.small="#{t('.allow_file_size')} (.jpg, .jpeg, .png, .doc, .docx, .xls, .xlsx, .pdf)"
             %p

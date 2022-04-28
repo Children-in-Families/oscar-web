@@ -4,7 +4,7 @@
     .col-md-6
       = f.label :referral_date, label: t('internal_referrals.form.referral_date')
       .input-group.date
-        = f.text_field :referral_date, value: f.object.referral_date&.strftime("%Y-%m-%d") || Date.today, class: 'date optional form-control date-picker m-b-md', type: 'text', name: 'internal_referral[referral_date]', id: 'referral_date',  data: { date_start_date: initial_referral_date_picker_format(@client), date_set_date: Date.today }
+        = f.text_field :referral_date, value: f.object.referral_date&.strftime("%Y-%m-%d") || Date.today, class: 'date optional form-control date-picker m-b-md', type: 'text', name: 'internal_referral[referral_date]', id: 'referral_date',  data: { date_start_date: internal_referral_start_date(@client), date_set_date: Date.today.strftime("%Y-%m-%d") }
         %span.input-group-addon
           %i.fa.fa-calendar-check-o
       = f.error :referral_date, class: 'text-danger'

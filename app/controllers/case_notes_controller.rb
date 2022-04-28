@@ -2,6 +2,7 @@ class CaseNotesController < AdminController
   load_and_authorize_resource
   include CreateBulkTask
   include CaseNoteConcern
+  include GoogleCalendarServiceConcern
 
   before_action :set_client
   before_action :set_custom_assessment_setting, only: [:new, :create, :edit, :update]
@@ -62,6 +63,7 @@ class CaseNotesController < AdminController
   end
 
   def edit
+    authorize @case_note, :edit? if Organization.ratanak?
     unless current_user.admin? || current_user.strategic_overviewer?
       redirect_to root_path, alert: t('unauthorized.default') unless current_user.permission.case_notes_editable
     end
@@ -74,6 +76,7 @@ class CaseNotesController < AdminController
         @case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes], current_user.id)
       end
       create_bulk_task(params[:task], @case_note) if params.has_key?(:task)
+      delete_events if session[:authorization]
       redirect_to client_case_notes_path(@client), notice: t('.successfully_updated')
     else
       render :edit
@@ -142,6 +145,7 @@ class CaseNotesController < AdminController
   end
 
   def authorize_client
+    return true if current_user.admin?
     authorize @client, :create?
   end
 
@@ -153,39 +157,5 @@ class CaseNotesController < AdminController
         redirect_to root_path, alert: t('unauthorized.default') unless current_user.permission.case_notes_editable
       end
     end
-  end
-
-  def fetch_domain_group
-    @domain_groups = []
-    if params[:action].in? ['edit', 'update']
-      if @case_note.domain_groups.present?
-        @domain_groups = @case_note.domain_groups
-      else
-        @domain_groups = DomainGroup.joins(:domains).where(id: @case_note.selected_domain_group_ids)
-      end
-    else
-      if (@case_note.custom_assessment_setting_id.present?) || (params[:custom] == 'true' && @custom_assessment_setting&.id.present?)
-        if @case_note.custom_assessment_setting_id.present?
-          domain_group_ids = Domain.custom_csi_domains.where(custom_assessment_setting_id: @case_note.custom_assessment_setting_id).pluck(:domain_group_id).uniq
-        else
-          domain_group_ids = Domain.custom_csi_domains.where(custom_assessment_setting_id: @custom_assessment_setting&.id).pluck(:domain_group_id).uniq
-        end
-        @domain_groups = DomainGroup.where(id: domain_group_ids)
-      else
-        domain_group_ids = Domain.csi_domains.pluck(:domain_group_id).uniq
-        @domain_groups = DomainGroup.where(id: domain_group_ids)
-      end
-    end
-
-    case_note_domain_groups = CaseNoteDomainGroup.where(case_note: @case_note, domain_group: @domain_groups)
-    @case_note_domain_group_note = case_note_domain_groups.where.not(note: '').map do |cndg|
-      if !@case_note.custom
-        group_name = cndg.domains(@case_note).map(&:identity).join(', ')
-        "#{group_name}\n#{cndg.note}"
-      else
-        group_name = cndg.domain_group.custom_domain_identities(@custom_assessment_setting&.id || @case_note.custom_assessment_setting_id)
-        "#{group_name}\n#{cndg.note}"
-      end
-    end.join("\n\n").html_safe
   end
 end

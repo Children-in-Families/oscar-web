@@ -1,6 +1,7 @@
 module CustomFieldPropertiesHelper
   def custom_field_properties_edit_link(custom_field_property)
-    if custom_field_editable?(@custom_field)
+    is_custom_field_editable = is_custom_field_property_editable?(custom_field_property)
+    if is_custom_field_editable
       link_to edit_polymorphic_path([@custom_formable, custom_field_property], custom_field_id: @custom_field) do
         content_tag :div, class: 'btn btn-outline btn-success' do
           fa_icon('pencil')
@@ -16,7 +17,8 @@ module CustomFieldPropertiesHelper
   end
 
   def custom_field_properties_destroy_link(custom_field_property)
-    if custom_field_editable?(@custom_field)
+    is_custom_field_editable = is_custom_field_property_editable?(custom_field_property)
+    if is_custom_field_editable
       link_to polymorphic_path([@custom_formable, custom_field_property], custom_field_id: @custom_field), method: :delete, data: { confirm: t('are_you_sure') } do
         content_tag :div, class: 'btn btn-outline btn-danger' do
           fa_icon('trash')
@@ -59,6 +61,18 @@ module CustomFieldPropertiesHelper
     field_props['values'].map do |f|
       [format_placeholder(f['label']).blank? ? f['label'] : format_placeholder(f['label']), f['label'], id: "custom_field_property_properties_#{field_props['label'].gsub('"', '&qoute;').html_safe}_#{f['label'].html_safe}"]
     end
+  end
+
+  def display_custom_formable_name(klass_object)
+    return klass_object.display_name if klass_object.class.name.downcase == 'family'
+
+    klass_object.en_and_local_name
+  end
+
+  def display_custom_formable_lebel(klass_object)
+    return I18n.t('family_name') if klass_object.class.name.downcase == 'family'
+
+    I18n.t('client_name')
   end
 
   private
@@ -115,4 +129,9 @@ module CustomFieldPropertiesHelper
       end
       return form_builder_options
     end
+
+    def is_custom_field_property_editable?(custom_field_property)
+      Organization.ratanak? && !current_user.admin? ? custom_field_editable?(@custom_field) && custom_field_property.is_editable? : custom_field_editable?(@custom_field)
+    end
+
 end

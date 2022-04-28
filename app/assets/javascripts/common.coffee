@@ -10,6 +10,8 @@ CIF.Common =
     @checkValidationErrorExistOnSaving()
     @preventEditOnDatePicker()
     @confirmOnCancelBotton()
+    @iCheckClearOptionSelect()
+    @printDiv()
 
   preventEditOnDatePicker: ->
     $('.date-picker').datepicker
@@ -116,7 +118,7 @@ CIF.Common =
       return
 
   confirmOnCancelBotton: ->
-    $(document).on 'click', 'a.btn.btn-default.form-btn, form button.btn.btn-default:not(".editable-cancel"), a#btn-cancel', (e)->
+    $(document).on 'click', 'a.btn.btn-default.form-btn:not(".btn-back"), form button.btn.btn-default:not(".editable-cancel"), a#btn-cancel', (e)->
       window.thisLink = $(@).attr('href')
       confirmText = $('#wrapper').data('confirm')
       textYes     = $('#wrapper').data('yes')
@@ -142,3 +144,20 @@ CIF.Common =
           else
             $('.toast-close-button').closest('.toast').remove();
             return false
+
+  iCheckClearOptionSelect: ->
+    $(document).on('ifUnchecked', ".iradio_square-green input:not([name^='setting'])", (e) ->
+      self = @
+      setTimeout(->
+        if self.type == 'radio' && confirm('Clear selection/លុបចោលការជ្រើសរើស?')
+          $(self).closest('.radio_buttons.form-group').find('input').removeAttr('checked').iCheck('update');
+        else
+          return
+      , 0)
+    )
+
+  printDiv: ->
+    $('.printable-button').on 'click', ->
+      printableId = $(@).data('printable-id')
+      $("##{printableId}").print()
+    return

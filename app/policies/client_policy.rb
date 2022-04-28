@@ -16,7 +16,11 @@ class ClientPolicy < ApplicationPolicy
       :other_legal_doc
     ]
 
-    field_settings.where(name: fields).any? && fields.any?{ |field| show?(field) }
+    if Organization.ratanak?
+      field_settings.where(name: fields).any? && fields.any?{ |field| show?(field) }
+    else
+      field_settings.where(visible: true, name: fields).any? && fields.any?{ |field| show?(field) }
+    end
   end
 
   def brc_client_address?
@@ -59,11 +63,10 @@ class ClientPolicy < ApplicationPolicy
       concern_phone concern_phone_owner concern_email concern_email_owner
       concern_same_as_client location_description
       referee_name referee_phone referee_email carer_name carer_phone carer_email
-      client_contact_phone address_type birth_province_id telephone_number live_with
+      client_phone address_type birth_province_id telephone_number live_with
     )
 
     return false if Organization.brc? && (hidden_fields.include?(field) || hidden_fields.map{|f| f + '_'}.include?(field))
-
 
     field_setting = field_settings.find do |field_setting|
       field_setting.name == field &&

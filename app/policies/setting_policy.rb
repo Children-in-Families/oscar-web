@@ -9,12 +9,14 @@ class SettingPolicy < ApplicationPolicy
   end
 
   def custom_labels?
-    current_org = Organization.current
     user.admin?
   end
 
   def client_forms?
-    current_org = Organization.current
+    user.admin?
+  end
+
+  def custom_form?
     user.admin?
   end
 
@@ -26,4 +28,5 @@ class SettingPolicy < ApplicationPolicy
   alias integration? index?
   alias family_case_management? client_forms?
   alias community? client_forms?
+  alias test_client? client_forms?
 end

@@ -2,6 +2,7 @@ module AdvancedSearchHelper
   include ClientsHelper
   include FamiliesHelper
   include CommunityHelper
+  include ActionView::Helpers::TagHelper
 
   def custom_form_values(report_builder = '#builder')
     has_custom_form_selected = has_advanced_search? && advanced_search_params[:custom_form_selected].present? && (advanced_search_params[:action_report_builder].present? ? report_builder == advanced_search_params[:action_report_builder] : true)
@@ -68,6 +69,7 @@ module AdvancedSearchHelper
 
   def format_header(key)
     translations = {
+      family_type: I18n.t('datagrid.columns.families.family_type'),
       given_name: I18n.t('advanced_search.fields.given_name'),
       family_name: I18n.t('advanced_search.fields.family_name'),
       local_given_name: "#{I18n.t('advanced_search.fields.local_given_name')} #{country_scope_label_translation}",
@@ -76,7 +78,8 @@ module AdvancedSearchHelper
       carer_name: I18n.t('activerecord.attributes.carer.name'),
       carer_phone: I18n.t('activerecord.attributes.carer.phone'),
       carer_email: I18n.t('activerecord.attributes.carer.email'),
-      client_contact_phone: I18n.t('advanced_search.fields.client_contact_phone'),
+      carer_relationship_to_client: I18n.t('datagrid.columns.clients.carer_relationship_to_client'),
+      client_phone: I18n.t('datagrid.columns.clients.client_phone'),
       address_type: I18n.t('advanced_search.fields.address_type'),
       client_email_address: I18n.t('advanced_search.fields.client_email_address'),
       code: custom_id_translation('custom_id1'),
@@ -129,6 +132,7 @@ module AdvancedSearchHelper
       csi_domain_scores: I18n.t('advanced_search.fields.csi_domain_scores'),
       custom_csi_domain_scores: I18n.t('advanced_search.fields.custom_csi_domain_scores'),
       case_note_date: I18n.t('advanced_search.fields.case_note_date'),
+      no_case_note_date: I18n.t('advanced_search.fields.no_case_note_date'),
       case_note_type: I18n.t('advanced_search.fields.case_note_type'),
       date_of_assessments: I18n.t('advanced_search.fields.date_of_assessments', assessment: I18n.t('clients.show.assessment')),
       date_of_referral: I18n.t('advanced_search.fields.date_of_referral'),
@@ -146,6 +150,8 @@ module AdvancedSearchHelper
       created_by: I18n.t('advanced_search.fields.created_by'),
       referred_to: I18n.t('advanced_search.fields.referred_to'),
       referred_from: I18n.t('advanced_search.fields.referred_from'),
+      referred_in: I18n.t('advanced_search.fields.referred_in'),
+      referred_out: I18n.t('advanced_search.fields.referred_out'),
       referee: I18n.t('advanced_search.fields.referee'),
       referee_name: I18n.t('advanced_search.fields.referee_name'),
       referee_phone: I18n.t('advanced_search.fields.referee_phone'),
@@ -155,6 +161,8 @@ module AdvancedSearchHelper
       time_in_ngo: I18n.t('advanced_search.fields.time_in_ngo'),
       assessment_number: I18n.t('advanced_search.fields.assessment_number', assessment: I18n.t('clients.show.assessment')),
       assessment_completed_date: I18n.t('advanced_search.fields.assessment_completed_date', assessment: I18n.t('clients.show.assessment')),
+      custom_completed_date: I18n.t('advanced_search.fields.assessment_custom_completed_date', assessment: I18n.t('clients.show.assessment')),
+      completed_date: I18n.t('advanced_search.fields.assessment_completed_date', assessment: I18n.t('clients.show.assessment')),
       month_number: I18n.t('advanced_search.fields.month_number'),
       custom_csi_group: I18n.t('advanced_search.fields.custom_csi_group'),
       referral_source_category_id: I18n.t('advanced_search.fields.referral_source_category_id'),
@@ -163,9 +171,10 @@ module AdvancedSearchHelper
       active_clients: I18n.t('advanced_search.fields.active_clients'),
       care_plan: I18n.t('advanced_search.fields.care_plan'),
       **overdue_translations,
-      **address_translation
+      **@address_translation
     }
 
+    translations = label_translations(@address_translation).merge(translations)
     translations[key.to_sym] || ''
   end
 
@@ -192,7 +201,7 @@ module AdvancedSearchHelper
       referral_source_id:                       I18n.t('activerecord.attributes.community.referral_source_id'),
       role:                                     I18n.t('activerecord.attributes.community.role'),
       **community_member_columns,
-      **address_translation
+      **@address_translation
     }
     translations[key.to_sym] || ''
   end
@@ -210,19 +219,22 @@ module AdvancedSearchHelper
       engagement:                               I18n.t('datagrid.columns.partners.engagement'),
       background:                               I18n.t('datagrid.columns.partners.background'),
       start_date:                               I18n.t('datagrid.columns.partners.start_date'),
-      **address_translation
+      **@address_translation
     }
     translations[key.to_sym] || ''
   end
 
   def address_translation
-    translations = {}
+    @address_translation ||= {}
     ['province', 'district', 'commune', 'village', 'birth_province', 'province_id', 'district_id', 'commune_id'].each do |key_translation|
-      translations[key_translation.to_sym] = FieldSetting.find_by(name: key_translation).try(:label) || I18n.t("advanced_search.fields.#{key_translation}")
+      @address_translation[key_translation.to_sym] = FieldSetting.find_by(name: key_translation).try(:label) || I18n.t("advanced_search.fields.#{key_translation}")
     end
-    translations['village_id'.to_sym] = FieldSetting.find_by(name: 'village_id').try(:label) || I18n.t('datagrid.columns.clients.village')
-    translations['birth_province_id'.to_sym] = FieldSetting.find_by(name: 'birth_province').try(:label) || I18n.t('datagrid.columns.clients.birth_province')
-    translations
+    @address_translation['province_id'.to_sym] = FieldSetting.find_by(name: 'province_id').try(:label) || I18n.t('advanced_search.fields.province_id')
+    @address_translation['district_id'.to_sym] = FieldSetting.find_by(name: 'district_id').try(:label) || I18n.t('datagrid.columns.clients.district')
+    @address_translation['commune_id'.to_sym] = FieldSetting.find_by(name: 'commune_id').try(:label) || I18n.t('datagrid.columns.clients.commune')
+    @address_translation['village_id'.to_sym] = FieldSetting.find_by(name: 'village_id').try(:label) || I18n.t('datagrid.columns.clients.village')
+    @address_translation['birth_province_id'.to_sym] = FieldSetting.find_by(name: 'birth_province').try(:label) || I18n.t('datagrid.columns.clients.birth_province')
+    @address_translation
   end
 
   def save_search_params(search_params)
@@ -261,9 +273,58 @@ module AdvancedSearchHelper
 
   def concern_translation(hotline_field)
     if %W(concern_province_id concern_district_id concern_commune_id concern_village_id).include? hotline_field
-      address_translation[hotline_field.gsub('concern_', '').to_sym]
+      @address_translation[hotline_field.gsub('concern_', '').to_sym]
     else
       I18n.t("datagrid.columns.clients.#{hotline_field}")
     end
+  end
+
+  def date_query(klass_name, objects, association, field_name)
+    result_objects = objects.joins(association).distinct
+    case @operator
+    when 'equal'
+      results = result_objects.where("date(#{field_name}) = ?", @value.to_date)
+    when 'not_equal'
+      results = klass_name.includes(association).references(association).where("date(#{field_name}) != ? OR #{field} IS NULL", @value.to_date)
+    when 'less'
+      results = result_objects.where("date(#{field_name}) < ?", @value.to_date)
+    when 'less_or_equal'
+      results = result_objects.where("date(#{field_name}) <= ?", @value.to_date)
+    when 'greater'
+      results = result_objects.where("date(#{field_name}) > ?", @value.to_date)
+    when 'greater_or_equal'
+      results = result_objects.where("date(#{field_name}) >= ?", @value.to_date)
+    when 'between'
+      results = result_objects.where("date(#{field_name}) BETWEEN ? AND ? ", @value[0].to_date, @value[1].to_date)
+    when 'is_empty'
+      results = klass_name.includes(association).references(association).where("#{field_name} IS NULL")
+    when 'is_not_empty'
+      results = result_objects.where("#{field_name} IS NOT NULL")
+    end
+    results.ids
+  end
+
+  def addresses_mapping(called_in)
+    if called_in == 'ProgramStreamAddRuleController' || self.class.name == "AdvancedSearches::Families::FamilyFields" || self.class.name == "AdvancedSearches::Communities::CommunityFields"
+      [['province_id', provinces], ['district_id', districts], ['commune_id', communes]]
+    else
+      [['province_id', provinces], ['district_id', districts], ['birth_province_id', birth_provinces], ['commune_id', communes], ['village_id', villages]]
+    end
+  end
+
+  def provinces
+      Province.order(:name).map { |s| { s.id.to_s => s.name } }
+  end
+
+  def districts
+    District.order(:name).map { |s| { s.id.to_s => s.name } }
+  end
+
+  def communes
+    Commune.all.map { |commune| ["#{commune.name_kh} / #{commune.name_en} (#{commune.code})", commune.id] }.sort.map{ |s| {s[1].to_s => s[0]} }
+  end
+
+  def villages
+    Village.all.map { |village| ["#{village.name_kh} / #{village.name_en} (#{village.code})", village.id] }.sort.map{ |s| {s[1].to_s => s[0]} }
   end
 end

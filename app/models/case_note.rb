@@ -79,9 +79,17 @@ class CaseNote < ActiveRecord::Base
         task.create_service_delivery_tasks(service_delivery_task_ids) if service_delivery_task_ids.present?
 
         task.reload
-        task.update_columns(completion_date: task_param['completion_date']) if task_param['completion_date'].present?
+        task.update_attributes(completion_date: task_param['completion_date']) if task_param['completion_date'].present?
       end
     end
+  end
+
+  def is_editable?
+    setting = Setting.first
+    return true if setting.try(:case_note_edit_limit).zero?
+    case_note_edit_limit = setting.try(:case_note_edit_limit).zero? ? 2 : setting.try(:case_note_edit_limit)
+    edit_frequency = setting.try(:case_note_edit_frequency)
+    created_at >= case_note_edit_limit.send(edit_frequency).ago
   end
 
   private
@@ -95,7 +103,7 @@ class CaseNote < ActiveRecord::Base
   end
 
   def existence_domain_groups
-    errors.add(:domain_groups, "#{I18n.t('domain_groups.form.domain_group')} #{I18n.t('cannot_be_blank')}") if domain_groups.present? && selected_domain_group_ids.blank?
+    errors.add(:domain_groups, "#{I18n.t('domain_groups.form.domain_group')} #{I18n.t('cannot_be_blank')}") if domain_groups.any? && selected_domain_group_ids.blank?
   end
 
   def enable_default_assessment?

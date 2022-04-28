@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   before_action :set_locale, :override_translation
   before_action :set_paper_trail_whodunnit, :current_setting
   before_action :prevent_routes
-  before_action :set_raven_context
+  before_action :set_raven_context, :address_translation
 
   rescue_from ActiveRecord::RecordNotFound do |exception|
     render file: "#{Rails.root}/app/views/errors/404", layout: false, status: :not_found
@@ -38,12 +38,20 @@ class ApplicationController < ActionController::Base
   end
 
   def field_settings
-    @field_settings ||= FieldSetting.where('for_instances IS NULL OR for_instances iLIKE ?', "#{current_organization.short_name}")
+    return @field_settings if defined? @field_settings
+    @field_settings = FieldSetting.where('for_instances IS NULL OR for_instances iLIKE ?', "#{current_organization.short_name}")
   end
 
   def pundit_user
     UserContext.new(current_user, field_settings)
   end
+
+  protected
+
+  def address_translation
+    @address_translation ||= view_context.address_translation
+  end
+
 
   private
 
@@ -72,16 +80,16 @@ class ApplicationController < ActionController::Base
   end
 
   def set_locale
-    locale = I18n.locale
-    locale = current_user.preferred_language if user_signed_in?
-    locale = params[:locale] if params[:locale] && I18n.available_locales.include?(params[:locale].to_sym)
+    local = I18n.locale
+    local = current_user.preferred_language if user_signed_in?
+    local = params[:locale] if params[:locale] && I18n.available_locales.include?(params[:locale].to_sym)
 
     if detect_browser.present?
       flash.clear
       flash[:alert] = detect_browser
     end
 
-    I18n.locale = locale
+    I18n.locale = local
   end
 
   def override_translation
@@ -90,15 +98,19 @@ class ApplicationController < ActionController::Base
 
   def default_url_options(options = {})
     country = Setting.first.try(:country_name) || params[:country] || 'cambodia'
-    { locale: I18n.locale, country: country }.merge(options)
+    local = params[:locale] if params[:locale] && I18n.available_locales.include?(params[:locale].to_sym)
+    { locale: local || I18n.locale, country: country }.merge(options)
   end
 
   def after_sign_out_path_for(_resource_or_scope)
-    root_url(host: request.domain, subdomain: 'start')
+    root_url(host: request.domain, subdomain: 'start', locale: locale)
   end
 
   def after_sign_in_path_for(_resource_or_scope)
-    stored_location_for(_resource_or_scope) || super ||  dashboards_path(locale: current_user&.preferred_language || 'en')
+    I18n.locale = current_user.preferred_language
+    flash[:notice] = I18n.t('devise.sessions.signed_in')
+    stored_location_string = stored_location_for(_resource_or_scope)
+    stored_location_string && stored_location_string.gsub(/locale\=(en|km|my)/, "locale=#{locale}") || dashboards_path(locale: current_user&.preferred_language || 'en') || super
   end
 
   def detect_browser

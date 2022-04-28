@@ -98,6 +98,7 @@ my:
         stage: အဆင့္
         update:
           successfully_updated: ေအာင္ျမင္စြာ အသစ္ျဖည့္သြင္းၿပီ။
+  accepted_date: လက်ခံခဲ့သည်နေ့စွဲ
   activerecord:
     attributes:
       carer:
@@ -175,8 +176,13 @@ my:
         relation: Role in Family
       referee:
         referee_address: Address
+    create:
+      failed_create: Failed to create
+      successfully_created: Successfully created.
     default:
       blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+    destroy:
+      successfully_deleted: Successfully deleted.
     errors:
       models:
         able_screening_question:
@@ -421,6 +427,8 @@ my:
               wrong_length: 5 ဇာတ်ကောင်ဖြစ်ရပါမည်
             roles:
               blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+    update:
+      successfully_updated: Successfully updated.
   add_event_success: ပြဲကို ျပကၡဒိန္ထဲသုိ႔ ေအာင္ျမင္စြာ ထည့္သြင္းၿပီးပါၿပီ။
   advanced_search:
     fields:
@@ -646,6 +654,7 @@ my:
       enter_task_detail: လုပ္ငန္းအေသးစိတ္ျဖည့္သြင္းရန္
       save: သိမ္းသည္။
       title: လုပ္ငန္းအသစ္
+    assessment_form: အကဲဖြတ်ပုံစံ
     attachment:
       attachments: တြဲထားသည္မ်ား
       download: ေဒါင္းလုတ္
@@ -657,6 +666,7 @@ my:
       download: ေဒါင္းလုတ္
       max_file_size: "*အႀကီးဆံုးဖိုင္ဆိုဒ္ - တစ္ဖိုင္ ၅ မီဂါဘိုက္ႏွင့္ တစ္ခါတင္ ၃၀ မီဂါဘိုက္"
       preview_download: အစမ္းၾကည့္ျခင္းႏွင့္ ေဒါင္းလုတ္
+    client_name: ဖောက်သည်အမည
     create:
       successfully_created: စိစစ္ခ်က္ကိုေအာင္ျမင္စြာျပဳလုပ္ၿပီးပါၿပီ။
     destroy:
@@ -794,7 +804,7 @@ my:
         "12": Other
       receiving_staff: Receiving Staff
       referee_answered_call: Did the referee answer this call or return a missed call?
-      referee_called_before: Has the referee called the Childsafe Hotline Before?
+      referee_called_before: Has the referee called Before?
       returning_missed_call: Returning Missed Call
       time_call_began: Time of Call
       time_call_ended: Time Call Ended
@@ -869,6 +879,10 @@ my:
   cannot_remove: ဖ်က္ပစ္၍မရပါ။
   cannot_remove_or_update: အသံုးျပဳေနသည္ျဖစ္၍ ဖ်က္ပစ္ျခင္းသာ္လည္းေကာင္း၊ အသစ္ျပင္ဆင္ျခင္းေသာ္လည္းေကာင္း လုပ္၍မရပါ။
   care_plans:
+    care_plan_form: Care Plan Form
+    care_plan: Care plan
+    care_plan_based_on: Care Plan Based on
+    completed_date: ပြီးစီးသည့်နေ့စွဲ
     create:
       successfully_created: Care Plan ကိုအောင်မြင်စွာဖန်တီးပြီးဖြစ်သည်။
     destroy:
@@ -945,6 +959,7 @@ my:
     case_conference_attr: &CASE_CONFERENCE_ATTR
       allow_file_size: Allowed file types
       are_you_sure: Are you sure you want to delete?
+      attachments: attachments
       attendants: Attendants
       back: Back
       base_on: Base on Case Conference Number
@@ -952,6 +967,8 @@ my:
       case_conference: Case Conference
       meeting_date: Case Conference Date
       client_engagement: Client Engagement
+      client_limitation:  Client limitations
+      client_strength: Client Strengths
       client_support: Support and Barriers to client engagement
       created_by: Created By
       initial_case_conference: Initial Case Conference
@@ -1003,6 +1020,9 @@ my:
       download: ေဒါင္းလုတ္
       max_file_size: "*အႀကီးဆံုး ဖိုင္ဆုိဒ္ - တစ္ဖိုင္လွ်င္ ၅ မီဂါဘိုက္ႏႈန္း ႏွင့္ တစ္ခါတင္လွ်င္ ၃၀ မီဂါဘိုက္ႏႈန္း"
       preview_download: နမူနာၾကည့္ရန္ႏွင့္ ေဒါင္းလုတ္
+    attendee: အလည်အပတ် ဒါမှမဟုတ် စကားစမြည်ပြောတုန်းက ဘယ်သူရှိလဲ။
+    case_note_form: Case Note Form
+    client_name: ဖောက်သည်အမည်
     create:
       successfully_created: အမႈျခင္းရာ မွတ္ခ်က္ကို ျပဳလုပ္ၿပီးပါၿပီ။
     destroy:
@@ -1068,6 +1088,8 @@ my:
     show:
       case_note_on: အမႈျခင္းရာမွတ္ခ်က္
       present: လာေရာက္ေတြ႕ဆံုစဥ္ သို႔မဟုတ္ စကားေျပာေနစဥ္ အနီးတြင္ မည္သူရွိခဲ့သနည္း။
+    type: အမျိုးအစား
+    visitation_date: လည်ပတ်မည့်ရက်စွဲ
     update:
       successfully_updated: အမႈျခင္းရာ မွတ္စုကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ၿပီးပါၿပီ။
   cases:
@@ -1197,9 +1219,25 @@ my:
         failed_update: အပ်ဒိတ်လုပ်မပေးနိုငျ
         successfully_updated: အမႈသည္ကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ထည့္သြင္းၿပီပါၿပီ
     exit_ngos:
+      attr_exit_reason: &EXIT_REASON_ATTR
+        exit_reason_options:
+          agency_lack_resource: Agency lacks sufficient resources
+          client_died: Client died
+          client_does_not_meet_service_criteria: Client does not meet / no longer meets service criteria
+          client_does_not_required_support: Client does not require / no longer requires support
+          client_missing: Client Missing
+          client_move_out_international: Client is/moved outside NGO target area (International)
+          client_move_out_within_cambodia: Client is/moved outside NGO target area (within Cambodia)
+          client_refuse_service: Client refused service
+          client_run_away: Client Run away
+          client_transfer: Transfer to another organization
+          other_reason: Other
       create:
         failed_create: အပ်ဒိတ်လုပ်မပေးနိုငျ
         successfully_created: အမႈသည္ကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ထည့္သြင္းၿပီပါၿပီ
+      destroy:
+        alert: ចាកចេញពីអង្គការមិនអាចលុបបានទេ
+        successfully_deleted: ចាកចេញពីអង្គការត្រូវបានលុបដោយជោគជ័យ
       edit_form:
         case_worker_or_staff: အမႈျခင္းရာအတြက္ ေဆာင္ရြက္ေပးသူ/ ၀န္ထမ္း
         exit_btn: ထြက္ရန္
@@ -1207,15 +1245,7 @@ my:
         exit_date: ထြက္သည့္ရက္စြဲ
         exit_ngo: NGOမွ ထြက္ရန္
         exit_note: ထြက္သည့္မွတ္စု
-        exit_reason_options:
-          agency_lack_resource: Agency lacks sufficient resources
-          client_died: Client died
-          client_does_not_meet_service_criteria: Client does not meet / no longer meets service criteria
-          client_does_not_required_support: Client does not require / no longer requires support
-          client_move_out_international: Client is/moved outside NGO target area (International)
-          client_move_out_within_cambodia: Client is/moved outside NGO target area (within Cambodia)
-          client_refuse_service: Client refused service
-          other_reason: Other
+        <<: *EXIT_REASON_ATTR
         exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
         exit_status: အေနအထား
         exiting: မထွက်...
@@ -1229,15 +1259,7 @@ my:
         exit_date: ထြက္သည့္ရက္စြဲ
         exit_ngo: NGOမွ ထြက္ရန္
         exit_note: ထြက္သည့္မွတ္စု
-        exit_reason_options:
-          agency_lack_resource: Agency lacks sufficient resources
-          client_died: Client died
-          client_does_not_meet_service_criteria: Client does not meet / no longer meets service criteria
-          client_does_not_required_support: Client does not require / no longer requires support
-          client_move_out_international: Client is/moved outside NGO target area (International)
-          client_move_out_within_cambodia: Client is/moved outside NGO target area (within Cambodia)
-          client_refuse_service: Client refused service
-          other_reason: Other
+        <<: *EXIT_REASON_ATTR
         exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
         exit_status: အေနအထား
         exiting: မထွက်...
@@ -1528,7 +1550,35 @@ my:
       enrollment_date: စာရင္းေပးသြင္းသည့္ရက္စြဲ
     update:
       successfully_updated: စာရင္းေပးသြင္းျခင္းကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ၿပီးပါၿပီ
+  client_name: ကေလးနာမည
   clients:
+    attr: &LEGAL_DOC_ATTR
+      add_service_received: Add Services Received
+      complain: Complaint
+      detail_form_of_judicial_police: Detailed Form for Identification of Victim of Human Trafficking (Judicial Police)
+      detail_form_of_mosavy_dosavy: Detailed Form for Identification of Victim of Human Trafficking (MoSAVY/DoSAVY)
+      dosavy: DoSAVY
+      external_id_display: ပြင်ပ ID display
+      form_indentification: Forms for Identification of Victim of Human Trafficking
+      indentification_doc: Identification Documents
+      labor_trafficking_legal_doc_option: Labour Trafficking
+      legal_processing_doc: Legal Proceeding Documents
+      letter_from_immigration_police: Letter from Immigration Police
+      mosavy: MoSAVY
+      mosvy_number: MoSVY Number
+      msdhs: MSDHS
+      ngo_partner: NGO Partner
+      other_legal_doc_option: Other
+      referral_document: Referral Documents
+      screening_interview_form: Screening Interview Form
+      sex_trafficking_legal_doc_option: Sexual Trafficking
+      short_form_of_judicial_police: Short Interview Form for Identification of Victim of Human Trafficking (Judicial Police)
+      short_form_of_mosavy_dosavy: Short Interview Form for Identification of Victim of Human Trafficking (MoSAVY/DoSAVY)
+      short_form_of_ocdm: Short Interview Form for Identification of Victim of Human Trafficking (Officials of the Cambodian Diplomatic Mission)
+      temp_travel_doc: Temporary Travel Documents
+      travel_doc: Laissez-Passer
+      verdict: Verdict
+      warrant: Warran
     actions:
       are_you_sure: ဖ်က္လုိသည္မွာ ေသခ်ာပါသလား
     address_forms:
@@ -1587,7 +1637,7 @@ my:
       other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
       preview_download: အစမ္းၾကည့္ျခင္းႏွင့္ ေဒါင္းလုတ္
       referee_phone_number: ဒိုင်လူကြီးဖုန်းနံပါတ်ကို
-      referral_reasons: လွှဲပြောင်းအကြောင်းပြချက်
+      referral_reasons: ရည်ညွှန်းမှတ်စုများ
       referred_from: ကနေရည်ညွှန်း
       referred_to: ကနေရည်ညွှန်း
     client_advanced_searches:
@@ -1735,6 +1785,7 @@ my:
       reject_client: client ကိုငြင်းပယ်
       rejected_note: ျငင္းပယ္သည့္ မွတ္စု
     form:
+      <<: *LEGAL_DOC_ATTR
       national_id_number: National ID Number
       passport_number: Passport Number
       national_id_number: National ID Number
@@ -1871,7 +1922,7 @@ my:
       province: ေမြးဖြားရာ ခ႐ိုင္
       rated_for_id_poor: Is client rated for ID Poor?
       received_by: မွ လက္ခံသည္။
-      referee_called_before: Has the referee called the Childsafe Hotline Before?
+      referee_called_before: Has the referee called Before?
       referral_phone: လႊဲေျပာင္းရန္ ဖုန္းနံပါတ္
       referral_source: လြဲေျပာင္းရန္ ရင္းျမစ္
       reject_note: ျငင္းပယ္သည့္မွတ္စု
@@ -2067,6 +2118,7 @@ my:
       close: ပိတ္ရန္
       warning: သတိေပးခ်က္
     show:
+      <<: *LEGAL_DOC_ATTR
       care_plan: Care plan
       case_conference: Case Conference
       marital_status: Marital Status
@@ -2169,6 +2221,7 @@ my:
       follow_up_by: မွ ဆက္လက္ေဆာင္ရြက္သည္
       follow_up_date: ဆက္လက္ေဆာင္ရြက္သည့္ ရက္စြဲ
       followed_up_by: မွ ဆက္လက္ေဆာင္ရြက္သည္
+      for_testing: စမ်းသပ်မှုများအတွက်
       gender: က်ားမ
       general_info: အမႈသည္၏ အေၾကာင္း
       given_name: ေမြးနာမည္
@@ -2355,7 +2408,10 @@ my:
     version:
       back: Back
       modification_of: Changelog of
+  completed_by: ဖြင့် ပြီးမြောက်ခဲ့သည်။
+  completed_date: ပြီးစီးသည့်နေ့စွဲ
   created_by: တည်ထောင်ထားတဲ့
+  created_on: ဖန်တီးခဲ့သည်။
   custom_field_properties:
     attachment:
       are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
@@ -2586,8 +2642,8 @@ my:
       all_csi_assessments: အားလုံးအကဲဖြတ်
       all_custom_csi_assessments: Custom စိစစ္အကဲျဖတ္မႈမ်ားအားလံုး
       all_result_framework_assessment: All Result Framework Assessment
-      assessment_completed_date: "%{assessment} Completed Date"
       assessment_completed_date: ျပဳလုပ္သည့္ ရက္စြဲ အကဲဖြတ်အပေါ်ပြီးစီး
+      assessment_custom_completed_date: "Custom %{assessment} Completed Date"
       calls:
         answered_call: Answer Call
         brief_note_summary: Brief Note Summary
@@ -2710,6 +2766,7 @@ my:
         all_custom_csi_assessments: Custom စိစစ္အကဲျဖတ္မႈမ်ားအားလံုး
         any_assessments: စိစစ္အကဲျဖတ္မႈရွိသည္
         assessment_completed_date: ျပဳလုပ္သည့္ ရက္စြဲ အကဲဖြတ်အပေါ်ပြီးစီး
+        assessment_custom_completed_date: "Custom %{assessment} Completed Date"
         assessments: စိစစ္အကဲျဖတ္မႈမ်ား
         assessments_due_to: လုပ္ရေတာ့မည္ စိစစ္အကဲျဖတ္မႈမ်ား
         birth_province: ေမြးရာ ခ႐ိုင္
@@ -2720,12 +2777,14 @@ my:
         carer_name: Carer Name
         carer_phone: Carer Phone
         carer_email: Carer Email
+        carer_relationship_to_client: Carer Relationship To Client
         case_note_date: အမႈ မွတ္စု ရက္စြဲ
         case_note_type: အမႈ မွတ္စု အမ်ိဳးအစား
         case_type: အမႈ အမ်ိဳးအစား
         case_worker: အမႈအတြက္ ေဆာင္ရြက္ေပးသူ
         case_worker_or_staff: အမႈအတြက္ ေဆာင္ရြက္ေပးသူ/ ၀န္ထမ္း
         changelogs: ေျပာင္းလဲမႈ မွတ္တမ္း
+        client_phone: Client Contact Phone
         code: Custom ID Number1
         concern_address: Address Name
         concern_address_type: Address Type
@@ -2906,6 +2965,7 @@ my:
         what3words: What3words
       date_of_assessments: စိစစ္အကဲျဖတ္မႈမ်ား ျပဳလုပ္သည့္ ရက္စြဲ
       date_of_custom_assessments: Custom စိစစ္အကဲျဖတ္မႈလုပ္သည့္ ရက္စြဲ
+      date_of_family_assessment: Date of Family Assessment
       exit_circumstance: ထွက်ပေါက်အခြေအနေ
       exit_note: ထြက္သည့္မွတ္စု
       exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
@@ -2914,6 +2974,8 @@ my:
         address: လိပ္စာ
         caregiver_information: ေစာင့္ေရွာက္သူ၏ အခ်က္အလက္
         case_history: အမႈသမိုင္း
+        case_note_date: အမႈျခင္းရာမွတ္ခ်က္ေန႔စြဲ
+        case_note_type: အမႈျခင္းရာမွတ္ခ်က္အမ်ိဳးအစား
         case_worker_name: အမႈအတြက္ေဆာင္ရြက္ေပးသူ
         case_workers: အမႈအတြက္ေဆာင္ရြက္ေပးသူ
         changelogs: ေျပာင္းလဲမႈ မွတ္တမ္း
@@ -4048,7 +4110,7 @@ my:
       other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
       preview_download: အစမ္းၾကည့္ျခင္းႏွင့္ ေဒါင္းလုတ္
       referee_phone_number: ဒိုင်လူကြီးဖုန်းနံပါတ်ကို
-      referral_reasons: လွှဲပြောင်းအကြောင်းပြချက်
+      referral_reasons: ရည်ညွှန်းမှတ်စုများ
       referred_from: ကနေရည်ညွှန်း
       referred_to: ကနေရည်ညွှန်း
     create:
@@ -4245,6 +4307,9 @@ my:
       create:
         failed_create: အပ်ဒိတ်လုပ်မပေးနိုငျ
         successfully_created: အမႈသည္ကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ထည့္သြင္းၿပီပါၿပီ
+      destroy:
+        failed_to_delete: Exit NGO cannot be deleted.
+        successfully_deleted: Exit NGO has been successfully deleted.
       edit_form:
         case_worker_or_staff: အမႈျခင္းရာအတြက္ ေဆာင္ရြက္ေပးသူ/ ၀န္ထမ္း
         exit_btn: ထြက္ရန္
@@ -4292,6 +4357,7 @@ my:
       update:
         failed_update: အပ်ဒိတ်လုပ်မပေးနိုငျ
         successfully_updated: အမႈသည္ကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ထည့္သြင္းၿပီပါၿပီ
+  family_name: နာမည်
   family_referrals:
     confirm_referral:
       body_second: သင်ရည်ညွှန်းလိုသောမိသားစုသည်ပစ်မှတ်ထားသော NGO တွင်ရှိပြီးဖြစ်သည်။
@@ -4393,6 +4459,7 @@ my:
         search_custom_form: အေကာက္ခြန္ပံုစံ ရွာေဖြရန္
         time_of_frequency: အႀကိမ္အေရအတြက္
         type: အမ်ိဳးအစား
+      date_field: Date field
       demo_custom_form_tab:
         are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
         close: ပိန္ရန္
@@ -4764,16 +4831,18 @@ my:
       are_you_sure: Are you sure you want to delete?
       attachments: Attachments
       client_id: Client ID
-      client_name: Client Name
+      client_name: ဖောက်သည်အမည
       client_representing_problem: CLIENT'S PRESENTING PROBLEMS
       client_representing_problem_note: "What issues/needs does the client say he or she needs help addressing:"
       emergency_note: "NOTE: EMERGENCY/CRISIS NEEDS"
+      internal_referral: Internal Referral
+      internal_referral_edit_duration: Internal Referral Editable Duration
       new_internal_referral: New Internal Referral
       program_stream_ids: Referred To
       referral_date: Date of Internal Referral
-      referral_decision: REASON FOR REFERRAL AND RECOMMNEDATIONS
+      referral_decision: REFERRAL DECISION (to be approved by case management supervisor)
       referral_decision_note: "Action/intervention taken:"
-      referral_reason: REFERRAL DECISION (to be approved by case management supervisor)
+      referral_reason: REASON FOR REFERRAL AND RECOMMNEDATIONS
       referral_reason_note: "The referral source’s reason for referral:"
       user_id: Referred from
     create:
@@ -4955,6 +5024,7 @@ my:
       communities: Community/Group
       community: Community
       custom_fields: ပံုစံထုတ္စက္
+      custom_form_limit: Custom Form Limit
       custom_labels: Custom Labels
       dashboards: ဒက္ရွ္ဘုတ္မ်ား
       default_columns: ပုံမှန်ကော်လံများ
@@ -5434,6 +5504,7 @@ my:
     tracking_fields:
       custom_fields: အစီအစဥ္ပံုစံမ်ား
       frequency: အႀကိမ္ေရ
+      hidden: Hide?
       name: နာမည္
       remove_tracking: ေနာက္ေၾကာင္းလုိက္ျခင္းကို ဖယ္ရွားရန္
       time_of_frequency: အႀကိမ္အေရအတြက္
@@ -5748,8 +5819,10 @@ my:
       referred_from: ကနေရည်ညွှန်း
       referred_to: ရည်ညွှန်း
       select_ngos: အဖွဲ့အစည်းကရှေးခယျြ
+    level_of_risk: အန္တရာယ်အဆင့်
     new:
       new_referral: ဂီယာ Add
+    referral_form: လွှဲပြောင်းမှုပုံစံ
     show:
       cannot_edit_referral: ပစ်မှတ်အန်ဂျီအိုပြီးသားဒီလွှဲပြောင်းလက်ခံခဲ့သည်ကြောင့်သင်ဤလွှဲပြောင်းတည်းဖြတ်မရနိုင်ပါ
       client_id: မွတ္ပံုတင္
@@ -5815,8 +5888,11 @@ my:
       noted: 'မှတ်ချက်: USAID ကဟူသောဝေါဟာရကို CSI စိတ်ကြိုက်အကဲဖြတ်အတွက်အသုံးပြုမရကြောင်းမေတ္တာရပ်ခံခဲ့သည်။'
       show_prev_assessment: Show previous assessment while completing new assessment
       two_weeks_assessment_reminder: Send 2 notification at both 2 and 1 week prior to assessment
-    case_note:
+    case_notes:
       case_note: ဖောက်သည်များအတွက်စံချိန်များအကြားကာလ၏အမြင့်ဆုံးနံပါတ်တစ်ခု
+      case_note_edit_limit: Case Note Edit Limitation
+      disable_future_completion_date: Disable Future Completion Date for Task
+      disabled_add_service_received: Disable Creating New Service Receive
       max_case_note: အများဆုံး
     client_forms:
       hotline: Hotline
@@ -5879,33 +5955,39 @@ my:
       assessment_score_order: Assessment Score Order
       assessment_strictness: Assessment Strictness
       delete_incomplete_assessment: Delete incomplete assessment after certain period of time
+      previous_care_plan: Previous %{care_plan}
+      use_previous_care_plan: Use Previous %{care_plan}
+    test_client: Test Client
     update:
       successfully_updated: အောင်မြင်စွာဖြည့်ပါ
   field_settings:
     update:
       successfully_updated: အောင်မြင်စွာဖြည့်ပါ
-  results: Results
   service_deliveries:
     _attr: &SERVICE_DELIVERY_ATTR
       add_new_service_delivery: Add New Service Delivery
       category: Category
+      done_by: Done by
       id: ID
       manage: Manage
-      service_deliveries: Service Deliveries
+      service_delivery: Service Deliveries
       service_provided: Service Provided
+      service_received: Service Received
+      task_completed_date: Task Completed Date
     create:
       successfully_created: Service has been successfully created.
     destroy:
       alert: Service cannot be deleted.
       successfully_deleted: Service has been successfully deleted.
     form:
-       <<: *SERVICE_DELIVERY_ATTR
+      <<: *SERVICE_DELIVERY_ATTR
     index:
       <<: *SERVICE_DELIVERY_ATTR
     new:
       <<: *SERVICE_DELIVERY_ATTR
     update:
       successfully_updated: Service has been successfully updated.
+  results: Results
   shared:
     x_lists_of: "%{x}စာရင်း"
     new_x: "အသစ်%{x}"
@@ -6072,6 +6154,9 @@ my:
     stage: အဆင့္
     update:
       successfully_updated: အဆင့္ကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ျဖည့္စြက္ၿပီးပါၿပီ
+  successfully_created: "%{klass} has been successfully created."
+  successfully_deleted: "%{klass} has been successfully deleted."
+  successfully_updated: "%{klass} has been successfully updated."
   surveys:
     create:
       successfully_created: စစ္တမ္းကို ေအာင္ျမင္စြာ ျပဳလုပ္ၿပီးပါၿပီ
@@ -6317,6 +6402,7 @@ my:
     default: ဤစာမ်က္ႏွာကို ၀င္ေရာက္ရန္ အခြင့္မရွိပါ
     you_cannot_access_this_page: You cannot access this page.
   users:
+    archived_users: Archived Users
     actions:
       are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
     assessment_permission:
@@ -6333,6 +6419,7 @@ my:
       read_more: ဆက်ဖတ်ရန်
     create:
       successfully_created: အသံုးျပဳသူကို ေအာင္ျမင္စြာ ဖန္တီးၿပီးျဖစ္ပါသည္
+    current_users: Current Users
     custom_form_permission:
       can_edit: ျပင္ဆင္ႏုိင္ပါသည္။
       can_view: ၾကည့္႐ႈႏုိင္ပါသည္။
@@ -6446,6 +6533,8 @@ my:
     quantitative_type_permission:
       can_edit: ျပင္ဆင္ႏုိင္ပါသည္။
       can_view: ၾကည့္႐ႈႏုိင္ပါသည္။
+    restore:
+      successfully_restore: အသုံးပြုသူကိုအောင်မြင်စွာပြန်လည်ရယူပြီးပါပြီ
     show:
       add_form: ပံုစံ ထည့္သည္
       additional_forms: ထပ္ေဆာင္းပံုစံမ်ား

@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 services:
   app:
     image: oscar-web_app
@@ -19,7 +19,12 @@ services:
       - POWER_BI_GROUP=power_bi_group
       - READ_ONLY_DATABASE_USER=powerbi_dashboard_user
       - READ_ONLY_DATABASE_PASSWORD=123456789
+      - READ_ONLY_TLC_DATABASE_USER=tlc_powerbi_dashboard_user
+      - READ_ONLY_TLC_DATABASE_PASSWORD=123456789
       - WEBPACKER_DEV_SERVER_HOST=webpack
+      - REDIS_URL=redis://redis:6379/0
+      - STC_DONOR_NAME=
+      - FD_DONOR_NAME=
     volumes:
       - .:/app
     ports:
@@ -27,6 +32,7 @@ services:
     depends_on:
       - db
       - mongo
+      - redis
     stdin_open: true
     tty: true
   webpack:
@@ -74,7 +80,7 @@ services:
       - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
       - ./tmp/mongo:/data/db
     ports:
-      - '27017-27019:27017-27019'
+      - "27017-27019:27017-27019"
   mongo-express:
     image: mongo-express:0.49
     container_name: mongo-express
@@ -89,4 +95,25 @@ services:
       - ME_CONFIG_MONGODB_ADMINUSERNAME=mongo
       - ME_CONFIG_MONGODB_ADMINPASSWORD=123456789
     ports:
-      - '8081:8081'
+      - "8081:8081"
+  redis:
+    image: "redis:5.0.13"
+    container_name: "redis"
+
+  sidekiq:
+    container_name: "sidekiq"
+    build: .
+    command: bundle exec sidekiq
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - .:/app
+    environment:
+      - DATABASE_NAME=oscar_development
+      - DATABASE_NAME_TEST=oscar_test
+      - DATABASE_USER=oscar
+      - DATABASE_PASSWORD=123456789
+      - DATABASE_HOST=db
+      - SENDER_EMAIL=admin@oscarhq.com
+      - REDIS_URL=redis://redis:6379/0

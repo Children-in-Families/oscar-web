@@ -1,10 +1,10 @@
 # Forces a rebild of the app image for example to update dependencies in the image
 build_app:
-	docker-compose build app
+	docker-compose build app sidekiq
 
 # Just start the Rails app, webpack dev server and Postgres DB
 start_core:
-	docker-compose up --no-deps app db mongo webpack
+	docker-compose up --no-deps app db mongo webpack redis sidekiq
 
 start_mongo:
 	docker-compose up mongo
@@ -56,9 +56,10 @@ yarn_install:
 
 # Create test database (run `make start_core` at least first!)
 db_create_test:
-	docker-compose run --no-deps -e RAILS_ENV=test --entrypoint "rake db:drop" app
+	# docker-compose run --no-deps -e RAILS_ENV=test --entrypoint "rake db:drop" app
 	docker-compose run --no-deps -e RAILS_ENV=test --entrypoint "rake db:create" app
 	docker-compose run --no-deps -e RAILS_ENV=test --entrypoint "rake db:schema:load" app
+	docker exec -it mongo mongo --authenticationDatabase admin --host localhost -u mongo -p 123456789 oscar_history_test --eval "db.dropUser('oscar'); db.createUser({user: 'oscar', pwd: '123456789', roles: [{role: 'readWrite', db: 'oscar_history_test'}]});"
 
 # If the container is NOT running and you want to get a bash terminal then run this command
 run_image_bash:

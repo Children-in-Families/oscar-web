@@ -11,7 +11,7 @@ class Referral < ActiveRecord::Base
 
   validates :client_name, :client_global_id, :date_of_referral, :referred_from,
             :referred_to, :referral_reason, :name_of_referee,
-            :referral_phone, presence: true
+            :referral_phone, :level_of_risk, presence: true
 
   validates :consent_form, presence: true, if: :making_referral?
   validates :referee_id, presence: true, if: :slug_exist?
@@ -41,7 +41,7 @@ class Referral < ActiveRecord::Base
   end
 
   def referred_from_ngo
-    Organization.find_by(short_name: self.referred_from).try(:full_name) || self.referred_from
+    Organization.find_by(short_name: self.referred_from).try(:full_name).presence || self.referred_from.capitalize
   end
 
   def making_referral?
@@ -66,13 +66,14 @@ class Referral < ActiveRecord::Base
       ngo_name: 'MoSVY',
       client_gender: attribute[:gender],
       client_date_of_birth: attribute[:date_of_birth],
-      client_global_id: GlobalIdentity.create(ulid: ULID.generate)&.ulid,
+      client_global_id: attribute[:global_id].presence || GlobalIdentity.create(ulid: ULID.generate)&.ulid,
       external_id: attribute[:external_id],
       external_id_display: attribute[:external_id_display],
       mosvy_number: attribute[:mosvy_number],
       external_case_worker_name: attribute[:external_case_worker_name],
       external_case_worker_id: attribute[:external_case_worker_id],
       village_code: attribute[:location_current_village_code],
+      level_of_risk: attribute[:level_of_risk],
       services: Service.where(name: attribute[:services]&.map{ |service| service[:name] })
     }
   end

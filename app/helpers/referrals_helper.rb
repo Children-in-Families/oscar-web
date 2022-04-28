@@ -30,4 +30,16 @@ module ReferralsHelper
   def referral_type(referral)
     current_organization.short_name == referral.try(:referred_to) ? 'referred_from' : 'referred_to'
   end
+
+  def ngo_hash_mapping
+    ngos = Organization.pluck(:short_name, :full_name)
+    ngos << ["MoSVY External System", "MoSVY External System"]
+    ngos << ["external referral", "I don't see the NGO I'm looking for..."]
+    ngos.to_h
+  end
+
+  def find_repeated_referred_client(referral)
+    Client.find_by(global_id: referral.client_global_id)
+  end
+
 end

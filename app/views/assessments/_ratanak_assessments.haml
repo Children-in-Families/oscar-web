@@ -15,11 +15,11 @@
       - else
         = t('assessments.index.initial_assessment', assessment: t('clients.show.assessment'))
         %b
-          = date_format(Date.today)
+          = date_format(case_conference.meeting_date)
   .col-xs-12.col-sm-4
     - if assessment.present?
       .btn.btn-block.btn-info.button{ class: ('disabled' unless case_conference_readable?) }
         = link_to t('assessments.index.review_assessment'),  client_assessment_path(@client, assessment.id)
     - else
-      .btn.btn-block.btn-primary.button{ class: ('disabled' unless case_conference_readable?) }
-        = link_to "#{t('assessments.index.begin_now')} #{t('clients.show.assessment')}", new_client_assessment_path(@client, default: true, :case_conference => case_conference.id)
+      .btn.btn-block.btn-primary.button{ class: ('disabled' unless case_conference_readable? && case_conference.meeting_date <= Date.today) }
+        = link_to_if case_conference.meeting_date <= Date.today, "#{t('assessments.index.begin_now')} #{t('clients.show.assessment')}", new_client_assessment_path(@client, default: true, :case_conference => case_conference.id)

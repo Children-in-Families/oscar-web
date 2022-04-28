@@ -30,9 +30,15 @@ CIF.SettingsIndex = CIF.SettingsEdit = CIF.SettingsUpdate = CIF.SettingsCreate =
 
       if $(this).attr("id") == "setting_use_screening_assessment"
         $(".screening-assessment-form").removeClass("hidden")
+
+      if $(this).attr("id") == "setting_disable_required_fields"
+        $("#care-plan-setting").removeClass('hidden')
     ).on('ifUnchecked', ->
       if $(this).attr("id") == "setting_use_screening_assessment"
         $(".screening-assessment-form").addClass("hidden")
+
+      if $(this).attr("id") == "setting_disable_required_fields"
+        $("#care-plan-setting").addClass('hidden')
     )
 
   _toggleDeleteIncomplete = ->
@@ -43,11 +49,23 @@ CIF.SettingsIndex = CIF.SettingsEdit = CIF.SettingsUpdate = CIF.SettingsCreate =
 
   _initSelect2 = ->
     $('select').select2()
+    $("[id*='_custom_assessment_frequency']").on 'select2-selected', (element) ->
+      prefixId = @.id.match(/.*\d\_/)[0]
+      maxCustomAssessment = $("##{prefixId}max_custom_assessment")
+      if @.value == 'unlimited'
+        maxCustomAssessment.val(0)
+        maxCustomAssessment.parent().removeClass('has-error')
+        maxCustomAssessment.siblings().hide()
+        maxCustomAssessment.prop('disabled', true)
+      else
+        maxCustomAssessment.prop('disabled', false)
+
 
   _handleInitCocoonForCustomAssessmentSetting = ->
     $('#custom_assessment_settings').off('cocoon:after-insert').on 'cocoon:after-insert', ->
       _initICheckBox()
       _handleCustomAssessmentCheckbox()
+      _initSelect2()
 
   _handleCustomAssessmentCheckbox = ->
     _disableCustomAssessmentSetting()

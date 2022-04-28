@@ -34,6 +34,7 @@ Rails.application.routes.draw do
       resources :permissions
       get 'version' => 'users#version'
       get 'disable' => 'users#disable'
+      get 'restore' => 'users#restore'
       # member do
       #   post :enable_multi_factor_authentication, to: 'users/multi_factor_authentication#verify_enable'
       #   post :disable_multi_factor_authentication, to: 'users/multi_factor_authentication#verify_disabled'
@@ -99,7 +100,6 @@ Rails.application.routes.draw do
 
   get '/data_trackers' => 'data_trackers#index'
   get 'clients/:client_id/book' => 'client_books#index', as: 'client_books'
-  get 'clients/:client_id/service_receives' => 'clients#service_receive', as: 'client_service_receives'
 
   resources :clients do
     resources :referrals
@@ -110,7 +110,7 @@ Rails.application.routes.draw do
     end
 
     scope module: 'client' do
-      resources :exit_ngos, only: [:create, :update]
+      resources :exit_ngos, only: [:create, :update, :destroy]
       resources :enter_ngos, only: [:create, :update]
     end
 
@@ -148,6 +148,7 @@ Rails.application.routes.draw do
     get 'version' => 'clients#version'
 
     resources :case_conferences
+    resources :service_receives, only: [:index, :new, :create]
   end
 
   resources :attachments, only: [:index] do
@@ -423,6 +424,7 @@ Rails.application.routes.draw do
         get 'search' => 'custom_fields#search', as: :search
         get 'preview' => 'custom_fields#show', as: 'preview'
       end
+      get 'hidden' => 'custom_fields#hidden', as: :hidden, on: :member
     end
   end
 
@@ -437,6 +439,8 @@ Rails.application.routes.draw do
       get 'custom_labels' => 'settings#custom_labels'
       get 'client_forms' => 'settings#client_forms'
       get 'integration' => 'settings#integration'
+      get 'custom_form' => 'settings#custom_form'
+      get 'test_client' => 'settings#test_client'
 
       get :family_case_management
       get :community

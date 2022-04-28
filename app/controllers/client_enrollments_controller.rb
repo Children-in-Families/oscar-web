@@ -62,7 +62,7 @@ class ClientEnrollmentsController < AdminController
   def destroy
     name = params[:file_name]
     index = params[:file_index].to_i
-
+    authorize @client_enrollment
     if name.present? && index.present?
       delete_form_builder_attachment(@client_enrollment, name, index)
       redirect_to request.referer, notice: t('.delete_attachment_successfully')

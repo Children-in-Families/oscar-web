@@ -6,4 +6,8 @@ class UserPolicy < ApplicationPolicy
   def staff_performance_notification?
     record.admin? || record.any_manager? || record.hotline_officer?
   end
+
+  def restore?
+    record.admin?
+  end
 end

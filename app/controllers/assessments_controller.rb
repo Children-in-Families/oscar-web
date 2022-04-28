@@ -1,6 +1,8 @@
 class AssessmentsController < AdminController
   include ApplicationHelper
   include CreateBulkTask
+  include AssessmentConcern
+  include AssessmentHelper
 
   before_action :find_client, :list_all_case_conferences
   before_action :find_assessment, only: [:edit, :update, :show, :destroy]
@@ -22,7 +24,6 @@ class AssessmentsController < AdminController
 
     @custom_assessment_setting = find_custom_assessment_setting
     authorize(@assessment, :new?, @custom_assessment_setting.try(:id)) if current_organization.try(:aht) == false
-
     if @custom_assessment_setting.present? && !policy(@assessment).create?(@custom_assessment_setting.try(:id))
       redirect_to client_assessments_path(@client), alert: "#{I18n.t('assessments.index.next_review')} of #{@custom_assessment_setting.custom_assessment_name}: #{date_format(@client.custom_next_assessment_date(nil, @custom_assessment_setting.id))}"
     else
@@ -34,13 +35,28 @@ class AssessmentsController < AdminController
     @assessment = @client.assessments.new(assessment_params)
     @assessment.default = params[:default]
     if current_organization.try(:aht) == true
-      if @assessment.save(validate: false)
-        create_bulk_task(params[:task].uniq, @assessment) if params.has_key?(:task)
+      case_conference = CaseConference.find(assessment_params[:case_conference_id])
+      if case_conference.assessment.nil? && @assessment.save(validate: false)
         if params[:from_controller] == "dashboards"
           redirect_to root_path, notice: t('.successfully_created')
         else
           redirect_to client_path(@client), notice: t('.successfully_created')
         end
+      elsif case_conference.assessment
+        params[:assessment][:assessment_domains_attributes].each do |assessment_domain|
+          add_more_attachments(assessment_domain.second[:attachments], assessment_domain.second[:id])
+        end
+        assessment = case_conference.assessment.reload
+
+        assessment_domains_attributes = assessment_params[:assessment_domains_attributes].select {|k, v| v['score'].present? }
+        assessment.update(updated_at: DateTime.now)
+        assessment.assessment_domains.update_all(assessment_id: assessment.id)
+        assessment_domains_attributes.each do |_, v|
+          attr = v.slice('domain_id', 'score')
+          assessment.assessment_domains.reload.find_by(domain_id: attr['domain_id']).update_attributes(attr)
+        end
+
+        redirect_to client_assessment_path(@client, assessment), notice: t('.successfully_updated')
       else
         render :new
       end
@@ -48,14 +64,14 @@ class AssessmentsController < AdminController
       css = find_custom_assessment_setting
       authorize @assessment, :create?, css.try(:id)
       if @assessment.save
-        create_bulk_task(params[:task].uniq, @assessment) if params.has_key?(:task)
         if params[:from_controller] == "dashboards"
           redirect_to root_path, notice: t('.successfully_created')
         else
           redirect_to client_path(@client), notice: t('.successfully_created')
         end
       else
-        render :new, custom_name: css.name
+        flash[:alert] = @assessment.errors.full_messages
+        render :new, custom_name: css.custom_assessment_name if css
       end
     end
   end
@@ -147,10 +163,6 @@ class AssessmentsController < AdminController
 
   def fetch_available_custom_domains
     @custom_domains = Domain.custom_csi_domains
-  end
-
-  def find_custom_assessment_setting
-    CustomAssessmentSetting.find_by(custom_assessment_name: params[:custom_name])
   end
 
   def list_all_case_conferences

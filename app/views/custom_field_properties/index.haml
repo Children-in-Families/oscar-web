@@ -4,11 +4,11 @@
       .ibox-title
         %h5= @custom_field.form_title
         .ibox-tools
-          - if can? :manage, CustomFieldProperty
+          - if can?(:create, CustomFieldProperty) && (!@custom_field.hidden && current_user.case_worker?) || !current_user.case_worker?
             = custom_field_properties_new_link
-            = link_to polymorphic_path(@custom_formable) do
-              .btn.btn-outline.btn-success.form-btn
-                = t('.back')
+          = link_to polymorphic_path(@custom_formable) do
+            .btn.btn-outline.btn-success.form-btn
+              = t('.back')
       .ibox-content
         - @custom_field_properties.each do |custom_field_property|
           .row
@@ -18,6 +18,8 @@
                   %h5= "#{t('created_by')} #{whodunnit('CustomFieldProperty', custom_field_property.id)} #{t('at')}"
                   %span.label.label-info= "#{date_format custom_field_property.created_at}"
                   .ibox-tools
+                    = link_to "#", class: 'btn btn-outline btn-warning printable-button', data: { printable_id: "printable-custom-field-#{custom_field_property.id}" } do
+                      = fa_icon 'print'
                     - if can? :manage, CustomFieldProperty
                       %small
                         = custom_field_properties_edit_link(custom_field_property)
@@ -56,6 +58,7 @@
                             %td.vert-align.text-center.action
                               = form_buildable_path(custom_field_property, index, 'attachments', '')
 
-
+          %div{ id: "printable-custom-field-#{custom_field_property.id}" }
+            = render 'shared/printable_custom_field', custom_field: @custom_field, custom_field_property: custom_field_property
       .ibox-footer.text-center
         = paginate @custom_field_properties

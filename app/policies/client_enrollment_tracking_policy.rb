@@ -1,9 +1,19 @@
 class ClientEnrollmentTrackingPolicy < ApplicationPolicy
   def create?
-    record.client_enrollment.active?
+    true
   end
 
-  alias new? create?
-  alias edit? create?
+  def edit?
+    # return user.admin? && record.client_enrollment.client.status != 'Exited'
+    create?
+  end
+
+  def new?
+    return false if record.tracking&.hidden
+    create?
+  end
+
+
+
   alias update? create?
 end

@@ -1,7 +1,8 @@
 class FamiliesController < AdminController
-  load_and_authorize_resource
+  load_and_authorize_resource except: :show
   include FamilyAdvancedSearchesConcern
 
+  before_action :redirect_to_index, except: :index
   before_action :assign_active_family_prams, :format_search_params, only: [:index]
   before_action :find_params_advanced_search, :get_custom_form, :get_program_streams, only: [:index]
   before_action :get_custom_form_fields, :get_quantitative_fields, :family_builder_fields, only: [:index]
@@ -25,8 +26,10 @@ class FamiliesController < AdminController
     else
       respond_to do |f|
         f.html do
-          @results = @family_grid.assets.size
-          @family_grid.scope { |scope| scope.accessible_by(current_ability).page(params[:page]).per(20) }
+          if params[:family_grid].present?
+            @results = @family_grid.assets
+            @family_grid.scope { |scope| scope.accessible_by(current_ability).page(params[:page]).per(20) }
+          end
         end
         f.xls do
           export_family_reports
@@ -61,7 +64,7 @@ class FamiliesController < AdminController
     @family.case_management_record = !current_setting.hide_family_case_management_tool?
 
     if @family.save
-      redirect_to @family, notice: t('.successfully_created')
+      redirect_to @family, notice: t('successfully_created', klass: 'Family')
     else
       @selected_children = family_params[:children]
       render :new
@@ -87,7 +90,7 @@ class FamiliesController < AdminController
   def update
     @family.case_management_record = !current_setting.hide_family_case_management_tool?
     if @family.update_attributes(family_params)
-      redirect_to @family, notice: t('.successfully_updated')
+      redirect_to @family, notice: t('activerecord.update.successfully_updated')
     else
       render :edit
     end
@@ -97,7 +100,7 @@ class FamiliesController < AdminController
     @family.case_worker_families.with_deleted.each(&:destroy_fully!)
     if @family.current_clients.blank? && (@family.cases.present? && @family.cases.delete_all || true) && @family.destroy
       Task.with_deleted.where(family_id: @family.id).each(&:destroy_fully!)
-      redirect_to families_url, notice: t('.successfully_deleted')
+      redirect_to families_url, notice: t('activerecord.destroy.successfully_deleted')
     else
       redirect_to family_path(@family), alert: t('.alert')
     end
@@ -145,7 +148,8 @@ class FamiliesController < AdminController
   end
 
   def find_association
-    @users     = User.deleted_user.non_strategic_overviewers.order(:first_name, :last_name)
+    return if @family.nil?
+    @users     = User.without_deleted_users.non_strategic_overviewers.order(:first_name, :last_name)
     @provinces = Province.order(:name)
     @districts = @family.province.present? ? @family.province.districts.order(:name) : []
     @communes  = @family.district.present? ? @family.district.communes.order(:code) : []
@@ -242,4 +246,9 @@ class FamiliesController < AdminController
   def quantitative_type_readable
     @quantitative_type_readable_ids = current_user.quantitative_type_permissions.readable.pluck(:quantitative_type_id)
   end
+
+  def redirect_to_index
+    redirect_to families_url if params[:id] == 'advanced_search'
+  end
+
 end

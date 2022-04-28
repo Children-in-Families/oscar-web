@@ -10,8 +10,17 @@ class InternalReferral < ActiveRecord::Base
   validates :user_id, presence: true
   validates :client_id, presence: true
   validates :program_stream_ids, presence: true
+  validate :limit_referral_date
 
   after_save :sent_email_to_user
+
+  def is_editable?
+    setting = Setting.first
+    return true if setting.try(:internal_referral_limit).zero?
+    max_duration = setting.try(:internal_referral_limit).zero? ? 2 : setting.try(:internal_referral_limit)
+    internal_referral_frequency = setting.try(:internal_referral_frequency)
+    created_at >= max_duration.send(internal_referral_frequency).ago
+  end
 
   private
 
@@ -25,4 +34,11 @@ class InternalReferral < ActiveRecord::Base
     end
     InternalReferralWorker.perform_async(user.id, client.id, program_streams.ids)
   end
+
+  def limit_referral_date
+    if referral_date.present? && referral_date < (client.enter_ngos.first.accepted_date || client.initial_referral_date)
+      errors.add(:referral_date, 'The referral date you have selected is invalid. Please select referral date before initial referral date and NGO accept date.')
+    end
+  end
+
 end

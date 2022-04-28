@@ -8,6 +8,8 @@ module AdvancedSearches
       def initialize(options = {})
         @user = options[:user]
         @pundit_user = options[:pundit_user]
+        @called_in = options[:called_in]
+        address_translation
       end
 
       def render
@@ -44,10 +46,7 @@ module AdvancedSearches
         [
           ['status', status_options],
           ['gender', gender_options],
-          ['province_id', provinces],
-          ['district_id', districts],
-          ['commune_id', communes],
-          ['village_id', villages],
+          *addresses_mapping(@called_in),
           ['referral_source_category_id', referral_source_category_options('Community')],
           ['referral_source_id', referral_source_options('Community')]
         ]
@@ -59,22 +58,6 @@ module AdvancedSearches
 
       def gender_options
         Community.gender.values.map{ |value| [value, I18n.t("gender_list.#{value.gsub('other', 'other_gender')}")] }.to_h
-      end
-
-      def provinces
-        Community.joins(:province).pluck('provinces.name', 'provinces.id').uniq.sort.map{|s| {s[1].to_s => s[0]}}
-      end
-
-      def districts
-        Community.joins(:district).pluck('districts.name', 'districts.id').uniq.sort.map{|s| {s[1].to_s => s[0]}}
-      end
-
-      def communes
-        Commune.joins(:communities, district: :province).distinct.map { |commune| ["#{commune.name_kh} / #{commune.name_en} (#{commune.code})", commune.id] }.sort.map { |s| { s[1].to_s => s[0] } }
-      end
-
-      def villages
-        Village.joins(:communities, commune: [district: :province]).distinct.map { |village| ["#{village.name_kh} / #{village.name_en} (#{village.code})", village.id] }.sort.map { |s| { s[1].to_s => s[0] } }
       end
     end
   end

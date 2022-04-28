@@ -3,6 +3,7 @@ module ClientGridOptions
   include ClientsHelper
   include FormBuilderHelper
   include AssessmentHelper
+  include CarePlanHelper
 
   def choose_grid
     if current_user.admin? || current_user.strategic_overviewer?
@@ -39,6 +40,7 @@ module ClientGridOptions
     care_plan_completed_date
     care_plan_count
     custom_date_of_assessments
+    default_date_of_completed_custom_assessments
     case_note_date_report
     case_note_type_report
     accepted_date_report
@@ -58,11 +60,12 @@ module ClientGridOptions
     else
       @client_grid.column(:exit_reasons, header: I18n.t('datagrid.columns.clients.exit_reasons')) do |client|
         if client.exit_ngos.any?
-          reasons = []
-          client.exit_ngos.most_recents.pluck(:exit_reasons).select(&:present?).each do |reason|
-            reasons << reason.join(', ')
+          reasons = [ExitNgo::EXIT_REASONS.sort, I18n.t('client.exit_ngos.form.exit_reason_options').values].transpose.to_h
+          results = ''
+          client.exit_ngos.most_recents.each do |exit_ngo|
+            results = exit_ngo.exit_reasons.map{ |reason| reasons[reason] }.join(', ') if exit_ngo.exit_reasons.present?
           end
-          reasons.join(', ')
+          results
         end
       end
     end
@@ -178,11 +181,11 @@ module ClientGridOptions
     return unless @client_columns.visible_columns[:case_note_date_].present?
     if params[:data].presence == 'recent'
       @client_grid.column(:case_note_date, header: I18n.t('datagrid.columns.clients.case_note_date')) do |client|
-        client.case_notes.most_recents.order(meeting_date: :desc).first.try(:meeting_date)
+        date_format(client.case_notes.most_recents.order(meeting_date: :desc).first.try(:meeting_date))
       end
     else
       @client_grid.column(:case_note_date, header: I18n.t('datagrid.columns.clients.case_note_date')) do |client|
-        case_note_query(client.case_notes.most_recents, 'case_note_date').map{|date| date.meeting_date }.select(&:present?).join(', ') if client.case_notes.any?
+        case_note_query(client.case_notes.most_recents, 'case_note_date').map{|date| date_format(date.meeting_date) }.select(&:present?).join(', ') if client.case_notes.any?
       end
     end
   end
@@ -206,8 +209,13 @@ module ClientGridOptions
   end
 
   def default_date_of_completed_assessments
-    return unless @client_columns.visible_columns[:assessment_completed_date_].present?
+    return unless @client_columns.visible_columns[:completed_date_].present?
     date_of_completed_assessments
+  end
+
+  def default_date_of_completed_custom_assessments
+    return unless @client_columns.visible_columns[:custom_completed_date_].present?
+    date_of_completed_cusotm_assessments
   end
 
   def custom_date_of_assessments
@@ -238,38 +246,51 @@ module ClientGridOptions
 
   def date_of_completed_assessments
     records = 'client.assessments.defaults.completed'
-    column = 'assessment_completed_date'
+    column = 'completed_date'
 
     if params[:data].presence == 'recent'
-      @client_grid.column(column.to_sym, header: I18n.t("datagrid.columns.clients.#{column}", assessment: I18n.t('clients.show.assessment'))) do |client|
-        eval(records).latest_record.try(:created_at).to_date.to_formatted_s if eval(records).any?
+      @client_grid.column(column.to_sym, header: I18n.t("datagrid.columns.clients.assessment_completed_date", assessment: I18n.t('clients.show.assessment'))) do |client|
+        eval(records).latest_record.try(:completed_date).to_date.to_formatted_s if eval(records).any?
       end
     else
-      @client_grid.column(column.to_sym, header: I18n.t("datagrid.columns.clients.#{column}", assessment: I18n.t('clients.show.assessment'))) do |client|
+      @client_grid.column(column.to_sym, header: I18n.t("datagrid.columns.clients.assessment_completed_date", assessment: I18n.t('clients.show.assessment'))) do |client|
         assessments = []
         if $param_rules
           basic_rules = $param_rules['basic_rules']
           basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
           results = mapping_assessment_query_rules(basic_rules).reject(&:blank?)
-          query_string = get_assessment_query_string(results, 'assessment_completed_date', '', client.id, basic_rules)
+          query_string = get_assessment_query_string(results, 'completed_date', '', client.id, basic_rules)
           assessments = client.assessments.defaults.completed.where(query_string)
         else
           assessments = client.assessments.defaults.completed
         end
-        assessments.map{ |a| a.created_at.to_date.to_formatted_s }.join(', ') if assessments.any?
+        date_filter(assessments, 'completed_date').map{ |a| a.completed_date.to_date.to_formatted_s }.join(', ') if assessments.any?
       end
     end
   end
 
-  def care_plan_completed_date
-    @client_grid.column(:care_plan_completed_date, header: -> { I18n.t('datagrid.columns.clients.care_plan_completed_date') }) do |object|
-      date_filter(object.care_plans, 'care_plan_completed_date').map{ |care_plan| date_format(care_plan.created_at) }.join(", ")
-    end
-  end
+  def date_of_completed_cusotm_assessments
+    records = 'client.assessments.customs.completed'
+    column = 'custom_completed_date'
 
-  def care_plan_count
-    @client_grid.column(:care_plan_count, header: -> { I18n.t('datagrid.columns.clients.care_plan_count') }) do |object|
-      date_filter(object.care_plans, 'care_plan_completed_date').count
+    if params[:data].presence == 'recent'
+      @client_grid.column(column.to_sym, header: I18n.t("datagrid.columns.clients.assessment_custom_completed_date", assessment: I18n.t('clients.show.assessment'))) do |client|
+        eval(records).latest_record.try(:completed_date).to_date.to_formatted_s if eval(records).any?
+      end
+    else
+      @client_grid.column(column.to_sym, header: I18n.t("datagrid.columns.clients.assessment_custom_completed_date", assessment: I18n.t('clients.show.assessment'))) do |client|
+        assessments = []
+        if $param_rules
+          basic_rules = $param_rules['basic_rules']
+          basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
+          results = mapping_assessment_query_rules(basic_rules).reject(&:blank?)
+          query_string = get_assessment_query_string(results, 'completed_date', '', client.id, basic_rules)
+          assessments = client.assessments.customs.completed.where(query_string)
+        else
+          assessments = client.assessments.customs.completed
+        end
+        date_filter(assessments, 'completed_date').map{ |a| a.completed_date.to_date.to_formatted_s }.join(', ') if assessments.any?
+      end
     end
   end
 
@@ -294,12 +315,12 @@ module ClientGridOptions
     end
 
     if params[:data].presence == 'recent'
-      @client_grid.column(column.to_sym, header: t(".#{column}", assessment: I18n.t('clients.show.assessment'))) do |client|
+      @client_grid.column(column.to_sym, header: t("datagrid.columns.clients.#{column}", assessment: I18n.t('clients.show.assessment'))) do |client|
         recent_assessment = eval(records).latest_record
         "#{recent_assessment.created_at} => #{recent_assessment.assessment_domains_score}" if recent_assessment.present?
       end
     else
-      @client_grid.column(column.to_sym, header: t(".#{column}", assessment: I18n.t('clients.show.assessment'))) do |client|
+      @client_grid.column(column.to_sym, header: t("datagrid.columns.clients.#{column}", assessment: I18n.t('clients.show.assessment'))) do |client|
         eval(records).map(&:basic_info).join("\x0D\x0A")
       end
     end
@@ -437,17 +458,17 @@ module ClientGridOptions
   def admin_client_grid
     data = params[:data].presence
 
-    if params.dig(:client_grid, :quantitative_types)
+    if params.dig(:client_grid, :quantitative_types).present?
       quantitative_types = params[:client_grid][:quantitative_types]
-      @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(qType: quantitative_types, dynamic_columns: column_form_builder, param_data: data))
+      @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(current_user: current_user, qType: quantitative_types, dynamic_columns: column_form_builder, param_data: data))
     else
-      @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(dynamic_columns: column_form_builder, param_data: data))
+      @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(current_user: current_user, dynamic_columns: column_form_builder, param_data: data))
     end
   end
 
   def non_admin_client_grid
     data = params[:data].presence
-    if params.dig(:client_grid, :quantitative_types)
+    if params.dig(:client_grid, :quantitative_types).present?
       quantitative_types = params[:client_grid][:quantitative_types]
       @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(current_user: current_user, qType: quantitative_types, dynamic_columns: column_form_builder, param_data: data))
     else

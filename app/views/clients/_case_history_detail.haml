@@ -102,6 +102,10 @@
               %tr
                 %td= t('.referral_reasons')
                 %td.exit-reason-label= object.referral_reason
+              %tr
+                %td= t('referrals.level_of_risk')
+                %td
+                  %strong= object.level_of_risk&.capitalize
               - if object.consent_form.first&.url
                 %tr
                   %td= t('.consent_form')

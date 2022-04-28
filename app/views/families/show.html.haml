@@ -22,7 +22,7 @@
             %strong= @family.name
           %td
             = "#{t('.created_by')} :"
-            %strong= @family.user&.name
+            %strong= "#{@family.user&.name} #{t('at')} #{ date_format @family.created_at }"
         %tr
           %td
             = "#{t('.id')} :"
@@ -221,22 +221,6 @@
               %strong
                 = @family.id_poor
 
-          - if policy(@family).show?(:contract_date)
-            %tr
-              %td.spacing-first-col
-                = t('.contract_date')
-              %td
-                %strong
-                  = date_format(@family.contract_date)
-
-          - if policy(@family).show?(:family_type)
-            %tr
-              %td.spacing-first-col
-                = t('.family_type')
-              %td
-                %strong
-                  = family_type_translation(@family.family_type)
-
           - unless current_setting.hide_family_case_management_tool?
             %tr
               %td.spacing-first-col
@@ -313,6 +297,25 @@
                   - @family.donors.distinct.each do|donor|
                     %strong.label.label-default.donor
                       = donor.name
+            - family_hidden_fields_setting.each do |field|
+              - next if field == 'dependable_income' || field == 'household_income'
+              - next if @family.attributes.keys.exclude?(field)
+              %tr
+                %td.spacing-first-col
+                  = I18n.t("datagrid.columns.families.#{field}")
+                - if policy(@family).show?(:family_type) && field == 'family_type'
+                  %td
+                    %strong= family_type_translation(@family.family_type)
+                - elsif field[/(_id)$/].present?
+                  %td
+                    %strong= @family.public_send(field.gsub(/(\_id)$/, ''))&.name
+                - elsif field[/date/].present?
+                  %td
+                    %strong= date_format(@family.public_send(field))
+                - else
+                  %td
+                    %strong= @family.public_send(field)
+
           - if @family.documents.any?
             - @family.documents.each_with_index do |attachment, index|
               %tr
@@ -407,7 +410,7 @@
                 - if policy(FamilyMember).show?(:occupation)
                   %td= member.occupation
                 - if policy(FamilyMember).show?(:relation)
-                  %td= member.relation
+                  %td= drop_down_relation.to_h[member.relation]
                 - if policy(FamilyMember).show?(:guardian)
                   %td= human_boolean(member.guardian)
 

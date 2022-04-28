@@ -1,30 +1,65 @@
 html[lang="my"] {
-  body, h1, h2, h3, h4, h5, h6, p, label, a, ul li, ul li a, text, tspan {
-    font-family: 'Pyidaungsu', 'Padauk', sans-serif;
+  body,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  label,
+  a,
+  ul li,
+  ul li a,
+  text,
+  tspan {
+    font-family: "Pyidaungsu", "Padauk", sans-serif;
   }
 }
 
-body[id='agencies-version'],
-body[id='changelogs-version'],
-body[id='clients-version'],
-body[id='departments-version'],
-body[id='domain_groups-version'],
-body[id='domains-version'],
-body[id='donors-version'],
-body[id='families-version'],
-body[id='interventions-version'],
-body[id='locations-version'],
-body[id='materials-version'],
-body[id='partners-version'],
-body[id='progress_note_types-version'],
-body[id='progress_notes-version'],
-body[id='provinces-version'],
-body[id='districts-version'],
-body[id='quantitative_cases-version'],
-body[id='quantitative_types-version'],
-body[id='referral_sources-version'],
-body[id='organization_types-version'],
-body[id='users-version'] {
+html[lang="km"] {
+  body,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  label,
+  a,
+  ul li,
+  ul li a,
+  text,
+  tspan,
+  span {
+    font-family: "DejaVu Sans", "Khmer OS Battambang", sans-serif;
+    letter-spacing: 0.35px;
+    line-height: 23px;
+  }
+}
+
+body[id="agencies-version"],
+body[id="changelogs-version"],
+body[id="clients-version"],
+body[id="departments-version"],
+body[id="domain_groups-version"],
+body[id="domains-version"],
+body[id="donors-version"],
+body[id="families-version"],
+body[id="interventions-version"],
+body[id="locations-version"],
+body[id="materials-version"],
+body[id="partners-version"],
+body[id="progress_note_types-version"],
+body[id="progress_notes-version"],
+body[id="provinces-version"],
+body[id="districts-version"],
+body[id="quantitative_cases-version"],
+body[id="quantitative_types-version"],
+body[id="referral_sources-version"],
+body[id="organization_types-version"],
+body[id="users-version"] {
   .modification-title {
     margin-bottom: 30px;
   }
@@ -36,8 +71,7 @@ body[id='users-version'] {
 
   .page-select {
     margin-top: 8px;
-    .form-group
-    {
+    .form-group {
       margin-bottom: 0px;
     }
   }

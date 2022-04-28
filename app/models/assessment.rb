@@ -16,8 +16,10 @@ class Assessment < ActiveRecord::Base
   validates :client, presence: true, if: :client_id?
   validate :must_be_enable
   validate :allow_create, :eligible_client_age, if: :new_record?
+  validates_uniqueness_of :case_conference_id, on: :create, if: :case_conference_id?
 
-  before_save :set_previous_score, :set_assessment_completed
+  before_save :set_previous_score
+  before_save :set_assessment_completed, unless: :completed?
 
   accepts_nested_attributes_for :assessment_domains
 
@@ -33,8 +35,10 @@ class Assessment < ActiveRecord::Base
     empty_assessment_domains = check_reason_and_score
     if empty_assessment_domains.count.zero?
       self.completed = true
+      self.completed_date = Time.zone.now
     else
       self.completed = false
+      self.completed_date = nil
       true
     end
   end
@@ -68,12 +72,12 @@ class Assessment < ActiveRecord::Base
   def initial?(custom_assessment_setting_id = nil)
     if client_id
       if default?
-        self == client.assessments.defaults.most_recents.last || client.assessments.defaults.count.zero?
+        (self == client.assessments.defaults.most_recents.last) || client.assessments.defaults.count.zero?
       else
-        self == client.assessments.customs.joins(:domains).where(domains: { custom_assessment_setting_id: custom_assessment_setting_id }).most_recents.last || client.assessments.customs.count.zero?
+        (self == client.assessments.customs.joins(:domains).where(domains: { custom_assessment_setting_id: custom_assessment_setting_id }).most_recents.last) || client.assessments.customs.count.zero?
       end
     elsif family_id
-      self == family.assessments.customs.most_recents.last || family.assessments.customs.count.zero?
+      (self == family.assessments.customs.most_recents.last) || family.assessments.customs.count.zero?
     end
   end
 
@@ -83,7 +87,7 @@ class Assessment < ActiveRecord::Base
 
   def populate_notes(default, custom_name)
     if custom_name.present?
-      custom_assessment_id = CustomAssessmentSetting.find_by(custom_assessment_name: custom_name).id
+      custom_assessment_id = CustomAssessmentSetting.only_enable_custom_assessment.find_by(custom_assessment_name: custom_name).id
       domains = default == 'true' ? Domain.csi_domains : CustomAssessmentSetting.find_by(id: custom_assessment_id).domains
     else
       domains = default == 'true' ? Domain.csi_domains : Domain.custom_csi_domains
@@ -105,7 +109,7 @@ class Assessment < ActiveRecord::Base
   end
 
   def populate_family_domains
-    family_domains = Domain.family_custom_csi_domains
+    family_domains = Domain.family_custom_csi_domains.presence || Domain.csi_domains
     family_domains.where.not(id: domains.ids).each do |domain|
       assessment_domains.build(domain: domain)
     end
@@ -148,12 +152,16 @@ class Assessment < ActiveRecord::Base
   private
 
   def allow_create
-    errors.add(:base, "Assessment cannot be created due to either frequency period or previous assessment status") if client.present? && !client.can_create_assessment?(default)
+    custom_assessment_setting_id = nil
+    if default == false && assessment_domains.any?
+      custom_assessment_setting_id = assessment_domains.first.domain&.custom_assessment_setting_id
+    end
+    errors.add(:base, "Assessment cannot be created due to either frequency period or previous assessment status") if client.present? && !client.can_create_assessment?(default, custom_assessment_setting_id)
   end
 
   def must_be_enable
     enable = default? ? Setting.first.enable_default_assessment : Setting.first.enable_custom_assessment
-    enable ? true : errors.add(:base, 'Assessment tool must be enable in setting')
+    enable || family ? true : errors.add(:base, 'Assessment tool must be enable in setting')
   end
 
   def set_previous_score

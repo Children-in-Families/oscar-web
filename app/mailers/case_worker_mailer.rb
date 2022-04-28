@@ -1,4 +1,5 @@
 class CaseWorkerMailer < ApplicationMailer
+  include CanCan::ModelAdditions::ClassMethods
   include ClientOverdueAndDueTodayForms
 
   def tasks_due_tomorrow_of(user)
@@ -12,7 +13,7 @@ class CaseWorkerMailer < ApplicationMailer
     @user = user
     return if @user.nil? || @user&.disable? || @user&.task_notify == false
 
-    @overdue_tasks = user.tasks.where(client_id: user.clients.active_accepted_status.ids).overdue_incomplete_ordered
+    @overdue_tasks = user.tasks.where(client_id: user_clients(user).active_accepted_status.ids).overdue_incomplete_ordered
     @short_name = short_name
     return unless @overdue_tasks.present?
 
@@ -60,9 +61,9 @@ class CaseWorkerMailer < ApplicationMailer
     return if @user.nil? || @user&.disable? || @user&.task_notify == false
 
     if user.activated_at.present?
-      clients = user.clients.where('clients.created_at > ?', user.activated_at).active_accepted_status
+      clients = user_clients(user).where('clients.created_at > ?', user.activated_at).active_accepted_status
     else
-      clients = user.clients.active_accepted_status
+      clients = user_clients(user).active_accepted_status
     end
 
     forms = overdue_and_due_today_forms(clients)
@@ -85,7 +86,12 @@ class CaseWorkerMailer < ApplicationMailer
     recievers.each_slice(50).to_a.each do |emails|
       next if emails.blank?
 
-      mail(to: emails, subject: subject, bcc: ENV['DEV_EMAIL'])
+      mail(to: emails, subject: subject)
     end
+  end
+
+  def user_clients(user)
+    user_ability = Ability.new(user)
+    Client.accessible_by(user_ability)
   end
 end

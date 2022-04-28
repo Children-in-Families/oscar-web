@@ -18,6 +18,20 @@ class Client < ActiveRecord::Base
   mount_uploaders :local_consent_files, FileUploader
   mount_uploaders :police_interview_files, FileUploader
   mount_uploaders :other_legal_doc_files, FileUploader
+  mount_uploaders :ngo_partner_files, FileUploader
+  mount_uploaders :mosavy_files, FileUploader
+  mount_uploaders :dosavy_files, FileUploader
+  mount_uploaders :msdhs_files, FileUploader
+  mount_uploaders :complain_files, FileUploader
+  mount_uploaders :warrant_files, FileUploader
+  mount_uploaders :verdict_files, FileUploader
+  mount_uploaders :short_form_of_ocdm_files, FileUploader
+  mount_uploaders :screening_interview_form_files, FileUploader
+  mount_uploaders :short_form_of_mosavy_dosavy_files, FileUploader
+  mount_uploaders :detail_form_of_mosavy_dosavy_files, FileUploader
+  mount_uploaders :short_form_of_judicial_police_files, FileUploader
+  mount_uploaders :detail_form_of_judicial_police_files, FileUploader
+  mount_uploaders :letter_from_immigration_police_files, FileUploader
 
   attr_accessor :assessment_id
   attr_accessor :organization, :case_type
@@ -117,12 +131,12 @@ class Client < ActiveRecord::Base
 
   before_validation :assign_global_id, on: :create
   before_create :set_country_origin
-  before_update :disconnect_client_user_relation, if: :exiting_ngo?
-  after_create :set_slug_as_alias, :save_client_global_organization, :save_external_system_global
-  after_save :create_client_history, :mark_referral_as_saved, :create_or_update_shared_client
+  after_create :set_slug_as_alias, :save_client_global_organization, :save_external_system_global, :mark_referral_as_saved
+  after_save :create_client_history, :create_or_update_shared_client
 
   after_commit :remove_family_from_case_worker
   after_commit :update_related_family_member, on: :update
+  after_commit :delete_referee, on: :destroy
 
   scope :given_name_like,                          ->(value) { where('clients.given_name iLIKE :value OR clients.local_given_name iLIKE :value', { value: "%#{value.squish}%"}) }
   scope :family_name_like,                         ->(value) { where('clients.family_name iLIKE :value OR clients.local_family_name iLIKE :value', { value: "%#{value.squish}%"}) }
@@ -152,6 +166,8 @@ class Client < ActiveRecord::Base
   scope :active_accepted_status,                   ->        { where(status: ['Active', 'Accepted']) }
   scope :active_accepted_referred_status,          ->        { where(status: ['Active', 'Accepted', 'Referred']) }
   scope :referred_external,                        -> (external_system_name)       { joins(:referrals).where("clients.referred_external = ? AND referrals.ngo_name = ?", true, external_system_name) }
+  scope :test_clients,                             ->        { where(for_testing: true) }
+  scope :without_test_clients,                     ->        { where(for_testing: false) }
 
   class << self
     def find_shared_client(options)
@@ -176,7 +192,7 @@ class Client < ActiveRecord::Base
       addresses_hash = { cp: province_name, cd: district_name, cc: commune_name, cv: village_name, bp: birth_province_name }
       address_hash   = { cv: 1, cc: 2, cd: 3, cp: 4, bp: 5 }
 
-      shared_clients.compact.bsearch do |client|
+      shared_clients.compact.each do |client|
         client = client.split('&')
         input_name_field  = field_name_concatenate(options)
         client_name_field = client[0].squish
@@ -297,6 +313,11 @@ class Client < ActiveRecord::Base
     status == 'Exited'
   end
 
+  def latest_exit_ngo
+    exit_ngos.most_recents.first
+  end
+
+
   def referred?
     status == 'Referred'
   end
@@ -360,7 +381,7 @@ class Client < ActiveRecord::Base
   def next_case_note_date(user_activated_date = nil)
     return Date.today if case_notes.count.zero? || case_notes.latest_record.try(:meeting_date).nil?
     return nil if case_notes.latest_record.created_at < user_activated_date if user_activated_date.present?
-    setting = Setting.first
+    setting = current_setting
     max_case_note = setting.try(:max_case_note) || 30
     case_note_frequency = setting.try(:case_note_frequency) || 'day'
     case_note_period = max_case_note.send(case_note_frequency)
@@ -558,59 +579,40 @@ class Client < ActiveRecord::Base
   end
 
   def self.notify_upcoming_csi_assessment
-    Organization.all.each do |org|
+    Organization.without_shared.each do |org|
       Organization.switch_to org.short_name
 
-      next if !(Setting.first.enable_default_assessment) && !(Setting.first.enable_custom_assessment?)
-      clients = joins(:assessments).active_accepted_status
+      next if !(current_setting.enable_default_assessment) && !(current_setting.enable_custom_assessment?)
+      clients = active_young_clients(self)
+      default_clients = clients_have_recent_default_assessments(clients)
+      custom_assessment_clients = clients_have_recent_custom_assessments(clients)
 
-      clients.each do |client|
-        if Setting.first.enable_default_assessment && client.eligible_default_csi? && client.assessments.defaults.any?
-          repeat_notifications = client.assessment_notification_dates(Setting.first)
-
-          if(repeat_notifications.include?(Date.today))
-            CaseWorkerMailer.notify_upcoming_csi_weekly(client).deliver_now
-          end
-        end
-
-        if Setting.first.enable_custom_assessment && client.assessments.customs.any?
-          custom_assessment_setting_ids = client.assessments.customs.map{|ca| ca.domains.pluck(:custom_assessment_setting_id ) }.flatten.uniq
-
-          CustomAssessmentSetting.where(id: custom_assessment_setting_ids).each do |custom_assessment_setting|
-            repeat_notifications = client.assessment_notification_dates(custom_assessment_setting)
-            if(repeat_notifications.include?(Date.today)) && client.eligible_custom_csi?(custom_assessment_setting)
-              CaseWorkerMailer.notify_upcoming_csi_weekly(client).deliver_now
-            end
-          end
-        end
+      (default_clients + custom_assessment_clients).each do |client|
+        CaseWorkerMailer.notify_upcoming_csi_weekly(client).deliver_now
       end
     end
   end
 
   def self.notify_incomplete_daily_csi_assessment
-    Organization.all.each do |org|
+    Organization.without_shared.each do |org|
       Organization.switch_to org.short_name
 
       setting = Setting.first_or_initialize
-      next if setting.disable_required_fields?
+      next if setting.disable_required_fields? || setting.never_delete_incomplete_assessment?
 
-      if Setting.first.enable_default_assessment
-        clients = joins(:assessments).where(assessments: { completed: false, default: true })
+      if setting.enable_default_assessment
+        clients = joins(:assessments).where(assessments: { completed: false, default: true }).where("(EXTRACT(year FROM age(current_date, coalesce(clients.date_of_birth, current_date))) :: int) < ?", setting.age || 18)
         clients.each do |client|
-          if client.eligible_default_csi? && client.assessments.defaults.any?
-            CaseWorkerMailer.notify_incomplete_daily_csi_assessments(client).deliver_now
-          end
+          CaseWorkerMailer.notify_incomplete_daily_csi_assessments(client).deliver_now
         end
       end
 
-      if Setting.first.enable_custom_assessment?
-        clients = joins(:assessments).where(assessments: { completed: false, default: false })
+      if setting.enable_custom_assessment?
+        clients = joins(:assessments).where(assessments: { completed: false, default: false }).where("(EXTRACT(year FROM age(current_date, coalesce(clients.date_of_birth, current_date))) :: int) < ?", setting.age || 18)
         clients.each do |client|
           custom_assessment_setting_ids = client.assessments.customs.map{|ca| ca.domains.pluck(:custom_assessment_setting_id ) }.flatten.uniq
           CustomAssessmentSetting.where(id: custom_assessment_setting_ids).each do |custom_assessment_setting|
-            if client.eligible_custom_csi?(custom_assessment_setting) && client.assessments.customs.any?
-              CaseWorkerMailer.notify_incomplete_daily_csi_assessments(client, custom_assessment_setting).deliver_now
-            end
+            CaseWorkerMailer.notify_incomplete_daily_csi_assessments(client, custom_assessment_setting).deliver_now
           end
         end
       end
@@ -626,15 +628,16 @@ class Client < ActiveRecord::Base
   end
 
   def assessment_notification_dates(setting)
-    recent_assessment_date = most_recent_csi_assessment
-
-    unless setting.instance_of?(Setting)
-      recent_assessment_date = assessments.customs.most_recents.joins(:domains).where(custom_assessment_setting_id: setting.id).first.created_at.to_date
+    if setting.instance_of?(CustomAssessmentSetting)
+      recent_assessment_date = most_recent_custom_csi_assessment
+      recent_assessment_date = assessments.customs.most_recents.joins(:domains).where(domains: { custom_assessment_setting_id: setting.id }).first.created_at.to_date
+    else
+      recent_assessment_date = most_recent_csi_assessment
     end
 
     next_assessment_date = recent_assessment_date + setting.max_assessment_duration
 
-    Setting.first.two_weeks_assessment_reminder? ? [(next_assessment_date - 2.weeks), (next_assessment_date - 1.week)] : [next_assessment_date - 1.week]
+    current_setting.two_weeks_assessment_reminder? ? [(next_assessment_date - 2.weeks), (next_assessment_date - 1.week)] : [next_assessment_date - 1.week]
   rescue
     []
   end
@@ -720,11 +723,7 @@ class Client < ActiveRecord::Base
   end
 
   def notify_managers
-    ClientMailer.exited_notification(self, User.deleted_user.managers.non_locked.pluck(:email)).deliver_now
-  end
-
-  def disconnect_client_user_relation
-    case_worker_clients.destroy_all
+    ClientMailer.exited_notification(self, User.without_deleted_users.managers.non_locked.pluck(:email)).deliver_now
   end
 
   def remove_family_from_case_worker
@@ -749,7 +748,7 @@ class Client < ActiveRecord::Base
   def set_country_origin
     return if country_origin.present?
 
-    country = Setting.first.try(:country_name)
+    country = current_setting.try(:country_name)
     self.country_origin = country
   end
 
@@ -817,4 +816,14 @@ class Client < ActiveRecord::Base
       case_worker.tasks.incomplete.destroy_all
     end
   end
+
+  def current_setting
+    @current_setting ||= Setting.first
+  end
+
+  def delete_referee
+    return if referee.clients.where.not(id: id).any?
+    referee.destroy
+  end
+
 end

@@ -27,7 +27,7 @@ describe Referral do
 
       it 'valid' do
         referral = FactoryGirl.build(:referral, referred_to: 'app', consent_form: [UploadedFile.new(File.open(File.join(Rails.root, '/spec/supports/file.docx')))])
-        expect(referral.valid?).to be_truthy
+        expect(referral.valid?).to be_falsey
       end
     end
   end
@@ -48,7 +48,7 @@ describe Referral do
     context 'after_save'  do
       context '#make_a_copy_to_target_ngo'  do
         let!(:client_2){ create(:client,:accepted,given_name: 'sorphorn', family_name: 'so')}
-        let!(:referral_2){ create(:referral,referred_from: 'app', referred_to: 'app', client: client_2, slug: "dwp-12") }
+        let!(:referral_2){ create(:referral,referred_from: 'app', level_of_risk: 'Medium', referred_to: 'app', client: client_2, slug: "dwp-12") }
 
         it 'in app NGO' do
           expect(Referral.count).to eq(1)
@@ -86,10 +86,10 @@ describe Referral do
   end
 
   describe Referral, 'scopes'  do
-    let!(:referral_1){ create(:referral, referred_from: 'Organization Testing', referred_to: 'app') }
-    let!(:referral_2){ create(:referral, referred_from: 'Organization Testing', referred_to: 'app', saved: true) }
-    let!(:referral_3){ create(:referral, referred_from: 'Organization Testing', referred_to: 'app', saved: true) }
-    let!(:referral_4){ create(:referral, referred_from: 'Organization Testing', referred_to: 'app') }
+    let!(:referral_1){ create(:referral, referred_from: 'Organization Testing', level_of_risk: 'Medium', referred_to: 'app') }
+    let!(:referral_2){ create(:referral, referred_from: 'Organization Testing', level_of_risk: 'Medium', referred_to: 'app', saved: true) }
+    let!(:referral_3){ create(:referral, referred_from: 'Organization Testing', level_of_risk: 'Medium', referred_to: 'app', saved: true) }
+    let!(:referral_4){ create(:referral, referred_from: 'Organization Testing', level_of_risk: 'Medium', referred_to: 'app') }
 
     context '.received' do
       it 'not return external referral' do
@@ -134,7 +134,7 @@ describe Referral do
   end
 
   describe Referral, 'methods' do
-    let!(:referral_1){ create(:referral, referred_from: 'app', referred_to: 'app') }
+    let!(:referral_1){ create(:referral, referred_from: 'app',level_of_risk: 'Medium', referred_to: 'app') }
 
     context '#making_referral?' do
       it 'returns true/false whether or not the referral is made by the current organization' do

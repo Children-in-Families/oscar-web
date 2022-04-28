@@ -6,4 +6,5 @@ echo "Installing hooks..."
 # this command creates symlink to our pre-commit script
 ln -s ../../scripts/pre-commit.bash $GIT_DIR/hooks/pre-commit
 ln -s ../../scripts/pre-push.bash $GIT_DIR/hooks/pre-push
+ln -s ../../scripts/post-checkout.bash $GIT_DIR/hooks/post-checkout
 echo "Done!"

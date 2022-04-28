@@ -11,6 +11,7 @@ class Ability
     can :manage, Referee
     can :manage, ServiceDelivery
     can :manage, CaseConference
+    can :manage, InternalReferral
 
     if user.nil?
       can :manage, Client
@@ -34,6 +35,7 @@ class Ability
       can :manage, CaseNote
       can :create, Client
       can :manage, Client, case_worker_clients: { user_id: user.id }
+      cannot :create, CustomFieldProperty, custom_field: { hidden: true },  custom_formable_type: 'Client'
       can :manage, CustomFieldProperty, custom_formable_type: 'Client'
       can :manage, CustomFieldProperty, custom_formable_type: 'Family'
       can :manage, CustomFieldProperty, custom_formable_type: 'Community'
@@ -55,6 +57,7 @@ class Ability
 
       family_ids = user.families.ids
       family_ids << CaseWorkerFamily.where(user_id: user.id).pluck(:family_id)
+      family_ids << FamilyMember.where(client_id: user.clients.ids).pluck(:family_id)
       user.clients.each do |client|
         family_ids << client.current_family_id
       end
@@ -97,6 +100,7 @@ class Ability
       family_ids += User.joins(:families).where(id: subordinate_users).select('families.id AS family_id').map(&:family_id)
       family_ids += Client.where(id: exited_client_ids).pluck(:current_family_id)
       family_ids += user.clients.pluck(:current_family_id)
+      family_ids += FamilyMember.where(client_id: user.clients.ids + exited_client_ids).pluck(:family_id)
 
       can :create, Family
       can :manage, Family, id: family_ids.compact.uniq

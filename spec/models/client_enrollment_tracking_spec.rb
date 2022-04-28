@@ -43,7 +43,7 @@ describe ClientEnrollmentTracking do
 
     context 'custom form presence validator' do
       it 'return cant be blank' do
-        properties = {"e-mail"=>"cifcambodianfamily", "age"=>"3", "description"=>""}
+        properties =  {"age"=>"3", "e-mail"=>"cifcambodianfamily", "description"=>""}
         client_enrollment_tracking = ClientEnrollmentTracking.new(properties: properties, tracking: tracking, client_enrollment: client_enrollment)
         client_enrollment_tracking.save
         expect(client_enrollment_tracking.errors.full_messages).to include("Description can't be blank")

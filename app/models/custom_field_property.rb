@@ -9,7 +9,7 @@ class CustomFieldProperty < ActiveRecord::Base
   belongs_to :user
 
   scope :by_custom_field, -> (value) { where(custom_field:  value) }
-  scope :most_recents,    ->         { order('created_at desc') }
+  scope :most_recents,    ->         { order(created_at: :desc) }
 
   has_paper_trail
 
@@ -29,6 +29,14 @@ class CustomFieldProperty < ActiveRecord::Base
     value = value.gsub(/\'+/, "''")
     field_properties = select("custom_field_properties.id, custom_field_properties.properties ->  '#{value}' as field_properties").collect(&:field_properties)
     field_properties.select(&:present?)
+  end
+
+  def is_editable?
+    setting = Setting.first
+    return true if setting.try(:custom_field_limit).zero?
+    max_duration = setting.try(:custom_field_limit).zero? ? 2 : setting.try(:custom_field_limit)
+    custom_field_frequency = setting.try(:custom_field_frequency)
+    created_at >= max_duration.send(custom_field_frequency).ago
   end
 
   private

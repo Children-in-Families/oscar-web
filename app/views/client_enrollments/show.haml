@@ -2,12 +2,15 @@
   .col-xs-12
     .ibox
       .ibox-title
-        %h5= "#{@client.en_and_local_name} - #{t('.enrollment_date')} #{date_format(@client_enrollment.enrollment_date)}"
+        %h5
+          %strong= link_to_client_show(@client)
+          = "- #{t('.enrollment_date')} #{date_format(@client_enrollment.enrollment_date)}"
         .ibox-tools
           - if can? :manage, ClientEnrollment
             = client_enrollment_edit_link
+          - if policy(@client_enrollment).destroy?
             = client_enrollment_destroy_link
-            = link_to t('.back'), report_client_client_enrollments_path(@client, program_stream_id: @program_stream), class: 'btn btn-back-default btn-default form-btn margin-btn'
+          = link_to t('.back'), report_client_client_enrollments_path(@client, program_stream_id: @program_stream), class: 'btn btn-back-default btn-default editable-cancel form-btn margin-btn'
       .ibox-content
         .table-responsive
           %table.table.table-bordered

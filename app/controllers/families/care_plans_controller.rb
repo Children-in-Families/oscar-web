@@ -3,7 +3,7 @@ module Families
     include CreateNestedValue
     load_and_authorize_resource
 
-    before_action :set_family, :get_all_assessments
+    before_action :set_family, :find_all_assessments
     before_action :set_care_plan, :find_assessment, only: [:edit, :update]
 
     def index
@@ -22,7 +22,7 @@ module Families
       @care_plan = @family.care_plans.new(care_plan_params)
       if @care_plan.save
         params[:care_plan][:goals_attributes].each do |goal|
-          create_nested_value(goal)
+          create_nested_value(@care_plan, goal)
         end
         redirect_to family_care_plans_path(@family), notice: t('care_plans.create.successfully_created')
       else
@@ -79,8 +79,8 @@ module Families
       @family = Family.accessible_by(current_ability).find(params[:family_id])
     end
 
-    def get_all_assessments
-      @assessments = @family.assessments.completed
+    def find_all_assessments
+      @assessments = @family.assessments.completed.order(:created_at)
     end
 
     def find_assessment

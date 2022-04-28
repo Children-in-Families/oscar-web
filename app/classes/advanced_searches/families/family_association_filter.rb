@@ -1,6 +1,7 @@
 module AdvancedSearches
   module Families
     class FamilyAssociationFilter
+      include AdvancedSearchHelper
       include AssessmentHelper
       include FormBuilderHelper
 
@@ -28,10 +29,14 @@ module AdvancedSearches
           values = get_family_member_dob
         when 'active_families'
           values = get_active_families
-        when /assessment_completed|assessment_completed_date/
-          values = date_of_completed_assessments_query(nil)
+        when /assessment_completed|assessment_completed_date|custom_completed_date/
+          values = date_of_completed_assessments_query(true)
         when 'date_of_custom_assessments'
           values = date_of_assessments_query(false)
+        when 'relation'
+          values = family_members
+        when 'care_plan_completed_date'
+          values = date_query(Family, @families, :care_plans, 'care_plans.created_at')
         end
         { id: sql_string, values: values }
       end
@@ -49,6 +54,22 @@ module AdvancedSearches
           families = families.where(children: '{}')
         when 'is_not_empty'
           families = families.where.not(children: '{}')
+        end
+
+        families.ids
+      end
+
+      def family_members
+        families = @families
+        case @operator
+        when 'equal'
+          families = families.joins(:family_members).where(family_members: { relation: @value })
+        when 'not_equal'
+          families = Family.includes(:family_members).where("NOT EXISTS (SELECT 1 FROM family_members WHERE family_members.family_id = families.id AND relation = ?)", @value).references(:family_members)
+        when 'is_empty'
+          families = Family.includes(:family_members).where(family_members: { relation: "" }).references(:family_members)
+        when 'is_not_empty'
+          families = Family.includes(:family_members).where.not(family_members: { relation: "" }).references(:family_members)
         end
 
         families.ids
@@ -180,59 +201,26 @@ module AdvancedSearches
       end
 
       def date_of_completed_assessments_query(type)
-        if type.nil?
-          families = @families.joins(:assessments).where(assessments: { completed: true })
-        else
-          families = @families.joins(:assessments).where(assessments: { completed: true, default: type })
-        end
+        families = @families.joins(:assessments).where(assessments: { completed: true })
         case @operator
         when 'equal'
-          families = families.where('date(assessments.created_at) = ?', @value.to_date)
+          families = families.where('date(assessments.completed_date) = ?', @value.to_date)
         when 'not_equal'
-          families = families.where('date(assessments.created_at) != ? OR assessments.created_at IS NULL', @value.to_date)
+          families = families.where('date(assessments.completed_date) != ? OR assessments.completed_date IS NULL', @value.to_date)
         when 'less'
-          families = families.where('date(assessments.created_at) < ?', @value.to_date)
+          families = families.where('date(assessments.completed_date) < ?', @value.to_date)
         when 'less_or_equal'
-          families = families.where('date(assessments.created_at) <= ?', @value.to_date)
+          families = families.where('date(assessments.completed_date) <= ?', @value.to_date)
         when 'greater'
-          families = families.where('date(assessments.created_at) > ?', @value.to_date)
+          families = families.where('date(assessments.completed_date) > ?', @value.to_date)
         when 'greater_or_equal'
-          families = families.where('date(assessments.created_at) >= ?', @value.to_date)
+          families = families.where('date(assessments.completed_date) >= ?', @value.to_date)
         when 'between'
-          families = families.where('date(assessments.created_at) BETWEEN ? AND ? ', @value[0].to_date, @value[1].to_date)
+          families = families.where('date(assessments.completed_date) BETWEEN ? AND ? ', @value[0].to_date, @value[1].to_date)
         when 'is_empty'
-          families = Family.includes(:assessments).where(assessments: { completed: true, created_at: nil })
+          families = Family.includes(:assessments).where(assessments: { completed: true, completed_date: nil })
         when 'is_not_empty'
-          families = families.where.not(assessments: { created_at: nil })
-        end
-        families.ids
-      end
-
-      def date_of_completed_assessments_query(type)
-        if type.nil?
-          families = @families.joins(:assessments).where(assessments: { completed: true })
-        else
-          families = @families.joins(:assessments).where(assessments: { completed: true, default: type })
-        end
-        case @operator
-        when 'equal'
-          families = families.where('date(assessments.created_at) = ?', @value.to_date)
-        when 'not_equal'
-          families = families.where('date(assessments.created_at) != ? OR assessments.created_at IS NULL', @value.to_date)
-        when 'less'
-          families = families.where('date(assessments.created_at) < ?', @value.to_date)
-        when 'less_or_equal'
-          families = families.where('date(assessments.created_at) <= ?', @value.to_date)
-        when 'greater'
-          families = families.where('date(assessments.created_at) > ?', @value.to_date)
-        when 'greater_or_equal'
-          families = families.where('date(assessments.created_at) >= ?', @value.to_date)
-        when 'between'
-          families = families.where('date(assessments.created_at) BETWEEN ? AND ? ', @value[0].to_date, @value[1].to_date)
-        when 'is_empty'
-          families = Family.includes(:assessments).where(assessments: { completed: true, created_at: nil })
-        when 'is_not_empty'
-          families = families.where.not(assessments: { created_at: nil })
+          families = families.where.not(assessments: { completed_date: nil })
         end
         families.ids
       end

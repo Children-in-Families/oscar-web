@@ -19,8 +19,13 @@ class CaseConferencesController < AdminController
   end
 
   def create
-    @case_conference = @client.case_conferences.new(case_conference_params)
-    if @case_conference.save
+    if Date.today >= @client.next_case_conference_date
+      @case_conference = @client.case_conferences.new(case_conference_params)
+    else
+      @case_conference = @client.case_conferences.reload.last
+    end
+    check_case_conference = CheckDuplicatedCaseConference.new(@case_conference, case_conference_params)
+    if check_case_conference.call
       redirect_to [@client, @case_conference], notice: t('.successfully_created')
     else
       render :new
@@ -39,6 +44,12 @@ class CaseConferencesController < AdminController
   end
 
   def destroy
+    if @case_conference.destroy
+      redirect_to client_case_conferences_path(@client), notice: t('.successfully_deleted')
+    else
+      messages = @case_conference.errors.full_messages.uniq.join('\n')
+      redirect_to [@client, @case_conference], alert: messages
+    end
   end
 
   private

@@ -22,6 +22,8 @@
                   %a{:role => "button", :tabIndex => "0",  data:{ toggle: "popover", html: 'true', trigger: "focus", content: "#{I18n.t('inline_help.clients.show.status')}" } }
                     = fa_icon "info-circle", class: 'text-info m-xs'
                   = "#{t('.status')} :"
+                  - if @client.for_testing
+                    %span.show-status= status_style(t('.for_testing'))
                   %span.show-status= status_style(@client.status)
             %tr
               %td
@@ -85,11 +87,7 @@
               %button.btn.btn-danger.mini-margin{ disabled: 'disabled', class: 'agree-btn', data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.clients.show.reject')}", placement: "auto" } }= t('.reject')
 
     - if @client.status != 'Referred'
-      - if Organization.current.short_name == 'demo' || Organization.current.short_name == 'tutorials'
-        - ngos = Organization.test_ngos.exclude_current.order(:full_name).map{|org| [org.full_name, org.short_name] }
-      - else
-        - ngos = Organization.exclude_current.oscar.order(:full_name).map{|org| [org.full_name, org.short_name] }
-      - ngos = mapping_ngos(ngos)
+      - ngos = mapping_ngos(select_ngos)
       .row
         .col-xs-12
           .btn-group.small-btn-margin
@@ -192,10 +190,13 @@
             %ul.dropdown-menu.btn-fit.scrollable-dropdown-menu.additional-forms
               - @group_client_custom_fields.each do |_, client_custom_fields|
                 %li
-                  %p= link_to client_custom_fields.first.custom_field.form_title, client_custom_field_properties_path(@client, custom_field_id: client_custom_fields.first.custom_field_id)
+                  %p
+                    = link_to client_custom_fields.first.custom_field.form_title, client_custom_field_properties_path(@client, custom_field_id: client_custom_fields.first.custom_field_id)
+                    - if client_custom_fields.first.custom_field.hidden
+                      %span.text-danger= fa_icon 'lock'
           - if can? :manage, CustomFieldProperty
             .btn-group.small-btn-margin
-              %button.btn-sm.btn.btn-success.dropdown-toggle.btn-fit{ data: { toggle: "dropdown", trigger: 'hover', html: 'true', content: "#{I18n.t('inline_help.clients.show.add_form')}", placement: "auto" }, class: ('disabled' if @free_client_forms.empty? || status_exited?(@client.status)) }
+              %button.btn-sm.btn.btn-success.dropdown-toggle.btn-fit{ data: { toggle: "dropdown", trigger: 'hover', html: 'true', content: "#{I18n.t('inline_help.clients.show.add_form')}", placement: "auto" }, class: ('disabled' if @free_client_forms.empty? || (status_exited?(@client.status) && !current_user.admin?)) }
                 = t('.add_form')
                 %span.caret
               %ul.dropdown-menu.btn-fit.scrollable-dropdown-menu.add-form
@@ -239,7 +240,7 @@
           - if has_service_delivery?
             = link_to client_service_receives_path(@client) do
               %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit
-                = t('.service_received')
+                = t('service_deliveries.index.service_delivery')
 
 
 .row.mini-margin
@@ -388,6 +389,7 @@
                   %td
                     %strong
                       = @client.carer.try(:phone)
+
               - if Setting.first.country_name == "cambodia" && !Organization.brc?
                 %tr
                   %td.spacing-first-col
@@ -424,6 +426,12 @@
 
           .col-sm-12.col-md-6.second-table
             %table.table.table-bordered
+              - if current_organization.integrated?
+                %tr
+                  %td.spacing-first-col
+                    = "#{t('.external_id_display')}"
+                    %td
+                      %strong= @client.external_id_display
               %tr
                 %td.spacing-first-col
                   = "#{t('.client_global_identity')}"
@@ -436,7 +444,7 @@
                   = t('.referral_source_category')
                 %td
                   %strong
-                    = referral_source_category(@client.referral_source_category_id)
+                    = editable @client, :referral_source_category_id, type: :select2, source: referral_source_name(ReferralSource.child_referrals).map{|name, id| { value: id, text: name } }, value: referral_source_category(@client.referral_source_category_id), url: api_client_path(@client.id), pk: @client.id
               %tr
                 %td.spacing-first-col
                   = t('.referral_source')
@@ -523,6 +531,26 @@
                     %td
                       %strong
                         = @client.public_send(field.to_sym)
+              - if @client.family
+                %tr
+                  %td.spacing-first-col= t('.families')
+                  %td
+                    %strong= @client.family.display_name
+                    = link_to family_path(@client.family) do
+                      = fa_icon 'external-link'
+              %tr
+                %td.spacing-first-col
+                  = t('datagrid.columns.clients.client_phone')
+                %td
+                  %strong
+                    = @client.client_phone
+
+              %tr
+                %td.spacing-first-col
+                  = t('datagrid.columns.clients.concern_phone_owner')
+                %td
+                  %strong
+                    = @client.phone_owner&.capitalize
 
         - if @client.phone_counselling_summary.present?
           .row
@@ -554,21 +582,29 @@
             %table.table.table-bordered.table-hover#case-history-table
               %thead
                 %tr
-                  %th(colspan="4")
+                  %th(colspan="5")
                     = t('clients.form.legal_documents')
               %tbody
-                - %w(national_id birth_cert family_book passport travel_doc referral_doc local_consent police_interview other_legal_doc).each do |field|
-                  - attachments = @client.send("#{field}_files")
+                - legal_doc_options_hash = { "Labour Trafficking" => 'labor_trafficking_legal_doc_option', "Sexual Trafficking" => 'sex_trafficking_legal_doc_option', 'Other' => 'other_legal_doc_option' }
+                - legal_doc_fields.each do |field|
+                  - if field == 'dosavy'
+                    - attachments = @client.send("referral_doc_files")
+                  - else
+                    - attachments = @client.send("#{field}_files")
 
                   - if policy(Client).show?(field.to_sym)
                     - if @client.send(field.to_sym)
                       %tr
                         %td(rowspan="#{ attachments.size + 1 }")
-                          %strong= t("clients.form.#{field}")
+                          - if field == 'police_interview'
+                            %strong= t("clients.form.detail_form_of_judicial_police")
+                          - else
+                            %strong= t("clients.form.#{field}")
                         %td(rowspan="#{ attachments.size + 1 }")
                           %strong
                             %span YES
-
+                        %td(rowspan="#{ attachments.size + 1 }")
+                          = t("clients.form.#{legal_doc_options_hash[@client.try("#{field}_option".to_sym)]}") if @client.try("#{field}_option".to_sym).present?
                         - if attachments.size == 0
                           %td(colspan="2") No attachment
 
@@ -584,6 +620,7 @@
                           %strong= t("clients.form.#{field}")
                         %td
                           %strong NO
+                        %td
                         %td(colspan="2")
 
         - if @case_histories.any?
@@ -613,7 +650,7 @@
 
                   - @case_histories.each_with_index do |case_history, index|
                     - case_history_name = case_history.class.table_name
-                    %tr.case-history-row{ data: {date: case_history.new_date, classname: case_history_name,name: case_history_label(case_history), created_date: case_history.created_at} }
+                    %tr.case-history-row{ data: {date: case_history.new_date, classname: case_history_name, name: case_history_label(case_history), created_date: case_history.created_at} }
                       %td= case_history_label(case_history)
                       - unless Rails.env.production?
                         %td= case_history.created_at.to_s
@@ -624,6 +661,9 @@
                           - if current_user.admin?
                             - if ['enter_ngos', 'exit_ngos'].include?(case_history_name)
                               %button.btn.btn-outline.btn-success.btn-xs.edit-case-history-ngo{ data: { class_name: case_history_name },'data-target' => "##{case_history_name}-#{case_history.id}", 'data-toggle' => 'modal' }= fa_icon('pencil')
+                            - if case_history_name == 'exit_ngos' && @client.latest_exit_ngo == case_history
+                              = link_to client_exit_ngo_path(@client, case_history), class: 'btn btn-outline btn-danger btn-xs', method: 'delete', data: { confirm: t('.are_you_sure') } do
+                                = fa_icon 'trash'
                             = case_history_links(case_history, case_history_name)
                         = render 'case_history_detail', object: case_history, index: index
                         = render_case_history(case_history, case_history_name)

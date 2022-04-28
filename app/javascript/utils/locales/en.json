@@ -59,7 +59,7 @@
     "sam_as_client": "Same as Client"
   },
   "createFamilyModal": {
-    "wait_for_server_req": "Please wait while we are making a request to server.",
+    "wait_for_server_req": "Duplicate Checker is running, please wait for a moment...",
     "create_family_record": "Would you like to create a family record for this client, or attach them to an existing family?",
     "create_family": "Create a new family with client",
     "attach_family_to_client": "Attach with existing family record",
@@ -82,7 +82,7 @@
     "referral_info": "Client / Referral Information",
     "referral_more_info": "Client / Referral - More Information",
     "referral_vulnerability": "Client / Referral - Vulnerability Information and Referral Note",
-    "wait": "Please wait while we are making a request to server.",
+    "wait": "Duplicate Checker is running, please wait for a moment...",
     "duplicate_checker": "Duplicate Checker Running. Please give us a moment!",
     "cancel": "Cancel",
     "next": "Next",
@@ -91,7 +91,7 @@
     "similar_record": "The client record you are saving has similarities to other records in OSCaR in the following fields:",
     "checking_message": "Please check with the client whether they have ever worked with another organisation that may have put their details into OSCaR.",
     "duplicate_message": "Duplicate Checker feature is currently in Beta testing, please Email: info@oscarhq.com if you have any issues with excessive false positive/negative results.",
-    "continue":"Continue",
+    "continue": "Continue",
     "client_confirm": "Client Confirmation",
     "warning": "Warning",
     "successfully_created": "Client has been successfully created",
@@ -142,7 +142,8 @@
     "phone_owner": "Phone Owner",
     "client_email": "Client Email Address",
     "profile": "Profile Picture",
-    "remove": "Remove"
+    "remove": "Remove",
+    "for_testing": "Is This a test client?"
   },
   "referralMoreInfo": {
     "referral_more_info": "Client / Referral - More Information",
@@ -217,7 +218,7 @@
     "Stranger": "Stranger",
     "Other": "Other"
   },
-  "schoolGrade":{
+  "schoolGrade": {
     "Bachelors": "Bachelors",
     "Kindergarten 1": "Kindergarten 1",
     "Kindergarten 2": "Kindergarten 2",
@@ -285,7 +286,7 @@
         "wrong_number": "Wrong Number"
       },
       "referee_answered_call": "Did the referee answer this call or return a missed call?",
-      "referee_called_before": "Has the referee called the Childsafe Hotline Before?",
+      "referee_called_before": "Has the referee called Before?",
       "call_information": "Call Information",
       "phone_call": "Phone Call ID #",
       "receiving_staff": "Receiving Staff",
@@ -476,7 +477,7 @@
       "case_worker": "Case Worker / Assigned Staff Manager",
       "contact_info": "Contact Information",
       "client_is_outside": "International",
-      "client_contact_phone": "Client Contact Phone",
+      "client_phone": "Client Contact Phone",
       "phone_owner": "Phone Owner",
       "client_email": "Client Email Contact",
       "email_owner": "Email Owner",
@@ -570,14 +571,13 @@
       "Spam Call": "Spam Call",
       "Wrong Number": "Wrong Number"
     },
-    "listClient":{
+    "listClient": {
       "list_clients": "List Clients"
     },
     "referee": {
       "referee": "Referee"
     },
-    "index": {
-    }
+    "index": {}
   },
   "editCall": {
     "index": {
