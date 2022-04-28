@@ -1052,7 +1052,7 @@ module ClientsHelper
   def case_history_label(value)
     label = case value.class.table_name
             when 'enter_ngos' then I18n.t("accepted_date")
-            when 'exit_ngos' then I18n.t('.exit_date')
+            when 'exit_ngos' then I18n.t('clients.case_history_detail.exit_date')
             when 'client_enrollments', 'enrollments' then "#{value.program_stream.try(:name)} Entry"
             when 'leave_programs' then "#{value.program_stream.name} Exit"
             when 'clients', 'families' then I18n.t('.initial_referral_date')
