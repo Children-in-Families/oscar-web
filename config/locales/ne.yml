@@ -3602,6 +3602,9 @@ en:
         other_gender: Other
         unknown: Unknown
         prefer_not_to_say: Prefer not to answer
+      field_type:
+        select_option: Select options
+        free_text: Free text
   errors:
     messages:
       already_confirmed: was already confirmed, please try signing in

@@ -11,11 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20220427082949) do
+ActiveRecord::Schema.define(version: 20220501153912) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
+  enable_extension "uuid-ossp"
   enable_extension "pgcrypto"
 
   create_table "able_screening_questions", force: :cascade do |t|
@@ -542,10 +543,15 @@ ActiveRecord::Schema.define(version: 20220427082949) do
     t.integer  "client_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "type",                 default: "ClientQuantitativeCase"
+    t.text     "content"
+    t.integer  "quantitative_type_id"
   end
 
   add_index "client_quantitative_cases", ["client_id"], name: "index_client_quantitative_cases_on_client_id", using: :btree
   add_index "client_quantitative_cases", ["quantitative_case_id"], name: "index_client_quantitative_cases_on_quantitative_case_id", using: :btree
+  add_index "client_quantitative_cases", ["quantitative_type_id"], name: "index_client_quantitative_cases_on_quantitative_type_id", using: :btree
+  add_index "client_quantitative_cases", ["type"], name: "index_client_quantitative_cases_on_type", using: :btree
 
   create_table "client_right_government_forms", force: :cascade do |t|
     t.integer  "government_form_id"
@@ -1338,11 +1344,16 @@ ActiveRecord::Schema.define(version: 20220427082949) do
     t.integer  "family_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "type",                 default: "FamilyQuantitativeCase"
+    t.text     "content"
+    t.integer  "quantitative_type_id"
   end
 
   add_index "family_quantitative_cases", ["family_id", "quantitative_case_id"], name: "index_on_family_id_and_quantitative_case_id", using: :btree
   add_index "family_quantitative_cases", ["family_id"], name: "index_family_quantitative_cases_on_family_id", using: :btree
   add_index "family_quantitative_cases", ["quantitative_case_id"], name: "index_family_quantitative_cases_on_quantitative_case_id", using: :btree
+  add_index "family_quantitative_cases", ["quantitative_type_id"], name: "index_family_quantitative_cases_on_quantitative_type_id", using: :btree
+  add_index "family_quantitative_cases", ["type"], name: "index_family_quantitative_cases_on_type", using: :btree
 
   create_table "family_referrals", force: :cascade do |t|
     t.string   "slug",             default: ""
@@ -2024,6 +2035,8 @@ ActiveRecord::Schema.define(version: 20220427082949) do
     t.boolean  "multiple",                 default: true
     t.string   "visible_on",               default: "---\n- client\n"
     t.boolean  "is_required",              default: false
+    t.string   "hint"
+    t.string   "field_type",               default: "select_option"
   end
 
   create_table "quarterly_reports", force: :cascade do |t|

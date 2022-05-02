@@ -80,8 +80,11 @@ class Client < ActiveRecord::Base
   has_many :agency_clients, dependent: :destroy
   has_many :progress_notes, dependent: :destroy
   has_many :agencies, through: :agency_clients
+  
+  has_many :client_quantitative_free_text_cases, dependent: :destroy
   has_many :client_quantitative_cases, dependent: :destroy
   has_many :quantitative_cases, through: :client_quantitative_cases
+
   has_many :custom_field_properties, as: :custom_formable, dependent: :destroy
   has_many :custom_fields, through: :custom_field_properties, as: :custom_formable
   has_many :client_enrollments, dependent: :destroy
@@ -98,6 +101,7 @@ class Client < ActiveRecord::Base
   has_one  :family, through: :family_member
 
   accepts_nested_attributes_for :tasks
+  accepts_nested_attributes_for :client_quantitative_free_text_cases
   accepts_nested_attributes_for :family_member, allow_destroy: true
 
   has_many :families,       through: :cases
