@@ -69,13 +69,15 @@ module AdvancedSearches
 
     def date_type_list
       [
-        'date_of_birth', 'initial_referral_date', 'follow_up_date', 'exit_date', 'accepted_date',
-        'case_note_date', 'created_at', 'date_of_referral', 'active_clients', 'arrival_at'
+        'date_of_birth', 'initial_referral_date', 'follow_up_date', 'exit_date', 'accepted_date', 'arrival_at',
+        'case_note_date', 'created_at', 'date_of_referral', 'active_clients', 'active_client_program',
+        'number_client_referred_gatekeeping', 'number_client_billable'
       ].compact
     end
 
     def drop_down_type_list
       yes_no_options = { true: 'Yes', false: 'No' }
+      better_same_worse_options = { better: 'Better', same: 'The same', worse: 'Worse' }
       fields = [
         ['location_of_concern', Client.cache_location_of_concern],
         ['created_by', user_select_options ],
@@ -109,7 +111,9 @@ module AdvancedSearches
         ['referee_relationship', get_sql_referee_relationship],
         ['address_type', get_sql_address_types],
         ['phone_owner', get_sql_phone_owner],
-        ['family_type', family_type_list]
+        ['family_type', family_type_list],
+        ['assessment_condition_last_two', better_same_worse_options],
+        ['assessment_condition_first_last', better_same_worse_options]
       ].compact
     end
 

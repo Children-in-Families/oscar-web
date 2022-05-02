@@ -1,0 +1,51 @@
+#assessment-age.tab-pane{role: "tabpanel"}
+  %table.table.table-bordered.table-striped.table-hover.assessment-score-data#csi-assessment-age
+    %thead
+      %tr
+        %th.text-center{:rowspan => 2}= t('.program')
+        %th.text-center{:colspan => 3}= t('.children')
+        %th.text-center{:colspan => 3}= t('.adult')
+        %th.text-center{:rowspan => 2}= t('.total')
+      %tr
+        %th= t('.female')
+        %th= t('.male')
+        %th= t('.other')
+        %th= t('.female')
+        %th= t('.male')
+        %th= t('.other')
+    %tbody
+      - totalChildFemale = totalChildMale = totalChildOther = 0
+      - totalAdultFemale = totalAdultMale = totalAdultOther = total = 0
+      - ProgramStream.where(id: ClientEnrollment.active.pluck(:program_stream_id).compact).each do |program|
+        %tr
+          %td= program.name
+          - childFemale= ClientEnrollment.active.joins(:client).where("client_enrollments.program_stream_id = ? AND clients.gender = ? AND (EXTRACT(year FROM age(current_date, clients.date_of_birth)) :: int) < ?", program.id, 'female', 18).count
+          - totalChildFemale += childFemale
+          %td= childFemale
+          - childMale= ClientEnrollment.active.joins(:client).where("client_enrollments.program_stream_id = ? AND clients.gender = ? AND (EXTRACT(year FROM age(current_date, clients.date_of_birth)) :: int) < ?", program.id, 'male', 18).count
+          - totalChildMale += childMale
+          %td= childMale
+          - childOther= ClientEnrollment.active.joins(:client).where("client_enrollments.program_stream_id = ? AND clients.gender = ? AND (EXTRACT(year FROM age(current_date, clients.date_of_birth)) :: int) < ?", program.id, 'other', 18).count
+          - totalChildOther += childOther
+          %td= childOther
+          - adultFemale= ClientEnrollment.active.joins(:client).where("client_enrollments.program_stream_id = ? AND clients.gender = ? AND (EXTRACT(year FROM age(current_date, clients.date_of_birth)) :: int) >= ?", program.id, 'female', 18).count
+          - totalAdultFemale += adultFemale
+          %td= adultFemale
+          - adultMale= ClientEnrollment.active.joins(:client).where("client_enrollments.program_stream_id = ? AND clients.gender = ? AND (EXTRACT(year FROM age(current_date, clients.date_of_birth)) :: int) >= ?", program.id, 'male', 18).count
+          - totalAdultMale += adultMale
+          %td= adultMale
+          - adultOther= ClientEnrollment.active.joins(:client).where("client_enrollments.program_stream_id = ? AND clients.gender = ? AND (EXTRACT(year FROM age(current_date, clients.date_of_birth)) :: int) >= ?", program.id, 'other', 18).count
+          - totalAdultOther += adultOther
+          %td= adultOther
+          - totalProgram= childFemale + childMale + childOther + adultFemale + adultMale + adultOther
+          - total += totalProgram
+          %td= totalProgram
+      %tr
+        %td.font-bold= t('.total')
+        %td= totalChildFemale
+        %td= totalChildMale
+        %td= totalChildOther
+        %td= totalAdultFemale
+        %td= totalAdultMale
+        %td= totalAdultOther
+        %td= total
