@@ -42,7 +42,7 @@ const Forms = props => {
   const {
     data: {
       current_organization,
-      client: { client, user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids, national_id_files, current_family_id, isTestClient, isForTesting }, family_member, family, referee, referees, carer, users, birthProvinces, referralSource, referralSourceCategory, selectedCountry, internationalReferredClient,
+      client: { client, user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids, national_id_files, current_family_id, isTestClient, isForTesting }, client_quantitative_free_text_cases, family_member, family, referee, referees, carer, users, birthProvinces, referralSource, referralSourceCategory, selectedCountry, internationalReferredClient,
       currentProvinces, districts, communes, villages, donors, agencies, schoolGrade, quantitativeType, quantitativeCase, ratePoor, families, clientRelationships, refereeRelationships, addressTypes, phoneOwners, refereeDistricts,
       refereeTownships, carerTownships, customId1, customId2, inlineHelpTranslation,
       refereeCommunes, refereeSubdistricts, carerSubdistricts, refereeVillages, carerDistricts, carerCommunes, carerVillages, callerRelationships, currentStates, currentTownships, subDistricts, translation, fieldsVisibility,
@@ -77,19 +77,20 @@ const Forms = props => {
   const [errorSteps, setErrorSteps]   = useState([])
   const [errorFields, setErrorFields] = useState([])
 
-  const [clientData, setClientData]   = useState({ user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids, current_family_id, isTestClient, isForTesting, ...client })
+  const [clientData, setClientData]   = useState({ user_ids, quantitative_case_ids, client_quantitative_free_text_cases, agency_ids, donor_ids, family_ids, current_family_id, isTestClient, isForTesting, ...client })
   const [clientProfile, setClientProfile] = useState({})
   const [refereeData, setRefereeData] = useState(referee)
   const [familyMemberData, setfamilyMemberData] = useState(family_member)
   const [refereesData, setRefereesData] = useState(referees)
   const [carerData, setCarerData]     = useState(carer)
+  const [clientQuantitativeFreeTextCasesData, setClientQuantitativeFreeTextCases] = useState(client_quantitative_free_text_cases)
 
   const address = { currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, subDistricts, currentStates, currentTownships, current_organization, addressTypes, T }
   const adminTabData = { users, client: clientData, errorFields, T }
   const refereeTabData = { errorFields, client: clientData, referee: refereeData, referees: refereesData, referralSourceCategory, referralSource, refereeDistricts, refereeCommunes, refereeVillages, currentProvinces, refereeTownships, currentStates, refereeSubdistricts, addressTypes, T, translation, current_organization }
   const referralTabData = { errorFields, client: clientData, referee: refereeData, birthProvinces, phoneOwners, callerRelationships, ...address, T, translation, current_organization, brc_address, brc_islands, brc_presented_ids, brc_resident_types, brc_prefered_langs, maritalStatuses, nationalities, ethnicities, traffickingTypes }
   const moreReferralTabData = { errorFields, ratePoor, carer: carerData, familyMember: familyMemberData, schoolGrade, donors, agencies, families, clientRelationships, carerDistricts, carerCommunes, carerVillages, currentStates, currentTownships, carerSubdistricts, ...referralTabData, T, customId1, customId2 }
-  const referralVulnerabilityTabData = { client: clientData, quantitativeType, quantitativeCase, T }
+  const referralVulnerabilityTabData = { client: clientData, errorFields, clientQuantitativeFreeTextCasesData, quantitativeType, quantitativeCase, T }
   const legalDocument = { client: clientData, T }
 
   const tabs = [
@@ -118,8 +119,6 @@ const Forms = props => {
     const inputType = ['date', 'select', 'checkbox', 'radio', 'file']
     const value = inputType.includes(event.type) ? event.data : event.target.value
 
-    // console.log(value);
-
     if (typeof field !== 'object')
       field = { [field]: value }
 
@@ -138,6 +137,9 @@ const Forms = props => {
         break;
       case 'carer':
         setCarerData({...carerData, ...field });
+        break;
+      case 'cqFreeText':
+        setClientQuantitativeFreeTextCases(clientQuantitativeFreeTextCasesData.map(quantitativeFreeText => { return quantitativeFreeText.quantitative_type_id == field.quantitative_type_id ? field : quantitativeFreeText }))
         break;
       default:
         console.log('not match');
@@ -167,6 +169,36 @@ const Forms = props => {
         })
       }
     })
+
+    quantitativeType.forEach(qttType => {
+      if (step === 4 && qttType.is_required) {
+        if (qttType.field_type == "free_text") {
+          const item = clientQuantitativeFreeTextCasesData.find(cqFreeText => { return cqFreeText.quantitative_type_id == qttType.id })
+          console.log(item)
+
+          if (item.content === null || item.content === '') {
+            errors.push(`qtt_type_${qttType.id}`)
+            errorSteps.push(4)
+          }
+        } else {
+          const qttCasees = quantitativeCase.filter(ftr => { return ftr.quantitative_type_id === qttType.id })
+          let error = true
+
+          qttCasees.forEach(qttCase => {
+            if (clientData.quantitative_case_ids.includes(qttCase.id)) {
+              error = false
+            }
+          })
+
+          if (error) {
+            errors.push(`qtt_type_${qttType.id}`)
+            errorSteps.push(4)
+          }
+        }
+      }
+    })
+
+    console.log(errors)
 
     if (errors.length > 0) {
       setErrorFields(errors)
@@ -302,6 +334,8 @@ const Forms = props => {
 
     for (let i =0; i< divs.length; i++) {
       if ($(divs[i]).find("div.css-1rhbuit-multiValue").length == 0 && $(divs[i]).find("div.css-1uccc91-singleValue").length == 0 ) {
+        console.log('found error')
+
         divs[i].firstElementChild.style.borderColor = "red"
         valid = false;
       }
@@ -331,6 +365,7 @@ const Forms = props => {
         formData = objectToFormData(refereeData, {}, formData, 'referee')
         formData = objectToFormData(carerData, {}, formData, 'carer')
         formData = objectToFormData(familyMemberData, {}, formData, 'family_member')
+        formData = objectToFormData(clientQuantitativeFreeTextCasesData, [], formData, 'client_quantitative_free_text_cases')
 
         $.ajax({
           url,
@@ -492,7 +527,7 @@ const Forms = props => {
 
           {
             fieldsVisibility.show_legal_doc == true &&
-            <div style={{ display: step === 5 ? 'block' : 'none' }}>
+            <div style={{ display: step =4 ? 'block' : 'none' }}>
               <LegalDocument data={legalDocument} translation={translation} fieldsVisibility={fieldsVisibility} onChange={onChange} />
             </div>
           }
