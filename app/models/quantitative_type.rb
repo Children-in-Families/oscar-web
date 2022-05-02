@@ -1,8 +1,13 @@
 class QuantitativeType < ActiveRecord::Base
+  extend Enumerize
+
   VISIBLE_ON = %w(client family community).freeze
   serialize :visible_on, Array
 
+  enumerize :field_type, in: %w(select_option free_text), default: :select_option, predicates: true, scope: true
+
   validates :name, presence: true, uniqueness: { case_sensitive: false }
+  validates :field_type, presence: true
   validate  :validate_visible_on
   validates :visible_on, presence: true
 

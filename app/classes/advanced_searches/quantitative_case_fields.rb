@@ -11,6 +11,7 @@ module AdvancedSearches
 
     def render
       opt_group = format_header('quantitative')
+
       if @user.admin? || @user.strategic_overviewer?
         quantitative_types = QuantitativeType.cach_by_visible_on(visible_on)
       else
@@ -19,12 +20,16 @@ module AdvancedSearches
       end
 
       quantitative_cases = quantitative_types.map do |qt|
-        AdvancedSearches::FilterTypes.drop_list_options(
-          "quantitative__#{qt.id}",
-          qt.name,
-          quantitative_cases(qt),
-          opt_group
-        )
+        if qt.select_option?
+          AdvancedSearches::FilterTypes.drop_list_options(
+            "quantitative__#{qt.id}",
+            qt.name,
+            quantitative_cases(qt),
+            opt_group
+          )
+        else
+          AdvancedSearches::FilterTypes.text_options("quantitative__#{qt.id}", qt.name, opt_group)
+        end
       end
 
       quantitative_cases.sort_by { |f| f[:label].downcase }

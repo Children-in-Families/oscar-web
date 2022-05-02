@@ -29,6 +29,7 @@ module Api
     def create
       client_saved = false
       client = Client.new(client_params)
+
       client.transaction do
         if params.dig(:referee, :id).present?
           referee = Referee.find(params.dig(:referee, :id))
@@ -52,6 +53,14 @@ module Api
       end
 
       if client_saved
+        if params[:client_quantitative_free_text_cases].present?
+          params[:client_quantitative_free_text_cases].each do |client_qt_free_text_attr|
+            client_qt_free_text = client.client_quantitative_free_text_cases.find_or_initialize_by(quantitative_type_id: client_qt_free_text_attr[:quantitative_type_id])
+            client_qt_free_text.content = client_qt_free_text_attr[:content]
+            client_qt_free_text.save
+          end
+        end
+
         render json: { slug: client.slug, id: client.id }, status: :ok
       else
         render json: client.errors, status: :unprocessable_entity
@@ -60,6 +69,7 @@ module Api
 
     def update
       client = Client.find(params[:client][:id] || params[:id])
+
       if params[:client][:id]
         referee = Referee.find_or_create_by(id: client.referee_id)
         referee.update_attributes(referee_params)
@@ -71,6 +81,14 @@ module Api
       end
 
       if client.update_attributes(client_params.except(:referee_id, :carer_id))
+        if params[:client_quantitative_free_text_cases].present?
+          params[:client_quantitative_free_text_cases].each do |client_qt_free_text_attr|
+            client_qt_free_text = client.client_quantitative_free_text_cases.find_or_initialize_by(quantitative_type_id: client_qt_free_text_attr[:quantitative_type_id])
+            client_qt_free_text.content = client_qt_free_text_attr[:content]
+            client_qt_free_text.save
+          end
+        end
+
         if params[:client][:assessment_id]
           assessment = Assessment.find(params[:client][:assessment_id])
         else
@@ -237,6 +255,10 @@ module Api
         :name, :phone, :outside, :address_type, :commune_id, :current_address, :district_id, :email, :gender, :house_number, :outside_address, :province_id, :street_number, :village_id, :anonymous,
         :state_id, :township_id, :subdistrict_id, :street_line1, :street_line2, :plot, :road, :postal_code, :suburb, :description_house_landmark, :directions, :locality
       )
+    end
+
+    def client_quantitative_free_text_cases_params
+      params.require(:client_quantitative_free_text_cases).permit()
     end
 
     def carer_params
