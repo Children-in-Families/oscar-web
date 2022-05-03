@@ -526,7 +526,7 @@ class ClientGrid < BaseGrid
   dynamic do
     quantitative_type_readable_ids = current_user.quantitative_type_permissions.readable.pluck(:quantitative_type_id) unless current_user.nil?
 
-    QuantitativeType.with_field_type(:free_text).each do |qqt_free_text|
+    QuantitativeType.with_field_type(:free_text).where('visible_on LIKE ?', "%client%").each do |qqt_free_text|
       if current_user.nil? || quantitative_type_readable_ids.include?(qqt_free_text.id)
         column(qqt_free_text.name.to_sym, class: 'quantitative-type', header: -> { qqt_free_text.name }, html: true) do |object|
           object.client_quantitative_free_text_cases.where("quantitative_type_id = ?", qqt_free_text.id).pluck(:content).join(', ')
