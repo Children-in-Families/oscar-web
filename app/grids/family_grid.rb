@@ -450,6 +450,18 @@ class FamilyGrid < BaseGrid
 
   dynamic do
     quantitative_type_readable_ids = current_user.quantitative_type_permissions.readable.pluck(:quantitative_type_id) unless current_user.nil?
+
+    QuantitativeType.with_field_type(:free_text).where('visible_on LIKE ?', "%family%").each do |qqt_free_text|
+      if current_user.nil? || quantitative_type_readable_ids.include?(qqt_free_text.id)
+        column(qqt_free_text.name.to_sym, class: 'quantitative-type', header: -> { qqt_free_text.name }, html: true) do |object|
+          object.family_quantitative_free_text_cases.where("quantitative_type_id = ?", qqt_free_text.id).pluck(:content).join(', ')
+        end
+      end
+    end
+  end
+
+  dynamic do
+    quantitative_type_readable_ids = current_user.quantitative_type_permissions.readable.pluck(:quantitative_type_id) unless current_user.nil?
     quantitative_types = QuantitativeType.joins(:quantitative_cases).where('quantitative_types.visible_on LIKE ?', "%family%").distinct
     quantitative_types.each do |quantitative_type|
       if current_user.nil? || quantitative_type_readable_ids.include?(quantitative_type.id)
