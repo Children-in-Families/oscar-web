@@ -1,6 +1,3 @@
-class FamilyQuantitativeCase < ActiveRecord::Base
-  belongs_to :family
+class FamilyQuantitativeCase < FamilyQuantitativeCaseBase
   belongs_to :quantitative_case
-
-  has_paper_trail
 end
