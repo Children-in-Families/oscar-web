@@ -100,15 +100,16 @@ module Api
       def update_link
         if params[:data].present?
           data       = params[:data]
-          global_ids = data.map(&:values).map(&:last)
-          data_hash  = data.map{ |pay_load| [pay_load[:global_id], [pay_load[:external_id], pay_load[:external_id_display]] ] }.to_h
+          global_ids = data.map{|hash| hash['global_id'] }
+          data_hash  = data.map{ |pay_load| [pay_load['global_id'], [pay_load['external_id'], pay_load['external_id_display']] ] }.to_h
           client_organizations = GlobalIdentityOrganization.where(global_id: global_ids).pluck(:global_id, :organization_id, :client_id).group_by(&:second)
+
           client_organizations.each do |ngo_id, client_ngos|
             ngo = Organization.find(ngo_id)
             Client.delay(queue: :priority).update_external_ids(ngo.short_name, client_ngos.map(&:last), data_hash)
           end
 
-          Apartment::Tenant.switch!('public')
+          Apartment::Tenant.switch('public')
           render json: { message: 'Record saved.' }, root: :data
         else
           render json: { error: client.errors, message: 'Record error. Please check OSCaR logs for details.' }, root: :data, status: :unprocessable_entity

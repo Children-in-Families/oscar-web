@@ -1330,20 +1330,6 @@ module ClientsHelper
     end
   end
 
-  def referral_source_name(referral_source)
-    if I18n.locale == :km
-      referral_source.map{|ref| [ref.name, ref.id] }
-    else
-      referral_source.map do |ref|
-        if ref.name_en.blank?
-          [ref.name, ref.id]
-        else
-          [ref.name_en, ref.id]
-        end
-      end
-    end
-  end
-
   def group_client_associations
     [*@assessments, *@case_notes, *@tasks, *@client_enrollment_leave_programs, *@client_enrollment_trackings, *@client_enrollments, *@case_histories, *@custom_field_properties, *@calls].group_by do |association|
       class_name = association.class.name.downcase

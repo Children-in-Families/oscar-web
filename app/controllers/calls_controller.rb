@@ -1,5 +1,6 @@
 class CallsController < AdminController
   load_and_authorize_resource find_by: :id
+  include ApplicationHelper
 
   before_action :set_association, only: [:new, :show]
   before_action :country_address_fields, only: [:new]
@@ -116,20 +117,6 @@ class CallsController < AdminController
     @phone_owners = Client::PHONE_OWNERS.map{|owner| {label: owner, value: owner.downcase}}
     @referral_source = []
     @referral_source_category = referral_source_name(ReferralSource.parent_categories)
-  end
-
-  def referral_source_name(referral_source)
-    if I18n.locale == :km
-      referral_source.map{|ref| [ref.name, ref.id] }
-    else
-      referral_source.map do |ref|
-        if ref.name_en.blank?
-          [ref.name, ref.id]
-        else
-          [ref.name_en, ref.id]
-        end
-      end
-    end
   end
 
   def country_address_fields
