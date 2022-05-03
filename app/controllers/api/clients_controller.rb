@@ -257,10 +257,6 @@ module Api
       )
     end
 
-    def client_quantitative_free_text_cases_params
-      params.require(:client_quantitative_free_text_cases).permit()
-    end
-
     def carer_params
       params.require(:carer).permit(
         :name, :phone, :outside, :address_type, :current_address, :email, :gender, :house_number, :street_number, :outside_address, :commune_id, :district_id, :province_id,  :village_id, :client_relationship, :same_as_client,

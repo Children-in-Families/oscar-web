@@ -198,8 +198,6 @@ const Forms = props => {
       }
     })
 
-    console.log(errors)
-
     if (errors.length > 0) {
       setErrorFields(errors)
       setErrorSteps([ ...new Set(errorSteps)])
@@ -334,8 +332,6 @@ const Forms = props => {
 
     for (let i =0; i< divs.length; i++) {
       if ($(divs[i]).find("div.css-1rhbuit-multiValue").length == 0 && $(divs[i]).find("div.css-1uccc91-singleValue").length == 0 ) {
-        console.log('found error')
-
         divs[i].firstElementChild.style.borderColor = "red"
         valid = false;
       }
@@ -527,7 +523,7 @@ const Forms = props => {
 
           {
             fieldsVisibility.show_legal_doc == true &&
-            <div style={{ display: step =4 ? 'block' : 'none' }}>
+            <div style={{ display: step === 5 ? 'block' : 'none' }}>
               <LegalDocument data={legalDocument} translation={translation} fieldsVisibility={fieldsVisibility} onChange={onChange} />
             </div>
           }
