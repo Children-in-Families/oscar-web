@@ -33,7 +33,7 @@ guard_console:
 	docker exec -it app guard
 
 rspec:
-	docker exec -it app rspec spec
+	docker-compose exec -T app rspec spec
 
 # Starts up a mongo console in the mongo container
 mongo_console:
@@ -59,7 +59,7 @@ db_create_test:
 	# docker-compose run --no-deps -e RAILS_ENV=test --entrypoint "rake db:drop" app
 	docker-compose run --no-deps -e RAILS_ENV=test --entrypoint "rake db:create" app
 	docker-compose run --no-deps -e RAILS_ENV=test --entrypoint "rake db:schema:load" app
-	docker exec -it mongo mongo --authenticationDatabase admin --host localhost -u mongo -p 123456789 oscar_history_test --eval "db.dropUser('oscar'); db.createUser({user: 'oscar', pwd: '123456789', roles: [{role: 'readWrite', db: 'oscar_history_test'}]});"
+	docker-compose exec -T mongo mongo --authenticationDatabase admin --host localhost -u mongo -p 123456789 oscar_history_test --eval "db.dropUser('oscar'); db.createUser({user: 'oscar', pwd: '123456789', roles: [{role: 'readWrite', db: 'oscar_history_test'}]});"
 
 # If the container is NOT running and you want to get a bash terminal then run this command
 run_image_bash:

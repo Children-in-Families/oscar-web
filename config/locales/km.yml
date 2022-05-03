@@ -3922,6 +3922,9 @@ km:
         other: ផ្សេងៗ
         unknown: អត់ទាន់ដឹង
         prefer_not_to_say: សុំមិននិយាយ/មិនជាក់លាក់
+      field_type:
+        select_option: Select options
+        free_text: Free text
   errors:
     messages:
       already_confirmed: ត្រូវបានបញ្ជាក់រួចហើយ សូមសាកល្បងចូល
@@ -5612,6 +5615,8 @@ km:
       is_multi_select: ជ្រើសបានលើសពីមួយ
       is_required: មិនអាចរំលងបាន
       name: ឈ្មោះ
+      hint: Hint
+      field_type: Field type
       quantitative_type: ព័ត៌មានជាក់លាក់នៃការបញ្ជូន
       save: រក្សាទុក
     index:

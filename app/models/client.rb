@@ -80,8 +80,11 @@ class Client < ActiveRecord::Base
   has_many :agency_clients, dependent: :destroy
   has_many :progress_notes, dependent: :destroy
   has_many :agencies, through: :agency_clients
+  
+  has_many :client_quantitative_free_text_cases, dependent: :destroy
   has_many :client_quantitative_cases, dependent: :destroy
   has_many :quantitative_cases, through: :client_quantitative_cases
+
   has_many :custom_field_properties, as: :custom_formable, dependent: :destroy
   has_many :custom_fields, through: :custom_field_properties, as: :custom_formable
   has_many :client_enrollments, dependent: :destroy
@@ -98,6 +101,7 @@ class Client < ActiveRecord::Base
   has_one  :family, through: :family_member
 
   accepts_nested_attributes_for :tasks
+  accepts_nested_attributes_for :client_quantitative_free_text_cases
   accepts_nested_attributes_for :family_member, allow_destroy: true
 
   has_many :families,       through: :cases
@@ -137,8 +141,8 @@ class Client < ActiveRecord::Base
   after_commit :remove_family_from_case_worker
   after_commit :update_related_family_member, on: :update
   after_commit :delete_referee, on: :destroy
-  after_save :update_referral_status_on_target_ngo, if: :status_changed?
   after_commit :flush_cache
+  after_save :update_referral_status_on_target_ngo, if: :status_changed?
 
   scope :given_name_like,                          ->(value) { where('clients.given_name iLIKE :value OR clients.local_given_name iLIKE :value', { value: "%#{value.squish}%"}) }
   scope :family_name_like,                         ->(value) { where('clients.family_name iLIKE :value OR clients.local_family_name iLIKE :value', { value: "%#{value.squish}%"}) }
@@ -922,20 +926,6 @@ class Client < ActiveRecord::Base
     referee.destroy
   end
 
-  def update_referral_status_on_target_ngo
-    referral = referrals.received.last
-    return if referral.blank? || referral.referred_from[/external system/i].present?
-
-    current_ngo = Apartment::Tenant.current
-    Apartment::Tenant.switch referral.referred_from
-    original_referral = Referral.where(slug: referral.slug).last
-    if original_referral
-      original_referral.referral_status = status
-      original_referral.save(validate: false)
-    end
-    Apartment::Tenant.switch current_ngo
-  end
-
   def flush_cache
     Rails.cache.delete([Apartment::Tenant.current, 'Client', 'location_of_concern']) if location_of_concern_changed?
     Rails.cache.delete([Apartment::Tenant.current, self.class.name, 'received_by', received_by_id]) if received_by_id_changed?
@@ -967,6 +957,20 @@ class Client < ActiveRecord::Base
     cached_client_assessment_order_completed_date_keys.each { |key| Rails.cache.delete(key) }
     cached_client_assessment_domains_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_assessment_domains/].blank? }
     cached_client_assessment_domains_keys.each { |key| Rails.cache.delete(key) }
+  end
+
+  def update_referral_status_on_target_ngo
+    referral = referrals.received.last
+    return if referral.blank? || referral.referred_from[/external system/i].present?
+
+    current_ngo = Apartment::Tenant.current
+    Apartment::Tenant.switch referral.referred_from
+    original_referral = Referral.where(slug: referral.slug).last
+    if original_referral
+      original_referral.referral_status = status
+      original_referral.save(validate: false)
+    end
+    Apartment::Tenant.switch current_ngo
   end
 
 end

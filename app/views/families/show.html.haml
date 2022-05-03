@@ -328,6 +328,16 @@
                   = link_to preview_or_download(attachment), attachment.url, class: 'btn btn-info btn-sm btn-download', target: target_blank(attachment)
 
           - if show_family_CRD?
+            - @family.family_quantitative_free_text_cases.each do |qtt_free_text|
+              - next if qtt_free_text.content.blank?
+              - next unless quantitative_type_readable?(qtt_free_text.quantitative_type_id)
+              %tr
+                %td.align-justify.spacing-first-col
+                  = qtt_free_text.quantitative_type.name
+                %td.align-justify
+                  %strong.label.label-default
+                    = qtt_free_text.content
+
             - @family.viewable_quantitative_cases.group_by(&:quantitative_type).each do |qtypes|
               - next unless quantitative_type_readable?(qtypes.first.id)
               %tr

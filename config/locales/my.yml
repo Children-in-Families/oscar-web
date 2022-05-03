@@ -4080,6 +4080,9 @@ my:
         other_gender: Other
         unknown: Unknown
         prefer_not_to_say: Prefer not to answer
+      field_type:
+        select_option: Select options
+        free_text: Free text
   errors:
     messages:
       already_confirmed: အတည္ျပဳၿပီးပါၿပီ။ ေက်းဇူးျပဳ၍ ၀င္ၾကည့္ပါ။
@@ -5768,6 +5771,8 @@ my:
       is_multi_select: Multiselection?
       is_required: Required?
       name: နာမည္
+      hint: Hint
+      field_type: Field type
       quantitative_type: ပမာဏအမ်ိဳးအစား
       save: သိမ္းဆည္းရန္
     index:

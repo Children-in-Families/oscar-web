@@ -1,4 +1,9 @@
 module ClientsHelper
+  def get_or_build_client_quantitative_free_text_cases
+    QuantitativeType.where(field_type: 'free_text').map do |qtt|
+      @client.client_quantitative_free_text_cases.find_or_initialize_by(quantitative_type_id: qtt.id)
+    end
+  end
 
   def xeditable? client = nil
     (can?(:manage, client&.object) || can?(:edit, client&.object) || can?(:rud, client&.object)) ? true : false
