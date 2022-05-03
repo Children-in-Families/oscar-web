@@ -9,6 +9,7 @@ CIF.CommunitiesNew = CIF.CommunitiesCreate = CIF.CommunitiesEdit = CIF.Communiti
     _onChangeReferralSourceCategory()
     _initUploader()
     _initSelect2SingleSelect()
+    $('[data-toggle="popover"]').popover()
 
   _initSelect2SingleSelect = () ->
     $('select.single-select').select2
