@@ -1,4 +1,10 @@
 module CommunityHelper
+  def get_or_build_community_quantitative_free_text_cases
+    @quantitative_types.where(field_type: 'free_text').map do |qtt|
+      @community.community_quantitative_free_text_cases.find_or_initialize_by(quantitative_type_id: qtt.id)
+    end
+  end
+
   def community_grid_columns
     column_names = %i[id name name_en gender role status phone_number received_by_id initial_referral_date referral_source_id referral_source_category_id formed_date province_id district_id commune_id village_id representative_name]
     @community_grid_columns ||= { **column_names.map { |column_name| [column_name, I18n.t("activerecord.attributes.community.#{column_name}")] }.to_h, **community_member_columns }

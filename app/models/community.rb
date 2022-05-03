@@ -34,6 +34,7 @@ class Community < ActiveRecord::Base
   has_many :case_worker_communities, dependent: :destroy
   has_many :case_workers, through: :case_worker_communities, validate: false
 
+  has_many :community_quantitative_free_text_cases
   has_many :community_quantitative_cases, dependent: :destroy
   has_many :quantitative_cases, through: :community_quantitative_cases
   has_many :viewable_quantitative_cases, -> { joins(:quantitative_type).where('quantitative_types.visible_on LIKE ?', "%community%") }, through: :community_quantitative_cases, source: :quantitative_case
@@ -45,6 +46,7 @@ class Community < ActiveRecord::Base
   has_many :enrollments, as: :programmable, dependent: :destroy
   has_many :program_streams, through: :enrollments, as: :programmable
 
+  accepts_nested_attributes_for :community_quantitative_free_text_cases
   accepts_nested_attributes_for :community_members, reject_if: :all_blank, allow_destroy: true
 
   validates :received_by_id, :initial_referral_date, :case_worker_ids, presence: true

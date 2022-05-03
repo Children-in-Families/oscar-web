@@ -30,21 +30,40 @@ module AdvancedSearches
         end
         {id: sql_string, values: objects.ids}
       else
-        objects = @objects.joins(:client_quantitative_free_text_cases).where(client_quantitative_cases: { quantitative_type_id: quantitative.id })
+        if klass_name == 'clients'
+          objects = @objects.joins(:client_quantitative_free_text_cases).where(client_quantitative_cases: { quantitative_type_id: quantitative.id })
 
-        case @operator
-        when 'equal'
-          objects = objects.where(client_quantitative_cases: { content: @value })
-        when 'not_equal'
-          objects = objects.where.not(client_quantitative_cases: { content: @value })
-        when 'contains'
-          objects = objects.where("LOWER(client_quantitative_cases.content) LIKE ?", "%#{@value&.downcase}%")
-        when 'not_contains'
-          objects = objects.where("client_quantitative_cases.content NOT LIKE ?", "%#{@value.downcase}%")
-        when 'is_empty'
-          objects = @objects.where.not(id: objects.ids)
-        when 'is_not_empty'
-          objects
+          case @operator
+          when 'equal'
+            objects = objects.where(client_quantitative_cases: { content: @value })
+          when 'not_equal'
+            objects = objects.where.not(client_quantitative_cases: { content: @value })
+          when 'contains'
+            objects = objects.where("LOWER(client_quantitative_cases.content) LIKE ?", "%#{@value&.downcase}%")
+          when 'not_contains'
+            objects = objects.where("client_quantitative_cases.content NOT LIKE ?", "%#{@value.downcase}%")
+          when 'is_empty'
+            objects = @objects.where.not(id: objects.ids)
+          when 'is_not_empty'
+            objects
+          end
+        elsif klass_name == 'communities'
+          objects = @objects.joins(:community_quantitative_free_text_cases).where(community_quantitative_cases: { quantitative_type_id: quantitative.id })
+
+          case @operator
+          when 'equal'
+            objects = objects.where(community_quantitative_cases: { content: @value })
+          when 'not_equal'
+            objects = objects.where.not(community_quantitative_cases: { content: @value })
+          when 'contains'
+            objects = objects.where("LOWER(community_quantitative_cases.content) LIKE ?", "%#{@value&.downcase}%")
+          when 'not_contains'
+            objects = objects.where("community_quantitative_cases.content NOT LIKE ?", "%#{@value.downcase}%")
+          when 'is_empty'
+            objects = @objects.where.not(id: objects.ids)
+          when 'is_not_empty'
+            objects
+          end
         end
 
         { id: sql_string, values: objects.ids }
