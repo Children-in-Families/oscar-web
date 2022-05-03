@@ -9,6 +9,7 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
     _onChangeReferralSourceCategory()
     _initUploader()
     _initSelect2SingleSelect()
+    $('[data-toggle="popover"]').popover()
 
   _initSelect2SingleSelect = () ->
     $('select.single-select').select2
