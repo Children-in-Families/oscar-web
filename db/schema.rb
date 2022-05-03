@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20220501153912) do
+ActiveRecord::Schema.define(version: 20220503013717) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -943,11 +943,16 @@ ActiveRecord::Schema.define(version: 20220501153912) do
     t.integer  "community_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "type",                 default: "CommunityQuantitativeCase"
+    t.text     "content"
+    t.integer  "quantitative_type_id"
   end
 
   add_index "community_quantitative_cases", ["community_id", "quantitative_case_id"], name: "index_on_community_id_and_quantitative_case_id", using: :btree
   add_index "community_quantitative_cases", ["community_id"], name: "index_community_quantitative_cases_on_community_id", using: :btree
   add_index "community_quantitative_cases", ["quantitative_case_id"], name: "index_community_quantitative_cases_on_quantitative_case_id", using: :btree
+  add_index "community_quantitative_cases", ["quantitative_type_id"], name: "index_community_quantitative_cases_on_quantitative_type_id", using: :btree
+  add_index "community_quantitative_cases", ["type"], name: "index_community_quantitative_cases_on_type", using: :btree
 
   create_table "custom_assessment_settings", force: :cascade do |t|
     t.string   "custom_assessment_name",      default: "Custom Assessment"
