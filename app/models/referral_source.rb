@@ -2,7 +2,7 @@ class ReferralSource < ActiveRecord::Base
   has_ancestry
   has_many :clients, dependent: :restrict_with_error
   has_paper_trail
-  REFERRAL_SOURCES = ['ក្រសួង សអយ/មន្ទីរ សអយ', 'អង្គការមិនមែនរដ្ឋាភិបាល', 'មន្ទីរពេទ្យ', 'នគរបាល', 'តុលាការ/ប្រព័ន្ធយុត្តិធម៌', 'រកឃើញនៅតាមទីសាធារណៈ', 'ស្ថាប័នរដ្ឋ', 'មណ្ឌលថែទាំបណ្ដោះអាសន្ន', 'ទូរស័ព្ទទាន់ហេតុការណ៍', 'មកដោយខ្លួនឯង', 'គ្រួសារ', 'មិត្តភក្ដិ', 'អាជ្ញាធរដែនដី', 'ផ្សេងៗ', 'សហគមន៍', 'ព្រះវិហារ', 'MoSVY External System'].freeze
+  REFERRAL_SOURCES = ['ក្រសួង សអយ/មន្ទីរ សអយ', 'អង្គការមិនមែនរដ្ឋាភិបាល', 'មន្ទីរពេទ្យ', 'នគរបាល', 'តុលាការ/ប្រព័ន្ធយុត្តិធម៌', 'រកឃើញនៅតាមទីសាធារណៈ', 'ស្ថាប័នរដ្ឋ', 'មណ្ឌលថែទាំបណ្ដោះអាសន្ន', 'ទូរស័ព្ទទាន់ហេតុការណ៍', 'មកដោយខ្លួនឯង', 'គ្រួសារ', 'មិត្តភក្ដិ', 'អាជ្ញាធរដែនដី', 'ផ្សេងៗ', 'សហគមន៍', 'ព្រះវិហារ'].freeze
   validates :name, presence: true, uniqueness: { case_sensitive: false }
   validate :restrict_update, on: :update
   before_destroy :restrict_delete
@@ -11,6 +11,15 @@ class ReferralSource < ActiveRecord::Base
 
   scope :parent_categories,       ->        { where(name: REFERRAL_SOURCES) }
   scope :child_referrals,          ->        { where.not(name: REFERRAL_SOURCES) }
+
+  def self.find_referral_source_category(referral_source_category_id, referred_from = '')
+    if referral_source_category_id
+      referral_source_category_id
+    else
+      category_name = ReferralSource.find_by_name(Organization.find_by(short_name: referred_from)&.referral_source_category_name)
+      category_name ? category_name : ReferralSource.find_by_name_en("Non-Government Organization")
+    end
+  end
 
   def self.cache_referral_source_options
     Rails.cache.fetch([Apartment::Tenant.current, 'ReferralSource', 'referral_source_options']) do
@@ -40,6 +49,10 @@ class ReferralSource < ActiveRecord::Base
     Rails.cache.fetch([Apartment::Tenant.current, 'ReferralSource', 'cached_referral_source_try_name_en', referral_source_category_id]) {
       find_by(id: referral_source_category_id).try(:name_en)
     }
+  end
+
+  def self.find_by_name(name)
+    find_by(name_en: name)
   end
 
   private

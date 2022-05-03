@@ -683,6 +683,8 @@ class Client < ActiveRecord::Base
 
   def self.get_client_attribute(attributes, referral_source_category_id=nil)
     attribute = attributes.with_indifferent_access
+    referral_source_category_id = ReferralSource.find_referral_source_category(referral_source_category_id, attributes[:referred_from]).try(:id)
+
     client_attributes = {
       external_id:            attribute[:external_id],
       external_id_display:    attribute[:external_id_display],
@@ -693,7 +695,8 @@ class Client < ActiveRecord::Base
       date_of_birth:          attribute[:date_of_birth],
       reason_for_referral:    attribute[:referral_reason],
       relevant_referral_information:    attribute[:referral_reason],
-      referral_source_category_id: ReferralSource.find_by(name: attribute[:referred_from])&.id || referral_source_category_id,
+      referral_source_category_id: referral_source_category_id,
+      global_id:              attribute[:client_global_id],
       external_case_worker_id:   attribute[:external_case_worker_id],
       external_case_worker_name: attribute[:external_case_worker_name],
       **get_address_by_code(attribute[:address_current_village_code] || attribute[:location_current_village_code] || attribute[:village_code])
