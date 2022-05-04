@@ -16,8 +16,8 @@ class ReferralSource < ActiveRecord::Base
     if referral_source_category_id
       referral_source_category_id
     else
-      category_name = ReferralSource.find_by_name(Organization.find_by(short_name: referred_from)&.referral_source_category_name)
-      category_name ? category_name : ReferralSource.find_by_name_en("Non-Government Organization")
+      ReferralSource.find_by(name: referred_from) || ReferralSource.find_by(name_en: referred_from) || ReferralSource.find_by_name_en("Non-Government Organization") ||
+      ReferralSource.find_by_name(Organization.find_by(short_name: referred_from)&.referral_source_category_name)
     end
   end
 
