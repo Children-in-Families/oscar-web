@@ -128,11 +128,13 @@ class Client < ActiveRecord::Base
   validates :global_id, presence: true
   validates_uniqueness_of :global_id, on: :create
 
-  before_validation :assign_global_id, on: :create
+  after_validation :save_client_global_organization, on: :create
   before_create :set_country_origin
-  after_create :set_slug_as_alias, :save_client_global_organization, :save_external_system_global, :mark_referral_as_saved
+  after_create :set_slug_as_alias, :mark_referral_as_saved
   after_save :create_client_history, :create_or_update_shared_client
 
+  # save_global_identify_and_external_system_global_identities must be executed first
+  after_commit :save_global_identify_and_external_system_global_identities, on: :create
   after_commit :remove_family_from_case_worker
   after_commit :update_related_family_member, on: :update
   after_commit :delete_referee, on: :destroy
@@ -876,14 +878,25 @@ class Client < ActiveRecord::Base
   end
 
   def assign_global_id
-    if global_id.blank?
-      referral = find_referral
-      self.global_id = referral ? referral.client_global_id : GlobalIdentity.create(ulid: ULID.generate).ulid
+    referral = find_referral
+    if referral && referral.client_global_id
+      self.global_id =  GlobalIdentity.find_or_initialize_ulid(referral.client_global_id)
+    else
+      self.global_id = GlobalIdentity.new(ulid: ULID.generate).ulid
     end
   end
 
   def save_client_global_organization
-    GlobalIdentityOrganization.find_or_create_by(global_id: global_id, organization_id: Organization.current&.id, client_id: id)
+    assign_global_id
+    @external_system_global = global_identity_organizations.find_or_initialize_by(global_id: global_id, organization_id: Organization.current&.id)
+  end
+
+  def save_global_identify_and_external_system_global_identities
+    GlobalIdentity.where(ulid: global_id).first_or_create
+    @external_system_global.client_id = self.id
+    @external_system_global.save
+
+    save_external_system_global
   end
 
   def save_external_system_global

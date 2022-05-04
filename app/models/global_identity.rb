@@ -9,6 +9,14 @@ class GlobalIdentity < ActiveRecord::Base
 
   after_commit :create_external_system_global_identity
 
+  def self.find_or_initialize_ulid(client_global_id)
+    begin
+      GlobalIdentity.find(client_global_id).try(:ulid)
+    rescue ActiveRecord::RecordNotFound
+      GlobalIdentity.new(ulid: ULID.generate).ulid
+    end
+  end
+
   private
 
   def create_external_system_global_identity
