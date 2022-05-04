@@ -121,16 +121,18 @@ class ClientsController < AdminController
                         local_given_name: '', local_family_name: '',
                         gender: @referral.client_gender, reason_for_referral: @referral.referral_reason,
                         date_of_birth: @referral.client_date_of_birth,
-                        referral_source_id: referral_source_id
+                        referral_source_id: referral_source_id,
+                        initial_referral_date: @referral.date_of_referral
                       }
         if attributes.present?
-          attributes = Client.get_client_attribute(@referral.attributes.merge(client_attr)).merge(attributes)
+          attributes = Client.get_client_attribute(@referral.attributes).merge(client_attr).merge(attributes)
         else
-          attributes = Client.get_client_attribute(@referral.attributes.merge(client_attr))
+          attributes = Client.get_client_attribute(@referral.attributes).merge(client_attr)
         end
       end
 
       @client = Client.new(attributes)
+      @referral_source_category = referral_source_name(ReferralSource.parent_categories, @client)
     else
       new_params = {}
       if params.has_key?(:name)
@@ -316,7 +318,7 @@ class ClientsController < AdminController
     @address_types = Client::ADDRESS_TYPES.map { |type| { label: type, value: type.downcase } }
     @phone_owners = Client::PHONE_OWNERS.map { |owner| { label: owner, value: owner.downcase } }
     @referral_source = @client && @client.referral_source.present? ? ReferralSource.where(id: @client.referral_source_id).map { |r| [r.try(:name), r.id] } : []
-    @referral_source_category = referral_source_name(ReferralSource.parent_categories, @client)
+    @referral_source_category = referral_source_name(ReferralSource.parent_categories, @client) if @client.persisted?
     country_address_fields if @client
   end
 
