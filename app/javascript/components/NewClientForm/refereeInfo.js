@@ -211,10 +211,12 @@ export default props => {
     }
   }
 
-  const isReferralSourceExist = () => {
-    return(
+  const isReferralSourceExist = (client) => {
+    return (
       client.external_id && client.external_id.length > 0 ||
-      client.referral_source_category_id && client.referral_source_category_id.length > 0
+      (client.id == null && client.referral_source_category_id && client.referral_source_category_id > 0) ||
+      client.referred_external ||
+      false
     )
   }
 
@@ -291,7 +293,7 @@ export default props => {
             options={referralSourceCategoryLists}
             value={client.referral_source_category_id}
             onChange={onReferralSourceCategoryChange}
-            isDisabled={() => isReferralSourceExist()}
+            isDisabled={isReferralSourceExist(client)}
             inlineClassName="referral-source-category"
             hintText={hintText.referee.referral_source_category}
           />
