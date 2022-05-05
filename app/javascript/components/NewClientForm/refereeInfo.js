@@ -213,8 +213,9 @@ export default props => {
 
   const isReferralSourceExist = (client) => {
     return (
-      client.external_id && client.external_id.length > 0 ||
-      (client.id == null && client.referral_source_category_id && client.referral_source_category_id > 0) ||
+      (client.id == null && !_.isEmpty(client.mosvy_number)) ||
+      client.external_id && client.external_id > 0 ||
+      (client.id == null && client.referred_external && client.referral_source_category_id && client.referral_source_category_id > 0) ||
       client.referred_external ||
       false
     )
