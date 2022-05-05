@@ -132,7 +132,6 @@ class ClientsController < AdminController
       end
 
       @client = Client.new(attributes)
-      @referral_source_category = referral_source_name(ReferralSource.parent_categories, @client)
     else
       new_params = {}
       if params.has_key?(:name)
@@ -142,6 +141,7 @@ class ClientsController < AdminController
 
       @client = Client.new(new_params.merge(local_given_name: first_name, local_family_name: last_name, gender: new_params[:gender]&.downcase))
     end
+    @referral_source_category = referral_source_name(ReferralSource.parent_categories, @client)
   end
 
   def edit

@@ -217,7 +217,7 @@ export default props => {
       client.referral_source_category_id && client.referral_source_category_id.length > 0
     )
   }
-  debugger;
+
   return (
     <div className="containerClass">
       <legend>
