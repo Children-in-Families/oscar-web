@@ -805,6 +805,15 @@ class Client < ActiveRecord::Base
     end
   end
 
+  def assign_global_id
+    referral = find_referral
+    if referral && referral.client_global_id
+      self.global_id =  GlobalIdentity.find_or_initialize_ulid(referral.client_global_id)
+    else
+      self.global_id =  GlobalIdentity.new(ulid: ULID.generate).ulid
+    end
+  end
+
   private
 
   def update_related_family_member
@@ -877,22 +886,12 @@ class Client < ActiveRecord::Base
     end
   end
 
-  def assign_global_id
-    referral = find_referral
-    if referral && referral.client_global_id
-      self.global_id =  GlobalIdentity.find_or_initialize_ulid(referral.client_global_id)
-    else
-      self.global_id = GlobalIdentity.new(ulid: ULID.generate).ulid
-    end
-  end
-
   def save_client_global_organization
-    assign_global_id
     @external_system_global = global_identity_organizations.find_or_initialize_by(global_id: global_id, organization_id: Organization.current&.id)
   end
 
   def save_global_identify_and_external_system_global_identities
-    GlobalIdentity.where(ulid: global_id).first_or_create
+    GlobalIdentity.find_or_create_by(ulid: global_id)
     @external_system_global.client_id = self.id
     @external_system_global.save
 

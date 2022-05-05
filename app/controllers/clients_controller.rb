@@ -389,9 +389,9 @@ class ClientsController < AdminController
   def find_referral_source_by_referral
     referral_source_org = Organization.find_by(short_name: @referral.referred_from)&.full_name
     if referral_source_org
-      ReferralSource.find_by(name: "#{referral_source_org} - OSCaR Referral").try(:id)
+      ReferralSource.child_referrals.find_by(name: "#{referral_source_org} - OSCaR Referral").try(:id)
     else
-      ReferralSource.find_by(name: @referral.referred_from)&.id
+      ReferralSource.child_referrals.find_by(name: @referral.referred_from)&.id
     end
   end
 

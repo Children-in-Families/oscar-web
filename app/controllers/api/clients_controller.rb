@@ -48,6 +48,7 @@ module Api
 
         client.referee_id = referee.id
         client.carer_id = carer.id
+        client.assign_global_id
         client_saved = client.save
       end
 
