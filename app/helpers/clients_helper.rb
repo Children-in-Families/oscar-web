@@ -925,7 +925,11 @@ module ClientsHelper
     elsif rule == 'date_of_custom_assessments'
       sql_string = object.where(query_array).where(default: false).where(sub_query_array)
     else
-      sql_string = object.where(query_array).where(sub_query_array)
+      if object.is_a?(Array)
+        sql_string = object.first.class.where(query_array).where(sub_query_array)
+      else
+        sql_string = object.where(query_array).where(sub_query_array)
+      end
     end
 
     sql_string.present? && sql_hash[:sql_string].present? ? sql_string : []
