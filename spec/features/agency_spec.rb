@@ -35,6 +35,7 @@ describe 'Agency' do
         fill_in 'Name', with: 'Test Agency'
         click_button 'Save'
       end
+      sleep 1
       expect(page).to have_content('Test Agency')
     end
 
@@ -44,6 +45,7 @@ describe 'Agency' do
       within('#new_agency') do
         click_button 'Save'
       end
+      wait_for_ajax
       expect(page).to have_content("Failed to create an agency")
     end
   end
@@ -58,6 +60,7 @@ describe 'Agency' do
         fill_in 'Name', with: 'Rotati'
         click_button 'Save'
       end
+      sleep 5
       expect(page).to have_content('Rotati')
     end
     scenario 'invalid' do

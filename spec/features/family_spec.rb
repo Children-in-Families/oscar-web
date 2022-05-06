@@ -21,7 +21,7 @@ describe 'Family' do
       fill_in 'family[family_members_attributes][0][adult_name]', with: 'Test'
       find(".family_family_members_gender select option[value='female']", visible: false).select_option
       click_link 'Save'
-      sleep 1
+      sleep 5
       expect(page).to have_content('Family has been successfully created')
       expect(page).to have_content('Family Name')
       expect(page).to have_content(province.name)
