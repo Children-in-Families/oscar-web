@@ -945,6 +945,9 @@ class Client < ActiveRecord::Base
     cached_client_assessment_order_completed_date_keys.each { |key| Rails.cache.delete(key) }
     cached_client_assessment_domains_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_assessment_domains/].blank? }
     cached_client_assessment_domains_keys.each { |key| Rails.cache.delete(key) }
+
+    Rails.cache.delete([Apartment::Tenant.current, 'ReferralSource', 'cached_referral_source_try_name', referral_source_category_id]) if referral_source_category_id_changed?
+    Rails.cache.delete([Apartment::Tenant.current, 'ReferralSource', 'cached_referral_source_try_name_en', referral_source_category_id]) if referral_source_category_id_changed?
   end
 
   def update_referral_status_on_target_ngo
