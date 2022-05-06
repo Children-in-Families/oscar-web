@@ -53,8 +53,10 @@ module Api
       end
 
       if client_saved
-        if params[:client_quantitative_free_text_cases].present?
-          params[:client_quantitative_free_text_cases].each do |client_qt_free_text_attr|
+        qtt_free_text_cases = params[:client_quantitative_free_text_cases]
+
+        if qtt_free_text_cases.present?
+          qtt_free_text_cases.select(&:present?).each do |client_qt_free_text_attr|
             client_qt_free_text = client.client_quantitative_free_text_cases.find_or_initialize_by(quantitative_type_id: client_qt_free_text_attr[:quantitative_type_id])
             client_qt_free_text.content = client_qt_free_text_attr[:content]
             client_qt_free_text.save
@@ -81,8 +83,10 @@ module Api
       end
 
       if client.update_attributes(client_params.except(:referee_id, :carer_id))
-        if params[:client_quantitative_free_text_cases].present?
-          params[:client_quantitative_free_text_cases].each do |client_qt_free_text_attr|
+        qtt_free_text_cases = params[:client_quantitative_free_text_cases]
+
+        if qtt_free_text_cases.present?
+          qtt_free_text_cases.select(&:present?).each do |client_qt_free_text_attr|
             client_qt_free_text = client.client_quantitative_free_text_cases.find_or_initialize_by(quantitative_type_id: client_qt_free_text_attr[:quantitative_type_id])
             client_qt_free_text.content = client_qt_free_text_attr[:content]
             client_qt_free_text.save
