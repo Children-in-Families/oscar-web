@@ -11,13 +11,13 @@ describe 'Report Builder' do
       visit clients_path
       find('.client-search').click
       find('#client-grid-search-btn').click
-      sleep 1
-      expect(page).to have_content(client.given_name)
+      sleep 10
+      expect(page).to have_content(client.name)
     end
     scenario 'for family' do
       visit families_path
       find('#client-grid-search-btn').click
-      sleep 1
+      sleep 10
       expect(page).to have_content(family.name)
     end
   end
