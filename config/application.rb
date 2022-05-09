@@ -32,6 +32,7 @@ module CifWeb
     config.generators do |g|
       g.template_engine :haml
     end
+    config.active_job.queue_adapter = :sidekiq
 
     config.middleware.use Rack::Cors do
       allow do
