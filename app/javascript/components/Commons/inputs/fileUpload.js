@@ -11,7 +11,7 @@ registerPlugin(FilePondPluginImagePreview)
 registerPlugin(FilePondPluginFileValidateType);
 
 export default props => {
-  const { label, required, onChange, object, onChangeCheckbox, removeAttachmentcheckBoxValue, showFilePond, T } = props
+  const { label, isError, errorText, required, onChange, object, onChangeCheckbox, removeAttachmentcheckBoxValue, showFilePond, T } = props
   const existingFiles = object.filter(file => { return file.url && file.url.length > 0 } );
   const [files, setFiles] = useState([])
 
@@ -36,7 +36,7 @@ export default props => {
 
   return (
     <>
-      <label>
+      <label style={isError && styles.errorText || styles.inlineDisplay}>
         { required && <abbr title='required'>* </abbr> }
         {label}
       </label>
@@ -57,16 +57,39 @@ export default props => {
 
       {
         showFilePond === true &&
-        <FilePond
-          files={files}
-          allowMultiple={true}
-          allowFileTypeValidation={true}
-          labelIdle="Choose files. <span class='filepond--label-action'>Browse</span>. Only file with extension <small>.jpg .jpeg .png .pdf</small> allowed."
-          labelFileTypeNotAllowed="Invalid file type"
-          acceptedFileTypes={"image/jpg, image/jpeg, image/png, application/pdf"}
-          onupdatefiles={onUpdateFiles}
-        />
+        <>
+          <FilePond
+            files={files}
+            allowMultiple={true}
+            allowFileTypeValidation={true}
+            labelIdle="Choose files. <span class='filepond--label-action'>Browse</span>. Only file with extension <small>.jpg .jpeg .png .pdf</small> allowed."
+            labelFileTypeNotAllowed="Invalid file type"
+            acceptedFileTypes={"image/jpg, image/jpeg, image/png, application/pdf"}
+            onupdatefiles={onUpdateFiles}
+          />
+          { isError && <span style={styles.errorText}>{errorText || T.translate("validation.cannot_blank")}</span> }
+        </>
       }
     </>
   )
 }
+
+const styles = {
+  errorText: {
+    color: 'red',
+    fontSize: '14px'
+
+  },
+  errorInput: {
+    borderColor: 'red'
+  },
+  box: {
+    boxShadow: 'none',
+    lineHeight: 'inherit'
+  },
+  inlineDisplay: {
+    display: 'inline',
+    fontSize: '14px'
+  }
+}
+

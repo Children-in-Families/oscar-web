@@ -81,6 +81,12 @@ module ClientsHelper
     result
   end
 
+  def required_legal_docs
+    result = field_settings.each_with_object({}) do |field_setting, output|
+      output[field_setting.name] = true if field_setting.required?
+    end
+  end
+
   def report_options(title, yaxis_title)
     {
       library: {
