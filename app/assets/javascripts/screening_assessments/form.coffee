@@ -41,15 +41,15 @@ CIF.Screening_assessmentsNew = CIF.Screening_assessmentsCreate = CIF.Screening_a
       _initDatePicker()
 
   _handleCheckBox = ->
-    $('#tasks').removeClass('hide') unless _.every(_isInputRadioAllUnChecked())
+    $('#tasks').removeClass('hide') unless _.every(_isInputRadioAllChecked())
 
     $(document).on 'change', 'fieldset input:radio:visible', (event) ->
-      if eval(event.target.value)
+      if !eval(event.target.value)
         $('#tasks').removeClass('hide')
       else
-        $('#tasks').addClass('hide') if _.every(_isInputRadioAllUnChecked())
+        $('#tasks').addClass('hide') if _.every(_isInputRadioAllChecked())
 
-  _isInputRadioAllUnChecked = ->
+  _isInputRadioAllChecked = ->
     nameAttributes = $('fieldset input:radio:visible').map( ->
       $(this).prop('name')
     ).get()
@@ -58,12 +58,12 @@ CIF.Screening_assessmentsNew = CIF.Screening_assessmentsCreate = CIF.Screening_a
                   "input:radio[name='" + element + "']"
 
     nameValue.map (value) ->
-      !$(value).prop('checked')
+      $(value).prop('checked')
 
   _handleFormSubmitting = ->
     $("form#screening-assessment").on 'submit', (e)->
       e.preventDefault()
-      $("#tasks .nested-fields .row").remove() if _.every(_isInputRadioAllUnChecked())
+      $("#tasks .nested-fields .row").remove() if _.every(_isInputRadioAllChecked())
       @.submit()
 
   { init: _init }
