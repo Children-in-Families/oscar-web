@@ -145,13 +145,16 @@ const Forms = props => {
   }
 
   const handleValidation = (stepTobeCheck = 0) => {
+    const step5RequiredFields = Object.entries(requiredFields).map(keypair => { return keypair[1] == true ? keypair[0] : nil })
+    console.log("step5RequiredFields ", step5RequiredFields)
+
     const components = [
       { step: 1, data: refereeData, fields: ['name'] },
       { step: 1, data: clientData, fields: ['referral_source_category_id'] },
       { step: 2, data: clientData, fields: ['gender']},
       { step: 3, data: clientData, fields: [] },
       { step: 4, data: clientData, fields: clientData.status != 'Exited' ? ['received_by_id', 'initial_referral_date', 'user_ids'] : ['received_by_id', 'initial_referral_date'] },
-      { step: 5, data: clientData, fields: ['national_id_files'] }
+      { step: 5, data: clientData, fields: step5RequiredFields }
     ]
 
     const errors = []

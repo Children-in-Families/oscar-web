@@ -36,7 +36,7 @@ export default props => {
 
   return (
     <>
-      <label style={isError && styles.errorText || styles.inlineDisplay}>
+      <label style={isError && styles.errorText || styles.inlineDisplay }>
         { required && <abbr title='required'>* </abbr> }
         {label}
       </label>

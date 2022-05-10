@@ -78,7 +78,7 @@ export default (props) => {
             {t(translation, "clients.form.indentification_doc")}
           </h3>
         </legend>
-        {(fieldsVisibility.national_id == true || requiredFields.national_id == true) && (
+        {(fieldsVisibility.national_id == true) && (
           <legend>
             <div className="row">
                 {
@@ -86,8 +86,7 @@ export default (props) => {
                   <div className="col-xs-12 col-md-6 col-lg-3">
                     <Checkbox
                       label={t(translation, "clients.form.national_id")}
-                      checked={(client.national_id || requiredFields.national_id)}
-                      disabled={requiredFields.national_id}
+                      checked={ client.national_id }
                       onChange={onCheckBoxChange("client", "national_id")}
                     />
                   </div>
