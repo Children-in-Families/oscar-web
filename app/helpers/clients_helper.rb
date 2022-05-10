@@ -83,7 +83,12 @@ module ClientsHelper
 
   def required_legal_docs
     result = field_settings.each_with_object({}) do |field_setting, output|
-      output[field_setting.name] = true if field_setting.required?
+      field_mapping = Client::LEGAL_DOC_MAPPING[field_setting.name.to_sym]
+
+      if field_mapping.present? && field_setting.required?
+        output[field_setting.name] = true
+        output[field_mapping] = true
+      end
     end
   end
 
