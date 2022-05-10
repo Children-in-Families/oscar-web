@@ -27,4 +27,10 @@ body[id='client_enrollments-show'] {
     min-width: 100px;
     margin: 10px 10px 10px 0;
   }
+
+  .ibox .ibox-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 }
