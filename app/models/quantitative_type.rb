@@ -31,7 +31,7 @@ class QuantitativeType < ActiveRecord::Base
       includes(:quantitative_cases).where('quantitative_types.visible_on ILIKE ?', "%#{visible_on}%").to_a
     end
   end
-  
+
   def self.cach_free_text_fields_by_visible_on(visible_on)
     Rails.cache.fetch([Apartment::Tenant.current, "FreeTextQuantitativeType", visible_on]) do
       QuantitativeType.with_field_type(:free_text).where('visible_on ILIKE ?', "%#{visible_on}%").to_a

@@ -19,8 +19,9 @@ describe 'Family' do
       find("#family_family_type", visible: false).set('Short Term/Emergency Foster Care')
       click_link 'Next'
       click_link 'Save'
-      wait_for_ajax
+      sleep 5
       expect(page).to have_content('Family Name')
+      expect(page).to have_content('Test')
     end
 
     scenario 'invalid' do
