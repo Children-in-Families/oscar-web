@@ -31,7 +31,7 @@ describe 'Domain Group' do
       expect(page).to have_css("i[class='fa fa-pencil']")
     end
     scenario 'delete link' do
-      expect(page).to have_css("a[href='#{domain_path(domain_group)}'][data-method='delete']")
+      expect(page).to have_css("a[href='#{domain_group_path(domain_group)}'][data-method='delete']")
     end
   end
 
@@ -89,11 +89,11 @@ describe 'Domain Group' do
       visit domain_groups_path
     end
     scenario 'success' do
-      find("a[href='#{domain_path(domain_group)}'][data-method='delete']").click
+      find("a[href='#{domain_group_path(domain_group)}'][data-method='delete']").click
       expect(page).not_to have_content(domain_group.name)
     end
     scenario 'disable delete' do
-      expect(page).to have_css("a[href='#{domain_path(other_domain_group)}'][data-method='delete'][class='btn btn-outline btn-danger btn-xs disabled']")
+      expect(page).to have_css("a[href='#{domain_group_path(other_domain_group)}'][data-method='delete'][class='btn btn-outline btn-danger btn-xs disabled']")
     end
   end
 end
