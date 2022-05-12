@@ -1,4 +1,15 @@
+.alert.alert-warning.alert-dismissible{ :role => "alert" }
+  %button.close{"aria-label" => "Close", "data-dismiss" => "alert", :type => "button"}
+    %span{"aria-hidden" => "true"} ×
+  %ul
+    %li
+      = raw t('clients.attr.warning_messages.referral_date', referral_date: date_format(@client.initial_referral_date))
+    %li
+      = raw t('clients.attr.warning_messages.accepted_date', accepted_date: date_format(@client.enter_ngos.last.accepted_date))
+
 = simple_form_for([@client, @client_enrollment], html: { class: 'client-enrollment' }) do |f|
+  = hidden_field_tag :initial_referral_date, @client.initial_referral_date
+  = hidden_field_tag :last_accepted_date, @client.enter_ngos.last.accepted_date
   .ibox-content
     .row
       .col-xs-12.col-md-6.form-group.date.optional{ class: ('has-error' if f.error :enrollment_date) }
@@ -40,7 +51,7 @@
   %tbody
     - @case_histories.each_with_index do |case_history, index|
       - case_history_name = case_history.class.table_name
-      %tr.case-history-row{ data: {date: case_history.new_date, created_date: case_history.created_at,name: case_history_label(case_history), classname: case_history_name,case_history_id: "#{case_history_name}" + "_#{case_history.id}"}, id: "#{case_history_name}" + "_#{case_history.id}"}
+      %tr.case-history-row{ data: {date: case_history.new_date, created_date: case_history.created_at, name: case_history_label(case_history), classname: case_history_name,case_history_id: "#{case_history_name}" + "_#{case_history.id}"}, id: "#{case_history_name}" + "_#{case_history.id}"}
         %td= case_history_name
         %td= case_history_label(case_history)
         %td= date_format(case_history.new_date)

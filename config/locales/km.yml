@@ -1555,6 +1555,9 @@ km:
       temp_travel_doc: លិខិតធ្វើដំណើរបណ្តោះអាសន្ន
       travel_doc: លិខិតធ្វើដំណើរបណ្តោះអាសន្នពីស្ថានទូត
       verdict: ដីការសម្រេច
+      warning_messages:
+        accepted_date: 'កាលបរិច្ឆេទនៃការបញ្ជូនដំបូងរបស់អតិថិជន <strong class="text-danger">%{accepted_date}</strong>។ អ្នក​មិន​អាច​ត្រឡប់​ទៅ​កាលបរិច្ឆេទ​តិច​ជាង​កាលបរិច្ឆេទ​បញ្ជូន​ដំបូងបានទេ។'
+        referral_date: 'កាលបរិច្ឆេទទទួលអតិថិជនគឺថ្ងៃទី <strong class="text-danger">%{referral_date}</strong>។ អ្នកមិនអាចត្រឡប់កាលបរិច្ឆេទតិចជាងកាលបរិច្ឆេទចូលអង្គការបានទេ។'
       warrant: ដីការកោះហៅ
     actions:
       are_you_sure: តើអ្នកប្រាកដហើយថាចង់លុបដែរឬទេ?
