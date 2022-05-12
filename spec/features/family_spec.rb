@@ -5,6 +5,7 @@ describe 'Family' do
   let!(:client){ create(:client, :accepted) }
 
   before do
+    Rails.cache.clear
     login_as(admin)
   end
 
