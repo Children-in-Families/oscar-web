@@ -263,6 +263,8 @@
                 .btn.btn-outline.btn-danger
                   %i.fa.fa-trash
       .ibox-content
+        = hidden_field_tag :initial_referral_date, @client.initial_referral_date
+        = hidden_field_tag :last_exit_ngo_date, @client.exit_ngos.last.exit_date
         .row
           .col-sm-12.col-md-6.first-table
             %table.table.table-bordered
