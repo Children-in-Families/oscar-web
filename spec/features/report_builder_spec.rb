@@ -9,12 +9,11 @@ describe 'Report Builder' do
 
   feature 'Search client', js: true do
     scenario 'for client' do
-      Rails.cache.clear
       visit clients_path
       find('.client-search').click
       expect(page).to have_content('Search')
       find('#client-grid-search-btn').click
-      sleep 10
+      wait_for_ajax()
       expect(page).to have_content("Adam")
     end
   end
@@ -22,10 +21,9 @@ describe 'Report Builder' do
   feature 'Search family', js: true do
     let!(:family){ create(:family, children: [client.id] ) }
     scenario 'for family' do
-      Rails.cache.clear
       visit families_path
       find('#client-grid-search-btn').click
-      sleep 10
+      wait_for_ajax()
       expect(page).to have_content(family.id)
     end
   end
