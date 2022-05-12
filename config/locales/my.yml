@@ -1582,6 +1582,9 @@ my:
       temp_travel_doc: Temporary Travel Documents
       travel_doc: Laissez-Passer
       verdict: Verdict
+      warning_messages:
+        accepted_date: 'Client Accepted Date is: <strong class="text-danger">%{accepted_date}</strong>. You cannot back-date to less than accepted date.'
+        referral_date: 'Client Initial Referral Date is: <strong class="text-danger">%{referral_date}</strong>. You cannot back-date to less than initial referral date.'
       warrant: Warran
     actions:
       are_you_sure: ဖ်က္လုိသည္မွာ ေသခ်ာပါသလား
