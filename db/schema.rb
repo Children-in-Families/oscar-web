@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20220105081845) do
+ActiveRecord::Schema.define(version: 20220303114822) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -2094,6 +2094,25 @@ ActiveRecord::Schema.define(version: 20220105081845) do
   add_index "referrals_services", ["referral_id"], name: "index_referrals_services_on_referral_id", using: :btree
   add_index "referrals_services", ["service_id"], name: "index_referrals_services_on_service_id", using: :btree
 
+  create_table "screening_assessments", force: :cascade do |t|
+    t.datetime "screening_assessment_date"
+    t.string   "client_age"
+    t.string   "visitor"
+    t.string   "client_milestone_age"
+    t.string   "attachments"
+    t.text     "note"
+    t.boolean  "smile_back_during_interaction"
+    t.boolean  "follow_object_passed_midline"
+    t.boolean  "turn_head_to_sound"
+    t.boolean  "head_up_45_degree"
+    t.integer  "client_id"
+    t.string   "screening_type"
+  end
+
+  add_index "screening_assessments", ["client_id"], name: "index_screening_assessments_on_client_id", using: :btree
+  add_index "screening_assessments", ["screening_assessment_date"], name: "index_screening_assessments_on_screening_assessment_date", using: :btree
+  add_index "screening_assessments", ["screening_type"], name: "index_screening_assessments_on_screening_type", using: :btree
+
   create_table "service_deliveries", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
@@ -2190,6 +2209,8 @@ ActiveRecord::Schema.define(version: 20220105081845) do
     t.string   "case_note_edit_frequency",             default: "week"
     t.boolean  "disabled_add_service_received",        default: false
     t.boolean  "test_client",                          default: false
+    t.boolean  "cbdmat_one_off",                       default: false
+    t.boolean  "cbdmat_ongoing",                       default: false
   end
 
   add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree
@@ -2678,7 +2699,7 @@ ActiveRecord::Schema.define(version: 20220105081845) do
   add_foreign_key "action_results", "government_forms"
   add_foreign_key "advanced_searches", "users"
   add_foreign_key "assessment_domains", "care_plans"
-  add_foreign_key "assessments", "clients"
+  add_foreign_key "assessments", "clients", on_delete: :nullify
   add_foreign_key "attachments", "able_screening_questions"
   add_foreign_key "attachments", "progress_notes"
   add_foreign_key "calendars", "users"
@@ -2688,7 +2709,7 @@ ActiveRecord::Schema.define(version: 20220105081845) do
   add_foreign_key "call_protection_concerns", "protection_concerns"
   add_foreign_key "calls", "referees"
   add_foreign_key "care_plans", "assessments"
-  add_foreign_key "care_plans", "clients"
+  add_foreign_key "care_plans", "clients", on_delete: :nullify
   add_foreign_key "carers", "communes"
   add_foreign_key "carers", "districts"
   add_foreign_key "carers", "provinces"
@@ -2704,8 +2725,6 @@ ActiveRecord::Schema.define(version: 20220105081845) do
   add_foreign_key "case_contracts", "cases"
   add_foreign_key "case_notes", "clients"
   add_foreign_key "case_notes", "custom_assessment_settings"
-  add_foreign_key "case_worker_clients", "clients"
-  add_foreign_key "case_worker_clients", "users"
   add_foreign_key "case_worker_communities", "communities"
   add_foreign_key "case_worker_communities", "users"
   add_foreign_key "case_worker_families", "families"
@@ -2717,8 +2736,6 @@ ActiveRecord::Schema.define(version: 20220105081845) do
   add_foreign_key "client_client_types", "client_types"
   add_foreign_key "client_client_types", "clients"
   add_foreign_key "client_enrollment_trackings", "client_enrollments"
-  add_foreign_key "client_enrollments", "clients"
-  add_foreign_key "client_enrollments", "program_streams"
   add_foreign_key "client_interviewees", "clients"
   add_foreign_key "client_interviewees", "interviewees"
   add_foreign_key "client_needs", "clients"
@@ -2763,8 +2780,6 @@ ActiveRecord::Schema.define(version: 20220105081845) do
   add_foreign_key "enrollments", "program_streams"
   add_foreign_key "enter_ngo_users", "enter_ngos"
   add_foreign_key "enter_ngo_users", "users"
-  add_foreign_key "enter_ngos", "clients"
-  add_foreign_key "exit_ngos", "clients"
   add_foreign_key "external_system_global_identities", "external_systems"
   add_foreign_key "external_system_global_identities", "global_identities", column: "global_id", primary_key: "ulid"
   add_foreign_key "families", "communes"
@@ -2782,7 +2797,7 @@ ActiveRecord::Schema.define(version: 20220105081845) do
   add_foreign_key "goals", "assessment_domains"
   add_foreign_key "goals", "assessments"
   add_foreign_key "goals", "care_plans"
-  add_foreign_key "goals", "clients"
+  add_foreign_key "goals", "clients", on_delete: :nullify
   add_foreign_key "goals", "domains"
   add_foreign_key "government_form_children_plans", "children_plans"
   add_foreign_key "government_form_children_plans", "government_forms"
@@ -2836,7 +2851,7 @@ ActiveRecord::Schema.define(version: 20220105081845) do
   add_foreign_key "settings", "communes"
   add_foreign_key "settings", "districts"
   add_foreign_key "settings", "provinces"
-  add_foreign_key "sponsors", "clients"
+  add_foreign_key "sponsors", "clients", on_delete: :nullify
   add_foreign_key "sponsors", "donors"
   add_foreign_key "subdistricts", "districts"
   add_foreign_key "surveys", "clients"
