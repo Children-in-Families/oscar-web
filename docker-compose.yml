@@ -99,21 +99,22 @@ services:
   redis:
     image: "redis:5.0.13"
     container_name: "redis"
+    volumes:
+      - ./tmp/db:/var/lib/redis/data
 
   sidekiq:
     container_name: "sidekiq"
     build: .
     command: bundle exec sidekiq
+    volumes:
+      - .:/app
     depends_on:
       - db
       - redis
-    volumes:
-      - .:/app
     environment:
-      - DATABASE_NAME=oscar_development
-      - DATABASE_NAME_TEST=oscar_test
+      - RAILS_ENV=development
       - DATABASE_USER=oscar
       - DATABASE_PASSWORD=123456789
       - DATABASE_HOST=db
       - SENDER_EMAIL=admin@oscarhq.com
-      - REDIS_URL=redis://redis:6379/0
+      - REDIS_URL=redis://redis:6379/12

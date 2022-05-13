@@ -14,6 +14,7 @@ class NgoUsageReport
       ngo_name: org.full_name,
       ngo_short_name: org.short_name,
       ngo_on_board: org.integrated_date,
+      created_at: org.created_at.strftime("%d-%m-%Y"),
       fcf: org.fcf_ngo? ? 'Yes' : 'No',
       ngo_country: country.titleize,
       integrated: org.integrated ? 'Yes' : 'No'
@@ -197,7 +198,7 @@ class NgoUsageReport
       cross_ngo_referrals   = cross_ngo_referrals_info(beginning_of_month, end_of_month)
       cross_mosvy_referrals = cross_mosvy_referrals_info(setting, beginning_of_month, end_of_month)
 
-      ngo_values          = [setting[:ngo_name], setting[:ngo_on_board], setting[:fcf], setting[:ngo_country]]
+      ngo_values          = [setting[:ngo_name], setting[:created_at], setting[:fcf], setting[:ngo_country]]
       user_values         = [setting[:ngo_name], *ngo_users.values]
       client_values       = [setting[:ngo_name], *ngo_clients.values]
       cross_ngo_values    = [setting[:ngo_name], *cross_ngo_referrals.values]
