@@ -515,7 +515,7 @@ km:
       name_of_referee: ឈ្មោះអ្នកបញ្ជូន
       ngo_accepted_date: កាលបរិច្ឆេទចូលអង្គការ
       ngo_exit_date: កាលបរិច្ឆេទចាកចេញពីអង្គការ
-      no_case_note_date: មិនមានកាលបរិច្ឆេទកំណត់ត្រាករណី
+      no_case_note_date: គ្មានកំណត់ត្រាករណីក្នុងអំឡុងពេល
       other_info_of_exit: ព័ត៌មានបន្ថែមនៃការចាកចេញ
       phone_owner: ម្ចាស់ទូរស័ព្ទ
       program_stream: កម្មវិធីចម្បង
@@ -530,7 +530,8 @@ km:
       referral_source_category_id: ប្រភេទប្រភពនៃការបញ្ជូន
       referral_source_id: ប្រភពនៃការបញ្ជូន
       referred_from: បញ្ជូនមកពីអង្គការដៃគូរ
-      referred_out: បញ្ជូនមកទៅអង្គការដៃគូរ
+      referred_in: ចំនួនបញ្ជូនមកពីអង្គការដៃគូរ
+      referred_out: ចំនួនបញ្ជូនទៅអង្គការដៃគូរ
       referred_to: បញ្ជូនមកទៅអង្គការដៃគូរ
       referee: អ្នកបញ្ជូន
       referee_relationship: ទំនាក់ទំនងរវាងអ្នកបញ្ជូននឹងអតិថិជន
