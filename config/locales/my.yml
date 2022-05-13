@@ -517,6 +517,7 @@ my:
       name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
       ngo_accepted_date: NGOက လက္ခံသည့္ ရက္စြဲ
       ngo_exit_date: NGOမွ ထြက္သည့္ ရက္စြဲ
+      no_case_note_date: ဖြစ်ရပ်မှန်နေ့စွဲမရှိပါ။
       other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
       phone_owner: Phone Owner
       placement_start_date: ေနရာခ်ထားမႈစတင္သည့္ရက္စြဲ
@@ -535,6 +536,8 @@ my:
       referral_source_category_id: လွှဲပြောင်းအရင်းအမြစ်ကဏ္ဍ
       referral_source_id: လႊဲေျပာင္းရမည့္သူ
       referred_from: ကနေရည်ညွှန်း
+      referred_in: ကိုးကားသောအရေအတွက်
+      referred_out: ကိုးကားသောအရေအတွက်
       referred_to: ကနေရည်ညွှန်း
       referred_to_ec: EC သို႔ ရည္ညႊန္းသည္။
       referred_to_fc: EC သို႔ ရည္ညႊန္းသည္။
