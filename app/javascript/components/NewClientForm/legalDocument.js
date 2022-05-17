@@ -98,7 +98,7 @@ export default (props) => {
                   removeAttachmentcheckBoxValue={
                     client.remove_national_id_files
                   }
-                  showFilePond={client.national_id}
+                  showFilePond={true}
                   T={T}
                 />
               </div>
