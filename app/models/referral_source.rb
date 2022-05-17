@@ -14,7 +14,7 @@ class ReferralSource < ActiveRecord::Base
 
   def self.find_referral_source_category(referral_source_category_id, referred_from = '')
     if referral_source_category_id
-      referral_source_category_id
+      find(referral_source_category_id)
     else
       ReferralSource.find_by(name: referred_from) || ReferralSource.find_by(name_en: referred_from) || ReferralSource.find_by_name_en("Non-Government Organization") ||
       ReferralSource.find_by_name(Organization.find_by(short_name: referred_from)&.referral_source_category_name)

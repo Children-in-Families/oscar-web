@@ -74,7 +74,7 @@ module Api
           Organization.switch_to short_name || clients_params[:organization_name]
           client = Client.find_by(global_id: clients_params['global_id'])
           attributes = Client.get_client_attribute(clients_params, client.referral_source_category_id) if client
-          if client && client.update_attributes(attributes)
+          if client && client.update_attributes(attributes.except(:global_id))
             check_referral_status(client, clients_params['referral_status'])
           else
             render json: { external_id: clients_params[:external_id], message: client.errors }, status: :unprocessable_entity
