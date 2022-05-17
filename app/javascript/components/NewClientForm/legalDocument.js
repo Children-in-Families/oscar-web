@@ -81,20 +81,17 @@ export default (props) => {
         {(fieldsVisibility.national_id == true) && (
           <legend>
             <div className="row">
-                {
-                  requiredFields.national_id == false &&
-                  <div className="col-xs-12 col-md-6 col-lg-3">
-                    <Checkbox
-                      label={t(translation, "clients.form.national_id")}
-                      checked={ client.national_id }
-                      onChange={onCheckBoxChange("client", "national_id")}
-                    />
-                  </div>
-                }
+              <div className="col-xs-12 col-md-6 col-lg-3">
+                <Checkbox
+                  label={t(translation, "clients.form.national_id")}
+                  checked={ client.national_id }
+                  onChange={onCheckBoxChange("client", "national_id")}
+                />
+              </div>
+
               <div className="col-xs-12">
                 <FileUploadInput
                   isError={errorFields.includes('national_id_files')}
-                  label={t(translation, "clients.form.national_id")}
                   onChange={onAttachmentsChange("national_id_files")}
                   object={client.national_id_files}
                   onChangeCheckbox={onRemoveAttachments(
@@ -103,8 +100,8 @@ export default (props) => {
                   removeAttachmentcheckBoxValue={
                     client.remove_national_id_files
                   }
-                  showFilePond={(client.national_id || requiredFields.national_id)}
-                  required={ requiredFields.national_id }
+                  showFilePond={ client.national_id }
+                  required={ requiredFields.national_id && client.national_id }
                   T={T}
                 />
               </div>
