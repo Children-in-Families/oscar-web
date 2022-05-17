@@ -11,6 +11,7 @@ namespace :import do
         puts "Shared tenant exists already."
       end
       begin
+        raise Apartment::TenantExists if Organization.count >= 2
         Organization.create_and_build_tenant(short_name: tenant_name, full_name: 'Development Environment', logo: File.open(Rails.root.join('app/assets/images/dev-tenant-logo.jpg')))
         Organization.switch_to tenant_name
         Rake::Task['db:seed'].invoke
