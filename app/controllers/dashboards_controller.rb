@@ -15,7 +15,12 @@ class DashboardsController < AdminController
       LEFT OUTER JOIN client_enrollments ON client_enrollments.client_id = clients.id
       LEFT OUTER JOIN exit_ngos ON exit_ngos.client_id = clients.id
     SQL
-    clients_error = Client.accessible_by(current_ability).joins(sql).where("(client_enrollments.enrollment_date < enter_ngos.accepted_date) OR (exit_ngos.exit_date < client_enrollments.enrollment_date)").distinct
+
+    sub_sql = <<-SQL.squish
+      (client_enrollments.enrollment_date < enter_ngos.accepted_date) OR (exit_ngos.exit_date < client_enrollments.enrollment_date) OR (exit_ngos.exit_date < enter_ngos.accepted_date)
+    SQL
+
+    clients_error = Client.accessible_by(current_ability).joins(sql).where(sub_sql).distinct
 
     @date_validation_error = Rails.cache.fetch(["#{clients_error.count}", "#{Apartment::Tenant.current}_client_errors"]) do
       { ids: clients_error.ids, count: clients_error.count }
