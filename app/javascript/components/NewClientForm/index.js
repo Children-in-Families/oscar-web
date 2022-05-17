@@ -147,6 +147,14 @@ const Forms = props => {
   }
 
   const handleValidation = (stepTobeCheck = 0) => {
+    const step5RequiredFields = Object.entries(requiredFields).map(keypair => {
+      const shortField = keypair[0].replace('_files', '')
+
+      return (keypair[1] && clientData[shortField]) ? keypair[0] : null
+    }).filter(item => { return item !== null })
+
+    console.log("step5RequiredFields ", step5RequiredFields)
+
     const components = [
       { step: 1, data: refereeData, fields: ['name'] },
       { step: 1, data: clientData, fields: ['referral_source_category_id'] },

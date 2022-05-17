@@ -83,13 +83,14 @@ export default (props) => {
               <div className="col-xs-12 col-md-6 col-lg-3">
                 <Checkbox
                   label={t(translation, "clients.form.national_id")}
-                  checked={client.national_id}
+                  checked={ client.national_id }
                   onChange={onCheckBoxChange("client", "national_id")}
                 />
               </div>
+
               <div className="col-xs-12">
                 <FileUploadInput
-                  label=""
+                  isError={errorFields.includes('national_id_files')}
                   onChange={onAttachmentsChange("national_id_files")}
                   object={client.national_id_files}
                   onChangeCheckbox={onRemoveAttachments(
@@ -98,7 +99,8 @@ export default (props) => {
                   removeAttachmentcheckBoxValue={
                     client.remove_national_id_files
                   }
-                  showFilePond={client.national_id}
+                  showFilePond={ client.national_id }
+                  required={ requiredFields.national_id && client.national_id }
                   T={T}
                 />
               </div>
