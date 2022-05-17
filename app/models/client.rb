@@ -715,7 +715,8 @@ class Client < ActiveRecord::Base
   def indirect_beneficiaries
     result = 0
     family_id = self.family_member.try(:family_id)
-    result = Family.find_by(id: family_id).family_members.where(client_id: nil).count if family_id.present?
+    _family = Family.find_by(id: family_id) if family_id.present?
+    result = _family.family_members.where(client_id: nil).count if _family.present?
     result
   end
 
