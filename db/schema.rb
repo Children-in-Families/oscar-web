@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20220503013717) do
+ActiveRecord::Schema.define(version: 20220518050445) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1393,17 +1393,18 @@ ActiveRecord::Schema.define(version: 20220503013717) do
   add_index "field_setting_translations", ["locale"], name: "index_field_setting_translations_on_locale", using: :btree
 
   create_table "field_settings", force: :cascade do |t|
-    t.string   "name",                            null: false
-    t.string   "group",                           null: false
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
-    t.string   "type",          default: "field", null: false
-    t.boolean  "visible",       default: true,    null: false
+    t.string   "name",                                    null: false
+    t.string   "group",                                   null: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
+    t.string   "type",                  default: "field", null: false
+    t.boolean  "visible",               default: true,    null: false
     t.string   "current_label"
-    t.boolean  "required",      default: false
+    t.boolean  "required",              default: false
     t.string   "klass_name"
     t.string   "for_instances"
-    t.boolean  "label_only",    default: false
+    t.boolean  "label_only",            default: false
+    t.boolean  "can_override_required", default: false
   end
 
   add_index "field_settings", ["name", "group"], name: "index_field_settings_on_name_and_group", using: :btree
@@ -1724,10 +1725,11 @@ ActiveRecord::Schema.define(version: 20220503013717) do
     t.text     "client_representing_problem"
     t.text     "emergency_note"
     t.text     "referral_reason"
-    t.text     "referral_decision"
+    t.text     "crisis_management"
     t.string   "attachments",                 default: [],              array: true
     t.datetime "created_at",                               null: false
     t.datetime "updated_at",                               null: false
+    t.string   "referral_decision"
   end
 
   add_index "internal_referrals", ["client_id"], name: "index_internal_referrals_on_client_id", using: :btree

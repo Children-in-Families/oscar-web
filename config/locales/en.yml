@@ -3970,6 +3970,9 @@ en:
       field_type:
         select_option: Select options
         free_text: Free text
+      referral_decision:
+        meet_intake_criteria: Client DOES meet intake criteria and will be engaged for intake
+        not_meet_intake_criteria: Client DOES NOT meet intake criteria and has been referred to other services if needed
   errors:
     messages:
       already_confirmed: was already confirmed, please try signing in
@@ -4766,7 +4769,7 @@ en:
       program_stream_ids: Referred To
       referral_date: Date of Internal Referral
       referral_decision: REFERRAL DECISION (to be approved by case management supervisor)
-      referral_decision_note: "Action/intervention taken:"
+      crisis_management: "Describe any emergency or crisis management/referrals:"
       referral_reason: REASON FOR REFERRAL AND RECOMMNEDATIONS
       referral_reason_note: "The referral source’s reason for referral:"
       user_id: Referred from
