@@ -87,9 +87,13 @@ module ClientsHelper
 
       if field_mapping.present? && field_setting.required?
         output[field_setting.name] = true
-        output[field_mapping] = true
       end
     end
+
+    {
+      fields: result,
+      mapping: Client::LEGAL_DOC_MAPPING
+    }
   end
 
   def report_options(title, yaxis_title)

@@ -147,10 +147,11 @@ const Forms = props => {
   }
 
   const handleValidation = (stepTobeCheck = 0) => {
-    const step5RequiredFields = Object.entries(requiredFields).map(keypair => {
-      const shortField = keypair[0].replace('_files', '')
+    const step5RequiredFields = Object.entries(requiredFields.fields).map(keypair => {
+      const checkboxKey = keypair[0]
+      const docKey = requiredFields.mapping[checkboxKey]
 
-      return (keypair[1] && clientData[shortField]) ? keypair[0] : null
+      return (keypair[1] === true && clientData[checkboxKey] === true) ? docKey : null
     }).filter(item => { return item !== null })
 
     console.log("step5RequiredFields ", step5RequiredFields)
