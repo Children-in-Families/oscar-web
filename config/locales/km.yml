@@ -3914,6 +3914,9 @@ km:
       field_type:
         select_option: Select options
         free_text: Free text
+      referral_decision:
+        meet_intake_criteria: Client DOES meet intake criteria and will be engaged for intake
+        not_meet_intake_criteria: Client DOES NOT meet intake criteria and has been referred to other services if needed
   errors:
     messages:
       already_confirmed: ត្រូវបានបញ្ជាក់រួចហើយ សូមសាកល្បងចូល
@@ -4707,7 +4710,7 @@ km:
       program_stream_ids: បញ្ជូនទៅ
       referral_date: កាលបរិច្ឆេទការបញ្ជូនខាងក្នុងអង្គភាព
       referral_decision: ការសម្រេចចិត្តបញ្ជូន (ត្រូវឆ្លងការអនុម័តពីប្រធានគ្រប់គ្រងករណី)
-      referral_decision_note: "សកម្មភាព/ការអន្តរាគមន៍ដែលបានធ្វើ:"
+      crisis_management: "Describe any emergency or crisis management/referrals:"
       referral_reason: មូលហេតុក្នុងការបញ្ជូននិងអនុសាសន៍
       referral_reason_note: "មូលហេតុក្នុងការបញ្ចូលមកកាន់កម្មវិធីសមិទ្ធិផលរតនៈ:"
       user_id: បញ្ជូនមកពី
