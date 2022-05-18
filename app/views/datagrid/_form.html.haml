@@ -113,11 +113,8 @@
                 = check_box_tag 'postal_code_', 'postal_code', checked = saved_search_column_visibility('postal_code_'), class: 'i-checks'
                 = label_tag 'postal_code_', t('datagrid.columns.postal_code')
 
-
-
-
           #referral-data
-            - QuantitativeType.joins(:quantitative_cases).uniq.each do |quantitative_type|
+            - QuantitativeType.cach_by_visible_on('client').each do |quantitative_type|
               - next unless quantitative_type_readable?(quantitative_type.id)
               %li
                 .visibility.col-sm-12
@@ -416,6 +413,9 @@
                 = label_tag 'care_plan_count_', t('datagrid.columns.care_plan_count')
 
             = render partial: 'datagrid/family_custom_domain_score', locals: { custom_domains: Domain.family_custom_csi_domains.order_by_identity }
+
+          = render 'datagrid/quantitative_type_column_pickers'
+
           %li.divider.col-xs-12
           %li
             .visibility.col-sm-12
@@ -468,16 +468,8 @@
                 = check_box_tag "#{k}_", k, checked = selected_commuity_column("#{k}_"), class: 'i-checks'
                 = header_name
 
-          #referral-data
-            - quantitative_fields = @quantitative_fields.map { |quantitative_field|  quantitative_field.slice(:id, :field) }
-            - quantitative_fields.each do |quantitative_type|
-              - quantitative_type_id = quantitative_type[:id]
-              - quantitative_type_name = quantitative_type[:field]
-              - next unless quantitative_type_readable?(quantitative_type_id[/\d+/])
-              %li
-                .visibility.col-sm-12
-                  = check_box_tag "#{quantitative_type_name}_", quantitative_type_name, checked = default_setting("#{quantitative_type_name}_", @default_columns) || params["#{quantitative_type_name}_"].present?, class: 'i-checks'
-                  = label_tag "#{quantitative_type_name}_", quantitative_type_name
+          = render 'datagrid/quantitative_type_column_pickers'
+
           %li
             .visibility.col-sm-12
               = check_box_tag 'manage_', 'manage', checked =  default_setting('manage_', @default_columns) || params[:manage_].present?, class: 'i-checks'
