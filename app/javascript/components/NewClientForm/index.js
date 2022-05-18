@@ -154,8 +154,6 @@ const Forms = props => {
       return (keypair[1] === true && clientData[checkboxKey] === true) ? docKey : null
     }).filter(item => { return item !== null })
 
-    console.log("step5RequiredFields ", step5RequiredFields)
-
     const components = [
       { step: 1, data: refereeData, fields: ['name'] },
       { step: 1, data: clientData, fields: ['referral_source_category_id'] },
