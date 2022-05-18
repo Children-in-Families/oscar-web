@@ -5,6 +5,7 @@ describe 'Family' do
   let!(:client){ create(:client, :accepted) }
 
   before do
+    Rails.cache.clear
     login_as(admin)
   end
 
@@ -14,7 +15,6 @@ describe 'Family' do
     end
     scenario 'valid' do
       fill_in 'Head Household Name (Latin)', with: 'Family Name'
-      find(".family_province_id select option[value='#{province.id}']", visible: false).select_option
       find(".family_family_type select option[value='Birth Family (Both Parents)']", visible: false).select_option
       find("#family_family_type", visible: false).set('Short Term/Emergency Foster Care')
       click_link 'Next'
@@ -22,9 +22,7 @@ describe 'Family' do
       find(".family_family_members_gender select option[value='female']", visible: false).select_option
       click_link 'Save'
       sleep 5
-      expect(page).to have_content('Family has been successfully created')
       expect(page).to have_content('Family Name')
-      expect(page).to have_content(province.name)
       expect(page).to have_content('Test')
     end
 

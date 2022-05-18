@@ -130,7 +130,7 @@ describe 'User' do
     end
 
     scenario 'does not succeed' do
-      expect(page).to have_css("a[href='#{domain_path(used_user)}'][data-method='delete'][class='btn btn-outline btn-danger btn-xs disabled']")
+      expect(page).to have_css("a[href='#{user_path(used_user)}'][data-method='delete'][class='btn btn-outline btn-danger btn-xs disabled']")
     end
   end
 
