@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20220509112144) do
+ActiveRecord::Schema.define(version: 20220518050445) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1725,10 +1725,11 @@ ActiveRecord::Schema.define(version: 20220509112144) do
     t.text     "client_representing_problem"
     t.text     "emergency_note"
     t.text     "referral_reason"
-    t.text     "referral_decision"
+    t.text     "crisis_management"
     t.string   "attachments",                 default: [],              array: true
     t.datetime "created_at",                               null: false
     t.datetime "updated_at",                               null: false
+    t.string   "referral_decision"
   end
 
   add_index "internal_referrals", ["client_id"], name: "index_internal_referrals_on_client_id", using: :btree
