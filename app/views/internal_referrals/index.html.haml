@@ -31,7 +31,7 @@
                   %td= internal_referral.emergency_note
                   %td= internal_referral.referral_reason
                   %td
-                    %p= internal_referral.referral_decision
+                    %p= internal_referral.referral_decision_text
                     - if internal_referral.not_meet_intake_criteria?
                       %p= internal_referral.crisis_management
                   %td
