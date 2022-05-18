@@ -45,7 +45,7 @@ const Forms = props => {
       client: { client, user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids, national_id_files, current_family_id, isTestClient, isForTesting }, client_quantitative_free_text_cases, family_member, family, referee, referees, carer, users, birthProvinces, referralSource, referralSourceCategory, selectedCountry, internationalReferredClient,
       currentProvinces, districts, communes, villages, donors, agencies, schoolGrade, quantitativeType, quantitativeCase, ratePoor, families, clientRelationships, refereeRelationships, addressTypes, phoneOwners, refereeDistricts,
       refereeTownships, carerTownships, customId1, customId2, inlineHelpTranslation,
-      refereeCommunes, refereeSubdistricts, carerSubdistricts, refereeVillages, carerDistricts, carerCommunes, carerVillages, callerRelationships, currentStates, currentTownships, subDistricts, translation, fieldsVisibility,
+      refereeCommunes, refereeSubdistricts, carerSubdistricts, refereeVillages, carerDistricts, carerCommunes, carerVillages, callerRelationships, currentStates, currentTownships, subDistricts, translation, fieldsVisibility, requiredFields,
       brc_address, brc_islands, brc_resident_types, brc_prefered_langs, brc_presented_ids, maritalStatuses, nationalities, ethnicities, traffickingTypes
     }
   } = props
@@ -91,7 +91,7 @@ const Forms = props => {
   const referralTabData = { errorFields, client: clientData, referee: refereeData, birthProvinces, phoneOwners, callerRelationships, ...address, T, translation, current_organization, brc_address, brc_islands, brc_presented_ids, brc_resident_types, brc_prefered_langs, maritalStatuses, nationalities, ethnicities, traffickingTypes }
   const moreReferralTabData = { errorFields, ratePoor, carer: carerData, familyMember: familyMemberData, schoolGrade, donors, agencies, families, clientRelationships, carerDistricts, carerCommunes, carerVillages, currentStates, currentTownships, carerSubdistricts, ...referralTabData, T, customId1, customId2 }
   const referralVulnerabilityTabData = { client: clientData, errorFields, clientQuantitativeFreeTextCasesData, quantitativeType, quantitativeCase, T }
-  const legalDocument = { client: clientData, T }
+  const legalDocument = { client: clientData, T, errorFields }
 
   const tabs = [
     {text: T.translate("index.referee_info"), step: 1},
@@ -147,13 +147,20 @@ const Forms = props => {
   }
 
   const handleValidation = (stepTobeCheck = 0) => {
+    const step5RequiredFields = Object.entries(requiredFields.fields).map(keypair => {
+      const checkboxKey = keypair[0]
+      const docKey = requiredFields.mapping[checkboxKey]
+
+      return (keypair[1] === true && clientData[checkboxKey] === true) ? docKey : null
+    }).filter(item => { return item !== null })
+
     const components = [
       { step: 1, data: refereeData, fields: ['name'] },
       { step: 1, data: clientData, fields: ['referral_source_category_id'] },
       { step: 2, data: clientData, fields: ['gender']},
       { step: 3, data: clientData, fields: [] },
       { step: 4, data: clientData, fields: clientData.status != 'Exited' ? ['received_by_id', 'initial_referral_date', 'user_ids'] : ['received_by_id', 'initial_referral_date'] },
-      { step: 5, data: clientData, fields: [] }
+      { step: 5, data: clientData, fields: step5RequiredFields }
     ]
 
     const errors = []
@@ -524,7 +531,7 @@ const Forms = props => {
           {
             fieldsVisibility.show_legal_doc == true &&
             <div style={{ display: step === 5 ? 'block' : 'none' }}>
-              <LegalDocument data={legalDocument} translation={translation} fieldsVisibility={fieldsVisibility} onChange={onChange} />
+              <LegalDocument data={legalDocument} translation={translation} requiredFields={requiredFields} fieldsVisibility={fieldsVisibility} onChange={onChange} />
             </div>
           }
         </div>

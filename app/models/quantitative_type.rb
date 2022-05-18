@@ -28,13 +28,13 @@ class QuantitativeType < ActiveRecord::Base
 
   def self.cach_by_visible_on(visible_on)
     Rails.cache.fetch([Apartment::Tenant.current, "QuantitativeType", visible_on]) do
-      QuantitativeType.includes(:quantitative_cases).where('quantitative_types.visible_on ILIKE ?', "%#{visible_on}%").to_a
+      includes(:quantitative_cases).where('quantitative_types.visible_on ILIKE ?', "%#{visible_on}%").to_a
     end
   end
 
   def self.cach_by_quantitative_type_ids(quantitative_type_ids)
     Rails.cache.fetch([Apartment::Tenant.current, "quantitative_type_ids", quantitative_type_ids]) do
-      QuantitativeType.includes(:quantitative_cases).where(id: quantitative_type_ids).to_a
+      includes(:quantitative_cases).where(id: quantitative_type_ids).to_a
     end
   end
 

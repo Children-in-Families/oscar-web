@@ -81,6 +81,21 @@ module ClientsHelper
     result
   end
 
+  def required_legal_docs
+    result = field_settings.each_with_object({}) do |field_setting, output|
+      field_mapping = Client::LEGAL_DOC_MAPPING[field_setting.name.to_sym]
+
+      if field_mapping.present? && field_setting.required?
+        output[field_setting.name] = true
+      end
+    end
+
+    {
+      fields: result,
+      mapping: Client::LEGAL_DOC_MAPPING
+    }
+  end
+
   def report_options(title, yaxis_title)
     {
       library: {

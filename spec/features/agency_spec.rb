@@ -21,7 +21,7 @@ describe 'Agency' do
       expect(page).to have_css("i[class='fa fa-pencil']")
     end
     scenario 'delete link' do
-      expect(page).to have_css("a[href='#{domain_path(agency)}'][data-method='delete']")
+      expect(page).to have_css("a[href='#{agency_path(agency)}'][data-method='delete']")
     end
   end
 
@@ -35,6 +35,7 @@ describe 'Agency' do
         fill_in 'Name', with: 'Test Agency'
         click_button 'Save'
       end
+      sleep 1
       expect(page).to have_content('Test Agency')
     end
 
@@ -44,6 +45,7 @@ describe 'Agency' do
       within('#new_agency') do
         click_button 'Save'
       end
+      wait_for_ajax
       expect(page).to have_content("Failed to create an agency")
     end
   end
@@ -58,6 +60,7 @@ describe 'Agency' do
         fill_in 'Name', with: 'Rotati'
         click_button 'Save'
       end
+      sleep 5
       expect(page).to have_content('Rotati')
     end
     scenario 'invalid' do
@@ -75,11 +78,11 @@ describe 'Agency' do
       visit agencies_path
     end
     scenario 'success' do
-      find("a[href='#{domain_path(agency)}'][data-method='delete']").click
+      find("a[href='#{agency_path(agency)}'][data-method='delete']").click
       expect(page).not_to have_content(agency.name)
     end
     scenario 'disable link' do
-      expect(page).to have_css("a[href='#{domain_path(other_agency)}'][data-method='delete'][class='btn btn-outline btn-danger btn-xs disabled']")
+      expect(page).to have_css("a[href='#{agency_path(other_agency)}'][data-method='delete'][class='btn btn-outline btn-danger btn-xs disabled']")
     end
   end
 end
