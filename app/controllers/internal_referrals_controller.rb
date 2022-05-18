@@ -61,12 +61,6 @@ class InternalReferralsController < AdminController
     end
 
     def internal_referral_params
-      program_stream_ids = params.dig(:internal_referral, :program_stream_ids)
-
-      if program_stream_ids.present?
-        params[:internal_referral][:program_stream_ids] = program_stream_ids.select(&:present?)
-      end
-
       params.require(:internal_referral).permit(:referral_date, :client_id, :user_id, :client_representing_problem, :emergency_note, :referral_reason, :crisis_management, :referral_decision, attachments: [], program_stream_ids: [])
     end
 end
