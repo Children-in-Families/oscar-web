@@ -13,7 +13,7 @@ module Api
       def clients
         sql = ''
         bulk_clients = []
-        external_system_name = ExternalSystem.find_by(token: @current_user.email)&.name || ''
+        external_system_id, external_system_name = ExternalSystem.fetch_external_system_name(@current_user.email)
         date_time_param = Time.parse(params[:since_date]) if params[:since_date].present?
         end_date_param = Time.parse(params[:end_date]) if params[:end_date].present?
         Organization.only_integrated.pluck(:short_name).map do |short_name|
@@ -173,9 +173,7 @@ module Api
         referral_attributes = Referral.get_referral_attribute(clients_params)
         referral = Referral.find_by(external_id: clients_params[:external_id])
         if referral.nil?
-          external_system = ExternalSystem.find_by(token: @current_user.email)
-          external_system_id = external_system&.id
-          external_system_name = external_system&.name
+          external_system_id, external_system_name = ExternalSystem.fetch_external_system_name(@current_user.email)
           referral = Referral.new(referral_attributes.merge(ngo_name: external_system_name, referred_from: external_system_name))
           if referral.save
             global_identity = GlobalIdentity.find_by(ulid: referral_attributes[:client_global_id])
@@ -194,9 +192,7 @@ module Api
       end
 
       def create_referral
-        external_system = ExternalSystem.find_by(token: @current_user.email)
-        external_system_id = external_system&.id
-        external_system_name = external_system&.name
+        external_system_id, external_system_name = ExternalSystem.fetch_external_system_name(@current_user.email)
         referral_attributes = Referral.get_referral_attribute(clients_params)
         client = Client.find_by(global_id: referral_attributes[:client_global_id])
 
@@ -280,15 +276,15 @@ module Api
       end
 
       def create_second_referral
-        external_system = ExternalSystem.find_by(token: @current_user.email)
-        external_system_id = external_system&.id
-        external_system_name = external_system&.name
+        external_system_id, external_system_name = ExternalSystem.fetch_external_system_name(@current_user.email)
         referral = Referral.new(referral_attributes.merge(referred_from: external_system_name))
       end
 
       def check_referral_status(client, status)
         if ['Accepted', 'Exited', 'Referred'].include?(status)
-          client.referrals.last&.update_referral_status(status)
+          external_system_id, external_system_name = ExternalSystem.fetch_external_system_name(@current_user.email)
+          client.referrals.received.get_external_systems(external_system_name).last&.update_referral_status(status)
+          client.referrals.delivered.get_external_systems(external_system_name).last&.update_referral_status(status)
           render json: { external_id: client.external_id, message: 'Record saved.' }
         else
           render json: { external_id: client.external_id, message: "Referral status must be one of ['Accepted', 'Exited', 'Referred'].", status: :unprocessable_entity }
