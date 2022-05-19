@@ -68,7 +68,7 @@ module AdvancedSearches
           program_name = form_builder.second.gsub("&qoute;", '"')
           program_stream = ProgramStream.find_by(name: program_name)
           if program_stream.present?
-            enrollment_fields = AdvancedSearches::EnrollmentSqlBuilder.new(program_stream.id, rule).get_sql
+            enrollment_fields = AdvancedSearches::EnrollmentSqlBuilder.new(@clients, program_stream.id, rule).get_sql
             @sql_string << enrollment_fields[:id]
             @values << enrollment_fields[:values]
           end
