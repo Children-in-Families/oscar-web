@@ -1,7 +1,8 @@
 module AdvancedSearches
   class EnrollmentSqlBuilder
 
-    def initialize(program_stream_id, rule)
+    def initialize(clients, program_stream_id, rule)
+      @clients = clients
       @program_stream_id = program_stream_id
       field     = rule['field']
       @field    = field.split('__').last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
@@ -53,7 +54,7 @@ module AdvancedSearches
           properties_result = client_enrollments.where.not("properties -> '#{@field}' ? '' OR (properties -> '#{@field}') IS NULL")
           client_ids        = properties_result.pluck(:client_id)
         end
-        client_ids          = Client.where.not(id: client_ids).ids
+        client_ids          = @clients.where.not(id: client_ids).ids
         return { id: sql_string, values: client_ids }
       when 'is_not_empty'
         if @type == 'checkbox'
