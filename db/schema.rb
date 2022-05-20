@@ -2178,25 +2178,6 @@ ActiveRecord::Schema.define(version: 20220518050445) do
   add_index "referrals_services", ["referral_id"], name: "index_referrals_services_on_referral_id", using: :btree
   add_index "referrals_services", ["service_id"], name: "index_referrals_services_on_service_id", using: :btree
 
-  create_table "screening_assessments", force: :cascade do |t|
-    t.datetime "screening_assessment_date"
-    t.string   "client_age"
-    t.string   "visitor"
-    t.string   "client_milestone_age"
-    t.string   "attachments",                   default: [],         array: true
-    t.text     "note"
-    t.boolean  "smile_back_during_interaction"
-    t.boolean  "follow_object_passed_midline"
-    t.boolean  "turn_head_to_sound"
-    t.boolean  "head_up_45_degree"
-    t.integer  "client_id"
-    t.string   "screening_type",                default: "multiple"
-  end
-
-  add_index "screening_assessments", ["client_id"], name: "index_screening_assessments_on_client_id", using: :btree
-  add_index "screening_assessments", ["screening_assessment_date"], name: "index_screening_assessments_on_screening_assessment_date", using: :btree
-  add_index "screening_assessments", ["screening_type"], name: "index_screening_assessments_on_screening_type", using: :btree
-
   create_table "service_deliveries", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
@@ -2293,8 +2274,6 @@ ActiveRecord::Schema.define(version: 20220518050445) do
     t.string   "case_note_edit_frequency",             default: "week"
     t.boolean  "disabled_add_service_received",        default: false
     t.boolean  "test_client",                          default: false
-    t.boolean  "cbdmat_one_off",                       default: false
-    t.boolean  "cbdmat_ongoing",                       default: false
   end
 
   add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree
