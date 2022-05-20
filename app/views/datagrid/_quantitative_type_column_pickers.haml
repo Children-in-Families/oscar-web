@@ -1,5 +1,7 @@
 - if @quantitative_fields.present?
   #referral-data
+    %li
+      %strong.m-l-sm= t('advanced_search.fields.quantitative')
     - quantitative_fields = @quantitative_fields.map { |quantitative_field|  quantitative_field.slice(:id, :field) }
     - quantitative_fields.each do |quantitative_type|
       - quantitative_type_id = quantitative_type[:id]
