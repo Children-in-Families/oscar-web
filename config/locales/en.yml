@@ -516,6 +516,7 @@ en:
       name: Name
       name_of_referee: Name of Referee
       ngo_accepted_date: NGO Accept Date
+      no_case_note_date: No Case Note Date
       ngo_exit_date: NGO Exit Date
       no_case_note_date: No Case Note Date
       other_info_of_exit: Other - More Information
@@ -535,7 +536,8 @@ en:
       referral_source_category_id: Referral Source Category
       referral_source_id: Referral Source
       referred_from: Referred From
-      referred_in: Referred In
+      referred_in: Number of Referred In
+      referred_out: Number of Referred Out
       referred_to: Referred To
       referred_out: Referred Out
       referee: Referee
