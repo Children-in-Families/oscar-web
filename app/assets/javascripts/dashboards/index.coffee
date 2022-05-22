@@ -12,7 +12,7 @@ CIF.DashboardsIndex = do ->
     # _clientStatusChart()
     _familyType()
     _resizeChart()
-    _clientProgramStreamByGender()
+    # _clientProgramStreamByGender()
     _clientProgramStream()
     _initSelect2()
     _openTaskListModal()
@@ -28,6 +28,7 @@ CIF.DashboardsIndex = do ->
     _loadModalReminder()
     _handleSearchClient()
     _handleMultiFormAssessmentCaseNote()
+    _loadSteps()
 
   _loadModalReminder = ->
     if localStorage.getItem('from login') == 'true'
@@ -94,6 +95,18 @@ CIF.DashboardsIndex = do ->
     element = $('#client-program-stream')
     data    = $(element).data('content-count')
     title    = $(element).data('title')
+    data =
+      categories: data[0].active_data.map (element) ->
+        element['name']
+      series: data.map (element, index) ->
+        {
+          name: element['name']
+          data: data[index].active_data.map((subElement) ->
+            subElement['y']
+          )
+          color: if index % 2 == 0 then '#f9c00c' else '#4caf50'
+        }
+
     report = new CIF.ReportCreator(data, title, '', element)
     report.barChart()
 
@@ -336,5 +349,115 @@ CIF.DashboardsIndex = do ->
       $("ul#casenote-tab-dropdown a").attr('href', "javascript:void(0)")
       $("ul#casenote-tab-dropdown a").addClass('disabled')
 
+
+  _loadSteps = (form) ->
+    bodyTag = 'div'
+    rootId = "#rootwizard"
+    that = @
+    $(rootId).steps
+      headerTag: 'h4'
+      bodyTag: bodyTag
+      enableAllSteps: true
+      transitionEffect: 'slideLeft'
+      autoFocus: true
+      titleTemplate: 'Data #title#'
+      onInit: (event, currentIndex) ->
+        currentTab  = "#{rootId}-p-#{currentIndex}"
+        _clientProgramStreamByGender()
+        return
+
+      onStepChanging: (event, currentIndex, newIndex) ->
+        console.log 'onStepChanging'
+        currentTab  = "#{rootId}-p-#{currentIndex}"
+        return true
+
+      onStepChanged: (event, currentIndex, priorIndex) ->
+        console.log 'onStepChanged'
+        currentTab  = "#{rootId}-p-#{currentIndex}"
+        currentStep = $("#{rootId}-p-" + currentIndex)
+        if $("#{currentTab} #active-client:visible").length
+          url = $("#active-client").data('url')
+          _active_client_by_gender(url)
+        else if $("#{currentTab} #active-case-by-donor:visible").length
+          url = $("#active-case-by-donor").data('url')
+          _active_case_by_donor(url)
+
+  _active_client_by_gender = (url) ->
+    element = $('#active-client')
+    title = element.data('title')
+    $.ajax
+      type: 'get'
+      url: url
+      dataType: 'JSON'
+      success: (response) ->
+        data =
+          categories: [
+            'Children'
+            'Adult'
+            'Other'
+          ]
+          series: [
+            {
+              name: 'Female'
+              data: [
+                response.girls
+                response.adult_females
+                0
+              ]
+              color: '#f9c00c'
+            }
+            {
+              name: 'Male'
+              data: [
+                response.boys
+                response.adult_males
+                0
+              ]
+              color: '#4caf50'
+            },
+            {
+              name: 'Other'
+              data: [0, 0, response.others]
+              color: '#00695c'
+            }
+          ]
+
+        report = new CIF.ReportCreator(data, title, '', element)
+        report.columnChart()
+      error: (response, status, msg) ->
+        return
+
+  _active_case_by_donor = (url) ->
+    element = $('#active-case-by-donor')
+    title = element.data('title')
+    $.ajax
+      type: 'get'
+      url: url
+      dataType: 'JSON'
+      success: (response) ->
+        data = Object.keys(response).map (key) ->
+          container = undefined
+          container = {}
+          container.name = key
+          container.y = response[key]
+          container
+
+        report = new CIF.ReportCreator(data, title, '', element)
+        report._highChartsPieChart()
+      error: (response, status, msg) ->
+        return
+
+  # Make monochrome colors
+  _pieColors = do ->
+    colors = []
+    base = Highcharts.getOptions().colors[2]
+    i = undefined
+    i = 0
+    while i < 50
+      # Start out with a darkened base color (negative brighten), and end
+      # up with a much brighter color
+      colors.push Highcharts.color(base).brighten((i - 5) / 7).get()
+      i += 1
+    colors
 
   { init: _init }
