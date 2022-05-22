@@ -1,5 +1,4 @@
 class District < ActiveRecord::Base
-  after_commit :flush_cache
   include AddressConcern
 
   has_paper_trail
@@ -15,6 +14,8 @@ class District < ActiveRecord::Base
 
   validates :province, presence: true
   validates :name, presence: true, uniqueness: { case_sensitive: false, scope: [:province_id] }
+
+  after_commit :flush_cache
 
   def name_kh
     name.split(' / ').first
@@ -47,13 +48,13 @@ class District < ActiveRecord::Base
   end
 
   def self.cached_dropdown_list_option
-    Rails.cache.fetch([Apartment::Tenant.current, 'Province', 'dropdown_list_option']) {self.dropdown_list_option}
+    Rails.cache.fetch([Apartment::Tenant.current, 'District', 'dropdown_list_option']) { self.dropdown_list_option }
   end
 
   def flush_cache
-    Rails.cache.delete([Apartment::Tenant.current, self.class.name, id])
-    Rails.cache.delete([Apartment::Tenant.current, self.class.name, id, 'cached_communes'])
-    Rails.cache.delete([Apartment::Tenant.current, self.class.name, id, 'cached_subdistricts'])
+    Rails.cache.delete([Apartment::Tenant.current, 'District', id])
+    Rails.cache.delete([Apartment::Tenant.current, 'District', id, 'cached_communes'])
+    Rails.cache.delete([Apartment::Tenant.current, 'District', id, 'cached_subdistricts'])
     Rails.cache.delete([Apartment::Tenant.current, "District", 'dropdown_list_option'])
   end
 end

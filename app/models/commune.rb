@@ -1,5 +1,4 @@
 class Commune < ActiveRecord::Base
-  after_commit :flush_cache
   attr_accessor :name
   has_paper_trail
 
@@ -16,6 +15,7 @@ class Commune < ActiveRecord::Base
 
   scope :dropdown_list_option, -> { all.map{|c| { c.id => c.name } } }
 
+  after_commit :flush_cache
 
   def name
     district_type ? name_en : "#{name_kh} / #{name_en}"
@@ -43,7 +43,7 @@ class Commune < ActiveRecord::Base
     Rails.cache.fetch([Apartment::Tenant.current, 'Commune', id]) { find(id) }
   end
 
-  def self.cached_villages
+  def cached_villages
     Rails.cache.fetch([Apartment::Tenant.current, 'Commune', id, 'cached_villages']) { villages.order(:code).to_a }
   end
 
@@ -52,9 +52,8 @@ class Commune < ActiveRecord::Base
   end
 
   def flush_cache
-    Rails.cache.delete([Apartment::Tenant.current, self.class.name, id])
-    Rails.cache.delete([Apartment::Tenant.current, self.class.name, id, 'cached_villages'])
-    Rails.cache.delete([Apartment::Tenant.current, "commune", 'dropdown_list_option'])
-
+    Rails.cache.delete([Apartment::Tenant.current, 'Commune', id])
+    Rails.cache.delete([Apartment::Tenant.current, 'Commune', id, 'cached_villages'])
+    Rails.cache.delete([Apartment::Tenant.current, "Commune", 'dropdown_list_option'])
   end
 end
