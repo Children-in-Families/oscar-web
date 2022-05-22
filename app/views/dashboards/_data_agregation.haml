@@ -1,0 +1,21 @@
+.col-xs-12
+  .panel.panel-default.program-stream-panel
+    .panel-body
+      = link_to program_streams_path do
+        .widget.style1.widget-program-panel
+          .row.vertical-align
+            .col-xs-5
+              %i.fa.fa-bar-chart.fa-3x
+            .col-xs-7.text-right
+              %span.text-font
+                = t('.data_agregation')
+
+      .row
+        .col-xs-12
+          #rootwizard.root-wizard{ data: { next: t('.next'), previous: t('.previous'), action: params['action'] } }
+            %h4= t('.active_progarm_streams_by_gender')
+            %div{ class: "active-progarm-streams-by-gender" }
+              #client-program-stream{ 'data-content-count' => @dashboard.program_stream_report_gender.to_json, 'data-title' => t('.active_progarm_streams_by_gender') }
+            %h4= t('.active_client_by_gender')
+            %div{ class: "active-client-by-gender" }
+              #active-client{ 'data-url' => client_by_gender_api_clients_path, 'data-title' => t('.active_client_by_gender') }
