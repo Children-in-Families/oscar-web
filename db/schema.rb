@@ -2163,14 +2163,22 @@ ActiveRecord::Schema.define(version: 20220427082949) do
     t.string   "client_age"
     t.string   "visitor"
     t.string   "client_milestone_age"
+<<<<<<< HEAD
     t.string   "attachments",                   default: [],         array: true
+=======
+    t.string   "attachments"
+>>>>>>> d29afc4f3 (Remove client_id Contrain)
     t.text     "note"
     t.boolean  "smile_back_during_interaction"
     t.boolean  "follow_object_passed_midline"
     t.boolean  "turn_head_to_sound"
     t.boolean  "head_up_45_degree"
     t.integer  "client_id"
+<<<<<<< HEAD
     t.string   "screening_type",                default: "multiple"
+=======
+    t.string   "screening_type"
+>>>>>>> d29afc4f3 (Remove client_id Contrain)
   end
 
   add_index "screening_assessments", ["client_id"], name: "index_screening_assessments_on_client_id", using: :btree

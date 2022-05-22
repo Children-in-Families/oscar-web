@@ -170,7 +170,7 @@ class ClientsController < AdminController
   end
 
   def destroy
-    if @client.delete
+    if @client.current_family_id? && @client.destroy
       EnterNgo.with_deleted.where(client_id: @client.id).each(&:destroy_fully!)
       ClientEnrollment.with_deleted.where(client_id: @client.id).delete_all
       Case.where(client_id: @client.id).delete_all
@@ -179,7 +179,7 @@ class ClientsController < AdminController
       ExitNgo.with_deleted.where(client_id: @client.id).each(&:destroy_fully!)
       redirect_to clients_url, notice: t('.successfully_deleted')
     else
-      messages = @client.errors.full_messages.uniq.join('\n')
+      messages = "Can't delete client because the client is still attached with family"
       redirect_to @client, alert: messages
     end
   end
