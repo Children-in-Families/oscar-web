@@ -77,7 +77,7 @@ module AdvancedSearches
     def drop_down_type_list
       yes_no_options = { true: 'Yes', false: 'No' }
       fields = [
-        ['location_of_concern', Client.where.not(location_of_concern: [nil, '']).distinct.pluck(:location_of_concern).map{ |a| { a => a }}],
+        ['location_of_concern', Client.cache_location_of_concern],
         ['created_by', user_select_options ],
         ['gender', gender_list],
         ['status', client_status],
@@ -139,13 +139,11 @@ module AdvancedSearches
     end
 
     def active_program_options
-      program_ids = ClientEnrollment.active.pluck(:program_stream_id).uniq
-      ProgramStream.where(id: program_ids).order(:name).map { |ps| { ps.id.to_s => ps.name } }
+      ClientEnrollment.cache_active_program_options
     end
 
     def enrolled_program_options
-      program_ids = ClientEnrollment.pluck(:program_stream_id).uniq
-      ProgramStream.where(id: program_ids).order(:name).map { |ps| { ps.id.to_s => ps.name } }
+      ProgramStream.cache_program_steam_by_enrollment.map { |ps| { ps.id.to_s => ps.name } }
     end
 
     def client_status
@@ -153,7 +151,7 @@ module AdvancedSearches
     end
 
     def provinces
-      Client.province_is.sort.map{|s| {s[1].to_s => s[0]}}
+      Province.cached_dropdown_list_option
     end
 
     def birth_provinces
@@ -166,49 +164,49 @@ module AdvancedSearches
     end
 
     def districts
-      District.joins(:clients).pluck(:name, :id).uniq.sort.map{|s| {s[1].to_s => s[0]}}
+      District.cached_dropdown_list_option
     end
 
     def communes
-      Commune.joins(:clients, district: :province).distinct.map{|commune| ["#{commune.name} (#{commune.code})", commune.id]}.sort.map{|s| {s[1].to_s => s[0]}}
+      Commune.cache_by_client_district_province_and_mapping_names
     end
 
     def villages
-      Village.joins(:clients, commune: [district: :province]).distinct.map{|village| ["#{village.name_kh} / #{village.name_en} (#{village.code})", village.id]}.sort.map{|s| {s[1].to_s => s[0]}}
+      Village.cache_village_name_by_client_commune_district_province
     end
 
     def subdistricts
-      Subdistrict.joins(:clients).pluck(:name, :id).uniq.sort.map{|s| {s[1].to_s => s[0]}}
+      Subdistrict.cached_dropdown_list_option
     end
 
     def townships
-      Township.joins(:clients).pluck(:name, :id).uniq.sort.map{|s| {s[1].to_s => s[0]}}
+      Township.cached_dropdown_list_option
     end
 
     def states
-      State.joins(:clients).pluck(:name, :id).uniq.sort.map{|s| {s[1].to_s => s[0]}}
+      State.cached_dropdown_list_option
     end
 
     def get_type_of_services
-      Service.only_children.pluck(:name, :id).uniq.sort.map{|s| {s[1].to_s => s[0]}}
+      Service.cache_only_child_services
     end
 
     def agencies_options
-      Agency.order(:name).map { |s| { s.id.to_s => s.name } }
+      Agency.cache_agency_options
     end
 
     def donor_options
-      Donor.order(:name).map { |donor| { donor.id.to_s => donor.name } }
+      Donor.cache_donor_options
     end
 
     def referral_to_options
-      orgs = Organization.oscar.map { |org| { org.short_name => org.full_name } }
+      orgs = Organization.cache_mapping_ngo_names
       orgs << { "MoSVY External System" => "MoSVY External System" }
       orgs << { "external referral" => "I don't see the NGO I'm looking for" }
     end
 
     def referral_from_options
-      orgs = Organization.oscar.map { |org| { org.short_name => org.full_name } }
+      orgs = Organization.cache_mapping_ngo_names
       orgs << { "MoSVY External System" => "MoSVY External System" }
     end
 

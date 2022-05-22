@@ -1,4 +1,6 @@
 class Commune < ActiveRecord::Base
+  include AddressConcern
+
   attr_accessor :name
   has_paper_trail
 
@@ -51,9 +53,16 @@ class Commune < ActiveRecord::Base
     Rails.cache.fetch([Apartment::Tenant.current, 'commune', 'dropdown_list_option']) { self.dropdown_list_option }
   end
 
+  def self.cache_by_client_district_province_and_mapping_names
+    Rails.cache.fetch([Apartment::Tenant.current, "Commune", 'cache_by_client_district_province_and_mapping_names']) do
+      Commune.joins(:clients, district: :province).distinct.map{|commune| ["#{commune.name} (#{commune.code})", commune.id]}.sort.map{|s| {s[1].to_s => s[0]}}
+    end
+  end
+
   def flush_cache
     Rails.cache.delete([Apartment::Tenant.current, 'Commune', id])
     Rails.cache.delete([Apartment::Tenant.current, 'Commune', id, 'cached_villages'])
     Rails.cache.delete([Apartment::Tenant.current, "Commune", 'dropdown_list_option'])
+    Rails.cache.delete([Apartment::Tenant.current, "Commune", 'cache_by_client_district_province_and_mapping_names'])
   end
 end

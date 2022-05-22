@@ -47,9 +47,7 @@ class District < ActiveRecord::Base
     Rails.cache.fetch([Apartment::Tenant.current, 'District', id, 'cached_subdistricts']) { subdistricts.order(:name).to_a }
   end
 
-  def self.cached_dropdown_list_option
-    Rails.cache.fetch([Apartment::Tenant.current, 'District', 'dropdown_list_option']) { self.dropdown_list_option }
-  end
+  private
 
   def flush_cache
     Rails.cache.delete([Apartment::Tenant.current, 'District', id])

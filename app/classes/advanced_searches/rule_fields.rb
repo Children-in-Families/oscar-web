@@ -102,23 +102,23 @@ module AdvancedSearches
     end
 
     def referral_source_options
-      ReferralSource.child_referrals.order(:name).map { |s| { s.id.to_s => s.name } }
+      ReferralSource.cache_referral_source_options
     end
 
     def referral_source_category_options
       if I18n.locale == :km
-        ReferralSource.parent_categories.order(:name).map { |s| { s.id.to_s => s.name } }
+        ReferralSource.cache_local_referral_source_category_options
       else
-        ReferralSource.parent_categories.order(:name_en).map { |s| { s.id.to_s => s.name } }
+        ReferralSource.cache_referral_source_category_options
       end
     end
 
     def agencies_options
-      Agency.order(:name).map { |s| { s.id.to_s => s.name } }
+      Agency.cache_agency_options
     end
 
     def user_select_options
-      User.non_strategic_overviewers.order(:first_name, :last_name).map { |user| { user.id.to_s => user.name } }
+      User.cached_user_select_options
     end
 
     def donor_options

@@ -1,12 +1,16 @@
 module AdvancedSearchFieldHelper
   def received_by_options(klass_name = 'Client')
-    recevied_by_clients = @user.admin? || @user.manager? ? klass_name.constantize.is_received_by : klass_name.constantize.where(user_id: @user.id).is_received_by
-    recevied_by_clients.sort.map { |s| { s[1].to_s => s[0] } }
+    Rails.cache.fetch([Apartment::Tenant.current, klass_name, 'received_by', @user.id]) do
+      recevied_by_clients = @user.admin? || @user.manager? ? klass_name.constantize.is_received_by : klass_name.constantize.where(user_id: @user.id).is_received_by
+      recevied_by_clients.sort.map { |s| { s[1].to_s => s[0] } }
+    end
   end
 
   def followed_up_by_options(klass_name = 'Client')
-    followed_up_clients = @user.admin? || @user.manager? ? klass_name.constantize.is_followed_up_by : klass_name.constantize.where(user_id: @user.id).is_followed_up_by
-    followed_up_clients.sort.map { |s| { s[1].to_s => s[0] } }
+    Rails.cache.fetch([Apartment::Tenant.current, klass_name, 'followed_up_by', @user.id]) do
+      followed_up_clients = @user.admin? || @user.manager? ? klass_name.constantize.is_followed_up_by : klass_name.constantize.where(user_id: @user.id).is_followed_up_by
+      followed_up_clients.sort.map { |s| { s[1].to_s => s[0] } }
+    end
   end
 
   def created_by_options(klass_name = 'Client')

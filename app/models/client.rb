@@ -137,6 +137,7 @@ class Client < ActiveRecord::Base
   after_commit :remove_family_from_case_worker
   after_commit :update_related_family_member, on: :update
   after_commit :delete_referee, on: :destroy
+  after_commit :flush_cache
 
   scope :given_name_like,                          ->(value) { where('clients.given_name iLIKE :value OR clients.local_given_name iLIKE :value', { value: "%#{value.squish}%"}) }
   scope :family_name_like,                         ->(value) { where('clients.family_name iLIKE :value OR clients.local_family_name iLIKE :value', { value: "%#{value.squish}%"}) }
@@ -270,6 +271,12 @@ class Client < ActiveRecord::Base
           attributes = { external_id: data_hash[client.global_id].first, external_id_display: data_hash[client.global_id].last }
           client.update_columns(attributes)
         end
+      end
+    end
+
+    def cache_location_of_concern
+      Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'location_of_concern']) do
+        Client.where.not(location_of_concern: [nil, '']).pluck(:location_of_concern).map{ |a| { a => a } }
       end
     end
   end
@@ -824,6 +831,19 @@ class Client < ActiveRecord::Base
   def delete_referee
     return if referee.clients.where.not(id: id).any?
     referee.destroy
+  end
+
+  def flush_cache
+    Rails.cache.delete([Apartment::Tenant.current, 'Client', 'location_of_concern']) if location_of_concern_changed?
+    Rails.cache.delete([Apartment::Tenant.current, self.class.name, 'received_by', received_by_id]) if received_by_id_changed?
+    Rails.cache.delete([Apartment::Tenant.current, self.class.name, 'followed_up_by', followed_up_by_id]) if followed_up_by_id_changed?
+    Rails.cache.delete([Apartment::Tenant.current, 'Province', 'dropdown_list_option']) if province_id_changed?
+    Rails.cache.delete([Apartment::Tenant.current, "District", 'dropdown_list_option']) if district_id_changed?
+    Rails.cache.delete([Apartment::Tenant.current, "Commune", 'dropdown_list_option']) if commune_id_changed?
+    Rails.cache.delete([Apartment::Tenant.current, 'Village', 'cache_village_name_by_client_commune_district_province']) if village_id_changed?
+    Rails.cache.delete([Apartment::Tenant.current, 'Subdistrict', 'dropdown_list_option']) if subdistrict_id_changed?
+    Rails.cache.delete([Apartment::Tenant.current, 'Township', 'dropdown_list_option']) if township_id_changed?
+    Rails.cache.delete([Apartment::Tenant.current, 'State', 'dropdown_list_option']) if state_id_changed?
   end
 
 end

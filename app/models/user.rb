@@ -88,6 +88,7 @@ class User < ActiveRecord::Base
   after_save :detach_manager, if: 'roles_changed?'
   after_save :toggle_referral_notification
   after_create :build_permission
+  after_commit :flush_cache
 
   class << self
     def current_user=(user)
@@ -372,6 +373,12 @@ class User < ActiveRecord::Base
     Rails.cache.fetch([Apartment::Tenant.current, self.class.name, self.id, 'advance_saved_search']) {  self.advanced_searches.order(:name).to_a }
   end
 
+  def self.cached_user_select_options
+    Rails.cache.fetch([Apartment::Tenant.current, 'User', 'user_select_options']) do
+      User.non_strategic_overviewers.order(:first_name, :last_name).map { |user| { user.id.to_s => user.name } }
+    end
+  end
+
   private
 
   def toggle_referral_notification
@@ -393,4 +400,9 @@ class User < ActiveRecord::Base
     client_ids = CaseWorkerClient.where(id: PaperTrail::Version.where(item_type: 'CaseWorkerClient', event: 'create').joins(:version_associations).where(version_associations: { foreign_key_name: 'user_id', foreign_key_id: user_ids }).distinct.map(&:item_id)).pluck(:client_id).uniq
     Client.where(id: client_ids, status: 'Exited').ids
   end
+
+  def flush_cache
+    Rails.cache.delete([Apartment::Tenant.current, 'User', 'user_select_options'])
+  end
+
 end
