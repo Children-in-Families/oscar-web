@@ -23,8 +23,10 @@ class Agency < ActiveRecord::Base
     Agency.cached_order_name.map { |s| { s.id.to_s => s.name } }
   end
 
+  private
+
   def flush_cache
     Rails.cache.delete([Apartment::Tenant.current, 'Agency', id])
-    Rails.cache.delete([Apartment::Tenant.current, 'Agency', 'cached_order_name'])
+    Rails.cache.delete([Apartment::Tenant.current, 'Agency', 'cached_order_name']) if name_changed?
   end
 end

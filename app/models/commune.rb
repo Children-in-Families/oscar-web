@@ -59,10 +59,12 @@ class Commune < ActiveRecord::Base
     end
   end
 
+  private
+
   def flush_cache
     Rails.cache.delete([Apartment::Tenant.current, 'Commune', id])
     Rails.cache.delete([Apartment::Tenant.current, 'Commune', id, 'cached_villages'])
     Rails.cache.delete([Apartment::Tenant.current, "Commune", 'dropdown_list_option'])
-    Rails.cache.delete([Apartment::Tenant.current, "Commune", 'cache_by_client_district_province_and_mapping_names'])
+    Rails.cache.delete([Apartment::Tenant.current, "Commune", 'cache_by_client_district_province_and_mapping_names']) if name_changed?
   end
 end

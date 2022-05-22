@@ -16,8 +16,10 @@ class Interviewee < ActiveRecord::Base
     Rails.cache.fetch([Apartment::Tenant.current, 'Interviewee', 'cached_order_created_at']) { order(:created_at).to_a }
   end
 
+  private
+
   def flush_cache
     Rails.cache.delete([Apartment::Tenant.current, 'Interviewee', id])
-    Rails.cache.delete([Apartment::Tenant.current, 'Interviewee', 'cached_order_created_at'])
+    Rails.cache.delete([Apartment::Tenant.current, 'Interviewee', 'cached_order_created_at']) if created_at_changed?
   end
 end
