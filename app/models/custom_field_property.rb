@@ -17,6 +17,8 @@ class CustomFieldProperty < ActiveRecord::Base
 
   validates :custom_field_id, presence: true
 
+  after_commit :flush_cache
+
   def client_form?
     custom_formable_type == 'Client'
   end
@@ -39,9 +41,19 @@ class CustomFieldProperty < ActiveRecord::Base
     created_at >= max_duration.send(custom_field_frequency).ago
   end
 
+  def self.cached_custom_formable_type
+    Rails.cache.fetch([Apartment::Tenant.current, 'CustomFieldProperty', 'cached_custom_formable_type']) {
+      where(custom_formable_type: 'Client').pluck(:custom_field_id).uniq
+    }
+  end
+
   private
 
   def create_client_history
     ClientHistory.initial(custom_formable)
+  end
+
+  def flush_cache
+    Rails.cache.delete([Apartment::Tenant.current, 'CustomFieldProperty', 'cached_custom_formable_type'])
   end
 end
