@@ -77,6 +77,7 @@ gem 'enumerize', '~> 2.3.1'
 gem 'ulid',                   '~> 1.2'
 gem 'aws-healthcheck'
 gem 'redis-session-store',    '~> 0.11.3'
+gem 'dalli', '~> 2.7', '>= 2.7.11'
 
 group :development, :test do
   gem 'pry'
