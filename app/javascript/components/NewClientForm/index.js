@@ -42,7 +42,7 @@ const Forms = props => {
   const {
     data: {
       current_organization,
-      client: { client, user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids, national_id_files, current_family_id, isTestClient, isForTesting }, client_quantitative_free_text_cases, family_member, family, referee, referees, carer, users, birthProvinces, referralSource, referralSourceCategory, selectedCountry, internationalReferredClient,
+      client: { client, user_ids, ratanak_achievement_program_staff_client_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids, national_id_files, current_family_id, isTestClient, isForTesting }, client_quantitative_free_text_cases, family_member, family, referee, referees, carer, users, birthProvinces, referralSource, referralSourceCategory, selectedCountry, internationalReferredClient,
       currentProvinces, districts, communes, villages, donors, agencies, schoolGrade, quantitativeType, quantitativeCase, ratePoor, families, clientRelationships, refereeRelationships, addressTypes, phoneOwners, refereeDistricts,
       refereeTownships, carerTownships, customId1, customId2, inlineHelpTranslation,
       refereeCommunes, refereeSubdistricts, carerSubdistricts, refereeVillages, carerDistricts, carerCommunes, carerVillages, callerRelationships, currentStates, currentTownships, subDistricts, translation, fieldsVisibility, requiredFields,
@@ -77,7 +77,7 @@ const Forms = props => {
   const [errorSteps, setErrorSteps]   = useState([])
   const [errorFields, setErrorFields] = useState([])
 
-  const [clientData, setClientData]   = useState({ user_ids, quantitative_case_ids, client_quantitative_free_text_cases, agency_ids, donor_ids, family_ids, current_family_id, isTestClient, isForTesting, ...client })
+  const [clientData, setClientData]   = useState({ user_ids, ratanak_achievement_program_staff_client_ids, quantitative_case_ids, client_quantitative_free_text_cases, agency_ids, donor_ids, family_ids, current_family_id, isTestClient, isForTesting, ...client })
   const [clientProfile, setClientProfile] = useState({})
   const [refereeData, setRefereeData] = useState(referee)
   const [familyMemberData, setfamilyMemberData] = useState(family_member)
@@ -89,7 +89,7 @@ const Forms = props => {
   const adminTabData = { users, client: clientData, errorFields, T }
   const refereeTabData = { errorFields, client: clientData, referee: refereeData, referees: refereesData, referralSourceCategory, referralSource, refereeDistricts, refereeCommunes, refereeVillages, currentProvinces, refereeTownships, currentStates, refereeSubdistricts, addressTypes, T, translation, current_organization }
   const referralTabData = { errorFields, client: clientData, referee: refereeData, birthProvinces, phoneOwners, callerRelationships, ...address, T, translation, current_organization, brc_address, brc_islands, brc_presented_ids, brc_resident_types, brc_prefered_langs, maritalStatuses, nationalities, ethnicities, traffickingTypes }
-  const moreReferralTabData = { errorFields, ratePoor, carer: carerData, familyMember: familyMemberData, schoolGrade, donors, agencies, families, clientRelationships, carerDistricts, carerCommunes, carerVillages, currentStates, currentTownships, carerSubdistricts, ...referralTabData, T, customId1, customId2 }
+  const moreReferralTabData = { errorFields, users, ratePoor, carer: carerData, familyMember: familyMemberData, schoolGrade, donors, agencies, families, clientRelationships, carerDistricts, carerCommunes, carerVillages, currentStates, currentTownships, carerSubdistricts, ...referralTabData, T, customId1, customId2 }
   const referralVulnerabilityTabData = { client: clientData, errorFields, clientQuantitativeFreeTextCasesData, quantitativeType, quantitativeCase, T }
   const legalDocument = { client: clientData, T, errorFields }
 
@@ -117,7 +117,11 @@ const Forms = props => {
 
   const onChange = (obj, field) => event => {
     const inputType = ['date', 'select', 'checkbox', 'radio', 'file']
+    console.log(event);
     const value = inputType.includes(event.type) ? event.data : event.target.value
+
+    console.log(value);
+    console.log(field);
 
     if (typeof field !== 'object')
       field = { [field]: value }

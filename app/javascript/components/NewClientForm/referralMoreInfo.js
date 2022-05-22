@@ -1,19 +1,73 @@
-import React from 'react'
+import { React, useState } from 'react'
 import CareInfo from './carerInfo'
 import SchoolInfo from './schoolInfo'
 import DonorInfo from './donorInfo'
 import CustomInfo from './customInfo'
 import StackHolderInfo from './stackHolderInfo'
+
+import {
+  TextInput,
+  DateTimePicker,
+  SelectInput
+} from "../Commons/inputs";
 import { t } from '../../utils/i18n'
 
 export default props => {
   const { onChange, renderAddressSwitch, translation, fieldsVisibility, current_organization, hintText,
-          data: { errorFields, carerDistricts, carerCommunes, brc_presented_ids,
+          data: { errorFields, users, carerDistricts, carerCommunes, brc_presented_ids,
                   carerVillages, carer, client, familyMember, clientRelationships, currentProvinces,
                   currentDistricts, currentCommunes, currentVillages, donors, agencies, currentStates, currentTownships, carerSubdistricts,
-                  schoolGrade, families, ratePoor, addressTypes, T, customId1, customId2
+                  schoolGrade, families, ratePoor, addressTypes, T, customId1, customId2, moSAVYOfficials
                 }
         } = props
+
+  const userLists = users.map((user) => ({
+    label: user[0],
+    value: user[1],
+    isFixed: user[2] === "locked" ? true : false,
+  }));
+
+  const [RecordData, setRecordData] = useState([{ name: "Record 1", position: "position 1" }]);
+
+  const renderMoSAVY = () => {
+    return (
+      RecordData.map((official, index) => {
+        return (
+          <div className="row">
+            <div className="col-12 col-sm-3">
+              <TextInput
+                label="Name"
+                onChange={()=>{}}
+                required={ true }
+                value={official.name}
+              />
+            </div>
+  
+            <div className="col-10 col-sm-3">
+              <TextInput
+                label="Position"
+                onChange={()=>{}}
+                required={ true }
+                value={official.position}
+              />
+            </div>
+  
+            <div className="col-2 col-sm-2">
+              <button className='btn btn-danger' onClick={onRemoveOfficial}>Remove</button>
+            </div>
+          </div>
+        )
+      })
+    )
+  }
+
+  const onRemoveOfficial = () => {
+
+  }
+
+  const onAddOfficial = () => {
+
+  }
 
   return (
     <div className="containerClass">
@@ -131,6 +185,55 @@ export default props => {
       </div>
 
       <CustomInfo id="customInfo" current_organization={current_organization} translation={translation} fieldsVisibility={fieldsVisibility} onChange={onChange} data={{errorFields, ratePoor, client, T, customId1, customId2 }} hintText={hintText} />
+
+      <legend>
+        <div className="row">
+          <div className="col-xs-12 col-md-6 col-lg-3">
+            <p>Pick up information</p>
+          </div>
+        </div>
+      </legend>
+
+      <div className="row">
+        <div className="col-xs-12 col-md-6 col-lg-3">
+          <DateTimePicker
+            onChange={(value)=>{ onChange("client", "arrival_at")({ data: value, type: "date" }) }}
+            value={client.arrival_at}
+            label="Arrivate Date/Time"
+          />
+        </div>
+
+        <div className="col-xs-12 col-md-6 col-lg-3">
+          <TextInput
+            label="Flight Number"
+            onChange={onChange("client", "flight_nb")}
+            value={client.flight_nb}
+          />
+        </div>
+      </div>
+
+      <div className="row">
+        <div className="col-xs-12 col-md-6 col-lg-3">
+          <SelectInput
+            T={T}
+            label="Ratanak Achievement Program Staff"
+            options={userLists}
+            isMulti
+            value={client.ratanak_achievement_program_staff_client_ids}
+            onChange={onChange('client', 'ratanak_achievement_program_staff_client_ids')}
+          />
+        </div>
+      </div>
+      
+      <div id="mosavy-officials" className="row">
+        {  renderMoSAVY() }
+        
+        <div className="row">
+          <div className="col-sm-12">
+            <button className='btn btn-primary' onClick={onAddOfficial}>Add</button>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20220518050445) do
+ActiveRecord::Schema.define(version: 20220519050422) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +31,16 @@ ActiveRecord::Schema.define(version: 20220518050445) do
 
   add_index "able_screening_questions", ["question_group_id"], name: "index_able_screening_questions_on_question_group_id", using: :btree
   add_index "able_screening_questions", ["stage_id"], name: "index_able_screening_questions_on_stage_id", using: :btree
+
+  create_table "achievement_program_staff_clients", force: :cascade do |t|
+    t.integer  "client_id"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "achievement_program_staff_clients", ["client_id"], name: "index_achievement_program_staff_clients_on_client_id", using: :btree
+  add_index "achievement_program_staff_clients", ["user_id"], name: "index_achievement_program_staff_clients_on_user_id", using: :btree
 
   create_table "action_results", force: :cascade do |t|
     t.text     "action",             default: ""
@@ -824,6 +834,8 @@ ActiveRecord::Schema.define(version: 20220518050445) do
     t.boolean  "letter_from_immigration_police",        default: false
     t.string   "letter_from_immigration_police_files",  default: [],                      array: true
     t.boolean  "for_testing",                           default: false
+    t.string   "arrival_at"
+    t.string   "flight_nb"
   end
 
   add_index "clients", ["birth_province_id"], name: "index_clients_on_birth_province_id", using: :btree
@@ -1785,6 +1797,14 @@ ActiveRecord::Schema.define(version: 20220518050445) do
     t.string   "label"
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
+  end
+
+  create_table "mo_savy_officials", force: :cascade do |t|
+    t.string   "name"
+    t.string   "position"
+    t.integer  "client_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "necessities", force: :cascade do |t|
@@ -2780,6 +2800,8 @@ ActiveRecord::Schema.define(version: 20220518050445) do
 
   add_foreign_key "able_screening_questions", "question_groups"
   add_foreign_key "able_screening_questions", "stages"
+  add_foreign_key "achievement_program_staff_clients", "clients"
+  add_foreign_key "achievement_program_staff_clients", "users"
   add_foreign_key "action_results", "government_forms"
   add_foreign_key "advanced_searches", "users"
   add_foreign_key "assessment_domains", "care_plans"
