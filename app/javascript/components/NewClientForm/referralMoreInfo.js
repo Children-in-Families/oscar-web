@@ -209,7 +209,7 @@ export default props => {
           <legend>
             <div className="row">
               <div className="col-xs-12 col-md-6 col-lg-3">
-                <p>Pick up information</p>
+                <p>{ t(translation, "clients.form.pickup_information") }</p>
               </div>
             </div>
           </legend>
