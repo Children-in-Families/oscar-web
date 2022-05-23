@@ -83,12 +83,13 @@ const Forms = props => {
   const [familyMemberData, setfamilyMemberData] = useState(family_member)
   const [refereesData, setRefereesData] = useState(referees)
   const [carerData, setCarerData]     = useState(carer)
+  const [moSAVYOfficialsData, setMoSAVYOfficials] = useState(moSAVYOfficials);
 
   const address = { currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, subDistricts, currentStates, currentTownships, current_organization, addressTypes, T }
   const adminTabData = { users, client: clientData, errorFields, T }
   const refereeTabData = { errorFields, client: clientData, referee: refereeData, referees: refereesData, referralSourceCategory, referralSource, refereeDistricts, refereeCommunes, refereeVillages, currentProvinces, refereeTownships, currentStates, refereeSubdistricts, addressTypes, T, translation, current_organization }
   const referralTabData = { errorFields, client: clientData, referee: refereeData, birthProvinces, phoneOwners, callerRelationships, ...address, T, translation, current_organization, brc_address, brc_islands, brc_presented_ids, brc_resident_types, brc_prefered_langs, maritalStatuses, nationalities, ethnicities, traffickingTypes }
-  const moreReferralTabData = { errorFields, users, ratePoor, carer: carerData, familyMember: familyMemberData, schoolGrade, donors, agencies, families, clientRelationships, carerDistricts, carerCommunes, carerVillages, currentStates, currentTownships, carerSubdistricts, ...referralTabData, T, customId1, customId2, moSAVYOfficials }
+  const moreReferralTabData = { errorFields, users, ratePoor, carer: carerData, familyMember: familyMemberData, schoolGrade, donors, agencies, families, clientRelationships, carerDistricts, carerCommunes, carerVillages, currentStates, currentTownships, carerSubdistricts, ...referralTabData, T, customId1, customId2, moSAVYOfficialsData }
   const referralVulnerabilityTabData = { client: clientData, quantitativeType, quantitativeCase, T }
   const legalDocument = { client: clientData, T }
 
@@ -112,6 +113,10 @@ const Forms = props => {
         {data.text}
       </span>
     )
+  }
+
+  const onChangeMoSAVYOfficialsData = (newData) => {
+    setMoSAVYOfficials(newData)
   }
 
   const onChange = (obj, field) => event => {
@@ -330,9 +335,11 @@ const Forms = props => {
 
         let formData = new FormData()
         formData = objectToFormData({ ...clientData, ...clientProfile }, {}, formData, 'client')
+        formData = objectToFormData({ ...clientData, ...clientProfile }, {}, formData, 'client')
         formData = objectToFormData(refereeData, {}, formData, 'referee')
         formData = objectToFormData(carerData, {}, formData, 'carer')
         formData = objectToFormData(familyMemberData, {}, formData, 'family_member')
+        formData = objectToFormData(moSAVYOfficialsData, {}, formData, 'mosavy_officials')
 
         $.ajax({
           url,
@@ -485,7 +492,7 @@ const Forms = props => {
           </div>
 
           <div style={{ display: step === 3 ? 'block' : 'none' }}>
-            <ReferralMoreInfo translation={translation} renderAddressSwitch={renderAddressSwitch} fieldsVisibility={fieldsVisibility} current_organization={current_organization} data={moreReferralTabData} onChange={onChange} hintText={inlineHelpTranslation} />
+            <ReferralMoreInfo translation={translation} renderAddressSwitch={renderAddressSwitch} fieldsVisibility={fieldsVisibility} current_organization={current_organization} data={moreReferralTabData} onChangeMoSAVYOfficialsData={onChangeMoSAVYOfficialsData} onChange={onChange} hintText={inlineHelpTranslation} />
           </div>
 
           <div style={{ display: step === 4 ? 'block' : 'none' }}>

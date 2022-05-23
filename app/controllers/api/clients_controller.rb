@@ -120,6 +120,14 @@ module Api
     private
 
     def client_params
+      if params[:mosavy_officials].present?
+        params[:client][:mo_savy_officials_attributes] = {}
+
+        params[:mosavy_officials].each_with_index do |item, index|
+          params[:client][:mo_savy_officials_attributes] [index.to_s] = item
+        end
+      end
+
       client_params = params.require(:client).permit(
             :slug, :archived_slug, :code, :name_of_referee, :main_school_contact, :rated_for_id_poor, :what3words, :status, :country_origin,
             :kid_id, :assessment_id, :given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth,
@@ -145,6 +153,8 @@ module Api
             :concern_phone, :concern_phone_owner, :concern_email, :concern_email_owner, :concern_location,
             :national_id, :reason_for_referral, :for_testing,
             :birth_cert,
+            :arrival_at,
+            :flight_nb,
             :family_book,
             :marital_status,
             :nationality,
@@ -187,6 +197,7 @@ module Api
             :remove_police_interview_files,
             :remove_other_legal_doc_files,
             *legal_doc_params,
+            ratanak_achievement_program_staff_client_ids: [],
             birth_cert_files: [],
             family_book_files: [],
             passport_files: [],
@@ -202,6 +213,7 @@ module Api
             quantitative_case_ids: [],
             custom_field_ids: [],
             family_ids: [],
+            mo_savy_officials_attributes: [:id, :name, :position, :_destroy],
             family_member_attributes: [:id, :family_id, :_destroy],
             tasks_attributes: [:name, :domain_id, :completion_date],
             client_needs_attributes: [:id, :rank, :need_id],
