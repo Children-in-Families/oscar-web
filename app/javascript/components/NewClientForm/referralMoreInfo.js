@@ -214,9 +214,9 @@ export default props => {
             </div>
           </legend>
 
-          <div className="row">
-            {
-              fieldsVisibility.client_arrival_at == true &&
+          {
+            fieldsVisibility.client_arrival_at == true &&
+            <div className="row">
               <div className="col-xs-12 col-md-6 col-lg-3">
                 <DateTimePicker
                   onChange={(value)=>{ onChange("client", "arrival_at")({ data: value, type: "date" }) }}
@@ -224,10 +224,12 @@ export default props => {
                   label={ t(translation, "clients.form.arrival_at") }
                 />
               </div>
-            }
+            </div>
+          }
 
-            {
-              fieldsVisibility.client_flight_nb == true &&
+          {
+            fieldsVisibility.client_flight_nb == true &&
+            <div className="row">
               <div className="col-xs-12 col-md-6 col-lg-3">
                 <TextInput
                   label={ t(translation, "clients.form.flight_nb") }
@@ -235,9 +237,8 @@ export default props => {
                   value={client.flight_nb}
                 />
               </div>
-            }
-
-          </div>
+            </div>
+          }
 
           {
             fieldsVisibility.client_ratanak_achievement_program_staff_client_ids == true &&
