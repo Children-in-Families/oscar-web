@@ -60,7 +60,9 @@ class ScreeningAssessmentsController <  AdminController
   private
 
   def authorize_screening_assessment(screening_assessment)
-    if screening_assessment.screening_type == 'one_off'
+    if @client.status == 'Exited'
+      raise Pundit::NotAuthorizedError
+    elsif screening_assessment.screening_type == 'one_off'
       raise Pundit::NotAuthorizedError unless current_setting.cbdmat_one_off
     elsif screening_assessment.screening_type == 'multiple'
       raise Pundit::NotAuthorizedError unless current_setting.cbdmat_ongoing

@@ -15,7 +15,7 @@
     .col-md-6
       = f.input :visitor, label: t('.visitor')
     .col-md-6
-      = f.input :client_milestone_age, label: t('.client_milestone_age'), collection: DevelopmentalMarker.all.pluck(:name)
+      = f.input :client_milestone_age, label: t('.client_milestone_age'), collection: DevelopmentalMarker.map_milestone_age_name
   = f.input :note, label: t('.note')
   %hr/
   - if @previous_screening_assessment
