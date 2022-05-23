@@ -3033,6 +3033,31 @@ km:
   datetime:
     distance_in_words:
       about_x_hours: '""'
+    dotiw:
+      days:
+        one: 1 ថ្ងៃ
+        other: "%{count} ថ្ងៃ"
+      hours:
+        one: 1 ម៉ោង
+        other: "%{count} ម៉ោង"
+      last_word_connector: ""
+      minutes:
+        one: 1 នាទី
+        other: "%{count} នាទី"
+      months:
+        one: 1 ខែ
+        other: "%{count} ខែ"
+      seconds:
+        one: 1 វិនាទី
+        other: "%{count} វិនាទី"
+      two_words_connector: ", "
+      weeks:
+        one: 1 សប្តាហ៍
+        other: "%{count} សប្តាហ៍"
+      words_connector: ", "
+      years:
+        one: 1 ឆ្នាំ
+        other: "%{count} ឆ្នាំ"
   default_able_screening_question_fields:
     alert_manager: ជូនដំណឹងអ្នកគ្រប់គ្រង
     mode: ម៉ូដ

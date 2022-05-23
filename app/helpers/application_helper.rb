@@ -446,4 +446,9 @@ module ApplicationHelper
     (['clients', 'families'].include?(params[:controller]) && params[:action] == 'index') ?  'Post' : 'Get'
   end
 
+  def age_in_hash(dob)
+    now = Time.now.utc
+    distance_of_time_in_words_hash(now, dob)
+  end
+
 end
