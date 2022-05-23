@@ -183,6 +183,26 @@ class ClientGrid < BaseGrid
 
   filter(:donor_name, :enum, select: :donor_select_options, header: -> { I18n.t('datagrid.columns.clients.donor') })
 
+  filter(:arrival_at, :datetime, header: -> { I18n.t('clients.form.arrival_at')})
+  filter(:flight_nb, :string, header: -> { I18n.t('clients.form.flight_nb')})
+  
+  filter(:ratanak_achievement_program_staff_client_ids, :enum, multiple: true, select: :case_worker_options, header: -> { I18n.t('clients.form.ratanak_achievement_program_staff_client_ids') }) do |ids, scope|
+    ids = ids.map{ |id| id.to_i }
+
+    if user_ids ||= User.where(id: ids).ids
+      client_ids = Client.joins(:ratanak_achievement_program_staff_clients).where(users: { id: user_ids }).ids.uniq
+      scope.where(id: client_ids)
+    else
+      scope.joins(:ratanak_achievement_program_staff_clients).where(users: { id: nil })
+    end
+  end
+
+  def mosavy_official_select_options
+    MoSavyOfficial.all.map { |mosavy_official| { mosavy_official.id.to_s => mosavy_official.name } }
+  end
+
+  filter(:mosavy_official, :enum, select: :mosavy_official_select_options, header: -> { I18n.t('clients.form.mosavy_official') })
+
   def donor_select_options
     Donor.has_clients.map { |donor| [donor.name, donor.id] }
   end
@@ -981,6 +1001,19 @@ class ClientGrid < BaseGrid
 
   column(:donor_name, order: false, header: -> { I18n.t('datagrid.columns.clients.donor')}) do |object|
     object.donors.pluck(:name).join(', ')
+  end
+
+  column(:arrival_at, header: -> { I18n.t('clients.form.arrival_at')}) do |object|
+    object.arrival_at.present? ? object.arrival_at.strftime("%Y-%m-%d %H:%M") : ''
+  end
+
+  column(:flight_nb, order: false, header: -> { I18n.t('clients.form.flight_nb')})
+  column(:ratanak_achievement_program_staff_client_ids, order: false, header: -> { I18n.t('clients.form.ratanak_achievement_program_staff_client_ids')}) do |object|
+    object.ratanak_achievement_program_staff_clients.pluck(:first_name, :last_name).map{ |case_worker| "#{case_worker.first} #{case_worker.last}".squish }.join(', ')
+  end
+  
+  column(:mosavy_official, order: false, header: -> { I18n.t('clients.form.mosavy_official')}) do |object|
+    object.mo_savy_officials.map{ |mo_savy_official| "#{mo_savy_official.name} #{mo_savy_official.position}".squish }.join(', ')
   end
 
   column(:family_id, order: false, header: -> { I18n.t('advanced_search.fields.family_id') }) do |object|
