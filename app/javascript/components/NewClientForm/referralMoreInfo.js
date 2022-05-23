@@ -60,7 +60,7 @@ export default props => {
             </div>
   
             <div className="col-2 col-sm-2">
-            <button className='btn btn-danger' onClick={()=> { onRemoveOfficial(index) }}>Remove</button>
+              <button className='btn btn-danger' onClick={()=> { onRemoveOfficial(index) }}>{ t(translation, "clients.form.remove_mosavy_official") }</button>
             </div>
           </div>
         )
@@ -269,7 +269,7 @@ export default props => {
                 
                 <div className="row">
                   <div className="col-sm-12">
-                    <button className='btn btn-primary' onClick={onAddOfficial}>Add MoSAVY Official</button>
+                    <button className='btn btn-primary' onClick={onAddOfficial}>{ t(translation, "clients.form.add_mosavy_official") }</button>
                   </div>
                 </div>
               </fieldset>
