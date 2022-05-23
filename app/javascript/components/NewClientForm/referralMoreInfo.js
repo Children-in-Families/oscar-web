@@ -1,4 +1,4 @@
-import { React, useState } from 'react'
+import React, { useState } from 'react'
 import CareInfo from './carerInfo'
 import SchoolInfo from './schoolInfo'
 import DonorInfo from './donorInfo'
@@ -13,11 +13,11 @@ import {
 import { t } from '../../utils/i18n'
 
 export default props => {
-  const { onChange, renderAddressSwitch, translation, fieldsVisibility, current_organization, hintText,
+  const { onChange, onChangeMoSAVYOfficialsData, renderAddressSwitch, translation, fieldsVisibility, current_organization, hintText,
           data: { errorFields, users, carerDistricts, carerCommunes, brc_presented_ids,
                   carerVillages, carer, client, familyMember, clientRelationships, currentProvinces,
                   currentDistricts, currentCommunes, currentVillages, donors, agencies, currentStates, currentTownships, carerSubdistricts,
-                  schoolGrade, families, ratePoor, addressTypes, T, customId1, customId2, moSAVYOfficials
+                  schoolGrade, families, ratePoor, addressTypes, T, customId1, customId2, moSAVYOfficialsData
                 }
         } = props
 
@@ -27,17 +27,24 @@ export default props => {
     isFixed: user[2] === "locked" ? true : false,
   }));
 
-  const [RecordData, setRecordData] = useState([{ name: "Record 1", position: "position 1" }]);
+  const [recordData, setRecordData] = useState(moSAVYOfficialsData);
 
   const renderMoSAVY = () => {
     return (
-      RecordData.map((official, index) => {
+      recordData.filter((official) => { return official._destroy !== true }).map((official, index) => {
         return (
-          <div className="row">
+          <div key={index} className="row" style={{ display: "flex", alignItems: "center" }}>
+            <div style={{ display: "none" }}>
+              <TextInput
+                value={official.id}
+                onChange={(event)=>{ onChangeOfficial(event.target.value, "id", index)}}
+              />
+            </div>
+
             <div className="col-12 col-sm-3">
               <TextInput
                 label="Name"
-                onChange={()=>{}}
+                onChange={(event)=>{ onChangeOfficial(event.target.value, "name", index)}}
                 required={ true }
                 value={official.name}
               />
@@ -46,14 +53,14 @@ export default props => {
             <div className="col-10 col-sm-3">
               <TextInput
                 label="Position"
-                onChange={()=>{}}
+                onChange={(event)=>{ onChangeOfficial(event.target.value, "position", index)}}
                 required={ true }
                 value={official.position}
               />
             </div>
   
             <div className="col-2 col-sm-2">
-              <button className='btn btn-danger' onClick={onRemoveOfficial}>Remove</button>
+            <button className='btn btn-danger' onClick={()=> { onRemoveOfficial(index) }}>Remove</button>
             </div>
           </div>
         )
@@ -61,12 +68,21 @@ export default props => {
     )
   }
 
-  const onRemoveOfficial = () => {
+  const onChangeOfficial = (data, field, index) => {
+    let official = recordData[index]
+    official[field] = data
 
+    setRecordData(recordData.map((record, ind)=> { return ind == index ? official : record }))
+    onChangeMoSAVYOfficialsData(recordData)
+  }
+
+  const onRemoveOfficial = (index) => {
+    onChangeOfficial(true, "_destroy", index)
   }
 
   const onAddOfficial = () => {
-
+    setRecordData([...recordData, { name: "", position: "", id: "" }])
+    onChangeMoSAVYOfficialsData(recordData)
   }
 
   return (
@@ -226,13 +242,21 @@ export default props => {
       </div>
       
       <div id="mosavy-officials" className="row">
-        {  renderMoSAVY() }
-        
-        <div className="row">
-          <div className="col-sm-12">
-            <button className='btn btn-primary' onClick={onAddOfficial}>Add</button>
+        <fieldset className="legal-form-border">
+          <legend className="legal-form-border">
+            <h3 className="text-success">
+              { "MoSAVY Official" }
+            </h3>
+          </legend>
+
+          {  renderMoSAVY() }
+          
+          <div className="row">
+            <div className="col-sm-12">
+              <button className='btn btn-primary' onClick={onAddOfficial}>Add MoSAVY Official</button>
+            </div>
           </div>
-        </div>
+        </fieldset>
       </div>
     </div>
   )
