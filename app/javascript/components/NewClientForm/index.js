@@ -84,7 +84,7 @@ const Forms = props => {
   const [refereesData, setRefereesData] = useState(referees)
   const [carerData, setCarerData]     = useState(carer)
   const [clientQuantitativeFreeTextCasesData, setClientQuantitativeFreeTextCases] = useState(client_quantitative_free_text_cases)
-  const [moSAVYOfficialsData, setMoSAVYOfficials] = useState(moSAVYOfficials);
+  const [moSAVYOfficialsData, setMoSAVYOfficialsData] = useState(moSAVYOfficials);
 
   const address = { currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, subDistricts, currentStates, currentTownships, current_organization, addressTypes, T }
   const adminTabData = { users, client: clientData, errorFields, T }
@@ -117,7 +117,7 @@ const Forms = props => {
   }
 
   const onChangeMoSAVYOfficialsData = (newData) => {
-    setMoSAVYOfficials(newData)
+    setMoSAVYOfficialsData(newData)
   }
 
   const onChange = (obj, field) => event => {
