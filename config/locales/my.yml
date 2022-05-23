@@ -1919,6 +1919,7 @@ my:
       next: နောက်တစ်ခု
       other_phone_number: Phone Number - Alternate
       other_phone_whatsapp: Whatsapp? (Phone Number - Alternate)
+      pickup_information: Pick up information
       phone_owner: Phone Owner
       po_box2: PO Box
       presented_id: Presented ID

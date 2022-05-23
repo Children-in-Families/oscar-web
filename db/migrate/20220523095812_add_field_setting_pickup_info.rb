@@ -1,5 +1,10 @@
 class AddFieldSettingPickupInfo < ActiveRecord::Migration
   NEW_FIELDS = {
+    pickup_information: {
+      label_only: true,
+      group: :pickup_information,
+      label: 'Pick up information'
+    },
     arrival_at: {
       label: 'Arrivate Date/Time',
       group: :pickup_information,
