@@ -21,6 +21,21 @@
   border: thin solid #ccc;
   border-radius: 4px;
 }
+
+.react-datetime-picker {
+  display: inline-flex;
+  position: relative;
+  width: 100%;
+  border: thin solid #cccccc !important;
+  border-radius: 4px;
+  min-height: 38px;
+  padding-left: 3px;
+}
+
+.react-datetime-picker__wrapper {
+  border: none;
+}
+
 .react-time-picker__inputGroup {
   min-width: calc((4px * 3) +  0.54em * 6  +  0.217em * 2);
   flex-grow: 1;
