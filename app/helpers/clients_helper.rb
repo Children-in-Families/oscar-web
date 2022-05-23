@@ -72,6 +72,7 @@ module ClientsHelper
     result[:show_legal_doc] = result[:client_show_legal_doc] = policy(Client).show_legal_doc?
     result[:school_information] = result[:client_school_information] = policy(Client).client_school_information?
     result[:stackholder_contacts] = result[:client_stackholder_contacts] = policy(Client).client_stackholder_contacts?
+    result[:pickup_information] = result[:client_pickup_information] = policy(Client).client_pickup_information?
 
     result
   end

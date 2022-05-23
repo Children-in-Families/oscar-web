@@ -202,62 +202,81 @@ export default props => {
 
       <CustomInfo id="customInfo" current_organization={current_organization} translation={translation} fieldsVisibility={fieldsVisibility} onChange={onChange} data={{errorFields, ratePoor, client, T, customId1, customId2 }} hintText={hintText} />
 
-      <legend>
-        <div className="row">
-          <div className="col-xs-12 col-md-6 col-lg-3">
-            <p>Pick up information</p>
-          </div>
-        </div>
-      </legend>
+      {
+        fieldsVisibility.client_pickup_information == true && 
 
-      <div className="row">
-        <div className="col-xs-12 col-md-6 col-lg-3">
-          <DateTimePicker
-            onChange={(value)=>{ onChange("client", "arrival_at")({ data: value, type: "date" }) }}
-            value={client.arrival_at}
-            label={ t(translation, "clients.form.arrival_at") }
-          />
-        </div>
-
-        <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput
-            label={ t(translation, "clients.form.flight_nb") }
-            onChange={onChange("client", "flight_nb")}
-            value={client.flight_nb}
-          />
-        </div>
-      </div>
-
-      <div className="row">
-        <div className="col-xs-12 col-md-6 col-lg-4">
-          <SelectInput
-            T={T}
-            label={ t(translation, "clients.form.ratanak_achievement_program_staff_client_ids") }
-            options={userLists}
-            isMulti
-            value={client.ratanak_achievement_program_staff_client_ids}
-            onChange={onChange('client', 'ratanak_achievement_program_staff_client_ids')}
-          />
-        </div>
-      </div>
-      
-      <div id="mosavy-officials" className="row">
-        <fieldset className="legal-form-border">
-          <legend className="legal-form-border">
-            <h3 className="text-success">
-              { t(translation, "clients.form.mosavy_official") }
-            </h3>
+        <div id="pickup-info">
+          <legend>
+            <div className="row">
+              <div className="col-xs-12 col-md-6 col-lg-3">
+                <p>Pick up information</p>
+              </div>
+            </div>
           </legend>
 
-          {  renderMoSAVY() }
-          
           <div className="row">
-            <div className="col-sm-12">
-              <button className='btn btn-primary' onClick={onAddOfficial}>Add MoSAVY Official</button>
-            </div>
+            {
+              fieldsVisibility.client_arrival_at == true &&
+              <div className="col-xs-12 col-md-6 col-lg-3">
+                <DateTimePicker
+                  onChange={(value)=>{ onChange("client", "arrival_at")({ data: value, type: "date" }) }}
+                  value={client.arrival_at}
+                  label={ t(translation, "clients.form.arrival_at") }
+                />
+              </div>
+            }
+
+            {
+              fieldsVisibility.client_flight_nb == true &&
+              <div className="col-xs-12 col-md-6 col-lg-3">
+                <TextInput
+                  label={ t(translation, "clients.form.flight_nb") }
+                  onChange={onChange("client", "flight_nb")}
+                  value={client.flight_nb}
+                />
+              </div>
+            }
+
           </div>
-        </fieldset>
-      </div>
+
+          {
+            fieldsVisibility.client_ratanak_achievement_program_staff_client_ids == true &&
+            <div className="row">
+              <div className="col-xs-12 col-md-6 col-lg-4">
+                <SelectInput
+                  T={T}
+                  label={ t(translation, "clients.form.ratanak_achievement_program_staff_client_ids") }
+                  options={userLists}
+                  isMulti
+                  value={client.ratanak_achievement_program_staff_client_ids}
+                  onChange={onChange('client', 'ratanak_achievement_program_staff_client_ids')}
+                />
+              </div>
+            </div>
+          }
+
+          {
+            fieldsVisibility.client_mosavy_official == true &&
+            <div id="mosavy-officials" className="row">
+              <fieldset className="legal-form-border">
+                <legend className="legal-form-border">
+                  <h3 className="text-success">
+                    { t(translation, "clients.form.mosavy_official") }
+                  </h3>
+                </legend>
+
+                {  renderMoSAVY() }
+                
+                <div className="row">
+                  <div className="col-sm-12">
+                    <button className='btn btn-primary' onClick={onAddOfficial}>Add MoSAVY Official</button>
+                  </div>
+                </div>
+              </fieldset>
+            </div>
+          }
+        </div>
+      }
     </div>
   )
 }
