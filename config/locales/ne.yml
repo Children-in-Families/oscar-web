@@ -1593,6 +1593,7 @@ en:
       type_of_trafficking: Type of Trafficking
       education_background: Education Background
       department: Ratanak Team
+      add_mosavy_official: Add MoSAVY Official
       arrival_at: Arrivate Date/Time
       legal_documents: Legal Documentations
       able: Able
@@ -1708,6 +1709,7 @@ en:
       referral_source: Referral Source
       reject_note: Note on referral rejection
       relevant_referral_information: Relevant Referral Information
+      remove_mosavy_official: Remove MoSAVY Official
       resident_own_or_rent2: Acc. type
       school_grade: School Grade
       school_name: School Name

@@ -1817,6 +1817,7 @@ my:
       type_of_trafficking: Type of Trafficking
       education_background: Education Background
       department: Ratanak Team
+      add_mosavy_official: Add MoSAVY Official
       arrival_at: Arrivate Date/Time
       national_id: 'National ID'
       birth_cert: 'Birth Certificate'
@@ -1933,6 +1934,7 @@ my:
       referral_source: လြဲေျပာင္းရန္ ရင္းျမစ္
       reject_note: ျငင္းပယ္သည့္မွတ္စု
       relevant_referral_information: သက္ဆိုင္ေသာ လြဲေျပာင္း အခ်က္အလက္
+      remove_mosavy_official: Remove MoSAVY Official
       resident_own_or_rent2: Acc. type
       school_grade: ေက်ာင္းအဆင့္
       school_name: ေက်ာင္းနာမည္
