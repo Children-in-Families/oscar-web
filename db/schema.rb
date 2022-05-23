@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20220519050422) do
+ActiveRecord::Schema.define(version: 20220523095812) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -553,15 +553,10 @@ ActiveRecord::Schema.define(version: 20220519050422) do
     t.integer  "client_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "type",                 default: "ClientQuantitativeCase"
-    t.text     "content"
-    t.integer  "quantitative_type_id"
   end
 
   add_index "client_quantitative_cases", ["client_id"], name: "index_client_quantitative_cases_on_client_id", using: :btree
   add_index "client_quantitative_cases", ["quantitative_case_id"], name: "index_client_quantitative_cases_on_quantitative_case_id", using: :btree
-  add_index "client_quantitative_cases", ["quantitative_type_id"], name: "index_client_quantitative_cases_on_quantitative_type_id", using: :btree
-  add_index "client_quantitative_cases", ["type"], name: "index_client_quantitative_cases_on_type", using: :btree
 
   create_table "client_right_government_forms", force: :cascade do |t|
     t.integer  "government_form_id"
@@ -834,7 +829,7 @@ ActiveRecord::Schema.define(version: 20220519050422) do
     t.boolean  "letter_from_immigration_police",        default: false
     t.string   "letter_from_immigration_police_files",  default: [],                      array: true
     t.boolean  "for_testing",                           default: false
-    t.string   "arrival_at"
+    t.datetime "arrival_at"
     t.string   "flight_nb"
   end
 
@@ -955,16 +950,11 @@ ActiveRecord::Schema.define(version: 20220519050422) do
     t.integer  "community_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "type",                 default: "CommunityQuantitativeCase"
-    t.text     "content"
-    t.integer  "quantitative_type_id"
   end
 
   add_index "community_quantitative_cases", ["community_id", "quantitative_case_id"], name: "index_on_community_id_and_quantitative_case_id", using: :btree
   add_index "community_quantitative_cases", ["community_id"], name: "index_community_quantitative_cases_on_community_id", using: :btree
   add_index "community_quantitative_cases", ["quantitative_case_id"], name: "index_community_quantitative_cases_on_quantitative_case_id", using: :btree
-  add_index "community_quantitative_cases", ["quantitative_type_id"], name: "index_community_quantitative_cases_on_quantitative_type_id", using: :btree
-  add_index "community_quantitative_cases", ["type"], name: "index_community_quantitative_cases_on_type", using: :btree
 
   create_table "custom_assessment_settings", force: :cascade do |t|
     t.string   "custom_assessment_name",      default: "Custom Assessment"
@@ -1361,16 +1351,11 @@ ActiveRecord::Schema.define(version: 20220519050422) do
     t.integer  "family_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "type",                 default: "FamilyQuantitativeCase"
-    t.text     "content"
-    t.integer  "quantitative_type_id"
   end
 
   add_index "family_quantitative_cases", ["family_id", "quantitative_case_id"], name: "index_on_family_id_and_quantitative_case_id", using: :btree
   add_index "family_quantitative_cases", ["family_id"], name: "index_family_quantitative_cases_on_family_id", using: :btree
   add_index "family_quantitative_cases", ["quantitative_case_id"], name: "index_family_quantitative_cases_on_quantitative_case_id", using: :btree
-  add_index "family_quantitative_cases", ["quantitative_type_id"], name: "index_family_quantitative_cases_on_quantitative_type_id", using: :btree
-  add_index "family_quantitative_cases", ["type"], name: "index_family_quantitative_cases_on_type", using: :btree
 
   create_table "family_referrals", force: :cascade do |t|
     t.string   "slug",             default: ""
@@ -1405,18 +1390,17 @@ ActiveRecord::Schema.define(version: 20220519050422) do
   add_index "field_setting_translations", ["locale"], name: "index_field_setting_translations_on_locale", using: :btree
 
   create_table "field_settings", force: :cascade do |t|
-    t.string   "name",                                    null: false
-    t.string   "group",                                   null: false
-    t.datetime "created_at",                              null: false
-    t.datetime "updated_at",                              null: false
-    t.string   "type",                  default: "field", null: false
-    t.boolean  "visible",               default: true,    null: false
+    t.string   "name",                            null: false
+    t.string   "group",                           null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.string   "type",          default: "field", null: false
+    t.boolean  "visible",       default: true,    null: false
     t.string   "current_label"
-    t.boolean  "required",              default: false
+    t.boolean  "required",      default: false
     t.string   "klass_name"
     t.string   "for_instances"
-    t.boolean  "label_only",            default: false
-    t.boolean  "can_override_required", default: false
+    t.boolean  "label_only",    default: false
   end
 
   add_index "field_settings", ["name", "group"], name: "index_field_settings_on_name_and_group", using: :btree
@@ -1737,11 +1721,10 @@ ActiveRecord::Schema.define(version: 20220519050422) do
     t.text     "client_representing_problem"
     t.text     "emergency_note"
     t.text     "referral_reason"
-    t.text     "crisis_management"
+    t.text     "referral_decision"
     t.string   "attachments",                 default: [],              array: true
     t.datetime "created_at",                               null: false
     t.datetime "updated_at",                               null: false
-    t.string   "referral_decision"
   end
 
   add_index "internal_referrals", ["client_id"], name: "index_internal_referrals_on_client_id", using: :btree
@@ -2062,8 +2045,6 @@ ActiveRecord::Schema.define(version: 20220519050422) do
     t.boolean  "multiple",                 default: true
     t.string   "visible_on",               default: "---\n- client\n"
     t.boolean  "is_required",              default: false
-    t.string   "hint"
-    t.string   "field_type",               default: "select_option"
   end
 
   create_table "quarterly_reports", force: :cascade do |t|
