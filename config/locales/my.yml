@@ -1817,6 +1817,7 @@ my:
       type_of_trafficking: Type of Trafficking
       education_background: Education Background
       department: Ratanak Team
+      arrival_at: Arrivate Date/Time
       national_id: 'National ID'
       birth_cert: 'Birth Certificate'
       family_book: 'Family Book'
@@ -1864,6 +1865,7 @@ my:
       follow_up_by: မွ ဆက္သည္
       follow_up_date: ေနာက္ဆက္တြဲ ရက္စြဲ
       followed_up_by: မွ ဆက္လက္လုပ္ေဆာင္သည္
+      flight_nb: Flight Number
       followed_up_by_id: First Follow Up by
       follow_up_date: Date of First Follow Up
       from: မွ
@@ -1922,6 +1924,7 @@ my:
       presented_id: Presented ID
       previous: လွန်ခဲ့သော
       province: ေမြးဖြားရာ ခ႐ိုင္
+      ratanak_achievement_program_staff_client_ids: Ratanak Achievement Program Staff
       rated_for_id_poor: Is client rated for ID Poor?
       received_by: မွ လက္ခံသည္။
       referee_called_before: Has the referee called Before?
@@ -1933,6 +1936,9 @@ my:
       school_grade: ေက်ာင္းအဆင့္
       school_name: ေက်ာင္းနာမည္
       main_school_contact: Main School Contact
+      mosavy_official: MoSAVY Official
+      mosavy_official_name: Name
+      mosavy_official_position: Position
       settlement2: City/Settlement
       shared_service_enabled: Do you want to share client services with external system?
       stage: အဆင့္ေမးခြန္း

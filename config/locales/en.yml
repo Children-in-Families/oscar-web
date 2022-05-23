@@ -1789,6 +1789,7 @@ en:
       type_of_trafficking: Type of Trafficking
       education_background: Education Background
       department: Ratanak Team
+      arrival_at: Arrivate Date/Time
       able: Able
       able_state: Able State
       address: Address
@@ -1824,6 +1825,7 @@ en:
       family_book: 'Family Book'
       family_name: Family Name (Latin)
       finish: Finish
+      flight_nb: Flight Number
       followed_up_by_id: First Follow Up by
       follow_up_date: Date of First Follow Up
       follow_up_by: First Follow-Up By
@@ -1886,6 +1888,7 @@ en:
       presented_id: Presented ID
       previous: Previous
       province: Birth Province
+      ratanak_achievement_program_staff_client_ids: Ratanak Achievement Program Staff
       rated_for_id_poor: Has ID Poor?
       received_by: Referral Received By
       referee_called_before: Has the referee called the Childsafe Hotline Before?
@@ -1899,6 +1902,9 @@ en:
       school_grade: School Grade
       school_name: School Name
       main_school_contact: Main School Contact
+      mosavy_official: MoSAVY Official
+      mosavy_official_name: Name
+      mosavy_official_position: Position
       settlement2: City/Settlement
       shared_service_enabled: Do you want to share client services with external system?
       stage: Stage Question

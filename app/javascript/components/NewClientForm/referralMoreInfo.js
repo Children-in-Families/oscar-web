@@ -43,7 +43,7 @@ export default props => {
 
             <div className="col-12 col-sm-3">
               <TextInput
-                label="Name"
+                label={ t(translation, "clients.form.mosavy_official_name") }
                 onChange={(event)=>{ onChangeOfficial(event.target.value, "name", index)}}
                 required={ true }
                 value={official.name}
@@ -52,7 +52,7 @@ export default props => {
   
             <div className="col-10 col-sm-3">
               <TextInput
-                label="Position"
+                label={ t(translation, "clients.form.mosavy_official_position") }
                 onChange={(event)=>{ onChangeOfficial(event.target.value, "position", index)}}
                 required={ true }
                 value={official.position}
@@ -215,13 +215,13 @@ export default props => {
           <DateTimePicker
             onChange={(value)=>{ onChange("client", "arrival_at")({ data: value, type: "date" }) }}
             value={client.arrival_at}
-            label="Arrivate Date/Time"
+            label={ t(translation, "clients.form.arrival_at") }
           />
         </div>
 
         <div className="col-xs-12 col-md-6 col-lg-3">
           <TextInput
-            label="Flight Number"
+            label={ t(translation, "clients.form.flight_nb") }
             onChange={onChange("client", "flight_nb")}
             value={client.flight_nb}
           />
@@ -229,10 +229,10 @@ export default props => {
       </div>
 
       <div className="row">
-        <div className="col-xs-12 col-md-6 col-lg-3">
+        <div className="col-xs-12 col-md-6 col-lg-4">
           <SelectInput
             T={T}
-            label="Ratanak Achievement Program Staff"
+            label={ t(translation, "clients.form.ratanak_achievement_program_staff_client_ids") }
             options={userLists}
             isMulti
             value={client.ratanak_achievement_program_staff_client_ids}
@@ -245,7 +245,7 @@ export default props => {
         <fieldset className="legal-form-border">
           <legend className="legal-form-border">
             <h3 className="text-success">
-              { "MoSAVY Official" }
+              { t(translation, "clients.form.mosavy_official") }
             </h3>
           </legend>
 
