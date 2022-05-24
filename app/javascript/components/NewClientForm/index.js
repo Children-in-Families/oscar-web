@@ -121,11 +121,7 @@ const Forms = props => {
 
   const onChange = (obj, field) => event => {
     const inputType = ['date', 'select', 'checkbox', 'radio', 'file']
-    console.log(event);
     const value = inputType.includes(event.type) ? event.data : event.target.value
-
-    console.log(value);
-    console.log(field);
 
     if (typeof field !== 'object')
       field = { [field]: value }
@@ -156,7 +152,7 @@ const Forms = props => {
       { step: 1, data: refereeData, fields: ['name'] },
       { step: 1, data: clientData, fields: ['referral_source_category_id'] },
       { step: 2, data: clientData, fields: ['gender']},
-      { step: 3, data: clientData, fields: [] },
+      { step: 3, data: moSAVYOfficialsData, fields: ['name', 'position'] },
       { step: 4, data: clientData, fields: clientData.status != 'Exited' ? ['received_by_id', 'initial_referral_date', 'user_ids'] : ['received_by_id', 'initial_referral_date'] },
       { step: 5, data: clientData, fields: [] }
     ]
@@ -167,7 +163,7 @@ const Forms = props => {
     components.forEach(component => {
       if (step === component.step || (stepTobeCheck !== 0 && component.step === stepTobeCheck)) {
         component.fields.forEach(field => {
-          if (component.data[field] === '' || (Array.isArray(component.data[field]) && !component.data[field].length) || component.data[field] === null) {
+          if (component.data[field] === '' || (Array.isArray(component.data) && component.data.filter((item)=>{ return (item._destroy !== true && (item[field].length == 0 || item[field].length == null)) }).length > 0) || (Array.isArray(component.data[field]) && !component.data[field].length) || component.data[field] === null) {
             errors.push(field)
             errorSteps.push(component.step)
           }
