@@ -201,7 +201,7 @@ class ClientGrid < BaseGrid
     MoSavyOfficial.all.map { |mosavy_official| { mosavy_official.id.to_s => mosavy_official.name } }
   end
 
-  filter(:mosavy_official, :enum, select: :mosavy_official_select_options, header: -> { I18n.t('clients.form.mosavy_official') })
+  filter(:mo_savy_officials, :enum, select: :mosavy_official_select_options, header: -> { I18n.t('clients.form.mosavy_official') })
 
   def donor_select_options
     Donor.has_clients.map { |donor| [donor.name, donor.id] }
@@ -1012,7 +1012,7 @@ class ClientGrid < BaseGrid
     object.ratanak_achievement_program_staff_clients.pluck(:first_name, :last_name).map{ |case_worker| "#{case_worker.first} #{case_worker.last}".squish }.join(', ')
   end
   
-  column(:mosavy_official, order: false, header: -> { I18n.t('clients.form.mosavy_official')}) do |object|
+  column(:mo_savy_officials, order: false, header: -> { I18n.t('clients.form.mosavy_official')}) do |object|
     object.mo_savy_officials.map{ |mo_savy_official| "#{mo_savy_official.name} #{mo_savy_official.position}".squish }.join(', ')
   end
 
