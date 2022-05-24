@@ -13,7 +13,7 @@ import {
 import { t } from '../../utils/i18n'
 
 export default props => {
-  const { onChange, onChangeMoSAVYOfficialsData, renderAddressSwitch, translation, fieldsVisibility, current_organization, hintText,
+  const { onChange, onAddOfficial, onRemoveOfficial, onChangeOfficial, renderAddressSwitch, translation, fieldsVisibility, current_organization, hintText,
           data: { errorFields, users, carerDistricts, carerCommunes, brc_presented_ids,
                   carerVillages, carer, client, familyMember, clientRelationships, currentProvinces,
                   currentDistricts, currentCommunes, currentVillages, donors, agencies, currentStates, currentTownships, carerSubdistricts,
@@ -27,66 +27,50 @@ export default props => {
     isFixed: user[2] === "locked" ? true : false,
   }));
 
-  const [recordData, setRecordData] = useState(moSAVYOfficialsData);
 
   const renderMoSAVY = () => {
     return (
-      recordData.filter((official) => { return official._destroy !== true }).map((official, index) => {
-        return (
-          <div key={index} className="row" style={{ display: "flex", alignItems: "center" }}>
-            <div style={{ display: "none" }}>
-              <TextInput
-                value={official.id}
-                onChange={(event)=>{ onChangeOfficial(event.target.value, "id", index)}}
-              />
-            </div>
-
-            <div className="col-12 col-sm-3">
-              <TextInput
-                label={ t(translation, "clients.form.mosavy_official_name") }
-                onChange={(event)=>{ onChangeOfficial(event.target.value, "name", index)}}
-                required={ true }
-                isError={errorFields.includes('name') && (official.name == undefined || official.name.length == 0)}
-                value={official.name}
-                T={T}
-              />
-            </div>
+      moSAVYOfficialsData.map((official, index) => {
+        if (official._destroy !== true) {
+          return (
+            <div key={index} className="row" style={{ display: "flex", alignItems: "center" }}>
+              <div style={{ display: "none" }}>
+                <TextInput
+                  value={official.id}
+                  onChange={(event)=>{ onChangeOfficial(event.target.value, "id", index)}}
+                />
+              </div>
   
-            <div className="col-10 col-sm-3">
-              <TextInput
-                label={ t(translation, "clients.form.mosavy_official_position") }
-                onChange={(event)=>{ onChangeOfficial(event.target.value, "position", index)}}
-                isError={errorFields.includes('position') && (official.position == undefined || official.position.length == 0)}
-                required={ true }
-                value={official.position}
-                T={T}
-              />
+              <div className="col-12 col-sm-3">
+                <TextInput
+                  label={ t(translation, "clients.form.mosavy_official_name") }
+                  onChange={(event)=>{ onChangeOfficial(event.target.value, "name", index)}}
+                  required={ true }
+                  isError={errorFields.includes('name') && (official.name == undefined || official.name.length == 0)}
+                  value={official.name}
+                  T={T}
+                />
+              </div>
+    
+              <div className="col-10 col-sm-3">
+                <TextInput
+                  label={ t(translation, "clients.form.mosavy_official_position") }
+                  onChange={(event)=>{ onChangeOfficial(event.target.value, "position", index)}}
+                  isError={errorFields.includes('position') && (official.position == undefined || official.position.length == 0)}
+                  required={ true }
+                  value={official.position}
+                  T={T}
+                />
+              </div>
+    
+              <div className="col-2 col-sm-2">
+                <button className='btn btn-danger' onClick={()=> { onRemoveOfficial(index) }}>{ t(translation, "clients.form.remove_mosavy_official") }</button>
+              </div>
             </div>
-  
-            <div className="col-2 col-sm-2">
-              <button className='btn btn-danger' onClick={()=> { onRemoveOfficial(index) }}>{ t(translation, "clients.form.remove_mosavy_official") }</button>
-            </div>
-          </div>
-        )
+          )
+        }
       })
     )
-  }
-
-  const onChangeOfficial = (data, field, index) => {
-    let official = recordData[index]
-    official[field] = data
-
-    setRecordData(recordData.map((record, ind)=> { return ind == index ? official : record }))
-    onChangeMoSAVYOfficialsData(recordData)
-  }
-
-  const onRemoveOfficial = (index) => {
-    onChangeOfficial(true, "_destroy", index)
-  }
-
-  const onAddOfficial = () => {
-    setRecordData([...recordData, { name: "", position: "", id: "" }])
-    onChangeMoSAVYOfficialsData(recordData)
   }
 
   return (
