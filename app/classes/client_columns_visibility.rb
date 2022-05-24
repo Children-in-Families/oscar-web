@@ -173,7 +173,11 @@ class ClientColumnsVisibility
       client_email_: :client_email,
       indirect_beneficiaries_: :indirect_beneficiaries,
       care_plan_completed_date_: :care_plan_completed_date,
-      care_plan_count_: :care_plan_count
+      care_plan_count_: :care_plan_count,
+      arrival_at_: :arrival_at,
+      flight_nb_: :flight_nb,
+      ratanak_achievement_program_staff_client_ids_: :ratanak_achievement_program_staff_client_ids,
+      mosavy_official_: :mosavy_official
     }.merge(label_translations.keys.map{ |field| ["#{field}_".to_sym, field.to_sym] }.to_h)
   end
 

@@ -1771,6 +1771,8 @@ km:
       type_of_trafficking: Type of Trafficking
       education_background: Education Background
       department: Ratanak Team
+      add_mosavy_official: Add MoSAVY Official
+      arrival_at: Arrivate Date/Time
       national_id: 'National ID'
       birth_cert: 'Birth Certificate'
       family_book: 'សៀវភៅគ្រួសារ'
@@ -1815,6 +1817,7 @@ km:
       exit_status: ស្ថានភាព/ហេតុផលនៃការចាកចេញ
       family_name: នាមត្រកូល (អក្សរឡាតាំង)
       finish: រក្សាទុក
+      flight_nb: Flight Number
       follow_up_by: បុគ្គលិកតាមដានករណី
       follow_up_date: កាលបរិច្ឆេទតាមដានដំបូង
       followed_up_by: បុគ្គលិកតាមដានករណី
@@ -1872,12 +1875,14 @@ km:
       next: បន្ទាប់
       other_phone_number: លេខទូរស័ព្ទ - Alternate
       other_phone_whatsapp: Whatsapp? (លេខទូរស័ព្ទ - Alternate)
+      pickup_information: Pick up information
       phone_owner: ម្ចាស់ទូរស័ព្ទ
       po_box2: PO Box
       police_interview: លិខិតពីប៉ូលីសអន្តោប្រវេសន៍
       presented_id: Presented ID
       previous: ត្រឡប់
       province: ខេត្ត/ក្រុង
+      ratanak_achievement_program_staff_client_ids: Ratanak Achievement Program Staff
       rated_for_id_poor: កម្រិតប័ណ្ណក្រីក្រ
       received_by: បុគ្គលិកទទួលករណី
       referee_called_before: តើអ្នកបញ្ជូនភ្ជាប់បានហៅទូរស័ព្ទមកកាន់បណ្តាញសុវត្ថិភាពកុមារពីមុនដែរឬទេ
@@ -1887,10 +1892,14 @@ km:
       referral_source: ប្រភពនៃការបញ្ជូន
       reject_note: កំណត់ហេតុនៃការមិនទទួលយក
       relevant_referral_information: ព័ត៌មានសំខាន់ៗដែលពាក់ព័ន្ធ
+      remove_mosavy_official: Remove MoSAVY Official
       resident_own_or_rent2: Acc. type
       school_grade: កម្រិតវប្បធម៌
       school_name: ឈ្មោះសាលារៀន
       main_school_contact: ជនបង្គោលនៅសាលារៀន
+      mosavy_official: MoSAVY Official
+      mosavy_official_name: Name
+      mosavy_official_position: Position
       settlement2: City/Settlement
       shared_service_enabled: តើអ្នកចង់ចែករំលែកសេវាកម្មអតិថិជនជាមួយប្រព័ន្ធខាងក្រៅទេ?
       stage: សំនួរ តំណាក់កាល

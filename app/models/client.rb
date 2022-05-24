@@ -96,13 +96,18 @@ class Client < ActiveRecord::Base
   has_many :referrals, dependent: :destroy
   has_many :government_forms, dependent: :destroy
   has_many :global_identity_organizations, class_name: 'GlobalIdentityOrganization', foreign_key: 'client_id', dependent: :destroy
+  has_many :mo_savy_officials, dependent: :destroy
+  has_many :achievement_program_staff_clients
+  has_many :ratanak_achievement_program_staff_clients, through: :achievement_program_staff_clients, source: :user
 
   has_one  :family_member, dependent: :restrict_with_error
   has_one  :family, through: :family_member
 
   accepts_nested_attributes_for :tasks
   accepts_nested_attributes_for :client_quantitative_free_text_cases
+  accepts_nested_attributes_for :achievement_program_staff_clients
   accepts_nested_attributes_for :family_member, allow_destroy: true
+  accepts_nested_attributes_for :mo_savy_officials, allow_destroy: true, reject_if: :all_blank
 
   has_many :families,       through: :cases
   has_many :family_members, dependent: :destroy

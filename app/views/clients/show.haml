@@ -444,6 +444,41 @@
                 %td
                   %strong
                     = @client.time_in_cps
+              
+              - if policy(Client).client_pickup_information?
+                - if policy(Client).show?(:arrival_at)
+                  %tr
+                    %td.spacing-first-col
+                      = t('clients.form.arrival_at')
+                    %td
+                      %strong
+                        = date_format @client.arrival_at
+                - if policy(Client).show?(:flight_nb)
+                  %tr
+                    %td.spacing-first-col
+                      = t('clients.form.flight_nb')
+                    %td
+                      %strong
+                        = @client.flight_nb
+                
+                - if policy(Client).show?(:ratanak_achievement_program_staff_client_ids)
+                  %tr
+                    %td.spacing-first-col
+                      = t('clients.form.ratanak_achievement_program_staff_client_ids')
+                    %td
+                      %strong
+                        - @client.ratanak_achievement_program_staff_clients.distinct.sort.each do |case_worker|
+                          %strong.label.label-default
+                            = user case_worker
+                - if policy(Client).show?(:mosavy_official)
+                  %tr
+                    %td.spacing-first-col
+                      = t('clients.form.mosavy_official')
+                    %td
+                      %strong
+                        - @client.mo_savy_officials.each do |mo_savy_official|
+                          %strong.label.label-default
+                            = "#{mo_savy_official.name} - #{mo_savy_official.position}"
 
           .col-sm-12.col-md-6.second-table
             %table.table.table-bordered

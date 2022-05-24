@@ -42,7 +42,7 @@ const Forms = props => {
   const {
     data: {
       current_organization,
-      client: { client, user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids, national_id_files, current_family_id, isTestClient, isForTesting }, client_quantitative_free_text_cases, family_member, family, referee, referees, carer, users, birthProvinces, referralSource, referralSourceCategory, selectedCountry, internationalReferredClient,
+      client: { client, user_ids, quantitative_case_ids, ratanak_achievement_program_staff_client_ids, agency_ids, donor_ids, family_ids, national_id_files, current_family_id, isTestClient, isForTesting }, client_quantitative_free_text_cases, family_member, family, moSAVYOfficials, referee, referees, carer, users, birthProvinces, referralSource, referralSourceCategory, selectedCountry, internationalReferredClient,
       currentProvinces, districts, communes, villages, donors, agencies, schoolGrade, quantitativeType, quantitativeCase, ratePoor, families, clientRelationships, refereeRelationships, addressTypes, phoneOwners, refereeDistricts,
       refereeTownships, carerTownships, customId1, customId2, inlineHelpTranslation,
       refereeCommunes, refereeSubdistricts, carerSubdistricts, refereeVillages, carerDistricts, carerCommunes, carerVillages, callerRelationships, currentStates, currentTownships, subDistricts, translation, fieldsVisibility, requiredFields,
@@ -77,19 +77,20 @@ const Forms = props => {
   const [errorSteps, setErrorSteps]   = useState([])
   const [errorFields, setErrorFields] = useState([])
 
-  const [clientData, setClientData]   = useState({ user_ids, quantitative_case_ids, client_quantitative_free_text_cases, agency_ids, donor_ids, family_ids, current_family_id, isTestClient, isForTesting, ...client })
+  const [clientData, setClientData]   = useState({ user_ids, quantitative_case_ids, ratanak_achievement_program_staff_client_ids, client_quantitative_free_text_cases, agency_ids, donor_ids, family_ids, current_family_id, isTestClient, isForTesting, ...client })
   const [clientProfile, setClientProfile] = useState({})
   const [refereeData, setRefereeData] = useState(referee)
   const [familyMemberData, setfamilyMemberData] = useState(family_member)
   const [refereesData, setRefereesData] = useState(referees)
   const [carerData, setCarerData]     = useState(carer)
   const [clientQuantitativeFreeTextCasesData, setClientQuantitativeFreeTextCases] = useState(client_quantitative_free_text_cases)
+  const [moSAVYOfficialsData, setMoSAVYOfficialsData] = useState(moSAVYOfficials);
 
   const address = { currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, subDistricts, currentStates, currentTownships, current_organization, addressTypes, T }
   const adminTabData = { users, client: clientData, errorFields, T }
   const refereeTabData = { errorFields, client: clientData, referee: refereeData, referees: refereesData, referralSourceCategory, referralSource, refereeDistricts, refereeCommunes, refereeVillages, currentProvinces, refereeTownships, currentStates, refereeSubdistricts, addressTypes, T, translation, current_organization }
   const referralTabData = { errorFields, client: clientData, referee: refereeData, birthProvinces, phoneOwners, callerRelationships, ...address, T, translation, current_organization, brc_address, brc_islands, brc_presented_ids, brc_resident_types, brc_prefered_langs, maritalStatuses, nationalities, ethnicities, traffickingTypes }
-  const moreReferralTabData = { errorFields, ratePoor, carer: carerData, familyMember: familyMemberData, schoolGrade, donors, agencies, families, clientRelationships, carerDistricts, carerCommunes, carerVillages, currentStates, currentTownships, carerSubdistricts, ...referralTabData, T, customId1, customId2 }
+  const moreReferralTabData = { errorFields, users, ratePoor, carer: carerData, familyMember: familyMemberData, schoolGrade, donors, agencies, families, clientRelationships, carerDistricts, carerCommunes, carerVillages, currentStates, currentTownships, carerSubdistricts, ...referralTabData, T, customId1, customId2, moSAVYOfficialsData }
   const referralVulnerabilityTabData = { client: clientData, errorFields, clientQuantitativeFreeTextCasesData, quantitativeType, quantitativeCase, T }
   const legalDocument = { client: clientData, T, errorFields }
 
@@ -113,6 +114,10 @@ const Forms = props => {
         {data.text}
       </span>
     )
+  }
+
+  const onChangeMoSAVYOfficialsData = (newData) => {
+    setMoSAVYOfficialsData(newData)
   }
 
   const onChange = (obj, field) => event => {
@@ -158,7 +163,7 @@ const Forms = props => {
       { step: 1, data: refereeData, fields: ['name'] },
       { step: 1, data: clientData, fields: ['referral_source_category_id'] },
       { step: 2, data: clientData, fields: ['gender']},
-      { step: 3, data: clientData, fields: [] },
+      { step: 3, data: moSAVYOfficialsData, fields: ['name', 'position'] },
       { step: 4, data: clientData, fields: clientData.status != 'Exited' ? ['received_by_id', 'initial_referral_date', 'user_ids'] : ['received_by_id', 'initial_referral_date'] },
       { step: 5, data: clientData, fields: step5RequiredFields }
     ]
@@ -169,7 +174,7 @@ const Forms = props => {
     components.forEach(component => {
       if (step === component.step || (stepTobeCheck !== 0 && component.step === stepTobeCheck)) {
         component.fields.forEach(field => {
-          if (component.data[field] === '' || (Array.isArray(component.data[field]) && !component.data[field].length) || component.data[field] === null) {
+          if (component.data[field] === '' || (Array.isArray(component.data) && component.data.filter((item)=>{ return (item._destroy !== true && (item[field].length == 0 || item[field].length == null)) }).length > 0) || (Array.isArray(component.data[field]) && !component.data[field].length) || component.data[field] === null) {
             errors.push(field)
             errorSteps.push(component.step)
           }
@@ -365,10 +370,12 @@ const Forms = props => {
 
         let formData = new FormData()
         formData = objectToFormData({ ...clientData, ...clientProfile }, {}, formData, 'client')
+        formData = objectToFormData({ ...clientData, ...clientProfile }, {}, formData, 'client')
         formData = objectToFormData(refereeData, {}, formData, 'referee')
         formData = objectToFormData(carerData, {}, formData, 'carer')
         formData = objectToFormData(familyMemberData, {}, formData, 'family_member')
         formData = objectToFormData(clientQuantitativeFreeTextCasesData, [], formData, 'client_quantitative_free_text_cases')
+        formData = objectToFormData(moSAVYOfficialsData, {}, formData, 'mosavy_officials')
 
         $.ajax({
           url,
@@ -521,7 +528,7 @@ const Forms = props => {
           </div>
 
           <div style={{ display: step === 3 ? 'block' : 'none' }}>
-            <ReferralMoreInfo translation={translation} renderAddressSwitch={renderAddressSwitch} fieldsVisibility={fieldsVisibility} current_organization={current_organization} data={moreReferralTabData} onChange={onChange} hintText={inlineHelpTranslation} />
+            <ReferralMoreInfo translation={translation} renderAddressSwitch={renderAddressSwitch} fieldsVisibility={fieldsVisibility} current_organization={current_organization} data={moreReferralTabData} onChangeMoSAVYOfficialsData={onChangeMoSAVYOfficialsData} onChange={onChange} hintText={inlineHelpTranslation} />
           </div>
 
           <div style={{ display: step === 4 ? 'block' : 'none' }}>

@@ -48,7 +48,7 @@ module AdvancedSearches
 
     def text_type_list
       [
-        'given_name', 'family_name',
+        'given_name', 'family_name', 'flight_nb',
         'local_given_name', 'local_family_name', 'family', 'slug', 'school_name',
         'other_info_of_exit', 'exit_note', 'main_school_contact', 'what3words', 'kid_id', 'code',
         'client_phone', 'client_email_address', *setting_country_fields[:text_fields]
@@ -70,7 +70,7 @@ module AdvancedSearches
     def date_type_list
       [
         'date_of_birth', 'initial_referral_date', 'follow_up_date', 'exit_date', 'accepted_date',
-        'case_note_date', 'created_at', 'date_of_referral', 'active_clients'
+        'case_note_date', 'created_at', 'date_of_referral', 'active_clients', 'arrival_at'
       ].compact
     end
 
@@ -92,6 +92,8 @@ module AdvancedSearches
         ['no_case_note', yes_no_options],
         ['has_been_in_orphanage', yes_no_options],
         ['user_id', user_select_options],
+        ['ratanak_achievement_program_staff_client_ids', user_select_options],
+        ['mo_savy_officials', mo_savy_officials_options],
         ['donor_name', donor_options],
         ['active_program_stream', active_program_options],
         ['enrolled_program_stream', enrolled_program_options],
@@ -144,6 +146,10 @@ module AdvancedSearches
 
     def enrolled_program_options
       ProgramStream.cache_program_steam_by_enrollment.map { |ps| { ps.id.to_s => ps.name } }
+    end
+
+    def mo_savy_officials_options
+      MoSavyOfficial.all.map { |item| { item.id.to_s => item.name } }
     end
 
     def client_status

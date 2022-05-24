@@ -77,6 +77,7 @@ module ClientsHelper
     result[:show_legal_doc] = result[:client_show_legal_doc] = policy(Client).show_legal_doc?
     result[:school_information] = result[:client_school_information] = policy(Client).client_school_information?
     result[:stackholder_contacts] = result[:client_stackholder_contacts] = policy(Client).client_stackholder_contacts?
+    result[:pickup_information] = result[:client_pickup_information] = policy(Client).client_pickup_information?
 
     result
   end
@@ -330,6 +331,10 @@ module ClientsHelper
       carer_name_: I18n.t('activerecord.attributes.carer.name'),
       carer_phone_: I18n.t('activerecord.attributes.carer.phone'),
       carer_email_: I18n.t('activerecord.attributes.carer.email'),
+      arrival_at_: I18n.t('clients.form.arrival_at'),
+      flight_nb_: I18n.t('clients.form.flight_nb'),
+      ratanak_achievement_program_staff_client_ids_: I18n.t('clients.form.ratanak_achievement_program_staff_client_ids'),
+      mosavy_official_: I18n.t('clients.form.mosavy_official'),
       carer_relationship_to_client_: I18n.t('datagrid.columns.clients.carer_relationship_to_client'),
       province_id_: FieldSetting.cache_by_name_klass_name_instance('current_province', 'client') || I18n.t('datagrid.columns.clients.current_province'),
       birth_province_id_: FieldSetting.cache_by_name_klass_name_instance('birth_province', 'client') || I18n.t('datagrid.columns.clients.birth_province'),
