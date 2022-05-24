@@ -119,6 +119,20 @@ const Forms = props => {
     setMoSAVYOfficialsData(newData)
   }
 
+  const onChangeOfficial = (data, field, index) => {
+    let official = moSAVYOfficialsData[index]
+    official[field] = data
+    onChangeMoSAVYOfficialsData(moSAVYOfficialsData.map((record, ind)=> { return ind == index ? official : record }))
+  }
+
+  const onRemoveOfficial = (index) => {
+    onChangeOfficial(true, "_destroy", index)
+  }
+
+  const onAddOfficial = () => {
+    onChangeMoSAVYOfficialsData(moSAVYOfficialsData => [...moSAVYOfficialsData, { name: "", position: "", id: "" }])
+  }
+
   const onChange = (obj, field) => event => {
     const inputType = ['date', 'select', 'checkbox', 'radio', 'file']
     const value = inputType.includes(event.type) ? event.data : event.target.value
@@ -488,7 +502,7 @@ const Forms = props => {
           </div>
 
           <div style={{ display: step === 3 ? 'block' : 'none' }}>
-            <ReferralMoreInfo translation={translation} renderAddressSwitch={renderAddressSwitch} fieldsVisibility={fieldsVisibility} current_organization={current_organization} data={moreReferralTabData} onChangeMoSAVYOfficialsData={onChangeMoSAVYOfficialsData} onChange={onChange} hintText={inlineHelpTranslation} />
+            <ReferralMoreInfo translation={translation} renderAddressSwitch={renderAddressSwitch} fieldsVisibility={fieldsVisibility} current_organization={current_organization} data={moreReferralTabData} onChangeMoSAVYOfficialsData={onChangeMoSAVYOfficialsData} onAddOfficial={onAddOfficial} onChangeOfficial={onChangeOfficial} onRemoveOfficial={onRemoveOfficial} onChange={onChange} hintText={inlineHelpTranslation} />
           </div>
 
           <div style={{ display: step === 4 ? 'block' : 'none' }}>
