@@ -46,7 +46,9 @@ export default props => {
                 label={ t(translation, "clients.form.mosavy_official_name") }
                 onChange={(event)=>{ onChangeOfficial(event.target.value, "name", index)}}
                 required={ true }
+                isError={errorFields.includes('name') && (official.name == undefined || official.name.length == 0)}
                 value={official.name}
+                T={T}
               />
             </div>
   
@@ -54,8 +56,10 @@ export default props => {
               <TextInput
                 label={ t(translation, "clients.form.mosavy_official_position") }
                 onChange={(event)=>{ onChangeOfficial(event.target.value, "position", index)}}
+                isError={errorFields.includes('position') && (official.position == undefined || official.position.length == 0)}
                 required={ true }
                 value={official.position}
+                T={T}
               />
             </div>
   
