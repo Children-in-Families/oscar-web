@@ -29,7 +29,7 @@ class ClientEnrollment < ActiveRecord::Base
   after_create :set_client_status
   after_save :create_client_enrollment_history
   after_destroy :reset_client_status
-  after_commit :flush_cache
+  after_save :flash_cache
 
   def active?
     status == 'Active'
@@ -107,7 +107,7 @@ class ClientEnrollment < ActiveRecord::Base
     end
   end
 
-  def flush_cache
+  def flash_cache
     Rails.cache.delete([Apartment::Tenant.current, 'cache_program_steam_by_enrollment'])
     Rails.cache.delete([Apartment::Tenant.current, 'cache_active_program_options'])
     cached_client_order_enrollment_date_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_order_enrollment_date/].blank? }
@@ -116,5 +116,6 @@ class ClientEnrollment < ActiveRecord::Base
     cached_client_order_enrollment_date_properties_keys.each { |key| Rails.cache.delete(key) }
     cached_client_enrollment_date_join_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_enrollment_date_join/].blank? }
     cached_client_enrollment_date_join_keys.each { |key| Rails.cache.delete(key) }
+    Rails.cache.delete(["dashboard", "#{Apartment::Tenant.current}_client_errors"]) if enrollment_date_changed?
   end
 end

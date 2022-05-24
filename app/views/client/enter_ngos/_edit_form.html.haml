@@ -13,7 +13,7 @@
             %span{"aria-hidden" => "true"} ×
           %ul
             %li
-              = t('clients.attr.warning_messages.referral_date', referral_date: date_format(@client.initial_referral_date))
+              = raw t('clients.attr.warning_messages.referral_date', referral_date: date_format(@client.initial_referral_date))
 
         = simple_form_for [@client, enter_ngo] do |f|
           = f.error_notification

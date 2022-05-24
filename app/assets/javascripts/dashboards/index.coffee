@@ -121,7 +121,6 @@ CIF.DashboardsIndex = do ->
           color: if index == 0 then '#f9c00c' else if index == 1 then '#4caf50' else '#00695c'
         }
 
-    debugger;
     report = new CIF.ReportCreator(data, title, '', element)
     report.barChart()
 

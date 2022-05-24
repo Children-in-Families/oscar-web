@@ -18,6 +18,7 @@ class ExitNgo < ActiveRecord::Base
   after_create :update_entity_status
   after_save :create_exit_ngo_history
   after_destroy :update_client_status
+  after_save :flash_cache
 
   def attached_to_family?
     rejectable_type == 'Family'
@@ -43,4 +44,7 @@ class ExitNgo < ActiveRecord::Base
     client.update_column(:status, 'Accepted')
   end
 
+  def flash_cache
+    Rails.cache.delete(["dashboard", "#{Apartment::Tenant.current}_client_errors"]) if exit_date_changed?
+  end
 end
