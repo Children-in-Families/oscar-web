@@ -185,7 +185,7 @@ class ClientGrid < BaseGrid
 
   filter(:arrival_at, :datetime, header: -> { I18n.t('clients.form.arrival_at')})
   filter(:flight_nb, :string, header: -> { I18n.t('clients.form.flight_nb')})
-  
+
   filter(:ratanak_achievement_program_staff_client_ids, :enum, multiple: true, select: :case_worker_options, header: -> { I18n.t('clients.form.ratanak_achievement_program_staff_client_ids') }) do |ids, scope|
     ids = ids.map{ |id| id.to_i }
 
@@ -1023,7 +1023,7 @@ class ClientGrid < BaseGrid
   column(:ratanak_achievement_program_staff_client_ids, order: false, header: -> { I18n.t('clients.form.ratanak_achievement_program_staff_client_ids')}) do |object|
     object.ratanak_achievement_program_staff_clients.pluck(:first_name, :last_name).map{ |case_worker| "#{case_worker.first} #{case_worker.last}".squish }.join(', ')
   end
-  
+
   column(:mo_savy_officials, order: false, header: -> { I18n.t('clients.form.mosavy_official')}) do |object|
     object.mo_savy_officials.map{ |mo_savy_official| "#{mo_savy_official.name} #{mo_savy_official.position}".squish }.join(', ')
   end

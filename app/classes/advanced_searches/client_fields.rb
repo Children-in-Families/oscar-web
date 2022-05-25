@@ -148,10 +148,6 @@ module AdvancedSearches
       ProgramStream.cache_program_steam_by_enrollment.map { |ps| { ps.id.to_s => ps.name } }
     end
 
-    def mo_savy_officials_options
-      MoSavyOfficial.all.map { |item| { item.id.to_s => item.name } }
-    end
-
     def client_status
       Client::CLIENT_STATUSES.sort.map { |s| { s => s.capitalize } }
     end

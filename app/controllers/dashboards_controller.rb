@@ -10,21 +10,8 @@ class DashboardsController < AdminController
     @select_client_options = Client.accessible_by(current_ability).active_accepted_status
     @custom_domains = Domain.custom_csi_domains
     @custom_assessment_settings = CustomAssessmentSetting.all.where(enable_custom_assessment: true)
-    sql = <<-SQL.squish
-      LEFT OUTER JOIN enter_ngos ON enter_ngos.client_id = clients.id
-      LEFT OUTER JOIN client_enrollments ON client_enrollments.client_id = clients.id
-      LEFT OUTER JOIN exit_ngos ON exit_ngos.client_id = clients.id
-    SQL
 
-    sub_sql = <<-SQL.squish
-      (client_enrollments.enrollment_date < enter_ngos.accepted_date) OR (exit_ngos.exit_date < client_enrollments.enrollment_date) OR (exit_ngos.exit_date < enter_ngos.accepted_date)
-    SQL
-
-    clients_error = Client.accessible_by(current_ability).joins(sql).where(sub_sql).distinct
-
-    @date_validation_error = Rails.cache.fetch(["#{clients_error.count}", "#{Apartment::Tenant.current}_client_errors"]) do
-      { ids: clients_error.ids, count: clients_error.count }
-    end
+    @date_validation_error = fetch_data_logic_error
   end
 
   def update_program_stream_service
@@ -37,7 +24,7 @@ class DashboardsController < AdminController
   end
 
   def client_data_validation
-    @date_validation_error = Rails.cache.fetch([params[:total_error], "#{Apartment::Tenant.current}_client_errors"])
+    @date_validation_error = fetch_data_logic_error
     clients = Client.accessible_by(current_ability).where(id: @date_validation_error[:ids]).page(params[:page]).per(15)
     @client_grid = ClientGrid.new({ column_names: [:id, :slug, :given_name, :family_name, :local_given_name, :local_family_name, :status, :gender]}).scope { clients }
   end
@@ -127,5 +114,22 @@ class DashboardsController < AdminController
                             today_tasks: today_tasks.flatten.uniq, upcoming_tasks: upcoming_tasks.flatten.uniq }]
     end
     clients
+  end
+
+  def fetch_data_logic_error
+    sql = <<-SQL.squish
+      LEFT OUTER JOIN enter_ngos ON enter_ngos.client_id = clients.id
+      LEFT OUTER JOIN client_enrollments ON client_enrollments.client_id = clients.id
+      LEFT OUTER JOIN exit_ngos ON exit_ngos.client_id = clients.id
+    SQL
+
+    sub_sql = <<-SQL.squish
+      (client_enrollments.enrollment_date < enter_ngos.accepted_date) OR (exit_ngos.exit_date < client_enrollments.enrollment_date) OR (exit_ngos.exit_date < enter_ngos.accepted_date)
+    SQL
+
+    Rails.cache.fetch(["dashboard", "#{Apartment::Tenant.current}_client_errors"]) do
+      clients_error = Client.accessible_by(current_ability).joins(sql).where(sub_sql).group('clients.id').having("COUNT(exit_ngos.*) <= 1").distinct
+      { ids: clients_error.ids, count: clients_error.to_a.count }
+    end
   end
 end

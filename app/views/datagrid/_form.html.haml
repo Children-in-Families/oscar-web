@@ -412,8 +412,9 @@
               .visibility.col-sm-12
                 = check_box_tag 'care_plan_count_', 'care_plan_count', checked = family_saved_search_column_visibility('care_plan_count_'), class: 'i-checks'
                 = label_tag 'care_plan_count_', t('datagrid.columns.care_plan_count')
-
+            = render 'datagrid/quantitative_type_column_pickers'
             = render partial: 'datagrid/family_custom_domain_score', locals: { custom_domains: Domain.family_custom_csi_domains.order_by_identity }
+
           %li.divider.col-xs-12
           %li
             .visibility.col-sm-12
