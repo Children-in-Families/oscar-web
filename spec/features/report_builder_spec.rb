@@ -11,7 +11,8 @@ describe 'Report Builder' do
     scenario 'for client' do
       visit clients_path
       find('.client-search').click
-      expect(page).to have_content('Search')
+      expect(page).to have_content('Given Name (Latin)')
+      fill_in 'Given Name (Latin)', with: 'Adam'
       find('#client-grid-search-btn').click
       wait_for_ajax()
       expect(page).to have_content("Adam")
@@ -22,6 +23,7 @@ describe 'Report Builder' do
     let!(:family){ create(:family, children: [client.id] ) }
     scenario 'for family' do
       visit families_path
+      fill_in 'Family ID', with: family.id
       find('#client-grid-search-btn').click
       wait_for_ajax()
       expect(page).to have_content(family.id)
