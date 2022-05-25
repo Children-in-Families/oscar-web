@@ -149,10 +149,7 @@ class Client < ActiveRecord::Base
   after_commit :update_related_family_member, on: :update
   after_commit :delete_referee, on: :destroy
   after_commit :flush_cache
-<<<<<<< HEAD
   after_save :update_referral_status_on_target_ngo, if: :status_changed?
-=======
->>>>>>> stable-after-caching
 
   scope :given_name_like,                          ->(value) { where('clients.given_name iLIKE :value OR clients.local_given_name iLIKE :value', { value: "%#{value.squish}%"}) }
   scope :family_name_like,                         ->(value) { where('clients.family_name iLIKE :value OR clients.local_family_name iLIKE :value', { value: "%#{value.squish}%"}) }
@@ -741,13 +738,10 @@ class Client < ActiveRecord::Base
     result
   end
 
-<<<<<<< HEAD
   def one_off_screening_assessment
     screening_assessments.find_by(screening_type: 'one_off')
   end
 
-=======
->>>>>>> stable-after-caching
   def self.cached_client_created_by(object)
     Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_created_by', object.id]) do
       user_id = PaperTrail::Version.find_by(event: 'create', item_type: 'Client', item_id: object.id).try(:whodunnit)
@@ -829,7 +823,6 @@ class Client < ActiveRecord::Base
     end
   end
 
-<<<<<<< HEAD
   def assign_global_id
     referral = find_referral
     if referral && referral.client_global_id
@@ -839,8 +832,6 @@ class Client < ActiveRecord::Base
     end
   end
 
-=======
->>>>>>> stable-after-caching
   private
 
   def update_related_family_member
