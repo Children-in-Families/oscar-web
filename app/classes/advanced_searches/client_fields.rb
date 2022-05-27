@@ -276,5 +276,9 @@ module AdvancedSearches
     def family_type_list
       Family.mapping_family_type_translation.to_h
     end
+
+    def mo_savy_officials_options
+      []
+    end
   end
 end
