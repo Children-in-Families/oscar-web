@@ -156,6 +156,7 @@ class ProgramStream < ActiveRecord::Base
   end
 
   def self.cached_program_ids(program_ids)
+    program_ids = program_ids.is_a?(Array) ? program_ids.map(&:to_s) : [program_ids.to_s]
     Rails.cache.fetch([Apartment::Tenant.current, 'ProgramStream', 'cached_program_ids', *program_ids.sort]) {
       where(id: program_ids).to_a
     }
