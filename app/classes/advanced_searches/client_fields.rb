@@ -278,7 +278,7 @@ module AdvancedSearches
     end
 
     def mo_savy_officials_options
-      []
+      MoSavyOfficial.all.map { |item| { item.id.to_s => item.name } }
     end
   end
 end
