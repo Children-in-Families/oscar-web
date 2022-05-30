@@ -1,4 +1,4 @@
-.modal.fade{ role: 'dialog', tabindex: '-1', id: "enter_ngos-#{enter_ngo.id}" }
+.modal.fade{ role: 'dialog', tabindex: '-1', id: "enter_ngos-#{enter_ngo.id}", class: 'edit-enter-ngos-case-history' }
   .modal-dialog{ role: 'document'}
     .modal-content
       .modal-header
@@ -8,6 +8,13 @@
           = t('.accept_ngo_form')
 
       .modal-body
+        .alert.alert-warning.alert-dismissible{ :role => "alert" }
+          %button.close{"aria-label" => "Close", "data-dismiss" => "alert", :type => "button"}
+            %span{"aria-hidden" => "true"} ×
+          %ul
+            %li
+              = raw t('clients.attr.warning_messages.referral_date', referral_date: date_format(@client.initial_referral_date))
+
         = simple_form_for [@client, enter_ngo] do |f|
           = f.error_notification
           .form-inputs
@@ -16,7 +23,7 @@
                 %abbr{ title: 'required' } *
                 = t('.accepted_date')
               .input-group.date
-                = f.text_field :accepted_date, required: true, class: 'date form-control date-picker datepicker-dropdown enter_ngos', type: 'text', name: 'enter_ngo[accepted_date]'
+                = f.text_field :accepted_date, required: true, class: 'date form-control date-picker datepicker-dropdown enter_ngos enter-ngos-case-history', type: 'text', name: 'enter_ngo[accepted_date]', data: { compared_date: ''  }
                 %span.input-group-addon
                   %i.fa.fa-calendar-check-o
 

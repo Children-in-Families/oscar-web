@@ -720,7 +720,8 @@ class Client < ActiveRecord::Base
   def indirect_beneficiaries
     result = 0
     family_id = self.family_member.try(:family_id)
-    result = Family.find_by(id: family_id).family_members.where(client_id: nil).count if family_id.present?
+    _family = Family.find_by(id: family_id) if family_id.present?
+    result = _family.family_members.where(client_id: nil).count if _family.present?
     result
   end
 
@@ -974,6 +975,9 @@ class Client < ActiveRecord::Base
       original_referral.save(validate: false)
     end
     Apartment::Tenant.switch current_ngo
+
+    Rails.cache.delete([Apartment::Tenant.current, 'ReferralSource', 'cached_referral_source_try_name', referral_source_category_id]) if referral_source_category_id_changed?
+    Rails.cache.delete([Apartment::Tenant.current, 'ReferralSource', 'cached_referral_source_try_name_en', referral_source_category_id]) if referral_source_category_id_changed?
   end
 
 end

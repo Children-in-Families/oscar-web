@@ -18,6 +18,7 @@ class EnterNgo < ActiveRecord::Base
 
   after_create :update_entity_status
   after_save :create_enter_ngo_history
+  after_save :flash_cache
 
   def attached_to_family?
     acceptable_type == 'Family'
@@ -42,5 +43,9 @@ class EnterNgo < ActiveRecord::Base
 
   def create_enter_ngo_history
     EnterNgoHistory.initial(self)
+  end
+
+  def flash_cache
+    Rails.cache.delete(["dashboard", "#{Apartment::Tenant.current}_client_errors"]) if accepted_date_changed?
   end
 end

@@ -2,7 +2,7 @@ FROM ruby:2.3.3
 
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
 RUN curl --silent https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -
-RUN apt-get update -qq && apt-get install -y nodejs postgresql-client fonts-khmeros memcached
+RUN apt-get update -qq && apt-get install -y nodejs postgresql-client fonts-khmeros memcached cron
 RUN mkdir /app
 WORKDIR /app
 

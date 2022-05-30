@@ -1,0 +1,13 @@
+- if @quantitative_fields.present?
+  #referral-data
+    %li
+      %strong.m-l-sm= t('advanced_search.fields.quantitative')
+    - quantitative_fields = @quantitative_fields.map { |quantitative_field|  quantitative_field.slice(:id, :field) }
+    - quantitative_fields.each do |quantitative_type|
+      - quantitative_type_id = quantitative_type[:id]
+      - quantitative_type_name = quantitative_type[:field]
+      - next unless quantitative_type_readable?(quantitative_type_id[/\d+/])
+      %li
+        .visibility.col-sm-12
+          = check_box_tag "#{quantitative_type_name}_", quantitative_type_name, checked = default_setting("#{quantitative_type_name}_", @default_columns) || params["#{quantitative_type_name}_"].present?, class: 'i-checks'
+          = label_tag "#{quantitative_type_name}_", quantitative_type_name

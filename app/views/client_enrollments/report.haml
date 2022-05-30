@@ -5,7 +5,7 @@
         .row
           .col-xs-12.col-sm-6.co-md-6
             %h5
-              = link_to @client.en_and_local_name, client_path(@client)
+              %strong= link_to @client.en_and_local_name, client_path(@client)
               = " - #{t('.report')}"
           .col-xs-12.col-sm-6.col-md-6
             .ibox-tools
