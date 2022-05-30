@@ -435,7 +435,7 @@ class ClientGrid < BaseGrid
   end
 
   column(:given_name, header: -> { I18n.t('datagrid.columns.clients.given_name') }, html: false) do |object|
-    Rails.cache.fetch([Apartment::Tenant.current, object.id, object.given_name || 'given_name']) do
+    Rails.cache.fetch([Apartment::Tenant.current, object.id, object.given_name || 'given_name', 'export_excel']) do
       current_org = Organization.current
       Organization.switch_to 'shared'
       given_name = SharedClient.find_by(slug: object.slug).given_name
