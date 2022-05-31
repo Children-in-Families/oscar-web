@@ -121,7 +121,6 @@ CIF.DashboardsIndex = do ->
           color: if index == 0 then '#f9c00c' else if index == 1 then '#4caf50' else '#00695c'
         }
 
-    debugger;
     report = new CIF.ReportCreator(data, title, '', element)
     report.barChart()
 
@@ -474,9 +473,5 @@ CIF.DashboardsIndex = do ->
       colors.push Highcharts.color(base).brighten((i - 5) / 7).get()
       i += 1
     colors
-
-  _search_client_date_logic_error = ->
-    $('a[href="#data-validation"]').on 'click', ->
-      $('#client-date-logic-error').submit()
 
   { init: _init }

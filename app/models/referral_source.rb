@@ -14,6 +14,15 @@ class ReferralSource < ActiveRecord::Base
   scope :child_referrals,         ->        { where.not(name: REFERRAL_SOURCES) }
   scope :gatekeeping_mechanism,   ->        { where(name: GATEKEEPING_MECHANISM) }
 
+  def self.find_referral_source_category(referral_source_category_id, referred_from = '')
+    if referral_source_category_id
+      find(referral_source_category_id)
+    else
+      ReferralSource.find_by(name: referred_from) || ReferralSource.find_by(name_en: referred_from) || ReferralSource.find_by_name_en("Non-Government Organization") ||
+      ReferralSource.find_by_name(Organization.find_by(short_name: referred_from)&.referral_source_category_name)
+    end
+  end
+
   def self.cache_referral_source_options
     Rails.cache.fetch([Apartment::Tenant.current, 'ReferralSource', 'referral_source_options']) do
       ReferralSource.child_referrals.order(:name).map { |s| { s.id.to_s => s.name } }
@@ -42,6 +51,10 @@ class ReferralSource < ActiveRecord::Base
     Rails.cache.fetch([Apartment::Tenant.current, 'ReferralSource', 'cached_referral_source_try_name_en', referral_source_category_id]) {
       find_by(id: referral_source_category_id).try(:name_en)
     }
+  end
+
+  def self.find_by_name(name)
+    find_by(name_en: name)
   end
 
   private

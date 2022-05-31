@@ -48,7 +48,7 @@ module AdvancedSearches
 
     def text_type_list
       [
-        'given_name', 'family_name',
+        'given_name', 'family_name', 'flight_nb',
         'local_given_name', 'local_family_name', 'family', 'slug', 'school_name',
         'other_info_of_exit', 'exit_note', 'main_school_contact', 'what3words', 'kid_id', 'code',
         'client_phone', 'client_email_address', *setting_country_fields[:text_fields]
@@ -94,6 +94,8 @@ module AdvancedSearches
         ['no_case_note', yes_no_options],
         ['has_been_in_orphanage', yes_no_options],
         ['user_id', user_select_options],
+        ['ratanak_achievement_program_staff_client_ids', user_select_options],
+        ['mo_savy_officials', mo_savy_officials_options],
         ['donor_name', donor_options],
         ['active_program_stream', active_program_options],
         ['enrolled_program_stream', enrolled_program_options],
@@ -277,6 +279,10 @@ module AdvancedSearches
 
     def family_type_list
       Family.mapping_family_type_translation.to_h
+    end
+
+    def mo_savy_officials_options
+      MoSavyOfficial.all.map { |item| { item.id.to_s => item.name } }
     end
   end
 end

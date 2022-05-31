@@ -889,6 +889,7 @@ DEPENDENCIES
   bourbon (~> 4.2)
   browser (~> 2.1)
   bullet (= 5.4.3)
+  bundler (= 1.17.3)
   cancancan (~> 1.13, >= 1.13.1)
   capistrano (= 3.9.0)
   capistrano-foreman
@@ -964,6 +965,7 @@ DEPENDENCIES
   rspec-rails (~> 4.0.0)
   rspec-sidekiq (~> 3.0, >= 3.0.3)
   rubocop (~> 0.81.0)
+  ruby-ole (~> 1.2, >= 1.2.12.2)
   s3
   sass-rails (~> 5.0)
   select2-rails (~> 3.5.9.3)

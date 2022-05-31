@@ -25,14 +25,15 @@
                     = remove_link(qt, {quantitative_case: qt.quantitative_cases.count}, 'btn-md')
                   = render 'form', quantitative_type: qt
             .panel-body
-              %table.table.table-bordered
-                %tbody
-                  - qt.quantitative_cases.each do |qc|
-                    %tr
-                      %td
-                        = qc.value
-                      - if can? :version, QuantitativeType
-                        %td.text-center= link_to t('.view_changelog'), quantitative_case_version_path(qc)
+              - if qt.select_option?
+                %table.table.table-bordered
+                  %tbody
+                    - qt.quantitative_cases.each do |qc|
+                      %tr
+                        %td
+                          = qc.value
+                        - if can? :version, QuantitativeType
+                          %td.text-center= link_to t('.view_changelog'), quantitative_case_version_path(qc)
             - if can? :version, QuantitativeType
               .panel-footer
                 %p= link_to t('.view_changelog'), quantitative_type_version_path(qt)

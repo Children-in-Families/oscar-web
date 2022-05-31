@@ -14,6 +14,8 @@ CIF.ClientsShow = do ->
     _preventCreateDatepickerExitNgo()
     _globalIDToolTip()
     _buttonHelpTextPophover()
+    _initialEnterNGOAcceptedDate()
+    _handleEnterNGOModalShow()
 
 
     $('table.families').dataTable
@@ -49,12 +51,36 @@ CIF.ClientsShow = do ->
     $('[data-toggle="tooltip"]').tooltip()
 
   _initDatePicker = ->
-    $('.enter_ngos, .exit_ngos, .exit_date, .enter_date').datepicker
+    $('.exit_ngos, .exit_date, .enter_date').datepicker(
       autoclose: true
       format: 'yyyy-mm-dd'
       todayHighlight: true
       orientation: 'bottom'
       disableTouchKeyboard: true
+    )
+
+
+  _handleEnterNGOModalShow = ->
+    $(document).on 'shown.bs.modal', '.edit-enter-ngos-case-history', (e) ->
+      startDate = _getInitialReferralDate()
+      $("##{e.currentTarget.id} .enter-ngos-case-history").datepicker('setStartDate', startDate)
+
+  _initialEnterNGOAcceptedDate = ->
+    startDate = _getInitialReferralDate()
+
+    $('#enter_ngo_accepted_date').datepicker(
+      autoclose: true
+      format: 'yyyy-mm-dd'
+      todayHighlight: true
+      orientation: 'bottom'
+      disableTouchKeyboard: true
+      startDate: startDate
+    )
+
+  _getInitialReferralDate = ->
+    initialReferralDate = $('#initial_referral_date').val()
+    lastExitNgoDate = $('#last_exit_ngo_date').val()
+    startDate = if _.isEmpty(lastExitNgoDate) then initialReferralDate else lastExitNgoDate
 
   _preventEditDatepickerEnterNgoExitNgoCaseHistory = ->
     $('button.edit-case-history-ngo').on 'click', ->

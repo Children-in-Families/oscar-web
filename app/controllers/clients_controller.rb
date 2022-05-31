@@ -1,6 +1,6 @@
 class ClientsController < AdminController
   load_and_authorize_resource find_by: :slug, except: :quantitative_case
-
+  include ApplicationHelper
   include ClientAdvancedSearchesConcern
   include ClientGridOptions
   include CacheHelper
@@ -74,7 +74,7 @@ class ClientsController < AdminController
         cps_enrollments = @client.client_enrollments
         cps_leave_programs = LeaveProgram.joins(:client_enrollment).where("client_enrollments.client_id = ?", @client.id)
         referrals = @client.referrals
-        @case_histories = (enter_ngos + exit_ngos + cps_enrollments + cps_leave_programs + referrals).sort { |current_record, next_record| -([current_record.created_at, current_record.new_date] <=> [next_record.created_at, next_record.new_date]) }
+        @case_histories = (enter_ngos + exit_ngos + cps_enrollments + cps_leave_programs + referrals).sort { |current_record, next_record| -([current_record.new_date, current_record.created_at] <=> [next_record.new_date, next_record.created_at]) }
         @internal_referrals = @client.internal_referrals.joins(:program_streams).select('DISTINCT ON (internal_referrals.id, program_streams.id) internal_referrals.id, internal_referrals.referral_date, internal_referrals.client_id, program_streams.name program_name, internal_referrals.created_at')
       end
 
@@ -102,24 +102,35 @@ class ClientsController < AdminController
       current_org = Organization.current
       find_referral_by_params
       referral_source_id = find_referral_source_by_referral
-
+      referral_attr = @referral.attributes
+      attributes = {}
       Organization.switch_to 'shared'
-      attributes = SharedClient.find_by(archived_slug: @referral.slug).try(:attributes) || SharedClient.find_by(slug: @referral.slug).try(:attributes)
+      attributes = SharedClient.find_by(archived_slug: referral_attr['slug']).try(:attributes) || SharedClient.find_by(slug: referral_attr['slug']).try(:attributes)
       if attributes.present?
         attributes = attributes.except('id', 'duplicate_checker')
-        attributes = fetch_referral_attibutes(attributes, referral_source_id)
+        attributes = fetch_referral_attibutes(attributes, referral_source_id, referral_attr)
       else
-        attributes
+        attributes.present? ? attributes.symbolize_keys : attributes
       end
       Organization.switch_to current_org.short_name
       if @referral
-        client_name = @referral.client_name.split(' ')
-        client_attr = { given_name: client_name.first, family_name: client_name.last,
+        client_names = @referral.client_name.split(' ')
+        given_name, family_name = [(client_names[0] || ''), (client_names[1] || '')]
+        local_family_name, local_given_name =  (@referral.client_name.scan(/\(((?:[^\)\(]++))\)/).first && @referral.client_name.scan(/\(((?:[^\)\(]++))\)/).first.split(' ')) || ['', '']
+        client_attr = { given_name: given_name, family_name: family_name,
+                        local_given_name: '', local_family_name: '',
                         gender: @referral.client_gender, reason_for_referral: @referral.referral_reason,
-                        date_of_birth: @referral.client_date_of_birth
+                        date_of_birth: @referral.client_date_of_birth,
+                        referral_source_id: referral_source_id,
+                        initial_referral_date: @referral.date_of_referral
                       }
-        attributes = Client.get_client_attribute(@referral.attributes.merge(client_attr)) if attributes.nil?
+        if attributes.present?
+          attributes = Client.get_client_attribute(@referral.attributes).merge(client_attr).merge(attributes)
+        else
+          attributes = Client.get_client_attribute(@referral.attributes).merge(client_attr)
+        end
       end
+
       @client = Client.new(attributes)
     else
       new_params = {}
@@ -130,6 +141,7 @@ class ClientsController < AdminController
 
       @client = Client.new(new_params.merge(local_given_name: first_name, local_family_name: last_name, gender: new_params[:gender]&.downcase))
     end
+    @referral_source_category = referral_source_name(ReferralSource.parent_categories, @client)
   end
 
   def edit
@@ -306,7 +318,7 @@ class ClientsController < AdminController
     @address_types = Client::ADDRESS_TYPES.map { |type| { label: type, value: type.downcase } }
     @phone_owners = Client::PHONE_OWNERS.map { |owner| { label: owner, value: owner.downcase } }
     @referral_source = @client && @client.referral_source.present? ? ReferralSource.where(id: @client.referral_source_id).map { |r| [r.try(:name), r.id] } : []
-    @referral_source_category = referral_source_name(ReferralSource.parent_categories)
+    @referral_source_category = referral_source_name(ReferralSource.parent_categories, @client) if @client.persisted?
     country_address_fields if @client
   end
 
@@ -352,7 +364,7 @@ class ClientsController < AdminController
   end
 
   def initial_visit_client
-    referrer = Rails.application.routes.recognize_path(request.referrer)
+    referrer = Rails.application.routes.recognize_path(request.referrer.gsub(/[a-z]{3,}\-/, '').gsub('/?', '?')) if request.referrer
     return unless referrer.present?
 
     white_list_referrers = %w[clients]
@@ -377,18 +389,18 @@ class ClientsController < AdminController
   def find_referral_source_by_referral
     referral_source_org = Organization.find_by(short_name: @referral.referred_from)&.full_name
     if referral_source_org
-      ReferralSource.find_by(name: "#{referral_source_org} - OSCaR Referral").try(:id)
+      ReferralSource.child_referrals.find_by(name: "#{referral_source_org} - OSCaR Referral").try(:id)
     else
-      ReferralSource.find_by(name: @referral.referred_from)&.id
+      ReferralSource.child_referrals.find_by(name: @referral.referred_from)&.id
     end
   end
 
-  def fetch_referral_attibutes(attributes, referral_source_id)
+  def fetch_referral_attibutes(attributes, referral_source_id, referral_attr = {})
     attributes.merge!({
-      initial_referral_date: @referral.date_of_referral,
-      referral_phone: @referral.referral_phone,
-      relevant_referral_information: @referral.referral_reason,
-      name_of_referee: @referral.name_of_referee,
+      initial_referral_date: referral_attr['date_of_referral'],
+      referral_phone: referral_attr['referral_phone'],
+      relevant_referral_information: referral_attr['referral_reason'],
+      name_of_referee: referral_attr['name_of_referee'],
       referral_source_id: referral_source_id
     })
   end

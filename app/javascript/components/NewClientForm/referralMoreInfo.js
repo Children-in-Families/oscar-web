@@ -1,19 +1,77 @@
-import React from 'react'
+import React, { useState } from 'react'
 import CareInfo from './carerInfo'
 import SchoolInfo from './schoolInfo'
 import DonorInfo from './donorInfo'
 import CustomInfo from './customInfo'
 import StackHolderInfo from './stackHolderInfo'
+
+import {
+  TextInput,
+  DateTimePicker,
+  SelectInput
+} from "../Commons/inputs";
 import { t } from '../../utils/i18n'
 
 export default props => {
-  const { onChange, renderAddressSwitch, translation, fieldsVisibility, current_organization, hintText,
-          data: { errorFields, carerDistricts, carerCommunes, brc_presented_ids,
+  const { onChange, onAddOfficial, onRemoveOfficial, onChangeOfficial, renderAddressSwitch, translation, fieldsVisibility, current_organization, hintText,
+          data: { errorFields, users, carerDistricts, carerCommunes, brc_presented_ids,
                   carerVillages, carer, client, familyMember, clientRelationships, currentProvinces,
                   currentDistricts, currentCommunes, currentVillages, donors, agencies, currentStates, currentTownships, carerSubdistricts,
-                  schoolGrade, families, ratePoor, addressTypes, T, customId1, customId2
+                  schoolGrade, families, ratePoor, addressTypes, T, customId1, customId2, moSAVYOfficialsData
                 }
         } = props
+
+  const userLists = users.map((user) => ({
+    label: user[0],
+    value: user[1],
+    isFixed: user[2] === "locked" ? true : false,
+  }));
+
+
+  const renderMoSAVY = () => {
+    return (
+      moSAVYOfficialsData.map((official, index) => {
+        if (official._destroy !== true) {
+          return (
+            <div key={index} className="row" style={{ display: "flex", alignItems: "center" }}>
+              <div style={{ display: "none" }}>
+                <TextInput
+                  value={official.id}
+                  onChange={(event)=>{ onChangeOfficial(event.target.value, "id", index)}}
+                />
+              </div>
+  
+              <div className="col-12 col-sm-3">
+                <TextInput
+                  label={ t(translation, "clients.form.mosavy_official_name") }
+                  onChange={(event)=>{ onChangeOfficial(event.target.value, "name", index)}}
+                  required={ true }
+                  isError={errorFields.includes('name') && (official.name == undefined || official.name.length == 0)}
+                  value={official.name}
+                  T={T}
+                />
+              </div>
+    
+              <div className="col-10 col-sm-3">
+                <TextInput
+                  label={ t(translation, "clients.form.mosavy_official_position") }
+                  onChange={(event)=>{ onChangeOfficial(event.target.value, "position", index)}}
+                  isError={errorFields.includes('position') && (official.position == undefined || official.position.length == 0)}
+                  required={ true }
+                  value={official.position}
+                  T={T}
+                />
+              </div>
+    
+              <div className="col-2 col-sm-2">
+                <button className='btn btn-danger' onClick={()=> { onRemoveOfficial(index) }}>{ t(translation, "clients.form.remove_mosavy_official") }</button>
+              </div>
+            </div>
+          )
+        }
+      })
+    )
+  }
 
   return (
     <div className="containerClass">
@@ -131,6 +189,83 @@ export default props => {
       </div>
 
       <CustomInfo id="customInfo" current_organization={current_organization} translation={translation} fieldsVisibility={fieldsVisibility} onChange={onChange} data={{errorFields, ratePoor, client, T, customId1, customId2 }} hintText={hintText} />
+
+      {
+        fieldsVisibility.client_pickup_information == true && 
+
+        <div id="pickup-info">
+          <legend>
+            <div className="row">
+              <div className="col-xs-12">
+                <p>{ t(translation, "clients.form.pickup_information") }</p>
+              </div>
+            </div>
+          </legend>
+
+          {
+            fieldsVisibility.client_arrival_at == true &&
+            <div className="row">
+              <div className="col-xs-12 col-md-6">
+                <DateTimePicker
+                  onChange={(value)=>{ onChange("client", "arrival_at")({ data: value, type: "date" }) }}
+                  value={client.arrival_at}
+                  label={ t(translation, "clients.form.arrival_at") }
+                />
+              </div>
+            </div>
+          }
+
+          {
+            fieldsVisibility.client_flight_nb == true &&
+            <div className="row">
+              <div className="col-xs-12 col-md-6">
+                <TextInput
+                  label={ t(translation, "clients.form.flight_nb") }
+                  onChange={onChange("client", "flight_nb")}
+                  value={client.flight_nb}
+                />
+              </div>
+            </div>
+          }
+
+          {
+            fieldsVisibility.client_ratanak_achievement_program_staff_client_ids == true &&
+            <div className="row">
+              <div className="col-xs-12 col-md-6">
+                <SelectInput
+                  T={T}
+                  label={ t(translation, "clients.form.ratanak_achievement_program_staff_client_ids") }
+                  options={userLists}
+                  isMulti
+                  value={client.ratanak_achievement_program_staff_client_ids}
+                  onChange={onChange('client', 'ratanak_achievement_program_staff_client_ids')}
+                />
+              </div>
+            </div>
+          }
+
+          {
+            fieldsVisibility.client_mosavy_official == true &&
+            <div id="mosavy-officials" className="row">
+              <fieldset className="legal-form-border">
+                <legend className="legal-form-border">
+                  <h3 className="text-success">
+                    { t(translation, "clients.form.mosavy_official") }
+                  </h3>
+                </legend>
+
+                {  renderMoSAVY() }
+                
+                <div className="row">
+                  <div className="col-sm-12">
+                    <button className='btn btn-primary' onClick={onAddOfficial}>{ t(translation, "clients.form.add_mosavy_official") }</button>
+                  </div>
+                </div>
+              </fieldset>
+            </div>
+          }
+        </div>
+      }
     </div>
   )
 }

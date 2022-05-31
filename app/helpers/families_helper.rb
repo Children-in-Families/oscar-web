@@ -1,4 +1,9 @@
 module FamiliesHelper
+  def get_or_build_family_quantitative_free_text_cases
+    @quantitative_types.where(field_type: 'free_text').map do |qtt|
+      @family.family_quantitative_free_text_cases.find_or_initialize_by(quantitative_type_id: qtt.id)
+    end
+  end
 
   def family_member_list(object)
     html_tags = []
@@ -55,7 +60,7 @@ module FamiliesHelper
   def additional_columns
     unless Setting.cache_first.try(:hide_family_case_management_tool?)
       {
-        date_of_custom_assessments: I18n.t('datagrid.columns.date_of_custom_assessments', assessment: I18n.t('families.show.assessment')),
+        date_of_custom_assessments: I18n.t('datagrid.columns.date_of_family_assessment'),
         all_custom_csi_assessments: I18n.t('datagrid.columns.all_custom_csi_assessments', assessment: I18n.t('families.show.assessment')),
         assessment_completed_date: I18n.t('datagrid.columns.assessment_completed_date', assessment: I18n.t('families.show.assessment')),
         custom_completed_date: I18n.t('datagrid.columns.assessment_completed_date', assessment: I18n.t('families.show.assessment')),
@@ -117,7 +122,6 @@ module FamiliesHelper
       case_note_type:                           I18n.t('advanced_search.fields.case_note_type'),
       female_children_count:                    I18n.t('datagrid.columns.families.female_children_count'),
       female_adult_count:                       I18n.t('datagrid.columns.families.female_adult_count'),
-      male_children_count:                      I18n.t('datagrid.columns.families.male_children_count'),
       clients:                                  I18n.t('datagrid.columns.families.clients'),
       client_id:                                I18n.t('datagrid.columns.families.client'),
       manage:                                   I18n.t('datagrid.columns.families.manage'),
@@ -217,6 +221,10 @@ module FamiliesHelper
     @results && !@results.zero?
   end
 
+  def name_km_en
+    @family.name_en? ? "#{@family.name} - #{@family.name_en}" : "#{@family.name}"
+  end
+
   def family_exit_circumstance_value
     @family.status == 'Accepted' ? 'Exited Family' : 'Rejected Referral'
   end
@@ -259,7 +267,6 @@ module FamiliesHelper
   def family_order_case_worker(family)
     family.case_workers.distinct.sort
   end
-
   def name_km_en
     @family.name_en? ? "#{@family.name} - #{@family.name_en}" : "#{@family.name}"
   end

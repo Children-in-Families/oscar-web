@@ -72,8 +72,8 @@ module AdvancedSearchHelper
       family_type: I18n.t('datagrid.columns.families.family_type'),
       given_name: FieldSetting.cache_by_name('given_name', group_name) || I18n.t('advanced_search.fields.given_name'),
       family_name: FieldSetting.cache_by_name('family_name', group_name) || I18n.t('advanced_search.fields.given_name'),
-      local_given_name: "#{I18n.t('advanced_search.fields.local_given_name')} #{country_scope_label_translation}",
-      local_family_name: "#{I18n.t('advanced_search.fields.local_family_name')} #{country_scope_label_translation}",
+      local_given_name: FieldSetting.cache_by_name('local_given_name', group_name) || "#{I18n.t('advanced_search.fields.local_given_name')} #{country_scope_label_translation}",
+      local_family_name: FieldSetting.cache_by_name('local_family_name', group_name) || "#{I18n.t('advanced_search.fields.local_family_name')} #{country_scope_label_translation}",
       carer: I18n.t('advanced_search.fields.carer'),
       carer_name: I18n.t('activerecord.attributes.carer.name'),
       carer_phone: I18n.t('activerecord.attributes.carer.phone'),
@@ -171,7 +171,12 @@ module AdvancedSearchHelper
       active_clients: I18n.t('advanced_search.fields.active_clients'),
       active_client_program: I18n.t('advanced_search.fields.active_client_program'),
       care_plan: I18n.t('advanced_search.fields.care_plan'),
+      arrival_at: I18n.t('clients.form.arrival_at'),
+      flight_nb: I18n.t('clients.form.flight_nb'),
+      ratanak_achievement_program_staff_client_ids: I18n.t('clients.form.ratanak_achievement_program_staff_client_ids'),
+      mo_savy_officials: I18n.t('clients.form.mosavy_official'),
       **overdue_translations,
+      **custom_assessment_field_traslation_mapping,
       **address_translation(group_name),
       number_client_referred_gatekeeping: I18n.t('advanced_search.fields.number_client_referred_gatekeeping'),
       number_client_billable: I18n.t('advanced_search.fields.number_client_billable'),
@@ -190,7 +195,6 @@ module AdvancedSearchHelper
 
   def community_header(key)
     translations = {
-      initial_referral_date:                    I18n.t('advanced_search.fields.initial_referral_date'),
       name:                                     I18n.t('activerecord.attributes.community.name'),
       name_en:                                  I18n.t('activerecord.attributes.community.name_en'),
       status:                                   I18n.t('activerecord.attributes.community.status'),

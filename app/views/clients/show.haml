@@ -54,15 +54,30 @@
           .row
             .col-xs-12
               .row
+                .col-xs-12
+                  - if current_setting.cbdmat_one_off?
+                    - if @client.one_off_screening_assessment.present?
+                      %p= link_to t('screening_assessments._attr.view_cb_dmat'), client_screening_assessment_path(@client, @client.one_off_screening_assessment), class: 'btn btn-primary'
+                    - else
+                      %p= link_to t('screening_assessments._attr.cb_dmat'), if_date_of_birth_blank(@client), type: "button", **has_of_warning_model_if_dob_blank(@client), class: 'btn btn-primary'
+              .row
                 - if current_setting.use_screening_assessment? && @client.referred?
                   .col-xs-12
                     - if @client.require_screening_assessment?(current_setting)
+                      .btn-group.small-btn-margin
+                        %button.btn-sm.btn.btn-success.dropdown-toggle.btn-fit{ data: { toggle: "dropdown", trigger: 'hover', html: 'true', content: "#{I18n.t('inline_help.clients.show.add_form')}", placement: "auto" }, class: ('disabled' if @free_client_forms.empty? || (status_exited?(@client.status) && !current_user.admin?)) }
+                          = t('.complete_screening_tool')
+                          %span.caret
+                        %ul.dropdown-menu.btn-fit.scrollable-dropdown-menu.add-form
+                          %li
+                            %p= link_to t('.complete_screening_assessment'), new_client_custom_field_property_path(@client, custom_field_id: current_setting.screening_assessment_form)
+                    - elsif @client.require_screening_assessment?(current_setting)
                       = link_to t('.complete_screening_assessment'), new_client_custom_field_property_path(@client, custom_field_id: current_setting.screening_assessment_form), class: 'btn btn-success'
                     - elsif @client.custom_fields.include?(current_setting.screening_assessment_form)
                       = link_to t('.view_screening_assessment'), client_custom_field_properties_path(@client, custom_field_id: current_setting.screening_assessment_form), class: 'btn btn-success'
 
                 .col-xs-12{ class: "#{'mini-margin' if current_setting.use_screening_assessment? && @client.referred? }" }
-                  - if @client.require_screening_assessment?(current_setting) || (@client.calls.any? && @client.calls.most_recents.first.case_action_not_required?)
+                  - if (current_setting.cbdmat_one_off? && @client.one_off_screening_assessment.blank?) || @client.require_screening_assessment?(current_setting) || (@client.calls.any? && @client.calls.most_recents.first.case_action_not_required?)
                     %button.btn.btn-success.agree-btn{ disabled: 'disabled', data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.clients.show.accepted')}", placement: "auto" } }
                       = t('.accept')
                   - else
@@ -212,6 +227,10 @@
 
           = link_to client_client_enrollments_path(@client), data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.enroll_program')}", placement: "auto" } do
             .btn.btn-primary.small-btn-margin.btn-sm.btn-fit= t('.program_streams')
+          - if current_setting.cbdmat_one_off || current_setting.cbdmat_ongoing
+            = link_to client_screening_assessments_path(@client), class: 'btn btn-primary small-btn-margin btn-sm btn-fit' do
+              %strong.count-margin= @client.screening_assessments.count
+              = t('.cb_dmat')
 
           - if government_forms_visible? && policy(@client).show?(:government_forms) && current_organization&.country != 'nepal'
             .btn-group.small-btn-margin
@@ -263,6 +282,8 @@
                 .btn.btn-outline.btn-danger
                   %i.fa.fa-trash
       .ibox-content
+        = hidden_field_tag :initial_referral_date, @client.initial_referral_date
+        = hidden_field_tag :last_exit_ngo_date, @client.exit_ngos.last&.exit_date
         .row
           .col-sm-12.col-md-6.first-table
             %table.table.table-bordered
@@ -423,6 +444,41 @@
                 %td
                   %strong
                     = @client.time_in_cps
+              
+              - if policy(Client).client_pickup_information?
+                - if policy(Client).show?(:arrival_at)
+                  %tr
+                    %td.spacing-first-col
+                      = t('clients.form.arrival_at')
+                    %td
+                      %strong
+                        = date_format @client.arrival_at
+                - if policy(Client).show?(:flight_nb)
+                  %tr
+                    %td.spacing-first-col
+                      = t('clients.form.flight_nb')
+                    %td
+                      %strong
+                        = @client.flight_nb
+                
+                - if policy(Client).show?(:ratanak_achievement_program_staff_client_ids)
+                  %tr
+                    %td.spacing-first-col
+                      = t('clients.form.ratanak_achievement_program_staff_client_ids')
+                    %td
+                      %strong
+                        - @client.ratanak_achievement_program_staff_clients.distinct.sort.each do |case_worker|
+                          %strong.label.label-default
+                            = user case_worker
+                - if policy(Client).show?(:mosavy_official)
+                  %tr
+                    %td.spacing-first-col
+                      = t('clients.form.mosavy_official')
+                    %td
+                      %strong
+                        - @client.mo_savy_officials.each do |mo_savy_official|
+                          %strong.label.label-default
+                            = "#{mo_savy_official.name} - #{mo_savy_official.position}"
 
           .col-sm-12.col-md-6.second-table
             %table.table.table-bordered
@@ -444,7 +500,10 @@
                   = t('.referral_source_category')
                 %td
                   %strong
-                    = editable @client, :referral_source_category_id, type: :select2, source: referral_source_name(ReferralSource.child_referrals).map{|name, id| { value: id, text: name } }, value: referral_source_category(@client.referral_source_category_id), url: api_client_path(@client.id), pk: @client.id
+                    - if @client.referrals.received.blank?
+                      = editable @client, :referral_source_category_id, type: :select2, source: referral_source_name(ReferralSource.child_referrals).map{|name, id| { value: id, text: name } }, value: referral_source_category(@client.referral_source_category_id), url: api_client_path(@client.id), pk: @client.id
+                    - else
+                      = @client.referral_source
               %tr
                 %td.spacing-first-col
                   = t('.referral_source')
@@ -563,10 +622,18 @@
                     %strong
                       = editable @client, :phone_counselling_summary, value: @client.phone_counselling_summary, url: api_client_path(@client.id), pk: @client.id
 
-        - if @client.quantitative_cases.any?
+        - if @client.quantitative_cases.any? || @client.client_quantitative_free_text_cases.any?
           .row
             .col-xs-12
               %table.table.table-bordered
+                - @client.client_quantitative_free_text_cases.each do |qtc_free_text|
+                  - next unless quantitative_type_readable?(qtc_free_text.quantitative_type_id)
+                  %tr
+                    %td.align-justify
+                      = qtc_free_text.quantitative_type.name
+                    %td.align-justify
+                      %strong.label.label-default= qtc_free_text.content
+
                 - @client.quantitative_cases.group_by(&:quantitative_type).each do |qtypes|
                   - next unless quantitative_type_readable?(qtypes.first.id)
                   %tr
@@ -700,3 +767,17 @@
   -# = render 'placement'
   = render 'referrals/confirm_referral'
   = render 'referrals/confirm_repeat_referral'
+
+.modal.fade#screening-tool-warning{"aria-labelledby" => "gridSystemModalLabel", role: "dialog", tabindex: "-1"}
+  .modal-dialog{role: "document"}
+    .modal-content
+      .modal-header.bg-warning
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", type: "button"}
+          %span{"aria-hidden" => "true"} ×
+        %h4.modal-title=t('warning')
+      .modal-body
+        %p Client's age is empty.
+        %p អាយុកុមារនៅទទេ។
+      .modal-footer
+        = link_to t('ok'), new_client_screening_assessment_path(@client, screening_type: 'one_off'), class: 'btn btn-danger'
+        %button.btn.btn-default.editable-cancel{"data-dismiss" => 'modal'}= t('back')

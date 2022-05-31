@@ -1,4 +1,9 @@
 module ClientsHelper
+  def get_or_build_client_quantitative_free_text_cases
+    QuantitativeType.where(field_type: 'free_text').map do |qtt|
+      @client.client_quantitative_free_text_cases.find_or_initialize_by(quantitative_type_id: qtt.id)
+    end
+  end
 
   def xeditable? client = nil
     (can?(:manage, client&.object) || can?(:edit, client&.object) || can?(:rud, client&.object)) ? true : false
@@ -72,8 +77,24 @@ module ClientsHelper
     result[:show_legal_doc] = result[:client_show_legal_doc] = policy(Client).show_legal_doc?
     result[:school_information] = result[:client_school_information] = policy(Client).client_school_information?
     result[:stackholder_contacts] = result[:client_stackholder_contacts] = policy(Client).client_stackholder_contacts?
+    result[:pickup_information] = result[:client_pickup_information] = policy(Client).client_pickup_information?
 
     result
+  end
+
+  def required_legal_docs
+    result = field_settings.each_with_object({}) do |field_setting, output|
+      field_mapping = Client::LEGAL_DOC_MAPPING[field_setting.name.to_sym]
+
+      if field_mapping.present? && field_setting.required?
+        output[field_setting.name] = true
+      end
+    end
+
+    {
+      fields: result,
+      mapping: Client::LEGAL_DOC_MAPPING
+    }
   end
 
   def report_options(title, yaxis_title)
@@ -108,6 +129,7 @@ module ClientsHelper
 
   def label_translations(address_translation = {})
     labels = {
+      family_type: I18n.t('datagrid.columns.families.family_type'),
       legal_documents: I18n.t('clients.show.legal_documents'),
       passport_number: I18n.t('datagrid.columns.clients.passport_number'),
       national_id_number: I18n.t('datagrid.columns.clients.national_id_number'),
@@ -194,7 +216,8 @@ module ClientsHelper
       **overdue_translations,
       **Client::HOTLINE_FIELDS.map{ |field| [field.to_sym, I18n.t("datagrid.columns.clients.#{field}")] }.to_h,
       **legal_doc_fields.map{|field| [field.to_sym, I18n.t("clients.show.#{field}")] }.to_h,
-      **@address_translation
+      **@address_translation,
+      **custom_assessment_field_traslation_mapping
     }
 
     lable_translation_uderscore.map{|k, v| [k.to_s.gsub(/(\_)$/, '').to_sym, v] }.to_h.merge(labels)
@@ -308,10 +331,15 @@ module ClientsHelper
       carer_name_: I18n.t('activerecord.attributes.carer.name'),
       carer_phone_: I18n.t('activerecord.attributes.carer.phone'),
       carer_email_: I18n.t('activerecord.attributes.carer.email'),
+      arrival_at_: I18n.t('clients.form.arrival_at'),
+      flight_nb_: I18n.t('clients.form.flight_nb'),
+      ratanak_achievement_program_staff_client_ids_: I18n.t('clients.form.ratanak_achievement_program_staff_client_ids'),
+      mosavy_official_: I18n.t('clients.form.mosavy_official'),
       carer_relationship_to_client_: I18n.t('datagrid.columns.clients.carer_relationship_to_client'),
       province_id_: FieldSetting.cache_by_name_klass_name_instance('current_province', 'client') || I18n.t('datagrid.columns.clients.current_province'),
       birth_province_id_: FieldSetting.cache_by_name_klass_name_instance('birth_province', 'client') || I18n.t('datagrid.columns.clients.birth_province'),
-      **overdue_translations.map{ |k, v| ["#{k}_".to_sym, v] }.to_h
+      **overdue_translations.map{ |k, v| ["#{k}_".to_sym, v] }.to_h,
+      **custom_assessment_field_traslation_mapping.map{ |k, v| ["#{k}_".to_sym, v] }.to_h
     }
   end
 
@@ -332,6 +360,14 @@ module ClientsHelper
       no_case_note: I18n.t("datagrid.form.no_case_note"),
       care_plan_completed_date: I18n.t('datagrid.columns.clients.care_plan_completed_date'),
       care_plan_count: I18n.t('datagrid.columns.clients.care_plan_count')
+    }
+  end
+
+  def custom_assessment_field_traslation_mapping
+    {
+      custom_assessment: I18n.t('datagrid.columns.clients.custom_assessment', assessment: I18n.t('clients.show.assessment')),
+      custom_completed_date: I18n.t('datagrid.columns.clients.assessment_custom_completed_date', assessment: I18n.t('clients.show.assessment')),
+      custom_assessment_created_date: I18n.t('datagrid.columns.clients.custom_assessment_created_date', assessment: I18n.t('clients.show.assessment'))
     }
   end
 
@@ -909,7 +945,11 @@ module ClientsHelper
     elsif rule == 'date_of_custom_assessments'
       sql_string = object.where(query_array).where(default: false).where(sub_query_array)
     else
-      sql_string = object.where(query_array).where(sub_query_array)
+      if object.is_a?(Array)
+        sql_string = object.first.class.where(query_array).where(sub_query_array)
+      else
+        sql_string = object.where(query_array).where(sub_query_array)
+      end
     end
 
     sql_string.present? && sql_hash[:sql_string].present? ? sql_string : []
@@ -1314,20 +1354,6 @@ module ClientsHelper
     end
   end
 
-  def referral_source_name(referral_source)
-    if I18n.locale == :km
-      referral_source.map{|ref| [ref.name, ref.id] }
-    else
-      referral_source.map do |ref|
-        if ref.name_en.blank?
-          [ref.name, ref.id]
-        else
-          [ref.name_en, ref.id]
-        end
-      end
-    end
-  end
-
   def group_client_associations
     [*@assessments, *@case_notes, *@tasks, *@client_enrollment_leave_programs, *@client_enrollment_trackings, *@client_enrollments, *@case_histories, *@custom_field_properties, *@calls].group_by do |association|
       class_name = association.class.name.downcase
@@ -1408,5 +1434,20 @@ module ClientsHelper
 
   def legal_doc_fields
     FieldSetting.cache_legal_doc_fields
+  end
+
+  def if_date_of_birth_blank(client)
+    return '#screening-tool-warning' if client.date_of_birth.blank?
+    screening_assessment = @client.screening_assessments.first
+    if screening_assessment && screening_assessment.screening_type == 'one_off'
+      client_screening_assessment_path(client, screening_assessment)
+    else
+      new_client_screening_assessment_path(client, screening_type: 'one_off')
+    end
+  end
+
+  def has_of_warning_model_if_dob_blank(client)
+    return { "data-target": "#screening-tool-warning", "data-toggle": "modal" } if client.date_of_birth.blank?
+    {}
   end
 end

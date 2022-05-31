@@ -16,11 +16,35 @@
 }
 .react-time-picker__wrapper {
   display: flex;
-  flex-grow: 1;
   flex-shrink: 0;
   border: thin solid #ccc;
   border-radius: 4px;
 }
+
+.react-datetime-picker {
+  display: inline-flex;
+  position: relative;
+  width: fit-content;
+  border: thin solid #cccccc !important;
+  border-radius: 4px;
+  min-height: 38px;
+  padding-left: 3px;
+
+  .select2-choice {
+    border-top: none !important;
+    border-bottom: none !important;
+    line-height: 1.43857;
+  }
+
+  .select2-container {
+    height: auto !important;
+  }
+}
+
+.react-datetime-picker__wrapper {
+  border: none;
+}
+
 .react-time-picker__inputGroup {
   min-width: calc((4px * 3) +  0.54em * 6  +  0.217em * 2);
   flex-grow: 1;

@@ -5,6 +5,7 @@ class FamiliesController < AdminController
   before_action :redirect_to_index, except: :index
   before_action :assign_active_family_prams, :format_search_params, only: [:index]
   before_action :find_params_advanced_search, :get_custom_form, :get_program_streams, only: [:index]
+  before_action :find_params_advanced_search, :get_custom_form, only: [:index]
   before_action :get_custom_form_fields, :get_quantitative_fields, :family_builder_fields, only: [:index]
   before_action :custom_form_fields, :program_stream_fields, only: [:index]
   before_action :basic_params, if: :has_params?, only: [:index]
@@ -145,6 +146,9 @@ class FamiliesController < AdminController
       quantitative_case_ids: [],
       documents: [],
       community_member_attributes: [:id, :community_id, :_destroy],
+      family_quantitative_free_text_cases_attributes: [
+        :id, :content, :quantitative_type_id
+      ],
       family_members_attributes: [
         :monthly_income, :client_id,
         :id, :gender, :note, :adult_name, :date_of_birth,
@@ -195,21 +199,20 @@ class FamiliesController < AdminController
 
   def fetch_family_attibutes(family_slug, current_org)
     attributes = Family.find_by(slug: family_slug).try(:attributes)
-    referee_phone_number = @family_referral.referral_phone
 
     if attributes.present?
       province_name = Province.find_by(id: attributes['province_id']).try(:name)
-      district_code = District.find_by(id: attributes['district_id']).try(:code)
-      village_code = Village.find_by(id: attributes['village_id']).try(:code)
-      commune_code = Commune.find_by(id: attributes['commune_id']).try(:code)
+      district_name = District.find_by(id: attributes['district_id'], province_id: attributes['province_id']).try(:name)
+      commune_name_en = Commune.find_by(id: attributes['commune_id'], district_id: attributes['district_id']).try(:name_en)
+      village_name_en = Village.find_by(id: attributes['village_id'], commune_id: attributes['commune_id']).try(:name_en)
 
       Organization.switch_to current_org.short_name
       province_id = Province.find_by(name: province_name).try(:id)
-      district_id = District.find_by(code: district_code).try(:id)
-      village_id = Village.find_by(code: village_code).try(:id)
-      commune_id = Commune.find_by(code: commune_code).try(:id)
+      district_id = District.find_by(name: district_name, province_id: province_id).try(:id)
+      commune_id = Commune.find_by(name_en: commune_name_en, district_id: district_id).try(:id)
+      village_id = Village.find_by(name_en: village_name_en, commune_id: commune_id).try(:id)
 
-      attributes = attributes.slice('name', 'name_en', 'house', 'street', 'slug', 'initial_referral_date').merge!({province_id: province_id, district_id: district_id, commune_id: commune_id, village_id: village_id, referee_phone_number: referee_phone_number})
+      attributes = attributes.slice('name', 'name_en', 'house', 'street', 'slug', 'initial_referral_date', 'referee_phone_number').merge!({province_id: province_id, district_id: district_id, commune_id: commune_id, village_id: village_id})
       @family.province = Province.find_by(id: province_id)
       @family.district = District.find_by(id: district_id)
       @family.commune = Commune.find_by(id: commune_id)
@@ -221,6 +224,7 @@ class FamiliesController < AdminController
       @villages  = @family.commune.present? ? @family.commune.cached_villages : []
     end
     @family = Family.new(attributes)
+    # @family.family_members.new
     @selected_children = params[:children]
   end
 
@@ -262,5 +266,4 @@ class FamiliesController < AdminController
   def redirect_to_index
     redirect_to families_url if params[:id] == 'advanced_search'
   end
-
 end

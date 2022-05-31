@@ -211,6 +211,16 @@ export default props => {
     }
   }
 
+  const isReferralSourceExist = (client) => {
+    return (
+      (client.id == null && !_.isEmpty(client.mosvy_number)) ||
+      client.external_id && client.external_id > 0 ||
+      (client.id == null && client.referred_external && client.referral_source_category_id && client.referral_source_category_id > 0) ||
+      client.referred_external ||
+      false
+    )
+  }
+
   return (
     <div className="containerClass">
       <legend>
@@ -284,6 +294,7 @@ export default props => {
             options={referralSourceCategoryLists}
             value={client.referral_source_category_id}
             onChange={onReferralSourceCategoryChange}
+            isDisabled={isReferralSourceExist(client)}
             inlineClassName="referral-source-category"
             hintText={hintText.referee.referral_source_category}
           />

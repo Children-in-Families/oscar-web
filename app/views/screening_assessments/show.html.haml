@@ -1,0 +1,108 @@
+.row.mini-margin
+  .col-xs-12.col-sm-10.col-sm-offset-1
+    .ibox#screening-assessment-info.center-block
+      .ibox-title
+        = link_to client_path(@client), class: 'btn btn-default' do
+          = fa_icon 'arrow-left'
+          = t('.back_to_clients')
+      .ibox-content
+        .row
+          .col-xs-10
+            %p
+              %b= "#{t('.client_name')} #{@screening_assessment.client.name}"
+              %br/
+              - if @screening_assessment.one_off?
+                = t('.screening_assessment_one_off')
+              - else
+                = "#{t('.based_on')} #{@screening_assessment.screening_type.titleize}"
+              %br
+              = "#{t('.created_by')} #{whodunnit('ScreeningAssessment', @screening_assessment)} #{t('.on_date')} #{date_format(@screening_assessment.screening_assessment_date)}"
+          .col-xl-1.button-position
+            .pull-right
+              = link_to edit_client_screening_assessment_path(@client, @screening_assessment), class: 'btn btn-outline btn-success' do
+                = fa_icon('pencil')
+              = link_to client_screening_assessment_path(@client, @screening_assessment), class: 'btn btn-outline btn-danger', method: 'delete', data: { confirm: t('are_you_sure') } do
+                = fa_icon('trash')
+        .row
+          .col-xs-12
+            %table.table.small.m-b-xs#main-info
+              %tbody
+                %tr
+                  %td
+                    = "#{t('.screening_assessment_date')} :"
+                    %strong= date_format(@screening_assessment.screening_assessment_date)
+                  %td
+                    = "#{t('.client_age')} :"
+                    %strong= @screening_assessment.client_age
+                %tr
+                  %td
+                    = "#{t('.visitor')} :"
+                    %strong= @screening_assessment.visitor
+                  %td
+                    = "#{t('.client_milestone_age')} :"
+                    %strong= @screening_assessment.client_milestone_age
+                %tr
+                  %td{ colspan: '2' }
+                    = "#{t('.note')} :"
+                    %strong= @screening_assessment.note
+        %hr/
+        .row
+          .col-xs-12
+            - @developmental_marker_screening_assessments.each do |dmsa|
+              - developmental_marker = dmsa.developmental_marker
+              %strong= field_to_local(developmental_marker, 'short_description')
+              %hr/
+              .row
+                .col-xs-12
+                  .row
+                    .col-xs-2
+                      = image_tag ("cb_dmat/#{developmental_marker.name.parameterize.underscore}/#{developmental_marker.question_1_field}_question_1.png" || 'picture.png'), class: 'img-responsive'
+                    .col-xs-6
+                      = field_to_local developmental_marker, 'question_1'
+                    .col-xs-4
+                      = human_boolean dmsa.question_1
+                  %hr/
+                  .row
+                    .col-xs-2
+                      = image_tag ("cb_dmat/#{developmental_marker.name.parameterize.underscore}/#{developmental_marker.question_2_field}_question_2.png" || 'picture.png'), class: 'img-responsive'
+                    .col-xs-6
+                      = field_to_local(developmental_marker, 'question_2')
+                    .col-xs-4
+                      = human_boolean dmsa.question_2
+                  %hr/
+                  .row
+                    .col-xs-2
+                      = image_tag ("cb_dmat/#{developmental_marker.name.parameterize.underscore}/#{developmental_marker.question_3_field}_question_3.png" || 'picture.png'), class: 'img-responsive'
+                    .col-xs-6
+                      = field_to_local(developmental_marker, 'question_3')
+                    .col-xs-4
+                      = human_boolean dmsa.question_3
+                  %hr/
+                  .row
+                    .col-xs-2
+                      = image_tag ("cb_dmat/#{developmental_marker.name.parameterize.underscore}/#{developmental_marker.question_4_field}_question_4.png" || 'picture.png'), class: 'img-responsive'
+                    .col-xs-6
+                      = field_to_local(developmental_marker, 'question_4')
+                    .col-xs-4
+                      = human_boolean dmsa.question_4
+        // end row
+        %hr/
+        .row
+          .col-xs-12
+            %h4= t('.tasks')
+            %table.table.small.m-b-xs#main-info
+              %thead
+                %tr
+                  %th= t('tasks.title')
+                  %th= t('tasks.expected_date')
+                  %th= t('tasks.completion_date')
+              %tbody
+                - @tasks.each do |task|
+                  %tr
+                    %td= task.name
+                    %td= date_format task.expected_date
+                    %td= date_format task.completion_date
+        %hr/
+        %h4= t('.attachments')
+        = render 'shared/attachments', { attachments: @screening_assessment.attachments }
+

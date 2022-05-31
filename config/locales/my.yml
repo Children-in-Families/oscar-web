@@ -517,7 +517,7 @@ my:
       name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
       ngo_accepted_date: NGOက လက္ခံသည့္ ရက္စြဲ
       ngo_exit_date: NGOမွ ထြက္သည့္ ရက္စြဲ
-      no_case_note_date: No Case Note Date
+      no_case_note_date: ဖြစ်ရပ်မှန်နေ့စွဲမရှိပါ။
       other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
       phone_owner: Phone Owner
       placement_start_date: ေနရာခ်ထားမႈစတင္သည့္ရက္စြဲ
@@ -536,6 +536,8 @@ my:
       referral_source_category_id: လွှဲပြောင်းအရင်းအမြစ်ကဏ္ဍ
       referral_source_id: လႊဲေျပာင္းရမည့္သူ
       referred_from: ကနေရည်ညွှန်း
+      referred_in: ကိုးကားသောအရေအတွက်
+      referred_out: ကိုးကားသောအရေအတွက်
       referred_to: ကနေရည်ညွှန်း
       referred_to_ec: EC သို႔ ရည္ညႊန္းသည္။
       referred_to_fc: EC သို႔ ရည္ညႊန္းသည္။
@@ -1034,6 +1036,7 @@ my:
       add_task: လုပ္ငန္းအသစ္ထည့္သြင္းရန္
       add_task_message: Please select the domain group before you can add the task.
       back: ေနာက္သို႔
+      cb_dmat_assessment_task: CB-DMAT Assessment Tasks
       completed_tasks: ၿပီးၿပီးသား လုပ္ငန္းမ်ား
       domain: ဒိုမိန္း
       domain_groups: Please select all Domain Groups you supported the client with in this case note.
@@ -1073,6 +1076,7 @@ my:
       back: ေနာက္သို႔
       case_note_lists: အမႈျခင္းရာ မွတ္စု စာရင္း
       case_note_on: ဆုိင္ရာ အမႈျခင္းရာမွတ္စု
+      cb_dmat_assessment_task: CB-DMAT Assessment Tasks
       completed_tasks: ၿပီးစီးၿပီးသြားေသာ လုပ္ငန္းမ်ား
       domain: ဒိုမိန္း
       domain_groups: ဒိုမိန္း အုပ္စုမ်ား
@@ -1555,7 +1559,9 @@ my:
   clients:
     attr: &LEGAL_DOC_ATTR
       add_service_received: Add Services Received
+      birth_cert: 'Birth Certificate'
       complain: Complaint
+      cb_dmat: CB-DMAT
       detail_form_of_judicial_police: Detailed Form for Identification of Victim of Human Trafficking (Judicial Police)
       detail_form_of_mosavy_dosavy: Detailed Form for Identification of Victim of Human Trafficking (MoSAVY/DoSAVY)
       dosavy: DoSAVY
@@ -1564,13 +1570,19 @@ my:
       form_indentification: Forms for Identification of Victim of Human Trafficking
       indentification_doc: Identification Documents
       labor_trafficking_legal_doc_option: Labour Trafficking
+      legal_documents: Legal Documents
       legal_processing_doc: Legal Proceeding Documents
       letter_from_immigration_police: Letter from Immigration Police
+      local_consent: 'Legal consent'
       mosavy: MoSAVY
       mosvy_number: MoSVY Number
       msdhs: MSDHS
+      national_id: 'National ID'
       ngo_partner: NGO Partner
+      other_legal_doc: 'Others'
       other_legal_doc_option: Other
+      passport: 'Passport'
+      police_interview: 'Police interview'
       referral_document: Referral Documents
       screening_interview_form: Screening Interview Form
       sex_trafficking_legal_doc_option: Sexual Trafficking
@@ -1580,6 +1592,9 @@ my:
       temp_travel_doc: Temporary Travel Documents
       travel_doc: Laissez-Passer
       verdict: Verdict
+      warning_messages:
+        accepted_date: 'Client Accepted Date is: <strong class="text-danger">%{accepted_date}</strong>. You cannot back-date to less than accepted date.'
+        referral_date: 'Client Initial Referral Date is: <strong class="text-danger">%{referral_date}</strong>. You cannot back-date to less than initial referral date.'
       warrant: Warran
     actions:
       are_you_sure: ဖ်က္လုိသည္မွာ ေသခ်ာပါသလား
@@ -1620,6 +1635,7 @@ my:
       export_to_xls: XLS အျဖစ္ ထုတ္ရန္
     book:
       book: Client Book
+    care_plan: Care plan
     case_history_detail:
       accepted_date: လက်ခံခဲ့သည်နေ့စွဲ
       client: ကေလးနာမည္
@@ -1817,6 +1833,8 @@ my:
       type_of_trafficking: Type of Trafficking
       education_background: Education Background
       department: Ratanak Team
+      add_mosavy_official: Add MoSAVY Official
+      arrival_at: Arrivate Date/Time
       national_id: 'National ID'
       birth_cert: 'Birth Certificate'
       family_book: 'Family Book'
@@ -1864,6 +1882,7 @@ my:
       follow_up_by: မွ ဆက္သည္
       follow_up_date: ေနာက္ဆက္တြဲ ရက္စြဲ
       followed_up_by: မွ ဆက္လက္လုပ္ေဆာင္သည္
+      flight_nb: Flight Number
       followed_up_by_id: First Follow Up by
       follow_up_date: Date of First Follow Up
       from: မွ
@@ -1917,11 +1936,13 @@ my:
       next: နောက်တစ်ခု
       other_phone_number: Phone Number - Alternate
       other_phone_whatsapp: Whatsapp? (Phone Number - Alternate)
+      pickup_information: Pick up information
       phone_owner: Phone Owner
       po_box2: PO Box
       presented_id: Presented ID
       previous: လွန်ခဲ့သော
       province: ေမြးဖြားရာ ခ႐ိုင္
+      ratanak_achievement_program_staff_client_ids: Ratanak Achievement Program Staff
       rated_for_id_poor: Is client rated for ID Poor?
       received_by: မွ လက္ခံသည္။
       referee_called_before: Has the referee called Before?
@@ -1929,10 +1950,14 @@ my:
       referral_source: လြဲေျပာင္းရန္ ရင္းျမစ္
       reject_note: ျငင္းပယ္သည့္မွတ္စု
       relevant_referral_information: သက္ဆိုင္ေသာ လြဲေျပာင္း အခ်က္အလက္
+      remove_mosavy_official: Remove MoSAVY Official
       resident_own_or_rent2: Acc. type
       school_grade: ေက်ာင္းအဆင့္
       school_name: ေက်ာင္းနာမည္
       main_school_contact: Main School Contact
+      mosavy_official: MoSAVY Official
+      mosavy_official_name: Name
+      mosavy_official_position: Position
       settlement2: City/Settlement
       shared_service_enabled: Do you want to share client services with external system?
       stage: အဆင့္ေမးခြန္း
@@ -2814,6 +2839,8 @@ my:
         current_province: လက္ရွိေနထိုင္ရာခ႐ိုင္
         current_province_en: လက်ရှိပြည်နယ် (အင်္ဂလိပ်)
         current_province_kh: လက်ရှိပြည်နယ် (ခမာ)
+        custom_assessment: Custom %{assessment}
+        custom_assessment_created_date: Custom %{assessment} Created Date
         date_of_assessments: စိစစ္အကဲျဖတ္မႈလုပ္သည့္ ရက္စြဲ
         date_of_birth: ေမြးရက္၊ လ၊ ႏွစ္
         date_of_custom_assessments: Custom စိစစ္အကဲျဖတ္မႈလုပ္သည့္ ရက္စြဲ
@@ -4066,6 +4093,12 @@ my:
         other_gender: Other
         unknown: Unknown
         prefer_not_to_say: Prefer not to answer
+      field_type:
+        select_option: Select options
+        free_text: Free text
+      referral_decision:
+        meet_intake_criteria: Client DOES meet intake criteria and will be engaged for intake
+        not_meet_intake_criteria: Client DOES NOT meet intake criteria and has been referred to other services if needed
   errors:
     messages:
       already_confirmed: အတည္ျပဳၿပီးပါၿပီ။ ေက်းဇူးျပဳ၍ ၀င္ၾကည့္ပါ။
@@ -4432,7 +4465,77 @@ my:
       type_of_service: ဝန်ဆောင်မှုအမျိုးအစား
     update:
       successfully_updated: ရည်ညွန်းအောင်မြင်စွာ updated ခဲ့တာဖြစ်ပါတယ်။
-  faq: မၾကာခဏေမးေလ့ရွိေသာ ေမးခြန္းမ်ား
+  family:
+    enter_ngos:
+      create:
+        failed_create: အပ်ဒိတ်လုပ်မပေးနိုငျ
+        successfully_created: မိသားစုကိုအောင်မြင်စွာကယ်တင်နိုင်ခဲ့သည်
+      edit_form:
+        accept: လက္ခံသည္
+        accept_ngo_form: NGO ရိုက်ထည့်ပါ
+        accepted_date: လက်ခံခဲ့သည်နေ့စွဲ
+        case_worker_or_staff: ဝန်ထမ်းများ
+      form:
+        accept: လက္ခံသည္
+        accept_ngo_form: NGO ရိုက်ထည့်ပါ
+        accepted_date: လက်ခံခဲ့သည်နေ့စွဲ
+        accepting: လက်ခံ...
+        case_worker_or_staff: ဝန်ထမ်းများ
+      update:
+        failed_update: အပ်ဒိတ်လုပ်မပေးနိုငျ
+        successfully_updated: မိသားစုကိုအောင်မြင်စွာကယ်တင်နိုင်ခဲ့သည်
+    exit_ngos:
+      create:
+        failed_create: အပ်ဒိတ်လုပ်မပေးနိုငျ
+        successfully_created: အမႈသည္ကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ထည့္သြင္းၿပီပါၿပီ
+      edit_form:
+        case_worker_or_staff: အမႈျခင္းရာအတြက္ ေဆာင္ရြက္ေပးသူ/ ၀န္ထမ္း
+        exit_btn: ထြက္ရန္
+        exit_circumstance: ထွက်ပေါက်အခြေအနေ
+        exit_date: ထြက္သည့္ရက္စြဲ
+        exit_ngo: NGOမွ ထြက္ရန္
+        exit_note: ထြက္သည့္မွတ္စု
+        exit_reason_options:
+          agency_lack_resource: Agency lacks sufficient resources
+          family_died: Family died
+          family_does_not_meet_service_criteria: Family does not meet / no longer meets service criteria
+          family_does_not_required_support: Family does not require / no longer requires support
+          family_move_out_international: Family is/moved outside NGO target area (International)
+          family_move_out_within_cambodia: Family is/moved outside NGO target area (within Cambodia)
+          family_refuse_service: Family refused service
+          other_reason: Other
+        exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
+        exit_status: အေနအထား
+        exiting: မထွက်...
+        other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
+        reject_family: family ကိုငြင်းပယ်
+        rejected_note: ျငင္းပယ္သည့္ မွတ္စု
+      form:
+        case_worker_or_staff: အမႈျခင္းရာအတြက္ ေဆာင္ရြက္ေပးသူ/ ၀န္ထမ္း
+        exit_btn: ထြက္ရန္
+        exit_circumstance: ထွက်ပေါက်အခြေအနေ
+        exit_date: ထြက္သည့္ရက္စြဲ
+        exit_ngo: NGOမွ ထြက္ရန္
+        exit_note: ထြက္သည့္မွတ္စု
+        exit_reason_options:
+          agency_lack_resource: Agency lacks sufficient resources
+          family_died: Family died
+          family_does_not_meet_service_criteria: Family does not meet / no longer meets service criteria
+          family_does_not_required_support: Family does not require / no longer requires support
+          family_move_out_international: Family is/moved outside NGO target area (International)
+          family_move_out_within_cambodia: Family is/moved outside NGO target area (within Cambodia)
+          family_refuse_service: Family refused service
+          other_reason: Other
+        exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
+        exit_status: အေနအထား
+        exiting: မထွက်...
+        other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
+        reject_family: family ကိုငြင်းပယ်
+        rejected_note: ျငင္းပယ္သည့္ မွတ္စု
+      update:
+        failed_update: အပ်ဒိတ်လုပ်မပေးနိုငျ
+        successfully_updated: အမႈသည္ကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ထည့္သြင္းၿပီပါၿပီ
+  faq: အမြဲမေးလေ့ရှိသောမေးခွန်းများ
   field_label_cannot_be_blank: ကြင္းအညႊန္းကို ကြက္လပ္ခ်န္၍ မရပါ
   form_builder:
     custom_fields:
@@ -4843,7 +4946,7 @@ my:
       program_stream_ids: Referred To
       referral_date: Date of Internal Referral
       referral_decision: REFERRAL DECISION (to be approved by case management supervisor)
-      referral_decision_note: "Action/intervention taken:"
+      crisis_management: "Describe any emergency or crisis management/referrals:"
       referral_reason: REASON FOR REFERRAL AND RECOMMNEDATIONS
       referral_reason_note: "The referral source’s reason for referral:"
       user_id: Referred from
@@ -5684,6 +5787,8 @@ my:
       is_multi_select: Multiselection?
       is_required: Required?
       name: နာမည္
+      hint: Hint
+      field_type: Field type
       quantitative_type: ပမာဏအမ်ိဳးအစား
       save: သိမ္းဆည္းရန္
     index:
@@ -5880,6 +5985,9 @@ my:
     assessment_setting:
       age: အသက္
       assessment: အကဲဖြတ်
+      assessment_notification: Assessment Notification
+      cb_dmat_multi: Ongoing CB-DMAT %{screening_assessment} (Multiple)
+      cb_dmat_one_off: CB-DMAT %{screening_assessment} (one-off)
       custom_assessment: နာမတျောကို
       default_assessment: ပျက်ကွက် အကဲဖြတ်ကြိမ်နှုန်းချိန်ညှိမှုများ
       default_assessment_framework: Result Framework Assessment Frequency Settings
@@ -5888,6 +5996,7 @@ my:
       max_assessment: အကဲဖြတ်အကြားအများဆုံးအချိန်
       min_assessment: 1st နှင့် 2nd အကဲဖြတ်များအကြားနိမ့်ဆုံးအချိန်
       name: နာမတျောကို
+      new_client_assessment: New Client Assessment
       noted: 'မှတ်ချက်: USAID ကဟူသောဝေါဟာရကို CSI စိတ်ကြိုက်အကဲဖြတ်အတွက်အသုံးပြုမရကြောင်းမေတ္တာရပ်ခံခဲ့သည်။'
       show_prev_assessment: Show previous assessment while completing new assessment
       two_weeks_assessment_reminder: Send 2 notification at both 2 and 1 week prior to assessment
@@ -5992,6 +6101,36 @@ my:
       successfully_updated: Service has been successfully updated.
   referral_details: Referral Details
   results: Results
+  screening_assessments:
+    _attr: &SA_ATTR
+      add_new: Add New Screening Assessment
+      add_task: Add Task
+      attachments: Attachments
+      back_to_clients: Back to Client
+      based_on: Base on Screening Assessment
+      cb_dmat: CB-DMAT Screening Tool
+      client_age: Client's Age
+      client_milestone_age: Client's Milestone Age
+      client_name: Client's Name
+      created_by: Created By
+      note: Note
+      on_date: On Date
+      screening_assessment: Screening Assessment
+      screening_assessment_date: Screening Assessment Date
+      tasks: Tasks
+      view_cb_dmat: View CB-DMAT
+      view_or_hide_last_screening_assessment: View or Hide Last Screening Assessment
+      view_screening_assessment: View Screening Assessment
+      visitor: Who was there during the assessment?
+    form:
+      <<: *SA_ATTR
+    previous_screening_assessment:
+      <<: *SA_ATTR
+    show:
+      <<: *SA_ATTR
+    task_fields:
+      expected_date: Expected Date
+      task: Task
   shared:
     x_lists_of: "%{x}စာရင်း"
     new_x: "အသစ်%{x}"

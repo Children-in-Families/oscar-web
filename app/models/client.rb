@@ -80,8 +80,11 @@ class Client < ActiveRecord::Base
   has_many :agency_clients, dependent: :destroy
   has_many :progress_notes, dependent: :destroy
   has_many :agencies, through: :agency_clients
+
+  has_many :client_quantitative_free_text_cases, dependent: :destroy
   has_many :client_quantitative_cases, dependent: :destroy
   has_many :quantitative_cases, through: :client_quantitative_cases
+
   has_many :custom_field_properties, as: :custom_formable, dependent: :destroy
   has_many :custom_fields, through: :custom_field_properties, as: :custom_formable
   has_many :client_enrollments, dependent: :destroy
@@ -93,12 +96,18 @@ class Client < ActiveRecord::Base
   has_many :referrals, dependent: :destroy
   has_many :government_forms, dependent: :destroy
   has_many :global_identity_organizations, class_name: 'GlobalIdentityOrganization', foreign_key: 'client_id', dependent: :destroy
+  has_many :mo_savy_officials, dependent: :destroy
+  has_many :achievement_program_staff_clients
+  has_many :ratanak_achievement_program_staff_clients, through: :achievement_program_staff_clients, source: :user
 
   has_one  :family_member, dependent: :restrict_with_error
   has_one  :family, through: :family_member
 
   accepts_nested_attributes_for :tasks
+  accepts_nested_attributes_for :client_quantitative_free_text_cases
+  accepts_nested_attributes_for :achievement_program_staff_clients
   accepts_nested_attributes_for :family_member, allow_destroy: true
+  accepts_nested_attributes_for :mo_savy_officials, allow_destroy: true, reject_if: :all_blank
 
   has_many :families,       through: :cases
   has_many :family_members, dependent: :destroy
@@ -109,6 +118,7 @@ class Client < ActiveRecord::Base
   has_many :goals, dependent: :destroy
   has_many :case_conferences, dependent: :destroy
   has_many :internal_referrals, dependent: :destroy
+  has_many :screening_assessments, dependent: :destroy
 
   has_paper_trail
 
@@ -128,16 +138,18 @@ class Client < ActiveRecord::Base
   validates :global_id, presence: true
   validates_uniqueness_of :global_id, on: :create
 
-  before_validation :assign_global_id, on: :create
+  after_validation :save_client_global_organization, on: :create
   before_create :set_country_origin
-  after_create :set_slug_as_alias, :save_client_global_organization, :save_external_system_global, :mark_referral_as_saved
+  after_create :set_slug_as_alias, :mark_referral_as_saved
   after_save :create_client_history, :create_or_update_shared_client
 
+  # save_global_identify_and_external_system_global_identities must be executed first
+  after_commit :save_global_identify_and_external_system_global_identities, on: :create
   after_commit :remove_family_from_case_worker
   after_commit :update_related_family_member, on: :update
   after_commit :delete_referee, on: :destroy
-  after_commit :flush_cache
   after_save :update_referral_status_on_target_ngo, if: :status_changed?
+  after_save :flash_cache
 
   scope :given_name_like,                          ->(value) { where('clients.given_name iLIKE :value OR clients.local_given_name iLIKE :value', { value: "%#{value.squish}%"}) }
   scope :family_name_like,                         ->(value) { where('clients.family_name iLIKE :value OR clients.local_family_name iLIKE :value', { value: "%#{value.squish}%"}) }
@@ -332,7 +344,8 @@ class Client < ActiveRecord::Base
   def require_screening_assessment?(setting)
     setting.use_screening_assessment? &&
     referred? &&
-    custom_fields.exclude?(setting.screening_assessment_form)
+    custom_fields.exclude?(setting.screening_assessment_form) &&
+    setting.screening_assessment_form.entity_type == "Client"
   end
 
   def self.age_between(min_age, max_age)
@@ -586,13 +599,15 @@ class Client < ActiveRecord::Base
   end
 
   def self.notify_upcoming_csi_assessment
+    obj = self.new
     Organization.oscar.without_shared.each do |org|
       Organization.switch_to org.short_name
-
+      current_setting = Setting.first_or_initialize
       next if !(current_setting.enable_default_assessment) && !(current_setting.enable_custom_assessment?)
-      clients = active_young_clients(self)
-      default_clients = clients_have_recent_default_assessments(clients)
-      custom_assessment_clients = clients_have_recent_custom_assessments(clients)
+
+      clients = obj.active_young_clients(self)
+      default_clients = obj.clients_have_recent_default_assessments(clients)
+      custom_assessment_clients = obj.clients_have_recent_custom_assessments(clients)
 
       (default_clients + custom_assessment_clients).each do |client|
         CaseWorkerMailer.notify_upcoming_csi_weekly(client).deliver_now
@@ -653,7 +668,7 @@ class Client < ActiveRecord::Base
     country_origin.present? ? country_origin : 'cambodia'
   end
 
-  def create_or_update_shared_client
+  def create_or_update_shared_client(client_id = nil)
     current_org = Organization.current
     client_current_province = province_name
     client_district = district_name
@@ -683,6 +698,8 @@ class Client < ActiveRecord::Base
 
   def self.get_client_attribute(attributes, referral_source_category_id=nil)
     attribute = attributes.with_indifferent_access
+    referral_source_category_id = ReferralSource.find_referral_source_category(referral_source_category_id, attributes['referred_from']).try(:id)
+
     client_attributes = {
       external_id:            attribute[:external_id],
       external_id_display:    attribute[:external_id_display],
@@ -693,7 +710,8 @@ class Client < ActiveRecord::Base
       date_of_birth:          attribute[:date_of_birth],
       reason_for_referral:    attribute[:referral_reason],
       relevant_referral_information:    attribute[:referral_reason],
-      referral_source_category_id: ReferralSource.find_by(name: attribute[:referred_from])&.id || referral_source_category_id,
+      referral_source_category_id: referral_source_category_id,
+      global_id:              attribute[:client_global_id],
       external_case_worker_id:   attribute[:external_case_worker_id],
       external_case_worker_name: attribute[:external_case_worker_name],
       **get_address_by_code(attribute[:address_current_village_code] || attribute[:location_current_village_code] || attribute[:village_code])
@@ -715,8 +733,13 @@ class Client < ActiveRecord::Base
   def indirect_beneficiaries
     result = 0
     family_id = self.family_member.try(:family_id)
-    result = Family.find_by(id: family_id).family_members.where(client_id: nil).count if family_id.present?
+    _family = Family.find_by(id: family_id) if family_id.present?
+    result = _family.family_members.where(client_id: nil).count if _family.present?
     result
+  end
+
+  def one_off_screening_assessment
+    screening_assessments.find_by(screening_type: 'one_off')
   end
 
   def self.cached_client_created_by(object)
@@ -800,6 +823,75 @@ class Client < ActiveRecord::Base
     end
   end
 
+  def assign_global_id
+    referral = find_referral
+    if referral && referral.client_global_id
+      self.global_id =  GlobalIdentity.find_or_initialize_ulid(referral.client_global_id)
+    else
+      self.global_id =  GlobalIdentity.new(ulid: ULID.generate).ulid
+    end
+  end
+
+  def self.cache_given_name(object)
+    Rails.cache.fetch([Apartment::Tenant.current, object.id, object.given_name || 'given_name']) do
+      current_org = Organization.current
+      Organization.switch_to 'shared'
+      given_name = SharedClient.find_by(slug: object.slug).given_name
+      Organization.switch_to current_org.short_name
+      given_name
+    end
+  end
+
+  def self.cache_family_name(object)
+    Rails.cache.fetch([Apartment::Tenant.current, object.id, object.family_name || 'family_name']) do
+      current_org = Organization.current
+      Organization.switch_to 'shared'
+      family_name = SharedClient.find_by(slug: object.slug).family_name
+      Organization.switch_to current_org.short_name
+      family_name
+    end
+  end
+
+  def self.cache_given_name_export(object)
+    Rails.cache.fetch([Apartment::Tenant.current, object.id, object.given_name || 'given_name', 'export_excel']) do
+      current_org = Organization.current
+      Organization.switch_to 'shared'
+      given_name = SharedClient.find_by(slug: object.slug).given_name
+      Organization.switch_to current_org.short_name
+      given_name
+    end
+  end
+
+  def self.cache_local_given_name(object)
+    Rails.cache.fetch([Apartment::Tenant.current, object.id, object.local_given_name || 'local_given_name']) do
+      current_org = Organization.current
+      Organization.switch_to 'shared'
+      local_given_name = SharedClient.find_by(slug: object.slug).local_given_name
+      Organization.switch_to current_org.short_name
+      local_given_name
+    end
+  end
+
+  def self.cache_local_family_name(object)
+    Rails.cache.fetch([Apartment::Tenant.current, object.id, object.local_family_name || 'local_family_name']) do
+      current_org = Organization.current
+      Organization.switch_to 'shared'
+      local_family_name = SharedClient.find_by(slug: object.slug).local_family_name
+      Organization.switch_to current_org.short_name
+      local_family_name
+    end
+  end
+
+  def self.cache_gender(object)
+    Rails.cache.fetch([I18n.locale, Apartment::Tenant.current, object.id, object.gender || 'gender']) do
+      current_org = Organization.current
+      Organization.switch_to 'shared'
+      gender = SharedClient.find_by(slug: object.slug)&.gender
+      Organization.switch_to current_org.short_name
+      gender.present? ? I18n.t("default_client_fields.gender_list.#{ gender.gsub('other', 'other_gender') }") : ''
+    end
+  end
+
   private
 
   def update_related_family_member
@@ -872,15 +964,16 @@ class Client < ActiveRecord::Base
     end
   end
 
-  def assign_global_id
-    if global_id.blank?
-      referral = find_referral
-      self.global_id = referral ? referral.client_global_id : GlobalIdentity.create(ulid: ULID.generate).ulid
-    end
+  def save_client_global_organization
+    @external_system_global = global_identity_organizations.find_or_initialize_by(global_id: global_id, organization_id: Organization.current&.id)
   end
 
-  def save_client_global_organization
-    GlobalIdentityOrganization.find_or_create_by(global_id: global_id, organization_id: Organization.current&.id, client_id: id)
+  def save_global_identify_and_external_system_global_identities
+    GlobalIdentity.find_or_create_by(ulid: global_id)
+    @external_system_global.client_id = self.id
+    @external_system_global.save
+
+    save_external_system_global
   end
 
   def save_external_system_global
@@ -906,7 +999,7 @@ class Client < ActiveRecord::Base
   end
 
   def current_setting
-    @current_setting ||= Setting.cache_first
+    @current_setting ||= Setting.first_or_initialize
   end
 
   def delete_referee
@@ -914,7 +1007,7 @@ class Client < ActiveRecord::Base
     referee.destroy
   end
 
-  def flush_cache
+  def flash_cache
     Rails.cache.delete([Apartment::Tenant.current, 'Client', 'location_of_concern']) if location_of_concern_changed?
     Rails.cache.delete([Apartment::Tenant.current, self.class.name, 'received_by', received_by_id]) if received_by_id_changed?
     Rails.cache.delete([Apartment::Tenant.current, self.class.name, 'followed_up_by', followed_up_by_id]) if followed_up_by_id_changed?
@@ -945,6 +1038,16 @@ class Client < ActiveRecord::Base
     cached_client_assessment_order_completed_date_keys.each { |key| Rails.cache.delete(key) }
     cached_client_assessment_domains_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_assessment_domains/].blank? }
     cached_client_assessment_domains_keys.each { |key| Rails.cache.delete(key) }
+
+    Rails.cache.delete([Apartment::Tenant.current, 'ReferralSource', 'cached_referral_source_try_name', referral_source_category_id]) if referral_source_category_id_changed?
+    Rails.cache.delete([Apartment::Tenant.current, 'ReferralSource', 'cached_referral_source_try_name_en', referral_source_category_id]) if referral_source_category_id_changed?
+
+    Rails.cache.delete([Apartment::Tenant.current, id, given_name_was || 'given_name']) if given_name_changed?
+    Rails.cache.delete([Apartment::Tenant.current, id, given_name_was || 'given_name', 'export_excel']) if given_name_changed?
+    Rails.cache.delete([Apartment::Tenant.current, id, family_name_was || 'family_name']) if family_name_changed?
+    Rails.cache.delete([Apartment::Tenant.current, id, local_given_name_was || 'local_given_name']) if local_given_name_changed?
+    Rails.cache.delete([Apartment::Tenant.current, id, local_family_name_was || 'local_family_name']) if local_family_name_changed?
+    Rails.cache.fetch([I18n.locale, Apartment::Tenant.current, id, gender_was || 'gender']) if gender_changed?
   end
 
   def update_referral_status_on_target_ngo

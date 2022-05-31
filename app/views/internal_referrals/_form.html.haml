@@ -29,9 +29,15 @@
   = f.label :referral_reason, t('.referral_reason')
   .help-block= t('.referral_reason_note')
   = f.input :referral_reason, label: false
-  = f.label :referral_decision, t('.referral_decision')
-  .help-block= t('.referral_decision_note')
-  = f.input :referral_decision, label: false
+
+  - if @internal_referral.persisted?
+    = f.label :referral_decision, t('.referral_decision')
+    = f.input :referral_decision, label: false, as: :radio_buttons
+
+    .crisis_management-wrapper
+      .help-block= t('.crisis_management')
+      = f.input :crisis_management, label: false
+
   = f.input :attachments, label: t('.attachments'), multiple: true, as: :file, input_html: { multiple: true, name: 'internal_referral[attachments][]' }
   %p
     %i.small="#{t('.allow_file_size')} (.jpg, .jpeg, .png, .doc, .docx, .xls, .xlsx, .pdf)"

@@ -5,7 +5,7 @@ class FieldSettingsController < AdminController
 
   def bulk_update
     params.require(:field_setting).each do |id, attributes|
-      FieldSetting.update(id, attributes.permit(:label, :visible))
+      FieldSetting.update(id, attributes.permit(:label, :visible, :required))
     end
 
     I18n.backend.reload!

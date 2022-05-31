@@ -1,3 +1,4 @@
+Sidekiq::Extensions.enable_delay!
 Sidekiq.default_worker_options = { retry: 3, backtrace: true }
 
 Sidekiq.configure_server do |config|

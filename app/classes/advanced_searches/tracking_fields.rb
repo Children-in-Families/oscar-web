@@ -22,11 +22,10 @@ module AdvancedSearches
       drop_list_fields    = @drop_down_type_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first.gsub('"', '&qoute;'), format_label(item.first) , item.last, format_optgroup(item.first)) }
 
       results = text_fields + drop_list_fields + number_fields + date_picker_fields
-      results.sort_by { |f| f[:label].downcase }
     end
 
     def generate_field_by_type
-      trackings = Tracking.cached_program_stream_program_ids(@program_ids)
+      trackings = Tracking.joins(:program_stream).where(program_stream_id: @program_ids)
       tracking_values = trackings.select("trackings.name, program_streams.name program_name, trackings.fields")
       tracking_values.each do |tracking|
         program_name  = tracking.program_name

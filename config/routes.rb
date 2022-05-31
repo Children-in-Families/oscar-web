@@ -152,6 +152,7 @@ Rails.application.routes.draw do
 
     resources :case_conferences
     resources :service_receives, only: [:index, :new, :create]
+    resources :screening_assessments
   end
 
   resources :attachments, only: [:index] do
@@ -166,6 +167,7 @@ Rails.application.routes.draw do
   resources :referees, only: [:index, :show]
 
   resources :families do
+    resources :family_referrals
     collection do
       post '/advanced_search', to: 'families#index'
     end
@@ -173,10 +175,6 @@ Rails.application.routes.draw do
       resources :exit_ngos, only: [:create, :update]
       resources :enter_ngos, only: [:create, :update]
     end
-
-    scope module: 'client' do
-    end
-
     resources :family_referrals
     resources :custom_field_properties
     get 'version' => 'families#version'
