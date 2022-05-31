@@ -196,7 +196,7 @@ export default props => {
         <div id="pickup-info">
           <legend>
             <div className="row">
-              <div className="col-xs-12 col-md-6 col-lg-3">
+              <div className="col-xs-12">
                 <p>{ t(translation, "clients.form.pickup_information") }</p>
               </div>
             </div>
@@ -205,7 +205,7 @@ export default props => {
           {
             fieldsVisibility.client_arrival_at == true &&
             <div className="row">
-              <div className="col-xs-12 col-md-6 col-lg-3">
+              <div className="col-xs-12 col-md-6 col-lg-4">
                 <DateTimePicker
                   onChange={(value)=>{ onChange("client", "arrival_at")({ data: value, type: "date" }) }}
                   value={client.arrival_at}
@@ -218,7 +218,7 @@ export default props => {
           {
             fieldsVisibility.client_flight_nb == true &&
             <div className="row">
-              <div className="col-xs-12 col-md-6 col-lg-3">
+              <div className="col-xs-12 col-md-6 col-lg-4">
                 <TextInput
                   label={ t(translation, "clients.form.flight_nb") }
                   onChange={onChange("client", "flight_nb")}
