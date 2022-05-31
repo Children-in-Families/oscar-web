@@ -18,12 +18,9 @@ describe 'Family' do
       find(".family_family_type select option[value='Birth Family (Both Parents)']", visible: false).select_option
       find("#family_family_type", visible: false).set('Short Term/Emergency Foster Care')
       click_link 'Next'
-      fill_in 'family[family_members_attributes][0][adult_name]', with: 'Test'
-      find(".family_family_members_gender select option[value='female']", visible: false).select_option
       click_link 'Save'
-      sleep 5
+      wait_for_ajax
       expect(page).to have_content('Family Name')
-      expect(page).to have_content('Test')
     end
 
     scenario 'invalid' do

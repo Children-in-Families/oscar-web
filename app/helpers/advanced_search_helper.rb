@@ -169,6 +169,7 @@ module AdvancedSearchHelper
       type_of_service:  I18n.t('advanced_search.fields.type_of_service'),
       hotline: I18n.t('datagrid.columns.calls.hotline'),
       active_clients: I18n.t('advanced_search.fields.active_clients'),
+      active_client_program: I18n.t('advanced_search.fields.active_client_program'),
       care_plan: I18n.t('advanced_search.fields.care_plan'),
       arrival_at: I18n.t('clients.form.arrival_at'),
       flight_nb: I18n.t('clients.form.flight_nb'),
@@ -176,7 +177,11 @@ module AdvancedSearchHelper
       mo_savy_officials: I18n.t('clients.form.mosavy_official'),
       **overdue_translations,
       **custom_assessment_field_traslation_mapping,
-      **address_translation(group_name)
+      **address_translation(group_name),
+      number_client_referred_gatekeeping: I18n.t('advanced_search.fields.number_client_referred_gatekeeping'),
+      number_client_billable: I18n.t('advanced_search.fields.number_client_billable'),
+      assessment_condition_last_two: I18n.t('advanced_search.fields.assessment_condition_last_two'),
+      assessment_condition_first_last: I18n.t('advanced_search.fields.assessment_condition_first_last')
     }
 
     translations = label_translations(address_translation(group_name)).merge(translations)
