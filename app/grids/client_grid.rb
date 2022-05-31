@@ -421,37 +421,20 @@ class ClientGrid < BaseGrid
   end
 
   column(:given_name, order: 'clients.given_name', header: -> { I18n.t('datagrid.columns.clients.given_name') }, html: true) do |object|
-    Rails.cache.fetch([Apartment::Tenant.current, object.id, object.given_name || 'given_name']) do
-      current_org = Organization.current
-      Organization.switch_to 'shared'
-      given_name = SharedClient.find_by(slug: object.slug).given_name
-      Organization.switch_to current_org.short_name
-      if given_name.present?
-        link_to given_name, client_path(object), target: :_blank
-      else
-        given_name
-      end
-    end
-  end
-
-  column(:given_name, header: -> { I18n.t('datagrid.columns.clients.given_name') }, html: false) do |object|
-    Rails.cache.fetch([Apartment::Tenant.current, object.id, object.given_name || 'given_name', 'export_excel']) do
-      current_org = Organization.current
-      Organization.switch_to 'shared'
-      given_name = SharedClient.find_by(slug: object.slug).given_name
-      Organization.switch_to current_org.short_name
+    given_name = Client.cache_given_name(object)
+    if given_name.present?
+      link_to given_name, client_path(object), target: :_blank
+    else
       given_name
     end
   end
 
+  column(:given_name, header: -> { I18n.t('datagrid.columns.clients.given_name') }, html: false) do |object|
+    Client.cache_given_name_export(object)
+  end
+
   column(:family_name, order: 'clients.family_name', header: -> { I18n.t('datagrid.columns.clients.family_name') }) do |object|
-    Rails.cache.fetch([Apartment::Tenant.current, object.id, object.family_name || 'family_name']) do
-      current_org = Organization.current
-      Organization.switch_to 'shared'
-      family_name = SharedClient.find_by(slug: object.slug).family_name
-      Organization.switch_to current_org.short_name
-      family_name
-    end
+    Client.cache_family_name(object)
   end
 
   def self.dynamic_local_name
@@ -459,34 +442,20 @@ class ClientGrid < BaseGrid
     I18n.locale.to_s == 'en' ? COUNTRY_LANG[country] : ''
   end
 
-  column(:local_given_name, order: 'clients.local_given_name', header: -> { "#{I18n.t('datagrid.columns.clients.local_given_name')} #{ dynamic_local_name }" }) do |object|
-    Rails.cache.fetch([Apartment::Tenant.current, object.id, object.local_given_name || 'local_given_name']) do
-      current_org = Organization.current
-      Organization.switch_to 'shared'
-      local_given_name = SharedClient.find_by(slug: object.slug).local_given_name
-      Organization.switch_to current_org.short_name
-      local_given_name
-    end
+  column(:local_given_name, order: 'clients.local_given_name', header: -> { "#{I18n.t('datagrid.columns.clients.local_given_name')} #{ dynamic_local_name }" }, html: true) do |object|
+    Client.cache_local_given_name(object)
+  end
+
+  column(:local_given_name, order: 'clients.local_given_name', header: -> { "#{I18n.t('datagrid.columns.clients.local_given_name')} #{ dynamic_local_name }" }, html: false) do |object|
+    Client.cache_local_given_name(object)
   end
 
   column(:local_family_name, order: 'clients.local_family_name', header: -> { "#{I18n.t('datagrid.columns.clients.local_family_name')} #{ dynamic_local_name }" }) do |object|
-    Rails.cache.fetch([Apartment::Tenant.current, object.id, object.local_family_name || 'local_family_name']) do
-      current_org = Organization.current
-      Organization.switch_to 'shared'
-      local_family_name = SharedClient.find_by(slug: object.slug).local_family_name
-      Organization.switch_to current_org.short_name
-      local_family_name
-    end
+    Client.cache_local_family_name(object)
   end
 
   column(:gender, header: -> { I18n.t('datagrid.columns.clients.gender') }) do |object|
-    Rails.cache.fetch([I18n.locale, Apartment::Tenant.current, object.id, object.gender || 'gender']) do
-      current_org = Organization.current
-      Organization.switch_to 'shared'
-      gender = SharedClient.find_by(slug: object.slug)&.gender
-      Organization.switch_to current_org.short_name
-      gender.present? ? I18n.t("default_client_fields.gender_list.#{ gender.gsub('other', 'other_gender') }") : ''
-    end
+    Client.cache_gender(object)
   end
 
   column(:status, header: -> { I18n.t('datagrid.columns.clients.status') }) do |object|
