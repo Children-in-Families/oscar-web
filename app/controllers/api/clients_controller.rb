@@ -110,7 +110,8 @@ module Api
             'client_advanced_search': {
               action_report_builder: '#builder',
               basic_rules: url.to_json
-            }
+            },
+            commit: 'commit'
           )
         }
       end
