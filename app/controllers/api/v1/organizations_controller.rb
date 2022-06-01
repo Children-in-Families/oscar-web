@@ -187,7 +187,11 @@ module Api
             render json: { external_id: clients_params[:external_id], message: referral.errors }, status: :unprocessable_entity
           end
         else
-          render json: { external_id: clients_params[:external_id], message: 'Record saved.' }
+          message = {}
+          message['global_id'] = "global_id must exist." if clients_params['global_id'].blank?
+          message['referral_status'] = "referral_status must be present." if clients_params['global_id'].blank?
+
+          render json: { external_id: clients_params[:external_id], message: 'Record was found.', errors: message }, status: :unprocessable_entity
         end
       end
 
