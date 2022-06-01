@@ -206,7 +206,7 @@ module Api
           )
         )
 
-        if referral.save
+        if ['Accepted', 'Exited', 'Referred'].include?(clients_params['referral_status']) && referral.save
           global_identity = GlobalIdentity.find_by(ulid: referral_attributes[:client_global_id])
           global_identity.external_system_global_identities.find_or_create_by(
             external_system_id: external_system_id,
