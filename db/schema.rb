@@ -2162,22 +2162,14 @@ ActiveRecord::Schema.define(version: 20220331093325) do
     t.string   "client_age"
     t.string   "visitor"
     t.string   "client_milestone_age"
-<<<<<<< HEAD
     t.string   "attachments",                   default: [],         array: true
-=======
-    t.string   "attachments"
->>>>>>> 2022020103-fixed-delete-client-error
     t.text     "note"
     t.boolean  "smile_back_during_interaction"
     t.boolean  "follow_object_passed_midline"
     t.boolean  "turn_head_to_sound"
     t.boolean  "head_up_45_degree"
     t.integer  "client_id"
-<<<<<<< HEAD
     t.string   "screening_type",                default: "multiple"
-=======
-    t.string   "screening_type"
->>>>>>> 2022020103-fixed-delete-client-error
   end
 
   add_index "screening_assessments", ["client_id"], name: "index_screening_assessments_on_client_id", using: :btree
