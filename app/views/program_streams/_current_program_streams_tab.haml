@@ -32,7 +32,7 @@
                 = program_stream.completed_status
             %td.places= program_stream.enrolled
             %td.quantity= program_stream.quantity
-            %td.actions
+            %td.actions.nowrap
               = render 'actions', program_stream: program_stream
   .text-center
     = paginate @program_streams, params: { tab: 'current_ngo' }, param_name: 'page_1'
