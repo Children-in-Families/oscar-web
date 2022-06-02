@@ -68,10 +68,15 @@ class ReferralsController < AdminController
   private
 
   def find_referral
-    @referral = @client.referrals.find(params[:id])
+    if params[:client_id]
+      @referral = @client.referrals.find(params[:id])
+    else
+      Referral.find(params[:id])
+    end
   end
 
   def find_client
+    return unless params[:client_id]
     @client = Client.accessible_by(current_ability).friendly.find(params[:client_id])
   end
 

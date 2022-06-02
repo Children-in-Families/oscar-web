@@ -12,7 +12,7 @@ class FamilyColumnsVisibility
 
   def visible_columns
     @grid.column_names = []
-    family_default_columns = Setting.first.try(:family_default_columns)
+    family_default_columns = Setting.cache_first.try(:family_default_columns)
     params = @params.keys.select{ |k| k.match(/\_$/) }
     if params.present? && family_default_columns.present?
       defualt_columns = params - family_default_columns

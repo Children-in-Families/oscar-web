@@ -80,6 +80,7 @@ class Family < ActiveRecord::Base
   after_create :assign_slug
   after_save :save_family_in_client, :mark_referral_as_saved
   after_commit :update_related_community_member, on: :update
+  after_commit :flush_cache
 
   def self.update_brc_aggregation_data
     Organization.switch_to 'brc'
@@ -252,5 +253,12 @@ class Family < ActiveRecord::Base
       referral.saved = true
       referral.save(validate: false)
     end
+  end
+
+  private
+
+  def flush_cache
+    Rails.cache.delete([Apartment::Tenant.current, self.class.name, 'received_by', received_by_id]) if received_by_id_changed?
+    Rails.cache.delete([Apartment::Tenant.current, self.class.name, 'followed_up_by', followed_up_by_id]) if followed_up_by_id_changed?
   end
 end

@@ -30,6 +30,8 @@ class Domain < ActiveRecord::Base
   scope :custom_domains, -> { where(custom_domain: true) }
   scope :family_custom_csi_domains, -> { where(domain_type: 'family', custom_domain: true) }
 
+  after_commit :flush_cache
+
   delegate :custom_assessment_name, to: :custom_assessment_setting, prefix: false, allow_nil: true
   enum domain_score_colors: { danger: 'Red', warning: 'Yellow', success: 'Blue', primary: 'Green' }
 
@@ -53,5 +55,36 @@ class Domain < ActiveRecord::Base
 
   def domain_type_client?
     domain_type == 'client'
+  end
+
+  def self.cache_domain_options(domain_type)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Domain', domain_type, 'domain_options']) do
+      if domain_type == 'family'
+        Domain.family_custom_csi_domains.order_by_identity.map { |domain| "domainscore__#{domain.id}__#{domain.identity}" }
+      else
+        Domain.custom_csi_domains.order_by_identity.map { |domain| "domainscore__#{domain.id}__#{domain.identity}" }
+      end
+    end
+  end
+
+  def self.cache_order_by_identity
+    Rails.cache.fetch([Apartment::Tenant.current, 'Domain', 'cache_order_by_identity']) do
+      Domain.order_by_identity.to_a
+    end
+  end
+
+  def self.cache_find_by_name(name)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Domain', 'cache_find_by_name', *name]) {
+      find_by(name: name)
+    }
+  end
+
+  private
+
+  def flush_cache
+    Rails.cache.delete([Apartment::Tenant.current, 'Domain', domain_type, 'domain_options'])
+    Rails.cache.delete([Apartment::Tenant.current, 'Domain', 'cache_order_by_identity'])
+    cache_find_by_name_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cache_find_by_name/].blank? }
+    cache_find_by_name_keys.each { |key| Rails.cache.delete(key) }
   end
 end

@@ -1,5 +1,6 @@
 class Setting < ActiveRecord::Base
   extend Enumerize
+  include CacheHelper
 
   has_paper_trail
 
@@ -40,6 +41,8 @@ class Setting < ActiveRecord::Base
   delegate :name, to: :province, prefix: true, allow_nil: true
   delegate :name, to: :district, prefix: true, allow_nil: true
 
+  after_commit :flush_cache
+
   def delete_incomplete_after_period
     delete_incomplete_after_period_value.send(delete_incomplete_after_period_unit.to_sym)
   end
@@ -62,9 +65,18 @@ class Setting < ActiveRecord::Base
     max_assessment.send(assessment_frequency.to_sym)
   end
 
+  def self.cache_first
+    Rails.cache.fetch([Apartment::Tenant.current, 'current_setting']) { first }
+  end
+
   private
 
   def custom_assessment_name
     errors.add(:custom_assessment, I18n.t('invalid_name')) if custom_assessment.downcase.include?('csi')
+  end
+
+  def flush_cache
+    Rails.cache.delete([Apartment::Tenant.current, 'current_setting'])
+    Rails.cache.fetch([Apartment::Tenant.current, 'table_name', 'settings'])
   end
 end

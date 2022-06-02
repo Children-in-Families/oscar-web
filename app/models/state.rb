@@ -1,4 +1,6 @@
 class State < ActiveRecord::Base
+  include AddressConcern
+
   has_many :townships
   has_many :clients, dependent: :restrict_with_error
 

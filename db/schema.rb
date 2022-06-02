@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20220314083655) do
+ActiveRecord::Schema.define(version: 20220427082949) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -380,6 +380,7 @@ ActiveRecord::Schema.define(version: 20220314083655) do
     t.datetime "deleted_at"
   end
 
+  add_index "case_worker_communities", ["community_id", "user_id"], name: "index_case_worker_communities_on_community_id_and_user_id", using: :btree
   add_index "case_worker_communities", ["community_id"], name: "index_case_worker_communities_on_community_id", using: :btree
   add_index "case_worker_communities", ["deleted_at"], name: "index_case_worker_communities_on_deleted_at", using: :btree
   add_index "case_worker_communities", ["user_id"], name: "index_case_worker_communities_on_user_id", using: :btree
@@ -391,6 +392,7 @@ ActiveRecord::Schema.define(version: 20220314083655) do
   end
 
   add_index "case_worker_families", ["deleted_at"], name: "index_case_worker_families_on_deleted_at", using: :btree
+  add_index "case_worker_families", ["family_id", "user_id"], name: "index_case_worker_families_on_family_id_and_user_id", using: :btree
   add_index "case_worker_families", ["family_id"], name: "index_case_worker_families_on_family_id", using: :btree
   add_index "case_worker_families", ["user_id"], name: "index_case_worker_families_on_user_id", using: :btree
 
@@ -937,6 +939,7 @@ ActiveRecord::Schema.define(version: 20220314083655) do
     t.datetime "updated_at"
   end
 
+  add_index "community_quantitative_cases", ["community_id", "quantitative_case_id"], name: "index_on_community_id_and_quantitative_case_id", using: :btree
   add_index "community_quantitative_cases", ["community_id"], name: "index_community_quantitative_cases_on_community_id", using: :btree
   add_index "community_quantitative_cases", ["quantitative_case_id"], name: "index_community_quantitative_cases_on_quantitative_case_id", using: :btree
 
@@ -962,6 +965,7 @@ ActiveRecord::Schema.define(version: 20220314083655) do
     t.datetime "updated_at",                     null: false
   end
 
+  add_index "custom_field_permissions", ["custom_field_id", "user_id"], name: "index_custom_field_permissions_on_custom_field_id_and_user_id", using: :btree
   add_index "custom_field_permissions", ["custom_field_id"], name: "index_custom_field_permissions_on_custom_field_id", using: :btree
   add_index "custom_field_permissions", ["user_id"], name: "index_custom_field_permissions_on_user_id", using: :btree
 
@@ -977,6 +981,7 @@ ActiveRecord::Schema.define(version: 20220314083655) do
   end
 
   add_index "custom_field_properties", ["custom_field_id"], name: "index_custom_field_properties_on_custom_field_id", using: :btree
+  add_index "custom_field_properties", ["custom_formable_id", "custom_formable_type"], name: "index_on_custom_formable_id_and_custom_formable_type", using: :btree
   add_index "custom_field_properties", ["custom_formable_id"], name: "index_custom_field_properties_on_custom_formable_id", using: :btree
   add_index "custom_field_properties", ["user_id"], name: "index_custom_field_properties_on_user_id", using: :btree
 
@@ -992,6 +997,8 @@ ActiveRecord::Schema.define(version: 20220314083655) do
     t.jsonb    "fields"
     t.boolean  "hidden",            default: false
   end
+
+  add_index "custom_fields", ["form_title"], name: "index_custom_fields_on_form_title", using: :btree
 
   create_table "departments", force: :cascade do |t|
     t.string   "name",        default: ""
@@ -1171,6 +1178,7 @@ ActiveRecord::Schema.define(version: 20220314083655) do
 
   add_index "enrollments", ["deleted_at"], name: "index_enrollments_on_deleted_at", using: :btree
   add_index "enrollments", ["program_stream_id"], name: "index_enrollments_on_program_stream_id", using: :btree
+  add_index "enrollments", ["programmable_id", "programmable_type"], name: "index_enrollments_on_programmable_id_and_programmable_type", using: :btree
   add_index "enrollments", ["programmable_id"], name: "index_enrollments_on_programmable_id", using: :btree
 
   create_table "enter_ngo_users", force: :cascade do |t|
@@ -1191,6 +1199,7 @@ ActiveRecord::Schema.define(version: 20220314083655) do
     t.string   "acceptable_type"
   end
 
+  add_index "enter_ngos", ["acceptable_id", "acceptable_type"], name: "index_enter_ngos_on_acceptable_id_and_acceptable_type", using: :btree
   add_index "enter_ngos", ["acceptable_id"], name: "index_enter_ngos_on_acceptable_id", using: :btree
   add_index "enter_ngos", ["client_id"], name: "index_enter_ngos_on_client_id", using: :btree
   add_index "enter_ngos", ["deleted_at"], name: "index_enter_ngos_on_deleted_at", using: :btree
@@ -1211,6 +1220,7 @@ ActiveRecord::Schema.define(version: 20220314083655) do
 
   add_index "exit_ngos", ["client_id"], name: "index_exit_ngos_on_client_id", using: :btree
   add_index "exit_ngos", ["deleted_at"], name: "index_exit_ngos_on_deleted_at", using: :btree
+  add_index "exit_ngos", ["rejectable_id", "rejectable_type"], name: "index_exit_ngos_on_rejectable_id_and_rejectable_type", using: :btree
   add_index "exit_ngos", ["rejectable_id"], name: "index_exit_ngos_on_rejectable_id", using: :btree
 
   create_table "external_system_global_identities", force: :cascade do |t|
@@ -1234,6 +1244,8 @@ ActiveRecord::Schema.define(version: 20220314083655) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  add_index "external_systems", ["name"], name: "index_external_systems_on_name", using: :btree
 
   create_table "families", force: :cascade do |t|
     t.string   "code"
@@ -1328,6 +1340,7 @@ ActiveRecord::Schema.define(version: 20220314083655) do
     t.datetime "updated_at"
   end
 
+  add_index "family_quantitative_cases", ["family_id", "quantitative_case_id"], name: "index_on_family_id_and_quantitative_case_id", using: :btree
   add_index "family_quantitative_cases", ["family_id"], name: "index_family_quantitative_cases_on_family_id", using: :btree
   add_index "family_quantitative_cases", ["quantitative_case_id"], name: "index_family_quantitative_cases_on_quantitative_case_id", using: :btree
 
@@ -1377,6 +1390,7 @@ ActiveRecord::Schema.define(version: 20220314083655) do
     t.boolean  "label_only",    default: false
   end
 
+  add_index "field_settings", ["name", "group"], name: "index_field_settings_on_name_and_group", using: :btree
   add_index "field_settings", ["name"], name: "index_field_settings_on_name", using: :btree
 
   create_table "form_builder_attachments", force: :cascade do |t|
@@ -1388,7 +1402,9 @@ ActiveRecord::Schema.define(version: 20220314083655) do
     t.datetime "updated_at",                       null: false
   end
 
+  add_index "form_builder_attachments", ["form_buildable_id", "form_buildable_type"], name: "index_on_form_buildable_id_and_form_buildable_type", using: :btree
   add_index "form_builder_attachments", ["form_buildable_id"], name: "index_form_builder_attachments_on_form_buildable_id", using: :btree
+  add_index "form_builder_attachments", ["name"], name: "index_form_builder_attachments_on_name", using: :btree
 
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string   "slug",                      null: false
@@ -1463,6 +1479,7 @@ ActiveRecord::Schema.define(version: 20220314083655) do
     t.date     "completion_date"
   end
 
+  add_index "government_form_children_plans", ["children_plan_id", "government_form_id"], name: "index_on_children_plan_id_and_government_form_id", using: :btree
   add_index "government_form_children_plans", ["children_plan_id"], name: "index_government_form_children_plans_on_children_plan_id", using: :btree
   add_index "government_form_children_plans", ["government_form_id"], name: "index_government_form_children_plans_on_government_form_id", using: :btree
 
@@ -1478,6 +1495,7 @@ ActiveRecord::Schema.define(version: 20220314083655) do
     t.text     "comment",            default: ""
   end
 
+  add_index "government_form_family_plans", ["family_plan_id", "government_form_id"], name: "index_on_family_plan_id_and_government_form_id", using: :btree
   add_index "government_form_family_plans", ["family_plan_id"], name: "index_government_form_family_plans_on_family_plan_id", using: :btree
   add_index "government_form_family_plans", ["government_form_id"], name: "index_government_form_family_plans_on_government_form_id", using: :btree
 
@@ -1832,6 +1850,9 @@ ActiveRecord::Schema.define(version: 20220314083655) do
     t.string   "referral_source_category_name"
   end
 
+  add_index "organizations", ["full_name"], name: "index_organizations_on_full_name", using: :btree
+  add_index "organizations", ["short_name"], name: "index_organizations_on_short_name", using: :btree
+
   create_table "partners", force: :cascade do |t|
     t.string   "name",                      default: ""
     t.string   "address",                   default: ""
@@ -1926,6 +1947,7 @@ ActiveRecord::Schema.define(version: 20220314083655) do
   end
 
   add_index "program_streams", ["archived_at"], name: "index_program_streams_on_archived_at", using: :btree
+  add_index "program_streams", ["name"], name: "index_program_streams_on_name", using: :btree
 
   create_table "progress_note_types", force: :cascade do |t|
     t.string   "note_type",  default: ""
@@ -2087,6 +2109,8 @@ ActiveRecord::Schema.define(version: 20220314083655) do
   end
 
   add_index "referral_sources", ["ancestry"], name: "index_referral_sources_on_ancestry", using: :btree
+  add_index "referral_sources", ["name"], name: "index_referral_sources_on_name", using: :btree
+  add_index "referral_sources", ["name_en"], name: "index_referral_sources_on_name_en", using: :btree
 
   create_table "referrals", force: :cascade do |t|
     t.string   "slug",                      default: ""
@@ -2129,6 +2153,7 @@ ActiveRecord::Schema.define(version: 20220314083655) do
     t.integer "service_id"
   end
 
+  add_index "referrals_services", ["referral_id", "service_id"], name: "index_referrals_services_on_referral_id_and_service_id", using: :btree
   add_index "referrals_services", ["referral_id"], name: "index_referrals_services_on_referral_id", using: :btree
   add_index "referrals_services", ["service_id"], name: "index_referrals_services_on_service_id", using: :btree
 
@@ -2737,7 +2762,7 @@ ActiveRecord::Schema.define(version: 20220314083655) do
   add_foreign_key "action_results", "government_forms"
   add_foreign_key "advanced_searches", "users"
   add_foreign_key "assessment_domains", "care_plans"
-  add_foreign_key "assessments", "clients"
+  add_foreign_key "assessments", "clients", on_delete: :nullify
   add_foreign_key "attachments", "able_screening_questions"
   add_foreign_key "attachments", "progress_notes"
   add_foreign_key "calendars", "users"
@@ -2747,7 +2772,7 @@ ActiveRecord::Schema.define(version: 20220314083655) do
   add_foreign_key "call_protection_concerns", "protection_concerns"
   add_foreign_key "calls", "referees"
   add_foreign_key "care_plans", "assessments"
-  add_foreign_key "care_plans", "clients"
+  add_foreign_key "care_plans", "clients", on_delete: :nullify
   add_foreign_key "carers", "communes"
   add_foreign_key "carers", "districts"
   add_foreign_key "carers", "provinces"
@@ -2835,7 +2860,7 @@ ActiveRecord::Schema.define(version: 20220314083655) do
   add_foreign_key "goals", "assessment_domains"
   add_foreign_key "goals", "assessments"
   add_foreign_key "goals", "care_plans"
-  add_foreign_key "goals", "clients"
+  add_foreign_key "goals", "clients", on_delete: :nullify
   add_foreign_key "goals", "domains"
   add_foreign_key "government_form_children_plans", "children_plans"
   add_foreign_key "government_form_children_plans", "government_forms"
@@ -2889,7 +2914,7 @@ ActiveRecord::Schema.define(version: 20220314083655) do
   add_foreign_key "settings", "communes"
   add_foreign_key "settings", "districts"
   add_foreign_key "settings", "provinces"
-  add_foreign_key "sponsors", "clients"
+  add_foreign_key "sponsors", "clients", on_delete: :nullify
   add_foreign_key "sponsors", "donors"
   add_foreign_key "subdistricts", "districts"
   add_foreign_key "surveys", "clients"

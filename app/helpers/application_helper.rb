@@ -284,13 +284,13 @@ module ApplicationHelper
     if @notification.any_overdue_assessments? && @notification.any_due_today_assessments?
       overdue_count = @notification.overdue_assessments_count
       due_today_count = @notification.due_today_assessments_count
-      "#{I18n.t('layouts.notification.assessments_count', count: overdue_count)} #{Setting.first.default_assessment} #{I18n.t('layouts.notification.overdue_assessments', count: overdue_count)} #{I18n.t('layouts.notification.overdue_and_due_today_count', count: due_today_count)}"
+      "#{I18n.t('layouts.notification.assessments_count', count: overdue_count)} #{Setting.cache_first.default_assessment} #{I18n.t('layouts.notification.overdue_assessments', count: overdue_count)} #{I18n.t('layouts.notification.overdue_and_due_today_count', count: due_today_count)}"
     elsif @notification.any_overdue_assessments?
       count = @notification.overdue_assessments_count
-      "#{I18n.t('layouts.notification.assessments_count', count: count)} #{Setting.first.default_assessment} #{I18n.t('layouts.notification.overdue_assessments', count: count)}"
+      "#{I18n.t('layouts.notification.assessments_count', count: count)} #{Setting.cache_first.default_assessment} #{I18n.t('layouts.notification.overdue_assessments', count: count)}"
     else
       count = @notification.due_today_assessments_count
-      "#{I18n.t('layouts.notification.assessments_count', count: count)} #{Setting.first.default_assessment} #{I18n.t('layouts.notification.due_today_assessments', count: count)}"
+      "#{I18n.t('layouts.notification.assessments_count', count: count)} #{Setting.cache_first.default_assessment} #{I18n.t('layouts.notification.due_today_assessments', count: count)}"
     end
   end
 
@@ -356,7 +356,7 @@ module ApplicationHelper
   end
 
   def enable_default_assessment?
-    Setting.first.try(:enable_default_assessment)
+    Setting.cache_first.try(:enable_default_assessment)
   end
 
   def enable_custom_assessment?

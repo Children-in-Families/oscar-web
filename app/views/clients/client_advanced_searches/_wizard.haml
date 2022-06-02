@@ -40,7 +40,7 @@
                   .col-xs-12
                     %p Which Custom Forms would you like to show information from?
                     .form-group#wizard-custom-form-data{ data: { value: custom_form_values('#wizard-builder') } }
-                      = select_tag(:nil, options_for_select(@custom_fields.pluck(:form_title, :id), custom_form_values('#wizard-builder')), { multiple: true, id: 'wizard-custom-form-select', class: 'form-control' } )
+                      = select_tag(:nil, options_for_select(@custom_fields.map{|custom_field| [custom_field.form_title, custom_field.id] }, custom_form_values('#wizard-builder')), { multiple: true, id: 'wizard-custom-form-select', class: 'form-control' } )
                 %br
                 .loader.hidden
                 .row#custom-form-column
@@ -64,7 +64,7 @@
                   .col-xs-12
                     %p Which Program Streams are you interested in?
                     .form-group#wizard-program-stream-data{ data: { value: program_stream_values('#wizard-builder') } }
-                      = select_tag(:nil, options_for_select(@program_streams.pluck(:name, :id), program_stream_values('#wizard-builder')), { multiple: true, id: 'wizard-program-stream-select', class: 'form-control program-stream-select' } )
+                      = select_tag(:nil, options_for_select(@program_streams.map{|p| [p.name, p.id]}, program_stream_values('#wizard-builder')), { multiple: true, id: 'wizard-program-stream-select', class: 'form-control program-stream-select' } )
                 .row.program-association
                   .col-xs-12
                     %p Which Forms from these program streams would you like to display information from?

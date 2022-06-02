@@ -1,6 +1,6 @@
 class FieldSettingsController < AdminController
   def index
-    @field_settings = FieldSetting.where('for_instances IS NULL OR for_instances iLIKE ?', "#{current_organization.short_name}").includes(:translations).order(:group, :name)
+    @field_settings = FieldSetting.where('for_instances IS NULL OR for_instances iLIKE ?', "#{Apartment::Tenant.current}").includes(:translations).order(:group, :name)
   end
 
   def bulk_update

@@ -81,6 +81,43 @@ module Api
       end
     end
 
+    def render_client_by_gender
+      clients = Client.accessible_by(current_ability).active_status
+      client_data = {
+        client_count: clients.count,
+        adult_females: adule_client_gender_count(clients, :female),
+        adult_males: adule_client_gender_count(clients, :male),
+        girls: under_18_client_gender_count(clients, :female),
+        boys: under_18_client_gender_count(clients, :male),
+        others: other_client_gender_count(clients)
+      }
+      render json: client_data
+    end
+
+    def render_active_client_by_donor
+      data = Donor.includes(:clients).references(:clients).where(clients: { id: Client.accessible_by(current_ability).active_status.ids }).group("donors.name").count("clients.id")
+      donors = Donor.pluck(:name, :id)
+      donor_data = data.map do |donor_name, client_count|
+        url = { "condition"=>"AND", "rules"=> [
+          {"id"=>"status", "field"=>"Status", "type"=>"string", "input"=>"select", "operator"=>"equal", "value"=>"Active", "data"=>{"values"=>[{"Accepted"=>"Accepted"}, {"Active"=>"Active"}, {"Exited"=>"Exited"}, {"Referred"=>"Referred"}], "isAssociation"=>false }},
+          {"id"=>"donor_name", "field"=>"Donor", "type"=>"string", "input"=>"select", "operator"=>"equal", "value"=> donors.to_h[donor_name], "data"=> { "values"=> donors.reverse.to_h, "isAssociation"=> true }, "valid"=>true }
+        ]}
+
+        {
+          name: donor_name,
+          y: client_count,
+          url: clients_path(
+            'client_advanced_search': {
+              action_report_builder: '#builder',
+              basic_rules: url.to_json
+            },
+            commit: 'commit'
+          )
+        }
+      end
+      render json: { data: donor_data }
+    end
+
     private
 
     def client_params
@@ -175,7 +212,7 @@ module Api
       field_settings.each do |field_setting|
         next if field_setting.group != 'client' || field_setting.required? || field_setting.visible?
 
-        client_params.except!(field_setting.name.to_sym)
+        client_params.except!(field_setting.name.to_sym) unless field_setting.name == 'gender'
       end
 
       if params[:family_member]
@@ -272,6 +309,18 @@ module Api
 
     def sort_direction
       params[:order]['0']['dir'] == "desc" ? "desc" : "asc"
+    end
+
+    def adule_client_gender_count(clients, type = :male)
+     clients.public_send(type).where("(EXTRACT(year FROM age(current_date, clients.date_of_birth)) :: int) >= ?", 18).count
+    end
+
+    def under_18_client_gender_count(clients, type = :male)
+      clients.public_send(type).where("(EXTRACT(year FROM age(current_date, clients.date_of_birth)) :: int) < ?", 18).count
+    end
+
+    def other_client_gender_count(clients)
+      clients.where("gender IS NULL OR (gender NOT IN ('male', 'female'))").count
     end
   end
 end

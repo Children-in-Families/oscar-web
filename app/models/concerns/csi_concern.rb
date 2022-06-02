@@ -9,7 +9,7 @@ module CsiConcern
     return true if date_of_birth.nil?
 
     client_age = age_as_years
-    age        = Setting.first.age || 18
+    age        = Setting.cache_first.age || 18
     client_age < age
   end
 
@@ -92,7 +92,7 @@ module CsiConcern
 
   def assessment_duration(duration, default = true, custom_assessment_setting_id=nil)
     if duration == 'max'
-      setting = Setting.first
+      setting = Setting.cache_first
       if default || self.class.name == 'Family'
         assessment_period    = setting.max_assessment
         assessment_frequency = setting.assessment_frequency

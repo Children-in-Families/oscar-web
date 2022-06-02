@@ -180,7 +180,7 @@ class ClientColumnsVisibility
   def visible_columns
     return [] if @grid.nil?
     @grid.column_names = []
-    client_default_columns = Setting.first.try(:client_default_columns)
+    client_default_columns = Setting.cache_first.try(:client_default_columns)
     params = @params.keys.select{ |k| k.match(/\_$/) }
     if params.present? && client_default_columns.present?
       defualt_columns = params - client_default_columns
@@ -200,7 +200,7 @@ class ClientColumnsVisibility
 
   def domain_score_columns
     columns = columns_collection
-    Domain.order_by_identity.each do |domain|
+    Domain.cache_order_by_identity.each do |domain|
       identity = domain.identity
       field = domain.custom_domain ? "custom_#{domain.convert_identity}" : domain.convert_identity
       columns = columns.merge!("#{field}_": field.to_sym)
@@ -210,7 +210,7 @@ class ClientColumnsVisibility
 
   def quantitative_type_columns
     columns = domain_score_columns
-    QuantitativeType.joins(:quantitative_cases).where('quantitative_types.visible_on LIKE ?', "%client%").uniq.each do |quantitative_type|
+    QuantitativeType.cach_by_visible_on('client').each do |quantitative_type|
       field = quantitative_type.name
       columns = columns.merge!("#{field}_": field.to_sym)
     end

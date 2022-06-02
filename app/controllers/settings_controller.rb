@@ -1,7 +1,7 @@
 class SettingsController < AdminController
   include CommunityHelper
 
-  before_action :find_setting, except: [:create, :show, :edit, :update]
+  before_action :find_setting, except: [:create]
   before_action :country_address_fields, only: [:edit, :update]
 
   def index
@@ -23,13 +23,13 @@ class SettingsController < AdminController
   end
 
   def edit
-    authorize @current_setting
-    render template: 'organizations/edit', locals: { current_setting: @current_setting }
+    authorize @setting
+    render template: 'organizations/edit', locals: { current_setting: @setting }
   end
 
   def update
-    authorize @current_setting
-    @setting = @current_setting
+    authorize @setting
+    @setting = @setting
     if params[:setting].has_key?(:org_form)
       if @setting.update_attributes(setting_params)
         redirect_to root_path, notice: t('.successfully_updated')
@@ -46,6 +46,7 @@ class SettingsController < AdminController
               redirect_to settings_path, notice: t('.successfully_updated')
             end
           else
+            flash[:alert] = @setting.errors.full_messages.join(", ")
             render :index
           end
         end
@@ -66,27 +67,27 @@ class SettingsController < AdminController
   end
 
   def research_module
-    authorize @current_setting
+    authorize @setting
   end
 
   def custom_labels
-    authorize @current_setting
+    authorize @setting
   end
 
   def client_forms
-    authorize @current_setting
+    authorize @setting
   end
 
   def community
-    authorize @current_setting
+    authorize @setting
   end
 
   def family_case_management
-    authorize @current_setting
+    authorize @setting
   end
 
   def integration
-    authorize @current_setting
+    authorize @setting
     attribute = params[:setting]
     if attribute && current_organization.update_attributes(integrated: attribute[:integrated])
       redirect_to integration_settings_path, notice: t('.successfully_updated')
@@ -96,21 +97,19 @@ class SettingsController < AdminController
   end
 
   def custom_form
-    authorize @current_setting
+    authorize @setting
   end
 
   def test_client
-    authorize @current_setting
+    authorize @setting
   end
-
-
 
   private
 
   def country_address_fields
-    @provinces = Province.order(:name)
-    @districts = Setting.first.province.present? ? Setting.first.province.districts.order(:name) : []
-    @communes  = Setting.first.district.present? ? Setting.first.district.communes.order(:name_kh, :name_en) : []
+    @provinces = Province.cached_order_name
+    @districts = Setting.cache_first.province.present? ? Setting.cache_first.province.districts.order(:name) : []
+    @communes  = Setting.cache_first.district.present? ? Setting.cache_first.district.communes.order(:name_kh, :name_en) : []
   end
 
   def setting_params
@@ -189,7 +188,7 @@ class SettingsController < AdminController
   end
 
   def international_address_columns
-    country = Setting.first.try(:country_name) || params[:country]
+    country = Setting.cache_first.try(:country_name) || params[:country]
     case country
     when 'thailand'
       %w(province_id_ birth_province_id_ district_ subdistrict_ postal_code_ plot_ road_)

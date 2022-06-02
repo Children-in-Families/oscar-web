@@ -21,6 +21,8 @@ class Province < ActiveRecord::Base
 
   validates :name, presence: true, uniqueness: { case_sensitive: false, scope: :country }
 
+  after_commit :flush_cache
+
   def removeable?
     families.count.zero? && partners.count.zero? && users.count.zero? && clients.count.zero? && cases.count.zero?
   end
@@ -32,5 +34,26 @@ class Province < ActiveRecord::Base
   def self.find_by_code(code)
     district = District.where("code LIKE ?", "#{code}%").first
     district&.province&.name
+  end
+
+  def self.cached_find(id)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Province', id]) { find(id) }
+  end
+
+  def self.cached_order_name
+    Rails.cache.fetch([Apartment::Tenant.current, 'Province', 'cached_order_name']) { order(:name).to_a }
+  end
+
+  def cached_districts
+    Rails.cache.fetch([Apartment::Tenant.current, 'Province', id, 'cached_districts']) { districts.order(:name).to_a }
+  end
+
+  private
+
+  def flush_cache
+    Rails.cache.delete([Apartment::Tenant.current, 'Province', id])
+    Rails.cache.delete([Apartment::Tenant.current, 'Province', 'cached_order_name']) if name_changed?
+    Rails.cache.delete([Apartment::Tenant.current, 'Province', id, 'cached_districts'])
+    Rails.cache.delete([Apartment::Tenant.current, 'Province', 'dropdown_list_option'])
   end
 end

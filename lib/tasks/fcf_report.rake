@@ -7,7 +7,7 @@ namespace :fcf_report do
     format = workbook.add_format
     format.set_align('center')
 
-    ['2021-12-01', '2022-01-01', '2022-02-01'].each do |date|
+    (8..11).to_a.map{|seq| "2021-#{seq}-01" }.each do |date|
       clients_data = []
       sheet_name = Date.parse(date).to_formatted_s(:long)
       worksheet = workbook.add_worksheet(sheet_name)
@@ -20,7 +20,6 @@ namespace :fcf_report do
             client.created_at.to_formatted_s(:long),
             "#{full_name}(#{short_name})",
             client.initial_referral_date.to_formatted_s(:long),
-            ReferralSource.find(client.referral_source_category_id).try(:name),
             client.referral_source_name,
             client.status
           ]

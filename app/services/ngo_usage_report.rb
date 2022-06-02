@@ -9,11 +9,12 @@ class NgoUsageReport
   end
 
   def ngo_info(org)
-    country = Setting.first.present? ? Setting.first.country_name.downcase : ''
+    country = Setting.cache_first.present? ? Setting.cache_first.country_name.downcase : ''
     {
       ngo_name: org.full_name,
       ngo_short_name: org.short_name,
       ngo_on_board: org.integrated_date,
+      created_at: org.created_at.strftime("%d-%m-%Y"),
       fcf: org.fcf_ngo? ? 'Yes' : 'No',
       ngo_country: country.titleize,
       integrated: org.integrated ? 'Yes' : 'No'
@@ -188,7 +189,7 @@ class NgoUsageReport
 
     Organization.order(:created_at).where.not(short_name: ['demo', 'tutorials', 'shared']).order(:created_at).each_with_index do |org, index|
       Organization.switch_to org.short_name
-      next if Setting.first.blank?
+      next if Setting.cache_first.blank?
 
       setting               = ngo_info(org)
       ngo_users             = ngo_users_info(beginning_of_month, end_of_month)
@@ -197,15 +198,15 @@ class NgoUsageReport
       cross_ngo_referrals   = cross_ngo_referrals_info(beginning_of_month, end_of_month)
       cross_mosvy_referrals = cross_mosvy_referrals_info(setting, beginning_of_month, end_of_month)
 
-      ngo_values          = [setting[:ngo_name], setting[:ngo_on_board], setting[:fcf], setting[:ngo_country]]
+      ngo_values          = [setting[:ngo_name], setting[:created_at], setting[:fcf], setting[:ngo_country]]
       user_values         = [setting[:ngo_name], *ngo_users.values]
       client_values       = [setting[:ngo_name], *ngo_clients.values]
       cross_ngo_values    = [setting[:ngo_name], *cross_ngo_referrals.values]
       cross_mosvy_values  = [setting[:ngo_name], *cross_mosvy_referrals.values]
 
-      start_sharing_data     = Setting.first.start_sharing_this_month(date_time)
-      stop_sharing_data      = Setting.first.stop_sharing_this_month(date_time)
-      current_sharing_data   = Setting.first.current_sharing_with_research_module
+      start_sharing_data     = Setting.cache_first.start_sharing_this_month(date_time)
+      stop_sharing_data      = Setting.cache_first.stop_sharing_this_month(date_time)
+      current_sharing_data   = Setting.cache_first.current_sharing_with_research_module
 
       shared_data << mapping_learning_module_date(setting, start_sharing_data)
       stop_sharing_date << mapping_learning_module_date(setting, stop_sharing_data)

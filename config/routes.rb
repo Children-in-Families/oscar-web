@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   get '/redirect'       => 'calendars#redirect', as: 'redirect'
   get '/callback'       => 'calendars#callback', as: 'callback'
   get '/calendar/sync'  => 'calendars#sync'
+  get '/dashbaords/client_data_validation' => 'dashboards#client_data_validation'
 
   resources :calendars
 
@@ -100,6 +101,8 @@ Rails.application.routes.draw do
 
   get '/data_trackers' => 'data_trackers#index'
   get 'clients/:client_id/book' => 'client_books#index', as: 'client_books'
+
+  get 'referrals/:id' => 'referrals#show', as: 'referral'
 
   resources :clients do
     resources :referrals
@@ -285,6 +288,8 @@ Rails.application.routes.draw do
       get :find_client_case_worker, on: :member
       post :assessments, on: :collection
       get :search_client, on: :collection
+      get :render_client_by_gender, on: :collection, as: 'client_by_gender'
+      get :render_active_client_by_donor, on: :collection, as: 'active_client_by_donor'
     end
     resources :custom_fields do
       collection do

@@ -56,6 +56,12 @@ class Enrollment < ActiveRecord::Base
   # def short_enrollment_date
   #   enrollment_date.end_of_month.strftime '%b-%y'
   # end
+  def self.cache_program_steams
+    Rails.cache.fetch([Apartment::Tenant.current, 'Enrollment', 'cache_program_steams']) do
+      program_ids = Enrollment.pluck(:program_stream_id).uniq
+      ProgramStream.where(id: program_ids).order(:name).to_a
+    end
+  end
 
   private
 

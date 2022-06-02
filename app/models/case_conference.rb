@@ -39,7 +39,7 @@ class CaseConference < ActiveRecord::Base
   end
 
   def can_create_case_conference?
-    setting = Setting.first
+    setting = Setting.cache_first
     assessment_period    = setting.max_assessment
     assessment_frequency = setting.assessment_frequency
     assessment_min_max = assessment_period.send(assessment_frequency)
