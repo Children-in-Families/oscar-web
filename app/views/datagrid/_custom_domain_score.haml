@@ -2,7 +2,7 @@
   %strong= t('.custom_csi_domain_scores')
 %li
   .visibility.col-sm-12
-    = check_box_tag 'custom_assessment_', 'custom_assessment', checked = saved_search_column_visibility('custom_assessment'), class: 'i-checks'
+    = check_box_tag 'custom_assessment_', 'custom_assessment', checked = saved_search_column_visibility('custom_assessment_'), class: 'i-checks'
     = label_tag 'custom_assessment_', t('datagrid.columns.clients.custom_assessment', assessment: t('clients.show.assessment'))
 %li
   .visibility.col-sm-12

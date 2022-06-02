@@ -9,7 +9,7 @@ class ClientGrid < BaseGrid
   COUNTRY_LANG = { "cambodia" => "(Khmer)", "thailand" => "(Thai)", "myanmar" => "(Burmese)", "lesotho" => "(Sesotho)", "uganda" => "(Swahili)" }
 
   scope do
-    Client.includes(:assessments)
+    Client
   end
 
   %w(given_name family_name local_given_name local_family_name).each do |field_name|
@@ -972,11 +972,11 @@ class ClientGrid < BaseGrid
     render partial: 'clients/case_note_type', locals: { object: object }
   end
 
-  column(:date_of_assessments, header: -> { I18n.t('datagrid.columns.clients.date_of_assessments', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
+  column(:date_of_assessments, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.date_of_assessments', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
     render partial: 'clients/assessments', locals: { object: object.assessments.defaults.order(:created_at) }
   end
 
-  column(:completed_date, header: -> { I18n.t('datagrid.columns.clients.assessment_completed_date', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
+  column(:completed_date, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.assessment_completed_date', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
     if $param_rules
       basic_rules = $param_rules['basic_rules']
       basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
@@ -1008,18 +1008,19 @@ class ClientGrid < BaseGrid
     render partial: 'clients/referral', locals: { object: object }
   end
 
-  column(:custom_assessment_created_date, header: -> { I18n.t('datagrid.columns.clients.custom_assessment_created_date', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
+  column(:custom_assessment_created_date, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.custom_assessment_created_date', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
     render partial: 'clients/assessments', locals: { object: object.assessments.customs.order(:created_at) }
   end
 
-  column(:custom_assessment, header: -> { I18n.t('datagrid.columns.clients.custom_assessment', assessment: I18n.t('clients.show.assessment')) }) do |object|
-    custom_assessment_names = object.assessments.customs.joins(domains: :custom_assessment_setting).pluck('custom_assessment_settings.custom_assessment_name')
-    format(custom_assessment_names) do |values|
-      values.join(", ")
+  column(:custom_assessment, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.custom_assessment', assessment: I18n.t('clients.show.assessment')) }) do |object|
+    custom_assessment_names = object.assessments.customs.joins(domains: :custom_assessment_setting).order(:created_at).distinct.pluck('custom_assessment_settings.custom_assessment_name', 'assessments.created_at')
+    custom_assessment_names = custom_assessment_names.map{|custom_assessment_name, assessment_date| "#{custom_assessment_name} (#{assessment_date.strftime("%d %B %Y")})"  }
+    format(custom_assessment_names.join(', ')) do |values|
+      unorderred_list(values.split(', '))
     end
   end
 
-  column(:custom_completed_date, header: -> { I18n.t('datagrid.columns.clients.assessment_custom_completed_date', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
+  column(:custom_completed_date, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.assessment_custom_completed_date', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
     if $param_rules
       basic_rules = $param_rules['basic_rules']
       basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
@@ -1095,7 +1096,7 @@ class ClientGrid < BaseGrid
 
   dynamic do
     if enable_default_assessment?
-      column(:all_csi_assessments, header: -> { I18n.t('datagrid.columns.clients.all_csi_assessments', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
+      column(:all_csi_assessments, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.all_csi_assessments', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
         render partial: 'clients/all_csi_assessments', locals: { object: object.assessments.defaults }
       end
       Domain.csi_domains.order_by_identity.each do |domain|
@@ -1110,7 +1111,7 @@ class ClientGrid < BaseGrid
     end
 
     if enable_custom_assessment?
-      column(:all_custom_csi_assessments, header: -> { I18n.t('datagrid.columns.clients.all_custom_csi_assessments') }, html: true) do |object|
+      column(:all_custom_csi_assessments, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.all_custom_csi_assessments') }, html: true) do |object|
         render partial: 'clients/all_csi_assessments', locals: { object: object.assessments.customs }
       end
       Domain.custom_csi_domains.order_by_identity.each do |domain|
