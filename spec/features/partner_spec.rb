@@ -22,7 +22,7 @@ describe 'Partner' do
       expect(page).to have_link(nil, href: edit_partner_path(partner))
     end
     scenario 'delete link' do
-      expect(page).to have_css("a[href='#{domain_path(partner)}'][data-method='delete']")
+      expect(page).to have_css("a[href='#{partner_path(partner)}'][data-method='delete']")
     end
     scenario 'show link' do
       expect(page).to have_link(partner.name, href: partner_path(partner))
@@ -65,12 +65,12 @@ describe 'Partner' do
       visit partners_path
     end
     scenario 'success', js: true do
-      find("a[href='#{domain_path(partner)}'][data-method='delete']").click
+      find("a[href='#{partner_path(partner)}'][data-method='delete']").click
       sleep 1
       expect(page).not_to have_content(partner.name)
     end
     scenario 'unsuccess' do
-      expect(page).to have_css("a[href='#{domain_path(other_partner)}'][class='btn btn-outline btn-danger btn-xs disabled']")
+      expect(page).to have_css("a[href='#{partner_path(other_partner)}'][class='btn btn-outline btn-danger btn-xs disabled']")
     end
   end
 
@@ -85,11 +85,11 @@ describe 'Partner' do
       expect(page).to have_link(nil, href: edit_partner_path(partner))
     end
     scenario 'link to delete' do
-      expect(page).to have_css("a[href='#{domain_path(partner)}'][data-method='delete']")
+      expect(page).to have_css("a[href='#{partner_path(partner)}'][data-method='delete']")
     end
     scenario 'disable delete link' do
       visit partner_path(other_partner)
-      expect(page).to have_css("a[href='#{domain_path(other_partner)}'][data-method='delete'][class='btn btn-outline btn-danger btn-md disabled']")
+      expect(page).to have_css("a[href='#{partner_path(other_partner)}'][data-method='delete'][class='btn btn-outline btn-danger btn-md disabled']")
     end
   end
 

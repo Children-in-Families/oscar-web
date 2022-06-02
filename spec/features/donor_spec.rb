@@ -21,7 +21,7 @@ describe 'Donor' do
       expect(page).to have_css("i[class='fa fa-pencil']")
     end
     scenario 'delete link' do
-      expect(page).to have_css("a[href='#{domain_path(donor)}'][data-method='delete']")
+      expect(page).to have_css("a[href='#{donor_path(donor)}'][data-method='delete']")
     end
   end
 
@@ -80,7 +80,7 @@ describe 'Donor' do
       visit donors_path
     end
     scenario 'success' do
-      find("a[href='#{domain_path(donor)}'][data-method='delete']").click
+      find("a[href='#{donor_path(donor)}'][data-method='delete']").click
       expect(page).not_to have_content(donor.name)
     end
     # scenario 'disable' do

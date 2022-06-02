@@ -7,6 +7,7 @@ describe AdvancedSearches::QuantitativeCaseFields, 'Method' do
   let!(:quantitative_case) { create(:quantitative_case, quantitative_type: quantitative_type) }
 
   before do
+    Rails.cache.clear
     quantitative_cases_fields = AdvancedSearches::QuantitativeCaseFields.new(user)
     @quantitative_cases_fields = quantitative_cases_fields.render
     @fields = @quantitative_cases_fields.last

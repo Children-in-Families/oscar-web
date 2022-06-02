@@ -66,7 +66,7 @@ describe Dashboard, 'Method' do
 
     it 'should return client gender statistic size' do
       program_stream_report_gender_report = @program_stream_report_gender_report
-      expect(program_stream_report_gender_report.size).to eq(2)
+      expect(program_stream_report_gender_report.size).to eq(3)
     end
 
     it 'should return male clients active program count' do

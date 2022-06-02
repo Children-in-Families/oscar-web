@@ -79,7 +79,7 @@ describe Assessment do
     end
 
     context '#initial?' do
-      before { Setting.first.update(enable_custom_assessment: true) }
+      before { Setting.cache_first.update(enable_custom_assessment: true) }
       let!(:last_assessment){ create(:assessment, created_at: Time.now, client: client) }
       let!(:custom_assessment_1){ create(:assessment, :custom, client: client, created_at: last_assessment_date) }
       let!(:custom_assessment_2){ create(:assessment, :custom, client: client) }
@@ -165,7 +165,7 @@ describe Assessment do
     end
 
     context '.customs' do
-      before { Setting.first.update(enable_custom_assessment: true) }
+      before { Setting.cache_first.update(enable_custom_assessment: true) }
       let!(:custom_assessment){ create(:assessment, default: false) }
       it 'should return default assessments' do
         expect(Assessment.customs).to include(custom_assessment)
@@ -175,7 +175,7 @@ describe Assessment do
 
   describe Assessment, 'callbacks' do
     context 'set_previous_score' do
-      before { Setting.first.update(enable_custom_assessment: true) }
+      before { Setting.cache_first.update(enable_custom_assessment: true) }
       let!(:client) { create(:client) }
       let!(:domain) { create(:domain) }
       let!(:assessment_1) { create(:assessment, created_at: Time.now - 3.months - 1.day, client: client) }
@@ -239,7 +239,7 @@ describe Assessment do
 
     context '#must_be_enable' do
       before do
-        Setting.first.update(enable_custom_assessment: false)
+        Setting.cache_first.update(enable_custom_assessment: false)
       end
       context 'new record' do
         context 'default csi' do
@@ -273,7 +273,7 @@ describe Assessment do
       let!(:client) { create(:client, date_of_birth: 18.years.ago.to_date) }
       let!(:client_1) { create(:client, date_of_birth: 15.years.ago.to_date) }
       let!(:existing_assessment) { create(:assessment, client: client_1)}
-      before { Setting.first.update(enable_default_assessment: true, custom_age: 15) }
+      before { Setting.cache_first.update(enable_default_assessment: true, custom_age: 15) }
 
       context 'default csi' do
         it 'return error message if new record' do
