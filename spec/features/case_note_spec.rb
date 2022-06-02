@@ -1,10 +1,15 @@
-xdescribe 'CaseNote' do
+describe 'CaseNote' do
   let!(:user) { create(:user) }
+  let!(:admin) { create(:user, :admin) }
+  let!(:setting) { create(:setting) }
+  let!(:family) { create(:family, :active, user: user) }
   let!(:client) { create(:client, :accepted, users: [user]) }
   let!(:fc_case){ create(:case, case_type: 'FC', client: client) }
   let!(:domain){ create(:domain, name: '1A') }
   let!(:assessment){ create(:assessment, client: client) }
+  let!(:assessment_1){ create(:assessment, family: family) }
   let!(:assessment_domain){ create(:assessment_domain, assessment: assessment, domain: domain) }
+  let!(:assessment_domain_1){ create(:assessment_domain, assessment: assessment_1, domain: domain) }
 
   before do
     login_as(user)
@@ -17,10 +22,11 @@ xdescribe 'CaseNote' do
 
     def add_tasks(n)
       (1..n).each do |time|
-        find('.case-note-task-btn').trigger('click')
+        find('.case-note-task-btn').click
+        expect(page).to have_content('New Task')
         fill_in 'task_name', with: 'ABC'
         fill_in 'task_completion_date', with: date_format(Date.strptime(FFaker::Time.date))
-        find('.add-task-btn').trigger('click')
+        find('.add-task-btn').click
         sleep 1
       end
     end
@@ -29,25 +35,45 @@ xdescribe 'CaseNote' do
       page.all('.task-arising a.remove-task')[index].trigger('click')
     end
 
-    xscenario 'valid' do
+    scenario 'valid for client' do
       fill_in 'case_note_meeting_date', with: '2017-04-01'
       fill_in 'Who was there during the visit or conversation?', with: 'Jonh'
       find("#case_note_interaction_type option[value='Visit']", visible: false).select_option
-      fill_in 'Note', with: 'This is valid'
-
+      fill_in 'case_note_note', with: 'This is valid'
       add_tasks(1)
-      find('#case-note-submit-btn').trigger('click')
-
+      find('#case-note-submit-btn').click
       sleep 1
       expect(page).to have_content('01 April 2017')
       expect(page).to have_content('Jonh')
       expect(page).to have_content('This is valid')
-      expect(Task.find_by(name: 'ABC').user_id).to eq(user.id)
     end
 
-    xscenario 'invalid' do
-      click_button 'Save'
+    scenario 'invalid for client' do
+      find('#case-note-submit-btn').click
       expect(page).to have_content("can't be blank")
+    end
+
+    scenario 'valid for family' do
+      login_as(admin)
+      visit new_family_case_note_path(family)
+      expect(page).to have_content('Meeting detail')
+      fill_in 'case_note_meeting_date', with: '2017-04-01'
+      fill_in 'case_note_attendee', with: 'Testing User'
+      find("#case_note_interaction_type option[value='Visit']", visible: false).select_option
+      expect(page).to have_content('Visit')
+      fill_in 'case_note_note', with: 'This is valid'
+      add_tasks(1)
+      find('#case-note-submit-btn').click
+      expect(page).to have_content('01 April 2017')
+      expect(page).to have_content('Testing User')
+      expect(page).to have_content('This is valid')
+    end
+
+    scenario 'invalid for family' do
+      login_as(admin)
+      visit new_family_case_note_path(family)
+      find('#case-note-submit-btn').click
+      expect(page).to have_css('.has-error')
     end
 
     context 'case notes permissions' do
@@ -83,7 +109,7 @@ xdescribe 'CaseNote' do
           Setting.first.update(enable_default_assessment: true, enable_custom_assessment: false)
           visit client_case_notes_path(client)
 
-          expect(page).to have_link('New case note', href: new_client_case_note_path(client, custom: false))
+          expect(page).to have_link('CSI Assessment', href: new_client_case_note_path(client, custom: false))
         end
         xscenario 'custom csi', js: true do
           Setting.first.update(enable_default_assessment: false, enable_custom_assessment: true)

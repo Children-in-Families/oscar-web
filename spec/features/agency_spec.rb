@@ -1,4 +1,4 @@
-xdescribe 'Agency' do
+describe 'Agency' do
   let!(:admin){ create(:user, roles: 'admin') }
   let!(:agency){ create(:agency) }
   let!(:other_agency){ create(:agency) }
@@ -21,7 +21,7 @@ xdescribe 'Agency' do
       expect(page).to have_css("i[class='fa fa-pencil']")
     end
     scenario 'delete link' do
-      expect(page).to have_css("a[href='#{agency_path(agency)}'][data-method='delete']")
+      expect(page).to have_css("a[href='#{domain_path(agency)}'][data-method='delete']")
     end
   end
 
@@ -75,11 +75,11 @@ xdescribe 'Agency' do
       visit agencies_path
     end
     scenario 'success' do
-      find("a[href='#{agency_path(agency)}'][data-method='delete']").click
+      find("a[href='#{domain_path(agency)}'][data-method='delete']").click
       expect(page).not_to have_content(agency.name)
     end
     scenario 'disable link' do
-      expect(page).to have_css("a[href='#{agency_path(other_agency)}'][data-method='delete'][class='btn btn-outline btn-danger btn-xs disabled']")
+      expect(page).to have_css("a[href='#{domain_path(other_agency)}'][data-method='delete'][class='btn btn-outline btn-danger btn-xs disabled']")
     end
   end
 end

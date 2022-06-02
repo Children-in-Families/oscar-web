@@ -27,9 +27,9 @@ module AdvancedSearches
 
     def generate_field_by_type
       if attach_with == 'Community'
-        @custom_fields = CustomField.where(id: @custom_form_ids, entity_type: attach_with)
+        @custom_fields = CustomField.cached_custom_form_ids_attach_with(@custom_form_ids, attach_with)
       else
-        @custom_fields = CustomField.where(id: @custom_form_ids)
+        @custom_fields = CustomField.cached_custom_form_ids(@custom_form_ids)
       end
 
       @custom_fields.each do |custom_field|

@@ -181,4 +181,14 @@ body[id="dashboards-index"] {
     cursor: not-allowed;
     color: #333333 !important;
   }
+
+  #data-validation-panel {
+    .panel-body {
+      height: 300px;
+    }
+    h2 {
+      margin: 50px auto;
+      text-align: center;
+    }
+  }
 }

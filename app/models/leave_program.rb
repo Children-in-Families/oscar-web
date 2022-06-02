@@ -15,6 +15,7 @@ class LeaveProgram < ActiveRecord::Base
 
   after_save :create_leave_program_history
   after_create :update_enrollment_status, :set_entity_status
+  after_commit :flush_cache
 
   has_paper_trail
 
@@ -58,6 +59,18 @@ class LeaveProgram < ActiveRecord::Base
     form_builder_attachments.find_by(name: value)
   end
 
+  def self.cached_program_exit_date(fields_second, ids)
+    Rails.cache.fetch([Apartment::Tenant.current, 'LeaveProgram', 'cached_program_exit_date', *fields_second, *ids.sort]) {
+      joins(:program_stream).where(program_streams: { name: fields_second }, leave_programs: { client_enrollment_id: ids }).order(exit_date: :desc).first.try(:exit_date)
+    }
+  end
+
+  def self.cached_program_stream_leave(fields_second, ids)
+    Rails.cache.fetch([Apartment::Tenant.current, 'LeaveProgram', 'cached_program_stream_leave', *fields_second, *ids.sort]) {
+      joins(:program_stream).where(program_streams: { name: fields_second }, leave_programs: { client_enrollment_id: ids })
+    }
+  end
+
   private
 
   def create_leave_program_history
@@ -69,5 +82,12 @@ class LeaveProgram < ActiveRecord::Base
     if exit_date < enrollment_exit_date
       errors.add(:exit_date, I18n.t('invalid_program_exit_date'))
     end
+  end
+
+  def flush_cache
+    cached_program_exit_date_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_program_exit_date/].blank? }
+    cached_program_exit_date_keys.each { |key| Rails.cache.delete(key) }
+    cached_program_exit_date_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_program_stream_leave/].blank? }
+    cached_program_exit_date_keys.each { |key| Rails.cache.delete(key) }
   end
 end

@@ -12,11 +12,12 @@ module AdvancedSearches
     def render
       opt_group = format_header('quantitative')
       if @user.admin? || @user.strategic_overviewer?
-        quantitative_types = QuantitativeType.includes(:quantitative_cases).where('quantitative_types.visible_on LIKE ?', "%#{visible_on}%")
+        quantitative_types = QuantitativeType.cach_by_visible_on(visible_on)
       else
         quantitative_type_ids = @user.quantitative_type_permissions.readable.pluck(:quantitative_type_id)
-        quantitative_types = QuantitativeType.includes(:quantitative_cases).where(id: quantitative_type_ids)
+        quantitative_types = QuantitativeType.cach_by_quantitative_type_ids(quantitative_type_ids)
       end
+
       quantitative_cases = quantitative_types.map do |qt|
         AdvancedSearches::FilterTypes.drop_list_options(
           "quantitative__#{qt.id}",

@@ -1,0 +1,24 @@
+.col-xs-12
+  .panel.panel-default.program-stream-panel
+    .panel-body#data-agregation
+      = link_to '#data-agregation' do
+        .widget.style1.widget-program-panel
+          .row.vertical-align
+            .col-xs-5
+              %i.fa.fa-bar-chart.fa-3x
+            .col-xs-7.text-right
+              %span.text-font
+                = t('.data_agregation')
+
+      .row
+        .col-xs-12
+          #rootwizard.m-t-sm.root-wizard{ data: { next: t('views.pagination.next'), previous: t('views.pagination.previous'), finish: t('views.pagination.last'), action: params['action'], male: t('gender_list.male'), female: t('gender_list.female'), other: t('gender_list.other_gender') } }
+            %h4= t('.active_progarm_streams_by_gender')
+            %div{ class: "active-progarm-streams-by-gender" }
+              #client-program-stream{ 'data-content-count' => @dashboard.program_stream_report_gender.to_json, 'data-title' => t('.active_progarm_streams_by_gender') }
+            %h4= t('.active_case_by_gender')
+            %div{ class: "active-client-by-gender" }
+              #active-client{ 'data-url' => client_by_gender_api_clients_path, 'data-title' => t('.active_case_by_gender') }
+            %h4= t('.active_case_by_donor')
+            %div{ class: "active-case-by-donor" }
+              #active-case-by-donor{ 'data-url' => active_client_by_donor_api_clients_path, 'data-title' => t('.active_case_by_donor') }

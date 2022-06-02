@@ -41,8 +41,8 @@ module PartnersHelper
 
   def partner_address_translation
     translations = {}
-    translations['province_id'.to_sym] = FieldSetting.find_by(name: 'province_id', klass_name: 'partner').try(:label) || t('datagrid.columns.partners.province')
-    translations['province_id_'.to_sym] = FieldSetting.find_by(name: 'province_id', klass_name: 'partner').try(:label) || t('datagrid.columns.partners.province')
+    translations['province_id'.to_sym] = FieldSetting.cache_by_name_klass_name_instance('province_id', 'partner') || t('datagrid.columns.partners.province')
+    translations['province_id_'.to_sym] = FieldSetting.cache_by_name_klass_name_instance('province_id', 'partner') || t('datagrid.columns.partners.province')
     translations
   end
 end

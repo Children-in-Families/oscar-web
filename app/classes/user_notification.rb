@@ -6,7 +6,7 @@ class UserNotification
   attr_accessor :upcoming_csi_assessments_count, :upcoming_custom_csi_assessments_count
 
   def initialize(user, clients)
-    @current_setting = Setting.first
+    @current_setting = Setting.cache_first
     @user                                            = user
     @clients                                         = clients
     @assessments                                     = @user.assessment_either_overdue_or_due_today
@@ -347,7 +347,12 @@ class UserNotification
     referrals.each do |referral|
       referral_slug = referral.slug
       client = Client.find_by(slug: referral_slug) || Client.find_by(archived_slug: referral_slug)
-      client.present? ? existing_client_referrals << referral : new_client_referrals << referral
+      if client.present?
+        existing_client_referrals << referral
+        referral.update_column(:client_id, client.id) unless referral.client_id
+      else
+        new_client_referrals << referral
+      end
     end
 
     referral_type == 'new_referral' ? new_client_referrals : existing_client_referrals

@@ -263,6 +263,8 @@
                 .btn.btn-outline.btn-danger
                   %i.fa.fa-trash
       .ibox-content
+        = hidden_field_tag :initial_referral_date, @client.initial_referral_date
+        = hidden_field_tag :last_exit_ngo_date, @client.exit_ngos.last&.exit_date
         .row
           .col-sm-12.col-md-6.first-table
             %table.table.table-bordered
@@ -390,7 +392,7 @@
                     %strong
                       = @client.carer.try(:phone)
 
-              - if Setting.first.country_name == "cambodia" && !Organization.brc?
+              - if Setting.cache_first.country_name == "cambodia" && !Organization.brc?
                 %tr
                   %td.spacing-first-col
                     = t('.is_the_client_rated_for_id_poor')
@@ -587,7 +589,7 @@
               %tbody
                 - legal_doc_options_hash = { "Labour Trafficking" => 'labor_trafficking_legal_doc_option', "Sexual Trafficking" => 'sex_trafficking_legal_doc_option', 'Other' => 'other_legal_doc_option' }
                 - legal_doc_fields.each do |field|
-                  - if field == 'dosavy'
+                  - if field == 'mosavy'
                     - attachments = @client.send("referral_doc_files")
                   - else
                     - attachments = @client.send("#{field}_files")

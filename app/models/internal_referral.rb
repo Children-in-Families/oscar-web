@@ -15,7 +15,7 @@ class InternalReferral < ActiveRecord::Base
   after_save :sent_email_to_user
 
   def is_editable?
-    setting = Setting.first
+    setting = Setting.cache_first
     return true if setting.try(:internal_referral_limit).zero?
     max_duration = setting.try(:internal_referral_limit).zero? ? 2 : setting.try(:internal_referral_limit)
     internal_referral_frequency = setting.try(:internal_referral_frequency)

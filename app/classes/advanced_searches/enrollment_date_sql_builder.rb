@@ -12,7 +12,7 @@ module AdvancedSearches
       basic_rules = $param_rules['basic_rules']
       param_rules = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
       enrollment_rules = iterate_param_rules(param_rules)
-      query_string = enrollment_rules.map do |rules|
+      query_string = enrollment_rules.reject{ |rules| rules['id'][/^(enrollment)/].blank? }.map do |rules|
         client_enrollment_sql(rules['operator'], rules['field'], rules['value'], rules['input'], rules['type'])
       end.join(" #{param_rules['condition']} ")
 
@@ -36,7 +36,12 @@ module AdvancedSearches
       when 'between'
         client_enrollment_date = client_enrollments.where('enrollment_date BETWEEN ? AND ?', @value.first, @value.last)
       end
-      client_ids = client_enrollment_date.where(query_string).pluck(:client_id).uniq
+
+      if query_string.present?
+        client_ids = client_enrollment_date.where(query_string).pluck(:client_id).uniq
+      else
+        client_ids = client_enrollment_date.pluck(:client_id).uniq
+      end
       { id: sql_string, values: client_ids }
     end
 
@@ -100,7 +105,7 @@ module AdvancedSearches
         if rules.has_key?('rules')
           iterate_param_rules(rules, values)
         else
-          values << rules unless rules['id'][/^(enrollment_|enrollmentdate_)/].present?
+          values << rules unless rules['id'][/^(enrollmentdate_)/].present?
         end
       end
       values

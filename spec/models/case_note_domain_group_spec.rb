@@ -2,6 +2,7 @@ describe CaseNoteDomainGroup do
   before do
     allow_any_instance_of(Client).to receive(:generate_random_char).and_return("abcd")
   end
+  let!(:custom_assessment_setting_1){ create(:custom_assessment_setting, custom_assessment_name: 'TEST1')}
   describe CaseNoteDomainGroup, 'associations' do
     it { is_expected.to belong_to(:case_note)}
     it { is_expected.to belong_to(:domain_group)}
@@ -16,9 +17,9 @@ describe CaseNoteDomainGroup do
     let!(:domain_group_1){ create(:domain_group) }
     let!(:domain_group_2){ create(:domain_group) }
     let!(:domain_1){ create(:domain, domain_group: domain_group_1, identity: 'Food') }
-    let!(:custom_domain_1){ create(:domain, :custom, domain_group: domain_group_1) }
-    let!(:custom_domain_2){ create(:domain, :custom, domain_group: domain_group_2, identity: 'Clothes') }
-    let!(:custom_domain_3){ create(:domain, :custom, domain_group: domain_group_2, identity: 'Shelter') }
+    let!(:custom_domain_1){ create(:domain, :custom, custom_assessment_setting: custom_assessment_setting_1, domain_group: domain_group_1) }
+    let!(:custom_domain_2){ create(:domain, :custom, custom_assessment_setting: custom_assessment_setting_1, domain_group: domain_group_2, identity: 'Clothes' ) }
+    let!(:custom_domain_3){ create(:domain, :custom, custom_assessment_setting: custom_assessment_setting_1, domain_group: domain_group_2, identity: 'Shelter' ) }
     let!(:assessment_1){ create(:assessment, client: client_1) }
     let!(:assessment_domain_1){ create(:assessment_domain, assessment: assessment_1, domain: domain_1) }
     let!(:case_note_1){ create(:case_note, client: client_1) }
@@ -51,7 +52,7 @@ describe CaseNoteDomainGroup do
 
     context '#domain_identities' do
       it 'scopes by type of case note whether custom or default' do
-        expect(case_note_domain_group_2.domain_identities).to eq('Clothes, Shelter')
+        expect(case_note_domain_group_2.domain_identities(custom_assessment_setting_1.id)).to eq('Clothes, Shelter')
       end
     end
   end

@@ -516,7 +516,9 @@ en:
       name: Name
       name_of_referee: Name of Referee
       ngo_accepted_date: NGO Accept Date
+      no_case_note_date: No Case Note Date
       ngo_exit_date: NGO Exit Date
+      no_case_note_date: No Case Note Date
       other_info_of_exit: Other - More Information
       phone_owner: Phone Owner
       placement_start_date: Placement Start Date
@@ -534,8 +536,10 @@ en:
       referral_source_category_id: Referral Source Category
       referral_source_id: Referral Source
       referred_from: Referred From
-      referred_in: Referred In
+      referred_in: Number of Referred In
+      referred_out: Number of Referred Out
       referred_to: Referred To
+      referred_out: Referred Out
       referee: Referee
       referee_relationship: Referee Relationship to Client
       referee_name: Referee Name
@@ -1542,6 +1546,7 @@ en:
       detail_form_of_mosavy_dosavy: Detailed Form for Identification of Victim of Human Trafficking (MoSAVY/DoSAVY)
       dosavy: DoSAVY
       external_id_display: External ID Display
+      family_book: 'Family Book'
       form_indentification: Forms for Identification of Victim of Human Trafficking
       indentification_doc: Identification Documents
       labor_trafficking_legal_doc_option: Labour Trafficking
@@ -1567,6 +1572,9 @@ en:
       temp_travel_doc: Temporary Travel Documents
       travel_doc: Laissez-Passer
       verdict: Verdict
+      warning_messages:
+        accepted_date: 'Client Accepted Date is: <strong class="text-danger">%{accepted_date}</strong>. You cannot back-date to less than accepted date.'
+        referral_date: 'Client Initial Referral Date is: <strong class="text-danger">%{referral_date}</strong>. You cannot back-date to less than initial referral date.'
       warrant: Warrant
     actions:
       are_you_sure: Are you sure you want to delete?
@@ -2402,6 +2410,14 @@ en:
       next: Next
       open_form: Open Form
       previous: Previous
+    data_agregations:
+      active_case_by_donor: Active Case by Donors
+      active_case_by_gender: Active Case by Gender
+      active_progarm_streams_by_gender: Gender by Active Program Stream
+      data_agregation: Data Desegregation
+    data_validations:
+      data_validation: Data Validation
+      number_of_logic_error: 'Number of Clients have date logic errors:'
     duetoday:
       assessment: Assessment
       assessments: Assessments
@@ -2417,6 +2433,11 @@ en:
       previous: Previous
     go_to_client:
       go_to_client: Go to Client
+    index:
+      client_dashboard: Client Dashboard
+      community_dashboard: Community Dashboard
+      family_dashboard: Family Dashboard
+      hotline_dashboard: Hotline Dashboard
     multiple_forms:
       add_new_document: Add New Document
       assessment: Assessment
@@ -2484,8 +2505,8 @@ en:
       remind_later: Remind me later
       program_stream_name: Program Stream
       tracking_name: Tracking Form Name
-    record_tab:
-      record_you_add: What kind of record would you like to add?
+    report_builder:
+      go_to_report_builder: Go to Report Builder
     third_party:
       ables: Ables
       agencies: Agencies
@@ -5876,6 +5897,7 @@ en:
       <<: *SERVICE_DELIVERY_ATTR
     update:
       successfully_updated: Service has been successfully updated.
+  referral_details: Referral Details
   results: Results
   shared:
     x_lists_of: "%{x} lists of"

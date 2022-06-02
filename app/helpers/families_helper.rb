@@ -53,7 +53,7 @@ module FamiliesHelper
   end
 
   def additional_columns
-    unless Setting.first.try(:hide_family_case_management_tool?)
+    unless Setting.cache_first.try(:hide_family_case_management_tool?)
       {
         date_of_custom_assessments: I18n.t('datagrid.columns.date_of_custom_assessments', assessment: I18n.t('families.show.assessment')),
         all_custom_csi_assessments: I18n.t('datagrid.columns.all_custom_csi_assessments', assessment: I18n.t('families.show.assessment')),
@@ -132,17 +132,17 @@ module FamiliesHelper
     }
   end
 
-  def family_address_translation
+  def family_address_translation(group_name = 'family')
     field_keys = %W(province province_id district district_id commune commune_id village)
     translations = {}
     field_keys.each do |key_translation|
-      translations[key_translation.to_sym] = FieldSetting.find_by(name: key_translation).try(:label) || I18n.t("datagrid.columns.families.#{key_translation}")
-      translations["#{key_translation}_".to_sym] = FieldSetting.find_by(name: key_translation).try(:label) || I18n.t("datagrid.columns.families.#{key_translation}")
+      translations[key_translation.to_sym] = FieldSetting.cache_by_name(key_translation, group_name) || I18n.t("datagrid.columns.families.#{key_translation}")
+      translations["#{key_translation}_".to_sym] = FieldSetting.cache_by_name(key_translation, group_name) || I18n.t("datagrid.columns.families.#{key_translation}")
     end
-    translations['province_id'.to_sym] = FieldSetting.find_by(name: 'province_id').try(:label) || I18n.t('datagrid.columns.families.province')
-    translations['district_id'.to_sym] = FieldSetting.find_by(name: 'district_id').try(:label) || I18n.t('datagrid.columns.families.district')
-    translations['commune_id'.to_sym] = FieldSetting.find_by(name: 'commune_id').try(:label) || I18n.t('datagrid.columns.families.commune')
-    translations['village_id'.to_sym] = FieldSetting.find_by(name: 'village_id').try(:label) || I18n.t('datagrid.columns.families.village_id')
+    translations['province_id'.to_sym] = FieldSetting.cache_by_name('province_id', group_name) || I18n.t('datagrid.columns.families.province')
+    translations['district_id'.to_sym] = FieldSetting.cache_by_name('district_id', group_name) || I18n.t('datagrid.columns.families.district')
+    translations['commune_id'.to_sym] = FieldSetting.cache_by_name('commune_id', group_name) || I18n.t('datagrid.columns.families.commune')
+    translations['village_id'.to_sym] = FieldSetting.cache_by_name('village_id', group_name) || I18n.t('datagrid.columns.families.village_id')
     translations
   end
 

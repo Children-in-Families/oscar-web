@@ -25,15 +25,16 @@ module I18n::Backend::Custom
   def load_translations(*filenames)
     filenames = I18n.load_path if filenames.empty?
     filenames.flatten.each { |filename| load_file(filename) }
-
-    if ActiveRecord::Base.connection.table_exists? 'settings'
-      nepal_commune_mapping if Setting.first&.country_name == 'nepal'
+    if Apartment::Tenant.current != 'public'
+      if Organization.cache_table_exists? 'settings'
+        nepal_commune_mapping if Setting.cache_first&.country_name == 'nepal'
+      end
+      load_custom_labels if Organization.cache_table_exists? 'field_settings'
     end
-    load_custom_labels if ActiveRecord::Base.connection.table_exists? 'field_settings'
   end
 
   def load_custom_labels
-    FieldSetting.includes(:translations).find_each do |field_setting|
+    FieldSetting.cache_all.each do |field_setting|
       data = translations[I18n.locale]
       data.extend(HashDeepTraverse)
 

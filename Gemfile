@@ -50,7 +50,7 @@ gem 'whenever',               '~> 0.9.4'
 gem 'thredded',               '~> 0.6.1'
 gem 'cocoon',                 '~> 1.2', '>= 1.2.9'
 gem 'paper_trail',            '~> 5.2'
-gem 'carrierwave',            '~> 1.1.0'
+gem 'carrierwave',            '~> 1.3.2'
 gem 'mini_magick',            '~> 4.5'
 gem 'chartkick',              '~> 3.4'
 gem 'font-awesome-rails',     '~> 4.7'
@@ -59,7 +59,7 @@ gem 'apartment',              '~> 1.2'
 gem 'dropzonejs-rails',       '~> 0.7.3'
 gem 'bourbon',                '~> 4.2'
 gem 'neat',                   '~> 1.8'
-gem 'sidekiq',                '~> 4.1.0'
+gem 'sidekiq',                '~> 5.2.8'
 gem 'mongoid',                '~> 5.2', '>= 5.2.1'
 gem 'where-or',               '~> 0.1.6'
 gem 'dotiw',                  '~> 4.0.1'
@@ -77,6 +77,7 @@ gem 'enumerize', '~> 2.3.1'
 gem 'ulid',                   '~> 1.2'
 gem 'aws-healthcheck'
 gem 'redis-session-store',    '~> 0.11.3'
+gem 'dalli', '~> 2.7', '>= 2.7.11'
 
 group :development, :test do
   gem 'pry'
@@ -106,7 +107,7 @@ end
 group :development do
   gem 'letter_opener',        '~> 1.4.1'
   gem 'letter_opener_web',    '~> 1.3', '>= 1.3.4'
-  gem 'rubocop',              '~> 0.47.1', require: false
+  gem 'rubocop',              '~> 0.81.0', require: false
   gem 'capistrano',           '3.9.0'
   gem 'capistrano-rails',     '~> 1.1.1'
   gem 'capistrano-passenger', '~> 0.1.1'
@@ -117,6 +118,7 @@ group :development do
   gem 'metainspector'
   gem 'flay',                 '~> 2.12', '>= 2.12.1'
   gem 'active_record_doctor', '~> 1.8'
+  gem 'lol_dba', '~> 2.2'
 end
 
 group :test do

@@ -10,6 +10,8 @@ class DashboardsController < AdminController
     @select_client_options = Client.accessible_by(current_ability).active_accepted_status
     @custom_domains = Domain.custom_csi_domains
     @custom_assessment_settings = CustomAssessmentSetting.all.where(enable_custom_assessment: true)
+
+    @date_validation_error = fetch_data_logic_error
   end
 
   def update_program_stream_service
@@ -19,6 +21,12 @@ class DashboardsController < AdminController
       next if program.last["service_ids"].nil?
       program_stream.update(service_ids: program.last["service_ids"].uniq)
     end
+  end
+
+  def client_data_validation
+    @date_validation_error = fetch_data_logic_error
+    clients = Client.accessible_by(current_ability).where(id: @date_validation_error[:ids]).page(params[:page]).per(15)
+    @client_grid = ClientGrid.new({ column_names: [:id, :slug, :given_name, :family_name, :local_given_name, :local_family_name, :status, :gender]}).scope { clients }
   end
 
   private
@@ -48,7 +56,7 @@ class DashboardsController < AdminController
     clients_duetoday = []
     clients_upcoming = []
     clients = []
-    @setting = Setting.first
+    @setting = Setting.cache_first
     _clients = Client.accessible_by(current_ability).active_accepted_status.distinct
     eligible_clients = active_young_clients(_clients, @setting)
     eligible_clients.each do |client|
@@ -106,5 +114,27 @@ class DashboardsController < AdminController
                             today_tasks: today_tasks.flatten.uniq, upcoming_tasks: upcoming_tasks.flatten.uniq }]
     end
     clients
+  end
+
+  def fetch_data_logic_error
+    sql = <<-SQL.squish
+      LEFT OUTER JOIN enter_ngos ON enter_ngos.client_id = clients.id
+      LEFT OUTER JOIN client_enrollments ON client_enrollments.client_id = clients.id
+      LEFT OUTER JOIN exit_ngos ON exit_ngos.client_id = clients.id
+    SQL
+
+    sub_sql_min_max = <<-SQL.squish
+      (MIN(client_enrollments.enrollment_date) < MIN(enter_ngos.accepted_date) AND MAX(client_enrollments.enrollment_date) < MAX(enter_ngos.accepted_date)) OR
+      (MIN(exit_ngos.exit_date) < MIN(client_enrollments.enrollment_date) AND MAX(exit_ngos.exit_date) < MAX(client_enrollments.enrollment_date)) OR
+      (MIN(exit_ngos.exit_date) < MIN(enter_ngos.accepted_date) AND MAX(exit_ngos.exit_date) < MAX(enter_ngos.accepted_date))
+    SQL
+
+    if current_user.case_worker? || current_user.manager?
+      clients_error = Client.accessible_by(current_ability).joins(sql).group('clients.id, case_worker_clients.id').having(sub_sql_min_max)
+    else
+      clients_error = Client.accessible_by(current_ability).joins(sql).group('clients.id').having(sub_sql_min_max)
+    end
+
+    { ids: clients_error.ids, count: clients_error.to_a.count }
   end
 end

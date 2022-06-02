@@ -17,24 +17,24 @@ class ClientPolicy < ApplicationPolicy
     ]
 
     if Organization.ratanak?
-      field_settings.where(name: fields).any? && fields.any?{ |field| show?(field) }
+      FieldSetting.show_legal_doc(fields) && fields.any?{ |field| show?(field) }
     else
-      field_settings.where(visible: true, name: fields).any? && fields.any?{ |field| show?(field) }
+      FieldSetting.show_legal_doc_visible(fields) && fields.any?{ |field| show?(field) }
     end
   end
 
   def brc_client_address?
     fields = %w(current_island current_street current_po_box current_settlement current_resident_own_or_rent current_household_type)
-    field_settings.where(name: fields).any? && fields.any?{ |field| show?(field.to_sym) }
+    FieldSetting.by_instances(Apartment::Tenant.current).where(name: fields).any? && fields.any?{ |field| show?(field.to_sym) }
   end
 
   def brc_client_other_address?
     fields = %w(island2 street2 po_box2 settlement2 resident_own_or_rent2 household_type2)
-    field_settings.where(name: fields).any? && fields.any?{ |field| show?(field.to_sym) }
+    FieldSetting.by_instances(Apartment::Tenant.current).where(name: fields).any? && fields.any?{ |field| show?(field.to_sym) }
   end
 
   def client_stackholder_contacts?
-    field_settings.where(name: Client::STACKHOLDER_CONTACTS_FIELDS).any? &&
+    FieldSetting.by_instances(Apartment::Tenant.current).where(name: Client::STACKHOLDER_CONTACTS_FIELDS).any? &&
     Client::STACKHOLDER_CONTACTS_FIELDS.any?{ |field| show?(field) }
   end
 
@@ -45,8 +45,7 @@ class ClientPolicy < ApplicationPolicy
       :main_school_contact,
       :education_background
     ]
-
-    field_settings.where(name: fields).any? && fields.any?{ |field| show?(field) }
+    FieldSetting.by_instances(Apartment::Tenant.current).where(name: fields).any? && fields.any?{ |field| show?(field) }
   end
 
   def show?(*field_names)
@@ -68,11 +67,7 @@ class ClientPolicy < ApplicationPolicy
 
     return false if Organization.brc? && (hidden_fields.include?(field) || hidden_fields.map{|f| f + '_'}.include?(field))
 
-    field_setting = field_settings.find do |field_setting|
-      field_setting.name == field &&
-      field_setting.klass_name == 'client' &&
-      (field_setting.for_instances.blank? || field_setting.for_instances.include?(Organization.current&.short_name))
-    end
+    field_setting = FieldSetting.cache_by_name_klass_name_instance(field, 'client')
 
     field_setting.present? ? (field_setting.required? || field_setting.visible?) : true
   end

@@ -73,6 +73,8 @@ module AdvancedSearches
         clients.where("assessment_domains.score BETWEEN ? AND ? AND assessment_domains.domain_id = ?", score.first, score.last, @domain_id)
       when 'is_not_empty'
         clients.where("assessment_domains.score IS NOT NULL AND assessment_domains.domain_id = ?", @domain_id)
+      when 'between'
+        clients.where("(assessment_domains.score BETWEEN ? AND ?) AND assessment_domains.domain_id = ?", score.first, score.last, @domain_id)
       else
         clients.where(assessment_domains: { score: score, domain_id: @domain_id })
       end
