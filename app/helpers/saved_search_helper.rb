@@ -7,7 +7,7 @@ module SavedSearchHelper
         end
       elsif advanced_search.program_streams.present?
         if !(@program_streams.map(&:id) & class_eval(advanced_search.program_streams)).empty?
-          link_to clients_path(save_search_params(advanced_search.search_params).merge(advanced_search_id: advanced_search.id)), class: 'btn btn-xs btn-success btn-outline dany', data: { "save-search-#{advanced_search.id}": advanced_search.queries.to_json } do
+          link_to clients_path(save_search_params(advanced_search.search_params).merge(advanced_search_id: advanced_search.id, commit: 'commit')), class: 'btn btn-xs btn-success btn-outline dany', data: { "save-search-#{advanced_search.id}": advanced_search.queries.to_json } do
             fa_icon 'clipboard'
           end
         else
@@ -17,7 +17,7 @@ module SavedSearchHelper
         end
       elsif advanced_search.custom_forms.present?
         if !(@custom_fields.map(&:id) & class_eval(advanced_search.custom_forms)).empty?
-          link_to clients_path(save_search_params(advanced_search.search_params).merge(advanced_search_id: advanced_search.id)), class: 'btn btn-xs btn-success btn-outline dany', data: { "save-search-#{advanced_search.id}": advanced_search.queries.to_json } do
+          link_to clients_path(save_search_params(advanced_search.search_params).merge(advanced_search_id: advanced_search.id, commit: 'commit')), class: 'btn btn-xs btn-success btn-outline dany', data: { "save-search-#{advanced_search.id}": advanced_search.queries.to_json } do
             fa_icon 'clipboard'
           end
         else
@@ -39,7 +39,7 @@ module SavedSearchHelper
           fa_icon 'clipboard'
         end
       else
-        link_to clients_path(save_search_params(advanced_search.search_params).merge(advanced_search_id: advanced_search.id)), class: 'btn btn-xs btn-success btn-outline dany', data: { "save-search-#{advanced_search.id}": advanced_search.queries.to_json } do
+        link_to clients_path(save_search_params(advanced_search.search_params).merge(advanced_search_id: advanced_search.id, commit: 'commit')), class: 'btn btn-xs btn-success btn-outline dany', data: { "save-search-#{advanced_search.id}": advanced_search.queries.to_json } do
           fa_icon 'clipboard'
         end
       end
