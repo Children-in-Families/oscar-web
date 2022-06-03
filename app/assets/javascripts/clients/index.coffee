@@ -58,6 +58,7 @@ CIF.ClientsIndex = do ->
     _addTourTip(tour)
     _extendDataTableSort()
     _addDataTableToAssessmentScoreData()
+    _addDataTableToTableSummary()
     _removeReferralDataColumnsInWizardClientColumn()
     _handleShowCustomFormSelect()
     _reOrderRuleContainer()
@@ -94,10 +95,16 @@ CIF.ClientsIndex = do ->
   _addDataTableToAssessmentScoreData = ->
     fileName = $('.assessment-domain-score').data('filename')
     _handleAjaxRequestToAssessment("#csi-assessment-score", fileName)
-    _handleDataTable("#csi-assessment-age", fileName)
-    _handleDataTable("#csi-assessment-referral-category", fileName)
     _handleAjaxRequestToAssessment("#custom-assessment-score", fileName) if $("#custom-assessment-score")
     $('.assessment-domain-score').on 'shown.bs.modal', (e) ->
+      $($.fn.dataTable.tables(true)).DataTable().columns.adjust()
+      return
+
+  _addDataTableToTableSummary = ->
+    fileName = $('.table-summary').data('filename')
+    _handleDataTable("#table-summary-age", fileName)
+    _handleDataTable("#table-summary-referral-category", fileName)
+    $('.table-summary').on 'shown.bs.modal', (e) ->
       $($.fn.dataTable.tables(true)).DataTable().columns.adjust()
       return
 
@@ -213,7 +220,7 @@ CIF.ClientsIndex = do ->
 
       onInit: ->
         $('ul[role="tablist"]').hide()
-        $('ul.assessment-score-data[role="tablist"]').show()
+        $('ul.table-summary-tab[role="tablist"]').show()
         $('.actions a[href="#finish"]').attr('id', 'wizard-search')
         _handleReportBuilderWizardDisplayBtns()
         _handleQueryFilters('#wizard_custom_form_filter', '#wizard-custom-form-select')

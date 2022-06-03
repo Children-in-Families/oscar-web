@@ -1,5 +1,0 @@
-#assessment-score.tab-pane.active{role: "tabpanel"}
-  - domain_ids = []
-  %table.table.table-bordered.table-striped.table-hover.assessment-score-data#csi-assessment-score
-    = hidden_field(:hidden, :api_assessment, class: 'api-assessment-path', data: { 'assessment-params': assessments_api_clients_path(client_ids: @client_grid.assets.ids.to_param, default: true) })
-    = hidden_field(:hidden, :assessment_domain_headers, class: 'assessment-domain-headers', data: { headers: assess_header_mapping(true).to_json } )
