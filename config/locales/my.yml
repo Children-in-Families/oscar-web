@@ -599,6 +599,7 @@ my:
       user_id: အမႈျခင္းရာကိုလိုက္လံေဆာင္ရြက္ေပးသူ
       village: ေက်းရြာ
       what3words: What3words
+      client_rejected: Client Rejected
   advanced_search_save_queries:
     create:
       failed_create: ရွာေဖြျခင္း အျပင္အဆင္ကို အျခားလူ ယူထားပါသည္။
