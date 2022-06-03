@@ -181,7 +181,8 @@ module AdvancedSearchHelper
       number_client_referred_gatekeeping: I18n.t('advanced_search.fields.number_client_referred_gatekeeping'),
       number_client_billable: I18n.t('advanced_search.fields.number_client_billable'),
       assessment_condition_last_two: I18n.t('advanced_search.fields.assessment_condition_last_two'),
-      assessment_condition_first_last: I18n.t('advanced_search.fields.assessment_condition_first_last')
+      assessment_condition_first_last: I18n.t('advanced_search.fields.assessment_condition_first_last'),
+      client_rejected: I18n.t('advanced_search.fields.client_rejected')
     }
 
     translations = label_translations(address_translation(group_name)).merge(translations)

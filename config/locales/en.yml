@@ -437,7 +437,7 @@ en:
     fields:
       able: Able
       able_state: Able State
-      active_clients: Active Clients in Specific Period
+      active_clients: Active Clients in Specific Program and Period
       active_client_program: Active Clients in Specific Program
       active_program_stream: Active Program Stream
       address: Address
@@ -608,6 +608,7 @@ en:
       user_id: Case Worker
       village: Village
       what3words: What3words
+      client_rejected: Client Rejected
   advanced_search_save_queries:
     create:
       failed_create: Search setting has already been taken.

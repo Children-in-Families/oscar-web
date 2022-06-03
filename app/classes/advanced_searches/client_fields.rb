@@ -71,7 +71,7 @@ module AdvancedSearches
       [
         'date_of_birth', 'initial_referral_date', 'follow_up_date', 'exit_date', 'accepted_date',
         'case_note_date', 'created_at', 'date_of_referral', 'active_clients', 'active_client_program',
-        'number_client_referred_gatekeeping', 'number_client_billable'
+        'number_client_referred_gatekeeping', 'number_client_billable', 'client_rejected'
       ].compact
     end
 

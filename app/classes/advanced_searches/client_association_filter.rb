@@ -128,6 +128,8 @@ module AdvancedSearches
         values = assessment_condition_last_two_query
       when 'assessment_condition_first_last'
         values = assessment_condition_first_last_query
+      when 'client_rejected'
+        values = get_rejected_clients
       end
       { id: sql_string, values: values }
     end
@@ -1138,7 +1140,7 @@ module AdvancedSearches
       when 'not_equal'
         client_ids = clients.where('date(enter_ngos.accepted_date) != ?', @value.to_date ).distinct.ids
       when 'between'
-        client_ids = clients.where("date(enter_ngos.accepted_date) BETWEEN ? AND ? ", @value[0].to_date, @value[1].to_date).distinct.ids
+        client_ids = clients.where("date(enter_ngos.accepted_date) BETWEEN ? AND ? OR status = ?", @value[0], @value[1], 'Active').distinct.ids
       when 'less'
         client_ids = clients.where('date(enter_ngos.accepted_date) < ?', @value.to_date ).distinct.ids
       when 'less_or_equal'
@@ -1153,6 +1155,33 @@ module AdvancedSearches
         client_ids = clients.where('enter_ngos.accepted_date IS NOT NULL').distinct.ids
       end
       clients = client_ids.present? ? client_ids : []
+    end
+
+    def get_rejected_clients
+      client_ids = []
+      clients = @clients.joins(:exit_ngos).where(:exit_ngos => {:exit_circumstance => 'Exited Client'}).distinct
+
+      case @operator
+      when 'equal'
+        client_ids = clients.where('date(exit_ngos.exit_date) = ?', @value.to_date ).distinct.ids
+      when 'not_equal'
+        client_ids = clients.where('date(exit_ngos.exit_date) != ?', @value.to_date ).distinct.ids
+      when 'between'
+        client_ids = clients.where("date(exit_ngos.exit_date) BETWEEN ? AND ?", @value[0], @value[1]).distinct.ids
+      when 'less'
+        client_ids = clients.where('date(exit_ngos.exit_date) < ?', @value.to_date ).distinct.ids
+      when 'less_or_equal'
+        client_ids = clients.where('date(exit_ngos.exit_date) <= ?', @value.to_date ).distinct.ids
+      when 'greater'
+        client_ids = clients.where('date(exit_ngos.exit_date) > ?', @value.to_date ).distinct.ids
+      when 'greater_or_equal'
+        client_ids = clients.where('date(exit_ngos.exit_date) >= ?', @value.to_date ).distinct.ids
+      when 'is_empty'
+        client_ids = clients.where('exit_ngos.exit_date IS NULL').distinct.ids
+      when 'is_not_empty'
+        client_ids = clients.where('exit_ngos.exit_date IS NOT NULL').distinct.ids
+      end
+      clients = client_ids
     end
 
     def active_client_program_query
