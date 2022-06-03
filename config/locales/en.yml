@@ -2024,6 +2024,7 @@ en:
       save_search_settings: Save Search Settings
       show_all: Show All
       view_all_active_tasks: View All Active Tasks
+      table_summary: Table Summary
     level:
       level_no: 'No'
       level_1: Level 1
