@@ -1,11 +1,11 @@
-.modal.fade.table-summary{ role: 'dialog', tabindex: '-1', id: 'table-summary', data: { 'filename' => "client_table_summary_report-#{Time.now}"  } }
+.modal.fade.assessment-domain-score.table-summary{ role: 'dialog', tabindex: '-1', id: 'table-summary', data: { 'filename' => "client_table_summary_report-#{Time.now}"  } }
   .modal-dialog{ role: 'document'}
     .modal-content
       .modal-header
         %button.close{"aria-label" => 'Close', "data-dismiss" => 'modal'}
           %span{"aria-hidden" => 'true'} &times;
         %h4.modal-title
-          = t('.table_summary')
+          = t('clients.table_summary.title')
 
       .modal-body
         %div
@@ -20,5 +20,5 @@
             = render 'table_summary_age_tab'
             = render 'table_summary_referral_category_tab'
 
-  .modal-footer
-    %button.btn.btn-default.form-btn.editable-cancel{"data-dismiss" => "modal", :type => "button"}= t('.close')
+      .modal-footer
+        %button.btn.btn-default.form-btn.editable-cancel{"data-dismiss" => "modal", :type => "button"}= t('.close')
