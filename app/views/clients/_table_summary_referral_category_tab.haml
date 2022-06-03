@@ -1,18 +1,18 @@
 #table-summary-referral-category-tab.tab-pane{role: "tabpanel"}
-  %table.table.table-bordered.table-striped.table-hover#table-summary-referral-category
+  %table.table.table-bordered.table-striped.table-hover.assessment-score-data#table-summary-referral-category
     %thead
       %tr
-        %th.text-center{:rowspan => 2}= t('.referral_source_category')
-        %th.text-center{:colspan => 3}= t('.children')
-        %th.text-center{:colspan => 3}= t('.adult')
-        %th.text-center{:rowspan => 2}= t('.total')
+        %th.text-center{:rowspan => 2}= t('clients.table_summary.referral_source_category')
+        %th.text-center{:colspan => 3}= t('clients.table_summary.children')
+        %th.text-center{:colspan => 3}= t('clients.table_summary.adult')
+        %th.text-center{:rowspan => 2}= t('clients.table_summary.total')
       %tr
-        %th= t('.female')
-        %th= t('.male')
-        %th= t('.other')
-        %th= t('.female')
-        %th= t('.male')
-        %th= t('.other')
+        %th= t('clients.table_summary.female')
+        %th= t('clients.table_summary.male')
+        %th= t('clients.table_summary.other')
+        %th= t('clients.table_summary.female')
+        %th= t('clients.table_summary.male')
+        %th= t('clients.table_summary.other')
     %tbody
       - totalChildFemale = totalChildMale = totalChildOther = 0
       - totalAdultFemale = totalAdultMale = totalAdultOther = total = 0

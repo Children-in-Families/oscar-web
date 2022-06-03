@@ -1654,9 +1654,6 @@ en:
       client_name: Client Name
       close: Close
       export_to_xls: Export to XLS
-      score_tabs: Score
-      age_tabs: Age
-      referral_category_tabs: Referral Categories
     book:
       book: Client Book For
     care_plan: Care plan
@@ -2401,6 +2398,17 @@ en:
     version:
       back: Back
       modification_of: Changelog of
+    table_summary:
+      title: Table Summary
+      age_tabs: Age
+      referral_category_tabs: Referral Categories
+      program: Program
+      children: Children
+      adult: Adult
+      female: Female
+      male: Male
+      other: Other
+      total: Total
   communities:
     actions:
       are_you_sure: Are you sure you want to delete?
