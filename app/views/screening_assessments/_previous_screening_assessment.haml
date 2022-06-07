@@ -26,35 +26,29 @@
               %strong= field_to_local(developmental_marker, 'short_description')
               %hr/
               .row
-                .col-xs-12
+                .col-xs-12.col-sm-12.col-md-3
+                  = image_tag ("cb_dmat/#{developmental_marker.name.parameterize}" || 'picture.png'), class: 'img-responsive'
+                .col-xs-12.col-sm-12.col-md-9
                   .row
-                    .col-xs-2
-                      = image_tag ("cb_dmat/#{developmental_marker.name.parameterize.underscore}/#{developmental_marker.question_1_field}_question_1.png" || 'picture.png'), class: 'img-responsive'
-                    .col-xs-6
+                    .col-xs-8
                       = field_to_local developmental_marker, 'question_1'
                     .col-xs-4
                       = human_boolean dmsa.question_1
                   %hr/
                   .row
-                    .col-xs-2
-                      = image_tag ("cb_dmat/#{developmental_marker.name.parameterize.underscore}/#{developmental_marker.question_2_field}_question_2.png" || 'picture.png'), class: 'img-responsive'
-                    .col-xs-6
+                    .col-xs-8
                       = field_to_local(developmental_marker, 'question_2')
                     .col-xs-4
                       = human_boolean dmsa.question_2
                   %hr/
                   .row
-                    .col-xs-2
-                      = image_tag ("cb_dmat/#{developmental_marker.name.parameterize.underscore}/#{developmental_marker.question_3_field}_question_3.png" || 'picture.png'), class: 'img-responsive'
-                    .col-xs-6
+                    .col-xs-8
                       = field_to_local(developmental_marker, 'question_3')
                     .col-xs-4
                       = human_boolean dmsa.question_3
                   %hr/
                   .row
-                    .col-xs-2
-                      = image_tag ("cb_dmat/#{developmental_marker.name.parameterize.underscore}/#{developmental_marker.question_4_field}_question_4.png" || 'picture.png'), class: 'img-responsive'
-                    .col-xs-6
+                    .col-xs-8
                       = field_to_local(developmental_marker, 'question_4')
                     .col-xs-4
                       = human_boolean dmsa.question_4
