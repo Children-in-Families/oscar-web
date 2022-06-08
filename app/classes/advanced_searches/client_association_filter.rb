@@ -1185,7 +1185,7 @@ module AdvancedSearches
     end
 
     def active_client_program_query
-      clients = @clients.joins(:client_enrollments).distinct
+      clients = @clients.joins(:client_enrollments).where(:client_enrollments => {:status => 'Active'}).distinct
 
       case @operator
       when 'equal'
