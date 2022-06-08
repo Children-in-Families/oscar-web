@@ -440,8 +440,8 @@ en:
     fields:
       able: Able
       able_state: Able State
-      active_clients: Active Clients in Specific Program and Period
-      active_client_program: Active Clients in Specific Program
+      active_clients: Active Clients in Specific Period
+      active_client_program: Active Clients in Specific Program and Period
       active_program_stream: Active Program Stream
       address: Address
       age: Age
