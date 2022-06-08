@@ -742,6 +742,7 @@ km:
       successfully_updated: ការប៉ាន់ប្រមាណត្រូវបានកែសម្រួលដោយជោគជ័យ
   at: នៅថ្ងៃ
   back: ត្រឡប់ក្រោយ
+  blank_field_warning: សូមចំណាំ! អ្នកមិនអាចបញ្ជូនអតិថិជនទៅប្រព័ន្ធខាងក្រៅបានទេ ប្រសិនបើឈ្មោះ ថ្ងៃខែឆ្នាំកំណើត ឬភេទរបស់អតិថិជននៅទទេ.
   calendars:
     index:
       sync_with_google: ភ្ជាប់ទៅប្រតិទិន Google
@@ -5173,6 +5174,7 @@ km:
   must_be_uniq: ផ្នែកនៃទម្រង់មិនអាចមានឈ្មោះដូចគ្នា
   mutual_dependence_has_been_modified: កម្មវិធីអាស្រ័យគ្នាមិនអាចផ្លាស់ប្តូរឬបន្ថែមទេព្រោះលក្ខខ័ណ្ឌមុនត្រូវបានផ្លាស់ប្តូរ។
   'no': 'No'
+  note: ចំណាំ
   notifications:
     case_note_due_today:
       client_case_note_due_today: អតិថិជនមានកំណត់ត្រាករណីដែលត្រូវបំពេញនៅថ្ងៃនេះ

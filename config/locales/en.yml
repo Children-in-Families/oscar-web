@@ -770,6 +770,7 @@ en:
       successfully_updated: Assessment has been successfully updated.
   at: 'on'
   back: Back
+  blank_field_warning: Warning! You can not refer a client to an external system if the client's name, date of birth, or gender is blank.
   calendars:
     index:
       sync_with_google: Sync with Google Calendar
@@ -5319,6 +5320,7 @@ en:
   must_be_uniq: field label must be uniq
   mutual_dependence_has_been_modified: Prerequisite Programs cannot be changed or added because it breaks the previous conditions.
   'no': 'No'
+  note: Note
   notifications:
     case_note_due_today:
       client_case_note_due_today: Client Case Note Due Today

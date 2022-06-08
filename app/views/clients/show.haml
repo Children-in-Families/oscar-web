@@ -140,7 +140,10 @@
                 - if Organization.ratanak?
                   %li= link_to 'Internal Referral', new_client_internal_referral_path(@client)
                 - ngos.each do |value, key|
-                  %li= link_to value, new_client_referral_url(@client, ngo: key, external_ngo_name: key == 'external referral' && value), :class => 'target-ngo', :value => "#{key}", :id => "#{key}"
+                  - if value == "MoSVY External System" && @client.is_referable_to_external_system?
+                    %li= link_to value, '#exteralSystem', class: 'target-ngo', data: { target: '#exteralSystem', toggle: "modal" }
+                  - else
+                    %li= link_to value, new_client_referral_url(@client, ngo: key, external_ngo_name: key == 'external referral' && value), :class => 'target-ngo', :value => "#{key}", :id => "#{key}"
           = link_to client_books_path(@client), data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.client_book')}", placement: "auto" } do
             %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit
               = t('.book')
@@ -764,7 +767,7 @@
                           %button.btn.btn-outline.btn-primary.btn-xs= fa_icon('eye')
 
 .row
-  -# = render 'placement'
+  = render 'blank_field_notification'
   = render 'referrals/confirm_referral'
   = render 'referrals/confirm_repeat_referral'
 
