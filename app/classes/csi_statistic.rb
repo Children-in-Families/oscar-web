@@ -24,7 +24,7 @@ class CsiStatistic
 
     assessment_amount.size.times { |i| assessments << "Assessment (#{i + 1})" }
 
-    Domain.includes(:assessment_domains).each do |domain|
+    Domain.all.each do |domain|
       assessment_by_value = []
 
       assessments_by_index.each do |a_ids|
@@ -43,7 +43,7 @@ class CsiStatistic
     clients = @clients.joins(:assessments).order('assessments.created_at')
     max_count = clients.map { |a| a.assessments.size }.max.to_i
     max_count.times do |i|
-      data << clients.map { |c| c.assessments[i].id if c.assessments[i].present? }
+      data << clients.includes(:assessments).map { |c| c.assessments[i].id if c.assessments[i].present? }
     end
     data
   end

@@ -348,7 +348,12 @@ module AdvancedSearches
     end
 
     def date_of_assessments_query(type)
-      clients = @clients.joins(:assessments).where(assessments: { default: type })
+      custom_assessment_setting_id = find_custom_assessment_setting_id(type)
+      if custom_assessment_setting_id
+        clients = @clients.joins(:assessments).where(assessments: { default: type, custom_assessment_setting_id: custom_assessment_setting_id })
+      else
+        clients = @clients.joins(:assessments).where(assessments: { default: type })
+      end
       case @operator
       when 'equal'
         clients = clients.where('date(assessments.created_at) = ?', @value.to_date)
@@ -373,7 +378,13 @@ module AdvancedSearches
     end
 
     def date_of_completed_assessments_query(type)
-      clients = @clients.joins(:assessments).where(assessments: { completed: true, default: type })
+      custom_assessment_setting_id = find_custom_assessment_setting_id(type)
+      if custom_assessment_setting_id
+        clients = @clients.joins(:assessments).where(assessments: { completed: true, default: type, custom_assessment_setting_id: custom_assessment_setting_id })
+      else
+        clients = @clients.joins(:assessments).where(assessments: { completed: true, default: type })
+      end
+
       case @operator
       when 'equal'
         clients = clients.where('date(assessments.completed_date) = ?', @value.to_date)
@@ -395,6 +406,15 @@ module AdvancedSearches
         clients = clients.where(assessments: { default: type }).where.not(assessments: { completed_date: nil })
       end
       clients.ids
+    end
+
+    def find_custom_assessment_setting_id(type)
+      custom_assessment_setting_id = nil
+      if !type && $param_rules['basic_rules'].present?
+        custom_assessment_setting_rule = JSON.parse($param_rules['basic_rules'])['rules'].select{|rule| rule['id'] == 'custom_assessment' }.try(:first)
+        custom_assessment_setting_id = custom_assessment_setting_rule['value'] if custom_assessment_setting_rule
+      end
+      custom_assessment_setting_id
     end
 
     def case_note_type_field_query(basic_rules)
@@ -655,16 +675,16 @@ module AdvancedSearches
     end
 
     def search_custom_assessment
-      clients = @clients.joins(assessments: :domains).where(assessments: {default: false})
+      clients = @clients.joins(:assessments).where(assessments: {default: false })
       case @operator
       when 'equal'
-        client_ids = clients.where(domains: { custom_assessment_setting_id: @value }).distinct.ids
+        client_ids = clients.where(assessments: { custom_assessment_setting_id: @value }).distinct.ids
       when 'not_equal'
-        client_ids = clients.where.not(domains: { custom_assessment_setting_id: @value }).distinct.ids
+        client_ids = clients.where.not(assessments: { custom_assessment_setting_id: @value }).distinct.ids
       when 'is_empty'
-        client_ids = @clients.includes(assessments: :domains).group('clients.id, assessments.id, domains.id, domains.custom_assessment_setting_id').having("COUNT(domains.custom_assessment_setting_id) = 0").distinct.ids
+        client_ids = @clients.includes(:assessments).group('clients.id, assessments.id, assessments.custom_assessment_setting_id').having("COUNT(assessments.custom_assessment_setting_id) = 0").distinct.ids
       when 'is_not_empty'
-        client_ids = @clients.includes(assessments: :domains).group('clients.id, assessments.id, domains.id, domains.custom_assessment_setting_id').having("COUNT(domains.custom_assessment_setting_id) > 0").distinct.ids
+        client_ids = @clients.includes(:assessments).group('clients.id, assessments.id, assessments.custom_assessment_setting_id').having("COUNT(assessments.custom_assessment_setting_id) > 0").distinct.ids
       end
     end
 
