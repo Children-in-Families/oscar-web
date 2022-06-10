@@ -10,7 +10,7 @@ module AdvancedSearches
       assessment_completed_date = ['custom_completed_date'].map{ |item| date_picker_options(item, format_header(item), domain_score_group) }
       date_of_assessments = ['custom_assessment_created_date'].map{ |item| date_picker_options(item, format_header(item), domain_score_group) }
       all_custom_domains  = ['All Custom Domains'].map { |item| number_filter_type(item.downcase.gsub(' ', '_'), domain_score_format(item), domain_score_group) }
-      custom_assessments + date_of_assessments + assessment_completed_date + csi_domain_options + all_custom_domains
+      all_custom_domains + custom_assessments + date_of_assessments + assessment_completed_date + csi_domain_options
     end
 
     private
