@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20220427082949) do
+ActiveRecord::Schema.define(version: 20220610044242) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -140,16 +140,18 @@ ActiveRecord::Schema.define(version: 20220427082949) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "client_id"
-    t.boolean  "completed",          default: false
-    t.boolean  "default",            default: true
+    t.boolean  "completed",                    default: false
+    t.boolean  "default",                      default: true
     t.integer  "family_id"
     t.integer  "case_conference_id"
     t.date     "completed_date"
+    t.integer  "custom_assessment_setting_id"
   end
 
   add_index "assessments", ["case_conference_id"], name: "index_assessments_on_case_conference_id", using: :btree
   add_index "assessments", ["client_id"], name: "index_assessments_on_client_id", using: :btree
   add_index "assessments", ["completed_date"], name: "index_assessments_on_completed_date", using: :btree
+  add_index "assessments", ["custom_assessment_setting_id"], name: "index_assessments_on_custom_assessment_setting_id", using: :btree
   add_index "assessments", ["default"], name: "index_assessments_on_default", where: "(\"default\" = true)", using: :btree
   add_index "assessments", ["default"], name: "index_assessments_on_default_false", where: "(\"default\" = false)", using: :btree
   add_index "assessments", ["family_id"], name: "index_assessments_on_family_id", using: :btree
@@ -2118,26 +2120,6 @@ ActiveRecord::Schema.define(version: 20220427082949) do
   add_index "referrals_services", ["referral_id", "service_id"], name: "index_referrals_services_on_referral_id_and_service_id", using: :btree
   add_index "referrals_services", ["referral_id"], name: "index_referrals_services_on_referral_id", using: :btree
   add_index "referrals_services", ["service_id"], name: "index_referrals_services_on_service_id", using: :btree
-
-  create_table "screening_assessments", force: :cascade do |t|
-    t.datetime "screening_assessment_date"
-    t.string   "client_age"
-    t.string   "visitor"
-    t.string   "client_milestone_age"
-    t.string   "attachments",                   default: [],         array: true
-    t.string   "attachments"
-    t.text     "note"
-    t.boolean  "smile_back_during_interaction"
-    t.boolean  "follow_object_passed_midline"
-    t.boolean  "turn_head_to_sound"
-    t.boolean  "head_up_45_degree"
-    t.integer  "client_id"
-    t.string   "screening_type",                default: "multiple"
-  end
-
-  add_index "screening_assessments", ["client_id"], name: "index_screening_assessments_on_client_id", using: :btree
-  add_index "screening_assessments", ["screening_assessment_date"], name: "index_screening_assessments_on_screening_assessment_date", using: :btree
-  add_index "screening_assessments", ["screening_type"], name: "index_screening_assessments_on_screening_type", using: :btree
 
   create_table "service_deliveries", force: :cascade do |t|
     t.string   "name"
