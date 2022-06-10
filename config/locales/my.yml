@@ -2819,6 +2819,8 @@ my:
         current_province: လက္ရွိေနထိုင္ရာခ႐ိုင္
         current_province_en: လက်ရှိပြည်နယ် (အင်္ဂလိပ်)
         current_province_kh: လက်ရှိပြည်နယ် (ခမာ)
+        custom_assessment: Custom %{assessment}
+        custom_assessment_created_date: Custom %{assessment} Created Date
         date_of_assessments: စိစစ္အကဲျဖတ္မႈလုပ္သည့္ ရက္စြဲ
         date_of_birth: ေမြးရက္၊ လ၊ ႏွစ္
         date_of_custom_assessments: Custom စိစစ္အကဲျဖတ္မႈလုပ္သည့္ ရက္စြဲ
