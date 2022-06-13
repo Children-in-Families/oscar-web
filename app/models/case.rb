@@ -31,7 +31,7 @@ class Case < ActiveRecord::Base
   before_validation :set_attributes, if: -> { new_record? && start_date.nil? }
   before_save :update_client_status, :set_current_status
   before_create :add_family_children
-  after_save :create_client_history
+  after_save :create_case_history
 
   def set_attributes
     if ['Birth Family (Both Parents)', 'Birth Family (Only Mother)',
@@ -122,7 +122,7 @@ class Case < ActiveRecord::Base
     return [1000, Client.start_with_code(1).maximum(:code).to_i + 1].max if fc?
   end
 
-  def create_client_history
+  def create_case_history
     ClientHistory.initial(client)
   end
 
