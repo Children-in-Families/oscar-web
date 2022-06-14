@@ -1,6 +1,6 @@
 module AdvancedSearches
   class FilterTypes
-    OVERDUE_FIELDS = %w(has_overdue_assessment has_overdue_forms has_overdue_task no_case_note assessment_condition_last_two assessment_condition_first_last)
+    OVERDUE_FIELDS = %w(has_overdue_assessment has_overdue_forms has_overdue_task no_case_note assessment_condition_last_two assessment_condition_first_last incomplete_care_plan)
     def self.text_options(field_name, label, group)
       {
         id: field_name,

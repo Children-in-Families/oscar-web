@@ -130,6 +130,8 @@ module AdvancedSearches
         values = assessment_condition_first_last_query
       when 'client_rejected'
         values = get_rejected_clients
+      when 'incomplete_care_plan'
+        values = incomplete_care_plan_query
       end
       { id: sql_string, values: values }
     end
@@ -1207,7 +1209,9 @@ module AdvancedSearches
     end
 
     def active_client_program_query
-      clients = @clients.joins(:client_enrollments).where(:client_enrollments => {:status => 'Active'}).distinct
+      clients = @clients.joins(:client_enrollments)
+                        .where(:client_enrollments => {:status => 'Active', :program_stream_id => JSON.parse($param_rules[:program_selected])})
+                        .distinct
 
       case @operator
       when 'equal'
@@ -1233,6 +1237,8 @@ module AdvancedSearches
     end
 
     def assessment_condition_last_two_query
+      Rails.logger.info '###LOGGER###'
+      Rails.logger.debug $param_rules[:assessment_selected]
       clients = @clients.joins(:assessments).where(assessments: { completed: true, default: true }).distinct
 
       case @value.downcase
@@ -1247,6 +1253,9 @@ module AdvancedSearches
     end
 
     def assessment_condition_first_last_query
+      Rails.logger.info '###LOGGER###'
+      Rails.logger.debug $param_rules
+      Rails.logger.debug $param_rules[:assessment_selected]
       clients = @clients.joins(:assessments).where(assessments: { completed: true, default: true }).distinct
 
       case @value.downcase
@@ -1291,6 +1300,13 @@ module AdvancedSearches
         end
       end
       total
+    end
+
+    def incomplete_care_plan_query
+      clients = @clients.joins(:care_plans).where(care_plans: { completed: false }).distinct
+
+      client_ids = clients.ids
+      clients = client_ids.present? ? client_ids : []
     end
   end
 end

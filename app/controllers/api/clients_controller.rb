@@ -327,8 +327,6 @@ module Api
 
       basic_rules  = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
       @basic_rules  = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
-      Rails.logger.info '###############LOG###############'
-      Rails.logger.debug basic_rules
 
       assessment_data = params[:length] != '-1' ? assessments.page(page).per(per_page) : assessments
     end

@@ -452,6 +452,7 @@ en:
       assessment_custom_completed_date: "Custom %{assessment} Completed Date"
       assessment_condition_last_two: Assessment Condition for the last two
       assessment_condition_first_last: Assessment Condition for first and last
+      incomplete_care_plan: Incomplete Care Plan
       assessment_number: "%{assessment}#"
       basic_fields: Client Basic Fields
       birth_province: Client Birth Province
@@ -1685,6 +1686,7 @@ en:
         program_stream: Program Stream
         quantitative: Custom Referral Data
         tracking: Tracking
+        assessment_form: Assessment
       load_save_search:
         my_saved_search: My Saved Search
         other_saved_search: Other Saved Search
