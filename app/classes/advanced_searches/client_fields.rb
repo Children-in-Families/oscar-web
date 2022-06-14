@@ -76,6 +76,7 @@ module AdvancedSearches
     end
 
     def drop_down_type_list
+      yes_option = { true: 'Yes' }
       yes_no_options = { true: 'Yes', false: 'No' }
       better_same_worse_options = { better: 'Better', same: 'The same', worse: 'Worse' }
       fields = [
@@ -113,7 +114,8 @@ module AdvancedSearches
         ['phone_owner', get_sql_phone_owner],
         ['family_type', family_type_list],
         ['assessment_condition_last_two', better_same_worse_options],
-        ['assessment_condition_first_last', better_same_worse_options]
+        ['assessment_condition_first_last', better_same_worse_options],
+        ['incomplete_care_plan', yes_option]
       ].compact
     end
 

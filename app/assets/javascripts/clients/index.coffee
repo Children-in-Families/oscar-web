@@ -512,6 +512,9 @@ CIF.ClientsIndex = do ->
     advanceFilter.removeOperatorInWizardBuilder()
     advanceFilter.handleHotlineFilter()
 
+    advanceFilter.handleShowAssessmentSelect()
+    advanceFilter.handleHideAssessmentSelect()
+
   _handleColumnVisibilityParams = ->
     $('button#search').on 'click', ->
       allCheckboxes = $('#client-search-form, #client-advance-search-wizard').find('#new_client_grid ul input[type=checkbox]')
