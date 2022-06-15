@@ -119,7 +119,9 @@ class CustomField < ActiveRecord::Base
   private
 
   def update_custom_field_label
-    labels_update(fields_change.last, fields_was, custom_field_properties)
+    custom_field_properties.ids.each_slice(1000).each do |chuck_object_ids|
+      CustomFieldPropertyUpdateWorker.perform_async(Apartment::Tenant.current, fields_change.last, fields_was, chuck_object_ids)
+    end
   end
 
   def update_save_search
