@@ -942,16 +942,16 @@ km:
       attachments: ឯកសារភ្ជាប់
       attendants: Attendants
       back: ត្រឡប់ក្រោយ
-      base_on: Base on Case Conference Number
+      base_on: សនិ្នសីទករណីទី
       cancel: ទុកជាមោឃៈ
-      case_conference: Case Conference
-      meeting_date: Case Conference Date
+      case_conference: សនិ្នសីទករណី
+      meeting_date: កាលបរិច្ចេទសនិ្នសីទករណី
       client_engagement: ការចូលរួមរបស់អតិថិជន
       client_limitation:  Client limitations
       client_strength: ចំណុចខ្លាំងរបស់អតិថិជន
       client_support: ការគាំទ្រនិងរនាំងរបស់អតិថិជនក្នុងការចូលរួម
       created_by: បង្កើតដោយ
-      initial_case_conference: Initial Case Conference
+      initial_case_conference: សនិ្នសីទករណីដំបូង
       local_resource: ធានធាន/សេវាក្នុងសហគមន៍
       on_date: ថ្ងៃកំនត់
       presenting_problem: បញ្ហាកំពុងលេចឡើង
@@ -971,7 +971,7 @@ km:
       assessment_history: "%{assessment} History"
       back: Back
       begin_now: Add New
-      case_conference: Case Conference
+      case_conference: សនិ្នសីទករណី
       case_conference_edit_duration: Case Conference Editable Duration
       initial_assessment: "Initial %{assessment} on"
       new_assessment: New Assessment
@@ -2013,6 +2013,7 @@ km:
       warning: ប្រុងប្រយ័ត្ន!
     show:
       <<: *LEGAL_DOC_ATTR
+      additional_forms: ទម្រង់អតិថិជនកំពុងប្រើ
       care_plan: ផែនការគាំទ្រករណី
       case_conference: Case Conference
       marital_status: Marital Status
