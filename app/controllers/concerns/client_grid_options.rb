@@ -221,7 +221,7 @@ module ClientGridOptions
   end
 
   def custom_date_of_assessments
-    return unless @client_columns.visible_columns[:date_of_custom_assessments_].present?
+    return unless @client_columns.visible_columns[:custom_assessment_created_date_].present?
     date_of_assessments('custom')
   end
 
@@ -232,15 +232,17 @@ module ClientGridOptions
       column = 'date_of_assessments'
     when 'custom'
       records = 'client.assessments.customs'
-      column = 'date_of_custom_assessments'
+      column = 'custom_assessment_created_date'
     end
 
+    header = type == 'default' ? I18n.t("datagrid.columns.clients.#{column}", assessment: I18n.t('clients.show.assessment')) : I18n.t('datagrid.columns.clients.custom_assessment_created_date', assessment: I18n.t('clients.show.assessment'))
+
     if params[:data].presence == 'recent'
-      @client_grid.column(column.to_sym, header: I18n.t("datagrid.columns.clients.#{column}", assessment: I18n.t('clients.show.assessment'))) do |client|
+      @client_grid.column(column.to_sym, preload: :assessments, header: header) do |client|
         eval(records).latest_record.try(:created_at).to_date.to_formatted_s if eval(records).any?
       end
     else
-      @client_grid.column(column.to_sym, header: I18n.t("datagrid.columns.clients.#{column}", assessment: I18n.t('clients.show.assessment'))) do |client|
+      @client_grid.column(column.to_sym, preload: :assessments, header: header) do |client|
         date_filter(eval(records).most_recents, "#{column}").map{ |a| a.created_at.to_date.to_formatted_s }.join(', ') if eval(records).any?
       end
     end
