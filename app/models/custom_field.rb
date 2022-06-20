@@ -26,7 +26,7 @@ class CustomField < ActiveRecord::Base
   before_save :set_time_of_frequency
   after_create :build_permission
   before_save :set_ngo_name, if: -> { ngo_name.blank? }
-  after_update :update_custom_field_label,:update_save_search, if: -> { fields_changed? }
+  after_update :update_custom_field_label, :update_save_search, if: -> { fields_changed? }
   after_commit :flush_cache
 
   scope :by_form_title,  ->(value)  { where('form_title iLIKE ?', "%#{value.squish}%") }
@@ -119,7 +119,9 @@ class CustomField < ActiveRecord::Base
   private
 
   def update_custom_field_label
-    labels_update(fields_change.last, fields_was, custom_field_properties)
+    custom_field_properties.ids.each_slice(1000).each do |chuck_object_ids|
+      CustomFieldPropertyUpdateWorker.perform_async(Apartment::Tenant.current, fields_change.last, fields_was, chuck_object_ids)
+    end
   end
 
   def update_save_search

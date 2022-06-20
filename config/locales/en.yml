@@ -4050,6 +4050,7 @@ en:
         program_stream: Program Stream
         quantitative: Custom Referral Data
         tracking: Tracking
+    family_assessment: Family Assessment
     family_member_fields:
       adult_name: Name of Adult Member
       date_of_birth: Date of Birth

@@ -4150,6 +4150,7 @@ my:
         program_stream: ပရိုဂရမ်စီး
         quantitative: အရေအတွက်
         tracking: ခြေရာခံခြင်း
+    family_assessment: Family Assessment
     family_member_fields:
       adult_name: အတူတူအိမျ၌နထေိုငျသူမြားလူကြီးများ
       date_of_birth: မွေးရက်
