@@ -11,13 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20220610044242) do
+ActiveRecord::Schema.define(version: 20220621071312) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "hstore"
-  enable_extension "uuid-ossp"
   enable_extension "pgcrypto"
+  enable_extension "hstore"
 
   create_table "able_screening_questions", force: :cascade do |t|
     t.string   "question"
@@ -297,6 +296,13 @@ ActiveRecord::Schema.define(version: 20220610044242) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "case_conference_addressed_issues", force: :cascade do |t|
+    t.integer "case_conference_domain_id"
+    t.string  "title"
+  end
+
+  add_index "case_conference_addressed_issues", ["case_conference_domain_id"], name: "index_addressed_issues_on_case_conference_domain_id", using: :btree
 
   create_table "case_conference_domains", force: :cascade do |t|
     t.integer  "domain_id"
