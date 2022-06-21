@@ -22,7 +22,9 @@ class CaseConference < ActiveRecord::Base
   def populate_presenting_problems
     domains = Domain.csi_domains.order(:name)
     domains.each do |domain|
-      case_conference_domains.build(domain: domain)
+      case_conference_domains.build(domain: domain).each do |case_conference_domain|
+        case_conference_domain.populate_addressed_issue
+      end
     end
   end
 

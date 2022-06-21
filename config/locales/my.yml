@@ -975,6 +975,7 @@ my:
       client_support: Support and Barriers to client engagement
       created_by: Created By
       initial_case_conference: Initial Case Conference
+      issue_to_be_addressed: Issue to be addressed
       local_resource: Resources/services in local community
       on_date: On Date
       presenting_problem: Presenting problem
