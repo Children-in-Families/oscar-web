@@ -6,7 +6,7 @@ class CaseConferenceDomain < ActiveRecord::Base
 
   validates :presenting_problem, presence: true
 
-  accepts_nested_attributes_for :case_conference_addressed_issues
+  accepts_nested_attributes_for :case_conference_addressed_issues, reject_if: :all_blank, allow_destroy: true
 
   def populate_addressed_issue
     case_conference_addressed_issues.build

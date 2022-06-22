@@ -949,6 +949,7 @@ en:
         with_id: With ID
   case_conferences:
     case_conference_attr: &CASE_CONFERENCE_ATTR
+      add: Add
       allow_file_size: Allowed file types
       are_you_sure: Are you sure you want to delete?
       attachments: Attachments

@@ -937,6 +937,7 @@ km:
         with_id: ជាមួយលេខសម្គាល់
   case_conferences:
     case_conference_attr: &CASE_CONFERENCE_ATTR
+      add: បន្ថែម
       allow_file_size: ប្រភេទឯកសារដែលអាចផ្ទុកបាន
       are_you_sure: តើអ្នកប្រាកដថាចង់លុបដែរឬទេ?
       attachments: ឯកសារភ្ជាប់
