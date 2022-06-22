@@ -65,4 +65,11 @@ module CarePlanHelper
   def grid_object
     @client_grid || @family_grid
   end
+
+  def display_domain_definition_description(domain, domain_definition)
+    description = I18n.locale == :km ? domain.local_description : domain.description
+
+    domain_definition_hash = description.scan(/\<strong\>.*\<\/strong\>/).last(4).zip(description.gsub(/\r\n\n/, '').scan(/\<ul\>.*\<\/ul\>/)).to_h
+    domain_definition_hash.present? && domain_definition_hash["<strong>#{domain_definition}</strong>"]
+  end
 end
