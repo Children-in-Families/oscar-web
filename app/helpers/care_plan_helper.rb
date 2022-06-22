@@ -65,4 +65,8 @@ module CarePlanHelper
   def grid_object
     @client_grid || @family_grid
   end
+
+  def list_case_conference_domain_for_care_plan(assessment, ad)
+    assessment.case_conference.case_conference_domains.find_by(domain_id: ad.object.domain_id).try(:case_conference_addressed_issues) || []
+  end
 end

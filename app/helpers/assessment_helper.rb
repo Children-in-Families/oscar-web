@@ -32,10 +32,10 @@ module AssessmentHelper
   end
 
   def order_assessment(assessment)
-    if assessment.assessment_domains.all?{|ad| ad.domain.name[/\d+/]&.to_i }
-      assessment.assessment_domains.sort_by{ |ad| ad.domain.name[/\d+/]&.to_i || ad.domain.name }
+    if assessment.assessment_domains.includes(:domain).all?{|ad| ad.domain.name[/\d+/]&.to_i }
+      assessment.assessment_domains.includes(:domain).sort_by{ |ad| ad.domain.name[/\d+/]&.to_i || ad.domain.name }
     else
-      assessment.assessment_domains.sort_by(&:domain_id)
+      assessment.assessment_domains.includes(:domain).sort_by(&:domain_id)
     end
   end
 
@@ -326,7 +326,8 @@ module AssessmentHelper
       end
     else
       content_tag(:nil) do
-        content_tag(:td, content_tag(:b, "#{t('dimensions.dimension_list.dimensions')}: "), class: "no-padding-bottom") + content_tag(:td, content_tag(:b, t("dimensions.dimensions_identies.#{ad.domain.identity}"), class: "no-padding-bottom"))
+        domain_identity = t("dimensions.dimensions_identies.#{ad.domain.identity}")[/translation_missing/] ? ad.domain.identity : t("dimensions.dimensions_identies.#{ad.domain.identity}")
+        content_tag(:td, content_tag(:b, "#{t('dimensions.dimension_list.dimensions')}: "), class: "no-padding-bottom") + content_tag(:td, content_tag(:b, domain_identity, class: "no-padding-bottom"))
       end
     end
   end
