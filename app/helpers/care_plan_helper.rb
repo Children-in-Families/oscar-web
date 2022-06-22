@@ -69,4 +69,11 @@ module CarePlanHelper
   def list_case_conference_domain_for_care_plan(assessment, ad)
     assessment.case_conference.case_conference_domains.find_by(domain_id: ad.object.domain_id).try(:case_conference_addressed_issues) || []
   end
+
+  def display_domain_definition_description(domain, domain_definition)
+    description = I18n.locale == :km ? domain.local_description : domain.description
+
+    domain_definition_hash = description.scan(/\<strong\>.*\<\/strong\>/).last(4).zip(description.gsub(/\r\n\n/, '').scan(/\<ul\>.*\<\/ul\>/)).to_h
+    domain_definition_hash.present? && domain_definition_hash["<strong>#{domain_definition}</strong>"]
+  end
 end

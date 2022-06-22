@@ -4,10 +4,20 @@ CIF.Care_plansNew = CIF.Care_plansEdit = CIF.Care_plansCreate = CIF.Care_plansUp
     for form in forms
       _loadSteps($(form))
 
+    _buttonHelpTextPophover()
     _translatePagination()
     _initDatePicker()
     _initDatePickerOnTaskClick()
     _saveCarePlan(form)
+
+  _buttonHelpTextPophover = ->
+    $("a[data-content]").popover(
+      html: true
+    ).on 'show.bs.popover', ->
+      $(this).data('bs.popover').tip().css
+        maxWidth: '600px'
+        zIndex: '9999'
+      return
 
   _initDatePicker = ->
     $('.date-picker').datepicker
