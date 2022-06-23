@@ -72,7 +72,7 @@ class CaseConferencesController < AdminController
       :client_engagement, :local_resource, user_ids: [], attachments: [],
       case_conference_domains_attributes: [
         :id, :domain_id, :presenting_problem,
-        case_conference_addressed_issues_attributes: [:id, :title, :_destroy]
+        case_conference_addressed_issues_attributes: [:id, :title, :case_conference_domain_id, :_destroy]
       ]
     )
   end
