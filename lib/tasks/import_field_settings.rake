@@ -9,9 +9,9 @@ namespace :field_settings do
 
     organisations.find_each do |org|
       Organization.switch_to org.short_name
-
       sheet = workbook.sheet(0)
       sheet = workbook.sheet(1) if org.short_name == 'brc'
+
       sheet.row(1).each_with_index { |header, i| headers[header] = i }
 
       (2..sheet.last_row).each do |row_index|

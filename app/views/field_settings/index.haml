@@ -41,6 +41,7 @@
                             .row
                               .col-md-4
                                 = field.current_label
+                                .text-muted= "(#{field.name})"
                                 - if field.label_only?
                                   %span= " (Label Only)"
                               .col-md-4
