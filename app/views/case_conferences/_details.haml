@@ -55,7 +55,7 @@
                     %dd= ccd.presenting_problem
                     - if ccd.case_conference_addressed_issues.present?
                       %dd
-                        %dt.m-l-md= t('.issue_to_be_addressed')
+                        %dt.m-l-md= t('case_conferences.show.issue_to_be_addressed')
                         %ul
                           - ccd.case_conference_addressed_issues.each do |ccai|
                             %li= ccai.title

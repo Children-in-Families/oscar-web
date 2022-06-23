@@ -30,14 +30,14 @@
             = f.simple_fields_for :case_conference_domains, case_conference_domain_ordered_by_name(@case_conference) do |ccd|
               = ccd.hidden_field :domain_id
               = ccd.input :presenting_problem, label: "#{ccd.object.domain.identity} (#{ccd.object.domain.name})", input_html: { rows: 5 }
-              - if ccd.object.persisted?
-                .case_conference_addressed_issues{ id: "case-conference-addressed-issues-#{ccd.index}" }
-                  %h4= t('.issue_to_be_addressed')
-                  = ccd.simple_fields_for :case_conference_addressed_issues do |ccai|
+              .case_conference_addressed_issues{ id: "case-conference-addressed-issues-#{ccd.index}" }
+                %h4= t('.issue_to_be_addressed')
+                = ccd.simple_fields_for (ccd.object.persisted? ? :case_conference_addressed_issues : [ccd.object.case_conference_addressed_issues.build])  do |ccai|
+                  - if ccd.object.persisted?
                     = render 'case_conference_addressed_issue_fields', f: ccai
 
-                = link_to_add_association t('.add'), ccd, :case_conference_addressed_issues, class: 'btn btn-sm btn-primary m-t-sm', data: { association_insertion_method: :append, association_insertion_node: "#case-conference-addressed-issues-#{ccd.index}" }
-                .hr-line-dashed
+              = link_to_add_association t('.add'), ccd, :case_conference_addressed_issues, force_non_association_create: true, class: 'btn btn-sm btn-primary m-t-sm', data: { association_insertion_method: :append, association_insertion_node: "#case-conference-addressed-issues-#{ccd.index}" }
+              .hr-line-dashed
 
           .hr-line-dashed
           %fieldset.scheduler-border
