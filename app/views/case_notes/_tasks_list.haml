@@ -3,23 +3,39 @@
     .col-xs-12
       %label{:for => ""}= t('.on_going_tasks')
       .m-r-sm
-        - tasks.each do |task|
+        = domain_note.simple_fields_for :tasks, tasks do |t|
+          - task = t.object
           .checkbox-primary
-            = check_box_tag "case_note[case_note_domain_groups_attributes][#{domain_note.index}][task_ids][]", task.id, task.completed, class: 'i-checks task'
-            = label_tag task.name
+            =# check_box_tag "#{domain_note.object_name}[task_ids][]", task.id, task.completed, class: 'i-checks task'
+            =# label_tag task.name
+            = t.hidden_field :name
+            = t.hidden_field :case_note_domain_group_id
+            = t.hidden_field :completed_by_id, value: current_user.id
+            = t.input_field :completed, class: 'i-checks task', as: :boolean, data: { task_id: task.id }
+            %label= task.name
+            - if Organization.ratanak?
+              = fa_icon 'sticky-note-o', class: 'btn-outline btn-xs btn-success task-sticky-note', id: "task-id-#{task.id}"
           - if Organization.ratanak?
             - input_name = "#{domain_note.object_name}[task][#{task.id}]"
             .service-delivery.hide.m-b-sm{ id: "service-delivery-task-#{task.id}" }
               %label.m-t-xs{ :for => "completion_date" }= t('case_notes.add_task_form.completion_date')
               .row
                 .col-xs-12.col-md-4.col-lg-4
-                  = text_field_tag "#{input_name}[completion_date]", "", class: 'date form-control date-picker', data: { date_end_date: disabled_future_date_input() }
+                  =# text_field_tag "#{input_name}[completion_date]", "", class: 'date form-control date-picker', data: { date_end_date: disabled_future_date_input() }
+                  = t.input :completion_date, label: false, wrapper: false, as: :string, input_html: { class: 'date form-control date-picker' }, data: { date_end_date: disabled_future_date_input() }
               %label.m-t-xs{ :for => "service-delivery-task-ids" }= t('service_deliveries.form.service_provided')
               %select.service-delivery-task-ids.select.optional.form-control{ multiple: 'multiple', :name => "#{input_name}[service_delivery_task_ids][]" }
-                - ServiceDelivery.list_sub_service_categories.each do |sub_service_category|
+                - ServiceDelivery.list_sub_service_categories.includes(:children).each do |sub_service_category|
                   %optgroup{ label: sub_service_category.name }
                     - sub_service_category.children.each do |child|
                       %option{ :value => child.id }= child.name
+            %div.hide{ id: "task-id-#{task.id}-progress-note-wrapper" }
+              .task_progress_notes{ id: "task-#{task.id}-progress-notes" }
+                - if task.persisted?
+                  = t.simple_fields_for :task_progress_notes do |f|
+                    = f.hidden_field :task_id
+                    = render 'task_progress_note_fields', f: f
+              = link_to_add_association t('.add_task_progress_note'), t, :task_progress_notes, class: 'btn-add-task btn btn-outline btn-xs btn-success m-t-sm', data: { association_insertion_method: :append, association_insertion_node: "#task-#{task.id}-progress-notes" }
 
       %div{ class: 'task-arising hidden' }
         %label.control-label
