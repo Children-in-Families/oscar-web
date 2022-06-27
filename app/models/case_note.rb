@@ -40,7 +40,7 @@ class CaseNote < ActiveRecord::Base
     else
       domain_group_ids = Domain.csi_domains.where(custom_assessment_setting_id: nil).pluck(:domain_group_id).uniq
       DomainGroup.where.not(id: domain_groups.ids).where(id: domain_group_ids).ids.each do |domain_group_id|
-        case_note_domain_groups.build(domain_group_id: domain_group_id)
+        case_note_domain_groups.build(case_note_id: id, domain_group_id: domain_group_id)
       end
     end
   end
@@ -50,7 +50,7 @@ class CaseNote < ActiveRecord::Base
     params.each do |_, param|
       next unless param[:domain_group_id]
       case_note_domain_group = case_note_domain_groups.find_by(domain_group_id: param[:domain_group_id])
-      task_ids = param[:task_ids] || []
+      task_ids = param['tasks_attributes'].values.map{|h| h['id'] } || []
       case_note_tasks = Task.with_deleted.where(id: task_ids)
       next if case_note_tasks.reject(&:blank?).blank?
       case_note_tasks.update_all(case_note_domain_group_id: case_note_domain_group.id)
@@ -72,7 +72,7 @@ class CaseNote < ActiveRecord::Base
   def service_delivery_task(param, case_note_tasks)
     if Organization.ratanak?
       case_note_tasks.each do |task|
-        task_param = param['task'][task.id.to_s]
+        task_param = param['task'] && param['task'][task.id.to_s]
         next if task_param.blank?
 
         service_delivery_task_ids = task_param['service_delivery_task_ids'].reject(&:blank?) if task_param['service_delivery_task_ids']

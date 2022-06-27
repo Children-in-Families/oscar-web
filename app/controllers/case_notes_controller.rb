@@ -41,6 +41,8 @@
       add_more_attachments(params[:case_note][:attachments]) if params.dig(:case_note, :attachments)
       @case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes], current_user.id) if params.dig(:case_note, :case_note_domain_groups_attributes)
       create_bulk_task(params[:task], @case_note) if params.has_key?(:task)
+
+      create_task_task_progress_notes
       if params[:from_controller] == "dashboards"
         redirect_to root_path, notice: t('.successfully_created')
       else
@@ -71,11 +73,12 @@
 
   def update
     if @case_note.update_attributes(case_note_params)
-      # if params.dig(:case_note, :case_note_domain_groups_attributes)
-      #   add_more_attachments(params[:case_note][:attachments]) if params.dig(:case_note, :attachments)
-      #   @case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes], current_user.id)
-      # end
-      # create_bulk_task(params[:task], @case_note) if params.has_key?(:task)
+      if params.dig(:case_note, :case_note_domain_groups_attributes)
+        add_more_attachments(params[:case_note][:attachments]) if params.dig(:case_note, :attachments)
+        @case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes], current_user.id)
+      end
+      create_bulk_task(params[:task], @case_note) if params.has_key?(:task)
+      create_task_task_progress_notes
       delete_events if session[:authorization]
       redirect_to client_case_notes_path(@client), notice: t('.successfully_updated')
     else
@@ -100,16 +103,8 @@
   private
 
   def case_note_params
-    default_params = params.require(:case_note).permit(:meeting_date, :attendee, :interaction_type, :custom, :note, :custom_assessment_setting_id,
-      case_note_domain_groups_attributes: [
-        :id, :note, :domain_group_id, :task_ids,
-        tasks_attributes: [
-          :id, :name, :completion_date, :completed, :completed_by_id, :case_note_domain_group_id, :_destroy,
-          task_progress_notes_attributes: [:id, :progress_note, :task_id, :_destroy]
-        ]
-      ]
-    )
-    # default_params = params.require(:case_note).permit(:meeting_date, :attendee, :interaction_type, :custom, :note, :custom_assessment_setting_id, case_note_domain_groups_attributes: [:id, :note, :domain_group_id, :task_ids, attachments: []]) if action_name == 'create'
+    default_params = permit_case_note_params
+    default_params = params.require(:case_note).permit(:meeting_date, :attendee, :interaction_type, :custom, :note, :custom_assessment_setting_id, case_note_domain_groups_attributes: [:id, :note, :domain_group_id, :task_ids, attachments: []]) if action_name == 'create'
     default_params = assign_params_to_case_note_domain_groups_params(default_params) if default_params.dig(:case_note, :domain_group_ids)
     default_params = default_params.merge(selected_domain_group_ids: params.dig(:case_note, :domain_group_ids).reject(&:blank?))
     meeting_date   = "#{default_params[:meeting_date]} #{Time.now.strftime("%T %z")}"
@@ -165,5 +160,17 @@
         redirect_to root_path, alert: t('unauthorized.default') unless current_user.permission.case_notes_editable
       end
     end
+  end
+
+  def permit_case_note_params
+    # tasks_attributes: [
+    #   :id, :name, :completion_date, :completed, :completed_by_id, :_destroy,
+    #   task_progress_notes_attributes: [:id, :progress_note, :task_id, :_destroy]
+    # ]
+    params.require(:case_note).permit(:meeting_date, :attendee, :interaction_type, :custom, :note, :custom_assessment_setting_id,
+      case_note_domain_groups_attributes: [
+        :id, :note, :domain_group_id, :task_ids
+      ]
+    )
   end
 end
