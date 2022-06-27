@@ -32,10 +32,11 @@ module AssessmentHelper
   end
 
   def order_assessment(assessment)
-    if assessment.assessment_domains.includes(:domain).all?{|ad| ad.domain.name[/\d+/]&.to_i }
-      assessment.assessment_domains.includes(:domain).sort_by{ |ad| ad.domain.name[/\d+/]&.to_i || ad.domain.name }
+    assessment_domains = assessment.persisted? ? assessment.assessment_domains.includes(:domain) : assessment.assessment_domains
+    if assessment_domains.all?{|ad| ad.domain.name[/\d+/]&.to_i }
+      assessment_domains.sort_by{ |ad| ad.domain.name[/\d+/]&.to_i || ad.domain.name }
     else
-      assessment.assessment_domains.includes(:domain).sort_by(&:domain_id)
+      assessment_domains.sort_by(&:domain_id)
     end
   end
 
