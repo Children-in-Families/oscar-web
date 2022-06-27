@@ -2015,7 +2015,7 @@ km:
       <<: *LEGAL_DOC_ATTR
       additional_forms: ទម្រង់អតិថិជនកំពុងប្រើ
       care_plan: ផែនការគាំទ្រករណី
-      case_conference: Case Conference
+      case_conference: សនិ្នសីទករណី
       marital_status: Marital Status
       nationality: Nationality
       ethnicity: Ethnicity
