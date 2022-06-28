@@ -6351,6 +6351,7 @@ my:
     update:
       successfully_updated: စစ္တမ္းကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ျဖည့္စြက္ၿပီးပါၿပီ
   tasks:
+    add_task_progress_note: Add progress notes and next steps
     completion_date: ၿပီးစီးသည့္ ရက္စြဲ
     expected_date:  မျှော်လင့်ထားသည့်နေ့စွဲ မျှော်လင့်ထားသည့်နေ့စွဲ
     filter:
