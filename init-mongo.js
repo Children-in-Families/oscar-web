@@ -4,8 +4,9 @@ db.createUser({
   customData: { employeeId: 12345 },
   roles: [
     { role: "clusterAdmin", db: "admin" },
-    { role: "readAnyDatabase", db: "admin" },
+    { role: "readWriteAnyDatabase", db: "admin" },
     "readWrite"
   ]},
   { w: "majority" , wtimeout: 5000 }
 );
+

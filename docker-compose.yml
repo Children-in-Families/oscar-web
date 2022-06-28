@@ -11,6 +11,7 @@ services:
       - DATABASE_PASSWORD=123456789
       - DATABASE_HOST=db
       - HISTORY_DATABASE_NAME=oscar_history_development
+      - MHO_HISTORY_DATABASE_NAME=mothersheart_history_development
       - HISTORY_DATABASE_NAME_TEST=oscar_history_test
       - HISTORY_DATABASE_HOST=mongo
       - OSCAR_TEAM_EMAIL=team@oscarhq.com
