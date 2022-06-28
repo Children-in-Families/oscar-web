@@ -319,11 +319,16 @@ module AssessmentHelper
     end
   end
 
-  def domain_name_for_aht(ad)
+  def domain_name_for_aht(ad, index = 0)
     if I18n.locale == :km
-      domain_header = ad.domain.local_description.scan(/\p{Khmer}|[[:space:]]/).join.squish
+      if Organization.ratanak?
+        domain_header = ad.domain.local_description.scan(/\<strong\>.*\<\/strong\>/)[0]
+      else
+        domain_header = ad.domain.local_description.scan(/\p{Khmer}|[[:space:]]/).join.squish
+      end
+
       content_tag(:nil) do
-        content_tag(:td, content_tag(:b, "#{domain_header.split('៖').first}៖"), class: "no-padding-bottom") + content_tag(:td, content_tag(:b, domain_header.split('៖').last, class: "no-padding-bottom"))
+        content_tag(:td, content_tag(:b, domain_header.gsub(' ៖', '៖').html_safe), class: "no-padding-bottom")
       end
     else
       content_tag(:nil) do
