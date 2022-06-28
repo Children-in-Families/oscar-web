@@ -23,7 +23,7 @@ module CreateBulkTask
       case_note_domain_groups_attr = case_note_domain_groups_attributes
       case_note_domain_group_id = case_note_domain_groups_attr['id']
       tasks_attributes = case_note_domain_groups_attr['tasks_attributes']
-      tasks_attributes = tasks_attributes.values || []
+      tasks_attributes = tasks_attributes&.values || []
       tasks_attributes.each do |tasks_attr|
         task_id = tasks_attr['id']
         if task_id.present?

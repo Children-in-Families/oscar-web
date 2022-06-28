@@ -16,7 +16,6 @@
             - if Organization.ratanak?
               = fa_icon 'sticky-note-o', class: 'btn-outline btn-xs btn-success task-sticky-note', id: "task-id-#{task.id}"
           - if Organization.ratanak?
-            - input_name = "#{domain_note.object_name}[task][#{task.id}]"
             .service-delivery.hide.m-b-sm{ id: "service-delivery-task-#{task.id}" }
               %label.m-t-xs{ :for => "completion_date" }= t('case_notes.add_task_form.completion_date')
               .row
@@ -24,7 +23,7 @@
                   =# text_field_tag "#{input_name}[completion_date]", "", class: 'date form-control date-picker', data: { date_end_date: disabled_future_date_input() }
                   = t.input :completion_date, label: false, wrapper: false, as: :string, input_html: { class: 'date form-control date-picker' }, data: { date_end_date: disabled_future_date_input() }
               %label.m-t-xs{ :for => "service-delivery-task-ids" }= t('service_deliveries.form.service_provided')
-              %select.service-delivery-task-ids.select.optional.form-control{ multiple: 'multiple', :name => "#{input_name}[service_delivery_task_ids][]" }
+              %select.service-delivery-task-ids.select.optional.form-control{ multiple: 'multiple', :name => "#{t.object_name}[service_delivery_task_ids][]" }
                 - ServiceDelivery.list_sub_service_categories.includes(:children).each do |sub_service_category|
                   %optgroup{ label: sub_service_category.name }
                     - sub_service_category.children.each do |child|
@@ -35,7 +34,7 @@
                   = t.simple_fields_for :task_progress_notes do |f|
                     = f.hidden_field :task_id
                     = render 'task_progress_note_fields', f: f
-              = link_to_add_association t('.add_task_progress_note'), t, :task_progress_notes, class: 'btn-add-task btn btn-outline btn-xs btn-success m-t-sm m-b-sm', data: { association_insertion_method: :append, association_insertion_node: "#task-#{task.id}-progress-notes" }
+              = link_to_add_association t('tasks.add_task_progress_note'), t, :task_progress_notes, class: 'btn-add-task btn btn-outline btn-xs btn-success m-t-sm m-b-sm', data: { association_insertion_method: :append, association_insertion_node: "#task-#{task.id}-progress-notes" }
 
       %div{ class: 'task-arising hidden' }
         %label.control-label
