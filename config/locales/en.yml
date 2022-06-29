@@ -665,7 +665,7 @@ en:
       domain: Domain
       enter_task_detail: Enter task details
       save: Save
-      title: New Task
+      new_task: New Task
     assessment_form: Assessment Form
     attachment:
       attachments: Attachments
@@ -1022,8 +1022,8 @@ en:
       domain: Domain
       dimensions: Dimension
       enter_task_detail: Enter task details
+      new_task: New Task
       save: Save
-      title: New Task
     attachment:
       download: Download
       preview_download: Preview & Download
