@@ -40,19 +40,23 @@ class CaseNote < ActiveRecord::Base
     else
       domain_group_ids = Domain.csi_domains.where(custom_assessment_setting_id: nil).pluck(:domain_group_id).uniq
       DomainGroup.where.not(id: domain_groups.ids).where(id: domain_group_ids).ids.each do |domain_group_id|
-        case_note_domain_groups.build(domain_group_id: domain_group_id)
+        case_note_domain_groups.build(case_note_id: id, domain_group_id: domain_group_id)
       end
     end
   end
 
-  def complete_tasks(params, current_user_id = nil)
-    return if params.nil?
-    params.each do |_, param|
+  def complete_tasks(case_note_domain_groups_params, current_user_id = nil)
+    return if case_note_domain_groups_params.nil?
+    case_note_domain_groups_params.to_a.each do |_, param|
       next unless param[:domain_group_id]
+
+      task_ids = param['tasks_attributes'] && param['tasks_attributes'].values.reject{|h| h['completed'] == '0' }.map{|h| h['id'] } || []
+      next if task_ids.blank?
+
       case_note_domain_group = case_note_domain_groups.find_by(domain_group_id: param[:domain_group_id])
-      task_ids = param[:task_ids] || []
       case_note_tasks = Task.with_deleted.where(id: task_ids)
       next if case_note_tasks.reject(&:blank?).blank?
+
       case_note_tasks.update_all(case_note_domain_group_id: case_note_domain_group.id)
       case_note_domain_group.reload
       case_note_domain_group.tasks.with_deleted.set_complete(self, current_user_id)
@@ -71,15 +75,17 @@ class CaseNote < ActiveRecord::Base
 
   def service_delivery_task(param, case_note_tasks)
     if Organization.ratanak?
-      case_note_tasks.each do |task|
-        task_param = param['task'][task.id.to_s]
+      param['tasks_attributes'] &&  param['tasks_attributes'].to_a.each do |index, task_param|
         next if task_param.blank?
 
         service_delivery_task_ids = task_param['service_delivery_task_ids'].reject(&:blank?) if task_param['service_delivery_task_ids']
-        task.create_service_delivery_tasks(service_delivery_task_ids) if service_delivery_task_ids.present?
+        task = case_note_tasks.find_by(id: task_param['id'])
+        if task.present?
+          task.create_service_delivery_tasks(service_delivery_task_ids) if service_delivery_task_ids.present?
 
-        task.reload
-        task.update_attributes(completion_date: task_param['completion_date']) if task_param['completion_date'].present?
+          task.reload
+          task.update_attributes(completion_date: task_param['completion_date']) if task_param['completion_date'].present?
+        end
       end
     end
   end
