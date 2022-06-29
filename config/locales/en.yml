@@ -652,7 +652,7 @@ en:
       domain: Domain
       enter_task_detail: Enter task details
       save: Save
-      title: New Task
+      new_task: New Task
     assessment_form: Assessment Form
     attachment:
       attachments: Attachments
@@ -1001,8 +1001,8 @@ en:
       domain: Domain
       dimensions: Dimension
       enter_task_detail: Enter task details
+      new_task: New Task
       save: Save
-      title: New Task
     attachment:
       download: Download
       preview_download: Preview & Download
@@ -2001,7 +2001,7 @@ en:
       sInfoTotal: of
       save_search_settings: Save Search Settings
       show_all: Show All
-      view_all_active_tasks: View All Active  Tasks
+      view_all_active_tasks: View All Active Tasks
     level:
       level_no: 'No'
       level_1: Level 1
