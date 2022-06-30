@@ -215,7 +215,8 @@ module ClientsHelper
       **overdue_translations,
       **Client::HOTLINE_FIELDS.map{ |field| [field.to_sym, I18n.t("datagrid.columns.clients.#{field}")] }.to_h,
       **legal_doc_fields.map{|field| [field.to_sym, I18n.t("clients.show.#{field}")] }.to_h,
-      **@address_translation
+      **@address_translation,
+      **custom_assessment_field_traslation_mapping
     }
 
     lable_translation_uderscore.map{|k, v| [k.to_s.gsub(/(\_)$/, '').to_sym, v] }.to_h.merge(labels)
@@ -357,6 +358,14 @@ module ClientsHelper
       no_case_note: I18n.t("datagrid.form.no_case_note"),
       care_plan_completed_date: I18n.t('datagrid.columns.clients.care_plan_completed_date'),
       care_plan_count: I18n.t('datagrid.columns.clients.care_plan_count')
+    }
+  end
+
+  def custom_assessment_field_traslation_mapping
+    {
+      custom_assessment: I18n.t('datagrid.columns.clients.custom_assessment', assessment: I18n.t('clients.show.assessment')),
+      custom_completed_date: I18n.t('datagrid.columns.clients.assessment_custom_completed_date', assessment: I18n.t('clients.show.assessment')),
+      custom_assessment_created_date: I18n.t('datagrid.columns.clients.custom_assessment_created_date', assessment: I18n.t('clients.show.assessment'))
     }
   end
 
@@ -934,7 +943,11 @@ module ClientsHelper
     elsif rule == 'date_of_custom_assessments'
       sql_string = object.where(query_array).where(default: false).where(sub_query_array)
     else
-      sql_string = object.where(query_array).where(sub_query_array)
+      if object.is_a?(Array)
+        sql_string = object.first.class.where(query_array).where(sub_query_array)
+      else
+        sql_string = object.where(query_array).where(sub_query_array)
+      end
     end
 
     sql_string.present? && sql_hash[:sql_string].present? ? sql_string : []

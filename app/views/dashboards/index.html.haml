@@ -4,11 +4,11 @@
   %ul.nav.nav-tabs.csi-tab{ role: "tablist" }
     %li.active{role: "presentation"}
       %a{"aria-controls" => "client-tab", "data-toggle" => "tab", href: "#client-tab", role: "tab"}= t('.client_dashboard')
-    %li{role: "presentation"}
+    %li.hide{role: "presentation"}
       %a{"aria-controls" => "family-tab", "data-toggle" => "tab", href: "#family-tab", role: "tab"}= t('.family_dashboard')
-    %li{role: "presentation"}
+    %li.hide{role: "presentation"}
       %a{"aria-controls" => "community-tab", "data-toggle" => "tab", href: "#community-tab", role: "tab"}= t('.community_dashboard')
-    %li{role: "presentation"}
+    %li.hide{role: "presentation"}
       %a{"aria-controls" => "hotline-tab", "data-toggle" => "tab", href: "#hotline-tab", role: "tab"}= t('.hotline_dashboard')
 
   .tab-content
@@ -18,14 +18,14 @@
         = render 'dashboards/program_stream_services'
       .row
         .col-xs-12.col-sm-3
+          = render 'active_tasks_side'
+        .col-xs-12.col-sm-3
           = render 'multiple_forms'
         .col-xs-12.col-sm-3
           = render 'client'
-        .col-xs-12.col-sm-2
-          = render 'active_tasks_side'
-        .col-xs-12.col-sm-2
+        .col-xs-12.col-sm-3
           = render 'go_to_client'
-        .col-xs-12.col-sm-2
+        .col-xs-12.col-sm-12
           = render 'report_builder'
       .row
         = render 'client_program_stream_by_gender'
@@ -34,16 +34,16 @@
         = render 'data_validations'
       .row
         = render 'third_party'
-    #family-tab.tab-pane{ role: 'tabpanel' }
+    #family-tab.tab-pane.hide{ role: 'tabpanel' }
       .row
         .col-xs-12
           - if can? :read, Family
             = render 'family'
-    #community-tab.tab-pane{ role: 'tabpanel' }
+    #community-tab.tab-pane.hide{ role: 'tabpanel' }
       .row
         .col-xs-12
           %h3 Hello This is Community panel
-    #hotline-tab.tab-pane{ role: 'tabpanel' }
+    #hotline-tab.tab-pane.hide{ role: 'tabpanel' }
       .row
         .col-xs-12
           %h3 Hello This is Hotline panel

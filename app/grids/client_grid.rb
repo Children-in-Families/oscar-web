@@ -9,7 +9,7 @@ class ClientGrid < BaseGrid
   COUNTRY_LANG = { "cambodia" => "(Khmer)", "thailand" => "(Thai)", "myanmar" => "(Burmese)", "lesotho" => "(Sesotho)", "uganda" => "(Swahili)" }
 
   scope do
-    Client.includes(:assessments)
+    Client
   end
 
   %w(given_name family_name local_given_name local_family_name).each do |field_name|
@@ -185,7 +185,7 @@ class ClientGrid < BaseGrid
 
   filter(:arrival_at, :datetime, header: -> { I18n.t('clients.form.arrival_at')})
   filter(:flight_nb, :string, header: -> { I18n.t('clients.form.flight_nb')})
-  
+
   filter(:ratanak_achievement_program_staff_client_ids, :enum, multiple: true, select: :case_worker_options, header: -> { I18n.t('clients.form.ratanak_achievement_program_staff_client_ids') }) do |ids, scope|
     ids = ids.map{ |id| id.to_i }
 
@@ -441,37 +441,20 @@ class ClientGrid < BaseGrid
   end
 
   column(:given_name, order: 'clients.given_name', header: -> { I18n.t('datagrid.columns.clients.given_name') }, html: true) do |object|
-    Rails.cache.fetch([Apartment::Tenant.current, object.id, object.given_name || 'given_name']) do
-      current_org = Organization.current
-      Organization.switch_to 'shared'
-      given_name = SharedClient.find_by(slug: object.slug).given_name
-      Organization.switch_to current_org.short_name
-      if given_name.present?
-        link_to given_name, client_path(object), target: :_blank
-      else
-        given_name
-      end
-    end
-  end
-
-  column(:given_name, header: -> { I18n.t('datagrid.columns.clients.given_name') }, html: false) do |object|
-    Rails.cache.fetch([Apartment::Tenant.current, object.id, object.given_name || 'given_name']) do
-      current_org = Organization.current
-      Organization.switch_to 'shared'
-      given_name = SharedClient.find_by(slug: object.slug).given_name
-      Organization.switch_to current_org.short_name
+    given_name = Client.cache_given_name(object)
+    if given_name.present?
+      link_to given_name, client_path(object), target: :_blank
+    else
       given_name
     end
   end
 
+  column(:given_name, header: -> { I18n.t('datagrid.columns.clients.given_name') }, html: false) do |object|
+    Client.cache_given_name_export(object)
+  end
+
   column(:family_name, order: 'clients.family_name', header: -> { I18n.t('datagrid.columns.clients.family_name') }) do |object|
-    Rails.cache.fetch([Apartment::Tenant.current, object.id, object.family_name || 'family_name']) do
-      current_org = Organization.current
-      Organization.switch_to 'shared'
-      family_name = SharedClient.find_by(slug: object.slug).family_name
-      Organization.switch_to current_org.short_name
-      family_name
-    end
+    Client.cache_family_name(object)
   end
 
   def self.dynamic_local_name
@@ -479,34 +462,20 @@ class ClientGrid < BaseGrid
     I18n.locale.to_s == 'en' ? COUNTRY_LANG[country] : ''
   end
 
-  column(:local_given_name, order: 'clients.local_given_name', header: -> { "#{I18n.t('datagrid.columns.clients.local_given_name')} #{ dynamic_local_name }" }) do |object|
-    Rails.cache.fetch([Apartment::Tenant.current, object.id, object.local_given_name || 'local_given_name']) do
-      current_org = Organization.current
-      Organization.switch_to 'shared'
-      local_given_name = SharedClient.find_by(slug: object.slug).local_given_name
-      Organization.switch_to current_org.short_name
-      local_given_name
-    end
+  column(:local_given_name, order: 'clients.local_given_name', header: -> { "#{I18n.t('datagrid.columns.clients.local_given_name')} #{ dynamic_local_name }" }, html: true) do |object|
+    Client.cache_local_given_name(object)
+  end
+
+  column(:local_given_name, order: 'clients.local_given_name', header: -> { "#{I18n.t('datagrid.columns.clients.local_given_name')} #{ dynamic_local_name }" }, html: false) do |object|
+    Client.cache_local_given_name(object)
   end
 
   column(:local_family_name, order: 'clients.local_family_name', header: -> { "#{I18n.t('datagrid.columns.clients.local_family_name')} #{ dynamic_local_name }" }) do |object|
-    Rails.cache.fetch([Apartment::Tenant.current, object.id, object.local_family_name || 'local_family_name']) do
-      current_org = Organization.current
-      Organization.switch_to 'shared'
-      local_family_name = SharedClient.find_by(slug: object.slug).local_family_name
-      Organization.switch_to current_org.short_name
-      local_family_name
-    end
+    Client.cache_local_family_name(object)
   end
 
   column(:gender, header: -> { I18n.t('datagrid.columns.clients.gender') }) do |object|
-    Rails.cache.fetch([I18n.locale, Apartment::Tenant.current, object.id, object.gender || 'gender']) do
-      current_org = Organization.current
-      Organization.switch_to 'shared'
-      gender = SharedClient.find_by(slug: object.slug)&.gender
-      Organization.switch_to current_org.short_name
-      gender.present? ? I18n.t("default_client_fields.gender_list.#{ gender.gsub('other', 'other_gender') }") : ''
-    end
+    Client.cache_gender(object)
   end
 
   column(:status, header: -> { I18n.t('datagrid.columns.clients.status') }) do |object|
@@ -539,18 +508,6 @@ class ClientGrid < BaseGrid
           value = (value == true || value == false) ? yes_no[value.to_s.to_sym] : value.try(:titleize)
         end
         value
-      end
-    end
-  end
-
-  dynamic do
-    quantitative_type_readable_ids = current_user.quantitative_type_permissions.readable.pluck(:quantitative_type_id) unless current_user.nil?
-
-    QuantitativeType.cach_free_text_fields_by_visible_on('client').each do |qqt_free_text|
-      if current_user.nil? || quantitative_type_readable_ids.include?(qqt_free_text.id)
-        column(qqt_free_text.name.to_sym, class: 'quantitative-type', header: -> { qqt_free_text.name }, html: true) do |object|
-          object.client_quantitative_free_text_cases.where("quantitative_type_id = ?", qqt_free_text.id).pluck(:content).join(', ')
-        end
       end
     end
   end
@@ -1023,7 +980,7 @@ class ClientGrid < BaseGrid
   column(:ratanak_achievement_program_staff_client_ids, order: false, header: -> { I18n.t('clients.form.ratanak_achievement_program_staff_client_ids')}) do |object|
     object.ratanak_achievement_program_staff_clients.pluck(:first_name, :last_name).map{ |case_worker| "#{case_worker.first} #{case_worker.last}".squish }.join(', ')
   end
-  
+
   column(:mo_savy_officials, order: false, header: -> { I18n.t('clients.form.mosavy_official')}) do |object|
     object.mo_savy_officials.map{ |mo_savy_official| "#{mo_savy_official.name} #{mo_savy_official.position}".squish }.join(', ')
   end
@@ -1048,11 +1005,11 @@ class ClientGrid < BaseGrid
     render partial: 'clients/case_note_type', locals: { object: object }
   end
 
-  column(:date_of_assessments, header: -> { I18n.t('datagrid.columns.clients.date_of_assessments', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
-    render partial: 'clients/assessments', locals: { object: object.assessments.defaults }
+  column(:date_of_assessments, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.date_of_assessments', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
+    render partial: 'clients/assessments', locals: { object: object.assessments.defaults.order(:created_at) }
   end
 
-  column(:completed_date, header: -> { I18n.t('datagrid.columns.clients.assessment_completed_date', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
+  column(:completed_date, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.assessment_completed_date', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
     if $param_rules
       basic_rules = $param_rules['basic_rules']
       basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
@@ -1084,11 +1041,19 @@ class ClientGrid < BaseGrid
     render partial: 'clients/referral', locals: { object: object }
   end
 
-  column(:date_of_custom_assessments, header: -> { I18n.t('datagrid.columns.clients.date_of_custom_assessments', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
-    render partial: 'clients/assessments', locals: { object: object.assessments.customs }
+  column(:custom_assessment_created_date, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.custom_assessment_created_date', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
+    render partial: 'clients/assessments', locals: { object: object.assessments.customs.order(:created_at) }
   end
 
-  column(:custom_completed_date, header: -> { I18n.t('datagrid.columns.clients.assessment_custom_completed_date', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
+  column(:custom_assessment, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.custom_assessment', assessment: I18n.t('clients.show.assessment')) }) do |object|
+    custom_assessment_names = object.assessments.customs.joins(domains: :custom_assessment_setting).order(:created_at).distinct.pluck('custom_assessment_settings.custom_assessment_name', 'assessments.created_at')
+    custom_assessment_names = custom_assessment_names.map{|custom_assessment_name, assessment_date| "#{custom_assessment_name} (#{assessment_date.strftime("%d %B %Y")})"  }
+    format(custom_assessment_names.join(', ')) do |values|
+      unorderred_list(values.split(', '))
+    end
+  end
+
+  column(:custom_completed_date, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.assessment_custom_completed_date', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
     if $param_rules
       basic_rules = $param_rules['basic_rules']
       basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
@@ -1164,7 +1129,7 @@ class ClientGrid < BaseGrid
 
   dynamic do
     if enable_default_assessment?
-      column(:all_csi_assessments, header: -> { I18n.t('datagrid.columns.clients.all_csi_assessments', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
+      column(:all_csi_assessments, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.all_csi_assessments', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
         render partial: 'clients/all_csi_assessments', locals: { object: object.assessments.defaults }
       end
       Domain.csi_domains.order_by_identity.each do |domain|
@@ -1172,21 +1137,21 @@ class ClientGrid < BaseGrid
         identity = domain.identity
         column(domain.convert_identity.to_sym, class: 'domain-scores', header: identity, html: true) do |client|
           assessments = map_assessment_and_score(client, identity, domain_id)
-          assessment_domains = assessments.includes(:assessment_domains).map { |assessment| assessment.assessment_domains.joins(:domain).where(domains: { identity: identity }) }.flatten.uniq
+          assessment_domains = assessments.map { |assessment| assessment.assessment_domains.joins(:domain).where(domains: { identity: identity }) }.flatten.uniq
           render  partial: 'clients/list_domain_score', locals: { assessment_domains: assessment_domains }
         end
       end
     end
 
     if enable_custom_assessment?
-      column(:all_custom_csi_assessments, header: -> { I18n.t('datagrid.columns.clients.all_custom_csi_assessments') }, html: true) do |object|
+      column(:all_custom_csi_assessments, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.all_custom_csi_assessments') }, html: true) do |object|
         render partial: 'clients/all_csi_assessments', locals: { object: object.assessments.customs }
       end
       Domain.custom_csi_domains.order_by_identity.each do |domain|
         identity = domain.identity
         column("custom_#{domain.convert_identity}".to_sym, class: 'domain-scores', header: identity, html: true) do |client|
           assessments = map_assessment_and_score(client, identity, domain.id)
-          assessment_domains = assessments.customs.includes(:assessment_domains).map { |assessment| assessment.assessment_domains.joins(:domain).where(domains: { identity: identity }) }.flatten.uniq
+          assessment_domains = assessments.customs.map { |assessment| assessment.assessment_domains.joins(:domain).where(domains: { identity: identity }) }.flatten.uniq
           render  partial: 'clients/list_domain_score', locals: { assessment_domains: assessment_domains }
         end
       end

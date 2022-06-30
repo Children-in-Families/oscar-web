@@ -516,6 +516,7 @@ en:
       name: Name
       name_of_referee: Name of Referee
       ngo_accepted_date: NGO Accept Date
+      no_case_note_date: No Case Note Date
       ngo_exit_date: NGO Exit Date
       no_case_note_date: No Case Note Date
       other_info_of_exit: Other - More Information
@@ -535,7 +536,8 @@ en:
       referral_source_category_id: Referral Source Category
       referral_source_id: Referral Source
       referred_from: Referred From
-      referred_in: Referred In
+      referred_in: Number of Referred In
+      referred_out: Number of Referred Out
       referred_to: Referred To
       referred_out: Referred Out
       referee: Referee
@@ -947,6 +949,7 @@ en:
         with_id: With ID
   case_conferences:
     case_conference_attr: &CASE_CONFERENCE_ATTR
+      add: Add
       allow_file_size: Allowed file types
       are_you_sure: Are you sure you want to delete?
       attachments: Attachments
@@ -962,6 +965,7 @@ en:
       client_support: Support and Barriers to client engagement
       created_by: Created By
       initial_case_conference: Initial Case Conference
+      issue_to_be_addressed: Issue to be addressed
       local_resource: Resources/services in local community
       on_date: On Date
       presenting_problem: Presenting problem
@@ -1570,6 +1574,9 @@ en:
       temp_travel_doc: Temporary Travel Documents
       travel_doc: Laissez-Passer
       verdict: Verdict
+      warning_messages:
+        accepted_date: 'Client Accepted Date is: <strong class="text-danger">%{accepted_date}</strong>. You cannot back-date to less than accepted date.'
+        referral_date: 'Client Initial Referral Date is: <strong class="text-danger">%{referral_date}</strong>. You cannot back-date to less than initial referral date.'
       warrant: Warrant
     actions:
       are_you_sure: Are you sure you want to delete?
@@ -2760,6 +2767,8 @@ en:
         current_province: Current Province
         current_province_en: Current Province (English)
         current_province_kh: Current Province (Khmer)
+        custom_assessment: Custom %{assessment}
+        custom_assessment_created_date: Custom %{assessment} Created Date
         date_of_assessments: "%{assessment} Created At"
         date_of_birth: Date of Birth
         date_of_custom_assessments: "Custom %{assessment} Created At"
@@ -4058,6 +4067,7 @@ en:
         program_stream: Program Stream
         quantitative: Custom Referral Data
         tracking: Tracking
+    family_assessment: Family Assessment
     family_member_fields:
       adult_name: Name of Adult Member
       date_of_birth: Date of Birth

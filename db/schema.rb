@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20220523095812) do
+ActiveRecord::Schema.define(version: 20220621071312) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -150,16 +150,18 @@ ActiveRecord::Schema.define(version: 20220523095812) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "client_id"
-    t.boolean  "completed",          default: false
-    t.boolean  "default",            default: true
+    t.boolean  "completed",                    default: false
+    t.boolean  "default",                      default: true
     t.integer  "family_id"
     t.integer  "case_conference_id"
     t.date     "completed_date"
+    t.integer  "custom_assessment_setting_id"
   end
 
   add_index "assessments", ["case_conference_id"], name: "index_assessments_on_case_conference_id", using: :btree
   add_index "assessments", ["client_id"], name: "index_assessments_on_client_id", using: :btree
   add_index "assessments", ["completed_date"], name: "index_assessments_on_completed_date", using: :btree
+  add_index "assessments", ["custom_assessment_setting_id"], name: "index_assessments_on_custom_assessment_setting_id", using: :btree
   add_index "assessments", ["default"], name: "index_assessments_on_default", where: "(\"default\" = true)", using: :btree
   add_index "assessments", ["default"], name: "index_assessments_on_default_false", where: "(\"default\" = false)", using: :btree
   add_index "assessments", ["family_id"], name: "index_assessments_on_family_id", using: :btree
@@ -294,6 +296,13 @@ ActiveRecord::Schema.define(version: 20220523095812) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "case_conference_addressed_issues", force: :cascade do |t|
+    t.integer "case_conference_domain_id"
+    t.string  "title"
+  end
+
+  add_index "case_conference_addressed_issues", ["case_conference_domain_id"], name: "index_addressed_issues_on_case_conference_domain_id", using: :btree
 
   create_table "case_conference_domains", force: :cascade do |t|
     t.integer  "domain_id"

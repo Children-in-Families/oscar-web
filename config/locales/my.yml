@@ -517,7 +517,7 @@ my:
       name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
       ngo_accepted_date: NGOက လက္ခံသည့္ ရက္စြဲ
       ngo_exit_date: NGOမွ ထြက္သည့္ ရက္စြဲ
-      no_case_note_date: No Case Note Date
+      no_case_note_date: ဖြစ်ရပ်မှန်နေ့စွဲမရှိပါ။
       other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
       phone_owner: Phone Owner
       placement_start_date: ေနရာခ်ထားမႈစတင္သည့္ရက္စြဲ
@@ -536,6 +536,8 @@ my:
       referral_source_category_id: လွှဲပြောင်းအရင်းအမြစ်ကဏ္ဍ
       referral_source_id: လႊဲေျပာင္းရမည့္သူ
       referred_from: ကနေရည်ညွှန်း
+      referred_in: ကိုးကားသောအရေအတွက်
+      referred_out: ကိုးကားသောအရေအတွက်
       referred_to: ကနေရည်ညွှန်း
       referred_to_ec: EC သို႔ ရည္ညႊန္းသည္။
       referred_to_fc: EC သို႔ ရည္ညႊန္းသည္။
@@ -958,6 +960,7 @@ my:
         with_id: မွတ္ပံုတင္ႏွင့္အတူ
   case_conferences:
     case_conference_attr: &CASE_CONFERENCE_ATTR
+      add: Add
       allow_file_size: Allowed file types
       are_you_sure: Are you sure you want to delete?
       attachments: attachments
@@ -973,6 +976,7 @@ my:
       client_support: Support and Barriers to client engagement
       created_by: Created By
       initial_case_conference: Initial Case Conference
+      issue_to_be_addressed: Issue to be addressed
       local_resource: Resources/services in local community
       on_date: On Date
       presenting_problem: Presenting problem
@@ -1580,6 +1584,9 @@ my:
       temp_travel_doc: Temporary Travel Documents
       travel_doc: Laissez-Passer
       verdict: Verdict
+      warning_messages:
+        accepted_date: 'Client Accepted Date is: <strong class="text-danger">%{accepted_date}</strong>. You cannot back-date to less than accepted date.'
+        referral_date: 'Client Initial Referral Date is: <strong class="text-danger">%{referral_date}</strong>. You cannot back-date to less than initial referral date.'
       warrant: Warran
     actions:
       are_you_sure: ဖ်က္လုိသည္မွာ ေသခ်ာပါသလား
@@ -2823,6 +2830,8 @@ my:
         current_province: လက္ရွိေနထိုင္ရာခ႐ိုင္
         current_province_en: လက်ရှိပြည်နယ် (အင်္ဂလိပ်)
         current_province_kh: လက်ရှိပြည်နယ် (ခမာ)
+        custom_assessment: Custom %{assessment}
+        custom_assessment_created_date: Custom %{assessment} Created Date
         date_of_assessments: စိစစ္အကဲျဖတ္မႈလုပ္သည့္ ရက္စြဲ
         date_of_birth: ေမြးရက္၊ လ၊ ႏွစ္
         date_of_custom_assessments: Custom စိစစ္အကဲျဖတ္မႈလုပ္သည့္ ရက္စြဲ
@@ -4158,6 +4167,7 @@ my:
         program_stream: ပရိုဂရမ်စီး
         quantitative: အရေအတွက်
         tracking: ခြေရာခံခြင်း
+    family_assessment: Family Assessment
     family_member_fields:
       adult_name: အတူတူအိမျ၌နထေိုငျသူမြားလူကြီးများ
       date_of_birth: မွေးရက်

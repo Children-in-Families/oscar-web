@@ -15,12 +15,20 @@ CIF.Client_enrolled_programsNew = CIF.Client_enrolled_programsCreate = CIF.Clien
       radioClass: 'iradio_square-green'
 
   _initDatePicker = ->
-    $('.client-enrollment-date').datepicker
+    initialReferralDate = $('#initial_referral_date').val()
+    lastAcceptedDate = $('#last_accepted_date').val()
+    startDate = if _.isEmpty(lastAcceptedDate) then initialReferralDate else initialReferralDate
+
+    $('#enrollment_date').datepicker(
       autoclose: true
       format: 'yyyy-mm-dd'
       todayHighlight: true
       orientation: 'bottom'
       disableTouchKeyboard: true
+      startDate: startDate
+    )
+
+    $('#enrollment_date').datepicker('setStartDate', startDate)
 
   _preventEditDatepickerClientEnrollment = ->
     currentProgram     = $('#program_stream_name').val()

@@ -515,7 +515,7 @@ km:
       name_of_referee: ឈ្មោះអ្នកបញ្ជូន
       ngo_accepted_date: កាលបរិច្ឆេទចូលអង្គការ
       ngo_exit_date: កាលបរិច្ឆេទចាកចេញពីអង្គការ
-      no_case_note_date: មិនមានកាលបរិច្ឆេទកំណត់ត្រាករណី
+      no_case_note_date: គ្មានកំណត់ត្រាករណីក្នុងអំឡុងពេល
       other_info_of_exit: ព័ត៌មានបន្ថែមនៃការចាកចេញ
       phone_owner: ម្ចាស់ទូរស័ព្ទ
       program_stream: កម្មវិធីចម្បង
@@ -530,6 +530,8 @@ km:
       referral_source_category_id: ប្រភេទប្រភពនៃការបញ្ជូន
       referral_source_id: ប្រភពនៃការបញ្ជូន
       referred_from: បញ្ជូនមកពីអង្គការដៃគូរ
+      referred_in: ចំនួនបញ្ជូនមកពីអង្គការដៃគូរ
+      referred_out: ចំនួនបញ្ជូនទៅអង្គការដៃគូរ
       referred_to: បញ្ជូនមកទៅអង្គការដៃគូរ
       referee: អ្នកបញ្ជូន
       referee_relationship: ទំនាក់ទំនងរវាងអ្នកបញ្ជូននឹងអតិថិជន
@@ -935,21 +937,23 @@ km:
         with_id: ជាមួយលេខសម្គាល់
   case_conferences:
     case_conference_attr: &CASE_CONFERENCE_ATTR
+      add: បន្ថែម
       allow_file_size: ប្រភេទឯកសារដែលអាចផ្ទុកបាន
       are_you_sure: តើអ្នកប្រាកដថាចង់លុបដែរឬទេ?
       attachments: ឯកសារភ្ជាប់
       attendants: Attendants
       back: ត្រឡប់ក្រោយ
-      base_on: Base on Case Conference Number
+      base_on: សនិ្នសីទករណីទី
       cancel: ទុកជាមោឃៈ
-      case_conference: Case Conference
-      meeting_date: Case Conference Date
+      case_conference: សនិ្នសីទករណី
+      meeting_date: កាលបរិច្ចេទសនិ្នសីទករណី
       client_engagement: ការចូលរួមរបស់អតិថិជន
       client_limitation:  Client limitations
       client_strength: ចំណុចខ្លាំងរបស់អតិថិជន
       client_support: ការគាំទ្រនិងរនាំងរបស់អតិថិជនក្នុងការចូលរួម
       created_by: បង្កើតដោយ
-      initial_case_conference: Initial Case Conference
+      initial_case_conference: សនិ្នសីទករណីដំបូង
+      issue_to_be_addressed: Issue to be addressed
       local_resource: ធានធាន/សេវាក្នុងសហគមន៍
       on_date: ថ្ងៃកំនត់
       presenting_problem: បញ្ហាកំពុងលេចឡើង
@@ -969,7 +973,7 @@ km:
       assessment_history: "%{assessment} History"
       back: Back
       begin_now: Add New
-      case_conference: Case Conference
+      case_conference: សនិ្នសីទករណី
       case_conference_edit_duration: Case Conference Editable Duration
       initial_assessment: "Initial %{assessment} on"
       new_assessment: New Assessment
@@ -1545,6 +1549,9 @@ km:
       temp_travel_doc: លិខិតធ្វើដំណើរបណ្តោះអាសន្ន
       travel_doc: លិខិតធ្វើដំណើរបណ្តោះអាសន្នពីស្ថានទូត
       verdict: ដីការសម្រេច
+      warning_messages:
+        accepted_date: 'កាលបរិច្ឆេទនៃការបញ្ជូនដំបូងរបស់អតិថិជន <strong class="text-danger">%{accepted_date}</strong>។ អ្នក​មិន​អាច​ត្រឡប់​ទៅ​កាលបរិច្ឆេទ​តិច​ជាង​កាលបរិច្ឆេទ​បញ្ជូន​ដំបូងបានទេ។'
+        referral_date: 'កាលបរិច្ឆេទទទួលអតិថិជនគឺថ្ងៃទី <strong class="text-danger">%{referral_date}</strong>។ អ្នកមិនអាចត្រឡប់កាលបរិច្ឆេទតិចជាងកាលបរិច្ឆេទចូលអង្គការបានទេ។'
       warrant: ដីការកោះហៅ
     actions:
       are_you_sure: តើអ្នកប្រាកដហើយថាចង់លុបដែរឬទេ?
@@ -2017,6 +2024,7 @@ km:
       warning: ប្រុងប្រយ័ត្ន!
     show:
       <<: *LEGAL_DOC_ATTR
+      additional_forms: ទម្រង់អតិថិជនកំពុងប្រើ
       care_plan: ផែនការគាំទ្រករណី
       case_conference: Case Conference
       marital_status: Marital Status
@@ -2708,6 +2716,8 @@ km:
         current_province: ខេត្តបច្ចុប្បន្ន
         current_province_en: ខេត្តបច្ចុប្បន្ន (អក្សរឡាតាំង)
         current_province_kh: ខេត្តបច្ចុប្បន្ន (ខ្មែរ)
+        custom_assessment: "%{assessment} ផ្ទាល់ខ្លួន"
+        custom_assessment_created_date: កាលបរិច្ឆេទបង្កើត %{assessment} ផ្ទាល់ខ្លួន
         date_of_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណ
         date_of_birth: ថ្ងៃខែឆ្នាំកំណើត
         date_of_custom_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
@@ -4002,6 +4012,7 @@ km:
         program_stream: កម្មវិធីចម្បង
         quantitative: ព័ត៌មានជាក់លាក់នៃការបញ្ជូន
         tracking: តាមដាន
+    family_assessment: ការប៉ាន់ប្រមាណគ្រួសារ
     family_member_fields:
       adult_name: ឈ្មោះមនុស្សពេញវ័យ
       date_of_birth: ថ្ងៃខែឆ្នាំកំណើត

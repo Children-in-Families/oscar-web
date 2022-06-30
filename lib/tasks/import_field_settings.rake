@@ -19,7 +19,6 @@ namespace :field_settings do
         next if sheet.row(row_index)[headers['name']].blank? || sheet.row(row_index)[headers['remark']] != 'new'
 
         field_setting = FieldSetting.find_or_initialize_by(name: sheet.row(row_index)[headers['name']], klass_name: sheet.row(row_index)[headers['klass_name']])
-
         field_setting.update!(
           label: sheet.row(row_index)[headers['label']],
           type: sheet.row(row_index)[headers['type']],

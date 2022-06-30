@@ -5,6 +5,7 @@ module AdvancedSearches
     ASSOCIATION_FIELDS = ['user_id', 'created_by', 'agency_name', 'donor_name', 'age', 'family', 'family_id',
                           'active_program_stream', 'enrolled_program_stream', 'case_note_date', 'no_case_note_date', 'case_note_type',
                           'date_of_assessments', 'date_of_custom_assessments', 'accepted_date', 'assessment_completed_date',
+                          'custom_assessment', 'custom_assessment_created_date', 'custom_completed_date',
                           'exit_date', 'exit_note', 'other_info_of_exit', 'protection_concern_id', 'necessity_id',
                           'exit_circumstance', 'exit_reasons', 'referred_to', 'referred_from', 'time_in_cps', 'time_in_ngo',
                           'assessment_number', 'month_number', 'date_nearest', 'assessment_completed','date_of_referral',
@@ -68,7 +69,7 @@ module AdvancedSearches
           program_name = form_builder.second.gsub("&qoute;", '"')
           program_stream = ProgramStream.find_by(name: program_name)
           if program_stream.present?
-            enrollment_fields = AdvancedSearches::EnrollmentSqlBuilder.new(program_stream.id, rule).get_sql
+            enrollment_fields = AdvancedSearches::EnrollmentSqlBuilder.new(@clients, program_stream.id, rule).get_sql
             @sql_string << enrollment_fields[:id]
             @values << enrollment_fields[:values]
           end

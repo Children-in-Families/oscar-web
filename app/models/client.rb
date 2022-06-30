@@ -80,7 +80,7 @@ class Client < ActiveRecord::Base
   has_many :agency_clients, dependent: :destroy
   has_many :progress_notes, dependent: :destroy
   has_many :agencies, through: :agency_clients
-  
+
   has_many :client_quantitative_free_text_cases, dependent: :destroy
   has_many :client_quantitative_cases, dependent: :destroy
   has_many :quantitative_cases, through: :client_quantitative_cases
@@ -145,7 +145,7 @@ class Client < ActiveRecord::Base
   after_commit :remove_family_from_case_worker
   after_commit :update_related_family_member, on: :update
   after_commit :delete_referee, on: :destroy
-  after_commit :flush_cache
+  after_save :flash_cache
 
   scope :given_name_like,                          ->(value) { where('clients.given_name iLIKE :value OR clients.local_given_name iLIKE :value', { value: "%#{value.squish}%"}) }
   scope :family_name_like,                         ->(value) { where('clients.family_name iLIKE :value OR clients.local_family_name iLIKE :value', { value: "%#{value.squish}%"}) }
@@ -723,7 +723,8 @@ class Client < ActiveRecord::Base
   def indirect_beneficiaries
     result = 0
     family_id = self.family_member.try(:family_id)
-    result = Family.find_by(id: family_id).family_members.where(client_id: nil).count if family_id.present?
+    _family = Family.find_by(id: family_id) if family_id.present?
+    result = _family.family_members.where(client_id: nil).count if _family.present?
     result
   end
 
@@ -805,6 +806,66 @@ class Client < ActiveRecord::Base
     Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_assessment_domains', domain_id]) do
       ids = Assessment.joins(:assessment_domains).where("score#{operation} ? AND domain_id= ?", value, domain_id).ids
       scope.joins(:assessments).where(assessments: { id: ids})
+    end
+  end
+
+  def self.cache_given_name(object)
+    Rails.cache.fetch([Apartment::Tenant.current, object.id, object.given_name || 'given_name']) do
+      current_org = Organization.current
+      Organization.switch_to 'shared'
+      given_name = SharedClient.find_by(slug: object.slug).given_name
+      Organization.switch_to current_org.short_name
+      given_name
+    end
+  end
+
+  def self.cache_family_name(object)
+    Rails.cache.fetch([Apartment::Tenant.current, object.id, object.family_name || 'family_name']) do
+      current_org = Organization.current
+      Organization.switch_to 'shared'
+      family_name = SharedClient.find_by(slug: object.slug).family_name
+      Organization.switch_to current_org.short_name
+      family_name
+    end
+  end
+
+  def self.cache_given_name_export(object)
+    Rails.cache.fetch([Apartment::Tenant.current, object.id, object.given_name || 'given_name', 'export_excel']) do
+      current_org = Organization.current
+      Organization.switch_to 'shared'
+      given_name = SharedClient.find_by(slug: object.slug).given_name
+      Organization.switch_to current_org.short_name
+      given_name
+    end
+  end
+
+  def self.cache_local_given_name(object)
+    Rails.cache.fetch([Apartment::Tenant.current, object.id, object.local_given_name || 'local_given_name']) do
+      current_org = Organization.current
+      Organization.switch_to 'shared'
+      local_given_name = SharedClient.find_by(slug: object.slug).local_given_name
+      Organization.switch_to current_org.short_name
+      local_given_name
+    end
+  end
+
+  def self.cache_local_family_name(object)
+    Rails.cache.fetch([Apartment::Tenant.current, object.id, object.local_family_name || 'local_family_name']) do
+      current_org = Organization.current
+      Organization.switch_to 'shared'
+      local_family_name = SharedClient.find_by(slug: object.slug).local_family_name
+      Organization.switch_to current_org.short_name
+      local_family_name
+    end
+  end
+
+  def self.cache_gender(object)
+    Rails.cache.fetch([I18n.locale, Apartment::Tenant.current, object.id, object.gender || 'gender']) do
+      current_org = Organization.current
+      Organization.switch_to 'shared'
+      gender = SharedClient.find_by(slug: object.slug)&.gender
+      Organization.switch_to current_org.short_name
+      gender.present? ? I18n.t("default_client_fields.gender_list.#{ gender.gsub('other', 'other_gender') }") : ''
     end
   end
 
@@ -922,7 +983,7 @@ class Client < ActiveRecord::Base
     referee.destroy
   end
 
-  def flush_cache
+  def flash_cache
     Rails.cache.delete([Apartment::Tenant.current, 'Client', 'location_of_concern']) if location_of_concern_changed?
     Rails.cache.delete([Apartment::Tenant.current, self.class.name, 'received_by', received_by_id]) if received_by_id_changed?
     Rails.cache.delete([Apartment::Tenant.current, self.class.name, 'followed_up_by', followed_up_by_id]) if followed_up_by_id_changed?
@@ -953,6 +1014,16 @@ class Client < ActiveRecord::Base
     cached_client_assessment_order_completed_date_keys.each { |key| Rails.cache.delete(key) }
     cached_client_assessment_domains_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_assessment_domains/].blank? }
     cached_client_assessment_domains_keys.each { |key| Rails.cache.delete(key) }
+
+    Rails.cache.delete([Apartment::Tenant.current, 'ReferralSource', 'cached_referral_source_try_name', referral_source_category_id]) if referral_source_category_id_changed?
+    Rails.cache.delete([Apartment::Tenant.current, 'ReferralSource', 'cached_referral_source_try_name_en', referral_source_category_id]) if referral_source_category_id_changed?
+
+    Rails.cache.delete([Apartment::Tenant.current, id, given_name_was || 'given_name']) if given_name_changed?
+    Rails.cache.delete([Apartment::Tenant.current, id, given_name_was || 'given_name', 'export_excel']) if given_name_changed?
+    Rails.cache.delete([Apartment::Tenant.current, id, family_name_was || 'family_name']) if family_name_changed?
+    Rails.cache.delete([Apartment::Tenant.current, id, local_given_name_was || 'local_given_name']) if local_given_name_changed?
+    Rails.cache.delete([Apartment::Tenant.current, id, local_family_name_was || 'local_family_name']) if local_family_name_changed?
+    Rails.cache.fetch([I18n.locale, Apartment::Tenant.current, id, gender_was || 'gender']) if gender_changed?
   end
 
 end

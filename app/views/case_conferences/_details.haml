@@ -49,10 +49,16 @@
               .panel-heading
                 %h5= t('case_conferences.show.presenting_problem')
               .panel-body
-                - case_conference.case_conference_order_by_domain_name.each do |ccd|
+                - case_conference.case_conference_order_by_domain_name.includes(:domain, :case_conference_addressed_issues).each do |ccd|
                   %dl.small.m-t-md
                     %dt= "#{ccd.domain.identity} (#{ccd.domain.name})"
                     %dd= ccd.presenting_problem
+                    - if ccd.case_conference_addressed_issues.present?
+                      %dd
+                        %dt.m-l-md= t('case_conferences.show.issue_to_be_addressed')
+                        %ul
+                          - ccd.case_conference_addressed_issues.each do |ccai|
+                            %li= ccai.title
         .row
           .col-md-12
             .panel.panel-default
