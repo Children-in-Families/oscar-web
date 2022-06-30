@@ -6,7 +6,7 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
     # _hideCompletedTasks()
     _initSelect2CasenoteInteractionType()
     _initSelect2CasenoteDomainGroups()
-    _initScoreTooltip()
+    _initScorePopover()
     _initICheckBox()
     _scrollToError()
     _hideShowOnGoingTaskLable()
@@ -23,10 +23,14 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
     ).on 'ifUnchecked', ->
       $("#service-delivery-task-#{@.value}").toggleClass('show service-delivery hide')
 
-  _initScoreTooltip = ->
-    $('.case-note-domain-score').tooltip
-      placement: 'top'
+  _initScorePopover = ->
+    $("button.case-note-domain-score").popover(
       html: true
+    ).on 'show.bs.popover', ->
+      $(this).data('bs.popover').tip().css
+        maxWidth: '600px'
+        zIndex: '9999'
+      return
 
   _initSelect2CasenoteInteractionType = ->
     $('#case_note_interaction_type').select2
