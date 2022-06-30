@@ -907,7 +907,7 @@ module ClientsHelper
       field_name = 'meeting_date'
     elsif rule == 'completed_date'
       field_name = 'completed_date'
-    elsif rule.in?(['date_of_assessments', 'date_of_custom_assessments', 'care_plan_completed_date'])
+    elsif rule.in?(['date_of_assessments', 'date_of_custom_assessments', 'care_plan_completed_date', 'custom_assessment_created_date'])
       field_name = 'created_at'
     elsif rule[/^(exitprogramdate)/i].present? || object.class.to_s[/^(leaveprogram)/i]
       klass_name.merge!(rule => 'leave_programs')
@@ -940,7 +940,7 @@ module ClientsHelper
 
     if rule == 'date_of_assessments'
       sql_string = object.where(query_array).where(default: true).where(sub_query_array)
-    elsif rule == 'date_of_custom_assessments'
+    elsif rule == 'date_of_custom_assessments' || rule == 'custom_assessment_created_date'
       sql_string = object.where(query_array).where(default: false).where(sub_query_array)
     else
       if object.is_a?(Array)
@@ -1011,7 +1011,7 @@ module ClientsHelper
             end
 
             count += data_filter.present? ? data_filter.flatten.count : 0
-          elsif class_name[/^(date_of_custom_assessments)/i].present?
+          elsif class_name[/^(date_of_custom_assessments|custom_assessment_created_date)/i].present?
             if params['all_values'] == class_name
               data_filter = date_filter(client.assessments.customs, "#{class_name}")
             else

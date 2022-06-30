@@ -425,7 +425,7 @@
                 %td
                   %strong
                     = @client.time_in_cps
-              
+
               - if policy(Client).client_pickup_information?
                 - if policy(Client).show?(:arrival_at)
                   %tr
@@ -441,7 +441,7 @@
                     %td
                       %strong
                         = @client.flight_nb
-                
+
                 - if policy(Client).show?(:ratanak_achievement_program_staff_client_ids)
                   %tr
                     %td.spacing-first-col
@@ -612,7 +612,7 @@
                     %td.align-justify
                       %strong.label.label-default= qtc_free_text.content
 
-                - @client.quantitative_cases.group_by(&:quantitative_type).each do |qtypes|
+                - @client.quantitative_cases.includes(:quantitative_type).group_by(&:quantitative_type).each do |qtypes|
                   - next unless quantitative_type_readable?(qtypes.first.id)
                   %tr
                     %td.align-justify
