@@ -1,6 +1,7 @@
 ---
 include:
 - "**/*.rb"
+- "**/*.haml"
 exclude:
 - node_modules/**/*
 - spec/**/*

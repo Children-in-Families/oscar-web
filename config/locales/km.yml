@@ -6079,6 +6079,7 @@ km:
     update:
       successfully_updated: ការស្ទង់មតិត្រូវបានកែសម្រួលដោយជោគជ័យ
   tasks:
+    add_task_progress_note: បន្ថែមការពិព៌ណនាអំពីជំនួប
     completion_date: កាលបរិច្ឆេទបញ្ចប់
     expected_date: កាលបរិច្ឆេទរំពឹងទុក
     filter:

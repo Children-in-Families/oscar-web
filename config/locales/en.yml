@@ -6133,6 +6133,7 @@ en:
     update:
       successfully_updated: Survey has been successfully updated.
   tasks:
+    add_task_progress_note: Add progress notes and next steps
     completion_date: Completion Date
     expected_date: Expected Date
     filter:
