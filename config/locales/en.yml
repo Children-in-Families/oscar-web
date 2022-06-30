@@ -1076,6 +1076,7 @@ en:
       note: Note
       please_add_custom_domains: You may want to add some Custom Domains before you can perform this action.
       present: Who was there during the visit or conversation?
+      task: Task
       type: Casenote Type
       you_need_to_create_assessment: You need to create assessment
     show:

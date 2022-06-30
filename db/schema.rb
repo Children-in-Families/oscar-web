@@ -287,13 +287,6 @@ ActiveRecord::Schema.define(version: 20220629073355) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "case_conference_addressed_issues", force: :cascade do |t|
-    t.integer "case_conference_domain_id"
-    t.string  "title"
-  end
-
-  add_index "case_conference_addressed_issues", ["case_conference_domain_id"], name: "index_addressed_issues_on_case_conference_domain_id", using: :btree
-
   create_table "case_conference_domains", force: :cascade do |t|
     t.integer  "domain_id"
     t.integer  "case_conference_id"
@@ -2092,11 +2085,11 @@ ActiveRecord::Schema.define(version: 20220629073355) do
     t.string   "referral_phone",            default: ""
     t.integer  "referee_id"
     t.string   "client_name",               default: ""
-    t.string   "consent_form",              default: [],                      array: true
+    t.string   "consent_form",              default: [],                 array: true
     t.boolean  "saved",                     default: false
     t.integer  "client_id"
-    t.datetime "created_at",                                     null: false
-    t.datetime "updated_at",                                     null: false
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
     t.string   "ngo_name",                  default: ""
     t.string   "client_global_id"
     t.string   "external_id"
@@ -2109,7 +2102,6 @@ ActiveRecord::Schema.define(version: 20220629073355) do
     t.string   "village_code",              default: ""
     t.string   "referee_email"
     t.string   "level_of_risk"
-    t.string   "referral_status",           default: "Referred"
   end
 
   add_index "referrals", ["client_global_id"], name: "index_referrals_on_client_global_id", using: :btree
