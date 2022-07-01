@@ -1,24 +1,32 @@
 describe 'Report Builder' do
   let!(:user) { create(:user) }
-  let!(:client) { create(:client, :accepted, users: [user]) }
-  let!(:family){ create(:family, children: [client.id] ) }
+  let!(:client) { create(:client, :accepted, given_name: 'Adam', family_name: 'Eve', local_given_name: 'Juliet', local_family_name: 'Romeo', date_of_birth: 10.years.ago, users: [user]) }
+
   before do
     login_as(user)
+    Rails.cache.clear
   end
 
-  feature 'Search', js: true do
+  feature 'Search client', js: true do
     scenario 'for client' do
       visit clients_path
       find('.client-search').click
+      expect(page).to have_content('Given Name (Latin)')
+      fill_in 'Given Name (Latin)', with: 'Adam'
       find('#client-grid-search-btn').click
-      sleep 1
-      expect(page).to have_content(client.given_name)
+      wait_for_ajax()
+      expect(page).to have_content("Adam")
     end
+  end
+
+  feature 'Search family', js: true do
+    let!(:family){ create(:family, children: [client.id] ) }
     scenario 'for family' do
       visit families_path
+      fill_in 'Family ID', with: family.id
       find('#client-grid-search-btn').click
-      sleep 1
-      expect(page).to have_content(family.name)
+      wait_for_ajax()
+      expect(page).to have_content(family.id)
     end
   end
 end

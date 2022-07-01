@@ -1,0 +1,9 @@
+.nested-fields.m-t-sm
+  = f.hidden_field :case_conference_domain_id
+  .row
+    .col-md-6
+      = f.text_field :title, class: 'form-control'
+    .col-md-2
+      = link_to_remove_association f do
+        .btn.btn-outline.btn-danger.btn-xs
+          %i.fa.fa-trash

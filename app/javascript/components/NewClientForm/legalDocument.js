@@ -15,8 +15,9 @@ export default (props) => {
   const {
     onChange,
     fieldsVisibility,
+    requiredFields,
     translation,
-    data: { client, T },
+    data: { client, T, errorFields },
   } = props;
 
   const [clientData, setClientData] = useState({ ...client });
@@ -77,19 +78,20 @@ export default (props) => {
             {t(translation, "clients.form.indentification_doc")}
           </h3>
         </legend>
-        {fieldsVisibility.national_id == true && (
+        {(fieldsVisibility.national_id == true) && (
           <legend>
             <div className="row">
               <div className="col-xs-12 col-md-6 col-lg-3">
                 <Checkbox
                   label={t(translation, "clients.form.national_id")}
-                  checked={client.national_id}
+                  checked={ client.national_id }
                   onChange={onCheckBoxChange("client", "national_id")}
                 />
               </div>
+
               <div className="col-xs-12">
                 <FileUploadInput
-                  label=""
+                  isError={errorFields.includes('national_id_files')}
                   onChange={onAttachmentsChange("national_id_files")}
                   object={client.national_id_files}
                   onChangeCheckbox={onRemoveAttachments(
@@ -98,7 +100,8 @@ export default (props) => {
                   removeAttachmentcheckBoxValue={
                     client.remove_national_id_files
                   }
-                  showFilePond={client.national_id}
+                  showFilePond={ client.national_id }
+                  required={ requiredFields.fields.national_id && client.national_id }
                   T={T}
                 />
               </div>
@@ -118,7 +121,7 @@ export default (props) => {
               </div>
               <div className="col-xs-12">
                 <FileUploadInput
-                  label=""
+                  isError={errorFields.includes('passport_files')}
                   onChange={onAttachmentsChange("passport_files")}
                   object={client.passport_files}
                   onChangeCheckbox={onRemoveAttachments(
@@ -126,6 +129,7 @@ export default (props) => {
                   )}
                   removeAttachmentcheckBoxValue={client.remove_passport_files}
                   showFilePond={client.passport}
+                  required={ requiredFields.fields.passport && client.passport }
                   T={T}
                 />
               </div>
@@ -145,7 +149,7 @@ export default (props) => {
               </div>
               <div className="col-xs-12">
                 <FileUploadInput
-                  label=""
+                  isError={errorFields.includes('birth_cert_files')}
                   onChange={onAttachmentsChange("birth_cert_files")}
                   object={client.birth_cert_files}
                   onChangeCheckbox={onRemoveAttachments(
@@ -153,6 +157,7 @@ export default (props) => {
                   )}
                   removeAttachmentcheckBoxValue={client.remove_birth_cert_files}
                   showFilePond={client.birth_cert}
+                  required={ requiredFields.fields.birth_cert && client.birth_cert }
                   T={T}
                 />
               </div>
@@ -172,7 +177,7 @@ export default (props) => {
               </div>
               <div className="col-xs-12">
                 <FileUploadInput
-                  label=""
+                  isError={errorFields.includes('family_book_files')}
                   onChange={onAttachmentsChange("family_book_files")}
                   object={client.family_book_files}
                   onChangeCheckbox={onRemoveAttachments(
@@ -182,6 +187,7 @@ export default (props) => {
                     client.remove_family_book_files
                   }
                   showFilePond={client.family_book}
+                  required={ requiredFields.fields.family_book && client.family_book }
                   T={T}
                 />
               </div>
@@ -208,7 +214,7 @@ export default (props) => {
               </div>
               <div className="col-xs-12">
                 <FileUploadInput
-                  label=""
+                  isError={errorFields.includes('travel_doc_files')}
                   onChange={onAttachmentsChange("travel_doc_files")}
                   object={client.travel_doc_files}
                   onChangeCheckbox={onRemoveAttachments(
@@ -216,6 +222,7 @@ export default (props) => {
                   )}
                   removeAttachmentcheckBoxValue={client.remove_travel_doc_files}
                   showFilePond={client.travel_doc}
+                  required={ requiredFields.fields.travel_doc && client.travel_doc }
                   T={T}
                 />
               </div>
@@ -240,7 +247,7 @@ export default (props) => {
               </div>
               <div className="col-xs-12">
                 <FileUploadInput
-                  label=""
+                  isError={errorFields.includes('letter_from_immigration_police_files')}
                   onChange={onAttachmentsChange(
                     "letter_from_immigration_police_files"
                   )}
@@ -252,6 +259,7 @@ export default (props) => {
                     client.remove_letter_from_immigration_police_files
                   }
                   showFilePond={client.letter_from_immigration_police}
+                  required={ requiredFields.fields.letter_from_immigration_police && client.letter_from_immigration_police }
                   T={T}
                 />
               </div>
@@ -278,7 +286,7 @@ export default (props) => {
               </div>
               <div className="col-xs-12">
                 <FileUploadInput
-                  label=""
+                  isError={errorFields.includes('ngo_partner_files')}
                   onChange={onAttachmentsChange("ngo_partner_files")}
                   object={client.ngo_partner_files}
                   onChangeCheckbox={onRemoveAttachments(
@@ -288,6 +296,7 @@ export default (props) => {
                     client.remove_ngo_partner_files
                   }
                   showFilePond={client.ngo_partner}
+                  required={ requiredFields.fields.ngo_partner && client.ngo_partner }
                   T={T}
                 />
               </div>
@@ -307,7 +316,7 @@ export default (props) => {
               </div>
               <div className="col-xs-12">
                 <FileUploadInput
-                  label=""
+                  isError={errorFields.includes('referral_doc_files')}
                   onChange={onAttachmentsChange("referral_doc_files")}
                   object={client.referral_doc_files}
                   onChangeCheckbox={onRemoveAttachments(
@@ -317,6 +326,7 @@ export default (props) => {
                     client.remove_referral_doc_files
                   }
                   showFilePond={client.mosavy}
+                  required={ requiredFields.fields.mosavy && client.mosavy }
                   T={T}
                 />
               </div>
@@ -336,12 +346,13 @@ export default (props) => {
               </div>
               <div className="col-xs-12">
                 <FileUploadInput
-                  label=""
+                  isError={errorFields.includes('dosavy_files')}
                   onChange={onAttachmentsChange("dosavy_files")}
                   object={client.dosavy_files}
                   onChangeCheckbox={onRemoveAttachments("remove_dosavy_files")}
                   removeAttachmentcheckBoxValue={client.remove_dosavy_files}
                   showFilePond={client.dosavy}
+                  required={ requiredFields.fields.dosavy && client.dosavy }
                   T={T}
                 />
               </div>
@@ -361,12 +372,13 @@ export default (props) => {
               </div>
               <div className="col-xs-12">
                 <FileUploadInput
-                  label=""
+                  isError={errorFields.includes('msdhs_files')}
                   onChange={onAttachmentsChange("msdhs_files")}
                   object={client.msdhs_files}
                   onChangeCheckbox={onRemoveAttachments("remove_msdhs_files")}
                   removeAttachmentcheckBoxValue={client.remove_msdhs_files}
                   showFilePond={client.msdhs}
+                  required={ requiredFields.fields.msdhs && client.msdhs }
                   T={T}
                 />
               </div>
@@ -393,7 +405,7 @@ export default (props) => {
               </div>
               <div className="col-xs-12">
                 <FileUploadInput
-                  label=""
+                  isError={errorFields.includes('complain_files')}
                   onChange={onAttachmentsChange("complain_files")}
                   object={client.complain_files}
                   onChangeCheckbox={onRemoveAttachments(
@@ -401,6 +413,7 @@ export default (props) => {
                   )}
                   removeAttachmentcheckBoxValue={client.remove_complain_files}
                   showFilePond={client.complain}
+                  required={ requiredFields.fields.complain && client.complain }
                   T={T}
                 />
               </div>
@@ -420,7 +433,7 @@ export default (props) => {
               </div>
               <div className="col-xs-12">
                 <FileUploadInput
-                  label=""
+                  isError={errorFields.includes('local_consent_files')}
                   onChange={onAttachmentsChange("local_consent_files")}
                   object={client.local_consent_files}
                   onChangeCheckbox={onRemoveAttachments(
@@ -430,6 +443,7 @@ export default (props) => {
                     client.remove_local_consent_files
                   }
                   showFilePond={client.local_consent}
+                  required={ requiredFields.fields.local_consent && client.local_consent }
                   T={T}
                 />
               </div>
@@ -449,12 +463,13 @@ export default (props) => {
               </div>
               <div className="col-xs-12">
                 <FileUploadInput
-                  label=""
+                  isError={errorFields.includes('warrant_files')}
                   onChange={onAttachmentsChange("warrant_files")}
                   object={client.warrant_files}
                   onChangeCheckbox={onRemoveAttachments("remove_warrant_files")}
                   removeAttachmentcheckBoxValue={client.remove_warrant_files}
                   showFilePond={client.warrant}
+                  required={ requiredFields.fields.warrant && client.warrant }
                   T={T}
                 />
               </div>
@@ -474,12 +489,13 @@ export default (props) => {
               </div>
               <div className="col-xs-12">
                 <FileUploadInput
-                  label=""
+                  isError={errorFields.includes('verdict_files')}
                   onChange={onAttachmentsChange("verdict_files")}
                   object={client.verdict_files}
                   onChangeCheckbox={onRemoveAttachments("remove_verdict_files")}
                   removeAttachmentcheckBoxValue={client.remove_verdict_files}
                   showFilePond={client.verdict}
+                  required={ requiredFields.fields.verdict && client.verdict }
                   T={T}
                 />
               </div>
@@ -524,7 +540,7 @@ export default (props) => {
               </div>
               <div className="col-xs-12">
                 <FileUploadInput
-                  label=""
+                  isError={errorFields.includes('screening_interview_form_files')}
                   onChange={onAttachmentsChange(
                     "screening_interview_form_files"
                   )}
@@ -536,6 +552,7 @@ export default (props) => {
                     client.remove_screening_interview_form_files
                   }
                   showFilePond={client.screening_interview_form}
+                  required={ requiredFields.fields.screening_interview_form && client.screening_interview_form }
                   T={T}
                 />
               </div>
@@ -567,7 +584,7 @@ export default (props) => {
               </div>
               <div className="col-xs-12">
                 <FileUploadInput
-                  label=""
+                  isError={errorFields.includes('short_form_of_ocdm_files')}
                   onChange={onAttachmentsChange("short_form_of_ocdm_files")}
                   object={client.short_form_of_ocdm_files}
                   onChangeCheckbox={onRemoveAttachments(
@@ -577,6 +594,7 @@ export default (props) => {
                     client.remove_short_form_of_ocdm_files
                   }
                   showFilePond={client.short_form_of_ocdm}
+                  required={ requiredFields.fields.short_form_of_ocdm && client.short_form_of_ocdm }
                   T={T}
                 />
               </div>
@@ -615,7 +633,7 @@ export default (props) => {
               <div className="col-xs-12"></div>
               <div className="col-xs-12">
                 <FileUploadInput
-                  label=""
+                  isError={errorFields.includes('short_form_of_mosavy_dosavy_files')}
                   onChange={onAttachmentsChange(
                     "short_form_of_mosavy_dosavy_files"
                   )}
@@ -627,6 +645,7 @@ export default (props) => {
                     client.remove_short_form_of_mosavy_dosavy_files
                   }
                   showFilePond={client.short_form_of_mosavy_dosavy}
+                  required={ requiredFields.fields.short_form_of_mosavy_dosavy && client.short_form_of_mosavy_dosavy }
                   T={T}
                 />
               </div>
@@ -665,7 +684,7 @@ export default (props) => {
               <div className="col-xs-12"></div>
               <div className="col-xs-12">
                 <FileUploadInput
-                  label=""
+                  isError={errorFields.includes('detail_form_of_mosavy_dosavy_files')}
                   onChange={onAttachmentsChange(
                     "detail_form_of_mosavy_dosavy_files"
                   )}
@@ -677,6 +696,7 @@ export default (props) => {
                     client.remove_detail_form_of_mosavy_dosavy_files
                   }
                   showFilePond={client.detail_form_of_mosavy_dosavy}
+                  required={ requiredFields.fields.detail_form_of_mosavy_dosavy && client.detail_form_of_mosavy_dosavy }
                   T={T}
                 />
               </div>
@@ -715,7 +735,7 @@ export default (props) => {
               <div className="col-xs-12"></div>
               <div className="col-xs-12">
                 <FileUploadInput
-                  label=""
+                  isError={errorFields.includes('short_form_of_judicial_police_files')}
                   onChange={onAttachmentsChange(
                     "short_form_of_judicial_police_files"
                   )}
@@ -727,6 +747,7 @@ export default (props) => {
                     client.remove_short_form_of_judicial_police_files
                   }
                   showFilePond={client.short_form_of_judicial_police}
+                  required={ requiredFields.fields.short_form_of_judicial_police && client.short_form_of_judicial_police }
                   T={T}
                 />
               </div>
@@ -761,7 +782,7 @@ export default (props) => {
               </div>
               <div className="col-xs-12">
                 <FileUploadInput
-                  label=""
+                  isError={errorFields.includes('police_interview_files')}
                   onChange={onAttachmentsChange("police_interview_files")}
                   object={client.police_interview_files}
                   onChangeCheckbox={onRemoveAttachments(
@@ -771,6 +792,7 @@ export default (props) => {
                     client.remove_police_interview_files
                   }
                   showFilePond={client.police_interview}
+                  required={ requiredFields.fields.police_interview && client.police_interview }
                   T={T}
                 />
               </div>
@@ -790,7 +812,7 @@ export default (props) => {
               </div>
               <div className="col-xs-12">
                 <FileUploadInput
-                  label=""
+                  isError={errorFields.includes('other_legal_doc_files')}
                   onChange={onAttachmentsChange("other_legal_doc_files")}
                   object={client.other_legal_doc_files}
                   onChangeCheckbox={onRemoveAttachments(
@@ -800,6 +822,7 @@ export default (props) => {
                     client.remove_other_legal_doc_files
                   }
                   showFilePond={client.other_legal_doc}
+                  required={ requiredFields.fields.other_legal_doc && client.other_legal_doc }
                   T={T}
                 />
               </div>

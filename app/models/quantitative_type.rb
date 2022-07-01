@@ -1,8 +1,13 @@
 class QuantitativeType < ActiveRecord::Base
+  extend Enumerize
+
   VISIBLE_ON = %w(client family community).freeze
   serialize :visible_on, Array
 
+  enumerize :field_type, in: %w(select_option free_text), default: :select_option, predicates: true, scope: true
+
   validates :name, presence: true, uniqueness: { case_sensitive: false }
+  validates :field_type, presence: true
   validate  :validate_visible_on
   validates :visible_on, presence: true
 
@@ -23,7 +28,13 @@ class QuantitativeType < ActiveRecord::Base
 
   def self.cach_by_visible_on(visible_on)
     Rails.cache.fetch([Apartment::Tenant.current, "QuantitativeType", visible_on]) do
-      QuantitativeType.includes(:quantitative_cases).where('quantitative_types.visible_on ILIKE ?', "%#{visible_on}%").to_a
+      includes(:quantitative_cases).where('quantitative_types.visible_on ILIKE ?', "%#{visible_on}%").to_a
+    end
+  end
+
+  def self.cach_free_text_fields_by_visible_on(visible_on)
+    Rails.cache.fetch([Apartment::Tenant.current, "FreeTextQuantitativeType", visible_on]) do
+      QuantitativeType.with_field_type(:free_text).where('visible_on ILIKE ?', "%#{visible_on}%").to_a
     end
   end
 
@@ -57,6 +68,11 @@ class QuantitativeType < ActiveRecord::Base
     Rails.cache.delete([Apartment::Tenant.current, "QuantitativeType", "client"] )
     Rails.cache.delete([Apartment::Tenant.current, "QuantitativeType", "community"] )
     Rails.cache.delete([Apartment::Tenant.current, "QuantitativeType", "family"] )
+
+    Rails.cache.delete([Apartment::Tenant.current, "FreeTextQuantitativeType", "client"] )
+    Rails.cache.delete([Apartment::Tenant.current, "FreeTextQuantitativeType", "community"] )
+    Rails.cache.delete([Apartment::Tenant.current, "FreeTextQuantitativeType", "family"] )
+
     Rails.cache.delete([Apartment::Tenant.current, 'QuantitativeType', 'cached_quantitative_cases'] )
   end
 end

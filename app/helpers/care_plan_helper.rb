@@ -66,6 +66,10 @@ module CarePlanHelper
     @client_grid || @family_grid
   end
 
+  def list_case_conference_domain_for_care_plan(assessment, ad)
+    assessment.case_conference.case_conference_domains.find_by(domain_id: ad.object.domain_id).try(:case_conference_addressed_issues) || []
+  end
+
   def display_domain_definition_description(domain, domain_definition)
     description = I18n.locale == :km ? domain.local_description : domain.description
 

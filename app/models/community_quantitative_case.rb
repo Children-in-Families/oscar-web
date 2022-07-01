@@ -1,6 +1,3 @@
-class CommunityQuantitativeCase < ActiveRecord::Base
-  belongs_to :community
+class CommunityQuantitativeCase < CommunityQuantitativeCaseBase
   belongs_to :quantitative_case
-
-  has_paper_trail
 end
