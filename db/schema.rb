@@ -297,6 +297,13 @@ ActiveRecord::Schema.define(version: 20220629073355) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "case_conference_addressed_issues", force: :cascade do |t|
+    t.integer "case_conference_domain_id"
+    t.string  "title"
+  end
+
+  add_index "case_conference_addressed_issues", ["case_conference_domain_id"], name: "index_addressed_issues_on_case_conference_domain_id", using: :btree
+
   create_table "case_conference_domains", force: :cascade do |t|
     t.integer  "domain_id"
     t.integer  "case_conference_id"
