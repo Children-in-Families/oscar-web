@@ -149,6 +149,11 @@ class CIF.ClientAdvanceSearch
         $('#custom-form-column').removeClass('hidden')
         $('#wizard-custom-form .loader').addClass('hidden')
 
+  assessmentSelectChange: ->
+    self = @
+    $('.main-report-builder .assessment-form-wrapper select').on 'select2-selecting', (element) ->
+      self.assessmentSelected.push(element.val)
+
   addCustomBuildersFields: (ids, url, loader=undefined) ->
     self = @
     action  = _.last(url.split('/'))
@@ -272,6 +277,12 @@ class CIF.ClientAdvanceSearch
 
       if $('#wizard_custom_form_filter').is(':checked')
         self.handleRemoveFilterBuilder(removeValue, self.CUSTOM_FORM_TRANSLATE, '#wizard-builder')
+
+  assessmentSelectRemove: ->
+    self = @
+    $('.main-report-builder .assessment-form-wrapper select').on 'select2-removed', (element) ->
+      $.map self.assessmentSelected, (val, i) ->
+        if parseInt(val) == parseInt(element.val) then self.assessmentSelected.splice(i, 1)
 
   handleRemoveFilterBuilder: (resourceName, resourcelabel, elementBuilder = '#builder') ->
     self = @
@@ -831,7 +842,6 @@ class CIF.ClientAdvanceSearch
         customFormValues = if self.wizardCustomFormSelected.length > 0 then "[#{self.wizardCustomFormSelected}]"
 
       basicRules = $(builderElement).queryBuilder('getRules', { skip_empty: true, allow_invalid: true })
-      console.log(programValues, customFormValues, assessmentValues)
 
       if $('#builder').queryBuilder('getSQL', false, true)
         sql_sting = $('#builder').queryBuilder('getSQL', false, true).sql

@@ -1215,41 +1215,51 @@ module AdvancedSearches
     end
 
     def assessment_condition_last_two_query
-      Rails.logger.info '###LOGGER###'
-      Rails.logger.debug $param_rules[:assessment_selected]
-      clients = @clients.joins(:assessments).where(assessments: { completed: true, default: true }).distinct
-
       case @value.downcase
       when 'better'
-        client_ids = client_assessment_compare_next_last(:>)
+        client_ids = client_assessment_compare_next_last(:>, $param_rules[:assessment_selected])
       when 'same'
-        client_ids = client_assessment_compare_next_last(:==)
+        client_ids = client_assessment_compare_next_last(:==, $param_rules[:assessment_selected])
       when 'worse'
-        client_ids = client_assessment_compare_next_last(:<)
+        client_ids = client_assessment_compare_next_last(:<, $param_rules[:assessment_selected])
       end
       clients = client_ids.present? ? client_ids : []
     end
 
     def assessment_condition_first_last_query
-      Rails.logger.info '###LOGGER###'
-      Rails.logger.debug $param_rules
-      Rails.logger.debug $param_rules[:assessment_selected]
-      clients = @clients.joins(:assessments).where(assessments: { completed: true, default: true }).distinct
-
       case @value.downcase
       when 'better'
-        client_ids = client_assessment_compare_first_last(:>)
+        client_ids = client_assessment_compare_first_last(:>, $param_rules[:assessment_selected])
       when 'same'
-        client_ids = client_assessment_compare_first_last(:==)
+        client_ids = client_assessment_compare_first_last(:==, $param_rules[:assessment_selected])
       when 'worse'
-        client_ids = client_assessment_compare_first_last(:<)
+        client_ids = client_assessment_compare_first_last(:<, $param_rules[:assessment_selected])
       end
       clients = client_ids.present? ? client_ids : []
     end
 
-    def client_assessment_compare_first_last(compare)
+    def client_assessment_compare_first_last(compare, selectedAssessment)
       client_ids = []
-      clients = @clients.joins(:assessments).where(assessments: { completed: true, default: true }).distinct
+      clients = @clients.joins(:assessments).where(assessments: { completed: true })
+      conditionString = ""
+      if selectedAssessment.present?
+        assessments = JSON.parse(selectedAssessment)
+        custom_assessments = assessments.select{|v| v > 0}
+        csi_assessments = assessments.select{|v| v == 0}
+
+        if csi_assessments.present?
+          conditionString = "assessments.default = true"
+        end
+        if custom_assessments.present?
+          clients = clients.joins(assessments: :domains)
+          if conditionString.present?
+            conditionString = conditionString.concat(" OR domains.custom_assessment_setting_id IN (?)")
+          else
+            conditionString = "(assessments.default = false AND domains.custom_assessment_setting_id IN (?))"
+          end
+        end
+      end
+      clients = clients.where([conditionString, custom_assessments]).distinct
       clients.each do |client|
         last_assessment = client.assessments.most_recents.first
         first_assessment = client.assessments.most_recents.last
@@ -1258,9 +1268,28 @@ module AdvancedSearches
       client_ids
     end
 
-    def client_assessment_compare_next_last(compare)
+    def client_assessment_compare_next_last(compare, selectedAssessment)
       client_ids = []
-      clients = @clients.joins(:assessments).where(assessments: { completed: true, default: true }).distinct
+      clients = @clients.joins(:assessments).where(assessments: { completed: true })
+      conditionString = ""
+      if selectedAssessment.present?
+        assessments = JSON.parse(selectedAssessment)
+        custom_assessments = assessments.select{|v| v > 0}
+        csi_assessments = assessments.select{|v| v == 0}
+
+        if csi_assessments.present?
+          conditionString = "assessments.default = true"
+        end
+        if custom_assessments.present?
+          clients = clients.joins(assessments: :domains)
+          if conditionString.present?
+            conditionString = conditionString.concat(" OR domains.custom_assessment_setting_id IN (?)")
+          else
+            conditionString = "(assessments.default = false AND domains.custom_assessment_setting_id IN (?))"
+          end
+        end
+      end
+      clients = clients.where([conditionString, custom_assessments]).distinct
       clients.each do |client|
         last_assessment = client.assessments.most_recents.first
         first_assessment = client.assessments.most_recents.length > 1 ? client.assessments.most_recents.fetch(1) : last_assessment
@@ -1274,7 +1303,7 @@ module AdvancedSearches
       total = 0
       if assessment_domain_hash.present?
         assessment_domain_hash.each do |index, value|
-          total += value
+          total += value.nil? ? 0 : value
         end
       end
       total

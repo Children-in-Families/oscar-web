@@ -474,6 +474,8 @@ CIF.ClientsIndex = do ->
     advanceFilter.customFormSelectChange()
     advanceFilter.customFormSelectRemove()
     advanceFilter.handleHideCustomFormSelect()
+    advanceFilter.assessmentSelectChange()
+    advanceFilter.assessmentSelectRemove()
 
     advanceFilter.handleShowProgramStreamFilter()
     advanceFilter.handleHideProgramStreamSelect()
