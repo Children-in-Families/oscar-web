@@ -71,7 +71,7 @@ module AdvancedSearches
       [
         'date_of_birth', 'initial_referral_date', 'follow_up_date', 'exit_date', 'accepted_date',
         'case_note_date', 'created_at', 'date_of_referral', 'active_clients', 'active_client_program',
-        'number_client_referred_gatekeeping', 'number_client_billable'
+        'number_client_referred_gatekeeping', 'number_client_billable', 'arrival_at'
       ].compact
     end
 
@@ -150,6 +150,10 @@ module AdvancedSearches
 
     def enrolled_program_options
       ProgramStream.cache_program_steam_by_enrollment.map { |ps| { ps.id.to_s => ps.name } }
+    end
+
+    def mo_savy_officials_options
+      MoSavyOfficial.all.map { |item| { item.id.to_s => item.name } }
     end
 
     def client_status

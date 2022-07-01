@@ -15,8 +15,8 @@ ActiveRecord::Schema.define(version: 20220629073355) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "pgcrypto"
   enable_extension "hstore"
+  enable_extension "pgcrypto"
 
   create_table "able_screening_questions", force: :cascade do |t|
     t.string   "question"
@@ -1038,6 +1038,45 @@ ActiveRecord::Schema.define(version: 20220629073355) do
     t.datetime "updated_at"
     t.integer  "users_count", default: 0
   end
+
+  create_table "developmental_marker_screening_assessments", force: :cascade do |t|
+    t.integer "developmental_marker_id"
+    t.integer "screening_assessment_id"
+    t.boolean "question_1",              default: true
+    t.boolean "question_2",              default: true
+    t.boolean "question_3",              default: true
+    t.boolean "question_4",              default: true
+  end
+
+  add_index "developmental_marker_screening_assessments", ["developmental_marker_id"], name: "index_marker_screening_assessments_on_marker_id", using: :btree
+  add_index "developmental_marker_screening_assessments", ["screening_assessment_id"], name: "index_marker_screening_assessments_on_screening_assessment_id", using: :btree
+
+  create_table "developmental_markers", force: :cascade do |t|
+    t.string   "name"
+    t.string   "name_local"
+    t.string   "short_description"
+    t.string   "short_description_local"
+    t.string   "question_1"
+    t.string   "question_1_field"
+    t.string   "question_1_illustation"
+    t.string   "question_1_local"
+    t.string   "question_2"
+    t.string   "question_2_field"
+    t.string   "question_2_illustation"
+    t.string   "question_2_local"
+    t.string   "question_3"
+    t.string   "question_3_field"
+    t.string   "question_3_illustation"
+    t.string   "question_3_local"
+    t.string   "question_4"
+    t.string   "question_4_field"
+    t.string   "question_4_illustation"
+    t.string   "question_4_local"
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  add_index "developmental_markers", ["name"], name: "index_developmental_markers_on_name", using: :btree
 
   create_table "districts", force: :cascade do |t|
     t.string   "name"
@@ -2131,11 +2170,11 @@ ActiveRecord::Schema.define(version: 20220629073355) do
     t.string   "referral_phone",            default: ""
     t.integer  "referee_id"
     t.string   "client_name",               default: ""
-    t.string   "consent_form",              default: [],                 array: true
+    t.string   "consent_form",              default: [],                      array: true
     t.boolean  "saved",                     default: false
     t.integer  "client_id"
-    t.datetime "created_at",                                null: false
-    t.datetime "updated_at",                                null: false
+    t.datetime "created_at",                                     null: false
+    t.datetime "updated_at",                                     null: false
     t.string   "ngo_name",                  default: ""
     t.string   "client_global_id"
     t.string   "external_id"
@@ -2148,6 +2187,7 @@ ActiveRecord::Schema.define(version: 20220629073355) do
     t.string   "village_code",              default: ""
     t.string   "referee_email"
     t.string   "level_of_risk"
+    t.string   "referral_status",           default: "Referred"
   end
 
   add_index "referrals", ["client_global_id"], name: "index_referrals_on_client_global_id", using: :btree
@@ -2165,6 +2205,25 @@ ActiveRecord::Schema.define(version: 20220629073355) do
   add_index "referrals_services", ["referral_id", "service_id"], name: "index_referrals_services_on_referral_id_and_service_id", using: :btree
   add_index "referrals_services", ["referral_id"], name: "index_referrals_services_on_referral_id", using: :btree
   add_index "referrals_services", ["service_id"], name: "index_referrals_services_on_service_id", using: :btree
+
+  create_table "screening_assessments", force: :cascade do |t|
+    t.datetime "screening_assessment_date"
+    t.string   "client_age"
+    t.string   "visitor"
+    t.string   "client_milestone_age"
+    t.string   "attachments",                   default: [],         array: true
+    t.text     "note"
+    t.boolean  "smile_back_during_interaction"
+    t.boolean  "follow_object_passed_midline"
+    t.boolean  "turn_head_to_sound"
+    t.boolean  "head_up_45_degree"
+    t.integer  "client_id"
+    t.string   "screening_type",                default: "multiple"
+  end
+
+  add_index "screening_assessments", ["client_id"], name: "index_screening_assessments_on_client_id", using: :btree
+  add_index "screening_assessments", ["screening_assessment_date"], name: "index_screening_assessments_on_screening_assessment_date", using: :btree
+  add_index "screening_assessments", ["screening_type"], name: "index_screening_assessments_on_screening_type", using: :btree
 
   create_table "service_deliveries", force: :cascade do |t|
     t.string   "name"
@@ -2263,6 +2322,8 @@ ActiveRecord::Schema.define(version: 20220629073355) do
     t.boolean  "disabled_add_service_received",        default: false
     t.boolean  "test_client",                          default: false
     t.boolean  "disabled_task_date_field",             default: true
+    t.boolean  "cbdmat_one_off",                       default: false
+    t.boolean  "cbdmat_ongoing",                       default: false
   end
 
   add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree

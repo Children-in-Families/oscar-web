@@ -1099,7 +1099,8 @@ en:
       note: Note
       please_add_custom_domains: You may want to add some Custom Domains before you can perform this action.
       present: Who was there during the visit or conversation?
-      type: 'Type (Note: Choose ''visit'' only if you met with the client.)'
+      task: Task
+      type: Casenote Type
       you_need_to_create_assessment: You need to create assessment
     show:
       case_note_on: Case note on
@@ -1857,7 +1858,6 @@ en:
       type_of_trafficking: Type of Trafficking
       education_background: Education Background
       department: Ratanak Team
-      legal_documents: Legal Documentations
       add_mosavy_official: Add MoSAVY Official
       arrival_at: Arrivate Date/Time
       able: Able
@@ -1956,7 +1956,6 @@ en:
       other_legal_doc: 'Others'
       other_phone_number: Phone Number - Alternate
       other_phone_whatsapp: Whatsapp? (Phone Number - Alternate)
-      passport: 'Passport'
       pickup_information: Pick up information
       phone_owner: Phone Owner
       po_box2: PO Box

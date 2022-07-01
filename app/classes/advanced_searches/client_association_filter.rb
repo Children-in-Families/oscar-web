@@ -688,6 +688,39 @@ module AdvancedSearches
       end
     end
 
+    def ratanak_achievement_program_staff_field_query
+      clients = @clients.joins(:ratanak_achievement_program_staff_clients)
+      ids = clients.distinct.ids
+      case @operator
+      when 'equal'
+        client_ids = clients.where('achievement_program_staff_clients.user_id = ?', @value).distinct.ids
+        client_ids & ids
+      when 'not_equal'
+        @clients.includes(:achievement_program_staff_clients).where('achievement_program_staff_clients.user_id != ? OR achievement_program_staff_clients.user_id IS NULL', @value).distinct.ids
+      when 'is_empty'
+        @clients.where.not(id: ids).ids
+      when 'is_not_empty'
+        @clients.where(id: ids).ids
+      end
+    end
+
+    def mo_savy_officials_field_query
+      clients = @clients.joins(:mo_savy_officials)
+      ids = clients.distinct.ids
+
+      case @operator
+      when 'equal'
+        client_ids = clients.where('mo_savy_officials.id = ?', @value).distinct.ids
+        client_ids & ids
+      when 'not_equal'
+        @clients.includes(:mo_savy_officials).where('mo_savy_officials.id != ? OR mo_savy_officials.id IS NULL', @value).distinct.ids
+      when 'is_empty'
+        @clients.where.not(id: ids).ids
+      when 'is_not_empty'
+        @clients.where(id: ids).ids
+      end
+    end
+
     def search_custom_assessment
       clients = @clients.joins(:assessments).where(assessments: {default: false })
       case @operator

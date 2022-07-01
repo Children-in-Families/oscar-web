@@ -114,11 +114,28 @@
                               .panel-heading
                                 %h4= t('.completed_tasks')
                               .panel-body.no-padding
-                                %ul.list-group
-                                  - cdg.completed_tasks.each_with_index do |task, index|
-                                    %li.list-group-item
-                                      = "#{index + 1}. "
-                                      = task.name
+                                - if current_setting.disabled_task_date_field
+                                  %ul.list-group
+                                    - cdg.completed_tasks.each_with_index do |task, index|
+                                      %li.list-group-item
+                                        = "#{index + 1}. "
+                                        = task.name
+                                - else
+                                  %table.table.table-borderless
+                                    %thead
+                                      %tr
+                                        %th
+                                          %label{:for => ""}= t('.task')
+                                        %th= t('.expected_date')
+                                        %th= t('.completion_date')
+                                    %tbody
+                                      - cdg.completed_tasks.each_with_index do |task, index|
+                                        %tr
+                                          %td
+                                            = "#{index + 1}. "
+                                            = task.name
+                                            %td= date_format(task.expected_date)
+                                            %td= date_format(task.completion_date)
 
                         - the_latest_tasks = today_tasks.flatten.uniq
                         - if the_latest_tasks.present?
@@ -127,11 +144,26 @@
                               .panel-heading
                                 %h4= t('tasks.task_added')
                               .panel-body.no-padding
-                                %ul.list-group
-                                  - the_latest_tasks.each_with_index do |task, index|
-                                    %li.list-group-item
-                                      = "#{index + 1}. "
-                                      = task.name
+                                - if current_setting.disabled_task_date_field
+                                  %ul.list-group
+                                    - the_latest_tasks.each_with_index do |task, index|
+                                      %li.list-group-item
+                                        = "#{index + 1}. "
+                                        = task.name
+                                - else
+                                  %table.table.table-borderless
+                                    %thead
+                                      %tr
+                                        %th
+                                          %label{:for => ""}= t('.task')
+                                        %th= t('.expected_date')
+                                    %tbody
+                                      - cdg.completed_tasks.each_with_index do |task, index|
+                                        %tr
+                                          %td
+                                            = "#{index + 1}. "
+                                            = task.name
+                                            %td= date_format(task.expected_date)
 
                         - ongoing_tasks = case_note_ongoing_tasks(ongoing_tasks)
                         - if ongoing_tasks.present?
@@ -140,11 +172,26 @@
                               .panel-heading
                                 %h4= t('case_notes.form.on_going_tasks')
                               .panel-body.no-padding
-                                %ul.list-group
-                                  - ongoing_tasks.each_with_index do |task, index|
-                                    %li.list-group-item
-                                      = "#{index + 1}. "
-                                      = task.name
+                                - if current_setting.disabled_task_date_field
+                                  %ul.list-group
+                                    - ongoing_tasks.each_with_index do |task, index|
+                                      %li.list-group-item
+                                        = "#{index + 1}. "
+                                        = task.name
+                                - else
+                                  %table.table.table-borderless
+                                    %thead
+                                      %tr
+                                        %th
+                                          %label{:for => ""}= t('.task')
+                                        %th= t('.expected_date')
+                                    %tbody
+                                      - cdg.completed_tasks.each_with_index do |task, index|
+                                        %tr
+                                          %td
+                                            = "#{index + 1}. "
+                                            = task.name
+                                            %td= date_format(task.expected_date)
               .row
                 .col-xs-12.col-md-6
                   %h4= t('.cb_dmat_assessment_task')
