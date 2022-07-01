@@ -71,11 +71,12 @@ module AdvancedSearches
       [
         'date_of_birth', 'initial_referral_date', 'follow_up_date', 'exit_date', 'accepted_date',
         'case_note_date', 'created_at', 'date_of_referral', 'active_clients', 'active_client_program',
-        'number_client_referred_gatekeeping', 'number_client_billable', 'arrival_at'
+        'number_client_referred_gatekeeping', 'number_client_billable', 'client_rejected', 'arrival_at'
       ].compact
     end
 
     def drop_down_type_list
+      yes_option = { true: 'Yes' }
       yes_no_options = { true: 'Yes', false: 'No' }
       better_same_worse_options = { better: 'Better', same: 'The same', worse: 'Worse' }
       fields = [
@@ -113,7 +114,8 @@ module AdvancedSearches
         ['phone_owner', get_sql_phone_owner],
         ['family_type', family_type_list],
         ['assessment_condition_last_two', better_same_worse_options],
-        ['assessment_condition_first_last', better_same_worse_options]
+        ['assessment_condition_first_last', better_same_worse_options],
+        ['incomplete_care_plan', yes_option]
       ].compact
     end
 

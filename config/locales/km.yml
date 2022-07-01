@@ -587,6 +587,7 @@ km:
       user_id: បុគ្គលិកគ្រប់គ្រងករណី
       village: ភូមិ
       what3words: What3words
+      client_rejected: Client Rejected
   advanced_search_save_queries:
     create:
       failed_create: លក្ខខណ្ឌស្វែងរកត្រូវបានបង្កើតរួចហើយ
