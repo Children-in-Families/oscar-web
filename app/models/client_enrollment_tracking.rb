@@ -44,6 +44,16 @@ class ClientEnrollmentTracking < ActiveRecord::Base
     }
   end
 
+  def is_tracking_editable_limited?
+    return true if !Organization.ratanak?
+
+    setting = Setting.cache_first
+    return true if setting.try(:tracking_form_edit_limit).zero?
+    tracking_form_edit_limit = setting.try(:tracking_form_edit_limit).zero? ? 2 : setting.try(:tracking_form_edit_limit)
+    edit_frequency = setting.try(:tracking_form_edit_frequency)
+    created_at >= tracking_form_edit_limit.send(edit_frequency).ago
+  end
+
   private
 
   def create_client_enrollment_tracking_history

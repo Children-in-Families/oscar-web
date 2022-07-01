@@ -29,4 +29,6 @@ class SettingPolicy < ApplicationPolicy
   alias family_case_management? client_forms?
   alias community? client_forms?
   alias test_client? client_forms?
+  alias test_client? client_forms?
+  alias limit_tracking_form? create?
 end

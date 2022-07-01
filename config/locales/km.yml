@@ -4898,6 +4898,7 @@ km:
       communities: សហគមន៍/ក្រុម
       community: សហគមន៍
       custom_fields: ទម្រង់បែបបទ
+      custom_form_limit: កំណត់កែរទម្រង់បែបបទ
       custom_labels: Custom Labels
       dashboards: តារាងទិន្នន័យ
       default_columns: ជួរឈរលំនាំដើម
@@ -4930,6 +4931,7 @@ km:
       release_logs: Release logs
       research_module: ការសិក្សាស្រាវជ្រាវទិន្នន័យ OSCaR
       settings: ការកំណត់
+      tracking_form_limit: កំណត់កែរទម្រង់តាមដាន
       users: ឣ្នកប្រើ
       view_calendar: មើលប្រតិទិន
     top_navbar:

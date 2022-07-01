@@ -4956,6 +4956,7 @@ en:
       communities: Community/Group
       community: Community
       custom_fields: Custom Form
+      custom_form_limit: Custom Form Limit
       custom_labels: Custom Labels
       dashboards: Dashboards
       default_columns: Default Columns
@@ -4988,6 +4989,7 @@ en:
       release_logs: Release logs
       research_module: Research Module
       settings: Settings
+      tracking_form_limit: Tracking Form Limit
       users: Users
       view_calendar: View Calendar
     top_navbar:

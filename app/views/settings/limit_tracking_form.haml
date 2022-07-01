@@ -1,0 +1,23 @@
+.row
+  .col-xs-12
+    = simple_form_for @setting do |f|
+      .ibox
+        .ibox-title
+          %h5.text-center= t('program_streams.tracking.tracking_form')
+        .ibox-content
+          #custom-form-setting.panel.panel-default
+            .panel-heading
+              %h3= t('layouts.side_menu.tracking_form_limit')
+            .panel-body
+              .row
+                .col-xs-12.col-sm-4
+                  %label.control-label= t('shared.max_x', x: t('layouts.side_menu.tracking_form_limit'))
+              .row
+                .col-xs-12.col-sm-4
+                  .form-group
+                    = f.input :tracking_form_edit_limit, label: false
+                .col-xs-12.col-sm-4
+                  .form-group
+                    = f.input :tracking_form_edit_frequency, collection: [['Day', 'day'], ['Week', 'week'], ['Month', 'month'], ['Year', 'year']], input_html: { class: 'select2' }, label: false
+        .ibox-footer
+          = f.submit t('save'), class: 'btn btn-primary', data: { disable_with: t('saving') }

@@ -445,6 +445,7 @@ Rails.application.routes.draw do
       get 'client_forms' => 'settings#client_forms'
       get 'integration' => 'settings#integration'
       get 'custom_form' => 'settings#custom_form'
+      get 'limit_tracking_form' => 'settings#limit_tracking_form'
       get 'test_client' => 'settings#test_client'
 
       get :family_case_management
