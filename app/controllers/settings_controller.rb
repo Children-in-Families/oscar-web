@@ -93,6 +93,10 @@ class SettingsController < AdminController
   def customize_case_note
   end
 
+  def limit_tracking_form
+    authorize @setting
+  end
+
   private
 
   def redirect_to_default
@@ -118,7 +122,7 @@ class SettingsController < AdminController
                                     :hide_family_case_management_tool, :hide_community, :case_conference_limit, :case_conference_frequency,
                                     :internal_referral_limit, :internal_referral_frequency, :case_note_edit_limit, :case_note_edit_frequency, :disabled_future_completion_date,
                                     :disabled_add_service_received, :custom_field_limit, :custom_field_frequency, :test_client, :disabled_task_date_field,
-                                    :cbdmat_one_off, :cbdmat_ongoing,
+                                    :cbdmat_one_off, :cbdmat_ongoing, :tracking_form_edit_limit, :tracking_form_edit_frequency,
                                     client_default_columns: [], family_default_columns: [], community_default_columns: [],
                                     partner_default_columns: [], user_default_columns: [],
                                     custom_assessment_settings_attributes: [:id, :custom_assessment_name, :max_custom_assessment, :custom_assessment_frequency, :custom_age, :enable_custom_assessment, :_destroy])
