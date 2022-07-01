@@ -743,6 +743,7 @@ km:
       successfully_updated: ការប៉ាន់ប្រមាណត្រូវបានកែសម្រួលដោយជោគជ័យ
   at: នៅថ្ងៃ
   back: ត្រឡប់ក្រោយ
+  blank_field_warning: សូមចំណាំ! អ្នកមិនអាចបញ្ជូនអតិថិជនទៅប្រព័ន្ធខាងក្រៅបានទេ ប្រសិនបើឈ្មោះ ថ្ងៃខែឆ្នាំកំណើត ឬភេទរបស់អតិថិជននៅទទេ.
   calendars:
     index:
       sync_with_google: ភ្ជាប់ទៅប្រតិទិន Google
@@ -938,21 +939,23 @@ km:
         with_id: ជាមួយលេខសម្គាល់
   case_conferences:
     case_conference_attr: &CASE_CONFERENCE_ATTR
+      add: បន្ថែម
       allow_file_size: ប្រភេទឯកសារដែលអាចផ្ទុកបាន
       are_you_sure: តើអ្នកប្រាកដថាចង់លុបដែរឬទេ?
       attachments: ឯកសារភ្ជាប់
       attendants: Attendants
       back: ត្រឡប់ក្រោយ
-      base_on: Base on Case Conference Number
+      base_on: សនិ្នសីទករណីទី
       cancel: ទុកជាមោឃៈ
-      case_conference: Case Conference
-      meeting_date: Case Conference Date
+      case_conference: សនិ្នសីទករណី
+      meeting_date: កាលបរិច្ចេទសនិ្នសីទករណី
       client_engagement: ការចូលរួមរបស់អតិថិជន
       client_limitation:  Client limitations
       client_strength: ចំណុចខ្លាំងរបស់អតិថិជន
       client_support: ការគាំទ្រនិងរនាំងរបស់អតិថិជនក្នុងការចូលរួម
       created_by: បង្កើតដោយ
-      initial_case_conference: Initial Case Conference
+      initial_case_conference: សនិ្នសីទករណីដំបូង
+      issue_to_be_addressed: Issue to be addressed
       local_resource: ធានធាន/សេវាក្នុងសហគមន៍
       on_date: ថ្ងៃកំនត់
       presenting_problem: បញ្ហាកំពុងលេចឡើង
@@ -972,7 +975,7 @@ km:
       assessment_history: "%{assessment} History"
       back: Back
       begin_now: Add New
-      case_conference: Case Conference
+      case_conference: សនិ្នសីទករណី
       case_conference_edit_duration: Case Conference Editable Duration
       initial_assessment: "Initial %{assessment} on"
       new_assessment: New Assessment
@@ -1067,6 +1070,7 @@ km:
       note: កំណត់ត្រា
       please_add_custom_domains: អ្នកគួរតែបង្កើតកត្តាផ្ទាល់ខ្លួនមួយចំនួនមុននឹងអ្នកអាចធ្វើប្រតិបត្តិការនេះ
       present: វត្តមានឣ្នកចូលរួម
+      task: កាតព្វកិច្ច
       type: 'ប្រភេទកណត់ត្រាករណី'
       you_need_to_create_assessment: អ្នកត្រូវបង្កើតការប៉ាន់ប្រមាណជាមុនសិន
     show:
@@ -2032,8 +2036,9 @@ km:
       warning: ប្រុងប្រយ័ត្ន!
     show:
       <<: *LEGAL_DOC_ATTR
+      additional_forms: ទម្រង់អតិថិជនកំពុងប្រើ
       care_plan: ផែនការគាំទ្រករណី
-      case_conference: Case Conference
+      case_conference: សនិ្នសីទករណី
       marital_status: Marital Status
       nationality: Nationality
       ethnicity: Ethnicity
@@ -3071,6 +3076,31 @@ km:
   datetime:
     distance_in_words:
       about_x_hours: '""'
+    dotiw:
+      days:
+        one: 1 ថ្ងៃ
+        other: "%{count} ថ្ងៃ"
+      hours:
+        one: 1 ម៉ោង
+        other: "%{count} ម៉ោង"
+      last_word_connector: ""
+      minutes:
+        one: 1 នាទី
+        other: "%{count} នាទី"
+      months:
+        one: 1 ខែ
+        other: "%{count} ខែ"
+      seconds:
+        one: 1 វិនាទី
+        other: "%{count} វិនាទី"
+      two_words_connector: ", "
+      weeks:
+        one: 1 សប្តាហ៍
+        other: "%{count} សប្តាហ៍"
+      words_connector: ", "
+      years:
+        one: 1 ឆ្នាំ
+        other: "%{count} ឆ្នាំ"
   default_able_screening_question_fields:
     alert_manager: ជូនដំណឹងអ្នកគ្រប់គ្រង
     mode: ម៉ូដ
@@ -4018,6 +4048,7 @@ km:
         program_stream: កម្មវិធីចម្បង
         quantitative: ព័ត៌មានជាក់លាក់នៃការបញ្ជូន
         tracking: តាមដាន
+    family_assessment: ការប៉ាន់ប្រមាណគ្រួសារ
     family_member_fields:
       adult_name: ឈ្មោះមនុស្សពេញវ័យ
       date_of_birth: ថ្ងៃខែឆ្នាំកំណើត
@@ -4974,6 +5005,7 @@ km:
       communities: សហគមន៍/ក្រុម
       community: សហគមន៍
       custom_fields: ទម្រង់បែបបទ
+      custom_form_limit: កំណត់កែរទម្រង់បែបបទ
       custom_labels: Custom Labels
       dashboards: តារាងទិន្នន័យ
       default_columns: ជួរឈរលំនាំដើម
@@ -5006,6 +5038,7 @@ km:
       release_logs: Release logs
       research_module: ការសិក្សាស្រាវជ្រាវទិន្នន័យ OSCaR
       settings: ការកំណត់
+      tracking_form_limit: កំណត់កែរទម្រង់តាមដាន
       users: ឣ្នកប្រើ
       view_calendar: មើលប្រតិទិន
     top_navbar:
@@ -5149,6 +5182,7 @@ km:
   must_be_uniq: ផ្នែកនៃទម្រង់មិនអាចមានឈ្មោះដូចគ្នា
   mutual_dependence_has_been_modified: កម្មវិធីអាស្រ័យគ្នាមិនអាចផ្លាស់ប្តូរឬបន្ថែមទេព្រោះលក្ខខ័ណ្ឌមុនត្រូវបានផ្លាស់ប្តូរ។
   'no': 'No'
+  note: ចំណាំ
   notifications:
     case_note_due_today:
       client_case_note_due_today: អតិថិជនមានកំណត់ត្រាករណីដែលត្រូវបំពេញនៅថ្ងៃនេះ
@@ -5885,11 +5919,16 @@ km:
       uganda:
         custom_id1_local: Custom ID1 (Swahili)
         custom_id2_local: Custom ID2 (Swahili)
+    customize_case_note:
+      case_note_tools: Case Note Tools
     default_columns:
       client_default_columns: អតិថិជន
       default_columns: ជួរឈរលំនាំដើម
       family_default_columns: គ្រួសារ
       partner_default_columns: ដៃគូ
+    display_task_date_field:
+      case_note_tasks: Case Note Tasks
+      disabled_task_date_field: Disiable Task's Date Field
     family_case_management:
       family_case_management: ការគ្រប់គ្រងករណីគ្រួសារ
       hide_family_case_management_tool: បិទព័ត៌មានរដ្ឋបាល និងឧបករណ៍គ្រប់គ្រងករណី
@@ -6190,6 +6229,7 @@ km:
     update:
       successfully_updated: ការស្ទង់មតិត្រូវបានកែសម្រួលដោយជោគជ័យ
   tasks:
+    add_task_progress_note: បន្ថែមការពិព៌ណនាអំពីជំនួប
     completion_date: កាលបរិច្ឆេទបញ្ចប់
     expected_date: កាលបរិច្ឆេទរំពឹងទុក
     filter:

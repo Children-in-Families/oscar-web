@@ -15,18 +15,40 @@ module UpdateFieldLabelsFormBuilder
       end
     end
     return if labels_changed.empty? && field_labels_changed.empty?
-    objects.each do |object|
-      if labels_changed.present?
+    update_labels_changed(objects, labels_changed)
+    update_field_labels_changed(objects, field_labels_changed)
+  end
+
+  def update_labels_changed(objects, labels_changed)
+    return if labels_changed.empty? || labels_changed.all?{|label_old, label_new| label_old == label_new }
+    constant_name = objects.first.class.name.constantize
+    constant_name.paper_trail.disable
+    objects.each_slice(1000).with_index do |batch_custom_field_properties, i|
+      values = batch_custom_field_properties.map do |object|
         labels_changed.each do |label_old, label_new|
+          next if label_old == label_new
+
           object.properties[label_new] = object.properties.delete label_old
         end
-        object.save
+
+        { id: object.id, properties: object.properties }
       end
-      if field_labels_changed.present?
-        field_labels_changed.each do |label_old, label_new|
-          form_builder_attachment = object.form_builder_attachments.file_by_name(label_old)
-          form_builder_attachment.update(name: label_new) if form_builder_attachment.present?
-        end
+
+      grouped_custom_field_properties = values.index_by{|value| value[:id] }
+      # ActiveRecord::Base.connection.execute("UPDATE custom_field_properties SET properties = mapping_values.properties FROM (VALUES #{values}) AS mapping_values (custom_field_properties_id, properties) WHERE custom_field_properties.id = mapping_values.custom_field_properties_id") if values.present?
+      constant_name.update(grouped_custom_field_properties.keys, grouped_custom_field_properties.values)
+    end
+    constant_name.paper_trail.enable
+  end
+
+  def update_field_labels_changed(objects, field_labels_changed)
+    return if field_labels_changed.empty?
+    objects.each do |object|
+      field_labels_changed.each do |label_old, label_new|
+        next if label_old == label_new
+
+        form_builder_attachment = object.form_builder_attachments.file_by_name(label_old)
+        form_builder_attachment.update(name: label_new) if form_builder_attachment.present?
       end
     end
   end

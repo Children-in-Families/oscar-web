@@ -27,17 +27,26 @@
           %fieldset.scheduler-border
             %legend.scheduler-border
               %h3.text-success= t('.presenting_problem')
-            = f.simple_fields_for :case_conference_domains, @case_conference.case_conference_order_by_domain_name do |ccd|
+            = f.simple_fields_for :case_conference_domains, case_conference_domain_ordered_by_name(@case_conference) do |ccd|
               = ccd.hidden_field :domain_id
-              = ccd.input :presenting_problem, label: "#{ccd.object.domain.identity} (#{ccd.object.domain.name})"
+              = ccd.input :presenting_problem, label: "#{ccd.object.domain.identity} (#{ccd.object.domain.name})", input_html: { rows: 5 }
+              .case_conference_addressed_issues{ id: "case-conference-addressed-issues-#{ccd.index}" }
+                %h4= t('.issue_to_be_addressed')
+                = ccd.simple_fields_for (ccd.object.persisted? ? :case_conference_addressed_issues : [ccd.object.case_conference_addressed_issues.build])  do |ccai|
+                  - if ccd.object.persisted?
+                    = render 'case_conference_addressed_issue_fields', f: ccai
+
+              = link_to_add_association t('.add'), ccd, :case_conference_addressed_issues, force_non_association_create: true, class: 'btn btn-sm btn-primary m-t-sm', data: { association_insertion_method: :append, association_insertion_node: "#case-conference-addressed-issues-#{ccd.index}" }
+              .hr-line-dashed
+
           .hr-line-dashed
           %fieldset.scheduler-border
             %legend.scheduler-border
               %h3.text-success= t('.client_support')
-            = f.input :client_strength, label: t('.client_strength')
-            = f.input :client_limitation, label: t('.client_limitation')
-            = f.input :client_engagement, label: t('.client_engagement')
-            = f.input :local_resource, label: t('.local_resource')
+            = f.input :client_strength, label: t('.client_strength'), input_html: { rows: 5 }
+            = f.input :client_limitation, label: t('.client_limitation'), input_html: { rows: 5 }
+            = f.input :client_engagement, label: t('.client_engagement'), input_html: { rows: 5 }
+            = f.input :local_resource, label: t('.local_resource'), input_html: { rows: 5 }
             = f.input :attachments, label: t('.attachments'), as: :file, input_html: { multiple: true, name: 'case_conference[attachments][]' }
             %p
               %i.small="#{t('.allow_file_size')} (.jpg, .jpeg, .png, .doc, .docx, .xls, .xlsx, .pdf)"

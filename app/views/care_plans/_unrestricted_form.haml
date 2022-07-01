@@ -32,10 +32,20 @@
                   - if domain.custom_domain?
                     %p= "#{t('care_plans.form.domain')} #{domain.name} #{domain.identity}"
                   - elsif current_organization.try(:aht) == true
-                    %p= domain_name_for_aht(ad.object)
+                    %p= domain_name_for_aht(ad.object, ad.index)
                   - else
                     %p= "#{t('care_plans.form.domain')} #{t("domains.domain_names.#{ad.object.domain.name.downcase.reverse}")} #{t("domains.domain_identies.#{ad.object.domain.identity.strip.parameterize('_')}_#{ad.object.domain.name.downcase}")}"
-                  %p= "#{t('care_plans.form.scoring_statement')}: #{strip_tags(score_definition(domain.send("translate_score_#{ad.object.score}_definition").to_s, ad.object.score))}" if ad.object.score
+
+                  - domain_definition = domain.send("translate_score_#{ad.object.score}_definition")
+                  %p
+                    = "#{t('care_plans.form.scoring_statement')}: #{strip_tags(score_definition(domain_definition.to_s, ad.object.score))}" if ad.object.score
+                    %a{ :role => "button", :tabIndex => "0",  data: { toggle: "popover", trigger: "focus", title: domain_definition, content: display_domain_definition_description(domain, domain_definition) } }
+                      = fa_icon "info-circle", class: 'text-info m-xs'
+                  - if list_case_conference_domain_for_care_plan(assessment, ad).present?
+                    %h4= t('case_conferences.form.issue_to_be_addressed')
+                    %ul
+                      - list_case_conference_domain_for_care_plan(assessment, ad).each do |ccia|
+                        %li= ccia.title
                   %p
                     = "#{t('care_plans.form.score_from_assessment')} :"
                     %span.btn.btn-default= ad.object.score

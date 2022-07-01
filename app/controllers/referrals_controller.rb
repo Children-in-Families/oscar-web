@@ -8,7 +8,7 @@ class ReferralsController < AdminController
     if params[:referral_type].presence == 'referred_to'
       @referrals = @client.referrals.delivered.most_recents
     else
-      @referrals = @client.referrals.received_and_saved.most_recents
+      @referrals = @client.referrals.received.most_recents
     end
   end
 

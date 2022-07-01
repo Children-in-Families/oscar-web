@@ -9,6 +9,9 @@ describe Task do
     it { is_expected.to belong_to(:user) }
     it { is_expected.to belong_to(:family) }
     it { is_expected.to belong_to(:goal) }
+    it { is_expected.to have_many(:task_progress_notes).dependent(:destroy) }
+
+    it { is_expected.to accept_nested_attributes_for(:task_progress_notes) }
   end
 
   describe Task, 'validations' do

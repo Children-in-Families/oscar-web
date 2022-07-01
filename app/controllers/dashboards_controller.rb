@@ -129,9 +129,12 @@ class DashboardsController < AdminController
       (MIN(exit_ngos.exit_date) < MIN(enter_ngos.accepted_date) AND MAX(exit_ngos.exit_date) < MAX(enter_ngos.accepted_date))
     SQL
 
-    Rails.cache.fetch(["dashboard", "#{Apartment::Tenant.current}_client_errors"]) do
+    if current_user.case_worker? || current_user.manager?
+      clients_error = Client.accessible_by(current_ability).joins(sql).group('clients.id, case_worker_clients.id').having(sub_sql_min_max)
+    else
       clients_error = Client.accessible_by(current_ability).joins(sql).group('clients.id').having(sub_sql_min_max)
-      { ids: clients_error.ids, count: clients_error.to_a.count }
     end
+
+    { ids: clients_error.ids, count: clients_error.to_a.count }
   end
 end

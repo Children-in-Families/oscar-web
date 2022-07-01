@@ -892,6 +892,10 @@ class Client < ActiveRecord::Base
     end
   end
 
+  def is_referable_to_external_system?
+    name.squish.blank? || date_of_birth.blank? || gender.blank?
+  end
+
   private
 
   def update_related_family_member

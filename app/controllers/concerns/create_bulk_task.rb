@@ -17,4 +17,27 @@ module CreateBulkTask
     tasks.each { |task| Calendar.populate_tasks(task) }
     create_events if session[:authorization]
   end
+
+  def create_task_task_progress_notes
+    (params.dig(:case_note)['case_note_domain_groups_attributes'].try(:values) || []).each do |case_note_domain_groups_attributes|
+      case_note_domain_groups_attr = case_note_domain_groups_attributes
+      case_note_domain_group_id = case_note_domain_groups_attr['id']
+      tasks_attributes = case_note_domain_groups_attr['tasks_attributes']
+      tasks_attributes = tasks_attributes&.values || []
+      tasks_attributes.each do |tasks_attr|
+        task_id = tasks_attr['id']
+        if task_id.present?
+          task = Task.find(task_id)
+          task_progress_notes_attributes = []
+          next if tasks_attr['task_progress_notes_attributes'].nil?
+
+          tasks_attr['task_progress_notes_attributes'].each do |k,v|
+            next if v['task_id'].present?
+            task_progress_notes_attributes << v.select{|h| h['progress_note'] }
+          end
+          task.task_progress_notes.create(task_progress_notes_attributes) if task_progress_notes_attributes.present?
+        end
+      end
+    end
+  end
 end

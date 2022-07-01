@@ -36,7 +36,12 @@
     line-height: 1.43857;
   }
 
-  .select2-container {
+  .react-datetime-picker__inputGroup__leadingZero {
+    height: auto !important;
+    padding: 1px;
+  }
+  
+  .react-datetime-picker__inputGroup__input {
     height: auto !important;
   }
 }

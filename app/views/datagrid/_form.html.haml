@@ -114,6 +114,13 @@
                 = label_tag 'postal_code_', t('datagrid.columns.postal_code')
 
           #referral-data
+            - QuantitativeType.with_field_type(:free_text).each do |quantitative_type|
+              - next unless quantitative_type_readable?(quantitative_type.id)
+              %li
+                .visibility.col-sm-12
+                  = check_box_tag "#{quantitative_type.name}_", quantitative_type.name, checked = saved_search_column_visibility("#{quantitative_type.name}_"), class: 'i-checks'
+                  = label_tag "#{quantitative_type.name}_", quantitative_type.name
+
             - QuantitativeType.cach_by_visible_on('client').each do |quantitative_type|
               - next unless quantitative_type_readable?(quantitative_type.id)
               %li
@@ -248,14 +255,7 @@
             - else
               %li.csi-header
                 %strong= t('.csi_domain_scores')
-              %li
-              .visibility.col-sm-12
-                = check_box_tag 'date_of_assessments_', 'date_of_assessments', checked = saved_search_column_visibility('date_of_assessments_'), class: 'i-checks'
-                = label_tag 'date_of_assessments_', t('datagrid.columns.date_of_assessments', assessment: t('clients.show.assessment'))
-              %li
-                .visibility.col-sm-12
-                  = check_box_tag 'completed_date_', 'completed_date', checked = saved_search_column_visibility('completed_date_'), class: 'i-checks'
-                  = label_tag 'completed_date_', t('datagrid.columns.assessment_completed_date', assessment: t('clients.show.assessment'))
+
             %li
               .visibility.col-sm-12
                 = check_box_tag 'all_csi_assessments_', 'all_csi_assessments', checked = saved_search_column_visibility('all_csi_assessments_'), class: 'i-checks'
@@ -263,6 +263,15 @@
                   = label_tag 'all_result_framework_assessments_', t('datagrid.columns.all_result_framework_assessment')
                 - else
                   = label_tag 'all_csi_assessments_', t('datagrid.columns.all_csi_assessments', assessment: t('clients.show.assessment'))
+            %li
+            .visibility.col-sm-12
+              = check_box_tag 'date_of_assessments_', 'date_of_assessments', checked = saved_search_column_visibility('date_of_assessments_'), class: 'i-checks'
+              = label_tag 'date_of_assessments_', t('datagrid.columns.date_of_assessments', assessment: t('clients.show.assessment'))
+            %li
+              .visibility.col-sm-12
+                = check_box_tag 'completed_date_', 'completed_date', checked = saved_search_column_visibility('completed_date_'), class: 'i-checks'
+                = label_tag 'completed_date_', t('datagrid.columns.assessment_completed_date', assessment: t('clients.show.assessment'))
+
             = render partial: 'datagrid/domain_score_columns_picker', collection: Domain.csi_domains.order_by_identity, as: :domain
           - if enable_custom_assessment?
             = render partial: 'datagrid/custom_domain_score', locals: { custom_domains: Domain.custom_csi_domains.order_by_identity }

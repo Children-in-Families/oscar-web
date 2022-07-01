@@ -11,12 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20220523095812) do
+ActiveRecord::Schema.define(version: 20220701075009) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
-  enable_extension "uuid-ossp"
   enable_extension "pgcrypto"
 
   create_table "able_screening_questions", force: :cascade do |t|
@@ -151,16 +150,18 @@ ActiveRecord::Schema.define(version: 20220523095812) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "client_id"
-    t.boolean  "completed",          default: false
-    t.boolean  "default",            default: true
+    t.boolean  "completed",                    default: false
+    t.boolean  "default",                      default: true
     t.integer  "family_id"
     t.integer  "case_conference_id"
     t.date     "completed_date"
+    t.integer  "custom_assessment_setting_id"
   end
 
   add_index "assessments", ["case_conference_id"], name: "index_assessments_on_case_conference_id", using: :btree
   add_index "assessments", ["client_id"], name: "index_assessments_on_client_id", using: :btree
   add_index "assessments", ["completed_date"], name: "index_assessments_on_completed_date", using: :btree
+  add_index "assessments", ["custom_assessment_setting_id"], name: "index_assessments_on_custom_assessment_setting_id", using: :btree
   add_index "assessments", ["default"], name: "index_assessments_on_default", where: "(\"default\" = true)", using: :btree
   add_index "assessments", ["default"], name: "index_assessments_on_default_false", where: "(\"default\" = false)", using: :btree
   add_index "assessments", ["family_id"], name: "index_assessments_on_family_id", using: :btree
@@ -295,6 +296,13 @@ ActiveRecord::Schema.define(version: 20220523095812) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "case_conference_addressed_issues", force: :cascade do |t|
+    t.integer "case_conference_domain_id"
+    t.string  "title"
+  end
+
+  add_index "case_conference_addressed_issues", ["case_conference_domain_id"], name: "index_addressed_issues_on_case_conference_domain_id", using: :btree
 
   create_table "case_conference_domains", force: :cascade do |t|
     t.integer  "domain_id"
@@ -1034,10 +1042,10 @@ ActiveRecord::Schema.define(version: 20220523095812) do
   create_table "developmental_marker_screening_assessments", force: :cascade do |t|
     t.integer "developmental_marker_id"
     t.integer "screening_assessment_id"
-    t.boolean "question_1",              default: false
-    t.boolean "question_2",              default: false
-    t.boolean "question_3",              default: false
-    t.boolean "question_4",              default: false
+    t.boolean "question_1",              default: true
+    t.boolean "question_2",              default: true
+    t.boolean "question_3",              default: true
+    t.boolean "question_4",              default: true
   end
 
   add_index "developmental_marker_screening_assessments", ["developmental_marker_id"], name: "index_marker_screening_assessments_on_marker_id", using: :btree
@@ -2313,8 +2321,11 @@ ActiveRecord::Schema.define(version: 20220523095812) do
     t.string   "case_note_edit_frequency",             default: "week"
     t.boolean  "disabled_add_service_received",        default: false
     t.boolean  "test_client",                          default: false
+    t.boolean  "disabled_task_date_field",             default: true
     t.boolean  "cbdmat_one_off",                       default: false
     t.boolean  "cbdmat_ongoing",                       default: false
+    t.integer  "tracking_form_edit_limit",             default: 0
+    t.string   "tracking_form_edit_frequency",         default: "week"
   end
 
   add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree
@@ -2403,6 +2414,15 @@ ActiveRecord::Schema.define(version: 20220523095812) do
 
   add_index "surveys", ["client_id"], name: "index_surveys_on_client_id", using: :btree
   add_index "surveys", ["user_id"], name: "index_surveys_on_user_id", using: :btree
+
+  create_table "task_progress_notes", force: :cascade do |t|
+    t.text     "progress_note"
+    t.integer  "task_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "task_progress_notes", ["task_id"], name: "index_task_progress_notes_on_task_id", using: :btree
 
   create_table "tasks", force: :cascade do |t|
     t.string   "name",                      default: ""
@@ -2841,6 +2861,7 @@ ActiveRecord::Schema.define(version: 20220523095812) do
   add_foreign_key "changelogs", "users"
   add_foreign_key "client_client_types", "client_types"
   add_foreign_key "client_client_types", "clients"
+  add_foreign_key "client_enrollment_trackings", "client_enrollments"
   add_foreign_key "client_enrollment_trackings", "client_enrollments"
   add_foreign_key "client_interviewees", "clients"
   add_foreign_key "client_interviewees", "interviewees"

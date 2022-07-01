@@ -760,6 +760,7 @@ my:
       successfully_updated: အကဲျဖတ္ခ်က္ကို ေအာင္ျမင္စာ အသစ္တင္ၿပီးပါၿပီ။
   at: အပေါ်
   back: ေနာက္သို႔
+  blank_field_warning: သတိပေးချက် ဖောက်သည်၏အမည်၊ မွေးသက္ကရာဇ် သို့မဟုတ် ကျားမ ကွက်လပ်ဖြစ်နေပါက ဖောက်သည်တစ်ဦးကို ပြင်ပစနစ်သို့ ရည်ညွှန်း၍မရပါ။
   calendars:
     index:
       sync_with_google: ဂူဂဲလ္ ျပကၡဒိန္ကို အသစ္တင္မည္
@@ -961,6 +962,7 @@ my:
         with_id: မွတ္ပံုတင္ႏွင့္အတူ
   case_conferences:
     case_conference_attr: &CASE_CONFERENCE_ATTR
+      add: Add
       allow_file_size: Allowed file types
       are_you_sure: Are you sure you want to delete?
       attachments: attachments
@@ -976,6 +978,7 @@ my:
       client_support: Support and Barriers to client engagement
       created_by: Created By
       initial_case_conference: Initial Case Conference
+      issue_to_be_addressed: Issue to be addressed
       local_resource: Resources/services in local community
       on_date: On Date
       presenting_problem: Presenting problem
@@ -1089,6 +1092,7 @@ my:
       please_add_custom_domains: သငျသညျဤ action လုပ်ဆောင်နိုင်မီအချို့ကိုသင်စိတ်ကြိုက်ဒိုမိန်းထည့်သွင်းဖို့လိုပေမည်
       present: လာေရာက္ေတြ႕ဆံုစဥ္ သို႔မဟုတ္ စကားေျပာစဥ္ အနီးတြင္ မည္သူ ရွိေနခဲ့သနည္း။
       review_assessment: Review Assessment
+      task: Task
       type: အမ်ိဳးအစား
       you_need_to_create_assessment: စိစစ္အကဲျဖတ္ခ်က္ကို ျပဳလုပ္ရန္လိုပါသည္။
     show:
@@ -4177,6 +4181,7 @@ my:
         program_stream: ပရိုဂရမ်စီး
         quantitative: အရေအတွက်
         tracking: ခြေရာခံခြင်း
+    family_assessment: Family Assessment
     family_member_fields:
       adult_name: အတူတူအိမျ၌နထေိုငျသူမြားလူကြီးများ
       date_of_birth: မွေးရက်
@@ -5305,6 +5310,7 @@ my:
         max_file_size: "*အႀကီးဆံုးဖိုင္ဆုိဒ္ - တစ္ဖုိင္လွ်င္ ၅ မီဂါဘိုက္ႏွင့္ တစ္ခါတင္ ၃၀ မီဂါဘိုက္"
   must_be_uniq: ကြင္းအညႊန္းသည္ ယူနစ္ျဖစ္ရမည္
   mutual_dependence_has_been_modified: ဒါကြောင့်ယခင်စည်းမျဉ်းစည်းကမ်းတွေကိုဖောက်ဖျက်သောကွောငျ့နှစ်ဦးနှစ်ဖက်အပြန်အလှန်မှီခိုပြောင်းလဲသွားတယ်သို့မဟုတ်ဆက်ပြောသည်မရနိုင်ပါ။
+  note: Note
   notifications:
     case_note_due_today:
       client_case_note_due_today: ယနေ့ပြုသည်ကိုခံရဖို့စံချိန်တင်ရှိသည်သောဖောက်သည်
@@ -6347,6 +6353,7 @@ my:
     update:
       successfully_updated: စစ္တမ္းကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ျဖည့္စြက္ၿပီးပါၿပီ
   tasks:
+    add_task_progress_note: Add progress notes and next steps
     completion_date: ၿပီးစီးသည့္ ရက္စြဲ
     expected_date:  မျှော်လင့်ထားသည့်နေ့စွဲ မျှော်လင့်ထားသည့်နေ့စွဲ
     filter:

@@ -60,7 +60,7 @@ class ClientsController < AdminController
         custom_field_ids            = @client.custom_field_properties.pluck(:custom_field_id)
         if current_user.admin? || current_user.strategic_overviewer?
           available_editable_forms  = CustomField.all
-          readable_forms            = @client.custom_field_properties
+          readable_forms            = @client.custom_field_properties.includes(:custom_field)
         else
           available_editable_forms  = CustomField.where(id: current_user.custom_field_permissions.where(editable: true).pluck(:custom_field_id))
           readable_forms            = @client.custom_field_properties.where(custom_field_id: current_user.custom_field_permissions.where(readable: true).pluck(:custom_field_id))
@@ -71,7 +71,7 @@ class ClientsController < AdminController
         initial_visit_client
         enter_ngos = @client.enter_ngos
         exit_ngos  = @client.exit_ngos
-        cps_enrollments = @client.client_enrollments
+        cps_enrollments = @client.client_enrollments.includes(:leave_program, :program_stream)
         cps_leave_programs = LeaveProgram.joins(:client_enrollment).where("client_enrollments.client_id = ?", @client.id)
         referrals = @client.referrals
         @case_histories = (enter_ngos + exit_ngos + cps_enrollments + cps_leave_programs + referrals).sort { |current_record, next_record| -([current_record.new_date, current_record.created_at] <=> [next_record.new_date, next_record.created_at]) }

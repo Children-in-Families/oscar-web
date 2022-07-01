@@ -4,7 +4,7 @@ class AddCaseNotesNoteLabel < ActiveRecord::Migration
 
     FieldSetting.create!(
       name: :note,
-      current_label: 'Note',
+      current_label: (Apartment::Tenant.current_tenant == 'ratanak' ? 'Progress notes and next steps' : 'Note'),
       label: (Apartment::Tenant.current_tenant == 'ratanak' ? 'Progress notes and next steps' : nil),
       klass_name: :case_note,
       required: true,

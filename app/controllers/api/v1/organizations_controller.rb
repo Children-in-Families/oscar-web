@@ -187,7 +187,11 @@ module Api
             render json: { external_id: clients_params[:external_id], message: referral.errors }, status: :unprocessable_entity
           end
         else
-          render json: { external_id: clients_params[:external_id], message: 'Record saved.' }
+          message = {}
+          message['global_id'] = "global_id must exist." if clients_params['global_id'].blank?
+          message['referral_status'] = "referral_status must be present." if clients_params['global_id'].blank?
+
+          render json: { external_id: clients_params[:external_id], message: 'Record was found.', errors: message }, status: :unprocessable_entity
         end
       end
 
@@ -206,7 +210,7 @@ module Api
           )
         )
 
-        if referral.save
+        if ['Accepted', 'Exited', 'Referred'].include?(clients_params['referral_status']) && referral.save
           global_identity = GlobalIdentity.find_by(ulid: referral_attributes[:client_global_id])
           global_identity.external_system_global_identities.find_or_create_by(
             external_system_id: external_system_id,
@@ -235,22 +239,22 @@ module Api
                 LEFT OUTER JOIN districts ON districts.id = clients.district_id
                 LEFT OUTER JOIN communes ON communes.id = clients.commune_id
                 LEFT OUTER JOIN villages ON villages.id = clients.village_id
-
+                WHERE (CONCAT(clients.given_name, clients.family_name, clients.local_family_name, clients.local_given_name) != '' AND clients.gender != '' AND clients.date_of_birth IS NOT NULL) AND
               ".squish
         clients = []
         if params.dig(:since_date).present?
           clients          = Client.referred_external(external_system_name).where('clients.created_at >= ? OR clients.updated_at >= ?', since_date, since_date).order('clients.updated_at DESC')
           referred_clients = JSON.parse ActiveModel::ArraySerializer.new(clients.distinct.to_a, each_serializer: OrganizationClientSerializer, context: current_user).to_json
           if clients.present?
-            sql << " WHERE (DATE(clients.created_at) >= '#{since_date}' OR DATE(clients.updated_at) >= '#{since_date}') AND clients.id NOT IN (#{clients.ids.join(', ')}) ORDER BY clients.updated_at DESC"
+            sql << " (DATE(clients.created_at) >= '#{since_date}' OR DATE(clients.updated_at) >= '#{since_date}') AND clients.id NOT IN (#{clients.ids.join(', ')}) ORDER BY clients.updated_at DESC"
           else
-            sql << " WHERE (DATE(clients.created_at) >= '#{since_date}' OR DATE(clients.updated_at) >= '#{since_date}') ORDER BY clients.updated_at DESC"
+            sql << " (DATE(clients.created_at) >= '#{since_date}' OR DATE(clients.updated_at) >= '#{since_date}') ORDER BY clients.updated_at DESC"
           end
         else
           clients          = Client.referred_external(external_system_name).order('clients.updated_at DESC')
           referred_clients = JSON.parse ActiveModel::ArraySerializer.new(clients.distinct.to_a, each_serializer: OrganizationClientSerializer, context: current_user).to_json
           if clients.present?
-            sql << " WHERE clients.id NOT IN (#{clients.ids.join(', ')}) ORDER BY clients.updated_at DESC"
+            sql << " clients.id NOT IN (#{clients.ids.join(', ')}) ORDER BY clients.updated_at DESC"
           else
             sql << ' ORDER BY clients.updated_at DESC'
           end
@@ -266,11 +270,11 @@ module Api
                 LEFT OUTER JOIN districts ON districts.id = clients.district_id
                 LEFT OUTER JOIN communes ON communes.id = clients.commune_id
                 LEFT OUTER JOIN villages ON villages.id = clients.village_id
-
+                WHERE (CONCAT(clients.given_name, clients.family_name, clients.local_family_name, clients.local_given_name) != '' AND clients.gender != '' AND clients.date_of_birth IS NOT NULL) AND
               ".squish
         clients = []
 
-        sql << " WHERE clients.created_at BETWEEN '#{since_date}' AND '#{end_date}' ORDER BY clients.created_at asc"
+        sql << " clients.created_at BETWEEN '#{since_date}' AND '#{end_date}' ORDER BY clients.created_at asc"
         clients = Client.find_by_sql(sql)
         JSON.parse ActiveModel::ArraySerializer.new(clients.to_a.uniq, each_serializer: ClientShareExternalSerializer, context: current_user).to_json
       end
@@ -287,7 +291,7 @@ module Api
           client.referrals.delivered.get_external_systems(external_system_name).last&.update_referral_status(status)
           render json: { external_id: client.external_id, message: 'Record saved.' }
         else
-          render json: { external_id: client.external_id, message: "Referral status must be one of ['Accepted', 'Exited', 'Referred'].", status: :unprocessable_entity }
+          render json: { external_id: client.external_id, message: "Referral status must be one of ['Accepted', 'Exited', 'Referred']." }, status: :unprocessable_entity
         end
       end
 

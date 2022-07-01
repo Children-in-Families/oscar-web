@@ -667,7 +667,7 @@ en:
       domain: Domain
       enter_task_detail: Enter task details
       save: Save
-      title: New Task
+      new_task: New Task
     assessment_form: Assessment Form
     attachment:
       attachments: Attachments
@@ -772,6 +772,7 @@ en:
       successfully_updated: Assessment has been successfully updated.
   at: 'on'
   back: Back
+  blank_field_warning: Warning! You can not refer a client to an external system if the client's name, date of birth, or gender is blank.
   calendars:
     index:
       sync_with_google: Sync with Google Calendar
@@ -969,6 +970,7 @@ en:
         with_id: With ID
   case_conferences:
     case_conference_attr: &CASE_CONFERENCE_ATTR
+      add: Add
       allow_file_size: Allowed file types
       are_you_sure: Are you sure you want to delete?
       attachments: Attachments
@@ -984,6 +986,7 @@ en:
       client_support: Support and Barriers to client engagement
       created_by: Created By
       initial_case_conference: Initial Case Conference
+      issue_to_be_addressed: Issue to be addressed
       local_resource: Resources/services in local community
       on_date: On Date
       presenting_problem: Presenting problem
@@ -1021,8 +1024,8 @@ en:
       domain: Domain
       dimensions: Dimension
       enter_task_detail: Enter task details
+      new_task: New Task
       save: Save
-      title: New Task
     attachment:
       download: Download
       preview_download: Preview & Download
@@ -1098,7 +1101,8 @@ en:
       note: Note
       please_add_custom_domains: You may want to add some Custom Domains before you can perform this action.
       present: Who was there during the visit or conversation?
-      type: 'Type (Note: Choose ''visit'' only if you met with the client.)'
+      task: Task
+      type: Casenote Type
       you_need_to_create_assessment: You need to create assessment
     show:
       case_note_on: Case note on
@@ -1854,7 +1858,6 @@ en:
       type_of_trafficking: Type of Trafficking
       education_background: Education Background
       department: Ratanak Team
-      legal_documents: Legal Documentations
       add_mosavy_official: Add MoSAVY Official
       arrival_at: Arrivate Date/Time
       able: Able
@@ -1953,7 +1956,6 @@ en:
       other_legal_doc: 'Others'
       other_phone_number: Phone Number - Alternate
       other_phone_whatsapp: Whatsapp? (Phone Number - Alternate)
-      passport: 'Passport'
       pickup_information: Pick up information
       phone_owner: Phone Owner
       po_box2: PO Box
@@ -5188,6 +5190,7 @@ en:
       release_logs: Release logs
       research_module: Research Module
       settings: Settings
+      tracking_form_limit: Tracking Form Limit
       users: Users
       view_calendar: View Calendar
     top_navbar:
@@ -5331,6 +5334,7 @@ en:
   must_be_uniq: field label must be uniq
   mutual_dependence_has_been_modified: Prerequisite Programs cannot be changed or added because it breaks the previous conditions.
   'no': 'No'
+  note: Note
   notifications:
     case_note_due_today:
       client_case_note_due_today: Client Case Note Due Today
@@ -6068,11 +6072,16 @@ en:
       uganda:
         custom_id1_local: Custom ID1 (Swahili)
         custom_id2_local: Custom ID2 (Swahili)
+    customize_case_note:
+      case_note_tools: Case Note Tools
     default_columns:
       client_default_columns: Client
       default_columns: Default Columns
       family_default_columns: Family
       partner_default_columns: Partner
+    display_task_date_field:
+      case_note_tasks: Case Note Tasks
+      disabled_task_date_field: Disiable Task's Date Field
     family_case_management:
       family_case_management: Family Case Management
       hide_family_case_management_tool: Hide Administrative Information and Case Management tools
@@ -6373,6 +6382,7 @@ en:
     update:
       successfully_updated: Survey has been successfully updated.
   tasks:
+    add_task_progress_note: Add progress notes and next steps
     completion_date: Completion Date
     expected_date: Expected Date
     title: Title
