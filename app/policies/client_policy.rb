@@ -38,6 +38,11 @@ class ClientPolicy < ApplicationPolicy
     Client::STACKHOLDER_CONTACTS_FIELDS.any?{ |field| show?(field) }
   end
 
+  def client_pickup_information?
+    fields = %w(arrival_at flight_nb ratanak_achievement_program_staff_client_ids mosavy_official)
+    FieldSetting.by_instances(Apartment::Tenant.current).where(name: fields).any? && fields.any?{ |field| show?(field.to_sym) }
+  end
+
   def client_school_information?
     fields = [
       :school_name,

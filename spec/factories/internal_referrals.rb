@@ -6,7 +6,7 @@ FactoryGirl.define do
     client_representing_problem "MyText"
     emergency_note "MyText"
     referral_reason "MyText"
-    referral_decision "MyText"
+    crisis_management "MyText"
     attachments "MyString"
   end
 end

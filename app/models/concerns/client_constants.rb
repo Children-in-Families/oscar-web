@@ -40,6 +40,30 @@ module ClientConstants
     letter_from_immigration_police_files
   )
 
+  LEGAL_DOC_MAPPING = {
+    national_id: :national_id_files,
+    passport: :passport_files,
+    birth_cert: :birth_cert_files,
+    family_book: :family_book_files,
+    travel_doc: :travel_doc_files,
+    letter_from_immigration_police: :letter_from_immigration_police_files,
+    ngo_partner: :ngo_partner_files,
+    mosavy: :referral_doc_files,
+    dosavy: :dosavy_files,
+    msdhs: :msdhs_files,
+    complain: :complain_files,
+    local_consent: :local_consent_files,
+    warrant: :warrant_files,
+    verdict: :verdict_files,
+    screening_interview_form: :screening_interview_form_files,
+    short_form_of_ocdm: :short_form_of_ocdm_files,
+    short_form_of_mosavy_dosavy: :short_form_of_mosavy_dosavy_files,
+    detail_form_of_mosavy_dosavy: :detail_form_of_mosavy_dosavy_files,
+    short_form_of_judicial_police: :short_form_of_judicial_police_files,
+    police_interview: :police_interview_files,
+    other_legal_doc: :other_legal_doc_files
+  }.freeze
+
   BRC_RESIDENT_TYPES = [
     'Owner',
     "Rental",

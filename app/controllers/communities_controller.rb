@@ -107,6 +107,9 @@ class CommunitiesController < AdminController
       case_worker_ids: [],
       quantitative_case_ids: [],
       documents: [],
+      community_quantitative_free_text_cases_attributes: [
+        :id, :content, :quantitative_type_id
+      ],
       community_members_attributes: [
         :family_id,
         :id, :gender, :name, :role,

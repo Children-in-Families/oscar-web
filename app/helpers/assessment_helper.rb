@@ -32,10 +32,11 @@ module AssessmentHelper
   end
 
   def order_assessment(assessment)
-    if assessment.assessment_domains.all?{|ad| ad.domain.name[/\d+/]&.to_i }
-      assessment.assessment_domains.sort_by{ |ad| ad.domain.name[/\d+/]&.to_i || ad.domain.name }
+    assessment_domains = assessment.persisted? ? assessment.assessment_domains.includes(:domain) : assessment.assessment_domains
+    if assessment_domains.all?{|ad| ad.domain.name[/\d+/]&.to_i }
+      assessment_domains.sort_by{ |ad| ad.domain.name[/\d+/]&.to_i || ad.domain.name }
     else
-      assessment.assessment_domains.sort_by(&:domain_id)
+      assessment_domains.sort_by(&:domain_id)
     end
   end
 
@@ -318,15 +319,21 @@ module AssessmentHelper
     end
   end
 
-  def domain_name_for_aht(ad)
+  def domain_name_for_aht(ad, index = 0)
     if I18n.locale == :km
-      domain_header = ad.domain.local_description.scan(/\p{Khmer}|[[:space:]]/).join.squish
+      if Organization.ratanak?
+        domain_header = ad.domain.local_description.scan(/\<strong\>.*\<\/strong\>/)[0]
+      else
+        domain_header = ad.domain.local_description.scan(/\p{Khmer}|[[:space:]]/).join.squish
+      end
+
       content_tag(:nil) do
-        content_tag(:td, content_tag(:b, "#{domain_header.split('៖').first}៖"), class: "no-padding-bottom") + content_tag(:td, content_tag(:b, domain_header.split('៖').last, class: "no-padding-bottom"))
+        content_tag(:td, content_tag(:b, domain_header.gsub(' ៖', '៖').html_safe), class: "no-padding-bottom")
       end
     else
       content_tag(:nil) do
-        content_tag(:td, content_tag(:b, "#{t('dimensions.dimension_list.dimensions')}: "), class: "no-padding-bottom") + content_tag(:td, content_tag(:b, t("dimensions.dimensions_identies.#{ad.domain.identity}"), class: "no-padding-bottom"))
+        domain_identity = t("dimensions.dimensions_identies.#{ad.domain.identity}")[/translation_missing/] ? ad.domain.identity : t("dimensions.dimensions_identies.#{ad.domain.identity}")
+        content_tag(:td, content_tag(:b, "#{t('dimensions.dimension_list.dimensions')}: "), class: "no-padding-bottom") + content_tag(:td, content_tag(:b, domain_identity, class: "no-padding-bottom"))
       end
     end
   end

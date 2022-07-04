@@ -41,6 +41,12 @@ class Tracking < ActiveRecord::Base
     Rails.cache.fetch([Apartment::Tenant.current, 'Tracking', id]) { find(id) }
   end
 
+  def self.cached_program_stream_program_ids(program_ids)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Tracking', 'cached_program_stream_program_ids', *program_ids.sort]) {
+      joins(:program_stream).where(program_stream_id: program_ids)
+    }
+  end
+
   private
 
   def presence_of_label

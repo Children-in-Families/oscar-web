@@ -162,7 +162,7 @@ $(document).ready(function () {
     });
 
     $("[data-toggle=popover]")
-        .popover();
+        .popover({html: true});
 
     // Add slimscroll to element
     $('.full-height-scroll').slimscroll({

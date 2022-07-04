@@ -9,9 +9,9 @@ namespace :field_settings do
 
     organisations.find_each do |org|
       Organization.switch_to org.short_name
-
       sheet = workbook.sheet(0)
       sheet = workbook.sheet(1) if org.short_name == 'brc'
+
       sheet.row(1).each_with_index { |header, i| headers[header] = i }
 
       (2..sheet.last_row).each do |row_index|
@@ -19,9 +19,8 @@ namespace :field_settings do
         next if sheet.row(row_index)[headers['name']].blank? || sheet.row(row_index)[headers['remark']] != 'new'
 
         field_setting = FieldSetting.find_or_initialize_by(name: sheet.row(row_index)[headers['name']], klass_name: sheet.row(row_index)[headers['klass_name']])
-
         field_setting.update!(
-          label: sheet.row(row_index)[headers['label']],
+          label: sheet.row(row_index)[headers['label']] || sheet.row(row_index)[headers['current_label']],
           type: sheet.row(row_index)[headers['type']],
           current_label: sheet.row(row_index)[headers['current_label']],
           klass_name: sheet.row(row_index)[headers['klass_name']],

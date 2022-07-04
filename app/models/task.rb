@@ -11,6 +11,7 @@ class Task < ActiveRecord::Base
 
   has_many :service_delivery_tasks, dependent: :destroy
   has_many :service_deliveries, through:   :service_delivery_tasks
+  has_many :task_progress_notes, dependent: :destroy
 
   has_paper_trail
   acts_as_paranoid double_tap_destroys_fully: false
@@ -18,6 +19,8 @@ class Task < ActiveRecord::Base
   validates :name, presence: true
   validates :domain, presence: true
   validates :expected_date, presence: true
+
+  accepts_nested_attributes_for :task_progress_notes, reject_if: proc { |attribute| attribute['progress_note'].blank? } , allow_destroy: true
 
   scope :completed,                       -> { where(completed: true) }
   scope :incomplete,                      -> { where(completed: false) }
@@ -98,6 +101,10 @@ class Task < ActiveRecord::Base
 
   def who_complete_the_task
     completed_by&.name
+  end
+
+  def populate_task_progress_notes
+    task_progress_notes.build
   end
 
   private

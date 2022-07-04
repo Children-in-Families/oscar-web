@@ -61,6 +61,14 @@ module ApplicationHelper
     end
   end
 
+  def unorderred_list(values)
+    content_tag(:ul) do
+      values.each do |value|
+        concat(content_tag(:li, value))
+      end
+    end
+  end
+
   def human_boolean(boolean)
     return (boolean ? 'បាទ/ចាស' : 'ទេ') if params[:locale] == 'km' || I18n.locale == :km
     boolean ? 'Yes' : 'No'

@@ -170,6 +170,10 @@ module AdvancedSearchHelper
       hotline: I18n.t('datagrid.columns.calls.hotline'),
       active_clients: I18n.t('advanced_search.fields.active_clients'),
       care_plan: I18n.t('advanced_search.fields.care_plan'),
+      arrival_at: I18n.t('clients.form.arrival_at'),
+      flight_nb: I18n.t('clients.form.flight_nb'),
+      ratanak_achievement_program_staff_client_ids: I18n.t('clients.form.ratanak_achievement_program_staff_client_ids'),
+      mo_savy_officials: I18n.t('clients.form.mosavy_official'),
       **overdue_translations,
       **address_translation(group_name)
     }
