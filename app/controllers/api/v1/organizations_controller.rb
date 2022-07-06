@@ -145,6 +145,34 @@ module Api
         render json: { similar_fields: result ? 'Record was Found' : 'Record was not found' }
       end
 
+      def update_referral_status
+        data       = params[:data]
+        data.each do |pay_load|
+          global_id, referral_id, status = [pay_load['client_global_id'], pay_load['referral_id'], pay_load['referral_status']]
+
+          global_identity_organization = GlobalIdentityOrganization.find_by(global_id: global_id)
+          if global_identity_organization
+            ngo = Organization.find(global_identity_organization.organization_id)
+          else
+            raise ActiveRecord::RecordNotFound
+          end
+          Apartment::Tenant.switch! ngo.short_name
+          referral = Referral.find_by(id: referral_id, client_global_id: global_id)
+          if referral
+            external_system_id, external_system_name = ExternalSystem.fetch_external_system_name(params['uid'])
+            next if referral.update_attributes(referral_status: status, referred_from: external_system_name)
+            raise ActiveRecord::RecordNotFound, "Referral status must be one of ['Accepted', 'Exited', 'Referred']."
+          else
+            raise ActiveRecord::RecordNotFound
+          end
+        end
+
+        Apartment::Tenant.switch!('public')
+        render json: { message: 'Record saved.' }, root: :data
+      rescue ActiveRecord::RecordNotFound => e
+        render json: { error: e.message, message: 'Record error. Please check OSCaR logs for details.' }, root: :data, status: :unprocessable_entity
+      end
+
       private
 
       def organization_params

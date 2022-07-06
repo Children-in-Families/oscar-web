@@ -344,6 +344,7 @@ Rails.application.routes.draw do
           get 'clients/check_duplication' => 'organizations#check_duplication'
           get 'transactions/:tx_id' => 'organizations#transaction'
           put 'clients/update_links' => 'organizations#update_link'
+          put 'referrals/update_statuses' => 'organizations#update_referral_status'
         end
       end
 

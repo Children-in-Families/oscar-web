@@ -4,9 +4,17 @@ class OrganizationClientSerializer < ActiveModel::Serializer
 
   attributes :slug, :global_id, :external_id, :external_id_display, :mosvy_number, :mosvy_number, :given_name, :family_name,
              :gender, :date_of_birth, :location_current_village_code, :address_current_village_code,
-             :organization_id, :organization_name, :external_case_worker_name, :external_case_worker_id, :reason_for_referral,
-            :status, :case_worker_name, :case_worker_mobile, :is_referred, :referral_consent_form, :organization_address_code,
-             :level_of_risk, :services
+             :organization_id, :organization_name, :external_case_worker_name, :external_case_worker_id,
+             :reason_for_referral, :referral_id, :status, :case_worker_name, :case_worker_mobile,
+             :is_referred, :referral_consent_form, :organization_address_code, :level_of_risk, :services
+
+  def given_name
+    object.given_name.presence || object.local_given_name
+  end
+
+  def family_name
+    object.family_name.presence || object.local_family_name
+  end
 
   def organization_id
     Organization.current.id
@@ -33,6 +41,10 @@ class OrganizationClientSerializer < ActiveModel::Serializer
 
   def reason_for_referral
     last_referral&.referral_reason || object.reason_for_referral || ''
+  end
+
+  def referral_id
+    last_referral.id
   end
 
   def case_worker_name
