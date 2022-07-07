@@ -588,6 +588,7 @@ km:
       village: ភូមិ
       what3words: What3words
       client_rejected: Client Rejected
+      other: Other
   advanced_search_save_queries:
     create:
       failed_create: លក្ខខណ្ឌស្វែងរកត្រូវបានបង្កើតរួចហើយ

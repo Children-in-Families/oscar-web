@@ -14,20 +14,33 @@ module AdvancedSearches
 
     def render
       group                 = format_header('basic_fields')
+      care_plan_group       = format_header('care_plan')
       referee_group         = format_header('referee')
       carer_group           = format_header('carer')
       legal_docs            = format_header('legal_documents')
+      case_history_group    = format_header('case_history')
+      family_group          = format_header('family')
+      case_note_group       = format_header('case_note')
+      other_group           = format_header('other')
 
       number_fields         = number_type_list.map { |item| AdvancedSearches::FilterTypes.number_options(item, format_header(item), group) }
+      number_fields         += case_history_number_type_list.map { |item| AdvancedSearches::FilterTypes.number_options(item, format_header(item), case_history_group) }
       text_fields           = text_type_list.map { |item| AdvancedSearches::FilterTypes.text_options(item, format_header(item), group) }
-      text_fields           << referee_text_fields.map { |item| AdvancedSearches::FilterTypes.text_options(item, format_header(item), referee_group) }
-      text_fields           << carer_text_fields.map { |item| AdvancedSearches::FilterTypes.text_options(item, format_header(item), carer_group) }
       date_picker_fields    = date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, format_header(item), group) }
-      date_picker_fields    += [['no_case_note_date', I18n.t('advanced_search.fields.no_case_note_date')]].map{ |item| AdvancedSearches::CsiFields.date_between_only_options(item[0], item[1], group) }
+      date_picker_fields    += case_history_date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, format_header(item), case_history_group) }
+      date_picker_fields    += case_note_date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, format_header(item), case_note_group) }
+      date_picker_fields    += [['no_case_note_date', I18n.t('advanced_search.fields.no_case_note_date')]].map{ |item| AdvancedSearches::CsiFields.date_between_only_options(item[0], item[1], case_note_group) }
       date_picker_fields    += mapping_care_plan_date_lable_translation
+      date_picker_fields    += other_date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, format_header(item), other_group) }
       drop_list_fields      = drop_down_type_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last, group) }
+      drop_list_fields      += care_plan_dropdown_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last, care_plan_group) }
+      drop_list_fields      += referee_dropdown_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last, referee_group) }
       drop_list_fields      += carer_dropdown_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last, carer_group) }
       drop_list_fields      += legal_docs_dropdown.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last, legal_docs) }
+      drop_list_fields      += family_dropdown_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last, family_group) }
+      drop_list_fields      += case_history_dropdown_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last, case_history_group) }
+      drop_list_fields      += case_note_dropdown_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last, case_note_group) }
+      drop_list_fields      += other_dropdown_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last, other_group) }
       csi_options           = AdvancedSearches::CsiFields.render
       school_grade_options  = AdvancedSearches::SchoolGradeFields.render
       default_domain_scores_options = enable_default_assessment? ? AdvancedSearches::DomainScoreFields.render : []
@@ -43,24 +56,26 @@ module AdvancedSearches
     private
 
     def number_type_list
-      ['family_id', 'age', 'time_in_cps', 'time_in_ngo', 'referred_in', 'referred_out']
+      ['family_id', 'age']
+    end
+
+    def case_history_number_type_list
+      ['referred_in', 'referred_out', 'time_in_ngo', 'time_in_cps']
     end
 
     def text_type_list
       [
-        'given_name', 'family_name', 'flight_nb',
-        'local_given_name', 'local_family_name', 'family', 'slug', 'school_name',
-        'other_info_of_exit', 'exit_note', 'main_school_contact', 'what3words', 'kid_id', 'code',
-        'client_phone', 'client_email_address', *setting_country_fields[:text_fields]
+        'given_name', 'flight_nb','local_given_name', 'slug', 'what3words', 'kid_id', 'code',
+        'client_email_address', *setting_country_fields[:text_fields]
       ].compact
     end
 
-    def referee_text_fields
-      ['referee_name', 'referee_phone', 'referee_email']
-    end
-
-    def carer_text_fields
-      ['carer_name', 'carer_phone', 'carer_email']
+    def referee_dropdown_list
+      [
+        ['referral_source_category_id', referral_source_category_options],
+        ['referral_source_id', referral_source_options],
+        ['referee_relationship', get_sql_referee_relationship]
+      ]
     end
 
     def current_user
@@ -69,10 +84,21 @@ module AdvancedSearches
 
     def date_type_list
       [
-        'date_of_birth', 'initial_referral_date', 'follow_up_date', 'exit_date', 'accepted_date', 'arrival_at',
-        'case_note_date', 'created_at', 'date_of_referral', 'active_clients', 'active_client_program',
+        'date_of_birth', 'date_of_referral', 'active_clients', 'active_client_program',
         'number_client_referred_gatekeeping', 'number_client_billable', 'client_rejected'
       ].compact
+    end
+
+    def case_history_date_type_list
+      ['initial_referral_date', 'follow_up_date', 'accepted_date', 'exit_date']
+    end
+
+    def case_note_date_type_list
+      ['case_note_date']
+    end
+
+    def other_date_type_list
+      ['created_at']
     end
 
     def drop_down_type_list
@@ -81,41 +107,16 @@ module AdvancedSearches
       better_same_worse_options = { better: 'Better', same: 'The same', worse: 'Worse' }
       fields = [
         ['location_of_concern', Client.cache_location_of_concern],
-        ['created_by', user_select_options ],
         ['gender', gender_list],
         ['status', client_status],
-        ['agency_name', agencies_options],
-        ['received_by_id', received_by_options],
-        ['referral_source_id', referral_source_options],
-        ['followed_up_by_id', followed_up_by_options],
-        ['has_been_in_government_care', yes_no_options],
-        ['has_overdue_assessment', yes_no_options],
-        ['has_overdue_forms', yes_no_options],
-        ['has_overdue_task', yes_no_options],
-        ['no_case_note', yes_no_options],
-        ['has_been_in_orphanage', yes_no_options],
-        ['user_id', user_select_options],
         ['ratanak_achievement_program_staff_client_ids', user_select_options],
         ['mo_savy_officials', mo_savy_officials_options],
-        ['donor_name', donor_options],
-        ['active_program_stream', active_program_options],
-        ['enrolled_program_stream', enrolled_program_options],
-        ['case_note_type', case_note_type_options],
-        ['exit_reasons', exit_reasons_options],
-        ['exit_circumstance', {'Exited Client': 'Exited Client', 'Rejected Referral': 'Rejected Referral'}],
         *rated_id_poor,
         *setting_country_fields[:drop_down_fields],
-        ['referred_to', referral_to_options],
-        ['referred_from', referral_from_options],
-        ['referral_source_category_id', referral_source_category_options],
-        ['type_of_service', get_type_of_services],
-        ['referee_relationship', get_sql_referee_relationship],
         ['address_type', get_sql_address_types],
         ['phone_owner', get_sql_phone_owner],
-        ['family_type', family_type_list],
         ['assessment_condition_last_two', better_same_worse_options],
-        ['assessment_condition_first_last', better_same_worse_options],
-        ['incomplete_care_plan', yes_option]
+        ['assessment_condition_first_last', better_same_worse_options]
       ].compact
     end
 
@@ -124,9 +125,59 @@ module AdvancedSearches
       legal_doc_fields.map{|field| [field, yes_no_options] }
     end
 
+    def care_plan_dropdown_list
+      yes_option = { true: 'Yes' }
+      [
+        ['incomplete_care_plan', yes_option]
+      ]
+    end
+
     def carer_dropdown_list
       [
         ['carer_relationship_to_client', list_carer_client_relations]
+      ]
+    end
+
+    def family_dropdown_list
+      [
+        ['family_type', family_type_list]
+      ]
+    end
+
+    def case_history_dropdown_list
+      yes_no_options = { true: 'Yes', false: 'No' }
+      [
+        ['user_id', user_select_options],
+        ['exit_circumstance', {'Exited Client': 'Exited Client', 'Rejected Referral': 'Rejected Referral'}],
+        ['followed_up_by_id', followed_up_by_options],
+        ['referred_from', referral_from_options],
+        ['referred_to', referral_to_options],
+        ['exit_reasons', exit_reasons_options],
+        ['received_by_id', received_by_options],
+        ['active_program_stream', active_program_options],
+        ['enrolled_program_stream', enrolled_program_options],
+        ['donor_name', donor_options],
+        ['has_been_in_orphanage', yes_no_options],
+        ['has_been_in_government_care', yes_no_options],
+      ]
+    end
+
+    def case_note_dropdown_list
+      yes_no_options = { true: 'Yes', false: 'No' }
+      [
+        ['case_note_type', case_note_type_options],
+        ['no_case_note', yes_no_options],
+      ]
+    end
+
+    def other_dropdown_list
+      yes_no_options = { true: 'Yes', false: 'No' }
+      [
+        ['agency_name', agencies_options],
+        ['created_by', user_select_options ],
+        ['type_of_service', get_type_of_services],
+        ['has_overdue_forms', yes_no_options],
+        ['has_overdue_task', yes_no_options],
       ]
     end
 
