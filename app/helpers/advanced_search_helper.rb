@@ -188,7 +188,11 @@ module AdvancedSearchHelper
       assessment_condition_last_two: I18n.t('advanced_search.fields.assessment_condition_last_two'),
       assessment_condition_first_last: I18n.t('advanced_search.fields.assessment_condition_first_last'),
       client_rejected: I18n.t('advanced_search.fields.client_rejected'),
-      incomplete_care_plan: I18n.t('advanced_search.fields.incomplete_care_plan')
+      incomplete_care_plan: I18n.t('advanced_search.fields.incomplete_care_plan'),
+      case_history: I18n.t('default_family_fields.case_history'),
+      family: I18n.t('advanced_search.fields.family'),
+      case_note: I18n.t('dashboards.case_note_tab.case_note'),
+      other: I18n.t('advanced_search.fields.other')
     }
 
     translations = label_translations(address_translation(group_name)).merge(translations)
