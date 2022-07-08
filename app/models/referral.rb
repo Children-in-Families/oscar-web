@@ -18,6 +18,7 @@ class Referral < ActiveRecord::Base
 
   validate :check_saved_referral_in_target_ngo, on: :update
   before_validation :set_referred_from
+  validates :referral_status, presence: true, inclusion: { in: Client::CLIENT_STATUSES }
 
   after_create :email_referrral_client
   after_save :make_a_copy_to_target_ngo, :create_referral_history
@@ -97,7 +98,7 @@ class Referral < ActiveRecord::Base
     current_org = Organization.current
     return if current_org.short_name == referred_to
 
-    referred_from = Organization.find_by(full_name: self.referred_from).try(:short_name)
+    referred_from = Organization.find_by(full_name: self.referred_from).try(:short_name) || self.referred_from
     self.referred_from = referred_from
   end
 

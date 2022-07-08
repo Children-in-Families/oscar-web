@@ -7,6 +7,14 @@ class ClientShareExternalSerializer < ActiveModel::Serializer
               :is_referred, :organization_name, :organization_address_code, :resource, :services
 
 
+  def given_name
+    object.given_name.presence || object.local_given_name
+  end
+
+  def family_name
+    object.family_name.presence || object.local_family_name
+  end
+
   def organization_name
     Organization.current.short_name
   end
