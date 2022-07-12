@@ -1040,7 +1040,7 @@ en:
       present: Who was there during the visit or conversation?
       remove_domain_group_hint: You have created a task  with this Domain Group. To remove this Domain tag, please remove the Task first.
       save: Save
-      tasks: Tasks
+      task: Tasks
       tasks_arising: Tasks Arising
       type: Casenotes Type
       type_options:
@@ -2381,7 +2381,7 @@ en:
       today_tasks: Today
       upcoming_tasks: Upcoming
     active_tasks_side:
-      active_tasks: Task List
+      task_list: Task List
     assessment_tab:
       assessment: Assessment
       assessment_you_like: Which assessment would you like ? (CSI or Custom Assessment)
@@ -2434,7 +2434,7 @@ en:
       assessments: Assessments
       duetoday_tasks: Due today Tasks
       forms: Forms
-      tasks: Tasks
+      task: Tasks
     family:
       families: Active Families
     family_tab:
@@ -2469,7 +2469,7 @@ en:
       assessments: Assessments
       forms: Forms
       overdue_tasks: Overdue Tasks
-      tasks: Tasks
+      task: Tasks
     partner_tab:
       action: Action
       next: Next
@@ -2534,7 +2534,7 @@ en:
       assessment: Assessment
       assessments: Assessments
       forms: Forms
-      tasks: Tasks
+      task: Tasks
       upcoming_tasks: Upcoming Tasks
     user_tab:
       action: Action
@@ -2547,7 +2547,7 @@ en:
       filter_by_user: Filter by user
       forms: Forms
       select_user: Select user
-      tasks: Tasks
+      task: Tasks
   data_trackers:
     index:
       agencies: Agencies
@@ -2584,7 +2584,7 @@ en:
       releaselogs: Release logs
       stages: Stages
       surveys: Surveys
-      tasks: Tasks
+      task: Tasks
       user_custom_fields: User Custom Forms
       users: Users
     per_page_form:

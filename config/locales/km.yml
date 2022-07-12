@@ -1028,7 +1028,7 @@ km:
       present: 'វត្តមានឣ្នកចូលរួម:'
       remove_domain_group_hint: អ្នកបានបង្កើតកាតព្វដែលភ្ជាប់ជាមួយក្រុមកត្តានេះ។ ដើម្បីលុបកត្តានេះបានសូមទៅលុបកាតព្វកិច្ចជាមុនសិន។
       save: រក្សាទុក
-      tasks: កាតព្វកិច្ច
+      task: កាតព្វកិច្ច
       tasks_arising: កាតព្វកិច្ចបង្កើតថ្មី
       type: ប្រភេទជំនួប
       type_options:
@@ -2328,7 +2328,7 @@ km:
       today_tasks: កាតព្វកិច្ចថ្ងៃនេះ
       upcoming_tasks: កាតព្វកិច្ចបន្ទាប់
     active_tasks_side:
-      active_tasks: បញ្ចីកាតព្វកិច្ច
+      task_list: បញ្ចីកាតព្វកិច្ច
     assessment_tab:
       assessment: ការប៉ាន់ប្រមាណ
       assessment_you_like: តើការប៉ាន់ប្រមាណមួយណាដែលអ្នកចង់ប្រើ?(CSI ឬការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន)
@@ -2381,7 +2381,7 @@ km:
       assessments: ការប៉ាន់ប្រមាណ
       duetoday_tasks: កាតព្វកិច្ចត្រូវបំពេញថ្ងៃនេះ
       forms: ទម្រង់បែបបទ
-      tasks: កាតព្វកិច្ច
+      task: កាតព្វកិច្ច
     family:
       families: គ្រួសារបច្ចុប្បន្ន
       foster: Foster
@@ -2418,7 +2418,7 @@ km:
       assessments: ការប៉ាន់ប្រមាណ
       forms: ទម្រង់បែបបទ
       overdue_tasks: កាតព្វកិច្ចហួសកំណត់
-      tasks: កាតព្វកិច្ច
+      task: កាតព្វកិច្ច
     partner_tab:
       action: សកម្មភាព
       next: ទំព័របន្ទាប់
@@ -2480,7 +2480,7 @@ km:
       assessment: ការប៉ាន់ប្រមាណ
       assessments: ការប៉ាន់ប្រមាណ
       forms: ទម្រង់បែបបទ
-      tasks: កាតព្វកិច្ច
+      task: កាតព្វកិច្ច
       upcoming_tasks: កាតព្វកិច្ចបន្ទាប់
     user_tab:
       action: សកម្មភាព
@@ -2493,7 +2493,7 @@ km:
       filter_by_user: ស្វែងរកតាមរយៈអ្នកប្រើ
       forms: ទម្រង់បែបបទ
       select_user: ជ្រើសរើសអ្នកប្រើ
-      tasks: កាតព្វកិច្ច
+      task: កាតព្វកិច្ច
   data_trackers:
     index:
       able_screening_questions: សំនួរ Able Screening
@@ -2531,7 +2531,7 @@ km:
       releaselogs: Release log
       stages: ដំណាក់កាល
       surveys: ការស្ទង់មតិ
-      tasks: កាតព្វកិច្ច
+      task: កាតព្វកិច្ច
       user_custom_fields: ទម្រង់បែបបទអ្នកប្រើ
       users: អ្នកប្រើ
     per_page_form:
