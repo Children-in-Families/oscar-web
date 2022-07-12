@@ -47,6 +47,8 @@ class QuantitativeTypesController < AdminController
           .permit(
             :name,
             :description,
+            :field_type,
+            :hint,
             :is_required,
             :multiple,
             visible_on: [],

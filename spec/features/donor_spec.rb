@@ -80,7 +80,7 @@ describe 'Donor' do
       visit donors_path
     end
     scenario 'success' do
-      find("a[href='#{domain_path(donor)}'][data-method='delete']").click
+      find("a[href='#{donor_path(donor)}'][data-method='delete']").click
       expect(page).not_to have_content(donor.name)
     end
     # scenario 'disable' do

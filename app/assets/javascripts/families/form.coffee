@@ -9,6 +9,7 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
     _onChangeReferralSourceCategory()
     _initUploader()
     _initSelect2SingleSelect()
+    $('[data-toggle="popover"]').popover()
 
   _initSelect2SingleSelect = () ->
     $('select.single-select').select2
@@ -24,7 +25,7 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
         valid = false
 
     if(currentIndex == 2)
-      for select in $("#{currentSection} select.required, #{currentSection} input.required")
+      for select in $("#{currentSection} select.required, #{currentSection} input.required, #{currentSection} textarea.required")
         $(select).trigger("validate")
         if $(select).hasClass("error") || $(select).closest(".form-group").find(".select2-choice").hasClass("error")
           valid = false
@@ -162,7 +163,7 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
     $('select.required').on "change", (e) ->
       $(@).trigger("validate")
 
-    $('select.required, input.required').on "validate", (e) ->
+    $('select.required, input.required, textarea.required').on "validate", (e) ->
       $select = $(@)
       $select.removeClass("error")
       $select.closest(".form-group").find(".select2-choice, .select2-choices").removeClass("error")

@@ -183,6 +183,26 @@ class ClientGrid < BaseGrid
 
   filter(:donor_name, :enum, select: :donor_select_options, header: -> { I18n.t('datagrid.columns.clients.donor') })
 
+  filter(:arrival_at, :datetime, header: -> { I18n.t('clients.form.arrival_at')})
+  filter(:flight_nb, :string, header: -> { I18n.t('clients.form.flight_nb')})
+
+  filter(:ratanak_achievement_program_staff_client_ids, :enum, multiple: true, select: :case_worker_options, header: -> { I18n.t('clients.form.ratanak_achievement_program_staff_client_ids') }) do |ids, scope|
+    ids = ids.map{ |id| id.to_i }
+
+    if user_ids ||= User.where(id: ids).ids
+      client_ids = Client.joins(:ratanak_achievement_program_staff_clients).where(users: { id: user_ids }).ids.uniq
+      scope.where(id: client_ids)
+    else
+      scope.joins(:ratanak_achievement_program_staff_clients).where(users: { id: nil })
+    end
+  end
+
+  def mosavy_official_select_options
+    MoSavyOfficial.all.map { |mosavy_official| { mosavy_official.id.to_s => mosavy_official.name } }
+  end
+
+  filter(:mo_savy_officials, :enum, select: :mosavy_official_select_options, header: -> { I18n.t('clients.form.mosavy_official') })
+
   def donor_select_options
     Donor.has_clients.map { |donor| [donor.name, donor.id] }
   end
@@ -952,6 +972,19 @@ class ClientGrid < BaseGrid
     object.donors.pluck(:name).join(', ')
   end
 
+  column(:arrival_at, header: -> { I18n.t('clients.form.arrival_at')}) do |object|
+    object.arrival_at.present? ? object.arrival_at.strftime("%Y-%m-%d %H:%M") : ''
+  end
+
+  column(:flight_nb, order: false, header: -> { I18n.t('clients.form.flight_nb')})
+  column(:ratanak_achievement_program_staff_client_ids, order: false, header: -> { I18n.t('clients.form.ratanak_achievement_program_staff_client_ids')}) do |object|
+    object.ratanak_achievement_program_staff_clients.pluck(:first_name, :last_name).map{ |case_worker| "#{case_worker.first} #{case_worker.last}".squish }.join(', ')
+  end
+
+  column(:mo_savy_officials, order: false, header: -> { I18n.t('clients.form.mosavy_official')}) do |object|
+    object.mo_savy_officials.map{ |mo_savy_official| "#{mo_savy_official.name} #{mo_savy_official.position}".squish }.join(', ')
+  end
+
   column(:family_id, order: false, header: -> { I18n.t('advanced_search.fields.family_id') }) do |object|
     object.family.try(:id)
   end
@@ -1135,9 +1168,9 @@ class ClientGrid < BaseGrid
         if fields.first == 'formbuilder'
           if data == 'recent'
             if fields.last == 'Has This Form'
-              properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).count
+              properties = object.custom_field_properties.cached_client_custom_field_properties_count(fields.second)
             else
-              properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).order(created_at: :desc).first.try(:properties)
+              properties = object.custom_field_properties.cached_client_custom_field_properties_order(fields.second)
               properties = properties[format_field_value] if properties.present?
             end
           else
@@ -1145,14 +1178,14 @@ class ClientGrid < BaseGrid
               properties = [custom_form_with_has_form(object, fields).count]
             else
               if $param_rules
-                custom_field_id = object.custom_fields.find_by(form_title: fields.second)&.id
+                custom_field_id = object.custom_fields.cached_client_custom_field_find_by(fields.second)
                 basic_rules  = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
                 basic_rules  = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
                 results      = mapping_form_builder_param_value(basic_rules, 'formbuilder')
                 query_string = get_query_string(results, 'formbuilder', 'custom_field_properties.properties')
                 sql          = query_string.reverse.reject(&:blank?).map{|sql| "(#{sql})" }.join(" AND ")
 
-                properties = object.custom_field_properties.where(custom_field_id: custom_field_id).where(sql).properties_by(format_field_value)
+                properties = object.custom_field_properties.cached_client_custom_field_properties_properties_by(custom_field_id, sql, format_field_value)
                 properties = properties.blank? ? custom_form_with_has_form(object, fields).properties_by(format_field_value) : properties
               else
                 properties = form_builder_query(object.custom_field_properties, fields.second, column_builder[:id].gsub('&qoute;', '"'), 'custom_field_properties.properties').properties_by(format_field_value)
@@ -1161,32 +1194,32 @@ class ClientGrid < BaseGrid
           end
         elsif fields.first == 'enrollmentdate'
           if data == 'recent'
-            properties = date_format(object.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }).order(enrollment_date: :desc).first.try(:enrollment_date))
+            properties = date_format(object.client_enrollments.cached_client_order_enrollment_date(fields.second))
           else
-            properties = date_filter(object.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }), fields.join('__')).map{|date| date_format(date.enrollment_date) }
+            properties = date_filter(object.client_enrollments.cached_client_enrollment_date_join(fields.second), fields.join('__')).map{|date| date_format(date.enrollment_date) }
           end
         elsif fields.first == 'enrollment'
           if data == 'recent'
-            properties = object.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }).order(enrollment_date: :desc).first.try(:properties)
+            properties = object.client_enrollments.cached_client_order_enrollment_date_properties(fields.second)
             properties = properties[format_field_value] if properties.present?
           else
-            properties = object.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }).properties_by(format_field_value)
+            properties = object.client_enrollments.cached_client_enrollment_date_join(fields.second).properties_by(format_field_value)
           end
         elsif fields.first == 'tracking'
           ids = object.client_enrollments.ids
           if data == 'recent'
-            properties = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids }).order(created_at: :desc).first.try(:properties)
+            properties = ClientEnrollmentTracking.cached_tracking_order_created_at(fields.third, ids)
             properties = properties[format_field_value] if properties.present?
           else
-            client_enrollment_trackings = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids })
+            client_enrollment_trackings = ClientEnrollmentTracking.cached_client_enrollment_tracking(fields.third, ids)
             properties = form_builder_query(client_enrollment_trackings, fields.first, column_builder[:id].gsub('&qoute;', '"')).properties_by(format_field_value, client_enrollment_trackings)
           end
         elsif fields.first == 'exitprogramdate'
           ids = object.client_enrollments.inactive.ids
           if data == 'recent'
-            properties = date_format(LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }).order(exit_date: :desc).first.try(:exit_date))
+            properties = date_format(LeaveProgram.cached_program_exit_date(fields.second, ids))
           else
-            properties = date_filter(LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }), fields.join('__')).map{|date| date_format(date.exit_date) }
+            properties = date_filter(LeaveProgram.cached_program_stream_leave(fields.second, ids), fields.join('__')).map{|date| date_format(date.exit_date) }
           end
         elsif fields.first == 'exitprogram'
           ids = object.client_enrollments.inactive.ids

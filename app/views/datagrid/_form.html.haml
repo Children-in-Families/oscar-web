@@ -114,6 +114,13 @@
                 = label_tag 'postal_code_', t('datagrid.columns.postal_code')
 
           #referral-data
+            - QuantitativeType.with_field_type(:free_text).each do |quantitative_type|
+              - next unless quantitative_type_readable?(quantitative_type.id)
+              %li
+                .visibility.col-sm-12
+                  = check_box_tag "#{quantitative_type.name}_", quantitative_type.name, checked = saved_search_column_visibility("#{quantitative_type.name}_"), class: 'i-checks'
+                  = label_tag "#{quantitative_type.name}_", quantitative_type.name
+
             - QuantitativeType.cach_by_visible_on('client').each do |quantitative_type|
               - next unless quantitative_type_readable?(quantitative_type.id)
               %li

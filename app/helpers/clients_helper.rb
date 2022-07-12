@@ -1,4 +1,9 @@
 module ClientsHelper
+  def get_or_build_client_quantitative_free_text_cases
+    QuantitativeType.where(field_type: 'free_text').map do |qtt|
+      @client.client_quantitative_free_text_cases.find_or_initialize_by(quantitative_type_id: qtt.id)
+    end
+  end
 
   def xeditable? client = nil
     (can?(:manage, client&.object) || can?(:edit, client&.object) || can?(:rud, client&.object)) ? true : false
@@ -72,8 +77,24 @@ module ClientsHelper
     result[:show_legal_doc] = result[:client_show_legal_doc] = policy(Client).show_legal_doc?
     result[:school_information] = result[:client_school_information] = policy(Client).client_school_information?
     result[:stackholder_contacts] = result[:client_stackholder_contacts] = policy(Client).client_stackholder_contacts?
+    result[:pickup_information] = result[:client_pickup_information] = policy(Client).client_pickup_information?
 
     result
+  end
+
+  def required_legal_docs
+    result = field_settings.each_with_object({}) do |field_setting, output|
+      field_mapping = Client::LEGAL_DOC_MAPPING[field_setting.name.to_sym]
+
+      if field_mapping.present? && field_setting.required?
+        output[field_setting.name] = true
+      end
+    end
+
+    {
+      fields: result,
+      mapping: Client::LEGAL_DOC_MAPPING
+    }
   end
 
   def report_options(title, yaxis_title)
@@ -309,11 +330,14 @@ module ClientsHelper
       carer_name_: I18n.t('activerecord.attributes.carer.name'),
       carer_phone_: I18n.t('activerecord.attributes.carer.phone'),
       carer_email_: I18n.t('activerecord.attributes.carer.email'),
+      arrival_at_: I18n.t('clients.form.arrival_at'),
+      flight_nb_: I18n.t('clients.form.flight_nb'),
+      ratanak_achievement_program_staff_client_ids_: I18n.t('clients.form.ratanak_achievement_program_staff_client_ids'),
+      mosavy_official_: I18n.t('clients.form.mosavy_official'),
       carer_relationship_to_client_: I18n.t('datagrid.columns.clients.carer_relationship_to_client'),
       province_id_: FieldSetting.cache_by_name_klass_name_instance('current_province', 'client') || I18n.t('datagrid.columns.clients.current_province'),
       birth_province_id_: FieldSetting.cache_by_name_klass_name_instance('birth_province', 'client') || I18n.t('datagrid.columns.clients.birth_province'),
-      **overdue_translations.map{ |k, v| ["#{k}_".to_sym, v] }.to_h,
-      **custom_assessment_field_traslation_mapping.map{ |k, v| ["#{k}_".to_sym, v] }.to_h
+      **overdue_translations.map{ |k, v| ["#{k}_".to_sym, v] }.to_h
     }
   end
 

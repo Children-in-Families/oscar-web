@@ -1,6 +1,3 @@
-class ClientQuantitativeCase < ActiveRecord::Base
-  belongs_to :client
+class ClientQuantitativeCase < ClientQuantitativeCaseBase
   belongs_to :quantitative_case
-
-  has_paper_trail
 end

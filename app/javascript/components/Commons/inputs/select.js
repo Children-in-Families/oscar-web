@@ -58,6 +58,7 @@ export default props => {
       </label>
       {
         inlineClassName &&
+        hintText &&
         <a
           tabIndex="0"
           data-toggle="popover"
@@ -65,8 +66,7 @@ export default props => {
           data-html="true"
           data-placement="bottom"
           data-trigger="focus"
-          data-content="And here's some amazing content. It's very engaging. Right?"
-          data-content={ hintText || 'N/A' }>
+          data-content={ hintText }>
           <i className={`fa fa-info-circle text-info m-xs ${inlineClassName}`}></i>
         </a>
       }

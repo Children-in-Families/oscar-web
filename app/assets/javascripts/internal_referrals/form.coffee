@@ -4,6 +4,9 @@ CIF.Internal_referralsNew = CIF.Internal_referralsCreate = CIF.Internal_referral
     _preventRequireFileUploader()
     _initUploader()
     _initDatePicker()
+    _handleReferralDecisionField()
+
+    $("input[name='internal_referral[referral_decision]']").on "click", _handleReferralDecisionField
 
   _initDatePicker = ->
     $('#referral_date').datepicker
@@ -15,6 +18,12 @@ CIF.Internal_referralsNew = CIF.Internal_referralsCreate = CIF.Internal_referral
   _initSelect2 = ->
     $('select').select2
       width: '100%'
+
+  _handleReferralDecisionField = ->
+    if $("input[name='internal_referral[referral_decision]']:checked").val() == 'not_meet_intake_criteria'
+      $(".crisis_management-wrapper").show()
+    else
+      $(".crisis_management-wrapper").hide()
 
   _initUploader = ->
     $('#internal_referral_attachments').fileinput
