@@ -33,7 +33,7 @@ class Referral < ActiveRecord::Base
   scope :get_external_systems, ->(external_system_name){ where("referrals.ngo_name = ?", external_system_name) }
 
   def non_oscar_ngo?
-    referred_to == 'external referral'
+    referred_to =~ /external/i
   end
 
   def referred_to_ngo
@@ -88,6 +88,7 @@ class Referral < ActiveRecord::Base
   def check_saved_referral_in_target_ngo
     current_org = Organization.current
     return if self.non_oscar_ngo? || current_org.short_name == referred_to
+
     Organization.switch_to referred_to
     is_saved = Referral.find_by(slug: slug, date_of_referral: date_of_referral).try(:saved)
     Organization.switch_to current_org.short_name

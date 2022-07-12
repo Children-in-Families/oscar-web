@@ -157,11 +157,11 @@ module Api
             raise ActiveRecord::RecordNotFound
           end
           Apartment::Tenant.switch! ngo.short_name
-          referral = Referral.find_by(id: referral_id, client_global_id: global_id)
+          referral = Referral.find(referral_id)
           if referral
             external_system_id, external_system_name = ExternalSystem.fetch_external_system_name(params['uid'])
-            next if referral.update_attributes(referral_status: status, referred_from: external_system_name)
-            raise ActiveRecord::RecordNotFound, "Referral status must be one of ['Accepted', 'Exited', 'Referred']."
+            next if referral.update_attributes(referral_status: status)
+            raise ActiveRecord::RecordNotFound, (referral.errors.full_messages << "Referral status must be one of ['Accepted', 'Exited', 'Referred'].").join(". ")
           else
             raise ActiveRecord::RecordNotFound
           end
