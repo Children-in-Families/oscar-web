@@ -76,7 +76,6 @@
       if params.dig(:case_note, :case_note_domain_groups_attributes)
         add_more_attachments(params[:case_note][:attachments]) if params.dig(:case_note, :attachments)
         @case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes], current_user.id)
-        @case_note.complete_screening_tasks(params[:case_note][:tasks_attributes], @case_note.id)
       end
       create_bulk_task(params[:task], @case_note) if params.has_key?(:task)
       create_task_task_progress_notes

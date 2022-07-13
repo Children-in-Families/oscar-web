@@ -66,12 +66,6 @@ class CaseNote < ActiveRecord::Base
     end
   end
 
-  def complete_screening_tasks(params, case_note_id)
-    attr = params.values.group_by{|hash| hash['id'] }
-    values = attr.values.flatten.map{|values| values.map{|k, v| [k.to_sym, v] }.to_h.merge(case_note_id: case_note_id) }
-    Task.update(attr.keys, values)
-  end
-
   def self.latest_record
     where.not(meeting_date: nil).order(meeting_date: :desc).first
   end
