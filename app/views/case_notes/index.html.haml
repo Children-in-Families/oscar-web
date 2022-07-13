@@ -99,9 +99,6 @@
                     .ibox-title.case-note-domain-panel-title
                       - custom_assessment_setting_id = find_custom_assessment_setting_id(cdg, case_note)
                       %h5= cdg.domain_identities(custom_assessment_setting_id)
-                      - if is_ratanak
-                        %a{ role: "button", tabIndex: "0",  data: { toggle: "popover", placement: 'auto', trigger: "focus", content: list_task_goal_descriptions(cdg.completed_tasks) } }
-                          = fa_icon "info-circle", class: 'text-info m-xs'
                       - if case_note.assessment_id.present?
                         .ibox-tools
                           - cdg.domains(case_note).each do |domain|
