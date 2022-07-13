@@ -5,41 +5,51 @@ body[id=case_notes-create] {
   .case_note_meeting_date {
     margin-top: 10px;
   }
-  .bg-color{
+
+  .bg-color {
     background-color: #ffffcc;
   }
-  .icheckbox_square-green{
+
+  .icheckbox_square-green {
     margin-right: 10px;
   }
+
   .margin-score {
     display: inline-block;
     font-size: 20px;
     margin-left: 15px;
     margin-top: -4px;
   }
-  .case-note-margin{
+
+  .case-note-margin {
     position: relative;
     left: -110px;
   }
-  .btn-form{
+
+  .btn-form {
     width: 110px;
     margin-right: 5px;
   }
-  ol li.list-group-item{
+
+  ol li.list-group-item {
     list-style: decimal inside;
     display: list-item;
   }
+
   .new_case_note {
     padding-bottom: 20px;
   }
+
   label.disabled {
     color: #333333 !important;
   }
+
   .disabled label {
     color: #333333;
   }
 
-  .links img, .nested-fields img {
+  .links img,
+  .nested-fields img {
     width: 150px;
     cursor: pointer;
   }
@@ -53,15 +63,15 @@ body[id=case_notes-create] {
     width: 150px;
   }
 
-  .image-title{
+  .image-title {
     width: 70%;
   }
 
-  .table.attachment-table tbody>tr>td{
+  .table.attachment-table tbody>tr>td {
     vertical-align: top;
   }
 
-  .table.attachment-table tbody>tr>td.vert-align{
+  .table.attachment-table tbody>tr>td.vert-align {
     vertical-align: middle;
   }
 
@@ -72,9 +82,11 @@ body[id=case_notes-create] {
   .ibox.case-note-domain-group {
     border: 1px solid #e7eaec;
     border-radius: 4px;
+
     .ibox-title {
       position: relative;
       padding-bottom: 40px;
+
       .ibox-tools {
         position: absolute;
         right: 15px;
@@ -101,5 +113,9 @@ body[id=case_notes-create] {
 
   label.boolean {
     font-weight: bold;
+  }
+
+  .panel-heading .popover-content {
+    color: black !important
   }
 }

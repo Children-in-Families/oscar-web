@@ -1,6 +1,6 @@
 class AddAssessmentLabel < ActiveRecord::Migration
   def up
-    return if Apartment::Tenant.current_tenant == 'shared'
+    return if Apartment::Tenant.current_tenant == 'shared' || FieldSetting.find_by(name: :assessment, klass_name: :assessment)
 
     FieldSetting.create!(
       name: :assessment,
@@ -15,6 +15,6 @@ class AddAssessmentLabel < ActiveRecord::Migration
   end
 
   def down
-    FieldSetting.where(name: :assessment, klass_name: :assessment).delete_all
+    # FieldSetting.where(name: :assessment, klass_name: :assessment).delete_all
   end
 end
