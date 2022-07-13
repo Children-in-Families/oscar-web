@@ -6249,6 +6249,7 @@ my:
       tasks_of: လုပ္ငန္းမ်ား
       today_tasks: ယေန႔ လုပ္ငန္းမ်ား
       upcoming_tasks: မၾကာမီလုပ္ရမည့္ လုပ္ငန္းမ်ား
+    task: လုပ္ငန္း
     task_added: Task Added
   thredded:
     content_moderation_states:

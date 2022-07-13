@@ -4892,8 +4892,8 @@ en:
         one: There is 1 partner custom form due today
         other: There are %{count} partner custom forms due today
       due_today_tasks_count:
-        one: You have 1 task due today.
-        other: You have %{count} tasks due today.
+        one: You have 1 %{tasks} due today.
+        other: You have %{count} %{tasks} due today.
       due_today_user_custom_field_count:
         one: There is 1 user custom form due today
         other: There are %{count} user custom forms due today
@@ -4929,8 +4929,8 @@ en:
         one: There is 1 partner custom form overdue
         other: There are %{count} partner custom forms overdue
       overdue_tasks_count:
-        one: You have 1 task overdue
-        other: You have %{count} tasks overdue
+        one: You have 1 %{tasks} overdue
+        other: You have %{count} %{tasks} overdue
       overdue_user_custom_field_count:
         one: There is 1 user custom form overdue
         other: There are %{count} user custom forms overdue
@@ -6149,6 +6149,7 @@ en:
       tasks_of: Tasks Of
       today_tasks: Today Tasks
       upcoming_tasks: Upcoming Tasks
+    task: Task
     task_added: Task Added
   thredded:
     content_moderation_states:
