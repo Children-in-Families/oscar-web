@@ -37,11 +37,12 @@ module I18n::Backend::Custom
     FieldSetting.cache_all.each do |field_setting|
       data = translations[I18n.locale]
       data.extend(HashDeepTraverse)
-
-      next if field_setting.label.blank?
+      next if field_setting.current_label.blank?
       next if data.blank?
+
       paths = data.full_paths(field_setting.name)
       next if paths.blank?
+
       paths.each do |path|
         next if path.count > 1 && !field_setting.possible_key_match?(path)
         data = translations[I18n.locale]
@@ -54,7 +55,7 @@ module I18n::Backend::Custom
             # pp '=========================='
             # pp data[k]
             # pp '=========================='
-            data[k] = field_setting.label
+            data[k] = field_setting.current_label
           else
             data = data[k]
           end

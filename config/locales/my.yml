@@ -1050,7 +1050,7 @@ my:
       present: လာေရာက္စဥ္ေသာ္လည္းေကာင္း၊ စကားေျပာေနစဥ္ေသာ္လည္း ေဘးတြင္ မည္သူရွိေနပါသနည္း
       remove_domain_group_hint: You have created a task associated with this Domain Group. To remove this Domain tag, please remove the Task first.
       save: သိမ္းသည္။
-      tasks: လုပ္ငန္းမ်ား
+      task: လုပ္ငန္းမ်ား
       tasks_arising: ေပၚေပါက္လာေသားလုပ္ငန္းမ်ား
       type: အမ်ိဳးအစား
       type_options:
@@ -2469,7 +2469,7 @@ my:
       today_tasks: ယေန႔ လုပ္ရမည့္ လုပ္ငန္းမ်ား
       upcoming_tasks: လုပ္ေဆာင္ရမည့္ လုပ္ငန္းမ်ား
     active_tasks_side:
-      active_tasks: အသက္၀င္ေသးေသာ လုပ္ငန္းမ်ား
+      task_list: အသက္၀င္ေသးေသာ လုပ္ငန္းမ်ား
     assessment_tab:
       assessment: ရက်လွန်အကဲဖြတ်
       assessment_you_like: Which assessment would you like ? (CSI or Custom Assessment)
@@ -2522,7 +2522,7 @@ my:
       assessments: ရက်လွန်အကဲဖြတ်
       duetoday_tasks: ကြောင့်ယနေ့တာဝန်များကို
       forms: ရက်လွန်ပုံစံ
-      tasks: ရက်လွန်အလုပ်တခုကို
+      task: ရက်လွန်အလုပ်တခုကို
     family:
       families: မိသားစုမ်ား
       foster: ေမြးစားျခင္း
@@ -2554,7 +2554,7 @@ my:
       assessments: ရက်လွန်အကဲဖြတ်
       forms: ရက်လွန်ပုံစံ
       overdue_tasks: ရက်လွန်အလုပ်တခုကို
-      tasks: ရက်လွန်အလုပ်တခုကို
+      task: ရက်လွန်အလုပ်တခုကို
     partner_tab:
       action: လုပ္ေဆာင္မႈ
       next: ေနာက္တစ္ခု
@@ -2605,7 +2605,7 @@ my:
       assessment: ရက်လွန်အကဲဖြတ်
       assessments: ရက်လွန်အကဲဖြတ်
       forms: ရက်လွန်ပုံစံ
-      tasks: ရက်လွန်အလုပ်တခုကို
+      task: ရက်လွန်အလုပ်တခုကို
       upcoming_tasks: မၾကာမီလုပ္ရမည့္ လုပ္ငန္းမ်ား
     users_filter:
       apply: လျှောက်ထား
@@ -2613,7 +2613,7 @@ my:
       filter_by_user: အသံုးျပဳသူ သတ္မွတ္ထားေသာ စိစစ္မႈ
       forms: ရက်လွန်ပုံစံ
       select_user: အသံုးျပဳသူကို ေရြးခ်ယ္ပါ။
-      tasks: ရက်လွန်အလုပ်တခုကို
+      task: ရက်လွန်အလုပ်တခုကို
   data_trackers:
     index:
       able_screening_questions: Able Screening ေမးခြန္းမ်ား
@@ -2651,7 +2651,7 @@ my:
       releaselogs: လႊဲေပးသည့္ မွတ္တမ္းမ်ား
       stages: အဆင့္မ်ား
       surveys: စစ္တမ္းမ်ား
-      tasks: လုပ္ငန္းမ်ား
+      task: လုပ္ငန္းမ်ား
       user_custom_fields: အသံုးျပဳသူ၏ အေကာက္ခြန္ပံုစံမ်ား
       users: အသံုးျပဳသူမ်ား
     per_page_form:
@@ -6250,6 +6250,7 @@ my:
       tasks_of: လုပ္ငန္းမ်ား
       today_tasks: ယေန႔ လုပ္ငန္းမ်ား
       upcoming_tasks: မၾကာမီလုပ္ရမည့္ လုပ္ငန္းမ်ား
+    task: လုပ္ငန္း
     task_added: Task Added
   thredded:
     content_moderation_states:

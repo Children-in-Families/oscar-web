@@ -696,7 +696,7 @@ th-TH:
       present:
       remove_domain_group_hint:
       save:
-      tasks:
+      task:
       tasks_arising:
       type:
       type_options:
@@ -917,7 +917,7 @@ th-TH:
       program_stream:
       quantitative:
       tracking:
-    tasks:
+    task:
       create:
         successfully_created:
       destroy:
@@ -1011,7 +1011,7 @@ th-TH:
       jump_to:
     leave_programs:
       exited_from:
-    tasks:
+    task:
       domain:
       overdue_tasks:
       task:
@@ -1835,7 +1835,7 @@ th-TH:
       today_tasks:
       upcoming_tasks:
     active_tasks_side:
-      active_tasks:
+      task_list:
     client:
       ables:
       clients:
@@ -1859,7 +1859,7 @@ th-TH:
       assessments:
       duetoday_tasks:
       forms:
-      tasks:
+      task:
     family:
       families:
       foster:
@@ -1873,7 +1873,7 @@ th-TH:
       assessments:
       forms:
       overdue_tasks:
-      tasks:
+      task:
     program_stream:
       program_stream:
     program_stream_services:
@@ -1905,7 +1905,7 @@ th-TH:
       assessment:
       assessments:
       forms:
-      tasks:
+      task:
       upcoming_tasks:
     users_filter:
       apply:
@@ -1913,7 +1913,7 @@ th-TH:
       filter_by_user:
       forms:
       select_user:
-      tasks:
+      task:
   data_trackers:
     index:
       able_screening_questions:
@@ -1951,7 +1951,7 @@ th-TH:
       releaselogs:
       stages:
       surveys:
-      tasks:
+      task:
       user_custom_fields:
       users:
     per_page_form:
@@ -4612,7 +4612,7 @@ th-TH:
       user_id:
     update:
       successfully_updated:
-  tasks:
+  task:
     filter:
       filter_by_user:
       select_user:

@@ -652,7 +652,7 @@ en:
       domain: Domain
       enter_task_detail: Enter task details
       save: Save
-      title: New Task
+      new_task: New Task
     assessment_form: Assessment Form
     attachment:
       attachments: Attachments
@@ -1003,8 +1003,8 @@ en:
       domain: Domain
       dimensions: Dimension
       enter_task_detail: Enter task details
+      new_task: New Task
       save: Save
-      title: New Task
     attachment:
       download: Download
       preview_download: Preview & Download
@@ -1040,7 +1040,7 @@ en:
       present: Who was there during the visit or conversation?
       remove_domain_group_hint: You have created a task  with this Domain Group. To remove this Domain tag, please remove the Task first.
       save: Save
-      tasks: Tasks
+      task: Tasks
       tasks_arising: Tasks Arising
       type: Casenotes Type
       type_options:
@@ -2013,7 +2013,7 @@ en:
       sInfoTotal: of
       save_search_settings: Save Search Settings
       show_all: Show All
-      view_all_active_tasks: View All Active  Tasks
+      view_all_active_tasks: View All Active Tasks
     level:
       level_no: 'No'
       level_1: Level 1
@@ -2382,7 +2382,7 @@ en:
       today_tasks: Today
       upcoming_tasks: Upcoming
     active_tasks_side:
-      active_tasks: Task List
+      task_list: Task List
     assessment_tab:
       assessment: Assessment
       assessment_you_like: Which assessment would you like ? (CSI or Custom Assessment)
@@ -2435,7 +2435,7 @@ en:
       assessments: Assessments
       duetoday_tasks: Due today Tasks
       forms: Forms
-      tasks: Tasks
+      task: Tasks
     family:
       families: Active Families
     family_tab:
@@ -2470,7 +2470,7 @@ en:
       assessments: Assessments
       forms: Forms
       overdue_tasks: Overdue Tasks
-      tasks: Tasks
+      task: Tasks
     partner_tab:
       action: Action
       next: Next
@@ -2535,7 +2535,7 @@ en:
       assessment: Assessment
       assessments: Assessments
       forms: Forms
-      tasks: Tasks
+      task: Tasks
       upcoming_tasks: Upcoming Tasks
     user_tab:
       action: Action
@@ -2548,7 +2548,7 @@ en:
       filter_by_user: Filter by user
       forms: Forms
       select_user: Select user
-      tasks: Tasks
+      task: Tasks
   data_trackers:
     index:
       agencies: Agencies
@@ -2585,7 +2585,7 @@ en:
       releaselogs: Release logs
       stages: Stages
       surveys: Surveys
-      tasks: Tasks
+      task: Tasks
       user_custom_fields: User Custom Forms
       users: Users
     per_page_form:
@@ -4893,8 +4893,8 @@ en:
         one: There is 1 partner custom form due today
         other: There are %{count} partner custom forms due today
       due_today_tasks_count:
-        one: You have 1 task due today.
-        other: You have %{count} tasks due today.
+        one: You have 1 %{tasks} due today.
+        other: You have %{count} %{tasks} due today.
       due_today_user_custom_field_count:
         one: There is 1 user custom form due today
         other: There are %{count} user custom forms due today
@@ -4930,8 +4930,8 @@ en:
         one: There is 1 partner custom form overdue
         other: There are %{count} partner custom forms overdue
       overdue_tasks_count:
-        one: You have 1 task overdue
-        other: You have %{count} tasks overdue
+        one: You have 1 %{tasks} overdue
+        other: You have %{count} %{tasks} overdue
       overdue_user_custom_field_count:
         one: There is 1 user custom form overdue
         other: There are %{count} user custom forms overdue
@@ -6158,6 +6158,7 @@ en:
       tasks_of: Tasks Of
       today_tasks: Today Tasks
       upcoming_tasks: Upcoming Tasks
+    task: Task
     task_added: Task Added
   thredded:
     content_moderation_states:
