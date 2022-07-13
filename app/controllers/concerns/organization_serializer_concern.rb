@@ -7,7 +7,8 @@ module OrganizationSerializerConcern
           program_name: ps.name,
           enrollment_date: enrollment_date,
           uuid: service.uuid,
-          name: service.name
+          name: service.name,
+          referral_id: object.id
         }
       end
     end.compact.flatten.uniq
@@ -17,7 +18,8 @@ module OrganizationSerializerConcern
         program_name: nil,
         enrollment_date: nil,
         uuid: service.uuid,
-        name: service.name
+        name: service.name,
+        referral_id: object.id
       }
     end
     service_types
