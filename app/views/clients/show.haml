@@ -153,7 +153,7 @@
             = render 'client/exit_ngos/form', client: @client
           -# - if @client.cases.exclude_referred.current.present?
           -#   = render 'exit_case_form', client_case: @client.cases.exclude_referred.current, exit_from_cif: true
-          = link_to client_tasks_path(@client), data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.clients.show.tasks')}", placement: "auto" } do
+          = link_to client_tasks_path(@client), data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.clients.show.task')}", placement: "auto" } do
             %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit
               %strong.count-margin= @client.tasks.incomplete.count
               = t('.view_tasks')

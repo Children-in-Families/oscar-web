@@ -856,7 +856,7 @@ en:
       present: Who was there during the visit or conversation?
       remove_domain_group_hint: You have created a task associated with this Domain Group. To remove this Domain tag, please remove the Task first.
       save: Save
-      tasks: Tasks
+      task: Tasks
       tasks_arising: Tasks Arising
       type: 'Type (Note: Choose ''visit'' only if you met with the client.)'
       type_options:
@@ -2218,7 +2218,7 @@ en:
       assessments: Assessments
       duetoday_tasks: Due today Tasks
       forms: Forms
-      tasks: Tasks
+      task: Tasks
     family:
       families: Active Families
       foster: Foster
@@ -2250,7 +2250,7 @@ en:
       assessments: Assessments
       forms: Forms
       overdue_tasks: Overdue Tasks
-      tasks: Tasks
+      task: Tasks
     partner_tab:
       action: Action
       next: Next
@@ -2307,7 +2307,7 @@ en:
       assessment: Assessment
       assessments: Assessments
       forms: Forms
-      tasks: Tasks
+      task: Tasks
       upcoming_tasks: Upcoming Tasks
     user_tab:
       action: Action
@@ -2320,7 +2320,7 @@ en:
       filter_by_user: Filter by user
       forms: Forms
       select_user: Select user
-      tasks: Tasks
+      task: Tasks
   data_trackers:
     index:
       able_screening_questions: Able Screening Questions
@@ -2358,7 +2358,7 @@ en:
       releaselogs: Release logs
       stages: Stages
       surveys: Surveys
-      tasks: Tasks
+      task: Tasks
       user_custom_fields: User Custom Forms
       users: Users
     per_page_form:

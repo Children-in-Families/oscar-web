@@ -280,11 +280,11 @@ module ApplicationHelper
 
   def tasks_notification_label
     if @notification.any_overdue_tasks? && @notification.any_due_today_tasks?
-      "#{I18n.t('layouts.notification.overdue_tasks_count', count: @notification.overdue_tasks_count)} #{I18n.t('layouts.notification.overdue_and_due_today_count', count: @notification.due_today_tasks_count)} "
+      "#{I18n.t('layouts.notification.overdue_tasks_count', count: @notification.overdue_tasks_count, tasks: t('tasks.task'))} #{I18n.t('layouts.notification.overdue_and_due_today_count', count: @notification.due_today_tasks_count, tasks: t('tasks.task'))} "
     elsif @notification.any_overdue_tasks?
-      I18n.t('layouts.notification.overdue_tasks_count', count: @notification.overdue_tasks_count)
+      I18n.t('layouts.notification.overdue_tasks_count', count: @notification.overdue_tasks_count, tasks: t('tasks.task'))
     else
-      I18n.t('layouts.notification.due_today_tasks_count', count: @notification.due_today_tasks_count)
+      I18n.t('layouts.notification.due_today_tasks_count', count: @notification.due_today_tasks_count, tasks: t('tasks.task'))
     end
   end
 
