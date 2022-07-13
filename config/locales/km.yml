@@ -937,21 +937,23 @@ km:
         with_id: ជាមួយលេខសម្គាល់
   case_conferences:
     case_conference_attr: &CASE_CONFERENCE_ATTR
+      add: បន្ថែម
       allow_file_size: ប្រភេទឯកសារដែលអាចផ្ទុកបាន
       are_you_sure: តើអ្នកប្រាកដថាចង់លុបដែរឬទេ?
       attachments: ឯកសារភ្ជាប់
       attendants: Attendants
       back: ត្រឡប់ក្រោយ
-      base_on: Base on Case Conference Number
+      base_on: សនិ្នសីទករណីទី
       cancel: ទុកជាមោឃៈ
-      case_conference: Case Conference
-      meeting_date: Case Conference Date
+      case_conference: សនិ្នសីទករណី
+      meeting_date: កាលបរិច្ចេទសនិ្នសីទករណី
       client_engagement: ការចូលរួមរបស់អតិថិជន
       client_limitation:  Client limitations
       client_strength: ចំណុចខ្លាំងរបស់អតិថិជន
       client_support: ការគាំទ្រនិងរនាំងរបស់អតិថិជនក្នុងការចូលរួម
       created_by: បង្កើតដោយ
-      initial_case_conference: Initial Case Conference
+      initial_case_conference: សនិ្នសីទករណីដំបូង
+      issue_to_be_addressed: Issue to be addressed
       local_resource: ធានធាន/សេវាក្នុងសហគមន៍
       on_date: ថ្ងៃកំនត់
       presenting_problem: បញ្ហាកំពុងលេចឡើង
@@ -971,7 +973,7 @@ km:
       assessment_history: "%{assessment} History"
       back: Back
       begin_now: Add New
-      case_conference: Case Conference
+      case_conference: សនិ្នសីទករណី
       case_conference_edit_duration: Case Conference Editable Duration
       initial_assessment: "Initial %{assessment} on"
       new_assessment: New Assessment
@@ -1764,6 +1766,8 @@ km:
       type_of_trafficking: Type of Trafficking
       education_background: Education Background
       department: Ratanak Team
+      add_mosavy_official: Add MoSAVY Official
+      arrival_at: Arrivate Date/Time
       national_id: 'National ID'
       birth_cert: 'Birth Certificate'
       family_book: 'សៀវភៅគ្រួសារ'
@@ -1808,6 +1812,7 @@ km:
       exit_status: ស្ថានភាព/ហេតុផលនៃការចាកចេញ
       family_name: នាមត្រកូល (អក្សរឡាតាំង)
       finish: រក្សាទុក
+      flight_nb: Flight Number
       follow_up_by: បុគ្គលិកតាមដានករណី
       follow_up_date: កាលបរិច្ឆេទតាមដានដំបូង
       followed_up_by: បុគ្គលិកតាមដានករណី
@@ -1865,12 +1870,14 @@ km:
       next: បន្ទាប់
       other_phone_number: លេខទូរស័ព្ទ - Alternate
       other_phone_whatsapp: Whatsapp? (លេខទូរស័ព្ទ - Alternate)
+      pickup_information: Pick up information
       phone_owner: ម្ចាស់ទូរស័ព្ទ
       po_box2: PO Box
       police_interview: លិខិតពីប៉ូលីសអន្តោប្រវេសន៍
       presented_id: Presented ID
       previous: ត្រឡប់
       province: ខេត្ត/ក្រុង
+      ratanak_achievement_program_staff_client_ids: Ratanak Achievement Program Staff
       rated_for_id_poor: កម្រិតប័ណ្ណក្រីក្រ
       received_by: បុគ្គលិកទទួលករណី
       referee_called_before: តើអ្នកបញ្ជូនភ្ជាប់បានហៅទូរស័ព្ទមកកាន់បណ្តាញសុវត្ថិភាពកុមារពីមុនដែរឬទេ
@@ -1880,10 +1887,14 @@ km:
       referral_source: ប្រភពនៃការបញ្ជូន
       reject_note: កំណត់ហេតុនៃការមិនទទួលយក
       relevant_referral_information: ព័ត៌មានសំខាន់ៗដែលពាក់ព័ន្ធ
+      remove_mosavy_official: Remove MoSAVY Official
       resident_own_or_rent2: Acc. type
       school_grade: កម្រិតវប្បធម៌
       school_name: ឈ្មោះសាលារៀន
       main_school_contact: ជនបង្គោលនៅសាលារៀន
+      mosavy_official: MoSAVY Official
+      mosavy_official_name: Name
+      mosavy_official_position: Position
       settlement2: City/Settlement
       shared_service_enabled: តើអ្នកចង់ចែករំលែកសេវាកម្មអតិថិជនជាមួយប្រព័ន្ធខាងក្រៅទេ?
       stage: សំនួរ តំណាក់កាល
@@ -2015,8 +2026,9 @@ km:
       warning: ប្រុងប្រយ័ត្ន!
     show:
       <<: *LEGAL_DOC_ATTR
+      additional_forms: ទម្រង់អតិថិជនកំពុងប្រើ
       care_plan: ផែនការគាំទ្រករណី
-      case_conference: Case Conference
+      case_conference: សនិ្នសីទករណី
       marital_status: Marital Status
       nationality: Nationality
       ethnicity: Ethnicity
@@ -2706,6 +2718,8 @@ km:
         current_province: ខេត្តបច្ចុប្បន្ន
         current_province_en: ខេត្តបច្ចុប្បន្ន (អក្សរឡាតាំង)
         current_province_kh: ខេត្តបច្ចុប្បន្ន (ខ្មែរ)
+        custom_assessment: "%{assessment} ផ្ទាល់ខ្លួន"
+        custom_assessment_created_date: កាលបរិច្ឆេទបង្កើត %{assessment} ផ្ទាល់ខ្លួន
         date_of_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណ
         date_of_birth: ថ្ងៃខែឆ្នាំកំណើត
         date_of_custom_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
@@ -3943,6 +3957,12 @@ km:
         other: ផ្សេងៗ
         unknown: អត់ទាន់ដឹង
         prefer_not_to_say: សុំមិននិយាយ/មិនជាក់លាក់
+      field_type:
+        select_option: Select options
+        free_text: Free text
+      referral_decision:
+        meet_intake_criteria: Client DOES meet intake criteria and will be engaged for intake
+        not_meet_intake_criteria: Client DOES NOT meet intake criteria and has been referred to other services if needed
   errors:
     messages:
       already_confirmed: ត្រូវបានបញ្ជាក់រួចហើយ សូមសាកល្បងចូល
@@ -4019,6 +4039,7 @@ km:
         program_stream: កម្មវិធីចម្បង
         quantitative: ព័ត៌មានជាក់លាក់នៃការបញ្ជូន
         tracking: តាមដាន
+    family_assessment: ការប៉ាន់ប្រមាណគ្រួសារ
     family_member_fields:
       adult_name: ឈ្មោះមនុស្សពេញវ័យ
       date_of_birth: ថ្ងៃខែឆ្នាំកំណើត
@@ -4736,7 +4757,7 @@ km:
       program_stream_ids: បញ្ជូនទៅ
       referral_date: កាលបរិច្ឆេទការបញ្ជូនខាងក្នុងអង្គភាព
       referral_decision: ការសម្រេចចិត្តបញ្ជូន (ត្រូវឆ្លងការអនុម័តពីប្រធានគ្រប់គ្រងករណី)
-      referral_decision_note: "សកម្មភាព/ការអន្តរាគមន៍ដែលបានធ្វើ:"
+      crisis_management: "Describe any emergency or crisis management/referrals:"
       referral_reason: មូលហេតុក្នុងការបញ្ជូននិងអនុសាសន៍
       referral_reason_note: "មូលហេតុក្នុងការបញ្ចូលមកកាន់កម្មវិធីសមិទ្ធិផលរតនៈ:"
       user_id: បញ្ជូនមកពី
@@ -5562,6 +5583,8 @@ km:
       is_multi_select: ជ្រើសបានលើសពីមួយ
       is_required: មិនអាចរំលងបាន
       name: ឈ្មោះ
+      hint: Hint
+      field_type: Field type
       quantitative_type: ព័ត៌មានជាក់លាក់នៃការបញ្ជូន
       save: រក្សាទុក
     index:
@@ -6117,6 +6140,7 @@ km:
     update:
       successfully_updated: ការស្ទង់មតិត្រូវបានកែសម្រួលដោយជោគជ័យ
   tasks:
+    add_task_progress_note: បន្ថែមការពិព៌ណនាអំពីជំនួប
     completion_date: កាលបរិច្ឆេទបញ្ចប់
     expected_date: កាលបរិច្ឆេទរំពឹងទុក
     filter:

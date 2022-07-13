@@ -4,6 +4,7 @@
   = hidden_field_tag :from_controller, @from_controller
   = hidden_field_tag :custom_name, params[:custom_name] || @custom_assessment_setting.try(:custom_assessment_name)
   = f.hidden_field :case_conference_id
+  = f.hidden_field :custom_assessment_setting_id
   .row.assessment-domains
     .col-xs-12
       #rootwizard.root-wizard{ data: { cancel: t('.cancel'), next: t('.next'), previous: t('.previous'), finish: t('.finish'), save: t('.save'), saving: t('saving'), action: params['action'] } }
@@ -37,7 +38,7 @@
                   = t('.reason')
                 = ad.input :reason, label: false, placeholder: t('.reason_placeholder'), required: !current_setting.disable_required_fields?, input_html: { class: 'reason' }
                 %label= t('.score_label')
-                %a{:role => "button", :tabIndex => "0",  data: { toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.assessments.observation').html_safe}", placement: "right" } }
+                %a{:role => "button", :tabIndex => "0",  data: { toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.assessments.observation').html_safe}" } }
                   = fa_icon "info-circle", class: 'text-info m-xs'
                 - random = [1,2,3,4,5,6,7,8,9,10]
                 - rd = current_setting.random_order? ? random.shuffle : random

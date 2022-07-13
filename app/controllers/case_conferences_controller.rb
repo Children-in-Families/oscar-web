@@ -70,7 +70,10 @@ class CaseConferencesController < AdminController
     params.require(:case_conference).permit(
       :meeting_date, :client_strength, :client_limitation,
       :client_engagement, :local_resource, user_ids: [], attachments: [],
-      case_conference_domains_attributes: [:id, :domain_id, :presenting_problem]
+      case_conference_domains_attributes: [
+        :id, :domain_id, :presenting_problem,
+        case_conference_addressed_issues_attributes: [:id, :title, :case_conference_domain_id, :_destroy]
+      ]
     )
   end
 end

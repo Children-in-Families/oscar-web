@@ -949,6 +949,7 @@ en:
         with_id: With ID
   case_conferences:
     case_conference_attr: &CASE_CONFERENCE_ATTR
+      add: Add
       allow_file_size: Allowed file types
       are_you_sure: Are you sure you want to delete?
       attachments: Attachments
@@ -964,6 +965,7 @@ en:
       client_support: Support and Barriers to client engagement
       created_by: Created By
       initial_case_conference: Initial Case Conference
+      issue_to_be_addressed: Issue to be addressed
       local_resource: Resources/services in local community
       on_date: On Date
       presenting_problem: Presenting problem
@@ -1797,6 +1799,8 @@ en:
       type_of_trafficking: Type of Trafficking
       education_background: Education Background
       department: Ratanak Team
+      add_mosavy_official: Add MoSAVY Official
+      arrival_at: Arrivate Date/Time
       able: Able
       able_state: Able State
       address: Address
@@ -1832,6 +1836,7 @@ en:
       family_book: 'Family Book'
       family_name: Family Name (Latin)
       finish: Finish
+      flight_nb: Flight Number
       followed_up_by_id: First Follow Up by
       follow_up_date: Date of First Follow Up
       follow_up_by: First Follow-Up By
@@ -1888,12 +1893,14 @@ en:
       next: Next
       other_phone_number: Phone Number - Alternate
       other_phone_whatsapp: Whatsapp? (Phone Number - Alternate)
+      pickup_information: Pick up information
       phone_owner: Phone Owner
       po_box2: PO Box
       preferred_language: Preferred Language
       presented_id: Presented ID
       previous: Previous
       province: Birth Province
+      ratanak_achievement_program_staff_client_ids: Ratanak Achievement Program Staff
       rated_for_id_poor: Has ID Poor?
       received_by: Referral Received By
       referee_called_before: Has the referee called the Childsafe Hotline Before?
@@ -1903,10 +1910,14 @@ en:
       referral_source: Referral Source
       reject_note: Note on referral rejection
       relevant_referral_information: Relevant Referral Information
+      remove_mosavy_official: Remove MoSAVY Official
       resident_own_or_rent2: Acc. type
       school_grade: School Grade
       school_name: School Name
       main_school_contact: Main School Contact
+      mosavy_official: MoSAVY Official
+      mosavy_official_name: Name
+      mosavy_official_position: Position
       settlement2: City/Settlement
       shared_service_enabled: Do you want to share client services with external system?
       stage: Stage Question
@@ -2759,6 +2770,8 @@ en:
         current_province: Current Province
         current_province_en: Current Province (English)
         current_province_kh: Current Province (Khmer)
+        custom_assessment: Custom %{assessment}
+        custom_assessment_created_date: Custom %{assessment} Created Date
         date_of_assessments: "%{assessment} Created At"
         date_of_birth: Date of Birth
         date_of_custom_assessments: "Custom %{assessment} Created At"
@@ -3975,6 +3988,12 @@ en:
         other_gender: Other
         unknown: Unknown
         prefer_not_to_say: Prefer not to answer/Non-specified
+      field_type:
+        select_option: Select options
+        free_text: Free text
+      referral_decision:
+        meet_intake_criteria: Client DOES meet intake criteria and will be engaged for intake
+        not_meet_intake_criteria: Client DOES NOT meet intake criteria and has been referred to other services if needed
   errors:
     messages:
       already_confirmed: was already confirmed, please try signing in
@@ -4051,6 +4070,7 @@ en:
         program_stream: Program Stream
         quantitative: Custom Referral Data
         tracking: Tracking
+    family_assessment: Family Assessment
     family_member_fields:
       adult_name: Name of Adult Member
       date_of_birth: Date of Birth
@@ -4771,7 +4791,7 @@ en:
       program_stream_ids: Referred To
       referral_date: Date of Internal Referral
       referral_decision: REFERRAL DECISION (to be approved by case management supervisor)
-      referral_decision_note: "Action/intervention taken:"
+      crisis_management: "Describe any emergency or crisis management/referrals:"
       referral_reason: REASON FOR REFERRAL AND RECOMMNEDATIONS
       referral_reason_note: "The referral source’s reason for referral:"
       user_id: Referred from
@@ -5597,6 +5617,8 @@ en:
       is_multi_select: Multiselection
       is_required: Required
       name: Name
+      hint: Hint
+      field_type: Field type
       quantitative_type: Custom Referral Data
       save: Save
     index:
@@ -6150,6 +6172,7 @@ en:
     update:
       successfully_updated: Survey has been successfully updated.
   tasks:
+    add_task_progress_note: Add progress notes and next steps
     completion_date: Completion Date
     expected_date: Expected Date
     title: Title

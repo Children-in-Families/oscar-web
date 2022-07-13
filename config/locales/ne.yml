@@ -1593,6 +1593,8 @@ en:
       type_of_trafficking: Type of Trafficking
       education_background: Education Background
       department: Ratanak Team
+      add_mosavy_official: Add MoSAVY Official
+      arrival_at: Arrivate Date/Time
       legal_documents: Legal Documentations
       able: Able
       able_state: Able State
@@ -1630,6 +1632,7 @@ en:
       family_book: 'Family Book'
       family_name: Family Name (Latin)
       finish: Finish
+      flight_nb: Flight Number
       followed_up_by_id: First Follow Up by
       follow_up_date: Date of First Follow Up
       follow_up_by: First Follow-Up By
@@ -1690,6 +1693,7 @@ en:
       other_phone_number: Phone Number - Alternate
       other_phone_whatsapp: Whatsapp? (Phone Number - Alternate)
       passport: 'Passport'
+      pickup_information: Pick up information
       phone_owner: Phone Owner
       po_box2: PO Box
       police_interview: 'Police interview'
@@ -1697,6 +1701,7 @@ en:
       presented_id: Presented ID
       previous: Previous
       province: Birth Province
+      ratanak_achievement_program_staff_client_ids: Ratanak Achievement Program Staff
       rated_for_id_poor: Is client rated for ID Poor?
       received_by: Referral Received By
       referral_doc: 'Referral Documents'
@@ -1704,10 +1709,14 @@ en:
       referral_source: Referral Source
       reject_note: Note on referral rejection
       relevant_referral_information: Relevant Referral Information
+      remove_mosavy_official: Remove MoSAVY Official
       resident_own_or_rent2: Acc. type
       school_grade: School Grade
       school_name: School Name
       main_school_contact: Main School Contact
+      mosavy_official: MoSAVY Official
+      mosavy_official_name: Name
+      mosavy_official_position: Position
       settlement2: City/Settlement
       shared_service_enabled: Do you want to share client services with external system?
       stage: Stage Question
@@ -3602,6 +3611,12 @@ en:
         other_gender: Other
         unknown: Unknown
         prefer_not_to_say: Prefer not to answer
+      field_type:
+        select_option: Select options
+        free_text: Free text
+      referral_decision:
+        meet_intake_criteria: Client DOES meet intake criteria and will be engaged for intake
+        not_meet_intake_criteria: Client DOES NOT meet intake criteria and has been referred to other services if needed
   errors:
     messages:
       already_confirmed: was already confirmed, please try signing in

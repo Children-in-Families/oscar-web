@@ -9,7 +9,7 @@ class ClientGrid < BaseGrid
   COUNTRY_LANG = { "cambodia" => "(Khmer)", "thailand" => "(Thai)", "myanmar" => "(Burmese)", "lesotho" => "(Sesotho)", "uganda" => "(Swahili)" }
 
   scope do
-    Client.includes(:assessments)
+    Client
   end
 
   %w(given_name family_name local_given_name local_family_name).each do |field_name|
@@ -182,6 +182,26 @@ class ClientGrid < BaseGrid
   end
 
   filter(:donor_name, :enum, select: :donor_select_options, header: -> { I18n.t('datagrid.columns.clients.donor') })
+
+  filter(:arrival_at, :datetime, header: -> { I18n.t('clients.form.arrival_at')})
+  filter(:flight_nb, :string, header: -> { I18n.t('clients.form.flight_nb')})
+
+  filter(:ratanak_achievement_program_staff_client_ids, :enum, multiple: true, select: :case_worker_options, header: -> { I18n.t('clients.form.ratanak_achievement_program_staff_client_ids') }) do |ids, scope|
+    ids = ids.map{ |id| id.to_i }
+
+    if user_ids ||= User.where(id: ids).ids
+      client_ids = Client.joins(:ratanak_achievement_program_staff_clients).where(users: { id: user_ids }).ids.uniq
+      scope.where(id: client_ids)
+    else
+      scope.joins(:ratanak_achievement_program_staff_clients).where(users: { id: nil })
+    end
+  end
+
+  def mosavy_official_select_options
+    MoSavyOfficial.all.map { |mosavy_official| { mosavy_official.id.to_s => mosavy_official.name } }
+  end
+
+  filter(:mo_savy_officials, :enum, select: :mosavy_official_select_options, header: -> { I18n.t('clients.form.mosavy_official') })
 
   def donor_select_options
     Donor.has_clients.map { |donor| [donor.name, donor.id] }
@@ -952,6 +972,19 @@ class ClientGrid < BaseGrid
     object.donors.pluck(:name).join(', ')
   end
 
+  column(:arrival_at, header: -> { I18n.t('clients.form.arrival_at')}) do |object|
+    object.arrival_at.present? ? object.arrival_at.strftime("%Y-%m-%d %H:%M") : ''
+  end
+
+  column(:flight_nb, order: false, header: -> { I18n.t('clients.form.flight_nb')})
+  column(:ratanak_achievement_program_staff_client_ids, order: false, header: -> { I18n.t('clients.form.ratanak_achievement_program_staff_client_ids')}) do |object|
+    object.ratanak_achievement_program_staff_clients.pluck(:first_name, :last_name).map{ |case_worker| "#{case_worker.first} #{case_worker.last}".squish }.join(', ')
+  end
+
+  column(:mo_savy_officials, order: false, header: -> { I18n.t('clients.form.mosavy_official')}) do |object|
+    object.mo_savy_officials.map{ |mo_savy_official| "#{mo_savy_official.name} #{mo_savy_official.position}".squish }.join(', ')
+  end
+
   column(:family_id, order: false, header: -> { I18n.t('advanced_search.fields.family_id') }) do |object|
     object.family.try(:id)
   end
@@ -972,11 +1005,11 @@ class ClientGrid < BaseGrid
     render partial: 'clients/case_note_type', locals: { object: object }
   end
 
-  column(:date_of_assessments, header: -> { I18n.t('datagrid.columns.clients.date_of_assessments', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
-    render partial: 'clients/assessments', locals: { object: object.assessments.defaults }
+  column(:date_of_assessments, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.date_of_assessments', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
+    render partial: 'clients/assessments', locals: { object: object.assessments.defaults.order(:created_at) }
   end
 
-  column(:completed_date, header: -> { I18n.t('datagrid.columns.clients.assessment_completed_date', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
+  column(:completed_date, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.assessment_completed_date', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
     if $param_rules
       basic_rules = $param_rules['basic_rules']
       basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
@@ -1008,11 +1041,19 @@ class ClientGrid < BaseGrid
     render partial: 'clients/referral', locals: { object: object }
   end
 
-  column(:date_of_custom_assessments, header: -> { I18n.t('datagrid.columns.clients.date_of_custom_assessments', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
-    render partial: 'clients/assessments', locals: { object: object.assessments.customs }
+  column(:custom_assessment_created_date, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.custom_assessment_created_date', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
+    render partial: 'clients/assessments', locals: { object: object.assessments.customs.order(:created_at) }
   end
 
-  column(:custom_completed_date, header: -> { I18n.t('datagrid.columns.clients.assessment_custom_completed_date', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
+  column(:custom_assessment, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.custom_assessment', assessment: I18n.t('clients.show.assessment')) }) do |object|
+    custom_assessment_names = object.assessments.customs.joins(domains: :custom_assessment_setting).order(:created_at).distinct.pluck('custom_assessment_settings.custom_assessment_name', 'assessments.created_at')
+    custom_assessment_names = custom_assessment_names.map{|custom_assessment_name, assessment_date| "#{custom_assessment_name} (#{assessment_date.strftime("%d %B %Y")})"  }
+    format(custom_assessment_names.join(', ')) do |values|
+      unorderred_list(values.split(', '))
+    end
+  end
+
+  column(:custom_completed_date, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.assessment_custom_completed_date', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
     if $param_rules
       basic_rules = $param_rules['basic_rules']
       basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
@@ -1088,7 +1129,7 @@ class ClientGrid < BaseGrid
 
   dynamic do
     if enable_default_assessment?
-      column(:all_csi_assessments, header: -> { I18n.t('datagrid.columns.clients.all_csi_assessments', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
+      column(:all_csi_assessments, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.all_csi_assessments', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
         render partial: 'clients/all_csi_assessments', locals: { object: object.assessments.defaults }
       end
       Domain.csi_domains.order_by_identity.each do |domain|
@@ -1096,21 +1137,21 @@ class ClientGrid < BaseGrid
         identity = domain.identity
         column(domain.convert_identity.to_sym, class: 'domain-scores', header: identity, html: true) do |client|
           assessments = map_assessment_and_score(client, identity, domain_id)
-          assessment_domains = assessments.includes(:assessment_domains).map { |assessment| assessment.assessment_domains.joins(:domain).where(domains: { identity: identity }) }.flatten.uniq
+          assessment_domains = assessments.map { |assessment| assessment.assessment_domains.joins(:domain).where(domains: { identity: identity }) }.flatten.uniq
           render  partial: 'clients/list_domain_score', locals: { assessment_domains: assessment_domains }
         end
       end
     end
 
     if enable_custom_assessment?
-      column(:all_custom_csi_assessments, header: -> { I18n.t('datagrid.columns.clients.all_custom_csi_assessments') }, html: true) do |object|
+      column(:all_custom_csi_assessments, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.all_custom_csi_assessments') }, html: true) do |object|
         render partial: 'clients/all_csi_assessments', locals: { object: object.assessments.customs }
       end
       Domain.custom_csi_domains.order_by_identity.each do |domain|
         identity = domain.identity
         column("custom_#{domain.convert_identity}".to_sym, class: 'domain-scores', header: identity, html: true) do |client|
           assessments = map_assessment_and_score(client, identity, domain.id)
-          assessment_domains = assessments.customs.includes(:assessment_domains).map { |assessment| assessment.assessment_domains.joins(:domain).where(domains: { identity: identity }) }.flatten.uniq
+          assessment_domains = assessments.customs.map { |assessment| assessment.assessment_domains.joins(:domain).where(domains: { identity: identity }) }.flatten.uniq
           render  partial: 'clients/list_domain_score', locals: { assessment_domains: assessment_domains }
         end
       end
@@ -1127,9 +1168,9 @@ class ClientGrid < BaseGrid
         if fields.first == 'formbuilder'
           if data == 'recent'
             if fields.last == 'Has This Form'
-              properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).count
+              properties = object.custom_field_properties.cached_client_custom_field_properties_count(fields.second)
             else
-              properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).order(created_at: :desc).first.try(:properties)
+              properties = object.custom_field_properties.cached_client_custom_field_properties_order(fields.second)
               properties = properties[format_field_value] if properties.present?
             end
           else
@@ -1137,14 +1178,14 @@ class ClientGrid < BaseGrid
               properties = [custom_form_with_has_form(object, fields).count]
             else
               if $param_rules
-                custom_field_id = object.custom_fields.find_by(form_title: fields.second)&.id
+                custom_field_id = object.custom_fields.cached_client_custom_field_find_by(fields.second)
                 basic_rules  = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
                 basic_rules  = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
                 results      = mapping_form_builder_param_value(basic_rules, 'formbuilder')
                 query_string = get_query_string(results, 'formbuilder', 'custom_field_properties.properties')
                 sql          = query_string.reverse.reject(&:blank?).map{|sql| "(#{sql})" }.join(" AND ")
 
-                properties = object.custom_field_properties.where(custom_field_id: custom_field_id).where(sql).properties_by(format_field_value)
+                properties = object.custom_field_properties.cached_client_custom_field_properties_properties_by(custom_field_id, sql, format_field_value)
                 properties = properties.blank? ? custom_form_with_has_form(object, fields).properties_by(format_field_value) : properties
               else
                 properties = form_builder_query(object.custom_field_properties, fields.second, column_builder[:id].gsub('&qoute;', '"'), 'custom_field_properties.properties').properties_by(format_field_value)
@@ -1153,32 +1194,32 @@ class ClientGrid < BaseGrid
           end
         elsif fields.first == 'enrollmentdate'
           if data == 'recent'
-            properties = date_format(object.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }).order(enrollment_date: :desc).first.try(:enrollment_date))
+            properties = date_format(object.client_enrollments.cached_client_order_enrollment_date(fields.second))
           else
-            properties = date_filter(object.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }), fields.join('__')).map{|date| date_format(date.enrollment_date) }
+            properties = date_filter(object.client_enrollments.cached_client_enrollment_date_join(fields.second), fields.join('__')).map{|date| date_format(date.enrollment_date) }
           end
         elsif fields.first == 'enrollment'
           if data == 'recent'
-            properties = object.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }).order(enrollment_date: :desc).first.try(:properties)
+            properties = object.client_enrollments.cached_client_order_enrollment_date_properties(fields.second)
             properties = properties[format_field_value] if properties.present?
           else
-            properties = object.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }).properties_by(format_field_value)
+            properties = object.client_enrollments.cached_client_enrollment_date_join(fields.second).properties_by(format_field_value)
           end
         elsif fields.first == 'tracking'
           ids = object.client_enrollments.ids
           if data == 'recent'
-            properties = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids }).order(created_at: :desc).first.try(:properties)
+            properties = ClientEnrollmentTracking.cached_tracking_order_created_at(fields.third, ids)
             properties = properties[format_field_value] if properties.present?
           else
-            client_enrollment_trackings = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids })
+            client_enrollment_trackings = ClientEnrollmentTracking.cached_client_enrollment_tracking(fields.third, ids)
             properties = form_builder_query(client_enrollment_trackings, fields.first, column_builder[:id].gsub('&qoute;', '"')).properties_by(format_field_value, client_enrollment_trackings)
           end
         elsif fields.first == 'exitprogramdate'
           ids = object.client_enrollments.inactive.ids
           if data == 'recent'
-            properties = date_format(LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }).order(exit_date: :desc).first.try(:exit_date))
+            properties = date_format(LeaveProgram.cached_program_exit_date(fields.second, ids))
           else
-            properties = date_filter(LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }), fields.join('__')).map{|date| date_format(date.exit_date) }
+            properties = date_filter(LeaveProgram.cached_program_stream_leave(fields.second, ids), fields.join('__')).map{|date| date_format(date.exit_date) }
           end
         elsif fields.first == 'exitprogram'
           ids = object.client_enrollments.inactive.ids

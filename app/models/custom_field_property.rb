@@ -68,7 +68,17 @@ class CustomFieldProperty < ActiveRecord::Base
   private
 
   def create_client_history
-    ClientHistory.initial(custom_formable)
+    # ClientHistory.initial(custom_formable)
+  end
+
+  def flush_cache
+    Rails.cache.delete([Apartment::Tenant.current, 'CustomFieldProperty', 'cached_custom_formable_type'])
+    cached_client_custom_field_properties_count_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_custom_field_properties_count/].blank? }
+    cached_client_custom_field_properties_count_keys.each { |key| Rails.cache.delete(key) }
+    cached_client_custom_field_properties_order_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_custom_field_properties_order/].blank? }
+    cached_client_custom_field_properties_order_keys.each { |key| Rails.cache.delete(key) }
+    cached_client_custom_field_properties_properties_by_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_custom_field_properties_properties_by/].blank? }
+    cached_client_custom_field_properties_properties_by_keys.each { |key| Rails.cache.delete(key) }
   end
 
   def flush_cache

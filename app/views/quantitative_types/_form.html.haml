@@ -10,19 +10,21 @@
           = error_notification(f)
           .form-inputs
             = f.input :name, label: t('.name')
+            = f.input :hint, label: t('.hint')
+            = f.input :field_type, label: t('.field_type')
             = f.input :visible_on, required: true, selected: f.object.visible_on.presence || ['client'], collection: QuantitativeType::VISIBLE_ON.map{ |option| [option.titleize, option] }, include_hidden: false, input_html: { class: 'select2', multiple: true }
             .input-group.col-md-12
               .col-md-6
                 .i-checks
                   %label= t('.is_required')
                   = f.input :is_required, as: :boolean, label: false, type: 'checkbox', checked: f.object.is_required, class: 'form-input'
-              .col-md-6
+              .col-md-6.quantitative_type_multiple-wrapper
                 .i-checks
                   %label= t('.is_multi_select')
                   = f.input :multiple, as: :boolean, label: false, type: 'checkbox', checked: f.object.is_required, class: 'form-input'
             = f.simple_fields_for :quantitative_cases do |quantitative_case|
               = render 'quantitative_case_fields', f: quantitative_case
-          .links
+          .links.add-quantitative-data-links
             = link_to_add_association t('.add_quantitative_data'), f, :quantitative_cases, class: 'btn btn-info add-more'
         .modal-footer
           .pull-left

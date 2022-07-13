@@ -2,14 +2,19 @@
   %strong= t('.custom_csi_domain_scores')
 %li
   .visibility.col-sm-12
-    = check_box_tag 'date_of_custom_assessments_', 'date_of_custom_assessments', checked = saved_search_column_visibility('date_of_custom_assessments_'), class: 'i-checks'
-    = label_tag 'date_of_custom_assessments_', t('datagrid.columns.date_of_custom_assessments', assessment: t('clients.show.assessment'))
+    = check_box_tag 'all_custom_csi_assessments_', 'all_custom_csi_assessments', checked = saved_search_column_visibility('all_custom_csi_assessments_'), class: 'i-checks'
+    = label_tag 'all_custom_csi_assessments_', t('datagrid.columns.clients.all_custom_csi_assessments', assessment: t('clients.show.assessment'))
+%li
+  .visibility.col-sm-12
+    = check_box_tag 'custom_assessment_', 'custom_assessment', checked = saved_search_column_visibility('custom_assessment_'), class: 'i-checks'
+    = label_tag 'custom_assessment_', t('datagrid.columns.clients.custom_assessment', assessment: t('clients.show.assessment'))
+%li
+  .visibility.col-sm-12
+    = check_box_tag 'custom_assessment_created_date_', 'custom_assessment_created_date', checked = saved_search_column_visibility('custom_assessment_created_date_'), class: 'i-checks'
+    = label_tag 'custom_assessment_created_date_', t('datagrid.columns.clients.custom_assessment_created_date', assessment: t('clients.show.assessment'))
 %li
   .visibility.col-sm-12
     = check_box_tag 'custom_completed_date_', 'completed_date', checked = saved_search_column_visibility('custom_completed_date_'), class: 'i-checks'
-    = label_tag 'custom_completed_date_', t('datagrid.columns.assessment_custom_completed_date', assessment: t('clients.show.assessment'))
-%li
-  .visibility.col-sm-12
-    = check_box_tag 'all_custom_csi_assessments_', 'all_custom_csi_assessments', checked = saved_search_column_visibility('all_custom_csi_assessments_'), class: 'i-checks'
-    = label_tag 'all_custom_csi_assessments_', t('datagrid.columns.all_custom_csi_assessments', assessment: t('clients.show.assessment'))
+    = label_tag 'custom_completed_date_', t('datagrid.columns.clients.assessment_custom_completed_date', assessment: t('clients.show.assessment'))
+
 = render partial: 'datagrid/domain_score_columns_picker', collection: custom_domains, as: :domain
