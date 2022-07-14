@@ -2460,6 +2460,7 @@ my:
     update:
       successfully_updated: ေနရာပိုင္ဆုိင္မႈ သတ္မွတ္ပံုစံကို ေအာင္ျမင္စြာ အသစ္ထည့္သြင္းၿပီးပါၿပီ
   dashboards:
+    active_program_streams: လုပ္ေဆာင္မႈရွိေသးေသာ အစီအစဥ္ စီးဆင္းမႈမ်ား
     active_tasks:
       all_active_tasks: အသက္၀င္ေသးေသာ လုပ္ငန္းမ်ားအားလံုး
       checkbox_alert: ခြစ်ကွက်များကိုတဦးတည်းစစ်ဆေးပါ
@@ -2502,7 +2503,6 @@ my:
       searching: Searching
     client_program_stream_by_gender:
       active_progarm_streams_by_gender: အမႈသည္၏ က်ား/မ အလိုက္ လုပ္ေဆာင္မႈရွိေသးေသာ အစီအစဥ္ စီးဆင္းမႈမ်ား
-      active_program_streams: လုပ္ေဆာင္မႈရွိေသးေသာ အစီအစဥ္ စီးဆင္းမႈမ်ား
       client_active_in_programs: လုပ္ေဆာင္မႈရွိေသးေသာ အစီအစဥ္ စီးဆင္းမႈမ်ား
     client_tab:
       action: လုပ္ေဆာင္မႈ
@@ -2526,6 +2526,7 @@ my:
       families: မိသားစုမ်ား
       foster: ေမြးစားျခင္း
       kinship: ေဆြမ်ိဳး
+    family_active_in_programs: Family in Active Program Stream
     family_tab:
       action: လုပ္ေဆာင္မႈ
       family_form: Family Form
@@ -2533,6 +2534,11 @@ my:
       previous: ေရွ႕တစ္ခု
     go_to_client:
       go_to_client: Go to Client
+    index:
+      client_dashboard: Client Dashboard
+      community_dashboard: Community Dashboard
+      family_dashboard: Family Dashboard
+      hotline_dashboard: Hotline Dashboard
     multiple_forms:
       add_new_document: Add New Document
       assessment: ရက်လွန်အကဲဖြတ်

@@ -652,34 +652,6 @@ module ClientsHelper
     end
   end
 
-  def family_program_stream_name(object, rule)
-    properties_field = 'enrollment_trackings.properties'
-    basic_rules  = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
-    return object if basic_rules.nil?
-    basic_rules  = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
-    results      = mapping_form_builder_param_value(basic_rules, rule)
-    query_string  = get_query_string(results, rule, properties_field)
-    default_value_param = params['all_values']
-    if default_value_param
-      object
-    elsif rule == 'tracking'
-      properties_result = object.joins(:enrollment_trackings).where(query_string.reject(&:blank?).join(" #{basic_rules[:condition]} ")).distinct
-    elsif rule == 'active_program_stream'
-      mew_query_string = query_string.reject(&:blank?).join(" #{basic_rules[:condition]} ")
-      program_stream_ids = mew_query_string&.scan(/program_streams\.id = (\d+)/)&.flatten || []
-      if program_stream_ids.size >= 2
-        sql_partial = mew_query_string.gsub(/program_streams\.id = \d+/, "program_streams.id IN (#{program_stream_ids.join(", ")})")
-        # properties_result = object.includes(programmable: :program_streams).where(sql_partial).references(:program_streams).distinct
-        properties_result = object.includes(programmable: :program_streams).where(sql_partial)
-      else
-        # properties_result = object.includes(programmable: :program_streams).where(query_string.reject(&:blank?).join(" #{basic_rules[:condition]} ")).references(:program_streams).distinct
-        properties_result = object.includes(programmable: :program_streams).where(query_string.reject(&:blank?).join(" #{basic_rules[:condition]} "))
-      end
-    else
-      object
-    end
-  end
-
   def mapping_sub_query_array(object, association, rule)
     sub_query_array = []
     if @data[:rules]

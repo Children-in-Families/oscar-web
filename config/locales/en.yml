@@ -2373,6 +2373,7 @@ en:
     update:
       successfully_updated: Custom Field Properties has been successfully updated.
   dashboards:
+    active_program_streams: Active Program Streams
     active_tasks:
       all_active_tasks: All Active Tasks
       checkbox_alert: Please check one or more answers
@@ -2407,7 +2408,6 @@ en:
       searching: Searching
     client_program_stream_by_gender:
       active_progarm_streams_by_gender: Active Program Streams by client gender
-      active_program_streams: Active Program Streams
       client_active_in_programs: Clients in Active Program Streams
     client_tab:
       action: Action
@@ -2437,6 +2437,7 @@ en:
       tasks: Tasks
     family:
       families: Active Families
+    family_active_in_programs: Family in Active Program Stream
     family_tab:
       action: Action
       family_form: Family Form
