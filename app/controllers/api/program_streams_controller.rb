@@ -71,6 +71,26 @@ module Api
       render json: EnrollmentDatatable.new(view_context), root: :data
     end
 
+    def generate_family_program_stream
+      program_streams = ProgramStream.joins(:families).group("program_streams.id, enrollments.status").select("program_streams.id, program_streams.name, COUNT(DISTINCT(enrollments.*)) AS family_enrollment_count").having("enrollments.status = 'Active'")
+      data = program_streams.map do |p|
+        url = { 'condition': 'AND', 'rules': [{ 'id': 'active_program_stream', 'field': 'active_program_stream', 'type': 'string', 'input': 'select', 'operator': 'equal', 'value': p.id }]}
+        {
+          name: p.name,
+          y: p.family_enrollment_count,
+          url: families_path(
+            'family_advanced_search': {
+              action_report_builder: '#builder',
+              basic_rules: url.to_json
+            },
+            commit: 'commit'
+          )
+        }
+      end
+
+      render json: { program_stream_count: program_streams.size, data: data }, root: :data
+    end
+
     private
 
       def find_program_stream

@@ -30,6 +30,8 @@ CIF.DashboardsIndex = do ->
     _handleMultiFormAssessmentCaseNote()
     _loadSteps()
     _search_client_date_logic_error()
+    _familyInActiveProgramStream()
+
 
   _loadModalReminder = ->
     if localStorage.getItem('from login') == 'true'
@@ -506,5 +508,27 @@ CIF.DashboardsIndex = do ->
         data: data
       } ]
     $('.highcharts-credits').css('display', 'none')
+
+  _familyInActiveProgramStream = () ->
+    $(document).on 'shown.bs.tab', 'a[aria-controls="family-tab"]', (e) ->
+      url = '/api/program_streams/generate_family_program_stream'
+      $.ajax
+        type: 'GET'
+        url: url
+        data: $(this).serialize()
+        dataType: 'JSON'
+        success: (json) ->
+          element = $('#family-program-stream')
+          data    = json.data
+          title    = $(element).data('title')
+
+          $('#family-active-program-stream h2.font-bold').html(json.program_stream_count)
+          report = new CIF.ReportCreator(data, title, '', element)
+          report.pieChart(option: true)
+          return
+        error: (response, status, msg) ->
+          console.log(msg)
+          return
+      return
 
   { init: _init }

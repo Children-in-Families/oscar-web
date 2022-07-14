@@ -2332,6 +2332,7 @@ km:
     update:
       successfully_updated: ទម្រង់បែបបទត្រូវបានកែសម្រួលដោយជោគជ័យ
   dashboards:
+    active_program_streams: កម្មវិធីចម្បងបច្ចុប្បន្ន
     active_tasks:
       all_active_tasks: កាតព្វកិច្ចដែលមិនទាន់ធ្វើ
       checkbox_alert: សូមជ្រើសជំរើសមួយឬច្រើន
@@ -2366,7 +2367,6 @@ km:
       searching: កំពុងស្វែងរក
     client_program_stream_by_gender:
       active_progarm_streams_by_gender: បំណែងចែកចំនួនអតិថិជនតាមភេទក្នុងកម្មវិធី
-      active_program_streams: កម្មវិធីចម្បងបច្ចុប្បន្ន
       client_active_in_programs: ចំនួនអតិថិជនក្មុងកម្មវិធី
     client_tab:
       action: សកម្មភាព
@@ -2398,6 +2398,7 @@ km:
       families: គ្រួសារបច្ចុប្បន្ន
       foster: Foster
       kinship: Kinship
+    family_active_in_programs: បំណែងចែកចំនួនគ្រួសារក្នុងកម្មវិធី
     family_tab:
       action: សកម្មភាព
       family_form: ទម្រង់គ្រួសារ
@@ -2408,7 +2409,7 @@ km:
     index:
       client_dashboard: តារាងទិន្នន័យអតិថិជន
       community_dashboard: Community Dashboard
-      family_dashboard: Family Dashboard
+      family_dashboard: តារាងទិន្នន័យគ្រួសារ
       hotline_dashboard: Hotline Dashboard
     multiple_forms:
       add_new_document: បន្ថែមឯកសារថ្មី

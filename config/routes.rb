@@ -323,6 +323,7 @@ Rails.application.routes.draw do
       end
       collection do
         get :list_program_enrollments
+        get :generate_family_program_stream
       end
     end
 
