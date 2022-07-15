@@ -460,6 +460,7 @@ my:
       address_type: Client Address Type
       client_email_address: Client Email Address
       code: Custom ID Number1
+      common_searches: Common Searches
       commune: ရပ္ကြက္/ ေက်းရြာအုပ္စု
       completed: ၿပီး
       created_at: ရက္စြဲကို ဖန္တီးရန္
