@@ -1164,7 +1164,7 @@ module AdvancedSearches
       when 'not_equal'
         client_ids = clients.where('date(enter_ngos.accepted_date) != ?', @value.to_date ).distinct.ids
       when 'between'
-        client_ids = clients.where("date(enter_ngos.accepted_date) BETWEEN ? AND ? OR status = ?", @value[0], @value[1], 'Active').distinct.ids
+        client_ids = clients.where("date(enter_ngos.accepted_date) BETWEEN ? AND ?", @value[0], @value[1]).distinct.ids
       when 'less'
         client_ids = clients.where('date(enter_ngos.accepted_date) < ?', @value.to_date ).distinct.ids
       when 'less_or_equal'
@@ -1183,7 +1183,7 @@ module AdvancedSearches
 
     def get_rejected_clients
       client_ids = []
-      clients = @clients.joins(:exit_ngos).where(:exit_ngos => {:exit_circumstance => 'Exited Client'}).distinct
+      clients = @clients.joins(:exit_ngos).where(:exit_ngos => {:exit_circumstance => 'Rejected Referral'}).distinct
 
       case @operator
       when 'equal'

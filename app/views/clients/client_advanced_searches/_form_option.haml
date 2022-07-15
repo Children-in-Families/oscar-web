@@ -58,7 +58,7 @@
         .row.assessment-form
           .col-xs-12
             .form-group#assessment-form-data{ data: { value: assessment_values } }
-              = select_tag(:nil, options_for_select(@assessments.map{|assessment| [assessment[1], assessment[0]] }, assessment_values), { multiple: true, id: 'assessment-select', class: 'form-control assessment-select' } )
+              = select_tag(:nil, options_for_select(@assessments.map{|assessment| [assessment[1], assessment[0]] }, assessment_values), { multiple: false, id: 'assessment-select', class: 'form-control assessment-select' } )
 
     - if current_setting.try(:enable_hotline) == true
       .col-xs-12.col-md-3
