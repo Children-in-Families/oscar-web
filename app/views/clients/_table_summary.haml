@@ -17,8 +17,8 @@
               %a{"data-toggle": "tab", href: "#table-summary-referral-category-tab", role: "tab"}
                 = t('.referral_category_tabs')
           .tab-content
-            = render 'table_summary_age_tab'
-            = render 'table_summary_referral_category_tab'
+            = render 'clients/table_summary_age_tab'
+            = render 'clients/table_summary_referral_category_tab'
 
       .modal-footer
         %button.btn.btn-default.form-btn.editable-cancel{"data-dismiss" => "modal", :type => "button"}= t('.close')

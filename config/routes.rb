@@ -104,14 +104,12 @@ Rails.application.routes.draw do
 
   get 'referrals/:id' => 'referrals#show', as: 'referral'
 
+  post 'clients/advanced_search', to: 'client_advanced_searches#index'
+  get 'clients/advanced_search', to: 'client_advanced_searches#index'
+
   resources :clients do
     resources :referrals
     resources :internal_referrals
-    collection do
-      post '/advanced_search', to: 'clients#index'
-      get :advanced_search
-    end
-
     scope module: 'client' do
       resources :exit_ngos, only: [:create, :update, :destroy]
       resources :enter_ngos, only: [:create, :update]

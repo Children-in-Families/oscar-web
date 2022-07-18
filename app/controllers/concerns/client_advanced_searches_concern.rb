@@ -16,24 +16,31 @@ module ClientAdvancedSearchesConcern
     custom_form_column
     program_stream_column
 
-    respond_to do |f|
-      f.html do
-        begin
-          @csi_statistics         = CsiStatistic.new(@client_grid.scope.where(id: @clients_by_user.ids).accessible_by(current_ability)).assessment_domain_score.to_json
-          @enrollments_statistics = ActiveEnrollmentStatistic.new(@client_grid.scope.where(id: @clients_by_user.ids).accessible_by(current_ability)).statistic_data.to_json
-          clients                 = @client_grid.scope { |scope| scope.where(id: @clients_by_user.ids).accessible_by(current_ability) }.assets
-          @results                = clients
-          @client_grid = @client_grid.scope { |scope| scope.where(id: @clients_by_user.ids).accessible_by(current_ability).page(params[:page]).per(20) }
-        rescue NoMethodError
-          redirect_to clients_path
+    if !params.has_key?(:xls)
+      @csi_statistics         = CsiStatistic.new(@client_grid.scope.where(id: @clients_by_user.ids).accessible_by(current_ability)).assessment_domain_score.to_json
+      @enrollments_statistics = ActiveEnrollmentStatistic.new(@client_grid.scope.where(id: @clients_by_user.ids).accessible_by(current_ability)).statistic_data.to_json
+      clients                 = @client_grid.scope { |scope| scope.where(id: @clients_by_user.ids).accessible_by(current_ability) }.assets
+      @results                = clients
+      @client_grid = @client_grid.scope { |scope| scope.where(id: @clients_by_user.ids).accessible_by(current_ability).page(params[:page]).per(20) }
+      render 'client_advanced_searches/index', locals: { results: @results, client_grid: @client_grid }
+    else
+      respond_to do |f|
+        f.xls do
+          @client_grid.scope { |scope| scope.where(id: @clients_by_user.ids).accessible_by(current_ability) }
+          export_client_reports
+          send_data @client_grid.to_xls, filename: "client_report-#{Time.now}.xls"
         end
       end
-      f.xls do
-        @client_grid.scope { |scope| scope.where(id: @clients_by_user.ids).accessible_by(current_ability) }
-        export_client_reports
-        send_data @client_grid.to_xls, filename: "client_report-#{Time.now}.xls"
-      end
     end
+  end
+
+  def assign_active_client_prams
+    return if params[:active_client].blank?
+
+    params[:client_advanced_search] = {
+      action_report_builder: '#builder',
+      basic_rules: "{\"condition\":\"AND\",\"rules\":[{\"id\":\"status\",\"field\":\"Status\",\"type\":\"string\",\"input\":\"select\",\"operator\":\"equal\",\"value\":\"Active\",\"data\":{\"values\":[{\"Accepted\":\"Accepted\"},{\"Active\":\"Active\"},{\"Exited\":\"Exited\"},{\"Referred\":\"Referred\"}],\"isAssociation\":false}}],\"valid\":true}"
+    }
   end
 
   def format_search_params
