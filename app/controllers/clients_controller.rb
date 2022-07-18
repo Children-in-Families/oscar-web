@@ -6,48 +6,39 @@ class ClientsController < AdminController
   include CacheHelper
 
   before_action :assign_active_client_prams, only: :index
-  before_action :format_search_params, only: [:index]
-  before_action :get_quantitative_fields, :get_hotline_fields, :hotline_call_column, only: [:index]
-  before_action :find_params_advanced_search, :get_custom_form, :get_program_streams, only: [:index]
-  before_action :get_custom_form_fields, :program_stream_fields, :custom_form_fields, :client_builder_fields, only: [:index]
+  # before_action :format_search_params, only: [:index]
+  # before_action :get_quantitative_fields, :get_hotline_fields, :hotline_call_column, only: [:index]
+  # before_action :find_params_advanced_search, :get_custom_form, :get_program_streams, only: [:index]
+  # before_action :get_custom_form_fields, :program_stream_fields, :custom_form_fields, :client_builder_fields, only: [:index]
   before_action :basic_params, if: :has_params?, only: [:index]
-  before_action :build_advanced_search, only: [:index]
-  before_action :fetch_advanced_search_queries, only: [:index]
+  # before_action :build_advanced_search, only: [:index]
+  # before_action :fetch_advanced_search_queries, only: [:index]
 
   before_action :find_client, only: [:show, :edit, :update, :destroy]
   before_action :assign_client_attributes, only: [:show, :edit]
   before_action :set_association, except: [:index, :destroy, :version]
-  before_action :choose_grid, only: [:index]
   before_action :quantitative_type_editable, only: [:edit, :update, :new, :create]
   before_action :quantitative_type_readable
   before_action :validate_referral, only: [:new, :edit]
 
   def index
     @client_default_columns = Setting.cache_first.try(:client_default_columns)
-    if params[:advanced_search_id]
-      current_advanced_search = AdvancedSearch.find(params[:advanced_search_id])
-      @visible_fields = current_advanced_search.field_visible
-    end
-    if has_params? || params[:advanced_search_id].present? || params[:client_advanced_search].present?
-      advanced_search
+    columns_visibility
+    data = params[:data].presence
+    if params.dig(:client_grid, :quantitative_types).present?
+      quantitative_types = params[:client_grid][:quantitative_types]
+      @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(current_user: current_user, qType: quantitative_types, dynamic_columns: column_form_builder, param_data: data))
     else
-      columns_visibility
-      respond_to do |f|
-        f.html do
-          next unless params['commit'].present?
-          # @client_grid is invoked from ClientGridOptions#choose_grid
-          client_grid             = @client_grid.scope { |scope| scope.accessible_by(current_ability) }
-          @results                = client_grid.assets
-          $client_data            = @clients
-          @client_grid            = @client_grid.scope { |scope| scope.accessible_by(current_ability).order(:id).page(params[:page]).per(20) }
-        end
-        f.xls do
-          next unless params['commit'].present?
-          @client_grid.scope { |scope| scope.accessible_by(current_ability) }
-          export_client_reports
-          send_data @client_grid.to_xls, filename: "client_report-#{Time.now}.xls"
-        end
-      end
+      @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(current_user: current_user, dynamic_columns: column_form_builder, param_data: data))
+    end
+    if params['commit'].blank?
+    # @client_grid is invoked from ClientGridOptions#choose_grid
+      render 'clients/index', locals: { client_grid: @client_grid }
+    else
+      client_grid             = @client_grid.scope { |scope| scope.accessible_by(current_ability) }
+      @results                = client_grid.assets
+      @client_grid            = @client_grid.scope { |scope| scope.accessible_by(current_ability).order(:id).page(params[:page]).per(20) }
+      render 'clients/index', locals: { results: @results, client_grid: @client_grid }
     end
   end
 
@@ -405,12 +396,4 @@ class ClientsController < AdminController
     Client.where(id: client_ids, status: 'Exited').ids
   end
 
-  def assign_active_client_prams
-    return if params[:active_client].blank?
-
-    params[:client_advanced_search] = {
-      action_report_builder: '#builder',
-      basic_rules: "{\"condition\":\"AND\",\"rules\":[{\"id\":\"status\",\"field\":\"Status\",\"type\":\"string\",\"input\":\"select\",\"operator\":\"equal\",\"value\":\"Active\",\"data\":{\"values\":[{\"Accepted\":\"Accepted\"},{\"Active\":\"Active\"},{\"Exited\":\"Exited\"},{\"Referred\":\"Referred\"}],\"isAssociation\":false}}],\"valid\":true}"
-    }
-  end
 end

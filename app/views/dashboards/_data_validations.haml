@@ -11,7 +11,7 @@
                 = t('.data_validation')
         .row
           .col-xs-12
-            = simple_form_for Client.new, url: advanced_search_clients_path, method: :post, html: { class: 'hidden', id: 'client-date-logic-error' }  do |f|
+            = simple_form_for Client.new, url: clients_advanced_search_path, method: :post, html: { class: 'hidden', id: 'client-date-logic-error' }  do |f|
               = hidden_field_tag :client_ids, @date_validation_error[:ids]
               = hidden_field_tag 'commit', 'commit'
               = f.submit

@@ -29,7 +29,7 @@
         #search-action{ data: { action: params.dig(:builder) || params.dig(:client_advanced_search, :action_report_builder)} }
 
       .ibox-footer
-        = simple_form_for :client_advanced_search, url: advanced_search_clients_path(commit: 'commit'), method: 'POST', html: { id: 'advanced-search' } do |f|
+        = simple_form_for :client_advanced_search, url: clients_advanced_search_path(commit: 'commit'), method: 'POST', html: { id: 'advanced-search' } do |f|
           = f.hidden_field :custom_form_selected
           = f.hidden_field :program_selected
           = f.hidden_field :enrollment_check
