@@ -92,7 +92,7 @@ CIF.DashboardsIndex = do ->
     element = $('#family-type')
     data    = $(element).data('content-count')
     report = new CIF.ReportCreator(data, '', '', element)
-    report.pieChart()
+    report.pieChart(option: true)
 
   _clientProgramStreamByGender = ->
     element = $('#client-program-stream')

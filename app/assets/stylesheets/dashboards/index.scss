@@ -204,9 +204,14 @@ body[id="dashboards-index"] {
     }
   }
 
-  #family-program-stream {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  #family-tab {
+
+    #family-program-stream {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   }
+
 }

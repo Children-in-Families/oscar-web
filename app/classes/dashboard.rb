@@ -33,8 +33,8 @@ class Dashboard
   def family_type_statistic
     arr = []
     arr << { name: 'Long Term Foster Care', y: foster_count, url: families_path('family_grid[family_type]': 'Long Term Foster Care', 'family_grid[status]': 'Active') } if foster_count > 0
-    arr << { name: 'Extended Family / Kinship Care', y: kinship_count, url: families_path('family_grid[family_type]': 'Extended Family / Kinship Care', 'family_grid[status]': 'Active') } if kinship_count > 0
-    arr << { name: 'Short Term / Emergency Foster Care', y: emergency_count, url: families_path('family_grid[family_type]': 'Short Term / Emergency Foster Care', 'family_grid[status]': 'Active') } if emergency_count > 0
+    arr << { name: "Extended Family / Kinship Care", y: kinship_count, url: families_path('family_grid[family_type]': "Extended Family / Kinship Care", 'family_grid[status]': 'Active') } if kinship_count > 0
+    arr << { name: "Short Term / Emergency Foster Care", y: emergency_count, url: families_path('family_grid[family_type]': "Short Term / Emergency Foster Care", 'family_grid[status]': 'Active') } if emergency_count > 0
     arr << { name: 'Birth Family (Both Parents)', y: birth_family_both_parents_count, url: families_path('family_grid[family_type]': 'Birth Family (Both Parents)', 'family_grid[status]': 'Active') } if birth_family_both_parents_count > 0
     arr << { name: 'Birth Family (Only Mother)', y: birth_family_only_mother_count, url: families_path('family_grid[family_type]': 'Birth Family (Only Mother)', 'family_grid[status]': 'Active') } if birth_family_only_mother_count > 0
     arr << { name: 'Birth Family (Only Father)', y: birth_family_only_father_count, url: families_path('family_grid[family_type]': 'Birth Family (Only Father)', 'family_grid[status]': 'Active') } if birth_family_only_father_count > 0
