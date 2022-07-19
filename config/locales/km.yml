@@ -1066,6 +1066,7 @@ km:
       note: កំណត់ត្រា
       please_add_custom_domains: អ្នកគួរតែបង្កើតកត្តាផ្ទាល់ខ្លួនមួយចំនួនមុននឹងអ្នកអាចធ្វើប្រតិបត្តិការនេះ
       present: វត្តមានឣ្នកចូលរួម
+      task: កាតព្វកិច្ច
       type: 'ប្រភេទកណត់ត្រាករណី'
       you_need_to_create_assessment: អ្នកត្រូវបង្កើតការប៉ាន់ប្រមាណជាមុនសិន
     show:
@@ -5804,11 +5805,16 @@ km:
       uganda:
         custom_id1_local: Custom ID1 (Swahili)
         custom_id2_local: Custom ID2 (Swahili)
+    customize_case_note:
+      case_note_tools: Case Note Tools
     default_columns:
       client_default_columns: អតិថិជន
       default_columns: ជួរឈរលំនាំដើម
       family_default_columns: គ្រួសារ
       partner_default_columns: ដៃគូ
+    display_task_date_field:
+      case_note_tasks: Case Note Tasks
+      disabled_task_date_field: Disiable Task's Date Field
     family_case_management:
       family_case_management: ការគ្រប់គ្រងករណីគ្រួសារ
       hide_family_case_management_tool: បិទព័ត៌មានរដ្ឋបាល និងឧបករណ៍គ្រប់គ្រងករណី

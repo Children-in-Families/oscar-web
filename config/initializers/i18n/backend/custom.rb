@@ -55,7 +55,7 @@ module I18n::Backend::Custom
             # pp '=========================='
             # pp data[k]
             # pp '=========================='
-            data[k] = field_setting.current_label
+            data[k] = field_setting&.label.presence || field_setting.current_label
           else
             data = data[k]
           end

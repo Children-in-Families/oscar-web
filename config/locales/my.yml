@@ -1088,6 +1088,7 @@ my:
       please_add_custom_domains: သငျသညျဤ action လုပ်ဆောင်နိုင်မီအချို့ကိုသင်စိတ်ကြိုက်ဒိုမိန်းထည့်သွင်းဖို့လိုပေမည်
       present: လာေရာက္ေတြ႕ဆံုစဥ္ သို႔မဟုတ္ စကားေျပာစဥ္ အနီးတြင္ မည္သူ ရွိေနခဲ့သနည္း။
       review_assessment: Review Assessment
+      task: Task
       type: အမ်ိဳးအစား
       you_need_to_create_assessment: စိစစ္အကဲျဖတ္ခ်က္ကို ျပဳလုပ္ရန္လိုပါသည္။
     show:

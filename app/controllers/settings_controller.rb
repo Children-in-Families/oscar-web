@@ -1,11 +1,12 @@
 class SettingsController < AdminController
+  rescue_from ActionController::RedirectBackError, with: :redirect_to_default
   include CommunityHelper
 
   before_action :find_setting, except: [:create]
+  before_action :authorize_setting, except: [:create, :show]
   before_action :country_address_fields, only: [:edit, :update]
 
   def index
-    authorize @setting
   end
 
   def create
@@ -23,16 +24,14 @@ class SettingsController < AdminController
   end
 
   def edit
-    authorize @setting
     render template: 'organizations/edit', locals: { current_setting: @setting }
   end
 
   def update
-    authorize @setting
     @setting = @setting
     if params[:setting].has_key?(:org_form)
       if @setting.update_attributes(setting_params)
-        redirect_to root_path, notice: t('.successfully_updated')
+        redirect_to :back, notice: t('.successfully_updated')
       else
         render :edit
       end
@@ -40,11 +39,7 @@ class SettingsController < AdminController
       respond_to do |f|
         f.html do
           if @setting.update_attributes(setting_params)
-            if params[:default_columns].present? || params[:research_module].present? || params[:custom_labels].present? || params[:client_forms].present?
-              redirect_to :back, notice: t('.successfully_updated')
-            else
-              redirect_to settings_path, notice: t('.successfully_updated')
-            end
+            redirect_to :back, notice: t('.successfully_updated')
           else
             flash[:alert] = @setting.errors.full_messages.join(", ")
             render :index
@@ -59,7 +54,6 @@ class SettingsController < AdminController
   end
 
   def default_columns
-    authorize @setting
     @client_default_columns = client_default_columns
     @family_default_columns = family_default_columns
     @community_default_columns = community_default_columns
@@ -67,27 +61,21 @@ class SettingsController < AdminController
   end
 
   def research_module
-    authorize @setting
   end
 
   def custom_labels
-    authorize @setting
   end
 
   def client_forms
-    authorize @setting
   end
 
   def community
-    authorize @setting
   end
 
   def family_case_management
-    authorize @setting
   end
 
   def integration
-    authorize @setting
     attribute = params[:setting]
     if attribute && current_organization.update_attributes(integrated: attribute[:integrated])
       redirect_to integration_settings_path, notice: t('.successfully_updated')
@@ -97,14 +85,19 @@ class SettingsController < AdminController
   end
 
   def custom_form
-    authorize @setting
   end
 
   def test_client
-    authorize @setting
+  end
+
+  def customize_case_note
   end
 
   private
+
+  def redirect_to_default
+    redirect_to settings_path
+  end
 
   def country_address_fields
     @provinces = Province.cached_order_name
@@ -124,7 +117,7 @@ class SettingsController < AdminController
                                     :enable_hotline, :enable_client_form, :assessment_score_order, :disable_required_fields,
                                     :hide_family_case_management_tool, :hide_community, :case_conference_limit, :case_conference_frequency,
                                     :internal_referral_limit, :internal_referral_frequency, :case_note_edit_limit, :case_note_edit_frequency, :disabled_future_completion_date,
-                                    :disabled_add_service_received, :custom_field_limit, :custom_field_frequency, :test_client,
+                                    :disabled_add_service_received, :custom_field_limit, :custom_field_frequency, :test_client, :disabled_task_date_field,
                                     client_default_columns: [], family_default_columns: [], community_default_columns: [],
                                     partner_default_columns: [], user_default_columns: [],
                                     custom_assessment_settings_attributes: [:id, :custom_assessment_name, :max_custom_assessment, :custom_assessment_frequency, :custom_age, :enable_custom_assessment, :_destroy])
@@ -200,5 +193,9 @@ class SettingsController < AdminController
     else
       %w(province_id_ birth_province_id_ district_ commune_ house_number_ village_ street_number_)
     end
+  end
+
+  def authorize_setting
+    authorize @setting
   end
 end

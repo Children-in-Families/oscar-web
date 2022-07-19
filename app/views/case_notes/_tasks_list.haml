@@ -14,7 +14,7 @@
             = t.input_field :completed, class: 'i-checks task', as: :boolean, data: { task_id: task.id }
             %label= task.name
             - if Organization.ratanak?
-              = fa_icon 'sticky-note-o', class: 'btn-outline btn-xs btn-success task-sticky-note', id: "task-id-#{task.id}"
+              = fa_icon 'sticky-note-o', class: 'btn-outline btn-xs btn-success task-sticky-note', id: "task-id-#{task.id}", data: { original_title: t('tasks.add_task_progress_note'), toggle: 'tooltip' }
           - if Organization.ratanak?
             .service-delivery.hide.m-b-sm{ id: "service-delivery-task-#{task.id}" }
               %label.m-t-xs{ :for => "completion_date" }= t('case_notes.add_task_form.completion_date')

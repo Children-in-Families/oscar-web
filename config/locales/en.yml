@@ -1078,6 +1078,7 @@ en:
       note: Note
       please_add_custom_domains: You may want to add some Custom Domains before you can perform this action.
       present: Who was there during the visit or conversation?
+      task: Task
       type: Casenote Type
       you_need_to_create_assessment: You need to create assessment
     show:
@@ -5823,6 +5824,9 @@ en:
       two_weeks_assessment_reminder: Send 2 notification at both 2 and 1 week prior to assessment
     case_notes:
       case_note: Maximum time between case notes for client
+      case_note_edit_limit: Case Note Edit Limit
+      disabled_add_service_received: Disable Add Service Received
+      disable_future_completion_date: Disable Future Completion Date
       max_case_note: Maximum
     client_forms:
       hotline: Hotline
@@ -5859,11 +5863,16 @@ en:
       uganda:
         custom_id1_local: Custom ID1 (Swahili)
         custom_id2_local: Custom ID2 (Swahili)
+    customize_case_note:
+      case_note_tools: Case Note Tools
     default_columns:
       client_default_columns: Client
       default_columns: Default Columns
       family_default_columns: Family
       partner_default_columns: Partner
+    display_task_date_field:
+      case_note_tasks: Case Note Tasks
+      disabled_task_date_field: Disiable Task's Date Field
     family_case_management:
       family_case_management: Family Case Management
       hide_family_case_management_tool: Hide Administrative Information and Case Management tools

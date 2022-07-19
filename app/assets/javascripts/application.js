@@ -128,6 +128,7 @@
 //= require settings/research_module
 //= require settings/client_forms
 //= require settings/integration
+//= require settings/customize_case_note
 //= require prevent_required_file_uploader
 //= require format_special_characters
 //= require referrals/form
