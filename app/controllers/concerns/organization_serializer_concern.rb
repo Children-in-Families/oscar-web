@@ -8,19 +8,20 @@ module OrganizationSerializerConcern
           enrollment_date: enrollment_date,
           uuid: service.uuid,
           name: service.name,
-          referral_id: object.id
         }
       end
     end.compact.flatten.uniq
 
-    Service.where(id: list_referrals.map(&:service_ids).flatten || []).map do |service|
-      service_types << {
-        program_name: nil,
-        enrollment_date: nil,
-        uuid: service.uuid,
-        name: service.name,
-        referral_id: object.id
-      }
+    list_referrals.each do |referral|
+      referral.services.each do |service|
+        service_types << {
+          program_name: nil,
+          enrollment_date: nil,
+          uuid: service.uuid,
+          name: service.name,
+          referral_id: referral.id
+        }
+      end
     end
     service_types
   end
