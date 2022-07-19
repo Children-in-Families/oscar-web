@@ -5,7 +5,7 @@
       .m-r-sm
         = domain_note.simple_fields_for :tasks, tasks do |t|
           - task = t.object
-          .checkbox-primary
+          .checkbox-primary.m-t-sm
             =# check_box_tag "#{domain_note.object_name}[task_ids][]", task.id, task.completed, class: 'i-checks task'
             =# label_tag task.name
             = t.hidden_field :name
