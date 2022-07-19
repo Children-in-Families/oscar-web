@@ -91,7 +91,7 @@
                       %h4= "Domain Groups"
                     .panel-body
                       = select_tag "", tag_domain_group(case_note), multiple: true, disabled: true
-              - case_note.case_note_domain_groups.where(domain_group_id: case_note.selected_domain_group_ids.map(&:to_i)).each do |cdg|
+              - case_note.case_note_domain_groups.includes(:domain_group, :case_note).where(domain_group_id: case_note.selected_domain_group_ids.map(&:to_i)).each do |cdg|
                 - list_goals, ongoing_tasks, today_tasks = list_goals_and_tasks(cdg, case_note)
                 - if today_tasks.flatten.any? || cdg.completed_tasks.any?
                   .ibox.border-left-right.border-bottom

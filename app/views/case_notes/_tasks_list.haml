@@ -1,7 +1,7 @@
 .panel-body{ id: "tasks-domain-#{domain.id}", data: { domain_group_identity: domain_note.object.domain_group_id } }
   .row
     .col-xs-12
-      %label{:for => ""}= t('.on_going_tasks')
+      %label{:for => ""}= t('case_notes.form.on_going_tasks')
       .m-r-sm
         = domain_note.simple_fields_for :tasks, tasks do |t|
           - task = t.object
@@ -38,5 +38,5 @@
 
       %div{ class: 'task-arising hidden' }
         %label.control-label
-          = t('.tasks_arising')
+          = t('case_notes.form.tasks_arising')
         %ol.list-group{ type: '1'}
