@@ -98,8 +98,9 @@ const Forms = props => {
     {text: T.translate("index.referee_info"), step: 1},
     {text: t(translation, 'clients.form.referral_info'), step: 2},
     {text: T.translate("index.referral_more_info"), step: 3},
-    {text: T.translate("index.referral_vulnerability"), step: 4},
-    {text: t(translation, 'clients.form.legal_documents'), step: 5}
+    {text: "Protection Concern", step: 4},
+    {text: T.translate("index.referral_vulnerability"), step: 5},
+    {text: t(translation, 'clients.form.legal_documents'), step: 6}
   ]
 
   const classStyle = value => errorSteps.includes(value) ? 'errorTab' : step === value ? 'activeTab' : 'normalTab'
@@ -249,7 +250,7 @@ const Forms = props => {
       $('.alert').hide();
       $('#save-btn-help-text').hide()
       $(`#step-${goingToStep}`).show();
-      if (goingToStep === (fieldsVisibility.show_legal_doc == true ? 5 : 4))
+      if (goingToStep === (fieldsVisibility.show_legal_doc == true ? 6 : 5))
         $('#save-btn-help-text').show()
   }
 
@@ -523,7 +524,7 @@ const Forms = props => {
 
       <div className='tabHead'>
         {
-          tabs.slice(0, (fieldsVisibility.show_legal_doc == true ? 5 : 4)).map((tab, index) => renderTab(tab, index))
+          tabs.slice(0, (fieldsVisibility.show_legal_doc == true ? 6 : 5)).map((tab, index) => renderTab(tab, index))
         }
       </div>
 
@@ -545,13 +546,25 @@ const Forms = props => {
             <ReferralMoreInfo translation={translation} renderAddressSwitch={renderAddressSwitch} fieldsVisibility={fieldsVisibility} current_organization={current_organization} data={moreReferralTabData} onChangeMoSAVYOfficialsData={onChangeMoSAVYOfficialsData} onAddOfficial={onAddOfficial} onChangeOfficial={onChangeOfficial} onRemoveOfficial={onRemoveOfficial} onChange={onChange} hintText={inlineHelpTranslation} />
           </div>
 
-          <div style={{ display: step === 4 ? 'block' : 'none' }}>
+          <div style={{ display: step ===  4 ? 'block' : 'none' }}>
+            <div className="containerClass">
+              <legend>
+                <div className="row">
+                  <div className="col-xs-6">
+                    <p>Protection Concern</p>
+                  </div>
+                </div>
+              </legend>
+            </div>
+          </div>
+
+          <div style={{ display: step === 5 ? 'block' : 'none' }}>
             <ReferralVulnerability data={referralVulnerabilityTabData} current_organization={current_organization} translation={translation} fieldsVisibility={fieldsVisibility} onChange={onChange} hintText={inlineHelpTranslation} />
           </div>
 
           {
             fieldsVisibility.show_legal_doc == true &&
-            <div style={{ display: step === 5 ? 'block' : 'none' }}>
+            <div style={{ display: step === 6 ? 'block' : 'none' }}>
               <LegalDocument data={legalDocument} translation={translation} requiredFields={requiredFields} fieldsVisibility={fieldsVisibility} onChange={onChange} />
             </div>
           }
