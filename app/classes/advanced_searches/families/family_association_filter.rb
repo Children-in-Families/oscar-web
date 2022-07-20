@@ -267,13 +267,13 @@ module AdvancedSearches
         when 'equal'
           families.where(enrollments: { program_stream_id: @value }).distinct.ids
         when 'not_equal'
-          @families.includes(client_enrollments: :program_stream).where(query_string).references(:program_streams).distinct.ids
+          @families.includes(enrollments: :program_stream).where(query_string).references(:program_streams).distinct.ids
         when 'is_empty'
-          @families.includes(client_enrollments: :program_stream).where(query_string).references(:program_streams).distinct.ids
+          @families.includes(enrollments: :program_stream).where(query_string).references(:program_streams).distinct.ids
         when 'is_not_empty'
-          families.joins(client_enrollments: :program_stream).distinct.ids
+          families.joins(enrollments: :program_stream).distinct.ids
         else
-          families.includes(client_enrollments: :program_stream).where(program_streams: { id: @value }).references(:program_streams).distinct.ids
+          @families.includes(enrollments: :program_stream).where(program_streams: { id: @value }).references(:program_streams).distinct.ids
         end
       end
     end
