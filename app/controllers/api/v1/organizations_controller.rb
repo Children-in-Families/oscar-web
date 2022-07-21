@@ -267,7 +267,7 @@ module Api
                 LEFT OUTER JOIN districts ON districts.id = clients.district_id
                 LEFT OUTER JOIN communes ON communes.id = clients.commune_id
                 LEFT OUTER JOIN villages ON villages.id = clients.village_id
-                WHERE ((CONCAT(clients.given_name, clients.local_given_name) != '' AND CONCAT(clients.family_name, clients.local_family_name) != '') AND clients.gender != '' AND clients.date_of_birth IS NOT NULL) AND
+                WHERE ((TRIM(CONCAT(clients.given_name, clients.local_given_name)) != '' AND TRIM(CONCAT(clients.family_name, clients.local_family_name)) != '') AND clients.gender != '' AND clients.date_of_birth IS NOT NULL) AND
               ".squish
         clients = []
         if params.dig(:since_date).present?
@@ -298,7 +298,7 @@ module Api
                 LEFT OUTER JOIN districts ON districts.id = clients.district_id
                 LEFT OUTER JOIN communes ON communes.id = clients.commune_id
                 LEFT OUTER JOIN villages ON villages.id = clients.village_id
-                WHERE ((CONCAT(clients.given_name, clients.local_given_name) != '' AND CONCAT(clients.family_name, clients.local_family_name) != '') AND clients.gender != '' AND clients.date_of_birth IS NOT NULL) AND
+                WHERE ((TRIM(CONCAT(clients.given_name, clients.local_given_name)) != '' AND TRIM(CONCAT(clients.family_name, clients.local_family_name)) != '') AND clients.gender != '' AND clients.date_of_birth IS NOT NULL) AND
               ".squish
         clients = []
 
