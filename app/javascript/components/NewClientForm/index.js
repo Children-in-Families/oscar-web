@@ -7,6 +7,7 @@ import RefereeInfo from './refereeInfo'
 import ReferralInfo from './referralInfo'
 import ReferralMoreInfo from './referralMoreInfo'
 import ReferralVulnerability from './referralVulnerability'
+import RiskAssessment from './riskAssessment'
 import LegalDocument from './legalDocument'
 import CreateFamilyModal from './createFamilyModal'
 import Address      from './address'
@@ -179,8 +180,9 @@ const Forms = props => {
       { step: 1, data: clientData, fields: ['referral_source_category_id'] },
       { step: 2, data: clientData, fields: ['gender']},
       { step: 3, data: moSAVYOfficialsData, fields: ['name', 'position'] },
-      { step: 4, data: clientData, fields: clientData.status != 'Exited' ? ['received_by_id', 'initial_referral_date', 'user_ids'] : ['received_by_id', 'initial_referral_date'] },
-      { step: 5, data: clientData, fields: step5RequiredFields }
+      { step: 4, data: {}, fields: [] },
+      { step: 5, data: clientData, fields: clientData.status != 'Exited' ? ['received_by_id', 'initial_referral_date', 'user_ids'] : ['received_by_id', 'initial_referral_date'] },
+      { step: 6, data: clientData, fields: step5RequiredFields }
     ]
 
     const errors = []
@@ -198,14 +200,14 @@ const Forms = props => {
     })
 
     quantitativeType.forEach(qttType => {
-      if (step === 4 && qttType.is_required) {
+      if (step === 5 && qttType.is_required) {
         if (qttType.field_type == "free_text") {
           const item = clientQuantitativeFreeTextCasesData.find(cqFreeText => { return cqFreeText.quantitative_type_id == qttType.id })
           console.log(item)
 
           if (item.content === null || item.content === '') {
             errors.push(`qtt_type_${qttType.id}`)
-            errorSteps.push(4)
+            errorSteps.push(5)
           }
         } else {
           const qttCasees = quantitativeCase.filter(ftr => { return ftr.quantitative_type_id === qttType.id })
@@ -219,7 +221,7 @@ const Forms = props => {
 
           if (error) {
             errors.push(`qtt_type_${qttType.id}`)
-            errorSteps.push(4)
+            errorSteps.push(5)
           }
         }
       }
@@ -249,6 +251,7 @@ const Forms = props => {
 
       $('.alert').hide();
       $('#save-btn-help-text').hide()
+      debugger;
       $(`#step-${goingToStep}`).show();
       if (goingToStep === (fieldsVisibility.show_legal_doc == true ? 6 : 5))
         $('#save-btn-help-text').show()
@@ -258,13 +261,16 @@ const Forms = props => {
     if (handleValidation()) {
       if (step === 2 )
         checkClientExist()(() => setStep(step + 1))
-      else
+      else {
         setStep(step + 1)
+      }
+
 
       $('.alert').hide();
       $(`#step-${step + 1}`).show();
+      debugger;
       $('#save-btn-help-text').hide()
-      if ((step + 1) === (fieldsVisibility.show_legal_doc == true ? 5 : 4))
+      if ((step + 1) === (fieldsVisibility.show_legal_doc == true ? 6 : 5))
         $('#save-btn-help-text').show()
     }
 
@@ -547,15 +553,7 @@ const Forms = props => {
           </div>
 
           <div style={{ display: step ===  4 ? 'block' : 'none' }}>
-            <div className="containerClass">
-              <legend>
-                <div className="row">
-                  <div className="col-xs-6">
-                    <p>Protection Concern</p>
-                  </div>
-                </div>
-              </legend>
-            </div>
+            <RiskAssessment />
           </div>
 
           <div style={{ display: step === 5 ? 'block' : 'none' }}>
@@ -578,7 +576,7 @@ const Forms = props => {
 
         <div className='rightWrapper'>
           <span className={step === 1 && 'clientButton preventButton' || 'clientButton allowButton'} onClick={buttonPrevious}>{T.translate("index.previous")}</span>
-          { step !== (fieldsVisibility.show_legal_doc == true ? 5 : 4) && <span className={'clientButton allowButton'} onClick={buttonNext}>{T.translate("index.next")}</span> }
+          { step !== (fieldsVisibility.show_legal_doc == true ? 6 : 5) && <span className={'clientButton allowButton'} onClick={buttonNext}>{T.translate("index.next")}</span> }
           <span
             id="save-btn-help-text"
             data-toggle="popover"

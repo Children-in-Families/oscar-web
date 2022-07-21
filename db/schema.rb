@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20220624024640) do
+ActiveRecord::Schema.define(version: 20220720030318) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -2262,6 +2262,8 @@ ActiveRecord::Schema.define(version: 20220624024640) do
     t.string   "case_note_edit_frequency",             default: "week"
     t.boolean  "disabled_add_service_received",        default: false
     t.boolean  "test_client",                          default: false
+    t.boolean  "enabled_risk_assessment",              default: false
+    t.string   "assessment_type_name",                 default: "csi"
   end
 
   add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree

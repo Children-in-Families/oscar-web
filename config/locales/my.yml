@@ -5903,6 +5903,10 @@ my:
       bad_credentials_supplied: မကောင်းတဲ့သံတမန်ဆောင်ဧည်ထောက်ပံ့
       your_account_needs_to_supply_a_verification_code: သင့်အကောင့်အတည်ပြုရန်ကုဒ်ထောက်ပံ့ဖို့လိုအပ်ပါတယ်
   settings:
+    _attr: &SETTING_ATTR
+      assessment_type_name: "Select Assessment Tool for Client’s Wellbeing"
+      client_status_index: Client Status Index
+      risk_assessment: Risk Assessment
     assessment_setting:
       age: အသက္
       assessment: အကဲဖြတ်

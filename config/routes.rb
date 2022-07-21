@@ -446,6 +446,7 @@ Rails.application.routes.draw do
       get 'integration' => 'settings#integration'
       get 'custom_form' => 'settings#custom_form'
       get 'test_client' => 'settings#test_client'
+      get 'risk_assessment' => 'settings#risk_assessment'
 
       get :family_case_management
       get :community

@@ -92,6 +92,8 @@
                 - if current_user.admin?
                   %li{ class: settings_menu_active('settings', 'index') }
                     = link_to t('.csi_tools'), settings_path
+                  %li{ class: settings_menu_active('settings', 'risk_assessment') }
+                    = link_to t('.risk_assessment'), risk_assessment_settings_path
                   %li{ class: settings_menu_active('settings', 'default_columns') }
                     = link_to t('.default_columns'), default_columns_settings_path
                   - if Setting.cache_first.country_name == "cambodia"

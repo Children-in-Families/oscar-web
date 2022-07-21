@@ -5749,6 +5749,10 @@ km:
       bad_credentials_supplied: កូដផ្ទៀងផ្ទាត់មិនត្រឹមត្រូវ
       your_account_needs_to_supply_a_verification_code: គណនីរបស់អ្នកត្រូវការបញ្ចូលកូដផ្ទៀងផ្ទាត់
   settings:
+    _attr: &SETTING_ATTR
+      assessment_type_name: "Select Assessment Tool for Client’s Wellbeing"
+      client_status_index: Client Status Index
+      risk_assessment: ការប៉ាន់ប្រមាណហនិភ័យ
     assessment_setting:
       age: អាយុ
       assessment: ការកំណត់ភាពញឹកញ៉ាប់នៃការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន

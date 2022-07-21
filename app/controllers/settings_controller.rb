@@ -104,6 +104,17 @@ class SettingsController < AdminController
     authorize @setting
   end
 
+  def risk_assessment
+    authorize @setting
+    attribute = params[:setting]
+    if attribute && @setting.update_attributes(setting_params)
+      redirect_to :back, notice: t('successfully_updated', klass: t('settings._attr.risk_assessment'))
+    else
+      flash[:alert] = @setting.errors.full_messages.join(", ") if @setting.errors.full_messages.any?
+      render :risk_assessment
+    end
+  end
+
   private
 
   def country_address_fields
@@ -125,6 +136,7 @@ class SettingsController < AdminController
                                     :hide_family_case_management_tool, :hide_community, :case_conference_limit, :case_conference_frequency,
                                     :internal_referral_limit, :internal_referral_frequency, :case_note_edit_limit, :case_note_edit_frequency, :disabled_future_completion_date,
                                     :disabled_add_service_received, :custom_field_limit, :custom_field_frequency, :test_client,
+                                    :enabled_risk_assessment, :assessment_type_name,
                                     client_default_columns: [], family_default_columns: [], community_default_columns: [],
                                     partner_default_columns: [], user_default_columns: [],
                                     custom_assessment_settings_attributes: [:id, :custom_assessment_name, :max_custom_assessment, :custom_assessment_frequency, :custom_age, :enable_custom_assessment, :_destroy])

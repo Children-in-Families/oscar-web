@@ -1,10 +1,10 @@
 import React from 'react'
 
 export default props => {
-  const { isError, label, required, onChange, value, hintText, errorText, T, inlineClassName, ...others } = props
+  const { isError, label, required, onChange, value, hintText, errorText, T, inlineClassName, inline, ...others } = props
 
   return (
-    <div className='form-group'>
+    <div className='form-group' style={inline && styles.inlineWrapper}>
       <label style={isError && styles.errorText || styles.inlineDisplay}>
         { required && <abbr title='required'>* </abbr> }
         {label}
@@ -40,6 +40,11 @@ export default props => {
 }
 
 const styles = {
+  inlineWrapper: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
   errorText: {
     color: 'red'
   },
