@@ -338,4 +338,8 @@ module FamiliesHelper
     end
   end
 
+  def has_family_active_program_streams?
+    ProgramStream.joins(:families).group("program_streams.id, enrollments.status").having("enrollments.status = 'Active'").any?
+  end
+
 end
