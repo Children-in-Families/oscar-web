@@ -260,6 +260,7 @@ module Api
       end
 
       def get_sql_and_client_data(external_system_name, since_date)
+        conditional_sql = "(TRIM(CONCAT(clients.given_name, clients.local_given_name)) != '' AND TRIM(CONCAT(clients.family_name, clients.local_family_name)) != '') AND clients.gender != '' AND clients.date_of_birth IS NOT NULL"
         sql = "
                 SELECT clients.*, districts.code district_code, communes.code commune_code, villages.code village_code
                 FROM clients
@@ -267,22 +268,22 @@ module Api
                 LEFT OUTER JOIN districts ON districts.id = clients.district_id
                 LEFT OUTER JOIN communes ON communes.id = clients.commune_id
                 LEFT OUTER JOIN villages ON villages.id = clients.village_id
-                WHERE ((TRIM(CONCAT(clients.given_name, clients.local_given_name)) != '' AND TRIM(CONCAT(clients.family_name, clients.local_family_name)) != '') AND clients.gender != '' AND clients.date_of_birth IS NOT NULL) AND
+                WHERE (#{conditional_sql})
               ".squish
         clients = []
         if params.dig(:since_date).present?
-          clients          = Client.referred_external(external_system_name).where('clients.created_at >= ? OR clients.updated_at >= ?', since_date, since_date).order('clients.updated_at DESC')
+          clients          = Client.referred_external(external_system_name).where("#{conditional_sql} AND (clients.created_at >= ? OR clients.updated_at >= ?)", since_date, since_date).order('clients.updated_at DESC')
           referred_clients = JSON.parse ActiveModel::ArraySerializer.new(clients.distinct.to_a, each_serializer: OrganizationClientSerializer, context: current_user).to_json
           if clients.present?
-            sql << " (DATE(clients.created_at) >= '#{since_date}' OR DATE(clients.updated_at) >= '#{since_date}') AND clients.id NOT IN (#{clients.ids.join(', ')}) ORDER BY clients.updated_at DESC"
+            sql << " AND (DATE(clients.created_at) >= '#{since_date}' OR DATE(clients.updated_at) >= '#{since_date}') AND clients.id NOT IN (#{clients.ids.join(', ')}) ORDER BY clients.updated_at DESC"
           else
-            sql << " (DATE(clients.created_at) >= '#{since_date}' OR DATE(clients.updated_at) >= '#{since_date}') ORDER BY clients.updated_at DESC"
+            sql << " AND (DATE(clients.created_at) >= '#{since_date}' OR DATE(clients.updated_at) >= '#{since_date}') ORDER BY clients.updated_at DESC"
           end
         else
-          clients          = Client.referred_external(external_system_name).order('clients.updated_at DESC')
+          clients          = Client.referred_external(external_system_name).where(conditional_sql).order('clients.updated_at DESC')
           referred_clients = JSON.parse ActiveModel::ArraySerializer.new(clients.distinct.to_a, each_serializer: OrganizationClientSerializer, context: current_user).to_json
           if clients.present?
-            sql << " clients.id NOT IN (#{clients.ids.join(', ')}) ORDER BY clients.updated_at DESC"
+            sql << " AND clients.id NOT IN (#{clients.ids.join(', ')}) ORDER BY clients.updated_at DESC"
           else
             sql << ' ORDER BY clients.updated_at DESC'
           end
