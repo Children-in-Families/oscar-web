@@ -469,6 +469,7 @@ en:
       address_type: Client Address Type
       client_email_address: Client Email Address
       code: Custom ID Number1
+      common_searches: Common Searches
       commune: Commune/Sangkat
       completed: Completed
       concern_basic_fields: Client Fields Concern
