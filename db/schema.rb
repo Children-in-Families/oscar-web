@@ -2325,7 +2325,7 @@ ActiveRecord::Schema.define(version: 20220722041026) do
     t.boolean  "cbdmat_ongoing",                       default: false
     t.integer  "tracking_form_edit_limit",             default: 0
     t.string   "tracking_form_edit_frequency",         default: "week"
-    t.boolean  "disabled_progress_note_and_next_step", default: false
+    t.boolean  "required_case_note_note",              default: true
   end
 
   add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree
