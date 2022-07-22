@@ -13,7 +13,7 @@ module OrganizationSerializerConcern
     end.compact.flatten.uniq
 
     list_referrals.each do |referral|
-      referral.services.each do |service|
+      referral.services.distinct.each do |service|
         service_types << {
           program_name: nil,
           enrollment_date: nil,
