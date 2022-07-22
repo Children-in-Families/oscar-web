@@ -139,7 +139,7 @@
                                             %td= date_format(task.completion_date)
 
                         - the_latest_tasks = today_tasks.flatten.uniq
-                        - if the_latest_tasks.present?
+                        - if the_latest_tasks.reject(&:completed).present?
                           .col-xs-12.col-sm-6
                             .panel.panel-default
                               .panel-heading
@@ -159,7 +159,7 @@
                                           %label{:for => ""}= t('.task')
                                         %th= t('.expected_date')
                                     %tbody
-                                      - cdg.completed_tasks.each_with_index do |task, index|
+                                      - the_latest_tasks.each_with_index do |task, index|
                                         %tr
                                           %td
                                             = "#{index + 1}. "
@@ -167,7 +167,7 @@
                                             %td= date_format(task.expected_date)
 
                         - ongoing_tasks = case_note_ongoing_tasks(ongoing_tasks)
-                        - if ongoing_tasks.present?
+                        - if ongoing_tasks.reject(&:completed).present?
                           .col-xs-12.col-sm-6
                             .panel.panel-default
                               .panel-heading
@@ -187,7 +187,7 @@
                                           %label{:for => ""}= t('.task')
                                         %th= t('.expected_date')
                                     %tbody
-                                      - cdg.completed_tasks.each_with_index do |task, index|
+                                      - ongoing_tasks.each_with_index do |task, index|
                                         %tr
                                           %td
                                             = "#{index + 1}. "
