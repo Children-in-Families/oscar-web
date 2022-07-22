@@ -50,9 +50,10 @@
         %button.btn.btn-primary#client-statistic{ data: { toggle: 'popover', trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.quick_graph')}", placement: "auto" } }
           %i.fa.fa-line-chart
           %span= t('.reports')
-    %button.btn.btn-primary#table-summary-btn{ data: { toggle: 'modal', target: '#table-summary', trigger: "hover", html: 'true', content: "", placement: "auto" } }
-      %span= t('clients.table_summary.title')
-    = render 'table_summary'
+    - if params['commit'].present? || params['client_advanced_search'].present?
+      %button.btn.btn-primary#table-summary-btn{ data: { toggle: 'modal', target: '#table-summary', trigger: "hover", html: 'true', content: "", placement: "auto" } }
+        %span= t('clients.table_summary.title')
+      = render 'table_summary'
 
   .col-xs-12.col-md-2
     .pull-right.client-option
