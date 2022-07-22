@@ -2263,7 +2263,7 @@ ActiveRecord::Schema.define(version: 20220722041026) do
     t.boolean  "disabled_add_service_received",        default: false
     t.boolean  "test_client",                          default: false
     t.boolean  "disabled_task_date_field",             default: true
-    t.boolean  "disabled_progress_note_and_next_step", default: false
+    t.boolean  "required_case_note_note",              default: true
   end
 
   add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree
