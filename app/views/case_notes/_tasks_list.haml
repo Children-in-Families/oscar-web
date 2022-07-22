@@ -5,7 +5,7 @@
       .m-r-sm
         = domain_note.simple_fields_for :tasks, tasks do |t|
           - task = t.object
-          .checkbox-primary
+          .checkbox-primary.m-t-sm
             =# check_box_tag "#{domain_note.object_name}[task_ids][]", task.id, task.completed, class: 'i-checks task'
             =# label_tag task.name
             = t.hidden_field :name
@@ -13,7 +13,7 @@
             = t.hidden_field :completed_by_id, value: current_user.id
             = t.input_field :completed, class: 'i-checks task', as: :boolean, data: { task_id: task.id }
             %label= task.name
-            - if Organization.ratanak?
+            - if Organization.ratanak? and !@current_setting.disabled_progress_note_and_next_step
               = fa_icon 'sticky-note-o', class: 'btn-outline btn-xs btn-success task-sticky-note', id: "task-id-#{task.id}", data: { original_title: t('tasks.add_task_progress_note'), toggle: 'tooltip' }
           - if Organization.ratanak?
             .service-delivery.hide.m-b-sm{ id: "service-delivery-task-#{task.id}" }
@@ -28,13 +28,14 @@
                   %optgroup{ label: sub_service_category.name }
                     - sub_service_category.children.each do |child|
                       %option{ :value => child.id }= child.name
-            %div.hide{ id: "task-id-#{task.id}-progress-note-wrapper" }
-              .task_progress_notes{ id: "task-#{task.id}-progress-notes" }
-                - if task.persisted?
-                  = t.simple_fields_for :task_progress_notes do |f|
-                    = f.hidden_field :task_id
-                    = render 'task_progress_note_fields', f: f
-              = link_to_add_association t('tasks.add_task_progress_note'), t, :task_progress_notes, class: 'btn-add-task btn btn-outline btn-xs btn-success m-t-sm m-b-sm', data: { association_insertion_method: :append, association_insertion_node: "#task-#{task.id}-progress-notes" }
+            - if !@current_setting.disabled_progress_note_and_next_step
+              %div.hide{ id: "task-id-#{task.id}-progress-note-wrapper" }
+                .task_progress_notes{ id: "task-#{task.id}-progress-notes" }
+                  - if task.persisted?
+                    = t.simple_fields_for :task_progress_notes do |f|
+                      = f.hidden_field :task_id
+                      = render 'task_progress_note_fields', f: f
+                = link_to_add_association t('tasks.add_task_progress_note'), t, :task_progress_notes, class: 'btn-add-task btn btn-outline btn-xs btn-success m-t-sm m-b-sm', data: { association_insertion_method: :append, association_insertion_node: "#task-#{task.id}-progress-notes" }
 
       %div{ class: 'task-arising hidden' }
         %label.control-label
