@@ -5888,6 +5888,7 @@ en:
     navigation:
       country: Country
     progress_note_and_next_step:
+      hide_case_note: Hide %{note}
       require_case_note: Require %{note}
     research_module:
       research_module_label: Share my NGO's anonymous client data with the OSCaR Research Module
