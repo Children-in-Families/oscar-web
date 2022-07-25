@@ -6076,6 +6076,7 @@ my:
     navigation:
       country: ႏုိင္ငံ
     progress_note_and_next_step:
+      hide_case_note: Hide %{note}
       require_case_note: Require %{note}
     research_module:
       research_module_label:

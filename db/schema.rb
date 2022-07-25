@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20220722041026) do
+ActiveRecord::Schema.define(version: 20220725040448) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -2326,6 +2326,7 @@ ActiveRecord::Schema.define(version: 20220722041026) do
     t.integer  "tracking_form_edit_limit",             default: 0
     t.string   "tracking_form_edit_frequency",         default: "week"
     t.boolean  "required_case_note_note",              default: true
+    t.boolean  "hide_case_note_note",                  default: false
   end
 
   add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree

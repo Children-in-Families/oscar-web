@@ -68,23 +68,24 @@
                     - if current_user.admin?
                       = destroy_link(@client, case_note)
             .panel-body
-              - if case_note.note.present?
-                .row
-                  .col-xs-12
-                    .panel.panel-default
-                      .panel-heading
-                        %h4= t('.note')
-                      .panel-body
-                        = simple_format case_note.note
-              - else
-                - combined_notes = case_note.case_note_domain_groups.pluck(:note).uniq.join("\n")
-                .row
-                  .col-xs-12
-                    .panel.panel-default
-                      .panel-heading
-                        %h4= t('.note')
-                      .panel-body
-                        = simple_format combined_notes
+              - unless @current_setting.hide_case_note_note?
+                - if case_note.note.present?
+                  .row
+                    .col-xs-12
+                      .panel.panel-default
+                        .panel-heading
+                          %h4= t('.note')
+                        .panel-body
+                          = simple_format case_note.note
+                - else
+                  - combined_notes = case_note.case_note_domain_groups.pluck(:note).uniq.join("\n")
+                  .row
+                    .col-xs-12
+                      .panel.panel-default
+                        .panel-heading
+                          %h4= t('.note')
+                        .panel-body
+                          = simple_format combined_notes
               .row
                 .col-xs-12
                   .panel.panel-default
