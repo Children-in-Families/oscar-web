@@ -3,7 +3,8 @@ body[id="dashboards-index"] {
     li.active {
       margin-bottom: -1px;
     }
-    li.active > a {
+
+    li.active>a {
       border-bottom: 2px solid #fff;
     }
 
@@ -11,12 +12,14 @@ body[id="dashboards-index"] {
     td.name {
       width: 60% !important;
     }
+
     th.program-stream-name,
     td.program-stream-name,
     th.tracking-name,
     td.tracking-name {
       width: 40% !important;
     }
+
     th.link,
     td.link {
       width: 20% !important;
@@ -35,6 +38,7 @@ body[id="dashboards-index"] {
 
     table.custom-field-table {
       margin-bottom: 0;
+
       th {
         border-bottom-width: 0;
       }
@@ -44,9 +48,11 @@ body[id="dashboards-index"] {
   .margin-top-datatable {
     margin-top: 10px;
   }
+
   .label-size {
     font-size: 11px;
   }
+
   #users-task-panel {
     table.active_tasks {
       margin-bottom: 0;
@@ -94,6 +100,7 @@ body[id="dashboards-index"] {
     }
 
     .disabled.program_stream_name {
+
       label,
       input {
         color: #333333 !important;
@@ -108,12 +115,14 @@ body[id="dashboards-index"] {
 
   #select2-drop.drop {
     height: 349px;
+
     .select2-results {
       max-height: 340px;
       height: 374px;
       overflow-x: scroll;
       overflow-y: scroll;
     }
+
     .select2-results table tbody tr td {
       cursor: pointer;
     }
@@ -166,11 +175,13 @@ body[id="dashboards-index"] {
       min-width: 90%;
       border-radius: 0;
       overflow: auto;
+
       .modal-body .tab-content {
         height: 70vh;
       }
     }
   }
+
   #case-note {
     .resize-margin {
       margin-top: 20px;
@@ -186,9 +197,21 @@ body[id="dashboards-index"] {
     .panel-body {
       height: 300px;
     }
+
     h2 {
       margin: 50px auto;
       text-align: center;
     }
   }
+
+  #family-tab {
+
+    #family-program-stream {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
 }

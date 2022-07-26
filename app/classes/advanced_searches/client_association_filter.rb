@@ -17,6 +17,10 @@ module AdvancedSearches
       case @field
       when 'user_id'
         values = user_id_field_query
+      when 'mo_savy_officials'
+        values = mo_savy_officials_field_query
+      when 'ratanak_achievement_program_staff_client_ids'
+        values = ratanak_achievement_program_staff_field_query
       when 'agency_name'
         values = agency_name_field_query
       when 'donor_name'
@@ -557,6 +561,8 @@ module AdvancedSearches
       results      = mapping_form_builder_param_value(basic_rules, 'active_program_stream')
       query_string  = get_query_string(results, 'active_program_stream', 'program_streams')
       case @operator
+      when 'equal'
+        clients.where(client_enrollments: { program_stream_id: @value }).distinct.ids
       when 'not_equal'
         @clients.includes(client_enrollments: :program_stream).where(query_string).references(:program_streams).distinct.ids
       when 'is_empty'
@@ -667,6 +673,39 @@ module AdvancedSearches
         client_ids & ids
       when 'not_equal'
         @clients.includes(:case_worker_clients).where('case_worker_clients.user_id != ? OR case_worker_clients.user_id IS NULL', @value).distinct.ids
+      when 'is_empty'
+        @clients.where.not(id: ids).ids
+      when 'is_not_empty'
+        @clients.where(id: ids).ids
+      end
+    end
+
+    def ratanak_achievement_program_staff_field_query
+      clients = @clients.joins(:ratanak_achievement_program_staff_clients)
+      ids = clients.distinct.ids
+      case @operator
+      when 'equal'
+        client_ids = clients.where('achievement_program_staff_clients.user_id = ?', @value).distinct.ids
+        client_ids & ids
+      when 'not_equal'
+        @clients.includes(:achievement_program_staff_clients).where('achievement_program_staff_clients.user_id != ? OR achievement_program_staff_clients.user_id IS NULL', @value).distinct.ids
+      when 'is_empty'
+        @clients.where.not(id: ids).ids
+      when 'is_not_empty'
+        @clients.where(id: ids).ids
+      end
+    end
+
+    def mo_savy_officials_field_query
+      clients = @clients.joins(:mo_savy_officials)
+      ids = clients.distinct.ids
+
+      case @operator
+      when 'equal'
+        client_ids = clients.where('mo_savy_officials.id = ?', @value).distinct.ids
+        client_ids & ids
+      when 'not_equal'
+        @clients.includes(:mo_savy_officials).where('mo_savy_officials.id != ? OR mo_savy_officials.id IS NULL', @value).distinct.ids
       when 'is_empty'
         @clients.where.not(id: ids).ids
       when 'is_not_empty'

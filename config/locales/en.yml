@@ -652,7 +652,7 @@ en:
       domain: Domain
       enter_task_detail: Enter task details
       save: Save
-      title: New Task
+      new_task: New Task
     assessment_form: Assessment Form
     attachment:
       attachments: Attachments
@@ -949,6 +949,7 @@ en:
         with_id: With ID
   case_conferences:
     case_conference_attr: &CASE_CONFERENCE_ATTR
+      add: Add
       allow_file_size: Allowed file types
       are_you_sure: Are you sure you want to delete?
       attachments: Attachments
@@ -964,6 +965,7 @@ en:
       client_support: Support and Barriers to client engagement
       created_by: Created By
       initial_case_conference: Initial Case Conference
+      issue_to_be_addressed: Issue to be addressed
       local_resource: Resources/services in local community
       on_date: On Date
       presenting_problem: Presenting problem
@@ -1001,8 +1003,8 @@ en:
       domain: Domain
       dimensions: Dimension
       enter_task_detail: Enter task details
+      new_task: New Task
       save: Save
-      title: New Task
     attachment:
       download: Download
       preview_download: Preview & Download
@@ -1038,7 +1040,7 @@ en:
       present: Who was there during the visit or conversation?
       remove_domain_group_hint: You have created a task  with this Domain Group. To remove this Domain tag, please remove the Task first.
       save: Save
-      tasks: Tasks
+      task: Tasks
       tasks_arising: Tasks Arising
       type: Casenotes Type
       type_options:
@@ -1076,6 +1078,7 @@ en:
       note: Note
       please_add_custom_domains: You may want to add some Custom Domains before you can perform this action.
       present: Who was there during the visit or conversation?
+      task: Task
       type: Casenote Type
       you_need_to_create_assessment: You need to create assessment
     show:
@@ -1794,6 +1797,8 @@ en:
       type_of_trafficking: Type of Trafficking
       education_background: Education Background
       department: Ratanak Team
+      add_mosavy_official: Add MoSAVY Official
+      arrival_at: Arrivate Date/Time
       able: Able
       able_state: Able State
       address: Address
@@ -1829,6 +1834,7 @@ en:
       family_book: 'Family Book'
       family_name: Family Name (Latin)
       finish: Finish
+      flight_nb: Flight Number
       followed_up_by_id: First Follow Up by
       follow_up_date: Date of First Follow Up
       follow_up_by: First Follow-Up By
@@ -1885,12 +1891,14 @@ en:
       next: Next
       other_phone_number: Phone Number - Alternate
       other_phone_whatsapp: Whatsapp? (Phone Number - Alternate)
+      pickup_information: Pick up information
       phone_owner: Phone Owner
       po_box2: PO Box
       preferred_language: Preferred Language
       presented_id: Presented ID
       previous: Previous
       province: Birth Province
+      ratanak_achievement_program_staff_client_ids: Ratanak Achievement Program Staff
       rated_for_id_poor: Has ID Poor?
       received_by: Referral Received By
       referee_called_before: Has the referee called the Childsafe Hotline Before?
@@ -1900,10 +1908,14 @@ en:
       referral_source: Referral Source
       reject_note: Note on referral rejection
       relevant_referral_information: Relevant Referral Information
+      remove_mosavy_official: Remove MoSAVY Official
       resident_own_or_rent2: Acc. type
       school_grade: School Grade
       school_name: School Name
       main_school_contact: Main School Contact
+      mosavy_official: MoSAVY Official
+      mosavy_official_name: Name
+      mosavy_official_position: Position
       settlement2: City/Settlement
       shared_service_enabled: Do you want to share client services with external system?
       stage: Stage Question
@@ -2001,7 +2013,7 @@ en:
       sInfoTotal: of
       save_search_settings: Save Search Settings
       show_all: Show All
-      view_all_active_tasks: View All Active  Tasks
+      view_all_active_tasks: View All Active Tasks
     level:
       level_no: 'No'
       level_1: Level 1
@@ -2362,6 +2374,7 @@ en:
     update:
       successfully_updated: Custom Field Properties has been successfully updated.
   dashboards:
+    active_program_streams: Active Program Streams
     active_tasks:
       all_active_tasks: All Active Tasks
       checkbox_alert: Please check one or more answers
@@ -2370,7 +2383,7 @@ en:
       today_tasks: Today
       upcoming_tasks: Upcoming
     active_tasks_side:
-      active_tasks: Task List
+      task_list: Task List
     assessment_tab:
       assessment: Assessment
       assessment_you_like: Which assessment would you like ? (CSI or Custom Assessment)
@@ -2396,7 +2409,6 @@ en:
       searching: Searching
     client_program_stream_by_gender:
       active_progarm_streams_by_gender: Active Program Streams by client gender
-      active_program_streams: Active Program Streams
       client_active_in_programs: Clients in Active Program Streams
     client_tab:
       action: Action
@@ -2423,9 +2435,10 @@ en:
       assessments: Assessments
       duetoday_tasks: Due today Tasks
       forms: Forms
-      tasks: Tasks
+      task: Tasks
     family:
       families: Active Families
+    family_active_in_programs: Family in Active Program Stream
     family_tab:
       action: Action
       family_form: Family Form
@@ -2458,7 +2471,7 @@ en:
       assessments: Assessments
       forms: Forms
       overdue_tasks: Overdue Tasks
-      tasks: Tasks
+      task: Tasks
     partner_tab:
       action: Action
       next: Next
@@ -2523,7 +2536,7 @@ en:
       assessment: Assessment
       assessments: Assessments
       forms: Forms
-      tasks: Tasks
+      task: Tasks
       upcoming_tasks: Upcoming Tasks
     user_tab:
       action: Action
@@ -2536,7 +2549,7 @@ en:
       filter_by_user: Filter by user
       forms: Forms
       select_user: Select user
-      tasks: Tasks
+      task: Tasks
   data_trackers:
     index:
       agencies: Agencies
@@ -2573,7 +2586,7 @@ en:
       releaselogs: Release logs
       stages: Stages
       surveys: Surveys
-      tasks: Tasks
+      task: Tasks
       user_custom_fields: User Custom Forms
       users: Users
     per_page_form:
@@ -3974,6 +3987,12 @@ en:
         other_gender: Other
         unknown: Unknown
         prefer_not_to_say: Prefer not to answer/Non-specified
+      field_type:
+        select_option: Select options
+        free_text: Free text
+      referral_decision:
+        meet_intake_criteria: Client DOES meet intake criteria and will be engaged for intake
+        not_meet_intake_criteria: Client DOES NOT meet intake criteria and has been referred to other services if needed
   errors:
     messages:
       already_confirmed: was already confirmed, please try signing in
@@ -4771,7 +4790,7 @@ en:
       program_stream_ids: Referred To
       referral_date: Date of Internal Referral
       referral_decision: REFERRAL DECISION (to be approved by case management supervisor)
-      referral_decision_note: "Action/intervention taken:"
+      crisis_management: "Describe any emergency or crisis management/referrals:"
       referral_reason: REASON FOR REFERRAL AND RECOMMNEDATIONS
       referral_reason_note: "The referral source’s reason for referral:"
       user_id: Referred from
@@ -4875,8 +4894,8 @@ en:
         one: There is 1 partner custom form due today
         other: There are %{count} partner custom forms due today
       due_today_tasks_count:
-        one: You have 1 task due today.
-        other: You have %{count} tasks due today.
+        one: You have 1 %{tasks} due today.
+        other: You have %{count} %{tasks} due today.
       due_today_user_custom_field_count:
         one: There is 1 user custom form due today
         other: There are %{count} user custom forms due today
@@ -4912,8 +4931,8 @@ en:
         one: There is 1 partner custom form overdue
         other: There are %{count} partner custom forms overdue
       overdue_tasks_count:
-        one: You have 1 task overdue
-        other: You have %{count} tasks overdue
+        one: You have 1 %{tasks} overdue
+        other: You have %{count} %{tasks} overdue
       overdue_user_custom_field_count:
         one: There is 1 user custom form overdue
         other: There are %{count} user custom forms overdue
@@ -4939,6 +4958,7 @@ en:
       communities: Community/Group
       community: Community
       custom_fields: Custom Form
+      custom_form_limit: Custom Form Limit
       custom_labels: Custom Labels
       dashboards: Dashboards
       default_columns: Default Columns
@@ -4971,6 +4991,7 @@ en:
       release_logs: Release logs
       research_module: Research Module
       settings: Settings
+      tracking_form_limit: Tracking Form Limit
       users: Users
       view_calendar: View Calendar
     top_navbar:
@@ -5597,6 +5618,8 @@ en:
       is_multi_select: Multiselection
       is_required: Required
       name: Name
+      hint: Hint
+      field_type: Field type
       quantitative_type: Custom Referral Data
       save: Save
     index:
@@ -5804,6 +5827,9 @@ en:
       two_weeks_assessment_reminder: Send 2 notification at both 2 and 1 week prior to assessment
     case_notes:
       case_note: Maximum time between case notes for client
+      case_note_edit_limit: Case Note Edit Limit
+      disabled_add_service_received: Disable Add Service Received
+      disable_future_completion_date: Disable Future Completion Date
       max_case_note: Maximum
     client_forms:
       hotline: Hotline
@@ -5840,14 +5866,19 @@ en:
       uganda:
         custom_id1_local: Custom ID1 (Swahili)
         custom_id2_local: Custom ID2 (Swahili)
+    customize_case_note:
+      case_note_tools: Case Note Tools
     default_columns:
       client_default_columns: Client
       default_columns: Default Columns
       family_default_columns: Family
       partner_default_columns: Partner
+    display_task_date_field:
+      case_note_tasks: Case Note Tasks
+      disabled_task_date_field: Disable Task's Date Field
     family_case_management:
       family_case_management: Family Case Management
-      hide_family_case_management_tool: Hide Administrative Information and Case Management tools
+      hide_family_case_management_tool: Hide Administrative Information and Case Management  tools
     index:
       csi_tools: Assessment Tools
       custom_assessment: Custom Assessment Tool
@@ -5859,6 +5890,9 @@ en:
       title: External System Integration
     navigation:
       country: Country
+    progress_note_and_next_step:
+      hide_case_note: Hide %{note}
+      require_case_note: Require %{note}
     research_module:
       research_module_label: Share my NGO's anonymous client data with the OSCaR Research Module
       title: Research Module
@@ -6114,6 +6148,7 @@ en:
     update:
       successfully_updated: Survey has been successfully updated.
   tasks:
+    add_task_progress_note: Add progress notes and next steps
     completion_date: Completion Date
     expected_date: Expected Date
     filter:
@@ -6129,6 +6164,7 @@ en:
       tasks_of: Tasks Of
       today_tasks: Today Tasks
       upcoming_tasks: Upcoming Tasks
+    task: Task
     task_added: Task Added
   thredded:
     content_moderation_states:

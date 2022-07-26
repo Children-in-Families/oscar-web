@@ -41,6 +41,12 @@ class Tracking < ActiveRecord::Base
     Rails.cache.fetch([Apartment::Tenant.current, 'Tracking', id]) { find(id) }
   end
 
+  def self.cached_program_stream_program_ids(program_ids)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Tracking', 'cached_program_stream_program_ids', *program_ids.sort]) {
+      joins(:program_stream).where(program_stream_id: program_ids)
+    }
+  end
+
   private
 
   def presence_of_label
@@ -62,5 +68,7 @@ class Tracking < ActiveRecord::Base
 
   def flush_cache
     Rails.cache.delete([Apartment::Tenant.current, 'Tracking', self.id])
+    cached_program_stream_program_ids_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_program_stream_program_ids/].blank? }
+    cached_program_stream_program_ids_keys.each { |key| Rails.cache.delete(key) }
   end
 end

@@ -88,7 +88,7 @@
             %ul.dropdown-menu.btn-fit.scrollable-dropdown-menu.referral-forms
               - ngos.each do |value, key|
                 %li= link_to value, new_family_family_referral_url(@family, ngo: key, external_ngo_name: key == 'external referral' && value), :class => 'target-ngo', :value => "#{key}", :id => "#{key}"
-          = link_to family_tasks_path(@family), data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.clients.show.tasks')}", placement: "auto" } do
+          = link_to family_tasks_path(@family), data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.clients.show.task')}", placement: "auto" } do
             %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit
               %strong.count-margin= @family.tasks.incomplete.count
               = t('.view_tasks')
@@ -327,6 +327,16 @@
                   = link_to preview_or_download(attachment), attachment.url, class: 'btn btn-info btn-sm btn-download', target: target_blank(attachment)
 
           - if show_family_CRD?
+            - @family.family_quantitative_free_text_cases.each do |qtt_free_text|
+              - next if qtt_free_text.content.blank?
+              - next unless quantitative_type_readable?(qtt_free_text.quantitative_type_id)
+              %tr
+                %td.align-justify.spacing-first-col
+                  = qtt_free_text.quantitative_type.name
+                %td.align-justify
+                  %strong.label.label-default
+                    = qtt_free_text.content
+
             - @family.viewable_quantitative_cases.group_by(&:quantitative_type).each do |qtypes|
               - next unless quantitative_type_readable?(qtypes.first.id)
               %tr

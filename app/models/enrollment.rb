@@ -32,6 +32,7 @@ class Enrollment < ActiveRecord::Base
   after_create :set_entity_status
   after_save :create_entity_enrollment_history
   after_destroy :reset_entity_status
+  after_commit :flash_cache
 
   def active?
     status.downcase == 'active'
@@ -87,5 +88,9 @@ class Enrollment < ActiveRecord::Base
     if leave_program.present? && leave_program.exit_date < enrollment_date
       errors.add(:enrollment_date, I18n.t('invalid_program_enrollment_date'))
     end
+  end
+
+  def flash_cache
+    Rails.cache.delete([Apartment::Tenant.current, 'Enrollment', 'cache_program_steams'])
   end
 end

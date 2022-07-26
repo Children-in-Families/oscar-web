@@ -55,15 +55,16 @@
                   .row
                     .col-xs-12
                       #interaction-type.text-danger
-
-          .row
-            .col-xs-12
-              %label.string.required.control-label{:for => "case_note_note"}
-                %abbr{:title => "required"} *
-                = t('.note')
-              %a{:role => "button", :tabIndex => "0",  data: { toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.case_notes.note')}", placement: "right" } }
-                = fa_icon "info-circle", class: 'text-info m-xs'
-              = f.input :note, label: false, input_html: { value: @case_note.note.presence || @case_note_domain_group_note, rows: 6, placeholder: t('.note') }
+          - unless @current_setting.hide_case_note_note?
+            .row
+              .col-xs-12
+                %label.string.ontrol-label{ for: "case_note_note", class: @current_setting.required_case_note_note? && "required" }
+                  - if @current_setting.required_case_note_note?
+                    %abbr{:title => "required"} *
+                  = t('.note')
+                %a{:role => "button", :tabIndex => "0",  data: { toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.case_notes.note')}", placement: "right" } }
+                  = fa_icon "info-circle", class: 'text-info m-xs'
+                = f.input :note, label: false, input_html: { id:  @current_setting.required_case_note_note? ? 'case_note_note' : 'ratanak_case_note_note' ,value: @case_note.note.presence || @case_note_domain_group_note, rows: 6, placeholder: t('.note') }
 
           .row
             .col-xs-12
@@ -84,7 +85,8 @@
             .col-xs-12
               %label{:for => "On going tasks"}= t('case_notes.form.on_going_tasks')
 
-          = f.simple_fields_for :case_note_domain_groups do |case_note_domain|
+          - case_note_domain_groups = f.object.persisted? ? f.object.case_note_domain_groups.includes(:domain_group) : f.object.case_note_domain_groups
+          = f.simple_fields_for :case_note_domain_groups, case_note_domain_groups do |case_note_domain|
             - next if case_note_domain.object.domain_group.nil?
             = case_note_domain.input :attachments, as: :hidden
             - if case_note_domain.object.any_assessment_domains?(@case_note) && enable_default_assessment?

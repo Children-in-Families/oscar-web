@@ -1,4 +1,9 @@
 module ClientsHelper
+  def get_or_build_client_quantitative_free_text_cases
+    QuantitativeType.where(field_type: 'free_text').map do |qtt|
+      @client.client_quantitative_free_text_cases.find_or_initialize_by(quantitative_type_id: qtt.id)
+    end
+  end
 
   def xeditable? client = nil
     (can?(:manage, client&.object) || can?(:edit, client&.object) || can?(:rud, client&.object)) ? true : false
@@ -72,8 +77,24 @@ module ClientsHelper
     result[:show_legal_doc] = result[:client_show_legal_doc] = policy(Client).show_legal_doc?
     result[:school_information] = result[:client_school_information] = policy(Client).client_school_information?
     result[:stackholder_contacts] = result[:client_stackholder_contacts] = policy(Client).client_stackholder_contacts?
+    result[:pickup_information] = result[:client_pickup_information] = policy(Client).client_pickup_information?
 
     result
+  end
+
+  def required_legal_docs
+    result = field_settings.each_with_object({}) do |field_setting, output|
+      field_mapping = Client::LEGAL_DOC_MAPPING[field_setting.name.to_sym]
+
+      if field_mapping.present? && field_setting.required?
+        output[field_setting.name] = true
+      end
+    end
+
+    {
+      fields: result,
+      mapping: Client::LEGAL_DOC_MAPPING
+    }
   end
 
   def report_options(title, yaxis_title)
@@ -309,11 +330,14 @@ module ClientsHelper
       carer_name_: I18n.t('activerecord.attributes.carer.name'),
       carer_phone_: I18n.t('activerecord.attributes.carer.phone'),
       carer_email_: I18n.t('activerecord.attributes.carer.email'),
+      arrival_at_: I18n.t('clients.form.arrival_at'),
+      flight_nb_: I18n.t('clients.form.flight_nb'),
+      ratanak_achievement_program_staff_client_ids_: I18n.t('clients.form.ratanak_achievement_program_staff_client_ids'),
+      mosavy_official_: I18n.t('clients.form.mosavy_official'),
       carer_relationship_to_client_: I18n.t('datagrid.columns.clients.carer_relationship_to_client'),
       province_id_: FieldSetting.cache_by_name_klass_name_instance('current_province', 'client') || I18n.t('datagrid.columns.clients.current_province'),
       birth_province_id_: FieldSetting.cache_by_name_klass_name_instance('birth_province', 'client') || I18n.t('datagrid.columns.clients.birth_province'),
-      **overdue_translations.map{ |k, v| ["#{k}_".to_sym, v] }.to_h,
-      **custom_assessment_field_traslation_mapping.map{ |k, v| ["#{k}_".to_sym, v] }.to_h
+      **overdue_translations.map{ |k, v| ["#{k}_".to_sym, v] }.to_h
     }
   end
 
@@ -622,34 +646,6 @@ module ClientsHelper
         properties_result = object.includes(client: :program_streams).where(sql_partial).references(:program_streams).distinct
       else
         properties_result = object.includes(client: :program_streams).where(query_string.reject(&:blank?).join(" #{basic_rules[:condition]} ")).references(:program_streams).distinct
-      end
-    else
-      object
-    end
-  end
-
-  def family_program_stream_name(object, rule)
-    properties_field = 'enrollment_trackings.properties'
-    basic_rules  = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
-    return object if basic_rules.nil?
-    basic_rules  = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
-    results      = mapping_form_builder_param_value(basic_rules, rule)
-    query_string  = get_query_string(results, rule, properties_field)
-    default_value_param = params['all_values']
-    if default_value_param
-      object
-    elsif rule == 'tracking'
-      properties_result = object.joins(:enrollment_trackings).where(query_string.reject(&:blank?).join(" #{basic_rules[:condition]} ")).distinct
-    elsif rule == 'active_program_stream'
-      mew_query_string = query_string.reject(&:blank?).join(" #{basic_rules[:condition]} ")
-      program_stream_ids = mew_query_string&.scan(/program_streams\.id = (\d+)/)&.flatten || []
-      if program_stream_ids.size >= 2
-        sql_partial = mew_query_string.gsub(/program_streams\.id = \d+/, "program_streams.id IN (#{program_stream_ids.join(", ")})")
-        # properties_result = object.includes(programmable: :program_streams).where(sql_partial).references(:program_streams).distinct
-        properties_result = object.includes(programmable: :program_streams).where(sql_partial)
-      else
-        # properties_result = object.includes(programmable: :program_streams).where(query_string.reject(&:blank?).join(" #{basic_rules[:condition]} ")).references(:program_streams).distinct
-        properties_result = object.includes(programmable: :program_streams).where(query_string.reject(&:blank?).join(" #{basic_rules[:condition]} "))
       end
     else
       object

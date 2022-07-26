@@ -937,6 +937,7 @@ km:
         with_id: ជាមួយលេខសម្គាល់
   case_conferences:
     case_conference_attr: &CASE_CONFERENCE_ATTR
+      add: បន្ថែម
       allow_file_size: ប្រភេទឯកសារដែលអាចផ្ទុកបាន
       are_you_sure: តើអ្នកប្រាកដថាចង់លុបដែរឬទេ?
       attachments: ឯកសារភ្ជាប់
@@ -952,6 +953,7 @@ km:
       client_support: ការគាំទ្រនិងរនាំងរបស់អតិថិជនក្នុងការចូលរួម
       created_by: បង្កើតដោយ
       initial_case_conference: សនិ្នសីទករណីដំបូង
+      issue_to_be_addressed: Issue to be addressed
       local_resource: ធានធាន/សេវាក្នុងសហគមន៍
       on_date: ថ្ងៃកំនត់
       presenting_problem: បញ្ហាកំពុងលេចឡើង
@@ -1026,7 +1028,7 @@ km:
       present: 'វត្តមានឣ្នកចូលរួម:'
       remove_domain_group_hint: អ្នកបានបង្កើតកាតព្វដែលភ្ជាប់ជាមួយក្រុមកត្តានេះ។ ដើម្បីលុបកត្តានេះបានសូមទៅលុបកាតព្វកិច្ចជាមុនសិន។
       save: រក្សាទុក
-      tasks: កាតព្វកិច្ច
+      task: កាតព្វកិច្ច
       tasks_arising: កាតព្វកិច្ចបង្កើតថ្មី
       type: ប្រភេទជំនួប
       type_options:
@@ -1064,6 +1066,7 @@ km:
       note: កំណត់ត្រា
       please_add_custom_domains: អ្នកគួរតែបង្កើតកត្តាផ្ទាល់ខ្លួនមួយចំនួនមុននឹងអ្នកអាចធ្វើប្រតិបត្តិការនេះ
       present: វត្តមានឣ្នកចូលរួម
+      task: កាតព្វកិច្ច
       type: 'ប្រភេទកណត់ត្រាករណី'
       you_need_to_create_assessment: អ្នកត្រូវបង្កើតការប៉ាន់ប្រមាណជាមុនសិន
     show:
@@ -1762,6 +1765,8 @@ km:
       type_of_trafficking: Type of Trafficking
       education_background: Education Background
       department: Ratanak Team
+      add_mosavy_official: Add MoSAVY Official
+      arrival_at: Arrivate Date/Time
       national_id: 'National ID'
       birth_cert: 'Birth Certificate'
       family_book: 'សៀវភៅគ្រួសារ'
@@ -1806,6 +1811,7 @@ km:
       exit_status: ស្ថានភាព/ហេតុផលនៃការចាកចេញ
       family_name: នាមត្រកូល (អក្សរឡាតាំង)
       finish: រក្សាទុក
+      flight_nb: Flight Number
       follow_up_by: បុគ្គលិកតាមដានករណី
       follow_up_date: កាលបរិច្ឆេទតាមដានដំបូង
       followed_up_by: បុគ្គលិកតាមដានករណី
@@ -1863,12 +1869,14 @@ km:
       next: បន្ទាប់
       other_phone_number: លេខទូរស័ព្ទ - Alternate
       other_phone_whatsapp: Whatsapp? (លេខទូរស័ព្ទ - Alternate)
+      pickup_information: Pick up information
       phone_owner: ម្ចាស់ទូរស័ព្ទ
       po_box2: PO Box
       police_interview: លិខិតពីប៉ូលីសអន្តោប្រវេសន៍
       presented_id: Presented ID
       previous: ត្រឡប់
       province: ខេត្ត/ក្រុង
+      ratanak_achievement_program_staff_client_ids: Ratanak Achievement Program Staff
       rated_for_id_poor: កម្រិតប័ណ្ណក្រីក្រ
       received_by: បុគ្គលិកទទួលករណី
       referee_called_before: តើអ្នកបញ្ជូនភ្ជាប់បានហៅទូរស័ព្ទមកកាន់បណ្តាញសុវត្ថិភាពកុមារពីមុនដែរឬទេ
@@ -1878,10 +1886,14 @@ km:
       referral_source: ប្រភពនៃការបញ្ជូន
       reject_note: កំណត់ហេតុនៃការមិនទទួលយក
       relevant_referral_information: ព័ត៌មានសំខាន់ៗដែលពាក់ព័ន្ធ
+      remove_mosavy_official: Remove MoSAVY Official
       resident_own_or_rent2: Acc. type
       school_grade: កម្រិតវប្បធម៌
       school_name: ឈ្មោះសាលារៀន
       main_school_contact: ជនបង្គោលនៅសាលារៀន
+      mosavy_official: MoSAVY Official
+      mosavy_official_name: Name
+      mosavy_official_position: Position
       settlement2: City/Settlement
       shared_service_enabled: តើអ្នកចង់ចែករំលែកសេវាកម្មអតិថិជនជាមួយប្រព័ន្ធខាងក្រៅទេ?
       stage: សំនួរ តំណាក់កាល
@@ -2309,6 +2321,7 @@ km:
     update:
       successfully_updated: ទម្រង់បែបបទត្រូវបានកែសម្រួលដោយជោគជ័យ
   dashboards:
+    active_program_streams: កម្មវិធីចម្បងបច្ចុប្បន្ន
     active_tasks:
       all_active_tasks: កាតព្វកិច្ចដែលមិនទាន់ធ្វើ
       checkbox_alert: សូមជ្រើសជំរើសមួយឬច្រើន
@@ -2317,7 +2330,7 @@ km:
       today_tasks: កាតព្វកិច្ចថ្ងៃនេះ
       upcoming_tasks: កាតព្វកិច្ចបន្ទាប់
     active_tasks_side:
-      active_tasks: បញ្ចីកាតព្វកិច្ច
+      task_list: បញ្ចីកាតព្វកិច្ច
     assessment_tab:
       assessment: ការប៉ាន់ប្រមាណ
       assessment_you_like: តើការប៉ាន់ប្រមាណមួយណាដែលអ្នកចង់ប្រើ?(CSI ឬការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន)
@@ -2343,7 +2356,6 @@ km:
       searching: កំពុងស្វែងរក
     client_program_stream_by_gender:
       active_progarm_streams_by_gender: បំណែងចែកចំនួនអតិថិជនតាមភេទក្នុងកម្មវិធី
-      active_program_streams: កម្មវិធីចម្បងបច្ចុប្បន្ន
       client_active_in_programs: ចំនួនអតិថិជនក្មុងកម្មវិធី
     client_tab:
       action: សកម្មភាព
@@ -2370,11 +2382,12 @@ km:
       assessments: ការប៉ាន់ប្រមាណ
       duetoday_tasks: កាតព្វកិច្ចត្រូវបំពេញថ្ងៃនេះ
       forms: ទម្រង់បែបបទ
-      tasks: កាតព្វកិច្ច
+      task: កាតព្វកិច្ច
     family:
       families: គ្រួសារបច្ចុប្បន្ន
       foster: Foster
       kinship: Kinship
+    family_active_in_programs: បំណែងចែកចំនួនគ្រួសារក្នុងកម្មវិធី
     family_tab:
       action: សកម្មភាព
       family_form: ទម្រង់គ្រួសារ
@@ -2385,7 +2398,7 @@ km:
     index:
       client_dashboard: តារាងទិន្នន័យអតិថិជន
       community_dashboard: Community Dashboard
-      family_dashboard: Family Dashboard
+      family_dashboard: តារាងទិន្នន័យគ្រួសារ
       hotline_dashboard: Hotline Dashboard
     multiple_forms:
       add_new_document: បន្ថែមឯកសារថ្មី
@@ -2407,7 +2420,7 @@ km:
       assessments: ការប៉ាន់ប្រមាណ
       forms: ទម្រង់បែបបទ
       overdue_tasks: កាតព្វកិច្ចហួសកំណត់
-      tasks: កាតព្វកិច្ច
+      task: កាតព្វកិច្ច
     partner_tab:
       action: សកម្មភាព
       next: ទំព័របន្ទាប់
@@ -2469,7 +2482,7 @@ km:
       assessment: ការប៉ាន់ប្រមាណ
       assessments: ការប៉ាន់ប្រមាណ
       forms: ទម្រង់បែបបទ
-      tasks: កាតព្វកិច្ច
+      task: កាតព្វកិច្ច
       upcoming_tasks: កាតព្វកិច្ចបន្ទាប់
     user_tab:
       action: សកម្មភាព
@@ -2482,7 +2495,7 @@ km:
       filter_by_user: ស្វែងរកតាមរយៈអ្នកប្រើ
       forms: ទម្រង់បែបបទ
       select_user: ជ្រើសរើសអ្នកប្រើ
-      tasks: កាតព្វកិច្ច
+      task: កាតព្វកិច្ច
   data_trackers:
     index:
       able_screening_questions: សំនួរ Able Screening
@@ -2520,7 +2533,7 @@ km:
       releaselogs: Release log
       stages: ដំណាក់កាល
       surveys: ការស្ទង់មតិ
-      tasks: កាតព្វកិច្ច
+      task: កាតព្វកិច្ច
       user_custom_fields: ទម្រង់បែបបទអ្នកប្រើ
       users: អ្នកប្រើ
     per_page_form:
@@ -3919,6 +3932,12 @@ km:
         other: ផ្សេងៗ
         unknown: អត់ទាន់ដឹង
         prefer_not_to_say: សុំមិននិយាយ/មិនជាក់លាក់
+      field_type:
+        select_option: Select options
+        free_text: Free text
+      referral_decision:
+        meet_intake_criteria: Client DOES meet intake criteria and will be engaged for intake
+        not_meet_intake_criteria: Client DOES NOT meet intake criteria and has been referred to other services if needed
   errors:
     messages:
       already_confirmed: ត្រូវបានបញ្ជាក់រួចហើយ សូមសាកល្បងចូល
@@ -4713,7 +4732,7 @@ km:
       program_stream_ids: បញ្ជូនទៅ
       referral_date: កាលបរិច្ឆេទការបញ្ជូនខាងក្នុងអង្គភាព
       referral_decision: ការសម្រេចចិត្តបញ្ជូន (ត្រូវឆ្លងការអនុម័តពីប្រធានគ្រប់គ្រងករណី)
-      referral_decision_note: "សកម្មភាព/ការអន្តរាគមន៍ដែលបានធ្វើ:"
+      crisis_management: "Describe any emergency or crisis management/referrals:"
       referral_reason: មូលហេតុក្នុងការបញ្ជូននិងអនុសាសន៍
       referral_reason_note: "មូលហេតុក្នុងការបញ្ចូលមកកាន់កម្មវិធីសមិទ្ធិផលរតនៈ:"
       user_id: បញ្ជូនមកពី
@@ -4831,7 +4850,7 @@ km:
       no_task: មិនមានពត៌មានដែលត្រូវបង្ហាញ
       overdue_and_due_today_count:
         one: ហើយនិងមានចំនួន1ដែលត្រូវបំពេញនៅថ្ងៃនេះ
-        other: ហើយនិងមានចំនួន%{count}ដែលត្រូវបំពេញនៅថ្ងៃនេះ
+        other: ហើយនិងមានចំនួន%{count} %{tasks}ដែលត្រូវបំពេញនៅថ្ងៃនេះ
       overdue_assessments:
         one: មិនទាន់បានធ្វើ
         other: មិនទាន់បានធ្វើ
@@ -4854,8 +4873,8 @@ km:
         one: មានទម្រង់បែបបទរបស់ដៃគូចំនួន1ដែលផុតកំណត់
         other: មានទម្រង់បែបបទរបស់ដៃគូចំនួន%{count}ដែលផុតកំណត់
       overdue_tasks_count:
-        one: អ្នកមានកាតព្វកិច្ចចំនួន 1 កាតព្វកិច្ចផុតកំណត់
-        other: អ្នកមានកាតព្វកិច្ចចំនួន %{count} កាតព្វកិច្ចផុតកំណត់
+        one: អ្នកមានកាតព្វកិច្ចចំនួន 1 %{tasks}ផុតកំណត់
+        other: អ្នកមានកាតព្វកិច្ចចំនួន %{count} %{tasks}ផុតកំណត់
       overdue_user_custom_field_count:
         one: មានទម្រង់បែបបទរបស់អ្នកប្រើចំនួន1ដែលផុតកំណត់
         other: មានទម្រង់បែបបទរបស់អ្នកប្រើចំនួន%{count}ដែលផុតកំណត់
@@ -4881,6 +4900,7 @@ km:
       communities: សហគមន៍/ក្រុម
       community: សហគមន៍
       custom_fields: ទម្រង់បែបបទ
+      custom_form_limit: កំណត់កែរទម្រង់បែបបទ
       custom_labels: Custom Labels
       dashboards: តារាងទិន្នន័យ
       default_columns: ជួរឈរលំនាំដើម
@@ -4913,6 +4933,7 @@ km:
       release_logs: Release logs
       research_module: ការសិក្សាស្រាវជ្រាវទិន្នន័យ OSCaR
       settings: ការកំណត់
+      tracking_form_limit: កំណត់កែរទម្រង់តាមដាន
       users: ឣ្នកប្រើ
       view_calendar: មើលប្រតិទិន
     top_navbar:
@@ -5539,6 +5560,8 @@ km:
       is_multi_select: ជ្រើសបានលើសពីមួយ
       is_required: មិនអាចរំលងបាន
       name: ឈ្មោះ
+      hint: Hint
+      field_type: Field type
       quantitative_type: ព័ត៌មានជាក់លាក់នៃការបញ្ជូន
       save: រក្សាទុក
     index:
@@ -5785,11 +5808,16 @@ km:
       uganda:
         custom_id1_local: Custom ID1 (Swahili)
         custom_id2_local: Custom ID2 (Swahili)
+    customize_case_note:
+      case_note_tools: Case Note Tools
     default_columns:
       client_default_columns: អតិថិជន
       default_columns: ជួរឈរលំនាំដើម
       family_default_columns: គ្រួសារ
       partner_default_columns: ដៃគូ
+    display_task_date_field:
+      case_note_tasks: Case Note Tasks
+      disabled_task_date_field: Disiable Task's Date Field
     family_case_management:
       family_case_management: ការគ្រប់គ្រងករណីគ្រួសារ
       hide_family_case_management_tool: បិទព័ត៌មានរដ្ឋបាល និងឧបករណ៍គ្រប់គ្រងករណី
@@ -5804,6 +5832,9 @@ km:
       title: External System Integration
     navigation:
       country: ប្រទេស
+    progress_note_and_next_step:
+      hide_case_note: មិនបង្ហាញ %{note}
+      require_case_note: តម្រូវមាន %{note}
     research_module:
       research_module_label: ចែករំលែកទិន្នន័យអតិថិជនអនាមិករបស់អង្គការខ្ញុំជាមួយការសិក្សាស្រាវជ្រាវទិន្នន័យ OSCaR
       title: ការសិក្សាស្រាវជ្រាវទិន្នន័យ OSCaR
@@ -6060,6 +6091,7 @@ km:
     update:
       successfully_updated: ការស្ទង់មតិត្រូវបានកែសម្រួលដោយជោគជ័យ
   tasks:
+    add_task_progress_note: បន្ថែមការពិព៌ណនាអំពីជំនួប
     completion_date: កាលបរិច្ឆេទបញ្ចប់
     expected_date: កាលបរិច្ឆេទរំពឹងទុក
     filter:
@@ -6075,6 +6107,7 @@ km:
       tasks_of: កាតព្វកិច្ចរបស់
       today_tasks: កាតព្វកិច្ចថ្ងៃនេះ
       upcoming_tasks: កាតព្វកិច្ចបន្ទាប់
+    task: កាតព្វកិច្ច
     task_added: កាតព្វកិច្ចបានបន្ថែមហើយ
   thredded:
     content_moderation_states:

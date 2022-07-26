@@ -4,12 +4,13 @@ export default props => {
   const { isError, hidden, label, required, onChange, T, value, hintText, inlineClassName, ...others } = props
   return (
     <div className='form-group'>
-      <label className={ hidden ? 'hidden' : '' } style={isError && styles.errorText || {}}>
+      <label className={ hidden ? 'hidden' : '' } style={isError && styles.errorLabel || {}}>
         {required && <abbr title='required'>* </abbr>}
         {label}
       </label>
       {
         inlineClassName &&
+        hintText &&
         <a
           tabIndex="0"
           data-toggle="popover"
@@ -17,7 +18,7 @@ export default props => {
           data-html="true"
           data-placement="bottom"
           data-trigger="focus"
-          data-content={ hintText || 'N/A' }>
+          data-content={ hintText }>
           <i className={`fa fa-info-circle text-info m-xs ${inlineClassName}`}></i>
         </a>
       }
@@ -28,9 +29,12 @@ export default props => {
 }
 
 const styles = {
+  errorLabel: {
+    color: 'red'
+  },
   errorText: {
     color: 'red',
-    width: '100%'
+    display: 'block'
   },
   errorInput: {
     borderColor: 'red'

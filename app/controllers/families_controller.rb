@@ -145,6 +145,9 @@ class FamiliesController < AdminController
       quantitative_case_ids: [],
       documents: [],
       community_member_attributes: [:id, :community_id, :_destroy],
+      family_quantitative_free_text_cases_attributes: [
+        :id, :content, :quantitative_type_id
+      ],
       family_members_attributes: [
         :monthly_income, :client_id,
         :id, :gender, :note, :adult_name, :date_of_birth,
@@ -262,5 +265,4 @@ class FamiliesController < AdminController
   def redirect_to_index
     redirect_to families_url if params[:id] == 'advanced_search'
   end
-
 end

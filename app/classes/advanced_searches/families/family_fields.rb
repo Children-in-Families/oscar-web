@@ -26,7 +26,7 @@ module AdvancedSearches
         search_fields = text_fields + drop_list_fields + number_fields + date_picker_fields
         custom_domain_scores_options = !current_setting.try(:hide_family_case_management_tool?) ? AdvancedSearches::CustomDomainScoreFields.render('family') : []
 
-        (search_fields.sort_by { |f| f[:label].downcase } + custom_domain_scores_options).select do |field|
+        search_fields.select do |field|
           field_name = field[:id]
           field_name = 'member_count' if field_name.to_s.include?('significant_family_member_count')
           policy(Family).show?(field_name.to_sym)
@@ -72,6 +72,7 @@ module AdvancedSearches
           ['id_poor', family_id_poor],
           ['user_id', created_by_options('Family')],
           ['received_by_id', received_by_options('Family')],
+          ['active_program_stream', active_program_options],
           ['relation', drop_down_relation.map { |k, v| { k => v }  }],
           *addresses_mapping(@called_in)
         ] + case_management_tool_fields
@@ -104,6 +105,10 @@ module AdvancedSearches
 
       def gender_options
         FamilyMember.gender.values.map{ |value| [value, I18n.t("datagrid.columns.families.gender_list.#{value.gsub('other', 'other_gender')}")] }.to_h
+      end
+
+      def active_program_options
+        Enrollment.cache_program_steams.map { |p| { p.id => p.name } }
       end
     end
   end

@@ -13,12 +13,14 @@
       - domain_note_by_case_note.each do |domain|
         - ad = domain.assessment_domains.find_by(assessment_id: @case_note.assessment_id)
         - next if ad.nil?
-        %button.case-note-domain-score{ 'data-original-title': "#{simple_format(ad.score_definition)}", type: 'button', class: "btn btn-#{ad.score_color_class} btn-sm", 'data-toggle': 'tooltip' }
+
+        %button.case-note-domain-score{ role: "button", data: { toggle: "popover", trigger: "focus", placement: 'auto', title: "#{simple_format(ad.score_definition)} #{"#{t('care_plans.form.score_from_assessment')}: #{ad.score}"}", content: display_domain_definition_description(domain, ad.score_definition) },  type: 'button', class: "btn btn-#{ad.score_color_class} btn-sm" }
           = "#{domain.name}: #{domain.identity}"
 
   .ibox-content
     .row
       .col-xs-12
+        - is_ratanak = Organization.ratanak?
         - domain_note_by_case_note.each do |domain|
           - assessment_domain = @case_note.assessment.assessment_domains.find_by(domain_id: domain.id) if @case_note.assessment.present?
           - tasks = @case_note.client.tasks.incomplete.where(domain_id: domain.id)
@@ -29,5 +31,8 @@
             .panel-heading
               %strong
                 = "#{assessment_domain.domain.name} #{t('.goal')}"
+              - if is_ratanak
+                %a.text-primary{ role: "button", tabIndex: "0",  data: { toggle: "popover", placement: 'auto', trigger: "focus", content: list_task_goal_descriptions(tasks) } }
+                  = fa_icon "info-circle", class: 'text-info m-xs'
 
             = render 'tasks_list', { domain_note: domain_note, domain: domain, tasks: tasks }
