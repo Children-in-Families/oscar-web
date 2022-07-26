@@ -1156,19 +1156,20 @@ module AdvancedSearches
     end
 
     def number_client_billable_query
-      clients = @clients.joins(:enter_ngos).distinct
+      exited_date_condition = ' AND (exit_ngos.exit_date IS NULL OR date(exit_ngos.exit_date) >= ?)'
+      clients = @clients.joins(:enter_ngos, :exit_ngos).distinct
 
       case @operator
       when 'equal'
-        client_ids = clients.where('date(enter_ngos.accepted_date) = ?', @value.to_date ).distinct.ids
+        client_ids = clients.where('date(enter_ngos.accepted_date) = ?' + exited_date_condition, @value.to_date, @value.to_date).distinct.ids
       when 'not_equal'
-        client_ids = clients.where('date(enter_ngos.accepted_date) != ?', @value.to_date ).distinct.ids
+        client_ids = clients.where('date(enter_ngos.accepted_date) != ?' + exited_date_condition, @value.to_date, @value.to_date).distinct.ids
       when 'between'
-        client_ids = clients.where("date(enter_ngos.accepted_date) BETWEEN ? AND ?", @value[0], @value[1]).distinct.ids
+        client_ids = clients.where("((date(enter_ngos.accepted_date) BETWEEN ? AND ?) OR date(enter_ngos.accepted_date) <= ?)" + exited_date_condition, @value[0], @value[1], @value[0], @value[1]).distinct.ids
       when 'less'
-        client_ids = clients.where('date(enter_ngos.accepted_date) < ?', @value.to_date ).distinct.ids
+        client_ids = clients.where('date(enter_ngos.accepted_date) < ?' + exited_date_condition, @value.to_date, @value.to_date).distinct.ids
       when 'less_or_equal'
-        client_ids = clients.where('date(enter_ngos.accepted_date) <= ?', @value.to_date ).distinct.ids
+        client_ids = clients.where('date(enter_ngos.accepted_date) <= ?' + exited_date_condition, @value.to_date, @value.to_date).distinct.ids
       when 'greater'
         client_ids = clients.where('date(enter_ngos.accepted_date) > ?', @value.to_date ).distinct.ids
       when 'greater_or_equal'
