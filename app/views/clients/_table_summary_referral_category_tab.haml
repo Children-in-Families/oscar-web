@@ -16,7 +16,7 @@
     %tbody
       - totalChildFemale = totalChildMale = totalChildOther = 0
       - totalAdultFemale = totalAdultMale = totalAdultOther = total = 0
-      - ReferralSource.where(id: Client.pluck(:referral_source_category_id).compact).each do |referralSource|
+      - ReferralSource.where(id: @results.pluck(:referral_source_category_id).uniq).each do |referralSource|
         %tr
           %td= referralSource.name
           - childFemale= @results.where("referral_source_category_id = ? AND gender = ? AND (EXTRACT(year FROM age(current_date, date_of_birth)) :: int) < ?", referralSource.id, 'female', 18).count
@@ -25,7 +25,7 @@
           - childMale= @results.where("referral_source_category_id = ? AND gender = ? AND (EXTRACT(year FROM age(current_date, date_of_birth)) :: int) < ?", referralSource.id, 'male', 18).count
           - totalChildMale += childMale
           %td= childMale
-          - childOther= @results.where("referral_source_category_id = ? AND gender = ? AND (EXTRACT(year FROM age(current_date, date_of_birth)) :: int) < ?", referralSource.id, 'other', 18).count
+          - childOther= @results.where("referral_source_category_id = ? AND gender NOT IN (?) AND (EXTRACT(year FROM age(current_date, date_of_birth)) :: int) < ?", referralSource.id, ['male', 'female'], 18).count
           - totalChildOther += childOther
           %td= childOther
           - adultFemale= @results.where("referral_source_category_id = ? AND gender = ? AND (EXTRACT(year FROM age(current_date, date_of_birth)) :: int) >= ?", referralSource.id, 'female', 18).count
@@ -34,7 +34,7 @@
           - adultMale= @results.where("referral_source_category_id = ? AND gender = ? AND (EXTRACT(year FROM age(current_date, date_of_birth)) :: int) >= ?", referralSource.id, 'male', 18).count
           - totalAdultMale += adultMale
           %td= adultMale
-          - adultOther= @results.where("referral_source_category_id = ? AND gender = ? AND (EXTRACT(year FROM age(current_date, date_of_birth)) :: int) >= ?", referralSource.id, 'other', 18).count
+          - adultOther= @results.where("referral_source_category_id = ? AND gender NOT IN (?) AND (EXTRACT(year FROM age(current_date, date_of_birth)) :: int) >= ?", referralSource.id, ['male', 'female'], 18).count
           - totalAdultOther += adultOther
           %td= adultOther
           - totalProgram= childFemale + childMale + childOther + adultFemale + adultMale + adultOther
