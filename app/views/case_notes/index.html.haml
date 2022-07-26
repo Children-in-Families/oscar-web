@@ -68,23 +68,24 @@
                     - if current_user.admin?
                       = destroy_link(@client, case_note)
             .panel-body
-              - if case_note.note.present?
-                .row
-                  .col-xs-12
-                    .panel.panel-default
-                      .panel-heading
-                        %h4= t('.note')
-                      .panel-body
-                        = simple_format case_note.note
-              - else
-                - combined_notes = case_note.case_note_domain_groups.pluck(:note).uniq.join("\n")
-                .row
-                  .col-xs-12
-                    .panel.panel-default
-                      .panel-heading
-                        %h4= t('.note')
-                      .panel-body
-                        = simple_format combined_notes
+              - unless @current_setting.hide_case_note_note?
+                - if case_note.note.present?
+                  .row
+                    .col-xs-12
+                      .panel.panel-default
+                        .panel-heading
+                          %h4= t('.note')
+                        .panel-body
+                          = simple_format case_note.note
+                - else
+                  - combined_notes = case_note.case_note_domain_groups.pluck(:note).uniq.join("\n")
+                  .row
+                    .col-xs-12
+                      .panel.panel-default
+                        .panel-heading
+                          %h4= t('.note')
+                        .panel-body
+                          = simple_format combined_notes
               .row
                 .col-xs-12
                   .panel.panel-default
@@ -92,7 +93,7 @@
                       %h4= "Domain Groups"
                     .panel-body
                       = select_tag "", tag_domain_group(case_note), multiple: true, disabled: true
-              - case_note.case_note_domain_groups.includes(:case_note, :domain_group).where(domain_group_id: case_note.selected_domain_group_ids.map(&:to_i)).each do |cdg|
+              - case_note.case_note_domain_groups.includes(:domain_group, :case_note).each do |cdg|
                 - list_goals, ongoing_tasks, today_tasks = list_goals_and_tasks(cdg, case_note)
                 - if today_tasks.flatten.any? || cdg.completed_tasks.any?
                   .ibox.border-left-right.border-bottom
@@ -139,7 +140,7 @@
                                             %td= date_format(task.completion_date)
 
                         - the_latest_tasks = today_tasks.flatten.uniq
-                        - if the_latest_tasks.present?
+                        - if the_latest_tasks.reject(&:completed).present?
                           .col-xs-12.col-sm-6
                             .panel.panel-default
                               .panel-heading
@@ -159,7 +160,7 @@
                                           %label{:for => ""}= t('.task')
                                         %th= t('.expected_date')
                                     %tbody
-                                      - cdg.completed_tasks.each_with_index do |task, index|
+                                      - the_latest_tasks.each_with_index do |task, index|
                                         %tr
                                           %td
                                             = "#{index + 1}. "
@@ -167,7 +168,7 @@
                                             %td= date_format(task.expected_date)
 
                         - ongoing_tasks = case_note_ongoing_tasks(ongoing_tasks)
-                        - if ongoing_tasks.present?
+                        - if ongoing_tasks.reject(&:completed).present?
                           .col-xs-12.col-sm-6
                             .panel.panel-default
                               .panel-heading
@@ -187,7 +188,7 @@
                                           %label{:for => ""}= t('.task')
                                         %th= t('.expected_date')
                                     %tbody
-                                      - cdg.completed_tasks.each_with_index do |task, index|
+                                      - ongoing_tasks.each_with_index do |task, index|
                                         %tr
                                           %td
                                             = "#{index + 1}. "

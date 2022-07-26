@@ -5832,6 +5832,9 @@ km:
       title: External System Integration
     navigation:
       country: ប្រទេស
+    progress_note_and_next_step:
+      hide_case_note: មិនបង្ហាញ %{note}
+      require_case_note: តម្រូវមាន %{note}
     research_module:
       research_module_label: ចែករំលែកទិន្នន័យអតិថិជនអនាមិករបស់អង្គការខ្ញុំជាមួយការសិក្សាស្រាវជ្រាវទិន្នន័យ OSCaR
       title: ការសិក្សាស្រាវជ្រាវទិន្នន័យ OSCaR

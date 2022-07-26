@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20220701075009) do
+ActiveRecord::Schema.define(version: 20220725040448) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -2131,11 +2131,11 @@ ActiveRecord::Schema.define(version: 20220701075009) do
     t.string   "referral_phone",            default: ""
     t.integer  "referee_id"
     t.string   "client_name",               default: ""
-    t.string   "consent_form",              default: [],                      array: true
+    t.string   "consent_form",              default: [],                 array: true
     t.boolean  "saved",                     default: false
     t.integer  "client_id"
-    t.datetime "created_at",                                     null: false
-    t.datetime "updated_at",                                     null: false
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
     t.string   "ngo_name",                  default: ""
     t.string   "client_global_id"
     t.string   "external_id"
@@ -2148,7 +2148,6 @@ ActiveRecord::Schema.define(version: 20220701075009) do
     t.string   "village_code",              default: ""
     t.string   "referee_email"
     t.string   "level_of_risk"
-    t.string   "referral_status",           default: "Referred"
   end
 
   add_index "referrals", ["client_global_id"], name: "index_referrals_on_client_global_id", using: :btree
@@ -2266,6 +2265,8 @@ ActiveRecord::Schema.define(version: 20220701075009) do
     t.boolean  "disabled_task_date_field",             default: true
     t.integer  "tracking_form_edit_limit",             default: 0
     t.string   "tracking_form_edit_frequency",         default: "week"
+    t.boolean  "required_case_note_note",              default: true
+    t.boolean  "hide_case_note_note",                  default: false
   end
 
   add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree

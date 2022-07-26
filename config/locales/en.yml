@@ -5875,10 +5875,10 @@ en:
       partner_default_columns: Partner
     display_task_date_field:
       case_note_tasks: Case Note Tasks
-      disabled_task_date_field: Disiable Task's Date Field
+      disabled_task_date_field: Disable Task's Date Field
     family_case_management:
       family_case_management: Family Case Management
-      hide_family_case_management_tool: Hide Administrative Information and Case Management tools
+      hide_family_case_management_tool: Hide Administrative Information and Case Management  tools
     index:
       csi_tools: Assessment Tools
       custom_assessment: Custom Assessment Tool
@@ -5890,6 +5890,9 @@ en:
       title: External System Integration
     navigation:
       country: Country
+    progress_note_and_next_step:
+      hide_case_note: Hide %{note}
+      require_case_note: Require %{note}
     research_module:
       research_module_label: Share my NGO's anonymous client data with the OSCaR Research Module
       title: Research Module
