@@ -122,7 +122,7 @@
                                     :hide_family_case_management_tool, :hide_community, :case_conference_limit, :case_conference_frequency,
                                     :internal_referral_limit, :internal_referral_frequency, :case_note_edit_limit, :case_note_edit_frequency,
                                     :tracking_form_edit_limit, :tracking_form_edit_frequency,
-                                    :disabled_future_completion_date,
+                                    :disabled_future_completion_date, :disabled_task_date_field,
                                     :disabled_add_service_received, :custom_field_limit, :custom_field_frequency, :test_client,
                                     client_default_columns: [], family_default_columns: [], community_default_columns: [],
                                     partner_default_columns: [], user_default_columns: [],
