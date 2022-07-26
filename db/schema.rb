@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20220629073355) do
+ActiveRecord::Schema.define(version: 20220701075009) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -2264,6 +2264,8 @@ ActiveRecord::Schema.define(version: 20220629073355) do
     t.boolean  "disabled_add_service_received",        default: false
     t.boolean  "test_client",                          default: false
     t.boolean  "disabled_task_date_field",             default: true
+    t.integer  "tracking_form_edit_limit",             default: 0
+    t.string   "tracking_form_edit_frequency",         default: "week"
   end
 
   add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree
@@ -2799,7 +2801,6 @@ ActiveRecord::Schema.define(version: 20220629073355) do
   add_foreign_key "changelogs", "users"
   add_foreign_key "client_client_types", "client_types"
   add_foreign_key "client_client_types", "clients"
-  add_foreign_key "client_enrollment_trackings", "client_enrollments"
   add_foreign_key "client_enrollment_trackings", "client_enrollments"
   add_foreign_key "client_interviewees", "clients"
   add_foreign_key "client_interviewees", "interviewees"
