@@ -1,4 +1,4 @@
-/app/views/case_notes/index.html.hamlclass SettingsController < AdminController
+class SettingsController < AdminController
   rescue_from ActionController::RedirectBackError, with: :redirect_to_default
   include CommunityHelper
 
@@ -120,8 +120,9 @@
                                     :sharing_data, :custom_id1_latin, :custom_id1_local, :custom_id2_latin, :custom_id2_local,
                                     :enable_hotline, :enable_client_form, :assessment_score_order, :disable_required_fields,
                                     :hide_family_case_management_tool, :hide_community, :case_conference_limit, :case_conference_frequency,
-                                    :internal_referral_limit, :internal_referral_frequency, :case_note_edit_limit, :case_note_edit_frequency, :disabled_future_completion_date,
-                                    :disabled_add_service_received, :custom_field_limit, :custom_field_frequency, :test_client, :disabled_task_date_field, :required_case_note_note,
+                                    :internal_referral_limit, :internal_referral_frequency, :case_note_edit_limit, :case_note_edit_frequency,
+                                    :tracking_form_edit_limit, :tracking_form_edit_frequency, :disabled_future_completion_date, :disabled_task_date_field,
+                                    :disabled_add_service_received, :custom_field_limit, :custom_field_frequency, :test_client, :required_case_note_note,
                                     :hide_case_note_note,
                                     client_default_columns: [], family_default_columns: [], community_default_columns: [],
                                     partner_default_columns: [], user_default_columns: [],
