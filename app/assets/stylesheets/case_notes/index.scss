@@ -5,10 +5,12 @@ body[id='case_notes-index'] {
     margin-left: 15px;
     margin-top: -4px;
   }
+
   .button {
-    min-width:100px;
+    min-width: 100px;
     margin-right: 10px;
   }
+
   .pushing-top {
     margin-top: 15px;
   }
@@ -16,15 +18,18 @@ body[id='case_notes-index'] {
   h4 .btn {
     margin-left: 10px;
   }
+
   .margin-button {
     margin-bottom: 20px;
   }
+
   #case-note-selection {
     .dropdown-menu li a {
       padding: 0 5px;
       min-height: 0;
     }
   }
+
   #case-note-dropdown {
     right: 0;
     left: auto;
@@ -33,5 +38,15 @@ body[id='case_notes-index'] {
   li .disabled {
     color: black !important;
     cursor: not-allowed;
+  }
+
+  .case-note-domain-panel-title {
+    display: flex;
+    justify-self: start;
+    align-items: center;
+
+    a[data-toggle='popover'] {
+      margin-bottom: 5px;
+    }
   }
 }

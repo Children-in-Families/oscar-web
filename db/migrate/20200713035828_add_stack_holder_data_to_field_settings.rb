@@ -23,6 +23,8 @@ class AddStackHolderDataToFieldSettings < ActiveRecord::Migration
     return if Apartment::Tenant.current_tenant == 'shared'
 
     FIELDS.each do |name|
+      next if FieldSetting.find_by(name: name, klass_name: :client)
+
       field_setting = FieldSetting.create!(
         name: name,
         current_label: I18n.t("clients.form.#{name}"),
@@ -34,6 +36,6 @@ class AddStackHolderDataToFieldSettings < ActiveRecord::Migration
   end
 
   def down
-    FieldSetting.where(name: FIELDS).delete_all
+    # FieldSetting.where(name: FIELDS).delete_all
   end
 end

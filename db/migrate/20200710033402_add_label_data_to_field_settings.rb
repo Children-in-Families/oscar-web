@@ -30,6 +30,7 @@ class AddLabelDataToFieldSettings < ActiveRecord::Migration
     return if Apartment::Tenant.current_tenant == 'shared'
 
     FIELDS.each do |name, data|
+      next if FieldSetting.find_by(name: name, klass_name: data[:klass_name])
       field_setting = FieldSetting.create!(
         name: name,
         current_label: data[:current_label],
@@ -44,6 +45,6 @@ class AddLabelDataToFieldSettings < ActiveRecord::Migration
   end
 
   def down
-    FieldSetting.where(name: FIELDS.keys).delete_all
+    # FieldSetting.where(name: FIELDS.keys).delete_all
   end
 end

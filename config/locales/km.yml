@@ -1028,7 +1028,7 @@ km:
       present: 'វត្តមានឣ្នកចូលរួម:'
       remove_domain_group_hint: អ្នកបានបង្កើតកាតព្វដែលភ្ជាប់ជាមួយក្រុមកត្តានេះ។ ដើម្បីលុបកត្តានេះបានសូមទៅលុបកាតព្វកិច្ចជាមុនសិន។
       save: រក្សាទុក
-      tasks: កាតព្វកិច្ច
+      task: កាតព្វកិច្ច
       tasks_arising: កាតព្វកិច្ចបង្កើតថ្មី
       type: ប្រភេទជំនួប
       type_options:
@@ -1066,6 +1066,7 @@ km:
       note: កំណត់ត្រា
       please_add_custom_domains: អ្នកគួរតែបង្កើតកត្តាផ្ទាល់ខ្លួនមួយចំនួនមុននឹងអ្នកអាចធ្វើប្រតិបត្តិការនេះ
       present: វត្តមានឣ្នកចូលរួម
+      task: កាតព្វកិច្ច
       type: 'ប្រភេទកណត់ត្រាករណី'
       you_need_to_create_assessment: អ្នកត្រូវបង្កើតការប៉ាន់ប្រមាណជាមុនសិន
     show:
@@ -2329,7 +2330,7 @@ km:
       today_tasks: កាតព្វកិច្ចថ្ងៃនេះ
       upcoming_tasks: កាតព្វកិច្ចបន្ទាប់
     active_tasks_side:
-      active_tasks: បញ្ចីកាតព្វកិច្ច
+      task_list: បញ្ចីកាតព្វកិច្ច
     assessment_tab:
       assessment: ការប៉ាន់ប្រមាណ
       assessment_you_like: តើការប៉ាន់ប្រមាណមួយណាដែលអ្នកចង់ប្រើ?(CSI ឬការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន)
@@ -2381,7 +2382,7 @@ km:
       assessments: ការប៉ាន់ប្រមាណ
       duetoday_tasks: កាតព្វកិច្ចត្រូវបំពេញថ្ងៃនេះ
       forms: ទម្រង់បែបបទ
-      tasks: កាតព្វកិច្ច
+      task: កាតព្វកិច្ច
     family:
       families: គ្រួសារបច្ចុប្បន្ន
       foster: Foster
@@ -2419,7 +2420,7 @@ km:
       assessments: ការប៉ាន់ប្រមាណ
       forms: ទម្រង់បែបបទ
       overdue_tasks: កាតព្វកិច្ចហួសកំណត់
-      tasks: កាតព្វកិច្ច
+      task: កាតព្វកិច្ច
     partner_tab:
       action: សកម្មភាព
       next: ទំព័របន្ទាប់
@@ -2481,7 +2482,7 @@ km:
       assessment: ការប៉ាន់ប្រមាណ
       assessments: ការប៉ាន់ប្រមាណ
       forms: ទម្រង់បែបបទ
-      tasks: កាតព្វកិច្ច
+      task: កាតព្វកិច្ច
       upcoming_tasks: កាតព្វកិច្ចបន្ទាប់
     user_tab:
       action: សកម្មភាព
@@ -2494,7 +2495,7 @@ km:
       filter_by_user: ស្វែងរកតាមរយៈអ្នកប្រើ
       forms: ទម្រង់បែបបទ
       select_user: ជ្រើសរើសអ្នកប្រើ
-      tasks: កាតព្វកិច្ច
+      task: កាតព្វកិច្ច
   data_trackers:
     index:
       able_screening_questions: សំនួរ Able Screening
@@ -2532,7 +2533,7 @@ km:
       releaselogs: Release log
       stages: ដំណាក់កាល
       surveys: ការស្ទង់មតិ
-      tasks: កាតព្វកិច្ច
+      task: កាតព្វកិច្ច
       user_custom_fields: ទម្រង់បែបបទអ្នកប្រើ
       users: អ្នកប្រើ
     per_page_form:
@@ -4849,7 +4850,7 @@ km:
       no_task: មិនមានពត៌មានដែលត្រូវបង្ហាញ
       overdue_and_due_today_count:
         one: ហើយនិងមានចំនួន1ដែលត្រូវបំពេញនៅថ្ងៃនេះ
-        other: ហើយនិងមានចំនួន%{count}ដែលត្រូវបំពេញនៅថ្ងៃនេះ
+        other: ហើយនិងមានចំនួន%{count} %{tasks}ដែលត្រូវបំពេញនៅថ្ងៃនេះ
       overdue_assessments:
         one: មិនទាន់បានធ្វើ
         other: មិនទាន់បានធ្វើ
@@ -4872,8 +4873,8 @@ km:
         one: មានទម្រង់បែបបទរបស់ដៃគូចំនួន1ដែលផុតកំណត់
         other: មានទម្រង់បែបបទរបស់ដៃគូចំនួន%{count}ដែលផុតកំណត់
       overdue_tasks_count:
-        one: អ្នកមានកាតព្វកិច្ចចំនួន 1 កាតព្វកិច្ចផុតកំណត់
-        other: អ្នកមានកាតព្វកិច្ចចំនួន %{count} កាតព្វកិច្ចផុតកំណត់
+        one: អ្នកមានកាតព្វកិច្ចចំនួន 1 %{tasks}ផុតកំណត់
+        other: អ្នកមានកាតព្វកិច្ចចំនួន %{count} %{tasks}ផុតកំណត់
       overdue_user_custom_field_count:
         one: មានទម្រង់បែបបទរបស់អ្នកប្រើចំនួន1ដែលផុតកំណត់
         other: មានទម្រង់បែបបទរបស់អ្នកប្រើចំនួន%{count}ដែលផុតកំណត់
@@ -5805,11 +5806,16 @@ km:
       uganda:
         custom_id1_local: Custom ID1 (Swahili)
         custom_id2_local: Custom ID2 (Swahili)
+    customize_case_note:
+      case_note_tools: Case Note Tools
     default_columns:
       client_default_columns: អតិថិជន
       default_columns: ជួរឈរលំនាំដើម
       family_default_columns: គ្រួសារ
       partner_default_columns: ដៃគូ
+    display_task_date_field:
+      case_note_tasks: Case Note Tasks
+      disabled_task_date_field: Disiable Task's Date Field
     family_case_management:
       family_case_management: ការគ្រប់គ្រងករណីគ្រួសារ
       hide_family_case_management_tool: បិទព័ត៌មានរដ្ឋបាល និងឧបករណ៍គ្រប់គ្រងករណី
@@ -6096,6 +6102,7 @@ km:
       tasks_of: កាតព្វកិច្ចរបស់
       today_tasks: កាតព្វកិច្ចថ្ងៃនេះ
       upcoming_tasks: កាតព្វកិច្ចបន្ទាប់
+    task: កាតព្វកិច្ច
     task_added: កាតព្វកិច្ចបានបន្ថែមហើយ
   thredded:
     content_moderation_states:

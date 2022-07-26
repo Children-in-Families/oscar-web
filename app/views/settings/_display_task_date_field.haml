@@ -1,0 +1,9 @@
+.panel.panel-default
+  .panel-heading
+    %h3= t('.case_note_tasks')
+  .panel-body
+    .row
+      .col-xs-12
+        .i-checks
+          %label= t('.disabled_task_date_field')
+          = f.input :disabled_task_date_field, as: :radio_buttons, collection: [['Yes', true],['No', false]], label: false
