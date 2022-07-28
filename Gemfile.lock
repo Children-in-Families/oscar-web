@@ -398,7 +398,7 @@ GEM
       jquery-ui-rails (>= 5.0.2)
       momentjs-rails (>= 2.9.0)
     gemoji (3.0.1)
-    git (1.7.0)
+    git (1.11.0)
       rchardet (~> 1.8)
     github-markdown (0.6.9)
     globalid (0.4.2)
