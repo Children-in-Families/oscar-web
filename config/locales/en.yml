@@ -2276,6 +2276,8 @@ en:
       male: Male
       other: Other
       total: Total
+      no_program: No Program
+      client_by_gender: Client by gender
   communities:
     actions:
       are_you_sure: Are you sure you want to delete?
