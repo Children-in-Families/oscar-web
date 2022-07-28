@@ -7,6 +7,15 @@ module Api
       render json: find_client_in_organization
     end
 
+    def update
+      referral = Referral.find(params[:id])
+      if referral.update_attributes(params.require(:referral).permit(:referral_status))
+        render json: { referral_status: referral.referral_status }, status: :ok
+      else
+        render json: referral.errors, status: :unprocessable_entity
+      end
+    end
+
     def find_client_in_organization
       if params[:org] == 'external referral'
         { text: 'create referral' }

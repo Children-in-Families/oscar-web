@@ -6,6 +6,8 @@ module ClientsHelper
   end
 
   def xeditable? client = nil
+    return true if client.class.name != 'Client'
+
     (can?(:manage, client&.object) || can?(:edit, client&.object) || can?(:rud, client&.object)) ? true : false
   end
 

@@ -32,7 +32,7 @@
             %tr
               %td= t('referrals.referral_status')
               %td
-                %strong= status_style @referral.referral_status
+                %strong= editable @referral, :referral_status, type: :select, source: ['Referred', 'Accepted', 'Exited'], value: @referral.referral_status, url: api_referral_path(@referral.id), pk: @referral.id
 
             %tr
               %td= t('.referred_from')

@@ -19,7 +19,8 @@ module OrganizationSerializerConcern
           enrollment_date: nil,
           uuid: service.uuid,
           name: service.name,
-          referral_id: referral.id
+          referral_id: referral.id,
+          referral_status: referral.referral_status
         }
       end
     end
