@@ -29,5 +29,11 @@ module Api
       advanced_filter_exit_program_field = AdvancedSearches::ExitProgramFields.new(program_stream_ids).render
       render json: advanced_filter_exit_program_field
     end
+
+    def get_program_stream_search_field
+      program_stream_ids = params[:ids]
+      advanced_filter_common_field = AdvancedSearches::CommonFields.new(program_stream_ids: program_stream_ids).render
+      render json: advanced_filter_common_field
+    end
   end
 end

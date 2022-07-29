@@ -17,6 +17,7 @@ class CIF.ClientAdvanceSearch
     @ENROLLMENT_URL       = '/api/client_advanced_searches/get_enrollment_field'
     @TRACKING_URL         = '/api/client_advanced_searches/get_tracking_field'
     @EXIT_PROGRAM_URL     = '/api/client_advanced_searches/get_exit_program_field'
+    @PROGRAM_STREAM_URL   = '/api/client_advanced_searches/get_program_stream_search_field'
 
     @DOMAIN_SCORES_TRANSLATE  = $(optionTranslation).data('csiDomainScores')
     @BASIC_FIELD_TRANSLATE    = $(optionTranslation).data('basicFields')
@@ -121,6 +122,7 @@ class CIF.ClientAdvanceSearch
     wizardBasicQueryRules = $('#wizard-builder').data('basic-search-rules')
     unless basicQueryRules == undefined or _.isEmpty(basicQueryRules.rules)
       self.handleAddHotlineFilter()
+      console.log(basicQueryRules, 'basic query')
       $('#builder').queryBuilder('setRules', basicQueryRules)
     unless wizardBasicQueryRules == undefined or _.isEmpty(wizardBasicQueryRules.rules)
       $('#wizard-builder').queryBuilder('setRules', wizardBasicQueryRules)
@@ -356,6 +358,9 @@ class CIF.ClientAdvanceSearch
       programId = psElement.val
       self.programSelected.push programId
       $('.main-report-builder .program-association').show()
+      if self.programSelected.length == 1
+        self.addCustomBuildersFields(self.programSelected, self.PROGRAM_STREAM_URL, self.LOADER)
+
       if $('#enrollment-checkbox').is(':checked')
         self.LOADER.start()
         self.addCustomBuildersFields(programId, self.ENROLLMENT_URL, self.LOADER)
