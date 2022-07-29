@@ -39,8 +39,24 @@ describe Api::V1::ClientsController, type: :request do
       end
 
       context 'when try to create client' do
+        let!(:global_identity) { create(:global_identity) }
         before do
-          client = { format: 'json', client: { gender: 'male', given_name: "example", user_ids: [user.id], initial_referral_date: '2018-02-19', received_by_id: user.id, name_of_referee: FFaker::Name.name, referral_source_category_id: referral_source.id } }
+          client = {  format: 'json',
+                      client: { 
+                        given_name: 'example',
+                        family_name: 'family_name',
+                        local_given_name: 'local_given_name', 
+                        local_family_name: 'local_family_name',
+                        gender: 'male', 
+                        reason_for_referral: 'test',
+                        date_of_birth: '2018-02-19',
+                        referral_source_category_id: referral_source.id,
+                        initial_referral_date: '2022-02-02',
+                        user_ids: [user.id],
+                        received_by_id: user.id,
+                        global_id: global_identity.ulid
+                      }
+                    }
           post "/api/v1/clients", client, @auth_headers
         end
 

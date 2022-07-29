@@ -134,9 +134,9 @@ describe CustomField do
 
       context 'update_custom_field_label' do
         it 'automatically update custom field property' do
-          new_fields = [{'type'=>'text', 'label'=>'Full Name'}].to_json
+          new_fields = [{'type'=>'text', 'label'=>'Name'}].to_json
           custom_field.update(fields: new_fields)
-          expect(custom_field_property.reload.properties).to eq({'Full Name' => 'OSCaR'})
+          expect(custom_field_property.reload.properties).to eq({'Name' => 'OSCaR'})
         end
       end
     end
