@@ -1210,9 +1210,16 @@ module AdvancedSearches
     end
 
     def active_client_program_query
-      clients = @clients.joins(:client_enrollments)
-                        .where(:client_enrollments => {:status => 'Active', :program_stream_id => JSON.parse($param_rules[:program_selected])})
-                        .distinct
+      clientIds = []
+      JSON.parse($param_rules[:program_selected]).each do |program|
+        tmpClientIds = @clients.joins(:client_enrollments).where(:client_enrollments => {:status => 'Active', :program_stream_id => program}).pluck(:id)
+        if clientIds.empty?
+          clientIds = tmpClientIds
+        else
+          clientIds = clientIds & tmpClientIds
+        end
+      end
+      clients = @clients.joins(:client_enrollments).where(:id => clientIds).distinct
 
       case @operator
       when 'equal'
@@ -1267,26 +1274,25 @@ module AdvancedSearches
       conditionString = ""
       if selectedAssessment.present?
         assessments = JSON.parse(selectedAssessment)
-        custom_assessments = assessments.select{|v| v > 0}
-        csi_assessments = assessments.select{|v| v == 0}
+        assessmentId = assessments.first
 
-        if csi_assessments.present?
-          conditionString = "assessments.default = true"
-        end
-        if custom_assessments.present?
+        if assessmentId == 0
+          clients = clients.where("assessments.default = true").distinct
+          clients.each do |client|
+            last_assessment = client.assessments.defaults.most_recents.last
+            first_assessment = client.assessments.defaults.most_recents.first
+            client_ids << client.id if assessment_total_score(last_assessment).public_send(compare, assessment_total_score(first_assessment))
+          end
+        else
           clients = clients.joins(assessments: :domains)
-          if conditionString.present?
-            conditionString = conditionString.concat(" OR domains.custom_assessment_setting_id IN (?)")
-          else
-            conditionString = "(assessments.default = false AND domains.custom_assessment_setting_id IN (?))"
+          clients = clients.where("domains.custom_assessment_setting_id IN (#{assessmentId})").distinct
+          clients.each do |client|
+            custom_assessments = client.assessments.customs.most_recents.joins(:domains).where(domains: { custom_assessment_setting_id: assessmentId })
+            last_assessment = custom_assessments.last
+            first_assessment = custom_assessments.first
+            client_ids << client.id if assessment_total_score(last_assessment).public_send(compare, assessment_total_score(first_assessment))
           end
         end
-      end
-      clients = clients.where([conditionString, custom_assessments]).distinct
-      clients.each do |client|
-        last_assessment = client.assessments.most_recents.first
-        first_assessment = client.assessments.most_recents.last
-        client_ids << client.id if assessment_total_score(last_assessment).public_send(compare, assessment_total_score(first_assessment))
       end
       client_ids
     end
@@ -1297,26 +1303,25 @@ module AdvancedSearches
       conditionString = ""
       if selectedAssessment.present?
         assessments = JSON.parse(selectedAssessment)
-        custom_assessments = assessments.select{|v| v > 0}
-        csi_assessments = assessments.select{|v| v == 0}
-
-        if csi_assessments.present?
-          conditionString = "assessments.default = true"
-        end
-        if custom_assessments.present?
+        assessmentId = assessments.first
+        
+        if assessmentId == 0
+          clients = clients.where("assessments.default = true").distinct
+          clients.each do |client|
+            last_assessment = client.assessments.defaults.most_recents.last
+            first_assessment = client.assessments.defaults.most_recents.length > 1 ? client.assessments.most_recents.fetch(1) : last_assessment
+            client_ids << client.id if assessment_total_score(last_assessment).public_send(compare, assessment_total_score(first_assessment))
+          end
+        else
           clients = clients.joins(assessments: :domains)
-          if conditionString.present?
-            conditionString = conditionString.concat(" OR domains.custom_assessment_setting_id IN (?)")
-          else
-            conditionString = "(assessments.default = false AND domains.custom_assessment_setting_id IN (?))"
+          clients = clients.where("domains.custom_assessment_setting_id IN (#{assessmentId})").distinct
+          clients.each do |client|
+            custom_assessments = client.assessments.customs.most_recents.joins(:domains).where(domains: { custom_assessment_setting_id: assessmentId })
+            last_assessment = custom_assessments.last
+            first_assessment = custom_assessments.length > 1 ? custom_assessments.fetch(1) : last_assessment
+            client_ids << client.id if assessment_total_score(last_assessment).public_send(compare, assessment_total_score(first_assessment))
           end
         end
-      end
-      clients = clients.where([conditionString, custom_assessments]).distinct
-      clients.each do |client|
-        last_assessment = client.assessments.most_recents.first
-        first_assessment = client.assessments.most_recents.length > 1 ? client.assessments.most_recents.fetch(1) : last_assessment
-        client_ids << client.id if assessment_total_score(last_assessment).public_send(compare, assessment_total_score(first_assessment))
       end
       client_ids
     end
