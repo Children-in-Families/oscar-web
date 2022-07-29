@@ -154,7 +154,7 @@ class CIF.ClientAdvanceSearch
   assessmentSelectChange: ->
     self = @
     $('.main-report-builder .assessment-form-wrapper select').on 'select2-selecting', (element) ->
-      self.assessmentSelected.push(element.val)
+      self.assessmentSelected = element.val
 
   addCustomBuildersFields: (ids, url, loader=undefined) ->
     self = @

@@ -1243,9 +1243,16 @@ module AdvancedSearches
     end
 
     def active_client_program_query
-      clients = @clients.joins(:client_enrollments)
-                        .where(:client_enrollments => {:status => 'Active', :program_stream_id => JSON.parse($param_rules[:program_selected])})
-                        .distinct
+      clientIds = []
+      JSON.parse($param_rules[:program_selected]).each do |program|
+        tmpClientIds = @clients.joins(:client_enrollments).where(:client_enrollments => {:status => 'Active', :program_stream_id => program}).pluck(:id)
+        if clientIds.empty?
+          clientIds = tmpClientIds
+        else
+          clientIds = clientIds & tmpClientIds
+        end
+      end
+      clients = @clients.joins(:client_enrollments).where(:id => clientIds).distinct
 
       case @operator
       when 'equal'
@@ -1317,8 +1324,8 @@ module AdvancedSearches
       end
       clients = clients.where([conditionString, custom_assessments]).distinct
       clients.each do |client|
-        last_assessment = client.assessments.most_recents.first
-        first_assessment = client.assessments.most_recents.last
+        last_assessment = client.assessments.most_recents.last
+        first_assessment = client.assessments.most_recents.first
         client_ids << client.id if assessment_total_score(last_assessment).public_send(compare, assessment_total_score(first_assessment))
       end
       client_ids
