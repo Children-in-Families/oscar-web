@@ -3,7 +3,7 @@ class CIF.ClientAdvanceSearch
     @filterTranslation   = ''
     @customFormSelected  = []
     @programSelected     = []
-    @assessmentSelected  = []
+    @assessmentSelected  = ''
     optionTranslation    = $('#opt-group-translation')
 
     @enrollmentCheckbox  = $('#enrollment-checkbox')
@@ -246,7 +246,7 @@ class CIF.ClientAdvanceSearch
       ruleFiltersSelect = $('.main-report-builder .rule-container .rule-filter-container select')
       ruleFiltersSelect.select2('destroy')
       ruleFiltersSelect.parents('.rule-container').find('.rule-header button').trigger('click')
-      self.assessmentSelected = []
+      self.assessmentSelected = ''
       $('.assessment-form').hide()
       $('#builder').queryBuilder('removeFilter', ['assessment_condition_last_two','assessment_condition_first_last'])
       $('button[data-add="rule"]').trigger('click')
@@ -259,7 +259,7 @@ class CIF.ClientAdvanceSearch
       $('.assessment-form').show()
     $('#assessment-checkbox').on 'ifChecked', ->
       $('.assessment-form').show()
-      self.assessmentSelected.push($('select.assessment-select').val())
+      self.assessmentSelected = $('select.assessment-select').val()
       $.ajax
         url: self.PROGRAM_STREAM_URL
         data: { assesment_checked: true }
