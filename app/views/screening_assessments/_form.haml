@@ -10,7 +10,7 @@
         .col-sm-9
           = date_of_birth_in_words(@client.date_of_birth, I18n.locale)
 
-      = f.hidden_field :client_age, label: false, wrapper: :horizontal_form, readonly: true, input_html: { value: date_of_birth_in_words(@client.date_of_birth) }
+      = f.input :client_age, label: false, wrapper: :horizontal_form, input_html: { value: date_of_birth_in_words(@client.date_of_birth), class: 'hidden' }
   .row
     .col-md-6
       = f.input :visitor, label: t('.visitor')

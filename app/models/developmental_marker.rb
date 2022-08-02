@@ -10,14 +10,14 @@ class DevelopmentalMarker < ActiveRecord::Base
   default_scope { order(:id) }
 
   def self.map_milestone_age_name
-    all.pluck(:name).map do |name_en|
+    all.pluck(:name, :name_local).map do |name_en, name_local|
       if I18n.locale == :km
-        local_name = I18n.t("datetime.dotiw.#{name_en[/[a-zA-Z]+/].pluralize}", count: name_en[/(\d\.\d)|\d/])
+        name = name_local
       else
-        local_name = name_en
+        name = name_en
       end
 
-      [local_name, name_en]
+      [name, name_en]
     end
   end
 end

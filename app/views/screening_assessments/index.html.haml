@@ -7,6 +7,7 @@
 
         %h5{ style: "margin-left: 5px;" }
           = t('screening_assessments.screening_assessment')
+
       .ibox-content
         .row.margin-row
           - @screening_assessments.each do |screening_assessment|
@@ -24,3 +25,8 @@
             .col-xs-12.col-sm-4.m-b-sm
               = link_to new_client_screening_assessment_path(@client), class: 'btn btn-block btn-primary button' do
                 = t('screening_assessments.add_new')
+
+      .ibox-footer
+        .row
+          .col-xs-12.col-sm-6
+            = link_to t('.back'), client_path(@client), { class:'btn btn-default button' }
