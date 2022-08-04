@@ -63,6 +63,26 @@ CIF.ClientsIndex = do ->
     _handleShowCustomFormSelect()
     _reOrderRuleContainer()
     _initHelpTextPophover()
+    _initClientColumnFilter()
+
+  _initClientColumnFilter = ->
+    searchBox = $('.client-column ul.columns-visibility #column-search-box')
+    searchBox.keyup ->
+      valThis = $(this).val().toLowerCase()
+      if valThis == ''
+        $('.client-column ul.columns-visibility > li').show()
+      else
+        $('.client-column ul.columns-visibility > li:not(:first-child)').each ->
+          text = $(this).text().toLowerCase()
+          if text.indexOf(valThis) >= 0 then $(this).show() else $(this).hide()
+          return
+      return
+
+    $('.client-column ul.columns-visibility .btn-clear-text').click ->
+      searchBox.val ''
+      searchBox.focus()
+      $('.client-column ul.columns-visibility > li').show()
+      return
 
   _reOrderRuleContainer = ->
     $.each $('.csi-group .rules-list'), (index, item)->
