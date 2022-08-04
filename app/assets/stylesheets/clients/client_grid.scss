@@ -248,11 +248,14 @@ body[id="client_advanced_searches-index"] {
   }
   ul.check-columns-visibility {
     padding-left: 0;
+    li:first-child {
+      padding: 0 8px 15px 8px;
+    }
     li {
       list-style: none;
     }
     .columns-visibility {
-      height: 250px;
+      max-height: 250px;
       width: 390px;
       overflow-y: scroll;
       padding-top: 10px;
