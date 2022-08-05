@@ -41,6 +41,7 @@
       add_more_attachments(params[:case_note][:attachments]) if params.dig(:case_note, :attachments)
       @case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes], current_user.id) if params.dig(:case_note, :case_note_domain_groups_attributes)
       create_bulk_task(params[:task], @case_note) if params.has_key?(:task)
+      @case_note.complete_screening_tasks(params) if params[:case_note].has_key?(:tasks_attributes)
 
       create_task_task_progress_notes
       if params[:from_controller] == "dashboards"
@@ -78,6 +79,7 @@
         @case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes], current_user.id)
       end
       create_bulk_task(params[:task], @case_note) if params.has_key?(:task)
+      @case_note.complete_screening_tasks(params) if params[:case_note].has_key?(:tasks_attributes)
       create_task_task_progress_notes
       delete_events if session[:authorization]
       redirect_to client_case_notes_path(@client), notice: t('.successfully_updated')

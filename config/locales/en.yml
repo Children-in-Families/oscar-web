@@ -1028,6 +1028,7 @@ en:
       add_task: Add Task
       add_task_message: Please select the domain group before you can add the task.
       back: Back
+      cb_dmat_assessment_task: CB-DMAT Assessment Tasks
       completed_tasks: Completed Tasks
       domain: Domain
       domain_groups: Please select all Domain Groups you supported the client within this case note.
@@ -1068,6 +1069,7 @@ en:
       begin_now: Add New
       case_note_lists: Case note lists of
       case_note_on: Case note on
+      cb_dmat_assessment_task: CB-DMAT Assessment Tasks
       completed_tasks: Completed Tasks
       domain: Domain
       domain_groups: Domain Groups
@@ -1545,6 +1547,7 @@ en:
       add_service_received: Add Services Received
       birth_cert: 'Birth Certificate'
       complain: Complaint
+      cb_dmat: CB-DMAT
       detail_form_of_judicial_police: Detailed Form for Identification of Victim of Human Trafficking (Judicial Police)
       detail_form_of_mosavy_dosavy: Detailed Form for Identification of Victim of Human Trafficking (MoSAVY/DoSAVY)
       dosavy: DoSAVY
@@ -5814,6 +5817,9 @@ en:
     assessment_setting:
       age: age
       assessment: Customized Assessment Frequency Settings
+      assessment_notification: Assessment Notification
+      cb_dmat_multi: Ongoing CB-DMAT %{screening_assessment} (Multiple)
+      cb_dmat_one_off: CB-DMAT %{screening_assessment} (one-off)
       custom_assessment: Name
       default_assessment: CSI Assessment Frequency Settings
       default_assessment_framework: Result Framework Assessment Frequency Settings
@@ -5822,7 +5828,9 @@ en:
       max_assessment: Maximum time between assessments
       min_assessment: Minimum time between 1st and 2nd assessment
       name: Name
+      new_client_assessment: New Client Assessment
       noted: 'Note: USAID has requested that the term CSI not be used for customized assessments.'
+      screening_assessment: Screening Assessment
       show_prev_assessment: Show previous assessment while completing new assessment
       two_weeks_assessment_reminder: Send 2 notification at both 2 and 1 week prior to assessment
     case_notes:
@@ -5934,6 +5942,37 @@ en:
       successfully_updated: Service has been successfully updated.
   referral_details: Referral Details
   results: Results
+  screening_assessments:
+    _attr: &SA_ATTR
+      add_new: Add New Screening Assessment
+      add_task: Add Task
+      attachments: Attachments
+      back_to_clients: Back to Client
+      based_on: Base on Screening Assessment
+      cb_dmat: CB-DMAT Screening Tool
+      client_age: Client's Age
+      client_milestone_age: Client's Milestone Age
+      client_name: Client's Name
+      created_by: Created By
+      note: Note
+      on_date: On Date
+      screening_assessment: Screening Assessment
+      screening_assessment_date: Screening Assessment Date
+      tasks: Tasks
+      view_cb_dmat: View CB-DMAT
+      view_or_hide_last_screening_assessment: View or Hide Last Screening Assessment
+      view_screening_assessment: View Screening Assessment
+      visitor: Who was there during the assessment?
+    form:
+      <<: *SA_ATTR
+    previous_screening_assessment:
+      <<: *SA_ATTR
+    show:
+      <<: *SA_ATTR
+    task_fields:
+      expected_date: Expected Date
+      task: Task
+
   shared:
     x_lists_of: "%{x} lists of"
     new_x: "New %{x}"
@@ -6151,6 +6190,7 @@ en:
     add_task_progress_note: Add progress notes and next steps
     completion_date: Completion Date
     expected_date: Expected Date
+    title: Title
     filter:
       filter_by_user: Filter By User
       select_user: Select User
