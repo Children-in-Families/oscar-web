@@ -40,7 +40,7 @@ class ClientEnrollmentTracking < ActiveRecord::Base
 
   def self.cached_client_enrollment_tracking(fields_third, ids)
     Rails.cache.fetch([Apartment::Tenant.current, 'ClientEnrollmentTracking', 'cached_client_enrollment_tracking', *fields_third, *ids.sort]) {
-      joins(:tracking).where(trackings: { name: fields_third }, client_enrollment_trackings: { client_enrollment_id: ids }).to_a
+      joins(:tracking).where(trackings: { name: fields_third }, client_enrollment_trackings: { client_enrollment_id: ids })
     }
   end
 
