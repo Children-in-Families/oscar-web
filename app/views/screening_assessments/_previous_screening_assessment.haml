@@ -1,0 +1,61 @@
+:css
+  .panel-heading {
+    cursor: pointer;
+    border-bottom: none;
+    display: flex;
+    justify-content: space-between;
+  }
+  .panel-heading:not(.collapsed) .rotate-icon {
+    transform: rotate(180deg);
+  }
+
+#accordion.panel-group
+  .panel.panel-default
+    .panel-heading{"aria-expanded" => "false", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapsePreviousScreeningAssessment"}
+      %h5.panel-title
+        %a.text-primary
+          = t('.view_or_hide_last_screening_assessment')
+      %span.pull-right
+        %i.glyphicon.glyphicon-chevron-down.rotate-icon
+    #collapsePreviousScreeningAssessment.panel-collapse.in.collapse
+      .panel-body
+        .row
+          .col-xs-12
+            - screening_assessment.developmental_marker_screening_assessments.each do |dmsa|
+              - developmental_marker = dmsa.developmental_marker
+              %strong= field_to_local(developmental_marker, 'short_description')
+              %hr/
+              .row
+                .col-xs-12.col-sm-12.col-md-3
+                  = image_tag ("cb_dmat/#{developmental_marker.name.parameterize}.png" || 'picture.png'), class: 'img-responsive'
+                .col-xs-12.col-sm-12.col-md-9
+                  .row
+                    .col-xs-8
+                      = field_to_local developmental_marker, 'question_1'
+                    .col-xs-4
+                      = human_boolean dmsa.question_1
+                  %hr/
+                  .row
+                    .col-xs-8
+                      = field_to_local(developmental_marker, 'question_2')
+                    .col-xs-4
+                      = human_boolean dmsa.question_2
+                  %hr/
+                  .row
+                    .col-xs-8
+                      = field_to_local(developmental_marker, 'question_3')
+                    .col-xs-4
+                      = human_boolean dmsa.question_3
+                  %hr/
+                  .row
+                    .col-xs-8
+                      = field_to_local(developmental_marker, 'question_4')
+                    .col-xs-4
+                      = human_boolean dmsa.question_4
+        // end row
+        %hr/
+        .row
+          .col-xs-12
+            %h4= t('.note')
+            = screening_assessment.note
+  %hr/
