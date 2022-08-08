@@ -28,7 +28,7 @@ module ClientEnrollmentTrackingHelper
   end
 
   def client_enrolled_tracking_edit_link(enrollment_tracking)
-    if program_permission_editable?(@enrollment.program_stream_id)
+    if program_permission_editable?(@enrollment.program_stream_id) && enrollment_tracking.is_tracking_editable_limited?
       link_to edit_client_client_enrolled_program_client_enrolled_program_tracking_path(@client, @enrollment, enrollment_tracking, tracking_id: enrollment_tracking.tracking)do
         content_tag :div, class: ' btn btn-success btn-outline' do
           fa_icon('pencil')

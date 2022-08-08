@@ -561,6 +561,8 @@ module AdvancedSearches
       results      = mapping_form_builder_param_value(basic_rules, 'active_program_stream')
       query_string  = get_query_string(results, 'active_program_stream', 'program_streams')
       case @operator
+      when 'equal'
+        clients.where(client_enrollments: { program_stream_id: @value }).distinct.ids
       when 'not_equal'
         @clients.includes(client_enrollments: :program_stream).where(query_string).references(:program_streams).distinct.ids
       when 'is_empty'

@@ -1,0 +1,17 @@
+.panel.panel-default.program-stream-panel#family-active-program-stream
+  .panel-body
+    = link_to program_streams_path do
+      .widget.style1.widget-program-panel
+        .row.vertical-align
+          .col-xs-5
+            %i.fa.fa-cogs.fa-3x
+          .col-xs-7.text-right
+            %span.text-font
+              = t('dashboards.active_program_streams')
+            %h2.font-bold 0
+
+    .row
+      .col-xs-12
+        #family-program-stream{ 'data-title' => t('dashboards.family_active_in_programs') }
+          = image_tag 'loading', alt: 'loading...', class: 'text-center'
+

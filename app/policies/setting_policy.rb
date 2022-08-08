@@ -30,4 +30,6 @@ class SettingPolicy < ApplicationPolicy
   alias community? client_forms?
   alias test_client? client_forms?
   alias risk_assessment? create?
+  alias customize_case_note? create?
+  alias limit_tracking_form? create?
 end

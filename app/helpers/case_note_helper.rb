@@ -204,4 +204,11 @@ module CaseNoteHelper
     setting.disabled_future_completion_date ? Date.today.strftime("%Y-%m-%d") : nil
   end
 
+  def list_task_goal_descriptions(tasks)
+    content_tag(:ul) do
+      Goal.where(id: tasks.joins(:goal).pluck(:goal_id)).each do |goal|
+        concat(content_tag(:li, goal.description))
+      end
+    end
+  end
 end

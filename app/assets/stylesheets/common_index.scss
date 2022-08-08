@@ -292,3 +292,21 @@ span.input-group-addon {
     }
   }
 }
+
+fieldset.fieldset-border {
+  border: solid 1px #DDD !important;
+  padding: 0 10px 10px 10px;
+  border-bottom: none;
+  margin-bottom: 25px;
+  border-radius: 4px;
+
+  legend.legend-border {
+    width: auto !important;
+    border: none;
+  }
+  span {
+    label.collection_radio_buttons {
+      margin-left: 5px;
+    }
+  }
+}

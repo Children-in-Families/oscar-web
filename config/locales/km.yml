@@ -1016,6 +1016,7 @@ km:
       add_task: បន្ថែមកាតព្វកិច្ចថ្មី
       add_task_message: សូមជ្រើសរើសក្រុមកត្តាមុនពេលអ្នកបន្ថែមកាតព្វកិច្ច
       back: ត្រឡប់ក្រោយ
+      cb_dmat_assessment_task: កាតព្វកិច្ចរបស់ CB-DMAT
       completed_tasks: កាតព្វកិច្ចដែលបានធ្វើរួច
       domain: កត្តា
       domain_groups: សូមជ្រើសរើសក្រុមកត្តាទាំងអស់ដែលអ្នកបានគាំទ្រដល់អតិថិជនក្នុងកំណត់ត្រាករណីនេះ។
@@ -1028,7 +1029,7 @@ km:
       present: 'វត្តមានឣ្នកចូលរួម:'
       remove_domain_group_hint: អ្នកបានបង្កើតកាតព្វដែលភ្ជាប់ជាមួយក្រុមកត្តានេះ។ ដើម្បីលុបកត្តានេះបានសូមទៅលុបកាតព្វកិច្ចជាមុនសិន។
       save: រក្សាទុក
-      tasks: កាតព្វកិច្ច
+      task: កាតព្វកិច្ច
       tasks_arising: កាតព្វកិច្ចបង្កើតថ្មី
       type: ប្រភេទជំនួប
       type_options:
@@ -1056,6 +1057,7 @@ km:
       begin_now: បង្កើតថ្មី
       case_note_lists: បញ្ជីកំណត់ត្រាករណី
       case_note_on: កំណត់ត្រាករណីនៅថ្ងៃ
+      cb_dmat_assessment_task: កាតព្វកិច្ចរបស់ CB-DMAT
       completed_tasks: កាតព្វកិច្ចដែលបានធ្វើរួច
       domain: កត្តា
       domain_groups: ក្រុមកត្តា
@@ -1066,6 +1068,7 @@ km:
       note: កំណត់ត្រា
       please_add_custom_domains: អ្នកគួរតែបង្កើតកត្តាផ្ទាល់ខ្លួនមួយចំនួនមុននឹងអ្នកអាចធ្វើប្រតិបត្តិការនេះ
       present: វត្តមានឣ្នកចូលរួម
+      task: កាតព្វកិច្ច
       type: 'ប្រភេទកណត់ត្រាករណី'
       you_need_to_create_assessment: អ្នកត្រូវបង្កើតការប៉ាន់ប្រមាណជាមុនសិន
     show:
@@ -2320,6 +2323,7 @@ km:
     update:
       successfully_updated: ទម្រង់បែបបទត្រូវបានកែសម្រួលដោយជោគជ័យ
   dashboards:
+    active_program_streams: កម្មវិធីចម្បងបច្ចុប្បន្ន
     active_tasks:
       all_active_tasks: កាតព្វកិច្ចដែលមិនទាន់ធ្វើ
       checkbox_alert: សូមជ្រើសជំរើសមួយឬច្រើន
@@ -2328,7 +2332,7 @@ km:
       today_tasks: កាតព្វកិច្ចថ្ងៃនេះ
       upcoming_tasks: កាតព្វកិច្ចបន្ទាប់
     active_tasks_side:
-      active_tasks: បញ្ចីកាតព្វកិច្ច
+      task_list: បញ្ចីកាតព្វកិច្ច
     assessment_tab:
       assessment: ការប៉ាន់ប្រមាណ
       assessment_you_like: តើការប៉ាន់ប្រមាណមួយណាដែលអ្នកចង់ប្រើ?(CSI ឬការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន)
@@ -2354,7 +2358,6 @@ km:
       searching: កំពុងស្វែងរក
     client_program_stream_by_gender:
       active_progarm_streams_by_gender: បំណែងចែកចំនួនអតិថិជនតាមភេទក្នុងកម្មវិធី
-      active_program_streams: កម្មវិធីចម្បងបច្ចុប្បន្ន
       client_active_in_programs: ចំនួនអតិថិជនក្មុងកម្មវិធី
     client_tab:
       action: សកម្មភាព
@@ -2381,11 +2384,12 @@ km:
       assessments: ការប៉ាន់ប្រមាណ
       duetoday_tasks: កាតព្វកិច្ចត្រូវបំពេញថ្ងៃនេះ
       forms: ទម្រង់បែបបទ
-      tasks: កាតព្វកិច្ច
+      task: កាតព្វកិច្ច
     family:
       families: គ្រួសារបច្ចុប្បន្ន
       foster: Foster
       kinship: Kinship
+    family_active_in_programs: បំណែងចែកចំនួនគ្រួសារក្នុងកម្មវិធី
     family_tab:
       action: សកម្មភាព
       family_form: ទម្រង់គ្រួសារ
@@ -2396,7 +2400,7 @@ km:
     index:
       client_dashboard: តារាងទិន្នន័យអតិថិជន
       community_dashboard: Community Dashboard
-      family_dashboard: Family Dashboard
+      family_dashboard: តារាងទិន្នន័យគ្រួសារ
       hotline_dashboard: Hotline Dashboard
     multiple_forms:
       add_new_document: បន្ថែមឯកសារថ្មី
@@ -2418,7 +2422,7 @@ km:
       assessments: ការប៉ាន់ប្រមាណ
       forms: ទម្រង់បែបបទ
       overdue_tasks: កាតព្វកិច្ចហួសកំណត់
-      tasks: កាតព្វកិច្ច
+      task: កាតព្វកិច្ច
     partner_tab:
       action: សកម្មភាព
       next: ទំព័របន្ទាប់
@@ -2480,7 +2484,7 @@ km:
       assessment: ការប៉ាន់ប្រមាណ
       assessments: ការប៉ាន់ប្រមាណ
       forms: ទម្រង់បែបបទ
-      tasks: កាតព្វកិច្ច
+      task: កាតព្វកិច្ច
       upcoming_tasks: កាតព្វកិច្ចបន្ទាប់
     user_tab:
       action: សកម្មភាព
@@ -2493,7 +2497,7 @@ km:
       filter_by_user: ស្វែងរកតាមរយៈអ្នកប្រើ
       forms: ទម្រង់បែបបទ
       select_user: ជ្រើសរើសអ្នកប្រើ
-      tasks: កាតព្វកិច្ច
+      task: កាតព្វកិច្ច
   data_trackers:
     index:
       able_screening_questions: សំនួរ Able Screening
@@ -2531,7 +2535,7 @@ km:
       releaselogs: Release log
       stages: ដំណាក់កាល
       surveys: ការស្ទង់មតិ
-      tasks: កាតព្វកិច្ច
+      task: កាតព្វកិច្ច
       user_custom_fields: ទម្រង់បែបបទអ្នកប្រើ
       users: អ្នកប្រើ
     per_page_form:
@@ -3065,6 +3069,31 @@ km:
   datetime:
     distance_in_words:
       about_x_hours: '""'
+    dotiw:
+      days:
+        one: 1 ថ្ងៃ
+        other: "%{count} ថ្ងៃ"
+      hours:
+        one: 1 ម៉ោង
+        other: "%{count} ម៉ោង"
+      last_word_connector: ""
+      minutes:
+        one: 1 នាទី
+        other: "%{count} នាទី"
+      months:
+        one: 1 ខែ
+        other: "%{count} ខែ"
+      seconds:
+        one: 1 វិនាទី
+        other: "%{count} វិនាទី"
+      two_words_connector: ", "
+      weeks:
+        one: 1 សប្តាហ៍
+        other: "%{count} សប្តាហ៍"
+      words_connector: ", "
+      years:
+        one: 1 ឆ្នាំ
+        other: "%{count} ឆ្នាំ"
   default_able_screening_question_fields:
     alert_manager: ជូនដំណឹងអ្នកគ្រប់គ្រង
     mode: ម៉ូដ
@@ -4848,7 +4877,7 @@ km:
       no_task: មិនមានពត៌មានដែលត្រូវបង្ហាញ
       overdue_and_due_today_count:
         one: ហើយនិងមានចំនួន1ដែលត្រូវបំពេញនៅថ្ងៃនេះ
-        other: ហើយនិងមានចំនួន%{count}ដែលត្រូវបំពេញនៅថ្ងៃនេះ
+        other: ហើយនិងមានចំនួន%{count} %{tasks}ដែលត្រូវបំពេញនៅថ្ងៃនេះ
       overdue_assessments:
         one: មិនទាន់បានធ្វើ
         other: មិនទាន់បានធ្វើ
@@ -4871,8 +4900,8 @@ km:
         one: មានទម្រង់បែបបទរបស់ដៃគូចំនួន1ដែលផុតកំណត់
         other: មានទម្រង់បែបបទរបស់ដៃគូចំនួន%{count}ដែលផុតកំណត់
       overdue_tasks_count:
-        one: អ្នកមានកាតព្វកិច្ចចំនួន 1 កាតព្វកិច្ចផុតកំណត់
-        other: អ្នកមានកាតព្វកិច្ចចំនួន %{count} កាតព្វកិច្ចផុតកំណត់
+        one: អ្នកមានកាតព្វកិច្ចចំនួន 1 %{tasks}ផុតកំណត់
+        other: អ្នកមានកាតព្វកិច្ចចំនួន %{count} %{tasks}ផុតកំណត់
       overdue_user_custom_field_count:
         one: មានទម្រង់បែបបទរបស់អ្នកប្រើចំនួន1ដែលផុតកំណត់
         other: មានទម្រង់បែបបទរបស់អ្នកប្រើចំនួន%{count}ដែលផុតកំណត់
@@ -4898,6 +4927,7 @@ km:
       communities: សហគមន៍/ក្រុម
       community: សហគមន៍
       custom_fields: ទម្រង់បែបបទ
+      custom_form_limit: កំណត់កែរទម្រង់បែបបទ
       custom_labels: Custom Labels
       dashboards: តារាងទិន្នន័យ
       default_columns: ជួរឈរលំនាំដើម
@@ -4930,6 +4960,7 @@ km:
       release_logs: Release logs
       research_module: ការសិក្សាស្រាវជ្រាវទិន្នន័យ OSCaR
       settings: ការកំណត់
+      tracking_form_limit: កំណត់កែរទម្រង់តាមដាន
       users: ឣ្នកប្រើ
       view_calendar: មើលប្រតិទិន
     top_navbar:
@@ -5756,6 +5787,9 @@ km:
     assessment_setting:
       age: អាយុ
       assessment: ការកំណត់ភាពញឹកញ៉ាប់នៃការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
+      assessment_notification: Assessment Notification
+      cb_dmat_multi: Ongoing CB-DMAT %{screening_assessment} (Multiple)
+      cb_dmat_one_off: CB-DMAT %{screening_assessment} (one-off)
       custom_assessment: ឈ្មោះ
       default_assessment: ការកំណត់ភាពញឹកញ៉ាប់នៃការប៉ាន់ប្រមាណលំនាំដើម CSI
       default_assessment_framework: ការកំណត់ភាពញឹកញ៉ាប់នៃការប៉ាន់ប្រមាណលំនាំដើមក្របខ័ណ្ឌលទ្ធផល
@@ -5764,6 +5798,7 @@ km:
       max_assessment: រយៈពេលអតិបរមារវាងការបា៉ន់ប្រមាណ
       min_assessment: រយៈពេលអប្បបរមារវាងការប៉ាន់ប្រមាណទី 1 និងទី 2
       name: ឈ្មោះ
+      new_client_assessment: New Client Assessment
       noted: 'ចំណាំ: ទីភ្នាក់ងារ USAID បានស្នើថា CSI មិនត្រូវបានប្រើសម្រាប់ការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន។'
       show_prev_assessment: បង្ហាញការប៉ាន់ប្រមានលើកមុនពេលកំពុងបំពេញការប៉ាន់ប្រមាណថ្មី
       two_weeks_assessment_reminder: ផ្ញើការជូនដំណឹងចំនួន ២ដង នៅសប្តាហ៍ទី ២ និងទី ១ មុនពេលធ្វើការប៉ាន់ប្រមាណ
@@ -5808,11 +5843,16 @@ km:
       uganda:
         custom_id1_local: Custom ID1 (Swahili)
         custom_id2_local: Custom ID2 (Swahili)
+    customize_case_note:
+      case_note_tools: Case Note Tools
     default_columns:
       client_default_columns: អតិថិជន
       default_columns: ជួរឈរលំនាំដើម
       family_default_columns: គ្រួសារ
       partner_default_columns: ដៃគូ
+    display_task_date_field:
+      case_note_tasks: Case Note Tasks
+      disabled_task_date_field: Disiable Task's Date Field
     family_case_management:
       family_case_management: ការគ្រប់គ្រងករណីគ្រួសារ
       hide_family_case_management_tool: បិទព័ត៌មានរដ្ឋបាល និងឧបករណ៍គ្រប់គ្រងករណី
@@ -5827,6 +5867,9 @@ km:
       title: External System Integration
     navigation:
       country: ប្រទេស
+    progress_note_and_next_step:
+      hide_case_note: មិនបង្ហាញ %{note}
+      require_case_note: តម្រូវមាន %{note}
     research_module:
       research_module_label: ចែករំលែកទិន្នន័យអតិថិជនអនាមិករបស់អង្គការខ្ញុំជាមួយការសិក្សាស្រាវជ្រាវទិន្នន័យ OSCaR
       title: ការសិក្សាស្រាវជ្រាវទិន្នន័យ OSCaR
@@ -5869,6 +5912,36 @@ km:
       successfully_updated: Service has been successfully updated.
   referral_details: ព័ត៌មានលំអិតនៃការបញ្ជូន
   results: លទ្ធផល
+  screening_assessments:
+    _attr: &SA_ATTR
+      add_new: បន្ថែមការប៉ាន់ប្រមាណបឋម
+      add_task: បន្ថែមកាតព្វកិច្ច
+      attachments: ឯកសារភ្ជាប់
+      back_to_clients: ត្រឡប់ទៅអតិថិជន
+      based_on: ផ្អែកលើការប៉ាន់ប្រមាណបឋម
+      cb_dmat: ការប៉ាន់ប្រមាណបឋម CB-DMAT
+      client_age: អាយុអតិថិជន
+      client_milestone_age: កម្រិតអាយុអតិថិជន
+      client_name: ឈ្មោះអតិថិជន
+      created_by: បង្កើតដោយ
+      note: កំណត់ត្រា
+      on_date: នៅថ្ងៃទី
+      screening_assessment: ការប៉ាន់ប្រមាណបឋម
+      screening_assessment_date: កាលបរិច្ឆេទការប៉ាន់ប្រមាណបឋម
+      tasks: កាតព្វកិច្ច
+      view_cb_dmat: មើល CB-DMAT
+      view_or_hide_last_screening_assessment: មើល ឬលាក់ការប៉ាន់ប្រមាណមុន
+      view_screening_assessment: មើលការប៉ាន់ប្រមាណបឋម
+      visitor: វត្តមានអ្នកចូលរួម?
+    form:
+      <<: *SA_ATTR
+    previous_screening_assessment:
+      <<: *SA_ATTR
+    show:
+      <<: *SA_ATTR
+    task_fields:
+      expected_date: កាលបរិច្ឆេទរំពឹងទុក
+      task: កាតព្វកិច្ច
   shared:
     x_lists_of: "បញ្ជី%{x}"
     new_x: "%{x}ថ្មី"
@@ -6099,6 +6172,7 @@ km:
       tasks_of: កាតព្វកិច្ចរបស់
       today_tasks: កាតព្វកិច្ចថ្ងៃនេះ
       upcoming_tasks: កាតព្វកិច្ចបន្ទាប់
+    task: កាតព្វកិច្ច
     task_added: កាតព្វកិច្ចបានបន្ថែមហើយ
   thredded:
     content_moderation_states:

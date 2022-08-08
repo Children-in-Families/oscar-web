@@ -5,7 +5,7 @@
         %button.close{"aria-label" => 'Close', "data-dismiss" => 'modal'}
           %span{"aria-hidden" => 'true'} &times;
         %h4.modal-title
-          = t('.title')
+          = t('.new_task')
       .modal-body
         = form_tag(client_tasks_path(@client), name: 'task', id: 'case_note_task') do
           = hidden_field :task, 'relation', value: 'case_note'

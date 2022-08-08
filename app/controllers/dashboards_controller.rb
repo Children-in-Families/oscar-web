@@ -9,7 +9,7 @@ class DashboardsController < AdminController
     @referral_sources = ReferralSource.child_referrals.where(ancestry: nil)
     @select_client_options = Client.accessible_by(current_ability).active_accepted_status
     @custom_domains = Domain.custom_csi_domains
-    @custom_assessment_settings = CustomAssessmentSetting.all.where(enable_custom_assessment: true)
+    @custom_assessment_settings = CustomAssessmentSetting.includes(:domains).where(enable_custom_assessment: true)
 
     @date_validation_error = fetch_data_logic_error
   end

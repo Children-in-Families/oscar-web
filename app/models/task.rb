@@ -3,7 +3,7 @@ class Task < ActiveRecord::Base
   belongs_to :case_note_domain_group
   belongs_to :client
   belongs_to :user
-  belongs_to :taskable, polymorphic: true
+  belongs_to :taskable, polymorphic: true, required: false
   belongs_to :family
   belongs_to :goal, required: false
   belongs_to :completed_by, class_name: 'User', foreign_key: 'completed_by_id'
@@ -17,7 +17,7 @@ class Task < ActiveRecord::Base
   acts_as_paranoid double_tap_destroys_fully: false
 
   validates :name, presence: true
-  validates :domain, presence: true
+  validates :domain, presence: true, if: -> { taskable_type != 'ScreeningAssessment' }
   validates :expected_date, presence: true
 
   accepts_nested_attributes_for :task_progress_notes, reject_if: proc { |attribute| attribute['progress_note'].blank? } , allow_destroy: true
@@ -110,6 +110,7 @@ class Task < ActiveRecord::Base
   private
 
   def save_parent_parent_id
+    return if taskable_type == 'ScreeningAssessment'
     parent_family_id = goal&.care_plan&.family_id || taskable&.family_id
     parent_client_id = goal&.care_plan&.client_id || taskable&.client_id
 
