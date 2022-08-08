@@ -2327,6 +2327,8 @@ ActiveRecord::Schema.define(version: 20220725040448) do
     t.string   "tracking_form_edit_frequency",         default: "week"
     t.boolean  "required_case_note_note",              default: true
     t.boolean  "hide_case_note_note",                  default: false
+    t.boolean  "cbdmat_one_off",                       default: false
+    t.boolean  "cbdmat_ongoing",                       default: false
   end
 
   add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree

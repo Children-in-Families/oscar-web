@@ -106,6 +106,7 @@
                       = screening_assessment.client_milestone_age
                   .panel-body
                     = f.simple_fields_for :tasks, screening_assessment.tasks.incomplete do |t|
+                      = t.hidden_field :case_note_id, value: @case_note.id
                       = t.hidden_field :completed_by_id, value: current_user.id
                       = t.hidden_field :completion_date, value: f.object.meeting_date
                       = t.hidden_field :completion_date, value: f.object.meeting_date
