@@ -12,6 +12,9 @@ import T from 'i18n-react'
 import { t } from "../../utils/i18n";
 
 export default (props) => {
+  const {
+    protectionConcerns
+  } = props
   const yesNoOpts = [
     { label: T.translate("newCall.refereeInfo.yes"), value: true },
     { label: T.translate("newCall.refereeInfo.no"), value: false },
@@ -47,7 +50,8 @@ export default (props) => {
           <SelectInput
             isError={false}
             label={"Protection Concern"}
-            options={['At risk of neglect', 'At risk of sexual exploitation', 'At risk of online sexual exploitation', 'At risk of substance abuse', 'At risk of child kidnapping']}
+            asGroup
+            options={[]}
             value={''}
             onChange={onChange("client", "")}
           />
@@ -72,8 +76,8 @@ export default (props) => {
         </div>
       </div>
       <div className="row">
-        <div className="col-xs-12 col-md-6 col-lg-6">
-          <TextInput
+        <div className="col-xs-12">
+          <TextArea
             label={"Client’s perspective on their problem and needs"}
             onChange={onChange("client", "")}
             value={''}
@@ -189,7 +193,7 @@ export default (props) => {
       </div>
       <div className="row">
         <div className="col-xs-12">
-          <TextInput
+          <TextArea
             inline
             label={"Relevant Referral Information"}
             onChange={onChange("client", "")}

@@ -43,11 +43,19 @@ const Forms = props => {
   const {
     data: {
       current_organization,
-      client: { client, user_ids, ratanak_achievement_program_staff_client_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids, national_id_files, current_family_id, isTestClient, isForTesting }, client_quantitative_free_text_cases, family_member, family, moSAVYOfficials, referee, referees, carer, users, birthProvinces, referralSource, referralSourceCategory, selectedCountry, internationalReferredClient,
-      currentProvinces, districts, communes, villages, donors, agencies, schoolGrade, quantitativeType, quantitativeCase, ratePoor, families, clientRelationships, refereeRelationships, addressTypes, phoneOwners, refereeDistricts,
+      client: {
+        client, user_ids, ratanak_achievement_program_staff_client_ids, quantitative_case_ids, agency_ids, donor_ids,
+        family_ids, national_id_files, current_family_id, isTestClient, isForTesting
+      },
+      client_quantitative_free_text_cases, family_member, family, moSAVYOfficials, referee, referees, carer, users, birthProvinces,
+      referralSource, referralSourceCategory, selectedCountry, internationalReferredClient,
+      currentProvinces, districts, communes, villages, donors, agencies, schoolGrade, quantitativeType, quantitativeCase, ratePoor,
+      families, clientRelationships, refereeRelationships, addressTypes, phoneOwners, refereeDistricts,
       refereeTownships, carerTownships, customId1, customId2, inlineHelpTranslation,
-      refereeCommunes, refereeSubdistricts, carerSubdistricts, refereeVillages, carerDistricts, carerCommunes, carerVillages, callerRelationships, currentStates, currentTownships, subDistricts, translation, fieldsVisibility, requiredFields,
-      brc_address, brc_islands, brc_resident_types, brc_prefered_langs, brc_presented_ids, maritalStatuses, nationalities, ethnicities, traffickingTypes
+      refereeCommunes, refereeSubdistricts, carerSubdistricts, refereeVillages, carerDistricts, carerCommunes, carerVillages, callerRelationships,
+      currentStates, currentTownships, subDistricts, translation, fieldsVisibility, requiredFields,
+      brc_address, brc_islands, brc_resident_types, brc_prefered_langs, brc_presented_ids, maritalStatuses, nationalities, ethnicities, traffickingTypes,
+      protectionConcerns
     }
   } = props
 
@@ -251,7 +259,6 @@ const Forms = props => {
 
       $('.alert').hide();
       $('#save-btn-help-text').hide()
-      debugger;
       $(`#step-${goingToStep}`).show();
       if (goingToStep === (fieldsVisibility.show_legal_doc == true ? 6 : 5))
         $('#save-btn-help-text').show()
@@ -268,7 +275,6 @@ const Forms = props => {
 
       $('.alert').hide();
       $(`#step-${step + 1}`).show();
-      debugger;
       $('#save-btn-help-text').hide()
       if ((step + 1) === (fieldsVisibility.show_legal_doc == true ? 6 : 5))
         $('#save-btn-help-text').show()
@@ -553,7 +559,7 @@ const Forms = props => {
           </div>
 
           <div style={{ display: step ===  4 ? 'block' : 'none' }}>
-            <RiskAssessment />
+            <RiskAssessment protectionConcerns={ protectionConcerns } />
           </div>
 
           <div style={{ display: step === 5 ? 'block' : 'none' }}>

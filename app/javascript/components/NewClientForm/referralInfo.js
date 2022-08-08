@@ -47,6 +47,7 @@ export default (props) => {
       traffickingTypes,
     },
   } = props;
+  console.log(birthProvinces)
   const callerRelationship = callerRelationships.map((relationship) => ({
     label: T.translate("callerRelationship." + relationship.label),
     value: relationship.value,
