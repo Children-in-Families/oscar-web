@@ -1,5 +1,5 @@
 module ClientsHelper
-  include ProtectionConcern
+  include RiskAssessmentHelper
 
   def client_form_data
     {
@@ -37,7 +37,7 @@ module ClientsHelper
       brc_resident_types: Client::BRC_RESIDENT_TYPES, brc_presented_ids: Client::BRC_PRESENTED_IDS,
       brc_prefered_langs: Client::BRC_PREFERED_LANGS, customId1: custom_id_translation('custom_id1'),
       customId2: custom_id_translation('custom_id2'), referees: Referee.where(anonymous: false),
-      protectionConcerns: protection_concerns
+      protectionConcerns: I18n.locale == :km ? protection_concern_list_local : protection_concern_list
     }
   end
 

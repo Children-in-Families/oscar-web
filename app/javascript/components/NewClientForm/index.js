@@ -385,8 +385,6 @@ const Forms = props => {
       handleCheckValue(clientData)
       handleCheckValue(carerData)
 
-      console.log(familyMemberData);
-
       if ((familyMemberData.family_id === null || familyMemberData.family_id === undefined) && forceSave === false)
         setAttachFamilyModal(true)
       else {

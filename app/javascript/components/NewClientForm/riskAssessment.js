@@ -15,10 +15,18 @@ export default (props) => {
   const {
     protectionConcerns
   } = props
+
   const yesNoOpts = [
     { label: T.translate("newCall.refereeInfo.yes"), value: true },
     { label: T.translate("newCall.refereeInfo.no"), value: false },
   ];
+
+  const levelOfRisk = [
+    { label: 'High', value: 'high'},
+    { label: 'Medium', value: 'medium'},
+    { label: 'Low', value: 'low'},
+    { label: 'No Action', value: 'no action'},
+  ]
 
   const onChange = () => {
     return
@@ -51,7 +59,7 @@ export default (props) => {
             isError={false}
             label={"Protection Concern"}
             asGroup
-            options={[]}
+            options={protectionConcerns}
             value={''}
             onChange={onChange("client", "")}
           />
@@ -69,7 +77,7 @@ export default (props) => {
           <SelectInput
             isError={false}
             label={"Level of Risk"}
-            options={['Hight', 'Medium', 'Low', 'No Action']}
+            options={levelOfRisk}
             value={''}
             onChange={onChange("client", "")}
           />
@@ -194,7 +202,6 @@ export default (props) => {
       <div className="row">
         <div className="col-xs-12">
           <TextArea
-            inline
             label={"Relevant Referral Information"}
             onChange={onChange("client", "")}
             value={''}
