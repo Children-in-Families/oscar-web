@@ -5921,7 +5921,8 @@ km:
       client_name: ឈ្មោះអតិថិជន
       created_by: បង្កើតដោយ
       note: កំណត់ត្រា
-      on_date: នៅថ្ងៃទី
+      on_date: នៅថ្ងៃ
+      refer_to_specialist: បញ្ជូនទៅអ្នកឯកទេស
       screening_assessment: ការប៉ាន់ប្រមាណបឋម
       screening_assessment_date: កាលបរិច្ឆេទការប៉ាន់ប្រមាណបឋម
       tasks: កាតព្វកិច្ច
