@@ -11,9 +11,23 @@ class QuantitativeCase < ActiveRecord::Base
 
   has_paper_trail
 
+  after_commit :flash_cache
+
   default_scope { order(value: :asc) }
 
   scope :value_like, ->(values) { where('quantitative_cases.value iLIKE ANY ( array[?] )', values.map { |val| "%#{val}%" }) }
 
   scope :quantitative_cases_by_type, ->(id) { where('quantitative_type_id = ?', id) }
+
+  def self.cache_all
+    Rails.cache.fetch([Apartment::Tenant.current, "QuantitativeCase", 'all']) do
+      all.to_a
+    end
+  end
+
+  private
+
+  def flash_cache
+    Rails.cache.delete([Apartment::Tenant.current, "QuantitativeCase", 'all'])
+  end
 end

@@ -21,7 +21,7 @@ module ClientsHelper
       refereeDistricts: @referee_districts, refereeSubdistricts: @referee_subdistricts, refereeCommunes: @referee_communes,
       refereeVillages: @referee_villages, carerDistricts: @carer_districts, carerSubdistricts: @carer_subdistricts, carerCommunes: @carer_communes,
       carerVillages: @carer_villages, donors: @donors, agencies: @agencies,
-      quantitativeType: QuantitativeType.where('quantitative_types.visible_on LIKE ?', "%client%"), quantitativeCase: QuantitativeCase.all,
+      quantitativeType: QuantitativeType.cach_by_visible_on('client'), quantitativeCase: QuantitativeCase.cache_all,
       ratePoor: [
         t('clients.level').values, Client::CLIENT_LEVELS
       ].transpose,
@@ -37,7 +37,9 @@ module ClientsHelper
       brc_resident_types: Client::BRC_RESIDENT_TYPES, brc_presented_ids: Client::BRC_PRESENTED_IDS,
       brc_prefered_langs: Client::BRC_PREFERED_LANGS, customId1: custom_id_translation('custom_id1'),
       customId2: custom_id_translation('custom_id2'), referees: Referee.where(anonymous: false),
-      protectionConcerns: I18n.locale == :km ? protection_concern_list_local : protection_concern_list
+      protectionConcerns: I18n.locale == :km ? protection_concern_list_local : protection_concern_list,
+      historyOfHarms: history_of_harms, historyOfHighRiskBehaviours: history_of_high_risk_behaviours,
+      reasonForFamilySeparations: reason_for_family_separations, historyOfDisabilities: history_of_disabilities
     }
   end
 

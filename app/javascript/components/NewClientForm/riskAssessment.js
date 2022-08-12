@@ -3,18 +3,35 @@ import {
   SelectInput,
   DateInput,
   TextInput,
-  Checkbox,
   RadioGroup,
-  FileUploadInput,
   TextArea,
 } from "../Commons/inputs";
 import T from 'i18n-react'
 import { t } from "../../utils/i18n";
+import TaskForm from "./taskForm";
+import TaskList from "./taskList";
 
 export default (props) => {
   const {
-    protectionConcerns
+    onChange, protectionConcerns, historyOfHarms, historyOfHighRiskBehaviours, reasonForFamilySeparations, historyOfDisabilities
   } = props
+
+  const [tasks, setTasks] = useState([{name: 'Test', expected_date: '2022-08-01', completed: false}])
+
+  const createTask = (task) => {
+    // tasks.map((obj) => {
+    //   obj.remove = true
+    //   return obj
+    // })
+    const newTasks = [...tasks, { ...task, complete: false }];
+    setTasks(newTasks);
+  };
+
+  const deleteTask = (index) => {
+    const newTasks = [...tasks]
+    newTasks.splice(index, 1)
+    setTasks(newTasks)
+  }
 
   const yesNoOpts = [
     { label: T.translate("newCall.refereeInfo.yes"), value: true },
@@ -28,9 +45,6 @@ export default (props) => {
     { label: 'No Action', value: 'no action'},
   ]
 
-  const onChange = () => {
-    return
-  }
 
   return (
     <div className="containerClass">
@@ -61,7 +75,7 @@ export default (props) => {
             asGroup
             options={protectionConcerns}
             value={''}
-            onChange={onChange("client", "")}
+            onChange={onChange('risk_assessment', '')}
           />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-6">
@@ -156,7 +170,7 @@ export default (props) => {
             inline
             isError={false}
             label={"History of disability and/or illness"}
-            options={[]}
+            options={historyOfDisabilities}
             value={''}
             width={'45%'}
             onChange={onChange("client", "")}
@@ -169,7 +183,7 @@ export default (props) => {
             inline
             isError={false}
             label={"History of Harm"}
-            options={[]}
+            options={historyOfHarms}
             value={''}
             onChange={onChange("client", "")}
           />
@@ -181,7 +195,7 @@ export default (props) => {
             inline
             isError={false}
             label={"History of high-risk behaviours"}
-            options={[]}
+            options={historyOfHighRiskBehaviours}
             value={''}
             onChange={onChange("client", "")}
           />
@@ -193,7 +207,7 @@ export default (props) => {
             inline
             isError={false}
             label={"Reason for Family Separation"}
-            options={[]}
+            options={reasonForFamilySeparations}
             value={''}
             onChange={onChange("client", "")}
           />
@@ -206,6 +220,28 @@ export default (props) => {
             onChange={onChange("client", "")}
             value={''}
           />
+        </div>
+      </div>
+      <div className="containerClass">
+        <legend>
+          <div className="row">
+            <div className="col-xs-12">
+              <p>Tasks</p>
+
+            </div>
+          </div>
+        </legend>
+        <div className="row">
+          <div className="col-xs-12 col-md-10">
+            {
+              tasks.map((task, index) => {
+                return (
+                  <TaskList task={task} deleteTask={deleteTask} key={`task-${index}`} index={index} />
+                )
+              })
+            }
+            <TaskForm task={{name: '', expected_date: null}} createTask={createTask} />
+          </div>
         </div>
       </div>
     </div>

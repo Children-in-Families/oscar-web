@@ -55,7 +55,7 @@ const Forms = props => {
       refereeCommunes, refereeSubdistricts, carerSubdistricts, refereeVillages, carerDistricts, carerCommunes, carerVillages, callerRelationships,
       currentStates, currentTownships, subDistricts, translation, fieldsVisibility, requiredFields,
       brc_address, brc_islands, brc_resident_types, brc_prefered_langs, brc_presented_ids, maritalStatuses, nationalities, ethnicities, traffickingTypes,
-      protectionConcerns
+      protectionConcerns, historyOfHarms, historyOfHighRiskBehaviours, reasonForFamilySeparations, historyOfDisabilities
     }
   } = props
 
@@ -557,7 +557,15 @@ const Forms = props => {
           </div>
 
           <div style={{ display: step ===  4 ? 'block' : 'none' }}>
-            <RiskAssessment protectionConcerns={ protectionConcerns } />
+            <RiskAssessment
+              onChange={onChange}
+              protectionConcerns={ protectionConcerns }
+              historyOfHarms={ historyOfHarms }
+              historyOfHighRiskBehaviours={ historyOfHighRiskBehaviours }
+              reasonForFamilySeparations={ reasonForFamilySeparations }
+              historyOfDisabilities={ historyOfDisabilities }
+            >
+            </RiskAssessment>
           </div>
 
           <div style={{ display: step === 5 ? 'block' : 'none' }}>

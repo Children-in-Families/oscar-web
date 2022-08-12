@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
 import Select from 'react-select'
 
 export default props => {
   const { value, options, isMulti, isError, label, required, onChange, asGroup, T, hintText, inlineClassName, inline, ...others } = props
+  const [selectedOption, setSelectedOption] = useState(null);
 
   const getSeletedObject = () => {
     if(options) {
@@ -20,6 +21,10 @@ export default props => {
       return $.isEmptyObject(object) ? null : object
     }
   }
+
+  useEffect(() => {
+    setSelectedOption(getSeletedObject())
+  }, []);
 
   const handleChange = (selectedOption, { action, removedValue }) => {
     let data
@@ -41,6 +46,7 @@ export default props => {
       data = action === 'clear' ? null : selectedOption.value
     }
 
+    setSelectedOption(selectedOption)
     onChange({ data, removed, action, type: 'select', options: options, isMulti: isMulti })
   }
 
@@ -76,9 +82,10 @@ export default props => {
         <Select
           isMulti={isMulti}
           isClearable={options.some(v => !v.isFixed)}
+          defaultValue={selectedOption}
           onChange={handleChange}
           formatGroupLabel={asGroup && formatGroupLabel}
-          value={getSeletedObject() || null}
+          value={selectedOption}
           options={options}
           { ...others }
           styles={

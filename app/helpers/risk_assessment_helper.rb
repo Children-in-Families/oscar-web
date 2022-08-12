@@ -140,4 +140,37 @@ module RiskAssessmentHelper
       }
     ]
   end
+
+  def select_quantitative_type(value)
+    quantitative_types = QuantitativeType.cach_by_visible_on('client')
+    quantitative_type = quantitative_types.select{|qt| qt.name =~ /#{value}/ }.first
+    quantitative_cases = select_quantitative_cases(quantitative_type.id)
+    quantitative_cases.map { |quantitative_case| [quantitative_case.value, quantitative_case.id] }
+                      .map { |value, id| { label: split_quantitative_case_value(value), value: id } }
+  end
+
+  def split_quantitative_case_value(quantitative_case_value)
+    values = quantitative_case_value.split(' / ')
+    I18n.locale == :km ? values.first : values.last
+  end
+
+  def select_quantitative_cases(quantitative_type_id)
+    QuantitativeCase.cache_all.select{ |qc| qc.quantitative_type_id == quantitative_type_id }
+  end
+
+  def history_of_harms
+    select_quantitative_type('History of Harm')
+  end
+
+  def history_of_high_risk_behaviours
+    select_quantitative_type('History of high-risk behaviours')
+  end
+
+  def reason_for_family_separations
+    select_quantitative_type('Reason for Family Separation')
+  end
+
+  def history_of_disabilities
+    select_quantitative_type('History of disability')
+  end
 end

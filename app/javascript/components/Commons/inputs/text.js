@@ -1,8 +1,7 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 export default props => {
   const { isError, label, required, onChange, value, hintText, errorText, T, inlineClassName, inline, ...others } = props
-
   return (
     <div className='form-group' style={inline && styles.inlineWrapper}>
       <label style={isError && styles.errorText || styles.inlineDisplay}>
@@ -23,7 +22,7 @@ export default props => {
         </a>
       }
       <input
-        className='form-control'
+        className='form-control m-t-xs'
         onChange={onChange}
         { ...others }
         value={value || ''}
