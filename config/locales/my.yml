@@ -6038,6 +6038,8 @@ my:
     _attr: &SA_ATTR
       add_new: Add New Screening Assessment
       add_task: Add Task
+      assessment_date: Assessment Date
+      assessment_on: Assessment On
       attachments: Attachments
       back_to_clients: Back to Client
       based_on: Base on Screening Assessment
@@ -6053,7 +6055,8 @@ my:
       screening_assessment_date: Screening Assessment Date
       tasks: Tasks
       view_cb_dmat: View CB-DMAT
-      view_or_hide_last_screening_assessment: View or Hide Last Screening Assessment
+      view_cb_dmat_assessment: View CB-DMAT Assessment
+      view_or_hide_last_assessment: View or Hide Last Assessment
       view_screening_assessment: View Screening Assessment
       visitor: Who was there during the assessment?
     form:
