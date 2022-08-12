@@ -11,7 +11,7 @@ class ScreeningAssessmentsController <  AdminController
   def new
     @screening_assessment = @client.screening_assessments.new
     @screening_assessment.populate_developmental_markers
-    @screening_assessment.tasks.build(name: 'Refer to specialist')
+    @screening_assessment.tasks.build(name: t('screening_assessments._attr.refer_to_specialist'))
   end
 
   def create
@@ -35,7 +35,7 @@ class ScreeningAssessmentsController <  AdminController
     @developmental_marker_screening_assessments = @screening_assessment.developmental_marker_screening_assessments
     maker_name = @screening_assessment.client_milestone_age
     @screening_assessment.populate_developmental_markers(maker_name)
-    @screening_assessment.tasks.build(name: 'Refer to specialist') if @screening_assessment.tasks.blank?
+    @screening_assessment.tasks.build(name: t('screening_assessments._attr.refer_to_specialist')) if @screening_assessment.tasks.blank?
   end
 
   def update
@@ -90,6 +90,6 @@ class ScreeningAssessmentsController <  AdminController
   end
 
   def find_previous_screening_assessment
-    @previous_screening_assessment = ScreeningAssessment.where(client_id: @client.id).last
+    @previous_screening_assessment = ScreeningAssessment.where(client_id: @client.id).where.not(id: @screening_assessment.id).last
   end
 end
