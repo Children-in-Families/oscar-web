@@ -195,21 +195,22 @@
                                             = task.name
                                             %td= date_format(task.expected_date)
 
-              .row
-                .col-xs-12.col-md-6
-                  %h4= t('.cb_dmat_assessment_task')
-                  - @client.screening_assessments.each do |screening_assessment|
-                    - completed_tasks = screening_assessment.tasks.completed.where(case_note_id: case_note.id)
-                    - next unless completed_tasks.any?
-                    .panel.panel-default
-                      .panel-heading
-                        %h4= "#{t('.completed_tasks')}: #{screening_assessment.client_milestone_age}"
-                      .panel-body.no-padding
-                        %ul.list-group
-                          - completed_tasks.each_with_index do |task, index|
-                            %li.list-group-item
-                              = "#{index + 1}. "
-                              = task.name
+              - if current_setting.cbdmat_one_off? || current_setting.cbdmat_ongoing?
+                .row
+                  .col-xs-12.col-md-6
+                    %h4= t('.cb_dmat_assessment_task')
+                    - @client.screening_assessments.each do |screening_assessment|
+                      - completed_tasks = screening_assessment.tasks.completed.where(case_note_id: case_note.id)
+                      - next unless completed_tasks.any?
+                      .panel.panel-default
+                        .panel-heading
+                          %h4= "#{t('.completed_tasks')}: #{screening_assessment.client_milestone_age}"
+                        .panel-body.no-padding
+                          %ul.list-group
+                            - completed_tasks.each_with_index do |task, index|
+                              %li.list-group-item
+                                = "#{index + 1}. "
+                                = task.name
 
               .row
                 - file_names = case_note.case_note_domain_groups.pluck(:attachments).reject(&:blank?)
