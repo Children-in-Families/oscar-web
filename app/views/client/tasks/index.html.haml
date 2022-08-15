@@ -20,11 +20,7 @@
                   - (@tasks.incomplete.overdue.presence || []).each do |task|
                     %tr
                       %td.text-middle
-                        = "#{t('.domain')}:"
-                        - if task.domain.custom_domain?
-                          = t("domains.domain_names.#{task.domain.name.downcase}")
-                        - else
-                          = t("domains.domain_names.#{task.domain.name.downcase.reverse}")
+                        = render 'task_parents', task: task
                       %td.task-name= task.name
                       %td.text-center.text-middle= date_format(task.expected_date)
                       - if current_user.admin?
@@ -48,11 +44,7 @@
                   - (@tasks.incomplete.today.presence || @tasks.incomplete.today_completed_date).each do |task|
                     %tr
                       %td.text-middle
-                        = "#{t('.domain')}:"
-                        - if task.domain.custom_domain?
-                          = t("domains.domain_names.#{task.domain.name.downcase}")
-                        - else
-                          = t("domains.domain_names.#{task.domain.name.downcase.reverse}")
+                        = render 'task_parents', task: task
                       %td= task.name
                       %td.text-center.text-middle= date_format(task.expected_date)
                       - if current_user.admin?
@@ -75,11 +67,7 @@
                   - (@tasks.incomplete.upcoming.presence || []).each do |task|
                     %tr
                       %td.text-middle
-                        = "#{t('.domain')}:"
-                        - if task.domain.custom_domain?
-                          = t("domains.domain_names.#{task.domain.name.downcase}")
-                        - else
-                          = t("domains.domain_names.#{task.domain.name.downcase.reverse}")
+                        = render 'task_parents', task: task
                       %td= task.name
                       %td.text-center.text-middle= date_format(task.expected_date)
                       - if current_user.admin?

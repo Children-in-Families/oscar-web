@@ -1,11 +1,11 @@
 .panel-body{ id: "tasks-domain-#{domain.id}", data: { domain_group_identity: domain_note.object.domain_group_id } }
   .row
     .col-xs-12
-      %label{:for => ""}= t('.on_going_tasks')
+      %label{:for => ""}= t('case_notes.form.on_going_tasks')
       .m-r-sm
         = domain_note.simple_fields_for :tasks, tasks do |t|
           - task = t.object
-          .checkbox-primary
+          .checkbox-primary.m-t-sm
             =# check_box_tag "#{domain_note.object_name}[task_ids][]", task.id, task.completed, class: 'i-checks task'
             =# label_tag task.name
             = t.hidden_field :name
@@ -14,7 +14,7 @@
             = t.input_field :completed, class: 'i-checks task', as: :boolean, data: { task_id: task.id }
             %label= task.name
             - if Organization.ratanak?
-              = fa_icon 'sticky-note-o', class: 'btn-outline btn-xs btn-success task-sticky-note', id: "task-id-#{task.id}"
+              = fa_icon 'sticky-note-o', class: 'btn-outline btn-xs btn-success task-sticky-note', id: "task-id-#{task.id}", data: { original_title: t('tasks.add_task_progress_note'), toggle: 'tooltip' }
           - if Organization.ratanak?
             .service-delivery.hide.m-b-sm{ id: "service-delivery-task-#{task.id}" }
               %label.m-t-xs{ :for => "completion_date" }= t('case_notes.add_task_form.completion_date')
@@ -28,6 +28,7 @@
                   %optgroup{ label: sub_service_category.name }
                     - sub_service_category.children.each do |child|
                       %option{ :value => child.id }= child.name
+
             %div.hide{ id: "task-id-#{task.id}-progress-note-wrapper" }
               .task_progress_notes{ id: "task-#{task.id}-progress-notes" }
                 - if task.persisted?
@@ -38,5 +39,5 @@
 
       %div{ class: 'task-arising hidden' }
         %label.control-label
-          = t('.tasks_arising')
+          = t('case_notes.form.tasks_arising')
         %ol.list-group{ type: '1'}

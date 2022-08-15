@@ -1039,6 +1039,7 @@ my:
       add_task: လုပ္ငန္းအသစ္ထည့္သြင္းရန္
       add_task_message: Please select the domain group before you can add the task.
       back: ေနာက္သို႔
+      cb_dmat_assessment_task: CB-DMAT Assessment Tasks
       completed_tasks: ၿပီးၿပီးသား လုပ္ငန္းမ်ား
       domain: ဒိုမိန္း
       domain_groups: Please select all Domain Groups you supported the client with in this case note.
@@ -1051,7 +1052,7 @@ my:
       present: လာေရာက္စဥ္ေသာ္လည္းေကာင္း၊ စကားေျပာေနစဥ္ေသာ္လည္း ေဘးတြင္ မည္သူရွိေနပါသနည္း
       remove_domain_group_hint: You have created a task associated with this Domain Group. To remove this Domain tag, please remove the Task first.
       save: သိမ္းသည္။
-      tasks: လုပ္ငန္းမ်ား
+      task: လုပ္ငန္းမ်ား
       tasks_arising: ေပၚေပါက္လာေသားလုပ္ငန္းမ်ား
       type: အမ်ိဳးအစား
       type_options:
@@ -1078,6 +1079,7 @@ my:
       back: ေနာက္သို႔
       case_note_lists: အမႈျခင္းရာ မွတ္စု စာရင္း
       case_note_on: ဆုိင္ရာ အမႈျခင္းရာမွတ္စု
+      cb_dmat_assessment_task: CB-DMAT Assessment Tasks
       completed_tasks: ၿပီးစီးၿပီးသြားေသာ လုပ္ငန္းမ်ား
       domain: ဒိုမိန္း
       domain_groups: ဒိုမိန္း အုပ္စုမ်ား
@@ -1089,6 +1091,7 @@ my:
       please_add_custom_domains: သငျသညျဤ action လုပ်ဆောင်နိုင်မီအချို့ကိုသင်စိတ်ကြိုက်ဒိုမိန်းထည့်သွင်းဖို့လိုပေမည်
       present: လာေရာက္ေတြ႕ဆံုစဥ္ သို႔မဟုတ္ စကားေျပာစဥ္ အနီးတြင္ မည္သူ ရွိေနခဲ့သနည္း။
       review_assessment: Review Assessment
+      task: Task
       type: အမ်ိဳးအစား
       you_need_to_create_assessment: စိစစ္အကဲျဖတ္ခ်က္ကို ျပဳလုပ္ရန္လိုပါသည္။
     show:
@@ -2461,6 +2464,7 @@ my:
     update:
       successfully_updated: ေနရာပိုင္ဆုိင္မႈ သတ္မွတ္ပံုစံကို ေအာင္ျမင္စြာ အသစ္ထည့္သြင္းၿပီးပါၿပီ
   dashboards:
+    active_program_streams: လုပ္ေဆာင္မႈရွိေသးေသာ အစီအစဥ္ စီးဆင္းမႈမ်ား
     active_tasks:
       all_active_tasks: အသက္၀င္ေသးေသာ လုပ္ငန္းမ်ားအားလံုး
       checkbox_alert: ခြစ်ကွက်များကိုတဦးတည်းစစ်ဆေးပါ
@@ -2469,7 +2473,7 @@ my:
       today_tasks: ယေန႔ လုပ္ရမည့္ လုပ္ငန္းမ်ား
       upcoming_tasks: လုပ္ေဆာင္ရမည့္ လုပ္ငန္းမ်ား
     active_tasks_side:
-      active_tasks: အသက္၀င္ေသးေသာ လုပ္ငန္းမ်ား
+      task_list: အသက္၀င္ေသးေသာ လုပ္ငန္းမ်ား
     assessment_tab:
       assessment: ရက်လွန်အကဲဖြတ်
       assessment_you_like: Which assessment would you like ? (CSI or Custom Assessment)
@@ -2503,7 +2507,6 @@ my:
       searching: Searching
     client_program_stream_by_gender:
       active_progarm_streams_by_gender: အမႈသည္၏ က်ား/မ အလိုက္ လုပ္ေဆာင္မႈရွိေသးေသာ အစီအစဥ္ စီးဆင္းမႈမ်ား
-      active_program_streams: လုပ္ေဆာင္မႈရွိေသးေသာ အစီအစဥ္ စီးဆင္းမႈမ်ား
       client_active_in_programs: လုပ္ေဆာင္မႈရွိေသးေသာ အစီအစဥ္ စီးဆင္းမႈမ်ား
     client_tab:
       action: လုပ္ေဆာင္မႈ
@@ -2522,11 +2525,12 @@ my:
       assessments: ရက်လွန်အကဲဖြတ်
       duetoday_tasks: ကြောင့်ယနေ့တာဝန်များကို
       forms: ရက်လွန်ပုံစံ
-      tasks: ရက်လွန်အလုပ်တခုကို
+      task: ရက်လွန်အလုပ်တခုကို
     family:
       families: မိသားစုမ်ား
       foster: ေမြးစားျခင္း
       kinship: ေဆြမ်ိဳး
+    family_active_in_programs: Family in Active Program Stream
     family_tab:
       action: လုပ္ေဆာင္မႈ
       family_form: Family Form
@@ -2534,6 +2538,11 @@ my:
       previous: ေရွ႕တစ္ခု
     go_to_client:
       go_to_client: Go to Client
+    index:
+      client_dashboard: Client Dashboard
+      community_dashboard: Community Dashboard
+      family_dashboard: Family Dashboard
+      hotline_dashboard: Hotline Dashboard
     multiple_forms:
       add_new_document: Add New Document
       assessment: ရက်လွန်အကဲဖြတ်
@@ -2554,7 +2563,7 @@ my:
       assessments: ရက်လွန်အကဲဖြတ်
       forms: ရက်လွန်ပုံစံ
       overdue_tasks: ရက်လွန်အလုပ်တခုကို
-      tasks: ရက်လွန်အလုပ်တခုကို
+      task: ရက်လွန်အလုပ်တခုကို
     partner_tab:
       action: လုပ္ေဆာင္မႈ
       next: ေနာက္တစ္ခု
@@ -2605,7 +2614,7 @@ my:
       assessment: ရက်လွန်အကဲဖြတ်
       assessments: ရက်လွန်အကဲဖြတ်
       forms: ရက်လွန်ပုံစံ
-      tasks: ရက်လွန်အလုပ်တခုကို
+      task: ရက်လွန်အလုပ်တခုကို
       upcoming_tasks: မၾကာမီလုပ္ရမည့္ လုပ္ငန္းမ်ား
     users_filter:
       apply: လျှောက်ထား
@@ -2613,7 +2622,7 @@ my:
       filter_by_user: အသံုးျပဳသူ သတ္မွတ္ထားေသာ စိစစ္မႈ
       forms: ရက်လွန်ပုံစံ
       select_user: အသံုးျပဳသူကို ေရြးခ်ယ္ပါ။
-      tasks: ရက်လွန်အလုပ်တခုကို
+      task: ရက်လွန်အလုပ်တခုကို
   data_trackers:
     index:
       able_screening_questions: Able Screening ေမးခြန္းမ်ား
@@ -2651,7 +2660,7 @@ my:
       releaselogs: လႊဲေပးသည့္ မွတ္တမ္းမ်ား
       stages: အဆင့္မ်ား
       surveys: စစ္တမ္းမ်ား
-      tasks: လုပ္ငန္းမ်ား
+      task: လုပ္ငန္းမ်ား
       user_custom_fields: အသံုးျပဳသူ၏ အေကာက္ခြန္ပံုစံမ်ား
       users: အသံုးျပဳသူမ်ား
     per_page_form:
@@ -5909,6 +5918,9 @@ my:
     assessment_setting:
       age: အသက္
       assessment: အကဲဖြတ်
+      assessment_notification: Assessment Notification
+      cb_dmat_multi: Ongoing CB-DMAT %{screening_assessment} (Multiple)
+      cb_dmat_one_off: CB-DMAT %{screening_assessment} (one-off)
       custom_assessment: နာမတျောကို
       default_assessment: ပျက်ကွက် အကဲဖြတ်ကြိမ်နှုန်းချိန်ညှိမှုများ
       default_assessment_framework: Result Framework Assessment Frequency Settings
@@ -5917,6 +5929,7 @@ my:
       max_assessment: အကဲဖြတ်အကြားအများဆုံးအချိန်
       min_assessment: 1st နှင့် 2nd အကဲဖြတ်များအကြားနိမ့်ဆုံးအချိန်
       name: နာမတျောကို
+      new_client_assessment: New Client Assessment
       noted: 'မှတ်ချက်: USAID ကဟူသောဝေါဟာရကို CSI စိတ်ကြိုက်အကဲဖြတ်အတွက်အသုံးပြုမရကြောင်းမေတ္တာရပ်ခံခဲ့သည်။'
       show_prev_assessment: Show previous assessment while completing new assessment
       two_weeks_assessment_reminder: Send 2 notification at both 2 and 1 week prior to assessment
@@ -5980,6 +5993,9 @@ my:
       title: External System Integration
     navigation:
       country: ႏုိင္ငံ
+    progress_note_and_next_step:
+      hide_case_note: Hide %{note}
+      require_case_note: Require %{note}
     research_module:
       research_module_label:
       title:
@@ -6021,6 +6037,36 @@ my:
       successfully_updated: Service has been successfully updated.
   referral_details: Referral Details
   results: Results
+  screening_assessments:
+    _attr: &SA_ATTR
+      add_new: Add New Screening Assessment
+      add_task: Add Task
+      attachments: Attachments
+      back_to_clients: Back to Client
+      based_on: Base on Screening Assessment
+      cb_dmat: CB-DMAT Screening Tool
+      client_age: Client's Age
+      client_milestone_age: Client's Milestone Age
+      client_name: Client's Name
+      created_by: Created By
+      note: Note
+      on_date: On Date
+      screening_assessment: Screening Assessment
+      screening_assessment_date: Screening Assessment Date
+      tasks: Tasks
+      view_cb_dmat: View CB-DMAT
+      view_or_hide_last_screening_assessment: View or Hide Last Screening Assessment
+      view_screening_assessment: View Screening Assessment
+      visitor: Who was there during the assessment?
+    form:
+      <<: *SA_ATTR
+    previous_screening_assessment:
+      <<: *SA_ATTR
+    show:
+      <<: *SA_ATTR
+    task_fields:
+      expected_date: Expected Date
+      task: Task
   shared:
     x_lists_of: "%{x}စာရင်း"
     new_x: "အသစ်%{x}"
@@ -6252,6 +6298,7 @@ my:
       tasks_of: လုပ္ငန္းမ်ား
       today_tasks: ယေန႔ လုပ္ငန္းမ်ား
       upcoming_tasks: မၾကာမီလုပ္ရမည့္ လုပ္ငန္းမ်ား
+    task: လုပ္ငန္း
     task_added: Task Added
   thredded:
     content_moderation_states:

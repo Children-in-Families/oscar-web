@@ -6,7 +6,7 @@ class Client::TasksController < AdminController
   before_action :find_task, only: [:edit, :update, :destroy]
 
   def index
-    @tasks = @client.tasks
+    @tasks = @client.tasks.includes(:domain)
   end
 
   def create
@@ -99,8 +99,8 @@ class Client::TasksController < AdminController
 
   def find_calendars(task)
     task_name  = task.name
-    domain     = Domain.find(task.domain_id)
-    title      = "#{domain.name} - #{task_name}"
+    domain     = Domain.find(task.domain_id) if task.domain_id
+    title      = task.domain_id ? "#{domain.name} - #{task_name}" : task_name
     start_date = task.expected_date
     end_date   = (start_date + 1.day).to_s
     @calendars  = Calendar.where(title: title, start_date: start_date, end_date: end_date)

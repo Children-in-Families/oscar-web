@@ -55,15 +55,16 @@
                   .row
                     .col-xs-12
                       #interaction-type.text-danger
-
-          .row
-            .col-xs-12
-              %label.string.required.control-label{:for => "case_note_note"}
-                %abbr{:title => "required"} *
-                = t('.note')
-              %a{:role => "button", :tabIndex => "0",  data: { toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.case_notes.note')}", placement: "right" } }
-                = fa_icon "info-circle", class: 'text-info m-xs'
-              = f.input :note, label: false, input_html: { value: @case_note.note.presence || @case_note_domain_group_note, rows: 6, placeholder: t('.note') }
+          - unless @current_setting.hide_case_note_note?
+            .row
+              .col-xs-12
+                %label.string.ontrol-label{ for: "case_note_note", class: @current_setting.required_case_note_note? && "required" }
+                  - if @current_setting.required_case_note_note?
+                    %abbr{:title => "required"} *
+                  = t('.note')
+                %a{:role => "button", :tabIndex => "0",  data: { toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.case_notes.note')}", placement: "right" } }
+                  = fa_icon "info-circle", class: 'text-info m-xs'
+                = f.input :note, label: false, input_html: { id:  @current_setting.required_case_note_note? ? 'case_note_note' : 'ratanak_case_note_note' ,value: @case_note.note.presence || @case_note_domain_group_note, rows: 6, placeholder: t('.note') }
 
           .row
             .col-xs-12
@@ -93,6 +94,23 @@
             - else
               - next if get_domains(case_note_domain).blank?
               = render 'form_without_assessment_domains', { domain_note: case_note_domain }
+          .row
+            .col-xs-12
+              %label{:for => "Screening Assessments tasks"}= t('case_notes.form.cb_dmat_assessment_task')
+              - @client.screening_assessments.joins(:tasks).where(tasks: { completed: false }).distinct.each do |screening_assessment|
+                .panel{ class: "panel-default" }
+                  .panel-heading
+                    %h4
+                      = t('.client_milestone_age')
+                      = ": "
+                      = screening_assessment.client_milestone_age
+                  .panel-body
+                    = f.simple_fields_for :tasks, screening_assessment.tasks.incomplete do |t|
+                      = t.hidden_field :case_note_id, value: @case_note.id
+                      = t.hidden_field :completed_by_id, value: current_user.id
+                      = t.hidden_field :completion_date, value: f.object.meeting_date
+                      = t.hidden_field :completion_date, value: f.object.meeting_date
+                      = t.input :completed, as: :boolean, type: :checkbox, required: false, label: t.object.name, input_html: { class: 'i-checks task font-bold' }
 
           .row
             .col-xs-12

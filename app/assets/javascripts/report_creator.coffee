@@ -223,6 +223,7 @@ class CIF.ReportCreator
             @point.name + ": " + @point.y
       }]
       responsive: unless _.isEmpty(options) then self.resposivePieChart()
+
     $('.highcharts-credits').css('display', 'none')
 
   _highChartsPieChart: (options = {}) ->

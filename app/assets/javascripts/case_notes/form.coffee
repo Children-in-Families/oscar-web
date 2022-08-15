@@ -14,6 +14,7 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
     _handleFormSubmit()
     _initServiceDeliverySelect2()
     _taskProgressNoteToggle()
+    _initTaskProgressNoteTooltip()
 
   _initICheckBox = ->
     $('.i-checks').iCheck(
@@ -23,6 +24,11 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
       $("#service-delivery-task-#{@.dataset.taskId}").toggleClass('service-delivery hide show')
     ).on 'ifUnchecked', ->
       $("#service-delivery-task-#{@dataset.taskId}").toggleClass('show service-delivery hide')
+
+  _initTaskProgressNoteTooltip = ->
+    $('.task-sticky-note').tooltip
+      placement: 'auto'
+      html: true
 
   _initScorePopover = ->
     $("button.case-note-domain-score").popover(

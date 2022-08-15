@@ -152,6 +152,7 @@ Rails.application.routes.draw do
 
     resources :case_conferences
     resources :service_receives, only: [:index, :new, :create]
+    resources :screening_assessments
   end
 
   resources :attachments, only: [:index] do
@@ -325,6 +326,7 @@ Rails.application.routes.draw do
       end
       collection do
         get :list_program_enrollments
+        get :generate_family_program_stream
       end
     end
 
@@ -446,7 +448,9 @@ Rails.application.routes.draw do
       get 'client_forms' => 'settings#client_forms'
       get 'integration' => 'settings#integration'
       get 'custom_form' => 'settings#custom_form'
+      get 'limit_tracking_form' => 'settings#limit_tracking_form'
       get 'test_client' => 'settings#test_client'
+      get 'customize_case_note' => 'settings#customize_case_note'
 
       get :family_case_management
       get :community

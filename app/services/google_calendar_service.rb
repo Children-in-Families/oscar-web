@@ -15,7 +15,6 @@ class GoogleCalendarService
     service = Google::Apis::CalendarV3::CalendarService.new
     service.authorization = client
 
-    binding.pry
   end
 
   def list_task
