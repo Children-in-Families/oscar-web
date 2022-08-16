@@ -11,11 +11,7 @@ module ScreeningAssessmentHelper
     if date_of_birth.present?
       age_hash = age_in_hash(date_of_birth)
       age_in_words = time_ago_in_words(date_of_birth, include_seconds: false, locale: locale)
-      if age_hash[:weeks].to_i > 0
-        age_in_words[/.*week(s)?|.*សប្តាហ៍/]
-      else
-        age_in_words
-      end
+      age_in_words.gsub(/,\s\d+\s(hour(s)?.*|ម៉ោង.*)/, '')
     else
       "No Date of Birth"
     end
