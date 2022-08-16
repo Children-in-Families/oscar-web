@@ -6142,6 +6142,7 @@ my:
       back_to_clients: Back to Client
       based_on: Base on Screening Assessment
       cb_dmat: CB-DMAT Screening Tool
+      cb_dmat_assessment: CB-DMAT Assessment
       client_age: Client's Age
       client_milestone_age: Client's Milestone Age
       client_name: Client's Name
