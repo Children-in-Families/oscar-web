@@ -16,13 +16,11 @@ export default (props) => {
     onChange, protectionConcerns, historyOfHarms, historyOfHighRiskBehaviours, reasonForFamilySeparations, historyOfDisabilities
   } = props
 
-  const [tasks, setTasks] = useState([{name: 'Test', expected_date: '2022-08-01', completed: false}])
+  const taskProps = [{name: 'Test', expected_date: '2022-08-01', completed: true}]
+  const [tasks, setTasks] = useState(taskProps)
+  const [riskLevel, setRiskLevel] = useState(false)
 
   const createTask = (task) => {
-    // tasks.map((obj) => {
-    //   obj.remove = true
-    //   return obj
-    // })
     const newTasks = [...tasks, { ...task, complete: false }];
     setTasks(newTasks);
   };
@@ -44,6 +42,13 @@ export default (props) => {
     { label: 'Low', value: 'low'},
     { label: 'No Action', value: 'no action'},
   ]
+
+  const onLevelOfRiskSelected = (e) => {
+    if (e.data === 'high')
+      setRiskLevel(true)
+    else
+      setRiskLevel(false)
+  }
 
 
   return (
@@ -71,6 +76,7 @@ export default (props) => {
         <div className="col-md-12 col-lg-6">
           <SelectInput
             isError={false}
+            isMulti
             label={"Protection Concern"}
             asGroup
             options={protectionConcerns}
@@ -93,7 +99,7 @@ export default (props) => {
             label={"Level of Risk"}
             options={levelOfRisk}
             value={''}
-            onChange={onChange("client", "")}
+            onChange={onLevelOfRiskSelected}
           />
         </div>
       </div>
@@ -222,28 +228,30 @@ export default (props) => {
           />
         </div>
       </div>
-      <div className="containerClass">
-        <legend>
-          <div className="row">
-            <div className="col-xs-12">
-              <p>Tasks</p>
+      {
+        riskLevel && <div className="containerClass">
+          <legend>
+            <div className="row">
+              <div className="col-xs-12">
+                <p>Tasks</p>
 
+              </div>
+            </div>
+          </legend>
+          <div className="row">
+            <div className="col-xs-12 col-md-10">
+              {
+                tasks.map((task, index) => {
+                  return (
+                    <TaskList task={task} deleteTask={deleteTask} key={`task-${index}`} index={index} />
+                  )
+                })
+              }
+              <TaskForm createTask={createTask} />
             </div>
           </div>
-        </legend>
-        <div className="row">
-          <div className="col-xs-12 col-md-10">
-            {
-              tasks.map((task, index) => {
-                return (
-                  <TaskList task={task} deleteTask={deleteTask} key={`task-${index}`} index={index} />
-                )
-              })
-            }
-            <TaskForm task={{name: '', expected_date: null}} createTask={createTask} />
-          </div>
         </div>
-      </div>
+      }
     </div>
   )
 }
