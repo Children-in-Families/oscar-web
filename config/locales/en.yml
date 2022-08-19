@@ -441,6 +441,7 @@ en:
       able: Able
       able_state: Able State
       active_clients: Active Clients in Specific Period
+      active_client_program: Active Clients in Specific Program and Period
       active_program_stream: Active Program Stream
       address: Address
       age: Age
@@ -449,6 +450,9 @@ en:
       agency_names: Agency Name
       assessment_completed_date: "%{assessment} Completed Date"
       assessment_custom_completed_date: "Custom %{assessment} Completed Date"
+      assessment_condition_last_two: Assessment Condition for the last two
+      assessment_condition_first_last: Assessment Condition for first and last
+      incomplete_care_plan: Incomplete Care Plan
       assessment_number: "%{assessment}#"
       basic_fields: Client Basic Fields
       birth_province: Client Birth Province
@@ -468,6 +472,7 @@ en:
       address_type: Client Address Type
       client_email_address: Client Email Address
       code: Custom ID Number1
+      common_searches: Common Searches
       commune: Commune/Sangkat
       completed: Completed
       concern_basic_fields: Client Fields Concern
@@ -519,6 +524,8 @@ en:
       no_case_note_date: No Case Note Date
       ngo_exit_date: NGO Exit Date
       no_case_note_date: No Case Note Date
+      number_client_referred_gatekeeping: Number of client referred through gatekeeping mechanism
+      number_client_billable: Number of client is billable for (month)
       other_info_of_exit: Other - More Information
       phone_owner: Phone Owner
       placement_start_date: Placement Start Date
@@ -595,6 +602,8 @@ en:
       user_id: Case Worker
       village: Village
       what3words: What3words
+      client_rejected: Client Rejected
+      other: Other
   advanced_search_save_queries:
     create:
       failed_create: Search setting has already been taken.
@@ -1619,9 +1628,10 @@ en:
       answer: Answer
       yes_no: Yes/No
     assessment_domain_score:
-      assessment_data: "%{assessment} Score Data"
+      assessment_data: "%{assessment} Data"
       assessment_date: "%{assessment} Date"
       assessment_number: "%{assessment} #"
+      average_score: "Average Score"
       client_id: Client ID
       client_name: Client Name
       close: Close
@@ -1681,6 +1691,7 @@ en:
         program_stream: Program Stream
         quantitative: Custom Referral Data
         tracking: Tracking
+        assessment_form: Assessment
       load_save_search:
         my_saved_search: My Saved Search
         other_saved_search: Other Saved Search
@@ -2017,6 +2028,7 @@ en:
       save_search_settings: Save Search Settings
       show_all: Show All
       view_all_active_tasks: View All Active Tasks
+      table_summary: Table Summary
     level:
       level_no: 'No'
       level_1: Level 1
@@ -2256,6 +2268,19 @@ en:
     version:
       back: Back
       modification_of: Changelog of
+    table_summary:
+      title: Table Summary
+      age_tabs: Age
+      referral_category_tabs: Referral Categories
+      program: Program
+      children: Children
+      adult: Adult
+      female: Female
+      male: Male
+      other: Other
+      total: Total
+      no_program: No Program
+      client_by_gender: Client by gender
   communities:
     actions:
       are_you_sure: Are you sure you want to delete?

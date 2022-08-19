@@ -1,0 +1,86 @@
+#table-summary-age-tab.tab-pane.active{role: "tabpanel"}
+  %table.table.table-bordered.table-striped.table-hover.assessment-score-data#table-summary-age
+    %thead
+      %tr
+        %th.text-center{:rowspan => 2}= t('clients.table_summary.program')
+        %th.text-center{:colspan => 3}= t('clients.table_summary.children')
+        %th.text-center{:colspan => 3}= t('clients.table_summary.adult')
+        %th.text-center{:rowspan => 2}= t('clients.table_summary.total')
+      %tr
+        %th= t('clients.table_summary.female')
+        %th= t('clients.table_summary.male')
+        %th= t('clients.table_summary.other')
+        %th= t('clients.table_summary.female')
+        %th= t('clients.table_summary.male')
+        %th= t('clients.table_summary.other')
+    %tbody
+      - totalChildFemale = totalChildMale = totalChildOther = totalNoProgram = 0
+      - totalAdultFemale = totalAdultMale = totalAdultOther = total = 0
+      - results = @results.joins(:client_enrollments)
+      - noProgramResults = @results.includes(:client_enrollments).where(client_enrollments: {client_id: nil})
+      - ProgramStream.where(id: results.pluck(:program_stream_id).uniq).each do |program|
+        %tr
+          %td= program.name
+          - childFemale = results.where("program_stream_id = ? and clients.gender = ? AND (EXTRACT(year FROM age(current_date, clients.date_of_birth)) :: int) < ?", program.id, 'female', 18).count
+          - totalChildFemale += childFemale
+          %td= childFemale
+          - childMale= results.where("program_stream_id = ? and clients.gender = ? AND (EXTRACT(year FROM age(current_date, clients.date_of_birth)) :: int) < ?", program.id, 'male', 18).count
+          - totalChildMale += childMale
+          %td= childMale
+          - childOther= results.where("program_stream_id = ? and clients.gender NOT IN (?) AND (EXTRACT(year FROM age(current_date, clients.date_of_birth)) :: int) < ?", program.id, ['male', 'female'], 18).count
+          - totalChildOther += childOther
+          %td= childOther
+          - adultFemale= results.where("program_stream_id = ? and clients.gender = ? AND (EXTRACT(year FROM age(current_date, clients.date_of_birth)) :: int) >= ?", program.id, 'female', 18).count
+          - totalAdultFemale += adultFemale
+          %td= adultFemale
+          - adultMale= results.where("program_stream_id = ? and clients.gender = ? AND (EXTRACT(year FROM age(current_date, clients.date_of_birth)) :: int) >= ?", program.id, 'male', 18).count
+          - totalAdultMale += adultMale
+          %td= adultMale
+          - adultOther= results.where("program_stream_id = ? and clients.gender NOT IN (?) AND (EXTRACT(year FROM age(current_date, clients.date_of_birth)) :: int) >= ?", program.id, ['male', 'female'], 18).count
+          - totalAdultOther += adultOther
+          %td= adultOther
+          - totalProgram= childFemale + childMale + childOther + adultFemale + adultMale + adultOther
+          - total += totalProgram
+          %td= totalProgram
+      %tr
+        %td= t('clients.table_summary.no_program')
+        - childFemale = noProgramResults.where("clients.gender = ? AND (EXTRACT(year FROM age(current_date, clients.date_of_birth)) :: int) < ?", 'female', 18).count
+        - totalNoProgram += childFemale
+        %td= childFemale
+        - childMale = noProgramResults.where("clients.gender = ? AND (EXTRACT(year FROM age(current_date, clients.date_of_birth)) :: int) < ?", 'male', 18).count
+        - totalNoProgram += childMale
+        %td= childMale
+        - childOther = noProgramResults.where("clients.gender NOT IN (?) AND (EXTRACT(year FROM age(current_date, clients.date_of_birth)) :: int) < ?", ['female', 'male'], 18).count
+        - totalNoProgram += childOther
+        %td= childOther
+        - adultFemale = noProgramResults.where("clients.gender = ? AND (EXTRACT(year FROM age(current_date, clients.date_of_birth)) :: int) >= ?", 'female', 18).count
+        - totalNoProgram += adultFemale
+        %td= adultFemale
+        - adultMale = noProgramResults.where("clients.gender = ? AND (EXTRACT(year FROM age(current_date, clients.date_of_birth)) :: int) >= ?", 'male', 18).count
+        - totalNoProgram += adultMale
+        %td= adultMale
+        - adultOther = noProgramResults.where("clients.gender NOT IN (?) AND (EXTRACT(year FROM age(current_date, clients.date_of_birth)) :: int) >= ?", ['female', 'male'], 18).count
+        - totalNoProgram += adultOther
+        %td= adultOther
+        %td= totalNoProgram
+      %tr
+        %td= t('clients.table_summary.client_by_gender')
+        - female = @results.where("clients.gender = ? AND (EXTRACT(year FROM age(current_date, clients.date_of_birth)) :: int) < ?", 'female', 18).count
+        - total = female
+        %td= female
+        - male = @results.where("clients.gender = ? AND (EXTRACT(year FROM age(current_date, clients.date_of_birth)) :: int) < ?", 'male', 18).count
+        - total += male
+        %td= male
+        - other = @results.where("clients.gender NOT IN (?) AND (EXTRACT(year FROM age(current_date, clients.date_of_birth)) :: int) < ?", ['female', 'male'], 18).count
+        - total += other
+        %td= other
+        - adultFemale = @results.where("clients.gender = ? AND (EXTRACT(year FROM age(current_date, clients.date_of_birth)) :: int) >= ?", 'female', 18).count
+        - total += adultFemale
+        %td= adultFemale
+        - adultMale = @results.where("clients.gender = ? AND (EXTRACT(year FROM age(current_date, clients.date_of_birth)) :: int) >= ?", 'male', 18).count
+        - total += adultMale
+        %td= adultMale
+        - adultOther = @results.where("clients.gender NOT IN (?) AND (EXTRACT(year FROM age(current_date, clients.date_of_birth)) :: int) >= ?", ['female', 'male'], 18).count
+        - total += adultOther
+        %td= adultOther
+        %td= total

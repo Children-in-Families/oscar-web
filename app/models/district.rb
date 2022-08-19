@@ -49,6 +49,8 @@ class District < ActiveRecord::Base
 
   private
 
+  private
+
   def flush_cache
     Rails.cache.delete([Apartment::Tenant.current, 'District', id])
     Rails.cache.delete([Apartment::Tenant.current, 'District', id, 'cached_communes'])
