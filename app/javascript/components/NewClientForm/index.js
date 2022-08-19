@@ -103,6 +103,7 @@ const Forms = props => {
   const moreReferralTabData = { errorFields, users, ratePoor, carer: carerData, familyMember: familyMemberData, schoolGrade, donors, agencies, families, clientRelationships, carerDistricts, carerCommunes, carerVillages, currentStates, currentTownships, carerSubdistricts, ...referralTabData, T, customId1, customId2, moSAVYOfficialsData }
   const referralVulnerabilityTabData = { client: clientData, errorFields, clientQuantitativeFreeTextCasesData, quantitativeType, quantitativeCase, T }
   const legalDocument = { client: clientData, T, errorFields }
+  const [isError, setIsError] = useState(false)
 
   const tabs = [
     {text: T.translate("index.referee_info"), step: 1},
@@ -192,7 +193,7 @@ const Forms = props => {
       { step: 1, data: clientData, fields: ['referral_source_category_id'] },
       { step: 2, data: clientData, fields: ['gender']},
       { step: 3, data: moSAVYOfficialsData, fields: ['name', 'position'] },
-      { step: 4, data: {}, fields: [] },
+      { step: 4, data: riskAssessmentData, fields: ['tasks_attributes'] },
       { step: 5, data: clientData, fields: clientData.status != 'Exited' ? ['received_by_id', 'initial_referral_date', 'user_ids'] : ['received_by_id', 'initial_referral_date'] },
       { step: 6, data: clientData, fields: step5RequiredFields }
     ]
@@ -208,6 +209,14 @@ const Forms = props => {
             errorSteps.push(component.step)
           }
         })
+
+        if (step === 4 && riskAssessmentData.level_of_risk === 'high') {
+          if (riskAssessmentData.tasks_attributes.filter(task => task._destroy === undefined ).length === 0) {
+            setIsError(true)
+            errors.push('tasks_attributes')
+            errorSteps.push(component.step)
+          }
+        }
       }
     })
 
@@ -574,6 +583,8 @@ const Forms = props => {
                 data={riskAssessmentData}
                 setRiskAssessmentData={setRiskAssessmentData}
                 onChange={onChange}
+                isError={isError}
+                setIsError={setIsError}
                 protectionConcerns={ protectionConcerns }
                 historyOfHarms={ historyOfHarms }
                 historyOfHighRiskBehaviours={ historyOfHighRiskBehaviours }

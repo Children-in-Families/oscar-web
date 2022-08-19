@@ -5,12 +5,13 @@ import '../Commons/inputs/datepicker.scss'
 
 export default (props) => {
   const {
-    createTask
+    createTask,
+    isError,
+    setIsError
   } = props
 
   const [name, setName] = useState('')
   const [expectedDate, setExpectedDate] = useState(null)
-  const [isError, setIsError] = useState(false)
 
   const handleAppendTasks = e => {
     e.preventDefault();

@@ -5916,20 +5916,25 @@ km:
     _attr: &SA_ATTR
       add_new: បន្ថែមការប៉ាន់ប្រមាណបឋម
       add_task: បន្ថែមកាតព្វកិច្ច
+      assessment_date: កាលបរិច្ឆេទការប៉ាន់ប្រមាណ
+      assessment_on: ការប៉ាន់ប្រមាណថ្ងៃទី
       attachments: ឯកសារភ្ជាប់
       back_to_clients: ត្រឡប់ទៅអតិថិជន
       based_on: ផ្អែកលើការប៉ាន់ប្រមាណបឋម
       cb_dmat: ការប៉ាន់ប្រមាណបឋម CB-DMAT
+      cb_dmat_assessment: ការប៉ាន់ប្រមាណ CB-DMAT
       client_age: អាយុអតិថិជន
       client_milestone_age: កម្រិតអាយុអតិថិជន
       client_name: ឈ្មោះអតិថិជន
       created_by: បង្កើតដោយ
       note: កំណត់ត្រា
-      on_date: នៅថ្ងៃទី
+      on_date: នៅថ្ងៃ
+      refer_to_specialist: បញ្ជូនទៅអ្នកឯកទេស
       screening_assessment: ការប៉ាន់ប្រមាណបឋម
       screening_assessment_date: កាលបរិច្ឆេទការប៉ាន់ប្រមាណបឋម
       tasks: កាតព្វកិច្ច
       view_cb_dmat: មើល CB-DMAT
+      view_cb_dmat_assessment: មើលការប៉ាន់ប្រមាណ CB-DMAT
       view_or_hide_last_screening_assessment: មើល ឬលាក់ការប៉ាន់ប្រមាណមុន
       view_screening_assessment: មើលការប៉ាន់ប្រមាណបឋម
       visitor: វត្តមានអ្នកចូលរួម?

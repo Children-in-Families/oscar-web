@@ -67,7 +67,7 @@ class CaseNote < ActiveRecord::Base
   end
 
   def complete_screening_tasks(param)
-    attr =  param[:case_note][:tasks_attributes].to_a.map {|index, attr| [attr[:id], attr] }.to_h
+    attr =  param[:case_note][:tasks_attributes].to_a.map {|index, attr| [attr[:id], (attr['completion_date'] = meeting_date; attr) ] }.to_h
     Task.update(attr.keys, attr.values)
     Task.where(id: attr.keys).update_all(case_note_id: id) unless tasks.where(id: attr.keys).any?
   end

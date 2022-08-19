@@ -14,29 +14,38 @@ import TaskList from "./taskList";
 export default (props) => {
   const {
     onChange, protectionConcerns, historyOfHarms, historyOfHighRiskBehaviours, reasonForFamilySeparations, historyOfDisabilities,
-    setRiskAssessmentData,
+    setRiskAssessmentData, isError, setIsError,
     data: {
       assessment_date, protection_concern, other_protection_concern_specification, client_perspective, has_known_chronic_disease,
       has_disability, has_hiv_or_aid, known_chronic_disease_specification, disability_specification, hiv_or_aid_specification,
       relevant_referral_information, level_of_risk, history_of_disability_id, history_of_harm_id, history_of_high_risk_behaviour_id,
-      history_of_family_separation_id, tasks_attributes
+      history_of_family_separation_id, tasks_attributes: tasks
     }
   } = props
 
-  const [tasks, setTasks] = useState(tasks_attributes)
   const [riskLevel, setRiskLevel] = useState(level_of_risk === 'high')
 
   const createTask = (task) => {
     const newTasks = [...tasks, { ...task, complete: false }];
 
     setRiskAssessmentData(prev => ({...prev, tasks_attributes: newTasks}))
-    setTasks(newTasks);
   };
 
   const deleteTask = (index) => {
     const newTasks = [...tasks]
-    newTasks.splice(index, 1)
-    setTasks(newTasks)
+    const removedTask = newTasks.splice(index, 1)
+
+    const updatedTasks = tasks.map( task => {
+      if (task.id === removedTask[0].id || task.id === undefined)
+        return {
+          id: removedTask[0].id,
+          _destroy: true
+        }
+      else
+        return task
+    })
+
+    setRiskAssessmentData(prev => ({...prev, tasks_attributes: updatedTasks}))
   }
 
   const yesNoOpts = [
@@ -56,6 +65,8 @@ export default (props) => {
       setRiskLevel(true)
     else
       setRiskLevel(false)
+
+    setRiskAssessmentData(prev => ({...prev, level_of_risk: e.data}))
   }
 
 
@@ -247,13 +258,13 @@ export default (props) => {
           <div className="row">
             <div className="col-xs-12 col-md-10">
               {
-                tasks.map((task, index) => {
+                tasks.filter(task => task._destroy === undefined ).map((task, index) => {
                   return (
                     <TaskList task={task} deleteTask={deleteTask} key={`task-${index}`} index={index} />
                   )
                 })
               }
-              <TaskForm createTask={createTask} />
+              <TaskForm createTask={createTask} isError={isError} setIsError={setIsError} />
             </div>
           </div>
         </div>

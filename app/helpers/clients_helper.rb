@@ -42,8 +42,8 @@ module ClientsHelper
       reasonForFamilySeparations: reason_for_family_separations, historyOfDisabilities: history_of_disabilities,
       isRiskAssessmentEnabled: current_setting.enabled_risk_assessment,
       riskAssessment: {
-        **@risk_assessment_attributes.symbolize_keys,
-        tasks_attributes: @client.risk_assessment.try(:tasks) || []
+        **@risk_assessment.attributes.symbolize_keys,
+        tasks_attributes: @risk_assessment.try(:tasks) || []
       }
     }
   end
