@@ -112,6 +112,10 @@ body[id=case_notes-create] {
   }
 
   .panel-heading .popover-content {
-    color: black !important
+    color: black !important;
+
+    label.boolean {
+      font-weight: bold;
+    }
   }
 }

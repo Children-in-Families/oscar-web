@@ -17,6 +17,7 @@ class CaseNote < ActiveRecord::Base
   has_paper_trail
 
   accepts_nested_attributes_for :case_note_domain_groups
+  accepts_nested_attributes_for :tasks, reject_if:  proc { |attributes| attributes['name'].blank? && attributes['expected_date'].blank? }, allow_destroy: true
 
   scope :most_recents, -> { order(created_at: :desc) }
   scope :recent_meeting_dates, -> { order(meeting_date: :desc) }
@@ -63,6 +64,16 @@ class CaseNote < ActiveRecord::Base
       service_delivery_task(param, case_note_tasks)
       case_note_domain_group.save
     end
+  end
+
+  def complete_screening_tasks(param)
+    attr =  param[:case_note][:tasks_attributes].to_a.map {|index, attr| [attr[:id], (attr['completion_date'] = meeting_date; attr) ] }.to_h
+    Task.update(attr.keys, attr.values)
+    Task.where(id: attr.keys).update_all(case_note_id: id) unless tasks.where(id: attr.keys).any?
+  end
+
+  def any_tasks_screening_assessments?(screening_assessments)
+    tasks.where(taskable_type: 'ScreeningAssessment', taskable_id: screening_assessments.ids).any?
   end
 
   def self.latest_record

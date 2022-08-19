@@ -1,0 +1,12 @@
+- if task.domain_id?
+  = "#{t('tasks.index.domain')}:"
+  - if task.domain.custom_domain?
+    = t("domains.domain_names.#{task.domain.name.downcase}")
+  - else
+    = t("domains.domain_names.#{task.domain.name.downcase.reverse}")
+- else
+  - if task.taskable.one_off?
+    = t('screening_assessments._attr.screening_assessment')
+  - else
+    = t('screening_assessments._attr.cb_dmat_assessment')
+  = task.taskable.client_milestone_age

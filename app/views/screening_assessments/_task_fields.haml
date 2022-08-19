@@ -1,0 +1,21 @@
+.nested-fields.m-b-sm
+  = f.hidden_field :client_id, value: @client.id
+  = f.hidden_field :relation, value: 'screening_assessment'
+  = f.hidden_field :taskable_id
+  = f.hidden_field :taskable_type
+  .row
+    .col-md-6
+      = f.label :name, label: t('.task')
+      = f.text_field :name, class: 'form-control task-input-field'
+    .col-md-4
+      = f.label :expected_date, label: t('.expected_date')
+      .input-group.date
+        = f.text_field :expected_date, class: 'date required form-control date-picker task-date-field', id: 'task_expected_date', value: f.object.expected_date&.strftime('%Y-%m-%d')
+        %span.input-group-addon
+          %i.fa.fa-calendar-check-o
+        %span.help-block.task_completion_date_help
+    .col-md-2.m-t-lg
+      - unless f.object.completed
+        = link_to_remove_association f do
+          .btn.btn-outline.btn-danger.btn-xs
+            %i.fa.fa-trash

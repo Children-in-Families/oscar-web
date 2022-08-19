@@ -1019,6 +1019,7 @@ km:
       add_task: បន្ថែមកាតព្វកិច្ចថ្មី
       add_task_message: សូមជ្រើសរើសក្រុមកត្តាមុនពេលអ្នកបន្ថែមកាតព្វកិច្ច
       back: ត្រឡប់ក្រោយ
+      cb_dmat_assessment_task: កាតព្វកិច្ចរបស់ CB-DMAT
       completed_tasks: កាតព្វកិច្ចដែលបានធ្វើរួច
       domain: កត្តា
       domain_groups: សូមជ្រើសរើសក្រុមកត្តាទាំងអស់ដែលអ្នកបានគាំទ្រដល់អតិថិជនក្នុងកំណត់ត្រាករណីនេះ។
@@ -1059,6 +1060,7 @@ km:
       begin_now: បង្កើតថ្មី
       case_note_lists: បញ្ជីកំណត់ត្រាករណី
       case_note_on: កំណត់ត្រាករណីនៅថ្ងៃ
+      cb_dmat_assessment_task: កាតព្វកិច្ចរបស់ CB-DMAT
       completed_tasks: កាតព្វកិច្ចដែលបានធ្វើរួច
       domain: កត្តា
       domain_groups: ក្រុមកត្តា
@@ -3083,6 +3085,31 @@ km:
   datetime:
     distance_in_words:
       about_x_hours: '""'
+    dotiw:
+      days:
+        one: 1 ថ្ងៃ
+        other: "%{count} ថ្ងៃ"
+      hours:
+        one: 1 ម៉ោង
+        other: "%{count} ម៉ោង"
+      last_word_connector: ""
+      minutes:
+        one: 1 នាទី
+        other: "%{count} នាទី"
+      months:
+        one: 1 ខែ
+        other: "%{count} ខែ"
+      seconds:
+        one: 1 វិនាទី
+        other: "%{count} វិនាទី"
+      two_words_connector: ", "
+      weeks:
+        one: 1 សប្តាហ៍
+        other: "%{count} សប្តាហ៍"
+      words_connector: ", "
+      years:
+        one: 1 ឆ្នាំ
+        other: "%{count} ឆ្នាំ"
   default_able_screening_question_fields:
     alert_manager: ជូនដំណឹងអ្នកគ្រប់គ្រង
     mode: ម៉ូដ
@@ -5772,6 +5799,9 @@ km:
     assessment_setting:
       age: អាយុ
       assessment: ការកំណត់ភាពញឹកញ៉ាប់នៃការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
+      assessment_notification: Assessment Notification
+      cb_dmat_multi: Ongoing CB-DMAT %{screening_assessment} (Multiple)
+      cb_dmat_one_off: CB-DMAT %{screening_assessment} (one-off)
       custom_assessment: ឈ្មោះ
       default_assessment: ការកំណត់ភាពញឹកញ៉ាប់នៃការប៉ាន់ប្រមាណលំនាំដើម CSI
       default_assessment_framework: ការកំណត់ភាពញឹកញ៉ាប់នៃការប៉ាន់ប្រមាណលំនាំដើមក្របខ័ណ្ឌលទ្ធផល
@@ -5780,6 +5810,7 @@ km:
       max_assessment: រយៈពេលអតិបរមារវាងការបា៉ន់ប្រមាណ
       min_assessment: រយៈពេលអប្បបរមារវាងការប៉ាន់ប្រមាណទី 1 និងទី 2
       name: ឈ្មោះ
+      new_client_assessment: New Client Assessment
       noted: 'ចំណាំ: ទីភ្នាក់ងារ USAID បានស្នើថា CSI មិនត្រូវបានប្រើសម្រាប់ការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន។'
       show_prev_assessment: បង្ហាញការប៉ាន់ប្រមានលើកមុនពេលកំពុងបំពេញការប៉ាន់ប្រមាណថ្មី
       two_weeks_assessment_reminder: ផ្ញើការជូនដំណឹងចំនួន ២ដង នៅសប្តាហ៍ទី ២ និងទី ១ មុនពេលធ្វើការប៉ាន់ប្រមាណ
@@ -5893,6 +5924,41 @@ km:
       successfully_updated: Service has been successfully updated.
   referral_details: ព័ត៌មានលំអិតនៃការបញ្ជូន
   results: លទ្ធផល
+  screening_assessments:
+    _attr: &SA_ATTR
+      add_new: បន្ថែមការប៉ាន់ប្រមាណបឋម
+      add_task: បន្ថែមកាតព្វកិច្ច
+      assessment_date: កាលបរិច្ឆេទការប៉ាន់ប្រមាណ
+      assessment_on: ការប៉ាន់ប្រមាណថ្ងៃទី
+      attachments: ឯកសារភ្ជាប់
+      back_to_clients: ត្រឡប់ទៅអតិថិជន
+      based_on: ផ្អែកលើការប៉ាន់ប្រមាណបឋម
+      cb_dmat: ការប៉ាន់ប្រមាណបឋម CB-DMAT
+      cb_dmat_assessment: ការប៉ាន់ប្រមាណ CB-DMAT
+      client_age: អាយុអតិថិជន
+      client_milestone_age: កម្រិតអាយុអតិថិជន
+      client_name: ឈ្មោះអតិថិជន
+      created_by: បង្កើតដោយ
+      note: កំណត់ត្រា
+      on_date: នៅថ្ងៃ
+      refer_to_specialist: បញ្ជូនទៅអ្នកឯកទេស
+      screening_assessment: ការប៉ាន់ប្រមាណបឋម
+      screening_assessment_date: កាលបរិច្ឆេទការប៉ាន់ប្រមាណបឋម
+      tasks: កាតព្វកិច្ច
+      view_cb_dmat: មើល CB-DMAT
+      view_cb_dmat_assessment: មើលការប៉ាន់ប្រមាណ CB-DMAT
+      view_or_hide_last_screening_assessment: មើល ឬលាក់ការប៉ាន់ប្រមាណមុន
+      view_screening_assessment: មើលការប៉ាន់ប្រមាណបឋម
+      visitor: វត្តមានអ្នកចូលរួម?
+    form:
+      <<: *SA_ATTR
+    previous_screening_assessment:
+      <<: *SA_ATTR
+    show:
+      <<: *SA_ATTR
+    task_fields:
+      expected_date: កាលបរិច្ឆេទរំពឹងទុក
+      task: កាតព្វកិច្ច
   shared:
     x_lists_of: "បញ្ជី%{x}"
     new_x: "%{x}ថ្មី"

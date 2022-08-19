@@ -118,6 +118,7 @@ class Client < ActiveRecord::Base
   has_many :goals, dependent: :destroy
   has_many :case_conferences, dependent: :destroy
   has_many :internal_referrals, dependent: :destroy
+  has_many :screening_assessments, dependent: :destroy
 
   has_paper_trail
 
@@ -340,7 +341,8 @@ class Client < ActiveRecord::Base
   def require_screening_assessment?(setting)
     setting.use_screening_assessment? &&
     referred? &&
-    custom_fields.exclude?(setting.screening_assessment_form)
+    custom_fields.exclude?(setting.screening_assessment_form) &&
+    setting.screening_assessment_form.entity_type == "Client"
   end
 
   def self.age_between(min_age, max_age)
@@ -661,7 +663,7 @@ class Client < ActiveRecord::Base
     country_origin.present? ? country_origin : 'cambodia'
   end
 
-  def create_or_update_shared_client
+  def create_or_update_shared_client(client_id = nil)
     current_org = Organization.current
     client_current_province = province_name
     client_district = district_name
@@ -726,6 +728,10 @@ class Client < ActiveRecord::Base
     _family = Family.find_by(id: family_id) if family_id.present?
     result = _family.family_members.where(client_id: nil).count if _family.present?
     result
+  end
+
+  def one_off_screening_assessment
+    screening_assessments.find_by(screening_type: 'one_off')
   end
 
   def self.cached_client_created_by(object)

@@ -91,7 +91,7 @@ class ClientEnrollment < ActiveRecord::Base
 
   def self.cached_client_enrollment_date_join(fields_second)
     Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_enrollment_date_join', *fields_second]) do
-      joins(:program_stream).where(program_streams: { name: fields_second }).to_a
+      joins(:program_stream).where(program_streams: { name: fields_second })
     end
   end
 

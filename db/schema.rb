@@ -1042,10 +1042,10 @@ ActiveRecord::Schema.define(version: 20220725040448) do
   create_table "developmental_marker_screening_assessments", force: :cascade do |t|
     t.integer "developmental_marker_id"
     t.integer "screening_assessment_id"
-    t.boolean "question_1",              default: false
-    t.boolean "question_2",              default: false
-    t.boolean "question_3",              default: false
-    t.boolean "question_4",              default: false
+    t.boolean "question_1",              default: true
+    t.boolean "question_2",              default: true
+    t.boolean "question_3",              default: true
+    t.boolean "question_4",              default: true
   end
 
   add_index "developmental_marker_screening_assessments", ["developmental_marker_id"], name: "index_marker_screening_assessments_on_marker_id", using: :btree
@@ -2325,6 +2325,8 @@ ActiveRecord::Schema.define(version: 20220725040448) do
     t.string   "tracking_form_edit_frequency",         default: "week"
     t.boolean  "required_case_note_note",              default: true
     t.boolean  "hide_case_note_note",                  default: false
+    t.boolean  "cbdmat_one_off",                       default: false
+    t.boolean  "cbdmat_ongoing",                       default: false
   end
 
   add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree
