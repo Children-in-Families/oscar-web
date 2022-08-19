@@ -144,6 +144,8 @@ module RiskAssessmentHelper
   def select_quantitative_type(value)
     quantitative_types = QuantitativeType.cach_by_visible_on('client')
     quantitative_type = quantitative_types.select{|qt| qt.name =~ /#{value}/ }.first
+    return [] if quantitative_type.blank?
+
     quantitative_cases = select_quantitative_cases(quantitative_type.id)
     quantitative_cases.map { |quantitative_case| [quantitative_case.value, quantitative_case.id] }
                       .map { |value, id| { label: split_quantitative_case_value(value), value: id } }

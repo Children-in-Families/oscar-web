@@ -136,7 +136,7 @@ class SettingsController < AdminController
                                     :disabled_add_service_received, :custom_field_limit, :custom_field_frequency, :test_client, :required_case_note_note,
                                     :hide_case_note_note, :cbdmat_one_off, :cbdmat_ongoing, :enabled_risk_assessment, :assessment_type_name,
                                     client_default_columns: [], family_default_columns: [], community_default_columns: [],
-                                    partner_default_columns: [], user_default_columns: [],
+                                    partner_default_columns: [], user_default_columns: [], selected_domain_ids: [],
                                     custom_assessment_settings_attributes: [:id, :custom_assessment_name, :max_custom_assessment, :custom_assessment_frequency, :custom_age, :enable_custom_assessment, :_destroy])
   end
 

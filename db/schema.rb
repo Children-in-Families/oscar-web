@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20220725040448) do
+ActiveRecord::Schema.define(version: 20220817081940) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -2205,6 +2205,35 @@ ActiveRecord::Schema.define(version: 20220725040448) do
   add_index "referrals_services", ["referral_id"], name: "index_referrals_services_on_referral_id", using: :btree
   add_index "referrals_services", ["service_id"], name: "index_referrals_services_on_service_id", using: :btree
 
+  create_table "risk_assessments", force: :cascade do |t|
+    t.date     "assessment_date"
+    t.string   "protection_concern",                     default: [],                 array: true
+    t.string   "level_of_risk"
+    t.string   "other_protection_concern_specification"
+    t.text     "client_perspective"
+    t.boolean  "has_known_chronic_disease",              default: false
+    t.boolean  "has_disability",                         default: false
+    t.boolean  "has_hiv_or_aid",                         default: false
+    t.string   "known_chronic_disease_specification"
+    t.string   "disability_specification"
+    t.string   "hiv_or_aid_specification"
+    t.text     "relevant_referral_information"
+    t.integer  "history_of_disability_id"
+    t.integer  "history_of_harm_id"
+    t.integer  "history_of_high_risk_behaviour_id"
+    t.integer  "history_of_family_separation_id"
+    t.integer  "client_id"
+    t.datetime "created_at",                                             null: false
+    t.datetime "updated_at",                                             null: false
+  end
+
+  add_index "risk_assessments", ["assessment_date"], name: "index_risk_assessments_on_assessment_date", using: :btree
+  add_index "risk_assessments", ["client_id"], name: "index_risk_assessments_on_client_id", unique: true, using: :btree
+  add_index "risk_assessments", ["history_of_disability_id"], name: "index_risk_assessments_on_history_of_disability_id", using: :btree
+  add_index "risk_assessments", ["history_of_family_separation_id"], name: "index_risk_assessments_on_history_of_family_separation_id", using: :btree
+  add_index "risk_assessments", ["history_of_harm_id"], name: "index_risk_assessments_on_history_of_harm_id", using: :btree
+  add_index "risk_assessments", ["history_of_high_risk_behaviour_id"], name: "index_risk_assessments_on_history_of_high_risk_behaviour_id", using: :btree
+
   create_table "screening_assessments", force: :cascade do |t|
     t.datetime "screening_assessment_date"
     t.string   "client_age"
@@ -2320,8 +2349,6 @@ ActiveRecord::Schema.define(version: 20220725040448) do
     t.string   "case_note_edit_frequency",             default: "week"
     t.boolean  "disabled_add_service_received",        default: false
     t.boolean  "test_client",                          default: false
-    t.boolean  "enabled_risk_assessment",              default: false
-    t.string   "assessment_type_name",                 default: "csi"
     t.boolean  "disabled_task_date_field",             default: true
     t.integer  "tracking_form_edit_limit",             default: 0
     t.string   "tracking_form_edit_frequency",         default: "week"
@@ -2329,6 +2356,9 @@ ActiveRecord::Schema.define(version: 20220725040448) do
     t.boolean  "hide_case_note_note",                  default: false
     t.boolean  "cbdmat_one_off",                       default: false
     t.boolean  "cbdmat_ongoing",                       default: false
+    t.boolean  "enabled_risk_assessment",              default: false
+    t.string   "assessment_type_name",                 default: "csi"
+    t.integer  "selected_domain_ids",                  default: [],                               array: true
   end
 
   add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree
@@ -2974,6 +3004,7 @@ ActiveRecord::Schema.define(version: 20220725040448) do
   add_foreign_key "referees", "townships"
   add_foreign_key "referees", "villages"
   add_foreign_key "referrals", "clients"
+  add_foreign_key "risk_assessments", "clients"
   add_foreign_key "service_delivery_tasks", "service_deliveries"
   add_foreign_key "service_delivery_tasks", "tasks"
   add_foreign_key "services", "global_services", column: "uuid", primary_key: "uuid"

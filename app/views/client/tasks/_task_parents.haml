@@ -6,4 +6,4 @@
     = t("domains.domain_names.#{task.domain.name.downcase.reverse}")
 - else
   = task.taskable_type.titleize
-  = task.taskable.client_milestone_age
+  = task.taskable.try(:client_milestone_age)

@@ -100,6 +100,7 @@ class Client < ActiveRecord::Base
   has_many :achievement_program_staff_clients
   has_many :ratanak_achievement_program_staff_clients, through: :achievement_program_staff_clients, source: :user
 
+  has_one :risk_assessment, dependent: :destroy
   has_one  :family_member, dependent: :restrict_with_error
   has_one  :family, through: :family_member
 

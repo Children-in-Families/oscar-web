@@ -39,7 +39,12 @@ module ClientsHelper
       customId2: custom_id_translation('custom_id2'), referees: Referee.where(anonymous: false),
       protectionConcerns: I18n.locale == :km ? protection_concern_list_local : protection_concern_list,
       historyOfHarms: history_of_harms, historyOfHighRiskBehaviours: history_of_high_risk_behaviours,
-      reasonForFamilySeparations: reason_for_family_separations, historyOfDisabilities: history_of_disabilities
+      reasonForFamilySeparations: reason_for_family_separations, historyOfDisabilities: history_of_disabilities,
+      isRiskAssessmentEnabled: current_setting.enabled_risk_assessment,
+      riskAssessment: {
+        **@risk_assessment_attributes.symbolize_keys,
+        tasks_attributes: @client.risk_assessment.try(:tasks) || []
+      }
     }
   end
 

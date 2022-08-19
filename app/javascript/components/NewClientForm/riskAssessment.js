@@ -13,15 +13,23 @@ import TaskList from "./taskList";
 
 export default (props) => {
   const {
-    onChange, protectionConcerns, historyOfHarms, historyOfHighRiskBehaviours, reasonForFamilySeparations, historyOfDisabilities
+    onChange, protectionConcerns, historyOfHarms, historyOfHighRiskBehaviours, reasonForFamilySeparations, historyOfDisabilities,
+    setRiskAssessmentData,
+    data: {
+      assessment_date, protection_concern, other_protection_concern_specification, client_perspective, has_known_chronic_disease,
+      has_disability, has_hiv_or_aid, known_chronic_disease_specification, disability_specification, hiv_or_aid_specification,
+      relevant_referral_information, level_of_risk, history_of_disability_id, history_of_harm_id, history_of_high_risk_behaviour_id,
+      history_of_family_separation_id, tasks_attributes
+    }
   } = props
 
-  const taskProps = [{name: 'Test', expected_date: '2022-08-01', completed: true}]
-  const [tasks, setTasks] = useState(taskProps)
-  const [riskLevel, setRiskLevel] = useState(false)
+  const [tasks, setTasks] = useState(tasks_attributes)
+  const [riskLevel, setRiskLevel] = useState(level_of_risk === 'high')
 
   const createTask = (task) => {
     const newTasks = [...tasks, { ...task, complete: false }];
+
+    setRiskAssessmentData(prev => ({...prev, tasks_attributes: newTasks}))
     setTasks(newTasks);
   };
 
@@ -67,8 +75,8 @@ export default (props) => {
             T={'Assessment Date'}
             isError={false}
             label={"Assessment Date"}
-            value={'2022-07-20'}
-            onChange={onChange("client", "")}
+            value={assessment_date}
+            onChange={onChange("riskAssessment", "assessment_date")}
             />
           </div>
         </div>
@@ -80,15 +88,15 @@ export default (props) => {
             label={"Protection Concern"}
             asGroup
             options={protectionConcerns}
-            value={''}
-            onChange={onChange('risk_assessment', '')}
+            value={protection_concern}
+            onChange={onChange('riskAssessment', 'protection_concern')}
           />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-6">
           <TextInput
             label={"If other, please specify"}
-            onChange={onChange("client", "")}
-            value={''}
+            onChange={onChange("riskAssessment", "other_protection_concern_specification")}
+            value={other_protection_concern_specification}
           />
         </div>
       </div>
@@ -98,7 +106,7 @@ export default (props) => {
             isError={false}
             label={"Level of Risk"}
             options={levelOfRisk}
-            value={''}
+            value={level_of_risk}
             onChange={onLevelOfRiskSelected}
           />
         </div>
@@ -107,9 +115,8 @@ export default (props) => {
         <div className="col-xs-12">
           <TextArea
             label={"Client’s perspective on their problem and needs"}
-            onChange={onChange("client", "")}
-            value={''}
-            inlineClassName="client-perspective"
+            onChange={onChange("riskAssessment", "client_perspective")}
+            value={client_perspective}
           />
         </div>
       </div>
@@ -119,16 +126,16 @@ export default (props) => {
             inline
             label={"Does client have a known chronic disease?"}
             options={yesNoOpts}
-            onChange={onChange()}
-            value={false}
+            onChange={onChange("riskAssessment", "has_known_chronic_disease")}
+            value={has_known_chronic_disease}
           />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-6">
           <TextInput
             inline
             label={"If yes, please specify"}
-            onChange={onChange("client", "")}
-            value={''}
+            onChange={onChange("riskAssessment", "")}
+            value={known_chronic_disease_specification}
           />
         </div>
       </div>
@@ -138,16 +145,16 @@ export default (props) => {
             inline
             label={"Does client have disability?"}
             options={yesNoOpts}
-            onChange={onChange()}
-            value={false}
+            onChange={onChange("riskAssessment", "has_disability")}
+            value={has_disability}
           />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-6">
           <TextInput
             inline
             label={"If yes, please specify"}
-            onChange={onChange("client", "")}
-            value={''}
+            onChange={onChange("riskAssessment", "disability_specification")}
+            value={disability_specification}
           />
         </div>
       </div>
@@ -157,16 +164,16 @@ export default (props) => {
             inline
             label={"Does client have HIV/AID?"}
             options={yesNoOpts}
-            onChange={onChange()}
-            value={false}
+            onChange={onChange("riskAssessment", "hiv_or_aid_specification")}
+            value={has_hiv_or_aid}
           />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-6">
           <TextInput
             inline
-            label={"Immediate Recommendation"}
-            onChange={onChange("client", "")}
-            value={''}
+            label={"Immediate Recomme ndation"}
+            onChange={onChange("riskAssessment", "hiv_or_aid_specification")}
+            value={hiv_or_aid_specification}
           />
         </div>
       </div>
@@ -177,9 +184,8 @@ export default (props) => {
             isError={false}
             label={"History of disability and/or illness"}
             options={historyOfDisabilities}
-            value={''}
-            width={'45%'}
-            onChange={onChange("client", "")}
+            value={history_of_disability_id}
+            onChange={onChange("riskAssessment", "history_of_disability_id")}
           />
         </div>
       </div>
@@ -190,8 +196,8 @@ export default (props) => {
             isError={false}
             label={"History of Harm"}
             options={historyOfHarms}
-            value={''}
-            onChange={onChange("client", "")}
+            value={history_of_harm_id}
+            onChange={onChange("riskAssessment", "history_of_harm_id")}
           />
         </div>
       </div>
@@ -202,8 +208,8 @@ export default (props) => {
             isError={false}
             label={"History of high-risk behaviours"}
             options={historyOfHighRiskBehaviours}
-            value={''}
-            onChange={onChange("client", "")}
+            value={history_of_high_risk_behaviour_id}
+            onChange={onChange("riskAssessment", "history_of_high_risk_behaviour_id")}
           />
         </div>
       </div>
@@ -214,8 +220,8 @@ export default (props) => {
             isError={false}
             label={"Reason for Family Separation"}
             options={reasonForFamilySeparations}
-            value={''}
-            onChange={onChange("client", "")}
+            value={history_of_family_separation_id}
+            onChange={onChange("riskAssessment", "history_of_family_separation_id")}
           />
         </div>
       </div>
@@ -223,8 +229,8 @@ export default (props) => {
         <div className="col-xs-12">
           <TextArea
             label={"Relevant Referral Information"}
-            onChange={onChange("client", "")}
-            value={''}
+            onChange={onChange("riskAssessment", "relevant_referral_information")}
+            value={relevant_referral_information}
           />
         </div>
       </div>

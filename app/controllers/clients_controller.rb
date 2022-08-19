@@ -129,6 +129,7 @@ class ClientsController < AdminController
       end
 
       @client = Client.new(new_params.merge(local_given_name: first_name, local_family_name: last_name, gender: new_params[:gender]&.downcase))
+      @client.build_risk_assessment
     end
   end
 
@@ -141,6 +142,8 @@ class ClientsController < AdminController
       attributes.merge!({ status: 'Referred' })
       @client.attributes = attributes
     end
+
+    @risk_assessment_attributes = @client.risk_assessment&.attributes || @client.build_risk_assessment.attributes
   end
 
   def create
