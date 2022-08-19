@@ -29,7 +29,6 @@
 //= require dropzone
 //= require replace_string.js
 //= require form_builder/form-builder.min
-//= require form_builder/form-render.min
 //= require lodash/lodash.min.js
 // require query_builder/query-builder.standalone.min.js
 //= require jquery.extendext
