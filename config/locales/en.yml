@@ -2100,28 +2100,8 @@ en:
       sInfoTotal: of
       save_search_settings: Save Search Settings
       show_all: Show All
-      view_all_active_tasks: View All Active  Tasks
+      view_all_active_tasks: View All Active Tasks
       table_summary: Table Summary
-    kinship_case:
-      carer_address: Carer Address
-      carer_names: Carer Names
-      carer_phone_number: Carer Phone Number
-      edit_btn: Edit
-      exit_btn: Remove Client from Program
-      exit_date: Exit Date
-      exit_note: Exit Note
-      exit_status: Exit Status
-      family: Family
-      family_preservation: Family Preservation?
-      kinship_care: Kinship Care
-      kinship_case:
-        kinship_care: Kinship Care
-      note: Note
-      ongoing_partner: Ongoing Partner
-      province: Province
-      start_date: Start Date
-      support_amount: Support Amount
-      support_note: Support Note
     level:
       level_no: 'No'
       level_1: Level 1

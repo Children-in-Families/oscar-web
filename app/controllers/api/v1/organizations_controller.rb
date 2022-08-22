@@ -46,9 +46,9 @@ module Api
         if params[:organization].present? && clients_params['organization_name'].present?
           if clients_params['global_id'].present? && GlobalIdentity.find_by(ulid: clients_params['global_id'])
             Apartment::Tenant.switch! clients_params[:organization_name]
-            create_referral if clients_params[:is_referred].present? && clients_params[:is_referred]
+            object_saved = create_referral if clients_params[:is_referred].present? && clients_params[:is_referred]
 
-            find_client_global_identiy
+            find_client_global_identiy(object_saved)
           else
             find_referral
           end
@@ -58,9 +58,11 @@ module Api
         end
       end
 
-      def find_client_global_identiy
-        if GlobalIdentity.exists?(clients_params['global_id'])
+      def find_client_global_identiy(object_saved)
+        if (object_saved.nil? && GlobalIdentity.exists?(clients_params['global_id'])) || object_saved.valid? && GlobalIdentity.exists?(clients_params['global_id'])
           render_client_data
+        elsif referral_saved.errors.present?
+          render json: { external_id: clients_params['external_id'], message: referral_saved.errors }, status: :unprocessable_entity
         else
           render json: { global_id: clients_params['global_id'], message: 'Record not found.' }, status: '404'
         end
@@ -75,7 +77,11 @@ module Api
           client = Client.find_by(global_id: clients_params['global_id'])
           attributes = Client.get_client_attribute(clients_params, client.referral_source_category_id) if client
           if client && client.update_attributes(attributes.except(:global_id))
-            check_referral_status(client, clients_params['referral_status'])
+            if clients_params['referral_status']
+              check_referral_status(client, clients_params['referral_status'])
+            else
+              render json: { external_id: client.external_id, message: 'Record saved.' }
+            end
           else
             render json: { external_id: clients_params[:external_id], message: client.errors }, status: :unprocessable_entity
           end
@@ -245,6 +251,10 @@ module Api
             external_id: referral_attributes[:external_id],
             organization_name: clients_params[:organization_name]
           )
+          global_identity
+        else
+          referral.save
+          referral
         end
       end
 

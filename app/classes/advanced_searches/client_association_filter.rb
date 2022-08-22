@@ -740,7 +740,7 @@ module AdvancedSearches
         client_ids = @clients.includes(:assessments).group('clients.id, assessments.id, assessments.custom_assessment_setting_id').having("COUNT(assessments.custom_assessment_setting_id) > 0").distinct.ids
       end
     end
-    
+
     def ratanak_achievement_program_staff_field_query
       clients = @clients.joins(:ratanak_achievement_program_staff_clients)
       ids = clients.distinct.ids
@@ -756,7 +756,7 @@ module AdvancedSearches
         @clients.where(id: ids).ids
       end
     end
-      
+
     def mo_savy_officials_field_query
       clients = @clients.joins(:mo_savy_officials)
       ids = clients.distinct.ids
@@ -1337,7 +1337,7 @@ module AdvancedSearches
       if selectedAssessment.present?
         assessments = JSON.parse(selectedAssessment)
         assessmentId = assessments.first
-        
+
         if assessmentId == 0
           clients = clients.where("assessments.default = true").distinct
           clients.each do |client|

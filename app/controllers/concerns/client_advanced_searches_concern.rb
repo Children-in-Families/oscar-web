@@ -128,8 +128,8 @@ module ClientAdvancedSearchesConcern
         *get_dropdown_list(['phone_call_id', 'call_type', 'start_datetime', 'protection_concern_id', 'necessity_id']),
       ]
     }
-      hotline_fields = AdvancedSearches::AdvancedSearchFields.new('hotline', args).render
-      @hotline_fields = get_client_hotline_fields + hotline_fields
+    hotline_fields = AdvancedSearches::AdvancedSearchFields.new('hotline', args).render
+    @hotline_fields = get_client_hotline_fields + hotline_fields
   end
 
   def get_client_hotline_fields
@@ -149,7 +149,6 @@ module ClientAdvancedSearchesConcern
       dropdown_list_option: dropdown_list_options
     }
     @client_hotline_fields = AdvancedSearches::AdvancedSearchFields.new('concern_basic_fields', args).render
-
   end
 
   def hotline_text_type_list
