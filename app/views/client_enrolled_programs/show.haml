@@ -16,7 +16,7 @@
       .ibox-content
         .table-responsive
           %table.table.table-bordered
-            - @program_stream.enrollment.map.with_index{|properties, index| [properties['type'], properties['label'], properties["local_label_#{index + 1}"]]}.each do |type, key, translated_key|
+            - @program_stream.enrollment.map{|properties| [properties['type'], properties['label'], properties["local_label"]]}.each do |type, key, translated_key|
               - unless type == 'separateLine'
                 - if type == 'paragraph'
                   %tr

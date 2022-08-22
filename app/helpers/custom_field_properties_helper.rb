@@ -57,8 +57,8 @@ module CustomFieldPropertiesHelper
     field = field_props['label'].gsub(/\&gt\;|\&lt\;|\&amp\;|\"/, '&lt;' => '<', '&gt;' => '>', '&amp;' => '&', '"' => '%22')
   end
 
-  def remove_local_field_prop_unicode(field_props, index)
-    field = field_props["local_label_#{index}"].gsub(/\&gt\;|\&lt\;|\&amp\;|\"/, '&lt;' => '<', '&gt;' => '>', '&amp;' => '&', '"' => '%22')
+  def remove_local_field_prop_unicode(field_props)
+    field = field_props["local_label"].gsub(/\&gt\;|\&lt\;|\&amp\;|\"/, '&lt;' => '<', '&gt;' => '>', '&amp;' => '&', '"' => '%22')
   end
 
   def mapping_custom_field_values(field_props)

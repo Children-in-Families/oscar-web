@@ -114,7 +114,7 @@ class CIF.CustomFormBuilder
         self.preventClickEnterOrTab(fld)
         ),50
 
-  eventTextFieldOption: ->
+  eventTextFieldOption: (fields = []) ->
     self = @
     onadd: (fld) ->
       $('.fld-subtype ').find('option:contains(color)').remove()
@@ -123,6 +123,7 @@ class CIF.CustomFormBuilder
       $('.className-wrap, .value-wrap, .access-wrap, .maxlength-wrap, .description-wrap, .name-wrap').hide()
       self.handleCheckingForm()
       self.preventClickEnterOrTab(fld)
+      self.handleAddTranslateLabelField(fld, fields)
     onclone: (fld) ->
       setTimeout ( ->
         self.handleCheckingForm()
@@ -264,12 +265,11 @@ class CIF.CustomFormBuilder
   handleAddTranslateLabelField: (fld, fields) ->
     fldElement = $(fld)
     fldId = fldElement.attr('id')
-    fldId = fldId.substr(fldId.length - 1)
-    localLabelName = "local_label_#{fldId}"
-    localLabel = "Local Label #{fldId}"
-    for field in fields
-      localLabel = if field[localLabelName] then field[localLabelName] else localLabel
-    frmHolder = fldElement.find('.frm-holder')
-    localLabelBlock = "<div class='form-group local-label-wrap' style='display: block'><label for='local-label-#{fldId}'>Local Label</label><div class='input-wrap'><div name='#{localLabelName}' placeholder='Local Label' class='fld-label-#{fldId} form-control' id='local-label-#{fldId}' contenteditable='true'>#{localLabel}</div></div></div>"
+    index = fldId.substr(fldId.length - 1)
+    localLabelName = "local_label"
+    localLabel = "Local Label"
+    if fields[index - 1]
+      localLabel = if fields[index - 1][localLabelName] then fields[index - 1][localLabelName] else localLabel
+    localLabelBlock = "<div class='form-group local-label-wrap' style='display: block'><label for='#{localLabelName}'>Local Label</label><div class='input-wrap'><div name='#{localLabelName}' placeholder='Local Label' class='fld-label-#{fldId} form-control' id='local-label-#{fldId}' contenteditable='true'>#{localLabel}</div></div></div>"
     localLabelBlockElement = $.parseHTML(localLabelBlock)
     frmHolder.find('.label-wrap').after(localLabelBlockElement)

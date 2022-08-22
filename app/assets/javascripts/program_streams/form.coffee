@@ -249,7 +249,6 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     $('#trackings').on 'cocoon:after-insert', (e, element) ->
       trackingBuilder = $(element).find('.tracking-builder')
       $(element).attr('id', Date.now())
-      # _initProgramBuilder(trackingBuilder, [])
       _initMultipleFormBuilder(0, trackingBuilder)
       _editTrackingFormName()
       _handleRemoveCocoon()
@@ -500,10 +499,6 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       $('.links a').trigger('click')
 
   _handleInitProgramFields = ->
-    # for element in $('#enrollment, #exit-program')
-    #   dataElement = JSON.parse($(element).children('span').text())
-      # _initProgramBuilder($(element), (dataElement || []))
-
     elements = ['#enrollment', '#exit-program']
     _initMultipleFormBuilder(0, elements)
     for element in elements
@@ -514,9 +509,6 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
     trackings = $('.tracking-builder')
     _initMultipleFormBuilder(0, trackings)
-    # for tracking in trackings
-    #   trackingValue = JSON.parse($(tracking).children('span').text())
-    #   _initProgramBuilder(tracking, (trackingValue || []))
     _preventRemoveField(TRACKING_URL, '') if $('#program_stream_id').val() != ''
 
   _initButtonSave = ->
