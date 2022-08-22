@@ -460,6 +460,7 @@ my:
       address_type: Client Address Type
       client_email_address: Client Email Address
       code: Custom ID Number1
+      common_searches: Common Searches
       commune: ရပ္ကြက္/ ေက်းရြာအုပ္စု
       completed: ၿပီး
       created_at: ရက္စြဲကို ဖန္တီးရန္
@@ -599,6 +600,8 @@ my:
       user_id: အမႈျခင္းရာကိုလိုက္လံေဆာင္ရြက္ေပးသူ
       village: ေက်းရြာ
       what3words: What3words
+      client_rejected: Client Rejected
+      other: Other
   advanced_search_save_queries:
     create:
       failed_create: ရွာေဖြျခင္း အျပင္အဆင္ကို အျခားလူ ယူထားပါသည္။
@@ -1325,6 +1328,19 @@ my:
         enter_task_detail: လုပ္ငန္းအေသးစိတ္ထည့္သြင္းရန္
       update:
         successfully_updated: လုပ္ငန္းကို ေအာင္ျမင္စြာ အသစ္ ျပင္ဆင္ၿပီးပါၿပီ
+    table_summary:
+      title: Table Summary
+      age_tabs: Age
+      referral_category_tabs: Referral Categories
+      program: Program
+      children: Children
+      adult: Adult
+      female: Female
+      male: Male
+      other: Other
+      total: Total
+      no_program: No Program
+      client_by_gender: Client by gender
   client_advanced_searches:
     form_option:
       basic_fields: အမႈသည္၏ အေျခခံ အေနအထားမ်ား
@@ -6041,21 +6057,26 @@ my:
     _attr: &SA_ATTR
       add_new: Add New Screening Assessment
       add_task: Add Task
+      assessment_date: Assessment Date
+      assessment_on: Assessment On
       attachments: Attachments
       back_to_clients: Back to Client
       based_on: Base on Screening Assessment
       cb_dmat: CB-DMAT Screening Tool
+      cb_dmat_assessment: CB-DMAT Assessment
       client_age: Client's Age
       client_milestone_age: Client's Milestone Age
       client_name: Client's Name
       created_by: Created By
       note: Note
       on_date: On Date
+      refer_to_specialist: Refer to specialist
       screening_assessment: Screening Assessment
       screening_assessment_date: Screening Assessment Date
       tasks: Tasks
       view_cb_dmat: View CB-DMAT
-      view_or_hide_last_screening_assessment: View or Hide Last Screening Assessment
+      view_cb_dmat_assessment: View CB-DMAT Assessment
+      view_or_hide_last_assessment: View or Hide Last Assessment
       view_screening_assessment: View Screening Assessment
       visitor: Who was there during the assessment?
     form:

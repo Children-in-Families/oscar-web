@@ -463,6 +463,7 @@ th-TH:
       user_id:
       village:
       what3words:
+      other: Other
   advanced_search_save_queries:
     create:
       failed_create:

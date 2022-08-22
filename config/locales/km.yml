@@ -466,6 +466,7 @@ km:
       address_type: ប្រភេទអាសយដ្ឋានអតិថិជន
       client_email_address: អ៊ីមែលអតិថិជន
       code: លេខកូដផ្ទាល់ខ្លួនទី១
+      common_searches: Common Searches
       commune: ឃុំ/សង្កាត់
       concern_basic_fields: កន្លែងកើតហេតុរបស់អតិថិជន
       completed: បានបញ្ចប់?
@@ -587,6 +588,8 @@ km:
       user_id: បុគ្គលិកគ្រប់គ្រងករណី
       village: ភូមិ
       what3words: What3words
+      client_rejected: Client Rejected
+      other: Other
   advanced_search_save_queries:
     create:
       failed_create: លក្ខខណ្ឌស្វែងរកត្រូវបានបង្កើតរួចហើយ
@@ -2218,6 +2221,19 @@ km:
     version:
       back: ត្រឡប់ក្រោយ
       modification_of: ប្រវត្តិកំណែរបស់
+    table_summary:
+      title: Table Summary
+      age_tabs: Age
+      referral_category_tabs: Referral Categories
+      program: Program
+      children: Children
+      adult: Adult
+      female: Female
+      male: Male
+      other: Other
+      total: Total
+      no_program: No Program
+      client_by_gender: Client by gender
   communities:
     actions:
       are_you_sure: តើអ្នកប្រាកដថាចង់លុបដែរឬទេ?
@@ -5915,20 +5931,25 @@ km:
     _attr: &SA_ATTR
       add_new: បន្ថែមការប៉ាន់ប្រមាណបឋម
       add_task: បន្ថែមកាតព្វកិច្ច
+      assessment_date: កាលបរិច្ឆេទការប៉ាន់ប្រមាណ
+      assessment_on: ការប៉ាន់ប្រមាណថ្ងៃទី
       attachments: ឯកសារភ្ជាប់
       back_to_clients: ត្រឡប់ទៅអតិថិជន
       based_on: ផ្អែកលើការប៉ាន់ប្រមាណបឋម
       cb_dmat: ការប៉ាន់ប្រមាណបឋម CB-DMAT
+      cb_dmat_assessment: ការប៉ាន់ប្រមាណ CB-DMAT
       client_age: អាយុអតិថិជន
       client_milestone_age: កម្រិតអាយុអតិថិជន
       client_name: ឈ្មោះអតិថិជន
       created_by: បង្កើតដោយ
       note: កំណត់ត្រា
-      on_date: នៅថ្ងៃទី
+      on_date: នៅថ្ងៃ
+      refer_to_specialist: បញ្ជូនទៅអ្នកឯកទេស
       screening_assessment: ការប៉ាន់ប្រមាណបឋម
       screening_assessment_date: កាលបរិច្ឆេទការប៉ាន់ប្រមាណបឋម
       tasks: កាតព្វកិច្ច
       view_cb_dmat: មើល CB-DMAT
+      view_cb_dmat_assessment: មើលការប៉ាន់ប្រមាណ CB-DMAT
       view_or_hide_last_screening_assessment: មើល ឬលាក់ការប៉ាន់ប្រមាណមុន
       view_screening_assessment: មើលការប៉ាន់ប្រមាណបឋម
       visitor: វត្តមានអ្នកចូលរួម?

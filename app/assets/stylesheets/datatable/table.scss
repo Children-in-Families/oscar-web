@@ -1,0 +1,12 @@
+table {
+  &.table-bordered {
+    border-right-width: 0;
+    &.dataTable {
+      th, td {
+        &:last-child {
+          border-right-width: 1px;
+        }
+      }
+    }
+  }
+}

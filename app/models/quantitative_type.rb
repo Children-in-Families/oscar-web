@@ -50,6 +50,19 @@ class QuantitativeType < ActiveRecord::Base
     }
   end
 
+
+  def self.cach_by_quantitative_type_ids(quantitative_type_ids)
+    Rails.cache.fetch([Apartment::Tenant.current, "quantitative_type_ids", quantitative_type_ids]) do
+      QuantitativeType.includes(:quantitative_cases).where(id: quantitative_type_ids).to_a
+    end
+  end
+
+  def self.cached_quantitative_cases
+    Rails.cache.fetch([Apartment::Tenant.current, 'QuantitativeType', 'cached_quantitative_cases']) {
+      joins(:quantitative_cases).distinct.to_a
+    }
+  end
+
   private
 
   def validate_visible_on

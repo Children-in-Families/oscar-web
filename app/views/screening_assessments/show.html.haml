@@ -29,7 +29,10 @@
               %tbody
                 %tr
                   %td
-                    = "#{t('.screening_assessment_date')} :"
+                    - if @screening_assessment.one_off?
+                      = "#{t('.screening_assessment_date')} :"
+                    - else
+                      = "#{t('.assessment_on')} :"
                     %strong= date_format(@screening_assessment.screening_assessment_date)
                   %td
                     = "#{t('.client_age')} :"

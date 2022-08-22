@@ -300,11 +300,16 @@ module Api
       assessment_data.each do |assessment|
         assessment_domain_hash = AssessmentDomain.where(assessment_id: assessment.id).pluck(:domain_id, :score).to_h if assessment.assessment_domains.present?
         domain_scores = domains.ids.map { |domain_id| assessment_domain_hash.present? ? ["domain_#{domain_id}", assessment_domain_hash[domain_id]] : ["domain_#{domain_id}", ''] }
+        total = 0
+        assessment_domain_hash.each do |index, value|
+          total += value
+        end
 
         client_hash = { slug: assessment.client.slug,
           name: assessment.client.en_and_local_name,
           'assessment-number': assessment.client.assessments.count,
-          date: assessment.created_at.strftime('%d %B %Y')
+          date: assessment.created_at.strftime('%d %B %Y'),
+          'average-score': total == 0 ? nil : (total / domain_scores.length()).round()
         }
         client_hash.merge!(domain_scores.to_h)
         client_data << client_hash
@@ -320,6 +325,9 @@ module Api
     def fetch_assessments
       assessments = Assessment.joins(:client).where(default: params[:default], client_id: params[:client_ids].split('/'))
       assessments = assessments.includes(:assessment_domains).order("#{sort_column} #{sort_direction}").references(:assessment_domains, :client)
+
+      basic_rules  = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
+      @basic_rules  = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
 
       assessment_data = params[:length] != '-1' ? assessments.page(page).per(per_page) : assessments
     end
