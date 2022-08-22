@@ -57,6 +57,10 @@ module CustomFieldPropertiesHelper
     field = field_props['label'].gsub(/\&gt\;|\&lt\;|\&amp\;|\"/, '&lt;' => '<', '&gt;' => '>', '&amp;' => '&', '"' => '%22')
   end
 
+  def remove_local_field_prop_unicode(field_props)
+    field = field_props["local_label"].gsub(/\&gt\;|\&lt\;|\&amp\;|\"/, '&lt;' => '<', '&gt;' => '>', '&amp;' => '&', '"' => '%22')
+  end
+
   def mapping_custom_field_values(field_props)
     field_props['values'].map do |f|
       [format_placeholder(f['label']).blank? ? f['label'] : format_placeholder(f['label']), f['label'], id: "custom_field_property_properties_#{field_props['label'].gsub('"', '&qoute;').html_safe}_#{f['label'].html_safe}"]
