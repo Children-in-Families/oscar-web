@@ -16,7 +16,7 @@
       .ibox-content
         .table-responsive
           %table.table.table-bordered
-            - @program_stream.enrollment.map{|properties| [properties['type'], properties['label']]}.each do |type, key|
+            - @program_stream.enrollment.map.with_index{|properties, index| [properties['type'], properties['label'], properties["local_label_#{index + 1}"]]}.each do |type, key, translated_key|
               - unless type == 'separateLine'
                 - if type == 'paragraph'
                   %tr
@@ -25,9 +25,11 @@
                 - else
                   %tr
                     %td.align-justify
-                      = key.html_safe
+                      - label = I18n.locale.to_s === I18n.default_locale.to_s ? key.html_safe : translated_key
+                      = label
                     %td.align-justify
-                      - key = convert_bracket(key, @client_enrollment.properties)
+                      - key = convert_bracket(label, @client_enrollment.properties)
+                      - key = I18n.locale.to_s === I18n.default_locale.to_s ? key : "Local_label #{key}"
                       - if type == 'file'
                         = render 'shared/form_builder/list_attachment', label: key, resource: @client_enrollment
                       - else

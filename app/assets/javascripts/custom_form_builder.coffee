@@ -95,7 +95,7 @@ class CIF.CustomFormBuilder
         self.preventClickEnterOrTab(fld)
         ),50
 
-  eventSelectOption: ->
+  eventSelectOption: (fields = [])->
     self = @
     onadd: (fld) ->
       $('.className-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
@@ -104,6 +104,7 @@ class CIF.CustomFormBuilder
       self.addOptionCallback(fld)
       self.generateValueForSelectOption(fld)
       self.preventClickEnterOrTab(fld)
+      self.handleAddTranslateLabelField(fld, fields)
     onclone: (fld) ->
       setTimeout ( ->
         self.handleCheckingForm()
@@ -259,3 +260,16 @@ class CIF.CustomFormBuilder
         event.preventDefault()
         key = if event.which == 13 then 'Enter key' else 'Semi-colon'
         alert("#{key} is not allowed!")
+
+  handleAddTranslateLabelField: (fld, fields) ->
+    fldElement = $(fld)
+    fldId = fldElement.attr('id')
+    fldId = fldId.substr(fldId.length - 1)
+    localLabelName = "local_label_#{fldId}"
+    localLabel = "Local Label #{fldId}"
+    for field in fields
+      localLabel = if field[localLabelName] then field[localLabelName] else localLabel
+    frmHolder = fldElement.find('.frm-holder')
+    localLabelBlock = "<div class='form-group local-label-wrap' style='display: block'><label for='local-label-#{fldId}'>Local Label</label><div class='input-wrap'><div name='#{localLabelName}' placeholder='Local Label' class='fld-label-#{fldId} form-control' id='local-label-#{fldId}' contenteditable='true'>#{localLabel}</div></div></div>"
+    localLabelBlockElement = $.parseHTML(localLabelBlock)
+    frmHolder.find('.label-wrap').after(localLabelBlockElement)
