@@ -1242,6 +1242,24 @@ module AdvancedSearches
       clients = client_ids
     end
 
+    def active_client_program_between(start_date, end_date, clientIds)
+      enrollments = ClientEnrollment.where(:client_id => clientIds)
+      client_ids = []
+      enrollments.each do |enrollment|
+        enrollment_date = enrollment.enrollment_date
+
+        if enrollment.leave_program.present?
+          exit_date = enrollment.leave_program.exit_date
+          if enrollment_date < start_date || enrollment_date.between?(start_date, end_date)
+            client_ids << enrollment.client_id if exit_date.between?(start_date, end_date) || exit_date > end_date
+          end
+        else
+          client_ids << enrollment.client_id if enrollment_date.between?(start_date, end_date) || enrollment_date < start_date
+        end
+      end
+      client_ids
+    end
+
     def active_client_program_query
       clientIds = []
       JSON.parse($param_rules[:program_selected]).each do |program|
@@ -1260,7 +1278,7 @@ module AdvancedSearches
       when 'not_equal'
         client_ids = clients.where('date(client_enrollments.enrollment_date) != ?', @value.to_date ).distinct.ids
       when 'between'
-        client_ids = active_client_between(@value[0].to_date, @value[1].to_date)
+        client_ids = active_client_program_between(@value[0].to_date, @value[1].to_date, clientIds)
       when 'less'
         client_ids = clients.where('date(client_enrollments.enrollment_date) < ?', @value.to_date ).distinct.ids
       when 'less_or_equal'
