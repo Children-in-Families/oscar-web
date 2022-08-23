@@ -354,5 +354,13 @@ module AssessmentHelper
     end
   end
 
+  def calculate_domain_selected_domain_score(assessment)
+    sum = assessment.assessment_domains.inject(0) do |sum, ad|
+      sum + (current_setting.selected_domain_ids.compact.include?(ad.domain_id) ? ad.score : 0)
+    end
 
+    return sum if sum.zero?
+
+    (sum.to_f / current_setting.selected_domain_ids.compact.size).round
+  end
 end

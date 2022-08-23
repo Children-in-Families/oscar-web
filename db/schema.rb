@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20220817081940) do
+ActiveRecord::Schema.define(version: 20220823075832) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -156,6 +156,8 @@ ActiveRecord::Schema.define(version: 20220817081940) do
     t.integer  "case_conference_id"
     t.date     "completed_date"
     t.integer  "custom_assessment_setting_id"
+    t.string   "level_of_risk"
+    t.text     "description"
   end
 
   add_index "assessments", ["case_conference_id"], name: "index_assessments_on_case_conference_id", using: :btree
@@ -165,6 +167,7 @@ ActiveRecord::Schema.define(version: 20220817081940) do
   add_index "assessments", ["default"], name: "index_assessments_on_default", where: "(\"default\" = true)", using: :btree
   add_index "assessments", ["default"], name: "index_assessments_on_default_false", where: "(\"default\" = false)", using: :btree
   add_index "assessments", ["family_id"], name: "index_assessments_on_family_id", using: :btree
+  add_index "assessments", ["level_of_risk"], name: "index_assessments_on_level_of_risk", using: :btree
 
   create_table "attachments", force: :cascade do |t|
     t.string   "image"
@@ -2359,6 +2362,7 @@ ActiveRecord::Schema.define(version: 20220817081940) do
     t.boolean  "enabled_risk_assessment",              default: false
     t.string   "assessment_type_name",                 default: "csi"
     t.integer  "selected_domain_ids",                  default: [],                               array: true
+    t.text     "level_of_risk_guidance"
   end
 
   add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree
@@ -2894,6 +2898,7 @@ ActiveRecord::Schema.define(version: 20220817081940) do
   add_foreign_key "changelogs", "users"
   add_foreign_key "client_client_types", "client_types"
   add_foreign_key "client_client_types", "clients"
+  add_foreign_key "client_enrollment_trackings", "client_enrollments"
   add_foreign_key "client_enrollment_trackings", "client_enrollments"
   add_foreign_key "client_interviewees", "clients"
   add_foreign_key "client_interviewees", "interviewees"

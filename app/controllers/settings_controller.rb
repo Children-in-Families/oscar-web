@@ -135,6 +135,7 @@ class SettingsController < AdminController
                                     :tracking_form_edit_limit, :tracking_form_edit_frequency, :disabled_future_completion_date, :disabled_task_date_field,
                                     :disabled_add_service_received, :custom_field_limit, :custom_field_frequency, :test_client, :required_case_note_note,
                                     :hide_case_note_note, :cbdmat_one_off, :cbdmat_ongoing, :enabled_risk_assessment, :assessment_type_name,
+                                    :level_of_risk_guidance,
                                     client_default_columns: [], family_default_columns: [], community_default_columns: [],
                                     partner_default_columns: [], user_default_columns: [], selected_domain_ids: [],
                                     custom_assessment_settings_attributes: [:id, :custom_assessment_name, :max_custom_assessment, :custom_assessment_frequency, :custom_age, :enable_custom_assessment, :_destroy])

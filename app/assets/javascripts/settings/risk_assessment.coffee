@@ -2,6 +2,7 @@ CIF.SettingsRisk_assessment = do ->
   _init = ->
     _initICheckBox()
     _handleSettingAssessmentTypeNameChange()
+    _tinyMCE()
 
   _initICheckBox = ->
     if $('#setting_enabled_risk_assessment').is(':checked')
@@ -34,5 +35,13 @@ CIF.SettingsRisk_assessment = do ->
       $("#custom-domain-#{value}").show()
 
     return
+
+  _tinyMCE = ->
+    tinymce.init
+      selector: 'textarea.tinymce'
+      plugins: 'lists'
+      width : '100%'
+      toolbar: 'bold italic numlist bullist'
+      menubar: false
 
   { init: _init }
