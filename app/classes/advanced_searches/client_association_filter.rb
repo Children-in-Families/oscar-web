@@ -1312,8 +1312,8 @@ module AdvancedSearches
         if assessmentId == 0
           clients = clients.where("assessments.default = true").distinct
           clients.each do |client|
-            last_assessment = client.assessments.defaults.most_recents.last
-            first_assessment = client.assessments.defaults.most_recents.first
+            last_assessment = client.assessments.defaults.most_recents.first
+            first_assessment = client.assessments.defaults.most_recents.last
             client_ids << client.id if assessment_total_score(last_assessment).public_send(compare, assessment_total_score(first_assessment))
           end
         else
@@ -1321,8 +1321,8 @@ module AdvancedSearches
           clients = clients.where("domains.custom_assessment_setting_id IN (#{assessmentId})").distinct
           clients.each do |client|
             custom_assessments = client.assessments.customs.most_recents.joins(:domains).where(domains: { custom_assessment_setting_id: assessmentId })
-            last_assessment = custom_assessments.last
-            first_assessment = custom_assessments.first
+            last_assessment = custom_assessments.first
+            first_assessment = custom_assessments.last
             client_ids << client.id if assessment_total_score(last_assessment).public_send(compare, assessment_total_score(first_assessment))
           end
         end
@@ -1341,18 +1341,18 @@ module AdvancedSearches
         if assessmentId == 0
           clients = clients.where("assessments.default = true").distinct
           clients.each do |client|
-            last_assessment = client.assessments.defaults.most_recents.last
-            first_assessment = client.assessments.defaults.most_recents.length > 1 ? client.assessments.most_recents.fetch(1) : last_assessment
-            client_ids << client.id if assessment_total_score(last_assessment).public_send(compare, assessment_total_score(first_assessment))
+            last_assessment = client.assessments.defaults.most_recents.first
+            next_assessment = client.assessments.defaults.length > 1 ? client.assessments.defaults.most_recents.fetch(1) : last_assessment
+            client_ids << client.id if assessment_total_score(last_assessment).public_send(compare, assessment_total_score(next_assessment))
           end
         else
           clients = clients.joins(assessments: :domains)
           clients = clients.where("domains.custom_assessment_setting_id IN (#{assessmentId})").distinct
           clients.each do |client|
             custom_assessments = client.assessments.customs.most_recents.joins(:domains).where(domains: { custom_assessment_setting_id: assessmentId })
-            last_assessment = custom_assessments.last
-            first_assessment = custom_assessments.length > 1 ? custom_assessments.fetch(1) : last_assessment
-            client_ids << client.id if assessment_total_score(last_assessment).public_send(compare, assessment_total_score(first_assessment))
+            last_assessment = custom_assessments.first
+            next_assessment = custom_assessments.length > 1 ? custom_assessments.fetch(1) : last_assessment
+            client_ids << client.id if assessment_total_score(last_assessment).public_send(compare, assessment_total_score(next_assessment))
           end
         end
       end
