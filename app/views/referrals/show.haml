@@ -32,7 +32,10 @@
             %tr
               %td= t('referrals.referral_status')
               %td
-                %strong= editable @referral, :referral_status, type: :select, source: ['Referred', 'Accepted', 'Exited'].zip(['Referred', 'Accepted', 'Rejected']).to_h, value: @referral.referral_status, url: api_referral_path(@referral.id), pk: @referral.id
+                - if @referral.client_id? && @client.referrals.count > 1
+                  %strong= editable @referral, :referral_status, type: :select, source: ['Referred', 'Accepted', 'Exited'].zip(['Referred', 'Accepted', 'Rejected']).to_h, value: @referral.referral_status, url: api_referral_path(@referral.id), pk: @referral.id
+                - else
+                  %strong= @referral.referral_status
 
             %tr
               %td= t('.referred_from')

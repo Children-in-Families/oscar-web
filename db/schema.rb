@@ -2329,6 +2329,8 @@ ActiveRecord::Schema.define(version: 20220725040448) do
     t.boolean  "hide_case_note_note",                  default: false
     t.boolean  "cbdmat_one_off",                       default: false
     t.boolean  "cbdmat_ongoing",                       default: false
+    t.boolean  "enabled_risk_assessment",              default: false
+    t.string   "assessment_type_name",                 default: "csi"
   end
 
   add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree
