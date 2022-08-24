@@ -150,6 +150,7 @@ class Client < ActiveRecord::Base
   after_commit :delete_referee, on: :destroy
   after_save :update_referral_status_on_target_ngo, if: :status_changed?
   after_save :flash_cache
+  after_commit :update_first_referral_status, on: :update
 
   scope :given_name_like,                          ->(value) { where('clients.given_name iLIKE :value OR clients.local_given_name iLIKE :value', { value: "%#{value.squish}%"}) }
   scope :family_name_like,                         ->(value) { where('clients.family_name iLIKE :value OR clients.local_family_name iLIKE :value', { value: "%#{value.squish}%"}) }
@@ -1041,6 +1042,17 @@ class Client < ActiveRecord::Base
     else
       referral = Referral.find_by(slug: archived_slug, saved: false) if archived_slug.present?
     end
+  end
+
+  def update_first_referral_status
+    return if referrals.count.zero? || referrals.count > 1 || client_enrollments.any?
+
+    referral = referrals.first
+    return if referral.referral_status == 'Accepted'
+
+    referral.level_of_risk = 'no action' if referral.level_of_risk.blank?
+    referral.referral_status = status
+    referral.save
   end
 
   def remove_tasks(case_worker)

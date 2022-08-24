@@ -7,9 +7,13 @@ module ClientRetouch
 
   def touch_client
     if self.class.name == 'ProgramStream'
-      clients.joins(:referrals).where(referrals: { ngo_name: 'MoSVY External System' }).each(&:touch)
+      clients.joins(:referrals).where(referrals: { ngo_name: 'MoSVY External System' }).each{ |client| client.update_column(:updated_at, Time.now) }
     else
-      client&.touch
+      if client.present?
+        client.update_column(:updated_at, Time.now)
+      else
+        update_column(:updated_at, Time.now)
+      end
     end
   end
 end
