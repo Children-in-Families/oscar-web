@@ -306,9 +306,9 @@ module Api
 
         client_hash = { slug: assessment.client.slug,
           name: assessment.client.en_and_local_name,
-          'assessment-number': assessment.client.assessments.count,
+          'assessment-number': assessment.client.assessments.where(default: params[:default]).count,
           date: assessment.created_at.strftime('%d %B %Y'),
-          'average-score': total == 0 ? nil : (total / domain_scores.length()).round()
+          'average-score': total == 0 ? nil : (total.fdiv(domain_scores.length())).round()
         }
         client_hash.merge!(domain_scores.to_h)
         client_data << client_hash
