@@ -48,8 +48,12 @@
         .col-xs-12
           = f.input :referral_reason, as: :text, label: t('.referral_reason')
         .col-xs-12
-          #type-of-service{ data: {custom: services.to_json } }
-            = f.association :services, collection: services(false), multiple: true, label: t('.type_of_service')
+          #type-of-service{ data: { custom: services.to_json, single_selected: params[:external_ngo_name] == "MoSVY External System" ? 'true' : 'false' } }
+            - if params[:external_ngo_name] == "MoSVY External System"
+              = f.association :services, collection: services(false), multiple: true, label: t('.type_of_service')
+            - else
+              = f.association :services, collection: services(false), multiple: true, label: t('.type_of_service')
+
         .col-xs-12
           = f.input :level_of_risk, collection: ['High', 'Medium', 'Low', 'No Action'].zip(['high', 'medium', 'low', 'no action']), label: t('referrals.level_of_risk')
         .col-xs-12

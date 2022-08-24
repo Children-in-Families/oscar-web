@@ -32,7 +32,7 @@
             %tr
               %td= t('referrals.referral_status')
               %td
-                - if @referral.client_id? && @client.referrals.count > 1
+                - if @referral.client_id? && @referral.client.referrals.count > 1
                   %strong= editable @referral, :referral_status, type: :select, source: ['Referred', 'Accepted', 'Exited'].zip(['Referred', 'Accepted', 'Rejected']).to_h, value: @referral.referral_status, url: api_referral_path(@referral.id), pk: @referral.id
                 - else
                   %strong= @referral.referral_status
@@ -81,6 +81,6 @@
                   = link_to t('.preview_download'), @referral.consent_form.first.url, class: 'btn btn-info btn-sm btn-download', target: :_blank
       .ibox-footer
         .text-right
-          - if @referral.client_id
+          - if @client && @referral.client_id
             = link_to client_referrals_path(@client, referral_type: referral_type(@referral)), class: 'btn btn-default' do
               = t('back')
