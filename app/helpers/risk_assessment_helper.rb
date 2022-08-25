@@ -175,4 +175,11 @@ module RiskAssessmentHelper
   def history_of_disabilities
     select_quantitative_type('History of disability')
   end
+
+  def display_level_of_risk(level_of_risk)
+    color_hash = {'high' => 'danger', 'medium' => 'warning', 'low' => 'primary', 'no action' => 'default'}
+    content_tag(:a, class: "btn btn-#{color_hash[level_of_risk]}") do
+      level_of_risk.titleize
+    end
+  end
 end

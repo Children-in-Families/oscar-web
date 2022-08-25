@@ -31,7 +31,7 @@
               %br/
               - if @assessment.level_of_risk
                 = "#{t('referrals.level_of_risk')}:"
-                %strong= @assessment.level_of_risk.titleize
+                %strong= display_level_of_risk(@assessment.level_of_risk)
           .col-xl-1.button-position
             .pull-right
               = link_to '#', class: 'btn btn-warning btn-outline printable-button', data: { printable_id: "printable-assessment-#{@assessment.id}" } do
