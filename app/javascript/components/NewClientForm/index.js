@@ -7,6 +7,7 @@ import RefereeInfo from './refereeInfo'
 import ReferralInfo from './referralInfo'
 import ReferralMoreInfo from './referralMoreInfo'
 import ReferralVulnerability from './referralVulnerability'
+import RiskAssessment from './riskAssessment'
 import LegalDocument from './legalDocument'
 import CreateFamilyModal from './createFamilyModal'
 import Address      from './address'
@@ -42,11 +43,19 @@ const Forms = props => {
   const {
     data: {
       current_organization,
-      client: { client, user_ids, ratanak_achievement_program_staff_client_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids, national_id_files, current_family_id, isTestClient, isForTesting }, client_quantitative_free_text_cases, family_member, family, moSAVYOfficials, referee, referees, carer, users, birthProvinces, referralSource, referralSourceCategory, selectedCountry, internationalReferredClient,
-      currentProvinces, districts, communes, villages, donors, agencies, schoolGrade, quantitativeType, quantitativeCase, ratePoor, families, clientRelationships, refereeRelationships, addressTypes, phoneOwners, refereeDistricts,
-      refereeTownships, carerTownships, customId1, customId2, inlineHelpTranslation,
-      refereeCommunes, refereeSubdistricts, carerSubdistricts, refereeVillages, carerDistricts, carerCommunes, carerVillages, callerRelationships, currentStates, currentTownships, subDistricts, translation, fieldsVisibility, requiredFields,
-      brc_address, brc_islands, brc_resident_types, brc_prefered_langs, brc_presented_ids, maritalStatuses, nationalities, ethnicities, traffickingTypes
+      client: {
+        client, user_ids, ratanak_achievement_program_staff_client_ids, quantitative_case_ids, agency_ids, donor_ids,
+        family_ids, national_id_files, current_family_id, isTestClient, isForTesting
+      },
+      client_quantitative_free_text_cases, family_member, family, moSAVYOfficials, referee, referees, carer, users, birthProvinces,
+      referralSource, referralSourceCategory, selectedCountry, internationalReferredClient,
+      currentProvinces, districts, communes, villages, donors, agencies, schoolGrade, quantitativeType, quantitativeCase, ratePoor,
+      families, clientRelationships, refereeRelationships, addressTypes, phoneOwners, refereeDistricts,
+      refereeTownships, carerTownships, customId1, customId2, inlineHelpTranslation, riskAssessment,
+      refereeCommunes, refereeSubdistricts, carerSubdistricts, refereeVillages, carerDistricts, carerCommunes, carerVillages, callerRelationships,
+      currentStates, currentTownships, subDistricts, translation, fieldsVisibility, requiredFields,
+      brc_address, brc_islands, brc_resident_types, brc_prefered_langs, brc_presented_ids, maritalStatuses, nationalities, ethnicities, traffickingTypes,
+      protectionConcerns, historyOfHarms, historyOfHighRiskBehaviours, reasonForFamilySeparations, historyOfDisabilities, isRiskAssessmentEnabled
     }
   } = props
 
@@ -85,6 +94,7 @@ const Forms = props => {
   const [carerData, setCarerData]     = useState(carer)
   const [clientQuantitativeFreeTextCasesData, setClientQuantitativeFreeTextCases] = useState(client_quantitative_free_text_cases)
   const [moSAVYOfficialsData, setMoSAVYOfficialsData] = useState(moSAVYOfficials);
+  const [riskAssessmentData, setRiskAssessmentData] = useState(riskAssessment);
 
   const address = { currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, subDistricts, currentStates, currentTownships, current_organization, addressTypes, T }
   const adminTabData = { users, client: clientData, errorFields, T }
@@ -93,13 +103,15 @@ const Forms = props => {
   const moreReferralTabData = { errorFields, users, ratePoor, carer: carerData, familyMember: familyMemberData, schoolGrade, donors, agencies, families, clientRelationships, carerDistricts, carerCommunes, carerVillages, currentStates, currentTownships, carerSubdistricts, ...referralTabData, T, customId1, customId2, moSAVYOfficialsData }
   const referralVulnerabilityTabData = { client: clientData, errorFields, clientQuantitativeFreeTextCasesData, quantitativeType, quantitativeCase, T }
   const legalDocument = { client: clientData, T, errorFields }
+  const [isError, setIsError] = useState(false)
 
   const tabs = [
     {text: T.translate("index.referee_info"), step: 1},
     {text: t(translation, 'clients.form.referral_info'), step: 2},
     {text: T.translate("index.referral_more_info"), step: 3},
-    {text: T.translate("index.referral_vulnerability"), step: 4},
-    {text: t(translation, 'clients.form.legal_documents'), step: 5}
+    {text: "Protection Concern", step: 4},
+    {text: T.translate("index.referral_vulnerability"), step: 5},
+    {text: t(translation, 'clients.form.legal_documents'), step: 6}
   ]
 
   const classStyle = value => errorSteps.includes(value) ? 'errorTab' : step === value ? 'activeTab' : 'normalTab'
@@ -160,6 +172,9 @@ const Forms = props => {
       case 'cqFreeText':
         setClientQuantitativeFreeTextCases(clientQuantitativeFreeTextCasesData.map(quantitativeFreeText => { return quantitativeFreeText.quantitative_type_id == field.quantitative_type_id ? field : quantitativeFreeText }))
         break;
+      case 'riskAssessment':
+        setRiskAssessmentData({...riskAssessmentData, ...field})
+        break;
       default:
         console.log('not match');
     }
@@ -178,8 +193,9 @@ const Forms = props => {
       { step: 1, data: clientData, fields: ['referral_source_category_id'] },
       { step: 2, data: clientData, fields: ['gender']},
       { step: 3, data: moSAVYOfficialsData, fields: ['name', 'position'] },
-      { step: 4, data: clientData, fields: clientData.status != 'Exited' ? ['received_by_id', 'initial_referral_date', 'user_ids'] : ['received_by_id', 'initial_referral_date'] },
-      { step: 5, data: clientData, fields: step5RequiredFields }
+      { step: 4, data: riskAssessmentData, fields: ['tasks_attributes'] },
+      { step: 5, data: clientData, fields: clientData.status != 'Exited' ? ['received_by_id', 'initial_referral_date', 'user_ids'] : ['received_by_id', 'initial_referral_date'] },
+      { step: 6, data: clientData, fields: step5RequiredFields }
     ]
 
     const errors = []
@@ -193,18 +209,26 @@ const Forms = props => {
             errorSteps.push(component.step)
           }
         })
+
+        if (step === 4 && riskAssessmentData.level_of_risk === 'high') {
+          if (riskAssessmentData.tasks_attributes.filter(task => task._destroy === undefined ).length === 0) {
+            setIsError(true)
+            errors.push('tasks_attributes')
+            errorSteps.push(component.step)
+          }
+        }
       }
     })
 
     quantitativeType.forEach(qttType => {
-      if (step === 4 && qttType.is_required) {
+      if (step === 5 && qttType.is_required) {
         if (qttType.field_type == "free_text") {
           const item = clientQuantitativeFreeTextCasesData.find(cqFreeText => { return cqFreeText.quantitative_type_id == qttType.id })
           console.log(item)
 
           if (item.content === null || item.content === '') {
             errors.push(`qtt_type_${qttType.id}`)
-            errorSteps.push(4)
+            errorSteps.push(5)
           }
         } else {
           const qttCasees = quantitativeCase.filter(ftr => { return ftr.quantitative_type_id === qttType.id })
@@ -218,7 +242,7 @@ const Forms = props => {
 
           if (error) {
             errors.push(`qtt_type_${qttType.id}`)
-            errorSteps.push(4)
+            errorSteps.push(5)
           }
         }
       }
@@ -241,7 +265,7 @@ const Forms = props => {
     const goOver    = goingToStep >= step + 2 || goingToStep >= step + 3
 
     if((goForward && handleValidation()) || (goOver && handleValidation(1) && handleValidation(2)) || goBack)
-      if(step === 2)
+      if(step === 2 && goingToStep === 3)
         checkClientExist()(() => setStep(goingToStep))
       else
         setStep(goingToStep)
@@ -249,7 +273,7 @@ const Forms = props => {
       $('.alert').hide();
       $('#save-btn-help-text').hide()
       $(`#step-${goingToStep}`).show();
-      if (goingToStep === (fieldsVisibility.show_legal_doc == true ? 5 : 4))
+      if (goingToStep === (fieldsVisibility.show_legal_doc == true ? 6 : 5))
         $('#save-btn-help-text').show()
   }
 
@@ -257,13 +281,15 @@ const Forms = props => {
     if (handleValidation()) {
       if (step === 2 )
         checkClientExist()(() => setStep(step + 1))
-      else
+      else {
         setStep(step + 1)
+      }
+
 
       $('.alert').hide();
       $(`#step-${step + 1}`).show();
       $('#save-btn-help-text').hide()
-      if ((step + 1) === (fieldsVisibility.show_legal_doc == true ? 5 : 4))
+      if ((step + 1) === (fieldsVisibility.show_legal_doc == true ? 6 : 5))
         $('#save-btn-help-text').show()
     }
 
@@ -372,8 +398,6 @@ const Forms = props => {
       handleCheckValue(clientData)
       handleCheckValue(carerData)
 
-      console.log(familyMemberData);
-
       if ((familyMemberData.family_id === null || familyMemberData.family_id === undefined) && forceSave === false)
         setAttachFamilyModal(true)
       else {
@@ -390,7 +414,8 @@ const Forms = props => {
         formData = objectToFormData(familyMemberData, {}, formData, 'family_member')
         formData = objectToFormData(clientQuantitativeFreeTextCasesData, [], formData, 'client_quantitative_free_text_cases')
         formData = objectToFormData(moSAVYOfficialsData, {}, formData, 'mosavy_officials')
-
+        formData = objectToFormData(riskAssessmentData, {}, formData, 'risk_assessment')
+        console.log(formData.values);
         $.ajax({
           url,
           type: action,
@@ -523,7 +548,14 @@ const Forms = props => {
 
       <div className='tabHead'>
         {
-          tabs.slice(0, (fieldsVisibility.show_legal_doc == true ? 5 : 4)).map((tab, index) => renderTab(tab, index))
+          tabs.filter((tab) => {
+            if ((!isRiskAssessmentEnabled && tab.step === 4) || (!fieldsVisibility.show_legal_doc && tab.step === 6)) {
+              return false; // skip
+            }
+            return true;
+          }).map((tab, index) => {
+            return renderTab(tab, index)
+          })
         }
       </div>
 
@@ -545,13 +577,30 @@ const Forms = props => {
             <ReferralMoreInfo translation={translation} renderAddressSwitch={renderAddressSwitch} fieldsVisibility={fieldsVisibility} current_organization={current_organization} data={moreReferralTabData} onChangeMoSAVYOfficialsData={onChangeMoSAVYOfficialsData} onAddOfficial={onAddOfficial} onChangeOfficial={onChangeOfficial} onRemoveOfficial={onRemoveOfficial} onChange={onChange} hintText={inlineHelpTranslation} />
           </div>
 
-          <div style={{ display: step === 4 ? 'block' : 'none' }}>
+          {
+            isRiskAssessmentEnabled && <div style={{ display: step ===  4 ? 'block' : 'none' }}>
+              <RiskAssessment
+                data={riskAssessmentData}
+                setRiskAssessmentData={setRiskAssessmentData}
+                onChange={onChange}
+                isError={isError}
+                setIsError={setIsError}
+                protectionConcerns={ protectionConcerns }
+                historyOfHarms={ historyOfHarms }
+                historyOfHighRiskBehaviours={ historyOfHighRiskBehaviours }
+                reasonForFamilySeparations={ reasonForFamilySeparations }
+                historyOfDisabilities={ historyOfDisabilities }
+              />
+            </div>
+          }
+
+          <div style={{ display: step === 5 ? 'block' : 'none' }}>
             <ReferralVulnerability data={referralVulnerabilityTabData} current_organization={current_organization} translation={translation} fieldsVisibility={fieldsVisibility} onChange={onChange} hintText={inlineHelpTranslation} />
           </div>
 
           {
             fieldsVisibility.show_legal_doc == true &&
-            <div style={{ display: step === 5 ? 'block' : 'none' }}>
+            <div style={{ display: step === 6 ? 'block' : 'none' }}>
               <LegalDocument data={legalDocument} translation={translation} requiredFields={requiredFields} fieldsVisibility={fieldsVisibility} onChange={onChange} />
             </div>
           }
@@ -565,7 +614,7 @@ const Forms = props => {
 
         <div className='rightWrapper'>
           <span className={step === 1 && 'clientButton preventButton' || 'clientButton allowButton'} onClick={buttonPrevious}>{T.translate("index.previous")}</span>
-          { step !== (fieldsVisibility.show_legal_doc == true ? 5 : 4) && <span className={'clientButton allowButton'} onClick={buttonNext}>{T.translate("index.next")}</span> }
+          { step !== (fieldsVisibility.show_legal_doc == true ? 6 : 5) && <span className={'clientButton allowButton'} onClick={buttonNext}>{T.translate("index.next")}</span> }
           <span
             id="save-btn-help-text"
             data-toggle="popover"

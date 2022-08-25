@@ -5998,6 +5998,10 @@ en:
       bad_credentials_supplied: Bad Credentials Supplied.
       your_account_needs_to_supply_a_verification_code: Your account needs to supply a verification code.
   settings:
+    _attr: &SETTING_ATTR
+      assessment_type_name: "Select Assessment Tool for Client’s Wellbeing"
+      client_status_index: Client Status Index
+      risk_assessment: Risk Assessment
     assessment_setting:
       age: age
       assessment: Customized Assessment Frequency Settings

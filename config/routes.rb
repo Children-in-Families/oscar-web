@@ -448,6 +448,7 @@ Rails.application.routes.draw do
       get 'custom_form' => 'settings#custom_form'
       get 'limit_tracking_form' => 'settings#limit_tracking_form'
       get 'test_client' => 'settings#test_client'
+      get 'risk_assessment' => 'settings#risk_assessment'
       get 'customize_case_note' => 'settings#customize_case_note'
 
       get :family_case_management

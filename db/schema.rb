@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20220725040448) do
+ActiveRecord::Schema.define(version: 20220823075832) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -156,6 +156,8 @@ ActiveRecord::Schema.define(version: 20220725040448) do
     t.integer  "case_conference_id"
     t.date     "completed_date"
     t.integer  "custom_assessment_setting_id"
+    t.string   "level_of_risk"
+    t.text     "description"
   end
 
   add_index "assessments", ["case_conference_id"], name: "index_assessments_on_case_conference_id", using: :btree
@@ -165,6 +167,7 @@ ActiveRecord::Schema.define(version: 20220725040448) do
   add_index "assessments", ["default"], name: "index_assessments_on_default", where: "(\"default\" = true)", using: :btree
   add_index "assessments", ["default"], name: "index_assessments_on_default_false", where: "(\"default\" = false)", using: :btree
   add_index "assessments", ["family_id"], name: "index_assessments_on_family_id", using: :btree
+  add_index "assessments", ["level_of_risk"], name: "index_assessments_on_level_of_risk", using: :btree
 
   create_table "attachments", force: :cascade do |t|
     t.string   "image"
@@ -2205,6 +2208,35 @@ ActiveRecord::Schema.define(version: 20220725040448) do
   add_index "referrals_services", ["referral_id"], name: "index_referrals_services_on_referral_id", using: :btree
   add_index "referrals_services", ["service_id"], name: "index_referrals_services_on_service_id", using: :btree
 
+  create_table "risk_assessments", force: :cascade do |t|
+    t.date     "assessment_date"
+    t.string   "protection_concern",                     default: [],                 array: true
+    t.string   "level_of_risk"
+    t.string   "other_protection_concern_specification"
+    t.text     "client_perspective"
+    t.boolean  "has_known_chronic_disease",              default: false
+    t.boolean  "has_disability",                         default: false
+    t.boolean  "has_hiv_or_aid",                         default: false
+    t.string   "known_chronic_disease_specification"
+    t.string   "disability_specification"
+    t.string   "hiv_or_aid_specification"
+    t.text     "relevant_referral_information"
+    t.integer  "history_of_disability_id"
+    t.integer  "history_of_harm_id"
+    t.integer  "history_of_high_risk_behaviour_id"
+    t.integer  "history_of_family_separation_id"
+    t.integer  "client_id"
+    t.datetime "created_at",                                             null: false
+    t.datetime "updated_at",                                             null: false
+  end
+
+  add_index "risk_assessments", ["assessment_date"], name: "index_risk_assessments_on_assessment_date", using: :btree
+  add_index "risk_assessments", ["client_id"], name: "index_risk_assessments_on_client_id", unique: true, using: :btree
+  add_index "risk_assessments", ["history_of_disability_id"], name: "index_risk_assessments_on_history_of_disability_id", using: :btree
+  add_index "risk_assessments", ["history_of_family_separation_id"], name: "index_risk_assessments_on_history_of_family_separation_id", using: :btree
+  add_index "risk_assessments", ["history_of_harm_id"], name: "index_risk_assessments_on_history_of_harm_id", using: :btree
+  add_index "risk_assessments", ["history_of_high_risk_behaviour_id"], name: "index_risk_assessments_on_history_of_high_risk_behaviour_id", using: :btree
+
   create_table "screening_assessments", force: :cascade do |t|
     t.datetime "screening_assessment_date"
     t.string   "client_age"
@@ -2331,6 +2363,8 @@ ActiveRecord::Schema.define(version: 20220725040448) do
     t.boolean  "cbdmat_ongoing",                       default: false
     t.boolean  "enabled_risk_assessment",              default: false
     t.string   "assessment_type_name",                 default: "csi"
+    t.integer  "selected_domain_ids",                  default: [],                               array: true
+    t.text     "level_of_risk_guidance"
   end
 
   add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree
@@ -2976,6 +3010,7 @@ ActiveRecord::Schema.define(version: 20220725040448) do
   add_foreign_key "referees", "townships"
   add_foreign_key "referees", "villages"
   add_foreign_key "referrals", "clients"
+  add_foreign_key "risk_assessments", "clients"
   add_foreign_key "service_delivery_tasks", "service_deliveries"
   add_foreign_key "service_delivery_tasks", "tasks"
   add_foreign_key "services", "global_services", column: "uuid", primary_key: "uuid"

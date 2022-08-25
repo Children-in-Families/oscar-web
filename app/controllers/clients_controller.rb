@@ -56,7 +56,7 @@ class ClientsController < AdminController
       format.html do
         @referees                   = Referee.none_anonymouse.pluck(:id, :name).map{|id, name| { value: id, text: name } }
         @current_provinces          = Province.pluck(:id, :name).map{|id, name| { value: id, text: name } }
-        @birth_provinces            = @birth_provinces.map{|parent, children| children.map{|t, v| {value: v, text: t } } }.flatten
+        @birth_provinces            = @birth_provinces.map{|parent, children| children.map{|t, v| { value: v, text: t } } }.flatten
         custom_field_ids            = @client.custom_field_properties.pluck(:custom_field_id)
         if current_user.admin? || current_user.strategic_overviewer?
           available_editable_forms  = CustomField.all
@@ -140,6 +140,8 @@ class ClientsController < AdminController
       end
 
       @client = Client.new(new_params.merge(local_given_name: first_name, local_family_name: last_name, gender: new_params[:gender]&.downcase))
+      @risk_assessment = @client.build_risk_assessment
+      @risk_assessment.tasks.build
     end
     @referral_source_category = referral_source_name(ReferralSource.parent_categories, @client)
   end
@@ -153,6 +155,8 @@ class ClientsController < AdminController
       attributes.merge!({ status: 'Referred' })
       @client.attributes = attributes
     end
+
+    @risk_assessment = @client.risk_assessment || @client.build_risk_assessment
   end
 
   def create

@@ -1,3 +1,4 @@
+- risk_assessment = @client.risk_assessment
 .row
   .col-xs-12
     .alert.alert-warning.alert-dismissible{ :role => "alert" }
@@ -6,7 +7,7 @@
       %ul
         %li= Organization.ratanak? ?  I18n.t('inline_help.clients.show.notes.lists.ratanak.list1') : I18n.t('inline_help.clients.show.notes.lists.list1')
     .row
-      %div{ class: "col-md-#{ @client.referred? || @client.exit_ngo? ? '9' : '12' }"}
+      %div{ class: "col-md-#{ @client.referred? || @client.exit_ngo? ? '8' : '10' }"}
         %table.table.small.m-b-xs#main-info
           %tbody
             %tr
@@ -49,8 +50,8 @@
                 - if policy(@client).show?(:province)
                   = "#{t('.current_province')} :"
                   %strong= editable @client, :province_id, type: :select2, source: @current_provinces, value: @client.province&.name, url: api_client_path(@client.id), pk: @client.id
-      .col-md-3
-        - if @client.status == 'Referred'
+      - if @client.status == 'Referred'
+        .col-md-3
           .row
             .col-xs-12
               .row
@@ -93,13 +94,32 @@
             .col-xs-12
               = render 'client/exit_ngos/form', client: @client
 
-        - elsif @client.exit_ngo?
+      - elsif @client.exit_ngo?
+        .col-md-3
           .row
             .col-xs-12
               %button.btn.btn-success.mini-margin.enter-ngo-for-client{ class: 'agree-btn', data: { class_name: 'accept-client', disable_with: t('.accepting'), 'target' => "#enter-ngo-form", 'toggle' => 'modal', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.accepted')}", placement: "auto" } } #{t('.accept')}
               = render 'client/enter_ngos/form', client: @client
             .col-xs-12
               %button.btn.btn-danger.mini-margin{ disabled: 'disabled', class: 'agree-btn', data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.clients.show.reject')}", placement: "auto" } }= t('.reject')
+
+      - if current_setting.enabled_risk_assessment? && risk_assessment
+        .col-md-2
+          - risk_assessment = risk_assessment
+          %table.table.small.m-b-xs
+            %tbody
+              %tr
+                %td
+                  Risk Assessment:
+                  %strong Client’s Wellbeing
+              %tr
+                %td
+                  = "#{t('referrals.level_of_risk')}:"
+                  %strong= display_level_of_risk(risk_assessment.level_of_risk)
+              %tr
+                %td
+                  = "Date of risk assessment:"
+                  %strong= date_format risk_assessment.assessment_date
 
     - if @client.status != 'Referred'
       - ngos = mapping_ngos(select_ngos)
@@ -765,6 +785,27 @@
                       %td.text-center
                         = link_to call_path(call) do
                           %button.btn.btn-outline.btn-primary.btn-xs= fa_icon('eye')
+
+        - if current_setting.enabled_risk_assessment? && risk_assessment
+          .row
+            .col-xs-12
+              %table.table.table-bordered.table-hover
+                %thead
+                  %tr
+                    %th Risk Level History
+                    %th Category
+                    %th Date
+                    %th.text-center= t('.detail')
+                %tbody
+                  - @client.assessments.where.not(level_of_risk: nil).each do |assessment|
+                    %tr
+                      %td= "#{assessment.level_of_risk.titleize} Risk"
+                      %td Child's wellbeing
+                      %td= date_format(assessment.created_at)
+                  %tr
+                    %td= "#{risk_assessment.level_of_risk.titleize} Risk"
+                    %td Protection Concern
+                    %td= date_format(risk_assessment.assessment_date)
 
 .row
   = render 'blank_field_notification'

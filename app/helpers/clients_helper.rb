@@ -1,4 +1,53 @@
 module ClientsHelper
+  include RiskAssessmentHelper
+
+  def client_form_data
+    {
+      translation: rails_i18n_translations, inlineHelpTranslation: JSON.parse(I18n.t('inline_help').to_json),
+      internationalReferredClient: international_referred_client, selectedCountry: selected_country,
+      client:
+      {
+        client: @client, ratanak_achievement_program_staff_client_ids: @client.ratanak_achievement_program_staff_client_ids,
+        user_ids: @client.user_ids, quantitative_case_ids: @client.quantitative_case_ids, agency_ids: @client.agency_ids,
+        donor_ids: @client.donor_ids, isTestClient: current_setting.test_client?, isForTesting: @client.for_testing?
+      },
+      client_quantitative_free_text_cases: get_or_build_client_quantitative_free_text_cases,
+      family_member: (@client.family_member || {}), moSAVYOfficials: @client.mo_savy_officials,
+      referee: @referee.as_json(methods: [:existing_referree]), carer: @carer , users: case_workers_option(@client.id),
+      referralSourceCategory: @referral_source_category, referralSource: ReferralSource.all, birthProvinces: @birth_provinces,
+      currentProvinces: @current_provinces || get_address('province'), districts: @districts.presence || get_address('district'),
+      subDistricts: @subdistricts, communes: @communes.presence || get_address('commune'), villages: @villages.presence || get_address('village'),
+      currentStates: @states, currentTownships: @townships, refereeTownships: @referee_townships, carerTownships: @carer_townships,
+      refereeDistricts: @referee_districts, refereeSubdistricts: @referee_subdistricts, refereeCommunes: @referee_communes,
+      refereeVillages: @referee_villages, carerDistricts: @carer_districts, carerSubdistricts: @carer_subdistricts, carerCommunes: @carer_communes,
+      carerVillages: @carer_villages, donors: @donors, agencies: @agencies,
+      quantitativeType: QuantitativeType.cach_by_visible_on('client'), quantitativeCase: QuantitativeCase.cache_all,
+      ratePoor: [
+        t('clients.level').values, Client::CLIENT_LEVELS
+      ].transpose,
+      schoolGrade: [
+        Client::GRADES, t('advanced_search.fields.school_grade_list').values
+      ].transpose,
+      families: @families, refereeRelationships: @referee_relationships,
+      clientRelationships: @client_relationships, callerRelationships: @caller_relationships,
+      addressTypes: @address_types, phoneOwners: @phone_owners, fieldsVisibility: fields_visibility,
+      requiredFields: required_legal_docs, current_organization: JSON.parse(current_organization.to_json),
+      brc_address: get_address_json, maritalStatuses: Client::MARITAL_STATUSES, nationalities: Client::NATIONALITIES,
+      ethnicities: Client::ETHNICITY, traffickingTypes: Client::TRAFFICKING_TYPES, brc_islands: Client::BRC_BRANCHES,
+      brc_resident_types: Client::BRC_RESIDENT_TYPES, brc_presented_ids: Client::BRC_PRESENTED_IDS,
+      brc_prefered_langs: Client::BRC_PREFERED_LANGS, customId1: custom_id_translation('custom_id1'),
+      customId2: custom_id_translation('custom_id2'), referees: Referee.where(anonymous: false),
+      protectionConcerns: I18n.locale == :km ? protection_concern_list_local : protection_concern_list,
+      historyOfHarms: history_of_harms, historyOfHighRiskBehaviours: history_of_high_risk_behaviours,
+      reasonForFamilySeparations: reason_for_family_separations, historyOfDisabilities: history_of_disabilities,
+      isRiskAssessmentEnabled: current_setting.enabled_risk_assessment,
+      riskAssessment: {
+        **@risk_assessment.attributes.symbolize_keys,
+        tasks_attributes: @risk_assessment.try(:tasks) || []
+      }
+    }
+  end
+
   def get_or_build_client_quantitative_free_text_cases
     QuantitativeType.where(field_type: 'free_text').map do |qtt|
       @client.client_quantitative_free_text_cases.find_or_initialize_by(quantitative_type_id: qtt.id)
