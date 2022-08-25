@@ -3,6 +3,7 @@ class ReferralSource < ActiveRecord::Base
   has_many :clients, dependent: :restrict_with_error
   has_paper_trail
   REFERRAL_SOURCES = ['ក្រសួង សអយ/មន្ទីរ សអយ', 'អង្គការមិនមែនរដ្ឋាភិបាល', 'មន្ទីរពេទ្យ', 'នគរបាល', 'តុលាការ/ប្រព័ន្ធយុត្តិធម៌', 'រកឃើញនៅតាមទីសាធារណៈ', 'ស្ថាប័នរដ្ឋ', 'មណ្ឌលថែទាំបណ្ដោះអាសន្ន', 'ទូរស័ព្ទទាន់ហេតុការណ៍', 'មកដោយខ្លួនឯង', 'គ្រួសារ', 'មិត្តភក្ដិ', 'អាជ្ញាធរដែនដី', 'ផ្សេងៗ', 'សហគមន៍', 'ព្រះវិហារ', 'MoSVY External System'].freeze
+  GATEKEEPING_MECHANISM = ['ក្រសួង សអយ/មន្ទីរ សអយ', 'អាជ្ញាធរដែនដី', 'នគរបាល', 'MoSVY External System'].freeze
   validates :name, presence: true, uniqueness: { case_sensitive: false }
   validate :restrict_update, on: :update
   before_destroy :restrict_delete
@@ -10,7 +11,8 @@ class ReferralSource < ActiveRecord::Base
   after_commit :flush_cache
 
   scope :parent_categories,       ->        { where(name: REFERRAL_SOURCES) }
-  scope :child_referrals,          ->        { where.not(name: REFERRAL_SOURCES) }
+  scope :child_referrals,         ->        { where.not(name: REFERRAL_SOURCES) }
+  scope :gatekeeping_mechanism,   ->        { where(name: GATEKEEPING_MECHANISM) }
 
   def self.cache_referral_source_options
     Rails.cache.fetch([Apartment::Tenant.current, 'ReferralSource', 'referral_source_options']) do

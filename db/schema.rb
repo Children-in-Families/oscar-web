@@ -2899,7 +2899,6 @@ ActiveRecord::Schema.define(version: 20220823075832) do
   add_foreign_key "client_client_types", "client_types"
   add_foreign_key "client_client_types", "clients"
   add_foreign_key "client_enrollment_trackings", "client_enrollments"
-  add_foreign_key "client_enrollment_trackings", "client_enrollments"
   add_foreign_key "client_interviewees", "clients"
   add_foreign_key "client_interviewees", "interviewees"
   add_foreign_key "client_needs", "clients"

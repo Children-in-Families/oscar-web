@@ -3,6 +3,7 @@ class CIF.ClientAdvanceSearch
     @filterTranslation   = ''
     @customFormSelected  = []
     @programSelected     = []
+    @assessmentSelected  = []
     optionTranslation    = $('#opt-group-translation')
 
     @enrollmentCheckbox  = $('#enrollment-checkbox')
@@ -34,6 +35,7 @@ class CIF.ClientAdvanceSearch
   setValueToBuilderSelected: ->
     @customFormSelected = $('#custom-form-data').data('value')
     @programSelected    = $('#program-stream-data').data('value')
+    @assessmentSelected = $('#assessment-form-data').data('value')
     @wizardCustomFormSelected = $('#wizard-custom-form-data').data('value')
     @wizardProgramSelected    = $('#wizard-program-stream-data').data('value')
 
@@ -92,11 +94,11 @@ class CIF.ClientAdvanceSearch
 
 
   initSelect2: ->
-    $('#custom-form-select, #wizard-custom-form-select, #program-stream-select, #wizard-program-stream-select, #quantitative-case-select').select2()
+    $('#custom-form-select, #wizard-custom-form-select, #program-stream-select, #wizard-program-stream-select, #quantitative-case-select, #assessment-select').select2()
     $('#builder select').select2()
     $('#wizard-builder select').select2()
     setTimeout ( ->
-      ids = ['#custom-form-select', '#wizard-custom-form-select', '#program-stream-select', '#wizard-program-stream-select', '#quantitative-case-select', '#wizard-builder', '#builder']
+      ids = ['#custom-form-select', '#wizard-custom-form-select', '#program-stream-select', '#wizard-program-stream-select', '#quantitative-case-select', '#wizard-builder', '#builder', '#assessment-select']
       $.each ids, (index, item) ->
         $("#{item} .rule-filter-container select").select2(width: '250px')
         $("#{item} .rule-operator-container select, .rule-value-container select").select2(width: 'resolve')
@@ -146,6 +148,11 @@ class CIF.ClientAdvanceSearch
       $.when(addCustomBuildersFields).then ->
         $('#custom-form-column').removeClass('hidden')
         $('#wizard-custom-form .loader').addClass('hidden')
+
+  assessmentSelectChange: ->
+    self = @
+    $('.main-report-builder .assessment-form-wrapper select').on 'select2-selecting', (element) ->
+      self.assessmentSelected.push(element.val)
 
   addCustomBuildersFields: (ids, url, loader=undefined) ->
     self = @
@@ -231,6 +238,19 @@ class CIF.ClientAdvanceSearch
     $('#custom-form-checkbox').on 'ifChecked', ->
       $('.custom-form').show()
 
+  handleHideAssessmentSelect: ->
+    self = @
+    $('#assessment-checkbox').on 'ifUnchecked', ->
+      self.assessmentSelected = []
+      $('select.assessment-select').select2('val', '')
+      $('.assessment-form').hide()
+
+  handleShowAssessmentSelect: ->
+    if $('#assessment-checkbox').prop('checked')
+      $('.assessment-form').show()
+    $('#assessment-checkbox').on 'ifChecked', ->
+      $('.assessment-form').show()
+
   ######################################################################################################################
 
   customFormSelectRemove: ->
@@ -257,6 +277,12 @@ class CIF.ClientAdvanceSearch
 
       if $('#wizard_custom_form_filter').is(':checked')
         self.handleRemoveFilterBuilder(removeValue, self.CUSTOM_FORM_TRANSLATE, '#wizard-builder')
+
+  assessmentSelectRemove: ->
+    self = @
+    $('.main-report-builder .assessment-form-wrapper select').on 'select2-removed', (element) ->
+      $.map self.assessmentSelected, (val, i) ->
+        if parseInt(val) == parseInt(element.val) then self.assessmentSelected.splice(i, 1)
 
   handleRemoveFilterBuilder: (resourceName, resourcelabel, elementBuilder = '#builder') ->
     self = @
@@ -808,6 +834,7 @@ class CIF.ClientAdvanceSearch
         builderForm = '.main-report-builder'
         programValues = if self.programSelected.length > 0 then "[#{self.programSelected}]"
         customFormValues = if self.customFormSelected.length > 0 then "[#{self.customFormSelected}]"
+        assessmentValues = if self.assessmentSelected.length > 0 then "[#{self.assessmentSelected}]"
       else
         builderElement = '#wizard-builder'
         builderForm = '#report-builder-wizard'
@@ -823,6 +850,7 @@ class CIF.ClientAdvanceSearch
       self.setValueToProgramAssociation()
       $('#client_advanced_search_custom_form_selected').val(customFormValues)
       $('#client_advanced_search_program_selected').val(programValues)
+      $('#client_advanced_search_assessment_selected').val(assessmentValues)
       if $('#quantitative-type-checkbox').prop('checked') then $('#client_advanced_search_quantitative_check').val(1)
       if $('#wizard_quantitative_filter').prop('checked') then $('#client_advanced_search_wizard_quantitative_check').val(1)
       if $('#wizard_custom_form_filter').prop('checked') then $('#client_advanced_search_wizard_custom_form_check').val(1)
