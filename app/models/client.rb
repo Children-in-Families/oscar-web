@@ -1048,10 +1048,11 @@ class Client < ActiveRecord::Base
   end
 
   def update_first_referral_status
-    return if referrals.count.zero? || referrals.count > 1 || client_enrollments.any?
+    received_referrals = referrals.received
+    return if received_referrals.count.zero? || received_referrals.count > 1 || client_enrollments.any?
 
-    referral = referrals.first
-    return if referral.referral_status == 'Accepted'
+    referral = received_referrals.first
+    return if referral.referral_status == 'Accepted' || referral.referred_to == Apartment::Tenant.current
 
     referral.level_of_risk = 'no action' if referral.level_of_risk.blank?
     referral.referral_status = status
