@@ -42,7 +42,7 @@ module ClientsHelper
       reasonForFamilySeparations: reason_for_family_separations, historyOfDisabilities: history_of_disabilities,
       isRiskAssessmentEnabled: current_setting.enabled_risk_assessment,
       riskAssessment: {
-        **@risk_assessment&.attributes.try(:symbolize_keys) || {},
+        **@risk_assessment.try(:attributes).try(:symbolize_keys) || {},
         tasks_attributes: @risk_assessment.try(:tasks) || []
       }
     }
