@@ -1049,7 +1049,7 @@ class Client < ActiveRecord::Base
     return if received_referrals.count.zero? || received_referrals.count > 1 || client_enrollments.any?
 
     referral = received_referrals.first
-    return if referral.referral_status == 'Accepted' || referral.referred_to == Apartment::Tenant.current
+    return if referral.referral_status == 'Accepted' || referral.referred_from == Apartment::Tenant.current
 
     referral.level_of_risk = 'no action' if referral.level_of_risk.blank?
     referral.referral_status = status
