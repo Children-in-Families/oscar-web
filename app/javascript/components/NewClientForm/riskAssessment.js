@@ -29,6 +29,7 @@ export default (props) => {
     const newTasks = [...tasks, { ...task, complete: false }];
 
     setRiskAssessmentData(prev => ({...prev, tasks_attributes: newTasks}))
+    setIsError(false)
   };
 
   const deleteTask = (index) => {
@@ -145,7 +146,7 @@ export default (props) => {
           <TextInput
             inline
             label={"If yes, please specify"}
-            onChange={onChange("riskAssessment", "")}
+            onChange={onChange("riskAssessment", "known_chronic_disease_specification")}
             value={known_chronic_disease_specification}
           />
         </div>

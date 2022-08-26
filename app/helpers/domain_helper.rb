@@ -1,7 +1,7 @@
 module DomainHelper
   def translate_domain_header(domain)
     if I18n.locale == :km
-      domain.local_description[/<strong>.*<\/strong>/].html_safe
+      domain.local_description[/<strong>.*<\/strong>/].try(:html_safe) || "#{t('domains.domain_list.domains')} : #{domain.name} (#{domain.identity})"
     else
       "#{t('domains.domain_list.domains')} : #{domain.name} (#{domain.identity})"
     end

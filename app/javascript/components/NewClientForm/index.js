@@ -415,7 +415,7 @@ const Forms = props => {
         formData = objectToFormData(clientQuantitativeFreeTextCasesData, [], formData, 'client_quantitative_free_text_cases')
         formData = objectToFormData(moSAVYOfficialsData, {}, formData, 'mosavy_officials')
         formData = objectToFormData(riskAssessmentData, {}, formData, 'risk_assessment')
-        console.log(formData.values);
+
         $.ajax({
           url,
           type: action,
