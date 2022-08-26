@@ -6130,6 +6130,11 @@ en:
       successfully_updated: Service has been successfully updated.
   referral_details: Referral Details
   results: Results
+  risk_assessments:
+    _attr: &SA_ATTR
+      level_of_risk: Level
+      protection_concern: Protection Concern
+      risk_assessment: Risk Assessment
   screening_assessments:
     _attr: &SA_ATTR
       add_new: Add New Assessment
