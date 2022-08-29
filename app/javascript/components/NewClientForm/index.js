@@ -193,7 +193,7 @@ const Forms = props => {
       { step: 1, data: clientData, fields: ['referral_source_category_id'] },
       { step: 2, data: clientData, fields: ['gender']},
       { step: 3, data: moSAVYOfficialsData, fields: ['name', 'position'] },
-      { step: 4, data: riskAssessmentData, fields: ['tasks_attributes'] },
+      { step: 4, data: riskAssessmentData, fields: [] },
       { step: 5, data: clientData, fields: clientData.status != 'Exited' ? ['received_by_id', 'initial_referral_date', 'user_ids'] : ['received_by_id', 'initial_referral_date'] },
       { step: 6, data: clientData, fields: step5RequiredFields }
     ]
@@ -224,7 +224,6 @@ const Forms = props => {
       if (step === 5 && qttType.is_required) {
         if (qttType.field_type == "free_text") {
           const item = clientQuantitativeFreeTextCasesData.find(cqFreeText => { return cqFreeText.quantitative_type_id == qttType.id })
-          console.log(item)
 
           if (item.content === null || item.content === '') {
             errors.push(`qtt_type_${qttType.id}`)
@@ -278,18 +277,21 @@ const Forms = props => {
   }
 
   const buttonNext = () => {
+    let stepIndex = 1
     if (handleValidation()) {
       if (step === 2 )
         checkClientExist()(() => setStep(step + 1))
       else {
-        setStep(step + 1)
+        if(!isRiskAssessmentEnabled && step === 3)
+          stepIndex = 2
+
+        setStep(step + stepIndex)
       }
 
-
       $('.alert').hide();
-      $(`#step-${step + 1}`).show();
+      $(`#step-${step + stepIndex}`).show();
       $('#save-btn-help-text').hide()
-      if ((step + 1) === (fieldsVisibility.show_legal_doc == true ? 6 : 5))
+      if ((step + stepIndex) === (fieldsVisibility.show_legal_doc == true ? 6 : 5))
         $('#save-btn-help-text').show()
     }
 
@@ -458,9 +460,13 @@ const Forms = props => {
   }
 
   const buttonPrevious = () => {
-    setStep(step - 1)
+    let stepIndex = 1
+    if(!isRiskAssessmentEnabled && step === 5)
+      stepIndex = 2
+
+    setStep(step - stepIndex)
     $('.alert').hide();
-    $(`#step-${step - 1}`).show();
+    $(`#step-${step - stepIndex}`).show();
     $('#save-btn-help-text').hide()
   }
 

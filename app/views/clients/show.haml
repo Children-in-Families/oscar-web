@@ -7,7 +7,7 @@
       %ul
         %li= Organization.ratanak? ?  I18n.t('inline_help.clients.show.notes.lists.ratanak.list1') : I18n.t('inline_help.clients.show.notes.lists.list1')
     .row
-      %div{ class: "col-md-#{ @client.referred? || @client.exit_ngo? ? '8' : '10' }"}
+      %div{ class: "col-xs-12 col-md-#{ @client.referred? || @client.exit_ngo? ? '7' : '10' }"}
         %table.table.small.m-b-xs#main-info
           %tbody
             %tr
@@ -51,7 +51,7 @@
                   = "#{t('.current_province')} :"
                   %strong= editable @client, :province_id, type: :select2, source: @current_provinces, value: @client.province&.name, url: api_client_path(@client.id), pk: @client.id
       - if @client.status == 'Referred'
-        .col-md-3
+        .col-xs-12.col-md-2
           .row
             .col-xs-12
               .row
@@ -95,7 +95,7 @@
               = render 'client/exit_ngos/form', client: @client
 
       - elsif @client.exit_ngo?
-        .col-md-3
+        .col-xs-12.col-md-3
           .row
             .col-xs-12
               %button.btn.btn-success.mini-margin.enter-ngo-for-client{ class: 'agree-btn', data: { class_name: 'accept-client', disable_with: t('.accepting'), 'target' => "#enter-ngo-form", 'toggle' => 'modal', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.accepted')}", placement: "auto" } } #{t('.accept')}
@@ -104,8 +104,7 @@
               %button.btn.btn-danger.mini-margin{ disabled: 'disabled', class: 'agree-btn', data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.clients.show.reject')}", placement: "auto" } }= t('.reject')
 
       - if current_setting.enabled_risk_assessment? && risk_assessment
-        .col-md-2
-          - risk_assessment = risk_assessment
+        .col-xs-12.col-md-3
           %table.table.small.m-b-xs
             %tbody
               %tr
