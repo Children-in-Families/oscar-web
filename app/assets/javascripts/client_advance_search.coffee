@@ -735,6 +735,9 @@ class CIF.ClientAdvanceSearch
         programStreamAssociation = $('.main-report-builder .program-association')
         $(programStreamAssociation).find('.i-checks').iCheck('uncheck')
         $(programStreamAssociation).hide()
+      
+      if self.programSelected.length == 0
+        self.removeActiveClientProgramOption()
 
       if self.programSelected.length == 0
         self.removeActiveClientProgramOption()
