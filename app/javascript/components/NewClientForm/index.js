@@ -109,7 +109,7 @@ const Forms = props => {
     {text: T.translate("index.referee_info"), step: 1},
     {text: t(translation, 'clients.form.referral_info'), step: 2},
     {text: T.translate("index.referral_more_info"), step: 3},
-    {text: "Protection Concern", step: 4},
+    {text: riskAssessment.labels.protection_concern, step: 4},
     {text: T.translate("index.referral_vulnerability"), step: 5},
     {text: t(translation, 'clients.form.legal_documents'), step: 6}
   ]

@@ -7,7 +7,8 @@ export default (props) => {
   const {
     createTask,
     isError,
-    setIsError
+    setIsError,
+    labels
   } = props
 
   const [name, setName] = useState('')
@@ -32,7 +33,7 @@ export default (props) => {
     <div className="row">
       <div className="col-xs-12 col-md-5 col-lg-5">
         <div className='form-group'>
-          <label>Name</label>
+          <label>{labels.title}</label>
           <input
             className={`${(isError && 'error')} form-control m-t-xs`}
             onChange={(e) => setName(e.target.value)}
@@ -47,7 +48,7 @@ export default (props) => {
       </div>
       <div className="col-xs-12 col-md-5 col-lg-5">
         <DateInput
-          label="Expected Date"
+          label={labels.expected_date}
           className={`${(isError && 'error')} calendar-input`}
           placeholder="..../../.."
           name="date"
@@ -72,7 +73,7 @@ export default (props) => {
         <button
           className="btn btn-primary m-t-lg"
           onClick={handleAppendTasks}
-        >Add tasks</button>
+        >{labels.add_task}</button>
       </div>
     </div>
   )

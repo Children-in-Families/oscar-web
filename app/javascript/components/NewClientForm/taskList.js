@@ -7,7 +7,7 @@ import T from 'i18n-react'
 
 export default (props) => {
   const {
-    task, deleteTask, index
+    task, deleteTask, index, labels
   } = props
 
   const handleRemoveTask = index => {
@@ -28,12 +28,12 @@ export default (props) => {
       <div className="col-xs-12 col-md-5 col-lg-5">
         {
           task.completed ? <div>
-            <label>Name</label>
+            <label>{labels.title}</label>
             <p>{task.name}</p>
           </div>
           :
           <TextInput
-            label={"Name"}
+            label={labels.title}
             onChange={onChange}
             value={task.name}
           />
@@ -42,14 +42,13 @@ export default (props) => {
       </div>
       <div className="col-xs-12 col-md-5 col-lg-5">
         { task.completed ? <div>
-            <label>Expected Date</label>
+            <label>{labels.expected_date}</label>
             <p>{task.expected_date}</p>
           </div>
           :
           <DateInput
-            T={'Expected Date'}
             isError={false}
-            label={"Expected Date"}
+            label={labels.expected_date}
             value={task.expected_date}
             onChange={onChange}
           />

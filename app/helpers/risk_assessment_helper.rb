@@ -182,4 +182,13 @@ module RiskAssessmentHelper
       level_of_risk.titleize
     end
   end
+
+  def level_of_risk_options
+    [
+      I18n.t('risk_assessments._attr.level_of_risks.high'),
+      I18n.t('risk_assessments._attr.level_of_risks.medium'),
+      I18n.t('risk_assessments._attr.level_of_risks.low'),
+      I18n.t('risk_assessments._attr.level_of_risks.no_action')
+    ].zip(['high', 'medium', 'low', 'no action'])
+  end
 end

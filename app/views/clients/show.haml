@@ -7,7 +7,7 @@
       %ul
         %li= Organization.ratanak? ?  I18n.t('inline_help.clients.show.notes.lists.ratanak.list1') : I18n.t('inline_help.clients.show.notes.lists.list1')
     .row
-      %div{ class: "col-xs-12 col-md-#{ @client.referred? || @client.exit_ngo? ? '7' : '10' }"}
+      %div{ class: "col-xs-12 col-md-#{ @client.referred? || @client.exit_ngo? ? '7' : '9' }"}
         %table.table.small.m-b-xs#main-info
           %tbody
             %tr
@@ -109,15 +109,15 @@
             %tbody
               %tr
                 %td
-                  Risk Assessment:
-                  %strong Client’s Wellbeing
+                  = "#{t('risk_assessments._attr.risk_assessment')}:"
+                  %strong= t('risk_assessments._attr.client_wellbeing')
               %tr
                 %td
-                  = "#{t('referrals.level_of_risk')}:"
+                  = "#{t('risk_assessments._attr.level_of_risk')}:"
                   %strong= display_level_of_risk(risk_assessment.level_of_risk)
               %tr
                 %td
-                  = "Date of risk assessment:"
+                  = "#{t('risk_assessments._attr.assessment_date')}:"
                   %strong= date_format risk_assessment.assessment_date
 
     - if @client.status != 'Referred'
@@ -791,19 +791,19 @@
               %table.table.table-bordered.table-hover
                 %thead
                   %tr
-                    %th Risk Level History
-                    %th Category
-                    %th Date
+                    %th= t('risk_assessments._attr.risk_level_history')
+                    %th= t('risk_assessments._attr.category')
+                    %th= t('.date')
                     %th.text-center= t('.detail')
                 %tbody
                   - @client.assessments.where.not(level_of_risk: nil).each do |assessment|
                     %tr
-                      %td= "#{assessment.level_of_risk.titleize} Risk"
-                      %td Child's wellbeing
+                      %td= "#{assessment.level_of_risk.titleize} #{t('risk_assessments._attr.risk')}"
+                      %td= t('risk_assessments._attr.child_wellbeing')
                       %td= date_format(assessment.created_at)
                   %tr
-                    %td= "#{risk_assessment.level_of_risk.titleize} Risk"
-                    %td Protection Concern
+                    %td= "#{risk_assessment.level_of_risk.titleize} #{t('risk_assessments._attr.risk')}"
+                    %td= t('risk_assessments._attr.protection_concern')
                     %td= date_format(risk_assessment.assessment_date)
 
 .row
