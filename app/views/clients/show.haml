@@ -103,22 +103,41 @@
             .col-xs-12
               %button.btn.btn-danger.mini-margin{ disabled: 'disabled', class: 'agree-btn', data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.clients.show.reject')}", placement: "auto" } }= t('.reject')
 
-      - if current_setting.enabled_risk_assessment? && risk_assessment
+      - if current_setting.enabled_risk_assessment?
         .col-xs-12.col-md-3
-          %table.table.small.m-b-xs
-            %tbody
-              %tr
-                %td
-                  = "#{t('risk_assessments._attr.risk_assessment')}:"
-                  %strong= t('risk_assessments._attr.client_wellbeing')
-              %tr
-                %td
-                  = "#{t('risk_assessments._attr.level_of_risk')}:"
-                  %strong= display_level_of_risk(risk_assessment.level_of_risk)
-              %tr
-                %td
-                  = "#{t('risk_assessments._attr.assessment_date')}:"
-                  %strong= date_format risk_assessment.assessment_date
+          - if risk_assessment
+            %table.table.small.m-b-xs
+              %tbody
+                %tr
+                  %td
+                    = "#{t('risk_assessments._attr.risk_assessment')}:"
+                    - if risk_assessment.high_risk?
+                      %strong= t('risk_assessments._attr.protection_concern')
+                    - else
+                      %strong= t('risk_assessments._attr.no_protection_concern')
+                %tr
+                  %td
+                    = "#{t('risk_assessments._attr.level_of_risk')}:"
+                    %strong= display_level_of_risk(risk_assessment.level_of_risk)
+                %tr
+                  %td
+                    = "#{t('risk_assessments._attr.assessment_date')}:"
+                    %strong= date_format risk_assessment.assessment_date
+          - else
+            %table.table.small.m-b-xs
+              %tbody
+                %tr
+                  %td
+                    = "#{t('risk_assessments._attr.risk_assessment')}:"
+                    %strong= t('risk_assessments._attr.protection_concern')
+                %tr
+                  %td
+                    = "#{t('risk_assessments._attr.level_of_risk')}:"
+                    %strong= display_level_of_risk('pending_assessment')
+                %tr
+                  %td
+                    = "#{t('risk_assessments._attr.assessment_date')}:"
+                    %strong No Date
 
     - if @client.status != 'Referred'
       - ngos = mapping_ngos(select_ngos)
