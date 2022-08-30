@@ -67,6 +67,8 @@ module CarePlanHelper
   end
 
   def list_case_conference_domain_for_care_plan(assessment, ad)
+    return [] if assessment.case_conference.blank?
+
     assessment.case_conference.case_conference_domains.find_by(domain_id: ad.object.domain_id).try(:case_conference_addressed_issues) || []
   end
 
