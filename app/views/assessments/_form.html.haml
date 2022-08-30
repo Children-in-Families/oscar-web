@@ -69,7 +69,9 @@
                     = render 'attachment_fields', ad: ad, readonly: false
 
         - if current_setting.enabled_risk_assessment?
-          %h4= t('.client_wellbeing_score')
+          %h4
+            = t('risk_assessments._attr.child_wellbeing')
+            = t('risk_assessments._attr.score')
           %div{ class: "assessment-domain-item domain-client-wellbeing-score" }
             .ibox
               .ibox-title
@@ -95,7 +97,7 @@
 
                     .row.domai-name-score-wrapper.m-t-lg
                       .col-xs-6.text-right
-                        %label Overall Client’s Wellbeing Score
+                        %label= t('risk_assessments._attr.overall_client_wellbeing_score')
                       .col-xs-6
                         %a{ class: "btn btn-lg btn-block btn-success" }
                           = calculate_domain_selected_domain_score(@assessment)
@@ -104,14 +106,14 @@
                       .col-xs-6.text-right
                         .row
                           .col-xs-12
-                            = label :level_of_risk, t('referrals.level_of_risk')
+                            = label :level_of_risk, t('risk_assessments._attr.level_of_risk')
                           .col-xs-12
-                            = link_to 'Guidance', '#LevelOfRiskGuidance', data: { toggle: :modal, target: '#LevelOfRiskGuidance' }
+                            = link_to t('risk_assessments._attr.guidance'), '#LevelOfRiskGuidance', data: { toggle: :modal, target: '#LevelOfRiskGuidance' }
                       .col-xs-6
-                        = f.input :level_of_risk, label: false, collection: ['High', 'Medium', 'Low', 'No Action'].zip(['high', 'medium', 'low', 'no action'])
+                        = f.input :level_of_risk, label: false, collection: level_of_risk_options
                     .row.domai-name-score-wrapper
                       .col-xs-6.text-right
-                        = label :description, 'Description'
+                        = label :description, t('risk_assessments._attr.description')
                       .col-xs-6
                         = f.input :description, label: false
 

@@ -19,7 +19,7 @@ export default (props) => {
       assessment_date, protection_concern, other_protection_concern_specification, client_perspective, has_known_chronic_disease,
       has_disability, has_hiv_or_aid, known_chronic_disease_specification, disability_specification, hiv_or_aid_specification,
       relevant_referral_information, level_of_risk, history_of_disability_id, history_of_harm_id, history_of_high_risk_behaviour_id,
-      history_of_family_separation_id, tasks_attributes: tasks
+      history_of_family_separation_id, labels, tasks_attributes: tasks
     }
   } = props
 
@@ -55,10 +55,10 @@ export default (props) => {
   ];
 
   const levelOfRisk = [
-    { label: 'High', value: 'high'},
-    { label: 'Medium', value: 'medium'},
-    { label: 'Low', value: 'low'},
-    { label: 'No Action', value: 'no action'},
+    { label: labels.level_of_risks.high, value: 'high'},
+    { label: labels.level_of_risks.medium, value: 'medium'},
+    { label: labels.level_of_risks.low, value: 'low'},
+    { label: labels.level_of_risks.no_action, value: 'no action'},
   ]
 
   const onLevelOfRiskSelected = (e) => {
@@ -76,7 +76,7 @@ export default (props) => {
       <legend>
         <div className="row">
           <div className="col-xs-6">
-            <p>Protection Concern</p>
+            <p>{labels.protection_concern}</p>
 
           </div>
         </div>
@@ -84,9 +84,9 @@ export default (props) => {
       <div className="row">
         <div className="col-md-12 col-lg-5">
           <DateInput
-            T={'Assessment Date'}
+            T={labels.assessment_date}
             isError={false}
-            label={"Assessment Date"}
+            label={labels.assessment_date}
             value={assessment_date}
             onChange={onChange("riskAssessment", "assessment_date")}
             />
@@ -97,7 +97,7 @@ export default (props) => {
           <SelectInput
             isError={false}
             isMulti
-            label={"Protection Concern"}
+            label={labels.protection_concern}
             asGroup
             options={protectionConcerns}
             value={protection_concern}
@@ -106,7 +106,7 @@ export default (props) => {
         </div>
         <div className="col-xs-12 col-md-6 col-lg-6">
           <TextInput
-            label={"If other, please specify"}
+            label={labels.if_other}
             onChange={onChange("riskAssessment", "other_protection_concern_specification")}
             value={other_protection_concern_specification}
           />
@@ -116,7 +116,7 @@ export default (props) => {
         <div className="col-md-12 col-lg-6">
           <SelectInput
             isError={false}
-            label={"Level of Risk"}
+            label={labels.level_of_risk}
             options={levelOfRisk}
             value={level_of_risk}
             onChange={onLevelOfRiskSelected}
@@ -126,7 +126,7 @@ export default (props) => {
       <div className="row">
         <div className="col-xs-12">
           <TextArea
-            label={"Client’s perspective on their problem and needs"}
+            label={labels.client_perspective}
             onChange={onChange("riskAssessment", "client_perspective")}
             value={client_perspective}
           />
@@ -136,7 +136,7 @@ export default (props) => {
         <div className="col-xs-12 col-md-6">
           <RadioGroup
             inline
-            label={"Does client have a known chronic disease?"}
+            label={labels.has_known_chronic_disease}
             options={yesNoOpts}
             onChange={onChange("riskAssessment", "has_known_chronic_disease")}
             value={has_known_chronic_disease}
@@ -145,7 +145,7 @@ export default (props) => {
         <div className="col-xs-12 col-md-6 col-lg-6">
           <TextInput
             inline
-            label={"If yes, please specify"}
+            label={labels.if_yes}
             onChange={onChange("riskAssessment", "known_chronic_disease_specification")}
             value={known_chronic_disease_specification}
           />
@@ -155,7 +155,7 @@ export default (props) => {
         <div className="col-xs-12 col-md-6">
           <RadioGroup
             inline
-            label={"Does client have disability?"}
+            label={labels.has_disability}
             options={yesNoOpts}
             onChange={onChange("riskAssessment", "has_disability")}
             value={has_disability}
@@ -164,7 +164,7 @@ export default (props) => {
         <div className="col-xs-12 col-md-6 col-lg-6">
           <TextInput
             inline
-            label={"If yes, please specify"}
+            label={labels.if_yes}
             onChange={onChange("riskAssessment", "disability_specification")}
             value={disability_specification}
           />
@@ -174,16 +174,16 @@ export default (props) => {
         <div className="col-xs-12 col-md-6">
           <RadioGroup
             inline
-            label={"Does client have HIV/AID?"}
+            label={labels.has_hiv_or_aid}
             options={yesNoOpts}
-            onChange={onChange("riskAssessment", "hiv_or_aid_specification")}
+            onChange={onChange("riskAssessment", "has_hiv_or_aid")}
             value={has_hiv_or_aid}
           />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-6">
           <TextInput
             inline
-            label={"Immediate Recomme ndation"}
+            label={labels.hiv_or_aid_specification}
             onChange={onChange("riskAssessment", "hiv_or_aid_specification")}
             value={hiv_or_aid_specification}
           />
@@ -194,7 +194,7 @@ export default (props) => {
           <SelectInput
             inline
             isError={false}
-            label={"History of disability and/or illness"}
+            label={labels.history_of_disability_id}
             options={historyOfDisabilities}
             value={history_of_disability_id}
             onChange={onChange("riskAssessment", "history_of_disability_id")}
@@ -206,7 +206,7 @@ export default (props) => {
           <SelectInput
             inline
             isError={false}
-            label={"History of Harm"}
+            label={labels.history_of_harm_id}
             options={historyOfHarms}
             value={history_of_harm_id}
             onChange={onChange("riskAssessment", "history_of_harm_id")}
@@ -218,7 +218,7 @@ export default (props) => {
           <SelectInput
             inline
             isError={false}
-            label={"History of high-risk behaviours"}
+            label={labels.history_of_high_risk_behaviour_id}
             options={historyOfHighRiskBehaviours}
             value={history_of_high_risk_behaviour_id}
             onChange={onChange("riskAssessment", "history_of_high_risk_behaviour_id")}
@@ -230,7 +230,7 @@ export default (props) => {
           <SelectInput
             inline
             isError={false}
-            label={"Reason for Family Separation"}
+            label={labels.history_of_family_separation_id}
             options={reasonForFamilySeparations}
             value={history_of_family_separation_id}
             onChange={onChange("riskAssessment", "history_of_family_separation_id")}
@@ -240,7 +240,7 @@ export default (props) => {
       <div className="row">
         <div className="col-xs-12">
           <TextArea
-            label={"Relevant Referral Information"}
+            label={labels.relevant_referral_information}
             onChange={onChange("riskAssessment", "relevant_referral_information")}
             value={relevant_referral_information}
           />
@@ -251,7 +251,7 @@ export default (props) => {
           <legend>
             <div className="row">
               <div className="col-xs-12">
-                <p>Tasks</p>
+                <p>{labels.task}</p>
 
               </div>
             </div>
@@ -261,11 +261,11 @@ export default (props) => {
               {
                 tasks.filter(task => task._destroy === undefined ).map((task, index) => {
                   return (
-                    <TaskList task={task} deleteTask={deleteTask} key={`task-${index}`} index={index} />
+                    <TaskList labels={labels} task={task} deleteTask={deleteTask} key={`task-${index}`} index={index} />
                   )
                 })
               }
-              <TaskForm createTask={createTask} isError={isError} setIsError={setIsError} />
+              <TaskForm labels={labels} createTask={createTask} isError={isError} setIsError={setIsError} />
             </div>
           </div>
         </div>

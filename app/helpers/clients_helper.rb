@@ -43,6 +43,10 @@ module ClientsHelper
       isRiskAssessmentEnabled: current_setting.enabled_risk_assessment,
       riskAssessment: {
         **@risk_assessment.try(:attributes).try(:symbolize_keys) || {},
+        labels: {
+          **I18n.t('risk_assessments._attr'),
+          **I18n.t('tasks')
+        },
         tasks_attributes: @risk_assessment.try(:tasks) || []
       }
     }

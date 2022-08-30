@@ -5928,6 +5928,43 @@ km:
       successfully_updated: Service has been successfully updated.
   referral_details: ព័ត៌មានលំអិតនៃការបញ្ជូន
   results: លទ្ធផល
+  risk_assessments:
+    _attr: &SA_ATTR
+      add_task: បន្ថែមកាតព្វកិច្ច
+      assessment_date: ពិន្ទុសុខុមាលភាពអតិថិជន
+      category: ប្រភេទ
+      child_wellbeing: សុខុមាលភាពអតិថិជន
+      client_perspective: ទស្សនៈអតិថិជនលើបញ្ហា និងតម្រូវការរបស់គាត់
+      client_status_index: ការប៉ាន់ប្រមាណ CSI
+      date: កាលបរិច្ចេទរំពឹងទុក
+      description: ការពិពណ៌នា
+      guidance: ការណែនាំ
+      has_disability: តើអតិថិជនមានពិការភាពដែរឬទេ?
+      has_hiv_or_aid: តើកុមារមានផ្ទុកមេរោគ/ជង្ងឺអេដស៏?
+      has_known_chronic_disease: តើអតិថិជនមានជម្ងឺរ៉ាំរ៉ៃដែរឬទេ?
+      history_of_disability_id: កុមារមានជំងឺរ៉ាំរ៉ែ និង/ឬពិការភាព
+      history_of_harm_id: ការបង្កទុក្ខទោស និងការកេងប្រវ័ញ្ច
+      history_of_high_risk_behaviour_id: ការបំពានគ្រឿងញៀនឬគ្រឿងស្រវឹង និងល្បែងស៊ីសង
+      history_of_family_separation_id: ការបែកចេញពីគ្រួសារ
+      hiv_or_aid_specification: ការណែនាំបន្ទាន់
+      if_other: ប្រសិនជ្រើស ផ្សេងៗ សូមបញ្ជាក់
+      if_yes: ប្រសិន បាទ/ចាស សូមបញ្ជាក់
+      level_of_risk: កម្រិតហានិភ័យ
+      level_of_risks:
+        high: ខ្ពស់
+        medium: ធម្យម
+        low: ទាប
+        no_action: គ្មានសកម្មភាព
+      overall_client_wellbeing_score: ពិន្ទុសុខុមាលភាពអតិថិជនសរុប
+      protection_concern: បញ្ហាដែលជាកង្វល់
+      relevant_referral_information: ព័ត៌មានសំខាន់ៗដែលពាក់ព័ន្ធ
+      risk: ហានិភ័យ
+      risk_assessment: ការប៉ាន់ប្រមាណហានិភ័យ
+      risk_level_history: ប្រវត្តិកម្រិតហានិភ័យ
+      score: ពិន្ទុ
+      select_assessment_tool: ជ្រើសរើសឧបករណ៍សម្រាប់ការប៉ាន់ប្រមាណសុខុមាលភាពកុមារ
+      task: កាតព្វកិច្ច
+
   screening_assessments:
     _attr: &SA_ATTR
       add_new: បន្ថែមការប៉ាន់ប្រមាណបឋម
@@ -6177,6 +6214,7 @@ km:
     update:
       successfully_updated: ការស្ទង់មតិត្រូវបានកែសម្រួលដោយជោគជ័យ
   tasks:
+    add_task: បន្ថែមកាតព្វកិច្ច
     add_task_progress_note: បន្ថែមការពិព៌ណនាអំពីជំនួប
     completion_date: កាលបរិច្ឆេទបញ្ចប់
     expected_date: កាលបរិច្ឆេទរំពឹងទុក
@@ -6195,6 +6233,7 @@ km:
       upcoming_tasks: កាតព្វកិច្ចបន្ទាប់
     task: កាតព្វកិច្ច
     task_added: កាតព្វកិច្ចបានបន្ថែមហើយ
+    title: ឈ្មោះកាតព្វកិច្ច
   thredded:
     content_moderation_states:
       content_blocked_notice: ត្រូវបានបិទ

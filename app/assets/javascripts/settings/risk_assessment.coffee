@@ -7,19 +7,23 @@ CIF.SettingsRisk_assessment = do ->
   _initICheckBox = ->
     if $('#setting_enabled_risk_assessment').is(':checked')
       $('#assessment-type-name').show()
+      $('#guidance').show()
     else
       $(".domain-checkbox-wrapper").hide()
       $('#assessment-type-name').hide()
+      $('#guidance').hide()
 
     $('.i-checks').iCheck(
       checkboxClass: 'icheckbox_square-green'
       radioClass: 'iradio_square-green'
     ).on('ifChecked', ->
       $('#assessment-type-name').show()
+      $('#guidance').show()
       _showHideDomainCheckBox($('#setting_assessment_type_name:visible').val())
     ).on 'ifUnchecked', ->
       $(".domain-checkbox-wrapper").hide()
       $('#assessment-type-name').hide()
+      $('#guidance').hide()
 
   _handleSettingAssessmentTypeNameChange = ->
     $(".domain-checkbox-wrapper").hide()

@@ -6054,6 +6054,39 @@ my:
       successfully_updated: Service has been successfully updated.
   referral_details: Referral Details
   results: Results
+  risk_assessments:
+    _attr: &SA_ATTR
+      assessment_date: Date of risk assessment
+      category: Category
+      child_wellbeing: "Child's Wellbeing"
+      client_perspective: "Client’s perspective on their problem and needs"
+      client_status_index: Client Status Index
+      description: Description
+      guidance: Guidance
+      has_disability: Does client have disability?
+      has_hiv_or_aid: Does client have HIV/AID?
+      has_known_chronic_disease: Does client have a known chronic disease?
+      history_of_disability_id: History of disability and/or illness
+      history_of_harm_id: History of Harm
+      history_of_high_risk_behaviour_id: History of high-risk behaviours
+      history_of_family_separation_id: Reason for Family Separation
+      hiv_or_aid_specification: Immediate Recommendation
+      if_other: If other, please specify
+      if_yes: If yes, please specify
+      level_of_risk: Level of Risk
+      level_of_risks:
+        high: High
+        medium: Medium
+        low: Low
+        no_action: No Action
+      overall_client_wellbeing_score: Overall Client’s Wellbeing Score
+      protection_concern: Protection Concern
+      relevant_referral_information: Relevant Referral Information
+      risk: Risk
+      risk_assessment: Risk Assessment
+      risk_level_history: Risk Level History
+      score: Score
+      select_assessment_tool: "Select Assessment Tool for Client’s Wellbeing"
   screening_assessments:
     _attr: &SA_ATTR
       add_new: Add New Screening Assessment
@@ -6304,6 +6337,7 @@ my:
     update:
       successfully_updated: စစ္တမ္းကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ျဖည့္စြက္ၿပီးပါၿပီ
   tasks:
+    add_task: Add Task
     add_task_progress_note: Add progress notes and next steps
     completion_date: ၿပီးစီးသည့္ ရက္စြဲ
     expected_date:  မျှော်လင့်ထားသည့်နေ့စွဲ မျှော်လင့်ထားသည့်နေ့စွဲ

@@ -5839,10 +5839,6 @@ en:
       bad_credentials_supplied: Bad Credentials Supplied.
       your_account_needs_to_supply_a_verification_code: Your account needs to supply a verification code.
   settings:
-    _attr: &SETTING_ATTR
-      assessment_type_name: "Select Assessment Tool for Client’s Wellbeing"
-      client_status_index: Client Status Index
-      risk_assessment: Risk Assessment
     assessment_setting:
       age: age
       assessment: Customized Assessment Frequency Settings
@@ -5973,9 +5969,37 @@ en:
   results: Results
   risk_assessments:
     _attr: &SA_ATTR
-      level_of_risk: Level
+      assessment_date: Date of risk assessment
+      category: Category
+      child_wellbeing: "Child's Wellbeing"
+      client_perspective: "Client’s perspective on their problem and needs"
+      client_status_index: Client Status Index
+      description: Description
+      guidance: Guidance
+      has_disability: Does client have disability?
+      has_hiv_or_aid: Does client have HIV/AID?
+      has_known_chronic_disease: Does client have a known chronic disease?
+      history_of_disability_id: History of disability and/or illness
+      history_of_harm_id: History of Harm
+      history_of_high_risk_behaviour_id: History of high-risk behaviours
+      history_of_family_separation_id: Reason for Family Separation
+      hiv_or_aid_specification: Immediate Recommendation
+      if_other: If other, please specify
+      if_yes: If yes, please specify
+      level_of_risk: Level of Risk
+      level_of_risks:
+        high: High
+        medium: Medium
+        low: Low
+        no_action: No Action
+      overall_client_wellbeing_score: Overall Client’s Wellbeing Score
       protection_concern: Protection Concern
+      relevant_referral_information: Relevant Referral Information
+      risk: Risk
       risk_assessment: Risk Assessment
+      risk_level_history: Risk Level History
+      score: Score
+      select_assessment_tool: "Select Assessment Tool for Client’s Wellbeing"
   screening_assessments:
     _attr: &SA_ATTR
       add_new: Add New Assessment
@@ -6226,6 +6250,7 @@ en:
     update:
       successfully_updated: Survey has been successfully updated.
   tasks:
+    add_task: Add Task
     add_task_progress_note: Add progress notes and next steps
     completion_date: Completion Date
     expected_date: Expected Date
@@ -6245,6 +6270,7 @@ en:
       upcoming_tasks: Upcoming Tasks
     task: Task
     task_added: Task Added
+    title: Title
   thredded:
     content_moderation_states:
       content_blocked_notice: Blocked
