@@ -1342,10 +1342,10 @@ module AdvancedSearches
           clients = clients.joins(assessments: :domains)
           clients = clients.where("domains.custom_assessment_setting_id IN (#{assessmentId})").distinct
           clients.each do |client|
-            custom_assessments = client.assessments.customs.most_recents.joins(:domains).where(domains: { custom_assessment_setting_id: assessmentId })
+            custom_assessments = client.assessments.customs.most_recents.joins(:domains).where(domains: { custom_assessment_setting_id: assessmentId }).distinct
             last_assessment = custom_assessments.first
             first_assessment = custom_assessments.last
-            if (custom_assessments.length > 1)
+            if (custom_assessments.size > 1)
               client_ids << client.id if assessment_total_score(last_assessment, domains).public_send(compare, assessment_total_score(first_assessment, domains))
             end
           end
@@ -1377,10 +1377,10 @@ module AdvancedSearches
           clients = clients.joins(assessments: :domains)
           clients = clients.where("domains.custom_assessment_setting_id IN (#{assessmentId})").distinct
           clients.each do |client|
-            custom_assessments = client.assessments.customs.most_recents.joins(:domains).where(domains: { custom_assessment_setting_id: assessmentId })
+            custom_assessments = client.assessments.customs.most_recents.joins(:domains).where(domains: { custom_assessment_setting_id: assessmentId }).distinct
             last_assessment = custom_assessments.first
-            next_assessment = custom_assessments.length > 1 ? custom_assessments.fetch(1) : last_assessment
-            if (custom_assessments.length > 1)
+            next_assessment = custom_assessments.size > 1 ? custom_assessments.fetch(1) : last_assessment
+            if (custom_assessments.size > 1)
               client_ids << client.id if assessment_total_score(last_assessment, domains).public_send(compare, assessment_total_score(next_assessment, domains))
             end
           end
