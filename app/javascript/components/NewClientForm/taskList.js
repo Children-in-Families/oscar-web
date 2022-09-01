@@ -1,26 +1,51 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   DateInput,
   TextInput,
 } from "../Commons/inputs";
-import T from 'i18n-react'
 
 export default (props) => {
   const {
-    task, deleteTask, index, labels
+    tasks, task, setNewTasks, setRiskAssessmentData, deleteTask, index, labels
   } = props
+
+  const [name, setName] = useState(task.name)
+  const [expectedDate, setExpectedDate] = useState(task.expected_date)
+
+  useEffect(() => {
+    let newTasks = []
+    if (name || expectedDate) {
+      if (task.id) {
+        newTasks = tasks.map(obj =>
+          obj.id === task.id ? { ...obj, name: name, expected_date: expectedDate } : obj
+        );
+        setNewTasks(newTasks)
+        setRiskAssessmentData(prev => ({...prev, tasks_attributes: newTasks}))
+      } else {
+        const newTask = tasks.splice(index, 1)[0] || {}
+        newTask.name = name
+        newTask.expected_date = expectedDate
+
+        newTasks = [...tasks, newTask]
+        setNewTasks(newTasks)
+        setRiskAssessmentData(prev => ({...prev, tasks_attributes: newTasks}))
+      }
+    }
+
+  }, [name, expectedDate])
+
+  const handleChange = (e) => {
+    if (e.type === 'date')
+      setExpectedDate(e.data)
+    else
+      setName(e.target.value)
+
+  }
 
   const handleRemoveTask = index => {
     let isYes = confirm("Are you sure to delete task?");
     if (isYes)
       deleteTask(index)
-  }
-
-  const onChange = (e) => {
-    if (e.type === 'date')
-      task.expected_date = e.data
-    else
-      task.name = e.target.value
   }
 
   return (
@@ -34,8 +59,8 @@ export default (props) => {
           :
           <TextInput
             label={labels.title}
-            onChange={onChange}
-            value={task.name}
+            onChange={handleChange}
+            value={name}
           />
         }
 
@@ -49,8 +74,8 @@ export default (props) => {
           <DateInput
             isError={false}
             label={labels.expected_date}
-            value={task.expected_date}
-            onChange={onChange}
+            value={expectedDate}
+            onChange={handleChange}
           />
         }
       </div>

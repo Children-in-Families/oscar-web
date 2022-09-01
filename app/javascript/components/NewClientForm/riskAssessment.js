@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   SelectInput,
   DateInput,
@@ -7,8 +7,6 @@ import {
   TextArea,
 } from "../Commons/inputs";
 import T from 'i18n-react'
-import { t } from "../../utils/i18n";
-import TaskForm from "./taskForm";
 import TaskList from "./taskList";
 
 export default (props) => {
@@ -24,28 +22,27 @@ export default (props) => {
   } = props
 
   const [riskLevel, setRiskLevel] = useState(level_of_risk === 'high')
+  const [newTasks, setNewTasks] = useState(tasks)
 
   const createTask = (task) => {
-    const newTasks = [...tasks, { ...task, complete: false }];
-
+    setNewTasks(prev => [...prev, { ...task, complete: false }])
     setRiskAssessmentData(prev => ({...prev, tasks_attributes: newTasks}))
     setIsError(false)
   };
 
   const deleteTask = (index) => {
-    const newTasks = [...tasks]
-    const removedTask = newTasks.splice(index, 1)
-
-    const updatedTasks = tasks.map( task => {
-      if (task.id === removedTask[0].id || task.id === undefined)
+    const removedTask = newTasks.find((element, elementIndex) => elementIndex === index && element  ) || {}
+    const updatedTasks = newTasks.map((task, taskIndex) => {
+      if (task.id && (task.id === removedTask.id) || taskIndex === index)
         return {
-          id: removedTask[0].id,
+          id: removedTask.id,
           _destroy: true
         }
       else
         return task
     })
 
+    setNewTasks(updatedTasks)
     setRiskAssessmentData(prev => ({...prev, tasks_attributes: updatedTasks}))
   }
 
@@ -70,6 +67,10 @@ export default (props) => {
     setRiskAssessmentData(prev => ({...prev, level_of_risk: e.data}))
   }
 
+  const handleAppendTasks = e => {
+    e.preventDefault();
+    createTask({name: '', expected_date: null, complete: false})
+  }
 
   return (
     <div className="containerClass">
@@ -259,13 +260,33 @@ export default (props) => {
           <div className="row">
             <div className="col-xs-12 col-md-10">
               {
-                tasks.filter(task => task._destroy === undefined ).map((task, index) => {
+                (newTasks[0] ? newTasks : [{name: '', expected_date: null}]).filter(task => task._destroy === undefined ).map((task, index) => {
                   return (
-                    <TaskList labels={labels} task={task} deleteTask={deleteTask} key={`task-${index}`} index={index} />
+                    <TaskList
+                      labels={labels}
+                      task={task}
+                      tasks={newTasks}
+                      setNewTasks={setNewTasks}
+                      setRiskAssessmentData={setRiskAssessmentData}
+                      deleteTask={deleteTask}
+                      key={`task-${index}`} index={index}
+                    />
                   )
                 })
               }
-              <TaskForm labels={labels} createTask={createTask} isError={isError} setIsError={setIsError} />
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-xs-10 col-md-10">
+              <div className="row">
+                <div className="col-xs-10 col-md-10"></div>
+                <div className="col-xs-10 col-md-2">
+                  <button
+                    className="btn btn-primary"
+                    onClick={handleAppendTasks}
+                  >{labels.add_task}</button>
+                </div>
+              </div>
             </div>
           </div>
         </div>

@@ -294,7 +294,6 @@ const Forms = props => {
       if ((step + stepIndex) === (fieldsVisibility.show_legal_doc == true ? 6 : 5))
         $('#save-btn-help-text').show()
     }
-
   }
 
   const checkClientExist = () => callback => {
@@ -417,7 +416,7 @@ const Forms = props => {
         formData = objectToFormData(clientQuantitativeFreeTextCasesData, [], formData, 'client_quantitative_free_text_cases')
         formData = objectToFormData(moSAVYOfficialsData, {}, formData, 'mosavy_officials')
         formData = objectToFormData(riskAssessmentData, {}, formData, 'risk_assessment')
-        console.log(formData.values);
+
         $.ajax({
           url,
           type: action,
