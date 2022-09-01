@@ -1296,23 +1296,29 @@ module AdvancedSearches
 
         if assessmentId == 0
           clients = clients.where("assessments.default = true").distinct
+          domains = Domain.csi_domains
           clients.each do |client|
             last_assessment = client.assessments.defaults.most_recents.first
             first_assessment = client.assessments.defaults.most_recents.last
             if (client.assessments.defaults.length > 1)
-              client_ids << client.id if assessment_total_score(last_assessment).public_send(compare, assessment_total_score(first_assessment))
+              client_ids << client.id if assessment_total_score(last_assessment, domains).public_send(compare, assessment_total_score(first_assessment, domains))
             end
           end
         else
-          clients = clients.joins(assessments: :domains)
-          clients = clients.where("domains.custom_assessment_setting_id IN (#{assessmentId})").distinct
-          clients.each do |client|
-            custom_assessments = client.assessments.customs.most_recents.joins(:domains).where(domains: { custom_assessment_setting_id: assessmentId })
-            last_assessment = custom_assessments.first
-            first_assessment = custom_assessments.last
-            if (custom_assessments.length > 1)
-              client_ids << client.id if assessment_total_score(last_assessment).public_send(compare, assessment_total_score(first_assessment))
-            end
+          assessments = Assessment.completed.joins(:domains).where(client_id: clients.ids).where("domains.custom_assessment_setting_id IN (#{assessmentId})").distinct
+        
+          assessments.group_by { |assessment| assessment.client_id }.each do |client_id, _assessments|
+            next if _assessments.size < 2
+
+            first_assessment = _assessments.sort_by(&:id).first
+            last_assessment = _assessments.sort_by(&:id).last
+
+            first_assessment_domain_scores = first_assessment.assessment_domains.pluck(:score).sum.to_f
+            last_assessment_domain_scores = last_assessment.assessment_domains.pluck(:score).sum.to_f
+
+            first_average_score = (first_assessment_domain_scores / first_assessment.assessment_domains.size).round
+            last_average_score = (last_assessment_domain_scores / last_assessment.assessment_domains.size).round
+            client_ids  << client_id if last_average_score.public_send(compare, first_average_score)
           end
         end
       end
@@ -1328,39 +1334,46 @@ module AdvancedSearches
         assessmentId = assessments.first
         
         if assessmentId == 0
+          domains = Domain.csi_domains
           clients = clients.where("assessments.default = true").distinct
           clients.each do |client|
             last_assessment = client.assessments.defaults.most_recents.first
             next_assessment = client.assessments.defaults.length > 1 ? client.assessments.defaults.most_recents.fetch(1) : last_assessment
             if (client.assessments.defaults.length > 1)
-              client_ids << client.id if assessment_total_score(last_assessment).public_send(compare, assessment_total_score(next_assessment))
+              client_ids << client.id if assessment_total_score(last_assessment, domains).public_send(compare, assessment_total_score(next_assessment, domains))
             end
           end
         else
-          clients = clients.joins(assessments: :domains)
-          clients = clients.where("domains.custom_assessment_setting_id IN (#{assessmentId})").distinct
-          clients.each do |client|
-            custom_assessments = client.assessments.customs.most_recents.joins(:domains).where(domains: { custom_assessment_setting_id: assessmentId })
-            last_assessment = custom_assessments.first
-            next_assessment = custom_assessments.length > 1 ? custom_assessments.fetch(1) : last_assessment
-            if (custom_assessments.length > 1)
-              client_ids << client.id if assessment_total_score(last_assessment).public_send(compare, assessment_total_score(next_assessment))
-            end
+          assessments = Assessment.completed.joins(:domains).where(client_id: clients.ids).where("domains.custom_assessment_setting_id IN (#{assessmentId})").distinct
+        
+          assessments.group_by { |assessment| assessment.client_id }.each do |client_id, _assessments|
+            next if _assessments.size < 2
+
+            before_last_assessment = _assessments.sort_by(&:id).fetch(_assessments.size - 2)
+            last_assessment = _assessments.sort_by(&:id).last
+
+            before_last_assessment_domain_scores = before_last_assessment.assessment_domains.pluck(:score).sum.to_f
+            last_assessment_domain_scores = last_assessment.assessment_domains.pluck(:score).sum.to_f
+
+            before_last_assessment_average_score = (before_last_assessment_domain_scores / before_last_assessment.assessment_domains.size).round
+            last_average_score = (last_assessment_domain_scores / last_assessment.assessment_domains.size).round
+            client_ids  << client_id if last_average_score.public_send(compare, before_last_assessment_average_score)
           end
         end
       end
       client_ids
     end
 
-    def assessment_total_score(assessment)
+    def assessment_total_score(assessment, domains)
       assessment_domain_hash = AssessmentDomain.where(assessment_id: assessment.id).pluck(:domain_id, :score).to_h if assessment.assessment_domains.present?
+      domain_scores = domains.ids.map { |domain_id| assessment_domain_hash.present? ? ["domain_#{domain_id}", assessment_domain_hash[domain_id]] : ["domain_#{domain_id}", ''] }
       total = 0
       if assessment_domain_hash.present?
         assessment_domain_hash.each do |index, value|
           total += value.nil? ? 0 : value
         end
       end
-      total
+      (total.fdiv(domain_scores.length())).round()
     end
 
     def incomplete_care_plan_query
