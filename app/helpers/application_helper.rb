@@ -432,16 +432,20 @@ module ApplicationHelper
 
   def mapping_ngos(ngos)
     if controller_name == 'clients'
-      ExternalSystem.all.each.map{ |external_system| ngos << [external_system.name, "external referral"] }
+      ExternalSystem.all.each.map{ |external_system| ngos << [external_system.name, "external referral"] } if is_ngo_share_to_external?
       ngos << ["I don't see the NGO I'm looking for...", "external referral"]
     elsif controller_name == 'family_referrals'
-      ngos << ["MoSVY External System", "MoSVY External System"]
+      ngos << ["MoSVY External System", "MoSVY External System"] if is_ngo_share_to_external?
       ngos << ["I don't see the NGO I'm looking for...", "external referral", disabled: @referral&.referred_to != 'external referral']
     else
-      ngos << ["MoSVY External System", "MoSVY External System", disabled: @referral&.referred_to != 'external referral']
+      ngos << ["MoSVY External System", "MoSVY External System", disabled: @referral&.referred_to != 'external referral'] if is_ngo_share_to_external?
       ngos << ["I don't see the NGO I'm looking for...", "external referral", disabled: @referral&.referred_to != 'external referral']
     end
     ngos
+  end
+
+  def is_ngo_share_to_external?
+    current_organization.integrated?
   end
 
   def initial_referral_date_picker_format(entity)
