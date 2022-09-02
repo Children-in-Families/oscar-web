@@ -1270,28 +1270,44 @@ module AdvancedSearches
           clientIds = clientIds & tmpClientIds
         end
       end
-      clients = @clients.joins(:client_enrollments).where(:id => clientIds).distinct
+      # clients = @clients.joins(:client_enrollments).where(:id => clientIds).distinct
+
+      condition = ''
+      start_date = @value.kind_of?(Array) ? @value[0].to_date : @value.to_date
 
       case @operator
       when 'equal'
-        client_ids = clients.where('date(client_enrollments.enrollment_date) = ?', @value.to_date ).distinct.ids
+        condition = "date(client_enrollments.enrollment_date) = '#{start_date}'"
       when 'not_equal'
-        client_ids = clients.where('date(client_enrollments.enrollment_date) != ?', @value.to_date ).distinct.ids
+        condition = "date(client_enrollments.enrollment_date) != '#{start_date}'"
       when 'between'
-        client_ids = active_client_program_between(@value[0].to_date, @value[1].to_date, clientIds)
+        condition = "date(client_enrollments.enrollment_date) <= #{@value[1].to_date}"
       when 'less'
-        client_ids = clients.where('date(client_enrollments.enrollment_date) < ?', @value.to_date ).distinct.ids
+        condition = "date(client_enrollments.enrollment_date) < '#{start_date}'"
       when 'less_or_equal'
-        client_ids = clients.where('date(client_enrollments.enrollment_date) <= ?', @value.to_date ).distinct.ids
+        condition = "date(client_enrollments.enrollment_date) <= '#{start_date}'"
       when 'greater'
-        client_ids = clients.where('date(client_enrollments.enrollment_date) > ?', @value.to_date ).distinct.ids
+        condition = "date(client_enrollments.enrollment_date) > '#{start_date}'"
       when 'greater_or_equal'
-        client_ids = clients.where('date(client_enrollments.enrollment_date) >= ?', @value.to_date ).distinct.ids
+        condition = "date(client_enrollmeenrollment_datents.enrollment_date) >= '#{start_date}'"
       when 'is_empty'
-        client_ids = clients.where('client_enrollments.enrollment_date IS NULL').distinct.ids
+        condition = "client_enrollments.enrollment_date IS NULL"
       when 'is_not_empty'
-        client_ids = clients.where('client_enrollments.enrollment_date IS NOT NULL').distinct.ids
+        condition = "client_enrollments.enrollment_date IS NOT NULL"
       end
+
+      enrollments = ClientEnrollment.where(:client_id => clientIds).where(condition)
+      client_ids = []
+      enrollments.each do |enrollment|
+        if enrollment.leave_program.present? && start_date != nil
+          exit_date = enrollment.leave_program.exit_date
+          client_ids << enrollment.client_id if exit_date >= start_date
+        else
+          client_ids << enrollment.client_id
+        end
+      end
+      client_ids
+
       clients = client_ids.present? ? client_ids : []
     end
 
