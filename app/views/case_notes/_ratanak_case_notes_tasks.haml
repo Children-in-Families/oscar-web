@@ -1,0 +1,96 @@
+.row
+  - if cdg.completed_tasks.any?
+    .col-xs-12.col-sm-6
+      .panel.panel-default
+        .panel-heading
+          %h4= t('.completed_tasks')
+        .panel-body.no-padding
+          - if current_setting.disabled_task_date_field
+            %ul.list-group
+              #accordion{"aria-multiselectable" => "true", :role => "tablist"}
+                - cdg.completed_tasks.each_with_index do |task, index|
+                  %a{"aria-controls" => "collapse-#{task.id}", "aria-expanded" => "true", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapse-#{task.id}", :role => "button", style: 'color: #333333;'}
+                    %li.list-group-item
+                      = "#{index + 1}. "
+                      = task.name
+                  .collapse.p-sm{"aria-labelledby" => "TaskProgressNotes", :role => "tabpanel", id: "collapse-#{task.id}"}
+                    - task.task_progress_notes.each do |task_progress_note|
+                      %p= task_progress_note.progress_note
+          - else
+            %table.table.table-borderless
+              %thead
+                %tr
+                  %th
+                    %label{:for => ""}= t('.task')
+                  %th= t('.expected_date')
+                  %th= t('.completion_date')
+              %tbody
+                - cdg.completed_tasks.each_with_index do |task, index|
+                  %tr.accordion-toggle{"data-target" => "#collapse-#{task.id}", "data-toggle" => "collapse"}
+                    %td
+                      = "#{index + 1}. "
+                      = task.name
+                    %td= date_format(task.expected_date)
+                    %td= date_format(task.completion_date)
+                  - if task.task_progress_notes.present?
+                    %tr
+                      %td{ colspan: "3", style: 'padding: 0 !important;' }
+                        .accordian-body.collapse{"aria-labelledby" => "TaskProgressNotes", id: "collapse-#{task.id}"}
+                          - task.task_progress_notes.each do |task_progress_note|
+                            %p.p-sm= task_progress_note.progress_note
+
+  - the_latest_tasks = today_tasks.flatten.uniq
+  - if the_latest_tasks.reject(&:completed).present?
+    .col-xs-12.col-sm-6
+      .panel.panel-default
+        .panel-heading
+          %h4= t('tasks.task_added')
+        .panel-body.no-padding
+          - if current_setting.disabled_task_date_field
+            %ul.list-group
+              - the_latest_tasks.each_with_index do |task, index|
+                %li.list-group-item
+                  = "#{index + 1}. "
+                  = task.name
+          - else
+            %table.table.table-borderless
+              %thead
+                %tr
+                  %th
+                    %label{:for => ""}= t('.task')
+                  %th= t('.expected_date')
+              %tbody
+                - the_latest_tasks.each_with_index do |task, index|
+                  %tr
+                    %td
+                      = "#{index + 1}. "
+                      = task.name
+                      %td= date_format(task.expected_date)
+
+  - ongoing_tasks = case_note_ongoing_tasks(ongoing_tasks)
+  - if ongoing_tasks.reject(&:completed).present?
+    .col-xs-12.col-sm-6
+      .panel.panel-default
+        .panel-heading
+          %h4= t('case_notes.form.on_going_tasks')
+        .panel-body.no-padding
+          - if current_setting.disabled_task_date_field
+            %ul.list-group
+              - ongoing_tasks.each_with_index do |task, index|
+                %li.list-group-item
+                  = "#{index + 1}. "
+                  = task.name
+          - else
+            %table.table.table-borderless
+              %thead
+                %tr
+                  %th
+                    %label{:for => ""}= t('.task')
+                  %th= t('.expected_date')
+              %tbody
+                - ongoing_tasks.each_with_index do |task, index|
+                  %tr
+                    %td
+                      = "#{index + 1}. "
+                      = task.name
+                      %td= date_format(task.expected_date)
