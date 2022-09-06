@@ -1,7 +1,7 @@
 class InternalReferral < ActiveRecord::Base
   extend Enumerize
-
   enumerize :referral_decision, in: ['meet_intake_criteria', 'not_meet_intake_criteria'], scope: true, predicates: true
+  has_paper_trail
 
   mount_uploaders :attachments, ConsentFormUploader
   belongs_to :user, class_name: "User", foreign_key: "user_id"
