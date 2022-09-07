@@ -8,14 +8,17 @@
           - if current_setting.disabled_task_date_field
             %ul.list-group
               #accordion{"aria-multiselectable" => "true", :role => "tablist"}
-                - cdg.completed_tasks.each_with_index do |task, index|
-                  %a{"aria-controls" => "collapse-#{task.id}", "aria-expanded" => "true", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapse-#{task.id}", :role => "button", style: 'color: #333333;'}
+                - cdg.completed_tasks.includes(:task_progress_notes).each_with_index do |task, index|
+                  %a.accordion-toggle.collapsed{"aria-controls" => "collapse-#{task.id}", "aria-expanded" => "true", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapse-#{task.id}", :role => "button", style: 'color: #333333;'}
                     %li.list-group-item
                       = "#{index + 1}. "
                       = task.name
-                  .collapse.p-sm{"aria-labelledby" => "TaskProgressNotes", :role => "tabpanel", id: "collapse-#{task.id}"}
+                      - if task.task_progress_notes.any?
+                        %span.pull-right
+                          %i.glyphicon.glyphicon-chevron-down
+                  .collapse{"aria-labelledby" => "TaskProgressNotes", :role => "tabpanel", id: "collapse-#{task.id}"}
                     - task.task_progress_notes.each do |task_progress_note|
-                      %p= task_progress_note.progress_note
+                      %p.m-l-md= task_progress_note.progress_note
           - else
             %table.table.table-borderless
               %thead
@@ -25,19 +28,23 @@
                   %th= t('.expected_date')
                   %th= t('.completion_date')
               %tbody
-                - cdg.completed_tasks.each_with_index do |task, index|
-                  %tr.accordion-toggle{"data-target" => "#collapse-#{task.id}", "data-toggle" => "collapse"}
+                - cdg.completed_tasks.includes(:task_progress_notes).each_with_index do |task, index|
+                  %tr.accordion-toggle.collapsed{"data-target" => "#collapse-#{task.id}", "data-toggle" => "collapse"}
                     %td
                       = "#{index + 1}. "
                       = task.name
                     %td= date_format(task.expected_date)
-                    %td= date_format(task.completion_date)
-                  - if task.task_progress_notes.present?
+                    %td
+                      = date_format(task.completion_date)
+                      - if task.task_progress_notes.any?
+                        %span.pull-right
+                          %i.glyphicon.glyphicon-chevron-down
+                  - if task.task_progress_notes.any?
                     %tr
                       %td{ colspan: "3", style: 'padding: 0 !important;' }
-                        .accordian-body.collapse{"aria-labelledby" => "TaskProgressNotes", id: "collapse-#{task.id}"}
+                        .accordian-body.collapse{"aria-labelledby" => "TaskProgressNotes", id: "collapse-#{task.id}", style: 'padding-top: 5px;'}
                           - task.task_progress_notes.each do |task_progress_note|
-                            %p.p-sm= task_progress_note.progress_note
+                            %p.m-l-sm= task_progress_note.progress_note
 
   - the_latest_tasks = today_tasks.flatten.uniq
   - if the_latest_tasks.reject(&:completed).present?
