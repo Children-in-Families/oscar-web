@@ -723,9 +723,9 @@ class Client < ActiveRecord::Base
   def self.get_address_by_code(the_address_code)
     char_size = the_address_code&.length
     case char_size
-    when 4
+    when 0..4
       District.get_district(the_address_code)
-    when 6
+    when 4..6
       Commune.get_commune(the_address_code)
     else
       Village.get_village(the_address_code)
@@ -895,7 +895,7 @@ class Client < ActiveRecord::Base
   end
 
   def is_referable_to_external_system?
-    name.squish.blank? || date_of_birth.blank? || gender.blank?
+    name.squish.blank? || date_of_birth.blank? || gender.blank? || province_id.blank?
   end
 
   def self.cached_client_custom_field_properties_count(object, fields_second)

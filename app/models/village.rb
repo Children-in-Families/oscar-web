@@ -23,7 +23,7 @@ class Village < ActiveRecord::Base
   end
 
   def self.get_village(village_code)
-    village = find_by(code: village_code)
+    village = find_by(code: village_code.rjust(8, '0'))
     if village
       { village_id: village.id, commune_id: village.commune&.id, district_id: village.commune.district&.id, province_id: village.commune.district.province&.id }
     else
