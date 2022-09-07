@@ -77,20 +77,20 @@ class ClientEnrollment < ActiveRecord::Base
     end
   end
 
-  def self.cached_client_order_enrollment_date(fields_second)
-    Rails.cache.fetch([Apartment::Tenant.current, 'ClientEnrollment', 'cached_client_order_enrollment_date', *fields_second]) do
+  def self.cached_client_order_enrollment_date(object, fields_second)
+    Rails.cache.fetch([Apartment::Tenant.current, object.class.name, "#{object.id}", 'ClientEnrollment', 'cached_client_order_enrollment_date', *fields_second]) do
       joins(:program_stream).where(program_streams: { name: fields_second }).order(enrollment_date: :desc).first.try(:enrollment_date)
     end
   end
 
-  def self.cached_client_order_enrollment_date_properties(fields_second)
-    Rails.cache.fetch([Apartment::Tenant.current, 'ClientEnrollment', 'cached_client_order_enrollment_date_properties', *fields_second]) do
+  def self.cached_client_order_enrollment_date_properties(object, fields_second)
+    Rails.cache.fetch([Apartment::Tenant.current, object.class.name, "#{object.id}", 'ClientEnrollment', 'cached_client_order_enrollment_date_properties', *fields_second]) do
       joins(:program_stream).where(program_streams: { name: fields_second }).order(enrollment_date: :desc).first.try(:properties)
     end
   end
 
-  def self.cached_client_enrollment_date_join(fields_second)
-    Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_enrollment_date_join', *fields_second]) do
+  def self.cached_client_enrollment_date_join(object, fields_second)
+    Rails.cache.fetch([Apartment::Tenant.current, object.class.name, "#{object.id}", 'cached_client_enrollment_date_join', *fields_second]) do
       joins(:program_stream).where(program_streams: { name: fields_second })
     end
   end
@@ -117,5 +117,8 @@ class ClientEnrollment < ActiveRecord::Base
     cached_client_enrollment_date_join_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_enrollment_date_join/].blank? }
     cached_client_enrollment_date_join_keys.each { |key| Rails.cache.delete(key) }
     Rails.cache.delete(["dashboard", "#{Apartment::Tenant.current}_client_errors"]) if enrollment_date_changed?
+
+    cached_client_enrollment_properties_by_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_enrollment_properties_by/].blank? }
+    cached_client_enrollment_properties_by_keys.each { |key| Rails.cache.delete(key) }
   end
 end

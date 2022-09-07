@@ -1206,16 +1206,16 @@ class ClientGrid < BaseGrid
           end
         elsif fields.first == 'enrollmentdate'
           if data == 'recent'
-            properties = date_format(object.client_enrollments.cached_client_order_enrollment_date(fields.second))
+            properties = date_format(object.client_enrollments.cached_client_order_enrollment_date(object, fields.second))
           else
-            properties = date_filter(object.client_enrollments.cached_client_enrollment_date_join(fields.second), fields.join('__')).map{|date| date_format(date.enrollment_date) }
+            properties = date_filter(object.client_enrollments.cached_client_enrollment_date_join(object, fields.second), fields.join('__')).map{|date| date_format(date.enrollment_date) }
           end
         elsif fields.first == 'enrollment'
           if data == 'recent'
-            properties = object.client_enrollments.cached_client_order_enrollment_date_properties(fields.second)
+            properties = object.client_enrollments.cached_client_order_enrollment_date_properties(object, fields.second)
             properties = properties[format_field_value] if properties.present?
           else
-            properties = object.client_enrollments.cached_client_enrollment_date_join(fields.second).properties_by(format_field_value)
+            properties = object.client_enrollments.cached_client_enrollment_date_join(object, fields.second).properties_by(format_field_value)
           end
         elsif fields.first == 'tracking'
           ids = object.client_enrollments.ids

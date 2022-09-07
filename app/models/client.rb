@@ -1124,14 +1124,6 @@ class Client < ActiveRecord::Base
     cached_client_custom_field_find_by_keys.each { |key| Rails.cache.delete(key) }
     cached_client_custom_field_properties_properties_by_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_custom_field_properties_properties_by/].blank? }
     cached_client_custom_field_properties_properties_by_keys.each { |key| Rails.cache.delete(key) }
-    cached_client_order_enrollment_date_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_order_enrollment_date/].blank? }
-    cached_client_order_enrollment_date_keys.each { |key| Rails.cache.delete(key) }
-    cached_client_enrollment_date_join_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_enrollment_date_join/].blank? }
-    cached_client_enrollment_date_join_keys.each { |key| Rails.cache.delete(key) }
-    cached_client_order_enrollment_date_properties_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_order_enrollment_date_properties/].blank? }
-    cached_client_order_enrollment_date_properties_keys.each { |key| Rails.cache.delete(key) }
-    cached_client_enrollment_properties_by_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_enrollment_properties_by/].blank? }
-    cached_client_enrollment_properties_by_keys.each { |key| Rails.cache.delete(key) }
   end
 
   def update_referral_status_on_target_ngo
