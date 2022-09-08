@@ -1230,35 +1230,50 @@ module AdvancedSearches
     def active_client_program_query
       clientIds = []
       JSON.parse($param_rules[:program_selected]).each do |program|
-        tmpClientIds = @clients.joins(:client_enrollments).where(:client_enrollments => {:status => 'Active', :program_stream_id => program}).pluck(:id)
+        tmpClientIds = @clients.joins(:client_enrollments).where(:client_enrollments => {:status => 'Active', :program_stream_id => program}).ids
         if clientIds.empty?
           clientIds = tmpClientIds
         else
           clientIds = clientIds & tmpClientIds
         end
       end
-      clients = @clients.joins(:client_enrollments).where(:id => clientIds).distinct
+
+      condition = ''
+      start_date = @value.kind_of?(Array) ? @value[0].to_date : @value.to_date
 
       case @operator
       when 'equal'
-        client_ids = clients.where('date(client_enrollments.enrollment_date) = ?', @value.to_date ).distinct.ids
+        condition = "date(client_enrollments.enrollment_date) = '#{start_date}'"
       when 'not_equal'
-        client_ids = clients.where('date(client_enrollments.enrollment_date) != ?', @value.to_date ).distinct.ids
+        condition = "date(client_enrollments.enrollment_date) != '#{start_date}'"
       when 'between'
-        client_ids = active_client_program_between(@value[0].to_date, @value[1].to_date, clientIds)
+        condition = "date(client_enrollments.enrollment_date) <= '#{@value[1].to_date}'"
       when 'less'
-        client_ids = clients.where('date(client_enrollments.enrollment_date) < ?', @value.to_date ).distinct.ids
+        condition = "date(client_enrollments.enrollment_date) < '#{start_date}'"
       when 'less_or_equal'
-        client_ids = clients.where('date(client_enrollments.enrollment_date) <= ?', @value.to_date ).distinct.ids
+        condition = "date(client_enrollments.enrollment_date) <= '#{start_date}'"
       when 'greater'
-        client_ids = clients.where('date(client_enrollments.enrollment_date) > ?', @value.to_date ).distinct.ids
+        condition = "date(client_enrollments.enrollment_date) > '#{start_date}'"
       when 'greater_or_equal'
-        client_ids = clients.where('date(client_enrollments.enrollment_date) >= ?', @value.to_date ).distinct.ids
+        condition = "date(client_enrollments.enrollment_date) >= '#{start_date}'"
       when 'is_empty'
-        client_ids = clients.where('client_enrollments.enrollment_date IS NULL').distinct.ids
+        condition = "client_enrollments.enrollment_date IS NULL"
       when 'is_not_empty'
-        client_ids = clients.where('client_enrollments.enrollment_date IS NOT NULL').distinct.ids
+        condition = "client_enrollments.enrollment_date IS NOT NULL"
       end
+
+      enrollments = ClientEnrollment.where(:client_id => clientIds).where(condition)
+      client_ids = []
+      enrollments.each do |enrollment|
+        if enrollment.leave_program.present? && start_date != nil
+          exit_date = enrollment.leave_program.exit_date
+          client_ids << enrollment.client_id if exit_date >= start_date
+        else
+          client_ids << enrollment.client_id
+        end
+      end
+      client_ids
+
       clients = client_ids.present? ? client_ids : []
     end
 
@@ -1306,7 +1321,7 @@ module AdvancedSearches
           end
         else
           assessments = Assessment.completed.joins(:domains).where(client_id: clients.ids).where("domains.custom_assessment_setting_id IN (#{assessmentId})").distinct
-        
+
           assessments.group_by { |assessment| assessment.client_id }.each do |client_id, _assessments|
             next if _assessments.size < 2
 
@@ -1332,7 +1347,7 @@ module AdvancedSearches
       if selectedAssessment.present?
         assessments = JSON.parse(selectedAssessment)
         assessmentId = assessments.first
-        
+
         if assessmentId == 0
           domains = Domain.csi_domains
           clients = clients.where("assessments.default = true").distinct
@@ -1345,7 +1360,7 @@ module AdvancedSearches
           end
         else
           assessments = Assessment.completed.joins(:domains).where(client_id: clients.ids).where("domains.custom_assessment_setting_id IN (#{assessmentId})").distinct
-        
+
           assessments.group_by { |assessment| assessment.client_id }.each do |client_id, _assessments|
             next if _assessments.size < 2
 
