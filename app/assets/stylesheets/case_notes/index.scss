@@ -49,4 +49,12 @@ body[id='case_notes-index'] {
       margin-bottom: 5px;
     }
   }
+
+  .accordion-toggle .glyphicon {
+    transition: .3s transform ease-in-out;
+  }
+
+  .accordion-toggle.collapsed .glyphicon {
+    transform: rotate(-450deg);
+  }
 }

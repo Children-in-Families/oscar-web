@@ -71,7 +71,6 @@ module Api
 
     def update
       client = Client.find(params[:client][:id] || params[:id])
-
       if params[:client][:id]
         referee = Referee.find_or_create_by(id: client.referee_id)
         referee.update_attributes(referee_params)
@@ -147,11 +146,11 @@ module Api
         params[:client][:mo_savy_officials_attributes] = {}
 
         params[:mosavy_officials].each_with_index do |item, index|
-          params[:client][:mo_savy_officials_attributes] [index.to_s] = item
+          params[:client][:mo_savy_officials_attributes][index.to_s] = item
         end
       end
 
-      client_params = params.require(:client).permit(
+      client_param = params.require(:client).permit(
             :slug, :archived_slug, :code, :name_of_referee, :main_school_contact, :rated_for_id_poor, :what3words, :status, :country_origin,
             :kid_id, :assessment_id, :given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth,
             :birth_province_id, :initial_referral_date, :referral_source_id, :telephone_number,
@@ -246,14 +245,14 @@ module Api
       field_settings.each do |field_setting|
         next if field_setting.group != 'client' || field_setting.required? || field_setting.visible?
 
-        client_params.except!(field_setting.name.to_sym) unless field_setting.name == 'gender'
+        client_param.except!(field_setting.name.to_sym) unless field_setting.name == 'gender'
       end
 
       if params[:family_member]
-        client_params[:family_member_attributes] = params[:family_member].permit([:id, :family_id])
+        client_param[:family_member_attributes] = params[:family_member].permit([:id, :family_id])
 
-        if client_params[:family_member_attributes].present?
-          client_params[:family_member_attributes][:_destroy] = 1 if client_params.dig(:family_member_attributes, :family_id).blank?
+        if client_param[:family_member_attributes].present?
+          client_param[:family_member_attributes][:_destroy] = 1 if client_param.dig(:family_member_attributes, :family_id).blank?
         end
       end
 
@@ -261,10 +260,11 @@ module Api
         doc_field = attachment_field.gsub('_files', '')
         remove_field = "remove_#{attachment_field}"
 
-        # client_params[remove_field.to_sym] = true if client_params[doc_field.to_sym].in?([false, 'false'])
+        client_param[attachment_field.to_sym] = client_param[attachment_field.to_sym].reject(&:blank?).uniq { |file| file.original_filename } if client_param[attachment_field.to_sym].is_a?(Array)
+        client_param[remove_field.to_sym] = true if client_param[doc_field.to_sym].in?([false, 'false'])
       end
 
-      client_params
+      client_param
     end
 
     def referee_params
