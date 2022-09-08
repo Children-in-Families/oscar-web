@@ -1263,14 +1263,13 @@ module AdvancedSearches
     def active_client_program_query
       clientIds = []
       JSON.parse($param_rules[:program_selected]).each do |program|
-        tmpClientIds = @clients.joins(:client_enrollments).where(:client_enrollments => {:status => 'Active', :program_stream_id => program}).pluck(:id)
+        tmpClientIds = @clients.joins(:client_enrollments).where(:client_enrollments => {:status => 'Active', :program_stream_id => program}).ids
         if clientIds.empty?
           clientIds = tmpClientIds
         else
           clientIds = clientIds & tmpClientIds
         end
       end
-      # clients = @clients.joins(:client_enrollments).where(:id => clientIds).distinct
 
       condition = ''
       start_date = @value.kind_of?(Array) ? @value[0].to_date : @value.to_date
@@ -1281,7 +1280,7 @@ module AdvancedSearches
       when 'not_equal'
         condition = "date(client_enrollments.enrollment_date) != '#{start_date}'"
       when 'between'
-        condition = "date(client_enrollments.enrollment_date) <= #{@value[1].to_date}"
+        condition = "date(client_enrollments.enrollment_date) <= '#{@value[1].to_date}'"
       when 'less'
         condition = "date(client_enrollments.enrollment_date) < '#{start_date}'"
       when 'less_or_equal'
@@ -1289,7 +1288,7 @@ module AdvancedSearches
       when 'greater'
         condition = "date(client_enrollments.enrollment_date) > '#{start_date}'"
       when 'greater_or_equal'
-        condition = "date(client_enrollmeenrollment_datents.enrollment_date) >= '#{start_date}'"
+        condition = "date(client_enrollments.enrollment_date) >= '#{start_date}'"
       when 'is_empty'
         condition = "client_enrollments.enrollment_date IS NULL"
       when 'is_not_empty'
@@ -1355,7 +1354,7 @@ module AdvancedSearches
           end
         else
           assessments = Assessment.completed.joins(:domains).where(client_id: clients.ids).where("domains.custom_assessment_setting_id IN (#{assessmentId})").distinct
-        
+
           assessments.group_by { |assessment| assessment.client_id }.each do |client_id, _assessments|
             next if _assessments.size < 2
 
@@ -1394,7 +1393,7 @@ module AdvancedSearches
           end
         else
           assessments = Assessment.completed.joins(:domains).where(client_id: clients.ids).where("domains.custom_assessment_setting_id IN (#{assessmentId})").distinct
-        
+
           assessments.group_by { |assessment| assessment.client_id }.each do |client_id, _assessments|
             next if _assessments.size < 2
 
