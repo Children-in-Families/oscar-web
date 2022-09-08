@@ -46,6 +46,26 @@
             - if @internal_referral.not_meet_intake_criteria?
               %b= "#{t('.crisis_management')}:"
               %p= @internal_referral.crisis_management
+          .row
+            .col-xs-12.col-md-5
+              %p
+                %b
+                  = t('.who_made_change')
+                  = t('.referral_decision')
+              %table.table.small.m-b-xs#main-info
+                %thead
+                  %tr
+                    %td
+                      %b= t('.user_name')
+                    %td
+                      %b= t('.changed_date')
+                %tbody
+                  - @internal_referral.versions.includes(:item).each do |version|
+                    - next if version.changeset['referral_decision'].nil?
+                    %tr
+                      %td= made_changed_by(version.whodunnit)
+                      %td= version.created_at.to_s(:long)
+        %hi
           %p
             %b= "#{t('.attachments')}:"
             - if  @internal_referral.attachments.any?
