@@ -326,8 +326,8 @@ module ApplicationHelper
     end
   end
 
-  def whodunnit(type, id)
-    user_id = PaperTrail::Version.find_by(event: 'create', item_type: type, item_id: id).try(:whodunnit)
+  def whodunnit(type, id, event='create')
+    user_id = PaperTrail::Version.find_by(event: event, item_type: type, item_id: id).try(:whodunnit)
     if user_id.blank? || (user_id.present? && user_id.include?('@rotati'))
       object = type.constantize.find(id)
       user_id = object.has_attribute?(:user_id) ? object&.user_id : object.try(:parent)&.user_id
@@ -337,7 +337,11 @@ module ApplicationHelper
       end
     end
 
-    User.find_by(id: user_id).try(:name) || ''
+    made_changed_by(user_id)
+  end
+
+  def made_changed_by(user_id)
+    User.find_by(id: user_id).try(:name) || 'User not found'
   end
 
   def khmer_dob_to_age(date)

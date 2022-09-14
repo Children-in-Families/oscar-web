@@ -4767,6 +4767,7 @@ km:
     internal_referral_attr: &INTERNAL_REFERRAL_ATTR
       are_you_sure: តើអ្នកប្រាកដថាចង់លុបដែរឬទេ?
       attachments: ឯកសារភ្ជាប់
+      changed_date: កាលបរិច្ឆេទ
       client_id: អត្តលេខអតិថិជន
       client_name: ឈ្មោះអតិថិជន
       client_representing_problem: បញ្ហាកំពុងលេចឡើងរបស់អតិថិជន
@@ -4780,6 +4781,8 @@ km:
       referral_reason: មូលហេតុក្នុងការបញ្ជូននិងអនុសាសន៍
       referral_reason_note: "មូលហេតុក្នុងការបញ្ចូលមកកាន់កម្មវិធីសមិទ្ធិផលរតនៈ:"
       user_id: បញ្ជូនមកពី
+      user_name: ឈ្មោះ
+      who_made_change: អ្នកកែប្រែ
     create:
       failed_create: ការបញ្ជូនមិនត្រូវបានបង្កើត
       successfully_created: ការបញ្ជូនត្រូវបានបង្កើតដោយជោគជ័យ

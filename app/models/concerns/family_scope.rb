@@ -21,7 +21,7 @@ module FamilyScope
     scope :active,                     ->        { where(status: 'Active') }
     scope :inactive,                   ->        { where(status: 'Inactive') }
     scope :name_like,                  ->(value) { where('name iLIKE ?', "%#{value.squish}%") }
-    scope :province_are,               ->        { joins(:province).pluck('provinces.name', 'provinces.id').uniq }
+    scope :province_are,               ->        { includes(:province).references(:provinces).map{|f| next unless f.province; [f.province.name, f.province_id]}.compact.uniq }
     scope :as_non_cases,               ->        { where.not(family_type: ['Short Term / Emergency Foster Care', 'Long Term Foster Care', 'Extended Family / Kinship Care']) }
     scope :by_status,                  ->(value) { where(status: value) }
     scope :by_family_type,             ->(value) { where(family_type: value) }
