@@ -22,7 +22,7 @@ class District < ActiveRecord::Base
   end
 
   def self.get_district(district_code)
-    district = find_by(code: district_code.rjust(6, '0'))
+    district = find_by(code: district_code)
     if district
       { village_id: nil, commune_id: nil, district_id: district.id, province_id: district.province&.id }
     else

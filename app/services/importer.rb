@@ -125,10 +125,10 @@ module Importer
           attributes['code'] = values[1].squish.to_s.rjust(4, '0')
           attributes['province_id'] = province_id
 
-          district = District.find_by(code: attributes['code'])
-          district = district || District.find_by(code: attributes['code'].rjust(6, '0'))
-          district = district || District.find_by(code: attributes['code'], province_id: province_id)
+          district = District.find_by(code: attributes['code'].rjust(6, '0'))
+          district = district || District.find_by(code: attributes['code'])
           district = district || District.find_by(code: attributes['code'].rjust(6, '0'), province_id: province_id)
+          district = district || District.find_by(code: attributes['code'], province_id: province_id)
 
           if district
             district.update_attributes(attributes)
@@ -142,7 +142,7 @@ module Importer
             elsif districts.count.zero?
               district = District.find_or_create_by(attributes)
             else
-              binding.pry
+              raise StandardError.new "This is an error"
             end
           end
 
@@ -173,7 +173,7 @@ module Importer
             elsif communes.count.zero?
               commune = Commune.find_or_create_by(attributes)
             else
-              binding.pry
+              raise StandardError.new "This is an error"
             end
           end
 
@@ -202,7 +202,7 @@ module Importer
             elsif villages.count.zero?
               village = Village.find_or_create_by(attributes)
             else
-              binding.pry
+              raise StandardError.new "This is an error"
             end
           end
         end
