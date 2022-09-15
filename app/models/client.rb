@@ -232,6 +232,8 @@ class Client < ActiveRecord::Base
     def check_for_duplication(options, shared_clients)
       the_address_code = options[:address_current_village_code]
       case the_address_code&.size
+      when 2
+        results = Province.map_name_by_code(the_address_code)
       when 4
         results = District.get_district_name_by_code(the_address_code)
       when 6
@@ -240,7 +242,7 @@ class Client < ActiveRecord::Base
         results = Village.get_village_name_by_code(the_address_code)
       end
 
-      birth_province_name = Province.find_by_code(options[:birth_province_code])
+      birth_province_name = Province.find_name_by_code(options[:birth_province_code])
       address_hash = { cv: 1, cc: 2, cd: 3, cp: 4 }
       result = shared_clients.compact.each do |client|
         client = client.split('&')
@@ -723,12 +725,14 @@ class Client < ActiveRecord::Base
   def self.get_address_by_code(the_address_code)
     char_size = the_address_code&.length
     case char_size
-    when 0..4
-      District.get_district(the_address_code)
-    when 4..6
-      Commune.get_commune(the_address_code)
+    when 0..2
+      Province.address_by_code(the_address_code.rjust(2, '0'))
+    when 3..4
+      District.get_district(the_address_code.rjust(4, '0'))
+    when 5..6
+      Commune.get_commune(the_address_code.rjust(6, '0'))
     else
-      Village.get_village(the_address_code)
+      Village.get_village(the_address_code.rjust(8, '0'))
     end
   end
 

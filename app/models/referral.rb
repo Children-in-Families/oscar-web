@@ -13,7 +13,7 @@ class Referral < ActiveRecord::Base
 
   validates :client_name, :client_global_id, :date_of_referral, :referred_from,
             :referred_to, :referral_reason, :name_of_referee,
-            :referral_phone, presence: true
+            :referral_phone,  presence: true
 
   validates :consent_form, presence: true, if: :making_referral?
   validates :referee_id, presence: true, if: :slug_exist?
@@ -22,6 +22,7 @@ class Referral < ActiveRecord::Base
   before_validation :set_referred_from
   validates :referral_status, presence: true, inclusion: { in: Client::CLIENT_STATUSES }
   validates :level_of_risk, presence: true, inclusion: { in: LEVEL_OF_RISK }
+  validates :services, presence: true
 
   after_create :email_referrral_client
   after_save :make_a_copy_to_target_ngo, :create_referral_history
