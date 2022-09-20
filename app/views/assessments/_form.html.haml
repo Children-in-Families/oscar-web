@@ -93,7 +93,7 @@
                             = translate_domain_header(ad.domain)
                         .col-xs-6
                           %a{ class: "btn btn-lg btn-block btn-#{ad.score_color_class}" }
-                            = ad.score
+                            = ad.score || 0
 
                     .row.domai-name-score-wrapper.m-t-lg
                       .col-xs-6.text-right

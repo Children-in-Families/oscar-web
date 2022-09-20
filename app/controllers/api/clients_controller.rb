@@ -63,8 +63,10 @@ module Api
           end
         end
 
-        risk_assessment = RiskAssessmentReducer.new(client, risk_assessment_params, 'create')
-        risk_assessment.store
+        if risk_assessment_params
+          risk_assessment = RiskAssessmentReducer.new(client, risk_assessment_params, 'create')
+          risk_assessment.store
+        end
 
         render json: { slug: client.slug, id: client.id }, status: :ok
       else
@@ -95,8 +97,10 @@ module Api
           end
         end
 
-        risk_assessment = RiskAssessmentReducer.new(client, risk_assessment_params, 'update')
-        risk_assessment.store
+        if risk_assessment_params
+          risk_assessment = RiskAssessmentReducer.new(client, risk_assessment_params, 'update')
+          risk_assessment.store
+        end
 
         if params[:client][:assessment_id]
           assessment = Assessment.find(params[:client][:assessment_id])
@@ -288,6 +292,7 @@ module Api
     end
 
     def risk_assessment_params
+      return if params.dig(:risk_assessment).nil?
       params.require(:risk_assessment).permit(
         :assessment_date, :other_protection_concern_specification, :client_perspective, :has_known_chronic_disease,
         :has_disability, :has_hiv_or_aid, :known_chronic_disease_specification, :disability_specification, :hiv_or_aid_specification,

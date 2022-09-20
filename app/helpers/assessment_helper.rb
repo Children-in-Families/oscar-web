@@ -356,7 +356,7 @@ module AssessmentHelper
 
   def calculate_domain_selected_domain_score(assessment)
     sum = assessment.assessment_domains.inject(0) do |sum, ad|
-      sum + (current_setting.selected_domain_ids.compact.include?(ad.domain_id) ? ad.score : 0)
+      sum + (current_setting.selected_domain_ids.compact.include?(ad.domain_id) && ad.score.present? ? ad.score : 0)
     end
 
     return sum if sum.zero?
