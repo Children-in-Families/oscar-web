@@ -17,15 +17,15 @@
         .table-responsive
           %table.table.table-bordered
             - @program_stream.enrollment.map{|properties| [properties['type'], properties['label'], properties["local_label"]]}.each do |type, key, translated_key|
+              - label = I18n.locale.to_s === I18n.default_locale.to_s ? key.html_safe : translated_key.html_safe
               - unless type == 'separateLine'
                 - if type == 'paragraph'
                   %tr
                     %td.align-justify{colspan: '2'}
-                      = key.html_safe
+                      = label
                 - else
                   %tr
                     %td.align-justify
-                      - label = I18n.locale.to_s === I18n.default_locale.to_s ? key.html_safe : translated_key
                       = label
                     %td.align-justify
                       - key = convert_bracket(label, @client_enrollment.properties)

@@ -11,6 +11,8 @@ CIF.Client_trackingsNew = CIF.Client_trackingsCreate = CIF.Client_custom_fieldsN
     _preventCreateDatePickerClientEnrollment()
     _setAnotherLanguageFieldValue()
     _hideAnotherLanguageField()
+    _copyInputTextToLocalLanguage()
+    _copyTextAreaTextToLocalLanguage()
 
   _initICheckBox = ->
     $('.i-checks').iCheck
@@ -51,6 +53,16 @@ CIF.Client_trackingsNew = CIF.Client_trackingsCreate = CIF.Client_custom_fieldsN
   
   _hideAnotherLanguageField = ->
     $('.client-enrollment').find('.d-none').parent().addClass('hide')
+
+  _copyInputTextToLocalLanguage = ->
+    $('input[type="text"]').on 'keyup', (e) ->
+      el = $(@)
+      el.parent().next().find('#' + el.data('local-input')).val(el.val())
+
+  _copyTextAreaTextToLocalLanguage = ->
+    $('textarea').on 'keyup', (e) ->
+      el = $(@)
+      el.parent().next().find('#' + el.data('local-textarea')).val(el.val())
 
   _preventRequireFields = ->
     preventFileUploader()

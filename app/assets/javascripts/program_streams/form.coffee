@@ -292,10 +292,10 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           number: builderOption.eventNumberOption()
           'radio-group': builderOption.eventRadioOption()
           select: builderOption.eventSelectOption(fields)
-          text: builderOption.eventTextFieldOption()
-          textarea: builderOption.eventTextAreaOption()
+          text: builderOption.eventTextFieldOption(fields)
+          textarea: builderOption.eventTextAreaOption(fields)
           separateLine: builderOption.eventSeparateLineOption()
-          paragraph: builderOption.eventParagraphOption()
+          paragraph: builderOption.eventParagraphOption(fields)
         }
         onAddOption: (optionTemplate, optionIndex) ->
           index = optionIndex.index + 1
