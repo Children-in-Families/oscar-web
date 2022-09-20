@@ -4882,6 +4882,7 @@ my:
     internal_referral_attr: &INTERNAL_REFERRAL_ATTR
       are_you_sure: Are you sure you want to delete?
       attachments: Attachments
+      changed_date: Date
       client_id: Client ID
       client_name: ဖောက်သည်အမည
       client_representing_problem: CLIENT'S PRESENTING PROBLEMS
@@ -4897,6 +4898,8 @@ my:
       referral_reason: REASON FOR REFERRAL AND RECOMMNEDATIONS
       referral_reason_note: "The referral source’s reason for referral:"
       user_id: Referred from
+      user_name: Name
+      who_made_change: Who made change
     create:
       successfully_created: Internal Referral has successfully been created.
     destroy:

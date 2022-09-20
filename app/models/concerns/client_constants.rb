@@ -26,6 +26,7 @@ module ClientConstants
     police_interview_files
     other_legal_doc_files
     ngo_partner_files
+    mosavy_files
     dosavy_files
     msdhs_files
     complain_files
