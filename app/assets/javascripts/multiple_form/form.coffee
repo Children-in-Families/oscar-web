@@ -23,6 +23,8 @@ CIF.Client_trackingsNew = CIF.Client_trackingsCreate = CIF.Client_custom_fieldsN
 
   _toggleCheckingRadioButton = ->
     $('input[type="radio"]').on 'ifChecked', (e) ->
+      el = $(@)
+      el.parents('.radio_buttons').next().children('#' + el.data('option')).val(el.data('value'))
       $(@).parents('span.radio').siblings('.radio').find('.iradio_square-green').removeClass('checked')
 
   _initSelect2 = ->
