@@ -80,7 +80,7 @@ class CIF.CustomFormBuilder
         self.preventClickEnterOrTab(fld)
       ),50
 
-  eventRadioOption: ->
+  eventRadioOption: (fields = []) ->
     self = @
     onadd: (fld) ->
       $('.other-wrap, .inline-wrap, .className-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
@@ -89,6 +89,7 @@ class CIF.CustomFormBuilder
       self.addOptionCallback(fld)
       self.generateValueForSelectOption(fld)
       self.preventClickEnterOrTab(fld)
+      self.handleAddTranslateLabelField(fld, fields)
     onclone: (fld) ->
       setTimeout ( ->
         self.handleCheckingForm()

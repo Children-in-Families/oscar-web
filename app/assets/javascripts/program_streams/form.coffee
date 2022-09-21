@@ -290,7 +290,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           date: builderOption.eventDateOption(fields)
           file: builderOption.eventFileOption()
           number: builderOption.eventNumberOption(fields)
-          'radio-group': builderOption.eventRadioOption()
+          'radio-group': builderOption.eventRadioOption(fields)
           select: builderOption.eventSelectOption(fields)
           text: builderOption.eventTextFieldOption(fields)
           textarea: builderOption.eventTextAreaOption(fields)
