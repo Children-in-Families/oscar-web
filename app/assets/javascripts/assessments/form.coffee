@@ -1,5 +1,6 @@
 CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.AssessmentsUpdate = do ->
   _init = ->
+    window.domainOptionScores = {}
     forms = $('form.assessment-form')
 
     for form in forms
@@ -73,7 +74,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       currentTabLabels = $(@).siblings()
       currentTabLabels.removeClass('active-label')
 
-
+      domainOptionScores[@.dataset.domainId] = @.dataset.score
       $('.score_option').removeClass('is_error')
       labelColors = 'btn-danger btn-warning btn-primary btn-success btn-secondary'
       currentTabLabels.removeClass(labelColors)
@@ -85,6 +86,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       $($(@).siblings().get(-1)).val(score)
 
     $('.score_option input').attr('required','required')
+
     $('.col-xs-12').on 'click', '.score_option label', ->
       return if $(@).closest(".root-wizard").attr("id") == 'readonly-rootwizard'
 
@@ -168,6 +170,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
           $('a#btn-save').show()
 
         if (currentStep.hasClass('domain-last') or $(rootId).find('a[href="#finish"]:visible').length)
+          _setTotalRiskAssessment()
           if $(rootId).find('a[href="#finish"]:visible').length
             console.log 'hiding save button'
             $("#{rootId} a[href='#save']").hide()
@@ -188,6 +191,20 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
         $('a[href="#finish"]').addClass('btn disabled').css('font-size', '96%').text(btnSaving)
         $('.actions a:contains("Done")').removeAttr('href')
         form.submit()
+
+  _setTotalRiskAssessment = ->
+    scoreColors = $('.score_option.with-def')[0].dataset
+    total = 0
+    $.each $('.risk-assessment-domain-score'), (index, element) ->
+      scoreValue = domainOptionScores[element.dataset.domainId]
+      if !_.isEmpty(domainOptionScores) && scoreValue
+        color = scoreColors["score-#{scoreValue}"]
+        $(element).addClass("btn-#{color || 'primary'}")
+        $(element).html(scoreValue)
+        total += parseInt($(element).html())
+
+    total = Math.round(parseFloat(total) / $('.risk-assessment-domain-score').length)
+    $('#btn-total').html(total) if total != 0
 
   _appendSaveButton = ->
     if $('#rootwizard').find('a[href="#finish"]:visible').length == 0 && $("#btn-save").length == 0

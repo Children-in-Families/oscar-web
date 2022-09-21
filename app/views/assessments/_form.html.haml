@@ -58,7 +58,7 @@
                     - (0..9).each do |domain_index|
                       - interpretion = domain.send("translate_score_#{rd[domain_index]}_definition").to_s
                       - if interpretion.present?
-                        .btn-option.btn.btn-block.wrap-text-style{ 'data-score': rd[domain_index] }
+                        .btn-option.btn.btn-block.wrap-text-style{ 'data-score': rd[domain_index], 'data-domain-id': domain.id }
                           %b= score_definition(interpretion, rd[domain_index])
                     = ad.hidden_field :score, class: 'selected-score'
                 - else
@@ -92,14 +92,14 @@
                           %label
                             = translate_domain_header(ad.domain)
                         .col-xs-6
-                          %a{ class: "btn btn-lg btn-block btn-#{ad.score_color_class}" }
+                          %a{ class: "btn btn-lg btn-block btn-#{ad.score_color_class} risk-assessment-domain-score", "data-domain": { id: ad.domain_id, score: ad.score } }
                             = ad.score || 0
 
                     .row.domai-name-score-wrapper.m-t-lg
                       .col-xs-6.text-right
                         %label= t('risk_assessments._attr.overall_client_wellbeing_score')
                       .col-xs-6
-                        %a{ class: "btn btn-lg btn-block btn-success" }
+                        %a#btn-total{ class: "btn btn-lg btn-block btn-success" }
                           = calculate_domain_selected_domain_score(@assessment)
 
                     .row.domai-name-score-wrapper.m-t-md

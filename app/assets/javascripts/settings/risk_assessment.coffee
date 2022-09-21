@@ -21,6 +21,8 @@ CIF.SettingsRisk_assessment = do ->
       $('#guidance').show()
       _showHideDomainCheckBox($('#setting_assessment_type_name:visible').val())
     ).on 'ifUnchecked', ->
+      return if @.id.match(/setting_selected_domain_ids/) && @.id.match(/setting_selected_domain_ids/).length
+
       $(".domain-checkbox-wrapper").hide()
       $('#assessment-type-name').hide()
       $('#guidance').hide()
