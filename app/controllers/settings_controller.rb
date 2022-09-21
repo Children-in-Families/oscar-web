@@ -101,7 +101,7 @@ class SettingsController < AdminController
     authorize @setting
     attribute = params[:setting]
     if attribute && @setting.update_attributes(setting_params)
-      redirect_to :back, notice: t('successfully_updated', klass: t('settings._attr.risk_assessment'))
+      redirect_to :back, notice: t('successfully_updated', klass: t('settings.update.successfully_updated'))
     else
       flash[:alert] = @setting.errors.full_messages.join(", ") if @setting.errors.full_messages.any?
       render :risk_assessment

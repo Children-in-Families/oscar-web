@@ -60,7 +60,7 @@
                       - (0..9).each do |domain_index|
                         - interpretion = domain.send("translate_score_#{rd[domain_index]}_definition").to_s
                         - if interpretion.present?
-                          .btn-option.btn.btn-block.wrap-text-style{ 'data-score': rd[domain_index] }
+                          .btn-option.btn.btn-block.wrap-text-style{ 'data-score': rd[domain_index], 'data-domain-id': domain.id, 'data-core-color' }
                             %b= score_definition(interpretion, rd[domain_index])
                       = ad.hidden_field :score, class: 'selected-score'
                   - else
