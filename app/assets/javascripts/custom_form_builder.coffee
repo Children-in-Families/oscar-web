@@ -42,12 +42,13 @@ class CIF.CustomFormBuilder
         self.preventClickEnterOrTab(fld)
         ),50
 
-  eventDateOption: ->
+  eventDateOption: (fields = []) ->
     self = @
     onadd: (fld) ->
       $('.date-field').find('.className-wrap, .placeholder-wrap, .value-wrap, .access-wrap, .description-wrap, .name-wrap, .toggle-wrap, .inline-wrap').hide()
       self.handleCheckingForm()
       self.preventClickEnterOrTab(fld)
+      self.handleAddTranslateLabelField(fld, fields)
     onclone: (fld) ->
       setTimeout ( ->
         self.handleCheckingForm()
@@ -66,12 +67,13 @@ class CIF.CustomFormBuilder
         self.preventClickEnterOrTab(fld)
       ),50
 
-  eventNumberOption: ->
+  eventNumberOption: (fields = []) ->
     self = @
     onadd: (fld) ->
       $('.number-field').find('.className-wrap, .placeholder-wrap, .value-wrap, .step-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
       self.handleCheckingForm()
       self.preventClickEnterOrTab(fld)
+      self.handleAddTranslateLabelField(fld, fields)
     onclone: (fld) ->
       setTimeout ( ->
         self.handleCheckingForm()
