@@ -83,27 +83,28 @@
                             %button.btrn.btn-info.btn-sm{"data-target" => "#attachments#{ad.id}", "data-toggle" => "modal", :type => "button"}= t('.show_attachment')
                 - if ad.attachments.any?
                   = render 'attachment', { ad: ad }
-        .row
-          .col-xs-12
-            %div{class: "panel panel-default"}
-              .panel-heading
-                %table.table.table-borderless
-                  %tbody
-                    %tr
-                      %td.no-padding-bottom
-                        %strong= "#{t('risk_assessments._attr.child_wellbeing')}:"
-                      %td.no-padding-bottom
-                        = calculate_domain_selected_domain_score(@assessment)
-                    %tr
-                      %td.no-padding-bottom
-                        %strong= "#{t('risk_assessments._attr.level_of_risk')}:"
-                      %td.no-padding-bottom
-                        %strong= display_level_of_risk(@assessment.level_of_risk)
-                    %tr
-                      %td.no-padding-bottom
-                        %strong= "#{t('risk_assessments._attr.description')}:"
-                      %td.no-padding-bottom
-                        = @assessment.description
+        - if @assessment.level_of_risk
+          .row
+            .col-xs-12
+              %div{class: "panel panel-default"}
+                .panel-heading
+                  %table.table.table-borderless
+                    %tbody
+                      %tr
+                        %td.no-padding-bottom
+                          %strong= "#{t('risk_assessments._attr.child_wellbeing')}:"
+                        %td.no-padding-bottom
+                          = calculate_domain_selected_domain_score(@assessment)
+                      %tr
+                        %td.no-padding-bottom
+                          %strong= "#{t('risk_assessments._attr.level_of_risk')}:"
+                        %td.no-padding-bottom
+                          %strong= display_level_of_risk(@assessment.level_of_risk)
+                      %tr
+                        %td.no-padding-bottom
+                          %strong= "#{t('risk_assessments._attr.description')}:"
+                        %td.no-padding-bottom
+                          = @assessment.description
 
         %div{ id: "printable-assessment-#{@assessment.id}" }
           = render 'shared/printable_assessment', assessment: @assessment

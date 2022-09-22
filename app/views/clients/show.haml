@@ -108,21 +108,33 @@
           - if risk_assessment
             %table.table.small.m-b-xs
               %tbody
-                %tr
-                  %td
-                    = "#{t('risk_assessments._attr.risk_assessment')}:"
-                    - if risk_assessment.high_risk?
+                - assessment = @client.last_risk_assessment
+                - if assessment.present?
+                  %tr
+                    %td
+                      = "#{t('risk_assessments._attr.risk_assessment')}:"
+                      %strong= t('risk_assessments._attr.child_wellbeing')
+                  %tr
+                    %td
+                      = "#{t('risk_assessments._attr.level_of_risk')}:"
+                      %strong= display_level_of_risk(assessment.level_of_risk)
+                  %tr
+                    %td
+                      = "#{t('risk_assessments._attr.assessment_date')}:"
+                      %strong= date_format assessment.created_at
+                - else
+                  %tr
+                    %td
+                      = "#{t('risk_assessments._attr.risk_assessment')}:"
                       %strong= t('risk_assessments._attr.protection_concern')
-                    - else
-                      %strong= t('risk_assessments._attr.no_protection_concern')
-                %tr
-                  %td
-                    = "#{t('risk_assessments._attr.level_of_risk')}:"
-                    %strong= display_level_of_risk(risk_assessment.level_of_risk)
-                %tr
-                  %td
-                    = "#{t('risk_assessments._attr.assessment_date')}:"
-                    %strong= date_format risk_assessment.assessment_date
+                  %tr
+                    %td
+                      = "#{t('risk_assessments._attr.level_of_risk')}:"
+                      %strong= display_level_of_risk(risk_assessment.level_of_risk)
+                  %tr
+                    %td
+                      = "#{t('risk_assessments._attr.assessment_date')}:"
+                      %strong= date_format risk_assessment.assessment_date
           - else
             %table.table.small.m-b-xs
               %tbody
@@ -805,25 +817,7 @@
                           %button.btn.btn-outline.btn-primary.btn-xs= fa_icon('eye')
 
         - if current_setting.enabled_risk_assessment? && risk_assessment
-          .row
-            .col-xs-12
-              %table.table.table-bordered.table-hover
-                %thead
-                  %tr
-                    %th= t('risk_assessments._attr.risk_level_history')
-                    %th= t('risk_assessments._attr.category')
-                    %th= t('.date')
-                    %th.text-center= t('.detail')
-                %tbody
-                  - @client.assessments.where.not(level_of_risk: nil).each do |assessment|
-                    %tr
-                      %td= "#{assessment.level_of_risk.titleize} #{t('risk_assessments._attr.risk')}"
-                      %td= t('risk_assessments._attr.child_wellbeing')
-                      %td= date_format(assessment.created_at)
-                  %tr
-                    %td= "#{risk_assessment.level_of_risk.titleize} #{t('risk_assessments._attr.risk')}"
-                    %td= t('risk_assessments._attr.protection_concern')
-                    %td= date_format(risk_assessment.assessment_date)
+          = render 'client_risk_assessment', client: @client, risk_assessment: risk_assessment
 
 .row
   = render 'blank_field_notification'
