@@ -24,7 +24,7 @@ class CIF.CustomFormBuilder
       self.handleCheckingForm()
       self.preventClickEnterOrTab(fld)
 
-  eventCheckboxOption: ->
+  eventCheckboxOption: (fields = []) ->
     self = @
     onadd: (fld) ->
       $('.other-wrap, .className-wrap, .access-wrap, .description-wrap, .name-wrap, .toggle-wrap, .inline-wrap').hide()
@@ -33,6 +33,7 @@ class CIF.CustomFormBuilder
       self.addOptionCallback(fld)
       self.generateValueForSelectOption(fld)
       self.preventClickEnterOrTab(fld)
+      self.handleAddTranslateLabelField(fld, fields)
     onclone: (fld) ->
       setTimeout ( ->
         self.handleCheckingForm()
@@ -73,6 +74,7 @@ class CIF.CustomFormBuilder
       $('.number-field').find('.className-wrap, .placeholder-wrap, .value-wrap, .step-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
       self.handleCheckingForm()
       self.preventClickEnterOrTab(fld)
+      console.log(fields)
       self.handleAddTranslateLabelField(fld, fields)
     onclone: (fld) ->
       setTimeout ( ->
@@ -270,7 +272,7 @@ class CIF.CustomFormBuilder
   handleAddTranslateLabelField: (fld, fields) ->
     fldElement = $(fld)
     fldId = fldElement.attr('id')
-    index = fldId.substr(fldId.length - 1)
+    index = fldId.substr(fldId.lastIndexOf('-') + 1)
     localLabelName = "local_label"
     localLabel = "Local Label"
     if fields[index - 1]

@@ -286,7 +286,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
             left: 'auto'
         }
         typeUserEvents: {
-          'checkbox-group': builderOption.eventCheckboxOption()
+          'checkbox-group': builderOption.eventCheckboxOption(fields)
           date: builderOption.eventDateOption(fields)
           file: builderOption.eventFileOption()
           number: builderOption.eventNumberOption(fields)
