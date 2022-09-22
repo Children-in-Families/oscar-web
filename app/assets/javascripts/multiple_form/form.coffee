@@ -1,5 +1,5 @@
 CIF.Client_trackingsNew = CIF.Client_trackingsCreate = CIF.Client_custom_fieldsNew = CIF.Client_custom_fieldsCreate = CIF.Client_enrollmentsNew = CIF.Client_enrollmentsCreate = do ->
-
+  checkedItems = []
   _init = ->
     _initSelect2()
     _initFileInput()
@@ -15,6 +15,8 @@ CIF.Client_trackingsNew = CIF.Client_trackingsCreate = CIF.Client_custom_fieldsN
     _copyTextAreaTextToLocalLanguage()
     _copyNumberToLocalLanguage()
     _copyDateToLocalLanguage()
+    _checkCheckbox()
+    _uncheckCheckbox()
 
   _initICheckBox = ->
     $('.i-checks').iCheck
@@ -26,6 +28,18 @@ CIF.Client_trackingsNew = CIF.Client_trackingsCreate = CIF.Client_custom_fieldsN
       el = $(@)
       el.parents('.radio_buttons').next().children('#' + el.data('option')).val(el.data('value'))
       $(@).parents('span.radio').siblings('.radio').find('.iradio_square-green').removeClass('checked')
+
+  _checkCheckbox = ->
+    $('input[type="checkbox"]').on 'ifChecked', (e) ->
+      el = $(@)
+      checkedItems.push(el.data('value'))
+      el.parents('.check_boxes').next().children('#' + el.data('checkbox')).val(checkedItems).trigger('change')
+
+  _uncheckCheckbox = ->
+    $('input[type="checkbox"]').on 'ifUnchecked', (e) ->
+      el = $(@)
+      checkedItems.splice(checkedItems.indexOf(el.data('value')), 1)
+      el.parents('.check_boxes').next().children('#' + el.data('checkbox')).val(checkedItems).trigger('change')
 
   _initSelect2 = ->
     $('select').select2()
