@@ -115,7 +115,7 @@ CIF.ClientsIndex = do ->
   _addDataTableToAssessmentScoreData = ->
     fileName = $('.assessment-domain-score').data('filename')
     _handleAjaxRequestToAssessment("#csi-assessment-score", fileName)
-    _handleAjaxRequestToAssessment("#custom-assessment-score", fileName) if $("#custom-assessment-score")
+    _handleAjaxRequestToAssessment("#custom-assessment-score", fileName) if $("#custom-assessment-score").length
     $('.assessment-domain-score').on 'shown.bs.modal', (e) ->
       $($.fn.dataTable.tables(true)).DataTable().columns.adjust()
       return
