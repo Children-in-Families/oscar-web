@@ -334,7 +334,6 @@ class Client < ActiveRecord::Base
     exit_ngos.most_recents.first
   end
 
-
   def referred?
     status == 'Referred'
   end
@@ -733,6 +732,14 @@ class Client < ActiveRecord::Base
 
   def one_off_screening_assessment
     screening_assessments.find_by(screening_type: 'one_off')
+  end
+
+  def risk_assessments
+    assessments.client_risk_assessments
+  end
+
+  def last_risk_assessment
+    assessments.client_risk_assessments.last
   end
 
   def self.cached_client_created_by(object)
