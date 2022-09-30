@@ -288,7 +288,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         typeUserEvents: {
           'checkbox-group': builderOption.eventCheckboxOption(fields)
           date: builderOption.eventDateOption(fields)
-          file: builderOption.eventFileOption()
+          file: builderOption.eventFileOption(fields)
           number: builderOption.eventNumberOption(fields)
           'radio-group': builderOption.eventRadioOption(fields)
           select: builderOption.eventSelectOption(fields)
@@ -522,7 +522,6 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
   _handleSetValueToField = ->
     for formBuilder in @formBuilder
-      console.log(formBuilder.actions.save(), 'form builder actions')
       element = formBuilder.element
       specialCharacters = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&qoute;" }
       format = new CIF.FormatSpecialCharacters()

@@ -28,9 +28,10 @@
                     %td.align-justify
                       = label
                     %td.align-justify
-                      - key = convert_bracket(label, @client_enrollment.properties)
-                      - key = I18n.locale.to_s === I18n.default_locale.to_s ? key : "Local_label #{key}"
                       - if type == 'file'
+                        - key = convert_bracket(key.html_safe, @client_enrollment.properties)
                         = render 'shared/form_builder/list_attachment', label: key, resource: @client_enrollment
                       - else
+                        - key = convert_bracket(label, @client_enrollment.properties)
+                        - key = I18n.locale.to_s === I18n.default_locale.to_s ? key : "Local_label #{key}"
                         = display_custom_properties(@client_enrollment.properties[key])
