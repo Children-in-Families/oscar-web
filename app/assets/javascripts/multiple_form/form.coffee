@@ -76,7 +76,6 @@ CIF.Client_trackingsNew = CIF.Client_trackingsCreate = CIF.Client_custom_fieldsN
     $('input[type="text"]').on 'keyup', (e) ->
       el = $(@)
       if el.hasClass('date-picker')
-        console.log('ddddaaaattteee')
       else
         el.parent().next().find('#' + el.data('local-input')).val(el.val())
 

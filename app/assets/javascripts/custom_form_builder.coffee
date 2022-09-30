@@ -56,12 +56,13 @@ class CIF.CustomFormBuilder
         self.preventClickEnterOrTab(fld)
       ),50
 
-  eventFileOption: ->
+  eventFileOption: (fields = []) ->
     self = @
     onadd: (fld) ->
       $('.file-field').find('.className-wrap, .placeholder-wrap, .subtype-wrap, .value-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
       self.handleCheckingForm()
       self.preventClickEnterOrTab(fld)
+      self.handleAddTranslateLabelField(fld, fields)
     onclone: (fld) ->
       setTimeout ( ->
         self.handleCheckingForm()
@@ -74,7 +75,6 @@ class CIF.CustomFormBuilder
       $('.number-field').find('.className-wrap, .placeholder-wrap, .value-wrap, .step-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
       self.handleCheckingForm()
       self.preventClickEnterOrTab(fld)
-      console.log(fields)
       self.handleAddTranslateLabelField(fld, fields)
     onclone: (fld) ->
       setTimeout ( ->
@@ -278,6 +278,6 @@ class CIF.CustomFormBuilder
     if fields[index - 1]
       localLabel = if fields[index - 1][localLabelName] then fields[index - 1][localLabelName] else localLabel
     frmHolder = fldElement.find('.frm-holder')
-    localLabelBlock = "<div class='form-group local-label-wrap' style='display: block'><label for='#{localLabelName}'>Local Label</label><div class='input-wrap'><div name='#{localLabelName}' placeholder='Local Label' class='fld-label form-control' id='local-label-#{fldId}' contenteditable='true'>#{localLabel}</div></div></div>"
+    localLabelBlock = "<div class='form-group local-label-wrap' style='display: block'><label for='#{localLabelName}'>Local Label</label><div class='input-wrap'><div name='#{localLabelName}' placeholder='Local Label' class='fld-label-#{fldId} form-control' id='local-label-#{fldId}' contenteditable='true'>#{localLabel}</div></div></div>"
     localLabelBlockElement = $.parseHTML(localLabelBlock)
     frmHolder.find('.label-wrap').after(localLabelBlockElement)

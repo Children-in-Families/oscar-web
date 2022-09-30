@@ -8,7 +8,8 @@
 # server 'db.example.com', user: 'deploy', roles: %w{db}
 
 set :stage, 'staging'
-set :branch, proc { `git rev-parse --abbrev-ref staging`.chomp }
+set :branch, proc { `git rev-parse --abbrev-ref OSC-17`.chomp }
+# set :branch, proc { `git rev-parse --abbrev-ref staging`.chomp }
 
 server '52.220.217.164', user: 'deployer', roles: %w{app web db}
 
