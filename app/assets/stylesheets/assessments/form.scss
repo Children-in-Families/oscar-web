@@ -1,4 +1,5 @@
-.wizard, .tabcontrol {
+.wizard,
+.tabcontrol {
   overflow: initial;
 }
 
@@ -7,7 +8,9 @@ body[id='assessments-create'],
 body[id='assessments-edit'],
 body[id='assessments-update'] {
   #readonly-rootwizard {
-    textarea.disabled, textarea:disabled {
+
+    textarea.disabled,
+    textarea:disabled {
       color: black !important;
     }
   }
@@ -44,34 +47,43 @@ body[id='assessments-update'] {
     .steps {
       display: none;
     }
+
     .content {
       background-color: #fff;
       margin: 0;
+
       .body {
         width: 100%;
         padding: 0;
+
         label {
           margin-bottom: 0;
         }
+
         input {
           display: inline-block;
         }
       }
     }
+
     .actions {
       padding: 20px 0;
     }
   }
-  .margin-title{
+
+  .margin-title {
     margin-left: 10px;
   }
-  .button{
+
+  .button {
     width: 110px;
   }
+
   .assessment-domain-item {
     span {
       margin-left: 30px;
       margin-right: 30px;
+
       input {
         margin-right: 10px;
       }
@@ -85,81 +97,102 @@ body[id='assessments-update'] {
       }
     }
   }
-  #rootwizard{
-    .content{
+
+  #rootwizard {
+    .content {
       height: auto;
     }
   }
-  .tasks-list{
+
+  .tasks-list {
     margin-top: 16px;
     padding: 0px;
   }
-  ol li.list-group-item{
+
+  ol li.list-group-item {
     list-style: decimal inside;
     display: list-item;
   }
+
   .assessment_assessment_domains_reason {
     margin-top: 5px;
+
     textarea {
       height: 120px;
     }
   }
+
   .well {
     max-height: 400px;
     overflow: scroll;
 
     ul {
       margin-left: 25px;
+
       li {
         line-height: 30px;
       }
     }
   }
 
-  .wizard > .actions .disabled a{
+  .wizard>.actions .disabled a {
     border: 1px solid #acb3ac;
     border-radius: 3px;
     text-align: center;
     display: inline;
   }
-  .wizard > .actions a{
+
+  .wizard>.actions a {
     text-align: center;
     display: inline;
     border-radius: 3px;
   }
+
   .wrap-text-style {
     white-space: normal;
     text-align: center;
   }
-  .score_option.is_error{
+
+  .score_option.is_error {
     border: 1px solid #a94442;
     border-radius: 2px;
   }
+
   .score_option {
     border: 1px solid #fff;
     padding: 8px 3px 8px 3px;
-    span{
+
+    span {
       padding: 0 20px 0 0;
     }
-    em{
+
+    em {
       display: none !important;
     }
+
     text-align: center;
-    label, input {
-      display:block-inline;
+
+    label,
+    input {
+      display: block-inline;
     }
+
     input[type="radio"] {
-      opacity:0.011;
-      z-index:100;
+      opacity: 0.011;
+      z-index: 100;
     }
-    input[type="radio"]:checked + label {
+
+    input[type="radio"]:checked+label {
       color: #fff;
     }
-    input[type="radio"]:checked + em + label {
+
+    input[type="radio"]:checked+em+label {
       color: #fff;
     }
-    label{
+
+    label {
       font-size: 16px;
+
       .collection_radio_buttons {
         padding: 8px;
         border: 1px solid #CCC;
@@ -169,21 +202,26 @@ body[id='assessments-update'] {
         height: 40px;
         border-radius: 5px;
       }
+
       label:hover {
-        background:#DDD;
+        background: #DDD;
       }
     }
   }
-  textarea.error{
+
+  textarea.error {
     border: 1px solid #a94442;
   }
-  em.error{
+
+  em.error {
     color: #a94442;
     font-size: 14px;
     font-weight: normal;
-    padding:3px;
-    text-align:left;;
+    padding: 3px;
+    text-align: left;
+    ;
   }
+
   .padding-bottom {
     padding-bottom: 140px;
   }
@@ -193,11 +231,12 @@ body[id='assessments-update'] {
     padding: 15px;
   }
 
-  @media only screen and (max-device-width : 767px){
+  @media only screen and (max-device-width : 767px) {
     .assessment-domain-item {
       span {
         margin-left: 0;
         margin-right: 0;
+
         input {
           margin-right: 10px;
         }
@@ -211,14 +250,18 @@ body[id='assessments-update'] {
         }
       }
     }
+
     .score_option {
       padding: 8px 0 8px 0;
-      span{
+
+      span {
         padding: 0 0 0 0;
       }
     }
   }
-  .links img, .nested-fields img {
+
+  .links img,
+  .nested-fields img {
     width: 150px;
     cursor: pointer;
   }
@@ -232,14 +275,15 @@ body[id='assessments-update'] {
     width: 150px;
   }
 
-  .image-title{
+  .image-title {
     width: 70%;
   }
 
-  .table.attachment-table tbody>tr>td{
+  .table.attachment-table tbody>tr>td {
     vertical-align: top;
   }
-  .table.attachment-table tbody>tr>td.vert-align{
+
+  .table.attachment-table tbody>tr>td.vert-align {
     vertical-align: middle;
   }
 
@@ -247,8 +291,10 @@ body[id='assessments-update'] {
     border: 1px solid #999999;
   }
 
-  .goal-required-option, .task-required-option {
+  .goal-required-option,
+  .task-required-option {
     display: inline;
+
     span {
       display: inline-block;
       margin-right: 20px;
@@ -269,9 +315,8 @@ body[id='assessments-update'] {
       display: inline-flex;
       align-items: center;
     }
-    .tasks-list {
 
-    }
+    .tasks-list {}
   }
 }
 
@@ -279,4 +324,9 @@ body[id='assessments-update'] {
   .icheckbox_square-green {
     margin-right: 5px;
   }
+}
+
+.domai-name-score-wrapper {
+  display: flex;
+  align-items: center;
 }

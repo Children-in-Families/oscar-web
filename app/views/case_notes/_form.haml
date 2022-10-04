@@ -113,6 +113,28 @@
                         = t.hidden_field :completion_date, value: f.object.meeting_date
                         = t.hidden_field :completion_date, value: f.object.meeting_date
                         = t.input :completed, as: :boolean, type: :checkbox, required: false, label: t.object.name, input_html: { class: 'i-checks task font-bold' }
+            %hr/
+
+          - risk_assessment = @client.risk_assessment
+          - if current_setting.enabled_risk_assessment? && risk_assessment
+            .row
+              .col-xs-12
+                %label{:for => "Screening Assessments tasks"}
+                  = t('risk_assessments._attr.risk_assessment')
+                  = t('tasks.task')
+                .panel{ class: "panel-default" }
+                  .panel-heading
+                    %h4
+                      = t('risk_assessments._attr.protection_concern')
+                      = ": "
+                      = risk_assessment.level_of_risk.titleize
+                  .panel-body
+                    = f.simple_fields_for :tasks, risk_assessment.tasks.incomplete do |t|
+                      = t.hidden_field :case_note_id, value: @case_note.id
+                      = t.hidden_field :completed_by_id, value: current_user.id
+                      = t.hidden_field :completion_date, value: f.object.meeting_date
+                      = t.hidden_field :completion_date, value: f.object.meeting_date
+                      = t.input :completed, as: :boolean, type: :checkbox, required: false, label: t.object.name, input_html: { class: 'i-checks task font-bold' }
 
           .row
             .col-xs-12

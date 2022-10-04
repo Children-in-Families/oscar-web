@@ -11,12 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20220725040448) do
+ActiveRecord::Schema.define(version: 20220823075832) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
   enable_extension "pgcrypto"
+  enable_extension "uuid-ossp"
 
   create_table "able_screening_questions", force: :cascade do |t|
     t.string   "question"
@@ -69,7 +70,6 @@ ActiveRecord::Schema.define(version: 20220725040448) do
 
   add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
   add_index "admin_users", ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true, using: :btree
-  add_index "admin_users", ["uid", "provider"], name: "index_admin_users_on_uid_and_provider", unique: true, using: :btree
 
   create_table "advanced_searches", force: :cascade do |t|
     t.string   "name"
@@ -120,9 +120,8 @@ ActiveRecord::Schema.define(version: 20220725040448) do
 
   create_table "ar_internal_metadata", primary_key: "key", force: :cascade do |t|
     t.string   "value"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.integer  "environment"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "assessment_domains", force: :cascade do |t|
@@ -156,6 +155,8 @@ ActiveRecord::Schema.define(version: 20220725040448) do
     t.integer  "case_conference_id"
     t.date     "completed_date"
     t.integer  "custom_assessment_setting_id"
+    t.string   "level_of_risk"
+    t.text     "description"
   end
 
   add_index "assessments", ["case_conference_id"], name: "index_assessments_on_case_conference_id", using: :btree
@@ -165,6 +166,7 @@ ActiveRecord::Schema.define(version: 20220725040448) do
   add_index "assessments", ["default"], name: "index_assessments_on_default", where: "(\"default\" = true)", using: :btree
   add_index "assessments", ["default"], name: "index_assessments_on_default_false", where: "(\"default\" = false)", using: :btree
   add_index "assessments", ["family_id"], name: "index_assessments_on_family_id", using: :btree
+  add_index "assessments", ["level_of_risk"], name: "index_assessments_on_level_of_risk", using: :btree
 
   create_table "attachments", force: :cascade do |t|
     t.string   "image"
@@ -754,6 +756,7 @@ ActiveRecord::Schema.define(version: 20220725040448) do
     t.string   "household_type2"
     t.string   "legacy_brcs_id"
     t.boolean  "whatsapp",                              default: false
+    t.string   "global_id"
     t.string   "external_id"
     t.string   "external_id_display"
     t.string   "mosvy_number"
@@ -779,7 +782,6 @@ ActiveRecord::Schema.define(version: 20220725040448) do
     t.string   "local_consent_files",                   default: [],                      array: true
     t.string   "police_interview_files",                default: [],                      array: true
     t.string   "other_legal_doc_files",                 default: [],                      array: true
-    t.string   "global_id"
     t.boolean  "referred_external",                     default: false
     t.string   "marital_status"
     t.string   "nationality"
@@ -804,9 +806,9 @@ ActiveRecord::Schema.define(version: 20220725040448) do
     t.string   "other_agency_name"
     t.string   "other_representative_name"
     t.string   "other_agency_phone"
-    t.string   "locality"
     t.string   "national_id_number"
     t.string   "passport_number"
+    t.string   "locality"
     t.string   "ngo_partner_files",                     default: [],                      array: true
     t.string   "mosavy_files",                          default: [],                      array: true
     t.string   "dosavy_files",                          default: [],                      array: true
@@ -823,9 +825,9 @@ ActiveRecord::Schema.define(version: 20220725040448) do
     t.string   "detail_form_of_mosavy_dosavy_files",    default: [],                      array: true
     t.string   "short_form_of_judicial_police_option"
     t.string   "short_form_of_judicial_police_files",   default: [],                      array: true
+    t.boolean  "screening_interview_form",              default: false
     t.string   "detail_form_of_judicial_police_option"
     t.string   "detail_form_of_judicial_police_files",  default: [],                      array: true
-    t.boolean  "screening_interview_form",              default: false
     t.string   "screening_interview_form_option"
     t.string   "screening_interview_form_files",        default: [],                      array: true
     t.boolean  "ngo_partner",                           default: false
@@ -1179,7 +1181,7 @@ ActiveRecord::Schema.define(version: 20220725040448) do
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
     t.string   "code",                   default: ""
-    t.string   "global_id",   limit: 32, default: "", null: false
+    t.string   "global_id",   limit: 32, default: ""
   end
 
   add_index "donors", ["global_id"], name: "index_donors_on_global_id", using: :btree
@@ -1297,7 +1299,6 @@ ActiveRecord::Schema.define(version: 20220725040448) do
     t.datetime "updated_at"
     t.integer  "cases_count",                     default: 0
     t.string   "case_history",                    default: ""
-    t.datetime "deleted_at"
     t.integer  "children",                        default: [],                     array: true
     t.string   "status",                          default: ""
     t.integer  "district_id"
@@ -1308,6 +1309,7 @@ ActiveRecord::Schema.define(version: 20220725040448) do
     t.integer  "commune_id"
     t.integer  "village_id"
     t.integer  "user_id"
+    t.datetime "deleted_at"
     t.integer  "received_by_id"
     t.integer  "followed_up_by_id"
     t.date     "initial_referral_date"
@@ -1320,8 +1322,8 @@ ActiveRecord::Schema.define(version: 20220725040448) do
     t.string   "id_poor"
     t.text     "relevant_information"
     t.string   "referee_phone_number"
-    t.string   "documents",                       default: [],                     array: true
     t.string   "slug",                            default: ""
+    t.string   "documents",                       default: [],                     array: true
     t.integer  "assessments_count",               default: 0,         null: false
     t.integer  "care_plans_count",                default: 0,         null: false
   end
@@ -1797,16 +1799,6 @@ ActiveRecord::Schema.define(version: 20220725040448) do
     t.datetime "updated_at"
   end
 
-  create_table "meta_fields", force: :cascade do |t|
-    t.string   "field_name"
-    t.string   "field_type"
-    t.boolean  "hidden",     default: true
-    t.boolean  "required",   default: false
-    t.string   "label"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-  end
-
   create_table "mo_savy_officials", force: :cascade do |t|
     t.string   "name"
     t.string   "position"
@@ -2170,11 +2162,11 @@ ActiveRecord::Schema.define(version: 20220725040448) do
     t.string   "referral_phone",            default: ""
     t.integer  "referee_id"
     t.string   "client_name",               default: ""
-    t.string   "consent_form",              default: [],                 array: true
+    t.string   "consent_form",              default: [],                      array: true
     t.boolean  "saved",                     default: false
     t.integer  "client_id"
-    t.datetime "created_at",                                null: false
-    t.datetime "updated_at",                                null: false
+    t.datetime "created_at",                                     null: false
+    t.datetime "updated_at",                                     null: false
     t.string   "ngo_name",                  default: ""
     t.string   "client_global_id"
     t.string   "external_id"
@@ -2187,10 +2179,11 @@ ActiveRecord::Schema.define(version: 20220725040448) do
     t.string   "village_code",              default: ""
     t.string   "referee_email"
     t.string   "level_of_risk"
+    t.string   "referral_status",           default: "Referred"
   end
 
   add_index "referrals", ["client_global_id"], name: "index_referrals_on_client_global_id", using: :btree
-  add_index "referrals", ["client_id"], name: "index_referrals_on_client_id", using: :btree
+  add_index "refqent_id"], name: "index_referrals_on_client_id", using: :btree
   add_index "referrals", ["external_case_worker_id"], name: "index_referrals_on_external_case_worker_id", using: :btree
   add_index "referrals", ["external_id"], name: "index_referrals_on_external_id", using: :btree
   add_index "referrals", ["mosvy_number"], name: "index_referrals_on_mosvy_number", using: :btree
@@ -2204,6 +2197,35 @@ ActiveRecord::Schema.define(version: 20220725040448) do
   add_index "referrals_services", ["referral_id", "service_id"], name: "index_referrals_services_on_referral_id_and_service_id", using: :btree
   add_index "referrals_services", ["referral_id"], name: "index_referrals_services_on_referral_id", using: :btree
   add_index "referrals_services", ["service_id"], name: "index_referrals_services_on_service_id", using: :btree
+
+  create_table "risk_assessments", force: :cascade do |t|
+    t.date     "assessment_date"
+    t.string   "protection_concern",                     default: [],                 array: true
+    t.string   "level_of_risk"
+    t.string   "other_protection_concern_specification"
+    t.text     "client_perspective"
+    t.boolean  "has_known_chronic_disease",              default: false
+    t.boolean  "has_disability",                         default: false
+    t.boolean  "has_hiv_or_aid",                         default: false
+    t.string   "known_chronic_disease_specification"
+    t.string   "disability_specification"
+    t.string   "hiv_or_aid_specification"
+    t.text     "relevant_referral_information"
+    t.integer  "history_of_disability_id"
+    t.integer  "history_of_harm_id"
+    t.integer  "history_of_high_risk_behaviour_id"
+    t.integer  "history_of_family_separation_id"
+    t.integer  "client_id"
+    t.datetime "created_at",                                             null: false
+    t.datetime "updated_at",                                             null: false
+  end
+
+  add_index "risk_assessments", ["assessment_date"], name: "index_risk_assessments_on_assessment_date", using: :btree
+  add_index "risk_assessments", ["client_id"], name: "index_risk_assessments_on_client_id", unique: true, using: :btree
+  add_index "risk_assessments", ["history_of_disability_id"], name: "index_risk_assessments_on_history_of_disability_id", using: :btree
+  add_index "risk_assessments", ["history_of_family_separation_id"], name: "index_risk_assessments_on_history_of_family_separation_id", using: :btree
+  add_index "risk_assessments", ["history_of_harm_id"], name: "index_risk_assessments_on_history_of_harm_id", using: :btree
+  add_index "risk_assessments", ["history_of_high_risk_behaviour_id"], name: "index_risk_assessments_on_history_of_high_risk_behaviour_id", using: :btree
 
   create_table "screening_assessments", force: :cascade do |t|
     t.datetime "screening_assessment_date"
@@ -2327,6 +2349,10 @@ ActiveRecord::Schema.define(version: 20220725040448) do
     t.boolean  "hide_case_note_note",                  default: false
     t.boolean  "cbdmat_one_off",                       default: false
     t.boolean  "cbdmat_ongoing",                       default: false
+    t.boolean  "enabled_risk_assessment",              default: false
+    t.string   "assessment_type_name",                 default: "csi"
+    t.integer  "selected_domain_ids",                  default: [],                               array: true
+    t.text     "level_of_risk_guidance"
   end
 
   add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree
@@ -2481,17 +2507,19 @@ ActiveRecord::Schema.define(version: 20220725040448) do
   end
 
   create_table "thredded_messageboards", force: :cascade do |t|
-    t.string   "name",                  limit: 191,             null: false
+    t.string   "name",                  limit: 255,                 null: false
     t.string   "slug",                  limit: 191
     t.text     "description"
     t.integer  "topics_count",                      default: 0
     t.integer  "posts_count",                       default: 0
+    t.boolean  "closed",                            default: false, null: false
     t.integer  "last_topic_id"
     t.integer  "messageboard_group_id"
-    t.datetime "created_at",                                    null: false
-    t.datetime "updated_at",                                    null: false
+    t.datetime "created_at",                                        null: false
+    t.datetime "updated_at",                                        null: false
   end
 
+  add_index "thredded_messageboards", ["closed"], name: "index_thredded_messageboards_on_closed", using: :btree
   add_index "thredded_messageboards", ["last_topic_id"], name: "index_thredded_messageboards_on_last_topic_id", using: :btree
   add_index "thredded_messageboards", ["messageboard_group_id"], name: "index_thredded_messageboards_on_messageboard_group_id", using: :btree
   add_index "thredded_messageboards", ["slug"], name: "index_thredded_messageboards_on_slug", using: :btree
@@ -2626,24 +2654,22 @@ ActiveRecord::Schema.define(version: 20220725040448) do
   add_index "thredded_user_details", ["user_id"], name: "index_thredded_user_details_on_user_id", using: :btree
 
   create_table "thredded_user_messageboard_preferences", force: :cascade do |t|
-    t.integer  "user_id",                                 null: false
-    t.integer  "messageboard_id",                         null: false
-    t.boolean  "follow_topics_on_mention", default: true, null: false
-    t.datetime "created_at",                              null: false
-    t.datetime "updated_at",                              null: false
-    t.boolean  "followed_topic_emails",    default: true, null: false
+    t.integer  "user_id",                          null: false
+    t.integer  "messageboard_id",                  null: false
+    t.boolean  "notify_on_mention", default: true, null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
   end
 
   add_index "thredded_user_messageboard_preferences", ["messageboard_id"], name: "index_thredded_user_messageboard_preferences_on_messageboard_id", using: :btree
   add_index "thredded_user_messageboard_preferences", ["user_id", "messageboard_id"], name: "thredded_user_messageboard_preferences_user_id_messageboard_id", unique: true, using: :btree
 
   create_table "thredded_user_preferences", force: :cascade do |t|
-    t.integer  "user_id",                                 null: false
-    t.boolean  "follow_topics_on_mention", default: true, null: false
-    t.boolean  "notify_on_message",        default: true, null: false
-    t.datetime "created_at",                              null: false
-    t.datetime "updated_at",                              null: false
-    t.boolean  "followed_topic_emails",    default: true, null: false
+    t.integer  "user_id",                          null: false
+    t.boolean  "notify_on_mention", default: true, null: false
+    t.boolean  "notify_on_message", default: true, null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
   end
 
   add_index "thredded_user_preferences", ["user_id"], name: "index_thredded_user_preferences_on_user_id", using: :btree
@@ -2750,9 +2776,9 @@ ActiveRecord::Schema.define(version: 20220725040448) do
     t.string   "gender",                         default: ""
     t.boolean  "enable_gov_log_in",              default: false
     t.boolean  "enable_research_log_in",         default: false
+    t.datetime "deleted_at"
     t.datetime "activated_at"
     t.datetime "deactivated_at"
-    t.datetime "deleted_at"
     t.string   "preferred_language",             default: "en"
     t.string   "organization_name"
     t.string   "profile"
@@ -2781,10 +2807,10 @@ ActiveRecord::Schema.define(version: 20220725040448) do
     t.integer  "item_id",        null: false
     t.string   "event",          null: false
     t.string   "whodunnit"
-    t.datetime "created_at"
-    t.integer  "transaction_id"
     t.text     "object"
+    t.datetime "created_at"
     t.text     "object_changes"
+    t.integer  "transaction_id"
   end
 
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
@@ -2972,6 +2998,7 @@ ActiveRecord::Schema.define(version: 20220725040448) do
   add_foreign_key "referees", "townships"
   add_foreign_key "referees", "villages"
   add_foreign_key "referrals", "clients"
+  add_foreign_key "risk_assessments", "clients"
   add_foreign_key "service_delivery_tasks", "service_deliveries"
   add_foreign_key "service_delivery_tasks", "tasks"
   add_foreign_key "services", "global_services", column: "uuid", primary_key: "uuid"

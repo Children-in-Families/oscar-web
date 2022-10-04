@@ -1,0 +1,27 @@
+.row
+  .col-xs-12
+    %table.table.table-bordered.table-hover
+      %thead
+        %tr
+          %th= t('risk_assessments._attr.risk_level_history')
+          %th= t('risk_assessments._attr.category')
+          %th= t('clients.show.date')
+          %th.text-center= t('clients.show.detail')
+      %tbody
+        - client.assessments.client_risk_assessments.most_recents.each do |assessment|
+          %tr
+            %td= "#{assessment.level_of_risk.titleize} #{t('risk_assessments._attr.risk')}"
+            %td= t('risk_assessments._attr.child_wellbeing')
+            %td= date_format(assessment.created_at)
+            %td.text-center
+              = link_to client_assessment_path(client, assessment), class: 'btn btn-outline btn-primary btn-xs' do
+                = fa_icon('eye')
+              = link_to edit_client_assessment_path(client, assessment), class: 'btn btn-outline btn-success btn-xs' do
+                = fa_icon('pencil')
+        %tr
+          %td= "#{risk_assessment.level_of_risk.titleize} #{t('risk_assessments._attr.risk')}"
+          %td= t('risk_assessments._attr.protection_concern')
+          %td= date_format(risk_assessment.assessment_date)
+          %td.text-center
+            = link_to edit_client_path(client), class: 'btn btn-outline btn-success btn-xs' do
+              = fa_icon('pencil')

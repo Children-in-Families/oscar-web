@@ -63,6 +63,11 @@ module Api
           end
         end
 
+        if risk_assessment_params
+          risk_assessment = RiskAssessmentReducer.new(client, risk_assessment_params, 'create')
+          risk_assessment.store
+        end
+
         render json: { slug: client.slug, id: client.id }, status: :ok
       else
         render json: client.errors, status: :unprocessable_entity
@@ -90,6 +95,11 @@ module Api
             client_qt_free_text.content = client_qt_free_text_attr[:content]
             client_qt_free_text.save
           end
+        end
+
+        if risk_assessment_params
+          risk_assessment = RiskAssessmentReducer.new(client, risk_assessment_params, 'update')
+          risk_assessment.store
         end
 
         if params[:client][:assessment_id]
@@ -278,6 +288,17 @@ module Api
       params.require(:carer).permit(
         :name, :phone, :outside, :address_type, :current_address, :email, :gender, :house_number, :street_number, :outside_address, :commune_id, :district_id, :province_id,  :village_id, :client_relationship, :same_as_client,
         :state_id, :township_id, :subdistrict_id, :street_line1, :street_line2, :plot, :road, :postal_code, :suburb, :description_house_landmark, :directions, :locality
+      )
+    end
+
+    def risk_assessment_params
+      return if params.dig(:risk_assessment).nil?
+      params.require(:risk_assessment).permit(
+        :assessment_date, :other_protection_concern_specification, :client_perspective, :has_known_chronic_disease,
+        :has_disability, :has_hiv_or_aid, :known_chronic_disease_specification, :disability_specification, :hiv_or_aid_specification,
+        :relevant_referral_information, :level_of_risk, :history_of_disability_id, :history_of_harm_id, :history_of_high_risk_behaviour_id,
+        :history_of_family_separation_id, protection_concern: [],
+        tasks_attributes: [:id, :name, :expected_date, :client_id, :_destroy]
       )
     end
 

@@ -1,5 +1,6 @@
 CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.AssessmentsUpdate = do ->
   _init = ->
+    window.domainOptionScores = {}
     forms = $('form.assessment-form')
 
     for form in forms
@@ -73,7 +74,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       currentTabLabels = $(@).siblings()
       currentTabLabels.removeClass('active-label')
 
-
+      domainOptionScores[@.dataset.domainId] = @.dataset.score
       $('.score_option').removeClass('is_error')
       labelColors = 'btn-danger btn-warning btn-primary btn-success btn-secondary'
       currentTabLabels.removeClass(labelColors)
@@ -85,6 +86,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       $($(@).siblings().get(-1)).val(score)
 
     $('.score_option input').attr('required','required')
+
     $('.col-xs-12').on 'click', '.score_option label', ->
       return if $(@).closest(".root-wizard").attr("id") == 'readonly-rootwizard'
 
@@ -149,7 +151,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
         currentTab  = "#{rootId}-p-#{currentIndex}"
         domainId = $("#{currentTab}").find('.score_option').data('domain-id')
 
-        return true if _disableRequiredFields() || rootId == '#readonly-rootwizard'
+        return true if _disableRequiredFields() || rootId == '#readonly-rootwizard' || domainId == undefined
 
         form.validate().settings.ignore = ':disabled,:hidden'
         form.valid()
@@ -167,7 +169,8 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
           _formEdit(rootId, currentIndex)
           $('a#btn-save').show()
 
-        if currentStep.hasClass('domain-last') or $(rootId).find('a[href="#finish"]:visible').length
+        if (currentStep.hasClass('domain-last') or $(rootId).find('a[href="#finish"]:visible').length)
+          _setTotalRiskAssessment()
           if $(rootId).find('a[href="#finish"]:visible').length
             console.log 'hiding save button'
             $("#{rootId} a[href='#save']").hide()
@@ -179,9 +182,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
         form.validate().settings.ignore = ':disabled'
         form.valid()
 
-        currentStep = $("#{rootId}-p-" + currentIndex)
-
-        _filedsValidator(currentIndex,newIndex)
+        _filedsValidator(currentIndex, newIndex)
 
       onFinished: ->
         return if rootId == '#readonly-rootwizard'
@@ -190,6 +191,20 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
         $('a[href="#finish"]').addClass('btn disabled').css('font-size', '96%').text(btnSaving)
         $('.actions a:contains("Done")').removeAttr('href')
         form.submit()
+
+  _setTotalRiskAssessment = ->
+    scoreColors = $('.score_option.with-def')[0].dataset
+    total = 0
+    $.each $('.risk-assessment-domain-score'), (index, element) ->
+      scoreValue = domainOptionScores[element.dataset.domainId]
+      if !_.isEmpty(domainOptionScores) && scoreValue
+        color = scoreColors["score-#{scoreValue}"]
+        $(element).addClass("btn-#{color || 'primary'}")
+        $(element).html(scoreValue)
+        total += parseInt($(element).html())
+
+    total = Math.round(parseFloat(total) / $('.risk-assessment-domain-score').length)
+    $('#btn-total').html(total) if total != 0
 
   _appendSaveButton = ->
     if $('#rootwizard').find('a[href="#finish"]:visible').length == 0 && $("#btn-save").length == 0
@@ -227,36 +242,38 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       scoreOption = $("#{currentTab} .score_option.without-def")
       chosenScore = scoreOption.find('label input:checked').val()
 
-    scoreColor  = scoreOption.data("score-#{chosenScore}")
-    scoreOption.find("label label:contains(#{chosenScore})").addClass("label-default active-label")
+    if chosenScore
+      scoreColor  = scoreOption.data("score-#{chosenScore}")
+      scoreOption.find("label label:contains(#{chosenScore})").addClass("label-default active-label")
 
-    btnScore = scoreOption.find('input:hidden').val()
-    $(scoreOption.find("div[data-score='#{btnScore}']").get(0)).addClass("btn-secondary")
-    domainName = $(@).data('goal-option')
-    name = 'assessment[assessment_domains_attributes]['+ "#{currentIndex}" +'][goal_required]\']'
-    radioName = '\'' + name
-    goalRequiredValue = $("input[name=#{radioName}:checked").val()
-    select = $(currentTab).find('textarea.goal')
+      btnScore = scoreOption.find('input:hidden').val()
+      $(scoreOption.find("div[data-score='#{btnScore}']").get(0)).addClass("btn-secondary")
+      domainName = $(@).data('goal-option')
+      name = 'assessment[assessment_domains_attributes]['+ "#{currentIndex}" +'][goal_required]\']'
+      radioName = '\'' + name
+      goalRequiredValue = $("input[name=#{radioName}:checked").val()
+      select = $(currentTab).find('textarea.goal')
 
-    if scoreColor == 'primary'
-      if goalRequiredValue == 'false'
-        $(select).val('')
-        $(select).prop('readonly', true)
-        $(select).addClass('valid')
-      else if goalRequiredValue == 'true'
-        $(select).prop('readonly', false)
-        $(select).removeClass('valid')
-        $(select).addClass('valid') if $(select).val() != ''
-    else
-      if $(select).val() != ''
-        $(select).addClass('valid')
+      if scoreColor == 'primary'
+        if goalRequiredValue == 'false'
+          $(select).val('')
+          $(select).prop('readonly', true)
+          $(select).addClass('valid')
+        else if goalRequiredValue == 'true'
+          $(select).prop('readonly', false)
+          $(select).removeClass('valid')
+          $(select).addClass('valid') if $(select).val() != ''
       else
-        $(select).removeClass('valid').addClass('required')
+        if $(select).val() != ''
+          $(select).addClass('valid')
+        else
+          $(select).removeClass('valid').addClass('required')
 
   _filedsValidator = (currentIndex, newIndex ) ->
-    return true if _disableRequiredFields()
-
     currentTab  = "#rootwizard-p-#{currentIndex}"
+
+    return true if _disableRequiredFields() || $("#{currentTab}.domain-client-wellbeing-score").length
+
     scoreOption = $("#{currentTab} .score_option")
     reason      = $("#{currentTab} .reason").val()
     return false unless reason

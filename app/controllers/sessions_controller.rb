@@ -1,4 +1,5 @@
 class SessionsController < Devise::SessionsController
+  include LocaleConcern
   before_action :set_whodunnit, :set_current_ngo, :detect_browser
   after_action :increase_visit_count, only: :create
   skip_before_action :set_locale, only: :create
@@ -13,14 +14,6 @@ class SessionsController < Devise::SessionsController
 
   def set_current_ngo
     @current_ngo = Organization.current
-  end
-
-  def detect_browser
-    lang = params[:locale] || locale.to_s
-    if browser.firefox? && browser.platform.mac? && lang == 'km'
-      flash.clear
-      flash[:alert] = "Application is not translated properly for Firefox on Mac, we're sorry to suggest to use Google Chrome browser instead."
-    end
   end
 
   def increase_visit_count

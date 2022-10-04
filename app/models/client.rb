@@ -100,6 +100,7 @@ class Client < ActiveRecord::Base
   has_many :achievement_program_staff_clients
   has_many :ratanak_achievement_program_staff_clients, through: :achievement_program_staff_clients, source: :user
 
+  has_one :risk_assessment, dependent: :destroy
   has_one  :family_member, dependent: :restrict_with_error
   has_one  :family, through: :family_member
 
@@ -332,7 +333,6 @@ class Client < ActiveRecord::Base
   def latest_exit_ngo
     exit_ngos.most_recents.first
   end
-
 
   def referred?
     status == 'Referred'
@@ -732,6 +732,14 @@ class Client < ActiveRecord::Base
 
   def one_off_screening_assessment
     screening_assessments.find_by(screening_type: 'one_off')
+  end
+
+  def risk_assessments
+    assessments.client_risk_assessments
+  end
+
+  def last_risk_assessment
+    assessments.client_risk_assessments.last
   end
 
   def self.cached_client_created_by(object)
