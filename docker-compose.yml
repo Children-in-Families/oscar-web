@@ -114,6 +114,7 @@ services:
       - redis
     environment:
       - RAILS_ENV=development
+      - DATABASE_NAME=oscar_development
       - DATABASE_USER=oscar
       - DATABASE_PASSWORD=123456789
       - DATABASE_HOST=db
