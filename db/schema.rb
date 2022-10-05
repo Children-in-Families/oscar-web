@@ -2183,7 +2183,7 @@ ActiveRecord::Schema.define(version: 20220823075832) do
   end
 
   add_index "referrals", ["client_global_id"], name: "index_referrals_on_client_global_id", using: :btree
-  add_index "refqent_id"], name: "index_referrals_on_client_id", using: :btree
+  add_index "referrals", ["client_id"], name: "index_referrals_on_client_id", using: :btree
   add_index "referrals", ["external_case_worker_id"], name: "index_referrals_on_external_case_worker_id", using: :btree
   add_index "referrals", ["external_id"], name: "index_referrals_on_external_id", using: :btree
   add_index "referrals", ["mosvy_number"], name: "index_referrals_on_mosvy_number", using: :btree
