@@ -1180,9 +1180,9 @@ class ClientGrid < BaseGrid
         if fields.first == 'formbuilder'
           if data == 'recent'
             if fields.last == 'Has This Form'
-              properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).count
+              properties = object.custom_field_properties.cached_client_custom_field_properties_count(object, fields.second)
             else
-              properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).order(created_at: :desc).first.try(:properties)
+              properties = object.custom_field_properties.cached_client_custom_field_properties_order(object, fields.second)
               properties = properties[format_field_value] if properties.present?
             end
           else
@@ -1190,14 +1190,14 @@ class ClientGrid < BaseGrid
               properties = [custom_form_with_has_form(object, fields).count]
             else
               if $param_rules
-                custom_field_id = object.custom_fields.find_by(form_title: fields.second)&.id
+                custom_field_id = object.custom_fields.cached_client_custom_field_find_by(object, fields.second)
                 basic_rules  = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
                 basic_rules  = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
                 results      = mapping_form_builder_param_value(basic_rules, 'formbuilder')
                 query_string = get_query_string(results, 'formbuilder', 'custom_field_properties.properties')
                 sql          = query_string.reverse.reject(&:blank?).map{|sql| "(#{sql})" }.join(" AND ")
 
-                properties = object.custom_field_properties.where(custom_field_id: custom_field_id).where(sql).properties_by(format_field_value)
+                properties = object.custom_field_properties.cached_client_custom_field_properties_properties_by(object, custom_field_id, sql, format_field_value)
                 properties = properties.blank? ? custom_form_with_has_form(object, fields).properties_by(format_field_value) : properties
               else
                 properties = form_builder_query(object.custom_field_properties, fields.second, column_builder[:id].gsub('&qoute;', '"'), 'custom_field_properties.properties').properties_by(format_field_value)
