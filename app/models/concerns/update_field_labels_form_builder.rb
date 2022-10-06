@@ -2,6 +2,7 @@ module UpdateFieldLabelsFormBuilder
   def labels_update(new_fields, old_fields, objects)
     labels_changed = []
     field_labels_changed = []
+    old_fields = [] if old_fields.empty?
     fields_changed =  new_fields - old_fields
     fields_changed.each do |field_changed|
       old_fields.each do |entity|
