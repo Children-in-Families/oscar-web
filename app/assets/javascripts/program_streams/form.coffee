@@ -499,7 +499,9 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       $('.links a').trigger('click')
 
   _handleInitProgramFields = ->
+    trackings = $('.tracking-builder')
     elements = ['#enrollment', '#exit-program']
+    $.merge(elements, trackings)
     _initMultipleFormBuilder(0, elements)
     for element in elements
       if element.id == 'enrollment' and $('#program_stream_id').val() != ''
@@ -507,8 +509,8 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       else if element.id == 'exit-program' and $('#program_stream_id').val() != ''
         _preventRemoveField(EXIT_PROGRAM_URL, '#exit-program')
 
-    trackings = $('.tracking-builder')
-    _initMultipleFormBuilder(0, trackings)
+    # trackings = $('.tracking-builder')
+    # _initMultipleFormBuilder(0, trackings)
     _preventRemoveField(TRACKING_URL, '') if $('#program_stream_id').val() != ''
 
   _initButtonSave = ->
@@ -521,7 +523,9 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     $('#program_stream_rules').val(_handleStringfyRules(rules))
 
   _handleSetValueToField = ->
+    console.log(@formBuilder)
     for formBuilder in @formBuilder
+      console.log(formBuilder.actions.save())
       element = formBuilder.element
       specialCharacters = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&qoute;" }
       format = new CIF.FormatSpecialCharacters()
