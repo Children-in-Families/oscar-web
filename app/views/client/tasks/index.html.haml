@@ -17,7 +17,7 @@
             .row
               .col-xs-12
                 %table.table.table-bordered
-                  - (@tasks.incomplete.overdue.presence || []).each do |task|
+                  - (@tasks.incomplete.overdue.includes(:domain).presence || []).each do |task|
                     %tr
                       %td.text-middle
                         = render 'task_parents', task: task

@@ -1,7 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 export default props => {
   const { isError, hidden, label, required, onChange, T, value, hintText, inlineClassName, ...others } = props
+  const [values, setValue] = useState(value)
+
+  const handleInput = (e) => {
+    setValue(e.target.value)
+    onChange(e)
+  }
+
   return (
     <div className='form-group'>
       <label className={ hidden ? 'hidden' : '' } style={isError && styles.errorLabel || {}}>
@@ -22,7 +29,7 @@ export default props => {
           <i className={`fa fa-info-circle text-info m-xs ${inlineClassName}`}></i>
         </a>
       }
-      <textarea className="form-control col-xs-12" style={styles.heightBox} onChange={onChange} {...others} value={value || ''} />
+      <textarea className="form-control col-xs-12" style={styles.heightBox} onChange={handleInput} {...others} value={values || ''} />
       {isError && <span style={styles.errorText}>{T.translate("validation.cannot_blank")}</span>}
     </div>
   )

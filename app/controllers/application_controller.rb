@@ -1,5 +1,7 @@
 class ApplicationController < ActionController::Base
   include Pundit
+  include LocaleConcern
+
   protect_from_forgery with: :null_session, except: :index, if: proc { |c| c.request.format == 'application/json' }
   before_action :store_user_location!, if: :storable_location?
   before_action :configure_permitted_parameters, if: :devise_controller?
@@ -87,19 +89,6 @@ class ApplicationController < ActionController::Base
     @province   = Province.cached_order_name
   end
 
-  def set_locale
-    local = I18n.locale
-    local = current_user.preferred_language if user_signed_in?
-    local = params[:locale] if params[:locale] && I18n.available_locales.include?(params[:locale].to_sym)
-
-    if detect_browser.present?
-      flash.clear
-      flash[:alert] = detect_browser
-    end
-
-    I18n.locale = local
-  end
-
   def override_translation
     I18n.backend.reload! if request.get? && request.format.html?
   end
@@ -119,13 +108,6 @@ class ApplicationController < ActionController::Base
     flash[:notice] = I18n.t('devise.sessions.signed_in')
     stored_location_string = stored_location_for(_resource_or_scope)
     stored_location_string && stored_location_string.gsub(/locale\=(en|km|my)/, "locale=#{locale}") || dashboards_path(locale: current_user&.preferred_language || 'en') || super
-  end
-
-  def detect_browser
-    lang = params[:locale] || locale.to_s
-    if browser.firefox? && browser.platform.mac? && lang == 'km'
-      "Khmer fonts for Firefox do not render correctly. Please use Google Chrome browser instead if you intend to use OSCaR in Khmer language."
-    end
   end
 
   def storable_location?

@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { RadioButton } from 'primereact/radiobutton'
 import './radioButton.scss'
 
 export default props => {
   const { onChange, options, inline, value, isError, required, disabled } = props
-
+  const [values, setValue] = useState(value)
   const handleOnChange = event => {
+    setValue(event.value)
     onChange({ data: event.value, type: 'radio' })
   }
 
@@ -24,7 +25,7 @@ export default props => {
               disabled={disabled}
               required
               value={option.value}
-              checked={option.value === value}
+              checked={option.value === values}
               onChange={handleOnChange}
             />
             <span style={styles.label}>{option.label}</span>

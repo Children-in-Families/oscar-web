@@ -38,7 +38,7 @@
 
                   - domain_definition = domain.send("translate_score_#{ad.object.score}_definition")
                   %p
-                    = "#{t('care_plans.form.scoring_statement')}: #{strip_tags(score_definition(domain_definition.to_s, ad.object.score))}" if ad.object.score
+                    = "#{t('care_plans.form.scoring_statement')}: #{strip_tags(score_definition(domain_definition.to_s, ad.object.score.to_s))}" if ad.object.score
                     %a{ :role => "button", :tabIndex => "0",  data: { toggle: "popover", trigger: "focus", title: domain_definition, content: display_domain_definition_description(domain, domain_definition) } }
                       = fa_icon "info-circle", class: 'text-info m-xs'
 
