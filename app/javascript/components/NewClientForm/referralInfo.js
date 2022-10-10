@@ -47,6 +47,7 @@ export default (props) => {
       traffickingTypes,
     },
   } = props;
+
   const callerRelationship = callerRelationships.map((relationship) => ({
     label: T.translate("callerRelationship." + relationship.label),
     value: relationship.value,
@@ -97,6 +98,7 @@ export default (props) => {
     label: province[0],
     options: province[1].map((value) => ({ label: value[0], value: value[1] })),
   }));
+
   const [districts, setDistricts] = useState(currentDistricts);
   const [communes, setCommunes] = useState(currentCommunes);
   const [villages, setVillages] = useState(currentVillages);

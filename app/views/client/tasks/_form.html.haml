@@ -1,6 +1,6 @@
 = simple_form_for([@task.client, @task], html: { class: 'task-form' }) do |f|
   = error_notification(f)
-  - if @task.taskable_type == 'ScreeningAssessment'
+  - if @task.domain_id.nil?
     = f.hidden_field :domain_id
   - else
     = f.association :domain, collection: Domain.all, label_method: ->(domain){damain_task_translation(domain)}, include_blank: false, label: t('.domain')

@@ -92,6 +92,8 @@
                 - if current_user.admin?
                   %li{ class: settings_menu_active('settings', 'index') }
                     = link_to t('.csi_tools'), settings_path
+                  %li{ class: settings_menu_active('settings', 'risk_assessment') }
+                    = link_to t('.risk_assessment'), risk_assessment_settings_path
                   %li{ class: settings_menu_active('settings', 'customize_case_note') }
                     = link_to t('settings.customize_case_note.case_note_tools'), customize_case_note_settings_path
                   %li{ class: settings_menu_active('settings', 'default_columns') }

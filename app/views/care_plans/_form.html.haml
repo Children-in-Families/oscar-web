@@ -21,7 +21,7 @@
                 - else
                   %p= "#{t('.domain')} #{t("domains.domain_names.#{ad.object.domain.name.downcase.reverse}")} #{t("domains.domain_identies.#{ad.object.domain.identity.strip.parameterize('_')}_#{ad.object.domain.name.downcase}")}"
 
-                %p= "#{t('.scoring_statement')}: #{strip_tags(score_definition(domain.send("translate_score_#{ad.object.score}_definition").to_s, ad.object.score))}" if ad.object.score
+                %p= "#{t('.scoring_statement')}: #{strip_tags(score_definition(domain.send("translate_score_#{ad.object.score}_definition").to_s, ad.object.score.to_s))}" if ad.object.score
                 %p
                   = "#{t('.score_from_assessment')} :"
                   %span.btn.btn-default= ad.object.score

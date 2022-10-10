@@ -129,7 +129,24 @@
                               %li.list-group-item
                                 = "#{index + 1}. "
                                 = task.name
+                %hr/
 
+              - risk_assessment = @client.risk_assessment
+              - if current_setting.enabled_risk_assessment? && risk_assessment
+                .row
+                  .col-xs-12.col-md-6
+                    %h4
+                      = t('risk_assessments._attr.risk_assessment')
+                      = t('tasks.task')
+                    .panel.panel-default
+                      .panel-heading
+                        %h4= t('.completed_tasks')
+                      .panel-body.no-padding
+                        %ul.list-group
+                          - risk_assessment.tasks.completed.each_with_index do |task, index|
+                            %li.list-group-item
+                              = "#{index + 1}. "
+                              = task.name
               .row
                 - file_names = case_note.case_note_domain_groups.pluck(:attachments).reject(&:blank?)
                 - case_note.case_note_domain_groups.each do |cdg|

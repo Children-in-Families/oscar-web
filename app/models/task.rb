@@ -17,7 +17,7 @@ class Task < ActiveRecord::Base
   acts_as_paranoid double_tap_destroys_fully: false
 
   validates :name, presence: true
-  validates :domain, presence: true, if: -> { taskable_type != 'ScreeningAssessment' }
+  validates :domain, presence: true, if: -> { taskable_type != 'ScreeningAssessment' && taskable_type != 'RiskAssessment' }
   validates :expected_date, presence: true
 
   accepts_nested_attributes_for :task_progress_notes, reject_if: proc { |attribute| attribute['progress_note'].blank? } , allow_destroy: true
@@ -110,7 +110,7 @@ class Task < ActiveRecord::Base
   private
 
   def save_parent_parent_id
-    return if taskable_type == 'ScreeningAssessment'
+    return if taskable_type == 'ScreeningAssessment' || taskable_type == 'RiskAssessment'
     parent_family_id = goal&.care_plan&.family_id || taskable&.family_id
     parent_client_id = goal&.care_plan&.client_id || taskable&.client_id
 

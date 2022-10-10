@@ -1,10 +1,16 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 export default props => {
-  const { isError, label, required, onChange, value, hintText, errorText, T, inlineClassName, ...others } = props
+  const { isError, label, required, onChange, value, hintText, errorText, T, inlineClassName, inline, ...others } = props
+  const [newValue, setNewValue] = useState(value)
+
+  const handleOnChange = (e) => {
+    setNewValue(e.target.value)
+    onChange(e)
+  }
 
   return (
-    <div className='form-group'>
+    <div className='form-group' style={inline && styles.inlineWrapper}>
       <label style={isError && styles.errorText || styles.inlineDisplay}>
         { required && <abbr title='required'>* </abbr> }
         {label}
@@ -23,10 +29,10 @@ export default props => {
         </a>
       }
       <input
-        className='form-control'
-        onChange={onChange}
+        className='form-control m-t-xs'
+        onChange={(e) => handleOnChange(e)}
         { ...others }
-        value={value || ''}
+        value={newValue || ''}
         style={
           Object.assign({},
             isError && styles.errorInput,
@@ -40,6 +46,11 @@ export default props => {
 }
 
 const styles = {
+  inlineWrapper: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
   errorText: {
     color: 'red'
   },
