@@ -399,6 +399,7 @@ module ApplicationHelper
   end
 
   def referral_source_name(referral_source, client = nil)
+    values = []
     if I18n.locale == :km
       values = referral_source.map{|ref| [ref.name, ref.id] }
     else
@@ -417,6 +418,7 @@ module ApplicationHelper
     else
       values
     end
+    values.uniq
   end
 
   def ref_cat_name(referral_source_cat)
