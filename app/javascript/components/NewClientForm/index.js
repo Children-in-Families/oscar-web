@@ -155,7 +155,7 @@ const Forms = props => {
 
     switch (obj) {
       case 'client':
-        setClientData({...clientData, ...field});
+        setClientData(prev => ({...prev, ...field}));
         break;
       case 'clientProfile':
         setClientProfile({ profile: field});
@@ -409,7 +409,6 @@ const Forms = props => {
 
         let formData = new FormData()
         formData = objectToFormData({ ...clientData, ...clientProfile }, {}, formData, 'client')
-        formData = objectToFormData({ ...clientData, ...clientProfile }, {}, formData, 'client')
         formData = objectToFormData(refereeData, {}, formData, 'referee')
         formData = objectToFormData(carerData, {}, formData, 'carer')
         formData = objectToFormData(familyMemberData, {}, formData, 'family_member')
@@ -606,7 +605,7 @@ const Forms = props => {
           {
             fieldsVisibility.show_legal_doc == true &&
             <div style={{ display: step === 6 ? 'block' : 'none' }}>
-              <LegalDocument data={legalDocument} translation={translation} requiredFields={requiredFields} fieldsVisibility={fieldsVisibility} onChange={onChange} />
+              <LegalDocument data={legalDocument} translation={translation} requiredFields={requiredFields} fieldsVisibility={fieldsVisibility} onChange={onChange} setClientData={setClientData} />
             </div>
           }
         </div>
