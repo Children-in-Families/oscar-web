@@ -61,8 +61,8 @@ module Api
       def find_client_global_identiy(object_saved)
         if (object_saved.nil? && GlobalIdentity.exists?(clients_params['global_id'])) || object_saved.valid? && GlobalIdentity.exists?(clients_params['global_id'])
           render_client_data
-        elsif referral_saved.errors.present?
-          render json: { external_id: clients_params['external_id'], message: referral_saved.errors }, status: :unprocessable_entity
+        elsif object_saved.errors.present?
+          render json: { external_id: clients_params['external_id'], message: object_saved.errors }, status: :unprocessable_entity
         else
           render json: { global_id: clients_params['global_id'], message: 'Record not found.' }, status: '404'
         end

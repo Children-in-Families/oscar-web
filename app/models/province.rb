@@ -41,7 +41,7 @@ class Province < ActiveRecord::Base
     if result
       { village_id: nil, commune_id: nil, district_id: nil, province_id: result&.id }
     else
-      { problem_id: nil }
+      { province_id: nil }
     end
   end
 
