@@ -2,6 +2,7 @@
   display: inline-flex;
   position: relative;
 }
+
 .react-time-picker,
 .react-time-picker *,
 .react-time-picker *:before,
@@ -10,10 +11,12 @@
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
+
 .react-time-picker--disabled {
   background-color: #f0f0f0;
   color: #6d6d6d;
 }
+
 .react-time-picker__wrapper {
   display: flex;
   flex-shrink: 0;
@@ -27,7 +30,7 @@
   width: fit-content;
   border: thin solid #cccccc !important;
   border-radius: 4px;
-  min-height: 38px;
+  min-height: 32px;
   padding-left: 3px;
 
   .select2-choice {
@@ -40,7 +43,7 @@
     height: auto !important;
     padding: 1px;
   }
-  
+
   .react-datetime-picker__inputGroup__input {
     height: auto !important;
   }
@@ -51,15 +54,17 @@
 }
 
 .react-time-picker__inputGroup {
-  min-width: calc((4px * 3) +  0.54em * 6  +  0.217em * 2);
+  min-width: calc((4px * 3) + 0.54em * 6 + 0.217em * 2);
   flex-grow: 1;
   padding: 7px !important;
   box-sizing: content-box;
 }
+
 .react-time-picker__inputGroup__divider {
   padding: 1px 0;
   white-space: pre;
 }
+
 .react-time-picker__inputGroup__input {
   min-width: 0.54em;
   height: 100%;
@@ -71,40 +76,50 @@
   box-sizing: content-box;
   -moz-appearance: textfield;
 }
+
 .react-time-picker__inputGroup__input::-webkit-outer-spin-button,
 .react-time-picker__inputGroup__input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
 .react-time-picker__inputGroup__input:invalid {
   background: rgba(255, 0, 0, 0.1);
 }
+
 .react-time-picker__inputGroup__input--hasLeadingZero {
   margin-left: -0.54em;
-  padding-left: calc(1px +  0.54em);
+  padding-left: calc(1px + 0.54em);
 }
+
 .react-time-picker__inputGroup__amPm {
   font: inherit;
   -moz-appearance: menulist;
 }
+
 .react-time-picker__button {
   border: 0;
   background: transparent;
   padding: 4px 6px;
 }
+
 .react-time-picker__button:enabled {
   cursor: pointer;
 }
+
 .react-time-picker__button:enabled:hover .react-time-picker__button__icon,
 .react-time-picker__button:enabled:focus .react-time-picker__button__icon {
   stroke: #0078d7;
 }
+
 .react-time-picker__button:disabled .react-time-picker__button__icon {
   stroke: #6d6d6d;
 }
+
 .react-time-picker__button svg {
   display: inherit;
 }
+
 .react-time-picker__clock {
   width: 200px;
   height: 200px;
@@ -117,6 +132,7 @@
   left: 0;
   z-index: 1;
 }
+
 .react-time-picker__clock--closed {
   display: none;
 }

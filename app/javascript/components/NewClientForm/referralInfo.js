@@ -723,7 +723,6 @@ export default (props) => {
           current_organization={current_organization}
           callFrom="referralInfo"
           outside={client.outside || false}
-          translation={translation}
           onChange={onChange}
           data={{
             addressTypes,
