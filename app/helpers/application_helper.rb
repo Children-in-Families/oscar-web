@@ -192,6 +192,8 @@ module ApplicationHelper
   end
 
   def date_time_format(date_time)
+    return if date_time.nil?
+
     date_time.in_time_zone('Bangkok').strftime('%d %B %Y %I:%M%p')
   end
 
