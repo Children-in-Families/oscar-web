@@ -24,6 +24,8 @@ export default ({isError, required, label, onChange, value, T }) => {
         {label}
       </label>
       <DateTimePicker
+        amPmAriaLabe="Select AM/PM"
+        format="dd/MM/y h:mm:ss a"
         className={isError && "error" || ""}
         onChange={onChange}
         value={ formatDateToString(value) }

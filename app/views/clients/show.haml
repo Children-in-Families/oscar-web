@@ -502,7 +502,7 @@
                       = t('clients.form.arrival_at')
                     %td
                       %strong
-                        = date_format @client.arrival_at
+                        = date_time_format @client.arrival_at
                 - if policy(Client).show?(:flight_nb)
                   %tr
                     %td.spacing-first-col

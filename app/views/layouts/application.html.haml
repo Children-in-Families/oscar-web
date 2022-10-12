@@ -38,5 +38,8 @@
           = yield
           .padding-bottom
             = render 'layouts/footer'
+    - if !['clients-new', 'clients-edit', 'clients-create'].include?("#{controller_name}-#{params[:action]}")
+      = javascript_include_tag 'application'
+    - else
+      = javascript_include_tag 'application_with_pack'
 
-    = javascript_include_tag 'application'

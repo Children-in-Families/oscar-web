@@ -67,6 +67,6 @@ class Commune < ActiveRecord::Base
     Rails.cache.delete([Apartment::Tenant.current, 'Commune', id])
     Rails.cache.delete([Apartment::Tenant.current, 'Commune', id, 'cached_villages'])
     Rails.cache.delete([Apartment::Tenant.current, "Commune", 'dropdown_list_option'])
-    Rails.cache.delete([Apartment::Tenant.current, "Commune", 'cache_by_client_district_province_and_mapping_names']) if name_changed?
+    Rails.cache.delete([Apartment::Tenant.current, "Commune", 'cache_by_client_district_province_and_mapping_names']) if name_kh_changed? || name_en_changed?
   end
 end
