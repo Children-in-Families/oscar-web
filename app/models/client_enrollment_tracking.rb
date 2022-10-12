@@ -25,7 +25,7 @@ class ClientEnrollmentTracking < ActiveRecord::Base
   def self.properties_by(value, object=nil)
     value = value.gsub(/\'+/, "''")
     field_properties = select("client_enrollment_trackings.id, client_enrollment_trackings.properties ->  '#{value}' as field_properties").collect(&:field_properties)
-    field_properties.select(&:present?).uniq
+    field_properties.select(&:present?)
   end
 
   def get_form_builder_attachment(value)
