@@ -1220,11 +1220,12 @@ class ClientGrid < BaseGrid
         elsif fields.first == 'tracking'
           ids = object.client_enrollments.ids
           if data == 'recent'
-            properties = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids }).order(created_at: :desc).first.try(:properties)
+            properties = ClientEnrollmentTracking.cached_tracking_order_created_at(object, fields.third, ids)
             properties = properties[format_field_value] if properties.present?
           else
-            client_enrollment_trackings = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids })
-            properties = form_builder_query(client_enrollment_trackings, fields.first, column_builder[:id].gsub('&qoute;', '"')).properties_by(format_field_value, client_enrollment_trackings)
+            client_enrollment_trackings = ClientEnrollmentTracking.cached_client_enrollment_tracking(object, fields.third, ids)
+            properties = form_builder_query(client_enrollment_trackings, fields.first, column_builder[:id].gsub('&qoute;', '"'))
+            properties = properties.present? ? ClientEnrollmentTracking.properties_by(format_field_value, properties) : properties
           end
         elsif fields.first == 'exitprogramdate'
           ids = object.client_enrollments.inactive.ids

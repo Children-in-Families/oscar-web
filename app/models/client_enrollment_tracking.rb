@@ -25,22 +25,22 @@ class ClientEnrollmentTracking < ActiveRecord::Base
   def self.properties_by(value, object=nil)
     value = value.gsub(/\'+/, "''")
     field_properties = select("client_enrollment_trackings.id, client_enrollment_trackings.properties ->  '#{value}' as field_properties").collect(&:field_properties)
-    field_properties.select(&:present?)
+    field_properties.select(&:present?).uniq
   end
 
   def get_form_builder_attachment(value)
     form_builder_attachments.find_by(name: value)
   end
 
-  def self.cached_tracking_order_created_at(fields_third, ids)
-    Rails.cache.fetch([Apartment::Tenant.current, 'ClientEnrollmentTracking', 'cached_tracking_order_created_at', *fields_third, *ids.sort]) {
+  def self.cached_tracking_order_created_at(object, fields_third, ids)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Client', object.id, 'ClientEnrollmentTracking', 'cached_tracking_order_created_at', *fields_third, *ids.sort]) {
       joins(:tracking).where(trackings: { name: fields_third }, client_enrollment_trackings: { client_enrollment_id: ids }).order(created_at: :desc).first.try(:properties)
     }
   end
 
-  def self.cached_client_enrollment_tracking(fields_third, ids)
-    Rails.cache.fetch([Apartment::Tenant.current, 'ClientEnrollmentTracking', 'cached_client_enrollment_tracking', *fields_third, *ids.sort]) {
-      joins(:tracking).where(trackings: { name: fields_third }, client_enrollment_trackings: { client_enrollment_id: ids })
+  def self.cached_client_enrollment_tracking(object, fields_third, ids)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Client', object.id, 'ClientEnrollmentTracking', 'cached_client_enrollment_tracking', *fields_third, *ids.sort]) {
+      joins(:tracking).where(trackings: { name: fields_third }, client_enrollment_trackings: { client_enrollment_id: ids }).distinct
     }
   end
 
