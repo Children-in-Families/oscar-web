@@ -266,12 +266,6 @@ module Api
         end
       end
 
-      Client::LEGAL_DOC_FIELDS.each do |attachment_field|
-        doc_field = attachment_field.gsub('_files', '')
-        remove_field = "remove_#{attachment_field}"
-
-        client_param[remove_field.to_sym] = true if client_param[doc_field.to_sym].in?([false, 'false'])
-      end
       client_param
     end
 
