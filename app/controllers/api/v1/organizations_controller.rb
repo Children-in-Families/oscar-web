@@ -234,13 +234,13 @@ module Api
         referral_attributes = Referral.get_referral_attribute(clients_params)
         client = Client.find_by(global_id: referral_attributes[:client_global_id])
 
-        user = client.users.last
+        referee = client.referee || client.received_by || client.users.last
         referral = Referral.new(
           referral_attributes.merge(
             ngo_name: external_system_name,
             referred_from: external_system_name,
             slug: client&.slug,
-            referee_id: user.id
+            referee_id: referee.id
           )
         )
 
