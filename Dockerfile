@@ -1,19 +1,25 @@
-FROM ruby:2.3.3
+FROM ruby:2.7.6-slim-bullseye
 
-RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
-RUN curl --silent https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -
-RUN apt-get update -qq && apt-get install -y nodejs postgresql-client fonts-khmeros memcached cron
+RUN bash -c "set -o pipefail && apt-get update \
+  && apt-get install -y --no-install-recommends build-essential curl git libpq-dev \
+  && curl -sSL https://deb.nodesource.com/setup_16.x | bash - \
+  && curl -sSL https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
+  && echo 'deb https://dl.yarnpkg.com/debian/ stable main' | tee /etc/apt/sources.list.d/yarn.list \
+  && apt-get update && apt-get install -y --no-install-recommends nodejs yarn \
+  && rm -rf /var/lib/apt/lists/* /usr/share/doc /usr/share/man \
+  && apt-get clean"
+
+RUN apt-get update -qq && apt-get install -y postgresql-client fonts-khmeros memcached cron
 RUN mkdir /app
 WORKDIR /app
 
 RUN node -v
 RUN npm -v
 
+RUN apt-get install build-essential chrpath libssl-dev libxft-dev libfreetype6-dev libfreetype6 libfontconfig1-dev libfontconfig1 python -y
 #Install phantomjs in the app container
-RUN apt-get install build-essential chrpath libssl-dev libxft-dev libfreetype6-dev libfreetype6 libfontconfig1-dev libfontconfig1 -y
+ENV OPENSSL_CONF=/dev/null
 RUN apt-get update \
-      && apt-get install -y --no-install-recommends \
-          curl \
       && mkdir /tmp/phantomjs \
       && curl -L https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2 \
               | tar -xj --strip-components=1 -C /tmp/phantomjs \
@@ -34,10 +40,11 @@ RUN phantomjs --version
 COPY Gemfile Gemfile.lock ./
 COPY package.json yarn.lock ./
 
-RUN gem install bundler -v 1.17.3
+RUN gem install bundler -v 2.3.5
+RUN bundle lock --add-platform aarch64-linux
+RUN bundle lock --add-platform x86_64-linux
 RUN bundle install --verbose --jobs 20 --retry 5
-RUN gem install solargraph -v 0.39.17 --force
-RUN npm install -g yarn
+RUN gem install solargraph
 RUN yarn install --check-files
 RUN service memcached start
 

@@ -12,7 +12,7 @@ gem 'sass-rails',             '~> 6.0'
 gem 'uglifier',               '~> 4.2'
 gem 'coffee-rails',           '~> 5.0'
 gem 'bootsnap',               '>= 1.1.0', require: false
-gem 'mini_racer',             platforms: :ruby
+gem 'mini_racer',             '~> 0.6.3', platforms: :ruby
 gem 'jbuilder',               '~> 2.10', '>= 2.10.1'
 gem 'simple_form',            '~> 5.0', '>= 5.0.3'
 gem 'bootstrap-sass',         '~> 3.4', '>= 3.4.1'
