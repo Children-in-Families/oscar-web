@@ -836,7 +836,7 @@ class Client < ActiveRecord::Base
   end
 
   def assign_global_id
-    referral = find_referral
+    referral = find_referrals.last
     if referral && referral.client_global_id
       self.global_id =  GlobalIdentity.find_or_initialize_ulid(referral.client_global_id)
     else
@@ -986,8 +986,8 @@ class Client < ActiveRecord::Base
   end
 
   def mark_referral_as_saved
-    referral = find_referral
-    referral.update_attributes(client_id: id, saved: true) if referral.present?
+    referrals = find_referrals
+    referrals.update_all(client_id: id, saved: true) if referrals.present?
   end
 
   def set_country_origin
@@ -1048,20 +1048,20 @@ class Client < ActiveRecord::Base
     end
   end
 
-  def find_referral
-    referral = nil
+  def find_referrals
+    referrals = []
     if external_id.present?
-      referral = Referral.find_by(external_id: external_id, saved: false)
+      Referral.where(external_id: external_id, saved: false)
     else
-      referral = Referral.find_by(slug: archived_slug, saved: false) if archived_slug.present?
+      Referral.where(slug: archived_slug, saved: false) if archived_slug.present?
     end
   end
 
   def update_first_referral_status
     received_referrals = referrals.received
-    return if received_referrals.count.zero? || received_referrals.count > 1 || client_enrollments.any?
+    return if received_referrals.count.zero? || client_enrollments.any?
 
-    referral = received_referrals.first
+    referral = received_referrals.find(from_referral_id)
     return if referral.referral_status == 'Accepted' || referral.referred_from == Apartment::Tenant.current
 
     referral.level_of_risk = 'no action' if referral.level_of_risk.blank?

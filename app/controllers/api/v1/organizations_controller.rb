@@ -220,6 +220,14 @@ module Api
           else
             render json: { external_id: clients_params[:external_id], message: referral.errors }, status: :unprocessable_entity
           end
+        elsif referral.present? && referral.client.nil?
+          external_system_id, external_system_name = ExternalSystem.fetch_external_system_name(@current_user.email)
+          referral = Referral.new(referral_attributes.merge(ngo_name: external_system_name, referred_from: external_system_name, client_global_id: referral.client_global_id))
+          if referral.save
+            render json: { external_id: clients_params[:external_id], message: 'Record saved.' }
+          else
+            render json: { external_id: clients_params[:external_id], message: referral.errors }, status: :unprocessable_entity
+          end
         else
           message = {}
           message['global_id'] = "global_id must exist." if clients_params['global_id'].blank?
