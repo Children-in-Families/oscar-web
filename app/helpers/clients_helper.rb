@@ -3,6 +3,7 @@ module ClientsHelper
 
   def client_form_data
     {
+      from_referral_id: params[:referral_id],
       translation: rails_i18n_translations, inlineHelpTranslation: JSON.parse(I18n.t('inline_help').to_json),
       internationalReferredClient: international_referred_client, selectedCountry: selected_country,
       client:
