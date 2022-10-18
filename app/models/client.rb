@@ -342,7 +342,7 @@ class Client < ActiveRecord::Base
     setting.use_screening_assessment? &&
     referred? &&
     custom_fields.exclude?(setting.screening_assessment_form) &&
-    setting.screening_assessment_form.entity_type == "Client"
+    setting.screening_assessment_form.try(:entity_type) == "Client"
   end
 
   def self.age_between(min_age, max_age)
