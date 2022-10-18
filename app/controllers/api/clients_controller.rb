@@ -266,12 +266,6 @@ module Api
         end
       end
 
-      Client::LEGAL_DOC_FIELDS.each do |attachment_field|
-        doc_field = attachment_field.gsub('_files', '')
-        remove_field = "remove_#{attachment_field}"
-
-        client_param[remove_field.to_sym] = true if client_param[doc_field.to_sym].in?([false, 'false'])
-      end
       client_param
     end
 
@@ -345,7 +339,7 @@ module Api
       assessments = assessments.includes(:assessment_domains).order("#{sort_column} #{sort_direction}").references(:assessment_domains, :client)
 
       basic_rules  = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
-      @basic_rules  = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
+      @basic_rules  = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules || "{}").with_indifferent_access
 
       assessment_data = params[:length] != '-1' ? assessments.page(page).per(per_page) : assessments
     end
