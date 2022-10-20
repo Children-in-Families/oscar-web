@@ -139,6 +139,7 @@ class Client < ActiveRecord::Base
   validates :global_id, presence: true
   validates_uniqueness_of :global_id, on: :create
 
+  before_validation :assign_global_id, on: :create
   after_validation :save_client_global_organization, on: :create
   before_create :set_country_origin
   after_create :set_slug_as_alias, :mark_referral_as_saved
@@ -1049,12 +1050,9 @@ class Client < ActiveRecord::Base
   end
 
   def find_referrals
-    referrals = []
-    if external_id.present?
-      Referral.where(external_id: external_id, saved: false)
-    else
-      Referral.where(slug: archived_slug, saved: false) if archived_slug.present?
-    end
+    return Referral.where(slug: archived_slug, saved: false) if archived_slug.present?
+
+    Referral.where(external_id: external_id, saved: false)
   end
 
   def update_first_referral_status
