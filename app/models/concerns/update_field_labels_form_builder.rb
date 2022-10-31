@@ -21,8 +21,8 @@ module UpdateFieldLabelsFormBuilder
   end
 
   def update_labels_changed(objects, labels_changed)
-    return if labels_changed.empty? || labels_changed.all?{|label_old, label_new| label_old == label_new }
-    constant_name = objects.first.class.name.constantize
+    constant_name = objects.compact.first.class.name.constantize
+    return if constant_name.nil? || (labels_changed.empty? || labels_changed.all?{|label_old, label_new| label_old == label_new })
     constant_name.paper_trail.disable
     objects.each_slice(1000).with_index do |batch_custom_field_properties, i|
       values = batch_custom_field_properties.map do |object|
@@ -44,7 +44,7 @@ module UpdateFieldLabelsFormBuilder
 
   def update_field_labels_changed(objects, field_labels_changed)
     return if field_labels_changed.empty?
-    objects.each do |object|
+    objects.compact.each do |object|
       field_labels_changed.each do |label_old, label_new|
         next if label_old == label_new
 

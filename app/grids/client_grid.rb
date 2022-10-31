@@ -1168,9 +1168,9 @@ class ClientGrid < BaseGrid
         if fields.first == 'formbuilder'
           if data == 'recent'
             if fields.last == 'Has This Form'
-              properties = object.custom_field_properties.cached_client_custom_field_properties_count(fields.second)
+              properties = object.custom_field_properties.cached_client_custom_field_properties_count(object, fields.second)
             else
-              properties = object.custom_field_properties.cached_client_custom_field_properties_order(fields.second)
+              properties = object.custom_field_properties.cached_client_custom_field_properties_order(object, fields.second)
               properties = properties[format_field_value] if properties.present?
             end
           else
@@ -1178,14 +1178,14 @@ class ClientGrid < BaseGrid
               properties = [custom_form_with_has_form(object, fields).count]
             else
               if $param_rules
-                custom_field_id = object.custom_fields.cached_client_custom_field_find_by(fields.second)
+                custom_field_id = object.custom_fields.cached_client_custom_field_find_by(object, fields.second)
                 basic_rules  = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
                 basic_rules  = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
                 results      = mapping_form_builder_param_value(basic_rules, 'formbuilder')
                 query_string = get_query_string(results, 'formbuilder', 'custom_field_properties.properties')
                 sql          = query_string.reverse.reject(&:blank?).map{|sql| "(#{sql})" }.join(" AND ")
 
-                properties = object.custom_field_properties.cached_client_custom_field_properties_properties_by(custom_field_id, sql, format_field_value)
+                properties = object.custom_field_properties.cached_client_custom_field_properties_properties_by(object, custom_field_id, sql, format_field_value)
                 properties = properties.blank? ? custom_form_with_has_form(object, fields).properties_by(format_field_value) : properties
               else
                 properties = form_builder_query(object.custom_field_properties, fields.second, column_builder[:id].gsub('&qoute;', '"'), 'custom_field_properties.properties').properties_by(format_field_value)
@@ -1194,24 +1194,24 @@ class ClientGrid < BaseGrid
           end
         elsif fields.first == 'enrollmentdate'
           if data == 'recent'
-            properties = date_format(object.client_enrollments.cached_client_order_enrollment_date(fields.second))
+            properties = date_format(object.client_enrollments.cached_client_order_enrollment_date(object, fields.second))
           else
-            properties = date_filter(object.client_enrollments.cached_client_enrollment_date_join(fields.second), fields.join('__')).map{|date| date_format(date.enrollment_date) }
+            properties = date_filter(object.client_enrollments.cached_client_enrollment_date_join(object, fields.second), fields.join('__')).map{|date| date_format(date.enrollment_date) }
           end
         elsif fields.first == 'enrollment'
           if data == 'recent'
-            properties = object.client_enrollments.cached_client_order_enrollment_date_properties(fields.second)
+            properties = object.client_enrollments.cached_client_order_enrollment_date_properties(object, fields.second)
             properties = properties[format_field_value] if properties.present?
           else
-            properties = object.client_enrollments.cached_client_enrollment_date_join(fields.second).properties_by(format_field_value)
+            properties = object.client_enrollments.cached_client_enrollment_date_join(object, fields.second).properties_by(format_field_value)
           end
         elsif fields.first == 'tracking'
           ids = object.client_enrollments.ids
           if data == 'recent'
-            properties = ClientEnrollmentTracking.cached_tracking_order_created_at(fields.third, ids)
+            properties = ClientEnrollmentTracking.cached_tracking_order_created_at(object, fields.third, ids)
             properties = properties[format_field_value] if properties.present?
           else
-            client_enrollment_trackings = ClientEnrollmentTracking.cached_client_enrollment_tracking(fields.third, ids)
+            client_enrollment_trackings = ClientEnrollmentTracking.cached_client_enrollment_tracking(object, fields.third, ids)
             properties = form_builder_query(client_enrollment_trackings, fields.first, column_builder[:id].gsub('&qoute;', '"')).properties_by(format_field_value, client_enrollment_trackings)
           end
         elsif fields.first == 'exitprogramdate'

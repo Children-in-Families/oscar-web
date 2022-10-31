@@ -466,6 +466,7 @@ km:
       address_type: ប្រភេទអាសយដ្ឋានអតិថិជន
       client_email_address: អ៊ីមែលអតិថិជន
       code: លេខកូដផ្ទាល់ខ្លួនទី១
+      common_searches: Common Searches
       commune: ឃុំ/សង្កាត់
       concern_basic_fields: កន្លែងកើតហេតុរបស់អតិថិជន
       completed: បានបញ្ចប់?
@@ -587,6 +588,8 @@ km:
       user_id: បុគ្គលិកគ្រប់គ្រងករណី
       village: ភូមិ
       what3words: What3words
+      client_rejected: Client Rejected
+      other: Other
   advanced_search_save_queries:
     create:
       failed_create: លក្ខខណ្ឌស្វែងរកត្រូវបានបង្កើតរួចហើយ
@@ -1016,6 +1019,7 @@ km:
       add_task: បន្ថែមកាតព្វកិច្ចថ្មី
       add_task_message: សូមជ្រើសរើសក្រុមកត្តាមុនពេលអ្នកបន្ថែមកាតព្វកិច្ច
       back: ត្រឡប់ក្រោយ
+      cb_dmat_assessment_task: កាតព្វកិច្ចរបស់ CB-DMAT
       completed_tasks: កាតព្វកិច្ចដែលបានធ្វើរួច
       domain: កត្តា
       domain_groups: សូមជ្រើសរើសក្រុមកត្តាទាំងអស់ដែលអ្នកបានគាំទ្រដល់អតិថិជនក្នុងកំណត់ត្រាករណីនេះ។
@@ -1056,6 +1060,7 @@ km:
       begin_now: បង្កើតថ្មី
       case_note_lists: បញ្ជីកំណត់ត្រាករណី
       case_note_on: កំណត់ត្រាករណីនៅថ្ងៃ
+      cb_dmat_assessment_task: កាតព្វកិច្ចរបស់ CB-DMAT
       completed_tasks: កាតព្វកិច្ចដែលបានធ្វើរួច
       domain: កត្តា
       domain_groups: ក្រុមកត្តា
@@ -2215,6 +2220,19 @@ km:
     version:
       back: ត្រឡប់ក្រោយ
       modification_of: ប្រវត្តិកំណែរបស់
+    table_summary:
+      title: Table Summary
+      age_tabs: Age
+      referral_category_tabs: Referral Categories
+      program: Program
+      children: Children
+      adult: Adult
+      female: Female
+      male: Male
+      other: Other
+      total: Total
+      no_program: No Program
+      client_by_gender: Client by gender
   communities:
     actions:
       are_you_sure: តើអ្នកប្រាកដថាចង់លុបដែរឬទេ?
@@ -3067,6 +3085,31 @@ km:
   datetime:
     distance_in_words:
       about_x_hours: '""'
+    dotiw:
+      days:
+        one: 1 ថ្ងៃ
+        other: "%{count} ថ្ងៃ"
+      hours:
+        one: 1 ម៉ោង
+        other: "%{count} ម៉ោង"
+      last_word_connector: ""
+      minutes:
+        one: 1 នាទី
+        other: "%{count} នាទី"
+      months:
+        one: 1 ខែ
+        other: "%{count} ខែ"
+      seconds:
+        one: 1 វិនាទី
+        other: "%{count} វិនាទី"
+      two_words_connector: ", "
+      weeks:
+        one: 1 សប្តាហ៍
+        other: "%{count} សប្តាហ៍"
+      words_connector: ", "
+      years:
+        one: 1 ឆ្នាំ
+        other: "%{count} ឆ្នាំ"
   default_able_screening_question_fields:
     alert_manager: ជូនដំណឹងអ្នកគ្រប់គ្រង
     mode: ម៉ូដ
@@ -4723,6 +4766,7 @@ km:
     internal_referral_attr: &INTERNAL_REFERRAL_ATTR
       are_you_sure: តើអ្នកប្រាកដថាចង់លុបដែរឬទេ?
       attachments: ឯកសារភ្ជាប់
+      changed_date: កាលបរិច្ឆេទ
       client_id: អត្តលេខអតិថិជន
       client_name: ឈ្មោះអតិថិជន
       client_representing_problem: បញ្ហាកំពុងលេចឡើងរបស់អតិថិជន
@@ -4736,6 +4780,8 @@ km:
       referral_reason: មូលហេតុក្នុងការបញ្ជូននិងអនុសាសន៍
       referral_reason_note: "មូលហេតុក្នុងការបញ្ចូលមកកាន់កម្មវិធីសមិទ្ធិផលរតនៈ:"
       user_id: បញ្ជូនមកពី
+      user_name: ឈ្មោះ
+      who_made_change: អ្នកកែប្រែ
     create:
       failed_create: ការបញ្ជូនមិនត្រូវបានបង្កើត
       successfully_created: ការបញ្ជូនត្រូវបានបង្កើតដោយជោគជ័យ
@@ -5753,9 +5799,16 @@ km:
       bad_credentials_supplied: កូដផ្ទៀងផ្ទាត់មិនត្រឹមត្រូវ
       your_account_needs_to_supply_a_verification_code: គណនីរបស់អ្នកត្រូវការបញ្ចូលកូដផ្ទៀងផ្ទាត់
   settings:
+    _attr: &SETTING_ATTR
+      assessment_type_name: "Select Assessment Tool for Client’s Wellbeing"
+      client_status_index: Client Status Index
+      risk_assessment: ការប៉ាន់ប្រមាណហនិភ័យ
     assessment_setting:
       age: អាយុ
       assessment: ការកំណត់ភាពញឹកញ៉ាប់នៃការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
+      assessment_notification: Assessment Notification
+      cb_dmat_multi: Ongoing CB-DMAT %{screening_assessment} (Multiple)
+      cb_dmat_one_off: CB-DMAT %{screening_assessment} (one-off)
       custom_assessment: ឈ្មោះ
       default_assessment: ការកំណត់ភាពញឹកញ៉ាប់នៃការប៉ាន់ប្រមាណលំនាំដើម CSI
       default_assessment_framework: ការកំណត់ភាពញឹកញ៉ាប់នៃការប៉ាន់ប្រមាណលំនាំដើមក្របខ័ណ្ឌលទ្ធផល
@@ -5764,6 +5817,7 @@ km:
       max_assessment: រយៈពេលអតិបរមារវាងការបា៉ន់ប្រមាណ
       min_assessment: រយៈពេលអប្បបរមារវាងការប៉ាន់ប្រមាណទី 1 និងទី 2
       name: ឈ្មោះ
+      new_client_assessment: New Client Assessment
       noted: 'ចំណាំ: ទីភ្នាក់ងារ USAID បានស្នើថា CSI មិនត្រូវបានប្រើសម្រាប់ការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន។'
       show_prev_assessment: បង្ហាញការប៉ាន់ប្រមានលើកមុនពេលកំពុងបំពេញការប៉ាន់ប្រមាណថ្មី
       two_weeks_assessment_reminder: ផ្ញើការជូនដំណឹងចំនួន ២ដង នៅសប្តាហ៍ទី ២ និងទី ១ មុនពេលធ្វើការប៉ាន់ប្រមាណ
@@ -5877,6 +5931,81 @@ km:
       successfully_updated: Service has been successfully updated.
   referral_details: ព័ត៌មានលំអិតនៃការបញ្ជូន
   results: លទ្ធផល
+  risk_assessments:
+    _attr: &SA_ATTR
+      add_task: បន្ថែមកាតព្វកិច្ច
+      assessment_date: ពិន្ទុសុខុមាលភាពអតិថិជន
+      category: ប្រភេទ
+      child_wellbeing: សុខុមាលភាពអតិថិជន
+      client_perspective: ទស្សនៈអតិថិជនលើបញ្ហា និងតម្រូវការរបស់គាត់
+      client_status_index: ការប៉ាន់ប្រមាណ CSI
+      date: កាលបរិច្ចេទរំពឹងទុក
+      description: ការពិពណ៌នា
+      guidance: ការណែនាំ
+      has_disability: តើអតិថិជនមានពិការភាពដែរឬទេ?
+      has_hiv_or_aid: តើកុមារមានផ្ទុកមេរោគ/ជង្ងឺអេដស៏?
+      has_known_chronic_disease: តើអតិថិជនមានជម្ងឺរ៉ាំរ៉ៃដែរឬទេ?
+      history_of_disability_id: កុមារមានជំងឺរ៉ាំរ៉ែ និង/ឬពិការភាព
+      history_of_harm_id: ការបង្កទុក្ខទោស និងការកេងប្រវ័ញ្ច
+      history_of_high_risk_behaviour_id: ការបំពានគ្រឿងញៀនឬគ្រឿងស្រវឹង និងល្បែងស៊ីសង
+      history_of_family_separation_id: ការបែកចេញពីគ្រួសារ
+      hiv_or_aid_specification: ការណែនាំបន្ទាន់
+      if_other: ប្រសិនជ្រើស ផ្សេងៗ សូមបញ្ជាក់
+      if_yes: ប្រសិន បាទ/ចាស សូមបញ្ជាក់
+      level_of_risk: កម្រិតហានិភ័យ
+      level_of_risks:
+        high: ខ្ពស់
+        medium: ធម្យម
+        low: ទាប
+        no_action: គ្មានសកម្មភាព
+      no_date: គ្មានកាតព្វកិច្ច
+      no_protection_concern: គ្មានបញ្ហាដែលជាកង្វល់
+      overall_client_wellbeing_score: ពិន្ទុសុខុមាលភាពអតិថិជនសរុប
+      pending_assessment: Pending Assessment
+      protection_concern: បញ្ហាដែលជាកង្វល់
+      relevant_referral_information: ព័ត៌មានសំខាន់ៗដែលពាក់ព័ន្ធ
+      risk: ហានិភ័យ
+      risk_assessment: ការប៉ាន់ប្រមាណហានិភ័យ
+      risk_level_history: ប្រវត្តិកម្រិតហានិភ័យ
+      score: ពិន្ទុ
+      select_assessment_tool: ជ្រើសរើសឧបករណ៍សម្រាប់ការប៉ាន់ប្រមាណសុខុមាលភាពកុមារ
+      task: កាតព្វកិច្ច
+
+  screening_assessments:
+    _attr: &SA_ATTR
+      add_new: បន្ថែមការប៉ាន់ប្រមាណបឋម
+      add_task: បន្ថែមកាតព្វកិច្ច
+      assessment_date: កាលបរិច្ឆេទការប៉ាន់ប្រមាណ
+      assessment_on: ការប៉ាន់ប្រមាណថ្ងៃទី
+      attachments: ឯកសារភ្ជាប់
+      back_to_clients: ត្រឡប់ទៅអតិថិជន
+      based_on: ផ្អែកលើការប៉ាន់ប្រមាណបឋម
+      cb_dmat: ការប៉ាន់ប្រមាណបឋម CB-DMAT
+      cb_dmat_assessment: ការប៉ាន់ប្រមាណ CB-DMAT
+      client_age: អាយុអតិថិជន
+      client_milestone_age: កម្រិតអាយុអតិថិជន
+      client_name: ឈ្មោះអតិថិជន
+      created_by: បង្កើតដោយ
+      note: កំណត់ត្រា
+      on_date: នៅថ្ងៃ
+      refer_to_specialist: បញ្ជូនទៅអ្នកឯកទេស
+      screening_assessment: ការប៉ាន់ប្រមាណបឋម
+      screening_assessment_date: កាលបរិច្ឆេទការប៉ាន់ប្រមាណបឋម
+      tasks: កាតព្វកិច្ច
+      view_cb_dmat: មើល CB-DMAT
+      view_cb_dmat_assessment: មើលការប៉ាន់ប្រមាណ CB-DMAT
+      view_or_hide_last_screening_assessment: មើល ឬលាក់ការប៉ាន់ប្រមាណមុន
+      view_screening_assessment: មើលការប៉ាន់ប្រមាណបឋម
+      visitor: វត្តមានអ្នកចូលរួម?
+    form:
+      <<: *SA_ATTR
+    previous_screening_assessment:
+      <<: *SA_ATTR
+    show:
+      <<: *SA_ATTR
+    task_fields:
+      expected_date: កាលបរិច្ឆេទរំពឹងទុក
+      task: កាតព្វកិច្ច
   shared:
     x_lists_of: "បញ្ជី%{x}"
     new_x: "%{x}ថ្មី"
@@ -6091,6 +6220,7 @@ km:
     update:
       successfully_updated: ការស្ទង់មតិត្រូវបានកែសម្រួលដោយជោគជ័យ
   tasks:
+    add_task: បន្ថែមកាតព្វកិច្ច
     add_task_progress_note: បន្ថែមការពិព៌ណនាអំពីជំនួប
     completion_date: កាលបរិច្ឆេទបញ្ចប់
     expected_date: កាលបរិច្ឆេទរំពឹងទុក
@@ -6109,6 +6239,7 @@ km:
       upcoming_tasks: កាតព្វកិច្ចបន្ទាប់
     task: កាតព្វកិច្ច
     task_added: កាតព្វកិច្ចបានបន្ថែមហើយ
+    title: ឈ្មោះកាតព្វកិច្ច
   thredded:
     content_moderation_states:
       content_blocked_notice: ត្រូវបានបិទ

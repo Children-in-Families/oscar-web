@@ -1,3 +1,4 @@
+- risk_assessment = @client.risk_assessment
 .row
   .col-xs-12
     .alert.alert-warning.alert-dismissible{ :role => "alert" }
@@ -6,7 +7,7 @@
       %ul
         %li= Organization.ratanak? ?  I18n.t('inline_help.clients.show.notes.lists.ratanak.list1') : I18n.t('inline_help.clients.show.notes.lists.list1')
     .row
-      %div{ class: "col-md-#{ @client.referred? || @client.exit_ngo? ? '9' : '12' }"}
+      %div{ class: "col-xs-12 col-md-#{ @client.referred? || @client.exit_ngo? ? '7' : '9' }"}
         %table.table.small.m-b-xs#main-info
           %tbody
             %tr
@@ -49,20 +50,35 @@
                 - if policy(@client).show?(:province)
                   = "#{t('.current_province')} :"
                   %strong= editable @client, :province_id, type: :select2, source: @current_provinces, value: @client.province&.name, url: api_client_path(@client.id), pk: @client.id
-      .col-md-3
-        - if @client.status == 'Referred'
+      - if @client.status == 'Referred'
+        .col-xs-12.col-md-2
           .row
             .col-xs-12
+              .row
+                .col-xs-12
+                  - if current_setting.cbdmat_one_off?
+                    - if @client.one_off_screening_assessment.present?
+                      %p= link_to t('screening_assessments._attr.view_cb_dmat'), client_screening_assessment_path(@client, @client.one_off_screening_assessment), class: 'btn btn-primary'
+                    - else
+                      %p= link_to t('screening_assessments._attr.cb_dmat'), if_date_of_birth_blank(@client), type: "button", **has_of_warning_model_if_dob_blank(@client), class: 'btn btn-primary'
               .row
                 - if current_setting.use_screening_assessment? && @client.referred?
                   .col-xs-12
                     - if @client.require_screening_assessment?(current_setting)
+                      .btn-group.small-btn-margin
+                        %button.btn-sm.btn.btn-success.dropdown-toggle.btn-fit{ data: { toggle: "dropdown", trigger: 'hover', html: 'true', content: "#{I18n.t('inline_help.clients.show.add_form')}", placement: "auto" }, class: ('disabled' if @free_client_forms.empty? || (status_exited?(@client.status) && !current_user.admin?)) }
+                          = t('.complete_screening_tool')
+                          %span.caret
+                        %ul.dropdown-menu.btn-fit.scrollable-dropdown-menu.add-form
+                          %li
+                            %p= link_to t('.complete_screening_assessment'), new_client_custom_field_property_path(@client, custom_field_id: current_setting.screening_assessment_form)
+                    - elsif @client.require_screening_assessment?(current_setting)
                       = link_to t('.complete_screening_assessment'), new_client_custom_field_property_path(@client, custom_field_id: current_setting.screening_assessment_form), class: 'btn btn-success'
                     - elsif @client.custom_fields.include?(current_setting.screening_assessment_form)
                       = link_to t('.view_screening_assessment'), client_custom_field_properties_path(@client, custom_field_id: current_setting.screening_assessment_form), class: 'btn btn-success'
 
                 .col-xs-12{ class: "#{'mini-margin' if current_setting.use_screening_assessment? && @client.referred? }" }
-                  - if @client.require_screening_assessment?(current_setting) || (@client.calls.any? && @client.calls.most_recents.first.case_action_not_required?)
+                  - if (current_setting.cbdmat_one_off? && @client.one_off_screening_assessment.blank?) || @client.require_screening_assessment?(current_setting) || (@client.calls.any? && @client.calls.most_recents.first.case_action_not_required?)
                     %button.btn.btn-success.agree-btn{ disabled: 'disabled', data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.clients.show.accepted')}", placement: "auto" } }
                       = t('.accept')
                   - else
@@ -78,13 +94,62 @@
             .col-xs-12
               = render 'client/exit_ngos/form', client: @client
 
-        - elsif @client.exit_ngo?
+      - elsif @client.exit_ngo?
+        .col-xs-12.col-md-3
           .row
             .col-xs-12
               %button.btn.btn-success.mini-margin.enter-ngo-for-client{ class: 'agree-btn', data: { class_name: 'accept-client', disable_with: t('.accepting'), 'target' => "#enter-ngo-form", 'toggle' => 'modal', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.accepted')}", placement: "auto" } } #{t('.accept')}
               = render 'client/enter_ngos/form', client: @client
             .col-xs-12
               %button.btn.btn-danger.mini-margin{ disabled: 'disabled', class: 'agree-btn', data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.clients.show.reject')}", placement: "auto" } }= t('.reject')
+
+      - if current_setting.enabled_risk_assessment?
+        .col-xs-12.col-md-3
+          - if risk_assessment
+            %table.table.small.m-b-xs
+              %tbody
+                - assessment = @client.last_risk_assessment
+                - if assessment.present?
+                  %tr
+                    %td
+                      = "#{t('risk_assessments._attr.risk_assessment')}:"
+                      %strong= t('risk_assessments._attr.child_wellbeing')
+                  %tr
+                    %td
+                      = "#{t('risk_assessments._attr.level_of_risk')}:"
+                      %strong= display_level_of_risk(assessment.level_of_risk)
+                  %tr
+                    %td
+                      = "#{t('risk_assessments._attr.assessment_date')}:"
+                      %strong= date_format assessment.created_at
+                - else
+                  %tr
+                    %td
+                      = "#{t('risk_assessments._attr.risk_assessment')}:"
+                      %strong= t('risk_assessments._attr.protection_concern')
+                  %tr
+                    %td
+                      = "#{t('risk_assessments._attr.level_of_risk')}:"
+                      %strong= display_level_of_risk(risk_assessment.level_of_risk)
+                  %tr
+                    %td
+                      = "#{t('risk_assessments._attr.assessment_date')}:"
+                      %strong= date_format risk_assessment.assessment_date
+          - else
+            %table.table.small.m-b-xs
+              %tbody
+                %tr
+                  %td
+                    = "#{t('risk_assessments._attr.risk_assessment')}:"
+                    %strong= t('risk_assessments._attr.protection_concern')
+                %tr
+                  %td
+                    = "#{t('risk_assessments._attr.level_of_risk')}:"
+                    %strong= display_level_of_risk('pending_assessment')
+                %tr
+                  %td
+                    = "#{t('risk_assessments._attr.assessment_date')}:"
+                    %strong No Date
 
     - if @client.status != 'Referred'
       - ngos = mapping_ngos(select_ngos)
@@ -212,6 +277,10 @@
 
           = link_to client_client_enrollments_path(@client), data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.enroll_program')}", placement: "auto" } do
             .btn.btn-primary.small-btn-margin.btn-sm.btn-fit= t('.program_streams')
+          - if current_setting.cbdmat_one_off || current_setting.cbdmat_ongoing
+            = link_to client_screening_assessments_path(@client), class: 'btn btn-primary small-btn-margin btn-sm btn-fit' do
+              %strong.count-margin= @client.screening_assessments.count
+              = t('.cb_dmat')
 
           - if government_forms_visible? && policy(@client).show?(:government_forms) && current_organization&.country != 'nepal'
             .btn-group.small-btn-margin
@@ -433,7 +502,7 @@
                       = t('clients.form.arrival_at')
                     %td
                       %strong
-                        = date_format @client.arrival_at
+                        = date_time_format @client.arrival_at
                 - if policy(Client).show?(:flight_nb)
                   %tr
                     %td.spacing-first-col
@@ -633,7 +702,7 @@
                 - legal_doc_options_hash = { "Labour Trafficking" => 'labor_trafficking_legal_doc_option', "Sexual Trafficking" => 'sex_trafficking_legal_doc_option', 'Other' => 'other_legal_doc_option' }
                 - legal_doc_fields.each do |field|
                   - if field == 'mosavy'
-                    - attachments = @client.send("referral_doc_files")
+                    - attachments = @client.referral_doc_files
                   - else
                     - attachments = @client.send("#{field}_files")
 
@@ -741,7 +810,24 @@
                         = link_to call_path(call) do
                           %button.btn.btn-outline.btn-primary.btn-xs= fa_icon('eye')
 
+        - if current_setting.enabled_risk_assessment? && risk_assessment
+          = render 'client_risk_assessment', client: @client, risk_assessment: risk_assessment
+
 .row
   -# = render 'placement'
   = render 'referrals/confirm_referral'
   = render 'referrals/confirm_repeat_referral'
+
+.modal.fade#screening-tool-warning{"aria-labelledby" => "gridSystemModalLabel", role: "dialog", tabindex: "-1"}
+  .modal-dialog{role: "document"}
+    .modal-content
+      .modal-header.bg-warning
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", type: "button"}
+          %span{"aria-hidden" => "true"} ×
+        %h4.modal-title=t('warning')
+      .modal-body
+        %p Client's age is empty.
+        %p អាយុកុមារនៅទទេ។
+      .modal-footer
+        = link_to t('ok'), new_client_screening_assessment_path(@client, screening_type: 'one_off'), class: 'btn btn-danger'
+        %button.btn.btn-default.editable-cancel{"data-dismiss" => 'modal'}= t('back')

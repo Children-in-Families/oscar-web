@@ -460,6 +460,7 @@ my:
       address_type: Client Address Type
       client_email_address: Client Email Address
       code: Custom ID Number1
+      common_searches: Common Searches
       commune: ရပ္ကြက္/ ေက်းရြာအုပ္စု
       completed: ၿပီး
       created_at: ရက္စြဲကို ဖန္တီးရန္
@@ -599,6 +600,8 @@ my:
       user_id: အမႈျခင္းရာကိုလိုက္လံေဆာင္ရြက္ေပးသူ
       village: ေက်းရြာ
       what3words: What3words
+      client_rejected: Client Rejected
+      other: Other
   advanced_search_save_queries:
     create:
       failed_create: ရွာေဖြျခင္း အျပင္အဆင္ကို အျခားလူ ယူထားပါသည္။
@@ -1038,6 +1041,7 @@ my:
       add_task: လုပ္ငန္းအသစ္ထည့္သြင္းရန္
       add_task_message: Please select the domain group before you can add the task.
       back: ေနာက္သို႔
+      cb_dmat_assessment_task: CB-DMAT Assessment Tasks
       completed_tasks: ၿပီးၿပီးသား လုပ္ငန္းမ်ား
       domain: ဒိုမိန္း
       domain_groups: Please select all Domain Groups you supported the client with in this case note.
@@ -1077,6 +1081,7 @@ my:
       back: ေနာက္သို႔
       case_note_lists: အမႈျခင္းရာ မွတ္စု စာရင္း
       case_note_on: ဆုိင္ရာ အမႈျခင္းရာမွတ္စု
+      cb_dmat_assessment_task: CB-DMAT Assessment Tasks
       completed_tasks: ၿပီးစီးၿပီးသြားေသာ လုပ္ငန္းမ်ား
       domain: ဒိုမိန္း
       domain_groups: ဒိုမိန္း အုပ္စုမ်ား
@@ -1322,6 +1327,19 @@ my:
         enter_task_detail: လုပ္ငန္းအေသးစိတ္ထည့္သြင္းရန္
       update:
         successfully_updated: လုပ္ငန္းကို ေအာင္ျမင္စြာ အသစ္ ျပင္ဆင္ၿပီးပါၿပီ
+    table_summary:
+      title: Table Summary
+      age_tabs: Age
+      referral_category_tabs: Referral Categories
+      program: Program
+      children: Children
+      adult: Adult
+      female: Female
+      male: Male
+      other: Other
+      total: Total
+      no_program: No Program
+      client_by_gender: Client by gender
   client_advanced_searches:
     form_option:
       basic_fields: အမႈသည္၏ အေျခခံ အေနအထားမ်ား
@@ -4864,6 +4882,7 @@ my:
     internal_referral_attr: &INTERNAL_REFERRAL_ATTR
       are_you_sure: Are you sure you want to delete?
       attachments: Attachments
+      changed_date: Date
       client_id: Client ID
       client_name: ဖောက်သည်အမည
       client_representing_problem: CLIENT'S PRESENTING PROBLEMS
@@ -4879,6 +4898,8 @@ my:
       referral_reason: REASON FOR REFERRAL AND RECOMMNEDATIONS
       referral_reason_note: "The referral source’s reason for referral:"
       user_id: Referred from
+      user_name: Name
+      who_made_change: Who made change
     create:
       successfully_created: Internal Referral has successfully been created.
     destroy:
@@ -5910,9 +5931,16 @@ my:
       bad_credentials_supplied: မကောင်းတဲ့သံတမန်ဆောင်ဧည်ထောက်ပံ့
       your_account_needs_to_supply_a_verification_code: သင့်အကောင့်အတည်ပြုရန်ကုဒ်ထောက်ပံ့ဖို့လိုအပ်ပါတယ်
   settings:
+    _attr: &SETTING_ATTR
+      assessment_type_name: "Select Assessment Tool for Client’s Wellbeing"
+      client_status_index: Client Status Index
+      risk_assessment: Risk Assessment
     assessment_setting:
       age: အသက္
       assessment: အကဲဖြတ်
+      assessment_notification: Assessment Notification
+      cb_dmat_multi: Ongoing CB-DMAT %{screening_assessment} (Multiple)
+      cb_dmat_one_off: CB-DMAT %{screening_assessment} (one-off)
       custom_assessment: နာမတျောကို
       default_assessment: ပျက်ကွက် အကဲဖြတ်ကြိမ်နှုန်းချိန်ညှိမှုများ
       default_assessment_framework: Result Framework Assessment Frequency Settings
@@ -5921,6 +5949,7 @@ my:
       max_assessment: အကဲဖြတ်အကြားအများဆုံးအချိန်
       min_assessment: 1st နှင့် 2nd အကဲဖြတ်များအကြားနိမ့်ဆုံးအချိန်
       name: နာမတျောကို
+      new_client_assessment: New Client Assessment
       noted: 'မှတ်ချက်: USAID ကဟူသောဝေါဟာရကို CSI စိတ်ကြိုက်အကဲဖြတ်အတွက်အသုံးပြုမရကြောင်းမေတ္တာရပ်ခံခဲ့သည်။'
       show_prev_assessment: Show previous assessment while completing new assessment
       two_weeks_assessment_reminder: Send 2 notification at both 2 and 1 week prior to assessment
@@ -6028,6 +6057,77 @@ my:
       successfully_updated: Service has been successfully updated.
   referral_details: Referral Details
   results: Results
+  risk_assessments:
+    _attr: &SA_ATTR
+      assessment_date: Date of risk assessment
+      category: Category
+      child_wellbeing: "Child's Wellbeing"
+      client_perspective: "Client’s perspective on their problem and needs"
+      client_status_index: Client Status Index
+      description: Description
+      guidance: Guidance
+      has_disability: Does client have disability?
+      has_hiv_or_aid: Does client have HIV/AID?
+      has_known_chronic_disease: Does client have a known chronic disease?
+      history_of_disability_id: History of disability and/or illness
+      history_of_harm_id: History of Harm
+      history_of_high_risk_behaviour_id: History of high-risk behaviours
+      history_of_family_separation_id: Reason for Family Separation
+      hiv_or_aid_specification: Immediate Recommendation
+      if_other: If other, please specify
+      if_yes: If yes, please specify
+      level_of_risk: Level of Risk
+      level_of_risks:
+        high: High
+        medium: Medium
+        low: Low
+        no_action: No Action
+      no_date: No Date
+      no_protection_concern: No Protection Concern
+      overall_client_wellbeing_score: Overall Client’s Wellbeing Score
+      pending_assessment: Pending Assessment
+      protection_concern: Protection Concern
+      relevant_referral_information: Relevant Referral Information
+      risk: Risk
+      risk_assessment: Risk Assessment
+      risk_level_history: Risk Level History
+      score: Score
+      select_assessment_tool: "Select Assessment Tool for Client’s Wellbeing"
+  screening_assessments:
+    _attr: &SA_ATTR
+      add_new: Add New Screening Assessment
+      add_task: Add Task
+      assessment_date: Assessment Date
+      assessment_on: Assessment On
+      attachments: Attachments
+      back_to_clients: Back to Client
+      based_on: Base on Screening Assessment
+      cb_dmat: CB-DMAT Screening Tool
+      cb_dmat_assessment: CB-DMAT Assessment
+      client_age: Client's Age
+      client_milestone_age: Client's Milestone Age
+      client_name: Client's Name
+      created_by: Created By
+      note: Note
+      on_date: On Date
+      refer_to_specialist: Refer to specialist
+      screening_assessment: Screening Assessment
+      screening_assessment_date: Screening Assessment Date
+      tasks: Tasks
+      view_cb_dmat: View CB-DMAT
+      view_cb_dmat_assessment: View CB-DMAT Assessment
+      view_or_hide_last_assessment: View or Hide Last Assessment
+      view_screening_assessment: View Screening Assessment
+      visitor: Who was there during the assessment?
+    form:
+      <<: *SA_ATTR
+    previous_screening_assessment:
+      <<: *SA_ATTR
+    show:
+      <<: *SA_ATTR
+    task_fields:
+      expected_date: Expected Date
+      task: Task
   shared:
     x_lists_of: "%{x}စာရင်း"
     new_x: "အသစ်%{x}"
@@ -6243,6 +6343,7 @@ my:
     update:
       successfully_updated: စစ္တမ္းကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ျဖည့္စြက္ၿပီးပါၿပီ
   tasks:
+    add_task: Add Task
     add_task_progress_note: Add progress notes and next steps
     completion_date: ၿပီးစီးသည့္ ရက္စြဲ
     expected_date:  မျှော်လင့်ထားသည့်နေ့စွဲ မျှော်လင့်ထားသည့်နေ့စွဲ

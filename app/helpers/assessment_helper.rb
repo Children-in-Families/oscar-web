@@ -112,10 +112,10 @@ module AssessmentHelper
     domains = default ? Domain.csi_domains.map{ |domain| ["domain_#{domain.id}", domain.name] } : Domain.custom_csi_domains.map{ |domain| ["domain_#{domain.id}", domain.name] }
     domain_ids, domain_headers = domains.map(&:first), domains.map(&:last)
 
-    assessment_headers = [t('.client_id'), t('.client_name'), t('.assessment_number', assessment: t('clients.show.assessment')), t('.assessment_date', assessment: t('clients.show.assessment'))]
+    assessment_headers = [t('.client_id'), t('.client_name'), t('.assessment_number', assessment: t('clients.show.assessment')), t('.assessment_date', assessment: t('clients.show.assessment')), t('.average_score', assessment: t('clients.show.assessment'))]
 
-    assessment_domain_headers = ['slug', 'name', 'assessment-number', 'date']
-    classNames = ['client-id', 'client-name', 'ssessment-number text-center', 'assessment-date', 'assessment-score text-center']
+    assessment_domain_headers = ['slug', 'name', 'assessment-number', 'date', 'average-score']
+    classNames = ['client-id', 'client-name', 'assessment-number text-center', 'assessment-date', 'average-score text-center', 'assessment-score text-center']
 
     [*assessment_domain_headers, *domain_ids].zip(classNames, [*assessment_headers, *domain_headers]).map do |field_header, class_name, header_name|
       { title: header_name, data: field_header, className: class_name ? class_name : 'assessment-score text-center' }
@@ -354,5 +354,13 @@ module AssessmentHelper
     end
   end
 
+  def calculate_domain_selected_domain_score(assessment)
+    sum = assessment.assessment_domains.inject(0) do |sum, ad|
+      sum + (current_setting.selected_domain_ids.compact.include?(ad.domain_id) && ad.score.present? ? ad.score : 0)
+    end
 
+    return sum if sum.zero?
+
+    (sum.to_f / current_setting.selected_domain_ids.compact.size).round
+  end
 end

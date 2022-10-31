@@ -3,6 +3,7 @@ class CIF.ClientAdvanceSearch
     @filterTranslation   = ''
     @customFormSelected  = []
     @programSelected     = []
+    @assessmentSelected  = ''
     optionTranslation    = $('#opt-group-translation')
 
     @enrollmentCheckbox  = $('#enrollment-checkbox')
@@ -16,6 +17,7 @@ class CIF.ClientAdvanceSearch
     @ENROLLMENT_URL       = '/api/client_advanced_searches/get_enrollment_field'
     @TRACKING_URL         = '/api/client_advanced_searches/get_tracking_field'
     @EXIT_PROGRAM_URL     = '/api/client_advanced_searches/get_exit_program_field'
+    @PROGRAM_STREAM_URL   = '/api/client_advanced_searches/get_program_stream_search_field'
 
     @DOMAIN_SCORES_TRANSLATE  = $(optionTranslation).data('csiDomainScores')
     @BASIC_FIELD_TRANSLATE    = $(optionTranslation).data('basicFields')
@@ -34,6 +36,7 @@ class CIF.ClientAdvanceSearch
   setValueToBuilderSelected: ->
     @customFormSelected = $('#custom-form-data').data('value')
     @programSelected    = $('#program-stream-data').data('value')
+    @assessmentSelected = $('#assessment-form-data').data('value')
     @wizardCustomFormSelected = $('#wizard-custom-form-data').data('value')
     @wizardProgramSelected    = $('#wizard-program-stream-data').data('value')
 
@@ -92,11 +95,11 @@ class CIF.ClientAdvanceSearch
 
 
   initSelect2: ->
-    $('#custom-form-select, #wizard-custom-form-select, #program-stream-select, #wizard-program-stream-select, #quantitative-case-select').select2()
+    $('#custom-form-select, #wizard-custom-form-select, #program-stream-select, #wizard-program-stream-select, #quantitative-case-select, #assessment-select').select2()
     $('#builder select').select2()
     $('#wizard-builder select').select2()
     setTimeout ( ->
-      ids = ['#custom-form-select', '#wizard-custom-form-select', '#program-stream-select', '#wizard-program-stream-select', '#quantitative-case-select', '#wizard-builder', '#builder']
+      ids = ['#custom-form-select', '#wizard-custom-form-select', '#program-stream-select', '#wizard-program-stream-select', '#quantitative-case-select', '#wizard-builder', '#builder', '#assessment-select']
       $.each ids, (index, item) ->
         $("#{item} .rule-filter-container select").select2(width: '250px')
         $("#{item} .rule-operator-container select, .rule-value-container select").select2(width: 'resolve')
@@ -119,6 +122,7 @@ class CIF.ClientAdvanceSearch
     wizardBasicQueryRules = $('#wizard-builder').data('basic-search-rules')
     unless basicQueryRules == undefined or _.isEmpty(basicQueryRules.rules)
       self.handleAddHotlineFilter()
+      console.log(basicQueryRules, 'basic query')
       $('#builder').queryBuilder('setRules', basicQueryRules)
     unless wizardBasicQueryRules == undefined or _.isEmpty(wizardBasicQueryRules.rules)
       $('#wizard-builder').queryBuilder('setRules', wizardBasicQueryRules)
@@ -146,6 +150,11 @@ class CIF.ClientAdvanceSearch
       $.when(addCustomBuildersFields).then ->
         $('#custom-form-column').removeClass('hidden')
         $('#wizard-custom-form .loader').addClass('hidden')
+
+  assessmentSelectChange: ->
+    self = @
+    $('.main-report-builder .assessment-form-wrapper select').on 'select2-selecting', (element) ->
+      self.assessmentSelected = element.val
 
   addCustomBuildersFields: (ids, url, loader=undefined) ->
     self = @
@@ -231,6 +240,36 @@ class CIF.ClientAdvanceSearch
     $('#custom-form-checkbox').on 'ifChecked', ->
       $('.custom-form').show()
 
+  handleHideAssessmentSelect: ->
+    self = @
+    $('#assessment-checkbox').on 'ifUnchecked', ->
+      ruleFiltersSelect = $('.main-report-builder .rule-container .rule-filter-container select')
+      ruleFiltersSelect.select2('destroy')
+      ruleFiltersSelect.parents('.rule-container').find('.rule-header button').trigger('click')
+      self.assessmentSelected = ''
+      $('.assessment-form').hide()
+      $('#builder').queryBuilder('removeFilter', ['assessment_condition_last_two','assessment_condition_first_last'])
+      $('button[data-add="rule"]').trigger('click')
+      self.initSelect2()
+      return
+
+  handleShowAssessmentSelect: ->
+    self = @
+    if $('#assessment-checkbox').prop('checked')
+      $('.assessment-form').show()
+    $('#assessment-checkbox').on 'ifChecked', ->
+      $('.assessment-form').show()
+      self.assessmentSelected = $('select.assessment-select').val()
+      $.ajax
+        url: self.PROGRAM_STREAM_URL
+        data: { assesment_checked: true }
+        method: 'GET'
+        success: (response) ->
+          fieldList = response.client_advanced_searches
+          $('#builder').queryBuilder('addFilter', fieldList)
+          self.initSelect2()
+          return
+
   ######################################################################################################################
 
   customFormSelectRemove: ->
@@ -257,6 +296,19 @@ class CIF.ClientAdvanceSearch
 
       if $('#wizard_custom_form_filter').is(':checked')
         self.handleRemoveFilterBuilder(removeValue, self.CUSTOM_FORM_TRANSLATE, '#wizard-builder')
+
+  assessmentSelectRemove: ->
+    self = @
+    $('.main-report-builder .assessment-form-wrapper select').on 'select2-removed', (element) ->
+      $.map self.assessmentSelected, (val, i) ->
+        if parseInt(val) == parseInt(element.val) then self.assessmentSelected.splice(i, 1)
+
+  removeActiveClientProgramOption: ->
+    $('.main-report-builder .rule-container .rule-filter-container select').select2('destroy')
+    $('.main-report-builder .rule-container').find('.rule-header button').trigger('click')
+    $('button[data-add="rule"]').trigger('click')
+    $('#builder').queryBuilder('removeFilter', ['active_client_program'])
+    @.initSelect2()
 
   handleRemoveFilterBuilder: (resourceName, resourcelabel, elementBuilder = '#builder') ->
     self = @
@@ -323,6 +375,7 @@ class CIF.ClientAdvanceSearch
       $('.main-report-builder .program-association, .main-report-builder .program-stream').hide()
       $('.main-report-builder .program-association input[type="checkbox"]').iCheck('uncheck')
       $('.main-report-builder select.program-stream-select').select2("val", "")
+      self.removeActiveClientProgramOption()
 
   handleProgramSelectChange: ->
     self = @
@@ -330,6 +383,9 @@ class CIF.ClientAdvanceSearch
       programId = psElement.val
       self.programSelected.push programId
       $('.main-report-builder .program-association').show()
+      if self.programSelected.length == 1
+        self.addCustomBuildersFields(self.programSelected, self.PROGRAM_STREAM_URL, self.LOADER)
+
       if $('#enrollment-checkbox').is(':checked')
         self.LOADER.start()
         self.addCustomBuildersFields(programId, self.ENROLLMENT_URL, self.LOADER)
@@ -679,6 +735,9 @@ class CIF.ClientAdvanceSearch
         programStreamAssociation = $('.main-report-builder .program-association')
         $(programStreamAssociation).find('.i-checks').iCheck('uncheck')
         $(programStreamAssociation).hide()
+      
+      if self.programSelected.length == 0
+        self.removeActiveClientProgramOption()
 
     $('#report-builder-wizard .program-stream-select').on 'select2-removed', (element) ->
       programName = element.choice.text
@@ -808,6 +867,7 @@ class CIF.ClientAdvanceSearch
         builderForm = '.main-report-builder'
         programValues = if self.programSelected.length > 0 then "[#{self.programSelected}]"
         customFormValues = if self.customFormSelected.length > 0 then "[#{self.customFormSelected}]"
+        assessmentValues = if self.assessmentSelected.length > 0 then "[#{self.assessmentSelected}]"
       else
         builderElement = '#wizard-builder'
         builderForm = '#report-builder-wizard'
@@ -823,6 +883,7 @@ class CIF.ClientAdvanceSearch
       self.setValueToProgramAssociation()
       $('#client_advanced_search_custom_form_selected').val(customFormValues)
       $('#client_advanced_search_program_selected').val(programValues)
+      $('#client_advanced_search_assessment_selected').val(assessmentValues)
       if $('#quantitative-type-checkbox').prop('checked') then $('#client_advanced_search_quantitative_check').val(1)
       if $('#wizard_quantitative_filter').prop('checked') then $('#client_advanced_search_wizard_quantitative_check').val(1)
       if $('#wizard_custom_form_filter').prop('checked') then $('#client_advanced_search_wizard_custom_form_check').val(1)

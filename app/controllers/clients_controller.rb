@@ -8,7 +8,7 @@ class ClientsController < AdminController
   before_action :assign_active_client_prams, only: :index
   before_action :format_search_params, only: [:index]
   before_action :get_quantitative_fields, :get_hotline_fields, :hotline_call_column, only: [:index]
-  before_action :find_params_advanced_search, :get_custom_form, :get_program_streams, only: [:index]
+  before_action :find_params_advanced_search, :get_custom_form, :get_program_streams, :get_assessments, only: [:index]
   before_action :get_custom_form_fields, :program_stream_fields, :custom_form_fields, :client_builder_fields, only: [:index]
   before_action :basic_params, if: :has_params?, only: [:index]
   before_action :build_advanced_search, only: [:index]
@@ -56,7 +56,7 @@ class ClientsController < AdminController
       format.html do
         @referees                   = Referee.none_anonymouse.pluck(:id, :name).map{|id, name| { value: id, text: name } }
         @current_provinces          = Province.pluck(:id, :name).map{|id, name| { value: id, text: name } }
-        @birth_provinces            = @birth_provinces.map{|parent, children| children.map{|t, v| {value: v, text: t } } }.flatten
+        @birth_provinces            = @birth_provinces.map{|parent, children| children.map{|t, v| { value: v, text: t } } }.flatten
         custom_field_ids            = @client.custom_field_properties.pluck(:custom_field_id)
         if current_user.admin? || current_user.strategic_overviewer?
           available_editable_forms  = CustomField.all
@@ -129,6 +129,8 @@ class ClientsController < AdminController
       end
 
       @client = Client.new(new_params.merge(local_given_name: first_name, local_family_name: last_name, gender: new_params[:gender]&.downcase))
+      @risk_assessment = @client.build_risk_assessment
+      @risk_assessment.tasks.build
     end
   end
 
@@ -141,6 +143,8 @@ class ClientsController < AdminController
       attributes.merge!({ status: 'Referred' })
       @client.attributes = attributes
     end
+
+    @risk_assessment = @client.risk_assessment || @client.build_risk_assessment
   end
 
   def create
@@ -352,7 +356,7 @@ class ClientsController < AdminController
   end
 
   def initial_visit_client
-    referrer = Rails.application.routes.recognize_path(request.referrer)
+    referrer = Rails.application.routes.recognize_path(request.referrer.gsub(/[a-z]{3,}\-/, '').gsub('/?', '?')) if request.referrer
     return unless referrer.present?
 
     white_list_referrers = %w[clients]

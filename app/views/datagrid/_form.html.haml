@@ -25,6 +25,12 @@
 
         %ul.dropdown-menu.columns-visibility
           %li
+            .input-group
+              %input.form-control{ placeholder: "Search", id: "column-search-box" }
+              %span.input-group-btn
+                %button.btn.btn-default.btn-clear-text{ type: "button" }
+                  %i.fa.fa-close
+          %li
             .all-visibility.col-sm-12
               = check_box_tag 'all_', 'all', checked = params['all_'].present? || saved_search_column_visibility('all_'), class: 'i-checks all_'
               = label_tag 'all_' do
@@ -113,7 +119,6 @@
                 = check_box_tag 'postal_code_', 'postal_code', checked = saved_search_column_visibility('postal_code_'), class: 'i-checks'
                 = label_tag 'postal_code_', t('datagrid.columns.postal_code')
 
-          #referral-data
             - QuantitativeType.with_field_type(:free_text).each do |quantitative_type|
               - next unless quantitative_type_readable?(quantitative_type.id)
               %li
@@ -264,9 +269,9 @@
                 - else
                   = label_tag 'all_csi_assessments_', t('datagrid.columns.all_csi_assessments', assessment: t('clients.show.assessment'))
             %li
-            .visibility.col-sm-12
-              = check_box_tag 'date_of_assessments_', 'date_of_assessments', checked = saved_search_column_visibility('date_of_assessments_'), class: 'i-checks'
-              = label_tag 'date_of_assessments_', t('datagrid.columns.date_of_assessments', assessment: t('clients.show.assessment'))
+              .visibility.col-sm-12
+                = check_box_tag 'date_of_assessments_', 'date_of_assessments', checked = saved_search_column_visibility('date_of_assessments_'), class: 'i-checks'
+                = label_tag 'date_of_assessments_', t('datagrid.columns.date_of_assessments', assessment: t('clients.show.assessment'))
             %li
               .visibility.col-sm-12
                 = check_box_tag 'completed_date_', 'completed_date', checked = saved_search_column_visibility('completed_date_'), class: 'i-checks'
@@ -349,6 +354,12 @@
           %span.caret
 
         %ul.dropdown-menu.columns-visibility
+          %li
+            .input-group
+              %input.form-control{ placeholder: "Search", id: "box" }
+              %span.input-group-btn
+                %button.btn.btn-default.btn-clear-text{ type: "button" }
+                  %i.fa.fa-close
           %li
             .all-visibility.col-sm-12
               = check_box_tag 'all_', 'all', checked = params['all_'].present?, class: 'i-checks all_'

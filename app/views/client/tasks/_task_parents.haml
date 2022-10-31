@@ -1,0 +1,14 @@
+- if task.domain_id?
+  = "#{t('tasks.index.domain')}:"
+  - if task.domain.custom_domain?
+    = t("domains.domain_names.#{task.domain.name.downcase}")
+  - else
+    = t("domains.domain_names.#{task.domain.name.downcase.reverse}")
+- else
+  - if task.taskable.try(:one_off?)
+    = t('screening_assessments._attr.screening_assessment')
+  - elsif task.taskable.try(:multiple?)
+    = t('screening_assessments._attr.cb_dmat_assessment')
+  - else
+    = task.taskable_type.titleize
+  = task.taskable.try(:client_milestone_age)

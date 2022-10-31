@@ -58,10 +58,31 @@ CIF.ClientsIndex = do ->
     _addTourTip(tour)
     _extendDataTableSort()
     _addDataTableToAssessmentScoreData()
+    _addDataTableToTableSummary()
     _removeReferralDataColumnsInWizardClientColumn()
     _handleShowCustomFormSelect()
     _reOrderRuleContainer()
     _initHelpTextPophover()
+    _initClientColumnFilter()
+
+  _initClientColumnFilter = ->
+    searchBox = $('.client-column ul.columns-visibility #column-search-box')
+    searchBox.keyup ->
+      valThis = $(this).val().toLowerCase()
+      if valThis == ''
+        $('.client-column ul.columns-visibility > li').show()
+      else
+        $('.client-column ul.columns-visibility > li:not(:first-child)').each ->
+          text = $(this).text().toLowerCase()
+          if text.indexOf(valThis) >= 0 then $(this).show() else $(this).hide()
+          return
+      return
+
+    $('.client-column ul.columns-visibility .btn-clear-text').click ->
+      searchBox.val ''
+      searchBox.focus()
+      $('.client-column ul.columns-visibility > li').show()
+      return
 
   _reOrderRuleContainer = ->
     $.each $('.csi-group .rules-list'), (index, item)->
@@ -93,9 +114,17 @@ CIF.ClientsIndex = do ->
 
   _addDataTableToAssessmentScoreData = ->
     fileName = $('.assessment-domain-score').data('filename')
-    _handleAjaxRequestToAssessment("#csi-assessment-score", fileName)
-    _handleAjaxRequestToAssessment("#custom-assessment-score", fileName) if $("#custom-assessment-score")
+    _handleAjaxRequestToAssessment("#csi-assessment-score", fileName) if $("#csi-assessment-score").length
+    _handleAjaxRequestToAssessment("#custom-assessment-score", fileName) if $("#custom-assessment-score").length
     $('.assessment-domain-score').on 'shown.bs.modal', (e) ->
+      $($.fn.dataTable.tables(true)).DataTable().columns.adjust()
+      return
+
+  _addDataTableToTableSummary = ->
+    fileName = $('.table-summary').data('filename')
+    _handleDataTable("#table-summary-age", fileName)
+    _handleDataTable("#table-summary-referral-category", fileName)
+    $('.table-summary').on 'shown.bs.modal', (e) ->
       $($.fn.dataTable.tables(true)).DataTable().columns.adjust()
       return
 
@@ -109,7 +138,10 @@ CIF.ClientsIndex = do ->
       processing: true
       serverSide: true
       sServerMethod: 'POST'
-      ajax: url
+      ajax:
+        url: url
+        error: (jqXHR, textStatus, errorThrown) ->
+          console.log("Datatable Ajax Error:", errorThrown)
       oLanguage: {
         sProcessing: "<i class='fa fa-spinner fa-pulse fa-2x' style='color: #1ab394; z-index: 9999;'></i>"
       }
@@ -138,6 +170,35 @@ CIF.ClientsIndex = do ->
           order: 'applied'
         }
       ],
+      'drawCallback': (oSettings) ->
+        $('.dataTables_scrollHeadInner').css 'width': '100%'
+        $(tableId).css 'width': '100%'
+        return
+
+  _handleDataTable = (tableId, fileName)->
+    table = $(tableId).DataTable
+      autoWidth:true
+      bFilter: false
+      bPaginate: false
+      info: false
+      ordering: false
+      processing: true
+      oLanguage: {
+        sProcessing: "<i class='fa fa-spinner fa-pulse fa-2x' style='color: #1ab394; z-index: 9999;'></i>"
+      }
+      scrollX: true
+      dom: 'lBrtip'
+      buttons: [{
+        filename: fileName
+        extend: 'excelHtml5'
+        customize: ( xlsx ) ->
+          sheet = xlsx.xl.worksheets['sheet1.xml']
+          $('row:last c:first', sheet).attr('s', '2')
+        text: '<span class="fa fa-file-excel-o"></span> Excel Export'
+        exportOptions: modifier:
+          search: 'applied'
+          order: 'applied'
+      }],
       'drawCallback': (oSettings) ->
         $('.dataTables_scrollHeadInner').css 'width': '100%'
         $(tableId).css 'width': '100%'
@@ -182,6 +243,7 @@ CIF.ClientsIndex = do ->
 
       onInit: ->
         $('ul[role="tablist"]').hide()
+        $('ul.table-summary-tab[role="tablist"]').show()
         $('.actions a[href="#finish"]').attr('id', 'wizard-search')
         _handleReportBuilderWizardDisplayBtns()
         _handleQueryFilters('#wizard_custom_form_filter', '#wizard-custom-form-select')
@@ -435,6 +497,8 @@ CIF.ClientsIndex = do ->
     advanceFilter.customFormSelectChange()
     advanceFilter.customFormSelectRemove()
     advanceFilter.handleHideCustomFormSelect()
+    advanceFilter.assessmentSelectChange()
+    advanceFilter.assessmentSelectRemove()
 
     advanceFilter.handleShowProgramStreamFilter()
     advanceFilter.handleHideProgramStreamSelect()
@@ -472,6 +536,9 @@ CIF.ClientsIndex = do ->
     advanceFilter.handleAllDomainOperatorOpen()
     advanceFilter.removeOperatorInWizardBuilder()
     advanceFilter.handleHotlineFilter()
+
+    advanceFilter.handleShowAssessmentSelect()
+    advanceFilter.handleHideAssessmentSelect()
 
   _handleColumnVisibilityParams = ->
     $('button#search').on 'click', ->

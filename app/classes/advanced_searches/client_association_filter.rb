@@ -118,6 +118,20 @@ module AdvancedSearches
         values = care_plan_counter
       when 'care_plan_completed_date'
         values = date_query(Client, @clients, :care_plans, 'care_plans.created_at')
+      when 'number_client_referred_gatekeeping'
+        values = number_client_referred_gatekeeping_query
+      when 'number_client_billable'
+        values = number_client_billable_query
+      when 'active_client_program'
+        values = active_client_program_query
+      when 'assessment_condition_last_two'
+        values = assessment_condition_last_two_query
+      when 'assessment_condition_first_last'
+        values = assessment_condition_first_last_query
+      when 'client_rejected'
+        values = get_rejected_clients
+      when 'incomplete_care_plan'
+        values = incomplete_care_plan_query
       end
       { id: sql_string, values: values }
     end
@@ -1113,6 +1127,275 @@ module AdvancedSearches
         clients = @clients.joins(:referrals).merge(referral_scope).group(:id).having("COUNT(referrals.*) > 0")
       end
       clients.ids
+    end
+
+    def number_client_referred_gatekeeping_query
+      clients = @clients.where(referral_source_category_id: ReferralSource.gatekeeping_mechanism.ids).distinct
+
+      case @operator
+      when 'equal'
+        client_ids = clients.where('date(initial_referral_date) = ?', @value.to_date ).distinct.ids
+      when 'not_equal'
+        client_ids = clients.where('date(initial_referral_date) != ?', @value.to_date ).distinct.ids
+      when 'between'
+        client_ids = clients.where("date(initial_referral_date) BETWEEN ? AND ? ", @value[0].to_date, @value[1].to_date).distinct.ids
+      when 'less'
+        client_ids = clients.where('date(initial_referral_date) < ?', @value.to_date ).distinct.ids
+      when 'less_or_equal'
+        client_ids = clients.where('date(initial_referral_date) <= ?', @value.to_date ).distinct.ids
+      when 'greater'
+        client_ids = clients.where('date(initial_referral_date) > ?', @value.to_date ).distinct.ids
+      when 'greater_or_equal'
+        client_ids = clients.where('date(initial_referral_date) >= ?', @value.to_date ).distinct.ids
+      when 'is_empty'
+        client_ids = clients.where('initial_referral_date IS NULL').distinct.ids
+      when 'is_not_empty'
+        client_ids = clients.where('initial_referral_date IS NOT NULL').distinct.ids
+      end
+      clients = client_ids.present? ? client_ids : []
+    end
+
+    def number_client_billable_query
+      value = @value.kind_of?(Array) ? @value[0] : @value.to_date
+      clients = @clients.joins(:enter_ngos).includes(:exit_ngos).where('(exit_ngos.exit_date IS NULL OR date(exit_ngos.exit_date) >= ?)', value).distinct
+
+      case @operator
+      when 'equal'
+        client_ids = clients.where('date(enter_ngos.accepted_date) = ?', @value.to_date).distinct.ids
+      when 'not_equal'
+        client_ids = clients.where('date(enter_ngos.accepted_date) != ?', @value.to_date).distinct.ids
+      when 'between'
+        client_ids = clients.where("date(enter_ngos.accepted_date) <= ?", @value[1]).distinct.ids
+      when 'less'
+        client_ids = clients.where('date(enter_ngos.accepted_date) < ?', @value.to_date).distinct.ids
+      when 'less_or_equal'
+        client_ids = clients.where('date(enter_ngos.accepted_date) <= ?', @value.to_date).distinct.ids
+      when 'greater'
+        client_ids = clients.where('date(enter_ngos.accepted_date) > ?', @value.to_date).distinct.ids
+      when 'greater_or_equal'
+        client_ids = clients.where('date(enter_ngos.accepted_date) >= ?', @value.to_date).distinct.ids
+      when 'is_empty'
+        client_ids = clients.where('enter_ngos.accepted_date IS NULL').distinct.ids
+      when 'is_not_empty'
+        client_ids = clients.where('enter_ngos.accepted_date IS NOT NULL').distinct.ids
+      end
+      clients = client_ids.present? ? client_ids : []
+    end
+
+    def get_rejected_clients
+      client_ids = []
+      clients = @clients.joins(:exit_ngos).where(:exit_ngos => {:exit_circumstance => 'Rejected Referral'}).distinct
+
+      case @operator
+      when 'equal'
+        client_ids = clients.where('date(exit_ngos.exit_date) = ?', @value.to_date ).distinct.ids
+      when 'not_equal'
+        client_ids = clients.where('date(exit_ngos.exit_date) != ?', @value.to_date ).distinct.ids
+      when 'between'
+        client_ids = clients.where("date(exit_ngos.exit_date) BETWEEN ? AND ?", @value[0], @value[1]).distinct.ids
+      when 'less'
+        client_ids = clients.where('date(exit_ngos.exit_date) < ?', @value.to_date ).distinct.ids
+      when 'less_or_equal'
+        client_ids = clients.where('date(exit_ngos.exit_date) <= ?', @value.to_date ).distinct.ids
+      when 'greater'
+        client_ids = clients.where('date(exit_ngos.exit_date) > ?', @value.to_date ).distinct.ids
+      when 'greater_or_equal'
+        client_ids = clients.where('date(exit_ngos.exit_date) >= ?', @value.to_date ).distinct.ids
+      when 'is_empty'
+        client_ids = clients.where('exit_ngos.exit_date IS NULL').distinct.ids
+      when 'is_not_empty'
+        client_ids = clients.where('exit_ngos.exit_date IS NOT NULL').distinct.ids
+      end
+      clients = client_ids
+    end
+
+    def active_client_program_between(start_date, end_date, clientIds)
+      enrollments = ClientEnrollment.where(:client_id => clientIds)
+      client_ids = []
+      enrollments.each do |enrollment|
+        enrollment_date = enrollment.enrollment_date
+
+        if enrollment.leave_program.present?
+          exit_date = enrollment.leave_program.exit_date
+          if enrollment_date < start_date || enrollment_date.between?(start_date, end_date)
+            client_ids << enrollment.client_id if exit_date.between?(start_date, end_date) || exit_date > end_date
+          end
+        else
+          client_ids << enrollment.client_id if enrollment_date.between?(start_date, end_date) || enrollment_date < start_date
+        end
+      end
+      client_ids
+    end
+
+    def active_client_program_query
+      clientIds = []
+      JSON.parse($param_rules[:program_selected]).each do |program|
+        tmpClientIds = @clients.joins(:client_enrollments).where(:client_enrollments => {:status => 'Active', :program_stream_id => program}).ids
+        if clientIds.empty?
+          clientIds = tmpClientIds
+        else
+          clientIds = clientIds & tmpClientIds
+        end
+      end
+
+      condition = ''
+      start_date = @value.kind_of?(Array) ? @value[0].to_date : @value.to_date
+
+      case @operator
+      when 'equal'
+        condition = "date(client_enrollments.enrollment_date) = '#{start_date}'"
+      when 'not_equal'
+        condition = "date(client_enrollments.enrollment_date) != '#{start_date}'"
+      when 'between'
+        condition = "date(client_enrollments.enrollment_date) <= '#{@value[1].to_date}'"
+      when 'less'
+        condition = "date(client_enrollments.enrollment_date) < '#{start_date}'"
+      when 'less_or_equal'
+        condition = "date(client_enrollments.enrollment_date) <= '#{start_date}'"
+      when 'greater'
+        condition = "date(client_enrollments.enrollment_date) > '#{start_date}'"
+      when 'greater_or_equal'
+        condition = "date(client_enrollments.enrollment_date) >= '#{start_date}'"
+      when 'is_empty'
+        condition = "client_enrollments.enrollment_date IS NULL"
+      when 'is_not_empty'
+        condition = "client_enrollments.enrollment_date IS NOT NULL"
+      end
+
+      enrollments = ClientEnrollment.where(:client_id => clientIds).where(condition)
+      client_ids = []
+      enrollments.each do |enrollment|
+        if enrollment.leave_program.present? && start_date != nil
+          exit_date = enrollment.leave_program.exit_date
+          client_ids << enrollment.client_id if exit_date >= start_date
+        else
+          client_ids << enrollment.client_id
+        end
+      end
+      client_ids
+
+      clients = client_ids.present? ? client_ids : []
+    end
+
+    def assessment_condition_last_two_query
+      case @value.downcase
+      when 'better'
+        client_ids = client_assessment_compare_next_last(:>, $param_rules[:assessment_selected])
+      when 'same'
+        client_ids = client_assessment_compare_next_last(:==, $param_rules[:assessment_selected])
+      when 'worse'
+        client_ids = client_assessment_compare_next_last(:<, $param_rules[:assessment_selected])
+      end
+      clients = client_ids.present? ? client_ids : []
+    end
+
+    def assessment_condition_first_last_query
+      case @value.downcase
+      when 'better'
+        client_ids = client_assessment_compare_first_last(:>, $param_rules[:assessment_selected])
+      when 'same'
+        client_ids = client_assessment_compare_first_last(:==, $param_rules[:assessment_selected])
+      when 'worse'
+        client_ids = client_assessment_compare_first_last(:<, $param_rules[:assessment_selected])
+      end
+      clients = client_ids.present? ? client_ids : []
+    end
+
+    def client_assessment_compare_first_last(compare, selectedAssessment)
+      client_ids = []
+      clients = @clients.joins(:assessments).where(assessments: { completed: true })
+      conditionString = ""
+      if selectedAssessment.present?
+        assessments = JSON.parse(selectedAssessment)
+        assessmentId = assessments.first
+
+        if assessmentId == 0
+          clients = clients.where("assessments.default = true").distinct
+          domains = Domain.csi_domains
+          clients.each do |client|
+            last_assessment = client.assessments.defaults.most_recents.first
+            first_assessment = client.assessments.defaults.most_recents.last
+            if (client.assessments.defaults.length > 1)
+              client_ids << client.id if assessment_total_score(last_assessment, domains).public_send(compare, assessment_total_score(first_assessment, domains))
+            end
+          end
+        else
+          assessments = Assessment.completed.joins(:domains).where(client_id: clients.ids).where("domains.custom_assessment_setting_id IN (#{assessmentId})").distinct
+
+          assessments.group_by { |assessment| assessment.client_id }.each do |client_id, _assessments|
+            next if _assessments.size < 2
+
+            first_assessment = _assessments.sort_by(&:id).first
+            last_assessment = _assessments.sort_by(&:id).last
+
+            first_assessment_domain_scores = first_assessment.assessment_domains.pluck(:score).sum.to_f
+            last_assessment_domain_scores = last_assessment.assessment_domains.pluck(:score).sum.to_f
+
+            first_average_score = (first_assessment_domain_scores / first_assessment.assessment_domains.size).round
+            last_average_score = (last_assessment_domain_scores / last_assessment.assessment_domains.size).round
+            client_ids  << client_id if last_average_score.public_send(compare, first_average_score)
+          end
+        end
+      end
+      client_ids
+    end
+
+    def client_assessment_compare_next_last(compare, selectedAssessment)
+      client_ids = []
+      clients = @clients.joins(:assessments).where(assessments: { completed: true })
+      conditionString = ""
+      if selectedAssessment.present?
+        assessments = JSON.parse(selectedAssessment)
+        assessmentId = assessments.first
+
+        if assessmentId == 0
+          domains = Domain.csi_domains
+          clients = clients.where("assessments.default = true").distinct
+          clients.each do |client|
+            last_assessment = client.assessments.defaults.most_recents.first
+            next_assessment = client.assessments.defaults.length > 1 ? client.assessments.defaults.most_recents.fetch(1) : last_assessment
+            if (client.assessments.defaults.length > 1)
+              client_ids << client.id if assessment_total_score(last_assessment, domains).public_send(compare, assessment_total_score(next_assessment, domains))
+            end
+          end
+        else
+          assessments = Assessment.completed.joins(:domains).where(client_id: clients.ids).where("domains.custom_assessment_setting_id IN (#{assessmentId})").distinct
+
+          assessments.group_by { |assessment| assessment.client_id }.each do |client_id, _assessments|
+            next if _assessments.size < 2
+
+            before_last_assessment = _assessments.sort_by(&:id).fetch(_assessments.size - 2)
+            last_assessment = _assessments.sort_by(&:id).last
+
+            before_last_assessment_domain_scores = before_last_assessment.assessment_domains.pluck(:score).sum.to_f
+            last_assessment_domain_scores = last_assessment.assessment_domains.pluck(:score).sum.to_f
+
+            before_last_assessment_average_score = (before_last_assessment_domain_scores / before_last_assessment.assessment_domains.size).round
+            last_average_score = (last_assessment_domain_scores / last_assessment.assessment_domains.size).round
+            client_ids  << client_id if last_average_score.public_send(compare, before_last_assessment_average_score)
+          end
+        end
+      end
+      client_ids
+    end
+
+    def assessment_total_score(assessment, domains)
+      assessment_domain_hash = AssessmentDomain.where(assessment_id: assessment.id).pluck(:domain_id, :score).to_h if assessment.assessment_domains.present?
+      domain_scores = domains.ids.map { |domain_id| assessment_domain_hash.present? ? ["domain_#{domain_id}", assessment_domain_hash[domain_id]] : ["domain_#{domain_id}", ''] }
+      total = 0
+      if assessment_domain_hash.present?
+        assessment_domain_hash.each do |index, value|
+          total += value.nil? ? 0 : value
+        end
+      end
+      (total.fdiv(domain_scores.length())).round()
+    end
+
+    def incomplete_care_plan_query
+      clients = @clients.joins(:care_plans).where(care_plans: { completed: false }).distinct
+
+      client_ids = clients.ids
+      clients = client_ids.present? ? client_ids : []
     end
   end
 end

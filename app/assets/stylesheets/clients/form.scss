@@ -1,15 +1,25 @@
-body[id='clients-new'], body[id='clients-create'],
-body[id='clients-edit'], body[id='clients-update']{
-  .wizard > .content > .body {
-    #getting_started, #living_detail, #other_detail, #specific_point {
+body[id='clients-new'],
+body[id='clients-create'],
+body[id='clients-edit'],
+body[id='clients-update'] {
+  .wizard>.content>.body {
+
+    #getting_started,
+    #living_detail,
+    #other_detail,
+    #specific_point {
       position: relative;
+
       input[type='radio'] {
         display: inline-block;
       }
     }
   }
-  .wizard > .actions a[href="#finish"], .wizard > .actions a[href="#finish"]:hover, .wizard > .actions a[href="#finish"]:active {
-      background: #1ab394;
+
+  .wizard>.actions a[href="#finish"],
+  .wizard>.actions a[href="#finish"]:hover,
+  .wizard>.actions a[href="#finish"]:active {
+    background: #1ab394;
   }
 
   .remove-files-wrapper {
@@ -32,6 +42,7 @@ body[id='clients-edit'], body[id='clients-update']{
 
   .content.clearfix {
     background-color: inherit;
+
     section {
       padding: 0;
       width: 100%;
@@ -42,7 +53,7 @@ body[id='clients-edit'], body[id='clients-update']{
     margin-top: 30px;
   }
 
-  .icheckbox_square-green{
+  .icheckbox_square-green {
     margin-right: 10px;
   }
 
@@ -52,9 +63,11 @@ body[id='clients-edit'], body[id='clients-update']{
       display: inline-block;
       margin-right: 20px;
     }
+
     label {
-        padding-left: 0;
+      padding-left: 0;
     }
+
     .iradio_square-green {
       margin-right: 5px;
     }
@@ -63,20 +76,25 @@ body[id='clients-edit'], body[id='clients-update']{
   .disabled {
     color: #333 !important;
   }
-  .input-group-addon.what3words{
+
+  .input-group-addon.what3words {
     padding: 2px;
   }
-  .what3words-image{
+
+  .what3words-image {
     height: 17%;
   }
-  .save-edit-client{
+
+  .save-edit-client {
     margin-top: -67px;
   }
-  .cancel-client-button{
+
+  .cancel-client-button {
     position: relative;
   }
 
-  .consent-forms, .house_number {
+  .consent-forms,
+  .house_number {
     clear: both;
   }
 
@@ -85,15 +103,18 @@ body[id='clients-edit'], body[id='clients-update']{
     pointer-events: none;
     cursor: not-allowed;
   }
-  .warning-message{
+
+  .warning-message {
     text-align: left;
     font-weight: bold;
   }
-  .ref-source-cat-reminder{
+
+  .ref-source-cat-reminder {
     color: red;
   }
 
-  #step-2, #step-4 {
+  #step-2,
+  #step-5 {
     display: none;
   }
 }
@@ -102,7 +123,7 @@ body[id='clients-edit'], body[id='clients-update']{
   margin-bottom: 5px;
 }
 
-#family-option{
+#family-option {
   margin-top: 10px;
   margin-left: 12px;
 }
@@ -119,37 +140,46 @@ body[id='clients-edit'], body[id='clients-update']{
   height: 0;
   overflow: hidden;
   z-index: 999999;
-  &:after, &:before {
+
+  &:after,
+  &:before {
     box-sizing: border-box;
     display: none;
   }
+
   &.is-active {
     background-color: rgba(0, 0, 0, 0.85);
     width: 100%;
     height: 100%;
     left: 0;
     top: 0;
-    &:after, &:before {
+
+    &:after,
+    &:before {
       display: block;
     }
   }
+
   &[data-text]:before {
     position: fixed;
     left: 0;
     top: 50%;
     color: currentColor;
-    font-family: Helvetica,Arial,sans-serif;
+    font-family: Helvetica, Arial, sans-serif;
     text-align: center;
     width: 100%;
     font-size: 14px;
   }
+
   &[data-text=""]:before {
     content: "Loading";
   }
+
   &[data-text] {
     &:not([data-text=""]):before {
       content: attr(data-text);
     }
+
     &[data-blink]:before {
       animation: blink 1s linear infinite alternate;
     }
@@ -182,6 +212,7 @@ body[id='clients-edit'], body[id='clients-update']{
   &[data-text]:before {
     top: calc(50% - 63px);
   }
+
   &:after {
     content: "";
     position: fixed;
@@ -194,22 +225,27 @@ body[id='clients-edit'], body[id='clients-update']{
     left: calc(50% - 24px);
     animation: rotation 1s linear infinite;
   }
+
   &[data-half]:after {
     border-right-color: transparent;
   }
+
   &[data-inverse]:after {
     animation-direction: reverse;
   }
 }
 
 .loader-double {
-  &:after, &:before {
+
+  &:after,
+  &:before {
     content: "";
     position: fixed;
     border-radius: 50%;
     border: 8px solid;
     animation: rotation 1s linear infinite;
   }
+
   &:after {
     width: 48px;
     height: 48px;
@@ -218,6 +254,7 @@ body[id='clients-edit'], body[id='clients-update']{
     top: calc(50% - 24px);
     left: calc(50% - 24px);
   }
+
   &:before {
     width: 64px;
     height: 64px;
@@ -234,6 +271,7 @@ body[id='clients-edit'], body[id='clients-update']{
     top: calc(50% - 40px);
     color: #1ab394;
   }
+
   &:after {
     content: "";
     position: fixed;
@@ -247,9 +285,11 @@ body[id='clients-edit'], body[id='clients-update']{
     box-shadow: inset 0 10px 0 hsla(0, 0%, 100%, 0.2), 0 0 0 5px rgba(0, 0, 0, 0.2);
     animation: moveBar 1.5s linear infinite reverse;
   }
+
   &[data-rounded]:after {
     border-radius: 15px;
   }
+
   &[data-inverse]:after {
     animation-direction: normal;
   }
@@ -271,22 +311,27 @@ body[id='clients-edit'], body[id='clients-update']{
     width: 200px;
     background-color: #000;
   }
-  &:after, &:before {
+
+  &:after,
+  &:before {
     content: "";
     height: 20px;
     position: absolute;
     top: calc(50% - 10px);
     left: calc(50% - 100px);
   }
+
   &:after {
     width: 50px;
     background-color: #f19;
     animation: moveBarPingPong .5s linear infinite alternate;
   }
+
   &[data-rounded] {
     &:before {
       border-radius: 10px;
     }
+
     &:after {
       border-radius: 50%;
       width: 20px;
@@ -360,6 +405,7 @@ body[id='clients-edit'], body[id='clients-update']{
   &[data-text]:before {
     color: #1ab394;
   }
+
   &:after {
     content: "";
     position: absolute;
@@ -386,9 +432,11 @@ body[id='clients-edit'], body[id='clients-update']{
     z-index: 1;
     animation: kickBall 1s infinite alternate ease-in both;
   }
+
   &[data-shadow]:before {
     box-shadow: inset -5px -5px 10px 0 rgba(0, 0, 0, 0.5);
   }
+
   &:after {
     content: "";
     position: absolute;
@@ -448,7 +496,7 @@ body[id='clients-edit'], body[id='clients-update']{
     content: "";
     color: #fff;
     font-size: 12px;
-    font-family: Helvetica,Arial,sans-serif;
+    font-family: Helvetica, Arial, sans-serif;
     text-align: center;
     line-height: 120px;
     position: fixed;
@@ -463,9 +511,11 @@ body[id='clients-edit'], body[id='clients-update']{
     background: radial-gradient(circle at 50% 90%, rgba(0, 0, 0, 0.5) 6px, transparent 0), linear-gradient(0deg, #fd0 22px, transparent 0), linear-gradient(0deg, rgba(0, 0, 0, 0.5) 22px, rgba(0, 0, 0, 0.5));
     animation: shake 2s cubic-bezier(0.36, 0.07, 0.19, 0.97) both infinite;
   }
+
   &[data-screen=""]:after {
     content: "Loading";
   }
+
   &:not([data-screen=""]):after {
     content: attr(data-screen);
   }
@@ -525,16 +575,19 @@ body[id='clients-edit'], body[id='clients-update']{
     border-radius: 50%;
     margin: -60px 0 0 -60px;
     background: linear-gradient(180deg, transparent 50%, #f5f5f5 0), linear-gradient(90deg, transparent 55px, #2ecc71 0, #2ecc71 65px, transparent 0), linear-gradient(180deg, #f5f5f5 50%, #f5f5f5 0);
-    box-shadow: inset 0 0 0 10px #f5f5f5,0 0 0 5px #555,0 0 0 10px #7b7b7b;
+    box-shadow: inset 0 0 0 10px #f5f5f5, 0 0 0 5px #555, 0 0 0 10px #7b7b7b;
     animation: rotation infinite 2s linear;
   }
-  &:after, &:before {
+
+  &:after,
+  &:before {
     content: "";
     position: fixed;
     left: 50%;
     top: 50%;
     overflow: hidden;
   }
+
   &:after {
     width: 60px;
     height: 40px;
@@ -554,11 +607,12 @@ body[id='clients-edit'], body[id='clients-update']{
     margin-top: -35px;
     font-size: 70px;
     text-align: center;
-    font-family: Helvetica,Arial,sans-serif;
+    font-family: Helvetica, Arial, sans-serif;
     overflow: hidden;
     line-height: 1.2;
     content: "Loading";
   }
+
   &:before {
     position: fixed;
     width: 100%;
@@ -566,36 +620,44 @@ body[id='clients-edit'], body[id='clients-update']{
     margin-top: -35px;
     font-size: 70px;
     text-align: center;
-    font-family: Helvetica,Arial,sans-serif;
+    font-family: Helvetica, Arial, sans-serif;
     overflow: hidden;
     line-height: 1.2;
     content: "Loading";
     color: #666;
   }
+
   &:after {
     color: #fff;
     height: 0;
     animation: curtain 1s linear infinite alternate both;
   }
+
   &[data-curtain-text]:not([data-curtain-text=""]) {
-    &:after, &:before {
+
+    &:after,
+    &:before {
       content: attr(data-curtain-text);
     }
   }
+
   &[data-brazilian] {
     &:before {
       color: #f1c40f;
     }
+
     &:after {
       color: #2ecc71;
     }
   }
+
   &[data-colorful] {
     &:before {
       animation: maskColorful 2s linear infinite alternate both;
     }
+
     &:after {
-      animation: curtain 1s linear infinite alternate both,maskColorful-front 2s 1s linear infinite alternate both;
+      animation: curtain 1s linear infinite alternate both, maskColorful-front 2s 1s linear infinite alternate both;
       color: #000;
     }
   }
@@ -651,7 +713,9 @@ body[id='clients-edit'], body[id='clients-update']{
 
 
 .loader-music {
-  &:after, &:before {
+
+  &:after,
+  &:before {
     content: "";
     position: fixed;
     width: 240px;
@@ -664,59 +728,70 @@ body[id='clients-edit'], body[id='clients-update']{
     line-height: 240px;
     color: #fff;
     font-size: 40px;
-    font-family: Helvetica,Arial,sans-serif;
+    font-family: Helvetica, Arial, sans-serif;
     text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
     letter-spacing: -1px;
   }
+
   &:after {
     backface-visibility: hidden;
   }
+
   &[data-hey-oh] {
     &:after {
       box-shadow: 0 0 0 10px;
     }
+
     &:before {
       box-shadow: 0 0 0 10px;
       background-color: #fff;
       color: #000;
-      animation: coinBack 2.5s linear infinite,oh 5s 1.25s linear infinite both;
+      animation: coinBack 2.5s linear infinite, oh 5s 1.25s linear infinite both;
     }
+
     &:after {
       background-color: #000;
-      animation: coin 2.5s linear infinite,hey 5s linear infinite both;
+      animation: coin 2.5s linear infinite, hey 5s linear infinite both;
     }
   }
+
   &[data-no-cry] {
     &:after {
       background: linear-gradient(45deg, #009b3a 50%, #fed100 51%);
       box-shadow: 0 0 0 10px #000;
     }
+
     &:before {
       background: linear-gradient(45deg, #009b3a 50%, #fed100 51%);
       box-shadow: 0 0 0 10px #000;
-      animation: coinBack 2.5s linear infinite,cry 5s 1.25s linear infinite both;
+      animation: coinBack 2.5s linear infinite, cry 5s 1.25s linear infinite both;
     }
+
     &:after {
-      animation: coin 2.5s linear infinite,no 5s linear infinite both;
+      animation: coin 2.5s linear infinite, no 5s linear infinite both;
     }
   }
+
   &[data-we-are] {
     &:before {
-      animation: coinBack 2.5s linear infinite,theWorld 5s 1.25s linear infinite both;
+      animation: coinBack 2.5s linear infinite, theWorld 5s 1.25s linear infinite both;
       background: radial-gradient(ellipse at center, #4ecdc4 0, #556270);
     }
+
     &:after {
-      animation: coin 2.5s linear infinite,weAre 5s linear infinite both;
+      animation: coin 2.5s linear infinite, weAre 5s linear infinite both;
       background: radial-gradient(ellipse at center, #26d0ce 0, #1a2980);
     }
   }
+
   &[data-rock-you] {
     &:before {
-      animation: coinBack 2.5s linear infinite,rockYou 5s 1.25s linear infinite both;
+      animation: coinBack 2.5s linear infinite, rockYou 5s 1.25s linear infinite both;
       background: #444;
     }
+
     &:after {
-      animation: coin 2.5s linear infinite,weWill 5s linear infinite both;
+      animation: coin 2.5s linear infinite, weWill 5s linear infinite both;
       background: #96281b;
     }
   }
@@ -880,6 +955,7 @@ body[id='clients-edit'], body[id='clients-update']{
     z-index: 1;
     animation: movePokeball 1s linear infinite both;
   }
+
   &:after {
     content: "";
     position: absolute;
@@ -891,9 +967,9 @@ body[id='clients-edit'], body[id='clients-update']{
     background-color: #fff;
     border-radius: 50%;
     z-index: 2;
-    animation: movePokeball 1s linear infinite both,flashPokeball .5s infinite alternate;
+    animation: movePokeball 1s linear infinite both, flashPokeball .5s infinite alternate;
     border: 2px solid #000;
-    box-shadow: 0 0 0 5px #fff,0 0 0 10px #000;
+    box-shadow: 0 0 0 5px #fff, 0 0 0 10px #000;
   }
 }
 
@@ -928,7 +1004,9 @@ body[id='clients-edit'], body[id='clients-update']{
 
 
 .loader-bouncing {
-  &:after, &:before {
+
+  &:after,
+  &:before {
     content: "";
     width: 20px;
     height: 20px;
@@ -939,10 +1017,12 @@ body[id='clients-edit'], body[id='clients-update']{
     background-color: #fff;
     animation: kick .6s infinite alternate;
   }
+
   &:after {
     margin-left: -30px;
     animation: kick .6s infinite alternate;
   }
+
   &:before {
     animation-delay: .2s;
   }
@@ -960,13 +1040,15 @@ body[id='clients-edit'], body[id='clients-update']{
   }
 }
 
-body[id='clients-new'] .disabled, body[id='clients-create'] .disabled,
-body[id='clients-edit'] .disabled, body[id='clients-update'] .disabled {
+body[id='clients-new'] .disabled,
+body[id='clients-create'] .disabled,
+body[id='clients-edit'] .disabled,
+body[id='clients-update'] .disabled {
   color: #fff !important;
   pointer-events: none;
 }
 
-#client-confirmation{
+#client-confirmation {
   .modal-dialog {
     width: 100%;
     margin: 0 auto;
@@ -978,7 +1060,8 @@ body[id='clients-edit'] .disabled, body[id='clients-update'] .disabled {
 
   .modal-content {
     border-radius: 0;
-    overflow:auto;
+    overflow: auto;
   }
 }
+
 //end css loader

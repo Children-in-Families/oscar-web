@@ -63,6 +63,11 @@ module Api
           end
         end
 
+        if risk_assessment_params
+          risk_assessment = RiskAssessmentReducer.new(client, risk_assessment_params, 'create')
+          risk_assessment.store
+        end
+
         render json: { slug: client.slug, id: client.id }, status: :ok
       else
         render json: client.errors, status: :unprocessable_entity
@@ -71,7 +76,6 @@ module Api
 
     def update
       client = Client.find(params[:client][:id] || params[:id])
-
       if params[:client][:id]
         referee = Referee.find_or_create_by(id: client.referee_id)
         referee.update_attributes(referee_params)
@@ -91,6 +95,11 @@ module Api
             client_qt_free_text.content = client_qt_free_text_attr[:content]
             client_qt_free_text.save
           end
+        end
+
+        if risk_assessment_params
+          risk_assessment = RiskAssessmentReducer.new(client, risk_assessment_params, 'update')
+          risk_assessment.store
         end
 
         if params[:client][:assessment_id]
@@ -147,11 +156,11 @@ module Api
         params[:client][:mo_savy_officials_attributes] = {}
 
         params[:mosavy_officials].each_with_index do |item, index|
-          params[:client][:mo_savy_officials_attributes] [index.to_s] = item
+          params[:client][:mo_savy_officials_attributes][index.to_s] = item
         end
       end
 
-      client_params = params.require(:client).permit(
+      client_param = params.require(:client).permit(
             :slug, :archived_slug, :code, :name_of_referee, :main_school_contact, :rated_for_id_poor, :what3words, :status, :country_origin,
             :kid_id, :assessment_id, :given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth,
             :birth_province_id, :initial_referral_date, :referral_source_id, :telephone_number,
@@ -246,25 +255,18 @@ module Api
       field_settings.each do |field_setting|
         next if field_setting.group != 'client' || field_setting.required? || field_setting.visible?
 
-        client_params.except!(field_setting.name.to_sym) unless field_setting.name == 'gender'
+        client_param.except!(field_setting.name.to_sym) unless field_setting.name == 'gender'
       end
 
       if params[:family_member]
-        client_params[:family_member_attributes] = params[:family_member].permit([:id, :family_id])
+        client_param[:family_member_attributes] = params[:family_member].permit([:id, :family_id])
 
-        if client_params[:family_member_attributes].present?
-          client_params[:family_member_attributes][:_destroy] = 1 if client_params.dig(:family_member_attributes, :family_id).blank?
+        if client_param[:family_member_attributes].present?
+          client_param[:family_member_attributes][:_destroy] = 1 if client_param.dig(:family_member_attributes, :family_id).blank?
         end
       end
 
-      Client::LEGAL_DOC_FIELDS.each do |attachment_field|
-        doc_field = attachment_field.gsub('_files', '')
-        remove_field = "remove_#{attachment_field}"
-
-        # client_params[remove_field.to_sym] = true if client_params[doc_field.to_sym].in?([false, 'false'])
-      end
-
-      client_params
+      client_param
     end
 
     def referee_params
@@ -278,6 +280,17 @@ module Api
       params.require(:carer).permit(
         :name, :phone, :outside, :address_type, :current_address, :email, :gender, :house_number, :street_number, :outside_address, :commune_id, :district_id, :province_id,  :village_id, :client_relationship, :same_as_client,
         :state_id, :township_id, :subdistrict_id, :street_line1, :street_line2, :plot, :road, :postal_code, :suburb, :description_house_landmark, :directions, :locality
+      )
+    end
+
+    def risk_assessment_params
+      return if params.dig(:risk_assessment).nil?
+      params.require(:risk_assessment).permit(
+        :assessment_date, :other_protection_concern_specification, :client_perspective, :has_known_chronic_disease,
+        :has_disability, :has_hiv_or_aid, :known_chronic_disease_specification, :disability_specification, :hiv_or_aid_specification,
+        :relevant_referral_information, :level_of_risk, :history_of_disability_id, :history_of_harm_id, :history_of_high_risk_behaviour_id,
+        :history_of_family_separation_id, protection_concern: [],
+        tasks_attributes: [:id, :name, :expected_date, :client_id, :_destroy]
       )
     end
 
@@ -299,11 +312,16 @@ module Api
       assessment_data.each do |assessment|
         assessment_domain_hash = AssessmentDomain.where(assessment_id: assessment.id).pluck(:domain_id, :score).to_h if assessment.assessment_domains.present?
         domain_scores = domains.ids.map { |domain_id| assessment_domain_hash.present? ? ["domain_#{domain_id}", assessment_domain_hash[domain_id]] : ["domain_#{domain_id}", ''] }
+        total = 0
+        assessment_domain_hash.each do |index, value|
+          total += value || 0
+        end
 
         client_hash = { slug: assessment.client.slug,
           name: assessment.client.en_and_local_name,
-          'assessment-number': assessment.client.assessments.count,
-          date: assessment.created_at.strftime('%d %B %Y')
+          'assessment-number': assessment.client.assessments.where(default: params[:default]).count,
+          date: assessment.created_at.strftime('%d %B %Y'),
+          'average-score': total == 0 ? nil : (total.fdiv(domain_scores.length())).round()
         }
         client_hash.merge!(domain_scores.to_h)
         client_data << client_hash
@@ -319,6 +337,9 @@ module Api
     def fetch_assessments
       assessments = Assessment.joins(:client).where(default: params[:default], client_id: params[:client_ids].split('/'))
       assessments = assessments.includes(:assessment_domains).order("#{sort_column} #{sort_direction}").references(:assessment_domains, :client)
+
+      basic_rules  = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
+      @basic_rules  = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules || "{}").with_indifferent_access
 
       assessment_data = params[:length] != '-1' ? assessments.page(page).per(per_page) : assessments
     end

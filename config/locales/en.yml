@@ -441,6 +441,7 @@ en:
       able: Able
       able_state: Able State
       active_clients: Active Clients in Specific Period
+      active_client_program: Active Clients in Specific Program and Period
       active_program_stream: Active Program Stream
       address: Address
       age: Age
@@ -449,6 +450,9 @@ en:
       agency_names: Agency Name
       assessment_completed_date: "%{assessment} Completed Date"
       assessment_custom_completed_date: "Custom %{assessment} Completed Date"
+      assessment_condition_last_two: Assessment Condition for the last two
+      assessment_condition_first_last: Assessment Condition for first and last
+      incomplete_care_plan: Incomplete Care Plan
       assessment_number: "%{assessment}#"
       basic_fields: Client Basic Fields
       birth_province: Client Birth Province
@@ -468,6 +472,7 @@ en:
       address_type: Client Address Type
       client_email_address: Client Email Address
       code: Custom ID Number1
+      common_searches: Common Searches
       commune: Commune/Sangkat
       completed: Completed
       concern_basic_fields: Client Fields Concern
@@ -519,6 +524,8 @@ en:
       no_case_note_date: No Case Note Date
       ngo_exit_date: NGO Exit Date
       no_case_note_date: No Case Note Date
+      number_client_referred_gatekeeping: Number of client referred through gatekeeping mechanism
+      number_client_billable: Number of client is billable for (month)
       other_info_of_exit: Other - More Information
       phone_owner: Phone Owner
       placement_start_date: Placement Start Date
@@ -595,6 +602,8 @@ en:
       user_id: Case Worker
       village: Village
       what3words: What3words
+      client_rejected: Client Rejected
+      other: Other
   advanced_search_save_queries:
     create:
       failed_create: Search setting has already been taken.
@@ -1028,6 +1037,7 @@ en:
       add_task: Add Task
       add_task_message: Please select the domain group before you can add the task.
       back: Back
+      cb_dmat_assessment_task: CB-DMAT Assessment Tasks
       completed_tasks: Completed Tasks
       domain: Domain
       domain_groups: Please select all Domain Groups you supported the client within this case note.
@@ -1068,6 +1078,7 @@ en:
       begin_now: Add New
       case_note_lists: Case note lists of
       case_note_on: Case note on
+      cb_dmat_assessment_task: CB-DMAT Assessment Tasks
       completed_tasks: Completed Tasks
       domain: Domain
       domain_groups: Domain Groups
@@ -1545,6 +1556,7 @@ en:
       add_service_received: Add Services Received
       birth_cert: 'Birth Certificate'
       complain: Complaint
+      cb_dmat: CB-DMAT
       detail_form_of_judicial_police: Detailed Form for Identification of Victim of Human Trafficking (Judicial Police)
       detail_form_of_mosavy_dosavy: Detailed Form for Identification of Victim of Human Trafficking (MoSAVY/DoSAVY)
       dosavy: DoSAVY
@@ -1616,9 +1628,10 @@ en:
       answer: Answer
       yes_no: Yes/No
     assessment_domain_score:
-      assessment_data: "%{assessment} Score Data"
+      assessment_data: "%{assessment} Data"
       assessment_date: "%{assessment} Date"
       assessment_number: "%{assessment} #"
+      average_score: "Average Score"
       client_id: Client ID
       client_name: Client Name
       close: Close
@@ -1678,6 +1691,7 @@ en:
         program_stream: Program Stream
         quantitative: Custom Referral Data
         tracking: Tracking
+        assessment_form: Assessment
       load_save_search:
         my_saved_search: My Saved Search
         other_saved_search: Other Saved Search
@@ -2014,6 +2028,7 @@ en:
       save_search_settings: Save Search Settings
       show_all: Show All
       view_all_active_tasks: View All Active Tasks
+      table_summary: Table Summary
     level:
       level_no: 'No'
       level_1: Level 1
@@ -2253,6 +2268,19 @@ en:
     version:
       back: Back
       modification_of: Changelog of
+    table_summary:
+      title: Table Summary
+      age_tabs: Age
+      referral_category_tabs: Referral Categories
+      program: Program
+      children: Children
+      adult: Adult
+      female: Female
+      male: Male
+      other: Other
+      total: Total
+      no_program: No Program
+      client_by_gender: Client by gender
   communities:
     actions:
       are_you_sure: Are you sure you want to delete?
@@ -4779,6 +4807,7 @@ en:
     internal_referral_attr: &INTERNAL_REFERRAL_ATTR
       are_you_sure: Are you sure you want to delete?
       attachments: Attachments
+      changed_date: Date
       client_id: Client ID
       client_name: Client Name
       client_representing_problem: CLIENT'S PRESENTING PROBLEMS
@@ -4794,6 +4823,8 @@ en:
       referral_reason: REASON FOR REFERRAL AND RECOMMNEDATIONS
       referral_reason_note: "The referral source’s reason for referral:"
       user_id: Referred from
+      user_name: Name
+      who_made_change: Who made change
     create:
       failed_create: Failed to create Internal Referral.
       successfully_created: Internal Referral has successfully been created.
@@ -5814,6 +5845,9 @@ en:
     assessment_setting:
       age: age
       assessment: Customized Assessment Frequency Settings
+      assessment_notification: Assessment Notification
+      cb_dmat_multi: Ongoing CB-DMAT %{screening_assessment} (Multiple)
+      cb_dmat_one_off: CB-DMAT %{screening_assessment} (one-off)
       custom_assessment: Name
       default_assessment: CSI Assessment Frequency Settings
       default_assessment_framework: Result Framework Assessment Frequency Settings
@@ -5822,7 +5856,9 @@ en:
       max_assessment: Maximum time between assessments
       min_assessment: Minimum time between 1st and 2nd assessment
       name: Name
+      new_client_assessment: New Client Assessment
       noted: 'Note: USAID has requested that the term CSI not be used for customized assessments.'
+      screening_assessment: Screening Assessment
       show_prev_assessment: Show previous assessment while completing new assessment
       two_weeks_assessment_reminder: Send 2 notification at both 2 and 1 week prior to assessment
     case_notes:
@@ -5934,6 +5970,78 @@ en:
       successfully_updated: Service has been successfully updated.
   referral_details: Referral Details
   results: Results
+  risk_assessments:
+    _attr: &SA_ATTR
+      assessment_date: Date of risk assessment
+      category: Category
+      child_wellbeing: "Child's Wellbeing"
+      client_perspective: "Client’s perspective on their problem and needs"
+      client_status_index: Client Status Index
+      description: Description
+      guidance: Guidance
+      has_disability: Does client have disability?
+      has_hiv_or_aid: Does client have HIV/AID?
+      has_known_chronic_disease: Does client have a known chronic disease?
+      history_of_disability_id: History of disability and/or illness
+      history_of_harm_id: History of Harm
+      history_of_high_risk_behaviour_id: History of high-risk behaviours
+      history_of_family_separation_id: Reason for Family Separation
+      hiv_or_aid_specification: Immediate Recommendation
+      if_other: If other, please specify
+      if_yes: If yes, please specify
+      level_of_risk: Level of Risk
+      level_of_risks:
+        high: High
+        medium: Medium
+        low: Low
+        no_action: No Action
+      no_date: No Date
+      no_protection_concern: No Protection Concern
+      overall_client_wellbeing_score: Overall Client’s Wellbeing Score
+      pending_assessment: Pending Assessment
+      protection_concern: Protection Concern
+      relevant_referral_information: Relevant Referral Information
+      risk: Risk
+      risk_assessment: Risk Assessment
+      risk_level_history: Risk Level History
+      score: Score
+      select_assessment_tool: "Select Assessment Tool for Client’s Wellbeing"
+  screening_assessments:
+    _attr: &SA_ATTR
+      add_new: Add New Assessment
+      add_task: Add Task
+      assessment_date: Assessment Date
+      assessment_on: Assessment On
+      attachments: Attachments
+      back_to_clients: Back to Client
+      based_on: Base on Assessment
+      cb_dmat: CB-DMAT Screening Tool
+      cb_dmat_assessment: CB-DMAT Assessment
+      client_age: Client's Age
+      client_milestone_age: Client's Milestone Age
+      client_name: Client's Name
+      created_by: Created By
+      note: Note
+      on_date: On Date
+      refer_to_specialist: Refer to specialist
+      screening_assessment: Screening Assessment
+      screening_assessment_date: Screening Assessment Date
+      tasks: Tasks
+      view_cb_dmat: View CB-DMAT
+      view_cb_dmat_assessment: View CB-DMAT Assessment
+      view_or_hide_last_assessment: View or Hide Last Assessment
+      view_screening_assessment: View Screening Assessment
+      visitor: Who was there during the assessment?
+    form:
+      <<: *SA_ATTR
+    previous_screening_assessment:
+      <<: *SA_ATTR
+    show:
+      <<: *SA_ATTR
+    task_fields:
+      expected_date: Expected Date
+      task: Task
+
   shared:
     x_lists_of: "%{x} lists of"
     new_x: "New %{x}"
@@ -6148,9 +6256,11 @@ en:
     update:
       successfully_updated: Survey has been successfully updated.
   tasks:
+    add_task: Add Task
     add_task_progress_note: Add progress notes and next steps
     completion_date: Completion Date
     expected_date: Expected Date
+    title: Title
     filter:
       filter_by_user: Filter By User
       select_user: Select User
@@ -6166,6 +6276,7 @@ en:
       upcoming_tasks: Upcoming Tasks
     task: Task
     task_added: Task Added
+    title: Title
   thredded:
     content_moderation_states:
       content_blocked_notice: Blocked

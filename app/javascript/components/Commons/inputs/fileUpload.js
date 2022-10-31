@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import { Checkbox } from '../inputs'
 import { FilePond, registerPlugin } from "react-filepond"
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
@@ -43,7 +43,7 @@ export default props => {
 
       { existingFiles.length > 0 && showFilePond &&
         <div className='remove-files-wrapper' style={{textAlign: 'center'}}>
-          { renderExistingFiles(existingFiles) }
+          {/* { renderExistingFiles(existingFiles) } */}
 
           <div>
             <Checkbox
@@ -61,6 +61,7 @@ export default props => {
           <FilePond
             files={files}
             allowMultiple={true}
+            instanceUpload={false}
             allowFileTypeValidation={true}
             labelIdle="Choose files. <span class='filepond--label-action'>Browse</span>. Only file with extension <small>.jpg .jpeg .png .pdf</small> allowed."
             labelFileTypeNotAllowed="Invalid file type"

@@ -7,9 +7,8 @@ module AdvancedSearches
       address_translation
       csi_group  = format_header('custom_csi_group')
       csi_domain_options  = number_type_list.map { |item| number_filter_type(item, format_header(item), csi_group) }
-      assessment_completed = [['assessment_completed', I18n.t('clients.index.assessment_completed', assessment: I18n.t('clients.show.assessment'))]].map{ |item| date_between_only_options(item[0], item[1], csi_group) }
       date_nearest = ['Date Nearest'].map{ |item| date_nearest(item.downcase.gsub(' ', '_'), item, csi_group) }
-      (assessment_completed + csi_domain_options + date_nearest).sort_by { |f| f[:label].downcase }
+      (csi_domain_options + date_nearest).sort_by { |f| f[:label].downcase }
     end
 
     private
@@ -43,24 +42,6 @@ module AdvancedSearches
       }
     end
 
-    def self.date_between_only_options(field_name, label, group)
-      {
-        id: field_name,
-        optgroup: group,
-        label: label,
-        type: 'date',
-        operators: ['between'],
-        plugin: 'datepicker',
-        plugin_config: {
-          format: 'yyyy-mm-dd',
-          todayBtn: 'linked',
-          todayHighlight: true,
-          autoclose: true
-        }
-      }
-    end
-
-
     def self.date_nearest(field_name, label, group)
       {
         id: field_name,
@@ -85,6 +66,23 @@ module AdvancedSearches
         label: label,
         type: 'integer',
         operators: ['equal']
+      }
+    end
+
+    def self.date_between_only_options(field_name, label, group)
+      {
+        id: field_name,
+        optgroup: group,
+        label: label,
+        type: 'date',
+        operators: ['between'],
+        plugin: 'datepicker',
+        plugin_config: {
+          format: 'yyyy-mm-dd',
+          todayBtn: 'linked',
+          todayHighlight: true,
+          autoclose: true
+        }
       }
     end
   end

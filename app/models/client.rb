@@ -100,6 +100,7 @@ class Client < ActiveRecord::Base
   has_many :achievement_program_staff_clients
   has_many :ratanak_achievement_program_staff_clients, through: :achievement_program_staff_clients, source: :user
 
+  has_one :risk_assessment, dependent: :destroy
   has_one  :family_member, dependent: :restrict_with_error
   has_one  :family, through: :family_member
 
@@ -118,6 +119,7 @@ class Client < ActiveRecord::Base
   has_many :goals, dependent: :destroy
   has_many :case_conferences, dependent: :destroy
   has_many :internal_referrals, dependent: :destroy
+  has_many :screening_assessments, dependent: :destroy
 
   has_paper_trail
 
@@ -332,7 +334,6 @@ class Client < ActiveRecord::Base
     exit_ngos.most_recents.first
   end
 
-
   def referred?
     status == 'Referred'
   end
@@ -340,7 +341,8 @@ class Client < ActiveRecord::Base
   def require_screening_assessment?(setting)
     setting.use_screening_assessment? &&
     referred? &&
-    custom_fields.exclude?(setting.screening_assessment_form)
+    custom_fields.exclude?(setting.screening_assessment_form) &&
+    setting.screening_assessment_form.try(:entity_type) == "Client"
   end
 
   def self.age_between(min_age, max_age)
@@ -661,7 +663,7 @@ class Client < ActiveRecord::Base
     country_origin.present? ? country_origin : 'cambodia'
   end
 
-  def create_or_update_shared_client
+  def create_or_update_shared_client(client_id = nil)
     current_org = Organization.current
     client_current_province = province_name
     client_district = district_name
@@ -726,6 +728,18 @@ class Client < ActiveRecord::Base
     _family = Family.find_by(id: family_id) if family_id.present?
     result = _family.family_members.where(client_id: nil).count if _family.present?
     result
+  end
+
+  def one_off_screening_assessment
+    screening_assessments.find_by(screening_type: 'one_off')
+  end
+
+  def risk_assessments
+    assessments.client_risk_assessments
+  end
+
+  def last_risk_assessment
+    assessments.client_risk_assessments.last
   end
 
   def self.cached_client_created_by(object)
@@ -868,6 +882,55 @@ class Client < ActiveRecord::Base
       gender.present? ? I18n.t("default_client_fields.gender_list.#{ gender.gsub('other', 'other_gender') }") : ''
     end
   end
+
+  def self.cached_client_custom_field_properties_count(object, fields_second)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_custom_field_properties_count', object.id, *fields_second]) do
+      properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields_second, entity_type: 'Client'}).count
+    end
+  end
+
+  def self.cached_client_custom_field_properties_order(object, fields_second)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_custom_field_properties_order', object.id, *fields_second]) do
+      properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields_second, entity_type: 'Client'}).order(created_at: :desc).first.try(:properties)
+    end
+  end
+
+  def self.cached_client_custom_field_find_by(object, fields_second)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_custom_field_find_by', object.id, *fields_second]) do
+      object.custom_fields.find_by(form_title: fields_second)&.id
+    end
+  end
+
+  def self.cached_client_custom_field_properties_properties_by(object, custom_field_id, sql, format_field_value)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_custom_field_properties_properties_by', object.id, custom_field_id]) do
+      object.custom_field_properties.where(custom_field_id: custom_field_id).where(sql).properties_by(format_field_value)
+    end
+  end
+
+  def self.cached_client_order_enrollment_date(object, fields_second)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_order_enrollment_date', object.id, *fields_second]) do
+      properties = date_format(object.client_enrollments.joins(:program_stream).where(program_streams: { name: fields_second }).order(enrollment_date: :desc).first.try(:enrollment_date))
+    end
+  end
+
+  def self.cached_client_enrollment_date_join(object, fields_second)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_enrollment_date_join', object.id, *fields_second]) do
+      properties = date_filter(object.client_enrollments.joins(:program_stream).where(program_streams: { name: fields_second }), fields.join('__')).map{|date| date_format(date.enrollment_date) }
+    end
+  end
+
+  def self.cached_client_order_enrollment_date_properties(object, fields_second)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_order_enrollment_date_properties', object.id, *fields_second]) do
+      properties = object.client_enrollments.joins(:program_stream).where(program_streams: { name: fields_second }).order(enrollment_date: :desc).first.try(:properties)
+    end
+  end
+
+  def self.cached_client_enrollment_properties_by(object, fields_second, format_field_value)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_enrollment_properties_by', object.id, *fields_second]) do
+      properties = object.client_enrollments.joins(:program_stream).where(program_streams: { name: fields_second }).properties_by(format_field_value)
+    end
+  end
+
 
   private
 
@@ -1024,6 +1087,14 @@ class Client < ActiveRecord::Base
     Rails.cache.delete([Apartment::Tenant.current, id, local_given_name_was || 'local_given_name']) if local_given_name_changed?
     Rails.cache.delete([Apartment::Tenant.current, id, local_family_name_was || 'local_family_name']) if local_family_name_changed?
     Rails.cache.fetch([I18n.locale, Apartment::Tenant.current, id, gender_was || 'gender']) if gender_changed?
+    cached_client_custom_field_properties_count_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_custom_field_properties_count/].blank? }
+    cached_client_custom_field_properties_count_keys.each { |key| Rails.cache.delete(key) }
+    cached_client_custom_field_properties_order_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_custom_field_properties_order/].blank? }
+    cached_client_custom_field_properties_order_keys.each { |key| Rails.cache.delete(key) }
+    cached_client_custom_field_find_by_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_custom_field_find_by/].blank? }
+    cached_client_custom_field_find_by_keys.each { |key| Rails.cache.delete(key) }
+    cached_client_custom_field_properties_properties_by_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_custom_field_properties_properties_by/].blank? }
+    cached_client_custom_field_properties_properties_by_keys.each { |key| Rails.cache.delete(key) }
   end
 
 end

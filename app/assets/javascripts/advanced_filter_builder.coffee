@@ -14,6 +14,7 @@ class CIF.AdvancedFilterBuilder
 
         window.customGroup["#{addRule.id}"] = addRule if window.customGroup["#{addRule.id}"] == undefined
         $('#builder_group_0').find('.rules-group-body .btn-custom-group').hide()
+        $('#builder_group_0').find('.rules-group-body .btn-default-group').hide()
 
     $(@element.selector).on 'beforeDeleteGroup.queryBuilder', (parent, group) ->
       if $('body#clients-index').length
