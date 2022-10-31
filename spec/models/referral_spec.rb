@@ -21,12 +21,12 @@ describe Referral do
 
     context 'consent_form' do
       it 'invalid' do
-        referral = FactoryGirl.build(:referral, referred_from: 'Organization Testing', consent_form: nil)
+        referral = FactoryBot.build(:referral, referred_from: 'Organization Testing', consent_form: nil)
         expect(referral.valid?).to be_falsey
       end
 
       it 'valid' do
-        referral = FactoryGirl.build(:referral, referred_to: 'app', consent_form: [UploadedFile.new(File.open(File.join(Rails.root, '/spec/supports/file.docx')))])
+        referral = FactoryBot.build(:referral, referred_to: 'app', consent_form: [UploadedFile.new(File.open(File.join(Rails.root, '/spec/supports/file.docx')))])
         expect(referral.valid?).to be_falsey
       end
     end
@@ -73,7 +73,7 @@ describe Referral do
       context '#email_referrral_client' do
         let!(:user){ create(:user, :admin) }
         before do
-          FactoryGirl.create(:user, :admin)
+          FactoryBot.create(:user, :admin)
           Organization.switch_to 'app'
         end
         subject(:referral_email_notification) { ActionMailer::Base.deliveries }

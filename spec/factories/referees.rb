@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :referee do
     name "MyString"
     address_type "MyString"

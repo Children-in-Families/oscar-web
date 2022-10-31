@@ -7,7 +7,7 @@ describe ChangelogType, 'validations' do
   it { is_expected.to validate_presence_of(:description) }
 
   it 'should validate uniqueness of description scoped to changelog_id and change_type' do
-    FactoryGirl.create(:changelog_type)
+    FactoryBot.create(:changelog_type)
     should validate_uniqueness_of(:description).scoped_to([:changelog_id, :change_type])
   end
 end

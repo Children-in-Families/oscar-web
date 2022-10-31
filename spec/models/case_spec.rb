@@ -315,9 +315,9 @@ describe Case do
 
       context 'create_client_history' do
         it 'should have maybe some client histories, one case client history, and one client family history' do
-          client  = FactoryGirl.create(:client, given_name: 'AAAA')
-          family  = FactoryGirl.create(:family, :emergency, name: 'AAAA')
-          ec_case = FactoryGirl.create(:case, client: client, family: family)
+          client  = FactoryBot.create(:client, given_name: 'AAAA')
+          family  = FactoryBot.create(:family, :emergency, name: 'AAAA')
+          ec_case = FactoryBot.create(:case, client: client, family: family)
 
           expect(ClientHistory.where('object.family_ids' => family.id).count).to eq(0)
           expect(ClientHistory.where('object.family_ids' => family.id)&.first&.client_family_histories&.count)&.to eq(nil)

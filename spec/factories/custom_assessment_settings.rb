@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :custom_assessment_setting do
     custom_assessment_name "MyString"
     max_custom_assessment 4

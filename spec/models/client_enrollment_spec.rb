@@ -142,8 +142,8 @@ describe ClientEnrollment do
         end
 
         it 'return client status Active when in case EC' do
-          case_client = FactoryGirl.create(:case, client: client)
-          case_client_enrollment = FactoryGirl.create(:client_enrollment, program_stream: program_stream, client: client)
+          case_client = FactoryBot.create(:case, client: client)
+          case_client_enrollment = FactoryBot.create(:client_enrollment, program_stream: program_stream, client: client)
           case_client_enrollment.reload
           case_client_enrollment.update(enrollment_date: FFaker::Time.date)
           expect(case_client_enrollment.client.status).to eq("Active")
@@ -160,7 +160,7 @@ describe ClientEnrollment do
         end
 
         it 'return client status Active when in case EC' do
-          case_client = FactoryGirl.create(:case, client: client, case_type: 'EC')
+          case_client = FactoryBot.create(:case, client: client, case_type: 'EC')
           other_client_enrollment.destroy
           expect(client.status).to eq('Accepted')
         end

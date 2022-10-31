@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :developmental_marker do
     name "MyString"
     name_local "MyString"

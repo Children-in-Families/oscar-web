@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :domain do
     sequence(:name)  { |n| "AB#{n}" }
     sequence(:identity)  { |n| "#{FFaker::Name.name}-#{n}" }

@@ -11,7 +11,7 @@
 #
 #   feature 'List' do
 #     before do
-#       FactoryGirl.create_list(:progress_note_type, 20)
+#       FactoryBot.create_list(:progress_note_type, 20)
 #       visit progress_note_types_path
 #     end
 #

@@ -13,7 +13,7 @@ describe Call do
 
     context 'information_provided' do
       let!(:referee) { create(:referee) }
-      let(:call){ FactoryGirl.build(:call, referee: referee, call_type: 'Seeking Information') }
+      let(:call){ FactoryBot.build(:call, referee: referee, call_type: 'Seeking Information') }
       it 'invalid' do
         expect(call).to be_invalid
       end

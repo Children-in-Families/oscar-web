@@ -29,13 +29,13 @@ describe Tracking do
 
     context 'valid' do
       fields = [{"name"=>"date-1497520151012", "type"=>"date", "label"=>"Date", "className"=>"calendar"}]
-      valid_tracking = FactoryGirl.build(:tracking, fields: fields)
+      valid_tracking = FactoryBot.build(:tracking, fields: fields)
       it{ expect(valid_tracking.valid?).to be_truthy }
     end
 
     context 'invalid' do
       fields = [{"name"=>"date-1497520151012", "type"=>"date", "label"=>"", "className"=>"calendar"}]
-      invalid_tracking = FactoryGirl.build(:tracking, fields: fields)
+      invalid_tracking = FactoryBot.build(:tracking, fields: fields)
       invalid_tracking.valid?
       it{ expect(invalid_tracking.errors[:fields]).to include("Label can't be blank") }
     end

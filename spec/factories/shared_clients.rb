@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :shared_client do
     slug "MyString"
     given_name "MyString"

@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   # put anything you want to make available to all Factories here
 
   # For example 'timestamps':

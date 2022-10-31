@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :caseworker_assumption do
     name "MyString"
   end

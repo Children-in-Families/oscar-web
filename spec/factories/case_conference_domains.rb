@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :case_conference_domain do
     domain
     case_conference

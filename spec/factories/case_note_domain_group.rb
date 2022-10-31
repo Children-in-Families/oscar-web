@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :case_note_domain_group do
     note { FFaker::Lorem.paragraph }
     case_note

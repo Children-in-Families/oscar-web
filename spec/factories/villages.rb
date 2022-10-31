@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :village do
     name_kh { FFaker::Name.name }
     name_en { FFaker::Name.name }

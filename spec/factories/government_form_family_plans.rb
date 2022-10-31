@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :government_form_family_plan do
     goal "MyString"
     action "MyString"

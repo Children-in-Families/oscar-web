@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :enrollment_tracking do
     properties { {"e-mail"=>"test@example.com", "age"=>"3", "description"=>"this is testing"}.to_json }
     association :enrollment, factory: :enrollment

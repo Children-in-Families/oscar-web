@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :leave_program do
     properties {
         {"e-mail"=>"test@example.com",

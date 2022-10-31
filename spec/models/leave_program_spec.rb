@@ -67,8 +67,8 @@ describe LeaveProgram do
     context 'exit_date_value of entity Family' do
       it 'should be any date after program enrollment date' do
         properties = {"e-mail"=>"test@example.com", "age"=>"5", "description"=>"this is testing"}
-        enrollment = FactoryGirl.create(:enrollment, program_stream: entity_program_stream, programmable: family, properties: properties, enrollment_date: '2017-06-08')
-        leave_program = FactoryGirl.build(:leave_program, enrollment: enrollment, program_stream: entity_program_stream, properties: properties, exit_date: '2017-06-07')
+        enrollment = FactoryBot.create(:enrollment, program_stream: entity_program_stream, programmable: family, properties: properties, enrollment_date: '2017-06-08')
+        leave_program = FactoryBot.build(:leave_program, enrollment: enrollment, program_stream: entity_program_stream, properties: properties, exit_date: '2017-06-07')
         leave_program.save
         expect(leave_program.errors[:exit_date]).to include('The exit date you have selected is invalid. Please select a date after your program enrollment date.')
       end
@@ -77,8 +77,8 @@ describe LeaveProgram do
     context 'exit_date_value of entity Community' do
       it 'should be any date after program enrollment date' do
         properties = {"e-mail"=>"test@example.com", "age"=>"5", "description"=>"this is testing"}
-        enrollment = FactoryGirl.create(:enrollment, program_stream: community_program_stream, programmable: community, properties: properties, enrollment_date: '2017-06-08')
-        leave_program = FactoryGirl.build(:leave_program, enrollment: enrollment, program_stream: community_program_stream, properties: properties, exit_date: '2017-06-07')
+        enrollment = FactoryBot.create(:enrollment, program_stream: community_program_stream, programmable: community, properties: properties, enrollment_date: '2017-06-08')
+        leave_program = FactoryBot.build(:leave_program, enrollment: enrollment, program_stream: community_program_stream, properties: properties, exit_date: '2017-06-07')
         leave_program.save
         expect(leave_program.errors[:exit_date]).to include('The exit date you have selected is invalid. Please select a date after your program enrollment date.')
       end

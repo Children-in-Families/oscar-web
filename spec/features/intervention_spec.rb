@@ -8,7 +8,7 @@
 
 #   feature 'List' do
 #     before do
-#       FactoryGirl.create_list(:intervention, 20)
+#       FactoryBot.create_list(:intervention, 20)
 #       visit interventions_path
 #     end
 

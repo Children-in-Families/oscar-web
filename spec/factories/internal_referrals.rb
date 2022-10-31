@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :internal_referral do
     referral_date "2021-06-06 14:46:39"
     client_id 1

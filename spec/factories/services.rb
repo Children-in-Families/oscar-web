@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :parent_service, class: Service do
     name  { FFaker::Name.name }
     parent_id nil

@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :assessment_domain do
     association :assessment, factory: :assessment
     association :domain, factory: :domain

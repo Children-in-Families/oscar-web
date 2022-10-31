@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :call do
     answered_call false
     called_before false

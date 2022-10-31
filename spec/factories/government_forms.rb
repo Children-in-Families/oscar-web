@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :government_form do
     name { FFaker::Name.name }
     association :client, factory: :client

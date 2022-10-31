@@ -55,7 +55,7 @@
 #
 #   feature 'List' do
 #     before do
-#       FactoryGirl.create_list(:progress_note, 20, client: client)
+#       FactoryBot.create_list(:progress_note, 20, client: client)
 #       visit client_progress_notes_path(progress_note.client)
 #     end
 #

@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :advanced_search do
     name { FFaker::Name.first_name }
     description { FFaker::Lorem.paragraph }

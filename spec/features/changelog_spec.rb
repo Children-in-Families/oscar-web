@@ -8,7 +8,7 @@ describe 'Changelog' do
 
   feature 'List' do
     before do
-      FactoryGirl.create_list(:changelog, 20)
+      FactoryBot.create_list(:changelog, 20)
       visit changelogs_path
     end
 

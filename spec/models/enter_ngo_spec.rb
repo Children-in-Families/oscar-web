@@ -20,14 +20,14 @@ describe EnterNgo do
           let!(:exited_client) { create(:client, :exited) }
 
           it 'invalid' do
-            enter_ngo = FactoryGirl.build(:enter_ngo, client: exited_client)
+            enter_ngo = FactoryBot.build(:enter_ngo, client: exited_client)
             enter_ngo.save
             expect(enter_ngo.valid?).to be_falsey
             expect(enter_ngo.errors.full_messages).to include("User ids can't be blank")
           end
 
           it 'valid' do
-            enter_ngo = FactoryGirl.build(:enter_ngo, client: exited_client, user_ids: [manager.id])
+            enter_ngo = FactoryBot.build(:enter_ngo, client: exited_client, user_ids: [manager.id])
             enter_ngo.save
             expect(enter_ngo.valid?).to be_truthy
           end
@@ -41,14 +41,14 @@ describe EnterNgo do
           let!(:exited_family) { create(:family, :exited) }
 
           it 'invalid' do
-            enter_ngo = FactoryGirl.build(:enter_ngo, acceptable: exited_family)
+            enter_ngo = FactoryBot.build(:enter_ngo, acceptable: exited_family)
             enter_ngo.save
             expect(enter_ngo.valid?).to be_falsey
             expect(enter_ngo.errors.full_messages).to include("User ids can't be blank")
           end
 
           it 'valid' do
-            enter_ngo = FactoryGirl.build(:enter_ngo, acceptable: exited_family, user_ids: [manager.id])
+            enter_ngo = FactoryBot.build(:enter_ngo, acceptable: exited_family, user_ids: [manager.id])
             enter_ngo.save
             expect(enter_ngo.valid?).to be_truthy
           end

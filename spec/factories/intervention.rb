@@ -1,4 +1,4 @@
-# FactoryGirl.define do
+# FactoryBot.define do
 #   factory :intervention do
 #     sequence(:action)  { |n| "#{FFaker::HealthcareIpsum.word}-#{n}" }
 #   end

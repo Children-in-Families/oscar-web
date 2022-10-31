@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :task do
     name FFaker::Name.name
     expected_date FFaker::Time.date

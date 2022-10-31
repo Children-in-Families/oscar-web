@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :interviewee do
     name { FFaker::Name.name }
   end

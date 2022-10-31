@@ -15,7 +15,6 @@ before_script:
   - yarn
   - bundle exec rake db:create
   - bundle exec rake db:schema:load
-  - bundle exec danger
 before_install:
   - nvm install --lts
   - gem install bundler -v '1.17.3'

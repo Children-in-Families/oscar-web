@@ -1,7 +1,7 @@
 include ActionDispatch::TestProcess
 include Rack::Test
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :family_referral do
     slug "MyString"
     date_of_referral Date.today

@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :risk_assessment do
     assessment_date "2022-08-17 08:19:40"
     protection_concern "MyString"

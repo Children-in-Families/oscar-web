@@ -37,15 +37,15 @@ describe Client do
         ClientHistory.destroy_all
       end
       it 'should have two client histories' do
-        client = FactoryGirl.create(:client)
+        client = FactoryBot.create(:client)
         # 2 client_histories because client has an after_save callback to update slug column
         expect(ClientHistory.where('object.id' => client.id).count).to eq(1)
         expect(ClientHistory.where('object.id' => client.id).pluck(:id)).to eq(ClientHistory.all.pluck(:id))
       end
 
       it 'should have 2 client histories and 2 agency client histories each' do
-        agencies      = FactoryGirl.create_list(:agency, 2)
-        agency_client = FactoryGirl.create(:client, agency_ids: agencies.map(&:id))
+        agencies      = FactoryBot.create_list(:agency, 2)
+        agency_client = FactoryBot.create(:client, agency_ids: agencies.map(&:id))
         expect(ClientHistory.where('object.id' => agency_client.id).count).to eq(1)
         expect(ClientHistory.where('object.id' => agency_client.id).first.object['agency_ids']).to eq(agencies.map(&:id))
         expect(ClientHistory.where('object.id' => agency_client.id).last.object['agency_ids']).to eq(agencies.map(&:id))
@@ -767,7 +767,7 @@ describe Client do
     it { is_expected.to validate_presence_of(:gender) }
     it { is_expected.to validate_presence_of(:referral_source_category_id)}
 
-    subject { FactoryGirl.build(:client) }
+    subject { FactoryBot.build(:client) }
 
     context 'user_ids' do
       context 'on create' do
@@ -794,7 +794,7 @@ describe Client do
     end
 
     context 'kid_id' do
-      subject{ FactoryGirl.build(:client) }
+      subject{ FactoryBot.build(:client) }
       let!(:user){ create(:user) }
       let!(:client){ create(:client, kid_id: 'STID-01', user_ids: [user.id]) }
       let!(:valid_client){ build(:client, user_ids: [user.id]) }

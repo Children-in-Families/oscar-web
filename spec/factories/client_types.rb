@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :client_type do
     name { FFaker::Name.name }
   end

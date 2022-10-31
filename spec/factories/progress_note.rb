@@ -1,4 +1,4 @@
-# FactoryGirl.define do
+# FactoryBot.define do
 #   factory :progress_note do
 #     date FFaker::Time.date
 #     other_location FFaker::Address.city

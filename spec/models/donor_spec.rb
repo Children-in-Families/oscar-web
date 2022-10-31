@@ -12,7 +12,7 @@ describe Donor do
     it { is_expected.to validate_uniqueness_of(:code).case_insensitive }
 
     it 'validates uniqueness of name case sensitivity if code is blank' do
-      FactoryGirl.create(:donor, name: 'NGO A')
+      FactoryBot.create(:donor, name: 'NGO A')
       valid_donor   = Donor.new(name: 'NGO B')
       invalid_donor = Donor.new(name: 'ngo a')
       expect(valid_donor).to be_valid
@@ -20,7 +20,7 @@ describe Donor do
     end
 
     it 'validates uniqueness of name base on code if code exists' do
-      FactoryGirl.create(:donor, name: 'NGO A', code: 'A')
+      FactoryBot.create(:donor, name: 'NGO A', code: 'A')
       valid_donor   = Donor.new(name: 'NGO A', code: 'B')
       invalid_donor = Donor.new(name: 'NGO A', code: 'A')
       expect(valid_donor).to be_valid

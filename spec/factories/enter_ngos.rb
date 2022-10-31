@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :enter_ngo do
     accepted_date FFaker::Time.date
     created_at { Time.now }

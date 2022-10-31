@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :case_conference do
     case_conference "2021-05-11"
     client_strength "MyText"

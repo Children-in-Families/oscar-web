@@ -11,7 +11,7 @@
 #
 #   feature 'List' do
 #     before do
-#       FactoryGirl.create_list(:material, 20)
+#       FactoryBot.create_list(:material, 20)
 #       visit materials_path
 #     end
 #

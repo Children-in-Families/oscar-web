@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :custom_field_property do
     association :custom_field, factory: :custom_field
     attachments Rack::Test::UploadedFile.new(File.open(File.join(Rails.root, '/spec/supports/file.docx')))

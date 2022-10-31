@@ -52,8 +52,8 @@ describe Enrollment do
     context 'enrollment_date_value' do
       it 'should be any date before the program exit date' do
         properties = {"e-mail"=>"test@example.com", "age"=>"3", "description"=>"this is testing"}
-        enrollment = FactoryGirl.create(:enrollment, program_stream: program_stream, programmable: family, properties: properties, enrollment_date: '2017-06-08')
-        leave_program = FactoryGirl.create(:leave_program, enrollment: enrollment, program_stream: program_stream, properties: properties, exit_date: '2017-06-09')
+        enrollment = FactoryBot.create(:enrollment, program_stream: program_stream, programmable: family, properties: properties, enrollment_date: '2017-06-08')
+        leave_program = FactoryBot.create(:leave_program, enrollment: enrollment, program_stream: program_stream, properties: properties, exit_date: '2017-06-09')
         enrollment.enrollment_date = '2017-06-10'
         enrollment.save
         expect(enrollment.errors[:enrollment_date]).to include('The enrollment date you have selected is invalid. Please select a date prior to your program exit date.')
