@@ -22,7 +22,8 @@ module UpdateFieldLabelsFormBuilder
 
   def update_labels_changed(objects, labels_changed)
     constant_name = objects.compact.first.class.name.constantize
-    return if constant_name.nil? || (labels_changed.empty? || labels_changed.all?{|label_old, label_new| label_old == label_new })
+    return if constant_name == NilClass || constant_name.nil? || (labels_changed.empty? || labels_changed.all?{|label_old, label_new| label_old == label_new })
+
     constant_name.paper_trail.disable
     objects.each_slice(1000).with_index do |batch_custom_field_properties, i|
       values = batch_custom_field_properties.map do |object|
