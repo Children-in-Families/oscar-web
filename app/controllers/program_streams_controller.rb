@@ -12,7 +12,7 @@ class ProgramStreamsController < AdminController
 
   def index
     @program_streams = paginate_collection(decorate_programs(column_order)).page(params[:page_1]).per(20)
-    @ngos_program_streams = paginate_collection(decorate_programs(program_stream_ordered)).page(params[:page_2]).per(20)
+    @ngos_program_streams = paginate_collection(program_stream_ordered).page(params[:page_2]).per(20)
     @demo_program_streams = paginate_collection(decorate_programs(program_stream_ordered('demo'))).page(params[:page_3]).per(20) unless current_organization.short_name == 'demo'
   end
 
@@ -145,7 +145,10 @@ class ProgramStreamsController < AdminController
     organizations = org == 'demo' ? Organization.where(short_name: 'demo') : Organization.oscar.order(:full_name)
     program_streams = organizations.map do |org|
       Organization.switch_to org.short_name
-      ProgramStream.all.reload
+      programs = ProgramStream.includes(:services).all.reload.map do |program_stream|
+        OpenStruct.new({ **program_stream.attributes.symbolize_keys, services: program_stream.services, domains: program_stream.domains })
+      end
+      decorate_programs(programs)
     end
     Organization.switch_to(current_org_name)
     program_streams.flatten
@@ -171,7 +174,7 @@ class ProgramStreamsController < AdminController
     column == "quantity" ? "#{column}" : "lower(#{column})"
     (order_string = "#{column} #{sort_by}") if column.present?
 
-    ProgramStream.ordered_by(order_string)
+    ProgramStream.includes(:services, :client_enrollments).ordered_by(order_string)
   end
 
   def program_stream_ordered(org = '')

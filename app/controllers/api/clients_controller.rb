@@ -313,7 +313,7 @@ module Api
         domain_scores = domains.ids.map { |domain_id| assessment_domain_hash.present? ? ["domain_#{domain_id}", assessment_domain_hash[domain_id]] : ["domain_#{domain_id}", ''] }
         total = 0
         assessment_domain_hash.each do |index, value|
-          total += value
+          total += value || 0
         end
 
         client_hash = { slug: assessment.client.slug,
