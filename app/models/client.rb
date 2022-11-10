@@ -904,7 +904,8 @@ class Client < ActiveRecord::Base
   end
 
   def is_referable_to_external_system?
-    name.squish.blank? || date_of_birth.blank? || gender.blank? || province_id.blank?
+    (local_given_name.blank? || local_family_name.blank? || given_name.blank? || family_name.blank?) ||
+    date_of_birth.blank? || gender.blank? || province_id.blank?
   end
 
   def self.cached_client_custom_field_properties_count(object, fields_second)
@@ -1059,7 +1060,7 @@ class Client < ActiveRecord::Base
     return if received_referrals.count.zero? || client_enrollments.any?
 
     referral = received_referrals.find(from_referral_id)
-    return if referral.referral_status == 'Accepted' || referral.referred_from == Apartment::Tenant.current
+    return if referral.referral_status != 'Referred' || referral.referred_from == Apartment::Tenant.current
 
     referral.level_of_risk = 'no action' if referral.level_of_risk.blank?
     referral.referral_status = status

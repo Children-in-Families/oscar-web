@@ -242,27 +242,29 @@ module Api
         referral_attributes = Referral.get_referral_attribute(clients_params)
         client = Client.find_by(global_id: referral_attributes[:client_global_id])
 
-        referee = client.referee || client.received_by || client.users.last
-        referral = Referral.new(
-          referral_attributes.merge(
-            ngo_name: external_system_name,
-            referred_from: external_system_name,
-            slug: client&.slug,
-            referee_id: referee.id
+        if client
+          referee = client.referee || client.received_by || client.users.last
+          referral = Referral.new(
+            referral_attributes.merge(
+              ngo_name: external_system_name,
+              referred_from: external_system_name,
+              slug: client&.slug,
+              referee_id: referee.id
+            )
           )
-        )
 
-        if ['Accepted', 'Exited', 'Referred'].include?(clients_params['referral_status']) && referral.save
-          global_identity = GlobalIdentity.find_by(ulid: referral_attributes[:client_global_id])
-          global_identity.external_system_global_identities.find_or_create_by(
-            external_system_id: external_system_id,
-            external_id: referral_attributes[:external_id],
-            organization_name: clients_params[:organization_name]
-          )
-          global_identity
-        else
-          referral.save
-          referral
+          if ['Accepted', 'Exited', 'Referred'].include?(clients_params['referral_status']) && referral.save
+            global_identity = GlobalIdentity.find_by(ulid: referral_attributes[:client_global_id])
+            global_identity.external_system_global_identities.find_or_create_by(
+              external_system_id: external_system_id,
+              external_id: referral_attributes[:external_id],
+              organization_name: clients_params[:organization_name]
+            )
+            global_identity
+          else
+            referral.save
+            referral
+          end
         end
       end
 
