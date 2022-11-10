@@ -440,7 +440,7 @@ module ApplicationHelper
 
   def mapping_ngos(ngos)
     if controller_name == 'clients'
-      ExternalSystem.all.each.map{ |external_system| ngos << [external_system.name, "external referral"] } if is_ngo_share_to_external?
+      ExternalSystem.all.each.map{ |external_system| ngos << [external_system.name, external_system.name] } if is_ngo_share_to_external?
       ngos << ["I don't see the NGO I'm looking for...", "external referral"]
     elsif controller_name == 'family_referrals'
       ngos << ["MoSVY External System", "MoSVY External System"] if is_ngo_share_to_external?
