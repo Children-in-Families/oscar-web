@@ -3,7 +3,22 @@
   %label.control-label{ class: required?(field_props['required'] || false) }
     %abbr{ title: 'required' }= '*' if field_props['required'] || false
     = label.html_safe
-  = f.input field_props['label'], required: (field_props['required'] || false), input_html: { class: field_props['className'], placeholder: format_placeholder(field_props['placeholder']), title: field_props['description'], name: "#{f.object_name}[#{remove_field_prop_unicode(field_props)}]",  type: field_props['subtype'] , id: "#{f.object_name}[#{remove_field_prop_unicode(field_props)}]".parameterize, 'data-local-input': "#{f.object_name}[#{remove_local_field_prop_unicode(field_props)}]".parameterize }, label: false
-  = f.input field_props['local_label'], :as => :hidden, input_html: { name: "#{f.object_name}[Local_label #{remove_local_field_prop_unicode(field_props)}]", id: "#{f.object_name}[#{remove_local_field_prop_unicode(field_props)}]".parameterize }
+
+  %input{ name: "#{f.object_name}[#{remove_field_prop_unicode(field_props)}]",
+    "data-local-input": "#{f.object_name}[#{remove_local_field_prop_unicode(field_props)}]".parameterize,
+    title: field_props['description'],
+    type: field_props['subtype'],
+    class: field_props['className'],
+    placeholder: format_placeholder(field_props['placeholder']),
+    id: "#{f.object_name}[#{remove_field_prop_unicode(field_props)}]".parameterize,
+    required: (field_props['required'] || false) }/
+
+  .form-group.hidden
+    %input{ name: "#{f.object_name}[Local_label #{remove_local_field_prop_unicode(field_props)}]",
+      type: 'hidden',
+      subtype: 'text',
+      class: "form-control #{field_props['className']}",
+      id: "#{f.object_name}[#{remove_local_field_prop_unicode(field_props)}]".parameterize }/
+
   %span.help-block
     = field_message(field_props['label'], errors)
