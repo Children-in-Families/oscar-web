@@ -36,6 +36,9 @@ jobs:
           config: ${{ secrets.CONFIG }} # ssh_config; optional
           if_key_exists: fail # replace / ignore / fail; optional (defaults to fail)
 
+      - name: Gem install bundle
+        run: gem install bundler -v 1.17.3
+
       - name: Run bundle install
         run: bundle install --verbose --jobs 20 --retry 5
 
