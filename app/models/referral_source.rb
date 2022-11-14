@@ -23,6 +23,10 @@ class ReferralSource < ActiveRecord::Base
     end
   end
 
+  def parent_exists?
+    ReferralSource.exists?(parent_id)
+  end
+
   def self.cache_referral_source_options
     Rails.cache.fetch([Apartment::Tenant.current, 'ReferralSource', 'referral_source_options']) do
       ReferralSource.child_referrals.order(:name).map { |s| { s.id.to_s => s.name } }
