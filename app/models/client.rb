@@ -910,55 +910,6 @@ class Client < ActiveRecord::Base
     date_of_birth.blank? || gender.blank? || province_id.blank?
   end
 
-  def self.cached_client_custom_field_properties_count(object, fields_second)
-    Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_custom_field_properties_count', object.id, *fields_second]) do
-      properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields_second, entity_type: 'Client'}).count
-    end
-  end
-
-  def self.cached_client_custom_field_properties_order(object, fields_second)
-    Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_custom_field_properties_order', object.id, *fields_second]) do
-      properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields_second, entity_type: 'Client'}).order(created_at: :desc).first.try(:properties)
-    end
-  end
-
-  def self.cached_client_custom_field_find_by(object, fields_second)
-    Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_custom_field_find_by', object.id, *fields_second]) do
-      object.custom_fields.find_by(form_title: fields_second)&.id
-    end
-  end
-
-  def self.cached_client_custom_field_properties_properties_by(object, custom_field_id, sql, format_field_value)
-    Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_custom_field_properties_properties_by', object.id, custom_field_id]) do
-      object.custom_field_properties.where(custom_field_id: custom_field_id).where(sql).properties_by(format_field_value)
-    end
-  end
-
-  def self.cached_client_order_enrollment_date(object, fields_second)
-    Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_order_enrollment_date', object.id, *fields_second]) do
-      properties = date_format(object.client_enrollments.joins(:program_stream).where(program_streams: { name: fields_second }).order(enrollment_date: :desc).first.try(:enrollment_date))
-    end
-  end
-
-  def self.cached_client_enrollment_date_join(object, fields_second)
-    Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_enrollment_date_join', object.id, *fields_second]) do
-      properties = date_filter(object.client_enrollments.joins(:program_stream).where(program_streams: { name: fields_second }), fields.join('__')).map{|date| date_format(date.enrollment_date) }
-    end
-  end
-
-  def self.cached_client_order_enrollment_date_properties(object, fields_second)
-    Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_order_enrollment_date_properties', object.id, *fields_second]) do
-      properties = object.client_enrollments.joins(:program_stream).where(program_streams: { name: fields_second }).order(enrollment_date: :desc).first.try(:properties)
-    end
-  end
-
-  def self.cached_client_enrollment_properties_by(object, fields_second, format_field_value)
-    Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_enrollment_properties_by', object.id, *fields_second]) do
-      properties = object.client_enrollments.joins(:program_stream).where(program_streams: { name: fields_second }).properties_by(format_field_value)
-    end
-  end
-
-
   private
 
   def update_related_family_member
