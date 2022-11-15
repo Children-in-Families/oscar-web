@@ -29,6 +29,7 @@ class Assessment < ActiveRecord::Base
   scope :customs, -> { where(default: false) }
   scope :completed, -> { where(completed: true) }
   scope :incompleted, -> { where(completed: false) }
+  scope :client_risk_assessments, -> { where.not(level_of_risk: nil) }
 
   DUE_STATES        = ['Due Today', 'Overdue']
 

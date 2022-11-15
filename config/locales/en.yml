@@ -2100,28 +2100,8 @@ en:
       sInfoTotal: of
       save_search_settings: Save Search Settings
       show_all: Show All
-      view_all_active_tasks: View All Active  Tasks
+      view_all_active_tasks: View All Active Tasks
       table_summary: Table Summary
-    kinship_case:
-      carer_address: Carer Address
-      carer_names: Carer Names
-      carer_phone_number: Carer Phone Number
-      edit_btn: Edit
-      exit_btn: Remove Client from Program
-      exit_date: Exit Date
-      exit_note: Exit Note
-      exit_status: Exit Status
-      family: Family
-      family_preservation: Family Preservation?
-      kinship_care: Kinship Care
-      kinship_case:
-        kinship_care: Kinship Care
-      note: Note
-      ongoing_partner: Ongoing Partner
-      province: Province
-      start_date: Start Date
-      support_amount: Support Amount
-      support_note: Support Note
     level:
       level_no: 'No'
       level_1: Level 1
@@ -4987,6 +4967,7 @@ en:
     internal_referral_attr: &INTERNAL_REFERRAL_ATTR
       are_you_sure: Are you sure you want to delete?
       attachments: Attachments
+      changed_date: Date
       client_id: Client ID
       client_name: Client Name
       client_representing_problem: CLIENT'S PRESENTING PROBLEMS
@@ -5002,6 +4983,8 @@ en:
       referral_reason: REASON FOR REFERRAL AND RECOMMNEDATIONS
       referral_reason_note: "The referral source’s reason for referral:"
       user_id: Referred from
+      user_name: Name
+      who_made_change: Who made change
     create:
       successfully_created: Internal Referral has successfully been created.
     destroy:
@@ -6146,25 +6129,66 @@ en:
       successfully_updated: Service has been successfully updated.
   referral_details: Referral Details
   results: Results
+  risk_assessments:
+    _attr: &SA_ATTR
+      assessment_date: Date of risk assessment
+      category: Category
+      child_wellbeing: "Child's Wellbeing"
+      client_perspective: "Client’s perspective on their problem and needs"
+      client_status_index: Client Status Index
+      description: Description
+      guidance: Guidance
+      has_disability: Does client have disability?
+      has_hiv_or_aid: Does client have HIV/AID?
+      has_known_chronic_disease: Does client have a known chronic disease?
+      history_of_disability_id: History of disability and/or illness
+      history_of_harm_id: History of Harm
+      history_of_high_risk_behaviour_id: History of high-risk behaviours
+      history_of_family_separation_id: Reason for Family Separation
+      hiv_or_aid_specification: Immediate Recommendation
+      if_other: If other, please specify
+      if_yes: If yes, please specify
+      level_of_risk: Level of Risk
+      level_of_risks:
+        high: High
+        medium: Medium
+        low: Low
+        no_action: No Action
+      no_date: No Date
+      no_protection_concern: No Protection Concern
+      overall_client_wellbeing_score: Overall Client’s Wellbeing Score
+      pending_assessment: Pending Assessment
+      protection_concern: Protection Concern
+      relevant_referral_information: Relevant Referral Information
+      risk: Risk
+      risk_assessment: Risk Assessment
+      risk_level_history: Risk Level History
+      score: Score
+      select_assessment_tool: "Select Assessment Tool for Client’s Wellbeing"
   screening_assessments:
     _attr: &SA_ATTR
-      add_new: Add New Screening Assessment
+      add_new: Add New Assessment
       add_task: Add Task
+      assessment_date: Assessment Date
+      assessment_on: Assessment On
       attachments: Attachments
       back_to_clients: Back to Client
-      based_on: Base on Screening Assessment
+      based_on: Base on Assessment
       cb_dmat: CB-DMAT Screening Tool
+      cb_dmat_assessment: CB-DMAT Assessment
       client_age: Client's Age
       client_milestone_age: Client's Milestone Age
       client_name: Client's Name
       created_by: Created By
       note: Note
       on_date: On Date
+      refer_to_specialist: Refer to specialist
       screening_assessment: Screening Assessment
       screening_assessment_date: Screening Assessment Date
       tasks: Tasks
       view_cb_dmat: View CB-DMAT
-      view_or_hide_last_screening_assessment: View or Hide Last Screening Assessment
+      view_cb_dmat_assessment: View CB-DMAT Assessment
+      view_or_hide_last_assessment: View or Hide Last Assessment
       view_screening_assessment: View Screening Assessment
       visitor: Who was there during the assessment?
     form:
@@ -6391,6 +6415,7 @@ en:
     update:
       successfully_updated: Survey has been successfully updated.
   tasks:
+    add_task: Add Task
     add_task_progress_note: Add progress notes and next steps
     completion_date: Completion Date
     expected_date: Expected Date
@@ -6410,6 +6435,7 @@ en:
       upcoming_tasks: Upcoming Tasks
     task: Task
     task_added: Task Added
+    title: Title
   thredded:
     content_moderation_states:
       content_blocked_notice: Blocked

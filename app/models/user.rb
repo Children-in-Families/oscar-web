@@ -100,6 +100,16 @@ class User < ActiveRecord::Base
     end
   end
 
+  class << self
+    def current_user=(user)
+      Thread.current[:current_user] = user
+    end
+
+    def current_user
+      Thread.current[:current_user]
+    end
+  end
+
   def build_permission
     unless self.strategic_overviewer?
       self.create_permission

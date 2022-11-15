@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   SelectInput,
   DateInput,
@@ -14,13 +14,13 @@ import { t } from "../../utils/i18n";
 export default (props) => {
   const {
     onChange,
+    setClientData,
     fieldsVisibility,
     requiredFields,
     translation,
     data: { client, T, errorFields },
   } = props;
 
-  const [clientData, setClientData] = useState({ ...client });
 
   const legalDocOptions = [
     {
@@ -45,7 +45,8 @@ export default (props) => {
 
     if (typeof field !== "object") {
       client[field] = value;
-      setClientData({ ...client });
+      (prev => [...prev, { ...client }])
+      setClientData(prev => ({...prev, ...client }))
     }
   };
 

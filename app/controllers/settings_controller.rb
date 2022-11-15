@@ -97,6 +97,17 @@ class SettingsController < AdminController
     authorize @setting
   end
 
+  def risk_assessment
+    authorize @setting
+    attribute = params[:setting]
+    if attribute && @setting.update_attributes(setting_params)
+      redirect_to :back, notice: t('successfully_updated', klass: t('settings.update.successfully_updated'))
+    else
+      flash[:alert] = @setting.errors.full_messages.join(", ") if @setting.errors.full_messages.any?
+      render :risk_assessment
+    end
+  end
+
   private
 
   def redirect_to_default
@@ -121,12 +132,13 @@ class SettingsController < AdminController
                                     :enable_hotline, :enable_client_form, :assessment_score_order, :disable_required_fields,
                                     :hide_family_case_management_tool, :hide_community, :case_conference_limit, :case_conference_frequency,
                                     :internal_referral_limit, :internal_referral_frequency, :case_note_edit_limit, :case_note_edit_frequency,
-                                    :disabled_future_completion_date, :cbdmat_one_off, :cbdmat_ongoing, :tracking_form_edit_limit,
-                                    :tracking_form_edit_frequency, :disabled_add_service_received, :custom_field_limit,
-                                    :custom_field_frequency, :test_client, :disabled_task_date_field, :required_case_note_note,
-                                    :hide_case_note_note,
+                                    :disabled_future_completion_date, :cbdmat_one_off, :cbdmat_ongoing,
+                                    :tracking_form_edit_limit, :tracking_form_edit_frequency, :disabled_add_service_received,
+                                    :custom_field_limit, :custom_field_frequency, :test_client, :disabled_task_date_field,
+                                    :required_case_note_note, :hide_case_note_note, :enabled_risk_assessment, :assessment_type_name,
+                                    :level_of_risk_guidance,
                                     client_default_columns: [], family_default_columns: [], community_default_columns: [],
-                                    partner_default_columns: [], user_default_columns: [],
+                                    partner_default_columns: [], user_default_columns: [], selected_domain_ids: [],
                                     custom_assessment_settings_attributes: [:id, :custom_assessment_name, :max_custom_assessment, :custom_assessment_frequency, :custom_age, :enable_custom_assessment, :_destroy])
   end
 

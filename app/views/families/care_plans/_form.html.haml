@@ -15,7 +15,7 @@
                 %p{:class => "hide score-color"}= score_color
                 %h4= "#{assessment.family.name}"
                 %p= "#{t('care_plans.form.domain')} #{ad.object.domain.name} #{ad.object.domain.identity} #{ad.object.domain.name}"
-                %p= "#{t('care_plans.form.scoring_statement')}: #{strip_tags(score_definition(domain.send("translate_score_#{ad.object.score}_definition").to_s, ad.object.score))}"
+                %p= "#{t('care_plans.form.scoring_statement')}: #{strip_tags(score_definition(domain.send("translate_score_#{ad.object.score}_definition").to_s, ad.object.score.to_s))}"
                 %p
                   = "#{t('care_plans.form.score_from_assessment')} :"
                   %span.btn.btn-default= ad.object.score

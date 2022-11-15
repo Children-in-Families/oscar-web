@@ -7,7 +7,7 @@
     "@sentry/webpack-plugin": "^1.13.0",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "classnames": "^2.2.6",
-    "filepond": "^4.9.2",
+    "filepond": "^4.30.4",
     "filepond-plugin-file-validate-type": "^1.2.5",
     "filepond-plugin-image-preview": "^4.5.0",
     "i18n-react": "^0.7.0",
@@ -18,9 +18,9 @@
     "prop-types": "^15.7.2",
     "react": "^16.11.0",
     "react-date-picker": "^8.0.1",
-    "react-datetime-picker": "^3.5.0",
+    "react-datetime-picker": "^4.0.1",
     "react-dom": "^16.11.0",
-    "react-filepond": "^7.0.1",
+    "react-filepond": "^7.1.2",
     "react-loading-screen": "^0.0.17",
     "react-modal": "^3.11.1",
     "react-radio-group": "^3.0.3",
@@ -36,6 +36,7 @@
     "toastr": "^2.1.4"
   },
   "devDependencies": {
-    "webpack-dev-server": "^3.9.0"
+    "webpack-cli": "3.3.12",
+    "webpack-dev-server": "3.11.2"
   }
 }

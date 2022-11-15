@@ -4844,6 +4844,7 @@ km:
     internal_referral_attr: &INTERNAL_REFERRAL_ATTR
       are_you_sure: តើអ្នកប្រាកដថាចង់លុបដែរឬទេ?
       attachments: ឯកសារភ្ជាប់
+      changed_date: កាលបរិច្ឆេទ
       client_id: អត្តលេខអតិថិជន
       client_name: ឈ្មោះអតិថិជន
       client_representing_problem: បញ្ហាកំពុងលេចឡើងរបស់អតិថិជន
@@ -4857,6 +4858,8 @@ km:
       referral_reason: មូលហេតុក្នុងការបញ្ជូននិងអនុសាសន៍
       referral_reason_note: "មូលហេតុក្នុងការបញ្ចូលមកកាន់កម្មវិធីសមិទ្ធិផលរតនៈ:"
       user_id: បញ្ជូនមកពី
+      user_name: ឈ្មោះ
+      who_made_change: អ្នកកែប្រែ
     create:
       failed_create: ការបញ្ជូនមិនត្រូវបានបង្កើត
       successfully_created: ការបញ្ជូនត្រូវបានបង្កើតដោយជោគជ័យ
@@ -5876,6 +5879,10 @@ km:
       bad_credentials_supplied: កូដផ្ទៀងផ្ទាត់មិនត្រឹមត្រូវ
       your_account_needs_to_supply_a_verification_code: គណនីរបស់អ្នកត្រូវការបញ្ចូលកូដផ្ទៀងផ្ទាត់
   settings:
+    _attr: &SETTING_ATTR
+      assessment_type_name: "Select Assessment Tool for Client’s Wellbeing"
+      client_status_index: Client Status Index
+      risk_assessment: ការប៉ាន់ប្រមាណហនិភ័យ
     assessment_setting:
       age: អាយុ
       assessment: ការកំណត់ភាពញឹកញ៉ាប់នៃការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
@@ -6004,24 +6011,69 @@ km:
       successfully_updated: Service has been successfully updated.
   referral_details: ព័ត៌មានលំអិតនៃការបញ្ជូន
   results: លទ្ធផល
+  risk_assessments:
+    _attr: &SA_ATTR
+      add_task: បន្ថែមកាតព្វកិច្ច
+      assessment_date: ពិន្ទុសុខុមាលភាពអតិថិជន
+      category: ប្រភេទ
+      child_wellbeing: សុខុមាលភាពអតិថិជន
+      client_perspective: ទស្សនៈអតិថិជនលើបញ្ហា និងតម្រូវការរបស់គាត់
+      client_status_index: ការប៉ាន់ប្រមាណ CSI
+      date: កាលបរិច្ចេទរំពឹងទុក
+      description: ការពិពណ៌នា
+      guidance: ការណែនាំ
+      has_disability: តើអតិថិជនមានពិការភាពដែរឬទេ?
+      has_hiv_or_aid: តើកុមារមានផ្ទុកមេរោគ/ជង្ងឺអេដស៏?
+      has_known_chronic_disease: តើអតិថិជនមានជម្ងឺរ៉ាំរ៉ៃដែរឬទេ?
+      history_of_disability_id: កុមារមានជំងឺរ៉ាំរ៉ែ និង/ឬពិការភាព
+      history_of_harm_id: ការបង្កទុក្ខទោស និងការកេងប្រវ័ញ្ច
+      history_of_high_risk_behaviour_id: ការបំពានគ្រឿងញៀនឬគ្រឿងស្រវឹង និងល្បែងស៊ីសង
+      history_of_family_separation_id: ការបែកចេញពីគ្រួសារ
+      hiv_or_aid_specification: ការណែនាំបន្ទាន់
+      if_other: ប្រសិនជ្រើស ផ្សេងៗ សូមបញ្ជាក់
+      if_yes: ប្រសិន បាទ/ចាស សូមបញ្ជាក់
+      level_of_risk: កម្រិតហានិភ័យ
+      level_of_risks:
+        high: ខ្ពស់
+        medium: ធម្យម
+        low: ទាប
+        no_action: គ្មានសកម្មភាព
+      no_date: គ្មានកាតព្វកិច្ច
+      no_protection_concern: គ្មានបញ្ហាដែលជាកង្វល់
+      overall_client_wellbeing_score: ពិន្ទុសុខុមាលភាពអតិថិជនសរុប
+      pending_assessment: Pending Assessment
+      protection_concern: បញ្ហាដែលជាកង្វល់
+      relevant_referral_information: ព័ត៌មានសំខាន់ៗដែលពាក់ព័ន្ធ
+      risk: ហានិភ័យ
+      risk_assessment: ការប៉ាន់ប្រមាណហានិភ័យ
+      risk_level_history: ប្រវត្តិកម្រិតហានិភ័យ
+      score: ពិន្ទុ
+      select_assessment_tool: ជ្រើសរើសឧបករណ៍សម្រាប់ការប៉ាន់ប្រមាណសុខុមាលភាពកុមារ
+      task: កាតព្វកិច្ច
+
   screening_assessments:
     _attr: &SA_ATTR
       add_new: បន្ថែមការប៉ាន់ប្រមាណបឋម
       add_task: បន្ថែមកាតព្វកិច្ច
+      assessment_date: កាលបរិច្ឆេទការប៉ាន់ប្រមាណ
+      assessment_on: ការប៉ាន់ប្រមាណថ្ងៃទី
       attachments: ឯកសារភ្ជាប់
       back_to_clients: ត្រឡប់ទៅអតិថិជន
       based_on: ផ្អែកលើការប៉ាន់ប្រមាណបឋម
       cb_dmat: ការប៉ាន់ប្រមាណបឋម CB-DMAT
+      cb_dmat_assessment: ការប៉ាន់ប្រមាណ CB-DMAT
       client_age: អាយុអតិថិជន
       client_milestone_age: កម្រិតអាយុអតិថិជន
       client_name: ឈ្មោះអតិថិជន
       created_by: បង្កើតដោយ
       note: កំណត់ត្រា
-      on_date: នៅថ្ងៃទី
+      on_date: នៅថ្ងៃ
+      refer_to_specialist: បញ្ជូនទៅអ្នកឯកទេស
       screening_assessment: ការប៉ាន់ប្រមាណបឋម
       screening_assessment_date: កាលបរិច្ឆេទការប៉ាន់ប្រមាណបឋម
       tasks: កាតព្វកិច្ច
       view_cb_dmat: មើល CB-DMAT
+      view_cb_dmat_assessment: មើលការប៉ាន់ប្រមាណ CB-DMAT
       view_or_hide_last_screening_assessment: មើល ឬលាក់ការប៉ាន់ប្រមាណមុន
       view_screening_assessment: មើលការប៉ាន់ប្រមាណបឋម
       visitor: វត្តមានអ្នកចូលរួម?
@@ -6248,6 +6300,7 @@ km:
     update:
       successfully_updated: ការស្ទង់មតិត្រូវបានកែសម្រួលដោយជោគជ័យ
   tasks:
+    add_task: បន្ថែមកាតព្វកិច្ច
     add_task_progress_note: បន្ថែមការពិព៌ណនាអំពីជំនួប
     completion_date: កាលបរិច្ឆេទបញ្ចប់
     expected_date: កាលបរិច្ឆេទរំពឹងទុក
@@ -6266,6 +6319,7 @@ km:
       upcoming_tasks: កាតព្វកិច្ចបន្ទាប់
     task: កាតព្វកិច្ច
     task_added: កាតព្វកិច្ចបានបន្ថែមហើយ
+    title: ឈ្មោះកាតព្វកិច្ច
   thredded:
     content_moderation_states:
       content_blocked_notice: ត្រូវបានបិទ

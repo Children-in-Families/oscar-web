@@ -3,14 +3,15 @@
   = f.hidden_field :screening_type, value: params[:screening_type] || @screening_assessment.screening_type
   .row
     .col-md-6
-      = f.input :screening_assessment_date, label: t('.screening_assessment_date'), as: :string, wrapper: :horizontal_form, input_html: { value: f.object.screening_assessment_date&.to_date&.to_s, class: 'date optional form-control date-picker' }
+      - date_label = @screening_assessment.one_off? ? t('.screening_assessment_date') : t('.assessment_date')
+      = f.input :screening_assessment_date, label: date_label, as: :string, wrapper: :horizontal_form, input_html: { value: f.object.screening_assessment_date&.to_date&.to_s, class: 'date optional form-control date-picker' }
     .col-md-6
       .form-group.string.optional.screening_assessment_client_age
         = f.label :client_age, t('.client_age'), class: 'col-sm-3'
         .col-sm-9
           = date_of_birth_in_words(@client.date_of_birth, I18n.locale)
 
-      = f.hidden_field :client_age, label: false, wrapper: :horizontal_form, readonly: true, input_html: { value: date_of_birth_in_words(@client.date_of_birth) }
+      = f.input :client_age, label: false, wrapper: :horizontal_form, input_html: { value: date_of_birth_in_words(@client.date_of_birth), class: 'hidden' }
   .row
     .col-md-6
       = f.input :visitor, label: t('.visitor')
@@ -27,7 +28,7 @@
       = ff.hidden_field :developmental_marker_id
       - developmental_marker = ff.object.developmental_marker
       - is_marker_not_selected = developmental_marker.name != f.object.client_milestone_age
-      %fieldset.fieldset-border{ class: is_marker_not_selected && 'hidden', data: { developmental_marker_screening_assessment_name: developmental_marker.name }  }
+      %fieldset.fieldset-yborder{ class: is_marker_not_selected && 'hidden', data: { developmental_marker_screening_assessment_name: developmental_marker.name }  }
         = ff.hidden_field :_destroy, value: is_marker_not_selected
         %legend.legend-border
           %h4.text-success
@@ -40,25 +41,25 @@
               .col-xs-8
                 = ff.label :question_1, field_to_local(developmental_marker, 'question_1')
               .col-xs-4
-                = ff.collection_radio_buttons :question_1, [['Yes', true], ['No', false]], :last, :first, wrapper_html: { class: 'row' }, item_wrapper_class: 'col-xs-6 col-md-3', label: false, disabled: is_marker_not_selected
+                = ff.collection_radio_buttons :question_1, [[human_boolean(true), true], [human_boolean(false), false]], :last, :first, wrapper_html: { class: 'row' }, item_wrapper_class: 'col-xs-6 col-md-4', label: false, disabled: is_marker_not_selected
             %hr/
             .row
               .col-xs-8
                 = ff.label :question_2, field_to_local(developmental_marker, 'question_2')
               .col-xs-4
-                = ff.collection_radio_buttons :question_2, [['Yes', true], ['No', false]], :last, :first, wrapper_html: { class: 'row' }, item_wrapper_class: 'col-xs-6 col-md-3', label: false, disabled: is_marker_not_selected
+                = ff.collection_radio_buttons :question_2, [[human_boolean(true), true], [human_boolean(false), false]], :last, :first, wrapper_html: { class: 'row' }, item_wrapper_class: 'col-xs-6 col-md-4', label: false, disabled: is_marker_not_selected
             %hr/
             .row
               .col-xs-8
                 = ff.label :question_3, field_to_local(developmental_marker, 'question_3')
               .col-xs-4
-                = ff.collection_radio_buttons :question_3, [['Yes', true], ['No', false]], :last, :first, wrapper_html: { class: 'row' }, item_wrapper_class: 'col-xs-6 col-md-3', label: false, disabled: is_marker_not_selected
+                = ff.collection_radio_buttons :question_3, [[human_boolean(true), true], [human_boolean(false), false]], :last, :first, wrapper_html: { class: 'row' }, item_wrapper_class: 'col-xs-6 col-md-4', label: false, disabled: is_marker_not_selected
             %hr/
             .row
               .col-xs-8
                 = ff.label :question_4, field_to_local(developmental_marker, 'question_4')
               .col-xs-4
-                = ff.collection_radio_buttons :question_4, [['Yes', true], ['No', false]], :last, :first, wrapper_html: { class: 'row' }, item_wrapper_class: 'col-xs-6 col-md-3', label: false, disabled: is_marker_not_selected
+                = ff.collection_radio_buttons :question_4, [[human_boolean(true), true], [human_boolean(false), false]], :last, :first, wrapper_html: { class: 'row' }, item_wrapper_class: 'col-xs-6 col-md-4', label: false, disabled: is_marker_not_selected
   .row
     .col-xs-12.col-md-12.col-lg-6
     .col-xs-12.col-md-12.col-lg-6

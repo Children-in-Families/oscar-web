@@ -100,6 +100,7 @@ class Client < ActiveRecord::Base
   has_many :achievement_program_staff_clients
   has_many :ratanak_achievement_program_staff_clients, through: :achievement_program_staff_clients, source: :user
 
+  has_one :risk_assessment, dependent: :destroy
   has_one  :family_member, dependent: :restrict_with_error
   has_one  :family, through: :family_member
 
@@ -336,7 +337,6 @@ class Client < ActiveRecord::Base
     exit_ngos.most_recents.first
   end
 
-
   def referred?
     status == 'Referred'
   end
@@ -345,7 +345,7 @@ class Client < ActiveRecord::Base
     setting.use_screening_assessment? &&
     referred? &&
     custom_fields.exclude?(setting.screening_assessment_form) &&
-    setting.screening_assessment_form.entity_type == "Client"
+    setting.screening_assessment_form.try(:entity_type) == "Client"
   end
 
   def self.age_between(min_age, max_age)
@@ -742,6 +742,14 @@ class Client < ActiveRecord::Base
     screening_assessments.find_by(screening_type: 'one_off')
   end
 
+  def risk_assessments
+    assessments.client_risk_assessments
+  end
+
+  def last_risk_assessment
+    assessments.client_risk_assessments.last
+  end
+
   def self.cached_client_created_by(object)
     Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_created_by', object.id]) do
       user_id = PaperTrail::Version.find_by(event: 'create', item_type: 'Client', item_id: object.id).try(:whodunnit)
@@ -1052,6 +1060,14 @@ class Client < ActiveRecord::Base
     Rails.cache.delete([Apartment::Tenant.current, id, local_given_name_was || 'local_given_name']) if local_given_name_changed?
     Rails.cache.delete([Apartment::Tenant.current, id, local_family_name_was || 'local_family_name']) if local_family_name_changed?
     Rails.cache.fetch([I18n.locale, Apartment::Tenant.current, id, gender_was || 'gender']) if gender_changed?
+    cached_client_custom_field_properties_count_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_custom_field_properties_count/].blank? }
+    cached_client_custom_field_properties_count_keys.each { |key| Rails.cache.delete(key) }
+    cached_client_custom_field_properties_order_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_custom_field_properties_order/].blank? }
+    cached_client_custom_field_properties_order_keys.each { |key| Rails.cache.delete(key) }
+    cached_client_custom_field_find_by_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_custom_field_find_by/].blank? }
+    cached_client_custom_field_find_by_keys.each { |key| Rails.cache.delete(key) }
+    cached_client_custom_field_properties_properties_by_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_custom_field_properties_properties_by/].blank? }
+    cached_client_custom_field_properties_properties_by_keys.each { |key| Rails.cache.delete(key) }
   end
 
   def update_referral_status_on_target_ngo

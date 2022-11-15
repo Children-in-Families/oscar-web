@@ -63,6 +63,26 @@ CIF.ClientsIndex = do ->
     _handleShowCustomFormSelect()
     _reOrderRuleContainer()
     _initHelpTextPophover()
+    _initClientColumnFilter()
+
+  _initClientColumnFilter = ->
+    searchBox = $('.client-column ul.columns-visibility #column-search-box')
+    searchBox.keyup ->
+      valThis = $(this).val().toLowerCase()
+      if valThis == ''
+        $('.client-column ul.columns-visibility > li').show()
+      else
+        $('.client-column ul.columns-visibility > li:not(:first-child)').each ->
+          text = $(this).text().toLowerCase()
+          if text.indexOf(valThis) >= 0 then $(this).show() else $(this).hide()
+          return
+      return
+
+    $('.client-column ul.columns-visibility .btn-clear-text').click ->
+      searchBox.val ''
+      searchBox.focus()
+      $('.client-column ul.columns-visibility > li').show()
+      return
 
   _reOrderRuleContainer = ->
     $.each $('.csi-group .rules-list'), (index, item)->
@@ -94,8 +114,8 @@ CIF.ClientsIndex = do ->
 
   _addDataTableToAssessmentScoreData = ->
     fileName = $('.assessment-domain-score').data('filename')
-    _handleAjaxRequestToAssessment("#csi-assessment-score", fileName)
-    _handleAjaxRequestToAssessment("#custom-assessment-score", fileName) if $("#custom-assessment-score")
+    _handleAjaxRequestToAssessment("#csi-assessment-score", fileName) if $("#csi-assessment-score").length
+    _handleAjaxRequestToAssessment("#custom-assessment-score", fileName) if $("#custom-assessment-score").length
     $('.assessment-domain-score').on 'shown.bs.modal', (e) ->
       $($.fn.dataTable.tables(true)).DataTable().columns.adjust()
       return
@@ -118,7 +138,10 @@ CIF.ClientsIndex = do ->
       processing: true
       serverSide: true
       sServerMethod: 'POST'
-      ajax: url
+      ajax:
+        url: url
+        error: (jqXHR, textStatus, errorThrown) ->
+          console.log("Datatable Ajax Error:", errorThrown)
       oLanguage: {
         sProcessing: "<i class='fa fa-spinner fa-pulse fa-2x' style='color: #1ab394; z-index: 9999;'></i>"
       }

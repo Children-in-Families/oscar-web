@@ -1,7 +1,9 @@
 = simple_form_for([@task.client, @task], html: { class: 'task-form' }) do |f|
   = error_notification(f)
-
-  = f.association :domain, collection: Domain.all, label_method: ->(domain){damain_task_translation(domain)}, include_blank: false, label: t('.domain')
+  - if @task.domain_id.nil?
+    = f.hidden_field :domain_id
+  - else
+    = f.association :domain, collection: Domain.all, label_method: ->(domain){damain_task_translation(domain)}, include_blank: false, label: t('.domain')
   = f.input :name, label: t('.enter_task_detail')
 
   .form-group.date.required.task_completion_date{ class: ('has-error' if f.error :expected_date) }

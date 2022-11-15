@@ -9,7 +9,7 @@
               = link_to_client_show(@client)
           .col-xs-12.col-sm-6.col-md-6
             .ibox-tools
-              = link_to t('.back'), client_path(@client), { class: 'btn btn-default btn-back-default button' }
+              = link_to t('case_notes.index.back'), client_path(@client), { class: 'btn btn-default btn-back-default button' }
               - if can? :create, CaseNote
                 - if enable_any_csi_tools?
                   .btn-group#case-note-selection
@@ -29,7 +29,7 @@
                           - else
                             %li.disabled
                               = link_to '#', data: { toggle: 'modal', target: '#customDomainsModal' } do
-                                = "#{t('.begin_now')} #{cs.custom_assessment_name}"
+                                = "#{t('case_notes.index.begin_now')} #{cs.custom_assessment_name}"
 
 
                     #customDomainsModal.modal.fade{"aria-labelledby" => "customDomainsModalLabel", :role => "dialog", :tabindex => "-1"}
@@ -39,12 +39,12 @@
                             %button.btn-modal-cancel.close{ 'aria-hidden' => 'true', 'data-dismiss' => 'modal', type: 'button' } ×
                             %h4.text-left
                               %i.fa.fa-warning.fa-x2
-                              = t('.no_custom_domains_available')
+                              = t('case_notes.index.no_custom_domains_available')
                           .modal-body.text-center
-                            = t('.please_add_custom_domains')
+                            = t('case_notes.index.please_add_custom_domains')
 
                 - elsif case_notes_editable? && policy(@client).create?
-                  = link_to t('.new_case_note'), new_client_case_note_path(@client, custom: @current_setting.enable_default_assessment), class: 'btn btn-primary'
+                  = link_to t('case_notes.index.new_case_note'), new_client_case_note_path(@client, custom: @current_setting.enable_default_assessment), class: 'btn btn-primary'
 
       .ibox-content
         - is_ratanak = Organization.ratanak?
@@ -74,7 +74,7 @@
                     .col-xs-12
                       .panel.panel-default
                         .panel-heading
-                          %h4= t('.note')
+                          %h4= t('case_notes.index.note')
                         .panel-body
                           = simple_format case_note.note
                 - else
@@ -83,7 +83,7 @@
                     .col-xs-12
                       .panel.panel-default
                         .panel-heading
-                          %h4= t('.note')
+                          %h4= t('case_notes.index.note')
                         .panel-body
                           = simple_format combined_notes
               .row
@@ -109,35 +109,27 @@
                               %label.margin-score.case-note-domain-score{ class: "label label-#{ad.score_color_class} label-lg", 'data-original-title': "#{simple_format(ad.score_definition)}", 'data-toggle': 'tooltip' }
                                 = ad.score
                     .ibox-content
-                      .row
-                        - if cdg.completed_tasks.any?
-                          .col-xs-12.col-sm-6
-                            .panel.panel-default
-                              .panel-heading
-                                %h4= t('.completed_tasks')
-                              .panel-body.no-padding
-                                - if current_setting.disabled_task_date_field
-                                  %ul.list-group
-                                    - cdg.completed_tasks.each_with_index do |task, index|
-                                      %li.list-group-item
-                                        = "#{index + 1}. "
-                                        = task.name
-                                - else
-                                  %table.table.table-borderless
-                                    %thead
-                                      %tr
-                                        %th
-                                          %label{:for => ""}= t('.task')
-                                        %th= t('.expected_date')
-                                        %th= t('.completion_date')
-                                    %tbody
-                                      - cdg.completed_tasks.each_with_index do |task, index|
-                                        %tr
-                                          %td
-                                            = "#{index + 1}. "
-                                            = task.name
-                                            %td= date_format(task.expected_date)
-                                            %td= date_format(task.completion_date)
+                      - if Organization.ratanak?
+                        = render 'ratanak_case_notes_tasks', cdg: cdg, today_tasks: today_tasks, list_goals: list_goals, ongoing_tasks: ongoing_tasks
+                      - else
+                        = render 'case_notes_tasks', cdg: cdg, today_tasks: today_tasks, list_goals: list_goals, ongoing_tasks: ongoing_tasks
+              - if current_setting.cbdmat_one_off? || current_setting.cbdmat_ongoing?
+                .row
+                  .col-xs-12.col-md-6
+                    %h4= t('case_notes.index.cb_dmat_assessment_task')
+                    - @client.screening_assessments.each do |screening_assessment|
+                      - completed_tasks = screening_assessment.tasks.completed.where(case_note_id: case_note.id)
+                      - next unless completed_tasks.any?
+                      .panel.panel-default
+                        .panel-heading
+                          %h4= "#{t('case_notes.index.completed_tasks')}: #{screening_assessment.client_milestone_age}"
+                        .panel-body.no-padding
+                          %ul.list-group
+                            - completed_tasks.each_with_index do |task, index|
+                              %li.list-group-item
+                                = "#{index + 1}. "
+                                = task.name
+                %hr/
 
                         - the_latest_tasks = today_tasks.flatten.uniq
                         - if the_latest_tasks.reject(&:completed).present?
@@ -210,6 +202,22 @@
                               = "#{index + 1}. "
                               = task.name
 
+              - risk_assessment = @client.risk_assessment
+              - if current_setting.enabled_risk_assessment? && risk_assessment
+                .row
+                  .col-xs-12.col-md-6
+                    %h4
+                      = t('risk_assessments._attr.risk_assessment')
+                      = t('tasks.task')
+                    .panel.panel-default
+                      .panel-heading
+                        %h4= t('.completed_tasks')
+                      .panel-body.no-padding
+                        %ul.list-group
+                          - risk_assessment.tasks.completed.each_with_index do |task, index|
+                            %li.list-group-item
+                              = "#{index + 1}. "
+                              = task.name
               .row
                 - file_names = case_note.case_note_domain_groups.pluck(:attachments).reject(&:blank?)
                 - case_note.case_note_domain_groups.each do |cdg|
@@ -220,7 +228,7 @@
                   .col-xs-12.col-sm-6
                     .panel.panel-default
                       .panel-heading
-                        %h4= t('.attachments')
+                        %h4= t('case_notes.index.attachments')
                       .panel-body
                         = render 'attachment', cdg: cdg
           %div{ id: "printable-case-note-#{case_note.id}" }

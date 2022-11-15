@@ -303,6 +303,7 @@ Rails.application.routes.draw do
         get :get_enrollment_field
         get :get_tracking_field
         get :get_exit_program_field
+        get :get_program_stream_search_field
       end
     end
     resources :calendars do
@@ -447,6 +448,7 @@ Rails.application.routes.draw do
       get 'custom_form' => 'settings#custom_form'
       get 'limit_tracking_form' => 'settings#limit_tracking_form'
       get 'test_client' => 'settings#test_client'
+      get 'risk_assessment' => 'settings#risk_assessment'
       get 'customize_case_note' => 'settings#customize_case_note'
 
       get :family_case_management

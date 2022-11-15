@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
 import Select from 'react-select'
 
 export default props => {
-  const { value, options, isMulti, isError, label, required, onChange, asGroup, T, hintText, inlineClassName, ...others } = props
+  const { value, options, isMulti, isError, label, required, onChange, asGroup, T, hintText, inlineClassName, inline, ...others } = props
+  const [selectedOption, setSelectedOption] = useState(null);
 
   const getSeletedObject = () => {
     if(options) {
@@ -20,6 +21,10 @@ export default props => {
       return $.isEmptyObject(object) ? null : object
     }
   }
+
+  useEffect(() => {
+    setSelectedOption(getSeletedObject())
+  }, []);
 
   const handleChange = (selectedOption, { action, removedValue }) => {
     let data
@@ -41,6 +46,7 @@ export default props => {
       data = action === 'clear' ? null : selectedOption.value
     }
 
+    setSelectedOption(selectedOption)
     onChange({ data, removed, action, type: 'select', options: options, isMulti: isMulti })
   }
 
@@ -51,50 +57,55 @@ export default props => {
   )
 
   return (
-    <div className='form-group'>
-      <label style={ isError && customError.errorText || { display: 'inline' } }>
-        { required && <abbr title='required'>* </abbr> }
-        { label }
-      </label>
-      {
-        inlineClassName &&
-        hintText &&
-        <a
-          tabIndex="0"
-          data-toggle="popover"
-          role="button"
-          data-html="true"
-          data-placement="bottom"
-          data-trigger="focus"
-          data-content={ hintText }>
-          <i className={`fa fa-info-circle text-info m-xs ${inlineClassName}`}></i>
-        </a>
-      }
-      <Select
-        isMulti={isMulti}
-        isClearable={options.some(v => !v.isFixed)}
-        onChange={handleChange}
-        formatGroupLabel={asGroup && formatGroupLabel}
-        value={getSeletedObject() || null}
-        options={options}
-        { ...others }
-        styles={
-          Object.assign({},
-            customStyles,
-            isError && customError
-          )
+    <div className='row m-b-sm'>
+      <div className={inline ? 'col-xs-3' : 'col-xs-12'}>
+        <label style={ isError && customError.errorText || { display: 'inline' } } className="m-r-sm">
+          { required && <abbr title='required'>* </abbr> }
+          { label }
+        </label>
+        {
+          inlineClassName &&
+          hintText &&
+          <a
+            tabIndex="0"
+            data-toggle="popover"
+            role="button"
+            data-html="true"
+            data-placement="bottom"
+            data-trigger="focus"
+            data-content={ hintText }>
+            <i className={`fa fa-info-circle text-info m-xs ${inlineClassName}`}></i>
+          </a>
         }
-        theme={theme => ({
-          ...theme,
-          colors: {
-            ...theme.colors,
-            primary50: '#1ab394',
-            primary25: '#1ab394',
-            primary: '#1ab394',
-          },
-        })}
-      />
-      {isError && <span style={customError.errorText}>{T.translate("validation.cannot_blank")}</span> }
+      </div>
+      <div className={inline ? 'col-xs-9' : 'col-xs-12'}>
+        <Select
+          isMulti={isMulti}
+          isClearable={options.some(v => !v.isFixed)}
+          defaultValue={selectedOption}
+          onChange={handleChange}
+          formatGroupLabel={asGroup && formatGroupLabel}
+          value={selectedOption}
+          options={options}
+          { ...others }
+          styles={
+            Object.assign({},
+              customStyles,
+              isError && customError
+            )
+          }
+          theme={theme => ({
+            ...theme,
+            colors: {
+              ...theme.colors,
+              primary50: '#1ab394',
+              primary25: '#1ab394',
+              primary: '#1ab394',
+            },
+          })}
+        />
+        {isError && <span style={customError.errorText}>{T.translate("validation.cannot_blank")}</span> }
+      </div>
     </div>
   )
 }

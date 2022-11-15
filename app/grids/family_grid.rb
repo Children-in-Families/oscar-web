@@ -5,7 +5,7 @@ class FamilyGrid < BaseGrid
   attr_accessor :dynamic_columns
 
   scope do
-    Family.includes({cases: [:client]}, :village, :commune, :district, :province).order(:name)
+    Family.order(:name)
   end
 
   filter(:name, :string, header: -> { I18n.t('datagrid.columns.families.name') }) do |value, scope|
@@ -78,19 +78,19 @@ class FamilyGrid < BaseGrid
   end
 
   def commune_options
-    Family.joins(:commune).map{|f| [f.commune.code_format, f.commune_id]}.uniq
+    scope.includes(:commune).references(:communes).map{|f| next unless f.commune; [f.commune.code_format, f.commune_id]}.uniq
   end
 
   def village_options
-    Family.joins(:village).map{|f| [f.village.code_format, f.village_id]}.uniq
+    scope.includes(:village).references(:villages).map{|f| next unless f.village; [f.village.code_format, f.village_id]}.uniq
   end
 
   def province_options
-    Family.province_are
+    scope.province_are
   end
 
   def district_options
-    Family.joins(:district).pluck('districts.name', 'districts.id').uniq
+    scope.includes(:district).references(:districts).pluck('districts.name', 'districts.id').uniq
   end
 
   def gender_options
@@ -343,19 +343,19 @@ class FamilyGrid < BaseGrid
   column(:phone_number, header: -> { I18n.t('datagrid.columns.families.phone_number') })
   column(:street, header: -> { I18n.t('datagrid.columns.families.street') })
 
-  column(:village_id, order: 'villages.name_kh', header: -> { I18n.t('datagrid.columns.families.village') }) do |object|
+  column(:village_id, preload: proc { |f| f.includes(:village) }, order: 'villages.name_kh', header: -> { I18n.t('datagrid.columns.families.village') }) do |object|
     format(object.village.try(:code_format)) { |value| value }
   end
 
-  column(:commune_id, order: 'communes.name_kh', header: -> { I18n.t('datagrid.columns.families.commune') }) do |object|
+  column(:commune_id, preload: proc { |f| f.includes(:commune) }, order: 'communes.name_kh', header: -> { I18n.t('datagrid.columns.families.commune') }) do |object|
     format(object.commune.try(:name)) { |value| value }
   end
 
-  column(:district_id, order: 'districts.name', header: -> { I18n.t('datagrid.columns.families.district') }) do |object|
+  column(:district_id, preload: proc { |f| f.includes(:district) }, order: 'districts.name', header: -> { I18n.t('datagrid.columns.families.district') }) do |object|
     format(object.district_name) { |value| value }
   end
 
-  column(:province_id, order: 'provinces.name', header: -> { I18n.t('datagrid.columns.families.province') }) do |object|
+  column(:province_id, preload: proc { |f| f.includes(:province) }, order: 'provinces.name', header: -> { I18n.t('datagrid.columns.families.province') }) do |object|
     format(object.province_name) { |value| value }
   end
 

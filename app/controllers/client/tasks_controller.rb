@@ -6,7 +6,7 @@ class Client::TasksController < AdminController
   before_action :find_task, only: [:edit, :update, :destroy]
 
   def index
-    @tasks = @client.tasks.includes(:domain)
+    @tasks = @client.tasks.includes(:taskable)
   end
 
   def create

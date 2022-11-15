@@ -29,18 +29,21 @@
               %tbody
                 %tr
                   %td
-                    = "#{t('.screening_assessment_date')} :"
+                    - if @screening_assessment.one_off?
+                      = "#{t('.screening_assessment_date')} :"
+                    - else
+                      = "#{t('.assessment_on')} :"
                     %strong= date_format(@screening_assessment.screening_assessment_date)
                   %td
                     = "#{t('.client_age')} :"
-                    %strong= @screening_assessment.client_age
+                    %strong= date_of_birth_in_words(@client.date_of_birth, I18n.locale)
                 %tr
                   %td
                     = "#{t('.visitor')} :"
                     %strong= @screening_assessment.visitor
                   %td
                     = "#{t('.client_milestone_age')} :"
-                    %strong= @screening_assessment.client_milestone_age
+                    %strong= DevelopmentalMarker.map_milestone_age_name.map(&:reverse).to_h[@screening_assessment.client_milestone_age]
                 %tr
                   %td{ colspan: '2' }
                     = "#{t('.note')} :"
@@ -99,4 +102,3 @@
         %hr/
         %h4= t('.attachments')
         = render 'shared/attachments', { attachments: @screening_assessment.attachments }
-

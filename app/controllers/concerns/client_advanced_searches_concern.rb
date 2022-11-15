@@ -91,7 +91,7 @@ module ClientAdvancedSearchesConcern
       @builder_fields = @builder_fields + custom_form_fields if @advanced_search_params[:wizard_custom_form_check].present?
       @builder_fields = @builder_fields + @quantitative_fields if @advanced_search_params[:wizard_quantitative_check].present?
     else
-      @builder_fields = @builder_fields + custom_form_fields + program_stream_fields
+      @builder_fields = @builder_fields + custom_form_fields + program_stream_fields + get_common_fields
       @builder_fields = @builder_fields + @quantitative_fields if quantitative_check?
     end
   end
@@ -108,6 +108,12 @@ module ClientAdvancedSearchesConcern
     AdvancedSearches::ClientFields.new(user: current_user, pundit_user: pundit_user).render
   end
 
+  def get_common_fields
+    fields = program_stream_values.empty? ? [] : AdvancedSearches::CommonFields.new(program_stream_values).render
+    fields += assessment_values.empty? ? [] : AdvancedSearches::CommonFields.new(program_stream_values, true).render
+    fields
+  end
+
   def get_hotline_fields
     args = {
       translation: get_basic_field_translations, number_field: [],
@@ -122,8 +128,8 @@ module ClientAdvancedSearchesConcern
         *get_dropdown_list(['phone_call_id', 'call_type', 'start_datetime', 'protection_concern_id', 'necessity_id']),
       ]
     }
-      hotline_fields = AdvancedSearches::AdvancedSearchFields.new('hotline', args).render
-      @hotline_fields = get_client_hotline_fields + hotline_fields
+    hotline_fields = AdvancedSearches::AdvancedSearchFields.new('hotline', args).render
+    @hotline_fields = get_client_hotline_fields + hotline_fields
   end
 
   def get_client_hotline_fields
@@ -143,7 +149,6 @@ module ClientAdvancedSearchesConcern
       dropdown_list_option: dropdown_list_options
     }
     @client_hotline_fields = AdvancedSearches::AdvancedSearchFields.new('concern_basic_fields', args).render
-
   end
 
   def hotline_text_type_list

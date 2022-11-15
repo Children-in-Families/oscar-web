@@ -740,7 +740,7 @@ module AdvancedSearches
         client_ids = @clients.includes(:assessments).group('clients.id, assessments.id, assessments.custom_assessment_setting_id').having("COUNT(assessments.custom_assessment_setting_id) > 0").distinct.ids
       end
     end
-    
+
     def ratanak_achievement_program_staff_field_query
       clients = @clients.joins(:ratanak_achievement_program_staff_clients)
       ids = clients.distinct.ids
@@ -756,7 +756,7 @@ module AdvancedSearches
         @clients.where(id: ids).ids
       end
     end
-      
+
     def mo_savy_officials_field_query
       clients = @clients.joins(:mo_savy_officials)
       ids = clients.distinct.ids
@@ -1242,31 +1242,71 @@ module AdvancedSearches
       clients = client_ids
     end
 
+    def active_client_program_between(start_date, end_date, clientIds)
+      enrollments = ClientEnrollment.where(:client_id => clientIds)
+      client_ids = []
+      enrollments.each do |enrollment|
+        enrollment_date = enrollment.enrollment_date
+
+        if enrollment.leave_program.present?
+          exit_date = enrollment.leave_program.exit_date
+          if enrollment_date < start_date || enrollment_date.between?(start_date, end_date)
+            client_ids << enrollment.client_id if exit_date.between?(start_date, end_date) || exit_date > end_date
+          end
+        else
+          client_ids << enrollment.client_id if enrollment_date.between?(start_date, end_date) || enrollment_date < start_date
+        end
+      end
+      client_ids
+    end
+
     def active_client_program_query
-      clients = @clients.joins(:client_enrollments)
-                        .where(:client_enrollments => {:status => 'Active', :program_stream_id => JSON.parse($param_rules[:program_selected])})
-                        .distinct
+      clientIds = []
+      JSON.parse($param_rules[:program_selected]).each do |program|
+        tmpClientIds = @clients.joins(:client_enrollments).where(:client_enrollments => {:status => 'Active', :program_stream_id => program}).ids
+        if clientIds.empty?
+          clientIds = tmpClientIds
+        else
+          clientIds = clientIds & tmpClientIds
+        end
+      end
+
+      condition = ''
+      start_date = @value.kind_of?(Array) ? @value[0].to_date : @value.to_date
 
       case @operator
       when 'equal'
-        client_ids = clients.where('date(client_enrollments.enrollment_date) = ?', @value.to_date ).distinct.ids
+        condition = "date(client_enrollments.enrollment_date) = '#{start_date}'"
       when 'not_equal'
-        client_ids = clients.where('date(client_enrollments.enrollment_date) != ?', @value.to_date ).distinct.ids
+        condition = "date(client_enrollments.enrollment_date) != '#{start_date}'"
       when 'between'
-        client_ids = active_client_between(@value[0].to_date, @value[1].to_date)
+        condition = "date(client_enrollments.enrollment_date) <= '#{@value[1].to_date}'"
       when 'less'
-        client_ids = clients.where('date(client_enrollments.enrollment_date) < ?', @value.to_date ).distinct.ids
+        condition = "date(client_enrollments.enrollment_date) < '#{start_date}'"
       when 'less_or_equal'
-        client_ids = clients.where('date(client_enrollments.enrollment_date) <= ?', @value.to_date ).distinct.ids
+        condition = "date(client_enrollments.enrollment_date) <= '#{start_date}'"
       when 'greater'
-        client_ids = clients.where('date(client_enrollments.enrollment_date) > ?', @value.to_date ).distinct.ids
+        condition = "date(client_enrollments.enrollment_date) > '#{start_date}'"
       when 'greater_or_equal'
-        client_ids = clients.where('date(client_enrollments.enrollment_date) >= ?', @value.to_date ).distinct.ids
+        condition = "date(client_enrollments.enrollment_date) >= '#{start_date}'"
       when 'is_empty'
-        client_ids = clients.where('client_enrollments.enrollment_date IS NULL').distinct.ids
+        condition = "client_enrollments.enrollment_date IS NULL"
       when 'is_not_empty'
-        client_ids = clients.where('client_enrollments.enrollment_date IS NOT NULL').distinct.ids
+        condition = "client_enrollments.enrollment_date IS NOT NULL"
       end
+
+      enrollments = ClientEnrollment.where(:client_id => clientIds).where(condition)
+      client_ids = []
+      enrollments.each do |enrollment|
+        if enrollment.leave_program.present? && start_date != nil
+          exit_date = enrollment.leave_program.exit_date
+          client_ids << enrollment.client_id if exit_date >= start_date
+        else
+          client_ids << enrollment.client_id
+        end
+      end
+      client_ids
+
       clients = client_ids.present? ? client_ids : []
     end
 
@@ -1300,26 +1340,35 @@ module AdvancedSearches
       conditionString = ""
       if selectedAssessment.present?
         assessments = JSON.parse(selectedAssessment)
-        custom_assessments = assessments.select{|v| v > 0}
-        csi_assessments = assessments.select{|v| v == 0}
+        assessmentId = assessments.first
 
-        if csi_assessments.present?
-          conditionString = "assessments.default = true"
-        end
-        if custom_assessments.present?
-          clients = clients.joins(assessments: :domains)
-          if conditionString.present?
-            conditionString = conditionString.concat(" OR domains.custom_assessment_setting_id IN (?)")
-          else
-            conditionString = "(assessments.default = false AND domains.custom_assessment_setting_id IN (?))"
+        if assessmentId == 0
+          clients = clients.where("assessments.default = true").distinct
+          domains = Domain.csi_domains
+          clients.each do |client|
+            last_assessment = client.assessments.defaults.most_recents.first
+            first_assessment = client.assessments.defaults.most_recents.last
+            if (client.assessments.defaults.length > 1)
+              client_ids << client.id if assessment_total_score(last_assessment, domains).public_send(compare, assessment_total_score(first_assessment, domains))
+            end
+          end
+        else
+          assessments = Assessment.completed.joins(:domains).where(client_id: clients.ids).where("domains.custom_assessment_setting_id IN (#{assessmentId})").distinct
+
+          assessments.group_by { |assessment| assessment.client_id }.each do |client_id, _assessments|
+            next if _assessments.size < 2
+
+            first_assessment = _assessments.sort_by(&:id).first
+            last_assessment = _assessments.sort_by(&:id).last
+
+            first_assessment_domain_scores = first_assessment.assessment_domains.pluck(:score).sum.to_f
+            last_assessment_domain_scores = last_assessment.assessment_domains.pluck(:score).sum.to_f
+
+            first_average_score = (first_assessment_domain_scores / first_assessment.assessment_domains.size).round
+            last_average_score = (last_assessment_domain_scores / last_assessment.assessment_domains.size).round
+            client_ids  << client_id if last_average_score.public_send(compare, first_average_score)
           end
         end
-      end
-      clients = clients.where([conditionString, custom_assessments]).distinct
-      clients.each do |client|
-        last_assessment = client.assessments.most_recents.first
-        first_assessment = client.assessments.most_recents.last
-        client_ids << client.id if assessment_total_score(last_assessment).public_send(compare, assessment_total_score(first_assessment))
       end
       client_ids
     end
@@ -1330,39 +1379,49 @@ module AdvancedSearches
       conditionString = ""
       if selectedAssessment.present?
         assessments = JSON.parse(selectedAssessment)
-        custom_assessments = assessments.select{|v| v > 0}
-        csi_assessments = assessments.select{|v| v == 0}
+        assessmentId = assessments.first
 
-        if csi_assessments.present?
-          conditionString = "assessments.default = true"
-        end
-        if custom_assessments.present?
-          clients = clients.joins(assessments: :domains)
-          if conditionString.present?
-            conditionString = conditionString.concat(" OR domains.custom_assessment_setting_id IN (?)")
-          else
-            conditionString = "(assessments.default = false AND domains.custom_assessment_setting_id IN (?))"
+        if assessmentId == 0
+          domains = Domain.csi_domains
+          clients = clients.where("assessments.default = true").distinct
+          clients.each do |client|
+            last_assessment = client.assessments.defaults.most_recents.first
+            next_assessment = client.assessments.defaults.length > 1 ? client.assessments.defaults.most_recents.fetch(1) : last_assessment
+            if (client.assessments.defaults.length > 1)
+              client_ids << client.id if assessment_total_score(last_assessment, domains).public_send(compare, assessment_total_score(next_assessment, domains))
+            end
+          end
+        else
+          assessments = Assessment.completed.joins(:domains).where(client_id: clients.ids).where("domains.custom_assessment_setting_id IN (#{assessmentId})").distinct
+
+          assessments.group_by { |assessment| assessment.client_id }.each do |client_id, _assessments|
+            next if _assessments.size < 2
+
+            before_last_assessment = _assessments.sort_by(&:id).fetch(_assessments.size - 2)
+            last_assessment = _assessments.sort_by(&:id).last
+
+            before_last_assessment_domain_scores = before_last_assessment.assessment_domains.pluck(:score).sum.to_f
+            last_assessment_domain_scores = last_assessment.assessment_domains.pluck(:score).sum.to_f
+
+            before_last_assessment_average_score = (before_last_assessment_domain_scores / before_last_assessment.assessment_domains.size).round
+            last_average_score = (last_assessment_domain_scores / last_assessment.assessment_domains.size).round
+            client_ids  << client_id if last_average_score.public_send(compare, before_last_assessment_average_score)
           end
         end
-      end
-      clients = clients.where([conditionString, custom_assessments]).distinct
-      clients.each do |client|
-        last_assessment = client.assessments.most_recents.first
-        first_assessment = client.assessments.most_recents.length > 1 ? client.assessments.most_recents.fetch(1) : last_assessment
-        client_ids << client.id if assessment_total_score(last_assessment).public_send(compare, assessment_total_score(first_assessment))
       end
       client_ids
     end
 
-    def assessment_total_score(assessment)
+    def assessment_total_score(assessment, domains)
       assessment_domain_hash = AssessmentDomain.where(assessment_id: assessment.id).pluck(:domain_id, :score).to_h if assessment.assessment_domains.present?
+      domain_scores = domains.ids.map { |domain_id| assessment_domain_hash.present? ? ["domain_#{domain_id}", assessment_domain_hash[domain_id]] : ["domain_#{domain_id}", ''] }
       total = 0
       if assessment_domain_hash.present?
         assessment_domain_hash.each do |index, value|
           total += value.nil? ? 0 : value
         end
       end
-      total
+      (total.fdiv(domain_scores.length())).round()
     end
 
     def incomplete_care_plan_query
