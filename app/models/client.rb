@@ -1,4 +1,4 @@
-class Client < ActiveRecord::Base
+class Client < ApplicationRecord
   include ActionView::Helpers::DateHelper
   include EntityTypeCustomField
   include NextClientEnrollmentTracking

@@ -1,4 +1,4 @@
-class FamilyReferral < ActiveRecord::Base
+class FamilyReferral < ApplicationRecord
   has_paper_trail
 
   mount_uploaders :consent_form, ConsentFormUploader

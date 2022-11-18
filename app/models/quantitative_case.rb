@@ -1,4 +1,4 @@
-class QuantitativeCase < ActiveRecord::Base
+class QuantitativeCase < ApplicationRecord
   validates :value, presence: true, uniqueness: { case_sensitive: false, scope: :quantitative_type_id }
 
   belongs_to :quantitative_type, counter_cache: true

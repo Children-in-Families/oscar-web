@@ -1,4 +1,4 @@
-class InternalReferral < ActiveRecord::Base
+class InternalReferral < ApplicationRecord
   extend Enumerize
   enumerize :referral_decision, in: ['meet_intake_criteria', 'not_meet_intake_criteria'], scope: true, predicates: true
   has_paper_trail

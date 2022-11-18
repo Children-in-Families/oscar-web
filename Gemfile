@@ -135,6 +135,7 @@ group :test do
   gem 'shoulda-matchers',         '~> 5.2'
   gem 'rspec-sidekiq',            '~> 3.1'
   gem 'rspec-activemodel-mocks',  '~> 1.1'
+  gem 'rails-controller-testing', '~> 1.0', '>= 1.0.5'
   gem 'timecop',                  '~> 0.9.5'
 end
 

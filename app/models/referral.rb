@@ -1,4 +1,4 @@
-class Referral < ActiveRecord::Base
+class Referral < ApplicationRecord
   include ClientRetouch
   has_paper_trail
 

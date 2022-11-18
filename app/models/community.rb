@@ -1,4 +1,4 @@
-class Community < ActiveRecord::Base
+class Community < ApplicationRecord
   extend Enumerize
 
   acts_as_paranoid

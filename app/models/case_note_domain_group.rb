@@ -1,4 +1,4 @@
-class CaseNoteDomainGroup < ActiveRecord::Base
+class CaseNoteDomainGroup < ApplicationRecord
   mount_uploaders :attachments, FileUploader
   belongs_to :case_note
   belongs_to :domain_group

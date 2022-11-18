@@ -1,2 +1,2 @@
-class Intervention < ActiveRecord::Base
+class Intervention < ApplicationRecord
 end

@@ -1,4 +1,4 @@
-class State < ActiveRecord::Base
+class State < ApplicationRecord
   include AddressConcern
 
   has_many :townships

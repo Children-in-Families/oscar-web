@@ -1,4 +1,4 @@
-class ServiceDelivery < ActiveRecord::Base
+class ServiceDelivery < ApplicationRecord
   belongs_to :parent,           class_name: 'ServiceDelivery'
   has_many :children,           class_name: 'ServiceDelivery', foreign_key: 'parent_id', dependent: :destroy
   has_many :service_delivery_tasks, dependent: :restrict_with_error

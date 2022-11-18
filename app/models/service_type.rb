@@ -1,4 +1,4 @@
-class ServiceType < ActiveRecord::Base
+class ServiceType < ApplicationRecord
   has_paper_trail
 
   has_many :government_form_service_types, dependent: :restrict_with_error

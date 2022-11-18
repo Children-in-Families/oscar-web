@@ -1,4 +1,4 @@
-class CaseConferenceDomain < ActiveRecord::Base
+class CaseConferenceDomain < ApplicationRecord
   belongs_to :domain
   belongs_to :case_conference
 

@@ -1,4 +1,4 @@
-class CommunityDonor < ActiveRecord::Base
+class CommunityDonor < ApplicationRecord
   has_paper_trail
 
   belongs_to :donor

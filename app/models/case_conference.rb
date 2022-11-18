@@ -1,4 +1,4 @@
-class CaseConference < ActiveRecord::Base
+class CaseConference < ApplicationRecord
   mount_uploaders :attachments, ConsentFormUploader
   has_paper_trail
 

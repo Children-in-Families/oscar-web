@@ -1,4 +1,4 @@
-class ReferralSource < ActiveRecord::Base
+class ReferralSource < ApplicationRecord
   has_ancestry
   has_many :clients, dependent: :restrict_with_error
   has_paper_trail

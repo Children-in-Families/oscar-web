@@ -1,4 +1,4 @@
-class EnterNgo < ActiveRecord::Base
+class EnterNgo < ApplicationRecord
   has_paper_trail
   acts_as_paranoid double_tap_destroys_fully: true
 

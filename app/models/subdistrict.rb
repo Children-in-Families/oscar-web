@@ -1,4 +1,4 @@
-class Subdistrict < ActiveRecord::Base
+class Subdistrict < ApplicationRecord
   include AddressConcern
 
   belongs_to :district, touch: true

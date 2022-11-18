@@ -1,4 +1,4 @@
-class District < ActiveRecord::Base
+class District < ApplicationRecord
   include AddressConcern
 
   has_paper_trail

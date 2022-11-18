@@ -1,4 +1,4 @@
-class Partner < ActiveRecord::Base
+class Partner < ApplicationRecord
   include EntityTypeCustomField
   belongs_to :province, counter_cache: true
   belongs_to :organization_type

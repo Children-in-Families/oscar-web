@@ -1,4 +1,4 @@
-class ProtectionConcern < ActiveRecord::Base
+class ProtectionConcern < ApplicationRecord
   has_many :call_protection_concerns, dependent: :restrict_with_error
   has_many :calls, through: :call_protection_concerns
 

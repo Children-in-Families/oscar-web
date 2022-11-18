@@ -1,4 +1,4 @@
-class ScreeningAssessment < ActiveRecord::Base
+class ScreeningAssessment < ApplicationRecord
   mount_uploaders :attachments, ConsentFormUploader
   belongs_to :client
 

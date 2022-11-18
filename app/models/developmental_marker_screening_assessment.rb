@@ -1,4 +1,4 @@
-class DevelopmentalMarkerScreeningAssessment < ActiveRecord::Base
+class DevelopmentalMarkerScreeningAssessment < ApplicationRecord
   attr_accessor :_destroy
   belongs_to :screening_assessment
   belongs_to :developmental_marker

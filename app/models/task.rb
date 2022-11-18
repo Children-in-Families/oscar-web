@@ -1,4 +1,4 @@
-class Task < ActiveRecord::Base
+class Task < ApplicationRecord
   belongs_to :domain, counter_cache: true
   belongs_to :case_note_domain_group
   belongs_to :client

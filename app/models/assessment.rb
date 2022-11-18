@@ -1,4 +1,4 @@
-class Assessment < ActiveRecord::Base
+class Assessment < ApplicationRecord
   belongs_to :client, counter_cache: true
   belongs_to :family, counter_cache: true
   belongs_to :case_conference

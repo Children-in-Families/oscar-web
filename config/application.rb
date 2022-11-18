@@ -45,7 +45,6 @@ module CifWeb
 
     # Do not allow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
-    ActiveSupport.halt_callback_chains_on_return_false = false
 
     # custom error page
     config.exceptions_app = self.routes

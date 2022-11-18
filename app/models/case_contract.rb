@@ -1,3 +1,3 @@
-class CaseContract < ActiveRecord::Base
+class CaseContract < ApplicationRecord
   belongs_to :case
 end

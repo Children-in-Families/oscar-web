@@ -1,4 +1,4 @@
-class RiskAssessment < ActiveRecord::Base
+class RiskAssessment < ApplicationRecord
   belongs_to :client
   has_many :tasks, as: :taskable, dependent: :destroy
 

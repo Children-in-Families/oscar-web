@@ -1,4 +1,4 @@
-class GovernmentFormServiceType < ActiveRecord::Base
+class GovernmentFormServiceType < ApplicationRecord
   has_paper_trail
 
   delegate :name, to: :service_type, prefix: true, allow_nil: true

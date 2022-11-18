@@ -1,4 +1,4 @@
-class AdvancedSearch < ActiveRecord::Base
+class AdvancedSearch < ApplicationRecord
   include CacheHelper
 
   has_paper_trail

@@ -1,4 +1,4 @@
-class AssessmentDomain < ActiveRecord::Base
+class AssessmentDomain < ApplicationRecord
   mount_uploaders :attachments, FileUploader
 
   SCORE_COLORS = {

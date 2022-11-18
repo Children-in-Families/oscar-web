@@ -1,4 +1,4 @@
-class CommunityMember < ActiveRecord::Base
+class CommunityMember < ApplicationRecord
   extend Enumerize
 
   belongs_to :family

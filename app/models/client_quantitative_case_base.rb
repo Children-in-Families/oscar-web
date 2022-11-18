@@ -1,4 +1,4 @@
-class ClientQuantitativeCaseBase < ActiveRecord::Base
+class ClientQuantitativeCaseBase < ApplicationRecord
   self.table_name = 'client_quantitative_cases'
 
   belongs_to :client

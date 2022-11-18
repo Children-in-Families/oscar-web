@@ -1,4 +1,4 @@
-class Carer < ActiveRecord::Base
+class Carer < ApplicationRecord
   belongs_to :province
   belongs_to :district
   belongs_to :commune

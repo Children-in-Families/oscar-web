@@ -1,4 +1,4 @@
-class Commune < ActiveRecord::Base
+class Commune < ApplicationRecord
   include AddressConcern
 
   attr_accessor :name

@@ -1,4 +1,4 @@
-class Domain < ActiveRecord::Base
+class Domain < ApplicationRecord
   TYPES = [['Client', 'client'], ['Family', 'family'], ['Community', 'community']].freeze
   belongs_to :domain_group, counter_cache: true
 

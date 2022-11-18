@@ -1,5 +1,5 @@
 require 'rake'
-class Organization < ActiveRecord::Base
+class Organization < ApplicationRecord
   SUPPORTED_LANGUAGES = %w(en km my).freeze
 
   has_paper_trail on: :update, only: :integrated

@@ -1,4 +1,4 @@
-class Township < ActiveRecord::Base
+class Township < ApplicationRecord
   include AddressConcern
 
   belongs_to :state

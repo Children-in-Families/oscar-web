@@ -1,4 +1,4 @@
-class QuantitativeType < ActiveRecord::Base
+class QuantitativeType < ApplicationRecord
   extend Enumerize
 
   VISIBLE_ON = %w(client family community).freeze

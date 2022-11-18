@@ -1,4 +1,4 @@
-class SharedClient < ActiveRecord::Base
+class SharedClient < ApplicationRecord
   has_paper_trail
 
   belongs_to :birth_province, class_name: 'Province', foreign_key: :birth_province_id

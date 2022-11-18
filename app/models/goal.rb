@@ -1,4 +1,4 @@
-class Goal < ActiveRecord::Base
+class Goal < ApplicationRecord
   belongs_to :domain, counter_cache: true
   belongs_to :assessment_domain
   belongs_to :client

@@ -1,4 +1,4 @@
-class FieldSetting < ActiveRecord::Base
+class FieldSetting < ApplicationRecord
   include CacheHelper
   self.inheritance_column = :_type_disabled
 

@@ -1,4 +1,4 @@
-class DevelopmentalMarker < ActiveRecord::Base
+class DevelopmentalMarker < ApplicationRecord
   mount_uploader :question_1_illustation, ImageUploader
   mount_uploader :question_2_illustation, ImageUploader
   mount_uploader :question_3_illustation, ImageUploader

@@ -1,4 +1,4 @@
-class ClientEnrollment < ActiveRecord::Base
+class ClientEnrollment < ApplicationRecord
   include ClientRetouch
   include NestedAttributesConcern
   include ClientEnrollmentTrackingConcern

@@ -1,4 +1,4 @@
-class ClientType < ActiveRecord::Base
+class ClientType < ApplicationRecord
   has_paper_trail
 
   has_many :client_type_government_forms, dependent: :restrict_with_error

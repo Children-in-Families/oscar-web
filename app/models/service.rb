@@ -1,4 +1,4 @@
-class Service < ActiveRecord::Base
+class Service < ApplicationRecord
   acts_as_paranoid
 
   belongs_to :global_service, class_name: 'GlobalService', foreign_key: 'uuid', primary_key: :uuid

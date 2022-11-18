@@ -1,4 +1,4 @@
-class Family < ActiveRecord::Base
+class Family < ApplicationRecord
   include EntityTypeCustomField
   include FamilyScope
   include Brc::Family

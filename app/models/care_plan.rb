@@ -1,4 +1,4 @@
-class CarePlan < ActiveRecord::Base
+class CarePlan < ApplicationRecord
   belongs_to :client
   belongs_to :assessment
   belongs_to :family, counter_cache: true

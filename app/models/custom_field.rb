@@ -1,4 +1,4 @@
-class CustomField < ActiveRecord::Base
+class CustomField < ApplicationRecord
   include UpdateFieldLabelsFormBuilder
 
   FREQUENCIES  = ['Daily', 'Weekly', 'Monthly', 'Yearly'].freeze

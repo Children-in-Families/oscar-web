@@ -1,4 +1,4 @@
-class GovernmentForm < ActiveRecord::Base
+class GovernmentForm < ApplicationRecord
   has_paper_trail
 
   CASEWORKER_ASSUMPTIONS = ['អាចធ្វើសមាហរណកម្មបាន', 'មិនអាចធ្វើសមាហរណកម្មបានទេ', 'បន្តករណី', 'បិទករណី']

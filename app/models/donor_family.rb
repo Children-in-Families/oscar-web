@@ -1,4 +1,4 @@
-class DonorFamily < ActiveRecord::Base
+class DonorFamily < ApplicationRecord
   has_paper_trail
 
   belongs_to :donor
