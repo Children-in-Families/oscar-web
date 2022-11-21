@@ -446,7 +446,7 @@ module ApplicationHelper
       ngos << ["MoSVY External System", "MoSVY External System"] if is_ngo_share_to_external?
       ngos << ["I don't see the NGO I'm looking for...", "external referral", disabled: @referral&.referred_to != 'external referral']
     else
-      ngos << ["MoSVY External System", "MoSVY External System", disabled: @referral&.referred_to != 'external referral'] if is_ngo_share_to_external?
+      ngos << ["MoSVY External System", "MoSVY External System", disabled: @referral&.referred_to != 'MoSVY External System'] if is_ngo_share_to_external?
       ngos << ["I don't see the NGO I'm looking for...", "external referral", disabled: @referral&.referred_to != 'external referral']
     end
     ngos
