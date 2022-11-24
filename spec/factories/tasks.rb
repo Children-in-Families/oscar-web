@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :task do
-    name FFaker::Name.name
-    expected_date FFaker::Time.date
+    name { FFaker::Name.name }
+    expected_date { FFaker::Time.date }
     completed { false }
     # association :case_note_domain_group, factory: :case_note_domain_group
     association :domain, factory: :domain
@@ -19,15 +19,15 @@ FactoryBot.define do
     end
 
     trait :incomplete do
-      completed false
+      completed { false }
     end
 
     trait :complete do
-      completed true
+      completed { true }
     end
 
     trait :overdue do
-      completion_date Date.yesterday
+      completion_date { Date.yesterday }
     end
   end
 end

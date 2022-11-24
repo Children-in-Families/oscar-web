@@ -13,7 +13,7 @@ FactoryBot.define do
         dimension_identies.each do |domain_name, identity|
           create(:domain, name: domain_name, identity: identity, domain_group: domain_group)
         end
-      elsif options.aht == false
+      else
         domain_identies.each do |domain_name, identity|
           create(:domain, name: domain_name, identity: identity, domain_group: domain_group)
         end

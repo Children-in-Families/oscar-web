@@ -8,7 +8,7 @@ gem 'pg',                       '~> 1.4', '>= 1.4.4'
 gem 'puma',                     '~> 6.0'
 gem 'jquery-rails',             '~> 4.5'
 gem 'jquery-ui-rails',          '~> 6.0', '>= 6.0.1'
-gem 'sass-rails',               '~> 6.0'
+gem 'sass-rails',               '~> 5.0'
 gem 'uglifier',                 '~> 4.2'
 gem 'coffee-rails',             '~> 5.0'
 gem 'bootsnap',                 '~> 1.13', require: false
@@ -113,6 +113,12 @@ group :staging, :demo do
 end
 
 group :development do
+  gem 'web-console',              '>= 3.3.0'
+  gem 'listen',                   '>= 3.0.5', '< 3.2'
+  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
+  gem 'spring'
+  gem 'spring-watcher-listen',    '~> 2.0.0'
+
   gem 'letter_opener',            '~> 1.8', '>= 1.8.1'
   gem 'letter_opener_web',        '~> 2.0'
   gem 'rubocop',                  '~> 1.37', '>= 1.37.1', require: false

@@ -3,7 +3,7 @@ FactoryBot.define do
     sequence(:name)  { |n| "AB#{n}" }
     sequence(:identity)  { |n| "#{FFaker::Name.name}-#{n}" }
     domain_type { 'client' }
-    description FFaker::Lorem.paragraph
+    description { FFaker::Lorem.paragraph }
     association :domain_group, factory: :domain_group
     custom_domain { false }
 

@@ -7,13 +7,13 @@ FactoryBot.define do
     date_of_birth { FFaker::Time.date }
     initial_referral_date { FFaker::Time.date }
     name_of_referee { FFaker::Name.name }
-    gender 'male'
+    gender { 'male' }
     house_number     { FFaker::Address.street_address }
     street_number    { FFaker::Address.street_address }
-    status 'Referred'
-    school_grade '4'
+    status { "Referred" }
+    school_grade { '4' }
     relevant_referral_information { FFaker::Lorem.paragraph }
-    referral_source_category_id 4
+    referral_source_category_id { 4 }
 
     association :global_identity
     association :received_by, factory: :user
@@ -45,7 +45,7 @@ FactoryBot.define do
     end
 
     trait :accepted do
-      status 'Accepted'
+      status {'Accepted'}
     end
 
     trait :exited do
@@ -55,7 +55,7 @@ FactoryBot.define do
     end
 
     trait :female do
-      gender 'female'
+      gender { 'female' }
     end
   end
 end

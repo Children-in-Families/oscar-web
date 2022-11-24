@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :assessment do
-    default true
+    default { true }
     association :client, factory: :client
 
     trait :with_assessment_domain do
@@ -8,7 +8,7 @@ FactoryBot.define do
     end
 
     trait :custom do
-      default false
+      default { false }
     end
   end
 end

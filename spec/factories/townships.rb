@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :township do
-    name "MyString"
+    name { "MyString" }
     state nil
   end
 end

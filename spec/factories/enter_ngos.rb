@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :enter_ngo do
-    accepted_date FFaker::Time.date
+    accepted_date { FFaker::Time.date }
     created_at { Time.now }
 
     after(:build) do |enter_ngo|

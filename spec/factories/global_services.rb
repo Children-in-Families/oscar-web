@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :global_service do
-    uuid ""
+    uuid { "" }
   end
 end

@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :custom_entity do
-    name "MyString"
+    name { "MyString" }
   end
 end

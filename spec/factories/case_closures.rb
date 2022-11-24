@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :case_closure do
-    name "MyString"
+    name { "MyString" }
   end
 end

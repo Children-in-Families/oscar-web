@@ -85,7 +85,7 @@ class User < ApplicationRecord
 
   before_save :assign_as_admin
   after_commit :set_manager_ids
-  after_save :detach_manager, if: 'roles_changed?'
+  after_save :detach_manager, if: -> { roles_changed? }
   after_save :toggle_referral_notification
   after_create :build_permission
   after_commit :flush_cache

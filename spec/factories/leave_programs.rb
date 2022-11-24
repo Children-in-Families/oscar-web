@@ -6,7 +6,7 @@ FactoryBot.define do
         "description"=>"this is testing"
       }.to_json
     }
-    exit_date Date.today
+    exit_date {  Date.today }
     association :client_enrollment
     association :program_stream
 

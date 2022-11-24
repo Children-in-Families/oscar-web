@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :protection_concern do
-    content "MyString"
+    content { "MyString" }
   end
 end

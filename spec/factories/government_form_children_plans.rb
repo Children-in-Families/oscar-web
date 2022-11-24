@@ -1,9 +1,9 @@
 FactoryBot.define do
   factory :government_form_children_plan do
-    goal 'MyString'
-    action 'MyString'
-    who 'MyString'
-    completion_date 'MyString'
+    goal { 'MyString' }
+    action { 'MyString' }
+    who { 'MyString' }
+    completion_date { Date.today }
 
     association :government_form, factory: :government_form
     association :children_plan, factory: :children_plan

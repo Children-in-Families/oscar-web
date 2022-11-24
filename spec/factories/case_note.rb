@@ -4,7 +4,7 @@ FactoryBot.define do
     attendee { FFaker::Name.name }
     association :client, factory: :client
     association :assessment, factory: :assessment
-    interaction_type 'Visit'
+    interaction_type { 'Visit' }
 
     transient do
       single_domain_group { false }
@@ -30,7 +30,7 @@ FactoryBot.define do
     end
 
     trait :custom do
-      custom true
+      custom { true }
       after(:build) do |case_note|
         case_note.custom_assessment_setting = create(:custom_assessment_setting)
       end
