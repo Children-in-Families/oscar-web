@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
   before_action :set_paper_trail_whodunnit, :current_setting
   before_action :prevent_routes
   before_action :set_raven_context, :address_translation
-  before_filter :set_current_user
+  before_action :set_current_user
 
   rescue_from ActiveRecord::RecordNotFound do |exception|
     render file: "#{Rails.root}/app/views/errors/404", layout: false, status: :not_found

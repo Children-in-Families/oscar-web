@@ -1,4 +1,4 @@
-class CreateTaskProgressNotes < ActiveRecord::Migration
+class CreateTaskProgressNotes < ActiveRecord::Migration[5.2]
   def change
     create_table :task_progress_notes do |t|
       t.text :progress_note

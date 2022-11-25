@@ -1,6 +1,6 @@
 %li
   - unless current_page.first?
-    - pagination_params = url.include?('page') ? params.merge(page: Rack::Utils.parse_nested_query(url)['page'].to_i) : params.merge(page: 1)
+    - pagination_params = url.include?('page') ? request.parameters.merge(page: Rack::Utils.parse_nested_query(url)['page'].to_i) : request.parameters.merge(page: 1)
     - if params[:controller] == 'clients' || params[:controller] == 'families'
       = button_to raw(t 'views.pagination.previous'), advanced_search_url_dynamic, params: pagination_params, :rel => 'prev', :remote => remote, form_class: 'hidden-post-form'
   - else

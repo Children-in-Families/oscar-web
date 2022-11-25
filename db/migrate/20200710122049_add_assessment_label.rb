@@ -1,4 +1,4 @@
-class AddAssessmentLabel < ActiveRecord::Migration
+class AddAssessmentLabel < ActiveRecord::Migration[5.2]
   def up
     return if Apartment::Tenant.current_tenant == 'shared' || FieldSetting.find_by(name: :assessment, klass_name: :assessment)
 

@@ -15,7 +15,7 @@ class Enrollment < ApplicationRecord
   alias_attribute :new_date, :enrollment_date
 
   validates :enrollment_date, presence: true
-  validate :enrollment_date_value, if: 'enrollment_date.present?'
+  validate :enrollment_date_value, if: ->{ enrollment_date.present? }
 
   has_paper_trail
 

@@ -1,4 +1,4 @@
-class AddPinCodeToUser < ActiveRecord::Migration
+class AddPinCodeToUser < ActiveRecord::Migration[5.2]
   def up
     add_column :users, :pin_code, :string, default: ''
 

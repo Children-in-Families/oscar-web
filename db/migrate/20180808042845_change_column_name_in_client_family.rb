@@ -1,4 +1,4 @@
-class ChangeColumnNameInClientFamily < ActiveRecord::Migration
+class ChangeColumnNameInClientFamily < ActiveRecord::Migration[5.2]
   def up
     rename_column :clients, :commune, :old_commune
     rename_column :clients, :village, :old_village

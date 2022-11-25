@@ -1,4 +1,4 @@
-class MigrateFileUploadRequired < ActiveRecord::Migration
+class MigrateFileUploadRequired < ActiveRecord::Migration[5.2]
   def up
     return if Apartment::Tenant.current_tenant == 'shared'
 

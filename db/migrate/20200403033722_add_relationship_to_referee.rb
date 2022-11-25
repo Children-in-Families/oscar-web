@@ -1,4 +1,4 @@
-class AddRelationshipToReferee < ActiveRecord::Migration
+class AddRelationshipToReferee < ActiveRecord::Migration[5.2]
   def change
     add_column :referees, :suburb, :string, default: ''
     add_column :referees, :description_house_landmark, :string, default: ''

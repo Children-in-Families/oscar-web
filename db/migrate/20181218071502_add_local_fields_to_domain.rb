@@ -1,4 +1,4 @@
-class AddLocalFieldsToDomain < ActiveRecord::Migration
+class AddLocalFieldsToDomain < ActiveRecord::Migration[5.2]
   def change
     add_column :domains, :local_description, :text, default: ''
     add_column :domains, :score_1_local_definition, :text, default: ''

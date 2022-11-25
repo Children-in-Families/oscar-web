@@ -1,4 +1,4 @@
-class AddInternationalFieldsToClient < ActiveRecord::Migration
+class AddInternationalFieldsToClient < ActiveRecord::Migration[5.2]
   def change
     add_column :clients, :suburb, :string, default: ''
     add_column :clients, :description_house_landmark, :string, default: ''

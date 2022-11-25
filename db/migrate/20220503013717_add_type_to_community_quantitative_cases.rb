@@ -1,4 +1,4 @@
-class AddTypeToCommunityQuantitativeCases < ActiveRecord::Migration
+class AddTypeToCommunityQuantitativeCases < ActiveRecord::Migration[5.2]
   def change
     add_column :community_quantitative_cases, :type, :string, default: 'CommunityQuantitativeCase'
     add_column :community_quantitative_cases, :content, :text

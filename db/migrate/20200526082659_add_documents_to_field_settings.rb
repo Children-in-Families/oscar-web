@@ -1,4 +1,4 @@
-class AddDocumentsToFieldSettings < ActiveRecord::Migration
+class AddDocumentsToFieldSettings < ActiveRecord::Migration[5.2]
   FIELDS = {
     :national_id => 'National ID',
     :birth_cert => 'Birth Certificate',

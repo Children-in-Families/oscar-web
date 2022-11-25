@@ -1,4 +1,4 @@
-class CreateCommunityDonors < ActiveRecord::Migration
+class CreateCommunityDonors < ActiveRecord::Migration[5.2]
   def change
     create_table :community_donors do |t|
       t.references "donor", foreign_key: true

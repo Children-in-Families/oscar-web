@@ -1,4 +1,4 @@
-class CreateScreeningAssessments < ActiveRecord::Migration
+class CreateScreeningAssessments < ActiveRecord::Migration[5.2]
   def change
     create_table :screening_assessments do |t|
       t.datetime :screening_assessment_date

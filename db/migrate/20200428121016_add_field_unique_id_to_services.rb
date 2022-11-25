@@ -1,4 +1,4 @@
-class AddFieldUniqueIdToServices < ActiveRecord::Migration
+class AddFieldUniqueIdToServices < ActiveRecord::Migration[5.2]
   def change
     add_column :services, :uuid, :uuid
 

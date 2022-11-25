@@ -1,4 +1,4 @@
-class AddMoreScoresToDomain < ActiveRecord::Migration
+class AddMoreScoresToDomain < ActiveRecord::Migration[5.2]
   def change
     add_column :domains, :score_5_color, :string, default: ''
     add_column :domains, :score_6_color, :string, default: ''

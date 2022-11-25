@@ -1,4 +1,4 @@
-class CreateProgramStreamServices < ActiveRecord::Migration
+class CreateProgramStreamServices < ActiveRecord::Migration[5.2]
   def change
     create_table :program_stream_services do |t|
       t.datetime :deleted_at

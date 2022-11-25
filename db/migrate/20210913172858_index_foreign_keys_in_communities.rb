@@ -1,4 +1,4 @@
-class IndexForeignKeysInCommunities < ActiveRecord::Migration
+class IndexForeignKeysInCommunities < ActiveRecord::Migration[5.2]
   def change
     add_index :communities, :commune_id
     add_index :communities, :district_id

@@ -1,4 +1,4 @@
-class CreateTlcDatabaseUser < ActiveRecord::Migration
+class CreateTlcDatabaseUser < ActiveRecord::Migration[5.2]
   def change
     if schema_exists?('tlc')
       reversible do |dir|

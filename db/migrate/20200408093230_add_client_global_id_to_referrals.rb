@@ -1,4 +1,4 @@
-class AddClientGlobalIdToReferrals < ActiveRecord::Migration
+class AddClientGlobalIdToReferrals < ActiveRecord::Migration[5.2]
   def up
     add_column :referrals, :client_global_id, :integer unless column_exists?(:referrals, :client_global_id)
 

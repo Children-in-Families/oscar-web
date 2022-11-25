@@ -1,4 +1,4 @@
-class AlterTasksClientIdContrain < ActiveRecord::Migration
+class AlterTasksClientIdContrain < ActiveRecord::Migration[5.2]
   def up
     if index_exists?(:tasks, :client_id, name: "index_tasks_on_client_id")
       execute <<-SQL.squish

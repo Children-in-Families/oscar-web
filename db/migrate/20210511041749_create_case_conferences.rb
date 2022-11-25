@@ -1,4 +1,4 @@
-class CreateCaseConferences < ActiveRecord::Migration
+class CreateCaseConferences < ActiveRecord::Migration[5.2]
   def change
     create_table :case_conferences do |t|
       t.datetime :meeting_date

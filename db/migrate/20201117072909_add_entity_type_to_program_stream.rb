@@ -1,4 +1,4 @@
-class AddEntityTypeToProgramStream < ActiveRecord::Migration
+class AddEntityTypeToProgramStream < ActiveRecord::Migration[5.2]
   def up
     add_column :program_streams, :entity_type, :string, default: ''
 

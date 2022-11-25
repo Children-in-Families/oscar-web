@@ -1,8 +1,8 @@
-class AddPassportToClients < ActiveRecord::Migration
+class AddPassportToClients < ActiveRecord::Migration[5.2]
   FIELDS = [
     :national_id_number,
     :passport_number
-  ] 
+  ]
 
   def change
     add_column :clients, :national_id_number, :string

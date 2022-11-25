@@ -1,4 +1,4 @@
-class AddGlobalIdToClients < ActiveRecord::Migration
+class AddGlobalIdToClients < ActiveRecord::Migration[5.2]
   def up
     add_column :clients, :global_id, :string unless column_exists?(:clients, :global_id)
     change_column :clients, :global_id, :string

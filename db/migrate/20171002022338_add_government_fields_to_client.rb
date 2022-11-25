@@ -1,4 +1,4 @@
-class AddGovernmentFieldsToClient < ActiveRecord::Migration
+class AddGovernmentFieldsToClient < ActiveRecord::Migration[5.2]
   def change
     add_column :clients, :gov_city, :string, default: ''
     add_column :clients, :gov_commune, :string, default: ''

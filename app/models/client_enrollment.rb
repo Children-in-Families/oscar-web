@@ -15,7 +15,7 @@ class ClientEnrollment < ApplicationRecord
   alias_attribute :new_date, :enrollment_date
 
   validates :enrollment_date, presence: true
-  validate :enrollment_date_value, if: 'enrollment_date.present?'
+  validate :enrollment_date_value, if: -> { enrollment_date.present? }
 
   has_paper_trail
 
@@ -110,15 +110,16 @@ class ClientEnrollment < ApplicationRecord
   def flash_cache
     Rails.cache.delete([Apartment::Tenant.current, 'cache_program_steam_by_enrollment'])
     Rails.cache.delete([Apartment::Tenant.current, 'cache_active_program_options'])
-    cached_client_order_enrollment_date_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_order_enrollment_date/].blank? }
-    cached_client_order_enrollment_date_keys.each { |key| Rails.cache.delete(key) }
-    cached_client_order_enrollment_date_properties_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_order_enrollment_date_properties/].blank? }
-    cached_client_order_enrollment_date_properties_keys.each { |key| Rails.cache.delete(key) }
-    cached_client_enrollment_date_join_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_enrollment_date_join/].blank? }
-    cached_client_enrollment_date_join_keys.each { |key| Rails.cache.delete(key) }
     Rails.cache.delete(["dashboard", "#{Apartment::Tenant.current}_client_errors"]) if enrollment_date_changed?
+    if Rails.cache.instance_variable_get(:@data)
+      cached_client_order_enrollment_date_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_order_enrollment_date/].blank? }
+      cached_client_order_enrollment_date_properties_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_order_enrollment_date_properties/].blank? }
+      cached_client_order_enrollment_date_properties_keys.each { |key| Rails.cache.delete(key) }
+      cached_client_enrollment_date_join_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_enrollment_date_join/].blank? }
+      cached_client_enrollment_date_join_keys.each { |key| Rails.cache.delete(key) }
 
-    cached_client_enrollment_properties_by_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_enrollment_properties_by/].blank? }
-    cached_client_enrollment_properties_by_keys.each { |key| Rails.cache.delete(key) }
+      cached_client_enrollment_properties_by_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_enrollment_properties_by/].blank? }
+      cached_client_enrollment_properties_by_keys.each { |key| Rails.cache.delete(key) }
+    end
   end
 end

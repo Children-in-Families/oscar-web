@@ -1,4 +1,4 @@
-class RemoveClientIdConstrainFromSponsors < ActiveRecord::Migration
+class RemoveClientIdConstrainFromSponsors < ActiveRecord::Migration[5.2]
   def up
     if index_exists?(:sponsors, :client_id, name: "index_sponsors_on_client_id")
       execute <<-SQL.squish

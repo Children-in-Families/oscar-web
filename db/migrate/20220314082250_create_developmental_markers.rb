@@ -1,4 +1,4 @@
-class CreateDevelopmentalMarkers < ActiveRecord::Migration
+class CreateDevelopmentalMarkers < ActiveRecord::Migration[5.2]
   def up
     create_table :developmental_markers do |t|
       t.string :name

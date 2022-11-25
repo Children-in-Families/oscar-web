@@ -1,4 +1,4 @@
-class AddScoreColorToDomain < ActiveRecord::Migration
+class AddScoreColorToDomain < ActiveRecord::Migration[5.2]
   def change
     add_column :domains, :score_1_color, :string, default: 'danger'
     add_column :domains, :score_2_color, :string, default: 'warning'

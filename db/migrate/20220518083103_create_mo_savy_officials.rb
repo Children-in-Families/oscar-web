@@ -1,4 +1,4 @@
-class CreateMoSavyOfficials < ActiveRecord::Migration
+class CreateMoSavyOfficials < ActiveRecord::Migration[5.2]
   def change
     create_table :mo_savy_officials do |t|
       t.string :name

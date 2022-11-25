@@ -68,7 +68,7 @@
                       %p= t('care_plans.form.expected_date')
                   .row
                     .div.box
-                      - params.merge!({domain_id: ad.object.domain.id, assessment_domain_id: ad.object.id, assessment_id: assessment.id})
+                      - request.parameters.merge!({domain_id: ad.object.domain.id, assessment_domain_id: ad.object.id, assessment_id: assessment.id})
                       .goals
                         - if f.object.persisted? && action_name == 'new' && f.object.is_goals_tasks_exist?(domain.id)
                           = f.fields_for :goals, f.object.goals do |goal|

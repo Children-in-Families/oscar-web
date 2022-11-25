@@ -1,4 +1,4 @@
-class AddFieldCompletedDateToAssessments < ActiveRecord::Migration
+class AddFieldCompletedDateToAssessments < ActiveRecord::Migration[5.2]
   def change
     add_column :assessments, :completed_date, :date
     add_index :assessments, :completed_date

@@ -1,4 +1,4 @@
-class ChangeDataTypeOfGovernmentForms < ActiveRecord::Migration
+class ChangeDataTypeOfGovernmentForms < ActiveRecord::Migration[5.2]
   def up
     change_column :government_forms, :source_info, :text, :default => ''
     change_column :government_forms, :summary_info_of_referral, :text, :default => ''

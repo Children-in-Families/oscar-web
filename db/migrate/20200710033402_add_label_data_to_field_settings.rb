@@ -1,4 +1,4 @@
-class AddLabelDataToFieldSettings < ActiveRecord::Migration
+class AddLabelDataToFieldSettings < ActiveRecord::Migration[5.2]
   FIELDS = {
     referee_address: {
       group: :referee,

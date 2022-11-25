@@ -1,4 +1,4 @@
-class ConvertVersionsObjectToJson < ActiveRecord::Migration
+class ConvertVersionsObjectToJson < ActiveRecord::Migration[5.2]
   def up
     change_column :versions, :object, 'text USING object::text'
     change_column :versions, :object_changes, 'text USING object::text'

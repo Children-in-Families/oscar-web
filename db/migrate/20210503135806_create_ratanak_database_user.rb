@@ -1,4 +1,4 @@
-class CreateRatanakDatabaseUser < ActiveRecord::Migration
+class CreateRatanakDatabaseUser < ActiveRecord::Migration[5.2]
   def change
     if schema_exists?('ratanak')
       reversible do |dir|

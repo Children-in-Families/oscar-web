@@ -1,4 +1,4 @@
-class CreateDevelopmentalMarkerScreeningAssessments < ActiveRecord::Migration
+class CreateDevelopmentalMarkerScreeningAssessments < ActiveRecord::Migration[5.2]
   def change
     create_table :developmental_marker_screening_assessments do |t|
       t.integer :developmental_marker_id

@@ -1,4 +1,4 @@
-class AddTypeToClientQuantitativeCases < ActiveRecord::Migration
+class AddTypeToClientQuantitativeCases < ActiveRecord::Migration[5.2]
   def change
     add_column :client_quantitative_cases, :type, :string, default: 'ClientQuantitativeCase'
     add_column :client_quantitative_cases, :content, :text

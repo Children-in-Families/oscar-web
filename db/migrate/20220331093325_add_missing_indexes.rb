@@ -1,4 +1,4 @@
-class AddMissingIndexes < ActiveRecord::Migration
+class AddMissingIndexes < ActiveRecord::Migration[5.2]
   def change
     add_index :case_worker_communities, [:community_id, :user_id]
     add_index :case_worker_families, [:family_id, :user_id]

@@ -1,4 +1,4 @@
-class AddFieldSettingPickupInfo < ActiveRecord::Migration
+class AddFieldSettingPickupInfo < ActiveRecord::Migration[5.2]
   NEW_FIELDS = {
     pickup_information: {
       label_only: true,

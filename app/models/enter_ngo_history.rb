@@ -10,7 +10,7 @@ class EnterNgoHistory
 
   embeds_many :enter_ngo_user_histories
 
-  after_save :create_enter_ngo_user_history, if: 'object.key?("user_ids")'
+  after_save :create_enter_ngo_user_history, if: ->{ object.key?("user_ids") }
 
   def self.initial(enter_ngo)
     attributes = enter_ngo.attributes

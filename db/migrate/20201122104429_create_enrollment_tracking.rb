@@ -1,4 +1,4 @@
-class CreateEnrollmentTracking < ActiveRecord::Migration
+class CreateEnrollmentTracking < ActiveRecord::Migration[5.2]
   def change
     create_table :enrollment_trackings do |t|
       t.references :enrollment, index: true, foreign_key: true

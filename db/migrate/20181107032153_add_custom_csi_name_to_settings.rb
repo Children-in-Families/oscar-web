@@ -1,4 +1,4 @@
-class AddCustomCsiNameToSettings < ActiveRecord::Migration
+class AddCustomCsiNameToSettings < ActiveRecord::Migration[5.2]
   def up
     add_column :settings, :custom_assessment, :string, default: 'Custom Assessment' if !column_exists? :settings, :custom_assessment
     add_column :settings, :enable_custom_assessment, :boolean, default: false       if !column_exists? :settings, :enable_custom_assessment

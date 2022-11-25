@@ -1,4 +1,4 @@
-class CreateCaseConferenceUsers < ActiveRecord::Migration
+class CreateCaseConferenceUsers < ActiveRecord::Migration[5.2]
   def change
     create_table :case_conference_users do |t|
       t.references :user, index: true, foreign_key: true

@@ -1,4 +1,4 @@
-class CreateFamilyCustomFields < ActiveRecord::Migration
+class CreateFamilyCustomFields < ActiveRecord::Migration[5.2]
   def change
     create_table :family_custom_fields do |t|
       t.text :properties

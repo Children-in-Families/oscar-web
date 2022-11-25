@@ -1,4 +1,4 @@
-class CreateServiceDeliveryTasks < ActiveRecord::Migration
+class CreateServiceDeliveryTasks < ActiveRecord::Migration[5.2]
   def change
     create_table :service_delivery_tasks do |t|
       t.references :task, index: true, foreign_key: true

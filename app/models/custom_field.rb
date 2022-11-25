@@ -161,13 +161,15 @@ class CustomField < ApplicationRecord
 
   def flush_cache
     Rails.cache.delete([Apartment::Tenant.current, 'CustomField', self.id])
-    cached_order_by_form_title_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_order_by_form_title/].blank? }
-    cached_order_by_form_title_keys.each { |key| Rails.cache.delete(key) }
-    cached_custom_form_ids_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_custom_form_ids/].blank? }
-    cached_custom_form_ids_keys.each { |key| Rails.cache.delete(key) }
-    cached_custom_form_ids_attach_with_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_custom_form_ids_attach_with/].blank? }
-    cached_custom_form_ids_attach_with_keys.each { |key| Rails.cache.delete(key) }
-    cached_client_custom_field_find_by_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_custom_field_find_by/].blank? }
-    cached_client_custom_field_find_by_keys.each { |key| Rails.cache.delete(key) }
+    if Rails.cache.instance_variable_get(:@data)
+      cached_order_by_form_title_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_order_by_form_title/].blank? }
+      cached_order_by_form_title_keys.each { |key| Rails.cache.delete(key) }
+      cached_custom_form_ids_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_custom_form_ids/].blank? }
+      cached_custom_form_ids_keys.each { |key| Rails.cache.delete(key) }
+      cached_custom_form_ids_attach_with_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_custom_form_ids_attach_with/].blank? }
+      cached_custom_form_ids_attach_with_keys.each { |key| Rails.cache.delete(key) }
+      cached_client_custom_field_find_by_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_custom_field_find_by/].blank? }
+      cached_client_custom_field_find_by_keys.each { |key| Rails.cache.delete(key) }
+    end
   end
 end

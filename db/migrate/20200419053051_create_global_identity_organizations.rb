@@ -1,4 +1,4 @@
-class CreateGlobalIdentityOrganizations < ActiveRecord::Migration
+class CreateGlobalIdentityOrganizations < ActiveRecord::Migration[5.2]
   def change
     create_table :global_identity_organizations do |t|
       t.string :global_id

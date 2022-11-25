@@ -1,4 +1,4 @@
-class CreateFamilyReferrals < ActiveRecord::Migration
+class CreateFamilyReferrals < ActiveRecord::Migration[5.2]
   def change
     create_table :family_referrals do |t|
       t.string :slug, default: ''

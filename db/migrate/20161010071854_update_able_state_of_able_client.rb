@@ -1,4 +1,4 @@
-class UpdateAbleStateOfAbleClient < ActiveRecord::Migration
+class UpdateAbleStateOfAbleClient < ActiveRecord::Migration[5.2]
   def change
     unprocessable_clients = []
 

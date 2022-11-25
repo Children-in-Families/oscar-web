@@ -1,4 +1,4 @@
-class SplitClientNameToFirstNameAndLastName < ActiveRecord::Migration
+class SplitClientNameToFirstNameAndLastName < ActiveRecord::Migration[5.2]
   def change
     unprocessable_clients = []
 

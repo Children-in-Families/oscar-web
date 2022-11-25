@@ -1,4 +1,4 @@
-class IndexForeignKeysInTasks < ActiveRecord::Migration
+class IndexForeignKeysInTasks < ActiveRecord::Migration[5.2]
   def change
     add_index :tasks, :case_note_domain_group_id
     add_index :tasks, :case_note_id

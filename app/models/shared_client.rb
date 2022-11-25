@@ -25,9 +25,11 @@ class SharedClient < ApplicationRecord
 
   def flush_cache
     Rails.cache.delete([Apartment::Tenant.current, 'SharedClient', 'cached_shared_client_date_of_birth'] )
-    cached_shared_client_date_of_birth_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_shared_client_date_of_birth/].blank? }
-    cached_shared_client_date_of_birth_keys.each { |key| Rails.cache.delete(key) }
-    cached_shared_client_birth_province_name_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_shared_client_birth_province_name/].blank? }
-    cached_shared_client_birth_province_name_keys.each { |key| Rails.cache.delete(key) }
+    if Rails.cache.instance_variable_get(:@data)
+      cached_shared_client_date_of_birth_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_shared_client_date_of_birth/].blank? }
+      cached_shared_client_date_of_birth_keys.each { |key| Rails.cache.delete(key) }
+      cached_shared_client_birth_province_name_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_shared_client_birth_province_name/].blank? }
+      cached_shared_client_birth_province_name_keys.each { |key| Rails.cache.delete(key) }
+    end
   end
 end

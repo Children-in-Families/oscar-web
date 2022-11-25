@@ -1,4 +1,4 @@
-class AddDocumentsToClients < ActiveRecord::Migration
+class AddDocumentsToClients < ActiveRecord::Migration[5.2]
   def change
     add_column :clients, :national_id, :boolean, default: false, null: false
     add_column :clients, :birth_cert, :boolean, default: false, null: false

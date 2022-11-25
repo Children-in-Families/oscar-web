@@ -1,4 +1,4 @@
-class AddCounterCacheToAllAssociations < ActiveRecord::Migration
+class AddCounterCacheToAllAssociations < ActiveRecord::Migration[5.2]
   def change
     add_column :agencies,         :agencies_clients_count,  :integer, default: 0
 

@@ -1,4 +1,4 @@
-class AddNewColumnsToFamilies < ActiveRecord::Migration
+class AddNewColumnsToFamilies < ActiveRecord::Migration[5.2]
   def change
     add_column :families, :received_by_id, :integer
     add_column :families, :followed_up_by_id, :integer

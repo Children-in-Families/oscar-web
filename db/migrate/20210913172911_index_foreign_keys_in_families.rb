@@ -1,4 +1,4 @@
-class IndexForeignKeysInFamilies < ActiveRecord::Migration
+class IndexForeignKeysInFamilies < ActiveRecord::Migration[5.2]
   def change
     add_index :families, :followed_up_by_id
     add_index :families, :province_id

@@ -1,4 +1,4 @@
-class AddCaseNotesNoteLabel < ActiveRecord::Migration
+class AddCaseNotesNoteLabel < ActiveRecord::Migration[5.2]
   def up
     return if Apartment::Tenant.current_tenant == 'shared' || FieldSetting.find_by(name: :note, current_label: (Apartment::Tenant.current_tenant == 'ratanak' ? 'Progress notes and next steps' : 'Note'), klass_name: :case_note)
 

@@ -1,4 +1,4 @@
-class AddOtherCaseClosureFieldsToGovernmentForms < ActiveRecord::Migration
+class AddOtherCaseClosureFieldsToGovernmentForms < ActiveRecord::Migration[5.2]
   def change
     add_column :government_forms, :other_case_closure, :string
     add_column :government_forms, :brief_case_history, :text

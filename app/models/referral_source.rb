@@ -66,9 +66,11 @@ class ReferralSource < ApplicationRecord
     Rails.cache.delete([Apartment::Tenant.current, 'ReferralSource', 'referral_source_options'])
     Rails.cache.delete([Apartment::Tenant.current, 'ReferralSource', 'cache_referral_source_category_options'])
     Rails.cache.delete([Apartment::Tenant.current, 'ReferralSource', 'cache_local_referral_source_category_options'])
-    cached_referral_source_try_name_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_referral_source_try_name/].blank? }
-    cached_referral_source_try_name_keys.each { |key| Rails.cache.delete(key) }
-    cached_referral_source_try_name_en_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_referral_source_try_name_en/].blank? }
-    cached_referral_source_try_name_en_keys.each { |key| Rails.cache.delete(key) }
+    if Rails.cache.instance_variable_get(:@data)
+      cached_referral_source_try_name_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_referral_source_try_name/].blank? }
+      cached_referral_source_try_name_keys.each { |key| Rails.cache.delete(key) }
+      cached_referral_source_try_name_en_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_referral_source_try_name_en/].blank? }
+      cached_referral_source_try_name_en_keys.each { |key| Rails.cache.delete(key) }
+    end
   end
 end

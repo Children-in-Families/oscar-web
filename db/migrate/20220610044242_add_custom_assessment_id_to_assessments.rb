@@ -1,4 +1,4 @@
-class AddCustomAssessmentIdToAssessments < ActiveRecord::Migration
+class AddCustomAssessmentIdToAssessments < ActiveRecord::Migration[5.2]
   def up
     add_column :assessments, :custom_assessment_setting_id, :integer
     add_index :assessments, :custom_assessment_setting_id

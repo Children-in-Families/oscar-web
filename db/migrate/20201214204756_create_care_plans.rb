@@ -1,4 +1,4 @@
-class CreateCarePlans < ActiveRecord::Migration
+class CreateCarePlans < ActiveRecord::Migration[5.2]
   def change
     create_table :care_plans do |t|
       t.references :assessment, index: true, foreign_key: true

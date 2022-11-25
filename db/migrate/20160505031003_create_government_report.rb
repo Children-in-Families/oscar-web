@@ -1,4 +1,4 @@
-class CreateGovernmentReport < ActiveRecord::Migration
+class CreateGovernmentReport < ActiveRecord::Migration[5.2]
   def change
     create_table :government_reports do |t|
     	t.string  :code, 													default: ''
@@ -56,8 +56,8 @@ class CreateGovernmentReport < ActiveRecord::Migration
 		t.boolean :second_mission, 								default: false
 		t.boolean :third_mission, 								default: false
 		t.boolean :fourth_mission, 								default: false
-		t.date 	  :done_date 
-		t.date 	  :agreed_date    	
+		t.date 	  :done_date
+		t.date 	  :agreed_date
 
     	t.belongs_to :client
 

@@ -61,9 +61,11 @@ class ClientEnrollmentTracking < ApplicationRecord
   end
 
   def flush_cache
-    cached_tracking_order_created_at_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_tracking_order_created_at/].blank? }
-    cached_tracking_order_created_at_keys.each { |key| Rails.cache.delete(key) }
-    cached_client_enrollment_tracking_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_enrollment_tracking/].blank? }
-    cached_client_enrollment_tracking_keys.each { |key| Rails.cache.delete(key) }
+    if Rails.cache.instance_variable_get(:@data)
+      cached_tracking_order_created_at_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_tracking_order_created_at/].blank? }
+      cached_tracking_order_created_at_keys.each { |key| Rails.cache.delete(key) }
+      cached_client_enrollment_tracking_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_enrollment_tracking/].blank? }
+      cached_client_enrollment_tracking_keys.each { |key| Rails.cache.delete(key) }
+    end
   end
 end

@@ -1,4 +1,4 @@
-class CreateDonorOrganization < ActiveRecord::Migration
+class CreateDonorOrganization < ActiveRecord::Migration[5.2]
   def change
     create_table :donor_organizations do |t|
       t.references :donor, index: true, foreign_key: true

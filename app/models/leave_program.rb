@@ -11,7 +11,7 @@ class LeaveProgram < ApplicationRecord
   alias_attribute :new_date, :exit_date
 
   validates :exit_date, presence: true
-  validate :exit_date_value, if: 'exit_date.present?'
+  validate :exit_date_value, if: ->{ exit_date.present? }
 
   after_save :create_leave_program_history
   after_create :update_enrollment_status, :set_entity_status
@@ -85,9 +85,11 @@ class LeaveProgram < ApplicationRecord
   end
 
   def flush_cache
-    cached_program_exit_date_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_program_exit_date/].blank? }
-    cached_program_exit_date_keys.each { |key| Rails.cache.delete(key) }
-    cached_program_exit_date_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_program_stream_leave/].blank? }
-    cached_program_exit_date_keys.each { |key| Rails.cache.delete(key) }
+    if Rails.cache.instance_variable_get(:@data)
+      cached_program_exit_date_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_program_exit_date/].blank? }
+      cached_program_exit_date_keys.each { |key| Rails.cache.delete(key) }
+      cached_program_exit_date_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_program_stream_leave/].blank? }
+      cached_program_exit_date_keys.each { |key| Rails.cache.delete(key) }
+    end
   end
 end

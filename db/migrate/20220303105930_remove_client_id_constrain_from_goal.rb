@@ -1,4 +1,4 @@
-class RemoveClientIdConstrainFromGoal < ActiveRecord::Migration
+class RemoveClientIdConstrainFromGoal < ActiveRecord::Migration[5.2]
   def up
     if index_exists?(:goals, :client_id, name: "index_goals_on_client_id")
       execute <<-SQL.squish

@@ -1,4 +1,4 @@
-class RemoveForeignKeyConstrainOnClientEnrollments < ActiveRecord::Migration
+class RemoveForeignKeyConstrainOnClientEnrollments < ActiveRecord::Migration[5.2]
   def up
     execute <<-SQL.squish
       ALTER TABLE client_enrollments

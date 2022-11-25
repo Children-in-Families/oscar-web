@@ -1,4 +1,4 @@
-class CreateCaseNotes < ActiveRecord::Migration
+class CreateCaseNotes < ActiveRecord::Migration[5.2]
   def change
     create_table :case_notes do |t|
       t.string     :attendee, default: ''

@@ -1,4 +1,4 @@
-class AddAssessmentFieldSetting < ActiveRecord::Migration
+class AddAssessmentFieldSetting < ActiveRecord::Migration[5.2]
   def up
     return if Apartment::Tenant.current_tenant == 'shared'
 

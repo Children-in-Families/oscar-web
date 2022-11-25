@@ -1,4 +1,4 @@
-class IndexForeignKeysInGovernmentForms < ActiveRecord::Migration
+class IndexForeignKeysInGovernmentForms < ActiveRecord::Migration[5.2]
   def change
     add_index :government_forms, :assessment_commune_id
     add_index :government_forms, :assessment_district_id

@@ -1,4 +1,4 @@
-class RemoveClientIdConstrainFromCarePlan < ActiveRecord::Migration
+class RemoveClientIdConstrainFromCarePlan < ActiveRecord::Migration[5.2]
   def up
     if index_exists?(:care_plans, :client_id, name: "index_care_plans_on_client_id")
       execute <<-SQL.squish

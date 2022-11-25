@@ -1,4 +1,4 @@
-class DonorFamily < ActiveRecord::Migration
+class DonorFamily < ActiveRecord::Migration[5.2]
   def change
     create_table :donor_families do |t|
       t.references :donor, foreign_key: true

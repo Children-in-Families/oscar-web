@@ -1,4 +1,4 @@
-class ChangeLegalDocNewFieldsToClients < ActiveRecord::Migration
+class ChangeLegalDocNewFieldsToClients < ActiveRecord::Migration[5.2]
   def change
     remove_column :clients, :ngo_partner, :string
     remove_column :clients, :mosavy, :string

@@ -16,13 +16,13 @@ class ClientHistory
   embeds_many :client_family_histories
   embeds_many :client_quantitative_case_histories
 
-  after_save :create_sponsor_history, if: 'object.key?("donor_ids")'
-  after_save :create_agency_client_history, if: 'object.key?("agency_ids")'
-  after_save :create_case_worker_client_history, if: 'object.key?("user_ids")'
-  after_save :create_client_quantitative_case_history, if: 'object.key?("quantitative_case_ids")'
-  after_save :create_case_client_history,   if: 'object.key?("case_ids")'
-  after_save :create_client_family_history, if: 'object.key?("family_ids")'
-  after_save :create_client_custom_field_property_history, if: 'object.key?("custom_field_property_ids")'
+  after_save :create_sponsor_history, if: ->{ object.key?("donor_ids") }
+  after_save :create_agency_client_history, if: ->{ object.key?("agency_ids") }
+  after_save :create_case_worker_client_history, if: ->{ object.key?("user_ids") }
+  after_save :create_client_quantitative_case_history, if: ->{ object.key?("quantitative_case_ids") }
+  after_save :create_case_client_history,   if: ->{ object.key?("case_ids") }
+  after_save :create_client_family_history, if: ->{ object.key?("family_ids") }
+  after_save :create_client_custom_field_property_history, if: ->{ object.key?("custom_field_property_ids") }
 
   def self.initial(client)
     attributes = client.attributes

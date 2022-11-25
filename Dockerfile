@@ -9,7 +9,7 @@ RUN bash -c "set -o pipefail && apt-get update \
   && rm -rf /var/lib/apt/lists/* /usr/share/doc /usr/share/man \
   && apt-get clean"
 
-RUN apt-get update -qq && apt-get install -y postgresql-client fonts-khmeros memcached cron
+RUN apt-get update -qq && apt-get install -y postgresql-client fonts-khmeros memcached cron imagemagick
 RUN mkdir /app
 WORKDIR /app
 

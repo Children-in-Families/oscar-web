@@ -73,7 +73,7 @@ class Family < ApplicationRecord
   validates :family_type, presence: true, inclusion: { in: TYPES }
 
   validates :received_by_id, :initial_referral_date, :referral_source_category_id, presence: true, if: :case_management_record?
-  validates :code, uniqueness: { case_sensitive: false }, if: 'code.present?'
+  validates :code, uniqueness: { case_sensitive: false }, if: -> { code.present? }
   validates :status, inclusion: { in: STATUSES }
 
   # validate :client_must_only_belong_to_a_family

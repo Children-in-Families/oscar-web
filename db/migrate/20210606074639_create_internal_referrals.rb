@@ -1,4 +1,4 @@
-class CreateInternalReferrals < ActiveRecord::Migration
+class CreateInternalReferrals < ActiveRecord::Migration[5.2]
   def change
     create_table :internal_referrals do |t|
       t.datetime :referral_date

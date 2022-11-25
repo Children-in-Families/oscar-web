@@ -1,4 +1,4 @@
-class CreateProgramStreamUsers < ActiveRecord::Migration
+class CreateProgramStreamUsers < ActiveRecord::Migration[5.2]
   def change
     create_table :program_stream_users do |t|
       t.integer :user_id

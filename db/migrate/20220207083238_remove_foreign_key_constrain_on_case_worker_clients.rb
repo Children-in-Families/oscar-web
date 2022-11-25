@@ -1,4 +1,4 @@
-class RemoveForeignKeyConstrainOnCaseWorkerClients < ActiveRecord::Migration
+class RemoveForeignKeyConstrainOnCaseWorkerClients < ActiveRecord::Migration[5.2]
   def up
     execute <<-SQL.squish
       ALTER TABLE case_worker_clients

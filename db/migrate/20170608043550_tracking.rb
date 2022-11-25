@@ -1,4 +1,4 @@
-class Tracking < ActiveRecord::Migration
+class Tracking < ActiveRecord::Migration[5.2]
   def change
     create_table :trackings do |t|
       t.string :name, default: ''

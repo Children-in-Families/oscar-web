@@ -1,4 +1,4 @@
-class RenameLegalDocFieldsToClients < ActiveRecord::Migration
+class RenameLegalDocFieldsToClients < ActiveRecord::Migration[5.2]
   def change
     remove_column :clients, :detail_form_of_judicial_police, :string
     add_column :clients, :screening_interview_form, :boolean, default: false

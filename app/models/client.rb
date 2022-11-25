@@ -123,7 +123,7 @@ class Client < ApplicationRecord
 
   has_paper_trail
 
-  validates :kid_id, uniqueness: { case_sensitive: false }, if: 'kid_id.present?'
+  validates :kid_id, uniqueness: { case_sensitive: false }, if: -> { kid_id.present? }
   validates :user_ids, presence: true, on: :create
   validates :user_ids, presence: true, on: :update, unless: :exit_ngo?
   validates :initial_referral_date, :received_by_id, :gender, :referral_source_category_id, presence: true
@@ -1057,27 +1057,6 @@ class Client < ApplicationRecord
     Rails.cache.delete([Apartment::Tenant.current, 'Subdistrict', 'dropdown_list_option']) if subdistrict_id_changed?
     Rails.cache.delete([Apartment::Tenant.current, 'Township', 'dropdown_list_option']) if township_id_changed?
     Rails.cache.delete([Apartment::Tenant.current, 'State', 'dropdown_list_option']) if state_id_changed?
-    cached_client_created_by_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_created_by/].blank? }
-    cached_client_created_by_keys.each { |key| Rails.cache.delete(key) }
-    cached_client_province_name_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_province_name/].blank? }
-    cached_client_province_name_keys.each { |key| Rails.cache.delete(key) }
-    cached_client_district_name_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_district_name/].blank? }
-    cached_client_district_name_keys.each { |key| Rails.cache.delete(key) }
-    cached_client_commune_name_kh_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_commune_name_kh/].blank? }
-    cached_client_commune_name_kh_keys.each { |key| Rails.cache.delete(key) }
-    cached_client_village_name_kh_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_village_name_kh/].blank? }
-    cached_client_village_name_kh_keys.each { |key| Rails.cache.delete(key) }
-    cached_client_referral_source_name_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_referral_source_name/].blank? }
-    cached_client_referral_source_name_keys.each { |key| Rails.cache.delete(key) }
-    cached_client_assessment_number_completed_date_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_assessment_number_completed_date/].blank? }
-    cached_client_assessment_number_completed_date_keys.each { |key| Rails.cache.delete(key) }
-    cached_client_sql_assessment_completed_date_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_sql_assessment_completed_date/].blank? }
-    cached_client_sql_assessment_completed_date_keys.each { |key| Rails.cache.delete(key) }
-    cached_client_assessment_order_completed_date_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_assessment_order_completed_date/].blank? }
-    cached_client_assessment_order_completed_date_keys.each { |key| Rails.cache.delete(key) }
-    cached_client_assessment_domains_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_assessment_domains/].blank? }
-    cached_client_assessment_domains_keys.each { |key| Rails.cache.delete(key) }
-
     Rails.cache.delete([Apartment::Tenant.current, 'ReferralSource', 'cached_referral_source_try_name', referral_source_category_id]) if referral_source_category_id_changed?
     Rails.cache.delete([Apartment::Tenant.current, 'ReferralSource', 'cached_referral_source_try_name_en', referral_source_category_id]) if referral_source_category_id_changed?
 
@@ -1087,14 +1066,36 @@ class Client < ApplicationRecord
     Rails.cache.delete([Apartment::Tenant.current, id, local_given_name_was || 'local_given_name']) if local_given_name_changed?
     Rails.cache.delete([Apartment::Tenant.current, id, local_family_name_was || 'local_family_name']) if local_family_name_changed?
     Rails.cache.fetch([I18n.locale, Apartment::Tenant.current, id, gender_was || 'gender']) if gender_changed?
-    cached_client_custom_field_properties_count_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_custom_field_properties_count/].blank? }
-    cached_client_custom_field_properties_count_keys.each { |key| Rails.cache.delete(key) }
-    cached_client_custom_field_properties_order_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_custom_field_properties_order/].blank? }
-    cached_client_custom_field_properties_order_keys.each { |key| Rails.cache.delete(key) }
-    cached_client_custom_field_find_by_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_custom_field_find_by/].blank? }
-    cached_client_custom_field_find_by_keys.each { |key| Rails.cache.delete(key) }
-    cached_client_custom_field_properties_properties_by_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_custom_field_properties_properties_by/].blank? }
-    cached_client_custom_field_properties_properties_by_keys.each { |key| Rails.cache.delete(key) }
+    if Rails.cache.instance_variable_get(:@data)
+      cached_client_created_by_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_created_by/].blank? }
+      cached_client_created_by_keys.each { |key| Rails.cache.delete(key) }
+      cached_client_province_name_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_province_name/].blank? }
+      cached_client_province_name_keys.each { |key| Rails.cache.delete(key) }
+      cached_client_district_name_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_district_name/].blank? }
+      cached_client_district_name_keys.each { |key| Rails.cache.delete(key) }
+      cached_client_commune_name_kh_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_commune_name_kh/].blank? }
+      cached_client_commune_name_kh_keys.each { |key| Rails.cache.delete(key) }
+      cached_client_village_name_kh_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_village_name_kh/].blank? }
+      cached_client_village_name_kh_keys.each { |key| Rails.cache.delete(key) }
+      cached_client_referral_source_name_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_referral_source_name/].blank? }
+      cached_client_referral_source_name_keys.each { |key| Rails.cache.delete(key) }
+      cached_client_assessment_number_completed_date_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_assessment_number_completed_date/].blank? }
+      cached_client_assessment_number_completed_date_keys.each { |key| Rails.cache.delete(key) }
+      cached_client_sql_assessment_completed_date_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_sql_assessment_completed_date/].blank? }
+      cached_client_sql_assessment_completed_date_keys.each { |key| Rails.cache.delete(key) }
+      cached_client_assessment_order_completed_date_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_assessment_order_completed_date/].blank? }
+      cached_client_assessment_order_completed_date_keys.each { |key| Rails.cache.delete(key) }
+      cached_client_assessment_domains_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_assessment_domains/].blank? }
+      cached_client_assessment_domains_keys.each { |key| Rails.cache.delete(key) }
+      cached_client_custom_field_properties_count_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_custom_field_properties_count/].blank? }
+      cached_client_custom_field_properties_count_keys.each { |key| Rails.cache.delete(key) }
+      cached_client_custom_field_properties_order_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_custom_field_properties_order/].blank? }
+      cached_client_custom_field_properties_order_keys.each { |key| Rails.cache.delete(key) }
+      cached_client_custom_field_find_by_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_custom_field_find_by/].blank? }
+      cached_client_custom_field_find_by_keys.each { |key| Rails.cache.delete(key) }
+      cached_client_custom_field_properties_properties_by_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_custom_field_properties_properties_by/].blank? }
+      cached_client_custom_field_properties_properties_by_keys.each { |key| Rails.cache.delete(key) }
+    end
   end
 
 end

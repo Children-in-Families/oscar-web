@@ -1,4 +1,4 @@
-class AddMoreInformationToFamilies < ActiveRecord::Migration
+class AddMoreInformationToFamilies < ActiveRecord::Migration[5.2]
   def change
     add_column :families, :name_en, :string
     add_column :families, :phone_number, :string
