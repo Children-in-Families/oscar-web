@@ -1,5 +1,4 @@
 class SettingsController < AdminController
-  rescue_from ActionController::RedirectBackError, with: :redirect_to_default
   include CommunityHelper
 
   before_action :find_setting, except: [:create]
@@ -31,7 +30,7 @@ class SettingsController < AdminController
     @setting = @setting
     if params[:setting].has_key?(:org_form)
       if @setting.update_attributes(setting_params)
-        redirect_to :back, notice: t('.successfully_updated')
+        redirect_back(fallback_location: settings_path, notice: t('.successfully_updated'))
       else
         render :edit
       end
@@ -39,7 +38,7 @@ class SettingsController < AdminController
       respond_to do |f|
         f.html do
           if @setting.update_attributes(setting_params)
-            redirect_to :back, notice: t('.successfully_updated')
+            redirect_back(fallback_location: settings_path, notice: t('.successfully_updated'))
           else
             flash[:alert] = @setting.errors.full_messages.join(", ")
             render :index
@@ -101,7 +100,7 @@ class SettingsController < AdminController
     authorize @setting
     attribute = params[:setting]
     if attribute && @setting.update_attributes(setting_params)
-      redirect_to :back, notice: t('successfully_updated', klass: t('settings.update.successfully_updated'))
+      redirect_back(fallback_location: settings_path, notice: t('successfully_updated', klass: t('settings.update.successfully_updated')))
     else
       flash[:alert] = @setting.errors.full_messages.join(", ") if @setting.errors.full_messages.any?
       render :risk_assessment

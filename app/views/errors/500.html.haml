@@ -44,7 +44,7 @@
   %body{ id: "#{controller_name}-#{params[:action]}", style: 'background-color: #fff;' }
     .container
       .text-center
-        = image_tag Organization.current.logo, width: 110 if Organization.current
+        = image_tag Organization.current.logo_url, width: 110 if Organization.current
       .row
         .col-xs-12.text-center.error-content
           %h1.text-center

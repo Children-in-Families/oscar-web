@@ -2,7 +2,7 @@ namespace :communes_and_villages do
   desc 'Import all communes and villages provided by NCDD'
   task :import, [:tenant] => [:environment] do |task, args|
     if Rails.env.development?
-      files = Dir.glob("vendor/data/villages/xlsx/*.xlsx").reject{|filename| filename.include?('~') }
+      files = Dir.glob("vendor/data/addressess/xlsx/*.xlsx").reject{|filename| filename.include?('~') }
     else
       files = Dir.glob(Rails.root.join('../../shared/vendor/data/villages/xlsx/*.xlsx')).reject{|filename| filename.include?('~') }
     end
@@ -21,7 +21,6 @@ namespace :communes_and_villages do
       pname = province_name.split('/').last.squish.downcase
       gazetteer_short_name = province_hash[pname]
       path  = files.find{|filename| filename[/#{gazetteer_short_name}/] }
-
       next if path.blank?
 
       data = Importer::Data.new(id, path)

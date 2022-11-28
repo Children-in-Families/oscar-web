@@ -47,7 +47,7 @@ class ProgramStream < ApplicationRecord
   scope  :ordered,        ->         { order('lower(name) ASC') }
   scope  :complete,       ->         { where(completed: true) }
   scope  :ordered_by,     ->(column) { order(column) }
-  scope  :filter,         ->(value)  { where(id: value) }
+  scope  :filtered,       ->(value)  { where(id: value) }
   scope  :name_like,      ->(value)  { where(name: value) }
   scope  :by_name,        ->(value)  { where('name iLIKE ?', "%#{value.squish}%") }
   scope  :attached_with,  -> (value) { where(entity_type: value) }
@@ -224,17 +224,17 @@ class ProgramStream < ApplicationRecord
       active_client_ids = client_enrollments.active.pluck(:client_id).uniq
       active_clients    = Client.where(id: active_client_ids)
       clients           = AdvancedSearches::ClientAdvancedSearch.new(rules, active_clients)
-      clients.filter.ids
+      clients.filtered.ids
     elsif attached_to_family?
       active_ids         = enrollments.active.pluck(:programmable_id).uniq
       active_entities    = Family.where(id: active_ids)
       entities           = AdvancedSearches::Families::FamilyAdvancedSearch.new(rules, active_entities)
-      entities.filter.ids
+      entities.filtered.ids
     elsif attached_to_community?
       active_ids         = enrollments.active.pluck(:programmable_id).uniq
       active_entities    = Community.where(id: active_ids)
       entities           = AdvancedSearches::Communities::CommunityAdvancedSearch.new(rules, active_entities)
-      entities.filter.ids
+      entities.filtered.ids
     end
   end
 

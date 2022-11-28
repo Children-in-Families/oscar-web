@@ -110,9 +110,9 @@ class Client < ApplicationRecord
   accepts_nested_attributes_for :family_member, allow_destroy: true
   accepts_nested_attributes_for :mo_savy_officials, allow_destroy: true, reject_if: :all_blank
 
+  has_many :cases,          dependent: :destroy
   has_many :families,       through: :cases
   has_many :family_members, dependent: :destroy
-  has_many :cases,          dependent: :destroy
   has_many :case_notes,     dependent: :destroy
   has_many :assessments,    dependent: :destroy
   has_many :care_plans, dependent: :destroy

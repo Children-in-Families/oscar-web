@@ -1,4 +1,5 @@
 CIF.DashboardsIndex = do ->
+  $.fn.dataTable.ext.errMode = 'throw';
   @window.getService = (td, select_id)->
     data = {id: td.children[0].value, text: td.children[0].text }
 

@@ -75,7 +75,7 @@ module ApplicationHelper
   end
 
   def current_url(new_params)
-    url_for params: params.merge(new_params)
+    url_for params: request.parameters
   end
 
   def remove_link(object, associated_objects = {}, btn_size = 'btn-xs', custom_assessment_setting_id = nil, tab_name = nil)

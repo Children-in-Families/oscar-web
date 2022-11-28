@@ -1881,15 +1881,16 @@ case_closures.each do |case_closure|
   CaseClosure.find_or_create_by(name: case_closure)
 end
 
+CustomField.first_or_create(form_title: 'Test', entity_type: 'Client', frequency: 'week', time_of_frequency: 1, ngo_name: 'dev', fields: [{"name"=>"status", "type"=>"checkbox-group", "label"=>"Status", "values"=>[{"label"=>"Active FC", "value"=>"Active FC", "selected"=>true}, {"label"=>"Active KC", "value"=>"Active KC"}, {"label"=>"Active EC", "value"=>"Active EC"}, {"label"=>"Independent - Monitored", "value"=>"Independent - Monitored"}, {"label"=>"Existed - Independent", "value"=>"Existed - Independent"}, {"label"=>"Inactive FC", "value"=>""}, {"label"=>"Inactive EC", "value"=>""}, {"label"=>"Inactive For-1", "value"=>""}], "className"=>"checkbox-group"}])
 if Organization.current.try(:short_name) == 'ratanak'
   setting = Setting.first_or_create(default_assessment: "Results Framework Assessment", country_name: 'cambodia', enable_hotline: true, min_assessment: 3, case_note_frequency: 'day', max_case_note: 30, age: 100)
 else
-  setting = Setting.first_or_create(country_name: 'cambodia', min_assessment: 3, case_note_frequency: 'day', max_case_note: 30)
+  setting = Setting.first_or_create(country_name: 'cambodia', org_name: 'dev', province_id: 1, district_id: 1, commune_id: 1, screening_assessment_form_id: 1, min_assessment: 3, case_note_frequency: 'day', max_case_note: 30)
 end
 
 setting.update(org_name: Organization.current.full_name) if setting.org_name.blank? && Organization.current.present?
 
-User.create_with(first_name: 'OSCaR', last_name: 'Team', roles: 'admin', gender: 'other', enable_gov_log_in: true, enable_research_log_in: true, referral_notification: true, password: ENV['OSCAR_TEAM_PASSWORD']).find_or_create_by(email: ENV['OSCAR_TEAM_EMAIL'])
+User.create_with(first_name: 'OSCaR', last_name: 'Team', roles: 'admin', gender: 'other', province_id: 22, department_id: 1, enable_gov_log_in: true, enable_research_log_in: true, referral_notification: true, password: ENV['OSCAR_TEAM_PASSWORD']).find_or_create_by(email: ENV['OSCAR_TEAM_EMAIL'])
 
 # OSCaR Referral Source
 current_short_name = Apartment::Tenant.current
