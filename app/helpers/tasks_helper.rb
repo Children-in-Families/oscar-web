@@ -27,7 +27,7 @@ module TasksHelper
     if domain.custom_domain == true
       "#{domain.name} #{domain.identity}"
     else
-      t("domains.domain_names.#{domain.name.downcase.reverse}") + " " + t("domains.domain_identies.#{domain.identity.strip.parameterize('_')}_#{domain.name.downcase}")
+      t("domains.domain_names.#{domain.name.downcase.reverse}") + " " + t("domains.domain_identies.#{domain.identity.strip.parameterize.underscore}_#{domain.name.downcase}")
     end
   end
 end

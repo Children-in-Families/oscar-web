@@ -9,7 +9,7 @@ gem 'puma',                     '~> 6.0'
 gem 'jquery-rails',             '~> 4.5'
 gem 'jquery-ui-rails',          '~> 6.0', '>= 6.0.1'
 gem 'sass-rails',               '~> 5.0'
-gem 'uglifier',                 '~> 4.2'
+gem 'terser',                   '~> 1.1', '>= 1.1.12'
 gem 'coffee-rails',             '~> 5.0'
 gem 'bootsnap',                 '~> 1.13', require: false
 gem 'mini_racer',               '~> 0.6.3', platforms: :ruby

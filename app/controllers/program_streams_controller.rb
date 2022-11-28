@@ -31,8 +31,8 @@ class ProgramStreamsController < AdminController
   end
 
   def show
-    @program_exclusive = ProgramStream.filter(@program_stream.program_exclusive)
-    @mutual_dependence = ProgramStream.filter(@program_stream.mutual_dependence)
+    @program_exclusive = ProgramStream.filtered(@program_stream.program_exclusive)
+    @mutual_dependence = ProgramStream.filtered(@program_stream.mutual_dependence)
     @program_stream = @program_stream.decorate
   end
 
@@ -131,8 +131,8 @@ class ProgramStreamsController < AdminController
     ngo = Organization.find_by(full_name: @ngo_name)
     Organization.switch_to ngo.short_name
     program_stream = ProgramStream.where(id: program_stream_id).includes(:trackings).first
-    program_exclusive = program_stream&.program_exclusive ? ProgramStream.filter(program_stream.program_exclusive) : []
-    mutual_dependence = program_stream&.mutual_dependence ? ProgramStream.filter(program_stream.mutual_dependence) : []
+    program_exclusive = program_stream&.program_exclusive ? ProgramStream.filtered(program_stream.program_exclusive) : []
+    mutual_dependence = program_stream&.mutual_dependence ? ProgramStream.filtered(program_stream.mutual_dependence) : []
 
     Organization.switch_to current_ngo_short_name
     @another_program_stream = program_stream
@@ -259,7 +259,7 @@ class ProgramStreamsController < AdminController
       active_entity_ids   = @program_stream.enrollments.active.pluck(:programmable_id).uniq
       active_program_ids  = Enrollment.active.where(programmable_id: active_entity_ids).pluck(:program_stream_id)
     end
-    mutuals_available   = ProgramStream.filter(active_program_ids).where.not(id: @program_stream.id).attached_with(@entity_type).complete.ordered
+    mutuals_available   = ProgramStream.filtered(active_program_ids).where.not(id: @program_stream.id).attached_with(@entity_type).complete.ordered
     @mutual_dependences = active_entity_ids.any? ? mutuals_available : all_programs
   end
 

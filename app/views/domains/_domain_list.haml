@@ -7,7 +7,7 @@
             - if !domain.custom_domain
               = t('dimensions.dimension_list.dimensions') + ":"
               = t("dimensions.dimension_names.#{domain.name.downcase.reverse}")
-              = t("dimensions.dimension_identies.#{domain.identity.strip.parameterize('_')}_#{domain.name.downcase}")
+              = t("dimensions.dimension_identies.#{domain.identity.strip.parameterize.underscore}_#{domain.name.downcase}")
             - else
               = t('dimension.dimension_list.dimensions') + ":"
               = domain.name
@@ -16,7 +16,7 @@
             - if !domain.custom_domain
               = t('domains.domain_list.domains') + ":"
               = t("domains.domain_names.#{domain.name.downcase.reverse}")
-              = t("domains.domain_identies.#{domain.identity.strip.parameterize('_')}_#{domain.name.downcase}")
+              = t("domains.domain_identies.#{domain.identity.strip.parameterize.underscore}_#{domain.name.downcase}")
             - else
               = t('domains.domain_list.domains') + ":"
               = domain.name

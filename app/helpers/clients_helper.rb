@@ -512,7 +512,7 @@ module ClientsHelper
   end
 
   def form_builder_format_key(value)
-    value.downcase.parameterize('_')
+    value.downcase.parameterize.underscore
   end
 
   def form_builder_format(value)

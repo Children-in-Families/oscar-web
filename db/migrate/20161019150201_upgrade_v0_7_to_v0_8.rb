@@ -13,8 +13,8 @@ class UpgradeV07ToV08 < Thredded::BaseMigration
         Delete or un-close these messageboards and consider using the "paranoia" gem to support soft deletion instead.
       TEXT
     end
-    remove_index :thredded_messageboards, name: :index_thredded_messageboards_on_closed
-    remove_column :thredded_messageboards, :closed
+    remove_index :thredded_messageboards, name: :index_thredded_messageboards_on_closed if index_exists? :thredded_messageboards, :closed
+    remove_column :thredded_messageboards, :closed if column_exists? :thredded_messageboards, :closed
     add_column :thredded_user_preferences, :followed_topic_emails, :boolean, default: true, null: false
     add_column :thredded_user_messageboard_preferences, :followed_topic_emails, :boolean, default: true, null: false
     rename_column :thredded_user_preferences, :notify_on_mention, :follow_topics_on_mention
@@ -24,11 +24,11 @@ class UpgradeV07ToV08 < Thredded::BaseMigration
 
   def down
     change_column :thredded_messageboards, :name, :string, limit: 255
-    rename_column :thredded_user_messageboard_preferences, :follow_topics_on_mention, :notify_on_mention
-    rename_column :thredded_user_preferences, :follow_topics_on_mention, :notify_on_mention
-    remove_column :thredded_user_messageboard_preferences, :followed_topic_emails
-    remove_column :thredded_user_preferences, :followed_topic_emails
-    add_column :thredded_messageboards, :closed, :boolean, default: false, null: false
-    add_index :thredded_messageboards, :closed, name: :index_thredded_messageboards_on_closed
+    rename_column :thredded_user_messageboard_preferences, :follow_topics_on_mention, :notify_on_mention if column_exists? :thredded_user_messageboard_preferences, :follow_topics_on_mention
+    rename_column :thredded_user_preferences, :follow_topics_on_mention, :notify_on_mention if column_exists? :thredded_user_preferences, :follow_topics_on_mention
+    remove_column :thredded_user_messageboard_preferences, :followed_topic_emails if column_exists? :thredded_user_messageboard_preferences, :followed_topic_emails
+    remove_column :thredded_user_preferences, :followed_topic_emails if column_exists? :thredded_user_preferences, :followed_topic_emails
+    add_column :thredded_messageboards, :closed, :boolean, default: false, null: false if !column_exists? :thredded_messageboards, :closed
+    add_index :thredded_messageboards, :closed, name: :index_thredded_messageboards_on_closed if !index_exists? :thredded_messageboards, :closed
   end
 end

@@ -56,7 +56,7 @@
                               = t('.domain')
                               = t("domains.domain_names.#{ad.domain.name.downcase.reverse}") + ":"
                           %td.no-padding-bottom
-                            %b= t("domains.domain_identies.#{ad.domain.identity.strip.parameterize('_')}_#{ad.domain.name.downcase}")
+                            %b= t("domains.domain_identies.#{ad.domain.identity.strip.parameterize.underscore}_#{ad.domain.name.downcase}")
                         %td{ rowspan: 4 }
                           .domain-score.text-center
                             - unless @assessment.initial?(ad.domain.custom_assessment_setting_id)

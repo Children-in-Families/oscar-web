@@ -12,6 +12,8 @@ CIF.Common =
     @confirmOnCancelBotton()
     @iCheckClearOptionSelect()
     @printDiv()
+    $.fn.select2.defaults.set( "theme", "bootstrap");
+    $.fn.select2.defaults.set( "width", "100%");
 
   preventEditOnDatePicker: ->
     $('.date-picker').datepicker
