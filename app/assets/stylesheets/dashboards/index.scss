@@ -113,7 +113,7 @@ body[id="dashboards-index"] {
     }
   }
 
-  #select2-drop.drop {
+  .select2-dropdown.drop {
     height: 349px;
 
     .select2-results {
@@ -214,4 +214,14 @@ body[id="dashboards-index"] {
     }
   }
 
+  .select2-container .select2-container--open,
+  .select2-dropdown.select2-dropdown--below {
+    z-index: 9999;
+  }
+
+  .select2-results__option.select2-results__option--highlighted {
+    a {
+      color: white
+    }
+  }
 }

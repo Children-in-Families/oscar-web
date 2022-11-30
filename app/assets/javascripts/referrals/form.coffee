@@ -45,7 +45,7 @@ CIF.ReferralsNew = CIF.ReferralsCreate = CIF.ReferralsUpdate = CIF.ReferralsEdit
 
     $('#type-of-service select').select2
       width: '100%'
-      formatSelection: serviceFormatSelection
+      templateSelection: serviceFormatSelection
       escapeMarkup: (m) ->
         m
 
@@ -65,7 +65,7 @@ CIF.ReferralsNew = CIF.ReferralsCreate = CIF.ReferralsUpdate = CIF.ReferralsEdit
         html += "<tr>#{td}</tr>"
       html
 
-    $('#type-of-service select').on 'select2-open', (e) ->
+    $('#type-of-service select').on 'select2:open', (e) ->
       arr = []
       i = 0
       while i < $('#type-of-service').data('custom').length
@@ -83,7 +83,7 @@ CIF.ReferralsNew = CIF.ReferralsCreate = CIF.ReferralsUpdate = CIF.ReferralsEdit
       row = createRowElement(options, results)
 
       html = '<table class="table table-bordered" style="margin-top: 5px;margin-bottom: 0px;"><thead>' + th + '</thead><tbody>' + row + '</tbody></table>'
-      $('#select2-drop .select2-results').html $(html)
+      $('.select2-dropdown .select2-results').html $(html)
       # $('.select2-results').prepend "#{html}"
       return
 
@@ -91,7 +91,7 @@ CIF.ReferralsNew = CIF.ReferralsCreate = CIF.ReferralsUpdate = CIF.ReferralsEdit
       element.removeClass('has-error')
       element.find('.help-block').remove()
 
-    $('#type-of-service select').on 'select2-close', (e)->
+    $('#type-of-service select').on 'select2:close', (e)->
       uniqueArray = _.compact(_.uniq($(this).val()))
 
       if uniqueArray.length > 3
@@ -100,7 +100,7 @@ CIF.ReferralsNew = CIF.ReferralsCreate = CIF.ReferralsUpdate = CIF.ReferralsEdit
 
       return
 
-    $('#type-of-service select').on 'select2-removed', ->
+    $('#type-of-service select').on 'select2:unselect', ->
       uniqueArray = _.compact(_.uniq($(this).val()))
       if uniqueArray.length <= 3
         removeError($(this.parentElement))

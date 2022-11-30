@@ -56,7 +56,7 @@ class CIF.ClientAdvanceSearch
 
   filterSelectChange: ->
     self = @
-    $('.rule-filter-container select').on 'select2-close', ->
+    $('.rule-filter-container select').on 'select2:close', ->
       ruleParentId = $(@).closest("div[id^='builder_rule']").attr('id')
       setTimeout ( ->
         $("##{ruleParentId} .rule-operator-container select, .rule-value-container select").select2(width: 'resolve')
@@ -105,7 +105,7 @@ class CIF.ClientAdvanceSearch
         $("#{item} .rule-operator-container select, .rule-value-container select").select2(width: 'resolve')
     )
 
-    $('.csi-group select').select2(minimumResultsForSearch: -1).on 'select2-open', ->
+    $('.csi-group select').select2(minimumResultsForSearch: -1).on 'select2:open', ->
       selectWrapper = $(@).closest('.csi-group')
       if selectWrapper.offset().top > 840
         $('html, body').animate { scrollTop: selectWrapper.offset().top }, "fast"
@@ -129,7 +129,7 @@ class CIF.ClientAdvanceSearch
 
   initRuleOperatorSelect2: (rowBuilderRule) ->
     operatorSelect = $(rowBuilderRule).find('.rule-operator-container select')
-    $(operatorSelect).on 'select2-close', ->
+    $(operatorSelect).on 'select2:close', ->
       setTimeout ( ->
         $(rowBuilderRule).find('.rule-value-container select').select2(width: '180px')
       )
@@ -274,7 +274,7 @@ class CIF.ClientAdvanceSearch
 
   customFormSelectRemove: ->
     self = @
-    $('.main-report-builder .custom-form-wrapper select').on 'select2-removed', (element) ->
+    $('.main-report-builder .custom-form-wrapper select').on 'select2:unselect', (element) ->
       removeValue = element.choice.text
       formTitle   = removeValue.trim()
       formTitle   = self.formatSpecialCharacter("#{formTitle} Custom Form")
@@ -285,7 +285,7 @@ class CIF.ClientAdvanceSearch
 
       self.handleRemoveFilterBuilder(removeValue, self.CUSTOM_FORM_TRANSLATE)
 
-    $('#report-builder-wizard .custom-form-wrapper select').on 'select2-removed', (element) ->
+    $('#report-builder-wizard .custom-form-wrapper select').on 'select2:unselect', (element) ->
       removeValue = element.choice.text
       formTitle   = removeValue.trim()
       formTitle   = self.formatSpecialCharacter("#{formTitle} Custom Form")
@@ -299,7 +299,7 @@ class CIF.ClientAdvanceSearch
 
   assessmentSelectRemove: ->
     self = @
-    $('.main-report-builder .assessment-form-wrapper select').on 'select2-removed', (element) ->
+    $('.main-report-builder .assessment-form-wrapper select').on 'select2:unselect', (element) ->
       $.map self.assessmentSelected, (val, i) ->
         if parseInt(val) == parseInt(element.val) then self.assessmentSelected.splice(i, 1)
 
@@ -571,7 +571,7 @@ class CIF.ClientAdvanceSearch
         data:
           results: data
           text: 'tag'
-        formatSelection: (item) ->
+        templateSelection: (item) ->
           item.tag
         formatResult: (item) ->
           item.tag
@@ -600,21 +600,21 @@ class CIF.ClientAdvanceSearch
     select2Csi = '#builder_group_0 .rules-list .rule-container .rule-filter-container > select'
     wizardCsi  = '#report-builder-wizard-modal .rules-list .rule-container .rule-filter-container > select'
 
-    $(document).on 'select2-open', select2Csi, (e)->
+    $(document).on 'select2:open', select2Csi, (e)->
       elements = $('.select2-results .select2-results-dept-0')
       $.each elements, (index, item) ->
         if item.firstElementChild.textContent == customCsiGroupTranslate
           $(item).hide()
 
-    $(document).on 'select2-open', wizardCsi, (e)->
+    $(document).on 'select2:open', wizardCsi, (e)->
       elements = $('.select2-results .select2-results-dept-0')
       $.each elements, (index, item) ->
         if item.firstElementChild.textContent == customCsiGroupTranslate
           $(item).hide()
 
-    $(document).on 'select2-open', select2Csi, (e)->
+    $(document).on 'select2:open', select2Csi, (e)->
       selectCsiGroup = '.csi-group .rules-list .rule-container:nth-child(2) .rule-filter-container > select'
-      $(document).on 'select2-open', selectCsiGroup, (e)->
+      $(document).on 'select2:open', selectCsiGroup, (e)->
         elements = $('.select2-results .select2-results-dept-0')
         $.each elements, (index, item) ->
           if item.firstElementChild.textContent == customCsiGroupTranslate
@@ -631,7 +631,7 @@ class CIF.ClientAdvanceSearch
       setTimeout (->
         $(wizardOperator).select2(width: 'resolve')
       ),
-    $(document).on 'select2-open', wizardOperator, (e)->
+    $(document).on 'select2:open', wizardOperator, (e)->
       elements = $('.select2-results .select2-results-dept-0')
       $.each elements, (index, item) ->
         if item.textContent.match(/has.*change|average/g)
@@ -646,23 +646,23 @@ class CIF.ClientAdvanceSearch
     customCsiDomainScoresTranslate = $('#hidden_custom_csi_domain_scores').val()
 
     select2Csi = '.csi-group .rules-list .rule-container:nth-child(1) .rule-filter-container > select'
-    $(document).on 'select2-open', select2Csi, (e)->
+    $(document).on 'select2:open', select2Csi, (e)->
       elements = $('.select2-results .select2-results-dept-0')
       handleCsiOption(elements, "#{csiDomainScoresTranslate}-#{customCsiDomainScoresTranslate}")
 
     select2Csi = '.csi-group .rules-list .rule-container:nth-child(2) .rule-filter-container > select'
-    $(document).on 'select2-open', select2Csi, (e)->
+    $(document).on 'select2:open', select2Csi, (e)->
       elements = $('.select2-results .select2-results-dept-0')
       handleCsiOption(elements, customCsiGroupTranslate, 'second-child')
 
     select2Csi = '.csi-group .rules-list .rule-container:nth-child(3) .rule-filter-container > select'
-    $(document).on 'select2-open', select2Csi, (e)->
+    $(document).on 'select2:open', select2Csi, (e)->
       elements = $('.select2-results .select2-results-dept-0')
       handleCsiOption(elements, customCsiGroupTranslate, 'third-child')
 
   handleAllDomainOperatorOpen: ->
     select2Csi = '.csi-group .rules-list .rule-container:nth-child(1) .rule-operator-container > select'
-    $(document).on 'select2-open', select2Csi, (e)->
+    $(document).on 'select2:open', select2Csi, (e)->
       group = window.customGroup[$(@).closest('.csi-group').attr('id')]
       if $("##{group.id} option[value='all_domains']:selected").length > 0 || $("##{group.id} option[value='all_custom_domains']:selected").length > 0
         elements = $('.select2-results .select2-results-dept-0')
@@ -707,7 +707,7 @@ class CIF.ClientAdvanceSearch
 
   hideAverageFromIndividualDomainScore: ->
     select2Operator = '.csi-group .rules-list .rule-container:nth-child(1) .rule-operator-container > select'
-    $(document).on 'select2-open', select2Operator, (e)->
+    $(document).on 'select2:open', select2Operator, (e)->
       elements = $('.select2-results .select2-results-dept-0')
       if $(this.parentElement.parentElement).find('.rule-filter-container').find('option[value="all_domains"]:selected').length == 0 and $(this.parentElement.parentElement).find('.rule-filter-container').find('option[value="all_custom_domains"]:selected').length == 0
         $.each elements, (index, item) ->
@@ -721,7 +721,7 @@ class CIF.ClientAdvanceSearch
   handleSelect2RemoveProgram: ->
     self = @
     programStreamKeyword = ['Enrollment', 'Tracking', 'Exit Program']
-    $('.main-report-builder .program-stream-select').on 'select2-removed', (element) ->
+    $('.main-report-builder .program-stream-select').on 'select2:unselect', (element) ->
       programName = element.choice.text
       self.removeCheckboxColumnPickers(programStreamKeyword, programName, self)
 
@@ -735,11 +735,11 @@ class CIF.ClientAdvanceSearch
         programStreamAssociation = $('.main-report-builder .program-association')
         $(programStreamAssociation).find('.i-checks').iCheck('uncheck')
         $(programStreamAssociation).hide()
-      
+
       if self.programSelected.length == 0
         self.removeActiveClientProgramOption()
 
-    $('#report-builder-wizard .program-stream-select').on 'select2-removed', (element) ->
+    $('#report-builder-wizard .program-stream-select').on 'select2:unselect', (element) ->
       programName = element.choice.text
       self.removeCheckboxColumnPickers(programStreamKeyword, programName, self)
 
@@ -975,7 +975,7 @@ class CIF.ClientAdvanceSearch
     if obj != undefined
       rowBuilderRule = obj.$el[0]
       ruleFiltersSelect = $(rowBuilderRule).find('.rule-filter-container select')
-      $(ruleFiltersSelect).on 'select2-close', ->
+      $(ruleFiltersSelect).on 'select2:close', ->
         ruleParentId = $(@).closest("div[id^='builder_rule']").attr('id')
         setTimeout ( ->
           $("##{ruleParentId} .rule-operator-container select, .rule-value-container select").select2(width: 'resolve')
@@ -993,7 +993,7 @@ class CIF.ClientAdvanceSearch
 
   ######################################################################################################################
   filterSelecting: ->
-    $(document).on 'select2-open', '.rule-value-container input.form-control', (e)->
+    $(document).on 'select2:open', '.rule-value-container input.form-control', (e)->
       ruleParentElement = $(this.parentElement.parentElement)
       filterValue       = ruleParentElement.find('.rule-filter-container').find('option[value^="domainscore"]:selected')
       allDomainFilter   = ruleParentElement.find('.rule-filter-container').find('option[value="all_domains"]:selected')

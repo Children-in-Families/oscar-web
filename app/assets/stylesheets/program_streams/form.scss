@@ -1,23 +1,32 @@
-body[id='program_streams-new'], body[id='program_streams-edit'],
-body[id='program_streams-update'], body[id='program_streams-create'] {
+body[id='program_streams-new'],
+body[id='program_streams-edit'],
+body[id='program_streams-update'],
+body[id='program_streams-create'] {
 
-  .wizard > .content > .body {
-    #enrollment, #trackings, #exit-program {
+  .wizard>.content>.body {
+
+    #enrollment,
+    #trackings,
+    #exit-program {
       position: relative;
+
       input[type='radio'] {
         display: inline-block;
       }
     }
   }
-  .wizard > .actions a[href="#finish"], .wizard > .actions a[href="#finish"]:hover, .wizard > .actions a[href="#finish"]:active {
-      background: #1ab394;
+
+  .wizard>.actions a[href="#finish"],
+  .wizard>.actions a[href="#finish"]:hover,
+  .wizard>.actions a[href="#finish"]:active {
+    background: #1ab394;
   }
 
-  .wizard > .steps > ul > li {
+  .wizard>.steps>ul>li {
     width: 19.9%;
   }
 
-  .wizard > .steps > ul > li:nth-child(2) {
+  .wizard>.steps>ul>li:nth-child(2) {
     width: 20.4%;
   }
 
@@ -36,6 +45,7 @@ body[id='program_streams-update'], body[id='program_streams-create'] {
         border-color: #1ab394;
         color: #FFFFFF;
       }
+
       button {
         margin-right: 5px;
       }
@@ -55,9 +65,12 @@ body[id='program_streams-update'], body[id='program_streams-create'] {
 
     .rule-value-container {
       border-left: none;
-      select, input {
+
+      select,
+      input {
         width: 180px;
       }
+
       input.form-control {
         padding: 6px 12px;
         display: inline-block;
@@ -103,6 +116,7 @@ body[id='program_streams-update'], body[id='program_streams-create'] {
   }
 
   ul li {
+
     input.error,
     select.error,
     textarea.error {
@@ -126,27 +140,35 @@ body[id='program_streams-update'], body[id='program_streams-create'] {
 
   #width-modal {
     width: 80%;
-    th.form-title,  td.form-title {
+
+    th.form-title,
+    td.form-title {
       width: 40% !important;
     }
 
-    th.organization, td.organization {
+    th.organization,
+    td.organization {
       width: 25% !important;
     }
 
-    th.entity-type,  td.entity-type {
+    th.entity-type,
+    td.entity-type {
       width: 20% !important;
     }
 
-    th.copy, td.copy  {
+    th.copy,
+    td.copy {
       width: 15% !important;
     }
 
-    table.custom-field-table, .dataTables_scrollHeadInner, .dataTables_scrollHead, .dataTables_scrollBody {
+    table.custom-field-table,
+    .dataTables_scrollHeadInner,
+    .dataTables_scrollHead,
+    .dataTables_scrollBody {
       width: 100% !important;
     }
 
-    .dataTables_scrollHeadInner{
+    .dataTables_scrollHeadInner {
       padding-right: 0 !important;
     }
 
@@ -158,6 +180,7 @@ body[id='program_streams-update'], body[id='program_streams-create'] {
       }
     }
   }
+
   .margin-top-datatable {
     margin-top: 10px;
   }
@@ -165,6 +188,7 @@ body[id='program_streams-update'], body[id='program_streams-create'] {
   .field-actions a.btn.toggle-form {
     margin-left: 0;
   }
+
   .cb-wrap {
     // width: 340px !important;
   }
@@ -176,14 +200,16 @@ body[id='program_streams-update'], body[id='program_streams-create'] {
     }
   }
 
-  #select2-drop {
+  .select2-dropdown {
     height: 349px;
+
     .select2-results {
       max-height: 340px;
       height: 374px;
       overflow-x: scroll;
       overflow-y: scroll;
     }
+
     .select2-results table tbody tr td {
       cursor: pointer;
     }

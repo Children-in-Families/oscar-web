@@ -847,7 +847,7 @@ CIF.ClientsIndex = do ->
               data:
                 results: _selectOptionData()
                 text: 'tag'
-              formatSelection: (item) ->
+              templateSelection: (item) ->
                 item.tag
               formatResult: (item) ->
                 item.tag
@@ -862,7 +862,7 @@ CIF.ClientsIndex = do ->
           data:
             results: _selectOptionData()
             text: 'tag'
-          formatSelection: (item) ->
+          templateSelection: (item) ->
             item.tag
           formatResult: (item) ->
             item.tag

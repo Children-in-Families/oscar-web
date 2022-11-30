@@ -1,6 +1,5 @@
 // FRAMEWORK
 //= require jquery
-//= require jquery_ujs
 //= require jquery-ui
 //= require bootstrap-sprockets
 //= require jquery.steps.min
@@ -14,6 +13,7 @@
 //= require dataTables/jszip.min
 //= require thredded
 //= require select2
+//= require select2_locale_km.js
 //= require editable/bootstrap-editable
 //= require editable/rails
 //= require jQuery.print

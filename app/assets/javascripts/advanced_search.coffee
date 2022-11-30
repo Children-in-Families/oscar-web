@@ -39,7 +39,7 @@ class CIF.AdvancedSearch
 
   filterSelectChange: ->
     self = @
-    $('.rule-filter-container select.form-control').on 'select2-close', ->
+    $('.rule-filter-container select.form-control').on 'select2:close', ->
       ruleParentId = $(@).closest("div[id^='builder_rule']").attr('id')
       setTimeout ( ->
         $("##{ruleParentId} .rule-operator-container select.form-control, .rule-value-container select.form-control").select2(width: 'resolve')
@@ -92,7 +92,7 @@ class CIF.AdvancedSearch
         $("#{item} .rule-operator-container select, .rule-value-container select").select2(width: 'resolve')
     )
 
-    $('.csi-group select').select2(minimumResultsForSearch: -1).on 'select2-open', ->
+    $('.csi-group select').select2(minimumResultsForSearch: -1).on 'select2:open', ->
       selectWrapper = $(@).closest('.csi-group')
       if selectWrapper.offset().top > 840
         $('html, body').animate { scrollTop: selectWrapper.offset().top }, "fast"
@@ -112,13 +112,13 @@ class CIF.AdvancedSearch
 
   initRuleOperatorSelect2: (rowBuilderRule) ->
     operatorSelect = $(rowBuilderRule).find('.rule-filter-container select.form-control')
-    $(document).on 'select2-close', operatorSelect, ->
+    $(document).on 'select2:close', operatorSelect, ->
       setTimeout ( ->
         $(rowBuilderRule).find('.rule-operator-container select.form-control').select2(width: '180px')
       )
 
     operatorSelect = $(rowBuilderRule).find('.rule-operator-container select.form-control')
-    $(operatorSelect).on 'select2-close', ->
+    $(operatorSelect).on 'select2:close', ->
       setTimeout ( ->
         $(rowBuilderRule).find('.rule-value-container select.form-control').select2(width: '180px')
       )
@@ -233,7 +233,7 @@ class CIF.AdvancedSearch
 
   customFormSelectRemove: ->
     self = @
-    $('.main-report-builder .custom-form-wrapper select').on 'select2-removed', (element) ->
+    $('.main-report-builder .custom-form-wrapper select').on 'select2:unselect', (element) ->
       removeValue = element.choice.text
       formTitle   = removeValue.trim()
       formTitle   = self.formatSpecialCharacter("#{formTitle} Custom Form")
@@ -262,7 +262,7 @@ class CIF.AdvancedSearch
     if obj != undefined
       rowBuilderRule = obj.$el[0]
       ruleFiltersSelect = $(rowBuilderRule).find('.rule-filter-container select')
-      $(ruleFiltersSelect).on 'select2-close', ->
+      $(ruleFiltersSelect).on 'select2:close', ->
         ruleParentId = $(@).closest("div[id^='builder_rule']").attr('id')
         setTimeout ( ->
           $("##{ruleParentId} .rule-operator-container select, .rule-value-container select").select2(width: 'resolve')

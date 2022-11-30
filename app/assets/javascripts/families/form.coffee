@@ -149,7 +149,7 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
   _initSelect2 = ->
     $('select').select2
       allowClear: true
-    .on 'select2-opening', ->
+    .on 'select2:opening', ->
       if $('#family-wizard-form-p-1:visible').length > 0
         selectedValues = $.map($('select[id*=\'_client_id\']'), (element, index) ->
           $(element).val()

@@ -45,7 +45,7 @@ CIF.DashboardsIndex = do ->
       classNames = this.className.split(' ')
       saveBtnClass = ".save-" + classNames[2]
       $(saveBtnClass).removeAttr 'disabled'
-    $('.referral_source_ancestry .select').on 'select2-removed', (e) ->
+    $('.referral_source_ancestry .select').on 'select2:unselect', (e) ->
       classNames = this.className.split(' ')
       saveBtnClass = ".save-" + classNames[2]
       $(saveBtnClass).attr('disabled', 'disabled')
@@ -216,8 +216,8 @@ CIF.DashboardsIndex = do ->
         html += "<tr>#{td}</tr>"
       html
 
-    $('.type-of-service select').on 'select2-open', (e) ->
-      $('#select2-drop').addClass('drop')
+    $('.type-of-service select').on 'select2:open', (e) ->
+      $('.select2-dropdown').addClass('drop')
       arr = []
       i = 0
       while i < $('.type-of-service').data('custom').length
@@ -235,7 +235,7 @@ CIF.DashboardsIndex = do ->
       row = createRowElement(options, results, @id)
 
       html = '<table class="table table-bordered" style="margin-top: 5px;margin-bottom: 0px;"><thead>' + th + '</thead><tbody>' + row + '</tbody></table>'
-      $('#select2-drop .select2-results').html $(html)
+      $('.select2-dropdown .select2-results').html $(html)
       # $('.select2-results').prepend "#{html}"
       return
 
@@ -243,7 +243,7 @@ CIF.DashboardsIndex = do ->
       element.removeClass('has-error')
       element.find('.help-block').remove()
 
-    $('.type-of-service select').on 'select2-close', (e)->
+    $('.type-of-service select').on 'select2:close', (e)->
       uniqueArray = _.compact(_.uniq($(this).val()))
       if uniqueArray.length > 0
         removeError($(this.parentElement))
@@ -256,7 +256,7 @@ CIF.DashboardsIndex = do ->
 
       return
 
-    $('.type-of-service select').on 'select2-removed', ->
+    $('.type-of-service select').on 'select2:unselect', ->
       uniqueArray = _.compact(_.uniq($(this).val()))
       if uniqueArray.length <= 3
         removeError($(this.parentElement))
@@ -288,11 +288,11 @@ CIF.DashboardsIndex = do ->
         $("##{this.id} .program_stream_services").addClass('has-error')
 
   _handleSearchClient = ->
-    $('#client-search.modal').on 'shown.bs.modal', (e) ->
-      searchForClient = $("#search_for_client_format-input").val()
-      searchingClient = $("#searching_format-input").val()
-      notFoundClient = $("#not_found_format-input").val()
-      enterCharacters = $("#please_enter_more_char_format-input").val()
+    $('#client-search.modal').on('shown.bs.modal', (e) ->
+      searchForClient = $("#search_for_client").text()
+      searchingClient = $("#searching").text()
+      notFoundClient = $("#not_found").text()
+      enterCharacters = $("#please_enter_more_char").text()
       $('#search-client-select2').select2(
         placeholder: searchForClient
         minimumInputLength: 1
@@ -302,34 +302,48 @@ CIF.DashboardsIndex = do ->
         ajax:
           url: '/api/clients/search_client'
           dataType: 'json'
-          quietMillis: 250
-          data: (term, page) ->
-            { q: term }
-          results: (data, page) ->
+          delay: 250,
+          data: (params, page) ->
+            { q: params.term }
+          processResults: (data, page) ->
             { results: data }
           cache: true
-        initSelection: (element, callback) ->
-            id = $(element).select2('data', null).trigger("change")
-            return
-        formatResult: (client) ->
+        escapeMarkup: (m) ->
+          m
+        templateResult: (client) ->
+          return unless client.id
+
           en_full_name = "#{client.given_name} #{client.family_name}"
           local_full_name = "#{client.local_given_name} #{client.local_family_name}"
           markup = "<a href='clients/#{client.slug}'>#{en_full_name} | #{local_full_name} (#{client.id})</a>"
-
           return markup
-        formatSelection: (client) ->
-          win = window.open("clients/#{client.slug}", '_blank')
-          $('#search-client-select2').trigger("change")
-      ).on 'select2-blur select2-focus', ->
-        $(@).trigger("change")
+        templateSelection: (client, element) ->
+          return unless client.slug
+
+          window.open("clients/#{client.slug}", '_blank')
+      ).on 'select2:close', ->
+        $('#client-search.modal').modal('hide')
         return
 
-      $(window).focus(->
-        $('#search-client-select2').trigger("change")
-        return
-      ).blur ->
-        $('#s2id_search-client-select2 .select2-chosen').attr('style', 'color: #999999').text(searchForClient) if $('#s2id_search-client-select2 .select2-chosen').val().length == 0
-        return
+      _searchCllientPlaceholder(searchForClient)
+    ).on('hide.bs.modal', ->
+      $('#search-client-select2').off('select2:close')
+      # $('#search-client-select2').select2('destroy')
+      return
+    )
+
+    $(window).focus(->
+      # Unbind the event
+      $('#search-client-select2').off('select2:close')
+      # $('#search-client-select2').select2('destroy')
+      return
+    ).blur ->
+      _searchCllientPlaceholder(searchForClient) if $('#select2-search-client-select2-container .select2-selection__placeholder').text().length == 0
+      return
+
+  _searchCllientPlaceholder = (placeholder_text)->
+
+    $('#select2-search-client-select2-container .select2-selection__placeholder').attr('style', 'color: #999999').text(placeholder_text)
 
   _handleMultiFormAssessmentCaseNote = ->
     $('#client-select-assessment').on('select2-selected', (e) ->
@@ -346,7 +360,7 @@ CIF.DashboardsIndex = do ->
 
       $("#assessment-tab-dropdown").removeClass('disabled')
       $(this).val('')
-    ).on 'select2-removed', () ->
+    ).on 'select2:unselect', () ->
       $("ul#assessment-tab-dropdown a").attr('href', "javascript:void(0)")
       $("ul#assessment-tab-dropdown a").addClass('disabled')
 
@@ -362,7 +376,7 @@ CIF.DashboardsIndex = do ->
           url = $(element).attr('href').replace(/\/\//, "/#{idClient}/")
           $(element).attr('href', url)
       $(this).val('')
-    ).on 'select2-removed', () ->
+    ).on 'select2:unselect', () ->
       $("ul#casenote-tab-dropdown a").attr('href', "javascript:void(0)")
       $("ul#casenote-tab-dropdown a").addClass('disabled')
 

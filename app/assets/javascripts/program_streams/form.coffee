@@ -9,7 +9,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
   DATA_TABLE_ID = ''
   @formBuilder = []
   @window.getServiceData = (td)->
-    data = {id: td.children[0].value, text: td.children[0].text }
+    data = { id: td.children[0].value, text: td.children[0].text }
 
     newOption = new Option(data.text, data.id, true, true)
     # Append it to the select
@@ -127,7 +127,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     $(programExclusive).on 'select2-selecting', (select)->
       $(mutualDependence).find("option[value=#{select.val}]").attr('disabled', true)
 
-    $(programExclusive).on 'select2-removed', (select)->
+    $(programExclusive).on 'select2:unselect', (select)->
       $(mutualDependence).find("option[value=#{select.val}]").removeAttr('disabled')
 
   _selectOptonMutualDependence = (programExclusive, mutualDependence) ->
@@ -138,7 +138,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     $(mutualDependence).on 'select2-selecting', (select)->
       $(programExclusive).find("option[value=#{select.val}]").attr('disabled', true)
 
-    $(mutualDependence).on 'select2-removed', (select)->
+    $(mutualDependence).on 'select2:unselect', (select)->
       $(programExclusive).find("option[value=#{select.val}]").removeAttr('disabled')
 
   _handleSelectTab = ->
@@ -697,7 +697,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
   _handleRemoveFrequency = ->
     frequencies = $('.program_stream_trackings_frequency select')
-    $(frequencies).on 'select2-removed', (element) ->
+    $(frequencies).on 'select2:unselect', (element) ->
       select          = element.currentTarget
       nestedField     = $(select).parents('.nested-fields')
       timeOfFrequency = $(nestedField).find('.program_stream_trackings_time_of_frequency input')
@@ -836,7 +836,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
       $('#type-of-service select').select2
         width: '100%'
-        formatSelection: serviceFormatSelection
+        templateSelection: serviceFormatSelection
         escapeMarkup: (m) ->
           m
 
@@ -856,7 +856,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           html += "<tr>#{td}</tr>"
         html
 
-      $('#type-of-service select').on 'select2-open', (e) ->
+      $('#type-of-service select').on 'select2:open', (e) ->
         arr = []
         i = 0
         while i < $('#type-of-service').data('custom').length
@@ -874,7 +874,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         row = createRowElement(options, results)
 
         html = '<table class="table table-bordered" style="margin-top: 5px;margin-bottom: 0px;"><thead>' + th + '</thead><tbody>' + row + '</tbody></table>'
-        $('#select2-drop .select2-results').html $(html)
+        $('.select2-dropdown .select2-results').html $(html)
         # $('.select2-results').prepend "#{html}"
         return
 
@@ -882,7 +882,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         element.removeClass('has-error')
         element.find('.help-block').remove()
 
-      $('#type-of-service select').on 'select2-close', (e)->
+      $('#type-of-service select').on 'select2:close', (e)->
         uniqueArray = _.compact(_.uniq($(this).val()))
 
         if uniqueArray.length > 3
@@ -891,7 +891,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
         return
 
-      $('#type-of-service select').on 'select2-removed', ->
+      $('#type-of-service select').on 'select2:unselect', ->
         uniqueArray = _.compact(_.uniq($(this).val()))
         if uniqueArray.length <= 3
           removeError($(this.parentElement))

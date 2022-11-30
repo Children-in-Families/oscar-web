@@ -491,7 +491,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
     $('#client_family_ids, #popup_client_family_ids').on "change", ->
       $('#client_current_family_id').val(@.value)
 
-    $('#client_family_ids').on 'select2-open', (e) ->
+    $('#client_family_ids').on 'select2:open', (e) ->
       if $(this).select2('val').length > 0
         e.preventDefault()
 
@@ -499,7 +499,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       maximumSelectionSize: 1
       width: 'style'
 
-    $('#client-confirmation #popup_client_family_ids').on 'select2-open', (e) ->
+    $('#client-confirmation #popup_client_family_ids').on 'select2:open', (e) ->
       if $(this).select2('val').length > 0
         e.preventDefault()
 
