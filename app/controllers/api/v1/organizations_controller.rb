@@ -13,7 +13,7 @@ module Api
       def clients
         sql = ''
         bulk_clients = []
-        external_system_name = ExternalSystem.find_by(token: @current_user.email)&.name || ''
+        external_system_id, external_system_name = ExternalSystem.fetch_external_system_name(@current_user.email)
         date_time_param = Time.parse(params[:since_date]) if params[:since_date].present?
         end_date_param = Time.parse(params[:end_date]) if params[:end_date].present?
         Organization.only_integrated.pluck(:short_name).map do |short_name|
@@ -74,8 +74,8 @@ module Api
           Organization.switch_to short_name || clients_params[:organization_name]
           client = Client.find_by(global_id: clients_params['global_id'])
           attributes = Client.get_client_attribute(clients_params, client.referral_source_category_id) if client
-          if client && client.update_attributes(attributes)
-            render json: { external_id: client.external_id, message: 'Record saved.' }
+          if client && client.update_attributes(attributes.except(:global_id))
+            check_referral_status(client, clients_params['referral_status'])
           else
             render json: { external_id: clients_params[:external_id], message: client.errors }, status: :unprocessable_entity
           end
@@ -100,15 +100,16 @@ module Api
       def update_link
         if params[:data].present?
           data       = params[:data]
-          global_ids = data.map(&:values).map(&:last)
-          data_hash  = data.map{ |pay_load| [pay_load[:global_id], [pay_load[:external_id], pay_load[:external_id_display]] ] }.to_h
+          global_ids = data.map{|hash| hash['global_id'] }
+          data_hash  = data.map{ |pay_load| [pay_load['global_id'], [pay_load['external_id'], pay_load['external_id_display']] ] }.to_h
           client_organizations = GlobalIdentityOrganization.where(global_id: global_ids).pluck(:global_id, :organization_id, :client_id).group_by(&:second)
+
           client_organizations.each do |ngo_id, client_ngos|
             ngo = Organization.find(ngo_id)
             Client.delay(queue: :priority).update_external_ids(ngo.short_name, client_ngos.map(&:last), data_hash)
           end
 
-          Apartment::Tenant.switch!('public')
+          Apartment::Tenant.switch('public')
           render json: { message: 'Record saved.' }, root: :data
         else
           render json: { error: client.errors, message: 'Record error. Please check OSCaR logs for details.' }, root: :data, status: :unprocessable_entity
@@ -144,6 +145,34 @@ module Api
         render json: { similar_fields: result ? 'Record was Found' : 'Record was not found' }
       end
 
+      def update_referral_status
+        data       = params[:data]
+        data.each do |pay_load|
+          global_id, referral_id, status = [pay_load['client_global_id'], pay_load['referral_id'], pay_load['referral_status']]
+
+          global_identity_organization = GlobalIdentityOrganization.find_by(global_id: global_id)
+          if global_identity_organization
+            ngo = Organization.find(global_identity_organization.organization_id)
+          else
+            raise ActiveRecord::RecordNotFound
+          end
+          Apartment::Tenant.switch! ngo.short_name
+          referral = Referral.find(referral_id)
+          if referral
+            external_system_id, external_system_name = ExternalSystem.fetch_external_system_name(params['uid'])
+            next if referral.update_attributes(referral_status: status)
+            raise ActiveRecord::RecordNotFound, (referral.errors.full_messages << "Referral status must be one of ['Accepted', 'Exited', 'Referred'].").join(". ")
+          else
+            raise ActiveRecord::RecordNotFound
+          end
+        end
+
+        Apartment::Tenant.switch!('public')
+        render json: { message: 'Record saved.' }, root: :data
+      rescue ActiveRecord::RecordNotFound => e
+        render json: { error: e.message, message: 'Record error. Please check OSCaR logs for details.' }, root: :data, status: :unprocessable_entity
+      end
+
       private
 
       def organization_params
@@ -161,7 +190,7 @@ module Api
           :address_current_village_code, :reason_for_referral, :reason_for_exiting,
           :organization_id, :organization_name, :external_case_worker_name,
           :external_case_worker_id, :external_case_worker_mobile, :external_case_worker_email,
-          :level_of_risk, :is_referred,
+          :level_of_risk, :is_referred, :referral_status,
           services: [:uuid, :name]
         )
       end
@@ -172,9 +201,7 @@ module Api
         referral_attributes = Referral.get_referral_attribute(clients_params)
         referral = Referral.find_by(external_id: clients_params[:external_id])
         if referral.nil?
-          external_system = ExternalSystem.find_by(token: @current_user.email)
-          external_system_id = external_system&.id
-          external_system_name = external_system&.name
+          external_system_id, external_system_name = ExternalSystem.fetch_external_system_name(@current_user.email)
           referral = Referral.new(referral_attributes.merge(ngo_name: external_system_name, referred_from: external_system_name))
           if referral.save
             global_identity = GlobalIdentity.find_by(ulid: referral_attributes[:client_global_id])
@@ -188,14 +215,16 @@ module Api
             render json: { external_id: clients_params[:external_id], message: referral.errors }, status: :unprocessable_entity
           end
         else
-          render json: { external_id: clients_params[:external_id], message: 'Record saved.' }
+          message = {}
+          message['global_id'] = "global_id must exist." if clients_params['global_id'].blank?
+          message['referral_status'] = "referral_status must be present." if clients_params['global_id'].blank?
+
+          render json: { external_id: clients_params[:external_id], message: 'Record was found.', errors: message }, status: :unprocessable_entity
         end
       end
 
       def create_referral
-        external_system = ExternalSystem.find_by(token: @current_user.email)
-        external_system_id = external_system&.id
-        external_system_name = external_system&.name
+        external_system_id, external_system_name = ExternalSystem.fetch_external_system_name(@current_user.email)
         referral_attributes = Referral.get_referral_attribute(clients_params)
         client = Client.find_by(global_id: referral_attributes[:client_global_id])
 
@@ -209,7 +238,7 @@ module Api
           )
         )
 
-        if referral.save
+        if ['Accepted', 'Exited', 'Referred'].include?(clients_params['referral_status']) && referral.save
           global_identity = GlobalIdentity.find_by(ulid: referral_attributes[:client_global_id])
           global_identity.external_system_global_identities.find_or_create_by(
             external_system_id: external_system_id,
@@ -231,6 +260,7 @@ module Api
       end
 
       def get_sql_and_client_data(external_system_name, since_date)
+        conditional_sql = "(TRIM(CONCAT(clients.given_name, clients.local_given_name)) != '' AND TRIM(CONCAT(clients.family_name, clients.local_family_name)) != '') AND clients.gender != '' AND clients.date_of_birth IS NOT NULL"
         sql = "
                 SELECT clients.*, districts.code district_code, communes.code commune_code, villages.code village_code
                 FROM clients
@@ -238,22 +268,22 @@ module Api
                 LEFT OUTER JOIN districts ON districts.id = clients.district_id
                 LEFT OUTER JOIN communes ON communes.id = clients.commune_id
                 LEFT OUTER JOIN villages ON villages.id = clients.village_id
-
+                WHERE (#{conditional_sql})
               ".squish
         clients = []
         if params.dig(:since_date).present?
-          clients          = Client.referred_external(external_system_name).where('clients.created_at >= ? OR clients.updated_at >= ?', since_date, since_date).order('clients.updated_at DESC')
+          clients          = Client.referred_external(external_system_name).where("#{conditional_sql} AND (clients.created_at >= ? OR clients.updated_at >= ?)", since_date, since_date).order('clients.updated_at DESC')
           referred_clients = JSON.parse ActiveModel::ArraySerializer.new(clients.distinct.to_a, each_serializer: OrganizationClientSerializer, context: current_user).to_json
           if clients.present?
-            sql << " WHERE (DATE(clients.created_at) >= '#{since_date}' OR DATE(clients.updated_at) >= '#{since_date}') AND clients.id NOT IN (#{clients.ids.join(', ')}) ORDER BY clients.updated_at DESC"
+            sql << " AND (DATE(clients.created_at) >= '#{since_date}' OR DATE(clients.updated_at) >= '#{since_date}') AND clients.id NOT IN (#{clients.ids.join(', ')}) ORDER BY clients.updated_at DESC"
           else
-            sql << " WHERE (DATE(clients.created_at) >= '#{since_date}' OR DATE(clients.updated_at) >= '#{since_date}') ORDER BY clients.updated_at DESC"
+            sql << " AND (DATE(clients.created_at) >= '#{since_date}' OR DATE(clients.updated_at) >= '#{since_date}') ORDER BY clients.updated_at DESC"
           end
         else
-          clients          = Client.referred_external(external_system_name).order('clients.updated_at DESC')
+          clients          = Client.referred_external(external_system_name).where(conditional_sql).order('clients.updated_at DESC')
           referred_clients = JSON.parse ActiveModel::ArraySerializer.new(clients.distinct.to_a, each_serializer: OrganizationClientSerializer, context: current_user).to_json
           if clients.present?
-            sql << " WHERE clients.id NOT IN (#{clients.ids.join(', ')}) ORDER BY clients.updated_at DESC"
+            sql << " AND clients.id NOT IN (#{clients.ids.join(', ')}) ORDER BY clients.updated_at DESC"
           else
             sql << ' ORDER BY clients.updated_at DESC'
           end
@@ -269,20 +299,29 @@ module Api
                 LEFT OUTER JOIN districts ON districts.id = clients.district_id
                 LEFT OUTER JOIN communes ON communes.id = clients.commune_id
                 LEFT OUTER JOIN villages ON villages.id = clients.village_id
-
+                WHERE ((TRIM(CONCAT(clients.given_name, clients.local_given_name)) != '' AND TRIM(CONCAT(clients.family_name, clients.local_family_name)) != '') AND clients.gender != '' AND clients.date_of_birth IS NOT NULL) AND
               ".squish
         clients = []
 
-        sql << " WHERE clients.created_at BETWEEN '#{since_date}' AND '#{end_date}' ORDER BY clients.created_at asc"
+        sql << " clients.created_at BETWEEN '#{since_date}' AND '#{end_date}' ORDER BY clients.created_at asc"
         clients = Client.find_by_sql(sql)
         JSON.parse ActiveModel::ArraySerializer.new(clients.to_a.uniq, each_serializer: ClientShareExternalSerializer, context: current_user).to_json
       end
 
       def create_second_referral
-        external_system = ExternalSystem.find_by(token: @current_user.email)
-        external_system_id = external_system&.id
-        external_system_name = external_system&.name
+        external_system_id, external_system_name = ExternalSystem.fetch_external_system_name(@current_user.email)
         referral = Referral.new(referral_attributes.merge(referred_from: external_system_name))
+      end
+
+      def check_referral_status(client, status)
+        if ['Accepted', 'Exited', 'Referred'].include?(status)
+          external_system_id, external_system_name = ExternalSystem.fetch_external_system_name(@current_user.email)
+          client.referrals.received.get_external_systems(external_system_name).last&.update_referral_status(status)
+          client.referrals.delivered.get_external_systems(external_system_name).last&.update_referral_status(status)
+          render json: { external_id: client.external_id, message: 'Record saved.' }
+        else
+          render json: { external_id: client.external_id, message: "Referral status must be one of ['Accepted', 'Exited', 'Referred']." }, status: :unprocessable_entity
+        end
       end
 
     end

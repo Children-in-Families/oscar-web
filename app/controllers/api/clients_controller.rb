@@ -49,9 +49,9 @@ module Api
 
         client.referee_id = referee.id
         client.carer_id = carer.id
+        client.assign_global_id
         client_saved = client.save
       end
-
       if client_saved
         qtt_free_text_cases = params[:client_quantitative_free_text_cases]
 
@@ -314,7 +314,7 @@ module Api
         domain_scores = domains.ids.map { |domain_id| assessment_domain_hash.present? ? ["domain_#{domain_id}", assessment_domain_hash[domain_id]] : ["domain_#{domain_id}", ''] }
         total = 0
         assessment_domain_hash.each do |index, value|
-          total += value
+          total += value || 0
         end
 
         client_hash = { slug: assessment.client.slug,
@@ -339,7 +339,7 @@ module Api
       assessments = assessments.includes(:assessment_domains).order("#{sort_column} #{sort_direction}").references(:assessment_domains, :client)
 
       basic_rules  = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
-      @basic_rules  = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
+      @basic_rules  = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules || "{}").with_indifferent_access
 
       assessment_data = params[:length] != '-1' ? assessments.page(page).per(per_page) : assessments
     end

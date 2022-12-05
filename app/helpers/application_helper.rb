@@ -400,17 +400,24 @@ module ApplicationHelper
     }
   end
 
-  def referral_source_name(referral_source)
+  def referral_source_name(referral_source, client = nil)
     if I18n.locale == :km
-      referral_source.map{|ref| [ref.name, ref.id] }
+      values = referral_source.map{|ref| [ref.name, ref.id] }
     else
-      referral_source.map do |ref|
+      values = referral_source.map do |ref|
         if ref.name_en.blank?
           [ref.name, ref.id]
         else
           [ref.name_en, ref.id]
         end
       end
+    end
+
+    if client && client.external_id.present?
+      referral_source = ReferralSource.find_by(name: 'MoSVY External System')
+      values << [referral_source.name, referral_source.id]
+    else
+      values
     end
   end
 

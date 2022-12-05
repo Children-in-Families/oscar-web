@@ -59,6 +59,8 @@ module ClientsHelper
   end
 
   def xeditable? client = nil
+    return true if client.class.name != 'Client'
+
     (can?(:manage, client&.object) || can?(:edit, client&.object) || can?(:rud, client&.object)) ? true : false
   end
 
@@ -182,6 +184,7 @@ module ClientsHelper
 
   def label_translations(address_translation = {})
     labels = {
+      family_type: I18n.t('datagrid.columns.families.family_type'),
       legal_documents: I18n.t('clients.show.legal_documents'),
       passport_number: I18n.t('datagrid.columns.clients.passport_number'),
       national_id_number: I18n.t('datagrid.columns.clients.national_id_number'),
@@ -1373,20 +1376,6 @@ module ClientsHelper
         find_rules_index(rule[:rules], field)
       else
         rule[:field].strip == field
-      end
-    end
-  end
-
-  def referral_source_name(referral_source)
-    if I18n.locale == :km
-      referral_source.map{|ref| [ref.name, ref.id] }
-    else
-      referral_source.map do |ref|
-        if ref.name_en.blank?
-          [ref.name, ref.id]
-        else
-          [ref.name_en, ref.id]
-        end
       end
     end
   end

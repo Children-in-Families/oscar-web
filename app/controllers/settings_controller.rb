@@ -131,9 +131,10 @@ class SettingsController < AdminController
                                     :enable_hotline, :enable_client_form, :assessment_score_order, :disable_required_fields,
                                     :hide_family_case_management_tool, :hide_community, :case_conference_limit, :case_conference_frequency,
                                     :internal_referral_limit, :internal_referral_frequency, :case_note_edit_limit, :case_note_edit_frequency,
-                                    :tracking_form_edit_limit, :tracking_form_edit_frequency, :disabled_future_completion_date, :disabled_task_date_field,
-                                    :disabled_add_service_received, :custom_field_limit, :custom_field_frequency, :test_client, :required_case_note_note,
-                                    :hide_case_note_note, :cbdmat_one_off, :cbdmat_ongoing, :enabled_risk_assessment, :assessment_type_name,
+                                    :disabled_future_completion_date, :cbdmat_one_off, :cbdmat_ongoing,
+                                    :tracking_form_edit_limit, :tracking_form_edit_frequency, :disabled_add_service_received,
+                                    :custom_field_limit, :custom_field_frequency, :test_client, :disabled_task_date_field,
+                                    :required_case_note_note, :hide_case_note_note, :enabled_risk_assessment, :assessment_type_name,
                                     :level_of_risk_guidance,
                                     client_default_columns: [], family_default_columns: [], community_default_columns: [],
                                     partner_default_columns: [], user_default_columns: [], selected_domain_ids: [],
@@ -158,7 +159,7 @@ class SettingsController < AdminController
     filter_columns_not_used = [:has_date_of_birth, :quantitative_data, :quantitative_types, :all_domains, :domain_1a, :domain_1b, :domain_2a, :domain_2b, :domain_3a,
       :domain_3b, :domain_4a, :domain_4b, :domain_5a, :domain_5b, :domain_6a, :domain_6b, :assessments_due_to, :no_case_note, :overdue_task, :overdue_forms, :province_id, :birth_province_id, :commune, :house_number, :village, :street_number, :district]
     columns_name = filter_columns - filter_columns_not_used
-    columns = columns_name.map { |name| "#{name.to_s}_" }
+    columns = columns_name.map { |name| "#{name}_" }
     Domain.client_domians.order_by_identity.each do |domain|
       columns << "#{domain.convert_identity}_"
     end
@@ -185,7 +186,7 @@ class SettingsController < AdminController
   def community_default_columns
     columns = []
     sub_columns = %w(manage_ changelog_)
-    columns = community_grid_columns.map{ |k, _| "#{k}_" }
+    columns = community_grid_columns.map { |k, _| "#{k}_" }
     columns.push(sub_columns).flatten
   end
 

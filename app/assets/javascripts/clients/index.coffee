@@ -114,7 +114,7 @@ CIF.ClientsIndex = do ->
 
   _addDataTableToAssessmentScoreData = ->
     fileName = $('.assessment-domain-score').data('filename')
-    _handleAjaxRequestToAssessment("#csi-assessment-score", fileName)
+    _handleAjaxRequestToAssessment("#csi-assessment-score", fileName) if $("#csi-assessment-score").length
     _handleAjaxRequestToAssessment("#custom-assessment-score", fileName) if $("#custom-assessment-score").length
     $('.assessment-domain-score').on 'shown.bs.modal', (e) ->
       $($.fn.dataTable.tables(true)).DataTable().columns.adjust()
@@ -138,7 +138,10 @@ CIF.ClientsIndex = do ->
       processing: true
       serverSide: true
       sServerMethod: 'POST'
-      ajax: url
+      ajax:
+        url: url
+        error: (jqXHR, textStatus, errorThrown) ->
+          console.log("Datatable Ajax Error:", errorThrown)
       oLanguage: {
         sProcessing: "<i class='fa fa-spinner fa-pulse fa-2x' style='color: #1ab394; z-index: 9999;'></i>"
       }

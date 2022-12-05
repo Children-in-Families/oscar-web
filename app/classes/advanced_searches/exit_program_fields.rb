@@ -24,8 +24,6 @@ module AdvancedSearches
 
       results = text_fields + drop_list_fields + number_fields + date_picker_fields
 
-      results.sort_by { |f| f[:label].downcase }
-
       @exit_data_list.map{ |item|results.unshift AdvancedSearches::FilterTypes.date_picker_options(item.gsub('"', '&qoute;'), format_label(item), format_optgroup(item)) }
 
       results

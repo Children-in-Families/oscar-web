@@ -745,6 +745,7 @@ km:
       successfully_updated: ការប៉ាន់ប្រមាណត្រូវបានកែសម្រួលដោយជោគជ័យ
   at: នៅថ្ងៃ
   back: ត្រឡប់ក្រោយ
+  blank_field_warning: សូមចំណាំ! អ្នកមិនអាចបញ្ជូនអតិថិជនទៅប្រព័ន្ធខាងក្រៅបានទេ ប្រសិនបើឈ្មោះ ថ្ងៃខែឆ្នាំកំណើត ឬភេទរបស់អតិថិជននៅទទេ.
   calendars:
     index:
       sync_with_google: ភ្ជាប់ទៅប្រតិទិន Google
@@ -1530,7 +1531,9 @@ km:
   clients:
     attr: &LEGAL_DOC_ATTR
       add_service_received: បន្ថែមសេវាដែលបានទទួល
+      birth_cert: 'Birth Certificate'
       complain: ពាក្យបណ្ដឹង
+      cb_dmat: CB-DMAT
       detail_form_of_judicial_police: ទម្រង់លម្អិតសម្រាប់ការសម្ភាសកំណត់អត្តសញ្ញាណបឋមជនរងគ្រោះដោយអំពើជួញដូរមនុស្ស (នគរបាលយុត្តិធម៌)
       detail_form_of_mosavy_dosavy: ទម្រង់លម្អិតសម្រាប់ការសម្ភាសកំណត់អត្តសញ្ញាណបឋមជនរងគ្រោះដោយអំពើជួញដូរមនុស្ស (ក្រសួង ស.អ.យ/មន្ទីរ ស.អ.យ)
       dosavy: មន្ទីរ ស.អ.យ
@@ -1539,13 +1542,18 @@ km:
       form_indentification: ទម្រង់សម្ភាសន៍កំណត់អត្តសញ្ញាណជនរងគ្រោះដោយអំពើជួញដូរមនុស្ស
       indentification_doc: ឯកសារអត្តសញ្ញាណ
       labor_trafficking_legal_doc_option: ការជួញដូរពលកម្ម
+      legal_documents: ឯកសារច្បាប់
       legal_processing_doc: ឯកសារនិតិវិធីច្បាប់
       letter_from_immigration_police: លិខិតពីប៉ូលីសអន្តោប្រវេសន៍
+      local_consent: 'Legal consent'
       mosavy: ក្រសួង ស.អ.យ
       mosvy_number: លេខសំគាល់ ស.អ.យ
       msdhs: ក្រសួងអភិវឌ្ឍន៍សង្គមនិងសន្តិសុខ (ថៃ)
       ngo_partner: អង្គការក្រៅរដ្ឋាភិបាលជាដៃគូ
+      national_id: 'National ID'
+      other_legal_doc: 'Others'
       other_legal_doc_option: ផ្សេងៗ
+      police_interview: 'Police interview'
       referral_document: ឯកសារបញ្ជូន
       screening_interview_form: ទម្រង់សម្ភាសន៍បឋម
       sex_trafficking_legal_doc_option: ការជួញដូរផ្លូវភេទ
@@ -2304,10 +2312,9 @@ km:
     version:
       back: ត្រឡប់ក្រោយ
       modification_of: ប្រវត្ដិនៃកំណែ
-  created_by: បង្កើតដោយ
-  completed_by: បញ្ចប់នៅថ្ងៃ
+  completed_by: បញ្ចប់ដោយ
   completed_date: បញ្ចប់នៅថ្ងៃ
-  created_by: បង្កើត​ឡើង​ដោយ
+  created_by: បង្កើតឡើងដោយ
   created_on: បង្កើតឡើងនៅថ្ងៃ
   custom_field_properties:
     attachment:
@@ -4136,16 +4143,16 @@ km:
       case_histories: ប្រវត្តិករណី
       case_history: ប្រវត្តិគ្រួសារ
       case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
-      code: លេខសំគាល់គ្រួសារ
+      code: អត្តលេខគ្រួសារ
       community_ids: សហគមន៍/ក្រុម
-      contract_date: កាលបរិច្ឆេទនៃកិច្ចសន្យា
-      created_by: បង្កើតឡើងដោយ
+      contract_date: កាលបរិច្ឆេទកិច្ចសន្យាគ្រួសារ
+      created_by: បង្កើតដោយ
       created_date: កាលបរិច្ឆេទនៃការបង្កើត
       current_province: ខេត្ត
       date: កាលបរិច្ឆេទ
       date_of_birth: ថ្ងៃខែឆ្នាំកំណើត
       dependable_income: ប្រាក់ចំណូលទៀងទាត់
-      detail: ព័ត៌មានលំអិត
+      detail: ព័ត៌មានលម្អិត
       donor: ម្ចាស់ជំនួយ
       enrolled_program_streams: កម្មវិធីចម្បងរបស់គ្រួសារ
       exit_date: កាលបរិច្ឆេទការចាកចេញពីអង្គការ
@@ -4155,11 +4162,12 @@ km:
       female_children_count: ចំនួនក្មេងស្រី
       follow_up_date: កាលបរិច្ឆេទតាមដានដំបូង
       followed_up_by: បុគ្គលិកតាមដានករណី
+      gender: ភេទ
       general_info: ពត៌មានគ្រួសារ
       guardian: អាណាព្យាបាល
       house: ផ្ទះលេខ
       household_income: ប្រាក់ចំណូលគ្រួសារប្រចាំខែ
-      id: លេខសំគាល់
+      id: អត្តលេខគ្រួសារ
       id_poor: កំរិតប័ណ្ឌក្រីក្រ
       initial_referral_date: កាលបរិចេ្ឆទនៃការបញ្ជូនដំបូង
       male_adult_count: ចំនួនមនុស្សប្រុសពេញវ័យ
@@ -4181,8 +4189,8 @@ km:
       referral_forms: ទម្រង់បញ្ជូន
       referral_source: ប្រភពនៃការបញ្ជូន
       referral_source_category: ប្រភេទឈ្មោះប្រភពនៃការបញ្ជូន
-      referred_from: ប្រភពនៃការបញ្ជូន
-      referred_to: បញ្ជូនទៅអង្គការដទៃ
+      referred_from: បញ្ជូនមកពីអង្គការដៃគូ
+      referred_to: បញ្ជូនទៅអង្គការដៃគូ
       reject: មិនទទួលយក
       relation: ទំនាក់ទំនងជាមួយកុមារ
       remove_member: លុបសមាជិក
@@ -4365,6 +4373,76 @@ km:
       type_of_service: ប្រភេទសេវាកម្ម
     update:
       successfully_updated: ការបញ្ជូនត្រូវបានកែសម្រួលដោយជោគជ័យ
+  family:
+    enter_ngos:
+      create:
+        failed_create: គ្រួសារមិនត្រូវបានកែសម្រួលដោយជោគជ័យ
+        successfully_created: គ្រួសារត្រូវបានកែសម្រួលដោយជោគជ័យ
+      edit_form:
+        accept: ទទួលយក
+        accept_ngo_form: ទទួលចូលអង្គការ
+        accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
+        case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
+      form:
+        accept: ទទួលយក
+        accept_ngo_form: ទទួលចូលអង្គការ
+        accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
+        accepting: កំពុងទទួលយក...
+        case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
+      update:
+        failed_update: គ្រួសារមិនត្រូវបានកែសម្រួលដោយជោគជ័យ
+        successfully_updated: គ្រួសារត្រូវបានកែសម្រួលដោយជោគជ័យ
+    exit_ngos:
+      create:
+        failed_create: គ្រួសារមិនត្រូវបានកែសម្រួលដោយជោគជ័យ
+        successfully_created: គ្រួសារត្រូវបានកែសម្រួលដោយជោគជ័យ
+      edit_form:
+        case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
+        exit_btn: ចាកចេញ
+        exit_circumstance: ស្ថានភាពនៃការចាកចេញ
+        exit_date: ថ្ងៃចាកចេញ
+        exit_ngo: ចាកចេញពីអង្គការ
+        exit_note: កំណត់ហេតុនៃការចាកចេញ
+        exit_reason_options:
+          agency_lack_resource: អង្គភាពខ្វះធនធានគ្រប់គ្រាន់
+          family_died: គ្រួសារបានទទួលមរណៈភាព
+          family_does_not_meet_service_criteria: គ្រួសារមិនត្រូវ​ /​ ឈប់ត្រូវតាមលក្ខខណ្ឌសេវាកម្ម
+          family_does_not_required_support: គ្រួសារមិនត្រូវការ / ឈប់ត្រូវការការឧបត្ថម្ភ
+          family_move_out_international: គ្រួសារនៅក្រៅ / ចាកចេញទៅក្រៅតំបន់គោលដៅអង្គការ (អន្តរជាតិ)
+          family_move_out_within_cambodia: គ្រួសារនៅក្រៅ / ចាកចេញទៅក្រៅតំបន់គោលដៅអង្គការ (ក្នុងប្រទេសកម្ពុជា)
+          family_refuse_service: គ្រួសារបដិសេធមិនទទួលយកសេវាកម្ម
+          other_reason: ផ្សេងៗ
+        exit_reasons: មូលហេតុនៃការចាកចេញ
+        exit_status: ស្ថានភាព
+        exiting: កំពុងចាកចេញពីអង្គការ...
+        other_info_of_exit: ព័ត៌មានបន្ថែមនៃការចាកចេញ
+        reject_family: មិនទទួលយកគ្រួសារ
+        rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
+      form:
+        case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
+        exit_btn: ចាកចេញ
+        exit_circumstance: ស្ថានភាពនៃការចាកចេញ
+        exit_date: ថ្ងៃចាកចេញ
+        exit_ngo: ចាកចេញពីអង្គការ
+        exit_note: កំណត់ហេតុនៃការចាកចេញ
+        exit_reason_options:
+          agency_lack_resource: អង្គភាពខ្វះធនធានគ្រប់គ្រាន់
+          family_died: គ្រួសារបានទទួលមរណៈភាព
+          family_does_not_meet_service_criteria: គ្រួសារមិនត្រូវ​ /​ ឈប់ត្រូវតាមលក្ខខណ្ឌសេវាកម្ម
+          family_does_not_required_support: គ្រួសារមិនត្រូវការ / ឈប់ត្រូវការការឧបត្ថម្ភ
+          family_move_out_international: គ្រួសារនៅក្រៅ / ចាកចេញទៅក្រៅតំបន់គោលដៅអង្គការ (អន្តរជាតិ)
+          family_move_out_within_cambodia: គ្រួសារនៅក្រៅ / ចាកចេញទៅក្រៅតំបន់គោលដៅអង្គការ (ក្នុងប្រទេសកម្ពុជា)
+          family_refuse_service: គ្រួសារបដិសេធមិនទទួលយកសេវាកម្ម
+          other_reason: ផ្សេងៗ
+        exit_reasons: មូលហេតុនៃការចាកចេញ
+        exit_status: ស្ថានភាព
+        exiting: កំពុងចាកចេញ...
+        other_info_of_exit: ព័ត៌មានបន្ថែមនៃការចាកចេញ
+        reject_family: មិនទទួលយកគ្រួសារ
+        rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
+      update:
+        failed_update: គ្រួសារមិនត្រូវបានកែសម្រួលដោយជោគជ័យ
+        successfully_updated: គ្រួសារត្រូវបានកែសម្រួលដោយជោគជ័យ
   faq: សំនួរចម្លើយ
   field_label_cannot_be_blank: ផ្នែកនៃទម្រង់មិនអាចរំលង
   form_builder:
@@ -4759,8 +4837,8 @@ km:
           village: ភូមិ
           year: ឆ្នាំ
     update:
-      successfully_updated: របាយការណ៍ត្រូវបានកែសម្រួលដោយជោគជ័យ
-  has_been_added_to_calendar: ព្រឹត្តិការណ៍នេះត្រូវបានបញ្ចូលទៅក្នុងប្រតិទិនរួចហើយ
+      successfully_updated: របាយការណ៍ត្រូវបានកែសម្រួលដោយជោគជ័យ។
+  has_been_added_to_calendar: ព្រឹត្តិការណ៍នេះត្រូវបានបន្ថែមទៅក្នុងប្រតិទិនរួចហើយ
   id: អត្តលេខ
   internal_referrals:
     internal_referral_attr: &INTERNAL_REFERRAL_ATTR
@@ -5123,6 +5201,7 @@ km:
   must_be_uniq: ផ្នែកនៃទម្រង់មិនអាចមានឈ្មោះដូចគ្នា
   mutual_dependence_has_been_modified: កម្មវិធីអាស្រ័យគ្នាមិនអាចផ្លាស់ប្តូរឬបន្ថែមទេព្រោះលក្ខខ័ណ្ឌមុនត្រូវបានផ្លាស់ប្តូរ។
   'no': 'No'
+  note: ចំណាំ
   notifications:
     case_note_due_today:
       client_case_note_due_today: អតិថិជនមានកំណត់ត្រាករណីដែលត្រូវបំពេញនៅថ្ងៃនេះ
@@ -5749,6 +5828,7 @@ km:
     new:
       new_referral: ទម្រង់បញ្ជូនថ្មី
     referral_form: ទម្រង់បញ្ជូនករណី
+    referral_status: ស្ថានភាពទម្រង់បញ្ជូន
     show:
       cannot_edit_referral: អ្នកមិនអាចកែសម្រួលការបញ្ជូននេះបានទេ ដោយសារអង្គការគោលដៅបានទទួលយកការបញ្ជូននេះរួចហើយ
       client_id: អត្តលេខអតិថិជន

@@ -27,7 +27,7 @@ Capybara.register_driver :poltergeist do |app|
   options = {
     js_errors: false,
     phantomjs_options: ['--debug=false', '--web-security=false', '--ignore-ssl-errors=yes', '--ssl-protocol=any', '--webdriver-logfile=/var/log/phantomjs.log'],
-    timeout: 60,
+    timeout: 120,
     phantomjs: File.absolute_path(Phantomjs.path),
     url_whitelist: %w(http://app.lvh.me http://lvh.me http://localhost 127.0.0.1)
   }

@@ -1,6 +1,5 @@
 class InternalReferralWorker
   include Sidekiq::Worker
-  sidekiq_options queue: 'send_email'
 
   def perform(*args)
     Apartment::Tenant.switch 'ratanak'

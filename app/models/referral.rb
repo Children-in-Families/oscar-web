@@ -18,6 +18,7 @@ class Referral < ApplicationRecord
 
   validate :check_saved_referral_in_target_ngo, on: :update
   before_validation :set_referred_from
+  validates :referral_status, presence: true, inclusion: { in: Client::CLIENT_STATUSES }
 
   after_create :email_referrral_client
   after_save :make_a_copy_to_target_ngo, :create_referral_history
@@ -32,7 +33,7 @@ class Referral < ApplicationRecord
   scope :get_external_systems, ->(external_system_name){ where("referrals.ngo_name = ?", external_system_name) }
 
   def non_oscar_ngo?
-    referred_to == 'external referral'
+    referred_to =~ /external/i
   end
 
   def referred_to_ngo
@@ -78,11 +79,16 @@ class Referral < ApplicationRecord
     }
   end
 
+  def update_referral_status(value)
+    update_column(:referral_status, value)
+  end
+
   private
 
   def check_saved_referral_in_target_ngo
     current_org = Organization.current
     return if self.non_oscar_ngo? || current_org.short_name == referred_to
+
     Organization.switch_to referred_to
     is_saved = Referral.find_by(slug: slug, date_of_referral: date_of_referral).try(:saved)
     Organization.switch_to current_org.short_name
@@ -93,7 +99,7 @@ class Referral < ApplicationRecord
     current_org = Organization.current
     return if current_org.short_name == referred_to
 
-    referred_from = Organization.find_by(full_name: self.referred_from).try(:short_name)
+    referred_from = Organization.find_by(full_name: self.referred_from).try(:short_name) || self.referred_from
     self.referred_from = referred_from
   end
 

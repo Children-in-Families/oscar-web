@@ -63,7 +63,8 @@ Rails.application.configure do
   # config.log_tags = [ :subdomain, :uuid ]
   # Use a different logger for distributed setups.
   # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
-  config.logger = ActiveSupport::Logger.new(config.paths['log'].first, 1, 50 * 1024 * 1024)
+  # DO NOT REMOVE THIS LOGGER :)
+
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
   # Ignore bad email addresses and do not raise email delivery errors.
