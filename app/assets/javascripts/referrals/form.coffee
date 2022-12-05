@@ -40,8 +40,11 @@ CIF.ReferralsNew = CIF.ReferralsCreate = CIF.ReferralsUpdate = CIF.ReferralsEdit
       if !state.id
         return state.text
 
-    serviceFormatSelection = (service) ->
-      service.text
+    serviceFormatSelection = (data, container) ->
+      $(".select2-results table td option[value='#{data.id}']").parent().prop('onclick', null).off('click')
+      $(".select2-results table td option[value='#{data.id}']").attr('id', data._resultId)
+      $(".select2-results table td option[value='#{data.id}']").attr('data-select2-id', data._resultId)
+      data.text
 
     $('#type-of-service select').select2
       width: '100%'
@@ -60,32 +63,36 @@ CIF.ReferralsNew = CIF.ReferralsCreate = CIF.ReferralsUpdate = CIF.ReferralsEdit
       indexes.forEach (entries) ->
         td = ""
         entries.forEach (index) ->
-          td += "<td width='' onclick='getServiceData(this)'><option value='#{options[index][1]}'>#{options[index][0]}</option></td>"
+          if _.includes($('#type-of-service select').val(), "#{options[index][1]}") or _.isEmpty(options[index][0])
+            td += "<td width=''><option value='#{options[index][1]}'>#{options[index][0]}</option></td>"
+          else
+            td += "<td width='' onclick='getServiceData(this)'><option value='#{options[index][1]}' class='select2-results__option'>#{options[index][0]}</option></td>"
 
         html += "<tr>#{td}</tr>"
       html
 
-    $('#type-of-service select').on 'select2:open', (e) ->
-      arr = []
-      i = 0
-      while i < $('#type-of-service').data('custom').length
-        arr.push i
-        i++
+    # $('#type-of-service select').on 'select2:open', (e) ->
+    #   debugger;
+    #   arr = []
+    #   i = 0
+    #   while i < $('#type-of-service').data('custom').length
+    #     arr.push i
+    #     i++
 
-      options = $('#type-of-service').data('custom')
-      results = []
-      chunk_size = 13
-      while arr.length > 0
-        results.push arr.splice(0, chunk_size)
+    #   options = $('#type-of-service').data('custom')
+    #   results = []
+    #   chunk_size = 13
+    #   while arr.length > 0
+    #     results.push arr.splice(0, chunk_size)
 
-      indexes = results.shift()
-      th  = createHeaderElement(options, indexes)
-      row = createRowElement(options, results)
+    #   indexes = results.shift()
+    #   th  = createHeaderElement(options, indexes)
+    #   row = createRowElement(options, results)
 
-      html = '<table class="table table-bordered" style="margin-top: 5px;margin-bottom: 0px;"><thead>' + th + '</thead><tbody>' + row + '</tbody></table>'
-      $('.select2-dropdown .select2-results').html $(html)
-      # $('.select2-results').prepend "#{html}"
-      return
+    #   html = '<table class="table table-bordered" style="margin-top: 5px;margin-bottom: 0px;"><thead>' + th + '</thead><tbody>' + row + '</tbody></table>'
+    #   $('.select2-dropdown .select2-results').html $(html)
+    #   # $('.select2-results').prepend "#{html}"
+    #   return
 
     removeError = (element) ->
       element.removeClass('has-error')

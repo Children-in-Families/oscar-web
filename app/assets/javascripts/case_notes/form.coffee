@@ -51,7 +51,7 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
     $('.case_note_domain_groups .help-block').hide()
     $('#case_note_domain_group_ids').select2(
       width: '100%'
-    ).on('select2-selecting', (event)->
+    ).on('select2:selecting', (event)->
       $("#domain-#{event.val}").show('slow')
     ).on('select2-removing', (event)->
       if $("#domain-#{event.val} .task-arising .list-group-item").length > 0
@@ -63,7 +63,7 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
     ).on 'change', ()->
       _checkCasenoteSelectedValue(@)
       # $("#domain-#{e.val}").toggle('hide') if $("#domain-#{e.val} .case_note_case_note_domain_groups_tasks:visible").length == 0
-    # ).on('select2-selecting', (e)->
+    # ).on('select2:selecting', (e)->
     #   if event.target.textContent.length > 0
     #     $("#domain-#{e.val}").toggle('show') if $("#domain-#{e.val} .case_note_case_note_domain_groups_tasks:visible").length == 0
 

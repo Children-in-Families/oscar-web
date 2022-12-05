@@ -138,11 +138,11 @@ class CIF.ClientAdvanceSearch
 
   customFormSelectChange: ->
     self = @
-    $('.main-report-builder .custom-form-wrapper select').on 'select2-selecting', (element) ->
+    $('.main-report-builder .custom-form-wrapper select').on 'select2:selecting', (element) ->
       self.customFormSelected.push(element.val)
       self.addCustomBuildersFields(element.val, self.CUSTOM_FORM_URL)
 
-    $('#report-builder-wizard .custom-form-wrapper select').on 'select2-selecting', (element) ->
+    $('#report-builder-wizard .custom-form-wrapper select').on 'select2:selecting', (element) ->
       $('#custom-form-column').addClass('hidden')
       $('#wizard-custom-form .loader').removeClass('hidden')
       self.wizardCustomFormSelected.push(element.val)
@@ -153,7 +153,7 @@ class CIF.ClientAdvanceSearch
 
   assessmentSelectChange: ->
     self = @
-    $('.main-report-builder .assessment-form-wrapper select').on 'select2-selecting', (element) ->
+    $('.main-report-builder .assessment-form-wrapper select').on 'select2:selecting', (element) ->
       self.assessmentSelected = element.val
 
   addCustomBuildersFields: (ids, url, loader=undefined) ->
@@ -379,7 +379,7 @@ class CIF.ClientAdvanceSearch
 
   handleProgramSelectChange: ->
     self = @
-    $('.main-report-builder select.program-stream-select').on 'select2-selecting', (psElement) ->
+    $('.main-report-builder select.program-stream-select').on 'select2:selecting', (psElement) ->
       programId = psElement.val
       self.programSelected.push programId
       $('.main-report-builder .program-association').show()
@@ -397,7 +397,7 @@ class CIF.ClientAdvanceSearch
         self.LOADER.start()
         self.addCustomBuildersFields(programId, self.EXIT_PROGRAM_URL, self.LOADER)
 
-    $('#report-builder-wizard select.program-stream-select').on 'select2-selecting', (psElement) ->
+    $('#report-builder-wizard select.program-stream-select').on 'select2:selecting', (psElement) ->
       programId = psElement.val
       self.wizardProgramSelected.push programId
       $('#report-builder-wizard .program-association').show()
@@ -627,7 +627,7 @@ class CIF.ClientAdvanceSearch
 
     wizardFilter   = '#report-builder-wizard-modal .rules-list .rule-container .rule-filter-container > select'
     wizardOperator = '#report-builder-wizard-modal .rules-list .rule-container .rule-operator-container > select'
-    $(document).on 'select2-selected', wizardFilter, (e)->
+    $(document).on 'select2:select', wizardFilter, (e)->
       setTimeout (->
         $(wizardOperator).select2(width: 'resolve')
       ),
@@ -1014,7 +1014,7 @@ class CIF.ClientAdvanceSearch
       )
 
   disableOptions: ->
-    $(document).on 'select2-selected', '.rule-operator-container select', (e)->
+    $(document).on 'select2:select', '.rule-operator-container select', (e)->
       ruleParentElement = $(this.parentElement.parentElement)
       schoolGradeFilter = ruleParentElement.find('.rule-filter-container').find('option[value="school_grade"]:selected')
       betweenOperator   = ruleParentElement.find('.rule-operator-container').find('option[value="between"]:selected')

@@ -49,7 +49,7 @@ CIF.SettingsIndex = CIF.SettingsEdit = CIF.SettingsUpdate = CIF.SettingsCreate =
 
   _initSelect2 = ->
     $('select').select2()
-    $("[id*='_custom_assessment_frequency']").on 'select2-selected', (element) ->
+    $("[id*='_custom_assessment_frequency']").on 'select2:select', (element) ->
       prefixId = @.id.match(/.*\d\_/)[0]
       maxCustomAssessment = $("##{prefixId}max_custom_assessment")
       if @.value == 'unlimited'

@@ -14,10 +14,10 @@ module CommunityGridOptions
   def columns_visibility
     if params[:advanced_search_id]
       advanced_search = AdvancedSearch.find(params[:advanced_search_id])
-      @community_columns ||= CommunityColumnsVisibility.new(@community_grid, params.merge(advanced_search.field_visible).merge(column_form_builder: column_form_builder))
+      @community_columns ||= CommunityColumnsVisibility.new(@community_grid,request.parameters.merge(advanced_search.field_visible).merge(column_form_builder: column_form_builder))
       @community_columns.visible_columns
     else
-      @community_columns ||= CommunityColumnsVisibility.new(@community_grid, params.merge(column_form_builder: column_form_builder))
+      @community_columns ||= CommunityColumnsVisibility.new(@community_grid,request.parameters.merge(column_form_builder: column_form_builder))
       @community_columns.visible_columns
     end
   end

@@ -4,7 +4,7 @@ class DonorsController < AdminController
   before_action :find_donor, only: [:update, :destroy]
 
   def index
-    @donors   = Donor.order(:name).page(params[:page]).per(20)
+    @donors   = Donor.includes(:clients, sponsors: :client).order(:name).page(params[:page]).per(20)
     @results  = Donor.count
     @clients  = Client.select(:id, :given_name, :family_name, :local_given_name, :local_family_name)
   end

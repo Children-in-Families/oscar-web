@@ -12,6 +12,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     data = { id: td.children[0].value, text: td.children[0].text }
 
     newOption = new Option(data.text, data.id, true, true)
+    console.log("options", newOption)
     # Append it to the select
     $('#type-of-service select').append(newOption).trigger 'change'
 
@@ -124,7 +125,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       for value in $(programExclusive).val()
         $(mutualDependence).find("option[value=#{value}]").attr('disabled', true)
 
-    $(programExclusive).on 'select2-selecting', (select)->
+    $(programExclusive).on 'select2:selecting', (select)->
       $(mutualDependence).find("option[value=#{select.val}]").attr('disabled', true)
 
     $(programExclusive).on 'select2:unselect', (select)->
@@ -135,7 +136,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       for value in mutualDependence.val()
         $(programExclusive).find("option[value=#{value}]").attr('disabled', true)
 
-    $(mutualDependence).on 'select2-selecting', (select)->
+    $(mutualDependence).on 'select2:selecting', (select)->
       $(programExclusive).find("option[value=#{select.val}]").attr('disabled', true)
 
     $(mutualDependence).on 'select2:unselect', (select)->
@@ -220,7 +221,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       save: $('.program-steps').data('save')
 
   _handleSelectOptionChange = ->
-    $('select').on 'select2-selecting', (e) ->
+    $('select').on 'select2:selecting', (e) ->
       setTimeout (->
         $('.rule-operator-container select, .rule-value-container select').select2(
           width: '180px'
@@ -707,7 +708,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
   _handleSelectFrequency = ->
     frequencies = $('.program_stream_trackings_frequency select')
-    $(frequencies).on 'select2-selecting', (element) ->
+    $(frequencies).on 'select2:selecting', (element) ->
       select          = element.currentTarget
       frequencyNote   = select.parentElement.nextElementSibling
       frequencyValue  = _convertFrequency(element.val)
@@ -771,14 +772,14 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       _disableOptions(element)
 
   _filterSelecting = ->
-    $('.rule-filter-container select').on 'select2-selecting', ->
+    $('.rule-filter-container select').on 'select2:selecting', ->
       self = @
       setTimeout ( ->
         _opertatorSelecting()
       )
 
   _opertatorSelecting = ->
-    $('.rule-operator-container select').on 'select2-selected', ->
+    $('.rule-operator-container select').on 'select2:select', ->
       _disableOptions(@)
       _setDefaultBetweenSchoolGrade(@)
 
@@ -831,8 +832,11 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         if !state.id
           return state.text
 
-      serviceFormatSelection = (service) ->
-        service.text
+      serviceFormatSelection = (data, container) ->
+        $(".select2-results table td option[value='#{data.id}']").parent().prop('onclick', null).off('click')
+        $(".select2-results table td option[value='#{data.id}']").attr('id', data._resultId)
+        $(".select2-results table td option[value='#{data.id}']").attr('data-select2-id', data._resultId)
+        data.text
 
       $('#type-of-service select').select2
         width: '100%'
@@ -851,32 +855,35 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         indexes.forEach (entries) ->
           td = ""
           entries.forEach (index) ->
-            td += "<td width='' onclick='getServiceData(this)'><option value='#{options[index][1]}'>#{options[index][0]}</option></td>"
+            if _.includes($('#type-of-service select').val(), "#{options[index][1]}") or _.isEmpty(options[index][0])
+              td += "<td width=''><option value='#{options[index][1]}'>#{options[index][0]}</option></td>"
+            else
+              td += "<td width='' onclick='getServiceData(this)'><option value='#{options[index][1]}' class='select2-results__option'>#{options[index][0]}</option></td>"
 
           html += "<tr>#{td}</tr>"
         html
 
-      $('#type-of-service select').on 'select2:open', (e) ->
-        arr = []
-        i = 0
-        while i < $('#type-of-service').data('custom').length
-          arr.push i
-          i++
+      # $('#type-of-service select').on 'select2:open', (e) ->
+      #   arr = []
+      #   i = 0
+      #   while i < $('#type-of-service').data('custom').length
+      #     arr.push i
+      #     i++
 
-        options = $('#type-of-service').data('custom')
-        results = []
-        chunk_size = 13
-        while arr.length > 0
-          results.push arr.splice(0, chunk_size)
+      #   options = $('#type-of-service').data('custom')
+      #   results = []
+      #   chunk_size = 13
+      #   while arr.length > 0
+      #     results.push arr.splice(0, chunk_size)
 
-        indexes = results.shift()
-        th  = createHeaderElement(options, indexes)
-        row = createRowElement(options, results)
+      #   indexes = results.shift()
+      #   th  = createHeaderElement(options, indexes)
+      #   row = createRowElement(options, results)
 
-        html = '<table class="table table-bordered" style="margin-top: 5px;margin-bottom: 0px;"><thead>' + th + '</thead><tbody>' + row + '</tbody></table>'
-        $('.select2-dropdown .select2-results').html $(html)
-        # $('.select2-results').prepend "#{html}"
-        return
+      #   html = '<table class="table table-bordered" style="margin-top: 5px;margin-bottom: 0px;"><thead>' + th + '</thead><tbody>' + row + '</tbody></table>'
+      #   $('.select2-dropdown .select2-results').html $(html)
+      #   # $('.select2-results').prepend "#{html}"
+      #   return
 
       removeError = (element) ->
         element.removeClass('has-error')

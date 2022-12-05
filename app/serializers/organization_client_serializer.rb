@@ -71,7 +71,7 @@ class OrganizationClientSerializer < ActiveModel::Serializer
   private
 
   def resource
-    'adsfasdfasdfsd'
+    'Organization'
   end
 
   def services

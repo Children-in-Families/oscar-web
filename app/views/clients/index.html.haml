@@ -114,7 +114,7 @@
         .ibox-content
           .clients-table{ data: { 'info-load': t('.load'), 'info-end': t('.end'), 'read-more': t('.read_more'), 'read-less': t('.read_less') } }
             %table.table.table-bordered.table-striped.table-hover.clients#clients-list
-              = content_tag :div, 'hidden_param', class: 'hide', id: 'hidden-param', data: { 'hidden-param': url_for(params) }
+              = content_tag :div, 'hidden_param', class: 'hide', id: 'hidden-param', data: { 'hidden-param': url_for(request.parameters) }
               %thead
                 = datagrid_header(@client_grid)
               %tbody.page

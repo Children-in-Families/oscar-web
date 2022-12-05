@@ -16,7 +16,7 @@ CIF.DomainsNew = CIF.DomainsCreate = CIF.DomainsEdit = CIF.DomainsUpdate = do ->
     $('select').select2();
 
   _domainTypeSelect2 = ->
-    $("select#domain_domain_type").select2("enable", $("#domain-type-wrapper").data('enable')).on 'select2-selecting', (event) ->
+    $("select#domain_domain_type").select2("enable", $("#domain-type-wrapper").data('enable')).on 'select2:selecting', (event) ->
       if event.choice.id == 'client'
         $("#domain_custom_assessment_setting").attr('class', '').show()
       else

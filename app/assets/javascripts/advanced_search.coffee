@@ -177,7 +177,7 @@ class CIF.AdvancedSearch
 
   customFormSelectChange: ->
     self = @
-    $('.custom-form-wrapper select').on 'select2-selecting', (element) ->
+    $('.custom-form-wrapper select').on 'select2:selecting', (element) ->
       self.customFormSelected.push(element.val)
       # $('#community_advanced_search_custom_form_selected').val(element.val)
       self.addCustomBuildersFields(element.val, self.CUSTOM_FORM_URL)

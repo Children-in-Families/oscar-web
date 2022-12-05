@@ -41,7 +41,7 @@ CIF.DashboardsIndex = do ->
         localStorage.setItem('from login', false)
 
   _enableSaveReferralSource = ->
-    $('.referral_source_ancestry .select').on 'select2-selected', (e) ->
+    $('.referral_source_ancestry .select').on 'select2:select', (e) ->
       classNames = this.className.split(' ')
       saveBtnClass = ".save-" + classNames[2]
       $(saveBtnClass).removeAttr 'disabled'
@@ -346,7 +346,7 @@ CIF.DashboardsIndex = do ->
     $('#select2-search-client-select2-container .select2-selection__placeholder').attr('style', 'color: #999999').text(placeholder_text)
 
   _handleMultiFormAssessmentCaseNote = ->
-    $('#client-select-assessment').on('select2-selected', (e) ->
+    $('#client-select-assessment').on('select2:select', (e) ->
       $("ul#assessment-tab-dropdown a").removeClass('disabled')
       idClient = e.val
       if $('#csi-assessment-link').length
@@ -364,7 +364,7 @@ CIF.DashboardsIndex = do ->
       $("ul#assessment-tab-dropdown a").attr('href', "javascript:void(0)")
       $("ul#assessment-tab-dropdown a").addClass('disabled')
 
-    $('#client-select-case-note').on('select2-selected', (e) ->
+    $('#client-select-case-note').on('select2:select', (e) ->
       $("ul#casenote-tab-dropdown a").removeClass('disabled')
       idClient = e.val
       if $('#csi-case-note-link').length

@@ -30,7 +30,7 @@ CIF.UsersNew = CIF.UsersCreate = CIF.UsersEdit = CIF.UsersUpdate = CIF.Registrat
         $('.select.optional.user_clients').append("<span class='help-block'>#{$('#warning_message').val()}</span>")
 
       return shouldRemove
-    ).on 'select2-selecting', (e) ->
+    ).on 'select2:selecting', (e) ->
       if $(@).attr('id').length > 0 and e.val != 'strategic overviewer'
         $('#clients-selection:hidden').removeClass('hide')
       else
