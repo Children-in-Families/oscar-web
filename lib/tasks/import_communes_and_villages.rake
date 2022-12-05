@@ -43,7 +43,9 @@ namespace :communes_and_villages do
 
       pp "FINISH | #{args[:tenant]} | at #{Time.now.to_s}"
     else
-      Organization.all.pluck(:short_name).each do |tenant_name|
+      Organization.all.each do |organization|
+        next if organization.country != 'cambodia'
+        tenant_name = organization.short_name
         pp "START | #{tenant_name} | at #{Time.now.to_s}"
 
         import_addresses(tenant_name, files, province_hash, province_code_hash)
@@ -63,6 +65,7 @@ def import_addresses(tenant_name, files, province_hash, province_code_hash)
     pname = province.name.split('/').last.squish.downcase
     gazetteer_short_name = province_hash[pname]
     path  = files.find{|filename| filename[/#{gazetteer_short_name}/] }
+
     if province.code.blank?
       province.code = province_code_hash[pname]
       province.save

@@ -65,11 +65,11 @@ class OrganizationClientSerializer < ActiveModel::Serializer
   end
 
   def location_current_village_code
-    object.village&.code || ''
+    object.village&.code || object.commune&.code || object.district&.code || object.province&.code || ""
   end
 
   def address_current_village_code
-    object.village&.code || ''
+    object.village&.code || object.commune&.code || object.district&.code || object.province&.code || ""
   end
 
   def level_of_risk
@@ -77,10 +77,6 @@ class OrganizationClientSerializer < ActiveModel::Serializer
   end
 
   private
-
-  def resource
-    'adsfasdfasdfsd'
-  end
 
   def services
     related_services

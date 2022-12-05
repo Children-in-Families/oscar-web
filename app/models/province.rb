@@ -31,7 +31,21 @@ class Province < ActiveRecord::Base
     name.split(' / ').first
   end
 
-  def self.find_by_code(code)
+  def self.map_name_by_code(code)
+    result = find_by_code(code)
+    { cp: result&.name }
+  end
+
+  def self.address_by_code(code)
+    result = find_by_code(code)
+    if result
+      { village_id: nil, commune_id: nil, district_id: nil, province_id: result&.id }
+    else
+      { province_id: nil }
+    end
+  end
+
+  def self.find_name_by_code(code)
     district = District.where("code LIKE ?", "#{code}%").first
     district&.province&.name
   end

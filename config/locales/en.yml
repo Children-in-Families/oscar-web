@@ -774,7 +774,7 @@ en:
       successfully_updated: Assessment has been successfully updated.
   at: 'on'
   back: Back
-  blank_field_warning: Warning! You can not refer a client to an external system if the client's name, date of birth, or gender is blank.
+  blank_field_warning: Warning! You can not refer a client to an external system if the client's name, date of birth, gender, or address is blank.
   calendars:
     index:
       sync_with_google: Sync with Google Calendar

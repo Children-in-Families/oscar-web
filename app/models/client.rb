@@ -139,6 +139,7 @@ class Client < ActiveRecord::Base
   validates :global_id, presence: true
   validates_uniqueness_of :global_id, on: :create
 
+  before_validation :assign_global_id, on: :create
   after_validation :save_client_global_organization, on: :create
   before_create :set_country_origin
   after_create :set_slug_as_alias, :mark_referral_as_saved
@@ -151,6 +152,7 @@ class Client < ActiveRecord::Base
   after_commit :delete_referee, on: :destroy
   after_save :update_referral_status_on_target_ngo, if: :status_changed?
   after_save :flash_cache
+  after_commit :update_first_referral_status, on: :update
 
   scope :given_name_like,                          ->(value) { where('clients.given_name iLIKE :value OR clients.local_given_name iLIKE :value', { value: "%#{value.squish}%"}) }
   scope :family_name_like,                         ->(value) { where('clients.family_name iLIKE :value OR clients.local_family_name iLIKE :value', { value: "%#{value.squish}%"}) }
@@ -231,6 +233,8 @@ class Client < ActiveRecord::Base
     def check_for_duplication(options, shared_clients)
       the_address_code = options[:address_current_village_code]
       case the_address_code&.size
+      when 2
+        results = Province.map_name_by_code(the_address_code)
       when 4
         results = District.get_district_name_by_code(the_address_code)
       when 6
@@ -239,7 +243,7 @@ class Client < ActiveRecord::Base
         results = Village.get_village_name_by_code(the_address_code)
       end
 
-      birth_province_name = Province.find_by_code(options[:birth_province_code])
+      birth_province_name = Province.find_name_by_code(options[:birth_province_code])
       address_hash = { cv: 1, cc: 2, cd: 3, cp: 4 }
       result = shared_clients.compact.each do |client|
         client = client.split('&')
@@ -699,7 +703,6 @@ class Client < ActiveRecord::Base
   def self.get_client_attribute(attributes, referral_source_category_id=nil)
     attribute = attributes.with_indifferent_access
     referral_source_category_id = ReferralSource.find_referral_source_category(referral_source_category_id, attributes['referred_from']).try(:id)
-
     client_attributes = {
       external_id:            attribute[:external_id],
       external_id_display:    attribute[:external_id_display],
@@ -721,12 +724,14 @@ class Client < ActiveRecord::Base
   def self.get_address_by_code(the_address_code)
     char_size = the_address_code&.length
     case char_size
-    when 4
-      District.get_district(the_address_code)
-    when 6
-      Commune.get_commune(the_address_code)
+    when 0..2
+      Province.address_by_code(the_address_code.rjust(2, '0'))
+    when 3..4
+      District.get_district(the_address_code.rjust(4, '0'))
+    when 5..6
+      Commune.get_commune(the_address_code.rjust(6, '0'))
     else
-      Village.get_village(the_address_code)
+      Village.get_village(the_address_code.rjust(8, '0'))
     end
   end
 
@@ -832,7 +837,7 @@ class Client < ActiveRecord::Base
   end
 
   def assign_global_id
-    referral = find_referral
+    referral = find_referrals.last
     if referral && referral.client_global_id
       self.global_id =  GlobalIdentity.find_or_initialize_ulid(referral.client_global_id)
     else
@@ -901,8 +906,58 @@ class Client < ActiveRecord::Base
   end
 
   def is_referable_to_external_system?
-    name.squish.blank? || date_of_birth.blank? || gender.blank?
+    (local_given_name.blank? || local_family_name.blank? || given_name.blank? || family_name.blank?) ||
+    date_of_birth.blank? || gender.blank? || province_id.blank?
   end
+
+  def self.cached_client_custom_field_properties_count(object, fields_second)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_custom_field_properties_count', object.id, *fields_second]) do
+      properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields_second, entity_type: 'Client'}).count
+    end
+  end
+
+  def self.cached_client_custom_field_properties_order(object, fields_second)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_custom_field_properties_order', object.id, *fields_second]) do
+      properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields_second, entity_type: 'Client'}).order(created_at: :desc).first.try(:properties)
+    end
+  end
+
+  def self.cached_client_custom_field_find_by(object, fields_second)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_custom_field_find_by', object.id, *fields_second]) do
+      object.custom_fields.find_by(form_title: fields_second)&.id
+    end
+  end
+
+  def self.cached_client_custom_field_properties_properties_by(object, custom_field_id, sql, format_field_value)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_custom_field_properties_properties_by', object.id, custom_field_id]) do
+      object.custom_field_properties.where(custom_field_id: custom_field_id).where(sql).properties_by(format_field_value)
+    end
+  end
+
+  def self.cached_client_order_enrollment_date(object, fields_second)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_order_enrollment_date', object.id, *fields_second]) do
+      properties = date_format(object.client_enrollments.joins(:program_stream).where(program_streams: { name: fields_second }).order(enrollment_date: :desc).first.try(:enrollment_date))
+    end
+  end
+
+  def self.cached_client_enrollment_date_join(object, fields_second)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_enrollment_date_join', object.id, *fields_second]) do
+      properties = date_filter(object.client_enrollments.joins(:program_stream).where(program_streams: { name: fields_second }), fields.join('__')).map{|date| date_format(date.enrollment_date) }
+    end
+  end
+
+  def self.cached_client_order_enrollment_date_properties(object, fields_second)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_order_enrollment_date_properties', object.id, *fields_second]) do
+      properties = object.client_enrollments.joins(:program_stream).where(program_streams: { name: fields_second }).order(enrollment_date: :desc).first.try(:properties)
+    end
+  end
+
+  def self.cached_client_enrollment_properties_by(object, fields_second, format_field_value)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_enrollment_properties_by', object.id, *fields_second]) do
+      properties = object.client_enrollments.joins(:program_stream).where(program_streams: { name: fields_second }).properties_by(format_field_value)
+    end
+  end
+
 
   private
 
@@ -933,8 +988,8 @@ class Client < ActiveRecord::Base
   end
 
   def mark_referral_as_saved
-    referral = find_referral
-    referral.update_attributes(client_id: id, saved: true) if referral.present?
+    referrals = find_referrals
+    referrals.update_all(client_id: id, saved: true) if referrals.present?
   end
 
   def set_country_origin
@@ -995,13 +1050,23 @@ class Client < ActiveRecord::Base
     end
   end
 
-  def find_referral
-    referral = nil
-    if external_id.present?
-      referral = Referral.find_by(external_id: external_id, saved: false)
-    else
-      referral = Referral.find_by(slug: archived_slug, saved: false) if archived_slug.present?
-    end
+  def find_referrals
+    referrals = []
+    referrals ||= Referral.where(slug: archived_slug, saved: false) if archived_slug.present?
+
+    referrals.presence || Referral.where(external_id: external_id, saved: false)
+  end
+
+  def update_first_referral_status
+    received_referrals = referrals.received
+    return if received_referrals.count.zero? || client_enrollments.any?
+
+    referral = received_referrals.find(from_referral_id)
+    return if referral.referral_status != 'Referred' || referral.referred_from == Apartment::Tenant.current
+
+    referral.level_of_risk = 'no action' if referral.level_of_risk.blank?
+    referral.referral_status = status
+    referral.save
   end
 
   def remove_tasks(case_worker)

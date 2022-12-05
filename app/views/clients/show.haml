@@ -193,7 +193,7 @@
                   - if value == "MoSVY External System" && @client.is_referable_to_external_system?
                     %li= link_to value, '#exteralSystem', class: 'target-ngo', data: { target: '#exteralSystem', toggle: "modal" }
                   - else
-                    %li= link_to value, new_client_referral_url(@client, ngo: key, external_ngo_name: key == 'external referral' && value), :class => 'target-ngo', :value => "#{key}", :id => "#{key}"
+                    %li= link_to value, new_client_referral_url(@client, ngo: key, external_ngo_name: (key == 'MoSVY External System' || key == 'external referral') && value), :class => 'target-ngo', :value => "#{key}", :id => "#{key.downcase.parameterize}"
           = link_to client_books_path(@client), data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.client_book')}", placement: "auto" } do
             %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit
               = t('.book')

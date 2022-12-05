@@ -17,7 +17,7 @@ module Api
     end
 
     def find_client_in_organization
-      if params[:org] == 'external referral'
+      if params[:org] == 'external referral' || params[:org] == 'external-referral' || params[:org] == 'mosvy-external-system'
         { text: 'create referral' }
       else
         Organization.switch_to params[:org]

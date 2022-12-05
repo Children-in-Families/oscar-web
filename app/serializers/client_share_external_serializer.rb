@@ -20,7 +20,7 @@ class ClientShareExternalSerializer < ActiveModel::Serializer
   end
 
   def location_current_village_code
-    object.village_code || object.commune_code || object.district_code || ""
+    object.village_code || object.commune_code || object.district_code || object.province&.code || ""
   end
 
   def external_id
