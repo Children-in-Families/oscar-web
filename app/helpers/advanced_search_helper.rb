@@ -181,6 +181,7 @@ module AdvancedSearchHelper
       ratanak_achievement_program_staff_client_ids: I18n.t('clients.form.ratanak_achievement_program_staff_client_ids'),
       mo_savy_officials: I18n.t('clients.form.mosavy_official'),
       **overdue_translations,
+      **custom_assessment_field_traslation_mapping,
       **address_translation(group_name),
       number_client_referred_gatekeeping: I18n.t('advanced_search.fields.number_client_referred_gatekeeping'),
       number_client_billable: I18n.t('advanced_search.fields.number_client_billable'),
@@ -206,7 +207,6 @@ module AdvancedSearchHelper
 
   def community_header(key)
     translations = {
-      initial_referral_date:                    I18n.t('advanced_search.fields.initial_referral_date'),
       name:                                     I18n.t('activerecord.attributes.community.name'),
       name_en:                                  I18n.t('activerecord.attributes.community.name_en'),
       status:                                   I18n.t('activerecord.attributes.community.status'),

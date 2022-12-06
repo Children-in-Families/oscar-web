@@ -51,7 +51,6 @@ module Api
         client.carer_id = carer.id
         client_saved = client.save
       end
-
       if client_saved
         qtt_free_text_cases = params[:client_quantitative_free_text_cases]
 
@@ -183,7 +182,7 @@ module Api
             :concern_province_id, :concern_district_id, :concern_commune_id, :concern_village_id,
             :concern_street, :concern_house, :concern_address, :concern_address_type,
             :concern_phone, :concern_phone_owner, :concern_email, :concern_email_owner, :concern_location,
-            :national_id, :reason_for_referral, :for_testing,
+            :national_id, :reason_for_referral, :for_testing, :from_referral_id,
             :birth_cert,
             :arrival_at,
             :flight_nb,

@@ -13,6 +13,7 @@ end
 
 every :day, at: '00:00 am' do
   rake 'incompleted_assessment:delete'
+  rake 'exited_client_case_worker:disattach'
 end
 
 every :month, at: '00:00 am' do

@@ -18,7 +18,14 @@ CIF.ReferralsNew = CIF.ReferralsCreate = CIF.ReferralsUpdate = CIF.ReferralsEdit
       _initExternalReferral()
 
   _initSelect2 = ->
-    $('select').select2()
+    $('select').select2().on 'select2-opening', (e) ->
+      return true if @.id == 'referral_level_of_risk'
+
+      if $('#type-of-service').data('single-selected') && $(this).select2('val').length > 0
+        e.preventDefault()
+        return
+      else
+        return true
 
   _initExternalReferral = ->
     referredTo = document.getElementById('referral_referred_to')

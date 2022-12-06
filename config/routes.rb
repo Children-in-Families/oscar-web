@@ -167,6 +167,7 @@ Rails.application.routes.draw do
   resources :referees, only: [:index, :show]
 
   resources :families do
+    resources :family_referrals
     collection do
       post '/advanced_search', to: 'families#index'
     end
@@ -174,10 +175,6 @@ Rails.application.routes.draw do
       resources :exit_ngos, only: [:create, :update]
       resources :enter_ngos, only: [:create, :update]
     end
-
-    scope module: 'client' do
-    end
-
     resources :family_referrals
     resources :custom_field_properties
     get 'version' => 'families#version'
@@ -347,6 +344,7 @@ Rails.application.routes.draw do
           get 'clients/check_duplication' => 'organizations#check_duplication'
           get 'transactions/:tx_id' => 'organizations#transaction'
           put 'clients/update_links' => 'organizations#update_link'
+          put 'referrals/update_statuses' => 'organizations#update_referral_status'
         end
       end
 

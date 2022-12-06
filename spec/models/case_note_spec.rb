@@ -37,18 +37,19 @@ describe CaseNote do
     context 'complete tasks' do
       let!(:domain_group){ create(:domain_group) }
       let!(:case_note_domain_group){ create(:case_note_domain_group, domain_group: domain_group, case_note: case_note) }
-      let!(:task){ create(:task) }
+      let!(:task){ create(:task, completed: true, case_note_domain_group_id: case_note_domain_group.id) }
       let!(:other_task){ create(:task) }
       let!(:task_ids){ [task.id, other_task.id] }
       before do
         case_note.complete_tasks(
           {"0"=>
             {
+              note: 'Test',
               domain_group_id: domain_group.id,
               task_ids: task_ids
             }
         })
-        task.reload
+        task.reload       
       end
       it{ expect(task.completed?).to be_truthy }
       it 'should have case note domain group association with task' do

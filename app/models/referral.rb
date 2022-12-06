@@ -4,6 +4,8 @@ class Referral < ActiveRecord::Base
 
   mount_uploaders :consent_form, ConsentFormUploader
 
+  LEVEL_OF_RISK = ['high', 'medium', 'low', 'no action'].freeze
+
   belongs_to :client
   has_and_belongs_to_many :services
 
@@ -11,13 +13,16 @@ class Referral < ActiveRecord::Base
 
   validates :client_name, :client_global_id, :date_of_referral, :referred_from,
             :referred_to, :referral_reason, :name_of_referee,
-            :referral_phone, :level_of_risk, presence: true
+            :referral_phone,  presence: true
 
   validates :consent_form, presence: true, if: :making_referral?
   validates :referee_id, presence: true, if: :slug_exist?
 
   validate :check_saved_referral_in_target_ngo, on: :update
   before_validation :set_referred_from
+  validates :referral_status, presence: true, inclusion: { in: Client::CLIENT_STATUSES }
+  validates :level_of_risk, presence: true, inclusion: { in: LEVEL_OF_RISK }
+  validates :services, presence: true
 
   after_create :email_referrral_client
   after_save :make_a_copy_to_target_ngo, :create_referral_history
@@ -32,7 +37,7 @@ class Referral < ActiveRecord::Base
   scope :get_external_systems, ->(external_system_name){ where("referrals.ngo_name = ?", external_system_name) }
 
   def non_oscar_ngo?
-    referred_to == 'external referral'
+    referred_to =~ /external/i
   end
 
   def referred_to_ngo
@@ -78,11 +83,16 @@ class Referral < ActiveRecord::Base
     }
   end
 
+  def update_referral_status(value)
+    update_column(:referral_status, value)
+  end
+
   private
 
   def check_saved_referral_in_target_ngo
     current_org = Organization.current
     return if self.non_oscar_ngo? || current_org.short_name == referred_to
+
     Organization.switch_to referred_to
     is_saved = Referral.find_by(slug: slug, date_of_referral: date_of_referral).try(:saved)
     Organization.switch_to current_org.short_name
@@ -93,7 +103,7 @@ class Referral < ActiveRecord::Base
     current_org = Organization.current
     return if current_org.short_name == referred_to
 
-    referred_from = Organization.find_by(full_name: self.referred_from).try(:short_name)
+    referred_from = Organization.find_by(full_name: self.referred_from).try(:short_name) || self.referred_from
     self.referred_from = referred_from
   end
 

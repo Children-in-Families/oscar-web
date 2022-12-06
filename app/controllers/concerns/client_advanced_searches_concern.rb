@@ -91,7 +91,7 @@ module ClientAdvancedSearchesConcern
       @builder_fields = @builder_fields + custom_form_fields if @advanced_search_params[:wizard_custom_form_check].present?
       @builder_fields = @builder_fields + @quantitative_fields if @advanced_search_params[:wizard_quantitative_check].present?
     else
-      @builder_fields = get_client_basic_fields + custom_form_fields + program_stream_fields + get_common_fields
+      @builder_fields = @builder_fields + custom_form_fields + program_stream_fields + get_common_fields
       @builder_fields = @builder_fields + @quantitative_fields if quantitative_check?
     end
   end

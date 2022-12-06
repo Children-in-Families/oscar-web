@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20220823075832) do
+ActiveRecord::Schema.define(version: 20221018093602) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -846,6 +846,7 @@ ActiveRecord::Schema.define(version: 20220823075832) do
     t.boolean  "for_testing",                           default: false
     t.datetime "arrival_at"
     t.string   "flight_nb"
+    t.string   "from_referral_id"
   end
 
   add_index "clients", ["birth_province_id"], name: "index_clients_on_birth_province_id", using: :btree
@@ -2020,16 +2021,17 @@ ActiveRecord::Schema.define(version: 20220823075832) do
   end
 
   create_table "provinces", force: :cascade do |t|
-    t.string   "name",           default: ""
-    t.text     "description",    default: ""
+    t.string   "name",                     default: ""
+    t.text     "description",              default: ""
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "cases_count",    default: 0
-    t.integer  "clients_count",  default: 0
-    t.integer  "families_count", default: 0
-    t.integer  "partners_count", default: 0
-    t.integer  "users_count",    default: 0,  null: false
+    t.integer  "cases_count",              default: 0
+    t.integer  "clients_count",            default: 0
+    t.integer  "families_count",           default: 0
+    t.integer  "partners_count",           default: 0
+    t.integer  "users_count",              default: 0,  null: false
     t.string   "country"
+    t.string   "code",           limit: 2
   end
 
   create_table "quantitative_cases", force: :cascade do |t|

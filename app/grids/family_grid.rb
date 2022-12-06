@@ -127,6 +127,16 @@ class FamilyGrid < BaseGrid
     scope.caregiver_information_like(value)
   end
 
+  filter(:program_streams, :enum, multiple: true, select: :program_stream_options, header: -> { I18n.t('datagrid.columns.families.program_streams') }) do |name, scope|
+    program_stream_ids = ProgramStream.name_like(name).ids
+    ids = Family.joins(:enrollments).where(enrollments: { program_stream_id: program_stream_ids } ).pluck(:id).uniq
+    scope.where(id: ids)
+  end
+
+  def program_stream_options
+    ProgramStream.joins(:enrollments).complete.ordered.pluck(:name).uniq
+  end
+
   filter(:referral_source_id, :enum, select: :referral_source_options, header: -> { I18n.t('datagrid.columns.families.referral_source_id') })
   filter(:referral_source_category_id, :enum, select: :referral_source_category_options, header: -> { I18n.t('datagrid.columns.families.referral_source_category_id') })
 
@@ -140,16 +150,6 @@ class FamilyGrid < BaseGrid
     else
       ReferralSource.where(id: Family.pluck(:referral_source_category_id).compact).pluck(:name_en, :id)
     end
-  end
-
-  filter(:program_streams, :enum, multiple: true, select: :program_stream_options, header: -> { I18n.t('datagrid.columns.families.program_streams') }) do |name, scope|
-    program_stream_ids = ProgramStream.name_like(name).ids
-    ids = Family.joins(:enrollments).where(enrollments: { program_stream_id: program_stream_ids } ).pluck(:id).uniq
-    scope.where(id: ids)
-  end
-
-  def program_stream_options
-    ProgramStream.joins(:enrollments).complete.ordered.pluck(:name).uniq
   end
 
   def filer_section(filter_name)
@@ -197,18 +197,18 @@ class FamilyGrid < BaseGrid
 
   column(:code, header: -> { I18n.t('datagrid.columns.families.code') })
 
-  column(:name, html: true, order: 'LOWER(name)', header: -> { I18n.t('datagrid.columns.families.name') }) do |object|
-    link_to entity_name(object), family_path(object)
+  column(:name, order: 'LOWER(name)', header: -> { I18n.t('datagrid.columns.families.name') }) do |object|
+    format(object.name) do |value|
+      link_to entity_name(object), family_path(object) if value.present?
+    end
   end
 
   column(:name_en, order: 'LOWER(name_en)', header: -> { I18n.t('datagrid.columns.families.name_en') }) do |object|
-
     format(object.name_en) do |value|
       link_to value, family_path(object) if value.present?
     end
   end
 
-  column(:name, html: false, header: -> { I18n.t('datagrid.columns.families.name') })
 
   column(:family_type, header: -> { I18n.t('datagrid.columns.families.family_type') }) do |object|
     object.family_type
@@ -394,6 +394,10 @@ class FamilyGrid < BaseGrid
     render partial: 'families/active_family_enrollments', locals: { active_programs: family_enrollments }
   end
 
+  column(:direct_beneficiaries, header: -> { I18n.t('datagrid.columns.families.direct_beneficiaries') }) do |object|
+    object.member_count
+  end
+
   dynamic do
     next unless dynamic_columns.present?
     dynamic_columns.each do |column_builder|
@@ -506,7 +510,7 @@ class FamilyGrid < BaseGrid
     render partial: 'families/assessments', locals: { object: assessments }
   end
 
-  column(:custom_completed_date, header: -> { I18n.t('datagrid.columns.assessment_completed_date', assessment: I18n.t('families.show.assessment')) }, html: true) do |object|
+  column(:assessment_completed_date, header: -> { I18n.t('datagrid.columns.assessment_completed_date', assessment: I18n.t('families.family_assessment')) }, html: true) do |object|
     assessments = map_assessment_and_score(object, '', nil)
     render partial: 'families/assessments/assessment_completed_dates', locals: { object: assessments }
   end

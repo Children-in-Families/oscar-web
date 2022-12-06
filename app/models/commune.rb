@@ -28,7 +28,7 @@ class Commune < ActiveRecord::Base
   end
 
   def self.get_commune(commune_code)
-    commune = find_by(code: commune_code)
+    commune = find_by(code: commune_code.rjust(6, '0'))
     if commune
       { village_id: nil, commune_id: commune.id, district_id: commune.district&.id, province_id: commune.district.province&.id }
     else

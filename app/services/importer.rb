@@ -122,11 +122,30 @@ module Importer
         if row_type.strip == "ស្រុក" || row_type.strip == "ខណ្ឌ" || row_type.strip == "ក្រុង"
           attributes = {}
           attributes['name'] = "#{values[2].squish} / #{values[3].squish}".squish
-          attributes['code'] = values[1].squish
+          attributes['code'] = values[1].squish.to_s.rjust(4, '0')
           attributes['province_id'] = province_id
 
-          pp attributes
-          district = District.find_or_create_by(attributes)
+          district = District.find_by(code: attributes['code'].rjust(6, '0'))
+          district = district || District.find_by(code: attributes['code'])
+          district = district || District.find_by(code: attributes['code'].rjust(6, '0'), province_id: province_id)
+          district = district || District.find_by(code: attributes['code'], province_id: province_id)
+
+          if district
+            district.update_attributes(attributes)
+            district = district.reload
+          else
+            # find existing districts
+            districts = District.where(name: attributes['name'], province_id: province_id)
+            if districts.count == 1
+              districts.last.update_attributes(attributes)
+              district = districts.last.reload
+            elsif districts.count.zero?
+              district = District.find_or_create_by(attributes)
+            else
+              raise StandardError.new "This is an error"
+            end
+          end
+
           district_id = district&.id
           pp district_id
         elsif row_type.strip == "ឃុំ" || row_type.strip == "សង្កាត់"
@@ -135,15 +154,57 @@ module Importer
 
           fields << 'district_id'
           attributes = [fields, data].transpose.to_h
-          commune = Commune.find_or_create_by(attributes)
+
+          commune = Commune.find_by(code: attributes['code'])
+          commune = commune || Commune.find_by(code: attributes['code'].rjust(6, '0'))
+          commune = commune || Commune.find_by(code: attributes['code'].rjust(6, '0'), district_id: district_id)
+          commune = commune || Commune.find_by(code: attributes['code'], district_id: district_id)
+
+          attributes['code'] = attributes['code'].rjust(6, '0')
+          if commune
+            commune.update_attributes(attributes)
+            commune = commune.reload
+          else
+            # find existing communes
+            communes = Commune.where(name_kh: attributes['name_kh'], name_kh: attributes['name_en'])
+            if communes.count == 1
+              communes.last.update_attributes(attributes)
+              commune = communes.last.reload
+            elsif communes.count.zero?
+              commune = Commune.find_or_create_by(attributes)
+            else
+              raise StandardError.new "This is an error"
+            end
+          end
+
           commune_id = commune&.id
         else
           data = values[1..3].map(&:squish)
           data << commune_id
-
           fields << 'commune_id'
           attributes = [fields, data].transpose.to_h
-          Village.find_or_create_by(attributes)
+
+          village = Village.find_by(code: attributes['code'])
+          village = village || Village.find_by(code: attributes['code'].rjust(8, '0'))
+          village = village || Village.find_by(code: attributes['code'].rjust(8, '0'), commune_id: commune_id)
+          village = village || Village.find_by(code: attributes['code'], commune_id: commune_id)
+
+          attributes['code'] = attributes['code'].rjust(8, '0')
+          if village
+            village.update_attributes(attributes)
+            village = village.reload
+          else
+            # find existing villages
+            villages = Village.where(name_kh: attributes['name_kh'], name_kh: attributes['name_en'])
+            if villages.count == 1
+              villages.last.update_attributes(attributes)
+              village = villages.last.reload
+            elsif villages.count.zero?
+              village = Village.find_or_create_by(attributes)
+            else
+              raise StandardError.new "This is an error"
+            end
+          end
         end
       end
 
