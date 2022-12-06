@@ -130,6 +130,21 @@
                                 = "#{index + 1}. "
                                 = task.name
                 %hr/
+              .row
+                .col-xs-12.col-md-6
+                  %h4= t('.cb_dmat_assessment_task')
+                  - @client.screening_assessments.each do |screening_assessment|
+                    - completed_tasks = screening_assessment.tasks.completed.where(case_note_id: case_note.id)
+                    - next unless completed_tasks.any?
+                    .panel.panel-default
+                      .panel-heading
+                        %h4= "#{t('.completed_tasks')}: #{screening_assessment.client_milestone_age}"
+                      .panel-body.no-padding
+                        %ul.list-group
+                          - completed_tasks.each_with_index do |task, index|
+                            %li.list-group-item
+                              = "#{index + 1}. "
+                              = task.name
 
               - risk_assessment = @client.risk_assessment
               - if current_setting.enabled_risk_assessment? && risk_assessment

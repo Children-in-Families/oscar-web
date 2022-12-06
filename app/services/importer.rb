@@ -135,7 +135,7 @@ module Importer
             district = district.reload
           else
             # find existing districts
-            districts = District.where(name: attributes['name'])
+            districts = District.where(name: attributes['name'], province_id: province_id)
             if districts.count == 1
               districts.last.update_attributes(attributes)
               district = districts.last.reload
