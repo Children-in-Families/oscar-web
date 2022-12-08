@@ -86,7 +86,7 @@ module AdvancedSearches
     end
 
     def common_search_date_type_list
-      ['number_client_referred_gatekeeping', 'number_client_billable', 'active_client_program', 'client_rejected', 'active_clients']
+      ['number_client_referred_gatekeeping', 'number_client_billable', 'client_rejected', 'active_clients']
     end
 
     def date_type_list
