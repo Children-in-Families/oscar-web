@@ -24,3 +24,5 @@ Rails.application.config.active_record.belongs_to_required_by_default = true
 Rails.application.config.ssl_options = { hsts: { subdomains: true } }
 
 Rails.application.config.action_dispatch.use_authenticated_cookie_encryption = false
+Rails.application.config.active_record.dump_schemas = :all
+

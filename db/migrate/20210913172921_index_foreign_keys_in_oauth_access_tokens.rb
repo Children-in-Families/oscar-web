@@ -1,5 +1,5 @@
 class IndexForeignKeysInOauthAccessTokens < ActiveRecord::Migration[5.2]
   def change
-    add_index :oauth_access_tokens, :application_id
+    add_index :oauth_access_tokens, :application_id unless index_exists? :oauth_access_tokens, :application_id
   end
 end

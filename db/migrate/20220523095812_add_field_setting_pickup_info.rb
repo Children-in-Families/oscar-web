@@ -32,7 +32,7 @@ class AddFieldSettingPickupInfo < ActiveRecord::Migration[5.2]
   }
 
   def up
-    return if Apartment::Tenant.current_tenant == 'shared'
+    return if Apartment::Tenant.current == 'shared'
 
     NEW_FIELDS.each do |name, data|
       field_setting = FieldSetting.create!(
@@ -42,7 +42,7 @@ class AddFieldSettingPickupInfo < ActiveRecord::Migration[5.2]
         klass_name: :client,
         required: false,
         type: data[:type],
-        visible: (Apartment::Tenant.current_tenant == 'ratanak'),
+        visible: (Apartment::Tenant.current == 'ratanak'),
         group: data[:group] || :client
       )
     end

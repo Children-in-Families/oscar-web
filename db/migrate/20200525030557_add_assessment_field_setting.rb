@@ -1,6 +1,6 @@
 class AddAssessmentFieldSetting < ActiveRecord::Migration[5.2]
   def up
-    return if Apartment::Tenant.current_tenant == 'shared'
+    return if Apartment::Tenant.current == 'shared'
 
     field_setting = FieldSetting.create!(
       name: :reason,
@@ -11,7 +11,7 @@ class AddAssessmentFieldSetting < ActiveRecord::Migration[5.2]
       group: :assessment
     )
 
-    field_setting.update!(label: 'Review current need') if Apartment::Tenant.current_tenant == 'ratanak'
+    field_setting.update!(label: 'Review current need') if Apartment::Tenant.current == 'ratanak'
   end
 
   def down

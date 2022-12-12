@@ -1,6 +1,6 @@
 class MigrateFileUploadRequired < ActiveRecord::Migration[5.2]
   def up
-    return if Apartment::Tenant.current_tenant == 'shared'
+    return if Apartment::Tenant.current == 'shared'
 
     fields = %w(
       national_id

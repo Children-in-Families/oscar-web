@@ -12,7 +12,7 @@ class AddDocumentsToFieldSettings < ActiveRecord::Migration[5.2]
   }
 
   def up
-    return if Apartment::Tenant.current_tenant == 'shared'
+    return if Apartment::Tenant.current == 'shared'
 
     FIELDS.each do |name, label|
       field_setting = FieldSetting.create!(
@@ -21,7 +21,7 @@ class AddDocumentsToFieldSettings < ActiveRecord::Migration[5.2]
         label: label,
         klass_name: :client,
         required: false,
-        visible: (Apartment::Tenant.current_tenant == 'ratanak'),
+        visible: (Apartment::Tenant.current == 'ratanak'),
         group: :client
       )
     end

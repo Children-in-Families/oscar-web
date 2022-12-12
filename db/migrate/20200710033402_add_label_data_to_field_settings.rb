@@ -27,14 +27,14 @@ class AddLabelDataToFieldSettings < ActiveRecord::Migration[5.2]
   }
 
   def up
-    return if Apartment::Tenant.current_tenant == 'shared'
+    return if Apartment::Tenant.current == 'shared'
 
     FIELDS.each do |name, data|
       next if FieldSetting.find_by(name: name, klass_name: data[:klass_name])
       field_setting = FieldSetting.create!(
         name: name,
         current_label: data[:current_label],
-        label: (Apartment::Tenant.current_tenant == 'ratanak' ? data[:label] : nil),
+        label: (Apartment::Tenant.current == 'ratanak' ? data[:label] : nil),
         klass_name: data[:klass_name],
         required: true,
         label_only: true,

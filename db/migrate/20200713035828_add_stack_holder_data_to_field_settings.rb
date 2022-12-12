@@ -20,7 +20,7 @@ class AddStackHolderDataToFieldSettings < ActiveRecord::Migration[5.2]
   ]
 
   def up
-    return if Apartment::Tenant.current_tenant == 'shared'
+    return if Apartment::Tenant.current == 'shared'
 
     FIELDS.each do |name|
       next if FieldSetting.find_by(name: name, klass_name: :client)
@@ -29,7 +29,7 @@ class AddStackHolderDataToFieldSettings < ActiveRecord::Migration[5.2]
         name: name,
         current_label: I18n.t("clients.form.#{name}"),
         klass_name: :client,
-        visible: Apartment::Tenant.current_tenant == 'ratanak',
+        visible: Apartment::Tenant.current == 'ratanak',
         group: :stakeholder_contacts
       )
     end

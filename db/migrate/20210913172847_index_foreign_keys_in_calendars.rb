@@ -1,5 +1,5 @@
 class IndexForeignKeysInCalendars < ActiveRecord::Migration[5.2]
   def change
-    add_index :calendars, :google_event_id
+    add_index :calendars, :google_event_id unless index_exists? :calendars, :google_event_id
   end
 end
