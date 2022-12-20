@@ -1,4 +1,4 @@
-class IndexForeignKeysInClients < ActiveRecord::Migration[4.2]
+class IndexForeignKeysInClients < ActiveRecord::Migration[5.2]
   def change
     add_index :clients, :birth_province_id unless index_exists? :clients, :birth_province_id
     add_index :clients, :carer_id unless index_exists? :clients, :carer_id

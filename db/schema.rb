@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
   enable_extension "plpgsql"
   enable_extension "uuid-ossp"
 
-  create_table "able_screening_questions", force: :cascade do |t|
+  create_table "able_screening_questions", id: :serial, force: :cascade do |t|
     t.string "question"
     t.string "mode"
     t.integer "stage_id"
@@ -30,7 +30,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["stage_id"], name: "index_able_screening_questions_on_stage_id"
   end
 
-  create_table "achievement_program_staff_clients", force: :cascade do |t|
+  create_table "achievement_program_staff_clients", id: :serial, force: :cascade do |t|
     t.integer "client_id"
     t.integer "user_id"
     t.datetime "created_at", null: false
@@ -39,7 +39,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["user_id"], name: "index_achievement_program_staff_clients_on_user_id"
   end
 
-  create_table "action_results", force: :cascade do |t|
+  create_table "action_results", id: :serial, force: :cascade do |t|
     t.text "action", default: ""
     t.text "result", default: ""
     t.integer "government_form_id"
@@ -48,7 +48,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["government_form_id"], name: "index_action_results_on_government_form_id"
   end
 
-  create_table "admin_users", force: :cascade do |t|
+  create_table "admin_users", id: :serial, force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
@@ -66,7 +66,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
 
-  create_table "advanced_searches", force: :cascade do |t|
+  create_table "advanced_searches", id: :serial, force: :cascade do |t|
     t.string "name"
     t.text "description"
     t.jsonb "queries"
@@ -84,7 +84,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["user_id"], name: "index_advanced_searches_on_user_id"
   end
 
-  create_table "agencies", force: :cascade do |t|
+  create_table "agencies", id: :serial, force: :cascade do |t|
     t.string "name", default: ""
     t.text "description", default: ""
     t.datetime "created_at"
@@ -92,7 +92,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.integer "agencies_clients_count", default: 0
   end
 
-  create_table "agencies_clients", force: :cascade do |t|
+  create_table "agencies_clients", id: :serial, force: :cascade do |t|
     t.integer "client_id"
     t.integer "agency_id"
     t.datetime "created_at"
@@ -101,7 +101,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["client_id"], name: "index_agencies_clients_on_client_id"
   end
 
-  create_table "agency_clients", force: :cascade do |t|
+  create_table "agency_clients", id: :serial, force: :cascade do |t|
     t.integer "agency_id"
     t.integer "client_id"
     t.datetime "created_at"
@@ -110,7 +110,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["client_id"], name: "index_agency_clients_on_client_id"
   end
 
-  create_table "assessment_domains", force: :cascade do |t|
+  create_table "assessment_domains", id: :serial, force: :cascade do |t|
     t.text "note", default: ""
     t.integer "previous_score"
     t.integer "score"
@@ -130,7 +130,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["score"], name: "index_assessment_domains_on_score"
   end
 
-  create_table "assessments", force: :cascade do |t|
+  create_table "assessments", id: :serial, force: :cascade do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer "client_id"
@@ -152,7 +152,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["level_of_risk"], name: "index_assessments_on_level_of_risk"
   end
 
-  create_table "attachments", force: :cascade do |t|
+  create_table "attachments", id: :serial, force: :cascade do |t|
     t.string "image"
     t.integer "able_screening_question_id"
     t.datetime "created_at", null: false
@@ -163,7 +163,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["progress_note_id"], name: "index_attachments_on_progress_note_id"
   end
 
-  create_table "calendars", force: :cascade do |t|
+  create_table "calendars", id: :serial, force: :cascade do |t|
     t.string "title"
     t.datetime "start_date"
     t.datetime "end_date"
@@ -178,7 +178,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["user_id"], name: "index_calendars_on_user_id"
   end
 
-  create_table "call_necessities", force: :cascade do |t|
+  create_table "call_necessities", id: :serial, force: :cascade do |t|
     t.integer "call_id"
     t.integer "necessity_id"
     t.datetime "created_at", null: false
@@ -187,7 +187,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["necessity_id"], name: "index_call_necessities_on_necessity_id"
   end
 
-  create_table "call_protection_concerns", force: :cascade do |t|
+  create_table "call_protection_concerns", id: :serial, force: :cascade do |t|
     t.integer "call_id"
     t.integer "protection_concern_id"
     t.datetime "created_at", null: false
@@ -196,7 +196,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["protection_concern_id"], name: "index_call_protection_concerns_on_protection_concern_id"
   end
 
-  create_table "calls", force: :cascade do |t|
+  create_table "calls", id: :serial, force: :cascade do |t|
     t.integer "referee_id"
     t.string "phone_call_id", default: ""
     t.integer "receiving_staff_id"
@@ -218,7 +218,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["referee_id"], name: "index_calls_on_referee_id"
   end
 
-  create_table "care_plans", force: :cascade do |t|
+  create_table "care_plans", id: :serial, force: :cascade do |t|
     t.integer "assessment_id"
     t.integer "client_id"
     t.datetime "created_at"
@@ -230,7 +230,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["family_id"], name: "index_care_plans_on_family_id"
   end
 
-  create_table "carers", force: :cascade do |t|
+  create_table "carers", id: :serial, force: :cascade do |t|
     t.string "address_type", default: ""
     t.string "current_address", default: ""
     t.string "email", default: ""
@@ -270,19 +270,19 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["village_id"], name: "index_carers_on_village_id"
   end
 
-  create_table "case_closures", force: :cascade do |t|
+  create_table "case_closures", id: :serial, force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "case_conference_addressed_issues", force: :cascade do |t|
+  create_table "case_conference_addressed_issues", id: :serial, force: :cascade do |t|
     t.integer "case_conference_domain_id"
     t.string "title"
     t.index ["case_conference_domain_id"], name: "index_addressed_issues_on_case_conference_domain_id"
   end
 
-  create_table "case_conference_domains", force: :cascade do |t|
+  create_table "case_conference_domains", id: :serial, force: :cascade do |t|
     t.integer "domain_id"
     t.integer "case_conference_id"
     t.text "presenting_problem"
@@ -292,7 +292,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["domain_id"], name: "index_case_conference_domains_on_domain_id"
   end
 
-  create_table "case_conference_users", force: :cascade do |t|
+  create_table "case_conference_users", id: :serial, force: :cascade do |t|
     t.integer "user_id"
     t.integer "case_conference_id"
     t.datetime "created_at", null: false
@@ -301,7 +301,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["user_id"], name: "index_case_conference_users_on_user_id"
   end
 
-  create_table "case_conferences", force: :cascade do |t|
+  create_table "case_conferences", id: :serial, force: :cascade do |t|
     t.datetime "meeting_date"
     t.text "client_strength"
     t.text "client_limitation"
@@ -315,7 +315,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["meeting_date"], name: "index_case_conferences_on_meeting_date"
   end
 
-  create_table "case_contracts", force: :cascade do |t|
+  create_table "case_contracts", id: :serial, force: :cascade do |t|
     t.date "signed_on"
     t.integer "case_id"
     t.datetime "created_at"
@@ -323,7 +323,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["case_id"], name: "index_case_contracts_on_case_id"
   end
 
-  create_table "case_note_domain_groups", force: :cascade do |t|
+  create_table "case_note_domain_groups", id: :serial, force: :cascade do |t|
     t.text "note", default: ""
     t.integer "case_note_id"
     t.integer "domain_group_id"
@@ -334,7 +334,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["domain_group_id"], name: "index_case_note_domain_groups_on_domain_group_id"
   end
 
-  create_table "case_notes", force: :cascade do |t|
+  create_table "case_notes", id: :serial, force: :cascade do |t|
     t.string "attendee", default: ""
     t.datetime "meeting_date"
     t.integer "assessment_id"
@@ -353,7 +353,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["family_id"], name: "index_case_notes_on_family_id"
   end
 
-  create_table "case_worker_clients", force: :cascade do |t|
+  create_table "case_worker_clients", id: :serial, force: :cascade do |t|
     t.integer "user_id"
     t.integer "client_id"
     t.datetime "created_at"
@@ -364,7 +364,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["user_id"], name: "index_case_worker_clients_on_user_id"
   end
 
-  create_table "case_worker_communities", force: :cascade do |t|
+  create_table "case_worker_communities", id: :serial, force: :cascade do |t|
     t.integer "user_id"
     t.integer "community_id"
     t.datetime "deleted_at"
@@ -374,7 +374,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["user_id"], name: "index_case_worker_communities_on_user_id"
   end
 
-  create_table "case_worker_families", force: :cascade do |t|
+  create_table "case_worker_families", id: :serial, force: :cascade do |t|
     t.integer "user_id"
     t.integer "family_id"
     t.datetime "deleted_at"
@@ -384,7 +384,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["user_id"], name: "index_case_worker_families_on_user_id"
   end
 
-  create_table "case_worker_tasks", force: :cascade do |t|
+  create_table "case_worker_tasks", id: :serial, force: :cascade do |t|
     t.integer "user_id"
     t.integer "task_id"
     t.datetime "created_at"
@@ -393,7 +393,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["user_id"], name: "index_case_worker_tasks_on_user_id"
   end
 
-  create_table "cases", force: :cascade do |t|
+  create_table "cases", id: :serial, force: :cascade do |t|
     t.date "start_date"
     t.string "carer_names", default: ""
     t.string "carer_address", default: ""
@@ -429,7 +429,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["user_id"], name: "index_cases_on_user_id"
   end
 
-  create_table "changelog_types", force: :cascade do |t|
+  create_table "changelog_types", id: :serial, force: :cascade do |t|
     t.integer "changelog_id"
     t.string "change_type", default: ""
     t.string "description", default: ""
@@ -438,7 +438,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["changelog_id"], name: "index_changelog_types_on_changelog_id"
   end
 
-  create_table "changelogs", force: :cascade do |t|
+  create_table "changelogs", id: :serial, force: :cascade do |t|
     t.string "change_version", default: ""
     t.string "description", default: ""
     t.integer "user_id"
@@ -447,13 +447,13 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["user_id"], name: "index_changelogs_on_user_id"
   end
 
-  create_table "children_plans", force: :cascade do |t|
+  create_table "children_plans", id: :serial, force: :cascade do |t|
     t.string "name", default: ""
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "client_client_types", force: :cascade do |t|
+  create_table "client_client_types", id: :serial, force: :cascade do |t|
     t.integer "client_id"
     t.integer "client_type_id"
     t.datetime "created_at"
@@ -462,7 +462,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["client_type_id"], name: "index_client_client_types_on_client_type_id"
   end
 
-  create_table "client_enrollment_trackings", force: :cascade do |t|
+  create_table "client_enrollment_trackings", id: :serial, force: :cascade do |t|
     t.jsonb "properties", default: {}
     t.integer "client_enrollment_id"
     t.datetime "created_at", null: false
@@ -472,7 +472,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["tracking_id"], name: "index_client_enrollment_trackings_on_tracking_id"
   end
 
-  create_table "client_enrollments", force: :cascade do |t|
+  create_table "client_enrollments", id: :serial, force: :cascade do |t|
     t.jsonb "properties", default: {}
     t.string "status", default: "Active"
     t.integer "client_id"
@@ -486,7 +486,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["program_stream_id"], name: "index_client_enrollments_on_program_stream_id"
   end
 
-  create_table "client_interviewees", force: :cascade do |t|
+  create_table "client_interviewees", id: :serial, force: :cascade do |t|
     t.integer "client_id"
     t.integer "interviewee_id"
     t.datetime "created_at"
@@ -495,7 +495,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["interviewee_id"], name: "index_client_interviewees_on_interviewee_id"
   end
 
-  create_table "client_needs", force: :cascade do |t|
+  create_table "client_needs", id: :serial, force: :cascade do |t|
     t.integer "rank"
     t.integer "client_id"
     t.integer "need_id"
@@ -505,7 +505,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["need_id"], name: "index_client_needs_on_need_id"
   end
 
-  create_table "client_problems", force: :cascade do |t|
+  create_table "client_problems", id: :serial, force: :cascade do |t|
     t.integer "rank"
     t.integer "client_id"
     t.integer "problem_id"
@@ -515,7 +515,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["problem_id"], name: "index_client_problems_on_problem_id"
   end
 
-  create_table "client_quantitative_cases", force: :cascade do |t|
+  create_table "client_quantitative_cases", id: :serial, force: :cascade do |t|
     t.integer "quantitative_case_id"
     t.integer "client_id"
     t.datetime "created_at"
@@ -529,7 +529,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["type"], name: "index_client_quantitative_cases_on_type"
   end
 
-  create_table "client_right_government_forms", force: :cascade do |t|
+  create_table "client_right_government_forms", id: :serial, force: :cascade do |t|
     t.integer "government_form_id"
     t.integer "client_right_id"
     t.datetime "created_at", null: false
@@ -538,13 +538,13 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["government_form_id"], name: "index_client_right_government_forms_on_government_form_id"
   end
 
-  create_table "client_rights", force: :cascade do |t|
+  create_table "client_rights", id: :serial, force: :cascade do |t|
     t.string "name", default: ""
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "client_type_government_forms", force: :cascade do |t|
+  create_table "client_type_government_forms", id: :serial, force: :cascade do |t|
     t.integer "client_type_id"
     t.integer "government_form_id"
     t.datetime "created_at"
@@ -553,13 +553,13 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["government_form_id"], name: "index_client_type_government_forms_on_government_form_id"
   end
 
-  create_table "client_types", force: :cascade do |t|
+  create_table "client_types", id: :serial, force: :cascade do |t|
     t.string "name", default: ""
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "clients", force: :cascade do |t|
+  create_table "clients", id: :serial, force: :cascade do |t|
     t.string "code", default: ""
     t.string "given_name", default: ""
     t.string "family_name", default: ""
@@ -760,8 +760,6 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.string "other_agency_name"
     t.string "other_representative_name"
     t.string "other_agency_phone"
-    t.string "national_id_number"
-    t.string "passport_number"
     t.string "locality"
     t.string "ngo_partner_files", default: [], array: true
     t.string "mosavy_files", default: [], array: true
@@ -779,9 +777,9 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.string "detail_form_of_mosavy_dosavy_files", default: [], array: true
     t.string "short_form_of_judicial_police_option"
     t.string "short_form_of_judicial_police_files", default: [], array: true
-    t.boolean "screening_interview_form", default: false
     t.string "detail_form_of_judicial_police_option"
     t.string "detail_form_of_judicial_police_files", default: [], array: true
+    t.boolean "screening_interview_form", default: false
     t.string "screening_interview_form_option"
     t.string "screening_interview_form_files", default: [], array: true
     t.boolean "ngo_partner", default: false
@@ -798,6 +796,8 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.boolean "letter_from_immigration_police", default: false
     t.string "letter_from_immigration_police_files", default: [], array: true
     t.boolean "for_testing", default: false
+    t.string "national_id_number"
+    t.string "passport_number"
     t.datetime "arrival_at"
     t.string "flight_nb"
     t.index ["birth_province_id"], name: "index_clients_on_birth_province_id"
@@ -832,7 +832,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["village_id"], name: "index_clients_on_village_id"
   end
 
-  create_table "clients_quantitative_cases", force: :cascade do |t|
+  create_table "clients_quantitative_cases", id: :serial, force: :cascade do |t|
     t.integer "client_id"
     t.integer "quantitative_case_id"
     t.datetime "created_at"
@@ -841,7 +841,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["quantitative_case_id"], name: "index_clients_quantitative_cases_on_quantitative_case_id"
   end
 
-  create_table "communes", force: :cascade do |t|
+  create_table "communes", id: :serial, force: :cascade do |t|
     t.string "code", default: ""
     t.string "name_kh", default: ""
     t.string "name_en", default: ""
@@ -852,7 +852,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["district_id"], name: "index_communes_on_district_id"
   end
 
-  create_table "communities", force: :cascade do |t|
+  create_table "communities", id: :serial, force: :cascade do |t|
     t.integer "received_by_id"
     t.date "initial_referral_date"
     t.integer "referral_source_id"
@@ -885,14 +885,14 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["village_id"], name: "index_communities_on_village_id"
   end
 
-  create_table "community_donors", force: :cascade do |t|
+  create_table "community_donors", id: :serial, force: :cascade do |t|
     t.integer "donor_id"
     t.integer "community_id"
     t.index ["community_id"], name: "index_community_donors_on_community_id"
     t.index ["donor_id"], name: "index_community_donors_on_donor_id"
   end
 
-  create_table "community_members", force: :cascade do |t|
+  create_table "community_members", id: :serial, force: :cascade do |t|
     t.string "name", default: ""
     t.integer "community_id"
     t.integer "family_id"
@@ -908,7 +908,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["family_id"], name: "index_community_members_on_family_id"
   end
 
-  create_table "community_quantitative_cases", force: :cascade do |t|
+  create_table "community_quantitative_cases", id: :serial, force: :cascade do |t|
     t.integer "quantitative_case_id"
     t.integer "community_id"
     t.datetime "created_at"
@@ -923,7 +923,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["type"], name: "index_community_quantitative_cases_on_type"
   end
 
-  create_table "custom_assessment_settings", force: :cascade do |t|
+  create_table "custom_assessment_settings", id: :serial, force: :cascade do |t|
     t.string "custom_assessment_name", default: "Custom Assessment"
     t.integer "max_custom_assessment", default: 6
     t.string "custom_assessment_frequency", default: "month"
@@ -935,7 +935,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["setting_id"], name: "index_custom_assessment_settings_on_setting_id"
   end
 
-  create_table "custom_field_permissions", force: :cascade do |t|
+  create_table "custom_field_permissions", id: :serial, force: :cascade do |t|
     t.integer "user_id"
     t.integer "custom_field_id"
     t.boolean "readable", default: true
@@ -947,7 +947,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["user_id"], name: "index_custom_field_permissions_on_user_id"
   end
 
-  create_table "custom_field_properties", force: :cascade do |t|
+  create_table "custom_field_properties", id: :serial, force: :cascade do |t|
     t.jsonb "properties", default: {}
     t.string "custom_formable_type"
     t.integer "custom_formable_id"
@@ -962,7 +962,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["user_id"], name: "index_custom_field_properties_on_user_id"
   end
 
-  create_table "custom_fields", force: :cascade do |t|
+  create_table "custom_fields", id: :serial, force: :cascade do |t|
     t.string "entity_type", default: ""
     t.text "properties", default: ""
     t.datetime "created_at", null: false
@@ -976,7 +976,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["form_title"], name: "index_custom_fields_on_form_title"
   end
 
-  create_table "departments", force: :cascade do |t|
+  create_table "departments", id: :serial, force: :cascade do |t|
     t.string "name", default: ""
     t.text "description", default: ""
     t.datetime "created_at"
@@ -984,7 +984,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.integer "users_count", default: 0
   end
 
-  create_table "developmental_marker_screening_assessments", force: :cascade do |t|
+  create_table "developmental_marker_screening_assessments", id: :serial, force: :cascade do |t|
     t.integer "developmental_marker_id"
     t.integer "screening_assessment_id"
     t.boolean "question_1", default: true
@@ -995,7 +995,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["screening_assessment_id"], name: "index_marker_screening_assessments_on_screening_assessment_id"
   end
 
-  create_table "developmental_markers", force: :cascade do |t|
+  create_table "developmental_markers", id: :serial, force: :cascade do |t|
     t.string "name"
     t.string "name_local"
     t.string "short_description"
@@ -1021,7 +1021,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["name"], name: "index_developmental_markers_on_name"
   end
 
-  create_table "districts", force: :cascade do |t|
+  create_table "districts", id: :serial, force: :cascade do |t|
     t.string "name"
     t.integer "province_id"
     t.string "code", default: ""
@@ -1030,7 +1030,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["province_id"], name: "index_districts_on_province_id"
   end
 
-  create_table "domain_groups", force: :cascade do |t|
+  create_table "domain_groups", id: :serial, force: :cascade do |t|
     t.string "name", default: ""
     t.text "description", default: ""
     t.datetime "created_at"
@@ -1038,7 +1038,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.integer "domains_count", default: 0
   end
 
-  create_table "domain_program_streams", force: :cascade do |t|
+  create_table "domain_program_streams", id: :serial, force: :cascade do |t|
     t.integer "program_stream_id"
     t.integer "domain_id"
     t.datetime "created_at", null: false
@@ -1049,7 +1049,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["program_stream_id"], name: "index_domain_program_streams_on_program_stream_id"
   end
 
-  create_table "domains", force: :cascade do |t|
+  create_table "domains", id: :serial, force: :cascade do |t|
     t.string "name", default: ""
     t.string "identity", default: ""
     t.text "description", default: ""
@@ -1097,21 +1097,21 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["name", "identity", "custom_assessment_setting_id", "domain_type"], name: "index_domains_on_name_identity_custom_setting_domain_type", unique: true
   end
 
-  create_table "donor_families", force: :cascade do |t|
+  create_table "donor_families", id: :serial, force: :cascade do |t|
     t.integer "donor_id"
     t.integer "family_id"
     t.index ["donor_id"], name: "index_donor_families_on_donor_id"
     t.index ["family_id"], name: "index_donor_families_on_family_id"
   end
 
-  create_table "donor_organizations", force: :cascade do |t|
+  create_table "donor_organizations", id: :serial, force: :cascade do |t|
     t.integer "donor_id"
     t.integer "organization_id"
     t.index ["donor_id"], name: "index_donor_organizations_on_donor_id"
     t.index ["organization_id"], name: "index_donor_organizations_on_organization_id"
   end
 
-  create_table "donors", force: :cascade do |t|
+  create_table "donors", id: :serial, force: :cascade do |t|
     t.string "name", default: ""
     t.text "description", default: ""
     t.datetime "created_at", null: false
@@ -1121,7 +1121,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["global_id"], name: "index_donors_on_global_id"
   end
 
-  create_table "enrollment_trackings", force: :cascade do |t|
+  create_table "enrollment_trackings", id: :serial, force: :cascade do |t|
     t.integer "enrollment_id"
     t.integer "tracking_id"
     t.jsonb "properties", default: {}
@@ -1131,7 +1131,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["tracking_id"], name: "index_enrollment_trackings_on_tracking_id"
   end
 
-  create_table "enrollments", force: :cascade do |t|
+  create_table "enrollments", id: :serial, force: :cascade do |t|
     t.jsonb "properties", default: {}
     t.string "status", default: "Active"
     t.date "enrollment_date"
@@ -1147,14 +1147,14 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["programmable_id"], name: "index_enrollments_on_programmable_id"
   end
 
-  create_table "enter_ngo_users", force: :cascade do |t|
+  create_table "enter_ngo_users", id: :serial, force: :cascade do |t|
     t.integer "user_id"
     t.integer "enter_ngo_id"
     t.index ["enter_ngo_id"], name: "index_enter_ngo_users_on_enter_ngo_id"
     t.index ["user_id"], name: "index_enter_ngo_users_on_user_id"
   end
 
-  create_table "enter_ngos", force: :cascade do |t|
+  create_table "enter_ngos", id: :serial, force: :cascade do |t|
     t.date "accepted_date"
     t.integer "client_id"
     t.datetime "created_at"
@@ -1168,7 +1168,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["deleted_at"], name: "index_enter_ngos_on_deleted_at"
   end
 
-  create_table "exit_ngos", force: :cascade do |t|
+  create_table "exit_ngos", id: :serial, force: :cascade do |t|
     t.integer "client_id"
     t.string "exit_circumstance", default: ""
     t.string "other_info_of_exit", default: ""
@@ -1186,7 +1186,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["rejectable_id"], name: "index_exit_ngos_on_rejectable_id"
   end
 
-  create_table "external_system_global_identities", force: :cascade do |t|
+  create_table "external_system_global_identities", id: :serial, force: :cascade do |t|
     t.integer "external_system_id"
     t.string "global_id"
     t.string "external_id"
@@ -1199,7 +1199,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["global_id"], name: "index_external_system_global_identities_on_global_id"
   end
 
-  create_table "external_systems", force: :cascade do |t|
+  create_table "external_systems", id: :serial, force: :cascade do |t|
     t.string "name"
     t.string "url"
     t.string "token"
@@ -1208,7 +1208,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["name"], name: "index_external_systems_on_name"
   end
 
-  create_table "families", force: :cascade do |t|
+  create_table "families", id: :serial, force: :cascade do |t|
     t.string "code"
     t.string "name", default: ""
     t.string "address", default: ""
@@ -1268,7 +1268,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["village_id"], name: "index_families_on_village_id"
   end
 
-  create_table "family_members", force: :cascade do |t|
+  create_table "family_members", id: :serial, force: :cascade do |t|
     t.string "adult_name", default: ""
     t.date "date_of_birth"
     t.string "occupation", default: ""
@@ -1285,14 +1285,14 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["family_id"], name: "index_family_members_on_family_id"
   end
 
-  create_table "family_plans", force: :cascade do |t|
+  create_table "family_plans", id: :serial, force: :cascade do |t|
     t.string "name", default: ""
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "priority"
   end
 
-  create_table "family_quantitative_cases", force: :cascade do |t|
+  create_table "family_quantitative_cases", id: :serial, force: :cascade do |t|
     t.integer "quantitative_case_id"
     t.integer "family_id"
     t.datetime "created_at"
@@ -1307,7 +1307,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["type"], name: "index_family_quantitative_cases_on_type"
   end
 
-  create_table "family_referrals", force: :cascade do |t|
+  create_table "family_referrals", id: :serial, force: :cascade do |t|
     t.string "slug", default: ""
     t.date "date_of_referral"
     t.string "referred_to", default: ""
@@ -1327,7 +1327,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["referee_id"], name: "index_family_referrals_on_referee_id"
   end
 
-  create_table "field_setting_translations", force: :cascade do |t|
+  create_table "field_setting_translations", id: :serial, force: :cascade do |t|
     t.integer "field_setting_id", null: false
     t.string "locale", null: false
     t.datetime "created_at", null: false
@@ -1337,7 +1337,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["locale"], name: "index_field_setting_translations_on_locale"
   end
 
-  create_table "field_settings", force: :cascade do |t|
+  create_table "field_settings", id: :serial, force: :cascade do |t|
     t.string "name", null: false
     t.string "group", null: false
     t.datetime "created_at", null: false
@@ -1354,7 +1354,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["name"], name: "index_field_settings_on_name"
   end
 
-  create_table "form_builder_attachments", force: :cascade do |t|
+  create_table "form_builder_attachments", id: :serial, force: :cascade do |t|
     t.string "name", default: ""
     t.jsonb "file", default: []
     t.string "form_buildable_type"
@@ -1366,7 +1366,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["name"], name: "index_form_builder_attachments_on_name"
   end
 
-  create_table "friendly_id_slugs", force: :cascade do |t|
+  create_table "friendly_id_slugs", id: :serial, force: :cascade do |t|
     t.string "slug", null: false
     t.integer "sluggable_id", null: false
     t.string "sluggable_type", limit: 50
@@ -1383,7 +1383,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["ulid"], name: "index_global_identities_on_ulid", unique: true
   end
 
-  create_table "global_identity_organizations", force: :cascade do |t|
+  create_table "global_identity_organizations", id: :serial, force: :cascade do |t|
     t.string "global_id"
     t.integer "organization_id"
     t.integer "client_id"
@@ -1392,7 +1392,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["organization_id"], name: "index_global_identity_organizations_on_organization_id"
   end
 
-  create_table "global_identity_tmp", force: :cascade do |t|
+  create_table "global_identity_tmp", id: :serial, force: :cascade do |t|
     t.binary "ulid"
     t.string "ngo_name"
     t.integer "client_id"
@@ -1403,7 +1403,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["uuid"], name: "index_global_services_on_uuid", unique: true
   end
 
-  create_table "goals", force: :cascade do |t|
+  create_table "goals", id: :serial, force: :cascade do |t|
     t.text "description", default: ""
     t.integer "assessment_domain_id"
     t.integer "domain_id"
@@ -1421,7 +1421,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["family_id"], name: "index_goals_on_family_id"
   end
 
-  create_table "government_form_children_plans", force: :cascade do |t|
+  create_table "government_form_children_plans", id: :serial, force: :cascade do |t|
     t.text "goal", default: ""
     t.text "action", default: ""
     t.text "who", default: ""
@@ -1437,7 +1437,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["government_form_id"], name: "index_government_form_children_plans_on_government_form_id"
   end
 
-  create_table "government_form_family_plans", force: :cascade do |t|
+  create_table "government_form_family_plans", id: :serial, force: :cascade do |t|
     t.text "goal", default: ""
     t.text "action", default: ""
     t.text "result", default: ""
@@ -1452,7 +1452,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["government_form_id"], name: "index_government_form_family_plans_on_government_form_id"
   end
 
-  create_table "government_form_interviewees", force: :cascade do |t|
+  create_table "government_form_interviewees", id: :serial, force: :cascade do |t|
     t.integer "government_form_id"
     t.integer "interviewee_id"
     t.datetime "created_at"
@@ -1461,7 +1461,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["interviewee_id"], name: "index_government_form_interviewees_on_interviewee_id"
   end
 
-  create_table "government_form_needs", force: :cascade do |t|
+  create_table "government_form_needs", id: :serial, force: :cascade do |t|
     t.integer "rank"
     t.integer "need_id"
     t.integer "government_form_id"
@@ -1471,7 +1471,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["need_id"], name: "index_government_form_needs_on_need_id"
   end
 
-  create_table "government_form_problems", force: :cascade do |t|
+  create_table "government_form_problems", id: :serial, force: :cascade do |t|
     t.integer "rank"
     t.integer "problem_id"
     t.integer "government_form_id"
@@ -1481,7 +1481,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["problem_id"], name: "index_government_form_problems_on_problem_id"
   end
 
-  create_table "government_form_service_types", force: :cascade do |t|
+  create_table "government_form_service_types", id: :serial, force: :cascade do |t|
     t.integer "government_form_id"
     t.integer "service_type_id"
     t.datetime "created_at", null: false
@@ -1490,7 +1490,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["service_type_id"], name: "index_government_form_service_types_on_service_type_id"
   end
 
-  create_table "government_forms", force: :cascade do |t|
+  create_table "government_forms", id: :serial, force: :cascade do |t|
     t.string "name", default: ""
     t.date "date"
     t.string "client_code", default: ""
@@ -1564,7 +1564,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["village_id"], name: "index_government_forms_on_village_id"
   end
 
-  create_table "government_reports", force: :cascade do |t|
+  create_table "government_reports", id: :serial, force: :cascade do |t|
     t.string "code", default: ""
     t.string "initial_capital", default: ""
     t.string "initial_city", default: ""
@@ -1628,7 +1628,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["client_id"], name: "index_government_reports_on_client_id"
   end
 
-  create_table "hotlines", force: :cascade do |t|
+  create_table "hotlines", id: :serial, force: :cascade do |t|
     t.integer "client_id"
     t.integer "call_id"
     t.datetime "created_at"
@@ -1637,7 +1637,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["client_id"], name: "index_hotlines_on_client_id"
   end
 
-  create_table "internal_referral_program_streams", force: :cascade do |t|
+  create_table "internal_referral_program_streams", id: :serial, force: :cascade do |t|
     t.integer "internal_referral_id"
     t.integer "program_stream_id"
     t.datetime "created_at", null: false
@@ -1646,7 +1646,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["program_stream_id"], name: "index_internal_referral_program_streams_on_program_stream_id"
   end
 
-  create_table "internal_referrals", force: :cascade do |t|
+  create_table "internal_referrals", id: :serial, force: :cascade do |t|
     t.datetime "referral_date"
     t.integer "client_id"
     t.integer "user_id"
@@ -1663,19 +1663,19 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["user_id"], name: "index_internal_referrals_on_user_id"
   end
 
-  create_table "interventions", force: :cascade do |t|
+  create_table "interventions", id: :serial, force: :cascade do |t|
     t.string "action", default: ""
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "interviewees", force: :cascade do |t|
+  create_table "interviewees", id: :serial, force: :cascade do |t|
     t.string "name", default: ""
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "leave_programs", force: :cascade do |t|
+  create_table "leave_programs", id: :serial, force: :cascade do |t|
     t.jsonb "properties", default: {}
     t.integer "client_enrollment_id"
     t.datetime "created_at", null: false
@@ -1690,20 +1690,20 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["program_stream_id"], name: "index_leave_programs_on_program_stream_id"
   end
 
-  create_table "locations", force: :cascade do |t|
+  create_table "locations", id: :serial, force: :cascade do |t|
     t.string "name", default: ""
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer "order_option", default: 0
   end
 
-  create_table "materials", force: :cascade do |t|
+  create_table "materials", id: :serial, force: :cascade do |t|
     t.string "status", default: ""
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "mo_savy_officials", force: :cascade do |t|
+  create_table "mo_savy_officials", id: :serial, force: :cascade do |t|
     t.string "name"
     t.string "position"
     t.integer "client_id"
@@ -1711,19 +1711,19 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "necessities", force: :cascade do |t|
+  create_table "necessities", id: :serial, force: :cascade do |t|
     t.string "content", default: ""
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "needs", force: :cascade do |t|
+  create_table "needs", id: :serial, force: :cascade do |t|
     t.string "name", default: ""
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "oauth_access_grants", force: :cascade do |t|
+  create_table "oauth_access_grants", id: :serial, force: :cascade do |t|
     t.integer "resource_owner_id", null: false
     t.integer "application_id", null: false
     t.string "token", null: false
@@ -1737,7 +1737,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["token"], name: "index_oauth_access_grants_on_token", unique: true
   end
 
-  create_table "oauth_access_tokens", force: :cascade do |t|
+  create_table "oauth_access_tokens", id: :serial, force: :cascade do |t|
     t.integer "resource_owner_id"
     t.integer "application_id"
     t.string "token", null: false
@@ -1753,7 +1753,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["token"], name: "index_oauth_access_tokens_on_token", unique: true
   end
 
-  create_table "oauth_applications", force: :cascade do |t|
+  create_table "oauth_applications", id: :serial, force: :cascade do |t|
     t.string "name", null: false
     t.string "uid", null: false
     t.string "secret", null: false
@@ -1765,13 +1765,13 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["uid"], name: "index_oauth_applications_on_uid", unique: true
   end
 
-  create_table "organization_types", force: :cascade do |t|
+  create_table "organization_types", id: :serial, force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "organizations", force: :cascade do |t|
+  create_table "organizations", id: :serial, force: :cascade do |t|
     t.string "full_name"
     t.string "short_name"
     t.string "logo"
@@ -1791,7 +1791,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["short_name"], name: "index_organizations_on_short_name"
   end
 
-  create_table "partners", force: :cascade do |t|
+  create_table "partners", id: :serial, force: :cascade do |t|
     t.string "name", default: ""
     t.string "address", default: ""
     t.date "start_date"
@@ -1811,7 +1811,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["province_id"], name: "index_partners_on_province_id"
   end
 
-  create_table "permissions", force: :cascade do |t|
+  create_table "permissions", id: :serial, force: :cascade do |t|
     t.integer "user_id"
     t.boolean "case_notes_readable", default: true
     t.boolean "case_notes_editable", default: true
@@ -1822,13 +1822,13 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["user_id"], name: "index_permissions_on_user_id"
   end
 
-  create_table "problems", force: :cascade do |t|
+  create_table "problems", id: :serial, force: :cascade do |t|
     t.string "name", default: ""
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "program_stream_permissions", force: :cascade do |t|
+  create_table "program_stream_permissions", id: :serial, force: :cascade do |t|
     t.integer "user_id"
     t.integer "program_stream_id"
     t.boolean "readable", default: true
@@ -1841,7 +1841,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["user_id"], name: "index_program_stream_permissions_on_user_id"
   end
 
-  create_table "program_stream_services", force: :cascade do |t|
+  create_table "program_stream_services", id: :serial, force: :cascade do |t|
     t.datetime "deleted_at"
     t.integer "program_stream_id"
     t.integer "service_id"
@@ -1852,7 +1852,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["service_id"], name: "index_program_stream_services_on_service_id"
   end
 
-  create_table "program_stream_users", force: :cascade do |t|
+  create_table "program_stream_users", id: :serial, force: :cascade do |t|
     t.integer "user_id"
     t.integer "program_stream_id"
     t.datetime "created_at", null: false
@@ -1861,7 +1861,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["user_id"], name: "index_program_stream_users_on_user_id"
   end
 
-  create_table "program_streams", force: :cascade do |t|
+  create_table "program_streams", id: :serial, force: :cascade do |t|
     t.string "name"
     t.text "description"
     t.jsonb "rules", default: {}
@@ -1881,13 +1881,13 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["name"], name: "index_program_streams_on_name"
   end
 
-  create_table "progress_note_types", force: :cascade do |t|
+  create_table "progress_note_types", id: :serial, force: :cascade do |t|
     t.string "note_type", default: ""
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "progress_notes", force: :cascade do |t|
+  create_table "progress_notes", id: :serial, force: :cascade do |t|
     t.date "date"
     t.string "other_location", default: ""
     t.text "response", default: ""
@@ -1906,13 +1906,13 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["user_id"], name: "index_progress_notes_on_user_id"
   end
 
-  create_table "protection_concerns", force: :cascade do |t|
+  create_table "protection_concerns", id: :serial, force: :cascade do |t|
     t.string "content", default: ""
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "provinces", force: :cascade do |t|
+  create_table "provinces", id: :serial, force: :cascade do |t|
     t.string "name", default: ""
     t.text "description", default: ""
     t.datetime "created_at"
@@ -1925,7 +1925,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.string "country"
   end
 
-  create_table "quantitative_cases", force: :cascade do |t|
+  create_table "quantitative_cases", id: :serial, force: :cascade do |t|
     t.string "value", default: ""
     t.integer "quantitative_type_id"
     t.datetime "created_at"
@@ -1933,7 +1933,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["quantitative_type_id"], name: "index_quantitative_cases_on_quantitative_type_id"
   end
 
-  create_table "quantitative_type_permissions", force: :cascade do |t|
+  create_table "quantitative_type_permissions", id: :serial, force: :cascade do |t|
     t.integer "user_id"
     t.integer "quantitative_type_id"
     t.boolean "readable", default: true
@@ -1944,7 +1944,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["user_id"], name: "index_quantitative_type_permissions_on_user_id"
   end
 
-  create_table "quantitative_types", force: :cascade do |t|
+  create_table "quantitative_types", id: :serial, force: :cascade do |t|
     t.string "name", default: ""
     t.text "description", default: ""
     t.integer "quantitative_cases_count", default: 0
@@ -1957,7 +1957,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.string "field_type", default: "select_option"
   end
 
-  create_table "quarterly_reports", force: :cascade do |t|
+  create_table "quarterly_reports", id: :serial, force: :cascade do |t|
     t.date "visit_date"
     t.bigint "code"
     t.integer "case_id"
@@ -1981,13 +1981,13 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["staff_id"], name: "index_quarterly_reports_on_staff_id"
   end
 
-  create_table "question_groups", force: :cascade do |t|
+  create_table "question_groups", id: :serial, force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "referees", force: :cascade do |t|
+  create_table "referees", id: :serial, force: :cascade do |t|
     t.string "address_type", default: ""
     t.string "current_address", default: ""
     t.string "email", default: ""
@@ -2027,7 +2027,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["village_id"], name: "index_referees_on_village_id"
   end
 
-  create_table "referral_sources", force: :cascade do |t|
+  create_table "referral_sources", id: :serial, force: :cascade do |t|
     t.string "name", default: ""
     t.text "description", default: ""
     t.datetime "created_at"
@@ -2040,7 +2040,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["name_en"], name: "index_referral_sources_on_name_en"
   end
 
-  create_table "referrals", force: :cascade do |t|
+  create_table "referrals", id: :serial, force: :cascade do |t|
     t.string "slug", default: ""
     t.date "date_of_referral"
     t.string "referred_to", default: ""
@@ -2101,7 +2101,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.integer "history_of_harm_id"
     t.integer "history_of_high_risk_behaviour_id"
     t.integer "history_of_family_separation_id"
-    t.integer "client_id"
+    t.bigint "client_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["assessment_date"], name: "index_risk_assessments_on_assessment_date"
@@ -2112,7 +2112,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["history_of_high_risk_behaviour_id"], name: "index_risk_assessments_on_history_of_high_risk_behaviour_id"
   end
 
-  create_table "screening_assessments", force: :cascade do |t|
+  create_table "screening_assessments", id: :serial, force: :cascade do |t|
     t.datetime "screening_assessment_date"
     t.string "client_age"
     t.string "visitor"
@@ -2130,7 +2130,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["screening_type"], name: "index_screening_assessments_on_screening_type"
   end
 
-  create_table "service_deliveries", force: :cascade do |t|
+  create_table "service_deliveries", id: :serial, force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -2138,7 +2138,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["parent_id"], name: "index_service_deliveries_on_parent_id"
   end
 
-  create_table "service_delivery_tasks", force: :cascade do |t|
+  create_table "service_delivery_tasks", id: :serial, force: :cascade do |t|
     t.integer "task_id"
     t.integer "service_delivery_id"
     t.datetime "created_at", null: false
@@ -2147,13 +2147,13 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["task_id"], name: "index_service_delivery_tasks_on_task_id"
   end
 
-  create_table "service_types", force: :cascade do |t|
+  create_table "service_types", id: :serial, force: :cascade do |t|
     t.string "name", default: ""
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "services", force: :cascade do |t|
+  create_table "services", id: :serial, force: :cascade do |t|
     t.string "name"
     t.integer "parent_id"
     t.datetime "deleted_at"
@@ -2166,7 +2166,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["uuid"], name: "index_services_on_uuid"
   end
 
-  create_table "settings", force: :cascade do |t|
+  create_table "settings", id: :serial, force: :cascade do |t|
     t.string "assessment_frequency", default: "month"
     t.integer "min_assessment"
     t.integer "max_assessment", default: 6
@@ -2240,7 +2240,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["screening_assessment_form_id"], name: "index_settings_on_screening_assessment_form_id"
   end
 
-  create_table "shared_clients", force: :cascade do |t|
+  create_table "shared_clients", id: :serial, force: :cascade do |t|
     t.string "slug", default: ""
     t.string "given_name", default: ""
     t.string "family_name", default: ""
@@ -2271,7 +2271,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["slug"], name: "index_shared_clients_on_slug", unique: true
   end
 
-  create_table "sponsors", force: :cascade do |t|
+  create_table "sponsors", id: :serial, force: :cascade do |t|
     t.integer "client_id"
     t.integer "donor_id"
     t.datetime "created_at"
@@ -2280,20 +2280,20 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["donor_id"], name: "index_sponsors_on_donor_id"
   end
 
-  create_table "stages", force: :cascade do |t|
+  create_table "stages", id: :serial, force: :cascade do |t|
     t.float "from_age"
     t.float "to_age"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "states", force: :cascade do |t|
+  create_table "states", id: :serial, force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "subdistricts", force: :cascade do |t|
+  create_table "subdistricts", id: :serial, force: :cascade do |t|
     t.string "name"
     t.integer "district_id"
     t.datetime "created_at", null: false
@@ -2301,7 +2301,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["district_id"], name: "index_subdistricts_on_district_id"
   end
 
-  create_table "surveys", force: :cascade do |t|
+  create_table "surveys", id: :serial, force: :cascade do |t|
     t.integer "client_id"
     t.integer "user_id"
     t.integer "listening_score"
@@ -2318,7 +2318,12 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["user_id"], name: "index_surveys_on_user_id"
   end
 
-  create_table "task_progress_notes", force: :cascade do |t|
+  create_table "table_tests", force: :cascade do |t|
+    t.string "name"
+    t.datetime "date"
+  end
+
+  create_table "task_progress_notes", id: :serial, force: :cascade do |t|
     t.text "progress_note"
     t.integer "task_id"
     t.datetime "created_at", null: false
@@ -2326,7 +2331,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["task_id"], name: "index_task_progress_notes_on_task_id"
   end
 
-  create_table "tasks", force: :cascade do |t|
+  create_table "tasks", id: :serial, force: :cascade do |t|
     t.string "name", default: ""
     t.date "expected_date"
     t.datetime "remind_at"
@@ -2362,42 +2367,42 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["user_id"], name: "index_tasks_on_user_id"
   end
 
-  create_table "thredded_categories", force: :cascade do |t|
+  create_table "thredded_categories", id: :serial, force: :cascade do |t|
     t.integer "messageboard_id", null: false
     t.string "name", limit: 191, null: false
     t.string "description", limit: 255
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "slug", limit: 191, null: false
+    t.index "lower((name)::text) text_pattern_ops", name: "thredded_categories_name_ci"
     t.index ["messageboard_id", "slug"], name: "index_thredded_categories_on_messageboard_id_and_slug", unique: true
     t.index ["messageboard_id"], name: "index_thredded_categories_on_messageboard_id"
   end
 
-  create_table "thredded_messageboard_groups", force: :cascade do |t|
+  create_table "thredded_messageboard_groups", id: :serial, force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "position", null: false
-    t.index ["name"], name: "index_thredded_messageboard_group_on_name", unique: true
   end
 
-  create_table "thredded_messageboards", force: :cascade do |t|
-    t.string "name", limit: 191, null: false
+  create_table "thredded_messageboards", id: :serial, force: :cascade do |t|
+    t.string "name", limit: 255, null: false
     t.string "slug", limit: 191
     t.text "description"
     t.integer "topics_count", default: 0
     t.integer "posts_count", default: 0
+    t.boolean "closed", default: false, null: false
     t.integer "last_topic_id"
     t.integer "messageboard_group_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "position", null: false
+    t.index ["closed"], name: "index_thredded_messageboards_on_closed"
     t.index ["last_topic_id"], name: "index_thredded_messageboards_on_last_topic_id"
     t.index ["messageboard_group_id"], name: "index_thredded_messageboards_on_messageboard_group_id"
     t.index ["slug"], name: "index_thredded_messageboards_on_slug"
   end
 
-  create_table "thredded_post_moderation_records", force: :cascade do |t|
+  create_table "thredded_post_moderation_records", id: :serial, force: :cascade do |t|
     t.integer "post_id"
     t.integer "messageboard_id"
     t.text "post_content"
@@ -2413,7 +2418,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["post_user_id"], name: "index_thredded_post_moderation_records_on_post_user_id"
   end
 
-  create_table "thredded_post_notifications", force: :cascade do |t|
+  create_table "thredded_post_notifications", id: :serial, force: :cascade do |t|
     t.string "email", limit: 191, null: false
     t.integer "post_id", null: false
     t.datetime "created_at", null: false
@@ -2422,7 +2427,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["post_id", "post_type"], name: "index_thredded_post_notifications_on_post"
   end
 
-  create_table "thredded_posts", force: :cascade do |t|
+  create_table "thredded_posts", id: :serial, force: :cascade do |t|
     t.integer "user_id"
     t.text "content"
     t.string "ip", limit: 255
@@ -2432,13 +2437,14 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.integer "moderation_state", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index "to_tsvector('english'::regconfig, content)", name: "thredded_posts_content_fts", using: :gist
     t.index ["messageboard_id"], name: "index_thredded_posts_on_messageboard_id"
     t.index ["moderation_state", "updated_at"], name: "index_thredded_posts_for_display"
     t.index ["postable_id"], name: "index_thredded_posts_on_postable_id_and_postable_type"
     t.index ["user_id"], name: "index_thredded_posts_on_user_id"
   end
 
-  create_table "thredded_private_posts", force: :cascade do |t|
+  create_table "thredded_private_posts", id: :serial, force: :cascade do |t|
     t.integer "user_id"
     t.text "content"
     t.integer "postable_id", null: false
@@ -2449,7 +2455,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["user_id"], name: "index_thredded_private_posts_on_user_id"
   end
 
-  create_table "thredded_private_topics", force: :cascade do |t|
+  create_table "thredded_private_topics", id: :serial, force: :cascade do |t|
     t.integer "user_id"
     t.integer "last_user_id"
     t.string "title", limit: 255, null: false
@@ -2458,14 +2464,13 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.string "hash_id", limit: 191, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.datetime "last_post_at"
     t.index ["hash_id"], name: "index_thredded_private_topics_on_hash_id"
     t.index ["last_user_id"], name: "index_thredded_private_topics_on_last_user_id"
     t.index ["slug"], name: "index_thredded_private_topics_on_slug"
     t.index ["user_id"], name: "index_thredded_private_topics_on_user_id"
   end
 
-  create_table "thredded_private_users", force: :cascade do |t|
+  create_table "thredded_private_users", id: :serial, force: :cascade do |t|
     t.integer "private_topic_id"
     t.integer "user_id"
     t.datetime "created_at", null: false
@@ -2474,14 +2479,14 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["user_id"], name: "index_thredded_private_users_on_user_id"
   end
 
-  create_table "thredded_topic_categories", force: :cascade do |t|
+  create_table "thredded_topic_categories", id: :serial, force: :cascade do |t|
     t.integer "topic_id", null: false
     t.integer "category_id", null: false
     t.index ["category_id"], name: "index_thredded_topic_categories_on_category_id"
     t.index ["topic_id"], name: "index_thredded_topic_categories_on_topic_id"
   end
 
-  create_table "thredded_topics", force: :cascade do |t|
+  create_table "thredded_topics", id: :serial, force: :cascade do |t|
     t.integer "user_id"
     t.integer "last_user_id"
     t.string "title", limit: 255, null: false
@@ -2495,16 +2500,16 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.integer "moderation_state", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.datetime "last_post_at"
+    t.index "to_tsvector('english'::regconfig, (title)::text)", name: "thredded_topics_title_fts", using: :gist
     t.index ["hash_id"], name: "index_thredded_topics_on_hash_id"
     t.index ["last_user_id"], name: "index_thredded_topics_on_last_user_id"
+    t.index ["messageboard_id", "slug"], name: "index_thredded_topics_on_messageboard_id_and_slug", unique: true
     t.index ["messageboard_id"], name: "index_thredded_topics_on_messageboard_id"
     t.index ["moderation_state", "sticky", "updated_at"], name: "index_thredded_topics_for_display", order: { sticky: :desc, updated_at: :desc }
-    t.index ["slug"], name: "index_thredded_topics_on_slug", unique: true
     t.index ["user_id"], name: "index_thredded_topics_on_user_id"
   end
 
-  create_table "thredded_user_details", force: :cascade do |t|
+  create_table "thredded_user_details", id: :serial, force: :cascade do |t|
     t.integer "user_id", null: false
     t.datetime "latest_activity_at"
     t.integer "posts_count", default: 0
@@ -2519,28 +2524,26 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["user_id"], name: "index_thredded_user_details_on_user_id"
   end
 
-  create_table "thredded_user_messageboard_preferences", force: :cascade do |t|
+  create_table "thredded_user_messageboard_preferences", id: :serial, force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "messageboard_id", null: false
-    t.boolean "follow_topics_on_mention", default: true, null: false
+    t.boolean "notify_on_mention", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "followed_topic_emails", default: true, null: false
     t.index ["messageboard_id"], name: "index_thredded_user_messageboard_preferences_on_messageboard_id"
     t.index ["user_id", "messageboard_id"], name: "thredded_user_messageboard_preferences_user_id_messageboard_id", unique: true
   end
 
-  create_table "thredded_user_preferences", force: :cascade do |t|
+  create_table "thredded_user_preferences", id: :serial, force: :cascade do |t|
     t.integer "user_id", null: false
-    t.boolean "follow_topics_on_mention", default: true, null: false
+    t.boolean "notify_on_mention", default: true, null: false
+    t.boolean "notify_on_message", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "notify_on_message", default: true, null: false
-    t.boolean "followed_topic_emails", default: true, null: false
     t.index ["user_id"], name: "index_thredded_user_preferences_on_user_id"
   end
 
-  create_table "thredded_user_private_topic_read_states", force: :cascade do |t|
+  create_table "thredded_user_private_topic_read_states", id: :serial, force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "postable_id", null: false
     t.integer "page", default: 1, null: false
@@ -2549,7 +2552,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["user_id", "postable_id"], name: "thredded_user_private_topic_read_states_user_postable", unique: true
   end
 
-  create_table "thredded_user_topic_follows", force: :cascade do |t|
+  create_table "thredded_user_topic_follows", id: :serial, force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "topic_id", null: false
     t.datetime "created_at", null: false
@@ -2558,7 +2561,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["user_id", "topic_id"], name: "thredded_user_topic_follows_user_topic", unique: true
   end
 
-  create_table "thredded_user_topic_read_states", force: :cascade do |t|
+  create_table "thredded_user_topic_read_states", id: :serial, force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "postable_id", null: false
     t.integer "page", default: 1, null: false
@@ -2567,7 +2570,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["user_id", "postable_id"], name: "thredded_user_topic_read_states_user_postable", unique: true
   end
 
-  create_table "townships", force: :cascade do |t|
+  create_table "townships", id: :serial, force: :cascade do |t|
     t.string "name"
     t.integer "state_id"
     t.datetime "created_at", null: false
@@ -2575,7 +2578,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["state_id"], name: "index_townships_on_state_id"
   end
 
-  create_table "trackings", force: :cascade do |t|
+  create_table "trackings", id: :serial, force: :cascade do |t|
     t.string "name", default: ""
     t.jsonb "fields", default: {}
     t.string "frequency", default: ""
@@ -2590,7 +2593,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["program_stream_id"], name: "index_trackings_on_program_stream_id"
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", id: :serial, force: :cascade do |t|
     t.string "first_name", default: ""
     t.string "last_name", default: ""
     t.string "roles", default: "case worker"
@@ -2643,6 +2646,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.string "preferred_language", default: "en"
     t.string "organization_name"
     t.string "profile"
+    t.index "lower((email)::text) text_pattern_ops", name: "users_email_lower", unique: true
     t.index ["deleted_at"], name: "index_users_on_deleted_at"
     t.index ["department_id"], name: "index_users_on_department_id"
     t.index ["email"], name: "index_users_on_email", unique: true
@@ -2652,7 +2656,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  create_table "version_associations", force: :cascade do |t|
+  create_table "version_associations", id: :serial, force: :cascade do |t|
     t.integer "version_id"
     t.string "foreign_key_name", null: false
     t.integer "foreign_key_id"
@@ -2662,7 +2666,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["version_id"], name: "index_version_associations_on_version_id"
   end
 
-  create_table "versions", force: :cascade do |t|
+  create_table "versions", id: :serial, force: :cascade do |t|
     t.string "item_type", null: false
     t.integer "item_id", null: false
     t.string "event", null: false
@@ -2675,7 +2679,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["transaction_id"], name: "index_versions_on_transaction_id"
   end
 
-  create_table "villages", force: :cascade do |t|
+  create_table "villages", id: :serial, force: :cascade do |t|
     t.string "code", default: ""
     t.string "name_kh", default: ""
     t.string "name_en", default: ""
@@ -2685,7 +2689,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["commune_id"], name: "index_villages_on_commune_id"
   end
 
-  create_table "visit_clients", force: :cascade do |t|
+  create_table "visit_clients", id: :serial, force: :cascade do |t|
     t.integer "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -2693,7 +2697,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
     t.index ["user_id"], name: "index_visit_clients_on_user_id"
   end
 
-  create_table "visits", force: :cascade do |t|
+  create_table "visits", id: :serial, force: :cascade do |t|
     t.integer "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -2790,7 +2794,6 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
   add_foreign_key "enter_ngo_users", "enter_ngos"
   add_foreign_key "enter_ngo_users", "users"
   add_foreign_key "external_system_global_identities", "external_systems"
-  add_foreign_key "external_system_global_identities", "global_identities", column: "global_id", primary_key: "ulid"
   add_foreign_key "families", "communes"
   add_foreign_key "families", "districts"
   add_foreign_key "families", "users"
@@ -2857,7 +2860,7 @@ ActiveRecord::Schema.define(version: 2022_11_24_082814) do
   add_foreign_key "risk_assessments", "clients"
   add_foreign_key "service_delivery_tasks", "service_deliveries"
   add_foreign_key "service_delivery_tasks", "tasks"
-  add_foreign_key "services", "global_services", column: "uuid", primary_key: "uuid"
+
   add_foreign_key "settings", "communes"
   add_foreign_key "settings", "districts"
   add_foreign_key "settings", "provinces"

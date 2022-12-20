@@ -53,7 +53,7 @@ namespace :field_settings do
       current_label: 'Government Forms',
       klass_name: :client,
       required: false,
-      visible: %w(brc ratanak).exclude?(Apartment::Tenant.current_tenant),
+      visible: %w(brc ratanak).exclude?(Apartment::Tenant.current),
       group: :client
     )
   end
@@ -68,7 +68,7 @@ namespace :field_settings do
       group: :assessment
     )
 
-    field_setting.update!(label: 'Review current need') if Apartment::Tenant.current_tenant == 'ratanak'
+    field_setting.update!(label: 'Review current need') if Apartment::Tenant.current == 'ratanak'
   end
 
   def create_legal_doc_settting
@@ -84,7 +84,7 @@ namespace :field_settings do
       :other_legal_doc => 'Others'
     }
 
-    if Apartment::Tenant.current_tenant == 'ratanak'
+    if Apartment::Tenant.current == 'ratanak'
       fields = fields.merge(
         :legal_documents => 'Referral Source Documents',
         :travel_doc => 'Laissez-Passer',
@@ -100,7 +100,7 @@ namespace :field_settings do
         current_label: label,
         label: label,
         required: false,
-        visible: (Apartment::Tenant.current_tenant == 'ratanak'),
+        visible: (Apartment::Tenant.current == 'ratanak'),
         group: :client
       )
     end
