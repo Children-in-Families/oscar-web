@@ -4,6 +4,6 @@ FactoryBot.define do
     max_custom_assessment { 4 }
     custom_assessment_frequency { "MyString" }
     custom_age { 1 }
-    setting_id { 1 }
+    setting { Setting.first || association(:setting) }
   end
 end

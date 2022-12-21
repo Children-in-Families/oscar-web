@@ -4,7 +4,7 @@ module AdvancedSearches
     include ClientsHelper
     include ApplicationHelper
     include AdvancedSearchFieldHelper
-    include Pundit
+    include Pundit::Authorization
 
     def initialize(options = {})
       @user = options[:user]

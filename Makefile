@@ -45,20 +45,20 @@ psql_console:
 
 # Drop the postgres database (if error retry as db service needs to start first)
 db_drop:
-	docker-compose run --entrypoint "rake db:drop" app db
+	docker-compose run --entrypoint "rails db:drop" app db
 
 # Run migrations against the database
 db_migrate:
-	docker-compose run --entrypoint "rake db:migrate" app db
+	docker-compose run --entrypoint "rails db:migrate" app db
 
 yarn_install:
 	docker exec -it app yarn install --check-files
 
 # Create test database (run `make start_core` at least first!)
 db_create_test:
-	# docker-compose run --no-deps -e RAILS_ENV=test --entrypoint "rake db:drop" app
-	docker-compose run --no-deps -e RAILS_ENV=test --entrypoint "rake db:create" app
-	docker-compose run --no-deps -e RAILS_ENV=test --entrypoint "rake db:schema:load" app
+	# docker-compose run --no-deps -e RAILS_ENV=test --entrypoint "rails db:drop" app
+	docker-compose run --no-deps -e RAILS_ENV=test --entrypoint "rails db:create" app
+	docker-compose run --no-deps -e RAILS_ENV=test --entrypoint "rails db:schema:load" app
 	# docker exec -it mongo mongo --authenticationDatabase admin --host localhost -u mongo -p 123456789 oscar_history_test --eval "db.dropUser('oscar'); db.createUser({user: 'oscar', pwd: '123456789', roles: [{role: 'readWrite', db: 'oscar_history_test'}]});"
 	docker-compose exec -T mongo mongo --authenticationDatabase admin --host localhost -u mongo -p 123456789 oscar_history_test --eval "db.dropUser('oscar'); db.createUser({user: 'oscar', pwd: '123456789', roles: [{role: 'readWrite', db: 'oscar_history_test'}]});"
 

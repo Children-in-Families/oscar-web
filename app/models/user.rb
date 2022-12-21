@@ -19,8 +19,8 @@ class User < ApplicationRecord
   include DeviseTokenAuth::Concerns::User
 
   belongs_to :province,   counter_cache: true
-  belongs_to :department, counter_cache: true
-  belongs_to :manager, class_name: 'User', foreign_key: :manager_id, required: false
+  belongs_to :department, counter_cache: true, optional: true
+  belongs_to :manager, class_name: 'User', foreign_key: :manager_id, optional: true
 
   has_one :permission, dependent: :destroy
 

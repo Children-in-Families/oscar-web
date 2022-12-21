@@ -4,7 +4,7 @@ describe Client do
     it { is_expected.to belong_to(:province) }
     it { is_expected.to belong_to(:received_by) }
     it { is_expected.to belong_to(:followed_up_by) }
-    it { is_expected.to belong_to(:birth_province) }
+    it { is_expected.to belong_to(:birth_province).class_name('Province').with_foreign_key(:birth_province_id).optional(:false) }
     it { is_expected.to have_many(:sponsors).dependent(:destroy) }
     it { is_expected.to have_many(:donors).through(:sponsors) }
     it { is_expected.to have_many(:cases).dependent(:destroy) }

@@ -22,7 +22,7 @@ describe Domain, 'methods' do
           )}
   context 'convert_identity' do
     it 'should return identity with underscore' do
-      expect(domain.convert_identity).to eq(domain.identity.downcase.parameterize('_'))
+      expect(domain.convert_identity).to eq(domain.identity.downcase.parameterize.underscore)
     end
   end
   context 'translate_description' do

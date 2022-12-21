@@ -2,7 +2,7 @@ class Service < ApplicationRecord
   acts_as_paranoid
 
   belongs_to :global_service, class_name: 'GlobalService', foreign_key: 'uuid', primary_key: :uuid
-  belongs_to :parent,           class_name: 'Service'
+  belongs_to :parent,           class_name: 'Service', optional: true
   has_many :children,           class_name: 'Service', foreign_key: 'parent_id', dependent: :destroy
 
   has_many   :program_stream_services, dependent: :destroy

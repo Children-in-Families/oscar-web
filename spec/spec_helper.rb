@@ -3,7 +3,7 @@ require File.expand_path('../../config/environment', __FILE__)
 require 'rails_helper'
 require 'shoulda/matchers'
 require 'cancan/matchers'
-require 'factory_girl'
+require 'factory_bot_rails'
 require 'ffaker'
 require 'capybara/rails'
 require 'database_cleaner'

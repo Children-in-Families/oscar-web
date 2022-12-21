@@ -4,7 +4,8 @@ describe User do
   end
   describe User, 'associations' do
     it { is_expected.to belong_to(:province) }
-    it { is_expected.to belong_to(:department) }
+    it { is_expected.to belong_to(:department).optional(:true) }
+    it { is_expected.to belong_to(:manager).class_name('User').with_foreign_key(:manager_id).optional(:true) }
 
     it { is_expected.to have_one(:permission).dependent(:destroy) }
 

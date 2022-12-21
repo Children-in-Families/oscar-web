@@ -5,7 +5,7 @@ class CaseNote < ApplicationRecord
   belongs_to :client
   belongs_to :family
   belongs_to :assessment
-  belongs_to :custom_assessment_setting, required: false
+  belongs_to :custom_assessment_setting, optional: true
   has_many   :case_note_domain_groups, dependent: :destroy
   has_many   :domain_groups, through: :case_note_domain_groups
   has_many   :tasks, as: :taskable

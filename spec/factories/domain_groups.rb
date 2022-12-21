@@ -9,12 +9,12 @@ FactoryBot.define do
     after :create do |domain_group, options|
       domain_identies = [['1A', 'Food Security'], ['1B', 'Nutrition and Growth']]
       dimension_identies = [['3a', "(Work skills and education)"], ['2a', "(Physical health)"]]
-      if options.aht
-        dimension_identies.each do |domain_name, identity|
-          create(:domain, name: domain_name, identity: identity, domain_group: domain_group)
+      if !options.aht
+        domain_identies.each do |domain_name, identity|
+          create(:domain, name: domain_name, identity: identity, domain_group: domain_group, )
         end
       else
-        domain_identies.each do |domain_name, identity|
+        dimension_identies.each do |domain_name, identity|
           create(:domain, name: domain_name, identity: identity, domain_group: domain_group)
         end
       end

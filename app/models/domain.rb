@@ -10,7 +10,7 @@ class Domain < ApplicationRecord
   has_many :case_conference_domains, dependent: :destroy
   has_many :case_conferences, through: :case_conference_domains
 
-  belongs_to :custom_assessment_setting, required: false
+  belongs_to :custom_assessment_setting, optional: true
 
   has_paper_trail
 

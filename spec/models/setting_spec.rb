@@ -1,3 +1,10 @@
+describe Setting, 'associations' do
+  it { is_expected.to belong_to(:province) }
+  it { is_expected.to belong_to(:distric) }
+  it { is_expected.to belong_to(:commune) }
+  it { is_expected.to belong_to(:screening_assessment_form).class_name(:CustomField).optional(:true) }
+end
+
 describe Setting, 'validation' do
   it { should validate_numericality_of(:max_assessment).only_integer }
   context 'max assessment greater than 3 if assessment frequency is month' do
