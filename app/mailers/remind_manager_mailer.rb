@@ -1,4 +1,5 @@
 class RemindManagerMailer < ApplicationMailer
+  default from: ENV['NO_REPLY_EMAIL']
   def case_worker_overdue_tasks_notify(manager, case_workers, org_name)
     @org_name     = org_name
     @manager      = manager

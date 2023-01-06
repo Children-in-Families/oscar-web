@@ -58,7 +58,7 @@ class ClientShareExternalSerializer < ActiveModel::Serializer
     elsif setting.district
       setting.district.code
     else
-      setting.province.district.first.code
+      setting.province.districts.first&.code || ''
     end
   end
 
