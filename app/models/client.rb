@@ -1061,8 +1061,8 @@ class Client < ActiveRecord::Base
     received_referrals = referrals.received
     return if received_referrals.count.zero? || client_enrollments.any?
 
-    referral = received_referrals.find(from_referral_id)
-    return if referral.referral_status != 'Referred' || referral.referred_from == Apartment::Tenant.current
+    referral = received_referrals.find_by(id: from_referral_id)
+    return if referral.nil? || referral.referral_status != 'Referred' || referral.referred_from == Apartment::Tenant.current
 
     referral.level_of_risk = 'no action' if referral.level_of_risk.blank?
     referral.referral_status = status
