@@ -111,7 +111,8 @@ module ClientAdvancedSearchesConcern
   def get_common_fields
     fields = program_stream_values.empty? ? [] : AdvancedSearches::CommonFields.new(program_stream_values).render
     fields += assessment_values.empty? ? [] : AdvancedSearches::CommonFields.new(program_stream_values, true).render
-    fields
+
+    fields.uniq
   end
 
   def get_hotline_fields
