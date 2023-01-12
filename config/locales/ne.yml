@@ -722,7 +722,7 @@ en:
         "12": Other
       receiving_staff: Receiving Staff
       referee_answered_call: Did the referee answer this call or return a missed call?
-      referee_called_before: Has the referee called the Childsafe Hotline Before?
+      referee_called_before: Has the referee called before?
       returning_missed_call: Returning Missed Call
       time_call_began: Time of Call
       time_call_ended: Time Call Ended
