@@ -36,7 +36,6 @@ module AdvancedSearches
       date_picker_fields    += mapping_care_plan_date_lable_translation
       date_picker_fields    += other_date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, format_header(item), other_group) }
       drop_list_fields      = drop_down_type_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last, group) }
-      drop_list_fields      += common_search_dropdown_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last, common_group) }
       drop_list_fields      += care_plan_dropdown_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last, care_plan_group) }
       drop_list_fields      += referee_dropdown_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last, referee_group) }
       drop_list_fields      += carer_dropdown_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last, carer_group) }
@@ -122,14 +121,6 @@ module AdvancedSearches
         ['address_type', get_sql_address_types],
         ['phone_owner', get_sql_phone_owner],
       ].compact
-    end
-
-    def common_search_dropdown_list
-      better_same_worse_options = { better: 'Better', same: 'The same', worse: 'Worse' }
-      [
-        ['assessment_condition_last_two', better_same_worse_options],
-        ['assessment_condition_first_last', better_same_worse_options]
-      ]
     end
 
     def legal_docs_dropdown

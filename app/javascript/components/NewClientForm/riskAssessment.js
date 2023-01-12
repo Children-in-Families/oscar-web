@@ -190,7 +190,7 @@ export default (props) => {
           />
         </div>
       </div>
-      <div className="row">
+      <div className="row hidden">
         <div className="col-xs-12">
           <SelectInput
             inline
@@ -202,7 +202,7 @@ export default (props) => {
           />
         </div>
       </div>
-      <div className="row">
+      <div className="row hidden">
         <div className="col-xs-12">
           <SelectInput
             inline
@@ -214,7 +214,7 @@ export default (props) => {
           />
         </div>
       </div>
-      <div className="row">
+      <div className="row hidden">
         <div className="col-xs-12">
           <SelectInput
             inline
@@ -226,7 +226,7 @@ export default (props) => {
           />
         </div>
       </div>
-      <div className="row">
+      <div className="row hidden">
         <div className="col-xs-12">
           <SelectInput
             inline
@@ -238,7 +238,7 @@ export default (props) => {
           />
         </div>
       </div>
-      <div className="row">
+      <div className="row hidden">
         <div className="col-xs-12">
           <TextArea
             label={labels.relevant_referral_information}
