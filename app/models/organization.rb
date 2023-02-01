@@ -69,7 +69,7 @@ class Organization < ActiveRecord::Base
           end
           Rake::Task['db:seed'].invoke
           Rake::Task['db:seed'].reenable
-          ImportStaticService::DateService.new('Services', org.short_name, service_data_file).import
+          Rake::Task['global_service:drop_constrain'].invoke(org.short_name)
           Importer::Import.new('Agency', general_data_file).agencies
           Importer::Import.new('Department', general_data_file).departments
           if country == 'nepal'
