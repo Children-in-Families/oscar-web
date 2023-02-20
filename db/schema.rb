@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20221018093602) do
+ActiveRecord::Schema.define(version: 20230216084755) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -847,6 +847,7 @@ ActiveRecord::Schema.define(version: 20221018093602) do
     t.datetime "arrival_at"
     t.string   "flight_nb"
     t.string   "from_referral_id"
+    t.date     "synced_date"
   end
 
   add_index "clients", ["birth_province_id"], name: "index_clients_on_birth_province_id", using: :btree
@@ -876,6 +877,7 @@ ActiveRecord::Schema.define(version: 20221018093602) do
   add_index "clients", ["slug"], name: "index_clients_on_slug", unique: true, using: :btree
   add_index "clients", ["state_id"], name: "index_clients_on_state_id", using: :btree
   add_index "clients", ["subdistrict_id"], name: "index_clients_on_subdistrict_id", using: :btree
+  add_index "clients", ["synced_date"], name: "index_clients_on_synced_date", using: :btree
   add_index "clients", ["township_id"], name: "index_clients_on_township_id", using: :btree
   add_index "clients", ["user_id"], name: "index_clients_on_user_id", using: :btree
   add_index "clients", ["village_id"], name: "index_clients_on_village_id", using: :btree

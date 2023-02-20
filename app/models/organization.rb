@@ -154,6 +154,10 @@ class Organization < ActiveRecord::Base
     date_of_integration && date_of_integration.strftime("%d %B %Y")
   end
 
+  def full_name_short_name
+    "#{full_name}(#{short_name})"
+  end
+
   def self.cache_table_exists?(table_name)
     Rails.cache.fetch([Apartment::Tenant.current, 'table_name', table_name]) do
       ActiveRecord::Base.connection.table_exists? table_name
