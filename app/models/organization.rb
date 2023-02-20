@@ -68,12 +68,11 @@ class Organization < ActiveRecord::Base
             general_data_file = Rails.root.join('lib/devdata/general.xlsx')
           end
 
-          Rake::Task['global_services_fk_contrain:remove'].invoke(org.short_name)
-          Rake::Task['global_services_fk_contrain:remove'].reenable
+          Rake::Task['global_service:drop_constrain'].invoke(org.short_name)
+          Rake::Task['global_service:drop_constrain'].reenable
 
           Rake::Task['db:seed'].invoke
           Rake::Task['db:seed'].reenable
-          Rake::Task['global_service:drop_constrain'].invoke(org.short_name)
           Importer::Import.new('Agency', general_data_file).agencies
           Importer::Import.new('Department', general_data_file).departments
           if country == 'nepal'

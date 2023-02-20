@@ -5,6 +5,7 @@ namespace :global_service do
     if args.short_name
       Apartment::Tenant.switch args.short_name
       ActiveRecord::Base.connection.execute("ALTER TABLE #{args.short_name}.global_services DROP CONSTRAINT IF EXISTS fk_rails_dd8845518e")
+      ActiveRecord::Base.connection.execute("ALTER TABLE #{args.short_name}.services DROP CONSTRAINT IF EXISTS fk_rails_dd8845518e;")
       ImportStaticService::DateService.new('Services', args.short_name, service_data_file).import
       update_services_uuid unless Service.count.zero?
     else
