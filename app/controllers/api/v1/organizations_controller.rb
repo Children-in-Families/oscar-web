@@ -106,13 +106,13 @@ module Api
       def update_link
         if params[:data].present?
           data       = params[:data]
-          global_ids = data.map{|hash| hash['global_id'] }
-          data_hash  = data.map{ |pay_load| [pay_load['global_id'], [pay_load['external_id'], pay_load['external_id_display']] ] }.to_h
+          global_ids = data.map { |hash| hash['global_id'] }
+          data_hash  = data.map { |pay_load| [pay_load['global_id'], [pay_load['external_id'], pay_load['external_id_display']] ] }.to_h
           client_organizations = GlobalIdentityOrganization.where(global_id: global_ids).pluck(:global_id, :organization_id, :client_id).group_by(&:second)
 
           client_organizations.each do |ngo_id, client_ngos|
             ngo = Organization.find(ngo_id)
-            Client.delay(queue: :priority).update_external_ids(ngo.short_name, client_ngos.map(&:last), data_hash)
+            Client.update_external_ids(ngo.short_name, client_ngos.map(&:last), data_hash)
           end
 
           Apartment::Tenant.switch('public')
@@ -267,7 +267,6 @@ module Api
           end
         end
       end
-
 
       def authenticate_admin_user!
         authenticate_or_request_with_http_token do |token, _options|

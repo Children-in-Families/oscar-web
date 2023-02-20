@@ -69,7 +69,7 @@ class Organization < ActiveRecord::Base
           end
           Rake::Task['db:seed'].invoke
           Rake::Task['db:seed'].reenable
-          ImportStaticService::DateService.new('Services', org.short_name, service_data_file).import
+          Rake::Task['global_service:drop_constrain'].invoke(org.short_name)
           Importer::Import.new('Agency', general_data_file).agencies
           Importer::Import.new('Department', general_data_file).departments
           if country == 'nepal'
@@ -152,6 +152,10 @@ class Organization < ActiveRecord::Base
   def integrated_date
     date_of_integration = versions.find_by("object_changes = ?", "---\nintegrated:\n- false\n- true\n")&.created_at
     date_of_integration && date_of_integration.strftime("%d %B %Y")
+  end
+
+  def full_name_short_name
+    "#{full_name}(#{short_name})"
   end
 
   def self.cache_table_exists?(table_name)

@@ -683,7 +683,7 @@
                   - next unless quantitative_type_readable?(qtc_free_text.quantitative_type_id)
                   %tr
                     %td.align-justify
-                      = qtc_free_text.quantitative_type.name
+                      = qtc_free_text.quantitative_type.try(:name)
                     %td.align-justify
                       %strong.label.label-default= qtc_free_text.content
 

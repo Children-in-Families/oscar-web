@@ -8,13 +8,13 @@ exclude:
 - test/**/*
 - vendor/**/*
 - ".bundle/**/*"
-require: []
-domains: []
-reporters:
-- rubocop:version=0.81.0  # diagnostics
+# require: []
+# domains: []
+# reporters:
+# - rubocop:version=0.81.0  # diagnostics
 formatter:
   rubocop:
     version: 0.61.0
-require_paths: []
-plugins: []
+# require_paths: []
+# plugins: []
 max_files: 5000

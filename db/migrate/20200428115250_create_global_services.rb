@@ -11,7 +11,7 @@ class CreateGlobalServices < ActiveRecord::Migration
       end
     reversible do |dir|
       dir.up do
-        63.times.each{|_| GlobalService.create! } if GlobalService.count == 0
+        65.times.each{|_| GlobalService.create! } if GlobalService.count == 0
       end
     end
   end

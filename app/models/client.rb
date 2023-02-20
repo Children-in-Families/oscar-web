@@ -286,7 +286,7 @@ class Client < ActiveRecord::Base
       Apartment::Tenant.switch(short_name) do
         Client.where(id: client_ids).each do |client|
           attributes = { external_id: data_hash[client.global_id].first, external_id_display: data_hash[client.global_id].last }
-          client.update_columns(attributes)
+          client.update_columns(attributes.merge({ synced_date: Date.today }))
         end
       end
     end
@@ -599,6 +599,7 @@ class Client < ActiveRecord::Base
 
   def exiting_ngo?
     return false unless status_changed?
+
     status == 'Exited'
   end
 
@@ -633,13 +634,13 @@ class Client < ActiveRecord::Base
         end
       end
 
-      if setting.enable_custom_assessment?
-        clients = joins(:assessments).where(assessments: { completed: false, default: false }).where("(EXTRACT(year FROM age(current_date, coalesce(clients.date_of_birth, current_date))) :: int) < ?", setting.age || 18)
-        clients.each do |client|
-          custom_assessment_setting_ids = client.assessments.customs.map{|ca| ca.domains.pluck(:custom_assessment_setting_id ) }.flatten.uniq
-          CustomAssessmentSetting.where(id: custom_assessment_setting_ids).each do |custom_assessment_setting|
-            CaseWorkerMailer.notify_incomplete_daily_csi_assessments(client, custom_assessment_setting).deliver_now
-          end
+      next unless setting.enable_custom_assessment?
+
+      clients = joins(:assessments).where(assessments: { completed: false, default: false }).where("(EXTRACT(year FROM age(current_date, coalesce(clients.date_of_birth, current_date))) :: int) < ?", setting.age || 18)
+      clients.each do |client|
+        custom_assessment_setting_ids = client.assessments.customs.map { |ca| ca.domains.pluck(:custom_assessment_setting_id) }.flatten.uniq
+        CustomAssessmentSetting.where(id: custom_assessment_setting_ids).each do |custom_assessment_setting|
+          CaseWorkerMailer.notify_incomplete_daily_csi_assessments(client, custom_assessment_setting).deliver_now
         end
       end
     end
@@ -700,25 +701,25 @@ class Client < ActiveRecord::Base
     Organization.switch_to current_org.short_name
   end
 
-  def self.get_client_attribute(attributes, referral_source_category_id=nil)
+  def self.get_client_attribute(attributes, referral_source_category_id = nil)
     attribute = attributes.with_indifferent_access
     referral_source_category_id = ReferralSource.find_referral_source_category(referral_source_category_id, attributes['referred_from']).try(:id)
     client_attributes = {
-      external_id:            attribute[:external_id],
-      external_id_display:    attribute[:external_id_display],
-      mosvy_number:           attribute[:mosvy_number],
-      given_name:             attribute[:given_name],
-      family_name:            attribute[:family_name],
-      gender:                 attribute[:gender],
-      date_of_birth:          attribute[:date_of_birth],
-      reason_for_referral:    attribute[:referral_reason],
-      relevant_referral_information:    attribute[:referral_reason],
+      mosvy_number: attribute[:mosvy_number],
+      given_name: attribute[:given_name],
+      family_name: attribute[:family_name],
+      gender: attribute[:gender],
+      date_of_birth: attribute[:date_of_birth],
+      reason_for_referral: attribute[:referral_reason],
+      relevant_referral_information: attribute[:referral_reason],
       referral_source_category_id: referral_source_category_id,
-      global_id:              attribute[:client_global_id],
-      external_case_worker_id:   attribute[:external_case_worker_id],
+      global_id: attribute[:client_global_id],
+      external_case_worker_id: attribute[:external_case_worker_id],
       external_case_worker_name: attribute[:external_case_worker_name],
       **get_address_by_code(attribute[:address_current_village_code] || attribute[:location_current_village_code] || attribute[:village_code])
     }
+
+    client_attributes.merge({ external_id: attribute[:external_id], external_id_display: attribute[:external_id_display], synced_date: Date.today }) if attribute[:external_id].present?
   end
 
   def self.get_address_by_code(the_address_code)
@@ -907,18 +908,18 @@ class Client < ActiveRecord::Base
 
   def is_referable_to_external_system?
     (local_given_name.blank? || local_family_name.blank? || given_name.blank? || family_name.blank?) ||
-    date_of_birth.blank? || gender.blank? || province_id.blank?
+      date_of_birth.blank? || gender.blank? || province_id.blank?
   end
 
   def self.cached_client_custom_field_properties_count(object, fields_second)
     Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_custom_field_properties_count', object.id, *fields_second]) do
-      properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields_second, entity_type: 'Client'}).count
+      object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields_second, entity_type: 'Client'}).count
     end
   end
 
   def self.cached_client_custom_field_properties_order(object, fields_second)
     Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_custom_field_properties_order', object.id, *fields_second]) do
-      properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields_second, entity_type: 'Client'}).order(created_at: :desc).first.try(:properties)
+      object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields_second, entity_type: 'Client'}).order(created_at: :desc).first.try(:properties)
     end
   end
 
@@ -936,25 +937,25 @@ class Client < ActiveRecord::Base
 
   def self.cached_client_order_enrollment_date(object, fields_second)
     Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_order_enrollment_date', object.id, *fields_second]) do
-      properties = date_format(object.client_enrollments.joins(:program_stream).where(program_streams: { name: fields_second }).order(enrollment_date: :desc).first.try(:enrollment_date))
+      date_format(object.client_enrollments.joins(:program_stream).where(program_streams: { name: fields_second }).order(enrollment_date: :desc).first.try(:enrollment_date))
     end
   end
 
   def self.cached_client_enrollment_date_join(object, fields_second)
     Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_enrollment_date_join', object.id, *fields_second]) do
-      properties = date_filter(object.client_enrollments.joins(:program_stream).where(program_streams: { name: fields_second }), fields.join('__')).map{|date| date_format(date.enrollment_date) }
+      date_filter(object.client_enrollments.joins(:program_stream).where(program_streams: { name: fields_second }), fields.join('__')).map{|date| date_format(date.enrollment_date) }
     end
   end
 
   def self.cached_client_order_enrollment_date_properties(object, fields_second)
     Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_order_enrollment_date_properties', object.id, *fields_second]) do
-      properties = object.client_enrollments.joins(:program_stream).where(program_streams: { name: fields_second }).order(enrollment_date: :desc).first.try(:properties)
+      object.client_enrollments.joins(:program_stream).where(program_streams: { name: fields_second }).order(enrollment_date: :desc).first.try(:properties)
     end
   end
 
   def self.cached_client_enrollment_properties_by(object, fields_second, format_field_value)
     Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_enrollment_properties_by', object.id, *fields_second]) do
-      properties = object.client_enrollments.joins(:program_stream).where(program_streams: { name: fields_second }).properties_by(format_field_value)
+      object.client_enrollments.joins(:program_stream).where(program_streams: { name: fields_second }).properties_by(format_field_value)
     end
   end
 
@@ -1010,7 +1011,7 @@ class Client < ActiveRecord::Base
     to_time = to_time.to_date
     if from_time >= to_time
       time_days = (from_time - to_time).to_i + 1
-      times = {days: time_days}
+      times = { days: time_days }
     end
   end
 
@@ -1081,6 +1082,7 @@ class Client < ActiveRecord::Base
 
   def delete_referee
     return if referee.nil? || referee.clients.where.not(id: id).any?
+
     referee.destroy
   end
 
