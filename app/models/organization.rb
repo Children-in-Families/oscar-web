@@ -67,6 +67,10 @@ class Organization < ActiveRecord::Base
           else
             general_data_file = Rails.root.join('lib/devdata/general.xlsx')
           end
+
+          Rake::Task['global_services_fk_contrain:remove'].invoke(org.short_name)
+          Rake::Task['global_services_fk_contrain:remove'].reenable
+
           Rake::Task['db:seed'].invoke
           Rake::Task['db:seed'].reenable
           Rake::Task['global_service:drop_constrain'].invoke(org.short_name)
