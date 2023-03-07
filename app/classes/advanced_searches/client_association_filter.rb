@@ -1242,37 +1242,35 @@ module AdvancedSearches
       clients = client_ids
     end
 
-    def active_client_program_between(start_date, end_date, clientIds)
-      enrollments = ClientEnrollment.where(:client_id => clientIds)
+    def active_client_program_between(start_date, end_date, client_ids)
+      enrollments = ClientEnrollment.where(client_id: client_ids)
       client_ids = []
       enrollments.each do |enrollment|
         enrollment_date = enrollment.enrollment_date
 
         if enrollment.leave_program.present?
           exit_date = enrollment.leave_program.exit_date
-          if enrollment_date < start_date || enrollment_date.between?(start_date, end_date)
-            client_ids << enrollment.client_id if exit_date.between?(start_date, end_date) || exit_date > end_date
-          end
-        else
-          client_ids << enrollment.client_id if enrollment_date.between?(start_date, end_date) || enrollment_date < start_date
+          client_ids << enrollment.client_id if (enrollment_date <= start_date || enrollment_date.between?(start_date, end_date)) && (exit_date.between?(start_date, end_date) || exit_date >= end_date)
+        elsif enrollment_date.between?(start_date, end_date) || enrollment_date <= start_date
+          client_ids << enrollment.client_id
         end
       end
       client_ids
     end
 
     def active_client_program_query
-      clientIds = []
+      client_ids = []
       JSON.parse($param_rules[:program_selected]).each do |program|
-        tmpClientIds = @clients.joins(:client_enrollments).where(:client_enrollments => {:status => 'Active', :program_stream_id => program}).ids
-        if clientIds.empty?
-          clientIds = tmpClientIds
+        tmp_client_ids = @clients.joins(:client_enrollments).where(client_enrollments: { status: 'Active', program_stream_id: program }).ids
+        if client_ids.empty?
+          client_ids = tmp_client_ids
         else
-          clientIds = clientIds & tmpClientIds
+          client_ids += tmp_client_ids
         end
       end
 
       condition = ''
-      start_date = @value.kind_of?(Array) ? @value[0].to_date : @value.to_date
+      start_date = @value.is_a?(Array) ? @value[0].to_date : @value.to_date
 
       case @operator
       when 'equal'
@@ -1280,7 +1278,7 @@ module AdvancedSearches
       when 'not_equal'
         condition = "date(client_enrollments.enrollment_date) != '#{start_date}'"
       when 'between'
-        condition = "date(client_enrollments.enrollment_date) <= '#{@value[1].to_date}'"
+        condition = "date(client_enrollments.enrollment_date) BETWEEN '#{@value[0].to_date}' AND '#{@value[1].to_date}'"
       when 'less'
         condition = "date(client_enrollments.enrollment_date) < '#{start_date}'"
       when 'less_or_equal'
@@ -1295,19 +1293,18 @@ module AdvancedSearches
         condition = "client_enrollments.enrollment_date IS NOT NULL"
       end
 
-      enrollments = ClientEnrollment.where(:client_id => clientIds).where(condition)
+      enrollments = ClientEnrollment.where(client_id: client_ids).where(condition)
       client_ids = []
       enrollments.each do |enrollment|
-        if enrollment.leave_program.present? && start_date != nil
+        if enrollment.leave_program.present? && !start_date.nil?
           exit_date = enrollment.leave_program.exit_date
           client_ids << enrollment.client_id if exit_date >= start_date
         else
           client_ids << enrollment.client_id
         end
       end
-      client_ids
 
-      clients = client_ids.present? ? client_ids : []
+      client_ids.present? ? client_ids : []
     end
 
     def assessment_condition_last_two_query
