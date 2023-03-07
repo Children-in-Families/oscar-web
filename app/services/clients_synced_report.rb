@@ -22,7 +22,7 @@ class ClientsSyncedReport
 
     Organization.only_integrated.each_with_index do |ngo, index|
       Apartment::Tenant.switch ngo.short_name
-      clients = Client.where.not(external_id: nil)
+      clients = Client.where.not(external_id: nil).where.not(external_id: '')
 
       client_hash = {
         organizations: ngo.full_name_short_name,
