@@ -96,5 +96,7 @@ class FieldSetting < ActiveRecord::Base
     Rails.cache.delete([Apartment::Tenant.current, 'table_name', 'field_settings'])
     Rails.cache.delete([Apartment::Tenant.current, 'FieldSetting', self.group, 'hidden_group'])
     Rails.cache.delete([Apartment::Tenant.current, 'FieldSetting', 'gelal_dock_fields'])
+
+    I18n.backend.reload!
   end
 end
