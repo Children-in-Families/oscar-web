@@ -739,6 +739,9 @@ class CIF.ClientAdvanceSearch
       if self.programSelected.length == 0
         self.removeActiveClientProgramOption()
 
+      if self.programSelected.length == 0
+        self.removeActiveClientProgramOption()
+
     $('#report-builder-wizard .program-stream-select').on 'select2-removed', (element) ->
       programName = element.choice.text
       self.removeCheckboxColumnPickers(programStreamKeyword, programName, self)

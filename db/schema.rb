@@ -2347,6 +2347,8 @@ ActiveRecord::Schema.define(version: 20230216084755) do
     t.boolean  "disabled_add_service_received",        default: false
     t.boolean  "test_client",                          default: false
     t.boolean  "disabled_task_date_field",             default: true
+    t.boolean  "cbdmat_one_off",                       default: false
+    t.boolean  "cbdmat_ongoing",                       default: false
     t.integer  "tracking_form_edit_limit",             default: 0
     t.string   "tracking_form_edit_frequency",         default: "week"
     t.boolean  "required_case_note_note",              default: true
