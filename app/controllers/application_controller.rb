@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   before_action :store_user_location!, if: :storable_location?
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :find_association, if: :registration?
-  before_action :set_locale
+  before_action :set_locale, :override_translation
   before_action :set_paper_trail_whodunnit, :current_setting
   before_action :prevent_routes
   before_action :set_raven_context, :address_translation
@@ -54,6 +54,13 @@ class ApplicationController < ActionController::Base
   end
 
   protected
+
+  def override_translation
+    return if FieldSetting.count.zero?
+    return if I18n::Backend::Custom::ReloadChecker.last_reload_at > FieldSetting.maximum(:updated_at)
+
+    I18n.backend.reload!
+  end
 
   def registration?
     controller_name == 'registrations'
