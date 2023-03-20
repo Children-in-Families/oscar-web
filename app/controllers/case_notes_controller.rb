@@ -35,29 +35,43 @@
   end
 
   def create
-    @case_note = @client.case_notes.new(case_note_params)
-    @case_note.meeting_date = "#{@case_note.meeting_date.strftime("%Y-%m-%d")}, #{Time.now.strftime("%H:%M:%S")}"
-    if @case_note.save
-      add_more_attachments(params[:case_note][:attachments]) if params.dig(:case_note, :attachments)
-      @case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes], current_user.id) if params.dig(:case_note, :case_note_domain_groups_attributes)
-      create_bulk_task(params[:task], @case_note) if params.has_key?(:task)
-      @case_note.complete_screening_tasks(params) if params[:case_note].has_key?(:tasks_attributes)
+    if save_draft?
+      case_note = @client.case_notes.new(case_note_params)
+      case_note.draft = true
+      case_note.save(validate: false)
+      
+      case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes], current_user.id) if params.dig(:case_note, :case_note_domain_groups_attributes)
+      create_bulk_task(params[:task], case_note) if params.has_key?(:task)
+      case_note.complete_screening_tasks(params) if params[:case_note].has_key?(:tasks_attributes)
 
       create_task_task_progress_notes
-      if params[:from_controller] == "dashboards"
-        redirect_to root_path, notice: t('.successfully_created')
-      else
-        redirect_to client_case_notes_path(@client), notice: t('.successfully_created')
-      end
+
+      render json: { resource: case_note, edit_url: edit_client_case_note_url(@client, case_note), update_path: client_case_note_path(@client, case_note) }
     else
-      if case_note_params[:custom] == 'true'
-        @custom_assessment_param = case_note_params[:custom]
-        @case_note.assessment = @client.assessments.custom_latest_record
+      @case_note = @client.case_notes.new(case_note_params)
+      @case_note.meeting_date = "#{@case_note.meeting_date.strftime("%Y-%m-%d")}, #{Time.now.strftime("%H:%M:%S")}"
+      if @case_note.save
+        add_more_attachments(params[:case_note][:attachments]) if params.dig(:case_note, :attachments)
+        @case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes], current_user.id) if params.dig(:case_note, :case_note_domain_groups_attributes)
+        create_bulk_task(params[:task], @case_note) if params.has_key?(:task)
+        @case_note.complete_screening_tasks(params) if params[:case_note].has_key?(:tasks_attributes)
+
+        create_task_task_progress_notes
+        if params[:from_controller] == "dashboards"
+          redirect_to root_path, notice: t('.successfully_created')
+        else
+          redirect_to client_case_notes_path(@client), notice: t('.successfully_created')
+        end
       else
-        @case_note.assessment = @client.assessments.default_latest_record
+        if case_note_params[:custom] == 'true'
+          @custom_assessment_param = case_note_params[:custom]
+          @case_note.assessment = @client.assessments.custom_latest_record
+        else
+          @case_note.assessment = @client.assessments.default_latest_record
+        end
+        @case_note_domain_group_note = params.dig(:additional_fields, :note)
+        render :new
       end
-      @case_note_domain_group_note = params.dig(:additional_fields, :note)
-      render :new
     end
   end
 
@@ -73,18 +87,32 @@
   end
 
   def update
-    if @case_note.update_attributes(case_note_params)
-      if params.dig(:case_note, :case_note_domain_groups_attributes)
-        add_more_attachments(params[:case_note][:attachments]) if params.dig(:case_note, :attachments)
-        @case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes], current_user.id)
-      end
+    if save_draft?
+      @case_note.assign_attributes(case_note_params)
+      @case_note.save(validate: false)
+
+      @case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes], current_user.id) if params.dig(:case_note, :case_note_domain_groups_attributes)
       create_bulk_task(params[:task], @case_note) if params.has_key?(:task)
       @case_note.complete_screening_tasks(params) if params[:case_note].has_key?(:tasks_attributes)
+
       create_task_task_progress_notes
-      delete_events if session[:authorization]
-      redirect_to client_case_notes_path(@client), notice: t('.successfully_updated')
+
+      render json: @case_note
     else
-      render :edit
+      if @case_note.update_attributes(case_note_params.merge(draft: false))
+        if params.dig(:case_note, :case_note_domain_groups_attributes)
+          add_more_attachments(params[:case_note][:attachments]) if params.dig(:case_note, :attachments)
+          @case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes], current_user.id)
+        end
+
+        create_bulk_task(params[:task], @case_note) if params.has_key?(:task)
+        @case_note.complete_screening_tasks(params) if params[:case_note].has_key?(:tasks_attributes)
+        create_task_task_progress_notes
+        delete_events if session[:authorization]
+        redirect_to client_case_notes_path(@client), notice: t('.successfully_updated')
+      else
+        render :edit
+      end
     end
   end
 
@@ -103,6 +131,10 @@
   end
 
   private
+
+  def save_draft?
+    request.format.json? && params[:draft]
+  end
 
   def case_note_params
     default_params = permit_case_note_params

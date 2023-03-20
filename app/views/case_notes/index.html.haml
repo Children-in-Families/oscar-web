@@ -60,6 +60,8 @@
                   %h4
                     = t('shared.x_on', x: t('clients.form.case_note'))
                     = date_format(case_note.meeting_date) if case_note.meeting_date
+                    - if case_note.draft?
+                      %span (draft)
                     = link_to '#', class: 'btn btn-warning printable-button', data: { printable_id: "printable-case-note-#{case_note.id}" } do
                       = fa_icon 'print'
                     - if (can? :edit?, CaseNote)
