@@ -16,14 +16,49 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
     _taskProgressNoteToggle()
     _initTaskProgressNoteTooltip()
 
+    $("#case_note_meeting_date").on("change", _autoSave)
+    $("#case_note_interaction_type").on("change", _autoSave)
+    $("#case_note_domain_group_ids").on("change", _autoSave)
+
+    saveAttendeeTimeer = null
+    $("#case_note_attendee").on "keyup", (e)->
+      if saveAttendeeTimeer
+        clearTimeout(saveAttendeeTimeer)
+        saveAttendeeTimeer = null
+      saveAttendeeTimeer = setTimeout(_autoSave, 3*1000);
+
+    saveCaseNoteTimeer = null
+    $("#case_note_note").on "keyup", (e)->
+      if saveCaseNoteTimeer
+        clearTimeout(saveCaseNoteTimeer)
+        saveCaseNoteTimeer = null
+      saveCaseNoteTimeer = setTimeout(_autoSave, 3*1000);
+
+  _autoSave = ->
+    console.log "run autosave"
+    $form = $("#case-note-form")
+
+    $.ajax
+      dataType: "json"
+      url: $form.attr("action") + "&draft=true"
+      data: $form.serialize()
+      method: $form.attr("method")
+      success: (response) ->
+        if response.edit_url
+          history.replaceState(null, "", response.edit_url)
+          $form.attr("method", "put")
+          $form.attr("action", response.update_path)
+
   _initICheckBox = ->
     $('.i-checks').iCheck(
       checkboxClass: 'icheckbox_square-green'
       radioClass: 'iradio_square-green'
     ).on('ifChecked', ->
       $("#service-delivery-task-#{@.dataset.taskId}").toggleClass('service-delivery hide show')
+      _autoSave()
     ).on 'ifUnchecked', ->
       $("#service-delivery-task-#{@dataset.taskId}").toggleClass('show service-delivery hide')
+      _autoSave()
 
   _initTaskProgressNoteTooltip = ->
     $('.task-sticky-note').tooltip
@@ -157,6 +192,7 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
         $('#tasksFromModal').modal('hide')
         _hideShowOnGoingTaskLable()
         _hideAddNewTask()
+        _autoSave()
       else
         _showError(taskName, taskDate)
         $('.add-task-btn').removeAttr('disabled')
