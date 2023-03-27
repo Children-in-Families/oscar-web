@@ -136,7 +136,13 @@ Rails.application.routes.draw do
 
     resources :custom_field_properties
     resources :government_forms
-    resources :assessments
+    
+    resources :assessments do
+      member do
+        post :upload_attachment
+      end
+    end
+
     resources :case_notes
     resources :care_plans
     resources :cases do

@@ -35,50 +35,32 @@ class AssessmentsController < AdminController
   def create
     @assessment = @client.assessments.new(assessment_params)
     @assessment.default = params[:default]
-    if current_organization.try(:aht) == true
-      case_conference = CaseConference.find(assessment_params[:case_conference_id])
-      if case_conference.assessment.nil? && @assessment.save(validate: false)
-        if params[:from_controller] == "dashboards"
-          redirect_to root_path, notice: t('.successfully_created')
-        else
-          redirect_to client_path(@client), notice: t('.successfully_created')
-        end
-      elsif case_conference.assessment
-        params[:assessment][:assessment_domains_attributes].each do |assessment_domain|
-          add_more_attachments(assessment_domain.second[:attachments], assessment_domain.second[:id])
-        end
-        assessment = case_conference.assessment.reload
 
-        assessment_domains_attributes = assessment_params[:assessment_domains_attributes].select {|k, v| v['score'].present? }
-        assessment.update(updated_at: DateTime.now)
-        assessment.assessment_domains.update_all(assessment_id: assessment.id)
-        assessment_domains_attributes.each do |_, v|
-          attr = v.slice('domain_id', 'score')
-          assessment.assessment_domains.reload.find_by(domain_id: attr['domain_id']).update_attributes(attr)
-        end
-
-        redirect_to client_assessment_path(@client, assessment), notice: t('.successfully_updated')
-      else
-        render :new
-      end
+    if current_organization.aht?
+      handle_create_for_aht
     else
       css = find_custom_assessment_setting
       authorize @assessment, :create?, css.try(:id)
-      if @assessment.save
-        if params[:from_controller] == "dashboards"
-          redirect_to root_path, notice: t('.successfully_created')
-        else
-          redirect_to client_path(@client), notice: t('.successfully_created')
-        end
+
+      if save_draft?
+        @assessment.save(validate: false)
+        render_draft_response_for_create(@assessment)
       else
-        flash[:alert] = @assessment.errors.full_messages
-        render :new, custom_name: css.custom_assessment_name if css
+        if @assessment.save
+          if params[:from_controller] == "dashboards"
+            redirect_to root_path, notice: t('.successfully_created')
+          else
+            redirect_to client_path(@client), notice: t('.successfully_created')
+          end
+        else
+          flash[:alert] = @assessment.errors.full_messages
+          render :new, custom_name: css.custom_assessment_name if css
+        end
       end
     end
   end
 
-  def show
-  end
+  def show; end
 
   def edit
     @assessment.repopulate_notes
@@ -88,13 +70,23 @@ class AssessmentsController < AdminController
     params[:assessment][:assessment_domains_attributes].each do |assessment_domain|
       add_more_attachments(assessment_domain.second[:attachments], assessment_domain.second[:id])
     end
-    if @assessment.update_attributes(assessment_params)
+
+    if save_draft?
+      @assessment.assign_attributes(assessment_params)
       @assessment.update(updated_at: DateTime.now)
       @assessment.assessment_domains.update_all(assessment_id: @assessment.id)
       create_bulk_task(params[:task], @assessment) if params.has_key?(:task)
-      redirect_to client_assessment_path(@client, @assessment), notice: t('.successfully_updated')
+
+      render json: { resource: @assessment, upload_url: upload_attachment_client_assessment_url(@client, @assessment) }
     else
-      render :edit
+      if @assessment.update_attributes(assessment_params.merge(draft: false))
+        @assessment.update(updated_at: DateTime.now)
+        @assessment.assessment_domains.update_all(assessment_id: @assessment.id)
+        create_bulk_task(params[:task], @assessment) if params.has_key?(:task)
+        redirect_to client_assessment_path(@client, @assessment), notice: t('.successfully_updated')
+      else
+        render :edit
+      end
     end
   end
 
@@ -116,6 +108,56 @@ class AssessmentsController < AdminController
   end
 
   private
+
+  def handle_create_for_aht
+    case_conference = CaseConference.find(assessment_params[:case_conference_id])
+
+    if case_conference.assessment.blank?
+      @assessment.save(validate: false)
+
+      respond_to do |format|
+        format.html do
+          if params[:from_controller] == "dashboards"
+            redirect_to root_path, notice: t('.successfully_created')
+          else
+            redirect_to client_path(@client), notice: t('.successfully_created')
+          end
+        end
+ 
+        format.json { render_draft_response_for_create(@assessment) }
+      end
+    else
+      params[:assessment][:assessment_domains_attributes].each do |assessment_domain|
+        add_more_attachments(assessment_domain.second[:attachments], assessment_domain.second[:id])
+      end
+      assessment = case_conference.assessment.reload
+
+      assessment_domains_attributes = assessment_params[:assessment_domains_attributes].select {|k, v| v['score'].present? }
+      assessment.update(updated_at: DateTime.now)
+      assessment.updated_at = DateTime.now
+      assessment.save(validate: !save_draft?)
+
+      assessment.assessment_domains.update_all(assessment_id: assessment.id)
+      assessment_domains_attributes.each do |_, v|
+        attr = v.slice('domain_id', 'score')
+        assessment.assessment_domains.reload.find_by(domain_id: attr['domain_id']).update_attributes(attr)
+      end
+
+      respond_to do |format|
+        format.html do
+          redirect_to client_assessment_path(@client, assessment), notice: t('.successfully_updated')
+        end
+
+        format.json { render_draft_response_for_create(assessment) }
+      end
+    end
+  end
+
+  def render_draft_response_for_create(assessment)
+    assessment.update_columns(draft: true)
+    
+    render json: { resource: assessment, edit_url: edit_client_assessment_url(@client, assessment), update_path: client_assessment_path(@client, assessment), upload_url: upload_attachment_client_assessment_url(@client, assessment) }
+  end
 
   def find_client
     @client = Client.accessible_by(current_ability).friendly.find(params[:client_id])

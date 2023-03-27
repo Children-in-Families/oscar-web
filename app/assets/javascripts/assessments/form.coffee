@@ -14,6 +14,34 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     _saveAssessment(form)
     _initICheckBox()
 
+    saveReasonTimer = null
+    $(".assessment_assessment_domains_reason textarea").on "keyup", ()->
+      if saveReasonTimer
+        clearTimeout(saveReasonTimer)
+        saveReasonTimer = null;
+      saveReasonTimer = setTimeout(_autoSave, 3*1000)
+
+  _autoSave = ()->
+    console.log "run autosave"
+    $form = $("form.assessment-form")
+
+    $.ajax
+      dataType: "json"
+      url: $form.attr("action") + "&draft=true"
+      data: $form.serialize()
+      method: $form.attr("method")
+      success: (response) ->
+        console.log(response)
+
+        if response.edit_url
+          history.replaceState(null, "", response.edit_url)
+          $form.attr("method", "put")
+          $form.attr("action", response.update_path)
+        
+        return response.uploadUrl
+          
+
+
   _initICheckBox = ->
     $('.i-checks').iCheck
       checkboxClass: 'icheckbox_square-green'
@@ -84,6 +112,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
 
       $(@).addClass("btn-secondary")
       $($(@).siblings().get(-1)).val(score)
+      _autoSave()
 
     $('.score_option input').attr('required','required')
 
@@ -156,6 +185,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
         form.validate().settings.ignore = ':disabled,:hidden'
         form.valid()
 
+        _autoSave()
         _formEdit(rootId, currentIndex)
         _filedsValidator(currentIndex, newIndex)
 
