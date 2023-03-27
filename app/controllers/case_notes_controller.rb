@@ -132,10 +132,6 @@
 
   private
 
-  def save_draft?
-    request.format.json? && params[:draft]
-  end
-
   def case_note_params
     default_params = permit_case_note_params
     default_params = params.require(:case_note).permit(:meeting_date, :attendee, :interaction_type, :custom, :note, :custom_assessment_setting_id, case_note_domain_groups_attributes: [:id, :note, :domain_group_id, :task_ids, attachments: []]) if action_name == 'create'

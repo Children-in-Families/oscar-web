@@ -19,6 +19,9 @@
             = render partial: 'incomplete_detail', locals: { assessment: @assessment }
             %p
               %b= "#{t('.case_plan')} #{@assessment.client.name}"
+              - if @assessment.draft?
+                %span (draft)
+
               %label{ class: "cursor-pointer #{@assessment.completed_label_class}", data: { toggle: :modal, target: "#modal-incomplete-assessment-#{@assessment.id}" } }
                 = @assessment.completed_status
               %br
