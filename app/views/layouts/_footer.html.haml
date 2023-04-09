@@ -1,4 +1,4 @@
-- if current_organization&.short_name != 'mho'
+- unless current_organization.try(:short_name) == 'mho'
   %footer.footer.navbar-fixed-bottom
     .row
       .col-xs-12.col-sm-2.text-center

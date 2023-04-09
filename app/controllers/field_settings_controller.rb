@@ -8,6 +8,8 @@ class FieldSettingsController < AdminController
       FieldSetting.update(id, attributes.permit(:label, :visible, :required))
     end
 
+    I18n.backend.reload!
+
     redirect_to field_settings_path, notice: t('field_settings.update.successfully_updated')
   end
 end
