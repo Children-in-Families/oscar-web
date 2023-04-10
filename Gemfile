@@ -6,8 +6,7 @@ gem 'pg',                     '~> 0.18.4'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'sass-rails',             '~> 5.0'
-gem 'uglifier',               '>= 4.2'
-gem 'terser',                 '~> 1.1', '>= 1.1.12'
+gem 'uglifier',               '>= 1.3.0'
 gem 'coffee-rails',           '~> 4.1.0'
 gem 'jbuilder',               '~> 2.0'
 gem 'simple_form',            '~> 3.2'
@@ -134,4 +133,3 @@ group :test do
 end
 
 gem "sentry-raven", "~> 2.13"
-gem 'terser', '~> 1.1', '>= 1.1.12'

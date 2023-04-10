@@ -109,7 +109,7 @@ module ProgramStreamHelper
       group_value_field_types = []
       case program_stream_step
       when 'trackings'
-        program_stream.client_enrollments.includes(:client_enrollment_trackings).each do |client_enrollment|
+        program_stream.client_enrollments.each do |client_enrollment|
           client_enrollment.client_enrollment_trackings.each do |client_enrollment_tracking|
             choosen_option_form_tracking = client_enrollment_tracking.properties if client_enrollment_tracking.properties.present?
             group_value_field_types <<  choosen_option_form_tracking
@@ -123,7 +123,7 @@ module ProgramStreamHelper
         end
        group_value_field_types
       when 'exit_program'
-        program_stream.client_enrollments.includes(:leave_program).each do |client_enrollment|
+        program_stream.client_enrollments.each do |client_enrollment|
           choosen_option_form_exit_program = client_enrollment.leave_program.properties if client_enrollment.leave_program&.properties.present?
           group_value_field_types << choosen_option_form_exit_program
         end

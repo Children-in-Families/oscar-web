@@ -12,19 +12,18 @@ class CIF.CustomFormBuilder
     separateLine: (fieldData) ->
       { field: '<hr/>' }
 
-  eventParagraphOption: (fields = []) ->
+  eventParagraphOption: ->
     self = @
     onadd: (fld) ->
       $('.subtype-wrap, .className-wrap, .access-wrap').hide()
       self.handleCheckingForm()
       self.preventClickEnterOrTab(fld)
-      self.handleAddTranslateLabelField(fld, fields)
     onclone: (fld) ->
       $('.subtype-wrap, .className-wrap, .access-wrap').hide()
       self.handleCheckingForm()
       self.preventClickEnterOrTab(fld)
 
-  eventCheckboxOption: (fields = []) ->
+  eventCheckboxOption: ->
     self = @
     onadd: (fld) ->
       $('.other-wrap, .className-wrap, .access-wrap, .description-wrap, .name-wrap, .toggle-wrap, .inline-wrap').hide()
@@ -33,7 +32,6 @@ class CIF.CustomFormBuilder
       self.addOptionCallback(fld)
       self.generateValueForSelectOption(fld)
       self.preventClickEnterOrTab(fld)
-      self.handleAddTranslateLabelField(fld, fields)
     onclone: (fld) ->
       setTimeout ( ->
         self.handleCheckingForm()
@@ -43,46 +41,43 @@ class CIF.CustomFormBuilder
         self.preventClickEnterOrTab(fld)
         ),50
 
-  eventDateOption: (fields = []) ->
+  eventDateOption: ->
     self = @
     onadd: (fld) ->
       $('.date-field').find('.className-wrap, .placeholder-wrap, .value-wrap, .access-wrap, .description-wrap, .name-wrap, .toggle-wrap, .inline-wrap').hide()
       self.handleCheckingForm()
       self.preventClickEnterOrTab(fld)
-      self.handleAddTranslateLabelField(fld, fields)
     onclone: (fld) ->
       setTimeout ( ->
         self.handleCheckingForm()
         self.preventClickEnterOrTab(fld)
       ),50
 
-  eventFileOption: (fields = []) ->
+  eventFileOption: ->
     self = @
     onadd: (fld) ->
       $('.file-field').find('.className-wrap, .placeholder-wrap, .subtype-wrap, .value-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
       self.handleCheckingForm()
       self.preventClickEnterOrTab(fld)
-      self.handleAddTranslateLabelField(fld, fields)
     onclone: (fld) ->
       setTimeout ( ->
         self.handleCheckingForm()
         self.preventClickEnterOrTab(fld)
       ),50
 
-  eventNumberOption: (fields = []) ->
+  eventNumberOption: ->
     self = @
     onadd: (fld) ->
       $('.number-field').find('.className-wrap, .placeholder-wrap, .value-wrap, .step-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
       self.handleCheckingForm()
       self.preventClickEnterOrTab(fld)
-      self.handleAddTranslateLabelField(fld, fields)
     onclone: (fld) ->
       setTimeout ( ->
         self.handleCheckingForm()
         self.preventClickEnterOrTab(fld)
       ),50
 
-  eventRadioOption: (fields = []) ->
+  eventRadioOption: ->
     self = @
     onadd: (fld) ->
       $('.other-wrap, .inline-wrap, .className-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
@@ -91,7 +86,6 @@ class CIF.CustomFormBuilder
       self.addOptionCallback(fld)
       self.generateValueForSelectOption(fld)
       self.preventClickEnterOrTab(fld)
-      self.handleAddTranslateLabelField(fld, fields)
     onclone: (fld) ->
       setTimeout ( ->
         self.handleCheckingForm()
@@ -101,7 +95,7 @@ class CIF.CustomFormBuilder
         self.preventClickEnterOrTab(fld)
         ),50
 
-  eventSelectOption: (fields = [])->
+  eventSelectOption: ->
     self = @
     onadd: (fld) ->
       $('.className-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
@@ -110,7 +104,6 @@ class CIF.CustomFormBuilder
       self.addOptionCallback(fld)
       self.generateValueForSelectOption(fld)
       self.preventClickEnterOrTab(fld)
-      self.handleAddTranslateLabelField(fld, fields)
     onclone: (fld) ->
       setTimeout ( ->
         self.handleCheckingForm()
@@ -120,7 +113,7 @@ class CIF.CustomFormBuilder
         self.preventClickEnterOrTab(fld)
         ),50
 
-  eventTextFieldOption: (fields = []) ->
+  eventTextFieldOption: ->
     self = @
     onadd: (fld) ->
       $('.fld-subtype ').find('option:contains(color)').remove()
@@ -129,20 +122,18 @@ class CIF.CustomFormBuilder
       $('.className-wrap, .value-wrap, .access-wrap, .maxlength-wrap, .description-wrap, .name-wrap').hide()
       self.handleCheckingForm()
       self.preventClickEnterOrTab(fld)
-      self.handleAddTranslateLabelField(fld, fields)
     onclone: (fld) ->
       setTimeout ( ->
         self.handleCheckingForm()
         self.preventClickEnterOrTab(fld)
       ),50
 
-  eventTextAreaOption: (fields = []) ->
+  eventTextAreaOption: ->
     self = @
     onadd: (fld) ->
       $('.rows-wrap, .subtype-wrap, .className-wrap, .value-wrap, .access-wrap, .maxlength-wrap, .description-wrap, .name-wrap').hide()
       self.handleCheckingForm()
       self.preventClickEnterOrTab(fld)
-      self.handleAddTranslateLabelField(fld, fields)
     onclone: (fld) ->
       setTimeout ( ->
         self.handleCheckingForm()
@@ -268,16 +259,3 @@ class CIF.CustomFormBuilder
         event.preventDefault()
         key = if event.which == 13 then 'Enter key' else 'Semi-colon'
         alert("#{key} is not allowed!")
-
-  handleAddTranslateLabelField: (fld, fields) ->
-    fldElement = $(fld)
-    fldId = fldElement.attr('id')
-    index = fldId.substr(fldId.lastIndexOf('-') + 1)
-    localLabelName = "local_label"
-    localLabel = "Local Label"
-    if fields[index - 1]
-      localLabel = if fields[index - 1][localLabelName] then fields[index - 1][localLabelName] else localLabel
-    frmHolder = fldElement.find('.frm-holder')
-    localLabelBlock = "<div class='form-group local-label-wrap' style='display: block'><label for='#{localLabelName}'>Local Label</label><div class='input-wrap'><div name='#{localLabelName}' placeholder='Local Label' class='fld-label-#{fldId} form-control' id='local-label-#{fldId}' contenteditable='true'>#{localLabel}</div></div></div>"
-    localLabelBlockElement = $.parseHTML(localLabelBlock)
-    frmHolder.find('.label-wrap').after(localLabelBlockElement)

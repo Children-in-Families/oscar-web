@@ -35,7 +35,7 @@ module AdvancedSearches
           properties_result = client_enrollments.where.not("properties -> '#{@field}' ? '#{@value}' ")
         end
       when 'less'
-        properties_result = client_enrollments.where("((properties ->> '#{@field}')#{'::numeric' if integer? } < '#{@value}' OR properties ->> 'Local_label #{@field}')#{'::numeric' if integer? } < '#{@value}') AND properties ->> '#{@field}' != '' ")
+        properties_result = client_enrollments.where("(properties ->> '#{@field}')#{'::numeric' if integer? } < '#{@value}' AND properties ->> '#{@field}' != '' ")
       when 'less_or_equal'
         properties_result = client_enrollments.where("(properties ->> '#{@field}')#{ '::numeric' if integer? } <= '#{@value}' AND properties ->> '#{@field}' != '' ")
       when 'greater'

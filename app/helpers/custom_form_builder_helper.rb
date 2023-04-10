@@ -7,7 +7,7 @@ module CustomFormBuilderHelper
     used_custom_form?(custom_field) ? 'disabled' : ''
   end
 
-  def field_with(field, errors)
+  def field_with(field,errors)
     errors.has_key?(field.to_sym) ? 'has-error' : ''
   end
 
