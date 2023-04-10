@@ -1206,16 +1206,16 @@ class ClientGrid < BaseGrid
           end
         elsif fields.first == 'enrollmentdate'
           if data == 'recent'
-            properties = date_format(object.client_enrollments.cached_client_order_enrollment_date(object, fields.second))
+            properties = date_format(object.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }).order(enrollment_date: :desc).first.try(:enrollment_date))
           else
-            properties = date_filter(object.client_enrollments.cached_client_enrollment_date_join(object, fields.second), fields.join('__')).map{|date| date_format(date.enrollment_date) }
+            properties = date_filter(object.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }), fields.join('__')).map{|date| date_format(date.enrollment_date) }
           end
         elsif fields.first == 'enrollment'
           if data == 'recent'
-            properties = object.client_enrollments.cached_client_order_enrollment_date_properties(object, fields.second)
+            properties = object.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }).order(enrollment_date: :desc).first.try(:properties)
             properties = properties[format_field_value] if properties.present?
           else
-            properties = object.client_enrollments.cached_client_enrollment_date_join(object, fields.second).properties_by(format_field_value)
+            properties = object.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }).properties_by(format_field_value)
           end
         elsif fields.first == 'tracking'
           ids = object.client_enrollments.ids
@@ -1229,9 +1229,9 @@ class ClientGrid < BaseGrid
         elsif fields.first == 'exitprogramdate'
           ids = object.client_enrollments.inactive.ids
           if data == 'recent'
-            properties = date_format(LeaveProgram.cached_program_exit_date(fields.second, ids))
+            properties = date_format(LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }).order(exit_date: :desc).first.try(:exit_date))
           else
-            properties = date_filter(LeaveProgram.cached_program_stream_leave(fields.second, ids), fields.join('__')).map{|date| date_format(date.exit_date) }
+            properties = date_filter(LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }), fields.join('__')).map{|date| date_format(date.exit_date) }
           end
         elsif fields.first == 'exitprogram'
           ids = object.client_enrollments.inactive.ids

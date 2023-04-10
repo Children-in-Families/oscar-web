@@ -48,13 +48,13 @@ module ClientEnrollmentHelper
   def client_enrollment_new_link(program_stream)
     if program_permission_editable?(program_stream) && policy(@client).create?
       link_to new_client_client_enrollment_path(@client, program_stream_id: program_stream.id) do
-        content_tag :div, class: 'btn btn-primary btn-xs btn-width' do 
+        content_tag :div, class: 'btn btn-primary btn-xs btn-width' do
           t('.enroll')
         end
       end
     else
       link_to_if false, new_client_client_enrollment_path(@client, program_stream_id: program_stream.id) do
-        content_tag :div, class: 'btn btn-primary btn-xs btn-width disabled' do 
+        content_tag :div, class: 'btn btn-primary btn-xs btn-width disabled' do
           t('.enroll')
         end
       end
@@ -75,5 +75,9 @@ module ClientEnrollmentHelper
         end
       end
     end
+  end
+
+  def field_label(props, index = nil)
+    label = I18n.locale.to_s == I18n.default_locale.to_s ? props['label'] : props['local_label']
   end
 end
