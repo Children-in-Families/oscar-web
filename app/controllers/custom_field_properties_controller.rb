@@ -11,7 +11,7 @@ class CustomFieldPropertiesController < AdminController
   before_action -> { check_user_permission('readable') }, only: [:show, :index]
 
   def index
-    @custom_field_properties = @custom_formable.custom_field_properties.accessible_by(current_ability).by_custom_field(@custom_field).most_recents.page(params[:page]).per(4)
+    @custom_field_properties = @custom_formable.custom_field_properties.includes(:custom_formable).accessible_by(current_ability).by_custom_field(@custom_field).most_recents.page(params[:page]).per(4)
   end
 
   def new
