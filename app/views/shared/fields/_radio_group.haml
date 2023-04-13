@@ -4,4 +4,4 @@
     = field_props['label'].html_safe
   = f.input field_props['label'], as: :radio_buttons, collection: field_props['values'].map { |f| [format_placeholder(f['label']), f['label'], id: "custom_field_property_properties_#{field_props['label'].gsub('"', '&qoute;').html_safe}_#{f['label'].html_safe}"] }, label: false, input_html: { title: field_props['description'], name: "#{f.object_name}[#{remove_field_prop_unicode(field_props)}]" }
   %span.help-block
-    = field_message(field_props['label'], errors)
+    = field_message(label, errors)
