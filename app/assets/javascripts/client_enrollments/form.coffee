@@ -106,7 +106,9 @@ CIF.Client_enrolled_programsNew = CIF.Client_enrolled_programsCreate = CIF.Clien
 
   _setAnotherLanguageFieldValue = ->
     $('select').on 'select2-selecting', (e) ->
-      $(e.target).val($(e.choice.element).data('value') || e.choice.id).trigger("change")
+      return unless $(e.choice.element).data('value')
+
+      $(e.target).val($(e.choice.element).data('value')).trigger("change")
       return
 
   _hideAnotherLanguageField = ->
