@@ -77,7 +77,9 @@ module ClientEnrollmentHelper
     end
   end
 
-  def field_label(props, index = nil)
-    label = I18n.locale.to_s == I18n.default_locale.to_s ? props['label'] : props['local_label']
+  def field_label(props, _ = nil)
+    return props['label'] if props['local_label'].nil?
+
+    I18n.locale.to_s == I18n.default_locale.to_s ? props['label'] : props['local_label']
   end
 end

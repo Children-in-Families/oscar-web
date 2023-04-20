@@ -54,13 +54,13 @@ module CustomFieldPropertiesHelper
   end
 
   def remove_field_prop_unicode(field_props)
-    field = field_props['label'].gsub(/\&gt\;|\&lt\;|\&amp\;|\"/, '&lt;' => '<', '&gt;' => '>', '&amp;' => '&', '"' => '%22')
+    field_props['label'].gsub(/\&gt\;|\&lt\;|\&amp\;|\"/, '&lt;' => '<', '&gt;' => '>', '&amp;' => '&', '"' => '%22')
   end
 
   def remove_local_field_prop_unicode(field_props)
     return field_props['label'] if field_props["local_label"].nil?
 
-    field = field_props["local_label"].gsub(/\&gt\;|\&lt\;|\&amp\;|\"/, '&lt;' => '<', '&gt;' => '>', '&amp;' => '&', '"' => '%22')
+    field_props["local_label"].gsub(/\&gt\;|\&lt\;|\&amp\;|\"/, '&lt;' => '<', '&gt;' => '>', '&amp;' => '&', '"' => '%22')
   end
 
   def mapping_custom_field_values(field_props)
@@ -139,5 +139,4 @@ module CustomFieldPropertiesHelper
     def is_custom_field_property_editable?(custom_field_property)
       Organization.ratanak? && !current_user.admin? ? custom_field_editable?(@custom_field) && custom_field_property.is_editable? : custom_field_editable?(@custom_field)
     end
-
 end

@@ -15,7 +15,7 @@
               %label.control-label
                 %abbr{ title: 'required' }= '*'
                 = t('.clients')
-              = f.input :selected_records, collection: @records.map { |record| [record.name, record.id] }, label: false, required: false, input_html: { multiple: true, class: 'clients' }, selected: @selected_records
+              = f.input :selected_records, collection: @records.map { |record| [record.name, record.id] }, label: false, required: false, input_html: { multiple: true, class: 'clients select2' }, selected: @selected_records
               %span.help-block.hidden
                 = t('cannot_be_blank')
         = f.simple_fields_for :properties do |prop_f|
