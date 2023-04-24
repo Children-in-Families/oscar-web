@@ -115,6 +115,10 @@ class Client < ActiveRecord::Base
   has_many :cases,          dependent: :destroy
   has_many :case_notes,     dependent: :destroy
   has_many :assessments,    dependent: :destroy
+  has_many :default_most_recents_assessments, -> { defaults.most_recents }, class_name: 'Assessment'
+  has_many :custom_assessments, -> { customs }, class_name: 'Assessment'
+  has_many :custom_assessment_domains, through: :custom_assessments, source: :domains
+
   has_many :care_plans, dependent: :destroy
   has_many :goals, dependent: :destroy
   has_many :case_conferences, dependent: :destroy
@@ -343,6 +347,12 @@ class Client < ActiveRecord::Base
 
   def referred?
     status == 'Referred'
+  end
+
+  def cached_user_ids
+    Rails.cache.fetch([Apartment::Tenant.current, id, 'user_ids']) do
+      users.map(&:id)
+    end
   end
 
   def require_screening_assessment?(setting)

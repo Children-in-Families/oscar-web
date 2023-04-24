@@ -377,10 +377,6 @@ module ApplicationHelper
     CustomAssessmentSetting.where(enable_custom_assessment: true).present?
   end
 
-  def enable_any_csi_tools?
-    enable_default_assessment? || enable_custom_assessment?
-  end
-
   def country_langauge
     return 'Swahili' if current_organization.short_name == 'cccu'
     country = current_setting.try(:country_name)
