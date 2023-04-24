@@ -2,6 +2,7 @@ class DashboardsController < AdminController
   include CsiConcern
 
   before_action :task_of_user, :find_overhaul_task_params, :find_tasks, only: [:index]
+  skip_before_action :notify_user, :set_sidebar_basic_info, only: [:notification]
 
   def index
     @program_streams = ProgramStream.includes(:program_stream_services, :services).where(program_stream_services: { service_id: nil }).attached_with('Client')
@@ -27,6 +28,11 @@ class DashboardsController < AdminController
     @date_validation_error = fetch_data_logic_error
     clients = Client.accessible_by(current_ability).where(id: @date_validation_error[:ids]).page(params[:page]).per(15)
     @client_grid = ClientGrid.new({ column_names: [:id, :slug, :given_name, :family_name, :local_given_name, :local_family_name, :status, :gender]}).scope { clients }
+  end
+
+  def notification
+    clients = Client.none.accessible_by(current_ability).non_exited_ngo
+    @notification = UserNotification.new(current_user, clients)
   end
 
   private

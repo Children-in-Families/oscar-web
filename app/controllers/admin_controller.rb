@@ -7,8 +7,7 @@ class AdminController < ApplicationController
   protected
 
   def notify_user
-    clients = Client.accessible_by(current_ability).non_exited_ngo
-    @notification = UserNotification.new(current_user, clients)
+    @lazy_load_notification = true
   end
 
   def set_sidebar_basic_info
