@@ -7,7 +7,12 @@ class AdminController < ApplicationController
   protected
 
   def notify_user
-    @lazy_load_notification = true
+    if params[:user_id] || controller_name == 'notifications'
+      clients = Client.none.accessible_by(current_ability).non_exited_ngo
+      @notification = UserNotification.new(current_user, clients)
+    else
+      @lazy_load_notification = true
+    end
   end
 
   def set_sidebar_basic_info
