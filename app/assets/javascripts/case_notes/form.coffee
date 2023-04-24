@@ -1,4 +1,12 @@
 CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUpdate = do ->
+  nextSaveAt = new Date()
+  lastSavedAt = new Date()
+  lastSavedAt.setSeconds(lastSavedAt.getSeconds() + 5)
+
+  autoSaveTimer = null
+  reloadForm = false
+  saving = false
+
   _init = ->
     _initUploader()
     _handleDeleteAttachment()
@@ -16,14 +24,53 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
     _taskProgressNoteToggle()
     _initTaskProgressNoteTooltip()
 
+    $("#case_note_meeting_date").on "change", _updateNextSaveAt
+    $("#case_note_interaction_type").on "change", _updateNextSaveAt
+    $("#case_note_attendee").on "keyup", _updateNextSaveAt
+    $("#case_note_note").on "keyup", _updateNextSaveAt
+    $("#case_note_domain_group_ids").on "change", ->
+      _updateNextSaveAt()
+      reloadForm = true
+
+    setInterval(_autoSave, 3000)
+
+  _updateNextSaveAt = ->
+    nextSaveAt = new Date()
+
+  _autoSave = ->
+    return if lastSavedAt >= nextSaveAt
+    return if saving
+    saving = true
+    lastSavedAt = new Date()
+    console.log("saving...")
+
+    $form = $("#case-note-form")
+    $.ajax
+      dataType: "json"
+      url: $form.attr("action") + "&draft=true"
+      data: $form.serialize()
+      method: $form.attr("method")
+      success: (response) ->
+        console.log("saved")
+
+        if response.edit_url
+          history.replaceState(null, "", response.edit_url)
+          $form.attr("method", "put")
+          $form.attr("action", response.update_path)
+        
+        saving = false
+        $.get window.location.href if reloadForm
+
   _initICheckBox = ->
     $('.i-checks').iCheck(
       checkboxClass: 'icheckbox_square-green'
       radioClass: 'iradio_square-green'
     ).on('ifChecked', ->
       $("#service-delivery-task-#{@.dataset.taskId}").toggleClass('service-delivery hide show')
+      _updateNextSaveAt()
     ).on 'ifUnchecked', ->
       $("#service-delivery-task-#{@dataset.taskId}").toggleClass('show service-delivery hide')
+      _updateNextSaveAt()
 
   _initTaskProgressNoteTooltip = ->
     $('.task-sticky-note').tooltip
@@ -157,6 +204,7 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
         $('#tasksFromModal').modal('hide')
         _hideShowOnGoingTaskLable()
         _hideAddNewTask()
+        _autoSave()
       else
         _showError(taskName, taskDate)
         $('.add-task-btn').removeAttr('disabled')

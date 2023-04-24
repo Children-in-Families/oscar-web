@@ -76,6 +76,10 @@ class ApplicationController < ActionController::Base
 
   private
 
+  def save_draft?
+    request.format.json? && params[:draft].present?
+  end
+
   def configure_permitted_parameters
     devise_parameter_sanitizer.for(:account_update) << :first_name
     devise_parameter_sanitizer.for(:account_update) << :last_name
