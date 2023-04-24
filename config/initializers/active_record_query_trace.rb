@@ -1,1 +1,3 @@
-ActiveRecordQueryTrace.enabled = Rails.env.development?
+if Rails.env.development?
+  ActiveRecordQueryTrace.enabled = true
+end

@@ -107,6 +107,7 @@ group :staging, :demo do
 end
 
 group :development do
+  gem 'active_record_query_trace', '1.7'
   gem 'letter_opener',        '~> 1.4.1'
   gem 'letter_opener_web',    '~> 1.3', '>= 1.3.4'
   gem 'rubocop',              '~> 0.81.0', require: false
@@ -132,5 +133,4 @@ group :test do
   gem 'timecop',              '~> 0.8.1'
 end
 
-gem 'active_record_query_trace', '1.7'
 gem "sentry-raven", "~> 2.13"
