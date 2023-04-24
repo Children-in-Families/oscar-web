@@ -1,5 +1,6 @@
 CIF.Common =
   init: ->
+    @loadNotification()
     @hideDynamicOperator()
     @validateFilterNumber()
     @customCheckBox()
@@ -12,6 +13,10 @@ CIF.Common =
     @confirmOnCancelBotton()
     @iCheckClearOptionSelect()
     @printDiv()
+
+  loadNotification: ->
+    if $('.lazy-load-notification').length > 0
+      $.ajax(type: 'GET', url: '/dashboards/notification')
 
   preventEditOnDatePicker: ->
     $('.date-picker').datepicker
