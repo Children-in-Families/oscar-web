@@ -120,7 +120,7 @@ CIF.Custom_fieldsNew = CIF.Custom_fieldsCreate = CIF.Custom_fieldsEdit = CIF.Cus
         labelField.textContent = labelField.textContent.replace(/;/g, '')
 
       specialCharacters = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&qoute;" }
-      fields = format.formatSpecialCharacters(JSON.parse(formBuilder.actions.save()), specialCharacters)
+      fields = format.formatSpecialCharacters(formBuilder.actions.save(), specialCharacters)
       $('#custom_field_fields').val(JSON.stringify(fields))
 
   _select2 = ->
