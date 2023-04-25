@@ -8,7 +8,6 @@ CIF.Client_enrolled_program_trackingsNew = CIF.Client_enrolled_program_trackings
     _preventRequireFileUploader()
     _toggleCheckingRadioButton()
     _initICheckBox()
-    _setAnotherLanguageFieldValue()
     _hideAnotherLanguageField()
     _checkCheckbox()
     _uncheckCheckbox()
@@ -41,13 +40,6 @@ CIF.Client_enrolled_program_trackingsNew = CIF.Client_enrolled_program_trackings
   _preventRequireFileUploader = ->
     prevent = new CIF.PreventRequiredFileUploader()
     prevent.preventFileUploader()
-
-  _setAnotherLanguageFieldValue = ->
-    $('select').on 'select2-selecting', (e) ->
-      return unless $(e.choice.element).data('value')
-
-      $(e.target).val($(e.choice.element).data('value')).trigger("change")
-      return
 
   _hideAnotherLanguageField = ->
     $('.client-enrolled-program-tracking').find('.d-none').parent().addClass('hide')
