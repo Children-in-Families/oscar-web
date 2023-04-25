@@ -117,7 +117,7 @@ module CustomFieldPropertiesHelper
     end
 
     def form_builder_group_by_options_type_label_custom_form(custom_field)
-      group_options_type_label = Hash.new{|h,k| h[k] = []}
+      group_options_type_label = Hash.new { |h, k| h[k] = [] }
       form_builder_option = form_builder_options_custom_form(custom_field)
       form_builder_option["type"].each_with_index do |type_option,i|
         group_options_type_label[type_option] << form_builder_option["label"][i]
@@ -126,14 +126,16 @@ module CustomFieldPropertiesHelper
     end
 
     def form_builder_options_custom_form(custom_field)
-      form_builder_options = Hash.new{|h,k| h[k] = []}
+      form_builder_options = Hash.new { |h, k| h[k] = [] }
+      return form_builder_options if custom_field.fields.nil?
+
       custom_field.fields.each do |field|
-        field.each do |k,v|
+        field.each do |k, v|
           next unless k[/^(type|label)$/i]
           form_builder_options[k] << v
         end
       end
-      return form_builder_options
+      form_builder_options
     end
 
     def is_custom_field_property_editable?(custom_field_property)
