@@ -2,14 +2,17 @@ class Dashboard
   include Rails.application.routes.url_helpers
   attr_reader :clients
 
-  def initialize(clients)
-    @clients  = clients
+  def initialize(clients, family_only: false)
     @families = Family.active
-    @partners = Partner.all
-    @agencies = Agency.all
-    @staff    = User.all
-    @referral_sources = ReferralSource.child_referrals.all
-    @program_streams = ProgramStream.joins(:client_enrollments).where(client_enrollments: { status: 'Active' }).distinct
+
+    unless family_only
+      @clients  = clients
+      @partners = Partner.all
+      @agencies = Agency.all
+      @staff    = User.all
+      @referral_sources = ReferralSource.child_referrals.all
+      @program_streams = ProgramStream.joins(:client_enrollments).where(client_enrollments: { status: 'Active' }).distinct
+    end
   end
 
   def client_program_stream
