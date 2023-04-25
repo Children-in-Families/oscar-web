@@ -336,7 +336,7 @@ class UserNotification
   def get_referrals
     referrals = Referral.received.unsaved
     referrals = referrals.where('created_at > ?', @user.activated_at) if @user.deactivated_at?
-    slugs = referrals.pluck(:slug)
+    slugs = referrals.pluck(:slug).select(&:present?).uniq
     clients = Client.where("slug IN (:slugs) OR archived_slug IN (:slugs)", slugs: slugs)
 
     existinngs = news = []
