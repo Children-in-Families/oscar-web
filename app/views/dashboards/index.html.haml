@@ -36,9 +36,7 @@
         = render 'third_party'
     #family-tab.tab-pane{ role: 'tabpanel' }
       .row
-        .col-xs-12
-          - if can? :read, Family
-            = render 'family'
+        .col-xs-12{ class: "#{'lazy-load-family-tab' if can?(:read, Family)}" }
     #community-tab.tab-pane.hide{ role: 'tabpanel' }
       .row
         .col-xs-12

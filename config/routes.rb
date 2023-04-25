@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   get '/calendar/sync'  => 'calendars#sync'
   get '/dashbaords/client_data_validation' => 'dashboards#client_data_validation'
   get '/dashboards/notification' => 'dashboards#notification'
+  get '/dashboards/family_tab' => 'dashboards#family_tab'
 
   resources :calendars
 
