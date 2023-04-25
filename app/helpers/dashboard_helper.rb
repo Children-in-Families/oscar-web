@@ -89,7 +89,7 @@ module DashboardHelper
   end
 
   def skipped_overdue_forms?(forms, client)
-    skipped_forms = overdue_forms_empty?(forms) || client.users.map(&:id).exclude?(@user.id)
+    skipped_forms = overdue_forms_empty?(forms) || client.users.cached_user_ids.exclude?(@user.id)
     skipped_forms ? true : false
   end
 
@@ -127,22 +127,20 @@ module DashboardHelper
   end
 
   def skipped_duetoday_forms?(forms, client)
-    skipped_forms = duetoday_forms_empty?(forms) || client.users.map(&:id).exclude?(@user.id)
+    skipped_forms = duetoday_forms_empty?(forms) || client.cached_user_ids.exclude?(@user.id)
     skipped_forms ? true : false
   end
 
   def skipped_duetoday_assessments?(client)
     return @skipped_duetoday_assessments if @skipped_duetoday_assessments.present?
 
-    client_ids = client.users.map(&:id)
-
     CustomAssessmentSetting.all.each do |custom_assessment|
       if @setting.enable_custom_assessment? && @setting.enable_default_assessment
-        @skipped_duetoday_assessments = (!duetoday_assessments_any?(client) && !duetoday_custom_assessments_any?(client)) || client_ids.exclude?(@user.id) || (!client.eligible_default_csi? && !client.eligible_custom_csi?(custom_assessment))
+        @skipped_duetoday_assessments = (!duetoday_assessments_any?(client) && !duetoday_custom_assessments_any?(client)) || client.cached_user_ids.exclude?(@user.id) || (!client.eligible_default_csi? && !client.eligible_custom_csi?(custom_assessment))
       elsif @setting.enable_default_assessment
-        @skipped_duetoday_assessments = !duetoday_assessments_any?(client) || client_ids.exclude?(@user.id) || !client.eligible_default_csi?
+        @skipped_duetoday_assessments = !duetoday_assessments_any?(client) || client.cached_user_ids.exclude?(@user.id) || !client.eligible_default_csi?
       else
-        @skipped_duetoday_assessments = !duetoday_custom_assessments_any?(client) || client_ids.exclude?(@user.id) || !client.eligible_custom_csi?(custom_assessment)
+        @skipped_duetoday_assessments = !duetoday_custom_assessments_any?(client) || client.cached_user_ids.exclude?(@user.id) || !client.eligible_custom_csi?(custom_assessment)
       end
     end
 
