@@ -63,4 +63,18 @@ module CustomFormBuilderHelper
       'This can be done many times and anytime.'
     end
   end
+
+  def selected_values(obj, field1, field2)
+    obj.send(field1) || obj.send(field2) || []
+  end
+
+  def locale_label(field)
+    return field['label'] if I18n.locale == :en || params[:locale] == 'en'
+
+    (field['local_label'] || '')[/Local_label/] ? field['local_label'] : "Local_label #{field['local_label']}"
+  end
+
+  def collection_values(values)
+    values.is_a?(String) ? [values] : values
+  end
 end
