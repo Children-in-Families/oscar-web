@@ -36,12 +36,13 @@ RUN phantomjs --version
 COPY Gemfile Gemfile.lock ./
 COPY package.json yarn.lock ./
 
-RUN gem install bundler -v 1.17.3
-RUN bundle install --verbose --jobs 20 --retry 5
-RUN gem install solargraph -v 0.39.17 --force
 RUN npm install -g yarn
 RUN yarn install --check-files
 RUN service memcached start
+
+RUN gem install bundler -v 1.17.3
+RUN bundle install --verbose --jobs 20 --retry 5
+RUN gem install solargraph -v 0.39.17 --force
 
 # Copy the main application.
 COPY . ./

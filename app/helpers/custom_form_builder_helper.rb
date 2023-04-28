@@ -75,6 +75,6 @@ module CustomFormBuilderHelper
   end
 
   def collection_values(values)
-    values.is_a?(String) ? [values] : values
+    values.is_a?(Array) ? values : [values]
   end
 end
