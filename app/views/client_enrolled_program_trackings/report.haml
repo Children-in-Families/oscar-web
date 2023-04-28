@@ -28,7 +28,7 @@
                   .ibox-content
                     .table-responsive
                       %table.table.table-bordered
-                        - tracking_report(enrollment_tracking).map{|field| [field['type'], field['label']]}.each do |type, key|
+                        - tracking_report(enrollment_tracking).map{|field| [field['type'], locale_label(field)]}.each do |type, key|
                           - unless type == 'separateLine'
                             - if type == 'paragraph'
                               %tr
