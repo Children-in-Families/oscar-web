@@ -3,8 +3,8 @@
   %label.control-label{ class: required?(field_props['required'] || false) }
     %abbr{ title: 'required' }= '*' if field_props['required'] || false
     = label.html_safe
-
   %input{ name: "#{f.object_name}[#{remove_field_prop_unicode(field_props)}]",
+    value: f.object.send(remove_field_prop_unicode(field_props)),
     "data-local-input": "#{f.object_name}[#{remove_local_field_prop_unicode(field_props)}]".parameterize,
     title: field_props['description'],
     type: field_props['subtype'],
@@ -18,7 +18,7 @@
       type: 'hidden',
       subtype: 'text',
       class: "form-control #{field_props['className']}",
-      id: "#{f.object_name}[#{remove_local_field_prop_unicode(field_props)}]".parameterize }/
+      id: "local-input-#{f.object_name}[#{remove_local_field_prop_unicode(field_props)}]".parameterize }/
 
   %span.help-block
     = field_message(field_props['label'], errors)

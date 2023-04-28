@@ -27,7 +27,13 @@ CIF.Client_enrolled_program_trackingsNew = CIF.Client_enrolled_program_trackings
         $(@).parents('span.radio').siblings('.radio').find('.iradio_square-green').removeClass('checked')
 
   _initSelect2 = ->
-    $('select').select2()
+    $('select.select2').select2().on 'change', (e)->
+      $(@).parent().siblings('.form-group.select').find('select.hidden').empty()
+      that = this
+      $(this).find(':selected').filter (index, el) ->
+        value = $(el).data 'value'
+        $(that).parent().siblings('.form-group.select').find('select.hidden').append $('<option>', value: value).attr('selected', true).text(value)
+
 
   _initFileInput = ->
     $('.file').fileinput
@@ -66,7 +72,7 @@ CIF.Client_enrolled_program_trackingsNew = CIF.Client_enrolled_program_trackings
       el = $(@)
       if el.hasClass('date-picker')
       else
-        el.parent().next().find('#' + el.data('local-input')).val(el.val())
+        el.siblings().eq(1).find('input').val(el.val())
 
   _copyTextAreaTextToLocalLanguage = ->
     $('textarea').on 'keyup', (e) ->

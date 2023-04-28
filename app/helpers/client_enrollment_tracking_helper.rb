@@ -3,7 +3,7 @@ module ClientEnrollmentTrackingHelper
     @program_stream.trackings.find(tracking.tracking_id).fields
   end
 
-  def client_enrollment_tracking_form_action_path
+  def client_enrollment_tracking_form_action_route
     if action_name.in?(%(new create))
       client_client_enrolled_program_client_enrolled_program_trackings_path(@client, @enrollment)
     else
