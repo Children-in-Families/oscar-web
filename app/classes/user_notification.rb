@@ -15,7 +15,6 @@ class UserNotification
     @family_custom_field                             = @user.family_custom_field_frequency_overdue_or_due_today
     @client_forms_overdue_or_due_today               = @user.client_forms_overdue_or_due_today
     @case_notes_overdue_and_due_today                = @user.case_note_overdue_and_due_today
-    @repeat_referrals, @unsaved_referrals            = get_referrals
     @unsaved_family_referrals                        = get_family_referrals('new_referral')
     @repeat_family_referrals                         = get_family_referrals('existing_family')
     @upcoming_csi_assessments_count                  = 0
@@ -246,11 +245,11 @@ class UserNotification
   end
 
   def unsaved_referrals
-    @unsaved_referrals
+    get_referrals[1]
   end
 
   def unsaved_referrals_count
-    @unsaved_referrals.count
+    unsaved_referrals.count
   end
 
   def any_unsaved_referrals?
@@ -258,11 +257,11 @@ class UserNotification
   end
 
   def repeat_referrals
-    @repeat_referrals
+    get_referrals[0]
   end
 
   def repeat_referrals_count
-    @repeat_referrals.count
+    repeat_referrals.count
   end
 
   def any_repeat_referrals?
@@ -334,6 +333,8 @@ class UserNotification
   end
 
   def get_referrals
+    return @get_referrals if @get_referrals.present?
+
     referrals = Referral.received.unsaved
     referrals = referrals.where('created_at > ?', @user.activated_at) if @user.deactivated_at?
     slugs = referrals.pluck(:slug).select(&:present?).uniq
@@ -352,7 +353,7 @@ class UserNotification
       end
     end
 
-    [existinngs, news]
+    @get_referrals = [existinngs, news]
   end
 
   def get_family_referrals(referral_type)
