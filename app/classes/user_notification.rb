@@ -340,7 +340,8 @@ class UserNotification
     slugs = referrals.pluck(:slug).select(&:present?).uniq
     clients = Client.where("slug IN (:slugs) OR archived_slug IN (:slugs)", slugs: slugs)
 
-    existinngs = news = []
+    existinngs = []
+    news = []
 
     referrals.each do |referral|
       client = clients.find { |c| c.slug == referral.slug || c.archived_slug == referral.slug }
