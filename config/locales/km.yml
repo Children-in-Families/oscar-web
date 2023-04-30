@@ -5235,6 +5235,13 @@ km:
       review_client: អតិថិជនដែលត្រូវការត្រួតពិនិត្យ
     referrals:
       referral_clients: អតិថិជនដែលត្រូវបានបញ្ជូនមក
+    referral_table:
+      clients: Clients
+      referral_form: Referral Form
+      referral_date: Referral Date
+      referral_count: Referral Count
+      level_of_risk: Level of Risk
+      review_form: Review Form
     repeat_referrals:
       referral_clients: អតិថិជនដែលត្រូវបានបញ្ជូនមកម្តងទៀត
     upcoming_assessment:
