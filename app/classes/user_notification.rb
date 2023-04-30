@@ -347,7 +347,7 @@ class UserNotification
       
       if client.present?
         existinngs << referral
-        # referral.update_column(:client_id, client.id) unless referral.client_id
+        referral.update_column(:client_id, client.id) unless referral.client_id
       else
         news << referral
       end
