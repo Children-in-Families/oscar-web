@@ -106,9 +106,10 @@ Rails.application.routes.draw do
   get 'clients/:client_id/book' => 'client_books#index', as: 'client_books'
 
   get 'referrals/:id' => 'referrals#show', as: 'referral'
+  delete 'referrals/:id' => 'referrals#destroy'
 
   resources :clients do
-    resources :referrals
+    resources :referrals, except: [:destroy]
     resources :internal_referrals
     collection do
       post '/advanced_search', to: 'clients#index'

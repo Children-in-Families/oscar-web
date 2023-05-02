@@ -15,7 +15,7 @@
           - client = clients.find { |c| c.global_id == referral.client_global_id }
           - next unless client&.slug
 
-        %tr
+        %tr{ class: "referral-#{referral.id}" } 
           %td
             = link_to referral_path(referral), target: '_blank' do
               = referral.client_name
@@ -38,5 +38,5 @@
           %td.text-center
             = link_to referral_path(referral), target: '_blank', class: 'btn btn-primary btn-xs' do
               = fa_icon 'external-link'
-            = link_to '#', target: '_blank', class: 'btn btn-danger btn-xs' do
+            = link_to referral_path(referral), data: { method: :delete, remote: true, confirm: 'Are you sure you want to delete?' }, class: 'btn btn-danger btn-xs' do
               = fa_icon 'trash'

@@ -65,6 +65,11 @@ class ReferralsController < AdminController
     end
   end
 
+  def destroy
+    @referral = Referral.find(params[:id])
+    @referral.destroy
+  end
+
   private
 
   def find_referral
