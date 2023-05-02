@@ -36,7 +36,7 @@
                 = referral.level_of_risk.capitalize
             /= status_style referral.referral_status
           %td.text-center
-            = link_to referral_path(referral), target: '_blank', class: 'btn btn-primary btn-xs' do
+            = link_to referral_path(referral), target: '_blank', class: 'btn btn-primary btn-xs me-2' do
               = fa_icon 'external-link'
             = link_to referral_path(referral), data: { method: :delete, remote: true, confirm: 'Are you sure you want to delete?' }, class: 'btn btn-danger btn-xs' do
               = fa_icon 'trash'
