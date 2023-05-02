@@ -5,12 +5,12 @@
         %th= t('.clients')
         %th= t('.referral_form')
         %th= t('.referral_date')
-        %th= t('.referral_count')
+        - if action_name == 'repeat_referrals'
+          %th= t('.referral_count')
         %th= t('.level_of_risk')
         %th= t('.review_form')
     %tbody
-      - referrals.group_by(&:client_id).each do |_client_id, referral_group|
-        - referral = referral_group.last
+      - referrals.each do |referral|
         - if action_name == 'repeat_referrals'
           - client = clients.find { |c| c.global_id == referral.client_global_id }
           - next unless client&.slug
@@ -25,14 +25,16 @@
           %td
             = link_to referral_path(referral), target: '_blank' do
               = date_format(referral.date_of_referral)
-          %td
-            = link_to referral_path(referral), target: '_blank' do
-              = referral_group.count
+          
+          - if action_name == 'repeat_referrals'
+            %td
+              = link_to referral_path(referral), target: '_blank' do
+                = client.referral_count
           %td
             - if referral.level_of_risk.present?
               = link_to referral_path(referral), target: '_blank', class: 'btn btn-primary btn-xs' do
                 = referral.level_of_risk.capitalize
-            = status_style referral.referral_status
+            /= status_style referral.referral_status
           %td.text-center
             = link_to referral_path(referral), target: '_blank', class: 'btn btn-primary btn-xs' do
               = fa_icon 'external-link'
