@@ -71,7 +71,7 @@ module CustomFormBuilderHelper
   def locale_label(field)
     return field['label'] if I18n.locale == :en || params[:locale] == 'en'
 
-    (field['local_label'] || '')[/Local_label/] ? field['local_label'] : "Local_label #{field['local_label']}"
+    field['local_label'].present? ? field['local_label'] : "Local_label #{field['local_label']}"
   end
 
   def collection_values(values)
