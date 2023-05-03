@@ -91,6 +91,10 @@ class Referral < ActiveRecord::Base
     client_by_slug.update_columns(referral_count: client_by_slug.referral_count + 1) if repeat?
   end
 
+  def dec_client_referral_count!
+    client_by_slug.update_columns(referral_count: client_by_slug.referral_count - 1) if repeat? && client_by_slug.referral_count > 0
+  end
+
   def client_by_slug
     @client_by_slug ||= Client.where("slug = ? OR archived_slug = ?", slug, slug).first
   end

@@ -67,6 +67,7 @@ class ReferralsController < AdminController
 
   def destroy
     @referral = Referral.find(params[:id])
+    @referral.dec_client_referral_count!
     @referral.destroy
   end
 
