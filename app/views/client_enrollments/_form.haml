@@ -23,12 +23,12 @@
         = f.error :enrollment_date
 
     = f.simple_fields_for :properties, OpenStruct.new(@client_enrollment.properties) do |prop_f|
-      - @program_stream.enrollment.each do |enrollment|
+      - @program_stream.enrollment.each_with_index do |enrollment, index|
         .row
           .col-xs-12{ class: enrollment['type'] == 'paragraph' ? '' : 'col-md-6' }
             - enrollment['label'] = convert_bracket(enrollment['label'])
             - unless enrollment['type'] == 'file'
-              = render "/shared/fields/#{enrollment['type'].underscore}", f: prop_f, field_props: enrollment, errors: @client_enrollment.errors.messages, entity: f
+              = render "/shared/fields/#{enrollment['type'].underscore}", f: prop_f, field_props: enrollment, errors: @client_enrollment.errors.messages, entity: f, index: index + 1
             - else
               = f.simple_fields_for :form_builder_attachments, @attachments.file_by_name(enrollment['label']) ||  @attachments.build do |attachment|
                 = render 'shared/form_builder/attachment', f: attachment, property: enrollment, entity: f, resource: @client_enrollment
