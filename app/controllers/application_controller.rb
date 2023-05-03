@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :null_session, except: :index, if: proc { |c| c.request.format == 'application/json' }
   before_action :store_user_location!, if: :storable_location?
   before_action :configure_permitted_parameters, if: :devise_controller?
-  before_action :find_association, if: :devise_controller?
+  before_action :find_association, if: :registration?
   before_action :set_locale, :override_translation
   before_action :set_paper_trail_whodunnit, :current_setting
   before_action :prevent_routes
@@ -37,7 +37,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_organization
-    Organization.current
+    @current_organization ||= Organization.current
   end
 
   def current_setting
@@ -54,6 +54,17 @@ class ApplicationController < ActionController::Base
   end
 
   protected
+
+  def override_translation
+    return if FieldSetting.count.zero?
+    return if I18n::Backend::Custom::ReloadChecker.last_reload_at > FieldSetting.maximum(:updated_at)
+
+    I18n.backend.reload!
+  end
+
+  def registration?
+    controller_name == 'registrations'
+  end
 
   def address_translation
     @address_translation = view_context.address_translation('client')
@@ -87,10 +98,6 @@ class ApplicationController < ActionController::Base
   def find_association
     @department = Department.order(:name)
     @province   = Province.cached_order_name
-  end
-
-  def override_translation
-    I18n.backend.reload! if request.get? && request.format.html?
   end
 
   def default_url_options(options = {})
