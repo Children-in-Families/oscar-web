@@ -82,5 +82,10 @@
       .ibox-footer
         .text-right
           - if @client && @referral.client_id
-            = link_to client_referrals_path(@client, referral_type: referral_type(@referral)), class: 'btn btn-default' do
+            = link_to client_referrals_path(@client, referral_type: referral_type(@referral)), class: 'btn btn-default me-2' do
               = t('back')
+
+          - if @referral.repeat?
+            = link_to t('.go_to_client'), client_path(id: @referral.client_by_slug.slug, referral_id: @referral.id), target: '_blank', class: 'btn btn-info'
+          - else
+            = link_to t('.go_to_client'), new_client_path(referral_id: @referral.id), target: '_blank', class: 'btn btn-info'

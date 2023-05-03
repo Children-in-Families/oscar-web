@@ -5377,6 +5377,13 @@ my:
       review_client: အမႈသည္မ်ားကို ျပန္လည္သံုးသပ္ရန္ လိုအပ္သည္
     referrals:
       referral_clients: ရည်ညွန်းဖောက်သည်
+    referral_table:
+      clients: Clients
+      referral_form: Referral Form
+      referral_date: Referral Date
+      referral_count: Referral Count
+      level_of_risk: Level of Risk
+      review_form: Review Form
     repeat_referrals:
       referral_clients: ရည်ညွန်းဖောက်သည်
     upcoming_assessment:
@@ -5979,6 +5986,7 @@ my:
       date_of_referral: လွှဲပြောင်း၏နေ့စွဲ
       download_referral_form: ဒေါင်းလုပ်လွှဲပြောင်းပုံစံ
       external_referral_warning: သင်လက်ရှိအော်စကာအသုံးပြုနေခြင်းမရှိပါရန်သင့် client ကိုရည်ညွှန်းရန်ကြိုးစားနေသောအန်ဂျီအို။ သင့်ရဲ့ပစ်မှတ်အဖွဲ့အစည်းကမှပေးပို့ဖို့ဒီလွှဲပြောင်းပုံစံများ၏မိတ္တူကို print ထုတ်ပါ။
+      go_to_client: Go to client
       name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
       ngo_name: NGO အမည်ဖြင့်
       pdf:

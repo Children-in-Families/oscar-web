@@ -5244,6 +5244,13 @@ km:
       review_client: អតិថិជនដែលត្រូវការត្រួតពិនិត្យ
     referrals:
       referral_clients: អតិថិជនដែលត្រូវបានបញ្ជូនមក
+    referral_table:
+      clients: Clients
+      referral_form: Referral Form
+      referral_date: Referral Date
+      referral_count: Referral Count
+      level_of_risk: Level of Risk
+      review_form: Review Form
     repeat_referrals:
       referral_clients: អតិថិជនដែលត្រូវបានបញ្ជូនមកម្តងទៀត
     upcoming_assessment:
@@ -5846,6 +5853,7 @@ km:
       date_of_referral: កាលបរិច្ឆេទបញ្ជូន
       download_referral_form: ទាញយកទម្រង់បញ្ជូន
       external_referral_warning: អង្គការដែលអ្នកកំពុងព្យាយាមបញ្ជូនអតិថិជនរបស់អ្នកទៅ បច្ចុប្បន្ននេះមិនកំពុងប្រើ OSCaR ទេ។ សូមបោះពុម្ពច្បាប់ចម្លងនៃទម្រង់បញ្ជូននេះដើម្បីផ្ញើទៅអង្គការគោលដៅរបស់អ្នក។
+      go_to_client: Go to client
       name_of_referee: ឈ្មោះអ្នកបញ្ជូន
       ngo_name: ឈ្មោះអង្គការ
       pdf:
