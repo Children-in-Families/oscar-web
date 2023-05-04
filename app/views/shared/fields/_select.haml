@@ -7,18 +7,29 @@
   - if I18n.locale == :en || params[:locale] == 'en'
     = f.input remove_field_prop_unicode(field_props), |
       collection: collection, |
-      required: (field_props['required'] || false), input_html: { id: field_props['label'].gsub(' ', '_').gsub("'", ""), |
-      class: "#{field_props['ClassName']} #{I18n.locale.to_s != I18n.default_locale.to_s ? 'd-none' : ''}", multiple: field_props['multiple'].present?, |
+      required: (field_props['required'] || false), input_html: { id: underscore_label(field_props['label']), |
+      selected: selected_values(f.object, remove_field_prop_unicode(field_props), "Local_label #{remove_local_field_prop_unicode(field_props)}"), |
+      class: "select2 #{field_props['ClassName']} #{I18n.locale.to_s != I18n.default_locale.to_s ? 'd-none' : ''}", multiple: field_props['multiple'].present?, |
       name: "#{f.object_name}[#{remove_field_prop_unicode(field_props)}][]", placeholder: format_placeholder(field_props['placeholder']), |
-      'data-label': field_props["label"].gsub(' ', '_').gsub("'", "") }, label: false
+      'data-label': underscore_label(field_props["label"]) }, label: false
+    = f.input "Local_label #{remove_local_field_prop_unicode(field_props)}", |
+      collection: collection_values(f.object.send("Local_label #{remove_local_field_prop_unicode(field_props)}")), label: false, |
+      name: "#{f.object_name}[Local_label #{remove_local_field_prop_unicode(field_props)}][]", |
+      input_html: { multiple: field_props['multiple'].present?, class: 'hidden' }
   - else
     = f.input "Local_label #{remove_local_field_prop_unicode(field_props)}", |
-      collection: field_props['values'].map { |f| [format_placeholder(f['local_label']), f['local_label'], id: "custom_field_property_properties_#{field_props["local_label"].gsub('"', '&qoute;').html_safe}_#{f['local_label'].html_safe}", 'data-value': f['label']] }, |
+      collection: field_props['values'].map { |f| [format_placeholder(f['local_label']), f['local_label'], id: "custom_field_property_properties_#{custom_field_property_properties_id(field_props)}", 'data-value': f['label']] }, |
+      selected: selected_values(f.object,  "Local_label #{remove_local_field_prop_unicode(field_props)}", remove_field_prop_unicode(field_props)), |
       required: (field_props['required'] || false), |
-      input_html: { id: field_props["local_label"].gsub(' ', '_').gsub("'", ""),
-                    class: "#{field_props['ClassName']} #{I18n.locale.to_s == I18n.default_locale.to_s ? 'd-none1' : ''}",
+      input_html: { id: underscore_label(field_props["local_label"]),
+                    class: "select2 #{field_props['ClassName']} #{I18n.locale.to_s == I18n.default_locale.to_s ? 'd-none1' : ''}",
                     multiple: field_props['multiple'].present?, name: "#{f.object_name}[Local_label #{remove_local_field_prop_unicode(field_props)}][]",
                     placeholder: format_placeholder(field_props['placeholder']),
-                    'data-label': field_props["local_label"].gsub(' ', '_').gsub("'", "") }, label: false
+                    'data-label': underscore_label(field_props["local_label"]) }, label: false
+
+    = f.input remove_local_field_prop_unicode(field_props), |
+      collection: collection_values(f.object.send(remove_local_field_prop_unicode(field_props))), label: false, |
+      name: "#{f.object_name}[#{remove_local_field_prop_unicode(field_props)}][]", |
+      input_html: { multiple: field_props['multiple'].present?, class: 'hidden' }
   %span.help-block
     = field_message(label, errors)

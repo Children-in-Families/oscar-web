@@ -65,8 +65,8 @@ class CustomFieldPropertiesController < AdminController
       properties_params.each do |k, v|
         mappings[k] = k.gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;').gsub('%22', '"')
       end
-      formatted_params = properties_params.map {|k, v| [mappings[k], v] }.to_h
-      formatted_params.values.map{ |v| v.delete('') if (v.is_a?Array) && v.size > 1 }
+      formatted_params = properties_params.map { |k, v| [mappings[k], v] }.to_h
+      formatted_params.values.map { |v| v.delete('') if (v.is_a? Array) && v.size > 1 }
     end
     default_params = params.require(:custom_field_property).permit({}).merge(custom_field_id: params[:custom_field_id])
     default_params = default_params.merge(properties: formatted_params) if formatted_params.present?
@@ -102,15 +102,15 @@ class CustomFieldPropertiesController < AdminController
 
   def find_entity
     if params[:client_id].present?
-      @custom_formable = Client.includes(custom_field_properties: [:custom_field]).accessible_by(current_ability).friendly.find(params[:client_id])
+      @custom_formable = Client.accessible_by(current_ability).friendly.find(params[:client_id])
     elsif params[:family_id].present?
-      @custom_formable = Family.includes(custom_field_properties: [:custom_field]).find(params[:family_id])
+      @custom_formable = Family.find(params[:family_id])
     elsif params[:partner_id].present?
-      @custom_formable = Partner.includes(custom_field_properties: [:custom_field]).find(params[:partner_id])
+      @custom_formable = Partner.find(params[:partner_id])
     elsif params[:user_id].present?
-      @custom_formable = User.includes(custom_field_properties: [:custom_field]).find(params[:user_id])
+      @custom_formable = User.find(params[:user_id])
     elsif params[:community_id].present?
-      @custom_formable = Community.includes(custom_field_properties: [:custom_field]).find(params[:community_id])
+      @custom_formable = Community.find(params[:community_id])
     end
   end
 

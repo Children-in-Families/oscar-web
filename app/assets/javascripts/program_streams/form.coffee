@@ -300,8 +300,11 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         onAddOption: (optionTemplate, optionIndex) ->
           index = optionIndex.index + 1
           if !optionTemplate.local_label
+            optionTemplate.label = "option #{index}"
+            optionTemplate.value = "option #{index}"
             optionTemplate.local_label = "Local option #{index}"
             optionTemplate.local_value = "Local option #{index}"
+
           return optionTemplate
       ).promise.then((form) ->
         form.element = elements[startIndex]
@@ -523,9 +526,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     $('#program_stream_rules').val(_handleStringfyRules(rules))
 
   _handleSetValueToField = ->
-    console.log(@formBuilder)
     for formBuilder in @formBuilder
-      console.log(formBuilder.actions.save())
       element = formBuilder.element
       specialCharacters = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&qoute;" }
       format = new CIF.FormatSpecialCharacters()

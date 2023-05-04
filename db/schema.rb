@@ -2345,8 +2345,6 @@ ActiveRecord::Schema.define(version: 20230502032758) do
     t.boolean  "cbdmat_one_off",                       default: false
     t.boolean  "cbdmat_ongoing",                       default: false
     t.boolean  "disabled_task_date_field",             default: true
-    t.boolean  "cbdmat_one_off",                       default: false
-    t.boolean  "cbdmat_ongoing",                       default: false
     t.integer  "tracking_form_edit_limit",             default: 0
     t.string   "tracking_form_edit_frequency",         default: "week"
     t.boolean  "enabled_risk_assessment",              default: false

@@ -9,7 +9,6 @@ CIF.Client_trackingsNew = CIF.Client_trackingsCreate = CIF.Client_custom_fieldsN
     _initICheckBox()
     _initDatePicker()
     _preventCreateDatePickerClientEnrollment()
-    _setAnotherLanguageFieldValue()
     _hideAnotherLanguageField()
     _copyInputTextToLocalLanguage()
     _copyTextAreaTextToLocalLanguage()
@@ -64,11 +63,6 @@ CIF.Client_trackingsNew = CIF.Client_trackingsCreate = CIF.Client_custom_fieldsN
     currentEnterNgo = $('#current_enter_ngo').val()
     $('.client-enrollment-date').datepicker('setStartDate', currentEnterNgo)
 
-  _setAnotherLanguageFieldValue = ->
-    $('select').on 'select2-selecting', (e) ->
-      $('#' + $(e.target).data('label')).val($(e.choice.element).data('value')).trigger("change")
-      return
-  
   _hideAnotherLanguageField = ->
     $('.client-enrollment').find('.d-none').parent().addClass('hide')
 
