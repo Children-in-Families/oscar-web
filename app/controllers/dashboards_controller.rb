@@ -2,7 +2,7 @@ class DashboardsController < AdminController
   include CsiConcern
 
   before_action :task_of_user, :find_overhaul_task_params, :find_tasks, only: [:index]
-  skip_before_action :notify_user, :set_sidebar_basic_info, only: [:notification, :family_tab]
+  skip_before_action :notify_user, :set_sidebar_basic_info, only: [:notification, :family_tab, :side_menu_data]
 
   def index
     @program_streams = ProgramStream.includes(:program_stream_services, :services).where(program_stream_services: { service_id: nil }).attached_with('Client')
@@ -39,6 +39,18 @@ class DashboardsController < AdminController
   def notification
     clients = Client.none.accessible_by(current_ability).non_exited_ngo
     @notification = UserNotification.new(current_user, clients)
+  end
+
+  def side_menu_data
+    @client_count  = Client.accessible_by(current_ability).count
+    @family_count  = Family.accessible_by(current_ability).count
+    @community_count  = Community.accessible_by(current_ability).count
+    @user_count    = User.where(deleted_at: nil).accessible_by(current_ability).count
+    @partner_count = Partner.count
+    @agency_count  = Agency.count
+    @calls_count   = Call.count
+    @referees_count        = Referee.count
+    @referral_source_count = ReferralSource.count
   end
 
   private

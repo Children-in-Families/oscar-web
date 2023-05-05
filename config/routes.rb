@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   get '/dashbaords/client_data_validation' => 'dashboards#client_data_validation'
   get '/dashboards/notification' => 'dashboards#notification'
   get '/dashboards/family_tab' => 'dashboards#family_tab'
+  get '/dashboards/side_menu_data' => 'dashboards#side_menu_data'
 
   resources :calendars
 
