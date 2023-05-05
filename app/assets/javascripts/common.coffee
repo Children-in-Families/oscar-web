@@ -15,8 +15,8 @@ CIF.Common =
     @printDiv()
 
   loadNotification: ->
-    # if $('.lazy-load-notification').length > 0
-    #   $.ajax(type: 'GET', url: '/dashboards/notification')
+    if $('.lazy-load-notification').length > 0
+      $.ajax(type: 'GET', url: '/dashboards/notification')
 
   preventEditOnDatePicker: ->
     $('.date-picker').datepicker
