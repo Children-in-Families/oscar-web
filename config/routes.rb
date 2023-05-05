@@ -113,6 +113,7 @@ Rails.application.routes.draw do
     collection do
       post '/advanced_search', to: 'clients#index'
       get :advanced_search
+      get :welcome
     end
 
     scope module: 'client' do

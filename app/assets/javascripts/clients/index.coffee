@@ -1,4 +1,4 @@
-CIF.ClientsIndex = do ->
+CIF.ClientsIndex = CIF.ClientsWelcome = do ->
   _init = ->
     window.customGroup = {}
     content = $('#content').val()
@@ -462,10 +462,10 @@ CIF.ClientsIndex = do ->
       $("button[data-target='#client-search-form']").trigger('click')
 
   _hideClientFilters = ->
-    dataFilters = $('#client-search-form .datagrid-filter')
-    displayColumns = '#client_grid_given_name, #client_grid_family_name, #client_grid_gender, #client_grid_slug, #client_grid_status, #client_grid_user_id'
-    $(dataFilters).hide()
-    $(dataFilters).children("#{displayColumns}").parents('.datagrid-filter').show()
+    # dataFilters = $('#client-search-form .datagrid-filter')
+    # displayColumns = '#client_grid_given_name, #client_grid_family_name, #client_grid_gender, #client_grid_slug, #client_grid_status, #client_grid_user_id'
+    # $(dataFilters).hide()
+    # $(dataFilters).children("#{displayColumns}").parents('.datagrid-filter').show()
 
   _toggleCollapseFilter = (tour) ->
     $('#client-search-form').on 'show.bs.collapse', ->
@@ -488,6 +488,8 @@ CIF.ClientsIndex = do ->
         _hideClientFilters()
 
   _initAdavanceSearchFilter = ->
+    return unless $('#client-builder-fields').length > 0
+
     advanceFilter = new CIF.ClientAdvanceSearch()
     advanceFilter.initBuilderFilter('#client-builder-fields')
     advanceFilter.setValueToBuilderSelected()
@@ -594,7 +596,7 @@ CIF.ClientsIndex = do ->
     report.lineChart()
 
   _enableSelect2 = ->
-    $('#clients-index select').select2
+    $('select').select2
       minimumInputLength: 0,
       allowClear: true
 
