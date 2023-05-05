@@ -22,6 +22,10 @@ class ClientsController < AdminController
   before_action :quantitative_type_readable
   before_action :validate_referral, only: [:new, :edit]
 
+  def welcome
+    choose_grid
+  end
+
   def index
     @client_default_columns = Setting.cache_first.try(:client_default_columns)
     if params[:advanced_search_id]
