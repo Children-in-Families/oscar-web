@@ -38,13 +38,13 @@
             = link_to calls_path do
               = fa_icon('phone')
               %span.nav-label= t('.calls')
-              %span.label.label-primary.pull-right= @calls_count
+              %span.label.label-primary.pull-right.calls_count
         - if current_setting.try(:enable_client_form) == true
           %li.main{ class: clients_menu_active }
             = link_to welcome_clients_path do
               = fa_icon('child')
               %span.nav-label= t('.clients')
-              %span.label.label-primary.pull-right.clien_tcount
+              %span.label.label-primary.pull-right.client_count
         %li.main{ class: is_active_controller('referees') }
           = link_to referees_path do
             = fa_icon('address-book')
