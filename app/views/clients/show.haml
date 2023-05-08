@@ -568,14 +568,14 @@
                   = t('.received_by')
                 %td
                   %strong
-                    = editable @client, :received_by_id, type: :select2, source: case_workers_option(@client.id, true), value: @client.received_by&.name, url: api_client_path(@client.id), pk: @client.id
+                    = editable @client, :received_by_id, type: :select2, source: editable_case_worker_options, value: @client.received_by&.name, url: api_client_path(@client.id), pk: @client.id
                     = user @client.received_by, true
               %tr
                 %td.spacing-first-col
                   = t('.followed_up_by')
                 %td
                   %strong
-                    = editable @client, :followed_up_by_id, type: :select2, source: case_workers_option(@client.id, true), value: @client.followed_up_by&.name, url: api_client_path(@client.id), pk: @client.id
+                    = editable @client, :followed_up_by_id, type: :select2, source: editable_case_worker_options, value: @client.followed_up_by&.name, url: api_client_path(@client.id), pk: @client.id
                     = user @client.followed_up_by, true
 
               - if policy(@client).show?(:department)
