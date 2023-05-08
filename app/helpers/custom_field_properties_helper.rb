@@ -84,7 +84,7 @@ module CustomFieldPropertiesHelper
   def underscore_label(value)
     return '' if value.nil?
 
-    value.parameterize.undercore
+    value.gsub(' ', '_').gsub("'", '').gsub('"', '&qoute;').html_safe
   end
 
   def custom_field_property_properties_id(field_props)
