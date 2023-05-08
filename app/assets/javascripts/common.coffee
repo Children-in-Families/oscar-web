@@ -17,8 +17,8 @@ CIF.Common =
     @loadSideMenuCountBadge()
 
   loadNotification: ->
-    # if $('.lazy-load-notification').length > 0
-    #   $.ajax(type: 'GET', url: '/dashboards/notification')
+    if $('.lazy-load-notification').length > 0
+      $.ajax(type: 'GET', url: '/dashboards/notification')
 
   loadSideMenuCountBadge: ->
     if $('ul#side-menu .calls_count').length > 0
