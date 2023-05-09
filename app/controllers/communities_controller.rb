@@ -12,6 +12,10 @@ class CommunitiesController < AdminController
   before_action :find_community, only: [:show, :edit, :update, :destroy]
   before_action :load_quantative_types, only: [:new, :edit, :create, :update]
 
+  def welcome
+    choose_grid
+  end
+
   def index
     if has_params?
       advanced_search

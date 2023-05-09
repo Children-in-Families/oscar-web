@@ -59,7 +59,7 @@
 
         - if can?(:read, Community)
           %li.main{ class: "#{'active' if 'communities'.include?(controller_name)}" }
-            = link_to communities_path do
+            = link_to welcome_communities_path do
               = fa_icon('users')
               %span.nav-label= t('.communities')
               %span.label.label-primary.pull-right.community_count
