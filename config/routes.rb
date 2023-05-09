@@ -208,6 +208,8 @@ Rails.application.routes.draw do
   end
 
   resources :communities do
+    get :welcome, on: :collection
+
     resources :custom_field_properties
     resources :enrollments do
       get :report, on: :collection
