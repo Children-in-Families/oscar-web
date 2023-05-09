@@ -52,7 +52,7 @@
             %span.label.label-primary.pull-right.referees_count
         - if can? :read, Family
           %li.main{ class: families_menu_active }
-            = link_to families_path do
+            = link_to welcome_families_path do
               = fa_icon('users')
               %span.nav-label= t('.families')
               %span.label.label-primary.pull-right.family_count
