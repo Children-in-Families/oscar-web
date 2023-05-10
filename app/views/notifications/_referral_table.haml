@@ -27,7 +27,7 @@
           
           %td
             = link_to referral_path(referral), target: '_blank' do
-              = (action_name == 'repeat_referrals' ? client.referral_count : 0)
+              = (action_name == 'repeat_referrals' ? client.referral_count : 1)
           %td
             - if referral.level_of_risk.present?
               = link_to referral_path(referral), target: '_blank', class: 'btn btn-primary btn-xs' do
