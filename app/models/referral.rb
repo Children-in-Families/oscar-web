@@ -88,11 +88,11 @@ class Referral < ActiveRecord::Base
   end
 
   def inc_client_referral_count!
-    client_by_slug.update_columns(referral_count: client_by_slug.referral_count + 1) if repeat?
+    client.update_columns(referral_count: client.referral_count + 1) if repeat?
   end
 
   def dec_client_referral_count!
-    client_by_slug.update_columns(referral_count: client_by_slug.referral_count - 1) if repeat? && client_by_slug.referral_count > 0
+    client.update_columns(referral_count: client.referral_count - 1) if repeat? && client.referral_count > 0
   end
 
   def client_by_slug
@@ -100,7 +100,7 @@ class Referral < ActiveRecord::Base
   end
 
   def repeat?
-    client_by_slug.present?
+    client.present?
   end
 
   private
