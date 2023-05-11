@@ -71,7 +71,7 @@ export default (props) => {
     e.preventDefault();
     createTask({name: '', expected_date: null, complete: false})
   }
-
+  console.log('level_of Risk', level_of_risk);
   return (
     <div className="containerClass">
       <legend>
@@ -88,6 +88,7 @@ export default (props) => {
             T={labels.assessment_date}
             isError={false}
             label={labels.assessment_date}
+            disabled={assessment_date ? true : false}
             value={assessment_date}
             onChange={onChange("riskAssessment", "assessment_date")}
             />
@@ -117,6 +118,7 @@ export default (props) => {
         <div className="col-md-12 col-lg-6">
           <SelectInput
             isError={false}
+            isDisabled={ level_of_risk ? true : false }
             label={labels.level_of_risk}
             options={levelOfRisk}
             value={level_of_risk}

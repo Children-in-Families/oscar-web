@@ -1,0 +1,9 @@
+%li.carer-header
+  %strong= t('risk_assessments._attr.risk_assessment')
+%li
+  .visibility.col-sm-12
+    = check_box_tag 'level_of_risk_', 'level_of_risk', checked = saved_search_column_visibility('level_of_risk_'), class: 'i-checks'
+    = label_tag 'level_of_risk_', t('risk_assessments._attr.level_of_risk')
+  .visibility.col-sm-12
+    = check_box_tag 'date_of_risk_assessment_', 'date_of_risk_assessment', checked = saved_search_column_visibility('date_of_risk_assessment_'), class: 'i-checks'
+    = label_tag 'date_of_risk_assessment_', t('risk_assessments._attr.assessment_date')

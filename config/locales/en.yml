@@ -6131,7 +6131,7 @@ en:
   results: Results
   risk_assessments:
     _attr: &SA_ATTR
-      assessment_date: Date of risk assessment
+      assessment_date: Date of Risk Assessment
       category: Category
       child_wellbeing: "Child's Wellbeing"
       client_perspective: "Client’s perspective on their problem and needs"
