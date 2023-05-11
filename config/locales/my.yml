@@ -5374,7 +5374,7 @@ my:
       referral_date: Referral Date
       referral_count: Referral Count
       level_of_risk: Level of Risk
-      review_from: Review From
+      review_form: Review Form
     repeat_referrals:
       referral_clients: ရည်ညွန်းဖောက်သည်
     upcoming_assessment:

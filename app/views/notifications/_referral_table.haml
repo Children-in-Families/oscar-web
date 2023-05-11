@@ -5,9 +5,10 @@
         %th= t('.clients')
         %th= t('.referral_form')
         %th= t('.referral_date')
-        %th= t('.referral_count')
+        - if action_name == 'repeat_referrals'
+          %th= t('.referral_count')
         %th= t('.level_of_risk')
-        %th= t('.review_from')
+        %th= t('.review_form')
     %tbody
       - referrals.each do |referral|
         - if action_name == 'repeat_referrals'
@@ -25,9 +26,10 @@
             = link_to referral_path(referral), target: '_blank' do
               = date_format(referral.date_of_referral)
           
-          %td
-            = link_to referral_path(referral), target: '_blank' do
-              = (action_name == 'repeat_referrals' ? client.referral_count : 0)
+          - if action_name == 'repeat_referrals'
+            %td
+              = link_to referral_path(referral), target: '_blank' do
+                = client.referral_count
           %td
             - if referral.level_of_risk.present?
               = link_to referral_path(referral), target: '_blank', class: 'btn btn-primary btn-xs' do
