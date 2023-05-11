@@ -5359,7 +5359,7 @@ en:
       referral_clients: Referral Clients
     referral_table:
       clients: Clients
-      referral_form: Referral Form
+      referral_from: Referral From
       referral_date: Referral Date
       referral_count: Referral Count
       level_of_risk: Level of Risk
