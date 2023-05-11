@@ -1262,6 +1262,16 @@ class ClientGrid < BaseGrid
     end
   end
 
+  column(:level_of_risk, class: 'text-center', header: -> { I18n.t('risk_assessments._attr.level_of_risk') }) do |object|
+    object.risk_assessment.try(:level_of_risk)&.titleize
+  end
+
+  column(:date_of_risk_assessment, class: 'text-center', header: -> { I18n.t('risk_assessments._attr.assessment_date') }) do |object|
+    format(object.risk_assessment&.assessment_date) do |value|
+      date_format(value)
+    end
+  end
+
   dynamic do
     column(:manage, html: true, class: 'text-center', header: -> { I18n.t('datagrid.columns.clients.manage') }) do |object|
       render partial: 'clients/actions', locals: { object: object }
