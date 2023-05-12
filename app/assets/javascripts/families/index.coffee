@@ -1,4 +1,4 @@
-CIF.FamiliesIndex = do ->
+CIF.FamiliesIndex = CIF.FamiliesWelcome = do ->
   _init = ->
     _fixedHeaderTableColumns()
     _handleScrollTable()
@@ -22,6 +22,8 @@ CIF.FamiliesIndex = do ->
       radioClass: 'iradio_square-green'
 
   _initAdavanceSearchFilter = ->
+    return if $('#family-builder-fields').length == 0
+    
     advanceFilter = new CIF.ClientAdvanceSearch()
     advanceFilter.initBuilderFilter('#family-builder-fields')
     advanceFilter.setValueToBuilderSelected()
