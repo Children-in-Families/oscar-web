@@ -19,6 +19,9 @@ Rails.application.routes.draw do
   get '/callback'       => 'calendars#callback', as: 'callback'
   get '/calendar/sync'  => 'calendars#sync'
   get '/dashbaords/client_data_validation' => 'dashboards#client_data_validation'
+  get '/dashboards/notification' => 'dashboards#notification'
+  get '/dashboards/family_tab' => 'dashboards#family_tab'
+  get '/dashboards/side_menu_data' => 'dashboards#side_menu_data'
 
   resources :calendars
 
@@ -111,6 +114,7 @@ Rails.application.routes.draw do
     collection do
       post '/advanced_search', to: 'clients#index'
       get :advanced_search
+      get :welcome
     end
 
     scope module: 'client' do

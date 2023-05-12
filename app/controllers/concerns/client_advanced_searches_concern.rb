@@ -25,7 +25,7 @@ module ClientAdvancedSearchesConcern
           @results                = clients
           @client_grid = @client_grid.scope { |scope| scope.where(id: @clients_by_user.ids).accessible_by(current_ability).page(params[:page]).per(20) }
         rescue NoMethodError
-          redirect_to clients_path
+          redirect_to welcome_clients_path
         end
       end
       f.xls do
