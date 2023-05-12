@@ -68,7 +68,7 @@ class AssessmentsController < AdminController
         if params[:from_controller] == "dashboards"
           redirect_to root_path, notice: t('.successfully_created')
         else
-          redirect_to client_path(@client), notice: t('.successfully_created')
+          redirect_to client_assessment_path(@client, @assessment), notice: t('.successfully_created')
         end
       else
         flash[:alert] = @assessment.errors.full_messages

@@ -700,6 +700,7 @@ en:
       finish: Done
       finished_assessment_msg: This assessment is ready to be saved!
       goal: 'Goal: what specific goal will the client be working toward over the next few months?'
+      level_risk_summary: Level Risk Summary
       next: Next
       previous: Previous
       reason: Observation
