@@ -31,7 +31,10 @@ class User < ActiveRecord::Base
   has_many :clients, through: :case_worker_clients
   has_many :enter_ngo_users, dependent: :destroy
   has_many :enter_ngos, through: :enter_ngo_users
+  
   has_many :tasks, dependent: :destroy
+  has_many :incomplete_tasks, -> { incomplete }, class_name: 'Task'
+
   has_many :calendars, dependent: :destroy
   has_many :visit_clients,  dependent: :destroy
   has_many :custom_field_properties, as: :custom_formable, dependent: :destroy
