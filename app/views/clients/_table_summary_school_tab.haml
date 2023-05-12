@@ -1,0 +1,47 @@
+- clients = @results.joins(:client_enrollments).select('clients.*, client_enrollments.program_stream_id')
+- no_program_clients = @results.includes(:client_enrollments).where(client_enrollments: {client_id: nil})
+- schools = %w(no_school pre_school primary_school secondary_school high_school university)
+- all_clients = clients + no_program_clients
+
+#table-summary-school-tab.tab-pane{role: "tabpanel"}
+  %table.table.table-bordered.table-striped.table-hover.assessment-score-data#table-summary-school
+    %thead
+      %tr
+        %th.text-center{:rowspan => 2}= t('clients.table_summary.program')
+        - schools.each do |school|
+          %th.text-center{:colspan => 3}= t("advanced_search.fields.school.#{school}")
+        %th.text-center{:rowspan => 2}= t('clients.table_summary.total')
+      %tr
+        - schools.each do
+          %th= t('clients.table_summary.female')
+          %th= t('clients.table_summary.male')
+          %th= t('clients.table_summary.other')
+    %tbody
+      - ProgramStream.where(id: clients.map(&:program_stream_id).uniq).each do |program|
+        - by_program = clients.select{ |client| client.program_stream_id == program.id }
+        %tr
+          %td= program.name
+          - schools.each do |method_name|
+            - by_program_by_school = by_program.select{ |client| client.send("#{method_name}?") }
+            %td= by_program_by_school.select(&:female?).count
+            %td= by_program_by_school.select(&:male?).count
+            %td= by_program_by_school.select(&:other_gender?).count
+          %td= by_program.count
+
+      %tr
+        %td= t('clients.table_summary.no_program')
+        - schools.each do |method_name|
+          - by_school = no_program_clients.select{ |client| client.send("#{method_name}?") }
+          %td= by_school.select(&:female?).count
+          %td= by_school.select(&:male?).count
+          %td= by_school.select(&:other_gender?).count
+        %td= no_program_clients.count
+
+      %tr
+        %td= t('clients.table_summary.client_by_gender')
+        - schools.each do |method_name|
+          - by_school = all_clients.select{ |client| client.send("#{method_name}?") }
+          %td= by_school.select(&:female?).count
+          %td= by_school.select(&:male?).count
+          %td= by_school.select(&:other_gender?).count
+        %td= all_clients.count

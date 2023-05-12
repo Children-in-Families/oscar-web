@@ -542,6 +542,13 @@ km:
       reject_note: កំណត់ហេតុនៃការមិនទទួលយក
       relevant_referral_information: ព័ត៌មានសំខាន់ៗដែលពាក់ព័ន្ធ
       school_grade: កម្រិតវប្បធម៌
+      school:
+        no_school: No School
+        pre_school: Pre School
+        primary_school: Primary School
+        secondary_school: Secondary School
+        high_school: High School
+        university: University
       school_grade_list:
         kindergarten_1: ថ្នាក់មតេយ្យកម្រិត ១
         kindergarten_2: ថ្នាក់មតេយ្យកម្រិត ២
@@ -2232,6 +2239,8 @@ km:
       title: Table Summary
       age_tabs: Age
       referral_category_tabs: Referral Categories
+      school_tab: School
+      province_tab: Location
       program: Program
       children: Children
       adult: Adult

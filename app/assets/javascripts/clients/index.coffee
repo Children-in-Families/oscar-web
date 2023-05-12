@@ -124,6 +124,8 @@ CIF.ClientsIndex = CIF.ClientsWelcome = do ->
     fileName = $('.table-summary').data('filename')
     _handleDataTable("#table-summary-age", fileName)
     _handleDataTable("#table-summary-referral-category", fileName)
+    _handleDataTable("#table-summary-school", fileName)
+    _handleDataTable("#table-summary-location", fileName)
     $('.table-summary').on 'shown.bs.modal', (e) ->
       $($.fn.dataTable.tables(true)).DataTable().columns.adjust()
       return
