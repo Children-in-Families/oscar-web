@@ -58,6 +58,8 @@ class ClientsController < AdminController
   def show
     respond_to do |format|
       format.html do
+        Referral.where(id: params[:referral_id]).update_all(client_id: @client.id, saved: true) if params[:referral_id].present?
+
         @referees                   = Referee.none_anonymouse.pluck(:id, :name).map{|id, name| { value: id, text: name } }
         @current_provinces          = Province.pluck(:id, :name).map{|id, name| { value: id, text: name } }
         @birth_provinces            = @birth_provinces.map{|parent, children| children.map{|t, v| { value: v, text: t } } }.flatten

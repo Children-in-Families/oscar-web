@@ -24,7 +24,7 @@ class Referral < ActiveRecord::Base
   validates :level_of_risk, presence: true, inclusion: { in: LEVEL_OF_RISK }
   validates :services, presence: true
 
-  after_create :email_referrral_client
+  after_create :email_referrral_client, :inc_client_referral_count!
   after_save :make_a_copy_to_target_ngo, :create_referral_history
 
   scope :received, -> { where(referred_to: Organization.current.short_name) }
@@ -85,6 +85,22 @@ class Referral < ActiveRecord::Base
 
   def update_referral_status(value)
     update_column(:referral_status, value)
+  end
+
+  def inc_client_referral_count!
+    client.update_columns(referral_count: client.referral_count + 1) if repeat?
+  end
+
+  def dec_client_referral_count!
+    client.update_columns(referral_count: client.referral_count - 1) if repeat? && client.referral_count > 0
+  end
+
+  def client_by_slug
+    @client_by_slug ||= Client.where("slug = ? OR archived_slug = ?", slug, slug).first
+  end
+
+  def repeat?
+    client.present?
   end
 
   private
