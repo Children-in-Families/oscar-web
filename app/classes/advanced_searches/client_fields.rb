@@ -161,7 +161,7 @@ module AdvancedSearches
         ['enrolled_program_stream', enrolled_program_options],
         ['donor_name', donor_options],
         ['has_been_in_orphanage', yes_no_options],
-        ['has_been_in_government_care', yes_no_options],
+        ['has_been_in_government_care', yes_no_options]
       ]
     end
 

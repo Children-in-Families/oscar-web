@@ -335,8 +335,9 @@
                 = check_box_tag 'carer_relationship_to_client_', 'carer_relationship_to_client', checked = saved_search_column_visibility('carer_relationship_to_client_'), class: 'i-checks'
                 = label_tag 'carer_relationship_to_client_', t('datagrid.columns.clients.carer_relationship_to_client')
 
-            %li.divider.col-xs-12
+            = render 'datagrid/risk_assessment_column_picker'
 
+            %li.divider.col-xs-12
           %li
             .visibility.col-sm-12
               = check_box_tag 'manage_', 'manage', checked = saved_search_column_visibility('manage_'), class: 'i-checks'
