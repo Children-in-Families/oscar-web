@@ -1,4 +1,4 @@
-- clients = @results.joins(:client_enrollments).includes(:province).select('clients.*, client_enrollments.program_stream_id')
+- clients = @results.find_by_sql('SELECT clients.*, client_enrollments.program_stream_id FROM clients INNER JOIN client_enrollments ON clients.id = client_enrollments.client_id')
 - no_program_clients = @results.includes(:client_enrollments, :province).where(client_enrollments: {client_id: nil})
 - provinces = (clients.map(&:province_name) + no_program_clients.map(&:province_name)).uniq.compact.sort
 
@@ -27,7 +27,7 @@
             %td= clients_by_program_province.select(&:male?).count
             %td= clients_by_program_province.select(&:other_gender?).count
           %td= by_program.count
-      
+
       %tr
         %td= t('clients.table_summary.no_program')
         - provinces.each do |prov_name|
