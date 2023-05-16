@@ -89,6 +89,7 @@ body[id="client_advanced_searches-index"] {
       min-width: 135px;
     }
 
+    th.assessment_created_at,
     th.date_of_assessments,
     th.assessment_completed_date,
     th.custom_completed_date,
@@ -148,6 +149,7 @@ body[id="client_advanced_searches-index"] {
     th.live_with,
     th.local_given_name,
     th.local_family_name,
+    th.care_plan_date,
     th.care_plan_completed_date,
     th.commune,
     th.district,

@@ -13,6 +13,7 @@ class Assessment < ActiveRecord::Base
 
   has_paper_trail
 
+  validates :assessment_date, presence: true
   validates :client, presence: true, if: :client_id?
   validate :must_be_enable
   validate :allow_create, :eligible_client_age, if: :new_record?
