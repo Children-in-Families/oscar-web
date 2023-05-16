@@ -4,6 +4,7 @@
   = hidden_field_tag :from_controller, @from_controller
   = f.hidden_field :case_conference_id
   = hidden_field_tag :custom_name, params[:custom_name] || @custom_assessment_setting.try(:custom_assessment_name)
+  = render 'assessment_date_section', f: f
   .row.assessment-domains
     .col-xs-12
       .ibox
@@ -16,10 +17,6 @@
               - else
                 %span= " (Current Assessment)"
 
-          .ibox-tools
-            - unless readonly
-              = link_to client_assessments_path(@client), class: 'btn btn-default btn-back-default button' do
-                = t('.back')
         .ibox-content
           .root-wizard{ id:( readonly ? 'readonly-rootwizard' : 'rootwizard'), data: { cancel: t('.cancel'), next: t('.next'), previous: t('.previous'), finish: t('.finish'), save: t('.save'), saving: t('saving'), action: params['action'] } }
             = f.simple_fields_for 'assessment_domains', order_assessment(assessment) do |ad|

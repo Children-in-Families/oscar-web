@@ -27,6 +27,8 @@
               - else
                 = "#{t('.based_on')} #{@assessment.index_of + 1}"
               %br
+              = "#{t('assessments.assessment_date', assessment: t('clients.show.assessment'))} #{date_format(@assessment.assessment_date)}"
+              %br/
               = "#{t('.assessment_created_by')} #{whodunnit('Assessment', @assessment)} #{t('.on_date')} #{date_format(@assessment.completed_date)}"
               %br/
               - if @assessment.level_of_risk

@@ -5,19 +5,7 @@
   = hidden_field_tag :custom_name, params[:custom_name] || @custom_assessment_setting.try(:custom_assessment_name)
   = f.hidden_field :case_conference_id
   = f.hidden_field :custom_assessment_setting_id
-  .ibox
-    .ibox-title
-      %h5
-        = "#{@assessment.client.name}"
-        %span= t('assessments.assessment_form')
-      .ibox-tools
-        = link_to client_assessments_path(@client), class: 'btn btn-default btn-back-default button' do
-          = t('.back')
-    .ibox-content
-      .row
-        .col-xs-12.col-md-6
-          = f.label :assessment_date
-          = f.text_field :assessment_date, class: 'date form-control date-picker datepicker-dropdown', type: 'text'
+  = render 'assessment_date_section', f: f
   .row.assessment-domains
     .col-xs-12
       #rootwizard.root-wizard{ data: { cancel: t('.cancel'), next: t('.next'), previous: t('.previous'), finish: t('.finish'), save: t('.save'), saving: t('saving'), action: params['action'] } }

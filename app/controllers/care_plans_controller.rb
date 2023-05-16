@@ -68,7 +68,7 @@ class CarePlansController < AdminController
   private
 
   def care_plan_params
-    params.require(:care_plan).permit(:assessment_id, :client_id, :completed)
+    params.require(:care_plan).permit(:care_plan_date, :assessment_id, :client_id, :completed)
   end
 
   def care_plan_update_params

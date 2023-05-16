@@ -441,6 +441,7 @@ my:
       agencies_involved: ပါ၀င္သည့္ ေအဂ်င္စီမ်ား
       agency_name: ေအဂ်င္စီနာမည္
       agency_names: ေအဂ်င္စီနာမည္
+      assessment_created_at: "%{assessment} Created At"
       assessment_number: စိစစ္အကဲျဖတ္မႈမ်ား#
       basic_fields: အမႈသည္အေျခခံအေနအထား
       birth_province: ေမြးရပ္ျပည္နယ္
@@ -660,6 +661,7 @@ my:
       enter_task_detail: လုပ္ငန္းအေသးစိတ္ျဖည့္သြင္းရန္
       save: သိမ္းသည္။
       title: လုပ္ငန္းအသစ္
+    assessment_date: အကဲဖြတ်သည့်ရက်စွဲ
     assessment_form: အကဲဖြတ်ပုံစံ
     attachment:
       attachments: တြဲထားသည္မ်ား
@@ -887,6 +889,7 @@ my:
   cannot_remove: ဖ်က္ပစ္၍မရပါ။
   cannot_remove_or_update: အသံုးျပဳေနသည္ျဖစ္၍ ဖ်က္ပစ္ျခင္းသာ္လည္းေကာင္း၊ အသစ္ျပင္ဆင္ျခင္းေသာ္လည္းေကာင္း လုပ္၍မရပါ။
   care_plans:
+    care_plan_date: Care Plan Date
     care_plan_form: Care Plan Form
     care_plan: Care plan
     care_plan_based_on: Care Plan Based on
@@ -2059,6 +2062,8 @@ my:
       advanced_search: အဆင့္ျမင့္ ရွာေဖြမႈ
       all_csi_assessments: အားလုံးအကဲဖြတ်
       all_custom_csi_assessments: Custom စိစစ္အကဲျဖတ္မႈမ်ားအားလံုး
+      assessment_completed: "%{assessment} Completed"
+      assessment_created_at: "%{assessment} Created At"
       assessment_data: အကဲဖြတ်ဖို့ဒေတာ
       assessment_number: စိစစ္အကဲျဖတ္မႈမ်ား#
       assessments: စိစစ္အကဲျဖတ္မႈမ်ား
@@ -2070,7 +2075,6 @@ my:
       custom_csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
       custom_csi_group: At
       date_of_assessment: "Date of %{assessment}"
-      assessment_completed: "%{assessment} Completed"
       date_of_custom_assessment: "Date of Custom %{assessment}"
       date_of_assessments: "Date of %{assessment}"
       domain_score: ဒိုမိန္း ရမွတ္မ်ား
@@ -2697,6 +2701,7 @@ my:
       all_custom_csi_assessments: Custom စိစစ္အကဲျဖတ္မႈမ်ားအားလံုး
       all_result_framework_assessment: All Result Framework Assessment
       assessment_completed_date: ျပဳလုပ္သည့္ ရက္စြဲ အကဲဖြတ်အပေါ်ပြီးစီး
+      assessment_created_at: "%{assessment} Created At"
       assessment_custom_completed_date: "Custom %{assessment} Completed Date"
       calls:
         answered_call: Answer Call
@@ -2820,6 +2825,7 @@ my:
         all_custom_csi_assessments: Custom စိစစ္အကဲျဖတ္မႈမ်ားအားလံုး
         any_assessments: စိစစ္အကဲျဖတ္မႈရွိသည္
         assessment_completed_date: ျပဳလုပ္သည့္ ရက္စြဲ အကဲဖြတ်အပေါ်ပြီးစီး
+        assessment_created_at: "%{assessment} Created At"
         assessment_custom_completed_date: "Custom %{assessment} Completed Date"
         assessments: စိစစ္အကဲျဖတ္မႈမ်ား
         assessments_due_to: လုပ္ရေတာ့မည္ စိစစ္အကဲျဖတ္မႈမ်ား

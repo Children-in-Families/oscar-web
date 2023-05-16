@@ -39,6 +39,7 @@ module ClientGridOptions
     program_exit_date_report
     default_date_of_assessments
     default_date_of_completed_assessments
+    care_plan_date
     care_plan_completed_date
     care_plan_count
     custom_date_of_assessments
@@ -239,11 +240,11 @@ module ClientGridOptions
 
     if params[:data].presence == 'recent'
       @client_grid.column(column.to_sym, preload: :assessments, header: header) do |client|
-        eval(records).latest_record.try(:created_at).to_date.to_formatted_s if eval(records).any?
+        eval(records).latest_record.try(:assessment_date).to_date.to_formatted_s if eval(records).any?
       end
     else
       @client_grid.column(column.to_sym, preload: :assessments, header: header) do |client|
-        date_filter(eval(records).most_recents, "#{column}").map{ |a| a.created_at.to_date.to_formatted_s }.join(', ') if eval(records).any?
+        date_filter(eval(records).most_recents, column.to_s).map { |a| a.assessment_date.to_date.to_formatted_s }.join(', ') if eval(records).any?
       end
     end
   end

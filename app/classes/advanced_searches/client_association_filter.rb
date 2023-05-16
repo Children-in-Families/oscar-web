@@ -44,6 +44,8 @@ module AdvancedSearches
         values = @clients.where.not(id: values).ids
       when 'case_note_type'
         values = advanced_case_note_query
+      when 'assessment_created_at'
+        values = assessment_created_at_query(true)
       when 'date_of_assessments'
         values = date_of_assessments_query(true)
       when /assessment_completed|assessment_completed_date|^(completed_date)/
@@ -118,6 +120,8 @@ module AdvancedSearches
         values = care_plan_counter
       when 'care_plan_completed_date'
         values = date_query(Client, @clients, :care_plans, 'care_plans.created_at')
+      when 'care_plan_date'
+        values = date_query(Client, @clients, :care_plans, 'care_plans.care_plan_date')
       when 'number_client_referred_gatekeeping'
         values = number_client_referred_gatekeeping_query
       when 'number_client_billable'
@@ -365,7 +369,7 @@ module AdvancedSearches
       clients.ids
     end
 
-    def date_of_assessments_query(type)
+    def assessment_created_at_query(type)
       custom_assessment_setting_id = find_custom_assessment_setting_id(type)
       if custom_assessment_setting_id
         clients = @clients.joins(:assessments).where(assessments: { default: type, custom_assessment_setting_id: custom_assessment_setting_id })
@@ -391,6 +395,36 @@ module AdvancedSearches
         clients = @clients.includes(:assessments).where(assessments: { created_at: nil , default: type})
       when 'is_not_empty'
         clients = clients.where(assessments: { default: type }).where.not(assessments: { created_at: nil })
+      end
+      clients.ids
+    end
+
+    def date_of_assessments_query(type)
+      custom_assessment_setting_id = find_custom_assessment_setting_id(type)
+      if custom_assessment_setting_id
+        clients = @clients.joins(:assessments).where(assessments: { default: type, custom_assessment_setting_id: custom_assessment_setting_id })
+      else
+        clients = @clients.joins(:assessments).where(assessments: { default: type })
+      end
+      case @operator
+      when 'equal'
+        clients = clients.where('date(assessments.assessment_date) = ?', @value.to_date)
+      when 'not_equal'
+        clients = clients.where("date(assessments.assessment_date) != ? OR assessments.assessment_date IS NULL", @value.to_date)
+      when 'less'
+        clients = clients.where('date(assessments.assessment_date) < ?', @value.to_date)
+      when 'less_or_equal'
+        clients = clients.where('date(assessments.assessment_date) <= ?', @value.to_date)
+      when 'greater'
+        clients = clients.where('date(assessments.assessment_date) > ?', @value.to_date)
+      when 'greater_or_equal'
+        clients = clients.where('date(assessments.assessment_date) >= ?', @value.to_date)
+      when 'between'
+        clients = clients.where('date(assessments.assessment_date) BETWEEN ? AND ? ', @value[0].to_date, @value[1].to_date)
+      when 'is_empty'
+        clients = @clients.includes(:assessments).where(assessments: { assessment_date: nil , default: type})
+      when 'is_not_empty'
+        clients = clients.where(assessments: { default: type }).where.not(assessments: { assessment_date: nil })
       end
       clients.ids
     end

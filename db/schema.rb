@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20230512084756) do
+ActiveRecord::Schema.define(version: 20230515073415) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -247,10 +247,12 @@ ActiveRecord::Schema.define(version: 20230512084756) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "family_id"
-    t.boolean  "completed",     default: false
+    t.boolean  "completed",      default: false
+    t.date     "care_plan_date"
   end
 
   add_index "care_plans", ["assessment_id"], name: "index_care_plans_on_assessment_id", using: :btree
+  add_index "care_plans", ["care_plan_date"], name: "index_care_plans_on_care_plan_date", using: :btree
   add_index "care_plans", ["client_id"], name: "index_care_plans_on_client_id", using: :btree
   add_index "care_plans", ["family_id"], name: "index_care_plans_on_family_id", using: :btree
 
@@ -459,8 +461,10 @@ ActiveRecord::Schema.define(version: 20230512084756) do
     t.datetime "deleted_at"
   end
 
+  add_index "cases", ["case_type"], name: "index_cases_on_case_type", using: :btree
   add_index "cases", ["client_id"], name: "index_cases_on_client_id", using: :btree
   add_index "cases", ["deleted_at"], name: "index_cases_on_deleted_at", using: :btree
+  add_index "cases", ["exited"], name: "index_cases_on_exited", using: :btree
   add_index "cases", ["family_id"], name: "index_cases_on_family_id", using: :btree
   add_index "cases", ["partner_id"], name: "index_cases_on_partner_id", using: :btree
   add_index "cases", ["province_id"], name: "index_cases_on_province_id", using: :btree
@@ -850,6 +854,7 @@ ActiveRecord::Schema.define(version: 20230512084756) do
     t.string   "flight_nb"
     t.string   "from_referral_id"
     t.date     "synced_date"
+    t.integer  "referral_count",                        default: 0
   end
 
   add_index "clients", ["birth_province_id"], name: "index_clients_on_birth_province_id", using: :btree

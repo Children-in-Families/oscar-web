@@ -4,15 +4,15 @@ module AdvancedSearches
 
     ASSOCIATION_FIELDS = ['user_id', 'created_by', 'agency_name', 'donor_name', 'age', 'family', 'family_id',
                           'active_program_stream', 'enrolled_program_stream', 'case_note_date', 'no_case_note_date', 'case_note_type',
-                          'date_of_assessments', 'date_of_custom_assessments', 'accepted_date', 'assessment_completed_date',
+                          'assessment_created_at', 'date_of_assessments', 'date_of_custom_assessments', 'accepted_date', 'assessment_completed_date',
                           'custom_assessment', 'custom_assessment_created_date', 'custom_completed_date',
                           'exit_date', 'exit_note', 'other_info_of_exit', 'protection_concern_id', 'necessity_id',
                           'exit_circumstance', 'exit_reasons', 'referred_to', 'referred_from', 'time_in_cps', 'time_in_ngo',
                           'assessment_number', 'month_number', 'date_nearest', 'assessment_completed','date_of_referral',
                           'referee_name', 'referee_phone', 'referee_email', 'carer_name', 'carer_phone', 'carer_email',
                           'client_phone', 'client_email_address', 'phone_owner', 'referee_relationship', 'active_clients',
-                          'care_plan_counter', 'care_plan_completed_date', 'completed_date', 'custom_completed_date', 'carer_relationship_to_client',
-                          'ratanak_achievement_program_staff_client_ids', 'mo_savy_officials',
+                          'care_plan_counter', 'care_plan_date', 'care_plan_completed_date', 'completed_date', 'custom_completed_date',
+                          'ratanak_achievement_program_staff_client_ids', 'mo_savy_officials', 'carer_relationship_to_client',
                           'referred_in', 'referred_out', 'family_type', 'active_client_program',
                           'number_client_referred_gatekeeping', 'number_client_billable', 'assessment_condition_last_two',
                           'assessment_condition_first_last', 'client_rejected', 'incomplete_care_plan'
