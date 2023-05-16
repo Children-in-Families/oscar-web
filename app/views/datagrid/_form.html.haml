@@ -119,20 +119,6 @@
                 = check_box_tag 'postal_code_', 'postal_code', checked = saved_search_column_visibility('postal_code_'), class: 'i-checks'
                 = label_tag 'postal_code_', t('datagrid.columns.postal_code')
 
-            - QuantitativeType.with_field_type(:free_text).each do |quantitative_type|
-              - next unless quantitative_type_readable?(quantitative_type.id)
-              %li
-                .visibility.col-sm-12
-                  = check_box_tag "#{quantitative_type.name}_", quantitative_type.name, checked = saved_search_column_visibility("#{quantitative_type.name}_"), class: 'i-checks'
-                  = label_tag "#{quantitative_type.name}_", quantitative_type.name
-
-            - QuantitativeType.cach_by_visible_on('client').each do |quantitative_type|
-              - next unless quantitative_type_readable?(quantitative_type.id)
-              %li
-                .visibility.col-sm-12
-                  = check_box_tag "#{quantitative_type.name}_", quantitative_type.name, checked = saved_search_column_visibility("#{quantitative_type.name}_"), class: 'i-checks'
-                  = label_tag "#{quantitative_type.name}_", quantitative_type.name
-
           -# %li
           -#   .visibility.col-sm-12
           -#     = check_box_tag 'time_in_care_', 'time_in_care', checked = default_setting('time_in_care_', @client_default_columns) || params[:time_in_care_].present?, class: 'i-checks'
@@ -245,6 +231,22 @@
               .visibility.col-sm-12
                 = check_box_tag "#{field}_", field, checked = saved_search_column_visibility("#{field}_"), class: 'i-checks'
                 = label_tag "#{field}_", t("clients.show.#{field}")
+          - if @quantitative_fields
+            %li.custom-referral-data
+              %strong= t('advanced_search.fields.quantitative')
+            - QuantitativeType.with_field_type(:free_text).each do |quantitative_type|
+              - next unless quantitative_type_readable?(quantitative_type.id)
+              %li
+                .visibility.col-sm-12
+                  = check_box_tag "#{quantitative_type.name}_", quantitative_type.name, checked = saved_search_column_visibility("#{quantitative_type.name}_"), class: 'i-checks'
+                  = label_tag "#{quantitative_type.name}_", quantitative_type.name
+
+            - QuantitativeType.cach_by_visible_on('client').each do |quantitative_type|
+              - next unless quantitative_type_readable?(quantitative_type.id)
+              %li
+                .visibility.col-sm-12
+                  = check_box_tag "#{quantitative_type.name}_", quantitative_type.name, checked = saved_search_column_visibility("#{quantitative_type.name}_"), class: 'i-checks'
+                  = label_tag "#{quantitative_type.name}_", quantitative_type.name
 
           - if enable_default_assessment?
             - if current_organization.try(:aht) == true
