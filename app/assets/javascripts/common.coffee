@@ -21,7 +21,7 @@ CIF.Common =
       $.ajax(type: 'GET', url: '/dashboards/notification')
 
   loadSideMenuCountBadge: ->
-    if $('ul#side-menu .calls_count').length > 0
+    if $('ul#side-menu').length > 0
       $.ajax(type: 'GET', url: '/dashboards/side_menu_data')
 
   preventEditOnDatePicker: ->
