@@ -255,6 +255,7 @@ module ClientsHelper
       completed_date:                I18n.t('datagrid.columns.calls.assessment_completed_date', assessment: I18n.t('clients.show.assessment')),
       date_of_referral:              I18n.t('datagrid.columns.clients.date_of_referral'),
       date_of_custom_assessments:    I18n.t('datagrid.columns.clients.date_of_custom_assessments', assessment: I18n.t('clients.show.assessment')),
+      custom_assessment_created_at: I18n.t('datagrid.columns.clients.custom_assessment_created_at', assessment: I18n.t('clients.show.assessment')),
       changelog:                     I18n.t('datagrid.columns.clients.changelog'),
       live_with:                     I18n.t('datagrid.columns.clients.live_with'),
       program_streams:               I18n.t('datagrid.columns.clients.program_streams'),
@@ -365,6 +366,7 @@ module ClientsHelper
       date_of_referral_: I18n.t('datagrid.columns.clients.date_of_referral'),
       all_csi_assessments_: I18n.t('datagrid.columns.clients.all_csi_assessments'),
       date_of_custom_assessments_: I18n.t('datagrid.columns.clients.date_of_custom_assessments', assessment: I18n.t('clients.show.assessment')),
+      custom_assessment_created_at_: I18n.t('datagrid.columns.clients.custom_assessment_created_at', assessment: I18n.t('clients.show.assessment')),
       all_custom_csi_assessments_: I18n.t('datagrid.columns.clients.all_custom_csi_assessments', assessment: I18n.t('clients.show.assessment')),
       manage_: I18n.t('datagrid.columns.clients.manage'),
       changelog_: I18n.t('datagrid.columns.changelog'),
@@ -425,7 +427,7 @@ module ClientsHelper
     {
       custom_assessment: I18n.t('datagrid.columns.clients.custom_assessment', assessment: I18n.t('clients.show.assessment')),
       custom_completed_date: I18n.t('datagrid.columns.clients.assessment_custom_completed_date', assessment: I18n.t('clients.show.assessment')),
-      custom_assessment_created_date: I18n.t('datagrid.columns.clients.custom_assessment_created_date', assessment: I18n.t('clients.show.assessment'))
+      custom_assessment_created_at: I18n.t('datagrid.columns.clients.custom_assessment_created_at', assessment: I18n.t('clients.show.assessment'))
     }
   end
 
@@ -939,7 +941,7 @@ module ClientsHelper
       field_name = 'meeting_date'
     elsif rule == 'completed_date'
       field_name = 'completed_date'
-    elsif rule.in? ['assessment_created_at', 'custom_assessment_created_date', 'care_plan_completed_date']
+    elsif rule.in? ['assessment_created_at', 'custom_assessment_created_at', 'care_plan_completed_date']
       field_name = 'created_at'
     elsif rule.in?(['date_of_assessments', 'date_of_custom_assessments'])
       field_name = 'assessment_date'
@@ -974,7 +976,7 @@ module ClientsHelper
 
     if rule == 'date_of_assessments'
       sql_string = object.where(query_array).where(default: true).where(sub_query_array)
-    elsif rule == 'date_of_custom_assessments' || rule == 'custom_assessment_created_date'
+    elsif rule == 'date_of_custom_assessments' || rule == 'custom_assessment_created_at'
       sql_string = object.where(query_array).where(default: false).where(sub_query_array)
     else
       if object.is_a?(Array)
@@ -1045,7 +1047,7 @@ module ClientsHelper
             end
 
             count += data_filter.present? ? data_filter.flatten.count : 0
-          elsif class_name[/^(date_of_custom_assessments|custom_assessment_created_date)/i].present?
+          elsif class_name[/^(date_of_custom_assessments|custom_assessment_created_at)/i].present?
             if params['all_values'] == class_name
               data_filter = date_filter(client.assessments.customs, "#{class_name}")
             else

@@ -47,6 +47,7 @@ class ClientsController < AdminController
         end
         f.xls do
           next unless params['commit'].present?
+
           @client_grid.scope { |scope| scope.accessible_by(current_ability) }
           export_client_reports
           send_data @client_grid.to_xls, filename: "client_report-#{Time.now}.xls"

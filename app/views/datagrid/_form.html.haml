@@ -285,7 +285,9 @@
 
             = render partial: 'datagrid/domain_score_columns_picker', collection: Domain.csi_domains.order_by_identity, as: :domain
           - if enable_custom_assessment?
-            = render partial: 'datagrid/custom_domain_score', locals: { custom_domains: Domain.custom_csi_domains.order_by_identity }
+            - CustomAssessmentSetting.only_enable_custom_assessment.each do |cas|
+              .custom-assessment-setting{ data: { custom_assessment_setting_id: cas.id }, style: 'display: none;' }
+                = render partial: 'datagrid/custom_domain_score', locals: { custom_assessment_setting_name: cas.custom_assessment_name, custom_domains: Domain.custom_csi_domains.order_by_identity.where(custom_assessment_setting_id: cas.id) }
 
           = render 'datagrid/care_plan_column_picker'
           - if Service.count > 0

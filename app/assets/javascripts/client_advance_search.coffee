@@ -95,8 +95,12 @@ class CIF.ClientAdvanceSearch
 
 
   initSelect2: ->
-    $('#custom-form-select, #wizard-custom-form-select, #program-stream-select, #wizard-program-stream-select, #quantitative-case-select, #assessment-select').select2()
+    $('#custom-form-select, #wizard-custom-form-select, #program-stream-select, #wizard-program-stream-select, #quantitative-case-select').select2()
     $('#builder select').select2()
+    $('#assessment-select').select2().on 'change', (e) ->
+      $(".custom-assessment-setting").hide()
+      $("div[data-custom-assessment-setting-id='#{e.target.value}']").show()
+
     $('#wizard-builder select').select2()
     setTimeout ( ->
       ids = ['#custom-form-select', '#wizard-custom-form-select', '#program-stream-select', '#wizard-program-stream-select', '#quantitative-case-select', '#wizard-builder', '#builder', '#assessment-select']

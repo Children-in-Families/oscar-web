@@ -6,7 +6,7 @@ module AdvancedSearches
                           'user_id', 'created_by', 'agency_name', 'donor_name', 'age', 'family', 'family_id',
                           'active_program_stream', 'enrolled_program_stream', 'case_note_date', 'no_case_note_date', 'case_note_type',
                           'assessment_created_at', 'date_of_assessments', 'date_of_custom_assessments', 'accepted_date', 'assessment_completed_date',
-                          'custom_assessment', 'custom_assessment_created_date', 'custom_completed_date',
+                          'custom_assessment', 'custom_assessment_created_at', 'custom_completed_date',
                           'exit_date', 'exit_note', 'other_info_of_exit', 'protection_concern_id', 'necessity_id',
                           'exit_circumstance', 'exit_reasons', 'referred_to', 'referred_from', 'time_in_cps', 'time_in_ngo',
                           'assessment_number', 'month_number', 'date_nearest', 'assessment_completed', 'date_of_referral',
