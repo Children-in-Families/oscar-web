@@ -363,4 +363,15 @@ module AssessmentHelper
 
     (sum.to_f / current_setting.selected_domain_ids.compact.size).round
   end
+
+  def check_setting_assessment_type_name_selected(assessment)
+    setting_assessment_type_id = Setting.cache_first.assessment_type_name
+    if assessment.default
+      true
+    else
+      return assessment.object.custom_assessment_setting.custom_assessment_name == setting_assessment_type_name if assessment.class.name == 'AssessmentDecorator'
+
+      assessment.custom_assessment_setting.id.to_s == setting_assessment_type_id
+    end
+  end
 end

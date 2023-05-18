@@ -4,7 +4,7 @@
       .col-xs-6
         %h5= t('.overdue_tasks')
   .panel-body
-    - overdue_assessments = @notification.assessments[:overdue_assessment] if @notification
+    - overdue_assessments = @notification.assessments[:overdue_assessment]
     / Tweak to fix N+1
     - clients = Client.where(id: @clients.map{ |c| c[0].id }).includes(:default_most_recents_assessments, :custom_assessments, :users).to_a
     - @clients.each do |c, overdue_forms|

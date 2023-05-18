@@ -283,7 +283,7 @@ module ClientGridOptions
       column = 'date_of_custom_assessments'
     end
 
-    header = type == 'default' ? I18n.t("datagrid.columns.clients.#{column}", assessment: I18n.t('clients.show.assessment')) : I18n.t('datagrid.columns.clients.custom_assessment_created_at', assessment: I18n.t('clients.show.assessment'))
+    header = I18n.t("datagrid.columns.clients.#{column}", assessment: I18n.t('clients.show.assessment'))
 
     if params[:data].presence == 'recent'
       @client_grid.column(column.to_sym, preload: :assessments, header: header) do |client|
