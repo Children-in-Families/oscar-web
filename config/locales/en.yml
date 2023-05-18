@@ -450,6 +450,7 @@ en:
       assessment_condition_last_two: Assessment Condition for the last two
       assessment_condition_first_last: Assessment Condition for first and last
       incomplete_care_plan: Incomplete Care Plan
+      assessment_created_at: "%{assessment} Created At"
       assessment_number: "%{assessment}#"
       basic_fields: Client Basic Fields
       birth_province: Client Birth Province
@@ -481,7 +482,7 @@ en:
       custom_csi_domain_scores: Custom Domain Scores
       custom_csi_group: At
       custom_form: Custom Form
-      date_of_assessments: "%{assessment} Created At"
+      date_of_assessments: "Date of %{assessment}"
       date_of_birth: Date of Birth
       date_of_referral: Date of Referral
       description_house_landmark: Description of the house and a landmark
@@ -677,6 +678,7 @@ en:
       enter_task_detail: Enter task details
       save: Save
       new_task: New Task
+    assessment_date: "Date of %{assessment}"
     assessment_form: Assessment Form
     attachment:
       attachments: Attachments
@@ -707,6 +709,7 @@ en:
       finish: Done
       finished_assessment_msg: This assessment is ready to be saved!
       goal: 'Goal: what specific goal will the client be working toward over the next few months?'
+      level_risk_summary: Level Risk Summary
       next: Next
       previous: Previous
       reason: Observation
@@ -898,6 +901,7 @@ en:
   cannot_remove: cannot be removed
   cannot_remove_or_update: cannot be removed/updated since it is already in use.
   care_plans:
+    care_plan_date: Care Plan Date
     care_plan_form: Care Plan Form
     care_plan: Care plan
     care_plan_based_on: Care Plan Based on
@@ -2072,6 +2076,7 @@ en:
       advanced_search: Advanced Search
       all_csi_assessments: "All CSI %{assessment}"
       all_custom_csi_assessments: "All Custom %{assessment}"
+      assessment_created_at: "%{assessment} Created At"
       assessment_data: "%{assessment} Data"
       assessment_number: "%{assessment}#"
       assessments: Assessments
@@ -2082,10 +2087,10 @@ en:
       custom_assessment: "Custom %{assessment}"
       custom_csi_domain_scores: Custom Domain Scores
       custom_csi_group: At
-      date_of_assessment: "%{assessment} Created At"
+      date_of_assessment: "Date of %{assessment}"
       assessment_completed: "%{assessment} Completed"
-      date_of_custom_assessment: "Custom %{assessment} Created At"
-      date_of_assessments: "%{assessment} Created At"
+      date_of_custom_assessments: "Date of Custom %{assessment}"
+      date_of_assessments: "Date of %{assessment}"
       domain_score: Domain Scores
       end: Loading end!
       export_to_xls: Export to XLS
@@ -2756,6 +2761,7 @@ en:
       all_custom_csi_assessments: "All %{assessment}"
       all_result_framework_assessment: All Result Framework Assessment
       assessment_completed_date: "%{assessment} Completed Date"
+      assessment_created_at: "%{assessment} Created At"
       assessment_custom_completed_date: "Custom %{assessment} Completed Date"
       calls:
         answered_call: Answer Call
@@ -2884,6 +2890,7 @@ en:
         all_custom_csi_assessments: "All Custom %{assessment}"
         any_assessments: Has Assessments
         assessment_completed_date: "%{assessment} Completed Date"
+        assessment_created_at: "%{assessment} Created At"
         assessment_custom_completed_date: "Custom %{assessment} Completed Date"
         assessments: Assessments
         assessments_due_to: Assessments Due To
@@ -2931,10 +2938,10 @@ en:
         current_province_en: Current Province (English)
         current_province_kh: Current Province (Khmer)
         custom_assessment: Custom %{assessment}
-        custom_assessment_created_date: Custom %{assessment} Created Date
-        date_of_assessments: "%{assessment} Created At"
+        custom_assessment_created_at: Custom %{assessment} Created At
+        date_of_assessments: "Date of %{assessment}"
         date_of_birth: Date of Birth
-        date_of_custom_assessments: "Custom %{assessment} Created At"
+        date_of_custom_assessments: "Date of Custom %{assessment}"
         date_of_referral: Date of Referral
         description_house_landmark: Description of the house and a landmark
         directions: Directions
@@ -3056,13 +3063,14 @@ en:
         township: Township
         type: Attached with
         type_of_service: Type of Service
+        custom_assessment_created_at: "Custom %{assessment} Created At"
         view: View
         village: Village
         village_en: Address - Village (English)
         village_kh: Address - Village (Khmer)
         what3words: What3words
-      date_of_assessments: "%{assessment} Created At"
-      date_of_custom_assessments: "Custom %{assessment} Created At"
+      date_of_assessments: "Date of %{assessment}"
+      date_of_custom_assessments: "Date of Custom %{assessment}"
       date_of_family_assessment: Date of Family Assessment
       exit_circumstance: Exit Circumstance
       exit_note: NGO Exit Note
