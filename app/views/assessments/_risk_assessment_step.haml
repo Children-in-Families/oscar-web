@@ -1,4 +1,4 @@
-- if current_setting.enabled_risk_assessment?
+- if current_setting.enabled_risk_assessment? && check_setting_assessment_type_name_selected(@assessment)
   %h4
     = t('risk_assessments._attr.child_wellbeing')
     = t('risk_assessments._attr.score')
