@@ -54,7 +54,9 @@ module AdvancedSearches
         values = search_custom_assessment
       when 'custom_completed_date'
         values = date_of_completed_assessments_query(false)
-      when 'custom_assessment_created_date'
+      when 'custom_assessment_created_at'
+        values = assessment_created_at_query(false)
+      when 'date_of_custom_assessments'
         values = date_of_assessments_query(false)
       when 'accepted_date'
         values = enter_ngo_accepted_date_query

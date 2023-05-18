@@ -21,6 +21,7 @@ body[id='client_advanced_searches-index'] {
       border-color: #1ab394;
       color: #FFFFFF;
     }
+
     button {
       margin-right: 5px;
     }
@@ -40,9 +41,12 @@ body[id='client_advanced_searches-index'] {
 
   .rule-value-container {
     border-left: none;
-    select, input {
+
+    select,
+    input {
       width: 180px;
     }
+
     input.form-control {
       padding: 6px 12px;
     }
@@ -53,20 +57,27 @@ body[id='client_advanced_searches-index'] {
     float: right;
   }
 
-  .basic-filter-error, .custom-form-error {
+  .basic-filter-error,
+  .custom-form-error {
     color: red;
     display: none;
   }
 
-  .custom-form, .program-stream, .selected-custom-form, .program-association, .assessment-form {
+  .custom-form,
+  .program-stream,
+  .selected-custom-form,
+  .program-association,
+  .assessment-form {
     display: none;
   }
 
-  .program-association, .program-stream {
+  .program-association,
+  .program-stream {
     margin-left: 16px;
   }
 
-  th.form-builder, td.form-builder {
+  th.form-builder,
+  td.form-builder {
     min-width: 480px;
   }
 
@@ -83,14 +94,31 @@ body[id='client_advanced_searches-index'] {
     cursor: default;
   }
 
-  .csi-header, .referee-header, .carer-header, .type-of-service-header, .hotline-call-header, .care-plan-header {
+  .csi-header,
+  .referee-header,
+  .carer-header,
+  .type-of-service-header,
+  .hotline-call-header,
+  .care-plan-header,
+  .custom-assessment-devider {
     padding: 5px 16px;
+
     strong {
       font-size: 13px;
     }
   }
 
-  th.domain-scores, td.domain-scores {
+  .custom-assessment-setting li.custom-assessment-devider {
+    padding-left: 15px !important;
+    padding-bottom: 5px !important;
+
+    strong {
+      font-size: 13px;
+    }
+  }
+
+  th.domain-scores,
+  td.domain-scores {
     min-width: 200px;
   }
 
@@ -98,6 +126,7 @@ body[id='client_advanced_searches-index'] {
     .modal-footer {
       text-align: left;
     }
+
     .btn-cancel {
       margin: 10px 10px 10px 0;
     }
@@ -105,6 +134,7 @@ body[id='client_advanced_searches-index'] {
 
   .nav-tabs {
     margin-bottom: 10px;
+
     li.active a {
       border-bottom-color: #fff;
     }

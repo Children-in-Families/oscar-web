@@ -1057,8 +1057,12 @@ class ClientGrid < BaseGrid
     render partial: 'clients/referral', locals: { object: object }
   end
 
-  column(:custom_assessment_created_date, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.custom_assessment_created_date', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
-    render partial: 'clients/assessments', locals: { object: object.assessments.customs.order(:created_at) }
+  column(:custom_assessment_created_at, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.custom_assessment_created_at', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
+    render partial: 'clients/assessments', locals: { object: object.assessments.customs.order(:created_at), assessment_field_name: nil }
+  end
+
+  column(:date_of_custom_assessments, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.date_of_custom_assessments', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
+    render partial: 'clients/assessments', locals: { object: object.assessments.customs.order(:assessment_date), assessment_field_name: 'assessment_date' }
   end
 
   column(:custom_assessment, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.custom_assessment', assessment: I18n.t('clients.show.assessment')) }) do |object|
