@@ -115,6 +115,10 @@ class Client < ActiveRecord::Base
   has_many :cases,          dependent: :destroy
   has_many :case_notes,     dependent: :destroy
   has_many :assessments,    dependent: :destroy
+  has_many :default_most_recents_assessments, -> { defaults.most_recents }, class_name: 'Assessment'
+  has_many :custom_assessments, -> { customs }, class_name: 'Assessment'
+  has_many :custom_assessment_domains, through: :custom_assessments, source: :domains
+
   has_many :care_plans, dependent: :destroy
   has_many :goals, dependent: :destroy
   has_many :case_conferences, dependent: :destroy
@@ -343,6 +347,12 @@ class Client < ActiveRecord::Base
 
   def referred?
     status == 'Referred'
+  end
+
+  def cached_user_ids
+    Rails.cache.fetch([Apartment::Tenant.current, id, 'user_ids']) do
+      users.map(&:id)
+    end
   end
 
   def require_screening_assessment?(setting)
@@ -723,7 +733,9 @@ class Client < ActiveRecord::Base
   end
 
   def self.get_address_by_code(the_address_code)
-    char_size = the_address_code&.length
+    return if the_address_code.blank?
+
+    char_size = the_address_code.length
     case char_size
     when 0..2
       Province.address_by_code(the_address_code.rjust(2, '0'))
@@ -959,6 +971,49 @@ class Client < ActiveRecord::Base
     end
   end
 
+  def child?
+    date_of_birth.present? && date_of_birth > 18.years.ago
+  end
+
+  def adult?
+    date_of_birth.present? && date_of_birth <= 18.years.ago
+  end
+
+  def male?
+    gender == 'male'
+  end
+
+  def female?
+    gender == 'female'
+  end
+
+  def other_gender?
+    !male? && !female?
+  end
+
+  def no_school?
+    school_grade.blank?
+  end
+
+  def pre_school?
+    school_grade.to_s.in? ['Kindergarten 1', 'Kindergarten 2', 'Kindergarten 3', 'Kindergarten 4']
+  end
+
+  def primary_school?
+    school_grade.to_s.in? ['1', '2', '3', '4', '5', '6']
+  end
+
+  def secondary_school?
+    school_grade.to_s.in? ['7', '8', '9']
+  end
+
+  def high_school?
+    school_grade.to_s.in? [ '10', '11', '12']
+  end
+
+  def university?
+    school_grade.to_s.in? ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6', 'Year 7', 'Year 8', 'Bachelors']
+  end
 
   private
 

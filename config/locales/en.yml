@@ -563,6 +563,13 @@ en:
       relevant_referral_information: Relevant Referral Information
       road: Road
       school_grade: School Grade
+      school:
+        no_school: No School
+        pre_school: Pre School
+        primary_school: Primary School
+        secondary_school: Secondary School
+        high_school: High School
+        university: University
       school_grade_list:
         kindergarten_1: Kindergarten 1
         kindergarten_2: Kindergarten 2
@@ -2393,6 +2400,8 @@ en:
       title: Table Summary
       age_tabs: Age
       referral_category_tabs: Referral Categories
+      school_tab: School
+      province_tab: Location
       program: Program
       children: Children
       adult: Adult
@@ -5365,6 +5374,13 @@ en:
       review_client: Clients need to be reviewed
     referrals:
       referral_clients: Referral Clients
+    referral_table:
+      clients: Clients
+      referral_from: Referral From
+      referral_date: Referral Date
+      referral_count: Referral Count
+      level_of_risk: Level of Risk
+      review_form: Review Form
     repeat_referrals:
       referral_clients: Referral Clients
     upcoming_assessment:
@@ -5966,6 +5982,7 @@ en:
       date_of_referral: Date of Referral
       download_referral_form: Download Printable Referral Form
       external_referral_warning: The NGO that you are attempting to refer your client to is not currently using OSCaR. Please print a copy of this referral form to send to your target organisation.
+      go_to_client: Go to client
       name_of_referee: Case Worker Making the Referral
       ngo_name: NGO Name
       pdf:

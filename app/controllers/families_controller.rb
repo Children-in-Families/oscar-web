@@ -10,11 +10,15 @@ class FamiliesController < AdminController
   before_action :custom_form_fields, :program_stream_fields, only: [:index]
   before_action :basic_params, if: :has_params?, only: [:index]
   before_action :build_advanced_search, only: [:index]
-  before_action :find_association, except: [:index, :destroy, :version]
+  before_action :find_association, except: [:index, :destroy, :version, :welcome]
   before_action :find_family, only: [:show, :edit, :update, :destroy]
   before_action :find_case_histories, only: :show
   before_action :quantitative_type_readable, except: :destroy
   before_action :load_quantative_types, only: [:new, :edit, :create, :update]
+
+  def welcome
+    @family_grid = FamilyGrid.new
+  end
 
   def index
     @default_columns = Setting.cache_first.try(:family_default_columns)

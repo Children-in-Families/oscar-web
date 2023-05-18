@@ -19,6 +19,9 @@ Rails.application.routes.draw do
   get '/callback'       => 'calendars#callback', as: 'callback'
   get '/calendar/sync'  => 'calendars#sync'
   get '/dashbaords/client_data_validation' => 'dashboards#client_data_validation'
+  get '/dashboards/notification' => 'dashboards#notification'
+  get '/dashboards/family_tab' => 'dashboards#family_tab'
+  get '/dashboards/side_menu_data' => 'dashboards#side_menu_data'
 
   resources :calendars
 
@@ -104,13 +107,15 @@ Rails.application.routes.draw do
   get 'clients/:client_id/book' => 'client_books#index', as: 'client_books'
 
   get 'referrals/:id' => 'referrals#show', as: 'referral'
+  delete 'referrals/:id' => 'referrals#destroy'
 
   resources :clients do
-    resources :referrals
+    resources :referrals, except: [:destroy]
     resources :internal_referrals
     collection do
       post '/advanced_search', to: 'clients#index'
       get :advanced_search
+      get :welcome
     end
 
     scope module: 'client' do
@@ -168,10 +173,13 @@ Rails.application.routes.draw do
   resources :referees, only: [:index, :show]
 
   resources :families do
+    get :welcome, on: :collection
+    
     resources :family_referrals
     collection do
       post '/advanced_search', to: 'families#index'
     end
+
     scope module: 'family' do
       resources :exit_ngos, only: [:create, :update]
       resources :enter_ngos, only: [:create, :update]
@@ -204,6 +212,8 @@ Rails.application.routes.draw do
   end
 
   resources :communities do
+    get :welcome, on: :collection
+
     resources :custom_field_properties
     resources :enrollments do
       get :report, on: :collection

@@ -19,7 +19,7 @@
             #community-builder.advanced-search-builder{ 'data-basic-search-rules' => @basic_filter_params, 'data-filter-translation' => { add_filter: t('.add_new_filter'), add_group: t('.add_new_group'), delete_group: t('.delete_group') }}
             %span.basic-filter-error
               %i Please Select Field to Filter
-        #search-action{ data: { action: params.dig(:community_advanced_search, :action_report_builder)} }
+        #search-action{ data: { action: params[:builder] || params.dig(:community_advanced_search, :action_report_builder)} }
 
       .ibox-footer
         %button#search.btn.btn-primary= t('.search')
