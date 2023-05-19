@@ -944,6 +944,7 @@ module ClientsHelper
     elsif rule.in? ['assessment_created_at', 'custom_assessment_created_at', 'care_plan_completed_date']
       field_name = 'created_at'
     elsif rule.in?(['date_of_assessments', 'date_of_custom_assessments'])
+      klass_name = { date_of_assessments: 'assessments', date_of_custom_assessments: 'assessments', assessment_date: 'assessments' }
       field_name = 'assessment_date'
     elsif rule[/^(exitprogramdate)/i].present? || object.class.to_s[/^(leaveprogram)/i]
       klass_name.merge!(rule => 'leave_programs')

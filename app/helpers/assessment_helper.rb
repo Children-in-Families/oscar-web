@@ -369,7 +369,7 @@ module AssessmentHelper
     if assessment.default
       true
     else
-      return assessment.object.custom_assessment_setting.custom_assessment_name == setting_assessment_type_name if assessment.class.name == 'AssessmentDecorator'
+      return assessment.object.custom_assessment_setting.id == setting_assessment_type_id if assessment.instance_of?(::AssessmentDecorator)
 
       assessment.custom_assessment_setting.id.to_s == setting_assessment_type_id
     end
