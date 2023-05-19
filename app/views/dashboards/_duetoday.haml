@@ -4,11 +4,15 @@
       .col-xs-6
         %h5= t('.duetoday_tasks')
   .panel-body
-    - @clients.each do |client, today_forms|
+    / Tweak to fix N+1
+    - clients = Client.where(id: @clients.map{ |c| c[0].id }).includes(:default_most_recents_assessments, :custom_assessment_domains, :users).to_a
+    - only_enable_custom_assessment = CustomAssessmentSetting.only_enable_custom_assessment
+    - @clients.each do |c, today_forms|
       - next if today_forms.blank?
+      - client = clients.detect { |client| client.id == c.id }
       - today_tasks = today_forms[:today_tasks]
       - client_duetoday_default_assessment = client.next_assessment_date(@user.activated_at)
-      - client_duetoday_custom_assessment = client_custom_next_assessment_date(client, @user.activated_at)
+      - client_duetoday_custom_assessment = client.custom_next_assessment_date2(only_enable_custom_assessment, @user.activated_at)
       - next if skipped_duetoday_tasks?(today_tasks) && skipped_duetoday_forms?(today_forms, client) && skipped_duetoday_assessments?(client)
       - next if (client_duetoday_default_assessment.blank? && client_duetoday_custom_assessment.blank?) && today_tasks.blank? && today_forms[:today_forms].blank? && today_forms[:today_trackings].blank?
       - next if today_tasks.blank? && today_forms[:today_forms].blank? && ((client.assessments.defaults.count.zero? || client_duetoday_default_assessment != Date.today) && client.assessments.customs.count.zero?)
@@ -25,13 +29,13 @@
                     %td.col-xs-3{ rowspan: today_tasks.count }= t('.task')
                   %td.col-xs-6.task-name.border-left-right= task.name
                   %td.col-xs-3= date_format(task.expected_date)
-            - if @setting.enable_default_assessment && @assessment_params && duetoday_assessments_any?(client) && client.user_ids.include?(@user.id) && (client.eligible_default_csi?)
+            - if @setting.enable_default_assessment && @assessment_params && duetoday_assessments_any?(client) && client.cached_user_ids.include?(@user.id) && (client.eligible_default_csi?)
               %tr
                 %td.col-xs-3= @setting.default_assessment
                 %td.col-xs-6.task-name.border-left-right
                 %td.col-xs-3= date_format(client_duetoday_default_assessment)
 
-            - if (@setting.enable_custom_assessment? && @assessment_params && client.user_ids.include?(@user.id)) && !client.assessments.customs.count.zero?
+            - if (@setting.enable_custom_assessment? && @assessment_params && client.cached_user_ids.include?(@user.id)) && !client.assessments.customs.count.zero?
               - custom_assessment_setting_ids = client_custom_assessment_setting(client)
               - CustomAssessmentSetting.only_enable_custom_assessment.where(id: custom_assessment_setting_ids).each do |custom_assessment|
                 - next if !(duetoday_custom_assessments_any?(client, custom_assessment) && (client.eligible_default_csi? || client.eligible_custom_csi?(custom_assessment)))

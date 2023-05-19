@@ -1204,9 +1204,15 @@ module ClientsHelper
     rule[/^(#{$param_rules && $param_rules['all_values']})/i].present? || object.blank? || results.blank? || results.class.name[/activerecord/i].present?
   end
 
-  def case_workers_option(client_id, editable_input=false)
-    @users.map do |user|
-      tasks = user.tasks.incomplete.where(client_id: client_id)
+  def editable_case_worker_options
+    @editable_case_worker_options ||= case_workers_option(@client.id, true)
+  end
+
+  def case_workers_option(client_id, editable_input = false)
+    users = @users.includes(:incomplete_tasks).to_a
+    users.map do |user|
+      tasks = user.incomplete_tasks.select { |task| task.client_id == client_id }
+
       if !editable_input
         if tasks.any?
           [user.name, user.id, { locked: 'locked'} ]
