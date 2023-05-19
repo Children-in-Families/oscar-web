@@ -43,6 +43,7 @@ module ClientsHelper
       reasonForFamilySeparations: reason_for_family_separations, historyOfDisabilities: history_of_disabilities,
       isRiskAssessmentEnabled: current_setting.enabled_risk_assessment,
       riskAssessment: {
+        has_assessment_level_of_risk: client_has_assessment_level_of_risk?(@client),
         **@risk_assessment.try(:attributes).try(:symbolize_keys) || {},
         labels: {
           **I18n.t('risk_assessments._attr'),
@@ -51,6 +52,10 @@ module ClientsHelper
         tasks_attributes: @risk_assessment.try(:tasks) || []
       }
     }
+  end
+
+  def client_has_assessment_level_of_risk?(client)
+    client.assessments.client_risk_assessments.any?
   end
 
   def get_or_build_client_quantitative_free_text_cases

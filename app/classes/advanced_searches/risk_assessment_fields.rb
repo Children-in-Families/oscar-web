@@ -29,11 +29,12 @@ module AdvancedSearches
     end
 
     def self.drop_list_options(field_name, _, group)
+      field_translation = field_name == 'level_of_risk' ? 'current_level_of_risk' : field_name
       {
         id: field_name,
         optgroup: group,
-        label: I18n.t("risk_assessments._attr.#{field_name}"),
-        field: I18n.t("risk_assessments._attr.#{field_name}"),
+        label: I18n.t("risk_assessments._attr.#{field_translation}"),
+        field: I18n.t("risk_assessments._attr.#{field_translation}"),
         type: 'string',
         input: 'select',
         plugin: 'select2',
