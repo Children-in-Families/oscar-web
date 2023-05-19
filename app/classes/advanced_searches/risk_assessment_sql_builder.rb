@@ -14,8 +14,8 @@ module AdvancedSearches
       sql = @field_name == 'level_of_risk' ? build_level_of_risk_sql : build_date_of_risk_assessment_sql
       assessment_sql = @field_name == 'level_of_risk' ? build_assessment_level_of_risk_sql : build_assessment_date_of_risk_assessment_sql
 
-      client_risk_assessments = @clients.includes(:risk_assessment).where(sql)
-      risk_assessment_clients = @clients.includes(:assessments).references(:assessments).where(assessment_sql)
+      risk_assessment_clients = @clients.includes(:assessments).references(:assessments).where(assessment_sql).where('assessments.id=(select max(assessments.id) from assessments WHERE assessments.level_of_risk IS NOT NULL)')
+      client_risk_assessments = @clients.includes(:risk_assessment).where(sql).where.not(id: risk_assessment_clients.ids)
       { id: sql_string, values: client_risk_assessments.ids + risk_assessment_clients.ids }
     end
 
