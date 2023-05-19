@@ -62,9 +62,9 @@ module AdvancedSearches
     def build_assessment_level_of_risk_sql
       case @operator
       when 'equal'
-        "assessments.id=(select max(assessments.id) from assessments WHERE assessments.level_of_risk = '#{@value}')"
+        "assessments.id=(select max(assessments.id) from assessments WHERE clients.id = assessments.client_id AND assessments.level_of_risk = '#{@value}')"
       when 'not_equal'
-        "assessments.id=(select max(assessments.id) from assessments WHERE assessments.level_of_risk != '#{@value}' OR assessments.level_of_risk IS NULL)"
+        "assessments.id=(select max(assessments.id) from assessments WHERE (clients.id = assessments.client_id AND assessments.level_of_risk != '#{@value}') OR assessments.level_of_risk IS NULL)"
       when 'is_empty'
         'assessments.level_of_risk IS NULL'
       when 'is_not_empty'
