@@ -6163,6 +6163,7 @@ my:
       child_wellbeing: "Child's Wellbeing"
       client_perspective: "Client’s perspective on their problem and needs"
       client_status_index: Client Status Index
+      current_level_of_risk: Current Level of Risk
       description: Description
       guidance: Guidance
       has_disability: Does client have disability?

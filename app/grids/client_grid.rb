@@ -1262,14 +1262,16 @@ class ClientGrid < BaseGrid
     end
   end
 
-  column(:level_of_risk, class: 'text-center', header: -> { I18n.t('risk_assessments._attr.level_of_risk') }) do |object|
-    object.risk_assessment.try(:level_of_risk)&.titleize
+  column(:level_of_risk, class: 'text-center', html: true, header: -> { I18n.t('risk_assessments._attr.level_of_risk') }) do |object|
+    risk_assessment = object.risk_assessment
+    assessments = [risk_assessment, object.assessments.client_risk_assessments.last]
+    render partial: 'clients/level_of_risk_list', locals: { assessments: assessments.compact }
   end
 
-  column(:date_of_risk_assessment, class: 'text-center', header: -> { I18n.t('risk_assessments._attr.assessment_date') }) do |object|
-    format(object.risk_assessment&.assessment_date) do |value|
-      date_format(value)
-    end
+  column(:date_of_risk_assessment, class: 'text-center', html: true, header: -> { I18n.t('risk_assessments._attr.assessment_date') }) do |object|
+    risk_assessment = object.risk_assessment
+    assessments = [risk_assessment, object.assessments.client_risk_assessments.last]
+    render partial: 'clients/risk_assessment_list', locals: { assessments: assessments.compact }
   end
 
   dynamic do
