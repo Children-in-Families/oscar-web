@@ -47,6 +47,7 @@ class ClientsController < AdminController
         end
         f.xls do
           next unless params['commit'].present?
+
           @client_grid.scope { |scope| scope.accessible_by(current_ability) }
           export_client_reports
           send_data @client_grid.to_xls, filename: "client_report-#{Time.now}.xls"
@@ -328,7 +329,7 @@ class ClientsController < AdminController
     @address_types = Client::ADDRESS_TYPES.map { |type| { label: type, value: type.downcase } }
     @phone_owners = Client::PHONE_OWNERS.map { |owner| { label: owner, value: owner.downcase } }
     @referral_source = @client && @client.referral_source.present? ? ReferralSource.where(id: @client.referral_source_id).map { |r| [r.try(:name), r.id] } : []
-    @referral_source_category = referral_source_name(ReferralSource.parent_categories, @client) if @client.persisted?
+    @referral_source_category = referral_source_name(ReferralSource.parent_categories, @client) if @client && @client.persisted?
     country_address_fields if @client
   end
 
