@@ -16,8 +16,8 @@ module AdvancedSearches
 
       client_risk_assessments = @clients.includes(:risk_assessment).where(sql)
       client_risk_assessments = client_risk_assessments.includes(:assessments).references(:assessments).where('assessments.level_of_risk IS NULL')
-
       risk_assessment_clients = @clients.includes(:assessments).references(:assessments).where(assessment_sql)
+
       { id: sql_string, values: client_risk_assessments.ids + risk_assessment_clients.ids }
     end
 
@@ -62,9 +62,9 @@ module AdvancedSearches
     def build_assessment_level_of_risk_sql
       case @operator
       when 'equal'
-        "assessments.id=(select max(assessments.id) from assessments WHERE clients.id = assessments.client_id AND assessments.level_of_risk = '#{@value}')"
+        "assessments.level_of_risk = '#{@value}' AND assessments.id=(SELECT assessments.id FROM assessments WHERE assessments.client_id = clients.id ORDER BY assessments.id DESC LIMIT 1)"
       when 'not_equal'
-        "assessments.id=(select max(assessments.id) from assessments WHERE (clients.id = assessments.client_id AND assessments.level_of_risk != '#{@value}') OR assessments.level_of_risk IS NULL)"
+        "assessments.level_of_risk IS NULL OR (assessments.level_of_risk != '#{@value}' AND assessments.id=(SELECT assessments.id FROM assessments WHERE assessments.client_id = clients.id ORDER BY assessments.id DESC LIMIT 1))"
       when 'is_empty'
         'assessments.level_of_risk IS NULL'
       when 'is_not_empty'
@@ -75,23 +75,23 @@ module AdvancedSearches
     def build_assessment_date_of_risk_assessment_sql
       case @operator
       when 'equal'
-        "date(assessments.assessment_date) = '#{@value}'"
+        "date(assessments.assessment_date) = '#{@value}' AND assessments.id=(SELECT assessments.id FROM assessments WHERE assessments.client_id = clients.id ORDER BY assessments.id DESC LIMIT 1)"
       when 'not_equal'
-        "date(assessments.assessment_date) != '#{@value}'"
+        "date(assessments.assessment_date) != '#{@value}' AND assessments.id=(SELECT assessments.id FROM assessments WHERE assessments.client_id = clients.id ORDER BY assessments.id DESC LIMIT 1)"
       when 'less'
-        "date(assessments.assessment_date) < '#{@value}'"
+        "date(assessments.assessment_date) < '#{@value}' AND assessments.id=(SELECT assessments.id FROM assessments WHERE assessments.client_id = clients.id ORDER BY assessments.id DESC LIMIT 1)"
       when 'less_or_equal'
-        "date(assessments.assessment_date) <= '#{@value}'"
+        "date(assessments.assessment_date) <= '#{@value}' AND assessments.id=(SELECT assessments.id FROM assessments WHERE assessments.client_id = clients.id ORDER BY assessments.id DESC LIMIT 1)"
       when 'greater'
-        "date(assessments.assessment_date) > '#{@value}'"
+        "date(assessments.assessment_date) > '#{@value}' AND assessments.id=(SELECT assessments.id FROM assessments WHERE assessments.client_id = clients.id ORDER BY assessments.id DESC LIMIT 1)"
       when 'greater_or_equal'
-        "date(assessments.assessment_date) >= '#{@value}'"
+        "date(assessments.assessment_date) >= '#{@value}' AND assessments.id=(SELECT assessments.id FROM assessments WHERE assessments.client_id = clients.id ORDER BY assessments.id DESC LIMIT 1)"
       when 'is_empty'
         'date(assessments.assessment_date) IS NULL'
       when 'is_not_empty'
         'date(assessments.assessment_date) IS NOT NULL'
       when 'between'
-        "date(assessments.assessment_date) BETWEEN '#{@value.first}' AND '#{@value.last}'"
+        "(date(assessments.assessment_date) BETWEEN '#{@value.first}' AND '#{@value.last}') AND assessments.id=(SELECT assessments.id FROM assessments WHERE assessments.client_id = clients.id ORDER BY assessments.id DESC LIMIT 1)"
       end
     end
   end
