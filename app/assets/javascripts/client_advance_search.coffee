@@ -95,8 +95,10 @@ class CIF.ClientAdvanceSearch
 
 
   initSelect2: ->
-    $('#custom-form-select, #wizard-custom-form-select, #program-stream-select, #wizard-program-stream-select, #quantitative-case-select, #assessment-select').select2()
+    $('#custom-form-select, #wizard-custom-form-select, #program-stream-select, #wizard-program-stream-select, #quantitative-case-select').select2()
     $('#builder select').select2()
+    $('#assessment-select').select2()
+
     $('#wizard-builder select').select2()
     setTimeout ( ->
       ids = ['#custom-form-select', '#wizard-custom-form-select', '#program-stream-select', '#wizard-program-stream-select', '#quantitative-case-select', '#wizard-builder', '#builder', '#assessment-select']
@@ -153,8 +155,12 @@ class CIF.ClientAdvanceSearch
 
   assessmentSelectChange: ->
     self = @
+    assessmentSelectValue = $('#assessment-select').find(':selected').val()
+    $("div[data-custom-assessment-setting-id='#{assessmentSelectValue}']").show()
     $('.main-report-builder .assessment-form-wrapper select').on 'select2-selecting', (element) ->
       self.assessmentSelected = element.val
+      $(".custom-assessment-setting").hide()
+      $("div[data-custom-assessment-setting-id='#{element.val}']").show()
 
   addCustomBuildersFields: (ids, url, loader=undefined) ->
     self = @
@@ -259,6 +265,8 @@ class CIF.ClientAdvanceSearch
       $('.assessment-form').show()
     $('#assessment-checkbox').on 'ifChecked', ->
       $('.assessment-form').show()
+      assessmentSelectValue = $('#assessment-select').find(':selected').val()
+      $("div[data-custom-assessment-setting-id='#{assessmentSelectValue}']").show()
       self.assessmentSelected = $('select.assessment-select').val()
       $.ajax
         url: self.PROGRAM_STREAM_URL
@@ -300,6 +308,7 @@ class CIF.ClientAdvanceSearch
   assessmentSelectRemove: ->
     self = @
     $('.main-report-builder .assessment-form-wrapper select').on 'select2-removed', (element) ->
+      $(".custom-assessment-setting").hide()
       $.map self.assessmentSelected, (val, i) ->
         if parseInt(val) == parseInt(element.val) then self.assessmentSelected.splice(i, 1)
 

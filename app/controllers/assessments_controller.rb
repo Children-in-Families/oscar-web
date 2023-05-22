@@ -68,7 +68,7 @@ class AssessmentsController < AdminController
         if params[:from_controller] == "dashboards"
           redirect_to root_path, notice: t('.successfully_created')
         else
-          redirect_to client_path(@client), notice: t('.successfully_created')
+          redirect_to client_assessment_path(@client, @assessment), notice: t('.successfully_created')
         end
       else
         flash[:alert] = @assessment.errors.full_messages
@@ -134,8 +134,8 @@ class AssessmentsController < AdminController
   end
 
   def assessment_params
-    default_params = params.require(:assessment).permit(:default, :case_conference_id, :custom_assessment_setting_id, :level_of_risk, :description, assessment_domains_attributes: [:id, :domain_id, :score, :reason, :goal, :goal_required, :required_task_last])
-    default_params = params.require(:assessment).permit(:default, :case_conference_id, :custom_assessment_setting_id, :level_of_risk, :description, assessment_domains_attributes: [:id, :domain_id, :score, :reason, :goal, :goal_required, :required_task_last, attachments: []]) if action_name == 'create'
+    default_params = params.require(:assessment).permit(:default, :assessment_date, :case_conference_id, :custom_assessment_setting_id, :level_of_risk, :description, assessment_domains_attributes: [:id, :domain_id, :score, :reason, :goal, :goal_required, :required_task_last])
+    default_params = params.require(:assessment).permit(:default, :assessment_date, :case_conference_id, :custom_assessment_setting_id, :level_of_risk, :description, assessment_domains_attributes: [:id, :domain_id, :score, :reason, :goal, :goal_required, :required_task_last, attachments: []]) if action_name == 'create'
     default_params
   end
 

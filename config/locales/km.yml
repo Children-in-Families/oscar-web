@@ -447,6 +447,7 @@ km:
       agencies_involved: អង្គភាពដែលពាក់ព័ន្ធ
       agency_name: ឈ្មោះអង្គភាព
       assessment_completed_date: "%{assessment} កាលបរិច្ចេទបញ្ជប់ការប៉ាន់ប្រមាណ"
+      assessment_created_at: "កាលបរិច្ឆេទបង្កើត%{assessment}"
       assessment_number: "%{assessment} ការប៉ាន់ប្រមាណ#"
       basic_fields: ព័ត៌មានទូទៅរបស់អតិថិជន
       birth_province: ខេត្តកំណើតអតិថិជន
@@ -655,6 +656,7 @@ km:
       enter_task_detail: ព័ត៌មានពីកាតព្វកិច្ច
       save: រក្សាទុក
       title: បន្ថែមកាតព្វកិច្ចថ្មី
+    assessment_date: កាលបរិច្ឆេទនៃការប៉ាន់ប្រមាណ
     assessment_form: ទម្រង់ការប៉ាន់ប្រមាណ
     attachment:
       attachments: ឯកសារភ្ជាប់
@@ -682,6 +684,7 @@ km:
       domain: កត្តា
       finish: រក្សាទុក
       goal: គោលដៅ
+      level_risk_summary: កម្រិតហានិភ័យសង្ខេប
       next: ទំព័របន្ទាប់
       previous: ទំព័រមុន
       reason: ការសង្កេត
@@ -870,6 +873,7 @@ km:
   cannot_remove: មិនអាចលុបបានទេ
   cannot_remove_or_update: មិនអាចលុបឬកែសម្រួលបានទេដោយសារតែត្រូវបានប្រើរួចហើយ
   care_plans:
+    care_plan_date: កាលបរិច្ឆេទផែនការគាំទ្រករណី
     care_plan_form: ផែនការគាំទ្រករណី
     care_plan: ផែនការគាំទ្រករណី
     care_plan_based_on: ផ្អែកលើផែនការគាំទ្រករណី
@@ -1975,6 +1979,7 @@ km:
       all_csi_assessments: ចំនួនការប៉ាន់ប្រមាណ CSI ទាំងអស់
       all_custom_csi_assessments: ចំនួនការប៉ាន់ប្រមាណផ្ទាល់ខ្លួនទាំងអស់
       assessment_completed_date: "កាលបរិច្ឆេទ %{assessment}ដែលបានបំពេញ"
+      assessment_created_at: "កាលបរិច្ឆេទបង្កើត%{assessment}"
       assessment_custom_completed_date: "កាលបរិច្ឆេទ %{assessment}ផ្ទាល់ខ្លួនដែលបានបំពេញ"
       assessment_data: "ទិន្នន័យពិន្ទុនៃ%{assessment}"
       assessment_number: ការប៉ាន់ប្រមាណលើកទី
@@ -2578,6 +2583,7 @@ km:
       all_custom_csi_assessments: "ពិន្ទុកត្តា%{assessment}ផ្ទាល់ខ្លួន"
       all_result_framework_assessment: All Result Framework Assessment
       assessment_completed_date: "កាលបរិច្ឆេទ %{assessment}ដែលបានបំពេញ"
+      assessment_created_at: "កាលបរិច្ឆេទបង្កើត%{assessment}"
       assessment_custom_completed_date: "កាលបរិច្ឆេទ %{assessment}ផ្ទាល់ខ្លួនដែលបានបំពេញ"
       assessment_completed_date: "%{assessment} Completed Date"
       calls:
@@ -2705,6 +2711,7 @@ km:
         all_csi_assessments: ពិន្ទុកត្តាការប៉ាន់ប្រមាណ  CSI
         all_custom_csi_assessments: ពិន្ទុកត្តាការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
         assessment_completed_date: កាលបរិច្ឆេទបញ្ចប់ការប៉ាន់ប្រមាណ
+        assessment_created_at: "កាលបរិច្ឆេទបង្កើត%{assessment}"
         assessment_custom_completed_date: "កាលបរិច្ឆេទ %{assessment}ផ្ទាល់ខ្លួនដែលបានបំពេញ"
         any_assessments: មានការប៉ាន់ប្រមាណ
         assessments: ការប៉ាន់ប្រមាណ
@@ -2753,7 +2760,7 @@ km:
         current_province_en: ខេត្តបច្ចុប្បន្ន (អក្សរឡាតាំង)
         current_province_kh: ខេត្តបច្ចុប្បន្ន (ខ្មែរ)
         custom_assessment: "%{assessment} ផ្ទាល់ខ្លួន"
-        custom_assessment_created_date: កាលបរិច្ឆេទបង្កើត %{assessment} ផ្ទាល់ខ្លួន
+        custom_assessment_created_at: កាលបរិច្ឆេទបង្កើត %{assessment} ផ្ទាល់ខ្លួន
         date_of_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណ
         date_of_birth: ថ្ងៃខែឆ្នាំកំណើត
         date_of_custom_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន

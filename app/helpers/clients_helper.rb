@@ -255,10 +255,12 @@ module ClientsHelper
       any_assessments:               I18n.t('datagrid.columns.clients.assessments'),
       case_note_date:                I18n.t('datagrid.columns.clients.case_note_date'),
       case_note_type:                I18n.t('datagrid.columns.clients.case_note_type'),
+      assessment_created_at:         I18n.t('datagrid.columns.clients.assessment_created_at', assessment: I18n.t('clients.show.assessment')),
       date_of_assessments:           I18n.t('datagrid.columns.clients.date_of_assessments', assessment: I18n.t('clients.show.assessment')),
       completed_date:                I18n.t('datagrid.columns.calls.assessment_completed_date', assessment: I18n.t('clients.show.assessment')),
       date_of_referral:              I18n.t('datagrid.columns.clients.date_of_referral'),
       date_of_custom_assessments:    I18n.t('datagrid.columns.clients.date_of_custom_assessments', assessment: I18n.t('clients.show.assessment')),
+      custom_assessment_created_at: I18n.t('datagrid.columns.clients.custom_assessment_created_at', assessment: I18n.t('clients.show.assessment')),
       changelog:                     I18n.t('datagrid.columns.clients.changelog'),
       live_with:                     I18n.t('datagrid.columns.clients.live_with'),
       program_streams:               I18n.t('datagrid.columns.clients.program_streams'),
@@ -274,6 +276,9 @@ module ClientsHelper
       referral_source_category_id:   I18n.t('datagrid.columns.clients.referral_source_category'),
       type_of_service:               I18n.t('datagrid.columns.type_of_service'),
       hotline:                       I18n.t('datagrid.columns.calls.hotline'),
+      care_plan_date: I18n.t('care_plans.care_plan_date'),
+      care_plan_completed_date: I18n.t('datagrid.columns.clients.care_plan_completed_date'),
+      care_plan_count: I18n.t('datagrid.columns.clients.care_plan_count'),
       **overdue_translations,
       **Client::HOTLINE_FIELDS.map{ |field| [field.to_sym, I18n.t("datagrid.columns.clients.#{field}")] }.to_h,
       **legal_doc_fields.map{|field| [field.to_sym, I18n.t("clients.show.#{field}")] }.to_h,
@@ -281,7 +286,7 @@ module ClientsHelper
       **custom_assessment_field_traslation_mapping
     }
 
-    lable_translation_uderscore.map{|k, v| [k.to_s.gsub(/(\_)$/, '').to_sym, v] }.to_h.merge(labels)
+    lable_translation_uderscore.map { |k, v| [k.to_s.gsub(/(\_)$/, '').to_sym, v] }.to_h.merge(labels)
   end
 
   def lable_translation_uderscore
@@ -361,10 +366,12 @@ module ClientsHelper
       family_id_: I18n.t('datagrid.columns.families.code'),
       case_note_date_: I18n.t('datagrid.columns.clients.case_note_date'),
       case_note_type_: I18n.t('datagrid.columns.clients.case_note_type'),
+      assessment_created_at_: I18n.t('datagrid.columns.clients.assessment_created_at', assessment: I18n.t('clients.show.assessment')),
       date_of_assessments_: I18n.t('datagrid.columns.clients.date_of_assessments', assessment: I18n.t('clients.show.assessment')),
       date_of_referral_: I18n.t('datagrid.columns.clients.date_of_referral'),
       all_csi_assessments_: I18n.t('datagrid.columns.clients.all_csi_assessments'),
       date_of_custom_assessments_: I18n.t('datagrid.columns.clients.date_of_custom_assessments', assessment: I18n.t('clients.show.assessment')),
+      custom_assessment_created_at_: I18n.t('datagrid.columns.clients.custom_assessment_created_at', assessment: I18n.t('clients.show.assessment')),
       all_custom_csi_assessments_: I18n.t('datagrid.columns.clients.all_custom_csi_assessments', assessment: I18n.t('clients.show.assessment')),
       manage_: I18n.t('datagrid.columns.clients.manage'),
       changelog_: I18n.t('datagrid.columns.changelog'),
@@ -418,8 +425,6 @@ module ClientsHelper
       has_overdue_forms: I18n.t("datagrid.form.has_overdue_forms"),
       has_overdue_task: I18n.t("datagrid.form.has_overdue_task"),
       no_case_note: I18n.t("datagrid.form.no_case_note"),
-      care_plan_completed_date: I18n.t('datagrid.columns.clients.care_plan_completed_date'),
-      care_plan_count: I18n.t('datagrid.columns.clients.care_plan_count')
     }
   end
 
@@ -427,7 +432,7 @@ module ClientsHelper
     {
       custom_assessment: I18n.t('datagrid.columns.clients.custom_assessment', assessment: I18n.t('clients.show.assessment')),
       custom_completed_date: I18n.t('datagrid.columns.clients.assessment_custom_completed_date', assessment: I18n.t('clients.show.assessment')),
-      custom_assessment_created_date: I18n.t('datagrid.columns.clients.custom_assessment_created_date', assessment: I18n.t('clients.show.assessment'))
+      custom_assessment_created_at: I18n.t('datagrid.columns.clients.custom_assessment_created_at', assessment: I18n.t('clients.show.assessment'))
     }
   end
 
@@ -935,14 +940,17 @@ module ClientsHelper
     results          = client_advanced_search_data(object, rule)
     return object if return_default_filter(object, rule, results)
 
-    klass_name = { exit_date: 'exit_ngos', accepted_date: 'enter_ngos', meeting_date: 'case_notes', case_note_type: 'case_notes', created_at: 'assessments', completed_date: 'assessments', date_of_referral: 'referrals', care_plan_completed_date: 'care_plans' }.with_indifferent_access
+    klass_name = { exit_date: 'exit_ngos', accepted_date: 'enter_ngos', meeting_date: 'case_notes', case_note_type: 'case_notes', created_at: 'assessments', completed_date: 'assessments', date_of_referral: 'referrals', care_plan_completed_date: 'care_plans', care_plan_date: 'care_plans' }.with_indifferent_access
 
     if rule == 'case_note_date'
       field_name = 'meeting_date'
     elsif rule == 'completed_date'
       field_name = 'completed_date'
-    elsif rule.in?(['date_of_assessments', 'date_of_custom_assessments', 'care_plan_completed_date', 'custom_assessment_created_date'])
+    elsif rule.in? ['assessment_created_at', 'custom_assessment_created_at', 'care_plan_completed_date']
       field_name = 'created_at'
+    elsif rule.in?(['date_of_assessments', 'date_of_custom_assessments'])
+      klass_name = { date_of_assessments: 'assessments', date_of_custom_assessments: 'assessments', assessment_date: 'assessments' }
+      field_name = 'assessment_date'
     elsif rule[/^(exitprogramdate)/i].present? || object.class.to_s[/^(leaveprogram)/i]
       klass_name.merge!(rule => 'leave_programs')
       field_name = 'exit_date'
@@ -974,7 +982,7 @@ module ClientsHelper
 
     if rule == 'date_of_assessments'
       sql_string = object.where(query_array).where(default: true).where(sub_query_array)
-    elsif rule == 'date_of_custom_assessments' || rule == 'custom_assessment_created_date'
+    elsif rule == 'date_of_custom_assessments' || rule == 'custom_assessment_created_at'
       sql_string = object.where(query_array).where(default: false).where(sub_query_array)
     else
       if object.is_a?(Array)
@@ -1045,7 +1053,7 @@ module ClientsHelper
             end
 
             count += data_filter.present? ? data_filter.flatten.count : 0
-          elsif class_name[/^(date_of_custom_assessments|custom_assessment_created_date)/i].present?
+          elsif class_name[/^(date_of_custom_assessments|custom_assessment_created_at)/i].present?
             if params['all_values'] == class_name
               data_filter = date_filter(client.assessments.customs, "#{class_name}")
             else

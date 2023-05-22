@@ -12,6 +12,7 @@ class CarePlan < ActiveRecord::Base
   accepts_nested_attributes_for :assessment_domains
 
   validates_uniqueness_of :assessment_id, on: :create
+  validates_presence_of :care_plan_date
 
   after_save :complete_previouse_tasks
 

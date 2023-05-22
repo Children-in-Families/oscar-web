@@ -42,6 +42,6 @@ module AdvancedSearchFieldHelper
   end
 
   def care_plan_date_fields
-    ['care_plan_completed_date']
+    ['care_plan_date', 'care_plan_completed_date']
   end
 end

@@ -156,9 +156,11 @@ ActiveRecord::Schema.define(version: 20230511035948) do
     t.integer  "custom_assessment_setting_id"
     t.string   "level_of_risk"
     t.text     "description"
+    t.date     "assessment_date"
     t.boolean  "draft",                        default: false
   end
 
+  add_index "assessments", ["assessment_date"], name: "index_assessments_on_assessment_date", using: :btree
   add_index "assessments", ["case_conference_id"], name: "index_assessments_on_case_conference_id", using: :btree
   add_index "assessments", ["client_id"], name: "index_assessments_on_client_id", using: :btree
   add_index "assessments", ["completed_date"], name: "index_assessments_on_completed_date", using: :btree
@@ -245,10 +247,12 @@ ActiveRecord::Schema.define(version: 20230511035948) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "family_id"
-    t.boolean  "completed",     default: false
+    t.boolean  "completed",      default: false
+    t.date     "care_plan_date"
   end
 
   add_index "care_plans", ["assessment_id"], name: "index_care_plans_on_assessment_id", using: :btree
+  add_index "care_plans", ["care_plan_date"], name: "index_care_plans_on_care_plan_date", using: :btree
   add_index "care_plans", ["client_id"], name: "index_care_plans_on_client_id", using: :btree
   add_index "care_plans", ["family_id"], name: "index_care_plans_on_family_id", using: :btree
 

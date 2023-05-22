@@ -37,10 +37,13 @@ module ClientGridOptions
     program_stream_report
     program_enrollment_date_report
     program_exit_date_report
+    default_assessment_created_at
     default_date_of_assessments
     default_date_of_completed_assessments
+    care_plan_date
     care_plan_completed_date
     care_plan_count
+    custom_assessment_created_at
     custom_date_of_assessments
     default_date_of_completed_custom_assessments
     case_note_date_report
@@ -194,6 +197,7 @@ module ClientGridOptions
 
   def case_note_type_report
     return unless @client_columns.visible_columns[:case_note_type_].present?
+
     if params[:data].presence == 'recent'
       @client_grid.column(:case_note_type, header: I18n.t('datagrid.columns.clients.case_note_type')) do |client|
         client.case_notes.most_recents.order(meeting_date: :desc).first.try(:interaction_type)
@@ -205,24 +209,68 @@ module ClientGridOptions
     end
   end
 
+  def default_assessment_created_at
+    return unless @client_columns.visible_columns[:assessment_created_at_].present?
+
+    assessment_created_at('default')
+  end
+
   def default_date_of_assessments
     return unless @client_columns.visible_columns[:date_of_assessments_].present?
+
     date_of_assessments('default')
   end
 
   def default_date_of_completed_assessments
     return unless @client_columns.visible_columns[:completed_date_].present?
+
     date_of_completed_assessments
   end
 
   def default_date_of_completed_custom_assessments
     return unless @client_columns.visible_columns[:custom_completed_date_].present?
+
     date_of_completed_cusotm_assessments
   end
 
+  def custom_assessment_created_at
+    return unless @client_columns.visible_columns[:custom_assessment_created_at_].present?
+
+    assessment_created_at('custom')
+  end
+
   def custom_date_of_assessments
-    return unless @client_columns.visible_columns[:custom_assessment_created_date_].present?
+    return unless @client_columns.visible_columns[:date_of_assessments_].present?
+
     date_of_assessments('custom')
+  end
+
+  def assessment_created_at(type)
+    case type
+    when 'default'
+      records = 'client.assessments.defaults'
+      column = 'assessment_created_at'
+    when 'custom'
+      records = 'client.assessments.customs'
+      column = 'custom_assessment_created_at'
+    end
+
+    header_translation = I18n.t("datagrid.columns.clients.#{column}", assessment: I18n.t('clients.show.assessment'))
+    if params[:data].presence == 'recent'
+      @client_grid.column(column.to_sym, preload: :assessments, header: header_translation) do |client|
+        assessment = eval(records).latest_record
+        next unless assessment.presence?
+
+        assessment.try(:created_at).to_date.to_formatted_s
+      end
+    else
+      @client_grid.column(column.to_sym, preload: :assessments, header: header_translation) do |client|
+        assessments = eval(records).most_recents
+        next unless assessments.any?
+
+        date_filter(assessments, column).map { |a| a.created_at.to_date.to_formatted_s }.join(', ')
+      end
+    end
   end
 
   def date_of_assessments(type)
@@ -232,14 +280,14 @@ module ClientGridOptions
       column = 'date_of_assessments'
     when 'custom'
       records = 'client.assessments.customs'
-      column = 'custom_assessment_created_date'
+      column = 'date_of_custom_assessments'
     end
 
-    header = type == 'default' ? I18n.t("datagrid.columns.clients.#{column}", assessment: I18n.t('clients.show.assessment')) : I18n.t('datagrid.columns.clients.custom_assessment_created_date', assessment: I18n.t('clients.show.assessment'))
+    header = I18n.t("datagrid.columns.clients.#{column}", assessment: I18n.t('clients.show.assessment'))
 
     if params[:data].presence == 'recent'
       @client_grid.column(column.to_sym, preload: :assessments, header: header) do |client|
-        eval(records).latest_record.try(:created_at).to_date.to_formatted_s if eval(records).any?
+        eval(records).latest_record.try(:assessment_date).to_date.to_formatted_s if eval(records).any?
       end
     else
       @client_grid.column(column.to_sym, preload: :assessments, header: header) do |client|
