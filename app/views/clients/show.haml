@@ -105,7 +105,7 @@
 
       - if current_setting.enabled_risk_assessment?
         .col-xs-12.col-md-3
-          - if risk_assessment
+          - if risk_assessment || @client.last_risk_assessment
             %table.table.small.m-b-xs
               %tbody
                 - assessment = @client.last_risk_assessment
@@ -121,7 +121,7 @@
                   %tr
                     %td
                       = "#{t('risk_assessments._attr.assessment_date')}:"
-                      %strong= date_format assessment.created_at
+                      %strong= date_format assessment.assessment_date
                 - else
                   %tr
                     %td
@@ -816,7 +816,7 @@
                         = link_to call_path(call) do
                           %button.btn.btn-outline.btn-primary.btn-xs= fa_icon('eye')
 
-        - if current_setting.enabled_risk_assessment? && risk_assessment
+        - if current_setting.enabled_risk_assessment? && (risk_assessment || @client.last_risk_assessment)
           = render 'client_risk_assessment', client: @client, risk_assessment: risk_assessment
 
 .row
