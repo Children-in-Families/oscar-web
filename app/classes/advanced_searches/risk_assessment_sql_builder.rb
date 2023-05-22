@@ -89,9 +89,9 @@ module AdvancedSearches
       when 'is_empty'
         'date(assessments.assessment_date) IS NULL'
       when 'is_not_empty'
-        'date(assessments.assessment_date) IS NOT NULL'
+        'date(assessments.assessment_date) IS NOT NULL AND assessments.level_of_risk IS NOT NULL'
       when 'between'
-        "(date(assessments.assessment_date) BETWEEN '#{@value.first}' AND '#{@value.last}') AND assessments.id=(SELECT assessments.id FROM assessments WHERE assessments.client_id = clients.id ORDER BY assessments.id DESC LIMIT 1)"
+        "assessments.level_of_risk IS NOT NULL AND (date(assessments.assessment_date) BETWEEN '#{@value.first}' AND '#{@value.last}') AND assessments.id=(SELECT assessments.id FROM assessments WHERE assessments.client_id = clients.id ORDER BY assessments.id DESC LIMIT 1)"
       end
     end
   end
