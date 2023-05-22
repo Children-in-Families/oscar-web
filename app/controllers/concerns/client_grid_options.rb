@@ -46,6 +46,7 @@ module ClientGridOptions
     custom_assessment_created_at
     custom_date_of_assessments
     default_date_of_completed_custom_assessments
+    export_risk_assessment_columns
     case_note_date_report
     case_note_type_report
     accepted_date_report
@@ -394,6 +395,24 @@ module ClientGridOptions
         assessment_domains = assessments.includes(:assessment_domains).map { |assessment| assessment.assessment_domains.joins(:domain).where(domains: { identity: identity }) }.flatten.uniq
         assessment_domains.map { |assessment_domain| assessment_domain.try(:score) }.join(', ')
       end
+    end
+  end
+
+  def export_risk_assessment_columns
+    if  @client_columns && @client_columns.visible_columns[:level_of_risk_].present?
+      @client_grid.column(:level_of_risk, header: t('risk_assessments._attr.level_of_risk')) do |client|
+        risk_assessment = client.risk_assessment
+        assessments = [risk_assessment && "#{risk_assessment.level_of_risk.titleize} (PC)", *client.assessments.client_risk_assessments.pluck(:level_of_risk).map(&:titleize)].compact
+        assessments.join(', ')
+      end
+    end
+
+    return unless @client_columns && @client_columns.visible_columns[:date_of_risk_assessment_].present?
+
+    @client_grid.column(:date_of_risk_assessment, header: t('risk_assessments._attr.assessment_date')) do |client|
+      risk_assessment = client.risk_assessment
+      assessments = [risk_assessment && "#{date_format(risk_assessment.assessment_date)} (PC)", *client.assessments.client_risk_assessments.pluck(:assessment_date).map { |assessment_date| date_format(assessment_date) }].compact
+      assessments.join(', ')
     end
   end
 
