@@ -40,6 +40,7 @@ class CsiStatistic
   def assessment_amount
     data = []
     return data unless @clients && @clients.any?
+
     clients = @clients.joins(:assessments).order('assessments.created_at')
     max_count = clients.map { |a| a.assessments.size }.max.to_i
     max_count.times do |i|
@@ -59,7 +60,7 @@ class CsiStatistic
 
     assessments_by_index.each do |a_ids|
       domain_scores = AssessmentDomain.where(assessment_id: a_ids).pluck(:domain_id, :score)
-      domain_scores.each{|domain_id, score| assessment_domains[domain_id.to_s] << score }
+      domain_scores.each { |domain_id, score| assessment_domains[domain_id.to_s] << score }
     end
 
     Domain.csi_domains.pluck(:id, :name).each do |id, name|
@@ -71,12 +72,12 @@ class CsiStatistic
 
   def default_assessment_amount
     data = []
-    return data unless (@clients && @clients.any?)
+    return data unless @clients && @clients.any?
 
     clients = @clients.joins(:assessments).where(assessments: { default: true }).order('assessments.created_at')
     assessments_count = Client.maximum('assessments_count')
     client = Client.find_by(assessments_count: assessments_count)
-    assessment_max_count = client.assessments.defaults.count
+    # assessment_max_count = client.assessments.defaults.count
     data = clients.includes(:assessments).map { |c| c.assessments.defaults.ids }
   end
 
@@ -92,7 +93,7 @@ class CsiStatistic
 
     assessments_by_index.each do |a_ids|
       domain_scores = AssessmentDomain.where(assessment_id: a_ids).pluck(:domain_id, :score)
-      domain_scores.each{|domain_id, score| assessment_domains[domain_id.to_s] << score }
+      domain_scores.each { |domain_id, score| assessment_domains[domain_id.to_s] << score }
     end
     Domain.custom_csi_domains.pluck(:id, :name).each do |id, name|
       series << { name: name, data:  assessment_domains[id.to_s].map(&:to_f) }
@@ -104,10 +105,11 @@ class CsiStatistic
   def custom_assessment_amount
     data = []
     return data unless @clients.any?
+
     clients = @clients.includes(:assessments).where(assessments: { default: false }).order('assessments.created_at')
     assessments_count = Client.maximum('assessments_count')
     client = Client.find_by(assessments_count: assessments_count)
-    assessment_max_count = client.assessments.customs.count
+    # assessment_max_count = client.assessments.customs.count
     data = clients.includes(:assessments).map { |c| c.assessments.customs.ids }
   end
 end

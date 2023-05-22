@@ -43,6 +43,7 @@ module ClientsHelper
       reasonForFamilySeparations: reason_for_family_separations, historyOfDisabilities: history_of_disabilities,
       isRiskAssessmentEnabled: current_setting.enabled_risk_assessment,
       riskAssessment: {
+        has_assessment_level_of_risk: client_has_assessment_level_of_risk?(@client),
         **@risk_assessment.try(:attributes).try(:symbolize_keys) || {},
         labels: {
           **I18n.t('risk_assessments._attr'),
@@ -51,6 +52,10 @@ module ClientsHelper
         tasks_attributes: @risk_assessment.try(:tasks) || []
       }
     }
+  end
+
+  def client_has_assessment_level_of_risk?(client)
+    client.assessments.client_risk_assessments.any?
   end
 
   def get_or_build_client_quantitative_free_text_cases
@@ -406,7 +411,7 @@ module ClientsHelper
   end
 
   def columns_visibility(column)
-    label_column = label_translations.map{ |k, v| ["#{k}".to_sym, v] }.to_h
+    label_column = label_translations.map { |k, v| [k.to_s.to_sym, v] }.to_h
 
     Client::STACKHOLDER_CONTACTS_FIELDS.each do |field|
       label_column[field] = I18n.t("datagrid.columns.clients.#{field}")
