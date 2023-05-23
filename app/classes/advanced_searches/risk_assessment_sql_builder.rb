@@ -10,15 +10,20 @@ module AdvancedSearches
     end
 
     def generate_sql
+      client_risk_assessment_ids = []
       sql_string = 'clients.id IN (?)'
       sql = @field_name == 'level_of_risk' ? build_level_of_risk_sql : build_date_of_risk_assessment_sql
       assessment_sql = @field_name == 'level_of_risk' ? build_assessment_level_of_risk_sql : build_assessment_date_of_risk_assessment_sql
 
       client_risk_assessments = @clients.includes(:risk_assessment).where(sql)
-      client_risk_assessments = client_risk_assessments.includes(:assessments).references(:assessments).where('assessments.level_of_risk IS NULL')
+      client_risk_assessments = client_risk_assessments.includes(:assessments).references(:assessments).where(assessment_sql)
       risk_assessment_clients = @clients.includes(:assessments).references(:assessments).where(assessment_sql)
 
-      { id: sql_string, values: client_risk_assessments.ids + risk_assessment_clients.ids }
+      if @operator == 'not_equal'
+        clients = @clients.includes(:assessments).references(:assessments).group('clients.id, assessments.id').having('COUNT(assessments.*) = 0')
+        client_risk_assessment_ids = clients.includes(:risk_assessment).where(sql).ids
+      end
+      { id: sql_string, values: client_risk_assessments.ids + risk_assessment_clients.ids + client_risk_assessment_ids }
     end
 
     private
@@ -64,7 +69,7 @@ module AdvancedSearches
       when 'equal'
         "assessments.level_of_risk = '#{@value}' AND assessments.id=(SELECT assessments.id FROM assessments WHERE assessments.client_id = clients.id ORDER BY assessments.id DESC LIMIT 1)"
       when 'not_equal'
-        "assessments.level_of_risk IS NULL OR (assessments.level_of_risk != '#{@value}' AND assessments.id=(SELECT assessments.id FROM assessments WHERE assessments.client_id = clients.id ORDER BY assessments.id DESC LIMIT 1))"
+        "(assessments.level_of_risk != '#{@value}' AND assessments.id=(SELECT assessments.id FROM assessments WHERE assessments.client_id = clients.id ORDER BY assessments.id DESC LIMIT 1))"
       when 'is_empty'
         'assessments.level_of_risk IS NULL'
       when 'is_not_empty'
