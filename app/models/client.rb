@@ -729,7 +729,8 @@ class Client < ActiveRecord::Base
       **get_address_by_code(attribute[:address_current_village_code] || attribute[:location_current_village_code] || attribute[:village_code])
     }
 
-    client_attributes.merge({ external_id: attribute[:external_id], external_id_display: attribute[:external_id_display], synced_date: Date.today }) if attribute[:external_id].present?
+    client_attributes = client_attributes.merge({ external_id: attribute[:external_id], external_id_display: attribute[:external_id_display], synced_date: Date.today }) if attribute[:external_id].present?
+    client_attributes
   end
 
   def self.get_address_by_code(the_address_code = '')
