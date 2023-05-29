@@ -2339,6 +2339,11 @@ my:
       province: ေမြးဖြားရာခ႐ိုင္
       received_by: မွ လက္ခံသည္
       refer_client: ရည်ညွှန်း
+      referee_information: Referee Information
+      administrative_info: Administrative Information
+      referral_information: Client / Referral Information
+      referral_more_information: Client / Referral - More Information
+      referral_vulnerability: Vulnerability Information and Referral Note
       referee_phone_number: ဒိုင်လူကြီးဖုန်းနံပါတ်ကို
       referral_forms: ရည်ညွန်းပုံစံများ
       referral_phone: လႊဲရမည့္ ဖုန္းနံပါတ္

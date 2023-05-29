@@ -2184,6 +2184,11 @@ km:
         uganda: ខេត្តកំណើត
       received_by: បុគ្គលិកទទួលករណី
       refer_client: បញ្ជូនអតិថិជន
+      referee_information: Referee Information
+      administrative_info: Administrative Information
+      referral_information: Client / Referral Information
+      referral_more_information: Client / Referral - More Information
+      referral_vulnerability: Vulnerability Information and Referral Note
       referee_phone_number: លេខទូរស័ព្ទរបស់អ្នកបញ្ជូនករណី
       referral_email: អ៊ីមែលរបស់អ្នកបញ្ជូនករណី
       referral_forms: បែបបទបញ្ជូន

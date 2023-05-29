@@ -429,7 +429,7 @@
               %thead
                 %tr
                   %th{ colspan: '2' }
-                    = t('.referral_info')
+                    = t('.referral_information')
               %tbody
                 - if policy(@client).show?(:local_given_name)
                   %tr
@@ -533,7 +533,7 @@
               %thead
                 %tr
                   %th{ colspan: '2' }
-                    = t('.referral_more_info')
+                    = t('.referral_more_information')
               %tbody
                 - if policy(@client).show?(:carer_info)
                   %tr
@@ -696,7 +696,7 @@
               %thead
                 %tr
                   %th{ colspan: '2' }
-                    = t('referral_vulnerability')
+                    = t('.referral_vulnerability')
               %tbody
                 - @client.quantitative_cases.includes(:quantitative_type).group_by(&:quantitative_type).each do |qtypes|
                   - next unless quantitative_type_readable?(qtypes.first.id)
