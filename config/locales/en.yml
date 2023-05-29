@@ -2334,6 +2334,11 @@ en:
         uganda: Birth Province
       received_by: Referral Received By
       refer_client: Refer Client
+      referee_information: Referee Information
+      administrative_info: Administrative Information
+      referral_information: Client / Referral Information
+      referral_more_information: Client / Referral - More Information
+      referral_vulnerability: Vulnerability Information and Referral Note
       referee_phone_number: Referee Phone Number
       referral_email: Referee Email
       referral_forms: Referral Forms
