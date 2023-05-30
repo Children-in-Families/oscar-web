@@ -154,6 +154,7 @@ class DashboardsController < AdminController
     SQL
 
     if current_user.case_worker? || current_user.manager?
+      # sql += ' LEFT OUTER JOIN case_worker_clients ON case_worker_clients.client_id = clients.id'
       clients_error = Client.accessible_by(current_ability).joins(sql).group('clients.id, case_worker_clients.id').having(sub_sql_min_max)
     else
       clients_error = Client.accessible_by(current_ability).joins(sql).group('clients.id').having(sub_sql_min_max)
