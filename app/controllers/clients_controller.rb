@@ -123,13 +123,14 @@ class ClientsController < AdminController
       if @referral
         client_names = @referral.client_name.split(' ')
         given_name, family_name = [(client_names[0] || ''), (client_names[1] || '')]
-        local_family_name, local_given_name =  (@referral.client_name.scan(/\(((?:[^\)\(]++))\)/).first && @referral.client_name.scan(/\(((?:[^\)\(]++))\)/).first.split(' ')) || ['', '']
+        local_family_name, local_given_name = (@referral.client_name.scan(/\(((?:[^\)\(]++))\)/).first && @referral.client_name.scan(/\(((?:[^\)\(]++))\)/).first.split(' ')) || ['', '']
         client_attr = { given_name: given_name, family_name: family_name,
                         local_given_name: '', local_family_name: '',
                         gender: @referral.client_gender, reason_for_referral: @referral.referral_reason,
                         date_of_birth: @referral.client_date_of_birth,
                         referral_source_id: referral_source_id,
-                        initial_referral_date: @referral.date_of_referral
+                        initial_referral_date: @referral.date_of_referral,
+                        from_referral_id: @referral.id
                       }
 
         if attributes.present?
