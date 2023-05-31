@@ -27,15 +27,13 @@ class UserNotification
     client_ids = []
     custom_client_ids = []
     clients = active_young_clients(@clients)
-    if @user.deactivated_at.present? && clients.any?
-      clients = clients.where('clients.created_at > ?', @user.activated_at)
-    end
+    clients = clients.where('clients.created_at > ?', @user.activated_at) if @user.deactivated_at.present? && clients.any?
 
     default_clients = clients_have_recent_default_assessments(clients)
     custom_assessment_clients = clients_have_recent_custom_assessments(clients)
 
-    upcoming_csi_assessments_count = default_clients.count
-    upcoming_custom_csi_assessments_count = custom_assessment_clients.count
+    # upcoming_csi_assessments_count = default_clients.count
+    # upcoming_custom_csi_assessments_count = custom_assessment_clients.count
 
     { clients: default_clients, custom_clients: custom_assessment_clients }
   end
@@ -345,7 +343,7 @@ class UserNotification
 
     referrals.each do |referral|
       client = clients.find { |c| c.slug == referral.slug || c.archived_slug == referral.slug }
-      
+
       if client.present?
         existinngs << referral
         referral.update_column(:client_id, client.id) unless referral.client_id

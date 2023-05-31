@@ -132,7 +132,7 @@ module CsiConcern
   end
 
   def active_young_clients(clients, setting = nil)
-    clients.active_accepted_status.where("(EXTRACT(year FROM age(current_date, coalesce(clients.date_of_birth, current_date))) :: int) < ?", (setting || current_setting).age || 18)
+    clients.active_accepted_status.where('(EXTRACT(year FROM age(current_date, coalesce(clients.date_of_birth, current_date))) :: int) < ?', (setting || current_setting).age || 18)
   end
 
   def clients_have_recent_default_assessments(clients)
