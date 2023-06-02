@@ -53,7 +53,14 @@ export default (props) => {
     label: T.translate("addressType." + type.label),
     value: type.value,
   }));
+
   useEffect(() => {
+    setprovinces(
+      currentProvinces.map((province) => ({
+        label: province.name,
+        value: province.id,
+      }))
+    );
     setdistricts(
       currentDistricts.map((district) => ({
         label: district.name,
