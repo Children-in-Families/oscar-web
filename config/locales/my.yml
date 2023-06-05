@@ -2264,6 +2264,10 @@ my:
       detail: အစီအစဥ္ အေသးစိတ္
       district: ခ႐ိုင္
       donor: အလွဴရွင္
+      donor_info: "Donor Information"
+      school_info: School Information
+      other_info: Other Information
+      carer_info: Carer Information
       edit_exit_information: Edit Exit Information
       enrolled_program_streams: စာရင္းေပးသြင္းမႈအစီအစဥ္စီဆင္းမႈမ်ား
       enter_ngo_information: NGO အဖွဲ့သတင်းအချက်အလက်ထည့်သွင်း

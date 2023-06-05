@@ -2250,6 +2250,10 @@ en:
       detail: Detail
       district: District/Khan
       donor: Donor
+      donor_info: "Donor Information"
+      school_info: School Information
+      other_info: Other Information
+      carer_info: Carer Information
       edit_exit_information: Edit Exit Information
       enrolled_program_streams: Client's Active Program Streams
       enter_ngo_information: Enter NGO Information
