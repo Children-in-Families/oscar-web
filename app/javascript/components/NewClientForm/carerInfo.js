@@ -127,7 +127,7 @@ export default props => {
     }
 
     onChange('carer', { ...fields })({type: 'select'})
-  }, [carer.same_as_client, client])
+  }, [client])
 
   const genderLists = [
     { label: T.translate("genderLists.female"), value: 'female' },
