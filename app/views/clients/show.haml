@@ -1,4 +1,5 @@
 - risk_assessment = @client.risk_assessment
+- has_risk_assessment = current_setting.enabled_risk_assessment? && risk_assessment
 .row
   .col-xs-12
     .alert.alert-warning.alert-dismissible{ :role => "alert" }
@@ -483,7 +484,7 @@
                     %strong
                       = @client.time_in_cps
 
-            - if current_setting.enabled_risk_assessment? && risk_assessment
+            - if has_risk_assessment
               %table.table.table-bordered.referral-more-info
                 %thead
                   %tr
@@ -694,38 +695,14 @@
                           %strong
                             = editable @client, :kid_id, value: @client.kid_id, url: api_client_path(@client.id), pk: @client.id
           
-    
-                %table.table.table-bordered.referral-more-info
-                  %thead
-                    %tr
-                      %th{ colspan: '2' }
-                        = t('.referral_vulnerability')
-                  %tbody
-                    - @client.quantitative_cases.includes(:quantitative_type).group_by(&:quantitative_type).each do |qtypes|
-                      - next unless quantitative_type_readable?(qtypes.first.id)
-                      %tr
-                        %td.align-justify
-                          = qtypes.first.name
-                        %td.align-justify
-                          - qtypes.last.each do |qcase|
-                            %strong.label.label-default
-                              = qcase.value
-                    - @client.client_quantitative_free_text_cases.each do |qtc_free_text|
-                      - next unless quantitative_type_readable?(qtc_free_text.quantitative_type_id)
-                      %tr
-                        %td.align-justify
-                          = qtc_free_text.quantitative_type.try(:name)
-                        %td.align-justify
-                          %strong.label.label-default= qtc_free_text.content
-                    
-                    - if policy(@client).show?(:relevant_referral_information)
-                      %tr
-                        %td.spacing-first-col
-                          = t('.relevant_referral_information')
-                        %td
-                          %strong
-                            = editable @client, :relevant_referral_information, type: :textarea, value: @client.relevant_referral_information, url: api_client_path(@client.id), pk: @client.id
 
+                - if has_risk_assessment
+                  = render "referral_more_info"
+
+        - unless has_risk_assessment
+          .row
+            .col-xs-12
+              = render "referral_more_info"
         - if @case_histories.any?
           .row
             .col-xs-12
