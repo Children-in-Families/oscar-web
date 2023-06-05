@@ -1,6 +1,6 @@
 module FamiliesHelper
   def get_or_build_family_quantitative_free_text_cases
-    @quantitative_types.where(field_type: 'free_text').map do |qtt|
+    @quantitative_types.map do |qtt|
       @family.family_quantitative_free_text_cases.find_or_initialize_by(quantitative_type_id: qtt.id)
     end
   end

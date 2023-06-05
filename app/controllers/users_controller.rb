@@ -45,7 +45,7 @@ class UsersController < AdminController
     @free_user_forms          = CustomField.user_forms.not_used_forms(custom_field_ids).order_by_form_title
     @group_user_custom_fields = @user.custom_field_properties.group_by(&:custom_field_id)
 
-    @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(current_user: @user))
+    @client_grid = ClientGrid.new(params.fetch(:client_grid, { column_names: [:id, :slug, :given_name, :family_name, :local_given_name, :local_family_name, :status, :gender, :manage] }).merge!(current_user: @user))
     @results     = @client_grid.scope { |scope| scope.of_case_worker(@user.id) }.assets.size
 
     @client_grid.scope do |scope|
@@ -102,7 +102,6 @@ class UsersController < AdminController
       redirect_to users_url, alert: t('.alert')
     end
   end
-
 
   private
 
