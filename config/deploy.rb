@@ -56,17 +56,23 @@ namespace :deploy do
     end
   end
 
-  task :cache_clear do
-    on roles(:web) do
-      within release_path do
-        execute("cd #{release_path}/ && ~/.rvm/bin/rvm default do && bundle exec rake cache:clear RAILS_ENV=#{fetch(:stage)}")
+  before :updated, :cleanup_assets
+end
+
+after :deploy, 'cache:clear'
+
+namespace :cache do
+  task :clear do
+    on roles(:app) do |host|
+      with rails_env: fetch(:rails_env) do
+        within current_path do
+          execute :bundle, :exec, "rake cache:clear"
+        end
       end
     end
   end
-
-  before :updated, :cleanup_assets
-  after :updated, :cache_clear
 end
+
 
 set :passenger_restart_with_touch, true
 
