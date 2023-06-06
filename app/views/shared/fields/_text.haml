@@ -14,12 +14,5 @@
     required: (field_props['required'] || false) }
 
 
-  .form-group.hidden
-    %input{ name: "#{f.object_name}[Local_label #{remove_local_field_prop_unicode(field_props)}]",
-      type: 'hidden',
-      subtype: 'text',
-      class: "form-control #{field_props['className']}",
-      id: "local-input-#{f.object_name}[#{remove_local_field_prop_unicode(field_props)}]".parameterize }/
-
   %span.help-block
     = field_message(field_props['label'], errors)
