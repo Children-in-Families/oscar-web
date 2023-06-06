@@ -11,7 +11,8 @@
     class: field_props['className'],
     placeholder: format_placeholder(field_props['placeholder']),
     id: "#{f.object_name}[#{remove_field_prop_unicode(field_props)}]".parameterize,
-    required: (field_props['required'] || false) }/
+    required: (field_props['required'] || false) }
+
 
   .form-group.hidden
     %input{ name: "#{f.object_name}[Local_label #{remove_local_field_prop_unicode(field_props)}]",
