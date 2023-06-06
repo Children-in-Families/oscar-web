@@ -57,11 +57,9 @@ namespace :deploy do
   end
 
   task :cache_clear do
-    on roles(:web) do |host|
-      with rails_env: fetch(:rails_env) do
-        within current_path do
-          execute :bundle, :exec, "rake cache:clear"
-        end
+    on roles(:web) do
+      within release_path do
+        execute("cd #{release_path}/ && ~/.rvm/bin/rvm default do && bundle exec rake cache:clear RAILS_ENV=#{fetch(:stage)}")
       end
     end
   end
