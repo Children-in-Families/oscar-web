@@ -20,7 +20,7 @@
               = referral.client_name
           %td
             = link_to referral_path(referral), target: '_blank' do
-              = referral.referred_from
+              = Organization.full_name_from_short_name(referral.referred_from).presence || referral.referred_from
           %td
             = link_to referral_path(referral), target: '_blank' do
               = date_format(referral.date_of_referral)
