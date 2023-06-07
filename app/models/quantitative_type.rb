@@ -62,6 +62,10 @@ class QuantitativeType < ActiveRecord::Base
     }
   end
 
+  def visible_for_client?
+    visible_on.include?('client')
+  end
+
   private
 
   def validate_visible_on
