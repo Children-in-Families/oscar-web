@@ -99,7 +99,7 @@ class UserNotification
   end
 
   def due_today_assessments_count
-    @assessments[:due_today_count]
+    @assessments[:due_today].size
   end
 
   def any_due_today_assessments?
@@ -115,7 +115,7 @@ class UserNotification
   end
 
   def due_today_custom_assessments_count
-    @assessments[:custom_due_today_count]
+    @assessments[:custom_due_today].size
   end
 
   def any_due_today_custom_assessments?

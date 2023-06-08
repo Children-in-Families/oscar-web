@@ -31,12 +31,6 @@ class CustomAssessmentSetting < ActiveRecord::Base
     end
   end
 
-  def self.cache_custom_assessment
-    Rails.cache.fetch([Apartment::Tenant.current, 'CustomAssessmentSetting', 'enable_custom_assessment', 'true']) do
-      only_enable_custom_assessment.to_a
-    end
-  end
-
   private
 
   def flush_cache
