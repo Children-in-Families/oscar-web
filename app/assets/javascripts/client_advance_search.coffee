@@ -118,6 +118,23 @@ class CIF.ClientAdvanceSearch
       $(".csi-group .rule-operator-container select, .rule-value-container select").select2(width: 'resolve')
     )
 
+
+    $('#assessment-select').on 'change', (e)->
+      $(".assessment-data-dropdown li").addClass("hide")
+      type = $("#assessment-select option:selected").data("type")
+      text = $(@).select2('data').text;
+
+      if type == "default"
+        $(".assessment-data-dropdown li.csi").removeClass("hide").find("a").text(text)
+      else
+        $(".assessment-data-dropdown li.custom-csi").removeClass("hide").find("a").text(text)
+
+
+    $('#assessment-select').trigger('change')
+    
+    unless $("#assessment-checkbox").is(":checked")
+      $(".assessment-data-dropdown li").addClass("hide")
+
   basicFilterSetRule: ->
     self = @
     basicQueryRules = $('#builder').data('basic-search-rules')
@@ -257,12 +274,14 @@ class CIF.ClientAdvanceSearch
       $('#builder').queryBuilder('removeFilter', ['assessment_condition_last_two','assessment_condition_first_last'])
       $('button[data-add="rule"]').trigger('click')
       self.initSelect2()
+
       return
 
   handleShowAssessmentSelect: ->
     self = @
     if $('#assessment-checkbox').prop('checked')
       $('.assessment-form').show()
+
     $('#assessment-checkbox').on 'ifChecked', ->
       $('.assessment-form').show()
       assessmentSelectValue = $('#assessment-select').find(':selected').val()

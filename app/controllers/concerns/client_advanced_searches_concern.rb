@@ -236,7 +236,7 @@ module ClientAdvancedSearchesConcern
   end
 
   def get_assessments
-    @assessments = (Setting.cache_first.enable_default_assessment? ? [[0, Setting.cache_first.default_assessment]] : []) + CustomAssessmentSetting.all.where(enable_custom_assessment: true).pluck(:id, :custom_assessment_name).to_a
+    @assessments = (Setting.cache_first.enable_default_assessment? ? [[0, Setting.cache_first.default_assessment, { "data-type" => :default }]] : []) + CustomAssessmentSetting.all.where(enable_custom_assessment: true).pluck(:id, :custom_assessment_name).to_a
   end
 
   def has_params?
