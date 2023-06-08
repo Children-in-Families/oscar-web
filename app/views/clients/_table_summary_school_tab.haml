@@ -41,7 +41,7 @@
         %td= t('clients.table_summary.client_by_gender')
         - schools.each do |method_name|
           - by_school = all_clients.select{ |client| client.send("#{method_name}?") }
-          %td= by_school.select(&:female?).count
-          %td= by_school.select(&:male?).count
-          %td= by_school.select(&:other_gender?).count
-        %td= all_clients.count
+          %td= by_school.select(&:female?).uniq.count
+          %td= by_school.select(&:male?).uniq.count
+          %td= by_school.select(&:other_gender?).uniq.count
+        %td= all_clients.uniq.count
