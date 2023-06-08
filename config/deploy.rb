@@ -59,7 +59,7 @@ namespace :deploy do
   task :cache_clear do
     on roles(:web) do
       within release_path do
-        execute("cd #{release_path}/ && ~/.rvm/bin/rvm default do && bundle exec rake cache:clear RAILS_ENV=#{fetch(:stage)}")
+        execute("cd #{release_path}/ && ~/.rvm/bin/rvm default do bundle exec rake cache:clear RAILS_ENV=#{fetch(:stage)}")
       end
     end
   end
