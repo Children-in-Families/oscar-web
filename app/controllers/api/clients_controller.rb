@@ -22,7 +22,10 @@ module Api
     end
 
     def assessments
-      @assessments_count ||= Assessment.joins(:client).where(default: params[:default], client_id: params[:client_ids].split('/')).count
+      assessments = Assessment.joins(:client).where(default: params[:default], client_id: params[:client_ids].split('/'))
+      assessments = assessments.joins(:custom_assessment_setting).where(custom_assessment_settings: { id: params[:assessment_id] }) if params[:assessment_id].present?
+      @assessments_count = assessments.count
+
       render json: { recordsTotal:  @assessments_count, recordsFiltered: @assessments_count, data: data }
     end
 
@@ -335,6 +338,7 @@ module Api
 
     def fetch_assessments
       assessments = Assessment.joins(:client).where(default: params[:default], client_id: params[:client_ids].split('/'))
+      assessments = assessments.joins(:custom_assessment_setting).where(custom_assessment_settings: { id: params[:assessment_id] }) if params[:assessment_id].present?
       assessments = assessments.includes(:assessment_domains).order("#{sort_column} #{sort_direction}").references(:assessment_domains, :client)
 
       basic_rules  = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules

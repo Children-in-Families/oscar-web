@@ -122,12 +122,16 @@ class CIF.ClientAdvanceSearch
     $('#assessment-select').on 'change', (e)->
       $(".assessment-data-dropdown li").addClass("hide")
       type = $("#assessment-select option:selected").data("type")
-      text = $(@).select2('data').text;
+      text = $(@).select2('data').text
 
       if type == "default"
         $(".assessment-data-dropdown li.csi").removeClass("hide").find("a").text(text)
+        text = $("#assessment-domain-score .modal-title").data("title").replace(/%{assessment}/g, text)
+        $("#assessment-domain-score .modal-title").text(text)
       else
         $(".assessment-data-dropdown li.custom-csi").removeClass("hide").find("a").text(text)
+        text = $("#custom-assessment-domain-score .modal-title").data("title").replace(/%{assessment}/g, text)
+        $("#custom-assessment-domain-score .modal-title").text(text)
 
 
     $('#assessment-select').trigger('change')
