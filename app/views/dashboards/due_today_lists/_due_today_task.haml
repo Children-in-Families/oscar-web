@@ -1,0 +1,20 @@
+- if @task_params
+  / Tweak to fix N+1
+  - clients = Client.where(id: @clients.map{ |c| c[0].id }).includes(:default_most_recents_assessments, :custom_assessment_domains, :users).select(:id, :date_of_birth, :status, :slug, :given_name, :family_name, :local_given_name, :local_family_name, :user_id)
+  - only_enable_custom_assessment = CustomAssessmentSetting.only_enable_custom_assessment
+  - @clients.each do |c, today_forms|
+    - client = clients.detect { |client| client.id == c.id }
+    - today_tasks = today_forms[:today_tasks]
+    - next if skipped_duetoday_tasks?(today_tasks) || (today_tasks.blank? && today_forms[:today_forms].blank?)
+    .ibox.border-left-right.border-bottom
+      .ibox-title
+        %h5
+          = link_to client.name, client_path(client), target: :_blank
+      .ibox-content.no-padding
+        %table.table.table-striped.active_tasks
+          - today_tasks.each_with_index do |task, index|
+            %tr
+              - if index == 0
+                %td.col-xs-3{ rowspan: today_tasks.count }= t('.task')
+              %td.col-xs-6.task-name.border-left-right= task.name
+              %td.col-xs-3= date_format(task.expected_date)
