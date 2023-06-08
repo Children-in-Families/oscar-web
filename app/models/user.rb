@@ -182,9 +182,10 @@ class User < ActiveRecord::Base
 
   def assessment_due_today
     setting = Setting.cache_first
-    due_today = []
+    due_today = { client_id: [], next_assessment_date: [] }
     overdue_assessments = []
     current_ability = Ability.new(self)
+    Rails.cache.delete([Apartment::Tenant.current, self.class.name, id, 'assessment_either_overdue_or_due_today'])
     Rails.cache.fetch([Apartment::Tenant.current, self.class.name, id, 'assessment_either_overdue_or_due_today']) do
       clients = Client.accessible_by(current_ability)
       eligible_clients = active_young_clients(clients, setting)
@@ -197,34 +198,49 @@ class User < ActiveRecord::Base
 
       clients_recent_assessment_dates.map { |obj| [obj.id, obj&.assessment_created_at] }.uniq.map do |client_id, recent_assessment_date|
         next_assessment_date = recent_assessment_date + setting.max_assessment_duration
-        due_today << client_id if next_assessment_date.to_date == Date.today
+        if next_assessment_date.to_date == Date.today
+          due_today[:client_id] << client_id
+          due_today[:next_assessment_date] << [client_id, next_assessment_date]
+        end
         overdue_assessments << assessment_overdue(client_id, next_assessment_date)
       end
 
       customized_due_today, custom_assessment_overdue = custom_assessment_due(eligible_clients)
 
-      { overdue_count: overdue_assessments.compact.count, overdue_assessment: overdue_assessments.compact, due_today_count: due_today.count, custom_overdue_count: custom_assessment_overdue.flatten.uniq.count, custom_due_today_count: customized_due_today.flatten.uniq.count }
+      {
+        overdue_count: overdue_assessments.compact.count,
+        overdue_assessment: overdue_assessments.compact,
+        due_today: due_today[:client_id],
+        due_today_assessment_date: due_today[:next_assessment_date],
+        custom_overdue_count: custom_assessment_overdue.flatten.uniq.count,
+        custom_due_today: customized_due_today[:client_id],
+        custom_due_today_assessment_date: customized_due_today[:custom_assessment_setting]
+      }
     end
   end
 
   def custom_assessment_due(eligible_clients)
-    customized_due_today = []
+    customized_due_today = { client_id: [], custom_assessment_setting: [] }
     custom_assessment_overdue = []
-    CustomAssessmentSetting.cache_custom_assessment.each do |custom_assessment_setting|
+    CustomAssessmentSetting.only_enable_custom_assessment.each do |custom_assessment_setting|
       sql = 'clients.id, (SELECT assessments.created_at FROM assessments WHERE assessments.client_id = clients.id AND assessments.default = false ORDER BY assessments.created_at DESC LIMIT 1) AS assessment_created_at'
       if deactivated_at.nil?
-        clients_recent_custom_assessment_dates = Client.joins(:assessments).where(id: eligible_clients.ids).merge(Assessment.customs.most_recents.joins(:domains).where(domains: { custom_assessment_setting_id: custom_assessment_setting.id })).select(sql)
+        clients_recent_custom_assessment_dates = Client.joins(:assessments).where(id: eligible_clients.ids).where(assessments: { default: false, custom_assessment_setting_id: custom_assessment_setting.id }).select(sql)
       else
-        clients_recent_custom_assessment_dates = Client.joins(:assessments).where(id: eligible_clients.ids).merge(Assessment.customs.most_recents.joins(:domains).where('assessments.created_at < ?', deactivated_at).where(domains: { custom_assessment_setting_id: custom_assessment_setting.id })).select(sql)
+        clients_recent_custom_assessment_dates = Client.joins(:assessments).where(id: eligible_clients.ids).where('assessments.created_at < ?', deactivated_at).where(assessments: { default: false, custom_assessment_setting_id: custom_assessment_setting.id }).select(sql)
       end
 
       clients_recent_custom_assessment_dates.map { |obj| [obj.id, obj&.assessment_created_at] }.uniq.map do |client_id, recent_assessment_date|
         next_assessment_date = recent_assessment_date + assessment_duration('max', false, custom_assessment_setting.id)
-        customized_due_today << client_id if next_assessment_date.to_date == Date.today
+        if next_assessment_date.to_date == Date.today
+          customized_due_today[:client_id] << client_id
+          customized_due_today[:custom_assessment_setting] << [custom_assessment_setting.id, [client_id, next_assessment_date]]
+        end
         custom_assessment_overdue << assessment_overdue(client_id, next_assessment_date)
-      end.compact
+      end
     end
-    [customized_due_today.compact, custom_assessment_overdue.compact]
+
+    [customized_due_today, custom_assessment_overdue.compact]
   end
 
   def assessment_overdue(client_id, next_assessment_date)
