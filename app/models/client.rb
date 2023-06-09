@@ -862,7 +862,7 @@ class Client < ActiveRecord::Base
     Rails.cache.fetch([Apartment::Tenant.current, object.id, object.given_name || 'given_name']) do
       current_org = Organization.current
       Organization.switch_to 'shared'
-      given_name = SharedClient.find_by(slug: object.slug).given_name
+      given_name = SharedClient.find_by(slug: object.slug)&.given_name
       Organization.switch_to current_org.short_name
       given_name
     end
