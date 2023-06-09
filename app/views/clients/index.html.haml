@@ -28,12 +28,16 @@
             = t('.assessment_data', assessment: t('clients.show.assessment'))
             %span.caret
           %ul.dropdown-menu.assessment-data-dropdown
-            %li.csi.hide
-              = link_to '#', class: 'btn btn-default', 'data-target': "#assessment-domain-score", 'data-toggle': 'modal' do
-                = t('.csi_assessment')
-            %li.custom-csi.hide
-              = link_to '#', class: 'btn btn-default', 'data-target': "#custom-assessment-domain-score", 'data-toggle': 'modal' do
-                = t('.custom_assessment')
+            - @assessments.each do |assessment|
+              - if assessment[2].present?
+                %li.csi-0
+                  = link_to '#', class: 'btn btn-default', 'data-target': "#assessment-domain-score", 'data-toggle': 'modal' do
+                    = assessment[1]
+              - else
+                %li.hide{ class: "csi-#{assessment[0]}" }
+                  = link_to '#', class: 'btn btn-default', 'data-target': "#custom-assessment-domain-score-#{assessment[0]}", 'data-toggle': 'modal' do
+                    = assessment[1]
+
           = render 'assessment_domain_score' 
           = render 'custom_assessment_domain_score'
       - elsif enable_default_assessment?

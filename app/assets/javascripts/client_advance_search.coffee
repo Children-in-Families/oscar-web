@@ -124,26 +124,16 @@ class CIF.ClientAdvanceSearch
       $(".assessment-data-dropdown li").addClass("hide")
       self.hideCSIFilters()
 
-      type = $("#assessment-select option:selected").data("type")
-      text = $(@).select2('data').text
+      value = $('#assessment-select').select2('data').id
+      $(".assessment-data-dropdown li").addClass("hide")
+      $(".assessment-data-dropdown li.csi-#{value}").removeClass("hide")
 
-      if type == "default"
+      if value == "0"
+        self.toggleAdvanceReportSection($("#assessment-checkbox").data("custom"))
         self.toggleAdvanceReportSection($("#assessment-checkbox").data("csi"), false)
-        self.toggleAdvanceReportSection($("#assessment-checkbox").data("custom"), true)
-
-        if $("#assessment-domain-score .modal-title").length > 0
-          $(".assessment-data-dropdown li.csi").removeClass("hide").find("a").text(text)
-          text = $("#assessment-domain-score .modal-title").data("title").replace(/%{assessment}/g, text)
-          $("#assessment-domain-score .modal-title").text(text)
       else
+        self.toggleAdvanceReportSection($("#assessment-checkbox").data("csi"))
         self.toggleAdvanceReportSection($("#assessment-checkbox").data("custom"), false)
-        self.toggleAdvanceReportSection($("#assessment-checkbox").data("csi"), true)
-
-        if $("#custom-assessment-domain-score .modal-title").length > 0
-
-          $(".assessment-data-dropdown li.custom-csi").removeClass("hide").find("a").text(text)
-          text = $("#custom-assessment-domain-score .modal-title").data("title").replace(/%{assessment}/g, text)
-          $("#custom-assessment-domain-score .modal-title").text(text)
 
       unless $("#assessment-checkbox").is(":checked")
         $(".assessment-data-dropdown li").addClass("hide")
@@ -152,8 +142,8 @@ class CIF.ClientAdvanceSearch
     $('#assessment-select').trigger('change')
 
   hideCSIFilters: ->
-    @.toggleAdvanceReportSection($("#assessment-checkbox").data("custom"), true)
-    @.toggleAdvanceReportSection($("#assessment-checkbox").data("csi"), true)
+    @.toggleAdvanceReportSection($("#assessment-checkbox").data("custom"))
+    @.toggleAdvanceReportSection($("#assessment-checkbox").data("csi"))
 
   toggleAdvanceReportSection: (sectionText, hide = true) ->
     $options = $("optgroup[label='#{sectionText}'] option")
