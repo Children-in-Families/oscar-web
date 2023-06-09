@@ -118,26 +118,63 @@ class CIF.ClientAdvanceSearch
       $(".csi-group .rule-operator-container select, .rule-value-container select").select2(width: 'resolve')
     )
 
+    self = @
 
     $('#assessment-select').on 'change', (e)->
       $(".assessment-data-dropdown li").addClass("hide")
+      self.hideCSIFilters()
+
       type = $("#assessment-select option:selected").data("type")
       text = $(@).select2('data').text
 
       if type == "default"
-        $(".assessment-data-dropdown li.csi").removeClass("hide").find("a").text(text)
-        text = $("#assessment-domain-score .modal-title").data("title").replace(/%{assessment}/g, text)
-        $("#assessment-domain-score .modal-title").text(text)
-      else
-        $(".assessment-data-dropdown li.custom-csi").removeClass("hide").find("a").text(text)
-        text = $("#custom-assessment-domain-score .modal-title").data("title").replace(/%{assessment}/g, text)
-        $("#custom-assessment-domain-score .modal-title").text(text)
+        self.toggleAdvanceReportSection($("#assessment-checkbox").data("csi"), false)
+        self.toggleAdvanceReportSection($("#assessment-checkbox").data("custom"), true)
 
+        if $("#assessment-domain-score .modal-title").length > 0
+          $(".assessment-data-dropdown li.csi").removeClass("hide").find("a").text(text)
+          text = $("#assessment-domain-score .modal-title").data("title").replace(/%{assessment}/g, text)
+          $("#assessment-domain-score .modal-title").text(text)
+      else
+        self.toggleAdvanceReportSection($("#assessment-checkbox").data("custom"), false)
+        self.toggleAdvanceReportSection($("#assessment-checkbox").data("csi"), true)
+
+        if $("#custom-assessment-domain-score .modal-title").length > 0
+
+          $(".assessment-data-dropdown li.custom-csi").removeClass("hide").find("a").text(text)
+          text = $("#custom-assessment-domain-score .modal-title").data("title").replace(/%{assessment}/g, text)
+          $("#custom-assessment-domain-score .modal-title").text(text)
+
+      unless $("#assessment-checkbox").is(":checked")
+        $(".assessment-data-dropdown li").addClass("hide")
+        self.hideCSIFilters()
 
     $('#assessment-select').trigger('change')
+
+  hideCSIFilters: ->
+    @.toggleAdvanceReportSection($("#assessment-checkbox").data("custom"), true)
+    @.toggleAdvanceReportSection($("#assessment-checkbox").data("csi"), true)
+
+  toggleAdvanceReportSection: (sectionText, hide = true) ->
+    $options = $("optgroup[label='#{sectionText}'] option")
+    self = @
     
-    unless $("#assessment-checkbox").is(":checked")
-      $(".assessment-data-dropdown li").addClass("hide")
+    if hide
+      $options.attr("disabled", "disabled")
+    else
+      $options.attr("disabled", false)
+
+    $('#builder select').select2(width: '250px')
+
+    $('#builder select').on 'select2-open', (e)->
+      setTimeout ( ->
+        self.hideDisabledGroup()
+      ), 50
+
+  
+  hideDisabledGroup: ->
+    $(".select2-result-with-children").each ->
+      $(@).hide() if $(@).find(".select2-disabled").length > 0
 
   basicFilterSetRule: ->
     self = @
@@ -178,10 +215,12 @@ class CIF.ClientAdvanceSearch
     self = @
     assessmentSelectValue = $('#assessment-select').find(':selected').val()
     $("div[data-custom-assessment-setting-id='#{assessmentSelectValue}']").show()
+
     $('.main-report-builder .assessment-form-wrapper select').on 'select2-selecting', (element) ->
-      self.assessmentSelected = element.val
       $(".custom-assessment-setting").hide()
+
       $("div[data-custom-assessment-setting-id='#{element.val}']").show()
+      $("div[data-custom-assessment-setting-id='#{element.val}'] input[type='checkbox']").iCheck("uncheck")
 
   addCustomBuildersFields: (ids, url, loader=undefined) ->
     self = @
