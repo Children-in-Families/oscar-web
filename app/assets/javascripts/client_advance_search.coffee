@@ -125,19 +125,20 @@ class CIF.ClientAdvanceSearch
       text = $(@).select2('data').text
 
       if type == "default"
-        $(".assessment-data-dropdown li.csi").removeClass("hide").find("a").text(text)
-        text = $("#assessment-domain-score .modal-title").data("title").replace(/%{assessment}/g, text)
-        $("#assessment-domain-score .modal-title").text(text)
+        if $("#assessment-domain-score .modal-title").length > 0
+          $(".assessment-data-dropdown li.csi").removeClass("hide").find("a").text(text)
+          text = $("#assessment-domain-score .modal-title").data("title").replace(/%{assessment}/g, text)
+          $("#assessment-domain-score .modal-title").text(text)
       else
-        $(".assessment-data-dropdown li.custom-csi").removeClass("hide").find("a").text(text)
-        text = $("#custom-assessment-domain-score .modal-title").data("title").replace(/%{assessment}/g, text)
-        $("#custom-assessment-domain-score .modal-title").text(text)
+        if $("#custom-assessment-domain-score .modal-title").length > 0
+          $(".assessment-data-dropdown li.custom-csi").removeClass("hide").find("a").text(text)
+          text = $("#custom-assessment-domain-score .modal-title").data("title").replace(/%{assessment}/g, text)
+          $("#custom-assessment-domain-score .modal-title").text(text)
 
+      unless $("#assessment-checkbox").is(":checked")
+        $(".assessment-data-dropdown li").addClass("hide")
 
     $('#assessment-select').trigger('change')
-    
-    unless $("#assessment-checkbox").is(":checked")
-      $(".assessment-data-dropdown li").addClass("hide")
 
   basicFilterSetRule: ->
     self = @
