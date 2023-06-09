@@ -113,17 +113,17 @@ CIF.ClientsIndex = CIF.ClientsWelcome = do ->
         b - a
 
   _addDataTableToAssessmentScoreData = ->
-    $('#assessment-select').on 'change', (e)->
-      if $("#assessment-select option:selected").data("type") != "default"
-        _handleAjaxRequestToAssessment("#custom-assessment-score", $("#custom-assessment-domain-score").data("filename"), true)
-      else
-        _handleAjaxRequestToAssessment("#csi-assessment-score", $("#assessment-domain-score").data("filename"))
+    _handleAjaxRequestToAssessment("#csi-assessment-score", $("#assessment-domain-score").data("filename"))
+
+    $('#assessment-select option').each ->
+      $option = $(this)
+      
+      if $option.val() && $option.val() != 0
+        _handleAjaxRequestToAssessment("#custom-assessment-score-#{$option.val()}", $("#custom-assessment-domain-score-#{$option.val()}").data("filename"), true)
 
     $('.assessment-domain-score').on 'shown.bs.modal', (e) ->
       $($.fn.dataTable.tables(true)).DataTable().columns.adjust()
       return
-
-    $('#assessment-select').trigger('change')
 
   _addDataTableToTableSummary = ->
     fileName = $('.table-summary').data('filename')
@@ -135,16 +135,9 @@ CIF.ClientsIndex = CIF.ClientsWelcome = do ->
       $($.fn.dataTable.tables(true)).DataTable().columns.adjust()
       return
 
-  _handleAjaxRequestToAssessment = (tableId, fileName, customCSI = false)->
+  _handleAjaxRequestToAssessment = (tableId, fileName)->
     url = $("#{tableId} .api-assessment-path").data('assessment-params')
-
-    if customCSI
-      url += "&assessment_id=#{$('#assessment-select').select2('data').id}"
-
     columns = $("#{tableId} .assessment-domain-headers").data('headers')
-
-    if $.fn.dataTable.isDataTable(tableId)
-      $(tableId).DataTable().destroy()
 
     table = $(tableId).DataTable
       autoWidth:true
