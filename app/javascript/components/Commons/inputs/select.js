@@ -24,7 +24,7 @@ export default props => {
 
   useEffect(() => {
     setSelectedOption(getSeletedObject())
-  }, []);
+  }, [options]);
 
   const handleChange = (selectedOption, { action, removedValue }) => {
     let data

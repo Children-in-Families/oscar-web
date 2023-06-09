@@ -40,7 +40,7 @@ export default props => {
                   onChange={(event)=>{ onChangeOfficial(event.target.value, "id", index)}}
                 />
               </div>
-  
+
               <div className="col-12 col-sm-3">
                 <TextInput
                   label={ t(translation, "clients.form.mosavy_official_name") }
@@ -51,7 +51,7 @@ export default props => {
                   T={T}
                 />
               </div>
-    
+
               <div className="col-10 col-sm-3">
                 <TextInput
                   label={ t(translation, "clients.form.mosavy_official_position") }
@@ -62,7 +62,7 @@ export default props => {
                   T={T}
                 />
               </div>
-    
+
               <div className="col-2 col-sm-2">
                 <button className='btn btn-danger' onClick={()=> { onRemoveOfficial(index) }}>{ t(translation, "clients.form.remove_mosavy_official") }</button>
               </div>
@@ -191,7 +191,7 @@ export default props => {
       <CustomInfo id="customInfo" current_organization={current_organization} translation={translation} fieldsVisibility={fieldsVisibility} onChange={onChange} data={{errorFields, ratePoor, client, T, customId1, customId2 }} hintText={hintText} />
 
       {
-        fieldsVisibility.client_pickup_information == true && 
+        fieldsVisibility.client_pickup_information == true &&
 
         <div id="pickup-info">
           <legend>
@@ -255,7 +255,7 @@ export default props => {
                 </legend>
 
                 {  renderMoSAVY() }
-                
+
                 <div className="row">
                   <div className="col-sm-12">
                     <button className='btn btn-primary' onClick={onAddOfficial}>{ t(translation, "clients.form.add_mosavy_official") }</button>
