@@ -125,7 +125,6 @@ class CIF.ClientAdvanceSearch
       self.hideCSIFilters()
 
       value = $('#assessment-select').select2('data').id
-      $(".assessment-data-dropdown li").addClass("hide")
       $(".assessment-data-dropdown li.csi-#{value}").removeClass("hide")
 
       if value == "0"
