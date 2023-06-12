@@ -4,7 +4,8 @@
       .modal-header
         %button.close{"aria-label" => 'Close', "data-dismiss" => 'modal'}
           %span{"aria-hidden" => 'true'} &times;
-        %h4.modal-title{ "data-title" => t('.assessment_data') }
+        %h4.modal-title
+          = t('.assessment_data', assessment: Setting.cache_first.default_assessment)
 
       .modal-body
         -# - if params['commit'].present? || params['client_advanced_search'].present?
