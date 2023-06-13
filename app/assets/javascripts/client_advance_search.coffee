@@ -126,6 +126,7 @@ class CIF.ClientAdvanceSearch
 
       value = $('#assessment-select').select2('data').id
       $(".assessment-data-dropdown li.csi-#{value}").removeClass("hide")
+      $("#client_advanced_search_assessment_selected").val("[#{value}]")
 
       if value == "0"
         self.toggleAdvanceReportSection($("#assessment-checkbox").data("custom"))
@@ -136,6 +137,7 @@ class CIF.ClientAdvanceSearch
 
       unless $("#assessment-checkbox").is(":checked")
         $(".assessment-data-dropdown li").addClass("hide")
+        $("#client_advanced_search_assessment_selected").val("[]")
         self.hideCSIFilters()
 
     $('#assessment-select').trigger('change')
@@ -301,7 +303,7 @@ class CIF.ClientAdvanceSearch
       ruleFiltersSelect = $('.main-report-builder .rule-container .rule-filter-container select')
       ruleFiltersSelect.select2('destroy')
       ruleFiltersSelect.parents('.rule-container').find('.rule-header button').trigger('click')
-      self.assessmentSelected = ''
+
       $('.assessment-form').hide()
       $('#builder').queryBuilder('removeFilter', ['assessment_condition_last_two','assessment_condition_first_last'])
       $('button[data-add="rule"]').trigger('click')
@@ -946,7 +948,7 @@ class CIF.ClientAdvanceSearch
       self.setValueToProgramAssociation()
       $('#client_advanced_search_custom_form_selected').val(customFormValues)
       $('#client_advanced_search_program_selected').val(programValues)
-      $('#client_advanced_search_assessment_selected').val(assessmentValues)
+      
       if $('#quantitative-type-checkbox').prop('checked') then $('#client_advanced_search_quantitative_check').val(1)
       if $('#wizard_quantitative_filter').prop('checked') then $('#client_advanced_search_wizard_quantitative_check').val(1)
       if $('#wizard_custom_form_filter').prop('checked') then $('#client_advanced_search_wizard_custom_form_check').val(1)
