@@ -18,11 +18,11 @@
           %th= t('clients.table_summary.other')
     %tbody
       - ProgramStream.where(id: clients.map(&:program_stream_id).uniq).each do |program|
-        - by_program = clients.select{ |client| client.program_stream_id == program.id }
+        - by_program = clients.select{ |client| client.program_stream_id == program.id }.uniq
         %tr
           %td= program.name
           - schools.each do |method_name|
-            - by_program_by_school = by_program.select{ |client| client.send("#{method_name}?") }
+            - by_program_by_school = by_program.select{ |client| client.send("#{method_name}?") }.uniq
             %td= by_program_by_school.select(&:female?).count
             %td= by_program_by_school.select(&:male?).count
             %td= by_program_by_school.select(&:other_gender?).count
@@ -31,17 +31,17 @@
       %tr
         %td= t('clients.table_summary.no_program')
         - schools.each do |method_name|
-          - by_school = no_program_clients.select{ |client| client.send("#{method_name}?") }
+          - by_school = no_program_clients.select{ |client| client.send("#{method_name}?") }.uniq
           %td= by_school.select(&:female?).count
           %td= by_school.select(&:male?).count
           %td= by_school.select(&:other_gender?).count
-        %td= no_program_clients.count
+        %td= no_program_clients.uniq.count
 
       %tr
         %td= t('clients.table_summary.client_by_gender')
         - schools.each do |method_name|
-          - by_school = all_clients.select{ |client| client.send("#{method_name}?") }
-          %td= by_school.select(&:female?).uniq.count
-          %td= by_school.select(&:male?).uniq.count
-          %td= by_school.select(&:other_gender?).uniq.count
+          - by_school = all_clients.select{ |client| client.send("#{method_name}?") }.uniq
+          %td= by_school.select(&:female?).count
+          %td= by_school.select(&:male?).count
+          %td= by_school.select(&:other_gender?).count
         %td= all_clients.uniq.count
