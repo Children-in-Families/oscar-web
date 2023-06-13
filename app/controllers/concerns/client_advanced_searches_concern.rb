@@ -30,6 +30,8 @@ module ClientAdvancedSearchesConcern
       end
       f.xls do
         @client_grid.scope { |scope| scope.where(id: @clients_by_user.ids).accessible_by(current_ability) }
+        @client_grid.params = params.to_unsafe_h.dup.deep_symbolize_keys
+
         export_client_reports
         send_data @client_grid.to_xls, filename: "client_report-#{Time.now}.xls"
       end

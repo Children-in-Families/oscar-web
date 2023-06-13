@@ -24,14 +24,15 @@ Datagrid.module_eval do
   end
 
   def insert_case_note(book)
-    book.create_worksheet(name: 'Case Note')
-    book.worksheet(@next_workspace_index).insert_row(0, case_note_headers)
-    index = 0
+    rows = []
     client_count = 0
 
-    assets.includes(:case_notes).each do |client|
-      client.case_notes.sort_by(&:meeting_date).reverse.each_with_index do |case_note, i|
-        book.worksheet(@next_workspace_index).insert_row(index += 1, [
+    assets.each do |client|
+      case_notes = case_note_query(client.case_notes.most_recents, 'case_note_date')
+      case_notes = case_note_query(case_notes, 'case_note_type')
+
+      case_notes.each_with_index do |case_note, i|
+        rows << [
           (i == 0 ? (client_count += 1) : ''),
           client.slug,
           client.given_name,
@@ -40,11 +41,20 @@ Datagrid.module_eval do
           case_note.interaction_type,
           case_note.attendee,
           case_note.note
-        ])
+        ]
       end
     end
 
-    @next_workspace_index += 1
+    if rows.any?
+      book.create_worksheet(name: 'Case Note')
+      book.worksheet(@next_workspace_index).insert_row(0, case_note_headers)
+      
+      rows.each_with_index do |row, index|
+        book.worksheet(@next_workspace_index).insert_row(index += 1, row)
+      end
+  
+      @next_workspace_index += 1
+    end
   end
 
   def insert_csi(book)
