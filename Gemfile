@@ -108,7 +108,7 @@ end
 
 group :production_api do
   gem 'therubyracer', '~> 0.12.3', platforms: :ruby
-  gem 'execjs',       '~> 2.8', '>= 2.8.1'
+  gem 'execjs',       '~> 2.6.0'
 end
 
 group :development do
