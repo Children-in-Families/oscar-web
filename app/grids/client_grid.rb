@@ -5,7 +5,7 @@ class ClientGrid < BaseGrid
   include FormBuilderHelper
   include AssessmentHelper
 
-  attr_accessor :current_user, :qType, :dynamic_columns, :param_data
+  attr_accessor :current_user, :qType, :dynamic_columns, :param_data, :assessment_setting_id
   COUNTRY_LANG = { "cambodia" => "(Khmer)", "thailand" => "(Thai)", "myanmar" => "(Burmese)", "lesotho" => "(Sesotho)", "uganda" => "(Swahili)" }
 
   scope do
@@ -1297,5 +1297,9 @@ class ClientGrid < BaseGrid
 
   def custom_form_with_has_form(object, fields)
     [object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).count]
+  end
+
+  def custom_assessment_setting
+    @custom_assessment_setting ||= CustomAssessmentSetting.find_by(id: assessment_setting_id)
   end
 end
