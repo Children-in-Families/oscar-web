@@ -15,6 +15,7 @@ Datagrid.module_eval do
 
     insert_case_note(book) if include_case_note?
     insert_csi(book) if include_csi?
+    insert_custom_assessment(book) if include_custom_assessment?
 
     buffer = StringIO.new
     book.write(buffer)
@@ -58,7 +59,10 @@ Datagrid.module_eval do
           assessment_domain = assessment.assessment_domains.find{ |ad| ad.domain.identity == identity }
           
           if assessment_domain&.score
-            [assessment_domain.score, assessment_domain.domain.send("score_#{assessment_domain.score}_local_definition")]
+            description = assessment_domain.domain.send("translate_score_#{assessment_domain.score}_definition")
+            description ||= assessment_domain.domain.send("score_#{assessment_domain.score}_local_definition")
+
+            [assessment_domain.score, description]
           else
             ['', '']
           end
@@ -75,6 +79,49 @@ Datagrid.module_eval do
           *dynamic_columns.flatten
         ]
 
+        book.worksheet(@next_workspace_index).insert_row(index += 1, row)
+      end
+    end
+
+    @next_workspace_index += 1
+  end
+
+  def insert_custom_assessment(book)
+    book.create_worksheet(name: "#{custom_assessment_setting.custom_assessment_name} Assessment")
+    book.worksheet(@next_workspace_index).insert_row(0, custom_assessment_headers)
+    index = 0
+    client_count = 0
+
+    assets.includes(custom_assessments: [assessment_domains: :domain]).each do |client|
+      ordinal = 0
+      client.custom_assessments.sort_by(&:created_at).reverse.each_with_index do |assessment, i|
+        next if assessment.custom_assessment_setting_id != assessment_setting_id.to_i
+
+        dynamic_columns = Domain.custom_csi_domains.where(custom_assessment_setting_id: assessment_setting_id).order_by_identity.pluck(:identity).map do |identity|
+          assessment_domain = assessment.assessment_domains.find{ |ad| ad.domain.identity == identity }
+
+          if assessment_domain&.score
+            description = assessment_domain.domain.send("translate_score_#{assessment_domain.score}_definition")
+            description ||= assessment_domain.domain.send("score_#{assessment_domain.score}_local_definition")
+
+            [assessment_domain.score, description]
+          else
+            ['', '']
+          end
+        end
+
+        row = [
+          (ordinal == 0 ? (client_count += 1) : ''),
+          client.slug,
+          client.given_name,
+          client.family_name,
+          (ordinal + 1).ordinalize,
+          assessment.created_at&.strftime('%Y-%m-%d'),
+          assessment.completed_date&.strftime('%Y-%m-%d'),
+          *dynamic_columns.flatten
+        ]
+
+        ordinal += 1
         book.worksheet(@next_workspace_index).insert_row(index += 1, row)
       end
     end
@@ -127,6 +174,34 @@ Datagrid.module_eval do
 
   def csi_identities
     @csi_identities ||= Domain.csi_domains.order_by_identity.map(&:convert_identity).map(&:to_sym)
+  end
+
+  def custom_assessment_headers
+    [
+      '#',
+      'Client ID',
+      column_by_name(:given_name).to_s,
+      column_by_name(:family_name).to_s,
+      'Assessment # (Ordinal Numbers)',
+      'Assessment Created At',
+      'Assessment Completed Date',
+      *custom_assessment_dynamic_columns
+    ]
+  end
+
+  def include_custom_assessment?
+    custom_assessment_columns = custom_assessment_identities
+    custom_assessment_columns += [:custom_assessment_created_at, :date_of_custom_assessments, :custom_assessment, :custom_completed_date]
+
+    instance_of?(ClientGrid) && custom_assessment_setting.present? && columns.map(&:name).any? { |column| custom_assessment_columns.include?(column) }
+  end
+
+  def custom_assessment_dynamic_columns
+    @custom_assessment_dynamic_columns ||= custom_assessment_identities.map{ |column| ['', column_by_name(column).to_s] }.flatten
+  end
+
+  def custom_assessment_identities
+    @custom_assessment_identities ||= Domain.custom_csi_domains.where(custom_assessment_setting_id: assessment_setting_id).order_by_identity.map{ |item| "custom_#{item.convert_identity}".to_sym }
   end
 end
 
