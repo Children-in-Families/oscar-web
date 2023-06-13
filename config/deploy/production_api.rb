@@ -5,4 +5,4 @@ set :branch, proc { `git rev-parse --abbrev-ref stable`.chomp }
 # TODO: Deploy one after another by commentting out one
 
 # OSCaR
-server '3.1.204.110', user: 'deployer', roles: %w{app web db}
+server '13.229.206.159', user: 'deployer', roles: %w{app web db}
