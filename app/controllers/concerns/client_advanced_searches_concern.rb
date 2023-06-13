@@ -25,7 +25,7 @@ module ClientAdvancedSearchesConcern
           @results                = clients
           @client_grid = @client_grid.scope { |scope| scope.where(id: @clients_by_user.ids).accessible_by(current_ability).page(params[:page]).per(20) }
         rescue NoMethodError
-          redirect_to clients_path
+          redirect_to welcome_clients_path
         end
       end
       f.xls do
@@ -50,19 +50,19 @@ module ClientAdvancedSearchesConcern
 
   def fetch_advanced_search_queries
     @my_advanced_searches    = current_user.cache_advance_saved_search
-    @other_advanced_searches =  Rails.cache.fetch(user_cache_id << "other_advanced_search_queries") do
+    @other_advanced_searches = Rails.cache.fetch(user_cache_id << "other_advanced_search_queries") do
       AdvancedSearch.includes(:user).non_of(current_user).order(:name).to_a
     end
   end
 
   def custom_form_column
-    @custom_form_columns = custom_form_fields.group_by{ |field| field[:optgroup] } if params.dig(:client_advanced_search, :action_report_builder) == '#builder'
-    @wizard_custom_form_columns = custom_form_fields.group_by{ |field| field[:optgroup] } if params.dig(:client_advanced_search, :action_report_builder) == '#wizard-builder'
+    @custom_form_columns = custom_form_fields.group_by { |field| field[:optgroup] } if params.dig(:client_advanced_search, :action_report_builder) == '#builder'
+    @wizard_custom_form_columns = custom_form_fields.group_by { |field| field[:optgroup] } if params.dig(:client_advanced_search, :action_report_builder) == '#wizard-builder'
   end
 
   def program_stream_column
-    @program_stream_columns = program_stream_fields.group_by{ |field| field[:optgroup] } if params.dig(:client_advanced_search, :action_report_builder) == '#builder'
-    @wizard_program_stream_columns = program_stream_fields.group_by{ |field| field[:optgroup] } if params.dig(:client_advanced_search, :action_report_builder) == '#wizard-builder'
+    @program_stream_columns = program_stream_fields.group_by { |field| field[:optgroup] } if params.dig(:client_advanced_search, :action_report_builder) == '#builder'
+    @wizard_program_stream_columns = program_stream_fields.group_by { |field| field[:optgroup] } if params.dig(:client_advanced_search, :action_report_builder) == '#wizard-builder'
   end
 
   def get_custom_form
@@ -91,7 +91,7 @@ module ClientAdvancedSearchesConcern
       @builder_fields = @builder_fields + custom_form_fields if @advanced_search_params[:wizard_custom_form_check].present?
       @builder_fields = @builder_fields + @quantitative_fields if @advanced_search_params[:wizard_quantitative_check].present?
     else
-      @builder_fields = @builder_fields + custom_form_fields + program_stream_fields + get_common_fields
+      @builder_fields = @builder_fields + custom_form_fields + program_stream_fields + get_common_fields + render_risk_assessment_fields
       @builder_fields = @builder_fields + @quantitative_fields if quantitative_check?
     end
   end
@@ -183,17 +183,24 @@ module ClientAdvancedSearchesConcern
 
   def get_enrollment_fields
     return [] if program_stream_values.empty? || !enrollment_check?
+
     AdvancedSearches::EnrollmentFields.new(program_stream_values).render
   end
 
   def get_tracking_fields
     return [] if program_stream_values.empty? || !tracking_check?
+
     AdvancedSearches::TrackingFields.new(program_stream_values).render
   end
 
   def get_exit_program_fields
     return [] if program_stream_values.empty? || !exit_program_check?
+
     AdvancedSearches::ExitProgramFields.new(program_stream_values).render
+  end
+
+  def render_risk_assessment_fields
+    @render_risk_assessment_fields ||= AdvancedSearches::RiskAssessmentFields.render
   end
 
   def program_stream_value?

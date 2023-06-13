@@ -21,8 +21,8 @@ services:
       - POWER_BI_GROUP=power_bi_group
       - READ_ONLY_DATABASE_USER=powerbi_dashboard_user
       - READ_ONLY_DATABASE_PASSWORD=123456789
-      - READ_ONLY_TLC_DATABASE_USER=tlc_powerbi_dashboard_user
-      - READ_ONLY_TLC_DATABASE_PASSWORD=123456789
+      - READ_ONLY_MTP_DATABASE_USER=mtp_user
+      - READ_ONLY_MTP_DATABASE_PASSWORD=123456789
       - WEBPACKER_DEV_SERVER_HOST=webpack
       - REDIS_URL=redis://redis:6379/0
       - STC_DONOR_NAME=

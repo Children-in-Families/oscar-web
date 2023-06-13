@@ -53,7 +53,7 @@ const Forms = props => {
       families, clientRelationships, refereeRelationships, addressTypes, phoneOwners, refereeDistricts,
       refereeTownships, carerTownships, customId1, customId2, inlineHelpTranslation, riskAssessment,
       refereeCommunes, refereeSubdistricts, carerSubdistricts, refereeVillages, carerDistricts, carerCommunes, carerVillages, callerRelationships,
-      currentStates, currentTownships, subDistricts, translation, fieldsVisibility, requiredFields, from_referral_id,
+      currentStates, currentTownships, subDistricts, translation, fieldsVisibility, requiredFields,
       brc_address, brc_islands, brc_resident_types, brc_prefered_langs, brc_presented_ids, maritalStatuses, nationalities, ethnicities, traffickingTypes,
       protectionConcerns, historyOfHarms, historyOfHighRiskBehaviours, reasonForFamilySeparations, historyOfDisabilities, isRiskAssessmentEnabled
     }
@@ -86,7 +86,7 @@ const Forms = props => {
   const [errorSteps, setErrorSteps]   = useState([])
   const [errorFields, setErrorFields] = useState([])
 
-  const [clientData, setClientData]   = useState({ from_referral_id, user_ids, ratanak_achievement_program_staff_client_ids, quantitative_case_ids, client_quantitative_free_text_cases, agency_ids, donor_ids, family_ids, current_family_id, isTestClient, isForTesting, ...client })
+  const [clientData, setClientData]   = useState({ user_ids, ratanak_achievement_program_staff_client_ids, quantitative_case_ids, client_quantitative_free_text_cases, agency_ids, donor_ids, family_ids, current_family_id, isTestClient, isForTesting, ...client })
   const [clientProfile, setClientProfile] = useState({})
   const [refereeData, setRefereeData] = useState(referee)
   const [familyMemberData, setfamilyMemberData] = useState(family_member)
@@ -408,7 +408,7 @@ const Forms = props => {
         const url = clientData.id ? `/api/clients/${clientData.id}` : '/api/clients'
 
         let formData = new FormData()
-        formData = objectToFormData({ ...clientData, ...clientProfile, from_referral_id: from_referral_id }, {}, formData, 'client')
+        formData = objectToFormData({ ...clientData, ...clientProfile }, {}, formData, 'client')
         formData = objectToFormData(refereeData, {}, formData, 'referee')
         formData = objectToFormData(carerData, {}, formData, 'carer')
         formData = objectToFormData(familyMemberData, {}, formData, 'family_member')

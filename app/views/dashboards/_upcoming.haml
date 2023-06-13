@@ -4,8 +4,11 @@
       .col-xs-6
         %h5= t('.upcoming_tasks')
   .panel-body
-    - @clients.each do |client, upcoming_forms|
+    / Tweak to fix N+1
+    - clients = Client.where(id: @clients.map{ |c| c[0].id }).includes(:default_most_recents_assessments, :users).to_a
+    - @clients.each do |c, upcoming_forms|
       - next if upcoming_forms.blank?
+      - client = clients.detect { |client| client.id == c.id }
       - upcoming_tasks = upcoming_forms[:upcoming_tasks]
       - client_next_default_assessment = client.next_assessment_date(@user.activated_at)
       - client_next_custom_assessment = client.custom_next_assessment_date(@user.activated_at)
@@ -24,12 +27,12 @@
                     %td.col-xs-3{ rowspan: upcoming_tasks.count }= t('.task')
                   %td.col-xs-6.task-name.border-left-right= task.name
                   %td.col-xs-3= date_format(task.expected_date)
-            - if @setting.enable_default_assessment && @assessment_params && upcoming_assessments_any?(client) && client.user_ids.include?(@user.id) && client.eligible_default_csi?
+            - if @setting.enable_default_assessment && @assessment_params && upcoming_assessments_any?(client) && client.cached_user_ids.include?(@user.id) && client.eligible_default_csi?
               %tr
                 %td.col-xs-3= @setting.default_assessment
                 %td.col-xs-6.task-name.border-left-right
                 %td.col-xs-3= date_format(client_next_default_assessment)
-            - if @setting.enable_custom_assessment && @assessment_params && upcoming_custom_assessments_any?(client) && client.user_ids.include?(@user.id)
+            - if @setting.enable_custom_assessment && @assessment_params && upcoming_custom_assessments_any?(client) && client.cached_user_ids.include?(@user.id)
               %tr
                 %td.col-xs-3= @setting.custom_assessment
                 %td.col-xs-6.task-name.border-left-right

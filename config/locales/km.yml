@@ -447,6 +447,7 @@ km:
       agencies_involved: អង្គភាពដែលពាក់ព័ន្ធ
       agency_name: ឈ្មោះអង្គភាព
       assessment_completed_date: "%{assessment} កាលបរិច្ចេទបញ្ជប់ការប៉ាន់ប្រមាណ"
+      assessment_created_at: "កាលបរិច្ឆេទបង្កើត%{assessment}"
       assessment_number: "%{assessment} ការប៉ាន់ប្រមាណ#"
       basic_fields: ព័ត៌មានទូទៅរបស់អតិថិជន
       birth_province: ខេត្តកំណើតអតិថិជន
@@ -542,6 +543,13 @@ km:
       reject_note: កំណត់ហេតុនៃការមិនទទួលយក
       relevant_referral_information: ព័ត៌មានសំខាន់ៗដែលពាក់ព័ន្ធ
       school_grade: កម្រិតវប្បធម៌
+      school:
+        no_school: No School
+        pre_school: Pre School
+        primary_school: Primary School
+        secondary_school: Secondary School
+        high_school: High School
+        university: University
       school_grade_list:
         kindergarten_1: ថ្នាក់មតេយ្យកម្រិត ១
         kindergarten_2: ថ្នាក់មតេយ្យកម្រិត ២
@@ -648,6 +656,7 @@ km:
       enter_task_detail: ព័ត៌មានពីកាតព្វកិច្ច
       save: រក្សាទុក
       title: បន្ថែមកាតព្វកិច្ចថ្មី
+    assessment_date: កាលបរិច្ឆេទនៃការប៉ាន់ប្រមាណ
     assessment_form: ទម្រង់ការប៉ាន់ប្រមាណ
     attachment:
       attachments: ឯកសារភ្ជាប់
@@ -675,6 +684,7 @@ km:
       domain: កត្តា
       finish: រក្សាទុក
       goal: គោលដៅ
+      level_risk_summary: កម្រិតហានិភ័យសង្ខេប
       next: ទំព័របន្ទាប់
       previous: ទំព័រមុន
       reason: ការសង្កេត
@@ -863,6 +873,7 @@ km:
   cannot_remove: មិនអាចលុបបានទេ
   cannot_remove_or_update: មិនអាចលុបឬកែសម្រួលបានទេដោយសារតែត្រូវបានប្រើរួចហើយ
   care_plans:
+    care_plan_date: កាលបរិច្ឆេទផែនការគាំទ្រករណី
     care_plan_form: ផែនការគាំទ្រករណី
     care_plan: ផែនការគាំទ្រករណី
     care_plan_based_on: ផ្អែកលើផែនការគាំទ្រករណី
@@ -1968,6 +1979,7 @@ km:
       all_csi_assessments: ចំនួនការប៉ាន់ប្រមាណ CSI ទាំងអស់
       all_custom_csi_assessments: ចំនួនការប៉ាន់ប្រមាណផ្ទាល់ខ្លួនទាំងអស់
       assessment_completed_date: "កាលបរិច្ឆេទ %{assessment}ដែលបានបំពេញ"
+      assessment_created_at: "កាលបរិច្ឆេទបង្កើត%{assessment}"
       assessment_custom_completed_date: "កាលបរិច្ឆេទ %{assessment}ផ្ទាល់ខ្លួនដែលបានបំពេញ"
       assessment_data: "ទិន្នន័យពិន្ទុនៃ%{assessment}"
       assessment_number: ការប៉ាន់ប្រមាណលើកទី
@@ -2232,6 +2244,8 @@ km:
       title: Table Summary
       age_tabs: Age
       referral_category_tabs: Referral Categories
+      school_tab: School
+      province_tab: Location
       program: Program
       children: Children
       adult: Adult
@@ -2569,6 +2583,7 @@ km:
       all_custom_csi_assessments: "ពិន្ទុកត្តា%{assessment}ផ្ទាល់ខ្លួន"
       all_result_framework_assessment: All Result Framework Assessment
       assessment_completed_date: "កាលបរិច្ឆេទ %{assessment}ដែលបានបំពេញ"
+      assessment_created_at: "កាលបរិច្ឆេទបង្កើត%{assessment}"
       assessment_custom_completed_date: "កាលបរិច្ឆេទ %{assessment}ផ្ទាល់ខ្លួនដែលបានបំពេញ"
       assessment_completed_date: "%{assessment} Completed Date"
       calls:
@@ -2696,6 +2711,7 @@ km:
         all_csi_assessments: ពិន្ទុកត្តាការប៉ាន់ប្រមាណ  CSI
         all_custom_csi_assessments: ពិន្ទុកត្តាការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
         assessment_completed_date: កាលបរិច្ឆេទបញ្ចប់ការប៉ាន់ប្រមាណ
+        assessment_created_at: "កាលបរិច្ឆេទបង្កើត%{assessment}"
         assessment_custom_completed_date: "កាលបរិច្ឆេទ %{assessment}ផ្ទាល់ខ្លួនដែលបានបំពេញ"
         any_assessments: មានការប៉ាន់ប្រមាណ
         assessments: ការប៉ាន់ប្រមាណ
@@ -2744,7 +2760,7 @@ km:
         current_province_en: ខេត្តបច្ចុប្បន្ន (អក្សរឡាតាំង)
         current_province_kh: ខេត្តបច្ចុប្បន្ន (ខ្មែរ)
         custom_assessment: "%{assessment} ផ្ទាល់ខ្លួន"
-        custom_assessment_created_date: កាលបរិច្ឆេទបង្កើត %{assessment} ផ្ទាល់ខ្លួន
+        custom_assessment_created_at: កាលបរិច្ឆេទបង្កើត %{assessment} ផ្ទាល់ខ្លួន
         date_of_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណ
         date_of_birth: ថ្ងៃខែឆ្នាំកំណើត
         date_of_custom_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
@@ -5235,6 +5251,13 @@ km:
       review_client: អតិថិជនដែលត្រូវការត្រួតពិនិត្យ
     referrals:
       referral_clients: អតិថិជនដែលត្រូវបានបញ្ជូនមក
+    referral_table:
+      clients: Clients
+      referral_from: Referral From
+      referral_date: Referral Date
+      referral_count: Referral Count
+      level_of_risk: Level of Risk
+      review_form: Review Form
     repeat_referrals:
       referral_clients: អតិថិជនដែលត្រូវបានបញ្ជូនមកម្តងទៀត
     upcoming_assessment:
@@ -5837,6 +5860,7 @@ km:
       date_of_referral: កាលបរិច្ឆេទបញ្ជូន
       download_referral_form: ទាញយកទម្រង់បញ្ជូន
       external_referral_warning: អង្គការដែលអ្នកកំពុងព្យាយាមបញ្ជូនអតិថិជនរបស់អ្នកទៅ បច្ចុប្បន្ននេះមិនកំពុងប្រើ OSCaR ទេ។ សូមបោះពុម្ពច្បាប់ចម្លងនៃទម្រង់បញ្ជូននេះដើម្បីផ្ញើទៅអង្គការគោលដៅរបស់អ្នក។
+      go_to_client: Go to client
       name_of_referee: ឈ្មោះអ្នកបញ្ជូន
       ngo_name: ឈ្មោះអង្គការ
       pdf:
@@ -6019,6 +6043,7 @@ km:
       child_wellbeing: សុខុមាលភាពអតិថិជន
       client_perspective: ទស្សនៈអតិថិជនលើបញ្ហា និងតម្រូវការរបស់គាត់
       client_status_index: ការប៉ាន់ប្រមាណ CSI
+      current_level_of_risk: កម្រិតហានិភ័យបច្ចុប្បន្ន
       date: កាលបរិច្ចេទរំពឹងទុក
       description: ការពិពណ៌នា
       guidance: ការណែនាំ

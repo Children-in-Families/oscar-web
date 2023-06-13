@@ -16,11 +16,15 @@ class ClientsController < AdminController
 
   before_action :find_client, only: [:show, :edit, :update, :destroy]
   before_action :assign_client_attributes, only: [:show, :edit]
-  before_action :set_association, except: [:index, :destroy, :version]
+  before_action :set_association, except: [:index, :destroy, :version, :welcome]
   before_action :choose_grid, only: [:index]
   before_action :quantitative_type_editable, only: [:edit, :update, :new, :create]
   before_action :quantitative_type_readable
   before_action :validate_referral, only: [:new, :edit]
+
+  def welcome
+    choose_grid
+  end
 
   def index
     @client_default_columns = Setting.cache_first.try(:client_default_columns)
@@ -43,6 +47,7 @@ class ClientsController < AdminController
         end
         f.xls do
           next unless params['commit'].present?
+
           @client_grid.scope { |scope| scope.accessible_by(current_ability) }
           export_client_reports
           send_data @client_grid.to_xls, filename: "client_report-#{Time.now}.xls"
@@ -54,6 +59,8 @@ class ClientsController < AdminController
   def show
     respond_to do |format|
       format.html do
+        Referral.where(id: params[:referral_id]).update_all(client_id: @client.id, saved: true) if params[:referral_id].present?
+
         @referees                   = Referee.none_anonymouse.pluck(:id, :name).map{|id, name| { value: id, text: name } }
         @current_provinces          = Province.pluck(:id, :name).map{|id, name| { value: id, text: name } }
         @birth_provinces            = @birth_provinces.map{|parent, children| children.map{|t, v| { value: v, text: t } } }.flatten
@@ -116,13 +123,14 @@ class ClientsController < AdminController
       if @referral
         client_names = @referral.client_name.split(' ')
         given_name, family_name = [(client_names[0] || ''), (client_names[1] || '')]
-        local_family_name, local_given_name =  (@referral.client_name.scan(/\(((?:[^\)\(]++))\)/).first && @referral.client_name.scan(/\(((?:[^\)\(]++))\)/).first.split(' ')) || ['', '']
+        local_family_name, local_given_name = (@referral.client_name.scan(/\(((?:[^\)\(]++))\)/).first && @referral.client_name.scan(/\(((?:[^\)\(]++))\)/).first.split(' ')) || ['', '']
         client_attr = { given_name: given_name, family_name: family_name,
                         local_given_name: '', local_family_name: '',
                         gender: @referral.client_gender, reason_for_referral: @referral.referral_reason,
                         date_of_birth: @referral.client_date_of_birth,
                         referral_source_id: referral_source_id,
-                        initial_referral_date: @referral.date_of_referral
+                        initial_referral_date: @referral.date_of_referral,
+                        from_referral_id: @referral.id
                       }
 
         if attributes.present?

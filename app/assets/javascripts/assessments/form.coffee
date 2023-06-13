@@ -82,6 +82,8 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       scoreColor  = $(@).parents('.score_option').data("score-#{score}")
       domainId    = $(@).parents('.score_option').data("domain-id")
 
+      $('.score_option input').removeClass('error')
+      $('.score_option em').remove()
       $(@).addClass("btn-secondary")
       $($(@).siblings().get(-1)).val(score)
 
@@ -181,7 +183,6 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
 
         form.validate().settings.ignore = ':disabled'
         form.valid()
-
         _filedsValidator(currentIndex, newIndex)
 
       onFinished: ->

@@ -21,13 +21,18 @@ set :pty, false
 
 set :keep_releases, 5
 
-before "deploy:assets:precompile", "deploy:yarn_install"
+if ENV['SKIP_ASSETS']
+  Rake::Task['deploy:assets:precompile'].clear_actions
+  Rake::Task['deploy:assets:backup_manifest'].clear_actions
+else
+  before "deploy:assets:precompile", "deploy:yarn_install"
+end
 
 namespace :deploy do
 
   task :cleanup_assets do
     on roles :all do
-      execute "cd #{release_path}/ && ~/.rvm/bin/rvm default do bundle exec rake assets:clobber RAILS_ENV=#{fetch(:stage)}"
+      execute "cd #{release_path}/ && ~/.rvm/bin/rvm default do bundle exec rake assets:clobber RAILS_ENV=#{fetch(:stage)}" unless ENV['SKIP_ASSETS']
     end
   end
 

@@ -38,45 +38,45 @@
             = link_to calls_path do
               = fa_icon('phone')
               %span.nav-label= t('.calls')
-              %span.label.label-primary.pull-right= @calls_count
+              %span.label.label-primary.pull-right.calls_count
         - if current_setting.try(:enable_client_form) == true
           %li.main{ class: clients_menu_active }
-            = link_to clients_path do
+            = link_to welcome_clients_path do
               = fa_icon('child')
               %span.nav-label= t('.clients')
-              %span.label.label-primary.pull-right= @client_count
+              %span.label.label-primary.pull-right.client_count
         %li.main{ class: is_active_controller('referees') }
           = link_to referees_path do
             = fa_icon('address-book')
             %span.nav-label= t('.caller_referees')
-            %span.label.label-primary.pull-right= @referees_count
+            %span.label.label-primary.pull-right.referees_count
         - if can? :read, Family
           %li.main{ class: families_menu_active }
-            = link_to families_path do
+            = link_to welcome_families_path do
               = fa_icon('users')
               %span.nav-label= t('.families')
-              %span.label.label-primary.pull-right= @family_count
+              %span.label.label-primary.pull-right.family_count
 
         - if can?(:read, Community)
           %li.main{ class: "#{'active' if 'communities'.include?(controller_name)}" }
-            = link_to communities_path do
+            = link_to welcome_communities_path do
               = fa_icon('users')
               %span.nav-label= t('.communities')
-              %span.label.label-primary.pull-right= @community_count
+              %span.label.label-primary.pull-right.community_count
 
         - if can? :read, Partner
           %li.main{ class: partners_menu_active }
             = link_to partners_path do
               = fa_icon('handshake-o')
               %span.nav-label= t('.partners')
-              %span.label.label-primary.pull-right= @partner_count
+              %span.label.label-primary.pull-right.partner_count
 
         - if can? :read, User
           %li.main{ class: users_menu_active }
             = link_to users_path do
               = fa_icon('address-book-o')
               %span.nav-label= t('.users')
-              %span.label.label-primary.pull-right= @user_count
+              %span.label.label-primary.pull-right.user_count
 
         %li
           %a#manage{href: "#"}

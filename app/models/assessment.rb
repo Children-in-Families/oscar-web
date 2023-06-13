@@ -2,6 +2,7 @@ class Assessment < ActiveRecord::Base
   belongs_to :client, counter_cache: true
   belongs_to :family, counter_cache: true
   belongs_to :case_conference
+  belongs_to :custom_assessment_setting
 
   has_many :assessment_domains, dependent: :destroy
   has_many :domains,            through:   :assessment_domains
@@ -13,6 +14,7 @@ class Assessment < ActiveRecord::Base
 
   has_paper_trail
 
+  validates :assessment_date, presence: true
   validates :client, presence: true, if: :client_id?
   validate :must_be_enable
   validate :allow_create, :eligible_client_age, if: :new_record?

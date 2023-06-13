@@ -67,11 +67,27 @@ module CsiConcern
   end
 
   def next_assessment_date(user_activated_date = nil)
-    return Date.today if assessments.defaults.latest_record.blank?
+    last_record = default_most_recents_assessments.to_a.first
 
-    return nil if user_activated_date.present? && (assessments.defaults.latest_record.present? && assessments.defaults.latest_record.created_at < user_activated_date)
+    return Date.today if last_record.blank?
 
-    (assessments.defaults.latest_record.created_at + assessment_duration('max')).to_date
+    return nil if user_activated_date.present? && (last_record.present? && last_record.created_at < user_activated_date)
+
+    (last_record.created_at + assessment_duration('max')).to_date
+  end
+
+  # Use method name next_assessment_date2 to avoid conflict with custom_next_assessment_date
+  # This method was refactored from helper to avoid N+1
+  # To be used only on Client model
+  def custom_next_assessment_date2(only_enable_custom_assessment, user_activated_date)
+    return @client_custom_next_assessment_date if @client_custom_next_assessment_date.present?
+
+    ids = custom_assessment_domains.map(&:custom_assessment_setting_id).flatten.uniq
+
+    @client_custom_next_assessment_date = only_enable_custom_assessment.select{ |eca| eca.id.in?(ids) }.map do |custom_assessment|
+      next if eligible_custom_csi?(custom_assessment)
+      custom_next_assessment_date(user_activated_date, custom_assessment&.id)
+    end.compact
   end
 
   def custom_next_assessment_date(user_activated_date = nil, custom_assessment_setting_id=nil)

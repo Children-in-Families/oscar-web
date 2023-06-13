@@ -450,6 +450,7 @@ en:
       assessment_condition_last_two: Assessment Condition for the last two
       assessment_condition_first_last: Assessment Condition for first and last
       incomplete_care_plan: Incomplete Care Plan
+      assessment_created_at: "%{assessment} Created At"
       assessment_number: "%{assessment}#"
       basic_fields: Client Basic Fields
       birth_province: Client Birth Province
@@ -481,7 +482,7 @@ en:
       custom_csi_domain_scores: Custom Domain Scores
       custom_csi_group: At
       custom_form: Custom Form
-      date_of_assessments: "%{assessment} Created At"
+      date_of_assessments: "Date of %{assessment}"
       date_of_birth: Date of Birth
       date_of_referral: Date of Referral
       description_house_landmark: Description of the house and a landmark
@@ -562,6 +563,13 @@ en:
       relevant_referral_information: Relevant Referral Information
       road: Road
       school_grade: School Grade
+      school:
+        no_school: No School
+        pre_school: Pre School
+        primary_school: Primary School
+        secondary_school: Secondary School
+        high_school: High School
+        university: University
       school_grade_list:
         kindergarten_1: Kindergarten 1
         kindergarten_2: Kindergarten 2
@@ -670,6 +678,7 @@ en:
       enter_task_detail: Enter task details
       save: Save
       new_task: New Task
+    assessment_date: "Date of %{assessment}"
     assessment_form: Assessment Form
     attachment:
       attachments: Attachments
@@ -700,6 +709,7 @@ en:
       finish: Done
       finished_assessment_msg: This assessment is ready to be saved!
       goal: 'Goal: what specific goal will the client be working toward over the next few months?'
+      level_risk_summary: Level of Risk Summary
       next: Next
       previous: Previous
       reason: Observation
@@ -891,6 +901,7 @@ en:
   cannot_remove: cannot be removed
   cannot_remove_or_update: cannot be removed/updated since it is already in use.
   care_plans:
+    care_plan_date: Care Plan Date
     care_plan_form: Care Plan Form
     care_plan: Care plan
     care_plan_based_on: Care Plan Based on
@@ -2065,6 +2076,7 @@ en:
       advanced_search: Advanced Search
       all_csi_assessments: "All CSI %{assessment}"
       all_custom_csi_assessments: "All Custom %{assessment}"
+      assessment_created_at: "%{assessment} Created At"
       assessment_data: "%{assessment} Data"
       assessment_number: "%{assessment}#"
       assessments: Assessments
@@ -2075,10 +2087,10 @@ en:
       custom_assessment: "Custom %{assessment}"
       custom_csi_domain_scores: Custom Domain Scores
       custom_csi_group: At
-      date_of_assessment: "%{assessment} Created At"
+      date_of_assessment: "Date of %{assessment}"
       assessment_completed: "%{assessment} Completed"
-      date_of_custom_assessment: "Custom %{assessment} Created At"
-      date_of_assessments: "%{assessment} Created At"
+      date_of_custom_assessments: "Date of Custom %{assessment}"
+      date_of_assessments: "Date of %{assessment}"
       domain_score: Domain Scores
       end: Loading end!
       export_to_xls: Export to XLS
@@ -2388,6 +2400,8 @@ en:
       title: Table Summary
       age_tabs: Age
       referral_category_tabs: Referral Categories
+      school_tab: School
+      province_tab: Location
       program: Program
       children: Children
       adult: Adult
@@ -2747,6 +2761,7 @@ en:
       all_custom_csi_assessments: "All %{assessment}"
       all_result_framework_assessment: All Result Framework Assessment
       assessment_completed_date: "%{assessment} Completed Date"
+      assessment_created_at: "%{assessment} Created At"
       assessment_custom_completed_date: "Custom %{assessment} Completed Date"
       calls:
         answered_call: Answer Call
@@ -2875,6 +2890,7 @@ en:
         all_custom_csi_assessments: "All Custom %{assessment}"
         any_assessments: Has Assessments
         assessment_completed_date: "%{assessment} Completed Date"
+        assessment_created_at: "%{assessment} Created At"
         assessment_custom_completed_date: "Custom %{assessment} Completed Date"
         assessments: Assessments
         assessments_due_to: Assessments Due To
@@ -2922,10 +2938,10 @@ en:
         current_province_en: Current Province (English)
         current_province_kh: Current Province (Khmer)
         custom_assessment: Custom %{assessment}
-        custom_assessment_created_date: Custom %{assessment} Created Date
-        date_of_assessments: "%{assessment} Created At"
+        custom_assessment_created_at: Custom %{assessment} Created At
+        date_of_assessments: "Date of %{assessment}"
         date_of_birth: Date of Birth
-        date_of_custom_assessments: "Custom %{assessment} Created At"
+        date_of_custom_assessments: "Date of Custom %{assessment}"
         date_of_referral: Date of Referral
         description_house_landmark: Description of the house and a landmark
         directions: Directions
@@ -3047,13 +3063,14 @@ en:
         township: Township
         type: Attached with
         type_of_service: Type of Service
+        custom_assessment_created_at: "Custom %{assessment} Created At"
         view: View
         village: Village
         village_en: Address - Village (English)
         village_kh: Address - Village (Khmer)
         what3words: What3words
-      date_of_assessments: "%{assessment} Created At"
-      date_of_custom_assessments: "Custom %{assessment} Created At"
+      date_of_assessments: "Date of %{assessment}"
+      date_of_custom_assessments: "Date of Custom %{assessment}"
       date_of_family_assessment: Date of Family Assessment
       exit_circumstance: Exit Circumstance
       exit_note: NGO Exit Note
@@ -5357,6 +5374,13 @@ en:
       review_client: Clients need to be reviewed
     referrals:
       referral_clients: Referral Clients
+    referral_table:
+      clients: Clients
+      referral_from: Referral From
+      referral_date: Referral Date
+      referral_count: Referral Count
+      level_of_risk: Level of Risk
+      review_form: Review Form
     repeat_referrals:
       referral_clients: Referral Clients
     upcoming_assessment:
@@ -5958,6 +5982,7 @@ en:
       date_of_referral: Date of Referral
       download_referral_form: Download Printable Referral Form
       external_referral_warning: The NGO that you are attempting to refer your client to is not currently using OSCaR. Please print a copy of this referral form to send to your target organisation.
+      go_to_client: Go to client
       name_of_referee: Case Worker Making the Referral
       ngo_name: NGO Name
       pdf:
@@ -6131,11 +6156,12 @@ en:
   results: Results
   risk_assessments:
     _attr: &SA_ATTR
-      assessment_date: Date of risk assessment
+      assessment_date: Date of Risk Assessment
       category: Category
       child_wellbeing: "Child's Wellbeing"
       client_perspective: "Client’s perspective on their problem and needs"
       client_status_index: Client Status Index
+      current_level_of_risk: Current Level of Risk
       description: Description
       guidance: Guidance
       has_disability: Does client have disability?

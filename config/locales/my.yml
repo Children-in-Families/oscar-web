@@ -441,6 +441,7 @@ my:
       agencies_involved: ပါ၀င္သည့္ ေအဂ်င္စီမ်ား
       agency_name: ေအဂ်င္စီနာမည္
       agency_names: ေအဂ်င္စီနာမည္
+      assessment_created_at: "%{assessment} Created At"
       assessment_number: စိစစ္အကဲျဖတ္မႈမ်ား#
       basic_fields: အမႈသည္အေျခခံအေနအထား
       birth_province: ေမြးရပ္ျပည္နယ္
@@ -552,6 +553,13 @@ my:
       relevant_referral_information: သက္ဆိုင္ေသာလႊဲေျပာင္းျခင္းအခ်က္အလက္
       road: Road
       school_grade: ေက်ာင္းအဆင့္
+      school:
+        no_school: No School
+        pre_school: Pre School
+        primary_school: Primary School
+        secondary_school: Secondary School
+        high_school: High School
+        university: University
       school_grade_list:
         kindergarten_1: Kindergarten 1
         kindergarten_2: Kindergarten 2
@@ -660,6 +668,7 @@ my:
       enter_task_detail: လုပ္ငန္းအေသးစိတ္ျဖည့္သြင္းရန္
       save: သိမ္းသည္။
       title: လုပ္ငန္းအသစ္
+    assessment_date: အကဲဖြတ်သည့်ရက်စွဲ
     assessment_form: အကဲဖြတ်ပုံစံ
     attachment:
       attachments: တြဲထားသည္မ်ား
@@ -690,6 +699,7 @@ my:
       finish: ၿပီးပါၿပီ။
       finished_assessment_msg: ဤသည်အကဲဖြတ်ကယ်ဖို့အဆင်သင့်ပါ!
       goal: ရည္မွန္းခ်က္
+      level_risk_summary: Level Risk Summary
       next: ေနာက္တစ္ခု
       previous: ေရွ႕တစ္ခု
       reason: ရှုမွငျခွငျး, စောငျ့ရှောကျခွငျး
@@ -886,6 +896,7 @@ my:
   cannot_remove: ဖ်က္ပစ္၍မရပါ။
   cannot_remove_or_update: အသံုးျပဳေနသည္ျဖစ္၍ ဖ်က္ပစ္ျခင္းသာ္လည္းေကာင္း၊ အသစ္ျပင္ဆင္ျခင္းေသာ္လည္းေကာင္း လုပ္၍မရပါ။
   care_plans:
+    care_plan_date: Care Plan Date
     care_plan_form: Care Plan Form
     care_plan: Care plan
     care_plan_based_on: Care Plan Based on
@@ -1332,6 +1343,8 @@ my:
       title: Table Summary
       age_tabs: Age
       referral_category_tabs: Referral Categories
+      school_tab: School
+      province_tab: Location
       program: Program
       children: Children
       adult: Adult
@@ -2058,6 +2071,8 @@ my:
       advanced_search: အဆင့္ျမင့္ ရွာေဖြမႈ
       all_csi_assessments: အားလုံးအကဲဖြတ်
       all_custom_csi_assessments: Custom စိစစ္အကဲျဖတ္မႈမ်ားအားလံုး
+      assessment_completed: "%{assessment} Completed"
+      assessment_created_at: "%{assessment} Created At"
       assessment_data: အကဲဖြတ်ဖို့ဒေတာ
       assessment_number: စိစစ္အကဲျဖတ္မႈမ်ား#
       assessments: စိစစ္အကဲျဖတ္မႈမ်ား
@@ -2069,7 +2084,6 @@ my:
       custom_csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
       custom_csi_group: At
       date_of_assessment: "Date of %{assessment}"
-      assessment_completed: "%{assessment} Completed"
       date_of_custom_assessment: "Date of Custom %{assessment}"
       date_of_assessments: "Date of %{assessment}"
       domain_score: ဒိုမိန္း ရမွတ္မ်ား
@@ -2696,6 +2710,7 @@ my:
       all_custom_csi_assessments: Custom စိစစ္အကဲျဖတ္မႈမ်ားအားလံုး
       all_result_framework_assessment: All Result Framework Assessment
       assessment_completed_date: ျပဳလုပ္သည့္ ရက္စြဲ အကဲဖြတ်အပေါ်ပြီးစီး
+      assessment_created_at: "%{assessment} Created At"
       assessment_custom_completed_date: "Custom %{assessment} Completed Date"
       calls:
         answered_call: Answer Call
@@ -2819,6 +2834,7 @@ my:
         all_custom_csi_assessments: Custom စိစစ္အကဲျဖတ္မႈမ်ားအားလံုး
         any_assessments: စိစစ္အကဲျဖတ္မႈရွိသည္
         assessment_completed_date: ျပဳလုပ္သည့္ ရက္စြဲ အကဲဖြတ်အပေါ်ပြီးစီး
+        assessment_created_at: "%{assessment} Created At"
         assessment_custom_completed_date: "Custom %{assessment} Completed Date"
         assessments: စိစစ္အကဲျဖတ္မႈမ်ား
         assessments_due_to: လုပ္ရေတာ့မည္ စိစစ္အကဲျဖတ္မႈမ်ား
@@ -2866,7 +2882,7 @@ my:
         current_province_en: လက်ရှိပြည်နယ် (အင်္ဂလိပ်)
         current_province_kh: လက်ရှိပြည်နယ် (ခမာ)
         custom_assessment: Custom %{assessment}
-        custom_assessment_created_date: Custom %{assessment} Created Date
+        custom_assessment_created_at: Custom %{assessment} Created At
         date_of_assessments: စိစစ္အကဲျဖတ္မႈလုပ္သည့္ ရက္စြဲ
         date_of_birth: ေမြးရက္၊ လ၊ ႏွစ္
         date_of_custom_assessments: Custom စိစစ္အကဲျဖတ္မႈလုပ္သည့္ ရက္စြဲ
@@ -5368,6 +5384,13 @@ my:
       review_client: အမႈသည္မ်ားကို ျပန္လည္သံုးသပ္ရန္ လိုအပ္သည္
     referrals:
       referral_clients: ရည်ညွန်းဖောက်သည်
+    referral_table:
+      clients: Clients
+      referral_from: Referral From
+      referral_date: Referral Date
+      referral_count: Referral Count
+      level_of_risk: Level of Risk
+      review_form: Review Form
     repeat_referrals:
       referral_clients: ရည်ညွန်းဖောက်သည်
     upcoming_assessment:
@@ -5970,6 +5993,7 @@ my:
       date_of_referral: လွှဲပြောင်း၏နေ့စွဲ
       download_referral_form: ဒေါင်းလုပ်လွှဲပြောင်းပုံစံ
       external_referral_warning: သင်လက်ရှိအော်စကာအသုံးပြုနေခြင်းမရှိပါရန်သင့် client ကိုရည်ညွှန်းရန်ကြိုးစားနေသောအန်ဂျီအို။ သင့်ရဲ့ပစ်မှတ်အဖွဲ့အစည်းကမှပေးပို့ဖို့ဒီလွှဲပြောင်းပုံစံများ၏မိတ္တူကို print ထုတ်ပါ။
+      go_to_client: Go to client
       name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
       ngo_name: NGO အမည်ဖြင့်
       pdf:
@@ -6146,6 +6170,7 @@ my:
       child_wellbeing: "Child's Wellbeing"
       client_perspective: "Client’s perspective on their problem and needs"
       client_status_index: Client Status Index
+      current_level_of_risk: Current Level of Risk
       description: Description
       guidance: Guidance
       has_disability: Does client have disability?

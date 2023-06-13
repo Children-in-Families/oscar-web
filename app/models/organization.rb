@@ -1,6 +1,7 @@
 require 'rake'
 class Organization < ActiveRecord::Base
   SUPPORTED_LANGUAGES = %w(en km my).freeze
+  TYPES = ['Faith Based Organization', 'Government Organization', "Disabled People's Organization", 'Non Government Organization', 'Community Based Organization', 'Other Organization'].freeze
 
   has_paper_trail on: :update, only: :integrated
   mount_uploader :logo, ImageUploader
@@ -36,7 +37,9 @@ class Organization < ActiveRecord::Base
 
   class << self
     def current
-      find_by(short_name: Apartment::Tenant.current)
+      Rails.cache.fetch(['current_organization', Apartment::Tenant.current]) do
+        find_by(short_name: Apartment::Tenant.current)
+      end
     end
 
     def switch_to(tenant_name)
@@ -211,6 +214,7 @@ class Organization < ActiveRecord::Base
   end
 
   def flush_cache
+    Rails.cache.delete(['current_organization', short_name])
     Rails.cache.delete([Apartment::Tenant.current, 'cache_mapping_ngo_names'])
     Rails.cache.delete([Apartment::Tenant.current, 'Organization', 'visible'])
     cached_organization_short_names_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_organization_short_names/].blank? }
