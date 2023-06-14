@@ -923,7 +923,7 @@ class CIF.ClientAdvanceSearch
       return
   ######################################################################################################################
 
-  prepareSearchParams: (btnID = "search", self) ->
+  prepareSearchParams: (btnID, self) ->
     self ||= @
 
     if btnID == 'search'
