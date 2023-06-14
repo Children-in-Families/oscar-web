@@ -923,20 +923,20 @@ class CIF.ClientAdvanceSearch
       return
   ######################################################################################################################
 
-  prepareSearchParams: (btnID, self) ->
-    self ||= @
+  prepareSearchParams: (btnID, target) ->
+    target ||= @
 
     if btnID == 'search'
       builderElement = '#builder'
       builderForm = '.main-report-builder'
-      programValues = if self.programSelected.length > 0 then "[#{self.programSelected}]"
-      customFormValues = if self.customFormSelected.length > 0 then "[#{self.customFormSelected}]"
-      assessmentValues = if self.assessmentSelected.length > 0 then "[#{self.assessmentSelected}]"
+      programValues = if target.programSelected.length > 0 then "[#{target.programSelected}]"
+      customFormValues = if target.customFormSelected.length > 0 then "[#{target.customFormSelected}]"
+      assessmentValues = if target.assessmentSelected.length > 0 then "[#{target.assessmentSelected}]"
     else
       builderElement = '#wizard-builder'
       builderForm = '#report-builder-wizard'
-      programValues = if self.wizardProgramSelected.length > 0 then "[#{self.wizardProgramSelected}]"
-      customFormValues = if self.wizardCustomFormSelected.length > 0 then "[#{self.wizardCustomFormSelected}]"
+      programValues = if target.wizardProgramSelected.length > 0 then "[#{target.wizardProgramSelected}]"
+      customFormValues = if target.wizardCustomFormSelected.length > 0 then "[#{target.wizardCustomFormSelected}]"
 
     basicRules = $(builderElement).queryBuilder('getRules', { skip_empty: true, allow_invalid: true })
 
@@ -944,7 +944,7 @@ class CIF.ClientAdvanceSearch
       sql_sting = $('#builder').queryBuilder('getSQL', false, true).sql
       $('#raw_sql').val(sql_sting)
 
-    self.setValueToProgramAssociation()
+    target.setValueToProgramAssociation()
     $('#client_advanced_search_custom_form_selected').val(customFormValues)
     $('#client_advanced_search_program_selected').val(programValues)
     $('#client_advanced_search_assessment_selected').val(assessmentValues)
@@ -959,7 +959,7 @@ class CIF.ClientAdvanceSearch
 
     if (_.isEmpty(basicRules.rules) and !basicRules.valid) or (!(_.isEmpty(basicRules.rules)) and basicRules.valid)
       $(builderElement).find('.has-error').removeClass('has-error')
-      $('#client_advanced_search_basic_rules').val(self.handleStringfyRules(basicRules))
+      $('#client_advanced_search_basic_rules').val(target.handleStringfyRules(basicRules))
 
       true
     else
