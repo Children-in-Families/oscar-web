@@ -14,7 +14,7 @@ set :appsignal_revision, `git log --pretty=format:'%h' -n 1 #{fetch(:branch)}`
 
 set :deploy_to, "/var/www/#{fetch(:application)}"
 
-set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', "public/packs", ".bundle", "node_modules")
+set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', "public/packs", ".bundle")
 set :linked_files, fetch(:linked_files, []).push('.env')
 
 set :pty, false
