@@ -920,44 +920,59 @@ class CIF.ClientAdvanceSearch
       return
   ######################################################################################################################
 
+  prepareSearchParams: (btnID = "search", self) ->
+    self ||= @
+
+    if btnID == 'search'
+      builderElement = '#builder'
+      builderForm = '.main-report-builder'
+      programValues = if self.programSelected.length > 0 then "[#{self.programSelected}]"
+      customFormValues = if self.customFormSelected.length > 0 then "[#{self.customFormSelected}]"
+      assessmentValues = if self.assessmentSelected.length > 0 then "[#{self.assessmentSelected}]"
+    else
+      builderElement = '#wizard-builder'
+      builderForm = '#report-builder-wizard'
+      programValues = if self.wizardProgramSelected.length > 0 then "[#{self.wizardProgramSelected}]"
+      customFormValues = if self.wizardCustomFormSelected.length > 0 then "[#{self.wizardCustomFormSelected}]"
+
+    basicRules = $(builderElement).queryBuilder('getRules', { skip_empty: true, allow_invalid: true })
+
+    if $('#builder').queryBuilder('getSQL', false, true)
+      sql_sting = $('#builder').queryBuilder('getSQL', false, true).sql
+      $('#raw_sql').val(sql_sting)
+
+    self.setValueToProgramAssociation()
+    $('#client_advanced_search_custom_form_selected').val(customFormValues)
+    $('#client_advanced_search_program_selected').val(programValues)
+    $('#client_advanced_search_assessment_selected').val(assessmentValues)
+    if $('#quantitative-type-checkbox').prop('checked') then $('#client_advanced_search_quantitative_check').val(1)
+    if $('#wizard_quantitative_filter').prop('checked') then $('#client_advanced_search_wizard_quantitative_check').val(1)
+    if $('#wizard_custom_form_filter').prop('checked') then $('#client_advanced_search_wizard_custom_form_check').val(1)
+    if $('#wizard_program_stream_filter').prop('checked') then $('#client_advanced_search_wizard_program_stream_check').val(1)
+    if $('#wizard-enrollment-checkbox').prop('checked') then $('#client_advanced_search_wizard_enrollment_check').val(1)
+    if $('#wizard-tracking-checkbox').prop('checked') then $('#client_advanced_search_wizard_tracking_check').val(1)
+    if $('#wizard-exit-form-checkbox').prop('checked') then $('#client_advanced_search_wizard_exit_form_check').val(1)
+    $('#client_advanced_search_action_report_builder, #family_advanced_search_action_report_builder').val(builderElement)
+
+    if (_.isEmpty(basicRules.rules) and !basicRules.valid) or (!(_.isEmpty(basicRules.rules)) and basicRules.valid)
+      $(builderElement).find('.has-error').removeClass('has-error')
+      $('#client_advanced_search_basic_rules').val(self.handleStringfyRules(basicRules))
+
+      true
+    else
+      false
+
   handleSearch: ->
     self = @
     $('#search, #wizard-search').on 'click', (e)->
       btnID = e.currentTarget.id
+
       if btnID == 'search'
-        builderElement = '#builder'
         builderForm = '.main-report-builder'
-        programValues = if self.programSelected.length > 0 then "[#{self.programSelected}]"
-        customFormValues = if self.customFormSelected.length > 0 then "[#{self.customFormSelected}]"
-        assessmentValues = if self.assessmentSelected.length > 0 then "[#{self.assessmentSelected}]"
       else
-        builderElement = '#wizard-builder'
         builderForm = '#report-builder-wizard'
-        programValues = if self.wizardProgramSelected.length > 0 then "[#{self.wizardProgramSelected}]"
-        customFormValues = if self.wizardCustomFormSelected.length > 0 then "[#{self.wizardCustomFormSelected}]"
 
-      basicRules = $(builderElement).queryBuilder('getRules', { skip_empty: true, allow_invalid: true })
-
-      if $('#builder').queryBuilder('getSQL', false, true)
-        sql_sting = $('#builder').queryBuilder('getSQL', false, true).sql
-        $('#raw_sql').val(sql_sting)
-
-      self.setValueToProgramAssociation()
-      $('#client_advanced_search_custom_form_selected').val(customFormValues)
-      $('#client_advanced_search_program_selected').val(programValues)
-      
-      if $('#quantitative-type-checkbox').prop('checked') then $('#client_advanced_search_quantitative_check').val(1)
-      if $('#wizard_quantitative_filter').prop('checked') then $('#client_advanced_search_wizard_quantitative_check').val(1)
-      if $('#wizard_custom_form_filter').prop('checked') then $('#client_advanced_search_wizard_custom_form_check').val(1)
-      if $('#wizard_program_stream_filter').prop('checked') then $('#client_advanced_search_wizard_program_stream_check').val(1)
-      if $('#wizard-enrollment-checkbox').prop('checked') then $('#client_advanced_search_wizard_enrollment_check').val(1)
-      if $('#wizard-tracking-checkbox').prop('checked') then $('#client_advanced_search_wizard_tracking_check').val(1)
-      if $('#wizard-exit-form-checkbox').prop('checked') then $('#client_advanced_search_wizard_exit_form_check').val(1)
-      $('#client_advanced_search_action_report_builder, #family_advanced_search_action_report_builder').val(builderElement)
-
-      if (_.isEmpty(basicRules.rules) and !basicRules.valid) or (!(_.isEmpty(basicRules.rules)) and basicRules.valid)
-        $(builderElement).find('.has-error').removeClass('has-error')
-        $('#client_advanced_search_basic_rules').val(self.handleStringfyRules(basicRules))
+      if self.prepareSearchParams(btnID, self)
         self.handleSelectFieldVisibilityCheckBox(builderForm)
         $('#advanced-search').submit()
 
