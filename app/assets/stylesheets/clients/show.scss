@@ -123,11 +123,19 @@ body[id='clients-show'] {
    margin: 0;
   }
 
+
+
   td.spacing-first-col {
     width: 172px;
 
     @media screen and (min-width: 1500px) {
       width: 330px;
+    }
+  }
+
+  table.protection-concern {
+    td.spacing-first-col {
+      width: 330px !important;
     }
   }
 
