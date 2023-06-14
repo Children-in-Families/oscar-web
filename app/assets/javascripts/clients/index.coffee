@@ -113,6 +113,9 @@ CIF.ClientsIndex = CIF.ClientsWelcome = do ->
         b - a
 
   _addDataTableToAssessmentScoreData = ->
+    advanceFilter = new CIF.ClientAdvanceSearch()
+    advanceFilter.prepareSearchParams()
+
     _handleAjaxRequestToAssessment("#csi-assessment-score", $("#assessment-domain-score").data("filename"))
 
     $('#assessment-select option').each ->
@@ -147,6 +150,8 @@ CIF.ClientsIndex = CIF.ClientsWelcome = do ->
       sServerMethod: 'POST'
       ajax:
         url: url
+        data: 
+          basic_rules: $("#client_advanced_search_basic_rules").val()
         error: (jqXHR, textStatus, errorThrown) ->
           console.log("Datatable Ajax Error:", errorThrown)
       oLanguage: {
