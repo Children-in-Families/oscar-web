@@ -125,6 +125,10 @@ body[id='clients-show'] {
 
   td.spacing-first-col {
     width: 172px;
+
+    @media screen and (min-width: 1500px) {
+      width: 330px;
+    }
   }
 
   .overflow-case {
