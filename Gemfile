@@ -106,11 +106,6 @@ group :staging, :demo do
   gem 'mail_interceptor', '~> 0.0.7'
 end
 
-group :production_api do
-  gem 'therubyracer', '~> 0.12.3', platforms: :ruby
-  gem 'execjs',       '~> 2.6.0'
-end
-
 group :development do
   gem 'active_record_query_trace', '1.7'
   gem 'letter_opener',        '~> 1.4.1'

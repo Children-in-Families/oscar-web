@@ -21,21 +21,7 @@ set :pty, false
 
 set :keep_releases, 5
 
-if ENV['SKIP_ASSETS']
-  Rake::Task['deploy:assets:precompile'].clear_actions
-  Rake::Task['deploy:assets:backup_manifest'].clear_actions
-else
-  before "deploy:assets:precompile", "deploy:yarn_install"
-end
-
 namespace :deploy do
-
-  task :cleanup_assets do
-    on roles :all do
-      execute "cd #{release_path}/ && ~/.rvm/bin/rvm default do bundle exec rake assets:clobber RAILS_ENV=#{fetch(:stage)}" unless ENV['SKIP_ASSETS']
-    end
-  end
-
   task :mobile do
     ask :branch, 'master'
     on roles :all do
@@ -52,16 +38,6 @@ namespace :deploy do
       execute commands.join(" && ")
     end
   end
-
-  task :yarn_install do
-    on roles(:web) do
-      within release_path do
-        execute("cd #{release_path} && yarn install")
-      end
-    end
-  end
-
-  before :updated, :cleanup_assets
 end
 
 # after :deploy, 'cache:clear'
