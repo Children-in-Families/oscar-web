@@ -1,5 +1,6 @@
  class CaseNotesController < AdminController
-  load_and_authorize_resource
+  load_and_authorize_resource only: :destroy
+
   include CreateBulkTask
   include CaseNoteConcern
   include GoogleCalendarServiceConcern
@@ -66,25 +67,55 @@
   end
 
   def edit
-    authorize @case_note, :edit? if Organization.ratanak?
-    unless current_user.admin? || current_user.strategic_overviewer?
-      redirect_to root_path, alert: t('unauthorized.default') unless current_user.permission.case_notes_editable
+    if params[:id] == "draft"
+      if params[:custom] == 'true'
+        @case_note.custom = true
+        @case_note.custom_assessment = @custom_assessment_setting
+
+        @case_note.assessment = @client.assessments.custom_latest_record if @current_setting.enable_default_assessment
+        @case_note.populate_notes(@case_note.custom_assessment_setting_id, params[:custom])
+      else
+        @case_note.assessment = @client.assessments.default_latest_record
+        @case_note.populate_notes(nil, 'false')
+      end
+    else
+      authorize @case_note, :edit? if Organization.ratanak?
+
+      unless current_user.admin? || current_user.strategic_overviewer?
+        redirect_to root_path, alert: t('unauthorized.default') unless current_user.permission.case_notes_editable
+      end
     end
   end
 
   def update
-    if @case_note.update_attributes(case_note_params)
+    saved = if save_draft?
+      @case_note.assign_attributes(case_note_params.merge(last_auto_save_at: Time.current))
+      @case_note.save(validate: false)
+    else
+      @case_note.draft = false
+      @case_note.update_attributes(case_note_params)
+    end
+
+    if saved
       if params.dig(:case_note, :case_note_domain_groups_attributes)
         add_more_attachments(params[:case_note][:attachments]) if params.dig(:case_note, :attachments)
         @case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes], current_user.id)
       end
+
       create_bulk_task(params[:task], @case_note) if params.has_key?(:task)
       @case_note.complete_screening_tasks(params) if params[:case_note].has_key?(:tasks_attributes)
       create_task_task_progress_notes
       delete_events if session[:authorization]
-      redirect_to client_case_notes_path(@client), notice: t('.successfully_updated')
+
+      respond_to do |format|
+        format.html { redirect_to(client_case_notes_path(@client), notice: t('.successfully_updated')) }
+        format.json { render json: { resource: @case_note, edit_url: edit_client_case_note_url(@client, @case_note) }, status: 200 }
+      end
     else
-      render :edit
+      respond_to do |format|
+        format.html { render :edit }
+        format.json { render json: @case_note.errors, status: 422 }
+      end
     end
   end
 
@@ -138,7 +169,11 @@
   end
 
   def set_case_note
-    @case_note = @client.case_notes.find(params[:id])
+    if params[:id] == "draft"
+      @case_note = @client.find_or_create_draft_case_note
+    else
+      @case_note = @client.case_notes.find(params[:id])
+    end
   end
 
   def set_custom_assessment_setting
@@ -146,7 +181,13 @@
   end
 
   def authorize_case_note
-    authorize @case_note
+    
+    if params[:id] == "draft"
+      return true if current_user.admin?
+      authorize @client, :create?
+    else
+      authorize @case_note
+    end
   end
 
   def authorize_client

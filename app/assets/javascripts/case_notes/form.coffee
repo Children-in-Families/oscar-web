@@ -16,6 +16,24 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
     _taskProgressNoteToggle()
     _initTaskProgressNoteTooltip()
 
+    $("#case_note_meeting_date").on "change", _submitFormViaAjax
+    $("#case_note_interaction_type").on "change", _submitFormViaAjax
+    $("#case_note_attendee").on "keyup", _submitFormViaAjax
+    $("#case_note_note").on "keyup", _submitFormViaAjax
+    $("#case_note_domain_group_ids").on "change", ->
+      _submitFormViaAjax()
+
+  _submitFormViaAjax = ->
+    if $("#case-note-form").data("autosave")
+      $.ajax
+        url: $("#case-note-form").attr("action") + "&draft=true"
+        type: "PUT"
+        data: $("#case-note-form").serialize()
+        dataType: "json"
+        success: (response) ->
+          history.replaceState(null, "", response.edit_url) if response.edit_url
+          console.log(response)
+
   _initICheckBox = ->
     $('.i-checks').iCheck(
       checkboxClass: 'icheckbox_square-green'
@@ -69,6 +87,8 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
 
 
   _checkCasenoteSelectedValue = (selectedObject)->
+    console.log(selectedObject)
+
     # $("#domain-#{event.val}").show('slow')
     if $(selectedObject).children(":selected").length > 0
       $(".ibox.case-note-domain-group.without-assessments#domain-#{$(selectedObject).children(":selected").val()}").show()
