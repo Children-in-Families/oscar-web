@@ -114,7 +114,7 @@ CIF.ClientsIndex = CIF.ClientsWelcome = do ->
 
   _addDataTableToAssessmentScoreData = ->
     advanceFilter = new CIF.ClientAdvanceSearch()
-    advanceFilter.prepareSearchParams()
+    advanceFilter.prepareSearchParams("search")
 
     _handleAjaxRequestToAssessment("#csi-assessment-score", $("#assessment-domain-score").data("filename"))
 
