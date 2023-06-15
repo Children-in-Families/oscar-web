@@ -29,6 +29,7 @@ Rails.application.configure do
   # config.assets.css_compressor = :sass
   config.assets.compile = false
   config.assets.debug = false
+  config.serve_static_assets  = false
 
 
   # config.action_controller.asset_host = "//#{ENV['S3_BUCKET_NAME']}.s3.amazonaws.com"
