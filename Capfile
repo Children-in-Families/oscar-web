@@ -22,11 +22,10 @@ install_plugin Capistrano::SCM::Git
 # require 'capistrano/rbenv'
 # require 'capistrano/chruby'
 # require 'capistrano/bundler'
-# require 'capistrano/rails/assets'
-# require 'capistrano/rails/migrations'
 require 'capistrano/rvm'
 require 'capistrano/passenger'
-require 'capistrano/rails'
+# require 'capistrano/rails/assets'
+# require 'capistrano/rails/migrations'
 
 require 'whenever/capistrano'
 require 'appsignal/capistrano'
