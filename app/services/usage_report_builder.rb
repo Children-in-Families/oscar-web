@@ -193,11 +193,7 @@ class UsageReportBuilder < ServiceBase
 
   def mapping_risk_assessment(client)
     risk_assessment = client.risk_assessment
-<<<<<<< HEAD
-    { protection_concern: risk_assessment&.protection_concern&.join(", ") || [] }
-=======
     { protection_concern: risk_assessment&.protection_concern&.join(", ") || "" }
->>>>>>> e26923db6 (added protection concern to vulnerability in usage report[amend])
   end
 
   def mapping_services(program_streams)
