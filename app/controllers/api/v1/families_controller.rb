@@ -6,6 +6,11 @@ module Api
         render json: current_user.families
       end
 
+      def show
+        family = find_family
+        render json: family
+      end
+
       def create
         family = Family.new(family_params)
         if family.save
@@ -25,6 +30,10 @@ module Api
       end
 
       private
+
+      def find_family
+        Family.find(params[:id])
+      end
 
       def family_params
         params.require(:family).permit(
