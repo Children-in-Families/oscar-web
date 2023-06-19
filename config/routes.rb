@@ -174,7 +174,7 @@ Rails.application.routes.draw do
 
   resources :families do
     get :welcome, on: :collection
-    
+
     resources :family_referrals
     collection do
       post '/advanced_search', to: 'families#index'
@@ -361,7 +361,7 @@ Rails.application.routes.draw do
 
       resources :domain_groups, only: [:index]
       resources :departments, only: [:index]
-      resources :families, only: [:index, :create, :update] do
+      resources :families, except: [:destroy] do
         resources :custom_field_properties, only: [:create, :update, :destroy]
       end
       resources :users, only: [:index, :show]
