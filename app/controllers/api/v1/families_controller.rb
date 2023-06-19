@@ -21,6 +21,7 @@ module Api
       end
 
       def update
+        # @family.case_management_record = !current_setting.hide_family_case_management_tool?
         family = Family.find(params[:id])
         if family.update_attributes(family_params)
           render json: family
@@ -36,15 +37,33 @@ module Api
       end
 
       def family_params
-        params.require(:family).permit(
-                                :name, :code, :case_history, :caregiver_information,
-                                :significant_family_member_count, :household_income,
-                                :dependable_income, :female_children_count,
-                                :male_children_count, :female_adult_count,
-                                :male_adult_count, :family_type, :status, :contract_date,
-                                :address, :province_id, :district_id, :commune_id, :village_id,
-                                :house, :street, children: []
-                                )
+        permitted_params = params.require(:family).permit(
+          :name, :code,
+          :dependable_income, :family_type, :status, :contract_date,
+          :address, :province_id, :district_id, :house, :street,
+          :commune_id, :village_id, :slug,
+          :followed_up_by_id, :follow_up_date, :name_en, :phone_number, :id_poor, :referral_source_id,
+          :referee_phone_number, :relevant_information,
+          :received_by_id, :initial_referral_date, :referral_source_category_id,
+          donor_ids: [], community_ids: [],
+          case_worker_ids: [],
+          custom_field_ids: [],
+          quantitative_case_ids: [],
+          documents: [],
+          community_member_attributes: [:id, :community_id, :_destroy],
+          family_quantitative_free_text_cases_attributes: [
+            :id, :content, :quantitative_type_id
+          ],
+          family_members_attributes: [
+            :monthly_income, :client_id,
+            :id, :gender, :note, :adult_name, :date_of_birth,
+            :occupation, :relation, :guardian, :_destroy
+          ]
+        )
+
+        permitted_params[:community_member_attributes][:_destroy] = 1 if permitted_params[:community_member_attributes].present? && permitted_params.dig(:community_member_attributes, :community_id).blank?
+
+        permitted_params
       end
     end
   end
