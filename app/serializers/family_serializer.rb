@@ -7,10 +7,11 @@ class FamilySerializer < ActiveModel::Serializer
              :clients, :additional_form, :add_forms, :children, :status,
              :slug, :followed_up_by, :follow_up_date, :phone_number, :id_poor,
              :referral_source, :referee_phone_number, :relevant_information, :received_by,
-             :initial_referral_date, :referral_source_category, :donor_ids, :case_workers, :quantitative_cases
+             :initial_referral_date, :referral_source_category, :donors, :case_workers, :quantitative_cases
 
   has_one :referral_source_category, serializer: ReferralSourceSerializer
   has_one :referral_source
+  has_many :family_members
 
   def clients
     Client.where(id: object.children).map do |client|
