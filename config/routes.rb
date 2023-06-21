@@ -406,6 +406,7 @@ Rails.application.routes.draw do
           resources :client_enrollment_trackings, only: [:create, :update, :destroy]
           resources :leave_programs, only: [:create, :update, :destroy]
         end
+        resources :care_plans
       end
 
       resources :program_streams, only: [:index]
