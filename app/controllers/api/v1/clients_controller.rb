@@ -22,10 +22,35 @@ module Api
       end
 
       def update
-        if @client.update_attributes(client_params)
-          render json: @client
+        client = Client.find(params[:client][:id] || params[:id])
+        if params[:client][:id]
+          referee = Referee.find_or_create_by(id: client.referee_id)
+          referee.update_attributes(referee_params)
+          client.referee_id = referee.id
+          carer = Carer.find_or_create_by(id: client.carer_id)
+          carer.update_attributes(carer_params)
+          client.carer_id = carer.id
+          client.current_family_id ? client_params : client_params.except(:family_ids)
+        end
+
+        if client.update_attributes(client_params.except(:referee_id, :carer_id))
+          qtt_free_text_cases = params[:client_quantitative_free_text_cases]
+
+          if qtt_free_text_cases.present?
+            qtt_free_text_cases.select(&:present?).each do |client_qt_free_text_attr|
+              client_qt_free_text = client.client_quantitative_free_text_cases.find_or_initialize_by(quantitative_type_id: client_qt_free_text_attr[:quantitative_type_id])
+              client_qt_free_text.content = client_qt_free_text_attr[:content]
+              client_qt_free_text.save
+            end
+          end
+
+          if risk_assessment_params
+            risk_assessment = RiskAssessmentReducer.new(client, risk_assessment_params, 'update')
+            risk_assessment.store
+          end
+          render json: client
         else
-          render json: @client.errors, status: :unprocessable_entity
+          render json: client.errors, status: :unprocessable_entity
         end
       end
 
@@ -76,6 +101,32 @@ module Api
                 client_needs_attributes: [:id, :rank, :need_id],
                 client_problems_attributes: [:id, :rank, :problem_id]
               )
+      end
+
+      def referee_params
+        params.require(:referee).permit(
+          :name, :phone, :outside, :address_type, :commune_id, :current_address, :district_id, :email, :gender, :house_number, :outside_address, :province_id, :street_number, :village_id, :anonymous,
+          :state_id, :township_id, :subdistrict_id, :street_line1, :street_line2, :plot, :road, :postal_code, :suburb, :description_house_landmark, :directions, :locality
+        )
+      end
+
+      def carer_params
+        params.require(:carer).permit(
+          :name, :phone, :outside, :address_type, :current_address, :email, :gender, :house_number, :street_number, :outside_address, :commune_id, :district_id, :province_id,  :village_id, :client_relationship, :same_as_client,
+          :state_id, :township_id, :subdistrict_id, :street_line1, :street_line2, :plot, :road, :postal_code, :suburb, :description_house_landmark, :directions, :locality
+        )
+      end
+
+      def risk_assessment_params
+        return if params[:risk_assessment]
+
+        params.require(:risk_assessment).permit(
+          :assessment_date, :other_protection_concern_specification, :client_perspective, :has_known_chronic_disease,
+          :has_disability, :has_hiv_or_aid, :known_chronic_disease_specification, :disability_specification, :hiv_or_aid_specification,
+          :relevant_referral_information, :level_of_risk, :history_of_disability_id, :history_of_harm_id, :history_of_high_risk_behaviour_id,
+          :history_of_family_separation_id, protection_concern: [],
+          tasks_attributes: [:id, :name, :expected_date, :client_id, :_destroy]
+        )
       end
     end
   end
