@@ -1,14 +1,10 @@
 module Api
   module V1
     class CarePlansController < Api::V1::BaseApiController
-<<<<<<< HEAD
       include CreateNestedValue
 
       before_action :find_client
       before_action :find_care_plan, except: [:index, :create]
-=======
-      before_action :find_client, :find_care_plan
->>>>>>> 2087d4c2a (API V1 Update)
 
       def index
         care_plans = @client.care_plans
@@ -19,7 +15,6 @@ module Api
         render json: @care_plan
       end
 
-<<<<<<< HEAD
       def create
         care_plan = @client.care_plans.new(care_plan_params)
         assessment = Assessment.find(care_plan.assessment_id)
@@ -30,8 +25,6 @@ module Api
         end
       end
 
-=======
->>>>>>> 2087d4c2a (API V1 Update)
       def update
         if @care_plan.update_attributes(care_plan_params)
           render json: @care_plan
@@ -43,7 +36,6 @@ module Api
       private
 
       def care_plan_params
-<<<<<<< HEAD
         params.require(:care_plan).permit(
           :assessment_id, :client_id, :care_plan_date, :completed,
           goals_attributes: [
@@ -55,9 +47,6 @@ module Api
             }
           ]
         )
-=======
-        params.require(:care_plan).permit(:assessment_id, :client_id, :completed, goals_attributes: [:id, :assessment_domain_id, :assessment_id, :description, :_destroy, tasks_attributes: [:id, :domain_id, :name, :expected_date, :relation, :_destroy]])
->>>>>>> 2087d4c2a (API V1 Update)
       end
 
       def find_client
