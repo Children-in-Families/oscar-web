@@ -2,7 +2,7 @@ module Api
   module V1
     class CarePlansController < Api::V1::BaseApiController
       before_action :find_client
-      before_action :find_care_plan, only: :index
+      before_action :find_care_plan, except: :index
 
       def index
         care_plans = @client.care_plans
