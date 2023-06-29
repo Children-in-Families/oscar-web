@@ -103,11 +103,11 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
 
   _initUploader = ->
     $('.file .optional').fileinput
-      showUpload: false
       removeClass: 'btn btn-danger btn-outline'
       browseLabel: 'Browse'
       theme: "explorer"
       allowedFileExtensions: ['jpg', 'png', 'jpeg', 'doc', 'docx', 'xls', 'xlsx', 'pdf']
+      uploadUrl: $("#case-note-form").data("uploadUrl")
 
   _handleDeleteAttachment = ->
     rows = $('.row-file')
@@ -177,6 +177,7 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
         $('#tasksFromModal').modal('hide')
         _hideShowOnGoingTaskLable()
         _hideAddNewTask()
+        _submitFormViaAjax()
       else
         _showError(taskName, taskDate)
         $('.add-task-btn').removeAttr('disabled')

@@ -7,7 +7,7 @@
 
   before_action :set_client
   before_action :set_custom_assessment_setting, only: [:new, :create, :edit, :update]
-  before_action :set_case_note, only: [:edit, :update]
+  before_action :set_case_note, only: [:edit, :update, :upload_attachment]
   before_action :fetch_domain_group, only: [:new, :create, :update, :edit]
   before_action :authorize_client, only: [:new, :create]
   before_action :authorize_case_note, only: [:edit, :update]
@@ -35,51 +35,34 @@
     end
   end
 
-  def create
-    @case_note = @client.case_notes.new(case_note_params)
-    @case_note.meeting_date = "#{@case_note.meeting_date.strftime("%Y-%m-%d")}, #{Time.now.strftime("%H:%M:%S")}"
-    if @case_note.save
-      add_more_attachments(params[:case_note][:attachments]) if params.dig(:case_note, :attachments)
-      @case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes], current_user.id) if params.dig(:case_note, :case_note_domain_groups_attributes)
-      create_bulk_task(params[:task], @case_note) if params.has_key?(:task)
-      @case_note.complete_screening_tasks(params) if params[:case_note].has_key?(:tasks_attributes)
-
-      create_task_task_progress_notes
-      if params[:from_controller] == "dashboards"
-        redirect_to root_path, notice: t('.successfully_created')
-      else
-        redirect_to client_case_notes_path(@client), notice: t('.successfully_created')
-      end
-    else
-      if case_note_params[:custom] == 'true'
-        @custom_assessment_param = case_note_params[:custom]
-        @case_note.assessment = @client.assessments.custom_latest_record
-      else
-        @case_note.assessment = @client.assessments.default_latest_record
-      end
-      @case_note_domain_group_note = params.dig(:additional_fields, :note)
-      render :new
-    end
-  end
-
   def show
     @case_note = @client.case_notes.find(params[:id])
   end
 
   def edit
     if params[:id] == "draft"
-      if params[:custom] == 'true'
-        @case_note.custom = true
-        @case_note.custom_assessment = @custom_assessment_setting
+      PaperTrail.without_tracking do
+        if params[:custom] == 'true'
+          @case_note.custom = true
+          @case_note.custom_assessment = @custom_assessment_setting
 
-        @case_note.assessment = @client.assessments.custom_latest_record if @current_setting.enable_default_assessment
-        @case_note.populate_notes(@case_note.custom_assessment_setting_id, params[:custom])
-      else
-        @case_note.assessment = @client.assessments.default_latest_record
-        @case_note.populate_notes(nil, 'false')
+          @case_note.assessment = @client.assessments.custom_latest_record if @current_setting.enable_default_assessment
+          @case_note.populate_notes(@case_note.custom_assessment_setting_id, params[:custom])
+        else
+          @case_note.assessment = @client.assessments.default_latest_record
+          @case_note.populate_notes(nil, 'false')
+        end
       end
     else
       authorize @case_note, :edit? if Organization.ratanak?
+
+      if @case_note.draft?
+        if @case_note.custom?
+          @case_note.populate_notes(@case_note.custom_assessment_setting_id, params[:custom])
+        else
+          @case_note.populate_notes(nil, 'false')
+        end
+      end
 
       unless current_user.admin? || current_user.strategic_overviewer?
         redirect_to root_path, alert: t('unauthorized.default') unless current_user.permission.case_notes_editable
@@ -88,9 +71,14 @@
   end
 
   def update
+    clean_case_note_domain_groups_attributes
+
     saved = if save_draft?
-      @case_note.assign_attributes(case_note_params.merge(last_auto_save_at: Time.current))
-      @case_note.save(validate: false)
+      PaperTrail.without_tracking do
+        @case_note.assign_attributes(case_note_params.merge(last_auto_save_at: Time.current))
+        @case_note.save(validate: false)
+        clean_duplicate_case_note_domain_groups
+      end
     else
       @case_note.draft = false
       @case_note.update_attributes(case_note_params)
@@ -98,7 +86,6 @@
 
     if saved
       if params.dig(:case_note, :case_note_domain_groups_attributes)
-        add_more_attachments(params[:case_note][:attachments]) if params.dig(:case_note, :attachments)
         @case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes], current_user.id)
       end
 
@@ -116,6 +103,21 @@
         format.html { render :edit }
         format.json { render json: @case_note.errors, status: 422 }
       end
+    end
+  end
+
+  def upload_attachment
+    case_note_domain_group = @case_note.case_note_domain_groups.first
+
+    if case_note_domain_group
+      files = case_note_domain_group.attachments
+      files += params.dig(:case_note, :attachments)
+      case_note_domain_group.attachments = files
+      case_note_domain_group.save(validate: false)
+
+      render json: { message: t('.successfully_uploaded') }, status: '200'
+    else
+      render json: { error: 'must select a domain group first' }, status: 422
     end
   end
 
@@ -142,16 +144,6 @@
     default_params = default_params.merge(selected_domain_group_ids: params.dig(:case_note, :domain_group_ids).reject(&:blank?))
     meeting_date   = "#{default_params[:meeting_date]} #{Time.now.strftime("%T %z")}"
     default_params = default_params.merge(meeting_date: meeting_date)
-  end
-
-  def add_more_attachments(new_files)
-    if new_files.present?
-      case_note_domain_group = @case_note.case_note_domain_groups.first
-      files = case_note_domain_group.attachments
-      files += new_files
-      case_note_domain_group.attachments = files
-      case_note_domain_group.save
-    end
   end
 
   def remove_attachment_at_index(index, case_note_domain_group_id = '')
