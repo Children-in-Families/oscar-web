@@ -1,5 +1,5 @@
 task remove_draft_case_note: :environment do |task, args|
-  Organization.all.each do |org|
+  Organization.without_shared.each do |org|
     Apartment::Tenant.switch(org.short_name) do
       begin
         CaseNote.draft.each do |case_note|
