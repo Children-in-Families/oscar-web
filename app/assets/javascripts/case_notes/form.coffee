@@ -16,12 +16,21 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
     _taskProgressNoteToggle()
     _initTaskProgressNoteTooltip()
 
+
     $("#case_note_meeting_date").on "change", _submitFormViaAjax
     $("#case_note_interaction_type").on "change", _submitFormViaAjax
-    $("#case_note_attendee").on "keyup", _submitFormViaAjax
-    $("#case_note_note").on "keyup", _submitFormViaAjax
     $("#case_note_domain_group_ids").on "change", ->
       _submitFormViaAjax()
+
+    saveTimer = null
+
+    $("#case_note_attendee").on "keyup", ->
+      clearTimeout saveTimer
+      saveTimer = setTimeout _submitFormViaAjax, 1000
+
+    $("#case_note_note").on "keyup", ->
+      clearTimeout saveTimer
+      saveTimer = setTimeout _submitFormViaAjax, 1000
 
   _submitFormViaAjax = ->
     if $("#case-note-form").data("autosave")
