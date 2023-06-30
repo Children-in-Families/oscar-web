@@ -104,11 +104,12 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
       removeClass: 'btn btn-danger btn-outline'
       browseLabel: 'Browse'
       theme: "explorer"
+      uploadAsync: false
       allowedFileExtensions: ['jpg', 'png', 'jpeg', 'doc', 'docx', 'xls', 'xlsx', 'pdf']
       uploadUrl: $("#case-note-form").data("uploadUrl")
 
     $('.file .optional').on "filebatchselected", (event, files) ->
-      $(this).fileinput('upload')
+      $(this).fileinput("upload")
       return
 
 
