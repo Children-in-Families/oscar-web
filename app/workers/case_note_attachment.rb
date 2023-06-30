@@ -8,7 +8,9 @@ class CaseNoteAttachment
     return if case_note.blank?
     
     attachments = case_note.case_note_domain_groups.map(&:attachments).flatten
-    case_note.attachments = attachments
+    case_note.attachments = attachments.map{ |attachment| Pathname.new(attachment.path).open }
     case_note.save(validate: false)
+  rescue => e
+    pp e.message
   end
 end
