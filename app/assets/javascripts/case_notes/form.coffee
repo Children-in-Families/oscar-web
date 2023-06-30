@@ -25,6 +25,8 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
 
   _submitFormViaAjax = ->
     if $("#case-note-form").data("autosave")
+      $(".task-arising.task-item-wrapper").addClass("saved")
+
       $.ajax
         url: $("#case-note-form").attr("action") + "&draft=true"
         type: "PUT"
@@ -33,6 +35,9 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
         success: (response) ->
           if response.edit_url
             history.replaceState(null, "", response.edit_url)
+          
+          $.each $(".task-arising.task-item-wrapper.saved"), (index, element) ->
+            $(element).find("input[name='task[]']").remove()
 
   _initICheckBox = ->
     $('.i-checks').iCheck(
@@ -203,7 +208,7 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
     if $(".task-domain-#{domainId}").hasClass('hidden')
       $(".task-domain-#{domainId}").removeClass('hidden')
 
-    $("#tasks-domain-#{domainId} .task-arising").removeClass('hidden')
+    $("#tasks-domain-#{domainId} .task-arising").removeClass('hidden').addClass("task-item-wrapper")
 
     $("#tasks-domain-#{domainId} .task-arising ol").append(element)
     $(".panel-tasks-domain-#{domainId}").removeClass('hidden')
