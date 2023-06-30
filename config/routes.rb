@@ -142,7 +142,11 @@ Rails.application.routes.draw do
     resources :custom_field_properties
     resources :government_forms
     resources :assessments
-    resources :case_notes
+    
+    resources :case_notes do
+      post :upload_attachment, on: :member
+    end
+
     resources :care_plans
     resources :cases do
       scope module: 'case' do

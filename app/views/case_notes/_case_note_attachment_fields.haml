@@ -1,0 +1,20 @@
+- attachments = f.object.attachments.select(&:present?)
+- if attachments.any?
+  .table-responsive
+    %table.table.table-bordered
+      - attachments.each_with_index do |attachment, index|
+        %tr.row-file
+          %td.image-title.vert-align
+            = original_filename(attachment)
+          %td.vert-align
+            = link_to preview_or_download(attachment), attachment.url, class: 'btn btn-info btn-sm btn-download', target: target_blank(attachment)
+          %td.vert-align.text-center
+            .delete.fa.fa-trash.btn.btn-outline.btn-danger{ data: { url: (client_case_note_path(@case_note.client, @case_note, file_index: index)), comfirm: t('.are_you_sure') }}
+
+.row
+  .col-xs-12
+    = f.input :attachments, label: t('.attachments'), as: :file, input_html: { multiple: true }
+%p
+  %i.small="#{t('.allow_file_size')} (.jpg, .jpeg, .png, .doc, .docx, .xls, .xlsx, .pdf)"
+%p
+  %i.small= t('.max_file_size')

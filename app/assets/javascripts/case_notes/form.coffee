@@ -16,6 +16,24 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
     _taskProgressNoteToggle()
     _initTaskProgressNoteTooltip()
 
+    $("#case_note_meeting_date").on "change", _submitFormViaAjax
+    $("#case_note_interaction_type").on "change", _submitFormViaAjax
+    $("#case_note_attendee").on "keyup", _submitFormViaAjax
+    $("#case_note_note").on "keyup", _submitFormViaAjax
+    $("#case_note_domain_group_ids").on "change", ->
+      _submitFormViaAjax()
+
+  _submitFormViaAjax = ->
+    if $("#case-note-form").data("autosave")
+      $.ajax
+        url: $("#case-note-form").attr("action") + "&draft=true"
+        type: "PUT"
+        data: $("#case-note-form").serialize()
+        dataType: "json"
+        success: (response) ->
+          if response.edit_url
+            history.replaceState(null, "", response.edit_url)
+
   _initICheckBox = ->
     $('.i-checks').iCheck(
       checkboxClass: 'icheckbox_square-green'
@@ -83,11 +101,16 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
 
   _initUploader = ->
     $('.file .optional').fileinput
-      showUpload: false
       removeClass: 'btn btn-danger btn-outline'
       browseLabel: 'Browse'
       theme: "explorer"
       allowedFileExtensions: ['jpg', 'png', 'jpeg', 'doc', 'docx', 'xls', 'xlsx', 'pdf']
+      uploadUrl: $("#case-note-form").data("uploadUrl")
+
+    $('.file .optional').on "filebatchselected", (event, files) ->
+      $(this).fileinput('upload')
+      return
+
 
   _handleDeleteAttachment = ->
     rows = $('.row-file')
@@ -157,6 +180,7 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
         $('#tasksFromModal').modal('hide')
         _hideShowOnGoingTaskLable()
         _hideAddNewTask()
+        _submitFormViaAjax()
       else
         _showError(taskName, taskDate)
         $('.add-task-btn').removeAttr('disabled')
