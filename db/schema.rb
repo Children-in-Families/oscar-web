@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20230614001634) do
+ActiveRecord::Schema.define(version: 20230630043559) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -383,6 +383,7 @@ ActiveRecord::Schema.define(version: 20230614001634) do
     t.integer  "family_id"
     t.boolean  "draft",                        default: false, null: false
     t.datetime "last_auto_save_at"
+    t.string   "attachments",                  default: [],                 array: true
   end
 
   add_index "case_notes", ["assessment_id"], name: "index_case_notes_on_assessment_id", using: :btree

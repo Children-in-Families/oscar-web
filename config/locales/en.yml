@@ -1049,6 +1049,13 @@ en:
       download: Download
       max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
       preview_download: Preview & Download
+    case_note_attachment_fields:
+      allow_file_size: Allowed file types
+      are_you_sure: Are you sure you want to delete?
+      attachments: Attachments
+      download: Download
+      max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
+      preview_download: Preview & Download
     attendee: Who was there during the visit or conversation?
     case_note_form: Case Note Form
     client_name: Client’s Name

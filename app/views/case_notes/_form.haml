@@ -85,12 +85,13 @@
             .col-xs-12
               %label{:for => "On going tasks"}= t('case_notes.form.on_going_tasks')
 
+          = f.input :attachments, as: :hidden
+
           - case_note_domain_groups = f.object.case_note_domain_groups
           - case_note_domain_groups = f.object.case_note_domain_groups.includes(:domain_group) if f.object.persisted? && !f.object.draft?
 
           = f.simple_fields_for :case_note_domain_groups, case_note_domain_groups do |case_note_domain|
             - next if case_note_domain.object.domain_group.nil?
-            = case_note_domain.input :attachments, as: :hidden
             - if case_note_domain.object.any_assessment_domains?(@case_note) && enable_default_assessment?
               = render 'form_with_assessment_domains', { domain_note: case_note_domain }
             - else
@@ -140,7 +141,7 @@
 
           .row
             .col-xs-12
-              = render 'attachment_fields', { domain_note: f }
+              = render 'case_note_attachment_fields', { f: f }
 
         .ibox-footer
           = f.submit t('.save'), class: 'btn btn-primary btn-form', id: 'case-note-submit-btn', data: { disable_with: t('saving') }

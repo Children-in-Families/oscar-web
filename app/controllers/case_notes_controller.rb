@@ -107,18 +107,12 @@
   end
 
   def upload_attachment
-    case_note_domain_group = @case_note.case_note_domain_groups.first
+    files = @case_note.attachments
+    files += params.dig(:case_note, :attachments)
+    @case_note.attachments = files
+    @case_note.save(validate: false)
 
-    if case_note_domain_group
-      files = case_note_domain_group.attachments
-      files += params.dig(:case_note, :attachments)
-      case_note_domain_group.attachments = files
-      case_note_domain_group.save(validate: false)
-
-      render json: { message: t('.successfully_uploaded') }, status: '200'
-    else
-      render json: { error: 'must select a domain group first' }, status: 422
-    end
+    render json: { message: t('.successfully_uploaded') }, status: '200'
   end
 
   def destroy
@@ -146,14 +140,12 @@
     default_params = default_params.merge(meeting_date: meeting_date)
   end
 
-  def remove_attachment_at_index(index, case_note_domain_group_id = '')
-    case_note_domain_group_id = params[:case_note_domain_group_id] || case_note_domain_group_id
-    case_note_domain_group = CaseNoteDomainGroup.find(case_note_domain_group_id)
-    remain_attachment = case_note_domain_group.attachments
+  def remove_attachment_at_index(index)
+    remain_attachment = @case_note.attachments
     deleted_attachment = remain_attachment.delete_at(index)
     deleted_attachment.try(:remove_images!)
-    remain_attachment.empty? ? case_note_domain_group.remove_attachments! : (case_note_domain_group.attachments = remain_attachment )
-    message = t('.fail_delete_attachment') unless case_note_domain_group.save
+    remain_attachment.empty? ? @case_note.remove_attachments! : (@case_note.attachments = remain_attachment )
+    message = t('.fail_delete_attachment') unless @case_note.save
   end
 
   def set_client
@@ -173,7 +165,6 @@
   end
 
   def authorize_case_note
-    
     if params[:id] == "draft"
       return true if current_user.admin?
       authorize @client, :create?
