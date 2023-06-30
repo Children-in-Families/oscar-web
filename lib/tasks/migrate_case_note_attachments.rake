@@ -1,4 +1,4 @@
-name :case_note do
+namespace :case_note do
   desc 'Migrate attachment to case note' do
     task migrate_attachments: :environment do
       Organization.find_each do |org|
