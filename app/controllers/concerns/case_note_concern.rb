@@ -102,6 +102,7 @@ module CaseNoteConcern
     end
   end
 
+<<<<<<< HEAD
   def clean_duplicate_case_note_domain_groups
     return unless save_draft?
 
@@ -133,6 +134,8 @@ module CaseNoteConcern
     end
   end
 
+=======
+>>>>>>> 3e1aabc65 (Updrade API V1)
   def remove_attachment_at_index(index, case_note_domain_group_id = '')
     case_note_domain_group_id = params[:case_note_domain_group_id] || case_note_domain_group_id
     case_note_domain_group = CaseNoteDomainGroup.find(case_note_domain_group_id)
@@ -142,6 +145,7 @@ module CaseNoteConcern
     remain_attachment.empty? ? case_note_domain_group.remove_attachments! : (case_note_domain_group.attachments = remain_attachment )
     t('.fail_delete_attachment') unless case_note_domain_group.save
   end
+<<<<<<< HEAD
 
   def clean_case_note_domain_groups_attributes
     case_note_domain_groups_attributes = params.dig(:case_note, :case_note_domain_groups_attributes)
@@ -159,4 +163,6 @@ module CaseNoteConcern
 
     params[:case_note][:case_note_domain_groups_attributes] = case_note_domain_groups_attributes
   end
+=======
+>>>>>>> 3e1aabc65 (Updrade API V1)
 end

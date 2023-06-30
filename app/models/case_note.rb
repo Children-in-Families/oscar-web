@@ -1,5 +1,5 @@
 class CaseNote < ActiveRecord::Base
-  INTERACTION_TYPE = ['Visit', 'Non face to face', '3rd Party', 'Supervision', 'Other'].freeze
+  INTERACTION_TYPE = ["Visit", "Non face to face", "3rd Party", "Supervision", "Other"].freeze
   paginates_per 1
 
   mount_uploaders :attachments, FileUploader
@@ -8,18 +8,18 @@ class CaseNote < ActiveRecord::Base
   belongs_to :family
   belongs_to :assessment
   belongs_to :custom_assessment_setting, required: false
-  has_many   :case_note_domain_groups, dependent: :destroy
-  has_many   :domain_groups, through: :case_note_domain_groups
-  has_many   :tasks, as: :taskable
+  has_many :case_note_domain_groups, dependent: :destroy
+  has_many :domain_groups, through: :case_note_domain_groups
+  has_many :tasks, as: :taskable
 
   validates :meeting_date, :attendee, presence: true
   validates :interaction_type, presence: true, inclusion: { in: INTERACTION_TYPE }
-  validate  :existence_domain_groups
+  validate :existence_domain_groups
 
   has_paper_trail
 
   accepts_nested_attributes_for :case_note_domain_groups
-  accepts_nested_attributes_for :tasks, reject_if:  proc { |attributes| attributes['name'].blank? && attributes['expected_date'].blank? }, allow_destroy: true
+  accepts_nested_attributes_for :tasks, reject_if: proc { |attributes| attributes["name"].blank? && attributes["expected_date"].blank? }, allow_destroy: true
 
   before_save :populate_associations
 
@@ -29,7 +29,7 @@ class CaseNote < ActiveRecord::Base
   scope :draft_untouch, -> { draft.where(last_auto_save_at: nil) }
   scope :not_untouch_draft, -> { where("draft IS FALSE OR last_auto_save_at IS NOT NULL") }
 
-  scope :no_case_note_in, ->(value) { where('meeting_date <= ? AND id = (SELECT MAX(cn.id) FROM CASE_NOTES cn where CASE_NOTES.client_id = cn.client_id)', value) }
+  scope :no_case_note_in, -> (value) { where("meeting_date <= ? AND id = (SELECT MAX(cn.id) FROM CASE_NOTES cn where CASE_NOTES.client_id = cn.client_id)", value) }
 
   default_scope { not_untouch_draft }
 
@@ -68,13 +68,13 @@ class CaseNote < ActiveRecord::Base
   end
 
   def complete_screening_tasks(param)
-    attr = param[:case_note][:tasks_attributes].to_a.map { |_, attr| [attr[:id], (attr['completion_date'] = meeting_date; attr)] }.to_h
+    attr = param[:case_note][:tasks_attributes].to_a.map { |_, attr| [attr[:id], (attr["completion_date"] = meeting_date; attr)] }.to_h
     Task.update(attr.keys, attr.values)
     Task.where(id: attr.keys).update_all(case_note_id: id) unless tasks.where(id: attr.keys).any?
   end
 
   def any_tasks_screening_assessments?(screening_assessments)
-    tasks.where(taskable_type: 'ScreeningAssessment', taskable_id: screening_assessments.ids).any?
+    tasks.where(taskable_type: "ScreeningAssessment", taskable_id: screening_assessments.ids).any?
   end
 
   def self.latest_record
@@ -87,16 +87,16 @@ class CaseNote < ActiveRecord::Base
 
   def service_delivery_task(param, case_note_tasks)
     if Organization.ratanak?
-      param['tasks_attributes'] && param['tasks_attributes'].to_a.each do |_, task_param|
+      param["tasks_attributes"] && param["tasks_attributes"].to_a.each do |_, task_param|
         next if task_param.blank?
 
-        service_delivery_task_ids = task_param['service_delivery_task_ids'].reject(&:blank?) if task_param['service_delivery_task_ids']
-        task = case_note_tasks.find_by(id: task_param['id'])
+        service_delivery_task_ids = task_param["service_delivery_task_ids"].reject(&:blank?) if task_param["service_delivery_task_ids"]
+        task = case_note_tasks.find_by(id: task_param["id"])
         if task.present?
           task.create_service_delivery_tasks(service_delivery_task_ids) if service_delivery_task_ids.present?
 
           task.reload
-          task.update_attributes(completion_date: task_param['completion_date']) if task_param['completion_date'].present?
+          task.update_attributes(completion_date: task_param["completion_date"]) if task_param["completion_date"].present?
         end
       end
     end
@@ -104,7 +104,7 @@ class CaseNote < ActiveRecord::Base
 
   def is_editable?
     return true if draft?
-    
+
     setting = Setting.cache_first
     return true if setting.try(:case_note_edit_limit).zero?
     case_note_edit_limit = setting.try(:case_note_edit_limit).zero? ? 2 : setting.try(:case_note_edit_limit)
@@ -127,7 +127,7 @@ class CaseNote < ActiveRecord::Base
   end
 
   def existence_domain_groups
-    errors.add(:domain_groups, "#{I18n.t('domain_groups.form.domain_group')} #{I18n.t('cannot_be_blank')}") if domain_groups.any? && selected_domain_group_ids.blank?
+    errors.add(:domain_groups, "#{I18n.t("domain_groups.form.domain_group")} #{I18n.t("cannot_be_blank")}") if domain_groups.any? && selected_domain_group_ids.blank?
   end
 
   def enable_default_assessment?
@@ -142,7 +142,7 @@ class CaseNote < ActiveRecord::Base
   def handle_complete_task_from_web(param, current_user_id)
     return unless param[:domain_group_id]
 
-    task_ids = param['tasks_attributes'] && param['tasks_attributes'].values.reject { |h| h['completed'] == '0' }.map { |h| h['id'] } || []
+    task_ids = param["tasks_attributes"] && param["tasks_attributes"].values.reject { |h| h["completed"] == "0" }.map { |h| h["id"] } || []
     return if task_ids.blank?
 
     case_note_domain_group = case_note_domain_groups.find_by(domain_group_id: param[:domain_group_id])
@@ -157,7 +157,7 @@ class CaseNote < ActiveRecord::Base
   end
 
   def handle_complete_task_from_api(array_attr, current_user_id)
-    task_ids = array_attr['tasks_attributes'] && array_attr['tasks_attributes'].reject { |h| h['completed'] == '0' }.map { |h| h['id'] } || []
+    task_ids = array_attr["tasks_attributes"] && array_attr["tasks_attributes"].reject { |h| h["completed"] == "0" }.map { |h| h["id"] } || []
     return if task_ids.blank?
 
     case_note_domain_group = case_note_domain_groups.find_by(domain_group_id: array_attr[:domain_group_id])
