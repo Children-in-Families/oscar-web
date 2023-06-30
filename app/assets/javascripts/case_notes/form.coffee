@@ -87,8 +87,6 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
 
 
   _checkCasenoteSelectedValue = (selectedObject)->
-    console.log(selectedObject)
-
     # $("#domain-#{event.val}").show('slow')
     if $(selectedObject).children(":selected").length > 0
       $(".ibox.case-note-domain-group.without-assessments#domain-#{$(selectedObject).children(":selected").val()}").show()
@@ -108,6 +106,11 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
       theme: "explorer"
       allowedFileExtensions: ['jpg', 'png', 'jpeg', 'doc', 'docx', 'xls', 'xlsx', 'pdf']
       uploadUrl: $("#case-note-form").data("uploadUrl")
+
+    $('.file .optional').on "filebatchselected", (event, files) ->
+      $(this).fileinput('upload')
+      return
+
 
   _handleDeleteAttachment = ->
     rows = $('.row-file')
