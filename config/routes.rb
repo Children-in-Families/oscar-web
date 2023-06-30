@@ -481,6 +481,13 @@ Rails.application.routes.draw do
 
   if Rails.env.development?
     mount LetterOpenerWeb::Engine, at: "/letter_opener"
-    mount Sidekiq::Web => '/sidekiq'
+  end
+
+  mount Sidekiq::Web => '/sidekiq'
+
+  if Rails.env.production? || Rails.env.staging?
+    Sidekiq::Web.use(Rack::Auth::Basic) do |user, password|
+      [user, password] == ['admin', 'admin@@$$password']
+    end
   end
 end
