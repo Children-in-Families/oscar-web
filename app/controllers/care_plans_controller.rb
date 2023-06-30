@@ -55,9 +55,7 @@ class CarePlansController < AdminController
   def destroy
     if @care_plan.present?
       @care_plan.goals.each do |goal|
-        goal.tasks.each do |task|
-          task.destroy_fully!
-        end
+        goal.tasks(&:destroy_fully!)
         goal.reload.destroy
       end
       @care_plan.reload.destroy

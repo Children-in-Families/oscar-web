@@ -24,7 +24,7 @@ module Api
       private
 
       def care_plan_params
-        params.require(:care_plan).permit(:assessment_id, :client_id, :completed, goals_attributes: [:id, :assessment_domain_id, :assessment_id, :description, :_destroy, tasks_attributes: [:id, :domain_id, :name, :expected_date, :relation, :_destroy]])
+        params.require(:care_plan).permit(:assessment_id, :client_id, :completed, goals_attributes: [:id, :assessment_domain_id, :assessment_id, :description, :_destroy, { tasks_attributes: [:id, :domain_id, :name, :expected_date, :relation, :_destroy] }])
       end
 
       def find_client
