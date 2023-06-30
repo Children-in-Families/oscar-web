@@ -44,7 +44,7 @@
       PaperTrail.without_tracking do
         if params[:custom] == 'true'
           @case_note.custom = true
-          @case_note.custom_assessment = @custom_assessment_setting
+          @case_note.custom_assessment_setting = @custom_assessment_setting
 
           @case_note.assessment = @client.assessments.custom_latest_record if @current_setting.enable_default_assessment
           @case_note.populate_notes(@case_note.custom_assessment_setting_id, params[:custom])
