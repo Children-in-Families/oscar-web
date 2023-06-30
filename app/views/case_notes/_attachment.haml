@@ -1,6 +1,6 @@
 .table-responsive
   %table.table.table-bordered
-    - attachments.each_with_index do |attachment, index|
+    - cdg.attachments.each_with_index do |attachment, index|
       %tr
         %td= original_filename(attachment)
         %td.text-center

@@ -2,8 +2,6 @@ class CaseNote < ActiveRecord::Base
   INTERACTION_TYPE = ['Visit', 'Non face to face', '3rd Party', 'Supervision', 'Other'].freeze
   paginates_per 1
 
-  mount_uploaders :attachments, FileUploader
-
   belongs_to :client
   belongs_to :family
   belongs_to :assessment

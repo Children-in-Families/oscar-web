@@ -31,8 +31,8 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
         data: $("#case-note-form").serialize()
         dataType: "json"
         success: (response) ->
-          if response.edit_url
-            history.replaceState(null, "", response.edit_url)
+          history.replaceState(null, "", response.edit_url) if response.edit_url
+          console.log(response)
 
   _initICheckBox = ->
     $('.i-checks').iCheck(

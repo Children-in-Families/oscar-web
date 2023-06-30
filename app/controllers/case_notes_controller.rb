@@ -106,12 +106,18 @@ class CaseNotesController < AdminController
   end
 
   def upload_attachment
-    files = @case_note.attachments
-    files += params.dig(:case_note, :attachments)
-    @case_note.attachments = files
-    @case_note.save(validate: false)
+    case_note_domain_group = @case_note.case_note_domain_groups.first
 
-    render json: { message: t('.successfully_uploaded') }, status: '200'
+    if case_note_domain_group
+      files = case_note_domain_group.attachments
+      files += params.dig(:case_note, :attachments)
+      case_note_domain_group.attachments = files
+      case_note_domain_group.save(validate: false)
+
+      render json: { message: t('.successfully_uploaded') }, status: '200'
+    else
+      render json: { error: 'must select a domain group first' }, status: 422
+    end
   end
 
   def destroy
@@ -147,7 +153,7 @@ class CaseNotesController < AdminController
     deleted_attachment = remain_attachment.delete_at(index)
     deleted_attachment.try(:remove_images!)
     remain_attachment.empty? ? case_note_domain_group.remove_attachments! : (case_note_domain_group.attachments = remain_attachment )
-    t('.fail_delete_attachment') unless case_note_domain_group.save
+    message = t('.fail_delete_attachment') unless case_note_domain_group.save
   end
 
   def set_client
@@ -167,6 +173,7 @@ class CaseNotesController < AdminController
   end
 
   def authorize_case_note
+    
     if params[:id] == "draft"
       return true if current_user.admin?
       authorize @client, :create?
