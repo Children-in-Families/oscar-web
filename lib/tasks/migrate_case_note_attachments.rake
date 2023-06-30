@@ -5,9 +5,7 @@ namespace :case_note do
       Organization.switch_to(org.short_name)
 
       CaseNote.find_each do |case_note|
-        attachments = case_note.case_note_domain_groups.map(&:attachments).flatten
-        case_note.attachments = attachments
-        case_note.save(validate: false)
+        CaseNoteAttachment.perform_async(case_note.id, org.short_name)
       end
     end
   end
