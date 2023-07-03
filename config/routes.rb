@@ -389,6 +389,7 @@ Rails.application.routes.draw do
       end
       resources :users, only: [:index, :show]
       resources :clients, except: [:edit, :new] do
+        get :listing, on: :collection
         resources :assessments, only: [:create, :update, :destroy, :delete]
         resources :case_notes, only: [:create, :update, :delete, :destroy]
         resources :custom_field_properties, only: [:create, :update, :destroy]

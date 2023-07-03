@@ -1,11 +1,16 @@
 module Api
   module V1
     class ClientsController < Api::V1::BaseApiController
-      before_action :find_client, except: [:index, :create]
+      before_action :find_client, except: [:index, :listing, :create]
 
       def index
         clients = Client.accessible_by(current_ability)
         render json: clients
+      end
+
+      def listing
+        clients = Client.accessible_by(current_ability)
+        render json: clients, each_serializer: ClientListingSerializer
       end
 
       def show
