@@ -88,10 +88,11 @@ class AssessmentsController < AdminController
     params[:assessment][:assessment_domains_attributes].each do |assessment_domain|
       add_more_attachments(assessment_domain.second[:attachments], assessment_domain.second[:id])
     end
+
     if @assessment.update_attributes(assessment_params)
       @assessment.update(updated_at: DateTime.now)
       @assessment.assessment_domains.update_all(assessment_id: @assessment.id)
-      create_bulk_task(params[:task], @assessment) if params.has_key?(:task)
+      create_bulk_task(params[:task], @assessment) if params.key?(:task)
       redirect_to client_assessment_path(@client, @assessment), notice: t('.successfully_updated')
     else
       render :edit
@@ -146,16 +147,6 @@ class AssessmentsController < AdminController
     deleted_attachment.try(:remove_images!)
     remain_attachment.try(:empty?) ? assessment_domain.remove_attachments! : (assessment_domain.attachments = remain_attachment )
     message = t('.fail_delete_attachment') unless assessment_domain.save
-  end
-
-  def add_more_attachments(new_file, assessment_domain_id)
-    if new_file.present?
-      assessment_domain = AssessmentDomain.find(assessment_domain_id)
-      files = assessment_domain.attachments
-      files += new_file
-      assessment_domain.attachments = files
-      assessment_domain.save
-    end
   end
 
   def default?
