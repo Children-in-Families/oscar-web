@@ -12,9 +12,12 @@ class ClientListingSerializer < ActiveModel::Serializer
 
   def tasks_count
     object.tasks.incomplete.count
+<<<<<<< HEAD
   end
 
   def risk_assessment_status
     object.assessments.last&.level_of_risk || object.risk_assessment&.level_of_risk
+=======
+>>>>>>> 44f47638b (Fixed client_listing_serializer count only incompleted tasks)
   end
 end
