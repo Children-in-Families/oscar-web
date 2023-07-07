@@ -409,6 +409,8 @@ Rails.application.routes.draw do
         get '/edit/referee', to: 'calls#edit_referee'
         put '/edit/referee', to: 'calls#update_referee'
       end
+
+      resources :referees, only: :index
     end
 
     resources :community_advanced_searches, only: [] do
