@@ -17,7 +17,7 @@ class ClientSerializer < ActiveModel::Serializer
               :global_id, :external_id, :external_id_display, :mosvy_number, :external_case_worker_name, :external_case_worker_id,
               :other_phone_whatsapp, :preferred_language, :national_id, :birth_cert, :family_book, :passport, :referred_external,
               :marital_status, :nationality, :ethnicity, :location_of_concern, :type_of_trafficking, :education_background, :department, :locality,
-              :ngo_partner, :quantitative_case_ids, :brc_client_address
+              :ngo_partner, :quantitative_case_ids, :brc_client_address, :family
 
   has_one :carer
   has_one :referee
@@ -241,6 +241,11 @@ class ClientSerializer < ActiveModel::Serializer
   def add_forms
     custom_field_ids = object.custom_field_properties.pluck(:custom_field_id)
     CustomField.client_forms.not_used_forms(custom_field_ids).order_by_form_title
+  end
+
+  def family
+    fam = object.family
+    { id: fam.id, display_name: fam.display_name }
   end
 
   def list_program_stream(program_stream)
