@@ -1,17 +1,30 @@
 class ClientSerializer < ActiveModel::Serializer
-
   attributes  :id, :given_name, :family_name, :gender, :code, :status, :date_of_birth, :grade,
               :current_province, :local_given_name, :local_family_name, :kid_id, :donors,
               :current_address, :house_number, :street_number, :village, :commune, :district, :profile,
               :completed, :birth_province, :time_in_cps, :initial_referral_date, :referral_source, :what3words, :name_of_referee,
               :referral_phone, :live_with, :received_by, :main_school_contact,  :telephone_number,
-              :followed_up_by, :follow_up_date, :school_name, :school_grade, :has_been_in_orphanage,
-              :has_been_in_government_care, :relevant_referral_information, :rated_for_id_poor,
-              :case_workers, :agencies, :state, :rejected_note, :emergency_care, :foster_care, :kinship_care,
+              :followed_up_by, :follow_up_date, :school_name, :school_grade,
+              :relevant_referral_information, :rated_for_id_poor, :case_workers, :agencies, :state, :rejected_note,
               :organization, :additional_form, :tasks, :assessments, :case_notes, :quantitative_cases,
-              :program_streams, :add_forms, :inactive_program_streams, :enter_ngos, :exit_ngos, :time_in_ngo, :time_in_cps, :referral_source_category_id
+              :program_streams, :add_forms, :inactive_program_streams, :enter_ngos, :exit_ngos, :time_in_ngo, :referral_source_category_id,
+              :outside, :outside_address, :address_type, :client_phone, :phone_owner, :client_email, :referee_relationship, :concern_is_outside,
+              :concern_outside_address, :concern_province_id, :concern_district_id, :concern_commune_id, :concern_village_id, :concern_street,
+              :concern_house, :concern_address, :concern_address_type, :concern_phone, :concern_phone_owner, :concern_email, :concern_email_owner,
+              :concern_location, :concern_same_as_client, :location_description, :id_number, :other_phone_number, :brsc_branch, :current_island,
+              :current_street, :current_po_box, :current_city, :current_settlement, :current_resident_own_or_rent, :current_household_type,
+              :island2, :street2, :po_box2, :city2, :settlement2, :resident_own_or_rent2, :household_type2, :legacy_brcs_id, :whatsapp,
+              :global_id, :external_id, :external_id_display, :mosvy_number, :external_case_worker_name, :external_case_worker_id,
+              :other_phone_whatsapp, :preferred_language, :national_id, :birth_cert, :family_book, :passport, :referred_external,
+              :marital_status, :nationality, :ethnicity, :location_of_concern, :type_of_trafficking, :education_background, :department, :locality,
+              :ngo_partner, :quantitative_case_ids, :brc_client_address
+
+  has_one :carer
+  has_one :referee
+  has_one :risk_assessment
 
   has_many :assessments
+  has_many :client_quantitative_free_text_cases
 
   def profile
     object.profile.present? ? { uri: object.profile.url } : {}
@@ -172,6 +185,11 @@ class ClientSerializer < ActiveModel::Serializer
 
   def kinship_care
     CaseSerializer.new(object.cases.active.latest_kinship).serializable_hash
+  end
+
+  def brc_client_address
+    fields = %w(current_island current_street current_po_box current_settlement current_resident_own_or_rent current_household_type)
+    FieldSetting.by_instances(Apartment::Tenant.current).where(name: fields).any? && fields.any? { |field| show?(field.to_sym) }
   end
 
   def assessments
