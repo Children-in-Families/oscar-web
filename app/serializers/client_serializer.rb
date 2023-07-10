@@ -245,7 +245,8 @@ class ClientSerializer < ActiveModel::Serializer
 
   def family
     fam = object.family
-    { id: fam.id, display_name: fam.display_name }
+
+    { id: fam.try(:id), display_name: fam.try(:display_name) }
   end
 
   def list_program_stream(program_stream)
