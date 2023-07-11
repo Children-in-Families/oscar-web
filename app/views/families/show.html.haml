@@ -409,7 +409,7 @@
                 %td= human_boolean(member.client_id?)
                 %td
                   - if member.client_id?
-                    = link_to member.adult_name, client_path(member.client)
+                    = link_to member.adult_name, client_path(member.client_id)
                   - else
                     = member.adult_name
 
