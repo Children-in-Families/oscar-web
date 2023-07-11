@@ -101,9 +101,10 @@ module Importer
 
   class Data
     attr_reader :province_id, :path
+
     def initialize(province_id, path)
-      @path = path
       @province_id = province_id
+      @path = path
       workbook
     end
 
@@ -114,101 +115,157 @@ module Importer
     def import
       commune_id = nil
       district_id = nil
-      (4..(workbook.last_row)).each do |index|
-        fields = %w(code name_kh name_en)
+
+      (4..workbook.last_row).each do |index|
         values = workbook.row(index)
+        row_type = values.first.strip
 
-        row_type = values.first
-        if row_type.strip == "ស្រុក" || row_type.strip == "ខណ្ឌ" || row_type.strip == "ក្រុង"
-          attributes = {}
-          attributes['name'] = "#{values[2].squish} / #{values[3].squish}".squish
-          attributes['code'] = values[1].squish.to_s.rjust(4, '0')
-          attributes['province_id'] = province_id
-
-          district = District.find_by(code: attributes['code'].rjust(6, '0'))
-          district = district || District.find_by(code: attributes['code'])
-          district = district || District.find_by(code: attributes['code'].rjust(6, '0'), province_id: province_id)
-          district = district || District.find_by(code: attributes['code'], province_id: province_id)
-
-          if district
-            district.update_attributes(attributes)
-            district = district.reload
-          else
-            # find existing districts
-            districts = District.where(name: attributes['name'], province_id: province_id)
-            if districts.count == 1
-              districts.last.update_attributes(attributes)
-              district = districts.last.reload
-            elsif districts.count.zero?
-              district = District.find_or_create_by(attributes)
-            else
-              raise StandardError.new "This is an error"
-            end
-          end
-
-          district_id = district&.id
-          pp district_id
-        elsif row_type.strip == "ឃុំ" || row_type.strip == "សង្កាត់"
-          data = values[1..3].map(&:squish)
-          data << district_id
-
-          fields << 'district_id'
-          attributes = [fields, data].transpose.to_h
-
-          commune = Commune.find_by(code: attributes['code'])
-          commune = commune || Commune.find_by(code: attributes['code'].rjust(6, '0'))
-          commune = commune || Commune.find_by(code: attributes['code'].rjust(6, '0'), district_id: district_id)
-          commune = commune || Commune.find_by(code: attributes['code'], district_id: district_id)
-
-          attributes['code'] = attributes['code'].rjust(6, '0')
-          if commune
-            commune.update_attributes(attributes)
-            commune = commune.reload
-          else
-            # find existing communes
-            communes = Commune.where(name_kh: attributes['name_kh'], name_kh: attributes['name_en'])
-            if communes.count == 1
-              communes.last.update_attributes(attributes)
-              commune = communes.last.reload
-            elsif communes.count.zero?
-              commune = Commune.find_or_create_by(attributes)
-            else
-              raise StandardError.new "This is an error"
-            end
-          end
-
-          commune_id = commune&.id
+        if ["ស្រុក", "ខណ្ឌ", "ក្រុង"].include?(row_type)
+          import_district(values, district_id)
+        elsif ["ឃុំ", "សង្កាត់"].include?(row_type)
+          commune_id = import_commune(values, district_id)
         else
-          data = values[1..3].map(&:squish)
-          data << commune_id
-          fields << 'commune_id'
-          attributes = [fields, data].transpose.to_h
-
-          village = Village.find_by(code: attributes['code'])
-          village = village || Village.find_by(code: attributes['code'].rjust(8, '0'))
-          village = village || Village.find_by(code: attributes['code'].rjust(8, '0'), commune_id: commune_id)
-          village = village || Village.find_by(code: attributes['code'], commune_id: commune_id)
-
-          attributes['code'] = attributes['code'].rjust(8, '0')
-          if village
-            village.update_attributes(attributes)
-            village = village.reload
-          else
-            # find existing villages
-            villages = Village.where(name_kh: attributes['name_kh'], name_kh: attributes['name_en'])
-            if villages.count == 1
-              villages.last.update_attributes(attributes)
-              village = villages.last.reload
-            elsif villages.count.zero?
-              village = Village.find_or_create_by(attributes)
-            else
-              raise StandardError.new "This is an error"
-            end
-          end
+          import_village(values, commune_id)
         end
       end
 
       puts "Done #{path} !!!"
+    end
+
+    private
+
+    def import_district(values, district_id)
+      attributes = {
+        name: "#{values[2].squish} / #{values[3].squish}".squish,
+        code: values[1].squish.to_s.rjust(4, '0'),
+        province_id: province_id
+      }
+
+      district = find_district(attributes[:code], province_id) || find_district(attributes[:code])
+
+      if district
+        district.update(attributes)
+        district.reload
+      else
+        district = find_or_create_district(attributes)
+      end
+
+      district_id = district&.id
+    end
+
+    def import_commune(values, district_id)
+      attributes = {
+        name_kh: values[2].squish,
+        name_en: values[3].squish,
+        code: values[1].squish.to_s.rjust(6, '0'),
+        district_id: district_id
+      }
+
+      commune = find_commune(attributes[:code], district_id) || find_commune(attributes[:code])
+
+      if commune
+        commune.update(attributes)
+        commune.reload
+      else
+        commune = find_or_create_commune(attributes)
+      end
+
+      commune&.id
+    end
+
+    def import_village(values, commune_id)
+      attributes = {
+        name_kh: values[2].squish,
+        name_en: values[3].squish,
+        code: values[1].squish.to_s.rjust(8, '0'),
+        commune_id: commune_id
+      }
+
+      village = find_village(attributes[:code], commune_id) || find_village(attributes[:code])
+
+      if village
+        village.update(attributes)
+        village.reload
+      else
+        village = find_or_create_village(attributes)
+      end
+    end
+
+    def find_district(code, province_id = nil)
+      District.find_by(code: code.rjust(6, '0'), province_id: province_id) ||
+        District.find_by(code: code)
+    end
+
+    def find_or_create_district(attributes)
+      districts = District.where(name: attributes[:name], province_id: province_id)
+
+      if districts.count == 1
+        districts.last.update(attributes)
+        districts.last.reload
+      elsif districts.count.zero?
+        District.create(attributes)
+      else
+        raise StandardError, "This is an error"
+      end
+    end
+
+    def find_commune(code, district_id = nil)
+      Commune.find_by(code: code.rjust(6, '0'), district_id: district_id) ||
+        Commune.find_by(code: code)
+    end
+
+    def find_or_create_commune(attributes)
+      communes = Commune.where(name_kh: attributes[:name_kh], name_en: attributes[:name_en])
+
+      case communes.count
+      when 1
+        communes.last.update(attributes)
+        communes.last.reload
+      when 0
+        Commune.create(attributes)
+      else
+        matching_communes = communes.select { |commune| commune.code.to_s.rjust(6, '0') == attributes[:code] && commune.district_id == attributes[:district_id] }
+        if matching_communes.count == 1
+          matching_communes.first.update(attributes)
+          matching_communes.first.reload
+        elsif matching_communes.empty?
+          Commune.create(attributes)
+        else
+          raise StandardError, "This is an error"
+        end
+      end
+    end
+
+    def find_village(code, commune_id = nil)
+      Village.find_by(code: code.rjust(8, '0'), commune_id: commune_id) ||
+        Village.find_by(code: code)
+    end
+
+    def find_or_create_village(attributes)
+      villages = Village.where(name_kh: attributes[:name_kh], name_en: attributes[:name_en])
+
+      case villages.count
+      when 1
+        villages.last.update(attributes)
+        villages.last.reload
+      when 0
+        Village.create(attributes)
+      else
+        code = attributes[:code]
+        filtered_villages = if code.length == 7
+          villages.where("code LIKE ?", "#{code[0]}%")
+        else
+          villages.where("code LIKE ?", "#{code[0..1]}%")
+        end
+
+        if filtered_villages.count > 1
+          Village.create(attributes)
+        else
+          village = filtered_villages.first
+          village&.update(attributes)
+          village&.reload
+        end
+      end
     end
   end
 end

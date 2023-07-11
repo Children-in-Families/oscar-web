@@ -2,6 +2,8 @@ class Setting < ActiveRecord::Base
   extend Enumerize
   include CacheHelper
 
+  attr_accessor :organization_type
+
   has_paper_trail
 
   belongs_to :province
@@ -41,7 +43,7 @@ class Setting < ActiveRecord::Base
   delegate :name, to: :province, prefix: true, allow_nil: true
   delegate :name, to: :district, prefix: true, allow_nil: true
 
-  after_commit :flush_cache
+  after_commit :flush_cache, :set_organization_type
 
   def delete_incomplete_after_period
     delete_incomplete_after_period_value.send(delete_incomplete_after_period_unit.to_sym)
@@ -75,8 +77,18 @@ class Setting < ActiveRecord::Base
     errors.add(:custom_assessment, I18n.t('invalid_name')) if custom_assessment.downcase.include?('csi')
   end
 
+  def set_organization_type
+    return if organization_type.nil?
+
+    org = Organization.current
+    org.ngo_type = organization_type
+    org.save
+  end
+
   def flush_cache
     Rails.cache.delete([Apartment::Tenant.current, 'current_setting'])
     Rails.cache.fetch([Apartment::Tenant.current, 'table_name', 'settings'])
+    assessment_either_overdue_or_due_today_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/assessment_either_overdue_or_due_today/].blank? }
+    assessment_either_overdue_or_due_today_keys.each { |key| Rails.cache.delete(key) }
   end
 end
