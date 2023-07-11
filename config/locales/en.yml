@@ -4349,6 +4349,9 @@ en:
       close: Close
       warning: Warning
     show:
+      about: About Family
+      administrative_info: Administrative Information
+      referee_info: Referee Information
       accept: Accept
       accepted_date: NGO Accept Date
       add_form: Add Form

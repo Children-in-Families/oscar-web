@@ -4153,6 +4153,9 @@ km:
       close: បិទ
       warning: ប្រុងប្រយ័ត្ន!
     show:
+      about: អំពីគ្រួសារ
+      administrative_info: ព័តមានរដ្ឋបាល
+      referee_info: ព័ត៌មានអ្នកបញ្ជូន
       accept: ទទួលយក
       accepted_date: កាលបរិច្ឆេទចូលអង្គការ
       add_form: បន្ថែមទម្រង់បែបបទ
