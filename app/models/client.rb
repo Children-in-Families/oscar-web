@@ -862,7 +862,7 @@ class Client < ActiveRecord::Base
     Rails.cache.fetch([Apartment::Tenant.current, object.id, object.given_name || 'given_name']) do
       current_org = Organization.current
       Organization.switch_to 'shared'
-      given_name = SharedClient.find_by(slug: object.slug).given_name
+      given_name = SharedClient.find_by(slug: object.slug)&.given_name
       Organization.switch_to current_org.short_name
       given_name
     end
@@ -872,7 +872,7 @@ class Client < ActiveRecord::Base
     Rails.cache.fetch([Apartment::Tenant.current, object.id, object.family_name || 'family_name']) do
       current_org = Organization.current
       Organization.switch_to 'shared'
-      family_name = SharedClient.find_by(slug: object.slug).family_name
+      family_name = SharedClient.find_by(slug: object.slug)&.family_name
       Organization.switch_to current_org.short_name
       family_name
     end
@@ -882,7 +882,7 @@ class Client < ActiveRecord::Base
     Rails.cache.fetch([Apartment::Tenant.current, object.id, object.given_name || 'given_name', 'export_excel']) do
       current_org = Organization.current
       Organization.switch_to 'shared'
-      given_name = SharedClient.find_by(slug: object.slug).given_name
+      given_name = SharedClient.find_by(slug: object.slug)&.given_name
       Organization.switch_to current_org.short_name
       given_name
     end
@@ -892,7 +892,7 @@ class Client < ActiveRecord::Base
     Rails.cache.fetch([Apartment::Tenant.current, object.id, object.local_given_name || 'local_given_name']) do
       current_org = Organization.current
       Organization.switch_to 'shared'
-      local_given_name = SharedClient.find_by(slug: object.slug).local_given_name
+      local_given_name = SharedClient.find_by(slug: object.slug)&.local_given_name
       Organization.switch_to current_org.short_name
       local_given_name
     end
@@ -902,7 +902,7 @@ class Client < ActiveRecord::Base
     Rails.cache.fetch([Apartment::Tenant.current, object.id, object.local_family_name || 'local_family_name']) do
       current_org = Organization.current
       Organization.switch_to 'shared'
-      local_family_name = SharedClient.find_by(slug: object.slug).local_family_name
+      local_family_name = SharedClient.find_by(slug: object.slug)&.local_family_name
       Organization.switch_to current_org.short_name
       local_family_name
     end
