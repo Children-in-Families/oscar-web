@@ -6,7 +6,7 @@ class Dashboard
     @families = Family.active
 
     unless family_only
-      @clients  = clients
+      @clients  = clients.select(:id, :status, :user_id)
       @partners = Partner.all
       @agencies = Agency.all
       @staff    = User.all
@@ -47,7 +47,7 @@ class Dashboard
     arr << { name: 'Child-Headed Household', y: child_headed_household_count, url: families_path('family_grid[family_type]': 'Child-Headed Household', 'family_grid[status]': 'Active') } if child_headed_household_count > 0
     arr << { name: 'No Family', y: no_family_count, url: families_path('family_grid[family_type]': 'No Family', 'family_grid[status]': 'Active') } if no_family_count > 0
     arr << { name: 'Other', y: other_count, url: families_path('family_grid[family_type]': 'Other', 'family_grid[status]': 'Active') } if other_count > 0
-    
+
     @family_type_statistic = arr
   end
 
