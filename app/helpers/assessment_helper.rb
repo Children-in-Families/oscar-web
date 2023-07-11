@@ -32,7 +32,8 @@ module AssessmentHelper
   end
 
   def order_assessment(assessment)
-    assessment_domains = assessment.persisted? ? assessment.assessment_domains.includes(:domain) : assessment.assessment_domains
+    assessment_domains = (assessment.persisted? && !assessment.draft?) ? assessment.assessment_domains.includes(:domain) : assessment.assessment_domains
+
     if assessment_domains.all?{|ad| ad.domain.name[/\d+/]&.to_i }
       assessment_domains.sort_by{ |ad| ad.domain.name[/\d+/]&.to_i || ad.domain.name }
     else
@@ -366,11 +367,13 @@ module AssessmentHelper
 
   def check_setting_assessment_type_name_selected(assessment)
     setting_assessment_type_id = Setting.cache_first.assessment_type_name
+    
     if assessment.default
       true
+    elsif assessment.custom_assessment_setting.blank?
+      false
     else
-      return assessment.object.custom_assessment_setting.id&.to_s == setting_assessment_type_id if assessment.instance_of?(::AssessmentDecorator)
-
+      return assessment.object.custom_assessment_setting.id.to_s == setting_assessment_type_id if assessment.instance_of?(::AssessmentDecorator)
       assessment.custom_assessment_setting.id.to_s == setting_assessment_type_id
     end
   end

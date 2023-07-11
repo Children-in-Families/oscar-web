@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20230630043559) do
+ActiveRecord::Schema.define(version: 20230703054409) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -159,6 +159,7 @@ ActiveRecord::Schema.define(version: 20230630043559) do
     t.text     "description"
     t.boolean  "draft",                        default: false
     t.date     "assessment_date"
+    t.datetime "last_auto_save_at"
   end
 
   add_index "assessments", ["assessment_date"], name: "index_assessments_on_assessment_date", using: :btree

@@ -79,6 +79,8 @@
         @case_note.save(validate: false)
         clean_duplicate_case_note_domain_groups
       end
+
+      true
     else
       @case_note.draft = false
       @case_note.update_attributes(case_note_params)
