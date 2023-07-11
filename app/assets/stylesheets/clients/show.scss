@@ -46,6 +46,10 @@ body[id='clients-show'] {
     }
   }
 
+  .bg-grey {
+    background-color: #f5f5f6;
+  }
+
   .client {
     .panel-body {
       min-height: 498px;
@@ -121,6 +125,10 @@ body[id='clients-show'] {
 
   td.spacing-first-col {
     width: 172px;
+
+    @media screen and (min-width: 1500px) {
+      width: 330px;
+    }
   }
 
   .overflow-case {

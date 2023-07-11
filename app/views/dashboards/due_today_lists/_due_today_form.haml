@@ -1,0 +1,38 @@
+- if @form_params
+  / Tweak to fix N+1
+  - clients = Client.where(id: @clients.map{ |c| c[0].id }).includes(:default_most_recents_assessments, :custom_assessment_domains, :users).select(:id, :date_of_birth, :status, :slug, :given_name, :family_name, :local_given_name, :local_family_name, :user_id)
+  - only_enable_custom_assessment = CustomAssessmentSetting.only_enable_custom_assessment
+  - @clients.each do |c, today_forms|
+    - next if today_forms.blank?
+    - client = clients.detect { |client| client.id == c.id }
+    - next if skipped_duetoday_forms?(today_forms, client) || (today_forms[:today_forms].blank? && today_forms[:today_trackings].blank?)
+    .ibox.border-left-right.border-bottom
+      .ibox-title
+        %h5
+          = link_to client.name, client_path(client), target: :_blank
+      .ibox-content.no-padding
+        %table.table.table-striped.active_tasks
+          - custom_field_index = 0
+          - row_count = today_forms[:today_forms].size + today_forms[:today_trackings].size
+          - today_forms[:today_forms].each_with_index do |(custom_field, next_custom_field_date), index|
+            %tr
+              - if index == 0
+                %td.col-xs-3{ rowspan: row_count }= t('.forms')
+              - if @user.activated_at.nil?
+                %td.col-xs-6.task-name.border-left-right= custom_field.form_title
+                %td.col-xs-3= date_format(next_custom_field_date)
+              - elsif @user.activated_at? && next_custom_field_date > @user.activated_at
+                %td.col-xs-6.task-name.border-left-right= custom_field.form_title
+                %td.col-xs-3= date_format(next_custom_field_date)
+              - custom_field_index = index + 1
+          - today_forms[:today_trackings].each do |tracking, next_client_enrollment_tracking_date|
+            %tr
+              - if custom_field_index == 0
+                %td.col-xs-3{rowspan: row_count}= t('.forms')
+                - custom_field_index = custom_field_index + 1
+              - if @user.activated_at.nil?
+                %td.col-xs-6.task-name.border-left-right= tracking.name
+                %td.col-xs-3= date_format(next_client_enrollment_tracking_date)
+              - elsif @user.activated_at? && next_client_enrollment_tracking_date > @user.activated_at
+                %td.col-xs-6.task-name.border-left-right= tracking.name
+                %td.col-xs-3= date_format(next_client_enrollment_tracking_date)
