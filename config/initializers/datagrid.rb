@@ -16,6 +16,7 @@ Datagrid.module_eval do
     insert_case_note(book) if include_case_note?
     insert_csi(book) if include_csi?
     insert_custom_assessment(book) if include_custom_assessment?
+    insert_care_plan(book) if include_care_plan?
 
     buffer = StringIO.new
     book.write(buffer)
@@ -139,6 +140,39 @@ Datagrid.module_eval do
     @next_workspace_index += 1
   end
 
+  def insert_care_plan(book)
+    book.create_worksheet(name: 'Care Plan')
+    book.worksheet(@next_workspace_index).insert_row(0, care_plan_headers)
+
+    index = 0
+    client_count = 0
+    domain_identities = Domain.where(id: AssessmentDomain.joins(goals: :care_plan).distinct.pluck(:domain_id)).order_by_identity.pluck(:identity)
+
+    assets.includes(care_plans: [goals: :assessment_domain]).each do |client|
+      client.care_plans.sort_by{ |c| c.care_plan_date || client.created_at }.reverse.each_with_index do |care_plan, i|
+        dynamic_columns = domain_identities.map do |identity|
+          goal = care_plan.goals.find{ |g| g.assessment_domain&.domain.identity == identity }
+          goal&.description
+        end
+
+        next if dynamic_columns.all?(&:blank?)
+
+        row = [
+          (i == 0 ? (client_count += 1) : ''),
+          client.slug,
+          (i + 1).ordinalize,
+          care_plan.care_plan_date&.strftime('%Y-%m-%d'),
+          care_plan.created_at&.strftime('%Y-%m-%d'),
+          *dynamic_columns
+        ]
+
+        book.worksheet(@next_workspace_index).insert_row(index += 1, row)
+      end
+    end
+
+    @next_workspace_index += 1
+  end
+
   private
 
   def include_case_note?
@@ -150,6 +184,30 @@ Datagrid.module_eval do
     csi_columns += [:all_csi_assessments, :assessment_created_at, :completed_date]
 
     instance_of?(ClientGrid) && columns.map(&:name).any? { |column| csi_columns.include?(column) }
+  end
+
+  def include_care_plan?
+    care_plan_columns = [:care_plan_date, :care_plan_completed_date, :care_plan_count]
+    instance_of?(ClientGrid) && columns.map(&:name).any? { |column| care_plan_columns.include?(column) }
+  end
+
+  def care_plan_headers
+    [
+      '#',
+      'Client ID',
+      'Care plan #',
+      column_by_name(:care_plan_date).to_s,
+      column_by_name(:care_plan_completed_date).to_s,
+      *care_plan_dynamic_columns
+    ]
+  end
+
+  def care_plan_dynamic_columns
+    @care_plan_dynamic_columns ||= care_plan_identities.map{ |column| "Goal for #{column_by_name(column)}" }
+  end
+
+  def care_plan_identities
+    @care_plan_identities ||= Domain.where(id: AssessmentDomain.joins(goals: :care_plan).distinct.pluck(:domain_id)).order_by_identity.map(&:convert_identity).map(&:to_sym)
   end
 
   def case_note_headers
