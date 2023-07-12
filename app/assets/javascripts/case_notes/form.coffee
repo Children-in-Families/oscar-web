@@ -334,7 +334,8 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
   _hideAddNewTask = ->
     _checkCasenoteSelectedValue($('#case_note_domain_group_ids'))
     $.each $('#case_note_domain_group_ids').select2('data'), (index, object) ->
-      $("#domain-#{object.id}").show() if $("#domain-#{object.id} .task-arising .list-group > li").length > 0
+      if $("#domain-#{object.id} .task-arising .list-group > li").length > 0 || $("#domain-#{object.id} input[data-task-id]").length > 0
+        $("#domain-#{object.id}").show()
 
     $.each $('.case-note-domain-group'), (index, object)->
       if $("##{object.id}").find('span.checkbox').length > 0
