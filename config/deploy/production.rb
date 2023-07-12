@@ -1,7 +1,7 @@
 set :stage, 'production'
 set :rails_env, :production
 set :appsignal_env, :production
-set :branch, proc { `git rev-parse --abbrev-ref stable`.chomp }
+set :branch, proc { `git rev-parse --abbrev-ref stable-20230522`.chomp }
 # TODO: Deploy one after another by commentting out one
 
 # OSCaR

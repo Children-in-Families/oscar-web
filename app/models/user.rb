@@ -31,7 +31,7 @@ class User < ActiveRecord::Base
   has_many :clients, through: :case_worker_clients
   has_many :enter_ngo_users, dependent: :destroy
   has_many :enter_ngos, through: :enter_ngo_users
-  
+
   has_many :tasks, dependent: :destroy
   has_many :incomplete_tasks, -> { incomplete }, class_name: 'Task'
 
@@ -219,7 +219,7 @@ class User < ActiveRecord::Base
         end.compact
       end
 
-      { overdue_count: overdue.count, overdue_assessment: overdue, due_today_count: due_today.count, custom_overdue_count: customized_overdue.flatten.uniq.count, custom_due_today_count: customized_due_today.flatten.uniq.count }
+      { overdue_count: overdue.count, overdue_assessment: overdue, due_today_count: due_today.count, custom_overdue_count: customized_overdue.flatten.uniq.count || 0, custom_due_today_count: customized_due_today.flatten.uniq.count }
     end
   end
 
