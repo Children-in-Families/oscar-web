@@ -4,6 +4,7 @@
     = field_props['label'].html_safe
 
   %input{ name: "#{f.object_name}[#{remove_field_prop_unicode(field_props)}]",
+    value: f.object.send(remove_field_prop_unicode(field_props)),
     type: field_props['subtype'],
     class: field_props['className'],
     placeholder: format_placeholder(field_props['placeholder']),
