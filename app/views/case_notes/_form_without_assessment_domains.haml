@@ -22,7 +22,7 @@
       .col-xs-12.col-md-6
         - domain_note_by_case_note.each do |domain|
           - tasks = @case_note.client.tasks.incomplete.where(domain_id: domain.id)
-          - if domain_note.object.persisted? && && !@case_note.draft? && domain_note.object.domain_group_id == domain.domain_group_id
+          - if domain_note.object.persisted? && !@case_note.draft? && domain_note.object.domain_group_id == domain.domain_group_id
             - tasks = tasks.by_case_note_domain_group(domain_note.object)
           .panel{ class: "panel-primary panel-tasks-domain-#{ domain.id } #{!selected_domain_group(domain_note.object) && hidden_class(tasks)}", data: { domain_name_panel: domain.name } }
             .panel-heading
