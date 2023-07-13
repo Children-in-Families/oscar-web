@@ -17,6 +17,7 @@ Datagrid.module_eval do
     insert_csi(book) if include_csi?
     insert_custom_assessment(book) if include_custom_assessment?
     insert_care_plan(book) if include_care_plan?
+    insert_custom_forms(book) if include_custom_forms?
 
     buffer = StringIO.new
     book.write(buffer)
@@ -55,6 +56,59 @@ Datagrid.module_eval do
       end
   
       @next_workspace_index += 1
+    end
+  end
+
+  def insert_custom_forms(book)
+    custom_forms = CustomField.where(entity_type: "Client", form_title: custom_form_selected_columns.keys.map{ |key| key.to_s.split('__').second })
+    clients = assets.includes(custom_field_properties: :form_builder_attachments).where(custom_field_properties: { custom_field_id: custom_forms.ids }).to_a
+
+    custom_forms.each do |custom_form|
+      rows = []
+      client_count = 0
+      rows << [
+        '#',
+        'Client ID',
+        'Custom Form #',
+        'Created Date',
+        *custom_form.fields.map{ |f| f['label']}.sort
+      ]
+
+      clients.each do |client|
+        custom_field_properties = client.custom_field_properties.select{ |custom_field_property| custom_field_property.custom_field_id == custom_form.id }
+        next if custom_field_properties.blank?
+        
+        custom_field_properties.sort_by(&:created_at).reverse.each_with_index do |custom_field_property, i|
+          answers = custom_form.fields.sort_by{ |f| f['label']}.map do |field|
+            answer = if field['type'] == 'file'
+              custom_field_property.form_builder_attachments.map{ |a| a.file.map(&:url) }.flatten
+            else
+              custom_field_property.properties[field['label']]
+            end
+
+            answer = answer.join(" | ") if answer.is_a?(Array)
+            answer
+          end
+
+          rows << [
+            (i == 0 ? (client_count += 1) : ''),
+            client.slug,
+            (i + 1).ordinalize,
+            custom_field_property.created_at&.strftime('%Y-%m-%d'),
+            *answers
+          ]
+        end
+      end
+
+      if rows.size > 1
+        book.create_worksheet(name: custom_form.form_title)
+        
+        rows.each_with_index do |row, index|
+          book.worksheet(@next_workspace_index).insert_row(index, row)
+        end
+    
+        @next_workspace_index += 1
+      end
     end
   end
 
@@ -270,6 +324,14 @@ Datagrid.module_eval do
 
   def custom_assessment_identities
     @custom_assessment_identities ||= Domain.custom_csi_domains.where(custom_assessment_setting_id: assessment_setting_id).order_by_identity.map{ |item| "custom_#{item.convert_identity}".to_sym }
+  end
+
+  def include_custom_forms?
+    instance_of?(ClientGrid) && custom_form_selected_columns.present?
+  end
+
+  def custom_form_selected_columns
+    params.select { |key, value| key.to_s.start_with?('formbuilder__') }
   end
 end
 
