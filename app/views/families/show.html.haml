@@ -285,43 +285,7 @@
                       %strong.label.label-default
                         = qcase.value
 
-    - if @case_histories.any?
-      .row
-        .col-xs-12
-          %table.table.table-bordered.table-hover#case-history-table
-            %thead
-              %tr
-                %th= t('.case_histories')
-                - unless Rails.env.production?
-                  %th= t('.created_date')
-                %th= t('.date')
-                %th.text-center= t('.detail')
-            %tbody
-              - @case_histories.each_with_index do |case_history, index|
-                - case_history_name = case_history.class.table_name
-                %tr.case-history-row{ data: {date: case_history.new_date, classname: case_history_name,name: case_history_label(case_history), created_date: case_history.created_at} }
-                  %td= case_history_label(case_history)
-                  - unless Rails.env.production?
-                    %td= case_history.created_at.to_s
-                  %td= date_format(case_history.new_date)
-                  %td
-                    .text-center
-                      %button.btn.btn-outline.btn-primary.btn-xs{'data-target' => "#case_history_#{index}", 'data-toggle' => 'modal'}= fa_icon('eye')
-                      - if current_user.admin?
-                        - if ['enter_ngos', 'exit_ngos'].include?(case_history_name)
-                          %button.btn.btn-outline.btn-success.btn-xs.edit-case-history-ngo{ data: { class_name: case_history_name },'data-target' => "##{case_history_name}-#{case_history.id}", 'data-toggle' => 'modal' }= fa_icon('pencil')
-                        = family_case_history_links(case_history, case_history_name)
-                    = render 'case_history_detail', object: case_history, index: index
-                    = render_case_history_family(case_history, case_history_name)
-              %tr
-                %td= t('.initial_referral_date')
-                - unless Rails.env.production?
-                  %td= @family.created_at.to_s
-                %td= date_format(@family.initial_referral_date)
-                %td
-                  .text-center
-                    %button.btn.btn-outline.btn-primary.btn-xs{'data-target' => "#case_history_initial_referral_date", 'data-toggle' => 'modal'}= fa_icon('eye')
-                  = render 'case_history_detail', object: @family, index: 'initial_referral_date'
+    
     - if @family.family_members.present?
       .row.family-summary
         .col-sm-12
@@ -362,5 +326,43 @@
                 - if policy(FamilyMember).show?(:guardian)
                   %td= human_boolean(member.guardian)
 
+
+    - if @case_histories.any?
+      .row
+        .col-xs-12
+          %table.table.table-bordered.table-hover#case-history-table
+            %thead
+              %tr
+                %th= t('.case_histories')
+                - unless Rails.env.production?
+                  %th= t('.created_date')
+                %th= t('.date')
+                %th.text-center= t('.detail')
+            %tbody
+              - @case_histories.each_with_index do |case_history, index|
+                - case_history_name = case_history.class.table_name
+                %tr.case-history-row{ data: {date: case_history.new_date, classname: case_history_name,name: case_history_label(case_history), created_date: case_history.created_at} }
+                  %td= case_history_label(case_history)
+                  - unless Rails.env.production?
+                    %td= case_history.created_at.to_s
+                  %td= date_format(case_history.new_date)
+                  %td
+                    .text-center
+                      %button.btn.btn-outline.btn-primary.btn-xs{'data-target' => "#case_history_#{index}", 'data-toggle' => 'modal'}= fa_icon('eye')
+                      - if current_user.admin?
+                        - if ['enter_ngos', 'exit_ngos'].include?(case_history_name)
+                          %button.btn.btn-outline.btn-success.btn-xs.edit-case-history-ngo{ data: { class_name: case_history_name },'data-target' => "##{case_history_name}-#{case_history.id}", 'data-toggle' => 'modal' }= fa_icon('pencil')
+                        = family_case_history_links(case_history, case_history_name)
+                    = render 'case_history_detail', object: case_history, index: index
+                    = render_case_history_family(case_history, case_history_name)
+              %tr
+                %td= t('.initial_referral_date')
+                - unless Rails.env.production?
+                  %td= @family.created_at.to_s
+                %td= date_format(@family.initial_referral_date)
+                %td
+                  .text-center
+                    %button.btn.btn-outline.btn-primary.btn-xs{'data-target' => "#case_history_initial_referral_date", 'data-toggle' => 'modal'}= fa_icon('eye')
+                  = render 'case_history_detail', object: @family, index: 'initial_referral_date'
 .row
   = render 'family_referrals/confirm_referral'
