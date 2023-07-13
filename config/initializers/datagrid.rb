@@ -339,6 +339,19 @@ Datagrid.module_eval do
       answer = custom_field_property.properties.find { |key, value| key.to_s.gsub(/\s+/, "").gsub(/[^0-9A-Za-z]/, '') == field_name }&.last
     end
 
+    if answer.blank?
+      matching_keys = custom_field_property.properties.map do |field, _value|
+        matching_count = field.gsub(/\s+/, "").gsub(/[^0-9A-Za-z]/, '').chars.zip(field_name.chars).take_while { |a,b| a == b }.count
+
+        [field, matching_count] if matching_count > 0
+      end.compact
+
+      if matching_keys.any?
+        actual_key = matching_keys.sort_by{ |k| k.last }.last.first
+        answer = custom_field_property.properties[actual_key]
+      end
+    end
+
     answer
   end
 end
