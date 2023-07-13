@@ -1,5 +1,6 @@
 FROM ruby:2.3.7
 
+RUN echo "deb http://archive.debian.org/debian stretch main contrib non-free" > /etc/apt/sources.list
 RUN apt-get update -q && \
     apt-get install -qy procps curl ca-certificates gnupg2 build-essential --no-install-recommends && apt-get clean
 RUN curl -fsSL https://deb.nodesource.com/setup_12.x | bash -

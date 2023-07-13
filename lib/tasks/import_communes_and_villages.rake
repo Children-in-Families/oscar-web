@@ -43,9 +43,11 @@ namespace :communes_and_villages do
 
       pp "FINISH | #{args[:tenant]} | at #{Time.now.to_s}"
     else
-      Organization.all.each do |organization|
-        next if organization.country != 'cambodia'
-        tenant_name = organization.short_name
+      organization_ids = Organization
+                            .where(country: 'cambodia')
+                            .pluck(:id, :short_name)
+
+      organization_ids.each do |id, tenant_name|
         pp "START | #{tenant_name} | at #{Time.now.to_s}"
 
         import_addresses(tenant_name, files, province_hash, province_code_hash)
@@ -60,16 +62,22 @@ end
 def import_addresses(tenant_name, files, province_hash, province_code_hash)
   return if tenant_name.nil?
 
-  Organization.switch_to tenant_name
-  (Province.where(country: 'cambodia').presence || Province.all).where.not(name: "Kampong Cham/Prey Chhor/Communex").each do |province|
+  Organization.switch_to(tenant_name)
+
+  provinces = Province.where(country: 'cambodia').or(Province.all)
+                      .where.not(name: "Kampong Cham/Prey Chhor/Communex")
+                      .to_a
+
+  provinces.each do |province|
     pname = province.name.split('/').last.squish.downcase
     gazetteer_short_name = province_hash[pname]
-    path  = files.find{|filename| filename[/#{gazetteer_short_name}/] }
+    path = files.find { |filename| filename[/#{gazetteer_short_name}/] }
 
     if province.code.blank?
       province.code = province_code_hash[pname]
       province.save
     end
+
     next if path.blank?
 
     data = Importer::Data.new(province.id, path)
