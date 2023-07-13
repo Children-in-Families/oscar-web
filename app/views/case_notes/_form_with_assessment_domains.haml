@@ -27,7 +27,7 @@
           - if domain_note.object.persisted? && !@case_note.draft?
             - tasks = tasks.by_case_note_domain_group(domain_note.object)
           - next if assessment_domain.nil?
-          .panel{ class: "panel-#{assessment_domain.score_color_class} task-domain-#{domain.id} #{!selected_domain_group(domain_note.object) && hidden_class(tasks, assessment_domain.goal?)}" }
+          .panel{ class: "panel-#{assessment_domain.score_color_class} task-domain-#{domain.id} #{hidden_class(tasks)}" }
             .panel-heading
               %strong
                 = "#{assessment_domain.domain.name} #{t('.goal')}"
