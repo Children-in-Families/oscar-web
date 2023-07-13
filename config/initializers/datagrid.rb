@@ -64,7 +64,7 @@ Datagrid.module_eval do
     clients = assets.includes(:custom_field_properties).where(custom_field_properties: { custom_field_id: custom_forms.ids }).to_a
 
     custom_forms.each do |custom_form|
-      fields = custom_form.fields.reject{ |field| field['type'] == 'file' }.map{ |f| f['label']}.sort
+      fields = custom_form.fields.reject{ |field| field['type'] == 'file' }.map{ |f| f['label']}
 
       rows = []
       client_count = 0
