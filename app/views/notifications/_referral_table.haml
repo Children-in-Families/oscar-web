@@ -20,14 +20,14 @@
               = referral.client_name
           %td
             = link_to referral_path(referral), target: '_blank' do
-              = referral.referred_from
+              = Organization.full_name_from_short_name(referral.referred_from).presence || referral.referred_from
           %td
             = link_to referral_path(referral), target: '_blank' do
               = date_format(referral.date_of_referral)
           
           %td
             = link_to referral_path(referral), target: '_blank' do
-              = (action_name == 'repeat_referrals' ? client.referral_count : 1)
+              = (action_name == 'repeat_referrals' ? (client.referral_count + 1) : 1)
           %td
             - if referral.level_of_risk.present?
               = link_to referral_path(referral), target: '_blank', class: 'btn btn-primary btn-xs' do

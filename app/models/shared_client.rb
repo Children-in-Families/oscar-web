@@ -17,7 +17,7 @@ class SharedClient < ActiveRecord::Base
 
   def self.cached_shared_client_birth_province_name(slug)
     Rails.cache.fetch([Apartment::Tenant.current, 'SharedClient', 'cached_shared_client_birth_province_name', slug]) {
-      find_by(slug: slug).birth_province_name
+      find_by(slug: slug)&.birth_province_name
     }
   end
 
