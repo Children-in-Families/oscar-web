@@ -82,7 +82,7 @@ Datagrid.module_eval do
         
         custom_field_properties.sort_by(&:created_at).reverse.each_with_index do |custom_field_property, i|
           answers = fields.map do |field|
-            answer = custom_field_property.properties[field]
+            answer = custom_field_property_answer(field, custom_field_property)
             answer = answer.join(" | ") if answer.is_a?(Array)
             answer
           end
@@ -329,6 +329,17 @@ Datagrid.module_eval do
 
   def custom_form_selected_columns
     params.select { |key, value| key.to_s.start_with?('formbuilder__') }
+  end
+
+  def custom_field_property_answer(field_name, custom_field_property)
+    answer = custom_field_property.properties[field_name]
+
+    if answer.blank?
+      field_name = field_name.gsub(/\s+/, "").gsub(/[^0-9A-Za-z]/, '')
+      answer = custom_field_property.properties.find { |key, value| key.to_s.gsub(/\s+/, "").gsub(/[^0-9A-Za-z]/, '') == field_name }&.last
+    end
+
+    answer
   end
 end
 
