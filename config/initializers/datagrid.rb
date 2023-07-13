@@ -61,9 +61,11 @@ Datagrid.module_eval do
 
   def insert_custom_forms(book)
     custom_forms = CustomField.where(entity_type: "Client", form_title: custom_form_selected_columns.keys.map{ |key| key.to_s.split('__').second })
-    clients = assets.includes(custom_field_properties: :form_builder_attachments).where(custom_field_properties: { custom_field_id: custom_forms.ids }).to_a
+    clients = assets.includes(:custom_field_properties).where(custom_field_properties: { custom_field_id: custom_forms.ids }).to_a
 
     custom_forms.each do |custom_form|
+      fields = custom_form.fields.reject{ |field| field['type'] == 'file' }.map{ |f| f['label']}.sort
+
       rows = []
       client_count = 0
       rows << [
@@ -71,7 +73,7 @@ Datagrid.module_eval do
         'Client ID',
         'Custom Form #',
         'Created Date',
-        *custom_form.fields.map{ |f| f['label']}.sort
+        *fields
       ]
 
       clients.each do |client|
@@ -79,13 +81,8 @@ Datagrid.module_eval do
         next if custom_field_properties.blank?
         
         custom_field_properties.sort_by(&:created_at).reverse.each_with_index do |custom_field_property, i|
-          answers = custom_form.fields.sort_by{ |f| f['label']}.map do |field|
-            answer = if field['type'] == 'file'
-              custom_field_property.form_builder_attachments.map{ |a| a.file.map(&:url) }.flatten
-            else
-              custom_field_property.properties[field['label']]
-            end
-
+          answers = fields.map do |field|
+            answer = custom_field_property.properties[field]
             answer = answer.join(" | ") if answer.is_a?(Array)
             answer
           end
