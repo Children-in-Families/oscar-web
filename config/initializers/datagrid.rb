@@ -31,7 +31,6 @@ Datagrid.module_eval do
 
     assets.each do |client|
       case_notes = case_note_query(client.case_notes.most_recents, 'case_note_date')
-      case_notes = case_note_query(case_notes, 'case_note_type')
 
       case_notes.each_with_index do |case_note, i|
         rows << [
