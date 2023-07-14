@@ -190,10 +190,10 @@ module AdvancedSearchHelper
       client_rejected: I18n.t('advanced_search.fields.client_rejected'),
       incomplete_care_plan: I18n.t('advanced_search.fields.incomplete_care_plan'),
       case_history: I18n.t('default_family_fields.case_history'),
-      family: I18n.t('advanced_search.fields.family'),
       case_note: I18n.t('dashboards.case_note_tab.case_note'),
       other: I18n.t('advanced_search.fields.other'),
-      common_searches: I18n.t('advanced_search.fields.common_searches')
+      common_searches: I18n.t('advanced_search.fields.common_searches'),
+      risk_assessment: I18n.t('risk_assessments._attr.risk_assessment')
     }
 
     translations = label_translations(address_translation(group_name)).merge(translations)

@@ -84,7 +84,7 @@ class ClientColumnsVisibility
       gender_: :gender,
       date_of_birth_: :date_of_birth,
       status_: :status,
-      **Client::HOTLINE_FIELDS.map{ |field| ["#{field}_".to_sym, field.to_sym] }.to_h,
+      **Client::HOTLINE_FIELDS.map { |field| ["#{field}_".to_sym, field.to_sym] }.to_h,
       birth_province_id_: :birth_province_id,
       initial_referral_date_: :initial_referral_date,
       # referral_phone_: :referral_phone,
@@ -162,7 +162,7 @@ class ClientColumnsVisibility
       referee_name_: :referee_name,
       referee_phone_: :referee_phone,
       referee_email_: :referee_email,
-      **Call::FIELDS.map{ |field| ["#{field}_".to_sym, field.to_sym] }.to_h,
+      **Call::FIELDS.map { |field| ["#{field}_".to_sym, field.to_sym] }.to_h,
       call_count: :call_count,
       carer_name_: :carer_name,
       carer_phone_: :carer_phone,
@@ -180,8 +180,10 @@ class ClientColumnsVisibility
       arrival_at_: :arrival_at,
       flight_nb_: :flight_nb,
       ratanak_achievement_program_staff_client_ids_: :ratanak_achievement_program_staff_client_ids,
-      mosavy_official_: :mosavy_official
-    }.merge(label_translations.keys.map{ |field| ["#{field}_".to_sym, field.to_sym] }.to_h)
+      mosavy_official_: :mosavy_official,
+      level_of_risk_: :level_of_risk,
+      date_of_risk_assessment_: :date_of_risk_assessment
+    }.merge(label_translations.keys.map { |field| ["#{field}_".to_sym, field.to_sym] }.to_h)
   end
 
   def visible_columns
@@ -208,9 +210,8 @@ class ClientColumnsVisibility
   def domain_score_columns
     columns = columns_collection
     Domain.cache_order_by_identity.each do |domain|
-      identity = domain.identity
       field = domain.custom_domain ? "custom_#{domain.convert_identity}" : domain.convert_identity
-      columns = columns.merge!("#{field}_": field.to_sym)
+      columns.merge!("#{field}_": field.to_sym)
     end
     columns
   end
@@ -219,7 +220,7 @@ class ClientColumnsVisibility
     columns = domain_score_columns
     QuantitativeType.cach_by_visible_on('client').each do |quantitative_type|
       field = quantitative_type.name
-      columns = columns.merge!("#{field}_": field.to_sym)
+      columns.merge!("#{field}_": field.to_sym)
     end
     columns
   end
@@ -229,7 +230,7 @@ class ClientColumnsVisibility
     if @params[:column_form_builder].present?
       @params[:column_form_builder].each do |column|
         field   = column['id']
-        columns = columns.merge!("#{field}_": field.to_sym)
+        columns.merge!("#{field}_": field.to_sym)
       end
     end
     columns
@@ -237,6 +238,7 @@ class ClientColumnsVisibility
 
   def client_default(column, setting_client_default_columns)
     return false if setting_client_default_columns.nil?
+
     setting_client_default_columns.include?(column.to_s) if @params.dig(:client_grid, :descending).present? || (@params[:client_advanced_search].present? && @params.dig(:client_grid, :descending).present?) || @params[:client_grid].nil? || @params[:client_advanced_search].nil?
   end
 end
