@@ -28,9 +28,9 @@ class ClientDecorator < Draper::Decorator
   def time_in_ngo
     if model.time_in_ngo.present?
       time_in_ngo = model.time_in_ngo
-      years = h.t('.time_in_care_around.year', count: time_in_ngo[:years]) if time_in_ngo[:years] > 0
-      months = h.t('.time_in_care_around.month', count: time_in_ngo[:months]) if time_in_ngo[:months] > 0
-      days = h.t('.time_in_care_around.day', count: time_in_ngo[:days]) if time_in_ngo[:days] > 0
+      years = h.t('clients.show.time_in_care_around.year', count: time_in_ngo[:years]) if time_in_ngo[:years] > 0
+      months = h.t('clients.show.time_in_care_around.month', count: time_in_ngo[:months]) if time_in_ngo[:months] > 0
+      days = h.t('clients.show.time_in_care_around.day', count: time_in_ngo[:days]) if time_in_ngo[:days] > 0
       [years, months, days].join(' ')
     end
   end
