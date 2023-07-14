@@ -1061,7 +1061,7 @@ module ClientsHelper
             end
           elsif class_name[/^(formbuilder)/i].present?
             if fields.last == 'Has This Form'
-              count += client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).count
+              count += client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client' }).count
             else
               properties = form_builder_query(client.custom_field_properties, fields.first, column.name.to_s.gsub('&qoute;', '"'), 'custom_field_properties.properties').properties_by(format_field_value)
               count += property_filter(properties, format_field_value).size
@@ -1296,23 +1296,29 @@ module ClientsHelper
     if rule && properties.present?
       case rule[:operator]
       when 'equal'
-        properties = properties.select{|value| value.to_date == rule[:value].to_date  }
+        properties = properties.select { |value| value.to_date == rule[:value].to_date }
       when 'not_equal'
-        properties = properties.select{|value| value.to_date != rule[:value].to_date  }
+        properties = properties.select { |value| value.to_date != rule[:value].to_date }
       when 'less'
-        properties = properties.select{|value| value.to_date < rule[:value].to_date  }
+        properties = properties.select { |value| value.to_date < rule[:value].to_date }
       when 'less_or_equal'
-        properties = properties.select{|value| value.to_date <= rule[:value].to_date  }
+        properties = properties.select { |value| value.to_date <= rule[:value].to_date }
       when 'greater'
-        properties = properties.select{|value| value.to_date > rule[:value].to_date  }
+        properties = properties.select { |value| value.to_date > rule[:value].to_date }
       when 'greater_or_equal'
-        properties = properties.select{|value| value.to_date >= rule[:value].to_date  }
+        properties = properties.select { |value| value.to_date >= rule[:value].to_date }
       when 'is_empty'
         properties = []
       when 'is_not_empty'
         properties
       when 'between'
-        properties = properties.is_a?(Array) ? properties.select { |value| value.to_date >= rule[:value].first.to_date && value.to_date <= rule[:value].last.to_date  } : [properties].flatten.compact
+        properties = if properties.is_a?(Array)
+                      properties.select do |value|
+                        value[/\d{4}-\d{2}-\d{2}/].present? && value.to_date >= rule[:value].first.to_date && value.to_date <= rule[:value].last.to_date
+                      end
+                    else
+                      [properties].flatten.compact
+                    end
       end
     end
     properties || []
