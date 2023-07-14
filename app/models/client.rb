@@ -734,8 +734,9 @@ class Client < ActiveRecord::Base
   end
 
   def self.get_address_by_code(the_address_code = '')
-    char_size = the_address_code.length
+    return { village_id: nil, commune_id: nil, district_id: nil, province_id: nil } if the_address_code.blank?
 
+    char_size = the_address_code.length
     case char_size
     when 0..2
       Province.address_by_code(the_address_code.rjust(2, '0'))
