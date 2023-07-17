@@ -386,6 +386,11 @@ Rails.application.routes.draw do
       resources :departments, only: [:index]
       resources :families, except: [:destroy] do
         resources :custom_field_properties, only: [:create, :update, :destroy]
+
+        scope module: 'families' do
+          resources :exit_ngos, only: [:create, :update]
+          resources :enter_ngos, only: [:create, :update]
+        end
       end
       resources :users, only: [:index, :show]
       resources :clients, except: [:edit, :new] do
