@@ -7,7 +7,7 @@ module Api
         exit_ngo = @family.exit_ngos.new(exit_ngo_params)
         if exit_ngo.save
           # send_reject_referral_family_email
-          render json: @family
+          render json: @family.reload
         else
           render json: @family.errors, status: :unprocessable_entity
         end
@@ -17,7 +17,7 @@ module Api
         exit_ngo = @family.exit_ngos.find(params[:id])
         authorize exit_ngo
         if exit_ngo.update_attributes(exit_ngo_params)
-          render json: @family
+          render json: @family.reload
         else
           render json: @family.errors, status: :unprocessable_entity
         end

@@ -6,7 +6,7 @@ module Api
       def create
         enter_ngo = @family.enter_ngos.new(enter_ngo_params)
         if enter_ngo.save
-          render json: @family
+          render json: @family.reload
         else
           render json: @family.errors, status: :unprocessable_entity
         end
@@ -16,7 +16,7 @@ module Api
         enter_ngo = @family.enter_ngos.find(params[:id])
         authorize enter_ngo
         if enter_ngo.update_attributes(enter_ngo_params)
-          render json: @family
+          render json: @family.reload
         else
           render json: @family.errors, status: :unprocessable_entity
         end
