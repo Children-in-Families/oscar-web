@@ -24,7 +24,7 @@ class Assessment < ActiveRecord::Base
   before_save :set_assessment_completed, unless: :completed?
   after_commit :flash_cache
 
-  accepts_nested_attributes_for :assessment_domains
+  accepts_nested_attributes_for :assessment_domains, reject_if: proc { |attributes| attributes['score'].blank? && attributes['reason'].blank? }
 
   scope :most_recents, -> { order(created_at: :desc) }
   scope :defaults, -> { where(default: true) }
@@ -32,10 +32,14 @@ class Assessment < ActiveRecord::Base
   scope :completed, -> { where(completed: true) }
   scope :incompleted, -> { where(completed: false) }
   scope :client_risk_assessments, -> { where.not(level_of_risk: nil) }
+  scope :draft, -> { where(draft: true) }
+  scope :draft_untouch, -> { draft.where(last_auto_save_at: nil) }
 
   DUE_STATES        = ['Due Today', 'Overdue']
 
   def set_assessment_completed
+    return if draft?
+
     empty_assessment_domains = check_reason_and_score
     if empty_assessment_domains.count.zero?
       self.completed = true
@@ -96,7 +100,10 @@ class Assessment < ActiveRecord::Base
     else
       domains = default == 'true' ? Domain.csi_domains : Domain.custom_csi_domains
     end
+
     domains.each do |domain|
+      next if persisted? && draft? && assessment_domains.find_by(domain_id: domain.id).present?
+      
       case_conference_domain = case_conference.case_conference_domains.find_by(domain_id: domain.id) if case_conference
       assessment_domains.build(domain: domain, reason: case_conference_domain&.presenting_problem)
     end

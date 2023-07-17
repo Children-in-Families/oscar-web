@@ -344,6 +344,16 @@ class Client < ActiveRecord::Base
     case_note
   end
 
+  # options[:default]
+  # options[:case_conference_id]
+  # options[:custom_assessment_setting_id]
+  def find_or_create_assessment(options = {})
+    assessment = assessments.draft_untouch.where(options).last
+    assessment ||= assessments.new(options.merge(draft: true))
+    assessment.save(validate: false)
+    assessment
+  end
+
   def exit_ngo?
     status == 'Exited'
   end
