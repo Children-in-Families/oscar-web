@@ -398,13 +398,6 @@
                         %strong
                           = editable @client, :local_given_name, url: api_client_path(@client.id), pk: @client.id
                   
-                  %tr
-                    %td
-                      = "#{t('.date_of_birth')} :"
-                      %strong= editable @client, :date_of_birth, type: :date, value: @client.date_of_birth_format, url: api_client_path(@client.id), pk: @client.id, placement: 'bottom'
-                    %td
-                      = "#{t('created_by')} #{whodunnit('Client', @client.id)} #{t('at')} #{ date_format @client.created_at }"
-                  
                   - if current_organization.short_name == 'brc'
                     %tr
                       %td.spacing-first-col
