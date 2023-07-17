@@ -12,6 +12,54 @@ class FieldSetting < ActiveRecord::Base
   before_save :assign_type
   after_commit :flush_cache
 
+  def referee_info_tab?
+    form_group_2 == 'referee_info_tab'
+  end
+
+  def client_info_tab?
+    form_group_2 == 'client_info_tab'
+  end
+
+  def client_more_info_tab?
+    form_group_2 == 'client_more_info_tab'
+  end
+
+  def protection_concern_tab?
+    form_group_2 == 'protection_concern_tab'
+  end
+
+  def family_basic_info_tab?
+    form_group_2 == 'basic_info_tab'
+  end
+
+  def family_member_tab?
+    form_group_2 == 'family_member_tab'
+  end
+
+  def assessment_tab?
+    form_group_2 == 'assessment'
+  end
+
+  def legal_documentations_tab?
+    form_group_2 == 'legal_documentations'
+  end
+
+  def stakeholder_contacts_tab?
+    form_group_2 == 'stakeholder_contacts'
+  end
+
+  def pickup_information_tab?
+    form_group_2 == 'pickup_information'
+  end
+
+  def field_setting_basic_info_tab?
+    form_group_2 == 'field_setting_basic_info'
+  end
+
+  def cmt_government_form_tab?
+    form_group_2 == 'cmt_government_form'
+  end
+
   def field_setting?
     type == 'field'
   end
