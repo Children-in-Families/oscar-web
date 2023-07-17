@@ -1334,7 +1334,7 @@ module ClientsHelper
     elsif rule.presence
       results = string_condition_filter(rule, properties.flatten)
     end
-    results = results.presence ? results : properties
+    results.presence || properties
   end
 
   def string_condition_filter(rule, properties)

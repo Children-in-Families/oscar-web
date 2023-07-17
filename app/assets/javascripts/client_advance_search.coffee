@@ -124,7 +124,7 @@ class CIF.ClientAdvanceSearch
       $(".assessment-data-dropdown li").addClass("hide")
       self.hideCSIFilters()
 
-      value = $('#assessment-select').select2('data').id
+      value = $('#assessment-select').select2('data') && $('#assessment-select').select2('data').id
       $(".assessment-data-dropdown li.csi-#{value}").removeClass("hide")
       $("#client_advanced_search_assessment_selected").val("[#{value}]")
 
@@ -149,7 +149,7 @@ class CIF.ClientAdvanceSearch
   toggleAdvanceReportSection: (sectionText, hide = true) ->
     $options = $("optgroup[label='#{sectionText}'] option")
     self = @
-    
+
     if hide
       $options.attr("disabled", "disabled")
     else
@@ -162,7 +162,7 @@ class CIF.ClientAdvanceSearch
         self.hideDisabledGroup()
       ), 50
 
-  
+
   hideDisabledGroup: ->
     $(".select2-result-with-children").each ->
       $(@).hide() if $(@).find(".select2-disabled").length > 0
