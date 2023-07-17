@@ -1312,13 +1312,13 @@ module ClientsHelper
       when 'is_not_empty'
         properties
       when 'between'
-        properties = if properties.is_a?(Array)
-                      properties.select do |value|
-                        value[/\d{4}-\d{2}-\d{2}/].present? && value.to_date >= rule[:value].first.to_date && value.to_date <= rule[:value].last.to_date
+        properties =  if properties.is_a?(Array)
+                        properties.select do |value|
+                          value.to_s[/\d{4}-\d{2}-\d{2}/].present? && value.to_date >= rule[:value].first.to_date && value.to_date <= rule[:value].last.to_date
+                        end
+                      else
+                        [properties].flatten.compact
                       end
-                    else
-                      [properties].flatten.compact
-                    end
       end
     end
     properties || []
