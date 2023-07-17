@@ -1,7 +1,7 @@
-= simple_form_for([@assessment.client, @assessment], html: { id: "#{action_name}-assessment", class: 'assessment-form', data: { disable_required_fields: current_setting.disable_required_fields? } }) do |f|
+= simple_form_for([@assessment.client, @assessment], html: { id: "#{action_name}-assessment", class: 'assessment-form', data: { disable_required_fields: current_setting.disable_required_fields?, autosave: @assessment.persisted?, draft: @assessment.draft? } }) do |f|
   = hidden_field_tag :current_user, current_user.roles
   = hidden_field_tag :default, params[:default] if params[:default]
-  = hidden_field_tag :from_controller, @from_controller
+  = hidden_field_tag :from_controller, (@from_controller || params[:from_controller])
   = hidden_field_tag :custom_name, params[:custom_name] || @custom_assessment_setting.try(:custom_assessment_name)
   = f.hidden_field :case_conference_id
   = f.hidden_field :custom_assessment_setting_id
@@ -12,7 +12,7 @@
         = f.simple_fields_for 'assessment_domains', order_assessment(@assessment) do |ad|
           - domain = ad.object.domain
           %h4= domain_name_translate(@assessment, domain)
-          %div{ class: "assessment-domain-item domain-#{domain.id}" }
+          %div{ class: "assessment-domain-item domain-#{domain.id}", data: { upload_attachment_url: upload_attachment_client_assessment_path(@client, @assessment, domain_id: domain.id) } }
             .ibox
               .ibox-title
                 - if current_setting.show_prev_assessment? && @prev_assessment.present?

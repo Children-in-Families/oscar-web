@@ -21,6 +21,9 @@
               %b= "#{t('.case_plan')} #{@assessment.client.name}"
               %label{ class: "cursor-pointer #{@assessment.completed_label_class}", data: { toggle: :modal, target: "#modal-incomplete-assessment-#{@assessment.id}" } }
                 = @assessment.completed_status
+              - if @assessment.draft? && !@assessment.completed?
+                %span.label.label-warning.draft (draft)
+
               %br
               - if @assessment.index_of == 0
                 = "#{t('.initial_assessment')}"

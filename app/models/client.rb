@@ -337,6 +337,23 @@ class Client < ActiveRecord::Base
     percentage < 0 ? nil : percentage
   end
 
+  def find_or_create_draft_case_note
+    case_note = case_notes.draft_untouch.last
+    case_note ||= case_notes.new(draft: true)
+    case_note.save(validate: false)
+    case_note
+  end
+
+  # options[:default]
+  # options[:case_conference_id]
+  # options[:custom_assessment_setting_id]
+  def find_or_create_assessment(options = {})
+    assessment = assessments.draft_untouch.where(options).last
+    assessment ||= assessments.new(options.merge(draft: true))
+    assessment.save(validate: false)
+    assessment
+  end
+
   def exit_ngo?
     status == 'Exited'
   end
