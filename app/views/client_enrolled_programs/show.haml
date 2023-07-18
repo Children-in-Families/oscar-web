@@ -12,7 +12,7 @@
               - if can? :manage, ClientEnrollment
                 = client_enrolled_program_edit_link
                 = client_enrolled_program_destroy_link
-                = link_to t('.back'), report_client_client_enrolled_programs_path(@client, program_stream_id: @program_stream), class: 'btn btn-back-default btn-default min-width-btn margin-btn'
+                = link_to t('.back'), client_client_enrollments_path(@client), class: 'btn btn-back-default btn-default min-width-btn margin-btn'
       .ibox-content
         .table-responsive
           %table.table.table-bordered
