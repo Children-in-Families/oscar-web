@@ -1779,6 +1779,8 @@ en:
       province: Current Province
       title: Warning
       village: Village
+    custom_fields:
+      add_new: Add New
     create:
       successfully_created: Client has been successfully created.
     custom_assessment_domain_score:

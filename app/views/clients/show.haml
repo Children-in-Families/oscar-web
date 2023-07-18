@@ -249,29 +249,10 @@
                   - if (ec_manageable || strategic_overviewer?) && @client.cases.exclude_referred.kinships.inactive.exists?
                     = link_to client_cases_path(@client, case_type: 'KC') do
                       %span.text-success= t('.view_kc_history_btn_link')
-          -# - if can_read_client_progress_note?
-          -#   = link_to client_progress_notes_path(@client) do
-          -#     %span.btn-sm.btn.btn-warning.small-btn-margin.btn-fit= t('.progress_note')
-          .btn-group.small-btn-margin
-            %button.btn-sm.btn.btn-success.dropdown-toggle.btn-fit{ class: ('disabled' if @group_client_custom_fields.empty?), data: { toggle: "dropdown", trigger: 'hover', html: 'true', content: "#{I18n.t('inline_help.clients.show.active_form')}", placement: "auto" } }
-              = t('.additional_forms')
-              %span.caret
-            %ul.dropdown-menu.btn-fit.scrollable-dropdown-menu.additional-forms
-              - @group_client_custom_fields.each do |_, client_custom_fields|
-                %li
-                  %p
-                    = link_to client_custom_fields.first.custom_field.form_title, client_custom_field_properties_path(@client, custom_field_id: client_custom_fields.first.custom_field_id)
-                    - if client_custom_fields.first.custom_field.hidden
-                      %span.text-danger= fa_icon 'lock'
+      
           - if can? :manage, CustomFieldProperty
-            .btn-group.small-btn-margin
-              %button.btn-sm.btn.btn-success.dropdown-toggle.btn-fit{ data: { toggle: "dropdown", trigger: 'hover', html: 'true', content: "#{I18n.t('inline_help.clients.show.add_form')}", placement: "auto" }, class: ('disabled' if @free_client_forms.empty? || (status_exited?(@client.status) && !current_user.admin?)) }
-                = t('.add_form')
-                %span.caret
-              %ul.dropdown-menu.btn-fit.scrollable-dropdown-menu.add-form
-                - @free_client_forms.each do |custom_field|
-                  %li
-                    %p= link_to custom_field.form_title, new_client_custom_field_property_path(@client, custom_field_id: custom_field)
+            = link_to custom_fields_client_path(@client), data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.add_form')}", placement: "auto" } do
+              .btn.btn-primary.small-btn-margin.btn-sm.btn-fit= t('clients.form.custom_forms')
 
           = link_to client_client_enrollments_path(@client), data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.enroll_program')}", placement: "auto" } do
             .btn.btn-primary.small-btn-margin.btn-sm.btn-fit= t('datagrid.columns.clients.program_streams')
