@@ -465,6 +465,7 @@ Rails.application.routes.draw do
 
   resources :settings, except: [:destroy] do
     collection do
+      get :screening_forms
       get 'default_columns' => 'settings#default_columns'
       get 'research_module' => 'settings#research_module'
       get 'custom_labels' => 'settings#custom_labels'
