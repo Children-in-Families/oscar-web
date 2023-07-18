@@ -16,36 +16,34 @@
       .panel-body
         %ul.nav.nav-tabs{role: "tablist"}
           %li.active{role: "presentation"}
-            %a{"aria-controls" => "tab-additional-field-setting-basic-info", "aria-expanded" => "true", "data-toggle" => "tab", :href => "#tab-additional-field-setting-basic-info", :role => "tab"} Additional Field Setting
+            %a{"aria-controls" => "tab-additional-field-setting-basic-info", "aria-expanded" => "true", "data-toggle" => "tab", :href => "#tab-additional-field-setting-basic-info", :role => "tab"} Added fields by Ratanak
+          %li{role: "presentation"}
+            %a{"aria-controls" => "tab-additional-field-setting-pickup_information", "aria-expanded" => "true", "data-toggle" => "tab", :href => "#tab-additional-field-setting-pickup_information", :role => "tab"} Pickup Information
+          %li{role: "presentation"}
+            %a{"aria-controls" => "tab-additional-field-setting-stakeholder_contacts", "aria-expanded" => "true", "data-toggle" => "tab", :href => "#tab-additional-field-setting-stakeholder_contacts", :role => "tab"} Stakeholder Contacts
           %li{role: "presentation"}
             %a{"aria-controls" => "tab-additional-field-setting-legal-documentation", "aria-expanded" => "true", "data-toggle" => "tab", :href => "#tab-additional-field-setting-legal-documentation", :role => "tab"} Legal Documentations
           
-          %li{role: "presentation"}
-            %a{"aria-controls" => "tab-additional-field-setting-stakeholder_contacts", "aria-expanded" => "true", "data-toggle" => "tab", :href => "#tab-additional-field-setting-stakeholder_contacts", :role => "tab"} Stakeholder Contacts
-
-          %li{role: "presentation"}
-            %a{"aria-controls" => "tab-additional-field-setting-pickup_information", "aria-expanded" => "true", "data-toggle" => "tab", :href => "#tab-additional-field-setting-pickup_information", :role => "tab"} Pickup Information
         
         .tab-content
           - fields = fields.reject(&:group_setting?)
           #tab-additional-field-setting-basic-info.tab-pane.active{role: "tabpanel"}
             = render "field_settings/field_row_header"
-            - fields.select(&:field_setting_basic_info_tab?).each do |field|
+            - fields.select(&:added_fields_by_ratanak?).each do |field|
               = render 'field_settings/field_row', field: field, f: f
-          #tab-additional-field-setting-legal-documentation.tab-pane{role: "tabpanel"}
-            = render "field_settings/field_row_header"
-            - fields.select(&:legal_documentations_tab?).group_by(&:heading).each do |heading, fields|
-              %h4= heading
-              - fields.each do |field|
-                = render 'field_settings/field_row', field: field, f: f
-          
-          #tab-additional-field-setting-stakeholder_contacts.tab-pane{role: "tabpanel"}
-            = render "field_settings/field_row_header"
-            - fields.select(&:stakeholder_contacts_tab?).each do |field|
-              = render 'field_settings/field_row', field: field, f: f
-          
           #tab-additional-field-setting-pickup_information.tab-pane{role: "tabpanel"}
             = render "field_settings/field_row_header"
             - fields.select(&:pickup_information_tab?).each do |field|
               = render 'field_settings/field_row', field: field, f: f
+          #tab-additional-field-setting-stakeholder_contacts.tab-pane{role: "tabpanel"}
+            = render "field_settings/field_row_header"
+            - fields.select(&:stakeholder_contacts_tab?).each do |field|
+              = render 'field_settings/field_row', field: field, f: f
+          #tab-additional-field-setting-legal-documentation.tab-pane{role: "tabpanel"}
+            = render "field_settings/field_row_header"
+            - fields.select(&:legal_documentations_tab?).group_by(&:heading).each do |heading, fields|
+              %h4.heading= heading
+              - fields.each do |field|
+                = render 'field_settings/field_row', field: field, f: f
+          
         

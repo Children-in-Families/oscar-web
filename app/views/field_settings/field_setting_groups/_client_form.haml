@@ -16,15 +16,15 @@
       .panel-body
         %ul.nav.nav-tabs{role: "tablist"}
           %li.active{role: "presentation"}
-            %a{"aria-controls" => "tab-#{group}-referee-info", "aria-expanded" => "true", "data-toggle" => "tab", :href => "#tab-#{group}-referee-info", :role => "tab"} Referee Information
+            %a{"aria-controls" => "tab-client-referee-info", "aria-expanded" => "true", "data-toggle" => "tab", :href => "#tab-client-referee-info", :role => "tab"} Referee Information
           %li{role: "presentation"}
-            %a{"aria-controls" => "tab-#{group}-client-info", "aria-expanded" => "true", "data-toggle" => "tab", :href => "#tab-#{group}-client-info", :role => "tab"} Client Information
+            %a{"aria-controls" => "tab-client-client-info", "aria-expanded" => "true", "data-toggle" => "tab", :href => "#tab-client-client-info", :role => "tab"} Client Information
           %li{role: "presentation"}
-            %a{"aria-controls" => "tab-#{group}-client-more-info", "aria-expanded" => "true", "data-toggle" => "tab", :href => "#tab-#{group}-client-more-info", :role => "tab"} Client - More Information
+            %a{"aria-controls" => "tab-client-client-more-info", "aria-expanded" => "true", "data-toggle" => "tab", :href => "#tab-client-client-more-info", :role => "tab"} Client - More Information
           %li{role: "presentation"}
-            %a{"aria-controls" => "tab-#{group}-protection-concern", "aria-expanded" => "true", "data-toggle" => "tab", :href => "#tab-#{group}-protection-concern", :role => "tab"} Protection Concern
+            %a{"aria-controls" => "tab-client-protection-concern", "aria-expanded" => "true", "data-toggle" => "tab", :href => "#tab-client-protection-concern", :role => "tab"} Protection Concern
           %li{role: "presentation"}
-            %a{"aria-controls" => "tab-#{group}-others", "aria-expanded" => "false", "data-toggle" => "tab", :href => "#tab-#{group}-others", :role => "tab"} Others
+            %a{"aria-controls" => "tab-client-others", "aria-expanded" => "false", "data-toggle" => "tab", :href => "#tab-client-others", :role => "tab"} Others
         
         .tab-content
           - fields = fields.reject(&:group_setting?)

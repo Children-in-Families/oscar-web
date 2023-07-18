@@ -52,12 +52,20 @@ class FieldSetting < ActiveRecord::Base
     form_group_2 == 'pickup_information'
   end
 
-  def field_setting_basic_info_tab?
-    form_group_2 == 'field_setting_basic_info'
+  def added_fields_by_ratanak?
+    form_group_2 == 'added_field_by_ratanak'
   end
 
   def cmt_government_form_tab?
     form_group_2 == 'cmt_government_form'
+  end
+
+  def screening_form_tab?
+    form_group_2 == 'screening_form'
+  end
+
+  def cmt_case_note_tab?
+    form_group_2 == 'case_note'
   end
 
   def field_setting?

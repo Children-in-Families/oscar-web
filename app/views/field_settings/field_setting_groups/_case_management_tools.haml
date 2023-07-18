@@ -16,24 +16,27 @@
       .panel-body
         %ul.nav.nav-tabs{role: "tablist"}
           %li.active{role: "presentation"}
-            %a{"aria-controls" => "tab-family-basic-info", "aria-expanded" => "true", "data-toggle" => "tab", :href => "#tab-family-basic-info", :role => "tab"} Basic Family Information
+            %a{"aria-controls" => "tab-cmt-screening-form-tab", "aria-expanded" => "true", "data-toggle" => "tab", :href => "#tab-cmt-screening-form-tab", :role => "tab"} Screening Form
           %li{role: "presentation"}
-            %a{"aria-controls" => "tab-family-family-member", "aria-expanded" => "true", "data-toggle" => "tab", :href => "#tab-family-family-member", :role => "tab"} Family Member
+            %a{"aria-controls" => "tab-cmt-assessment-tab", "aria-expanded" => "true", "data-toggle" => "tab", :href => "#tab-cmt-assessment-tab", :role => "tab"} Assessment
           %li{role: "presentation"}
-            %a{"aria-controls" => "tab-#{group}-others", "aria-expanded" => "false", "data-toggle" => "tab", :href => "#tab-#{group}-others", :role => "tab"} Others
+            %a{"aria-controls" => "tab-cmt-case-note-tab", "aria-expanded" => "true", "data-toggle" => "tab", :href => "#tab-cmt-case-note-tab", :role => "tab"} Case Note
+          %li{role: "presentation"}
+            %a{"aria-controls" => "tab-#{group}-care-plan", "aria-expanded" => "false", "data-toggle" => "tab", :href => "#tab-cmt-care-plan", :role => "tab"} Care Plan
         
         .tab-content
           - fields = fields.reject(&:group_setting?)
-          #tab-family-basic-info.tab-pane.active{role: "tabpanel"}
+
+          #tab-cmt-screening-form-tab.tab-pane.active{role: "tabpanel"}
             = render "field_settings/field_row_header"
-            - fields.select(&:family_basic_info_tab?).each do |field|
+            - fields.select(&:screening_form_tab?).each do |field|
               = render 'field_settings/field_row', field: field, f: f
-          #tab-family-family-member.tab-pane{role: "tabpanel"}
+          #tab-cmt-assessment-tab.tab-pane{role: "tabpanel"}
             = render "field_settings/field_row_header"
-            - fields.select(&:family_member_tab?).each do |field|
+            - fields.select(&:assessment_tab?).each do |field|
               = render 'field_settings/field_row', field: field, f: f
-          #tab-family-others.tab-pane{role: "tabpanel"}
+          #tab-cmt-case-note-tab.tab-pane{role: "tabpanel"}
             = render "field_settings/field_row_header"
-            - fields.each do |field|
-              - next if field.family_member_tab? || field.family_basic_info_tab?
+            - fields.select(&:cmt_case_note_tab?).each do |field|
               = render 'field_settings/field_row', field: field, f: f
+          #tab-cmt-care-plan.tab-pane{role: "tabpanel"}
