@@ -1,4 +1,4 @@
-CIF.SettingsIndex = CIF.SettingsEdit = CIF.SettingsUpdate = CIF.SettingsCreate = CIF.SettingsDefault_columns = do ->
+CIF.SettingsIndex = CIF.SettingsScreening_forms = CIF.SettingsEdit = CIF.SettingsUpdate = CIF.SettingsCreate = CIF.SettingsDefault_columns = do ->
   _init = ->
     _initSelect2()
     _handleDefaultAssessmentCheckbox()

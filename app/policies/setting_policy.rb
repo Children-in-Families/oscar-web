@@ -20,6 +20,7 @@ class SettingPolicy < ApplicationPolicy
     user.admin?
   end
 
+  alias screening_forms? index?
   alias new? index?
   alias create? index?
   alias edit? index?

@@ -110,8 +110,13 @@ Rails.application.routes.draw do
   delete 'referrals/:id' => 'referrals#destroy'
 
   resources :clients do
+    member do
+      get :custom_fields
+    end
+
     resources :referrals, except: [:destroy]
     resources :internal_referrals
+    
     collection do
       post '/advanced_search', to: 'clients#index'
       get :advanced_search
@@ -460,6 +465,7 @@ Rails.application.routes.draw do
 
   resources :settings, except: [:destroy] do
     collection do
+      get :screening_forms
       get 'default_columns' => 'settings#default_columns'
       get 'research_module' => 'settings#research_module'
       get 'custom_labels' => 'settings#custom_labels'
