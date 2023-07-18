@@ -13,11 +13,13 @@ Datagrid.module_eval do
       book.worksheet(0).insert_row (index + 1), row_for(asset, *column_names).map(&:to_s)
     end
 
-    insert_case_note(book) if include_case_note?
-    insert_csi(book) if include_csi?
-    insert_custom_assessment(book) if include_custom_assessment?
-    insert_care_plan(book) if include_care_plan?
-    insert_custom_forms(book) if include_custom_forms?
+    if instance_of?(ClientGrid)
+      insert_case_note(book) if include_case_note?
+      insert_csi(book) if include_csi?
+      insert_custom_assessment(book) if include_custom_assessment?
+      insert_care_plan(book) if include_care_plan?
+      insert_custom_forms(book) if include_custom_forms?
+    end
 
     buffer = StringIO.new
     book.write(buffer)
@@ -226,19 +228,19 @@ Datagrid.module_eval do
   private
 
   def include_case_note?
-    instance_of?(ClientGrid) && columns.map(&:name).any? { |column| [:case_note_date, :case_note_type].include?(column) }
+    columns.map(&:name).any? { |column| [:case_note_date, :case_note_type].include?(column) }
   end
 
   def include_csi?
     csi_columns = csi_identities
     csi_columns += [:all_csi_assessments, :assessment_created_at, :completed_date]
 
-    instance_of?(ClientGrid) && columns.map(&:name).any? { |column| csi_columns.include?(column) }
+    columns.map(&:name).any? { |column| csi_columns.include?(column) }
   end
 
   def include_care_plan?
     care_plan_columns = [:care_plan_date, :care_plan_completed_date, :care_plan_count]
-    instance_of?(ClientGrid) && columns.map(&:name).any? { |column| care_plan_columns.include?(column) }
+    columns.map(&:name).any? { |column| care_plan_columns.include?(column) }
   end
 
   def care_plan_headers
@@ -311,7 +313,7 @@ Datagrid.module_eval do
     custom_assessment_columns = custom_assessment_identities
     custom_assessment_columns += [:custom_assessment_created_at, :date_of_custom_assessments, :custom_assessment, :custom_completed_date]
 
-    instance_of?(ClientGrid) && custom_assessment_setting.present? && columns.map(&:name).any? { |column| custom_assessment_columns.include?(column) }
+    custom_assessment_setting.present? && columns.map(&:name).any? { |column| custom_assessment_columns.include?(column) }
   end
 
   def custom_assessment_dynamic_columns
@@ -323,7 +325,7 @@ Datagrid.module_eval do
   end
 
   def include_custom_forms?
-    instance_of?(ClientGrid) && custom_form_selected_columns.present?
+    custom_form_selected_columns.present?
   end
 
   def custom_form_selected_columns
