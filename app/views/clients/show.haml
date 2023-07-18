@@ -171,7 +171,7 @@
           - if current_organization.available_for_referral?
             %input#client-id{ value: "#{@client.slug}", type: 'hidden' }
             .btn-group.small-btn-margin
-              %button.btn-sm.btn.btn-warning.dropdown-toggle.btn-fit{ data: { toggle: "dropdown", html: 'true', trigger: 'hover', content: "#{I18n.t('inline_help.clients.show.referral_form')}", placement: "auto" }, class: ('disabled' if @client.internal_referrals.empty? && @client.referrals.empty?) }
+              %button.btn-sm.btn.btn-warning.dropdown-toggle.btn-fit{ data: { toggle: "dropdown", html: 'true', trigger: 'hover', content: "#{I18n.t('inline_help.clients.show.referral_form')}", placement: "auto" } }
                 = t('.referral_forms')
                 %span.caret
               %ul.dropdown-menu.btn-fit.scrollable-dropdown-menu.referral-forms
