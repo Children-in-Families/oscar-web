@@ -21,8 +21,7 @@
             %a{"aria-controls" => "tab-client-client-info", "aria-expanded" => "true", "data-toggle" => "tab", :href => "#tab-client-client-info", :role => "tab"} Client Information
           %li{role: "presentation"}
             %a{"aria-controls" => "tab-client-client-more-info", "aria-expanded" => "true", "data-toggle" => "tab", :href => "#tab-client-client-more-info", :role => "tab"} Client - More Information
-          %li{role: "presentation"}
-            %a{"aria-controls" => "tab-client-protection-concern", "aria-expanded" => "true", "data-toggle" => "tab", :href => "#tab-client-protection-concern", :role => "tab"} Protection Concern
+            
           %li{role: "presentation"}
             %a{"aria-controls" => "tab-client-others", "aria-expanded" => "false", "data-toggle" => "tab", :href => "#tab-client-others", :role => "tab"} Others
         
@@ -41,11 +40,6 @@
           #tab-client-client-more-info.tab-pane{role: "tabpanel"}
             = render "field_settings/field_row_header"
             - fields.select(&:client_more_info_tab?).each do |field|
-              = render 'field_settings/field_row', field: field, f: f
-          
-          #tab-client-protection-concern.tab-pane{role: "tabpanel"}
-            = render "field_settings/field_row_header"
-            - fields.select(&:protection_concern_tab?).each do |field|
               = render 'field_settings/field_row', field: field, f: f
 
           #tab-client-others.tab-pane{role: "tabpanel"}
