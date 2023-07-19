@@ -2,6 +2,8 @@ class CaseNote < ActiveRecord::Base
   INTERACTION_TYPE = ['Visit', 'Non face to face', '3rd Party', 'Supervision', 'Other'].freeze
   paginates_per 1
 
+  mount_uploaders :attachments, FileUploader
+
   belongs_to :client
   belongs_to :family
   belongs_to :assessment
@@ -21,6 +23,8 @@ class CaseNote < ActiveRecord::Base
 
   scope :most_recents, -> { order(created_at: :desc) }
   scope :recent_meeting_dates, -> { order(meeting_date: :desc) }
+  scope :draft, -> { where(draft: true) }
+  scope :draft_untouch, -> { draft.where(last_auto_save_at: nil) }
 
   scope :no_case_note_in, ->(value) { where('meeting_date <= ? AND id = (SELECT MAX(cn.id) FROM CASE_NOTES cn where CASE_NOTES.client_id = cn.client_id)', value) }
 

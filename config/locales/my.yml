@@ -2264,6 +2264,10 @@ my:
       detail: အစီအစဥ္ အေသးစိတ္
       district: ခ႐ိုင္
       donor: အလွဴရွင္
+      donor_info: "Donor Information"
+      school_info: School Information
+      other_info: Other Information
+      carer_info: Carer Information
       edit_exit_information: Edit Exit Information
       enrolled_program_streams: စာရင္းေပးသြင္းမႈအစီအစဥ္စီဆင္းမႈမ်ား
       enter_ngo_information: NGO အဖွဲ့သတင်းအချက်အလက်ထည့်သွင်း
@@ -2339,6 +2343,11 @@ my:
       province: ေမြးဖြားရာခ႐ိုင္
       received_by: မွ လက္ခံသည္
       refer_client: ရည်ညွှန်း
+      referee_information: Referee Information
+      administrative_info: Administrative Information
+      referral_information: Client / Referral Information
+      referral_more_information: Client / Referral - More Information
+      referral_vulnerability: Vulnerability Information and Referral Note
       referee_phone_number: ဒိုင်လူကြီးဖုန်းနံပါတ်ကို
       referral_forms: ရည်ညွန်းပုံစံများ
       referral_phone: လႊဲရမည့္ ဖုန္းနံပါတ္

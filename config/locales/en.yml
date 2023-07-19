@@ -1049,6 +1049,13 @@ en:
       download: Download
       max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
       preview_download: Preview & Download
+    case_note_attachment_fields:
+      allow_file_size: Allowed file types
+      are_you_sure: Are you sure you want to delete?
+      attachments: Attachments
+      download: Download
+      max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
+      preview_download: Preview & Download
     attendee: Who was there during the visit or conversation?
     case_note_form: Case Note Form
     client_name: Client’s Name
@@ -2250,6 +2257,10 @@ en:
       detail: Detail
       district: District/Khan
       donor: Donor
+      donor_info: "Donor Information"
+      school_info: School Information
+      other_info: Other Information
+      carer_info: Carer Information
       edit_exit_information: Edit Exit Information
       enrolled_program_streams: Client's Active Program Streams
       enter_ngo_information: Enter NGO Information
@@ -2334,6 +2345,11 @@ en:
         uganda: Birth Province
       received_by: Referral Received By
       refer_client: Refer Client
+      referee_information: Referee Information
+      administrative_info: Administrative Information
+      referral_information: Client / Referral Information
+      referral_more_information: Client / Referral - More Information
+      referral_vulnerability: Vulnerability Information and Referral Note
       referee_phone_number: Referee Phone Number
       referral_email: Referee Email
       referral_forms: Referral Forms
@@ -4340,6 +4356,9 @@ en:
       close: Close
       warning: Warning
     show:
+      about: About Family
+      administrative_info: Administrative Information
+      referee_info: Referee Information
       accept: Accept
       accepted_date: NGO Accept Date
       add_form: Add Form

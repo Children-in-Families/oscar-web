@@ -141,8 +141,17 @@ Rails.application.routes.draw do
 
     resources :custom_field_properties
     resources :government_forms
-    resources :assessments
-    resources :case_notes
+
+    resources :assessments do
+      member do
+        post :upload_attachment
+      end
+    end
+    
+    resources :case_notes do
+      post :upload_attachment, on: :member
+    end
+
     resources :care_plans
     resources :cases do
       scope module: 'case' do
@@ -479,6 +488,13 @@ Rails.application.routes.draw do
 
   if Rails.env.development?
     mount LetterOpenerWeb::Engine, at: "/letter_opener"
-    mount Sidekiq::Web => '/sidekiq'
+  end
+
+  mount Sidekiq::Web => '/sidekiq'
+
+  if Rails.env.production? || Rails.env.staging?
+    Sidekiq::Web.use(Rack::Auth::Basic) do |user, password|
+      [user, password] == ['admin', 'admin@@$$password']
+    end
   end
 end

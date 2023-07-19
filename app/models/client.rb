@@ -337,6 +337,23 @@ class Client < ActiveRecord::Base
     percentage < 0 ? nil : percentage
   end
 
+  def find_or_create_draft_case_note
+    case_note = case_notes.draft_untouch.last
+    case_note ||= case_notes.new(draft: true)
+    case_note.save(validate: false)
+    case_note
+  end
+
+  # options[:default]
+  # options[:case_conference_id]
+  # options[:custom_assessment_setting_id]
+  def find_or_create_assessment(options = {})
+    assessment = assessments.draft_untouch.where(options).last
+    assessment ||= assessments.new(options.merge(draft: true))
+    assessment.save(validate: false)
+    assessment
+  end
+
   def exit_ngo?
     status == 'Exited'
   end
@@ -734,8 +751,9 @@ class Client < ActiveRecord::Base
   end
 
   def self.get_address_by_code(the_address_code = '')
-    char_size = the_address_code.length
+    return { village_id: nil, commune_id: nil, district_id: nil, province_id: nil } if the_address_code.blank?
 
+    char_size = the_address_code.length
     case char_size
     when 0..2
       Province.address_by_code(the_address_code.rjust(2, '0'))
@@ -862,7 +880,7 @@ class Client < ActiveRecord::Base
     Rails.cache.fetch([Apartment::Tenant.current, object.id, object.given_name || 'given_name']) do
       current_org = Organization.current
       Organization.switch_to 'shared'
-      given_name = SharedClient.find_by(slug: object.slug).given_name
+      given_name = SharedClient.find_by(slug: object.slug)&.given_name
       Organization.switch_to current_org.short_name
       given_name
     end
@@ -872,7 +890,7 @@ class Client < ActiveRecord::Base
     Rails.cache.fetch([Apartment::Tenant.current, object.id, object.family_name || 'family_name']) do
       current_org = Organization.current
       Organization.switch_to 'shared'
-      family_name = SharedClient.find_by(slug: object.slug).family_name
+      family_name = SharedClient.find_by(slug: object.slug)&.family_name
       Organization.switch_to current_org.short_name
       family_name
     end
@@ -882,7 +900,7 @@ class Client < ActiveRecord::Base
     Rails.cache.fetch([Apartment::Tenant.current, object.id, object.given_name || 'given_name', 'export_excel']) do
       current_org = Organization.current
       Organization.switch_to 'shared'
-      given_name = SharedClient.find_by(slug: object.slug).given_name
+      given_name = SharedClient.find_by(slug: object.slug)&.given_name
       Organization.switch_to current_org.short_name
       given_name
     end
@@ -892,7 +910,7 @@ class Client < ActiveRecord::Base
     Rails.cache.fetch([Apartment::Tenant.current, object.id, object.local_given_name || 'local_given_name']) do
       current_org = Organization.current
       Organization.switch_to 'shared'
-      local_given_name = SharedClient.find_by(slug: object.slug).local_given_name
+      local_given_name = SharedClient.find_by(slug: object.slug)&.local_given_name
       Organization.switch_to current_org.short_name
       local_given_name
     end
@@ -902,7 +920,7 @@ class Client < ActiveRecord::Base
     Rails.cache.fetch([Apartment::Tenant.current, object.id, object.local_family_name || 'local_family_name']) do
       current_org = Organization.current
       Organization.switch_to 'shared'
-      local_family_name = SharedClient.find_by(slug: object.slug).local_family_name
+      local_family_name = SharedClient.find_by(slug: object.slug)&.local_family_name
       Organization.switch_to current_org.short_name
       local_family_name
     end
