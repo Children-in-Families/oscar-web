@@ -7,6 +7,6 @@
     %a{"aria-controls" => "tab-refer-from", "aria-expanded" => "true", :href => screening_forms_settings_path, :role => "tab"} Screening Form
   %li{role: "presentation", class: settings_menu_active('settings', 'customize_case_note') }
     %a{"aria-controls" => "tab-refer-from", "aria-expanded" => "true", :href => customize_case_note_settings_path, :role => "tab"} Case Note
-  %li{role: "presentation" }
-    %a{"aria-controls" => "tab-refer-from", "aria-expanded" => "true", :href => "#", :role => "tab", disabled: true } Care Plan
+  %li{role: "presentation", class: settings_menu_active('settings', 'care_plan') }
+    %a{"aria-controls" => "tab-refer-from", "aria-expanded" => "true", :href => care_plan_settings_path, :role => "tab", } Care Plan
 

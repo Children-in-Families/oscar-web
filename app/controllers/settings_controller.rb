@@ -10,6 +10,7 @@ class SettingsController < AdminController
   end
 
   def screening_forms; end
+  def care_plan; end
 
   def create
     @setting = Setting.new(setting_params)
