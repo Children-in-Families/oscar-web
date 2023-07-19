@@ -5,7 +5,7 @@ namespace :goh_status do
     # find all accepted clients who has exited_ngos created_at greater than enter_gnos created_at and change status to exited
     Client.joins(:enter_ngos, :exit_ngos).where(status: "Accepted").each do |client|
       if client.enter_ngos.last.created_at < client.exit_ngos.last.created_at && client.client_enrollments.blank?
-        client.update_columns(status: "exited")
+        client.update_columns(status: "Exited")
         puts client.slug
       end
     end
