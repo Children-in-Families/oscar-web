@@ -2,21 +2,29 @@
   .col-xs-12
     .ibox.min-margin-layout
       .ibox-content
-        %div
-          %ul.nav.nav-tabs.csi-tab{role: "tablist"}
-            %li{role: "presentation", class: ('active' if params[:tab] == 'csi-tools' || params[:tab].blank?) }
-              %a{"aria-controls" => "csi-tools", "data-toggle" => "tab", href: "#csi-tools", role: "tab"}= t('.csi_tool')
-            - if @custom_domains.present?
-              - if @custom_assessment_settings.joins(:domains).present?
-                - @custom_assessment_settings.each do |cs|
-                  - tab_name = "#{cs.custom_assessment_name.downcase.strip.parameterize('-')}#{cs.id}-custom-csi-tools"
-                  - if cs.enable_custom_assessment == true
-                    %li{role: "presentation", class: ('active' if params[:tab] == tab_name) }
-                      %a{"aria-controls" => tab_name, "data-toggle" => "tab", href: "##{tab_name}", role: "tab"}= cs.custom_assessment_name
-            %li{ role: "presentation", class: ('active' if params[:tab] == 'family-custom-domain') }
-              %a{"aria-controls" => "family-custom-domain", "data-toggle" => "tab", href: "#family-custom-domain", role: "tab"}= t('.family_csi_tool')
-          .tab-content
-            = render 'csi_tool'
-            - if @custom_domains.present?
-              = render 'custom_assessment_setting'
-            = render 'family_custom_assessment'
+        %ul.nav.nav-tabs#tablist-cms-tools{role: "tablist"}
+          %li{role: "presentation", class: settings_menu_active('domain_groups', 'index') }
+            %a{"aria-controls" => "tab-refer-to", "aria-expanded" => "true", :href => domain_groups_path, :role => "tab"}= t('layouts.side_menu.domain_groups')
+          %li{role: "presentation", class: settings_menu_active('domains', 'index') }
+            %a{"aria-controls" => "tab-refer-from", "aria-expanded" => "true", :href => domains_path(tab: 'csi-tools'), :role => "tab"}= t('layouts.side_menu.domains')
+          
+        .tab-content
+          .tab-pane.active
+            %div
+              %ul.nav.nav-tabs.csi-tab{role: "tablist"}
+                %li{role: "presentation", class: ('active' if params[:tab] == 'csi-tools' || params[:tab].blank?) }
+                  %a{"aria-controls" => "csi-tools", "data-toggle" => "tab", href: "#csi-tools", role: "tab"}= t('.csi_tool')
+                - if @custom_domains.present?
+                  - if @custom_assessment_settings.joins(:domains).present?
+                    - @custom_assessment_settings.each do |cs|
+                      - tab_name = "#{cs.custom_assessment_name.downcase.strip.parameterize('-')}#{cs.id}-custom-csi-tools"
+                      - if cs.enable_custom_assessment == true
+                        %li{role: "presentation", class: ('active' if params[:tab] == tab_name) }
+                          %a{"aria-controls" => tab_name, "data-toggle" => "tab", href: "##{tab_name}", role: "tab"}= cs.custom_assessment_name
+                %li{ role: "presentation", class: ('active' if params[:tab] == 'family-custom-domain') }
+                  %a{"aria-controls" => "family-custom-domain", "data-toggle" => "tab", href: "#family-custom-domain", role: "tab"}= t('.family_csi_tool')
+              .tab-content
+                = render 'csi_tool'
+                - if @custom_domains.present?
+                  = render 'custom_assessment_setting'
+                = render 'family_custom_assessment'

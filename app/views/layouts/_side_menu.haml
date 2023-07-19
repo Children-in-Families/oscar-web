@@ -116,8 +116,8 @@
                     - else
                       %a{"data-target" => "#warning-program", "data-toggle" => "modal", :type => "button"}=t('.program_streams')
                 - if can? :read, :all
-                  %li{ class: active_menu('custom_fields') }
-                    = link_to t('.assessments'), custom_fields_path
+                  %li{ class: active_menu('domain_groups') }
+                    = link_to t('.assessments'), domain_groups_path
                   %li{ class: active_menu('quantitative_types') }
                     = link_to t('.quantitative_types'), quantitative_types_path
                 - if can? :read, ReferralSource
