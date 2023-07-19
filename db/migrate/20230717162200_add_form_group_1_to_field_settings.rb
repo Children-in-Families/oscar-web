@@ -58,6 +58,7 @@ def reset_case_management_tool
   FieldSetting.where(form_group_1: 'case_management_tools', name: %w(reason)).update_all(form_group_2: 'assessment')
   FieldSetting.where(name: 'government_forms').update_all(form_group_1: 'case_management_tools', form_group_2: 'cmt_government_form')
   FieldSetting.where(name: 'note', group: 'case_note').update_all(form_group_1: 'case_management_tools', form_group_2: 'case_note')
+  FieldSetting.where(name: 'case_note', group: 'client').update_all(form_group_1: 'case_management_tools', form_group_2: 'case_note')
 end
 
 def reset_anti_trafficking
