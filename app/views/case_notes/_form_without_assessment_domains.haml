@@ -4,7 +4,7 @@
   - domains = fetch_domains(domain_note)
 
 - persisted_case_note, domain_note_by_case_note = case_note_domain_without_assessment(domain_note, @case_note)
-.ibox.case-note-domain-group.without-assessments{ style: "display: #{persisted_case_note ? 'block' : 'none'}", id: "domain-#{domain_note.object.domain_group.id}" }
+.ibox.case-note-domain-group.without-assessments{ style: "display: #{(persisted_case_note && !@case_note.draft?) ? 'block' : 'none'}", id: "domain-#{domain_note.object.domain_group.id}" }
   .ibox-title
     %h5
       = "#{t('.domain')} #{domain_note.object.domain_group.name}"
@@ -22,9 +22,9 @@
       .col-xs-12.col-md-6
         - domain_note_by_case_note.each do |domain|
           - tasks = @case_note.client.tasks.incomplete.where(domain_id: domain.id)
-          - if domain_note.object.persisted?
+          - if domain_note.object.persisted? && !@case_note.draft? && domain_note.object.domain_group_id == domain.domain_group_id
             - tasks = tasks.by_case_note_domain_group(domain_note.object)
-          .panel{ class: "panel-primary panel-tasks-domain-#{ domain.id } #{!selected_domain_group(domain_note.object) && hidden_class(tasks)}", data: { domain_name_panel: domain.name } }
+          .panel{ class: "panel-primary panel-tasks-domain-#{ domain.id } #{hidden_class(tasks)}", data: { domain_name_panel: domain.name } }
             .panel-heading
               %strong
                 = t('.domain')

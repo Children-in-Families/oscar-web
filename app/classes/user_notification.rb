@@ -91,7 +91,7 @@ class UserNotification
   end
 
   def overdue_assessments_count
-    @assessments[:overdue_count]
+    @assessments[:overdue_count] || 0
   end
 
   def any_overdue_assessments?
@@ -99,7 +99,7 @@ class UserNotification
   end
 
   def due_today_assessments_count
-    @assessments[:due_today].size
+    @assessments[:due_today]&.size || 0
   end
 
   def any_due_today_assessments?
@@ -107,7 +107,7 @@ class UserNotification
   end
 
   def overdue_custom_assessments_count
-    @assessments[:custom_overdue_count]
+    @assessments[:custom_overdue_count] || 0
   end
 
   def any_overdue_custom_assessments?
@@ -115,7 +115,7 @@ class UserNotification
   end
 
   def due_today_custom_assessments_count
-    @assessments[:custom_due_today].size
+    @assessments[:custom_due_today]&.size || 0
   end
 
   def any_due_today_custom_assessments?

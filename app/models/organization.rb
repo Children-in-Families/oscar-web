@@ -176,6 +176,10 @@ class Organization < ActiveRecord::Base
     end
   end
 
+  def self.full_name_from_short_name(short_name)
+    (cache_mapping_ngo_names.find{ |name| name.keys[0] == short_name } || {})[short_name]
+  end
+
   def self.cache_visible_ngos
     Rails.cache.fetch([Apartment::Tenant.current, 'Organization', 'visible']) do
       Organization.visible.order(:created_at).to_a
