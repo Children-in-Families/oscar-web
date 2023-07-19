@@ -92,7 +92,7 @@ describe 'CaseNote' do
   feature 'List' do
     let!(:case_note) { create(:case_note, client: client, assessment: assessment) }
     let!(:case_note_domain_group) { create(:case_note_domain_group, case_note: case_note, domain_group: domain.domain_group) }
-    let!(:other_client) { create(:client,status: 'accepted', users: [user]) }
+    let!(:other_client) { create(:client, status: 'Accepted', users: [user]) }
     let!(:other_fc_case){ create(:case, case_type: 'FC', client: other_client) }
 
     before do
