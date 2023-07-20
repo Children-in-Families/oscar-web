@@ -214,7 +214,7 @@ class ClientSerializer < ActiveModel::Serializer
         end.compact
         cdg.as_json.merge(domain_group_identities: cdg.domain_identities, domain_scores: domain_scores, completed_tasks: cdg.completed_tasks)
       end
-      case_note.as_json.merge(case_note_domain_group: formatted_case_note_domain_group)
+      case_note.as_json.merge(case_note_domain_groups: formatted_case_note_domain_group)
     end
   end
 
