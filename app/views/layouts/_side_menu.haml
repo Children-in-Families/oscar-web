@@ -85,12 +85,12 @@
             %span.fa.arrow
           %ul.nav.nav-second-level
             %li
-              %a#pro-nav{href: "#"}
+              %a.pro-nav{href: "#"}
                 = t('.settings')
                 %span.fa.arrow
               %ul.nav.nav-third-level
                 - if current_user.admin?
-                  %li{ class: settings_menu_active('settings', 'index') }
+                  %li{ class: settings_menu_active('settings', 'index', 'risk_assessment', 'screening_forms', 'customize_case_note', 'care_plan') }
                     = link_to t('.cms_tools'), settings_path
                   %li{ class: settings_menu_active('settings', 'default_columns') }
                     = link_to t('.default_columns'), default_columns_settings_path
@@ -102,7 +102,7 @@
                     %li{ class: settings_menu_active('settings', 'limit_tracking_form')}
                       = link_to t('.tracking_form_limit'), limit_tracking_form_settings_path
             %li
-              %a#pro-nav{href: "#"}
+              %a.pro-nav{href: "#"}
                 = t('.custom_tools')
                 %span.fa.arrow
               %ul.nav.nav-third-level
@@ -116,7 +116,7 @@
                     - else
                       %a{"data-target" => "#warning-program", "data-toggle" => "modal", :type => "button"}=t('.program_streams')
                 - if can? :read, :all
-                  %li{ class: active_menu('domain_groups') }
+                  %li{ class: active_menu('domain_groups') || active_menu('domains') }
                     = link_to t('.assessments'), domain_groups_path
                   %li{ class: active_menu('quantitative_types') }
                     = link_to t('.quantitative_types'), quantitative_types_path
@@ -142,7 +142,7 @@
                         = link_to t('.service_deliveries'), service_deliveries_path
 
             %li
-              %a#pro-nav{href: "#"}
+              %a.pro-nav{href: "#"}
                 = t('.modulars')
                 %span.fa.arrow
               %ul.nav.nav-third-level
