@@ -34,6 +34,7 @@ class Assessment < ActiveRecord::Base
   scope :client_risk_assessments, -> { where.not(level_of_risk: nil) }
   scope :draft, -> { where(draft: true) }
   scope :draft_untouch, -> { draft.where(last_auto_save_at: nil) }
+  scope :not_untouch_draft, -> { where("draft IS FALSE OR last_auto_save_at IS NOT NULL") }
 
   DUE_STATES        = ['Due Today', 'Overdue']
 
@@ -153,7 +154,7 @@ class Assessment < ActiveRecord::Base
   end
 
   def index_of
-    Assessment.order(:created_at).where(client_id: client_id).pluck(:id).index(id)
+    Assessment.not_untouch_draft.order(:created_at).where(client_id: client_id).pluck(:id).index(id)
   end
 
   def parent
