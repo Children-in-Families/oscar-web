@@ -53,12 +53,14 @@ def reset_family_form
 end
 
 def reset_case_management_tool
-  FieldSetting.where(form_group_1: 'client_form', name: %w(complete_screening_assessment view_screening_assessment)).update_all(form_group_1: 'case_management_tools', form_group_2: 'screening_form')
+  FieldSetting.where(form_group_1: 'client_form', name: %w(complete_screening_assessment view_screening_assessment screening_interview_form)).update_all(form_group_1: 'case_management_tools', form_group_2: 'screening_form')
   FieldSetting.where(form_group_1: 'client_form', name: %w(assessment)).update_all(form_group_1: 'case_management_tools', form_group_2: 'assessment')
   FieldSetting.where(form_group_1: 'case_management_tools', name: %w(reason)).update_all(form_group_2: 'assessment')
   FieldSetting.where(name: 'government_forms').update_all(form_group_1: 'case_management_tools', form_group_2: 'cmt_government_form')
   FieldSetting.where(name: 'note', group: 'case_note').update_all(form_group_1: 'case_management_tools', form_group_2: 'case_note')
   FieldSetting.where(name: 'case_note', group: 'client').update_all(form_group_1: 'case_management_tools', form_group_2: 'case_note')
+  FieldSetting.where(group: 'care_plan').update_all(form_group_1: 'case_management_tools', form_group_2: 'care_plan')
+  FieldSetting.where(group: 'task').update_all(form_group_1: 'case_management_tools', form_group_2: 'task')
 end
 
 def reset_anti_trafficking
