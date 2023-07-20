@@ -5,6 +5,8 @@ module AssessmentConcern
 
   def fix_assessment_domains_attributes
     # assign id to assessment_domain as simply autosave via ajax without updating the form
+    return if params.dig(:assessment, :assessment_domains_attributes).blank?
+
     params[:assessment][:assessment_domains_attributes].each do |index, assessment_domain_attributes|
       domain_id = assessment_domain_attributes[:domain_id]
       assessment_domain = @assessment.assessment_domains.find_by(domain_id: domain_id)
