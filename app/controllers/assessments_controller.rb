@@ -27,7 +27,7 @@ class AssessmentsController < AdminController
     if @custom_assessment_setting.present? && !policy(@assessment).create?(custom_assessment_setting_id)
       redirect_to client_assessments_path(@client), alert: "#{I18n.t('assessments.index.next_review')} of #{@custom_assessment_setting.custom_assessment_name}: #{date_format(@client.custom_next_assessment_date(nil, @custom_assessment_setting.id))}"
     else
-      routes_params = params.to_unsafe_h.slice(:default, :custom_name, :case_conference, :from_controller)
+      routes_params = params.to_unsafe_h.slice("default", "custom_name", "case_conference", "from_controller")
       redirect_to(edit_client_assessment_path(@client, routes_params.merge(id: :draft)))
     end
   end
