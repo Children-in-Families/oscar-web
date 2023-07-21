@@ -338,7 +338,7 @@ class Client < ActiveRecord::Base
   end
 
   def find_or_create_draft_case_note
-    case_note = case_notes.unscoped.draft_untouch.last
+    case_note = case_notes.draft_untouch.last
     case_note ||= case_notes.new(draft: true)
     case_note.save(validate: false)
     case_note
@@ -348,7 +348,7 @@ class Client < ActiveRecord::Base
   # options[:case_conference_id]
   # options[:custom_assessment_setting_id]
   def find_or_create_assessment(options = {})
-    assessment = assessments.unscoped.draft_untouch.where(options).last
+    assessment = assessments.draft_untouch.where(options).last
     assessment ||= assessments.new(options.merge(draft: true))
     assessment.save(validate: false)
     assessment
