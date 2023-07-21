@@ -91,14 +91,16 @@ class AssessmentsController < AdminController
 
   def update
     fix_assessment_domains_attributes
+    attributes = assessment_params.merge(last_auto_save_at: DateTime.now)
 
     saved = if save_draft?
-      @assessment.assign_attributes(assessment_params.merge(last_auto_save_at: DateTime.now))
+      @assessment.assign_attributes(attributes)
       PaperTrail.without_tracking { @assessment.save(validate: false) }
 
       true
     else
-      @assessment.update_attributes(assessment_params.merge(draft: false))
+      attributes[:draft] = false unless Setting.cache_first.disable_required_fields?
+      @assessment.update_attributes(attributes)
     end
 
     if saved
