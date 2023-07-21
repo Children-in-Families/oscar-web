@@ -300,12 +300,12 @@ class User < ActiveRecord::Base
     overdue_and_due_today_forms(active_accepted_clients)
   end
 
-  def case_note_overdue_and_due_today
+  def case_notes_due_today_and_overdue
     overdue   = []
     due_today = []
 
     if self.deactivated_at.nil?
-      clients.active_accepted_status.each do |client|
+      user_clients.active_accepted_status.includes(:case_notes).each do |client|
         next if client.case_notes.count.zero?
 
         client_next_case_note_date = client.next_case_note_date.to_date
@@ -316,7 +316,7 @@ class User < ActiveRecord::Base
         end
       end
     else
-      clients.active_accepted_status.each do |client|
+      user_clients.active_accepted_status.includes(:case_notes).each do |client|
         next if client.case_notes.count.zero?
 
         client_next_case_note_date = client.next_case_note_date(self.activated_at)
@@ -331,6 +331,16 @@ class User < ActiveRecord::Base
     end
 
     { client_overdue: overdue, client_due_today: due_today }
+  end
+
+  def user_clients
+    @user_clients ||= if admin?
+                        Client.select(:id, :slug)
+                      elsif manager?
+                        clients.or(Client.where(user_id: User.self_and_subordinates(self).ids)).select(:id, :slug)
+                      elsif case_worker?
+                        clients.select(:id, :slug)
+                      end
   end
 
   def self.self_and_subordinates(user)
