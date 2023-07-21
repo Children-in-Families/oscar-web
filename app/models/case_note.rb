@@ -27,8 +27,11 @@ class CaseNote < ActiveRecord::Base
   scope :draft_untouch, -> { draft.where(last_auto_save_at: nil) }
 
   scope :no_case_note_in, ->(value) { where('meeting_date <= ? AND id = (SELECT MAX(cn.id) FROM CASE_NOTES cn where CASE_NOTES.client_id = cn.client_id)', value) }
+  scope :not_untouch_draft, -> { where("draft IS FALSE OR last_auto_save_at IS NOT NULL") }
 
   before_create :set_assessment
+
+  default_scope -> { not_untouch_draft }
 
   def populate_notes(custom_id, custom_case_note)
     # family_domains = Domain.family_custom_csi_domains

@@ -13,7 +13,7 @@ class AssessmentsController < AdminController
   def index
     @default_assessment = @client.assessments.new
     @custom_assessment  = @client.assessments.new(default: false)
-    @assessmets = AssessmentDecorator.decorate_collection(@client.assessments.not_untouch_draft.order(:created_at))
+    @assessmets = AssessmentDecorator.decorate_collection(@client.assessments.order(:created_at))
     @custom_assessment_settings = CustomAssessmentSetting.all.where(enable_custom_assessment: true)
   end
 
