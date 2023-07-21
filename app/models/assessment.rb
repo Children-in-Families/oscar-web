@@ -24,7 +24,7 @@ class Assessment < ActiveRecord::Base
   before_save :set_assessment_completed, unless: :completed?
   after_commit :flash_cache
 
-  accepts_nested_attributes_for :assessment_domains, reject_if: proc { |attributes| attributes['score'].blank? && attributes['reason'].blank? }
+  accepts_nested_attributes_for :assessment_domains, reject_if: proc { |attributes| (!Setting.cache_first.disable_required_fields? && attributes['score'].blank? && attributes['reason'].blank?) }
 
   scope :most_recents, -> { order(created_at: :desc) }
   scope :defaults, -> { where(default: true) }
@@ -45,6 +45,7 @@ class Assessment < ActiveRecord::Base
 
     empty_assessment_domains = check_reason_and_score
     if empty_assessment_domains.count.zero?
+      self.draft = false
       self.completed = true
       self.completed_date = Time.zone.now
     else
