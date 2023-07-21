@@ -32,6 +32,8 @@ class Assessment < ActiveRecord::Base
   scope :completed, -> { where(completed: true) }
   scope :incompleted, -> { where(completed: false) }
   scope :client_risk_assessments, -> { where.not(level_of_risk: nil) }
+
+  scope :not_draft, -> { where(draft: false) }
   scope :draft, -> { where(draft: true) }
   scope :draft_untouch, -> { draft.where(last_auto_save_at: nil) }
   scope :not_untouch_draft, -> { where("draft IS FALSE OR last_auto_save_at IS NOT NULL") }
