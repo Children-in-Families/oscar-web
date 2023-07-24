@@ -82,6 +82,8 @@ class AssessmentsController < AdminController
 
   def edit
     if @assessment.draft?
+      params[:default] ||= "true" if params[:id] != "draft" && @assessment.default?
+
       @prev_assessment = @client.assessments.last
       @assessment.populate_notes(params[:default], params[:custom_name])
     else
@@ -99,8 +101,7 @@ class AssessmentsController < AdminController
 
       true
     else
-      attributes[:draft] = false unless Setting.cache_first.disable_required_fields?
-      @assessment.update_attributes(attributes)
+      @assessment.update_attributes(attributes.merge(draft: false))
     end
 
     if saved
