@@ -58,7 +58,7 @@
 
       if @case_note.draft?
         if @case_note.custom?
-          @case_note.populate_notes(@case_note.custom_assessment_setting_id, params[:custom])
+          @case_note.populate_notes(@case_note.custom_assessment_setting_id, 'true')
         else
           @case_note.populate_notes(nil, 'false')
         end
