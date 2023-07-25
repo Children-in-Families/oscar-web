@@ -10,7 +10,6 @@
     - @clients.each do |c, overdue_forms|
       - overdue_tasks = overdue_forms[:overdue_tasks]
       - client = clients.detect { |client| client.id == c.id }
-      - client_ids = client.cached_user_ids
       - if overdue_tasks.present? || overdue_forms[:overdue_forms].present? || overdue_forms[:overdue_trackings].present? || (overdue_assessments.present? && overdue_assessments.to_h[client.id].present? && params[:assessments] == 'true')
         .ibox.border-left-right.border-bottom
           .ibox-title
@@ -58,7 +57,7 @@
                       %td.col-xs-6.task-name.border-left-right= tracking.name
                       %td.col-xs-3= date_format(next_client_enrollment_tracking_date)
 
-      - if @setting.enable_custom_assessment? && @assessment_params && client_ids.include?(@user.id) && client.custom_assessments.to_a.any?
+      - if @setting.enable_custom_assessment? && @assessment_params && client.custom_assessments.to_a.any?
         - custom_assessment_setting_ids = client.assessments.customs.map{|ca| ca.domains.pluck(:custom_assessment_setting_id ) }.flatten.uniq
         - next if client.tasks.overdue_incomplete.blank? && custom_assessment_setting_ids.blank?
         .ibox.border-left-right.border-bottom

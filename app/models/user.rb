@@ -185,7 +185,6 @@ class User < ActiveRecord::Base
     due_today = { client_id: [], next_assessment_date: [] }
     overdue_assessments = []
     current_ability = Ability.new(self)
-    Rails.cache.delete([Apartment::Tenant.current, self.class.name, id, 'assessment_either_overdue_or_due_today'])
     Rails.cache.fetch([Apartment::Tenant.current, self.class.name, id, 'assessment_either_overdue_or_due_today']) do
       clients = Client.accessible_by(current_ability)
       eligible_clients = active_young_clients(clients, setting)
@@ -337,7 +336,8 @@ class User < ActiveRecord::Base
     @user_clients ||= if admin?
                         Client.select(:id, :slug, :given_name, :family_name, :local_given_name, :local_family_name)
                       elsif manager?
-                        clients.or(Client.where(user_id: User.self_and_subordinates(self).ids)).select(:id, :slug, :given_name, :family_name, :local_given_name, :local_family_name)
+                        client_ids = Client.where(user_id: User.self_and_subordinates(self).ids).pluck(:id)
+                        clients.where(id: client_ids).select(:id, :slug, :given_name, :family_name, :local_given_name, :local_family_name).merge(Client.select(:id, :slug, :given_name, :family_name, :local_given_name, :local_family_name))
                       elsif case_worker?
                         clients.select(:id, :slug, :given_name, :family_name, :local_given_name, :local_family_name)
                       end

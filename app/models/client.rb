@@ -1163,6 +1163,7 @@ class Client < ActiveRecord::Base
   end
 
   def flash_cache
+    Rails.cache.delete([Apartment::Tenant.current, id, 'user_ids'])
     Rails.cache.delete([Apartment::Tenant.current, 'Client', 'location_of_concern']) if location_of_concern_changed?
     Rails.cache.delete([Apartment::Tenant.current, self.class.name, 'received_by', received_by_id]) if received_by_id_changed?
     Rails.cache.delete([Apartment::Tenant.current, self.class.name, 'followed_up_by', followed_up_by_id]) if followed_up_by_id_changed?
