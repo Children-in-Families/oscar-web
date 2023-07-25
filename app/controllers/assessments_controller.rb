@@ -13,7 +13,7 @@ class AssessmentsController < AdminController
   def index
     @default_assessment = @client.assessments.new
     @custom_assessment  = @client.assessments.new(default: false)
-    @assessmets = AssessmentDecorator.decorate_collection(@client.assessments.not_untouch_draft.order(:created_at))
+    @assessmets = AssessmentDecorator.decorate_collection(@client.assessments.order(:created_at))
     @custom_assessment_settings = CustomAssessmentSetting.all.where(enable_custom_assessment: true)
   end
 
@@ -160,11 +160,13 @@ class AssessmentsController < AdminController
   end
 
   def find_assessment
-    @assessment = if params[:id] == "draft"
-      @custom_assessment_setting = find_custom_assessment_setting
-      @assessment = @client.find_or_create_assessment(default: default?, case_conference_id: params[:case_conference], custom_assessment_setting_id: @custom_assessment_setting.try(:id))
-    else
-      @assessment = @client.assessments.find(params[:id])
+    @assessment = Assessment.unscoped do
+      if params[:id] == "draft"
+        @custom_assessment_setting = find_custom_assessment_setting
+        @client.find_or_create_assessment(default: default?, case_conference_id: params[:case_conference], custom_assessment_setting_id: @custom_assessment_setting.try(:id))
+      else
+        @client.assessments.find(params[:id])
+      end
     end.decorate
   end
 

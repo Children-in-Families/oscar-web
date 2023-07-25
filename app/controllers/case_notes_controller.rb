@@ -36,7 +36,7 @@
   end
 
   def show
-    @case_note = @client.case_notes.find(params[:id])
+    @case_note = CaseNote.unscoped { @client.case_notes.find(params[:id]) }
   end
 
   def edit
@@ -156,10 +156,12 @@
   end
 
   def set_case_note
-    if params[:id] == "draft"
-      @case_note = @client.find_or_create_draft_case_note
-    else
-      @case_note = @client.case_notes.find(params[:id])
+    @case_note = CaseNote.unscoped do
+      if params[:id] == "draft"
+        @client.find_or_create_draft_case_note
+      else
+        @client.case_notes.find(params[:id])
+      end
     end
   end
 
