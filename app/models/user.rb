@@ -335,11 +335,11 @@ class User < ActiveRecord::Base
 
   def user_clients
     @user_clients ||= if admin?
-                        Client.select(:id, :slug)
+                        Client.select(:id, :slug, :given_name, :family_name, :local_given_name, :local_family_name)
                       elsif manager?
-                        clients.or(Client.where(user_id: User.self_and_subordinates(self).ids)).select(:id, :slug)
+                        clients.or(Client.where(user_id: User.self_and_subordinates(self).ids)).select(:id, :slug, :given_name, :family_name, :local_given_name, :local_family_name)
                       elsif case_worker?
-                        clients.select(:id, :slug)
+                        clients.select(:id, :slug, :given_name, :family_name, :local_given_name, :local_family_name)
                       end
   end
 
