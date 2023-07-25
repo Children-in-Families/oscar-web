@@ -184,6 +184,8 @@ class Assessment < ActiveRecord::Base
         previous_assessment = parent.assessments.customs.not_draft.latest_record
       end
 
+      return if previous_assessment.blank?
+
       previous_assessment.assessment_domains.each do |previous_assessment_domain|
         assessment_domains.each do |assessment_domain|
           assessment_domain.previous_score = previous_assessment_domain.score if assessment_domain.domain_id == previous_assessment_domain.domain_id
