@@ -147,7 +147,7 @@ Rails.application.routes.draw do
         post :upload_attachment
       end
     end
-    
+
     resources :case_notes do
       post :upload_attachment, on: :member
     end
@@ -377,7 +377,7 @@ Rails.application.routes.draw do
       resources :clients, except: [:edit, :new] do
         get :listing, on: :collection
         resources :assessments, only: [:create, :update, :destroy, :delete]
-        resources :case_notes, only: [:create, :update, :delete, :destroy]
+        resources :case_notes, only: [:create, :update, :destroy]
         resources :custom_field_properties, only: [:create, :update, :destroy]
 
         scope module: 'clients' do
