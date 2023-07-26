@@ -75,6 +75,15 @@ class ClientsController < AdminController
         @current_provinces          = Province.pluck(:id, :name).map{|id, name| { value: id, text: name } }
         @birth_provinces            = @birth_provinces.map{|parent, children| children.map{|t, v| { value: v, text: t } } }.flatten
 
+        custom_field_ids            = @client.custom_field_properties.pluck(:custom_field_id)
+        if current_user.admin? || current_user.strategic_overviewer?
+          available_editable_forms  = CustomField.all
+        else
+          available_editable_forms  = CustomField.where(id: current_user.custom_field_permissions.where(editable: true).pluck(:custom_field_id))
+        end
+
+        @free_client_forms          = available_editable_forms.client_forms.where(hidden: false).not_used_forms(custom_field_ids).order_by_form_title
+
         initial_visit_client
         enter_ngos = @client.enter_ngos
         exit_ngos  = @client.exit_ngos
