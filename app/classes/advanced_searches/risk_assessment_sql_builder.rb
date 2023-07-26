@@ -1,11 +1,11 @@
 module AdvancedSearches
   class RiskAssessmentSqlBuilder
-    def initialize(clients, field_name, operator, value, param_rules)
+    def initialize(clients, field_name, operator, value)
       @clients = clients
       @field_name = field_name
       @operator = operator
       @value = value
-      @param_rules = parse_param_rules(param_rules)
+      # @param_rules = parse_param_rules(param_rules)
     end
 
     def generate_sql
@@ -17,11 +17,16 @@ module AdvancedSearches
 
     private
 
-    def parse_param_rules(param_rules)
-      return {} if param_rules.blank?
-
-      rules = param_rules[:basic_rules] || param_rules
-      rules.is_a?(Hash) ? rules : JSON.parse(rules).with_indifferent_access
+    def find_client_risk_assessment_ids(sql)
+      if sql.present?
+        clients = @clients.joins(:risk_assessment).where(sql)
+        clients = clients.group('clients.id').having('COUNT(*) = 0') if @operator == 'not_equal'
+      elsif @operator == 'is_empty'
+        clients = @clients.includes(:risk_assessment).references(:risk_assessments).group('clients.id').having('COUNT(risk_assessments.*) = 0')
+      elsif @operator == 'is_not_empty'
+        clients = @clients.joins(:risk_assessment).group('clients.id').having('COUNT(risk_assessments.*) > 0')
+      end
+      clients.pluck(:id)
     end
 
     def build_sql_queries
@@ -30,15 +35,32 @@ module AdvancedSearches
         [build_level_of_risk_sql, build_assessment_level_of_risk_sql]
       when 'date_of_risk_assessment'
         [build_date_of_risk_assessment_sql, build_assessment_date_of_risk_assessment_sql]
+      when 'has_known_chronic_disease'
+        [build_protection_concern_sql('has_known_chronic_disease'), '']
+      when 'has_disability'
+        [build_protection_concern_sql('has_disability'), '']
+      when 'has_hiv_or_aid'
+        [build_protection_concern_sql('has_hiv_or_aid'), '']
       else
         ['', '']
       end
     end
 
-    def find_client_risk_assessment_ids(sql)
-      clients = @clients.joins(:risk_assessment).where(sql)
-      clients = clients.group('clients.id').having('COUNT(*) = 0') if @operator == 'not_equal'
-      clients.pluck(:id)
+    # implement method called build_protection_concern_sql to build sql for protection concern
+    # it has dynamic field name as parameter
+    def build_protection_concern_sql(field_name)
+      case @operator
+      when 'equal'
+        ["risk_assessments.#{field_name} = ?", @value]
+      when 'not_equal'
+        ["risk_assessments.#{field_name} != ?", @value]
+      when 'is_empty'
+        []
+      when 'is_not_empty'
+        []
+      else
+        ['', '']
+      end
     end
 
     # SQL builders
