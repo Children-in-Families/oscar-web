@@ -182,12 +182,15 @@ class Assessment < ActiveRecord::Base
   end
 
   def set_previous_score
-    if new_record? && !initial?
+    if (draft? || new_record?) && !initial?
       if default?
-        previous_assessment = parent.assessments.defaults.latest_record
+        previous_assessment = parent.assessments.defaults.not_draft.where.not(id: self.id).latest_record
       else
-        previous_assessment = parent.assessments.customs.latest_record
+        previous_assessment = parent.assessments.customs.not_draft.where.not(id: self.id).latest_record
       end
+
+      return if previous_assessment.blank?
+
       previous_assessment.assessment_domains.each do |previous_assessment_domain|
         assessment_domains.each do |assessment_domain|
           assessment_domain.previous_score = previous_assessment_domain.score if assessment_domain.domain_id == previous_assessment_domain.domain_id
