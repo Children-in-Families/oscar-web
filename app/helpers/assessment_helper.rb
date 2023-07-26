@@ -35,7 +35,7 @@ module AssessmentHelper
     assessment_domains = (assessment.persisted? && !assessment.draft?) ? assessment.assessment_domains.includes(:domain) : assessment.assessment_domains
 
     if assessment_domains.all?{|ad| ad.domain.name[/\d+/]&.to_i }
-      assessment_domains.sort_by{ |ad| ad.domain.name[/\d+/]&.to_i || ad.domain.name }
+      assessment_domains.sort_by{ |ad| [ad.domain.name[/\d+/]&.to_i, ad.domain.name] }
     else
       assessment_domains.sort_by(&:domain_id)
     end
