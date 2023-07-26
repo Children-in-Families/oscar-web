@@ -179,9 +179,9 @@ class Assessment < ActiveRecord::Base
   def set_previous_score
     if (draft? || new_record?) && !initial?
       if default?
-        previous_assessment = parent.assessments.defaults.not_draft.latest_record
+        previous_assessment = parent.assessments.defaults.not_draft.where.not(id: self.id).latest_record
       else
-        previous_assessment = parent.assessments.customs.not_draft.latest_record
+        previous_assessment = parent.assessments.customs.not_draft.where.not(id: self.id).latest_record
       end
 
       return if previous_assessment.blank?
