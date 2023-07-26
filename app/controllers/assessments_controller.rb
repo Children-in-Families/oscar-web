@@ -83,6 +83,7 @@ class AssessmentsController < AdminController
   def edit
     if @assessment.draft?
       params[:default] ||= "true" if params[:id] != "draft" && @assessment.default?
+      params[:custom_name] ||= @assessment.custom_assessment_setting.custom_assessment_name if @assessment.custom_assessment_setting.present?
 
       @prev_assessment = @client.assessments.last
       @assessment.populate_notes(params[:default], params[:custom_name])
