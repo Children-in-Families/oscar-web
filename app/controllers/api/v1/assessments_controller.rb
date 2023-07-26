@@ -32,8 +32,9 @@ module Api
       def destroy
         if params[:file_index].present?
           remove_attachment_at_index(params[:file_index].to_i)
-          head 204
         end
+
+        head 204 if Assessment.find(params[:id]).destroy
       end
 
       private
