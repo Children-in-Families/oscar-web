@@ -24,6 +24,7 @@ module AdvancedSearches
         text_fields           = text_type_list.map { |item| AdvancedSearches::FilterTypes.text_options(item, family_header(item), group) }
         date_picker_fields    = date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, family_header(item), group) }
         date_picker_fields    += common_search_date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, family_header(item), common_group) }
+        date_picker_fields    += [['no_case_note_date', I18n.t('advanced_search.fields.no_case_note_date')]].map{ |item| AdvancedSearches::CsiFields.date_between_only_options(item[0], item[1], group) }
         drop_list_fields      = drop_down_type_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, family_header(item.first), item.last, group) }
         date_picker_fields    += mapping_care_plan_date_lable_translation unless current_setting.try(:hide_family_case_management_tool?)
         search_fields = text_fields + drop_list_fields + number_fields + date_picker_fields

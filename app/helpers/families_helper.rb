@@ -101,6 +101,7 @@ module FamiliesHelper
   def map_family_field_labels
     {
       active_families:                          I18n.t('datagrid.columns.families.active_families'),
+      no_case_note_date:                        I18n.t('advanced_search.fields.no_case_note_date'),
       family_rejected:                          I18n.t('datagrid.columns.families.family_rejected'),
       number_family_billable:                   I18n.t('datagrid.columns.families.number_family_billable'),
       number_family_referred_gatekeeping:       I18n.t('datagrid.columns.families.number_family_referred_gatekeeping'),

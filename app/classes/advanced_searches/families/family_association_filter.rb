@@ -27,6 +27,9 @@ module AdvancedSearches
           values = advanced_case_note_query
         when 'date_of_birth'
           values = get_family_member_dob
+        when 'no_case_note_date'
+          values = advanced_case_note_query
+          values = @families.where.not(id: values).ids
         when 'active_families'
           values = get_active_families
         when /assessment_completed|assessment_completed_date|custom_completed_date/
@@ -320,7 +323,7 @@ module AdvancedSearches
         results = []
         @basic_rules  = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
         basic_rules   = @basic_rules.is_a?(Hash) ? @basic_rules : JSON.parse(@basic_rules).with_indifferent_access
-        results       = mapping_allowed_param_value(basic_rules, ['case_note_date', 'case_note_type'], data_mapping=[])
+        results       = mapping_allowed_param_value(basic_rules, ['no_case_note_date', 'case_note_date', 'case_note_type'], data_mapping=[])
         query_string  = get_any_query_string(results, 'case_notes')
         sql           = query_string.reject(&:blank?).map{|query| "(#{query})" }.join(" #{basic_rules[:condition]} ")
         families      = Family.joins('LEFT OUTER JOIN case_notes ON case_notes.family_id = families.id')
