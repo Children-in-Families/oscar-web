@@ -1,0 +1,32 @@
+.panel.panel-default
+  #headingClientField.panel-heading{:role => "tab"}
+    .row
+      .col-md-6
+        %h4.panel-title
+          %a{"aria-controls" => "collapse-#{group}", "aria-expanded" => "true", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapse-#{group}", :role => "button"}
+            = group.titleize
+      .col-md-6
+        - if group_setting = fields.find(&:group_setting?)
+          .text-right
+            .i-checks-meta-fields
+              = f.input :visible, as: :boolean, wrapper_html: { class: "field_setting_#{group_setting.id}_visible" }, input_html: { checked: group_setting.visible?,  name: "field_setting[#{group_setting.id}][visible]" }, label: 'Show', wrapper: false
+
+  - if fields.any?(&:field_setting?)
+    .panel-collapse.collapse{"aria-labelledby" => "headingClientField", :role => "tabpanel", id: "collapse-#{group}"}
+      .panel-body
+        %ul.nav.nav-tabs{role: "tablist"}
+          %li.active{role: "presentation"}
+            %a{"aria-controls" => "tab-family-basic-info", "aria-expanded" => "true", "data-toggle" => "tab", :href => "#tab-family-basic-info", :role => "tab"} Basic Family Information
+          %li{role: "presentation"}
+            %a{"aria-controls" => "tab-family-family-member", "aria-expanded" => "true", "data-toggle" => "tab", :href => "#tab-family-family-member", :role => "tab"} Family Member
+        
+        .tab-content
+          - fields = fields.reject(&:group_setting?)
+          #tab-family-basic-info.tab-pane.active{role: "tabpanel"}
+            = render "field_settings/field_row_header"
+            - fields.select(&:family_basic_info_tab?).each do |field|
+              = render 'field_settings/field_row', field: field, f: f
+          #tab-family-family-member.tab-pane{role: "tabpanel"}
+            = render "field_settings/field_row_header"
+            - fields.select(&:family_member_tab?).each do |field|
+              = render 'field_settings/field_row', field: field, f: f
