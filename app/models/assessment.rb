@@ -20,11 +20,12 @@ class Assessment < ActiveRecord::Base
   validate :allow_create, :eligible_client_age, if: :new_record?
   validates_uniqueness_of :case_conference_id, on: :create, if: :case_conference_id?
 
+  before_save :populate_domains
   before_save :set_previous_score
   before_save :set_assessment_completed, unless: :completed?
   after_commit :flash_cache
 
-  accepts_nested_attributes_for :assessment_domains, reject_if: proc { |attributes| (!Setting.cache_first.disable_required_fields? && attributes['score'].blank? && attributes['reason'].blank?) }
+  accepts_nested_attributes_for :assessment_domains
 
   scope :most_recents, -> { order(created_at: :desc) }
   scope :defaults, -> { where(default: true) }
@@ -99,32 +100,6 @@ class Assessment < ActiveRecord::Base
     self == client.assessments.latest_record
   end
 
-  def populate_notes(default, custom_name)
-    if custom_name.present?
-      custom_assessment_id = CustomAssessmentSetting.only_enable_custom_assessment.find_by(custom_assessment_name: custom_name).id
-      domains = default == 'true' ? Domain.csi_domains : CustomAssessmentSetting.find_by(id: custom_assessment_id).domains
-    else
-      domains = default == 'true' ? Domain.csi_domains : Domain.custom_csi_domains
-    end
-
-    domains.each do |domain|
-      next if persisted? && draft? && assessment_domains.find_by(domain_id: domain.id).present?
-      
-      case_conference_domain = case_conference.case_conference_domains.find_by(domain_id: domain.id) if case_conference
-      assessment_domains.build(domain: domain, reason: case_conference_domain&.presenting_problem)
-    end
-  end
-
-  def repopulate_notes
-    case_conference && case_conference.case_conference_domains.each do |case_conference_domain|
-      assessment_domain = assessment_domains.find_by(domain_id: case_conference_domain.domain_id)
-      if assessment_domain
-        assessment_domain.reason = case_conference_domain.presenting_problem
-        assessment_domain.save
-      end
-    end
-  end
-
   def populate_family_domains
     family_domains = Domain.family_custom_csi_domains.presence || Domain.csi_domains
     family_domains.where.not(id: domains.ids).each do |domain|
@@ -167,6 +142,10 @@ class Assessment < ActiveRecord::Base
   end
 
   private
+
+  def populate_domains
+    self.assessment_domains = AssessmentDomainsLoader.call(self) if new_record?
+  end
 
   def allow_create
     custom_assessment_setting_id = nil
