@@ -131,7 +131,7 @@ module Api
       end
 
       def destroy
-        head 204 if @organization.destroy
+        33054
       end
 
       def check_duplication

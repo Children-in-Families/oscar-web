@@ -5,7 +5,7 @@
         %button.close{"aria-label" => 'Close', "data-dismiss" => 'modal'}
           %span{"aria-hidden" => 'true'} &times;
         %h4.modal-title
-          = t('.assessment_data')
+          = t('.assessment_data', assessment: Setting.cache_first.default_assessment)
 
       .modal-body
         -# - if params['commit'].present? || params['client_advanced_search'].present?
@@ -15,7 +15,7 @@
         - domain_ids = []
         %table.table.table-bordered.table-striped.table-hover.assessment-score-data#csi-assessment-score
           = hidden_field(:hidden, :api_assessment, class: 'api-assessment-path', data: { 'assessment-params': assessments_api_clients_path(client_ids: @client_grid.assets.ids.to_param, default: true) })
-          = hidden_field(:hidden, :assessment_domain_headers, class: 'assessment-domain-headers', data: { headers: assess_header_mapping(true).to_json } )
+          = hidden_field(:hidden, :assessment_domain_headers, class: 'assessment-domain-headers', data: { headers: assess_header_mapping.to_json } )
 
       .modal-footer
         %button.btn.btn-default.form-btn.editable-cancel{"data-dismiss" => "modal", :type => "button"}= t('.close')

@@ -1,7 +1,7 @@
 module CaseNoteConcern
   def case_note_params
     default_params = permit_case_note_params
-    default_params = params.require(:case_note).permit(:meeting_date, :attendee, :interaction_type, :custom, :note, :custom_assessment_setting_id, case_note_domain_groups_attributes: [:id, :note, :domain_group_id, :task_ids, attachments: []]) if action_name == 'create'
+    default_params = params.require(:case_note).permit(:meeting_date, :attendee, :interaction_type, :custom, :note, :custom_assessment_setting_id, attachments: [], case_note_domain_groups_attributes: [:id, :note, :domain_group_id, :task_ids, attachments: []]) if action_name == 'create'
     default_params = assign_params_to_case_note_domain_groups_params(default_params) if default_params.dig(:case_note, :domain_group_ids)
     default_params = default_params.merge(selected_domain_group_ids: params.dig(:case_note, :domain_group_ids).reject(&:blank?))
     meeting_date   = "#{default_params[:meeting_date]} #{Time.now.strftime("%T %z")}"
@@ -47,7 +47,8 @@ module CaseNoteConcern
 
   def fetch_domain_group
     @domain_groups = []
-    if params[:action].in? ['edit', 'update']
+
+    if params[:action].in?(['edit', 'update']) && !@case_note.draft?
       if @case_note.domain_groups.present?
         @domain_groups = @case_note.domain_groups
       else
@@ -101,6 +102,37 @@ module CaseNoteConcern
     end
   end
 
+  def clean_duplicate_case_note_domain_groups
+    return unless save_draft?
+
+    domain_group_ids = params.dig(:case_note, :domain_group_ids).select(&:present?)
+
+    if domain_group_ids.present?
+      domain_groups = DomainGroup.where(id: domain_group_ids)
+      domain_group_ids = domain_groups.map do |domain_group|
+        domain_group.domains(@case_note).ids
+      end.flatten
+    end
+
+    case_note_domain_groups = @case_note.case_note_domain_groups.where.not(domain_group_id: domain_group_ids)
+    case_note_domain_groups = @case_note.case_note_domain_groups if domain_group_ids.blank?
+
+    case_note_domain_groups.each do |case_note_domain_group|
+      case_note_domain_group.tasks.destroy_all
+      case_note_domain_group.destroy
+    end
+
+    id_mapping = {}
+    @case_note.case_note_domain_groups.reload.each do |case_note_domain_group|
+      if id_mapping[case_note_domain_group.domain_group_id].present?
+        case_note_domain_group.tasks.destroy_all
+        case_note_domain_group.destroy
+      else
+        id_mapping[case_note_domain_group.domain_group_id] = case_note_domain_group.id
+      end
+    end
+  end
+
   def remove_attachment_at_index(index, case_note_domain_group_id = '')
     case_note_domain_group_id = params[:case_note_domain_group_id] || case_note_domain_group_id
     case_note_domain_group = CaseNoteDomainGroup.find(case_note_domain_group_id)
@@ -109,5 +141,22 @@ module CaseNoteConcern
     deleted_attachment.try(:remove_images!)
     remain_attachment.empty? ? case_note_domain_group.remove_attachments! : (case_note_domain_group.attachments = remain_attachment )
     t('.fail_delete_attachment') unless case_note_domain_group.save
+  end
+
+  def clean_case_note_domain_groups_attributes
+    case_note_domain_groups_attributes = params.dig(:case_note, :case_note_domain_groups_attributes)
+
+    return if case_note_domain_groups_attributes.blank?
+
+    case_note_domain_groups_attributes.each do |index, case_note_domain_group_attributes|
+      id = case_note_domain_group_attributes[:id]
+
+      unless CaseNoteDomainGroup.exists?(id)
+        case_note_domain_group_attributes.delete(:id)
+        case_note_domain_groups_attributes[index] = case_note_domain_group_attributes
+      end
+    end
+
+    params[:case_note][:case_note_domain_groups_attributes] = case_note_domain_groups_attributes
   end
 end

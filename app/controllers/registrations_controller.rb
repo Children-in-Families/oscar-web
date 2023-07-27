@@ -1,5 +1,5 @@
 class RegistrationsController < Devise::RegistrationsController
-  before_action :notify_user, :set_sidebar_basic_info, only: [:edit, :update]
+  before_action :notify_user, only: [:edit]
   before_action :set_paper_trail_whodunnit
 
   def new
@@ -60,11 +60,6 @@ class RegistrationsController < Devise::RegistrationsController
   private
 
   def notify_user
-    clients = Client.accessible_by(current_ability)
-    @notification = UserNotification.new(current_user, clients)
-  end
-
-  def set_sidebar_basic_info
-    @dashboard = Dashboard.new(current_user)
+    @lazy_load_notification = true
   end
 end

@@ -18,14 +18,11 @@
                       %span.caret
                     %ul.dropdown-menu#case-note-dropdown
                       - if @current_setting.enable_default_assessment
-                        %li
-                          = new_link
+                        %li= new_draft_case_note_link
                       - if @custom_assessment_settings.present?
                         - @custom_assessment_settings.each do |cs|
                           - if cs.domains.any? && Domain.custom_csi_domain_setting(cs.id).present?
-                            %li
-                              = link_to new_client_case_note_path(@client, default: false, custom_name: cs.custom_assessment_name), class: 'btn btn-default custom-assessment-link' do
-                                = new_custom_link(cs.custom_assessment_name)
+                            %li= new_draft_case_note_link(cs.custom_assessment_name)
                           - else
                             %li.disabled
                               = link_to '#', data: { toggle: 'modal', target: '#customDomainsModal' } do
@@ -44,7 +41,7 @@
                             = t('case_notes.index.please_add_custom_domains')
 
                 - elsif case_notes_editable? && policy(@client).create?
-                  = link_to t('case_notes.index.new_case_note'), new_client_case_note_path(@client, custom: @current_setting.enable_default_assessment), class: 'btn btn-primary'
+                  = link_to t('case_notes.index.new_case_note'), edit_client_case_note_path(@client, id: :draft, custom: @current_setting.enable_default_assessment), class: 'btn btn-primary'
 
       .ibox-content
         - is_ratanak = Organization.ratanak?
@@ -60,6 +57,8 @@
                   %h4
                     = t('shared.x_on', x: t('clients.form.case_note'))
                     = date_format(case_note.meeting_date) if case_note.meeting_date
+                    - if case_note.draft?
+                      %span.label.label-warning (draft)
                     = link_to '#', class: 'btn btn-warning printable-button', data: { printable_id: "printable-case-note-#{case_note.id}" } do
                       = fa_icon 'print'
                     - if (can? :edit?, CaseNote)
@@ -163,18 +162,14 @@
                               = "#{index + 1}. "
                               = task.name
               .row
-                - file_names = case_note.case_note_domain_groups.pluck(:attachments).reject(&:blank?)
-                - case_note.case_note_domain_groups.each do |cdg|
-                  - next if cdg.attachments.blank?
-                  - attachment_names = cdg.attachments.map{|a| a.file.path.split('/').last }
-                  - next if file_names.exclude? attachment_names
-                  - file_names.delete(attachment_names)
+                - attachments = case_note.attachments.reject(&:blank?)
+                - if attachments.any?
                   .col-xs-12.col-sm-6
                     .panel.panel-default
                       .panel-heading
                         %h4= t('case_notes.index.attachments')
                       .panel-body
-                        = render 'attachment', cdg: cdg
+                        = render 'attachment', attachments: attachments
           %div{ id: "printable-case-note-#{case_note.id}" }
             = render 'shared/printable_case_note', case_note: case_note, today_tasks: today_tasks.flatten.compact
 

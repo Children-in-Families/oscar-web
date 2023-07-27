@@ -36,7 +36,7 @@ module Api
           delete_form_builder_attachment(@custom_field_property, name, index)
           render json: { error: "Failed deleting attachment" } unless @custom_field_property.save
         else
-          @custom_field_property.destroy
+          33054
         end
         head 204
       end

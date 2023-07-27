@@ -11,3 +11,12 @@ elsif defined?(Rake) && Rake.application.name
   # PaperTrail.whodunnit = "#{`whoami`.strip}: #{File.basename($0)} #{ARGV.join ' '}"
   PaperTrail.whodunnit = "#{`whoami`.strip}@rotati"
 end
+
+PaperTrail.class_eval do
+  def self.without_tracking(&block)
+    PaperTrail.enabled = false
+    yield
+  ensure
+    PaperTrail.enabled = true
+  end
+end

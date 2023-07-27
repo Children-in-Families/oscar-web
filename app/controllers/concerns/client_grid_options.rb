@@ -528,22 +528,28 @@ module ClientGridOptions
 
   def admin_client_grid
     data = params[:data].presence
+
     if params.dig(:client_grid, :quantitative_types).present?
       quantitative_types = params[:client_grid][:quantitative_types]
       @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(current_user: current_user, qType: quantitative_types, dynamic_columns: column_form_builder, param_data: data))
     else
       @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(current_user: current_user, dynamic_columns: column_form_builder, param_data: data))
     end
+
+    @client_grid.assessment_setting_id = assessment_setting_id
   end
 
   def non_admin_client_grid
     data = params[:data].presence
+
     if params.dig(:client_grid, :quantitative_types).present?
       quantitative_types = params[:client_grid][:quantitative_types]
       @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(current_user: current_user, qType: quantitative_types, dynamic_columns: column_form_builder, param_data: data))
     else
       @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(current_user: current_user, dynamic_columns: column_form_builder, param_data: data))
     end
+
+    @client_grid.assessment_setting_id = assessment_setting_id
   end
 
   def column_form_builder
@@ -565,5 +571,9 @@ module ClientGridOptions
 
   def form_builder_params
     params[:form_builder].present? ? nil : column_form_builder
+  end
+
+  def assessment_setting_id
+    params.dig(:client_advanced_search, :assessment_selected)&.gsub("[", "")&.gsub("]", "")
   end
 end

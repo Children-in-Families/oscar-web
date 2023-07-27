@@ -10,6 +10,6 @@ class ClientListingSerializer < ActiveModel::Serializer
   end
 
   def tasks_count
-    object.tasks.count
+    object.tasks.incomplete.count
   end
 end

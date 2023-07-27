@@ -110,8 +110,13 @@ Rails.application.routes.draw do
   delete 'referrals/:id' => 'referrals#destroy'
 
   resources :clients do
+    member do
+      get :custom_fields
+    end
+
     resources :referrals, except: [:destroy]
     resources :internal_referrals
+    
     collection do
       post '/advanced_search', to: 'clients#index'
       get :advanced_search
@@ -141,8 +146,17 @@ Rails.application.routes.draw do
 
     resources :custom_field_properties
     resources :government_forms
-    resources :assessments
-    resources :case_notes
+
+    resources :assessments do
+      member do
+        post :upload_attachment
+      end
+    end
+
+    resources :case_notes do
+      post :upload_attachment, on: :member
+    end
+
     resources :care_plans
     resources :cases do
       scope module: 'case' do
@@ -373,7 +387,7 @@ Rails.application.routes.draw do
       resources :clients, except: [:edit, :new] do
         get :listing, on: :collection
         resources :assessments, only: [:create, :update, :destroy, :delete]
-        resources :case_notes, only: [:create, :update, :delete, :destroy]
+        resources :case_notes, only: [:create, :update, :destroy]
         resources :custom_field_properties, only: [:create, :update, :destroy]
 
         scope module: 'clients' do
@@ -460,6 +474,8 @@ Rails.application.routes.draw do
 
   resources :settings, except: [:destroy] do
     collection do
+      get :screening_forms
+      get :care_plan
       get 'default_columns' => 'settings#default_columns'
       get 'research_module' => 'settings#research_module'
       get 'custom_labels' => 'settings#custom_labels'
@@ -486,6 +502,13 @@ Rails.application.routes.draw do
 
   if Rails.env.development?
     mount LetterOpenerWeb::Engine, at: "/letter_opener"
-    mount Sidekiq::Web => '/sidekiq'
+  end
+
+  mount Sidekiq::Web => '/sidekiq'
+
+  if Rails.env.production? || Rails.env.staging?
+    Sidekiq::Web.use(Rack::Auth::Basic) do |user, password|
+      [user, password] == ['admin', 'admin@@$$password']
+    end
   end
 end
