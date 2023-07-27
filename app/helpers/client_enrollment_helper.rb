@@ -1,6 +1,6 @@
 module ClientEnrollmentHelper
   def view_report_link(program_stream)
-    if program_stream.client_enrollments.enrollments_by(@client.id).order(:created_at).last.try(:status) == 'Exited'
+    if program_stream.client_enrollments.enrollments_by(@client.id).any?
       link_to t('.view'), report_client_client_enrollments_path(@client, program_stream_id: program_stream)
     end
   end

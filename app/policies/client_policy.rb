@@ -25,7 +25,7 @@ class ClientPolicy < ApplicationPolicy
 
   def brc_client_address?
     fields = %w(current_island current_street current_po_box current_settlement current_resident_own_or_rent current_household_type)
-    FieldSetting.by_instances(Apartment::Tenant.current).where(name: fields).any? && fields.any?{ |field| show?(field.to_sym) }
+    FieldSetting.by_instances(Apartment::Tenant.current).where(name: fields).any? && fields.any? { |field| show?(field.to_sym) }
   end
 
   def brc_client_other_address?

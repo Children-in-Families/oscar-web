@@ -89,8 +89,9 @@ class ClientEnrollmentsController < AdminController
 
     client_enrollments_exited     = all_programs.inactive_enrollments(@client).complete
     client_enrollments_inactive   = all_programs.without_status_by(@client).complete
+    @active_enrollments           = all_programs.active_enrollments(@client).complete
 
-    program_streams               = client_enrollments_exited + client_enrollments_inactive
+    program_streams = (client_enrollments_exited + client_enrollments_inactive + @active_enrollments).uniq
   end
 
 

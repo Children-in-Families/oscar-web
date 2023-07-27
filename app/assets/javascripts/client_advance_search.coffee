@@ -928,7 +928,6 @@ class CIF.ClientAdvanceSearch
       builderForm = '.main-report-builder'
       programValues = if self.programSelected.length > 0 then "[#{self.programSelected}]"
       customFormValues = if self.customFormSelected.length > 0 then "[#{self.customFormSelected}]"
-      assessmentValues = if self.assessmentSelected.length > 0 then "[#{self.assessmentSelected}]"
     else
       builderElement = '#wizard-builder'
       builderForm = '#report-builder-wizard'
@@ -944,7 +943,7 @@ class CIF.ClientAdvanceSearch
     self.setValueToProgramAssociation()
     $('#client_advanced_search_custom_form_selected').val(customFormValues)
     $('#client_advanced_search_program_selected').val(programValues)
-    $('#client_advanced_search_assessment_selected').val(assessmentValues)
+
     if $('#quantitative-type-checkbox').prop('checked') then $('#client_advanced_search_quantitative_check').val(1)
     if $('#wizard_quantitative_filter').prop('checked') then $('#client_advanced_search_wizard_quantitative_check').val(1)
     if $('#wizard_custom_form_filter').prop('checked') then $('#client_advanced_search_wizard_custom_form_check').val(1)

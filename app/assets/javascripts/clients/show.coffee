@@ -17,7 +17,6 @@ CIF.ClientsShow = do ->
     _initialEnterNGOAcceptedDate()
     _handleEnterNGOModalShow()
 
-
     $('table.families').dataTable
       'bPaginate': false
       'bFilter': false

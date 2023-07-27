@@ -24,7 +24,7 @@ class Assessment < ActiveRecord::Base
   before_save :set_assessment_completed, unless: :completed?
   after_commit :flash_cache
 
-  accepts_nested_attributes_for :assessment_domains, reject_if: proc { |attributes| attributes['score'].blank? && attributes['reason'].blank? }
+  accepts_nested_attributes_for :assessment_domains, reject_if: proc { |attributes| (!Setting.cache_first.disable_required_fields? && attributes['score'].blank? && attributes['reason'].blank?) }
 
   scope :most_recents, -> { order(created_at: :desc) }
   scope :defaults, -> { where(default: true) }
@@ -32,8 +32,13 @@ class Assessment < ActiveRecord::Base
   scope :completed, -> { where(completed: true) }
   scope :incompleted, -> { where(completed: false) }
   scope :client_risk_assessments, -> { where.not(level_of_risk: nil) }
+
+  scope :not_draft, -> { where(draft: false) }
   scope :draft, -> { where(draft: true) }
   scope :draft_untouch, -> { draft.where(last_auto_save_at: nil) }
+  scope :not_untouch_draft, -> { where("draft IS FALSE OR last_auto_save_at IS NOT NULL") }
+
+  default_scope { not_untouch_draft }
 
   DUE_STATES        = ['Due Today', 'Overdue']
 
@@ -42,6 +47,7 @@ class Assessment < ActiveRecord::Base
 
     empty_assessment_domains = check_reason_and_score
     if empty_assessment_domains.count.zero?
+      self.draft = false
       self.completed = true
       self.completed_date = Time.zone.now
     else
@@ -176,12 +182,15 @@ class Assessment < ActiveRecord::Base
   end
 
   def set_previous_score
-    if new_record? && !initial?
+    if (draft? || new_record?) && !initial?
       if default?
-        previous_assessment = parent.assessments.defaults.latest_record
+        previous_assessment = parent.assessments.defaults.not_draft.where.not(id: self.id).latest_record
       else
-        previous_assessment = parent.assessments.customs.latest_record
+        previous_assessment = parent.assessments.customs.not_draft.where.not(id: self.id).latest_record
       end
+
+      return if previous_assessment.blank?
+
       previous_assessment.assessment_domains.each do |previous_assessment_domain|
         assessment_domains.each do |assessment_domain|
           assessment_domain.previous_score = previous_assessment_domain.score if assessment_domain.domain_id == previous_assessment_domain.domain_id

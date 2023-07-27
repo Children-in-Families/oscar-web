@@ -1479,6 +1479,10 @@ module ClientsHelper
     @client.public_send("#{address_name}") ? [@client.public_send("#{address_name}").slice('id', 'name')] : []
   end
 
+  def in_used_custom_field?(custom_field)
+    @readable_forms.map(&:custom_field_id).include?(custom_field.id)
+  end
+
   def saved_search_column_visibility(field_key)
     default_setting(field_key, @client_default_columns) || params[field_key.to_sym].present? || (@visible_fields && @visible_fields[field_key]).present?
   end
