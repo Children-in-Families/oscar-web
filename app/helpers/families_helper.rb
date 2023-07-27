@@ -27,6 +27,22 @@ module FamiliesHelper
     end
   end
 
+  def readable_family_quantitative_free_text_cases
+    @readable_family_quantitative_free_text_cases ||= @family.family_quantitative_free_text_cases.map do |qtt_free_text|
+      next if qtt_free_text.content.blank?
+      next unless quantitative_type_readable?(qtt_free_text.quantitative_type_id)
+
+      qtt_free_text
+    end.compact
+  end
+
+  def readable_viewable_quantitative_cases
+    @readable_viewable_quantitative_cases ||= @family.viewable_quantitative_cases.group_by(&:quantitative_type).map do |qtypes|
+      next unless quantitative_type_readable?(qtypes.first.id)
+      qtypes
+    end.compact
+  end
+
   def family_clients_list(object)
     content_tag(:ul, class: 'family-clients-list') do
       object.family_members.joins(:client).each do |memeber|

@@ -14,7 +14,7 @@ class ClientsController < AdminController
   before_action :build_advanced_search, only: [:index]
   before_action :fetch_advanced_search_queries, only: [:index]
 
-  before_action :find_client, only: [:show, :edit, :update, :destroy]
+  before_action :find_client, only: [:show, :edit, :update, :destroy, :custom_fields]
   before_action :assign_client_attributes, only: [:show, :edit]
   before_action :set_association, except: [:index, :destroy, :version, :welcome]
   before_action :choose_grid, only: [:index]
@@ -24,6 +24,16 @@ class ClientsController < AdminController
 
   def welcome
     choose_grid
+  end
+
+  def custom_fields
+    if current_user.admin? || current_user.strategic_overviewer?
+      @available_editable_forms  = CustomField.all
+      @readable_forms            = @client.custom_field_properties
+    else
+      @available_editable_forms  = CustomField.where(id: current_user.custom_field_permissions.where(editable: true).pluck(:custom_field_id))
+      @readable_forms            = @client.custom_field_properties.where(custom_field_id: current_user.custom_field_permissions.where(readable: true).pluck(:custom_field_id))
+    end
   end
 
   def index
@@ -64,17 +74,16 @@ class ClientsController < AdminController
         @referees                   = Referee.none_anonymouse.pluck(:id, :name).map{|id, name| { value: id, text: name } }
         @current_provinces          = Province.pluck(:id, :name).map{|id, name| { value: id, text: name } }
         @birth_provinces            = @birth_provinces.map{|parent, children| children.map{|t, v| { value: v, text: t } } }.flatten
+
         custom_field_ids            = @client.custom_field_properties.pluck(:custom_field_id)
         if current_user.admin? || current_user.strategic_overviewer?
           available_editable_forms  = CustomField.all
-          readable_forms            = @client.custom_field_properties.includes(:custom_field)
         else
           available_editable_forms  = CustomField.where(id: current_user.custom_field_permissions.where(editable: true).pluck(:custom_field_id))
-          readable_forms            = @client.custom_field_properties.where(custom_field_id: current_user.custom_field_permissions.where(readable: true).pluck(:custom_field_id))
         end
 
         @free_client_forms          = available_editable_forms.client_forms.where(hidden: false).not_used_forms(custom_field_ids).order_by_form_title
-        @group_client_custom_fields = readable_forms.sort_by{ |c| c.custom_field.form_title }.group_by(&:custom_field_id)
+
         initial_visit_client
         enter_ngos = @client.enter_ngos
         exit_ngos  = @client.exit_ngos

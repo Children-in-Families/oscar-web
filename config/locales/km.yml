@@ -1018,6 +1018,13 @@ km:
       download: ទាញយក
       max_file_size: "*ទំហំឯកសារអតិបរមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកបាន."
       preview_download: មើលនិងទាញយក
+    case_note_attachment_fields:
+      allow_file_size: ប្រភេទឯកសារដែលអាចផ្ទុកបាន
+      are_you_sure: តើអ្នកប្រាកថាចង់លុបដែរឬទេ?
+      attachments: ឯកសារភ្ជាប់
+      download: ទាញយក
+      max_file_size: "*ទំហំឯកសារអតិបរមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកបាន."
+      preview_download: មើលនិងទាញយក
     attendee: តើអ្នកណាខ្លះចូលរួមក្នុងអំឡុងពេលសួរសុខទុក្ខ ឬសន្ទនា?
     case_note_form: កំណត់ត្រាករណី
     client_name: ឈ្មោះអតិថិជន
@@ -2125,6 +2132,10 @@ km:
       detail: ព័ត៌មានលម្អិត
       district: ស្រុក/ខណ្ឌ
       donor: ម្ចាស់ជំនួយ
+      donor_info: "Donor Information"
+      school_info: School Information
+      other_info: Other Information
+      carer_info: Carer Information
       edit_exit_information: កែសម្រួលព័ត៌មាននៃការចាកចេញ
       enrolled_program_streams: កម្មវិធីចម្បងរបស់អតិថិជន
       enter_ngo_information: ព័ត៌មានទទួលចូលអង្គការ
@@ -2184,6 +2195,11 @@ km:
         uganda: ខេត្តកំណើត
       received_by: បុគ្គលិកទទួលករណី
       refer_client: បញ្ជូនអតិថិជន
+      referee_information: Referee Information
+      administrative_info: Administrative Information
+      referral_information: Client / Referral Information
+      referral_more_information: Client / Referral - More Information
+      referral_vulnerability: Vulnerability Information and Referral Note
       referee_phone_number: លេខទូរស័ព្ទរបស់អ្នកបញ្ជូនករណី
       referral_email: អ៊ីមែលរបស់អ្នកបញ្ជូនករណី
       referral_forms: បែបបទបញ្ជូន
@@ -4144,6 +4160,9 @@ km:
       close: បិទ
       warning: ប្រុងប្រយ័ត្ន!
     show:
+      about: អំពីគ្រួសារ
+      administrative_info: ព័តមានរដ្ឋបាល
+      referee_info: ព័ត៌មានអ្នកបញ្ជូន
       accept: ទទួលយក
       accepted_date: កាលបរិច្ឆេទចូលអង្គការ
       add_form: បន្ថែមទម្រង់បែបបទ

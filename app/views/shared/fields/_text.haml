@@ -4,11 +4,13 @@
     = field_props['label'].html_safe
 
   %input{ name: "#{f.object_name}[#{remove_field_prop_unicode(field_props)}]",
+    value: f.object.public_send(remove_field_prop_unicode(field_props)),
     type: field_props['subtype'],
     class: field_props['className'],
     placeholder: format_placeholder(field_props['placeholder']),
     id: "#{f.object_name}[#{remove_field_prop_unicode(field_props)}]".parameterize,
-    required: (field_props['required'] || false) }/
+    required: (field_props['required'] || false) }
+
 
   %span.help-block
     = field_message(field_props['label'], errors)

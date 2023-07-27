@@ -5,8 +5,8 @@ class AssessmentsController < AdminController
   include AssessmentHelper
 
   before_action :find_client, :list_all_case_conferences
-  before_action :find_assessment, only: [:edit, :update, :show, :destroy]
-  before_action :authorize_client, only: [:new, :create]
+  before_action :find_assessment, only: [:edit, :update, :show, :destroy, :upload_attachment]
+  before_action :authorize_client, only: [:new, :create, :upload_attachment]
   before_action :authorize_assessment, only: [:show, :edit, :update]
   before_action :fetch_available_custom_domains, only: :index
 
@@ -19,7 +19,6 @@ class AssessmentsController < AdminController
 
   def new
     @from_controller = params[:from]
-    @prev_assessment = @client.assessments.last
     @custom_assessment_setting = find_custom_assessment_setting
     custom_assessment_setting_id = @custom_assessment_setting.try(:id)
     @assessment = @client.assessments.new(default: default?, case_conference_id: params[:case_conference], custom_assessment_setting_id: custom_assessment_setting_id )
@@ -28,7 +27,8 @@ class AssessmentsController < AdminController
     if @custom_assessment_setting.present? && !policy(@assessment).create?(custom_assessment_setting_id)
       redirect_to client_assessments_path(@client), alert: "#{I18n.t('assessments.index.next_review')} of #{@custom_assessment_setting.custom_assessment_name}: #{date_format(@client.custom_next_assessment_date(nil, @custom_assessment_setting.id))}"
     else
-      @assessment.populate_notes(params[:default], params[:custom_name])
+      routes_params = params.to_unsafe_h.slice("default", "custom_name", "case_conference", "from_controller")
+      redirect_to(edit_client_assessment_path(@client, routes_params.merge(id: :draft)))
     end
   end
 
@@ -81,21 +81,42 @@ class AssessmentsController < AdminController
   end
 
   def edit
-    @assessment.repopulate_notes
+    if @assessment.draft?
+      params[:default] ||= "true" if params[:id] != "draft" && @assessment.default?
+      params[:custom_name] ||= @assessment.custom_assessment_setting.custom_assessment_name if @assessment.custom_assessment_setting.present?
+
+      @prev_assessment = @client.assessments.last
+      @assessment.populate_notes(params[:default], params[:custom_name])
+    else
+      @assessment.repopulate_notes
+    end
   end
 
   def update
-    params[:assessment][:assessment_domains_attributes].each do |assessment_domain|
-      add_more_attachments(assessment_domain.second[:attachments], assessment_domain.second[:id])
+    fix_assessment_domains_attributes
+    attributes = assessment_params.merge(last_auto_save_at: DateTime.now)
+
+    saved = if save_draft?
+      @assessment.assign_attributes(attributes)
+      PaperTrail.without_tracking { @assessment.save(validate: false) }
+
+      true
+    else
+      @assessment.update_attributes(attributes.merge(draft: false))
     end
 
-    if @assessment.update_attributes(assessment_params)
-      @assessment.update(updated_at: DateTime.now)
-      @assessment.assessment_domains.update_all(assessment_id: @assessment.id)
-      create_bulk_task(params[:task], @assessment) if params.key?(:task)
-      redirect_to client_assessment_path(@client, @assessment), notice: t('.successfully_updated')
+    if saved
+      create_bulk_task(params[:task], @assessment) if params.has_key?(:task)
+
+      respond_to do |format|
+        format.html { redirect_to client_assessment_path(@client, @assessment), notice: t('.successfully_updated') }
+        format.json { render json: { resource: @assessment, edit_url: edit_client_assessment_path(@client, @assessment) }, status: '200' }
+      end
     else
-      render :edit
+      respond_to do |format|
+        format.html { render :edit }
+        format.json { render json: @assessment.errors, status: 422 }
+      end
     end
   end
 
@@ -116,6 +137,23 @@ class AssessmentsController < AdminController
     end
   end
 
+  def upload_attachment
+    assessment_domain = @assessment.assessment_domains.find_or_initialize_by(domain_id: params[:domain_id])
+    assessment_domain.save(validate: false)
+    attachments = params.dig('assessment', 'assessment_domains_attributes').map do |_index, assessment_domain_attributes|
+      assessment_domain_attributes[:attachments]
+    end.flatten.compact
+
+    if attachments.any?
+      files = assessment_domain.attachments
+      files += attachments
+      assessment_domain.attachments = files
+      assessment_domain.save(validate: false)
+    end
+
+    render json: { message: t('.successfully_uploaded') }, status: '200'
+  end
+
   private
 
   def find_client
@@ -123,7 +161,14 @@ class AssessmentsController < AdminController
   end
 
   def find_assessment
-    @assessment = @client.assessments.find(params[:id]).decorate
+    @assessment = Assessment.unscoped do
+      if params[:id] == "draft"
+        @custom_assessment_setting = find_custom_assessment_setting
+        @client.find_or_create_assessment(default: default?, case_conference_id: params[:case_conference], custom_assessment_setting_id: @custom_assessment_setting.try(:id))
+      else
+        @client.assessments.find(params[:id])
+      end
+    end.decorate
   end
 
   def authorize_client
