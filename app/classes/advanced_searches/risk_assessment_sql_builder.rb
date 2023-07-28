@@ -12,6 +12,8 @@ module AdvancedSearches
       sql, assessment_sql = build_sql_queries
 
       client_risk_assessment_ids = find_client_risk_assessment_ids(sql)
+      client_risk_assessment_ids = find_client_risk_assessment_ids(assessment_sql) if client_risk_assessment_ids.empty?
+
       { id: 'clients.id IN (?)', values: client_risk_assessment_ids }
     end
 
