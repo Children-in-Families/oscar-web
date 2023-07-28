@@ -3,11 +3,11 @@
     %table.table.table-bordered.table-striped.table-hover
       %thead
         %tr
-          %th.name= t('.name')
-          %th.description= t('.description')
-          %th.date.text-center= t('.date')
-          %th.load-query.text-center= t('.load')
-          %th.action.text-center= t('.action')
+          %th.name= t('clients.client_advanced_searches.my_saved_searches.name')
+          %th.description= t('clients.client_advanced_searches.my_saved_searches.description')
+          %th.date.text-center= t('clients.client_advanced_searches.my_saved_searches.date')
+          %th.load-query.text-center= t('clients.client_advanced_searches.my_saved_searches.load')
+          %th.action.text-center= t('clients.client_advanced_searches.my_saved_searches.action')
       %tbody
         - current_user.advanced_searches.for_family.each do |advanced_search|
           %tr

@@ -3,11 +3,12 @@
     %table.table.table-bordered.table-striped.table-hover
       %thead
         %tr
-          %th.name= t('.name')
-          %th.description= t('.description')
-          %th.owner= t('.owner')
-          %th.date= t('.date')
-          %th.load-query= t('.load')
+          %th.name= t('clients.client_advanced_searches.other_saved_searches.name')
+          %th.description= t('clients.client_advanced_searches.other_saved_searches.description')
+          %th.owner= t('clients.client_advanced_searches.other_saved_searches.owner')
+          %th.date= t('clients.client_advanced_searches.other_saved_searches.date')
+          %th.load-query= t('clients.client_advanced_searches.other_saved_searches.load')
+
       %tbody
         - AdvancedSearch.for_family.includes(:user).non_of(current_user).each do |advanced_search|
           %tr
