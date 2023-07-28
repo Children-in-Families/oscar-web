@@ -1,17 +1,18 @@
 module AdvancedSearches
   class RiskAssessmentSqlBuilder
-    def initialize(clients, field_name, operator, value, param_rules)
+    def initialize(clients, field_name, operator, value)
       @clients = clients
       @field_name = field_name
       @operator = operator
       @value = value
-      @param_rules = parse_param_rules(param_rules)
     end
 
     def generate_sql
       sql, assessment_sql = build_sql_queries
 
       client_risk_assessment_ids = find_client_risk_assessment_ids(sql)
+      client_risk_assessment_ids = find_client_assessment_ids(assessment_sql) if client_risk_assessment_ids.blank?
+
       { id: 'clients.id IN (?)', values: client_risk_assessment_ids }
     end
 
@@ -37,6 +38,12 @@ module AdvancedSearches
 
     def find_client_risk_assessment_ids(sql)
       clients = @clients.joins(:risk_assessment).where(sql)
+      clients = clients.group('clients.id').having('COUNT(*) = 0') if @operator == 'not_equal'
+      clients.pluck(:id)
+    end
+
+    def find_client_assessment_ids(sql)
+      clients = @clients.joins(:assessments).where(sql)
       clients = clients.group('clients.id').having('COUNT(*) = 0') if @operator == 'not_equal'
       clients.pluck(:id)
     end
