@@ -501,6 +501,7 @@ en:
       exit_reasons: Reason For Exit
       family: Family
       family_basic_fields: Family Basic Fields
+      common_searches: Common Searches
       family_id: Manual ID
       family_name: Family Name (Latin)
       follow_up_by: First Follow-Up By
@@ -3099,6 +3100,9 @@ en:
       exit_reasons: Reason For Exit
       families:
         active_families: Active Families in Specific Period
+        family_rejected: Family Rejected
+        number_family_billable: Number of family is billable for (month)
+        number_family_referred_gatekeeping: Number of family referred through gatekeeping mechanism
         address: Address
         caregiver_information: Caregiver Information
         care_plan_count: Number of Care Plan
