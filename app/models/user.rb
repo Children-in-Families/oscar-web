@@ -407,7 +407,7 @@ class User < ActiveRecord::Base
   end
 
   def cache_advance_saved_search
-    Rails.cache.fetch([Apartment::Tenant.current, self.class.name, self.id, 'advance_saved_search']) {  self.advanced_searches.order(:name).to_a }
+    Rails.cache.fetch([Apartment::Tenant.current, self.class.name, self.id, 'advance_saved_search']) {  self.advanced_searches.for_client.to_a }
   end
 
   def self.cached_user_select_options

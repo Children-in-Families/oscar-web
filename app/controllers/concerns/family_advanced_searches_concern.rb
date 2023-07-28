@@ -6,7 +6,12 @@ module FamilyAdvancedSearchesConcern
   include CarePlanHelper
 
   def advanced_search
-    basic_rules  = JSON.parse @basic_filter_params
+    basic_rules = if params[:advanced_search_id]
+      AdvancedSearch.find(params[:advanced_search_id]).queries
+    else
+      JSON.parse @basic_filter_params || @wizard_basic_filter_params || "{}"
+    end
+
     $param_rules = nil
     $param_rules = find_params_advanced_search
     @families    = AdvancedSearches::Families::FamilyAdvancedSearch.new(basic_rules, Family.accessible_by(current_ability)).filter
