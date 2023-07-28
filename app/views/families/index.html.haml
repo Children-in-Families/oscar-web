@@ -6,10 +6,10 @@
       = t('.report_builder')
     
     %button.btn.btn-primary#load-saved-search{ data: { toggle: 'modal', target: '#load-save-search', trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.load_saved_search')}", placement: "auto" } }
-      = t('.load_save_search')
+      = t('clients.index.load_save_search')
 
     = link_to new_advanced_search_save_query_path, remote: true, id: 'save-search-setting', class: 'btn btn-primary', data: { trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.saved_search_setting')}", placement: "auto" } do
-      = t('.save_search_settings')
+      = t('clients.index.save_search_settings')
       
   .col-xs-12.col-md-3
     .pull-right.family-action
