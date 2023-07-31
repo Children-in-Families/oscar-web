@@ -55,6 +55,29 @@ module Api
 
         head 204 if CaseNote.find(params[:id]).destroy
       end
+
+      def delete_attachment
+        case_note = CaseNote.find(params[:id])
+        remove_attachment_at_index(case_note, params[:file_index].to_i)
+        if case_note.save
+          head 204
+        else
+          render json: case_note.errors, status: :unprocessable_entity
+        end
+      end
+
+      private
+
+      def remove_attachment_at_index(case_note, index)
+        remain_attachments = case_note.attachments
+        if index.zero? && case_note.attachments.size == 1
+          case_note.remove_attachments!
+        else
+          deleted_attachment = remain_attachments.delete_at(index)
+          deleted_attachment.try(:remove!)
+          case_note.attachments = remain_attachments
+        end
+      end
     end
   end
 end

@@ -396,7 +396,9 @@ Rails.application.routes.draw do
       resources :clients, except: [:edit, :new] do
         get :listing, on: :collection
         resources :assessments, only: [:create, :update, :destroy, :delete]
-        resources :case_notes, only: [:create, :update, :destroy]
+        resources :case_notes, only: [:create, :update, :destroy, :delete_attachment] do
+          delete 'attachments/:file_index', action: :delete_attachment, on: :member
+        end
         resources :custom_field_properties, only: [:create, :update, :destroy]
 
         scope module: "clients" do
