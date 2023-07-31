@@ -1,6 +1,8 @@
 class ProgramStreamSerializer < ActiveModel::Serializer
-  attributes :id, :name, :description, :rules, :tracking_required, :enrollment, :exit_program, :quantity, :program_exclusive, :mutual_dependence, :enrollable_client_ids
+  attributes :id, :name, :description, :rules, :tracking_required, :enrollment, :exit_program, :quantity,
+             :program_exclusive, :mutual_dependence, :enrollable_client_ids
   has_many :trackings
+  has_many :services
 
   def enrollable_client_ids
     if object.rules.present?
