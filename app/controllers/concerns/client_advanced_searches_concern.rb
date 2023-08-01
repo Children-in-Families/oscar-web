@@ -238,10 +238,6 @@ module ClientAdvancedSearchesConcern
     assessment_value? ? eval(@advanced_search_params[:assessment_selected]) : []
   end
 
-  def get_assessments
-    @assessments = (Setting.cache_first.enable_default_assessment? ? [[0, Setting.cache_first.default_assessment, { "data-type" => :default }]] : []) + CustomAssessmentSetting.all.where(enable_custom_assessment: true).pluck(:id, :custom_assessment_name).to_a
-  end
-
   def has_params?
     @advanced_search_params.present? && @advanced_search_params[:basic_rules].present?
   end

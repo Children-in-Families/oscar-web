@@ -1,0 +1,16 @@
+.modal.fade.assessment-domain-score{ role: 'dialog', tabindex: '-1', id: 'assessment-domain-score', data: { 'filename' => "family_assessment_domain_report-#{Time.now}"  } }
+  .modal-dialog{ role: 'document'}
+    .modal-content
+      .modal-header
+        %button.close{"aria-label" => 'Close', "data-dismiss" => 'modal'}
+          %span{"aria-hidden" => 'true'} &times;
+        %h4.modal-title
+          = t('clients.assessment_domain_score.assessment_data', assessment: Setting.cache_first.default_assessment)
+
+      .modal-body
+        %table.table.table-bordered.table-striped.table-hover.assessment-score-data#csi-assessment-score
+          = hidden_field(:hidden, :api_assessment, class: 'api-assessment-path', data: { 'assessment-params': assessments_families_path(default: true) })
+          = hidden_field(:hidden, :assessment_domain_headers, class: 'assessment-domain-headers', data: { headers: assess_header_mapping.to_json } )
+
+      .modal-footer
+        %button.btn.btn-default.form-btn.editable-cancel{"data-dismiss" => "modal", :type => "button"}= t('clients.assessment_domain_score.close')

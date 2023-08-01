@@ -187,12 +187,13 @@ Rails.application.routes.draw do
   resources :referees, only: [:index, :show]
 
   resources :families do
-    get :welcome, on: :collection
-    
-    resources :family_referrals
     collection do
+      get :welcome
+      get :assessments
       post '/advanced_search', to: 'families#index'
     end
+    
+    resources :family_referrals
 
     scope module: 'family' do
       resources :exit_ngos, only: [:create, :update]

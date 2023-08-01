@@ -126,7 +126,7 @@ class CIF.ClientAdvanceSearch
 
       value = $('#assessment-select').select2('data') && $('#assessment-select').select2('data').id
       $(".assessment-data-dropdown li.csi-#{value}").removeClass("hide")
-      $("#client_advanced_search_assessment_selected").val("[#{value}]")
+      $("input[id$='_advanced_search_assessment_selected']").val("[#{value}]")
 
       if value == "0"
         self.toggleAdvanceReportSection($("#assessment-checkbox").data("custom"))
@@ -137,7 +137,7 @@ class CIF.ClientAdvanceSearch
 
       unless $("#assessment-checkbox").is(":checked")
         $(".assessment-data-dropdown li").addClass("hide")
-        $("#client_advanced_search_assessment_selected").val("[]")
+        $("input[id$='_advanced_search_assessment_selected']").val("[]")
         self.hideCSIFilters()
 
     $('#assessment-select').trigger('change')

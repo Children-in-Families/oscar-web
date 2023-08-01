@@ -10,6 +10,26 @@
 
     = link_to new_advanced_search_save_query_path, remote: true, id: 'save-search-setting', class: 'btn btn-primary', data: { trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.saved_search_setting')}", placement: "auto" } do
       = t('clients.index.save_search_settings')
+
+    - if params['commit'].present? || params['family_advanced_search'].present?
+      - unless Setting.cache_first.hide_family_case_management_tool?
+        .btn-group
+          %button.btn.btn-primary.dropdown-toggle{ "aria-expanded" => "false", "aria-haspopup" => "true", type: "button", data: { toggle: "dropdown", trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.assessment_data', assessment: t('clients.show.assessment'))}", placement: "auto" } }
+            = t('clients.index.assessment_data', assessment: t('clients.show.assessment'))
+            %span.caret
+          %ul.dropdown-menu.assessment-data-dropdown
+            - assessment_options.each do |assessment|
+              - if assessment[2].present?
+                %li.csi-0
+                  = link_to '#', class: 'btn btn-default', 'data-target': "#assessment-domain-score", 'data-toggle': 'modal' do
+                    = assessment[1]
+              - else
+                %li.hide{ class: "csi-#{assessment[0]}" }
+                  = link_to '#', class: 'btn btn-default', 'data-target': "#custom-assessment-domain-score-#{assessment[0]}", 'data-toggle': 'modal' do
+                    = assessment[1]
+
+          = render 'assessment_domain_score' 
+          = render 'custom_assessment_domain_score'
       
   .col-xs-12.col-md-3
     .pull-right.family-action

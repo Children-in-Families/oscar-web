@@ -59,6 +59,9 @@ CIF.FamiliesIndex = CIF.FamiliesWelcome = do ->
     $('.rule-operator-container').change ->
       advanceFilter.initSelect2()
 
+    advanceFilter.handleShowAssessmentSelect()
+    advanceFilter.handleHideAssessmentSelect()
+
   _handleUncheckColumnVisibility = ->
     params = window.location.search.substr(1)
 

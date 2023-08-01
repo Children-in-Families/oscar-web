@@ -2,7 +2,7 @@ class FamiliesController < AdminController
   load_and_authorize_resource except: :show
   include FamilyAdvancedSearchesConcern
 
-  before_action :redirect_to_index, except: :index
+  before_action :redirect_to_index, except: [:index, :assessments]
   before_action :assign_active_family_prams, :format_search_params, only: [:index]
   before_action :find_params_advanced_search, :get_custom_form, :get_program_streams, only: [:index]
   before_action :find_params_advanced_search, :get_custom_form, only: [:index]
@@ -10,10 +10,10 @@ class FamiliesController < AdminController
   before_action :custom_form_fields, :program_stream_fields, only: [:index]
   before_action :basic_params, if: :has_params?, only: [:index]
   before_action :build_advanced_search, only: [:index]
-  before_action :find_association, except: [:index, :destroy, :version, :welcome]
+  before_action :find_association, except: [:index, :destroy, :version, :welcome, :assessments]
   before_action :find_family, only: [:show, :edit, :update, :destroy]
   before_action :find_case_histories, only: :show
-  before_action :quantitative_type_readable, except: :destroy
+  before_action :quantitative_type_readable, except: [:index, :assessments]
   before_action :load_quantative_types, only: [:new, :edit, :create, :update]
 
   def welcome
@@ -127,6 +127,18 @@ class FamiliesController < AdminController
     page = params[:per_page] || 20
     @family   = Family.find(params[:family_id])
     @versions = @family.versions.reorder(created_at: :desc).page(params[:page]).per(page)
+  end
+
+  def assessments
+    basic_rules = JSON.parse(params[:basic_rules] || "{}")
+    families = AdvancedSearches::FamilyAdvancedSearch.new(basic_rules, Family.accessible_by(current_ability))
+
+    assessments = Assessment.joins(:family).where(default: params[:default], family_id: families.filter.ids)
+    assessments = assessments.joins(:custom_assessment_setting).where(custom_assessment_settings: { id: params[:assessment_id] }) if params[:assessment_id].present?
+
+    @assessments_count = assessments.count
+
+    render json: { recordsTotal:  @assessments_count, recordsFiltered: @assessments_count, data: data }
   end
 
   private
