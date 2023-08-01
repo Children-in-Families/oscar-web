@@ -336,8 +336,8 @@ class User < ActiveRecord::Base
     @user_clients ||= if admin?
                         Client.select(:id, :slug, :given_name, :family_name, :local_given_name, :local_family_name)
                       elsif manager?
-                        client_ids = Client.where(user_id: User.self_and_subordinates(self).ids).pluck(:id)
-                        clients.where(id: client_ids).select(:id, :slug, :given_name, :family_name, :local_given_name, :local_family_name).merge(Client.select(:id, :slug, :given_name, :family_name, :local_given_name, :local_family_name))
+                        user_ability = Ability.new(self)
+                        Client.accessible_by(user_ability)
                       elsif case_worker?
                         clients.select(:id, :slug, :given_name, :family_name, :local_given_name, :local_family_name)
                       end
