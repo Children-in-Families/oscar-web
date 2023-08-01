@@ -44,6 +44,7 @@ module CsiConcern
 
   def can_create_assessment?(default, custom_assessment_setting_id = '')
     return assessments.defaults.count.zero? || assessments.defaults.latest_record.completed? if default
+    
     if custom_assessment_setting_id.present?
       latest_assessment = assessments.customs.joins(:domains).where(domains: { custom_assessment_setting_id: custom_assessment_setting_id }).distinct
     else

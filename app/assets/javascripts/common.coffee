@@ -65,7 +65,8 @@ CIF.Common =
       $('#manage').trigger('click')
       if navThirdActive.length > 0
         setTimeout (->
-          $('#pro-nav').trigger('click')
+          if $(navThirdActive).closest(".nav-third-level").prev("a")
+            $(navThirdActive).closest(".nav-third-level").prev("a").trigger('click')
         ), 400
 
   hideDynamicOperator: ->

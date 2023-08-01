@@ -6,7 +6,7 @@
           = link_to @client.en_and_local_name, client_path(@client)
           = " - #{t('.report')}"
         .ibox-tools
-          = link_to client_client_enrolled_programs_path(@client) do
+          = link_to client_client_enrollments_path(@client) do
             .btn.btn-primary
               = t('.programs_list')
       .ibox-content
