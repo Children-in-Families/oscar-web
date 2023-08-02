@@ -307,13 +307,10 @@ class CIF.ClientAdvanceSearch
       ruleFiltersSelect.parents('.rule-container').find('.rule-header button').trigger('click')
 
       $(".custom-assessment-setting").hide()
-      
-      console.log('$(".custom-assessment-setting").hide()')
 
       $('.assessment-form').hide()
       $('#builder').queryBuilder('removeFilter', ['assessment_condition_last_two','assessment_condition_first_last'])
       $('button[data-add="rule"]').trigger('click')
-      self.initSelect2()
 
       return
 
