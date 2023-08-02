@@ -62,7 +62,7 @@ class CustomFieldPropertiesController < AdminController
   def custom_field_property_params
     if properties_params.present?
       mappings = {}
-      properties_params.each do |k, v|
+      properties_params.each do |k, _|
         mappings[k] = k.gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;').gsub('%22', '"')
       end
       formatted_params = properties_params.map { |k, v| [mappings[k], v] }.to_h

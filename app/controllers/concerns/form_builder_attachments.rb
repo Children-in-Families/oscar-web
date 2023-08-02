@@ -1,6 +1,7 @@
 module FormBuilderAttachments
   def add_more_attachments(resource)
     return unless attachment_params.present?
+
     attachment_params.each do |_k, attachment|
       name = attachment['name']
       if name.present? && attachment['file'].present?
