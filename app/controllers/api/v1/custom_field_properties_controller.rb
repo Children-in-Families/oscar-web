@@ -33,12 +33,16 @@ module Api
         name = params[:file_name]
         index = params[:file_index].to_i
         if name.present? && index.present?
-          delete_form_builder_attachment(@custom_field_property, name, index)
-          render json: { error: "Failed deleting attachment" } unless @custom_field_property.save
+          if delete_form_builder_attachment(@custom_field_property, name, index)
+            head 204 if @custom_field_property.save
+          else
+            render json: { error: "Failed deleting attachment" }
+          end
+        elsif @custom_field_property.destroy
+          head 204
         else
-          33054
+          render json: { error: "Failed deleting custom field property" }
         end
-        head 204
       end
 
       private
@@ -61,7 +65,7 @@ module Api
             end
           end
         end
-        properties_params.values.map{ |v| v.delete('') if (v.is_a?Array) && v.size > 1 } if properties_params.present?
+        properties_params.values.map { |v| v.delete('') if (v.is_a? Array) && v.size > 1 } if properties_params.present?
         default_params = params.require(:custom_field_property).permit({}).merge(custom_field_id: params[:custom_field_id])
         default_params = default_params.merge(properties: properties_params) if properties_params.present?
         default_params = default_params.merge(form_builder_attachments_attributes: attachment_params) if action_name == 'create' && attachment_params.present?

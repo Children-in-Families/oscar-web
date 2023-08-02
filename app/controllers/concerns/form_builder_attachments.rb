@@ -29,15 +29,15 @@ module FormBuilderAttachments
   end
 
   def attachment_params
-    if ['client_enrollments','client_enrolled_programs'].include?(controller_name)
+    if ['client_enrollments', 'client_enrolled_programs'].include?(controller_name)
       params[:client_enrollment][:form_builder_attachments_attributes]
     elsif ['client_enrollment_trackings', 'client_enrolled_program_trackings', 'client_trackings'].include?(controller_name)
       params[:client_enrollment_tracking][:form_builder_attachments_attributes]
-    elsif ['leave_programs','leave_enrolled_programs'].include?(controller_name)
+    elsif ['leave_programs', 'leave_enrolled_programs'].include?(controller_name)
       params[:leave_program][:form_builder_attachments_attributes]
     elsif ['custom_field_properties', 'client_custom_fields'].include?(controller_name)
       params[:custom_field_property][:form_builder_attachments_attributes]
-    elsif ['enrollments','enrolled_programs'].include?(controller_name)
+    elsif ['enrollments', 'enrolled_programs'].include?(controller_name)
       params[:enrollment][:form_builder_attachments_attributes]
     elsif ['enrollment_trackings', 'enrolled_program_trackings', 'trackings'].include?(controller_name)
       params[:enrollment_tracking][:form_builder_attachments_attributes]
@@ -45,11 +45,11 @@ module FormBuilderAttachments
   end
 
   def properties_params
-    if ['client_enrollments','client_enrolled_programs'].include?(controller_name)
+    if ['client_enrollments', 'client_enrolled_programs'].include?(controller_name)
       params[:client_enrollment][:properties]
     elsif ['client_enrollment_trackings', 'client_enrolled_program_trackings', 'client_trackings'].include?(controller_name)
       params[:client_enrollment_tracking][:properties]
-    elsif ['leave_programs','leave_enrolled_programs'].include?(controller_name)
+    elsif ['leave_programs', 'leave_enrolled_programs'].include?(controller_name)
       params[:leave_program][:properties]
     elsif ['custom_field_properties', 'client_custom_fields'].include?(controller_name)
       params[:custom_field_property][:properties]
@@ -57,9 +57,9 @@ module FormBuilderAttachments
   end
 
   def entity_properties_params
-    if ['enrollments','enrolled_programs'].include?(controller_name)
+    if ['enrollments', 'enrolled_programs'].include?(controller_name)
       params[:enrollment][:properties]
-    elsif ['enrollment_trackings','enrolled_program_trackings', 'trackings'].include?(controller_name)
+    elsif ['enrollment_trackings', 'enrolled_program_trackings', 'trackings'].include?(controller_name)
       params[:enrollment_tracking][:properties]
     end
   end
