@@ -32,6 +32,7 @@ CIF.FamiliesIndex = CIF.FamiliesWelcome = do ->
     advanceFilter.handleShowCustomFormSelect()
     advanceFilter.customFormSelectChange()
     advanceFilter.customFormSelectRemove()
+    advanceFilter.assessmentSelectChange()
     advanceFilter.handleHideCustomFormSelect()
 
     advanceFilter.handleFamilyShowProgramStreamFilter()

@@ -140,6 +140,7 @@ class CIF.ClientAdvanceSearch
         $("input[id$='_advanced_search_assessment_selected']").val("[]")
         self.hideCSIFilters()
 
+    console.log("$('#assessment-select').trigger('change')")
     $('#assessment-select').trigger('change')
 
   hideCSIFilters: ->
@@ -147,6 +148,7 @@ class CIF.ClientAdvanceSearch
     @.toggleAdvanceReportSection($("#assessment-checkbox").data("csi"))
 
   toggleAdvanceReportSection: (sectionText, hide = true) ->
+    console.log(sectionText, hide)
     $options = $("optgroup[label='#{sectionText}'] option")
     self = @
 
@@ -205,7 +207,7 @@ class CIF.ClientAdvanceSearch
   assessmentSelectChange: ->
     self = @
     assessmentSelectValue = $('#assessment-select').find(':selected').val()
-    $("div[data-custom-assessment-setting-id='#{assessmentSelectValue}']").show()
+    $("div[data-custom-assessment-setting-id='#{assessmentSelectValue}']").show() if $("#assessment-checkbox").is(":checked")
 
     $('.main-report-builder .assessment-form-wrapper select').on 'select2-selecting', (element) ->
       $(".custom-assessment-setting").hide()
@@ -304,6 +306,10 @@ class CIF.ClientAdvanceSearch
       ruleFiltersSelect.select2('destroy')
       ruleFiltersSelect.parents('.rule-container').find('.rule-header button').trigger('click')
 
+      $(".custom-assessment-setting").hide()
+      
+      console.log('$(".custom-assessment-setting").hide()')
+
       $('.assessment-form').hide()
       $('#builder').queryBuilder('removeFilter', ['assessment_condition_last_two','assessment_condition_first_last'])
       $('button[data-add="rule"]').trigger('click')
@@ -319,6 +325,7 @@ class CIF.ClientAdvanceSearch
     $('#assessment-checkbox').on 'ifChecked', ->
       $('.assessment-form').show()
       assessmentSelectValue = $('#assessment-select').find(':selected').val()
+
       $("div[data-custom-assessment-setting-id='#{assessmentSelectValue}']").show()
       self.assessmentSelected = $('select.assessment-select').val()
       $.ajax
