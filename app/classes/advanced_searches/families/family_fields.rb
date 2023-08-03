@@ -30,6 +30,7 @@ module AdvancedSearches
         search_fields = text_fields + drop_list_fields + number_fields + date_picker_fields
         
         unless current_setting.hide_family_case_management_tool?
+          search_fields += AdvancedSearches::CsiFields.render
           search_fields += current_setting.enable_default_assessment? ? AdvancedSearches::DomainScoreFields.render : []
           search_fields += current_setting.enable_custom_assessment? ? AdvancedSearches::CustomDomainScoreFields.render('family') : []
         end

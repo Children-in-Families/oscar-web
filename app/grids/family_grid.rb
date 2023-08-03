@@ -634,31 +634,30 @@ class FamilyGrid < BaseGrid
   end
 
   dynamic do
-    setting = Setting.cache_first
-
-    if setting.enable_default_assessment?
+    if Setting.cache_first.enable_default_assessment?
       column(:all_csi_assessments, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.all_csi_assessments', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
         render partial: 'clients/all_csi_assessments', locals: { object: object.assessments.defaults }
       end
+      
       Domain.csi_domains.order_by_identity.each do |domain|
         domain_id = domain.id
         identity = domain.identity
-        column(domain.convert_identity.to_sym, class: 'domain-scores', header: identity, html: true) do |client|
-          assessments = map_assessment_and_score(client, identity, domain_id)
+        column(domain.convert_identity.to_sym, class: 'domain-scores', header: identity, html: true) do |object|
+          assessments = map_assessment_and_score(object, identity, domain_id)
           assessment_domains = assessments.map { |assessment| assessment.assessment_domains.joins(:domain).where(domains: { identity: identity }) }.flatten.uniq
           render  partial: 'clients/list_domain_score', locals: { assessment_domains: assessment_domains }
         end
       end
     end
 
-    if setting.enable_custom_assessment?
+    if Setting.cache_first.enable_custom_assessment?
       column(:all_custom_csi_assessments, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.all_custom_csi_assessments') }, html: true) do |object|
         render partial: 'clients/all_csi_assessments', locals: { object: object.assessments.customs }
       end
       Domain.custom_csi_domains.order_by_identity.each do |domain|
         identity = domain.identity
-        column("custom_#{domain.convert_identity}".to_sym, class: 'domain-scores', header: identity, html: true) do |client|
-          assessments = map_assessment_and_score(client, identity, domain.id)
+        column("custom_#{domain.convert_identity}".to_sym, class: 'domain-scores', header: identity, html: true) do |object|
+          assessments = map_assessment_and_score(object, identity, domain.id)
           assessment_domains = assessments.customs.map { |assessment| assessment.assessment_domains.joins(:domain).where(domains: { identity: identity }) }.flatten.uniq
           render  partial: 'clients/list_domain_score', locals: { assessment_domains: assessment_domains }
         end
