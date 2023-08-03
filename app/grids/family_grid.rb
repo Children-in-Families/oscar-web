@@ -528,26 +528,26 @@ class FamilyGrid < BaseGrid
   #   scope.where(id: ids)
   # end
 
-  # filter(:all_domains, :dynamic, select: ['All CSI'], header: -> { I18n.t('datagrid.columns.clients.domains') }) do |(field, operation, value), scope|
-  #   value = value.to_i
-  #   assessment_id = []
-  #   AssessmentDomain.all.group_by(&:assessment_id).each do |key, ad|
-  #     arr = []
-  #     a_id = []
-  #     ad.each do |v|
-  #       if operation == '='
-  #         arr.push v.score == value.to_i ? true : false
-  #       else
-  #         arr.push eval("#{v.score}#{operation}#{value}") ? true : false
-  #       end
-  #       a_id.push v.assessment_id
-  #     end
-  #     if !arr.include?(false)
-  #       assessment_id.push a_id[0]
-  #     end
-  #   end
-  #   scope.joins(:assessments).where(assessments: { id: assessment_id })
-  # end
+  filter(:all_domains, :dynamic, select: ['All CSI'], header: -> { I18n.t('datagrid.columns.clients.domains') }) do |(field, operation, value), scope|
+    value = value.to_i
+    assessment_id = []
+    AssessmentDomain.all.group_by(&:assessment_id).each do |key, ad|
+      arr = []
+      a_id = []
+      ad.each do |v|
+        if operation == '='
+          arr.push v.score == value.to_i ? true : false
+        else
+          arr.push eval("#{v.score}#{operation}#{value}") ? true : false
+        end
+        a_id.push v.assessment_id
+      end
+      if !arr.include?(false)
+        assessment_id.push a_id[0]
+      end
+    end
+    scope.joins(:assessments).where(assessments: { id: assessment_id })
+  end
 
   column(:assessment_created_at, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.assessment_created_at', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
     render partial: 'clients/assessments', locals: { object: object.assessments.defaults.order(:created_at), assessment_field_name: nil }

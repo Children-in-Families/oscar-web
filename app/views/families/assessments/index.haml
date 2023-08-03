@@ -39,7 +39,7 @@
                     = date_format(Date.today)
 
             .col-xs-12.col-sm-4
-              = link_to new_family_assessment_path(@family, default: false) do
+              = link_to new_family_assessment_path(@family, default: true) do
                 .btn.btn-block.btn-primary.button
                   = "#{t('assessments.index.begin_now')} #{t('families.family_assessment')}"
 
