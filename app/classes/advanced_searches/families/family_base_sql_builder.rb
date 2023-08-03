@@ -4,7 +4,8 @@ module AdvancedSearches
       ASSOCIATION_FIELDS = [
         'client_id', 'case_workers', 'relation', 'gender', 'date_of_birth', 'date_of_custom_assessments', 'custom_completed_date', 'custom_assessment',
         'assessment_completed_date', 'assessment_completed', 'case_note_date', 'case_note_type', 'active_families', 'care_plan_completed_date',
-        'active_program_stream', 'number_family_referred_gatekeeping', 'number_family_billable', 'family_rejected', 'no_case_note_date'
+        'active_program_stream', 'number_family_referred_gatekeeping', 'number_family_billable', 'family_rejected', 'no_case_note_date',
+        'assessment_created_at', 'date_of_assessments', 'custom_assessment_created_at', 'assessment_number', 'assessment_condition_last_two', 'assessment_condition_first_last'
       ].freeze
 
       BLANK_FIELDS = %w(created_at contract_date household_income dependable_income female_children_count male_children_count female_adult_count male_adult_count province_id significant_family_member_count district_id commune_id village_id id referral_source_id)
