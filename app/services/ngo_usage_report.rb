@@ -262,7 +262,7 @@ class NgoUsageReport
   end
 
   def ngo_referral_client_info(beginning_of_month, end_of_month)
-    referrals = Referral.where(created_at: beginning_of_month..end_of_month).where("referred_to = ? AND (ngo_name = ? OR ngo_name = ?)", 'external referral', 'MoSVY', 'MoSVY External System')
+    referrals = Referral.where(created_at: beginning_of_month..end_of_month).where('referred_to = ?', 'MoSVY External System')
     clients = Client.where(id: referrals.pluck(:client_id))
     {
       ngo_mosvy_referred_client_count: referrals.count,
