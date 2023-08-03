@@ -18,11 +18,11 @@
     %tbody
 
       - ProgramStream.where(id: clients.map(&:program_stream_id)).each do |program|
-        - by_program = clients.select{ |client| client.program_stream_id == program.id }
+        - by_program = clients.select{ |client| client.program_stream_id == program.id }.uniq
         %tr
           %td= program.name
           - provinces.each do |prov_name|
-            - clients_by_program_province = by_program.select{ |client| client.province_name == prov_name }
+            - clients_by_program_province = by_program.select{ |client| client.province_name == prov_name }.uniq
             %td= clients_by_program_province.select(&:female?).count
             %td= clients_by_program_province.select(&:male?).count
             %td= clients_by_program_province.select(&:other_gender?).count
@@ -31,17 +31,17 @@
       %tr
         %td= t('clients.table_summary.no_program')
         - provinces.each do |prov_name|
-          - clients_by_province = no_program_clients.select{ |client| client.province_name == prov_name }
+          - clients_by_province = no_program_clients.select{ |client| client.province_name == prov_name }.uniq
           %td= clients_by_province.select(&:female?).count
           %td= clients_by_province.select(&:male?).count
           %td= clients_by_province.select(&:other_gender?).count
-        %td= no_program_clients.count
+        %td= no_program_clients.uniq.count
 
       %tr
         %td= t('clients.table_summary.client_by_gender')
         - provinces.each do |prov_name|
-          - clients_by_province = (clients + no_program_clients).select{ |client| client.province_name == prov_name }
+          - clients_by_province = (clients + no_program_clients).select{ |client| client.province_name == prov_name }.uniq
           %td= clients_by_province.select(&:female?).count
           %td= clients_by_province.select(&:male?).count
           %td= clients_by_province.select(&:other_gender?).count
-        %td= (clients + no_program_clients).count
+        %td= (clients + no_program_clients).uniq.count

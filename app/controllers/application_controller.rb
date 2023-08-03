@@ -146,4 +146,8 @@ class ApplicationController < ActionController::Base
       Raven.user_context(ip: request.ip)
     end
   end
+
+  def save_draft?
+    request.format.json? && params[:draft].present?
+  end
 end
