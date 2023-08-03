@@ -58,6 +58,6 @@
           .row.assessment-form
             .col-xs-12
               .form-group#assessment-form-data{ data: { value: assessment_values } }
-                = select_tag(:nil, assessment_options.empty? ? nil : options_for_select(assessment_options.map{|assessment| [assessment[1], assessment[0], assessment[2].presence || {}] }, assessment_values.empty? ? assessment_options.first[0] : assessment_values), { multiple: false, id: 'assessment-select', class: 'form-control assessment-select', include_blank: true })
+                = select_tag(:nil, family_assessment_options.empty? ? nil : options_for_select(family_assessment_options.map{|assessment| [assessment[1], assessment[0], assessment[2].presence || {}] }, assessment_values.empty? ? family_assessment_options.first[0] : assessment_values), { multiple: false, id: 'assessment-select', class: 'form-control assessment-select', include_blank: true })
 
 #opt-group-translation{ data: { enrollment: t('.enrollment'), tracking: t('.tracking'), exit_program: t('.exit_program'), basic_fields: t('.basic_fields'), custom_form: t('.custom_form'), quantitative: t('.quantitative') } }

@@ -152,10 +152,7 @@ module FamiliesHelper
       direct_beneficiaries:                     I18n.t('datagrid.columns.families.direct_beneficiaries'),
       relation:                                 I18n.t('families.family_member_fields.relation'),
       member_count:                             I18n.t('datagrid.columns.families.member_count'),
-      all_csi_assessments: I18n.t('datagrid.columns.clients.all_csi_assessments'),
-      assessment_created_at:         I18n.t('datagrid.columns.clients.assessment_created_at', assessment: I18n.t('clients.show.assessment')),
-      date_of_assessments:           I18n.t('datagrid.columns.clients.date_of_assessments', assessment: I18n.t('clients.show.assessment')),
-      completed_date:                I18n.t('datagrid.columns.calls.assessment_completed_date', assessment: I18n.t('clients.show.assessment')),
+      date_of_custom_assessments:               I18n.t('datagrid.columns.date_of_family_assessment'),
       **additional_columns,
       **family_address_translation
     }

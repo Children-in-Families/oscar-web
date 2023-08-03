@@ -218,9 +218,9 @@ module AdvancedSearches
         when 'not_equal'
           family_ids = families.where.not(assessments: { custom_assessment_setting_id: @value }).distinct.ids
         when 'is_empty'
-          family_ids = @families.includes(:assessments).group('families.id, assessments.id, assessments.custom_assessment_setting_id').having("COUNT(assessments.custom_assessment_setting_id) = 0").distinct.ids
+          family_ids = @families.includes(:assessments).group('families.id, assessments.id, assessments.custom_assessment_setting_id').having("COUNT(assessments.id) = 0").distinct.ids
         when 'is_not_empty'
-          family_ids = @families.includes(:assessments).group('families.id, assessments.id, assessments.custom_assessment_setting_id').having("COUNT(assessments.custom_assessment_setting_id) > 0").distinct.ids
+          family_ids = @families.includes(:assessments).group('families.id, assessments.id, assessments.custom_assessment_setting_id').having("COUNT(assessments.id) > 0").distinct.ids
         end
       end
 

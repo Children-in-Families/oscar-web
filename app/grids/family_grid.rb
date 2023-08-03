@@ -528,26 +528,26 @@ class FamilyGrid < BaseGrid
   #   scope.where(id: ids)
   # end
 
-  filter(:all_domains, :dynamic, select: ['All CSI'], header: -> { I18n.t('datagrid.columns.clients.domains') }) do |(field, operation, value), scope|
-    value = value.to_i
-    assessment_id = []
-    AssessmentDomain.all.group_by(&:assessment_id).each do |key, ad|
-      arr = []
-      a_id = []
-      ad.each do |v|
-        if operation == '='
-          arr.push v.score == value.to_i ? true : false
-        else
-          arr.push eval("#{v.score}#{operation}#{value}") ? true : false
-        end
-        a_id.push v.assessment_id
-      end
-      if !arr.include?(false)
-        assessment_id.push a_id[0]
-      end
-    end
-    scope.joins(:assessments).where(assessments: { id: assessment_id })
-  end
+  # filter(:all_domains, :dynamic, select: ['All CSI'], header: -> { I18n.t('datagrid.columns.clients.domains') }) do |(field, operation, value), scope|
+  #   value = value.to_i
+  #   assessment_id = []
+  #   AssessmentDomain.all.group_by(&:assessment_id).each do |key, ad|
+  #     arr = []
+  #     a_id = []
+  #     ad.each do |v|
+  #       if operation == '='
+  #         arr.push v.score == value.to_i ? true : false
+  #       else
+  #         arr.push eval("#{v.score}#{operation}#{value}") ? true : false
+  #       end
+  #       a_id.push v.assessment_id
+  #     end
+  #     if !arr.include?(false)
+  #       assessment_id.push a_id[0]
+  #     end
+  #   end
+  #   scope.joins(:assessments).where(assessments: { id: assessment_id })
+  # end
 
   column(:assessment_created_at, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.assessment_created_at', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
     render partial: 'clients/assessments', locals: { object: object.assessments.defaults.order(:created_at), assessment_field_name: nil }
@@ -593,7 +593,7 @@ class FamilyGrid < BaseGrid
     render partial: 'clients/assessments', locals: { object: object.assessments.customs.order(:created_at), assessment_field_name: nil }
   end
 
-  column(:date_of_custom_assessments, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.date_of_custom_assessments', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
+  column(:date_of_custom_assessments, preload: :assessments, header: -> { I18n.t('datagrid.columns.date_of_family_assessment', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
     render partial: 'clients/assessments', locals: { object: object.assessments.customs.order(:assessment_date), assessment_field_name: 'assessment_date' }
   end
 
@@ -605,7 +605,7 @@ class FamilyGrid < BaseGrid
     end
   end
 
-  column(:custom_completed_date, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.assessment_custom_completed_date', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
+  column(:custom_completed_date, preload: :assessments, header: -> { I18n.t('datagrid.columns.assessment_completed_date', assessment: I18n.t('families.family_assessment')) }, html: true) do |object|
     if $param_rules
       basic_rules = $param_rules['basic_rules']
       basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
@@ -634,26 +634,27 @@ class FamilyGrid < BaseGrid
   end
 
   dynamic do
-    if Setting.cache_first.enable_default_assessment?
-      column(:all_csi_assessments, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.all_csi_assessments', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
-        render partial: 'clients/all_csi_assessments', locals: { object: object.assessments.defaults }
-      end
+    # if Setting.cache_first.enable_default_assessment?
+    #   column(:all_csi_assessments, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.all_csi_assessments', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
+    #     render partial: 'clients/all_csi_assessments', locals: { object: object.assessments.defaults }
+    #   end
       
-      Domain.family_csi_domains.order_by_identity.each do |domain|
-        domain_id = domain.id
-        identity = domain.identity
-        column(domain.convert_identity.to_sym, class: 'domain-scores', header: identity, html: true) do |object|
-          assessments = map_assessment_and_score(object, identity, domain_id)
-          assessment_domains = assessments.map { |assessment| assessment.assessment_domains.joins(:domain).where(domains: { identity: identity }) }.flatten.uniq
-          render  partial: 'families/list_domain_score', locals: { assessment_domains: assessment_domains }
-        end
-      end
-    end
+    #   Domain.family_csi_domains.order_by_identity.each do |domain|
+    #     domain_id = domain.id
+    #     identity = domain.identity
+    #     column(domain.convert_identity.to_sym, class: 'domain-scores', header: identity, html: true) do |object|
+    #       assessments = map_assessment_and_score(object, identity, domain_id)
+    #       assessment_domains = assessments.map { |assessment| assessment.assessment_domains.joins(:domain).where(domains: { identity: identity }) }.flatten.uniq
+    #       render  partial: 'families/list_domain_score', locals: { assessment_domains: assessment_domains }
+    #     end
+    #   end
+    # end
 
     if Setting.cache_first.enable_custom_assessment?
-      column(:all_custom_csi_assessments, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.all_custom_csi_assessments') }, html: true) do |object|
+      column(:all_custom_csi_assessments, preload: :assessments, header: -> { I18n.t('datagrid.columns.all_custom_csi_assessments', assessment: t('families.show.assessment')) }, html: true) do |object|
         render partial: 'clients/all_csi_assessments', locals: { object: object.assessments.customs }
       end
+
       Domain.family_custom_csi_domains.order_by_identity.each do |domain|
         identity = domain.identity
         column("custom_#{domain.convert_identity}".to_sym, class: 'domain-scores', header: identity, html: true) do |object|

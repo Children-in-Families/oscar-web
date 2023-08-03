@@ -128,7 +128,7 @@ class CIF.ClientAdvanceSearch
       $(".assessment-data-dropdown li.csi-#{value}").removeClass("hide")
       $("input[id$='_advanced_search_assessment_selected']").val("[#{value}]")
 
-      if value == "0"
+      if value == "0" && $("body").attr("id").indexOf("families") == -1
         self.toggleAdvanceReportSection($("#assessment-checkbox").data("custom"))
         self.toggleAdvanceReportSection($("#assessment-checkbox").data("csi"), false)
       else
