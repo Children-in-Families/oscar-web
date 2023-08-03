@@ -3,6 +3,7 @@
   = hidden_field_tag :default, params[:default] if params[:default]
   = hidden_field_tag :from_controller, @from_controller
   = hidden_field_tag :custom_name, params[:custom_name] || @custom_assessment_setting.try(:custom_assessment_name)
+  = render 'assessment_date_input', f: f
   .row.assessment-domains
     .col-xs-12
       .ibox
@@ -15,10 +16,6 @@
               - else
                 %span= " (Current Assessment)"
 
-          .ibox-tools
-            - unless readonly
-              = link_to family_assessments_path(@family), class: 'btn btn-default btn-back-default button' do
-                = t('assessments.unrestricted_form.back')
         .ibox-content
           .root-wizard{ id:( readonly ? 'readonly-rootwizard' : 'rootwizard'), data: { cancel: t('assessments.unrestricted_form.cancel'), next: t('assessments.unrestricted_form.next'), previous: t('assessments.unrestricted_form.previous'), finish: t('assessments.unrestricted_form.finish'), save: t('assessments.unrestricted_form.save'), saving: t('saving'), action: params['action'] } }
             = f.simple_fields_for 'assessment_domains', order_assessment(assessment) do |ad|

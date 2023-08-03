@@ -168,8 +168,9 @@ class FamiliesController < AdminController
   end
 
   def find_association
+    @users = User.without_deleted_users.non_strategic_overviewers.order(:first_name, :last_name)
     return if @family.nil?
-    @users     = User.without_deleted_users.non_strategic_overviewers.order(:first_name, :last_name)
+
     @provinces = Province.cached_order_name
     @districts = @family.province.present? ? @family.province.cached_districts : []
     @communes  = @family.district.present? ? @family.district.cached_communes : []
