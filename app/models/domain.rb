@@ -28,6 +28,8 @@ class Domain < ActiveRecord::Base
   scope :custom_csi_domains, -> { where(domain_type: 'client', custom_domain: true) }
   scope :custom_csi_domain_setting, ->(cas_id) { where(domain_type: 'client', custom_domain: true, custom_assessment_setting_id: cas_id) }
   scope :custom_domains, -> { where(custom_domain: true) }
+
+  scope :family_csi_domains, -> { where(domain_type: 'family', custom_domain: true) }
   scope :family_custom_csi_domains, -> { where(domain_type: 'family', custom_domain: true) }
 
   after_commit :flush_cache

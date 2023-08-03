@@ -140,7 +140,6 @@ class CIF.ClientAdvanceSearch
         $("input[id$='_advanced_search_assessment_selected']").val("[]")
         self.hideCSIFilters()
 
-    console.log("$('#assessment-select').trigger('change')")
     $('#assessment-select').trigger('change')
 
   hideCSIFilters: ->
@@ -208,12 +207,11 @@ class CIF.ClientAdvanceSearch
     self = @
     assessmentSelectValue = $('#assessment-select').find(':selected').val()
     $("div[data-custom-assessment-setting-id='#{assessmentSelectValue}']").show() if $("#assessment-checkbox").is(":checked")
-
+    
     $('.main-report-builder .assessment-form-wrapper select').on 'select2-selecting', (element) ->
       $(".custom-assessment-setting").hide()
-
+      $(".custom-assessment-setting input[type='checkbox']").iCheck("uncheck")
       $("div[data-custom-assessment-setting-id='#{element.val}']").show()
-      $("div[data-custom-assessment-setting-id='#{element.val}'] input[type='checkbox']").iCheck("uncheck")
 
   addCustomBuildersFields: (ids, url, loader=undefined) ->
     self = @
@@ -311,7 +309,7 @@ class CIF.ClientAdvanceSearch
       $('.assessment-form').hide()
       $('#builder').queryBuilder('removeFilter', ['assessment_condition_last_two','assessment_condition_first_last'])
       $('button[data-add="rule"]').trigger('click')
-
+      
       return
 
   handleShowAssessmentSelect: ->

@@ -451,11 +451,11 @@
                       = check_box_tag 'completed_date_', 'completed_date', checked = saved_search_column_visibility('completed_date_'), class: 'i-checks'
                       = label_tag 'completed_date_', t('datagrid.columns.assessment_completed_date', assessment: t('clients.show.assessment'))
 
-                  = render partial: 'datagrid/domain_score_columns_picker', collection: Domain.csi_domains.order_by_identity, as: :domain
+                  = render partial: 'datagrid/domain_score_columns_picker', collection: Domain.family_csi_domains.order_by_identity, as: :domain
               - if enable_custom_assessment?
                 - CustomAssessmentSetting.only_enable_custom_assessment.each do |cas|
                   .custom-assessment-setting{ data: { custom_assessment_setting_id: cas.id }, style: 'display: none;' }
-                    = render partial: 'datagrid/custom_domain_score', locals: { custom_assessment_setting_name: cas.custom_assessment_name, custom_domains: Domain.custom_csi_domains.order_by_identity.where(custom_assessment_setting_id: cas.id) }
+                    = render partial: 'datagrid/custom_domain_score', locals: { custom_assessment_setting_name: cas.custom_assessment_name, custom_domains: Domain.family_custom_csi_domains.order_by_identity.where(custom_assessment_setting_id: cas.id) }
 
           %li.divider.col-xs-12
           %li
