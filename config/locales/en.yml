@@ -501,6 +501,7 @@ en:
       exit_reasons: Reason For Exit
       family: Family
       family_basic_fields: Family Basic Fields
+      common_searches: Common Searches
       family_id: Manual ID
       family_name: Family Name (Latin)
       follow_up_by: First Follow-Up By
@@ -1779,6 +1780,8 @@ en:
       province: Current Province
       title: Warning
       village: Village
+    custom_fields:
+      add_new: Add New
     create:
       successfully_created: Client has been successfully created.
     custom_assessment_domain_score:
@@ -2171,6 +2174,8 @@ en:
     remaining_programs:
       close: Close
       warning: Warning
+    custom_fields:
+      form_name: Form Name
     show:
       <<: *LEGAL_DOC_ATTR
       care_plan: Care plan
@@ -2353,6 +2358,8 @@ en:
       referee_phone_number: Referee Phone Number
       referral_email: Referee Email
       referral_forms: Referral Forms
+      refer_client_to: Refer Client To
+      referral_history: Referral History
       referral_phone: Referee Phone Number
       referral_source: Referral Source
       referred_from: Referred from External Organisation
@@ -3093,6 +3100,9 @@ en:
       exit_reasons: Reason For Exit
       families:
         active_families: Active Families in Specific Period
+        family_rejected: Family Rejected
+        number_family_billable: Number of family is billable for (month)
+        number_family_referred_gatekeeping: Number of family referred through gatekeeping mechanism
         address: Address
         caregiver_information: Caregiver Information
         care_plan_count: Number of Care Plan
@@ -5180,12 +5190,18 @@ en:
       country: Country
       csi_tools: Assessment Tools
       communities: Community/Group
-      community: Community
-      custom_fields: Custom Form
+      community: CMS for Community
+      custom_fields: Form
       custom_form_limit: Custom Form Limit
-      custom_labels: Custom Labels
+      custom_labels: Custom ID
       dashboards: Dashboards
       default_columns: Default Columns
+      field_settings: Field
+      assessments: Assessments
+      integration: Interoperability
+      custom_tools: Custom Tools
+      modulars: Modulars
+      cms_tools: CMS Tools
       departments: Departments
       districts: Districts
       domain_groups: Domain Groups
@@ -5195,7 +5211,7 @@ en:
       edit_profile: Edit Profile
       en: English
       families: Families
-      family_form: Family Form
+      family_form: CMS for Family
       interventions: Interventions
       km: ខ្មែរ
       locations: Locations
@@ -5204,16 +5220,16 @@ en:
       manage: Manage
       materials: Equipment/Materials
       organization_type: Organisation Type
-      organization_types: Organisation Types
+      organization_types: Partner Organisation Types
       partners: Partners
       program_streams: Program Streams
       progress_note: Progress Note
       progress_note_types: Types of Note
       provinces: Provinces
-      quantitative_types: Custom Referral Data
+      quantitative_types: Referral Data
       referral_sources: Referral Sources
       release_logs: Release logs
-      research_module: Research Module
+      research_module: Research
       settings: Settings
       tracking_form_limit: Tracking Form Limit
       users: Users

@@ -13,7 +13,7 @@ class AssessmentsController < AdminController
   def index
     @default_assessment = @client.assessments.new
     @custom_assessment  = @client.assessments.new(default: false)
-    @assessmets = AssessmentDecorator.decorate_collection(@client.assessments.not_untouch_draft.order(:created_at))
+    @assessmets = AssessmentDecorator.decorate_collection(@client.assessments.order(:created_at))
     @custom_assessment_settings = CustomAssessmentSetting.all.where(enable_custom_assessment: true)
   end
 
@@ -81,24 +81,20 @@ class AssessmentsController < AdminController
   end
 
   def edit
-    if @assessment.draft?
-      @prev_assessment = @client.assessments.last
-      @assessment.populate_notes(params[:default], params[:custom_name])
-    else
-      @assessment.repopulate_notes
-    end
+    @prev_assessment = @client.assessments.last
   end
 
   def update
     fix_assessment_domains_attributes
+    attributes = assessment_params.merge(last_auto_save_at: DateTime.now)
 
     saved = if save_draft?
-      @assessment.assign_attributes(assessment_params.merge(last_auto_save_at: DateTime.now))
+      @assessment.assign_attributes(attributes)
       PaperTrail.without_tracking { @assessment.save(validate: false) }
 
       true
     else
-      @assessment.update_attributes(assessment_params.merge(draft: false))
+      @assessment.update_attributes(attributes.merge(draft: false))
     end
 
     if saved
@@ -157,11 +153,13 @@ class AssessmentsController < AdminController
   end
 
   def find_assessment
-    @assessment = if params[:id] == "draft"
-      @custom_assessment_setting = find_custom_assessment_setting
-      @assessment = @client.find_or_create_assessment(default: default?, case_conference_id: params[:case_conference], custom_assessment_setting_id: @custom_assessment_setting.try(:id))
-    else
-      @assessment = @client.assessments.find(params[:id])
+    @assessment = Assessment.unscoped do
+      if params[:id] == "draft"
+        @custom_assessment_setting = find_custom_assessment_setting
+        @client.find_or_create_assessment(default: default?, case_conference_id: params[:case_conference], custom_assessment_setting_id: @custom_assessment_setting.try(:id))
+      else
+        @client.assessments.find(params[:id])
+      end
     end.decorate
   end
 

@@ -171,30 +171,24 @@
           - if current_organization.available_for_referral?
             %input#client-id{ value: "#{@client.slug}", type: 'hidden' }
             .btn-group.small-btn-margin
-              %button.btn-sm.btn.btn-warning.dropdown-toggle.btn-fit{ data: { toggle: "dropdown", html: 'true', trigger: 'hover', content: "#{I18n.t('inline_help.clients.show.referral_form')}", placement: "auto" }, class: ('disabled' if @client.internal_referrals.empty? && @client.referrals.empty?) }
+              %button.btn-sm.btn.btn-warning.dropdown-toggle.btn-fit{ data: { toggle: "dropdown", html: 'true', trigger: 'hover', content: "#{I18n.t('inline_help.clients.show.referral_form')}", placement: "auto" } }
                 = t('.referral_forms')
                 %span.caret
               %ul.dropdown-menu.btn-fit.scrollable-dropdown-menu.referral-forms
-                - @internal_referrals.each do |internal_referral|
-                  %li
-                    = link_to client_internal_referral_path(@client, internal_referral.id) do
-                      = "Internal Referral To"
-                      = internal_referral.program_name
-                      = date_format(internal_referral.referral_date)
-                %li= link_to t('.referred_to'), client_referrals_path(@client, referral_type: 'referred_to')
-                %li= link_to t('.referred_from'), client_referrals_path(@client, referral_type: 'referred_from')
-            .btn-group.small-btn-margin
-              %button.btn-sm.btn.btn-warning.dropdown-toggle.btn-fit#add-referral-btn{ data: { toggle: "dropdown", html: 'true', trigger: 'hover', content: "#{I18n.t('inline_help.clients.show.refer_client')}", placement: "auto" } }
-                = t('.refer_client')
-                %span.caret
-              %ul.dropdown-menu.btn-fit.scrollable-dropdown-menu.referral-forms
+                %li= link_to t('.referral_history'), client_referrals_path(@client, referral_type: 'referred_to')
+                %li
+                  = link_to "#", { id: "referred-to-menu-link", data: { html: 'true', trigger: 'hover', content: "#{I18n.t('inline_help.clients.show.referral_form')}", placement: "auto" } } do
+                    = t('.refer_client_to')
+                    %span.caret
+
                 - if Organization.ratanak?
-                  %li= link_to 'Internal Referral', new_client_internal_referral_path(@client)
+                  %li= link_to 'Internal Referral', new_client_internal_referral_path(@client), class: "refer-to-item"
                 - ngos.each do |value, key|
                   - if value == "MoSVY External System" && @client.is_referable_to_external_system?
-                    %li= link_to value, '#exteralSystem', class: 'target-ngo', data: { target: '#exteralSystem', toggle: "modal" }
+                    %li= link_to value, '#exteralSystem', class: 'target-ngo refer-to-item', data: { target: '#exteralSystem', toggle: "modal" }
                   - else
-                    %li= link_to value, new_client_referral_url(@client, ngo: key, external_ngo_name: (key == 'MoSVY External System' || key == 'external referral') && value), :class => 'target-ngo', :value => "#{key}", :id => "#{key.downcase.parameterize}"
+                    %li= link_to value, new_client_referral_url(@client, ngo: key, external_ngo_name: (key == 'MoSVY External System' || key == 'external referral') && value), :class => 'target-ngo refer-to-item', :value => "#{key}", :id => "#{key.downcase.parameterize}"
+
           = link_to client_books_path(@client), data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.client_book')}", placement: "auto" } do
             %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit
               = t('.book')
@@ -249,38 +243,13 @@
                   - if (ec_manageable || strategic_overviewer?) && @client.cases.exclude_referred.kinships.inactive.exists?
                     = link_to client_cases_path(@client, case_type: 'KC') do
                       %span.text-success= t('.view_kc_history_btn_link')
-          -# - if can_read_client_progress_note?
-          -#   = link_to client_progress_notes_path(@client) do
-          -#     %span.btn-sm.btn.btn-warning.small-btn-margin.btn-fit= t('.progress_note')
-          .btn-group.small-btn-margin
-            %button.btn-sm.btn.btn-success.dropdown-toggle.btn-fit{ class: ('disabled' if @group_client_custom_fields.empty?), data: { toggle: "dropdown", trigger: 'hover', html: 'true', content: "#{I18n.t('inline_help.clients.show.active_form')}", placement: "auto" } }
-              = t('.additional_forms')
-              %span.caret
-            %ul.dropdown-menu.btn-fit.scrollable-dropdown-menu.additional-forms
-              - @group_client_custom_fields.each do |_, client_custom_fields|
-                %li
-                  %p
-                    = link_to client_custom_fields.first.custom_field.form_title, client_custom_field_properties_path(@client, custom_field_id: client_custom_fields.first.custom_field_id)
-                    - if client_custom_fields.first.custom_field.hidden
-                      %span.text-danger= fa_icon 'lock'
+      
           - if can? :manage, CustomFieldProperty
-            .btn-group.small-btn-margin
-              %button.btn-sm.btn.btn-success.dropdown-toggle.btn-fit{ data: { toggle: "dropdown", trigger: 'hover', html: 'true', content: "#{I18n.t('inline_help.clients.show.add_form')}", placement: "auto" }, class: ('disabled' if @free_client_forms.empty? || (status_exited?(@client.status) && !current_user.admin?)) }
-                = t('.add_form')
-                %span.caret
-              %ul.dropdown-menu.btn-fit.scrollable-dropdown-menu.add-form
-                - @free_client_forms.each do |custom_field|
-                  %li
-                    %p= link_to custom_field.form_title, new_client_custom_field_property_path(@client, custom_field_id: custom_field)
-          - if @client.client_enrollments.active.count > 0
-            = link_to client_client_enrolled_programs_path(@client), data: { toggle: "popover", html: 'true', trigger: 'hover', content: "#{I18n.t('inline_help.clients.show.active_program')}", placement: "auto" } do
-              .btn.btn-primary.small-btn-margin.btn-sm.btn-fit= t('.enrolled_program_streams')
-          - else
-            .btn.btn-primary.small-btn-margin.btn-sm.disabled.btn-fit{ data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.active_program')}", placement: "auto" } }
-              = t('.enrolled_program_streams')
+            = link_to custom_fields_client_path(@client), data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.add_form')}", placement: "auto" } do
+              .btn.btn-primary.small-btn-margin.btn-sm.btn-fit= t('clients.form.custom_forms')
 
           = link_to client_client_enrollments_path(@client), data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.enroll_program')}", placement: "auto" } do
-            .btn.btn-primary.small-btn-margin.btn-sm.btn-fit= t('.program_streams')
+            .btn.btn-primary.small-btn-margin.btn-sm.btn-fit= t('datagrid.columns.clients.program_streams')
           - if current_setting.cbdmat_one_off || current_setting.cbdmat_ongoing
             = link_to client_screening_assessments_path(@client), class: 'btn btn-primary small-btn-margin btn-sm btn-fit' do
               %strong.count-margin= @client.screening_assessments.count

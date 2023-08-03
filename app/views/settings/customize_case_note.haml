@@ -2,14 +2,14 @@
   .col-xs-12
     = simple_form_for @setting do |f|
       .ibox
-        .ibox-title
-          %h5.text-center= t('.case_note_tools')
-
         .ibox-content
-          = render 'case_notes', f: f
-          - if Organization.ratanak?
-            = render 'display_task_date_field', f: f
-            = render 'progress_note_and_next_step', f: f
+          = render "tablist"
+          .tab-content
+            .tab-pane.active
+              = render 'case_notes', f: f
+              - if Organization.ratanak?
+                = render 'display_task_date_field', f: f
+                = render 'progress_note_and_next_step', f: f
 
         .ibox-footer
           = f.submit t('save'), class: 'btn btn-primary', data: { disable_with: t('saving') }

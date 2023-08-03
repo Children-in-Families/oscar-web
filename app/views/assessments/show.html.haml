@@ -45,7 +45,7 @@
                 = assessment_edit_link(@assessment.client, @assessment)
               - if current_user.admin?
                 = assessment_destroy_link(@assessment.client, @assessment)
-        - @assessment.assessment_domains_in_order.each do |ad|
+        - order_assessment(@assessment).each do |ad|
           .row
             .col-xs-12
               %div{class: "panel panel-#{ad.score_color_class}"}

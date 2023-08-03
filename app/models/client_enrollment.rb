@@ -35,6 +35,10 @@ class ClientEnrollment < ActiveRecord::Base
     status == 'Active'
   end
 
+  def inactive?
+    status == 'Exited'
+  end
+
   def has_client_enrollment_tracking?
     client_enrollment_trackings.any?
   end
