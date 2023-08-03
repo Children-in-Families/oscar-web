@@ -144,7 +144,7 @@ class Assessment < ActiveRecord::Base
   private
 
   def populate_domains
-    self.assessment_domains = AssessmentDomainsLoader.call(self) if new_record?
+    self.assessment_domains = AssessmentDomainsLoader.call(self) if new_record? && client_id?
   end
 
   def allow_create

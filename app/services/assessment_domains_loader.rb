@@ -6,7 +6,7 @@ class AssessmentDomainsLoader < ServiceBase
   end
 
   def call
-    return if assessment.persisted?
+    return assessment.assessment_domains if assessment.persisted? || assessment.client_id.blank?
 
     domains.map do |domain|
       case_conference_domain = assessment.case_conference.case_conference_domains.find_by(domain_id: domain.id) if assessment.case_conference
