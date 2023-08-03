@@ -2,7 +2,7 @@ module AdvancedSearches
   module Families
     class FamilyBaseSqlBuilder
       ASSOCIATION_FIELDS = [
-        'client_id', 'case_workers', 'relation', 'gender', 'date_of_birth', 'date_of_custom_assessments', 'custom_completed_date',
+        'client_id', 'case_workers', 'relation', 'gender', 'date_of_birth', 'date_of_custom_assessments', 'custom_completed_date', 'custom_assessment',
         'assessment_completed_date', 'assessment_completed', 'case_note_date', 'case_note_type', 'active_families', 'care_plan_completed_date',
         'active_program_stream', 'number_family_referred_gatekeeping', 'number_family_billable', 'family_rejected', 'no_case_note_date'
       ].freeze

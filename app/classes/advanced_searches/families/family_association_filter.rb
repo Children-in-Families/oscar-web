@@ -36,6 +36,8 @@ module AdvancedSearches
           values = date_of_completed_assessments_query(true)
         when 'date_of_custom_assessments'
           values = date_of_assessments_query(false)
+        when 'custom_assessment'
+          values = search_custom_assessment
         when 'number_family_referred_gatekeeping'
           values = number_family_referred_gatekeeping_query
         when 'number_family_billable'
@@ -53,6 +55,20 @@ module AdvancedSearches
       end
 
       private
+
+      def search_custom_assessment
+        families = @families.joins(:assessments).where(assessments: {default: false })
+        case @operator
+        when 'equal'
+          client_ids = families.where(assessments: { custom_assessment_setting_id: @value }).distinct.ids
+        when 'not_equal'
+          client_ids = families.where.not(assessments: { custom_assessment_setting_id: @value }).distinct.ids
+        when 'is_empty'
+          client_ids = @families.includes(:assessments).group('families.id, assessments.id, assessments.custom_assessment_setting_id').having("COUNT(assessments.custom_assessment_setting_id) = 0").distinct.ids
+        when 'is_not_empty'
+          client_ids = @families.includes(:assessments).group('families.id, assessments.id, assessments.custom_assessment_setting_id').having("COUNT(assessments.custom_assessment_setting_id) > 0").distinct.ids
+        end
+      end
 
       def number_family_referred_gatekeeping_query
         families = @families.where(referral_source_category_id: ReferralSource.gatekeeping_mechanism.ids).distinct
