@@ -1286,6 +1286,21 @@ class ClientGrid < BaseGrid
     render partial: 'clients/risk_assessment_list', locals: { assessments: assessments.compact }
   end
 
+  column(:has_disability, class: 'text-center', header: -> { I18n.t('risk_assessments._attr.has_disability') }) do |object|
+    risk_assessment = object.risk_assessment
+    format(risk_assessment.try(:has_disability) ? 'Yes' : 'No')
+  end
+
+  column(:has_hiv_or_aid, class: 'text-center', header: -> { I18n.t('risk_assessments._attr.has_hiv_or_aid') }) do |object|
+    risk_assessment = object.risk_assessment
+    format(risk_assessment.try(:has_hiv_or_aid) ? 'Yes' : 'No')
+  end
+
+  column(:has_known_chronic_disease, class: 'text-center', header: -> { I18n.t('risk_assessments._attr.has_known_chronic_disease') }) do |object|
+    risk_assessment = object.risk_assessment
+    format(risk_assessment.try(:has_known_chronic_disease) ? 'Yes' : 'No')
+  end
+
   dynamic do
     column(:manage, html: true, class: 'text-center', header: -> { I18n.t('datagrid.columns.clients.manage') }) do |object|
       render partial: 'clients/actions', locals: { object: object }

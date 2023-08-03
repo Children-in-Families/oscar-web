@@ -185,7 +185,6 @@ class User < ActiveRecord::Base
     due_today = { client_id: [], next_assessment_date: [] }
     overdue_assessments = []
     current_ability = Ability.new(self)
-    Rails.cache.delete([Apartment::Tenant.current, self.class.name, id, 'assessment_either_overdue_or_due_today'])
     Rails.cache.fetch([Apartment::Tenant.current, self.class.name, id, 'assessment_either_overdue_or_due_today']) do
       clients = Client.accessible_by(current_ability)
       eligible_clients = active_young_clients(clients, setting)
@@ -300,12 +299,12 @@ class User < ActiveRecord::Base
     overdue_and_due_today_forms(active_accepted_clients)
   end
 
-  def case_note_overdue_and_due_today
+  def case_notes_due_today_and_overdue
     overdue   = []
     due_today = []
 
     if self.deactivated_at.nil?
-      clients.active_accepted_status.each do |client|
+      user_clients.active_accepted_status.includes(:case_notes).each do |client|
         next if client.case_notes.count.zero?
 
         client_next_case_note_date = client.next_case_note_date.to_date
@@ -316,7 +315,7 @@ class User < ActiveRecord::Base
         end
       end
     else
-      clients.active_accepted_status.each do |client|
+      user_clients.active_accepted_status.includes(:case_notes).each do |client|
         next if client.case_notes.count.zero?
 
         client_next_case_note_date = client.next_case_note_date(self.activated_at)
@@ -331,6 +330,17 @@ class User < ActiveRecord::Base
     end
 
     { client_overdue: overdue, client_due_today: due_today }
+  end
+
+  def user_clients
+    @user_clients ||= if admin?
+                        Client.select(:id, :slug, :given_name, :family_name, :local_given_name, :local_family_name)
+                      elsif manager?
+                        user_ability = Ability.new(self)
+                        Client.accessible_by(user_ability)
+                      elsif case_worker?
+                        clients.select(:id, :slug, :given_name, :family_name, :local_given_name, :local_family_name)
+                      end
   end
 
   def self.self_and_subordinates(user)
