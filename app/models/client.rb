@@ -337,9 +337,20 @@ class Client < ActiveRecord::Base
     percentage < 0 ? nil : percentage
   end
 
-  def find_or_create_draft_case_note
-    case_note = case_notes.draft_untouch.last
-    case_note ||= case_notes.new(draft: true)
+  # options[:custom]
+  # options[:custom_assessment_setting_id]
+  def find_or_create_draft_case_note(options = {})
+    case_note = case_notes.draft_untouch.where(options).last
+    case_note ||= case_notes.new(options.merge(draft: true))
+
+    if case_note.assessment.blank?
+      unless case_note.custom?
+        case_note.assessment = assessments.default_latest_record
+      else
+        case_note.assessment = assessments.custom_latest_record if Setting.cache_first.enable_default_assessment?
+      end
+    end
+
     case_note.save(validate: false)
     case_note
   end

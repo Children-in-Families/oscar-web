@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20230727044406) do
+ActiveRecord::Schema.define(version: 20230804173119) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -82,10 +82,11 @@ ActiveRecord::Schema.define(version: 20230727044406) do
     t.string   "tracking_check",     default: ""
     t.string   "exit_form_check",    default: ""
     t.string   "quantitative_check", default: ""
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
     t.integer  "user_id"
     t.string   "hotline_check",      default: ""
+    t.string   "search_for",         default: "client"
   end
 
   add_index "advanced_searches", ["user_id"], name: "index_advanced_searches_on_user_id", using: :btree
