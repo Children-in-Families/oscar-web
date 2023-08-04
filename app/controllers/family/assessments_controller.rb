@@ -25,7 +25,7 @@ class Family::AssessmentsController < Api::ApplicationController
 
       client_hash = { id: assessment.family_id,
         name: assessment.family.name,
-        'assessment-number': assessment.family.assessments.where(default: params[:default]).count,
+        'assessment-number': assessment.family.assessments.count,
         date: assessment.created_at.strftime('%d %B %Y'),
         'average-score': total == 0 ? nil : (total.fdiv(domain_scores.length())).round()
       }
