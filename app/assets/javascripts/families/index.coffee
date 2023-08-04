@@ -63,14 +63,16 @@ CIF.FamiliesIndex = CIF.FamiliesWelcome = do ->
     advanceFilter.handleShowAssessmentSelect()
     advanceFilter.handleHideAssessmentSelect()
 
-    if $("#custom-assessment-score-0").val() > 0
-      advanceFilter.prepareFamilySearch()
-      _handleAjaxRequestToAssessment("#custom-assessment-score-0", $("#custom-assessment-domain-score-0").data("filename"))
+    setTimeout -> {
+      if $("#custom-assessment-domain-score-0").val() > 0
+        advanceFilter.prepareFamilySearch()
+        _handleAjaxRequestToAssessment("#custom-assessment-score-0", $("#custom-assessment-domain-score-0").data("filename"))
 
-      $('.assessment-domain-score').on 'shown.bs.modal', (e) ->
-        $($.fn.dataTable.tables(true)).DataTable().columns.adjust()
-        return
-  
+        $('.assessment-domain-score').on 'shown.bs.modal', (e) ->
+          $($.fn.dataTable.tables(true)).DataTable().columns.adjust()
+          return
+    }, 500
+
   _handleAjaxRequestToAssessment = (tableId, fileName)->
     url = $("#{tableId} .api-assessment-path").data('assessment-params')
     columns = $("#{tableId} .assessment-domain-headers").data('headers')
