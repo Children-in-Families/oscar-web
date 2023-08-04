@@ -186,10 +186,15 @@ Rails.application.routes.draw do
   end
   resources :referees, only: [:index, :show]
 
+  namespace :family do
+    resources :assessments, only: [] do
+      post :index, on: :collection
+    end
+  end
+
   resources :families do
     collection do
       get :welcome
-      get :assessments
       post '/advanced_search', to: 'families#index'
     end
     

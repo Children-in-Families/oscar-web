@@ -977,22 +977,32 @@ class CIF.ClientAdvanceSearch
         self.handleSelectFieldVisibilityCheckBox(builderForm)
         $('#advanced-search').submit()
 
+
+  prepareFamilySearch: ->
+    self = @
+    basicRules = $('#builder').queryBuilder('getRules', { skip_empty: true, allow_invalid: true })
+      # customFormValues = "[#{$('#family-advance-search-form').find('#custom-form-select').select2('val')}]"
+    customFormValues = if self.customFormSelected.length > 0 then "[#{self.customFormSelected}]"
+    programValues = if self.programSelected.length > 0 then "[#{self.programSelected}]"
+
+    self.setValueToFamilyProgramAssociation()
+    $('#family_advanced_search_custom_form_selected').val(customFormValues)
+    $('#family_advanced_search_program_selected').val(programValues)
+    if $('#quantitative-type-checkbox').prop('checked') then $('#family_advanced_search_quantitative_check').val(1)
+
+    if (_.isEmpty(basicRules.rules) and !basicRules.valid) or (!(_.isEmpty(basicRules.rules)) and basicRules.valid)
+      $('#builder').find('.has-error').removeClass('has-error')
+      console.log(self.handleStringfyRules(basicRules))
+      $('#family_advanced_search_basic_rules').val(self.handleStringfyRules(basicRules))
+      return true
+    else
+      return false
+
   handleFamilySearch: ->
     self = @
+
     $('#search').on 'click', ->
-      basicRules = $('#builder').queryBuilder('getRules', { skip_empty: true, allow_invalid: true })
-      # customFormValues = "[#{$('#family-advance-search-form').find('#custom-form-select').select2('val')}]"
-      customFormValues = if self.customFormSelected.length > 0 then "[#{self.customFormSelected}]"
-      programValues = if self.programSelected.length > 0 then "[#{self.programSelected}]"
-
-      self.setValueToFamilyProgramAssociation()
-      $('#family_advanced_search_custom_form_selected').val(customFormValues)
-      $('#family_advanced_search_program_selected').val(programValues)
-      if $('#quantitative-type-checkbox').prop('checked') then $('#family_advanced_search_quantitative_check').val(1)
-
-      if (_.isEmpty(basicRules.rules) and !basicRules.valid) or (!(_.isEmpty(basicRules.rules)) and basicRules.valid)
-        $('#builder').find('.has-error').removeClass('has-error')
-        $('#family_advanced_search_basic_rules').val(self.handleStringfyRules(basicRules))
+      if self.prepareFamilySearch()
         self.handleSelectFieldVisibilityCheckBox()
         $('#advanced-search').submit()
 

@@ -143,6 +143,20 @@ module AssessmentHelper
     data
   end
 
+  def family_assessment_header_mapping
+    domains = Domain.family_custom_csi_domains.order_by_identity.map{ |domain| ["domain_#{domain.id}", domain.name] }
+    domain_ids, domain_headers = domains.map(&:first), domains.map(&:last)
+
+    assessment_headers = [t('families.show.id'), t('families.show.name'), t('client_advanced_searches.custom_assessment_domain_score.assessment_number', assessment: t('clients.show.assessment')), t('client_advanced_searches.custom_assessment_domain_score.assessment_date', assessment: t('clients.show.assessment')), t('client_advanced_searches.custom_assessment_domain_score.average_score', assessment: t('clients.show.assessment'))]
+
+    assessment_domain_headers = ['id', 'name', 'assessment-number', 'date', 'average-score']
+    classNames = ['family-id', 'family-name', 'assessment-number text-center', 'assessment-date', 'average-score text-center', 'assessment-score text-center']
+
+    [*assessment_domain_headers, *domain_ids].zip(classNames, [*assessment_headers, *domain_headers]).map do |field_header, class_name, header_name|
+      { title: header_name, data: field_header, className: class_name ? class_name : 'assessment-score text-center' }
+    end
+  end
+
   def map_assessment_and_score(object, identity, domain_id)
     sub_query_string = []
     if $param_rules.nil?

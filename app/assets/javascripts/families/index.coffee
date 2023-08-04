@@ -63,6 +63,66 @@ CIF.FamiliesIndex = CIF.FamiliesWelcome = do ->
     advanceFilter.handleShowAssessmentSelect()
     advanceFilter.handleHideAssessmentSelect()
 
+    advanceFilter.prepareFamilySearch()
+    _handleAjaxRequestToAssessment("#custom-assessment-score-0", $("#custom-assessment-domain-score-0").data("filename"))
+
+    $('.assessment-domain-score').on 'shown.bs.modal', (e) ->
+      $($.fn.dataTable.tables(true)).DataTable().columns.adjust()
+      return
+  
+  _handleAjaxRequestToAssessment = (tableId, fileName)->
+    url = $("#{tableId} .api-assessment-path").data('assessment-params')
+    columns = $("#{tableId} .assessment-domain-headers").data('headers')
+
+    rules = $("#client_advanced_search_basic_rules").val()
+    if url.includes("family/assessments")
+      rules = $("#family_advanced_search_basic_rules").val()
+
+    table = $(tableId).DataTable
+      autoWidth:true
+      bFilter: false
+      processing: true
+      serverSide: true
+      sServerMethod: 'POST'
+      ajax:
+        url: url
+        data: 
+          basic_rules: rules
+        error: (jqXHR, textStatus, errorThrown) ->
+          console.log("Datatable Ajax Error:", errorThrown)
+      oLanguage: {
+        sProcessing: "<i class='fa fa-spinner fa-pulse fa-2x' style='color: #1ab394; z-index: 9999;'></i>"
+      }
+      scrollX: true
+      columnDefs: [{ type: 'formatted-num', targets: 0 }]
+      columns: columns
+      dom: 'lBrtip'
+      lengthMenu: [
+        [
+          10
+          25
+          -1
+        ]
+        [
+          10
+          25
+          'All'
+        ]
+      ]
+      buttons: [ {
+        filename: fileName
+        extend: 'excel'
+        text: '<span class="fa fa-file-excel-o"></span> Excel Export'
+        exportOptions: modifier:
+          search: 'applied'
+          order: 'applied'
+        }
+      ],
+      'drawCallback': (oSettings) ->
+        $('.dataTables_scrollHeadInner').css 'width': '100%'
+        $(tableId).css 'width': '100%'
+        return
+
   _handleUncheckColumnVisibility = ->
     params = window.location.search.substr(1)
 

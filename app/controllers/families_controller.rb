@@ -132,9 +132,7 @@ class FamiliesController < AdminController
   def assessments
     basic_rules = JSON.parse(params[:basic_rules] || "{}")
     families = AdvancedSearches::FamilyAdvancedSearch.new(basic_rules, Family.accessible_by(current_ability))
-
-    assessments = Assessment.joins(:family).where(default: params[:default], family_id: families.filter.ids)
-    assessments = assessments.joins(:custom_assessment_setting).where(custom_assessment_settings: { id: params[:assessment_id] }) if params[:assessment_id].present?
+    assessments = Assessment.joins(:family).where(default: false, family_id: families.filter.ids)
 
     @assessments_count = assessments.count
 
