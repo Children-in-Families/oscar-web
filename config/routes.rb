@@ -188,7 +188,7 @@ Rails.application.routes.draw do
 
   namespace :family do
     resources :assessments, only: [] do
-      post :index, on: :collection
+      post :index, on: :collection, as: :get_assessments
     end
   end
 
