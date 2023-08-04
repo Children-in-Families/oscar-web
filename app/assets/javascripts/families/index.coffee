@@ -76,6 +76,8 @@ CIF.FamiliesIndex = CIF.FamiliesWelcome = do ->
       return
   
   _handleAjaxRequestToAssessment = (tableId, fileName)->
+    return if $(tableId).length == 0
+
     url = $("#{tableId} .api-assessment-path").data('assessment-params')
     columns = $("#{tableId} .assessment-domain-headers").data('headers')
 
