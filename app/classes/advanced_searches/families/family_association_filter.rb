@@ -72,38 +72,22 @@ module AdvancedSearches
         family_ids = []
         families = @families.joins(:assessments).where(assessments: { completed: true })
         conditionString = ""
-        if selectedAssessment.present?
-          assessments = JSON.parse(selectedAssessment)
-          assessmentId = assessments.first
+        assessments = Assessment.completed.joins(:domains).where(family_id: families.ids).distinct
   
-          if assessmentId == 0
-            families = families.where("assessments.default = true").distinct
-            domains = Domain.csi_domains
-            families.each do |family|
-              last_assessment = family.assessments.defaults.most_recents.first
-              first_assessment = family.assessments.defaults.most_recents.last
-              if (family.assessments.defaults.length > 1)
-                family_ids << family.id if assessment_total_score(last_assessment, domains).public_send(compare, assessment_total_score(first_assessment, domains))
-              end
-            end
-          else
-            assessments = Assessment.completed.joins(:domains).where(family_id: families.ids).where("domains.custom_assessment_setting_id IN (#{assessmentId})").distinct
-  
-            assessments.group_by { |assessment| assessment.family_id }.each do |family_id, _assessments|
-              next if _assessments.size < 2
-  
-              first_assessment = _assessments.sort_by(&:id).first
-              last_assessment = _assessments.sort_by(&:id).last
-  
-              first_assessment_domain_scores = first_assessment.assessment_domains.pluck(:score).sum.to_f
-              last_assessment_domain_scores = last_assessment.assessment_domains.pluck(:score).sum.to_f
-  
-              first_average_score = (first_assessment_domain_scores / first_assessment.assessment_domains.size).round
-              last_average_score = (last_assessment_domain_scores / last_assessment.assessment_domains.size).round
-              family_ids  << family_id if last_average_score.public_send(compare, first_average_score)
-            end
-          end
+        assessments.group_by { |assessment| assessment.family_id }.each do |family_id, _assessments|
+          next if _assessments.size < 2
+
+          first_assessment = _assessments.sort_by(&:id).first
+          last_assessment = _assessments.sort_by(&:id).last
+
+          first_assessment_domain_scores = first_assessment.assessment_domains.pluck(:score).sum.to_f
+          last_assessment_domain_scores = last_assessment.assessment_domains.pluck(:score).sum.to_f
+
+          first_average_score = (first_assessment_domain_scores / first_assessment.assessment_domains.size).round
+          last_average_score = (last_assessment_domain_scores / last_assessment.assessment_domains.size).round
+          family_ids  << family_id if last_average_score.public_send(compare, first_average_score)
         end
+
         family_ids
       end
   
@@ -111,38 +95,23 @@ module AdvancedSearches
         family_ids = []
         families = @families.joins(:assessments).where(assessments: { completed: true })
         conditionString = ""
-        if selectedAssessment.present?
-          assessments = JSON.parse(selectedAssessment)
-          assessmentId = assessments.first
+        
+        assessments = Assessment.completed.joins(:domains).where(family_id: families.ids).distinct
   
-          if assessmentId == 0
-            domains = Domain.csi_domains
-            families = families.where("assessments.default = true").distinct
-            families.each do |family|
-              last_assessment = family.assessments.defaults.most_recents.first
-              next_assessment = family.assessments.defaults.length > 1 ? family.assessments.defaults.most_recents.fetch(1) : last_assessment
-              if (family.assessments.defaults.length > 1)
-                family_ids << family.id if assessment_total_score(last_assessment, domains).public_send(compare, assessment_total_score(next_assessment, domains))
-              end
-            end
-          else
-            assessments = Assessment.completed.joins(:domains).where(family_id: families.ids).where("domains.custom_assessment_setting_id IN (#{assessmentId})").distinct
-  
-            assessments.group_by { |assessment| assessment.family_id }.each do |family_id, _assessments|
-              next if _assessments.size < 2
-  
-              before_last_assessment = _assessments.sort_by(&:id).fetch(_assessments.size - 2)
-              last_assessment = _assessments.sort_by(&:id).last
-  
-              before_last_assessment_domain_scores = before_last_assessment.assessment_domains.pluck(:score).sum.to_f
-              last_assessment_domain_scores = last_assessment.assessment_domains.pluck(:score).sum.to_f
-  
-              before_last_assessment_average_score = (before_last_assessment_domain_scores / before_last_assessment.assessment_domains.size).round
-              last_average_score = (last_assessment_domain_scores / last_assessment.assessment_domains.size).round
-              family_ids  << family_id if last_average_score.public_send(compare, before_last_assessment_average_score)
-            end
-          end
+        assessments.group_by { |assessment| assessment.family_id }.each do |family_id, _assessments|
+          next if _assessments.size < 2
+
+          before_last_assessment = _assessments.sort_by(&:id).fetch(_assessments.size - 2)
+          last_assessment = _assessments.sort_by(&:id).last
+
+          before_last_assessment_domain_scores = before_last_assessment.assessment_domains.pluck(:score).sum.to_f
+          last_assessment_domain_scores = last_assessment.assessment_domains.pluck(:score).sum.to_f
+
+          before_last_assessment_average_score = (before_last_assessment_domain_scores / before_last_assessment.assessment_domains.size).round
+          last_average_score = (last_assessment_domain_scores / last_assessment.assessment_domains.size).round
+          family_ids  << family_id if last_average_score.public_send(compare, before_last_assessment_average_score)
         end
+
         family_ids
       end
 
