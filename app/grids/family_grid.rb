@@ -659,7 +659,7 @@ class FamilyGrid < BaseGrid
         identity = domain.identity
         column("custom_#{domain.convert_identity}".to_sym, class: 'domain-scores', header: identity, html: true) do |object|
           assessments = map_assessment_and_score(object, identity, domain.id)
-          assessment_domains = assessments.customs.map { |assessment| assessment.assessment_domains.joins(:domain).where(domains: { identity: identity }) }.flatten.uniq
+          assessment_domains = assessments.map { |assessment| assessment.assessment_domains.joins(:domain).where(domains: { identity: identity }) }.flatten.uniq
           render  partial: 'clients/list_domain_score', locals: { assessment_domains: assessment_domains }
         end
       end

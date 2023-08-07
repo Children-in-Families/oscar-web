@@ -27,6 +27,7 @@ module AdvancedSearches
       else
         ordered_assessments = family.assessments.defaults.order(:created_at)
       end
+
       dates = ordered_assessments.map(&:created_at).map{|date| date.strftime("%b, %Y") }
     end
 
@@ -36,6 +37,7 @@ module AdvancedSearches
       custom_domain = domain.try(:custom_domain)
       identity      = domain.identity
       families      = Family.joins(assessments: :assessment_domains)
+
       if $param_rules.nil?
         families.ids
       else
@@ -43,13 +45,13 @@ module AdvancedSearches
         basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
         results = mapping_assessment_query_rules(basic_rules).reject(&:blank?)
         assessment_completed_sql, assessment_number = assessment_filter_values(results)
-        sql = "(assessments.completed = true #{assessment_completed_sql}) AND assessments.created_at = (SELECT created_at FROM assessments WHERE families.id = assessments.client_id ORDER BY assessments.created_at limit 1 offset #{(assessment_number || 1) - 1})".squish
+        sql = "(assessments.completed = true #{assessment_completed_sql}) AND assessments.created_at = (SELECT created_at FROM assessments WHERE families.id = assessments.family_id ORDER BY assessments.created_at limit 1 offset #{(assessment_number || 1) - 1})".squish
         if assessment_completed_sql.present? && assessment_number.present?
           families = families.where(assessment_domains: { score: @value.to_i, domain_id: @domain_id }).where(sql)
         else
           family_ids = families.where(assessment_domains: { domain_id: @domain_id }).ids
           assessments = Assessment.where(family_id: family_ids)
-          return family_ids = assessment_filter_domainscore_query(assessments.to_a).presence || family_ids
+          return family_ids = assessment_filter_domainscore_query(assessments.to_a)
         end
         families.ids
       end
@@ -196,7 +198,7 @@ module AdvancedSearches
     end
 
     def only_domainscore_field_query
-      assessments = Assessment.joins([:assessment_domains, :client])
+      assessments = Assessment.joins([:assessment_domains, :family])
 
       case @operator
       when 'equal'
@@ -216,7 +218,7 @@ module AdvancedSearches
         assessments = assessments.where(assessment_domains: { domain_id: @domain_id, score: @value.first..@value.last })
       when 'is_empty'
         assessments = assessments.where('assessment_domains.domain_id = ? and assessment_domains.score IS NOT NULL', @domain_id)
-        family_ids  = Family.where.not(id: assessments.distinct.pluck(:client_id)).ids
+        family_ids  = Family.where.not(id: assessments.distinct.pluck(:family_id)).ids
       when 'is_not_empty'
         assessments = assessments.where('assessment_domains.domain_id = ? and assessment_domains.score IS NOT NULL', @domain_id)
       when 'assessment_has_changed'
@@ -266,7 +268,7 @@ module AdvancedSearches
         end
         return family_ids.flatten.uniq
       end
-      family_ids = assessments.uniq.pluck(:client_id) unless @operator == 'is_empty'
+      family_ids = assessments.uniq.pluck(:family_id) unless @operator == 'is_empty'
     end
 
     def all_domains_query
@@ -391,7 +393,7 @@ module AdvancedSearches
                 (scores.compact.sum.to_f / assessment.assessment_domains.size.to_f).round != @value.to_i
               end
             end
-            assessment.first.try(:client_id)
+            assessment.first.try(:family_id)
           end
           family_ids.compact
         end
