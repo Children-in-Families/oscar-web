@@ -184,12 +184,12 @@ module AdvancedSearches
         end
       when 'is_empty'
         assessments.compact.uniq.each do |id|
-          assessment_domains = AssessmentDomain.where(assessment_id: id).where('domain_id = ? and score = nil', @domain_id)
+          assessment_domains = AssessmentDomain.where(assessment_id: id).where('domain_id = ? and score IS NULL', @domain_id)
           family_ids << assessment_domains.map(&:family_id) if assessment_domains.any?
         end
       when 'is_not_empty'
         assessments.compact.uniq.each do |id|
-          assessment_domains = AssessmentDomain.where(assessment_id: id).where('domain_id = ? and score != nil', @domain_id)
+          assessment_domains = AssessmentDomain.where(assessment_id: id).where('domain_id = ? and score IS NOT NULL', @domain_id)
           family_ids << assessment_domains.map(&:family_id) if assessment_domains.any?
         end
       end
