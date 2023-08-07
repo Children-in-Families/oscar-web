@@ -250,7 +250,7 @@ module ApplicationHelper
   def program_permission_editable?(value)
     return true if current_user.admin?
     return false if current_user.strategic_overviewer?
-    current_user.program_stream_permissions.find_by(program_stream_id: value).editable
+    scope.current_user.current_user.program_stream_permissions.find_by(program_stream_id: value).editable
   end
 
   def custom_field_editable?(value)
