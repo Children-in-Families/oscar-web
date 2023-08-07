@@ -65,13 +65,14 @@ class CaseNote < ActiveRecord::Base
 
       case_note_domain_group = case_note_domain_groups.find_by(domain_group_id: param[:domain_group_id])
       case_note_tasks = Task.with_deleted.where(id: task_ids)
-      next if case_note_tasks.reject(&:blank?).blank?
 
-      case_note_tasks.update_all(case_note_domain_group_id: case_note_domain_group.id)
-      case_note_domain_group.reload
-      case_note_domain_group.tasks.with_deleted.set_complete(self, current_user_id)
-      service_delivery_task(param, case_note_tasks)
-      case_note_domain_group.save
+      if case_note_tasks.any?
+        case_note_tasks.update_all(case_note_domain_group_id: case_note_domain_group.id)
+        case_note_tasks.set_complete(self, current_user_id)
+  
+        service_delivery_task(param, case_note_tasks)
+        case_note_domain_group.save
+      end
     end
   end
 
