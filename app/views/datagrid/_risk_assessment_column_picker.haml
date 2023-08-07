@@ -7,3 +7,12 @@
   .visibility.col-sm-12
     = check_box_tag 'date_of_risk_assessment_', 'date_of_risk_assessment', checked = saved_search_column_visibility('date_of_risk_assessment_'), class: 'i-checks'
     = label_tag 'date_of_risk_assessment_', t('risk_assessments._attr.assessment_date')
+  .visibility.col-sm-12
+    = check_box_tag 'has_hiv_or_aid_', 'has_hiv_or_aid', checked = saved_search_column_visibility('has_hiv_or_aid_'), class: 'i-checks'
+    = label_tag 'has_hiv_or_aid_', t('risk_assessments._attr.has_hiv_or_aid')
+  .visibility.col-sm-12
+    = check_box_tag 'has_disability_', 'has_disability', checked = saved_search_column_visibility('has_disability_'), class: 'i-checks'
+    = label_tag 'has_disability_', t('risk_assessments._attr.has_disability')
+  .visibility.col-sm-12
+    = check_box_tag 'has_known_chronic_disease_', 'has_known_chronic_disease', checked = saved_search_column_visibility('has_known_chronic_disease_'), class: 'i-checks'
+    = label_tag 'has_known_chronic_disease_', t('risk_assessments._attr.has_known_chronic_disease')

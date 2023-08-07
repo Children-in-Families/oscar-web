@@ -1,3 +1,4 @@
+
 namespace :basic_data do
   desc 'Import all basic data task'
   task import: :environment do

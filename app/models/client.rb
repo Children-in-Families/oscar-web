@@ -431,11 +431,14 @@ class Client < ActiveRecord::Base
 
   def next_case_note_date(user_activated_date = nil)
     return Date.today if case_notes.count.zero? || case_notes.latest_record.try(:meeting_date).nil?
-    return nil if case_notes.latest_record.created_at < user_activated_date if user_activated_date.present?
+
+    return nil if user_activated_date.present? && case_notes.latest_record.created_at < user_activated_date
+
     setting = current_setting
     max_case_note = setting.try(:max_case_note) || 30
     case_note_frequency = setting.try(:case_note_frequency) || 'day'
     case_note_period = max_case_note.send(case_note_frequency)
+
     (case_notes.latest_record.meeting_date + case_note_period).to_date
   end
 
@@ -1160,6 +1163,7 @@ class Client < ActiveRecord::Base
   end
 
   def flash_cache
+    Rails.cache.delete([Apartment::Tenant.current, id, 'user_ids'])
     Rails.cache.delete([Apartment::Tenant.current, 'Client', 'location_of_concern']) if location_of_concern_changed?
     Rails.cache.delete([Apartment::Tenant.current, self.class.name, 'received_by', received_by_id]) if received_by_id_changed?
     Rails.cache.delete([Apartment::Tenant.current, self.class.name, 'followed_up_by', followed_up_by_id]) if followed_up_by_id_changed?
