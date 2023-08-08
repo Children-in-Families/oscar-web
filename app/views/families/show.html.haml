@@ -135,7 +135,7 @@
           %ul.dropdown-menu.scrollable-dropdown-menu
             - @free_family_forms.each do |custom_field|
               %li
-                %p= link_to custom_field.form_title, new_family_custom_field_property_path(@family, custom_field_id: custom_field)
+                %p= link_to custom_field.form_title, new_family_custom_field_property_path(@family, custom_field_id: custom_field), target: :_blank
 
 .ibox.mini-margin
   .ibox-title
@@ -305,12 +305,12 @@
                 %th= t('.guardian')
 
             %tbody
-            - @family.family_members.each do |member|
+            - @family.family_members.includes(:client).each do |member|
               %tr
                 %td= human_boolean(member.client_id?)
                 %td
                   - if member.client_id?
-                    = link_to member.adult_name, client_path(member.client_id)
+                    = link_to member.adult_name, client_path(member.client.slug)
                   - else
                     = member.adult_name
 

@@ -79,7 +79,7 @@ class FamiliesController < AdminController
   def show
     custom_field_ids            = @family.custom_field_properties.pluck(:custom_field_id)
     @free_family_forms          = CustomField.family_forms.not_used_forms(custom_field_ids).order_by_form_title
-    @group_family_custom_fields = @family.custom_field_properties.group_by(&:custom_field_id)
+    @group_family_custom_fields = @family.custom_field_properties.includes(:custom_field).group_by(&:custom_field_id)
     client_ids = @family.current_clients.ids
     if client_ids.present?
       @client_grid = ClientGrid.new(params[:client_grid])
