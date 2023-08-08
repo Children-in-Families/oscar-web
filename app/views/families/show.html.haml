@@ -126,7 +126,7 @@
         %ul.dropdown-menu.scrollable-dropdown-menu
           - @group_family_custom_fields.each do |_, family_custom_fields|
             %li
-              %p= link_to family_custom_fields.first.custom_field.form_title, family_custom_field_properties_path(@family, custom_field_id: family_custom_fields.first.custom_field_id)
+              %p= link_to family_cexitustom_fields.first.custom_field.form_title, family_custom_field_properties_path(@family, custom_field_id: family_custom_fields.first.custom_field_id)
       - if can? :manage, CustomFieldProperty
         .btn-group.small-btn-margin
           %button.btn-sm.btn.btn-success.dropdown-toggle{ 'data-toggle' => 'dropdown', class: ('disabled' if @free_family_forms.empty?) }
@@ -223,14 +223,14 @@
                   %strong
                     = @family.followed_up_by&.name
                     = user @family.followed_up_by, true
-                    
+
               %tr
                 %td.spacing-first-col
                   = t('.follow_up_date')
                 %td
                   %strong
                     = date_format(@family.follow_up_date)
-            
+
           %table.table.table-bordered.referee-info
             %tbody
               %tr.bg-grey
@@ -254,7 +254,7 @@
                 %td
                   %strong
                     = @family.referral_source&.name
-        
+
 
         .col-sm-12.col-md-6
           = render "families/show/about"
@@ -285,7 +285,7 @@
                       %strong.label.label-default
                         = qcase.value
 
-    
+
     - if @family.family_members.present?
       .row.family-summary
         .col-sm-12
