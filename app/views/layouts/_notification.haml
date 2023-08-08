@@ -40,7 +40,6 @@
                 .col-xs-11
                   = assessments_notification_label
         %li.divider
-
       - if Setting.cache_first.enable_custom_assessment && (@notification.any_overdue_custom_assessments? || @notification.any_due_today_custom_assessments?)
         %li
           %div.align-link
@@ -50,16 +49,16 @@
                   %i.fa.fa-tasks.fa-fw.task-sign
                 .col-xs-11
                   = customized_assessments_notification_label
-        %li.divider
-        - if @notification.any_client_forms_due_today? || @notification.any_client_forms_overdue?
-          %li
-            %div.align-link
-              = link_to dashboards_path(user_id: current_user.id, forms: true) do
-                .row
-                  .col-xs-1
-                    %i.fa.fa-tasks.fa-fw.task-sign
-                  .col-xs-11
-                    = forms_notification_label
+      %li.divider
+      - if @notification.any_client_forms_due_today? || @notification.any_client_forms_overdue?
+        %li
+          %div.align-link
+            = link_to dashboards_path(user_id: current_user.id, forms: true) do
+              .row
+                .col-xs-1
+                  %i.fa.fa-tasks.fa-fw.task-sign
+                .col-xs-11
+                  = forms_notification_label
         %li.divider
       - if @notification.any_client_case_note_overdue?
         %li
@@ -70,6 +69,7 @@
                   %i.fa.fa-tasks.fa-fw.task-sign
                 .col-xs-11
                   = t('.client_case_note_overdue', count: @notification.client_case_note_overdue_count)
+
       - if @notification.any_client_case_note_due_today?
         %li
           %div.align-link
