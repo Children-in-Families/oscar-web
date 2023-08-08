@@ -487,68 +487,6 @@ class FamilyGrid < BaseGrid
     end
   end
 
-  # filter(:assessments_due_to, :enum, select: Assessment::DUE_STATES, header: -> { I18n.t('datagrid.columns.clients.assessments_due_to') }) do |value, scope|
-  #   ids = []
-  #   setting = Setting.cache_first
-  #   if value == Assessment::DUE_STATES[0]
-  #     Client.active_accepted_status.each do |client|
-  #       next if !client.eligible_default_csi? && !(client.assessments.customs.present?)
-  #       if setting.enable_default_assessment? && setting.enable_custom_assessment?
-  #         ids << client.id if client.next_assessment_date == Date.today || client.custom_next_assessment_date == Date.today
-  #       elsif setting.enable_default_assessment?
-  #         ids << client.id if client.next_assessment_date == Date.today
-  #       elsif setting.enable_custom_assessment?
-  #         custom_assessment_setting_ids = client.assessments.customs.map{|ca| ca.domains.pluck(:custom_assessment_setting_id ) }.flatten.uniq
-  #         CustomAssessmentSetting.where(id: custom_assessment_setting_ids).each do |custom_assessment_setting|
-  #           ids << client.id if client.custom_next_assessment_date(nil, custom_assessment_setting.id) == Date.today
-  #         end
-  #       end
-  #     end
-  #   else
-  #     Client.joins(:assessments).active_accepted_status.each do |client|
-  #       next if !client.eligible_default_csi? && !(client.assessments.customs.present?)
-  #       custom_assessment_setting_ids = client.assessments.customs.map{|ca| ca.domains.pluck(:custom_assessment_setting_id ) }.flatten.uniq
-  #       if setting.enable_default_assessment? && setting.enable_custom_assessment?
-  #         if client.next_assessment_date  < Date.today
-  #           ids << client.id
-  #         else
-  #           CustomAssessmentSetting.where(id: custom_assessment_setting_ids).each do |custom_assessment_setting|
-  #             ids << client.id if client.custom_next_assessment_date(nil, custom_assessment_setting.id) < Date.today
-  #           end
-  #         end
-  #       elsif setting.enable_default_assessment?
-  #         ids << client.id if client.next_assessment_date  < Date.today
-  #       elsif setting.enable_custom_assessment?
-  #         CustomAssessmentSetting.where(id: custom_assessment_setting_ids).each do |custom_assessment_setting|
-  #           ids << client.id if client.custom_next_assessment_date(nil, custom_assessment_setting.id)  < Date.today
-  #         end
-  #       end
-  #     end
-  #   end
-  #   scope.where(id: ids)
-  # end
-
-  # filter(:all_domains, :dynamic, select: ['All CSI'], header: -> { I18n.t('datagrid.columns.clients.domains') }) do |(field, operation, value), scope|
-  #   value = value.to_i
-  #   assessment_id = []
-  #   AssessmentDomain.all.group_by(&:assessment_id).each do |key, ad|
-  #     arr = []
-  #     a_id = []
-  #     ad.each do |v|
-  #       if operation == '='
-  #         arr.push v.score == value.to_i ? true : false
-  #       else
-  #         arr.push eval("#{v.score}#{operation}#{value}") ? true : false
-  #       end
-  #       a_id.push v.assessment_id
-  #     end
-  #     if !arr.include?(false)
-  #       assessment_id.push a_id[0]
-  #     end
-  #   end
-  #   scope.joins(:assessments).where(assessments: { id: assessment_id })
-  # end
-
   column(:assessment_created_at, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.assessment_created_at', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
     render partial: 'clients/assessments', locals: { object: object.assessments.defaults.order(:created_at), assessment_field_name: nil }
   end
@@ -634,22 +572,6 @@ class FamilyGrid < BaseGrid
   end
 
   dynamic do
-    # if Setting.cache_first.enable_default_assessment?
-    #   column(:all_csi_assessments, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.all_csi_assessments', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
-    #     render partial: 'clients/all_csi_assessments', locals: { object: object.assessments.defaults }
-    #   end
-      
-    #   Domain.family_csi_domains.order_by_identity.each do |domain|
-    #     domain_id = domain.id
-    #     identity = domain.identity
-    #     column(domain.convert_identity.to_sym, class: 'domain-scores', header: identity, html: true) do |object|
-    #       assessments = map_assessment_and_score(object, identity, domain_id)
-    #       assessment_domains = assessments.map { |assessment| assessment.assessment_domains.joins(:domain).where(domains: { identity: identity }) }.flatten.uniq
-    #       render  partial: 'families/list_domain_score', locals: { assessment_domains: assessment_domains }
-    #     end
-    #   end
-    # end
-
     if Setting.cache_first.enable_custom_assessment?
       column(:all_custom_csi_assessments, preload: :assessments, header: -> { I18n.t('datagrid.columns.all_custom_csi_assessments', assessment: t('families.show.assessment')) }, html: true) do |object|
         render partial: 'clients/all_csi_assessments', locals: { object: object.assessments.customs }
