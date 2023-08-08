@@ -126,7 +126,7 @@
         %ul.dropdown-menu.scrollable-dropdown-menu
           - @group_family_custom_fields.each do |_, family_custom_fields|
             %li
-              %p= link_to family_cexitustom_fields.first.custom_field.form_title, family_custom_field_properties_path(@family, custom_field_id: family_custom_fields.first.custom_field_id)
+              %p= link_to family_custom_fields.first.custom_field.form_title, family_custom_field_properties_path(@family, custom_field_id: family_custom_fields.first.custom_field_id)
       - if can? :manage, CustomFieldProperty
         .btn-group.small-btn-margin
           %button.btn-sm.btn.btn-success.dropdown-toggle{ 'data-toggle' => 'dropdown', class: ('disabled' if @free_family_forms.empty?) }
