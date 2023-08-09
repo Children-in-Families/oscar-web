@@ -243,7 +243,7 @@
                   - if (ec_manageable || strategic_overviewer?) && @client.cases.exclude_referred.kinships.inactive.exists?
                     = link_to client_cases_path(@client, case_type: 'KC') do
                       %span.text-success= t('.view_kc_history_btn_link')
-      
+
           - if can? :manage, CustomFieldProperty
             = link_to custom_fields_client_path(@client), data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.add_form')}", placement: "auto" } do
               .btn.btn-primary.small-btn-margin.btn-sm.btn-fit= t('clients.form.custom_forms')
@@ -346,7 +346,7 @@
                       %strong
                         = editable @client, :followed_up_by_id, type: :select2, source: editable_case_worker_options, value: @client.followed_up_by&.name, url: api_client_path(@client.id), pk: @client.id
                         = user @client.followed_up_by, true
-                  
+
                   %tr
                     %td.spacing-first-col
                       = t('.follow_up_date')
@@ -359,6 +359,14 @@
                     %th{ colspan: '2' }
                       = t('.referral_information')
                 %tbody
+                  - if policy(@client).show?(:local_family_name)
+                    %tr
+                      %td.spacing-first-colgsb
+                        = current_organization.short_name == 'brc' ? t('clients.form.local_family_name') : "#{t('clients.form.local_family_name')} #{country_scope_label_translation}"
+                      %td
+                        %strong
+                          = editable @client, :local_family_name, url: api_client_path(@client.id), pk: @client.id
+
                   - if policy(@client).show?(:local_given_name)
                     %tr
                       %td.spacing-first-col
@@ -366,7 +374,7 @@
                       %td
                         %strong
                           = editable @client, :local_given_name, url: api_client_path(@client.id), pk: @client.id
-                  
+
                   - if current_organization.short_name == 'brc'
                     %tr
                       %td.spacing-first-col
@@ -387,14 +395,14 @@
                       %td.address
                         %strong
                           = country_address_field(@client)
-                  
+
                   %tr
                     %td.spacing-first-col
                       = t('datagrid.columns.clients.client_phone')
                     %td
                       %strong
                         = @client.client_phone
-                    
+
                   %tr
                     %td.spacing-first-col
                       = t('datagrid.columns.clients.concern_phone_owner')
@@ -407,7 +415,7 @@
                       %td{ colspan: '2' }
                         = t('.school_info')
 
-                      
+
                     - %w(school_name school_grade main_school_contact).each do |field|
                       - if policy(@client).show?(field.to_sym)
                         %tr
@@ -428,14 +436,14 @@
                         = "#{t('.external_id_display')}"
                         %td
                           %strong= @client.external_id_display
-                    
+
                   %tr
                     %td.spacing-first-col
                       = "#{t('.client_global_identity')}"
                     %td
                       %strong
                         = fa_icon 'envelope', class: 'text-success', data: { toggle: 'popover', placement: 'top', content: @client.global_id }
-                  
+
                   %tr
                     %td.spacing-first-col
                       = t('.time_in_ngo')
@@ -518,7 +526,7 @@
                       %td
                         %strong
                           = risk_assessment.hiv_or_aid_specification if risk_assessment.has_hiv_or_aid?
-              
+
             .col-sm-12.col-md-6
               %table.table.table-bordered.referee_information
                 %thead
@@ -532,7 +540,7 @@
                     %td
                       %strong
                         = @client.referee.try(:name)
-                  
+
                   %tr
                     %td.spacing-first-col
                       = t('.gender')
@@ -546,7 +554,7 @@
                     %td
                       %strong
                         = @client.referee.try(:phone)
-                  
+
                   %tr
                     %td.spacing-first-col
                       = t('datagrid.columns.clients.referral_source_category')
@@ -562,8 +570,8 @@
                     %td
                       %strong
                         = @client.referral_source
-                    
-    
+
+
               %table.table.table-bordered.referral-more-info
                 %thead
                   %tr
@@ -585,7 +593,7 @@
                         = t('activerecord.attributes.carer.gender')
                       %td
                         %strong
-                          = @client.carer.try(:gender) 
+                          = @client.carer.try(:gender)
                     %tr
                       %td.spacing-first-col
                         = t('activerecord.attributes.carer.phone')
@@ -614,7 +622,7 @@
                       %td
                         %strong
                           = @client.carer.try(:current_address)
-                    
+
                     - if Setting.cache_first.country_name == "cambodia" && !Organization.brc?
                       %tr
                         %td.spacing-first-col
@@ -622,7 +630,7 @@
                         %td
                           %strong
                             = editable @client, :rated_for_id_poor, type: :select, source: [Client::CLIENT_LEVELS, t('clients.level').values].transpose.to_h, value: @client.rated_for_id_poor, url: api_client_path(@client.id), pk: @client.id
-                    
+
                     - if policy(@client).show?(:donor_info)
                       %tr.bg-grey
                         %td{ colspan: '2' }
@@ -659,7 +667,7 @@
                           %td
                             %strong
                               = editable @client, :kid_id, value: @client.kid_id, url: api_client_path(@client.id), pk: @client.id
-            
+
 
                   - if has_risk_assessment
                     = render "referral_more_info"

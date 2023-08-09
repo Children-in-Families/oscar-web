@@ -21,16 +21,18 @@ class CaseNote < ActiveRecord::Base
   accepts_nested_attributes_for :case_note_domain_groups
   accepts_nested_attributes_for :tasks, reject_if:  proc { |attributes| attributes['name'].blank? && attributes['expected_date'].blank? }, allow_destroy: true
 
+  before_save :populate_associations
+
   scope :most_recents, -> { order(created_at: :desc) }
-  scope :recent_meeting_dates, -> { order(meeting_date: :desc) }
+  scope :recent_meeting_dates, -> { order(draft: :desc, meeting_date: :desc, last_auto_save_at: :desc) }
   scope :draft, -> { where(draft: true) }
   scope :draft_untouch, -> { draft.where(last_auto_save_at: nil) }
   scope :not_untouch_draft, -> { where("draft IS FALSE OR last_auto_save_at IS NOT NULL") }
-  
+
   scope :no_case_note_in, ->(value) { where('meeting_date <= ? AND id = (SELECT MAX(cn.id) FROM CASE_NOTES cn where CASE_NOTES.client_id = cn.client_id)', value) }
-  
+
   default_scope { not_untouch_draft }
-  
+
   before_create :set_assessment
 
   def populate_notes(custom_id, custom_case_note)
@@ -109,6 +111,10 @@ class CaseNote < ActiveRecord::Base
   end
 
   private
+
+  def populate_associations
+    self.case_note_domain_groups = ::CaseNoteDomainsLoader.call(self)
+  end
 
   def set_assessment
     self.assessment = if custom?

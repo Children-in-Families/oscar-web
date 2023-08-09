@@ -48,7 +48,7 @@ module CaseNoteConcern
   def fetch_domain_group
     @domain_groups = []
 
-    if params[:action].in?(['edit', 'update']) && !@case_note.draft?
+    if params[:action].in?(['edit', 'update'])
       if @case_note.domain_groups.present?
         @domain_groups = @case_note.domain_groups
       else
