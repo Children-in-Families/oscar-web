@@ -175,7 +175,7 @@ module FormBuilderHelper
       if type == 'checkbox'
         "NOT(#{properties_field} -> '#{field}' ? '')"
       else
-        "(NOT(#{properties_field} -> '#{field}' ? '') OR NOT(#{properties_field} -> '#{field}') IS NULL)"
+        "NOT(#{properties_field} -> '#{field}') IS NULL)"
       end
     when 'between'
       "(#{properties_field} ->> '#{field}')#{ '::numeric' if integer?(type) } BETWEEN '#{value.first}' AND '#{value.last}' AND #{properties_field} ->> '#{field}' != ''"
