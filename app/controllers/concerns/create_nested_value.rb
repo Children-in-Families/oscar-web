@@ -15,15 +15,14 @@ module CreateNestedValue
         previous_id = task.last[:id]
         domain_id = task.last[:domain_id]
         name = task.last[:name]
-        expected_date =  task.last[:expected_date]
-        relation =  task.last[:relation]
+        expected_date = task.last[:expected_date]
+        relation = task.last[:relation]
         goal_id = goal.id
-        task_attr = Task.new(domain_id: domain_id, name: name, previous_id: previous_id, expected_date: expected_date, relation: relation, goal_id: goal_id, client_id: @care_plan.client_id, user_id: current_user.id, family_id: @care_plan.family&.id).attributes
+        task_attr = Task.new(domain_id: domain_id, name: name, previous_id: previous_id, expected_date: expected_date, relation: relation, goal_id: goal_id, client_id: care_plan.client_id, user_id: current_user.id, family_id: care_plan.family&.id).attributes
         goal.tasks.create(task_attr)
         create_goal_tasks(goal.tasks)
       end
     end
-    set_care_plan_completed(care_plan)
   end
 
   def update_nested_value(goal_in_params)
@@ -64,24 +63,6 @@ module CreateNestedValue
         update_goal_attributes(goal, goal_in_params)
       end
     end
-    set_care_plan_completed(@care_plan)
-  end
-
-  def set_care_plan_completed(care_plan)
-    required_assessment_domains = []
-
-    care_plan.assessment.assessment_domains.each do |assessment_domain|
-      required_assessment_domains << assessment_domain if assessment_domain[:score] == 1 || assessment_domain[:score] == 2
-    end
-
-    required_assessment_domains.each do |ad|
-      if care_plan.goals.where(assessment_domain_id: ad.id).empty? || (care_plan.goals.where(assessment_domain_id: ad.id).present? && care_plan.goals.where(assessment_domain_id: ad.id).first.tasks.empty?)
-        care_plan.update_attributes(completed: false)
-        return true
-      end
-    end
-
-    care_plan.update_attributes(completed: true)
   end
 
   def update_goal_attributes(goal, goal_in_params)
