@@ -21,10 +21,7 @@ class CarePlansController < AdminController
   def create
     @care_plan = @client.care_plans.new(care_plan_params)
     assessment = Assessment.find(@care_plan.assessment_id)
-    if assessment.care_plan.nil? && @care_plan.save(validate: false) || assessment.care_plan.reload.update_attributes(care_plan_params)
-      params[:care_plan][:goals_attributes].each do |goal|
-        create_nested_value(assessment.care_plan || @care_plan, goal)
-      end
+    if assessment.care_plan.nil? && @care_plan.save
       redirect_to client_care_plans_path(@client), notice: t('.successfully_created', care_plan: t('clients.care_plan'))
     else
       render :new
@@ -42,10 +39,7 @@ class CarePlansController < AdminController
   end
 
   def update
-    if @care_plan.update_attributes(care_plan_params) && @care_plan.save
-      care_plan_update_params[:goals_attributes].each do |goal|
-        update_nested_value(goal)
-      end
+    if @care_plan.update_attributes(care_plan_params)
       redirect_to client_care_plans_path(@client), notice: t('.successfully_updated', care_plan: t('clients.care_plan'))
     else
       render :edit
@@ -66,7 +60,7 @@ class CarePlansController < AdminController
   private
 
   def care_plan_params
-    params.require(:care_plan).permit(:care_plan_date, :assessment_id, :client_id, :completed)
+    params.require(:care_plan).permit(:assessment_id, :client_id, :care_plan_date, :completed, goals_attributes: [:id, :assessment_domain_id, :assessment_id, :description, :_destroy, { tasks_attributes: [:id, :domain_id, :name, :expected_date, :relation, :_destroy] }])
   end
 
   def care_plan_update_params
