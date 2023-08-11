@@ -29,8 +29,13 @@ module Api
 
       def update
         client = Client.find(params[:client][:id] || params[:id])
+<<<<<<< HEAD
         if client
           referee = Referee.find_or_create_by(id: params.dig(:referee, :id))
+=======
+        if params[:client][:id]
+          referee = Referee.find_or_create_by(id: client_params[:referee_id])
+>>>>>>> f553c294b (Update API V1)
           referee.update_attributes(referee_params)
           client.referee_id = referee.id
           carer = Carer.find_or_create_by(id: client.carer_id || params.dig(:carer, :id))
