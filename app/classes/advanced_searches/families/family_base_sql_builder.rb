@@ -39,15 +39,19 @@ module AdvancedSearches
           elsif form_builder.first == 'formbuilder'
             if form_builder.last == 'Has This Form'
               custom_form_value = CustomField.find_by(form_title: value, entity_type: 'Family').try(:id)
-              @sql_string << "Families.id IN (?)"
+              @sql_string << "families.id IN (?)"
               @values << @families.joins(:custom_fields).where('custom_fields.id = ?', custom_form_value).uniq.ids
+            elsif rule['operator'] == 'is_empty'
+              client_ids = Family.joins(:custom_fields).where(custom_fields: { form_title: form_builder.second }).ids
+              @sql_string << "families.id NOT IN (?)"
+              @values << client_ids
             else
               custom_form = CustomField.find_by(form_title: form_builder.second, entity_type: 'Family')
               custom_field = AdvancedSearches::EntityCustomFormSqlBuilder.new(custom_form, rule, 'family').get_sql
+  
               @sql_string << custom_field[:id]
               @values << custom_field[:values]
             end
-
           elsif form_builder.first == 'quantitative'
             quantitative_filter = AdvancedSearches::Families::QuantitativeCaseSqlBuilder.new(@families, rule).get_sql
             @sql_string << quantitative_filter[:id]
