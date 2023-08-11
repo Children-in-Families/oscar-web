@@ -60,7 +60,6 @@ class CarePlansController < AdminController
   private
 
   def care_plan_params
-<<<<<<< HEAD
     params.require(:care_plan).permit(
       :assessment_id, :client_id, :care_plan_date, :completed,
       goals_attributes: [
@@ -72,9 +71,6 @@ class CarePlansController < AdminController
         }
       ]
     )
-=======
-    params.require(:care_plan).permit(:assessment_id, :client_id, :care_plan_date, :completed, goals_attributes: [:id, :assessment_domain_id, :assessment_id, :description, :_destroy, { tasks_attributes: [:id, :domain_id, :name, :expected_date, :relation, :_destroy] }])
->>>>>>> ab5eba271 (Added created care plan api)
   end
 
   def care_plan_update_params
