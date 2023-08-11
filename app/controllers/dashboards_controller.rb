@@ -78,7 +78,8 @@ class DashboardsController < AdminController
   def find_clients
     clients = []
     @setting = Setting.cache_first
-    accepted_clients = Client.accessible_by(current_ability).active_accepted_status.distinct
+    user_ability = Ability.new(@user)
+    accepted_clients = Client.accessible_by(user_ability).active_accepted_status.distinct
     eligible_clients = active_young_clients(accepted_clients, @setting)
     eligible_clients.each do |client|
       overdue_tasks = []
