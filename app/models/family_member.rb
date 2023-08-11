@@ -35,6 +35,14 @@ class FamilyMember < ActiveRecord::Base
     end
   end
 
+  def serializable_hash(options = nil)
+    return super if client.nil?
+
+    super.merge(
+      profile: client.profile
+    )
+  end
+
   private
 
   def save_aggregation_data
