@@ -47,7 +47,7 @@ module SavedSearchHelper
 
     def polymorphic_saved_search_params(search)
       search_params = save_search_params(search.search_params)
-      search_params[:family_advanced_search] = search_params.delete(:client_advanced_search) if search.search_for_family?
+      search_params[:family_advanced_search] = search_params.delete(:client_advanced_search) if search.try(:search_for_family?)
       search_params
     end
 
