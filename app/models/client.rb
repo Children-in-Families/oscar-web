@@ -97,7 +97,7 @@ class Client < ActiveRecord::Base
   has_many :government_forms, dependent: :destroy
   has_many :global_identity_organizations, class_name: 'GlobalIdentityOrganization', foreign_key: 'client_id', dependent: :destroy
   has_many :mo_savy_officials, dependent: :destroy
-  has_many :achievement_program_staff_clients
+  has_many :achievement_program_staff_clients, dependent: :destroy
   has_many :ratanak_achievement_program_staff_clients, through: :achievement_program_staff_clients, source: :user
 
   has_one :risk_assessment, dependent: :destroy
