@@ -981,7 +981,7 @@ class ClientGrid < BaseGrid
   end
 
   column(:donor_name, order: false, header: -> { I18n.t('datagrid.columns.clients.donor')}) do |object|
-    object.donors.pluck(:name).join(', ')
+    object.donors.distinct.map(&:name).join(', ')
   end
 
   column(:arrival_at, header: -> { I18n.t('clients.form.arrival_at')}) do |object|
