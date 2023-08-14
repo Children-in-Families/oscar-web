@@ -186,13 +186,19 @@ Rails.application.routes.draw do
   end
   resources :referees, only: [:index, :show]
 
+  namespace :family do
+    resources :assessments, only: [] do
+      post :index, on: :collection, as: :get_assessments
+    end
+  end
+
   resources :families do
-    get :welcome, on: :collection
-    
-    resources :family_referrals
     collection do
+      get :welcome
       post '/advanced_search', to: 'families#index'
     end
+    
+    resources :family_referrals
 
     scope module: 'family' do
       resources :exit_ngos, only: [:create, :update]

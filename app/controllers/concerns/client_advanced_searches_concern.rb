@@ -8,6 +8,7 @@ module ClientAdvancedSearchesConcern
     else
       basic_rules = JSON.parse @basic_filter_params || @wizard_basic_filter_params || "{}"
     end
+    
     $param_rules = find_params_advanced_search
     clients      = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability))
 
@@ -53,7 +54,7 @@ module ClientAdvancedSearchesConcern
   def fetch_advanced_search_queries
     @my_advanced_searches    = current_user.cache_advance_saved_search
     @other_advanced_searches = Rails.cache.fetch(user_cache_id << "other_advanced_search_queries") do
-      AdvancedSearch.includes(:user).non_of(current_user).order(:name).to_a
+      AdvancedSearch.for_client.includes(:user).non_of(current_user).to_a
     end
   end
 
@@ -235,10 +236,6 @@ module ClientAdvancedSearchesConcern
 
   def assessment_values
     assessment_value? ? eval(@advanced_search_params[:assessment_selected]) : []
-  end
-
-  def get_assessments
-    @assessments = (Setting.cache_first.enable_default_assessment? ? [[0, Setting.cache_first.default_assessment, { "data-type" => :default }]] : []) + CustomAssessmentSetting.all.where(enable_custom_assessment: true).pluck(:id, :custom_assessment_name).to_a
   end
 
   def has_params?

@@ -59,7 +59,7 @@ module AdvancedSearches
             custom_form_value = CustomField.find_by(form_title: value, entity_type: 'Client').try(:id)
             @sql_string << "Clients.id IN (?)"
             @values << @clients.joins(:custom_fields).where('custom_fields.id = ?', custom_form_value).uniq.ids
-          elsif rule['operator'] == 'is_empty'
+          elsif form_builder.last == 'Does Not Have This Form'
             client_ids = Client.joins(:custom_fields).where(custom_fields: { form_title: form_builder.second }).ids
             @sql_string << "clients.id NOT IN (?)"
             @values << client_ids

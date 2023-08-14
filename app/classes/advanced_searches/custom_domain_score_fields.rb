@@ -4,11 +4,11 @@ module AdvancedSearches
 
     def self.render(domain_type = 'client')
       address_translation
-      domain_score_group  = format_header('custom_csi_domain_scores')
+      domain_score_group  = format_header('custom_csi_domain_scores', domain_type)
       csi_domain_options  = domain_options(domain_type).map { |item| number_filter_type(item, domain_score_format(item), domain_score_group) }
-      custom_assessments = ['custom_assessment'].map { |item| drop_list_options(item, format_header(item), domain_score_group) }
-      assessment_completed_date = ['custom_completed_date'].map { |item| date_picker_options(item, format_header(item), domain_score_group) }
-      date_of_assessments = ['date_of_custom_assessments', 'custom_assessment_created_at'].map { |item| date_picker_options(item, format_header(item), domain_score_group) }
+      custom_assessments = ['custom_assessment'].map { |item| drop_list_options(item, format_header(item, domain_type), domain_score_group) }
+      assessment_completed_date = ['custom_completed_date'].map { |item| date_picker_options(item, format_header(item, domain_type), domain_score_group) }
+      date_of_assessments = ['date_of_custom_assessments', 'custom_assessment_created_at'].map { |item| date_picker_options(item, format_header(item, domain_type), domain_score_group) }
       all_custom_domains  = ['All Custom Domains'].map { |item| number_filter_type(item.downcase.gsub(' ', '_'), domain_score_format(item), domain_score_group) }
       (custom_assessments + date_of_assessments + assessment_completed_date + csi_domain_options + all_custom_domains).sort_by { |f| f[:label].downcase }
     end

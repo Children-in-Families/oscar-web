@@ -2,7 +2,7 @@ class FamiliesController < AdminController
   load_and_authorize_resource except: :show
   include FamilyAdvancedSearchesConcern
 
-  before_action :redirect_to_index, except: :index
+  before_action :redirect_to_index, except: [:index, :assessments]
   before_action :assign_active_family_prams, :format_search_params, only: [:index]
   before_action :find_params_advanced_search, :get_custom_form, :get_program_streams, only: [:index]
   before_action :find_params_advanced_search, :get_custom_form, only: [:index]
@@ -10,10 +10,10 @@ class FamiliesController < AdminController
   before_action :custom_form_fields, :program_stream_fields, only: [:index]
   before_action :basic_params, if: :has_params?, only: [:index]
   before_action :build_advanced_search, only: [:index]
-  before_action :find_association, except: [:index, :destroy, :version, :welcome]
+  before_action :find_association, except: [:index, :destroy, :version, :welcome, :assessments]
   before_action :find_family, only: [:show, :edit, :update, :destroy]
   before_action :find_case_histories, only: :show
-  before_action :quantitative_type_readable, except: :destroy
+  before_action :quantitative_type_readable, except: [:index, :assessments]
   before_action :load_quantative_types, only: [:new, :edit, :create, :update]
 
   def welcome
@@ -79,7 +79,7 @@ class FamiliesController < AdminController
   def show
     custom_field_ids            = @family.custom_field_properties.pluck(:custom_field_id)
     @free_family_forms          = CustomField.family_forms.not_used_forms(custom_field_ids).order_by_form_title
-    @group_family_custom_fields = @family.custom_field_properties.group_by(&:custom_field_id)
+    @group_family_custom_fields = @family.custom_field_properties.includes(:custom_field).group_by(&:custom_field_id)
     client_ids = @family.current_clients.ids
     if client_ids.present?
       @client_grid = ClientGrid.new(params[:client_grid])
@@ -129,6 +129,16 @@ class FamiliesController < AdminController
     @versions = @family.versions.reorder(created_at: :desc).page(params[:page]).per(page)
   end
 
+  def assessments
+    basic_rules = JSON.parse(params[:basic_rules] || "{}")
+    families = AdvancedSearches::FamilyAdvancedSearch.new(basic_rules, Family.accessible_by(current_ability))
+    assessments = Assessment.joins(:family).where(default: false, family_id: families.filter.ids)
+
+    @assessments_count = assessments.count
+
+    render json: { recordsTotal:  @assessments_count, recordsFiltered: @assessments_count, data: data }
+  end
+
   private
 
   def load_quantative_types
@@ -168,8 +178,9 @@ class FamiliesController < AdminController
   end
 
   def find_association
+    @users = User.without_deleted_users.non_strategic_overviewers.order(:first_name, :last_name)
     return if @family.nil?
-    @users     = User.without_deleted_users.non_strategic_overviewers.order(:first_name, :last_name)
+
     @provinces = Province.cached_order_name
     @districts = @family.province.present? ? @family.province.cached_districts : []
     @communes  = @family.district.present? ? @family.district.cached_communes : []

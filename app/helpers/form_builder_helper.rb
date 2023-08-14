@@ -166,17 +166,9 @@ module FormBuilderHelper
     when 'not_contains'
       "#{properties_field} ->> '#{field}' NOT ILIKE '%#{value.squish}%'"
     when 'is_empty'
-      if type == 'checkbox'
-        "#{properties_field} -> '#{field}' ? ''"
-      else
-        "#{properties_field} -> '#{field}' ? '' OR (#{properties_field} -> '#{field}') IS NULL"
-      end
+      "(#{properties_field} ->> '#{field}') IS NULL OR (#{properties_field} ->> '#{field}') = '' OR (#{properties_field} ->> '#{field}') = '[\"\"]'"
     when 'is_not_empty'
-      if type == 'checkbox'
-        "NOT(#{properties_field} -> '#{field}' ? '')"
-      else
-        "(NOT(#{properties_field} -> '#{field}' ? '') OR NOT(#{properties_field} -> '#{field}') IS NULL)"
-      end
+      "(#{properties_field} ->> '#{field}') IS NOT NULL AND (#{properties_field} ->> '#{field}') <> '' AND (#{properties_field} ->> '#{field}') <> '[\"\"]'"
     when 'between'
       "(#{properties_field} ->> '#{field}')#{ '::numeric' if integer?(type) } BETWEEN '#{value.first}' AND '#{value.last}' AND #{properties_field} ->> '#{field}' != ''"
     end

@@ -2,9 +2,7 @@
   .col-xs-12
     = simple_form_for([@case_note.client, @case_note], html: { id: 'case-note-form', novalidate: false, data: { translate: t('cannot_be_blank'), autosave: @case_note.persisted?, draft: @case_note.draft?, upload_url: upload_attachment_client_case_note_path(@case_note.client, @case_note) } }) do |f|
       = hidden_field_tag :current_user, current_user.roles
-      = hidden_field_tag :from_controller, @from_controller
-      = f.input :custom_assessment_setting_id, as: :hidden, input_html: { value: @custom_assessment_setting&.id || @case_note.custom_assessment_setting_id }
-      = f.input :custom, :as => :hidden, :input_html => { value: @custom_assessment_param || params[:custom] }
+      = hidden_field_tag :from_controller, params[:from]
 
       .ibox
         .ibox-title

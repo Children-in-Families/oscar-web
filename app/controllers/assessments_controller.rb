@@ -85,7 +85,6 @@ class AssessmentsController < AdminController
   end
 
   def update
-    fix_assessment_domains_attributes
     attributes = assessment_params.merge(last_auto_save_at: DateTime.now)
 
     saved = if save_draft?

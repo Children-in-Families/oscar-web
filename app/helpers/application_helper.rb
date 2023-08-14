@@ -378,6 +378,16 @@ module ApplicationHelper
     CustomAssessmentSetting.where(enable_custom_assessment: true).present?
   end
 
+  def assessment_options
+    @assessment_options ||= (Setting.cache_first.enable_default_assessment? ? [[0, Setting.cache_first.default_assessment, { "data-type" => :default }]] : []) + CustomAssessmentSetting.all.where(enable_custom_assessment: true).pluck(:id, :custom_assessment_name).to_a
+  end
+
+  def family_assessment_options
+    [
+      [0, t('families.family_assessment'), { "data-type" => :default }]
+    ]
+  end
+
   def country_langauge
     return 'Swahili' if current_organization.short_name == 'cccu'
     country = current_setting.try(:country_name)

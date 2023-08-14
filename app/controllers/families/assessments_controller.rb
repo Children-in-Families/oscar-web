@@ -103,8 +103,8 @@ module Families
     end
 
     def assessment_params
-      default_params = params.require(:assessment).permit(:default, assessment_domains_attributes: [:id, :domain_id, :score, :reason, :goal, :goal_required, :required_task_last])
-      default_params = params.require(:assessment).permit(:default, assessment_domains_attributes: [:id, :domain_id, :score, :reason, :goal, :goal_required, :required_task_last, attachments: []]) if action_name == 'create'
+      default_params = params.require(:assessment).permit(:default, :assessment_date, assessment_domains_attributes: [:id, :domain_id, :score, :reason, :goal, :goal_required, :required_task_last])
+      default_params = params.require(:assessment).permit(:default, :assessment_date, assessment_domains_attributes: [:id, :domain_id, :score, :reason, :goal, :goal_required, :required_task_last, attachments: []]) if action_name == 'create'
       default_params
     end
 
