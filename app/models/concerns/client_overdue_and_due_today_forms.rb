@@ -1,9 +1,13 @@
 module ClientOverdueAndDueTodayForms
+  include CsiConcern
+
   def overdue_and_due_today_forms(clients)
     overdue_forms = []
     today_forms = []
     upcoming_forms = []
-    clients.each do |client|
+    @setting = Setting.cache_first
+    eligible_clients = active_young_clients(clients, @setting)
+    eligible_clients.each do |client|
       custom_fields = client.custom_fields.where.not(frequency: '')
       client_active_enrollments = client.client_enrollments.active
 
