@@ -64,7 +64,7 @@ class ProgramStreamsController < AdminController
   end
 
   def destroy
-    if @program_stream.client_enrollments.size > 0
+    if @program_stream.client_enrollments.with_deleted.size.positive?
       @program_stream.destroy
     else
       @program_stream.destroy_fully!
