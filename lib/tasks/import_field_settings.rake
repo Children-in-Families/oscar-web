@@ -35,7 +35,7 @@ namespace :field_settings do
       create_assessment_setting
       create_legal_doc_settting
 
-      [20200707042500, 20200710033402, 20200710122049, 20200713035828, 20200714092201, 20200810055448, 20200810070640, 20230717162200].each do |migration_version|
+      [20200707042500, 20200710033402, 20220523095812, 20200710122049, 20200713035828, 20200714092201, 20200810055448, 20200810070640, 20230717162200].each do |migration_version|
         ActiveRecord::Migrator.run(:down, ActiveRecord::Migrator.migrations_path, migration_version)
         ActiveRecord::Migrator.run(:up, ActiveRecord::Migrator.migrations_path, migration_version)
       end
