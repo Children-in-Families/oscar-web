@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20230804173119) do
+ActiveRecord::Schema.define(version: 20230815142528) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -861,6 +861,7 @@ ActiveRecord::Schema.define(version: 20230804173119) do
     t.string   "from_referral_id"
     t.date     "synced_date"
     t.integer  "referral_count",                        default: 0
+    t.datetime "deleted_at"
   end
 
   add_index "clients", ["birth_province_id"], name: "index_clients_on_birth_province_id", using: :btree
@@ -871,6 +872,7 @@ ActiveRecord::Schema.define(version: 20230804173119) do
   add_index "clients", ["concern_province_id"], name: "index_clients_on_concern_province_id", using: :btree
   add_index "clients", ["concern_village_id"], name: "index_clients_on_concern_village_id", using: :btree
   add_index "clients", ["current_family_id"], name: "index_clients_on_current_family_id", using: :btree
+  add_index "clients", ["deleted_at"], name: "index_clients_on_deleted_at", using: :btree
   add_index "clients", ["district_id"], name: "index_clients_on_district_id", using: :btree
   add_index "clients", ["donor_id"], name: "index_clients_on_donor_id", using: :btree
   add_index "clients", ["external_case_worker_id"], name: "index_clients_on_external_case_worker_id", using: :btree

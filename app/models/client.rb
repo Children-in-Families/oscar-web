@@ -7,6 +7,8 @@ class Client < ActiveRecord::Base
 
   extend FriendlyId
 
+  acts_as_paranoid
+
   require 'text'
 
   mount_uploaders :national_id_files, FileUploader
