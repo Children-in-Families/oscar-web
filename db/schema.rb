@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20230815142528) do
+ActiveRecord::Schema.define(version: 20230815151514) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -2196,10 +2196,12 @@ ActiveRecord::Schema.define(version: 20230815142528) do
     t.string   "referee_email"
     t.string   "level_of_risk"
     t.string   "referral_status",           default: "Referred"
+    t.datetime "deleted_at"
   end
 
   add_index "referrals", ["client_global_id"], name: "index_referrals_on_client_global_id", using: :btree
   add_index "referrals", ["client_id"], name: "index_referrals_on_client_id", using: :btree
+  add_index "referrals", ["deleted_at"], name: "index_referrals_on_deleted_at", using: :btree
   add_index "referrals", ["external_case_worker_id"], name: "index_referrals_on_external_case_worker_id", using: :btree
   add_index "referrals", ["external_id"], name: "index_referrals_on_external_id", using: :btree
   add_index "referrals", ["mosvy_number"], name: "index_referrals_on_mosvy_number", using: :btree
