@@ -16,7 +16,7 @@ namespace :field_settings do
 
       (2..sheet.last_row).each do |row_index|
         # In case sheet is messed up
-        next if sheet.row(row_index)[headers['name']].blank? || sheet.row(row_index)[headers['remark']] != 'new'
+        next if sheet.row(row_index)[headers['name']].blank?
 
         field_setting = FieldSetting.find_or_initialize_by(name: sheet.row(row_index)[headers['name']], klass_name: sheet.row(row_index)[headers['klass_name']])
         field_setting.update!(
