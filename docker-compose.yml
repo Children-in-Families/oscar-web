@@ -24,7 +24,7 @@ services:
       - READ_ONLY_MTP_DATABASE_USER=mtp_user
       - READ_ONLY_MTP_DATABASE_PASSWORD=123456789
       - WEBPACKER_DEV_SERVER_HOST=webpack
-      - REDIS_URL=redis://redis:6379/0
+      - REDIS_URL=redis://redis:6379/1
       - STC_DONOR_NAME=
       - FD_DONOR_NAME=
     volumes:
@@ -35,6 +35,7 @@ services:
       - db
       - mongo
       - redis
+      - sidekiq
     stdin_open: true
     tty: true
   webpack:
@@ -120,4 +121,4 @@ services:
       - DATABASE_PASSWORD=123456789
       - DATABASE_HOST=db
       - SENDER_EMAIL=admin@example.com
-      - REDIS_URL=redis://redis:6379/12
+      - REDIS_URL=redis://redis:6379/1
