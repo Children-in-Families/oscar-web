@@ -87,12 +87,8 @@ class UsageReportBuilder < ServiceBase
     
     report
   rescue ActiveRecord::StatementInvalid => e
-    if e.message.match(/PG::UndefinedTable: ERROR:  relation "risk_assessments" does not exist/)
-      puts e.message
-      puts "=====================#{organization.short_name} is not properly setup. Skipping... ====================================="
-    else
-      raise e
-    end
+    puts e.message
+    puts "=====================#{organization.short_name} is not properly setup. Skipping... ====================================="
   end
   
   private
