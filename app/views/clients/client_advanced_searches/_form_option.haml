@@ -53,7 +53,7 @@
         .row
           .col-xs-12
             .form-group
-              = check_box_tag :nil, '1', assessment_values.present?, { class: 'i-checks assessment-checkbox', id: 'assessment-checkbox', data: { custom: t('advanced_search.fields.custom_csi_domain_scores'), csi: t('advanced_search.fields.csi_domain_scores') } }
+              = check_box_tag :nil, '1', assessment_values.present?, { class: 'i-checks assessment-checkbox', id: 'assessment-checkbox' }
               %label= t('.assessment_form')
         .row.assessment-form
           .col-xs-12
