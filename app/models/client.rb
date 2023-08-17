@@ -1021,6 +1021,22 @@ class Client < ActiveRecord::Base
     gender == 'female'
   end
 
+  def adult_male?
+    adule? && male?
+  end
+
+  def adult_female?
+    adult? && female?
+  end
+
+  def child_male?
+    child? && male?
+  end
+
+  def child_female?
+    child? && female?
+  end
+
   def other_gender?
     !male? && !female?
   end

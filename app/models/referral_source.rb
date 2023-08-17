@@ -66,7 +66,8 @@ class ReferralSource < ActiveRecord::Base
   private
 
   def update_client_referral_source
-    clients = Client.where(referral_source_id: self.id)
+    clients = Client.with_deleted.where(referral_source_id: self.id)
+
     clients.each do |client|
       client.referral_source_category_id = self.try(:ancestry)
       client.save(validate: false)

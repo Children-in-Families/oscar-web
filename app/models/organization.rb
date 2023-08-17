@@ -50,6 +50,7 @@ class Organization < ActiveRecord::Base
       transaction do
         org = new(fields)
         if org.save
+          
           Apartment::Tenant.create(org.short_name)
           org
         else
@@ -194,17 +195,16 @@ class Organization < ActiveRecord::Base
   private
 
   def upsert_referral_source_category
-    current_org = Apartment::Tenant.current
     org_full_name = self.full_name
     rs_category_name = self.referral_source_category_name
 
     Organization.all.pluck(:short_name).each do |org_short_name|
-      Apartment::Tenant.switch! org_short_name
-      referral_source = ReferralSource.find_or_create_by(name: "#{org_full_name} - OSCaR Referral")
-      rs_category = ReferralSource.find_by(name_en: rs_category_name)
-      referral_source.update_attributes(ancestry: "#{rs_category.id}") if rs_category
+      Apartment::Tenant.switch(org_short_name) do
+        referral_source = ReferralSource.find_or_create_by(name: "#{org_full_name} - OSCaR Referral")
+        rs_category = ReferralSource.find_by(name_en: rs_category_name)
+        referral_source.update_attributes(ancestry: "#{rs_category.id}") if rs_category
+      end
     end
-    Apartment::Tenant.switch! current_org
   end
 
   def delete_referral_source_category

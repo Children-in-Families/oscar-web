@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20230815151514) do
+ActiveRecord::Schema.define(version: 20230815153556) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -2753,6 +2753,21 @@ ActiveRecord::Schema.define(version: 20230815151514) do
   add_index "trackings", ["name", "program_stream_id"], name: "index_trackings_on_name_and_program_stream_id", unique: true, using: :btree
   add_index "trackings", ["program_stream_id"], name: "index_trackings_on_program_stream_id", using: :btree
 
+  create_table "usage_reports", force: :cascade do |t|
+    t.integer  "organization_id"
+    t.integer  "month"
+    t.integer  "year"
+    t.datetime "created_at",                                     null: false
+    t.datetime "updated_at",                                     null: false
+    t.jsonb    "added_cases",                       default: {}
+    t.jsonb    "synced_cases",                      default: {}
+    t.jsonb    "cross_referral_cases",              default: {}
+    t.jsonb    "cross_referral_to_primero_cases",   default: {}
+    t.jsonb    "cross_referral_from_primero_cases", default: {}
+  end
+
+  add_index "usage_reports", ["organization_id"], name: "index_usage_reports_on_organization_id", using: :btree
+
   create_table "users", force: :cascade do |t|
     t.string   "first_name",                     default: ""
     t.string   "last_name",                      default: ""
@@ -3038,6 +3053,7 @@ ActiveRecord::Schema.define(version: 20230815151514) do
   add_foreign_key "tasks", "goals"
   add_foreign_key "townships", "states"
   add_foreign_key "trackings", "program_streams"
+  add_foreign_key "usage_reports", "organizations"
   add_foreign_key "users", "organizations"
   add_foreign_key "villages", "communes"
   add_foreign_key "visit_clients", "users"

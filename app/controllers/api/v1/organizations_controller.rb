@@ -126,7 +126,7 @@ module Api
         if @organization.update_attributes(organization_params)
           render json: @organization, status: :ok
         else
-          render json: { msg: org.errors }, status: :unprocessable_entity
+          render json: { msg: @organization.errors }, status: :unprocessable_entity
         end
       end
 
