@@ -1022,7 +1022,7 @@ class Client < ActiveRecord::Base
   end
 
   def adult_male?
-    adule? && male?
+    adult? && male?
   end
 
   def adult_female?
