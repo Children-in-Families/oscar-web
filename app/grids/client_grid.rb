@@ -977,11 +977,11 @@ class ClientGrid < BaseGrid
   end
 
   column(:user_id, order: false, header: -> { I18n.t('datagrid.columns.clients.case_worker') }) do |object|
-    object.users.pluck(:first_name, :last_name).map{ |case_worker| "#{case_worker.first} #{case_worker.last}".squish }.join(', ')
+    object.users.distinct.map{ |case_worker| "#{case_worker.first_name} #{case_worker.last_name}".squish }.join(', ')
   end
 
   column(:donor_name, order: false, header: -> { I18n.t('datagrid.columns.clients.donor')}) do |object|
-    object.donors.pluck(:name).join(', ')
+    object.donors.distinct.map(&:name).join(', ')
   end
 
   column(:arrival_at, header: -> { I18n.t('clients.form.arrival_at')}) do |object|
@@ -990,7 +990,7 @@ class ClientGrid < BaseGrid
 
   column(:flight_nb, order: false, header: -> { I18n.t('clients.form.flight_nb')})
   column(:ratanak_achievement_program_staff_client_ids, order: false, header: -> { I18n.t('clients.form.ratanak_achievement_program_staff_client_ids')}) do |object|
-    object.ratanak_achievement_program_staff_clients.pluck(:first_name, :last_name).map{ |case_worker| "#{case_worker.first} #{case_worker.last}".squish }.join(', ')
+    object.ratanak_achievement_program_staff_clients.distinct.map{ |case_worker| "#{case_worker.first_name} #{case_worker.last_name}".squish }.join(', ')
   end
 
   column(:mo_savy_officials, order: false, header: -> { I18n.t('clients.form.mosavy_official')}) do |object|
