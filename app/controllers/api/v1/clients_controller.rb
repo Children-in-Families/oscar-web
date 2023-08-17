@@ -33,7 +33,7 @@ module Api
           referee = Referee.find_or_create_by(id: params.dig(:referee, :id))
           referee.update_attributes(referee_params)
           client.referee_id = referee.id
-          carer = Carer.find_or_create_by(id: client.carer_id)
+          carer = Carer.find_or_create_by(id: client.carer_id || params.dig(:carer, :id))
           carer.update_attributes(carer_params)
           client.carer_id = carer.id
           client.current_family_id ? client_params : client_params.except(:family_ids)
