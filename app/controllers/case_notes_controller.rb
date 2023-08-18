@@ -17,7 +17,7 @@ class CaseNotesController < AdminController
     unless current_user.admin? || current_user.strategic_overviewer?
       redirect_to root_path, alert: t('unauthorized.default') unless current_user.permission.case_notes_readable
     end
-    
+
     @case_notes = @client.case_notes.recent_meeting_dates.page(params[:page])
     @custom_assessment_settings = CustomAssessmentSetting.all.where(enable_custom_assessment: true)
   end
@@ -41,7 +41,7 @@ class CaseNotesController < AdminController
 
   def update
     attributes = case_note_params.merge(last_auto_save_at: Time.current)
-    
+
     saved = if save_draft?
       @case_note.assign_attributes(attributes)
       PaperTrail.without_tracking { @case_note.save(validate: false) }
