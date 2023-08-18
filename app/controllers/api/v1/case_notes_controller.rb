@@ -7,6 +7,11 @@ module Api
 
       before_action :find_client
 
+      def show
+        case_note = CaseNote.find(params[:id])
+        render json: case_note
+      end
+
       def create
         case_note = @client.case_notes.new(case_note_params)
         case_note.assessment = @client.assessments.custom_latest_record
