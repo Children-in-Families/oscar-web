@@ -61,7 +61,7 @@ class UsageReportBuilder < ServiceBase
   end
 
   def clients_has_disability_from_primero
-    @clients_has_disability_from_primero ||= Client.reportable.joins(:risk_assessment).where(risk_assessments: { has_disability: true }, clients: { synced_date: date_range }).to_a
+    @clients_has_disability_from_primero ||= Client.joins(:risk_assessment).where(risk_assessments: { has_disability: true }, clients: { id: clients_from_primero.map(&:id) }).to_a.uniq
   end
 
   def clients_from_primero
@@ -92,17 +92,17 @@ class UsageReportBuilder < ServiceBase
 
   def cross_referral_cases
     data = {
-      total: clients.count,
-      adult_female: clients.count(&:adult_female?),
-      adult_male: clients.count(&:adult_male?),
-      child_female: clients.count(&:child_female?),
-      child_male: clients.count(&:child_male?),
-      total_with_disability: clients_has_disability.count,
-      adult_female_with_disability: clients_has_disability.count(&:adult_female?),
-      adult_male_with_disability: clients_has_disability.count(&:adult_male?),
-      child_female_with_disability: clients_has_disability.count(&:child_female?),
-      child_male_with_disability: clients_has_disability.count(&:child_female?),
-      agencies: []
+      total: cross_referral_clients.count,
+      adult_female: cross_referral_clients.count(&:adult_female?),
+      adult_male: cross_referral_clients.count(&:adult_male?),
+      child_female: cross_referral_clients.count(&:child_female?),
+      child_male: cross_referral_clients.count(&:child_male?),
+      total_with_disability: cross_referral_clients_with_disability.count,
+      adult_female_with_disability: cross_referral_clients_with_disability.count(&:adult_female?),
+      adult_male_with_disability: cross_referral_clients_with_disability.count(&:adult_male?),
+      child_female_with_disability: cross_referral_clients_with_disability.count(&:child_female?),
+      child_male_with_disability: cross_referral_clients_with_disability.count(&:child_female?),
+      agencies: cross_referral_agencies
     }
 
     data[:adult_female_without_disability] = data[:adult_female] - data[:adult_female_with_disability]
@@ -110,6 +110,18 @@ class UsageReportBuilder < ServiceBase
     data[:child_female_without_disability] = data[:child_female] - data[:child_female_with_disability]
     data[:child_male_without_disability]    = data[:child_male] - data[:child_male_with_disability]
     data
+  end
+
+  def cross_referral_clients_with_disability
+    @cross_referral_clients_with_disability ||= Client.joins(:risk_assessment).where(risk_assessments: { has_disability: true }, clients: { id: cross_referral_clients.map(&:id) }).to_a.uniq
+  end
+
+  def cross_referral_clients
+    @cross_referral_clients ||= Client.reportable.joins(:referrals).where(referrals: { created_at: date_range, referred_from: organization.short_name }).where("referred_to != ?", 'MoSVY External System').to_a.uniq
+  end
+
+  def cross_referral_agencies
+    Referral.where(created_at: date_range, referred_from: organization.short_name).where("referred_to != ?", 'MoSVY External System').pluck(:referred_to).uniq
   end
 
   def synced_cases
@@ -165,7 +177,7 @@ class UsageReportBuilder < ServiceBase
   end
 
   def clients_has_disability
-    @clients_has_disability ||= Client.reportable.joins(:risk_assessment).where(risk_assessments: { has_disability: true }).where(clients: { created_at: date_range }).to_a
+    @clients_has_disability ||= Client.joins(:risk_assessment).where(risk_assessments: { has_disability: true }, clients: { id: clients.map(&:id) }).to_a.uniq
   end
 
   def clients
