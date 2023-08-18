@@ -43,7 +43,7 @@ module Api
             case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes], current_user.id)
           end
           create_bulk_task(params[:task], case_note) if params.key?(:task)
-          # case_note.complete_screening_tasks(params) if params[:case_note].key?(:tasks_attributes)
+          case_note.complete_screening_tasks(params) if params[:case_note].key?(:tasks_attributes)
           # create_task_task_progress_notes
           delete_events if session[:authorization]
 
