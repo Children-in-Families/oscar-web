@@ -38,17 +38,17 @@ class UsageReportBuilder < ServiceBase
   private
 
   def cross_referral_from_primero_cases
-    data ={
-      total: clients_this_month.count,
-      adult_female: clients_this_month.count(&:adult_female?),
-      adult_male: clients_this_month.count(&:adult_male?),
-      child_female: clients_this_month.count(&:child_female?),
-      child_male: clients_this_month.count(&:child_male?),
-      total_with_disability: clients_has_disability_this_month.count,
-      adult_female_with_disability: clients_has_disability_this_month.count(&:adult_female?),
-      adult_male_with_disability: clients_has_disability_this_month.count(&:adult_male?),
-      child_female_with_disability: clients_has_disability_this_month.count(&:child_female?),
-      child_male_with_disability: clients_has_disability_this_month.count(&:child_female?),
+    data = {
+      total: clients_from_primero.count,
+      adult_female: clients_from_primero.count(&:adult_female?),
+      adult_male: clients_from_primero.count(&:adult_male?),
+      child_female: clients_from_primero.count(&:child_female?),
+      child_male: clients_from_primero.count(&:child_male?),
+      total_with_disability: clients_has_disability_from_primero.count,
+      adult_female_with_disability: clients_has_disability_from_primero.count(&:adult_female?),
+      adult_male_with_disability: clients_has_disability_from_primero.count(&:adult_male?),
+      child_female_with_disability: clients_has_disability_from_primero.count(&:child_female?),
+      child_male_with_disability: clients_has_disability_from_primero.count(&:child_female?),
       provinces: []
     }
 
@@ -60,18 +60,26 @@ class UsageReportBuilder < ServiceBase
     data
   end
 
+  def clients_has_disability_from_primero
+    @clients_has_disability_from_primero ||= Client.reportable.joins(:risk_assessment).where(risk_assessments: { has_disability: true }, clients: { synced_date: date_range }).to_a
+  end
+
+  def clients_from_primero
+    @clients_from_primero ||= Client.reportable.where(synced_date: date_range).to_a
+  end
+
   def cross_referral_to_primero_cases
-    data ={
-      total: clients_this_month.count,
-      adult_female: clients_this_month.count(&:adult_female?),
-      adult_male: clients_this_month.count(&:adult_male?),
-      child_female: clients_this_month.count(&:child_female?),
-      child_male: clients_this_month.count(&:child_male?),
-      total_with_disability: clients_has_disability_this_month.count,
-      adult_female_with_disability: clients_has_disability_this_month.count(&:adult_female?),
-      adult_male_with_disability: clients_has_disability_this_month.count(&:adult_male?),
-      child_female_with_disability: clients_has_disability_this_month.count(&:child_female?),
-      child_male_with_disability: clients_has_disability_this_month.count(&:child_female?),
+    data = {
+      total: clients_from_primero.count,
+      adult_female: clients_from_primero.count(&:adult_female?),
+      adult_male: clients_from_primero.count(&:adult_male?),
+      child_female: clients_from_primero.count(&:child_female?),
+      child_male: clients_from_primero.count(&:child_male?),
+      total_with_disability: clients_has_disability_from_primero.count,
+      adult_female_with_disability: clients_has_disability_from_primero.count(&:adult_female?),
+      adult_male_with_disability: clients_has_disability_from_primero.count(&:adult_male?),
+      child_female_with_disability: clients_has_disability_from_primero.count(&:child_female?),
+      child_male_with_disability: clients_has_disability_from_primero.count(&:child_female?),
       provinces: []
     }
 
@@ -83,17 +91,17 @@ class UsageReportBuilder < ServiceBase
   end
 
   def cross_referral_cases
-    data ={
-      total: clients_this_month.count,
-      adult_female: clients_this_month.count(&:adult_female?),
-      adult_male: clients_this_month.count(&:adult_male?),
-      child_female: clients_this_month.count(&:child_female?),
-      child_male: clients_this_month.count(&:child_male?),
-      total_with_disability: clients_has_disability_this_month.count,
-      adult_female_with_disability: clients_has_disability_this_month.count(&:adult_female?),
-      adult_male_with_disability: clients_has_disability_this_month.count(&:adult_male?),
-      child_female_with_disability: clients_has_disability_this_month.count(&:child_female?),
-      child_male_with_disability: clients_has_disability_this_month.count(&:child_female?),
+    data = {
+      total: clients.count,
+      adult_female: clients.count(&:adult_female?),
+      adult_male: clients.count(&:adult_male?),
+      child_female: clients.count(&:child_female?),
+      child_male: clients.count(&:child_male?),
+      total_with_disability: clients_has_disability.count,
+      adult_female_with_disability: clients_has_disability.count(&:adult_female?),
+      adult_male_with_disability: clients_has_disability.count(&:adult_male?),
+      child_female_with_disability: clients_has_disability.count(&:child_female?),
+      child_male_with_disability: clients_has_disability.count(&:child_female?),
       agencies: []
     }
 
@@ -105,19 +113,19 @@ class UsageReportBuilder < ServiceBase
   end
 
   def synced_cases
-    data ={
+    data = {
       signed_up_date: nil,
       current_sharing: nil,
-      total: clients_this_month.count,
-      adult_female: clients_this_month.count(&:adult_female?),
-      adult_male: clients_this_month.count(&:adult_male?),
-      child_female: clients_this_month.count(&:child_female?),
-      child_male: clients_this_month.count(&:child_male?),
-      total_with_disability: clients_has_disability_this_month.count,
-      adult_female_with_disability: clients_has_disability_this_month.count(&:adult_female?),
-      adult_male_with_disability: clients_has_disability_this_month.count(&:adult_male?),
-      child_female_with_disability: clients_has_disability_this_month.count(&:child_female?),
-      child_male_with_disability: clients_has_disability_this_month.count(&:child_female?)
+      total: clients.count,
+      adult_female: clients.count(&:adult_female?),
+      adult_male: clients.count(&:adult_male?),
+      child_female: clients.count(&:child_female?),
+      child_male: clients.count(&:child_male?),
+      total_with_disability: clients_has_disability.count,
+      adult_female_with_disability: clients_has_disability.count(&:adult_female?),
+      adult_male_with_disability: clients_has_disability.count(&:adult_male?),
+      child_female_with_disability: clients_has_disability.count(&:child_female?),
+      child_male_with_disability: clients_has_disability.count(&:child_female?)
     }
 
     data[:adult_female_without_disability] = data[:adult_female] - data[:adult_female_with_disability]
@@ -130,17 +138,17 @@ class UsageReportBuilder < ServiceBase
   end
 
   def added_cases
-    data ={
-      total: clients_this_month.count,
-      adult_female: clients_this_month.count(&:adult_female?),
-      adult_male: clients_this_month.count(&:adult_male?),
-      child_female: clients_this_month.count(&:child_female?),
-      child_male: clients_this_month.count(&:child_male?),
-      total_with_disability: clients_has_disability_this_month.count,
-      adult_female_with_disability: clients_has_disability_this_month.count(&:adult_female?),
-      adult_male_with_disability: clients_has_disability_this_month.count(&:adult_male?),
-      child_female_with_disability: clients_has_disability_this_month.count(&:child_female?),
-      child_male_with_disability: clients_has_disability_this_month.count(&:child_female?)
+    data = {
+      total: clients.count,
+      adult_female: clients.count(&:adult_female?),
+      adult_male: clients.count(&:adult_male?),
+      child_female: clients.count(&:child_female?),
+      child_male: clients.count(&:child_male?),
+      total_with_disability: clients_has_disability.count,
+      adult_female_with_disability: clients_has_disability.count(&:adult_female?),
+      adult_male_with_disability: clients_has_disability.count(&:adult_male?),
+      child_female_with_disability: clients_has_disability.count(&:child_female?),
+      child_male_with_disability: clients_has_disability.count(&:child_female?)
     }
 
     data[:adult_female_without_disability] = data[:adult_female] - data[:adult_female_with_disability]
@@ -156,11 +164,11 @@ class UsageReportBuilder < ServiceBase
     @date_range ||= Date.new(year, month, 1)..Date.new(year, month, 1).end_of_month
   end
 
-  def clients_has_disability_this_month
-    @clients_has_disability_this_month ||= Client.reportable.joins(:risk_assessment).where(risk_assessments: { has_disability: true }).where(clients: { created_at: date_range }).to_a
+  def clients_has_disability
+    @clients_has_disability ||= Client.reportable.joins(:risk_assessment).where(risk_assessments: { has_disability: true }).where(clients: { created_at: date_range }).to_a
   end
 
-  def clients_this_month
-    @clients_this_month ||= Client.reportable.where(created_at: date_range).to_a
+  def clients
+    @clients ||= Client.reportable.where(created_at: date_range).to_a
   end
 end
