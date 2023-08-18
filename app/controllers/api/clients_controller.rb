@@ -22,6 +22,7 @@ module Api
     end
 
     def assessments
+      $param_rules = find_params_advanced_search
       basic_rules = JSON.parse(params[:basic_rules] || "{}")
       clients = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability))
 
