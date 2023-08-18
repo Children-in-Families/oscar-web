@@ -18,8 +18,6 @@ def rebuild_report(org)
   (org.created_at.year..Time.zone.today.year).to_a.each do |year|
     (1..12).to_a.each do |month|
       next if year == Date.current.year && month >= Date.current.month
-      
-      puts "=====================rebuilding report on schema #{org.short_name} for #{month}/#{year} ====================================="
       UsageReportBuilder.call(org, month, year, true)
     end
   end

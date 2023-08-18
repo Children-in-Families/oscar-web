@@ -12,6 +12,8 @@ class UsageReportBuilder < ServiceBase
   end
 
   def call
+    puts "Building usage report for #{organization.short_name} for #{month}/#{year}"
+
     start_date = Date.new(year, month, 1)
     end_date = start_date.end_of_month
     report = UsageReport.find_or_initialize_by(month: month, year: year, organization: organization)
@@ -19,66 +21,11 @@ class UsageReportBuilder < ServiceBase
     Apartment::Tenant.switch(organization.short_name) do
       if report.new_record? || update
         report.assign_attributes(
-          added_cases: {
-            total: clients_this_month.size,
-            adult_female: clients_this_month.count(&:adult_female?),
-            adult_male: clients_this_month.count(&:adult_male?),
-            adult_female_with_disability: clients_has_disability_this_month.count(&:adult_female?),
-            adult_male_with_disability: clients_has_disability_this_month.count(&:adult_male?),
-            child_female: clients_this_month.count(&:child_female?),
-            child_male: clients_this_month.count(&:child_male?),
-            child_female_with_disability: clients_has_disability_this_month.count(&:child_female?),
-            child_male_with_disability: clients_has_disability_this_month.count(&:child_female?)
-          },
-          synced_cases: {
-            signed_up_date: nil,
-            current_sharing: nil,
-            total: 0,
-            adult_female: 0,
-            adult_male: 0,
-            adult_female_with_disability: 0,
-            adult_male_with_disability: 0,
-            child_female: 0,
-            child_male: 0,
-            child_female_with_disability: 0,
-            child_male_with_disability: 0
-          },
-          cross_referral_cases: {
-            total: 0,
-            adult_female: 0,
-            adult_male: 0,
-            adult_female_with_disability: 0,
-            adult_male_with_disability: 0,
-            child_female: 0,
-            child_male: 0,
-            child_female_with_disability: 0,
-            child_male_with_disability: 0,
-            agencies: []
-          },
-          cross_referral_to_primero_cases: {
-            total: 0,
-            adult_female: 0,
-            adult_male: 0,
-            adult_female_with_disability: 0,
-            adult_male_with_disability: 0,
-            child_female: 0,
-            child_male: 0,
-            child_female_with_disability: 0,
-            child_male_with_disability: 0,
-            provinces: []
-          },
-          cross_referral_from_primero_cases: {
-            total: 0,
-            adult_female: 0,
-            adult_male: 0,
-            adult_female_with_disability: 0,
-            adult_male_with_disability: 0,
-            child_female: 0,
-            child_male: 0,
-            child_female_with_disability: 0,
-            child_male_with_disability: 0,
-            provinces: []
-          }
+          added_cases: added_cases,
+          synced_cases: synced_cases,
+          cross_referral_cases: cross_referral_cases,
+          cross_referral_to_primero_cases: cross_referral_to_primero_cases,
+          cross_referral_from_primero_cases: cross_referral_from_primero_cases
         )
 
         report.save!
@@ -86,22 +33,134 @@ class UsageReportBuilder < ServiceBase
     end
     
     report
-  rescue ActiveRecord::StatementInvalid => e
-    puts e.message
-    puts "=====================#{organization.short_name} is not properly setup. Skipping... ====================================="
   end
   
   private
+
+  def cross_referral_from_primero_cases
+    data ={
+      total: clients_this_month.count,
+      adult_female: clients_this_month.count(&:adult_female?),
+      adult_male: clients_this_month.count(&:adult_male?),
+      child_female: clients_this_month.count(&:child_female?),
+      child_male: clients_this_month.count(&:child_male?),
+      total_with_disability: clients_has_disability_this_month.count,
+      adult_female_with_disability: clients_has_disability_this_month.count(&:adult_female?),
+      adult_male_with_disability: clients_has_disability_this_month.count(&:adult_male?),
+      child_female_with_disability: clients_has_disability_this_month.count(&:child_female?),
+      child_male_with_disability: clients_has_disability_this_month.count(&:child_female?),
+      provinces: []
+    }
+
+    data[:adult_female_without_disability] = data[:adult_female] - data[:adult_female_with_disability]
+    data[:adult_male_without_disability]   = data[:adult_male] - data[:adult_male_with_disability]
+    data[:child_female_without_disability] = data[:child_female] - data[:child_female_with_disability]
+    data[:child_male_without_disability]    = data[:child_male] - data[:child_male_with_disability]
+    
+    data
+  end
+
+  def cross_referral_to_primero_cases
+    data ={
+      total: clients_this_month.count,
+      adult_female: clients_this_month.count(&:adult_female?),
+      adult_male: clients_this_month.count(&:adult_male?),
+      child_female: clients_this_month.count(&:child_female?),
+      child_male: clients_this_month.count(&:child_male?),
+      total_with_disability: clients_has_disability_this_month.count,
+      adult_female_with_disability: clients_has_disability_this_month.count(&:adult_female?),
+      adult_male_with_disability: clients_has_disability_this_month.count(&:adult_male?),
+      child_female_with_disability: clients_has_disability_this_month.count(&:child_female?),
+      child_male_with_disability: clients_has_disability_this_month.count(&:child_female?),
+      provinces: []
+    }
+
+    data[:adult_female_without_disability] = data[:adult_female] - data[:adult_female_with_disability]
+    data[:adult_male_without_disability]   = data[:adult_male] - data[:adult_male_with_disability]
+    data[:child_female_without_disability] = data[:child_female] - data[:child_female_with_disability]
+    data[:child_male_without_disability]    = data[:child_male] - data[:child_male_with_disability]
+    data
+  end
+
+  def cross_referral_cases
+    data ={
+      total: clients_this_month.count,
+      adult_female: clients_this_month.count(&:adult_female?),
+      adult_male: clients_this_month.count(&:adult_male?),
+      child_female: clients_this_month.count(&:child_female?),
+      child_male: clients_this_month.count(&:child_male?),
+      total_with_disability: clients_has_disability_this_month.count,
+      adult_female_with_disability: clients_has_disability_this_month.count(&:adult_female?),
+      adult_male_with_disability: clients_has_disability_this_month.count(&:adult_male?),
+      child_female_with_disability: clients_has_disability_this_month.count(&:child_female?),
+      child_male_with_disability: clients_has_disability_this_month.count(&:child_female?),
+      agencies: []
+    }
+
+    data[:adult_female_without_disability] = data[:adult_female] - data[:adult_female_with_disability]
+    data[:adult_male_without_disability]   = data[:adult_male] - data[:adult_male_with_disability]
+    data[:child_female_without_disability] = data[:child_female] - data[:child_female_with_disability]
+    data[:child_male_without_disability]    = data[:child_male] - data[:child_male_with_disability]
+    data
+  end
+
+  def synced_cases
+    data ={
+      signed_up_date: nil,
+      current_sharing: nil,
+      total: clients_this_month.count,
+      adult_female: clients_this_month.count(&:adult_female?),
+      adult_male: clients_this_month.count(&:adult_male?),
+      child_female: clients_this_month.count(&:child_female?),
+      child_male: clients_this_month.count(&:child_male?),
+      total_with_disability: clients_has_disability_this_month.count,
+      adult_female_with_disability: clients_has_disability_this_month.count(&:adult_female?),
+      adult_male_with_disability: clients_has_disability_this_month.count(&:adult_male?),
+      child_female_with_disability: clients_has_disability_this_month.count(&:child_female?),
+      child_male_with_disability: clients_has_disability_this_month.count(&:child_female?)
+    }
+
+    data[:adult_female_without_disability] = data[:adult_female] - data[:adult_female_with_disability]
+    data[:adult_male_without_disability]   = data[:adult_male] - data[:adult_male_with_disability]
+    data[:child_female_without_disability] = data[:child_female] - data[:child_female_with_disability]
+    data[:child_male_without_disability]    = data[:child_male] - data[:child_male_with_disability]
+    data[:other] = data[:total] - data[:adult_female] - data[:adult_male] - data[:child_male] - data[:child_female]
+
+    data
+  end
+
+  def added_cases
+    data ={
+      total: clients_this_month.count,
+      adult_female: clients_this_month.count(&:adult_female?),
+      adult_male: clients_this_month.count(&:adult_male?),
+      child_female: clients_this_month.count(&:child_female?),
+      child_male: clients_this_month.count(&:child_male?),
+      total_with_disability: clients_has_disability_this_month.count,
+      adult_female_with_disability: clients_has_disability_this_month.count(&:adult_female?),
+      adult_male_with_disability: clients_has_disability_this_month.count(&:adult_male?),
+      child_female_with_disability: clients_has_disability_this_month.count(&:child_female?),
+      child_male_with_disability: clients_has_disability_this_month.count(&:child_female?)
+    }
+
+    data[:adult_female_without_disability] = data[:adult_female] - data[:adult_female_with_disability]
+    data[:adult_male_without_disability]   = data[:adult_male] - data[:adult_male_with_disability]
+    data[:child_female_without_disability] = data[:child_female] - data[:child_female_with_disability]
+    data[:child_male_without_disability]    = data[:child_male] - data[:child_male_with_disability]
+    data[:other] = data[:total] - data[:adult_female] - data[:adult_male] - data[:child_male] - data[:child_female]
+    
+    data
+  end
 
   def date_range
     @date_range ||= Date.new(year, month, 1)..Date.new(year, month, 1).end_of_month
   end
 
   def clients_has_disability_this_month
-    @clients_has_disability_this_month ||= Client.with_deleted.joins(:risk_assessment).where(risk_assessments: { has_disability: true }).where(deleted_at: date_range).to_a
+    @clients_has_disability_this_month ||= Client.reportable.joins(:risk_assessment).where(risk_assessments: { has_disability: true }).where(clients: { created_at: date_range }).to_a
   end
 
   def clients_this_month
-    @clients_this_month ||= Client.with_deleted.where(created_at: date_range).to_a
+    @clients_this_month ||= Client.reportable.where(created_at: date_range).to_a
   end
 end

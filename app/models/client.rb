@@ -190,6 +190,7 @@ class Client < ActiveRecord::Base
   scope :referred_external,                        -> (external_system_name)       { joins(:referrals).where("clients.referred_external = ? AND referrals.ngo_name = ?", true, external_system_name) }
   scope :test_clients,                             ->        { where(for_testing: true) }
   scope :without_test_clients,                     ->        { where(for_testing: false) }
+  scope :reportable,                               ->        { with_deleted.without_test_clients }
 
   class << self
     def find_shared_client(options)
