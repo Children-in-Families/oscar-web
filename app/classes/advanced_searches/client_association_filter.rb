@@ -5,6 +5,7 @@ module AdvancedSearches
     include AssessmentHelper
     include FormBuilderHelper
     include ClientsHelper
+    
     def initialize(clients, field, operator, values)
       @clients      = clients
       @field        = field
@@ -468,6 +469,7 @@ module AdvancedSearches
         custom_assessment_setting_rule = JSON.parse($param_rules['basic_rules'])['rules'].select{|rule| rule['id'] == 'custom_assessment' }.try(:first)
         custom_assessment_setting_id = custom_assessment_setting_rule['value'] if custom_assessment_setting_rule
       end
+
       custom_assessment_setting_id
     end
 
