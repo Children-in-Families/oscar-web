@@ -67,7 +67,7 @@ class CaseWorkerMailer < ApplicationMailer
       clients = user_clients(user).active_accepted_status
     end
 
-    forms = overdue_and_due_today_forms(clients)
+    forms = overdue_and_due_today_forms(user, clients)
     @overdue_forms = forms[:overdue_forms]
     @today_forms = forms[:today_forms]
     @upcoming_forms = forms[:upcoming_forms]
