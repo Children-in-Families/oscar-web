@@ -27,6 +27,8 @@ services:
       - REDIS_URL=redis://redis:6379/1
       - STC_DONOR_NAME=
       - FD_DONOR_NAME=
+      - SIDEKIQ_USER=admin
+      - SIDEKIQ_PASSWORD=12345
     volumes:
       - .:/app
     ports:

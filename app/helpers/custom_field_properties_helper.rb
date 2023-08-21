@@ -64,9 +64,14 @@ module CustomFieldPropertiesHelper
   end
 
   def display_custom_formable_name(klass_object)
-    return klass_object.display_name if klass_object.class.name.downcase == 'family'
-
-    klass_object.en_and_local_name
+    case klass_object.class.name.downcase
+    when 'family', 'community'
+      klass_object.display_name
+    when 'user'
+      klass_object.name
+    else
+      klass_object.en_and_local_name
+    end
   end
 
   def display_custom_formable_lebel(klass_object)

@@ -116,7 +116,7 @@ Rails.application.routes.draw do
 
     resources :referrals, except: [:destroy]
     resources :internal_referrals
-    
+
     collection do
       post '/advanced_search', to: 'clients#index'
       get :advanced_search
@@ -152,7 +152,7 @@ Rails.application.routes.draw do
         post :upload_attachment
       end
     end
-    
+
     resources :case_notes do
       post :upload_attachment, on: :member
     end
@@ -197,7 +197,7 @@ Rails.application.routes.draw do
       get :welcome
       post '/advanced_search', to: 'families#index'
     end
-    
+
     resources :family_referrals
 
     scope module: 'family' do
@@ -505,7 +505,7 @@ Rails.application.routes.draw do
 
   if Rails.env.production? || Rails.env.staging?
     Sidekiq::Web.use(Rack::Auth::Basic) do |user, password|
-      [user, password] == ['admin', 'admin@@$$password']
+      [user, password] == [ENV['SIDEKIQ_USER'], ENV['SIDEKIQ_PASSWORD']]
     end
   end
 end
