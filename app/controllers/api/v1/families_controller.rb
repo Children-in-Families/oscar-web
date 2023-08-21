@@ -6,6 +6,11 @@ module Api
         render json: current_user.families
       end
 
+      def listing
+        families = Family.accessible_by(current_ability)
+        render json: families, each_serializer: FamilyListingSerializer
+      end
+
       def show
         family = find_family
         render json: family
