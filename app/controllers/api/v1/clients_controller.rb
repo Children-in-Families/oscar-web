@@ -87,7 +87,7 @@ module Api
                 :referral_phone, :received_by_id, :followed_up_by_id, :current_family_id,
                 :follow_up_date, :school_grade, :school_name, :current_address, :external_id, :external_id_display,
                 :house_number, :street_number, :suburb, :description_house_landmark, :directions, :street_line1, :street_line2, :plot, :road, :postal_code, :district_id, :subdistrict_id, :village_id, :commune_id,
-                :has_been_in_orphanage, :has_been_in_government_care,
+                :has_been_in_orphanage, :has_been_in_government_care, :phone_owner,
                 :relevant_referral_information, :province_id, :profile,
                 :state_id, :township_id, :rejected_note, :live_with, :rated_for_id_poor,
                 :gov_city, :gov_commune, :gov_district, :gov_date, :gov_village_code, :gov_client_code,
