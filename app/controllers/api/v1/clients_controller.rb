@@ -84,7 +84,7 @@ module Api
                 :code, :name_of_referee, :main_school_contact, :rated_for_id_poor, :what3words, :status,
                 :kid_id, :assessment_id, :given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth,
                 :birth_province_id, :initial_referral_date, :referral_source_id, :telephone_number,
-                :referral_phone, :received_by_id, :followed_up_by_id,
+                :referral_phone, :received_by_id, :followed_up_by_id, :current_family_id,
                 :follow_up_date, :school_grade, :school_name, :current_address, :external_id, :external_id_display,
                 :house_number, :street_number, :suburb, :description_house_landmark, :directions, :street_line1, :street_line2, :plot, :road, :postal_code, :district_id, :subdistrict_id, :village_id, :commune_id,
                 :has_been_in_orphanage, :has_been_in_government_care,
