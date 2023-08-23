@@ -309,7 +309,7 @@
               %tr
                 %td= human_boolean(member.client_id?)
                 %td
-                  - if member.client_id?
+                  - if member.client
                     = link_to member.adult_name, client_path(member.client.slug)
                   - else
                     = member.adult_name
