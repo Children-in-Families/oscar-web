@@ -57,7 +57,7 @@
           %h4
             %span.text-success
               = field_to_local(developmental_marker, 'short_description')
-            - inline_help = t("inline_help.cb_dmat.by_age_#{developmental_marker.name.downcase.gsub(" ", "_").gsub(".", "_") }").html_safe
+            - inline_help = by_age_translation(developmental_marker.name)
             - if inline_help.to_s.exclude?('missing:')
               %a{:role => "button", :tabIndex => "0",  data: { toggle: "popover", trigger: "hover", content: inline_help, placement: "right" } }
                 = fa_icon "info-circle", class: 'text-info m-xs'
