@@ -122,39 +122,40 @@ class CIF.ClientAdvanceSearch
 
     $('#assessment-select').on 'change', (e)->
       $(".assessment-data-dropdown li").addClass("hide")
-      self.hideCSIFilters()
+      self.showAssessmentColumns("")
 
       value = $('#assessment-select').select2('data') && $('#assessment-select').select2('data').id
       $(".assessment-data-dropdown li.csi-#{value}").removeClass("hide")
       $("input[id$='_advanced_search_assessment_selected']").val("[#{value}]")
 
-      if value == "0" && $("body").attr("id").indexOf("families") == -1
-        self.toggleAdvanceReportSection($("#assessment-checkbox").data("custom"))
-        self.toggleAdvanceReportSection($("#assessment-checkbox").data("csi"), false)
-      else
-        self.toggleAdvanceReportSection($("#assessment-checkbox").data("csi"))
-        self.toggleAdvanceReportSection($("#assessment-checkbox").data("custom"), false)
+      self.showAssessmentColumns($('#assessment-select option:selected').data("selectGroup")) 
 
       unless $("#assessment-checkbox").is(":checked")
         $(".assessment-data-dropdown li").addClass("hide")
         $("input[id$='_advanced_search_assessment_selected']").val("[]")
-        self.hideCSIFilters()
+        self.showAssessmentColumns("")
 
     $('#assessment-select').trigger('change')
 
-  hideCSIFilters: ->
-    @.toggleAdvanceReportSection($("#assessment-checkbox").data("custom"))
-    @.toggleAdvanceReportSection($("#assessment-checkbox").data("csi"))
-
-  toggleAdvanceReportSection: (sectionText, hide = true) ->
-    console.log(sectionText, hide)
-    $options = $("optgroup[label='#{sectionText}'] option")
+  showAssessmentColumns: (sectionText) ->
     self = @
 
-    if hide
-      $options.attr("disabled", "disabled")
-    else
+    # Toggle domain score fields
+    $.each $('#assessment-select option'), (index, item) ->
+      $options = $("optgroup[label='#{$(item).data("selectGroup")}'] option")
+
+      if $(item).data("selectGroup") == sectionText
+        $options.attr("disabled", false)
+      else
+        $options.attr("disabled", "disabled")
+
+    # Toggle custom assessment fields
+    $options = $("optgroup[label='Custom Assessment'] option")
+    
+    if sectionText != undefined && sectionText.indexOf(" | ") > -1
       $options.attr("disabled", false)
+    else
+      $options.attr("disabled", "disabled")
 
     $('#builder select').select2(width: '250px')
 
@@ -304,6 +305,9 @@ class CIF.ClientAdvanceSearch
       ruleFiltersSelect.select2('destroy')
       ruleFiltersSelect.parents('.rule-container').find('.rule-header button').trigger('click')
 
+      $(".custom-assessment-setting input[type='checkbox']").iCheck("uncheck")
+      $('.assessment-column a.dropdown-toggle').addClass('disabled')
+
       $(".custom-assessment-setting").hide()
 
       $('.assessment-form').hide()
@@ -320,6 +324,9 @@ class CIF.ClientAdvanceSearch
     $('#assessment-checkbox').on 'ifChecked', ->
       $('.assessment-form').show()
       assessmentSelectValue = $('#assessment-select').find(':selected').val()
+
+      $('.assessment-column a.dropdown-toggle').removeClass('disabled')
+      # self.initSelect2()
 
       $("div[data-custom-assessment-setting-id='#{assessmentSelectValue}']").show()
       self.assessmentSelected = $('select.assessment-select').val()
