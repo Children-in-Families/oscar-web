@@ -15,6 +15,28 @@ CIF.FamiliesIndex = CIF.FamiliesWelcome = do ->
     # _setDefaultCheckColumnVisibilityAll()
     _initCheckbox()
     _quantitativeCaesByQuantitativeType()
+    _initColumnFilter()
+
+  _initColumnFilter = ->
+    searchBox = $('ul.columns-visibility .column-search-box')
+    searchBox.keyup ->
+      valThis = $(this).val().toLowerCase()
+
+      if valThis == ''
+        $('ul.columns-visibility li').show()
+      else
+        $('ul.columns-visibility li:not(:first-child)').each ->
+          text = $(this).find("label").text().toLowerCase().trim()
+
+          if text.indexOf(valThis) >= 0 then $(this).show() else $(this).hide()
+          return
+      return
+
+    $('ul.columns-visibility .btn-clear-text').click ->
+      searchBox.val ''
+      searchBox.focus()
+      $('ul.columns-visibility li').show()
+      return
 
   _initCheckbox = ->
     $('.i-checks').iCheck

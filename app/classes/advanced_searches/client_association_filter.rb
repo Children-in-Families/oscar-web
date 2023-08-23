@@ -15,6 +15,7 @@ module AdvancedSearches
 
     def get_sql
       sql_string = 'clients.id IN (?)'
+
       case @field
       when 'user_id'
         values = user_id_field_query

@@ -1,11 +1,17 @@
 .ibox
   .ibox-title
-    %h5= "#{@programmable.name} - #{t('.program_lists')}"
-    .ibox-tools
-      - if params[:family_id]
-        = link_to t('.back'), family_path(@programmable), class: 'btn btn-default btn-back-default btn-back'
-      - elsif params[:community_id]
-        = link_to t('.back'), community_path(@programmable), class: 'btn btn-default btn-back-default btn-back'
+    .row
+      .col-xs-12.col-sm-6.co-md-6
+        %h5
+          = link_to @programmable do
+            = @programmable.name
+          %span= " - #{t('.program_lists')}"
+      .col-xs-12.col-sm-6.co-md-6
+        .ibox-tools
+          - if params[:family_id]
+            = link_to t('.back'), family_path(@programmable), class: 'btn btn-default btn-back-default btn-back'
+          - elsif params[:community_id]
+            = link_to t('.back'), community_path(@programmable), class: 'btn btn-default btn-back-default btn-back'
   .ibox-content
     .table-responsive
       %table.table.table-bordered.table-striped.table-hover.enrollment
