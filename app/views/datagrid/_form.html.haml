@@ -26,7 +26,7 @@
         %ul.dropdown-menu.columns-visibility
           %li
             .input-group
-              %input.form-control{ placeholder: "Search", id: "column-search-box" }
+              %input.form-control.column-search-box{ placeholder: "Search", id: "column-search-box" }
               %span.input-group-btn
                 %button.btn.btn-default.btn-clear-text{ type: "button" }
                   %i.fa.fa-close
@@ -226,11 +226,11 @@
           - if policy(Client).show_legal_doc?
             %li
               %strong.m-l-sm= t('clients.show.legal_documents')
-            %li
             - legal_doc_fields.each do |field|
-              .visibility.col-sm-12
-                = check_box_tag "#{field}_", field, checked = saved_search_column_visibility("#{field}_"), class: 'i-checks'
-                = label_tag "#{field}_", t("clients.show.#{field}")
+              %li
+                .visibility.col-sm-12
+                  = check_box_tag "#{field}_", field, checked = saved_search_column_visibility("#{field}_"), class: 'i-checks'
+                  = label_tag "#{field}_", t("clients.show.#{field}")
           - if @quantitative_fields
             %li.custom-referral-data
               %strong= t('advanced_search.fields.quantitative')
@@ -315,7 +315,7 @@
         %ul.dropdown-menu.columns-visibility
           %li
             .input-group
-              %input.form-control{ placeholder: "Search", id: "box" }
+              %input.form-control.column-search-box{ placeholder: "Search", id: "box" }
               %span.input-group-btn
                 %button.btn.btn-default.btn-clear-text{ type: "button" }
                   %i.fa.fa-close
