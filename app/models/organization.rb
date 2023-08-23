@@ -3,6 +3,7 @@ class Organization < ActiveRecord::Base
   SUPPORTED_LANGUAGES = %w(en km my).freeze
   TYPES = ['Faith Based Organization', 'Government Organization', "Disabled People's Organization", 'Non Government Organization', 'Community Based Organization', 'Other Organization'].freeze
 
+  acts_as_paranoid
   has_paper_trail on: :update, only: :integrated
   mount_uploader :logo, ImageUploader
 

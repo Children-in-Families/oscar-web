@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20230823093643) do
+ActiveRecord::Schema.define(version: 20230823121242) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1903,8 +1903,10 @@ ActiveRecord::Schema.define(version: 20230823093643) do
     t.string   "ngo_type"
     t.integer  "referred_count",                default: 0
     t.integer  "exited_client",                 default: 0
+    t.datetime "deleted_at"
   end
 
+  add_index "organizations", ["deleted_at"], name: "index_organizations_on_deleted_at", using: :btree
   add_index "organizations", ["full_name"], name: "index_organizations_on_full_name", using: :btree
   add_index "organizations", ["short_name"], name: "index_organizations_on_short_name", using: :btree
 
