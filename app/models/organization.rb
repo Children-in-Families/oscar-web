@@ -38,7 +38,7 @@ class Organization < ActiveRecord::Base
 
   class << self
     def current
-      Rails.cache.fetch(['current_organization', Apartment::Tenant.current]) do
+      Rails.cache.fetch(['current_organization', Apartment::Tenant.current, Organization.only_deleted.count]) do
         find_by(short_name: Apartment::Tenant.current)
       end
     end
@@ -172,7 +172,7 @@ class Organization < ActiveRecord::Base
   end
 
   def self.cache_mapping_ngo_names
-    Rails.cache.fetch([Apartment::Tenant.current, 'cache_mapping_ngo_names']) do
+    Rails.cache.fetch([Apartment::Tenant.current, 'cache_mapping_ngo_names', Organization.only_deleted.count]) do
       Organization.oscar.map { |org| { org.short_name => org.full_name } }
     end
   end
@@ -182,13 +182,13 @@ class Organization < ActiveRecord::Base
   end
 
   def self.cache_visible_ngos
-    Rails.cache.fetch([Apartment::Tenant.current, 'Organization', 'visible']) do
+    Rails.cache.fetch([Apartment::Tenant.current, 'Organization', 'visible', Organization.only_deleted.count]) do
       Organization.visible.order(:created_at).to_a
     end
   end
 
   def self.cached_organization_short_names(short_names)
-    Rails.cache.fetch([Apartment::Tenant.current, 'Organization', 'cached_organization_short_names', *short_names.sort]) {
+    Rails.cache.fetch([Apartment::Tenant.current, Organization.only_deleted.count, 'Organization', 'cached_organization_short_names', *short_names.sort]) {
       where("organizations.short_name IN (?)", short_names).pluck(:full_name)
     }
   end
@@ -219,8 +219,8 @@ class Organization < ActiveRecord::Base
 
   def flush_cache
     Rails.cache.delete(['current_organization', short_name])
-    Rails.cache.delete([Apartment::Tenant.current, 'cache_mapping_ngo_names'])
-    Rails.cache.delete([Apartment::Tenant.current, 'Organization', 'visible'])
+    Rails.cache.delete([Apartment::Tenant.current, 'cache_mapping_ngo_names', Organization.only_deleted.count])
+    Rails.cache.delete([Apartment::Tenant.current, 'Organization', 'visible', Organization.only_deleted.count])
     cached_organization_short_names_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_organization_short_names/].blank? }
     cached_organization_short_names_keys.each { |key| Rails.cache.delete(key) }
   end
