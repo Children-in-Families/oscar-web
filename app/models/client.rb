@@ -280,7 +280,8 @@ class Client < ActiveRecord::Base
     end
 
     def unattache_to_other_families(allowed_family_id = nil)
-      records = joins("LEFT JOIN family_members ON clients.id = family_members.client_id WHERE family_members.family_id IS NULL")
+      # Rails is fail to build correct query with acts_as_paranoid in this case
+      records = with_deleted.joins("LEFT JOIN family_members ON clients.id = family_members.client_id WHERE family_members.family_id IS NULL AND clients.deleted_at IS NULL")
 
       if allowed_family_id.present?
         records += joins(:family_member).where(family_members: { family_id: allowed_family_id})
