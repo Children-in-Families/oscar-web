@@ -121,7 +121,14 @@ class UsageReportBuilder < ServiceBase
   end
 
   def cross_referral_agencies
-    Referral.where(created_at: date_range, referred_from: organization.short_name).where("referred_to != ?", 'MoSVY External System').pluck(:referred_to).uniq
+    Referral.where(created_at: date_range, referred_from: organization.short_name).where("referred_to != ?", 'MoSVY External System').map { |referral| referral.ngo_name.presence || ngo_hash_mapping[referral.referred_to] }.join(', ')
+  end
+
+  def ngo_hash_mapping
+    ngos = Organization.pluck(:short_name, :full_name)
+    ngos << ["MoSVY External System", "MoSVY External System"]
+    ngos << ["external referral", "I don't see the NGO I'm looking for..."]
+    ngos.to_h
   end
 
   def synced_cases
