@@ -26,7 +26,7 @@
         %ul.dropdown-menu.columns-visibility
           %li
             .input-group
-              %input.form-control{ placeholder: "Search", id: "column-search-box" }
+              %input.form-control.column-search-box{ placeholder: "Search", id: "column-search-box" }
               %span.input-group-btn
                 %button.btn.btn-default.btn-clear-text{ type: "button" }
                   %i.fa.fa-close
@@ -226,11 +226,11 @@
           - if policy(Client).show_legal_doc?
             %li
               %strong.m-l-sm= t('clients.show.legal_documents')
-            %li
             - legal_doc_fields.each do |field|
-              .visibility.col-sm-12
-                = check_box_tag "#{field}_", field, checked = saved_search_column_visibility("#{field}_"), class: 'i-checks'
-                = label_tag "#{field}_", t("clients.show.#{field}")
+              %li
+                .visibility.col-sm-12
+                  = check_box_tag "#{field}_", field, checked = saved_search_column_visibility("#{field}_"), class: 'i-checks'
+                  = label_tag "#{field}_", t("clients.show.#{field}")
           - if @quantitative_fields
             %li.custom-referral-data
               %strong= t('advanced_search.fields.quantitative')
@@ -247,42 +247,6 @@
                 .visibility.col-sm-12
                   = check_box_tag "#{quantitative_type.name}_", quantitative_type.name, checked = saved_search_column_visibility("#{quantitative_type.name}_"), class: 'i-checks'
                   = label_tag "#{quantitative_type.name}_", quantitative_type.name
-
-          - if enable_default_assessment?
-            .custom-assessment-setting{ data: { custom_assessment_setting_id: 0 }, style: 'display: none;' }
-              - if current_organization.try(:aht) == true
-                %li.custom-assessment-devider{ style: 'padding-left: 15px; padding-bottom: 5px;'}
-                  %strong= t('.result_framework_assessment')
-                %li
-              - else
-                %li.custom-assessment-devider{ style: 'padding-left: 15px; padding-bottom: 5px;'}
-                  %strong= t('.csi_domain_scores')
-
-              %li
-                .visibility.col-sm-12
-                  = check_box_tag 'all_csi_assessments_', 'all_csi_assessments', checked = saved_search_column_visibility('all_csi_assessments_'), class: 'i-checks'
-                  - if current_organization.try(:aht) == true
-                    = label_tag 'all_result_framework_assessments_', t('datagrid.columns.all_result_framework_assessment')
-                  - else
-                    = label_tag 'all_csi_assessments_', t('datagrid.columns.all_csi_assessments', assessment: t('clients.show.assessment'))
-              %li
-                .visibility.col-sm-12
-                  = check_box_tag 'assessment_created_at_', 'assessment_created_at', checked = saved_search_column_visibility('assessment_created_at_'), class: 'i-checks'
-                  = label_tag 'assessment_created_at_', t('datagrid.columns.assessment_created_at', assessment: t('clients.show.assessment'))
-              %li
-                .visibility.col-sm-12
-                  = check_box_tag 'date_of_assessments_', 'date_of_assessments', checked = saved_search_column_visibility('date_of_assessments_'), class: 'i-checks'
-                  = label_tag 'date_of_assessments_', t('datagrid.columns.date_of_assessments', assessment: t('clients.show.assessment'))
-              %li
-                .visibility.col-sm-12
-                  = check_box_tag 'completed_date_', 'completed_date', checked = saved_search_column_visibility('completed_date_'), class: 'i-checks'
-                  = label_tag 'completed_date_', t('datagrid.columns.assessment_completed_date', assessment: t('clients.show.assessment'))
-
-              = render partial: 'datagrid/domain_score_columns_picker', collection: Domain.csi_domains.order_by_identity, as: :domain
-          - if enable_custom_assessment?
-            - CustomAssessmentSetting.only_enable_custom_assessment.each do |cas|
-              .custom-assessment-setting{ data: { custom_assessment_setting_id: cas.id }, style: 'display: none;' }
-                = render partial: 'datagrid/custom_domain_score', locals: { custom_assessment_setting_name: cas.custom_assessment_name, custom_domains: Domain.custom_csi_domains.order_by_identity.where(custom_assessment_setting_id: cas.id) }
 
           = render 'datagrid/care_plan_column_picker'
           - if Service.count > 0
@@ -351,7 +315,7 @@
         %ul.dropdown-menu.columns-visibility
           %li
             .input-group
-              %input.form-control{ placeholder: "Search", id: "box" }
+              %input.form-control.column-search-box{ placeholder: "Search", id: "box" }
               %span.input-group-btn
                 %button.btn.btn-default.btn-clear-text{ type: "button" }
                   %i.fa.fa-close

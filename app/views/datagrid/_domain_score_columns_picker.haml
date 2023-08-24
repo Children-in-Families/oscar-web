@@ -1,5 +1,5 @@
 %li
   .visibility.col-sm-12
     - domain_text = domain.custom_domain ? "custom_#{domain.convert_identity}_" : "#{domain.convert_identity}_"
-    = check_box_tag domain_text, domain.convert_identity, checked = default_setting(domain_text, @client_default_columns) || params[:"#{domain_text}"].present? || saved_search_column_visibility(domain_text) || saved_search_column_visibility('all_csi_assessments_') || saved_search_column_visibility('all_custom_csi_assessments_'), class: 'i-checks'
+    = check_box_tag domain_text, domain.convert_identity, checked = default_setting(domain_text, @client_default_columns) || params[:"#{domain_text}"].present? || saved_search_column_visibility(domain_text), class: 'i-checks'
     = label_tag "#{domain.convert_identity}_", domain.identity

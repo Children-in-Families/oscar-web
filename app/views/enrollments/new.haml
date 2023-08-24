@@ -2,5 +2,8 @@
   .col-xs-12
     .ibox
       .ibox-title
-        %h5= "#{@programmable.name} - #{t('.new_enrollment')}"
+        %h5
+          = link_to @programmable do
+            = @programmable.name
+          %span= " - #{t('.new_enrollment')}"
       = render 'form'
