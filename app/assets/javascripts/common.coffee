@@ -33,7 +33,7 @@ CIF.Common =
       startDate: '1899,01,01',
       orientation: 'bottom',
       todayBtn: true
-    .attr('readonly', 'true').css('background-color','#ffffff').keypress (e) ->
+    .attr('readonly', 'true').attr("autocomplete", "off").css('background-color','#ffffff').keypress (e) ->
       if e.keyCode == 8
         e.preventDefault()
       return
