@@ -42,13 +42,13 @@ class ClientsController < AdminController
       current_advanced_search = AdvancedSearch.find(params[:advanced_search_id])
       @visible_fields = current_advanced_search.field_visible
     end
+
     if has_params? || params[:advanced_search_id].present? || params[:client_advanced_search].present?
       advanced_search
     else
       columns_visibility
       respond_to do |f|
         f.html do
-          next unless params['commit'].present?
           # @client_grid is invoked from ClientGridOptions#choose_grid
           client_grid             = @client_grid.scope { |scope| scope.accessible_by(current_ability) }
           @results                = client_grid.assets
@@ -56,8 +56,6 @@ class ClientsController < AdminController
           @client_grid            = @client_grid.scope { |scope| scope.accessible_by(current_ability).order(:id).page(params[:page]).per(20) }
         end
         f.xls do
-          next unless params['commit'].present?
-
           @client_grid.scope { |scope| scope.accessible_by(current_ability) }
           export_client_reports
           send_data @client_grid.to_xls, filename: "client_report-#{Time.now}.xls"
