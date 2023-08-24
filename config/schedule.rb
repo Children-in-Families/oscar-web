@@ -24,3 +24,7 @@ every :month, at: '00:00 am' do
   rake 'ngo_usage_report:generate', output: 'log/whenever.log'
   # rake 'staff_monthly_report:generate', output: 'log/whenever.log'
 end
+
+every :month, at: '2:00 am' do
+  rake 'usage_report:build_latest', output: 'log/usage_report.log'
+end

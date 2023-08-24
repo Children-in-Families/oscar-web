@@ -10,6 +10,18 @@ namespace :usage_report do
       end
     end
   end
+
+  desc "Build latest usage report"
+  task :build_latest, [:short_name] => :environment do |task, args|
+    if args.short_name
+      org = Organization.find_by!(short_name: args.short_name)
+      UsageReportBuilder.call(org, 1.month.ago.month, 1.month.ago.year)
+    else
+      Organization.without_shared.each do |org|
+        UsageReportBuilder.call(org, 1.month.ago.month, 1.month.ago.year)
+      end
+    end
+  end
 end
 
 def rebuild_report(org)
