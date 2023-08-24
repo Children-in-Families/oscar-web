@@ -129,7 +129,7 @@ class UsageReportBuilder < ServiceBase
   end
 
   def cross_referral_agencies
-    Referral.where(created_at: date_range, referred_from: organization.short_name).where("referred_to != ?", 'MoSVY External System').map { |referral| referral.ngo_name.presence || ngo_hash_mapping[referral.referred_to] }.join(', ')
+    Referral.where(created_at: date_range, referred_from: organization.short_name).where("referred_to != ?", 'MoSVY External System').map { |referral| referral.ngo_name.presence || ngo_hash_mapping[referral.referred_to] }.compact
   end
 
   def ngo_hash_mapping
