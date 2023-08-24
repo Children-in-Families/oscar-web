@@ -126,18 +126,18 @@ class UsageReportBuilder < ServiceBase
 
   def synced_cases
     data = {
-      signed_up_date: nil,
-      current_sharing: nil,
-      total: clients.count,
-      adult_female: clients.count(&:adult_female?),
-      adult_male: clients.count(&:adult_male?),
-      child_female: clients.count(&:child_female?),
-      child_male: clients.count(&:child_male?),
-      total_with_disability: clients_has_disability.count,
-      adult_female_with_disability: clients_has_disability.count(&:adult_female?),
-      adult_male_with_disability: clients_has_disability.count(&:adult_male?),
-      child_female_with_disability: clients_has_disability.count(&:child_female?),
-      child_male_with_disability: clients_has_disability.count(&:child_female?)
+      signed_up_date: organization.integrated_date,
+      current_sharing: organization.integrated?,
+      total: synced_clients.count,
+      adult_female: synced_clients.count(&:adult_female?),
+      adult_male: synced_clients.count(&:adult_male?),
+      child_female: synced_clients.count(&:child_female?),
+      child_male: synced_clients.count(&:child_male?),
+      total_with_disability: synced_clients_with_disability.count,
+      adult_female_with_disability: synced_clients_with_disability.count(&:adult_female?),
+      adult_male_with_disability: synced_clients_with_disability.count(&:adult_male?),
+      child_female_with_disability: synced_clients_with_disability.count(&:child_female?),
+      child_male_with_disability: synced_clients_with_disability.count(&:child_female?)
     }
 
     data[:adult_female_without_disability] = data[:adult_female] - data[:adult_female_with_disability]
@@ -147,6 +147,14 @@ class UsageReportBuilder < ServiceBase
     data[:other] = data[:total] - data[:adult_female] - data[:adult_male] - data[:child_male] - data[:child_female]
 
     data
+  end
+
+  def synced_clients_with_disability
+    @synced_clients_with_disability ||= Client.joins(:risk_assessment).where(risk_assessments: { has_disability: true }, clients: { id: synced_clients.map(&:id) }).to_a.uniq
+  end
+
+  def synced_clients
+    @synced_clients ||= Client.reportable.where.not(external_id: [nil, '']).where(created_at: date_range).to_a
   end
 
   def added_cases
