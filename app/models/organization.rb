@@ -97,9 +97,6 @@ class Organization < ActiveRecord::Base
           Importer::Import.new('Quantitative Case', general_data_file).quantitative_cases
           Rake::Task["field_settings:import"].invoke(org.short_name)
           Rake::Task["field_settings:import"].reenable
-
-          Thredded::MessageboardGroup.find_or_create_by(name: 'Archived', position: 0)
-
           referral_source_category = ReferralSource.find_by(name_en: referral_source_category_name)
           if referral_source_category
             referral_source = ReferralSource.find_or_create_by(name: "#{org.full_name} - OSCaR Referral")
