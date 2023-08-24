@@ -65,21 +65,21 @@ class UsageReportBuilder < ServiceBase
   end
 
   def clients_from_primero
-    @clients_from_primero ||= Client.reportable.where(synced_date: date_range).to_a
+    @clients_from_primero ||= Client.reportable.joins(:referrals).where(referrals: { created_at: date_range, referred_from: 'MoSVY External System' }).to_a.uniq
   end
 
   def cross_referral_to_primero_cases
     data = {
       total: clients_from_primero.count,
-      adult_female: clients_from_primero.count(&:adult_female?),
-      adult_male: clients_from_primero.count(&:adult_male?),
-      child_female: clients_from_primero.count(&:child_female?),
-      child_male: clients_from_primero.count(&:child_male?),
-      total_with_disability: clients_has_disability_from_primero.count,
-      adult_female_with_disability: clients_has_disability_from_primero.count(&:adult_female?),
-      adult_male_with_disability: clients_has_disability_from_primero.count(&:adult_male?),
-      child_female_with_disability: clients_has_disability_from_primero.count(&:child_female?),
-      child_male_with_disability: clients_has_disability_from_primero.count(&:child_female?),
+      adult_female: clients_to_primero.count(&:adult_female?),
+      adult_male: clients_to_primero.count(&:adult_male?),
+      child_female: clients_to_primero.count(&:child_female?),
+      child_male: clients_to_primero.count(&:child_male?),
+      total_with_disability: clients_has_disability_to_primero.count,
+      adult_female_with_disability: clients_has_disability_to_primero.count(&:adult_female?),
+      adult_male_with_disability: clients_has_disability_to_primero.count(&:adult_male?),
+      child_female_with_disability: clients_has_disability_to_primero.count(&:child_female?),
+      child_male_with_disability: clients_has_disability_to_primero.count(&:child_female?),
       provinces: []
     }
 
@@ -88,6 +88,14 @@ class UsageReportBuilder < ServiceBase
     data[:child_female_without_disability] = data[:child_female] - data[:child_female_with_disability]
     data[:child_male_without_disability]    = data[:child_male] - data[:child_male_with_disability]
     data
+  end
+
+  def clients_has_disability_to_primero
+    @clients_has_disability_to_primero ||= Client.joins(:risk_assessment).where(risk_assessments: { has_disability: true }, clients: { id: clients_to_primero.map(&:id) }).to_a.uniq
+  end
+
+  def clients_to_primero
+    @clients_to_primero ||= Client.reportable.joins(:referrals).where(referrals: { created_at: date_range, referred_to: 'MoSVY External System' }).to_a.uniq
   end
 
   def cross_referral_cases
