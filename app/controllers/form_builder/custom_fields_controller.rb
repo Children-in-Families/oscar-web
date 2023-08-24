@@ -12,9 +12,9 @@ class FormBuilder::CustomFieldsController < AdminController
 
   def new
     ngo_name = params[:ngo_name]
-     original_custom_field = get_custom_field(params[:custom_field_id], ngo_name)
+    original_custom_field = get_custom_field(params[:custom_field_id], ngo_name)
     if ngo_name.present? && original_custom_field
-       @custom_field = CustomField.new(original_custom_field.attributes.merge(id: nil))
+      @custom_field = CustomField.new(original_custom_field.attributes.merge(id: nil))
     else
       @custom_field = CustomField.new
     end
