@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   include NextClientEnrollmentTracking
   include ClientOverdueAndDueTodayForms
   include CsiConcern
+  include CacheAll
 
   ROLES = ['admin', 'manager', 'case worker', 'hotline officer', 'strategic overviewer'].freeze
   MANAGERS = ROLES.select { |role| role if role.include?('manager') }
@@ -101,15 +102,9 @@ class User < ActiveRecord::Base
     def current_user
       Thread.current[:current_user]
     end
-  end
 
-  class << self
-    def current_user=(user)
-      Thread.current[:current_user] = user
-    end
-
-    def current_user
-      Thread.current[:current_user]
+    def cache_case_workers
+      Rails.cache.fetch([Apartment::Tenant.current, self.name, 'case_workers']) { self.case_workers }
     end
   end
 
