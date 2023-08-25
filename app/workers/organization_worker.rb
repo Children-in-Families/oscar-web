@@ -7,7 +7,7 @@ class OrganizationWorker
 
     begin
       Apartment::Tenant.create(organization.short_name)
-    else Apartment::TenantExists => e
+    rescue Apartment::TenantExists => e
       Rails.logger.info "Tenant #{organization.short_name} already exists"
       # Continue
     end
