@@ -32,14 +32,14 @@ module Api
       end
 
       def create
-        if org = Organization.create_and_build_tenant(organization_params)
-          OrganizationWorker.perform_async(org.id, org.referral_source_category_name)
+        org = Organization.new(organization_params)
+        if org.save
+          OrganizationWorker.perform_async(org.id)
+
           render json: org, status: :ok
         else
           render json: { msg: org.errors }, status: :unprocessable_entity
         end
-      rescue => e
-        render json: e.message, status: :unprocessable_entity
       end
 
       def upsert
