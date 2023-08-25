@@ -56,6 +56,7 @@ class UsageReportBuilder < ServiceBase
     data[:adult_male_without_disability]   = data[:adult_male] - data[:adult_male_with_disability]
     data[:child_female_without_disability] = data[:child_female] - data[:child_female_with_disability]
     data[:child_male_without_disability]    = data[:child_male] - data[:child_male_with_disability]
+    data[:other] = data[:total] - data[:adult_female] - data[:adult_male] - data[:child_male] - data[:child_female]
     
     data
   end
@@ -87,6 +88,8 @@ class UsageReportBuilder < ServiceBase
     data[:adult_male_without_disability]   = data[:adult_male] - data[:adult_male_with_disability]
     data[:child_female_without_disability] = data[:child_female] - data[:child_female_with_disability]
     data[:child_male_without_disability]    = data[:child_male] - data[:child_male_with_disability]
+    data[:other] = data[:total] - data[:adult_female] - data[:adult_male] - data[:child_male] - data[:child_female]
+
     data
   end
 
@@ -117,6 +120,8 @@ class UsageReportBuilder < ServiceBase
     data[:adult_male_without_disability]   = data[:adult_male] - data[:adult_male_with_disability]
     data[:child_female_without_disability] = data[:child_female] - data[:child_female_with_disability]
     data[:child_male_without_disability]    = data[:child_male] - data[:child_male_with_disability]
+    data[:other] = data[:total] - data[:adult_female] - data[:adult_male] - data[:child_male] - data[:child_female]
+
     data
   end
 
