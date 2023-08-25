@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20230823121242) do
+ActiveRecord::Schema.define(version: 20230825102939) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -171,6 +171,7 @@ ActiveRecord::Schema.define(version: 20230823121242) do
   add_index "assessments", ["default"], name: "index_assessments_on_default", where: "(\"default\" = true)", using: :btree
   add_index "assessments", ["default"], name: "index_assessments_on_default_false", where: "(\"default\" = false)", using: :btree
   add_index "assessments", ["family_id"], name: "index_assessments_on_family_id", using: :btree
+  add_index "assessments", ["last_auto_save_at", "draft"], name: "index_assessments_on_last_auto_save_at_and_draft", using: :btree
   add_index "assessments", ["level_of_risk"], name: "index_assessments_on_level_of_risk", using: :btree
 
   create_table "attachments", force: :cascade do |t|
@@ -392,6 +393,7 @@ ActiveRecord::Schema.define(version: 20230823121242) do
   add_index "case_notes", ["client_id"], name: "index_case_notes_on_client_id", using: :btree
   add_index "case_notes", ["custom_assessment_setting_id"], name: "index_case_notes_on_custom_assessment_setting_id", using: :btree
   add_index "case_notes", ["family_id"], name: "index_case_notes_on_family_id", using: :btree
+  add_index "case_notes", ["last_auto_save_at", "draft"], name: "index_case_notes_on_last_auto_save_at_and_draft", using: :btree
 
   create_table "case_worker_clients", force: :cascade do |t|
     t.integer  "user_id"
@@ -1904,6 +1906,8 @@ ActiveRecord::Schema.define(version: 20230823121242) do
     t.integer  "referred_count",                default: 0
     t.integer  "exited_client",                 default: 0
     t.datetime "deleted_at"
+    t.string   "onboarding_status",             default: "pending"
+    t.integer  "users_count",                   default: 0
   end
 
   add_index "organizations", ["deleted_at"], name: "index_organizations_on_deleted_at", using: :btree

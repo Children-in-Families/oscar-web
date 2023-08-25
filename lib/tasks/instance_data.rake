@@ -8,6 +8,7 @@ namespace :instance do
           active_client: Client.active_status.count,
           accepted_client: Client.accepted.count,
           exited_client: Client.exited_ngo.count,
+          users_count: User.non_devs.count,
           referred_count: Client.joins(:referrals).distinct.count
         )
       end
