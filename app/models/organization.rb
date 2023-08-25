@@ -31,7 +31,7 @@ class Organization < ActiveRecord::Base
 
   before_save :clean_short_name, on: :create
   before_save :clean_supported_languages, if: :supported_languages?
-  after_commit :upsert_referral_source_category, on: [:create, :update]
+  after_commit :upsert_referral_source_category, on: [:update]
   after_commit :delete_referral_source_category, on: :destroy
   after_commit :flush_cache
 
