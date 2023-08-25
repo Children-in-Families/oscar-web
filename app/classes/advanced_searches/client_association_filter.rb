@@ -468,7 +468,7 @@ module AdvancedSearches
       custom_assessment_setting_id = nil
       if !type && $param_rules['basic_rules'].present?
         basic_rules = $param_rules['basic_rules'].is_a?(Hash) ? $param_rules['basic_rules'] : JSON.parse($param_rules['basic_rules']).with_indifferent_access
-        custom_assessment_setting_rule = basic_rules.select { |rule| rule['id'] == 'custom_assessment' }&.first
+        custom_assessment_setting_rule = basic_rules.select { |rule| rule['id'] == 'custom_assessment' }.first
         custom_assessment_setting_id = custom_assessment_setting_rule['value'] if custom_assessment_setting_rule
       end
 

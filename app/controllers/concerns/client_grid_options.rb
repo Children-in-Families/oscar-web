@@ -262,7 +262,7 @@ module ClientGridOptions
         assessment = eval(records).latest_record
         next unless assessment.presence?
 
-        assessment&.created_at.to_date.to_formatted_s
+        assessment.created_at.to_date.to_formatted_s
       end
     else
       @client_grid.column(column.to_sym, preload: :assessments, header: header_translation) do |client|
@@ -393,7 +393,8 @@ module ClientGridOptions
         assessment_results = map_assessment_and_score(client, identity, domain.id)
         assessments = domain.custom_domain ? assessment_results.customs : assessment_results
         assessment_domains = assessments.includes(:assessment_domains).map { |assessment| assessment.assessment_domains.joins(:domain).where(domains: { identity: identity }) }.flatten.uniq
-        assessment_domains.map { |assessment_domain| assessment_domain&.score }.join(', ')
+
+        assessment_domains.compact.map { |assessment_domain| assessment_domain.score }.compact.join(', ')
       end
     end
   end

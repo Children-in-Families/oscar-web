@@ -342,7 +342,7 @@ class ClientsController < AdminController
   end
 
   def country_address_fields
-    selected_country = Setting.cache_first&.country_name || params[:country]
+    selected_country = Setting.cache_first.country_name || params[:country]
     current_org = Organization.current.short_name
     Organization.switch_to 'shared'
     @birth_provinces = []

@@ -84,7 +84,7 @@ module AdvancedSearches
       return if @value.first == @value.last
       client_ids = []
       between_date_value = @basic_rules.second['value']
-      custom_domain      = Domain.find(@domain_id)&.
+      custom_domain      = Domain.find(@domain_id)&.custom_domain
 
       case @operator
       when 'assessment_has_changed'
