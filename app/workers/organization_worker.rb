@@ -12,9 +12,9 @@ class OrganizationWorker
       # Continue
     end
 
-    organisation.update(onboarding_status: 'seeding_default_data')
+    organization.update(onboarding_status: 'seeding_default_data')
     
     Organization.seed_generic_data(organization.id, organization.referral_source_category_name)
-    organisation.update(onboarding_status: 'completed')
+    organization.update(onboarding_status: 'completed')
   end
 end
