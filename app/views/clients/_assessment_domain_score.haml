@@ -5,7 +5,7 @@
         %button.close{"aria-label" => 'Close', "data-dismiss" => 'modal'}
           %span{"aria-hidden" => 'true'} &times;
         %h4.modal-title
-          = t('.assessment_data', assessment: Setting.cache_first.default_assessment)
+          = t('.assessment_data', assessment: current_setting.default_assessment)
 
       .modal-body
         %table.table.table-bordered.table-striped.table-hover.assessment-score-data#csi-assessment-score

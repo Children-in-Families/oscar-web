@@ -15,6 +15,7 @@ module CacheAll
   def flush_cache
     Rails.cache.delete([Apartment::Tenant.current, self.class.name])
     Rails.cache.delete([Apartment::Tenant.current, self.class.name, 'non_anonymous'])
+    Rails.cache.delete([Apartment::Tenant.current, self.class.name, 'only_enable_custom_assessment'])
     Rails.cache.delete([Apartment::Tenant.current, self.class.name, 'case_workers'])
   end
 end

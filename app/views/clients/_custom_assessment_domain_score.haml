@@ -1,4 +1,4 @@
-- CustomAssessmentSetting.where(enable_custom_assessment: true).each do |custom_csi_setting|
+- CustomAssessmentSetting.cache_only_enable_custom_assessment.each do |custom_csi_setting|
   .modal.fade.assessment-domain-score{ role: 'dialog', tabindex: '-1', id: "custom-assessment-domain-score-#{custom_csi_setting.id}", data: { 'filename' => "client_assessment_domain_report-#{Time.now}"  } }
     .modal-dialog{ role: 'document'}
       .modal-content
