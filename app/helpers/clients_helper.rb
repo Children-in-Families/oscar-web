@@ -970,10 +970,12 @@ module ClientsHelper
       sub_rule_index  = @data[:rules].index { |param| param.key?(:condition)}
       if sub_rule_index.present?
         sub_results     = @data[:rules][sub_rule_index]
-        sub_result_hash = sub_results[:rules].reject{ |h| h[:id] != rule }.map { |value| [value[:id], value[:operator], value[:value]] }
-        sub_hashes      = mapping_query_result(sub_result_hash)
-        sub_sql_hash    = mapping_query_date(object, sub_hashes, relation)
-        sub_query_array = mapping_query_string_with_query_value(sub_sql_hash, sub_results[:condition])
+        if sub_results[:rules].present?
+          sub_result_hash = sub_results[:rules].reject{ |h| h[:id] != rule }.map { |value| [value[:id], value[:operator], value[:value]] }
+          sub_hashes      = mapping_query_result(sub_result_hash)
+          sub_sql_hash    = mapping_query_date(object, sub_hashes, relation)
+          sub_query_array = mapping_query_string_with_query_value(sub_sql_hash, sub_results[:condition])
+        end
       end
     end
 

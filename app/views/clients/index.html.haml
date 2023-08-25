@@ -29,7 +29,7 @@
             %span.caret
           %ul.dropdown-menu.assessment-data-dropdown
             - assessment_options.each do |assessment|
-              - if assessment[2].present?
+              - if assessment[2] && assessment[2].key?('data-type')
                 %li.csi-0
                   = link_to '#', class: 'btn btn-default', 'data-target': "#assessment-domain-score", 'data-toggle': 'modal' do
                     = assessment[1]

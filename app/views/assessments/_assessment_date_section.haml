@@ -1,11 +1,15 @@
 .ibox
   .ibox-title
-    %h5
-      = "#{@assessment.client.name}"
-      %span= t('assessments.assessment_form')
-    .ibox-tools
-      = link_to client_assessments_path(@client), class: 'btn btn-default btn-back-default button' do
-        = t('.back')
+    .row
+      .col-xs-12.col-sm-6.co-md-6
+        %h5
+          = link_to @assessment.client do
+            = "#{@assessment.client.name}"
+          %span= t('assessments.assessment_form')
+      .col-xs-12.col-sm-6.col-md-6
+        .ibox-tools
+          = link_to client_assessments_path(@client), class: 'btn btn-default btn-back-default button' do
+            = t('.back')
   .ibox-content
     .row
       .col-xs-12.col-md-6
