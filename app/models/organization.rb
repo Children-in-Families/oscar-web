@@ -47,14 +47,12 @@ class Organization < ActiveRecord::Base
     end
 
     def create_and_build_tenant(fields = {})
-      transaction do
-        org = new(fields)
-        if org.save
-          Apartment::Tenant.create(org.short_name)
-          org
-        else
-          false
-        end
+      org = new(fields)
+      if org.save
+        Apartment::Tenant.create(org.short_name)
+        org
+      else
+        false
       end
     end
 
