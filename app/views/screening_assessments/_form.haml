@@ -4,20 +4,43 @@
   .row
     .col-md-6
       - date_label = @screening_assessment.one_off? ? t('.screening_assessment_date') : t('.assessment_date')
-      = f.input :screening_assessment_date, label: date_label, as: :string, wrapper: :horizontal_form, input_html: { value: f.object.screening_assessment_date&.to_date&.to_s, class: 'date optional form-control date-picker' }
+      = f.label :screening_assessment_date do
+        = date_label
+      %a{:role => "button", :tabIndex => "0",  data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.cb_dmat.screening_assessment_date')}", placement: "auto" } }
+        = fa_icon "info-circle", class: 'text-info m-xs'
+      = f.input :screening_assessment_date, label: false, as: :string, input_html: { value: f.object.screening_assessment_date&.to_date&.to_s, class: 'date optional form-control date-picker' }
+
     .col-md-6
       .form-group.string.optional.screening_assessment_client_age
-        = f.label :client_age, t('.client_age'), class: 'col-sm-3'
+        .col-sm-3
+          = f.label :client_age, t('.client_age')
+          %a{:role => "button", :tabIndex => "0",  data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.cb_dmat.client_age')}", placement: "auto" } }
+            = fa_icon "info-circle", class: 'text-info m-xs'
+
         .col-sm-9
           = date_of_birth_in_words(@client.date_of_birth, I18n.locale)
 
       = f.input :client_age, label: false, wrapper: :horizontal_form, input_html: { value: date_of_birth_in_words(@client.date_of_birth), class: 'hidden' }
   .row
     .col-md-6
-      = f.input :visitor, label: t('.visitor')
+      = f.label :visitor, t('.visitor')
+      %a{:role => "button", :tabIndex => "0",  data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.cb_dmat.visitor')}", placement: "auto" } }
+        = fa_icon "info-circle", class: 'text-info m-xs'
+      = f.input :visitor, label: false
+
     .col-md-6
-      = f.input :client_milestone_age, label: t('.client_milestone_age'), collection: DevelopmentalMarker.map_milestone_age_name
-  = f.input :note, label: t('.note')
+      = f.label :client_milestone_age, t('.client_milestone_age')
+      %a{:role => "button", :tabIndex => "0",  data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.cb_dmat.client_milestone_age')}", placement: "auto" } }
+        = fa_icon "info-circle", class: 'text-info m-xs'
+
+      = f.input :client_milestone_age, label: false, collection: DevelopmentalMarker.map_milestone_age_name
+
+  .row
+    .col-md-12
+      = f.label :note, t('.note')
+      %a{:role => "button", :tabIndex => "0",  data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.cb_dmat.note')}", placement: "auto" } }
+        = fa_icon "info-circle", class: 'text-info m-xs'
+      = f.input :note, label: false
   %hr/
   - if @previous_screening_assessment
     = render 'previous_screening_assessment', screening_assessment: @previous_screening_assessment
@@ -31,8 +54,14 @@
       %fieldset.fieldset-yborder{ class: is_marker_not_selected && 'hidden', data: { developmental_marker_screening_assessment_name: developmental_marker.name }  }
         = ff.hidden_field :_destroy, value: is_marker_not_selected
         %legend.legend-border
-          %h4.text-success
-            = field_to_local(developmental_marker, 'short_description')
+          %h4
+            %span.text-success
+              = field_to_local(developmental_marker, 'short_description')
+            - inline_help = by_age_translation(developmental_marker.name)
+            - if inline_help.to_s.exclude?('missing:')
+              %a{:role => "button", :tabIndex => "0",  data: { toggle: "popover", trigger: "hover", content: inline_help, placement: "right" } }
+                = fa_icon "info-circle", class: 'text-info m-xs'
+
         .row
           .col-xs-12.col-sm-12.col-md-3
             = image_tag ("cb_dmat/#{developmental_marker.name.parameterize}.png" || 'picture.png'), class: 'img-responsive'
