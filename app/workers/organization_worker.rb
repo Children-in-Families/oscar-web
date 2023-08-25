@@ -5,7 +5,13 @@ class OrganizationWorker
   def perform(org_id)
     organization = Organization.find(org_id)
 
-    Apartment::Tenant.create(organization.short_name)
+    begin
+      Apartment::Tenant.create(organization.short_name)
+    else Apartment::TenantExists => e
+      Rails.logger.info "Tenant #{organization.short_name} already exists"
+      # Continue
+    end
+
     organisation.update(onboarding_status: 'seeding_default_data')
     
     Organization.seed_generic_data(organization.id, organization.referral_source_category_name)
