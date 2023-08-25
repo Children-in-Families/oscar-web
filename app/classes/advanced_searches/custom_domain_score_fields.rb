@@ -3,9 +3,29 @@ module AdvancedSearches
     extend AdvancedSearchHelper
 
     def self.render(domain_type = 'client')
-      address_translation
+      domain_type == 'client' ? render_client_fields(domain_type) : render_family_fields(domain_type)
+    end
+
+    def self.render_client_fields(domain_type)
+      domain_score_group  = 'Custom Assessment'
+      custom_assessment_fields = []
+      custom_assessment_fields += ['custom_assessment'].map { |item| drop_list_options(item, format_header(item, domain_type), domain_score_group) }
+      custom_assessment_fields += ['custom_completed_date'].map { |item| date_picker_options(item, format_header(item, domain_type), domain_score_group) }
+      custom_assessment_fields += ['custom_assessment_created_at', 'date_of_custom_assessments'].map { |item| date_picker_options(item, format_header(item, domain_type), domain_score_group) }
+      custom_assessment_fields += ['All Custom Domains'].map { |item| number_filter_type(item.downcase.gsub(' ', '_'), domain_score_format(item), domain_score_group) }
+
+      CustomAssessmentSetting.only_enable_custom_assessment.each do |cas|
+        domain_score_group = "#{format_header('custom_csi_domain_scores', domain_type)} | #{cas.custom_assessment_name}"
+        domain_options_ = Domain.custom_csi_domains.order_by_identity.where(custom_assessment_setting_id: cas.id).map { |domain| "domainscore__#{domain.id}__#{domain.identity}" }
+        custom_assessment_fields += domain_options_.map { |item| number_filter_type(item, domain_score_format(item), domain_score_group) }
+      end
+
+      custom_assessment_fields.sort_by { |f| f[:label].downcase }
+    end
+    
+    def self.render_family_fields(domain_type)
       domain_score_group  = format_header('custom_csi_domain_scores', domain_type)
-      csi_domain_options  = domain_options(domain_type).map { |item| number_filter_type(item, domain_score_format(item), domain_score_group) }
+      csi_domain_options  = domain_options.map { |item| number_filter_type(item, domain_score_format(item), domain_score_group) }
       custom_assessments = ['custom_assessment'].map { |item| drop_list_options(item, format_header(item, domain_type), domain_score_group) }
       assessment_completed_date = ['custom_completed_date'].map { |item| date_picker_options(item, format_header(item, domain_type), domain_score_group) }
       date_of_assessments = ['date_of_custom_assessments', 'custom_assessment_created_at'].map { |item| date_picker_options(item, format_header(item, domain_type), domain_score_group) }
