@@ -37,7 +37,7 @@ class ClientsController < AdminController
   end
 
   def index
-    @client_default_columns = Setting.cache_first.try(:client_default_columns)
+    @client_default_columns = Setting.cache_first.client_default_columns
     if params[:advanced_search_id]
       current_advanced_search = AdvancedSearch.find(params[:advanced_search_id])
       @visible_fields = current_advanced_search.field_visible
@@ -119,7 +119,7 @@ class ClientsController < AdminController
       referral_attr = @referral.attributes
       attributes = {}
       Organization.switch_to 'shared'
-      attributes = SharedClient.find_by(archived_slug: referral_attr['slug']).try(:attributes) || SharedClient.find_by(slug: referral_attr['slug']).try(:attributes)
+      attributes = SharedClient.find_by(archived_slug: referral_attr['slug'])&.attributes || SharedClient.find_by(slug: referral_attr['slug'])&.attributes
       if attributes.present?
         attributes = attributes.except('id', 'duplicate_checker')
         attributes = fetch_referral_attibutes(attributes, referral_source_id, referral_attr)
@@ -336,13 +336,13 @@ class ClientsController < AdminController
     @caller_relationships = Client::RELATIONSHIP_TO_CALLER.map { |relationship| { label: relationship, value: relationship.downcase } }
     @address_types = Client::ADDRESS_TYPES.map { |type| { label: type, value: type.downcase } }
     @phone_owners = Client::PHONE_OWNERS.map { |owner| { label: owner, value: owner.downcase } }
-    @referral_source = @client && @client.referral_source.present? ? ReferralSource.where(id: @client.referral_source_id).map { |r| [r.try(:name), r.id] } : []
+    @referral_source = @client && @client.referral_source.present? ? ReferralSource.where(id: @client.referral_source_id).map { |r| [r&.name, r.id] } : []
     @referral_source_category = referral_source_name(ReferralSource.parent_categories, @client) if @client && @client.persisted?
     country_address_fields if @client
   end
 
   def country_address_fields
-    selected_country = Setting.cache_first.try(:country_name) || params[:country]
+    selected_country = Setting.cache_first&.country_name || params[:country]
     current_org = Organization.current.short_name
     Organization.switch_to 'shared'
     @birth_provinces = []
@@ -355,10 +355,10 @@ class ClientsController < AdminController
       @subdistricts             = @client.district.present? ? @client.district.cached_subdistricts : []
 
       @referee_districts        = @client.referee&.province.present? ? @client.referee.province.cached_districts : []
-      @referee_subdistricts     = @client.referee.try(:district).present? ? @client.referee.district.cached_subdistricts : []
+      @referee_subdistricts     = @client.referee&.district.present? ? @client.referee.district.cached_subdistricts : []
 
       @carer_districts          = @client.carer&.province.present? ? @client.carer.province.cached_districts : []
-      @carer_subdistricts       = @client.carer.try(:district).present? ? @client.carer.district.cached_subdistricts : []
+      @carer_subdistricts       = @client.carer&.district.present? ? @client.carer.district.cached_subdistricts : []
 
     elsif selected_country&.downcase == 'myanmar'
       @states                   = State.order(:name)
@@ -372,13 +372,13 @@ class ClientsController < AdminController
       @communes                 = @client.district.present? ? @client.district.cached_communes : []
       @villages                 = @client.commune.present? ? @client.commune.cached_villages : []
 
-      @referee_districts        = @client.referee.try(:province).present? ? @client.referee.province.cached_districts : []
-      @referee_communes         = @client.referee.try(:district).present? ? @client.referee.district.cached_communes : []
-      @referee_villages         = @client.referee.try(:commune).present? ? @client.referee.commune.cached_villages : []
+      @referee_districts        = @client.referee&.province.present? ? @client.referee.province.cached_districts : []
+      @referee_communes         = @client.referee&.district.present? ? @client.referee.district.cached_communes : []
+      @referee_villages         = @client.referee&.commune.present? ? @client.referee.commune.cached_villages : []
 
-      @carer_districts          = @client.carer.try(:province).present? ? @client.carer.province.cached_districts : []
-      @carer_communes           = @client.carer.try(:district).present? ? @client.carer.district.cached_communes : []
-      @carer_villages           = @client.carer.try(:commune).present? ? @client.carer.commune.cached_villages : []
+      @carer_districts          = @client.carer&.province.present? ? @client.carer.province.cached_districts : []
+      @carer_communes           = @client.carer&.district.present? ? @client.carer.district.cached_communes : []
+      @carer_villages           = @client.carer&.commune.present? ? @client.carer.commune.cached_villages : []
     end
   end
 
@@ -408,7 +408,7 @@ class ClientsController < AdminController
   def find_referral_source_by_referral
     referral_source_org = Organization.find_by(short_name: @referral.referred_from)&.full_name
     if referral_source_org
-      ReferralSource.child_referrals.find_by(name: "#{referral_source_org} - OSCaR Referral").try(:id)
+      ReferralSource.child_referrals.find_by(name: "#{referral_source_org} - OSCaR Referral")&.id
     else
       ReferralSource.child_referrals.find_by(name: @referral.referred_from)&.id
     end

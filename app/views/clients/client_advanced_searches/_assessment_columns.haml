@@ -7,7 +7,7 @@
       %ul.dropdown-menu.columns-visibility.append-child
         - if enable_default_assessment?
           .custom-assessment-setting{ data: { custom_assessment_setting_id: 0 }, style: 'display: none;' }
-            - if current_organization.try(:aht) == true
+            - if current_organization.aht?
               %li.custom-assessment-devider{ style: 'padding-left: 15px; padding-bottom: 5px;'}
                 %strong= t('.result_framework_assessment')
               %li
@@ -18,7 +18,7 @@
             %li
               .visibility.col-sm-12
                 = check_box_tag 'all_csi_assessments_', 'all_csi_assessments', checked = saved_search_column_visibility('all_csi_assessments_'), class: 'i-checks'
-                - if current_organization.try(:aht) == true
+                - if current_organization.aht?
                   = label_tag 'all_result_framework_assessments_', t('datagrid.columns.all_result_framework_assessment')
                 - else
                   = label_tag 'all_csi_assessments_', t('datagrid.columns.all_csi_assessments', assessment: t('clients.show.assessment'))

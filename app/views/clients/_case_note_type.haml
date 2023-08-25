@@ -1,5 +1,5 @@
 - if params[:data] == 'recent'
-  - recent_record = object.case_notes.most_recents.order(meeting_date: :desc).first.try(:interaction_type)
+  - recent_record = object.case_notes.most_recents.order(meeting_date: :desc).first&.interaction_type
   - if recent_record.present?
     %ul{'data-case_note_type': '' }
       %li= recent_record

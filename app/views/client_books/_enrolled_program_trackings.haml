@@ -4,7 +4,7 @@
       .ibox.collapsed
         .ibox-title
           %h5
-            = "#{t('.tracking')} (#{enrollment_tracking.program_stream_name}), (#{enrollment_tracking.tracking.try(:name)}) - #{@client.en_and_local_name}"
+            = "#{t('.tracking')} (#{enrollment_tracking.program_stream_name}), (#{enrollment_tracking.tracking&.name}) - #{@client.en_and_local_name}"
           %h5
             = "#{I18n.t('client_books.completed')}:"
             = date_format(date)

@@ -1,5 +1,5 @@
 - if params[:data] == 'recent'
-  - recent_record = object.referrals.most_recents.first.try(&:date_of_referral)
+  - recent_record = object.referrals.most_recents.first&.date_of_referral
   - if recent_record.present?
     %p= date_format(recent_record)
 - else

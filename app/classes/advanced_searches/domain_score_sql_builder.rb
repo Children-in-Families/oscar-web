@@ -33,7 +33,7 @@ module AdvancedSearches
     def domainscore_field_query
       assessments   = []
       domain        = Domain.find(@domain_id)
-      custom_domain = domain.try(:custom_domain)
+      custom_domain = domain&.custom_domain
       identity      = domain.identity
       clients       = Client.includes(assessments: :assessment_domains).references(:assessments)
       if $param_rules.nil?
@@ -84,7 +84,7 @@ module AdvancedSearches
       return if @value.first == @value.last
       client_ids = []
       between_date_value = @basic_rules.second['value']
-      custom_domain      = Domain.find(@domain_id).try(:custom_domain)
+      custom_domain      = Domain.find(@domain_id)&.
 
       case @operator
       when 'assessment_has_changed'
@@ -424,7 +424,7 @@ module AdvancedSearches
                 (scores.compact.sum.to_f / assessment.assessment_domains.size.to_f).round != @value.to_i
               end
             end
-            assessment.first.try(:client_id)
+            assessment.first&.client_id
           end
           client_ids.compact
         end
@@ -526,7 +526,7 @@ module AdvancedSearches
                 (scores.compact.sum.to_f / assessment.assessment_domains.size.to_f).round != @value.to_i
               end
             end
-            assessment.first.try(:client_id)
+            assessment.first&.client_id
           end
           client_ids.compact
         end

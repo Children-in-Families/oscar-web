@@ -1,5 +1,5 @@
 - if params[:data].presence == 'recent'
-  - recent_record = object.enter_ngos.most_recents.first.try(:accepted_date)
+  - recent_record = object.enter_ngos.most_recents.first&.accepted_date
   - if recent_record.present?
     %ul{'data-accepted_date': '' }
       %li= date_format(recent_record)

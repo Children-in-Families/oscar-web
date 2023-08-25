@@ -21,7 +21,7 @@
                   %h5= "#{@assessment.family.name}"
                   - if current_setting.show_prev_assessment? && @prev_assessment.present?
                     %span= "(Current Assessment)"
-                  - if current_organization.try(:aht) == true
+                  - if current_organization.aht?
                     %label.label.label-success
                       = "#{domain.name} (#{domain.identity})"
                   - else

@@ -1,5 +1,5 @@
 - if params[:data].presence == 'recent'
-  - recent_record = object.exit_ngos.most_recents.first.try(:other_info_of_exit)
+  - recent_record = object.exit_ngos.most_recents.first&.other_info_of_exit
   - if recent_record.present?
     %ul
       %li= recent_record

@@ -17,7 +17,7 @@
           .row
             .col-xs-12.col-sm-6.col-md-6
               %h3= @client.en_and_local_name
-              %h3= "#{@client.gender.try(:capitalize)} #{date_format(@client.date_of_birth)}"
+              %h3= "#{@client.gender&.capitalize} #{date_format(@client.date_of_birth)}"
               .form-inputs
                 .form-group.date.client_exit_date
                   %label.date.required.control-label{ for: 'client_exit_date' }
