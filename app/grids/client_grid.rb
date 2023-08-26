@@ -9,7 +9,7 @@ class ClientGrid < BaseGrid
   COUNTRY_LANG = { "cambodia" => "(Khmer)", "thailand" => "(Thai)", "myanmar" => "(Burmese)", "lesotho" => "(Sesotho)", "uganda" => "(Swahili)" }
 
   scope do
-    Client
+    Client.includes(:village, :commune, :district, :province, :family_member)
   end
 
   %w(given_name family_name local_given_name local_family_name).each do |field_name|
@@ -554,17 +554,17 @@ class ClientGrid < BaseGrid
   end
 
   column(:program_streams, html: true, order: false, header: -> { I18n.t('datagrid.columns.clients.program_streams') }) do |object, a, b, c|
-    client_enrollments = program_stream_name(object.client_enrollments.active, 'active_program_stream')
-    render partial: 'clients/active_client_enrollments', locals: { active_programs: client_enrollments }
+    # client_enrollments = program_stream_name(object.client_enrollments.active, 'active_program_stream')
+    # render partial: 'clients/active_client_enrollments', locals: { active_programs: client_enrollments }
   end
 
-  column(:received_by, order: proc { |object| object.joins(:received_by).order('users.first_name, users.last_name')}, html: true, header: -> { I18n.t('datagrid.columns.clients.received_by') }) do |object|
+  column(:received_by, preload: :received_by, order: proc { |object| object.joins(:received_by).order('users.first_name, users.last_name')}, html: true, header: -> { I18n.t('datagrid.columns.clients.received_by') }) do |object|
     render partial: 'clients/users', locals: { object: object.received_by } if object.received_by
   end
 
   column(:type_of_service, html: true, order: false, header: -> { I18n.t('datagrid.columns.clients.type_of_service') }) do |object|
-    services = map_type_of_services(object)
-    render partial: 'clients/type_of_services', locals: { type_of_services: services }
+    # services = map_type_of_services(object)
+    # render partial: 'clients/type_of_services', locals: { type_of_services: services }
   end
 
   def call_fields
@@ -598,31 +598,31 @@ class ClientGrid < BaseGrid
     end
   end
 
-  column(:referee_name, header: -> { I18n.t('datagrid.columns.clients.referee_name') }) do |object|
-    object.referee && object.referee.name
+  column(:referee_name, preload: :referee, header: -> { I18n.t('datagrid.columns.clients.referee_name') }) do |object|
+    object.referee&.name
   end
 
-  column(:referee_phone, header: -> { I18n.t('datagrid.columns.clients.referee_phone') }) do |object|
-    object.referee && object.referee.phone
+  column(:referee_phone, preload: :referee, header: -> { I18n.t('datagrid.columns.clients.referee_phone') }) do |object|
+    object.referee&.phone
   end
 
-  column(:referee_email, header: -> { I18n.t('datagrid.columns.clients.referee_email') }) do |object|
-    object.referee && object.referee.email
+  column(:referee_email, preload: :referee, header: -> { I18n.t('datagrid.columns.clients.referee_email') }) do |object|
+    object.referee&.email
   end
 
-  column(:carer_name, header: -> { I18n.t('activerecord.attributes.carer.name') }) do |object|
-    object.carer && object.carer.name
+  column(:carer_name, preload: :carer, header: -> { I18n.t('activerecord.attributes.carer.name') }) do |object|
+    object.carer&.name
   end
 
-  column(:carer_phone, header: -> { I18n.t('activerecord.attributes.carer.phone') }) do |object|
-    object.carer && object.carer.phone
+  column(:carer_phone, preload: :carer, header: -> { I18n.t('activerecord.attributes.carer.phone') }) do |object|
+    object.carer&.phone
   end
 
-  column(:carer_email, header: -> { I18n.t('activerecord.attributes.carer.email') }) do |object|
-    object.carer && object.carer.email
+  column(:carer_email, preload: :carer, header: -> { I18n.t('activerecord.attributes.carer.email') }) do |object|
+    object.carer&.email
   end
 
-  column(:carer_relationship_to_client, header: -> { I18n.t('datagrid.columns.clients.carer_relationship_to_client') }) do |object|
+  column(:carer_relationship_to_client, preload: :carer, header: -> { I18n.t('datagrid.columns.clients.carer_relationship_to_client') }) do |object|
     object.carer&.client_relationship
   end
 
@@ -663,8 +663,8 @@ class ClientGrid < BaseGrid
     object.followed_up_by.try(:name)
   end
 
-  column(:referred_to, order: false, header: -> { I18n.t('datagrid.columns.clients.referred_to') }) do |object|
-    short_names = object.referrals.pluck(:referred_to)
+  column(:referred_to, preload: :referrals, order: false, header: -> { I18n.t('datagrid.columns.clients.referred_to') }) do |object|
+    short_names = object.referrals.map(&:referred_to)
     org_names   = Organization.cached_organization_short_names(short_names)
     if short_names.include?('external referral')
       org_names << "I don't see the NGO I'm looking for"
@@ -674,40 +674,31 @@ class ClientGrid < BaseGrid
     org_names.join(', ')
   end
 
-  column(:referred_from, order: false, header: -> { I18n.t('datagrid.columns.clients.referred_from') }) do |object|
-    short_names = object.referrals.pluck(:referred_from)
+  column(:referred_from, preload: :referrals, order: false, header: -> { I18n.t('datagrid.columns.clients.referred_from') }) do |object|
+    short_names = object.referrals.map(&:referred_from)
     org_names = Organization.cached_organization_short_names(short_names)
     org_names << "MoSVY External System" if short_names.include?("MoSVY External System")
 
     org_names.join(', ')
   end
 
-  column(:referred_in, order: false, header: -> { I18n.t('advanced_search.fields.referred_in') }) do |object|
-    object.referrals.received.count
+  column(:referred_in, preload: :referrals, order: false, header: -> { I18n.t('advanced_search.fields.referred_in') }) do |object|
+    object.referrals.to_a.count(&:received?)
   end
 
-  column(:referred_out, order: false, header: -> { I18n.t('advanced_search.fields.referred_out') }) do |object|
-    object.referrals.delivered.count
+  column(:referred_out, preload: :referrals, order: false, header: -> { I18n.t('advanced_search.fields.referred_out') }) do |object|
+    object.referrals.to_a.count(&:delivered?)
   end
 
-  column(:agency, order: false, header: -> { I18n.t('datagrid.columns.clients.agencies_involved') }) do |object|
-    object.agencies.pluck(:name).join(', ')
+  column(:agency, preload: :agencies, order: false, header: -> { I18n.t('datagrid.columns.clients.agencies_involved') }) do |object|
+    object.agencies.map(&:name).join(', ')
   end
 
   column(:date_of_birth, html: true, header: -> { I18n.t('datagrid.columns.clients.date_of_birth') }) do |object|
-    current_org = Organization.current
-    Organization.switch_to 'shared'
-    date_of_birth = SharedClient.cached_shared_client_date_of_birth(object.slug)
-    Organization.switch_to current_org.short_name
-    date_of_birth.present? ? date_of_birth.strftime("%d %B %Y") : ''
-  end
-
-  column(:date_of_birth, html: false, header: -> { I18n.t('datagrid.columns.clients.date_of_birth') }) do |object|
-    current_org = Organization.current
-    Organization.switch_to 'shared'
-    date_of_birth = SharedClient.cached_shared_client_date_of_birth(object.slug)
-    Organization.switch_to current_org.short_name
-    date_of_birth.present? ? date_of_birth : ''
+    Apartment::Tenant.switch('shared') do
+      date_of_birth = SharedClient.cached_shared_client_date_of_birth(object.slug)
+      date_of_birth&.strftime("%d %B %Y")
+    end
   end
 
   column(:age, header: -> { I18n.t('datagrid.columns.clients.age') }, order: 'clients.date_of_birth desc') do |object|
@@ -751,11 +742,9 @@ class ClientGrid < BaseGrid
       end
 
       column(:birth_province_id, html: true, header: -> { I18n.t('datagrid.columns.clients.birth_province') }) do |object|
-        current_org = Organization.current
-        Organization.switch_to 'shared'
-        birth_province = SharedClient.cached_shared_client_birth_province_name(object.slug)
-        Organization.switch_to current_org.short_name
-        birth_province
+        Apartment::Tenant.switch('shared') do
+          SharedClient.cached_shared_client_birth_province_name(object.slug)
+        end
       end
 
       if I18n.locale == :km
@@ -927,9 +916,10 @@ class ClientGrid < BaseGrid
 
   column(:relevant_referral_information, header: -> { I18n.t('datagrid.columns.clients.relevant_referral_information') })
 
-  column(:referral_source_id, order: proc { |object| Client.cached_client_referral_source_name(object) }, header: -> { I18n.t('datagrid.columns.clients.referral_source') }) do |object|
-    object.referral_source.try(:name)
+  column(:referral_source_id, preload: :referral_source, order: proc { |object| Client.cached_client_referral_source_name(object) }, header: -> { I18n.t('datagrid.columns.clients.referral_source') }) do |object|
+    object.referral_source&.name
   end
+
   column(:referral_source_category_id, order: proc { |object| Client.cached_client_referral_source_name(object) }, header: -> { I18n.t('datagrid.columns.clients.referral_source_category') }) do |object|
     if I18n.locale == :km
       ReferralSource.cached_referral_source_try_name(object.referral_source_category_id)
@@ -938,30 +928,36 @@ class ClientGrid < BaseGrid
     end
   end
 
-  column(:accepted_date, order: false, header: -> { I18n.t('datagrid.columns.clients.ngo_accepted_date') }, html: true) do |object|
-    render partial: 'clients/accepted_dates', locals: { object: object }
+  column(:accepted_date, preload: :enter_ngos, order: false, header: -> { I18n.t('datagrid.columns.clients.ngo_accepted_date') }, html: true) do |object|
+    enter_ngos = object.enter_ngos.sort_by(&:created_at).reverse
+    render partial: 'clients/accepted_dates', locals: { enter_ngos: enter_ngos }
   end
 
-  column(:exit_date, order: false, header: -> { I18n.t('datagrid.columns.clients.ngo_exit_date') }, html: true) do |object|
-    render partial: 'clients/exit_dates', locals: { object: object }
+  column(:exit_date, preload: :exit_ngos, order: false, header: -> { I18n.t('datagrid.columns.clients.ngo_exit_date') }, html: true) do |object|
+    exit_ngos = object.exit_ngos.sort_by(&:created_at).reverse
+    render partial: 'clients/exit_dates', locals: { exit_ngos: exit_ngos }
   end
 
   column(:rejected_note, header: -> { I18n.t('datagrid.columns.clients.rejected_note') })
 
-  column(:exit_circumstance, order: false, html: true, header: -> { I18n.t('datagrid.columns.clients.exit_circumstance') }) do |object|
-    render partial: 'clients/exit_circumstances', locals: { object: object }
+  column(:exit_circumstance, preload: :exit_ngos, order: false, html: true, header: -> { I18n.t('datagrid.columns.clients.exit_circumstance') }) do |object|
+    exit_ngos = object.exit_ngos.sort_by(&:created_at).reverse
+    render partial: 'clients/exit_circumstances', locals: { exit_ngos: exit_ngos }
   end
 
-  column(:exit_reasons, order: false, html: true, header: -> { I18n.t('datagrid.columns.clients.exit_reasons') }) do |object|
-    render partial: 'clients/exit_reasons', locals: { object: object }
+  column(:exit_reasons, preload: :exit_ngos, order: false, html: true, header: -> { I18n.t('datagrid.columns.clients.exit_reasons') }) do |object|
+    exit_ngos = object.exit_ngos.sort_by(&:created_at).reverse
+    render partial: 'clients/exit_reasons', locals: { exit_ngos: exit_ngos }
   end
 
-  column(:other_info_of_exit, order: false, html: true, header: -> { I18n.t('datagrid.columns.clients.other_info_of_exit') }) do |object|
-    render partial: 'clients/other_info_of_exits', locals: { object: object }
+  column(:other_info_of_exit, preload: :exit_ngos, order: false, html: true, header: -> { I18n.t('datagrid.columns.clients.other_info_of_exit') }) do |object|
+    exit_ngos = object.exit_ngos.sort_by(&:created_at).reverse
+    render partial: 'clients/other_info_of_exits', locals: { exit_ngos: exit_ngos }
   end
 
-  column(:exit_note, order: false, html: true, header: -> { I18n.t('datagrid.columns.clients.exit_note') }) do |object|
-    render partial: 'clients/exit_notes', locals: { object: object }
+  column(:exit_note, preload: :exit_ngos, order: false, html: true, header: -> { I18n.t('datagrid.columns.clients.exit_note') }) do |object|
+    exit_ngos = object.exit_ngos.sort_by(&:created_at).reverse
+    render partial: 'clients/exit_notes', locals: { exit_ngos: exit_ngos }
   end
 
   column(:what3words, header: -> { I18n.t('datagrid.columns.clients.what3words') }) do |object|
@@ -976,16 +972,16 @@ class ClientGrid < BaseGrid
     object.rated_for_id_poor
   end
 
-  column(:user_id, order: false, header: -> { I18n.t('datagrid.columns.clients.case_worker') }) do |object|
-    object.users.distinct.map{ |case_worker| "#{case_worker.first_name} #{case_worker.last_name}".squish }.join(', ')
+  column(:user_id, preload: :users, order: false, header: -> { I18n.t('datagrid.columns.clients.case_worker') }) do |object|
+    object.users.uniq.map{ |case_worker| "#{case_worker.first_name} #{case_worker.last_name}".squish }.join(', ')
   end
 
-  column(:donor_name, order: false, header: -> { I18n.t('datagrid.columns.clients.donor')}) do |object|
-    object.donors.distinct.map(&:name).join(', ')
+  column(:donor_name, preload: :donors, order: false, header: -> { I18n.t('datagrid.columns.clients.donor')}) do |object|
+    object.donors.uniq.map(&:name).join(', ')
   end
 
   column(:arrival_at, header: -> { I18n.t('clients.form.arrival_at')}) do |object|
-    object.arrival_at.present? ? object.arrival_at.strftime("%Y-%m-%d %H:%M") : ''
+    object.arrival_at&.strftime("%Y-%m-%d %H:%M")
   end
 
   column(:flight_nb, order: false, header: -> { I18n.t('clients.form.flight_nb')})
@@ -997,32 +993,32 @@ class ClientGrid < BaseGrid
     object.mo_savy_officials.map{ |mo_savy_official| "#{mo_savy_official.name} #{mo_savy_official.position}".squish }.join(', ')
   end
 
-  column(:family_id, order: false, header: -> { I18n.t('advanced_search.fields.family_id') }) do |object|
-    object.family.try(:id)
+  column(:family_id, preload: :family, order: false, header: -> { I18n.t('advanced_search.fields.family_id') }) do |object|
+    object.family&.id
   end
 
-  column(:family, order: false, header: -> { I18n.t('datagrid.columns.clients.placements.family') }) do |object|
-    object.family.try(:name)
+  column(:family, preload: :family, order: false, header: -> { I18n.t('datagrid.columns.clients.placements.family') }) do |object|
+    object.family&.name
   end
 
-  column(:family_type, order: false, header: -> { I18n.t('datagrid.columns.families.family_type') }) do |object|
-    object.family.try(:family_type)
+  column(:family_type, preload: :family, order: false, header: -> { I18n.t('datagrid.columns.families.family_type') }) do |object|
+    object.family&.family_type
   end
 
   column(:case_note_date, header: -> { I18n.t('datagrid.columns.clients.case_note_date')}, html: true) do |object|
-    render partial: 'clients/case_note_date', locals: { object: object }
+    # render partial: 'clients/case_note_date', locals: { object: object }
   end
 
   column(:case_note_type, header: -> { I18n.t('datagrid.columns.clients.case_note_type')}, html: true) do |object|
-    render partial: 'clients/case_note_type', locals: { object: object }
+    # render partial: 'clients/case_note_type', locals: { object: object }
   end
 
   column(:assessment_created_at, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.assessment_created_at', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
-    render partial: 'clients/assessments', locals: { object: object.assessments.defaults.order(:created_at), assessment_field_name: nil }
+    # render partial: 'clients/assessments', locals: { object: object.assessments.defaults.order(:created_at), assessment_field_name: nil }
   end
 
   column(:date_of_assessments, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.date_of_assessments', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
-    render partial: 'clients/assessments', locals: { object: object.assessments.defaults.order(:assessment_date), assessment_field_name: 'assessment_date' }
+    # render partial: 'clients/assessments', locals: { object: object.assessments.defaults.order(:assessment_date), assessment_field_name: 'assessment_date' }
   end
 
   column(:completed_date, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.assessment_completed_date', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
@@ -1054,23 +1050,23 @@ class ClientGrid < BaseGrid
   end
 
   column(:date_of_referral, header: -> { I18n.t('datagrid.columns.clients.date_of_referral') }, html: true) do |object|
-    render partial: 'clients/referral', locals: { object: object }
+    # render partial: 'clients/referral', locals: { object: object }
   end
 
   column(:custom_assessment_created_at, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.custom_assessment_created_at', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
-    render partial: 'clients/assessments', locals: { object: object.assessments.customs.order(:created_at), assessment_field_name: nil }
+    # render partial: 'clients/assessments', locals: { object: object.assessments.customs.order(:created_at), assessment_field_name: nil }
   end
 
   column(:date_of_custom_assessments, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.date_of_custom_assessments', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
-    render partial: 'clients/assessments', locals: { object: object.assessments.customs.order(:assessment_date), assessment_field_name: 'assessment_date' }
+    # render partial: 'clients/assessments', locals: { object: object.assessments.customs.order(:assessment_date), assessment_field_name: 'assessment_date' }
   end
 
   column(:custom_assessment, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.custom_assessment', assessment: I18n.t('clients.show.assessment')) }) do |object|
-    custom_assessment_names = object.assessments.customs.joins(domains: :custom_assessment_setting).order(:created_at).distinct.pluck('custom_assessment_settings.custom_assessment_name', 'assessments.created_at')
-    custom_assessment_names = custom_assessment_names.map{|custom_assessment_name, assessment_date| "#{custom_assessment_name} (#{assessment_date.strftime("%d %B %Y")})"  }
-    format(custom_assessment_names.join(', ')) do |values|
-      unorderred_list(values.split(', '))
-    end
+    # custom_assessment_names = object.assessments.customs.joins(domains: :custom_assessment_setting).order(:created_at).distinct.pluck('custom_assessment_settings.custom_assessment_name', 'assessments.created_at')
+    # custom_assessment_names = custom_assessment_names.map{|custom_assessment_name, assessment_date| "#{custom_assessment_name} (#{assessment_date.strftime("%d %B %Y")})"  }
+    # format(custom_assessment_names.join(', ')) do |values|
+    #   unorderred_list(values.split(', '))
+    # end
   end
 
   column(:custom_completed_date, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.assessment_custom_completed_date', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
@@ -1102,45 +1098,45 @@ class ClientGrid < BaseGrid
   end
 
   column(:care_plan_date, header: -> { I18n.t('care_plans.care_plan_date') }, html: true) do |object|
-    render partial: 'shared/care_plans/care_plan_date', locals: { object: object.care_plans }
+    # render partial: 'shared/care_plans/care_plan_date', locals: { object: object.care_plans }
   end
 
   column(:care_plan_completed_date, header: -> { I18n.t('datagrid.columns.clients.care_plan_completed_date') }, html: true) do |object|
-    render partial: 'shared/care_plans/care_plans', locals: { object: object.care_plans }
+    # render partial: 'shared/care_plans/care_plans', locals: { object: object.care_plans }
   end
 
   column(:care_plan_count, header: -> { I18n.t('datagrid.columns.clients.care_plan_count') }, html: true, class: 'hide') do |object|
   end
 
   column(:time_in_ngo, header: -> { I18n.t('datagrid.columns.clients.time_in_ngo') }) do |object|
-    if object.time_in_ngo.present?
-      time_in_ngo = object.time_in_ngo
-      years = I18n.t('clients.show.time_in_care_around.year', count: time_in_ngo[:years]) if time_in_ngo[:years] > 0
-      months = I18n.t('clients.show.time_in_care_around.month', count: time_in_ngo[:months]) if time_in_ngo[:months] > 0
-      days = I18n.t('clients.show.time_in_care_around.day', count: time_in_ngo[:days]) if time_in_ngo[:days] > 0
-      [years, months, days].join(' ')
-    end
+    # if object.time_in_ngo.present?
+    #   time_in_ngo = object.time_in_ngo
+    #   years = I18n.t('clients.show.time_in_care_around.year', count: time_in_ngo[:years]) if time_in_ngo[:years] > 0
+    #   months = I18n.t('clients.show.time_in_care_around.month', count: time_in_ngo[:months]) if time_in_ngo[:months] > 0
+    #   days = I18n.t('clients.show.time_in_care_around.day', count: time_in_ngo[:days]) if time_in_ngo[:days] > 0
+    #   [years, months, days].join(' ')
+    # end
   end
 
   column(:time_in_cps, header: -> { I18n.t('datagrid.columns.clients.time_in_cps') }) do |object|
-    cps_lists = []
-    if object.time_in_cps.present?
-      time_in_cps = object.time_in_cps
-      time_in_cps.each do |cps|
-        unless cps[1].blank?
-          years = I18n.t('clients.show.time_in_care_around.year', count: cps[1][:years]) if (cps[1][:years].present? && cps[1][:years] > 0)
-          months = I18n.t('clients.show.time_in_care_around.month', count: cps[1][:months]) if (cps[1][:months].present? && cps[1][:months] > 0)
-          days = I18n.t('clients.show.time_in_care_around.day', count: cps[1][:days]) if (cps[1][:days].present? && cps[1][:days] > 0)
-          time_in_cps = [years, months, days].join(' ')
-          cps_lists << [cps[0], time_in_cps].join(': ')
-        end
-      end
-    end
-    cps_lists.join(", ")
+    # cps_lists = []
+    # if object.time_in_cps.present?
+    #   time_in_cps = object.time_in_cps
+    #   time_in_cps.each do |cps|
+    #     unless cps[1].blank?
+    #       years = I18n.t('clients.show.time_in_care_around.year', count: cps[1][:years]) if (cps[1][:years].present? && cps[1][:years] > 0)
+    #       months = I18n.t('clients.show.time_in_care_around.month', count: cps[1][:months]) if (cps[1][:months].present? && cps[1][:months] > 0)
+    #       days = I18n.t('clients.show.time_in_care_around.day', count: cps[1][:days]) if (cps[1][:days].present? && cps[1][:days] > 0)
+    #       time_in_cps = [years, months, days].join(' ')
+    #       cps_lists << [cps[0], time_in_cps].join(': ')
+    #     end
+    #   end
+    # end
+    # cps_lists.join(", ")
   end
 
   column(:indirect_beneficiaries, header: -> { I18n.t('datagrid.columns.clients.indirect_beneficiaries') }) do |object|
-    object.indirect_beneficiaries
+    # object.indirect_beneficiaries
   end
 
   dynamic do
@@ -1275,36 +1271,37 @@ class ClientGrid < BaseGrid
   end
 
   column(:level_of_risk, class: 'text-center', html: true, header: -> { I18n.t('risk_assessments._attr.level_of_risk') }) do |object|
-    risk_assessment = object.risk_assessment
-    assessments = [risk_assessment, *object.assessments.client_risk_assessments]
-    render partial: 'clients/level_of_risk_list', locals: { assessments: assessments.compact }
+    # risk_assessment = object.risk_assessment
+    # assessments = [risk_assessment, *object.assessments.client_risk_assessments]
+    # render partial: 'clients/level_of_risk_list', locals: { assessments: assessments.compact }
   end
 
   column(:date_of_risk_assessment, class: 'text-center', html: true, header: -> { I18n.t('risk_assessments._attr.assessment_date') }) do |object|
-    risk_assessment = object.risk_assessment
-    assessments = [risk_assessment, *object.assessments.client_risk_assessments]
-    render partial: 'clients/risk_assessment_list', locals: { assessments: assessments.compact }
+    # risk_assessment = object.risk_assessment
+    # assessments = [risk_assessment, *object.assessments.client_risk_assessments]
+    # render partial: 'clients/risk_assessment_list', locals: { assessments: assessments.compact }
   end
 
-  column(:has_disability, class: 'text-center', header: -> { I18n.t('risk_assessments._attr.has_disability') }) do |object|
+  column(:has_disability, preload: :risk_assessment, class: 'text-center', header: -> { I18n.t('risk_assessments._attr.has_disability') }) do |object|
     risk_assessment = object.risk_assessment
-    format(risk_assessment.try(:has_disability) ? 'Yes' : 'No')
+    format(risk_assessment&.has_disability ? 'Yes' : 'No')
   end
 
-  column(:has_hiv_or_aid, class: 'text-center', header: -> { I18n.t('risk_assessments._attr.has_hiv_or_aid') }) do |object|
+  column(:has_hiv_or_aid, preload: :risk_assessment, class: 'text-center', header: -> { I18n.t('risk_assessments._attr.has_hiv_or_aid') }) do |object|
     risk_assessment = object.risk_assessment
-    format(risk_assessment.try(:has_hiv_or_aid) ? 'Yes' : 'No')
+    format(risk_assessment&.has_hiv_or_aid ? 'Yes' : 'No')
   end
 
-  column(:has_known_chronic_disease, class: 'text-center', header: -> { I18n.t('risk_assessments._attr.has_known_chronic_disease') }) do |object|
+  column(:has_known_chronic_disease, preload: :risk_assessment, class: 'text-center', header: -> { I18n.t('risk_assessments._attr.has_known_chronic_disease') }) do |object|
     risk_assessment = object.risk_assessment
-    format(risk_assessment.try(:has_known_chronic_disease) ? 'Yes' : 'No')
+    format(risk_assessment&.has_known_chronic_disease ? 'Yes' : 'No')
   end
 
   dynamic do
     column(:manage, html: true, class: 'text-center', header: -> { I18n.t('datagrid.columns.clients.manage') }) do |object|
-      render partial: 'clients/actions', locals: { object: object }
+      # render partial: 'clients/actions', locals: { object: object }
     end
+
     column(:changelog, html: true, class: 'text-center', header: -> { I18n.t('datagrid.columns.clients.changelogs') }) do |object|
       link_to t('datagrid.columns.clients.view'), client_version_path(object)
     end

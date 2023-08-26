@@ -36,6 +36,14 @@ class Referral < ActiveRecord::Base
   scope :externals, -> { where(referred_to: 'external referral') }
   scope :get_external_systems, ->(external_system_name){ where("referrals.ngo_name = ?", external_system_name) }
 
+  def received?
+    referred_to == Organization.current.short_name
+  end
+
+  def delivered?
+    referred_from == Organization.current.short_name
+  end
+
   def non_oscar_ngo?
     referred_to =~ /external/i
   end
