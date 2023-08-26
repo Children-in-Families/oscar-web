@@ -1,23 +1,22 @@
-- if false
-  %tr{ data: { href: get_object_path(asset) }, class: options[:cycle] && cycle(*options[:cycle]) }
-    - grid.html_columns(*options[:columns]).each do |column|
-      - next if column.header == t('.changelog') && !current_user.admin?
+%tr{ data: { href: get_object_path(asset) }, class: options[:cycle] && cycle(*options[:cycle]) }
+  - grid.html_columns(*options[:columns]).each do |column|
+    - next if column.header == t('.changelog') && !current_user.admin?
 
-      - if grid.instance_of?(FamilyGrid)
-        - field_name = column.name
-        - field_name = 'member_count' if field_name.to_s.include?('significant_family_member_count')
-        - next unless policy(Family).show?(field_name)
-      - elsif grid.instance_of?(ClientGrid)
-        - next unless policy(Client).show?(column.name.to_s)
+    - if grid.instance_of?(FamilyGrid)
+      - field_name = column.name
+      - field_name = 'member_count' if field_name.to_s.include?('significant_family_member_count')
+      - next unless policy(Family).show?(field_name)
+    - elsif grid.instance_of?(ClientGrid)
+      - next unless policy(Client).show?(column.name.to_s)
 
-      - col = datagrid_column_classes(grid, column)
-      - if col == 'history_of_disability_and_or_illness' || col == 'history_of_harm' || col ==  'history_of_high_risk_behaviours' || col == 'reason_for_family_separation'
-        %td{ class: col }
-          .td-content
-            %ul
-              - datagrid_value(grid, column, asset).split(',').each do |qc|
-                %li= qc
-      - else
-        %td{ style: ('vertical-align: middle;' if column.header == 'Manage'), class: datagrid_column_classes(grid, column)}
-          .td-content
-            = datagrid_value(grid, column, asset)
+    - col = datagrid_column_classes(grid, column)
+    - if col == 'history_of_disability_and_or_illness' || col == 'history_of_harm' || col ==  'history_of_high_risk_behaviours' || col == 'reason_for_family_separation'
+      %td{ class: col }
+        .td-content
+          %ul
+            - datagrid_value(grid, column, asset).split(',').each do |qc|
+              %li= qc
+    - else
+      %td{ style: ('vertical-align: middle;' if column.header == 'Manage'), class: datagrid_column_classes(grid, column)}
+        .td-content
+          = datagrid_value(grid, column, asset)
