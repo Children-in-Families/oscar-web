@@ -24,7 +24,7 @@ module Api
     def assessments
       $param_rules = params
       basic_rules = JSON.parse(params[:basic_rules] || "{}")
-      clients = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability))
+      clients, _query = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability))
 
       assessments = Assessment.joins(:client).where(default: params[:default], client_id: clients.filter.ids)
       assessments = assessments.joins(:custom_assessment_setting).where(custom_assessment_settings: { id: params[:assessment_id] }) if params[:assessment_id].present?
@@ -343,7 +343,7 @@ module Api
 
     def fetch_assessments
       basic_rules = JSON.parse(params[:basic_rules] || "{}")
-      clients = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability))
+      clients, _query = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability))
 
       assessments = Assessment.joins(:client).where(default: params[:default], client_id: clients.filter.ids)
       assessments = assessments.includes(:assessment_domains).order("#{sort_column} #{sort_direction}").references(:assessment_domains, :client)

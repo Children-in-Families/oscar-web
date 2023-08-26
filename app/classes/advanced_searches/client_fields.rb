@@ -221,12 +221,11 @@ module AdvancedSearches
     end
 
     def birth_provinces
-      current_org = Organization.current.short_name
-      provinces = []
-      Organization.switch_to 'shared'
-      Organization.pluck(:country).uniq.reject(&:blank?).each{ |country| provinces << Province.country_is(country).map{|p| { value: p.id.to_s, label: p.name, optgroup: country.titleize } } }
-      Organization.switch_to current_org
-      provinces.flatten
+      Apartment::Tenant.switch('shared') do
+        Organization.pluck(:country).uniq.reject(&:blank?).map do |country|
+          Province.cache_by_country(country).map{ |p| { value: p.id.to_s, label: p.name, optgroup: country.titleize } }
+        end.flatten
+      end
     end
 
     def districts
@@ -342,7 +341,7 @@ module AdvancedSearches
     end
 
     def mo_savy_officials_options
-      MoSavyOfficial.all.map { |item| { item.id.to_s => item.name } }
+      MoSavyOfficial.cache_all.map { |item| { item.id.to_s => item.name } }
     end
   end
 end
