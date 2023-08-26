@@ -515,7 +515,7 @@ class ClientGrid < BaseGrid
   dynamic do
     quantitative_type_readable_ids = current_user.quantitative_type_permissions.readable.pluck(:quantitative_type_id) unless current_user.nil?
 
-    QuantitativeType.with_field_type(:free_text).where('visible_on LIKE ?', "%client%").each do |qqt_free_text|
+    QuantitativeType.cach_free_text_fields_by_visible_on("client").each do |qqt_free_text|
       if current_user.nil? || quantitative_type_readable_ids.include?(qqt_free_text.id)
         column(qqt_free_text.name.to_sym, class: 'quantitative-type', header: -> { qqt_free_text.name }, html: true) do |object|
           object.client_quantitative_free_text_cases.where("quantitative_type_id = ?", qqt_free_text.id).pluck(:content).join(', ')
@@ -1152,7 +1152,8 @@ class ClientGrid < BaseGrid
       column(:all_csi_assessments, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.all_csi_assessments', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
         render partial: 'clients/all_csi_assessments', locals: { object: object.assessments.defaults }
       end
-      Domain.csi_domains.order_by_identity.each do |domain|
+
+      Domain.cache_order_by_identity.select(&:client_csi?).each do |domain|
         domain_id = domain.id
         identity = domain.identity
         column(domain.convert_identity.to_sym, class: 'domain-scores', header: identity, html: true) do |client|

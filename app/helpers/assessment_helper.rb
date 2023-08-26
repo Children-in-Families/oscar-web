@@ -110,7 +110,7 @@ module AssessmentHelper
   end
 
   def assess_header_mapping
-    domains = Domain.csi_domains.map{ |domain| ["domain_#{domain.id}", domain.name] }
+    domains = Domain.cache_order_by_identity.select(&:client_csi?).map{ |domain| ["domain_#{domain.id}", domain.name] }
     domain_ids, domain_headers = domains.map(&:first), domains.map(&:last)
 
     assessment_headers = [t('.client_id'), t('.client_name'), t('.assessment_number', assessment: t('clients.show.assessment')), t('.assessment_date', assessment: t('clients.show.assessment')), t('.average_score', assessment: t('clients.show.assessment'))]
