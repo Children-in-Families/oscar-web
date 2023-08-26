@@ -9,7 +9,6 @@
             = t('.assessment_data', assessment: custom_csi_setting.custom_assessment_name)
 
         .modal-body
-          - domain_ids = []
           %table.table.table-bordered.table-striped.table-hover.assessment-score-data{ id: "custom-assessment-score-#{custom_csi_setting.id}" }
             = hidden_field(:hidden, :custom_api_assessment, class: 'api-assessment-path', data: { 'assessment-params': assessments_api_clients_path(default: false, assessment_id: custom_csi_setting.id) })
             = hidden_field(:hidden, :custom_assessment_domain_headers, class: 'assessment-domain-headers', data: { headers: custom_assessment_header_mapping[custom_csi_setting.id].to_json } )

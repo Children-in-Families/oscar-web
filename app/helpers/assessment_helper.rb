@@ -124,9 +124,11 @@ module AssessmentHelper
   end
 
   def custom_assessment_header_mapping
-    data = {}
+    return @custom_assessment_header_mapping if defined?(@custom_assessment_header_mapping)
 
-    CustomAssessmentSetting.where(enable_custom_assessment: true).each do |custom_csi_setting|
+    @custom_assessment_header_mapping = {}
+
+    CustomAssessmentSetting.where(enable_custom_assessment: true).includes(:domains).each do |custom_csi_setting|
       domains = custom_csi_setting.domains.map{ |domain| ["domain_#{domain.id}", domain.name] }
       domain_ids, domain_headers = domains.map(&:first), domains.map(&:last)
   
@@ -135,12 +137,12 @@ module AssessmentHelper
       assessment_domain_headers = ['slug', 'name', 'assessment-number', 'date', 'average-score']
       classNames = ['client-id', 'client-name', 'assessment-number text-center', 'assessment-date', 'average-score text-center', 'assessment-score text-center']
   
-      data[custom_csi_setting.id] = [*assessment_domain_headers, *domain_ids].zip(classNames, [*assessment_headers, *domain_headers]).map do |field_header, class_name, header_name|
+      @custom_assessment_header_mapping[custom_csi_setting.id] = [*assessment_domain_headers, *domain_ids].zip(classNames, [*assessment_headers, *domain_headers]).map do |field_header, class_name, header_name|
         { title: header_name, data: field_header, className: class_name ? class_name : 'assessment-score text-center' }
       end
     end
 
-    data
+    @custom_assessment_header_mapping
   end
 
   def family_assessment_header_mapping
