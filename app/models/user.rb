@@ -106,6 +106,10 @@ class User < ActiveRecord::Base
     def cache_case_workers
       Rails.cache.fetch([Apartment::Tenant.current, self.name, 'case_workers']) { self.case_workers }
     end
+
+    def cach_has_clients_case_worker_options(reload: false) 
+      Rails.cache.fetch([Apartment::Tenant.current, self.name, 'cach_has_clients_case_worker_options']) { self.has_clients.map { |user| ["#{user.first_name} #{user.last_name}", user.id] } }
+    end
   end
 
   def build_permission

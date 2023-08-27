@@ -178,7 +178,7 @@ class ClientGrid < BaseGrid
   end
 
   def case_worker_options
-    User.has_clients.map { |user| ["#{user.first_name} #{user.last_name}", user.id] }
+    User.cach_has_clients_case_worker_options
   end
 
   filter(:donor_name, :enum, select: :donor_select_options, header: -> { I18n.t('datagrid.columns.clients.donor') })
