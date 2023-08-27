@@ -17,12 +17,12 @@ CIF.Common =
     @loadSideMenuCountBadge()
 
   loadNotification: ->
-    # if $('.lazy-load-notification').length > 0
-    #   $.ajax(type: 'GET', url: '/dashboards/notification')
+    if $('.lazy-load-notification').length > 0
+      $.ajax(type: 'GET', url: '/dashboards/notification')
 
   loadSideMenuCountBadge: ->
-    # if $('ul#side-menu').length > 0
-    #   $.ajax(type: 'GET', url: '/dashboards/side_menu_data')
+    if $('ul#side-menu').length > 0
+      $.ajax(type: 'GET', url: '/dashboards/side_menu_data')
 
   preventEditOnDatePicker: ->
     $('.date-picker').datepicker

@@ -144,8 +144,6 @@ CIF.ClientsIndex = CIF.ClientsWelcome = do ->
       return
 
   _handleAjaxRequestToAssessment = (tableId, fileName)->
-    return 
-    
     url = $("#{tableId} .api-assessment-path").data('assessment-params')
     columns = $("#{tableId} .assessment-domain-headers").data('headers')
 
