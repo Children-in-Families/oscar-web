@@ -379,7 +379,7 @@ module ApplicationHelper
   end
 
   def enable_custom_assessment?
-    CustomAssessmentSetting.exists?(enable_custom_assessment: true)
+    CustomAssessmentSetting.cache_only_enable_custom_assessment.any?
   end
 
   def assessment_options

@@ -1,10 +1,11 @@
-- if params[:data].presence == 'recent'
-  - recent_record = exit_ngos.first&.exit_date
-  - if recent_record.present?
+- cache [Apartment::Tenant.current, client, 'exit_dates', exit_ngos, params[:data]] do
+  - if params[:data].presence == 'recent'
+    - recent_record = exit_ngos.first&.exit_date
+    - if recent_record.present?
+      %ul{'data-exit_date': '' }
+        %li= date_format(recent_record)
+  - else
     %ul{'data-exit_date': '' }
-      %li= date_format(recent_record)
-- else
-  %ul{'data-exit_date': '' }
-    - date_filter(exit_ngos, 'exit_date').each do |exit_ngo|
-      - if exit_ngo.exit_date.present?
-        %li= date_format(exit_ngo.exit_date)
+      - date_filter(exit_ngos, 'exit_date').each do |exit_ngo|
+        - if exit_ngo.exit_date.present?
+          %li= date_format(exit_ngo.exit_date)

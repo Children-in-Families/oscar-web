@@ -935,29 +935,29 @@ class ClientGrid < BaseGrid
 
   column(:exit_date, preload: :exit_ngos, order: false, header: -> { I18n.t('datagrid.columns.clients.ngo_exit_date') }, html: true) do |object|
     exit_ngos = object.exit_ngos.sort_by(&:created_at).reverse
-    render partial: 'clients/exit_dates', locals: { exit_ngos: exit_ngos }
+    render partial: 'clients/exit_dates', locals: { exit_ngos: exit_ngos, client: object }
   end
 
   column(:rejected_note, header: -> { I18n.t('datagrid.columns.clients.rejected_note') })
 
   column(:exit_circumstance, preload: :exit_ngos, order: false, html: true, header: -> { I18n.t('datagrid.columns.clients.exit_circumstance') }) do |object|
     exit_ngos = object.exit_ngos.sort_by(&:created_at).reverse
-    render partial: 'clients/exit_circumstances', locals: { exit_ngos: exit_ngos }
+    render partial: 'clients/exit_circumstances', locals: { exit_ngos: exit_ngos, client: object }
   end
 
   column(:exit_reasons, preload: :exit_ngos, order: false, html: true, header: -> { I18n.t('datagrid.columns.clients.exit_reasons') }) do |object|
     exit_ngos = object.exit_ngos.sort_by(&:created_at).reverse
-    render partial: 'clients/exit_reasons', locals: { exit_ngos: exit_ngos }
+    render partial: 'clients/exit_reasons', locals: { exit_ngos: exit_ngos, client: object }
   end
 
   column(:other_info_of_exit, preload: :exit_ngos, order: false, html: true, header: -> { I18n.t('datagrid.columns.clients.other_info_of_exit') }) do |object|
     exit_ngos = object.exit_ngos.sort_by(&:created_at).reverse
-    render partial: 'clients/other_info_of_exits', locals: { exit_ngos: exit_ngos }
+    render partial: 'clients/other_info_of_exits', locals: { exit_ngos: exit_ngos, client: object }
   end
 
   column(:exit_note, preload: :exit_ngos, order: false, html: true, header: -> { I18n.t('datagrid.columns.clients.exit_note') }) do |object|
     exit_ngos = object.exit_ngos.sort_by(&:created_at).reverse
-    render partial: 'clients/exit_notes', locals: { exit_ngos: exit_ngos }
+    render partial: 'clients/exit_notes', locals: { exit_ngos: exit_ngos, client: object }
   end
 
   column(:what3words, header: -> { I18n.t('datagrid.columns.clients.what3words') }) do |object|
