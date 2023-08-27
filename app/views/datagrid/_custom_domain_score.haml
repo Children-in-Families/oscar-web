@@ -4,7 +4,7 @@
 - date_of_custom_assessments = saved_search_column_visibility('date_of_custom_assessments_')
 - completed_date = saved_search_column_visibility('custom_completed_date_')
 
-- cache [Apartment::Tenant.current, custom_domains, all_custom_csi_assessments, custom_assessment, custom_assessment_created_at, date_of_custom_assessments, completed_date] do
+- cache cache_keys_base + [custom_domains, all_custom_csi_assessments, custom_assessment, custom_assessment_created_at, date_of_custom_assessments, completed_date] do
   %li.custom-assessment-devider{ style: 'padding-left: 15px; padding-bottom: 5px;'}
     %strong
       = t('advanced_search.fields.custom_csi_domain_scores')

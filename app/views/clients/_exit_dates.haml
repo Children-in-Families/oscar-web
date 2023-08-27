@@ -1,4 +1,4 @@
-- cache [Apartment::Tenant.current, client, 'exit_dates', exit_ngos, params[:data]] do
+- cache cache_keys_base + [client, 'exit_dates', exit_ngos, params[:data]] do
   - if params[:data].presence == 'recent'
     - recent_record = exit_ngos.first&.exit_date
     - if recent_record.present?

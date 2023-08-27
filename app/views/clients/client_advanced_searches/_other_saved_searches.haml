@@ -1,4 +1,4 @@
-- cache [Apartment::Tenant.current, 'other_search', @other_advanced_searches.map(&:updated_at).max ] do
+- cache cache_keys_base + ['other_search', @other_advanced_searches.map(&:updated_at).max ] do
   #other-saved-searches.tab-pane.fade
     .table-responsive
       %table.table.table-bordered.table-striped.table-hover

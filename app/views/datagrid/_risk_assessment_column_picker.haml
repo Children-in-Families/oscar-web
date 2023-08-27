@@ -4,7 +4,7 @@
 - has_disability = saved_search_column_visibility('has_disability_')
 - has_known_chronic_disease = saved_search_column_visibility('has_known_chronic_disease_')
 
-- cache [Apartment::Tenant.current, level_of_risk, date_of_risk_assessment, has_hiv_or_aid, has_disability, has_known_chronic_disease] do
+- cache cache_keys_base + [level_of_risk, date_of_risk_assessment, has_hiv_or_aid, has_disability, has_known_chronic_disease] do
   %li.carer-header
     %strong= t('risk_assessments._attr.risk_assessment')
   %li

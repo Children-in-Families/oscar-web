@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
   end
 
   helper_method :current_organization, :current_setting
-  helper_method :field_settings
+  helper_method :field_settings, :cache_keys_base
 
   rescue_from CanCan::AccessDenied do |exception|
     if exception.subject.inspect.include?("Client") && (exception.action).to_s.include?("show")
@@ -51,6 +51,10 @@ class ApplicationController < ActionController::Base
 
   def pundit_user
     UserContext.new(current_user, field_settings)
+  end
+
+  def cache_keys_base
+    [current_organization, I18n.locale]
   end
 
   protected

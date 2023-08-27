@@ -1,4 +1,4 @@
-- cache_if params[:data] == 'recent', [Apartment::Tenant.current, object, 'case_note_type', object.case_notes.most_recents.order(meeting_date: :desc).first] do
+- cache_if params[:data] == 'recent', cache_keys_base + [object, 'case_note_type', object.case_notes.most_recents.order(meeting_date: :desc).first] do
   - if params[:data] == 'recent'
     - recent_record = object.case_notes.most_recents.order(meeting_date: :desc).first&.interaction_type
     - if recent_record.present?
