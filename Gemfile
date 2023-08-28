@@ -19,7 +19,7 @@ gem 'fog'
 gem 's3'
 gem 'ffaker',                 '~> 2.1.0'
 gem 'draper',                 '~> 2.1'
-gem 'datagrid'
+gem 'datagrid', '1.6.3'
 gem 'active_model_serializers'
 gem 'sinatra',                require: false
 gem 'rack-cors',              require: 'rack/cors'
