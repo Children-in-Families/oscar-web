@@ -57,8 +57,9 @@ CIF.ClientsIndex = CIF.ClientsWelcome = do ->
     _reloadFilter()
     _addTourTip(tour)
     _extendDataTableSort()
+    _loadStatisticsData()
+    _loadClientTableSummary()
     _addDataTableToAssessmentScoreData()
-    _addDataTableToTableSummary()
     _removeReferralDataColumnsInWizardClientColumn()
     _handleShowCustomFormSelect()
     _reOrderRuleContainer()
@@ -113,6 +114,39 @@ CIF.ClientsIndex = CIF.ClientsWelcome = do ->
         a - b
       'formatted-num-desc': (a, b) ->
         b - a
+
+  _loadClientTableSummary = ->
+    if $("#client-table-summary-tab-content").length > 0
+      advanceFilter = new CIF.ClientAdvanceSearch()
+      advanceFilter.prepareSearchParams("search")
+
+      $.ajax
+        type: 'POST'
+        dataType: 'json'
+        url: "/clients/load_client_table_summary"
+        data: 
+          basic_rules: $("#client_advanced_search_basic_rules").val()
+        success: (data) ->
+          $("#client-table-summary-tab-content").html(data.client_table_content)
+          _addDataTableToTableSummary()
+
+  _loadStatisticsData = ->
+    if $("#program-statistic").length > 0
+      advanceFilter = new CIF.ClientAdvanceSearch()
+      advanceFilter.prepareSearchParams("search")
+      
+      $.ajax
+        type: 'POST'
+        dataType: 'json'
+        url: "/clients/load_statistics_data"
+        data: 
+          basic_rules: $("#client_advanced_search_basic_rules").val()
+        success: (data) ->
+          $('#cis-domain-score').data 'csi-domain', data.csi_statistics
+          $('#program-statistic').data 'program-statistic', data.enrollments_statistics
+
+          _handleCreateCsiDomainReport()
+          _handleCreateCaseReport()
 
   _addDataTableToAssessmentScoreData = ->
     if $("body#clients-welcome").length > 0 || $("body#families-welcome").length > 0
@@ -630,8 +664,6 @@ CIF.ClientsIndex = CIF.ClientsWelcome = do ->
     $('#client-statistic').click ->
       paramsAdvancedSearch = $('#params').val()
       if paramsAdvancedSearch != ''
-        _handleCreateCsiDomainReport()
-        _handleCreateCaseReport()
         _toggleCollapseOnOff()
       else
         if $('#cis-domain-score').is('[data-csi-domain]') && $('#program-statistic').is('[data-program-statistic]')

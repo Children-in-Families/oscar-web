@@ -10,9 +10,10 @@ module ClientAdvancedSearchesConcern
     end
     
     $param_rules = find_params_advanced_search
-    clients      = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability))
+    _clients, query      = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability)).filter
 
-    @clients_by_user     = clients.filter
+    @results = @clients_by_user = @client_grid.scope { |scope| scope.where(query).accessible_by(current_ability) }.assets
+
     columns_visibility
     custom_form_column
     program_stream_column
@@ -20,17 +21,13 @@ module ClientAdvancedSearchesConcern
     respond_to do |f|
       f.html do
         begin
-          @csi_statistics         = CsiStatistic.new(@client_grid.scope.where(id: @clients_by_user.ids).accessible_by(current_ability)).assessment_domain_score.to_json
-          @enrollments_statistics = ActiveEnrollmentStatistic.new(@client_grid.scope.where(id: @clients_by_user.ids).accessible_by(current_ability)).statistic_data.to_json
-          clients                 = @client_grid.scope { |scope| scope.where(id: @clients_by_user.ids).accessible_by(current_ability) }.assets
-          @results                = clients
-          @client_grid = @client_grid.scope { |scope| scope.where(id: @clients_by_user.ids).accessible_by(current_ability).page(params[:page]).per(20) }
+          @client_grid = @client_grid.scope { |scope| scope.where(query).accessible_by(current_ability).page(params[:page]).per(20) }
         rescue NoMethodError
           redirect_to welcome_clients_path
         end
       end
       f.xls do
-        @client_grid.scope { |scope| scope.where(id: @clients_by_user.ids).accessible_by(current_ability) }
+        @client_grid.scope { |scope| scope.where(query).accessible_by(current_ability) }
         @client_grid.params = params.to_unsafe_h.dup.deep_symbolize_keys
 
         export_client_reports

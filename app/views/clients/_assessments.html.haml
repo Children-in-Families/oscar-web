@@ -1,8 +1,8 @@
 - if params[:data] == 'recent' && object
   - if assessment_field_name
-    - recent_record = object.latest_record.try(assessment_field_name)
+    - recent_record = object.latest_record&.assessment_field_name
   - else
-    - recent_record = object.latest_record.try(:created_at)
+    - recent_record = object.latest_record&.created_at
   - if recent_record.present?
     %ul{'data-date_of_assessments': '' }
       %li= date_format(recent_record)

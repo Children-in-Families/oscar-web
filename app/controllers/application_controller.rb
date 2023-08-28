@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
   end
 
   helper_method :current_organization, :current_setting
-  helper_method :field_settings
+  helper_method :field_settings, :cache_keys_base
 
   rescue_from CanCan::AccessDenied do |exception|
     if exception.subject.inspect.include?("Client") && (exception.action).to_s.include?("show")
@@ -41,7 +41,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_setting
-    @current_setting = Setting.cache_first
+    @current_setting ||= Setting.cache_first
   end
 
   def field_settings
@@ -53,10 +53,14 @@ class ApplicationController < ActionController::Base
     UserContext.new(current_user, field_settings)
   end
 
+  def cache_keys_base
+    [current_organization, I18n.locale]
+  end
+
   protected
 
   def override_translation
-    return if I18n::Backend::Custom::ReloadChecker.last_reload_at > FieldSetting.maximum(:updated_at)
+    return if I18n::Backend::Custom::ReloadChecker.last_reload_at > FieldSetting.max_updated_at
     I18n.backend.reload!
   rescue ArgumentError => e
     # Caused by FieldSetting zero

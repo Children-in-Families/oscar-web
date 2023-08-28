@@ -41,7 +41,7 @@ module AdvancedSearches
         end
       end
 
-      @clients.where(query_array)
+      [@clients.where(query_array), query_array]
     end
   end
 end

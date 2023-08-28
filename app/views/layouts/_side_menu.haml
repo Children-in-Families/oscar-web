@@ -1,171 +1,172 @@
-%nav.navbar-default.navbar-static-side{:role => "navigation"}
-  .sidebar-collapse
-    %ul#side-menu.nav.metismenu
-      %li.nav-header
-        .dropdown.profile-element
-          .image-wrapper.text-center
-            = link_to root_path do
-              = image_tag(Organization.current.logo.thumb, class: 'img-circle')
-          %hr.line-border
-          %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-            %span.clear
-              %span.block.m-t-xs
-                %strong.font-bold= current_user.name
-              %span.text-muted.text-xs.block
-                = current_user.roles
-                %b.caret
-          %ul.dropdown-menu.animated.fadeInRight.m-t-xs
-            %li
-              = link_to t('.edit_profile'), edit_user_registration_path
-            %li.divider
-            - if policy(current_setting).edit? && current_setting.country_name == 'cambodia'
+- cache (cache_keys_base + [current_setting, current_user, controller_name, action_name]) do
+  %nav.navbar-default.navbar-static-side{:role => "navigation"}
+    .sidebar-collapse
+      %ul#side-menu.nav.metismenu
+        %li.nav-header
+          .dropdown.profile-element
+            .image-wrapper.text-center
+              = link_to root_path do
+                = image_tag(Organization.current.logo.thumb, class: 'img-circle')
+            %hr.line-border
+            %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+              %span.clear
+                %span.block.m-t-xs
+                  %strong.font-bold= current_user.name
+                %span.text-muted.text-xs.block
+                  = current_user.roles
+                  %b.caret
+            %ul.dropdown-menu.animated.fadeInRight.m-t-xs
               %li
-                = link_to t('.edit_org_setting'), edit_setting_path(current_setting)
+                = link_to t('.edit_profile'), edit_user_registration_path
               %li.divider
-            %li
-              = link_to t('.log_out'), destroy_user_session_path, method: :delete
-        .logo-element.custom
-          = link_to root_path do
-            = image_tag(Organization.current.logo, class: 'log-min img-responsive')
-      - if user_signed_in?
-        %li{class: "#{active_menu('dashboards')}"}
-          = link_to root_path do
-            %i.fa.fa-th-large
-            %span.nav-label= t('.dashboards')
+              - if policy(current_setting).edit? && current_setting.country_name == 'cambodia'
+                %li
+                  = link_to t('.edit_org_setting'), edit_setting_path(current_setting)
+                %li.divider
+              %li
+                = link_to t('.log_out'), destroy_user_session_path, method: :delete
+          .logo-element.custom
+            = link_to root_path do
+              = image_tag(Organization.current.logo, class: 'log-min img-responsive')
+        - if user_signed_in?
+          %li{class: "#{active_menu('dashboards')}"}
+            = link_to root_path do
+              %i.fa.fa-th-large
+              %span.nav-label= t('.dashboards')
 
-        - if current_setting.try(:enable_hotline) == true && current_organization.country != 'nepal'
-          %li.main{ class: is_active_controller('calls') }
-            = link_to calls_path do
-              = fa_icon('phone')
-              %span.nav-label= t('.calls')
-              %span.label.label-primary.pull-right.calls_count
-        - if current_setting.try(:enable_client_form) == true
-          %li.main{ class: clients_menu_active }
-            = link_to welcome_clients_path do
-              = fa_icon('child')
-              %span.nav-label= t('.clients')
-              %span.label.label-primary.pull-right.client_count
-        %li.main{ class: is_active_controller('referees') }
-          = link_to referees_path do
-            = fa_icon('address-book')
-            %span.nav-label= t('.caller_referees')
-            %span.label.label-primary.pull-right.referees_count
-        - if can? :read, Family
-          %li.main{ class: families_menu_active }
-            = link_to welcome_families_path do
-              = fa_icon('users')
-              %span.nav-label= t('.families')
-              %span.label.label-primary.pull-right.family_count
+          - if current_setting.try(:enable_hotline) == true && current_organization.country != 'nepal'
+            %li.main{ class: is_active_controller('calls') }
+              = link_to calls_path do
+                = fa_icon('phone')
+                %span.nav-label= t('.calls')
+                %span.label.label-primary.pull-right.calls_count
+          - if current_setting.try(:enable_client_form) == true
+            %li.main{ class: clients_menu_active }
+              = link_to welcome_clients_path do
+                = fa_icon('child')
+                %span.nav-label= t('.clients')
+                %span.label.label-primary.pull-right.client_count
+          %li.main{ class: is_active_controller('referees') }
+            = link_to referees_path do
+              = fa_icon('address-book')
+              %span.nav-label= t('.caller_referees')
+              %span.label.label-primary.pull-right.referees_count
+          - if can? :read, Family
+            %li.main{ class: families_menu_active }
+              = link_to welcome_families_path do
+                = fa_icon('users')
+                %span.nav-label= t('.families')
+                %span.label.label-primary.pull-right.family_count
 
-        - if can?(:read, Community)
-          %li.main{ class: "#{'active' if 'communities'.include?(controller_name)}" }
-            = link_to welcome_communities_path do
-              = fa_icon('users')
-              %span.nav-label= t('.communities')
-              %span.label.label-primary.pull-right.community_count
+          - if can?(:read, Community)
+            %li.main{ class: "#{'active' if 'communities'.include?(controller_name)}" }
+              = link_to welcome_communities_path do
+                = fa_icon('users')
+                %span.nav-label= t('.communities')
+                %span.label.label-primary.pull-right.community_count
 
-        - if can? :read, Partner
-          %li.main{ class: partners_menu_active }
-            = link_to partners_path do
-              = fa_icon('handshake-o')
-              %span.nav-label= t('.partners')
-              %span.label.label-primary.pull-right.partner_count
+          - if can? :read, Partner
+            %li.main{ class: partners_menu_active }
+              = link_to partners_path do
+                = fa_icon('handshake-o')
+                %span.nav-label= t('.partners')
+                %span.label.label-primary.pull-right.partner_count
 
-        - if can? :read, User
-          %li.main{ class: users_menu_active }
-            = link_to users_path do
-              = fa_icon('address-book-o')
-              %span.nav-label= t('.users')
-              %span.label.label-primary.pull-right.user_count
+          - if can? :read, User
+            %li.main{ class: users_menu_active }
+              = link_to users_path do
+                = fa_icon('address-book-o')
+                %span.nav-label= t('.users')
+                %span.label.label-primary.pull-right.user_count
 
-        %li
-          %a#manage{href: "#"}
-            %i.fa.fa-cogs
-            %span.nav-label= t('.manage')
-            %span.fa.arrow
-          %ul.nav.nav-second-level
-            %li
-              %a.pro-nav{href: "#"}
-                = t('.settings')
-                %span.fa.arrow
-              %ul.nav.nav-third-level
-                - if current_user.admin?
-                  %li{ class: settings_menu_active('settings', 'index', 'risk_assessment', 'screening_forms', 'customize_case_note', 'care_plan') }
-                    = link_to t('.cms_tools'), settings_path
-                  %li{ class: settings_menu_active('settings', 'default_columns') }
-                    = link_to t('.default_columns'), default_columns_settings_path
-                  %li{ class: settings_menu_active('settings', 'test_client')}
-                    = link_to t('settings.test_client'), test_client_settings_path
-                  - if Organization.ratanak?
-                    %li{ class: settings_menu_active('settings', 'custom_form')}
-                      = link_to t('.custom_form_limit'), custom_form_settings_path
-                    %li{ class: settings_menu_active('settings', 'limit_tracking_form')}
-                      = link_to t('.tracking_form_limit'), limit_tracking_form_settings_path
-            %li
-              %a.pro-nav{href: "#"}
-                = t('.custom_tools')
-                %span.fa.arrow
-              %ul.nav.nav-third-level
-                - if can? :read, CustomField
-                  %li{ class: active_menu('custom_fields') }
-                    = link_to t('.custom_fields'), custom_fields_path
-                - if can? :read, ProgramStream
-                  %li{ class: active_menu('program_streams') }
-                    - if current_user.program_warning?
-                      = link_to t('.program_streams'), program_streams_path
-                    - else
-                      %a{"data-target" => "#warning-program", "data-toggle" => "modal", :type => "button"}=t('.program_streams')
-                - if can? :read, :all
-                  %li{ class: active_menu('domain_groups') || active_menu('domains') }
-                    = link_to t('.assessments'), domain_groups_path
-                  %li{ class: active_menu('quantitative_types') }
-                    = link_to t('.quantitative_types'), quantitative_types_path
-                - if can? :read, ReferralSource
-                  %li{ class: active_menu('referral_sources') }
-                    = link_to t('.referral_sources'), referral_sources_path
-                - if can? :read, :all
-                  %li{ class: active_menu('organization_types') }
-                    = link_to t('.organization_types'), organization_types_path
-                  %li{ class: settings_menu_active('field_settings', 'index')}
-                    = link_to t('.field_settings'), field_settings_path
-                  %li{ class: settings_menu_active('settings', 'custom_id_alias')}
-                    = link_to t('.custom_labels'), custom_labels_settings_path
-                  %li{ class: active_menu('agencies') }
-                    = link_to t('.agencies'), agencies_path
-                  - if can? :read, :all
-                    %li{ class: active_menu('donors') }
-                      = link_to t('.donors'), donors_path
-                    %li{ class: active_menu('departments') }
-                      = link_to t('.departments'), departments_path
+          %li
+            %a#manage{href: "#"}
+              %i.fa.fa-cogs
+              %span.nav-label= t('.manage')
+              %span.fa.arrow
+            %ul.nav.nav-second-level
+              %li
+                %a.pro-nav{href: "#"}
+                  = t('.settings')
+                  %span.fa.arrow
+                %ul.nav.nav-third-level
+                  - if current_user.admin?
+                    %li{ class: settings_menu_active('settings', 'index', 'risk_assessment', 'screening_forms', 'customize_case_note', 'care_plan') }
+                      = link_to t('.cms_tools'), settings_path
+                    %li{ class: settings_menu_active('settings', 'default_columns') }
+                      = link_to t('.default_columns'), default_columns_settings_path
+                    %li{ class: settings_menu_active('settings', 'test_client')}
+                      = link_to t('settings.test_client'), test_client_settings_path
                     - if Organization.ratanak?
-                      %li{ class: active_menu('service_deliveries') }
-                        = link_to t('.service_deliveries'), service_deliveries_path
+                      %li{ class: settings_menu_active('settings', 'custom_form')}
+                        = link_to t('.custom_form_limit'), custom_form_settings_path
+                      %li{ class: settings_menu_active('settings', 'limit_tracking_form')}
+                        = link_to t('.tracking_form_limit'), limit_tracking_form_settings_path
+              %li
+                %a.pro-nav{href: "#"}
+                  = t('.custom_tools')
+                  %span.fa.arrow
+                %ul.nav.nav-third-level
+                  - if can? :read, CustomField
+                    %li{ class: active_menu('custom_fields') }
+                      = link_to t('.custom_fields'), custom_fields_path
+                  - if can? :read, ProgramStream
+                    %li{ class: active_menu('program_streams') }
+                      - if current_user.program_warning?
+                        = link_to t('.program_streams'), program_streams_path
+                      - else
+                        %a{"data-target" => "#warning-program", "data-toggle" => "modal", :type => "button"}=t('.program_streams')
+                  - if can? :read, :all
+                    %li{ class: active_menu('domain_groups') || active_menu('domains') }
+                      = link_to t('.assessments'), domain_groups_path
+                    %li{ class: active_menu('quantitative_types') }
+                      = link_to t('.quantitative_types'), quantitative_types_path
+                  - if can? :read, ReferralSource
+                    %li{ class: active_menu('referral_sources') }
+                      = link_to t('.referral_sources'), referral_sources_path
+                  - if can? :read, :all
+                    %li{ class: active_menu('organization_types') }
+                      = link_to t('.organization_types'), organization_types_path
+                    %li{ class: settings_menu_active('field_settings', 'index')}
+                      = link_to t('.field_settings'), field_settings_path
+                    %li{ class: settings_menu_active('settings', 'custom_id_alias')}
+                      = link_to t('.custom_labels'), custom_labels_settings_path
+                    %li{ class: active_menu('agencies') }
+                      = link_to t('.agencies'), agencies_path
+                    - if can? :read, :all
+                      %li{ class: active_menu('donors') }
+                        = link_to t('.donors'), donors_path
+                      %li{ class: active_menu('departments') }
+                        = link_to t('.departments'), departments_path
+                      - if Organization.ratanak?
+                        %li{ class: active_menu('service_deliveries') }
+                          = link_to t('.service_deliveries'), service_deliveries_path
 
-            %li
-              %a.pro-nav{href: "#"}
-                = t('.modulars')
-                %span.fa.arrow
-              %ul.nav.nav-third-level
-                - if policy(current_setting).integration?
-                  %li{ class: settings_menu_active('settings', 'integration') }
-                    = link_to t('.integration'), integration_settings_path
-                - if current_user.admin?
-                  %li{ class: settings_menu_active('settings', 'client_forms')}
-                    = link_to t('.client_forms'), client_forms_settings_path
-                  - if Setting.cache_first.country_name == "cambodia" && policy(current_setting).research_module?
-                    %li{ class: settings_menu_active('settings', 'research_module') }
-                      = link_to t('.research_module'), research_module_settings_path
-                  %li{ class: settings_menu_active('settings', 'family_case_management')}
-                    = link_to t('.family_form'), family_case_management_settings_path
-                  %li{ class: settings_menu_active('settings', 'community')}
-                    = link_to t('.community'), community_settings_path
+              %li
+                %a.pro-nav{href: "#"}
+                  = t('.modulars')
+                  %span.fa.arrow
+                %ul.nav.nav-third-level
+                  - if policy(current_setting).integration?
+                    %li{ class: settings_menu_active('settings', 'integration') }
+                      = link_to t('.integration'), integration_settings_path
+                  - if current_user.admin?
+                    %li{ class: settings_menu_active('settings', 'client_forms')}
+                      = link_to t('.client_forms'), client_forms_settings_path
+                    - if Setting.cache_first.country_name == "cambodia" && policy(current_setting).research_module?
+                      %li{ class: settings_menu_active('settings', 'research_module') }
+                        = link_to t('.research_module'), research_module_settings_path
+                    %li{ class: settings_menu_active('settings', 'family_case_management')}
+                      = link_to t('.family_form'), family_case_management_settings_path
+                    %li{ class: settings_menu_active('settings', 'community')}
+                      = link_to t('.community'), community_settings_path
 
-        - if can? :read, :all
-          %li{ class: active_menu('changelogs') }
-            = link_to t('.release_logs'), changelogs_path
-        - if can? :read, DataTracker
-          %li{ class: active_menu('data_trackers') }
-            = link_to data_trackers_path do
-              = fa_icon('area-chart')
-              %span.nav-label= t('.changelogs')
+          - if can? :read, :all
+            %li{ class: active_menu('changelogs') }
+              = link_to t('.release_logs'), changelogs_path
+          - if can? :read, DataTracker
+            %li{ class: active_menu('data_trackers') }
+              = link_to data_trackers_path do
+                = fa_icon('area-chart')
+                %span.nav-label= t('.changelogs')
        

@@ -5,10 +5,10 @@
   - else
     = t("domains.domain_names.#{task.domain.name.downcase.reverse}")
 - else
-  - if task.taskable.try(:one_off?)
+  - if task.taskable&.one_off?
     = t('screening_assessments._attr.screening_assessment')
-  - elsif task.taskable.try(:multiple?)
+  - elsif task.taskable&.multiple?
     = t('screening_assessments._attr.cb_dmat_assessment')
   - else
     = task.taskable_type.titleize
-  = task.taskable.try(:client_milestone_age)
+  = task.taskable&.client_milestone_age

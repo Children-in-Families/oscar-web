@@ -5,7 +5,7 @@
 .ibox.case-note-domain-group{ id: "domain-#{domain_note.object.domain_group.id}", style: "display: none;" }
   .ibox-title
     %h5
-      - if current_organization.try(:aht) == true
+      - if current_organization.aht?
         = "#{t('.dimensions')} #{domain_note.object.domain_group.name}"
       - else
         = "#{t('.domain')} #{domain_note.object.domain_group.name}"
