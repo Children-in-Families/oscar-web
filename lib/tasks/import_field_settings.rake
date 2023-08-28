@@ -16,7 +16,7 @@ namespace :field_settings do
 
       (2..sheet.last_row).each do |row_index|
         # In case sheet is messed up
-        next if sheet.row(row_index)[headers['name']].blank? || sheet.row(row_index)[headers['remark']] != 'new'
+        next if sheet.row(row_index)[headers['name']].blank?
 
         field_setting = FieldSetting.find_or_initialize_by(name: sheet.row(row_index)[headers['name']], klass_name: sheet.row(row_index)[headers['klass_name']])
         field_setting.update!(
@@ -35,12 +35,16 @@ namespace :field_settings do
       create_assessment_setting
       create_legal_doc_settting
 
-      [20200707042500, 20200710033402, 20200710122049, 20200713035828, 20200714092201, 20200810055448, 20200810070640].each do |migration_version|
+      [20200707042500, 20200710033402, 20220523095812, 20200710122049, 20200713035828, 20200714092201, 20200810055448, 20200810070640].each do |migration_version|
         ActiveRecord::Migrator.run(:down, ActiveRecord::Migrator.migrations_path, migration_version)
         ActiveRecord::Migrator.run(:up, ActiveRecord::Migrator.migrations_path, migration_version)
       end
 
       family_address_setting(org)
+
+      # Introducing form_group_1
+      ActiveRecord::Migrator.run(:down, ActiveRecord::Migrator.migrations_path, 20230717162200)
+      ActiveRecord::Migrator.run(:up, ActiveRecord::Migrator.migrations_path, 20230717162200)
     end
   end
 
