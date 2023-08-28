@@ -13,6 +13,7 @@ module ClientAdvancedSearchesConcern
     _clients, query      = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability)).filter
 
     @results = @clients_by_user = @client_grid.scope { |scope| scope.where(query).accessible_by(current_ability) }.assets
+    cache_client_ids
 
     columns_visibility
     custom_form_column
@@ -309,5 +310,10 @@ module ClientAdvancedSearchesConcern
       detail_form_of_judicial_police_files: [],
       letter_from_immigration_police_files: []
     ]
+  end
+
+  def cache_client_ids
+    @cache_key = "cache_client_ids_#{current_user.id}_#{Time.current.to_i}"
+    Rails.cache.write(@cache_key, @results.ids.join(','), expires_in: 10.minutes)
   end
 end

@@ -1,14 +1,14 @@
 - clients = Client.find_by_sql(["SELECT clients.*, client_enrollments.program_stream_id FROM clients INNER JOIN client_enrollments ON clients.id = client_enrollments.client_id AND clients.id IN (?)", @results.ids])
 - no_program_clients = @results.includes(:client_enrollments, :province).where(client_enrollments: {client_id: nil})
-- provinces = (clients.map(&:province_name) + no_program_clients.map(&:province_name)).uniq.compact.sort
+- provinces =  @results.map(&:province_id).uniq.compact.map{ |pid| Province.cached_find(pid) }.compact.sort_by(&:name)
 
 #table-summary-location-tab.tab-pane.table-responsive{role: "tabpanel"}
   %table.table.table-bordered.table-striped.table-hover.assessment-score-data#table-summary-location
     %thead
       %tr
         %th.text-center{:rowspan => 2}= t('clients.table_summary.program')
-        - provinces.each do |prov_name|
-          %th.text-center{:colspan => 3}= prov_name
+        - provinces.each do |prov|
+          %th.text-center{:colspan => 3}= prov.name
         %th.text-center{:rowspan => 2}= t('clients.table_summary.total')
       %tr
         - provinces.each do
@@ -21,8 +21,8 @@
         - by_program = clients.select{ |client| client.program_stream_id == program.id }.uniq
         %tr
           %td= program.name
-          - provinces.each do |prov_name|
-            - clients_by_program_province = by_program.select{ |client| client.province_name == prov_name }.uniq
+          - provinces.each do |prov|
+            - clients_by_program_province = by_program.select{ |client| client.province_id == prov.id }.uniq
             %td= clients_by_program_province.select(&:female?).count
             %td= clients_by_program_province.select(&:male?).count
             %td= clients_by_program_province.select(&:other_gender?).count
@@ -30,8 +30,8 @@
 
       %tr
         %td= t('clients.table_summary.no_program')
-        - provinces.each do |prov_name|
-          - clients_by_province = no_program_clients.select{ |client| client.province_name == prov_name }.uniq
+        - provinces.each do |prov|
+          - clients_by_province = no_program_clients.select{ |client| client.province_id == prov.id }.uniq
           %td= clients_by_province.select(&:female?).count
           %td= clients_by_province.select(&:male?).count
           %td= clients_by_province.select(&:other_gender?).count
@@ -39,8 +39,8 @@
 
       %tr
         %td= t('clients.table_summary.client_by_gender')
-        - provinces.each do |prov_name|
-          - clients_by_province = (clients + no_program_clients).select{ |client| client.province_name == prov_name }.uniq
+        - provinces.each do |prov|
+          - clients_by_province = (clients + no_program_clients).select{ |client| client.province_id == prov.id }.uniq
           %td= clients_by_province.select(&:female?).count
           %td= clients_by_province.select(&:male?).count
           %td= clients_by_province.select(&:other_gender?).count

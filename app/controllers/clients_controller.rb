@@ -16,7 +16,7 @@ class ClientsController < AdminController
 
   before_action :find_client, only: [:show, :edit, :update, :destroy, :custom_fields]
   before_action :assign_client_attributes, only: [:show, :edit]
-  before_action :set_association, except: [:index, :destroy, :version, :welcome, :load_client_table_summary]
+  before_action :set_association, except: [:index, :destroy, :version, :welcome, :load_client_table_summary, :load_statistics_data]
   before_action :choose_grid, only: [:index]
   before_action :quantitative_type_editable, only: [:edit, :update, :new, :create]
   before_action :quantitative_type_readable
@@ -239,12 +239,17 @@ class ClientsController < AdminController
   end
 
   def load_client_table_summary
-    choose_grid
     $param_rules = params
-    basic_rules = JSON.parse(params[:basic_rules] || "{}")
-    _clients, query = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability)).filter
-    
-    @results = @clients_by_user = @client_grid.scope { |scope| scope.where(query).accessible_by(current_ability) }.assets
+
+    if searched_client_ids.present?
+      @results = @clients_by_user = Client.where(id: searched_client_ids.split(','))
+    else
+      choose_grid
+      $param_rules = params
+      basic_rules = JSON.parse(params[:basic_rules] || "{}")
+      _clients, query = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability)).filter
+      @results = @clients_by_user = @client_grid.scope { |scope| scope.where(query).accessible_by(current_ability) }.assets
+    end
 
     render json: {
       client_table_content: render_to_string(partial: 'clients/client_table_summary_content')
@@ -252,11 +257,15 @@ class ClientsController < AdminController
   end
 
   def load_statistics_data
-    choose_grid
-    $param_rules = params
-    basic_rules = JSON.parse(params[:basic_rules] || "{}")
-    _clients, query = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability)).filter
-    clients = @client_grid.scope { |scope| scope.where(query).accessible_by(current_ability) }.assets
+    clients = if searched_client_ids.present?
+      Client.where(id: searched_client_ids.split(','))
+    else
+      choose_grid
+      $param_rules = params
+      basic_rules = JSON.parse(params[:basic_rules] || "{}")
+      _clients, query = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability)).filter
+      clients = @client_grid.scope { |scope| scope.where(query).accessible_by(current_ability) }.assets
+    end
 
     render json: {
       csi_statistics: CsiStatistic.new(clients).assessment_domain_score,

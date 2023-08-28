@@ -103,6 +103,7 @@
               #program-statistic{ "data-title" => t('.active_programs'), "data-yaxis-title" => t('.client_amount') }
 
 - if params['commit'].present? || params['client_advanced_search'].present?
+  #cache-key.hide{ data: { 'cache-key': @cache_key } }
   .row.mini-margin
     .col-xs-12
       .ibox
