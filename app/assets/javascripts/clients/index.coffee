@@ -57,6 +57,7 @@ CIF.ClientsIndex = CIF.ClientsWelcome = do ->
     _reloadFilter()
     _addTourTip(tour)
     _extendDataTableSort()
+    _loadStatisticsData()
     _loadClientTableSummary()
     _addDataTableToAssessmentScoreData()
     _removeReferralDataColumnsInWizardClientColumn()
@@ -118,6 +119,7 @@ CIF.ClientsIndex = CIF.ClientsWelcome = do ->
     if $("#client-table-summary-tab-content").length > 0
       advanceFilter = new CIF.ClientAdvanceSearch()
       advanceFilter.prepareSearchParams("search")
+
       $.ajax
         type: 'POST'
         dataType: 'json'
@@ -126,12 +128,25 @@ CIF.ClientsIndex = CIF.ClientsWelcome = do ->
           basic_rules: $("#client_advanced_search_basic_rules").val()
         success: (data) ->
           $("#client-table-summary-tab-content").html(data.client_table_content)
+          _addDataTableToTableSummary()
+
+  _loadStatisticsData = ->
+    if $("#program-statistic").length > 0
+      advanceFilter = new CIF.ClientAdvanceSearch()
+      advanceFilter.prepareSearchParams("search")
+      
+      $.ajax
+        type: 'POST'
+        dataType: 'json'
+        url: "/clients/load_statistics_data"
+        data: 
+          basic_rules: $("#client_advanced_search_basic_rules").val()
+        success: (data) ->
           $('#cis-domain-score').data 'csi-domain', data.csi_statistics
           $('#program-statistic').data 'program-statistic', data.enrollments_statistics
 
           _handleCreateCsiDomainReport()
           _handleCreateCaseReport()
-          _addDataTableToTableSummary()
 
   _addDataTableToAssessmentScoreData = ->
     if $("body#clients-welcome").length > 0 || $("body#families-welcome").length > 0
