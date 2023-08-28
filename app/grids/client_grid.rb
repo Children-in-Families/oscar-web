@@ -554,8 +554,8 @@ class ClientGrid < BaseGrid
   end
 
   column(:program_streams, html: true, order: false, header: -> { I18n.t('datagrid.columns.clients.program_streams') }) do |object, a, b, c|
-    # client_enrollments = program_stream_name(object.client_enrollments.active, 'active_program_stream')
-    # render partial: 'clients/active_client_enrollments', locals: { active_programs: client_enrollments }
+    client_enrollments = program_stream_name(object.client_enrollments.active, 'active_program_stream')
+    render partial: 'clients/active_client_enrollments', locals: { active_programs: client_enrollments }
   end
 
   column(:received_by, preload: :received_by, order: proc { |object| object.joins(:received_by).order('users.first_name, users.last_name')}, html: true, header: -> { I18n.t('datagrid.columns.clients.received_by') }) do |object|
@@ -563,8 +563,8 @@ class ClientGrid < BaseGrid
   end
 
   column(:type_of_service, html: true, order: false, header: -> { I18n.t('datagrid.columns.clients.type_of_service') }) do |object|
-    # services = map_type_of_services(object)
-    # render partial: 'clients/type_of_services', locals: { type_of_services: services }
+    services = map_type_of_services(object)
+    render partial: 'clients/type_of_services', locals: { type_of_services: services }
   end
 
   def call_fields

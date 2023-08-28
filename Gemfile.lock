@@ -927,7 +927,7 @@ DEPENDENCIES
   dalli (~> 2.7, >= 2.7.11)
   danger (~> 5.16, >= 5.16.1)
   database_cleaner (~> 1.5, >= 1.5.1)
-  datagrid
+  datagrid (= 1.6.3)
   devise (~> 3.5, >= 3.5.2)
   devise_token_auth (~> 0.1.37)
   doorkeeper (~> 4.4, >= 4.4.3)
