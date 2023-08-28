@@ -26,11 +26,11 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
 
     $("#case_note_attendee").on "keyup", ->
       clearTimeout saveTimer
-      saveTimer = setTimeout _submitFormViaAjax, 1000
+      saveTimer = setTimeout _submitFormViaAjax, 2000
 
     $("#case_note_note").on "keyup", ->
       clearTimeout saveTimer
-      saveTimer = setTimeout _submitFormViaAjax, 1000
+      saveTimer = setTimeout _submitFormViaAjax, 2000
 
   _submitFormViaAjax = ->
     if $("#case-note-form").data("autosave")

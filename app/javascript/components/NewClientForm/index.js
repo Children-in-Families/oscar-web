@@ -378,6 +378,10 @@ const Forms = props => {
   }
 
   const handleSave = () => (callback, forceSave) => {
+    if (onSave) {
+      return
+    }
+
     forceSave = forceSave === undefined ? false : forceSave
 
     let valid = true;
