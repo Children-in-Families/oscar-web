@@ -1,46 +1,45 @@
-- cache_if @lazy_load_notification, (cache_keys_base + [current_user]) do
-  .row.border-bottom
-    %nav.navbar.navbar-static-top.bg{:role => "navigation", :style => "margin-bottom: 0"}
+.row.border-bottom
+  %nav.navbar.navbar-static-top.bg{:role => "navigation", :style => "margin-bottom: 0"}
+    - if user_signed_in?
+      .navbar-header.logo
+        %a.navbar-minimalize.minimalize-styl-2.btn.btn-primary{:href => "#"}
+          %i.fa.fa-bars
+    - else
+      .navbar-header.logo
+        - if user_signed_in?
+          = link_to root_path do
+            = image_tag(ENV['NGO_LOGO'], class: 'navbar-minimalize minimalize-styl-2')
+    %ul.nav.navbar-top-links.navbar-right.pull-right{ class: "#{ 'lazy-load-notification' if @lazy_load_notification }" }
       - if user_signed_in?
-        .navbar-header.logo
-          %a.navbar-minimalize.minimalize-styl-2.btn.btn-primary{:href => "#"}
-            %i.fa.fa-bars
-      - else
-        .navbar-header.logo
-          - if user_signed_in?
-            = link_to root_path do
-              = image_tag(ENV['NGO_LOGO'], class: 'navbar-minimalize minimalize-styl-2')
-      %ul.nav.navbar-top-links.navbar-right.pull-right{ class: "#{ 'lazy-load-notification' if @lazy_load_notification }" }
-        - if user_signed_in?
-          = render partial: 'layouts/notification' unless @lazy_load_notification
-            
-        %li#language-selection-dropdown
-          .btn-group#language-selection
-            %button.btn.btn-default.dropdown-toggle.btn-sm{ "aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button" }
-              = t('.language')
-              %span.caret
-            %ul.dropdown-menu
-              %li
-                - supported_languages = (current_organization&.supported_languages || Organization::SUPPORTED_LANGUAGES)
-                - supported_languages.each do |supported_lang|
-                  = link_to(url_for(params.merge({locale: supported_lang})), id: "lang-#{supported_lang}", method: request_method) do
-                    = image_tag(supported_languages_data.dig(supported_lang.to_sym, :flag_file_name))
-                    = supported_languages_data.dig(supported_lang.to_sym, :label)
+        = render partial: 'layouts/notification' unless @lazy_load_notification
+          
+      %li#language-selection-dropdown
+        .btn-group#language-selection
+          %button.btn.btn-default.dropdown-toggle.btn-sm{ "aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button" }
+            = t('.language')
+            %span.caret
+          %ul.dropdown-menu
+            %li
+              - supported_languages = (current_organization&.supported_languages || Organization::SUPPORTED_LANGUAGES)
+              - supported_languages.each do |supported_lang|
+                = link_to(url_for(params.merge({locale: supported_lang})), id: "lang-#{supported_lang}", method: request_method) do
+                  = image_tag(supported_languages_data.dig(supported_lang.to_sym, :flag_file_name))
+                  = supported_languages_data.dig(supported_lang.to_sym, :label)
 
-        - if user_signed_in?
-          %li
-            = link_to destroy_user_session_path, method: :delete do
-              %i.fa.fa-sign-out
-              = t('.log_out')
-          %li.account-setting.visible-xs-block
-            %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-              %span.clear
-                %span.block
-                  %i.fa.fa-tasks
-            %ul.dropdown-menu.animated.fadeInRight
-              %li
-                %p.logged-in-user
-                  %strong= "#{current_user.name} (#{current_user.roles})"
-              %li.divider
-              %li
-                = link_to t('.edit_profile'), edit_user_registration_path
+      - if user_signed_in?
+        %li
+          = link_to destroy_user_session_path, method: :delete do
+            %i.fa.fa-sign-out
+            = t('.log_out')
+        %li.account-setting.visible-xs-block
+          %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+            %span.clear
+              %span.block
+                %i.fa.fa-tasks
+          %ul.dropdown-menu.animated.fadeInRight
+            %li
+              %p.logged-in-user
+                %strong= "#{current_user.name} (#{current_user.roles})"
+            %li.divider
+            %li
+              = link_to t('.edit_profile'), edit_user_registration_path
