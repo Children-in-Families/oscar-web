@@ -131,7 +131,7 @@ CIF.ClientsIndex = CIF.ClientsWelcome = do ->
           _addDataTableToTableSummary()
 
   _loadStatisticsData = ->
-    if $("#program-statistic").length > 0
+    if $("#program-statistic.searched").length > 0
       advanceFilter = new CIF.ClientAdvanceSearch()
       advanceFilter.prepareSearchParams("search")
       
