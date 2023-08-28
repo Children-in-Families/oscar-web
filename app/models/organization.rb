@@ -3,6 +3,7 @@ class Organization < ActiveRecord::Base
   SUPPORTED_LANGUAGES = %w(en km my).freeze
   TYPES = ['Faith Based Organization', 'Government Organization', "Disabled People's Organization", 'Non Government Organization', 'Community Based Organization', 'Other Organization'].freeze
 
+  acts_as_paranoid
   has_paper_trail on: :update, only: :integrated
   mount_uploader :logo, ImageUploader
 
@@ -37,7 +38,7 @@ class Organization < ActiveRecord::Base
 
   class << self
     def current
-      Rails.cache.fetch(['current_organization', Apartment::Tenant.current]) do
+      Rails.cache.fetch(['current_organization', Apartment::Tenant.current, Organization.only_deleted.count]) do
         find_by(short_name: Apartment::Tenant.current)
       end
     end
@@ -95,6 +96,9 @@ class Organization < ActiveRecord::Base
           Importer::Import.new('Quantitative Case', general_data_file).quantitative_cases
           Rake::Task["field_settings:import"].invoke(org.short_name)
           Rake::Task["field_settings:import"].reenable
+
+          Thredded::MessageboardGroup.find_or_create_by(name: 'Archived', position: 0)
+
           referral_source_category = ReferralSource.find_by(name_en: referral_source_category_name)
           if referral_source_category
             referral_source = ReferralSource.find_or_create_by(name: "#{org.full_name} - OSCaR Referral")
@@ -173,7 +177,7 @@ class Organization < ActiveRecord::Base
   end
 
   def self.cache_mapping_ngo_names
-    Rails.cache.fetch([Apartment::Tenant.current, 'cache_mapping_ngo_names']) do
+    Rails.cache.fetch([Apartment::Tenant.current, 'cache_mapping_ngo_names', Organization.only_deleted.count]) do
       Organization.oscar.map { |org| { org.short_name => org.full_name } }
     end
   end
@@ -183,13 +187,13 @@ class Organization < ActiveRecord::Base
   end
 
   def self.cache_visible_ngos
-    Rails.cache.fetch([Apartment::Tenant.current, 'Organization', 'visible']) do
+    Rails.cache.fetch([Apartment::Tenant.current, 'Organization', 'visible', Organization.only_deleted.count]) do
       Organization.visible.order(:created_at).to_a
     end
   end
 
   def self.cached_organization_short_names(short_names)
-    Rails.cache.fetch([Apartment::Tenant.current, 'Organization', 'cached_organization_short_names', *short_names.sort]) {
+    Rails.cache.fetch([Apartment::Tenant.current, Organization.only_deleted.count, 'Organization', 'cached_organization_short_names', *short_names.sort]) {
       where("organizations.short_name IN (?)", short_names).pluck(:full_name)
     }
   end
@@ -197,17 +201,16 @@ class Organization < ActiveRecord::Base
   private
 
   def upsert_referral_source_category
-    current_org = Apartment::Tenant.current
     org_full_name = self.full_name
     rs_category_name = self.referral_source_category_name
 
     Organization.all.pluck(:short_name).each do |org_short_name|
-      Apartment::Tenant.switch! org_short_name
-      referral_source = ReferralSource.find_or_create_by(name: "#{org_full_name} - OSCaR Referral")
-      rs_category = ReferralSource.find_by(name_en: rs_category_name)
-      referral_source.update_attributes(ancestry: "#{rs_category.id}") if rs_category
+      Apartment::Tenant.switch(org_short_name) do
+        referral_source = ReferralSource.find_or_create_by(name: "#{org_full_name} - OSCaR Referral")
+        rs_category = ReferralSource.find_by(name_en: rs_category_name)
+        referral_source.update_attributes(ancestry: "#{rs_category.id}") if rs_category
+      end
     end
-    Apartment::Tenant.switch! current_org
   end
 
   def delete_referral_source_category
@@ -221,8 +224,8 @@ class Organization < ActiveRecord::Base
 
   def flush_cache
     Rails.cache.delete(['current_organization', short_name])
-    Rails.cache.delete([Apartment::Tenant.current, 'cache_mapping_ngo_names'])
-    Rails.cache.delete([Apartment::Tenant.current, 'Organization', 'visible'])
+    Rails.cache.delete([Apartment::Tenant.current, 'cache_mapping_ngo_names', Organization.only_deleted.count])
+    Rails.cache.delete([Apartment::Tenant.current, 'Organization', 'visible', Organization.only_deleted.count])
     cached_organization_short_names_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_organization_short_names/].blank? }
     cached_organization_short_names_keys.each { |key| Rails.cache.delete(key) }
   end
