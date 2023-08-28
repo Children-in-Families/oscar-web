@@ -119,6 +119,7 @@ Rails.application.routes.draw do
 
     collection do
       post '/advanced_search', to: 'clients#index'
+      post :load_client_table_summary
       get :advanced_search
       get :welcome
     end

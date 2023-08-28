@@ -16,7 +16,7 @@ class ClientsController < AdminController
 
   before_action :find_client, only: [:show, :edit, :update, :destroy, :custom_fields]
   before_action :assign_client_attributes, only: [:show, :edit]
-  before_action :set_association, except: [:index, :destroy, :version, :welcome]
+  before_action :set_association, except: [:index, :destroy, :version, :welcome, :load_client_table_summary]
   before_action :choose_grid, only: [:index]
   before_action :quantitative_type_editable, only: [:edit, :update, :new, :create]
   before_action :quantitative_type_readable
@@ -236,6 +236,15 @@ class ClientsController < AdminController
     page = params[:per_page] || 20
     @client   = Client.accessible_by(current_ability).friendly.find(params[:client_id]).decorate
     @versions = @client.versions.reorder(created_at: :desc).page(params[:page]).per(page)
+  end
+
+  def load_client_table_summary
+    choose_grid
+    $param_rules = params
+    basic_rules = JSON.parse(params[:basic_rules] || "{}")
+    _clients, query = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability)).filter
+
+    @results = @clients_by_user = @client_grid.scope { |scope| scope.where(query).accessible_by(current_ability) }.assets
   end
 
   private

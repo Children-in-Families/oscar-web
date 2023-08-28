@@ -57,8 +57,8 @@ CIF.ClientsIndex = CIF.ClientsWelcome = do ->
     _reloadFilter()
     _addTourTip(tour)
     _extendDataTableSort()
+    _loadClientTableSummary()
     _addDataTableToAssessmentScoreData()
-    _addDataTableToTableSummary()
     _removeReferralDataColumnsInWizardClientColumn()
     _handleShowCustomFormSelect()
     _reOrderRuleContainer()
@@ -113,6 +113,18 @@ CIF.ClientsIndex = CIF.ClientsWelcome = do ->
         a - b
       'formatted-num-desc': (a, b) ->
         b - a
+
+  _loadClientTableSummary = ->
+    if $("#client-table-summary-tab-content").length > 0
+      advanceFilter = new CIF.ClientAdvanceSearch()
+      advanceFilter.prepareSearchParams("search")
+      $.ajax
+        type: 'POST'
+        url: "/clients/load_client_table_summary"
+        data: 
+          basic_rules: $("#client_advanced_search_basic_rules").val()
+        success: (_data) ->
+          _addDataTableToTableSummary()
 
   _addDataTableToAssessmentScoreData = ->
     if $("body#clients-welcome").length > 0 || $("body#families-welcome").length > 0
