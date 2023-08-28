@@ -1,15 +1,15 @@
 class CsiStatistic
   def initialize(clients)
     @clients = clients
-    @@setting = Setting.cache_first
+    @setting = Setting.cache_first
   end
 
   def assessment_domain_score
-    if @@setting.enable_default_assessment? && @@setting.enable_custom_assessment?
+    if @setting.enable_default_assessment? && @setting.enable_custom_assessment?
       fetch_all_assessment_domain_score
-    elsif @@setting.enable_default_assessment?
+    elsif @setting.enable_default_assessment?
       fetch_default_assessment_domain_score
-    elsif @@setting.enable_custom_assessment?
+    elsif @setting.enable_custom_assessment?
       fetch_custom_assessment_domain_score
     end
   end
@@ -38,6 +38,8 @@ class CsiStatistic
   end
 
   def assessment_amount
+    return @assessment_amount if defined?(@assessment_amount)
+
     data = []
     return data unless @clients && @clients.any?
 
@@ -49,7 +51,8 @@ class CsiStatistic
     max_count.times do |i|
       data << assessment_ids.map { |ids| ids[i] }
     end
-    data
+
+    @assessment_amount = data
   end
 
   def fetch_default_assessment_domain_score

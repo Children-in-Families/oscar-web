@@ -23,10 +23,16 @@ module Api
 
     def assessments
       $param_rules = params
-      basic_rules = JSON.parse(params[:basic_rules] || "{}")
-      clients, _query = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability)).filter
 
-      assessments = Assessment.joins(:client).where(default: params[:default], client_id: clients.ids)
+      client_ids = if searched_client_ids.present?
+        searched_client_ids.split(',')
+      else
+        basic_rules = JSON.parse(params[:basic_rules] || "{}")
+        clients, _query = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability)).filter
+        clients.ids
+      end
+
+      assessments = Assessment.joins(:client).where(default: params[:default], client_id: client_ids)
       assessments = assessments.joins(:custom_assessment_setting).where(custom_assessment_settings: { id: params[:assessment_id] }) if params[:assessment_id].present?
 
       @assessments_count = assessments.count

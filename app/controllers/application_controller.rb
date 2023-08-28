@@ -154,4 +154,8 @@ class ApplicationController < ActionController::Base
   def save_draft?
     request.format.json? && params[:draft].present?
   end
+
+  def searched_client_ids
+    @searched_client_ids ||= Rails.cache.read(params[:cache_key]) if params[:cache_key]
+  end
 end

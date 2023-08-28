@@ -304,7 +304,7 @@ class User < ActiveRecord::Base
 
     if self.deactivated_at.nil?
       user_clients.active_accepted_status.includes(:case_notes).each do |client|
-        next if client.case_notes.count.zero?
+        next unless client.case_notes.any?
 
         client_next_case_note_date = client.next_case_note_date.to_date
         if client_next_case_note_date < Date.today
@@ -315,7 +315,7 @@ class User < ActiveRecord::Base
       end
     else
       user_clients.active_accepted_status.includes(:case_notes).each do |client|
-        next if client.case_notes.count.zero?
+        next unless client.case_notes.any?
 
         client_next_case_note_date = client.next_case_note_date(self.activated_at)
         next if client_next_case_note_date.nil?

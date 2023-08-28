@@ -124,7 +124,8 @@ CIF.ClientsIndex = CIF.ClientsWelcome = do ->
         type: 'POST'
         dataType: 'json'
         url: "/clients/load_client_table_summary"
-        data: 
+        data:
+          cache_key: $("#cache-key").data("cacheKey")
           basic_rules: $("#client_advanced_search_basic_rules").val()
         success: (data) ->
           $("#client-table-summary-tab-content").html(data.client_table_content)
@@ -139,7 +140,8 @@ CIF.ClientsIndex = CIF.ClientsWelcome = do ->
         type: 'POST'
         dataType: 'json'
         url: "/clients/load_statistics_data"
-        data: 
+        data:
+          cache_key: $("#cache-key").data("cacheKey")
           basic_rules: $("#client_advanced_search_basic_rules").val()
         success: (data) ->
           $('#cis-domain-score').data 'csi-domain', data.csi_statistics
@@ -149,7 +151,7 @@ CIF.ClientsIndex = CIF.ClientsWelcome = do ->
           _handleCreateCaseReport()
 
   _addDataTableToAssessmentScoreData = ->
-    if $("body#clients-welcome").length > 0 || $("body#families-welcome").length > 0
+    if $("body#clients-welcome").length > 0 || $("body#families-welcome").length > 0 || !$("#assessment-checkbox").is(":checked")
       return
 
     advanceFilter = new CIF.ClientAdvanceSearch()
@@ -189,7 +191,8 @@ CIF.ClientsIndex = CIF.ClientsWelcome = do ->
       sServerMethod: 'POST'
       ajax:
         url: url
-        data: 
+        data:
+          cache_key: $("#cache-key").data("cacheKey")
           basic_rules: $("#client_advanced_search_basic_rules").val()
         error: (jqXHR, textStatus, errorThrown) ->
           console.log("Datatable Ajax Error:", errorThrown)

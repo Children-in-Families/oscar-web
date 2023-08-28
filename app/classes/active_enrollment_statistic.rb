@@ -6,10 +6,12 @@ class ActiveEnrollmentStatistic
   def statistic_data
     ordered_enrollments    = @enrollments.order('enrollment_date')
     enrollment_dates       = ordered_enrollments.map(&:short_enrollment_date).uniq
-    enrollments_by_program = ordered_enrollments.group_by(&:program_stream_id).reject{|ps| ps.nil? }.sort
+    enrollments_by_program = ordered_enrollments.group_by(&:program_stream_id).reject{|ps| ps.nil? }
     data_series            = []
 
-    enrollments_by_program.each do |program_id, enrollment|
+    programs = ProgramStream.where(id: enrollments_by_program.keys)
+
+    enrollments_by_program.sort.each do |program_id, enrollment|
       enrollments_by_date = enrollment.group_by(&:short_enrollment_date)
 
       series = []
@@ -24,7 +26,7 @@ class ActiveEnrollmentStatistic
         end
       end
 
-      program = ProgramStream.find_by(id: program_id)
+      program = programs.find { |p| p.id == program_id }
 
       data_series << { name: "#{program&.name}", data: series }
     end
