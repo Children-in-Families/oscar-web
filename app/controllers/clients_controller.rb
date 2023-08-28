@@ -243,8 +243,17 @@ class ClientsController < AdminController
     $param_rules = params
     basic_rules = JSON.parse(params[:basic_rules] || "{}")
     _clients, query = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability)).filter
-
+    
     @results = @clients_by_user = @client_grid.scope { |scope| scope.where(query).accessible_by(current_ability) }.assets
+    
+    csi_statistics         = CsiStatistic.new(@client_grid.scope.where(id: @clients_by_user.ids).accessible_by(current_ability)).assessment_domain_score
+    enrollments_statistics = ActiveEnrollmentStatistic.new(@client_grid.scope.where(id: @clients_by_user.ids).accessible_by(current_ability)).statistic_data
+
+    render json: {
+      client_table_content: render_to_string(partial: 'clients/client_table_summary_content'),
+      csi_statistics: csi_statistics,
+      enrollments_statistics: enrollments_statistics
+    }
   end
 
   private

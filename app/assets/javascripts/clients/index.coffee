@@ -120,10 +120,17 @@ CIF.ClientsIndex = CIF.ClientsWelcome = do ->
       advanceFilter.prepareSearchParams("search")
       $.ajax
         type: 'POST'
+        dataType: 'json'
         url: "/clients/load_client_table_summary"
         data: 
           basic_rules: $("#client_advanced_search_basic_rules").val()
-        success: (_data) ->
+        success: (data) ->
+          $("#client-table-summary-tab-content").html(data.client_table_content)
+          $('#cis-domain-score').data 'csi-domain', data.csi_statistics
+          $('#program-statistic').data 'program-statistic', data.enrollments_statistics
+
+          _handleCreateCsiDomainReport()
+          _handleCreateCaseReport()
           _addDataTableToTableSummary()
 
   _addDataTableToAssessmentScoreData = ->
@@ -642,8 +649,6 @@ CIF.ClientsIndex = CIF.ClientsWelcome = do ->
     $('#client-statistic').click ->
       paramsAdvancedSearch = $('#params').val()
       if paramsAdvancedSearch != ''
-        _handleCreateCsiDomainReport()
-        _handleCreateCaseReport()
         _toggleCollapseOnOff()
       else
         if $('#cis-domain-score').is('[data-csi-domain]') && $('#program-statistic').is('[data-program-statistic]')

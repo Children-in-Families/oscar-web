@@ -308,8 +308,8 @@ module Api
     end
 
     def client_statistics
-      @csi_statistics = []#CsiStatistic.new($client_data).assessment_domain_score.to_json
-      @enrollments_statistics = []#ActiveEnrollmentStatistic.new($client_data).statistic_data.to_json
+      @csi_statistics = CsiStatistic.new($client_data).assessment_domain_score.to_json
+      @enrollments_statistics = ActiveEnrollmentStatistic.new($client_data).statistic_data.to_json
       { text: "#{@csi_statistics} & #{@enrollments_statistics}" }
     end
 

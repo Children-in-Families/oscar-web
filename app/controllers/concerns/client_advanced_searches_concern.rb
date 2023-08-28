@@ -21,8 +21,6 @@ module ClientAdvancedSearchesConcern
     respond_to do |f|
       f.html do
         begin
-          @csi_statistics         = []#CsiStatistic.new(@client_grid.scope.where(id: @clients_by_user.ids).accessible_by(current_ability)).assessment_domain_score.to_json
-          @enrollments_statistics = []#ActiveEnrollmentStatistic.new(@client_grid.scope.where(id: @clients_by_user.ids).accessible_by(current_ability)).statistic_data.to_json
           @client_grid = @client_grid.scope { |scope| scope.where(query).accessible_by(current_ability).page(params[:page]).per(20) }
         rescue NoMethodError
           redirect_to welcome_clients_path
