@@ -17,11 +17,23 @@ class FormBuilderAttachmentUploader < CarrierWave::Uploader::Base
     %w(jpg jpeg png doc docx xls xlsx pdf)
   end
 
+  def serializable_hash
+    super.merge(
+      filename: _filename
+    )
+  end
+
   protected
 
   def image?(new_file)
     if new_file.content_type.present?
       new_file.content_type.start_with? 'image'
     end
+  end
+
+  def _filename
+    file_name = File.basename(path).split('.').first.titleize
+    extention = File.basename(path).split('.').last
+    "#{file_name}.#{extention}"
   end
 end

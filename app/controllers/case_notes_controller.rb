@@ -1,4 +1,4 @@
- class CaseNotesController < AdminController
+class CaseNotesController < AdminController
   load_and_authorize_resource only: :destroy
 
   include CreateBulkTask
@@ -17,7 +17,7 @@
     unless current_user.admin? || current_user.strategic_overviewer?
       redirect_to root_path, alert: t('unauthorized.default') unless current_user.permission.case_notes_readable
     end
-    
+
     @case_notes = @client.case_notes.recent_meeting_dates.page(params[:page])
     @custom_assessment_settings = CustomAssessmentSetting.all.where(enable_custom_assessment: true)
   end
@@ -41,7 +41,7 @@
 
   def update
     attributes = case_note_params.merge(last_auto_save_at: Time.current)
-    
+
     saved = if save_draft?
       @case_note.assign_attributes(attributes)
       PaperTrail.without_tracking { @case_note.save(validate: false) }
@@ -55,7 +55,6 @@
       if params.dig(:case_note, :case_note_domain_groups_attributes)
         @case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes], current_user.id)
       end
-
       create_bulk_task(params[:task], @case_note) if params.key?(:task)
       @case_note.complete_screening_tasks(params) if params[:case_note].key?(:tasks_attributes)
       create_task_task_progress_notes
@@ -105,21 +104,14 @@
 
   private
 
-  def case_note_params
-    default_params = permit_case_note_params
-    default_params = params.require(:case_note).permit(:meeting_date, :attendee, :interaction_type, :custom, :note, :custom_assessment_setting_id, case_note_domain_groups_attributes: [:id, :note, :domain_group_id, :task_ids, attachments: []]) if action_name == 'create'
-    default_params = assign_params_to_case_note_domain_groups_params(default_params) if default_params.dig(:case_note, :domain_group_ids)
-    default_params = default_params.merge(selected_domain_group_ids: params.dig(:case_note, :domain_group_ids).reject(&:blank?))
-    meeting_date   = "#{default_params[:meeting_date]} #{Time.now.strftime("%T %z")}"
-    default_params = default_params.merge(meeting_date: meeting_date)
-  end
-
-  def remove_attachment_at_index(index)
-    remain_attachment = @case_note.attachments
-    deleted_attachment = remain_attachment.delete_at(index)
-    deleted_attachment.try(:remove_images!)
-    remain_attachment.empty? ? @case_note.remove_attachments! : (@case_note.attachments = remain_attachment )
-    message = t('.fail_delete_attachment') unless @case_note.save
+  def add_more_attachments(new_files)
+    if new_files.present?
+      case_note_domain_group = @case_note.case_note_domain_groups.first
+      files = case_note_domain_group.attachments
+      files += new_files
+      case_note_domain_group.attachments = files
+      case_note_domain_group.save
+    end
   end
 
   def set_client
@@ -149,16 +141,17 @@
 
   def authorize_client
     return true if current_user.admin?
+
     authorize @client, :create?
   end
 
   def case_notes_permission(permission)
-    unless current_user.admin? || current_user.strategic_overviewer?
-      if permission == 'readable'
-        redirect_to root_path, alert: t('unauthorized.default') unless current_user.permission.case_notes_readable
-      else
-        redirect_to root_path, alert: t('unauthorized.default') unless current_user.permission.case_notes_editable
-      end
+    return if current_user.admin? || current_user.strategic_overviewer?
+
+    if permission == 'readable'
+      redirect_to root_path, alert: t('unauthorized.default') unless current_user.permission.case_notes_readable
+    else
+      redirect_to root_path, alert: t('unauthorized.default') unless current_user.permission.case_notes_editable
     end
   end
 
@@ -167,7 +160,8 @@
     #   :id, :name, :completion_date, :completed, :completed_by_id, :_destroy,
     #   task_progress_notes_attributes: [:id, :progress_note, :task_id, :_destroy]
     # ]
-    params.require(:case_note).permit(:meeting_date, :attendee, :interaction_type, :custom, :note, :custom_assessment_setting_id,
+    params.require(:case_note).permit(
+      :meeting_date, :attendee, :interaction_type, :custom, :note, :custom_assessment_setting_id,
       case_note_domain_groups_attributes: [
         :id, :note, :domain_group_id, :task_ids
       ]

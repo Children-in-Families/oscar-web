@@ -1,4 +1,5 @@
 .task-form.nested-fields
+  = f.hidden_field :user_id, value: current_user.id
   = f.hidden_field :domain_id, value: params[:domain_id]
   = f.hidden_field :relation, value: 'assessment'
   .row
