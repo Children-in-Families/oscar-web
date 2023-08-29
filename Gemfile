@@ -141,3 +141,5 @@ end
 gem "sentry-raven", "~> 2.13"
 
 gem "redis-rails", "~> 5.0"
+
+gem "ahoy_email", "1.0.3"
