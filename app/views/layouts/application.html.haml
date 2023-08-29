@@ -8,6 +8,7 @@
     %meta{:content => "", :name => "author"}
 
     %title= current_organization.try(:short_name) == 'mho'?  "Mother's Heart Organisation" : "OSCaR - Open Source Case-management and Record-keeping - #{controller_name.capitalize}"
+    = favicon_link_tag 'header_icon.png', rel: 'icon'
     %script{:src => "https://cdn.jsdelivr.net/npm/interactjs@1.4.1/dist/interact.min.js"}
 
     = render 'layouts/error_tracking'
