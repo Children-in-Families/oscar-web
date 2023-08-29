@@ -2,6 +2,7 @@ class Family::AssessmentsController < Api::ApplicationController
   include FamilyAdvancedSearchesConcern
 
   def index
+    $param_rules = params
     basic_rules = JSON.parse(params[:basic_rules] || "{}")
     families    = AdvancedSearches::Families::FamilyAdvancedSearch.new(basic_rules, Family.accessible_by(current_ability)).filter
     assessments = Assessment.joins(:family).where(default: false, family_id: families.ids)

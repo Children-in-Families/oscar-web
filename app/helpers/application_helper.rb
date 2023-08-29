@@ -383,12 +383,12 @@ module ApplicationHelper
   end
 
   def assessment_options
-    @assessment_options ||= (Setting.cache_first.enable_default_assessment? ? [[0, Setting.cache_first.default_assessment, { "data-type" => :default }]] : []) + CustomAssessmentSetting.all.where(enable_custom_assessment: true).pluck(:id, :custom_assessment_name).to_a
+    @assessment_options ||= (Setting.cache_first.enable_default_assessment? ? [[0, Setting.cache_first.default_assessment, { "data-type" => :default, "data-select-group" => t('advanced_search.fields.csi_domain_scores')  }]] : []) + CustomAssessmentSetting.all.where(enable_custom_assessment: true).pluck(:id, :custom_assessment_name).map{ |item| [item.first, item.last, { "data-select-group" => "#{t('advanced_search.fields.custom_csi_domain_scores')} | #{item.last}" }]} 
   end
 
   def family_assessment_options
     [
-      [0, t('families.family_assessment'), { "data-type" => :default }]
+      [0, t('families.family_assessment'), { "data-type" => :default, "data-select-group" => t('advanced_search.fields.family_assessment_domain_scores') }]
     ]
   end
 

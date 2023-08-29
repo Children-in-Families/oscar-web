@@ -17,6 +17,8 @@
             %label= t('.program_stream_column')
             = render 'clients/client_advanced_searches/program_stream_column', program_stream_columns: @program_stream_columns
           .col-xs-12{ class: current_setting.try(:enable_hotline) ? 'col-md-2' : 'col-md-3' }
+            %label= t('.assessment')
+            = render 'clients/client_advanced_searches/assessment_columns'
           - if current_setting.try(:enable_hotline) == true
             .col-xs-12.col-md-3
               %label= t('.hotline_column')

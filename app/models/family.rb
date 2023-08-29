@@ -111,7 +111,7 @@ class Family < ActiveRecord::Base
           male_adult_count: male_adult_count,
           female_adult_count: female_adult_count,
           male_children_count: male_children_count,
-          female_children_count: female_children_count,
+          female_children_count: female_children_count
         }
       }
     ]

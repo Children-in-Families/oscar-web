@@ -69,5 +69,8 @@ Rails.application.configure do
     # Bullet.raise = true
   end
 
+  LetterOpenerWeb.configure do |config|
+    config.letters_location = Rails.root.join('tmp', 'letter_opener')
+  end
   # config.asset_host = 'http://localhost:3000'
 end

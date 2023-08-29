@@ -5,4 +5,12 @@ body[id='screening_assessments-update'] {
   .collection_radio_buttons {
     margin-left: 5px;
   }
+
+  fieldset[data-developmental-marker-screening-assessment-name] {
+    .popover {
+      width: auto;
+      max-width: 420px;
+      min-width: 250px
+    }
+  }
 }

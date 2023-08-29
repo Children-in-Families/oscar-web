@@ -519,7 +519,7 @@ Rails.application.routes.draw do
 
   if Rails.env.production? || Rails.env.staging?
     Sidekiq::Web.use(Rack::Auth::Basic) do |user, password|
-      [user, password] == ['admin', 'admin@@$$password']
+      [user, password] == [ENV['SIDEKIQ_USER'], ENV['SIDEKIQ_PASSWORD']]
     end
   end
 end
