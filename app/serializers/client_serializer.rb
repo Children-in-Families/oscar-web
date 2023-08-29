@@ -17,7 +17,7 @@ class ClientSerializer < ActiveModel::Serializer
               :global_id, :external_id, :external_id_display, :mosvy_number, :external_case_worker_name, :external_case_worker_id,
               :other_phone_whatsapp, :preferred_language, :national_id, :birth_cert, :family_book, :passport, :referred_external,
               :marital_status, :nationality, :ethnicity, :location_of_concern, :type_of_trafficking, :education_background, :department, :locality,
-              :ngo_partner, :quantitative_case_ids, :brc_client_address, :family
+              :ngo_partner, :quantitative_case_ids, :brc_client_address, :family, :updated_at
 
   has_one :carer
   has_one :referee
