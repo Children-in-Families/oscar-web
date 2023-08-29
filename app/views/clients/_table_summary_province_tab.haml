@@ -1,4 +1,4 @@
-- clients = Client.find_by_sql(["SELECT clients.*, client_enrollments.program_stream_id FROM clients INNER JOIN client_enrollments ON clients.id = client_enrollments.client_id AND clients.id IN (?)", @results.ids])
+- clients = Client.find_by_sql(["SELECT clients.*, client_enrollments.program_stream_id FROM clients INNER JOIN client_enrollments ON clients.id = client_enrollments.client_id AND clients.id IN (?)", @results.ids]).uniq
 - no_program_clients = @results.includes(:client_enrollments, :province).where(client_enrollments: {client_id: nil})
 - provinces =  @results.map(&:province_id).uniq.compact.map{ |pid| Province.cached_find(pid) }.compact.sort_by(&:name)
 
