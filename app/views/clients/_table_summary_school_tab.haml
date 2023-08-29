@@ -1,4 +1,4 @@
-- clients = Client.find_by_sql(["SELECT clients.*, client_enrollments.program_stream_id FROM clients INNER JOIN client_enrollments ON clients.id = client_enrollments.client_id AND clients.id IN (?)", @results.ids])
+- clients = Client.find_by_sql(["SELECT clients.*, client_enrollments.program_stream_id FROM clients INNER JOIN client_enrollments ON clients.id = client_enrollments.client_id AND clients.id IN (?)", @results.ids]).uniq
 - no_program_clients = @results.includes(:client_enrollments).where(client_enrollments: {client_id: nil})
 - schools = %w(no_school pre_school primary_school secondary_school high_school university)
 - all_clients = clients + no_program_clients

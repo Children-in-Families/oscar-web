@@ -16,7 +16,7 @@
     %tbody
       - totalChildFemale = totalChildMale = totalChildOther = totalNoProgram = 0
       - totalAdultFemale = totalAdultMale = totalAdultOther = total = 0
-      - results = @results.joins(:client_enrollments)
+      - results = @results.joins(:client_enrollments).distinct
       - noProgramResults = @results.includes(:client_enrollments).where(client_enrollments: {client_id: nil})
       - ProgramStream.where(id: results.pluck(:program_stream_id).uniq).each do |program|
         %tr
