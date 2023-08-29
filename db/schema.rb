@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20230825112910) do
+ActiveRecord::Schema.define(version: 20230829025343) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -119,6 +119,15 @@ ActiveRecord::Schema.define(version: 20230825112910) do
 
   add_index "agency_clients", ["agency_id"], name: "index_agency_clients_on_agency_id", using: :btree
   add_index "agency_clients", ["client_id"], name: "index_agency_clients_on_client_id", using: :btree
+
+  create_table "ahoy_messages", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "user_type"
+    t.text     "to"
+    t.string   "mailer"
+    t.text     "subject"
+    t.datetime "sent_at"
+  end
 
   create_table "ar_internal_metadata", primary_key: "key", force: :cascade do |t|
     t.string   "value"

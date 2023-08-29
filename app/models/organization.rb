@@ -32,7 +32,7 @@ class Organization < ActiveRecord::Base
 
   before_save :clean_short_name, on: :create
   before_save :clean_supported_languages, if: :supported_languages?
-  after_commit :upsert_referral_source_category, on: [:create, :update]
+  after_commit :upsert_referral_source_category, on: [:update]
   after_commit :delete_referral_source_category, on: :destroy
   after_commit :flush_cache
 
@@ -62,6 +62,7 @@ class Organization < ActiveRecord::Base
 
     def seed_generic_data(org_id, referral_source_category_name=nil)
       org = find_by(id: org_id)
+      db_value = ENV['DB']
 
       if org
         Rake::Task.clear
@@ -78,8 +79,10 @@ class Organization < ActiveRecord::Base
           Rake::Task['global_service:drop_constrain'].invoke(org.short_name)
           Rake::Task['global_service:drop_constrain'].reenable
 
+          ENV['DB'] = org.short_name # This will seed data only for the current tenant
           Rake::Task['db:seed'].invoke
           Rake::Task['db:seed'].reenable
+          
           Importer::Import.new('Agency', general_data_file).agencies
           Importer::Import.new('Department', general_data_file).departments
           if country == 'nepal'
@@ -107,6 +110,8 @@ class Organization < ActiveRecord::Base
             ReferralSource.find_or_create_by(name: "#{org.full_name} - OSCaR Referral")
           end
         end
+
+        ENV['DB'] = db_value
       end
     end
 
