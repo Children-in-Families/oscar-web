@@ -64,7 +64,7 @@ namespace :deploy do
   before :updated, :cleanup_assets
 end
 
-after :deploy, 'cache:clear'
+# after :deploy, 'cache:clear'
 
 namespace :cache do
   task :clear do
