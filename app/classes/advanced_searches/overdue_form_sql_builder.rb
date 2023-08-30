@@ -28,8 +28,8 @@ module AdvancedSearches
       def no_case_note
         client_ids = []
         setting = Setting.cache_first
-        max_case_note = setting.try(:max_case_note) || 30
-        case_note_frequency = setting.try(:case_note_frequency) || 'day'
+        max_case_note = setting.max_case_note || 30
+        case_note_frequency = setting.case_note_frequency || 'day'
         case_note_period = max_case_note.send(case_note_frequency).ago
         case_note_overdue_ids = CaseNote.no_case_note_in(case_note_period).ids
 

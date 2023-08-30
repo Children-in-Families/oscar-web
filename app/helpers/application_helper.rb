@@ -1,6 +1,10 @@
 module ApplicationHelper
   Thredded::ApplicationHelper
 
+  def setting
+    Setting.cache_first
+  end
+
   def asset_data_base64(path)
     if Rails.configuration.assets.compile
       asset = Rails.application.assets.find_asset(path)
@@ -295,13 +299,13 @@ module ApplicationHelper
     if @notification.any_overdue_assessments? && @notification.any_due_today_assessments?
       overdue_count = @notification.overdue_assessments_count
       due_today_count = @notification.due_today_assessments_count
-      "#{I18n.t('layouts.notification.assessments_count', count: overdue_count)} #{Setting.cache_first.default_assessment} #{I18n.t('layouts.notification.overdue_assessments', count: overdue_count)} #{I18n.t('layouts.notification.overdue_and_due_today_count', count: due_today_count)}"
+      "#{I18n.t('layouts.notification.assessments_count', count: overdue_count)} #{setting.default_assessment} #{I18n.t('layouts.notification.overdue_assessments', count: overdue_count)} #{I18n.t('layouts.notification.overdue_and_due_today_count', count: due_today_count)}"
     elsif @notification.any_overdue_assessments?
       count = @notification.overdue_assessments_count
-      "#{I18n.t('layouts.notification.assessments_count', count: count)} #{Setting.cache_first.default_assessment} #{I18n.t('layouts.notification.overdue_assessments', count: count)}"
+      "#{I18n.t('layouts.notification.assessments_count', count: count)} #{setting.default_assessment} #{I18n.t('layouts.notification.overdue_assessments', count: count)}"
     else
       count = @notification.due_today_assessments_count
-      "#{I18n.t('layouts.notification.assessments_count', count: count)} #{Setting.cache_first.default_assessment} #{I18n.t('layouts.notification.due_today_assessments', count: count)}"
+      "#{I18n.t('layouts.notification.assessments_count', count: count)} #{setting.default_assessment} #{I18n.t('layouts.notification.due_today_assessments', count: count)}"
     end
   end
 
@@ -371,26 +375,39 @@ module ApplicationHelper
   end
 
   def enable_default_assessment?
-    Setting.cache_first.try(:enable_default_assessment)
+    setting.try(:enable_default_assessment)
   end
 
   def enable_custom_assessment?
-    CustomAssessmentSetting.where(enable_custom_assessment: true).present?
+    CustomAssessmentSetting.cache_only_enable_custom_assessment.any?
   end
 
   def assessment_options
-    @assessment_options ||= (Setting.cache_first.enable_default_assessment? ? [[0, Setting.cache_first.default_assessment, { "data-type" => :default, "data-select-group" => t('advanced_search.fields.csi_domain_scores')  }]] : []) + CustomAssessmentSetting.all.where(enable_custom_assessment: true).pluck(:id, :custom_assessment_name).map{ |item| [item.first, item.last, { "data-select-group" => "#{t('advanced_search.fields.custom_csi_domain_scores')} | #{item.last}" }]} 
+    options = CustomAssessmentSetting.cache_only_enable_custom_assessment.map do |item|
+      [
+        item.id,
+        item.custom_assessment_name,
+        { "data-select-group" => "#{t('advanced_search.fields.custom_csi_domain_scores')} | #{item.custom_assessment_name}" }
+      ]
+    end
+
+    options = options.unshift([0, setting.default_assessment, { "data-type" => :default, "data-select-group" => t('advanced_search.fields.csi_domain_scores')  }]) if setting.enable_default_assessment?
+    options
   end
 
   def family_assessment_options
     [
-      [0, t('families.family_assessment'), { "data-type" => :default, "data-select-group" => t('advanced_search.fields.family_assessment_domain_scores') }]
+      [
+        0,
+        t('families.family_assessment'),
+        { "data-type" => :default, "data-select-group" => t('advanced_search.fields.family_assessment_domain_scores') }
+      ]
     ]
   end
 
   def country_langauge
     return 'Swahili' if current_organization.short_name == 'cccu'
-    country = current_setting.try(:country_name)
+    country = setting.try(:country_name)
     case country
     when 'cambodia' then 'Khmer'
     when 'myanmar' then 'Burmese'

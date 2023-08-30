@@ -1,5 +1,5 @@
 - if params[:data] == 'recent'
-  - recent_record = enrolled_programs.order(created_at: :desc).first.try(:program_stream).try(:name)
+  - recent_record = enrolled_programs.order(created_at: :desc).first&.program_stream&.name
   - if recent_record.present?
     %ul{'data-program_stream': '' }
       %li= recent_record

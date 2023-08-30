@@ -33,7 +33,7 @@
                   %h4= "#{assessment.client.name}"
                   - if domain.custom_domain?
                     %p= "#{t('care_plans.form.domain')} #{domain.name} #{domain.identity}"
-                  - elsif current_organization.try(:aht) == true
+                  - elsif current_organization.aht?
                     %p= domain_name_for_aht(ad.object, ad.index)
                   - else
                     %p= "#{t('care_plans.form.domain')} #{t("domains.domain_names.#{ad.object.domain.name.downcase.reverse}")} #{t("domains.domain_identies.#{ad.object.domain.identity.strip.parameterize('_')}_#{ad.object.domain.name.downcase}")}"
