@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20230824143849) do
+ActiveRecord::Schema.define(version: 20230829025343) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,19 +53,20 @@ ActiveRecord::Schema.define(version: 20230824143849) do
   add_index "action_results", ["government_form_id"], name: "index_action_results_on_government_form_id", using: :btree
 
   create_table "admin_users", force: :cascade do |t|
-    t.string   "email",                  default: "",      null: false
-    t.string   "encrypted_password",     default: "",      null: false
+    t.string   "email",                  default: "",       null: false
+    t.string   "encrypted_password",     default: "",       null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.datetime "created_at",                               null: false
-    t.datetime "updated_at",                               null: false
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
     t.string   "token"
     t.string   "first_name"
     t.string   "last_name"
-    t.string   "provider",               default: "email", null: false
-    t.string   "uid",                    default: "",      null: false
+    t.string   "provider",               default: "email",  null: false
+    t.string   "uid",                    default: "",       null: false
     t.json     "tokens"
+    t.string   "role",                   default: "viewer"
   end
 
   add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
@@ -118,6 +119,15 @@ ActiveRecord::Schema.define(version: 20230824143849) do
 
   add_index "agency_clients", ["agency_id"], name: "index_agency_clients_on_agency_id", using: :btree
   add_index "agency_clients", ["client_id"], name: "index_agency_clients_on_client_id", using: :btree
+
+  create_table "ahoy_messages", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "user_type"
+    t.text     "to"
+    t.string   "mailer"
+    t.text     "subject"
+    t.datetime "sent_at"
+  end
 
   create_table "ar_internal_metadata", primary_key: "key", force: :cascade do |t|
     t.string   "value"
@@ -1906,6 +1916,8 @@ ActiveRecord::Schema.define(version: 20230824143849) do
     t.integer  "referred_count",                default: 0
     t.integer  "exited_client",                 default: 0
     t.datetime "deleted_at"
+    t.string   "onboarding_status",             default: "pending"
+    t.integer  "users_count",                   default: 0
   end
 
   add_index "organizations", ["deleted_at"], name: "index_organizations_on_deleted_at", using: :btree

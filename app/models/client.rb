@@ -7,6 +7,8 @@ class Client < ActiveRecord::Base
 
   extend FriendlyId
 
+  acts_as_paranoid
+
   require 'text'
 
   mount_uploaders :national_id_files, FileUploader
@@ -188,6 +190,7 @@ class Client < ActiveRecord::Base
   scope :referred_external,                        -> (external_system_name)       { joins(:referrals).where("clients.referred_external = ? AND referrals.ngo_name = ?", true, external_system_name) }
   scope :test_clients,                             ->        { where(for_testing: true) }
   scope :without_test_clients,                     ->        { where(for_testing: false) }
+  scope :reportable,                               ->        { with_deleted.without_test_clients }
 
   class << self
     def find_shared_client(options)
@@ -277,7 +280,8 @@ class Client < ActiveRecord::Base
     end
 
     def unattache_to_other_families(allowed_family_id = nil)
-      records = joins("LEFT JOIN family_members ON clients.id = family_members.client_id WHERE family_members.family_id IS NULL")
+      # Rails is fail to build correct query with acts_as_paranoid in this case
+      records = with_deleted.joins("LEFT JOIN family_members ON clients.id = family_members.client_id WHERE family_members.family_id IS NULL AND clients.deleted_at IS NULL")
 
       if allowed_family_id.present?
         records += joins(:family_member).where(family_members: { family_id: allowed_family_id})
@@ -1013,6 +1017,22 @@ class Client < ActiveRecord::Base
 
   def female?
     gender == 'female'
+  end
+
+  def adult_male?
+    adult? && male?
+  end
+
+  def adult_female?
+    adult? && female?
+  end
+
+  def child_male?
+    child? && male?
+  end
+
+  def child_female?
+    child? && female?
   end
 
   def other_gender?

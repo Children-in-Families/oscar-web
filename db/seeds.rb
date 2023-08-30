@@ -1822,8 +1822,6 @@ end
 
 Location.find_or_create_by(name: 'ផ្សេងៗ Other', order_option: 1)
 
-Thredded::MessageboardGroup.find_or_create_by(name: 'Archived')
-
 # Organization.create_and_build_tenant(short_name: 'ngo_subdomain', full_name: 'NGO Name', logo: File.open(Rails.root.join('path_to_ngo_logo')))
 
 interviewees     = ['កុមារ', 'ឪពុកម្ដាយ', 'អ្នកអាណាព្យាបាល', 'អ្នកថែទាំ', 'ផ្សេងៗ (សូមបញ្ជាក់)']
