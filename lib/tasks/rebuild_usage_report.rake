@@ -28,6 +28,12 @@ namespace :usage_report do
       end
     end
   end
+
+  desc "Build latest usage report with dummy data"
+  task :build_latest_dummy, [:short_name] => :environment do |task, args|
+    puts "=====================rebuilding report on schema #{args.short_name} ====================================="
+    UsageReportBuilder.call(Organization.find_by(short_name: args.short_name), 1.month.ago.month, 1.month.ago.year, true, true)
+  end
 end
 
 def rebuild_report(org)

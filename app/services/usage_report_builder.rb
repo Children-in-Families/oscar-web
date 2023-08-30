@@ -3,12 +3,14 @@ class UsageReportBuilder < ServiceBase
   attr_reader :month
   attr_reader :year
   attr_reader :update
+  attr_reader :dummy_data
 
-  def initialize(organization, month, year, update = false)
+  def initialize(organization, month, year, update = false, dummy_data = false)
     @organization = organization
     @month = month
     @year = year
     @update = update
+    @dummy_data = dummy_data
   end
 
   def call
@@ -202,7 +204,11 @@ class UsageReportBuilder < ServiceBase
   end
 
   def date_range
-    @date_range ||= Date.new(year, month, 1)..Date.new(year, month, 1).end_of_month
+    if dummy_data && Rails.env.development?
+      @date_range ||= 5.years.ago..Date.current
+    else
+      @date_range ||= Date.new(year, month, 1)..Date.new(year, month, 1).end_of_month
+    end
   end
 
   def clients_has_disability
