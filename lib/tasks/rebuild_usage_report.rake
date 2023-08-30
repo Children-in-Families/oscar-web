@@ -8,7 +8,7 @@ namespace :usage_report do
       Organization.without_shared.each do |org|
         begin 
           rebuild_report(org)
-        rescue PG::UndefinedColumn => e
+        rescue ActiveRecord::StatementInvalid => e
           puts "===================== error on schema #{org.short_name} ====================================="
           puts e.message
           puts "===================== Skipping ====================================="
