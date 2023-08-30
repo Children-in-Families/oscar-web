@@ -71,7 +71,7 @@ class UsageReportBuilder < ServiceBase
 
   def cross_referral_to_primero_cases
     data = {
-      total: clients_from_primero.count,
+      total: clients_to_primero.count,
       adult_female: clients_to_primero.count(&:adult_female?),
       adult_male: clients_to_primero.count(&:adult_male?),
       child_female: clients_to_primero.count(&:child_female?),
