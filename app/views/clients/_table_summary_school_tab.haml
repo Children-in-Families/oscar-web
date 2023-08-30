@@ -1,4 +1,4 @@
-- clients = Client.find_by_sql(["SELECT clients.*, client_enrollments.program_stream_id FROM clients INNER JOIN client_enrollments ON clients.id = client_enrollments.client_id AND clients.id IN (?)", @results.ids]).uniq
+- clients = @results.joins(:client_enrollments).distinct
 - no_program_clients = @results.includes(:client_enrollments).where(client_enrollments: {client_id: nil})
 - schools = %w(no_school pre_school primary_school secondary_school high_school university)
 - all_clients = clients + no_program_clients
@@ -17,8 +17,9 @@
           %th= t('clients.table_summary.male')
           %th= t('clients.table_summary.other')
     %tbody
-      - ProgramStream.where(id: clients.map(&:program_stream_id).uniq).each do |program|
-        - by_program = clients.select{ |client| client.program_stream_id == program.id }.uniq
+      - ProgramStream.where(id: clients.pluck(:program_stream_id).uniq).each do |program|
+        - by_program = clients.where(client_enrollments: { program_stream_id: program.id }).distinct
+
         %tr
           %td= program.name
           - schools.each do |method_name|
