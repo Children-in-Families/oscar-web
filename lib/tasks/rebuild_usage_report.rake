@@ -6,7 +6,13 @@ namespace :usage_report do
       rebuild_report(org)
     else
       Organization.without_shared.each do |org|
-        rebuild_report(org)
+        begin 
+          rebuild_report(org)
+        rescue PG::UndefinedColumn => e
+          puts "===================== error on schema #{org.short_name} ====================================="
+          puts e.message
+          puts "===================== Skipping ====================================="
+        end
       end
     end
   end
