@@ -179,6 +179,7 @@ class UsageReportBuilder < ServiceBase
 
   def added_cases
     data = {
+      login_per_month: Visit.excludes_non_devs.withtin(date_range).count,
       total: clients.count,
       adult_female: clients.count(&:adult_female?),
       adult_male: clients.count(&:adult_male?),
