@@ -28,11 +28,11 @@ class CaseNote < ActiveRecord::Base
   scope :draft, -> { where(draft: true) }
   scope :draft_untouch, -> { draft.where(last_auto_save_at: nil) }
   scope :not_untouch_draft, -> { where("draft IS FALSE OR last_auto_save_at IS NOT NULL") }
-  
+
   scope :no_case_note_in, ->(value) { where('meeting_date <= ? AND id = (SELECT MAX(cn.id) FROM CASE_NOTES cn where CASE_NOTES.client_id = cn.client_id)', value) }
-  
+
   default_scope { not_untouch_draft }
-  
+
   before_create :set_assessment
 
   def populate_notes(custom_id, custom_case_note)
@@ -57,27 +57,18 @@ class CaseNote < ActiveRecord::Base
 
   def complete_tasks(case_note_domain_groups_params, current_user_id = nil)
     return if case_note_domain_groups_params.nil?
-    case_note_domain_groups_params.to_a.each do |_, param|
-      next unless param[:domain_group_id]
 
-      task_ids = param['tasks_attributes'] && param['tasks_attributes'].values.reject{|h| h['completed'] == '0' }.map{|h| h['id'] } || []
-      next if task_ids.blank?
-
-      case_note_domain_group = case_note_domain_groups.find_by(domain_group_id: param[:domain_group_id])
-      case_note_tasks = Task.with_deleted.where(id: task_ids)
-
-      if case_note_tasks.any?
-        case_note_tasks.update_all(case_note_domain_group_id: case_note_domain_group.id)
-        case_note_tasks.set_complete(self, current_user_id)
-  
-        service_delivery_task(param, case_note_tasks)
-        case_note_domain_group.save
+    case_note_domain_groups_params.to_a.each do |array_attr, param|
+      if param
+        handle_complete_task_from_web(param, current_user_id)
+      else
+        handle_complete_task_from_api(array_attr, current_user_id)
       end
     end
   end
 
   def complete_screening_tasks(param)
-    attr =  param[:case_note][:tasks_attributes].to_a.map {|index, attr| [attr[:id], (attr['completion_date'] = meeting_date; attr) ] }.to_h
+    attr = param[:case_note][:tasks_attributes].to_a.map { |_, attr| [attr[:id], (attr['completion_date'] = meeting_date; attr)] }.to_h
     Task.update(attr.keys, attr.values)
     Task.where(id: attr.keys).update_all(case_note_id: id) unless tasks.where(id: attr.keys).any?
   end
@@ -96,7 +87,7 @@ class CaseNote < ActiveRecord::Base
 
   def service_delivery_task(param, case_note_tasks)
     if Organization.ratanak?
-      param['tasks_attributes'] &&  param['tasks_attributes'].to_a.each do |index, task_param|
+      param['tasks_attributes'] && param['tasks_attributes'].to_a.each do |_, task_param|
         next if task_param.blank?
 
         service_delivery_task_ids = task_param['service_delivery_task_ids'].reject(&:blank?) if task_param['service_delivery_task_ids']
@@ -144,5 +135,37 @@ class CaseNote < ActiveRecord::Base
 
   def not_using_assessment_tool?
     (!enable_default_assessment? && !CustomAssessmentSetting.all.all?(&:enable_custom_assessment))
+  end
+
+  def handle_complete_task_from_web(param, current_user_id)
+    return unless param[:domain_group_id]
+
+    task_ids = param['tasks_attributes'] && param['tasks_attributes'].values.reject { |h| h['completed'] == '0' }.map { |h| h['id'] } || []
+    return if task_ids.blank?
+
+    case_note_domain_group = case_note_domain_groups.find_by(domain_group_id: param[:domain_group_id])
+    case_note_tasks = Task.with_deleted.where(id: task_ids)
+    return if case_note_tasks.reject(&:blank?).blank?
+
+    case_note_tasks.update_all(case_note_domain_group_id: case_note_domain_group.id)
+    case_note_domain_group.reload
+    case_note_domain_group.tasks.with_deleted.set_complete(self, current_user_id)
+    service_delivery_task(param, case_note_tasks)
+    case_note_domain_group.save
+  end
+
+  def handle_complete_task_from_api(array_attr, current_user_id)
+    task_ids = array_attr['tasks_attributes'] && array_attr['tasks_attributes'].reject { |h| h['completed'] == '0' }.map { |h| h['id'] } || []
+    return if task_ids.blank?
+
+    case_note_domain_group = case_note_domain_groups.find_by(domain_group_id: array_attr[:domain_group_id])
+    case_note_tasks = Task.with_deleted.where(id: task_ids)
+    return if case_note_tasks.reject(&:blank?).blank?
+
+    case_note_tasks.update_all(case_note_domain_group_id: case_note_domain_group.id)
+    case_note_domain_group.reload
+    case_note_domain_group.tasks.with_deleted.set_complete(self, current_user_id)
+    # service_delivery_task(array_attr, case_note_tasks)
+    case_note_domain_group.save
   end
 end

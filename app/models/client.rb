@@ -1056,7 +1056,7 @@ class Client < ActiveRecord::Base
   end
 
   def high_school?
-    school_grade.to_s.in? [ '10', '11', '12']
+    school_grade.to_s.in? ['10', '11', '12']
   end
 
   def university?

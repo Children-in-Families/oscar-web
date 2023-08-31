@@ -1,6 +1,7 @@
 class CustomFieldPropertiesController < AdminController
   load_and_authorize_resource
 
+  include CustomFieldPropertiesConcern
   include FormBuilderAttachments
 
   before_action :find_entity, :find_custom_field
@@ -62,11 +63,11 @@ class CustomFieldPropertiesController < AdminController
   def custom_field_property_params
     if properties_params.present?
       mappings = {}
-      properties_params.each do |k, v|
+      properties_params.each do |k, _|
         mappings[k] = k.gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;').gsub('%22', '"')
       end
-      formatted_params = properties_params.map {|k, v| [mappings[k], v] }.to_h
-      formatted_params.values.map{ |v| v.delete('') if (v.is_a?Array) && v.size > 1 }
+      formatted_params = properties_params.map { |k, v| [mappings[k], v] }.to_h
+      formatted_params.values.map { |v| v.delete('') if (v.is_a? Array) && v.size > 1 }
     end
     default_params = params.require(:custom_field_property).permit({}).merge(custom_field_id: params[:custom_field_id])
     default_params = default_params.merge(properties: formatted_params) if formatted_params.present?
@@ -98,20 +99,6 @@ class CustomFieldPropertiesController < AdminController
   def find_custom_field
     @custom_field = CustomField.find_by(entity_type: @custom_formable.class.name, id: params[:custom_field_id])
     raise ActionController::RoutingError.new('Not Found') if @custom_field.nil?
-  end
-
-  def find_entity
-    if params[:client_id].present?
-      @custom_formable = Client.includes(custom_field_properties: [:custom_field]).accessible_by(current_ability).friendly.find(params[:client_id])
-    elsif params[:family_id].present?
-      @custom_formable = Family.includes(custom_field_properties: [:custom_field]).find(params[:family_id])
-    elsif params[:partner_id].present?
-      @custom_formable = Partner.includes(custom_field_properties: [:custom_field]).find(params[:partner_id])
-    elsif params[:user_id].present?
-      @custom_formable = User.includes(custom_field_properties: [:custom_field]).find(params[:user_id])
-    elsif params[:community_id].present?
-      @custom_formable = Community.includes(custom_field_properties: [:custom_field]).find(params[:community_id])
-    end
   end
 
   def check_user_permission(permission)

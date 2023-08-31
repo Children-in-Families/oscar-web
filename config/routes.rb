@@ -195,6 +195,9 @@ Rails.application.routes.draw do
   end
 
   resources :families do
+    get :welcome, on: :collection
+
+    resources :family_referrals
     collection do
       get :welcome
       post '/advanced_search', to: 'families#index'
@@ -383,13 +386,21 @@ Rails.application.routes.draw do
 
       resources :domain_groups, only: [:index]
       resources :departments, only: [:index]
-      resources :families, only: [:index, :create, :update] do
+      resources :families, except: [:destroy] do
         resources :custom_field_properties, only: [:create, :update, :destroy]
+        get :listing, on: :collection
+        scope module: 'families' do
+          resources :exit_ngos, only: [:create, :update]
+          resources :enter_ngos, only: [:create, :update]
+        end
       end
       resources :users, only: [:index, :show]
       resources :clients, except: [:edit, :new] do
+        get :listing, on: :collection
         resources :assessments, only: [:create, :update, :destroy, :delete]
-        resources :case_notes, only: [:create, :update, :delete, :destroy]
+        resources :case_notes, only: [:show, :create, :update, :destroy, :delete_attachment] do
+          delete 'attachments/:file_index', action: :delete_attachment, on: :member
+        end
         resources :custom_field_properties, only: [:create, :update, :destroy]
 
         scope module: 'clients' do
@@ -405,6 +416,7 @@ Rails.application.routes.draw do
           resources :client_enrollment_trackings, only: [:create, :update, :destroy]
           resources :leave_programs, only: [:create, :update, :destroy]
         end
+        resources :care_plans
       end
 
       resources :program_streams, only: [:index]
@@ -429,6 +441,8 @@ Rails.application.routes.draw do
         get '/edit/referee', to: 'calls#edit_referee'
         put '/edit/referee', to: 'calls#update_referee'
       end
+
+      resources :referees, only: :index
     end
 
     resources :community_advanced_searches, only: [] do
