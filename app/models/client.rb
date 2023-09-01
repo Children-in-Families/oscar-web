@@ -173,7 +173,7 @@ class Client < ActiveRecord::Base
   scope :is_followed_up_by,                        ->        { joins(:followed_up_by).pluck("CONCAT(users.first_name, ' ' , users.last_name)", 'users.id').uniq }
   scope :province_is,                              ->        { joins(:province).pluck('provinces.name', 'provinces.id').uniq }
   scope :birth_province_is,                        ->        { joins(:birth_province).pluck('provinces.name', 'provinces.id').uniq }
-  scope :accepted,                                 ->        { where(state: 'accepted') }
+  scope :accepted,                                 ->        { where(status: 'Accepted') }
   scope :rejected,                                 ->        { where(state: 'rejected') }
   scope :male,                                     ->        { where(gender: 'male') }
   scope :female,                                   ->        { where(gender: 'female') }

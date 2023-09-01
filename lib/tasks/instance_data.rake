@@ -9,7 +9,7 @@ namespace :instance do
           accepted_client: Client.accepted.count,
           exited_client: Client.exited_ngo.count,
           users_count: User.non_devs.count,
-          referred_count: Client.joins(:referrals).distinct.count
+          referred_count: Client.where(status: 'Referred').count,
         )
       end
     end
