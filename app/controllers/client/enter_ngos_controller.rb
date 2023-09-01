@@ -4,7 +4,8 @@ class Client::EnterNgosController < AdminController
 
   def create
     @enter_ngo = @client.enter_ngos.new(enter_ngo_params)
-    if @enter_ngo.save
+    
+    if !@client.accepted? && @enter_ngo.save
       redirect_to @client, notice: t('.successfully_created')
     else
       redirect_to @client, alert: t('.failed_create')
@@ -14,7 +15,8 @@ class Client::EnterNgosController < AdminController
   def update
     @enter_ngo = @client.enter_ngos.find(params[:id])
     authorize @enter_ngo
-    if @enter_ngo.update_attributes(enter_ngo_params)
+    
+    if !@client.accepted? && @enter_ngo.update_attributes(enter_ngo_params)
       redirect_to @client, notice: t('.successfully_updated')
     else
       redirect_to @client, alert: t('.failed_update')
