@@ -946,11 +946,10 @@ class Client < ActiveRecord::Base
 
   def self.cache_gender(object)
     Rails.cache.fetch([I18n.locale, Apartment::Tenant.current, object.id, object.gender || 'gender']) do
-      current_org = Organization.current
-      Organization.switch_to 'shared'
-      gender = SharedClient.find_by(slug: object.slug)&.gender
-      Organization.switch_to current_org.short_name
-      gender.present? ? I18n.t("default_client_fields.gender_list.#{ gender.gsub('other', 'other_gender') }") : ''
+      Apartment::Tenant.switch('shared') do
+        gender = SharedClient.find_by(slug: object.slug)&.gender
+        gender.present? ? I18n.t("default_client_fields.gender_list.#{ gender.gsub('other', 'other_gender') }") : ''
+      end
     end
   end
 
