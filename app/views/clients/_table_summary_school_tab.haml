@@ -47,7 +47,7 @@
           %td= by_program.university.male_shared_clients.count
           %td= by_program.university.non_binary_shared_clients.count
 
-          %td= by_program.where("school_grade IS NULL OR school_grade IN (?)", Client::GRADES).count
+          %td= by_program.count
         
       %tr
         %td= t('clients.table_summary.no_program')
@@ -76,7 +76,7 @@
         %td= no_program_clients.university.male_shared_clients.count
         %td= no_program_clients.university.non_binary_shared_clients.count
 
-        %td= no_program_clients.where("school_grade IS NULL OR school_grade IN (?)", Client::GRADES).count
+        %td= no_program_clients.count
 
       %tr
         %td= t('clients.table_summary.client_by_gender')
@@ -105,4 +105,4 @@
         %td= @results.university.male_shared_clients.count
         %td= @results.university.non_binary_shared_clients.count
 
-        %td= @results.where("school_grade IS NULL OR school_grade IN (?)", Client::GRADES).size
+        %td= @results.size
