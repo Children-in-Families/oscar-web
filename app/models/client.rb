@@ -198,7 +198,7 @@ class Client < ActiveRecord::Base
   scope :non_binary_shared_clients,                ->        { joins(:shared_clients).where('shared.shared_clients.gender NOT IN (?)', %w(male female)) }
   scope :adult,                                    ->        { where('(EXTRACT(year FROM age(current_date, clients.date_of_birth)) :: int) >= ?', 18) }
   scope :child,                                    ->        { where('(EXTRACT(year FROM age(current_date, clients.date_of_birth)) :: int) < ?', 18) }
-  scope :no_school,                                ->        { where(school_grade: nil) }
+  scope :no_school,                                ->        { where(school_grade: [nil, '']) }
   scope :pre_school,                               ->        { where(school_grade: ['Kindergarten 1', 'Kindergarten 2', 'Kindergarten 3', 'Kindergarten 4']) }
   scope :primary_school,                           ->        { where(school_grade: ['1', '2', '3', '4', '5', '6']) }
   scope :secondary_school,                         ->        { where(school_grade: ['7', '8', '9']) }
