@@ -30,7 +30,6 @@ module I18n::Backend::Custom
     end
 
     def self.update_last_reload_at
-      puts "============== update_last_reload_at #{Time.current}"
       @@last_reload_at = Time.current
     end
   end
