@@ -1,5 +1,5 @@
 - clients = @results.joins(:client_enrollments).distinct
-- no_program_clients = @results.includes(:client_enrollments).where(client_enrollments: {client_id: nil})
+- no_program_clients = @results.includes(:client_enrollments).where(client_enrollments: {client_id: nil}).distinct
 - schools = %w(no_school pre_school primary_school secondary_school high_school university)
 - all_clients = clients + no_program_clients
 
@@ -22,27 +22,87 @@
 
         %tr
           %td= program.name
-          - schools.each do |method_name|
-            - by_program_by_school = by_program.select{ |client| client.send("#{method_name}?") }.uniq
-            %td= by_program_by_school.select(&:female?).count
-            %td= by_program_by_school.select(&:male?).count
-            %td= by_program_by_school.select(&:other_gender?).count
-          %td= by_program.count
 
+          %td= by_program.no_school.female_shared_clients.count
+          %td= by_program.no_school.male_shared_clients.count
+          %td= by_program.no_school.non_binary_shared_clients.count
+
+          %td= by_program.pre_school.female_shared_clients.count
+          %td= by_program.pre_school.male_shared_clients.count
+          %td= by_program.pre_school.non_binary_shared_clients.count
+
+          %td= by_program.primary_school.female_shared_clients.count
+          %td= by_program.primary_school.male_shared_clients.count
+          %td= by_program.primary_school.non_binary_shared_clients.count
+
+          %td= by_program.secondary_school.female_shared_clients.count
+          %td= by_program.secondary_school.male_shared_clients.count
+          %td= by_program.secondary_school.non_binary_shared_clients.count
+
+          %td= by_program.high_school.female_shared_clients.count
+          %td= by_program.high_school.male_shared_clients.count
+          %td= by_program.high_school.non_binary_shared_clients.count
+
+          %td= by_program.university.female_shared_clients.count
+          %td= by_program.university.male_shared_clients.count
+          %td= by_program.university.non_binary_shared_clients.count
+
+          %td= by_program.where("school_grade IS NULL OR school_grade IN (?)", Client::GRADES).count
+        
       %tr
         %td= t('clients.table_summary.no_program')
-        - schools.each do |method_name|
-          - by_school = no_program_clients.select{ |client| client.send("#{method_name}?") }.uniq
-          %td= by_school.select(&:female?).count
-          %td= by_school.select(&:male?).count
-          %td= by_school.select(&:other_gender?).count
-        %td= no_program_clients.uniq.count
+
+        %td= no_program_clients.no_school.female_shared_clients.count
+        %td= no_program_clients.no_school.male_shared_clients.count
+        %td= no_program_clients.no_school.non_binary_shared_clients.count
+
+        %td= no_program_clients.pre_school.female_shared_clients.count
+        %td= no_program_clients.pre_school.male_shared_clients.count
+        %td= no_program_clients.pre_school.non_binary_shared_clients.count
+
+        %td= no_program_clients.primary_school.female_shared_clients.count
+        %td= no_program_clients.primary_school.male_shared_clients.count
+        %td= no_program_clients.primary_school.non_binary_shared_clients.count
+
+        %td= no_program_clients.secondary_school.female_shared_clients.count
+        %td= no_program_clients.secondary_school.male_shared_clients.count
+        %td= no_program_clients.secondary_school.non_binary_shared_clients.count
+
+        %td= no_program_clients.high_school.female_shared_clients.count
+        %td= no_program_clients.high_school.male_shared_clients.count
+        %td= no_program_clients.high_school.non_binary_shared_clients.count
+
+        %td= no_program_clients.university.female_shared_clients.count
+        %td= no_program_clients.university.male_shared_clients.count
+        %td= no_program_clients.university.non_binary_shared_clients.count
+
+        %td= no_program_clients.where("school_grade IS NULL OR school_grade IN (?)", Client::GRADES).count
 
       %tr
         %td= t('clients.table_summary.client_by_gender')
-        - schools.each do |method_name|
-          - by_school = all_clients.select{ |client| client.send("#{method_name}?") }.uniq
-          %td= by_school.select(&:female?).count
-          %td= by_school.select(&:male?).count
-          %td= by_school.select(&:other_gender?).count
-        %td= all_clients.uniq.count
+
+        %td= @results.no_school.female_shared_clients.count
+        %td= @results.no_school.male_shared_clients.count
+        %td= @results.no_school.non_binary_shared_clients.count
+
+        %td= @results.pre_school.female_shared_clients.count
+        %td= @results.pre_school.male_shared_clients.count
+        %td= @results.pre_school.non_binary_shared_clients.count
+
+        %td= @results.primary_school.female_shared_clients.count
+        %td= @results.primary_school.male_shared_clients.count
+        %td= @results.primary_school.non_binary_shared_clients.count
+
+        %td= @results.secondary_school.female_shared_clients.count
+        %td= @results.secondary_school.male_shared_clients.count
+        %td= @results.secondary_school.non_binary_shared_clients.count
+
+        %td= @results.high_school.female_shared_clients.count
+        %td= @results.high_school.male_shared_clients.count
+        %td= @results.high_school.non_binary_shared_clients.count
+
+        %td= @results.university.female_shared_clients.count
+        %td= @results.university.male_shared_clients.count
+        %td= @results.university.non_binary_shared_clients.count
+
+        %td= @results.where("school_grade IS NULL OR school_grade IN (?)", Client::GRADES).size
