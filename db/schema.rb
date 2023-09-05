@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20230829025343) do
+ActiveRecord::Schema.define(version: 20230905154932) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1918,6 +1918,7 @@ ActiveRecord::Schema.define(version: 20230829025343) do
     t.datetime "deleted_at"
     t.string   "onboarding_status",             default: "pending"
     t.integer  "users_count",                   default: 0
+    t.date     "last_integrated_date"
   end
 
   add_index "organizations", ["deleted_at"], name: "index_organizations_on_deleted_at", using: :btree
