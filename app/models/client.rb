@@ -369,6 +369,10 @@ class Client < ActiveRecord::Base
     assessment
   end
 
+  def accepted?
+    status == 'Accepted'
+  end
+
   def exit_ngo?
     status == 'Exited'
   end
