@@ -176,7 +176,7 @@ class UsageReportBuilder < ServiceBase
   end
 
   def synced_clients
-    @synced_clients ||= Client.reportable.where.not(external_id: [nil, '']).where(created_at: date_range).to_a
+    @synced_clients ||= Client.reportable.where(synced_date: date_range).to_a
   end
 
   def added_cases
