@@ -3,7 +3,7 @@ class CaseNotePolicy < ApplicationPolicy
     return true if user.admin?
     if Organization.ratanak?
       record.is_editable? ? true : false
-    else
+    elsif !record.draft?
       DateTime.now.in_time_zone(Time.zone) <= (record.try(:created_at) || Date.today) + 24.hours
     end
   end
