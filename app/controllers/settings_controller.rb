@@ -79,11 +79,15 @@ class SettingsController < AdminController
   end
 
   def integration
-    attribute = params[:setting]
-    if attribute && current_organization.update_attributes(integrated: attribute[:integrated])
-      redirect_to integration_settings_path, notice: t('.successfully_updated')
-    else
-      render :integration
+    if request.put?
+      current_organization.integrated = params.dig(:setting, :integrated)
+      current_organization.last_integrated_date = Date.current if current_organization.integrated?
+
+      if current_organization.save
+        redirect_to integration_settings_path, notice: t('.successfully_updated')
+      else
+        render :integration
+      end
     end
   end
 
