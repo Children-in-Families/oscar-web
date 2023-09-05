@@ -34,7 +34,7 @@ module AdvancedSearches
     def domainscore_field_query
       assessments   = []
       domain        = Domain.find(@domain_id)
-      custom_domain = domain.try(:custom_domain)
+      custom_domain = domain&.custom_domain
       identity      = domain.identity
       families      = Family.joins(assessments: :assessment_domains)
 
@@ -61,7 +61,7 @@ module AdvancedSearches
       return if @value.first == @value.last
       family_ids = []
       between_date_value = @basic_rules.second['value']
-      custom_domain      = Domain.find(@domain_id).try(:custom_domain)
+      custom_domain      = Domain.find(@domain_id)&.custom_domain
 
       case @operator
       when 'assessment_has_changed'

@@ -72,6 +72,10 @@ class Assessment < ActiveRecord::Base
     empty_assessment_domains
   end
 
+  def client_risk_assessment?
+    level_of_risk.present?
+  end
+
   def self.latest_record
     most_recents.first
   end

@@ -55,6 +55,10 @@ class Domain < ActiveRecord::Base
     end
   end
 
+  def client_csi?
+    domain_type == 'client' && custom_domain == false
+  end
+
   def domain_type_client?
     domain_type == 'client'
   end
@@ -85,6 +89,7 @@ class Domain < ActiveRecord::Base
 
   def flush_cache
     Rails.cache.delete([Apartment::Tenant.current, 'Domain', domain_type, 'domain_options'])
+    Rails.cache.delete([Apartment::Tenant.current, 'Domain', 'csi_domains.order_by_identity', 'options'])
     Rails.cache.delete([Apartment::Tenant.current, 'Domain', 'cache_order_by_identity'])
     cache_find_by_name_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cache_find_by_name/].blank? }
     cache_find_by_name_keys.each { |key| Rails.cache.delete(key) }
