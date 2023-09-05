@@ -207,7 +207,7 @@ class UsageReportBuilder < ServiceBase
     if dummy_data && Rails.env.development?
       @date_range ||= 5.years.ago..Date.current
     else
-      @date_range ||= Date.new(year, month, 1)..Date.new(year, month, 1).end_of_month
+      @date_range ||= DateTime.new(year, month, 1)..DateTime.new(year, month, 1).end_of_month
     end
   end
 
