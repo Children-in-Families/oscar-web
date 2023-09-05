@@ -85,7 +85,7 @@ class User < ActiveRecord::Base
   scope :non_locked,                -> { where(disable: false) }
   scope :notify_email,              -> { where(task_notify: true) }
   scope :referral_notification_email,    -> { where(referral_notification: true) }
-  scope :oscar_or_dev,              -> { where(email: [ENV['OSCAR_USER_EMAIL'], ENV['DEV_EMAIL'], ENV['DEV2_EMAIL'], ENV['DEV3_EMAIL']]) }
+  scope :oscar_or_dev,              -> { where(email: [ENV['OSCAR_TEAM_EMAIL'], ENV['DEV_EMAIL'], ENV['DEV2_EMAIL'], ENV['DEV3_EMAIL']]) }
 
   before_save :assign_as_admin
   after_commit :set_manager_ids
