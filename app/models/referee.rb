@@ -1,4 +1,6 @@
 class Referee < ActiveRecord::Base
+  include CacheAll
+
   ADDRESS_TYPES    = ['Home', 'Business', 'RCI', 'Dormitory', 'Other'].freeze
   FIELDS = %w(id name gender adult anonymous phone email address_type outside province_id district_id commune_id village_id current_address house_number locality outside_address street_number created_at updated_at)
   GENDER_OPTIONS = ['female', 'male', 'lgbt', 'unknown', 'prefer_not_to_say', 'other']
@@ -19,7 +21,11 @@ class Referee < ActiveRecord::Base
 
   after_initialize :init_existing_referree
 
-  scope :none_anonymouse, -> { where(anonymous: false) }
+  scope :none_anonymous, -> { where(anonymous: false) }
+
+  def self.cache_none_anonymous
+    Rails.cache.fetch([Apartment::Tenant.current, self.name, 'non_anonymous']) { none_anonymous.to_a }
+  end
 
   private
 

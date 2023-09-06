@@ -1,6 +1,6 @@
 .row
   .col-xs-12
-    = simple_form_for @setting, url: integration_settings_path, method: :get do |f|
+    = simple_form_for @setting, url: integration_settings_path, method: :put do |f|
       .ibox
         .ibox-title
           %h5.text-center= t('.title')

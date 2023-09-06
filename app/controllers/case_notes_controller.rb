@@ -35,7 +35,7 @@
     authorize @case_note, :edit? if Organization.ratanak?
 
     unless current_user.admin? || current_user.strategic_overviewer?
-      redirect_to root_path, alert: t('unauthorized.default') unless current_user.permission.case_notes_editable
+      redirect_to root_path, alert: t('unauthorized.default') if !@case_note.draft? && !current_user.permission.case_notes_editable
     end
   end
 

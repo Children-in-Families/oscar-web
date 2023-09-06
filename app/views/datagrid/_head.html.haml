@@ -1,21 +1,6 @@
-%tr
-  - grid.html_columns(*options[:columns]).each do |column|
-    - if grid.instance_of?(FamilyGrid)
-      - field_name = column.name
-      - field_name = 'member_count' if field_name.to_s.include?('significant_family_member_count')
-      - next unless policy(Family).show?(field_name)
-    - elsif grid.instance_of?(ClientGrid)
-      - next unless policy(Client).show?(column.name.to_s)
-
-    - next if column.header == t('.changelog') && !current_user.admin?
-    %th{ class: datagrid_column_classes(grid, column), title: column.header, data: { header: header_classes(grid, column).parameterize } }
-      - if grid.instance_of?(ClientGrid)
-        = header_counter(grid, column)
-        = family_counter() if header_classes(grid, column).parameterize == 'family_id'
-        = care_plan_counter() if header_classes(grid, column).parameterize == 'care_plan_completed_date'
-      - elsif grid.instance_of?(FamilyGrid)
-        = family_header_counter(grid, column)
-        = care_plan_counter() if header_classes(grid, column).parameterize == 'care_plan_completed_date'
-      - else
-        = column.header.truncate(65)
-      = datagrid_order_for(grid, column, options) if column.supports_order? && options[:order]
+- if grid.instance_of?(FamilyGrid)
+  = render partial: "datagrid/head/other_grid_head", locals: { grid: grid, options: options }
+- elsif grid.instance_of?(FamilyGrid)
+  = render partial: "datagrid/head/family_grid_head", locals: { grid: grid, options: options }
+- else
+  = render partial: "datagrid/head/other_grid_head", locals: { grid: grid, options: options }

@@ -384,6 +384,10 @@ class Client < ActiveRecord::Base
     assessment
   end
 
+  def accepted?
+    status == 'Accepted'
+  end
+
   def exit_ngo?
     status == 'Exited'
   end
@@ -800,11 +804,7 @@ class Client < ActiveRecord::Base
   end
 
   def indirect_beneficiaries
-    result = 0
-    family_id = self.family_member.try(:family_id)
-    _family = Family.find_by(id: family_id) if family_id.present?
-    result = _family.family_members.where(client_id: nil).count if _family.present?
-    result
+    family_member.blank? ? 0 : FamilyMember.joins(:family).where(families: { id: family_member.family_id }).where.not(client_id: nil).count
   end
 
   def one_off_screening_assessment

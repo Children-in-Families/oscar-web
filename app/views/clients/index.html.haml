@@ -91,18 +91,19 @@
         .col-xs-12.col-md-6
           .ibox-content
             - if params['client_advanced_search'].present?
-              #cis-domain-score{ "data-csi-domain" => @csi_statistics, "data-title" => t('.csi_domain_scores'), "data-yaxis-title" => t('.domain_score')}
+              #cis-domain-score.searched{ "data-csi-domain" => @csi_statistics, "data-title" => t('.csi_domain_scores'), "data-yaxis-title" => t('.domain_score')}
             - else
               #cis-domain-score{ "data-title" => t('.csi_domain_scores'), "data-yaxis-title" => t('.domain_score')}
 
         .col-xs-12.col-md-6
           .ibox-content
             - if params['client_advanced_search'].present?
-              #program-statistic{ "data-program-statistic" => @enrollments_statistics, "data-title" => t('.active_programs'), "data-yaxis-title" => t('.client_amount') }
+              #program-statistic.searched{ "data-program-statistic" => @enrollments_statistics, "data-title" => t('.active_programs'), "data-yaxis-title" => t('.client_amount') }
             - else
               #program-statistic{ "data-title" => t('.active_programs'), "data-yaxis-title" => t('.client_amount') }
 
 - if params['commit'].present? || params['client_advanced_search'].present?
+  #cache-key.hide{ data: { 'cache-key': @cache_key } }
   .row.mini-margin
     .col-xs-12
       .ibox

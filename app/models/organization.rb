@@ -29,6 +29,7 @@ class Organization < ActiveRecord::Base
 
   validates :full_name, :short_name, presence: true
   validates :short_name, uniqueness: { case_sensitive: false }
+  validates :last_integrated_date, presence: true, if: :integrated?
 
   before_save :clean_short_name, on: :create
   before_save :clean_supported_languages, if: :supported_languages?

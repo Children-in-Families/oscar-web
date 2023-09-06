@@ -14,7 +14,7 @@ module AdvancedSearches
       custom_assessment_fields += ['custom_assessment_created_at', 'date_of_custom_assessments'].map { |item| date_picker_options(item, format_header(item, domain_type), domain_score_group) }
       custom_assessment_fields += ['All Custom Domains'].map { |item| number_filter_type(item.downcase.gsub(' ', '_'), domain_score_format(item), domain_score_group) }
 
-      CustomAssessmentSetting.only_enable_custom_assessment.each do |cas|
+      CustomAssessmentSetting.cache_only_enable_custom_assessment.each do |cas|
         domain_score_group = "#{format_header('custom_csi_domain_scores', domain_type)} | #{cas.custom_assessment_name}"
         domain_options_ = Domain.custom_csi_domains.order_by_identity.where(custom_assessment_setting_id: cas.id).map { |domain| "domainscore__#{domain.id}__#{domain.identity}" }
         custom_assessment_fields += domain_options_.map { |item| number_filter_type(item, domain_score_format(item), domain_score_group) }
@@ -76,7 +76,8 @@ module AdvancedSearches
     end
 
     def self.drop_list_options(field_name, label, group)
-      values = CustomAssessmentSetting.all.pluck(:id, :custom_assessment_name).map {|k, v| { k => v }  }
+      values = CustomAssessmentSetting.cache_all.map {|item| { item.id => item.custom_assessment_name }  }
+
       {
         id: field_name,
         field: label,
