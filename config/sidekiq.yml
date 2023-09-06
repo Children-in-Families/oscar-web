@@ -2,9 +2,9 @@
 demo:
   :concurrency: 2
 staging:
-  :concurrency: 10
+  :concurrency: 5
 production:
-  :concurrency: 10
+  :concurrency: 5
 :queues:
   - default
   - [send_email, 20]
