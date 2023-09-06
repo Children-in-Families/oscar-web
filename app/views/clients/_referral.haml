@@ -1,7 +1,7 @@
 - if params[:data] == 'recent'
-  - recent_record = object.referrals.most_recents.first&.date_of_referral
+  - recent_record = object&.referrals.present? && object.referrals.most_recents.first&.date_of_referral
   - if recent_record.present?
     %p= date_format(recent_record)
 - else
-  - date_filter(object.referrals, 'date_of_referral').each do |referral|
+  - date_filter(object&.referrals || [], 'date_of_referral').each do |referral|
     %p= date_format(referral.date_of_referral)
