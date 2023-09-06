@@ -15,7 +15,7 @@ class NgoUsageReport
     {
       ngo_name: org.full_name,
       ngo_short_name: org.short_name,
-      ngo_on_board: org.integrated_date,
+      ngo_on_board: org.last_integrated_date,
       created_at: org.created_at.strftime("%d-%m-%Y"),
       fcf: org.fcf_ngo? ? 'Yes' : 'No',
       ngo_country: country.titleize,

@@ -50,17 +50,27 @@ class Setting < ActiveRecord::Base
   end
 
   def start_sharing_this_month(date_time)
-    versions.where("to_char(created_at, 'YYYY-MM') = ?", date_time.to_date.strftime("%Y-%m")).map(&:object_changes).map{|a| YAML::load a}.select{|a| (a['sharing_data'].is_a?(Array) ? a['sharing_data']&.last : a['sharing_data']) == true }
+    versions.where("to_char(created_at, 'YYYY-MM') = ?", date_time.to_date.strftime("%Y-%m")).map do |version|
+      sharing_data = version.object_changes['sharing_data']
+
+      sharing_data.is_a?(Array) ? sharing_data.last : sharing_data == true
+    end
   end
 
   def stop_sharing_this_month(date_time)
-    versions.where("to_char(created_at, 'YYYY-MM') = ?", date_time.to_date.strftime("%Y-%m")).map(&:object_changes).map{|a| YAML::load a}.select{|a| (a['sharing_data'].is_a?(Array) ? a['sharing_data']&.last : a['sharing_data']) == false }
+    versions.where("to_char(created_at, 'YYYY-MM') = ?", date_time.to_date.strftime("%Y-%m")).map do |version|
+      sharing_data = version.object_changes['sharing_data']
+
+      sharing_data.is_a?(Array) ? sharing_data.last : sharing_data == false
+    end
   end
 
   def current_sharing_with_research_module
     return [] unless sharing_data
 
-    versions.order(created_at: :asc).map(&:object_changes).map { |a| a && YAML::load(a) }.compact.select { |a| a['sharing_data'] }
+    versions.order(created_at: :asc).map do |version|
+      version.object_changes['sharing_data']
+    end.compact
   end
 
   def max_assessment_duration

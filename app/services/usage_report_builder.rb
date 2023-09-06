@@ -148,7 +148,7 @@ class UsageReportBuilder < ServiceBase
 
   def synced_cases
     data = {
-      signed_up_date: organization.integrated_date,
+      signed_up_date: organization.last_integrated_date,
       current_sharing: organization.integrated?,
       total: synced_clients.count,
       adult_female: synced_clients.count(&:adult_female?),
