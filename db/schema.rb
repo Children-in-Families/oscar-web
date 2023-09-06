@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20230905162246) do
+ActiveRecord::Schema.define(version: 20230906054909) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -195,6 +195,16 @@ ActiveRecord::Schema.define(version: 20230905162246) do
 
   add_index "attachments", ["able_screening_question_id"], name: "index_attachments_on_able_screening_question_id", using: :btree
   add_index "attachments", ["progress_note_id"], name: "index_attachments_on_progress_note_id", using: :btree
+
+  create_table "billable_reports", force: :cascade do |t|
+    t.integer  "organization_id"
+    t.integer  "year"
+    t.integer  "month"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "billable_reports", ["organization_id"], name: "index_billable_reports_on_organization_id", using: :btree
 
   create_table "calendars", force: :cascade do |t|
     t.string   "title"
@@ -2914,6 +2924,7 @@ ActiveRecord::Schema.define(version: 20230905162246) do
   add_foreign_key "assessments", "clients", on_delete: :nullify
   add_foreign_key "attachments", "able_screening_questions"
   add_foreign_key "attachments", "progress_notes"
+  add_foreign_key "billable_reports", "organizations"
   add_foreign_key "calendars", "users"
   add_foreign_key "call_necessities", "calls"
   add_foreign_key "call_necessities", "necessities"
