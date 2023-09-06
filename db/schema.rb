@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20230906054909) do
+ActiveRecord::Schema.define(version: 20230906104249) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -2872,14 +2872,20 @@ ActiveRecord::Schema.define(version: 20230906054909) do
   add_index "version_associations", ["version_id"], name: "index_version_associations_on_version_id", using: :btree
 
   create_table "versions", force: :cascade do |t|
-    t.string   "item_type",      null: false
-    t.integer  "item_id",        null: false
-    t.string   "event",          null: false
+    t.string   "item_type",          null: false
+    t.integer  "item_id",            null: false
+    t.string   "event",              null: false
     t.string   "whodunnit"
-    t.text     "object"
+    t.text     "old_object"
     t.datetime "created_at"
-    t.text     "object_changes"
+    t.text     "old_object_changes"
     t.integer  "transaction_id"
+    t.integer  "billable_report_id"
+    t.string   "billable_status"
+    t.datetime "accepted_at"
+    t.datetime "billable_at"
+    t.jsonb    "object"
+    t.jsonb    "object_changes"
   end
 
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
