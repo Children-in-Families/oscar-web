@@ -23,8 +23,6 @@ PaperTrail.class_eval do
 end
 
 PaperTrail::Version.class_eval do
-  attr_accessor :changed_to_status
-
   after_commit :assign_billable_report, on: :create
 
   def client?
@@ -40,9 +38,7 @@ PaperTrail::Version.class_eval do
   end
 
   def billable?
-    object_changes.any? do |key, change_values|
-      key == 'status' && (@changed_to_status = change_values.last).in?(%w[Active Accepted])
-    end
+    object_changes['status'] && changed_to_status.in?(%w[Active Accepted])
   end
 
   def changed_to_status_active?
@@ -51,6 +47,10 @@ PaperTrail::Version.class_eval do
 
   def changed_to_status_accepted?
     changed_to_status == 'Accepted'
+  end
+
+  def changed_to_status
+    object_changes['status']
   end
 
   private
