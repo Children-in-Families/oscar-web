@@ -2,10 +2,12 @@ class BillableService < ServiceBase
   attr_reader :version, :tenant
 
   def initialize(version_id, tenant)
+    Organization.switch_to(tenant)
+    
     @version = PaperTrail::Version.find(version_id)
     @tenant = tenant
   end
-
+  
   def call
     Organization.switch_to(tenant)
 
