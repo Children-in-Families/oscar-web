@@ -100,11 +100,13 @@ module Importer
   end
 
   class Data
-    attr_reader :province_id, :path
+    attr_reader :path, :province_id, :district_id, :commune_id
 
     def initialize(province_id, path)
-      @province_id = province_id
       @path = path
+      @province_id = province_id
+      @district_id = nil
+      @commune_id = nil
       workbook
     end
 
@@ -113,9 +115,6 @@ module Importer
     end
 
     def import
-      commune_id = nil
-      district_id = nil
-
       (4..workbook.last_row).each do |index|
         values = workbook.row(index)
         row_type = values.first.strip
@@ -123,8 +122,9 @@ module Importer
         if ["ស្រុក", "ខណ្ឌ", "ក្រុង"].include?(row_type)
           import_district(values, district_id)
         elsif ["ឃុំ", "សង្កាត់"].include?(row_type)
-          commune_id = import_commune(values, district_id)
+          @commune_id = import_commune(values, district_id)
         else
+
           import_village(values, commune_id)
         end
       end
@@ -150,7 +150,7 @@ module Importer
         district = find_or_create_district(attributes)
       end
 
-      district_id = district&.id
+      @district_id = district&.id
     end
 
     def import_commune(values, district_id)
