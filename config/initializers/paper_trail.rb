@@ -38,7 +38,7 @@ PaperTrail::Version.class_eval do
   end
 
   def billable?
-    object_changes['status'] && changed_to_status.in?(%w[Active Accepted])
+    object_changes && object_changes['status'] && changed_to_status.in?(%w[Active Accepted])
   end
 
   def changed_to_status_active?
@@ -50,7 +50,7 @@ PaperTrail::Version.class_eval do
   end
 
   def changed_to_status
-    object_changes['status']
+    object_changes['status'].last
   end
 
   private
