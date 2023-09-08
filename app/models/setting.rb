@@ -101,6 +101,7 @@ class Setting < ActiveRecord::Base
 
     if integrated_changed?
       Rails.cache.delete(['current_organization', short_name])
+      Rails.cache.fetch(['current_organization', Apartment::Tenant.current, Organization.only_deleted.count])
       Rails.cache.delete([Apartment::Tenant.current, 'cache_mapping_ngo_names', Organization.only_deleted.count])
       Rails.cache.delete([Apartment::Tenant.current, 'Organization', 'visible', Organization.only_deleted.count])
     end
