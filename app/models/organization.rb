@@ -52,7 +52,7 @@ class Organization < ActiveRecord::Base
       transaction do
         org = new(fields)
         if org.save
-          
+
           Apartment::Tenant.create(org.short_name)
           org
         else
@@ -83,7 +83,7 @@ class Organization < ActiveRecord::Base
           ENV['DB'] = org.short_name # This will seed data only for the current tenant
           Rake::Task['db:seed'].invoke
           Rake::Task['db:seed'].reenable
-          
+
           Importer::Import.new('Agency', general_data_file).agencies
           Importer::Import.new('Department', general_data_file).departments
           if country == 'nepal'
