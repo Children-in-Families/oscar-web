@@ -37,7 +37,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_organization
-    @current_organization = Organization.current
+    @current_organization ||= Organization.current
   end
 
   def current_setting
