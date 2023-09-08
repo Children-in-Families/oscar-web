@@ -12,11 +12,11 @@
             .form-group
               .radio
                 %label
-                  = radio_button_tag "setting[integrated]", 'true', current_organization.integrated == true
+                  = radio_button_tag "setting[integrated]", 'true', @current_organization.integrated == true
                   Yes
               .radio
                 %label
-                  = radio_button_tag "setting[integrated]", 'false', current_organization.integrated == false
+                  = radio_button_tag "setting[integrated]", 'false', @current_organization.integrated == false
                   No
         .ibox-footer
           = f.submit t('save'), name: 'research_module' ,class: 'btn btn-primary', data: { disable_with: t('saving') }
