@@ -70,6 +70,7 @@ class ReferralSource < ActiveRecord::Base
   private
 
   def update_client_referral_source
+    Client.reset_column_information
     clients = Client.with_deleted.where(referral_source_id: self.id)
 
     clients.each do |client|
