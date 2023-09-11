@@ -100,7 +100,8 @@ module Importer
   end
 
   class Data
-    attr_reader :path, :province_id, :district_id, :commune_id
+    attr_reader :path, :province_id
+    attr_accessor :district_id, :commune_id
 
     def initialize(province_id, path)
       @path = path
@@ -122,9 +123,8 @@ module Importer
         if ["ស្រុក", "ខណ្ឌ", "ក្រុង"].include?(row_type)
           import_district(values, district_id)
         elsif ["ឃុំ", "សង្កាត់"].include?(row_type)
-          @commune_id = import_commune(values, district_id)
+          commune_id = import_commune(values, district_id)
         else
-
           import_village(values, commune_id)
         end
       end
@@ -150,7 +150,7 @@ module Importer
         district = find_or_create_district(attributes)
       end
 
-      @district_id = district&.id
+      district_id = district&.id
     end
 
     def import_commune(values, district_id)
@@ -170,7 +170,7 @@ module Importer
         commune = find_or_create_commune(attributes)
       end
 
-      commune&.id
+      commune_id = commune&.id
     end
 
     def import_village(values, commune_id)
