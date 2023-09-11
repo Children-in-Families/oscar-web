@@ -4,12 +4,13 @@
   %ul
     %li
       = raw t('clients.attr.warning_messages.referral_date', referral_date: date_format(@client.initial_referral_date))
-    %li
-      = raw t('clients.attr.warning_messages.accepted_date', accepted_date: date_format(@client.enter_ngos.last.accepted_date))
+    - if @client.enter_ngos.last
+      %li
+        = raw t('clients.attr.warning_messages.accepted_date', accepted_date: date_format(@client.enter_ngos.last.accepted_date))
 
 = simple_form_for([@client, @client_enrollment], html: { class: 'client-enrollment' }) do |f|
   = hidden_field_tag :initial_referral_date, @client.initial_referral_date
-  = hidden_field_tag :last_accepted_date, @client.enter_ngos.last.accepted_date
+  = hidden_field_tag :last_accepted_date, @client.enter_ngos.last.accepted_date if @client.enter_ngos.last
   .ibox-content
     .row
       .col-xs-12.col-md-6.form-group.date.optional{ class: ('has-error' if f.error :enrollment_date) }
