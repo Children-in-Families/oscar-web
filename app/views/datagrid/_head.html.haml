@@ -1,5 +1,5 @@
-- if grid.instance_of?(FamilyGrid)
-  = render partial: "datagrid/head/other_grid_head", locals: { grid: grid, options: options }
+- if grid.instance_of?(ClientGrid)
+  = render partial: "datagrid/head/client_grid_head", locals: { grid: grid, options: options }
 - elsif grid.instance_of?(FamilyGrid)
   = render partial: "datagrid/head/family_grid_head", locals: { grid: grid, options: options }
 - else
