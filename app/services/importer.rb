@@ -224,7 +224,7 @@ module Importer
       when 0
         Commune.create(attributes)
       else
-        matching_communes = communes.select { |commune| commune.code.to_s.rjust(6, '0') == attributes[:code] && commune.district_id == attributes[:district_id] }
+        matching_communes = communes.select { |commune| commune.code.to_s.rjust(6, '0') == attributes[:code] }
         if matching_communes.count == 1
           matching_communes.first.update(attributes)
           matching_communes.first.reload
@@ -252,18 +252,16 @@ module Importer
         Village.create(attributes)
       else
         code = attributes[:code]
-        filtered_villages = if code.length == 7
-          villages.where("code LIKE ?", "#{code[0]}%")
-        else
-          villages.where("code LIKE ?", "#{code[0..1]}%")
-        end
+        filtered_villages = villages.select { |village| village.code.to_s.rjust(7, '0') == code }
 
-        if filtered_villages.count > 1
-          Village.create(attributes)
-        else
+        if filtered_villages.count == 1
           village = filtered_villages.first
           village&.update(attributes)
           village&.reload
+        elsif filtered_villages.empty?
+          Village.create(attributes)
+        else
+          raise StandardError, "This is an error"
         end
       end
     end
