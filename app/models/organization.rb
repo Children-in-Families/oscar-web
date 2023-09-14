@@ -29,6 +29,7 @@ class Organization < ActiveRecord::Base
 
   validates :full_name, :short_name, presence: true
   validates :short_name, uniqueness: { case_sensitive: false }
+  validates :last_integrated_date, presence: true, if: :integrated?
 
   before_save :clean_short_name, on: :create
   before_save :clean_supported_languages, if: :supported_languages?
@@ -51,7 +52,7 @@ class Organization < ActiveRecord::Base
       transaction do
         org = new(fields)
         if org.save
-          
+
           Apartment::Tenant.create(org.short_name)
           org
         else
@@ -82,7 +83,7 @@ class Organization < ActiveRecord::Base
           ENV['DB'] = org.short_name # This will seed data only for the current tenant
           Rake::Task['db:seed'].invoke
           Rake::Task['db:seed'].reenable
-          
+
           Importer::Import.new('Agency', general_data_file).agencies
           Importer::Import.new('Department', general_data_file).departments
           if country == 'nepal'

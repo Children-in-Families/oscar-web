@@ -19,7 +19,10 @@ module ClientEnrollmentConcern
   end
 
   def client_filtered
-    @client_filter ||= AdvancedSearches::ClientAdvancedSearch.new(@program_stream.rules, Client.all).filter
+    return @client_filter if defined?(@client_filter)
+
+    @client_filter, _query = AdvancedSearches::ClientAdvancedSearch.new(@program_stream.rules, Client.all).filter
+    @client_filter
   end
 
   def ordered_program

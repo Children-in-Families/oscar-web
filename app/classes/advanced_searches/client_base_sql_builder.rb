@@ -56,7 +56,8 @@ module AdvancedSearches
           @values     << shared_client_filter[:values]
         elsif form_builder.first == 'formbuilder'
           if form_builder.last == 'Has This Form'
-            custom_form_value = CustomField.find_by(form_title: value, entity_type: 'Client').try(:id)
+            custom_form_value = CustomField.find_by(form_title: value, entity_type: 'Client')&.id
+            
             @sql_string << "Clients.id IN (?)"
             @values << @clients.joins(:custom_fields).where('custom_fields.id = ?', custom_form_value).uniq.ids
           elsif form_builder.last == 'Does Not Have This Form'

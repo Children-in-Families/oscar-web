@@ -6,7 +6,13 @@ namespace :usage_report do
       rebuild_report(org)
     else
       Organization.without_shared.each do |org|
-        rebuild_report(org)
+        begin 
+          rebuild_report(org)
+        rescue ActiveRecord::StatementInvalid => e
+          puts "===================== error on schema #{org.short_name} ====================================="
+          puts e.message
+          puts "===================== Skipping ====================================="
+        end
       end
     end
   end
@@ -21,6 +27,12 @@ namespace :usage_report do
         UsageReportBuilder.call(org, 1.month.ago.month, 1.month.ago.year)
       end
     end
+  end
+
+  desc "Build latest usage report with dummy data"
+  task :build_latest_dummy, [:short_name] => :environment do |task, args|
+    puts "=====================rebuilding report on schema #{args.short_name} ====================================="
+    UsageReportBuilder.call(Organization.find_by(short_name: args.short_name), 1.month.ago.month, 1.month.ago.year, true, true)
   end
 end
 

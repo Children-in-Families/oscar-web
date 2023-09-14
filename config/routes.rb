@@ -119,6 +119,8 @@ Rails.application.routes.draw do
 
     collection do
       post '/advanced_search', to: 'clients#index'
+      post :load_client_table_summary
+      post :load_statistics_data
       get :advanced_search
       get :welcome
     end
@@ -491,12 +493,14 @@ Rails.application.routes.draw do
       get 'research_module' => 'settings#research_module'
       get 'custom_labels' => 'settings#custom_labels'
       get 'client_forms' => 'settings#client_forms'
-      get 'integration' => 'settings#integration'
       get 'custom_form' => 'settings#custom_form'
       get 'limit_tracking_form' => 'settings#limit_tracking_form'
       get 'test_client' => 'settings#test_client'
       get 'risk_assessment' => 'settings#risk_assessment'
       get 'customize_case_note' => 'settings#customize_case_note'
+
+      get 'integration' => 'settings#integration'
+      put 'integration' => 'settings#integration'
 
       get :family_case_management
       get :community

@@ -3,12 +3,14 @@ class UsageReportBuilder < ServiceBase
   attr_reader :month
   attr_reader :year
   attr_reader :update
+  attr_reader :dummy_data
 
-  def initialize(organization, month, year, update = false)
+  def initialize(organization, month, year, update = false, dummy_data = false)
     @organization = organization
     @month = month
     @year = year
     @update = update
+    @dummy_data = dummy_data
   end
 
   def call
@@ -71,7 +73,7 @@ class UsageReportBuilder < ServiceBase
 
   def cross_referral_to_primero_cases
     data = {
-      total: clients_from_primero.count,
+      total: clients_to_primero.count,
       adult_female: clients_to_primero.count(&:adult_female?),
       adult_male: clients_to_primero.count(&:adult_male?),
       child_female: clients_to_primero.count(&:child_female?),
@@ -146,7 +148,7 @@ class UsageReportBuilder < ServiceBase
 
   def synced_cases
     data = {
-      signed_up_date: organization.integrated_date,
+      signed_up_date: organization.last_integrated_date,
       current_sharing: organization.integrated?,
       total: synced_clients.count,
       adult_female: synced_clients.count(&:adult_female?),
@@ -174,11 +176,12 @@ class UsageReportBuilder < ServiceBase
   end
 
   def synced_clients
-    @synced_clients ||= Client.reportable.where.not(external_id: [nil, '']).where(created_at: date_range).to_a
+    @synced_clients ||= Client.reportable.where(synced_date: date_range).to_a
   end
 
   def added_cases
     data = {
+      login_per_month: Visit.reportable.withtin(date_range).count,
       total: clients.count,
       adult_female: clients.count(&:adult_female?),
       adult_male: clients.count(&:adult_male?),
@@ -201,7 +204,11 @@ class UsageReportBuilder < ServiceBase
   end
 
   def date_range
-    @date_range ||= Date.new(year, month, 1)..Date.new(year, month, 1).end_of_month
+    if dummy_data && Rails.env.development?
+      @date_range ||= 5.years.ago..Date.current
+    else
+      @date_range ||= DateTime.new(year, month, 1)..DateTime.new(year, month, 1).end_of_month
+    end
   end
 
   def clients_has_disability

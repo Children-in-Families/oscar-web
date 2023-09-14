@@ -4,7 +4,7 @@
   %label **
 .well
   .row
-    .col-xs-12{ class: current_setting.try(:enable_hotline) ? 'col-md-3' : 'col-md-3' }
+    .col-xs-12{ class: current_setting.enable_hotline? ? 'col-md-3' : 'col-md-3' }
       #quantitative-type
         .row
           .col-xs-12
@@ -12,7 +12,7 @@
               = check_box_tag :nil, '1', quantitative_check, { class: 'i-checks quantitative-type-checkbox', id: 'quantitative-type-checkbox' }
               %label= t('.quantitative')
 
-    .col-xs-12{ class: current_setting.try(:enable_hotline) ? 'col-md-2' : 'col-md-3' }
+    .col-xs-12{ class: current_setting.enable_hotline? ? 'col-md-2' : 'col-md-3' }
       .custom-form-wrapper
         .row
           .col-xs-12
@@ -24,7 +24,7 @@
             .form-group#custom-form-data{ data: { value: custom_form_values } }
               = select_tag(:nil, options_for_select(@custom_fields.map{|custom_field| [custom_field.form_title, custom_field.id] }, custom_form_values), { multiple: true, id: 'custom-form-select', class: 'form-control custom-form-select' } )
 
-    .col-xs-12{ class: current_setting.try(:enable_hotline) ? 'col-md-2' : 'col-md-3' }
+    .col-xs-12{ class: current_setting.enable_hotline? ? 'col-md-2' : 'col-md-3' }
       .program-stream-wrapper
         .row
           .col-xs-12
@@ -48,7 +48,7 @@
                 = check_box_tag :nil, '1', exit_form_check, { class: 'i-checks exit-form-checkbox', id: 'exit-form-checkbox' }
                 %label= t('.exit_program')
 
-    .col-xs-12{ class: current_setting.try(:enable_hotline) ? 'col-md-2' : 'col-md-3' }
+    .col-xs-12{ class: current_setting.enable_hotline? ? 'col-md-2' : 'col-md-3' }
       .assessment-form-wrapper
         .row
           .col-xs-12
@@ -60,7 +60,7 @@
             .form-group#assessment-form-data{ data: { value: assessment_values } }
               = select_tag(:nil, assessment_options.empty? ? nil : options_for_select(assessment_options.map{|assessment| [assessment[1], assessment[0], assessment[2].presence || {}] }, assessment_values.empty? ? assessment_options.first[0] : assessment_values), { multiple: false, id: 'assessment-select', class: 'form-control assessment-select', include_blank: true })
 
-    - if current_setting.try(:enable_hotline) == true
+    - if current_setting.enable_hotline?
       .col-xs-12.col-md-3
         .hotline-call-wrapper
           .row

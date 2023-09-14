@@ -1,10 +1,11 @@
-- if params[:data].presence == 'recent'
-  - recent_record = object.exit_ngos.most_recents.first.try(:other_info_of_exit)
-  - if recent_record.present?
+- cache cache_keys_base + [client, 'other_info_of_exit', exit_ngos, params[:data]] do
+  - if params[:data].presence == 'recent'
+    - recent_record = exit_ngos.first&.other_info_of_exit
+    - if recent_record.present?
+      %ul
+        %li= recent_record
+  - else
     %ul
-      %li= recent_record
-- else
-  %ul
-    - object.exit_ngos.most_recents.each do |exit_ngo|
-      - if exit_ngo.other_info_of_exit.present?
-        %li= exit_ngo.other_info_of_exit
+      - exit_ngos.each do |exit_ngo|
+        - if exit_ngo.other_info_of_exit.present?
+          %li= exit_ngo.other_info_of_exit

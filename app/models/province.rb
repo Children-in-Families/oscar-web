@@ -23,6 +23,12 @@ class Province < ActiveRecord::Base
 
   after_commit :flush_cache
 
+  def self.cache_by_country(country)
+    Rails.cache.fetch([Apartment::Tenant.current, self.name, 'cache_by_country']) do
+      order(:name).to_a
+    end.select { |province| province.country == country }
+  end
+
   def removeable?
     families.count.zero? && partners.count.zero? && users.count.zero? && clients.count.zero? && cases.count.zero?
   end
@@ -66,6 +72,7 @@ class Province < ActiveRecord::Base
 
   def flush_cache
     Rails.cache.delete([Apartment::Tenant.current, 'Province', id])
+    Rails.cache.delete([Apartment::Tenant.current, self.class.name, 'cache_by_country'])
     Rails.cache.delete([Apartment::Tenant.current, 'Province', 'cached_order_name']) if name_changed?
     Rails.cache.delete([Apartment::Tenant.current, 'Province', id, 'cached_districts'])
     Rails.cache.delete([Apartment::Tenant.current, 'Province', 'dropdown_list_option'])

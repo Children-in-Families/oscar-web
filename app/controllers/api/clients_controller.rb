@@ -24,10 +24,16 @@ module Api
 
     def assessments
       $param_rules = params
-      basic_rules = JSON.parse(params[:basic_rules] || "{}")
-      clients = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability))
 
-      assessments = Assessment.joins(:client).where(default: params[:default], client_id: clients.filter.ids)
+      client_ids = if searched_client_ids.present?
+        searched_client_ids.split(',')
+      else
+        basic_rules = JSON.parse(params[:basic_rules] || "{}")
+        clients, _query = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability)).filter
+        clients.ids
+      end
+
+      assessments = Assessment.joins(:client).where(default: params[:default], client_id: client_ids)
       assessments = assessments.joins(:custom_assessment_setting).where(custom_assessment_settings: { id: params[:assessment_id] }) if params[:assessment_id].present?
 
       @assessments_count = assessments.count
@@ -319,9 +325,9 @@ module Api
 
     def fetch_assessments
       basic_rules = JSON.parse(params[:basic_rules] || "{}")
-      clients = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability))
+      clients, _query = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability)).filter
 
-      assessments = Assessment.joins(:client).where(default: params[:default], client_id: clients.filter.ids)
+      assessments = Assessment.joins(:client).where(default: params[:default], client_id: clients.ids)
       assessments = assessments.includes(:assessment_domains).order("#{sort_column} #{sort_direction}").references(:assessment_domains, :client)
 
       assessment_data = params[:length] != '-1' ? assessments.page(page).per(per_page) : assessments

@@ -103,6 +103,8 @@ class CaseNote < ActiveRecord::Base
   end
 
   def is_editable?
+    return true if draft?
+    
     setting = Setting.cache_first
     return true if setting.try(:case_note_edit_limit).zero?
     case_note_edit_limit = setting.try(:case_note_edit_limit).zero? ? 2 : setting.try(:case_note_edit_limit)

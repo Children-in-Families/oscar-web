@@ -57,8 +57,9 @@ CIF.ClientsIndex = CIF.ClientsWelcome = do ->
     _reloadFilter()
     _addTourTip(tour)
     _extendDataTableSort()
+    _loadStatisticsData()
+    _loadClientTableSummary()
     _addDataTableToAssessmentScoreData()
-    _addDataTableToTableSummary()
     _removeReferralDataColumnsInWizardClientColumn()
     _handleShowCustomFormSelect()
     _reOrderRuleContainer()
@@ -114,8 +115,43 @@ CIF.ClientsIndex = CIF.ClientsWelcome = do ->
       'formatted-num-desc': (a, b) ->
         b - a
 
+  _loadClientTableSummary = ->
+    if $("#client-table-summary-tab-content").length > 0
+      advanceFilter = new CIF.ClientAdvanceSearch()
+      advanceFilter.prepareSearchParams("search")
+
+      $.ajax
+        type: 'POST'
+        dataType: 'json'
+        url: "/clients/load_client_table_summary"
+        data:
+          cache_key: $("#cache-key").data("cacheKey")
+          basic_rules: $("#client_advanced_search_basic_rules").val()
+        success: (data) ->
+          $("#client-table-summary-tab-content").html(data.client_table_content)
+          _addDataTableToTableSummary()
+
+  _loadStatisticsData = ->
+    if $("#program-statistic.searched").length > 0
+      advanceFilter = new CIF.ClientAdvanceSearch()
+      advanceFilter.prepareSearchParams("search")
+      
+      $.ajax
+        type: 'POST'
+        dataType: 'json'
+        url: "/clients/load_statistics_data"
+        data:
+          cache_key: $("#cache-key").data("cacheKey")
+          basic_rules: $("#client_advanced_search_basic_rules").val()
+        success: (data) ->
+          $('#cis-domain-score').data 'csi-domain', data.csi_statistics
+          $('#program-statistic').data 'program-statistic', data.enrollments_statistics
+
+          _handleCreateCsiDomainReport()
+          _handleCreateCaseReport()
+
   _addDataTableToAssessmentScoreData = ->
-    if $("body#clients-welcome").length > 0 || $("body#families-welcome").length > 0
+    if $("body#clients-welcome").length > 0 || $("body#families-welcome").length > 0 || !$("#assessment-checkbox").is(":checked")
       return
 
     advanceFilter = new CIF.ClientAdvanceSearch()
@@ -155,7 +191,8 @@ CIF.ClientsIndex = CIF.ClientsWelcome = do ->
       sServerMethod: 'POST'
       ajax:
         url: url
-        data: 
+        data:
+          cache_key: $("#cache-key").data("cacheKey")
           basic_rules: $("#client_advanced_search_basic_rules").val()
         error: (jqXHR, textStatus, errorThrown) ->
           console.log("Datatable Ajax Error:", errorThrown)
@@ -630,8 +667,6 @@ CIF.ClientsIndex = CIF.ClientsWelcome = do ->
     $('#client-statistic').click ->
       paramsAdvancedSearch = $('#params').val()
       if paramsAdvancedSearch != ''
-        _handleCreateCsiDomainReport()
-        _handleCreateCaseReport()
         _toggleCollapseOnOff()
       else
         if $('#cis-domain-score').is('[data-csi-domain]') && $('#program-statistic').is('[data-program-statistic]')
