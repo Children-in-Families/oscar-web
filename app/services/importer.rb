@@ -218,9 +218,6 @@ module Importer
       communes = Commune.where(name_kh: attributes[:name_kh], name_en: attributes[:name_en])
 
       case communes.count
-      when 1
-        communes.last.update(attributes)
-        communes.last.reload
       when 0
         Commune.create(attributes)
       else
@@ -245,9 +242,6 @@ module Importer
       villages = Village.where(name_kh: attributes[:name_kh], name_en: attributes[:name_en])
 
       case villages.count
-      when 1
-        villages.last.update(attributes)
-        villages.last.reload
       when 0
         Village.create(attributes)
       else

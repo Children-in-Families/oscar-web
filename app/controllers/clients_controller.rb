@@ -46,7 +46,7 @@ class ClientsController < AdminController
     if has_params? || params[:advanced_search_id].present? || params[:client_advanced_search].present?
       advanced_search
     else
-      columns_visibility
+      client_columns_visibility
       respond_to do |f|
         f.html do
           # @client_grid is invoked from ClientGridOptions#choose_grid
