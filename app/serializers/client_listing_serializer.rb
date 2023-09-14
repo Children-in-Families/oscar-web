@@ -1,5 +1,6 @@
 class ClientListingSerializer < ActiveModel::Serializer
-  attributes :id, :name, :gender, :status, :profile, :date_of_birth, :current_family_id, :assessments_count, :case_notes_count, :tasks_count, :updated_at
+  attributes :id, :name, :gender, :status, :profile, :date_of_birth, :current_family_id,
+             :assessments_count, :case_notes_count, :tasks_count, :risk_assessment_status, :updated_at
 
   def profile
     object.profile.present? ? { uri: object.profile.url } : {}
@@ -11,5 +12,9 @@ class ClientListingSerializer < ActiveModel::Serializer
 
   def tasks_count
     object.tasks.incomplete.count
+  end
+
+  def risk_assessment_status
+    object.assessments.last&.level_of_risk || object.risk_assessment&.level_of_risk
   end
 end
