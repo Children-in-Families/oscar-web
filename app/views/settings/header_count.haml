@@ -1,0 +1,14 @@
+.row
+  .col-xs-12
+    = simple_form_for @setting do |f|
+      .ibox
+        .ibox-title
+          %h5.text-center= t('.title')
+        .ibox-content
+          .i-checks
+            %p
+              %b.text-warning= t('.warning')
+            = f.label :enabled_header_count, t('.label')
+            = f.input :enabled_header_count, as: :radio_buttons, collection: [['Yes', true],['No', false]], label: false
+        .ibox-footer
+          = f.submit t('save'), name: 'header_count' ,class: 'btn btn-primary', data: { disable_with: t('saving') }
