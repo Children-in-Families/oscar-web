@@ -7,6 +7,8 @@ class Client < ActiveRecord::Base
 
   extend FriendlyId
 
+  acts_as_paranoid
+
   require 'text'
 
   mount_uploaders :national_id_files, FileUploader
@@ -80,6 +82,7 @@ class Client < ActiveRecord::Base
   has_many :agency_clients, dependent: :destroy
   has_many :progress_notes, dependent: :destroy
   has_many :agencies, through: :agency_clients
+  has_many :shared_clients, foreign_key: :slug, primary_key: :slug
 
   has_many :client_quantitative_free_text_cases, dependent: :destroy
   has_many :client_quantitative_cases, dependent: :destroy
@@ -171,7 +174,7 @@ class Client < ActiveRecord::Base
   scope :is_followed_up_by,                        ->        { joins(:followed_up_by).pluck("CONCAT(users.first_name, ' ' , users.last_name)", 'users.id').uniq }
   scope :province_is,                              ->        { joins(:province).pluck('provinces.name', 'provinces.id').uniq }
   scope :birth_province_is,                        ->        { joins(:birth_province).pluck('provinces.name', 'provinces.id').uniq }
-  scope :accepted,                                 ->        { where(state: 'accepted') }
+  scope :accepted,                                 ->        { where(status: 'Accepted') }
   scope :rejected,                                 ->        { where(state: 'rejected') }
   scope :male,                                     ->        { where(gender: 'male') }
   scope :female,                                   ->        { where(gender: 'female') }
@@ -188,6 +191,19 @@ class Client < ActiveRecord::Base
   scope :referred_external,                        -> (external_system_name)       { joins(:referrals).where("clients.referred_external = ? AND referrals.ngo_name = ?", true, external_system_name) }
   scope :test_clients,                             ->        { where(for_testing: true) }
   scope :without_test_clients,                     ->        { where(for_testing: false) }
+  scope :reportable,                               ->        { with_deleted.without_test_clients }
+
+  scope :male_shared_clients,                      ->        { joins(:shared_clients).where('shared.shared_clients.gender = ?', 'male') }
+  scope :female_shared_clients,                    ->        { joins(:shared_clients).where('shared.shared_clients.gender = ?', 'female') }
+  scope :non_binary_shared_clients,                ->        { joins(:shared_clients).where('shared.shared_clients.gender NOT IN (?)', %w(male female)) }
+  scope :adult,                                    ->        { where('(EXTRACT(year FROM age(current_date, clients.date_of_birth)) :: int) >= ?', 18) }
+  scope :child,                                    ->        { where('(EXTRACT(year FROM age(current_date, clients.date_of_birth)) :: int) < ?', 18) }
+  scope :no_school,                                ->        { where(school_grade: [nil, '']) }
+  scope :pre_school,                               ->        { where(school_grade: ['Kindergarten 1', 'Kindergarten 2', 'Kindergarten 3', 'Kindergarten 4']) }
+  scope :primary_school,                           ->        { where(school_grade: ['1', '2', '3', '4', '5', '6']) }
+  scope :secondary_school,                         ->        { where(school_grade: ['7', '8', '9']) }
+  scope :high_school,                              ->        { where(school_grade: ['10', '11', '12']) }
+  scope :university,                               ->        { where(school_grade: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6', 'Year 7', 'Year 8', 'Bachelors']) }
 
   class << self
     def find_shared_client(options)
@@ -277,7 +293,8 @@ class Client < ActiveRecord::Base
     end
 
     def unattache_to_other_families(allowed_family_id = nil)
-      records = joins("LEFT JOIN family_members ON clients.id = family_members.client_id WHERE family_members.family_id IS NULL")
+      # Rails is fail to build correct query with acts_as_paranoid in this case
+      records = with_deleted.joins("LEFT JOIN family_members ON clients.id = family_members.client_id WHERE family_members.family_id IS NULL AND clients.deleted_at IS NULL")
 
       if allowed_family_id.present?
         records += joins(:family_member).where(family_members: { family_id: allowed_family_id})
@@ -337,6 +354,8 @@ class Client < ActiveRecord::Base
     percentage < 0 ? nil : percentage
   end
 
+
+
   # options[:custom]
   # options[:custom_assessment_setting_id]
   def find_or_create_draft_case_note(options = {})
@@ -363,6 +382,10 @@ class Client < ActiveRecord::Base
     assessment ||= assessments.new(options.merge(draft: true))
     assessment.save(validate: false)
     assessment
+  end
+
+  def accepted?
+    status == 'Accepted'
   end
 
   def exit_ngo?
@@ -781,11 +804,7 @@ class Client < ActiveRecord::Base
   end
 
   def indirect_beneficiaries
-    result = 0
-    family_id = self.family_member.try(:family_id)
-    _family = Family.find_by(id: family_id) if family_id.present?
-    result = _family.family_members.where(client_id: nil).count if _family.present?
-    result
+    family_member.blank? ? 0 : FamilyMember.joins(:family).where(families: { id: family_member.family_id }).where.not(client_id: nil).count
   end
 
   def one_off_screening_assessment
@@ -942,11 +961,10 @@ class Client < ActiveRecord::Base
 
   def self.cache_gender(object)
     Rails.cache.fetch([I18n.locale, Apartment::Tenant.current, object.id, object.gender || 'gender']) do
-      current_org = Organization.current
-      Organization.switch_to 'shared'
-      gender = SharedClient.find_by(slug: object.slug)&.gender
-      Organization.switch_to current_org.short_name
-      gender.present? ? I18n.t("default_client_fields.gender_list.#{ gender.gsub('other', 'other_gender') }") : ''
+      Apartment::Tenant.switch('shared') do
+        gender = SharedClient.find_by(slug: object.slug)&.gender
+        gender.present? ? I18n.t("default_client_fields.gender_list.#{ gender.gsub('other', 'other_gender') }") : ''
+      end
     end
   end
 
@@ -1017,6 +1035,22 @@ class Client < ActiveRecord::Base
 
   def female?
     gender == 'female'
+  end
+
+  def adult_male?
+    adult? && male?
+  end
+
+  def adult_female?
+    adult? && female?
+  end
+
+  def child_male?
+    child? && male?
+  end
+
+  def child_female?
+    child? && female?
   end
 
   def other_gender?

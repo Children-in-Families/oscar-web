@@ -970,10 +970,12 @@ module ClientsHelper
       sub_rule_index  = @data[:rules].index { |param| param.key?(:condition)}
       if sub_rule_index.present?
         sub_results     = @data[:rules][sub_rule_index]
-        sub_result_hash = sub_results[:rules].reject{ |h| h[:id] != rule }.map { |value| [value[:id], value[:operator], value[:value]] }
-        sub_hashes      = mapping_query_result(sub_result_hash)
-        sub_sql_hash    = mapping_query_date(object, sub_hashes, relation)
-        sub_query_array = mapping_query_string_with_query_value(sub_sql_hash, sub_results[:condition])
+        if sub_results[:rules].present?
+          sub_result_hash = sub_results[:rules].reject{ |h| h[:id] != rule }.map { |value| [value[:id], value[:operator], value[:value]] }
+          sub_hashes      = mapping_query_result(sub_result_hash)
+          sub_sql_hash    = mapping_query_date(object, sub_hashes, relation)
+          sub_query_array = mapping_query_string_with_query_value(sub_sql_hash, sub_results[:condition])
+        end
       end
     end
 
@@ -999,6 +1001,7 @@ module ClientsHelper
     count = 0
     class_name  = header_classes(grid, column)
     class_name  = class_name == "call-field" ? column.name.to_s : class_name
+    
     if Client::HEADER_COUNTS.include?(class_name) || class_name[/^(enrollmentdate)/i] || class_name[/^(exitprogramdate)/i] || class_name[/^(formbuilder)/i] || class_name[/^(tracking)/i]
       association = "#{class_name}_count"
       klass_name  = { exit_date: 'exit_ngos', accepted_date: 'enter_ngos', case_note_date: 'case_notes', case_note_type: 'case_notes', date_of_assessments: 'assessments', date_of_custom_assessments: 'assessments', formbuilder__Client: 'custom_field_properties' }

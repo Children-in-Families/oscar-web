@@ -299,7 +299,7 @@ module AdvancedSearchHelper
   end
 
   def user_select_options
-    User.non_strategic_overviewers.order(:first_name, :last_name).map { |user| { user.id.to_s => user.name } }
+    User.cached_user_select_options
   end
 
   def concern_translation(hotline_field)

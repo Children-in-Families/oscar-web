@@ -53,7 +53,7 @@
                   %table.table.table-borderless
                     %tbody
                       %tr
-                        - if current_organization.try(:aht) == true || !@assessment.default
+                        - if current_organization.aht? || !@assessment.default
                           = domain_name_for_aht(ad).html_safe
                         - else
                           %td.no-padding-bottom

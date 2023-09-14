@@ -17,12 +17,16 @@ CIF.Common =
     @loadSideMenuCountBadge()
 
   loadNotification: ->
-    if $('.lazy-load-notification').length > 0
-      $.ajax(type: 'GET', url: '/dashboards/notification')
+    setTimeout (->
+      if $('.lazy-load-notification').length > 0
+        $.ajax(type: 'GET', url: '/dashboards/notification')
+    ), 1000
 
   loadSideMenuCountBadge: ->
-    if $('ul#side-menu').length > 0
-      $.ajax(type: 'GET', url: '/dashboards/side_menu_data')
+    setTimeout (->
+      if $('ul#side-menu').length > 0
+        $.ajax(type: 'GET', url: '/dashboards/side_menu_data')
+    ), 1000
 
   preventEditOnDatePicker: ->
     $('.date-picker').datepicker
@@ -33,7 +37,7 @@ CIF.Common =
       startDate: '1899,01,01',
       orientation: 'bottom',
       todayBtn: true
-    .attr('readonly', 'true').css('background-color','#ffffff').keypress (e) ->
+    .attr('readonly', 'true').attr("autocomplete", "off").css('background-color','#ffffff').keypress (e) ->
       if e.keyCode == 8
         e.preventDefault()
       return

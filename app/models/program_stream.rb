@@ -223,7 +223,7 @@ class ProgramStream < ActiveRecord::Base
     if attached_to_client?
       active_client_ids = client_enrollments.active.pluck(:client_id).uniq
       active_clients    = Client.where(id: active_client_ids)
-      clients           = AdvancedSearches::ClientAdvancedSearch.new(rules, active_clients)
+      clients, _query   = AdvancedSearches::ClientAdvancedSearch.new(rules, active_clients)
       clients.filter.ids
     elsif attached_to_family?
       active_ids         = enrollments.active.pluck(:programmable_id).uniq

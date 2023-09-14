@@ -50,7 +50,7 @@
                   %table.table.table-borderless
                     %tbody
                       %tr
-                        - if current_organization.try(:aht) == true
+                        - if current_organization.aht?
                           = domain_name_for_aht(ad).html_safe
                         - else
                           %td.no-padding-bottom

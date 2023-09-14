@@ -3,7 +3,7 @@
   = hidden_field_tag :default, params[:default] if params[:default]
   = hidden_field_tag :from_controller, (@from_controller || params[:from_controller])
   = f.hidden_field :case_conference_id
-  = hidden_field_tag :custom_name, params[:custom_name] || @custom_assessment_setting.try(:custom_assessment_name)
+  = hidden_field_tag :custom_name, params[:custom_name] || @custom_assessment_setting&.custom_assessment_name
   = render 'assessment_date_section', f: f
   .row.assessment-domains
     .col-xs-12

@@ -24,7 +24,7 @@ services:
       - READ_ONLY_MTP_DATABASE_USER=mtp_user
       - READ_ONLY_MTP_DATABASE_PASSWORD=123456789
       - WEBPACKER_DEV_SERVER_HOST=webpack
-      - REDIS_URL=redis://redis:6379/0
+      - REDIS_URL=redis://redis:6379/1
       - STC_DONOR_NAME=
       - FD_DONOR_NAME=
       - SIDEKIQ_USER=admin
@@ -37,6 +37,7 @@ services:
       - db
       - mongo
       - redis
+      - sidekiq
     stdin_open: true
     tty: true
   webpack:
@@ -60,6 +61,8 @@ services:
       - POSTGRES_PASSWORD=123456789
     volumes:
       - ./tmp/db:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
   pgadmin:
     image: dpage/pgadmin4:latest
     container_name: pgadmin
@@ -122,4 +125,4 @@ services:
       - DATABASE_PASSWORD=123456789
       - DATABASE_HOST=db
       - SENDER_EMAIL=admin@example.com
-      - REDIS_URL=redis://redis:6379/12
+      - REDIS_URL=redis://redis:6379/1

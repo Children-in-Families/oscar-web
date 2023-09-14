@@ -2,16 +2,22 @@
   .col-xs-12
     .ibox
       .ibox-title
-        %h5= "#{@programmable.name} - #{t('.report')}"
-        .ibox-tools
-          - if params[:family_id]
-            = link_to family_enrolled_programs_path(@programmable) do
-              .btn.btn-primary
-                = t('.programs_list')
-          - elsif params[:community_id]
-            = link_to community_enrolled_programs_path(@programmable) do
-              .btn.btn-primary
-                = t('.programs_list')
+        .row
+          .col-xs-12.col-sm-6.co-md-6
+            %h5
+              = link_to @programmable do
+                = @programmable.name
+              %span= " - #{t('.report')}"
+          .col-xs-12.col-sm-6.co-md-6
+            .ibox-tools
+              - if params[:family_id]
+                = link_to family_enrolled_programs_path(@programmable) do
+                  .btn.btn-primary
+                    = t('.programs_list')
+              - elsif params[:community_id]
+                = link_to community_enrolled_programs_path(@programmable) do
+                  .btn.btn-primary
+                    = t('.programs_list')
       .ibox-content
         .table-responsive
           %table.table.table-bordered.table-striped.table-hover

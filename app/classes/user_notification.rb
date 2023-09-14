@@ -62,7 +62,7 @@ class UserNotification
       client_ids = client_ids & @clients.ids
       clients = Client.active_accepted_status.where(id: client_ids)
 
-      clients_after_filter = AdvancedSearches::ClientAdvancedSearch.new(rules, clients).filter
+      clients_after_filter, _query = AdvancedSearches::ClientAdvancedSearch.new(rules, clients).filter
 
       if clients_after_filter.any?
         clients_change = clients.where.not(id: clients_after_filter.ids).ids

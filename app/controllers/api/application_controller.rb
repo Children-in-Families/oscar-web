@@ -15,5 +15,9 @@ module Api
     def pundit_user
       UserContext.new(current_user, field_settings)
     end
+
+    def searched_client_ids
+      @searched_client_ids ||= Rails.cache.read(params[:cache_key]) if params[:cache_key]
+    end
   end
 end

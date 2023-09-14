@@ -45,15 +45,15 @@ module CallHelper
   end
   class << self
     def referee_id
-      Referee.where(anonymous: false).pluck(:name, :id).map{ |name, id| { id => name } }
+      Referee.cache_none_anonymous.map { |referee| { referee.id => referee.name } }
     end
 
     def receiving_staff_id
-      User.case_workers.map { |user| { user.id => user.name } }
+      User.cache_case_workers.map { |user| { user.id => user.name } }
     end
 
     def phone_call_id
-      Call.pluck(:phone_call_id).map { |phone_call_id| { phone_call_id => phone_call_id } }
+      Call.cache_all.map { |phone_call| { phone_call.id => phone_call.id } }
     end
 
     def call_type
@@ -94,11 +94,11 @@ module CallHelper
     end
 
     def protection_concerns
-      ProtectionConcern.dropdown_list_option
+      ProtectionConcern.cache_all.map { |protection_concern| { protection_concern.id => protection_concern.content } }
     end
-
+    
     def necessities
-      Necessity.dropdown_list_option
+      Necessity.cache_all.map { |necessity| { necessity.id => necessity.content } }
     end
 
     def not_a_phone_call

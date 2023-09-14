@@ -27,6 +27,12 @@ class ReferralSource < ActiveRecord::Base
     ReferralSource.exists?(parent_id)
   end
 
+  def self.cache_all
+    Rails.cache.fetch([Apartment::Tenant.current, self.name]) do
+      ReferralSource.all.to_a
+    end
+  end
+
   def self.cache_referral_source_options
     Rails.cache.fetch([Apartment::Tenant.current, 'ReferralSource', 'referral_source_options']) do
       ReferralSource.child_referrals.order(:name).map { |s| { s.id.to_s => s.name } }
@@ -61,12 +67,12 @@ class ReferralSource < ActiveRecord::Base
     find_by(name_en: name)
   end
 
-
-
   private
 
   def update_client_referral_source
-    clients = Client.where(referral_source_id: self.id)
+    Client.reset_column_information
+    clients = Client.with_deleted.where(referral_source_id: self.id)
+
     clients.each do |client|
       client.referral_source_category_id = self.try(:ancestry)
       client.save(validate: false)
@@ -82,6 +88,7 @@ class ReferralSource < ActiveRecord::Base
   end
 
   def flush_cache
+    Rails.cache.delete([Apartment::Tenant.current, self.class.name])
     Rails.cache.delete([Apartment::Tenant.current, 'ReferralSource', 'referral_source_options'])
     Rails.cache.delete([Apartment::Tenant.current, 'ReferralSource', 'cache_referral_source_category_options'])
     Rails.cache.delete([Apartment::Tenant.current, 'ReferralSource', 'cache_local_referral_source_category_options'])

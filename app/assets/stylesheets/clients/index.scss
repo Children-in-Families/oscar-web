@@ -532,7 +532,7 @@ body[id='clients-welcome'] {
     margin-bottom: 20px;
   }
 
-  .hotline-call-column {
+  .hotline-call-column, .assessment-column {
     a.disabled {
       color: #333333 !important;
       cursor: not-allowed;

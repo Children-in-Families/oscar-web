@@ -12,7 +12,6 @@ class UserReminder
     end
   end
 
-
   private
 
   def remind_case_workers(org)

@@ -19,7 +19,7 @@ gem 'fog'
 gem 's3'
 gem 'ffaker',                 '~> 2.1.0'
 gem 'draper',                 '~> 2.1'
-gem 'datagrid',               '~> 1.4.2'
+gem 'datagrid', '1.6.3'
 gem 'active_model_serializers'
 gem 'sinatra',                require: false
 gem 'rack-cors',              require: 'rack/cors'
@@ -141,3 +141,5 @@ end
 gem "sentry-raven", "~> 2.13"
 
 gem "redis-rails", "~> 5.0"
+
+gem "ahoy_email", "1.0.3"
