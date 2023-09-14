@@ -94,6 +94,8 @@
                     = link_to t('.cms_tools'), settings_path
                   %li{ class: settings_menu_active('settings', 'default_columns') }
                     = link_to t('.default_columns'), default_columns_settings_path
+                  %li{ class: settings_menu_active('settings', 'header_count')}
+                    = link_to t('settings.header_count.title'), header_count_settings_path
                   %li{ class: settings_menu_active('settings', 'test_client')}
                     = link_to t('settings.test_client'), test_client_settings_path
                   - if Organization.ratanak?
@@ -168,4 +170,4 @@
             = link_to data_trackers_path do
               = fa_icon('area-chart')
               %span.nav-label= t('.changelogs')
-       
+

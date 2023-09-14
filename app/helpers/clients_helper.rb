@@ -1001,7 +1001,7 @@ module ClientsHelper
     count = 0
     class_name  = header_classes(grid, column)
     class_name  = class_name == "call-field" ? column.name.to_s : class_name
-    
+
     if Client::HEADER_COUNTS.include?(class_name) || class_name[/^(enrollmentdate)/i] || class_name[/^(exitprogramdate)/i] || class_name[/^(formbuilder)/i] || class_name[/^(tracking)/i]
       association = "#{class_name}_count"
       klass_name  = { exit_date: 'exit_ngos', accepted_date: 'enter_ngos', case_note_date: 'case_notes', case_note_type: 'case_notes', date_of_assessments: 'assessments', date_of_custom_assessments: 'assessments', formbuilder__Client: 'custom_field_properties' }
@@ -1487,7 +1487,8 @@ module ClientsHelper
   end
 
   def saved_search_column_visibility(field_key)
-    default_setting(field_key, @client_default_columns) || params[field_key.to_sym].present? || (@visible_fields && @visible_fields[field_key]).present?
+    client_default_columns ||= Setting.cache_first.client_default_columns
+    default_setting(field_key, client_default_columns) || params[field_key.to_sym].present? || (@visible_fields && @visible_fields[field_key]).present?
   end
 
   def legal_doc_fields

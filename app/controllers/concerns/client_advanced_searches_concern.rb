@@ -8,14 +8,14 @@ module ClientAdvancedSearchesConcern
     else
       basic_rules = JSON.parse @basic_filter_params || @wizard_basic_filter_params || "{}"
     end
-    
+
     $param_rules = find_params_advanced_search
     _clients, query      = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability)).filter
 
     @results = @clients_by_user = @client_grid.scope { |scope| scope.where(query).accessible_by(current_ability) }.assets
     cache_client_ids
 
-    columns_visibility
+    client_columns_visibility
     custom_form_column
     program_stream_column
 
