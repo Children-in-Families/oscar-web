@@ -13,7 +13,7 @@ module ClientGridOptions
     end
   end
 
-  def columns_visibility
+  def client_columns_visibility
     return if params['commit'].blank?
 
     if params[:advanced_search_id]

@@ -6136,6 +6136,10 @@ en:
     family_case_management:
       family_case_management: Family Case Management
       hide_family_case_management_tool: Hide Administrative Information and Case Management  tools
+    header_count:
+      title: Header Count
+      warning: Warning! After turning this feature on, it will affect the loading speed of the report builder.
+      label: Column Header Count (Case Note Date, Program Stream, Manual ID, Tracking Form, Care Plan Count, Custom Form)
     index:
       csi_tools: Assessment Tools
       custom_assessment: Custom Assessment Tool

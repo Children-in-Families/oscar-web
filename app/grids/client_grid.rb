@@ -694,7 +694,7 @@ class ClientGrid < BaseGrid
     object.agencies.map(&:name).join(', ')
   end
 
-  column(:date_of_birth, html: true, header: -> { I18n.t('datagrid.columns.clients.date_of_birth') }) do |object|
+  column(:date_of_birth, header: -> { I18n.t('datagrid.columns.clients.date_of_birth') }) do |object|
     Apartment::Tenant.switch('shared') do
       date_of_birth = SharedClient.cached_shared_client_date_of_birth(object.slug)
       date_of_birth&.strftime("%d %B %Y")

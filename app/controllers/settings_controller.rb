@@ -92,6 +92,16 @@ class SettingsController < AdminController
     end
   end
 
+  def header_count
+    return unless request.put?
+
+    if @setting.update_attributes(setting_params)
+      redirect_to :back, notice: t('.successfully_updated')
+    else
+      render :header_count
+    end
+  end
+
   def custom_form
   end
 
@@ -144,7 +154,7 @@ class SettingsController < AdminController
                                     :tracking_form_edit_limit, :tracking_form_edit_frequency, :disabled_add_service_received,
                                     :custom_field_limit, :custom_field_frequency, :test_client, :disabled_task_date_field,
                                     :required_case_note_note, :hide_case_note_note, :enabled_risk_assessment, :assessment_type_name,
-                                    :level_of_risk_guidance, :organization_type,
+                                    :level_of_risk_guidance, :organization_type, :enabled_header_count,
                                     client_default_columns: [], family_default_columns: [], community_default_columns: [],
                                     partner_default_columns: [], user_default_columns: [], selected_domain_ids: [],
                                     custom_assessment_settings_attributes: [:id, :custom_assessment_name, :max_custom_assessment, :custom_assessment_frequency, :custom_age, :enable_custom_assessment, :_destroy])
