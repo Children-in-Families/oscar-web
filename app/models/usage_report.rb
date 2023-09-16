@@ -6,4 +6,13 @@ class UsageReport < ActiveRecord::Base
   validates :organization, presence: true
   validates :year, presence: true
   validates :month, presence: true, uniqueness: { scope: [:organization_id, :year] }
+
+  after_commit :update_organization_info, unless: :destroyed?
+
+  def update_organization_info
+    update_columns(
+      organization_name: organization.full_name,
+      organization_short_name: organization.short_name
+    )
+  end
 end
