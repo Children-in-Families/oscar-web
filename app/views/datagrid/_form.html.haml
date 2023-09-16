@@ -32,7 +32,7 @@
                   %i.fa.fa-close
           %li
             .all-visibility.col-sm-12
-              = check_box_tag 'all_', 'all', checked = params['all_'].present? || saved_search_column_visibility('all_'), class: 'i-checks'
+              = check_box_tag 'all_', 'all', checked = params['all_'].present? || saved_search_column_visibility('all_'), class: 'i-checks all_'
               = label_tag 'all_' do
                 %strong= t('datagrid.columns.show_all')
 

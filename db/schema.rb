@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20230914030204) do
+ActiveRecord::Schema.define(version: 20230916170803) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -2794,6 +2794,8 @@ ActiveRecord::Schema.define(version: 20230914030204) do
     t.jsonb    "cross_referral_cases",              default: {}
     t.jsonb    "cross_referral_to_primero_cases",   default: {}
     t.jsonb    "cross_referral_from_primero_cases", default: {}
+    t.string   "organization_name"
+    t.string   "organization_short_name"
   end
 
   add_index "usage_reports", ["organization_id"], name: "index_usage_reports_on_organization_id", using: :btree
@@ -3090,7 +3092,6 @@ ActiveRecord::Schema.define(version: 20230914030204) do
   add_foreign_key "tasks", "goals"
   add_foreign_key "townships", "states"
   add_foreign_key "trackings", "program_streams"
-  add_foreign_key "usage_reports", "organizations"
   add_foreign_key "users", "organizations"
   add_foreign_key "villages", "communes"
   add_foreign_key "visit_clients", "users"
