@@ -3,7 +3,7 @@ class ClientEnrollment < ActiveRecord::Base
   include NestedAttributesConcern
   include ClientEnrollmentTrackingConcern
 
-  acts_as_paranoid without_default_scope: true
+  acts_as_paranoid
 
   belongs_to :client
   belongs_to :program_stream

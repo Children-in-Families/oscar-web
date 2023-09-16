@@ -18,11 +18,13 @@
                       %span.caret
                     %ul.dropdown-menu#case-note-dropdown
                       - if @current_setting.enable_default_assessment
-                        %li= new_draft_case_note_link
+                        %li= new_link
                       - if @custom_assessment_settings.present?
                         - @custom_assessment_settings.each do |cs|
                           - if cs.domains.any? && Domain.custom_csi_domain_setting(cs.id).present?
-                            %li= new_draft_case_note_link(cs.custom_assessment_name)
+                            %li
+                              = link_to new_client_case_note_path(@client, default: false, custom_name: cs.custom_assessment_name), class: 'btn btn-default custom-assessment-link' do
+                                = new_custom_link(cs.custom_assessment_name)
                           - else
                             %li.disabled
                               = link_to '#', data: { toggle: 'modal', target: '#customDomainsModal' } do
@@ -41,7 +43,7 @@
                             = t('case_notes.index.please_add_custom_domains')
 
                 - elsif case_notes_editable? && policy(@client).create?
-                  = link_to t('case_notes.index.new_case_note'), edit_client_case_note_path(@client, id: :draft, custom: @current_setting.enable_default_assessment), class: 'btn btn-primary'
+                  = link_to t('case_notes.index.new_case_note'), new_client_case_note_path(@client, custom: @current_setting.enable_default_assessment), class: 'btn btn-primary'
 
       .ibox-content
         - is_ratanak = Organization.ratanak?

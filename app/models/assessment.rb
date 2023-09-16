@@ -72,6 +72,10 @@ class Assessment < ActiveRecord::Base
     empty_assessment_domains
   end
 
+  def client_risk_assessment?
+    level_of_risk.present?
+  end
+
   def self.latest_record
     most_recents.first
   end
@@ -144,7 +148,7 @@ class Assessment < ActiveRecord::Base
   private
 
   def populate_domains
-    self.assessment_domains = AssessmentDomainsLoader.call(self) if new_record?
+    self.assessment_domains = AssessmentDomainsLoader.call(self) if new_record? && client_id?
   end
 
   def allow_create

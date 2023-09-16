@@ -32,6 +32,74 @@ en:
     case_notes:
       index:
         new_button: Document any communication or updates related to the client here.
+    cb_dmat:
+      screening_assessment_date: The actual date when the Case Worker interacted, communicated, and assessed the client.
+      visitor: Details of the person(s) present during the visit or the assessment.
+      client_age: The current client’s age.
+      note: Case notes should provide accurate and objective descriptions of all the work you did with or for a client. Enter detailed notes summarizing each client interaction. Include things like what the client said or did, major topics of conversation; any interventions completed with or for the client. Do not include subjective statements or assessments which you are not qualified to make. For example, Case Worker should not make medical diagnoses, as they do not have medical degree.
+      client_milestone_age: Client’s age for doing the assessment.
+      by_age_3_months: "S2: Show brief interest in toy</br>
+      1. Show the child a bright-coloured toy (rattle).</br>
+      2. Move the toy away from the child slowly.</br>
+      3. Observe the child</br>
+      *Pass: The child turns – pays attention to the toy, and tries to follow the toy with his eyes when slowly moving it away from him."
+      by_age_6_months: "S8: Explore environment</br>
+      1. Put the child on the floor.</br>
+      2. Observe if the child moves around and is looking or taking something.</br>
+      3. If the child does not respond, ask the caretaker if he is moving around at home, exploring his environment ‘laphuk’ (always observing and moving around and taking things).</br>
+      4. Observe the child or report the caretaker’s answer.</br>
+      *Pass: The caretaker says that the child’s is ‘laphuk’ at home and at other places.</br>
+      Fail if one or more of the three conditions fails: observe, move around and take."
+      by_age_9_months: "S11: Recognize stranger</br>
+      1. Take the child in your arms and smile at him for about 10 seconds.</br>
+      2. Observe the child’s mood.</br>
+      3. When he is distressed, give the child back to his caretaker.</br>
+      4. Observe the child’s mood change.</br>
+      *Pass: The child starts to cry, appearing to be in distress when you hold the child and stops crying when you give him back to his caretaker."
+      by_age_1_year: "S16: Greet with hand clap</br>
+      1. At the start of the assessment, ask the caretaker to tell the child to greet you using the Khmer traditional, respectable way by saying ‘chumriep sur’ while his hands are clapped together. The caretaker cannot physically put the child’s hands together but can demonstrate it using his own hands.</br>
+      2. Observe the child.</br>
+      3. The caretaker can also ask him to handclap when he receives something as a thank-you gesture.</br>
+      4. The caretaker can also ask him to handclap when he goes away as a bye-bye gesture.</br>
+      5. If the child does not do any of the three situations, you can ask the caretaker whether he does it on his own on other occasions. </br>
+      *Pass: On request, the child is obedient and puts his hand together to greet (‘chumriep sur’), to thank or to say goodbye. Hand clapping in any of the three situations Passes.</br>
+      *Fail: When the caretaker physically needs to put his hands together."
+      by_age_1_5_years: "S19: Use spoon</br>
+      1. Ask the caretaker if the child can eat soup alone with a spoon.</br>
+      2. Ask the caretaker how much he usually spills.</br>
+      *Pass: The child can use a spoon to eat. It is acceptable if the child spills less than half of the food.</br>
+      *Fail: Child spills more than half of the liquid."
+      by_age_2_years: "S23: Put on simple clothes with help</br>
+      1. Ask the caretaker whether he can put on a shirt and shorts by himself.</br>
+      2. Also check then carefully the Pass criterial.</br>
+      •	The child must start by himself, e.g. covering at least one arm and/or leg with the respective shirt/shirt sleeve.</br>
+      •	It is acceptable for Passing if the child receives assistance to complete (finish) putting on both pieces of clothing.</br>
+      *Pass: The child can put on a simple shirt and shorts by himself. The child may need assistance completely putting on shorts/skirts and a shirt.</br>
+      *Fail: Child does not start by himself first."
+      by_age_2_5_years: "S25: Parallel play without sharing</br>
+      1. Ask the caretaker if the child plays alone when playing with other kids and does not interfere with other kids, even though he is interested in other kids’ toys.</br>
+      2. If possible also document through observation.</br>
+      *Pass: If observed during the assessment, the caretaker reports that the child plays alone without other kids or siblings. S25 (without sharing), S26 (sharing)"
+      by_age_3_years: "S28: Name a friend</br>
+      1. Ask the child to name someone he plays with.</br>
+      2. Listen to the child.</br>
+      3. Confirm with the caretaker that the child has named his friend correctly.</br>
+      *Pass: The child can correctly name at least one of his friends (confirmed by the caretaker). It is okay when he names a sibling.</br>
+      *Fail: Child says only “bong” or “own”"
+      by_age_4_years: "S22: Comb hair with help (also S32: Comb hair without help)</br>
+      1. Give the child a comb.</br>
+      2. Ask him to comb his hair.</br>
+      3. Observe whether the child puts the comb on his head and makes a combing movement.</br>
+      4. Or ask the caretaker to report whether he can comb his hair alone.</br>
+      S32: Comb hair without help</br>
+      *Pass: The child is able to comb his hair even if he needs help to comb properly. The child needs to physically demonstrate.</br>
+      *Fail: No combing movement."
+      by_age_5_years: "S33: Play kid games (team/waiting turns)</br>
+      1. interact with the child and ask which Khmer (gender-specific) competitive children’s game he can play involving teamwork or waiting for turns.</br>
+      2. Or observe the child playing.</br>
+      3. Or ask the caretaker which games he can play at home.</br>
+      *Pass: The child plays Khmer children’s game like e.g. ‘chhou’ or ‘kup sbaekcheung’ (shoe bowling or throwing); e.g. (for girl) ‘leng muck’ hopscotch or ’laut enteak’ ; (for boy) ‘leng khlee’ (marbles game).</br>
+      *Fail: Not waiting his turn"
     client:
       referral_province: Select the province where the client is staying now, it can be different than the birth province. You cannot select Khan/Sangkat/Phum in the fields below if you leave Province blank. Update the province and address if the client moves to a different province.
     clients:

@@ -167,6 +167,8 @@ module AdvancedSearchHelper
       assessment_number: I18n.t('advanced_search.fields.assessment_number', assessment: I18n.t('clients.show.assessment')),
       assessment_completed_date: I18n.t('advanced_search.fields.assessment_completed_date', assessment: I18n.t('clients.show.assessment')),
       custom_completed_date: I18n.t('advanced_search.fields.assessment_custom_completed_date', assessment: I18n.t('clients.show.assessment')),
+      date_of_custom_assessments: I18n.t('datagrid.columns.clients.date_of_custom_assessments', assessment: I18n.t('clients.show.assessment')),
+      custom_assessment_created_at: I18n.t('datagrid.columns.clients.custom_assessment_created_at', assessment: I18n.t('clients.show.assessment')),
       completed_date: I18n.t('advanced_search.fields.assessment_completed_date', assessment: I18n.t('clients.show.assessment')),
       month_number: I18n.t('advanced_search.fields.month_number'),
       custom_csi_group: I18n.t('advanced_search.fields.custom_csi_group'),
@@ -197,6 +199,14 @@ module AdvancedSearchHelper
     }
 
     translations = label_translations(address_translation(group_name)).merge(translations)
+    
+    if group_name == 'family'
+      translations[:custom_assessment_created_at] = I18n.t('datagrid.columns.family_assessment_created_at')
+      translations[:date_of_custom_assessments] = I18n.t('datagrid.columns.date_of_family_assessment')
+      translations[:custom_completed_date] = I18n.t('datagrid.columns.assessment_completed_date', assessment: I18n.t('families.family_assessment'))
+      translations[:custom_csi_domain_scores] = I18n.t('advanced_search.fields.family_assessment_domain_scores')
+    end
+    
     translations[key.to_sym] || ''
   end
 
@@ -289,7 +299,7 @@ module AdvancedSearchHelper
   end
 
   def user_select_options
-    User.non_strategic_overviewers.order(:first_name, :last_name).map { |user| { user.id.to_s => user.name } }
+    User.cached_user_select_options
   end
 
   def concern_translation(hotline_field)

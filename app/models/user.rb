@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   include NextClientEnrollmentTracking
   include ClientOverdueAndDueTodayForms
   include CsiConcern
+  include CacheAll
 
   ROLES = ['admin', 'manager', 'case worker', 'hotline officer', 'strategic overviewer'].freeze
   MANAGERS = ROLES.select { |role| role if role.include?('manager') }
@@ -85,6 +86,7 @@ class User < ActiveRecord::Base
   scope :non_locked,                -> { where(disable: false) }
   scope :notify_email,              -> { where(task_notify: true) }
   scope :referral_notification_email,    -> { where(referral_notification: true) }
+  scope :oscar_or_dev,              -> { where(email: [ENV['OSCAR_TEAM_EMAIL'], ENV['DEV_EMAIL'], ENV['DEV2_EMAIL'], ENV['DEV3_EMAIL']]) }
 
   before_save :assign_as_admin
   after_commit :set_manager_ids
@@ -101,15 +103,13 @@ class User < ActiveRecord::Base
     def current_user
       Thread.current[:current_user]
     end
-  end
 
-  class << self
-    def current_user=(user)
-      Thread.current[:current_user] = user
+    def cache_case_workers
+      Rails.cache.fetch([Apartment::Tenant.current, self.name, 'case_workers']) { self.case_workers }
     end
 
-    def current_user
-      Thread.current[:current_user]
+    def cach_has_clients_case_worker_options(reload: false) 
+      Rails.cache.fetch([Apartment::Tenant.current, self.name, 'cach_has_clients_case_worker_options']) { self.has_clients.map { |user| ["#{user.first_name} #{user.last_name}", user.id] } }
     end
   end
 
@@ -185,7 +185,6 @@ class User < ActiveRecord::Base
     due_today = { client_id: [], next_assessment_date: [] }
     overdue_assessments = []
     current_ability = Ability.new(self)
-    Rails.cache.delete([Apartment::Tenant.current, self.class.name, id, 'assessment_either_overdue_or_due_today'])
     Rails.cache.fetch([Apartment::Tenant.current, self.class.name, id, 'assessment_either_overdue_or_due_today']) do
       clients = Client.accessible_by(current_ability)
       eligible_clients = active_young_clients(clients, setting)
@@ -293,20 +292,20 @@ class User < ActiveRecord::Base
 
   def client_forms_overdue_or_due_today
     if self.deactivated_at.present?
-      active_accepted_clients = clients.where("clients.created_at > ?", self.activated_at).active_accepted_status
+      active_accepted_clients = user_clients.where("clients.created_at > ?", self.activated_at).active_accepted_status
     else
-      active_accepted_clients = clients.active_accepted_status
+      active_accepted_clients = user_clients.active_accepted_status
     end
-    overdue_and_due_today_forms(active_accepted_clients)
+    overdue_and_due_today_forms(self, active_accepted_clients)
   end
 
-  def case_note_overdue_and_due_today
+  def case_notes_due_today_and_overdue
     overdue   = []
     due_today = []
 
     if self.deactivated_at.nil?
-      clients.active_accepted_status.each do |client|
-        next if client.case_notes.count.zero?
+      user_clients.active_accepted_status.includes(:case_notes).each do |client|
+        next unless client.case_notes.any?
 
         client_next_case_note_date = client.next_case_note_date.to_date
         if client_next_case_note_date < Date.today
@@ -316,8 +315,8 @@ class User < ActiveRecord::Base
         end
       end
     else
-      clients.active_accepted_status.each do |client|
-        next if client.case_notes.count.zero?
+      user_clients.active_accepted_status.includes(:case_notes).each do |client|
+        next unless client.case_notes.any?
 
         client_next_case_note_date = client.next_case_note_date(self.activated_at)
         next if client_next_case_note_date.nil?
@@ -331,6 +330,17 @@ class User < ActiveRecord::Base
     end
 
     { client_overdue: overdue, client_due_today: due_today }
+  end
+
+  def user_clients
+    @user_clients ||= if admin?
+                        Client.select(:id, :slug, :given_name, :family_name, :local_given_name, :local_family_name)
+                      elsif manager?
+                        user_ability = Ability.new(self)
+                        Client.accessible_by(user_ability)
+                      elsif case_worker?
+                        clients.select(:id, :slug, :given_name, :family_name, :local_given_name, :local_family_name)
+                      end
   end
 
   def self.self_and_subordinates(user)
@@ -407,7 +417,7 @@ class User < ActiveRecord::Base
   end
 
   def cache_advance_saved_search
-    Rails.cache.fetch([Apartment::Tenant.current, self.class.name, self.id, 'advance_saved_search']) {  self.advanced_searches.order(:name).to_a }
+    Rails.cache.fetch([Apartment::Tenant.current, self.class.name, self.id, 'advance_saved_search']) {  self.advanced_searches.for_client.to_a }
   end
 
   def self.cached_user_select_options

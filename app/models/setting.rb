@@ -78,7 +78,7 @@ class Setting < ActiveRecord::Base
   end
 
   def set_organization_type
-    return if organization_type.nil?
+    return if organization_type.nil? || !organization_type_changed?
 
     org = Organization.current
     org.ngo_type = organization_type
@@ -87,7 +87,8 @@ class Setting < ActiveRecord::Base
 
   def flush_cache
     Rails.cache.delete([Apartment::Tenant.current, 'current_setting'])
-    Rails.cache.fetch([Apartment::Tenant.current, 'table_name', 'settings'])
+    Rails.cache.delete([Apartment::Tenant.current, 'table_name', 'settings'])
+    Rails.cache.delete(['current_organization', Apartment::Tenant.current, Organization.only_deleted.count])
     assessment_either_overdue_or_due_today_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/assessment_either_overdue_or_due_today/].blank? }
     assessment_either_overdue_or_due_today_keys.each { |key| Rails.cache.delete(key) }
   end

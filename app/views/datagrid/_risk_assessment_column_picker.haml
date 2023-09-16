@@ -1,9 +1,25 @@
-%li.carer-header
-  %strong= t('risk_assessments._attr.risk_assessment')
-%li
-  .visibility.col-sm-12
-    = check_box_tag 'level_of_risk_', 'level_of_risk', checked = saved_search_column_visibility('level_of_risk_'), class: 'i-checks'
-    = label_tag 'level_of_risk_', t('risk_assessments._attr.level_of_risk')
-  .visibility.col-sm-12
-    = check_box_tag 'date_of_risk_assessment_', 'date_of_risk_assessment', checked = saved_search_column_visibility('date_of_risk_assessment_'), class: 'i-checks'
-    = label_tag 'date_of_risk_assessment_', t('risk_assessments._attr.assessment_date')
+- level_of_risk = saved_search_column_visibility('level_of_risk_')
+- date_of_risk_assessment = saved_search_column_visibility('date_of_risk_assessment_')
+- has_hiv_or_aid = saved_search_column_visibility('has_hiv_or_aid_')
+- has_disability = saved_search_column_visibility('has_disability_')
+- has_known_chronic_disease = saved_search_column_visibility('has_known_chronic_disease_')
+
+- cache cache_keys_base + [level_of_risk, date_of_risk_assessment, has_hiv_or_aid, has_disability, has_known_chronic_disease] do
+  %li.carer-header
+    %strong= t('risk_assessments._attr.risk_assessment')
+  %li
+    .visibility.col-sm-12
+      = check_box_tag 'level_of_risk_', 'level_of_risk', level_of_risk, class: 'i-checks'
+      = label_tag 'level_of_risk_', t('risk_assessments._attr.level_of_risk')
+    .visibility.col-sm-12
+      = check_box_tag 'date_of_risk_assessment_', 'date_of_risk_assessment', date_of_risk_assessment, class: 'i-checks'
+      = label_tag 'date_of_risk_assessment_', t('risk_assessments._attr.assessment_date')
+    .visibility.col-sm-12
+      = check_box_tag 'has_hiv_or_aid_', 'has_hiv_or_aid', has_hiv_or_aid, class: 'i-checks'
+      = label_tag 'has_hiv_or_aid_', t('risk_assessments._attr.has_hiv_or_aid')
+    .visibility.col-sm-12
+      = check_box_tag 'has_disability_', 'has_disability', has_disability, class: 'i-checks'
+      = label_tag 'has_disability_', t('risk_assessments._attr.has_disability')
+    .visibility.col-sm-12
+      = check_box_tag 'has_known_chronic_disease_', 'has_known_chronic_disease', has_known_chronic_disease, class: 'i-checks'
+      = label_tag 'has_known_chronic_disease_', t('risk_assessments._attr.has_known_chronic_disease')

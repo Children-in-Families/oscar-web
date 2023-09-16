@@ -4,4 +4,4 @@
       .ibox-title
         %h5= t('.referral_clients')
       .ibox-content
-        = render partial: 'referral_table', locals: { referrals: @repeat_referrals, clients: Client.where(global_id: @repeat_referrals.map(&:client_global_id).uniq) }
+        = render partial: 'referral_table', locals: { referrals: @repeat_referrals, clients: Client.where('id IN (?) OR global_id IN (?)', @repeat_referrals.map(&:client_id).compact, @repeat_referrals.map(&:client_global_id)).uniq }

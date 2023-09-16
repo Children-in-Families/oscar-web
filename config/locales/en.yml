@@ -479,6 +479,7 @@ en:
       csi_domain_scores: CSI Domain Scores
       current_address: Current Address
       current_province: Current Province
+      family_assessment_domain_scores: Family Assessment Domain Scores
       custom_csi_domain_scores: Custom Domain Scores
       custom_csi_group: At
       custom_form: Custom Form
@@ -3095,6 +3096,7 @@ en:
       date_of_assessments: "Date of %{assessment}"
       date_of_custom_assessments: "Date of Custom %{assessment}"
       date_of_family_assessment: Date of Family Assessment
+      family_assessment_created_at: Family Assessment Created At
       exit_circumstance: Exit Circumstance
       exit_note: NGO Exit Note
       exit_reasons: Reason For Exit
@@ -6134,6 +6136,10 @@ en:
     family_case_management:
       family_case_management: Family Case Management
       hide_family_case_management_tool: Hide Administrative Information and Case Management  tools
+    header_count:
+      title: Header Count
+      warning: Warning! After turning this feature on, it will affect the loading speed of the report builder.
+      label: Column Header Count (Case Note Date, Program Stream, Manual ID, Tracking Form, Care Plan Count, Custom Form)
     index:
       csi_tools: Assessment Tools
       custom_assessment: Custom Assessment Tool

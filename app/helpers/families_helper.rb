@@ -152,6 +152,8 @@ module FamiliesHelper
       direct_beneficiaries:                     I18n.t('datagrid.columns.families.direct_beneficiaries'),
       relation:                                 I18n.t('families.family_member_fields.relation'),
       member_count:                             I18n.t('datagrid.columns.families.member_count'),
+      date_of_custom_assessments:               I18n.t('datagrid.columns.date_of_family_assessment'),
+      custom_assessment_created_at: I18n.t('datagrid.columns.family_assessment_created_at'),
       **additional_columns,
       **family_address_translation
     }

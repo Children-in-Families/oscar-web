@@ -8,153 +8,112 @@ module AdvancedSearches
     end
 
     def generate_sql
-      sql, assessment_sql = build_sql_queries
+      sql = build_sql_queries
 
-      client_risk_assessment_ids = find_client_risk_assessment_ids(sql)
-      client_risk_assessment_ids = find_client_assessment_ids(assessment_sql) if client_risk_assessment_ids.blank?
-
-      { id: 'clients.id IN (?)', values: client_risk_assessment_ids }
+      client_ids = ActiveRecord::Base.connection.execute(sql).map { |row| row['id'] }
+      { id: 'clients.id IN (?)', values: @clients.where(id: client_ids).ids }
     end
 
     private
 
-    def parse_param_rules(param_rules)
-      return {} if param_rules.blank?
-
-      rules = param_rules[:basic_rules] || param_rules
-      rules.is_a?(Hash) ? rules : JSON.parse(rules).with_indifferent_access
-    end
-
     def build_sql_queries
       case @field_name
       when 'level_of_risk'
-        [build_level_of_risk_sql, build_assessment_level_of_risk_sql]
+        build_level_of_risk_sql(@field_name)
       when 'date_of_risk_assessment'
-        [build_date_of_risk_assessment_sql, build_assessment_date_of_risk_assessment_sql]
+        build_level_of_risk_sql('assessment_date')
+      when 'has_known_chronic_disease'
+        build_protection_concern_sql(@field_name)
+      when 'has_disability'
+        build_protection_concern_sql(@field_name)
+      when 'has_hiv_or_aid'
+        build_protection_concern_sql(@field_name)
       else
-        ['', '']
+        'SELECT id FROM clients'
       end
     end
 
-    def find_client_risk_assessment_ids(sql)
-      clients = @clients.joins(:risk_assessment).where(sql)
-      clients = clients.group('clients.id').having('COUNT(*) = 0') if @operator == 'not_equal'
-      clients.pluck(:id)
+    def build_protection_concern_sql(field_name)
+      case @operator
+      when 'equal'
+        build_risk_assessment_protect_concern_sql("#{field_name} = #{@value}")
+      when 'not_equal'
+        build_risk_assessment_protect_concern_sql("#{field_name} != #{@value}")
+      when 'is_empty'
+        build_risk_assessment_protect_concern_sql("#{field_name} IS NULL")
+      when 'is_not_empty'
+        build_risk_assessment_protect_concern_sql("#{field_name} IS NOT NULL")
+      else
+        'SELECT id FROM clients'
+      end
     end
 
-    def find_client_assessment_ids(sql)
-      clients = @clients.joins(:assessments).where(sql)
-      clients = clients.group('clients.id').having('COUNT(*) = 0') if @operator == 'not_equal'
-      clients.pluck(:id)
+    def build_risk_assessment_protect_concern_sql(field_condition)
+      <<~SQL
+        SELECT clients.id
+        FROM clients
+        LEFT JOIN risk_assessments ON risk_assessments.client_id = clients.id
+        WHERE (
+          risk_assessments.#{field_condition} AND risk_assessments.client_id = clients.id
+        )
+      SQL
     end
 
     # SQL builders
 
-    def build_level_of_risk_sql
+    def build_level_of_risk_sql(field_name = 'level_of_risk')
       case @operator
       when 'equal'
-        ["risk_assessments.level_of_risk = ?", @value]
+        build_risk_assessment_level_of_risk_sql("#{field_name} = '#{@value}'")
       when 'not_equal'
-        ["risk_assessments.level_of_risk != ? OR risk_assessments.level_of_risk IS NULL", @value]
+        build_risk_assessment_level_of_risk_sql("#{field_name} != '#{@value}'")
       when 'is_empty'
-        ['risk_assessments.level_of_risk IS NULL']
+        build_risk_assessment_level_of_risk_sql("#{field_name} IS NULL")
       when 'is_not_empty'
-        ['risk_assessments.level_of_risk IS NOT NULL']
-      else
-        ['', '']
-      end
-    end
-
-    def build_date_of_risk_assessment_sql
-      case @operator
-      when 'equal'
-        ["date(risk_assessments.assessment_date) = ?", @value]
-      when 'not_equal'
-        ["date(risk_assessments.assessment_date) != ?", @value]
-      when 'less'
-        ["date(risk_assessments.assessment_date) < ?", @value]
-      when 'less_or_equal'
-        ["date(risk_assessments.assessment_date) <= ?", @value]
-      when 'greater'
-        ["date(risk_assessments.assessment_date) > ?", @value]
-      when 'greater_or_equal'
-        ["date(risk_assessments.assessment_date) >= ?", @value]
-      when 'is_empty'
-        ['date(risk_assessments.assessment_date) IS NULL']
-      when 'is_not_empty'
-        ['date(risk_assessments.assessment_date) IS NOT NULL']
+        build_risk_assessment_level_of_risk_sql("#{field_name} IS NOT NULL")
       when 'between'
-        ["date(risk_assessments.assessment_date) BETWEEN ? AND ?", @value.first, @value.last]
-      else
-        ['', '']
-      end
-    end
-
-    def build_assessment_level_of_risk_sql
-      case @operator
-      when 'equal'
-        [
-          "assessments.level_of_risk = ? AND assessments.id = (SELECT id FROM assessments WHERE client_id = clients.id ORDER BY id DESC LIMIT 1)",
-          @value
-        ]
-      when 'not_equal'
-        [
-          "assessments.level_of_risk != ? AND assessments.id = (SELECT id FROM assessments WHERE client_id = clients.id ORDER BY id DESC LIMIT 1)",
-          @value
-        ]
-      when 'is_empty'
-        ['assessments.level_of_risk IS NULL']
-      when 'is_not_empty'
-        ['assessments.level_of_risk IS NOT NULL']
-      else
-        ['', '']
-      end
-    end
-
-    def build_assessment_date_of_risk_assessment_sql
-      case @operator
-      when 'equal'
-        [
-          "date(assessments.assessment_date) = ? AND assessments.id = (SELECT id FROM assessments WHERE client_id = clients.id ORDER BY id DESC LIMIT 1)",
-          @value
-        ]
-      when 'not_equal'
-        [
-          "date(assessments.assessment_date) != ? AND assessments.id = (SELECT id FROM assessments WHERE client_id = clients.id ORDER BY id DESC LIMIT 1)",
-          @value
-        ]
+        build_risk_assessment_level_of_risk_sql("#{field_name} BETWEEN '#{@value[0]}' AND '#{@value[1]}'")
       when 'less'
-        [
-          "date(assessments.assessment_date) < ? AND assessments.id = (SELECT id FROM assessments WHERE client_id = clients.id ORDER BY id DESC LIMIT 1)",
-          @value
-        ]
+        build_risk_assessment_level_of_risk_sql("#{field_name} < '#{@value}'")
       when 'less_or_equal'
-        [
-          "date(assessments.assessment_date) <= ? AND assessments.id = (SELECT id FROM assessments WHERE client_id = clients.id ORDER BY id DESC LIMIT 1)",
-          @value
-        ]
+        build_risk_assessment_level_of_risk_sql("#{field_name} <= '#{@value}'")
       when 'greater'
-        [
-          "date(assessments.assessment_date) > ? AND assessments.id = (SELECT id FROM assessments WHERE client_id = clients.id ORDER BY id DESC LIMIT 1)",
-          @value
-        ]
+        build_risk_assessment_level_of_risk_sql("#{field_name} > '#{@value}'")
       when 'greater_or_equal'
-        [
-          "date(assessments.assessment_date) >= ? AND assessments.id = (SELECT id FROM assessments WHERE client_id = clients.id ORDER BY id DESC LIMIT 1)",
-          @value
-        ]
-      when 'is_empty'
-        ['date(assessments.assessment_date) IS NULL']
-      when 'is_not_empty'
-        ['date(assessments.assessment_date) IS NOT NULL AND assessments.level_of_risk IS NOT NULL']
-      when 'between'
-        [
-          "assessments.level_of_risk IS NOT NULL AND (date(assessments.assessment_date) BETWEEN ? AND ?) AND assessments.id = (SELECT id FROM assessments WHERE client_id = clients.id ORDER BY id DESC LIMIT 1)",
-          @value.first, @value.last
-        ]
+        build_risk_assessment_level_of_risk_sql("#{field_name} >= '#{@value}'")
       else
-        ['', '']
+        ''
       end
+    end
+
+    def build_risk_assessment_level_of_risk_sql(level_of_risk_sql)
+      assessment_sql = <<~SQL
+        SELECT client_id, level_of_risk, assessment_date
+        FROM assessments
+        WHERE created_at = (
+          SELECT MAX(created_at)
+          FROM assessments
+          WHERE client_id = clients.id AND level_of_risk IS NOT NULL
+        )
+      SQL
+
+      <<~SQL
+        SELECT clients.id
+        FROM clients
+        LEFT JOIN risk_assessments ON risk_assessments.client_id = clients.id
+        WHERE (
+          EXISTS (
+            #{assessment_sql}
+            AND #{level_of_risk_sql}
+            AND client_id = clients.id
+          )
+          OR (
+            NOT EXISTS (#{assessment_sql})
+            AND risk_assessments.#{level_of_risk_sql}
+            AND risk_assessments.client_id = clients.id
+          )
+        )
+      SQL
     end
   end
 end

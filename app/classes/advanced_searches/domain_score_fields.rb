@@ -16,7 +16,9 @@ module AdvancedSearches
     end
 
     def self.domain_options
-      Domain.csi_domains.order_by_identity.map { |domain| "domainscore__#{domain.id}__#{domain.identity}" }
+      Rails.cache.fetch([Apartment::Tenant.current, 'Domain', 'csi_domains.order_by_identity', 'options']) do
+        Domain.csi_domains.order_by_identity.map { |domain| "domainscore__#{domain.id}__#{domain.identity}" }
+      end
     end
 
     def self.domain_score_format(label)

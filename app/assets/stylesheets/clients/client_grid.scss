@@ -215,7 +215,9 @@ body[id="client_advanced_searches-index"] {
     }
 
     th.all_csi_assessments,
-    th.all_custom_csi_assessments {
+    th.all_custom_csi_assessments,
+    th.has_disability,
+    th.has_hiv_or_aid {
       min-width: 260px;
     }
 
@@ -232,7 +234,8 @@ body[id="client_advanced_searches-index"] {
     th.reason_for_family_separation,
     th.history_of_high_risk_behaviours,
     th.history_of_harm,
-    th.history_of_disability_and_or_illness {
+    th.history_of_disability_and_or_illness,
+    th.has_known_chronic_disease {
       min-width: 360px;
     }
 

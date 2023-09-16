@@ -36,12 +36,26 @@ module AdvancedSearches
           values = date_of_completed_assessments_query(true)
         when 'date_of_custom_assessments'
           values = date_of_assessments_query(false)
+        when 'date_of_assessments'
+          values = date_of_assessments_query(true)
+        when 'assessment_created_at'
+          values = assessment_created_at_query(true)
+        when 'custom_assessment_created_at'
+          values = assessment_created_at_query(false)
+        when 'assessment_condition_last_two'
+          values = assessment_condition_last_two_query
+        when 'assessment_condition_first_last'
+          values = assessment_condition_first_last_query
+        when 'custom_assessment'
+          values = search_custom_assessment
         when 'number_family_referred_gatekeeping'
           values = number_family_referred_gatekeeping_query
         when 'number_family_billable'
           values = number_family_billable_query
         when 'family_rejected'
           values = get_rejected_families
+        when 'assessment_number'
+          values = assessment_number_query
         when 'relation'
           values = family_members
         when 'care_plan_completed_date'
@@ -53,6 +67,131 @@ module AdvancedSearches
       end
 
       private
+
+      def family_assessment_compare_first_last(compare, selectedAssessment)
+        family_ids = []
+        families = @families.joins(:assessments).where(assessments: { completed: true })
+        conditionString = ""
+        assessments = Assessment.completed.joins(:domains).where(family_id: families.ids).distinct
+  
+        assessments.group_by { |assessment| assessment.family_id }.each do |family_id, _assessments|
+          next if _assessments.size < 2
+
+          first_assessment = _assessments.sort_by(&:id).first
+          last_assessment = _assessments.sort_by(&:id).last
+
+          first_assessment_domain_scores = first_assessment.assessment_domains.pluck(:score).sum.to_f
+          last_assessment_domain_scores = last_assessment.assessment_domains.pluck(:score).sum.to_f
+
+          first_average_score = (first_assessment_domain_scores / first_assessment.assessment_domains.size).round
+          last_average_score = (last_assessment_domain_scores / last_assessment.assessment_domains.size).round
+          family_ids  << family_id if last_average_score.public_send(compare, first_average_score)
+        end
+
+        family_ids
+      end
+  
+      def family_assessment_compare_next_last(compare, selectedAssessment)
+        family_ids = []
+        families = @families.joins(:assessments).where(assessments: { completed: true })
+        conditionString = ""
+        
+        assessments = Assessment.completed.joins(:domains).where(family_id: families.ids).distinct
+  
+        assessments.group_by { |assessment| assessment.family_id }.each do |family_id, _assessments|
+          next if _assessments.size < 2
+
+          before_last_assessment = _assessments.sort_by(&:id).fetch(_assessments.size - 2)
+          last_assessment = _assessments.sort_by(&:id).last
+
+          before_last_assessment_domain_scores = before_last_assessment.assessment_domains.pluck(:score).sum.to_f
+          last_assessment_domain_scores = last_assessment.assessment_domains.pluck(:score).sum.to_f
+
+          before_last_assessment_average_score = (before_last_assessment_domain_scores / before_last_assessment.assessment_domains.size).round
+          last_average_score = (last_assessment_domain_scores / last_assessment.assessment_domains.size).round
+          family_ids  << family_id if last_average_score.public_send(compare, before_last_assessment_average_score)
+        end
+
+        family_ids
+      end
+
+      def assessment_condition_last_two_query
+        case @value.downcase
+        when 'better'
+          family_ids = family_assessment_compare_next_last(:>, $param_rules[:assessment_selected])
+        when 'same'
+          family_ids = family_assessment_compare_next_last(:==, $param_rules[:assessment_selected])
+        when 'worse'
+          family_ids = family_assessment_compare_next_last(:<, $param_rules[:assessment_selected])
+        end
+        families = family_ids.present? ? family_ids : []
+      end
+  
+      def assessment_condition_first_last_query
+        case @value.downcase
+        when 'better'
+          family_ids = family_assessment_compare_first_last(:>, $param_rules[:assessment_selected])
+        when 'same'
+          family_ids = family_assessment_compare_first_last(:==, $param_rules[:assessment_selected])
+        when 'worse'
+          family_ids = family_assessment_compare_first_last(:<, $param_rules[:assessment_selected])
+        end
+        families = family_ids.present? ? family_ids : []
+      end
+
+      def assessment_number_query
+        basic_rules = $param_rules['basic_rules']
+        basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
+        results = mapping_assessment_query_rules(basic_rules).reject(&:blank?)
+        assessment_completed_sql, assessment_number = assessment_filter_values(results)
+        sql = "(assessments.completed = true #{assessment_completed_sql}) AND ((SELECT COUNT(*) FROM assessments WHERE families.id = assessments.family_id #{assessment_completed_sql}) >= #{@value})".squish
+        @families.joins(:assessments).where(sql).ids
+      end
+
+      def assessment_created_at_query(type)
+        custom_assessment_setting_id = find_custom_assessment_setting_id(type)
+        if custom_assessment_setting_id
+          families = @families.joins(:assessments).where(assessments: { default: type, custom_assessment_setting_id: custom_assessment_setting_id })
+        else
+          families = @families.joins(:assessments).where(assessments: { default: type })
+        end
+        case @operator
+        when 'equal'
+          families = families.where('date(assessments.created_at) = ?', @value.to_date)
+        when 'not_equal'
+          families = families.where("date(assessments.created_at) != ? OR assessments.created_at IS NULL", @value.to_date)
+        when 'less'
+          families = families.where('date(assessments.created_at) < ?', @value.to_date)
+        when 'less_or_equal'
+          families = families.where('date(assessments.created_at) <= ?', @value.to_date)
+        when 'greater'
+          families = families.where('date(assessments.created_at) > ?', @value.to_date)
+        when 'greater_or_equal'
+          families = families.where('date(assessments.created_at) >= ?', @value.to_date)
+        when 'between'
+          families = families.where('date(assessments.created_at) BETWEEN ? AND ? ', @value[0].to_date, @value[1].to_date)
+        when 'is_empty'
+          families = @families.includes(:assessments).where(assessments: { created_at: nil , default: type})
+        when 'is_not_empty'
+          families = families.where(assessments: { default: type }).where.not(assessments: { created_at: nil })
+        end
+
+        families.ids
+      end
+
+      def search_custom_assessment
+        families = @families.joins(:assessments).where(assessments: {default: false })
+        case @operator
+        when 'equal'
+          family_ids = families.where(assessments: { custom_assessment_setting_id: @value }).distinct.ids
+        when 'not_equal'
+          family_ids = families.where.not(assessments: { custom_assessment_setting_id: @value }).distinct.ids
+        when 'is_empty'
+          family_ids = @families.includes(:assessments).group('families.id, assessments.id, assessments.custom_assessment_setting_id').having("COUNT(assessments.id) = 0").distinct.ids
+        when 'is_not_empty'
+          family_ids = @families.includes(:assessments).group('families.id, assessments.id, assessments.custom_assessment_setting_id').having("COUNT(assessments.id) > 0").distinct.ids
+        end
+      end
 
       def number_family_referred_gatekeeping_query
         families = @families.where(referral_source_category_id: ReferralSource.gatekeeping_mechanism.ids).distinct
@@ -367,6 +506,15 @@ module AdvancedSearches
         else
           @families.includes(enrollments: :program_stream).where(program_streams: { id: @value }).references(:program_streams).distinct.ids
         end
+      end
+
+      def find_custom_assessment_setting_id(type)
+        custom_assessment_setting_id = nil
+        if !type && $param_rules['basic_rules'].present?
+          custom_assessment_setting_rule = JSON.parse($param_rules['basic_rules'])['rules'].select{|rule| rule['id'] == 'custom_assessment' }.try(:first)
+          custom_assessment_setting_id = custom_assessment_setting_rule['value'] if custom_assessment_setting_rule
+        end
+        custom_assessment_setting_id
       end
     end
   end

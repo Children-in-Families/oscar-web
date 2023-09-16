@@ -90,6 +90,4 @@ class CarePlansController < AdminController
   def set_care_plan
     @care_plan = @client.care_plans.find(params[:id])
   end
-
-
 end

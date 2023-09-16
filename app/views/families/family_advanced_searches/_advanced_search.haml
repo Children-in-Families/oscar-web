@@ -30,6 +30,7 @@
 
 = simple_form_for :family_advanced_search, url: :advanced_search_families, method: 'POST', html: { id: 'advanced-search' } do |f|
   = f.hidden_field :custom_form_selected
+  = f.hidden_field :assessment_selected
   = f.hidden_field :program_selected
   = f.hidden_field :enrollment_check
   = f.hidden_field :tracking_check

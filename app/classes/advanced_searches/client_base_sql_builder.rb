@@ -24,7 +24,7 @@ module AdvancedSearches
     SHARED_FIELDS = %w(given_name family_name local_given_name local_family_name gender birth_province_id date_of_birth live_with telephone_number)
     CALL_FIELDS = Call::FIELDS
     OVERDUE_FIELDS = %w[has_overdue_assessment has_overdue_forms has_overdue_task no_case_note].freeze
-    RISK_ASSESSMENTS = %w[level_of_risk date_of_risk_assessment].freeze
+    RISK_ASSESSMENTS = %w[level_of_risk date_of_risk_assessment has_disability has_hiv_or_aid has_known_chronic_disease].freeze
 
     def initialize(clients, basic_rules)
       @clients     = clients
@@ -56,10 +56,11 @@ module AdvancedSearches
           @values     << shared_client_filter[:values]
         elsif form_builder.first == 'formbuilder'
           if form_builder.last == 'Has This Form'
-            custom_form_value = CustomField.find_by(form_title: value, entity_type: 'Client').try(:id)
+            custom_form_value = CustomField.find_by(form_title: value, entity_type: 'Client')&.id
+            
             @sql_string << "Clients.id IN (?)"
             @values << @clients.joins(:custom_fields).where('custom_fields.id = ?', custom_form_value).uniq.ids
-          elsif rule['operator'] == 'is_empty'
+          elsif form_builder.last == 'Does Not Have This Form'
             client_ids = Client.joins(:custom_fields).where(custom_fields: { form_title: form_builder.second }).ids
             @sql_string << "clients.id NOT IN (?)"
             @values << client_ids

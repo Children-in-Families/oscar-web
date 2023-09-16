@@ -24,7 +24,7 @@ Datagrid.module_eval do
     buffer = StringIO.new
     book.write(buffer)
     buffer.rewind
-    buffer.read 
+    buffer.read
   end
 
   def insert_case_note(book)
@@ -51,11 +51,11 @@ Datagrid.module_eval do
     if rows.any?
       book.create_worksheet(name: 'Case Note')
       book.worksheet(@next_workspace_index).insert_row(0, case_note_headers)
-      
+
       rows.each_with_index do |row, index|
         book.worksheet(@next_workspace_index).insert_row(index += 1, row)
       end
-  
+
       @next_workspace_index += 1
     end
   end
@@ -80,7 +80,7 @@ Datagrid.module_eval do
       clients.each do |client|
         custom_field_properties = client.custom_field_properties.select{ |custom_field_property| custom_field_property.custom_field_id == custom_form.id }
         next if custom_field_properties.blank?
-        
+
         custom_field_properties.sort_by(&:created_at).reverse.each_with_index do |custom_field_property, i|
           answers = fields.map do |field|
             answer = custom_field_property_answer(field, custom_field_property)
@@ -100,11 +100,11 @@ Datagrid.module_eval do
 
       if rows.size > 1
         book.create_worksheet(name: custom_form.form_title)
-        
+
         rows.each_with_index do |row, index|
           book.worksheet(@next_workspace_index).insert_row(index, row)
         end
-    
+
         @next_workspace_index += 1
       end
     end
@@ -120,7 +120,7 @@ Datagrid.module_eval do
       client.default_most_recents_assessments.reverse.each_with_index do |assessment, i|
         dynamic_columns = Domain.csi_domains.order_by_identity.pluck(:identity).map do |identity|
           assessment_domain = assessment.assessment_domains.find{ |ad| ad.domain.identity == identity }
-          
+
           if assessment_domain&.score
             description = assessment_domain.domain.send("translate_score_#{assessment_domain.score}_definition")
             description ||= assessment_domain.domain.send("score_#{assessment_domain.score}_local_definition")
@@ -329,7 +329,7 @@ Datagrid.module_eval do
   end
 
   def custom_form_selected_columns
-    params.select { |key, value| key.to_s.start_with?('formbuilder__') }
+    params.respond_to?(:select) && params.select { |key, value| key.to_s.start_with?('formbuilder__') } || {}
   end
 
   def custom_field_property_answer(field_name, custom_field_property)

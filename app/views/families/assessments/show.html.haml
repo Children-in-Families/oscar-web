@@ -27,10 +27,12 @@
               - else
                 = "#{I18n.t('assessments.show.based_on')} #{@assessment.index_of + 1}"
               %br
+              = "#{t('assessments.assessment_date', assessment: t('clients.show.assessment'))} #{date_format(@assessment.assessment_date)}"
+              %br
               = "#{I18n.t('assessments.show.assessment_created_by')} #{whodunnit('Assessment', @assessment)} #{I18n.t('assessments.show.on_date')} #{date_format(@assessment.completed_date)}"
           .col-xl-1.button-position
             .pull-right
-              - if policy(@assessment).edit?
+              - if current_user.admin? || policy(@assessment).edit?
                 = link_to edit_family_assessment_path(@assessment.family, @assessment), class: 'btn btn-outline btn-success' do
                   = fa_icon('pencil')
               - if assessment_deleted?
@@ -48,7 +50,7 @@
                   %table.table.table-borderless
                     %tbody
                       %tr
-                        - if current_organization.try(:aht) == true
+                        - if current_organization.aht?
                           = domain_name_for_aht(ad).html_safe
                         - else
                           %td.no-padding-bottom

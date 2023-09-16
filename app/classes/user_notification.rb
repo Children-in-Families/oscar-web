@@ -14,7 +14,7 @@ class UserNotification
     @partner_custom_field                            = @user.partner_custom_field_frequency_overdue_or_due_today
     @family_custom_field                             = @user.family_custom_field_frequency_overdue_or_due_today
     @client_forms_overdue_or_due_today               = @user.client_forms_overdue_or_due_today
-    @case_notes_overdue_and_due_today                = @user.case_note_overdue_and_due_today
+    @case_notes_overdue_and_due_today                = @user.case_notes_due_today_and_overdue
     @unsaved_family_referrals                        = get_family_referrals('new_referral')
     @repeat_family_referrals                         = get_family_referrals('existing_family')
     @upcoming_csi_assessments_count                  = 0
@@ -62,7 +62,7 @@ class UserNotification
       client_ids = client_ids & @clients.ids
       clients = Client.active_accepted_status.where(id: client_ids)
 
-      clients_after_filter = AdvancedSearches::ClientAdvancedSearch.new(rules, clients).filter
+      clients_after_filter, _query = AdvancedSearches::ClientAdvancedSearch.new(rules, clients).filter
 
       if clients_after_filter.any?
         clients_change = clients.where.not(id: clients_after_filter.ids).ids

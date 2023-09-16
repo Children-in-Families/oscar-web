@@ -8,28 +8,27 @@ module ClientAdvancedSearchesConcern
     else
       basic_rules = JSON.parse @basic_filter_params || @wizard_basic_filter_params || "{}"
     end
-    $param_rules = find_params_advanced_search
-    clients      = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability))
 
-    @clients_by_user     = clients.filter
-    columns_visibility
+    $param_rules = find_params_advanced_search
+    _clients, query      = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability)).filter
+
+    @results = @clients_by_user = @client_grid.scope { |scope| scope.where(query).accessible_by(current_ability) }.assets
+    cache_client_ids
+
+    client_columns_visibility
     custom_form_column
     program_stream_column
 
     respond_to do |f|
       f.html do
         begin
-          @csi_statistics         = CsiStatistic.new(@client_grid.scope.where(id: @clients_by_user.ids).accessible_by(current_ability)).assessment_domain_score.to_json
-          @enrollments_statistics = ActiveEnrollmentStatistic.new(@client_grid.scope.where(id: @clients_by_user.ids).accessible_by(current_ability)).statistic_data.to_json
-          clients                 = @client_grid.scope { |scope| scope.where(id: @clients_by_user.ids).accessible_by(current_ability) }.assets
-          @results                = clients
-          @client_grid = @client_grid.scope { |scope| scope.where(id: @clients_by_user.ids).accessible_by(current_ability).page(params[:page]).per(20) }
+          @client_grid = @client_grid.scope { |scope| scope.where(query).accessible_by(current_ability).page(params[:page]).per(20) }
         rescue NoMethodError
           redirect_to welcome_clients_path
         end
       end
       f.xls do
-        @client_grid.scope { |scope| scope.where(id: @clients_by_user.ids).accessible_by(current_ability) }
+        @client_grid.scope { |scope| scope.where(query).accessible_by(current_ability) }
         @client_grid.params = params.to_unsafe_h.dup.deep_symbolize_keys
 
         export_client_reports
@@ -53,7 +52,7 @@ module ClientAdvancedSearchesConcern
   def fetch_advanced_search_queries
     @my_advanced_searches    = current_user.cache_advance_saved_search
     @other_advanced_searches = Rails.cache.fetch(user_cache_id << "other_advanced_search_queries") do
-      AdvancedSearch.includes(:user).non_of(current_user).order(:name).to_a
+      AdvancedSearch.for_client.includes(:user).non_of(current_user).to_a
     end
   end
 
@@ -237,10 +236,6 @@ module ClientAdvancedSearchesConcern
     assessment_value? ? eval(@advanced_search_params[:assessment_selected]) : []
   end
 
-  def get_assessments
-    @assessments = (Setting.cache_first.enable_default_assessment? ? [[0, Setting.cache_first.default_assessment, { "data-type" => :default }]] : []) + CustomAssessmentSetting.all.where(enable_custom_assessment: true).pluck(:id, :custom_assessment_name).to_a
-  end
-
   def has_params?
     @advanced_search_params.present? && @advanced_search_params[:basic_rules].present?
   end
@@ -315,5 +310,10 @@ module ClientAdvancedSearchesConcern
       detail_form_of_judicial_police_files: [],
       letter_from_immigration_police_files: []
     ]
+  end
+
+  def cache_client_ids
+    @cache_key = "cache_client_ids_#{current_user.id}_#{Time.current.to_i}"
+    Rails.cache.write(@cache_key, @results.ids.join(','), expires_in: 10.minutes)
   end
 end

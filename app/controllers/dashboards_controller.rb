@@ -76,13 +76,11 @@ class DashboardsController < AdminController
   end
 
   def find_clients
-    clients_overdue = []
-    clients_duetoday = []
-    clients_upcoming = []
     clients = []
     @setting = Setting.cache_first
-    _clients = Client.accessible_by(current_ability).active_accepted_status.distinct
-    eligible_clients = active_young_clients(_clients, @setting)
+    user_ability = Ability.new(@user)
+    accepted_clients = Client.accessible_by(user_ability).active_accepted_status.distinct
+    eligible_clients = active_young_clients(accepted_clients, @setting)
     eligible_clients.each do |client|
       overdue_tasks = []
       today_tasks = []
@@ -132,6 +130,7 @@ class DashboardsController < AdminController
           end
         end
       end
+
       clients << [client, { overdue_forms: overdue_forms.uniq, today_forms: today_forms.uniq, upcoming_forms: upcoming_forms.uniq,
                             overdue_trackings: overdue_trackings.uniq, today_trackings: today_trackings.uniq,
                             upcoming_trackings: upcoming_trackings.uniq, overdue_tasks: overdue_tasks.flatten.uniq,

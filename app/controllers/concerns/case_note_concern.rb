@@ -25,7 +25,7 @@ module CaseNoteConcern
   def fetch_domain_group
     @domain_groups = []
 
-    if params[:action].in?(['edit', 'update']) && !@case_note.draft?
+    if params[:action].in?(['edit', 'update'])
       if @case_note.domain_groups.present?
         @domain_groups = @case_note.domain_groups
       else
@@ -55,53 +55,5 @@ module CaseNoteConcern
         "#{group_name}\n#{cndg.note}"
       end
     end.join("\n\n").html_safe
-  end
-
-  def clean_duplicate_case_note_domain_groups
-    return unless save_draft?
-
-    domain_group_ids = params.dig(:case_note, :domain_group_ids).select(&:present?)
-
-    if domain_group_ids.present?
-      domain_groups = DomainGroup.where(id: domain_group_ids)
-      domain_group_ids = domain_groups.map do |domain_group|
-        domain_group.domains(@case_note).ids
-      end.flatten
-    end
-
-    case_note_domain_groups = @case_note.case_note_domain_groups.where.not(domain_group_id: domain_group_ids)
-    case_note_domain_groups = @case_note.case_note_domain_groups if domain_group_ids.blank?
-
-    case_note_domain_groups.each do |case_note_domain_group|
-      case_note_domain_group.tasks.destroy_all
-      case_note_domain_group.destroy
-    end
-
-    id_mapping = {}
-    @case_note.case_note_domain_groups.reload.each do |case_note_domain_group|
-      if id_mapping[case_note_domain_group.domain_group_id].present?
-        case_note_domain_group.tasks.destroy_all
-        case_note_domain_group.destroy
-      else
-        id_mapping[case_note_domain_group.domain_group_id] = case_note_domain_group.id
-      end
-    end
-  end
-
-  def clean_case_note_domain_groups_attributes
-    case_note_domain_groups_attributes = params.dig(:case_note, :case_note_domain_groups_attributes)
-
-    return if case_note_domain_groups_attributes.blank?
-
-    case_note_domain_groups_attributes.each do |index, case_note_domain_group_attributes|
-      id = case_note_domain_group_attributes[:id]
-
-      unless CaseNoteDomainGroup.exists?(id)
-        case_note_domain_group_attributes.delete(:id)
-        case_note_domain_groups_attributes[index] = case_note_domain_group_attributes
-      end
-    end
-
-    params[:case_note][:case_note_domain_groups_attributes] = case_note_domain_groups_attributes
   end
 end

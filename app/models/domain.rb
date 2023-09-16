@@ -28,6 +28,8 @@ class Domain < ActiveRecord::Base
   scope :custom_csi_domains, -> { where(domain_type: 'client', custom_domain: true) }
   scope :custom_csi_domain_setting, ->(cas_id) { where(domain_type: 'client', custom_domain: true, custom_assessment_setting_id: cas_id) }
   scope :custom_domains, -> { where(custom_domain: true) }
+
+  scope :family_csi_domains, -> { where(domain_type: 'family', custom_domain: true) }
   scope :family_custom_csi_domains, -> { where(domain_type: 'family', custom_domain: true) }
 
   after_commit :flush_cache
@@ -51,6 +53,10 @@ class Domain < ActiveRecord::Base
     define_method "translate_score_#{number}_definition" do
       I18n.locale == :en ? send("score_#{number}_definition".to_sym) : send("score_#{number}_local_definition".to_sym)
     end
+  end
+
+  def client_csi?
+    domain_type == 'client' && custom_domain == false
   end
 
   def domain_type_client?
@@ -83,6 +89,7 @@ class Domain < ActiveRecord::Base
 
   def flush_cache
     Rails.cache.delete([Apartment::Tenant.current, 'Domain', domain_type, 'domain_options'])
+    Rails.cache.delete([Apartment::Tenant.current, 'Domain', 'csi_domains.order_by_identity', 'options'])
     Rails.cache.delete([Apartment::Tenant.current, 'Domain', 'cache_order_by_identity'])
     cache_find_by_name_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cache_find_by_name/].blank? }
     cache_find_by_name_keys.each { |key| Rails.cache.delete(key) }

@@ -8,7 +8,7 @@ module Api
     def get_custom_field
       custom_form_ids = params[:ids]
       advanced_filter_custom_field = AdvancedSearches::CustomFields.new(custom_form_ids).render
-      advanced_filter_custom_field << AdvancedSearches::HasThisFormFields.new(custom_form_ids, attach_with).render.first
+      advanced_filter_custom_field += AdvancedSearches::HasThisFormFields.new(custom_form_ids, attach_with).render
       render json: advanced_filter_custom_field.compact
     end
 
@@ -40,7 +40,7 @@ module Api
     private
 
     def attach_with
-      'Family' if request.referer.include?('families')
+      request.referer.include?('families') ? 'Family' : 'Client'
     end
   end
 end

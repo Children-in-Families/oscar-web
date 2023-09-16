@@ -6,7 +6,12 @@ module FamilyAdvancedSearchesConcern
   include CarePlanHelper
 
   def advanced_search
-    basic_rules  = JSON.parse @basic_filter_params
+    basic_rules = if params[:advanced_search_id]
+      AdvancedSearch.find(params[:advanced_search_id]).queries
+    else
+      JSON.parse @basic_filter_params || @wizard_basic_filter_params || "{}"
+    end
+
     $param_rules = nil
     $param_rules = find_params_advanced_search
     @families    = AdvancedSearches::Families::FamilyAdvancedSearch.new(basic_rules, Family.accessible_by(current_ability)).filter
@@ -65,7 +70,7 @@ module FamilyAdvancedSearchesConcern
   end
 
   def family_builder_fields
-    @builder_fields = get_family_basic_fields + custom_form_fields + program_stream_fields
+    @builder_fields = get_family_basic_fields + custom_form_fields + program_stream_fields + get_common_fields
     @builder_fields = @builder_fields + @quantitative_fields if quantitative_check?
   end
 
@@ -268,6 +273,21 @@ module FamilyAdvancedSearchesConcern
 
   def program_stream_fields
     @program_stream_fields = get_enrollment_fields + get_tracking_fields + get_exit_program_fields
+  end
+
+  def get_common_fields
+    fields = program_stream_values.empty? ? [] : AdvancedSearches::CommonFields.new(program_stream_values).render
+    fields += assessment_values.empty? ? [] : AdvancedSearches::CommonFields.new(program_stream_values, true).render
+
+    fields.uniq
+  end
+
+  def assessment_values
+    assessment_value? ? eval(@advanced_search_params[:assessment_selected]) : []
+  end
+
+  def assessment_value?
+    @advanced_search_params.present? && @advanced_search_params[:assessment_selected].present?
   end
 
   def get_enrollment_fields

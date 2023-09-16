@@ -21,8 +21,10 @@ class CaseNote < ActiveRecord::Base
   accepts_nested_attributes_for :case_note_domain_groups
   accepts_nested_attributes_for :tasks, reject_if:  proc { |attributes| attributes['name'].blank? && attributes['expected_date'].blank? }, allow_destroy: true
 
+  before_save :populate_associations
+
   scope :most_recents, -> { order(created_at: :desc) }
-  scope :recent_meeting_dates, -> { order(meeting_date: :desc) }
+  scope :recent_meeting_dates, -> { order(draft: :desc, meeting_date: :desc, last_auto_save_at: :desc) }
   scope :draft, -> { where(draft: true) }
   scope :draft_untouch, -> { draft.where(last_auto_save_at: nil) }
   scope :not_untouch_draft, -> { where("draft IS FALSE OR last_auto_save_at IS NOT NULL") }
@@ -63,13 +65,14 @@ class CaseNote < ActiveRecord::Base
 
       case_note_domain_group = case_note_domain_groups.find_by(domain_group_id: param[:domain_group_id])
       case_note_tasks = Task.with_deleted.where(id: task_ids)
-      next if case_note_tasks.reject(&:blank?).blank?
 
-      case_note_tasks.update_all(case_note_domain_group_id: case_note_domain_group.id)
-      case_note_domain_group.reload
-      case_note_domain_group.tasks.with_deleted.set_complete(self, current_user_id)
-      service_delivery_task(param, case_note_tasks)
-      case_note_domain_group.save
+      if case_note_tasks.any?
+        case_note_tasks.update_all(case_note_domain_group_id: case_note_domain_group.id)
+        case_note_tasks.set_complete(self, current_user_id)
+  
+        service_delivery_task(param, case_note_tasks)
+        case_note_domain_group.save
+      end
     end
   end
 
@@ -109,6 +112,8 @@ class CaseNote < ActiveRecord::Base
   end
 
   def is_editable?
+    return true if draft?
+    
     setting = Setting.cache_first
     return true if setting.try(:case_note_edit_limit).zero?
     case_note_edit_limit = setting.try(:case_note_edit_limit).zero? ? 2 : setting.try(:case_note_edit_limit)
@@ -117,6 +122,10 @@ class CaseNote < ActiveRecord::Base
   end
 
   private
+
+  def populate_associations
+    self.case_note_domain_groups = ::CaseNoteDomainsLoader.call(self)
+  end
 
   def set_assessment
     self.assessment = if custom?

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20230727044406) do
+ActiveRecord::Schema.define(version: 20230914030204) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,19 +53,20 @@ ActiveRecord::Schema.define(version: 20230727044406) do
   add_index "action_results", ["government_form_id"], name: "index_action_results_on_government_form_id", using: :btree
 
   create_table "admin_users", force: :cascade do |t|
-    t.string   "email",                  default: "",      null: false
-    t.string   "encrypted_password",     default: "",      null: false
+    t.string   "email",                  default: "",       null: false
+    t.string   "encrypted_password",     default: "",       null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.datetime "created_at",                               null: false
-    t.datetime "updated_at",                               null: false
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
     t.string   "token"
     t.string   "first_name"
     t.string   "last_name"
-    t.string   "provider",               default: "email", null: false
-    t.string   "uid",                    default: "",      null: false
+    t.string   "provider",               default: "email",  null: false
+    t.string   "uid",                    default: "",       null: false
     t.json     "tokens"
+    t.string   "role",                   default: "viewer"
   end
 
   add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
@@ -82,10 +83,11 @@ ActiveRecord::Schema.define(version: 20230727044406) do
     t.string   "tracking_check",     default: ""
     t.string   "exit_form_check",    default: ""
     t.string   "quantitative_check", default: ""
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
     t.integer  "user_id"
     t.string   "hotline_check",      default: ""
+    t.string   "search_for",         default: "client"
   end
 
   add_index "advanced_searches", ["user_id"], name: "index_advanced_searches_on_user_id", using: :btree
@@ -117,6 +119,15 @@ ActiveRecord::Schema.define(version: 20230727044406) do
 
   add_index "agency_clients", ["agency_id"], name: "index_agency_clients_on_agency_id", using: :btree
   add_index "agency_clients", ["client_id"], name: "index_agency_clients_on_client_id", using: :btree
+
+  create_table "ahoy_messages", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "user_type"
+    t.text     "to"
+    t.string   "mailer"
+    t.text     "subject"
+    t.datetime "sent_at"
+  end
 
   create_table "ar_internal_metadata", primary_key: "key", force: :cascade do |t|
     t.string   "value"
@@ -170,6 +181,7 @@ ActiveRecord::Schema.define(version: 20230727044406) do
   add_index "assessments", ["default"], name: "index_assessments_on_default", where: "(\"default\" = true)", using: :btree
   add_index "assessments", ["default"], name: "index_assessments_on_default_false", where: "(\"default\" = false)", using: :btree
   add_index "assessments", ["family_id"], name: "index_assessments_on_family_id", using: :btree
+  add_index "assessments", ["last_auto_save_at", "draft"], name: "index_assessments_on_last_auto_save_at_and_draft", using: :btree
   add_index "assessments", ["level_of_risk"], name: "index_assessments_on_level_of_risk", using: :btree
 
   create_table "attachments", force: :cascade do |t|
@@ -391,6 +403,7 @@ ActiveRecord::Schema.define(version: 20230727044406) do
   add_index "case_notes", ["client_id"], name: "index_case_notes_on_client_id", using: :btree
   add_index "case_notes", ["custom_assessment_setting_id"], name: "index_case_notes_on_custom_assessment_setting_id", using: :btree
   add_index "case_notes", ["family_id"], name: "index_case_notes_on_family_id", using: :btree
+  add_index "case_notes", ["last_auto_save_at", "draft"], name: "index_case_notes_on_last_auto_save_at_and_draft", using: :btree
 
   create_table "case_worker_clients", force: :cascade do |t|
     t.integer  "user_id"
@@ -860,6 +873,7 @@ ActiveRecord::Schema.define(version: 20230727044406) do
     t.string   "from_referral_id"
     t.date     "synced_date"
     t.integer  "referral_count",                        default: 0
+    t.datetime "deleted_at"
   end
 
   add_index "clients", ["birth_province_id"], name: "index_clients_on_birth_province_id", using: :btree
@@ -870,6 +884,7 @@ ActiveRecord::Schema.define(version: 20230727044406) do
   add_index "clients", ["concern_province_id"], name: "index_clients_on_concern_province_id", using: :btree
   add_index "clients", ["concern_village_id"], name: "index_clients_on_concern_village_id", using: :btree
   add_index "clients", ["current_family_id"], name: "index_clients_on_current_family_id", using: :btree
+  add_index "clients", ["deleted_at"], name: "index_clients_on_deleted_at", using: :btree
   add_index "clients", ["district_id"], name: "index_clients_on_district_id", using: :btree
   add_index "clients", ["donor_id"], name: "index_clients_on_donor_id", using: :btree
   add_index "clients", ["external_case_worker_id"], name: "index_clients_on_external_case_worker_id", using: :btree
@@ -1898,8 +1913,15 @@ ActiveRecord::Schema.define(version: 20230727044406) do
     t.boolean  "demo",                          default: false
     t.string   "referral_source_category_name"
     t.string   "ngo_type"
+    t.integer  "referred_count",                default: 0
+    t.integer  "exited_client",                 default: 0
+    t.datetime "deleted_at"
+    t.string   "onboarding_status",             default: "pending"
+    t.integer  "users_count",                   default: 0
+    t.date     "last_integrated_date"
   end
 
+  add_index "organizations", ["deleted_at"], name: "index_organizations_on_deleted_at", using: :btree
   add_index "organizations", ["full_name"], name: "index_organizations_on_full_name", using: :btree
   add_index "organizations", ["short_name"], name: "index_organizations_on_short_name", using: :btree
 
@@ -2193,10 +2215,12 @@ ActiveRecord::Schema.define(version: 20230727044406) do
     t.string   "referee_email"
     t.string   "level_of_risk"
     t.string   "referral_status",           default: "Referred"
+    t.datetime "deleted_at"
   end
 
   add_index "referrals", ["client_global_id"], name: "index_referrals_on_client_global_id", using: :btree
   add_index "referrals", ["client_id"], name: "index_referrals_on_client_id", using: :btree
+  add_index "referrals", ["deleted_at"], name: "index_referrals_on_deleted_at", using: :btree
   add_index "referrals", ["external_case_worker_id"], name: "index_referrals_on_external_case_worker_id", using: :btree
   add_index "referrals", ["external_id"], name: "index_referrals_on_external_id", using: :btree
   add_index "referrals", ["mosvy_number"], name: "index_referrals_on_mosvy_number", using: :btree
@@ -2366,6 +2390,7 @@ ActiveRecord::Schema.define(version: 20230727044406) do
     t.boolean  "hide_case_note_note",                  default: false
     t.integer  "selected_domain_ids",                  default: [],                               array: true
     t.text     "level_of_risk_guidance"
+    t.boolean  "enabled_header_count",                 default: false
   end
 
   add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree
@@ -2748,6 +2773,21 @@ ActiveRecord::Schema.define(version: 20230727044406) do
   add_index "trackings", ["name", "program_stream_id"], name: "index_trackings_on_name_and_program_stream_id", unique: true, using: :btree
   add_index "trackings", ["program_stream_id"], name: "index_trackings_on_program_stream_id", using: :btree
 
+  create_table "usage_reports", force: :cascade do |t|
+    t.integer  "organization_id"
+    t.integer  "month"
+    t.integer  "year"
+    t.datetime "created_at",                                     null: false
+    t.datetime "updated_at",                                     null: false
+    t.jsonb    "added_cases",                       default: {}
+    t.jsonb    "synced_cases",                      default: {}
+    t.jsonb    "cross_referral_cases",              default: {}
+    t.jsonb    "cross_referral_to_primero_cases",   default: {}
+    t.jsonb    "cross_referral_from_primero_cases", default: {}
+  end
+
+  add_index "usage_reports", ["organization_id"], name: "index_usage_reports_on_organization_id", using: :btree
+
   create_table "users", force: :cascade do |t|
     t.string   "first_name",                     default: ""
     t.string   "last_name",                      default: ""
@@ -3033,6 +3073,7 @@ ActiveRecord::Schema.define(version: 20230727044406) do
   add_foreign_key "tasks", "goals"
   add_foreign_key "townships", "states"
   add_foreign_key "trackings", "program_streams"
+  add_foreign_key "usage_reports", "organizations"
   add_foreign_key "users", "organizations"
   add_foreign_key "villages", "communes"
   add_foreign_key "visit_clients", "users"

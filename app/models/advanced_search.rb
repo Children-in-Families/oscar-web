@@ -1,5 +1,8 @@
 class AdvancedSearch < ActiveRecord::Base
   include CacheHelper
+  extend Enumerize
+
+  enumerize :search_for, in: [:client, :family], default: :client, predicates: { prefix: true }
 
   has_paper_trail
   belongs_to :user
@@ -15,8 +18,13 @@ class AdvancedSearch < ActiveRecord::Base
   BROKEN_RULE_MTP   = [41,5,51]
   BROKEN_RULE_DEMO  = [8]
 
+  scope :for_client, -> { where(search_for: :client) }
+  scope :for_family, -> { where(search_for: :family) }
+
+  default_scope { order(:name) }
+
   def search_params
-    { client_advanced_search: { custom_form_selected: custom_forms,
+    { "#{search_for}_advanced_search" => { custom_form_selected: custom_forms,
                                 program_selected: program_streams,
                                 enrollment_check: enrollment_check,
                                 tracking_check: tracking_check,

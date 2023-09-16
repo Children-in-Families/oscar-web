@@ -1,7 +1,7 @@
 #default-assessment-setting.panel.panel-default
   .panel-heading
     %h3
-      - if current_organization.try(:aht) == true
+      - if current_organization.aht?
         = t('.default_assessment_framework')
       - else
         = t('.default_assessment')

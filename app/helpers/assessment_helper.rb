@@ -110,7 +110,7 @@ module AssessmentHelper
   end
 
   def assess_header_mapping
-    domains = Domain.csi_domains.map{ |domain| ["domain_#{domain.id}", domain.name] }
+    domains = Domain.cache_order_by_identity.select(&:client_csi?).map{ |domain| ["domain_#{domain.id}", domain.name] }
     domain_ids, domain_headers = domains.map(&:first), domains.map(&:last)
 
     assessment_headers = [t('.client_id'), t('.client_name'), t('.assessment_number', assessment: t('clients.show.assessment')), t('.assessment_date', assessment: t('clients.show.assessment')), t('.average_score', assessment: t('clients.show.assessment'))]
@@ -124,9 +124,11 @@ module AssessmentHelper
   end
 
   def custom_assessment_header_mapping
-    data = {}
+    return @custom_assessment_header_mapping if defined?(@custom_assessment_header_mapping)
 
-    CustomAssessmentSetting.where(enable_custom_assessment: true).each do |custom_csi_setting|
+    @custom_assessment_header_mapping = {}
+
+    CustomAssessmentSetting.where(enable_custom_assessment: true).includes(:domains).each do |custom_csi_setting|
       domains = custom_csi_setting.domains.map{ |domain| ["domain_#{domain.id}", domain.name] }
       domain_ids, domain_headers = domains.map(&:first), domains.map(&:last)
   
@@ -135,12 +137,26 @@ module AssessmentHelper
       assessment_domain_headers = ['slug', 'name', 'assessment-number', 'date', 'average-score']
       classNames = ['client-id', 'client-name', 'assessment-number text-center', 'assessment-date', 'average-score text-center', 'assessment-score text-center']
   
-      data[custom_csi_setting.id] = [*assessment_domain_headers, *domain_ids].zip(classNames, [*assessment_headers, *domain_headers]).map do |field_header, class_name, header_name|
+      @custom_assessment_header_mapping[custom_csi_setting.id] = [*assessment_domain_headers, *domain_ids].zip(classNames, [*assessment_headers, *domain_headers]).map do |field_header, class_name, header_name|
         { title: header_name, data: field_header, className: class_name ? class_name : 'assessment-score text-center' }
       end
     end
 
-    data
+    @custom_assessment_header_mapping
+  end
+
+  def family_assessment_header_mapping
+    domains = Domain.family_custom_csi_domains.order_by_identity.map{ |domain| ["domain_#{domain.id}", domain.name] }
+    domain_ids, domain_headers = domains.map(&:first), domains.map(&:last)
+
+    assessment_headers = [t('families.show.id'), t('families.show.name'), t('client_advanced_searches.custom_assessment_domain_score.assessment_number', assessment: t('clients.show.assessment')), t('client_advanced_searches.custom_assessment_domain_score.assessment_date', assessment: t('clients.show.assessment')), t('client_advanced_searches.custom_assessment_domain_score.average_score', assessment: t('clients.show.assessment'))]
+
+    assessment_domain_headers = ['id', 'name', 'assessment-number', 'date', 'average-score']
+    classNames = ['family-id', 'family-name', 'assessment-number text-center', 'assessment-date', 'average-score text-center', 'assessment-score text-center']
+
+    [*assessment_domain_headers, *domain_ids].zip(classNames, [*assessment_headers, *domain_headers]).map do |field_header, class_name, header_name|
+      { title: header_name, data: field_header, className: class_name ? class_name : 'assessment-score text-center' }
+    end
   end
 
   def map_assessment_and_score(object, identity, domain_id)
@@ -162,7 +178,8 @@ module AssessmentHelper
           sql = assessment_completed_sql[/assessments\.created_at.*/]
           assessments = object.assessments.completed.where(sql).order('created_at')
         end
-        sub_query_string = get_assessment_query_string([results[0].reject { |arr| arr[:field] != identity }], identity, domain_id, object.id)
+
+        sub_query_string = get_assessment_query_string("#{object.class.name.downcase}_id", [results[0].reject { |arr| arr[:field] != identity }], identity, domain_id, object.id)
         assessments = assessments.joins(:domains).where(sub_query_string.reject(&:blank?).join(' AND ')).where(domains: { identity: identity })
       else
         rule = basic_rules['rules'].select { |h| h['id'] == 'date_of_assessments' || h['id'] == 'completed_date' }.first
@@ -195,7 +212,7 @@ module AssessmentHelper
     data_mapping << rule_array
   end
 
-  def get_assessment_query_string(results, identity, domain_id, client_id=nil, basic_rules=nil)
+  def get_assessment_query_string(object_id_field, results, identity, domain_id, client_id=nil, basic_rules=nil)
     results.map do |result|
       condition = ''
       result.map do |h|
@@ -213,30 +230,30 @@ module AssessmentHelper
 
           if basic_rules
             assessment_completed_result = mapping_assessment_query_rules(basic_rules, 'assessment_completed')
-            assessment_only_query_string = get_assessment_query_string(assessment_completed_result, identity, domain_id, client_id)
+            assessment_only_query_string = get_assessment_query_string(object_id_field, assessment_completed_result, identity, domain_id, client_id)
             assessment_completed_date = " #{assessment_only_query_string.first} AND " if assessment_only_query_string.first.present?
           end
 
-          beginning_of_month = "SELECT DATE(date_trunc('month', created_at)) FROM assessments WHERE#{assessment_completed_date || ''} assessments.client_id = #{client_id ? client_id : 'clients.id'} ORDER BY assessments.created_at LIMIT 1 OFFSET #{value} - 1"
-          end_of_month = "SELECT (date_trunc('month', created_at) +  interval '1 month' - interval '1 day')::date FROM assessments WHERE assessments.client_id = #{client_id ? client_id : 'clients.id'} ORDER BY assessments.created_at LIMIT 1 OFFSET #{value} - 1"
+          beginning_of_month = "SELECT DATE(date_trunc('month', created_at)) FROM assessments WHERE#{assessment_completed_date || ''} assessments.#{object_id_field} = #{client_id ? client_id : 'clients.id'} ORDER BY assessments.created_at LIMIT 1 OFFSET #{value} - 1"
+          end_of_month = "SELECT (date_trunc('month', created_at) +  interval '1 month' - interval '1 day')::date FROM assessments WHERE assessments.#{object_id_field} = #{client_id ? client_id : 'clients.id'} ORDER BY assessments.created_at LIMIT 1 OFFSET #{value} - 1"
 
-          "(DATE(assessments.created_at) between (#{beginning_of_month}) AND (#{end_of_month})) AND (SELECT COUNT(*) FROM assessments WHERE assessments.client_id = #{client_id ? client_id : 'clients.id'}) >= #{h[:value]}"
+          "(DATE(assessments.created_at) between (#{beginning_of_month}) AND (#{end_of_month})) AND (SELECT COUNT(*) FROM assessments WHERE assessments.#{object_id_field} = #{client_id ? client_id : 'clients.id'}) >= #{h[:value]}"
         elsif h[:field] == 'month_number'
           value = h[:value] == 0 ? 1 : h[:value]
           value = value.try(:to_i).present? ? h[:value] : 1
 
-          beginning_of_month = "SELECT DATE(date_trunc('month', created_at)) FROM assessments WHERE assessments.client_id = #{client_id ? client_id : 'clients.id'} ORDER BY assessments.created_at LIMIT 1 OFFSET #{value} - 1"
-          end_of_month = "SELECT (date_trunc('month', created_at) +  interval '1 month' - interval '1 day')::date FROM assessments WHERE assessments.client_id = #{client_id ? client_id : 'clients.id'} ORDER BY assessments.created_at LIMIT 1 OFFSET #{value} - 1"
+          beginning_of_month = "SELECT DATE(date_trunc('month', created_at)) FROM assessments WHERE assessments.#{object_id_field} = #{client_id ? client_id : 'clients.id'} ORDER BY assessments.created_at LIMIT 1 OFFSET #{value} - 1"
+          end_of_month = "SELECT (date_trunc('month', created_at) +  interval '1 month' - interval '1 day')::date FROM assessments WHERE assessments.#{object_id_field} = #{client_id ? client_id : 'clients.id'} ORDER BY assessments.created_at LIMIT 1 OFFSET #{value} - 1"
           "DATE(assessments.created_at) between (#{beginning_of_month}) AND (#{end_of_month})"
         elsif h[:field] == identity && h[:operator] == 'assessment_has_changed'
           # limit_assessments = client.assessments.order(:created_at).offset(@value.first.to_i - 1).limit(@value.last.to_i - (@value.first.to_i - 1))
-          "(SELECT COUNT(*) FROM assessments WHERE (assessment_domains.domain_id = #{domain_id} AND assessment_domains.previous_score = #{h[:value].first} AND assessment_domains.score = #{h[:value].second}) AND assessments.client_id = #{client_id ? client_id : 'clients.id'}) > 0"
+          "(SELECT COUNT(*) FROM assessments WHERE (assessment_domains.domain_id = #{domain_id} AND assessment_domains.previous_score = #{h[:value].first} AND assessment_domains.score = #{h[:value].second}) AND assessments.#{object_id_field} = #{client_id ? client_id : 'clients.id'}) > 0"
         elsif h[:field] == identity && h[:operator] == 'assessment_has_not_changed'
-          "(SELECT COUNT(*) FROM assessments WHERE ((assessment_domains.domain_id = #{domain_id} AND assessment_domains.previous_score = assessment_domains.score) OR (assessment_domains.domain_id = #{domain_id} AND assessment_domains.previous_score = #{h[:value].first} AND assessment_domains.score != #{h[:value].last})) AND assessments.client_id = #{client_id ? client_id : 'clients.id'}) > 0"
+          "(SELECT COUNT(*) FROM assessments WHERE ((assessment_domains.domain_id = #{domain_id} AND assessment_domains.previous_score = assessment_domains.score) OR (assessment_domains.domain_id = #{domain_id} AND assessment_domains.previous_score = #{h[:value].first} AND assessment_domains.score != #{h[:value].last})) AND assessments.#{object_id_field} = #{client_id ? client_id : 'clients.id'}) > 0"
         elsif h[:field] == identity && h[:operator] == 'month_has_changed'
-          "(SELECT COUNT(*) FROM assessments WHERE (assessment_domains.domain_id = #{domain_id} AND assessment_domains.previous_score != assessment_domains.score) AND assessments.client_id = #{client_id ? client_id : 'clients.id'}) > 1"
+          "(SELECT COUNT(*) FROM assessments WHERE (assessment_domains.domain_id = #{domain_id} AND assessment_domains.previous_score != assessment_domains.score) AND assessments.#{object_id_field} = #{client_id ? client_id : 'clients.id'}) > 1"
         elsif h[:field] == identity && h[:operator] == 'month_has_not_changed'
-          "(SELECT COUNT(*) FROM assessments WHERE (assessment_domains.domain_id = #{domain_id} AND assessment_domains.previous_score IS NULL OR assessment_domains.previous_score = assessment_domains.score) AND assessments.client_id = #{client_id ? client_id : 'clients.id'}) > 1"
+          "(SELECT COUNT(*) FROM assessments WHERE (assessment_domains.domain_id = #{domain_id} AND assessment_domains.previous_score IS NULL OR assessment_domains.previous_score = assessment_domains.score) AND assessments.#{object_id_field} = #{client_id ? client_id : 'clients.id'}) > 1"
         elsif h[:field] == 'date_nearest'
           "date(assessments.created_at) <= '#{h[:value]}'"
         end

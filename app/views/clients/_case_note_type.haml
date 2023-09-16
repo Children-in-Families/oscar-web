@@ -1,10 +1,11 @@
-- if params[:data] == 'recent'
-  - recent_record = object.case_notes.most_recents.order(meeting_date: :desc).first.try(:interaction_type)
-  - if recent_record.present?
+- cache_if params[:data] == 'recent', cache_keys_base + [object, 'case_note_type', object.case_notes.most_recents.order(meeting_date: :desc).first] do
+  - if params[:data] == 'recent'
+    - recent_record = object.case_notes.most_recents.order(meeting_date: :desc).first&.interaction_type
+    - if recent_record.present?
+      %ul{'data-case_note_type': '' }
+        %li= recent_record
+  - else
     %ul{'data-case_note_type': '' }
-      %li= recent_record
-- else
-  %ul{'data-case_note_type': '' }
-    - case_note_query(object.case_notes.most_recents, 'case_note_type').each do |case_note|
-      - if case_note.interaction_type.present?
-        %li= case_note.interaction_type
+      - case_note_query(object.case_notes.most_recents, 'case_note_type').each do |case_note|
+        - if case_note.interaction_type.present?
+          %li= case_note.interaction_type

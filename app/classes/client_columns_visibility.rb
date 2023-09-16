@@ -182,14 +182,18 @@ class ClientColumnsVisibility
       ratanak_achievement_program_staff_client_ids_: :ratanak_achievement_program_staff_client_ids,
       mosavy_official_: :mosavy_official,
       level_of_risk_: :level_of_risk,
-      date_of_risk_assessment_: :date_of_risk_assessment
+      date_of_risk_assessment_: :date_of_risk_assessment,
+      has_hiv_or_aid_: :has_hiv_or_aid,
+      has_known_chronic_disease_: :has_known_chronic_disease,
+      has_disability_: :has_disability
     }.merge(label_translations.keys.map { |field| ["#{field}_".to_sym, field.to_sym] }.to_h)
   end
 
   def visible_columns
     return [] if @grid.nil?
     @grid.column_names = []
-    client_default_columns = Setting.cache_first.try(:client_default_columns)
+    client_default_columns = Setting.cache_first.client_default_columns
+
     params = @params.keys.select{ |k| k.match(/\_$/) }
     if params.present? && client_default_columns.present?
       defualt_columns = params - client_default_columns

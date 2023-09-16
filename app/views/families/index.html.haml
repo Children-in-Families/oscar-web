@@ -4,6 +4,28 @@
       = fa_icon('filter')
     %button.btn.btn-primary.query.family-advance-search{"aria-expanded" => 'false', "data-target" => '#family-advance-search-form', "data-toggle" => 'collapse', type: 'button'}
       = t('.report_builder')
+    
+    %button.btn.btn-primary#load-saved-search{ data: { toggle: 'modal', target: '#load-save-search', trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.load_saved_search')}", placement: "auto" } }
+      = t('clients.index.load_save_search')
+
+    = link_to new_advanced_search_save_query_path, remote: true, id: 'save-search-setting', class: 'btn btn-primary', data: { trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.saved_search_setting')}", placement: "auto" } do
+      = t('clients.index.save_search_settings')
+
+    - if params['commit'].present? || params['family_advanced_search'].present?
+      - unless Setting.cache_first.hide_family_case_management_tool?
+        .btn-group
+          %button.btn.btn-primary.dropdown-toggle{ "aria-expanded" => "false", "aria-haspopup" => "true", type: "button", data: { toggle: "dropdown", trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.assessment_data', assessment: t('clients.show.assessment'))}", placement: "auto" } }
+            = t('clients.index.assessment_data', assessment: t('clients.show.assessment'))
+            %span.caret
+          %ul.dropdown-menu.assessment-data-dropdown
+            - family_assessment_options.each do |assessment|
+              - if assessment[2].present?
+                %li.csi-0
+                  = link_to '#', class: 'btn btn-default', 'data-target': "#custom-assessment-domain-score-0", 'data-toggle': 'modal' do
+                    = assessment[1]
+
+          = render 'custom_assessment_domain_score'
+      
   .col-xs-12.col-md-3
     .pull-right.family-action
       - if can? :manage, Family
@@ -18,6 +40,27 @@
   .col-xs-12
     .ibox-content#family-advance-search-form.collapse.main-report-builder
       = render 'families/family_advanced_searches/advanced_search'
+.row 
+  #save-query.modal.fade{ role: 'dialog' }
+  #load-save-search.modal.fade{ role: 'dialog' }
+    .modal-dialog.modal-lg
+      .modal-content
+        .modal-header
+          %button.close{ 'data-dismiss': 'modal', type: 'button'} ×
+          %h4.modal-title= t('.search_settings_list')
+        .modal-body.advanced-search-query
+          %ul.nav.nav-tabs
+            %li.active
+              %a{ href: '#my-saved-searches', data: { toggle: 'tab', trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.my_saved_search')}", placement: "auto" } }
+                = t('client_advanced_searches.load_save_search.my_saved_search')
+            %li
+              %a#other-saved-searches-tab{ href: '#other-saved-searches', data: { toggle: 'tab', trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.other_saved_search')}", placement: "auto" } }
+                = t('client_advanced_searches.load_save_search.other_saved_search')
+                
+          .tab-content
+            = hidden_field_tag 'advanced_search_id', params[:advanced_search_id]
+            = render 'my_saved_searches'
+            = render 'other_saved_searches'
 
 .row.ibox-space
   .col-xs-12
@@ -38,3 +81,4 @@
           = paginate @family_grid.assets
 
 = hidden_field(:hidden, :custom_csi_domain_scores, value: t('advanced_search.fields.custom_csi_domain_scores'))
+

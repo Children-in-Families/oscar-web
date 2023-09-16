@@ -6,10 +6,9 @@
   include GoogleCalendarServiceConcern
 
   before_action :set_client
-  before_action :set_custom_assessment_setting, only: [:new, :create, :edit, :update]
   before_action :set_case_note, only: [:edit, :update, :upload_attachment]
-  before_action :fetch_domain_group, only: [:new, :create, :update, :edit]
-  before_action :authorize_client, only: [:new, :create]
+  before_action :fetch_domain_group, only: [:update, :edit]
+  before_action :authorize_client, only: [:new]
   before_action :authorize_case_note, only: [:edit, :update]
   before_action -> { case_notes_permission('readable') }, only: [:index]
   before_action -> { case_notes_permission('editable') }, except: [:index]
@@ -18,21 +17,14 @@
     unless current_user.admin? || current_user.strategic_overviewer?
       redirect_to root_path, alert: t('unauthorized.default') unless current_user.permission.case_notes_readable
     end
+    
     @case_notes = @client.case_notes.recent_meeting_dates.page(params[:page])
     @custom_assessment_settings = CustomAssessmentSetting.all.where(enable_custom_assessment: true)
   end
 
   def new
-    @from_controller = params[:from]
-    if params[:custom] == 'true'
-      @case_note = @client.case_notes.new(custom: true, custom_assessment_setting_id: @custom_assessment_setting&.id)
-      @case_note.assessment = @client.assessments.custom_latest_record if @current_setting.enable_default_assessment
-      @case_note.populate_notes(@case_note.custom_assessment_setting_id, params[:custom])
-    else
-      @case_note = @client.case_notes.new()
-      @case_note.assessment = @client.assessments.default_latest_record
-      @case_note.populate_notes(nil, 'false')
-    end
+    routes_params = params.to_unsafe_h.slice("from", "custom", "custom_name")
+    redirect_to(edit_client_case_note_path(@client, routes_params.merge(id: :draft)))
   end
 
   def show
@@ -40,55 +32,27 @@
   end
 
   def edit
-    if params[:id] == "draft"
-      PaperTrail.without_tracking do
-        if params[:custom] == 'true'
-          @case_note.custom = true
-          @case_note.custom_assessment_setting = @custom_assessment_setting
+    authorize @case_note, :edit? if Organization.ratanak?
 
-          @case_note.assessment = @client.assessments.custom_latest_record if @current_setting.enable_default_assessment
-          @case_note.populate_notes(@case_note.custom_assessment_setting_id, params[:custom])
-        else
-          @case_note.assessment = @client.assessments.default_latest_record
-          @case_note.populate_notes(nil, 'false')
-        end
-      end
-    else
-      authorize @case_note, :edit? if Organization.ratanak?
-
-      if @case_note.draft?
-        if @case_note.custom?
-          @case_note.populate_notes(@case_note.custom_assessment_setting_id, 'true')
-        else
-          @case_note.populate_notes(nil, 'false')
-        end
-      end
-
-      unless current_user.admin? || current_user.strategic_overviewer?
-        redirect_to root_path, alert: t('unauthorized.default') unless current_user.permission.case_notes_editable
-      end
+    unless current_user.admin? || current_user.strategic_overviewer?
+      redirect_to root_path, alert: t('unauthorized.default') if !@case_note.draft? && !current_user.permission.case_notes_editable
     end
   end
 
   def update
-    clean_case_note_domain_groups_attributes
-
+    attributes = case_note_params.merge(last_auto_save_at: Time.current)
+    
     saved = if save_draft?
-      PaperTrail.without_tracking do
-        @case_note.assign_attributes(case_note_params.merge(last_auto_save_at: Time.current))
-        @case_note.save(validate: false)
-        clean_duplicate_case_note_domain_groups
-      end
+      @case_note.assign_attributes(attributes)
+      PaperTrail.without_tracking { @case_note.save(validate: false) }
 
       true
     else
-      @case_note.draft = false
-      @case_note.update_attributes(case_note_params)
+      @case_note.update_attributes(case_note_params.merge(draft: false))
     end
 
     if saved
-      # No support complete task on autosave
-      if !save_draft? && params.dig(:case_note, :case_note_domain_groups_attributes)
+      if params.dig(:case_note, :case_note_domain_groups_attributes)
         @case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes], current_user.id)
       end
 
@@ -98,7 +62,14 @@
       delete_events if session[:authorization]
 
       respond_to do |format|
-        format.html { redirect_to(client_case_notes_path(@client), notice: t('.successfully_updated')) }
+        format.html do
+          if params[:from_controller] == "dashboards"
+            redirect_to root_path, notice: t('.successfully_created')
+          else
+            redirect_to(client_case_notes_path(@client), notice: t('.successfully_updated'))
+          end
+        end
+
         format.json { render json: { resource: @case_note, edit_url: edit_client_case_note_url(@client, @case_note) }, status: 200 }
       end
     else
@@ -158,7 +129,10 @@
   def set_case_note
     @case_note = CaseNote.unscoped do
       if params[:id] == "draft"
-        @client.find_or_create_draft_case_note
+        @client.find_or_create_draft_case_note(
+          custom_assessment_setting_id: set_custom_assessment_setting&.id,
+          custom: params[:custom]
+        )
       else
         @client.case_notes.find(params[:id])
       end
@@ -170,12 +144,7 @@
   end
 
   def authorize_case_note
-    if params[:id] == "draft"
-      return true if current_user.admin?
-      authorize @client, :create?
-    else
-      authorize @case_note
-    end
+    authorize @case_note
   end
 
   def authorize_client

@@ -116,9 +116,11 @@ Rails.application.routes.draw do
 
     resources :referrals, except: [:destroy]
     resources :internal_referrals
-    
+
     collection do
       post '/advanced_search', to: 'clients#index'
+      post :load_client_table_summary
+      post :load_statistics_data
       get :advanced_search
       get :welcome
     end
@@ -152,7 +154,7 @@ Rails.application.routes.draw do
         post :upload_attachment
       end
     end
-    
+
     resources :case_notes do
       post :upload_attachment, on: :member
     end
@@ -186,13 +188,19 @@ Rails.application.routes.draw do
   end
   resources :referees, only: [:index, :show]
 
+  namespace :family do
+    resources :assessments, only: [] do
+      post :index, on: :collection, as: :get_assessments
+    end
+  end
+
   resources :families do
-    get :welcome, on: :collection
-    
-    resources :family_referrals
     collection do
+      get :welcome
       post '/advanced_search', to: 'families#index'
     end
+
+    resources :family_referrals
 
     scope module: 'family' do
       resources :exit_ngos, only: [:create, :update]
@@ -471,12 +479,15 @@ Rails.application.routes.draw do
       get 'research_module' => 'settings#research_module'
       get 'custom_labels' => 'settings#custom_labels'
       get 'client_forms' => 'settings#client_forms'
-      get 'integration' => 'settings#integration'
       get 'custom_form' => 'settings#custom_form'
       get 'limit_tracking_form' => 'settings#limit_tracking_form'
+      get 'header_count' => 'settings#header_count'
       get 'test_client' => 'settings#test_client'
       get 'risk_assessment' => 'settings#risk_assessment'
       get 'customize_case_note' => 'settings#customize_case_note'
+
+      get 'integration' => 'settings#integration'
+      put 'integration' => 'settings#integration'
 
       get :family_case_management
       get :community
@@ -499,7 +510,7 @@ Rails.application.routes.draw do
 
   if Rails.env.production? || Rails.env.staging?
     Sidekiq::Web.use(Rack::Auth::Basic) do |user, password|
-      [user, password] == ['admin', 'admin@@$$password']
+      [user, password] == [ENV['SIDEKIQ_USER'], ENV['SIDEKIQ_PASSWORD']]
     end
   end
 end

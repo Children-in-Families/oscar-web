@@ -1,4 +1,6 @@
 class SharedClient < ActiveRecord::Base
+  self.table_name = 'shared.shared_clients'
+
   has_paper_trail
 
   belongs_to :birth_province, class_name: 'Province', foreign_key: :birth_province_id

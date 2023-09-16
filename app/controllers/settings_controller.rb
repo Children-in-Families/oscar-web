@@ -79,11 +79,26 @@ class SettingsController < AdminController
   end
 
   def integration
-    attribute = params[:setting]
-    if attribute && current_organization.update_attributes(integrated: attribute[:integrated])
-      redirect_to integration_settings_path, notice: t('.successfully_updated')
+    @current_organization = Organization.find_by(short_name: Apartment::Tenant.current)
+    if request.put?
+      @current_organization.integrated = params.dig(:setting, :integrated)
+      @current_organization.last_integrated_date = Date.current if @current_organization.integrated?
+
+      if @current_organization.save
+        redirect_to integration_settings_path, notice: t('.successfully_updated')
+      else
+        render :integration
+      end
+    end
+  end
+
+  def header_count
+    return unless request.put?
+
+    if @setting.update_attributes(setting_params)
+      redirect_to :back, notice: t('.successfully_updated')
     else
-      render :integration
+      render :header_count
     end
   end
 
@@ -139,7 +154,7 @@ class SettingsController < AdminController
                                     :tracking_form_edit_limit, :tracking_form_edit_frequency, :disabled_add_service_received,
                                     :custom_field_limit, :custom_field_frequency, :test_client, :disabled_task_date_field,
                                     :required_case_note_note, :hide_case_note_note, :enabled_risk_assessment, :assessment_type_name,
-                                    :level_of_risk_guidance, :organization_type,
+                                    :level_of_risk_guidance, :organization_type, :enabled_header_count,
                                     client_default_columns: [], family_default_columns: [], community_default_columns: [],
                                     partner_default_columns: [], user_default_columns: [], selected_domain_ids: [],
                                     custom_assessment_settings_attributes: [:id, :custom_assessment_name, :max_custom_assessment, :custom_assessment_frequency, :custom_age, :enable_custom_assessment, :_destroy])
@@ -155,8 +170,8 @@ class SettingsController < AdminController
 
   def client_default_columns
     columns = []
-    sub_columns = %w(carer_name_ carer_phone_ carer_email_ time_in_cps_ time_in_ngo_ rejected_note_ exit_reasons_ exit_circumstance_ other_info_of_exit_ exit_note_ what3words_ main_school_contact_ rated_for_id_poor_ name_of_referee_
-      family_ family_id_ case_note_date_ case_note_type_ date_of_assessments_ assessment_completed_date_ all_csi_assessments_ date_of_custom_assessments_ custom_assessment_ custom_completed_date_ custom_assessment_ created_date_ all_custom_csi_assessments_ manage_ changelog_ type_of_service_ indirect_beneficiaries_)
+    sub_columns = %w[carer_name_ carer_phone_ carer_email_ time_in_cps_ time_in_ngo_ rejected_note_ exit_reasons_ exit_circumstance_ other_info_of_exit_ exit_note_ what3words_ main_school_contact_ rated_for_id_poor_ name_of_referee
+      family_ family_id_ case_note_date_ case_note_type_ date_of_assessments_ assessment_completed_date_ all_csi_assessments_ date_of_custom_assessments_ custom_assessment_ custom_completed_date_ custom_assessment_ created_date_ all_custom_csi_assessments_ manage_ changelog_ type_of_service_ indirect_beneficiaries_]
     sub_columns += Client::HOTLINE_FIELDS.map{ |field| "#{field}_" }
     sub_columns += Call::FIELDS.map{ |field| "#{field}_" }
     filter_columns = ClientGrid.new.filters.map(&:name).select{ |field_name| policy(Client).show?(field_name) }
@@ -176,10 +191,10 @@ class SettingsController < AdminController
 
   def family_default_columns
     columns = []
-    sub_columns = %w(member_count_ clients_ case_workers_ manage_ direct_beneficiaries_ changelog_)
+    sub_columns = %w[member_count_ clients_ case_workers_ manage_ direct_beneficiaries_ changelog_]
     columns = FamilyGrid.new.filters.map{|f| "#{f.name.to_s}_" }
     unless current_setting.hide_family_case_management_tool?
-      sub_columns += %w(case_note_date_ case_note_type_ assessment_completed_date_ date_of_custom_assessments_ all_custom_csi_assessments_)
+      sub_columns += %w[case_note_date_ case_note_type_ assessment_completed_date_ date_of_custom_assessments_ all_custom_csi_assessments_]
       Domain.family_custom_csi_domains.order_by_identity.each do |domain|
         columns << "#{domain.convert_custom_identity}_"
       end
@@ -189,14 +204,14 @@ class SettingsController < AdminController
 
   def community_default_columns
     columns = []
-    sub_columns = %w(manage_ changelog_)
+    sub_columns = %w[manage_ changelog_]
     columns = community_grid_columns.map { |k, _| "#{k}_" }
     columns.push(sub_columns).flatten
   end
 
   def partner_default_columns
     columns = []
-    sub_columns = %w(manage_ changelog_)
+    sub_columns = %w[manage_ changelog_]
     columns = PartnerGrid.new.filters.map { |f| "#{f.name}_" }
     columns.push(sub_columns).flatten
   end
@@ -205,15 +220,15 @@ class SettingsController < AdminController
     country = Setting.cache_first.try(:country_name) || params[:country]
     case country
     when 'thailand'
-      %w(province_id_ birth_province_id_ district_ subdistrict_ postal_code_ plot_ road_)
+      %w[province_id_ birth_province_id_ district_ subdistrict_ postal_code_ plot_ road_]
     when 'lesotho'
-      %w(suburb_ directions_ description_house_landmark_)
+      %w[suburb_ directions_ description_house_landmark_]
     when 'myanmar'
-      %w(street_line1_ street_line2_ township_ state_)
+      %w[street_line1_ street_line2_ township_ state_]
     when 'uganda'
-      %w(province_id_ birth_province_id_ district_ commune_ house_number_ village_ street_number_)
+      %w[province_id_ birth_province_id_ district_ commune_ house_number_ village_ street_number_]
     else
-      %w(province_id_ birth_province_id_ district_ commune_ house_number_ village_ street_number_)
+      %w[province_id_ birth_province_id_ district_ commune_ house_number_ village_ street_number_]
     end
   end
 
