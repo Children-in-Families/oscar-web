@@ -7,6 +7,7 @@ Bundler.require(*Rails.groups)
 
 module CifWeb
   class Application < Rails::Application
+    config.api_only = true
     config.middleware.use 'Apartment::Elevators::Subdomain'
     config.middleware.insert_before 'Warden::Manager', 'Apartment::Elevators::Subdomain'
     # Settings in config/environments/* take precedence over those specified here.

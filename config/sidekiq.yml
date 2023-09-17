@@ -3,6 +3,8 @@ demo:
   :concurrency: 2
 staging:
   :concurrency: 5
+production_api:
+  :concurrency: 2
 production:
   :concurrency: 5
 :queues:

@@ -14,6 +14,7 @@ end
 every :day, at: '00:00 am' do
   rake 'incompleted_assessment:delete'
   rake 'exited_client_case_worker:disattach'
+  runner 'BillableAcceptedClientsWorker.perform_async'
 end
 
 every :hour do
