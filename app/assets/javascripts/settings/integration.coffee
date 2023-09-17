@@ -1,4 +1,4 @@
-CIF.SettingsIntegration = do ->
+CIF.SettingsIntegration = CIF.SettingsHeader_count = do ->
   _init = ->
     _initICheckBox()
 

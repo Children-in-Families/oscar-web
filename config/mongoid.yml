@@ -53,3 +53,11 @@ production:
         - <%= ENV["HISTORY_DATABASE_HOST"] || 'localhost' %>:27017
       options:
   options:
+production_api:
+  clients:
+    default:
+      database: <%= ENV["HISTORY_DATABASE_NAME"] %>
+      hosts:
+        - <%= ENV["HISTORY_DATABASE_HOST"] || 'localhost' %>:27017
+      options:
+  options:

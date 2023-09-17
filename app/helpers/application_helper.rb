@@ -276,7 +276,7 @@ module ApplicationHelper
   end
 
   def default_setting(column, setting_default_columns)
-    key_columns = params.keys.select{ |k| k.match(/\_$/) }
+    key_columns = params.keys.select { |k| k.match(/_$/) }
     return false if setting_default_columns.nil? || (key_columns.present? && key_columns.exclude?(column))
     return false unless params.dig(:client_grid, :descending).present? || (params[:client_advanced_search].present? && params.dig(:client_grid, :descending).present?) || params[:client_grid].nil? || params[:client_advanced_search].nil?
     return false unless params.dig(:family_grid, :descending).present? || (params[:family_advanced_search].present? && params.dig(:family_grid, :descending).present?) || params[:family_grid].nil? || params[:family_advanced_search].nil?

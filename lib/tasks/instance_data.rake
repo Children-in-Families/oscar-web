@@ -8,7 +8,7 @@ namespace :instance do
           active_client: Client.reportable.active_status.count,
           accepted_client: Client.reportable.accepted.count,
           exited_client: Client.reportable.exited_ngo.count,
-          users_count: User.non_devs.count,
+          users_count: User.non_devs.without_deleted_users.count,
           referred_count: Client.reportable.where(status: 'Referred').count,
         )
       end
