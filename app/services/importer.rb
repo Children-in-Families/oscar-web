@@ -141,7 +141,7 @@ module Importer
         province_id: province_id
       }
 
-      district = find_district(attributes[:code], province_id) || find_district(attributes[:code])
+      district = find_district(attributes[:code], province_id)
 
       if district
         district.update(attributes)
