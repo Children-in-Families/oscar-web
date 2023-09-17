@@ -516,7 +516,6 @@ GEM
       actionmailer (>= 3.2)
       letter_opener (~> 1.0)
       railties (>= 3.2)
-    libv8 (3.16.14.19)
     little-plugger (1.1.4)
     logging (2.2.2)
       little-plugger (~> 1.1)
