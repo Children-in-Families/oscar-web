@@ -60,7 +60,7 @@ PaperTrail::Version.class_eval do
     return unless client_or_family?
     return unless billable?
  
-    puts "====================== Assigning billable report for #{item_type} #{item_id} with status #{changed_to_status} ======================"
+    puts "====================== Assigning billable report for #{item_type} #{item_id} with status #{changed_to_status} on schema #{Apartment::Tenant.current} ======================"
 
     if Rails.env.development?
       BillableService.call(self.id, Apartment::Tenant.current)

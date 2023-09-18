@@ -46,6 +46,7 @@ class Organization < ActiveRecord::Base
 
     def switch_to(tenant_name)
       Apartment::Tenant.switch!(tenant_name)
+      puts "====================== Switching to #{tenant_name} ======================"
     end
 
     def create_and_build_tenant(fields = {})
