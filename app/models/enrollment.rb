@@ -68,8 +68,7 @@ class Enrollment < ActiveRecord::Base
 
   def set_entity_status
     entity_status = programmable_type == 'Family' ? 'Active' : 'active'
-    programmable.status = entity_status
-    programmable.save(validate: false)
+    programmable.update(status: entity_status)
   end
 
   def reset_entity_status
