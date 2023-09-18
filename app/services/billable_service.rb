@@ -21,8 +21,9 @@ class BillableService < ServiceBase
       )
     elsif version.changed_to_status_active?
       # Remove accepted item if any
-      report.billable_report_items.joins(:version).where(
-        versions: { item_id: version.item_id, item_type: version.item_type },
+      report.billable_report_items.where(
+        version_id: version.id,
+        billable_type: version.item_type,
         billable_status: 'Accepted'
       ).delete_all
 
