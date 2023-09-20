@@ -6,7 +6,7 @@ class BillableAcceptedClientsWorker
       begin
         Organization.switch_to org.short_name
         
-        BillableReportItem.where(accepted_at: Date.current.beginning_of_month..Date.current.end_of_month, billable_at: nil).ids.each do |billable_item_id|
+        BillableReportItem.joins(:billable_report).where(billable_reports: { organization_id: org.id }).where(accepted_at: Date.current.beginning_of_month..Date.current.end_of_month, billable_at: nil).ids.each do |billable_item_id|
           puts "Checking #{org.short_name} billable item #{billable_item_id}"
           ClientStatusChecker.delay.call(billable_item_id, org.short_name)
         end
