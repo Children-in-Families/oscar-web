@@ -50,10 +50,10 @@ PaperTrail::Version.class_eval do
   end
 
   def changed_to_status
+    object_changes &&
+    object_changes['status'] &&
     object_changes['status'].last
   end
-
-  private
   
   def assign_billable_report
     return if Rails.env.test?

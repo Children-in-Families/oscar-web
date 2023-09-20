@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20230918074541) do
+ActiveRecord::Schema.define(version: 20230920200842) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -205,6 +205,7 @@ ActiveRecord::Schema.define(version: 20230918074541) do
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
     t.string   "billable_type"
+    t.integer  "billable_id"
   end
 
   add_index "billable_report_items", ["billable_report_id"], name: "index_billable_report_items_on_billable_report_id", using: :btree

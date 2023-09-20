@@ -28,4 +28,5 @@ end
 
 every :month, at: '2:00 am' do
   rake 'usage_report:build_latest', output: 'log/usage_report.log'
+  rake 'monthly_billable_report', output: 'log/monthly_billable_report.log'
 end

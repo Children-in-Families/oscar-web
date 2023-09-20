@@ -15,7 +15,7 @@ class BillableService < ServiceBase
       # Accepted day 1, we will have a cron job to check status and set billable_at if the status is still accepted after 7 days
       report.billable_report_items.create!(
         version: version,
-        billable_type: version.item_type,
+        billable: version.item,
         billable_status: version.changed_to_status,
         accepted_at: Time.current
       )
@@ -23,14 +23,13 @@ class BillableService < ServiceBase
       # Remove accepted item if any
       report.billable_report_items.where(
         version_id: version.id,
-        billable_type: version.item_type,
         billable_status: 'Accepted'
       ).delete_all
 
       # Immediately set billable_at for Active status
       report.billable_report_items.create!(
         version: version,
-        billable_type: version.item_type,
+        billable: version.item,
         billable_status: version.changed_to_status,
         billable_at: Time.current
       )
