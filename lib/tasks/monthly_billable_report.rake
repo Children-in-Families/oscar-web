@@ -15,7 +15,18 @@ task monthly_billable_report: :environment do
       next if report.billable_report_items.exists?(billable: client)
 
       version = client.versions.select(&:changed_to_status_accepted?).last
-      next unless version
+      
+      unless version
+        # Fix missing version from old code that does not create version
+        version = client.versions.create!(
+          event: 'update',
+          whodunnit: 'System',
+          object: client.attributes,
+          object_changes: {
+            'status' => ['Referred', 'Accepted']
+          }
+        )
+      end
 
       version.assign_billable_report
     end
@@ -25,7 +36,18 @@ task monthly_billable_report: :environment do
       next if report.billable_report_items.exists?(billable: client)
 
       version = client.versions.select(&:changed_to_status_active?).last
-      next unless version
+
+      unless version
+        # Fix missing version from old code that does not create version
+        version = client.versions.create!(
+          event: 'update',
+          whodunnit: 'System',
+          object: client.attributes,
+          object_changes: {
+            'status' => ['Accepted', 'Active']
+          }
+        )
+      end
 
       version.assign_billable_report
     end
@@ -35,7 +57,18 @@ task monthly_billable_report: :environment do
       next if report.billable_report_items.exists?(billable: family)
 
       version = family.versions.select(&:changed_to_status_accepted?).last
-      next unless version
+
+      unless version
+        # Fix missing version from old code that does not create version
+        version = family.versions.create!(
+          event: 'update',
+          whodunnit: 'System',
+          object: family.attributes,
+          object_changes: {
+            'status' => ['Referred', 'Accepted']
+          }
+        )
+      end
 
       version.assign_billable_report
     end
@@ -45,7 +78,18 @@ task monthly_billable_report: :environment do
       next if report.billable_report_items.exists?(billable: family)
 
       version = family.versions.select(&:changed_to_status_active?).last
-      next unless version
+
+      unless version
+        # Fix missing version from old code that does not create version
+        version = family.versions.create!(
+          event: 'update',
+          whodunnit: 'System',
+          object: family.attributes,
+          object_changes: {
+            'status' => ['Accepted', 'Active']
+          }
+        )
+      end
 
       version.assign_billable_report
     end
