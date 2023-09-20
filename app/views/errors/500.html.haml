@@ -8,18 +8,27 @@
     = stylesheet_link_tag 'application', media: 'all'
     :css
       body {
-          padding-top: 10%;
+          display: flex;
+          align-items: center;
         }
 
         h1 {
-          font-size: 100px;
-          font-weight: bold;
+          font-size: 150px;
+          font-weight: 100;
           color: #E6483D;
+        }
+
+        .font-small {
+          font-size: 25px;
         }
 
         h3 {
           font-size: 40px;
           font-weight: bold;
+        }
+
+        .text-km {
+          line-height: 62px;
         }
 
         p {
@@ -43,12 +52,25 @@
 
   %body{ id: "#{controller_name}-#{params[:action]}", style: 'background-color: #fff;' }
     .container
-      .text-center
-        = image_tag Organization.current.logo, width: 110 if Organization.current
       .row
-        .col-xs-12.text-center.error-content
-          %h1.text-center
-            500
-          %h3.text-uppercase Oops! We've experienced a server-side error!
-          %p.text-muted Very annoyingly, that means you can't do what you're trying to do right now. But on the plus-side, this error has automatically triggered a notification to the development team, and we'll be checking out the problem straight away! If you come back and try again later, hopefully we'll have it working by then. Thanks for your patience!
-          %a.btn.btn-success.btn-lg.text-uppercase{:href => "/"} Go Home
+        .col-xs-12.col-md-6.text-center.animated.fadeInDown
+          %h1.text-muted 500
+          - if I18n.locale.to_s != 'km'
+            %h3.font-bold Sorry!!! It's a technical issue.
+            %h3.font-bold We already catched this error in our system and we are going to fix it ASAP.
+            %br/
+            .error-desc
+              %p You can go back to the main page or work on other pages:
+              = link_to root_path, class: 'btn btn-primary m-t' do
+                Back to Dashboard
+          - else
+            %h3.font-bold សុំអភ័យទោស!!! វាជាបញ្ហាបច្ចេកទេស។
+            %h3.text-km.font-bold យើងបានបញ្ជូនបញ្ហនេះនៅក្នុងប្រព័ន្ធរបស់យើងរួចហើយ ហើយយើងនឹងដោះស្រាយវាឱ្យបានឆាប់។
+            %br/
+            .error-desc
+              %p លោកអ្នកអាចត្រឡប់ទៅទំព័រដើម ឬធ្វើការនៅលើទំព័រផ្សេងទៀតបាន៖
+              = link_to root_path, class: 'btn btn-primary m-t' do
+                ត្រឡប់ទៅទំព័រ​ដើម
+
+        .col-xs-12.col-md-6.text-center
+          = image_tag 'chat_error.png', class: 'img-responsive'

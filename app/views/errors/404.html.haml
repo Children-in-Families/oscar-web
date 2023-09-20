@@ -8,12 +8,13 @@
     = stylesheet_link_tag 'application', media: 'all'
     :css
       body {
-          padding-top: 10%;
+          display: flex;
+          align-items: center;
         }
 
         h1 {
-          font-size: 100px;
-          font-weight: bold;
+          font-size: 150px;
+          font-weight: 100;
           color: #E6483D;
         }
 
@@ -45,10 +46,17 @@
   %body{ id: "#{controller_name}-#{params[:action]}", style: 'background-color: #fff;' }
     .container
       .row
-        .col-xs-12.text-center.error-content
-          %h1
-            404
-            = image_tag Organization.current.logo if Organization.current
-          %h3.text-uppercase Page Not Found
-          %p.text-muted.text-uppercase Page you are looking for was moved, removed, renamed or does not exist.
-          %a.btn.btn-success.btn-lg.text-uppercase{:href => "/"} Go Home
+        .col-xs-12.col-md-6.text-center.error-content
+          - if I18n.locale.to_s != 'km'
+            %h1.text-muted 404
+            %h3.font-bold Page Not Found
+            %p.text-muted.text-uppercase Page you are looking for was moved, removed, renamed or does not exist.
+            %a.btn.btn-success{:href => "/"} Back to Dashboard
+          - else
+            %h1.text-muted 404
+            %h3.font-bold រកមិនឃើញគេហទំព័រដែលអ្នកស្នើ។
+            %p.text-muted.text-uppercase គេហទំព័រដែលអ្នកកំពុងស្វែងរកត្រូវបានផ្លាស់ទី លុបចេញ ប្តូរឈ្មោះ ឬមិនមាន។
+            = link_to root_path, class: 'btn btn-primary m-t' do
+              ត្រឡប់ទៅទំព័រ​ដើម
+        .col-xs-12.col-md-6.text-center.error-content
+          = image_tag 'error_page_not_found.png', class: 'img-responsive'
