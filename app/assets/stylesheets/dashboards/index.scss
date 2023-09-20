@@ -113,6 +113,12 @@ body[id="dashboards-index"] {
     }
   }
 
+  .select2-result-selectable {
+    a {
+      color: white;
+    }
+  }
+
   #select2-drop.drop {
     height: 349px;
 
@@ -121,6 +127,7 @@ body[id="dashboards-index"] {
       height: 374px;
       overflow-x: scroll;
       overflow-y: scroll;
+
     }
 
     .select2-results table tbody tr td {
