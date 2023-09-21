@@ -23,6 +23,7 @@ PaperTrail.class_eval do
 end
 
 PaperTrail::Version.class_eval do
+  before_destroy :prevent_remove_billable_version
   after_commit :assign_billable_report, on: :create
 
   def client?
@@ -67,5 +68,13 @@ PaperTrail::Version.class_eval do
     else
       BillableService.delay.call(self.id, Apartment::Tenant.current)
     end
+  end
+
+  private
+
+  def prevent_remove_billable_version
+    return unless billable?
+    errors.add(:base, 'Cannot delete billable version')
+    throw(:abort)
   end
 end
