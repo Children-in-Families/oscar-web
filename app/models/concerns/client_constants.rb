@@ -15,6 +15,8 @@ module ClientConstants
   GRADES = ['Kindergarten 1', 'Kindergarten 2', 'Kindergarten 3', 'Kindergarten 4', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', 'Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6', 'Year 7', 'Year 8', 'Bachelors'].freeze
   CLIENT_LEVELS   = ['No', 'Level 1', 'Level 2']
 
+  DUPLICATE_CHECKING_FIELDS = ['given_name', 'family_name', 'local_family_name', 'local_given_name', 'date_of_birth', 'current_province_id', 'district_id', 'commune_id', 'village_id', 'birth_province_id']
+
   LEGAL_DOC_FIELDS = %w(
     national_id_files
     birth_cert_files

@@ -308,9 +308,7 @@ module Api
     end
 
     def find_client_in_organization
-      results = []
-      similar_fields = Client.find_shared_client(params)
-      { similar_fields: similar_fields }
+      { similar_fields: Client.find_shared_client(params) }
     end
 
     def client_statistics
