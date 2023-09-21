@@ -17,10 +17,10 @@ CIF.Common =
     @loadSideMenuCountBadge()
 
   loadNotification: ->
-    setTimeout (->
-      if $('.lazy-load-notification').length > 0
-        $.ajax(type: 'GET', url: '/dashboards/notification')
-    ), 1000
+    # setTimeout (->
+    #   if $('.lazy-load-notification').length > 0
+    #     $.ajax(type: 'GET', url: '/dashboards/notification')
+    # ), 1000
 
   loadSideMenuCountBadge: ->
     setTimeout (->
