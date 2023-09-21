@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20230920200842) do
+ActiveRecord::Schema.define(version: 20230921024515) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -215,8 +215,10 @@ ActiveRecord::Schema.define(version: 20230920200842) do
     t.integer  "organization_id"
     t.integer  "year"
     t.integer  "month"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.string   "organization_name"
+    t.string   "organization_short_name"
   end
 
   add_index "billable_reports", ["organization_id"], name: "index_billable_reports_on_organization_id", using: :btree
