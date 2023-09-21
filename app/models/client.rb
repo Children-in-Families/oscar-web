@@ -245,6 +245,8 @@ class Client < ActiveRecord::Base
         percentages = match_percentages.compact
         
         if percentages.any? && percentages.sum * 100 >= 75
+          puts "================= Matched #{match_percentages} ============="
+
           similar_fields << '#hidden_name_fields' if match_percentages[0].present?
           similar_fields << '#hidden_date_of_birth' if match_percentages[1].present?
           similar_fields << '#hidden_province' if match_percentages[2].present?
