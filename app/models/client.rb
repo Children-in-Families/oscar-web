@@ -209,22 +209,27 @@ class Client < ActiveRecord::Base
     def find_shared_client(options)
       similar_fields = []
       shared_clients = []
-      return shared_clients unless ['given_name', 'family_name', 'local_family_name', 'local_given_name', 'date_of_birth', 'current_province_id', 'district_id', 'commune_id', 'village_id', 'birth_province_id'].any?{|key| options.has_key?(key) }
+
+      return shared_clients unless Client::DUPLICATE_CHECKING_FIELDS.any?{ |key| options.key?(key) }
+
       current_org    = Organization.current.short_name
-      Organization.switch_to 'shared'
-      skip_orgs_percentage = Organization.skip_dup_checking_orgs.map {|val| "%#{val.short_name}%" }
-      if skip_orgs_percentage.any?
-        shared_clients = SharedClient.where.not('archived_slug ILIKE ANY ( array[?] ) AND duplicate_checker IS NOT NULL', skip_orgs_percentage).select(:duplicate_checker).pluck(:duplicate_checker)
-      else
-        shared_clients = SharedClient.where('duplicate_checker IS NOT NULL').select(:duplicate_checker).pluck(:duplicate_checker)
+
+      Apartment::Tenant.switch 'shared' do
+        skip_orgs_percentage = Organization.skip_dup_checking_orgs.map {|val| "%#{val.short_name}%" }
+        
+        if skip_orgs_percentage.any?
+          shared_clients = SharedClient.where.not('archived_slug ILIKE ANY ( array[?] ) AND duplicate_checker IS NOT NULL', skip_orgs_percentage).select(:duplicate_checker).pluck(:duplicate_checker)
+        else
+          shared_clients = SharedClient.where('duplicate_checker IS NOT NULL').select(:duplicate_checker).pluck(:duplicate_checker)
+        end
       end
 
-      Organization.switch_to current_org
       province_name = Province.find_by(id: options[:current_province_id]).try(:name)
       district_name = District.find_by(id: options[:district_id]).try(:name)
       commune_name  = Commune.find_by(id: options[:commune_id]).try(:name)
       village_name  = Village.find_by(id: options[:village_id]).try(:name)
       birth_province_name = Province.find_by(id: options[:birth_province_id]).try(:name)
+
       addresses_hash = { cp: province_name, cd: district_name, cc: commune_name, cv: village_name, bp: birth_province_name }
       address_hash   = { cv: 1, cc: 2, cd: 3, cp: 4, bp: 5 }
 
@@ -236,17 +241,22 @@ class Client < ActiveRecord::Base
         dob        = date_of_birth_matching(options[:date_of_birth], client.last.squish)
         addresses  = mapping_address(address_hash, addresses_hash, client)
         match_percentages = [field_name, dob, *addresses]
-        if match_percentages.compact.present? && (match_percentages.compact.inject(:*) * 100) >= 75
-          similar_fields << '#hidden_name_fields' if match_percentages[0].present?
-          similar_fields << '#hidden_date_of_birth' if match_percentages[1].present?
-          similar_fields << '#hidden_province' if match_percentages[2].present?
-          similar_fields << '#hidden_district' if match_percentages[3].present?
-          similar_fields << '#hidden_commune' if match_percentages[4].present?
-          similar_fields << '#hidden_village' if match_percentages[5].present?
-          similar_fields << '#hidden_birth_province' if match_percentages[6].present?
+
+        percentages = match_percentages.compact
+        
+        if percentages.any? && percentages.sum * 100 >= 75
+          element_ids = ['#hidden_name_fields', '#hidden_date_of_birth', '#hidden_province', '#hidden_district', '#hidden_commune', '#hidden_village', '#hidden_birth_province']
+
+          # Loop through the element ids and the match percentages
+          element_ids.zip(match_percentages) do |element_id, match_percentage|
+            # Append the element id to the similar_fields array if the match percentage is present
+            similar_fields << element_id if match_percentage.present?
+          end
+
           return similar_fields.uniq
         end
       end
+
       similar_fields.uniq
     end
 
@@ -286,9 +296,9 @@ class Client < ActiveRecord::Base
       "#{options[:given_name]} #{options[:family_name]} #{options[:local_given_name]} #{options[:local_family_name]}".squish
     end
 
-    def mapping_address(address_hash, results, client)
+    def mapping_address(address_hash, results = {}, client)
       address_hash.map do |k, v|
-        client_address_matching(results[k], client[v].squish) if results && results[k]
+        client_address_matching(results[k], client[v].squish) if results[k]
       end
     end
 
@@ -342,19 +352,19 @@ class Client < ActiveRecord::Base
   end
 
   def self.date_of_birth_matching(dob1, dob2)
-    return nil if dob1.blank? || dob2.nil? || dob1.nil? || dob2.blank?
-    percentage = 0
-    if dob1.to_date == dob2.to_date
-      percentage = 1
-    else
-      remain_day = (dob1.to_date > dob2.to_date) ? (dob1.to_date - dob2.to_date) : (dob2.to_date - dob1.to_date)
-      percentage = 1 - (remain_day * 0.5)/100 if remain_day.present?
-    end
+    return nil if dob1.blank? || dob2.blank?
 
-    percentage < 0 ? nil : percentage
+    int1 = dob1.to_s.gsub(/-/, '').to_i
+    int2 = dob2.to_s.gsub(/-/, '').to_i
+    diff = (int1 - int2).abs
+
+    # Divide the difference by a large constant value to get a decimal value between 0 and 1
+    dec = diff / 1000000.0
+    # Subtract the decimal value from 1 to get the percentage value
+    perc = 1 - dec
+    # Return the percentage value as the similarity score
+    perc
   end
-
-
 
   # options[:custom]
   # options[:custom_assessment_setting_id]
