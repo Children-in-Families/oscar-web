@@ -245,13 +245,13 @@ class Client < ActiveRecord::Base
         percentages = match_percentages.compact
         
         if percentages.any? && percentages.sum * 100 >= 75
-          element_ids = ['#hidden_name_fields', '#hidden_date_of_birth', '#hidden_province', '#hidden_district', '#hidden_commune', '#hidden_village', '#hidden_birth_province']
-
-          # Loop through the element ids and the match percentages
-          element_ids.zip(match_percentages) do |element_id, match_percentage|
-            # Append the element id to the similar_fields array if the match percentage is present
-            similar_fields << element_id if match_percentage.present?
-          end
+          similar_fields << '#hidden_name_fields' if match_percentages[0].present?
+          similar_fields << '#hidden_date_of_birth' if match_percentages[1].present?
+          similar_fields << '#hidden_province' if match_percentages[2].present?
+          similar_fields << '#hidden_district' if match_percentages[3].present?
+          similar_fields << '#hidden_commune' if match_percentages[4].present?
+          similar_fields << '#hidden_village' if match_percentages[5].present?
+          similar_fields << '#hidden_birth_province' if match_percentages[6].present?
 
           return similar_fields.uniq
         end
