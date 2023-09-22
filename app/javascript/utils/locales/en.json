@@ -89,11 +89,12 @@
     "previous": "Previous",
     "save": "Save",
     "similar_record": "The client record you are saving has similarities to other records in OSCaR in the following fields:",
-    "checking_message": "Please check with the client whether they have ever worked with another organisation that may have put their details into OSCaR.",
+    "checking_message": "This possible duplicated client will be categorized and recorded in the duplication list for OSCaR to review.",
     "duplicate_message": "Duplicate Checker feature is currently in Beta testing, please Email: info@oscarhq.com if you have any issues with excessive false positive/negative results.",
     "continue": "Continue",
     "client_confirm": "Client Confirmation",
     "warning": "Warning",
+    "auto_close_msg": "This pop up will be auto closed in SECOND seconds.",
     "successfully_created": "Client has been successfully created",
     "successfully_updated": "Client has been successfully updated"
   },
