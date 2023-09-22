@@ -218,9 +218,9 @@ class Client < ActiveRecord::Base
         skip_orgs_percentage = Organization.skip_dup_checking_orgs.map {|val| "%#{val.short_name}%" }
         
         if skip_orgs_percentage.any?
-          shared_clients = SharedClient.where.not('archived_slug ILIKE ANY ( array[?] ) AND duplicate_checker IS NOT NULL', skip_orgs_percentage).select(:duplicate_checker).pluck(:duplicate_checker)
+          shared_clients = SharedClient.where.not(slug: options[:slug]).where.not('archived_slug ILIKE ANY ( array[?] ) AND duplicate_checker IS NOT NULL', skip_orgs_percentage).select(:duplicate_checker).pluck(:duplicate_checker)
         else
-          shared_clients = SharedClient.where('duplicate_checker IS NOT NULL').select(:duplicate_checker).pluck(:duplicate_checker)
+          shared_clients = SharedClient.where.not(slug: options[:slug]).where('duplicate_checker IS NOT NULL').select(:duplicate_checker).pluck(:duplicate_checker)
         end
       end
 
