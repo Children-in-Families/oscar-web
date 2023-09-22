@@ -307,7 +307,8 @@ const Forms = props => {
       current_province_id: clientData.province_id || '',
       district_id: clientData.district_id || '',
       village_id: clientData.village_id || '',
-      commune_id: clientData.commune_id || ''
+      commune_id: clientData.commune_id || '',
+      gender: clientData.gender || ''
     }
 
     if(clientData.outside === false) {
@@ -321,14 +322,34 @@ const Forms = props => {
           if(response.similar_fields.length > 0) {
             setDupFields(response.similar_fields)
             setDupClientModalOpen(true)
-          } else
+            updateTimeLeftBeforeCloseModal(callback)
+          } else {
             callback()
+          }
           setLoading(false)
         })
-      } else
+      } else {
         callback()
-    } else
+      }
+    } else {
       callback()
+    }
+  }
+
+  const updateTimeLeftBeforeCloseModal = (callback) => {
+    let timeLeft = 5
+    $('.timeLeft').text(T.translate("index.auto_close_msg").replace("SECOND", timeLeft))
+
+    let timer = setInterval(() => {
+      timeLeft--
+      $('.timeLeft').text(T.translate("index.auto_close_msg").replace("SECOND", timeLeft))
+
+      if (timeLeft <= 0) {
+        clearInterval(timer)
+        setDupClientModalOpen(false)
+        callback()
+      }
+    }, 1000)
   }
 
   const renderModalContent = data => {
@@ -345,6 +366,7 @@ const Forms = props => {
           }
         </ul>
         <p>{T.translate("index.checking_message")}</p>
+        <p className="timeLeft" style={{ marginTop: "5px", textAlign: "right" }}></p>
       </div>
     )
   }
@@ -539,7 +561,6 @@ const Forms = props => {
         type='warning'
         closeAction={() => setDupClientModalOpen(false)}
         content={ renderModalContent(dupFields) }
-        footer={ renderModalFooter() }
       />
 
       <Modal
