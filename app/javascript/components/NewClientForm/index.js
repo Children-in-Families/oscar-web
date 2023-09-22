@@ -298,6 +298,7 @@ const Forms = props => {
 
   const checkClientExist = () => callback => {
     const data =  {
+      slug: clientData.slug || '',
       given_name: clientData.given_name ,
       family_name: clientData.family_name,
       local_given_name: clientData.local_given_name,
