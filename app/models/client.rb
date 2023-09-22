@@ -228,7 +228,10 @@ class Client < ActiveRecord::Base
       district_name = District.find_by(id: options[:district_id]).try(:name)
       commune_name  = Commune.find_by(id: options[:commune_id]).try(:name)
       village_name  = Village.find_by(id: options[:village_id]).try(:name)
-      birth_province_name = Province.find_by(id: options[:birth_province_id]).try(:name)
+
+      birth_province_name = Apartment::Tenant.switch 'shared' do
+        Province.find_by(id: options[:birth_province_id]).try(:name)
+      end
 
       addresses_hash = { cp: province_name, cd: district_name, cc: commune_name, cv: village_name, bp: birth_province_name }
       address_hash   = { cv: 1, cc: 2, cd: 3, cp: 4, bp: 5 }
@@ -240,18 +243,22 @@ class Client < ActiveRecord::Base
         field_name = compare_matching(input_name_field, client_name_field)
         dob        = date_of_birth_matching(options[:date_of_birth], client.last.squish)
         addresses  = mapping_address(address_hash, addresses_hash, client)
-        match_percentages = [field_name, dob, *addresses]
+        match_percentages = [field_name, dob, *addresses, client_address_matching(options[:gender], client[6])]
 
         percentages = match_percentages.compact
         
-        if percentages.any? && percentages.sum * 100 >= 75
-          similar_fields << '#hidden_name_fields' if match_percentages[0].present?
+        if percentages.any? && (match_percentages.compact.inject(:*) * 100) >= 75
+          Rails.logger.info "Found similar client with percentage: #{(match_percentages.compact.inject(:*) * 100)} - #{match_percentages} - #{addresses_hash} - #{client}"
+
+
+          similar_fields << '#hidden_name_fields'   if match_percentages[0].present?
           similar_fields << '#hidden_date_of_birth' if match_percentages[1].present?
-          similar_fields << '#hidden_province' if match_percentages[2].present?
-          similar_fields << '#hidden_district' if match_percentages[3].present?
-          similar_fields << '#hidden_commune' if match_percentages[4].present?
-          similar_fields << '#hidden_village' if match_percentages[5].present?
-          similar_fields << '#hidden_birth_province' if match_percentages[6].present?
+          similar_fields << '#hidden_village'       if match_percentages[2].present?
+          similar_fields << '#hidden_commune'       if match_percentages[3].present?
+          similar_fields << '#hidden_district'      if match_percentages[4].present?
+          similar_fields << '#hidden_province'      if match_percentages[5].present?
+          similar_fields << '#hidden_birth_province'  if match_percentages[6].present?
+          similar_fields << '#hidden_gender'          if match_percentages[7].present?
 
           return similar_fields.uniq
         end
@@ -769,7 +776,7 @@ class Client < ActiveRecord::Base
     name_field = "#{self.given_name} #{self.family_name} #{self.local_given_name} #{self.local_family_name}".squish
     client_birth_province = Province.find_by(id: self.birth_province_id).try(&:name)
 
-    client[:duplicate_checker] = "#{name_field} & #{client_village} & #{client_commune} & #{client_district} & #{client_current_province} & #{client_birth_province} & #{self.try(&:date_of_birth)}"
+    client[:duplicate_checker] = "#{name_field} & #{client_village} & #{client_commune} & #{client_district} & #{client_current_province} & #{client_birth_province} & #{self.gender} & #{self.try(&:date_of_birth)}"
     shared_client = SharedClient.find_by(archived_slug: client['archived_slug'])
     shared_client.present? ? shared_client.update(client) : SharedClient.create(client)
     Organization.switch_to current_org.short_name

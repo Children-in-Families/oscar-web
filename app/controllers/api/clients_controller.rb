@@ -8,7 +8,7 @@ module Api
     end
 
     def compare
-      render json: find_client_in_organization
+      render json: { similar_fields: Client.find_shared_client(params) }
     end
 
     def render_client_statistics
@@ -305,10 +305,6 @@ module Api
         :history_of_family_separation_id, protection_concern: [],
         tasks_attributes: [:id, :name, :expected_date, :client_id, :_destroy]
       )
-    end
-
-    def find_client_in_organization
-      { similar_fields: Client.find_shared_client(params) }
     end
 
     def client_statistics

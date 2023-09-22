@@ -307,7 +307,8 @@ const Forms = props => {
       current_province_id: clientData.province_id || '',
       district_id: clientData.district_id || '',
       village_id: clientData.village_id || '',
-      commune_id: clientData.commune_id || ''
+      commune_id: clientData.commune_id || '',
+      gender: clientData.gender || ''
     }
 
     if(clientData.outside === false) {
