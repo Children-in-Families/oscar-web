@@ -12,8 +12,8 @@ namespace :duplicate_checker_field do
     Organization.without_shared.where(onboarding_status: 'completed').each do |organization|
       Organization.switch_to organization.short_name
 
-      Client.find_each do |client|
-        client.create_or_update_shared_client
+      Client.ids.each do |client_id|
+        SharedClientWorker.perform_async(client_id, organization.short_name)
       end
     end
   end
