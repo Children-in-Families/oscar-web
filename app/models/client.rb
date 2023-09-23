@@ -1105,9 +1105,9 @@ class Client < ActiveRecord::Base
 
   def do_duplicate_checking
     if Rails.env.development? || Rails.env.test?
-      DuplicateCheckerWorker.new.perform(c.id, Organization.current.short_name)
+      DuplicateCheckerWorker.new.perform(self.id, Organization.current.short_name)
     else
-      DuplicateCheckerWorker.perform_async(c.id, Organization.current.short_name)
+      DuplicateCheckerWorker.perform_async(self.id, Organization.current.short_name)
     end
   end
 
