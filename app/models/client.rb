@@ -248,7 +248,8 @@ class Client < ActiveRecord::Base
         field_name = compare_matching(input_name_field, client_name_field)
         dob        = date_of_birth_matching(options[:date_of_birth], duplicate_checker_data.last.squish)
         addresses  = mapping_address(address_hash, addresses_hash, duplicate_checker_data)
-        match_percentages = [field_name, dob, *addresses, client_address_matching(options[:gender], duplicate_checker_data[6])]
+        gender_matching = options[:gender].to_s.downcase == duplicate_checker_data[7].to_s.downcase ? 1 : nil
+        match_percentages = [field_name, dob, *addresses, gender_matching]
 
         percentages = match_percentages.compact
         
@@ -363,18 +364,16 @@ class Client < ActiveRecord::Base
   end
 
   def self.date_of_birth_matching(dob1, dob2)
-    return nil if dob1.blank? || dob2.blank?
+    return nil if dob1.blank? || dob2.nil? || dob1.nil? || dob2.blank?
+    percentage = 0
+    if dob1.to_date == dob2.to_date
+      percentage = 1
+    else
+      remain_day = (dob1.to_date > dob2.to_date) ? (dob1.to_date - dob2.to_date) : (dob2.to_date - dob1.to_date)
+      percentage = 1 - (remain_day * 0.5)/100 if remain_day.present?
+    end
 
-    int1 = dob1.to_s.gsub(/-/, '').to_i
-    int2 = dob2.to_s.gsub(/-/, '').to_i
-    diff = (int1 - int2).abs
-
-    # Divide the difference by a large constant value to get a decimal value between 0 and 1
-    dec = diff / 1000000.0
-    # Subtract the decimal value from 1 to get the percentage value
-    perc = 1 - dec
-    # Return the percentage value as the similarity score
-    perc
+    percentage < 0 ? nil : percentage
   end
 
   # options[:custom]
@@ -1106,9 +1105,9 @@ class Client < ActiveRecord::Base
 
   def do_duplicate_checking
     if Rails.env.development? || Rails.env.test?
-      DuplicateCheckerWorker.new.perform(id, Organization.current.short_name)
+      DuplicateCheckerWorker.new.perform(c.id, Organization.current.short_name)
     else
-      DuplicateCheckerWorker.perform_async(id, Organization.current.short_name)
+      DuplicateCheckerWorker.perform_async(c.id, Organization.current.short_name)
     end
   end
 
