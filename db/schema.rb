@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20230921024515) do
+ActiveRecord::Schema.define(version: 20230922121730) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -901,6 +901,8 @@ ActiveRecord::Schema.define(version: 20230921024515) do
     t.date     "synced_date"
     t.integer  "referral_count",                        default: 0
     t.datetime "deleted_at"
+    t.boolean  "duplicate",                             default: false
+    t.jsonb    "duplicate_with",                        default: {}
   end
 
   add_index "clients", ["birth_province_id"], name: "index_clients_on_birth_province_id", using: :btree
