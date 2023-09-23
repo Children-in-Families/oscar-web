@@ -348,12 +348,12 @@ class Client < ActiveRecord::Base
 
   def self.client_address_matching(value1, value2)
     return nil if value1.blank?
-    value1 == value2 ? 1 : 0.91
+    value1 == value2 ? 1 : nil
   end
 
   def self.birth_province_matching(value1, value2)
     return nil if value1.blank?
-    value1 == value2 ? 1 : 0.85
+    value1 == value2 ? 1 : nil
   end
 
   def self.compare_matching(value1, value2)
