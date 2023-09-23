@@ -151,6 +151,7 @@ class Client < ActiveRecord::Base
   before_create :set_country_origin
   after_create :set_slug_as_alias, :mark_referral_as_saved
   after_save :create_client_history, :create_or_update_shared_client
+  after_commit :do_duplicate_checking
 
   # save_global_identify_and_external_system_global_identities must be executed first
   after_commit :save_global_identify_and_external_system_global_identities, on: :create
@@ -210,7 +211,9 @@ class Client < ActiveRecord::Base
       similar_fields = []
       shared_clients = []
 
-      return shared_clients unless Client::DUPLICATE_CHECKING_FIELDS.any?{ |key| options.key?(key) }
+      unless Client::DUPLICATE_CHECKING_FIELDS.any?{ |key| options.key?(key.to_sym) }
+        return { similar_fields: similar_fields, duplicate_with: nil }
+      end
 
       current_org    = Organization.current.short_name
 
@@ -218,9 +221,9 @@ class Client < ActiveRecord::Base
         skip_orgs_percentage = Organization.skip_dup_checking_orgs.map {|val| "%#{val.short_name}%" }
         
         if skip_orgs_percentage.any?
-          shared_clients = SharedClient.where.not(slug: options[:slug]).where.not('archived_slug ILIKE ANY ( array[?] ) AND duplicate_checker IS NOT NULL', skip_orgs_percentage).select(:duplicate_checker).pluck(:duplicate_checker)
+          shared_clients = SharedClient.where.not(slug: options[:slug]).where.not('archived_slug ILIKE ANY ( array[?] ) AND duplicate_checker IS NOT NULL', skip_orgs_percentage)
         else
-          shared_clients = SharedClient.where.not(slug: options[:slug]).where('duplicate_checker IS NOT NULL').select(:duplicate_checker).pluck(:duplicate_checker)
+          shared_clients = SharedClient.where.not(slug: options[:slug]).where('duplicate_checker IS NOT NULL')
         end
       end
 
@@ -236,20 +239,21 @@ class Client < ActiveRecord::Base
       addresses_hash = { cp: province_name, cd: district_name, cc: commune_name, cv: village_name, bp: birth_province_name }
       address_hash   = { cv: 1, cc: 2, cd: 3, cp: 4, bp: 5 }
 
-      shared_clients.compact.each do |client|
-        client = client.split('&')
+      shared_clients.each do |client|
+        next if client.duplicate_checker.blank?
+
+        duplicate_checker_data = client.duplicate_checker.split('&')
         input_name_field  = field_name_concatenate(options)
-        client_name_field = client[0].squish
+        client_name_field = duplicate_checker_data[0].squish
         field_name = compare_matching(input_name_field, client_name_field)
-        dob        = date_of_birth_matching(options[:date_of_birth], client.last.squish)
-        addresses  = mapping_address(address_hash, addresses_hash, client)
-        match_percentages = [field_name, dob, *addresses, client_address_matching(options[:gender], client[6])]
+        dob        = date_of_birth_matching(options[:date_of_birth], duplicate_checker_data.last.squish)
+        addresses  = mapping_address(address_hash, addresses_hash, duplicate_checker_data)
+        match_percentages = [field_name, dob, *addresses, client_address_matching(options[:gender], duplicate_checker_data[6])]
 
         percentages = match_percentages.compact
         
         if percentages.any? && (match_percentages.compact.inject(:*) * 100) >= 75
-          Rails.logger.info "Found similar client with percentage: #{(match_percentages.compact.inject(:*) * 100)} - #{match_percentages} - #{addresses_hash} - #{client}"
-
+          Rails.logger.info "Found similar client with percentage: #{(match_percentages.compact.inject(:*) * 100)} - #{match_percentages} - #{addresses_hash} - #{duplicate_checker_data}"
 
           similar_fields << '#hidden_name_fields'   if match_percentages[0].present?
           similar_fields << '#hidden_date_of_birth' if match_percentages[1].present?
@@ -260,11 +264,11 @@ class Client < ActiveRecord::Base
           similar_fields << '#hidden_birth_province'  if match_percentages[6].present?
           similar_fields << '#hidden_gender'          if match_percentages[7].present?
 
-          return similar_fields.uniq
+          return { similar_fields: similar_fields, duplicate_with: client.archived_slug }
         end
       end
 
-      similar_fields.uniq
+      { similar_fields: similar_fields, duplicate_with: nil }
     end
 
     def check_for_duplication(options, shared_clients)
@@ -1099,6 +1103,14 @@ class Client < ActiveRecord::Base
   end
 
   private
+
+  def do_duplicate_checking
+    if Rails.env.development? || Rails.env.test?
+      DuplicateCheckerWorker.new.perform(id, Organization.current.short_name)
+    else
+      DuplicateCheckerWorker.perform_async(id, Organization.current.short_name)
+    end
+  end
 
   def update_related_family_member
     FamilyMember.delay.update_client_relevant_data(family_member.id, Apartment::Tenant.current) if family_member.present? && family_member.persisted?

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20230916170803) do
+ActiveRecord::Schema.define(version: 20230922121730) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -196,12 +196,29 @@ ActiveRecord::Schema.define(version: 20230916170803) do
   add_index "attachments", ["able_screening_question_id"], name: "index_attachments_on_able_screening_question_id", using: :btree
   add_index "attachments", ["progress_note_id"], name: "index_attachments_on_progress_note_id", using: :btree
 
+  create_table "billable_report_items", force: :cascade do |t|
+    t.integer  "billable_report_id"
+    t.integer  "version_id",         null: false
+    t.string   "billable_status",    null: false
+    t.datetime "billable_at"
+    t.datetime "accepted_at"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.string   "billable_type"
+    t.integer  "billable_id"
+  end
+
+  add_index "billable_report_items", ["billable_report_id"], name: "index_billable_report_items_on_billable_report_id", using: :btree
+  add_index "billable_report_items", ["version_id"], name: "index_billable_report_items_on_version_id", using: :btree
+
   create_table "billable_reports", force: :cascade do |t|
     t.integer  "organization_id"
     t.integer  "year"
     t.integer  "month"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.string   "organization_name"
+    t.string   "organization_short_name"
   end
 
   add_index "billable_reports", ["organization_id"], name: "index_billable_reports_on_organization_id", using: :btree
@@ -884,6 +901,8 @@ ActiveRecord::Schema.define(version: 20230916170803) do
     t.date     "synced_date"
     t.integer  "referral_count",                        default: 0
     t.datetime "deleted_at"
+    t.boolean  "duplicate",                             default: false
+    t.jsonb    "duplicate_with",                        default: {}
   end
 
   add_index "clients", ["birth_province_id"], name: "index_clients_on_birth_province_id", using: :btree
@@ -2933,6 +2952,7 @@ ActiveRecord::Schema.define(version: 20230916170803) do
   add_foreign_key "assessments", "clients", on_delete: :nullify
   add_foreign_key "attachments", "able_screening_questions"
   add_foreign_key "attachments", "progress_notes"
+  add_foreign_key "billable_report_items", "billable_reports"
   add_foreign_key "billable_reports", "organizations"
   add_foreign_key "calendars", "users"
   add_foreign_key "call_necessities", "calls"

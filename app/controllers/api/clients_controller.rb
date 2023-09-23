@@ -8,7 +8,7 @@ module Api
     end
 
     def compare
-      render json: { similar_fields: Client.find_shared_client(params) }
+      render json: { similar_fields: Client.find_shared_client(params)[:similar_fields] }
     end
 
     def render_client_statistics
