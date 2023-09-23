@@ -6,6 +6,11 @@ class DuplicateCheckerWorker
 
     client = Client.find_by(id: client_id)
     return if client.blank?
+    
+    if client.given_name.blank? && client.family_name.blank? && client.local_given_name.blank? && client.local_family_name.blank?
+      client.update_columns(duplicate: false, duplicate_with: {})
+      return
+    end
 
     duplicate_checker_fields = {
       slug: client.slug,
@@ -21,7 +26,6 @@ class DuplicateCheckerWorker
       commune_id: client.commune_id,
       gender: client.gender
     }
-
 
     duplicate_response = Client.find_shared_client(duplicate_checker_fields)
     archived_slug = duplicate_response[:duplicate_with]
