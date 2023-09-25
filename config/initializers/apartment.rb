@@ -47,7 +47,7 @@ Apartment.configure do |config|
   #   end
   # end
   #
-  config.tenant_names = lambda { Organization.pluck :short_name }
+  config.tenant_names = lambda { Organization.with_deleted.pluck :short_name }
   #
   # ==> PostgreSQL only options
 
