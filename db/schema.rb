@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20230922121731) do
+ActiveRecord::Schema.define(version: 20230925075456) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -2953,7 +2953,6 @@ ActiveRecord::Schema.define(version: 20230922121731) do
   add_foreign_key "attachments", "able_screening_questions"
   add_foreign_key "attachments", "progress_notes"
   add_foreign_key "billable_report_items", "billable_reports"
-  add_foreign_key "billable_reports", "organizations"
   add_foreign_key "calendars", "users"
   add_foreign_key "call_necessities", "calls"
   add_foreign_key "call_necessities", "necessities"
