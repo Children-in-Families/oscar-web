@@ -115,8 +115,18 @@ module Api
           risk_assessment.store
         end
 
+        custom_data = CustomData.first
+        if custom_data && params.key?(:custom_data)
+          if client.client_custom_data.persisted?
+            binding.pry
+            client.client_custom_data.update_attributes(properties: params[:custom_data])
+          else
+            client.create_client_custom_data(custom_data: custom_data, properties: params[:custom_data])
+          end
+        end
+
         if params[:client][:assessment_id]
-          assessment = Assessment.find(params[:client][:assessment_id])
+          Assessment.find(params[:client][:assessment_id])
         else
           render json: { slug: client.slug }, status: :ok
         end

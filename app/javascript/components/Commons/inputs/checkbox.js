@@ -2,14 +2,14 @@ import React from 'react'
 import Checkbox from 'react-simple-checkbox'
 
 export default props => {
-  const { onChange, disabled = false, objectKey,inlineClassName, ...others } = props
+  const { onChange, disabled = false, objectKey, inlineClassName, ...others } = props
 
   const handleLabelStyle = () => {
     return objectKey == 'referee' ? styles.fontBold : styles.font
   }
 
   return (
-    <>
+    <div className='form-group boolean optional'>
       <Checkbox
         size='2'
         tickSize='3'
@@ -21,7 +21,7 @@ export default props => {
       />
       <label style={disabled ? styles.disabled : handleLabelStyle() }> {props.label} </label>
       { inlineClassName && <i className={`fa fa-info-circle text-info m-xs ${inlineClassName}`}></i> }
-    </>
+    </div>
   )
 }
 

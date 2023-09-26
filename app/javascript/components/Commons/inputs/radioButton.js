@@ -11,7 +11,7 @@ export default props => {
   }
 
   return (
-    <div style={inline ? styles.inlineWrapper : styles.wrapper}>
+    <div style={inline ? styles.inlineWrapper : styles.wrapper} className="form-group">
       <label style={ isError && customError.errorText || {} }>
         { required && <abbr title='required'>* </abbr> }
         { props.label }

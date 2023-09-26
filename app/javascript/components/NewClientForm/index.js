@@ -49,9 +49,9 @@ const Forms = props => {
       },
       client_quantitative_free_text_cases, family_member, family, moSAVYOfficials, referee, referees, carer, users, birthProvinces,
       referralSource, referralSourceCategory, selectedCountry, internationalReferredClient,
-      currentProvinces, districts, communes, villages, donors, agencies, schoolGrade, quantitativeType, quantitativeCase, ratePoor,
-      families, clientRelationships, refereeRelationships, addressTypes, phoneOwners, refereeDistricts,
-      refereeTownships, carerTownships, customId1, customId2, inlineHelpTranslation, riskAssessment,
+      currentProvinces, districts, communes, villages, donors, agencies, schoolGrade, quantitativeType, customData, quantitativeCase,
+      families, clientRelationships, refereeRelationships, addressTypes, phoneOwners, refereeDistricts, clientCustomFields,
+      refereeTownships, carerTownships, customId1, customId2, inlineHelpTranslation, riskAssessment, ratePoor,
       refereeCommunes, refereeSubdistricts, carerSubdistricts, refereeVillages, carerDistricts, carerCommunes, carerVillages, callerRelationships,
       currentStates, currentTownships, subDistricts, translation, fieldsVisibility, requiredFields,
       brc_address, brc_islands, brc_resident_types, brc_prefered_langs, brc_presented_ids, maritalStatuses, nationalities, ethnicities, traffickingTypes,
@@ -95,13 +95,14 @@ const Forms = props => {
   const [clientQuantitativeFreeTextCasesData, setClientQuantitativeFreeTextCases] = useState(client_quantitative_free_text_cases)
   const [moSAVYOfficialsData, setMoSAVYOfficialsData] = useState(moSAVYOfficials);
   const [riskAssessmentData, setRiskAssessmentData] = useState(riskAssessment);
+  const [clientCustomData, setClientCustomData] = useState(clientCustomFields);
 
   const address = { currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, subDistricts, currentStates, currentTownships, current_organization, addressTypes, T }
   const adminTabData = { users, client: clientData, errorFields, T }
   const refereeTabData = { errorFields, client: clientData, referee: refereeData, referees: refereesData, referralSourceCategory, referralSource, refereeDistricts, refereeCommunes, refereeVillages, currentProvinces, refereeTownships, currentStates, refereeSubdistricts, addressTypes, T, translation, current_organization }
   const referralTabData = { errorFields, client: clientData, referee: refereeData, birthProvinces, phoneOwners, callerRelationships, ...address, T, translation, current_organization, brc_address, brc_islands, brc_presented_ids, brc_resident_types, brc_prefered_langs, maritalStatuses, nationalities, ethnicities, traffickingTypes }
   const moreReferralTabData = { errorFields, users, ratePoor, carer: carerData, familyMember: familyMemberData, schoolGrade, donors, agencies, families, clientRelationships, carerDistricts, carerCommunes, carerVillages, currentStates, currentTownships, carerSubdistricts, ...referralTabData, T, customId1, customId2, moSAVYOfficialsData }
-  const referralVulnerabilityTabData = { client: clientData, errorFields, clientQuantitativeFreeTextCasesData, quantitativeType, quantitativeCase, T }
+  const referralVulnerabilityTabData = { client: clientData, errorFields, clientQuantitativeFreeTextCasesData, quantitativeType, customData, clientCustomData, setClientCustomData, quantitativeCase, T }
   const legalDocument = { client: clientData, T, errorFields }
   const [isError, setIsError] = useState(false)
 
@@ -174,6 +175,11 @@ const Forms = props => {
         break;
       case 'riskAssessment':
         setRiskAssessmentData({...riskAssessmentData, ...field})
+        break;
+      case 'custom_data':
+        console.log(clientCustomData);
+        debugger;
+        setClientCustomData({...clientCustomData, ...field})
         break;
       default:
         console.log('not match');
@@ -415,6 +421,7 @@ const Forms = props => {
         formData = objectToFormData(clientQuantitativeFreeTextCasesData, [], formData, 'client_quantitative_free_text_cases')
         formData = objectToFormData(moSAVYOfficialsData, {}, formData, 'mosavy_officials')
         formData = objectToFormData(riskAssessmentData, {}, formData, 'risk_assessment')
+        formData = objectToFormData(clientCustomData, {}, formData, 'custom_data')
 
         $.ajax({
           url,

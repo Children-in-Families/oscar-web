@@ -13,7 +13,7 @@ module ClientsHelper
       },
       client_quantitative_free_text_cases: get_or_build_client_quantitative_free_text_cases,
       family_member: (@client.family_member || {}), moSAVYOfficials: @client.mo_savy_officials,
-      referee: @referee.as_json(methods: [:existing_referree]), carer: @carer , users: case_workers_option(@client.id),
+      referee: @referee.as_json(methods: [:existing_referree]), carer: @carer, users: case_workers_option(@client.id),
       referralSourceCategory: @referral_source_category, referralSource: ReferralSource.all, birthProvinces: @birth_provinces,
       currentProvinces: @current_provinces || get_address('province'), districts: @districts.presence || get_address('district'),
       subDistricts: @subdistricts, communes: @communes.presence || get_address('commune'), villages: @villages.presence || get_address('village'),
@@ -49,7 +49,9 @@ module ClientsHelper
           **I18n.t('tasks')
         },
         tasks_attributes: @risk_assessment.try(:tasks) || []
-      }
+      },
+      customData: @custom_data.fields,
+      clientCustomFields: @client_custom_data&.properties || {}
     }
   end
 

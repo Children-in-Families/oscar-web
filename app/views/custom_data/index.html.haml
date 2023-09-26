@@ -1,0 +1,25 @@
+%ul.nav.nav-tabs{role: "tablist"}
+  %li{role: "presentation"}
+    = link_to t('quantitative_types.index.quantitative_types'), quantitative_types_path
+  %li.active{role: "presentation"}
+    %a{"aria-controls" => "custom-data", "aria-expanded" => "true", "data-toggle" => "tab", :href => "#custom-data", :role => "tab"}
+      Custom Data
+
+.tab-content
+  .row
+    .col-xs-12
+      .ibox
+        .ibox-title
+          %h5 Custom Data
+          .ibox-tools
+            - unless @custom_data&.persisted?
+              = link_to new_custom_datum_path do
+                .btn.btn-primary.btn-add
+                  Add New Custom Data
+            - if @custom_data&.persisted?
+              = link_to edit_custom_datum_path(@custom_data) do
+                .btn.btn-primary.btn-add
+                  Edit Custom Data
+        .ibox-content
+          - (@custom_data&.fields || {}).each do |field|
+            = render "program_streams/fields/#{field['type'].underscore}", field_props: field, full_width: false

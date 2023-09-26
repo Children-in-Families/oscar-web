@@ -172,6 +172,8 @@ class ClientsController < AdminController
     end
 
     @risk_assessment = @client.risk_assessment || @client.build_risk_assessment
+    @custom_data = CustomData.first
+    @client_custom_data = @client.client_custom_data
   end
 
   def create

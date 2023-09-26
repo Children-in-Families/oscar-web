@@ -51,6 +51,8 @@ Rails.application.routes.draw do
     get 'version' => 'quantitative_types#version'
   end
 
+  resources :custom_data
+
   resources :quantitative_cases do
     get 'version' => 'quantitative_cases#version'
   end
