@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20230922121731) do
+ActiveRecord::Schema.define(version: 20230925075456) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -901,8 +901,6 @@ ActiveRecord::Schema.define(version: 20230922121731) do
     t.date     "synced_date"
     t.integer  "referral_count",                        default: 0
     t.datetime "deleted_at"
-    t.boolean  "duplicate",                             default: false
-    t.jsonb    "duplicate_with",                        default: {}
   end
 
   add_index "clients", ["birth_province_id"], name: "index_clients_on_birth_province_id", using: :btree
@@ -2438,8 +2436,8 @@ ActiveRecord::Schema.define(version: 20230922121731) do
     t.string   "live_with",                 default: ""
     t.string   "telephone_number",          default: ""
     t.integer  "birth_province_id"
-    t.datetime "created_at",                             null: false
-    t.datetime "updated_at",                             null: false
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
     t.string   "country_origin",            default: ""
     t.string   "duplicate_checker"
     t.string   "archived_slug"
@@ -2449,6 +2447,10 @@ ActiveRecord::Schema.define(version: 20230922121731) do
     t.string   "mosvy_number"
     t.string   "external_case_worker_name"
     t.string   "external_case_worker_id"
+    t.string   "ngo_name"
+    t.datetime "client_created_at"
+    t.boolean  "duplicate",                 default: false
+    t.jsonb    "duplicate_with",            default: {}
   end
 
   add_index "shared_clients", ["birth_province_id"], name: "index_shared_clients_on_birth_province_id", using: :btree
@@ -2953,7 +2955,6 @@ ActiveRecord::Schema.define(version: 20230922121731) do
   add_foreign_key "attachments", "able_screening_questions"
   add_foreign_key "attachments", "progress_notes"
   add_foreign_key "billable_report_items", "billable_reports"
-  add_foreign_key "billable_reports", "organizations"
   add_foreign_key "calendars", "users"
   add_foreign_key "call_necessities", "calls"
   add_foreign_key "call_necessities", "necessities"
