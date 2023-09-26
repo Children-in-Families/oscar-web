@@ -13,7 +13,7 @@ namespace :duplicate_checker_field do
       Organization.switch_to organization.short_name
 
       Client.ids.each do |client_id|
-        SharedClientWorker.perform_async(client_id, organization.short_name)
+        DuplicateCheckerWorker.perform_async(client_id, organization.short_name)
       end
     end
   end
