@@ -5,10 +5,17 @@ class DuplicateCheckerWorker
     Organization.switch_to tenant
 
     client = Client.find_by(id: client_id)
+    shared_client = client.shared_clients.first
+
     return if client.blank?
+
+    if shared_client.blank?
+      client.create_or_update_shared_client
+      shared_client = client.shared_clients.first
+    end
     
     if client.given_name.blank? && client.family_name.blank? && client.local_given_name.blank? && client.local_family_name.blank?
-      client.update_columns(duplicate: false, duplicate_with: {})
+      shared_client.update_columns(duplicate: false, duplicate_with: {})
       return
     end
 
@@ -34,13 +41,13 @@ class DuplicateCheckerWorker
       tenant, client_id = archived_slug.split('-')
       duplicate_with_client = Apartment::Tenant.switch(tenant) { Client.find(client_id) }
 
-      client.update_columns(duplicate: true, duplicate_with: {
+      shared_client.update_columns(duplicate: true, duplicate_with: {
         duplicated_with_client_id: duplicate_with_client.slug,
         duplicated_with_ngo: tenant,
         duplicate_fields: duplicate_response[:similar_fields].map{ |field| field.gsub(/#hidden_|_fields/, "") }
       })
     else
-      client.update_columns(duplicate: false, duplicate_with: {})
+      shared_client.update_columns(duplicate: false, duplicate_with: {})
     end
   end
 end

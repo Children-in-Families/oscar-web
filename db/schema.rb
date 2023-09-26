@@ -901,8 +901,6 @@ ActiveRecord::Schema.define(version: 20230925075456) do
     t.date     "synced_date"
     t.integer  "referral_count",                        default: 0
     t.datetime "deleted_at"
-    t.boolean  "duplicate",                             default: false
-    t.jsonb    "duplicate_with",                        default: {}
   end
 
   add_index "clients", ["birth_province_id"], name: "index_clients_on_birth_province_id", using: :btree
@@ -2438,8 +2436,8 @@ ActiveRecord::Schema.define(version: 20230925075456) do
     t.string   "live_with",                 default: ""
     t.string   "telephone_number",          default: ""
     t.integer  "birth_province_id"
-    t.datetime "created_at",                             null: false
-    t.datetime "updated_at",                             null: false
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
     t.string   "country_origin",            default: ""
     t.string   "duplicate_checker"
     t.string   "archived_slug"
@@ -2449,6 +2447,10 @@ ActiveRecord::Schema.define(version: 20230925075456) do
     t.string   "mosvy_number"
     t.string   "external_case_worker_name"
     t.string   "external_case_worker_id"
+    t.string   "ngo_name"
+    t.datetime "client_created_at"
+    t.boolean  "duplicate",                 default: false
+    t.jsonb    "duplicate_with",            default: {}
   end
 
   add_index "shared_clients", ["birth_province_id"], name: "index_shared_clients_on_birth_province_id", using: :btree

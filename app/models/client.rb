@@ -767,6 +767,9 @@ class Client < ActiveRecord::Base
     suburb = self.suburb
     state_name = self.state_name
 
+    client['ngo_name'] = current_org.short_name
+    client['client_created_at'] = self.created_at
+
     Organization.switch_to 'shared'
     if suburb.present?
       province = Province.find_or_create_by(name: suburb, country: 'lesotho')
