@@ -118,7 +118,6 @@ module Api
         custom_data = CustomData.first
         if custom_data && params.key?(:custom_data)
           if client.client_custom_data.persisted?
-            binding.pry
             client.client_custom_data.update_attributes(properties: params[:custom_data])
           else
             client.create_client_custom_data(custom_data: custom_data, properties: params[:custom_data])

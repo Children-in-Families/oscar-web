@@ -177,9 +177,7 @@ const Forms = props => {
         setRiskAssessmentData({...riskAssessmentData, ...field})
         break;
       case 'custom_data':
-        console.log(clientCustomData);
-        debugger;
-        setClientCustomData({...clientCustomData, ...field})
+        setClientCustomData(prev => ({...prev, ...field}))
         break;
       default:
         console.log('not match');

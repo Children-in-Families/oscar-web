@@ -12,7 +12,6 @@ import {
 
 export default props => {
   const { onChange, customData, clientCustomData, setClientCustomData } = props
-  console.log(customData)
 
   const onAttachmentsChange = (field) => (fileItems) => {
     fileItems = fileItems.map((file) => file.file);
