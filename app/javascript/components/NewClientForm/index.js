@@ -338,7 +338,7 @@ const Forms = props => {
   }
 
   const updateTimeLeftBeforeCloseModal = (callback) => {
-    let timeLeft = 5
+    let timeLeft = 8
     $('.timeLeft').text(T.translate("index.auto_close_msg").replace("SECOND", timeLeft))
 
     let timer = setInterval(() => {
