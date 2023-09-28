@@ -4,7 +4,7 @@
       = link_to @client.en_and_local_name, client_path(@client)
       = " - #{t('.program_lists')}"
     .ibox-tools
-      = link_to t('.back'), client_path(@client), class: 'btn btn-default btn-back-default btn-back'
+      = link_to t('.back'), client_path(@client), class: 'btn btn-primary btn-back'
   .ibox-content
     .table-responsive
       %table.table.table-bordered.table-striped.table-hover.client_enrollment

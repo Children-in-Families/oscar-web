@@ -9,9 +9,9 @@
       .col-xs-12.col-sm-6.co-md-6
         .ibox-tools
           - if params[:family_id]
-            = link_to t('.back'), family_path(@programmable), class: 'btn btn-default btn-back-default btn-back'
+            = link_to t('.back'), family_path(@programmable), class: 'btn btn-primary btn-back'
           - elsif params[:community_id]
-            = link_to t('.back'), community_path(@programmable), class: 'btn btn-default btn-back-default btn-back'
+            = link_to t('.back'), community_path(@programmable), class: 'btn btn-primary btn-back'
   .ibox-content
     .table-responsive
       %table.table.table-bordered.table-striped.table-hover.enrollment
