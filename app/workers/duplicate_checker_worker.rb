@@ -8,6 +8,7 @@ class DuplicateCheckerWorker
     shared_client = client.shared_clients.first
 
     return if client.blank?
+    return if shared_client&.resolved_duplication_by.present?
 
     if shared_client.blank?
       client.create_or_update_shared_client

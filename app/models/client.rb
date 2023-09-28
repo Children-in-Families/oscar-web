@@ -208,10 +208,11 @@ class Client < ActiveRecord::Base
 
   class << self
     def find_shared_client(options)
+      shared_client = shared_clients.last
       similar_fields = []
       shared_clients = []
 
-      unless Client::DUPLICATE_CHECKING_FIELDS.any?{ |key| options.key?(key.to_sym) }
+      if (Client::DUPLICATE_CHECKING_FIELDS & options.keys).blank? || shared_client&.resolved_duplication_by.present?
         return { similar_fields: similar_fields, duplicate_with: nil }
       end
 
