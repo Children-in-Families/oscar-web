@@ -419,7 +419,16 @@ const Forms = props => {
         formData = objectToFormData(clientQuantitativeFreeTextCasesData, [], formData, 'client_quantitative_free_text_cases')
         formData = objectToFormData(moSAVYOfficialsData, {}, formData, 'mosavy_officials')
         formData = objectToFormData(riskAssessmentData, {}, formData, 'risk_assessment')
-        formData = objectToFormData(clientCustomData, {}, formData, 'custom_data')
+
+        if(!_.isEmpty(customData)) {
+          const customDataObj = {}
+          customDataObj.form_builder_attachments_attributes = clientCustomData._attachments
+          customDataObj.properties = Object.entries(clientCustomData)
+          .filter(([key, _]) => key !== '_attachments')
+          .reduce((res, [key, value]) => ({ ...res, [key]: value}), {})
+
+          formData = objectToFormData(customDataObj, {}, formData, 'custom_data')
+        }
 
         $.ajax({
           url,

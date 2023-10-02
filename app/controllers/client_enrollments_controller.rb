@@ -50,6 +50,7 @@ class ClientEnrollmentsController < AdminController
   end
 
   def create
+    binding.pry
     @client_enrollment = @client.client_enrollments.new(client_enrollment_params)
     authorize(@client) && authorize(@client_enrollment)
     if @client_enrollment.save

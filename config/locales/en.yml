@@ -2526,6 +2526,10 @@ en:
   completed_date: Completed Date
   created_by: Created by
   created_on: Created On
+  custom_data:
+    add: Add New %{custom_data}
+    edit: Edit %{custom_data}
+    title: Custom Data
   custom_field_properties:
     attachment:
       are_you_sure: Are you sure you want to delete?

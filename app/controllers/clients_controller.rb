@@ -158,6 +158,8 @@ class ClientsController < AdminController
       @risk_assessment = @client.build_risk_assessment
       @risk_assessment.tasks.build
     end
+    @custom_data = CustomData.first
+    @client_custom_data = @client.client_custom_data
     @referral_source_category = referral_source_name(ReferralSource.parent_categories, @client)
   end
 

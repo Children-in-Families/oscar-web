@@ -55,10 +55,6 @@ class LeaveProgram < ActiveRecord::Base
     end
   end
 
-  def get_form_builder_attachment(value)
-    form_builder_attachments.find_by(name: value)
-  end
-
   def self.cached_program_exit_date(fields_second, ids)
     Rails.cache.fetch([Apartment::Tenant.current, 'LeaveProgram', 'cached_program_exit_date', *fields_second, *ids.sort]) {
       joins(:program_stream).where(program_streams: { name: fields_second }, leave_programs: { client_enrollment_id: ids }).order(exit_date: :desc).first.try(:exit_date)

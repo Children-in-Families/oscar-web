@@ -81,6 +81,9 @@ module Api
           risk_assessment.store
         end
 
+        custom_data = CustomData.first
+        client.create_client_custom_data(custom_data_params.merge(custom_data_id: custom_data.id)) if custom_data && params.key?(:custom_data)
+
         render json: { slug: client.slug, id: client.id }, status: :ok
       else
         render json: client.errors, status: :unprocessable_entity
@@ -117,10 +120,10 @@ module Api
 
         custom_data = CustomData.first
         if custom_data && params.key?(:custom_data)
-          if client.client_custom_data.persisted?
-            client.client_custom_data.update_attributes(properties: params[:custom_data])
+          if client.client_custom_data&.persisted?
+            client.client_custom_data.update_attributes(custom_data_params)
           else
-            client.create_client_custom_data(custom_data: custom_data, properties: params[:custom_data])
+            client.create_client_custom_data(custom_data_params.merge(custom_data_id: custom_data.id))
           end
         end
 
@@ -313,6 +316,13 @@ module Api
         :relevant_referral_information, :level_of_risk, :history_of_disability_id, :history_of_harm_id, :history_of_high_risk_behaviour_id,
         :history_of_family_separation_id, protection_concern: [],
         tasks_attributes: [:id, :name, :expected_date, :client_id, :_destroy]
+      )
+    end
+
+    def custom_data_params
+      params.require(:custom_data).permit(
+        properties: params.dig(:custom_data, :properties).try(:keys) || [],
+        form_builder_attachments_attributes: [:name, { file: [] }]
       )
     end
 

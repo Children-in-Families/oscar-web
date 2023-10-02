@@ -1,5 +1,4 @@
 import React from 'react'
-import { t } from '../../utils/i18n'
 import {
   SelectInput,
   TextArea,
@@ -9,14 +8,19 @@ import {
   DateInput,
   FileUploadInput
 } from '../Commons/inputs'
+import CheckboxGroup from '../Commons/inputs/checkboxGroup'
 
 export default props => {
   const { onChange, customData, clientCustomData, setClientCustomData } = props
 
   const onAttachmentsChange = (field) => (fileItems) => {
     fileItems = fileItems.map((file) => file.file);
-    setClientCustomData(prev => ({...prev, form_builder_attachments_attributes: { name: field, file: fileItems } }))
-  };
+    setClientCustomData(prev => {
+      const files = prev.attachments || {}
+      files[field.split('-')[1]] = { name: field, file: fileItems }
+      return {...prev, _attachments: files}
+    })
+  }
 
   const renderCustomDataFields = () => {
     return (
@@ -28,18 +32,18 @@ export default props => {
                 (element.type === 'text' || element.type === 'number') &&
                 <TextInput
                   { ...element }
-                  onChange={ onChange('custom_data', element.label) }
-                  value={ clientCustomData[element.label] }
+                  onChange={ onChange('custom_data', element.name) }
+                  value={ clientCustomData[element.name] }
                 />
               }
 
               {
                 element.type === 'select' &&
                 <SelectInput
-                  onChange={ onChange('custom_data', element.label) }
+                  onChange={ onChange('custom_data', element.name) }
                   options={element.values}
                   label={element.label}
-                  value={clientCustomData[element.label]}
+                  value={clientCustomData[element.name]}
                 />
               }
 
@@ -47,28 +51,23 @@ export default props => {
                 element.type === 'date' &&
                 <DateInput
                   { ...element }
-                  onChange={ onChange('custom_data', element.label) }
-                  value={clientCustomData[element.label]}
+                  onChange={ onChange('custom_data', element.name) }
+                  value={clientCustomData[element.name]}
                 />
               }
 
               {
                 element.type === 'checkbox-group' &&
-                <Checkbox
-                  label={element.label}
-                  checked={clientCustomData[element.label] || false}
-                  objectKey="custom_data"
-                  onChange={ onChange('custom_data', element.label) }
-                />
+                <CheckboxGroup data={element.values} onChange={onChange} label={element.label} />
               }
 
               {
                 element.type === 'radio-group' &&
                 <RadioGroup
                   { ...element }
-                  onChange={ onChange('custom_data', element.label) }
+                  onChange={ onChange('custom_data', element.name) }
                   options={element.values}
-                  value={clientCustomData[element.label]}
+                  value={clientCustomData[element.name]}
                 />
               }
 
@@ -76,23 +75,23 @@ export default props => {
                 element.type === 'textarea' &&
                 <TextArea
                   { ...element }
-                  onChange={ onChange('custom_data', element.label) }
-                  value={clientCustomData[element.label]}
+                  onChange={ onChange('custom_data', element.name) }
+                  value={clientCustomData[element.name]}
                 />
               }
 
               {
                 element.type === 'paragraph' &&
-                <p>{element.label}</p>
+                <p>{element.name}</p>
               }
 
               {
                 element.type === 'file' &&
                 <div className="form-group">
-                  <label htmlFor={element.label}>{ element.label }</label>
+                  <label htmlFor={element.name}>{ element.label }</label>
                   <FileUploadInput
-                    onChange={ onAttachmentsChange(element.label) }
-                    object={clientCustomData[element.label] || []}
+                    onChange={ onAttachmentsChange(element.name) }
+                    object={clientCustomData[element.name] || []}
 
                     // removeAttachmentcheckBoxValue={
                     //   client.remove_national_id_files

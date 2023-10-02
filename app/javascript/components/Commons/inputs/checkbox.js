@@ -9,7 +9,7 @@ export default props => {
   }
 
   return (
-    <div className='form-group boolean optional'>
+    <div className='form-group boolean optional i-checks'>
       <Checkbox
         size='2'
         tickSize='3'

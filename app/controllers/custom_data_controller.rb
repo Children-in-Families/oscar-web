@@ -1,4 +1,4 @@
-class CustomDataController < ApplicationController
+class CustomDataController < AdminController
   before_action :find_custom_data, only: %i[edit update]
   def index
     @custom_data = CustomData.first

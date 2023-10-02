@@ -59,10 +59,6 @@ class ClientEnrollment < ActiveRecord::Base
     end
   end
 
-  def get_form_builder_attachment(value)
-    form_builder_attachments.find_by(name: value)
-  end
-
   def reset_client_status
     client = Client.find(client_id)
     return if client.client_enrollments.active.any?

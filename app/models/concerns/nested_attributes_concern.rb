@@ -8,6 +8,7 @@ module NestedAttributesConcern
   class_methods do
   end
 
-  def instance_method
+  def get_form_builder_attachment(value)
+    form_builder_attachments.find_by(name: value)
   end
 end
