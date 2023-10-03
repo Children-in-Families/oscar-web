@@ -323,7 +323,6 @@ const Forms = props => {
           if(response.similar_fields.length > 0) {
             setDupFields(response.similar_fields)
             setDupClientModalOpen(true)
-            updateTimeLeftBeforeCloseModal(callback)
           } else {
             callback()
           }
@@ -335,22 +334,6 @@ const Forms = props => {
     } else {
       callback()
     }
-  }
-
-  const updateTimeLeftBeforeCloseModal = (callback) => {
-    let timeLeft = 8
-    $('.timeLeft').text(T.translate("index.auto_close_msg").replace("SECOND", timeLeft))
-
-    let timer = setInterval(() => {
-      timeLeft--
-      $('.timeLeft').text(T.translate("index.auto_close_msg").replace("SECOND", timeLeft))
-
-      if (timeLeft <= 0) {
-        clearInterval(timer)
-        setDupClientModalOpen(false)
-        callback()
-      }
-    }, 1000)
   }
 
   const renderModalContent = data => {
@@ -367,7 +350,6 @@ const Forms = props => {
           }
         </ul>
         <p>{T.translate("index.checking_message")}</p>
-        <p className="timeLeft" style={{ marginTop: "5px", textAlign: "right" }}></p>
       </div>
     )
   }
@@ -378,7 +360,6 @@ const Forms = props => {
         <p>{T.translate("index.duplicate_message")}</p>
         <div style={{display:'flex', justifyContent: 'flex-end'}}>
           <button style={{margin: 5}} className='btn btn-primary' onClick={() => (setDupClientModalOpen(false), setStep(step + 1))}>{T.translate("index.continue")}</button>
-          <button style={{margin: 5}} className='btn btn-default' onClick={() => setDupClientModalOpen(false)}>{T.translate("index.cancel")}</button>
         </div>
       </div>
     )
@@ -562,6 +543,7 @@ const Forms = props => {
         type='warning'
         closeAction={() => setDupClientModalOpen(false)}
         content={ renderModalContent(dupFields) }
+        footer={ renderModalFooter() }
       />
 
       <Modal
