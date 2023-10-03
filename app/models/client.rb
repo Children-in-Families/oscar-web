@@ -759,6 +759,8 @@ class Client < ActiveRecord::Base
   end
 
   def create_or_update_shared_client(client_id = nil)
+    return if deleted_at? || destroyed?
+
     current_org = Organization.current
     client_current_province = province_name
     client_district = district_name
