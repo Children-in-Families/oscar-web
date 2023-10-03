@@ -173,21 +173,27 @@ class UsageReportBuilder < ServiceBase
   end
 
   def vulnerability_and_service_type
-    clients = Client.includes(:province, quantitative_cases: :quantitative_type, program_streams: :services).where(created_at: date_range).to_a
+    clients = Client.includes(:province, :risk_assessment, quantitative_cases: :quantitative_type, program_streams: :services).where(created_at: date_range).to_a
 
     clients.map do |client|
       quantitative_case_hash = mapping_quantitative_cases(client)
+      protection_concern_hash = mapping_risk_assessment(client)
       {
         "ngo_name" => organization.full_name,
         "client_id" => client.id,
         "client_gender" => client.gender&.capitalize,
         "client_status" => client.status,
-        "client_age" => client.age,
+        "date_of_birth" => client.date_of_birth&.strftime("%d %B %Y"),
         "client_created_date" => client.created_at.strftime("%d %B %Y"),
         "current_province" => client.province&.name || "",
         "type_of_service" => mapping_services(client.program_streams),
-      }.merge(quantitative_case_hash)
+      }.merge(quantitative_case_hash).merge(protection_concern_hash)
     end
+  end
+
+  def mapping_risk_assessment(client)
+    risk_assessment = client.risk_assessment
+    { protection_concern: risk_assessment&.protection_concern&.join(", ") || "" }
   end
 
   def mapping_services(program_streams)
