@@ -213,7 +213,7 @@ class Client < ActiveRecord::Base
 
       if options[:slug]
         client = Client.find_by(slug: options[:slug])
-        shared_client = client.shared_clients.last
+        shared_client = client.shared_clients.last if client.present?
       end
 
       similar_fields = []
