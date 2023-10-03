@@ -118,6 +118,7 @@ Rails.application.routes.draw do
     resources :internal_referrals
 
     collection do
+      get :archived
       post '/advanced_search', to: 'clients#index'
       post :load_client_table_summary
       post :load_statistics_data

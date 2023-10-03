@@ -26,6 +26,9 @@ class ClientsController < AdminController
     choose_grid
   end
 
+  def archived
+  end
+
   def custom_fields
     if current_user.admin? || current_user.strategic_overviewer?
       @available_editable_forms  = CustomField.all
