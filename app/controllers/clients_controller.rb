@@ -27,6 +27,7 @@ class ClientsController < AdminController
   end
 
   def archived
+    @clients = Client.only_deleted.accessible_by(current_ability).includes(:archived_by)
   end
 
   def custom_fields
@@ -229,7 +230,7 @@ class ClientsController < AdminController
       redirect_to @client, alert: "Can't delete client because the client is still attached with family"
     else
       # Not using deestroy to avoid callbacks
-      @client.update_columns(deleted_at: Time.current)
+      @client.update_columns(deleted_at: Time.current, archived_by_id: current_user.id)
       redirect_to clients_url, notice: t('.successfully_deleted')
     end
   rescue ActiveRecord::Rollback => exception

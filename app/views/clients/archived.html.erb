@@ -1,0 +1,44 @@
+<div class="row">
+  <div class="col-xs-12">
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <h5><%= @clients.size %></h5>
+        <span class="label label-info"><%= t('.results') %></span>
+      </div>
+
+      <div class="ibox-content">
+        <div class="archived-client-tabls responsive-table clients-table">
+          <table class="table table-bordered table-striped table-hover clients clients">
+            <thead>
+              <tr>
+                <th>Client ID</th>
+                <th>Family Name</th>
+                <th>Given Name</th>
+                <th>Date of Birth</th>
+                <th>Status</th>
+                <th>Archived Date</th>
+                <th>Archived by</th>
+                <th>Manage</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <% @clients.find_each do |client| %>
+                <tr>
+                  <td><%= client.slug %></td>
+                  <td><%= client.family_name %></td>
+                  <td><%= client.given_name %></td>
+                  <td><%= client.date_of_birth&.strftime("%d %B %Y") %></td>
+                  <td><%= client.status&.titleize %></td>
+                  <td><%= client.deleted_at&.strftime("%d %B %Y") %></td>
+                  <td><%= client.archived_by&.name %></td>
+                  <td></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
