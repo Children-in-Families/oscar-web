@@ -5,9 +5,10 @@ class DuplicateCheckerWorker
     Organization.switch_to tenant
 
     client = Client.find_by(id: client_id)
-    shared_client = client.shared_clients.first
 
     return if client.blank?
+    shared_client = client.shared_clients.first
+
     return if shared_client&.resolved_duplication_by.present?
 
     if shared_client.blank?

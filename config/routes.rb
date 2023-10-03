@@ -112,6 +112,7 @@ Rails.application.routes.draw do
   resources :clients do
     member do
       get :custom_fields
+      put :archive
     end
 
     resources :referrals, except: [:destroy]
@@ -119,6 +120,7 @@ Rails.application.routes.draw do
 
     collection do
       get :archived
+      
       post '/advanced_search', to: 'clients#index'
       post :load_client_table_summary
       post :load_statistics_data

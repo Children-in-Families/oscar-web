@@ -32,7 +32,11 @@
                   <td><%= client.status&.titleize %></td>
                   <td><%= client.deleted_at&.strftime("%d %B %Y") %></td>
                   <td><%= client.archived_by&.name %></td>
-                  <td></td>
+                  <td>
+                    <% if can? :destroy, Client %>
+                      <%= link_to 'Permanent Delete', client, method: 'delete', data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.delete')}", placement: "auto", confirm: t('clients.show.are_you_sure') } %>
+                    <% end %>
+                  </td>
                 </tr>
               <% end %>
             </tbody>
