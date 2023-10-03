@@ -177,6 +177,7 @@ en:
         add_form: These custom forms are specific to your NGO. Select one from the list to load the form. Once you fill and save it, the form will be attached to the client.
         client_book: View the <strong>read-only</strong> copies of all the case notes, assessments, custom forms, and program forms. All the activities are auto-recorded.
         delete: <i class="fa fa-exclamation-triangle text-danger" aria-hidden="true"></i> Caution! This will permanently remove the client record. The deleted data cannot be recovered.
+        archive: <i class="fa fa-exclamation-triangle text-danger" aria-hidden="true"></i> Caution! This will remove this client to trash and only admin permission-set can access to that menu.
         edit: Go back to editing the client case. The record remains live and can be edited at any point. All the edits done to the case will be visible under <strong>Changelogs</strong>.
         enroll_program: 'Enlist the client in existing program stream(s) here. Admin: If the program doesn’t exist, add a new program stream through <strong>Manage >> Program Streams</strong>.'
         exit_ngo: This will close the case. That indicates, the organization will not spend more resources on this client. However, the record will remain in the OSCaR system.

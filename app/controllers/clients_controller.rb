@@ -243,7 +243,7 @@ class ClientsController < AdminController
     else
       # Not using deestroy to avoid callbacks
       @client.update_columns(deleted_at: Time.current, archived_by_id: current_user.id)
-      redirect_to clients_url, notice: t('.successfully_deleted')
+      redirect_to clients_url, notice: t('.successfully_archived')
     end
   rescue ActiveRecord::Rollback => exception
     redirect_to @client, alert: exception

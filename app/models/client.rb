@@ -1129,7 +1129,7 @@ class Client < ActiveRecord::Base
   end
 
   def create_client_history
-    ClientHistory.initial(self)
+    ClientHistory.initial(self) if ENV['HISTORY_DATABASE_HOST'].present?
   end
 
   def notify_managers

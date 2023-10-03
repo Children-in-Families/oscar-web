@@ -301,7 +301,7 @@
                   %i.fa.fa-pencil
           - if can? :destroy, Client
             %small
-              = link_to archive_client_path(@client), method: 'put', data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.delete')}", placement: "auto", confirm: t('.are_you_sure') } do
+              = link_to archive_client_path(@client), method: 'put', data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.archive')}", placement: "auto", confirm: t('.are_you_sure') } do
                 .btn.btn-outline.btn-danger
                   %i.fa.fa-trash
       .ibox-content
