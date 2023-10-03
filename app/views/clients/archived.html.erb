@@ -34,6 +34,8 @@
                   <td><%= client.archived_by&.name %></td>
                   <td>
                     <% if can? :destroy, Client %>
+                      <%= link_to 'Restore', restore_client_path(client), method: 'put', data: { confirm: 'Are you sure you want to restore this client?' } %>
+                      <br>
                       <%= link_to 'Permanent Delete', client, method: 'delete', data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.delete')}", placement: "auto", confirm: t('clients.show.are_you_sure') } %>
                     <% end %>
                   </td>

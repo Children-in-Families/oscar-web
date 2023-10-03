@@ -113,6 +113,7 @@ Rails.application.routes.draw do
     member do
       get :custom_fields
       put :archive
+      put :restore
     end
 
     resources :referrals, except: [:destroy]

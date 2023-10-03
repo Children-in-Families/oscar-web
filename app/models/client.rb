@@ -209,7 +209,13 @@ class Client < ActiveRecord::Base
 
   class << self
     def find_shared_client(options)
-      shared_client = shared_clients.last
+      shared_client = nil
+
+      if options[:slug]
+        client = Client.find_by(slug: options[:slug])
+        shared_client = client.shared_clients.last
+      end
+
       similar_fields = []
       shared_clients = []
 

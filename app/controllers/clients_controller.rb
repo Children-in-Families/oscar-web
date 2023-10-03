@@ -1,5 +1,5 @@
 class ClientsController < AdminController
-  load_and_authorize_resource find_by: :slug, except: [:quantitative_case, :destroy]
+  load_and_authorize_resource find_by: :slug, except: [:quantitative_case, :destroy, :restore]
   include ApplicationHelper
   include ClientAdvancedSearchesConcern
   include ClientGridOptions
@@ -16,7 +16,7 @@ class ClientsController < AdminController
 
   before_action :find_client, only: [:show, :edit, :update, :custom_fields]
   before_action :assign_client_attributes, only: [:show, :edit]
-  before_action :set_association, except: [:index, :destroy, :archive, :archived, :version, :welcome, :load_client_table_summary, :load_statistics_data]
+  before_action :set_association, except: [:index, :destroy, :restore, :archive, :archived, :version, :welcome, :load_client_table_summary, :load_statistics_data]
   before_action :choose_grid, only: [:index]
   before_action :quantitative_type_editable, only: [:edit, :update, :new, :create]
   before_action :quantitative_type_readable
@@ -203,6 +203,12 @@ class ClientsController < AdminController
     else
       render :edit
     end
+  end
+
+  def restore
+    client = Client.only_deleted.friendly.find(params[:id])
+    client.recover
+    redirect_to client, notice: t('.successfully_restored')
   end
 
   def destroy
