@@ -2055,6 +2055,10 @@ km:
     remaining_programs:
       close: បិទ
       warning: ប្រុងប្រយ័ត្ន!
+    archive:
+      successfully_archived: Client has been successfully removed and put to trash.
+    restore:
+      successfully_restored: Client has been successfully restored.
     show:
       <<: *LEGAL_DOC_ATTR
       additional_forms: ទម្រង់អតិថិជនកំពុងប្រើ

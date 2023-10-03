@@ -28,7 +28,6 @@ class ClientEnrollment < ActiveRecord::Base
 
   after_create :set_client_status
   after_save :create_client_enrollment_history
-  after_destroy :reset_client_status
   after_save :flash_cache
 
   def active?
@@ -56,14 +55,6 @@ class ClientEnrollment < ActiveRecord::Base
 
   def get_form_builder_attachment(value)
     form_builder_attachments.find_by(name: value)
-  end
-
-  def reset_client_status
-    client = Client.find(client_id)
-    return if client.client_enrollments.active.any?
-    
-    client.status = 'Accepted'
-    client.save(validate: false)
   end
 
   def short_enrollment_date
