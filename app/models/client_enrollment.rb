@@ -51,17 +51,13 @@ class ClientEnrollment < ActiveRecord::Base
 
   def set_client_status
     client = Client.find self.client_id
-    client_status = 'Active'
-
-    if client_status.present?
-      client.status = client_status
-      client.save(validate: false)
-    end
+    client.update(status: 'Active')
   end
 
   def reset_client_status
     client = Client.find(client_id)
     return if client.client_enrollments.active.any?
+    
     client.status = 'Accepted'
     client.save(validate: false)
   end

@@ -14,6 +14,7 @@ end
 every :day, at: '00:00 am' do
   rake 'incompleted_assessment:delete'
   rake 'exited_client_case_worker:disattach'
+  runner 'BillableAcceptedClientsWorker.perform_async'
 end
 
 every :hour do
@@ -27,4 +28,5 @@ end
 
 every :month, at: '2:00 am' do
   rake 'usage_report:build_latest', output: 'log/usage_report.log'
+  rake 'monthly_billable_report', output: 'log/monthly_billable_report.log'
 end

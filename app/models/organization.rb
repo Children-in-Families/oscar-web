@@ -46,6 +46,7 @@ class Organization < ActiveRecord::Base
 
     def switch_to(tenant_name)
       Apartment::Tenant.switch!(tenant_name)
+      puts "====================== Switching to #{tenant_name} ======================"
     end
 
     def create_and_build_tenant(fields = {})
@@ -166,8 +167,8 @@ class Organization < ActiveRecord::Base
   end
 
   def integrated_date
-    date_of_integration = versions.find_by("object_changes = ?", "---\nintegrated:\n- false\n- true\n")&.created_at
-    date_of_integration && date_of_integration.strftime("%d %B %Y")
+    warn "[DEPRECATION] `integrated_date` is deprecated.  Please use `last_integrated_date` instead."
+    last_integrated_date
   end
 
   def full_name_short_name
