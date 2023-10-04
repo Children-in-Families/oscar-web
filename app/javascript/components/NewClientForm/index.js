@@ -537,7 +537,7 @@ const Forms = props => {
 
       <Modal
         className="p-md"
-        title={T.translate("index.warning")}
+        title={T.translate("index.informing")}
         isOpen={dupClientModalOpen}
         type='warning'
         closeAction={() => setDupClientModalOpen(false)}
