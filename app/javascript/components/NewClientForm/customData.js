@@ -58,7 +58,7 @@ export default props => {
 
               {
                 element.type === 'checkbox-group' &&
-                <CheckboxGroup data={element.values} onChange={onChange} label={element.label} />
+                <CheckboxGroup data={element.values} onChange={onChange} label={element.label} name={element.name} />
               }
 
               {

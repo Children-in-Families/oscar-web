@@ -1,31 +1,29 @@
-import React from 'react'
-import Checkbox from 'react-simple-checkbox'
+import React, { useState, useEffect } from 'react'
+import CheckboxGroup from 'react-checkbox-group'
 
 export default props => {
-  const { onChange, disabled = false, objectKey, data, label, inlineClassName, ...others } = props
+  const { onChange, disabled = false, objectKey, data, label, name, inlineClassName, ...others } = props
+  const [values, setValues] = useState(data)
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      useState(['apple', 'orange'])
+    }, 5000)
+
+    return () => clearTimeout(timer)
+  }, [])
 
   return (
     <div className='form-group boolean optional i-checks'>
-      <label>{label}</label>
-      {
-        data.map((obj, index) => (
-          <li key={index} className='i-checks'>
-            <Checkbox
-              size='2'
-              tickSize='3'
-              color={ disabled ? '#a6a6a6' : "#1AB394" }
-              tickAnimationDuration="100"
-              borderThickness="2"
-              checked={obj.selected || false}
-              label={obj.label}
-              value={obj.value}
-              onChange={boolean => disabled ? '' : onChange({data: boolean, type: 'checkbox'})}
-              {...others}
-            />
-            <label style={ styles.font }>{ obj.label }</label>
-          </li>
-        ))
-      }
+      <CheckboxGroup name={name} value={values} onChange={setValues}>
+        {(Checkbox) => (
+          data.map((obj, index) => (
+            <label key={index}>
+              <Checkbox value={obj.label} /> { obj.label }
+            </label>
+          ))
+        )}
+      </CheckboxGroup>
     </div>
   )
 }

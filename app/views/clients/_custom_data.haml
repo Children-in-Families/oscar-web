@@ -10,13 +10,14 @@
         %td
           %strong= field['label']
         %td
-          - if field['name'][/^date-/]
+          - if field['name'] && field['name'][/^date-/]
             %strong= date_format client_data_properties[field['name']].to_date
           - else
             %strong= client_data_properties[field['name']]
 
     - cusotm_data_fields.each do |field|
-      - next unless field['name'][/^file-/]
+      - next unless field['name'] && field['name'][/^file-/]
+      - next if client_custom_data.form_builder_attachments.count.zero?
       %tr
         %td.align-justify
           %strong= field['label']
