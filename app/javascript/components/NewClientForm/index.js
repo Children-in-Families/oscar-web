@@ -298,6 +298,7 @@ const Forms = props => {
 
   const checkClientExist = () => callback => {
     const data =  {
+      slug: clientData.slug || '',
       given_name: clientData.given_name ,
       family_name: clientData.family_name,
       local_given_name: clientData.local_given_name,
@@ -307,7 +308,8 @@ const Forms = props => {
       current_province_id: clientData.province_id || '',
       district_id: clientData.district_id || '',
       village_id: clientData.village_id || '',
-      commune_id: clientData.commune_id || ''
+      commune_id: clientData.commune_id || '',
+      gender: clientData.gender || ''
     }
 
     if(clientData.outside === false) {
@@ -321,14 +323,17 @@ const Forms = props => {
           if(response.similar_fields.length > 0) {
             setDupFields(response.similar_fields)
             setDupClientModalOpen(true)
-          } else
+          } else {
             callback()
+          }
           setLoading(false)
         })
-      } else
+      } else {
         callback()
-    } else
+      }
+    } else {
       callback()
+    }
   }
 
   const renderModalContent = data => {
@@ -352,10 +357,8 @@ const Forms = props => {
   const renderModalFooter = () => {
     return (
       <div>
-        <p>{T.translate("index.duplicate_message")}</p>
         <div style={{display:'flex', justifyContent: 'flex-end'}}>
           <button style={{margin: 5}} className='btn btn-primary' onClick={() => (setDupClientModalOpen(false), setStep(step + 1))}>{T.translate("index.continue")}</button>
-          <button style={{margin: 5}} className='btn btn-default' onClick={() => setDupClientModalOpen(false)}>{T.translate("index.cancel")}</button>
         </div>
       </div>
     )
@@ -534,7 +537,7 @@ const Forms = props => {
 
       <Modal
         className="p-md"
-        title={T.translate("index.warning")}
+        title={T.translate("index.informing")}
         isOpen={dupClientModalOpen}
         type='warning'
         closeAction={() => setDupClientModalOpen(false)}

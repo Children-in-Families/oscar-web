@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20230916170803) do
+ActiveRecord::Schema.define(version: 20230927150528) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -196,12 +196,29 @@ ActiveRecord::Schema.define(version: 20230916170803) do
   add_index "attachments", ["able_screening_question_id"], name: "index_attachments_on_able_screening_question_id", using: :btree
   add_index "attachments", ["progress_note_id"], name: "index_attachments_on_progress_note_id", using: :btree
 
+  create_table "billable_report_items", force: :cascade do |t|
+    t.integer  "billable_report_id"
+    t.integer  "version_id",         null: false
+    t.string   "billable_status",    null: false
+    t.datetime "billable_at"
+    t.datetime "accepted_at"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.string   "billable_type"
+    t.integer  "billable_id"
+  end
+
+  add_index "billable_report_items", ["billable_report_id"], name: "index_billable_report_items_on_billable_report_id", using: :btree
+  add_index "billable_report_items", ["version_id"], name: "index_billable_report_items_on_version_id", using: :btree
+
   create_table "billable_reports", force: :cascade do |t|
     t.integer  "organization_id"
     t.integer  "year"
     t.integer  "month"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.string   "organization_name"
+    t.string   "organization_short_name"
   end
 
   add_index "billable_reports", ["organization_id"], name: "index_billable_reports_on_organization_id", using: :btree
@@ -2419,8 +2436,8 @@ ActiveRecord::Schema.define(version: 20230916170803) do
     t.string   "live_with",                 default: ""
     t.string   "telephone_number",          default: ""
     t.integer  "birth_province_id"
-    t.datetime "created_at",                             null: false
-    t.datetime "updated_at",                             null: false
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
     t.string   "country_origin",            default: ""
     t.string   "duplicate_checker"
     t.string   "archived_slug"
@@ -2430,6 +2447,12 @@ ActiveRecord::Schema.define(version: 20230916170803) do
     t.string   "mosvy_number"
     t.string   "external_case_worker_name"
     t.string   "external_case_worker_id"
+    t.string   "ngo_name"
+    t.datetime "client_created_at"
+    t.boolean  "duplicate",                 default: false
+    t.jsonb    "duplicate_with",            default: {}
+    t.integer  "resolved_duplication_by"
+    t.datetime "resolved_duplication_at"
   end
 
   add_index "shared_clients", ["birth_province_id"], name: "index_shared_clients_on_birth_province_id", using: :btree
@@ -2933,7 +2956,7 @@ ActiveRecord::Schema.define(version: 20230916170803) do
   add_foreign_key "assessments", "clients", on_delete: :nullify
   add_foreign_key "attachments", "able_screening_questions"
   add_foreign_key "attachments", "progress_notes"
-  add_foreign_key "billable_reports", "organizations"
+  add_foreign_key "billable_report_items", "billable_reports"
   add_foreign_key "calendars", "users"
   add_foreign_key "call_necessities", "calls"
   add_foreign_key "call_necessities", "necessities"
