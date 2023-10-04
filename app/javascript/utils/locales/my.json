@@ -86,6 +86,7 @@
     "continue": "Continue",
     "client_confirm": "Client Confirmation",
     "warning": "Warning",
+    "informing": "Informing",
     "successfully_created": "Client has been successfully created",
     "successfully_updated": "Client has been successfully updated"
   },
