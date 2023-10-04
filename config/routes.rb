@@ -286,8 +286,8 @@ Rails.application.routes.draw do
     end
 
     mount_devise_token_auth_for "User", at: "/v1/auth", skip: [:passwords], controllers: {
-              sessions: "overrides/sessions",
-            }
+                                          sessions: "overrides/sessions",
+                                        }
 
     mount_devise_token_auth_for "AdminUser", at: "v1/admin_auth"
 
@@ -387,7 +387,7 @@ Rails.application.routes.draw do
       resources :families, except: [:destroy] do
         resources :custom_field_properties, only: [:create, :update, :destroy]
         get :listing, on: :collection
-        scope module: 'families' do
+        scope module: "families" do
           resources :exit_ngos, only: [:create, :update]
           resources :enter_ngos, only: [:create, :update]
         end
@@ -397,7 +397,7 @@ Rails.application.routes.draw do
         get :listing, on: :collection
         resources :assessments, only: [:create, :update, :destroy, :delete]
         resources :case_notes, only: [:show, :create, :update, :destroy, :delete_attachment] do
-          delete 'attachments/:file_index', action: :delete_attachment, on: :member
+          delete "attachments/:file_index", action: :delete_attachment, on: :member
         end
         resources :custom_field_properties, only: [:create, :update, :destroy]
 
