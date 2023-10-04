@@ -357,7 +357,6 @@ const Forms = props => {
   const renderModalFooter = () => {
     return (
       <div>
-        <p>{T.translate("index.duplicate_message")}</p>
         <div style={{display:'flex', justifyContent: 'flex-end'}}>
           <button style={{margin: 5}} className='btn btn-primary' onClick={() => (setDupClientModalOpen(false), setStep(step + 1))}>{T.translate("index.continue")}</button>
         </div>
