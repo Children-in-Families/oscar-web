@@ -1801,7 +1801,7 @@ en:
       no_option: 'No'
       save: Save
     destroy:
-      successfully_deleted: Client has been successfully deleted.
+      successfully_deleted: This client data was deleted successfully.
     edit:
       download_supporting_document: Download Supporting Document
       edit_client_title: Edit Client
@@ -2180,7 +2180,7 @@ en:
     archive:
       successfully_archived: Client has been successfully removed and put to trash.
     restore:
-      successfully_restored: Client has been successfully restored.
+      successfully_restored: This client data was restored successfully.
     show:
       <<: *LEGAL_DOC_ATTR
       care_plan: Care plan

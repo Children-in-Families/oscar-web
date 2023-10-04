@@ -2181,7 +2181,7 @@ my:
     archive:
       successfully_archived: Client has been successfully removed and put to trash.
     restore:
-      successfully_restored: Client has been successfully restored.
+      successfully_restored: This client data was restored successfully.
     show:
       <<: *LEGAL_DOC_ATTR
       care_plan: Care plan
