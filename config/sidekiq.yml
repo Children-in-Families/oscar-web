@@ -6,7 +6,7 @@ staging:
 production_api:
   :concurrency: 2
 production:
-  :concurrency: 10
+  :concurrency: 20
 :queues:
   - default
   - [send_email, 20]
