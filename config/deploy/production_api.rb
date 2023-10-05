@@ -5,4 +5,4 @@ set :branch, proc { `git rev-parse --abbrev-ref 2023060603-create-instant-for-pr
 # TODO: Deploy one after another by commentting out one
 
 # OSCaR
-server '3.0.81.117', user: 'deployer', roles: %w{app}
+server '3.0.81.117', user: 'deployer', roles: %w{app db}
