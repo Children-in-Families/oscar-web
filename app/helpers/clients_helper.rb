@@ -1372,7 +1372,7 @@ module ClientsHelper
         if rule[:data][:values].is_a?(Hash)
           value == rule[:data][:values][rule[:value].to_sym]
         else
-          value == rule[:data][:values].map​ { |hash| hash[rule[:value].to_sym] }.compact.first
+          value == rule[:data][:values].map { |hash| hash[rule[:value].to_sym] }.compact.first
         end
       end
     when "not_equal"
