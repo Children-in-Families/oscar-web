@@ -11,7 +11,8 @@ else
 end
 
 set :appsignal_revision, `git log --pretty=format:'%h' -n 1 #{fetch(:branch)}`
-
+set :sidekiq_roles, :worker
+set :assets_roles, [:web]
 set :deploy_to, "/var/www/#{fetch(:application)}"
 
 set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', "public/packs", ".bundle")
