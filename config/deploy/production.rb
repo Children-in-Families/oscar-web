@@ -11,5 +11,3 @@ server '52.221.46.112', user: 'deployer', roles: %w{app web db worker}, ssh_opti
 
 # High traffic
 server '18.136.184.226', user: 'deployer', roles: %w(app web)
-# API
-server '3.0.81.117', user: 'deployer', roles: %w(app)
