@@ -14,7 +14,7 @@ set :appsignal_revision, `git log --pretty=format:'%h' -n 1 #{fetch(:branch)}`
 
 set :sidekiq_roles, :worker
 set :assets_roles, [:web]
-# set :whenever_roles, [:cron]
+set :whenever_roles, [:cron]
 
 set :deploy_to, "/var/www/#{fetch(:application)}"
 
