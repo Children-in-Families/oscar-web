@@ -6,7 +6,6 @@ class RiskAssessment < ActiveRecord::Base
 
   after_commit :save_client_tasks
 
-
   def high_risk?
     level_of_risk == 'high'
   end
