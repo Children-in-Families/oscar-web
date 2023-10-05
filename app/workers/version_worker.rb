@@ -1,6 +1,5 @@
 class VersionWorker
   include Sidekiq::Worker
-  sidekiq_options retry: false
 
   def perform(version_id, tenent)
     Organization.switch_to tenent
