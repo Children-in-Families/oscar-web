@@ -86,7 +86,7 @@
     "continue": "Continue",
     "client_confirm": "Client Confirmation",
     "warning": "Warning",
-    "auto_close_msg": "This pop up will be auto closed in SECOND seconds.",
+    "informing": "Informing",
     "successfully_created": "Client has been successfully created",
     "successfully_updated": "Client has been successfully updated"
   },

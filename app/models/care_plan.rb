@@ -14,7 +14,7 @@ class CarePlan < ActiveRecord::Base
   validates_uniqueness_of :assessment_id, on: :create
   validates_presence_of :care_plan_date
 
-  after_save :complete_previouse_tasks
+  after_save :set_care_plan_completed, :complete_previouse_tasks
 
   scope :completed, -> { where(completed: true) }
   scope :incompleted, -> { where(completed: false) }
@@ -34,4 +34,18 @@ class CarePlan < ActiveRecord::Base
     Task.where(id: previous_ids, completed: false).update_all(completed: true, completion_date: Time.now) if previous_ids.present?
   end
 
+  def set_care_plan_completed
+    return if goals.empty?
+
+    required_assessment_domains = []
+    assessment.assessment_domains.each do |assessment_domain|
+      required_assessment_domains << assessment_domain if assessment_domain[:score] == 1 || assessment_domain[:score] == 2
+    end
+    required_assessment_domain_ids = required_assessment_domains.map(&:id)
+    if goals.where(assessment_domain_id: required_assessment_domain_ids).empty? || (goals.where(assessment_domain_id: required_assessment_domain_ids).present? && goals.where(assessment_domain_id: required_assessment_domain_ids).first.tasks.empty?)
+      update_columns(completed: false)
+    else
+      update_columns(completed: true)
+    end
+  end
 end

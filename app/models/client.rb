@@ -219,7 +219,7 @@ class Client < ActiveRecord::Base
       similar_fields = []
       shared_clients = []
 
-      if (Client::DUPLICATE_CHECKING_FIELDS & options.keys).blank? || shared_client&.resolved_duplication_by.present?
+      if (Client::DUPLICATE_CHECKING_FIELDS.map(&:to_s) & options.keys.map(&:to_s)).blank? || shared_client&.resolved_duplication_by.present?
         return { similar_fields: similar_fields, duplicate_with: nil }
       end
 
@@ -1107,7 +1107,7 @@ class Client < ActiveRecord::Base
   end
 
   def high_school?
-    school_grade.to_s.in? [ '10', '11', '12']
+    school_grade.to_s.in? ['10', '11', '12']
   end
 
   def university?
