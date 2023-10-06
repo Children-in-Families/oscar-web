@@ -39,12 +39,12 @@ module Api
           if delete_form_builder_attachment(@custom_field_property, name, index)
             head 204 if @custom_field_property.save
           else
-            render json: { error: "Failed deleting attachment" }
+            render json: { error: 'Failed deleting attachment' }
           end
         elsif @custom_field_property.destroy
           head 204
         else
-          render json: { error: "Failed deleting custom field property" }
+          render json: { error: 'Failed deleting custom field property' }
         end
       end
 
