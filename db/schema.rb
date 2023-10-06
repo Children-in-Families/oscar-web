@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20231006205944) do
+ActiveRecord::Schema.define(version: 20231006223522) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -2276,7 +2276,7 @@ ActiveRecord::Schema.define(version: 20231006205944) do
   add_index "referrals_services", ["referral_id"], name: "index_referrals_services_on_referral_id", using: :btree
   add_index "referrals_services", ["service_id"], name: "index_referrals_services_on_service_id", using: :btree
 
-  create_table "relase_notes", force: :cascade do |t|
+  create_table "release_notes", force: :cascade do |t|
     t.text     "content",                         null: false
     t.integer  "created_by_id"
     t.integer  "published_by_id"
@@ -2286,8 +2286,8 @@ ActiveRecord::Schema.define(version: 20231006205944) do
     t.datetime "updated_at",                      null: false
   end
 
-  add_index "relase_notes", ["created_by_id"], name: "index_relase_notes_on_created_by_id", using: :btree
-  add_index "relase_notes", ["published_by_id"], name: "index_relase_notes_on_published_by_id", using: :btree
+  add_index "release_notes", ["created_by_id"], name: "index_release_notes_on_created_by_id", using: :btree
+  add_index "release_notes", ["published_by_id"], name: "index_release_notes_on_published_by_id", using: :btree
 
   create_table "risk_assessments", force: :cascade do |t|
     t.date     "assessment_date"
