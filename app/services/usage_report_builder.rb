@@ -193,7 +193,7 @@ class UsageReportBuilder < ServiceBase
 
   def mapping_risk_assessment(client)
     risk_assessment = client.risk_assessment
-    { protection_concern: risk_assessment&.protection_concern&.join(", ") || [] }
+    { protection_concern: risk_assessment&.protection_concern&.join(", ") || "" }
   end
 
   def mapping_services(program_streams)

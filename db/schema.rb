@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20231003073243) do
+ActiveRecord::Schema.define(version: 20231006205944) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1873,6 +1873,19 @@ ActiveRecord::Schema.define(version: 20231003073243) do
     t.datetime "updated_at"
   end
 
+  create_table "notifications", force: :cascade do |t|
+    t.integer  "notifiable_id"
+    t.string   "notifiable_type"
+    t.string   "key",             null: false
+    t.datetime "seen_at"
+    t.integer  "user_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "notifications", ["notifiable_type", "notifiable_id"], name: "index_notifications_on_notifiable_type_and_notifiable_id", using: :btree
+  add_index "notifications", ["user_id"], name: "index_notifications_on_user_id", using: :btree
+
   create_table "oauth_access_grants", force: :cascade do |t|
     t.integer  "resource_owner_id", null: false
     t.integer  "application_id",    null: false
@@ -2262,6 +2275,19 @@ ActiveRecord::Schema.define(version: 20231003073243) do
   add_index "referrals_services", ["referral_id", "service_id"], name: "index_referrals_services_on_referral_id_and_service_id", using: :btree
   add_index "referrals_services", ["referral_id"], name: "index_referrals_services_on_referral_id", using: :btree
   add_index "referrals_services", ["service_id"], name: "index_referrals_services_on_service_id", using: :btree
+
+  create_table "relase_notes", force: :cascade do |t|
+    t.text     "content",                         null: false
+    t.integer  "created_by_id"
+    t.integer  "published_by_id"
+    t.boolean  "published",       default: false
+    t.datetime "published_at"
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+  end
+
+  add_index "relase_notes", ["created_by_id"], name: "index_relase_notes_on_created_by_id", using: :btree
+  add_index "relase_notes", ["published_by_id"], name: "index_relase_notes_on_published_by_id", using: :btree
 
   create_table "risk_assessments", force: :cascade do |t|
     t.date     "assessment_date"
@@ -3079,6 +3105,7 @@ ActiveRecord::Schema.define(version: 20231003073243) do
   add_foreign_key "internal_referral_program_streams", "program_streams"
   add_foreign_key "leave_programs", "client_enrollments"
   add_foreign_key "leave_programs", "enrollments"
+  add_foreign_key "notifications", "users"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
   add_foreign_key "partners", "organization_types"

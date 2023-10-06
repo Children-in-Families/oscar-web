@@ -10,7 +10,7 @@
       %tbody
         - client.assessments.client_risk_assessments.most_recents.each do |assessment|
           %tr
-            %td= "#{assessment.level_of_risk&.titleize} #{t('risk_assessments._attr.risk')}"
+            %td= "#{assessment.level_of_risk.try(:titleize)} #{t('risk_assessments._attr.risk')}"
             %td= t('risk_assessments._attr.child_wellbeing')
             %td= date_format(assessment.assessment_date)
             %td.text-center
@@ -20,7 +20,7 @@
                 = fa_icon('pencil')
         - if risk_assessment
           %tr
-            %td= "#{risk_assessment.level_of_risk&.titleize} #{t('risk_assessments._attr.risk')}"
+            %td= "#{risk_assessment.level_of_risk.try(:titleize)} #{t('risk_assessments._attr.risk')}"
             %td= t('risk_assessments._attr.protection_concern')
             %td= date_format(risk_assessment.assessment_date)
             %td.text-center
