@@ -388,6 +388,8 @@ Rails.application.routes.draw do
         end
       end
 
+      put 'release_notes/:id/upload_attachments' => 'release_notes#upload_attachments'
+
       resources :domain_groups, only: [:index]
       resources :departments, only: [:index]
       resources :families, except: [:destroy] do

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20231006223522) do
+ActiveRecord::Schema.define(version: 20231007095850) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -2284,6 +2284,7 @@ ActiveRecord::Schema.define(version: 20231006223522) do
     t.datetime "published_at"
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
+    t.text     "attachments",     default: [],                 array: true
   end
 
   add_index "release_notes", ["created_by_id"], name: "index_release_notes_on_created_by_id", using: :btree
