@@ -7,4 +7,7 @@ class Notification < ActiveRecord::Base
   validates :key, presence: true, inclusion: { in: KEYS }
   validates :user, presence: true
   validates :notifiable, presence: true
+
+  scope :relase_note, -> { where(key: 'relase_note') }
+  scope :unread, -> { where(seen_at: nil) }
 end
