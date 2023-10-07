@@ -162,9 +162,10 @@
                   %li{ class: settings_menu_active('settings', 'community')}
                     = link_to t('.community'), community_settings_path
 
-        - if can? :read, :all
-          %li{ class: active_menu('changelogs') }
-            = link_to t('.release_logs'), changelogs_path
+        %li{ class: active_menu('release_notes') }
+          = link_to release_notes_path do
+            %span.nav-label= t('.release_logs')
+            %span.label.label-primary.pull-right.release_logs_unread_count
         - if can? :read, DataTracker
           %li{ class: active_menu('data_trackers') }
             = link_to data_trackers_path do

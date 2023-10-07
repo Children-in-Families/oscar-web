@@ -46,6 +46,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :release_notes, only: [:index]
+
   resources :quantitative_types do
     get "version" => "quantitative_types#version"
   end
