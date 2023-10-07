@@ -158,6 +158,11 @@ class Organization < ActiveRecord::Base
     self.supported_languages = supported_languages.select(&:present?)
   end
 
+  # To Do: Maybe allow user to select which language they want to use
+  def local_language
+    (supported_languages - ['en']).first
+  end
+
   def available_for_referral?
     if Rails.env.production?
       Organization.test_ngos.pluck(:short_name).include?(self.short_name) || Organization.oscar.pluck(:short_name).include?(self.short_name)
