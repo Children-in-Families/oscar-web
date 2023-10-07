@@ -1,8 +1,17 @@
 .row.header
-  .col-md-4
-    %p Name
-  .col-md-4
-    %p Label
+  - if Organization.current.local_language.blank?
+    .col-md-4
+      %p Name
+    .col-md-4
+      %p Label
+  - else
+    .col-md-3
+      %p Name
+    .col-md-3
+      %p Label
+    .col-md-3
+      %p Local Label
+
   .col-md-1
     %p Show
   .col-md-1
