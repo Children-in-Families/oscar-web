@@ -92,6 +92,18 @@ class SettingsController < AdminController
     end
   end
 
+  def finance_dashboard
+    @setting = Setting.cache_first
+    
+    if request.put?
+      if @setting.update_attributes(finance_dashboard: params.dig(:setting, :finance_dashboard))
+        redirect_to finance_dashboard_settings_path, notice: t('successfully_updated', klass: 'Setting')
+      else
+        render :finance_dashboard
+      end
+    end
+  end
+
   def header_count
     return unless request.put?
 

@@ -161,6 +161,9 @@
                     = link_to t('.family_form'), family_case_management_settings_path
                   %li{ class: settings_menu_active('settings', 'community')}
                     = link_to t('.community'), community_settings_path
+            - if can? :read, :all
+              %li{ class: settings_menu_active('settings', 'finance_dashboard') }
+                = link_to 'Finance', finance_dashboard_settings_path
 
         - if current_setting.enable_client_form?
           %li{ class: settings_menu_active('clients', 'archived') }
