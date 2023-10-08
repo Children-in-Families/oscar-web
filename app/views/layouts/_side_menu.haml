@@ -162,6 +162,9 @@
                   %li{ class: settings_menu_active('settings', 'community')}
                     = link_to t('.community'), community_settings_path
 
+            - if can? :read, :all
+              %li{ class: settings_menu_active('settings', 'finance_dashboard') }
+                = link_to 'Finance', finance_dashboard_settings_path
         - if can? :read, :all
           %li{ class: active_menu('changelogs') }
             = link_to t('.release_logs'), changelogs_path

@@ -501,6 +501,9 @@ Rails.application.routes.draw do
       get "integration" => "settings#integration"
       put "integration" => "settings#integration"
 
+      get "finance_dashboard" => "settings#finance_dashboard"
+      put "finance_dashboard" => "settings#finance_dashboard"
+
       get :family_case_management
       get :community
 
