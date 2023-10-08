@@ -37,7 +37,14 @@ class BillableReportExportHandler
     
     report.billable_report_items.client.where.not(billable_at: nil).includes(:version, :billable).each_with_index do |client_item, index|
       version = client_item.version
-      client = client_item.billable || Client.new(version.object)
+      
+      client = begin
+        client_item.billable || Client.new(version.object)
+      rescue NoMethodError => e
+        # Older history issue, ignore
+        Rails.logger.error "BillableReportExportHandler: #{ e.message }"
+        Client.new
+      end
       
       sheet.insert_row((index + 1), [
         client.slug,

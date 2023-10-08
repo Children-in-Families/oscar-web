@@ -2,20 +2,16 @@
   - if @referral_sources.any? && @current_user.admin?
     %p.check-ref-sources.hide referral_sources
   %ul.nav.nav-tabs.csi-tab{ role: "tablist" }
-    %li.active{role: "presentation"}
+    %li{role: "presentation", class: "#{ 'active' unless family_tab? }"  }
       %a{"aria-controls" => "client-tab", "data-toggle" => "tab", href: "#client-tab", role: "tab"}= t('.client_dashboard')
-    %li{role: "presentation"}
+    %li{role: "presentation", class: "#{ 'active' if family_tab? }" }
       %a{"aria-controls" => "family-tab", "data-toggle" => "tab", href: "#family-tab", role: "tab"}= t('.family_dashboard')
     - if current_setting.finance_dashboard?
       %li{role: "presentation", class: "#{ 'active' if controller_name == 'finance_reports' }" }
         %a{ href: finance_reports_path } Finance Dashboard
-    %li.hide{role: "presentation"}
-      %a{"aria-controls" => "community-tab", "data-toggle" => "tab", href: "#community-tab", role: "tab"}= t('.community_dashboard')
-    %li.hide{role: "presentation"}
-      %a{"aria-controls" => "hotline-tab", "data-toggle" => "tab", href: "#hotline-tab", role: "tab"}= t('.hotline_dashboard')
 
   .tab-content
-    #client-tab.tab-pane.active{ role: "tabpanel" }
+    #client-tab.tab-pane{ class: "#{ 'active' unless family_tab? }", role: "tabpanel" }
       = render 'dashboards/referral_source_category_reminder'
       - if @program_streams.present?
         = render 'dashboards/program_stream_services'
@@ -37,14 +33,10 @@
         = render 'data_validations'
       .row
         = render 'third_party'
-    #family-tab.tab-pane{ role: 'tabpanel' }
+    #family-tab.tab-pane{ role: 'tabpanel', class: "#{ 'active' if family_tab? }" }
       .row
-        .col-xs-12{ class: "#{'lazy-load-family-tab' if can?(:read, Family)}" }
-    #community-tab.tab-pane.hide{ role: 'tabpanel' }
-      .row
-        .col-xs-12
-          %h3 Hello This is Community panel
-    #hotline-tab.tab-pane.hide{ role: 'tabpanel' }
-      .row
-        .col-xs-12
-          %h3 Hello This is Hotline panel
+        - if family_tab?
+          .col-xs-12
+            = render 'family'
+        - else
+          .col-xs-12{ class: "#{'lazy-load-family-tab' if can?(:read, Family)}" }
