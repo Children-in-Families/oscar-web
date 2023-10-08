@@ -33,7 +33,7 @@
                 </thead>
 
                 <tbody>
-                  <% @reports.find_each do |report| %>
+                  <% @reports.each do |report| %>
                     <tr>
                       <td><%= report.date.strftime('%B %Y') %></td>
                       <td><%= report.billable_report_items.client.where.not(billable_at: nil).size %></td>
