@@ -48,7 +48,7 @@ class BillableReportExportHandler
       
       sheet.insert_row((index + 1), [
         client.slug,
-        client.created_at.strftime('%d/%m/%Y'),
+        client.created_at&.strftime('%d/%m/%Y'),
         version.created_at.strftime('%d/%m/%Y'),
         client_item.billable_status,
         client.status,
