@@ -4,4 +4,7 @@ class BillableReportItem < ActiveRecord::Base
   belongs_to :version, class_name: "PaperTrail::Version"
 
   validates :billable_status, presence: true
+
+  scope :client, -> { where(billable_type: 'Client') }
+  scope :family, -> { where(billable_type: 'Family' )}
 end

@@ -6,6 +6,9 @@
       %a{"aria-controls" => "client-tab", "data-toggle" => "tab", href: "#client-tab", role: "tab"}= t('.client_dashboard')
     %li{role: "presentation"}
       %a{"aria-controls" => "family-tab", "data-toggle" => "tab", href: "#family-tab", role: "tab"}= t('.family_dashboard')
+    - if current_setting.finance_dashboard?
+      %li{role: "presentation", class: "#{ 'active' if controller_name == 'finance_reports' }" }
+        %a{ href: finance_reports_path } Finance Dashboard
     %li.hide{role: "presentation"}
       %a{"aria-controls" => "community-tab", "data-toggle" => "tab", href: "#community-tab", role: "tab"}= t('.community_dashboard')
     %li.hide{role: "presentation"}

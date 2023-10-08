@@ -1,0 +1,42 @@
+<div class="row">
+  <div class="col-xs-12">
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <h5>Finance Report</h5>
+      </div>
+
+      <div class="ibox-content">
+        <div class="archived-client-tabls responsive-table clients-table">
+          <table class="table table-bordered table-striped table-hover clients clients">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th># of billable clients</th>
+                <th># of billable families</th>
+                <th>Export</th>
+                <th>Receipt</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <% @reports.find_each do |report| %>
+                <tr>
+                  <td><%= report.date.strftime('%B %Y') %></td>
+                  <td><%= report.billable_report_items.client.where.not(billable_at: nil).size %></td>
+                  <td><%= report.billable_report_items.family.where.not(billable_at: nil).size %></td>
+                  <td>
+                    <% if report.date.end_of_month.to_date < Date.current %>
+                      <%= link_to 'Download', finance_report_path(report, format: :xls) %>
+                    <% end %>
+                  </td>
+                  
+                  <td></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
