@@ -57,6 +57,8 @@ class ClientsController < AdminController
         end
         f.xls do
           @client_grid.scope { |scope| scope.accessible_by(current_ability) }
+          @client_grid.params = params.to_unsafe_h.dup.deep_symbolize_keys
+
           export_client_reports
           send_data @client_grid.to_xls, filename: "client_report-#{Time.now}.xls"
         end
