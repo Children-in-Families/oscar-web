@@ -1,6 +1,6 @@
 module LocaleConcern
   def set_locale
-    local = I18n.locale
+    old_locale, local = I18n.locale
     local = params[:locale] if params[:locale] && I18n.available_locales.include?(params[:locale].to_sym)
 
     if detect_browser.present?
@@ -9,6 +9,8 @@ module LocaleConcern
     end
 
     I18n.locale = local
+
+    I18n.backend.reload! if old_locale != I18n.locale
   end
 
   def detect_browser
