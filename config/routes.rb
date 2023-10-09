@@ -113,13 +113,17 @@ Rails.application.routes.draw do
   resources :clients do
     member do
       get :custom_fields
+      put :archive
+      put :restore
     end
 
     resources :referrals, except: [:destroy]
     resources :internal_referrals
 
     collection do
-      post "/advanced_search", to: "clients#index"
+      get :archived
+      
+      post '/advanced_search', to: 'clients#index'
       post :load_client_table_summary
       post :load_statistics_data
       get :advanced_search

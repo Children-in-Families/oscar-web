@@ -1523,7 +1523,7 @@ en:
       no_option: 'No'
       save: Save
     destroy:
-      successfully_deleted: Client has been successfully deleted.
+      successfully_deleted: This client data was deleted successfully.
     edit:
       download_supporting_document: Download Supporting Document
       edit_client_title: Edit Client

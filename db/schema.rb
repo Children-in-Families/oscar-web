@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20231007095850) do
+ActiveRecord::Schema.define(version: 20231009071927) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -2446,6 +2446,7 @@ ActiveRecord::Schema.define(version: 20231007095850) do
     t.integer  "selected_domain_ids",                  default: [],                               array: true
     t.text     "level_of_risk_guidance"
     t.boolean  "enabled_header_count",                 default: false
+    t.boolean  "finance_dashboard",                    default: false,               null: false
   end
 
   add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree

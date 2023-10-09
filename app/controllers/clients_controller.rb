@@ -1,5 +1,5 @@
 class ClientsController < AdminController
-  load_and_authorize_resource find_by: :slug, except: :quantitative_case
+  load_and_authorize_resource find_by: :slug, except: [:quantitative_case, :destroy, :restore]
   include ApplicationHelper
   include ClientAdvancedSearchesConcern
   include ClientGridOptions
@@ -14,9 +14,9 @@ class ClientsController < AdminController
   before_action :build_advanced_search, only: [:index]
   before_action :fetch_advanced_search_queries, only: [:index]
 
-  before_action :find_client, only: [:show, :edit, :update, :destroy, :custom_fields]
+  before_action :find_client, only: [:show, :edit, :update, :custom_fields]
   before_action :assign_client_attributes, only: [:show, :edit]
-  before_action :set_association, except: [:index, :destroy, :version, :welcome, :load_client_table_summary, :load_statistics_data]
+  before_action :set_association, except: [:index, :destroy, :restore, :archive, :archived, :version, :welcome, :load_client_table_summary, :load_statistics_data]
   before_action :choose_grid, only: [:index]
   before_action :quantitative_type_editable, only: [:edit, :update, :new, :create]
   before_action :quantitative_type_readable
@@ -24,6 +24,10 @@ class ClientsController < AdminController
 
   def welcome
     choose_grid
+  end
+
+  def archived
+    @clients = Client.only_deleted.accessible_by(current_ability).includes(:archived_by)
   end
 
   def custom_fields
@@ -57,6 +61,8 @@ class ClientsController < AdminController
         end
         f.xls do
           @client_grid.scope { |scope| scope.accessible_by(current_ability) }
+          @client_grid.params = params.to_unsafe_h.dup.deep_symbolize_keys
+
           export_client_reports
           send_data @client_grid.to_xls, filename: "client_report-#{Time.now}.xls"
         end
@@ -201,9 +207,17 @@ class ClientsController < AdminController
     end
   end
 
+  def restore
+    client = Client.only_deleted.friendly.find(params[:id])
+    client.recover
+    redirect_to client, notice: t('.successfully_restored')
+  end
+
   def destroy
+    @client = Client.only_deleted.friendly.find(params[:id])
+
     ActiveRecord::Base.transaction do
-      if !@client.current_family_id? && @client.destroy
+      if @client.destroy
         begin
           EnterNgo.with_deleted.where(client_id: @client.id).each(&:destroy_fully!)
           ClientEnrollment.with_deleted.where(client_id: @client.id).delete_all
@@ -211,14 +225,27 @@ class ClientsController < AdminController
           CaseWorkerClient.with_deleted.where(client_id: @client.id).each(&:destroy_fully!)
           Task.with_deleted.where(client_id: @client.id).each(&:destroy_fully!)
           ExitNgo.with_deleted.where(client_id: @client.id).each(&:destroy_fully!)
-          redirect_to clients_url, notice: t('.successfully_deleted')
+          
+          redirect_to archived_clients_path, notice: t('.successfully_deleted')
         rescue => exception
           raise ActiveRecord::Rollback
         end
       else
         messages = "Can't delete client because the client is still attached with family"
-        redirect_to @client, alert: messages
+        redirect_to archived_clients_path, alert: messages
       end
+    end
+  rescue ActiveRecord::Rollback => exception
+    redirect_to archived_clients_path, alert: exception
+  end
+
+  def archive
+    if @client.current_family_id
+      redirect_to @client, alert: "Can't delete client because the client is still attached with family"
+    else
+      # Not using deestroy to avoid callbacks
+      @client.update_columns(deleted_at: Time.current, archived_by_id: current_user.id)
+      redirect_to clients_url, notice: t('.successfully_archived')
     end
   rescue ActiveRecord::Rollback => exception
     redirect_to @client, alert: exception
