@@ -16,6 +16,8 @@ class FieldSettingsController < AdminController
       end
     end
 
+    I18n.backend.reload!
+
     redirect_to field_settings_path, notice: t('field_settings.update.successfully_updated')
   end
 end
