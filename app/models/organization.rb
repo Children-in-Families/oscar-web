@@ -160,7 +160,20 @@ class Organization < ActiveRecord::Base
 
   # To Do: Maybe allow user to select which language they want to use
   def local_language
-    (supported_languages - ['en']).first
+    other_languages = (supported_languages - ['en'])
+
+    return 'km' if cambodian? && other_languages.include?('km')
+    return 'my' if myanmar? && other_languages.include?('my')
+
+    other_languages.first
+  end
+
+  def cambodian?
+    country == 'cambodia'
+  end
+
+  def myanmar?
+    country == 'myanmar'
   end
 
   def available_for_referral?
