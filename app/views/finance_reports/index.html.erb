@@ -39,9 +39,7 @@
                       <td><%= report.billable_report_items.family.where.not(billable_at: nil).size %></td>
                       <td>
                         <% if report.date.end_of_month.to_date < Date.current %>
-                          <%= link_to finance_report_path(report, format: :xls) do %>
-                            <%= fa_icon('download') %>
-                          <% end %>
+                          <%= link_to 'Download' finance_report_path(report, format: :xls), class: 'btn btn-primary' %>
                         <% end %>
                       </td>
                     </tr>
