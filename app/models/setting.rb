@@ -78,7 +78,9 @@ class Setting < ActiveRecord::Base
   end
 
   def self.cache_first
-    Rails.cache.fetch([Apartment::Tenant.current, 'current_setting']) { first }
+    warn "[DEPRECATION] `cache_first` is deprecated (caching object issue).  Please use `first` instead."
+    
+    first
   end
 
   private
