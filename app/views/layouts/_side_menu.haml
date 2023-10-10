@@ -161,8 +161,12 @@
                     = link_to t('.family_form'), family_case_management_settings_path
                   %li{ class: settings_menu_active('settings', 'community')}
                     = link_to t('.community'), community_settings_path
+            
+            - if can? :read, :all
+              %li{ class: settings_menu_active('settings', 'finance_dashboard') }
+                = link_to 'Finance', finance_dashboard_settings_path
 
-        - if current_setting.enable_client_form?
+        - if can? :read, :all
           %li{ class: settings_menu_active('clients', 'archived') }
             = link_to archived_clients_path do
               = fa_icon('trash'	)
@@ -171,6 +175,7 @@
         - if can? :read, :all
           %li{ class: active_menu('changelogs') }
             = link_to t('.release_logs'), changelogs_path
+            
         - if can? :read, DataTracker
           %li{ class: active_menu('data_trackers') }
             = link_to data_trackers_path do
