@@ -1,0 +1,28 @@
+.row
+  .col-xs-12
+    .ibox
+      .ibox-title
+        .row
+          .col-xs-12.col-sm-6.co-md-6
+            %h5
+              Information/ Release Note
+              - if @release_note.present?
+                %br
+                %span= @release_note.published_at.strftime("%d %b %Y")
+      .ibox-content
+        - if @release_note.present?
+          .panel.panel-info
+            .panel-body
+              = @release_note.content.html_safe
+              - attachments = @release_note.attachments
+              - if attachments.any?
+                .row
+                  .col-xs-12.col-sm-6
+                    .panel.panel-default
+                      .panel-heading
+                        %h4 Attachments
+                      .panel-body
+                        = render 'attachment', attachments: attachments
+      .ibox-footer
+        .text-center
+          = paginate @release_notes

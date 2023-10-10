@@ -46,6 +46,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :release_notes, only: [:index]
+
   resources :quantitative_types do
     get "version" => "quantitative_types#version"
   end
@@ -385,6 +387,8 @@ Rails.application.routes.draw do
           put "referrals/update_statuses" => "organizations#update_referral_status"
         end
       end
+
+      put 'release_notes/:id/upload_attachments' => 'release_notes#upload_attachments'
 
       resources :domain_groups, only: [:index]
       resources :departments, only: [:index]
