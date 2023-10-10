@@ -1,47 +1,93 @@
-import React, { useState, useEffect } from 'react'
-import CheckboxGroup from 'react-checkbox-group'
+import React from "react";
 
-export default props => {
-  const { onChange, disabled = false, objectKey, data, label, name, inlineClassName, ...others } = props
-  const [values, setValues] = useState(data)
+export default (props) => {
+  const {
+    onChange,
+    disabled = false,
+    objectKey,
+    data,
+    dataValue,
+    name,
+    inlineClassName,
+    ...others
+  } = props;
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      useState(['apple', 'orange'])
-    }, 5000)
+  const findCheckedValue = (value) => {
+    const objIndex = dataValue.findIndex((obj) => obj.value === value);
 
-    return () => clearTimeout(timer)
-  }, [])
+    return eval(dataValue[objIndex]?.checked) || false;
+  };
 
   return (
-    <div className='form-group boolean optional i-checks'>
-      <CheckboxGroup name={name} value={values} onChange={setValues}>
-        {(Checkbox) => (
-          data.map((obj, index) => (
-            <label key={index}>
-              <Checkbox value={obj.label} /> { obj.label }
-            </label>
-          ))
-        )}
-      </CheckboxGroup>
+    <div
+      className="form-group boolean optional"
+      style={{ display: "flex", flexDirection: "column" }}
+    >
+      <label style={styles.fontBold}> {props.label} </label>
+      <ul className="checkbox-list i-checks">
+        {data.map(({ label, checked }, index) => {
+          return (
+            <li key={index} style={{ listStyle: "none" }}>
+              <div className="list-item">
+                <div className="left-section" style={styles.alignItem}>
+                  <input
+                    style={styles.checkbox}
+                    type="checkbox"
+                    id={`custom-checkbox-${index}`}
+                    name={name}
+                    value={label}
+                    data-value={JSON.stringify(dataValue)}
+                    checked={findCheckedValue(label)}
+                    onChange={onChange}
+                  />
+                  <label
+                    style={styles.font}
+                    htmlFor={`custom-checkbox-${index}`}
+                  >
+                    {label}
+                  </label>
+                </div>
+              </div>
+            </li>
+          );
+        })}
+      </ul>
     </div>
-  )
-}
+  );
+};
 
 const styles = {
-  font:{
-    fontWeight: 'normal',
-    fontSize: '14px'
+  font: {
+    fontWeight: "normal",
+    fontSize: "14px",
+    marginBottom: "0px"
   },
 
-  fontBold:{
-    fontWeight: 'bold',
-    fontSize: '14px'
+  fontBold: {
+    fontWeight: "bold",
+    fontSize: "14px",
+    marginBottom: "0px"
   },
 
   disabled: {
-    color: '#a6a6a6',
-    fontWeight: 'normal',
-    fontSize: '14px'
+    color: "#a6a6a6",
+    fontWeight: "normal",
+    fontSize: "14px"
+  },
+  checkbox: {
+    display: "inline-block",
+    cursor: "pointer",
+    position: "relative",
+    margin: "0px 5px 0px 0px",
+    width: "19px",
+    height: "19px",
+    outline: "none",
+    filter: "hue-rotate(285deg)"
+  },
+  alignItem: {
+    margin: "5px",
+    padding: "5px",
+    alignItems: "center",
+    display: "flex"
   }
-}
+};
