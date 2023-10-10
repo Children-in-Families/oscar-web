@@ -5,7 +5,9 @@ class FieldSettingsController < AdminController
 
   def bulk_update
     params.require(:field_setting).each do |id, attributes|
-      FieldSetting.update(id, attributes.permit(:label, :visible, :required))
+      I18n.with_locale(:en) do
+        FieldSetting.update(id, label: attributes.dig(:local_label))
+      end
 
       local_locale = Organization.current.local_language
 
