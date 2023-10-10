@@ -200,6 +200,9 @@ km:
         add_form: ទម្រង់បែបបទទាំងនេះគឺប្រើប្រាស់សម្រាប់តែអង្គការរបស់អ្នក។ ជ្រើសយកមួយពីក្នុងបញ្ជី ដើម្បីទាញយកទម្រង់បែបបទនេះ។ បន្ទាប់ពីអ្នកបំពេញរួចរាល់ ហើយរក្សាវាទុក ទម្រង់បែបបទនឹងត្រូវបានភ្ជាប់ទៅនឹងប្រវត្តិរូបរបស់អតិថិជន។
         client_book: សូមមើលឯកសារផ្សេងៗដែលអ្នកអាចបានត្រឹមតែអានប៉ុណ្ណោះពីកំណត់ត្រាករណី ការប៉ាន់ប្រមាណ ទម្រង់បែបបទផ្សេងៗ និងកម្មវិធីចម្បងទាំងអស់ ។ សកម្មភាពទាំងអស់ត្រូវបានកត់ត្រាដោយស្វ័យប្រវត្តិ។
         delete: ប្រយ័ត្ន! ធ្វើដូចនេះនឹងលុបកំណត់ត្រាអតិថិជនជាអចិន្ត្រៃយ៍។ ទិន្នន័យដែលបានលុបមិនអាចទាញយកមកវិញបានឡើយ។
+        archive: <i class="fa fa-exclamation-triangle text-danger" aria-hidden="true"></i> Caution! This will remove this client to trash and only admin permission-set can access to that menu.
+        archive: <i class="fa fa-exclamation-triangle text-danger" aria-hidden="true"></i> Caution! This will remove this client to trash folder.
+        restore: <i class="fa fa-exclamation-triangle text-danger" aria-hidden="true"></i> Caution! This will restore this client back to client records list.
         edit: ត្រឡប់ទៅកែប្រែករណីរបស់អតិថិជន។ កំណត់ត្រានៅតែមាន ហើយអាចកែតម្រូវត្រង់ពេលណាក៏បាន។ រាល់ការកែតម្រូវដែលកើតមានចំពោះករណីនេះ នឹងត្រូវបានកត់ត្រានៅក្នុង ប្រវត្តិនៃកំណែទិន្នន័យ។
         enroll_program: |-
           ចុះឈ្មោះអតិថិជនទៅក្នុងកម្មវិធីចម្បងនៅទីនេះ។

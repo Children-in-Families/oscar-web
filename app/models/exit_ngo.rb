@@ -35,7 +35,7 @@ class ExitNgo < ActiveRecord::Base
   end
 
   def create_exit_ngo_history
-    ExitNgoHistory.initial(self)
+    ExitNgoHistory.initial(self) if ENV['HISTORY_DATABASE_HOST'].present?
   end
 
   def update_client_status
