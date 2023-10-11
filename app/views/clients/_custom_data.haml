@@ -12,6 +12,16 @@
         %td
           - if field['name'] && field['name'][/^date-/]
             %strong= date_format client_data_properties[field['name']].to_date
+          - elsif client_data_properties[field['name']].is_a?(Array)
+            - client_data_properties[field['name']].each do |value|
+              - next if value.blank?
+              - if value.is_a?(Hash)
+                - next if value['checked'] == 'false'
+                %li
+                  %strong= value['value']
+              - else
+                %li
+                  %strong= value
           - else
             %strong= client_data_properties[field['name']]
 
