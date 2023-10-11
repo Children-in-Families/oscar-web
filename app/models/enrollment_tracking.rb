@@ -23,10 +23,6 @@ class EnrollmentTracking < ActiveRecord::Base
     field_properties.select(&:present?)
   end
 
-  def get_form_builder_attachment(value)
-    form_builder_attachments.find_by(name: value)
-  end
-
   private
 
   def create_entity_enrollment_tracking_history

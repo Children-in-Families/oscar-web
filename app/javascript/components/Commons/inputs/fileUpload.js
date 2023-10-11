@@ -43,7 +43,7 @@ export default props => {
 
       { existingFiles.length > 0 && showFilePond &&
         <div className='remove-files-wrapper' style={{textAlign: 'center'}}>
-          {/* { renderExistingFiles(existingFiles) } */}
+          { renderExistingFiles(existingFiles) }
 
           <div>
             <Checkbox

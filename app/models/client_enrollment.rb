@@ -19,10 +19,10 @@ class ClientEnrollment < ActiveRecord::Base
 
   has_paper_trail
 
-  scope :enrollments_by,              ->(client)         { where(client_id: client) }
-  scope :find_by_program_stream_id,   ->(value)          { where(program_stream_id: value) }
-  scope :active,                      ->                 { where(status: 'Active') }
-  scope :inactive,                    ->                 { where(status: 'Exited') }
+  scope :enrollments_by, -> (client) { where(client_id: client) }
+  scope :find_by_program_stream_id, -> (value) { where(program_stream_id: value) }
+  scope :active, -> { where(status: 'Active') }
+  scope :inactive, -> { where(status: 'Exited') }
 
   delegate :name, to: :program_stream, prefix: true, allow_nil: true
 
@@ -53,8 +53,12 @@ class ClientEnrollment < ActiveRecord::Base
     client.update(status: 'Active')
   end
 
-  def get_form_builder_attachment(value)
-    form_builder_attachments.find_by(name: value)
+  def reset_client_status
+    client = Client.find(client_id)
+    return if client.client_enrollments.active.any?
+
+    client.status = 'Accepted'
+    client.save(validate: false)
   end
 
   def short_enrollment_date
@@ -107,7 +111,7 @@ class ClientEnrollment < ActiveRecord::Base
     cached_client_order_enrollment_date_properties_keys.each { |key| Rails.cache.delete(key) }
     cached_client_enrollment_date_join_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_enrollment_date_join/].blank? }
     cached_client_enrollment_date_join_keys.each { |key| Rails.cache.delete(key) }
-    Rails.cache.delete(["dashboard", "#{Apartment::Tenant.current}_client_errors"]) if enrollment_date_changed?
+    Rails.cache.delete(['dashboard', "#{Apartment::Tenant.current}_client_errors"]) if enrollment_date_changed?
 
     cached_client_enrollment_properties_by_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_enrollment_properties_by/].blank? }
     cached_client_enrollment_properties_by_keys.each { |key| Rails.cache.delete(key) }

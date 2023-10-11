@@ -551,6 +551,16 @@ ActiveRecord::Schema.define(version: 20231009071927) do
   add_index "client_client_types", ["client_id"], name: "index_client_client_types_on_client_id", using: :btree
   add_index "client_client_types", ["client_type_id"], name: "index_client_client_types_on_client_type_id", using: :btree
 
+  create_table "client_custom_data", force: :cascade do |t|
+    t.integer  "client_id"
+    t.jsonb    "properties"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.integer  "custom_data_id"
+  end
+
+  add_index "client_custom_data", ["client_id"], name: "index_client_custom_data_on_client_id", using: :btree
+
   create_table "client_enrollment_trackings", force: :cascade do |t|
     t.jsonb    "properties",           default: {}
     t.integer  "client_enrollment_id"
@@ -1047,6 +1057,12 @@ ActiveRecord::Schema.define(version: 20231009071927) do
 
   add_index "custom_assessment_settings", ["setting_id"], name: "index_custom_assessment_settings_on_setting_id", using: :btree
 
+  create_table "custom_data", force: :cascade do |t|
+    t.jsonb    "fields",     default: {}
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
   create_table "custom_field_permissions", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "custom_field_id"
@@ -1533,6 +1549,12 @@ ActiveRecord::Schema.define(version: 20231009071927) do
   add_index "global_identity_organizations", ["client_id"], name: "index_global_identity_organizations_on_client_id", using: :btree
   add_index "global_identity_organizations", ["global_id"], name: "index_global_identity_organizations_on_global_id", using: :btree
   add_index "global_identity_organizations", ["organization_id"], name: "index_global_identity_organizations_on_organization_id", using: :btree
+
+  create_table "global_identity_tmp", force: :cascade do |t|
+    t.binary  "ulid"
+    t.string  "ngo_name"
+    t.integer "client_id"
+  end
 
   create_table "global_services", id: false, force: :cascade do |t|
     t.uuid "uuid"
@@ -3020,6 +3042,9 @@ ActiveRecord::Schema.define(version: 20231009071927) do
   add_foreign_key "changelogs", "users"
   add_foreign_key "client_client_types", "client_types"
   add_foreign_key "client_client_types", "clients"
+  add_foreign_key "client_custom_data", "clients"
+  add_foreign_key "client_custom_data", "custom_data", column: "custom_data_id"
+  add_foreign_key "client_enrollment_trackings", "client_enrollments"
   add_foreign_key "client_enrollment_trackings", "client_enrollments"
   add_foreign_key "client_interviewees", "clients"
   add_foreign_key "client_interviewees", "interviewees"
