@@ -35,4 +35,5 @@ class SettingPolicy < ApplicationPolicy
   alias risk_assessment? create?
   alias customize_case_note? create?
   alias limit_tracking_form? create?
+  alias finance_dashboard? create?
 end

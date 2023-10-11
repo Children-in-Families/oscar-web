@@ -46,6 +46,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :release_notes, only: [:index]
+
   resources :quantitative_types do
     get "version" => "quantitative_types#version"
   end
@@ -386,6 +388,8 @@ Rails.application.routes.draw do
         end
       end
 
+      put 'release_notes/:id/upload_attachments' => 'release_notes#upload_attachments'
+
       resources :domain_groups, only: [:index]
       resources :departments, only: [:index]
       resources :families, except: [:destroy] do
@@ -486,6 +490,7 @@ Rails.application.routes.draw do
   resources :advanced_search_save_queries
   # resources :client_advanced_searches, only: :index
   resources :papertrail_queries, only: [:index]
+  resources :finance_reports, only: [:index, :show]
 
   resources :settings, except: [:destroy] do
     collection do
@@ -504,6 +509,9 @@ Rails.application.routes.draw do
 
       get "integration" => "settings#integration"
       put "integration" => "settings#integration"
+
+      get "finance_dashboard" => "settings#finance_dashboard"
+      put "finance_dashboard" => "settings#finance_dashboard"
 
       get :family_case_management
       get :community

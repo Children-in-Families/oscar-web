@@ -7,4 +7,9 @@ $('ul#side-menu .agency_count').text("<%= @agency_count %>")
 $('ul#side-menu .calls_count').text("<%= @calls_count %>")
 $('ul#side-menu .referees_count').text("<%= @referees_count %>")
 $('ul#side-menu .referral_source_count').text("<%= @referral_source_count %>")
+
+<% if current_user.notifications.relase_note.unread.size > 0 %>
+  $('ul#side-menu .release_logs_unread_count').text("<%= current_user.notifications.relase_note.unread.size %>")
+<% end %>
+
 $('ul#side-menu .archived_client_count').text("<%= Client.only_deleted.count %>")
