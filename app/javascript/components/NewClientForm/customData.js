@@ -16,7 +16,7 @@ export default (props) => {
   const onAttachmentsChange = (field) => (fileItems) => {
     fileItems = fileItems.map((file) => file.file);
     setClientCustomData((prev) => {
-      const files = prev.attachments || {};
+      const files = prev._attachments || {};
       files[field.split("-")[1]] = { name: field, file: fileItems };
       return { ...prev, _attachments: files };
     });
@@ -127,7 +127,11 @@ export default (props) => {
               />
             )}
 
-            {element.type === "paragraph" && <p>{element.name}</p>}
+            {element.type === "paragraph" && (
+              <p>
+                <strong>{element.label}</strong>
+              </p>
+            )}
 
             {element.type === "file" && (
               <div className="form-group">
