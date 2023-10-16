@@ -32,5 +32,5 @@
         %td.align-justify
           %strong= field['label']
         %td.align-justify
-          - key = convert_bracket(field['name'], client_custom_data.properties)
+          - key = convert_bracket(field['name'], client_custom_data.properties || {})
           = render 'shared/form_builder/list_attachment', label: field['name'], resource: client_custom_data
