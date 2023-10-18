@@ -1,0 +1,66 @@
+.ibox{ id: 'previous-care-plan', data: { disable_required_fields: current_setting.disable_required_fields? ? 'true' : false } }
+  .ibox-title
+    %h5
+      = "#{care_plan.client.name}"
+      %span= t('care_plans.new.current_care_plan', care_plan: t('clients.care_plan') )
+  - assessment = @assessment || Assessment.find_by(id: params[:care_plan][:assessment_id])
+  .ibox-content
+    %lable.string.control-label
+      %strong= "#{t('care_plans.care_plan_date')}:"
+      = date_format care_plan.care_plan_date
+    .root-wizard{ id:( readonly ? 'readonly-rootwizard' : 'rootwizard'), data: { cancel: t('care_plans.form.cancel'), next: t('care_plans.form.next'), previous: t('care_plans.form.previous'), finish: t('care_plans.form.finish'), save: t('care_plans.form.save'), saving: t('saving'), action: params['action'] } }
+      - order_assessment(assessment).each do |ad|
+        - score_color = ad.domain.send("score_#{ad.score}_color") if ad.score
+        - domain = ad.domain
+        %h4= domain_name_translate(assessment, domain)
+        %div{ class: "assessment-domain-item care-plan-wizard-domain-item domain-#{domain.id}" }
+          - assessment_domain = care_plan.assessment.assessment_domains_in_order.find_by(domain_id: domain.id)
+          %table.table.table-borderless
+            %tbody
+              %tr
+                %td
+                  %b
+                    = t('care_plans.show.domain')
+                    - if assessment_domain.domain.custom_domain?
+                      = assessment_domain.domain.name
+                      = assessment_domain.domain.identity
+                    - else
+                      = t("domains.domain_names.#{assessment_domain.domain.name.downcase.reverse}") + ":"
+                      = t("domains.domain_identies.#{assessment_domain.domain.identity.strip.parameterize('_')}_#{assessment_domain.domain.name.downcase}")
+                %td{rowspan: 1}
+                  .domain-score.text-center
+                    %button{ 'data-original-title': "#{simple_format(assessment_domain.score_definition)}", type: 'button', class: "btn btn-#{assessment_domain.score_color_class} btn-xs", 'data-toggle': 'tooltip' }
+                      = "#{assessment_domain.score}"
+              %tr
+                %td.no-padding-top
+                  %b= "#{t('care_plans.show.score')} #{assessment_domain.score}: #{(assessment_domain.score_definition).html_safe}"
+
+          - goal = care_plan.goals.joins(:assessment_domain).where(assessment_domains: { domain_id: domain.id }).first
+          %table.table.table-bordered.table-striped.table-hover
+            %tr
+              %td
+                %strong= t('care_plans.show.goal')
+              %td
+                = goal && goal.description
+            %tr
+              %td
+                %strong= t('care_plans.show.task')
+              %td
+                %ul
+                  - goal && goal.tasks.each_with_index do |task, index|
+                    %li= task.name
+            %tr
+              %td
+                %strong= t('care_plans.show.expected_date')
+              %td
+                %ul
+                  - goal && goal.tasks.each_with_index do |task, index|
+                    %li= date_format(task.expected_date)
+            %tr
+              %td
+                %strong= t('care_plans.show.done_during')
+              %td
+                %ul
+                  - goal && goal.tasks.each_with_index do |task, index|
+                    - if task.completed?
+                      %li= date_format(task.completion_date)

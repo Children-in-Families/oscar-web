@@ -34,8 +34,8 @@ module AssessmentHelper
   def order_assessment(assessment)
     assessment_domains = (assessment.persisted? && !assessment.draft?) ? assessment.assessment_domains.includes(:domain) : assessment.assessment_domains
 
-    if assessment_domains.all?{|ad| ad.domain.name[/\d+/]&.to_i }
-      assessment_domains.sort_by{ |ad| [ad.domain.name[/\d+/]&.to_i, ad.domain.name, ad.domain_id] }
+    if assessment_domains.all? { |ad| ad.domain.name[/\d+/]&.to_i }
+      assessment_domains.sort_by { |ad| [ad.domain.name[/\d+/]&.to_i, ad.domain.name, ad.domain_id] }
     else
       assessment_domains.sort_by(&:domain_id)
     end
@@ -78,7 +78,7 @@ module AssessmentHelper
     definition.present? ? simple_format(definition) : score
   end
 
-  def get_domains(case_note_domain, custom_assessment_setting_id=nil)
+  def get_domains(case_note_domain, custom_assessment_setting_id = nil)
     if params[:custom] == 'true'
       if case_note_domain.object.family_id
         case_note_domain.object.domain_group.family_custom_domain_identities
@@ -99,18 +99,18 @@ module AssessmentHelper
     if I18n.locale == :km && !ad.domain.custom_domain
       text = ad.domain.local_description[/<strong>.*<\/strong>/].gsub(/<strong>|<\/strong>/, '')
       domain_number = text[/[^\(.*]*/]
-      domain_name   = text[/\(.*/]
+      domain_name = text[/\(.*/]
 
       content_tag(:nil) do
-        content_tag(:td, content_tag(:b, "#{domain_number}:"), class: "no-padding-bottom") + content_tag(:td, content_tag(:b, domain_name), class: "no-padding-bottom")
+        content_tag(:td, content_tag(:b, "#{domain_number}:"), class: 'no-padding-bottom') + content_tag(:td, content_tag(:b, domain_name), class: 'no-padding-bottom')
       end
     else
-      content_tag(:td, content_tag(:b, "#{I18n.t('.domains.domain_list.domains')} #{ad.domain.name}:"), class: "no-padding-bottom") + content_tag(:td, content_tag(:b, ad.domain.identity), class: "no-padding-bottom")
+      content_tag(:td, content_tag(:b, "#{I18n.t('.domains.domain_list.domains')} #{ad.domain.name}:"), class: 'no-padding-bottom') + content_tag(:td, content_tag(:b, ad.domain.identity), class: 'no-padding-bottom')
     end
   end
 
   def assess_header_mapping
-    domains = Domain.cache_order_by_identity.select(&:client_csi?).map{ |domain| ["domain_#{domain.id}", domain.name] }
+    domains = Domain.cache_order_by_identity.select(&:client_csi?).map { |domain| ["domain_#{domain.id}", domain.name] }
     domain_ids, domain_headers = domains.map(&:first), domains.map(&:last)
 
     assessment_headers = [t('.client_id'), t('.client_name'), t('.assessment_number', assessment: t('clients.show.assessment')), t('.assessment_date', assessment: t('clients.show.assessment')), t('.average_score', assessment: t('clients.show.assessment'))]
@@ -129,14 +129,14 @@ module AssessmentHelper
     @custom_assessment_header_mapping = {}
 
     CustomAssessmentSetting.where(enable_custom_assessment: true).includes(:domains).each do |custom_csi_setting|
-      domains = custom_csi_setting.domains.map{ |domain| ["domain_#{domain.id}", domain.name] }
+      domains = custom_csi_setting.domains.map { |domain| ["domain_#{domain.id}", domain.name] }
       domain_ids, domain_headers = domains.map(&:first), domains.map(&:last)
-  
+
       assessment_headers = [t('.client_id'), t('.client_name'), t('.assessment_number', assessment: t('clients.show.assessment')), t('.assessment_date', assessment: t('clients.show.assessment')), t('.average_score', assessment: t('clients.show.assessment'))]
-  
+
       assessment_domain_headers = ['slug', 'name', 'assessment-number', 'date', 'average-score']
       classNames = ['client-id', 'client-name', 'assessment-number text-center', 'assessment-date', 'average-score text-center', 'assessment-score text-center']
-  
+
       @custom_assessment_header_mapping[custom_csi_setting.id] = [*assessment_domain_headers, *domain_ids].zip(classNames, [*assessment_headers, *domain_headers]).map do |field_header, class_name, header_name|
         { title: header_name, data: field_header, className: class_name ? class_name : 'assessment-score text-center' }
       end
@@ -146,7 +146,7 @@ module AssessmentHelper
   end
 
   def family_assessment_header_mapping
-    domains = Domain.family_custom_csi_domains.order_by_identity.map{ |domain| ["domain_#{domain.id}", domain.name] }
+    domains = Domain.family_custom_csi_domains.order_by_identity.map { |domain| ["domain_#{domain.id}", domain.name] }
     domain_ids, domain_headers = domains.map(&:first), domains.map(&:last)
 
     assessment_headers = [t('families.show.id'), t('families.show.name'), t('client_advanced_searches.custom_assessment_domain_score.assessment_number', assessment: t('clients.show.assessment')), t('client_advanced_searches.custom_assessment_domain_score.assessment_date', assessment: t('clients.show.assessment')), t('client_advanced_searches.custom_assessment_domain_score.average_score', assessment: t('clients.show.assessment'))]
@@ -165,13 +165,13 @@ module AssessmentHelper
       assessments = object.assessments.joins(:assessment_domains).distinct
     else
       basic_rules = $param_rules['basic_rules']
-      basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
+      basic_rules = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
       results = mapping_assessment_query_rules(basic_rules, identity).reject(&:blank?)
       assessment_completed_sql, assessment_number = assessment_filter_values(results)
 
       if results.present?
         assessments = []
-        sql = "(assessments.completed = true)".squish
+        sql = '(assessments.completed = true)'.squish
         if assessment_number.present? && assessment_completed_sql.present?
           assessments = object.assessments.where(sql).limit(1).offset(assessment_number - 1).order('created_at')
         elsif assessment_completed_sql.present?
@@ -195,11 +195,11 @@ module AssessmentHelper
     end
   end
 
-  def mapping_assessment_query_rules(data, field_name=nil, data_mapping=[])
+  def mapping_assessment_query_rules(data, field_name = nil, data_mapping = [])
     rule_array = []
     data[:rules].each_with_index do |h, index|
       if h.has_key?(:rules)
-        mapping_assessment_query_rules(h, field_name=nil, data_mapping)
+        mapping_assessment_query_rules(h, field_name = nil, data_mapping)
       end
       if field_name.nil?
         next if h[:id] !~ /^(domainscore|assessment_completed|assessment_completed_date|completed_date|assessment_number|month_number|date_nearest)/i
@@ -212,7 +212,7 @@ module AssessmentHelper
     data_mapping << rule_array
   end
 
-  def get_assessment_query_string(object_id_field, results, identity, domain_id, client_id=nil, basic_rules=nil)
+  def get_assessment_query_string(object_id_field, results, identity, domain_id, client_id = nil, basic_rules = nil)
     results.map do |result|
       condition = ''
       result.map do |h|
@@ -278,9 +278,9 @@ module AssessmentHelper
     when 'between'
       "(date(assessments.created_at) BETWEEN '#{value[0].to_date}' AND '#{value[1].to_date}')"
     when 'is_empty'
-      "assessments.created_at IS NULL"
+      'assessments.created_at IS NULL'
     when 'is_not_empty'
-      "assessments.created_at IS NOT NULL"
+      'assessments.created_at IS NOT NULL'
     end
   end
 
@@ -301,9 +301,9 @@ module AssessmentHelper
     when 'between'
       "assessments.completed = true AND (date(assessments.completed_date) BETWEEN '#{value[0].to_date}' AND '#{value[1].to_date}')"
     when 'is_empty'
-      "assessments.completed = true AND assessments.completed_date IS NULL"
+      'assessments.completed = true AND assessments.completed_date IS NULL'
     when 'is_not_empty'
-      "assessments.completed = true AND assessments.completed_date IS NOT NULL"
+      'assessments.completed = true AND assessments.completed_date IS NOT NULL'
     end
   end
 
@@ -324,9 +324,9 @@ module AssessmentHelper
     when 'between'
       "assessment_domains.domain_id = #{domain_id} AND assessment_domains.score IN (#{value.first..value.last})"
     when 'is_empty'
-      "assessment_domains.domain_id IS NULL OR assessment_domains.score IS NULL"
+      'assessment_domains.domain_id IS NULL OR assessment_domains.score IS NULL'
     when 'is_not_empty'
-      "assessment_domains.domain_id IS NOT NULL OR assessment_domains.score IS NOT NULL"
+      'assessment_domains.domain_id IS NOT NULL OR assessment_domains.score IS NOT NULL'
     end
   end
 
@@ -366,12 +366,12 @@ module AssessmentHelper
       end
 
       content_tag(:nil) do
-        content_tag(:td, content_tag(:b, domain_header.gsub(' ៖', '៖').html_safe), class: "no-padding-bottom")
+        content_tag(:td, content_tag(:b, domain_header.gsub(' ៖', '៖').html_safe), class: 'no-padding-bottom')
       end
     else
       content_tag(:nil) do
         domain_identity = t("dimensions.dimensions_identies.#{ad.domain.identity}")[/translation_missing/] ? ad.domain.identity : t("dimensions.dimensions_identies.#{ad.domain.identity}")
-        content_tag(:td, content_tag(:b, "#{t('dimensions.dimension_list.dimensions')}: "), class: "no-padding-bottom") + content_tag(:td, content_tag(:b, domain_identity, class: "no-padding-bottom"))
+        content_tag(:td, content_tag(:b, "#{t('dimensions.dimension_list.dimensions')}: "), class: 'no-padding-bottom') + content_tag(:td, content_tag(:b, domain_identity, class: 'no-padding-bottom'))
       end
     end
   end
@@ -404,7 +404,7 @@ module AssessmentHelper
 
   def check_setting_assessment_type_name_selected(assessment)
     setting_assessment_type_id = Setting.cache_first.assessment_type_name
-    
+
     if assessment.default
       true
     elsif assessment.custom_assessment_setting.blank?
