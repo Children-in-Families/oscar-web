@@ -26,7 +26,7 @@ require "capistrano/rvm"
 require "capistrano/passenger"
 require "capistrano/rails/assets"
 require "capistrano/rails/migrations"
-require "capistrano/sidekiq"
+require 'capistrano/sidekiq/systemd'
 
 require "whenever/capistrano"
 require "appsignal/capistrano"
