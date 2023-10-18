@@ -1801,7 +1801,7 @@ en:
       no_option: 'No'
       save: Save
     destroy:
-      successfully_deleted: Client has been successfully deleted.
+      successfully_deleted: This client data was deleted successfully.
     edit:
       download_supporting_document: Download Supporting Document
       edit_client_title: Edit Client
@@ -2177,6 +2177,10 @@ en:
       warning: Warning
     custom_fields:
       form_name: Form Name
+    archive:
+      successfully_archived: Client has been successfully removed and put to trash.
+    restore:
+      successfully_restored: This client data was restored successfully.
     show:
       <<: *LEGAL_DOC_ATTR
       care_plan: Care plan
@@ -2206,7 +2210,7 @@ en:
       age: Age
       agencies_involved: Other Agencies Involved
       agency_names: Agency Name
-      are_you_sure: Are you sure you want to delete?
+      are_you_sure: Are you sure you want to archive this client?
       basic_necessities: Basic Necessities
       basicNecessities:
         '1': Looking for health/medical help (including emergencies, pregnancy, other health concerns).

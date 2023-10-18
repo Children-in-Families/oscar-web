@@ -9,7 +9,14 @@ class BillableReport < ActiveRecord::Base
 
   has_many :billable_report_items, dependent: :destroy
 
+  scope :recent, -> { order(year: :desc, month: :desc) }
+  scope :by_current_instance, -> { where(organization_id: Organization.current&.id) }
+
   after_commit :update_organization_info, unless: :destroyed?
+
+  def date
+    Date.new(year, month)
+  end
 
   def update_organization_info
     update_columns(
