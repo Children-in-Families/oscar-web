@@ -7,6 +7,6 @@
 
 .row
   - if current_setting.disable_required_fields?
-    = render 'unrestricted_form', care_plan: @care_plan, readonly: false
+    = render 'unrestricted_form', care_plan: @care_plan, client: @client, readonly: false
   - else
     = render 'form'

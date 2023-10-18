@@ -3,6 +3,7 @@ class CarePlansController < AdminController
   load_and_authorize_resource
 
   before_action :set_client, :find_all_assessments
+  before_action :find_previou_assessment_and_care_plan, only: [:new, :create, :edit]
   before_action :set_care_plan, :find_assessment, only: [:edit, :update]
 
   def index
@@ -13,15 +14,13 @@ class CarePlansController < AdminController
   end
 
   def new
-    @assessment = @client.assessments.find_by(id: params[:assessment])
-    @prev_care_plan = @client.care_plans.last
-    @care_plan = Setting.cache_first.try(:use_previous_care_plan) && @prev_care_plan || @client.care_plans.new()
+    @care_plan = @client.care_plans.new
   end
 
   def create
     @care_plan = @client.care_plans.new(care_plan_params)
     assessment = Assessment.find(@care_plan.assessment_id)
-    if assessment.care_plan.nil? && @care_plan.save
+    if assessment.care_plan.nil? && (current_setting.disable_required_fields? ? @care_plan.save(validate: false) : @care_plan.save)
       redirect_to client_care_plans_path(@client), notice: t('.successfully_created', care_plan: t('clients.care_plan'))
     else
       render :new
@@ -33,9 +32,6 @@ class CarePlansController < AdminController
   end
 
   def edit
-    # unless current_user.admin? || current_user.strategic_overviewer?
-    #   redirect_to root_path, alert: t('unauthorized.default') unless current_user.permission.care_plans_editable
-    # end
   end
 
   def update
@@ -91,5 +87,10 @@ class CarePlansController < AdminController
 
   def set_care_plan
     @care_plan = @client.care_plans.find(params[:id])
+  end
+
+  def find_previou_assessment_and_care_plan
+    @assessment = @client.assessments.find_by(id: params[:assessment])
+    @prev_care_plan = @client.care_plans.last
   end
 end
