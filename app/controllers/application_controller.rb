@@ -20,7 +20,7 @@ class ApplicationController < ActionController::Base
   helper_method :field_settings, :cache_keys_base
 
   rescue_from CanCan::AccessDenied do |exception|
-    if exception.subject.inspect.include?("Client") && (exception.action).to_s.include?("show")
+    if exception.subject.inspect.include?('Client') && (exception.action).to_s.include?('show')
       flash[:notice] = t('unauthorized.case_worker_unauthorized')
     else
       flash[:alert] = t('unauthorized.default')
@@ -103,11 +103,11 @@ class ApplicationController < ActionController::Base
 
   def find_association
     @department = Department.order(:name)
-    @province   = Province.cached_order_name
+    @province = Province.cached_order_name
   end
 
   def default_url_options(options = {})
-    country = Setting.cache_first.try(:country_name) || params[:country] || 'cambodia'
+    country = Setting.cache_first.try(:country_name) || current_organization.country || params[:country] || 'cambodia'
     local = params[:locale] if params[:locale] && I18n.available_locales.include?(params[:locale].to_sym)
     { locale: local || I18n.locale, country: country }.merge(options)
   end
@@ -133,9 +133,9 @@ class ApplicationController < ActionController::Base
   end
 
   def prevent_routes
-    if current_setting.try(:enable_hotline) == false && params[:controller] == "calls"
+    if current_setting.try(:enable_hotline) == false && params[:controller] == 'calls'
       redirect_to root_path, notice: t('unauthorized.you_cannot_access_this_page')
-    elsif current_setting.try(:enable_client_form) == false && params[:controller] == "clients"
+    elsif current_setting.try(:enable_client_form) == false && params[:controller] == 'clients'
       redirect_to root_path, notice: t('unauthorized.you_cannot_access_this_page')
     end
   end
