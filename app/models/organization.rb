@@ -1,4 +1,5 @@
 require 'rake'
+
 class Organization < ActiveRecord::Base
   SUPPORTED_LANGUAGES = %w(en km my).freeze
   TYPES = ['Faith Based Organization', 'Government Organization', "Disabled People's Organization", 'Non Government Organization', 'Community Based Organization', 'Other Organization'].freeze
@@ -53,7 +54,6 @@ class Organization < ActiveRecord::Base
       transaction do
         org = new(fields)
         if org.save
-
           Apartment::Tenant.create(org.short_name)
           org
         else
@@ -62,7 +62,7 @@ class Organization < ActiveRecord::Base
       end
     end
 
-    def seed_generic_data(org_id, referral_source_category_name=nil)
+    def seed_generic_data(org_id, referral_source_category_name = nil)
       org = find_by(id: org_id)
       db_value = ENV['DB']
 
@@ -87,11 +87,16 @@ class Organization < ActiveRecord::Base
 
           Importer::Import.new('Agency', general_data_file).agencies
           Importer::Import.new('Department', general_data_file).departments
-          if country == 'nepal'
+          case country
+          when 'nepal'
             Rake::Task['nepali_provinces:import'].invoke(org.short_name)
-          elsif country == 'haiti'
+            Rake::Task['nepali_provinces:import'].reenable
+          when 'haiti'
             Rake::Task['haiti_addresses:import'].invoke(org.short_name)
             Rake::Task['haiti_addresses:import'].reenable
+          when 'thailand'
+            Rake::Task['thailand_addresses:import'].invoke(org.short_name)
+            Rake::Task['thailand_addresses:import'].reenable
           else
             Importer::Import.new('Province', general_data_file).provinces
             Rake::Task['communes_and_villages:import'].invoke(org.short_name)
@@ -99,8 +104,8 @@ class Organization < ActiveRecord::Base
           end
           Importer::Import.new('Quantitative Type', general_data_file).quantitative_types
           Importer::Import.new('Quantitative Case', general_data_file).quantitative_cases
-          Rake::Task["field_settings:import"].invoke(org.short_name)
-          Rake::Task["field_settings:import"].reenable
+          Rake::Task['field_settings:import'].invoke(org.short_name)
+          Rake::Task['field_settings:import'].reenable
 
           Thredded::MessageboardGroup.find_or_create_by(name: 'Archived', position: 0)
 
@@ -185,7 +190,7 @@ class Organization < ActiveRecord::Base
   end
 
   def integrated_date
-    warn "[DEPRECATION] `integrated_date` is deprecated.  Please use `last_integrated_date` instead."
+    warn '[DEPRECATION] `integrated_date` is deprecated.  Please use `last_integrated_date` instead.'
     last_integrated_date
   end
 
@@ -206,7 +211,7 @@ class Organization < ActiveRecord::Base
   end
 
   def self.full_name_from_short_name(short_name)
-    (cache_mapping_ngo_names.find{ |name| name.keys[0] == short_name } || {})[short_name]
+    (cache_mapping_ngo_names.find { |name| name.keys[0] == short_name } || {})[short_name]
   end
 
   def self.cache_visible_ngos
@@ -217,7 +222,7 @@ class Organization < ActiveRecord::Base
 
   def self.cached_organization_short_names(short_names)
     Rails.cache.fetch([Apartment::Tenant.current, Organization.only_deleted.count, 'Organization', 'cached_organization_short_names', *short_names.sort]) {
-      where("organizations.short_name IN (?)", short_names).pluck(:full_name)
+      where('organizations.short_name IN (?)', short_names).pluck(:full_name)
     }
   end
 
