@@ -3,12 +3,12 @@ class Family::AssessmentsController < Api::ApplicationController
 
   def index
     $param_rules = params
-    basic_rules = JSON.parse(params[:basic_rules] || "{}")
-    families    = AdvancedSearches::Families::FamilyAdvancedSearch.new(basic_rules, Family.accessible_by(current_ability)).filter
+    basic_rules = JSON.parse(params[:basic_rules] || '{}')
+    families = AdvancedSearches::Families::FamilyAdvancedSearch.new(basic_rules, Family.accessible_by(current_ability)).filter
     assessments = Assessment.joins(:family).where(default: false, family_id: families.ids)
     @assessments_count = assessments.count
 
-    render json: { recordsTotal:  @assessments_count, recordsFiltered: @assessments_count, data: data }
+    render json: { recordsTotal: @assessments_count, recordsFiltered: @assessments_count, data: data }
   end
 
   private
@@ -24,11 +24,12 @@ class Family::AssessmentsController < Api::ApplicationController
         total += value || 0
       end
 
-      client_hash = { id: assessment.family_id,
+      client_hash = {
+        id: assessment.family_id,
         name: assessment.family.name,
         'assessment-number': assessment.family.assessments.count,
         date: assessment.created_at.strftime('%d %B %Y'),
-        'average-score': total == 0 ? nil : (total.fdiv(domain_scores.length())).round()
+        'average-score': total.zero? ? nil : total.fdiv(domain_scores.length).round
       }
       client_hash.merge!(domain_scores.to_h)
       client_data << client_hash
@@ -42,8 +43,8 @@ class Family::AssessmentsController < Api::ApplicationController
   end
 
   def fetch_assessments
-    basic_rules = JSON.parse(params[:basic_rules] || "{}")
-    families    = AdvancedSearches::Families::FamilyAdvancedSearch.new(basic_rules, Family.accessible_by(current_ability)).filter
+    basic_rules = JSON.parse(params[:basic_rules] || '{}')
+    families = AdvancedSearches::Families::FamilyAdvancedSearch.new(basic_rules, Family.accessible_by(current_ability)).filter
     assessments = Assessment.joins(:family).where(default: false, family_id: families.ids)
 
     assessment_data = params[:length] != '-1' ? assessments.page(page).per(per_page) : assessments
@@ -54,7 +55,7 @@ class Family::AssessmentsController < Api::ApplicationController
   end
 
   def page
-    params[:start].to_i/per_page + 1
+    params[:start].to_i / per_page + 1
   end
 
   def per_page
@@ -62,21 +63,21 @@ class Family::AssessmentsController < Api::ApplicationController
   end
 
   def sort_column
-    domains_fields = domains.map { |domain|  "assessment_domains.score" }
-    columns = ["regexp_replace(clients.slug, '\\D*', '', 'g')::int", "clients.given_name", "clients.assessments_count", "assessments.created_at", *domains_fields]
+    domains_fields = domains.map { |domain| 'assessment_domains.score' }
+    columns = ["regexp_replace(clients.slug, '\\D*', '', 'g')::int", 'clients.given_name', 'clients.assessments_count', 'assessments.created_at', *domains_fields]
     columns[params[:order]['0']['column'].to_i]
   end
 
   def sort_direction
-    params[:order]['0']['dir'] == "desc" ? "desc" : "asc"
+    params[:order]['0']['dir'] == 'desc' ? 'desc' : 'asc'
   end
 
   def adule_client_gender_count(clients, type = :male)
-    clients.public_send(type).where("(EXTRACT(year FROM age(current_date, clients.date_of_birth)) :: int) >= ?", 18).count
+    clients.public_send(type).where('(EXTRACT(year FROM age(current_date, clients.date_of_birth)) :: int) >= ?', 18).count
   end
 
   def under_18_client_gender_count(clients, type = :male)
-    clients.public_send(type).where("(EXTRACT(year FROM age(current_date, clients.date_of_birth)) :: int) < ?", 18).count
+    clients.public_send(type).where('(EXTRACT(year FROM age(current_date, clients.date_of_birth)) :: int) < ?', 18).count
   end
 
   def other_client_gender_count(clients)
