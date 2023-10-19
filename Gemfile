@@ -115,7 +115,7 @@ group :development do
   gem 'capistrano-rails',     '~> 1.1.1'
   gem 'capistrano-passenger', '~> 0.1.1'
   gem 'capistrano-rvm',       '~> 0.1.2'
-  gem 'capistrano-sidekiq',   '~> 1.0', '>= 1.0.3'
+  gem 'capistrano-sidekiq-systemd', require: false
   gem 'capistrano-foreman'
   gem 'rack-mini-profiler',   '~> 1.0'
   gem 'metainspector'
