@@ -800,9 +800,9 @@ module ClientsHelper
 
     query_string = get_query_string(results, form_type, properties_field)
     if form_type == 'formbuilder'
-      properties_result = object.where(query_string.reject(&:blank?).join(" #{basic_rules['condition']} "))
+      object.where(query_string.reject(&:blank?).join(" #{basic_rules['condition']} "))
     else
-      properties_result = object.joins(:client_enrollment).where(client_enrollments: { program_stream_id: selected_program_stream }).where(query_string.reject(&:blank?).join(" #{basic_rules['condition']} "))
+      object.joins(:client_enrollment).where(client_enrollments: { program_stream_id: selected_program_stream }).where(query_string.reject(&:blank?).join(" #{basic_rules['condition']} "))
     end
   end
 
@@ -1067,7 +1067,8 @@ module ClientsHelper
             if fields.last == 'Has This Form'
               count += client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client' }).count
             else
-              properties = form_builder_query(client.custom_field_properties, fields.first, column.name.to_s.gsub('&qoute;', '"'), 'custom_field_properties.properties').properties_by(format_field_value)
+              custom_field_id = client.custom_fields.cached_client_custom_field_find_by(client, fields.second)
+              properties = form_builder_query(client.custom_field_properties.where(custom_field_id: custom_field_id), fields.first, column.name.to_s.gsub('&qoute;', '"'), 'custom_field_properties.properties').properties_by(format_field_value)
               count += property_filter(properties, format_field_value).size
             end
           elsif class_name[/^(tracking)/i]
