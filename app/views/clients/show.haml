@@ -182,7 +182,7 @@
                     %span.caret
 
                 - if Organization.ratanak?
-                  %li= link_to 'Internal Referral', new_client_internal_referral_path(@client), class: "refer-to-item"
+                  %li= link_to 'Internal Referral', client_internal_referrals_path(@client), class: "refer-to-item"
                 - ngos.each do |value, key|
                   - if value == "MoSVY External System" && @client.is_referable_to_external_system?
                     %li= link_to value, '#exteralSystem', class: 'target-ngo refer-to-item', data: { target: '#exteralSystem', toggle: "modal" }
