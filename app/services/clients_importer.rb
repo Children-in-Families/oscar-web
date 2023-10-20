@@ -7,7 +7,7 @@ module ClientsImporter
       @workbook = Roo::Excelx.new(path)
       @headers = {}
       @sheets = sheets
-      @workbook_second_row = 6
+      @workbook_second_row = 2
     end
 
     def import_all
@@ -35,12 +35,20 @@ module ClientsImporter
         new_user['manager_ids'] = [new_user['manager_id']]
 
         user = find_or_initialize_by(new_user)
-        user.save(validate: false)
+        user.save(validate: false) unless user.persisted?
       end
+      puts '==============================Done import users======================================='
     end
 
     def find_or_initialize_by(attributes, &block)
-      User.find_by(attributes.slice('first_name', 'last_name')) || User.new(attributes, &block)
+      user = User.find_by(email: attributes['email'])
+      if user
+        attributes.delete('email')
+        user.update_attributes(attributes)
+        user
+      else
+        User.new(attributes, &block)
+      end
     end
 
     def families
@@ -93,8 +101,10 @@ module ClientsImporter
         new_client = {}
         new_client['given_name'] = workbook.row(row_index)[headers['Given Name (English)']]
         new_client['family_name'] = workbook.row(row_index)[headers['Family Name (English)']]
-        new_client['local_given_name'] = workbook.row(row_index)[headers['Given Name (Khmer)']]
         new_client['local_family_name'] = workbook.row(row_index)[headers['Family Name (Khmer)']]
+        new_client['local_given_name'] = workbook.row(row_index)[headers['Given Name (Khmer)']]
+        next if Client.find_by(new_client.slice('local_given_name', 'local_family_name')).present?
+
         new_client['gender'] = workbook.row(row_index)[headers['* Gender']]&.downcase
         family_id = workbook.row(row_index)[headers['Family ID']]
         new_client['current_family_id'] = Family.find_by(code: family_id).try(:id)
@@ -104,7 +114,7 @@ module ClientsImporter
         new_client['date_of_birth'] = workbook.row(row_index)[headers['Date of Birth']].to_s
         new_client['initial_referral_date'] = workbook.row(row_index)[headers['* Initial Referral Date']].to_s
 
-        referral_source_category_name = workbook.row(row_index)[headers['*Referral Source Category']]
+        referral_source_category_name = workbook.row(row_index)[headers['* Referral Source Category']]
         referral_source_name = workbook.row(row_index)[headers['Referral Source']]
         new_client['referral_source_category_id'] = ReferralSource.find_or_create_by(name: referral_source_category_name, name_en: referral_source_category_name)&.id
         binding.pry if new_client['referral_source_category_id'].nil?
@@ -163,18 +173,15 @@ module ClientsImporter
         new_client['code'] = workbook.row(row_index)[headers['Custom ID Number 1']]
         case_worker_id = workbook.row(row_index)[headers['*Case Worker ID']]
         case_worker_names = workbook.row(row_index)[headers['* Case Worker / Staff']]
-        if case_worker_id.present?
-          new_client['user_id'] = User.find_by(id: case_worker_id).try(:id)
-        else
-          case_worker_name = case_worker_names.split(', ').first.squish
-          new_client['user_id'] = User.find_by(last_name: case_worker_name.split(' ').last.squish).try(:id)
-        end
-        if case_worker_names.split(', ').length > 1
-          case_worker_ids = case_worker_names.split(', ').map do |caseworker_name|
-            User.find_by(last_name: caseworker_name.split(' ').last.squish).try(:id)
+
+        if case_worker_names.split(',').length > 1
+          case_worker_ids = case_worker_names.split(',').map do |caseworker_name|
+            create_user_received_by(last_name: caseworker_name.split(' ').last.squish)
           end
           new_client['user_ids'] = case_worker_ids
         else
+          case_worker_name = case_worker_names.split(',').first.squish
+          new_client['user_id'] = create_user_received_by(last_name: case_worker_name.split(' ').last.squish)
           new_client['user_ids'] = [new_client['user_id']]
         end
 
@@ -182,8 +189,9 @@ module ClientsImporter
         carer_phone = workbook.row(row_index)[headers['Primary Carer Phone Number']]
         new_client['carer_id'] = create_carer(name: carer_name, phone: carer_phone)
 
-        client = Client.find_by(new_client.slice('given_name', 'family_name')) || Client.new(new_client)
-        client.save!
+        Client.skip_callback(:commit, :after, :do_duplicate_checking)
+        client = Client.find_by(new_client.slice('local_given_name', 'local_family_name')) || Client.new(new_client)
+        client.save! unless client.persisted?
 
         family_name = workbook.row(row_index)[headers['Family ID']]
         family = find_family(family_name)
@@ -212,12 +220,12 @@ module ClientsImporter
 
     def create_user_received_by(attributes)
       attribute = attributes.with_indifferent_access
-      user = User.find_or_create_by(last_name: attribute['last_name']) do |user|
-        user.password = Devise.friendly_token.first(8)
-        user.last_name = attribute['last_name'] || attribute['last_name']
-        user.gender = attribute['gender'] || 'other'
-        user.email = "#{attribute['first_name']}@colt.org"
-        user.roles = 'case worker'
+      user = User.find_or_create_by(last_name: attribute['last_name']) do |object|
+        object.password = Devise.friendly_token.first(8)
+        object.last_name = attribute['last_name']
+        object.gender = attribute['gender'] || 'other'
+        object.email = "#{attribute['last_name']}@colt.org"
+        object.roles = 'case worker'
       end
 
       user&.id
