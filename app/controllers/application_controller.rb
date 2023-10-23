@@ -60,7 +60,8 @@ class ApplicationController < ActionController::Base
   protected
 
   def override_translation
-    return if I18n::Backend::Custom::ReloadChecker.last_reload_at > FieldSetting.maximum(:updated_at)
+    return if I18n::Backend::Custom::ReloadChecker.last_reload_at > (FieldSetting.maximum(:updated_at) || Time.now)
+
     I18n.backend.reload!
   rescue ArgumentError => e
     # Caused by FieldSetting zero
