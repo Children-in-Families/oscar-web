@@ -2,7 +2,7 @@ class FieldSetting < ActiveRecord::Base
   include CacheHelper
   self.inheritance_column = :_type_disabled
 
-  translates :label
+  translates :label, touch: true
   validates :name, :group, presence: true
 
   default_scope -> { order(:created_at) }
