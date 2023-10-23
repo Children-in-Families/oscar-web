@@ -17,7 +17,7 @@ class ClientsController < AdminController
   before_action :find_client, only: [:show, :edit, :update, :custom_fields]
   before_action :assign_client_attributes, only: [:show, :edit]
   before_action :set_association, except: [:index, :destroy, :restore, :archive, :archived, :version, :welcome, :load_client_table_summary, :load_statistics_data]
-  before_action :choose_grid, only: [:index]
+  before_action :choose_grid, only: [:index, :advanced_search]
   before_action :quantitative_type_editable, only: [:edit, :update, :new, :create]
   before_action :quantitative_type_readable
   before_action :validate_referral, only: [:new, :edit]
