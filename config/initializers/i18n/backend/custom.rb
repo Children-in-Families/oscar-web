@@ -23,14 +23,14 @@ end
 
 module I18n::Backend::Custom
   class ReloadChecker
-    @@last_reload_at = nil
+    @@last_reload_at = {}
 
     def self.last_reload_at
-      @@last_reload_at
+      @@last_reload_at[Apartment::Tenant.current]
     end
 
     def self.update_last_reload_at
-      @@last_reload_at = Time.current
+      @@last_reload_at[Apartment::Tenant.current] = Time.current
     end
   end
 
