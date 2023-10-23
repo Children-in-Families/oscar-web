@@ -10,15 +10,15 @@ class ReferralSource < ActiveRecord::Base
   after_save :update_client_referral_source
   after_commit :flush_cache
 
-  scope :parent_categories,       ->        { where(name: REFERRAL_SOURCES) }
-  scope :child_referrals,         ->        { where.not(name: REFERRAL_SOURCES) }
-  scope :gatekeeping_mechanism,   ->        { where(name: GATEKEEPING_MECHANISM) }
+  scope :parent_categories, -> { where(ancestry: nil) }
+  scope :child_referrals, -> { where.not(ancestry: nil) }
+  scope :gatekeeping_mechanism, -> { where(name: GATEKEEPING_MECHANISM) }
 
   def self.find_referral_source_category(referral_source_category_id, referred_from = '')
     if referral_source_category_id
       find(referral_source_category_id)
     else
-      ReferralSource.find_by(name: referred_from) || ReferralSource.find_by(name_en: referred_from) || ReferralSource.find_by_name_en("Non-Government Organization") ||
+      ReferralSource.find_by(name: referred_from) || ReferralSource.find_by(name_en: referred_from) || ReferralSource.find_by_name_en('Non-Government Organization') ||
       ReferralSource.find_by_name(Organization.find_by(short_name: referred_from)&.referral_source_category_name)
     end
   end
