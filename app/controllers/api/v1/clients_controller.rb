@@ -38,7 +38,7 @@ module Api
           client.carer_id = carer.id
           client.current_family_id ? client_params : client_params.except(:family_ids)
         end
-        binding.pry
+
         if client.update_attributes(client_params.except(:referee_id, :carer_id))
           qtt_free_text_cases = params[:client_quantitative_free_text_cases]
 
