@@ -25,6 +25,7 @@ class Organization < ActiveRecord::Base
   scope :cambodian, -> { where(country: 'cambodia') }
   scope :skip_dup_checking_orgs, -> { where(short_name: ['demo', 'cwd', 'myan', 'rok', 'my']) }
   scope :only_integrated, -> { where(integrated: true) }
+  scope :completed, -> { where(onboarding_status: 'completed') }
 
   before_save :clean_supported_languages
 

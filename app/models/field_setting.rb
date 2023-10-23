@@ -143,6 +143,8 @@ class FieldSetting < ActiveRecord::Base
   end
 
   def flush_cache
+    puts "flushing cache for field_setting #{self.id}"
+
     Rails.cache.delete(field_settings_cache_key)
     Rails.cache.delete([Apartment::Tenant.current, self.class.name, self.id])
     Rails.cache.delete([Apartment::Tenant::current, 'FieldSetting', self.name, self.group])
