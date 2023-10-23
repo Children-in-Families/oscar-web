@@ -285,11 +285,9 @@ module Api
       end
 
       if params[:family_member]
-        client_param[:family_member_attributes] = params[:family_member].permit([:id, :family_id])
+        client_param[:family_member_attributes] = params[:family_member].permit(%i[id family_id])
 
-        if client_param[:family_member_attributes].present?
-          client_param[:family_member_attributes][:_destroy] = 1 if client_param.dig(:family_member_attributes, :family_id).blank?
-        end
+        client_param[:family_member_attributes][:_destroy] = 1 if client_param[:family_member_attributes].present? && client_param.dig(:family_member_attributes, :family_id).blank?
       end
 
       client_param
