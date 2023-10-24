@@ -5,16 +5,17 @@ class DuplicateCheckerWorker
     Organization.switch_to tenant
 
     client = Client.find_by(id: client_id)
-    shared_client = client.shared_clients.first
 
     return if client.blank?
+    shared_client = client.shared_clients.first
+
     return if shared_client&.resolved_duplication_by.present?
 
     if shared_client.blank?
       client.create_or_update_shared_client
       shared_client = client.shared_clients.first
     end
-    
+
     if client.given_name.blank? && client.family_name.blank? && client.local_given_name.blank? && client.local_family_name.blank?
       shared_client.update_columns(duplicate: false, duplicate_with: {})
       return
@@ -22,7 +23,7 @@ class DuplicateCheckerWorker
 
     duplicate_checker_fields = {
       slug: client.slug,
-      given_name: client.given_name ,
+      given_name: client.given_name,
       family_name: client.family_name,
       local_given_name: client.local_given_name,
       local_family_name: client.local_family_name,
@@ -41,12 +42,13 @@ class DuplicateCheckerWorker
     if archived_slug
       tenant, client_id = archived_slug.split('-')
       duplicate_with_client = Apartment::Tenant.switch(tenant) { Client.find(client_id) }
-
-      shared_client.update_columns(duplicate: true, duplicate_with: {
-        duplicated_with_client_id: duplicate_with_client.slug,
-        duplicated_with_ngo: tenant,
-        duplicate_fields: duplicate_response[:similar_fields].map{ |field| field.gsub(/#hidden_|_fields/, "") }
-      })
+      shared_client.update_columns(
+        duplicate: true, duplicate_with: {
+          duplicated_with_client_id: duplicate_with_client.slug,
+          duplicated_with_ngo: tenant,
+          duplicate_fields: duplicate_response[:similar_fields].map { |field| field.gsub(/#hidden_|_fields/, '') }
+        }
+      )
     else
       shared_client.update_columns(duplicate: false, duplicate_with: {})
     end

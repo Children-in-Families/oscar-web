@@ -2,7 +2,7 @@ class FieldSetting < ActiveRecord::Base
   include CacheHelper
   self.inheritance_column = :_type_disabled
 
-  translates :label
+  translates :label, touch: true
   validates :name, :group, presence: true
 
   default_scope -> { order(:created_at) }
@@ -95,12 +95,6 @@ class FieldSetting < ActiveRecord::Base
     Rails.cache.fetch([Apartment::Tenant.current, 'field_settings']) { includes(:translations).to_a }
   end
 
-  def self.max_updated_at
-    Rails.cache.fetch([Apartment::Tenant.current, self.class.name, 'max_updated_at']) do
-      maximum(:updated_at)
-    end
-  end
-
   def cache_object
     Rails.cache.fetch([Apartment::Tenant.current, self.class.name, self.id]) { self }
   end
@@ -149,9 +143,10 @@ class FieldSetting < ActiveRecord::Base
   end
 
   def flush_cache
+    puts "flushing cache for field_setting #{self.id}"
+
     Rails.cache.delete(field_settings_cache_key)
     Rails.cache.delete([Apartment::Tenant.current, self.class.name, self.id])
-    Rails.cache.delete([Apartment::Tenant.current, self.class.name, 'max_updated_at'])
     Rails.cache.delete([Apartment::Tenant::current, 'FieldSetting', self.name, self.group])
     Rails.cache.delete(field_settings_cache_key << 'cache_query_find_by_ngo_name')
     Rails.cache.delete([Apartment::Tenant.current, 'FieldSetting', 'klass_name', self.name, self.klass_name])

@@ -7,6 +7,10 @@ module DashboardHelper
     end
   end
 
+  def family_tab?
+    params[:tab] == 'family'
+  end
+
   def checkbox_tasks
     if @default_params
       'true'

@@ -41,6 +41,9 @@ CIF.DashboardsIndex = do ->
         success: (response) ->
           $(".lazy-load-family-tab").html(response.data)
           _familyType()
+    else
+      _familyType()
+      _handleFamilyProgramStreamChart()
 
   _loadModalReminder = ->
     if localStorage.getItem('from login') == 'true'
@@ -519,7 +522,9 @@ CIF.DashboardsIndex = do ->
     $('.highcharts-credits').css('display', 'none')
 
   _familyInActiveProgramStream = () ->
-    $(document).on 'shown.bs.tab', 'a[aria-controls="family-tab"]', (e) ->
+    $(document).on 'shown.bs.tab', 'a[aria-controls="family-tab"]', _handleFamilyProgramStreamChart
+
+  _handleFamilyProgramStreamChart = () ->
       url = '/api/program_streams/generate_family_program_stream'
       $.ajax
         type: 'GET'

@@ -48,7 +48,7 @@ module I18n::Backend::Custom
   end
 
   def load_custom_labels
-    FieldSetting.cache_all.each do |field_setting|
+    FieldSetting.find_each do |field_setting|
       data = translations[I18n.locale]
       data.extend(HashDeepTraverse)
       next if field_setting.current_label.blank?

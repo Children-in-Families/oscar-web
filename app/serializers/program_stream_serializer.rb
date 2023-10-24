@@ -20,6 +20,6 @@ class ProgramStreamSerializer < ActiveModel::Serializer
   end
 
   def program_permission_editable
-    scope.current_user.program_stream_permissions.find_by(program_stream_id: object.id).editable
+    scope.current_user.program_stream_permissions.find_by(program_stream_id: object.id).try(:editable)
   end
 end

@@ -66,6 +66,7 @@ class Client < ActiveRecord::Base
   belongs_to :village
   belongs_to :referee
   belongs_to :carer
+  belongs_to :archived_by, class_name: 'User'
 
   belongs_to :concern_province, class_name: 'Province',  foreign_key: 'concern_province_id'
   belongs_to :concern_district, class_name: 'District',  foreign_key: 'concern_district_id'
@@ -767,6 +768,8 @@ class Client < ActiveRecord::Base
   end
 
   def create_or_update_shared_client(client_id = nil)
+    return if deleted_at? || destroyed?
+
     current_org = Organization.current
     client_current_province = province_name
     client_district = district_name
@@ -1128,7 +1131,7 @@ class Client < ActiveRecord::Base
   end
 
   def create_client_history
-    ClientHistory.initial(self)
+    ClientHistory.initial(self) if ENV['HISTORY_DATABASE_HOST'].present?
   end
 
   def notify_managers

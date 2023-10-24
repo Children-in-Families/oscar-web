@@ -383,7 +383,7 @@
                   - if field == 'police_interview'
                     %strong= t("clients.form.detail_form_of_judicial_police")
                   - else
-                    %strong= t("clients.form.#{field}")
+                    %strong= t("clients.show.#{field}")
                 %td(rowspan="#{ attachments.size + 1 }")
                   %strong
                     %span YES
@@ -401,7 +401,7 @@
             - else
               %tr
                 %td
-                  %strong= t("clients.form.#{field}")
+                  %strong= t("clients.show.#{field}")
                 %td
                   %strong NO
                 %td
