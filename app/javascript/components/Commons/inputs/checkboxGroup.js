@@ -9,6 +9,8 @@ export default (props) => {
     dataValue,
     name,
     inlineClassName,
+    required,
+    isError,
     ...others
   } = props;
 
@@ -23,7 +25,10 @@ export default (props) => {
       className="form-group boolean optional"
       style={{ display: "flex", flexDirection: "column" }}
     >
-      <label style={styles.fontBold}> {props.label} </label>
+      <label style={(isError && customError.errorText) || styles.fontBold}>
+        {required && <abbr title="required">* </abbr>}
+        {props.label}
+      </label>
       <ul className="checkbox-list i-checks">
         {data.map(({ label, checked }, index) => {
           return (
@@ -89,5 +94,15 @@ const styles = {
     padding: "5px",
     alignItems: "center",
     display: "flex"
+  }
+};
+
+const customError = {
+  control: (provided) => ({
+    ...provided,
+    borderColor: "red"
+  }),
+  errorText: {
+    color: "red"
   }
 };

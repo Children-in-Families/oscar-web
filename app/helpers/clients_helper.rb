@@ -50,7 +50,7 @@ module ClientsHelper
         tasks_attributes: @risk_assessment.try(:tasks) || []
       },
       customData: @custom_data&.fields || [],
-      clientCustomFields: @client_custom_data&.properties || {}
+      clientCustomFields: @client_custom_data_properties || {}
     }
   end
 

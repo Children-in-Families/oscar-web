@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   SelectInput,
   TextArea,
@@ -11,13 +11,22 @@ import {
 import CheckboxGroup from "../Commons/inputs/checkboxGroup";
 
 export default (props) => {
-  const { onChange, customData, clientCustomData, setClientCustomData } = props;
+  const {
+    onChange,
+    customData,
+    clientCustomData,
+    setClientCustomData,
+    errorFields,
+    T
+  } = props;
 
-  const onAttachmentsChange = (field) => (fileItems) => {
+  const onAttachmentsChange = (field, id) => (fileItems) => {
     fileItems = fileItems.map((file) => file.file);
     setClientCustomData((prev) => {
       const files = prev._attachments || {};
       files[field.split("-")[1]] = { name: field, file: fileItems };
+      if (prev[field]?.id) files[field.split("-")[1]].id = prev[field]?.id;
+
       return { ...prev, _attachments: files };
     });
   };
@@ -73,24 +82,31 @@ export default (props) => {
             {(element.type === "text" || element.type === "number") && (
               <TextInput
                 {...element}
+                T={T}
                 onChange={onChange("custom_data", element.name)}
                 value={clientCustomData[element.name]}
+                isError={errorFields.includes(element.name)}
               />
             )}
 
             {element.type === "select" && (
               <SelectInput
+                T={T}
+                required={element.required}
                 onChange={onChange("custom_data", element.name)}
                 options={element.values}
                 label={element.label}
                 isMulti={element.multiple}
                 value={clientCustomData[element.name]}
+                isError={errorFields.includes(element.name)}
               />
             )}
 
             {element.type === "date" && (
               <DateInput
                 {...element}
+                T={T}
+                isError={errorFields.includes(element.name)}
                 onChange={onChange("custom_data", element.name)}
                 value={clientCustomData[element.name]}
               />
@@ -103,27 +119,33 @@ export default (props) => {
                     ? clientCustomData[element.name]
                     : []
                 }
+                required={element.required}
                 data={element.values}
                 label={element.label}
                 onChange={onCheckBoxChange}
                 name={element.name}
+                isError={errorFields.includes(element.name)}
               />
             )}
 
             {element.type === "radio-group" && (
               <RadioGroup
                 {...element}
+                T={T}
                 onChange={onChange("custom_data", element.name)}
                 options={element.values}
                 value={clientCustomData[element.name]}
+                isError={errorFields.includes(element.name)}
               />
             )}
 
             {element.type === "textarea" && (
               <TextArea
                 {...element}
+                T={T}
                 onChange={onChange("custom_data", element.name)}
                 value={clientCustomData[element.name]}
+                isError={errorFields.includes(element.name)}
               />
             )}
 
@@ -135,14 +157,20 @@ export default (props) => {
 
             {element.type === "file" && (
               <div className="form-group">
-                <label htmlFor={element.name}>{element.label}</label>
                 <FileUploadInput
-                  onChange={onAttachmentsChange(element.name)}
-                  object={clientCustomData[element.name] || []}
+                  onChange={onAttachmentsChange(
+                    element.name,
+                    clientCustomData[element.name]?.id
+                  )}
+                  object={clientCustomData[element.name]?.files || []}
                   // removeAttachmentcheckBoxValue={
                   //   client.remove_national_id_files
                   // }
+                  T={T}
+                  label={element.label}
+                  required={element.required}
                   showFilePond={true}
+                  isError={errorFields.includes(element.name)}
                 />
               </div>
             )}
