@@ -180,7 +180,14 @@ class ClientsController < AdminController
 
     @risk_assessment = @client.risk_assessment || @client.build_risk_assessment
     @custom_data = CustomData.first
-    @client_custom_data = @client.client_custom_data
+    client_custom_data = @client.client_custom_data
+    if client_custom_data
+      form_builder_attachments = client_custom_data.try(:form_builder_attachments).map do |form_builder_attachment|
+        form_builder_attachment.file.map(&:to_json)
+        [form_builder_attachment.name, { id: form_builder_attachment.id, files: form_builder_attachment.file.map(&:to_json).map { |file| JSON.parse(file) } }]
+      end
+      @client_custom_data_properties = (client_custom_data.properties || {}).merge(form_builder_attachments.to_h)
+    end
   end
 
   def create

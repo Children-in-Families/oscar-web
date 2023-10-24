@@ -306,11 +306,11 @@ module Api
         property_keys = params.dig(:custom_data, :properties).try(:keys)
         params.require(:custom_data).permit(
           properties: property_keys << param_array.to_h,
-          form_builder_attachments_attributes: [:name, { file: [] }]
+          form_builder_attachments_attributes: [:id, :name, { file: [] }]
         )
       else
         params.require(:custom_data).permit(
-          form_builder_attachments_attributes: [:name, { file: [] }]
+          form_builder_attachments_attributes: [:id, :name, { file: [] }]
         )
       end
     end
