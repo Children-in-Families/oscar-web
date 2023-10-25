@@ -1,13 +1,14 @@
 module ClientsImporter
   class Import
-    attr_accessor :path, :headers, :workbook, :workbook_second_row
+    attr_accessor :path, :headers, :workbook, :workbook_second_row, :domain
 
-    def initialize(path = '', sheets = [])
+    def initialize(path = '', sheets = [], domain = 'domain')
       @path = path
       @workbook = Roo::Excelx.new(path)
       @headers = {}
       @sheets = sheets
       @workbook_second_row = 2
+      @domain = domain
     end
 
     def import_all
@@ -35,7 +36,7 @@ module ClientsImporter
         new_user['manager_ids'] = [new_user['manager_id']]
 
         user = find_or_initialize_by(new_user)
-        user.save(validate: false) unless user.persisted?
+        user.save unless user.persisted?
       end
       puts '==============================Done import users======================================='
     end
@@ -113,7 +114,6 @@ module ClientsImporter
 
         new_client['date_of_birth'] = workbook.row(row_index)[headers['Date of Birth']].to_s
         new_client['initial_referral_date'] = workbook.row(row_index)[headers['* Initial Referral Date']].to_s
-
         referral_source_category_name = workbook.row(row_index)[headers['* Referral Source Category']]
         referral_source_name = workbook.row(row_index)[headers['Referral Source']]
         new_client['referral_source_category_id'] = ReferralSource.find_or_create_by(name: referral_source_category_name, name_en: referral_source_category_name)&.id
@@ -147,10 +147,10 @@ module ClientsImporter
           province = find_province(province_name&.squish)
           new_client['province_id'] = province&.id
           pry_if_blank?(new_client['province_id'], province_name)
-          district = find_district(province, district_name&.squish)
+          district = find_district(province, district_name&.squish) if district_name.squish.present?
           new_client['district_id'] = district&.id
           pry_if_blank?(new_client['district_id'], district_name)
-          commune = find_commune(district, commune_name&.squish, new_client)
+          commune = find_commune(district, commune_name&.squish, new_client) if commune_name&.squish.present?
           new_client['commune_id'] = commune&.id
           pry_if_blank?(new_client['commune_id'], commune_name)
           village = find_village(commune, village_name&.squish) if commune
@@ -224,7 +224,7 @@ module ClientsImporter
         object.password = Devise.friendly_token.first(8)
         object.last_name = attribute['last_name']
         object.gender = attribute['gender'] || 'other'
-        object.email = "#{attribute['last_name']}@colt.org"
+        object.email = "#{attribute['last_name']}@#{domain}.org"
         object.roles = 'case worker'
       end
 
