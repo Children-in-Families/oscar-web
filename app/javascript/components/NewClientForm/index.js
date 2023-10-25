@@ -179,6 +179,12 @@ const Forms = (props) => {
   const [riskAssessmentData, setRiskAssessmentData] = useState(riskAssessment);
   const [clientCustomData, setClientCustomData] = useState(clientCustomFields);
 
+  useEffect(() => {
+    // 👇️ scroll to top on page load
+    window.scrollTo({ top: 125, left: 0, behavior: "smooth" });
+    console.log(errorFields, errorSteps);
+  }, [errorFields, errorSteps]);
+
   const address = {
     currentDistricts: districts,
     currentCommunes: communes,
@@ -500,7 +506,10 @@ const Forms = (props) => {
     $(".alert").hide();
     $("#save-btn-help-text").hide();
     $(`#step-${goingToStep}`).show();
-    if (goingToStep === (fieldsVisibility.show_legal_doc == true ? 6 : 5))
+    if (
+      (isRiskAssessmentEnabled ? goingToStep + 1 : goingToStep) ===
+      (fieldsVisibility.show_legal_doc == true ? 6 : 5)
+    )
       $("#save-btn-help-text").show();
   };
 
@@ -518,7 +527,7 @@ const Forms = (props) => {
       $(`#step-${step + stepIndex}`).show();
       $("#save-btn-help-text").hide();
       if (
-        step + stepIndex ===
+        step + (isRiskAssessmentEnabled ? stepIndex - 1 : stepIndex) ===
         (fieldsVisibility.show_legal_doc == true ? 6 : 5)
       )
         $("#save-btn-help-text").show();
@@ -707,13 +716,23 @@ const Forms = (props) => {
         if (!_.isEmpty(customData)) {
           const customDataObj = {};
           customDataObj.form_builder_attachments_attributes =
-            clientCustomData._attachments;
+            clientCustomData._attachments || {};
           customDataObj.properties = Object.entries(clientCustomData)
             .filter(([key, _]) => key !== "_attachments")
             .reduce((res, [key, value]) => ({ ...res, [key]: value }), {});
 
           const customDataRequiredFields = Object.entries(customData)
             .filter(([key, value]) => {
+              if (value.type === "file")
+                return (
+                  value.required &&
+                  _.isEmpty(
+                    customDataObj.form_builder_attachments_attributes[
+                      value.name.split("-")[1]
+                    ]?.file || clientCustomData[value.name]?.files
+                  )
+                );
+
               if (value.type !== "checkbox-group")
                 return (
                   value.required &&
@@ -733,6 +752,7 @@ const Forms = (props) => {
 
           if (!_.isEmpty(customDataRequiredFields)) {
             setErrorFields(customDataRequiredFields);
+            setErrorSteps([fieldsVisibility.show_legal_doc ? 6 : 5]);
             return false;
           }
 
