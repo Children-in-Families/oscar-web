@@ -506,11 +506,14 @@ const Forms = (props) => {
     $(".alert").hide();
     $("#save-btn-help-text").hide();
     $(`#step-${goingToStep}`).show();
+
     if (
       (isRiskAssessmentEnabled ? goingToStep + 1 : goingToStep) ===
       (fieldsVisibility.show_legal_doc == true ? 6 : 5)
-    )
+    ) {
+      setOnSave(false);
       $("#save-btn-help-text").show();
+    }
   };
 
   const buttonNext = () => {
@@ -529,8 +532,10 @@ const Forms = (props) => {
       if (
         step + (isRiskAssessmentEnabled ? stepIndex - 1 : stepIndex) ===
         (fieldsVisibility.show_legal_doc == true ? 6 : 5)
-      )
+      ) {
+        setOnSave(false);
         $("#save-btn-help-text").show();
+      }
     }
   };
 
@@ -1017,7 +1022,10 @@ const Forms = (props) => {
   };
 
   return (
-    <div className="containerClass">
+    <div
+      className="containerClass"
+      style={loading ? { minHeight: "100vh", height: "100vh" } : {}}
+    >
       <Loading loading={loading} text={T.translate("index.wait")} />
 
       <Modal

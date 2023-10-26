@@ -12,9 +12,7 @@ const Loading = (props) => {
       textColor="#676767"
       text={text}
       {...others}
-    >
-      <></>
-    </LoadingScreen>
+    />
   );
 };
 
