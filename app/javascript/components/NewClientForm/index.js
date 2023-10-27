@@ -757,7 +757,8 @@ const Forms = (props) => {
 
           if (!_.isEmpty(customDataRequiredFields)) {
             setErrorFields(customDataRequiredFields);
-            setErrorSteps([fieldsVisibility.show_legal_doc ? 6 : 5]);
+            setErrorSteps([5]);
+            handleTab(5);
             return false;
           }
 
