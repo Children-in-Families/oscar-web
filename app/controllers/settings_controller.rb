@@ -31,8 +31,7 @@ class SettingsController < AdminController
   end
 
   def update
-    @setting = @setting
-    if params[:setting].has_key?(:org_form)
+    if params[:setting].key?(:org_form)
       if @setting.update_attributes(setting_params)
         redirect_to :back, notice: t('.successfully_updated')
       else
@@ -44,7 +43,7 @@ class SettingsController < AdminController
           if @setting.update_attributes(setting_params)
             redirect_to :back, notice: t('.successfully_updated')
           else
-            flash[:alert] = @setting.errors.full_messages.join(", ")
+            flash[:alert] = @setting.errors.full_messages.join(', ')
             render :index
           end
         end
@@ -94,7 +93,7 @@ class SettingsController < AdminController
 
   def finance_dashboard
     @setting = Setting.cache_first
-    
+
     if request.put?
       if @setting.update_attributes(finance_dashboard: params.dig(:setting, :finance_dashboard))
         redirect_to finance_dashboard_settings_path, notice: t('successfully_updated', klass: 'Setting')
@@ -133,7 +132,7 @@ class SettingsController < AdminController
     if attribute && @setting.update_attributes(setting_params)
       redirect_to :back, notice: t('successfully_updated', klass: t('settings.update.successfully_updated'))
     else
-      flash[:alert] = @setting.errors.full_messages.join(", ") if @setting.errors.full_messages.any?
+      flash[:alert] = @setting.errors.full_messages.join(', ') if @setting.errors.full_messages.any?
       render :risk_assessment
     end
   end
@@ -147,7 +146,7 @@ class SettingsController < AdminController
   def country_address_fields
     @provinces = Province.cached_order_name
     @districts = Setting.cache_first.province.present? ? Setting.cache_first.province.districts.order(:name) : []
-    @communes  = Setting.cache_first.district.present? ? Setting.cache_first.district.communes.order(:name_kh, :name_en) : []
+    @communes = Setting.cache_first.district.present? ? Setting.cache_first.district.communes.order(:name_kh, :name_en) : []
   end
 
   def setting_params
@@ -183,12 +182,12 @@ class SettingsController < AdminController
   def client_default_columns
     columns = []
     sub_columns = %w[carer_name_ carer_phone_ carer_email_ time_in_cps_ time_in_ngo_ rejected_note_ exit_reasons_ exit_circumstance_ other_info_of_exit_ exit_note_ what3words_ main_school_contact_ rated_for_id_poor_ name_of_referee
-      family_ family_id_ case_note_date_ case_note_type_ date_of_assessments_ assessment_completed_date_ all_csi_assessments_ date_of_custom_assessments_ custom_assessment_ custom_completed_date_ custom_assessment_ created_date_ all_custom_csi_assessments_ manage_ changelog_ type_of_service_ indirect_beneficiaries_]
-    sub_columns += Client::HOTLINE_FIELDS.map{ |field| "#{field}_" }
-    sub_columns += Call::FIELDS.map{ |field| "#{field}_" }
-    filter_columns = ClientGrid.new.filters.map(&:name).select{ |field_name| policy(Client).show?(field_name) }
+                     family_ family_id_ case_note_date_ case_note_type_ date_of_assessments_ assessment_completed_date_ all_csi_assessments_ date_of_custom_assessments_ custom_assessment_ custom_completed_date_ custom_assessment_ created_date_ all_custom_csi_assessments_ manage_ changelog_ type_of_service_ indirect_beneficiaries_]
+    sub_columns += Client::HOTLINE_FIELDS.map { |field| "#{field}_" }
+    sub_columns += Call::FIELDS.map { |field| "#{field}_" }
+    filter_columns = ClientGrid.new.filters.map(&:name).select { |field_name| policy(Client).show?(field_name) }
     filter_columns_not_used = [:has_date_of_birth, :quantitative_data, :quantitative_types, :all_domains, :domain_1a, :domain_1b, :domain_2a, :domain_2b, :domain_3a,
-      :domain_3b, :domain_4a, :domain_4b, :domain_5a, :domain_5b, :domain_6a, :domain_6b, :assessments_due_to, :no_case_note, :overdue_task, :overdue_forms, :province_id, :birth_province_id, :commune, :house_number, :village, :street_number, :district]
+                               :domain_3b, :domain_4a, :domain_4b, :domain_5a, :domain_5b, :domain_6a, :domain_6b, :assessments_due_to, :no_case_note, :overdue_task, :overdue_forms, :province_id, :birth_province_id, :commune, :house_number, :village, :street_number, :district]
     columns_name = filter_columns - filter_columns_not_used
     columns = columns_name.map { |name| "#{name}_" }
     Domain.client_domians.order_by_identity.each do |domain|
@@ -204,7 +203,7 @@ class SettingsController < AdminController
   def family_default_columns
     columns = []
     sub_columns = %w[member_count_ clients_ case_workers_ manage_ direct_beneficiaries_ changelog_]
-    columns = FamilyGrid.new.filters.map{|f| "#{f.name.to_s}_" }
+    columns = FamilyGrid.new.filters.map { |f| "#{f.name.to_s}_" }
     unless current_setting.hide_family_case_management_tool?
       sub_columns += %w[case_note_date_ case_note_type_ assessment_completed_date_ date_of_custom_assessments_ all_custom_csi_assessments_]
       Domain.family_custom_csi_domains.order_by_identity.each do |domain|
