@@ -180,10 +180,11 @@ const Forms = (props) => {
   const [clientCustomData, setClientCustomData] = useState(clientCustomFields);
 
   useEffect(() => {
-    // 👇️ scroll to top on page load
+    // scroll to top 👆 on page load
     window.scrollTo({ top: 125, left: 0, behavior: "smooth" });
-    console.log(errorFields, errorSteps);
-  }, [errorFields, errorSteps]);
+    if (!_.isEmpty(errorFields) && fieldsVisibility.show_legal_doc)
+      $("#save-btn-help-text").hide();
+  }, [errorFields]);
 
   const address = {
     currentDistricts: districts,
@@ -497,7 +498,7 @@ const Forms = (props) => {
     if (
       (goForward && handleValidation()) ||
       (goOver && handleValidation(1) && handleValidation(2)) ||
-      goBack
+      (goBack && handleClientDataValidation())
     )
       if (step === 2 && goingToStep === 3)
         checkClientExist()(() => setStep(goingToStep));
@@ -507,11 +508,8 @@ const Forms = (props) => {
     $("#save-btn-help-text").hide();
     $(`#step-${goingToStep}`).show();
 
-    if (
-      (isRiskAssessmentEnabled ? goingToStep + 1 : goingToStep) ===
-      (fieldsVisibility.show_legal_doc == true ? 6 : 5)
-    ) {
-      setOnSave(false);
+    if (goingToStep === (fieldsVisibility.show_legal_doc == true ? 6 : 5)) {
+      handleClientDataValidation();
       $("#save-btn-help-text").show();
     }
   };
@@ -530,13 +528,66 @@ const Forms = (props) => {
       $(`#step-${step + stepIndex}`).show();
       $("#save-btn-help-text").hide();
       if (
-        step + (isRiskAssessmentEnabled ? stepIndex - 1 : stepIndex) ===
+        step + stepIndex ===
         (fieldsVisibility.show_legal_doc == true ? 6 : 5)
       ) {
-        setOnSave(false);
+        handleClientDataValidation();
         $("#save-btn-help-text").show();
       }
     }
+  };
+
+  const handleClientDataValidation = (customDataObj = {}) => {
+    customDataObj.properties = customDataObj.properties || {};
+    customDataObj.form_builder_attachments_attributes =
+      customDataObj.form_builder_attachments_attributes || {};
+    const customDataRequiredFields = Object.entries(customData)
+      .filter(([key, value]) => {
+        if (value.type === "file")
+          return (
+            value.required &&
+            _.isEmpty(
+              (!_.isEmpty(customDataObj.form_builder_attachments_attributes) &&
+                customDataObj.form_builder_attachments_attributes[
+                  value.name.split("-")[1]
+                ]?.file) ||
+                clientCustomData[value.name]?.files
+            )
+          );
+
+        if (value.type === "checkbox-group")
+          return (
+            value.required &&
+            _.isEmpty(
+              Object.entries(
+                (!_.isEmpty(customDataObj.properties) &&
+                  customDataObj.properties[value.name]) ||
+                  clientCustomData[value.name]
+              ).filter(([_, element]) => eval(element.checked))
+            )
+          );
+
+        return (
+          value.required &&
+          _.isEmpty(
+            (!_.isEmpty(customDataObj.properties) &&
+              customDataObj.properties[value.name]) ||
+              clientCustomData[value.name]
+          )
+        );
+      })
+      .map(([index, element]) => element.name);
+
+    if (!_.isEmpty(customDataRequiredFields)) {
+      setErrorFields(customDataRequiredFields);
+      setErrorSteps([5]);
+      setStep(5);
+      return false;
+    }
+
+    setErrorFields([]);
+    setErrorSteps([]);
+    return true;
   };
 
   const checkClientExist = () => (callback) => {
@@ -726,41 +777,7 @@ const Forms = (props) => {
             .filter(([key, _]) => key !== "_attachments")
             .reduce((res, [key, value]) => ({ ...res, [key]: value }), {});
 
-          const customDataRequiredFields = Object.entries(customData)
-            .filter(([key, value]) => {
-              if (value.type === "file")
-                return (
-                  value.required &&
-                  _.isEmpty(
-                    customDataObj.form_builder_attachments_attributes[
-                      value.name.split("-")[1]
-                    ]?.file || clientCustomData[value.name]?.files
-                  )
-                );
-
-              if (value.type !== "checkbox-group")
-                return (
-                  value.required &&
-                  _.isEmpty(customDataObj.properties[value.name])
-                );
-
-              return (
-                value.required &&
-                _.isEmpty(
-                  Object.entries(customDataObj.properties[value.name]).filter(
-                    ([_, element]) => eval(element.checked)
-                  )
-                )
-              );
-            })
-            .map(([index, element]) => element.name);
-
-          if (!_.isEmpty(customDataRequiredFields)) {
-            setErrorFields(customDataRequiredFields);
-            setErrorSteps([5]);
-            handleTab(5);
-            return false;
-          }
+          handleClientDataValidation(customDataObj);
 
           formData = objectToFormData(
             customDataObj,
