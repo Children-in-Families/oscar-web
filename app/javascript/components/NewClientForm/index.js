@@ -184,6 +184,8 @@ const Forms = (props) => {
     window.scrollTo({ top: 125, left: 0, behavior: "smooth" });
     if (!_.isEmpty(errorFields) && fieldsVisibility.show_legal_doc)
       $("#save-btn-help-text").hide();
+    else if (!_.isEmpty(errorFields) && step === 5)
+      $("#save-btn-help-text").show();
   }, [errorFields]);
 
   const address = {
@@ -582,11 +584,13 @@ const Forms = (props) => {
       setErrorFields(customDataRequiredFields);
       setErrorSteps([5]);
       setStep(5);
+      $("#save-btn-help-text").show();
       return false;
     }
 
     setErrorFields([]);
     setErrorSteps([]);
+    setOnSave(false);
     return true;
   };
 
@@ -777,7 +781,7 @@ const Forms = (props) => {
             .filter(([key, _]) => key !== "_attachments")
             .reduce((res, [key, value]) => ({ ...res, [key]: value }), {});
 
-          handleClientDataValidation(customDataObj);
+          if (!handleClientDataValidation(customDataObj)) return false;
 
           formData = objectToFormData(
             customDataObj,
