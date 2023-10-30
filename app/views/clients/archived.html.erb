@@ -33,7 +33,7 @@
                   <td><%= client.deleted_at&.strftime("%d %B %Y") %></td>
                   <td><%= client.archived_by&.name %></td>
                   <td>
-                    <% if can? :destroy, Client %>
+                    <% if can? :manage, :all %>
                       <%= link_to 'Restore', restore_client_path(client), method: 'put', data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.restore')}", placement: "auto", confirm: 'Are you sure you want to restore this client?' } %>
                       <br>
                       <%= link_to 'Permanent Delete', client, method: 'delete', data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.delete')}", placement: "auto", confirm: 'Are you sure you want to permanent delete this client?' } %>

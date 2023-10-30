@@ -3,6 +3,10 @@ class ClientPolicy < ApplicationPolicy
     record.status != 'Exited'
   end
 
+  def view_archived?
+    user.admin? || user.manager? || user.case_worker?
+  end
+
   def show_legal_doc?
     fields = [
       :national_id,
