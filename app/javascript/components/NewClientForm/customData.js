@@ -130,11 +130,11 @@ export default (props) => {
 
             {element.type === "radio-group" && (
               <RadioGroup
-                {...element}
+                label={element.label}
                 T={T}
                 onChange={onChange("custom_data", element.name)}
                 options={element.values}
-                value={clientCustomData[element.name]}
+                currentValue={clientCustomData[element.name]}
                 isError={errorFields.includes(element.name)}
               />
             )}
