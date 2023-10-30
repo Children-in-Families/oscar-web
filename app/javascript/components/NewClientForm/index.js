@@ -542,18 +542,19 @@ const Forms = (props) => {
   const handleClientDataValidation = (customDataObj = {}) => {
     customDataObj.properties = customDataObj.properties || {};
     customDataObj.form_builder_attachments_attributes =
-      customDataObj.form_builder_attachments_attributes || {};
+      customDataObj.form_builder_attachments_attributes ||
+      clientCustomData._attachments ||
+      {};
     const customDataRequiredFields = Object.entries(customData)
       .filter(([key, value]) => {
         if (value.type === "file")
           return (
             value.required &&
             _.isEmpty(
-              (!_.isEmpty(customDataObj.form_builder_attachments_attributes) &&
+              clientCustomData[value.name]?.files ||
                 customDataObj.form_builder_attachments_attributes[
                   value.name.split("-")[1]
-                ]?.file) ||
-                clientCustomData[value.name]?.files
+                ]?.file
             )
           );
 
@@ -562,9 +563,9 @@ const Forms = (props) => {
             value.required &&
             _.isEmpty(
               Object.entries(
-                (!_.isEmpty(customDataObj.properties) &&
-                  customDataObj.properties[value.name]) ||
-                  clientCustomData[value.name]
+                clientCustomData[value.name] ||
+                  customDataObj.properties[value.name] ||
+                  {}
               ).filter(([_, element]) => eval(element.checked))
             )
           );
@@ -572,9 +573,7 @@ const Forms = (props) => {
         return (
           value.required &&
           _.isEmpty(
-            (!_.isEmpty(customDataObj.properties) &&
-              customDataObj.properties[value.name]) ||
-              clientCustomData[value.name]
+            clientCustomData[value.name] || customDataObj.properties[value.name]
           )
         );
       })
