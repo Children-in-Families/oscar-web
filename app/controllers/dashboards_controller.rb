@@ -51,6 +51,7 @@ class DashboardsController < AdminController
     @calls_count   = Call.count
     @referees_count        = Referee.count
     @referral_source_count = ReferralSource.count
+    @archived_count = Client.only_deleted.accessible_by(current_ability).count
   end
 
   private
