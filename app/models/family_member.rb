@@ -5,9 +5,9 @@ class FamilyMember < ActiveRecord::Base
 
   has_paper_trail
 
-  EN_RELATIONS = [ 'Father', 'Mother', 'Son', 'Daughter', 'Foster Child', 'Brother', 'Sister', 'Uncle', 'Aunt', 'Grandmother', 'Grandfather', 'Grandson', 'Granddaughter', 'Relative', 'Neighbor', 'Friend' ]
-  KM_RELATIONS = [ 'ឪពុក', 'ម្ដាយ', 'កូនប្រុស', 'កូនស្រី', 'កូនចិញ្ចឹម', 'បងប្រុស', 'បងស្រី', 'ពូ', 'មីង', 'ជីដូន', 'ជីតា', 'ចៅប្រុស', 'ចៅស្រី', 'សាច់ញាតិ', 'អ្នកជិតខាង', 'មិត្តភ័ក្ត' ]
-  MY_RELATIONS = [ 'ဖခင်', 'မိခင်', 'သား', 'သမီး', 'မွေးစားကလေး', 'အစ်ကို', 'အစ်မ', 'ဘကြီး', 'အဒေါ်', 'အဖွါး', 'အဘိုး', 'မြေး', 'မြေး', 'ဆွေမျိုး', 'အိမ်နီးချင်း', 'မိတျဆှေ']
+  EN_RELATIONS = ['Father', 'Mother', 'Son', 'Daughter', 'Foster Child', 'Brother', 'Sister', 'Uncle', 'Aunt', 'Grandmother', 'Grandfather', 'Grandson', 'Granddaughter', 'Relative', 'Neighbor', 'Friend']
+  KM_RELATIONS = ['ឪពុក', 'ម្ដាយ', 'កូនប្រុស', 'កូនស្រី', 'កូនចិញ្ចឹម', 'បងប្រុស', 'បងស្រី', 'ពូ', 'មីង', 'ជីដូន', 'ជីតា', 'ចៅប្រុស', 'ចៅស្រី', 'សាច់ញាតិ', 'អ្នកជិតខាង', 'មិត្តភ័ក្ត']
+  MY_RELATIONS = ['ဖခင်', 'မိခင်', 'သား', 'သမီး', 'မွေးစားကလေး', 'အစ်ကို', 'အစ်မ', 'ဘကြီး', 'အဒေါ်', 'အဖွါး', 'အဘိုး', 'မြေး', 'မြေး', 'ဆွေမျိုး', 'အိမ်နီးချင်း', 'မိတျဆှေ']
 
   enumerize :gender, in: ['female', 'male', 'lgbt', 'unknown', 'prefer_not_to_say', 'other'], scope: true, predicates: { prefix: true }
 

@@ -105,8 +105,10 @@ class Client < ActiveRecord::Base
   has_many :ratanak_achievement_program_staff_clients, through: :achievement_program_staff_clients, source: :user
 
   has_one :risk_assessment, dependent: :destroy
-  has_one  :family_member, dependent: :restrict_with_error
-  has_one  :family, through: :family_member
+  has_one :family_member, dependent: :restrict_with_error
+  has_one :family, through: :family_member
+  has_one :client_custom_data, dependent: :destroy
+  has_one :custom_data, through: :client_custom_data
 
   accepts_nested_attributes_for :tasks
   accepts_nested_attributes_for :client_quantitative_free_text_cases

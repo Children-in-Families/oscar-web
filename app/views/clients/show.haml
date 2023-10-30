@@ -667,15 +667,16 @@
                           %td
                             %strong
                               = editable @client, :kid_id, value: @client.kid_id, url: api_client_path(@client.id), pk: @client.id
-
-
                   - if has_risk_assessment
                     = render "referral_more_info"
-
           - unless has_risk_assessment
             .row
               .col-xs-12
                 = render "referral_more_info"
+          - if @client.client_custom_data
+            - cusotm_data_fields = @client.custom_data&.fields || []
+            - client_data_properties = @client.client_custom_data&.properties || {}
+            = render 'custom_data', cusotm_data_fields: cusotm_data_fields, client_data_properties: client_data_properties, client_custom_data: @client.client_custom_data
           - if @case_histories.any?
             .row
               .col-xs-12
