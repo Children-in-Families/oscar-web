@@ -27,7 +27,7 @@ module ClientsImporter
         new_user = {}
         new_user['first_name'] = workbook.row(row_index)[headers['First Name']]
         new_user['last_name'] = workbook.row(row_index)[headers['Last Name']]
-        new_user['email'] = workbook.row(row_index)[headers['*Email']]
+        new_user['email'] = workbook.row(row_index)[headers['*Email']]&.downcase
         new_user['password'] = user_password
         new_user['gender'] = workbook.row(row_index)[headers['*Gender']]
         new_user['roles'] = workbook.row(row_index)[headers['*Permission Level']].downcase
