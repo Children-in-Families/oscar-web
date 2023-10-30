@@ -307,7 +307,7 @@
       .ibox-content
         = hidden_field_tag :initial_referral_date, @client.initial_referral_date
         = hidden_field_tag :last_exit_ngo_date, @client.exit_ngos.last&.exit_date
-        - if Organization.ratanak?
+        - if Organization.ratanak? || %w(national_id_number passport_number marital_status nationality ethnicity location_of_concern type_of_trafficking).any? { |field| policy(@client).show?(field.to_sym) }
           = render "ratanak_client_show_page"
         - else
           .row
