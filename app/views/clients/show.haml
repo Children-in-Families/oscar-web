@@ -299,7 +299,7 @@
               = link_to edit_client_path(@client), data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.edit')}", placement: "auto" } do
                 .btn.btn-outline.btn-success
                   %i.fa.fa-pencil
-          - if can? :destroy, Client
+          - if can? :manage, :all
             %small
               = link_to archive_client_path(@client), method: 'put', data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.archive')}", placement: "auto", confirm: t('.are_you_sure') } do
                 .btn.btn-outline.btn-danger
