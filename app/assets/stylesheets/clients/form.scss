@@ -2,6 +2,11 @@ body[id='clients-new'],
 body[id='clients-create'],
 body[id='clients-edit'],
 body[id='clients-update'] {
+
+  .filepond--credits {
+    display: none;
+  }
+
   .wizard>.content>.body {
 
     #getting_started,

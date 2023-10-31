@@ -28,10 +28,6 @@ class ClientEnrollmentTracking < ActiveRecord::Base
     field_properties.select(&:present?)
   end
 
-  def get_form_builder_attachment(value)
-    form_builder_attachments.find_by(name: value)
-  end
-
   def self.cached_tracking_order_created_at(object, fields_third, ids)
     Rails.cache.fetch([Apartment::Tenant.current, 'Client', object.id, 'ClientEnrollmentTracking', 'cached_tracking_order_created_at', *fields_third, *ids.sort]) {
       joins(:tracking).where(trackings: { name: fields_third }, client_enrollment_trackings: { client_enrollment_id: ids }).order(created_at: :desc).first.try(:properties)

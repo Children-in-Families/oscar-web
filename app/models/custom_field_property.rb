@@ -23,10 +23,6 @@ class CustomFieldProperty < ActiveRecord::Base
     custom_formable_type == 'Client'
   end
 
-  def get_form_builder_attachment(value)
-    form_builder_attachments.find_by(name: value)
-  end
-
   def self.properties_by(value)
     value = value.gsub(/\'+/, "''")
     field_properties = select("custom_field_properties.id, custom_field_properties.properties ->  '#{value}' as field_properties").collect(&:field_properties)

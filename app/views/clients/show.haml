@@ -299,7 +299,7 @@
               = link_to edit_client_path(@client), data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.edit')}", placement: "auto" } do
                 .btn.btn-outline.btn-success
                   %i.fa.fa-pencil
-          - if can? :destroy, Client
+          - if can? :manage, :all
             %small
               = link_to archive_client_path(@client), method: 'put', data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.archive')}", placement: "auto", confirm: t('.are_you_sure') } do
                 .btn.btn-outline.btn-danger
@@ -307,7 +307,7 @@
       .ibox-content
         = hidden_field_tag :initial_referral_date, @client.initial_referral_date
         = hidden_field_tag :last_exit_ngo_date, @client.exit_ngos.last&.exit_date
-        - if Organization.ratanak?
+        - if Organization.ratanak? || %w(national_id_number passport_number marital_status nationality ethnicity location_of_concern type_of_trafficking).any? { |field| policy(@client).show?(field.to_sym) }
           = render "ratanak_client_show_page"
         - else
           .row
@@ -667,15 +667,16 @@
                           %td
                             %strong
                               = editable @client, :kid_id, value: @client.kid_id, url: api_client_path(@client.id), pk: @client.id
-
-
                   - if has_risk_assessment
                     = render "referral_more_info"
-
           - unless has_risk_assessment
             .row
               .col-xs-12
                 = render "referral_more_info"
+          - if @client.client_custom_data
+            - cusotm_data_fields = @client.custom_data&.fields || []
+            - client_data_properties = @client.client_custom_data&.properties || {}
+            = render 'custom_data', cusotm_data_fields: cusotm_data_fields, client_data_properties: client_data_properties, client_custom_data: @client.client_custom_data
           - if @case_histories.any?
             .row
               .col-xs-12

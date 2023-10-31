@@ -7,7 +7,7 @@ class FieldSetting < ActiveRecord::Base
 
   default_scope -> { order(:created_at) }
   scope :without_hidden_fields, -> { where(visible: true) }
-  scope :by_instances, ->(ngo_short_name) { where('for_instances IS NULL OR for_instances iLIKE ?', "%#{ngo_short_name}%").includes(:translations).order(:group, :name) }
+  scope :by_instances, -> (ngo_short_name) { where('for_instances IS NULL OR for_instances iLIKE ?', "%#{ngo_short_name}%").includes(:translations).order(:group, :name) }
 
   before_save :assign_type
   after_commit :flush_cache
@@ -154,5 +154,6 @@ class FieldSetting < ActiveRecord::Base
     Rails.cache.delete([Apartment::Tenant.current, 'table_name', 'field_settings'])
     Rails.cache.delete([Apartment::Tenant.current, 'FieldSetting', self.group, 'hidden_group'])
     Rails.cache.delete([Apartment::Tenant.current, 'FieldSetting', 'gelal_dock_fields'])
+    Rails.cache.delete([Apartment::Tenant.current, 'field_settings', 'show_legal_doc', 'visible'])
   end
 end

@@ -167,7 +167,7 @@
                 = link_to 'Finance', finance_dashboard_settings_path
 
 
-        - if can? :destroy, Client
+        - if policy(Client).view_archived?
           %li{ class: settings_menu_active('clients', 'archived') }
             = link_to archived_clients_path do
               = fa_icon('trash'	)

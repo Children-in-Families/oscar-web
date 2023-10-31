@@ -82,6 +82,9 @@ module Api
           risk_assessment.store
         end
 
+        custom_data = CustomData.first
+        client.create_client_custom_data(custom_data_params.merge(custom_data_id: custom_data.id)) if custom_data && params.key?(:custom_data)
+
         render json: { slug: client.slug, id: client.id }, status: :ok
       else
         render json: client.errors, status: :unprocessable_entity
@@ -116,8 +119,17 @@ module Api
           risk_assessment.store
         end
 
+        custom_data = CustomData.first
+        if custom_data && params.key?(:custom_data)
+          if client.client_custom_data&.persisted?
+            client.client_custom_data.update_attributes(custom_data_params)
+          else
+            client.create_client_custom_data(custom_data_params.merge(custom_data_id: custom_data.id))
+          end
+        end
+
         if params[:client][:assessment_id]
-          assessment = Assessment.find(params[:client][:assessment_id])
+          Assessment.find(params[:client][:assessment_id])
         else
           render json: { slug: client.slug }, status: :ok
         end
@@ -279,6 +291,28 @@ module Api
       end
 
       client_param
+    end
+
+    def find_client_in_organization
+      results = []
+      similar_fields = Client.find_shared_client(params)
+      { similar_fields: similar_fields }
+    end
+
+    def custom_data_params
+      if params.dig(:custom_data, :properties)
+        param_array = []
+        params.dig(:custom_data, :properties).each { |k, v| param_array << [k, v.first.is_a?(Hash) ? v.first.keys : []] if v.is_a?(Array) }
+        property_keys = params.dig(:custom_data, :properties).try(:keys)
+        params.require(:custom_data).permit(
+          properties: property_keys << param_array.to_h,
+          form_builder_attachments_attributes: [:id, :name, { file: [] }]
+        )
+      else
+        params.require(:custom_data).permit(
+          form_builder_attachments_attributes: [:id, :name, { file: [] }]
+        )
+      end
     end
 
     def find_client_in_organization
