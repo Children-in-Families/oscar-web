@@ -104,7 +104,8 @@ module ClientsImporter
         new_client['family_name'] = workbook.row(row_index)[headers['Family Name (English)']]
         new_client['local_family_name'] = workbook.row(row_index)[headers['Family Name (Khmer)']]
         new_client['local_given_name'] = workbook.row(row_index)[headers['Given Name (Khmer)']]
-        next if Client.find_by(new_client.slice('local_given_name', 'local_family_name')).present?
+
+        # next if Client.find_by(new_client.slice('given_name', 'family_name', 'local_given_name', 'local_family_name')).present?
 
         new_client['gender'] = workbook.row(row_index)[headers['* Gender']]&.downcase
         family_id = workbook.row(row_index)[headers['Family ID']]
@@ -143,14 +144,17 @@ module ClientsImporter
         commune_name = workbook.row(row_index)[headers['Address - Commune/Sangkat']]
         village_name = workbook.row(row_index)[headers['Address - Village']]
 
-        if province_name && province_name != 'An Yang'
+        if province_name && province_name == 'Cebu City'
+          new_client['outside'] = true
+          new_client['outside_address'] = province_name
+        else
           province = find_province(province_name&.squish)
           new_client['province_id'] = province&.id
           pry_if_blank?(new_client['province_id'], province_name)
-          district = find_district(province, district_name&.squish) if district_name.squish.present?
+          district = find_district(province, district_name&.squish) if province && district_name&.squish.present?
           new_client['district_id'] = district&.id
           pry_if_blank?(new_client['district_id'], district_name)
-          commune = find_commune(district, commune_name&.squish, new_client) if commune_name&.squish.present?
+          commune = find_commune(district, commune_name&.squish, new_client) if district && commune_name&.squish.present?
           new_client['commune_id'] = commune&.id
           pry_if_blank?(new_client['commune_id'], commune_name)
           village = find_village(commune, village_name&.squish) if commune
@@ -190,7 +194,7 @@ module ClientsImporter
         new_client['carer_id'] = create_carer(name: carer_name, phone: carer_phone)
 
         Client.skip_callback(:commit, :after, :do_duplicate_checking)
-        client = Client.find_by(new_client.slice('local_given_name', 'local_family_name')) || Client.new(new_client)
+        client = Client.find_by(new_client.slice('given_name', 'family_name', 'local_given_name', 'local_family_name')) || Client.new(new_client)
         client.save! unless client.persisted?
 
         family_name = workbook.row(row_index)[headers['Family ID']]
@@ -202,7 +206,17 @@ module ClientsImporter
         end
 
         client.case_worker_clients.find_or_create_by(user_id: new_client['user_id']) if new_client['user_id'].present?
+
+        next if workbook.row(row_index)[headers['NGO Exited Date']].blank?
+
+        exit_ngo = {}
+        exit_ngo['exit_date'] = workbook.row(row_index)[headers['NGO Exited Date']]
+        exit_ngo['exit_reasons'] = ['Other']
+        exit_ngo['exit_note'] = workbook.row(row_index)[headers['* Exit Note']]
+        exit_ngo['exit_circumstance'] = 'Rejected Referral'
+        client.exit_ngos.create(exit_ngo)
       end
+      puts '==============================Done import clients======================================='
     end
 
     private
@@ -213,7 +227,7 @@ module ClientsImporter
           ref.phone = attributes[:phone]
         end
       else
-        referee = Referee.create(name: 'Anonymous', anonymous: true)
+        referee = Referee.find_or_create_by(name: 'Anonymous', anonymous: true)
       end
       referee&.id
     end
@@ -226,6 +240,10 @@ module ClientsImporter
         object.gender = attribute['gender'] || 'other'
         object.email = "#{attribute['last_name']}@#{domain}.org"
         object.roles = 'case worker'
+      end
+
+      unless user.persisted?
+        user = User.where('LOWER(first_name) = ?', attribute['last_name'].downcase).first
       end
 
       user&.id
