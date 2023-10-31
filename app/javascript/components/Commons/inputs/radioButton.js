@@ -3,19 +3,18 @@ import { RadioButton } from "primereact/radiobutton";
 import "./radioButton.scss";
 
 export default (props) => {
-  const {
-    onChange,
-    options,
-    inline,
-    currentValue,
-    isError,
-    required,
-    disabled
-  } = props;
-  const [value, setValue] = useState(currentValue);
+  const { onChange, options, inline, value, isError, required, disabled } =
+    props;
+  const [currentValue, setValue] = useState(value);
   const handleOnChange = (event) => {
     setValue(event.value);
     onChange({ data: event.value, type: "radio" });
+  };
+
+  const handleValue = (option) => {
+    if (option.value === "") return option.label;
+
+    return option.value;
   };
 
   return (
@@ -34,8 +33,8 @@ export default (props) => {
             <RadioButton
               disabled={disabled}
               required
-              value={option.value || option.label}
-              checked={(option.value || option.label) === value}
+              value={handleValue(option)}
+              checked={handleValue(option) === currentValue}
               onChange={handleOnChange}
             />
             <span style={styles.label}>{option.label}</span>
