@@ -134,7 +134,7 @@ export default (props) => {
                 T={T}
                 onChange={onChange("custom_data", element.name)}
                 options={element.values}
-                currentValue={clientCustomData[element.name]}
+                value={clientCustomData[element.name]}
                 isError={errorFields.includes(element.name)}
               />
             )}
