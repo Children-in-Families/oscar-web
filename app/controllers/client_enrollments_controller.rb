@@ -29,7 +29,7 @@ class ClientEnrollmentsController < AdminController
     end
     authorize(@client) && authorize(@client_enrollment)
     @client_enrollment = @client.client_enrollments.new(program_stream_id: @program_stream.id)
-    @attachment        = @client_enrollment.form_builder_attachments.build
+    @attachment = @client_enrollment.form_builder_attachments.build
   end
 
   def edit
@@ -50,7 +50,6 @@ class ClientEnrollmentsController < AdminController
   end
 
   def create
-    binding.pry
     @client_enrollment = @client.client_enrollments.new(client_enrollment_params)
     authorize(@client) && authorize(@client_enrollment)
     if @client_enrollment.save
@@ -88,19 +87,18 @@ class ClientEnrollmentsController < AdminController
     end
     all_programs = params[:family_id] ? all_programs.attached_with('Family') : all_programs.attached_with('Client')
 
-    client_enrollments_exited     = all_programs.inactive_enrollments(@client).complete
-    client_enrollments_inactive   = all_programs.without_status_by(@client).complete
-    @active_enrollments           = all_programs.active_enrollments(@client).complete
+    client_enrollments_exited = all_programs.inactive_enrollments(@client).complete
+    client_enrollments_inactive = all_programs.without_status_by(@client).complete
+    @active_enrollments = all_programs.active_enrollments(@client).complete
 
     program_streams = (client_enrollments_exited + client_enrollments_inactive + @active_enrollments).uniq
   end
 
-
   def find_client_histories
     enter_ngos = @client.enter_ngos
-    exit_ngos  = @client.exit_ngos
+    exit_ngos = @client.exit_ngos
     cps_enrollments = @client.client_enrollments
-    cps_leave_programs = LeaveProgram.joins(:client_enrollment).where("client_enrollments.client_id = ?", @client.id)
+    cps_leave_programs = LeaveProgram.joins(:client_enrollment).where('client_enrollments.client_id = ?', @client.id)
     referrals = @client.referrals
     @case_histories = (enter_ngos + exit_ngos + cps_enrollments + cps_leave_programs + referrals).sort { |current_record, next_record| -([current_record.created_at, current_record.new_date] <=> [next_record.created_at, next_record.new_date]) }
   end
