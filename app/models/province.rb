@@ -9,14 +9,15 @@ class Province < ActiveRecord::Base
   has_many :clients, dependent: :restrict_with_error
   has_many :cases, dependent: :restrict_with_error
   has_many :districts, dependent: :restrict_with_error
+  has_many :cities, dependent: :restrict_with_error
   has_many :settings, dependent: :restrict_with_error
   has_many :government_forms, dependent: :restrict_with_error
 
-  scope :has_clients,  -> { joins(:clients).uniq }
+  scope :has_clients, -> { joins(:clients).uniq }
 
   scope :birth_places, -> { joins('RIGHT JOIN clients ON clients.birth_province_id = Provinces.id').uniq }
 
-  scope :country_is, ->(country) { where(country: country).order(:name) }
+  scope :country_is, -> (country) { where(country: country).order(:name) }
   scope :official, -> { where.not(name: ['បោយប៉ែត/Poipet', 'Community', 'Other / ផ្សេងៗ', 'នៅ​ខាង​ក្រៅ​កម្ពុជា / Outside Cambodia']) }
 
   validates :name, presence: true, uniqueness: { case_sensitive: false, scope: :country }
@@ -52,7 +53,7 @@ class Province < ActiveRecord::Base
   end
 
   def self.find_name_by_code(code)
-    district = District.where("code LIKE ?", "#{code}%").first
+    district = District.where('code LIKE ?', "#{code}%").first
     district&.province&.name
   end
 

@@ -15,6 +15,7 @@ import MyanmarAddress from "../Addresses/myanmarAddress";
 import ThailandAddress from "../Addresses/thailandAddress";
 import LesothoAddress from "../Addresses/lesothoAddress";
 import NepalAddress from "../Addresses/nepalAddress";
+import IndonesianAddress from "../Addresses/IndonesianAddress";
 import toastr from "toastr/toastr";
 
 import T from "i18n-react";
@@ -70,6 +71,7 @@ const Forms = (props) => {
       selectedCountry,
       internationalReferredClient,
       currentProvinces,
+      cities,
       districts,
       communes,
       villages,
@@ -908,6 +910,29 @@ const Forms = (props) => {
             outside={objectData.outside || false}
             onChange={onChange}
             data={{ addressTypes, objectKey, objectData, T }}
+          />
+        );
+        break;
+      case "indonesia":
+        return (
+          <IndonesianAddress
+            disabled={disabled}
+            outside={objectData.outside || false}
+            onChange={onChange}
+            data={{
+              addressTypes,
+              currentProvinces,
+              currentCities: cities,
+              currentDistricts: districts,
+              subDistricts: subDistricts || [],
+              refereeDistricts: refereeDistricts || [],
+              refereeSubdistricts: refereeSubdistricts || [],
+              carerDistricts: carerDistricts || [],
+              carerSubdistricts: carerSubdistricts || [],
+              objectKey,
+              objectData,
+              T
+            }}
           />
         );
         break;

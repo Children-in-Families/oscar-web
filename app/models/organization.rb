@@ -88,6 +88,7 @@ class Organization < ActiveRecord::Base
 
           Importer::Import.new('Agency', general_data_file).agencies
           Importer::Import.new('Department', general_data_file).departments
+
           case country
           when 'nepal'
             Rake::Task['nepali_provinces:import'].invoke(org.short_name)
@@ -98,6 +99,9 @@ class Organization < ActiveRecord::Base
           when 'thailand'
             Rake::Task['thailand_addresses:import'].invoke(org.short_name)
             Rake::Task['thailand_addresses:import'].reenable
+          when 'indonesia'
+            Rake::Task['indonesian_addresses:import'].invoke(org.short_name)
+            Rake::Task['indonesian_addresses:import'].reenable
           else
             Importer::Import.new('Province', general_data_file).provinces
             Rake::Task['communes_and_villages:import'].invoke(org.short_name)
