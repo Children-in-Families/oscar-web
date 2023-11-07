@@ -246,7 +246,7 @@ export default (props) => {
       referral_source_id: null
     })({ type: "select" });
   };
-  console.log(!referee.anonymous && referee.existing_referree);
+
   const renderNameField = () => {
     if (!referee.anonymous && referee.existing_referree) {
       return (

@@ -187,7 +187,7 @@ class SettingsController < AdminController
     sub_columns += Call::FIELDS.map { |field| "#{field}_" }
     filter_columns = ClientGrid.new.filters.map(&:name).select { |field_name| policy(Client).show?(field_name) }
     filter_columns_not_used = [:has_date_of_birth, :quantitative_data, :quantitative_types, :all_domains, :domain_1a, :domain_1b, :domain_2a, :domain_2b, :domain_3a,
-                               :domain_3b, :domain_4a, :domain_4b, :domain_5a, :domain_5b, :domain_6a, :domain_6b, :assessments_due_to, :no_case_note, :overdue_task, :overdue_forms, :province_id, :birth_province_id, :commune, :house_number, :village, :street_number, :district]
+                               :domain_3b, :domain_4a, :domain_4b, :domain_5a, :domain_5b, :domain_6a, :domain_6b, :assessments_due_to, :no_case_note, :overdue_task, :overdue_forms, :province_id, :city_id, :birth_province_id, :commune, :house_number, :village, :street_number, :district]
     columns_name = filter_columns - filter_columns_not_used
     columns = columns_name.map { |name| "#{name}_" }
     Domain.client_domians.order_by_identity.each do |domain|

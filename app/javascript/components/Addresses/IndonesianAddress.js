@@ -15,10 +15,6 @@ export default (props) => {
       currentCities,
       currentDistricts,
       subDistricts,
-      refereeDistricts,
-      refereeSubdistricts,
-      carerDistricts,
-      carerSubdistricts,
       T
     }
   } = props;
@@ -46,39 +42,40 @@ export default (props) => {
       value: subDistrict.id
     }))
   );
-  const [referee_districts, setRefereeDistricts] = useState(
-    refereeDistricts.map((district) => ({
-      label: district.name,
-      value: district.id
-    }))
-  );
-  const [referee_subdistricts, setRefereeSubDistricts] = useState(
-    refereeSubdistricts.map((subdistrict) => ({
-      label: subdistrict.name,
-      value: subdistrict.id
-    }))
-  );
+  // const [referee_districts, setRefereeDistricts] = useState(
+  //   refereeDistricts.map((district) => ({
+  //     label: district.name,
+  //     value: district.id
+  //   }))
+  // );
+  // const [referee_subdistricts, setRefereeSubDistricts] = useState(
+  //   refereeSubdistricts.map((subdistrict) => ({
+  //     label: subdistrict.name,
+  //     value: subdistrict.id
+  //   }))
+  // );
 
-  const [carer_districts, setCarerDistricts] = useState(
-    carerDistricts.map((district) => ({
-      label: district.name,
-      value: district.id
-    }))
-  );
-  const [carer_subdistricts, setCarerSubdistricts] = useState(
-    carerSubdistricts.map((subdistrict) => ({
-      label: subdistrict.name,
-      value: subdistrict.id
-    }))
-  );
+  // const [carer_districts, setCarerDistricts] = useState(
+  //   carerDistricts.map((district) => ({
+  //     label: district.name,
+  //     value: district.id
+  //   }))
+  // );
+  // const [carer_subdistricts, setCarerSubdistricts] = useState(
+  //   carerSubdistricts.map((subdistrict) => ({
+  //     label: subdistrict.name,
+  //     value: subdistrict.id
+  //   }))
+  // );
 
   const typeOfAddress = addressTypes.map((type) => ({
     label: T.translate("addressType." + type.label),
     value: type.value
   }));
+
   useEffect(() => {
     setCities(
-      currentDistricts.map((city) => ({
+      currentCities.map((city) => ({
         label: city.name,
         value: city.id
       }))
@@ -97,46 +94,46 @@ export default (props) => {
         value: subDistrict.id
       }))
     );
-  }, [cities, districts, subDistricts]);
+  }, [currentCities, currentDistricts, currentProvinces]);
 
   const updateValues = (object) => {
     const { parent, child, field, obj, data } = object;
 
     const parentConditions = {
       provinces: {
-        fieldsTobeUpdate: {
+        fieldsToBeUpdate: {
           city_id: null,
           district_id: null,
           subdistrict_id: null,
           [field]: data
         },
-        optionsTobeResets: [setCities, setDistricts, setSubDistricts]
+        optionsToBeResets: [setCities, setDistricts, setSubDistricts]
       },
       cities: {
-        fieldsTobeUpdate: {
+        fieldsToBeUpdate: {
           district_id: null,
           subdistrict_id: null,
           [field]: data
         },
-        optionsTobeResets: [setDistricts, setSubDistricts]
+        optionsToBeResets: [setDistricts, setSubDistricts]
       },
       districts: {
-        fieldsTobeUpdate: { subdistrict_id: null, [field]: data },
-        optionsTobeResets: [setSubDistricts]
+        fieldsToBeUpdate: { subdistrict_id: null, [field]: data },
+        optionsToBeResets: [setSubDistricts]
       },
       subdistricts: {
-        fieldsTobeUpdate: { [field]: data },
-        optionsTobeResets: []
+        fieldsToBeUpdate: { [field]: data },
+        optionsToBeResets: []
       }
     };
 
     onChange(
       obj,
-      parentConditions[parent].fieldsTobeUpdate
+      parentConditions[parent].fieldsToBeUpdate
     )({ type: "select" });
 
     if (data === null)
-      parentConditions[parent].optionsTobeResets.forEach((func) => func([]));
+      parentConditions[parent].optionsToBeResets.forEach((func) => func([]));
   };
 
   const onChangeParent =
@@ -158,28 +155,11 @@ export default (props) => {
               value: data.id
             }));
 
-            switch (obj) {
-              case "referee":
-                dataState = {
-                  cities: setCities,
-                  districts: setRefereeDistricts,
-                  subdistricts: setRefereeSubDistricts
-                };
-                break;
-              case "carer":
-                dataState = {
-                  cities: setCities,
-                  districts: setCarerDistricts,
-                  subdistricts: setCarerSubdistricts
-                };
-                break;
-              default:
-                dataState = {
-                  cities: setCities,
-                  districts: setDistricts,
-                  subdistricts: setSubDistricts
-                };
-            }
+            dataState = {
+              cities: setCities,
+              districts: setDistricts,
+              subdistricts: setSubDistricts
+            };
 
             dataState[child](formatedData);
           })
@@ -191,16 +171,17 @@ export default (props) => {
 
   const handleDistrictOptions = (obj, district) => {
     const is_district = district == "district";
-    switch (obj) {
-      case "referee":
-        return is_district ? referee_districts : referee_subdistricts;
-        break;
-      case "carer":
-        return is_district ? carer_districts : carer_subdistricts;
-        break;
-      default:
-        return is_district ? districts : subdistricts;
-    }
+    // switch (obj) {
+    //   case "referee":
+    //     return is_district ? referee_districts : referee_subdistricts;
+    //     break;
+    //   case "carer":
+    //     return is_district ? carer_districts : carer_subdistricts;
+    //     break;
+    //   default:
+    //     return is_district ? districts : subdistricts;
+    // }
+    return is_district ? districts : subdistricts;
   };
 
   return outside == true ? (
