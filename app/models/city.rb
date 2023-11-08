@@ -11,4 +11,16 @@ class City < ActiveRecord::Base
 
   validates :province, presence: true
   validates :name, presence: true, uniqueness: { case_sensitive: false, scope: [:province_id] }
+
+  after_commit :flush_cache
+
+  def cached_districts
+    Rails.cache.fetch([Apartment::Tenant.current, 'City', id, 'cached_districts']) { districts.order(:name).to_a }
+  end
+
+  private
+
+  def flush_cache
+    Rails.cache.delete([Apartment::Tenant.current, 'City', id, 'cached_districts'])
+  end
 end

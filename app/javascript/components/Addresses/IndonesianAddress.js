@@ -214,7 +214,7 @@ export default (props) => {
             label={T.translate("address.indonesia.city")}
             isDisabled={disabled}
             options={cities}
-            value={objectData.district_id}
+            value={objectData.city_id}
             onChange={onChangeParent({
               parent: "cities",
               child: "districts",

@@ -55,6 +55,7 @@ class Client < ActiveRecord::Base
 
   belongs_to :referral_source, counter_cache: true
   belongs_to :province, counter_cache: true
+  belongs_to :city
   belongs_to :district
   belongs_to :subdistrict
   belongs_to :township
