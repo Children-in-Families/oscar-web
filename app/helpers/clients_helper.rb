@@ -439,7 +439,7 @@ module ClientsHelper
   def local_name_label(name_type = :local_given_name)
     custom_field = FieldSetting.cache_by_name(name_type.to_s, 'client')
     label = I18n.t("datagrid.columns.clients.#{name_type}")
-    label = "#{label} #{country_scope_label_translation}" if custom_field.blank? || custom_field.blank?
+    label = "#{label} #{country_scope_label_translation}" if custom_field.blank?
     label
   end
 
@@ -591,7 +591,7 @@ module ClientsHelper
   end
 
   def selected_country
-    country = Setting.cache_first.try(:country_name) || params[:country].presence
+    country = Organization.current.country || Setting.cache_first.try(:country_name) || params[:country].presence
     country.nil? ? 'cambodia' : country
   end
 
@@ -620,6 +620,15 @@ module ClientsHelper
       current_address << 'Myanmar'
     when 'uganda'
       current_address = merged_address(client)
+    when 'indonesia'
+      current_address << client.house_number if client.house_number.present?
+      current_address << client.street_number if client.street_number.present?
+      current_address << client.subdistrict_name if client.subdistrict.present?
+      current_address << client.district_name if client.district.present?
+      current_address << client.city_name if client.city.present?
+      current_address << client.province_name if client.province.present?
+      current_address << client.postal_code if client.postal_code.present?
+      current_address << 'Indonesia'
     else
       current_address = merged_address(client)
     end
@@ -671,9 +680,9 @@ module ClientsHelper
   def mapping_query_string(object, hashes, association, rule)
     param_values = []
     sql_string = []
-    hashes[rule].each do |rule|
-      rule.keys.each do |key|
-        values = rule[key]
+    hashes[rule].each do |value|
+      rule.each_key do |key|
+        values = value[key]
         case key
         when 'equal'
           sql_string << "#{association} = ?"
@@ -697,6 +706,7 @@ module ClientsHelper
     properties_field = 'client_enrollment_trackings.properties'
     basic_rules = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
     return object if basic_rules.nil?
+
     basic_rules = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
     results = mapping_form_builder_param_value(basic_rules, rule)
     query_string = get_query_string(results, rule, properties_field)
@@ -704,15 +714,15 @@ module ClientsHelper
     if default_value_param
       object
     elsif rule == 'tracking'
-      properties_result = object.joins(:client_enrollment_trackings).where(query_string.reject(&:blank?).join(" #{basic_rules[:condition]} ")).distinct
+      object.joins(:client_enrollment_trackings).where(query_string.reject(&:blank?).join(" #{basic_rules[:condition]} ")).distinct
     elsif rule == 'active_program_stream'
       mew_query_string = query_string.reject(&:blank?).join(" #{basic_rules[:condition]} ")
       program_stream_ids = mew_query_string&.scan(/program_streams\.id = (\d+)/)&.flatten || []
       if program_stream_ids.size >= 2
         sql_partial = mew_query_string.gsub(/program_streams\.id = \d+/, "program_streams.id IN (#{program_stream_ids.join(', ')})")
-        properties_result = object.includes(client: :program_streams).where(sql_partial).references(:program_streams).distinct
+        object.includes(client: :program_streams).where(sql_partial).references(:program_streams).distinct
       else
-        properties_result = object.includes(client: :program_streams).where(query_string.reject(&:blank?).join(" #{basic_rules[:condition]} ")).references(:program_streams).distinct
+        object.includes(client: :program_streams).where(query_string.reject(&:blank?).join(" #{basic_rules[:condition]} ")).references(:program_streams).distinct
       end
     else
       object
@@ -736,12 +746,9 @@ module ClientsHelper
   end
 
   def case_note_query(object, rule)
-    return object unless params[:client_advanced_search].present?
-    data = {}
-    rules = %w( case_note_date case_note_type )
-    return object if params[:client_advanced_search][:basic_rules].nil?
-    data = JSON.parse(params[:client_advanced_search][:basic_rules]).with_indifferent_access
+    return object unless params[:client_advanced_search].present? && params[:client_advanced_search][:basic_rules].present?
 
+    data = JSON.parse(params[:client_advanced_search][:basic_rules]).with_indifferent_access
     result1 = mapping_param_value(data, 'case_note_date')
     result2 = mapping_param_value(data, 'case_note_type')
 
@@ -769,20 +776,16 @@ module ClientsHelper
       object = object.where(case_note_date_query).where(sub_case_note_date_query)
     elsif case_note_type_query.present? && case_note_date_query.blank?
       object = object.where(case_note_type_query).where(sub_case_note_type_query)
+    elsif data[:condition] == 'AND'
+      object = object.where(case_note_date_query).where(case_note_type_query).where(sub_case_note_type_query).where(sub_case_note_date_query)
+    elsif sub_case_note_type_query.first.blank? && sub_case_note_date_query.first.blank?
+      object = case_note_query_results(object, case_note_date_query, case_note_type_query)
+    elsif sub_case_note_date_query.first.present? && sub_case_note_type_query.first.blank?
+      object = case_note_query_results(object, case_note_date_query, case_note_type_query).or(object.where(sub_case_note_date_query))
+    elsif sub_case_note_type_query.first.present? && sub_case_note_date_query.first.blank?
+      object = case_note_query_results(object, case_note_date_query, case_note_type_query).or(object.where(sub_case_note_type_query))
     else
-      if data[:condition] == 'AND'
-        object = object.where(case_note_date_query).where(case_note_type_query).where(sub_case_note_type_query).where(sub_case_note_date_query)
-      else
-        if sub_case_note_type_query.first.blank? && sub_case_note_date_query.first.blank?
-          object = case_note_query_results(object, case_note_date_query, case_note_type_query)
-        elsif sub_case_note_date_query.first.present? && sub_case_note_type_query.first.blank?
-          object = case_note_query_results(object, case_note_date_query, case_note_type_query).or(object.where(sub_case_note_date_query))
-        elsif sub_case_note_type_query.first.present? && sub_case_note_date_query.first.blank?
-          object = case_note_query_results(object, case_note_date_query, case_note_type_query).or(object.where(sub_case_note_type_query))
-        else
-          object = case_note_query_results(object, case_note_date_query, case_note_type_query).or(object.where(sub_case_note_type_query)).or(object.where(sub_case_note_date_query))
-        end
-      end
+      object = case_note_query_results(object, case_note_date_query, case_note_type_query).or(object.where(sub_case_note_type_query)).or(object.where(sub_case_note_date_query))
     end
     object.present? ? object : []
   end

@@ -45,6 +45,7 @@ class Client < ActiveRecord::Base
   delegate :name, to: :township, prefix: true, allow_nil: true
   delegate :name, to: :province, prefix: true, allow_nil: true
   delegate :name, to: :birth_province, prefix: true, allow_nil: true
+  delegate :name, to: :city, prefix: true, allow_nil: true
   delegate :name, to: :district, prefix: true, allow_nil: true
   delegate :name, to: :subdistrict, prefix: true, allow_nil: true
   delegate :name, to: :state, prefix: true, allow_nil: true
