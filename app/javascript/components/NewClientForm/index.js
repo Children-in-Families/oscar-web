@@ -259,6 +259,7 @@ const Forms = (props) => {
     agencies,
     families,
     clientRelationships,
+    carerCities,
     carerDistricts,
     carerCommunes,
     carerVillages,
