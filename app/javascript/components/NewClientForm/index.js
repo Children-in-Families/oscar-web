@@ -86,6 +86,7 @@ const Forms = (props) => {
       refereeRelationships,
       addressTypes,
       phoneOwners,
+      refereeCities,
       refereeDistricts,
       clientCustomFields,
       refereeTownships,
@@ -99,6 +100,7 @@ const Forms = (props) => {
       refereeSubdistricts,
       carerSubdistricts,
       refereeVillages,
+      carerCities,
       carerDistricts,
       carerCommunes,
       carerVillages,
@@ -928,7 +930,7 @@ const Forms = (props) => {
               data={{
                 addressTypes,
                 currentProvinces,
-                currentCities: cities,
+                currentCities: refereeCities,
                 currentDistricts: refereeDistricts,
                 subDistricts: refereeSubdistricts,
                 objectKey,
@@ -946,7 +948,7 @@ const Forms = (props) => {
               data={{
                 addressTypes,
                 currentProvinces,
-                currentCities: cities,
+                currentCities: carerCities,
                 currentDistricts: carerDistricts,
                 subDistricts: carerSubdistricts,
                 objectKey,

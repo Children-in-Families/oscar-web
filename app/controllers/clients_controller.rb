@@ -445,9 +445,11 @@ class ClientsController < AdminController
       @districts = client.city_id.present? ? client.city.cached_districts : []
       @subdistricts = client.district_id.present? ? client.district.cached_subdistricts : []
 
+      @referee_cities = client.referee&.province_id.present? ? client.referee.province&.cached_cities : []
       @referee_districts = client.referee&.city_id.present? ? client.referee.city.cached_districts : []
       @referee_subdistricts = client.referee&.district_id.present? ? client.referee.district.cached_subdistricts : []
 
+      @carer_cities = client.carer&.province_id.present? ? client.carer.province&.cached_cities : []
       @carer_districts = client.carer&.city_id.present? ? client.carer.city.cached_districts : []
       @carer_subdistricts = client.carer&.district_id.present? ? client.carer.district.cached_subdistricts : []
     else
