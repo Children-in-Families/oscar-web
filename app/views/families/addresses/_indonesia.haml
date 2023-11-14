@@ -1,0 +1,9 @@
+.row
+  .col-sm-3
+    = f.input :province_id, collection: @provinces, input_html: { data: { type: 'provinces', 'subaddress' => 'city' } }
+  .col-sm-3
+    = f.input :city_id, collection: @cities, input_html: { data: { type: 'cities', 'subaddress' => 'district' } }
+  .col-sm-3
+    = f.input :district_id, collection: @districts, input_html: { data: { type: 'districts', 'subaddress' => 'subdistrict' } }
+  .col-sm-3
+    = f.input :subdistrict_id, collection: @subdistricts.map{|c| [c.name, c.id] }, input_html: { data: { type: 'subdistricts' } }

@@ -180,9 +180,16 @@ class FamiliesController < AdminController
     return if @family.nil?
 
     @provinces = Province.cached_order_name
-    @districts = @family.province.present? ? @family.province.cached_districts : []
-    @communes = @family.district.present? ? @family.district.cached_communes : []
-    @villages = @family.commune.present? ? @family.commune.cached_villages : []
+    if current_organization.country == 'indonesia'
+      @cities = @family.province_id.present? ? @family.province.cached_cities : []
+      @districts = @family.city_id.present? ? @family.city.cached_districts : []
+      @subdistricts = @family.subdistrict_id.present? ? @family.district.cached_subdistricts : []
+    else
+      @districts = @family.province_id.present? ? @family.province.cached_districts : []
+      @communes = @family.district_id.present? ? @family.district.cached_communes : []
+      @villages = @family.commune_id.present? ? @family.commune.cached_villages : []
+    end
+
     if action_name.in?(['edit', 'update'])
       client_ids = Family.where.not(id: @family).pluck(:children).flatten.uniq - @family.children
     else

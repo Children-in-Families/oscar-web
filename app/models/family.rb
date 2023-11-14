@@ -23,6 +23,7 @@ class Family < ActiveRecord::Base
   belongs_to :province, counter_cache: true
   belongs_to :city
   belongs_to :district
+  belongs_to :subdistrict
   belongs_to :commune
   belongs_to :village
   belongs_to :user

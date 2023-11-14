@@ -205,7 +205,7 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
       $(e.currentTarget).trigger("validate")
 
   _ajaxChangeDistrict = ->
-    mainAddress = $('#family_province_id, #family_district_id, #family_commune_id')
+    mainAddress = $('#family_province_id, #family_city_id, #family_district_id, #family_commune_id')
     mainAddress.on 'change', ->
       type       = $(@).data('type')
       typeId     = $(@).val()
