@@ -206,41 +206,24 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
 
   _ajaxChangeDistrict = ->
     mainAddress = $('#family_province_id, #family_city_id, #family_district_id, #family_commune_id')
+    resourceMapping = { cities: 'family_city_id', districts: 'family_district_id', subdistricts: 'family_subdistrict_id', communes: 'family_commune_id', villages: 'family_village_id' }
     mainAddress.on 'change', ->
       type       = $(@).data('type')
       typeId     = $(@).val()
-      subAddress = $(@).data('subaddress')
+      subAddresses = $(@).data('subaddresses')
+      subResource = subAddresses[0]
 
-      if type == 'provinces'
-        subResources = 'districts'
-        subAddress =  switch subAddress
-                      when 'district' then $('#family_district_id')
-
-        $(subAddress).val(null).trigger('change')
-        $(subAddress).find('option[value!=""]').remove()
-      else if type == 'districts'
-        subResources = 'communes'
-        subAddress =  switch subAddress
-                      when 'commune' then $('#family_commune_id')
-
-        $(subAddress).val(null).trigger('change')
-        $(subAddress).find('option[value!=""]').remove()
-      else if type == 'communes'
-        subResources = 'villages'
-        subAddress =  switch subAddress
-                      when 'village' then $('#family_village_id')
-
-
-        $(subAddress).val(null).trigger('change')
-        $(subAddress).find('option[value!=""]').remove()
+      $(subAddresses || []).each (index, subAddress) =>
+        $("##{resourceMapping[subAddress]}").val(null).trigger('change')
+        $("##{resourceMapping[subAddress]}").find('option[value!=""]').remove()
 
       if typeId != ''
         $.ajax
           method: 'GET'
-          url: "/api/#{type}/#{typeId}/#{subResources}"
+          url: "/api/#{type}/#{typeId}/#{subResource}"
           dataType: 'JSON'
           success: (response) ->
             for address in response.data
-              subAddress.append("<option value='#{address.id}'>#{address.name}</option>")
+              $("##{resourceMapping[subResource]}").append("<option value='#{address.id}'>#{address.name}</option>")
 
   { init: _init }
