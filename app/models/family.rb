@@ -18,7 +18,9 @@ class Family < ActiveRecord::Base
   attr_accessor :case_management_record
 
   delegate :name, to: :province, prefix: true, allow_nil: true
+  delegate :name, to: :city, prefix: true, allow_nil: true
   delegate :name, to: :district, prefix: true, allow_nil: true
+  delegate :name, to: :subdistrict, prefix: true, allow_nil: true
 
   belongs_to :province, counter_cache: true
   belongs_to :city

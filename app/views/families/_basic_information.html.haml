@@ -38,7 +38,7 @@
           = f.input :family_type, collection: Family.mapping_family_type_translation, label_method: :last, value_method: :first,  input_html: { class: 'family-type' }
         .col-sm-3
           = f.input :code
-      = render "families/addresses/#{current_organization.country.presence || 'cambodia'}", f: f
+      = render "shared/addresses/#{current_organization.country.presence || 'cambodia'}", f: f
       .row
         .col-sm-2
           = f.input :street

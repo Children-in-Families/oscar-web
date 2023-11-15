@@ -1,7 +1,7 @@
 require 'rake'
 
 class Organization < ActiveRecord::Base
-  SUPPORTED_LANGUAGES = %w(en km my).freeze
+  SUPPORTED_LANGUAGES = %w[en km my th in].freeze
   TYPES = ['Faith Based Organization', 'Government Organization', "Disabled People's Organization", 'Non Government Organization', 'Community Based Organization', 'Other Organization'].freeze
 
   acts_as_paranoid
@@ -174,6 +174,7 @@ class Organization < ActiveRecord::Base
 
     return 'km' if cambodian? && other_languages.include?('km')
     return 'my' if myanmar? && other_languages.include?('my')
+    return 'in' if myanmar? && other_languages.include?('in')
 
     other_languages.first
   end

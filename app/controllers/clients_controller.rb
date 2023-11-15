@@ -77,7 +77,7 @@ class ClientsController < AdminController
 
         @referees = Referee.cache_none_anonymous.map { |referee| { value: referee.id, text: referee.name } }
         @current_provinces = Province.pluck(:id, :name).map { |id, name| { value: id, text: name } }
-        @birth_provinces = @birth_provinces.map { |parent, children| children.map { |t, v| { value: v, text: t } } }.flatten
+        @birth_provinces = @birth_provinces.map { |_, children| children.map { |t, v| { value: v, text: t } } }.flatten
 
         custom_field_ids = @client.custom_field_properties.pluck(:custom_field_id)
         if current_user.admin? || current_user.strategic_overviewer?

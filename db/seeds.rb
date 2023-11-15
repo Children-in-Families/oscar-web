@@ -1880,9 +1880,9 @@ case_closures.each do |case_closure|
 end
 
 if Organization.current.try(:short_name) == 'ratanak'
-  setting = Setting.first_or_create(default_assessment: 'Results Framework Assessment', country_name: 'cambodia', enable_hotline: true, min_assessment: 3, case_note_frequency: 'day', max_case_note: 30, age: 100)
+  setting = Setting.first_or_create(default_assessment: 'Results Framework Assessment', country_name: Organization.current.country, enable_hotline: true, min_assessment: 3, case_note_frequency: 'day', max_case_note: 30, age: 100)
 else
-  setting = Setting.first_or_create(country_name: 'cambodia', min_assessment: 3, case_note_frequency: 'day', max_case_note: 30)
+  setting = Setting.first_or_create(country_name: Organization.current.country, min_assessment: 3, case_note_frequency: 'day', max_case_note: 30)
 end
 
 setting.update(org_name: Organization.current.full_name) if setting.org_name.blank? && Organization.current.present?

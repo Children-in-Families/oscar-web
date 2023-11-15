@@ -467,25 +467,6 @@ module ClientsHelper
     end
   end
 
-  def merged_address(client)
-    current_address = []
-    current_address << "#{t('datagrid.columns.clients.house_number')} #{client.house_number}" if client.house_number.present?
-    current_address << "#{t('datagrid.columns.clients.street_number')} #{client.street_number}" if client.street_number.present?
-
-    if I18n.locale.to_s == 'km'
-      current_address << "#{t('datagrid.columns.clients.village')} #{client.village.name_kh}" if client.village.present?
-      current_address << "#{t('datagrid.columns.clients.commune')} #{client.commune.name_kh}" if client.commune.present?
-      current_address << client.district_name.split(' / ').first if client.district.present?
-      current_address << client.province_name.split(' / ').first if client.province.present?
-    else
-      current_address << "#{t('datagrid.columns.clients.village')} #{client.village.name_en}" if client.village.present?
-      current_address << "#{t('datagrid.columns.clients.commune')} #{client.commune.name_en}" if client.commune.present?
-      current_address << client.district_name.split(' / ').last if client.district.present?
-      current_address << client.province_name.split(' / ').last if client.province.present?
-    end
-    current_address << selected_country.titleize
-  end
-
   def concern_merged_address(client)
     current_address = []
     current_address << "#{t('datagrid.columns.clients.concern_house')} #{client.concern_house}" if client.concern_house.present?
@@ -588,51 +569,6 @@ module ClientsHelper
 
   def status_exited?(value)
     value == 'Exited'
-  end
-
-  def selected_country
-    country = Organization.current.country || Setting.cache_first.try(:country_name) || params[:country].presence
-    country.nil? ? 'cambodia' : country
-  end
-
-  def country_address_field(client)
-    country = selected_country
-    current_address = []
-    case country
-    when 'thailand'
-      current_address << client.plot if client.plot.present?
-      current_address << client.road if client.road.present?
-      current_address << client.subdistrict_name if client.subdistrict.present?
-      current_address << client.district_name if client.district.present?
-      current_address << client.province_name if client.province.present?
-      current_address << client.postal_code if client.postal_code.present?
-      current_address << 'Thailand'
-    when 'lesotho'
-      current_address << client.suburb if client.suburb.present?
-      current_address << client.description_house_landmark if client.description_house_landmark.present?
-      current_address << client.directions if client.directions.present?
-      current_address << 'Lesotho'
-    when 'myanmar'
-      current_address << client.street_line1 if client.street_line1.present?
-      current_address << client.street_line2 if client.street_line2.present?
-      current_address << client.township_name if client.township.present?
-      current_address << client.state_name if client.state.present?
-      current_address << 'Myanmar'
-    when 'uganda'
-      current_address = merged_address(client)
-    when 'indonesia'
-      current_address << client.house_number if client.house_number.present?
-      current_address << client.street_number if client.street_number.present?
-      current_address << client.subdistrict_name if client.subdistrict.present?
-      current_address << client.district_name if client.district.present?
-      current_address << client.city_name if client.city.present?
-      current_address << client.province_name if client.province.present?
-      current_address << client.postal_code if client.postal_code.present?
-      current_address << 'Indonesia'
-    else
-      current_address = merged_address(client)
-    end
-    current_address.compact.join(', ')
   end
 
   def default_columns_visibility(column)

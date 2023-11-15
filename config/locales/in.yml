@@ -3600,13 +3600,14 @@ in:
       users:
       view_calendar:
     top_navbar:
-      burmese:
-      edit_profile:
-      english:
-      khmer:
-      language:
-      log_out:
-      thai:
+      bahasa: Bahasa
+      burmese: Burmese
+      edit_profile: Edit Profile
+      english: English
+      khmer: ខ្មែរ
+      language: Language
+      log_out: Log out
+      thai: Thai
   leave_enrolled_programs:
     create:
       successfully_created:
