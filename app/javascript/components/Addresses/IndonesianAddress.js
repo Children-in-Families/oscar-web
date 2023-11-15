@@ -1,27 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { TextInput, SelectInput, TextArea } from "../Commons/inputs";
-import { t } from "../../utils/i18n";
 
 export default (props) => {
   const {
     onChange,
     disabled,
-    current_organization,
-    hintText,
     outside,
-    translation,
     data: {
       client,
-      currentProvinces,
       objectKey,
       objectData,
       addressTypes,
-      currentCommunes = [],
-      currentDistricts = [],
-      currentVillages = [],
-      T,
-      inlineClassName,
-      ...others
+      currentProvinces,
+      currentCities,
+      currentDistricts,
+      subDistricts,
+      T
     }
   } = props;
 
@@ -31,65 +25,76 @@ export default (props) => {
       value: province.id
     }))
   );
+
+  const [cities, setCities] = useState(
+    currentCities.map((city) => ({ label: city.name, value: city.id }))
+  );
+
   const [districts, setDistricts] = useState(
     currentDistricts.map((district) => ({
       label: district.name,
       value: district.id
     }))
   );
-  const [communes, setCommunes] = useState(
-    currentCommunes.map((commune) => ({
-      label: commune.name_kh + " / " + commune.name_en,
-      value: commune.id
+  const [subdistricts, setSubDistricts] = useState(
+    subDistricts.map((subDistrict) => ({
+      label: subDistrict.name,
+      value: subDistrict.id
     }))
   );
-  const [villages, setVillages] = useState(
-    currentVillages.map((village) => ({
-      label: village.name_kh + " / " + village.name_en,
-      value: village.id
-    }))
-  );
+  // const [referee_districts, setRefereeDistricts] = useState(
+  //   refereeDistricts.map((district) => ({
+  //     label: district.name,
+  //     value: district.id
+  //   }))
+  // );
+  // const [referee_subdistricts, setRefereeSubDistricts] = useState(
+  //   refereeSubdistricts.map((subdistrict) => ({
+  //     label: subdistrict.name,
+  //     value: subdistrict.id
+  //   }))
+  // );
+
+  // const [carer_districts, setCarerDistricts] = useState(
+  //   carerDistricts.map((district) => ({
+  //     label: district.name,
+  //     value: district.id
+  //   }))
+  // );
+  // const [carer_subdistricts, setCarerSubdistricts] = useState(
+  //   carerSubdistricts.map((subdistrict) => ({
+  //     label: subdistrict.name,
+  //     value: subdistrict.id
+  //   }))
+  // );
+
   const typeOfAddress = addressTypes.map((type) => ({
     label: T.translate("addressType." + type.label),
     value: type.value
   }));
 
   useEffect(() => {
-    setProvinces(
-      currentProvinces.map((province) => ({
-        label: province.name,
-        value: province.id
+    setCities(
+      currentCities.map((city) => ({
+        label: city.name,
+        value: city.id
       }))
     );
+
     setDistricts(
       currentDistricts.map((district) => ({
         label: district.name,
         value: district.id
       }))
     );
-    setCommunes(
-      currentCommunes.map((commune) => ({
-        label:
-          (commune.name && commune.name) ||
-          `${commune.name_kh} / ${commune.name_en}`,
-        value: commune.id
-      }))
-    );
-    setVillages(
-      currentVillages.map((village) => ({
-        label:
-          (village.name && village.name) ||
-          `${village.name_kh} / ${village.name_en}`,
-        value: village.id
-      }))
-    );
 
-    // if(outside) {
-    //   onChange(objectKey, { province_id: null, district_id: null, commune_id: null, village_id: null, house_number: '', street_number: '', current_address: '', address_type: '' })({type: 'select'})
-    // } else {
-    //   onChange(objectKey, { outside_address: '' })({type: 'select'})
-    // }
-  }, [currentDistricts, currentCommunes, currentVillages]);
+    setSubDistricts(
+      subDistricts.map((subDistrict) => ({
+        label: subDistrict.name && subDistrict.name,
+        value: subDistrict.id
+      }))
+    );
+  }, [currentCities, currentDistricts, currentProvinces]);
 
   const updateValues = (object) => {
     const { parent, child, field, obj, data } = object;
@@ -97,22 +102,26 @@ export default (props) => {
     const parentConditions = {
       provinces: {
         fieldsToBeUpdate: {
+          city_id: null,
           district_id: null,
-          commune_id: null,
-          village_id: null,
+          subdistrict_id: null,
           [field]: data
         },
-        optionsToBeResets: [setDistricts, setCommunes, setVillages]
+        optionsToBeResets: [setCities, setDistricts, setSubDistricts]
+      },
+      cities: {
+        fieldsToBeUpdate: {
+          district_id: null,
+          subdistrict_id: null,
+          [field]: data
+        },
+        optionsToBeResets: [setDistricts, setSubDistricts]
       },
       districts: {
-        fieldsToBeUpdate: { commune_id: null, village_id: null, [field]: data },
-        optionsToBeResets: [setCommunes, setVillages]
+        fieldsToBeUpdate: { subdistrict_id: null, [field]: data },
+        optionsToBeResets: [setSubDistricts]
       },
-      communes: {
-        fieldsToBeUpdate: { village_id: null, [field]: data },
-        optionsToBeResets: [setVillages]
-      },
-      villages: {
+      subdistricts: {
         fieldsToBeUpdate: { [field]: data },
         optionsToBeResets: []
       }
@@ -130,27 +139,28 @@ export default (props) => {
   const onChangeParent =
     (object) =>
     ({ data }) => {
-      const { parent, child } = object;
+      const { parent, child, obj } = object;
 
       updateValues({ ...object, data });
 
-      if (parent !== "villages" && data !== null) {
+      if (parent !== "subdistricts" && data !== null) {
         $.ajax({
-          dataType: "json",
           type: "GET",
-          url: `/api/${parent}/${data}/${child}`,
-          contentType: "application/json"
+          url: `/api/${parent}/${data}/${child}`
         })
           .success((res) => {
+            let dataState = {};
             const formatedData = res.data.map((data) => ({
               label: data.name,
               value: data.id
             }));
-            const dataState = {
+
+            dataState = {
+              cities: setCities,
               districts: setDistricts,
-              communes: setCommunes,
-              villages: setVillages
+              subdistricts: setSubDistricts
             };
+
             dataState[child](formatedData);
           })
           .error((res) => {
@@ -158,6 +168,21 @@ export default (props) => {
           });
       }
     };
+
+  const handleDistrictOptions = (obj, district) => {
+    const is_district = district == "district";
+    // switch (obj) {
+    //   case "referee":
+    //     return is_district ? referee_districts : referee_subdistricts;
+    //     break;
+    //   case "carer":
+    //     return is_district ? carer_districts : carer_subdistricts;
+    //     break;
+    //   default:
+    //     return is_district ? districts : subdistricts;
+    // }
+    return is_district ? districts : subdistricts;
+  };
 
   return outside == true ? (
     <TextArea
@@ -169,76 +194,77 @@ export default (props) => {
   ) : (
     <>
       <div className="row">
-        <div className="col-xs-12 col-md-6 col-lg-3">
+        <div className="col-xs-12 col-md-3 col-lg-3">
           <SelectInput
-            label={t(translation, "clients.confirm_client.province")}
+            label={T.translate("address.indonesia.province")}
             options={provinces}
             isDisabled={disabled}
             value={objectData.province_id}
             onChange={onChangeParent({
               parent: "provinces",
-              child: "districts",
+              child: "cities",
               obj: objectKey,
               field: "province_id"
             })}
-            inlineClassName="referree-province"
-            hintText={hintText[objectKey].referral_province}
           />
         </div>
 
-        <div className="col-xs-12 col-md-6 col-lg-3">
+        <div className="col-xs-12 col-md-3 col-lg-3">
           <SelectInput
-            label={t(translation, "clients.show.district")}
+            label={T.translate("address.indonesia.city")}
             isDisabled={disabled}
-            options={districts}
+            options={cities}
+            value={objectData.city_id}
+            onChange={onChangeParent({
+              parent: "cities",
+              child: "districts",
+              obj: objectKey,
+              field: "city_id"
+            })}
+          />
+        </div>
+
+        <div className="col-xs-12 col-md-3 col-lg-3">
+          <SelectInput
+            label={T.translate("address.indonesia.district")}
+            isDisabled={disabled}
+            options={handleDistrictOptions(objectKey, "district")}
             value={objectData.district_id}
             onChange={onChangeParent({
               parent: "districts",
-              child: "communes",
+              child: "subdistricts",
               obj: objectKey,
               field: "district_id"
             })}
-            inlineClassName="referree-districs"
-            hintText={hintText.referee.referral_districs}
           />
         </div>
 
-        <div className="col-xs-12 col-md-6 col-lg-3">
+        <div className="col-xs-12 col-md-3 col-lg-3">
           <SelectInput
-            label={t(translation, "clients.show.commune")}
+            label={T.translate("address.indonesia.subdistrict")}
             isDisabled={disabled}
-            options={communes}
-            value={objectData.commune_id}
+            options={handleDistrictOptions(objectKey, "subdistrict")}
+            value={objectData.subdistrict_id}
             onChange={onChangeParent({
-              parent: "communes",
-              child: "villages",
+              parent: "subdistricts",
+              child: "subdistricts",
               obj: objectKey,
-              field: "commune_id"
+              field: "subdistrict_id"
             })}
-            inlineClassName="referree-commune"
-            hintText={hintText.referee.referral_commune}
-          />
-        </div>
-
-        <div className="col-xs-12 col-md-6 col-lg-3">
-          <SelectInput
-            label={T.translate("address.village")}
-            isDisabled={disabled}
-            options={villages}
-            value={objectData.village_id}
-            onChange={onChangeParent({
-              parent: "villages",
-              child: "villages",
-              obj: objectKey,
-              field: "village_id"
-            })}
-            inlineClassName="village"
-            hintText={hintText.referee.referral_village}
           />
         </div>
       </div>
 
       <div className="row">
+        <div className="col-xs-12 col-md-6 col-lg-3">
+          <TextInput
+            label={T.translate("address.indonesia.postal_code")}
+            disabled={disabled}
+            onChange={onChange(objectKey, "postal_code")}
+            value={objectData.postal_code}
+          />
+        </div>
+
         <div className="col-xs-12 col-md-6 col-lg-3">
           <TextInput
             label={T.translate("address.street_number")}
@@ -256,7 +282,9 @@ export default (props) => {
             value={objectData.house_number}
           />
         </div>
+      </div>
 
+      <div className="row">
         <div className="col-xs-12 col-md-6 col-lg-3">
           <TextInput
             label={T.translate("address.address_name")}

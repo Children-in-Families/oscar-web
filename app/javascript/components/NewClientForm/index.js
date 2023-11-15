@@ -15,6 +15,7 @@ import MyanmarAddress from "../Addresses/myanmarAddress";
 import ThailandAddress from "../Addresses/thailandAddress";
 import LesothoAddress from "../Addresses/lesothoAddress";
 import NepalAddress from "../Addresses/nepalAddress";
+import IndonesianAddress from "../Addresses/IndonesianAddress";
 import toastr from "toastr/toastr";
 
 import T from "i18n-react";
@@ -70,6 +71,7 @@ const Forms = (props) => {
       selectedCountry,
       internationalReferredClient,
       currentProvinces,
+      cities,
       districts,
       communes,
       villages,
@@ -84,6 +86,7 @@ const Forms = (props) => {
       refereeRelationships,
       addressTypes,
       phoneOwners,
+      refereeCities,
       refereeDistricts,
       clientCustomFields,
       refereeTownships,
@@ -97,6 +100,7 @@ const Forms = (props) => {
       refereeSubdistricts,
       carerSubdistricts,
       refereeVillages,
+      carerCities,
       carerDistricts,
       carerCommunes,
       carerVillages,
@@ -189,10 +193,11 @@ const Forms = (props) => {
   }, [errorFields]);
 
   const address = {
+    currentProvinces,
+    currentCities: cities,
     currentDistricts: districts,
     currentCommunes: communes,
     currentVillages: villages,
-    currentProvinces,
     subDistricts,
     currentStates,
     currentTownships,
@@ -208,10 +213,11 @@ const Forms = (props) => {
     referees: refereesData,
     referralSourceCategory,
     referralSource,
+    currentProvinces,
+    currentCities: cities,
     refereeDistricts,
     refereeCommunes,
     refereeVillages,
-    currentProvinces,
     refereeTownships,
     currentStates,
     refereeSubdistricts,
@@ -220,6 +226,7 @@ const Forms = (props) => {
     translation,
     current_organization
   };
+
   const referralTabData = {
     errorFields,
     client: clientData,
@@ -252,6 +259,7 @@ const Forms = (props) => {
     agencies,
     families,
     clientRelationships,
+    carerCities,
     carerDistricts,
     carerCommunes,
     carerVillages,
@@ -376,7 +384,7 @@ const Forms = (props) => {
     }
   };
 
-  const handleValidation = (stepTobeCheck = 0) => {
+  const handleValidation = (stepToBeCheck = 0) => {
     const step5RequiredFields = Object.entries(requiredFields.fields)
       .map((keypair) => {
         const checkboxKey = keypair[0];
@@ -413,7 +421,7 @@ const Forms = (props) => {
     components.forEach((component) => {
       if (
         step === component.step ||
-        (stepTobeCheck !== 0 && component.step === stepTobeCheck)
+        (stepToBeCheck !== 0 && component.step === stepToBeCheck)
       ) {
         component.fields.forEach((field) => {
           if (
@@ -604,6 +612,7 @@ const Forms = (props) => {
       birth_province_id: clientData.birth_province_id || "",
       current_province_id: clientData.province_id || "",
       district_id: clientData.district_id || "",
+      city_id: clientData.city_id || "",
       village_id: clientData.village_id || "",
       commune_id: clientData.commune_id || "",
       gender: clientData.gender || ""
@@ -685,6 +694,7 @@ const Forms = (props) => {
   const handleCheckValue = (object) => {
     if (object.outside) {
       object.province_id = null;
+      object.city_id = null;
       object.district_id = null;
       object.commune_id = null;
       object.village_id = null;
@@ -911,134 +921,144 @@ const Forms = (props) => {
           />
         );
         break;
-      default:
+      case "indonesia":
+        if (objectKey == "referee")
+          return (
+            <IndonesianAddress
+              disabled={disabled}
+              outside={objectData.outside || false}
+              onChange={onChange}
+              data={{
+                addressTypes,
+                currentProvinces,
+                currentCities: refereeCities,
+                currentDistricts: refereeDistricts,
+                subDistricts: refereeSubdistricts,
+                objectKey,
+                objectData,
+                T
+              }}
+            />
+          );
+        else if (objectKey == "carer")
+          return (
+            <IndonesianAddress
+              disabled={disabled}
+              outside={objectData.outside || false}
+              onChange={onChange}
+              data={{
+                addressTypes,
+                currentProvinces,
+                currentCities: carerCities,
+                currentDistricts: carerDistricts,
+                subDistricts: carerSubdistricts,
+                objectKey,
+                objectData,
+                T
+              }}
+            />
+          );
+        else
+          return (
+            <IndonesianAddress
+              disabled={disabled}
+              outside={objectData.outside || false}
+              onChange={onChange}
+              data={{
+                addressTypes,
+                currentProvinces,
+                currentCities: cities,
+                currentDistricts: districts,
+                subDistricts: subDistricts,
+                objectKey,
+                objectData,
+                T
+              }}
+            />
+          );
+
+        break;
+      case "nepal":
         if (objectKey == "referee") {
-          if (country_name === "nepal")
-            return (
-              <NepalAddress
-                hintText={inlineHelpTranslation}
-                disabled={disabled}
-                outside={objectData.outside || false}
-                onChange={onChange}
-                current_organization={current_organization}
-                data={{
-                  addressTypes,
-                  currentDistricts: addresses.districts || refereeDistricts,
-                  currentCommunes: addresses.communes || refereeCommunes,
-                  currentProvinces,
-                  objectKey,
-                  objectData,
-                  T
-                }}
-              />
-            );
-          else
-            return (
-              <Address
-                hintText={inlineHelpTranslation}
-                disabled={disabled}
-                outside={objectData.outside || false}
-                onChange={onChange}
-                current_organization={current_organization}
-                translation={translation}
-                data={{
-                  addressTypes,
-                  currentDistricts: addresses.districts || refereeDistricts,
-                  currentCommunes: addresses.communes || refereeCommunes,
-                  currentVillages: addresses.villages || refereeVillages,
-                  currentProvinces,
-                  objectKey,
-                  objectData,
-                  T
-                }}
-              />
-            );
-        }
-        if (objectKey == "carer") {
-          if (country_name === "nepal")
-            return (
-              <NepalAddress
-                hintText={inlineHelpTranslation}
-                disabled={disabled}
-                outside={objectData.outside || false}
-                onChange={onChange}
-                current_organization={current_organization}
-                data={{
-                  addressTypes,
-                  currentDistricts: carerDistricts,
-                  currentCommunes: carerCommunes,
-                  currentVillages: carerVillages,
-                  currentProvinces,
-                  objectKey,
-                  objectData,
-                  T
-                }}
-              />
-            );
-          else
-            return (
-              <Address
-                hintText={inlineHelpTranslation}
-                disabled={disabled}
-                outside={objectData.outside || false}
-                onChange={onChange}
-                current_organization={current_organization}
-                translation={translation}
-                data={{
-                  addressTypes,
-                  currentDistricts: addresses.districts || carerDistricts,
-                  currentCommunes: addresses.communes || carerCommunes,
-                  currentVillages: addresses.villages || carerVillages,
-                  currentProvinces,
-                  objectKey,
-                  objectData,
-                  T
-                }}
-              />
-            );
+          return (
+            <NepalAddress
+              hintText={inlineHelpTranslation}
+              disabled={disabled}
+              outside={objectData.outside || false}
+              onChange={onChange}
+              current_organization={current_organization}
+              data={{
+                addressTypes,
+                currentDistricts: addresses.districts || refereeDistricts,
+                currentCommunes: addresses.communes || refereeCommunes,
+                currentProvinces,
+                objectKey,
+                objectData,
+                T
+              }}
+            />
+          );
+        } else if (objectKey == "carer") {
+          return (
+            <NepalAddress
+              hintText={inlineHelpTranslation}
+              disabled={disabled}
+              outside={objectData.outside || false}
+              onChange={onChange}
+              current_organization={current_organization}
+              data={{
+                addressTypes,
+                currentDistricts: carerDistricts,
+                currentCommunes: carerCommunes,
+                currentVillages: carerVillages,
+                currentProvinces,
+                objectKey,
+                objectData,
+                T
+              }}
+            />
+          );
         } else {
-          if (country_name === "nepal")
-            return (
-              <NepalAddress
-                hintText={inlineHelpTranslation}
-                disabled={disabled}
-                outside={objectData.outside || false}
-                onChange={onChange}
-                current_organization={current_organization}
-                data={{
-                  addressTypes,
-                  currentDistricts: districts,
-                  currentCommunes: communes,
-                  currentVillages: villages,
-                  currentProvinces,
-                  objectKey,
-                  objectData,
-                  T
-                }}
-              />
-            );
-          else
-            return (
-              <Address
-                hintText={inlineHelpTranslation}
-                translation={translation}
-                disabled={disabled}
-                outside={objectData.outside || false}
-                onChange={onChange}
-                current_organization={current_organization}
-                data={{
-                  addressTypes,
-                  currentDistricts: districts,
-                  currentCommunes: communes,
-                  currentVillages: villages,
-                  currentProvinces,
-                  objectKey,
-                  objectData,
-                  T
-                }}
-              />
-            );
+          <NepalAddress
+            hintText={inlineHelpTranslation}
+            disabled={disabled}
+            outside={objectData.outside || false}
+            onChange={onChange}
+            current_organization={current_organization}
+            data={{
+              addressTypes,
+              currentDistricts: districts,
+              currentCommunes: communes,
+              currentVillages: villages,
+              currentProvinces,
+              objectKey,
+              objectData,
+              T
+            }}
+          />;
         }
+        break;
+      default:
+        return (
+          <Address
+            hintText={inlineHelpTranslation}
+            translation={translation}
+            disabled={disabled}
+            outside={objectData.outside || false}
+            onChange={onChange}
+            current_organization={current_organization}
+            data={{
+              addressTypes,
+              currentDistricts: districts,
+              currentCommunes: communes,
+              currentVillages: villages,
+              currentProvinces,
+              objectKey,
+              objectData,
+              T
+            }}
+          />
+        );
     }
   };
 

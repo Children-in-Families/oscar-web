@@ -4,6 +4,7 @@ class Commune < ActiveRecord::Base
   attr_accessor :name
   has_paper_trail
 
+  belongs_to :city, touch: true
   belongs_to :district, touch: true
   has_many :villages, dependent: :restrict_with_error
   has_many :government_forms, dependent: :restrict_with_error
@@ -15,7 +16,7 @@ class Commune < ActiveRecord::Base
   validates :district, :name_kh, :name_en, presence: true
   validates :code, presence: true, uniqueness: true
 
-  scope :dropdown_list_option, -> { all.map{|c| { c.id => c.name } } }
+  scope :dropdown_list_option, -> { all.map { |c| { c.id => c.name } } }
 
   after_commit :flush_cache
 
@@ -50,14 +51,14 @@ class Commune < ActiveRecord::Base
   end
 
   def self.cache_by_client_district_province_and_mapping_names
-    Rails.cache.fetch([Apartment::Tenant.current, "Commune", 'cache_by_client_district_province_and_mapping_names']) do
-      Commune.joins(:clients, district: :province).distinct.map{|commune| ["#{commune.name} (#{commune.code})", commune.id]}.sort.map{|s| {s[1].to_s => s[0]}}
+    Rails.cache.fetch([Apartment::Tenant.current, 'Commune', 'cache_by_client_district_province_and_mapping_names']) do
+      Commune.joins(:clients, district: :province).distinct.map { |commune| ["#{commune.name} (#{commune.code})", commune.id] }.sort.map { |s| { s[1].to_s => s[0] } }
     end
   end
 
   def self.cache_by_client_district_province_and_mapping_names
-    Rails.cache.fetch([Apartment::Tenant.current, "Commune", 'cache_by_client_district_province_and_mapping_names']) do
-      Commune.joins(:clients, district: :province).distinct.map{|commune| ["#{commune.name} (#{commune.code})", commune.id]}.sort.map{|s| {s[1].to_s => s[0]}}
+    Rails.cache.fetch([Apartment::Tenant.current, 'Commune', 'cache_by_client_district_province_and_mapping_names']) do
+      Commune.joins(:clients, district: :province).distinct.map { |commune| ["#{commune.name} (#{commune.code})", commune.id] }.sort.map { |s| { s[1].to_s => s[0] } }
     end
   end
 
@@ -66,7 +67,7 @@ class Commune < ActiveRecord::Base
   def flush_cache
     Rails.cache.delete([Apartment::Tenant.current, 'Commune', id])
     Rails.cache.delete([Apartment::Tenant.current, 'Commune', id, 'cached_villages'])
-    Rails.cache.delete([Apartment::Tenant.current, "Commune", 'dropdown_list_option'])
-    Rails.cache.delete([Apartment::Tenant.current, "Commune", 'cache_by_client_district_province_and_mapping_names']) if name_kh_changed? || name_en_changed?
+    Rails.cache.delete([Apartment::Tenant.current, 'Commune', 'dropdown_list_option'])
+    Rails.cache.delete([Apartment::Tenant.current, 'Commune', 'cache_by_client_district_province_and_mapping_names']) if name_kh_changed? || name_en_changed?
   end
 end

@@ -1,7 +1,7 @@
 require 'rake'
 
 class Organization < ActiveRecord::Base
-  SUPPORTED_LANGUAGES = %w(en km my).freeze
+  SUPPORTED_LANGUAGES = %w[en km my th in].freeze
   TYPES = ['Faith Based Organization', 'Government Organization', "Disabled People's Organization", 'Non Government Organization', 'Community Based Organization', 'Other Organization'].freeze
 
   acts_as_paranoid
@@ -88,6 +88,7 @@ class Organization < ActiveRecord::Base
 
           Importer::Import.new('Agency', general_data_file).agencies
           Importer::Import.new('Department', general_data_file).departments
+
           case country
           when 'nepal'
             Rake::Task['nepali_provinces:import'].invoke(org.short_name)
@@ -98,6 +99,9 @@ class Organization < ActiveRecord::Base
           when 'thailand'
             Rake::Task['thailand_addresses:import'].invoke(org.short_name)
             Rake::Task['thailand_addresses:import'].reenable
+          when 'indonesia'
+            Rake::Task['indonesian_addresses:import'].invoke(org.short_name)
+            Rake::Task['indonesian_addresses:import'].reenable
           else
             Importer::Import.new('Province', general_data_file).provinces
             Rake::Task['communes_and_villages:import'].invoke(org.short_name)
@@ -108,7 +112,7 @@ class Organization < ActiveRecord::Base
           Rake::Task['field_settings:import'].invoke(org.short_name)
           Rake::Task['field_settings:import'].reenable
 
-          Thredded::MessageboardGroup.find_or_create_by(name: 'Archived', position: 0)
+          Thredded::MessageboardGroup.find_or_create_by(name: 'Archived')
 
           referral_source_category = ReferralSource.find_by(name_en: referral_source_category_name)
           if referral_source_category
@@ -170,6 +174,7 @@ class Organization < ActiveRecord::Base
 
     return 'km' if cambodian? && other_languages.include?('km')
     return 'my' if myanmar? && other_languages.include?('my')
+    return 'in' if myanmar? && other_languages.include?('in')
 
     other_languages.first
   end

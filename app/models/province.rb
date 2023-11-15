@@ -9,14 +9,15 @@ class Province < ActiveRecord::Base
   has_many :clients, dependent: :restrict_with_error
   has_many :cases, dependent: :restrict_with_error
   has_many :districts, dependent: :restrict_with_error
+  has_many :cities, dependent: :restrict_with_error
   has_many :settings, dependent: :restrict_with_error
   has_many :government_forms, dependent: :restrict_with_error
 
-  scope :has_clients,  -> { joins(:clients).uniq }
+  scope :has_clients, -> { joins(:clients).uniq }
 
   scope :birth_places, -> { joins('RIGHT JOIN clients ON clients.birth_province_id = Provinces.id').uniq }
 
-  scope :country_is, ->(country) { where(country: country).order(:name) }
+  scope :country_is, -> (country) { where(country: country).order(:name) }
   scope :official, -> { where.not(name: ['បោយប៉ែត/Poipet', 'Community', 'Other / ផ្សេងៗ', 'នៅ​ខាង​ក្រៅ​កម្ពុជា / Outside Cambodia']) }
 
   validates :name, presence: true, uniqueness: { case_sensitive: false, scope: :country }
@@ -52,7 +53,7 @@ class Province < ActiveRecord::Base
   end
 
   def self.find_name_by_code(code)
-    district = District.where("code LIKE ?", "#{code}%").first
+    district = District.where('code LIKE ?', "#{code}%").first
     district&.province&.name
   end
 
@@ -68,6 +69,10 @@ class Province < ActiveRecord::Base
     Rails.cache.fetch([Apartment::Tenant.current, 'Province', id, 'cached_districts']) { districts.order(:name).to_a }
   end
 
+  def cached_cities
+    Rails.cache.fetch([Apartment::Tenant.current, 'Province', id, 'cached_cities']) { cities.order(:name).to_a }
+  end
+
   private
 
   def flush_cache
@@ -75,6 +80,7 @@ class Province < ActiveRecord::Base
     Rails.cache.delete([Apartment::Tenant.current, self.class.name, 'cache_by_country'])
     Rails.cache.delete([Apartment::Tenant.current, 'Province', 'cached_order_name']) if name_changed?
     Rails.cache.delete([Apartment::Tenant.current, 'Province', id, 'cached_districts'])
+    Rails.cache.delete([Apartment::Tenant.current, 'Province', id, 'cached_cities'])
     Rails.cache.delete([Apartment::Tenant.current, 'Province', 'dropdown_list_option'])
   end
 end

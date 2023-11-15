@@ -100,7 +100,7 @@ class FieldSetting < ActiveRecord::Base
   end
 
   def self.cache_by_name(field_name, group_name)
-    Rails.cache.fetch([Apartment::Tenant::current, 'FieldSetting', field_name, group_name]) do
+    Rails.cache.fetch([Apartment::Tenant.current, 'FieldSetting', field_name, group_name]) do
       find_by(name: field_name, group: group_name).try(:label)
     end
   end
@@ -147,7 +147,7 @@ class FieldSetting < ActiveRecord::Base
 
     Rails.cache.delete(field_settings_cache_key)
     Rails.cache.delete([Apartment::Tenant.current, self.class.name, self.id])
-    Rails.cache.delete([Apartment::Tenant::current, 'FieldSetting', self.name, self.group])
+    Rails.cache.delete([Apartment::Tenant.current, 'FieldSetting', self.name, self.group])
     Rails.cache.delete(field_settings_cache_key << 'cache_query_find_by_ngo_name')
     Rails.cache.delete([Apartment::Tenant.current, 'FieldSetting', 'klass_name', self.name, self.klass_name])
     Rails.cache.delete([Apartment::Tenant.current, 'field_settings', 'show_legal_doc'])

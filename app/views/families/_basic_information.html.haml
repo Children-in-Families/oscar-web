@@ -38,15 +38,7 @@
           = f.input :family_type, collection: Family.mapping_family_type_translation, label_method: :last, value_method: :first,  input_html: { class: 'family-type' }
         .col-sm-3
           = f.input :code
-      .row
-        .col-sm-3
-          = f.input :province_id, collection: @provinces, input_html: { data: { type: 'provinces', 'subaddress' => 'district' } }
-        .col-sm-3
-          = f.input :district_id, collection: @districts, input_html: { data: { type: 'districts', 'subaddress' => 'commune' } }
-        .col-sm-3
-          = f.input :commune_id, collection: @communes.map{|c| [c.name, c.id] }, input_html: { data: { type: 'communes', 'subaddress' => 'village' } }, hint: (@family.old_commune if @family.commune_id.nil?)
-        .col-sm-3
-          = f.input :village_id, collection: @villages.map{|v| [v.name, v.id] }, input_html: { data: { type: 'villages' } }, hint: (@family.old_village if @family.village_id.nil?)
+      = render "shared/addresses/#{current_organization.country.presence || 'cambodia'}", f: f
       .row
         .col-sm-2
           = f.input :street

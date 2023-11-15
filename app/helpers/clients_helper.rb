@@ -14,11 +14,11 @@ module ClientsHelper
       family_member: (@client.family_member || {}), moSAVYOfficials: @client.mo_savy_officials,
       referee: @referee.as_json(methods: [:existing_referree]), carer: @carer, users: case_workers_option(@client.id),
       referralSourceCategory: @referral_source_category, referralSource: ReferralSource.all, birthProvinces: @birth_provinces,
-      currentProvinces: @current_provinces || get_address('province'), districts: @districts.presence || get_address('district'),
+      currentProvinces: @current_provinces || get_address('province'), cities: @cities, districts: @districts.presence || get_address('district'),
       subDistricts: @subdistricts, communes: @communes.presence || get_address('commune'), villages: @villages.presence || get_address('village'),
-      currentStates: @states, currentTownships: @townships, refereeTownships: @referee_townships, carerTownships: @carer_townships,
+      currentStates: @states, currentTownships: @townships, refereeTownships: @referee_townships, carerTownships: @carer_townships, refereeCities: @referee_cities,
       refereeDistricts: @referee_districts, refereeSubdistricts: @referee_subdistricts, refereeCommunes: @referee_communes,
-      refereeVillages: @referee_villages, carerDistricts: @carer_districts, carerSubdistricts: @carer_subdistricts, carerCommunes: @carer_communes,
+      refereeVillages: @referee_villages, carerCities: @carer_cities, carerDistricts: @carer_districts, carerSubdistricts: @carer_subdistricts, carerCommunes: @carer_communes,
       carerVillages: @carer_villages, donors: @donors, agencies: @agencies,
       quantitativeType: QuantitativeType.cach_by_visible_on('client'), quantitativeCase: QuantitativeCase.cache_all,
       ratePoor: [
@@ -439,7 +439,7 @@ module ClientsHelper
   def local_name_label(name_type = :local_given_name)
     custom_field = FieldSetting.cache_by_name(name_type.to_s, 'client')
     label = I18n.t("datagrid.columns.clients.#{name_type}")
-    label = "#{label} #{country_scope_label_translation}" if custom_field.blank? || custom_field.blank?
+    label = "#{label} #{country_scope_label_translation}" if custom_field.blank?
     label
   end
 
@@ -465,25 +465,6 @@ module ClientsHelper
         end
       end
     end
-  end
-
-  def merged_address(client)
-    current_address = []
-    current_address << "#{t('datagrid.columns.clients.house_number')} #{client.house_number}" if client.house_number.present?
-    current_address << "#{t('datagrid.columns.clients.street_number')} #{client.street_number}" if client.street_number.present?
-
-    if I18n.locale.to_s == 'km'
-      current_address << "#{t('datagrid.columns.clients.village')} #{client.village.name_kh}" if client.village.present?
-      current_address << "#{t('datagrid.columns.clients.commune')} #{client.commune.name_kh}" if client.commune.present?
-      current_address << client.district_name.split(' / ').first if client.district.present?
-      current_address << client.province_name.split(' / ').first if client.province.present?
-    else
-      current_address << "#{t('datagrid.columns.clients.village')} #{client.village.name_en}" if client.village.present?
-      current_address << "#{t('datagrid.columns.clients.commune')} #{client.commune.name_en}" if client.commune.present?
-      current_address << client.district_name.split(' / ').last if client.district.present?
-      current_address << client.province_name.split(' / ').last if client.province.present?
-    end
-    current_address << selected_country.titleize
   end
 
   def concern_merged_address(client)
@@ -590,42 +571,6 @@ module ClientsHelper
     value == 'Exited'
   end
 
-  def selected_country
-    country = Setting.cache_first.try(:country_name) || params[:country].presence
-    country.nil? ? 'cambodia' : country
-  end
-
-  def country_address_field(client)
-    country = selected_country
-    current_address = []
-    case country
-    when 'thailand'
-      current_address << client.plot if client.plot.present?
-      current_address << client.road if client.road.present?
-      current_address << client.subdistrict_name if client.subdistrict.present?
-      current_address << client.district_name if client.district.present?
-      current_address << client.province_name if client.province.present?
-      current_address << client.postal_code if client.postal_code.present?
-      current_address << 'Thailand'
-    when 'lesotho'
-      current_address << client.suburb if client.suburb.present?
-      current_address << client.description_house_landmark if client.description_house_landmark.present?
-      current_address << client.directions if client.directions.present?
-      current_address << 'Lesotho'
-    when 'myanmar'
-      current_address << client.street_line1 if client.street_line1.present?
-      current_address << client.street_line2 if client.street_line2.present?
-      current_address << client.township_name if client.township.present?
-      current_address << client.state_name if client.state.present?
-      current_address << 'Myanmar'
-    when 'uganda'
-      current_address = merged_address(client)
-    else
-      current_address = merged_address(client)
-    end
-    current_address.compact.join(', ')
-  end
-
   def default_columns_visibility(column)
     label_column = label_translations.map { |k, v| ["#{k}_".to_sym, v] }.to_h
 
@@ -671,9 +616,9 @@ module ClientsHelper
   def mapping_query_string(object, hashes, association, rule)
     param_values = []
     sql_string = []
-    hashes[rule].each do |rule|
-      rule.keys.each do |key|
-        values = rule[key]
+    hashes[rule].each do |value|
+      rule.each_key do |key|
+        values = value[key]
         case key
         when 'equal'
           sql_string << "#{association} = ?"
@@ -697,6 +642,7 @@ module ClientsHelper
     properties_field = 'client_enrollment_trackings.properties'
     basic_rules = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
     return object if basic_rules.nil?
+
     basic_rules = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
     results = mapping_form_builder_param_value(basic_rules, rule)
     query_string = get_query_string(results, rule, properties_field)
@@ -704,15 +650,15 @@ module ClientsHelper
     if default_value_param
       object
     elsif rule == 'tracking'
-      properties_result = object.joins(:client_enrollment_trackings).where(query_string.reject(&:blank?).join(" #{basic_rules[:condition]} ")).distinct
+      object.joins(:client_enrollment_trackings).where(query_string.reject(&:blank?).join(" #{basic_rules[:condition]} ")).distinct
     elsif rule == 'active_program_stream'
       mew_query_string = query_string.reject(&:blank?).join(" #{basic_rules[:condition]} ")
       program_stream_ids = mew_query_string&.scan(/program_streams\.id = (\d+)/)&.flatten || []
       if program_stream_ids.size >= 2
         sql_partial = mew_query_string.gsub(/program_streams\.id = \d+/, "program_streams.id IN (#{program_stream_ids.join(', ')})")
-        properties_result = object.includes(client: :program_streams).where(sql_partial).references(:program_streams).distinct
+        object.includes(client: :program_streams).where(sql_partial).references(:program_streams).distinct
       else
-        properties_result = object.includes(client: :program_streams).where(query_string.reject(&:blank?).join(" #{basic_rules[:condition]} ")).references(:program_streams).distinct
+        object.includes(client: :program_streams).where(query_string.reject(&:blank?).join(" #{basic_rules[:condition]} ")).references(:program_streams).distinct
       end
     else
       object
@@ -736,12 +682,9 @@ module ClientsHelper
   end
 
   def case_note_query(object, rule)
-    return object unless params[:client_advanced_search].present?
-    data = {}
-    rules = %w( case_note_date case_note_type )
-    return object if params[:client_advanced_search][:basic_rules].nil?
-    data = JSON.parse(params[:client_advanced_search][:basic_rules]).with_indifferent_access
+    return object unless params[:client_advanced_search].present? && params[:client_advanced_search][:basic_rules].present?
 
+    data = JSON.parse(params[:client_advanced_search][:basic_rules]).with_indifferent_access
     result1 = mapping_param_value(data, 'case_note_date')
     result2 = mapping_param_value(data, 'case_note_type')
 
@@ -769,20 +712,16 @@ module ClientsHelper
       object = object.where(case_note_date_query).where(sub_case_note_date_query)
     elsif case_note_type_query.present? && case_note_date_query.blank?
       object = object.where(case_note_type_query).where(sub_case_note_type_query)
+    elsif data[:condition] == 'AND'
+      object = object.where(case_note_date_query).where(case_note_type_query).where(sub_case_note_type_query).where(sub_case_note_date_query)
+    elsif sub_case_note_type_query.first.blank? && sub_case_note_date_query.first.blank?
+      object = case_note_query_results(object, case_note_date_query, case_note_type_query)
+    elsif sub_case_note_date_query.first.present? && sub_case_note_type_query.first.blank?
+      object = case_note_query_results(object, case_note_date_query, case_note_type_query).or(object.where(sub_case_note_date_query))
+    elsif sub_case_note_type_query.first.present? && sub_case_note_date_query.first.blank?
+      object = case_note_query_results(object, case_note_date_query, case_note_type_query).or(object.where(sub_case_note_type_query))
     else
-      if data[:condition] == 'AND'
-        object = object.where(case_note_date_query).where(case_note_type_query).where(sub_case_note_type_query).where(sub_case_note_date_query)
-      else
-        if sub_case_note_type_query.first.blank? && sub_case_note_date_query.first.blank?
-          object = case_note_query_results(object, case_note_date_query, case_note_type_query)
-        elsif sub_case_note_date_query.first.present? && sub_case_note_type_query.first.blank?
-          object = case_note_query_results(object, case_note_date_query, case_note_type_query).or(object.where(sub_case_note_date_query))
-        elsif sub_case_note_type_query.first.present? && sub_case_note_date_query.first.blank?
-          object = case_note_query_results(object, case_note_date_query, case_note_type_query).or(object.where(sub_case_note_type_query))
-        else
-          object = case_note_query_results(object, case_note_date_query, case_note_type_query).or(object.where(sub_case_note_type_query)).or(object.where(sub_case_note_date_query))
-        end
-      end
+      object = case_note_query_results(object, case_note_date_query, case_note_type_query).or(object.where(sub_case_note_type_query)).or(object.where(sub_case_note_date_query))
     end
     object.present? ? object : []
   end
