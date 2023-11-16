@@ -379,6 +379,7 @@ class ClientsController < AdminController
 
   def remove_blank_exit_reasons
     return if params[:client][:exit_reasons].blank?
+
     params[:client][:exit_reasons].reject!(&:blank?)
   end
 
