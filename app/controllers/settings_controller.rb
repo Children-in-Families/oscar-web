@@ -65,6 +65,9 @@ class SettingsController < AdminController
   def research_module
   end
 
+  def internal_referral_module
+  end
+
   def custom_labels
   end
 
