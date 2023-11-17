@@ -164,7 +164,7 @@ class SettingsController < AdminController
                                     :enable_hotline, :enable_client_form, :assessment_score_order, :disable_required_fields,
                                     :hide_family_case_management_tool, :hide_community, :case_conference_limit, :case_conference_frequency,
                                     :internal_referral_limit, :internal_referral_frequency, :case_note_edit_limit, :case_note_edit_frequency,
-                                    :disabled_future_completion_date, :cbdmat_one_off, :cbdmat_ongoing,
+                                    :disabled_future_completion_date, :cbdmat_one_off, :cbdmat_ongoing, :enabled_internal_referral,
                                     :tracking_form_edit_limit, :tracking_form_edit_frequency, :disabled_add_service_received,
                                     :custom_field_limit, :custom_field_frequency, :test_client, :disabled_task_date_field,
                                     :required_case_note_note, :hide_case_note_note, :enabled_risk_assessment, :assessment_type_name,
