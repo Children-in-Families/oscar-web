@@ -1,0 +1,13 @@
+.row
+  .col-xs-12
+    = simple_form_for @setting do |f|
+      .ibox
+        .ibox-title
+          %h5.text-center= t('.title')
+        .ibox-content
+          .i-checks.research-module
+            %label= t('.enabled_internal_referral')
+            = f.input :enabled_internal_referral, as: :radio_buttons, collection: [['Yes', true],['No', false]], label: false
+        .ibox-footer
+          = f.submit t('save'), name: 'internal_referral_module' ,class: 'btn btn-primary', data: { disable_with: t('saving') }
+

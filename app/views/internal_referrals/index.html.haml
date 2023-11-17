@@ -11,9 +11,9 @@
             %a{"aria-controls" => "tab-refer-to", "aria-expanded" => "true", :href => client_referrals_path(@client, referral_type: 'referred_to'), :role => "tab"}= t('clients.show.referred_to')
           %li{role: "presentation" }
             %a{"aria-controls" => "tab-refer-from", "aria-expanded" => "true", :href => client_referrals_path(@client, referral_type: 'referred_from'), :role => "tab"}= t('clients.show.referred_from')
-
-          %li.active{role: "presentation" }
-            %a{"aria-controls" => "tab-refer-from", "aria-expanded" => "true", :href => client_internal_referrals_path(@client), :role => "tab"}= t('internal_referrals.index.internal_referral')
+          - if Setting.first.enabled_internal_referral?
+            %li.active{role: "presentation" }
+              %a{"aria-controls" => "tab-refer-from", "aria-expanded" => "true", :href => client_internal_referrals_path(@client), :role => "tab"}= t('internal_referrals.index.internal_referral')
 
         .tab-content
           .tab-pane.active{ role: "tabpanel" }

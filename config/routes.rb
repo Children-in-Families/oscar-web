@@ -504,6 +504,7 @@ Rails.application.routes.draw do
       get :care_plan
       get 'default_columns' => 'settings#default_columns'
       get 'research_module' => 'settings#research_module'
+      get 'internal_referral_module' => 'settings#internal_referral_module'
       get 'custom_labels' => 'settings#custom_labels'
       get 'client_forms' => 'settings#client_forms'
       get 'custom_form' => 'settings#custom_form'
