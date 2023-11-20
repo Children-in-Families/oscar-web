@@ -79,6 +79,14 @@ class Organization < ActiveRecord::Base
             general_data_file = Rails.root.join('lib/devdata/general.xlsx')
           end
 
+          if country == 'ratanak'
+            setting = Setting.first_or_create(default_assessment: 'Results Framework Assessment', country_name: country, enable_hotline: true, min_assessment: 3, case_note_frequency: 'day', max_case_note: 30, age: 100)
+          else
+            setting = Setting.first_or_create(country_name: country, min_assessment: 3, case_note_frequency: 'day', max_case_note: 30)
+          end
+
+          setting.update(org_name: org.full_name) if setting.org_name.blank? && org.present?
+
           Rake::Task['global_service:drop_constrain'].invoke(org.short_name)
           Rake::Task['global_service:drop_constrain'].reenable
 
