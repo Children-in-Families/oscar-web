@@ -12,7 +12,7 @@
           %li{role: "presentation", class: "#{'active' if params[:referral_type] == 'referred_from' }" }
             %a{"aria-controls" => "tab-refer-from", "aria-expanded" => "true", :href => client_referrals_path(@client, referral_type: 'referred_from'), :role => "tab"}= t('clients.show.referred_from')
 
-          - if Organization.ratanak?
+          - if Setting.first.enabled_internal_referral?
             %li{role: "presentation" }
               %a{"aria-controls" => "tab-refer-from", "aria-expanded" => "true", :href => client_internal_referrals_path(@client), :role => "tab"}= t('internal_referrals.index.internal_referral')
 
