@@ -1,5 +1,5 @@
 module AdvancedSearches
-  class  RuleFields
+  class RuleFields
     include AdvancedSearchHelper
     include ClientsHelper
     include ApplicationHelper
@@ -11,16 +11,16 @@ module AdvancedSearches
     end
 
     def render
-      group                 = format_header('basic_fields')
-      number_fields         = number_type_list.map { |item| AdvancedSearches::FilterTypes.number_options(item, format_header(item), group) }
-      text_fields           = text_type_list.map { |item| AdvancedSearches::FilterTypes.text_options(item, format_header(item), group) }
-      date_picker_fields    = date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, format_header(item), group) }
-      drop_list_fields      = drop_down_type_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last, group) }
+      group = format_header('basic_fields')
+      number_fields = number_type_list.map { |item| AdvancedSearches::FilterTypes.number_options(item, format_header(item), group) }
+      text_fields = text_type_list.map { |item| AdvancedSearches::FilterTypes.text_options(item, format_header(item), group) }
+      date_picker_fields = date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, format_header(item), group) }
+      drop_list_fields = drop_down_type_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last, group) }
       default_domain_scores_options = enable_default_assessment? ? AdvancedSearches::DomainScoreFields.render : []
       custom_domain_scores_options = enable_custom_assessment? ? AdvancedSearches::CustomDomainScoreFields.render : []
-      school_grade_options  = AdvancedSearches::SchoolGradeFields.render
+      school_grade_options = AdvancedSearches::SchoolGradeFields.render
 
-      search_fields         = text_fields + drop_list_fields + number_fields + date_picker_fields
+      search_fields = text_fields + drop_list_fields + number_fields + date_picker_fields
 
       search_fields.sort_by { |f| f[:label].downcase } + default_domain_scores_options + custom_domain_scores_options + school_grade_options
     end
@@ -36,12 +36,12 @@ module AdvancedSearches
     end
 
     def date_type_list
-      ['date_of_birth', 'initial_referral_date', 'follow_up_date', 'exit_date', 'accepted_date', 'case_note_date', 'created_at','date_of_referral']
+      ['date_of_birth', 'initial_referral_date', 'follow_up_date', 'exit_date', 'accepted_date', 'case_note_date', 'created_at', 'date_of_referral']
     end
 
     def drop_down_type_list
       [
-        ['created_by', user_select_options ],
+        ['created_by', user_select_options],
         ['gender', gender_list],
         ['status', client_status],
         ['agency_name', agencies_options],
@@ -69,11 +69,11 @@ module AdvancedSearches
     end
 
     def case_note_type_options
-      [CaseNote::INTERACTION_TYPE, I18n.t('.case_notes.form.type_options').values].transpose.map { |k, v| { k => v }  }
+      [CaseNote::INTERACTION_TYPE, I18n.t('.case_notes.form.type_options').values].transpose.map { |k, v| { k => v } }
     end
 
     def exit_reasons_options
-      ExitNgo::EXIT_REASONS.map { |s| { s => s }  }
+      ExitNgo::EXIT_REASONS.map { |s| { s => s } }
     end
 
     def client_status
@@ -84,7 +84,7 @@ module AdvancedSearches
       current_org = Organization.current.short_name
       provinces = []
       Organization.switch_to 'shared'
-      Organization.pluck(:country).uniq.reject(&:blank?).each{ |country| provinces << Province.country_is(country).map{|p| { value: p.id.to_s, label: p.name, optgroup: country.titleize } } }
+      Organization.pluck(:country).uniq.reject(&:blank?).each { |country| provinces << Province.country_is(country).map { |p| { value: p.id.to_s, label: p.name, optgroup: country.titleize } } }
       Organization.switch_to current_org
       provinces.flatten
     end
@@ -127,7 +127,7 @@ module AdvancedSearches
 
     def referral_to_options
       orgs = Organization.oscar.map { |org| { org.short_name => org.full_name } }
-      orgs << { "external referral" => "I don't see the NGO I'm looking for" }
+      orgs << { 'external referral' => "I don't see the NGO I'm looking for" }
     end
 
     def referral_from_options
@@ -150,7 +150,7 @@ module AdvancedSearches
       when 'thailand'
         {
           text_fields: ['plot', 'road', 'postal_code'],
-          drop_down_fields: [['province_id', provinces], ['district_id', districts], ['subdistrict_id', subdistricts], ['birth_province_id', birth_provinces]]
+          drop_down_fields: [['province_id', provinces], ['district_id', districts], ['subdistrict_id', subdistricts]]
         }
       when 'myanmar'
         {
