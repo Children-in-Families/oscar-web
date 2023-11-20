@@ -150,7 +150,7 @@ class FamiliesController < AdminController
       :name, :code,
       :dependable_income, :family_type, :status, :contract_date,
       :address, :province_id, :city_id, :district_id, :house, :street,
-      :subdistrict_id, :commune_id, :village_id, :slug,
+      :subdistrict_id, :commune_id, :village_id, :slug, :road, :plot, :postal_code,
       :followed_up_by_id, :follow_up_date, :name_en, :phone_number, :id_poor, :referral_source_id,
       :referee_phone_number, :relevant_information,
       :received_by_id, :initial_referral_date, :referral_source_category_id,
@@ -180,7 +180,7 @@ class FamiliesController < AdminController
     return if @family.nil?
 
     @provinces = Province.cached_order_name
-    if current_organization.country == 'indonesia'
+    if current_organization.country == 'indonesia' || current_organization.country == 'thailand'
       @cities = @family.province_id.present? ? @family.province.cached_cities : []
       @districts = @family.city_id.present? ? @family.city.cached_districts : []
       @subdistricts = @family.subdistrict_id.present? ? @family.district.cached_subdistricts : []
