@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20231115042933) do
+ActiveRecord::Schema.define(version: 20231120083542) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1420,6 +1420,9 @@ ActiveRecord::Schema.define(version: 20231115042933) do
     t.integer  "care_plans_count",                default: 0,         null: false
     t.integer  "city_id"
     t.integer  "subdistrict_id"
+    t.string   "road"
+    t.string   "plot"
+    t.string   "postal_code"
   end
 
   add_index "families", ["assessments_count"], name: "index_families_on_assessments_count", using: :btree

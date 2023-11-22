@@ -1,8 +1,8 @@
 .row
   .col-sm-3
-    = f.input :province_id, collection: @provinces, input_html: { data: { type: 'provinces', 'subaddress' => 'district' } }
+    = f.input :province_id, collection: @provinces, input_html: { data: { type: 'provinces', 'subaddresses' => ['districts', 'subdistricts'] } }
   .col-sm-3
-    = f.input :district_id, collection: @districts, input_html: { data: { type: 'districts', 'subaddress' => 'commune' } }
+    = f.input :district_id, collection: @districts, input_html: { data: { type: 'districts', 'subaddresses' => ['subdistricts'] } }
   .col-sm-3
     = f.input :subdistrict_id, collection: @subdistricts.map{|c| [c.name, c.id] }, input_html: { data: { type: 'subdistricts' } }
 .row
