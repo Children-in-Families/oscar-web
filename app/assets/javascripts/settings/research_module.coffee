@@ -1,4 +1,4 @@
-CIF.SettingsResearch_module = do ->
+CIF.SettingsResearch_module = CIF.SettingsInternal_referral_module = do ->
   _init = ->
     _initICheckBox()
 
