@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20231009071927) do
+ActiveRecord::Schema.define(version: 20231113083620) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -328,8 +328,10 @@ ActiveRecord::Schema.define(version: 20231009071927) do
     t.integer  "township_id"
     t.integer  "subdistrict_id"
     t.string   "locality"
+    t.integer  "city_id"
   end
 
+  add_index "carers", ["city_id"], name: "index_carers_on_city_id", using: :btree
   add_index "carers", ["commune_id"], name: "index_carers_on_commune_id", using: :btree
   add_index "carers", ["district_id"], name: "index_carers_on_district_id", using: :btree
   add_index "carers", ["province_id"], name: "index_carers_on_province_id", using: :btree
@@ -540,6 +542,14 @@ ActiveRecord::Schema.define(version: 20231009071927) do
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
   end
+
+  create_table "cities", force: :cascade do |t|
+    t.string  "name"
+    t.string  "code"
+    t.integer "province_id"
+  end
+
+  add_index "cities", ["province_id"], name: "index_cities_on_province_id", using: :btree
 
   create_table "client_client_types", force: :cascade do |t|
     t.integer  "client_id"
@@ -912,10 +922,12 @@ ActiveRecord::Schema.define(version: 20231009071927) do
     t.integer  "referral_count",                        default: 0
     t.datetime "deleted_at"
     t.integer  "archived_by_id"
+    t.integer  "city_id"
   end
 
   add_index "clients", ["birth_province_id"], name: "index_clients_on_birth_province_id", using: :btree
   add_index "clients", ["carer_id"], name: "index_clients_on_carer_id", using: :btree
+  add_index "clients", ["city_id"], name: "index_clients_on_city_id", using: :btree
   add_index "clients", ["commune_id"], name: "index_clients_on_commune_id", using: :btree
   add_index "clients", ["concern_commune_id"], name: "index_clients_on_concern_commune_id", using: :btree
   add_index "clients", ["concern_district_id"], name: "index_clients_on_concern_district_id", using: :btree
@@ -992,8 +1004,10 @@ ActiveRecord::Schema.define(version: 20231009071927) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "city_id"
   end
 
+  add_index "communities", ["city_id"], name: "index_communities_on_city_id", using: :btree
   add_index "communities", ["commune_id"], name: "index_communities_on_commune_id", using: :btree
   add_index "communities", ["district_id"], name: "index_communities_on_district_id", using: :btree
   add_index "communities", ["province_id"], name: "index_communities_on_province_id", using: :btree
@@ -1160,8 +1174,10 @@ ActiveRecord::Schema.define(version: 20231009071927) do
     t.string   "code",        default: ""
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "city_id"
   end
 
+  add_index "districts", ["city_id"], name: "index_districts_on_city_id", using: :btree
   add_index "districts", ["province_id"], name: "index_districts_on_province_id", using: :btree
 
   create_table "domain_groups", force: :cascade do |t|
@@ -1397,10 +1413,13 @@ ActiveRecord::Schema.define(version: 20231009071927) do
     t.string   "documents",                       default: [],                     array: true
     t.integer  "assessments_count",               default: 0,         null: false
     t.integer  "care_plans_count",                default: 0,         null: false
+    t.integer  "city_id"
+    t.integer  "subdistrict_id"
   end
 
   add_index "families", ["assessments_count"], name: "index_families_on_assessments_count", using: :btree
   add_index "families", ["care_plans_count"], name: "index_families_on_care_plans_count", using: :btree
+  add_index "families", ["city_id"], name: "index_families_on_city_id", using: :btree
   add_index "families", ["commune_id"], name: "index_families_on_commune_id", using: :btree
   add_index "families", ["deleted_at"], name: "index_families_on_deleted_at", using: :btree
   add_index "families", ["district_id"], name: "index_families_on_district_id", using: :btree
@@ -1409,6 +1428,7 @@ ActiveRecord::Schema.define(version: 20231009071927) do
   add_index "families", ["received_by_id"], name: "index_families_on_received_by_id", using: :btree
   add_index "families", ["referral_source_category_id"], name: "index_families_on_referral_source_category_id", using: :btree
   add_index "families", ["referral_source_id"], name: "index_families_on_referral_source_id", using: :btree
+  add_index "families", ["subdistrict_id"], name: "index_families_on_subdistrict_id", using: :btree
   add_index "families", ["user_id"], name: "index_families_on_user_id", using: :btree
   add_index "families", ["village_id"], name: "index_families_on_village_id", using: :btree
 
@@ -2226,8 +2246,10 @@ ActiveRecord::Schema.define(version: 20231009071927) do
     t.integer  "township_id"
     t.integer  "subdistrict_id"
     t.string   "locality"
+    t.integer  "city_id"
   end
 
+  add_index "referees", ["city_id"], name: "index_referees_on_city_id", using: :btree
   add_index "referees", ["commune_id"], name: "index_referees_on_commune_id", using: :btree
   add_index "referees", ["district_id"], name: "index_referees_on_district_id", using: :btree
   add_index "referees", ["province_id"], name: "index_referees_on_province_id", using: :btree
@@ -2469,8 +2491,10 @@ ActiveRecord::Schema.define(version: 20231009071927) do
     t.text     "level_of_risk_guidance"
     t.boolean  "enabled_header_count",                 default: false
     t.boolean  "finance_dashboard",                    default: false,               null: false
+    t.integer  "city_id"
   end
 
+  add_index "settings", ["city_id"], name: "index_settings_on_city_id", using: :btree
   add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree
   add_index "settings", ["district_id"], name: "index_settings_on_district_id", using: :btree
   add_index "settings", ["province_id"], name: "index_settings_on_province_id", using: :btree
@@ -2962,8 +2986,8 @@ ActiveRecord::Schema.define(version: 20231009071927) do
     t.string   "billable_status"
     t.datetime "accepted_at"
     t.datetime "billable_at"
-    t.jsonb    "object"
-    t.jsonb    "object_changes"
+    t.text     "object"
+    t.text     "object_changes"
   end
 
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
@@ -3040,11 +3064,11 @@ ActiveRecord::Schema.define(version: 20231009071927) do
   add_foreign_key "case_worker_tasks", "users"
   add_foreign_key "changelog_types", "changelogs"
   add_foreign_key "changelogs", "users"
+  add_foreign_key "cities", "provinces"
   add_foreign_key "client_client_types", "client_types"
   add_foreign_key "client_client_types", "clients"
   add_foreign_key "client_custom_data", "clients"
   add_foreign_key "client_custom_data", "custom_data", column: "custom_data_id"
-  add_foreign_key "client_enrollment_trackings", "client_enrollments"
   add_foreign_key "client_enrollment_trackings", "client_enrollments"
   add_foreign_key "client_interviewees", "clients"
   add_foreign_key "client_interviewees", "interviewees"

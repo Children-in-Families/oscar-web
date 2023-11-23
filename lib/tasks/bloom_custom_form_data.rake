@@ -12,10 +12,17 @@ namespace :bloom_custom_form_data do
       values = workbook.row(index)
       code, student, incident_date, comment_type, comments = values
       client = Client.find_by(code: code)
-      property_hash = headers[1..-1].zip(values[1..-1]).to_h
-      custom_field_property = client.custom_field_properties.find_by(custom_field_id: custom_form.id)
-      custom_field_property.properties = property_hash
-      custom_field_property.save
+      next if client.nil? || client.custom_field_properties.find_by(custom_field_id: custom_form.id)
+
+      if client.enter_ngos.blank?
+        client.enter_ngos.create(accepted_date: client.initial_referral_date)
+        property_hash = headers[1..-1].zip(values[1..-1]).to_h
+        client.custom_field_properties.create(custom_field_id: custom_form.id, properties: property_hash)
+        client.exit_ngos(exit_circumstance: 'Rejected Referral', exit_reasons: ['Other'], exit_note: 'Old and imported case', exit_date: client.updated_at)
+      else
+        property_hash = headers[1..-1].zip(values[1..-1]).to_h
+        client.custom_field_properties.create(custom_field_id: custom_form.id, properties: property_hash)
+      end
     end
   end
 end
