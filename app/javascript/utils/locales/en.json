@@ -29,6 +29,15 @@
       "road": "Road",
       "subdistrict": "Subdistrict"
     },
+    "indonesia": {
+      "city": "City",
+      "district": "District",
+      "plot": "Plot/House number, Village",
+      "postal_code": "Postal Code",
+      "province": "Province",
+      "road": "Road",
+      "subdistrict": "Subdistrict"
+    },
     "nepal": {
       "province": "Province",
       "district": "District",

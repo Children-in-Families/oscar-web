@@ -5222,6 +5222,7 @@ en:
       en: English
       families: Families
       family_form: CMS for Family
+      internal_referral_module: Internal Referral
       interventions: Interventions
       km: ខ្មែរ
       locations: Locations
@@ -5245,6 +5246,7 @@ en:
       users: Users
       view_calendar: View Calendar
     top_navbar:
+      bahasa: Bahasa
       burmese: Burmese
       edit_profile: Edit Profile
       english: English

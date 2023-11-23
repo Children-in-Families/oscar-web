@@ -45,6 +45,7 @@ class Client < ActiveRecord::Base
   delegate :name, to: :township, prefix: true, allow_nil: true
   delegate :name, to: :province, prefix: true, allow_nil: true
   delegate :name, to: :birth_province, prefix: true, allow_nil: true
+  delegate :name, to: :city, prefix: true, allow_nil: true
   delegate :name, to: :district, prefix: true, allow_nil: true
   delegate :name, to: :subdistrict, prefix: true, allow_nil: true
   delegate :name, to: :state, prefix: true, allow_nil: true
@@ -53,33 +54,34 @@ class Client < ActiveRecord::Base
   delegate :name_en, to: :commune, prefix: true, allow_nil: true
   delegate :name_en, to: :village, prefix: true, allow_nil: true
 
-  belongs_to :referral_source,  counter_cache: true
-  belongs_to :province,         counter_cache: true
+  belongs_to :referral_source, counter_cache: true
+  belongs_to :province, counter_cache: true
+  belongs_to :city
   belongs_to :district
   belongs_to :subdistrict
   belongs_to :township
   belongs_to :state
-  belongs_to :received_by,      class_name: 'User',      foreign_key: 'received_by_id',    counter_cache: true
-  belongs_to :followed_up_by,   class_name: 'User',      foreign_key: 'followed_up_by_id', counter_cache: true
-  belongs_to :birth_province,   class_name: 'Province',  foreign_key: 'birth_province_id', counter_cache: true
+  belongs_to :received_by, class_name: 'User', foreign_key: 'received_by_id', counter_cache: true
+  belongs_to :followed_up_by, class_name: 'User', foreign_key: 'followed_up_by_id', counter_cache: true
+  belongs_to :birth_province, class_name: 'Province', foreign_key: 'birth_province_id', counter_cache: true
   belongs_to :commune
   belongs_to :village
   belongs_to :referee
   belongs_to :carer
   belongs_to :archived_by, class_name: 'User'
 
-  belongs_to :concern_province, class_name: 'Province',  foreign_key: 'concern_province_id'
-  belongs_to :concern_district, class_name: 'District',  foreign_key: 'concern_district_id'
-  belongs_to :concern_commune,  class_name: 'Commune',  foreign_key: 'concern_commune_id'
-  belongs_to :concern_village,  class_name: 'Village',  foreign_key: 'concern_village_id'
-  belongs_to :global_identity,  class_name: 'GlobalIdentity', foreign_key: 'global_id', primary_key: :ulid
+  belongs_to :concern_province, class_name: 'Province', foreign_key: 'concern_province_id'
+  belongs_to :concern_district, class_name: 'District', foreign_key: 'concern_district_id'
+  belongs_to :concern_commune, class_name: 'Commune', foreign_key: 'concern_commune_id'
+  belongs_to :concern_village, class_name: 'Village', foreign_key: 'concern_village_id'
+  belongs_to :global_identity, class_name: 'GlobalIdentity', foreign_key: 'global_id', primary_key: :ulid
 
   has_many :hotlines, dependent: :destroy
   has_many :calls, through: :hotlines
   has_many :sponsors, dependent: :destroy
   has_many :donors, through: :sponsors
-  has_many :tasks,          dependent: :nullify
-  has_many :surveys,        dependent: :destroy
+  has_many :tasks, dependent: :nullify
+  has_many :surveys, dependent: :destroy
   has_many :agency_clients, dependent: :destroy
   has_many :progress_notes, dependent: :destroy
   has_many :agencies, through: :agency_clients
@@ -116,11 +118,11 @@ class Client < ActiveRecord::Base
   accepts_nested_attributes_for :family_member, allow_destroy: true
   accepts_nested_attributes_for :mo_savy_officials, allow_destroy: true, reject_if: :all_blank
 
-  has_many :families,       through: :cases
+  has_many :families, through: :cases
   has_many :family_members, dependent: :destroy
-  has_many :cases,          dependent: :destroy
-  has_many :case_notes,     dependent: :destroy
-  has_many :assessments,    dependent: :destroy
+  has_many :cases, dependent: :destroy
+  has_many :case_notes, dependent: :destroy
+  has_many :assessments, dependent: :destroy
   has_many :default_most_recents_assessments, -> { defaults.most_recents }, class_name: 'Assessment'
   has_many :custom_assessments, -> { customs }, class_name: 'Assessment'
   has_many :custom_assessment_domains, through: :custom_assessments, source: :domains
@@ -165,49 +167,49 @@ class Client < ActiveRecord::Base
   after_save :flash_cache
   after_commit :update_first_referral_status, on: :update
 
-  scope :given_name_like,                          ->(value) { where('clients.given_name iLIKE :value OR clients.local_given_name iLIKE :value', { value: "%#{value.squish}%"}) }
-  scope :family_name_like,                         ->(value) { where('clients.family_name iLIKE :value OR clients.local_family_name iLIKE :value', { value: "%#{value.squish}%"}) }
-  scope :local_given_name_like,                    ->(value) { where('clients.local_given_name iLIKE ?', "%#{value.squish}%") }
-  scope :local_family_name_like,                   ->(value) { where('clients.local_family_name iLIKE ?', "%#{value.squish}%") }
-  scope :slug_like,                                ->(value) { where('clients.slug iLIKE ?', "%#{value.squish}%") }
-  scope :start_with_code,                          ->(value) { where('clients.code iLIKE ?', "#{value}%") }
-  scope :find_by_family_id,                        ->(value) { joins(cases: :family).where('families.id = ?', value).uniq }
-  scope :status_like,                              ->        { CLIENT_STATUSES }
-  scope :is_received_by,                           ->        { joins(:received_by).pluck("CONCAT(users.first_name, ' ' , users.last_name)", 'users.id').uniq }
-  scope :referral_source_is,                       ->        { joins(:referral_source).where.not('referral_sources.name in (?)', ReferralSource::REFERRAL_SOURCES).pluck('referral_sources.name', 'referral_sources.id').uniq }
-  scope :is_followed_up_by,                        ->        { joins(:followed_up_by).pluck("CONCAT(users.first_name, ' ' , users.last_name)", 'users.id').uniq }
-  scope :province_is,                              ->        { joins(:province).pluck('provinces.name', 'provinces.id').uniq }
-  scope :birth_province_is,                        ->        { joins(:birth_province).pluck('provinces.name', 'provinces.id').uniq }
-  scope :accepted,                                 ->        { where(status: 'Accepted') }
-  scope :rejected,                                 ->        { where(state: 'rejected') }
-  scope :male,                                     ->        { where(gender: 'male') }
-  scope :female,                                   ->        { where(gender: 'female') }
-  scope :active_ec,                                ->        { where(status: 'Active EC') }
-  scope :active_kc,                                ->        { where(status: 'Active KC') }
-  scope :active_fc,                                ->        { where(status: 'Active FC') }
-  scope :without_assessments,                      ->        { includes(:assessments).where(assessments: { client_id: nil }) }
-  scope :active_status,                            ->        { where(status: 'Active') }
-  scope :of_case_worker,                           -> (user_id) { joins(:case_worker_clients).where(case_worker_clients: { user_id: user_id }).distinct }
-  scope :exited_ngo,                               ->        { where(status: 'Exited') }
-  scope :non_exited_ngo,                           ->        { where.not(status: ['Exited', 'Referred']) }
-  scope :active_accepted_status,                   ->        { where(status: ['Active', 'Accepted']) }
-  scope :active_accepted_referred_status,          ->        { where(status: ['Active', 'Accepted', 'Referred']) }
-  scope :referred_external,                        -> (external_system_name)       { joins(:referrals).where("clients.referred_external = ? AND referrals.ngo_name = ?", true, external_system_name) }
-  scope :test_clients,                             ->        { where(for_testing: true) }
-  scope :without_test_clients,                     ->        { where(for_testing: false) }
-  scope :reportable,                               ->        { with_deleted.without_test_clients }
+  scope :given_name_like, -> (value) { where('clients.given_name iLIKE :value OR clients.local_given_name iLIKE :value', { value: "%#{value.squish}%" }) }
+  scope :family_name_like, -> (value) { where('clients.family_name iLIKE :value OR clients.local_family_name iLIKE :value', { value: "%#{value.squish}%" }) }
+  scope :local_given_name_like, -> (value) { where('clients.local_given_name iLIKE ?', "%#{value.squish}%") }
+  scope :local_family_name_like, -> (value) { where('clients.local_family_name iLIKE ?', "%#{value.squish}%") }
+  scope :slug_like, -> (value) { where('clients.slug iLIKE ?', "%#{value.squish}%") }
+  scope :start_with_code, -> (value) { where('clients.code iLIKE ?', "#{value}%") }
+  scope :find_by_family_id, -> (value) { joins(cases: :family).where('families.id = ?', value).uniq }
+  scope :status_like, -> { CLIENT_STATUSES }
+  scope :is_received_by, -> { joins(:received_by).pluck("CONCAT(users.first_name, ' ' , users.last_name)", 'users.id').uniq }
+  scope :referral_source_is, -> { joins(:referral_source).where.not('referral_sources.name in (?)', ReferralSource::REFERRAL_SOURCES).pluck('referral_sources.name', 'referral_sources.id').uniq }
+  scope :is_followed_up_by, -> { joins(:followed_up_by).pluck("CONCAT(users.first_name, ' ' , users.last_name)", 'users.id').uniq }
+  scope :province_is, -> { joins(:province).pluck('provinces.name', 'provinces.id').uniq }
+  scope :birth_province_is, -> { joins(:birth_province).pluck('provinces.name', 'provinces.id').uniq }
+  scope :accepted, -> { where(status: 'Accepted') }
+  scope :rejected, -> { where(state: 'rejected') }
+  scope :male, -> { where(gender: 'male') }
+  scope :female, -> { where(gender: 'female') }
+  scope :active_ec, -> { where(status: 'Active EC') }
+  scope :active_kc, -> { where(status: 'Active KC') }
+  scope :active_fc, -> { where(status: 'Active FC') }
+  scope :without_assessments, -> { includes(:assessments).where(assessments: { client_id: nil }) }
+  scope :active_status, -> { where(status: 'Active') }
+  scope :of_case_worker, -> (user_id) { joins(:case_worker_clients).where(case_worker_clients: { user_id: user_id }).distinct }
+  scope :exited_ngo, -> { where(status: 'Exited') }
+  scope :non_exited_ngo, -> { where.not(status: ['Exited', 'Referred']) }
+  scope :active_accepted_status, -> { where(status: ['Active', 'Accepted']) }
+  scope :active_accepted_referred_status, -> { where(status: ['Active', 'Accepted', 'Referred']) }
+  scope :referred_external, -> (external_system_name) { joins(:referrals).where('clients.referred_external = ? AND referrals.ngo_name = ?', true, external_system_name) }
+  scope :test_clients, -> { where(for_testing: true) }
+  scope :without_test_clients, -> { where(for_testing: false) }
+  scope :reportable, -> { with_deleted.without_test_clients }
 
-  scope :male_shared_clients,                      ->        { joins(:shared_clients).where('shared.shared_clients.gender = ?', 'male') }
-  scope :female_shared_clients,                    ->        { joins(:shared_clients).where('shared.shared_clients.gender = ?', 'female') }
-  scope :non_binary_shared_clients,                ->        { joins(:shared_clients).where('shared.shared_clients.gender NOT IN (?)', %w(male female)) }
-  scope :adult,                                    ->        { where('(EXTRACT(year FROM age(current_date, clients.date_of_birth)) :: int) >= ?', 18) }
-  scope :child,                                    ->        { where('(EXTRACT(year FROM age(current_date, clients.date_of_birth)) :: int) < ?', 18) }
-  scope :no_school,                                ->        { where(school_grade: [nil, '']) }
-  scope :pre_school,                               ->        { where(school_grade: ['Kindergarten 1', 'Kindergarten 2', 'Kindergarten 3', 'Kindergarten 4']) }
-  scope :primary_school,                           ->        { where(school_grade: ['1', '2', '3', '4', '5', '6']) }
-  scope :secondary_school,                         ->        { where(school_grade: ['7', '8', '9']) }
-  scope :high_school,                              ->        { where(school_grade: ['10', '11', '12']) }
-  scope :university,                               ->        { where(school_grade: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6', 'Year 7', 'Year 8', 'Bachelors']) }
+  scope :male_shared_clients, -> { joins(:shared_clients).where('shared.shared_clients.gender = ?', 'male') }
+  scope :female_shared_clients, -> { joins(:shared_clients).where('shared.shared_clients.gender = ?', 'female') }
+  scope :non_binary_shared_clients, -> { joins(:shared_clients).where('shared.shared_clients.gender NOT IN (?)', %w(male female)) }
+  scope :adult, -> { where('(EXTRACT(year FROM age(current_date, clients.date_of_birth)) :: int) >= ?', 18) }
+  scope :child, -> { where('(EXTRACT(year FROM age(current_date, clients.date_of_birth)) :: int) < ?', 18) }
+  scope :no_school, -> { where(school_grade: [nil, '']) }
+  scope :pre_school, -> { where(school_grade: ['Kindergarten 1', 'Kindergarten 2', 'Kindergarten 3', 'Kindergarten 4']) }
+  scope :primary_school, -> { where(school_grade: ['1', '2', '3', '4', '5', '6']) }
+  scope :secondary_school, -> { where(school_grade: ['7', '8', '9']) }
+  scope :high_school, -> { where(school_grade: ['10', '11', '12']) }
+  scope :university, -> { where(school_grade: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6', 'Year 7', 'Year 8', 'Bachelors']) }
 
   class << self
     def find_shared_client(options)
@@ -225,11 +227,11 @@ class Client < ActiveRecord::Base
         return { similar_fields: similar_fields, duplicate_with: nil }
       end
 
-      current_org    = Organization.current.short_name
+      current_org = Organization.current.short_name
 
       Apartment::Tenant.switch 'shared' do
-        skip_orgs_percentage = Organization.skip_dup_checking_orgs.map {|val| "%#{val.short_name}%" }
-        
+        skip_orgs_percentage = Organization.skip_dup_checking_orgs.map { |val| "%#{val.short_name}%" }
+
         if skip_orgs_percentage.any?
           shared_clients = SharedClient.where.not(slug: options[:slug]).where.not('archived_slug ILIKE ANY ( array[?] ) AND duplicate_checker IS NOT NULL', skip_orgs_percentage)
         else
@@ -239,41 +241,41 @@ class Client < ActiveRecord::Base
 
       province_name = Province.find_by(id: options[:current_province_id]).try(:name)
       district_name = District.find_by(id: options[:district_id]).try(:name)
-      commune_name  = Commune.find_by(id: options[:commune_id]).try(:name)
-      village_name  = Village.find_by(id: options[:village_id]).try(:name)
+      commune_name = Commune.find_by(id: options[:commune_id]).try(:name)
+      village_name = Village.find_by(id: options[:village_id]).try(:name)
 
       birth_province_name = Apartment::Tenant.switch 'shared' do
         Province.find_by(id: options[:birth_province_id]).try(:name)
       end
 
       addresses_hash = { cp: province_name, cd: district_name, cc: commune_name, cv: village_name, bp: birth_province_name }
-      address_hash   = { cv: 1, cc: 2, cd: 3, cp: 4, bp: 5 }
+      address_hash = { cv: 1, cc: 2, cd: 3, cp: 4, bp: 5 }
 
       shared_clients.each do |client|
         next if client.duplicate_checker.blank?
 
         duplicate_checker_data = client.duplicate_checker.split('&')
-        input_name_field  = field_name_concatenate(options)
+        input_name_field = field_name_concatenate(options)
         client_name_field = duplicate_checker_data[0].squish
         field_name = compare_matching(input_name_field, client_name_field)
-        dob        = date_of_birth_matching(options[:date_of_birth], duplicate_checker_data.last.squish)
-        addresses  = mapping_address(address_hash, addresses_hash, duplicate_checker_data)
+        dob = date_of_birth_matching(options[:date_of_birth], duplicate_checker_data.last.squish)
+        addresses = mapping_address(address_hash, addresses_hash, duplicate_checker_data)
         gender_matching = options[:gender].to_s.downcase == duplicate_checker_data[7].to_s.downcase ? 1 : nil
         match_percentages = [field_name, dob, *addresses, gender_matching]
 
         percentages = match_percentages.compact
-        
+
         if percentages.any? && (match_percentages.compact.inject(:*) * 100) >= 75
           Rails.logger.info "Found similar client with percentage: #{(match_percentages.compact.inject(:*) * 100)} - #{match_percentages} - #{addresses_hash} - #{duplicate_checker_data}"
 
-          similar_fields << '#hidden_name_fields'   if match_percentages[0].present?
+          similar_fields << '#hidden_name_fields' if match_percentages[0].present?
           similar_fields << '#hidden_date_of_birth' if match_percentages[1].present?
-          similar_fields << '#hidden_village'       if match_percentages[2].present?
-          similar_fields << '#hidden_commune'       if match_percentages[3].present?
-          similar_fields << '#hidden_district'      if match_percentages[4].present?
-          similar_fields << '#hidden_province'      if match_percentages[5].present?
-          similar_fields << '#hidden_birth_province'  if match_percentages[6].present?
-          similar_fields << '#hidden_gender'          if match_percentages[7].present?
+          similar_fields << '#hidden_village' if match_percentages[2].present?
+          similar_fields << '#hidden_commune' if match_percentages[3].present?
+          similar_fields << '#hidden_district' if match_percentages[4].present?
+          similar_fields << '#hidden_province' if match_percentages[5].present?
+          similar_fields << '#hidden_birth_province' if match_percentages[6].present?
+          similar_fields << '#hidden_gender' if match_percentages[7].present?
 
           return { similar_fields: similar_fields, duplicate_with: client.archived_slug }
         end
@@ -299,13 +301,13 @@ class Client < ActiveRecord::Base
       address_hash = { cv: 1, cc: 2, cd: 3, cp: 4 }
       result = shared_clients.compact.each do |client|
         client = client.split('&')
-        input_name_field     = field_name_concatenate(options)
-        client_name_field    = client[0].squish
+        input_name_field = field_name_concatenate(options)
+        client_name_field = client[0].squish
         field_name = compare_matching(input_name_field, client_name_field)
 
-        dob        = date_of_birth_matching(options[:date_of_birth], client.last.squish)
-        addresses  = mapping_address(address_hash, results, client)
-        bp         = birth_province_matching(birth_province_name, client[5].squish)
+        dob = date_of_birth_matching(options[:date_of_birth], client.last.squish)
+        addresses = mapping_address(address_hash, results, client)
+        bp = birth_province_matching(birth_province_name, client[5].squish)
         match_percentages = [field_name, dob, *addresses, bp]
         if match_percentages.compact.present? && (match_percentages.compact.inject(:*) * 100) >= 75
           return true
@@ -326,10 +328,10 @@ class Client < ActiveRecord::Base
 
     def unattache_to_other_families(allowed_family_id = nil)
       # Rails is fail to build correct query with acts_as_paranoid in this case
-      records = with_deleted.joins("LEFT JOIN family_members ON clients.id = family_members.client_id WHERE family_members.family_id IS NULL AND clients.deleted_at IS NULL")
+      records = with_deleted.joins('LEFT JOIN family_members ON clients.id = family_members.client_id WHERE family_members.family_id IS NULL AND clients.deleted_at IS NULL')
 
       if allowed_family_id.present?
-        records += joins(:family_member).where(family_members: { family_id: allowed_family_id})
+        records += joins(:family_member).where(family_members: { family_id: allowed_family_id })
       end
 
       records
@@ -346,14 +348,14 @@ class Client < ActiveRecord::Base
 
     def cache_location_of_concern
       Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'location_of_concern']) do
-        Client.where.not(location_of_concern: [nil, '']).pluck(:location_of_concern).map{ |a| { a => a } }
+        Client.where.not(location_of_concern: [nil, '']).pluck(:location_of_concern).map { |a| { a => a } }
       end
     end
   end
 
   def self.fetch_75_chars_of(value)
     number_of_char = (value.length * 75) / 100
-    value[0..(number_of_char-1)]
+    value[0..(number_of_char - 1)]
   end
 
   def self.client_address_matching(value1, value2)
@@ -368,7 +370,7 @@ class Client < ActiveRecord::Base
 
   def self.compare_matching(value1, value2)
     return nil if value1.blank?
-    white      = Text::WhiteSimilarity.new
+    white = Text::WhiteSimilarity.new
     percentage = white.similarity(value1, value2)
     percentage < 0 ? 0 : percentage
   end
@@ -380,7 +382,7 @@ class Client < ActiveRecord::Base
       percentage = 1
     else
       remain_day = (dob1.to_date > dob2.to_date) ? (dob1.to_date - dob2.to_date) : (dob2.to_date - dob1.to_date)
-      percentage = 1 - (remain_day * 0.5)/100 if remain_day.present?
+      percentage = 1 - (remain_day * 0.5) / 100 if remain_day.present?
     end
 
     percentage < 0 ? nil : percentage
@@ -440,7 +442,7 @@ class Client < ActiveRecord::Base
     setting.use_screening_assessment? &&
     referred? &&
     custom_fields.exclude?(setting.screening_assessment_form) &&
-    setting.screening_assessment_form.try(:entity_type) == "Client"
+    setting.screening_assessment_form.try(:entity_type) == 'Client'
   end
 
   def self.age_between(min_age, max_age)
@@ -450,7 +452,7 @@ class Client < ActiveRecord::Base
   end
 
   def name
-    name       = "#{given_name} #{family_name}"
+    name = "#{given_name} #{family_name}"
     local_name = "#{local_given_name} #{local_family_name}"
     name.present? ? name : local_name
   end
@@ -486,8 +488,8 @@ class Client < ActiveRecord::Base
   def next_appointment_date
     return Date.today if assessments.count.zero?
 
-    last_assessment  = assessments.most_recents.first
-    last_case_note   = case_notes.most_recents.first
+    last_assessment = assessments.most_recents.first
+    last_case_note = case_notes.most_recents.first
     next_appointment = [last_assessment, last_case_note].compact.sort { |a, b| b.try(:created_at) <=> a.try(:created_at) }.first
 
     next_appointment.created_at + 1.month
@@ -577,9 +579,9 @@ class Client < ActiveRecord::Base
     enter_ngos = self.enter_ngos.order(created_at: :desc)
     return 0 if (enter_ngos.size.zero?)
 
-    exit_ngos  = self.exit_ngos.order(exit_date: :desc).where("created_at >= ?", enter_ngos.last.created_at)
+    exit_ngos = self.exit_ngos.order(exit_date: :desc).where('created_at >= ?', enter_ngos.last.created_at)
     enter_ngo_dates = enter_ngos.pluck(:accepted_date)
-    exit_ngo_dates  = exit_ngos.pluck(:exit_date)
+    exit_ngo_dates = exit_ngos.pluck(:exit_date)
 
     exit_ngo_dates.unshift(Date.today) if exit_ngo_dates.size < enter_ngo_dates.size
     day_time_in_ngos = exit_ngo_dates.each_with_index.inject(0) do |sum, (exit_ngo_date, index)|
@@ -620,21 +622,20 @@ class Client < ActiveRecord::Base
   def to_select2
     [
       display_name, id, { data: {
-          date_of_birth: date_of_birth,
-          gender: gender
-        }
-      }
+        date_of_birth: date_of_birth,
+        gender: gender
+      } }
     ]
   end
 
   def time_in_cps
-    date_time_in_cps   = { years: 0, months: 0, weeks: 0, days: 0 }
+    date_time_in_cps = { years: 0, months: 0, weeks: 0, days: 0 }
     return nil unless client_enrollments.present?
     enrollments = client_enrollments.order(:program_stream_id)
     detail_cps = {}
 
     enrollments.each_with_index do |enrollment, index|
-      enroll_date     = enrollment.enrollment_date
+      enroll_date = enrollment.enrollment_date
       current_or_exit = enrollment.leave_program.try(:exit_date) || Date.today
 
       if enrollments[index - 1].present? && enrollments[index - 1].program_stream_name == enrollment.program_stream_name
@@ -667,11 +668,11 @@ class Client < ActiveRecord::Base
       value.store(:days, 0) unless value[:days].present?
 
       if value[:days] > 365
-        value[:years] = value[:years] + value[:days]/365
+        value[:years] = value[:years] + value[:days] / 365
         value[:days] = value[:days] % 365
       elsif value[:days] == 365
-        value[:years]  = 1
-        value[:days]   = 0
+        value[:years] = 1
+        value[:days] = 0
         value[:months] = 0
       end
 
@@ -722,7 +723,7 @@ class Client < ActiveRecord::Base
       next if setting.disable_required_fields? || setting.never_delete_incomplete_assessment?
 
       if setting.enable_default_assessment
-        clients = joins(:assessments).where(assessments: { completed: false, default: true }).where("(EXTRACT(year FROM age(current_date, coalesce(clients.date_of_birth, current_date))) :: int) < ?", setting.age || 18)
+        clients = joins(:assessments).where(assessments: { completed: false, default: true }).where('(EXTRACT(year FROM age(current_date, coalesce(clients.date_of_birth, current_date))) :: int) < ?', setting.age || 18)
         clients.each do |client|
           CaseWorkerMailer.notify_incomplete_daily_csi_assessments(client).deliver_now
         end
@@ -730,7 +731,7 @@ class Client < ActiveRecord::Base
 
       next unless setting.enable_custom_assessment?
 
-      clients = joins(:assessments).where(assessments: { completed: false, default: false }).where("(EXTRACT(year FROM age(current_date, coalesce(clients.date_of_birth, current_date))) :: int) < ?", setting.age || 18)
+      clients = joins(:assessments).where(assessments: { completed: false, default: false }).where('(EXTRACT(year FROM age(current_date, coalesce(clients.date_of_birth, current_date))) :: int) < ?', setting.age || 18)
       clients.each do |client|
         custom_assessment_setting_ids = client.assessments.customs.map { |ca| ca.domains.pluck(:custom_assessment_setting_id) }.flatten.uniq
         CustomAssessmentSetting.where(id: custom_assessment_setting_ids).each do |custom_assessment_setting|
@@ -867,7 +868,6 @@ class Client < ActiveRecord::Base
     end
   end
 
-
   def self.cached_client_district_name(object)
     Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_district_name', object.id]) do
       object.joins(:district).order('districts.name')
@@ -931,16 +931,16 @@ class Client < ActiveRecord::Base
   def self.cached_client_assessment_domains(value, domain_id, scope)
     Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_assessment_domains', domain_id]) do
       ids = Assessment.joins(:assessment_domains).where("score#{operation} ? AND domain_id= ?", value, domain_id).ids
-      scope.joins(:assessments).where(assessments: { id: ids})
+      scope.joins(:assessments).where(assessments: { id: ids })
     end
   end
 
   def assign_global_id
     referral = find_referrals.last
     if referral && referral.client_global_id
-      self.global_id =  GlobalIdentity.find_or_initialize_ulid(referral.client_global_id)
+      self.global_id = GlobalIdentity.find_or_initialize_ulid(referral.client_global_id)
     else
-      self.global_id =  GlobalIdentity.new(ulid: ULID.generate).ulid
+      self.global_id = GlobalIdentity.new(ulid: ULID.generate).ulid
     end
   end
 
@@ -998,7 +998,7 @@ class Client < ActiveRecord::Base
     Rails.cache.fetch([I18n.locale, Apartment::Tenant.current, object.id, object.gender || 'gender']) do
       Apartment::Tenant.switch('shared') do
         gender = SharedClient.find_by(slug: object.slug)&.gender
-        gender.present? ? I18n.t("default_client_fields.gender_list.#{ gender.gsub('other', 'other_gender') }") : ''
+        gender.present? ? I18n.t("default_client_fields.gender_list.#{gender.gsub('other', 'other_gender')}") : ''
       end
     end
   end
@@ -1010,13 +1010,13 @@ class Client < ActiveRecord::Base
 
   def self.cached_client_custom_field_properties_count(object, fields_second)
     Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_custom_field_properties_count', object.id, *fields_second]) do
-      object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields_second, entity_type: 'Client'}).count
+      object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields_second, entity_type: 'Client' }).count
     end
   end
 
   def self.cached_client_custom_field_properties_order(object, fields_second)
     Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_custom_field_properties_order', object.id, *fields_second]) do
-      object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields_second, entity_type: 'Client'}).order(created_at: :desc).first.try(:properties)
+      object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields_second, entity_type: 'Client' }).order(created_at: :desc).first.try(:properties)
     end
   end
 
@@ -1040,7 +1040,7 @@ class Client < ActiveRecord::Base
 
   def self.cached_client_enrollment_date_join(object, fields_second)
     Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'cached_client_enrollment_date_join', object.id, *fields_second]) do
-      date_filter(object.client_enrollments.joins(:program_stream).where(program_streams: { name: fields_second }), fields.join('__')).map{|date| date_format(date.enrollment_date) }
+      date_filter(object.client_enrollments.joins(:program_stream).where(program_streams: { name: fields_second }), fields.join('__')).map { |date| date_format(date.enrollment_date) }
     end
   end
 
@@ -1180,6 +1180,8 @@ class Client < ActiveRecord::Base
   end
 
   def address_contrain
+    return unless Organization.current.country == 'cambdia'
+
     if district_id && province_id
       district = District.find(district_id)
       errors.add(:district_id, 'does not exist in the province you just selected.') if district.province_id != province_id
@@ -1256,8 +1258,8 @@ class Client < ActiveRecord::Base
     Rails.cache.delete([Apartment::Tenant.current, self.class.name, 'received_by', received_by_id]) if received_by_id_changed?
     Rails.cache.delete([Apartment::Tenant.current, self.class.name, 'followed_up_by', followed_up_by_id]) if followed_up_by_id_changed?
     Rails.cache.delete([Apartment::Tenant.current, 'Province', 'dropdown_list_option']) if province_id_changed?
-    Rails.cache.delete([Apartment::Tenant.current, "District", 'dropdown_list_option']) if district_id_changed?
-    Rails.cache.delete([Apartment::Tenant.current, "Commune", 'dropdown_list_option']) if commune_id_changed?
+    Rails.cache.delete([Apartment::Tenant.current, 'District', 'dropdown_list_option']) if district_id_changed?
+    Rails.cache.delete([Apartment::Tenant.current, 'Commune', 'dropdown_list_option']) if commune_id_changed?
     Rails.cache.delete([Apartment::Tenant.current, 'Village', 'cache_village_name_by_client_commune_district_province']) if village_id_changed?
     Rails.cache.delete([Apartment::Tenant.current, 'Subdistrict', 'dropdown_list_option']) if subdistrict_id_changed?
     Rails.cache.delete([Apartment::Tenant.current, 'Township', 'dropdown_list_option']) if township_id_changed?
@@ -1315,5 +1317,4 @@ class Client < ActiveRecord::Base
     end
     Apartment::Tenant.switch current_ngo
   end
-
 end

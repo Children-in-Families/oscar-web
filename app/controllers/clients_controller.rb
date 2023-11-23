@@ -77,7 +77,7 @@ class ClientsController < AdminController
 
         @referees = Referee.cache_none_anonymous.map { |referee| { value: referee.id, text: referee.name } }
         @current_provinces = Province.pluck(:id, :name).map { |id, name| { value: id, text: name } }
-        @birth_provinces = @birth_provinces.map { |parent, children| children.map { |t, v| { value: v, text: t } } }.flatten
+        @birth_provinces = @birth_provinces.map { |_, children| children.map { |t, v| { value: v, text: t } } }.flatten
 
         custom_field_ids = @client.custom_field_properties.pluck(:custom_field_id)
         if current_user.admin? || current_user.strategic_overviewer?
@@ -345,7 +345,7 @@ class ClientsController < AdminController
         :follow_up_date, :school_grade, :school_name, :current_address, :locality, :phone_owner,
         :house_number, :street_number, :suburb, :description_house_landmark, :directions, :street_line1, :street_line2, :plot, :road, :postal_code, :district_id, :subdistrict_id,
         :has_been_in_orphanage, :has_been_in_government_care, :external_id, :external_id_display, :mosvy_number,
-        :relevant_referral_information, :province_id, :current_family_id, :reason_for_referral,
+        :relevant_referral_information, :province_id, :city_id, :current_family_id, :reason_for_referral,
         :state_id, :township_id, :rejected_note, :live_with, :profile, :remove_profile,
         :gov_city, :gov_commune, :gov_district, :gov_date, :gov_village_code, :gov_client_code,
         :gov_interview_village, :gov_interview_commune, :gov_interview_district, :gov_interview_city,
@@ -411,10 +411,10 @@ class ClientsController < AdminController
     @phone_owners = Client::PHONE_OWNERS.map { |owner| { label: owner, value: owner.downcase } }
     @referral_source = @client && @client.referral_source.present? ? ReferralSource.where(id: @client.referral_source_id).map { |r| [r&.name, r.id] } : []
     @referral_source_category = referral_source_name(ReferralSource.parent_categories, @client) if @client && @client.persisted?
-    country_address_fields if @client
+    country_address_fields(@client.instance_of?(::ClientDecorator) ? @client.object : @client) if @client
   end
 
-  def country_address_fields
+  def country_address_fields(client)
     selected_country = Setting.cache_first.country_name || params[:country]
     current_org = Organization.current.short_name
     Organization.switch_to 'shared'
@@ -424,33 +424,53 @@ class ClientsController < AdminController
 
     if selected_country&.downcase == 'thailand'
       @current_provinces = Province.order(:name).where.not('name ILIKE ?', '%/%')
-      @districts = @client.province.present? ? @client.province.cached_districts : []
-      @subdistricts = @client.district.present? ? @client.district.cached_subdistricts : []
+      @cities = client.province_id.present? ? client.province.cached_cities : []
+      @districts = client.province_id.present? ? client.province.cached_districts : []
+      @subdistricts = client.district_id.present? ? client.district.cached_subdistricts : []
 
-      @referee_districts = @client.referee&.province.present? ? @client.referee.province.cached_districts : []
-      @referee_subdistricts = @client.referee&.district.present? ? @client.referee.district.cached_subdistricts : []
+      @referee_districts = client.referee&.province_id.present? ? client.referee.province.cached_districts : []
+      @referee_subdistricts = client.referee&.district_id.present? ? client.referee.district.cached_subdistricts : []
 
-      @carer_districts = @client.carer&.province.present? ? @client.carer.province.cached_districts : []
-      @carer_subdistricts = @client.carer&.district.present? ? @client.carer.district.cached_subdistricts : []
+      @carer_districts = client.carer&.province_id.present? ? client.carer.province.cached_districts : []
+      @carer_subdistricts = client.carer&.district_id.present? ? client.carer.district.cached_subdistricts : []
     elsif selected_country&.downcase == 'myanmar'
       @states = State.order(:name)
-      @townships = @client.state.present? ? @client.state.townships.order(:name) : []
+      @townships = client.state_id.present? ? client.state.townships.order(:name) : []
 
-      @referee_townships = @client.referee&.state.present? ? @client.referee.state.townships.order(:name) : []
-      @carer_townships = @client.carer&.state.present? ? @client.carer.state.townships.order(:name) : []
+      @referee_townships = client.referee&.state_id.present? ? client.referee.state.townships.order(:name) : []
+      @carer_townships = client.carer&.state_id.present? ? client.carer.state.townships.order(:name) : []
+    elsif selected_country&.downcase == 'indonesia'
+      @current_provinces = Province.order(:name).where.not('name ILIKE ?', '%/%')
+      @cities = client.province_id.present? ? client.province.cached_cities : []
+      @districts = client.city_id.present? ? client.city.cached_districts : []
+      @subdistricts = client.district_id.present? ? client.district.cached_subdistricts : []
+
+      @referee_cities = client.referee&.province_id.present? ? client.referee.province&.cached_cities : []
+      @referee_districts = client.referee&.city_id.present? ? client.referee.city.cached_districts : []
+      @referee_subdistricts = client.referee&.district_id.present? ? client.referee.district.cached_subdistricts : []
+
+      if @client.carer&.same_as_client
+        @carer_cities = client.province_id.present? ? client.province.cached_cities : []
+        @carer_districts = client.city_id.present? ? client.city.cached_districts : []
+        @carer_subdistricts = client.district_id.present? ? client.district.cached_subdistricts : []
+      else
+        @carer_cities = client.carer&.province_id.present? ? client.carer.province&.cached_cities : []
+        @carer_districts = client.carer&.city_id.present? ? client.carer.city.cached_districts : []
+        @carer_subdistricts = client.carer&.district_id.present? ? client.carer.district.cached_subdistricts : []
+      end
     else
       @current_provinces = Province.cached_order_name
-      @districts = @client.province.present? ? @client.province.cached_districts : []
-      @communes = @client.district.present? ? @client.district.cached_communes : []
-      @villages = @client.commune.present? ? @client.commune.cached_villages : []
+      @districts = client.province_id.present? ? client.province.cached_districts : []
+      @communes = client.district_id.present? ? client.district.cached_communes : []
+      @villages = client.commune_id.present? ? client.commune.cached_villages : []
 
-      @referee_districts = @client.referee&.province.present? ? @client.referee.province.cached_districts : []
-      @referee_communes = @client.referee&.district.present? ? @client.referee.district.cached_communes : []
-      @referee_villages = @client.referee&.commune.present? ? @client.referee.commune.cached_villages : []
+      @referee_districts = client.referee&.province_id.present? ? client.referee.province.cached_districts : []
+      @referee_communes = client.referee&.district_id.present? ? client.referee.district.cached_communes : []
+      @referee_villages = client.referee&.commune_id.present? ? client.referee.commune.cached_villages : []
 
-      @carer_districts = @client.carer&.province.present? ? @client.carer.province.cached_districts : []
-      @carer_communes = @client.carer&.district.present? ? @client.carer.district.cached_communes : []
-      @carer_villages = @client.carer&.commune.present? ? @client.carer.commune.cached_villages : []
+      @carer_districts = client.carer&.province_id.present? ? client.carer.province.cached_districts : []
+      @carer_communes = client.carer&.district_id.present? ? client.carer.district.cached_communes : []
+      @carer_villages = client.carer&.commune_id.present? ? client.carer.commune.cached_villages : []
     end
   end
 

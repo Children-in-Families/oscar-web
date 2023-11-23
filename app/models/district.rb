@@ -4,6 +4,7 @@ class District < ActiveRecord::Base
   has_paper_trail
 
   belongs_to :province, touch: true
+  belongs_to :city, touch: true
 
   has_many :clients, dependent: :restrict_with_error
   has_many :families, dependent: :restrict_with_error
@@ -53,6 +54,6 @@ class District < ActiveRecord::Base
     Rails.cache.delete([Apartment::Tenant.current, 'District', id])
     Rails.cache.delete([Apartment::Tenant.current, 'District', id, 'cached_communes'])
     Rails.cache.delete([Apartment::Tenant.current, 'District', id, 'cached_subdistricts'])
-    Rails.cache.delete([Apartment::Tenant.current, "District", 'dropdown_list_option'])
+    Rails.cache.delete([Apartment::Tenant.current, 'District', 'dropdown_list_option'])
   end
 end

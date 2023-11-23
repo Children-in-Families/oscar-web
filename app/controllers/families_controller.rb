@@ -77,8 +77,8 @@ class FamiliesController < AdminController
   end
 
   def show
-    custom_field_ids            = @family.custom_field_properties.pluck(:custom_field_id)
-    @free_family_forms          = CustomField.family_forms.not_used_forms(custom_field_ids).order_by_form_title
+    custom_field_ids = @family.custom_field_properties.pluck(:custom_field_id)
+    @free_family_forms = CustomField.family_forms.not_used_forms(custom_field_ids).order_by_form_title
     @group_family_custom_fields = @family.custom_field_properties.includes(:custom_field).group_by(&:custom_field_id)
     client_ids = @family.current_clients.ids
     if client_ids.present?
@@ -125,32 +125,32 @@ class FamiliesController < AdminController
 
   def version
     page = params[:per_page] || 20
-    @family   = Family.find(params[:family_id])
+    @family = Family.find(params[:family_id])
     @versions = @family.versions.reorder(created_at: :desc).page(params[:page]).per(page)
   end
 
   def assessments
-    basic_rules = JSON.parse(params[:basic_rules] || "{}")
+    basic_rules = JSON.parse(params[:basic_rules] || '{}')
     families = AdvancedSearches::FamilyAdvancedSearch.new(basic_rules, Family.accessible_by(current_ability))
     assessments = Assessment.joins(:family).where(default: false, family_id: families.filter.ids)
 
     @assessments_count = assessments.count
 
-    render json: { recordsTotal:  @assessments_count, recordsFiltered: @assessments_count, data: data }
+    render json: { recordsTotal: @assessments_count, recordsFiltered: @assessments_count, data: data }
   end
 
   private
 
   def load_quantative_types
-    @quantitative_types = QuantitativeType.where('visible_on LIKE ?', "%family%")
+    @quantitative_types = QuantitativeType.where('visible_on LIKE ?', '%family%')
   end
 
   def family_params
     permitted_params = params.require(:family).permit(
       :name, :code,
       :dependable_income, :family_type, :status, :contract_date,
-      :address, :province_id, :district_id, :house, :street,
-      :commune_id, :village_id, :slug,
+      :address, :province_id, :city_id, :district_id, :house, :street,
+      :subdistrict_id, :commune_id, :village_id, :slug, :road, :plot, :postal_code,
       :followed_up_by_id, :follow_up_date, :name_en, :phone_number, :id_poor, :referral_source_id,
       :referee_phone_number, :relevant_information,
       :received_by_id, :initial_referral_date, :referral_source_category_id,
@@ -180,17 +180,24 @@ class FamiliesController < AdminController
     return if @family.nil?
 
     @provinces = Province.cached_order_name
-    @districts = @family.province.present? ? @family.province.cached_districts : []
-    @communes  = @family.district.present? ? @family.district.cached_communes : []
-    @villages  = @family.commune.present? ? @family.commune.cached_villages : []
+    if current_organization.country == 'indonesia' || current_organization.country == 'thailand'
+      @cities = @family.province_id.present? ? @family.province.cached_cities : []
+      @districts = @family.city_id.present? ? @family.city.cached_districts : []
+      @subdistricts = @family.subdistrict_id.present? ? @family.district.cached_subdistricts : []
+    else
+      @districts = @family.province_id.present? ? @family.province.cached_districts : []
+      @communes = @family.district_id.present? ? @family.district.cached_communes : []
+      @villages = @family.commune_id.present? ? @family.commune.cached_villages : []
+    end
+
     if action_name.in?(['edit', 'update'])
       client_ids = Family.where.not(id: @family).pluck(:children).flatten.uniq - @family.children
     else
       client_ids = Family.where.not(id: @family).pluck(:children).flatten.uniq
     end
 
-    client_ids = Client.where("current_family_id = ? OR id NOT IN (?) OR current_family_id IS NULL", @family.id, Client.joins(:families).ids).ids
-    @clients  = Client.accessible_by(current_ability).where(id: client_ids).order(:given_name, :family_name)
+    client_ids = Client.where('current_family_id = ? OR id NOT IN (?) OR current_family_id IS NULL', @family.id, Client.joins(:families).ids).ids
+    @clients = Client.accessible_by(current_ability).where(id: client_ids).order(:given_name, :family_name)
   end
 
   def find_family
@@ -199,9 +206,9 @@ class FamiliesController < AdminController
 
   def find_case_histories
     enter_ngos = @family.enter_ngos
-    exit_ngos  = @family.exit_ngos
+    exit_ngos = @family.exit_ngos
     cps_enrollments = @family.enrollments
-    cps_leave_programs = LeaveProgram.joins(:enrollment).where("enrollments.programmable_id = ?", @family.id)
+    cps_leave_programs = LeaveProgram.joins(:enrollment).where('enrollments.programmable_id = ?', @family.id)
     @case_histories = (enter_ngos + exit_ngos + cps_enrollments + cps_leave_programs).sort { |current_record, next_record| -([current_record.created_at, current_record.new_date] <=> [next_record.created_at, next_record.new_date]) }
   end
 
@@ -225,7 +232,7 @@ class FamiliesController < AdminController
       commune_id = Commune.find_by(name_en: commune_name_en, district_id: district_id).try(:id)
       village_id = Village.find_by(name_en: village_name_en, commune_id: commune_id).try(:id)
 
-      attributes = attributes.slice('name', 'name_en', 'house', 'street', 'slug', 'initial_referral_date', 'referee_phone_number').merge!({province_id: province_id, district_id: district_id, commune_id: commune_id, village_id: village_id})
+      attributes = attributes.slice('name', 'name_en', 'house', 'street', 'slug', 'initial_referral_date', 'referee_phone_number').merge!({ province_id: province_id, district_id: district_id, commune_id: commune_id, village_id: village_id })
       @family.province = Province.find_by(id: province_id)
       @family.district = District.find_by(id: district_id)
       @family.commune = Commune.find_by(id: commune_id)
@@ -233,8 +240,8 @@ class FamiliesController < AdminController
 
       @provinces = Province.order(:name)
       @districts = @family.province.present? ? @family.province.cached_districts : []
-      @communes  = @family.district.present? ? @family.district.cached_communes : []
-      @villages  = @family.commune.present? ? @family.commune.cached_villages : []
+      @communes = @family.district.present? ? @family.district.cached_communes : []
+      @villages = @family.commune.present? ? @family.commune.cached_villages : []
     end
     @family = Family.new(attributes)
     # @family.family_members.new

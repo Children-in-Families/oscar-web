@@ -53,8 +53,8 @@ class CommunitiesController < AdminController
   end
 
   def show
-    custom_field_ids               = @community.custom_field_properties.pluck(:custom_field_id)
-    @free_community_forms          = CustomField.community_forms.not_used_forms(custom_field_ids).order_by_form_title
+    custom_field_ids = @community.custom_field_properties.pluck(:custom_field_id)
+    @free_community_forms = CustomField.community_forms.not_used_forms(custom_field_ids).order_by_form_title
     @group_community_custom_fields = @community.custom_field_properties.group_by(&:custom_field_id)
   end
 
@@ -79,14 +79,14 @@ class CommunitiesController < AdminController
 
   def version
     page = params[:per_page] || 20
-    @community   = Community.find(params[:family_id])
+    @community = Community.find(params[:family_id])
     @versions = @community.versions.reorder(created_at: :desc).page(params[:page]).per(page)
   end
 
   private
 
   def load_quantative_types
-    @quantitative_types = QuantitativeType.where('visible_on LIKE ?', "%community%")
+    @quantitative_types = QuantitativeType.where('visible_on LIKE ?', '%community%')
   end
 
   def community_params
@@ -99,7 +99,9 @@ class CommunitiesController < AdminController
       :name_en,
       :formed_date,
       :province_id,
+      :city_id,
       :district_id,
+      :subdistrict_id,
       :commune_id,
       :village_id,
       :representative_name,
@@ -124,9 +126,15 @@ class CommunitiesController < AdminController
 
   def find_association
     @provinces = Province.cached_order_name
-    @districts = @community&.province.present? ? @community.province.cached_districts : []
-    @communes  = @community&.district.present? ? @community.district.cached_communes : []
-    @villages  = @community&.commune.present? ? @community.commune.cached_villages : []
+    if current_organization.country == 'indonesia'
+      @cities = @community&.province_id.present? ? @community.province.cached_cities : []
+      @districts = @community&.city_id.present? ? @community.city.cached_districts : []
+      @subdistricts = @community&.subdistrict_id.present? ? @community.district.cached_subdistricts : []
+    else
+      @districts = @community&.province_id.present? ? @community.province.cached_districts : []
+      @communes = @community&.district_id.present? ? @community.district.cached_communes : []
+      @villages = @community&.commune_id.present? ? @community.commune.cached_villages : []
+    end
   end
 
   def find_community
