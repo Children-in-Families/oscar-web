@@ -1005,6 +1005,7 @@ ActiveRecord::Schema.define(version: 20231116091342) do
     t.datetime 'created_at'
     t.datetime 'updated_at'
     t.integer 'city_id'
+    t.integer 'subdistrict_id'
   end
 
   add_index 'communities', ['city_id'], name: 'index_communities_on_city_id', using: :btree
@@ -1014,6 +1015,7 @@ ActiveRecord::Schema.define(version: 20231116091342) do
   add_index 'communities', ['received_by_id'], name: 'index_communities_on_received_by_id', using: :btree
   add_index 'communities', ['referral_source_category_id'], name: 'index_communities_on_referral_source_category_id', using: :btree
   add_index 'communities', ['referral_source_id'], name: 'index_communities_on_referral_source_id', using: :btree
+  add_index 'communities', ['subdistrict_id'], name: 'index_communities_on_subdistrict_id', using: :btree
   add_index 'communities', ['user_id'], name: 'index_communities_on_user_id', using: :btree
   add_index 'communities', ['village_id'], name: 'index_communities_on_village_id', using: :btree
 
@@ -1418,6 +1420,9 @@ ActiveRecord::Schema.define(version: 20231116091342) do
     t.integer 'care_plans_count', default: 0, null: false
     t.integer 'city_id'
     t.integer 'subdistrict_id'
+    t.string 'road'
+    t.string 'plot'
+    t.string 'postal_code'
   end
 
   add_index 'families', ['assessments_count'], name: 'index_families_on_assessments_count', using: :btree

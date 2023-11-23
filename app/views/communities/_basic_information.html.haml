@@ -33,15 +33,7 @@
               = f.input :formed_date, label: false, wrapper: false, input_html: { class: 'date optional form-control date-picker' }, as: :string
               %span.input-group-addon
                 %i.fa.fa-calendar-check-o
-      .row
-        .col-sm-3
-          = f.input :province_id, collection: @provinces, input_html: { data: { type: 'provinces', 'subaddress' => 'district' } }
-        .col-sm-3
-          = f.input :district_id, collection: @districts, input_html: { data: { type: 'districts', 'subaddress' => 'commune' } }
-        .col-sm-3
-          = f.input :commune_id, collection: @communes.map{|c| [c.name, c.id] }, input_html: { data: { type: 'communes', 'subaddress' => 'village' } }
-        .col-sm-3
-          = f.input :village_id, collection: @villages.map{|v| [v.name, v.id] }, input_html: { data: { type: 'villages' } }
+      = render "shared/addresses/#{current_organization.country.presence || 'cambodia'}", f: f
       .row
         .col-sm-3
           = f.input :representative_name

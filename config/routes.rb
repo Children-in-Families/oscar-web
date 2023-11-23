@@ -302,6 +302,11 @@ Rails.application.routes.draw do
 
     resources :provinces, only: :index do
       resources :districts, only: :index
+      resources :cities, only: :index
+    end
+
+    resources :cities, only: [] do
+      resources :districts, only: :index
     end
 
     resources :districts, only: [] do

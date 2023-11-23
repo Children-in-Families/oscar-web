@@ -417,6 +417,7 @@ module ApplicationHelper
     when 'myanmar' then 'Burmese'
     when 'thailand' then 'Thai'
     when 'lesotho' then 'English'
+    when 'indonesia' then 'Bahasa'
     end
   end
 
@@ -424,7 +425,8 @@ module ApplicationHelper
     {
       en: { label: t('.english'), flag_file_name: 'United-Kingdom.png' },
       km: { label: t('.khmer'), flag_file_name: 'Cambodia.png' },
-      my: { label: t('.burmese'), flag_file_name: 'Myanamar-icon.png' }
+      my: { label: t('.burmese'), flag_file_name: 'Myanamar-icon.png' },
+      in: { label: t('.bahasa'), flag_file_name: 'indonesia.png' }
     }
   end
 

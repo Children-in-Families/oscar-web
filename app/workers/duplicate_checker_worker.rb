@@ -41,7 +41,9 @@ class DuplicateCheckerWorker
 
     if archived_slug
       tenant, client_id = archived_slug.split('-')
-      duplicate_with_client = Apartment::Tenant.switch(tenant) { Client.find(client_id) }
+      duplicate_with_client = Apartment::Tenant.switch(tenant) { Client.find_by(id: client_id) }
+      return unless duplicate_with_client
+
       shared_client.update_columns(
         duplicate: true, duplicate_with: {
           duplicated_with_client_id: duplicate_with_client.slug,

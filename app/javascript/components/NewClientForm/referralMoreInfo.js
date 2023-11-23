@@ -22,6 +22,7 @@ export default (props) => {
     data: {
       errorFields,
       users,
+      carerCities,
       carerDistricts,
       carerCommunes,
       brc_presented_ids,
@@ -174,6 +175,7 @@ export default (props) => {
           client,
           familyMember,
           clientRelationships,
+          carerCities,
           carerDistricts,
           carerCommunes,
           carerVillages,
