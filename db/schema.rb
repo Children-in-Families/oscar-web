@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20231116091342) do
+ActiveRecord::Schema.define(version: 20231120083542) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
@@ -2497,8 +2497,8 @@ ActiveRecord::Schema.define(version: 20231116091342) do
     t.text 'level_of_risk_guidance'
     t.boolean 'enabled_header_count', default: false
     t.boolean 'finance_dashboard', default: false, null: false
-    t.boolean 'enabled_internal_referral', default: false
     t.integer 'city_id'
+    t.boolean 'enabled_internal_referral', default: false
   end
 
   add_index 'settings', ['city_id'], name: 'index_settings_on_city_id', using: :btree
@@ -2986,8 +2986,8 @@ ActiveRecord::Schema.define(version: 20231116091342) do
     t.string 'billable_status'
     t.datetime 'accepted_at'
     t.datetime 'billable_at'
-    t.text 'object'
-    t.text 'object_changes'
+    t.jsonb 'object'
+    t.jsonb 'object_changes'
   end
 
   add_index 'versions', ['item_type', 'item_id'], name: 'index_versions_on_item_type_and_item_id', using: :btree
