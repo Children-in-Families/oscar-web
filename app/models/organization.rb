@@ -91,6 +91,9 @@ class Organization < ActiveRecord::Base
           Rake::Task['global_service:drop_constrain'].reenable
 
           ENV['DB'] = org.short_name # This will seed data only for the current tenant
+          Rake::Task['db:migrate'].invoke
+          Rake::Task['db:migrate'].reenable
+
           Rake::Task['db:seed'].invoke
           Rake::Task['db:seed'].reenable
 

@@ -8,7 +8,7 @@ module AddressesHelper
     country = selected_country
     current_address = []
     current_address << translate_address_field(object, 'house_number')
-    current_address << translate_address_field(object, 'house_number')
+    current_address << translate_address_field(object, 'street_number')
 
     case country
     when 'thailand'
@@ -47,6 +47,8 @@ module AddressesHelper
 
   def merged_address(object)
     current_address = []
+    current_address << translate_address_field(object, 'house_number')
+    current_address << translate_address_field(object, 'street_number')
     current_address << translate_address_field(object, 'village')
     current_address << translate_address_field(object, 'commune')
     if I18n.locale.to_s == 'km'
@@ -62,10 +64,11 @@ module AddressesHelper
   end
 
   def translate_address_field(object, field)
+    klass_name = (object.class.name[/Decorator/] ? object.object : object).class.name.downcase.pluralize
     if I18n.locale.to_s == 'km'
-      "#{I18n.t("datagrid.columns.#{object.class.name.pluralize}.#{field}")} #{object.public_send(field).name_kh}" if object.public_send(field).present?
+      "#{I18n.t("datagrid.columns.#{klass_name}.#{field}")} #{object.public_send(field).try(:name_kh) || object.public_send(field)}" if object.public_send(field).present?
     elsif object.methods.include?(field) && object.public_send(field).present?
-      "#{I18n.t("datagrid.columns.#{object.class.name.pluralize}.#{field}")} #{object.public_send(field).name_en}"
+      "#{I18n.t("datagrid.columns.#{klass_name}.#{field}")} #{object.public_send(field).try(:name_en) || object.public_send(field)}"
     end
   end
 end
