@@ -298,6 +298,8 @@ body[id='clients-welcome'] {
   }
 
   .csi-header,
+  .custom-data,
+  .legal-doc,
   .referee-header,
   .carer-header,
   .type-of-service-header,
@@ -532,7 +534,8 @@ body[id='clients-welcome'] {
     margin-bottom: 20px;
   }
 
-  .hotline-call-column, .assessment-column {
+  .hotline-call-column,
+  .assessment-column {
     a.disabled {
       color: #333333 !important;
       cursor: not-allowed;

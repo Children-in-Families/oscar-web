@@ -224,8 +224,8 @@
               = label_tag 'phone_owner_', t('datagrid.columns.phone_owner')
 
           - if policy(Client).show_legal_doc?
-            %li
-              %strong.m-l-sm= t('clients.show.legal_documents')
+            %li.legal-doc
+              %strong= t('clients.show.legal_documents')
             - legal_doc_fields.each do |field|
               %li
                 .visibility.col-sm-12
@@ -240,6 +240,15 @@
                 .visibility.col-sm-12
                   = check_box_tag "#{quantitative_type.name}_", quantitative_type.name, checked = saved_search_column_visibility("#{quantitative_type.name}_"), class: 'i-checks'
                   = label_tag "#{quantitative_type.name}_", quantitative_type.name
+          - custom_data = CustomData.first
+          - if custom_data.present?
+            %li.custom-data
+              %strong= t('custom_data.title')
+              - custom_data.searchable_fields.each do |field|
+                %li
+                  .visibility.col-sm-12
+                    = check_box_tag "#{field['name']}_", field['label'], checked = saved_search_column_visibility("#{field['name']}_"), class: 'i-checks'
+                    = label_tag "#{field['name']}_", field['label']
 
           = render 'datagrid/care_plan_column_picker'
           - if Service.count > 0
