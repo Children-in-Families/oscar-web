@@ -1368,15 +1368,15 @@ th-TH:
     form:
       national_id_number: National ID Number
       passport_number: Passport Number
-      national_id: 'National ID'
-      birth_cert: 'Birth Certificate'
-      family_book: 'Family Book'
-      passport: 'Passport'
-      travel_doc: 'Temporary Travel Document'
-      referral_doc: 'Referral Documents'
-      local_consent: 'Legal consent'
-      police_interview: 'Police interview'
-      other_legal_doc: 'Others'
+      national_id: "National ID"
+      birth_cert: "Birth Certificate"
+      family_book: "Family Book"
+      passport: "Passport"
+      travel_doc: "Temporary Travel Document"
+      referral_doc: "Referral Documents"
+      local_consent: "Legal consent"
+      police_interview: "Police interview"
+      other_legal_doc: "Others"
       able:
       legal_documents: Legal Documentations
       able_state:
@@ -1589,7 +1589,7 @@ th-TH:
       support_amount:
       support_note:
     level:
-      level_no: 'No'
+      level_no: "No"
       level_1: Level 1
       level_2: Level 2
     living_detail:
@@ -1798,6 +1798,10 @@ th-TH:
       back:
       modification_of:
   created_by:
+  custom_data:
+    add:
+    edit:
+    title:
   custom_field_properties:
     attachment:
       are_you_sure:
@@ -1982,15 +1986,15 @@ th-TH:
       clients:
         national_id_number: National ID Number
         passport_number: Passport Number
-        national_id: 'National ID'
-        birth_cert: 'Birth Certificate'
-        family_book: 'Family Book'
-        passport: 'Passport'
-        travel_doc: 'Temporary Travel Document'
-        referral_doc: 'Referral Documents'
-        local_consent: 'Legal consent'
-        police_interview: 'Police interview'
-        other_legal_doc: 'Others'
+        national_id: "National ID"
+        birth_cert: "Birth Certificate"
+        family_book: "Family Book"
+        passport: "Passport"
+        travel_doc: "Temporary Travel Document"
+        referral_doc: "Referral Documents"
+        local_consent: "Legal consent"
+        police_interview: "Police interview"
+        other_legal_doc: "Others"
         able:
         able_state:
         address:
@@ -2170,7 +2174,7 @@ th-TH:
         manage:
         member_count:
         name:
-        'no':
+        "no":
         province:
         significant_family_member_count:
         status:
@@ -2178,7 +2182,7 @@ th-TH:
         total:
         view:
         village:
-        'yes':
+        "yes":
       family:
       family_id:
       family_preservation:
@@ -2292,8 +2296,8 @@ th-TH:
           ">=":
       first_name:
       xboolean:
-        'no':
-        'yes':
+        "no":
+        "yes":
     form:
       csi_domain_scores:
       custom_csi_domain_scores:
@@ -2434,10 +2438,10 @@ th-TH:
     male_children_count:
     member_count:
     name:
-    'no':
+    "no":
     province:
     significant_family_member_count:
-    'yes':
+    "yes":
   default_government_report_fields:
     abandoned:
     abuse_and_exploitation:
@@ -3044,13 +3048,13 @@ th-TH:
       member_count:
       name:
       new_family_title:
-      'no':
+      "no":
       province:
       significant_family_member_count:
       status:
       street:
       village:
-      'yes':
+      "yes":
     index:
       add_new_family:
       clients:
@@ -3084,7 +3088,7 @@ th-TH:
       male_children_count:
       member_count:
       name:
-      'no':
+      "no":
       occupation:
       province:
       read_less:
@@ -3094,7 +3098,7 @@ th-TH:
       significant_family_member_count:
       status:
       street:
-      'yes':
+      "yes":
     update:
       not_allowed_to_detach_clients:
       successfully_updated:
@@ -4427,12 +4431,12 @@ th-TH:
         change:
         date_deleted:
         no_modification:
-        'on':
+        "on":
         value_of:
       case_note:
         case_note:
         change:
-        'on':
+        "on":
       client:
         after:
         before:
@@ -4440,7 +4444,7 @@ th-TH:
         client:
         date_deleted:
         no_modification:
-        'on':
+        "on":
         value_of:
       client_enrollment:
         after:
@@ -4449,7 +4453,7 @@ th-TH:
         client_enrollment:
         date_deleted:
         no_modification:
-        'on':
+        "on":
         organisation_type:
         value_of:
       common:
@@ -4481,7 +4485,7 @@ th-TH:
         location:
         material:
         no_modification:
-        'on':
+        "on":
         organisation_type:
         organization_type:
         partner:
@@ -4510,7 +4514,7 @@ th-TH:
         date_deleted:
         more_detail:
         no_modification:
-        'on':
+        "on":
         program_stream:
         value_of:
   signed_in_with_google:
@@ -4518,12 +4522,12 @@ th-TH:
     cancel:
     error_notification:
       default_message:
-    'no':
+    "no":
     required:
       mark:
       text:
     save:
-    'yes':
+    "yes":
   stages:
     able_screening_question_fields:
       alert_manager:

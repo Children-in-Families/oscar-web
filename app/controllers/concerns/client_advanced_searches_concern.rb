@@ -6,11 +6,11 @@ module ClientAdvancedSearchesConcern
       advanced_search = AdvancedSearch.find(params[:advanced_search_id])
       basic_rules = advanced_search.queries
     else
-      basic_rules = JSON.parse @basic_filter_params || @wizard_basic_filter_params || "{}"
+      basic_rules = JSON.parse @basic_filter_params || @wizard_basic_filter_params || '{}'
     end
 
     $param_rules = find_params_advanced_search
-    _clients, query      = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability)).filter
+    _clients, query = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability)).filter
 
     @results = @clients_by_user = @client_grid.scope { |scope| scope.where(query).accessible_by(current_ability) }.assets
     cache_client_ids
@@ -50,8 +50,8 @@ module ClientAdvancedSearchesConcern
   end
 
   def fetch_advanced_search_queries
-    @my_advanced_searches    = current_user.cache_advance_saved_search
-    @other_advanced_searches = Rails.cache.fetch(user_cache_id << "other_advanced_search_queries") do
+    @my_advanced_searches = current_user.cache_advance_saved_search
+    @other_advanced_searches = Rails.cache.fetch(user_cache_id << 'other_advanced_search_queries') do
       AdvancedSearch.for_client.includes(:user).non_of(current_user).to_a
     end
   end
@@ -72,8 +72,8 @@ module ClientAdvancedSearchesConcern
   end
 
   def hotline_call_column
-    client_hotlines = get_client_hotline_fields.group_by{ |field| field[:optgroup] }
-    call_hotlines = get_hotline_fields.group_by{ |field| field[:optgroup] }
+    client_hotlines = get_client_hotline_fields.group_by { |field| field[:optgroup] }
+    call_hotlines = get_hotline_fields.group_by { |field| field[:optgroup] }
     @hotline_call_columns = client_hotlines.merge(call_hotlines)
   end
 
@@ -125,9 +125,9 @@ module ClientAdvancedSearchesConcern
         ['answered_call', { true: 'Yes', false: 'No' }],
         ['childsafe_agent', { true: 'Yes', false: 'No' }],
         ['called_before', { true: 'Yes', false: 'No' }],
-        ['not_a_phone_call', {true: 'Yes', false: 'No'}],
+        ['not_a_phone_call', { true: 'Yes', false: 'No' }],
         ['requested_update', { true: 'Yes', false: 'No' }],
-        *get_dropdown_list(['phone_call_id', 'call_type', 'start_datetime', 'protection_concern_id', 'necessity_id']),
+        *get_dropdown_list(['phone_call_id', 'call_type', 'start_datetime', 'protection_concern_id', 'necessity_id'])
       ]
     }
     hotline_fields = AdvancedSearches::AdvancedSearchFields.new('hotline', args).render
@@ -137,7 +137,7 @@ module ClientAdvancedSearchesConcern
   def get_client_hotline_fields
     client_fields = I18n.t('datagrid.columns.clients')
     dropdown_list_options = [
-      ['concern_address_type', [Client::ADDRESS_TYPES, Client::ADDRESS_TYPES.map{|type| I18n.t('default_client_fields.address_types')[type.downcase.to_sym] }].transpose.map{|k,v| { k.downcase => v } }],
+      ['concern_address_type', [Client::ADDRESS_TYPES, Client::ADDRESS_TYPES.map { |type| I18n.t('default_client_fields.address_types')[type.downcase.to_sym] }].transpose.map { |k, v| { k.downcase => v } }],
       ['concern_province_id', Province.cached_dropdown_list_option],
       ['concern_district_id', District.cached_dropdown_list_option],
       ['concern_commune_id', Commune.cached_dropdown_list_option],
@@ -179,7 +179,12 @@ module ClientAdvancedSearchesConcern
 
   def get_quantitative_fields
     quantitative_fields = AdvancedSearches::QuantitativeCaseFields.new(current_user)
-    @quantitative_fields = quantitative_fields.render
+    quantitative_fields = quantitative_fields.render
+
+    custom_data = AdvancedSearches::CustomDataFields.new
+    custom_data_fields = custom_data.render
+
+    @quantitative_fields = quantitative_fields + custom_data_fields
   end
 
   def get_enrollment_fields
@@ -243,7 +248,7 @@ module ClientAdvancedSearchesConcern
   def find_params_advanced_search
     if params[:advanced_search_id]
       advanced_search = AdvancedSearch.cached_advanced_search(params[:advanced_search_id])
-      @advanced_search_params = params[:client_advanced_search].merge("basic_rules" => advanced_search.queries)
+      @advanced_search_params = params[:client_advanced_search].merge('basic_rules' => advanced_search.queries)
     else
       @advanced_search_params = params[:client_advanced_search]
     end
@@ -251,9 +256,9 @@ module ClientAdvancedSearchesConcern
 
   def basic_params
     if params.dig(:client_advanced_search, :action_report_builder) == '#wizard-builder'
-      @wizard_basic_filter_params  = @advanced_search_params[:basic_rules]
+      @wizard_basic_filter_params = @advanced_search_params[:basic_rules]
     else
-      @basic_filter_params  = @advanced_search_params[:basic_rules]
+      @basic_filter_params = @advanced_search_params[:basic_rules]
     end
   end
 
