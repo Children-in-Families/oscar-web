@@ -44,10 +44,7 @@ export default (props) => {
     // Make sure to avoid incorrect replacement
     // When specific item is not found
     if (objIndex === -1) {
-      dataValue.push({
-        value: currentTarget.value,
-        checked: currentTarget.checked
-      });
+      dataValue.push(currentTarget.value);
       setClientCustomData((prev) => {
         return {
           ...prev,
@@ -56,11 +53,7 @@ export default (props) => {
       });
     } else {
       // make new object of updated object.
-      const updatedObj = {
-        ...dataValue[objIndex],
-        value: currentTarget.value,
-        checked: currentTarget.checked
-      };
+      const updatedObj = [...dataValue[objIndex], currentTarget.value];
 
       // make final new array of objects by combining updated object.
       const newObj = [

@@ -38,7 +38,6 @@ module AdvancedSearches
           @drop_down_type_list << drop_list_values
         end
       end
-      return nil
     end
 
     private
