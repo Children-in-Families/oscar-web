@@ -30,7 +30,13 @@ module AdvancedSearches
           @number_type_list << ["custom_data__#{json_field['name']}", json_field['label']]
         elsif json_field['type'] == 'date'
           @date_type_list << ["custom_data__#{json_field['name']}", json_field['label']]
-        elsif json_field['type'] == 'select' || json_field['type'] == 'checkbox-group' || json_field['type'] == 'radio-group'
+        elsif json_field['type'] == 'select' || json_field['type'] == 'radio-group'
+          drop_list_values = []
+          drop_list_values << "custom_data__#{json_field['name']}"
+          drop_list_values << json_field['label']
+          drop_list_values << json_field['values'].map { |value| { (value['value'].presence || value['label']) => value['label'].gsub('&amp;qoute;', '&quot;') } }
+          @drop_down_type_list << drop_list_values
+        elsif json_field['type'] == 'checkbox-group'
           drop_list_values = []
           drop_list_values << "custom_data__#{json_field['name']}"
           drop_list_values << json_field['label']
