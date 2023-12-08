@@ -38,7 +38,7 @@ export default (props) => {
     );
 
     const objIndex = dataValue.findIndex(
-      (obj) => obj.value === currentTarget.value
+      (value) => value === currentTarget.value
     );
 
     // Make sure to avoid incorrect replacement
@@ -53,16 +53,15 @@ export default (props) => {
       });
     } else {
       // make new object of updated object.
-      const updatedObj = [...dataValue[objIndex], currentTarget.value];
+      const updatedObj = [dataValue[objIndex], currentTarget.value];
 
       // make final new array of objects by combining updated object.
-      const newObj = [
-        ...dataValue.slice(0, objIndex),
-        updatedObj,
-        ...dataValue.slice(objIndex + 1)
-      ];
+      const newDataValues = dataValue.filter(
+        (value) => value !== currentTarget.value
+      );
+
       setClientCustomData((prev) => {
-        return { ...prev, [currentTarget.name]: newObj };
+        return { ...prev, [currentTarget.name]: newDataValues };
       });
     }
   };
