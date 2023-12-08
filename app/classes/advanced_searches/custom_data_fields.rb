@@ -34,7 +34,7 @@ module AdvancedSearches
           drop_list_values = []
           drop_list_values << "custom_data__#{json_field['name']}"
           drop_list_values << json_field['label']
-          drop_list_values << json_field['values'].map { |value| { (value['value'].presence || value['label']) => value['label'].gsub('&amp;qoute;', '&quot;') } }
+          drop_list_values << json_field['values'].map { |value| { value['label'] => value['label'].gsub('&amp;qoute;', '&quot;') } }
           @drop_down_type_list << drop_list_values
         end
       end
