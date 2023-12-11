@@ -42,15 +42,22 @@ yarn-debug.log*
 /node_modules
 ~$*
 TODO.md
-NOTES.md
 REVISION
 GIT_REVISION
+sorbet
+
+## AWS
+aws/ecs/private/*
 NOTES.md
 staging.env
 
 # aws private
 aws/ecs/private/
 
+# Deployment
+k8s-deploy
+config/ansible
+config/jenkins
 # Ignore spreadsheet fiels
 /*.csv
 /*.xls

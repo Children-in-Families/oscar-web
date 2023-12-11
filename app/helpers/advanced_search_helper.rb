@@ -167,6 +167,8 @@ module AdvancedSearchHelper
       assessment_number: I18n.t('advanced_search.fields.assessment_number', assessment: I18n.t('clients.show.assessment')),
       assessment_completed_date: I18n.t('advanced_search.fields.assessment_completed_date', assessment: I18n.t('clients.show.assessment')),
       custom_completed_date: I18n.t('advanced_search.fields.assessment_custom_completed_date', assessment: I18n.t('clients.show.assessment')),
+      date_of_custom_assessments: I18n.t('datagrid.columns.clients.date_of_custom_assessments', assessment: I18n.t('clients.show.assessment')),
+      custom_assessment_created_at: I18n.t('datagrid.columns.clients.custom_assessment_created_at', assessment: I18n.t('clients.show.assessment')),
       completed_date: I18n.t('advanced_search.fields.assessment_completed_date', assessment: I18n.t('clients.show.assessment')),
       month_number: I18n.t('advanced_search.fields.month_number'),
       custom_csi_group: I18n.t('advanced_search.fields.custom_csi_group'),
@@ -181,6 +183,7 @@ module AdvancedSearchHelper
       ratanak_achievement_program_staff_client_ids: I18n.t('clients.form.ratanak_achievement_program_staff_client_ids'),
       mo_savy_officials: I18n.t('clients.form.mosavy_official'),
       **overdue_translations,
+      **custom_assessment_field_traslation_mapping,
       **address_translation(group_name),
       number_client_referred_gatekeeping: I18n.t('advanced_search.fields.number_client_referred_gatekeeping'),
       number_client_billable: I18n.t('advanced_search.fields.number_client_billable'),
@@ -189,13 +192,21 @@ module AdvancedSearchHelper
       client_rejected: I18n.t('advanced_search.fields.client_rejected'),
       incomplete_care_plan: I18n.t('advanced_search.fields.incomplete_care_plan'),
       case_history: I18n.t('default_family_fields.case_history'),
-      family: I18n.t('advanced_search.fields.family'),
       case_note: I18n.t('dashboards.case_note_tab.case_note'),
       other: I18n.t('advanced_search.fields.other'),
-      common_searches: I18n.t('advanced_search.fields.common_searches')
+      common_searches: I18n.t('advanced_search.fields.common_searches'),
+      risk_assessment: I18n.t('risk_assessments._attr.risk_assessment')
     }
 
     translations = label_translations(address_translation(group_name)).merge(translations)
+    
+    if group_name == 'family'
+      translations[:custom_assessment_created_at] = I18n.t('datagrid.columns.family_assessment_created_at')
+      translations[:date_of_custom_assessments] = I18n.t('datagrid.columns.date_of_family_assessment')
+      translations[:custom_completed_date] = I18n.t('datagrid.columns.assessment_completed_date', assessment: I18n.t('families.family_assessment'))
+      translations[:custom_csi_domain_scores] = I18n.t('advanced_search.fields.family_assessment_domain_scores')
+    end
+    
     translations[key.to_sym] || ''
   end
 
@@ -206,7 +217,6 @@ module AdvancedSearchHelper
 
   def community_header(key)
     translations = {
-      initial_referral_date:                    I18n.t('advanced_search.fields.initial_referral_date'),
       name:                                     I18n.t('activerecord.attributes.community.name'),
       name_en:                                  I18n.t('activerecord.attributes.community.name_en'),
       status:                                   I18n.t('activerecord.attributes.community.status'),
@@ -289,7 +299,7 @@ module AdvancedSearchHelper
   end
 
   def user_select_options
-    User.non_strategic_overviewers.order(:first_name, :last_name).map { |user| { user.id.to_s => user.name } }
+    User.cached_user_select_options
   end
 
   def concern_translation(hotline_field)

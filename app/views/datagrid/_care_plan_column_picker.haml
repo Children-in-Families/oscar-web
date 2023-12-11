@@ -1,0 +1,15 @@
+.care-plan-header
+  %li
+    %strong.m-l-sm= t('advanced_search.fields.care_plan')
+%li
+  .visibility.col-sm-12
+    = check_box_tag 'care_plan_date_', 'care_plan_date', checked = family_saved_search_column_visibility('care_plan_date_'), class: 'i-checks'
+    = label_tag 'care_plan_date_', t('care_plans.care_plan_date')
+%li
+  .visibility.col-sm-12
+    = check_box_tag 'care_plan_completed_date_', 'care_plan_completed_date', checked = family_saved_search_column_visibility('care_plan_completed_date_'), class: 'i-checks'
+    = label_tag 'care_plan_completed_date_', t('datagrid.columns.care_plan_completed_date')
+%li
+  .visibility.col-sm-12
+    = check_box_tag 'care_plan_count_', 'care_plan_count', checked = family_saved_search_column_visibility('care_plan_count_'), class: 'i-checks'
+    = label_tag 'care_plan_count_', t('datagrid.columns.care_plan_count')

@@ -10,34 +10,42 @@
               .btn.btn-primary.btn-add
                 = t('.add_new_domain_group')
       .ibox-content
-        .table-responsive
-          %table.table.table-bordered.table-striped.table-hover
-            %thead
-              %tr
-                %th.custom_column_name= t('.domain_group_names')
-                %th.custom_column_description= t('.description')
-                - if can? :manage, DomainGroup
-                  %th.text-center.custom_column_manage{ colspan: '2' }= t('.manage')
-                - if can? :version, DomainGroup
-                  %th.modification.text-center= t('.changelogs')
-            %tbody
-              - @domain_groups.each do |domain_group|
-                %tr
-                  - if Organization.current.short_name == 'aht'
-                    %td= t("dimensions.dimension_groups.#{domain_group.name.downcase.strip.parameterize('_')}")
-                  - else
-                    %td= domain_group.name
-                  %td= domain_group.description
-                  - if can? :manage, DomainGroup
-                    %td.text-center
-                      = link_to '#', {class: 'btn btn-outline btn-success btn-xs', "data-target" => "#domain_groupModal-#{domain_group.id}", "data-toggle" => "modal", :type => "button"} do
-                        = fa_icon('pencil')
-                    %td.text-center
-                      = remove_link(domain_group, {domain_group: domain_group.domains.count})
-                  - if can? :version, DomainGroup
-                    %td.text-center
-                      = link_to t('.view'), domain_group_version_path(domain_group)
-                  = render 'form', domain_group: domain_group
+        %ul.nav.nav-tabs#tablist-cms-tools{role: "tablist"}
+          %li{role: "presentation", class: settings_menu_active('domain_groups', 'index') }
+            %a{"aria-controls" => "tab-refer-to", "aria-expanded" => "true", :href => domain_groups_path, :role => "tab"}= t('layouts.side_menu.domain_groups')
+          %li{role: "presentation", class: settings_menu_active('domains', 'index') }
+            %a{"aria-controls" => "tab-refer-from", "aria-expanded" => "true", :href => domains_path(tab: 'csi-tools'), :role => "tab"}= t('layouts.side_menu.domains')
+          
+        .tab-content
+          .tab-pane.active
+            .table-responsive
+              %table.table.table-bordered.table-striped.table-hover
+                %thead
+                  %tr
+                    %th.custom_column_name= t('.domain_group_names')
+                    %th.custom_column_description= t('.description')
+                    - if can? :manage, DomainGroup
+                      %th.text-center.custom_column_manage{ colspan: '2' }= t('.manage')
+                    - if can? :version, DomainGroup
+                      %th.modification.text-center= t('.changelogs')
+                %tbody
+                  - @domain_groups.each do |domain_group|
+                    %tr
+                      - if Organization.current.short_name == 'aht'
+                        %td= t("dimensions.dimension_groups.#{domain_group.name.downcase.strip.parameterize('_')}")
+                      - else
+                        %td= domain_group.name
+                      %td= domain_group.description
+                      - if can? :manage, DomainGroup
+                        %td.text-center
+                          = link_to '#', {class: 'btn btn-outline btn-success btn-xs', "data-target" => "#domain_groupModal-#{domain_group.id}", "data-toggle" => "modal", :type => "button"} do
+                            = fa_icon('pencil')
+                        %td.text-center
+                          = remove_link(domain_group, {domain_group: domain_group.domains.count})
+                      - if can? :version, DomainGroup
+                        %td.text-center
+                          = link_to t('.view'), domain_group_version_path(domain_group)
+                      = render 'form', domain_group: domain_group
       .ibox-footer.text-center
         = paginate @domain_groups
 = render 'form'

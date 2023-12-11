@@ -3,7 +3,7 @@ module UpdateFieldLabelsFormBuilder
     labels_changed = []
     field_labels_changed = []
     old_fields = [] if old_fields.empty?
-    fields_changed =  new_fields - old_fields
+    fields_changed = new_fields - old_fields
     fields_changed.each do |field_changed|
       old_fields.each do |entity|
         if entity['name'] == field_changed['name']
@@ -22,7 +22,7 @@ module UpdateFieldLabelsFormBuilder
 
   def update_labels_changed(objects, labels_changed)
     constant_name = objects.compact.first.class.name.constantize
-    return if constant_name == NilClass || constant_name.nil? || (labels_changed.empty? || labels_changed.all?{|label_old, label_new| label_old == label_new })
+    return if constant_name == NilClass || constant_name.nil? || (labels_changed.empty? || labels_changed.all? { |label_old, label_new| label_old == label_new })
 
     constant_name.paper_trail.disable
     objects.each_slice(1000).with_index do |batch_custom_field_properties, i|
@@ -36,7 +36,7 @@ module UpdateFieldLabelsFormBuilder
         { id: object.id, properties: object.properties }
       end
 
-      grouped_custom_field_properties = values.index_by{|value| value[:id] }
+      grouped_custom_field_properties = values.index_by { |value| value[:id] }
       # ActiveRecord::Base.connection.execute("UPDATE custom_field_properties SET properties = mapping_values.properties FROM (VALUES #{values}) AS mapping_values (custom_field_properties_id, properties) WHERE custom_field_properties.id = mapping_values.custom_field_properties_id") if values.present?
       constant_name.update(grouped_custom_field_properties.keys, grouped_custom_field_properties.values)
     end

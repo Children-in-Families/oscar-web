@@ -2,7 +2,7 @@
   .col-xs-12.col-sm-6.col-sm-offset-3.col-md-4.col-md-offset-4
     .ibox.normal-space
       .ibox-title.text-center
-        = image_tag(@current_ngo&.logo || 'OSCaR.png')
+        = image_tag(current_organization&.logo || 'OSCaR.png')
       .ibox-content
         = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
           = f.error_notification

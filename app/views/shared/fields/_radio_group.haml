@@ -1,5 +1,5 @@
 - label = field_label(field_props)
-%div{ class: "i-checks form-group #{field_with(field_props['label'],errors)} #{required?(field_props['required'] || false)}" }
+%div{ class: "i-checks form-group #{field_with(field_props['label'], errors)} #{required?(field_props['required'] || false)}" }
   %label.control-label{ class: required?(field_props['required'] || false) }
     %abbr{ title: 'required' }= '*' if field_props['required'] || false
     = label.html_safe
@@ -9,6 +9,6 @@
   - else
     = f.input "Local_label #{remove_local_field_prop_unicode(field_props)}", as: :radio_buttons, collection: field_props['values'].map { |f| [format_placeholder(f['local_label']), f['local_label'], id: "custom_field_property_properties_#{field_props['local_label'].gsub('"', '&qoute;').html_safe}_#{f['local_label'].html_safe}", 'data-value': f['label']] }, label: false, input_html: { id: field_props['local_label'].gsub(' ', '_').gsub("'", ""), title: field_props['description'], name: "#{f.object_name}[Local_label #{remove_local_field_prop_unicode(field_props)}]", class: "#{I18n.locale.to_s == I18n.default_locale.to_s ? 'd-none1' : ''}", 'data-option': "#{f.object_name}[#{remove_field_prop_unicode(field_props)}]".parameterize }
     = f.input remove_field_prop_unicode(field_props), :as => :hidden, input_html: { name: "#{f.object_name}[#{remove_field_prop_unicode(field_props)}]", id: "#{f.object_name}[#{remove_field_prop_unicode(field_props)}]".parameterize }
-  
+
   %span.help-block
     = field_message(field_props['label'], errors)

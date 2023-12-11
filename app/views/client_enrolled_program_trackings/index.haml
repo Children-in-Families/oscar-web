@@ -1,10 +1,16 @@
 .ibox
   .ibox-title
-    %h5= "#{@client.en_and_local_name} - #{t('.tracking_lists')}"
-    .ibox-tools
-      = link_to client_client_enrolled_programs_path(@client) do
-        .btn.btn-primary.btn-outline
-          = t('.programs_list')
+    .row
+      .col-xs-12.col-sm-6.co-md-6
+        %h5
+          = link_to @client do
+            = @client.en_and_local_name
+          %span= t('.tracking_lists')
+      .col-xs-12.col-sm-6.col-md-6
+        .ibox-tools
+          = link_to client_client_enrollments_path(@client) do
+            .btn.btn-primary.btn-outline
+              = t('.programs_list')
   .ibox-content
     .table-responsive
       = datagrid_table @tracking_grid, html: { class: 'table table-bordered table-striped table-hover client_enrolled_program_tracking'}

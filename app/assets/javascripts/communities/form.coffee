@@ -194,42 +194,25 @@ CIF.CommunitiesNew = CIF.CommunitiesCreate = CIF.CommunitiesEdit = CIF.Communiti
       $(e.currentTarget).trigger("validate")
 
   _ajaxChangeDistrict = ->
-    mainAddress = $('#community_province_id, #community_district_id, #community_commune_id')
+    mainAddress = $('#community_province_id, #community_city_id, #community_district_id, #community_commune_id')
+    resourceMapping = { cities: 'community_city_id', districts: 'community_district_id', subdistricts: 'community_subdistrict_id', communes: 'community_commune_id', villages: 'family_village_id' }
     mainAddress.on 'change', ->
       type       = $(@).data('type')
       typeId     = $(@).val()
-      subAddress = $(@).data('subaddress')
+      subAddresses = $(@).data('subaddresses')
+      subResource = subAddresses[0]
 
-      if type == 'provinces'
-        subResources = 'districts'
-        subAddress =  switch subAddress
-                      when 'district' then $('#community_district_id')
-
-        $(subAddress).val(null).trigger('change')
-        $(subAddress).find('option[value!=""]').remove()
-      else if type == 'districts'
-        subResources = 'communes'
-        subAddress =  switch subAddress
-                      when 'commune' then $('#community_commune_id')
-
-        $(subAddress).val(null).trigger('change')
-        $(subAddress).find('option[value!=""]').remove()
-      else if type == 'communes'
-        subResources = 'villages'
-        subAddress =  switch subAddress
-                      when 'village' then $('#community_village_id')
-
-
-        $(subAddress).val(null).trigger('change')
-        $(subAddress).find('option[value!=""]').remove()
+      $(subAddresses || []).each (index, subAddress) =>
+        $("##{resourceMapping[subAddress]}").val(null).trigger('change')
+        $("##{resourceMapping[subAddress]}").find('option[value!=""]').remove()
 
       if typeId != ''
         $.ajax
           method: 'GET'
-          url: "/api/#{type}/#{typeId}/#{subResources}"
+          url: "/api/#{type}/#{typeId}/#{subResource}"
           dataType: 'JSON'
           success: (response) ->
             for address in response.data
-              subAddress.append("<option value='#{address.id}'>#{address.name}</option>")
+              $("##{resourceMapping[subResource]}").append("<option value='#{address.id}'>#{address.name}</option>")
 
   { init: _init }

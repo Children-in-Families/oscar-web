@@ -2,6 +2,11 @@ body[id='clients-new'],
 body[id='clients-create'],
 body[id='clients-edit'],
 body[id='clients-update'] {
+
+  .filepond--credits {
+    display: none;
+  }
+
   .wizard>.content>.body {
 
     #getting_started,
@@ -1044,7 +1049,7 @@ body[id='clients-new'] .disabled,
 body[id='clients-create'] .disabled,
 body[id='clients-edit'] .disabled,
 body[id='clients-update'] .disabled {
-  color: #fff !important;
+  color: #333 !important;
   pointer-events: none;
 }
 

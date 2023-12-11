@@ -14,6 +14,24 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     _saveAssessment(form)
     _initICheckBox()
 
+    $("#assessment_assessment_date").on "change", _submitFormViaAjax
+
+    saveTimer = null
+    $(".assessment_assessment_domains_reason textarea").on "keyup", ->
+      clearTimeout saveTimer
+      saveTimer = setTimeout _submitFormViaAjax, 1000
+
+  _submitFormViaAjax = ->
+    if $("form.assessment-form").data("autosave")
+      $.ajax
+        url: $("form.assessment-form").attr("action") + "&draft=true"
+        type: "PUT"
+        data: $("form.assessment-form").serialize()
+        dataType: "json"
+        success: (response) ->
+          if response.edit_url
+            history.replaceState(null, "", response.edit_url)
+
   _initICheckBox = ->
     $('.i-checks').iCheck
       checkboxClass: 'icheckbox_square-green'
@@ -82,8 +100,12 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       scoreColor  = $(@).parents('.score_option').data("score-#{score}")
       domainId    = $(@).parents('.score_option').data("domain-id")
 
+      $('.score_option input').removeClass('error')
+      $('.score_option em').remove()
       $(@).addClass("btn-secondary")
       $($(@).siblings().get(-1)).val(score)
+
+      _submitFormViaAjax()
 
     $('.score_option input').attr('required','required')
 
@@ -147,7 +169,8 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
         return
 
       onStepChanging: (event, currentIndex, newIndex) ->
-        console.log 'onStepChanging'
+        return true if newIndex < currentIndex
+
         currentTab  = "#{rootId}-p-#{currentIndex}"
         domainId = $("#{currentTab}").find('.score_option').data('domain-id')
 
@@ -160,7 +183,6 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
         _filedsValidator(currentIndex, newIndex)
 
       onStepChanged: (event, currentIndex, priorIndex) ->
-        console.log 'onStepChanged'
         currentTab  = "#{rootId}-p-#{currentIndex}"
         domainId = $("#{currentTab}").find('.score_option').data('domain-id')
         currentStep = $("#{rootId}-p-" + currentIndex)
@@ -181,7 +203,6 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
 
         form.validate().settings.ignore = ':disabled'
         form.valid()
-
         _filedsValidator(currentIndex, newIndex)
 
       onFinished: ->
@@ -302,12 +323,20 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     $("#{task} .task_name_help, #{task} .task_completion_date_help").hide()
 
   _initUploader = ->
-    $('.file .optional').fileinput
-      showUpload: false
-      removeClass: 'btn btn-danger btn-outline'
-      browseLabel: 'Browse'
-      theme: "explorer"
-      allowedFileExtensions: ['jpg', 'png', 'jpeg', 'doc', 'docx', 'xls', 'xlsx', 'pdf']
+    $fileInputs = $('.file .optional')
+
+    $.each $fileInputs, (index, fileInput) ->
+      $(fileInput).fileinput
+        uploadAsync: false
+        removeClass: 'btn btn-danger btn-outline'
+        browseLabel: 'Browse'
+        theme: "explorer"
+        allowedFileExtensions: ['jpg', 'png', 'jpeg', 'doc', 'docx', 'xls', 'xlsx', 'pdf']
+        uploadUrl: $(fileInput).closest(".assessment-domain-item").data("uploadAttachmentUrl")
+      
+      $(fileInput).on "filebatchselected", (event, files) ->
+        $(this).fileinput("upload")
+        return
 
   _handleDeleteAttachment = ->
     rows = $('.row-file')

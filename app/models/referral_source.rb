@@ -10,9 +10,28 @@ class ReferralSource < ActiveRecord::Base
   after_save :update_client_referral_source
   after_commit :flush_cache
 
-  scope :parent_categories,       ->        { where(name: REFERRAL_SOURCES) }
-  scope :child_referrals,         ->        { where.not(name: REFERRAL_SOURCES) }
-  scope :gatekeeping_mechanism,   ->        { where(name: GATEKEEPING_MECHANISM) }
+  scope :parent_categories, -> { where(ancestry: nil) }
+  scope :child_referrals, -> { where.not(ancestry: nil) }
+  scope :gatekeeping_mechanism, -> { where(name: GATEKEEPING_MECHANISM) }
+
+  def self.find_referral_source_category(referral_source_category_id, referred_from = '')
+    if referral_source_category_id
+      find(referral_source_category_id)
+    else
+      ReferralSource.find_by(name: referred_from) || ReferralSource.find_by(name_en: referred_from) || ReferralSource.find_by_name_en('Non-Government Organization') ||
+      ReferralSource.find_by_name(Organization.find_by(short_name: referred_from)&.referral_source_category_name)
+    end
+  end
+
+  def parent_exists?
+    ReferralSource.exists?(parent_id)
+  end
+
+  def self.cache_all
+    Rails.cache.fetch([Apartment::Tenant.current, self.name]) do
+      ReferralSource.all.to_a
+    end
+  end
 
   def self.cache_referral_source_options
     Rails.cache.fetch([Apartment::Tenant.current, 'ReferralSource', 'referral_source_options']) do
@@ -44,10 +63,16 @@ class ReferralSource < ActiveRecord::Base
     }
   end
 
+  def self.find_by_name(name)
+    find_by(name_en: name)
+  end
+
   private
 
   def update_client_referral_source
-    clients = Client.where(referral_source_id: self.id)
+    Client.reset_column_information
+    clients = Client.with_deleted.where(referral_source_id: self.id)
+
     clients.each do |client|
       client.referral_source_category_id = self.try(:ancestry)
       client.save(validate: false)
@@ -63,6 +88,7 @@ class ReferralSource < ActiveRecord::Base
   end
 
   def flush_cache
+    Rails.cache.delete([Apartment::Tenant.current, self.class.name])
     Rails.cache.delete([Apartment::Tenant.current, 'ReferralSource', 'referral_source_options'])
     Rails.cache.delete([Apartment::Tenant.current, 'ReferralSource', 'cache_referral_source_category_options'])
     Rails.cache.delete([Apartment::Tenant.current, 'ReferralSource', 'cache_local_referral_source_category_options'])

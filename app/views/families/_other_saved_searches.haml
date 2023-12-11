@@ -1,0 +1,23 @@
+#other-saved-searches.tab-pane.fade
+  .table-responsive
+    %table.table.table-bordered.table-striped.table-hover
+      %thead
+        %tr
+          %th.name= t('clients.client_advanced_searches.other_saved_searches.name')
+          %th.description= t('clients.client_advanced_searches.other_saved_searches.description')
+          %th.owner= t('clients.client_advanced_searches.other_saved_searches.owner')
+          %th.date= t('clients.client_advanced_searches.other_saved_searches.date')
+          %th.load-query= t('clients.client_advanced_searches.other_saved_searches.load')
+
+      %tbody
+        - AdvancedSearch.for_family.includes(:user).non_of(current_user).each do |advanced_search|
+          %tr
+            %td.name= advanced_search.name
+            %td.description= advanced_search.description
+            %td.owner
+              = advanced_search.owner
+            %td.date
+              = date_format(advanced_search.created_at)
+            %td.load-query.text-center
+              = prevent_load_saved_searches(advanced_search)
+

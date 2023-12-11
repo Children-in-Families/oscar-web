@@ -21,8 +21,6 @@ module AdvancedSearches
       drop_list_fields    = @drop_down_type_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first.gsub('"', '&qoute;'), format_label(item.first) , item.last, format_optgroup(item.first)) }
 
       results = text_fields + drop_list_fields + number_fields + date_picker_fields
-
-      results.sort_by { |f| f[:label].downcase }
     end
 
     def generate_field_by_type

@@ -14,18 +14,21 @@ services:
       - MHO_HISTORY_DATABASE_NAME=mothersheart_history_development
       - HISTORY_DATABASE_NAME_TEST=oscar_history_test
       - HISTORY_DATABASE_HOST=mongo
-      - OSCAR_TEAM_EMAIL=team@oscarhq.com
+      - OSCAR_TEAM_EMAIL=team@example.com
       - OSCAR_TEAM_PASSWORD=123456789
-      - SENDER_EMAIL=admin@oscarhq.com
+      - SENDER_EMAIL=admin@example.com
+      - NO_REPLY_EMAIL=no-reply@example.com
       - POWER_BI_GROUP=power_bi_group
       - READ_ONLY_DATABASE_USER=powerbi_dashboard_user
       - READ_ONLY_DATABASE_PASSWORD=123456789
-      - READ_ONLY_TLC_DATABASE_USER=tlc_powerbi_dashboard_user
-      - READ_ONLY_TLC_DATABASE_PASSWORD=123456789
+      - READ_ONLY_MTP_DATABASE_USER=mtp_user
+      - READ_ONLY_MTP_DATABASE_PASSWORD=123456789
       - WEBPACKER_DEV_SERVER_HOST=webpack
-      - REDIS_URL=redis://redis:6379/0
+      - REDIS_URL=redis://redis:6379/1
       - STC_DONOR_NAME=
       - FD_DONOR_NAME=
+      - SIDEKIQ_USER=admin
+      - SIDEKIQ_PASSWORD=12345
     volumes:
       - .:/app
     ports:
@@ -34,6 +37,7 @@ services:
       - db
       - mongo
       - redis
+      - sidekiq
     stdin_open: true
     tty: true
   webpack:
@@ -57,6 +61,8 @@ services:
       - POSTGRES_PASSWORD=123456789
     volumes:
       - ./tmp/db:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
   pgadmin:
     image: dpage/pgadmin4:latest
     container_name: pgadmin
@@ -118,5 +124,5 @@ services:
       - DATABASE_USER=oscar
       - DATABASE_PASSWORD=123456789
       - DATABASE_HOST=db
-      - SENDER_EMAIL=admin@oscarhq.com
-      - REDIS_URL=redis://redis:6379/12
+      - SENDER_EMAIL=admin@example.com
+      - REDIS_URL=redis://redis:6379/1

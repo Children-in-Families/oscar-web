@@ -471,6 +471,13 @@ en:
       relevant_referral_information: Relevant Referral Information
       road: Road
       school_grade: School Grade
+      school:
+        no_school: No School
+        pre_school: Pre School
+        primary_school: Primary School
+        secondary_school: Secondary School
+        high_school: High School
+        university: University
       school_grade_list:
         kindergarten_1: Kindergarten 1
         kindergarten_2: Kindergarten 2
@@ -722,7 +729,7 @@ en:
         "12": Other
       receiving_staff: Receiving Staff
       referee_answered_call: Did the referee answer this call or return a missed call?
-      referee_called_before: Has the referee called the Childsafe Hotline Before?
+      referee_called_before: Has the referee called before?
       returning_missed_call: Returning Missed Call
       time_call_began: Time of Call
       time_call_ended: Time Call Ended
@@ -1516,7 +1523,7 @@ en:
       no_option: 'No'
       save: Save
     destroy:
-      successfully_deleted: Client has been successfully deleted.
+      successfully_deleted: This client data was deleted successfully.
     edit:
       download_supporting_document: Download Supporting Document
       edit_client_title: Edit Client
@@ -2067,6 +2074,11 @@ en:
         uganda: Birth Province
       received_by: Referral Received By
       refer_client: Refer Client
+      referee_information: Referee Information
+      administrative_info: Administrative Information
+      referral_information: Client / Referral Information
+      referral_more_information: Client / Referral - More Information
+      referral_vulnerability: Vulnerability Information and Referral Note
       referee_phone_number: Referee Phone Number
       referral_forms: Referral Forms
       referral_phone: Referee Phone Number
@@ -4479,6 +4491,13 @@ en:
       review_client: Clients need to be reviewed
     referrals:
       referral_clients: Referral Clients
+    referral_table:
+      clients: Clients
+      referral_from: Referral From
+      referral_date: Referral Date
+      referral_count: Referral Count
+      level_of_risk: Level of Risk
+      review_form: Review Form
     repeat_referrals:
       referral_clients: Referral Clients
     upcoming_assessment:
@@ -5069,6 +5088,7 @@ en:
       date_of_referral: Date of Referral
       download_referral_form: Download Printable Referral Form
       external_referral_warning: The NGO that you are attempting to refer your client to is not currently using OSCaR. Please print a copy of this referral form to send to your target organisation.
+      go_to_client: Go to client
       name_of_referee: Case Worker Making the Referral
       ngo_name: NGO Name
       pdf:

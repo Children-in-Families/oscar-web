@@ -22,7 +22,7 @@
             #builder.advanced-search-builder{ 'data-basic-search-rules' => @basic_filter_params, 'data-filter-translation' => { add_filter: t('.add_new_filter'), add_group: t('.add_new_group'), delete_group: t('.delete_group') }}
             %span.basic-filter-error
               %i Please Select Field to Filter
-        #search-action{ data: { action: params.dig(:family_advanced_search, :action_report_builder)} }
+        #search-action{ data: { action: params[:builder] || params.dig(:family_advanced_search, :action_report_builder)} }
 
       .ibox-footer
         %button#search.btn.btn-primary= t('.search')
@@ -30,14 +30,15 @@
 
 = simple_form_for :family_advanced_search, url: :advanced_search_families, method: 'POST', html: { id: 'advanced-search' } do |f|
   = f.hidden_field :custom_form_selected
+  = f.hidden_field :assessment_selected
   = f.hidden_field :program_selected
   = f.hidden_field :enrollment_check
   = f.hidden_field :tracking_check
   = f.hidden_field :exit_form_check
   = f.hidden_field :basic_rules
-  = f.hidden_field :action_report_builder, value: '#builder'
   = f.hidden_field :quantitative_check
   = hidden_field_tag :data, params[:data]
+  = f.hidden_field :action_report_builder, value: '#builder'
   = hidden_field_tag :locale, "#{params[:locale]}"
   #quantitative-fields{ data: { fields: @quantitative_fields.to_json }}
   #family-builder-fields{ data: { fields: @builder_fields.to_json }}

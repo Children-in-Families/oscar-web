@@ -5,7 +5,7 @@
         %h5= "#{t('created_by')} #{@family_referral.name_of_referee} #{t('at')} #{date_format(@family_referral.created_at)}"
         .text-right
           - if @family_referral.non_oscar_ngo?
-            = link_to family_family_referral_path(@family, @family_referral, format: :pdf), class: 'btn btn-outline btn-info', target: :_blank do
+            = link_to family_family_referral_path(@family, @family_referral, format: :pdf), class: 'btn btn-outline btn-info download-referral-btn', target: :_blank do
               = t('.download_referral_form')
           - if policy(@family_referral).edit?
             = link_to edit_family_family_referral_path(@family, @family_referral, referral_type: params[:referral_type]), class: 'button btn btn-outline btn-success ' do

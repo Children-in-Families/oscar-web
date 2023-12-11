@@ -441,6 +441,7 @@ my:
       agencies_involved: ပါ၀င္သည့္ ေအဂ်င္စီမ်ား
       agency_name: ေအဂ်င္စီနာမည္
       agency_names: ေအဂ်င္စီနာမည္
+      assessment_created_at: "%{assessment} Created At"
       assessment_number: စိစစ္အကဲျဖတ္မႈမ်ား#
       basic_fields: အမႈသည္အေျခခံအေနအထား
       birth_province: ေမြးရပ္ျပည္နယ္
@@ -552,6 +553,13 @@ my:
       relevant_referral_information: သက္ဆိုင္ေသာလႊဲေျပာင္းျခင္းအခ်က္အလက္
       road: Road
       school_grade: ေက်ာင္းအဆင့္
+      school:
+        no_school: No School
+        pre_school: Pre School
+        primary_school: Primary School
+        secondary_school: Secondary School
+        high_school: High School
+        university: University
       school_grade_list:
         kindergarten_1: Kindergarten 1
         kindergarten_2: Kindergarten 2
@@ -660,6 +668,7 @@ my:
       enter_task_detail: လုပ္ငန္းအေသးစိတ္ျဖည့္သြင္းရန္
       save: သိမ္းသည္။
       title: လုပ္ငန္းအသစ္
+    assessment_date: အကဲဖြတ်သည့်ရက်စွဲ
     assessment_form: အကဲဖြတ်ပုံစံ
     attachment:
       attachments: တြဲထားသည္မ်ား
@@ -690,6 +699,7 @@ my:
       finish: ၿပီးပါၿပီ။
       finished_assessment_msg: ဤသည်အကဲဖြတ်ကယ်ဖို့အဆင်သင့်ပါ!
       goal: ရည္မွန္းခ်က္
+      level_risk_summary: Level Risk Summary
       next: ေနာက္တစ္ခု
       previous: ေရွ႕တစ္ခု
       reason: ရှုမွငျခွငျး, စောငျ့ရှောကျခွငျး
@@ -762,6 +772,7 @@ my:
       successfully_updated: အကဲျဖတ္ခ်က္ကို ေအာင္ျမင္စာ အသစ္တင္ၿပီးပါၿပီ။
   at: အပေါ်
   back: ေနာက္သို႔
+  blank_field_warning: သတိပေးချက် ဖောက်သည်၏အမည်၊ မွေးသက္ကရာဇ်၊ လိင် သို့မဟုတ် လိပ်စာ ဗလာဖြစ်နေပါက ဖောက်သည်တစ်ဦးကို ပြင်ပစနစ်သို့ ရည်ညွှန်း၍မရပါ။
   calendars:
     index:
       sync_with_google: ဂူဂဲလ္ ျပကၡဒိန္ကို အသစ္တင္မည္
@@ -885,6 +896,7 @@ my:
   cannot_remove: ဖ်က္ပစ္၍မရပါ။
   cannot_remove_or_update: အသံုးျပဳေနသည္ျဖစ္၍ ဖ်က္ပစ္ျခင္းသာ္လည္းေကာင္း၊ အသစ္ျပင္ဆင္ျခင္းေသာ္လည္းေကာင္း လုပ္၍မရပါ။
   care_plans:
+    care_plan_date: Care Plan Date
     care_plan_form: Care Plan Form
     care_plan: Care plan
     care_plan_based_on: Care Plan Based on
@@ -1331,6 +1343,8 @@ my:
       title: Table Summary
       age_tabs: Age
       referral_category_tabs: Referral Categories
+      school_tab: School
+      province_tab: Location
       program: Program
       children: Children
       adult: Adult
@@ -1578,7 +1592,9 @@ my:
   clients:
     attr: &LEGAL_DOC_ATTR
       add_service_received: Add Services Received
+      birth_cert: 'Birth Certificate'
       complain: Complaint
+      cb_dmat: CB-DMAT
       detail_form_of_judicial_police: Detailed Form for Identification of Victim of Human Trafficking (Judicial Police)
       detail_form_of_mosavy_dosavy: Detailed Form for Identification of Victim of Human Trafficking (MoSAVY/DoSAVY)
       dosavy: DoSAVY
@@ -1587,13 +1603,19 @@ my:
       form_indentification: Forms for Identification of Victim of Human Trafficking
       indentification_doc: Identification Documents
       labor_trafficking_legal_doc_option: Labour Trafficking
+      legal_documents: Legal Documents
       legal_processing_doc: Legal Proceeding Documents
       letter_from_immigration_police: Letter from Immigration Police
+      local_consent: 'Legal consent'
       mosavy: MoSAVY
       mosvy_number: MoSVY Number
       msdhs: MSDHS
+      national_id: 'National ID'
       ngo_partner: NGO Partner
+      other_legal_doc: 'Others'
       other_legal_doc_option: Other
+      passport: 'Passport'
+      police_interview: 'Police interview'
       referral_document: Referral Documents
       screening_interview_form: Screening Interview Form
       sex_trafficking_legal_doc_option: Sexual Trafficking
@@ -1646,6 +1668,7 @@ my:
       export_to_xls: XLS အျဖစ္ ထုတ္ရန္
     book:
       book: Client Book
+    care_plan: Care plan
     case_history_detail:
       accepted_date: လက်ခံခဲ့သည်နေ့စွဲ
       client: ကေလးနာမည္
@@ -2048,6 +2071,8 @@ my:
       advanced_search: အဆင့္ျမင့္ ရွာေဖြမႈ
       all_csi_assessments: အားလုံးအကဲဖြတ်
       all_custom_csi_assessments: Custom စိစစ္အကဲျဖတ္မႈမ်ားအားလံုး
+      assessment_completed: "%{assessment} Completed"
+      assessment_created_at: "%{assessment} Created At"
       assessment_data: အကဲဖြတ်ဖို့ဒေတာ
       assessment_number: စိစစ္အကဲျဖတ္မႈမ်ား#
       assessments: စိစစ္အကဲျဖတ္မႈမ်ား
@@ -2059,7 +2084,6 @@ my:
       custom_csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
       custom_csi_group: At
       date_of_assessment: "Date of %{assessment}"
-      assessment_completed: "%{assessment} Completed"
       date_of_custom_assessment: "Date of Custom %{assessment}"
       date_of_assessments: "Date of %{assessment}"
       domain_score: ဒိုမိန္း ရမွတ္မ်ား
@@ -2154,6 +2178,10 @@ my:
     remaining_programs:
       close: ပိတ္ရန္
       warning: သတိေပးခ်က္
+    archive:
+      successfully_archived: Client has been successfully removed and put to trash.
+    restore:
+      successfully_restored: This client data was restored successfully.
     show:
       <<: *LEGAL_DOC_ATTR
       care_plan: Care plan
@@ -2240,6 +2268,10 @@ my:
       detail: အစီအစဥ္ အေသးစိတ္
       district: ခ႐ိုင္
       donor: အလွဴရွင္
+      donor_info: "Donor Information"
+      school_info: School Information
+      other_info: Other Information
+      carer_info: Carer Information
       edit_exit_information: Edit Exit Information
       enrolled_program_streams: စာရင္းေပးသြင္းမႈအစီအစဥ္စီဆင္းမႈမ်ား
       enter_ngo_information: NGO အဖွဲ့သတင်းအချက်အလက်ထည့်သွင်း
@@ -2315,6 +2347,11 @@ my:
       province: ေမြးဖြားရာခ႐ိုင္
       received_by: မွ လက္ခံသည္
       refer_client: ရည်ညွှန်း
+      referee_information: Referee Information
+      administrative_info: Administrative Information
+      referral_information: Client / Referral Information
+      referral_more_information: Client / Referral - More Information
+      referral_vulnerability: Vulnerability Information and Referral Note
       referee_phone_number: ဒိုင်လူကြီးဖုန်းနံပါတ်ကို
       referral_forms: ရည်ညွန်းပုံစံများ
       referral_phone: လႊဲရမည့္ ဖုန္းနံပါတ္
@@ -2686,6 +2723,7 @@ my:
       all_custom_csi_assessments: Custom စိစစ္အကဲျဖတ္မႈမ်ားအားလံုး
       all_result_framework_assessment: All Result Framework Assessment
       assessment_completed_date: ျပဳလုပ္သည့္ ရက္စြဲ အကဲဖြတ်အပေါ်ပြီးစီး
+      assessment_created_at: "%{assessment} Created At"
       assessment_custom_completed_date: "Custom %{assessment} Completed Date"
       calls:
         answered_call: Answer Call
@@ -2809,6 +2847,7 @@ my:
         all_custom_csi_assessments: Custom စိစစ္အကဲျဖတ္မႈမ်ားအားလံုး
         any_assessments: စိစစ္အကဲျဖတ္မႈရွိသည္
         assessment_completed_date: ျပဳလုပ္သည့္ ရက္စြဲ အကဲဖြတ်အပေါ်ပြီးစီး
+        assessment_created_at: "%{assessment} Created At"
         assessment_custom_completed_date: "Custom %{assessment} Completed Date"
         assessments: စိစစ္အကဲျဖတ္မႈမ်ား
         assessments_due_to: လုပ္ရေတာ့မည္ စိစစ္အကဲျဖတ္မႈမ်ား
@@ -2856,7 +2895,7 @@ my:
         current_province_en: လက်ရှိပြည်နယ် (အင်္ဂလိပ်)
         current_province_kh: လက်ရှိပြည်နယ် (ခမာ)
         custom_assessment: Custom %{assessment}
-        custom_assessment_created_date: Custom %{assessment} Created Date
+        custom_assessment_created_at: Custom %{assessment} Created At
         date_of_assessments: စိစစ္အကဲျဖတ္မႈလုပ္သည့္ ရက္စြဲ
         date_of_birth: ေမြးရက္၊ လ၊ ႏွစ္
         date_of_custom_assessments: Custom စိစစ္အကဲျဖတ္မႈလုပ္သည့္ ရက္စြဲ
@@ -4482,7 +4521,77 @@ my:
       type_of_service: ဝန်ဆောင်မှုအမျိုးအစား
     update:
       successfully_updated: ရည်ညွန်းအောင်မြင်စွာ updated ခဲ့တာဖြစ်ပါတယ်။
-  faq: မၾကာခဏေမးေလ့ရွိေသာ ေမးခြန္းမ်ား
+  family:
+    enter_ngos:
+      create:
+        failed_create: အပ်ဒိတ်လုပ်မပေးနိုငျ
+        successfully_created: မိသားစုကိုအောင်မြင်စွာကယ်တင်နိုင်ခဲ့သည်
+      edit_form:
+        accept: လက္ခံသည္
+        accept_ngo_form: NGO ရိုက်ထည့်ပါ
+        accepted_date: လက်ခံခဲ့သည်နေ့စွဲ
+        case_worker_or_staff: ဝန်ထမ်းများ
+      form:
+        accept: လက္ခံသည္
+        accept_ngo_form: NGO ရိုက်ထည့်ပါ
+        accepted_date: လက်ခံခဲ့သည်နေ့စွဲ
+        accepting: လက်ခံ...
+        case_worker_or_staff: ဝန်ထမ်းများ
+      update:
+        failed_update: အပ်ဒိတ်လုပ်မပေးနိုငျ
+        successfully_updated: မိသားစုကိုအောင်မြင်စွာကယ်တင်နိုင်ခဲ့သည်
+    exit_ngos:
+      create:
+        failed_create: အပ်ဒိတ်လုပ်မပေးနိုငျ
+        successfully_created: အမႈသည္ကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ထည့္သြင္းၿပီပါၿပီ
+      edit_form:
+        case_worker_or_staff: အမႈျခင္းရာအတြက္ ေဆာင္ရြက္ေပးသူ/ ၀န္ထမ္း
+        exit_btn: ထြက္ရန္
+        exit_circumstance: ထွက်ပေါက်အခြေအနေ
+        exit_date: ထြက္သည့္ရက္စြဲ
+        exit_ngo: NGOမွ ထြက္ရန္
+        exit_note: ထြက္သည့္မွတ္စု
+        exit_reason_options:
+          agency_lack_resource: Agency lacks sufficient resources
+          family_died: Family died
+          family_does_not_meet_service_criteria: Family does not meet / no longer meets service criteria
+          family_does_not_required_support: Family does not require / no longer requires support
+          family_move_out_international: Family is/moved outside NGO target area (International)
+          family_move_out_within_cambodia: Family is/moved outside NGO target area (within Cambodia)
+          family_refuse_service: Family refused service
+          other_reason: Other
+        exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
+        exit_status: အေနအထား
+        exiting: မထွက်...
+        other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
+        reject_family: family ကိုငြင်းပယ်
+        rejected_note: ျငင္းပယ္သည့္ မွတ္စု
+      form:
+        case_worker_or_staff: အမႈျခင္းရာအတြက္ ေဆာင္ရြက္ေပးသူ/ ၀န္ထမ္း
+        exit_btn: ထြက္ရန္
+        exit_circumstance: ထွက်ပေါက်အခြေအနေ
+        exit_date: ထြက္သည့္ရက္စြဲ
+        exit_ngo: NGOမွ ထြက္ရန္
+        exit_note: ထြက္သည့္မွတ္စု
+        exit_reason_options:
+          agency_lack_resource: Agency lacks sufficient resources
+          family_died: Family died
+          family_does_not_meet_service_criteria: Family does not meet / no longer meets service criteria
+          family_does_not_required_support: Family does not require / no longer requires support
+          family_move_out_international: Family is/moved outside NGO target area (International)
+          family_move_out_within_cambodia: Family is/moved outside NGO target area (within Cambodia)
+          family_refuse_service: Family refused service
+          other_reason: Other
+        exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
+        exit_status: အေနအထား
+        exiting: မထွက်...
+        other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
+        reject_family: family ကိုငြင်းပယ်
+        rejected_note: ျငင္းပယ္သည့္ မွတ္စု
+      update:
+        failed_update: အပ်ဒိတ်လုပ်မပေးနိုငျ
+        successfully_updated: အမႈသည္ကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ထည့္သြင္းၿပီပါၿပီ
+  faq: အမြဲမေးလေ့ရှိသောမေးခွန်းများ
   field_label_cannot_be_blank: ကြင္းအညႊန္းကို ကြက္လပ္ခ်န္၍ မရပါ
   form_builder:
     custom_fields:
@@ -5254,6 +5363,7 @@ my:
         max_file_size: "*အႀကီးဆံုးဖိုင္ဆုိဒ္ - တစ္ဖုိင္လွ်င္ ၅ မီဂါဘိုက္ႏွင့္ တစ္ခါတင္ ၃၀ မီဂါဘိုက္"
   must_be_uniq: ကြင္းအညႊန္းသည္ ယူနစ္ျဖစ္ရမည္
   mutual_dependence_has_been_modified: ဒါကြောင့်ယခင်စည်းမျဉ်းစည်းကမ်းတွေကိုဖောက်ဖျက်သောကွောငျ့နှစ်ဦးနှစ်ဖက်အပြန်အလှန်မှီခိုပြောင်းလဲသွားတယ်သို့မဟုတ်ဆက်ပြောသည်မရနိုင်ပါ။
+  note: Note
   notifications:
     case_note_due_today:
       client_case_note_due_today: ယနေ့ပြုသည်ကိုခံရဖို့စံချိန်တင်ရှိသည်သောဖောက်သည်
@@ -5287,6 +5397,13 @@ my:
       review_client: အမႈသည္မ်ားကို ျပန္လည္သံုးသပ္ရန္ လိုအပ္သည္
     referrals:
       referral_clients: ရည်ညွန်းဖောက်သည်
+    referral_table:
+      clients: Clients
+      referral_from: Referral From
+      referral_date: Referral Date
+      referral_count: Referral Count
+      level_of_risk: Level of Risk
+      review_form: Review Form
     repeat_referrals:
       referral_clients: ရည်ညွန်းဖောက်သည်
     upcoming_assessment:
@@ -5880,6 +5997,7 @@ my:
     new:
       new_referral: ဂီယာ Add
     referral_form: လွှဲပြောင်းမှုပုံစံ
+    referral_status: ရည်ညွှန်းမှုအခြေအနေ
     show:
       cannot_edit_referral: ပစ်မှတ်အန်ဂျီအိုပြီးသားဒီလွှဲပြောင်းလက်ခံခဲ့သည်ကြောင့်သင်ဤလွှဲပြောင်းတည်းဖြတ်မရနိုင်ပါ
       client_id: မွတ္ပံုတင္
@@ -5888,6 +6006,7 @@ my:
       date_of_referral: လွှဲပြောင်း၏နေ့စွဲ
       download_referral_form: ဒေါင်းလုပ်လွှဲပြောင်းပုံစံ
       external_referral_warning: သင်လက်ရှိအော်စကာအသုံးပြုနေခြင်းမရှိပါရန်သင့် client ကိုရည်ညွှန်းရန်ကြိုးစားနေသောအန်ဂျီအို။ သင့်ရဲ့ပစ်မှတ်အဖွဲ့အစည်းကမှပေးပို့ဖို့ဒီလွှဲပြောင်းပုံစံများ၏မိတ္တူကို print ထုတ်ပါ။
+      go_to_client: Go to client
       name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
       ngo_name: NGO အမည်ဖြင့်
       pdf:
@@ -6064,6 +6183,7 @@ my:
       child_wellbeing: "Child's Wellbeing"
       client_perspective: "Client’s perspective on their problem and needs"
       client_status_index: Client Status Index
+      current_level_of_risk: Current Level of Risk
       description: Description
       guidance: Guidance
       has_disability: Does client have disability?

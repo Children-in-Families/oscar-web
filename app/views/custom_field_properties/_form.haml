@@ -23,6 +23,6 @@
     .ibox-footer
       = f.submit t('.save'), class: 'btn btn-primary form-btn', data: { disable_with: t('saving') }
       - if action_name == 'new'
-        = link_to t('.cancel'), client_path(@custom_formable), class: 'btn btn-default form-btn'
+        = link_to t('.cancel'), custom_fields_client_path(@custom_formable), class: 'btn btn-default form-btn'
       - else
         = link_to t('.cancel'), polymorphic_path([@custom_formable, CustomFieldProperty], custom_field_id: @custom_field), class: 'btn btn-default form-btn'

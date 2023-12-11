@@ -321,6 +321,20 @@ export default (props) => {
 
   return (
     <div className="containerClass">
+      <div className="row hidden">
+        <div className="col-xs-6">
+          <TextInput
+            onChange={onChange("client", "external_id")}
+            value={client.external_id}
+          />
+        </div>
+        <div className="col-xs-6">
+          <TextInput
+            onChange={onChange("client", "external_id_display")}
+            value={client.external_id_display}
+          />
+        </div>
+      </div>
       <legend>
         <div className="row">
           <div className="col-xs-12 col-md-6 col-lg-5">

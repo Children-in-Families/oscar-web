@@ -1,0 +1,33 @@
+%table.table.table-bordered.referral-more-info
+  %thead
+    %tr
+      %th{ colspan: '2' }
+        = t('clients.show.referral_vulnerability')
+  %tbody
+    - @client.quantitative_cases.includes(:quantitative_type).group_by(&:quantitative_type).each do |qtypes|
+      - next unless quantitative_type_readable?(qtypes.first.id)
+      - next unless qtypes.first.visible_for_client?
+      %tr
+        %td.align-justify
+          %strong= qtypes.first.name
+        %td.align-justify
+          %ul
+          - qtypes.last.each do |qcase|
+            %li
+              %strong= qcase.value
+    - @client.client_quantitative_free_text_cases.each do |qtc_free_text|
+      - next unless quantitative_type_readable?(qtc_free_text.quantitative_type_id)
+      - next unless qtc_free_text.quantitative_type.try(:visible_for_client?)
+      %tr
+        %td.align-justify
+          %strong= qtc_free_text.quantitative_type.try(:name)
+        %td.align-justify
+          %strong= qtc_free_text.content
+
+    - if policy(@client).show?(:relevant_referral_information)
+      %tr
+        %td.spacing-first-col
+          %strong= t('clients.show.relevant_referral_information')
+        %td
+          %strong
+            = editable @client, :relevant_referral_information, type: :textarea, value: @client.relevant_referral_information, url: api_client_path(@client.id), pk: @client.id

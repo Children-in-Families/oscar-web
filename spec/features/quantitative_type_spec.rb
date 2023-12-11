@@ -17,7 +17,7 @@ describe 'Quantitative Type' do
       expect(page).to have_css("i[class='fa fa-pencil']")
     end
     scenario 'link to delete' do
-      expect(page).to have_css("a[href='#{domain_path(quantitative_type)}'][data-method='delete']")
+      expect(page).to have_css("a[href='#{quantitative_type_path(quantitative_type)}'][data-method='delete']")
     end
   end
 
@@ -75,12 +75,12 @@ describe 'Quantitative Type' do
       visit quantitative_types_path
     end
     scenario 'success' do
-      find("a[href='#{domain_path(quantitative_type)}'][data-method='delete']").click
+      find("a[href='#{quantitative_type_path(quantitative_type)}'][data-method='delete']").click
       sleep 1
       expect(page).not_to have_content(quantitative_type.name)
     end
     scenario 'disable' do
-      expect(page).to have_css("a[href='#{domain_path(other_quantitative_type)}'][data-method='delete'][class='btn btn-outline btn-danger btn-md disabled']")
+      expect(page).to have_css("a[href='#{quantitative_type_path(other_quantitative_type)}'][data-method='delete'][class='btn btn-outline btn-danger btn-md disabled']")
     end
   end
 end

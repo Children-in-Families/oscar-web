@@ -1,0 +1,12 @@
+%ul.nav.nav-tabs#tablist-cms-tools{role: "tablist"}
+  %li{role: "presentation", class: settings_menu_active('settings', 'index') }
+    %a{"aria-controls" => "tab-refer-to", "aria-expanded" => "true", :href => settings_path, :role => "tab"} Assessment
+  %li{role: "presentation", class: settings_menu_active('settings', 'risk_assessment') }
+    %a{"aria-controls" => "tab-refer-from", "aria-expanded" => "true", :href => risk_assessment_settings_path, :role => "tab"} Level of Risk
+  %li{role: "presentation", class: settings_menu_active('settings', 'screening_forms') }
+    %a{"aria-controls" => "tab-refer-from", "aria-expanded" => "true", :href => screening_forms_settings_path, :role => "tab"} Screening Form
+  %li{role: "presentation", class: settings_menu_active('settings', 'customize_case_note') }
+    %a{"aria-controls" => "tab-refer-from", "aria-expanded" => "true", :href => customize_case_note_settings_path, :role => "tab"} Case Note
+  %li{role: "presentation", class: settings_menu_active('settings', 'care_plan') }
+    %a{"aria-controls" => "tab-refer-from", "aria-expanded" => "true", :href => care_plan_settings_path, :role => "tab", } Care Plan
+

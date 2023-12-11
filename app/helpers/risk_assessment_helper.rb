@@ -178,7 +178,8 @@ module RiskAssessmentHelper
 
   def display_level_of_risk(level_of_risk)
     return '' unless level_of_risk
-    color_hash = {'high' => 'danger', 'medium' => 'warning', 'low' => 'primary', 'no action' => 'success',  'pending_assessment' => 'default' }
+
+    color_hash = { 'high' => 'danger', 'medium' => 'warning', 'low' => 'primary', 'no action' => 'success',  'pending_assessment' => 'default' }
     content_tag(:a, class: "btn btn-#{color_hash[level_of_risk]}") do
       level_of_risk.titleize
     end

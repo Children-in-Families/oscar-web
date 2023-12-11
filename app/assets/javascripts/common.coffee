@@ -13,6 +13,21 @@ CIF.Common =
     @iCheckClearOptionSelect()
     @printDiv()
 
+    @loadNotification()
+    @loadSideMenuCountBadge()
+
+  loadNotification: ->
+    setTimeout (->
+      if $('.lazy-load-notification').length > 0
+        $.ajax(type: 'GET', url: '/dashboards/notification')
+    ), 1000
+
+  loadSideMenuCountBadge: ->
+    setTimeout (->
+      if $('ul#side-menu').length > 0
+        $.ajax(type: 'GET', url: '/dashboards/side_menu_data')
+    ), 1000
+
   preventEditOnDatePicker: ->
     $('.date-picker').datepicker
       autoclose: true,
@@ -22,7 +37,7 @@ CIF.Common =
       startDate: '1899,01,01',
       orientation: 'bottom',
       todayBtn: true
-    .attr('readonly', 'true').css('background-color','#ffffff').keypress (e) ->
+    .attr('readonly', 'true').attr("autocomplete", "off").css('background-color','#ffffff').keypress (e) ->
       if e.keyCode == 8
         e.preventDefault()
       return
@@ -54,7 +69,8 @@ CIF.Common =
       $('#manage').trigger('click')
       if navThirdActive.length > 0
         setTimeout (->
-          $('#pro-nav').trigger('click')
+          if $(navThirdActive).closest(".nav-third-level").prev("a")
+            $(navThirdActive).closest(".nav-third-level").prev("a").trigger('click')
         ), 400
 
   hideDynamicOperator: ->

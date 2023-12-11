@@ -8,60 +8,13 @@
           .row
             .col-xs-12.col-sm-12
               #accordion.panel-group{"aria-multiselectable" => "true", :role => "tablist"}
-                - @field_settings.group_by(&:group).each do |group, fields|
-                  .panel.panel-default
-                    #headingClientField.panel-heading{:role => "tab"}
-                      .row
-                        .col-md-6
-                          %h4.panel-title
-                            %a{"aria-controls" => "collapse-#{group}", "aria-expanded" => "true", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapse-#{group}", :role => "button"}
-                              - if group == 'case_note'
-                                = t('settings.case_notes.case_note')
-                              - else
-                                = group.titleize
-                        .col-md-6
-                          - if group_setting = fields.find(&:group_setting?)
-                            .text-right
-                              .i-checks-meta-fields
-                                = f.input :visible, as: :boolean, wrapper_html: { class: "field_setting_#{group_setting.id}_visible" }, input_html: { checked: group_setting.visible?,  name: "field_setting[#{group_setting.id}][visible]" }, label: 'Show', wrapper: false
-
-                    - if fields.any?(&:field_setting?)
-                      .panel-collapse.collapse{"aria-labelledby" => "headingClientField", :role => "tabpanel", id: "collapse-#{group}"}
-                        .panel-body
-                          .row.header
-                            .col-md-4
-                              %p Name
-                            .col-md-4
-                              %p Label
-                            .col-md-1
-                              %p Show
-                            .col-md-1
-                              %p Required
-                          - fields.each do |field|
-                            - next if field.group_setting?
-                            .row
-                              .col-md-4
-                                = field.current_label
-                                .text-muted= "(#{field.name})"
-                                - if field.label_only?
-                                  %span= " (Label Only)"
-                              .col-md-4
-                                = f.input :label, label: false, required: true, wrapper_html: { class: "field_setting_#{field.id}_label" }, input_html: { id: "field_setting_#{field.id}_visible", name: "field_setting[#{field.id}][label]", value: begin field.label || t("clients.form.#{field.name}", raise: I18n::MissingTranslationData) rescue field.current_label end  }
-                              .col-md-1
-                                - if field.required?
-                                  .i-checks-meta-fields{  data: { toggle: :tooltip }, title: 'Cannot hide required/label-only field' }
-                                    = f.input :visible, as: :boolean, wrapper_html: { class: "field_setting_#{field.id}_visible" }, input_html: { checked: field.visible?,  name: "field_setting[#{field.id}][visible]" }, label: false, disabled: true
-                                - else
-                                  .i-checks-meta-fields
-                                    = f.input :visible, as: :boolean, wrapper_html: { class: "field_setting_#{field.id}_visible" }, input_html: { checked: field.visible?,  name: "field_setting[#{field.id}][visible]" }, label: false
-                              .col-md-1
-                                - if field.can_override_required?
-                                  .i-checks-meta-fields
-                                    = f.input :required, as: :boolean, wrapper_html: { class: "field_setting_#{field.id}_required" }, input_html: { checked: field.required?,  name: "field_setting[#{field.id}][required]" }, label: false
-                                - elsif field.required?
-                                  .i-checks-meta-fields
-                                    = f.input :required, as: :boolean, wrapper_html: { class: "field_setting_#{field.id}_required" }, input_html: { checked: field.required?,  name: "field_setting[#{field.id}][required]" }, label: false, disabled: true
-
+                - @field_settings.group_by(&:form_group_1).each do |group, fields|
+                  - group = group.presence || 'other'
+                  
+                  - if group.in?(%w(client_form family_form case_management_tools anti-trafficking))
+                    = render "field_settings/field_setting_groups/#{group.underscore}", group: group, fields: fields, f: f
+                  - else
+                    = render "field_setting_group", group: group, fields: fields, f: f
 
           .row
             .col-sm-12

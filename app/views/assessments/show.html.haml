@@ -21,12 +21,17 @@
               %b= "#{t('.case_plan')} #{@assessment.client.name}"
               %label{ class: "cursor-pointer #{@assessment.completed_label_class}", data: { toggle: :modal, target: "#modal-incomplete-assessment-#{@assessment.id}" } }
                 = @assessment.completed_status
+              - if @assessment.draft? && !@assessment.completed?
+                %span.label.label-warning.draft (draft)
+
               %br
               - if @assessment.index_of == 0
                 = "#{t('.initial_assessment')}"
               - else
                 = "#{t('.based_on')} #{@assessment.index_of + 1}"
               %br
+              = "#{t('assessments.assessment_date', assessment: t('clients.show.assessment'))} #{date_format(@assessment.assessment_date)}"
+              %br/
               = "#{t('.assessment_created_by')} #{whodunnit('Assessment', @assessment)} #{t('.on_date')} #{date_format(@assessment.completed_date)}"
               %br/
               - if @assessment.level_of_risk
@@ -40,7 +45,7 @@
                 = assessment_edit_link(@assessment.client, @assessment)
               - if current_user.admin?
                 = assessment_destroy_link(@assessment.client, @assessment)
-        - @assessment.assessment_domains_in_order.each do |ad|
+        - order_assessment(@assessment).each do |ad|
           .row
             .col-xs-12
               %div{class: "panel panel-#{ad.score_color_class}"}
@@ -48,7 +53,7 @@
                   %table.table.table-borderless
                     %tbody
                       %tr
-                        - if current_organization.try(:aht) == true || !@assessment.default
+                        - if current_organization.aht? || !@assessment.default
                           = domain_name_for_aht(ad).html_safe
                         - else
                           %td.no-padding-bottom

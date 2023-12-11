@@ -1,15 +1,18 @@
 .datepicker-dropdown {
   z-index: 1060 !important;
 }
+
 .input-group.date .input-group-addon {
   cursor: pointer;
 }
+
 .datepicker table tr td span.disabled,
 .datepicker table tr td span.disabled:hover {
   background: none;
   color: #999999 !important;
   cursor: not-allowed;
 }
+
 .datepicker table tr td.disabled,
 .datepicker table tr td.disabled:hover {
   background: none;
@@ -25,9 +28,10 @@
   color: #333333;
 }
 
-#toast-container > .toast-warning {
+#toast-container>.toast-warning {
   &:before {
     content: "\f071";
   }
+
   background-image: none !important;
 }

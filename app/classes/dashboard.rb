@@ -2,14 +2,17 @@ class Dashboard
   include Rails.application.routes.url_helpers
   attr_reader :clients
 
-  def initialize(clients)
-    @clients  = clients
+  def initialize(clients, family_only: false)
     @families = Family.active
-    @partners = Partner.all
-    @agencies = Agency.all
-    @staff    = User.all
-    @referral_sources = ReferralSource.child_referrals.all
-    @program_streams = ProgramStream.joins(:client_enrollments).where(client_enrollments: { status: 'Active' }).distinct
+
+    unless family_only
+      @clients  = clients.select(:id, :status, :user_id)
+      @partners = Partner.all
+      @agencies = Agency.all
+      @staff    = User.all
+      @referral_sources = ReferralSource.child_referrals.all
+      @program_streams = ProgramStream.joins(:client_enrollments).where(client_enrollments: { status: 'Active' }).distinct
+    end
   end
 
   def client_program_stream
@@ -31,6 +34,8 @@ class Dashboard
   end
 
   def family_type_statistic
+    return @family_type_statistic if @family_type_statistic.present?
+
     arr = []
     arr << { name: 'Long Term Foster Care', y: foster_count, url: families_path('family_grid[family_type]': 'Long Term Foster Care', 'family_grid[status]': 'Active') } if foster_count > 0
     arr << { name: "Extended Family / Kinship Care", y: kinship_count, url: families_path('family_grid[family_type]': "Extended Family / Kinship Care", 'family_grid[status]': 'Active') } if kinship_count > 0
@@ -42,7 +47,8 @@ class Dashboard
     arr << { name: 'Child-Headed Household', y: child_headed_household_count, url: families_path('family_grid[family_type]': 'Child-Headed Household', 'family_grid[status]': 'Active') } if child_headed_household_count > 0
     arr << { name: 'No Family', y: no_family_count, url: families_path('family_grid[family_type]': 'No Family', 'family_grid[status]': 'Active') } if no_family_count > 0
     arr << { name: 'Other', y: other_count, url: families_path('family_grid[family_type]': 'Other', 'family_grid[status]': 'Active') } if other_count > 0
-    arr
+
+    @family_type_statistic = arr
   end
 
   def program_stream_report_gender
@@ -74,55 +80,55 @@ class Dashboard
   end
 
   def family_count
-    @families.size
+    @family_count ||= @families.size
   end
 
   def foster_count
-    @families.foster.size
+    @foster_count ||= @families.foster.size
   end
 
   def kinship_count
-    @families.kinship.size
+    @kinship_count ||= @families.kinship.size
   end
 
   def emergency_count
-    @families.emergency.size
+    @emergency_count ||= @families.emergency.size
   end
 
   def birth_family_both_parents_count
-    @families.birth_family_both_parents.size
+    @birth_family_both_parents_count ||= @families.birth_family_both_parents.size
   end
 
   def birth_family_only_mother_count
-    @families.birth_family_only_mother.size
+    @birth_family_only_mother_count ||= @families.birth_family_only_mother.size
   end
 
   def birth_family_only_father_count
-    @families.birth_family_only_father.size
+    @birth_family_only_father_count ||= @families.birth_family_only_father.size
   end
 
   def domestically_adopted_count
-    @families.domestically_adopted.size
+    @domestically_adopted_count ||= @families.domestically_adopted.size
   end
 
   def child_headed_household_count
-    @families.child_headed_household.size
+    @child_headed_household_count ||= @families.child_headed_household.size
   end
 
   def no_family_count
-    @families.no_family.size
+    @no_family_count ||= @families.no_family.size
   end
 
   def other_count
-    @families.other.size
+    @other_count ||= @families.other.size
   end
 
   def referral_source_count
-    @referral_sources.size
+    @referral_source_count ||= @referral_sources.size
   end
 
   def program_stream_count
-    @program_streams.size
+    @program_stream_count ||= @program_streams.size
   end
 
   private

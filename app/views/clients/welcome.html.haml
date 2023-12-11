@@ -1,0 +1,20 @@
+%input#btn-done{ value: t('clients.index.popover_done'), type: 'hidden' }
+%input#info{ value: t('clients.index.popover_info'), type: 'hidden' }
+%input#content{ value: t('clients.index.popover_content'), type: 'hidden' }
+.row
+  .col-xs-12.col-md-9.action-button-group
+    %button.btn.btn-primary.query.client-search{"aria-expanded" => 'false', "data-target" => '#client-search-form', "data-toggle" => 'collapse', type: 'button'}
+      %i.fa.fa-filter
+
+    = link_to clients_path(builder: '#builder'), class: 'btn btn-primary client-advance-search', data: { target: '#client-advance-search-form', toggle: 'collapse', trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.report_builder')}", placement: "right" } do
+      = t('clients.index.report_builder')
+
+  .col-xs-12.col-md-2
+    .pull-right.client-option
+      - if can? :manage, Client
+        = link_to t('clients.index.add_new_client'), new_client_path, class: 'btn btn-primary'
+
+.row
+  .col-xs-12
+    .ibox-content#client-search-form.collapse
+      = datagrid_form_for @client_grid, url: advanced_search_clients_url, html: { class: 'grid-form' }

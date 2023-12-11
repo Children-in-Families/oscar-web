@@ -1,4 +1,6 @@
 body[id="clients-index"],
+body[id="clients-welcome"],
+body[id="families-welcome"],
 body[id="families-index"],
 body[id="partners-index"],
 body[id="families-show"],
@@ -15,16 +17,19 @@ body[id="client_advanced_searches-index"] {
           @include hyphens(auto);
           font-size: 14px;
           height: 57px;
+
           .showmore_content {
             position: relative;
             overflow: hidden;
           }
+
           .showmore_trigger {
             width: 100%;
             text-align: center;
             height: 25px;
             cursor: pointer;
           }
+
           .showmore_trigger span {
             display: block;
           }
@@ -84,6 +89,7 @@ body[id="client_advanced_searches-index"] {
       min-width: 135px;
     }
 
+    th.assessment_created_at,
     th.date_of_assessments,
     th.assessment_completed_date,
     th.custom_completed_date,
@@ -92,7 +98,7 @@ body[id="client_advanced_searches-index"] {
     }
 
     th.date_of_custom_assessments,
-    th.custom_assessment_created_date,
+    th.custom_assessment_created_at,
     th.custom_assessment {
       min-width: 250px;
     }
@@ -143,6 +149,7 @@ body[id="client_advanced_searches-index"] {
     th.live_with,
     th.local_given_name,
     th.local_family_name,
+    th.care_plan_date,
     th.care_plan_completed_date,
     th.commune,
     th.district,
@@ -208,7 +215,9 @@ body[id="client_advanced_searches-index"] {
     }
 
     th.all_csi_assessments,
-    th.all_custom_csi_assessments {
+    th.all_custom_csi_assessments,
+    th.has_disability,
+    th.has_hiv_or_aid {
       min-width: 260px;
     }
 
@@ -225,7 +234,8 @@ body[id="client_advanced_searches-index"] {
     th.reason_for_family_separation,
     th.history_of_high_risk_behaviours,
     th.history_of_harm,
-    th.history_of_disability_and_or_illness {
+    th.history_of_disability_and_or_illness,
+    th.has_known_chronic_disease {
       min-width: 360px;
     }
 
@@ -239,6 +249,12 @@ body[id="client_advanced_searches-index"] {
       min-width: 280px;
     }
 
+    th.level_of_risk,
+    th.date_of_risk_assessment {
+      text-align: center;
+      min-width: 175px;
+    }
+
     td.manage {
       a {
         margin: 0 5px;
@@ -246,14 +262,18 @@ body[id="client_advanced_searches-index"] {
       }
     }
   }
+
   ul.check-columns-visibility {
     padding-left: 0;
+
     li:first-child {
       padding: 0 8px 15px 8px;
     }
+
     li {
       list-style: none;
     }
+
     .columns-visibility {
       max-height: 250px;
       width: 390px;
@@ -261,12 +281,15 @@ body[id="client_advanced_searches-index"] {
       padding-top: 10px;
       padding-bottom: 10px;
     }
+
     .visibility {
       margin: 2px 0 2px 0;
+
       label {
         font-weight: normal;
       }
     }
+
     .all-visibility {
       margin: 2px 0 2px 0;
     }
@@ -274,9 +297,11 @@ body[id="client_advanced_searches-index"] {
 
   table.clients {
     margin-bottom: 0;
+
     th {
       border-bottom-width: 2px;
     }
+
     tbody tr:hover {
       cursor: pointer;
     }

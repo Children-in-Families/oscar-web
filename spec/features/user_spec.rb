@@ -45,8 +45,8 @@ describe 'User' do
       expect(page).to have_content('New User')
     end
     scenario 'valid' do
-      fill_in 'First Name (Latin)', with: 'Testing'
-      fill_in 'Last Name (Latin)', with: 'User'
+      fill_in 'First Name', with: 'Testing'
+      fill_in 'Last Name', with: 'User'
       find('#user_gender option[value="female"]', visible: false).select_option
       fill_in 'Email', with: 'test@gmail.com'
       fill_in 'user[password]', with: '12345678'
@@ -130,7 +130,7 @@ describe 'User' do
     end
 
     scenario 'does not succeed' do
-      expect(page).to have_css("a[href='#{domain_path(used_user)}'][data-method='delete'][class='btn btn-outline btn-danger btn-xs disabled']")
+      expect(page).to have_css("a[href='#{user_path(used_user)}'][data-method='delete'][class='btn btn-outline btn-danger btn-xs disabled']")
     end
   end
 
@@ -281,4 +281,4 @@ describe 'User' do
       find('input.i-checks').iCheck('check')
     end
   end
-end
+end   

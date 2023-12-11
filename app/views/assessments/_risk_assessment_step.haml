@@ -1,0 +1,50 @@
+- if current_setting.enabled_risk_assessment? && check_setting_assessment_type_name_selected(@assessment)
+  %h4
+    = t('risk_assessments._attr.child_wellbeing')
+    = t('risk_assessments._attr.score')
+  %div{ class: "assessment-domain-item assessment-wizard-domain-item domain-client-wellbeing-score" }
+    .ibox
+      .ibox-title
+        %h5= "#{@assessment.client.name}"
+        - if current_setting.show_prev_assessment? && @prev_assessment.present?
+          %span= " (Current Assessment)"
+
+        .ibox-tools
+          = link_to client_assessments_path(@client), class: 'btn btn-default btn-back-default button' do
+            = t('.back')
+      .ibox-content
+        .row
+          .col-xs-12.col-md-9
+            %h3= t('assessments.form.level_risk_summary')
+            - order_assessment(@assessment).each do |ad|
+              - next if current_setting.selected_domain_ids.compact.exclude?(ad.domain_id)
+              .row.domai-name-score-wrapper.m-b-xs
+                .col-xs-6.text-right
+                  %label
+                    = translate_domain_header(ad.domain)
+                .col-xs-6
+                  %a{ class: "btn btn-lg btn-block btn-#{ad.score_color_class} risk-assessment-domain-score", "data-domain": { id: ad.domain_id, score: ad.score } }
+                    = ad.score || 0
+
+            .row.domai-name-score-wrapper.m-t-lg
+              .col-xs-6.text-right
+                %label= t('risk_assessments._attr.overall_client_wellbeing_score')
+              .col-xs-6
+                %a#btn-total{ class: "btn btn-lg btn-block btn-success" }
+                  = calculate_domain_selected_domain_score(@assessment)
+
+            .row.domai-name-score-wrapper.m-t-md
+              .col-xs-6.text-right
+                .row
+                  .col-xs-12
+                    = label :level_of_risk, t('risk_assessments._attr.level_of_risk')
+                  .col-xs-12
+                    = link_to t('risk_assessments._attr.guidance'), '#LevelOfRiskGuidance', data: { toggle: :modal, target: '#LevelOfRiskGuidance' }
+              .col-xs-6
+                = f.input :level_of_risk, label: false, collection: level_of_risk_options
+            .row.domai-name-score-wrapper
+              .col-xs-6.text-right
+                = label :description, t('risk_assessments._attr.description')
+              .col-xs-6
+                = f.input :description, label: false
+

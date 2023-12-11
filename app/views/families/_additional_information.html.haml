@@ -2,39 +2,39 @@
 %section.additional-information
   - get_or_build_family_quantitative_free_text_cases
   = f.simple_fields_for :family_quantitative_free_text_cases do |ff|
-    - @quantitative_types.each do |quantitative_type|
-      .row
-        - if quantitative_type.free_text?
-          = ff.input :id, as: :hidden
-          = ff.input :quantitative_type_id, as: :hidden
+    - quantitative_type = ff.object.quantitative_type
+    .row
+      - if quantitative_type.free_text?
+        = ff.input :id, as: :hidden
+        = ff.input :quantitative_type_id, as: :hidden
 
-          .form-group.textarea.family_quantitative_case_content{ class: "#{ 'required' if quantitative_type.is_required? }" }
-            = f.label :family_quantitative_case_content, class: "textarea control-label #{ 'required' if quantitative_type.is_required? }" do
-              - if quantitative_type.is_required?
-                %abbr{ title: 'required' } *
-                %span= quantitative_type.name
-              - else
-                %span= quantitative_type.name
-              
-              - if quantitative_type.hint?
-                = link_to '#!', tabIndex: "0", data: { toggle: :popover, role: :button, html: true, placement: :bottom, trigger: :focus, content: quantitative_type.hint } do
-                  %i.fa.fa-info-circle.text-info.m-xs{ class: "qtt_item_#{quantitative_type.id}" }
-            = ff.input :content, required: quantitative_type.is_required, wrapper: false, label: false, input_html: { rows: 5 }
-        - else
-          .form-group.select.family_quantitative_case_ids{ class: "#{ 'required' if quantitative_type.is_required? }" }
-            = f.label :family_quantitative_case_ids, class: "select control-label #{ 'required' if quantitative_type.is_required? }" do
-              - if quantitative_type.is_required?
-                %abbr{ title: 'required' } *
-                %span= quantitative_type.name
-              - else
-                %span= quantitative_type.name
-              
-              - if quantitative_type.hint?
-                = link_to '#!', tabIndex: "0", data: { toggle: :popover, role: :button, html: true, placement: :bottom, trigger: :focus, content: quantitative_type.hint } do
-                  %i.fa.fa-info-circle.text-info.m-xs{ class: "qtt_item_#{quantitative_type.id}" }
-
-            - if quantitative_type.multiple
-              = f.input :quantitative_case_ids, required: quantitative_type.is_required, label: false, wrapper: false, collection: quantitative_type.quantitative_cases, label_method: :value, vlaue_method: :id, input_html: {multiple: true}
+        .form-group.textarea.family_quantitative_case_content{ class: "#{ 'required' if quantitative_type.is_required? }" }
+          = f.label :family_quantitative_case_content, class: "textarea control-label #{ 'required' if quantitative_type.is_required? }" do
+            - if quantitative_type.is_required?
+              %abbr{ title: 'required' } *
+              %span= quantitative_type.name
             - else
-              = f.input :quantitative_case_ids, required: quantitative_type.is_required, label: false, wrapper: false, collection: quantitative_type.quantitative_cases, label_method: :value, vlaue_method: :id, input_html: {multiple: true, class: 'single-select'}
+              %span= quantitative_type.name
+
+            - if quantitative_type.hint?
+              = link_to '#!', tabIndex: "0", data: { toggle: :popover, role: :button, html: true, placement: :bottom, trigger: :focus, content: quantitative_type.hint } do
+                %i.fa.fa-info-circle.text-info.m-xs{ class: "qtt_item_#{quantitative_type.id}" }
+          = ff.input :content, required: quantitative_type.is_required, wrapper: false, label: false, input_html: { rows: 5 }
+      - else
+        .form-group.select.family_quantitative_case_ids{ class: "#{ 'required' if quantitative_type.is_required? }" }
+          = f.label :family_quantitative_case_ids, class: "select control-label #{ 'required' if quantitative_type.is_required? }" do
+            - if quantitative_type.is_required?
+              %abbr{ title: 'required' } *
+              %span= quantitative_type.name
+            - else
+              %span= quantitative_type.name
+
+            - if quantitative_type.hint?
+              = link_to '#!', tabIndex: "0", data: { toggle: :popover, role: :button, html: true, placement: :bottom, trigger: :focus, content: quantitative_type.hint } do
+                %i.fa.fa-info-circle.text-info.m-xs{ class: "qtt_item_#{quantitative_type.id}" }
+
+          - if quantitative_type.multiple
+            = f.input :quantitative_case_ids, required: quantitative_type.is_required, label: false, wrapper: false, collection: quantitative_type.quantitative_cases, label_method: :value, vlaue_method: :id, input_html: {multiple: true}
+          - else
+            = f.input :quantitative_case_ids, required: quantitative_type.is_required, label: false, wrapper: false, collection: quantitative_type.quantitative_cases, label_method: :value, vlaue_method: :id, input_html: {multiple: true, class: 'single-select'}
 

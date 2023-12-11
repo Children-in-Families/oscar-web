@@ -1,6 +1,10 @@
 = simple_form_for([@client, @enrollment, @client_enrollment_tracking], url: client_enrollment_tracking_form_action_path, html: { class: 'client-enrolled-program-tracking' }) do |f|
   .ibox-content
-    %h3= "#{@client.en_and_local_name} - #{@tracking.name} - #{@program_stream.name}"
+    %h3
+      = link_to @client do
+        = @client.en_and_local_name
+      %span= " - #{@tracking.name} - #{@program_stream.name}"
+
     = f.simple_fields_for :properties, OpenStruct.new(@client_enrollment_tracking.properties) do |prop_f|
       - @tracking.fields.each do |field|
         .row

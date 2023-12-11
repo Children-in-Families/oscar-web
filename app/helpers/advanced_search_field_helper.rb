@@ -22,13 +22,10 @@ module AdvancedSearchFieldHelper
   def referral_source_category_options(klass_name = 'Client')
     return [] if klass_name.constantize.count.zero?
     ref_cat_ids = klass_name.constantize.pluck(:referral_source_category_id).compact.uniq
-    if I18n.locale == :km
-      ref_cat_kh_names = ReferralSource.where(id: ref_cat_ids).pluck(:name, :id)
-      ref_cat_kh_names.sort.map { |s| { s[1].to_s => s[0] } }
-    else
-      ref_cat_en_names = ReferralSource.where(id: ref_cat_ids).pluck(:name_en, :id)
-      ref_cat_en_names.sort.map { |s| { s[1].to_s => s[0] } }
-    end
+
+    ReferralSource.cache_all.map do |item|
+      { item.id.to_s => I18n.locale == :km ? item.name : item.name_en } if item.id.in?(ref_cat_ids)
+    end.compact.sort_by { |h| h.values.first }
   end
 
   def referral_source_options(klass_name = 'Client')
@@ -42,6 +39,6 @@ module AdvancedSearchFieldHelper
   end
 
   def care_plan_date_fields
-    ['care_plan_completed_date']
+    ['care_plan_date', 'care_plan_completed_date']
   end
 end

@@ -4,6 +4,7 @@ class District < ActiveRecord::Base
   has_paper_trail
 
   belongs_to :province, touch: true
+  belongs_to :city, touch: true
 
   has_many :clients, dependent: :restrict_with_error
   has_many :families, dependent: :restrict_with_error
@@ -22,9 +23,9 @@ class District < ActiveRecord::Base
   end
 
   def self.get_district(district_code)
-    distinct = find_by(code: district_code)
-    if distinct
-      { village_id: nil, commune_id: nil, district_id: district.id, province_id: distinct.province&.id }
+    district = find_by(code: district_code)
+    if district
+      { village_id: nil, commune_id: nil, district_id: district.id, province_id: district.province&.id }
     else
       { district_id: nil }
     end
@@ -49,12 +50,10 @@ class District < ActiveRecord::Base
 
   private
 
-  private
-
   def flush_cache
     Rails.cache.delete([Apartment::Tenant.current, 'District', id])
     Rails.cache.delete([Apartment::Tenant.current, 'District', id, 'cached_communes'])
     Rails.cache.delete([Apartment::Tenant.current, 'District', id, 'cached_subdistricts'])
-    Rails.cache.delete([Apartment::Tenant.current, "District", 'dropdown_list_option'])
+    Rails.cache.delete([Apartment::Tenant.current, 'District', 'dropdown_list_option'])
   end
 end

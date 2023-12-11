@@ -29,6 +29,13 @@
               %td= t('.client_id')
               %td
                 %strong= @referral.client.slug if @referral.client_id?
+            %tr
+              %td= t('referrals.referral_status')
+              %td
+                - if @referral.client_id? && @referral.client.referrals.received.count > 1
+                  %strong= editable @referral, :referral_status, type: :select, source: ['Referred', 'Accepted', 'Exited'].zip(['Referred', 'Accepted', 'Rejected']).to_h, value: @referral.referral_status, url: api_referral_path(@referral.id), pk: @referral.id
+                - else
+                  %strong= @referral.referral_status
 
             %tr
               %td= t('.referred_from')
@@ -74,6 +81,11 @@
                   = link_to t('.preview_download'), @referral.consent_form.first.url, class: 'btn btn-info btn-sm btn-download', target: :_blank
       .ibox-footer
         .text-right
-          - if @referral.client_id
-            = link_to client_referrals_path(@client, referral_type: referral_type(@referral)), class: 'btn btn-default' do
+          - if @client && @referral.client_id
+            = link_to client_referrals_path(@client, referral_type: referral_type(@referral)), class: 'btn btn-default me-2' do
               = t('back')
+
+          - if @referral.repeat?
+            = link_to t('.go_to_client'), client_path(id: @referral.client.slug, referral_id: @referral.id), target: '_blank', class: 'btn btn-info'
+          - else
+            = link_to t('.go_to_client'), new_client_path(referral_id: @referral.id), target: '_blank', class: 'btn btn-info'

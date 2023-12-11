@@ -2,17 +2,25 @@ class ClientShareExternalSerializer < ActiveModel::Serializer
   include OrganizationSerializerConcern
 
   attributes  :given_name, :family_name, :local_given_name, :local_family_name, :gender,
-              :date_of_birth, :global_id, :slug, :external_id, :external_id_display,
+              :date_of_birth, :global_id, :slug, :external_id, :external_id_display, :status,
               :mosvy_number, :location_current_village_code, :case_worker_name, :case_worker_mobile,
               :is_referred, :organization_name, :organization_address_code, :resource, :services
 
+
+  def given_name
+    object.given_name.presence || object.local_given_name
+  end
+
+  def family_name
+    object.family_name.presence || object.local_family_name
+  end
 
   def organization_name
     Organization.current.short_name
   end
 
   def location_current_village_code
-    object.village_code || object.commune_code || object.district_code || ""
+    object.village_code || object.commune_code || object.district_code || object.province&.code || ""
   end
 
   def external_id
@@ -50,7 +58,7 @@ class ClientShareExternalSerializer < ActiveModel::Serializer
     elsif setting.district
       setting.district.code
     else
-      setting.province.district.first.code
+      setting.province.districts.first&.code || ''
     end
   end
 

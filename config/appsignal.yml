@@ -8,6 +8,8 @@ default: &defaults
 
   ignore_errors:
     - Apartment::TenantNotFound
+    - ActiveRecord::RecordNotFound
+    - ActionController::InvalidAuthenticityToken
 
   # Actions that should not be monitored by AppSignal
   # ignore_actions:
@@ -28,5 +30,9 @@ staging:
   active: true
 
 ratanak_staging:
+  <<: *defaults
+  active: true
+
+production_api:
   <<: *defaults
   active: true

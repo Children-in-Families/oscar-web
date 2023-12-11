@@ -78,10 +78,10 @@ module AdvancedSearches
       case field_name
       when 'birth_province_id'
         values.each do |value|
-          data << {value[:value] => value[:label]}
+          data << { value[:value] => value[:label] }
         end
       when 'gender', 'has_been_in_orphanage', 'has_been_in_government_care'
-        data = values.map{ |key, value| { key => value } }
+        data = values.map { |key, value| { key => value } }
       else
         data = values
       end

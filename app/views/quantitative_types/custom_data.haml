@@ -1,0 +1,6 @@
+%ul.nav.nav-tabs{role: "tablist"}
+  %li{role: "presentation"}
+    = link_to t('quantitative_types.index.quantitative_types'), quantitative_types_path
+  %li.active{role: "presentation"}
+    %a{"aria-controls" => "custom-data", "aria-expanded" => "true", "data-toggle" => "tab", :href => "#custom-data", :role => "tab"}
+      Custom Data

@@ -1,3 +1,10 @@
+body[id='family_advanced_searches-index'],
+body[id='families-index'] {
+  .assessment-form {
+    display: none;
+  }
+}
+
 body[id='family_advanced_searches-index'] {
   #family-advance-search-form {
     margin-top: 16px;

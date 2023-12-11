@@ -1,6 +1,9 @@
 - if can? :manage, ClientEnrollment
-  - if program_stream.enroll?(@client)
-    - if program_stream.maximum_client?
-      .label.label-info= t('.full_program')
-    - elsif program_stream.archived_at.nil?
-      = client_enrollment_new_link(program_stream)
+  - if @active_enrollments.map(&:id).include?(program_stream.id)
+    = render "client_enrolled_programs/manage", program_stream: program_stream
+  - else
+    - if program_stream.enroll?(@client)
+      - if program_stream.maximum_client?
+        .label.label-info= t('.full_program')
+      - elsif program_stream.archived_at.nil?
+        = client_enrollment_new_link(program_stream)

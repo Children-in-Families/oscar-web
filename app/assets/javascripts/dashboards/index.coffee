@@ -10,7 +10,7 @@ CIF.DashboardsIndex = do ->
   _init = ->
     # _clientGenderChart()
     # _clientStatusChart()
-    _familyType()
+    loadFamilyTab()
     _resizeChart()
     # _clientProgramStreamByGender()
     _clientProgramStream()
@@ -32,6 +32,18 @@ CIF.DashboardsIndex = do ->
     _search_client_date_logic_error()
     _familyInActiveProgramStream()
 
+  loadFamilyTab = ->
+    if $('.lazy-load-family-tab').length > 0
+      $.ajax
+        type: 'GET'
+        url: '/dashboards/family_tab'
+        dataType: 'JSON'
+        success: (response) ->
+          $(".lazy-load-family-tab").html(response.data)
+          _familyType()
+    else
+      _familyType()
+      _handleFamilyProgramStreamChart()
 
   _loadModalReminder = ->
     if localStorage.getItem('from login') == 'true'
@@ -510,7 +522,9 @@ CIF.DashboardsIndex = do ->
     $('.highcharts-credits').css('display', 'none')
 
   _familyInActiveProgramStream = () ->
-    $(document).on 'shown.bs.tab', 'a[aria-controls="family-tab"]', (e) ->
+    $(document).on 'shown.bs.tab', 'a[aria-controls="family-tab"]', _handleFamilyProgramStreamChart
+
+  _handleFamilyProgramStreamChart = () ->
       url = '/api/program_streams/generate_family_program_stream'
       $.ajax
         type: 'GET'

@@ -1,4 +1,4 @@
-CIF.ClientsIndex = do ->
+CIF.ClientsIndex = CIF.ClientsWelcome = do ->
   _init = ->
     window.customGroup = {}
     content = $('#content').val()
@@ -57,8 +57,9 @@ CIF.ClientsIndex = do ->
     _reloadFilter()
     _addTourTip(tour)
     _extendDataTableSort()
+    _loadStatisticsData()
+    _loadClientTableSummary()
     _addDataTableToAssessmentScoreData()
-    _addDataTableToTableSummary()
     _removeReferralDataColumnsInWizardClientColumn()
     _handleShowCustomFormSelect()
     _reOrderRuleContainer()
@@ -66,22 +67,24 @@ CIF.ClientsIndex = do ->
     _initClientColumnFilter()
 
   _initClientColumnFilter = ->
-    searchBox = $('.client-column ul.columns-visibility #column-search-box')
+    searchBox = $('ul.columns-visibility .column-search-box')
     searchBox.keyup ->
       valThis = $(this).val().toLowerCase()
+
       if valThis == ''
-        $('.client-column ul.columns-visibility > li').show()
+        $('ul.columns-visibility li').show()
       else
-        $('.client-column ul.columns-visibility > li:not(:first-child)').each ->
-          text = $(this).text().toLowerCase()
+        $('ul.columns-visibility li:not(:first-child)').each ->
+          text = $(this).find("label").text().toLowerCase().trim()
+
           if text.indexOf(valThis) >= 0 then $(this).show() else $(this).hide()
           return
       return
 
-    $('.client-column ul.columns-visibility .btn-clear-text').click ->
+    $('ul.columns-visibility .btn-clear-text').click ->
       searchBox.val ''
       searchBox.focus()
-      $('.client-column ul.columns-visibility > li').show()
+      $('ul.columns-visibility li').show()
       return
 
   _reOrderRuleContainer = ->
@@ -112,10 +115,56 @@ CIF.ClientsIndex = do ->
       'formatted-num-desc': (a, b) ->
         b - a
 
+  _loadClientTableSummary = ->
+    if $("#client-table-summary-tab-content").length > 0
+      advanceFilter = new CIF.ClientAdvanceSearch()
+      advanceFilter.prepareSearchParams("search")
+
+      $.ajax
+        type: 'POST'
+        dataType: 'json'
+        url: "/clients/load_client_table_summary"
+        data:
+          cache_key: $("#cache-key").data("cacheKey")
+          basic_rules: $("#client_advanced_search_basic_rules").val()
+        success: (data) ->
+          $("#client-table-summary-tab-content").html(data.client_table_content)
+          _addDataTableToTableSummary()
+
+  _loadStatisticsData = ->
+    if $("#program-statistic.searched").length > 0
+      advanceFilter = new CIF.ClientAdvanceSearch()
+      advanceFilter.prepareSearchParams("search")
+      
+      $.ajax
+        type: 'POST'
+        dataType: 'json'
+        url: "/clients/load_statistics_data"
+        data:
+          cache_key: $("#cache-key").data("cacheKey")
+          basic_rules: $("#client_advanced_search_basic_rules").val()
+        success: (data) ->
+          $('#cis-domain-score').data 'csi-domain', data.csi_statistics
+          $('#program-statistic').data 'program-statistic', data.enrollments_statistics
+
+          _handleCreateCsiDomainReport()
+          _handleCreateCaseReport()
+
   _addDataTableToAssessmentScoreData = ->
-    fileName = $('.assessment-domain-score').data('filename')
-    _handleAjaxRequestToAssessment("#csi-assessment-score", fileName) if $("#csi-assessment-score").length
-    _handleAjaxRequestToAssessment("#custom-assessment-score", fileName) if $("#custom-assessment-score").length
+    if $("body#clients-welcome").length > 0 || $("body#families-welcome").length > 0 || !$("#assessment-checkbox").is(":checked")
+      return
+
+    advanceFilter = new CIF.ClientAdvanceSearch()
+    advanceFilter.prepareSearchParams("search")
+
+    _handleAjaxRequestToAssessment("#csi-assessment-score", $("#assessment-domain-score").data("filename"))
+
+    $('#assessment-select option').each ->
+      $option = $(this)
+      
+      if $option.val() && $option.val() != 0
+        _handleAjaxRequestToAssessment("#custom-assessment-score-#{$option.val()}", $("#custom-assessment-domain-score-#{$option.val()}").data("filename"), true)
+
     $('.assessment-domain-score').on 'shown.bs.modal', (e) ->
       $($.fn.dataTable.tables(true)).DataTable().columns.adjust()
       return
@@ -124,6 +173,8 @@ CIF.ClientsIndex = do ->
     fileName = $('.table-summary').data('filename')
     _handleDataTable("#table-summary-age", fileName)
     _handleDataTable("#table-summary-referral-category", fileName)
+    _handleDataTable("#table-summary-school", fileName)
+    _handleDataTable("#table-summary-location", fileName)
     $('.table-summary').on 'shown.bs.modal', (e) ->
       $($.fn.dataTable.tables(true)).DataTable().columns.adjust()
       return
@@ -140,6 +191,9 @@ CIF.ClientsIndex = do ->
       sServerMethod: 'POST'
       ajax:
         url: url
+        data:
+          cache_key: $("#cache-key").data("cacheKey")
+          basic_rules: $("#client_advanced_search_basic_rules").val()
         error: (jqXHR, textStatus, errorThrown) ->
           console.log("Datatable Ajax Error:", errorThrown)
       oLanguage: {
@@ -462,10 +516,10 @@ CIF.ClientsIndex = do ->
       $("button[data-target='#client-search-form']").trigger('click')
 
   _hideClientFilters = ->
-    dataFilters = $('#client-search-form .datagrid-filter')
-    displayColumns = '#client_grid_given_name, #client_grid_family_name, #client_grid_gender, #client_grid_slug, #client_grid_status, #client_grid_user_id'
-    $(dataFilters).hide()
-    $(dataFilters).children("#{displayColumns}").parents('.datagrid-filter').show()
+    # dataFilters = $('#client-search-form .datagrid-filter')
+    # displayColumns = '#client_grid_given_name, #client_grid_family_name, #client_grid_gender, #client_grid_slug, #client_grid_status, #client_grid_user_id'
+    # $(dataFilters).hide()
+    # $(dataFilters).children("#{displayColumns}").parents('.datagrid-filter').show()
 
   _toggleCollapseFilter = (tour) ->
     $('#client-search-form').on 'show.bs.collapse', ->
@@ -488,6 +542,8 @@ CIF.ClientsIndex = do ->
         _hideClientFilters()
 
   _initAdavanceSearchFilter = ->
+    return unless $('#client-builder-fields').length > 0
+
     advanceFilter = new CIF.ClientAdvanceSearch()
     advanceFilter.initBuilderFilter('#client-builder-fields')
     advanceFilter.setValueToBuilderSelected()
@@ -594,7 +650,7 @@ CIF.ClientsIndex = do ->
     report.lineChart()
 
   _enableSelect2 = ->
-    $('#clients-index select').select2
+    $('select').select2
       minimumInputLength: 0,
       allowClear: true
 
@@ -611,8 +667,6 @@ CIF.ClientsIndex = do ->
     $('#client-statistic').click ->
       paramsAdvancedSearch = $('#params').val()
       if paramsAdvancedSearch != ''
-        _handleCreateCsiDomainReport()
-        _handleCreateCaseReport()
         _toggleCollapseOnOff()
       else
         if $('#cis-domain-score').is('[data-csi-domain]') && $('#program-statistic').is('[data-program-statistic]')

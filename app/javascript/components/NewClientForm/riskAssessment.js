@@ -17,7 +17,8 @@ export default (props) => {
       assessment_date, protection_concern, other_protection_concern_specification, client_perspective, has_known_chronic_disease,
       has_disability, has_hiv_or_aid, known_chronic_disease_specification, disability_specification, hiv_or_aid_specification,
       relevant_referral_information, level_of_risk, history_of_disability_id, history_of_harm_id, history_of_high_risk_behaviour_id,
-      history_of_family_separation_id, labels, tasks_attributes: tasks
+      history_of_family_separation_id, labels, tasks_attributes: tasks,
+      has_assessment_level_of_risk
     }
   } = props
 
@@ -88,6 +89,7 @@ export default (props) => {
             T={labels.assessment_date}
             isError={false}
             label={labels.assessment_date}
+            disabled={has_assessment_level_of_risk}
             value={assessment_date}
             onChange={onChange("riskAssessment", "assessment_date")}
             />
@@ -98,6 +100,7 @@ export default (props) => {
           <SelectInput
             isError={false}
             isMulti
+            isDisabled={ has_assessment_level_of_risk }
             label={labels.protection_concern}
             asGroup
             options={protectionConcerns}
@@ -117,6 +120,7 @@ export default (props) => {
         <div className="col-md-12 col-lg-6">
           <SelectInput
             isError={false}
+            isDisabled={ has_assessment_level_of_risk }
             label={labels.level_of_risk}
             options={levelOfRisk}
             value={level_of_risk}
@@ -190,7 +194,7 @@ export default (props) => {
           />
         </div>
       </div>
-      <div className="row">
+      <div className="row hidden">
         <div className="col-xs-12">
           <SelectInput
             inline
@@ -202,7 +206,7 @@ export default (props) => {
           />
         </div>
       </div>
-      <div className="row">
+      <div className="row hidden">
         <div className="col-xs-12">
           <SelectInput
             inline
@@ -214,7 +218,7 @@ export default (props) => {
           />
         </div>
       </div>
-      <div className="row">
+      <div className="row hidden">
         <div className="col-xs-12">
           <SelectInput
             inline
@@ -226,7 +230,7 @@ export default (props) => {
           />
         </div>
       </div>
-      <div className="row">
+      <div className="row hidden">
         <div className="col-xs-12">
           <SelectInput
             inline
@@ -238,7 +242,7 @@ export default (props) => {
           />
         </div>
       </div>
-      <div className="row">
+      <div className="row hidden">
         <div className="col-xs-12">
           <TextArea
             label={labels.relevant_referral_information}

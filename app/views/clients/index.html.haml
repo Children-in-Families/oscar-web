@@ -27,14 +27,18 @@
           %button.btn.btn-primary.dropdown-toggle{ "aria-expanded" => "false", "aria-haspopup" => "true", type: "button", data: { toggle: "dropdown", trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.assessment_data', assessment: t('clients.show.assessment'))}", placement: "auto" } }
             = t('.assessment_data', assessment: t('clients.show.assessment'))
             %span.caret
-          %ul.dropdown-menu
-            %li
-              = link_to '#', class: 'btn btn-default', 'data-target': "#assessment-domain-score", 'data-toggle': 'modal' do
-                = t('.csi_assessment')
-            %li
-              = link_to '#', class: 'btn btn-default', 'data-target': "#custom-assessment-domain-score", 'data-toggle': 'modal' do
-                = t('.custom_assessment')
-          = render 'assessment_domain_score'
+          %ul.dropdown-menu.assessment-data-dropdown
+            - assessment_options.each do |assessment|
+              - if assessment[2] && assessment[2].key?('data-type')
+                %li.csi-0
+                  = link_to '#', class: 'btn btn-default', 'data-target': "#assessment-domain-score", 'data-toggle': 'modal' do
+                    = assessment[1]
+              - else
+                %li.hide{ class: "csi-#{assessment[0]}" }
+                  = link_to '#', class: 'btn btn-default', 'data-target': "#custom-assessment-domain-score-#{assessment[0]}", 'data-toggle': 'modal' do
+                    = assessment[1]
+
+          = render 'assessment_domain_score' 
           = render 'custom_assessment_domain_score'
       - elsif enable_default_assessment?
         = link_to '#', class: 'btn btn-primary', data: { target: "#assessment-domain-score", toggle: 'modal', trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.assessment_data', assessment: t('clients.show.assessment'))}", placement: "auto" } do
@@ -77,7 +81,7 @@
 .row
   .col-xs-12
     .ibox-content#client-search-form.collapse
-      = datagrid_form_for @client_grid, url: advanced_search_clients_url, html: { class: 'grid-form' }, method: :post
+      = datagrid_form_for @client_grid, url: advanced_search_clients_url, html: { class: 'grid-form' }
 
 %input#params{ value: "#{params['client_advanced_search']}", type: 'hidden' }
 .row#client-statistic-body
@@ -87,18 +91,19 @@
         .col-xs-12.col-md-6
           .ibox-content
             - if params['client_advanced_search'].present?
-              #cis-domain-score{ "data-csi-domain" => @csi_statistics, "data-title" => t('.csi_domain_scores'), "data-yaxis-title" => t('.domain_score')}
+              #cis-domain-score.searched{ "data-csi-domain" => @csi_statistics, "data-title" => t('.csi_domain_scores'), "data-yaxis-title" => t('.domain_score')}
             - else
               #cis-domain-score{ "data-title" => t('.csi_domain_scores'), "data-yaxis-title" => t('.domain_score')}
 
         .col-xs-12.col-md-6
           .ibox-content
             - if params['client_advanced_search'].present?
-              #program-statistic{ "data-program-statistic" => @enrollments_statistics, "data-title" => t('.active_programs'), "data-yaxis-title" => t('.client_amount') }
+              #program-statistic.searched{ "data-program-statistic" => @enrollments_statistics, "data-title" => t('.active_programs'), "data-yaxis-title" => t('.client_amount') }
             - else
               #program-statistic{ "data-title" => t('.active_programs'), "data-yaxis-title" => t('.client_amount') }
 
 - if params['commit'].present? || params['client_advanced_search'].present?
+  #cache-key.hide{ data: { 'cache-key': @cache_key } }
   .row.mini-margin
     .col-xs-12
       .ibox

@@ -8,10 +8,11 @@
 # server 'db.example.com', user: 'deploy', roles: %w{db}
 
 set :stage, 'staging'
-set :branch, proc { `git rev-parse --abbrev-ref OSC-17`.chomp }
-# set :branch, proc { `git rev-parse --abbrev-ref staging`.chomp }
+set :rails_env, :staging
+set :appsignal_env, :staging
+set :branch, proc { `git rev-parse --abbrev-ref staging`.chomp }
 
-server '52.220.217.164', user: 'deployer', roles: %w{app web db}
+server '3.0.131.11', user: 'deployer', roles: %w{app web db worker}
 
 # role-based syntax
 # ==================
@@ -25,8 +26,6 @@ server '52.220.217.164', user: 'deployer', roles: %w{app web db}
 # role :web, %w{user1@primary.com user2@additional.com}, other_property: :other_value
 # role :db,  %w{deploy@example.com}
 
-
-
 # Configuration
 # =============
 # You can set any configuration variable like in config/deploy.rb
@@ -34,8 +33,6 @@ server '52.220.217.164', user: 'deployer', roles: %w{app web db}
 # For available Capistrano configuration variables see the documentation page.
 # http://capistranorb.com/documentation/getting-started/configuration/
 # Feel free to add new variables to customise your setup.
-
-
 
 # Custom SSH Options
 # ==================

@@ -14,7 +14,7 @@ end
 class DateService
   attr_accessor :path, :headers, :workbook
 
-  def initialize(sheet_name, org_name, path = 'vendor/data/services/service.xlsx')
+  def initialize(sheet_name, org_name, path = 'lib/devdata/services/service.xlsx')
     @path     = path
     @workbook = Roo::Excelx.new(path)
     @org_name = org_name

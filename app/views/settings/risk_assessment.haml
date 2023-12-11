@@ -2,30 +2,31 @@
   .col-xs-12
     = simple_form_for @setting, url: risk_assessment_settings_path, method: :get do |f|
       .ibox
-        .ibox-title
-          %h5.text-center= t('risk_assessments._attr.risk_assessment')
         .ibox-content
-          = f.input_field :enabled_risk_assessment, class: 'i-checks', as: :boolean
-          %label= t('risk_assessments._attr.risk_assessment')
-          .row#assessment-type-name
-            .col-xs-12
-              = f.label :assessment_type_name, t('risk_assessments._attr.select_assessment_tool'), class: 'm-t-sm'
-            .col-xs-5
-              = f.input :assessment_type_name, label: false, collection: collect_assessment_types, input_html: { class: 'select2' }
-          .row
-            .col-xs-12.col-md-6
-              .row#csi.domain-checkbox-wrapper
+          = render "tablist"
+          .tab-content
+            .tab-pane.active
+              = f.input_field :enabled_risk_assessment, class: 'i-checks', as: :boolean
+              %label= t('risk_assessments._attr.risk_assessment')
+              .row#assessment-type-name
                 .col-xs-12
-                  = f.input :selected_domain_ids, as: :check_boxes, collection: mapping_domain_name_and_identity(Domain.csi_domains), label: false, input_html: { class: 'select2 i-checks' }
+                  = f.label :assessment_type_name, t('risk_assessments._attr.select_assessment_tool'), class: 'm-t-sm'
+                .col-xs-5
+                  = f.input :assessment_type_name, label: false, collection: collect_assessment_types, input_html: { class: 'select2' }
+              .row
+                .col-xs-12.col-md-6
+                  .row#csi.domain-checkbox-wrapper
+                    .col-xs-12
+                      = f.input :selected_domain_ids, as: :check_boxes, collection: mapping_domain_name_and_identity(Domain.csi_domains), label: false, input_html: { class: 'select2 i-checks' }
 
-              - custom_domain_groups.each do |custom_assessment_setting_id, domains|
-                .row.domain-checkbox-wrapper{ id: "custom-domain-#{custom_assessment_setting_id}" }
-                  .col-xs-12
-                    = f.input :selected_domain_ids, as: :check_boxes, collection: mapping_domain_name_and_identity(domains), label: false, input_html: { class: 'select2 i-checks' }
+                  - custom_domain_groups.each do |custom_assessment_setting_id, domains|
+                    .row.domain-checkbox-wrapper{ id: "custom-domain-#{custom_assessment_setting_id}" }
+                      .col-xs-12
+                        = f.input :selected_domain_ids, as: :check_boxes, collection: mapping_domain_name_and_identity(domains), label: false, input_html: { class: 'select2 i-checks' }
 
-            #guidance.col-xs-12.col-md-6
-              = label :level_of_risk_guidance, t('risk_assessments._attr.guidance')
-              = f.text_area :level_of_risk_guidance, class: 'tinymce', rows: 15, style: "width: 100%"
+                #guidance.col-xs-12.col-md-6
+                  = label :level_of_risk_guidance, t('risk_assessments._attr.guidance')
+                  = f.text_area :level_of_risk_guidance, class: 'tinymce', rows: 15, style: "width: 100%"
 
         .ibox-footer.text-right
           = f.submit t('save'), name: 'risk_assessment', class: 'btn btn-primary', data: { disable_with: t('saving') }

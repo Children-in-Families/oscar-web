@@ -88,34 +88,35 @@
             %ul.dropdown-menu.btn-fit.scrollable-dropdown-menu.referral-forms
               - ngos.each do |value, key|
                 %li= link_to value, new_family_family_referral_url(@family, ngo: key, external_ngo_name: key == 'external referral' && value), :class => 'target-ngo', :value => "#{key}", :id => "#{key}"
-          = link_to family_tasks_path(@family), data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.clients.show.task')}", placement: "auto" } do
-            %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit
-              %strong.count-margin= @family.tasks.incomplete.count
-              = t('.view_tasks')
-          - if enable_any_csi_tools?
-            = link_to family_assessments_path(@family), data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.clients.assessments.button', assessment: t('clients.show.assessment') )}", placement: "auto" } do
-              %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit
-                %strong.count-margin= @family.assessments.count
-                = t('.assessment')
-          - if enable_any_csi_tools?
-            = link_to family_care_plans_path(@family), data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.clients.care_plans.button', care_plan: t('clients.show.care_plan') )}", placement: "auto" } do
-              %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit
-                %strong.count-margin= @family.care_plans.count
-                = t('.care_plan')
-          - if (can? :manage, CaseNote) || (can? :edit, CaseNote)
-            = link_to family_case_notes_path(@family), class: (!case_notes_readable? && 'disabled' ), data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.clients.case_notes.button')}", placement: "auto" } do
-              %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit
-                %strong.count-margin= @family.case_notes.count
-                = t('clients.form.case_note')
 
-          - if @family.enrollments.active.count > 0
-            = link_to family_enrolled_programs_path(@family), data: { toggle: "popover", html: 'true', trigger: 'hover', content: "#{I18n.t('inline_help.families.show.active_program')}", placement: "auto" } do
-              .btn.btn-primary.small-btn-margin.btn-sm.btn-fit= t('.enrolled_program_streams')
-          - else
-            .btn.btn-primary.small-btn-margin.btn-sm.disabled.btn-fit{ data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.families.show.active_program')}", placement: "auto" } }
-              = t('.enrolled_program_streams')
-          = link_to family_enrollments_path(@family), data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.families.show.enroll_program')}", placement: "auto" } do
-            .btn.btn-primary.small-btn-margin.btn-sm.btn-fit= t('.program_streams')
+        = link_to family_tasks_path(@family), data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.clients.show.tasks')}", placement: "auto" } do
+          %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit
+            %strong.count-margin= @family.tasks.incomplete.count
+            = t('.view_tasks')
+        - if enable_any_csi_tools?
+          = link_to family_assessments_path(@family), data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.clients.assessments.button', assessment: t('clients.show.assessment') )}", placement: "auto" } do
+            %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit
+              %strong.count-margin= @family.assessments.count
+              = t('.assessment')
+        - if enable_any_csi_tools?
+          = link_to family_care_plans_path(@family), data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.clients.care_plans.button', care_plan: t('clients.show.care_plan') )}", placement: "auto" } do
+            %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit
+              %strong.count-margin= @family.care_plans.count
+              = t('.care_plan')
+        - if (can? :manage, CaseNote) || (can? :edit, CaseNote)
+          = link_to family_case_notes_path(@family), class: (!case_notes_readable? && 'disabled' ), data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.clients.case_notes.button')}", placement: "auto" } do
+            %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit
+              %strong.count-margin= @family.case_notes.count
+              = t('clients.form.case_note')
+        - if @family.enrollments.active.count > 0
+          = link_to family_enrolled_programs_path(@family), data: { toggle: "popover", html: 'true', trigger: 'hover', content: "#{I18n.t('inline_help.families.show.active_program')}", placement: "auto" } do
+            .btn.btn-primary.small-btn-margin.btn-sm.btn-fit= t('.enrolled_program_streams')
+        - else
+          .btn.btn-primary.small-btn-margin.btn-sm.disabled.btn-fit{ data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.families.show.active_program')}", placement: "auto" } }
+            = t('.enrolled_program_streams')
+        = link_to family_enrollments_path(@family), data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.families.show.enroll_program')}", placement: "auto" } do
+          .btn.btn-primary.small-btn-margin.btn-sm.btn-fit= t('.program_streams')
+
 
     - if !@family.referred?
       .btn-group.small-btn-margin
@@ -134,7 +135,7 @@
           %ul.dropdown-menu.scrollable-dropdown-menu
             - @free_family_forms.each do |custom_field|
               %li
-                %p= link_to custom_field.form_title, new_family_custom_field_property_path(@family, custom_field_id: custom_field)
+                %p= link_to custom_field.form_title, new_family_custom_field_property_path(@family, custom_field_id: custom_field), target: :_blank
 
 .ibox.mini-margin
   .ibox-title
@@ -182,170 +183,149 @@
                 - else
                   = number_to_currency(@family.total_monthly_income)
     .row.family-summary
-      .col-sm-12
-        %table.table.table-bordered
-          %tr
-            %td.spacing-first-col
-              = t('.case_history')
-            %td
-              %strong
-                = family_case_history(@family)
-
-          - if policy(@family).show?(:province_id)
-            %tr
-              %td.spacing-first-col
-                = t('.address')
-              %td
-                %strong
-                  = merged_address_family(@family)
-
-          - if policy(@family).show?(:dependable_income)
-            %tr
-              %td.spacing-first-col
-                = "#{t('.dependable_income')}?"
-              %td
-                %strong
-                  = human_boolean(@family.dependable_income)
-
-          %tr
-            %td.spacing-first-col
-              = t('.phone_number')
-            %td
-              %strong
-                = @family.phone_number
-
-          %tr
-            %td.spacing-first-col
-              = t('.id_poor')
-            %td
-              %strong
-                = @family.id_poor
-
-          - unless current_setting.hide_family_case_management_tool?
-            %tr
-              %td.spacing-first-col
-                = t('.community_ids')
-              %td
-                %strong
-                  - community = @family.community
-                  - if community.present?
-                    = community.display_name
-                    = link_to community_path(community) do
-                      = fa_icon 'external-link'
-
-            %tr
-              %td.spacing-first-col
-                = t('.referral_source_category')
-              %td
-                %strong
-                  = referral_source_category(@family.referral_source_category_id)
-            %tr
-              %td.spacing-first-col
-                = t('.referral_source')
-              %td
-                %strong
-                  = @family.referral_source&.name
-            %tr
-              %td.spacing-first-col
-                = t('.received_by')
-              %td
-                %strong
-                  = @family.received_by&.name
-                  = user @family.received_by, true
-
-            %tr
-              %td.spacing-first-col
-                = t('.followed_up_by')
-              %td
-                %strong
-                  = @family.followed_up_by&.name
-                  = user @family.followed_up_by, true
-
-            %tr
-              %td.spacing-first-col
-                = t('.case_worker_or_staff')
-              %td
-                %strong
-                  - @family.case_workers.distinct.sort.each do |case_worker|
-                    %strong.label.label-default
-                      = user case_worker
-            %tr
-              %td.spacing-first-col
-                = t('.initial_referral_date')
-              %td
-                %strong
-                  = date_format(@family.initial_referral_date)
-            %tr
-              %td.spacing-first-col
-                = t('.follow_up_date')
-              %td
-                %strong
-                  = date_format(@family.follow_up_date)
-
-            %tr
-              %td.spacing-first-col
-                = t('.referee_phone_number')
-              %td
-                %strong
-                  = @family.referee_phone_number
-
-            %tr
-              %td.spacing-first-col
-                = t('.donor')
-              %td
-                %strong
-                  - @family.donors.distinct.each do|donor|
-                    %strong.label.label-default.donor
-                      = donor.name
-            - family_hidden_fields_setting.each do |field|
-              - next if field == 'dependable_income' || field == 'household_income'
-              - next if @family.attributes.keys.exclude?(field)
+      - if Setting.cache_first.hide_family_case_management_tool?
+        .col-sm-12
+          = render "families/show/about"
+      - else
+        .col-sm-12.col-md-6
+          %table.table.table-bordered.administrative-info
+            %tbody
+              %tr.bg-grey
+                %td{colspan: 2}
+                  = t('.administrative_info')
               %tr
                 %td.spacing-first-col
-                  = I18n.t("datagrid.columns.families.#{field}")
-                - if policy(@family).show?(:family_type) && field == 'family_type'
-                  %td
-                    %strong= family_type_translation(@family.family_type)
-                - elsif field[/(_id)$/].present?
-                  %td
-                    %strong= @family.public_send(field.gsub(/(\_id)$/, ''))&.name
-                - elsif field[/date/].present?
-                  %td
-                    %strong= date_format(@family.public_send(field))
-                - else
-                  %td
-                    %strong= @family.public_send(field)
-
-          - if @family.documents.any?
-            - @family.documents.each_with_index do |attachment, index|
-              %tr
-                %td.spacing-first-col
-                  - if index == 0
-                    = t('.documents')
+                  = t('.received_by')
                 %td
-                  = original_filename(attachment)
-                  = link_to preview_or_download(attachment), attachment.url, class: 'btn btn-info btn-sm btn-download', target: target_blank(attachment)
+                  %strong
+                    = @family.received_by&.name
+                    = user @family.received_by, true
 
-          - if show_family_CRD?
-            - @family.family_quantitative_free_text_cases.each do |qtt_free_text|
-              - next if qtt_free_text.content.blank?
-              - next unless quantitative_type_readable?(qtt_free_text.quantitative_type_id)
               %tr
-                %td.align-justify.spacing-first-col
-                  = qtt_free_text.quantitative_type.name
-                %td.align-justify
-                  %strong.label.label-default
-                    = qtt_free_text.content
+                %td.spacing-first-col
+                  = t('.initial_referral_date')
+                %td
+                  %strong
+                    = date_format(@family.initial_referral_date)
 
-            - @family.viewable_quantitative_cases.group_by(&:quantitative_type).each do |qtypes|
-              - next unless quantitative_type_readable?(qtypes.first.id)
               %tr
-                %td.align-justify.spacing-first-col
-                  = qtypes.first.name
-                %td.align-justify
-                  - qtypes.last.each do |qcase|
+                %td.spacing-first-col
+                  = t('.case_worker_or_staff')
+                %td
+                  %strong
+                    - @family.case_workers.distinct.sort.each do |case_worker|
+                      %strong.label.label-default
+                        = user case_worker
+              %tr
+                %td.spacing-first-col
+                  = t('.followed_up_by')
+                %td
+                  %strong
+                    = @family.followed_up_by&.name
+                    = user @family.followed_up_by, true
+
+              %tr
+                %td.spacing-first-col
+                  = t('.follow_up_date')
+                %td
+                  %strong
+                    = date_format(@family.follow_up_date)
+
+          %table.table.table-bordered.referee-info
+            %tbody
+              %tr.bg-grey
+                %td{colspan: 2}
+                  = t('.referee_info')
+              %tr
+                %td.spacing-first-col
+                  = t('.referee_phone_number')
+                %td
+                  %strong
+                    = @family.referee_phone_number
+              %tr
+                %td.spacing-first-col
+                  = t('.referral_source_category')
+                %td
+                  %strong
+                    = referral_source_category(@family.referral_source_category_id)
+              %tr
+                %td.spacing-first-col
+                  = t('.referral_source')
+                %td
+                  %strong
+                    = @family.referral_source&.name
+
+
+        .col-sm-12.col-md-6
+          = render "families/show/about"
+
+
+      - if show_family_CRD? && (readable_family_quantitative_free_text_cases.any? || readable_viewable_quantitative_cases.any?)
+        .col-sm-12
+          %table.table.table-bordered
+            %tbody
+              %tr.bg-grey
+                %td{colspan: 2}
+                  = t('.additional_info')
+
+              - readable_family_quantitative_free_text_cases.each do |qtt_free_text|
+                %tr
+                  %td.align-justify.spacing-first-col
+                    = qtt_free_text.quantitative_type.name
+                  %td.align-justify
                     %strong.label.label-default
-                      = qcase.value
+                      = qtt_free_text.content
+
+              - readable_viewable_quantitative_cases.each do |qtypes|
+                %tr
+                  %td.align-justify.spacing-first-col
+                    = qtypes.first.name
+                  %td.align-justify
+                    - qtypes.last.each do |qcase|
+                      %strong.label.label-default
+                        = qcase.value
+
+
+    - if @family.family_members.present?
+      .row.family-summary
+        .col-sm-12
+          %table.table.table-bordered
+            %thead
+              %th
+                Is Client?
+              %th= t('activerecord.attributes.family_member.adult_name')
+              %th= t('.date_of_birth')
+              - if policy(FamilyMember).show?(:gender)
+                %th= t('activerecord.attributes.family_member.gender')
+              - if policy(FamilyMember).show?(:occupation)
+                %th= t('.occupation')
+              - if policy(FamilyMember).show?(:relation)
+                %th= t('.relation')
+              - if policy(FamilyMember).show?(:guardian)
+                %th= t('.guardian')
+
+            %tbody
+            - @family.family_members.includes(:client).each do |member|
+              %tr
+                %td= human_boolean(member.client_id?)
+                %td
+                  - if member.client
+                    = link_to member.adult_name, client_path(member.client.slug)
+                  - else
+                    = member.adult_name
+
+                %td= date_format member.date_of_birth
+                - if policy(FamilyMember).show?(:gender)
+                  %td
+                    - if member.gender?
+                      = t("enumerize.defaults.gender.#{member.gender&.gsub('other', 'other_gender')}")
+                - if policy(FamilyMember).show?(:occupation)
+                  %td= member.occupation
+                - if policy(FamilyMember).show?(:relation)
+                  %td= drop_down_relation.to_h[member.relation]
+                - if policy(FamilyMember).show?(:guardian)
+                  %td= human_boolean(member.guardian)
+
 
     - if @case_histories.any?
       .row
@@ -384,45 +364,5 @@
                   .text-center
                     %button.btn.btn-outline.btn-primary.btn-xs{'data-target' => "#case_history_initial_referral_date", 'data-toggle' => 'modal'}= fa_icon('eye')
                   = render 'case_history_detail', object: @family, index: 'initial_referral_date'
-    - if @family.family_members.present?
-      .row.family-summary
-        .col-sm-12
-          %table.table.table-bordered
-            %thead
-              %th
-                Is Client?
-              %th= t('activerecord.attributes.family_member.adult_name')
-              %th= t('.date_of_birth')
-              - if policy(FamilyMember).show?(:gender)
-                %th= t('activerecord.attributes.family_member.gender')
-              - if policy(FamilyMember).show?(:occupation)
-                %th= t('.occupation')
-              - if policy(FamilyMember).show?(:relation)
-                %th= t('.relation')
-              - if policy(FamilyMember).show?(:guardian)
-                %th= t('.guardian')
-
-            %tbody
-            - @family.family_members.each do |member|
-              %tr
-                %td= human_boolean(member.client_id?)
-                %td
-                  - if member.client_id?
-                    = link_to member.adult_name, client_path(member.client)
-                  - else
-                    = member.adult_name
-
-                %td= date_format member.date_of_birth
-                - if policy(FamilyMember).show?(:gender)
-                  %td
-                    - if member.gender?
-                      = t("enumerize.defaults.gender.#{member.gender&.gsub('other', 'other_gender')}")
-                - if policy(FamilyMember).show?(:occupation)
-                  %td= member.occupation
-                - if policy(FamilyMember).show?(:relation)
-                  %td= drop_down_relation.to_h[member.relation]
-                - if policy(FamilyMember).show?(:guardian)
-                  %td= human_boolean(member.guardian)
-
 .row
   = render 'family_referrals/confirm_referral'

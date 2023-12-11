@@ -1,7 +1,7 @@
 class Service < ActiveRecord::Base
   acts_as_paranoid
 
-  belongs_to :global_service, class_name: 'GlobalService', foreign_key: 'uuid', primary_key: :uuid
+  belongs_to :global_service, class_name: 'GlobalService', foreign_key: 'uuid'
   belongs_to :parent,           class_name: 'Service'
   has_many :children,           class_name: 'Service', foreign_key: 'parent_id', dependent: :destroy
 

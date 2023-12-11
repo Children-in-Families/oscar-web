@@ -18,7 +18,7 @@ describe 'Organization Type' do
       expect(page).to have_css("i[class='fa fa-pencil']")
     end
     scenario 'delete link' do
-      expect(page).to have_css("a[href='#{domain_path(organization_type)}'][data-method='delete']")
+      expect(page).to have_css("a[href='#{organization_type_path(organization_type)}'][data-method='delete']")
     end
   end
 
@@ -76,12 +76,12 @@ describe 'Organization Type' do
       visit organization_types_path
     end
     scenario 'success' do
-      find("a[href='#{domain_path(organization_type)}'][data-method='delete']").click
+      find("a[href='#{organization_type_path(organization_type)}'][data-method='delete']").click
       sleep 1
       expect(page).not_to have_content('ABC')
     end
     scenario 'disable delete' do
-      expect(page).to have_css("a[href='#{domain_path(other_organization_type)}'][data-method='delete'][class='btn btn-outline btn-danger btn-xs disabled']")
+      expect(page).to have_css("a[href='#{organization_type_path(other_organization_type)}'][data-method='delete'][class='btn btn-outline btn-danger btn-xs disabled']")
     end
   end
 end

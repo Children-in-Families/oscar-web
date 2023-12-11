@@ -1,0 +1,8 @@
+%ul
+  - assessments.each do |assessment|
+    %li
+      - if assessment.instance_of?(::RiskAssessment)
+        = assessment.level_of_risk&.titleize
+        = " (PC)"
+      - else
+        = assessment.level_of_risk&.titleize

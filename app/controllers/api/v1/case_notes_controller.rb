@@ -2,16 +2,35 @@ module Api
   module V1
     class CaseNotesController < Api::V1::BaseApiController
       include CaseNoteConcern
+      include CreateBulkTask
+      include GoogleCalendarServiceConcern
 
       before_action :find_client
+
+      def show
+        case_note = CaseNote.find(params[:id])
+        render json: case_note
+      end
 
       def create
         case_note = @client.case_notes.new(case_note_params)
         case_note.assessment = @client.assessments.custom_latest_record
+        case_note.meeting_date = "#{case_note.meeting_date.strftime("%Y-%m-%d")}, #{Time.now.strftime("%H:%M:%S")}"
         if case_note.save
-          case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes], current_user.id)
+          case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes], current_user.id) if params.dig(:case_note, :case_note_domain_groups_attributes)
+          create_bulk_task(params[:task], case_note) if params.key?(:task)
+          case_note.complete_screening_tasks(params) if params[:case_note].key?(:tasks_attributes)
+
+          create_task_task_progress_notes
           render json: case_note
         else
+          if case_note_params[:custom] == 'true'
+            @custom_assessment_param = case_note_params[:custom]
+            case_note.assessment = @client.assessments.custom_latest_record
+          else
+            case_note.assessment = @client.assessments.default_latest_record
+          end
+
           render json: case_note.errors, status: :unprocessable_entity
         end
       end
@@ -20,10 +39,14 @@ module Api
         case_note = @client.case_notes.find(params[:id])
 
         if case_note.update_attributes(case_note_params)
-          params[:case_note][:case_note_domain_groups_attributes].each do |d|
-            add_more_attachments(d.second[:attachments], d.second[:id])
+          if params.dig(:case_note, :case_note_domain_groups_attributes)
+            case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes], current_user.id)
           end
-          case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes], current_user.id)
+          create_bulk_task(params[:task], case_note) if params.key?(:task)
+          case_note.complete_screening_tasks(params) if params[:case_note].key?(:tasks_attributes)
+          # create_task_task_progress_notes
+          delete_events if session[:authorization]
+
           render json: case_note
         else
           render json: case_note.errors, status: :unprocessable_entity
@@ -33,38 +56,32 @@ module Api
       def destroy
         if params[:file_index].present?
           remove_attachment_at_index(params[:file_index].to_i)
+        end
+
+        head 204 if CaseNote.find(params[:id]).destroy
+      end
+
+      def delete_attachment
+        case_note = CaseNote.find(params[:id])
+        remove_attachment_at_index(case_note, params[:file_index].to_i)
+        if case_note.save
           head 204
+        else
+          render json: case_note.errors, status: :unprocessable_entity
         end
       end
 
       private
 
-      def case_note_params
-
-        default_params = params.require(:case_note).permit(:meeting_date, :attendee, :interaction_type, case_note_domain_groups_attributes: [:id, :note, :domain_group_id, :task_ids])
-        default_params = params.require(:case_note).permit(:meeting_date, :attendee, :interaction_type, case_note_domain_groups_attributes: [:id, :note, :domain_group_id, :task_ids, attachments: []]) if action_name == 'create'
-        default_params = assign_params_to_case_note_domain_groups_params(default_params)
-        domain_group_ids = params.dig(:case_note, :domain_group_ids) || []
-        default_params = default_params.merge(selected_domain_group_ids: domain_group_ids.compact.reject(&:blank?))
-      end
-
-      def add_more_attachments(new_file, case_note_domain_group_id)
-        if new_file.present?
-          case_note_domain_group = CaseNoteDomainGroup.find(case_note_domain_group_id)
-          files = case_note_domain_group.attachments
-          files += new_file
-          case_note_domain_group.attachments = files
-          case_note_domain_group.save
+      def remove_attachment_at_index(case_note, index)
+        remain_attachments = case_note.attachments
+        if index.zero? && case_note.attachments.size == 1
+          case_note.remove_attachments!
+        else
+          deleted_attachment = remain_attachments.delete_at(index)
+          deleted_attachment.try(:remove!)
+          case_note.attachments = remain_attachments
         end
-      end
-
-      def remove_attachment_at_index(index)
-        case_note_domain_group = CaseNoteDomainGroup.find(params[:case_note_domain_group_id])
-        remain_attachment = case_note_domain_group.attachments
-        deleted_attachment = remain_attachment.delete_at(index)
-        deleted_attachment.try(:remove!)
-        remain_attachment.empty? ? case_note_domain_group.remove_attachments! : (case_note_domain_group.attachments = remain_attachment )
-        message = t('.fail_delete_attachment') unless case_note_domain_group.save
       end
     end
   end

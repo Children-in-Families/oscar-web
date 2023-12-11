@@ -3,7 +3,7 @@ module AdvancedSearches
     attr_reader :group_label, :translations, :number_type_list, :text_type_list, :date_type_list, :dropdown_type_list
 
     def initialize(group_label, args)
-      @group_label          = group_label
+      @group_label         = group_label
       @translations        = args.fetch(:translation)
       @text_type_list      = args.fetch(:text_field)
       @date_type_list      = args.fetch(:date_picker_field)
@@ -24,8 +24,8 @@ module AdvancedSearches
 
     private
 
-      def header_translation(key)
-        translations[key.to_sym] || ''
-      end
+    def header_translation(key)
+      translations[key.to_sym] || ''
+    end
   end
 end

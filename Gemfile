@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'bundler',                '1.17.3'
 gem 'rails',                  '4.2.5'
 gem 'pg',                     '~> 0.18.4'
 gem 'jquery-rails'
@@ -13,12 +14,12 @@ gem 'bootstrap-sass',         '~> 3.3.5'
 gem 'devise',                 '~> 3.5', '>= 3.5.2'
 gem 'haml-rails',             '~> 0.9'
 gem 'dotenv-rails',           '~> 2.0.2'
-gem 'roo',                    '~> 2.2'
+gem 'roo',                    '~> 2.8.3'
 gem 'fog'
 gem 's3'
 gem 'ffaker',                 '~> 2.1.0'
 gem 'draper',                 '~> 2.1'
-gem 'datagrid',               '~> 1.4.2'
+gem 'datagrid', '1.6.3'
 gem 'active_model_serializers'
 gem 'sinatra',                require: false
 gem 'rack-cors',              require: 'rack/cors'
@@ -54,6 +55,7 @@ gem 'carrierwave',            '~> 1.3.2'
 gem 'mini_magick',            '~> 4.5'
 gem 'chartkick',              '~> 3.4'
 gem 'font-awesome-rails',     '~> 4.7'
+gem 'ruby-ole',               '~> 1.2', '>= 1.2.12.2'
 gem 'spreadsheet',            '~> 1.1.3'
 gem 'apartment',              '~> 1.2'
 gem 'dropzonejs-rails',       '~> 0.7.3'
@@ -105,6 +107,7 @@ group :staging, :demo do
 end
 
 group :development do
+  gem 'active_record_query_trace', '1.7'
   gem 'letter_opener',        '~> 1.4.1'
   gem 'letter_opener_web',    '~> 1.3', '>= 1.3.4'
   gem 'rubocop',              '~> 0.81.0', require: false
@@ -112,7 +115,7 @@ group :development do
   gem 'capistrano-rails',     '~> 1.1.1'
   gem 'capistrano-passenger', '~> 0.1.1'
   gem 'capistrano-rvm',       '~> 0.1.2'
-  gem 'capistrano-sidekiq',   '~> 1.0', '>= 1.0.3'
+  gem 'capistrano-sidekiq-systemd', require: false
   gem 'capistrano-foreman'
   gem 'rack-mini-profiler',   '~> 1.0'
   gem 'metainspector'
@@ -132,3 +135,7 @@ end
 
 gem "sentry-raven", "~> 2.13"
 gem 'terser', '~> 1.1', '>= 1.1.12'
+
+gem "redis-rails", "~> 5.0"
+
+gem "ahoy_email", "1.0.3"

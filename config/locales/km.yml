@@ -447,6 +447,7 @@ km:
       agencies_involved: អង្គភាពដែលពាក់ព័ន្ធ
       agency_name: ឈ្មោះអង្គភាព
       assessment_completed_date: "%{assessment} កាលបរិច្ចេទបញ្ជប់ការប៉ាន់ប្រមាណ"
+      assessment_created_at: "កាលបរិច្ឆេទបង្កើត%{assessment}"
       assessment_number: "%{assessment} ការប៉ាន់ប្រមាណ#"
       basic_fields: ព័ត៌មានទូទៅរបស់អតិថិជន
       birth_province: ខេត្តកំណើតអតិថិជន
@@ -542,6 +543,13 @@ km:
       reject_note: កំណត់ហេតុនៃការមិនទទួលយក
       relevant_referral_information: ព័ត៌មានសំខាន់ៗដែលពាក់ព័ន្ធ
       school_grade: កម្រិតវប្បធម៌
+      school:
+        no_school: No School
+        pre_school: Pre School
+        primary_school: Primary School
+        secondary_school: Secondary School
+        high_school: High School
+        university: University
       school_grade_list:
         kindergarten_1: ថ្នាក់មតេយ្យកម្រិត ១
         kindergarten_2: ថ្នាក់មតេយ្យកម្រិត ២
@@ -648,6 +656,7 @@ km:
       enter_task_detail: ព័ត៌មានពីកាតព្វកិច្ច
       save: រក្សាទុក
       title: បន្ថែមកាតព្វកិច្ចថ្មី
+    assessment_date: កាលបរិច្ឆេទនៃការប៉ាន់ប្រមាណ
     assessment_form: ទម្រង់ការប៉ាន់ប្រមាណ
     attachment:
       attachments: ឯកសារភ្ជាប់
@@ -675,6 +684,7 @@ km:
       domain: កត្តា
       finish: រក្សាទុក
       goal: គោលដៅ
+      level_risk_summary: កម្រិតហានិភ័យសង្ខេប
       next: ទំព័របន្ទាប់
       previous: ទំព័រមុន
       reason: ការសង្កេត
@@ -745,6 +755,7 @@ km:
       successfully_updated: ការប៉ាន់ប្រមាណត្រូវបានកែសម្រួលដោយជោគជ័យ
   at: នៅថ្ងៃ
   back: ត្រឡប់ក្រោយ
+  blank_field_warning: សូមចំណាំ! អ្នកមិនអាចបញ្ជូនអតិថិជនទៅប្រព័ន្ធខាងក្រៅបានទេ ប្រសិនបើឈ្មោះ ថ្ងៃខែឆ្នាំកំណើត ភេទឬអាសយដ្ឋានរបស់អតិថិជននៅទទេ.
   calendars:
     index:
       sync_with_google: ភ្ជាប់ទៅប្រតិទិន Google
@@ -793,7 +804,7 @@ km:
         '12': ផ្សេងៗ
       receiving_staff: បុគ្គលិកទទួលករណី
       referee_answered_call: តើអ្នកបញ្ជូនបានឆ្លើយការហៅទូរស័ព្ទនេះ ឬបានហៅទូរស័ព្ទត្រឡប់មកវិញឬទេ?
-      referee_called_before: តើអ្នកបញ្ជូនភ្ជាប់បានហៅទូរស័ព្ទមកកាន់បណ្តាញសុវត្ថិភាពកុមារពីមុនដែរឬទេ
+      referee_called_before: តើអ្នកបញ្ជូនករណីធ្លាប់ទូរស័ព្ទមកពីមុនដែរ ឬទេ?
       returning_missed_call: បានហៅទូរស័ព្ទវិញសម្រាប់ការខកខាន
       time_call_began: ពេលវេលានៃការហៅទូរស័ព្ទបានចាប់ផ្តើម
       time_call_ended: ពេលវេលានៃការហៅទូរស័ព្ទបានបញ្ចប់
@@ -862,6 +873,7 @@ km:
   cannot_remove: មិនអាចលុបបានទេ
   cannot_remove_or_update: មិនអាចលុបឬកែសម្រួលបានទេដោយសារតែត្រូវបានប្រើរួចហើយ
   care_plans:
+    care_plan_date: កាលបរិច្ឆេទផែនការគាំទ្រករណី
     care_plan_form: ផែនការគាំទ្រករណី
     care_plan: ផែនការគាំទ្រករណី
     care_plan_based_on: ផ្អែកលើផែនការគាំទ្រករណី
@@ -1000,6 +1012,13 @@ km:
       download: ទាញយក
       preview_download: មើលនិងទាញយក
     attachment_fields:
+      allow_file_size: ប្រភេទឯកសារដែលអាចផ្ទុកបាន
+      are_you_sure: តើអ្នកប្រាកថាចង់លុបដែរឬទេ?
+      attachments: ឯកសារភ្ជាប់
+      download: ទាញយក
+      max_file_size: "*ទំហំឯកសារអតិបរមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកបាន."
+      preview_download: មើលនិងទាញយក
+    case_note_attachment_fields:
       allow_file_size: ប្រភេទឯកសារដែលអាចផ្ទុកបាន
       are_you_sure: តើអ្នកប្រាកថាចង់លុបដែរឬទេ?
       attachments: ឯកសារភ្ជាប់
@@ -1530,7 +1549,9 @@ km:
   clients:
     attr: &LEGAL_DOC_ATTR
       add_service_received: បន្ថែមសេវាដែលបានទទួល
+      birth_cert: 'Birth Certificate'
       complain: ពាក្យបណ្ដឹង
+      cb_dmat: CB-DMAT
       detail_form_of_judicial_police: ទម្រង់លម្អិតសម្រាប់ការសម្ភាសកំណត់អត្តសញ្ញាណបឋមជនរងគ្រោះដោយអំពើជួញដូរមនុស្ស (នគរបាលយុត្តិធម៌)
       detail_form_of_mosavy_dosavy: ទម្រង់លម្អិតសម្រាប់ការសម្ភាសកំណត់អត្តសញ្ញាណបឋមជនរងគ្រោះដោយអំពើជួញដូរមនុស្ស (ក្រសួង ស.អ.យ/មន្ទីរ ស.អ.យ)
       dosavy: មន្ទីរ ស.អ.យ
@@ -1539,13 +1560,18 @@ km:
       form_indentification: ទម្រង់សម្ភាសន៍កំណត់អត្តសញ្ញាណជនរងគ្រោះដោយអំពើជួញដូរមនុស្ស
       indentification_doc: ឯកសារអត្តសញ្ញាណ
       labor_trafficking_legal_doc_option: ការជួញដូរពលកម្ម
+      legal_documents: ឯកសារច្បាប់
       legal_processing_doc: ឯកសារនិតិវិធីច្បាប់
       letter_from_immigration_police: លិខិតពីប៉ូលីសអន្តោប្រវេសន៍
+      local_consent: 'Legal consent'
       mosavy: ក្រសួង ស.អ.យ
       mosvy_number: លេខសំគាល់ ស.អ.យ
       msdhs: ក្រសួងអភិវឌ្ឍន៍សង្គមនិងសន្តិសុខ (ថៃ)
       ngo_partner: អង្គការក្រៅរដ្ឋាភិបាលជាដៃគូ
+      national_id: 'National ID'
+      other_legal_doc: 'Others'
       other_legal_doc_option: ផ្សេងៗ
+      police_interview: 'Police interview'
       referral_document: ឯកសារបញ្ជូន
       screening_interview_form: ទម្រង់សម្ភាសន៍បឋម
       sex_trafficking_legal_doc_option: ការជួញដូរផ្លូវភេទ
@@ -1884,7 +1910,7 @@ km:
       ratanak_achievement_program_staff_client_ids: Ratanak Achievement Program Staff
       rated_for_id_poor: កម្រិតប័ណ្ណក្រីក្រ
       received_by: បុគ្គលិកទទួលករណី
-      referee_called_before: តើអ្នកបញ្ជូនភ្ជាប់បានហៅទូរស័ព្ទមកកាន់បណ្តាញសុវត្ថិភាពកុមារពីមុនដែរឬទេ
+      referee_called_before: តើអ្នកបញ្ជូនករណីធ្លាប់ទូរស័ព្ទមកពីមុនដែរ ឬទេ?
       referral_email: អ៊ីមែលរបស់អ្នកបញ្ជូនករណី
       referral_doc: ទម្រង់សម្ភាសន៍បឋម
       referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
@@ -1960,6 +1986,7 @@ km:
       all_csi_assessments: ចំនួនការប៉ាន់ប្រមាណ CSI ទាំងអស់
       all_custom_csi_assessments: ចំនួនការប៉ាន់ប្រមាណផ្ទាល់ខ្លួនទាំងអស់
       assessment_completed_date: "កាលបរិច្ឆេទ %{assessment}ដែលបានបំពេញ"
+      assessment_created_at: "កាលបរិច្ឆេទបង្កើត%{assessment}"
       assessment_custom_completed_date: "កាលបរិច្ឆេទ %{assessment}ផ្ទាល់ខ្លួនដែលបានបំពេញ"
       assessment_data: "ទិន្នន័យពិន្ទុនៃ%{assessment}"
       assessment_number: ការប៉ាន់ប្រមាណលើកទី
@@ -2028,6 +2055,10 @@ km:
     remaining_programs:
       close: បិទ
       warning: ប្រុងប្រយ័ត្ន!
+    archive:
+      successfully_archived: Client has been successfully removed and put to trash.
+    restore:
+      successfully_restored: This client data was restored successfully.
     show:
       <<: *LEGAL_DOC_ATTR
       additional_forms: ទម្រង់អតិថិជនកំពុងប្រើ
@@ -2105,6 +2136,10 @@ km:
       detail: ព័ត៌មានលម្អិត
       district: ស្រុក/ខណ្ឌ
       donor: ម្ចាស់ជំនួយ
+      donor_info: "Donor Information"
+      school_info: School Information
+      other_info: Other Information
+      carer_info: Carer Information
       edit_exit_information: កែសម្រួលព័ត៌មាននៃការចាកចេញ
       enrolled_program_streams: កម្មវិធីចម្បងរបស់អតិថិជន
       enter_ngo_information: ព័ត៌មានទទួលចូលអង្គការ
@@ -2164,6 +2199,11 @@ km:
         uganda: ខេត្តកំណើត
       received_by: បុគ្គលិកទទួលករណី
       refer_client: បញ្ជូនអតិថិជន
+      referee_information: Referee Information
+      administrative_info: Administrative Information
+      referral_information: Client / Referral Information
+      referral_more_information: Client / Referral - More Information
+      referral_vulnerability: Vulnerability Information and Referral Note
       referee_phone_number: លេខទូរស័ព្ទរបស់អ្នកបញ្ជូនករណី
       referral_email: អ៊ីមែលរបស់អ្នកបញ្ជូនករណី
       referral_forms: បែបបទបញ្ជូន
@@ -2224,6 +2264,8 @@ km:
       title: Table Summary
       age_tabs: Age
       referral_category_tabs: Referral Categories
+      school_tab: School
+      province_tab: Location
       program: Program
       children: Children
       adult: Adult
@@ -2304,10 +2346,9 @@ km:
     version:
       back: ត្រឡប់ក្រោយ
       modification_of: ប្រវត្ដិនៃកំណែ
-  created_by: បង្កើតដោយ
-  completed_by: បញ្ចប់នៅថ្ងៃ
+  completed_by: បញ្ចប់ដោយ
   completed_date: បញ្ចប់នៅថ្ងៃ
-  created_by: បង្កើត​ឡើង​ដោយ
+  created_by: បង្កើតឡើងដោយ
   created_on: បង្កើតឡើងនៅថ្ងៃ
   custom_field_properties:
     attachment:
@@ -2562,6 +2603,7 @@ km:
       all_custom_csi_assessments: "ពិន្ទុកត្តា%{assessment}ផ្ទាល់ខ្លួន"
       all_result_framework_assessment: All Result Framework Assessment
       assessment_completed_date: "កាលបរិច្ឆេទ %{assessment}ដែលបានបំពេញ"
+      assessment_created_at: "កាលបរិច្ឆេទបង្កើត%{assessment}"
       assessment_custom_completed_date: "កាលបរិច្ឆេទ %{assessment}ផ្ទាល់ខ្លួនដែលបានបំពេញ"
       assessment_completed_date: "%{assessment} Completed Date"
       calls:
@@ -2689,6 +2731,7 @@ km:
         all_csi_assessments: ពិន្ទុកត្តាការប៉ាន់ប្រមាណ  CSI
         all_custom_csi_assessments: ពិន្ទុកត្តាការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
         assessment_completed_date: កាលបរិច្ឆេទបញ្ចប់ការប៉ាន់ប្រមាណ
+        assessment_created_at: "កាលបរិច្ឆេទបង្កើត%{assessment}"
         assessment_custom_completed_date: "កាលបរិច្ឆេទ %{assessment}ផ្ទាល់ខ្លួនដែលបានបំពេញ"
         any_assessments: មានការប៉ាន់ប្រមាណ
         assessments: ការប៉ាន់ប្រមាណ
@@ -2737,7 +2780,7 @@ km:
         current_province_en: ខេត្តបច្ចុប្បន្ន (អក្សរឡាតាំង)
         current_province_kh: ខេត្តបច្ចុប្បន្ន (ខ្មែរ)
         custom_assessment: "%{assessment} ផ្ទាល់ខ្លួន"
-        custom_assessment_created_date: កាលបរិច្ឆេទបង្កើត %{assessment} ផ្ទាល់ខ្លួន
+        custom_assessment_created_at: កាលបរិច្ឆេទបង្កើត %{assessment} ផ្ទាល់ខ្លួន
         date_of_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណ
         date_of_birth: ថ្ងៃខែឆ្នាំកំណើត
         date_of_custom_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
@@ -4121,6 +4164,9 @@ km:
       close: បិទ
       warning: ប្រុងប្រយ័ត្ន!
     show:
+      about: អំពីគ្រួសារ
+      administrative_info: ព័តមានរដ្ឋបាល
+      referee_info: ព័ត៌មានអ្នកបញ្ជូន
       accept: ទទួលយក
       accepted_date: កាលបរិច្ឆេទចូលអង្គការ
       add_form: បន្ថែមទម្រង់បែបបទ
@@ -4136,16 +4182,16 @@ km:
       case_histories: ប្រវត្តិករណី
       case_history: ប្រវត្តិគ្រួសារ
       case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
-      code: លេខសំគាល់គ្រួសារ
+      code: អត្តលេខគ្រួសារ
       community_ids: សហគមន៍/ក្រុម
-      contract_date: កាលបរិច្ឆេទនៃកិច្ចសន្យា
-      created_by: បង្កើតឡើងដោយ
+      contract_date: កាលបរិច្ឆេទកិច្ចសន្យាគ្រួសារ
+      created_by: បង្កើតដោយ
       created_date: កាលបរិច្ឆេទនៃការបង្កើត
       current_province: ខេត្ត
       date: កាលបរិច្ឆេទ
       date_of_birth: ថ្ងៃខែឆ្នាំកំណើត
       dependable_income: ប្រាក់ចំណូលទៀងទាត់
-      detail: ព័ត៌មានលំអិត
+      detail: ព័ត៌មានលម្អិត
       donor: ម្ចាស់ជំនួយ
       enrolled_program_streams: កម្មវិធីចម្បងរបស់គ្រួសារ
       exit_date: កាលបរិច្ឆេទការចាកចេញពីអង្គការ
@@ -4155,11 +4201,12 @@ km:
       female_children_count: ចំនួនក្មេងស្រី
       follow_up_date: កាលបរិច្ឆេទតាមដានដំបូង
       followed_up_by: បុគ្គលិកតាមដានករណី
+      gender: ភេទ
       general_info: ពត៌មានគ្រួសារ
       guardian: អាណាព្យាបាល
       house: ផ្ទះលេខ
       household_income: ប្រាក់ចំណូលគ្រួសារប្រចាំខែ
-      id: លេខសំគាល់
+      id: អត្តលេខគ្រួសារ
       id_poor: កំរិតប័ណ្ឌក្រីក្រ
       initial_referral_date: កាលបរិចេ្ឆទនៃការបញ្ជូនដំបូង
       male_adult_count: ចំនួនមនុស្សប្រុសពេញវ័យ
@@ -4181,8 +4228,8 @@ km:
       referral_forms: ទម្រង់បញ្ជូន
       referral_source: ប្រភពនៃការបញ្ជូន
       referral_source_category: ប្រភេទឈ្មោះប្រភពនៃការបញ្ជូន
-      referred_from: ប្រភពនៃការបញ្ជូន
-      referred_to: បញ្ជូនទៅអង្គការដទៃ
+      referred_from: បញ្ជូនមកពីអង្គការដៃគូ
+      referred_to: បញ្ជូនទៅអង្គការដៃគូ
       reject: មិនទទួលយក
       relation: ទំនាក់ទំនងជាមួយកុមារ
       remove_member: លុបសមាជិក
@@ -4365,6 +4412,76 @@ km:
       type_of_service: ប្រភេទសេវាកម្ម
     update:
       successfully_updated: ការបញ្ជូនត្រូវបានកែសម្រួលដោយជោគជ័យ
+  family:
+    enter_ngos:
+      create:
+        failed_create: គ្រួសារមិនត្រូវបានកែសម្រួលដោយជោគជ័យ
+        successfully_created: គ្រួសារត្រូវបានកែសម្រួលដោយជោគជ័យ
+      edit_form:
+        accept: ទទួលយក
+        accept_ngo_form: ទទួលចូលអង្គការ
+        accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
+        case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
+      form:
+        accept: ទទួលយក
+        accept_ngo_form: ទទួលចូលអង្គការ
+        accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
+        accepting: កំពុងទទួលយក...
+        case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
+      update:
+        failed_update: គ្រួសារមិនត្រូវបានកែសម្រួលដោយជោគជ័យ
+        successfully_updated: គ្រួសារត្រូវបានកែសម្រួលដោយជោគជ័យ
+    exit_ngos:
+      create:
+        failed_create: គ្រួសារមិនត្រូវបានកែសម្រួលដោយជោគជ័យ
+        successfully_created: គ្រួសារត្រូវបានកែសម្រួលដោយជោគជ័យ
+      edit_form:
+        case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
+        exit_btn: ចាកចេញ
+        exit_circumstance: ស្ថានភាពនៃការចាកចេញ
+        exit_date: ថ្ងៃចាកចេញ
+        exit_ngo: ចាកចេញពីអង្គការ
+        exit_note: កំណត់ហេតុនៃការចាកចេញ
+        exit_reason_options:
+          agency_lack_resource: អង្គភាពខ្វះធនធានគ្រប់គ្រាន់
+          family_died: គ្រួសារបានទទួលមរណៈភាព
+          family_does_not_meet_service_criteria: គ្រួសារមិនត្រូវ​ /​ ឈប់ត្រូវតាមលក្ខខណ្ឌសេវាកម្ម
+          family_does_not_required_support: គ្រួសារមិនត្រូវការ / ឈប់ត្រូវការការឧបត្ថម្ភ
+          family_move_out_international: គ្រួសារនៅក្រៅ / ចាកចេញទៅក្រៅតំបន់គោលដៅអង្គការ (អន្តរជាតិ)
+          family_move_out_within_cambodia: គ្រួសារនៅក្រៅ / ចាកចេញទៅក្រៅតំបន់គោលដៅអង្គការ (ក្នុងប្រទេសកម្ពុជា)
+          family_refuse_service: គ្រួសារបដិសេធមិនទទួលយកសេវាកម្ម
+          other_reason: ផ្សេងៗ
+        exit_reasons: មូលហេតុនៃការចាកចេញ
+        exit_status: ស្ថានភាព
+        exiting: កំពុងចាកចេញពីអង្គការ...
+        other_info_of_exit: ព័ត៌មានបន្ថែមនៃការចាកចេញ
+        reject_family: មិនទទួលយកគ្រួសារ
+        rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
+      form:
+        case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
+        exit_btn: ចាកចេញ
+        exit_circumstance: ស្ថានភាពនៃការចាកចេញ
+        exit_date: ថ្ងៃចាកចេញ
+        exit_ngo: ចាកចេញពីអង្គការ
+        exit_note: កំណត់ហេតុនៃការចាកចេញ
+        exit_reason_options:
+          agency_lack_resource: អង្គភាពខ្វះធនធានគ្រប់គ្រាន់
+          family_died: គ្រួសារបានទទួលមរណៈភាព
+          family_does_not_meet_service_criteria: គ្រួសារមិនត្រូវ​ /​ ឈប់ត្រូវតាមលក្ខខណ្ឌសេវាកម្ម
+          family_does_not_required_support: គ្រួសារមិនត្រូវការ / ឈប់ត្រូវការការឧបត្ថម្ភ
+          family_move_out_international: គ្រួសារនៅក្រៅ / ចាកចេញទៅក្រៅតំបន់គោលដៅអង្គការ (អន្តរជាតិ)
+          family_move_out_within_cambodia: គ្រួសារនៅក្រៅ / ចាកចេញទៅក្រៅតំបន់គោលដៅអង្គការ (ក្នុងប្រទេសកម្ពុជា)
+          family_refuse_service: គ្រួសារបដិសេធមិនទទួលយកសេវាកម្ម
+          other_reason: ផ្សេងៗ
+        exit_reasons: មូលហេតុនៃការចាកចេញ
+        exit_status: ស្ថានភាព
+        exiting: កំពុងចាកចេញ...
+        other_info_of_exit: ព័ត៌មានបន្ថែមនៃការចាកចេញ
+        reject_family: មិនទទួលយកគ្រួសារ
+        rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
+      update:
+        failed_update: គ្រួសារមិនត្រូវបានកែសម្រួលដោយជោគជ័យ
+        successfully_updated: គ្រួសារត្រូវបានកែសម្រួលដោយជោគជ័យ
   faq: សំនួរចម្លើយ
   field_label_cannot_be_blank: ផ្នែកនៃទម្រង់មិនអាចរំលង
   form_builder:
@@ -4759,8 +4876,8 @@ km:
           village: ភូមិ
           year: ឆ្នាំ
     update:
-      successfully_updated: របាយការណ៍ត្រូវបានកែសម្រួលដោយជោគជ័យ
-  has_been_added_to_calendar: ព្រឹត្តិការណ៍នេះត្រូវបានបញ្ចូលទៅក្នុងប្រតិទិនរួចហើយ
+      successfully_updated: របាយការណ៍ត្រូវបានកែសម្រួលដោយជោគជ័យ។
+  has_been_added_to_calendar: ព្រឹត្តិការណ៍នេះត្រូវបានបន្ថែមទៅក្នុងប្រតិទិនរួចហើយ
   id: អត្តលេខ
   internal_referrals:
     internal_referral_attr: &INTERNAL_REFERRAL_ATTR
@@ -5123,6 +5240,7 @@ km:
   must_be_uniq: ផ្នែកនៃទម្រង់មិនអាចមានឈ្មោះដូចគ្នា
   mutual_dependence_has_been_modified: កម្មវិធីអាស្រ័យគ្នាមិនអាចផ្លាស់ប្តូរឬបន្ថែមទេព្រោះលក្ខខ័ណ្ឌមុនត្រូវបានផ្លាស់ប្តូរ។
   'no': 'No'
+  note: ចំណាំ
   notifications:
     case_note_due_today:
       client_case_note_due_today: អតិថិជនមានកំណត់ត្រាករណីដែលត្រូវបំពេញនៅថ្ងៃនេះ
@@ -5156,6 +5274,13 @@ km:
       review_client: អតិថិជនដែលត្រូវការត្រួតពិនិត្យ
     referrals:
       referral_clients: អតិថិជនដែលត្រូវបានបញ្ជូនមក
+    referral_table:
+      clients: Clients
+      referral_from: Referral From
+      referral_date: Referral Date
+      referral_count: Referral Count
+      level_of_risk: Level of Risk
+      review_form: Review Form
     repeat_referrals:
       referral_clients: អតិថិជនដែលត្រូវបានបញ្ជូនមកម្តងទៀត
     upcoming_assessment:
@@ -5749,6 +5874,7 @@ km:
     new:
       new_referral: ទម្រង់បញ្ជូនថ្មី
     referral_form: ទម្រង់បញ្ជូនករណី
+    referral_status: ស្ថានភាពទម្រង់បញ្ជូន
     show:
       cannot_edit_referral: អ្នកមិនអាចកែសម្រួលការបញ្ជូននេះបានទេ ដោយសារអង្គការគោលដៅបានទទួលយកការបញ្ជូននេះរួចហើយ
       client_id: អត្តលេខអតិថិជន
@@ -5757,6 +5883,7 @@ km:
       date_of_referral: កាលបរិច្ឆេទបញ្ជូន
       download_referral_form: ទាញយកទម្រង់បញ្ជូន
       external_referral_warning: អង្គការដែលអ្នកកំពុងព្យាយាមបញ្ជូនអតិថិជនរបស់អ្នកទៅ បច្ចុប្បន្ននេះមិនកំពុងប្រើ OSCaR ទេ។ សូមបោះពុម្ពច្បាប់ចម្លងនៃទម្រង់បញ្ជូននេះដើម្បីផ្ញើទៅអង្គការគោលដៅរបស់អ្នក។
+      go_to_client: Go to client
       name_of_referee: ឈ្មោះអ្នកបញ្ជូន
       ngo_name: ឈ្មោះអង្គការ
       pdf:
@@ -5875,6 +6002,10 @@ km:
     family_case_management:
       family_case_management: ការគ្រប់គ្រងករណីគ្រួសារ
       hide_family_case_management_tool: បិទព័ត៌មានរដ្ឋបាល និងឧបករណ៍គ្រប់គ្រងករណី
+    header_count:
+      title: ការរាប់ចំនួន
+      warning: ប្រុងប្រយ័ត្ត! បន្ទាប់ពីបើកការកំណត់នេះហើយ វានឹងប៉ះពាល់ដល់ល្បេឺននៃការទាញយកទិន្នន័យ។
+      label: "រាប់ចំនួនទិន្នន័យជួរឈរ (កាលបរិច្ឆេទកំណត់ត្រាករណី, កម្មវិធីចម្បង, គ្រួសារ ID, ទម្រង់តាមដាន, ផែនការគាំទ្រករណី, ទម្រង់បែបបទ)"
     index:
       csi_tools: ឧបករណ៍ការបា៉ន់ប្រមាណ
       custom_assessment: ឧបករណ៍ការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
@@ -5934,11 +6065,12 @@ km:
   risk_assessments:
     _attr: &SA_ATTR
       add_task: បន្ថែមកាតព្វកិច្ច
-      assessment_date: ពិន្ទុសុខុមាលភាពអតិថិជន
+      assessment_date: កាលបរិច្ឆេទការប៉ាន់ប្រមាណហានិភ័យ
       category: ប្រភេទ
       child_wellbeing: សុខុមាលភាពអតិថិជន
       client_perspective: ទស្សនៈអតិថិជនលើបញ្ហា និងតម្រូវការរបស់គាត់
       client_status_index: ការប៉ាន់ប្រមាណ CSI
+      current_level_of_risk: កម្រិតហានិភ័យបច្ចុប្បន្ន
       date: កាលបរិច្ចេទរំពឹងទុក
       description: ការពិពណ៌នា
       guidance: ការណែនាំ

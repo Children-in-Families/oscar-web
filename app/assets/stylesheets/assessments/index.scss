@@ -1,4 +1,12 @@
+body[id=assessments-show],
 body[id=assessments-index] {
+  .draft {
+    margin-left: 5px;
+  }
+}
+
+body[id=assessments-index] {
+
   .button {
     min-width: 165px;
   }

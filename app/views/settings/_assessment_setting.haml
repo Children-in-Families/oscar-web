@@ -1,7 +1,7 @@
 #default-assessment-setting.panel.panel-default
   .panel-heading
     %h3
-      - if current_organization.try(:aht) == true
+      - if current_organization.aht?
         = t('.default_assessment_framework')
       - else
         = t('.default_assessment')
@@ -55,22 +55,4 @@
       .col-xs-12
         = f.input :two_weeks_assessment_reminder, input_html: { class: 'i-checks' }, label: t('.two_weeks_assessment_reminder')
 
-.panel.panel-default
-  .panel-heading
-    %h3= t('.screening_assessment')
-  .panel-body
-    .row
-      .col-xs-12
-        = f.input :use_screening_assessment, input_html: { class: 'i-checks' }
-      .col-xs-12.col-md-3.screening-assessment-form{ class: "#{'hidden' unless f.object.use_screening_assessment? }" }
-        = f.input :screening_assessment_form_id, prompt: 'Please Choose', collection: CustomField.all, label: 'Choose Custom Form for Screening Assessment', label_method: :form_title, value_method: :id, input_html: { class: 'select2' }
-.panel.panel-default
-  .panel-heading
-    %h3= t('screening_assessments._attr.cb_dmat')
-  .panel-body
-    .row
-      .col-xs-12
-        = f.input :cbdmat_one_off, as: :boolean, label: t('.cb_dmat_one_off', screening_assessment: t('screening_assessments._attr.screening_assessment')), input_html: { class: 'i-checks' }
-      .col-xs-12
-        = f.input :cbdmat_ongoing, as: :boolean, label: t('.cb_dmat_multi', screening_assessment: t('screening_assessments._attr.screening_assessment')), input_html: { class: 'i-checks' }
 

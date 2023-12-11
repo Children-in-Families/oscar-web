@@ -88,4 +88,3 @@ class GoalsController < AdminController
   # end
 
 end
-  

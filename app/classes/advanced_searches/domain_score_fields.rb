@@ -6,18 +6,19 @@ module AdvancedSearches
       address_translation
       domain_score_group  = format_header('csi_domain_scores')
       csi_domain_options  = domain_options.map { |item| number_filter_type(item, domain_score_format(item), domain_score_group) }
-      date_of_assessments = [['date_of_assessments', I18n.t('clients.index.date_of_assessment', assessment: I18n.t('clients.show.assessment'))]].map{ |item| date_picker_options(item[0], item[1], domain_score_group) }
-      completed_date_assessments = [['completed_date', I18n.t('advanced_search.fields.assessment_completed_date', assessment: I18n.t('clients.show.assessment'))]].map{ |item| date_picker_options(item[0], item[1], domain_score_group) }
+      assessments_created_at = [['assessment_created_at', I18n.t('clients.index.assessment_created_at', assessment: I18n.t('clients.show.assessment'))]].map { |item| date_picker_options(item[0], item[1], domain_score_group) }
+      date_of_assessments = [['date_of_assessments', I18n.t('clients.index.date_of_assessment', assessment: I18n.t('clients.show.assessment'))]].map { |item| date_picker_options(item[0], item[1], domain_score_group) }
+      completed_date_assessments = [['completed_date', I18n.t('advanced_search.fields.assessment_completed_date', assessment: I18n.t('clients.show.assessment'))]].map { |item| date_picker_options(item[0], item[1], domain_score_group) }
       all_domains         = ['All Domains'].map { |item| number_filter_type(item.downcase.gsub(' ', '_'), domain_score_format(item), domain_score_group) }
       drop_list_fields = dropdown_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last, domain_score_group) }
-      assessment_completed = [['assessment_completed', I18n.t('clients.index.assessment_completed', assessment: I18n.t('clients.show.assessment'))]].map{ |item| date_between_only_options(item[0], item[1], domain_score_group) }
-      (csi_domain_options + date_of_assessments + completed_date_assessments + all_domains + drop_list_fields).sort_by { |f| f[:label].downcase }
+      # assessment_completed = [['assessment_completed', I18n.t('clients.index.assessment_completed', assessment: I18n.t('clients.show.assessment'))]].map { |item| date_between_only_options(item[0], item[1], domain_score_group) }
+      (csi_domain_options + assessments_created_at + date_of_assessments + completed_date_assessments + all_domains + drop_list_fields).sort_by { |f| f[:label].downcase }
     end
 
-    private
-
     def self.domain_options
-      Domain.csi_domains.order_by_identity.map { |domain| "domainscore__#{domain.id}__#{domain.identity}" }
+      Rails.cache.fetch([Apartment::Tenant.current, 'Domain', 'csi_domains.order_by_identity', 'options']) do
+        Domain.csi_domains.order_by_identity.map { |domain| "domainscore__#{domain.id}__#{domain.identity}" }
+      end
     end
 
     def self.domain_score_format(label)
@@ -43,7 +44,7 @@ module AdvancedSearches
     end
 
     def self.number_filter_type(field_name, label, group)
-      values = ['1', '2', '3', '4'].map{ |s| { s => s }  }
+      values = ['1', '2', '3', '4'].map { |s| { s => s }  }
       {
         id: field_name,
         optgroup: group,

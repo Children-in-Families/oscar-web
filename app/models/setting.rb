@@ -2,9 +2,12 @@ class Setting < ActiveRecord::Base
   extend Enumerize
   include CacheHelper
 
+  attr_accessor :organization_type
+
   has_paper_trail
 
   belongs_to :province
+  belongs_to :city
   belongs_to :district
   belongs_to :commune
   belongs_to :screening_assessment_form, class_name: 'CustomField'
@@ -29,7 +32,7 @@ class Setting < ActiveRecord::Base
   validates :max_assessment, presence: true, if: -> { enable_default_assessment.present? }
   validates :age, presence: true, if: -> { enable_default_assessment.present? }
   validates :assessment_frequency, presence: true, if: -> { enable_default_assessment.present? }
-  validate  :custom_assessment_name, if: -> { enable_custom_assessment.present? }
+  validate :custom_assessment_name, if: -> { enable_custom_assessment.present? }
   validates :custom_assessment_frequency, presence: true, if: -> { enable_custom_assessment.present? }
   validates :max_custom_assessment, presence: true, if: -> { enable_custom_assessment.present? }
   validates :custom_age, presence: true, if: -> { enable_custom_assessment.present? }
@@ -41,24 +44,34 @@ class Setting < ActiveRecord::Base
   delegate :name, to: :province, prefix: true, allow_nil: true
   delegate :name, to: :district, prefix: true, allow_nil: true
 
-  after_commit :flush_cache
+  after_commit :flush_cache, :set_organization_type
 
   def delete_incomplete_after_period
     delete_incomplete_after_period_value.send(delete_incomplete_after_period_unit.to_sym)
   end
 
   def start_sharing_this_month(date_time)
-    versions.where("to_char(created_at, 'YYYY-MM') = ?", date_time.to_date.strftime("%Y-%m")).map(&:object_changes).map{|a| YAML::load a}.select{|a| (a['sharing_data'].is_a?(Array) ? a['sharing_data']&.last : a['sharing_data']) == true }
+    versions.where("to_char(created_at, 'YYYY-MM') = ?", date_time.to_date.strftime('%Y-%m')).map do |version|
+      sharing_data = version.object_changes['sharing_data']
+
+      sharing_data.is_a?(Array) ? sharing_data.last : sharing_data == true
+    end
   end
 
   def stop_sharing_this_month(date_time)
-    versions.where("to_char(created_at, 'YYYY-MM') = ?", date_time.to_date.strftime("%Y-%m")).map(&:object_changes).map{|a| YAML::load a}.select{|a| (a['sharing_data'].is_a?(Array) ? a['sharing_data']&.last : a['sharing_data']) == false }
+    versions.where("to_char(created_at, 'YYYY-MM') = ?", date_time.to_date.strftime('%Y-%m')).map do |version|
+      sharing_data = version.object_changes['sharing_data']
+
+      sharing_data.is_a?(Array) ? sharing_data.last : sharing_data == false
+    end
   end
 
   def current_sharing_with_research_module
     return [] unless sharing_data
 
-    versions.order(created_at: :asc).map(&:object_changes).map { |a| a && YAML::load(a) }.compact.select { |a| a['sharing_data'] }
+    versions.order(created_at: :asc).map do |version|
+      version.object_changes['sharing_data']
+    end.compact
   end
 
   def max_assessment_duration
@@ -66,7 +79,9 @@ class Setting < ActiveRecord::Base
   end
 
   def self.cache_first
-    Rails.cache.fetch([Apartment::Tenant.current, 'current_setting']) { first }
+    warn '[DEPRECATION] `cache_first` is deprecated (caching object issue).  Please use `first` instead.'
+
+    first
   end
 
   private
@@ -75,8 +90,19 @@ class Setting < ActiveRecord::Base
     errors.add(:custom_assessment, I18n.t('invalid_name')) if custom_assessment.downcase.include?('csi')
   end
 
+  def set_organization_type
+    return if organization_type.nil? || !organization_type_changed?
+
+    org = Organization.current
+    org.ngo_type = organization_type
+    org.save
+  end
+
   def flush_cache
     Rails.cache.delete([Apartment::Tenant.current, 'current_setting'])
-    Rails.cache.fetch([Apartment::Tenant.current, 'table_name', 'settings'])
+    Rails.cache.delete([Apartment::Tenant.current, 'table_name', 'settings'])
+    Rails.cache.delete(['current_organization', Apartment::Tenant.current, Organization.only_deleted.count])
+    assessment_either_overdue_or_due_today_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/assessment_either_overdue_or_due_today/].blank? }
+    assessment_either_overdue_or_due_today_keys.each { |key| Rails.cache.delete(key) }
   end
 end

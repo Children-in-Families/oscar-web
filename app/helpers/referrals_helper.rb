@@ -41,5 +41,4 @@ module ReferralsHelper
   def find_repeated_referred_client(referral)
     Client.find_by(global_id: referral.client_global_id)
   end
-
 end

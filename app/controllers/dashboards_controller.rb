@@ -2,6 +2,7 @@ class DashboardsController < AdminController
   include CsiConcern
 
   before_action :task_of_user, :find_overhaul_task_params, :find_tasks, only: [:index]
+  skip_before_action :notify_user, :set_sidebar_basic_info, only: [:notification, :family_tab, :side_menu_data]
 
   def index
     @program_streams = ProgramStream.includes(:program_stream_services, :services).where(program_stream_services: { service_id: nil }).attached_with('Client')
@@ -29,6 +30,30 @@ class DashboardsController < AdminController
     @client_grid = ClientGrid.new({ column_names: [:id, :slug, :given_name, :family_name, :local_given_name, :local_family_name, :status, :gender]}).scope { clients }
   end
 
+  def family_tab
+    @dashboard = Dashboard.new(Client.none, family_only: true)
+
+    render json: { data: render_to_string(partial: 'family') }
+  end
+
+  def notification
+    clients = Client.none.accessible_by(current_ability).non_exited_ngo
+    @notification = UserNotification.new(current_user, clients)
+  end
+
+  def side_menu_data
+    @client_count  = Client.accessible_by(current_ability).count
+    @family_count  = Family.accessible_by(current_ability).count
+    @community_count  = Community.accessible_by(current_ability).count
+    @user_count    = User.where(deleted_at: nil).accessible_by(current_ability).count
+    @partner_count = Partner.count
+    @agency_count  = Agency.count
+    @calls_count   = Call.count
+    @referees_count        = Referee.count
+    @referral_source_count = ReferralSource.count
+    @archived_count = Client.only_deleted.accessible_by(current_ability).count
+  end
+
   private
 
   def find_overhaul_task_params
@@ -52,13 +77,11 @@ class DashboardsController < AdminController
   end
 
   def find_clients
-    clients_overdue = []
-    clients_duetoday = []
-    clients_upcoming = []
     clients = []
     @setting = Setting.cache_first
-    _clients = Client.accessible_by(current_ability).active_accepted_status.distinct
-    eligible_clients = active_young_clients(_clients, @setting)
+    user_ability = Ability.new(@user)
+    accepted_clients = Client.accessible_by(user_ability).active_accepted_status.distinct
+    eligible_clients = active_young_clients(accepted_clients, @setting)
     eligible_clients.each do |client|
       overdue_tasks = []
       today_tasks = []
@@ -108,6 +131,7 @@ class DashboardsController < AdminController
           end
         end
       end
+
       clients << [client, { overdue_forms: overdue_forms.uniq, today_forms: today_forms.uniq, upcoming_forms: upcoming_forms.uniq,
                             overdue_trackings: overdue_trackings.uniq, today_trackings: today_trackings.uniq,
                             upcoming_trackings: upcoming_trackings.uniq, overdue_tasks: overdue_tasks.flatten.uniq,
@@ -130,6 +154,7 @@ class DashboardsController < AdminController
     SQL
 
     if current_user.case_worker? || current_user.manager?
+      # sql += ' LEFT OUTER JOIN case_worker_clients ON case_worker_clients.client_id = clients.id'
       clients_error = Client.accessible_by(current_ability).joins(sql).group('clients.id, case_worker_clients.id').having(sub_sql_min_max)
     else
       clients_error = Client.accessible_by(current_ability).joins(sql).group('clients.id').having(sub_sql_min_max)

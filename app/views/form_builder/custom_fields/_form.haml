@@ -1,4 +1,4 @@
-= simple_form_for(@custom_field, html: {id: 'custom_field'}) do |f|
+= simple_form_for(@custom_field, html: {id: 'custom_field', class: current_user.admin? ? 'is-admin' : ''}) do |f|
   .ibox-content
     .row
       .col-xs-12.col-sm-6

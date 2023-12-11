@@ -1,4 +1,4 @@
-CIF.CommunitiesIndex = do ->
+CIF.CommunitiesIndex = CIF.CommunitiesWelcome = do ->
   _init = ->
     _initSelect2()
     _initCheckbox()

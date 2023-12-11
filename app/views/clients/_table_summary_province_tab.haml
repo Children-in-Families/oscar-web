@@ -1,0 +1,46 @@
+- clients = @results.joins(:client_enrollments).distinct
+- no_program_clients = @results.includes(:client_enrollments, :province).where(client_enrollments: {client_id: nil})
+- province_ids =  @results.map(&:province_id).uniq.compact
+- provinces = Province.cached_order_name.select { |prov| province_ids.include?(prov.id) }
+
+#table-summary-location-tab.tab-pane.table-responsive{role: "tabpanel"}
+  %table.table.table-bordered.table-striped.table-hover.assessment-score-data#table-summary-location
+    %thead
+      %tr
+        %th.text-center{:rowspan => 2}= t('clients.table_summary.program')
+        - provinces.each do |prov|
+          %th.text-center{:colspan => 3}= prov.name
+        %th.text-center{:rowspan => 2}= t('clients.table_summary.total')
+      %tr
+        - provinces.each do
+          %th= t('clients.table_summary.female')
+          %th= t('clients.table_summary.male')
+          %th= t('clients.table_summary.other')
+    %tbody
+
+      - ProgramStream.where(id: clients.pluck(:program_stream_id).uniq).each do |program|
+        - by_program = clients.where(client_enrollments: { program_stream_id: program.id }).distinct
+        %tr
+          %td= program.name
+          - provinces.each do |province|
+            %td= by_program.where(province_id: province.id).female_shared_clients.count
+            %td= by_program.where(province_id: province.id).male_shared_clients.count
+            %td= by_program.where(province_id: province.id).non_binary_shared_clients.count
+          %td= by_program.count
+
+      %tr
+        %td= t('clients.table_summary.no_program')
+        - provinces.each do |province|
+          %td= no_program_clients.where(province_id: province.id).female_shared_clients.count
+          %td= no_program_clients.where(province_id: province.id).male_shared_clients.count
+          %td= no_program_clients.where(province_id: province.id).non_binary_shared_clients.count
+        %td= no_program_clients.uniq.count
+
+      %tr
+        %td= t('clients.table_summary.client_by_gender')
+        - provinces.each do |province|
+          %td= @results.where(province_id: province.id).female_shared_clients.count
+          %td= @results.where(province_id: province.id).male_shared_clients.count
+          %td= @results.where(province_id: province.id).non_binary_shared_clients.count
+
+        %td= @results.size

@@ -84,12 +84,8 @@
                                 = goal
 
           .row
-            - file_names = case_note.case_note_domain_groups.pluck(:attachments).reject(&:blank?)
-            - case_note.case_note_domain_groups.each do |cdg|
-              - next if cdg.attachments.blank?
-              - attachment_names = cdg.attachments.map{|a| a.file.path.split('/').last }
-              - next if file_names.exclude? attachment_names
-              - file_names.delete(attachment_names)
+            - attachments = case_note.attachments.reject(&:blank?)
+            - if attachments.any?
               .col-xs-12
                 .panel.panel-default
                   .panel-heading
@@ -97,7 +93,7 @@
                   .panel-body
                     .table-responsive
                       %table.table.table-bordered
-                        - cdg.attachments.each_with_index do |attachment, index|
+                        - attachments.each_with_index do |attachment, index|
                           %tr
                             %td= original_filename(attachment)
                             %td.text-center

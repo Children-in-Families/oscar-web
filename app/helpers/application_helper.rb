@@ -1,6 +1,10 @@
 module ApplicationHelper
   Thredded::ApplicationHelper
 
+  def setting
+    Setting.cache_first
+  end
+
   def asset_data_base64(path)
     if Rails.configuration.assets.compile
       asset = Rails.application.assets.find_asset(path)
@@ -8,8 +12,8 @@ module ApplicationHelper
       asset = Rails.application.assets_manifest.assets[path]
     end
     throw "Could not find asset '#{path}'" if asset.nil?
-    base64 = Base64.encode64(asset.to_s).gsub(/\s/, "")
-    content_type = asset.try(:content_type) || "application/x-font-ttf"
+    base64 = Base64.encode64(asset.to_s).gsub(/\s/, '')
+    content_type = asset.try(:content_type) || 'application/x-font-ttf'
     "data:#{content_type};base64,#{Rack::Utils.escape(base64)}"
   end
 
@@ -34,7 +38,7 @@ module ApplicationHelper
   end
 
   def show_family_CRD?
-    @show_family_CRD ||= QuantitativeType.where('visible_on LIKE ?', "%family%").any?
+    @show_family_CRD ||= QuantitativeType.where('visible_on LIKE ?', '%family%').any?
   end
 
   def notification_client_exit(day)
@@ -81,11 +85,11 @@ module ApplicationHelper
   def remove_link(object, associated_objects = {}, btn_size = 'btn-xs', custom_assessment_setting_id = nil, tab_name = nil)
     btn_status = associated_objects.values.sum.zero? ? nil : 'disabled'
     if object.class.name.downcase == 'domain'
-      link_to(domain_path(object, custom_assessment_setting_id: custom_assessment_setting_id, tab: tab_name || params[:tab]), method: 'delete',  data: { confirm: t('are_you_sure') }, class: "btn btn-outline btn-danger #{btn_size} #{btn_status}") do
+      link_to(domain_path(object, custom_assessment_setting_id: custom_assessment_setting_id, tab: tab_name || params[:tab]), method: 'delete', data: { confirm: t('are_you_sure') }, class: "btn btn-outline btn-danger #{btn_size} #{btn_status}") do
         fa_icon('trash')
       end
     else
-      link_to(object, method: 'delete',  data: { confirm: t('are_you_sure') }, class: "btn btn-outline btn-danger #{btn_size} #{btn_status}") do
+      link_to(object, method: 'delete', data: { confirm: t('are_you_sure') }, class: "btn btn-outline btn-danger #{btn_size} #{btn_status}") do
         fa_icon('trash')
       end
     end
@@ -93,7 +97,7 @@ module ApplicationHelper
 
   def is_active_controller(controller_name, class_name = nil)
     if params[:controller] =~ /#{controller_name}/i
-      class_name == nil ? "active" : class_name
+      class_name == nil ? 'active' : class_name
     else
       nil
     end
@@ -152,12 +156,13 @@ module ApplicationHelper
     controller_name == name || controller_name == alter_name ? 'active' : nil
   end
 
-  def settings_menu_active(name, action_names)
-    action = ['index' ,'update' ,'create'].include?(action_name) ? 'index' : action_name
-    'active' if (controller_name == name && action_names == action)
+  def settings_menu_active(name, *action_names)
+    action = ['index', 'update', 'create'].include?(action_name) ? 'index' : action_name
+
+    'active' if controller_name == name && action_names.include?(action)
   end
 
-  def hidden_class(tasks, assessment_domain=false)
+  def hidden_class(tasks, assessment_domain = false)
     'hidden' if tasks.blank? && !assessment_domain
   end
 
@@ -239,24 +244,28 @@ module ApplicationHelper
 
   def program_stream_readable?(value)
     return true if current_user.admin? || current_user.strategic_overviewer?
+
     current_user.program_stream_permissions.find_by(program_stream_id: value).readable
   end
 
   def program_permission_editable?(value)
     return true if current_user.admin?
     return false if current_user.strategic_overviewer?
+
     current_user.program_stream_permissions.find_by(program_stream_id: value).editable
   end
 
   def custom_field_editable?(value)
     return true if current_user.admin?
     return false if current_user.strategic_overviewer?
+
     current_user.custom_field_permissions.find_by(custom_field_id: value).editable
   end
 
   def custom_field_readable?(value)
     return true if current_user.admin?
     return false if current_user.strategic_overviewer?
+
     current_user.custom_field_permissions.find_by(custom_field_id: value).readable
   end
 
@@ -271,7 +280,7 @@ module ApplicationHelper
   end
 
   def default_setting(column, setting_default_columns)
-    key_columns = params.keys.select{ |k| k.match(/\_$/) }
+    key_columns = params.keys.select { |k| k.match(/_$/) }
     return false if setting_default_columns.nil? || (key_columns.present? && key_columns.exclude?(column))
     return false unless params.dig(:client_grid, :descending).present? || (params[:client_advanced_search].present? && params.dig(:client_grid, :descending).present?) || params[:client_grid].nil? || params[:client_advanced_search].nil?
     return false unless params.dig(:family_grid, :descending).present? || (params[:family_advanced_search].present? && params.dig(:family_grid, :descending).present?) || params[:family_grid].nil? || params[:family_advanced_search].nil?
@@ -294,13 +303,13 @@ module ApplicationHelper
     if @notification.any_overdue_assessments? && @notification.any_due_today_assessments?
       overdue_count = @notification.overdue_assessments_count
       due_today_count = @notification.due_today_assessments_count
-      "#{I18n.t('layouts.notification.assessments_count', count: overdue_count)} #{Setting.cache_first.default_assessment} #{I18n.t('layouts.notification.overdue_assessments', count: overdue_count)} #{I18n.t('layouts.notification.overdue_and_due_today_count', count: due_today_count)}"
+      "#{I18n.t('layouts.notification.assessments_count', count: overdue_count)} #{setting.default_assessment} #{I18n.t('layouts.notification.overdue_assessments', count: overdue_count)} #{I18n.t('layouts.notification.overdue_and_due_today_count', count: due_today_count)}"
     elsif @notification.any_overdue_assessments?
       count = @notification.overdue_assessments_count
-      "#{I18n.t('layouts.notification.assessments_count', count: count)} #{Setting.cache_first.default_assessment} #{I18n.t('layouts.notification.overdue_assessments', count: count)}"
+      "#{I18n.t('layouts.notification.assessments_count', count: count)} #{setting.default_assessment} #{I18n.t('layouts.notification.overdue_assessments', count: count)}"
     else
       count = @notification.due_today_assessments_count
-      "#{I18n.t('layouts.notification.assessments_count', count: count)} #{Setting.cache_first.default_assessment} #{I18n.t('layouts.notification.due_today_assessments', count: count)}"
+      "#{I18n.t('layouts.notification.assessments_count', count: count)} #{setting.default_assessment} #{I18n.t('layouts.notification.due_today_assessments', count: count)}"
     end
   end
 
@@ -321,14 +330,14 @@ module ApplicationHelper
   def forms_notification_label
     if @notification.any_client_forms_overdue? && @notification.any_client_forms_due_today?
       "#{I18n.t('layouts.notification.due_today_forms_count', count: @notification.client_enrollment_tracking_frequency_overdue_count)} #{I18n.t('layouts.notification.overdue_and_due_today_count', count: @notification.client_enrollment_tracking_frequency_due_today_count)}"
-    elsif  @notification.any_client_forms_overdue?
+    elsif @notification.any_client_forms_overdue?
       I18n.t('layouts.notification.overdue_forms_count', count: @notification.client_enrollment_tracking_frequency_overdue_count)
     else
       I18n.t('layouts.notification.due_today_forms_count', count: @notification.client_enrollment_tracking_frequency_due_today_count)
     end
   end
 
-  def whodunnit(type, id, event='create')
+  def whodunnit(type, id, event = 'create')
     user_id = PaperTrail::Version.find_by(event: event, item_type: type, item_id: id).try(:whodunnit)
     if user_id.blank? || (user_id.present? && user_id.include?('@rotati'))
       object = type.constantize.find(id)
@@ -370,25 +379,45 @@ module ApplicationHelper
   end
 
   def enable_default_assessment?
-    Setting.cache_first.try(:enable_default_assessment)
+    setting.try(:enable_default_assessment)
   end
 
   def enable_custom_assessment?
-    CustomAssessmentSetting.where(enable_custom_assessment: true).present?
+    CustomAssessmentSetting.cache_only_enable_custom_assessment.any?
   end
 
-  def enable_any_csi_tools?
-    enable_default_assessment? || enable_custom_assessment?
+  def assessment_options
+    options = CustomAssessmentSetting.cache_only_enable_custom_assessment.map do |item|
+      [
+        item.id,
+        item.custom_assessment_name,
+        { 'data-select-group' => "#{t('advanced_search.fields.custom_csi_domain_scores')} | #{item.custom_assessment_name}" }
+      ]
+    end
+
+    options = options.unshift([0, setting.default_assessment, { 'data-type' => :default, 'data-select-group' => t('advanced_search.fields.csi_domain_scores') }]) if setting.enable_default_assessment?
+    options
+  end
+
+  def family_assessment_options
+    [
+      [
+        0,
+        t('families.family_assessment'),
+        { 'data-type' => :default, 'data-select-group' => t('advanced_search.fields.family_assessment_domain_scores') }
+      ]
+    ]
   end
 
   def country_langauge
     return 'Swahili' if current_organization.short_name == 'cccu'
-    country = current_setting.try(:country_name)
+    country = setting.try(:country_name)
     case country
     when 'cambodia' then 'Khmer'
     when 'myanmar' then 'Burmese'
     when 'thailand' then 'Thai'
     when 'lesotho' then 'English'
+    when 'indonesia' then 'Bahasa'
     end
   end
 
@@ -396,15 +425,17 @@ module ApplicationHelper
     {
       en: { label: t('.english'), flag_file_name: 'United-Kingdom.png' },
       km: { label: t('.khmer'), flag_file_name: 'Cambodia.png' },
-      my: { label: t('.burmese'), flag_file_name: 'Myanamar-icon.png' }
+      my: { label: t('.burmese'), flag_file_name: 'Myanamar-icon.png' },
+      in: { label: t('.bahasa'), flag_file_name: 'indonesia.png' }
     }
   end
 
-  def referral_source_name(referral_source)
+  def referral_source_name(referral_source, client = nil)
+    values = []
     if I18n.locale == :km
-      referral_source.map{|ref| [ref.name, ref.id] }
+      values = referral_source.map { |ref| [ref.name, ref.id] }
     else
-      referral_source.map do |ref|
+      values = referral_source.map do |ref|
         if ref.name_en.blank?
           [ref.name, ref.id]
         else
@@ -412,6 +443,14 @@ module ApplicationHelper
         end
       end
     end
+
+    if client && client.external_id.present?
+      referral_source = ReferralSource.find_by(name: 'MoSVY External System')
+      values << [referral_source.name, referral_source.id]
+    else
+      values
+    end
+    values.uniq
   end
 
   def ref_cat_name(referral_source_cat)
@@ -421,26 +460,30 @@ module ApplicationHelper
   def select_ngos
     current_short_name = Apartment::Tenant.current
     if current_short_name == 'demo' || current_short_name == 'tutorials'
-      Organization.test_ngos.exclude_current.order(:full_name).map{|org| [org.full_name, org.short_name] }
+      Organization.test_ngos.exclude_current.order(:full_name).map { |org| [org.full_name, org.short_name] }
     elsif current_short_name == 'cif' || current_short_name == 'newsmile'
-      Organization.exclude_current.visible_only_cif.where(demo: false).order(:full_name).map{|org| [org.full_name, org.short_name] }
+      Organization.exclude_current.visible_only_cif.where(demo: false).order(:full_name).map { |org| [org.full_name, org.short_name] }
     else
-      Organization.exclude_current.oscar.order(:full_name).map{|org| [org.full_name, org.short_name] }
+      Organization.exclude_current.oscar.order(:full_name).map { |org| [org.full_name, org.short_name] }
     end
   end
 
   def mapping_ngos(ngos)
     if controller_name == 'clients'
-      ExternalSystem.all.each.map{ |external_system| ngos << [external_system.name, "external referral"] }
-      ngos << ["I don't see the NGO I'm looking for...", "external referral"]
+      ExternalSystem.all.each.map { |external_system| ngos << [external_system.name, external_system.name] }
+      ngos << ["I don't see the NGO I'm looking for...", 'external referral']
     elsif controller_name == 'family_referrals'
-      ngos << ["MoSVY External System", "MoSVY External System"]
-      ngos << ["I don't see the NGO I'm looking for...", "external referral", disabled: @referral&.referred_to != 'external referral']
+      ngos << ['MoSVY External System', 'MoSVY External System']
+      ngos << ["I don't see the NGO I'm looking for...", 'external referral', disabled: @referral&.referred_to != 'external referral']
     else
-      ngos << ["MoSVY External System", "MoSVY External System", disabled: @referral&.referred_to != 'external referral']
-      ngos << ["I don't see the NGO I'm looking for...", "external referral", disabled: @referral&.referred_to != 'external referral']
+      ngos << ['MoSVY External System', 'MoSVY External System', disabled: @referral&.referred_to != 'MoSVY External System'] if is_ngo_share_to_external?
+      ngos << ["I don't see the NGO I'm looking for...", 'external referral', disabled: @referral&.referred_to != 'external referral']
     end
     ngos
+  end
+
+  def is_ngo_share_to_external?
+    current_organization.integrated?
   end
 
   def initial_referral_date_picker_format(entity)
@@ -449,7 +492,7 @@ module ApplicationHelper
 
   def advanced_search_url_dynamic
     routes = Rails.application.routes.url_helpers
-    routes.public_send("advanced_search_#{params["controller"]}_path")
+    routes.public_send("advanced_search_#{params['controller']}_path")
   end
 
   def has_service_delivery?
@@ -457,12 +500,11 @@ module ApplicationHelper
   end
 
   def request_method
-    (['clients', 'families'].include?(params[:controller]) && params[:action] == 'index') ?  'Post' : 'Get'
+    (['clients', 'families'].include?(params[:controller]) && params[:action].in?(%w(index welcome))) ? 'Post' : 'Get'
   end
 
   def age_in_hash(dob)
     now = Time.now.utc
     distance_of_time_in_words_hash(now, dob)
   end
-
 end

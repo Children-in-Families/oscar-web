@@ -2,27 +2,29 @@ module AdvancedSearches
   class ClientBaseSqlBuilder
     include ProgramStreamHelper
 
-    ASSOCIATION_FIELDS = ['user_id', 'created_by', 'agency_name', 'donor_name', 'age', 'family', 'family_id',
+    ASSOCIATION_FIELDS = [
+                          'user_id', 'created_by', 'agency_name', 'donor_name', 'age', 'family', 'family_id',
                           'active_program_stream', 'enrolled_program_stream', 'case_note_date', 'no_case_note_date', 'case_note_type',
-                          'date_of_assessments', 'date_of_custom_assessments', 'accepted_date', 'assessment_completed_date',
-                          'custom_assessment', 'custom_assessment_created_date', 'custom_completed_date',
+                          'assessment_created_at', 'date_of_assessments', 'date_of_custom_assessments', 'accepted_date', 'assessment_completed_date',
+                          'custom_assessment', 'custom_assessment_created_at', 'custom_completed_date',
                           'exit_date', 'exit_note', 'other_info_of_exit', 'protection_concern_id', 'necessity_id',
                           'exit_circumstance', 'exit_reasons', 'referred_to', 'referred_from', 'time_in_cps', 'time_in_ngo',
-                          'assessment_number', 'month_number', 'date_nearest', 'assessment_completed','date_of_referral',
+                          'assessment_number', 'month_number', 'date_nearest', 'assessment_completed', 'date_of_referral',
                           'referee_name', 'referee_phone', 'referee_email', 'carer_name', 'carer_phone', 'carer_email',
                           'client_phone', 'client_email_address', 'phone_owner', 'referee_relationship', 'active_clients',
-                          'care_plan_counter', 'care_plan_completed_date', 'completed_date', 'custom_completed_date', 'carer_relationship_to_client',
-                          'ratanak_achievement_program_staff_client_ids', 'mo_savy_officials',
+                          'care_plan_counter', 'care_plan_date', 'care_plan_completed_date', 'completed_date', 'custom_completed_date',
+                          'ratanak_achievement_program_staff_client_ids', 'mo_savy_officials', 'carer_relationship_to_client',
                           'referred_in', 'referred_out', 'family_type', 'active_client_program',
                           'number_client_referred_gatekeeping', 'number_client_billable', 'assessment_condition_last_two',
                           'assessment_condition_first_last', 'client_rejected', 'incomplete_care_plan'
-                        ]
+                        ].freeze
 
     BLANK_FIELDS = ['created_at', 'date_of_birth', 'initial_referral_date', 'follow_up_date', 'has_been_in_orphanage', 'has_been_in_government_care', 'province_id', 'referral_source_id', 'birth_province_id', 'received_by_id', 'followed_up_by_id', 'district_id', 'subdistrict_id', 'township_id', 'state_id', 'commune_id', 'village_id', 'referral_source_category_id', 'arrival_at']
     SENSITIVITY_FIELDS = %w(given_name family_name local_given_name local_family_name kid_id code school_name school_grade street_number house_number village commune live_with relevant_referral_information telephone_number name_of_referee main_school_contact what3words address_type concern_address_type)
     SHARED_FIELDS = %w(given_name family_name local_given_name local_family_name gender birth_province_id date_of_birth live_with telephone_number)
     CALL_FIELDS = Call::FIELDS
-    OVERDUE_FIELDS = %w(has_overdue_assessment has_overdue_forms has_overdue_task no_case_note)
+    OVERDUE_FIELDS = %w[has_overdue_assessment has_overdue_forms has_overdue_task no_case_note].freeze
+    RISK_ASSESSMENTS = %w[level_of_risk date_of_risk_assessment has_disability has_hiv_or_aid has_known_chronic_disease].freeze
 
     def initialize(clients, basic_rules)
       @clients     = clients
@@ -40,6 +42,7 @@ module AdvancedSearches
         operator = rule['operator']
         value    = rule['value']
         form_builder = field != nil ? field.split('__') : []
+
         if ASSOCIATION_FIELDS.include?(field)
           association_filter = AdvancedSearches::ClientAssociationFilter.new(@clients, field, operator, value).get_sql
           @sql_string << association_filter[:id]
@@ -53,10 +56,11 @@ module AdvancedSearches
           @values     << shared_client_filter[:values]
         elsif form_builder.first == 'formbuilder'
           if form_builder.last == 'Has This Form'
-            custom_form_value = CustomField.find_by(form_title: value, entity_type: 'Client').try(:id)
+            custom_form_value = CustomField.find_by(form_title: value, entity_type: 'Client')&.id
+            
             @sql_string << "Clients.id IN (?)"
             @values << @clients.joins(:custom_fields).where('custom_fields.id = ?', custom_form_value).uniq.ids
-          elsif rule['operator'] == 'is_empty'
+          elsif form_builder.last == 'Does Not Have This Form'
             client_ids = Client.joins(:custom_fields).where(custom_fields: { form_title: form_builder.second }).ids
             @sql_string << "clients.id NOT IN (?)"
             @values << client_ids
@@ -121,23 +125,27 @@ module AdvancedSearches
           @sql_string << domain_scores[:id]
           @values << domain_scores[:values]
         elsif form_builder.first == 'type_of_service'
-          service_query = AdvancedSearches::ServiceSqlBuilder.new().get_sql
+          service_query = AdvancedSearches::ServiceSqlBuilder.new.get_sql
           @sql_string << service_query[:id]
           @values << service_query[:values]
         elsif CALL_FIELDS.include?(field)
-          service_query = AdvancedSearches::Hotline::CallSqlBuilder.new().get_sql
+          service_query = AdvancedSearches::Hotline::CallSqlBuilder.new.get_sql
           @sql_string << service_query[:id]
           @values << service_query[:values]
         elsif OVERDUE_FIELDS.include?(field)
           overdue_form = AdvancedSearches::OverdueFormSqlBuilder.new(@clients, field, operator, value).get_sql
           @sql_string << overdue_form[:id]
           @values << overdue_form[:values]
-        elsif field != nil && form_builder.first != 'type_of_service'
+        elsif RISK_ASSESSMENTS.include?(field)
+          results = AdvancedSearches::RiskAssessmentSqlBuilder.new(@clients, field, operator, value).generate_sql
+          @sql_string << results[:id]
+          @values << results[:values]
+        elsif !field.nil? && form_builder.first != 'type_of_service'
           base_sql(field, operator, value)
         else
-          nested_query =  AdvancedSearches::ClientBaseSqlBuilder.new(@clients, rule).generate
+          nested_query = AdvancedSearches::ClientBaseSqlBuilder.new(@clients, rule).generate
           @sql_string << nested_query[:sql_string]
-          nested_query[:values].select{ |v| @values << v }
+          nested_query[:values].select { |v| @values << v }
         end
       end
 

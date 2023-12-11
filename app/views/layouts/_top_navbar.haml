@@ -9,8 +9,10 @@
         - if user_signed_in?
           = link_to root_path do
             = image_tag(ENV['NGO_LOGO'], class: 'navbar-minimalize minimalize-styl-2')
-    %ul.nav.navbar-top-links.navbar-right.pull-right
-      = render 'layouts/notification' if user_signed_in?
+    %ul.nav.navbar-top-links.navbar-right.pull-right{ class: "#{ 'lazy-load-notification' if @lazy_load_notification && controller_name == 'dashboards' }" }
+      - if user_signed_in? && controller_name == 'dashboards'
+        = render partial: 'layouts/notification' unless @lazy_load_notification
+
       %li#language-selection-dropdown
         .btn-group#language-selection
           %button.btn.btn-default.dropdown-toggle.btn-sm{ "aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button" }

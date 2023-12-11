@@ -33,26 +33,24 @@ module AdvancedSearches
     def domainscore_field_query
       assessments   = []
       domain        = Domain.find(@domain_id)
-      custom_domain = domain.try(:custom_domain)
+      custom_domain = domain&.custom_domain
       identity      = domain.identity
       clients       = Client.includes(assessments: :assessment_domains).references(:assessments)
-      if $param_rules.nil?
-        clients.ids
-      else
-        basic_rules = $param_rules['basic_rules']
-        basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
-        results = mapping_assessment_query_rules(basic_rules).reject(&:blank?)
-        assessment_completed_sql, assessment_number = assessment_filter_values(results)
-        sql = "(assessments.completed = true #{assessment_completed_sql}) AND assessments.created_at = (SELECT created_at FROM assessments WHERE clients.id = assessments.client_id ORDER BY assessments.created_at limit 1 offset #{(assessment_number || 1) - 1})".squish
+      return clients.ids if $param_rules.nil? || $param_rules['basic_rules'].nil?
 
-        score = [@value].flatten.map(&:to_i).sum.zero? ? nil : [@value].flatten.map(&:to_i)
-        if assessment_completed_sql.present? && assessment_number.present?
-          clients.where(assessment_domains: { score: score, domain_id: @domain_id }).where(sql)
-        else
-          clients = domainscore_operator(clients, @operator, score, sql)
-        end
-        clients.ids
+      basic_rules = $param_rules['basic_rules']
+      basic_rules = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
+      results = mapping_assessment_query_rules(basic_rules).reject(&:blank?)
+      assessment_completed_sql, assessment_number = assessment_filter_values(results)
+      sql = "(assessments.completed = true #{assessment_completed_sql}) AND assessments.created_at = (SELECT created_at FROM assessments WHERE clients.id = assessments.client_id ORDER BY assessments.created_at limit 1 offset #{(assessment_number || 1) - 1})".squish
+
+      score = [@value].flatten.map(&:to_i).sum.zero? ? nil : [@value].flatten.map(&:to_i)
+      if assessment_completed_sql.present? && assessment_number.present?
+        clients.where(assessment_domains: { score: score, domain_id: @domain_id }).where(sql)
+      else
+        clients = domainscore_operator(clients, @operator, score, sql)
       end
+      clients.ids
     end
 
     def domainscore_operator(clients, operator, score, sql)
@@ -84,7 +82,7 @@ module AdvancedSearches
       return if @value.first == @value.last
       client_ids = []
       between_date_value = @basic_rules.second['value']
-      custom_domain      = Domain.find(@domain_id).try(:custom_domain)
+      custom_domain      = Domain.find(@domain_id)&.custom_domain
 
       case @operator
       when 'assessment_has_changed'
@@ -424,7 +422,7 @@ module AdvancedSearches
                 (scores.compact.sum.to_f / assessment.assessment_domains.size.to_f).round != @value.to_i
               end
             end
-            assessment.first.try(:client_id)
+            assessment.first&.client_id
           end
           client_ids.compact
         end
@@ -526,7 +524,7 @@ module AdvancedSearches
                 (scores.compact.sum.to_f / assessment.assessment_domains.size.to_f).round != @value.to_i
               end
             end
-            assessment.first.try(:client_id)
+            assessment.first&.client_id
           end
           client_ids.compact
         end

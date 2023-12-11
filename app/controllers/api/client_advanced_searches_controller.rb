@@ -8,7 +8,7 @@ module Api
     def get_custom_field
       custom_form_ids = params[:ids]
       advanced_filter_custom_field = AdvancedSearches::CustomFields.new(custom_form_ids).render
-      advanced_filter_custom_field << AdvancedSearches::HasThisFormFields.new(custom_form_ids).render.first
+      advanced_filter_custom_field += AdvancedSearches::HasThisFormFields.new(custom_form_ids, attach_with).render
       render json: advanced_filter_custom_field.compact
     end
 
@@ -35,6 +35,12 @@ module Api
       assessment_checked = params[:assesment_checked]
       advanced_filter_common_field = AdvancedSearches::CommonFields.new(program_stream_ids, assessment_checked).render
       render json: advanced_filter_common_field
+    end
+
+    private
+
+    def attach_with
+      request.referer.include?('families') ? 'Family' : 'Client'
     end
   end
 end

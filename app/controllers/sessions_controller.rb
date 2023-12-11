@@ -1,6 +1,7 @@
 class SessionsController < Devise::SessionsController
   include LocaleConcern
-  before_action :set_whodunnit, :set_current_ngo, :detect_browser
+  
+  before_action :set_whodunnit, :detect_browser
   after_action :increase_visit_count, only: :create
   skip_before_action :set_locale, only: :create
 
@@ -12,12 +13,7 @@ class SessionsController < Devise::SessionsController
     end
   end
 
-  def set_current_ngo
-    @current_ngo = Organization.current
-  end
-
   def increase_visit_count
     Visit.create(user: current_user)
   end
-
 end

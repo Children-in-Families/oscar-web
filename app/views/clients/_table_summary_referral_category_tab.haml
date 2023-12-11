@@ -19,33 +19,19 @@
       - ReferralSource.where(id: @results.pluck(:referral_source_category_id).uniq).each do |referralSource|
         %tr
           %td= referralSource.name
-          - childFemale= @results.where("referral_source_category_id = ? AND gender = ? AND (EXTRACT(year FROM age(current_date, date_of_birth)) :: int) < ?", referralSource.id, 'female', 18).count
-          - totalChildFemale += childFemale
-          %td= childFemale
-          - childMale= @results.where("referral_source_category_id = ? AND gender = ? AND (EXTRACT(year FROM age(current_date, date_of_birth)) :: int) < ?", referralSource.id, 'male', 18).count
-          - totalChildMale += childMale
-          %td= childMale
-          - childOther= @results.where("referral_source_category_id = ? AND gender NOT IN (?) AND (EXTRACT(year FROM age(current_date, date_of_birth)) :: int) < ?", referralSource.id, ['male', 'female'], 18).count
-          - totalChildOther += childOther
-          %td= childOther
-          - adultFemale= @results.where("referral_source_category_id = ? AND gender = ? AND (EXTRACT(year FROM age(current_date, date_of_birth)) :: int) >= ?", referralSource.id, 'female', 18).count
-          - totalAdultFemale += adultFemale
-          %td= adultFemale
-          - adultMale= @results.where("referral_source_category_id = ? AND gender = ? AND (EXTRACT(year FROM age(current_date, date_of_birth)) :: int) >= ?", referralSource.id, 'male', 18).count
-          - totalAdultMale += adultMale
-          %td= adultMale
-          - adultOther= @results.where("referral_source_category_id = ? AND gender NOT IN (?) AND (EXTRACT(year FROM age(current_date, date_of_birth)) :: int) >= ?", referralSource.id, ['male', 'female'], 18).count
-          - totalAdultOther += adultOther
-          %td= adultOther
-          - totalProgram= childFemale + childMale + childOther + adultFemale + adultMale + adultOther
-          - total += totalProgram
-          %td= totalProgram
+          %td= @results.child.female_shared_clients.where("referral_source_category_id = ? ", referralSource.id).count
+          %td= @results.child.male_shared_clients.where("referral_source_category_id = ? ", referralSource.id).count
+          %td= @results.child.non_binary_shared_clients.where("referral_source_category_id = ? ", referralSource.id).count
+          %td= @results.adult.female_shared_clients.where("referral_source_category_id = ? ", referralSource.id).count
+          %td= @results.adult.male_shared_clients.where("referral_source_category_id = ? ", referralSource.id).count
+          %td= @results.adult.non_binary_shared_clients.where("referral_source_category_id = ? ", referralSource.id).count
+          %td= @results.where("referral_source_category_id = ? ", referralSource.id).where.not(date_of_birth: nil).count
       %tr
         %td.font-bold= t('.total')
-        %td= totalChildFemale
-        %td= totalChildMale
-        %td= totalChildOther
-        %td= totalAdultFemale
-        %td= totalAdultMale
-        %td= totalAdultOther
-        %td= total
+        %td= @results.child.female_shared_clients.count
+        %td= @results.child.male_shared_clients.count
+        %td= @results.child.non_binary_shared_clients.count
+        %td= @results.adult.female_shared_clients.count
+        %td= @results.adult.male_shared_clients.count
+        %td= @results.adult.non_binary_shared_clients.count
+        %td= @results.where.not(date_of_birth: nil).count

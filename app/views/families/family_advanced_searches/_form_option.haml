@@ -4,7 +4,7 @@
   %label **
 .well
   .row
-    .col-xs-12{ class: current_setting.try(:enable_hotline) ? 'col-md-3' : 'col-md-4' }
+    .col-xs-12{ class: !Setting.cache_first.hide_family_case_management_tool? ? 'col-md-3' : 'col-md-4' }
       #quantitative-type
         .row
           .col-xs-12
@@ -12,7 +12,7 @@
               -# = check_box_tag :nil, '1', quantitative_check, { class: 'i-checks quantitative-type-checkbox', id: 'quantitative-type-checkbox' }
               = check_box_tag :nil, '1', quantitative_check, { class: 'i-checks quantitative-type-checkbox', id: 'quantitative-type-checkbox' }
               %label= t('.quantitative')
-    .col-xs-12.col-md-4
+    .col-xs-12{ class: !Setting.cache_first.hide_family_case_management_tool? ? 'col-md-3' : 'col-md-4' }
       .custom-form-wrapper
         .row
           .col-xs-12
@@ -23,7 +23,7 @@
           .col-xs-12
             .form-group#custom-form-data{ data: { value: custom_form_values } }
               = select_tag(:nil, options_for_select(@custom_fields.pluck(:form_title, :id), custom_form_values), { multiple: true, class: 'form-control custom-form-select', id: 'custom-form-select' } )
-    .col-xs-12{ class: current_setting.try(:enable_hotline) ? 'col-md-3' : 'col-md-4' }
+    .col-xs-12{ class: !Setting.cache_first.hide_family_case_management_tool? ? 'col-md-3' : 'col-md-4' }
       .program-stream-wrapper{ class: current_setting.hide_family_case_management_tool? && 'hide' }
         .row
           .col-xs-12
@@ -46,4 +46,18 @@
               .form-group
                 = check_box_tag :nil, '1', exit_form_check, { class: 'i-checks exit-form-checkbox', id: 'exit-form-checkbox' }
                 %label= t('.exit_program')
+    
+    - unless Setting.cache_first.hide_family_case_management_tool?
+      .col-xs-12.col-md-3
+        .assessment-form-wrapper
+          .row
+            .col-xs-12
+              .form-group
+                = check_box_tag :nil, '1', assessment_values.present?, { class: 'i-checks assessment-checkbox', id: 'assessment-checkbox', data: { custom: I18n.t('advanced_search.fields.family_assessment_domain_scores'), csi: t('advanced_search.fields.csi_domain_scores') } }
+                %label= t('.assessment_form')
+          .row.assessment-form
+            .col-xs-12
+              .form-group#assessment-form-data{ data: { value: assessment_values } }
+                = select_tag(:nil, family_assessment_options.empty? ? nil : options_for_select(family_assessment_options.map{|assessment| [assessment[1], assessment[0], assessment[2].presence || {}] }, assessment_values.empty? ? family_assessment_options.first[0] : assessment_values), { multiple: false, id: 'assessment-select', class: 'form-control assessment-select', include_blank: true })
+
 #opt-group-translation{ data: { enrollment: t('.enrollment'), tracking: t('.tracking'), exit_program: t('.exit_program'), basic_fields: t('.basic_fields'), custom_form: t('.custom_form'), quantitative: t('.quantitative') } }

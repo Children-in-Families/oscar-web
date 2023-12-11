@@ -29,7 +29,7 @@
                   - if I18n.locale == :km
                     %td= referral_source.parent.try(:name)
                   - else
-                    %td= referral_source.parent.try(:name_en)
+                    %td= referral_source.parent_exists? ? referral_source.parent.try(:name_en) : 'No Referral Source Category'
                   %td= referral_source.description
                   %td.text-center= edit_referral(referral_source)
                   %td.text-center= remove_referral(referral_source)
