@@ -548,7 +548,7 @@ class ClientGrid < BaseGrid
   end
 
   dynamic do
-    CustomData.first.fields.each do |field|
+    (CustomData.first && CustomData.first.fields || []).each do |field|
       next unless field['name']
 
       column(field['name'].to_sym, class: 'custom-data', header: -> { field['label'] }) do |object|
