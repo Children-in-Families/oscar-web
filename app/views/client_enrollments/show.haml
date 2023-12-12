@@ -29,4 +29,5 @@
                       - if type == 'file'
                         = render 'shared/form_builder/list_attachment', label: key, resource: @client_enrollment
                       - else
-                        = display_custom_properties(@client_enrollment.properties[key])
+                        %ul.list-group
+                          = display_custom_properties(@client_enrollment.properties[key])

@@ -58,9 +58,15 @@ module CustomFieldPropertiesHelper
   end
 
   def remove_local_field_prop_unicode(field_props)
-    return field_props['label'] if field_props["local_label"].nil?
+    return field_props['label'] if field_props['local_label'].nil?
 
-    field = field_props["local_label"].gsub(/\&gt\;|\&lt\;|\&amp\;|\"/, '&lt;' => '<', '&gt;' => '>', '&amp;' => '&', '"' => '%22')
+    field = field_props['local_label'].gsub(/\&gt\;|\&lt\;|\&amp\;|\"/, '&lt;' => '<', '&gt;' => '>', '&amp;' => '&', '"' => '%22')
+  end
+
+  def is_field_checked?(obj, field_prop, field, local_field)
+    return true if obj.to_h[field_prop['label'].to_sym] && obj.to_h[field_prop['label'].to_sym].include?(field)
+
+    obj.to_h[field_prop['local_label'].to_sym] && obj.to_h[field_prop['local_label'].to_sym].include?(local_field)
   end
 
   def mapping_custom_field_values(field_props)
@@ -87,61 +93,62 @@ module CustomFieldPropertiesHelper
   end
 
   private
-    def form_builder_selection_options_custom_form(custom_field)
-      field_types                    = group_field_types_custom_form(custom_field)
-      @select_field_custom_form      = field_types["select"]
-      @checkbox_field_custom_form    = field_types["checkbox-group"]
-      @radio_field_custom_form       = field_types["radio-group"]
-    end
 
-    def group_field_types_custom_form(custom_field)
-      group_field_types = Hash.new{|h,k| h[k] = []}
-      group_by_option_type_label = form_builder_group_by_options_type_label_custom_form(custom_field)
-      group_selection_field_types = group_selection_field_types_custom_form(custom_field)
-      if group_selection_field_types.present?
-        group_selection_field_types&.compact.each do |selection_field_types|
-          group_by_option_type_label.each do |type,labels|
-            next unless labels.present?
-            labels.each do |label|
-              next if selection_field_types[label].blank?
-                group_field_types[type] << selection_field_types[label]
-            end
+  def form_builder_selection_options_custom_form(custom_field)
+    field_types = group_field_types_custom_form(custom_field)
+    @select_field_custom_form = field_types['select']
+    @checkbox_field_custom_form = field_types['checkbox-group']
+    @radio_field_custom_form = field_types['radio-group']
+  end
+
+  def group_field_types_custom_form(custom_field)
+    group_field_types = Hash.new { |h, k| h[k] = [] }
+    group_by_option_type_label = form_builder_group_by_options_type_label_custom_form(custom_field)
+    group_selection_field_types = group_selection_field_types_custom_form(custom_field)
+    if group_selection_field_types.present?
+      group_selection_field_types&.compact.each do |selection_field_types|
+        group_by_option_type_label.each do |type, labels|
+          next unless labels.present?
+          labels.each do |label|
+            next if selection_field_types[label].blank?
+            group_field_types[type] << selection_field_types[label]
           end
         end
       end
-      group_field_types =  group_field_types.transform_values(&:flatten)
-      group_field_types.transform_values(&:uniq)
     end
+    group_field_types = group_field_types.transform_values(&:flatten)
+    group_field_types.transform_values(&:uniq)
+  end
 
-    def group_selection_field_types_custom_form(custom_field)
-      group_value_field_types = []
-      custom_field.custom_field_properties.each do |custom_field_property|
-        group_value_field_types << custom_field_property.properties if custom_field_property.properties.present?
+  def group_selection_field_types_custom_form(custom_field)
+    group_value_field_types = []
+    custom_field.custom_field_properties.each do |custom_field_property|
+      group_value_field_types << custom_field_property.properties if custom_field_property.properties.present?
+    end
+    return group_value_field_types
+  end
+
+  def form_builder_group_by_options_type_label_custom_form(custom_field)
+    group_options_type_label = Hash.new { |h, k| h[k] = [] }
+    form_builder_option = form_builder_options_custom_form(custom_field)
+    form_builder_option['type'].each_with_index do |type_option, i|
+      group_options_type_label[type_option] << form_builder_option['label'][i]
+    end
+    group_options_type_label
+  end
+
+  def form_builder_options_custom_form(custom_field)
+    form_builder_options = Hash.new { |h, k| h[k] = [] }
+    custom_field.fields.each do |field|
+      field.each do |k, v|
+        next unless k[/^(type|label)$/i]
+        form_builder_options[k] << v
       end
-      return group_value_field_types
     end
+    return form_builder_options
+  end
 
-    def form_builder_group_by_options_type_label_custom_form(custom_field)
-      group_options_type_label = Hash.new{|h,k| h[k] = []}
-      form_builder_option = form_builder_options_custom_form(custom_field)
-      form_builder_option["type"].each_with_index do |type_option,i|
-        group_options_type_label[type_option] << form_builder_option["label"][i]
-      end
-      group_options_type_label
-    end
-
-    def form_builder_options_custom_form(custom_field)
-      form_builder_options = Hash.new{|h,k| h[k] = []}
-      custom_field.fields.each do |field|
-        field.each do |k,v|
-          next unless k[/^(type|label)$/i]
-          form_builder_options[k] << v
-        end
-      end
-      return form_builder_options
-    end
-
-    def is_custom_field_property_editable?(custom_field_property)
-      Organization.ratanak? && !current_user.admin? ? custom_field_editable?(@custom_field) && custom_field_property.is_editable? : custom_field_editable?(@custom_field)
-    end
+  def is_custom_field_property_editable?(custom_field_property)
+    Organization.ratanak? && !current_user.admin? ? custom_field_editable?(@custom_field) && custom_field_property.is_editable? : custom_field_editable?(@custom_field)
+  end
 end
