@@ -60,13 +60,15 @@ module CustomFieldPropertiesHelper
   def remove_local_field_prop_unicode(field_props)
     return field_props['label'] if field_props['local_label'].nil?
 
-    field = field_props['local_label'].gsub(/\&gt\;|\&lt\;|\&amp\;|\"/, '&lt;' => '<', '&gt;' => '>', '&amp;' => '&', '"' => '%22')
+    field_props['local_label'].gsub(/\&gt\;|\&lt\;|\&amp\;|\"/, '&lt;' => '<', '&gt;' => '>', '&amp;' => '&', '"' => '%22')
   end
 
-  def is_field_checked?(obj, field_prop, field, local_field)
-    return true if obj.to_h[field_prop['label'].to_sym] && obj.to_h[field_prop['label'].to_sym].include?(field)
-
-    obj.to_h[field_prop['local_label'].to_sym] && obj.to_h[field_prop['local_label'].to_sym].include?(local_field)
+  def is_field_checked?(obj, field_prop, field, local_label = 'label')
+    if local_label == 'local_label'
+      obj.to_h["Local_label #{field_prop[local_label]}".to_sym] && obj.to_h["Local_label #{field_prop[local_label]}".to_sym].include?(field)
+    else
+      obj.to_h[field_prop[local_label].to_sym] && obj.to_h[field_prop[local_label].to_sym].include?(field)
+    end
   end
 
   def mapping_custom_field_values(field_props)

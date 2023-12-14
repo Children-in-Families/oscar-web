@@ -4,21 +4,21 @@ class ProgramStream < ActiveRecord::Base
   FORM_BUILDER_FIELDS = ['enrollment', 'exit_program'].freeze
   acts_as_paranoid without_default_scope: true, column: :archived_at
 
-  has_many   :domain_program_streams, dependent: :destroy
-  has_many   :domains, through: :domain_program_streams
-  has_many   :client_enrollments, dependent: :destroy
-  has_many   :clients, through: :client_enrollments
-  has_many   :enrollments, dependent: :destroy
-  has_many   :families, through: :enrollments, source: :programmable, source_type: 'Family'
-  has_many   :communities, through: :enrollments, source: :programmable, source_type: 'Community'
-  has_many   :trackings, dependent: :destroy
-  has_many   :leave_programs, dependent: :destroy
+  has_many :domain_program_streams, dependent: :destroy
+  has_many :domains, through: :domain_program_streams
+  has_many :client_enrollments, dependent: :destroy
+  has_many :clients, through: :client_enrollments
+  has_many :enrollments, dependent: :destroy
+  has_many :families, through: :enrollments, source: :programmable, source_type: 'Family'
+  has_many :communities, through: :enrollments, source: :programmable, source_type: 'Community'
+  has_many :trackings, dependent: :destroy
+  has_many :leave_programs, dependent: :destroy
 
-  has_many   :program_stream_permissions, dependent: :destroy
-  has_many   :users, through: :program_stream_permissions
+  has_many :program_stream_permissions, dependent: :destroy
+  has_many :users, through: :program_stream_permissions
 
-  has_many   :program_stream_services, dependent: :destroy
-  has_many   :services, through: :program_stream_services
+  has_many :program_stream_services, dependent: :destroy
+  has_many :services, through: :program_stream_services
 
   has_many :internal_referral_program_streams, dependent: :destroy
   has_many :internal_referrals, through: :internal_referral_program_streams
@@ -33,10 +33,10 @@ class ProgramStream < ActiveRecord::Base
   validates :name, :entity_type, presence: true
   validates :name, uniqueness: true
 
-  validate  :presence_of_label
-  validate  :form_builder_field_uniqueness
+  validate :presence_of_label
+  validate :form_builder_field_uniqueness
 
-  validate  :rules_edition, :program_edition, on: :update, if: Proc.new { |p| p.attached_to_client? ? p.client_enrollments.active.any? : p.enrollments.active.any? }
+  validate :rules_edition, :program_edition, on: :update, if: Proc.new { |p| p.attached_to_client? ? p.client_enrollments.active.any? : p.enrollments.active.any? }
   validates :services, presence: true
 
   before_save :set_program_completed, :destroy_tracking
@@ -44,14 +44,14 @@ class ProgramStream < ActiveRecord::Base
   after_create :build_permission
   after_commit :flush_cache
 
-  scope  :ordered,        ->         { order('lower(name) ASC') }
-  scope  :complete,       ->         { where(completed: true) }
-  scope  :ordered_by,     ->(column) { order(column) }
-  scope  :filter,         ->(value)  { where(id: value) }
-  scope  :name_like,      ->(value)  { where(name: value) }
-  scope  :by_name,        ->(value)  { where('name iLIKE ?', "%#{value.squish}%") }
-  scope  :attached_with,  -> (value) { where(entity_type: value) }
-  scope  :with_internal_referral_users,  -> { joins(:program_stream_users).distinct }
+  scope :ordered, -> { order('lower(name) ASC') }
+  scope :complete, -> { where(completed: true) }
+  scope :ordered_by, -> (column) { order(column) }
+  scope :filter, -> (value) { where(id: value) }
+  scope :name_like, -> (value) { where(name: value) }
+  scope :by_name, -> (value) { where('name iLIKE ?', "%#{value.squish}%") }
+  scope :attached_with, -> (value) { where(entity_type: value) }
+  scope :with_internal_referral_users, -> { joins(:program_stream_users).distinct }
 
   def name=(name)
     write_attribute(:name, name.try(:strip))
@@ -94,8 +94,8 @@ class ProgramStream < ActiveRecord::Base
     FORM_BUILDER_FIELDS.each do |field|
       labels = []
       next unless send(field.to_sym).present?
-      send(field.to_sym).map{ |obj| labels << obj['label'] if obj['label'] != 'Separation Line' && obj['type'] != 'paragraph' }
-      errors_massage << (errors.add field.to_sym, "Fields duplicated!") unless (labels.uniq.length == labels.length)
+      send(field.to_sym).map { |obj| labels << obj['label'] if obj['label'] != 'Separation Line' && obj['type'] != 'paragraph' }
+      errors_massage << (errors.add field.to_sym, 'Fields duplicated!') unless (labels.uniq.length == labels.length)
     end
     errors_massage
   end
@@ -166,7 +166,7 @@ class ProgramStream < ActiveRecord::Base
 
   def rules_edition
     if rules_changed?
-      current_entity_ids  = get_entity_ids(rules).to_set
+      current_entity_ids = get_entity_ids(rules).to_set
       previous_entity_ids = get_entity_ids(rules_was).to_set
 
       unless unchanged_rules?(current_entity_ids, previous_entity_ids)
@@ -222,18 +222,18 @@ class ProgramStream < ActiveRecord::Base
   def get_entity_ids(rules)
     if attached_to_client?
       active_client_ids = client_enrollments.active.pluck(:client_id).uniq
-      active_clients    = Client.where(id: active_client_ids)
-      clients, _query   = AdvancedSearches::ClientAdvancedSearch.new(rules, active_clients)
-      clients.filter.ids
+      active_clients = Client.where(id: active_client_ids)
+      clients, _query = AdvancedSearches::ClientAdvancedSearch.new(rules, active_clients)
+      clients.filter.map(&:id)
     elsif attached_to_family?
-      active_ids         = enrollments.active.pluck(:programmable_id).uniq
-      active_entities    = Family.where(id: active_ids)
-      entities           = AdvancedSearches::Families::FamilyAdvancedSearch.new(rules, active_entities)
+      active_ids = enrollments.active.pluck(:programmable_id).uniq
+      active_entities = Family.where(id: active_ids)
+      entities = AdvancedSearches::Families::FamilyAdvancedSearch.new(rules, active_entities)
       entities.filter.ids
     elsif attached_to_community?
-      active_ids         = enrollments.active.pluck(:programmable_id).uniq
-      active_entities    = Community.where(id: active_ids)
-      entities           = AdvancedSearches::Communities::CommunityAdvancedSearch.new(rules, active_entities)
+      active_ids = enrollments.active.pluck(:programmable_id).uniq
+      active_entities = Community.where(id: active_ids)
+      entities = AdvancedSearches::Communities::CommunityAdvancedSearch.new(rules, active_entities)
       entities.filter.ids
     end
   end
@@ -277,7 +277,7 @@ class ProgramStream < ActiveRecord::Base
     error_fields = []
     properties.each do |property|
       field_remove = column_change.first - column_change.last
-      field_remove.map{ |f| error_fields << f['label'] if property[f['label']].present? }
+      field_remove.map { |f| error_fields << f['label'] if property[f['label']].present? }
     end
     error_fields.uniq
   end
@@ -289,7 +289,7 @@ class ProgramStream < ActiveRecord::Base
 
   def validate_label(value, field)
     tab = field == 'exit_program' ? 5 : 3
-    message = "Label " + I18n.t('cannot_be_blank')
+    message = 'Label ' + I18n.t('cannot_be_blank')
     value.each do |v|
       unless v['label'].present?
         errors.add(field.to_sym, message)
@@ -315,9 +315,9 @@ class ProgramStream < ActiveRecord::Base
   end
 
   def update_save_search
-    saved_searches = AdvancedSearch.where("program_streams iLIKE ?", "%#{id}%")
+    saved_searches = AdvancedSearch.where('program_streams iLIKE ?', "%#{id}%")
     saved_searches.each do |ss|
-      queries       = ss.queries
+      queries = ss.queries
       updated_query = get_rules(queries, ss)
     end
   end
@@ -325,17 +325,17 @@ class ProgramStream < ActiveRecord::Base
   def get_rules(queries, ss)
     queries['rules'].each do |rule|
       program_stream_old_queries = get_rules(rule, ss) if rule.has_key?('rules')
-      if rule["id"].present?
-        program_stream_old_queries = rule["id"]&.slice(/\__.*__/)&.gsub(/__/i,'')&.gsub(/\(|\)/i,'')&.squish
+      if rule['id'].present?
+        program_stream_old_queries = rule['id']&.slice(/\__.*__/)&.gsub(/__/i, '')&.gsub(/\(|\)/i, '')&.squish
         if program_stream_old_queries.present? && (name[/#{program_stream_old_queries[0..5]}.*#{program_stream_old_queries[-4]}/i])
-          query_rule = rule["id"].sub(/__.*__/, "__#{name}__")
+          query_rule = rule['id'].sub(/__.*__/, "__#{name}__")
           rule['id'] = query_rule
           ss.save
           enrollment.each do |enrolled|
-            updated_enrollment = enrolled["label"]
-            old_enrollment = rule["id"].gsub(/.*__/i,'')
+            updated_enrollment = enrolled['label']
+            old_enrollment = rule['id'].gsub(/.*__/i, '')
             if updated_enrollment[/#{old_enrollment[0..5]}.*#{old_enrollment[-4]}/i]
-              query_rule_enrollment = rule["id"].slice(/.*__/i) + updated_enrollment
+              query_rule_enrollment = rule['id'].slice(/.*__/i) + updated_enrollment
               rule['id'] = query_rule_enrollment
               ss.save
             end

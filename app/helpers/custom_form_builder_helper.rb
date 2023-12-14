@@ -22,7 +22,7 @@ module CustomFormBuilderHelper
       elsif value.is_a?(Array)
         return value.join(', ') if type == 'select' || type == 'checkbox-group'
         value.reject { |i| i.empty? }.each do |c|
-          concat content_tag(:strong, c.gsub('&amp;qoute;', '&quot;').html_safe, class: 'label-margin')
+          concat content_tag(:li, c.gsub('&amp;qoute;', '&quot;').html_safe, class: 'list-group-item')
         end
       elsif value.is_a?(Hash)
         display_custom_properties(value.values.flatten)
@@ -35,6 +35,10 @@ module CustomFormBuilderHelper
     content = content.gsub('&lt;', '<')
     content = content.gsub('&gt;', '>')
     content.html_safe
+  end
+
+  def remove_special_characters(text)
+    text.gsub(/[^[[:word:]]+]/, '')
   end
 
   def custom_field_frequency(frequency, time_of_frequency)

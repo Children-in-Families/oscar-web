@@ -79,15 +79,18 @@ CIF.Client_enrolled_programsNew = CIF.Client_enrolled_programsCreate = CIF.Clien
 
   _checkCheckbox = ->
     $('input[type="checkbox"]').on 'ifChecked', (e) ->
-      el = $(@)
-      checkedItems.push(el.data('value'))
-      el.parents('.check_boxes').next().children('#' + el.data('checkbox')).val(checkedItems).trigger('change')
+      el = @
+      elementID = el.id
+      relatedInput = $(el).closest('.form-group.check_boxes').siblings('div.hidden').find("input##{elementID}")
+      relatedInput.attr('checked', 'checked') if relatedInput
+    return
 
   _uncheckCheckbox = ->
     $('input[type="checkbox"]').on 'ifUnchecked', (e) ->
-      el = $(@)
-      checkedItems.splice(checkedItems.indexOf(el.data('value')), 1)
-      el.parents('.check_boxes').next().children('#' + el.data('checkbox')).val(checkedItems).trigger('change')
+      el = @
+      elementID = el.id
+      relatedInput = $(el).closest('.form-group.check_boxes').siblings('div.hidden').find("input##{elementID}")
+      relatedInput.removeAttr('checked') if relatedInput
 
   _initSelect2 = ->
     $('select').select2()
@@ -108,7 +111,7 @@ CIF.Client_enrolled_programsNew = CIF.Client_enrolled_programsCreate = CIF.Clien
     $('select').on 'select2-selecting', (e) ->
       $('#' + $(e.target).data('label')).val($(e.choice.element).data('value')).trigger("change")
       return
-  
+
   _hideAnotherLanguageField = ->
     $('.client-enrollment').find('.d-none').parent().addClass('hide')
 
