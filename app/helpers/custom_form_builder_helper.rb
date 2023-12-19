@@ -21,6 +21,7 @@ module CustomFormBuilderHelper
         concat value.to_date.strftime('%d %B %Y')
       elsif value.is_a?(Array)
         return value.join(', ') if type == 'select' || type == 'checkbox-group'
+
         value.reject { |i| i.empty? }.each do |c|
           concat content_tag(:li, c.gsub('&amp;qoute;', '&quot;').html_safe, class: 'list-group-item')
         end
@@ -39,6 +40,14 @@ module CustomFormBuilderHelper
 
   def remove_special_characters(text)
     text.gsub(/[^[[:word:]]+]/, '')
+  end
+
+  def switch_label_property(property)
+    if I18n.locale.to_s == I18n.default_locale.to_s
+      property['name']
+    else
+      "Local_label #{property['name']}"
+    end
   end
 
   def custom_field_frequency(frequency, time_of_frequency)

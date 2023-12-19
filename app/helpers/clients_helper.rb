@@ -518,7 +518,7 @@ module ClientsHelper
     entities = { formbuilder: 'Custom form', exitprogram: 'Exit program', tracking: 'Tracking', enrollment: 'Enrollment', enrollmentdate: 'Enrollment', exitprogramdate: 'Exit program' }
     key_word = value.first
     entity = entities[key_word.to_sym]
-    value = value - [key_word]
+    value -= [key_word]
     result = value << entity
     result.join(' | ')
   end

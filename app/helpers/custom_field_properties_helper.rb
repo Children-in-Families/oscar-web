@@ -54,21 +54,11 @@ module CustomFieldPropertiesHelper
   end
 
   def remove_field_prop_unicode(field_props)
-    field_props['label'].gsub(/\&gt\;|\&lt\;|\&amp\;|\"/, '&lt;' => '<', '&gt;' => '>', '&amp;' => '&', '"' => '%22')
+    field_props['name'].gsub(/\&gt\;|\&lt\;|\&amp\;|\"/, '&lt;' => '<', '&gt;' => '>', '&amp;' => '&', '"' => '%22')
   end
 
   def remove_local_field_prop_unicode(field_props)
-    return field_props['label'] if field_props['local_label'].nil?
-
-    field_props['local_label'].gsub(/\&gt\;|\&lt\;|\&amp\;|\"/, '&lt;' => '<', '&gt;' => '>', '&amp;' => '&', '"' => '%22')
-  end
-
-  def is_field_checked?(obj, field_prop, field, local_label = 'label')
-    if local_label == 'local_label'
-      obj.to_h["Local_label #{field_prop[local_label]}".to_sym] && obj.to_h["Local_label #{field_prop[local_label]}".to_sym].include?(field)
-    else
-      obj.to_h[field_prop[local_label].to_sym] && obj.to_h[field_prop[local_label].to_sym].include?(field)
-    end
+    "Local_label #{field_props['name'].gsub(/\&gt\;|\&lt\;|\&amp\;|\"/, '&lt;' => '<', '&gt;' => '>', '&amp;' => '&', '"' => '%22')}"
   end
 
   def mapping_custom_field_values(field_props)

@@ -1,15 +1,14 @@
 class CustomFormNumericalityValidator < ActiveModel::Validator
-
-  def initialize(record,table_name,field)
-    @record     = record
+  def initialize(record, table_name, field)
+    @record = record
     @table_name = table_name
-    @field      = field
+    @field = field
   end
 
   def validate
     return unless @record.properties.present?
     @record.send(@table_name).send(@field).each do |field|
-      field_label = field['label']
+      field_label = field['name']
       next unless field['type'] == 'number'
       next if @record.properties[field_label].blank?
 

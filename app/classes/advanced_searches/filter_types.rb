@@ -4,7 +4,7 @@ module AdvancedSearches
     def self.text_options(field_name, label, group)
       {
         id: field_name,
-        field: label,
+        field: field_name,
         optgroup: group,
         label: label,
         type: 'string',
@@ -46,14 +46,14 @@ module AdvancedSearches
       is_association = is_association?(field_name, values)
       {
         id: field_name,
-        field: label,
+        field: field_name,
         optgroup: group,
         label: label,
         type: 'string',
         input: 'select',
         values: values,
         plugin: 'select2',
-        data: { values: foramted_data, isAssociation: is_association},
+        data: { values: foramted_data, isAssociation: is_association },
         operators: OVERDUE_FIELDS.include?(field_name) ? ['equal'] : ['equal', 'not_equal', 'is_empty', 'is_not_empty']
       }
     end
