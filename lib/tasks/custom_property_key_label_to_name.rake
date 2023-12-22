@@ -18,19 +18,18 @@ namespace :custom_property_key_label_to_name do
 
       Organization.switch_to short_name
       ClientEnrollmentTracking.skip_callback(:save, :after, :create_client_enrollment_tracking_history)
-      ClientEnrollmentTracking.all.map do |client_enrolllment_tracking|
+      ClientEnrollmentTracking.order(:id).map do |client_enrollment_tracking|
         new_props = {}
-        client_enrolllment_tracking_props = client_enrolllment_tracking.properties
-        tracking = client_enrolllment_tracking.tracking
+        client_enrollment_tracking_props = client_enrollment_tracking.properties
+        tracking = client_enrollment_tracking.tracking
         next if tracking.nil?
 
         tracking_fields = tracking.fields
         tracking_fields.each do |field|
           prop_name = field['name']
-          new_props[prop_name] = set_new_props(field, client_enrolllment_tracking_props)
+          new_props[prop_name] = set_new_props(field, client_enrollment_tracking_props)
         end
-
-        ActiveRecord::Base.connection.execute("UPDATE #{short_name}.client_enrollment_trackings SET properties = '#{new_props.to_json}' WHERE id = #{client_enrolllment_tracking.id}")
+        ActiveRecord::Base.connection.execute("UPDATE #{short_name}.client_enrollment_trackings SET properties = '#{new_props.to_json}' WHERE id = #{client_enrollment_tracking.id}")
       end
     end
   end
