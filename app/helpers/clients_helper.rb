@@ -726,8 +726,9 @@ module ClientsHelper
     object.present? ? object : []
   end
 
-  def form_builder_query(object, form_type, field_name, properties_field = nil)
+  def form_builder_query(object, form_type, _, properties_field = nil)
     return object if params['all_values'].present?
+
     properties_field = properties_field.present? ? properties_field : 'client_enrollment_trackings.properties'
 
     selected_program_stream = $param_rules['program_selected'].presence ? JSON.parse($param_rules['program_selected']) : []

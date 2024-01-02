@@ -5,7 +5,8 @@ module FormBuilderHelper
       result.map do |h|
         condition = h[:condition]
         if form_type == 'tracking'
-          tracking_query_string(h[:id], h[:field], h[:operator], h[:value], h[:type], h[:input], properties_field)
+          field = h[:field].split('__').last
+          tracking_query_string(h[:id], field, h[:operator], h[:value], h[:type], h[:input], properties_field)
         elsif form_type == 'formbuilder'
           form_builder_query_string(h[:id], h[:field], h[:operator], h[:value], h[:type], h[:input], properties_field)
         elsif form_type == 'active_program_stream'
@@ -129,7 +130,7 @@ module FormBuilderHelper
       if type == 'checkbox'
         "NOT(#{properties_field} -> '#{field}' ? '')"
       else
-        "#{properties_field} -> '#{@field}' IS NOT NULL AND #{properties_field} ->> '#{@field}' <> '' AND #{properties_field} ->> '#{@field}' <> '{}' AND #{properties_field} ->> '#{@field}' <> '[]'"
+        "#{properties_field} -> '#{field}' IS NOT NULL AND #{properties_field} ->> '#{field}' <> '' AND #{properties_field} ->> '#{field}' <> '{}' AND #{properties_field} ->> '#{field}' <> '[]'"
       end
     when 'between'
       "((#{properties_field} ->> '#{field}')#{'::numeric' if integer?(type)} BETWEEN '#{value.first}' AND '#{value.last}' AND #{properties_field} ->> '#{field}' != '')"
@@ -339,6 +340,7 @@ module FormBuilderHelper
     if type_format.include?(input_type)
       value = value.gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
     end
+
     value.is_a?(Array) || value.is_a?(Fixnum) ? value : value.gsub("'", "''")
   end
 

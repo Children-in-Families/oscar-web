@@ -15,7 +15,7 @@ module AdvancedSearches
     def self.number_options(field_name, label, group)
       {
         id: field_name,
-        field: label,
+        field: field_name,
         optgroup: group,
         label: label,
         type: 'integer',
@@ -26,7 +26,7 @@ module AdvancedSearches
     def self.date_picker_options(field_name, label, group)
       {
         id: field_name,
-        field: label,
+        field: field_name,
         optgroup: group,
         label: label,
         type: 'date',
@@ -62,7 +62,7 @@ module AdvancedSearches
       foramted_data = format_data(field_name, values)
       {
         id: field_name,
-        field: label,
+        field: field_name,
         optgroup: group,
         label: label,
         input: 'select',
