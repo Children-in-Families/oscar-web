@@ -3,7 +3,7 @@
   %label.control-label{ class: required?(field_props['required'] || false) }
     %abbr{ title: 'required' }= '*' if field_props['required'] || false
     = label.html_safe
-  = f.input field_props['label'], as: :text, required: (field_props['required'] || false), input_html: { class: field_props['className'], placeholder: format_placeholder(field_props['placeholder']), name: "#{f.object_name}[#{remove_field_prop_unicode(field_props)}]", 'data-local-textarea': "#{f.object_name}[#{remove_local_field_prop_unicode(field_props)}]".parameterize }, label: false
+  = f.input field_props['name'], as: :text, required: (field_props['required'] || false), input_html: { class: field_props['className'], placeholder: format_placeholder(field_props['placeholder']), name: "#{f.object_name}[#{remove_field_prop_unicode(field_props)}]", 'data-local-textarea': "#{f.object_name}[#{remove_local_field_prop_unicode(field_props)}]".parameterize }, label: false
   = f.input field_props['local_label'], :as => :hidden, input_html: { name: "#{f.object_name}[Local_label #{remove_local_field_prop_unicode(field_props)}]", id: "#{f.object_name}[#{remove_local_field_prop_unicode(field_props)}]".parameterize }
   %span.help-block
     = field_message(field_props['label'], errors)

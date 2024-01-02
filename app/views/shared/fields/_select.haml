@@ -7,18 +7,18 @@
   - if I18n.locale == :en || params[:locale] == 'en'
     = f.input remove_field_prop_unicode(field_props), |
       collection: collection, |
-      required: (field_props['required'] || false), input_html: { id: field_props['label'].gsub(' ', '_').gsub("'", ""), |
+      required: (field_props['required'] || false), input_html: { id: remove_special_characters(field_props['label']), |
       class: "#{field_props['ClassName']} #{I18n.locale.to_s != I18n.default_locale.to_s ? 'd-none' : ''}", multiple: field_props['multiple'].present?, |
       name: "#{f.object_name}[#{remove_field_prop_unicode(field_props)}][]", placeholder: format_placeholder(field_props['placeholder']), |
-      'data-label': field_props["label"].gsub(' ', '_').gsub("'", "") }, label: false
+      'data-label': remove_special_characters(field_props["label"]) }, label: false
   - else
     = f.input "Local_label #{remove_local_field_prop_unicode(field_props)}", |
       collection: field_props['values'].map { |f| [format_placeholder(f['local_label']), f['local_label'], id: "custom_field_property_properties_#{field_props["local_label"].gsub('"', '&qoute;').html_safe}_#{f['local_label'].html_safe}", 'data-value': f['label']] }, |
       required: (field_props['required'] || false), |
-      input_html: { id: field_props["local_label"].gsub(' ', '_').gsub("'", ""),
+      input_html: { id: remove_special_characters(field_props["local_label"]),
                     class: "#{field_props['ClassName']} #{I18n.locale.to_s == I18n.default_locale.to_s ? 'd-none1' : ''}",
                     multiple: field_props['multiple'].present?, name: "#{f.object_name}[Local_label #{remove_local_field_prop_unicode(field_props)}][]",
                     placeholder: format_placeholder(field_props['placeholder']),
-                    'data-label': field_props["local_label"].gsub(' ', '_').gsub("'", "") }, label: false
+                    'data-label': remove_special_characters(field_props["local_label"]) }, label: false
   %span.help-block
     = field_message(label, errors)

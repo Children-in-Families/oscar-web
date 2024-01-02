@@ -46,7 +46,7 @@ CIF.Client_enrolled_program_trackingsNew = CIF.Client_enrolled_program_trackings
     $('select').on 'select2-selecting', (e) ->
       $('#' + $(e.target).data('label')).val($(e.choice.element).data('value')).trigger("change")
       return
-  
+
   _hideAnotherLanguageField = ->
     $('.client-enrolled-program-tracking').find('.d-none').parent().addClass('hide')
 
