@@ -1,5 +1,4 @@
 class Client::ExitNgosController < AdminController
-
   before_action :find_client
 
   def create
@@ -31,7 +30,6 @@ class Client::ExitNgosController < AdminController
       redirect_to @client, alert: t('.failed_update')
     end
   end
-
 
   private
 
