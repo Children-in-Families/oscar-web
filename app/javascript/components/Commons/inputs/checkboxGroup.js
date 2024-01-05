@@ -15,9 +15,7 @@ export default (props) => {
   } = props;
 
   const findCheckedValue = (value) => {
-    const objIndex = dataValue.findIndex((obj) => obj.value === value);
-
-    return eval(dataValue[objIndex]?.checked) || false;
+    return dataValue.includes(value);
   };
 
   return (

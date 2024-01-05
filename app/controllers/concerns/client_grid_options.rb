@@ -302,17 +302,17 @@ module ClientGridOptions
     column = 'completed_date'
 
     if params[:data].presence == 'recent'
-      @client_grid.column(column.to_sym, header: I18n.t("datagrid.columns.clients.assessment_completed_date", assessment: I18n.t('clients.show.assessment'))) do |client|
+      @client_grid.column(column.to_sym, header: I18n.t('datagrid.columns.clients.assessment_completed_date', assessment: I18n.t('clients.show.assessment'))) do |client|
         eval(records).latest_record&.completed_date.to_date.to_formatted_s if eval(records).any?
       end
     else
-      @client_grid.column(column.to_sym, header: I18n.t("datagrid.columns.clients.assessment_completed_date", assessment: I18n.t('clients.show.assessment'))) do |client|
+      @client_grid.column(column.to_sym, header: I18n.t('datagrid.columns.clients.assessment_completed_date', assessment: I18n.t('clients.show.assessment'))) do |client|
         assessments = []
         if $param_rules
           basic_rules = $param_rules['basic_rules']
           basic_rules = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
           results = mapping_assessment_query_rules(basic_rules).reject(&:blank?)
-          query_string = get_assessment_query_string("client_id", results, 'completed_date', '', client.id, basic_rules)
+          query_string = get_assessment_query_string('client_id', results, 'completed_date', '', client.id, basic_rules)
           assessments = client.assessments.defaults.completed.where(query_string)
         else
           assessments = client.assessments.defaults.completed
@@ -327,17 +327,17 @@ module ClientGridOptions
     column = 'custom_completed_date'
 
     if params[:data].presence == 'recent'
-      @client_grid.column(column.to_sym, header: I18n.t("datagrid.columns.clients.assessment_custom_completed_date", assessment: I18n.t('clients.show.assessment'))) do |client|
+      @client_grid.column(column.to_sym, header: I18n.t('datagrid.columns.clients.assessment_custom_completed_date', assessment: I18n.t('clients.show.assessment'))) do |client|
         eval(records).latest_record&.completed_date.to_date.to_formatted_s if eval(records).any?
       end
     else
-      @client_grid.column(column.to_sym, header: I18n.t("datagrid.columns.clients.assessment_custom_completed_date", assessment: I18n.t('clients.show.assessment'))) do |client|
+      @client_grid.column(column.to_sym, header: I18n.t('datagrid.columns.clients.assessment_custom_completed_date', assessment: I18n.t('clients.show.assessment'))) do |client|
         assessments = []
         if $param_rules
           basic_rules = $param_rules['basic_rules']
-          basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
+          basic_rules = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
           results = mapping_assessment_query_rules(basic_rules).reject(&:blank?)
-          query_string = get_assessment_query_string("client_id", results, 'completed_date', '', client.id, basic_rules)
+          query_string = get_assessment_query_string('client_id', results, 'completed_date', '', client.id, basic_rules)
           assessments = client.assessments.customs.completed.where(query_string)
         else
           assessments = client.assessments.customs.completed
@@ -400,7 +400,7 @@ module ClientGridOptions
   end
 
   def export_risk_assessment_columns
-    if  @client_columns && @client_columns.visible_columns[:level_of_risk_].present?
+    if @client_columns && @client_columns.visible_columns[:level_of_risk_].present?
       @client_grid.column(:level_of_risk, header: t('risk_assessments._attr.level_of_risk')) do |client|
         risk_assessment = client.risk_assessment
         assessments = [risk_assessment && "#{risk_assessment.level_of_risk.titleize} (PC)", *client.assessments.client_risk_assessments.pluck(:level_of_risk).map(&:titleize)].compact
@@ -419,7 +419,7 @@ module ClientGridOptions
 
   def custom_referral_data_report
     quantitative_type_readable_ids = current_user.quantitative_type_permissions.readable.pluck(:quantitative_type_id) unless current_user.nil?
-    quantitative_types = QuantitativeType.joins(:quantitative_cases).where('quantitative_types.visible_on LIKE ?', "%client%").distinct
+    quantitative_types = QuantitativeType.joins(:quantitative_cases).where('quantitative_types.visible_on LIKE ?', '%client%').distinct
     quantitative_types.each do |quantitative_type|
       if current_user.nil? || quantitative_type_readable_ids.include?(quantitative_type.id)
         @client_grid.column(quantitative_type.name.to_sym, class: 'quantitative-type', header: -> { quantitative_type.name }) do |object|
@@ -446,9 +446,9 @@ module ClientGridOptions
         if fields.first == 'formbuilder'
           if data == 'recent'
             if fields.last == 'Has This Form'
-              properties = client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).count
+              properties = client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client' }).count
             else
-              properties = client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).order(created_at: :desc).first&.properties
+              properties = client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client' }).order(created_at: :desc).first&.properties
               properties = property_filter(properties, format_field_value)
               properties = format_array_value(properties[format_field_value]) if properties.present?
             end
@@ -458,16 +458,16 @@ module ClientGridOptions
             else
               if $param_rules
                 custom_field_id = client.custom_fields.find_by(form_title: fields.second)&.id
-                basic_rules  = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
-                basic_rules  = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
-                results      = mapping_form_builder_param_value(basic_rules, 'formbuilder')
+                basic_rules = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
+                basic_rules = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
+                results = mapping_form_builder_param_value(basic_rules, 'formbuilder')
                 query_string = get_query_string(results, 'formbuilder', 'custom_field_properties.properties')
-                sql          = query_string.reverse.reject(&:blank?).map { |sql| "(#{sql})" }.join(" AND ")
+                sql = query_string.reverse.reject(&:blank?).map { |sql| "(#{sql})" }.join(' AND ')
 
                 custom_field_properties = client.custom_field_properties.where(custom_field_id: custom_field_id).where(sql).properties_by(format_field_value)
                 custom_field_properties = custom_field_properties.blank? ? custom_form_with_has_form(client, fields).properties_by(format_field_value) : custom_field_properties
               else
-                custom_field_properties = client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).properties_by(format_field_value)
+                custom_field_properties = client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client' }).properties_by(format_field_value)
               end
               custom_field_properties = property_filter(custom_field_properties, format_field_value)
               custom_field_properties.map { |properties| check_is_string_date?(properties) }.join(', ')
@@ -575,6 +575,6 @@ module ClientGridOptions
   end
 
   def assessment_setting_id
-    params.dig(:client_advanced_search, :assessment_selected)&.gsub("[", "")&.gsub("]", "")
+    params.dig(:client_advanced_search, :assessment_selected)&.gsub('[', '')&.gsub(']', '')
   end
 end
