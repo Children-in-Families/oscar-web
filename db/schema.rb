@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20231120083542) do
+ActiveRecord::Schema.define(version: 20240104041808) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
@@ -2992,8 +2992,8 @@ ActiveRecord::Schema.define(version: 20231120083542) do
     t.string 'billable_status'
     t.datetime 'accepted_at'
     t.datetime 'billable_at'
-    t.text 'object'
-    t.text 'object_changes'
+    t.jsonb 'object'
+    t.jsonb 'object_changes'
   end
 
   add_index 'versions', ['item_type', 'item_id'], name: 'index_versions_on_item_type_and_item_id', using: :btree
