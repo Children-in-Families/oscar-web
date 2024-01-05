@@ -2350,6 +2350,10 @@ km:
   completed_date: បញ្ចប់នៅថ្ងៃ
   created_by: បង្កើតឡើងដោយ
   created_on: បង្កើតឡើងនៅថ្ងៃ
+  custom_data:
+    add: បង្កើត%{custom_data}ថ្មី
+    edit: កែសម្រួល%{custom_data}
+    title: ទន្នន័យបន្ថែម
   custom_field_properties:
     attachment:
       are_you_sure: តើអ្នកប្រាកដហើយថាចង់លុបដែរឫទេ?

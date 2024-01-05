@@ -3,21 +3,21 @@ module AdvancedSearches
     include ProgramStreamHelper
 
     ASSOCIATION_FIELDS = [
-                          'user_id', 'created_by', 'agency_name', 'donor_name', 'age', 'family', 'family_id',
-                          'active_program_stream', 'enrolled_program_stream', 'case_note_date', 'no_case_note_date', 'case_note_type',
-                          'assessment_created_at', 'date_of_assessments', 'date_of_custom_assessments', 'accepted_date', 'assessment_completed_date',
-                          'custom_assessment', 'custom_assessment_created_at', 'custom_completed_date',
-                          'exit_date', 'exit_note', 'other_info_of_exit', 'protection_concern_id', 'necessity_id',
-                          'exit_circumstance', 'exit_reasons', 'referred_to', 'referred_from', 'time_in_cps', 'time_in_ngo',
-                          'assessment_number', 'month_number', 'date_nearest', 'assessment_completed', 'date_of_referral',
-                          'referee_name', 'referee_phone', 'referee_email', 'carer_name', 'carer_phone', 'carer_email',
-                          'client_phone', 'client_email_address', 'phone_owner', 'referee_relationship', 'active_clients',
-                          'care_plan_counter', 'care_plan_date', 'care_plan_completed_date', 'completed_date', 'custom_completed_date',
-                          'ratanak_achievement_program_staff_client_ids', 'mo_savy_officials', 'carer_relationship_to_client',
-                          'referred_in', 'referred_out', 'family_type', 'active_client_program',
-                          'number_client_referred_gatekeeping', 'number_client_billable', 'assessment_condition_last_two',
-                          'assessment_condition_first_last', 'client_rejected', 'incomplete_care_plan'
-                        ].freeze
+      'user_id', 'created_by', 'agency_name', 'donor_name', 'age', 'family', 'family_id',
+      'active_program_stream', 'enrolled_program_stream', 'case_note_date', 'no_case_note_date', 'case_note_type',
+      'assessment_created_at', 'date_of_assessments', 'date_of_custom_assessments', 'accepted_date', 'assessment_completed_date',
+      'custom_assessment', 'custom_assessment_created_at', 'custom_completed_date',
+      'exit_date', 'exit_note', 'other_info_of_exit', 'protection_concern_id', 'necessity_id',
+      'exit_circumstance', 'exit_reasons', 'referred_to', 'referred_from', 'time_in_cps', 'time_in_ngo',
+      'assessment_number', 'month_number', 'date_nearest', 'assessment_completed', 'date_of_referral',
+      'referee_name', 'referee_phone', 'referee_email', 'carer_name', 'carer_phone', 'carer_email',
+      'client_phone', 'client_email_address', 'phone_owner', 'referee_relationship', 'active_clients',
+      'care_plan_counter', 'care_plan_date', 'care_plan_completed_date', 'completed_date', 'custom_completed_date',
+      'ratanak_achievement_program_staff_client_ids', 'mo_savy_officials', 'carer_relationship_to_client',
+      'referred_in', 'referred_out', 'family_type', 'active_client_program',
+      'number_client_referred_gatekeeping', 'number_client_billable', 'assessment_condition_last_two',
+      'assessment_condition_first_last', 'client_rejected', 'incomplete_care_plan'
+    ].freeze
 
     BLANK_FIELDS = ['created_at', 'date_of_birth', 'initial_referral_date', 'follow_up_date', 'has_been_in_orphanage', 'has_been_in_government_care', 'province_id', 'referral_source_id', 'birth_province_id', 'received_by_id', 'followed_up_by_id', 'district_id', 'subdistrict_id', 'township_id', 'state_id', 'commune_id', 'village_id', 'referral_source_category_id', 'arrival_at']
     SENSITIVITY_FIELDS = %w(given_name family_name local_given_name local_family_name kid_id code school_name school_grade street_number house_number village commune live_with relevant_referral_information telephone_number name_of_referee main_school_contact what3words address_type concern_address_type)
@@ -27,42 +27,42 @@ module AdvancedSearches
     RISK_ASSESSMENTS = %w[level_of_risk date_of_risk_assessment has_disability has_hiv_or_aid has_known_chronic_disease].freeze
 
     def initialize(clients, basic_rules)
-      @clients     = clients
-      @values      = []
-      @sql_string  = []
-      @condition   = basic_rules['condition']
-      basic_rules  = format_rule(basic_rules)
+      @clients = clients
+      @values = []
+      @sql_string = []
+      @condition = basic_rules['condition']
+      basic_rules = format_rule(basic_rules)
       @basic_rules = basic_rules['rules'] || []
       @columns_visibility = []
     end
 
     def generate
       @basic_rules.each do |rule|
-        field    = rule['id']
+        field = rule['id']
         operator = rule['operator']
-        value    = rule['value']
+        value = rule['value']
         form_builder = field != nil ? field.split('__') : []
 
         if ASSOCIATION_FIELDS.include?(field)
           association_filter = AdvancedSearches::ClientAssociationFilter.new(@clients, field, operator, value).get_sql
           @sql_string << association_filter[:id]
-          @values     << association_filter[:values]
+          @values << association_filter[:values]
         elsif SHARED_FIELDS.include?(field)
           short_name = Organization.current.short_name
           Organization.switch_to 'shared'
           shared_client_filter = AdvancedSearches::SharedFieldsSqlFilter.new(field, operator, value, SENSITIVITY_FIELDS, BLANK_FIELDS).get_sql
           Organization.switch_to short_name
           @sql_string << shared_client_filter[:id]
-          @values     << shared_client_filter[:values]
+          @values << shared_client_filter[:values]
         elsif form_builder.first == 'formbuilder'
           if form_builder.last == 'Has This Form'
             custom_form_value = CustomField.find_by(form_title: value, entity_type: 'Client')&.id
-            
-            @sql_string << "Clients.id IN (?)"
+
+            @sql_string << 'Clients.id IN (?)'
             @values << @clients.joins(:custom_fields).where('custom_fields.id = ?', custom_form_value).uniq.ids
           elsif form_builder.last == 'Does Not Have This Form'
             client_ids = Client.joins(:custom_fields).where(custom_fields: { form_title: form_builder.second }).ids
-            @sql_string << "clients.id NOT IN (?)"
+            @sql_string << 'clients.id NOT IN (?)'
             @values << client_ids
           else
             custom_form = CustomField.find_by(form_title: form_builder.second, entity_type: 'Client')
@@ -71,18 +71,16 @@ module AdvancedSearches
             @sql_string << custom_field[:id]
             @values << custom_field[:values]
           end
-
         elsif form_builder.first == 'enrollment'
-          program_name = form_builder.second.gsub("&qoute;", '"')
+          program_name = form_builder.second.gsub('&qoute;', '"')
           program_stream = ProgramStream.find_by(name: program_name)
           if program_stream.present?
             enrollment_fields = AdvancedSearches::EnrollmentSqlBuilder.new(@clients, program_stream.id, rule).get_sql
             @sql_string << enrollment_fields[:id]
             @values << enrollment_fields[:values]
           end
-
         elsif form_builder.first == 'enrollmentdate'
-          program_name = form_builder.second.gsub("&qoute;", '"')
+          program_name = form_builder.second.gsub('&qoute;', '"')
           program_stream = ProgramStream.find_by(name: program_name)
 
           if program_stream
@@ -90,11 +88,11 @@ module AdvancedSearches
             @sql_string << enrollment_date[:id]
             @values << enrollment_date[:values]
           else
-            @sql_string << "Clients.id IN (?)"
+            @sql_string << 'Clients.id IN (?)'
             @values << []
           end
         elsif form_builder.first == 'tracking'
-          tracking = Tracking.joins(:program_stream).where(program_streams: {name: form_builder.second}, trackings: {name: form_builder.third}).last
+          tracking = Tracking.joins(:program_stream).where(program_streams: { name: form_builder.second }, trackings: { name: form_builder.third }).last
 
           if tracking
             tracking_fields = AdvancedSearches::TrackingSqlBuilder.new(tracking.id, rule, form_builder.second).get_sql
@@ -106,7 +104,6 @@ module AdvancedSearches
           exit_program_fields = AdvancedSearches::ExitProgramSqlBuilder.new(program_stream.id, rule).get_sql
           @sql_string << exit_program_fields[:id]
           @values << exit_program_fields[:values]
-
         elsif form_builder.first == 'exitprogramdate' || form_builder.first == 'programexitdate'
           program_stream = ProgramStream.find_by(name: form_builder.second)
           if program_stream.present?
@@ -114,12 +111,14 @@ module AdvancedSearches
             @sql_string << exit_date[:id]
             @values << exit_date[:values]
           end
-
         elsif form_builder.first == 'quantitative'
           quantitative_filter = AdvancedSearches::QuantitativeCaseSqlBuilder.new(@clients, rule).get_sql
           @sql_string << quantitative_filter[:id]
           @values << quantitative_filter[:values]
-
+        elsif form_builder.first == 'custom_data'
+          custom_data_filter = AdvancedSearches::CustomDataSqlBuilder.new(@clients, rule).get_sql
+          @sql_string << custom_data_filter[:id]
+          @values << custom_data_filter[:values]
         elsif form_builder.first == 'domainscore' || field == 'all_domains' || field == 'all_custom_domains'
           domain_scores = AdvancedSearches::DomainScoreSqlBuilder.new(field, rule, @basic_rules).get_sql
           @sql_string << domain_scores[:id]
@@ -163,7 +162,7 @@ module AdvancedSearches
           @sql_string << "date(clients.#{field}) = ?"
           @values << value
         elsif field == 'slug'
-          @sql_string << "clients.slug = ?"
+          @sql_string << 'clients.slug = ?'
           @values << value
         else
           if SENSITIVITY_FIELDS.include?(field)
@@ -174,7 +173,6 @@ module AdvancedSearches
             @values << value
           end
         end
-
       when 'not_equal'
         if field == 'created_at'
           @sql_string << "date(clients.#{field}) != ?"
@@ -189,7 +187,6 @@ module AdvancedSearches
           @sql_string << "clients.#{field} != ?"
           @values << value
         end
-
       when 'less'
         if field == 'created_at'
           @sql_string << "date(clients.#{field}) < ?"
@@ -198,7 +195,6 @@ module AdvancedSearches
           @sql_string << "clients.#{field} < ?"
           @values << value
         end
-
       when 'less_or_equal'
         if field == 'created_at'
           @sql_string << "date(clients.#{field}) <= ?"
@@ -207,7 +203,6 @@ module AdvancedSearches
           @sql_string << "clients.#{field} <= ?"
           @values << value
         end
-
       when 'greater'
         if field == 'created_at'
           @sql_string << "date(clients.#{field}) > ?"
@@ -216,7 +211,6 @@ module AdvancedSearches
           @sql_string << "clients.#{field} > ?"
           @values << value
         end
-
       when 'greater_or_equal'
         if field == 'created_at'
           @sql_string << "date(clients.#{field}) >= ?"
@@ -225,15 +219,12 @@ module AdvancedSearches
           @sql_string << "clients.#{field} >= ?"
           @values << value
         end
-
       when 'contains'
         @sql_string << "clients.#{field} ILIKE ?"
         @values << "%#{value.squish}%"
-
       when 'not_contains'
         @sql_string << "clients.#{field} NOT ILIKE ?"
         @values << "%#{value.squish}%"
-
       when 'is_empty'
         if field == 'created_at'
           @sql_string << "date(clients.#{field}) IS NULL"
@@ -244,7 +235,6 @@ module AdvancedSearches
             @sql_string << "(clients.#{field} IS NULL OR clients.#{field} = '')"
           end
         end
-
       when 'is_not_empty'
         if field == 'created_at'
           @sql_string << "date(clients.#{field}) IS NOT NULL"
@@ -255,7 +245,6 @@ module AdvancedSearches
             @sql_string << "(clients.#{field} IS NOT NULL AND clients.#{field} != '')"
           end
         end
-
       when 'between'
         created_at_query = "date(clients.#{field}) BETWEEN ? AND ?"
         school_grade_query = "clients.#{field} in (?)"
@@ -267,11 +256,11 @@ module AdvancedSearches
 
     def validate_integer(values)
       if values.is_a?(Array)
-        first_value = values.first.to_i > 1000000 ? "1000000" : values.first
-        last_value  = values.last.to_i > 1000000 ? "1000000" : values.last
+        first_value = values.first.to_i > 1000000 ? '1000000' : values.first
+        last_value = values.last.to_i > 1000000 ? '1000000' : values.last
         [first_value, last_value]
       else
-        values.to_i > 1000000 ? "1000000" : values
+        values.to_i > 1000000 ? '1000000' : values
       end
     end
   end

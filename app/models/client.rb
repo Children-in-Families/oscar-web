@@ -98,7 +98,7 @@ class Client < ActiveRecord::Base
   has_many :case_worker_clients, dependent: :destroy
   has_many :users, through: :case_worker_clients, validate: false
   has_many :enter_ngos, dependent: :destroy
-  has_many :exit_ngos, dependent: :destroy
+  has_many :exit_ngos, as: :rejectable, dependent: :destroy
   has_many :referrals, dependent: :destroy
   has_many :government_forms, dependent: :destroy
   has_many :global_identity_organizations, class_name: 'GlobalIdentityOrganization', foreign_key: 'client_id', dependent: :destroy

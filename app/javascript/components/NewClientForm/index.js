@@ -570,11 +570,9 @@ const Forms = (props) => {
           return (
             value.required &&
             _.isEmpty(
-              Object.entries(
-                clientCustomData[value.name] ||
-                  customDataObj.properties[value.name] ||
-                  {}
-              ).filter(([_, element]) => eval(element.checked))
+              clientCustomData[value.name] ||
+                customDataObj.properties[value.name] ||
+                []
             )
           );
 
