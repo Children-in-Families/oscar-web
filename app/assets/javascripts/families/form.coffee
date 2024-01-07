@@ -211,6 +211,7 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
       type       = $(@).data('type')
       typeId     = $(@).val()
       subAddresses = $(@).data('subaddresses')
+
       subResource = subAddresses[0]
 
       $(subAddresses || []).each (index, subAddress) =>
