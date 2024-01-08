@@ -432,6 +432,10 @@ class Client < ActiveRecord::Base
     status == 'Referred'
   end
 
+  def active?
+    status == 'Active'
+  end
+
   def cached_user_ids
     Rails.cache.fetch([Apartment::Tenant.current, id, 'user_ids']) do
       users.map(&:id)

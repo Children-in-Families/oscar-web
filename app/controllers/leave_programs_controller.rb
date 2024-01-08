@@ -42,7 +42,6 @@ class LeaveProgramsController < AdminController
   def destroy
     name = params[:file_name]
     index = params[:file_index].to_i
-    params_program_streams = params[:program_streams]
     if name.present? && index.present?
       delete_form_builder_attachment(@leave_program, name, index)
     end
@@ -52,13 +51,13 @@ class LeaveProgramsController < AdminController
   def find_entity_histories
     if params[:family_id] || params[:community_id]
       cps_enrollments = @entity.enrollments
-      cps_leave_programs = LeaveProgram.joins(:enrollment).where("enrollments.programmable_id = ?", @entity.id)
+      cps_leave_programs = LeaveProgram.joins(:enrollment).where('enrollments.programmable_id = ?', @entity.id)
       @case_histories = (cps_enrollments + cps_leave_programs).sort { |current_record, next_record| -([current_record.created_at, current_record.new_date] <=> [next_record.created_at, next_record.new_date]) }
     else
       enter_ngos = @entity.enter_ngos
-      exit_ngos  = @entity.exit_ngos
+      exit_ngos = @entity.exit_ngos
       cps_enrollments = @entity.client_enrollments
-      cps_leave_programs = LeaveProgram.joins(:client_enrollment).where("client_enrollments.client_id = ?", @entity.id)
+      cps_leave_programs = LeaveProgram.joins(:client_enrollment).where('client_enrollments.client_id = ?', @entity.id)
       referrals = @entity.referrals
       @case_histories = (enter_ngos + exit_ngos + cps_enrollments + cps_leave_programs + referrals).sort { |current_record, next_record| -([current_record.created_at, current_record.new_date] <=> [next_record.created_at, next_record.new_date]) }
     end
