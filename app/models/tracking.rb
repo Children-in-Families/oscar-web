@@ -12,7 +12,6 @@ class Tracking < ActiveRecord::Base
 
   has_paper_trail
 
-
   validate :form_builder_field_uniqueness
   validate :presence_of_label
 
@@ -23,14 +22,15 @@ class Tracking < ActiveRecord::Base
   after_commit :flush_cache
 
   default_scope { order(:created_at) }
+  scope :visible, -> { where(hidden: false) }
 
   delegate :name, to: :program_stream, prefix: true, allow_nil: true
 
   def form_builder_field_uniqueness
     return unless fields.present?
     labels = []
-    fields.map{ |obj| labels << obj['label'] if obj['label'] != 'Separation Line' && obj['type'] != 'paragraph' }
-    (errors.add :fields, "Fields duplicated!") unless (labels.uniq.length == labels.length)
+    fields.map { |obj| labels << obj['label'] if obj['label'] != 'Separation Line' && obj['type'] != 'paragraph' }
+    (errors.add :fields, 'Fields duplicated!') unless (labels.uniq.length == labels.length)
   end
 
   def is_used?
@@ -51,7 +51,7 @@ class Tracking < ActiveRecord::Base
   private
 
   def presence_of_label
-    message = "Label " + I18n.t('cannot_be_blank')
+    message = 'Label ' + I18n.t('cannot_be_blank')
     fields.each do |f|
       unless f['label'].present?
         errors.add(:fields, message)
