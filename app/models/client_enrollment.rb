@@ -49,7 +49,7 @@ class ClientEnrollment < ActiveRecord::Base
   end
 
   def set_client_status
-    client.update(status: 'Active') || client.udpate_column(:status, 'Active')
+    client.update(status: 'Active') || client.update_column(:status, 'Active')
   end
 
   def get_form_builder_attachment(value)
