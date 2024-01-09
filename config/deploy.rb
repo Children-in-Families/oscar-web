@@ -18,7 +18,7 @@ set :whenever_roles, [:cron]
 
 set :deploy_to, "/var/www/#{fetch(:application)}"
 
-set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', "public/packs", ".bundle")
+set :linked_dirs, fetch(:linked_dirs, []).push('vendor/data', 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'public/packs', '.bundle')
 set :linked_files, fetch(:linked_files, []).push('.env')
 
 set :pty, false
@@ -32,18 +32,18 @@ namespace :deploy do
       mobile_path = '/var/www/cif-mobile/'
       commands = [
         "cd #{mobile_path}",
-        "git checkout .",
-        "git fetch",
+        'git checkout .',
+        'git fetch',
         "git checkout #{fetch(:branch)}",
         "git pull origin #{fetch(:branch)}",
-        "npm install",
+        'npm install',
         "gulp replace --env #{fetch(:stage)}"
       ]
-      execute commands.join(" && ")
+      execute commands.join(' && ')
     end
   end
 end
 
 set :passenger_restart_with_touch, true
 
-set :whenever_identifier, ->{ "#{fetch(:application)}_#{fetch(:stage)}" }
+set :whenever_identifier, -> { "#{fetch(:application)}_#{fetch(:stage)}" }

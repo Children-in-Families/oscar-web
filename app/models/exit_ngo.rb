@@ -2,7 +2,7 @@ class ExitNgo < ActiveRecord::Base
   has_paper_trail
   acts_as_paranoid double_tap_destroys_fully: true
 
-  belongs_to :client, with_deleted: true
+  belongs_to :client, class_name: 'Client', foreign_key: 'client_id', with_deleted: true
   belongs_to :rejectable, polymorphic: true, with_deleted: true
 
   alias_attribute :new_date, :exit_date
@@ -15,6 +15,7 @@ class ExitNgo < ActiveRecord::Base
 
   validates :exit_circumstance, :exit_date, :exit_note, :exit_reasons, presence: true
 
+  before_save :set_defaults
   after_create :update_entity_status
   after_save :create_exit_ngo_history
   after_destroy :update_client_status
@@ -26,6 +27,10 @@ class ExitNgo < ActiveRecord::Base
 
   private
 
+  def set_defaults
+    self.client_id = rejectable_id if rejectable_type == 'Client'
+  end
+
   def update_entity_status
     entity = client.present? ? client : rejectable
     entity.status = 'Exited'
@@ -35,16 +40,17 @@ class ExitNgo < ActiveRecord::Base
   end
 
   def create_exit_ngo_history
-    ExitNgoHistory.initial(self)
+    ExitNgoHistory.initial(self) if ENV['HISTORY_DATABASE_HOST'].present?
   end
 
   def update_client_status
     return if rejectable_type != 'Client'
-    return if client.enter_ngos.count.zero? && (client.client_enrollments.count.zero? || client.enter_ngos.count.zero?)
+    return if client && client.enter_ngos.count.zero? && (client.client_enrollments.count.zero? || client.enter_ngos.count.zero?)
+
     client.update_column(:status, 'Accepted')
   end
 
   def flash_cache
-    Rails.cache.delete(["dashboard", "#{Apartment::Tenant.current}_client_errors"]) if exit_date_changed?
+    Rails.cache.delete(['dashboard', "#{Apartment::Tenant.current}_client_errors"]) if exit_date_changed?
   end
 end

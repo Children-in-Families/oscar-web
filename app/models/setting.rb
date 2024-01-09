@@ -7,6 +7,7 @@ class Setting < ActiveRecord::Base
   has_paper_trail
 
   belongs_to :province
+  belongs_to :city
   belongs_to :district
   belongs_to :commune
   belongs_to :screening_assessment_form, class_name: 'CustomField'
@@ -31,7 +32,7 @@ class Setting < ActiveRecord::Base
   validates :max_assessment, presence: true, if: -> { enable_default_assessment.present? }
   validates :age, presence: true, if: -> { enable_default_assessment.present? }
   validates :assessment_frequency, presence: true, if: -> { enable_default_assessment.present? }
-  validate  :custom_assessment_name, if: -> { enable_custom_assessment.present? }
+  validate :custom_assessment_name, if: -> { enable_custom_assessment.present? }
   validates :custom_assessment_frequency, presence: true, if: -> { enable_custom_assessment.present? }
   validates :max_custom_assessment, presence: true, if: -> { enable_custom_assessment.present? }
   validates :custom_age, presence: true, if: -> { enable_custom_assessment.present? }
@@ -50,7 +51,7 @@ class Setting < ActiveRecord::Base
   end
 
   def start_sharing_this_month(date_time)
-    versions.where("to_char(created_at, 'YYYY-MM') = ?", date_time.to_date.strftime("%Y-%m")).map do |version|
+    versions.where("to_char(created_at, 'YYYY-MM') = ?", date_time.to_date.strftime('%Y-%m')).map do |version|
       sharing_data = version.object_changes['sharing_data']
 
       sharing_data.is_a?(Array) ? sharing_data.last : sharing_data == true
@@ -58,7 +59,7 @@ class Setting < ActiveRecord::Base
   end
 
   def stop_sharing_this_month(date_time)
-    versions.where("to_char(created_at, 'YYYY-MM') = ?", date_time.to_date.strftime("%Y-%m")).map do |version|
+    versions.where("to_char(created_at, 'YYYY-MM') = ?", date_time.to_date.strftime('%Y-%m')).map do |version|
       sharing_data = version.object_changes['sharing_data']
 
       sharing_data.is_a?(Array) ? sharing_data.last : sharing_data == false
@@ -78,7 +79,9 @@ class Setting < ActiveRecord::Base
   end
 
   def self.cache_first
-    Rails.cache.fetch([Apartment::Tenant.current, 'current_setting']) { first }
+    warn '[DEPRECATION] `cache_first` is deprecated (caching object issue).  Please use `first` instead.'
+
+    first
   end
 
   private

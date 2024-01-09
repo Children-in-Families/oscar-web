@@ -9,6 +9,8 @@
             .col-xs-12.col-sm-12
               #accordion.panel-group{"aria-multiselectable" => "true", :role => "tablist"}
                 - @field_settings.group_by(&:form_group_1).each do |group, fields|
+                  - group = group.presence || 'other'
+                  
                   - if group.in?(%w(client_form family_form case_management_tools anti-trafficking))
                     = render "field_settings/field_setting_groups/#{group.underscore}", group: group, fields: fields, f: f
                   - else

@@ -1,7 +1,10 @@
 .radio-group
   .row
     .col-xs-12.form-group{ class: html_column(full_width) }
-      %label= field_props['label'].html_safe
+      %label
+        - if field_props['required']
+          %abbr(title="required") *
+        = field_props['label'].html_safe
       - field_props['values'].each do |field|
         %li
           = radio_button_tag :nil, field['label'], field['selected'], class: 'i-checks'

@@ -1,5 +1,5 @@
 class ClientsController < AdminController
-  load_and_authorize_resource find_by: :slug, except: :quantitative_case
+  load_and_authorize_resource find_by: :slug, except: [:quantitative_case, :destroy, :restore]
   include ApplicationHelper
   include ClientAdvancedSearchesConcern
   include ClientGridOptions
@@ -14,9 +14,9 @@ class ClientsController < AdminController
   before_action :build_advanced_search, only: [:index]
   before_action :fetch_advanced_search_queries, only: [:index]
 
-  before_action :find_client, only: [:show, :edit, :update, :destroy, :custom_fields]
+  before_action :find_client, only: [:show, :edit, :update, :custom_fields]
   before_action :assign_client_attributes, only: [:show, :edit]
-  before_action :set_association, except: [:index, :destroy, :version, :welcome, :load_client_table_summary, :load_statistics_data]
+  before_action :set_association, except: [:index, :destroy, :restore, :archive, :archived, :version, :welcome, :load_client_table_summary, :load_statistics_data]
   before_action :choose_grid, only: [:index]
   before_action :quantitative_type_editable, only: [:edit, :update, :new, :create]
   before_action :quantitative_type_readable
@@ -26,13 +26,17 @@ class ClientsController < AdminController
     choose_grid
   end
 
+  def archived
+    @clients = Client.only_deleted.accessible_by(current_ability).includes(:archived_by)
+  end
+
   def custom_fields
     if current_user.admin? || current_user.strategic_overviewer?
-      @available_editable_forms  = CustomField.all
-      @readable_forms            = @client.custom_field_properties
+      @available_editable_forms = CustomField.all
+      @readable_forms = @client.custom_field_properties
     else
-      @available_editable_forms  = CustomField.where(id: current_user.custom_field_permissions.where(editable: true).pluck(:custom_field_id))
-      @readable_forms            = @client.custom_field_properties.where(custom_field_id: current_user.custom_field_permissions.where(readable: true).pluck(:custom_field_id))
+      @available_editable_forms = CustomField.where(id: current_user.custom_field_permissions.where(editable: true).pluck(:custom_field_id))
+      @readable_forms = @client.custom_field_properties.where(custom_field_id: current_user.custom_field_permissions.where(readable: true).pluck(:custom_field_id))
     end
   end
 
@@ -50,13 +54,15 @@ class ClientsController < AdminController
       respond_to do |f|
         f.html do
           # @client_grid is invoked from ClientGridOptions#choose_grid
-          client_grid             = @client_grid.scope { |scope| scope.accessible_by(current_ability) }
-          @results                = client_grid.assets
-          $client_data            = @clients
-          @client_grid            = @client_grid.scope { |scope| scope.accessible_by(current_ability).order(:id).page(params[:page]).per(20) }
+          client_grid = @client_grid.scope { |scope| scope.accessible_by(current_ability) }
+          @results = client_grid.assets
+          $client_data = @clients
+          @client_grid = @client_grid.scope { |scope| scope.accessible_by(current_ability).order(:id).page(params[:page]).per(20) }
         end
         f.xls do
           @client_grid.scope { |scope| scope.accessible_by(current_ability) }
+          @client_grid.params = params.to_unsafe_h.dup.deep_symbolize_keys
+
           export_client_reports
           send_data @client_grid.to_xls, filename: "client_report-#{Time.now}.xls"
         end
@@ -69,44 +75,44 @@ class ClientsController < AdminController
       format.html do
         Referral.where(id: params[:referral_id]).update_all(client_id: @client.id, saved: true) if params[:referral_id].present?
 
-        @referees                   = Referee.cache_none_anonymous.map { |referee| { value: referee.id, text: referee.name } }
-        @current_provinces          = Province.pluck(:id, :name).map{|id, name| { value: id, text: name } }
-        @birth_provinces            = @birth_provinces.map{|parent, children| children.map{|t, v| { value: v, text: t } } }.flatten
+        @referees = Referee.cache_none_anonymous.map { |referee| { value: referee.id, text: referee.name } }
+        @current_provinces = Province.pluck(:id, :name).map { |id, name| { value: id, text: name } }
+        @birth_provinces = @birth_provinces.map { |_, children| children.map { |t, v| { value: v, text: t } } }.flatten
 
-        custom_field_ids            = @client.custom_field_properties.pluck(:custom_field_id)
+        custom_field_ids = @client.custom_field_properties.pluck(:custom_field_id)
         if current_user.admin? || current_user.strategic_overviewer?
-          available_editable_forms  = CustomField.all
+          available_editable_forms = CustomField.all
         else
-          available_editable_forms  = CustomField.where(id: current_user.custom_field_permissions.where(editable: true).pluck(:custom_field_id))
+          available_editable_forms = CustomField.where(id: current_user.custom_field_permissions.where(editable: true).pluck(:custom_field_id))
         end
 
-        @free_client_forms          = available_editable_forms.client_forms.where(hidden: false).not_used_forms(custom_field_ids).order_by_form_title
+        @free_client_forms = available_editable_forms.client_forms.where(hidden: false).not_used_forms(custom_field_ids).order_by_form_title
 
         initial_visit_client
         enter_ngos = @client.enter_ngos
-        exit_ngos  = @client.exit_ngos
+        exit_ngos = @client.exit_ngos
         cps_enrollments = @client.client_enrollments.includes(:leave_program, :program_stream)
-        cps_leave_programs = LeaveProgram.joins(:client_enrollment).where("client_enrollments.client_id = ?", @client.id)
+        cps_leave_programs = LeaveProgram.joins(:client_enrollment).where('client_enrollments.client_id = ?', @client.id)
         referrals = @client.referrals
         @case_histories = (enter_ngos + exit_ngos + cps_enrollments + cps_leave_programs + referrals).sort { |current_record, next_record| -([current_record.new_date, current_record.created_at] <=> [next_record.new_date, next_record.created_at]) }
         @internal_referrals = @client.internal_referrals.joins(:program_streams).select('DISTINCT ON (internal_referrals.id, program_streams.id) internal_referrals.id, internal_referrals.referral_date, internal_referrals.client_id, program_streams.name program_name, internal_referrals.created_at')
       end
 
       format.pdf do
-        form        = params[:form]
-        form_title  = t(".government_form_#{form}")
+        form = params[:form]
+        form_title = t(".government_form_#{form}")
         client_name = @client.en_and_local_name
-        pdf_name    = "#{client_name} - #{form_title}"
-        render  pdf:      pdf_name,
-                template: 'clients/show.pdf.haml',
-                page_size: 'A4',
-                layout:   'pdf_design.html.haml',
-                show_as_html: params.key?('debug'),
-                header: { html: { template: 'government_reports/pdf/header.pdf.haml' } },
-                footer: { html: { template: 'government_reports/pdf/footer.pdf.haml' }, right: '[page] of [topage]' },
-                margin: { left: 0, right: 0, top: 10 },
-                dpi: '72',
-                disposition: 'inline'
+        pdf_name = "#{client_name} - #{form_title}"
+        render pdf: pdf_name,
+               template: 'clients/show.pdf.haml',
+               page_size: 'A4',
+               layout: 'pdf_design.html.haml',
+               show_as_html: params.key?('debug'),
+               header: { html: { template: 'government_reports/pdf/header.pdf.haml' } },
+               footer: { html: { template: 'government_reports/pdf/footer.pdf.haml' }, right: '[page] of [topage]' },
+               margin: { left: 0, right: 0, top: 10 },
+               dpi: '72',
+               disposition: 'inline'
       end
     end
   end
@@ -132,13 +138,12 @@ class ClientsController < AdminController
         given_name, family_name = [(client_names[0] || ''), (client_names[1] || '')]
         local_family_name, local_given_name = (@referral.client_name.scan(/\(((?:[^\)\(]++))\)/).first && @referral.client_name.scan(/\(((?:[^\)\(]++))\)/).first.split(' ')) || ['', '']
         client_attr = { given_name: given_name, family_name: family_name,
-                        local_given_name: '', local_family_name: '',
-                        gender: @referral.client_gender, reason_for_referral: @referral.referral_reason,
-                        date_of_birth: @referral.client_date_of_birth,
-                        referral_source_id: referral_source_id,
-                        initial_referral_date: @referral.date_of_referral,
-                        from_referral_id: @referral.id
-                      }
+                       local_given_name: '', local_family_name: '',
+                       gender: @referral.client_gender, reason_for_referral: @referral.referral_reason,
+                       date_of_birth: @referral.client_date_of_birth,
+                       referral_source_id: referral_source_id,
+                       initial_referral_date: @referral.date_of_referral,
+                       from_referral_id: @referral.id }
 
         if attributes.present?
           attributes = Client.get_client_attribute(@referral.attributes).merge(client_attr).merge(attributes)
@@ -158,6 +163,8 @@ class ClientsController < AdminController
       @risk_assessment = @client.build_risk_assessment
       @risk_assessment.tasks.build
     end
+    @custom_data = CustomData.first
+    @client_custom_data = @client.client_custom_data
     @referral_source_category = referral_source_name(ReferralSource.parent_categories, @client)
   end
 
@@ -172,6 +179,15 @@ class ClientsController < AdminController
     end
 
     @risk_assessment = @client.risk_assessment || @client.build_risk_assessment
+    @custom_data = CustomData.first
+    client_custom_data = @client.client_custom_data
+    if client_custom_data
+      form_builder_attachments = client_custom_data.try(:form_builder_attachments).map do |form_builder_attachment|
+        form_builder_attachment.file.map(&:to_json)
+        [form_builder_attachment.name, { id: form_builder_attachment.id, files: form_builder_attachment.file.map(&:to_json).map { |file| JSON.parse(file) } }]
+      end
+      @client_custom_data_properties = (client_custom_data.properties || {}).merge(form_builder_attachments.to_h)
+    end
   end
 
   def create
@@ -201,9 +217,17 @@ class ClientsController < AdminController
     end
   end
 
+  def restore
+    client = Client.only_deleted.friendly.find(params[:id])
+    client.recover
+    redirect_to client, notice: t('.successfully_restored')
+  end
+
   def destroy
+    @client = Client.only_deleted.friendly.find(params[:id])
+
     ActiveRecord::Base.transaction do
-      if !@client.current_family_id? && @client.destroy
+      if @client.destroy
         begin
           EnterNgo.with_deleted.where(client_id: @client.id).each(&:destroy_fully!)
           ClientEnrollment.with_deleted.where(client_id: @client.id).delete_all
@@ -211,14 +235,27 @@ class ClientsController < AdminController
           CaseWorkerClient.with_deleted.where(client_id: @client.id).each(&:destroy_fully!)
           Task.with_deleted.where(client_id: @client.id).each(&:destroy_fully!)
           ExitNgo.with_deleted.where(client_id: @client.id).each(&:destroy_fully!)
-          redirect_to clients_url, notice: t('.successfully_deleted')
+
+          redirect_to archived_clients_path, notice: t('.successfully_deleted')
         rescue => exception
           raise ActiveRecord::Rollback
         end
       else
         messages = "Can't delete client because the client is still attached with family"
-        redirect_to @client, alert: messages
+        redirect_to archived_clients_path, alert: messages
       end
+    end
+  rescue ActiveRecord::Rollback => exception
+    redirect_to archived_clients_path, alert: exception
+  end
+
+  def archive
+    if @client.current_family_id
+      redirect_to @client, alert: "Can't delete client because the client is still attached with family"
+    else
+      # Not using deestroy to avoid callbacks
+      @client.update_columns(deleted_at: Time.current, archived_by_id: current_user.id)
+      redirect_to clients_url, notice: t('.successfully_archived')
     end
   rescue ActiveRecord::Rollback => exception
     redirect_to @client, alert: exception
@@ -234,7 +271,7 @@ class ClientsController < AdminController
 
   def version
     page = params[:per_page] || 20
-    @client   = Client.accessible_by(current_ability).friendly.find(params[:client_id]).decorate
+    @client = Client.accessible_by(current_ability).friendly.find(params[:client_id]).decorate
     @versions = @client.versions.reorder(created_at: :desc).page(params[:page]).per(page)
   end
 
@@ -246,7 +283,7 @@ class ClientsController < AdminController
     else
       choose_grid
       $param_rules = params
-      basic_rules = JSON.parse(params[:basic_rules] || "{}")
+      basic_rules = JSON.parse(params[:basic_rules] || '{}')
       _clients, query = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability)).filter
       @results = @clients_by_user = @client_grid.scope { |scope| scope.where(query).accessible_by(current_ability) }.assets
     end
@@ -258,14 +295,14 @@ class ClientsController < AdminController
 
   def load_statistics_data
     clients = if searched_client_ids.present?
-      Client.where(id: searched_client_ids.split(','))
-    else
-      choose_grid
-      $param_rules = params
-      basic_rules = JSON.parse(params[:basic_rules] || "{}")
-      _clients, query = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability)).filter
-      clients = @client_grid.scope { |scope| scope.where(query).accessible_by(current_ability) }.assets
-    end
+                Client.where(id: searched_client_ids.split(','))
+              else
+                choose_grid
+                $param_rules = params
+                basic_rules = JSON.parse(params[:basic_rules] || '{}')
+                _clients, query = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability)).filter
+                clients = @client_grid.scope { |scope| scope.where(query).accessible_by(current_ability) }.assets
+              end
 
     render json: {
       csi_statistics: CsiStatistic.new(clients).assessment_domain_score,
@@ -300,36 +337,36 @@ class ClientsController < AdminController
   def client_params
     remove_blank_exit_reasons
     client_params = params.require(:client)
-          .permit(
-            :slug, :archived_slug, :code, :name_of_referee, :main_school_contact, :rated_for_id_poor, :what3words, :status, :country_origin,
-            :kid_id, :assessment_id, :given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth,
-            :birth_province_id, :initial_referral_date, :referral_source_id, :telephone_number,
-            :referral_phone, :received_by_id, :followed_up_by_id, :global_id, :shared_service_enabled,
-            :follow_up_date, :school_grade, :school_name, :current_address, :locality, :phone_owner,
-            :house_number, :street_number, :suburb, :description_house_landmark, :directions, :street_line1, :street_line2, :plot, :road, :postal_code, :district_id, :subdistrict_id,
-            :has_been_in_orphanage, :has_been_in_government_care, :external_id, :external_id_display, :mosvy_number,
-            :relevant_referral_information, :province_id, :current_family_id, :reason_for_referral,
-            :state_id, :township_id, :rejected_note, :live_with, :profile, :remove_profile,
-            :gov_city, :gov_commune, :gov_district, :gov_date, :gov_village_code, :gov_client_code,
-            :gov_interview_village, :gov_interview_commune, :gov_interview_district, :gov_interview_city,
-            :gov_caseworker_name, :gov_caseworker_phone, :gov_carer_name, :gov_carer_relationship, :gov_carer_home,
-            :gov_carer_street, :gov_carer_village, :gov_carer_commune, :gov_carer_district, :gov_carer_city, :gov_carer_phone,
-            :gov_information_source, :gov_referral_reason, :gov_guardian_comment, :gov_caseworker_comment, :commune_id, :village_id, :referral_source_category_id, :referee_id, :carer_id,
-            :presented_id, :legacy_brcs_id, :id_number, :whatsapp, :other_phone_number, :brsc_branch, :current_island, :current_street,
-            :current_po_box, :current_settlement, :current_resident_own_or_rent, :current_household_type,
-            :island2, :street2, :po_box2, :settlement2, :resident_own_or_rent2, :household_type2,
-            interviewee_ids: [],
-            client_type_ids: [],
-            user_ids: [],
-            agency_ids: [],
-            donor_ids: [],
-            quantitative_case_ids: [],
-            custom_field_ids: [],
-            family_ids: [],
-            tasks_attributes: [:name, :domain_id, :completion_date],
-            client_needs_attributes: [:id, :rank, :need_id],
-            client_problems_attributes: [:id, :rank, :problem_id]
-          )
+      .permit(
+        :slug, :archived_slug, :code, :name_of_referee, :main_school_contact, :rated_for_id_poor, :what3words, :status, :country_origin,
+        :kid_id, :assessment_id, :given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth,
+        :birth_province_id, :initial_referral_date, :referral_source_id, :telephone_number,
+        :referral_phone, :received_by_id, :followed_up_by_id, :global_id, :shared_service_enabled,
+        :follow_up_date, :school_grade, :school_name, :current_address, :locality, :phone_owner,
+        :house_number, :street_number, :suburb, :description_house_landmark, :directions, :street_line1, :street_line2, :plot, :road, :postal_code, :district_id, :subdistrict_id,
+        :has_been_in_orphanage, :has_been_in_government_care, :external_id, :external_id_display, :mosvy_number,
+        :relevant_referral_information, :province_id, :city_id, :current_family_id, :reason_for_referral,
+        :state_id, :township_id, :rejected_note, :live_with, :profile, :remove_profile,
+        :gov_city, :gov_commune, :gov_district, :gov_date, :gov_village_code, :gov_client_code,
+        :gov_interview_village, :gov_interview_commune, :gov_interview_district, :gov_interview_city,
+        :gov_caseworker_name, :gov_caseworker_phone, :gov_carer_name, :gov_carer_relationship, :gov_carer_home,
+        :gov_carer_street, :gov_carer_village, :gov_carer_commune, :gov_carer_district, :gov_carer_city, :gov_carer_phone,
+        :gov_information_source, :gov_referral_reason, :gov_guardian_comment, :gov_caseworker_comment, :commune_id, :village_id, :referral_source_category_id, :referee_id, :carer_id,
+        :presented_id, :legacy_brcs_id, :id_number, :whatsapp, :other_phone_number, :brsc_branch, :current_island, :current_street,
+        :current_po_box, :current_settlement, :current_resident_own_or_rent, :current_household_type,
+        :island2, :street2, :po_box2, :settlement2, :resident_own_or_rent2, :household_type2,
+        interviewee_ids: [],
+        client_type_ids: [],
+        user_ids: [],
+        agency_ids: [],
+        donor_ids: [],
+        quantitative_case_ids: [],
+        custom_field_ids: [],
+        family_ids: [],
+        tasks_attributes: [:name, :domain_id, :completion_date],
+        client_needs_attributes: [:id, :rank, :need_id],
+        client_problems_attributes: [:id, :rank, :problem_id]
+      )
 
     field_settings.each do |field_setting|
       next if field_setting.group != 'client' || field_setting.required? || field_setting.visible?
@@ -342,17 +379,18 @@ class ClientsController < AdminController
 
   def remove_blank_exit_reasons
     return if params[:client][:exit_reasons].blank?
+
     params[:client][:exit_reasons].reject!(&:blank?)
   end
 
   def set_association
-    @agencies        = Agency.cached_order_name
-    @donors          = Donor.cached_order_name
-    @users           = User.without_deleted_users.non_strategic_overviewers.order(:first_name, :last_name)
-    @interviewees    = Interviewee.cached_order_created_at
-    @client_types    = ClientType.cached_order_created_at
-    @needs           = Need.cached_order_created_at
-    @problems        = Problem.cached_order_created_at
+    @agencies = Agency.cached_order_name
+    @donors = Donor.cached_order_name
+    @users = User.without_deleted_users.non_strategic_overviewers.order(:first_name, :last_name)
+    @interviewees = Interviewee.cached_order_created_at
+    @client_types = ClientType.cached_order_created_at
+    @needs = Need.cached_order_created_at
+    @problems = Problem.cached_order_created_at
 
     subordinate_users = User.where('manager_ids && ARRAY[:user_id] OR id = :user_id', { user_id: current_user.id }).map(&:id)
     if current_user.admin? || current_user.hotline_officer?
@@ -373,47 +411,66 @@ class ClientsController < AdminController
     @phone_owners = Client::PHONE_OWNERS.map { |owner| { label: owner, value: owner.downcase } }
     @referral_source = @client && @client.referral_source.present? ? ReferralSource.where(id: @client.referral_source_id).map { |r| [r&.name, r.id] } : []
     @referral_source_category = referral_source_name(ReferralSource.parent_categories, @client) if @client && @client.persisted?
-    country_address_fields if @client
+    country_address_fields(@client.instance_of?(::ClientDecorator) ? @client.object : @client) if @client
   end
 
-  def country_address_fields
+  def country_address_fields(client)
     selected_country = Setting.cache_first.country_name || params[:country]
     current_org = Organization.current.short_name
     Organization.switch_to 'shared'
     @birth_provinces = []
-    Organization.pluck(:country).uniq.reject(&:blank?).map{ |country| @birth_provinces << [country.titleize, Province.country_is(country).map{|p| [p.name, p.id] }] }
+    Organization.pluck(:country).uniq.reject(&:blank?).map { |country| @birth_provinces << [country.titleize, Province.country_is(country).map { |p| [p.name, p.id] }] }
     Organization.switch_to current_org
 
     if selected_country&.downcase == 'thailand'
-      @current_provinces        = Province.order(:name).where.not("name ILIKE ?", "%/%")
-      @districts                = @client.province.present? ? @client.province.cached_districts : []
-      @subdistricts             = @client.district.present? ? @client.district.cached_subdistricts : []
+      @current_provinces = Province.order(:name).where.not('name ILIKE ?', '%/%')
+      @cities = client.province_id.present? ? client.province.cached_cities : []
+      @districts = client.province_id.present? ? client.province.cached_districts : []
+      @subdistricts = client.district_id.present? ? client.district.cached_subdistricts : []
 
-      @referee_districts        = @client.referee&.province.present? ? @client.referee.province.cached_districts : []
-      @referee_subdistricts     = @client.referee&.district.present? ? @client.referee.district.cached_subdistricts : []
+      @referee_districts = client.referee&.province_id.present? ? client.referee.province.cached_districts : []
+      @referee_subdistricts = client.referee&.district_id.present? ? client.referee.district.cached_subdistricts : []
 
-      @carer_districts          = @client.carer&.province.present? ? @client.carer.province.cached_districts : []
-      @carer_subdistricts       = @client.carer&.district.present? ? @client.carer.district.cached_subdistricts : []
-
+      @carer_districts = client.carer&.province_id.present? ? client.carer.province.cached_districts : []
+      @carer_subdistricts = client.carer&.district_id.present? ? client.carer.district.cached_subdistricts : []
     elsif selected_country&.downcase == 'myanmar'
-      @states                   = State.order(:name)
-      @townships                = @client.state.present? ? @client.state.townships.order(:name) : []
+      @states = State.order(:name)
+      @townships = client.state_id.present? ? client.state.townships.order(:name) : []
 
-      @referee_townships        = @client.referee&.state.present? ? @client.referee.state.townships.order(:name) : []
-      @carer_townships          = @client.carer&.state.present? ? @client.carer.state.townships.order(:name) : []
+      @referee_townships = client.referee&.state_id.present? ? client.referee.state.townships.order(:name) : []
+      @carer_townships = client.carer&.state_id.present? ? client.carer.state.townships.order(:name) : []
+    elsif selected_country&.downcase == 'indonesia'
+      @current_provinces = Province.order(:name).where.not('name ILIKE ?', '%/%')
+      @cities = client.province_id.present? ? client.province.cached_cities : []
+      @districts = client.city_id.present? ? client.city.cached_districts : []
+      @subdistricts = client.district_id.present? ? client.district.cached_subdistricts : []
+
+      @referee_cities = client.referee&.province_id.present? ? client.referee.province&.cached_cities : []
+      @referee_districts = client.referee&.city_id.present? ? client.referee.city.cached_districts : []
+      @referee_subdistricts = client.referee&.district_id.present? ? client.referee.district.cached_subdistricts : []
+
+      if @client.carer&.same_as_client
+        @carer_cities = client.province_id.present? ? client.province.cached_cities : []
+        @carer_districts = client.city_id.present? ? client.city.cached_districts : []
+        @carer_subdistricts = client.district_id.present? ? client.district.cached_subdistricts : []
+      else
+        @carer_cities = client.carer&.province_id.present? ? client.carer.province&.cached_cities : []
+        @carer_districts = client.carer&.city_id.present? ? client.carer.city.cached_districts : []
+        @carer_subdistricts = client.carer&.district_id.present? ? client.carer.district.cached_subdistricts : []
+      end
     else
-      @current_provinces        = Province.cached_order_name
-      @districts                = @client.province.present? ? @client.province.cached_districts : []
-      @communes                 = @client.district.present? ? @client.district.cached_communes : []
-      @villages                 = @client.commune.present? ? @client.commune.cached_villages : []
+      @current_provinces = Province.cached_order_name
+      @districts = client.province_id.present? ? client.province.cached_districts : []
+      @communes = client.district_id.present? ? client.district.cached_communes : []
+      @villages = client.commune_id.present? ? client.commune.cached_villages : []
 
-      @referee_districts        = @client.referee&.province.present? ? @client.referee.province.cached_districts : []
-      @referee_communes         = @client.referee&.district.present? ? @client.referee.district.cached_communes : []
-      @referee_villages         = @client.referee&.commune.present? ? @client.referee.commune.cached_villages : []
+      @referee_districts = client.referee&.province_id.present? ? client.referee.province.cached_districts : []
+      @referee_communes = client.referee&.district_id.present? ? client.referee.district.cached_communes : []
+      @referee_villages = client.referee&.commune_id.present? ? client.referee.commune.cached_villages : []
 
-      @carer_districts          = @client.carer&.province.present? ? @client.carer.province.cached_districts : []
-      @carer_communes           = @client.carer&.district.present? ? @client.carer.district.cached_communes : []
-      @carer_villages           = @client.carer&.commune.present? ? @client.carer.commune.cached_villages : []
+      @carer_districts = client.carer&.province_id.present? ? client.carer.province.cached_districts : []
+      @carer_communes = client.carer&.district_id.present? ? client.carer.district.cached_communes : []
+      @carer_villages = client.carer&.commune_id.present? ? client.carer.commune.cached_villages : []
     end
   end
 

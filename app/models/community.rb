@@ -6,27 +6,31 @@ class Community < ActiveRecord::Base
   mount_uploaders :documents, FileUploader
 
   delegate :name, to: :province, prefix: true, allow_nil: true
+  delegate :name, to: :city, prefix: true, allow_nil: true
   delegate :name, to: :district, prefix: true, allow_nil: true
+  delegate :name, to: :subdistrict, prefix: true, allow_nil: true
   delegate :name, to: :village, prefix: true, allow_nil: true
   delegate :name, to: :commune, prefix: true, allow_nil: true
 
-  EN_RELATIONS = [ 'Father', 'Mother', 'Brother', 'Sister', 'Uncle', 'Aunt', 'Grandfather', 'Grandmother', 'Relative', 'Neighbor', 'Friend' ]
-  KM_RELATIONS = [ 'ឪពុក', 'ម្ដាយ', 'បងប្រុស', 'បងស្រី', 'ពូ', 'មីង', 'អ៊ុំ', 'ជីដូន', 'ជីតា', 'សាច់ញាតិ', 'អ្នកជិតខាង', 'មិត្តភ័ក្ត' ]
-  MY_RELATIONS = [ 'ဖခင်', 'မိခင်', 'အစ်ကို', 'အစ်မ', 'ဘကြီး', 'အဒေါ်', 'အဘိုး', 'အဖွါး', 'ဆွေမျိုး', 'အိမ်နီးချင်း', 'မိတျဆှေ']
-  STATUSES     = ['accepted', 'rejected', 'active']
+  EN_RELATIONS = ['Father', 'Mother', 'Brother', 'Sister', 'Uncle', 'Aunt', 'Grandfather', 'Grandmother', 'Relative', 'Neighbor', 'Friend']
+  KM_RELATIONS = ['ឪពុក', 'ម្ដាយ', 'បងប្រុស', 'បងស្រី', 'ពូ', 'មីង', 'អ៊ុំ', 'ជីដូន', 'ជីតា', 'សាច់ញាតិ', 'អ្នកជិតខាង', 'មិត្តភ័ក្ត']
+  MY_RELATIONS = ['ဖခင်', 'မိခင်', 'အစ်ကို', 'အစ်မ', 'ဘကြီး', 'အဒေါ်', 'အဘိုး', 'အဖွါး', 'ဆွေမျိုး', 'အိမ်နီးချင်း', 'မိတျဆှေ']
+  STATUSES = ['accepted', 'rejected', 'active']
 
   enumerize :gender, in: ['female', 'male', 'lgbt', 'unknown', 'prefer_not_to_say', 'other'], scope: :shallow, predicates: { prefix: true }
   enumerize :status, in: ['accepted', 'rejected', 'active'], scope: :shallow, predicates: { prefix: true }
 
   belongs_to :province
+  belongs_to :city
   belongs_to :district
+  belongs_to :subdistrict
   belongs_to :commune
   belongs_to :village
   belongs_to :user
   belongs_to :referral_source
   belongs_to :referral_source_category, class_name: 'ReferralSource'
 
-  belongs_to :received_by,      class_name: 'User'
+  belongs_to :received_by, class_name: 'User'
 
   has_many :community_donors, dependent: :destroy
   has_many :donors, through: :community_donors
@@ -37,7 +41,7 @@ class Community < ActiveRecord::Base
   has_many :community_quantitative_free_text_cases
   has_many :community_quantitative_cases, dependent: :destroy
   has_many :quantitative_cases, through: :community_quantitative_cases
-  has_many :viewable_quantitative_cases, -> { joins(:quantitative_type).where('quantitative_types.visible_on LIKE ?', "%community%") }, through: :community_quantitative_cases, source: :quantitative_case
+  has_many :viewable_quantitative_cases, -> { joins(:quantitative_type).where('quantitative_types.visible_on LIKE ?', '%community%') }, through: :community_quantitative_cases, source: :quantitative_case
 
   has_many :custom_field_properties, as: :custom_formable, dependent: :destroy
   has_many :custom_fields, through: :custom_field_properties, as: :custom_formable
@@ -53,8 +57,8 @@ class Community < ActiveRecord::Base
 
   has_paper_trail
 
-  scope :referral_source_is,         -> { joins(:referral_source).where.not('referral_sources.name in (?)', ReferralSource::REFERRAL_SOURCES).pluck('referral_sources.name', 'referral_sources.id').uniq }
-  scope :by_status,                  ->(value) { where(status: value) }
+  scope :referral_source_is, -> { joins(:referral_source).where.not('referral_sources.name in (?)', ReferralSource::REFERRAL_SOURCES).pluck('referral_sources.name', 'referral_sources.id').uniq }
+  scope :by_status, -> (value) { where(status: value) }
 
   def display_name
     [name, name_en].select(&:present?).join(' - ').presence || "Community ##{id}"

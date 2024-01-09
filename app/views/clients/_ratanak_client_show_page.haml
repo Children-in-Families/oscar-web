@@ -26,7 +26,7 @@
             = editable @client, :nickname, url: api_client_path(@client.id), pk: @client.id
 
       - %w(national_id_number passport_number marital_status nationality ethnicity location_of_concern type_of_trafficking).each do |field|
-        - if policy(@client).show?(field.to_sym) && current_organization.short_name == 'brc'
+        - if policy(@client).show?(field.to_sym)
           %tr
             %td.spacing-first-col= t(".#{field}")
             %td= @client.public_send(field.to_sym)
@@ -383,7 +383,7 @@
                   - if field == 'police_interview'
                     %strong= t("clients.form.detail_form_of_judicial_police")
                   - else
-                    %strong= t("clients.form.#{field}")
+                    %strong= t("clients.show.#{field}")
                 %td(rowspan="#{ attachments.size + 1 }")
                   %strong
                     %span YES
@@ -401,11 +401,16 @@
             - else
               %tr
                 %td
-                  %strong= t("clients.form.#{field}")
+                  %strong= t("clients.show.#{field}")
                 %td
                   %strong NO
                 %td
                 %td(colspan="2")
+
+- if @client.client_custom_data
+  - cusotm_data_fields = @client.custom_data&.fields || []
+  - client_data_properties = @client.client_custom_data&.properties || {}
+  = render 'custom_data', cusotm_data_fields: cusotm_data_fields, client_data_properties: client_data_properties, client_custom_data: @client.client_custom_data
 
 - if @case_histories.any?
   .row
