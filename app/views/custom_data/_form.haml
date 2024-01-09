@@ -1,0 +1,13 @@
+.ibox
+  = simple_form_for(@custom_data, url: @custom_data.persisted? ? custom_datum_path(@custom_data) : custom_data_path) do |f|
+    .ibox-title
+      %p
+        %strong Custom Data
+    .ibox-content
+      = f.input :fields, as: :hidden
+      .build-wrap{ 'data-fields': @custom_data.fields.to_json || ''}
+      .row
+        .col-xs-12
+          #message.text-danger
+    .ibox-footer.text-right
+      = f.submit t('save'), id: 'custom-data-submit', class: 'btn btn-primary form-btn', data: { disable_with: t('saving') }

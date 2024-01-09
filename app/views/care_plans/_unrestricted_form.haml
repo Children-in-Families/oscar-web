@@ -1,4 +1,4 @@
-= simple_form_for([care_plan.client, care_plan], url: (!readonly && action_name == 'new') ? client_care_plans_path(care_plan.client) : client_care_plan_path(care_plan.client, care_plan), method: (!readonly && action_name == 'new') ? :POST : :PATCH, html: { id: "#{action_name}-care_plan", class: 'care_plan-form unrestricted_form', data: { disable_required_fields: current_setting.disable_required_fields? } }) do |f|
+= simple_form_for([client, care_plan], html: { id: "#{action_name}-care_plan", class: 'care_plan-form unrestricted_form', data: { disable_required_fields: current_setting.disable_required_fields? } }) do |f|
   - assessment = @assessment || Assessment.find_by(id: params[:care_plan][:assessment_id])
   = f.hidden_field :assessment_id, value: assessment.id
   = f.hidden_field :id, value: nil if !readonly && care_plan.persisted? && action_name == 'new'
@@ -85,54 +85,3 @@
                   .row
                     .div.add-goal-btn
                       = link_to_add_association t('care_plans.form.add_goal'), f, :goals, class: 'btn-add-goal btn btn-outline btn-success'
-            - else
-              - assessment_domain = care_plan.assessment.assessment_domains_in_order.find_by(domain_id: domain.id)
-              %table.table.table-borderless
-                %tbody
-                  %tr
-                    %td
-                      %b
-                        = t('care_plans.show.domain')
-                        - if assessment_domain.domain.custom_domain?
-                          = assessment_domain.domain.name
-                          = assessment_domain.domain.identity
-                        - else
-                          = t("domains.domain_names.#{assessment_domain.domain.name.downcase.reverse}") + ":"
-                          = t("domains.domain_identies.#{assessment_domain.domain.identity.strip.parameterize('_')}_#{assessment_domain.domain.name.downcase}")
-                    %td{rowspan: 1}
-                      .domain-score.text-center
-                        %button{ 'data-original-title': "#{simple_format(assessment_domain.score_definition)}", type: 'button', class: "btn btn-#{assessment_domain.score_color_class} btn-xs", 'data-toggle': 'tooltip' }
-                          = "#{assessment_domain.score}"
-                  %tr
-                    %td.no-padding-top
-                      %b= "#{t('care_plans.show.score')} #{assessment_domain.score}: #{(assessment_domain.score_definition).html_safe}"
-
-              - goal = care_plan.goals.joins(:assessment_domain).where(assessment_domains: { domain_id: domain.id }).first
-              %table.table.table-bordered.table-striped.table-hover
-                %tr
-                  %td
-                    %strong= t('care_plans.show.goal')
-                  %td
-                    = goal && goal.description
-                %tr
-                  %td
-                    %strong= t('care_plans.show.task')
-                  %td
-                    %ul
-                      - goal && goal.tasks.each_with_index do |task, index|
-                        %li= task.name
-                %tr
-                  %td
-                    %strong= t('care_plans.show.expected_date')
-                  %td
-                    %ul
-                      - goal && goal.tasks.each_with_index do |task, index|
-                        %li= date_format(task.expected_date)
-                %tr
-                  %td
-                    %strong= t('care_plans.show.done_during')
-                  %td
-                    %ul
-                      - goal && goal.tasks.each_with_index do |task, index|
-                        - if task.completed?
-                          %li= date_format(task.completion_date)

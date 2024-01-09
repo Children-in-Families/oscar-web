@@ -1,6 +1,7 @@
 require 'rake'
+
 class Organization < ActiveRecord::Base
-  SUPPORTED_LANGUAGES = %w(en km my).freeze
+  SUPPORTED_LANGUAGES = %w[en km my th in].freeze
   TYPES = ['Faith Based Organization', 'Government Organization', "Disabled People's Organization", 'Non Government Organization', 'Community Based Organization', 'Other Organization'].freeze
 
   acts_as_paranoid
@@ -24,6 +25,7 @@ class Organization < ActiveRecord::Base
   scope :cambodian, -> { where(country: 'cambodia') }
   scope :skip_dup_checking_orgs, -> { where(short_name: ['demo', 'cwd', 'myan', 'rok', 'my']) }
   scope :only_integrated, -> { where(integrated: true) }
+  scope :completed, -> { where(onboarding_status: 'completed') }
 
   before_save :clean_supported_languages
 
@@ -53,7 +55,6 @@ class Organization < ActiveRecord::Base
       transaction do
         org = new(fields)
         if org.save
-
           Apartment::Tenant.create(org.short_name)
           org
         else
@@ -62,7 +63,7 @@ class Organization < ActiveRecord::Base
       end
     end
 
-    def seed_generic_data(org_id, referral_source_category_name=nil)
+    def seed_generic_data(org_id, referral_source_category_name = nil)
       org = find_by(id: org_id)
       db_value = ENV['DB']
 
@@ -78,20 +79,40 @@ class Organization < ActiveRecord::Base
             general_data_file = Rails.root.join('lib/devdata/general.xlsx')
           end
 
+          if country == 'ratanak'
+            setting = Setting.first_or_create(default_assessment: 'Results Framework Assessment', country_name: country, enable_hotline: true, min_assessment: 3, case_note_frequency: 'day', max_case_note: 30, age: 100)
+          else
+            setting = Setting.first_or_create(country_name: country, min_assessment: 3, case_note_frequency: 'day', max_case_note: 30)
+          end
+
+          setting.update(org_name: org.full_name) if setting.org_name.blank? && org.present?
+
           Rake::Task['global_service:drop_constrain'].invoke(org.short_name)
           Rake::Task['global_service:drop_constrain'].reenable
 
           ENV['DB'] = org.short_name # This will seed data only for the current tenant
+          Rake::Task['db:migrate'].invoke
+          Rake::Task['db:migrate'].reenable
+
           Rake::Task['db:seed'].invoke
           Rake::Task['db:seed'].reenable
 
           Importer::Import.new('Agency', general_data_file).agencies
           Importer::Import.new('Department', general_data_file).departments
-          if country == 'nepal'
+
+          case country
+          when 'nepal'
             Rake::Task['nepali_provinces:import'].invoke(org.short_name)
-          elsif country == 'haiti'
+            Rake::Task['nepali_provinces:import'].reenable
+          when 'haiti'
             Rake::Task['haiti_addresses:import'].invoke(org.short_name)
             Rake::Task['haiti_addresses:import'].reenable
+          when 'thailand'
+            Rake::Task['thailand_addresses:import'].invoke(org.short_name)
+            Rake::Task['thailand_addresses:import'].reenable
+          when 'indonesia'
+            Rake::Task['indonesian_addresses:import'].invoke(org.short_name)
+            Rake::Task['indonesian_addresses:import'].reenable
           else
             Importer::Import.new('Province', general_data_file).provinces
             Rake::Task['communes_and_villages:import'].invoke(org.short_name)
@@ -99,10 +120,10 @@ class Organization < ActiveRecord::Base
           end
           Importer::Import.new('Quantitative Type', general_data_file).quantitative_types
           Importer::Import.new('Quantitative Case', general_data_file).quantitative_cases
-          Rake::Task["field_settings:import"].invoke(org.short_name)
-          Rake::Task["field_settings:import"].reenable
+          Rake::Task['field_settings:import'].invoke(org.short_name)
+          Rake::Task['field_settings:import'].reenable
 
-          Thredded::MessageboardGroup.find_or_create_by(name: 'Archived', position: 0)
+          Thredded::MessageboardGroup.find_or_create_by(name: 'Archived')
 
           referral_source_category = ReferralSource.find_by(name_en: referral_source_category_name)
           if referral_source_category
@@ -158,6 +179,25 @@ class Organization < ActiveRecord::Base
     self.supported_languages = supported_languages.select(&:present?)
   end
 
+  # To Do: Maybe allow user to select which language they want to use
+  def local_language
+    other_languages = (supported_languages - ['en'])
+
+    return 'km' if cambodian? && other_languages.include?('km')
+    return 'my' if myanmar? && other_languages.include?('my')
+    return 'in' if myanmar? && other_languages.include?('in')
+
+    other_languages.first
+  end
+
+  def cambodian?
+    country == 'cambodia'
+  end
+
+  def myanmar?
+    country == 'myanmar'
+  end
+
   def available_for_referral?
     if Rails.env.production?
       Organization.test_ngos.pluck(:short_name).include?(self.short_name) || Organization.oscar.pluck(:short_name).include?(self.short_name)
@@ -167,7 +207,7 @@ class Organization < ActiveRecord::Base
   end
 
   def integrated_date
-    warn "[DEPRECATION] `integrated_date` is deprecated.  Please use `last_integrated_date` instead."
+    warn '[DEPRECATION] `integrated_date` is deprecated.  Please use `last_integrated_date` instead.'
     last_integrated_date
   end
 
@@ -188,7 +228,7 @@ class Organization < ActiveRecord::Base
   end
 
   def self.full_name_from_short_name(short_name)
-    (cache_mapping_ngo_names.find{ |name| name.keys[0] == short_name } || {})[short_name]
+    (cache_mapping_ngo_names.find { |name| name.keys[0] == short_name } || {})[short_name]
   end
 
   def self.cache_visible_ngos
@@ -199,7 +239,7 @@ class Organization < ActiveRecord::Base
 
   def self.cached_organization_short_names(short_names)
     Rails.cache.fetch([Apartment::Tenant.current, Organization.only_deleted.count, 'Organization', 'cached_organization_short_names', *short_names.sort]) {
-      where("organizations.short_name IN (?)", short_names).pluck(:full_name)
+      where('organizations.short_name IN (?)', short_names).pluck(:full_name)
     }
   end
 

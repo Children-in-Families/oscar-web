@@ -2055,6 +2055,10 @@ km:
     remaining_programs:
       close: បិទ
       warning: ប្រុងប្រយ័ត្ន!
+    archive:
+      successfully_archived: Client has been successfully removed and put to trash.
+    restore:
+      successfully_restored: This client data was restored successfully.
     show:
       <<: *LEGAL_DOC_ATTR
       additional_forms: ទម្រង់អតិថិជនកំពុងប្រើ
@@ -2346,6 +2350,10 @@ km:
   completed_date: បញ្ចប់នៅថ្ងៃ
   created_by: បង្កើតឡើងដោយ
   created_on: បង្កើតឡើងនៅថ្ងៃ
+  custom_data:
+    add: បង្កើត%{custom_data}ថ្មី
+    edit: កែសម្រួល%{custom_data}
+    title: ទន្នន័យបន្ថែម
   custom_field_properties:
     attachment:
       are_you_sure: តើអ្នកប្រាកដហើយថាចង់លុបដែរឫទេ?

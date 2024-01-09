@@ -1,7 +1,6 @@
 module Api
   module V1
     class FamiliesController < Api::V1::BaseApiController
-
       def index
         render json: current_user.families
       end
@@ -45,7 +44,7 @@ module Api
         permitted_params = params.require(:family).permit(
           :name, :code,
           :dependable_income, :family_type, :status, :contract_date,
-          :address, :province_id, :district_id, :house, :street,
+          :address, :province_id, :city_id, :district_id, :house, :street,
           :commune_id, :village_id, :slug,
           :followed_up_by_id, :follow_up_date, :name_en, :phone_number, :id_poor, :referral_source_id,
           :referee_phone_number, :relevant_information,

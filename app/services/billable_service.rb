@@ -11,9 +11,10 @@ class BillableService < ServiceBase
   def call
     Organization.switch_to(tenant)
 
+    # Prevent duplicate billable report item in sidekiq concurrency
+    return if report.billable_report_items.exists?(billable: version.item)
+    
     if version.changed_to_status_accepted?
-      # Prevent duplicate billable report item in sidekiq concurrency
-      return if report.billable_report_items.exists?(billable: version.item)
 
       # Accepted day 1, we will have a cron job to check status and set billable_at if the status is still accepted after 7 days
       report.billable_report_items.create!(

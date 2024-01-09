@@ -3,6 +3,10 @@ class ClientPolicy < ApplicationPolicy
     record.status != 'Exited'
   end
 
+  def view_archived?
+    user.admin? || user.manager? || user.case_worker?
+  end
+
   def show_legal_doc?
     fields = [
       :national_id,
@@ -17,9 +21,9 @@ class ClientPolicy < ApplicationPolicy
     ]
 
     if Organization.ratanak?
-      FieldSetting.show_legal_doc(fields) && fields.any?{ |field| show?(field) }
+      FieldSetting.show_legal_doc(fields) && fields.any? { |field| show?(field) }
     else
-      FieldSetting.show_legal_doc_visible(fields) && fields.any?{ |field| show?(field) }
+      FieldSetting.show_legal_doc_visible(fields) && fields.any? { |field| show?(field) }
     end
   end
 
@@ -30,17 +34,17 @@ class ClientPolicy < ApplicationPolicy
 
   def brc_client_other_address?
     fields = %w(island2 street2 po_box2 settlement2 resident_own_or_rent2 household_type2)
-    FieldSetting.by_instances(Apartment::Tenant.current).where(name: fields).any? && fields.any?{ |field| show?(field.to_sym) }
+    FieldSetting.by_instances(Apartment::Tenant.current).where(name: fields).any? && fields.any? { |field| show?(field.to_sym) }
   end
 
   def client_stackholder_contacts?
     FieldSetting.by_instances(Apartment::Tenant.current).where(name: Client::STACKHOLDER_CONTACTS_FIELDS).any? &&
-    Client::STACKHOLDER_CONTACTS_FIELDS.any?{ |field| show?(field) }
+    Client::STACKHOLDER_CONTACTS_FIELDS.any? { |field| show?(field) }
   end
 
   def client_pickup_information?
     fields = %w(arrival_at flight_nb ratanak_achievement_program_staff_client_ids mosavy_official)
-    FieldSetting.by_instances(Apartment::Tenant.current).where(name: fields).any? && fields.any?{ |field| show?(field.to_sym) }
+    FieldSetting.by_instances(Apartment::Tenant.current).where(name: fields).any? && fields.any? { |field| show?(field.to_sym) }
   end
 
   def client_school_information?
@@ -50,7 +54,7 @@ class ClientPolicy < ApplicationPolicy
       :main_school_contact,
       :education_background
     ]
-    FieldSetting.by_instances(Apartment::Tenant.current).where(name: fields).any? && fields.any?{ |field| show?(field) }
+    FieldSetting.by_instances(Apartment::Tenant.current).where(name: fields).any? && fields.any? { |field| show?(field) }
   end
 
   def show?(*field_names)
@@ -70,7 +74,7 @@ class ClientPolicy < ApplicationPolicy
       client_phone address_type birth_province_id telephone_number live_with
     )
 
-    return false if Organization.brc? && (hidden_fields.include?(field) || hidden_fields.map{|f| f + '_'}.include?(field))
+    return false if Organization.brc? && (hidden_fields.include?(field) || hidden_fields.map { |f| f + '_' }.include?(field))
 
     field_setting = FieldSetting.cache_by_name_klass_name_instance(field, 'client')
 

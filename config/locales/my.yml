@@ -2178,6 +2178,10 @@ my:
     remaining_programs:
       close: ပိတ္ရန္
       warning: သတိေပးခ်က္
+    archive:
+      successfully_archived: Client has been successfully removed and put to trash.
+    restore:
+      successfully_restored: This client data was restored successfully.
     show:
       <<: *LEGAL_DOC_ATTR
       care_plan: Care plan

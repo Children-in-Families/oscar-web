@@ -4,7 +4,7 @@ module Api
     include ClientsConcern
 
     def search_client
-      clients = Client.all.where("given_name ILIKE ? OR family_name ILIKE ? OR local_given_name ILIKE ? OR local_family_name ILIKE ? OR slug ILIKE ?", "%#{params[:q]}%", "%#{params[:q]}%", "%#{params[:q]}%", "%#{params[:q]}%", "%#{params[:q]}%").select(:id, :slug, :given_name, :family_name, :local_given_name, :local_family_name)
+      clients = Client.all.where('given_name ILIKE ? OR family_name ILIKE ? OR local_given_name ILIKE ? OR local_family_name ILIKE ? OR slug ILIKE ?', "%#{params[:q]}%", "%#{params[:q]}%", "%#{params[:q]}%", "%#{params[:q]}%", "%#{params[:q]}%").select(:id, :slug, :given_name, :family_name, :local_given_name, :local_family_name)
       render json: clients, serializer: false
     end
 
@@ -26,9 +26,9 @@ module Api
       $param_rules = params
 
       client_ids = if searched_client_ids.present?
-                     searched_client_ids.split(",")
+                     searched_client_ids.split(',')
                    else
-                     basic_rules = JSON.parse(params[:basic_rules] || "{}")
+                     basic_rules = JSON.parse(params[:basic_rules] || '{}')
                      clients, _query = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability)).filter
                      clients.ids
                    end
@@ -50,7 +50,7 @@ module Api
           referee = Referee.find(params.dig(:referee, :id))
           referee.update(referee_params)
         else
-          if referee_params[:anonymous] == "true"
+          if referee_params[:anonymous] == 'true'
             referee = Referee.new(referee_params)
             referee.save
           else
@@ -78,9 +78,12 @@ module Api
         end
 
         if risk_assessment_params
-          risk_assessment = RiskAssessmentReducer.new(client, risk_assessment_params, "create")
+          risk_assessment = RiskAssessmentReducer.new(client, risk_assessment_params, 'create')
           risk_assessment.store
         end
+
+        custom_data = CustomData.first
+        client.create_client_custom_data(custom_data_params.merge(custom_data_id: custom_data.id)) if custom_data && params.key?(:custom_data)
 
         render json: { slug: client.slug, id: client.id }, status: :ok
       else
@@ -112,12 +115,21 @@ module Api
         end
 
         if risk_assessment_params
-          risk_assessment = RiskAssessmentReducer.new(client, risk_assessment_params, "update")
+          risk_assessment = RiskAssessmentReducer.new(client, risk_assessment_params, 'update')
           risk_assessment.store
         end
 
+        custom_data = CustomData.first
+        if custom_data && params.key?(:custom_data)
+          if client.client_custom_data&.persisted?
+            client.client_custom_data.update_attributes(custom_data_params)
+          else
+            client.create_client_custom_data(custom_data_params.merge(custom_data_id: custom_data.id))
+          end
+        end
+
         if params[:client][:assessment_id]
-          assessment = Assessment.find(params[:client][:assessment_id])
+          Assessment.find(params[:client][:assessment_id])
         else
           render json: { slug: client.slug }, status: :ok
         end
@@ -134,18 +146,18 @@ module Api
         adult_males: adule_client_gender_count(clients, :male),
         girls: under_18_client_gender_count(clients, :female),
         boys: under_18_client_gender_count(clients, :male),
-        others: other_client_gender_count(clients),
+        others: other_client_gender_count(clients)
       }
       render json: client_data
     end
 
     def render_active_client_by_donor
-      data = Donor.includes(:clients).references(:clients).where(clients: { id: Client.accessible_by(current_ability).active_status.ids }).group("donors.name").count("clients.id")
+      data = Donor.includes(:clients).references(:clients).where(clients: { id: Client.accessible_by(current_ability).active_status.ids }).group('donors.name').count('clients.id')
       donors = Donor.pluck(:name, :id)
       donor_data = data.map do |donor_name, client_count|
-        url = { "condition" => "AND", "rules" => [
-          { "id" => "status", "field" => "Status", "type" => "string", "input" => "select", "operator" => "equal", "value" => "Active", "data" => { "values" => [{ "Accepted" => "Accepted" }, { "Active" => "Active" }, { "Exited" => "Exited" }, { "Referred" => "Referred" }], "isAssociation" => false } },
-          { "id" => "donor_name", "field" => "Donor", "type" => "string", "input" => "select", "operator" => "equal", "value" => donors.to_h[donor_name], "data" => { "values" => donors.reverse.to_h, "isAssociation" => true }, "valid" => true },
+        url = { 'condition' => 'AND', 'rules' => [
+          { 'id' => 'status', 'field' => 'Status', 'type' => 'string', 'input' => 'select', 'operator' => 'equal', 'value' => 'Active', 'data' => { 'values' => [{ 'Accepted' => 'Accepted' }, { 'Active' => 'Active' }, { 'Exited' => 'Exited' }, { 'Referred' => 'Referred' }], 'isAssociation' => false } },
+          { 'id' => 'donor_name', 'field' => 'Donor', 'type' => 'string', 'input' => 'select', 'operator' => 'equal', 'value' => donors.to_h[donor_name], 'data' => { 'values' => donors.reverse.to_h, 'isAssociation' => true }, 'valid' => true }
         ] }
 
         {
@@ -153,11 +165,11 @@ module Api
           y: client_count,
           url: clients_path(
             'client_advanced_search': {
-              action_report_builder: "#builder",
-              basic_rules: url.to_json,
+              action_report_builder: '#builder',
+              basic_rules: url.to_json
             },
-            commit: "commit",
-          ),
+            commit: 'commit'
+          )
         }
       end
       render json: { data: donor_data }
@@ -182,7 +194,7 @@ module Api
         :follow_up_date, :school_grade, :school_name, :current_address, :locality,
         :house_number, :street_number, :suburb, :description_house_landmark, :directions, :street_line1, :street_line2, :plot, :road, :postal_code, :district_id, :subdistrict_id,
         :has_been_in_orphanage, :has_been_in_government_care, :shared_service_enabled,
-        :relevant_referral_information, :province_id, :global_id, :external_id, :external_id_display, :mosvy_number,
+        :relevant_referral_information, :province_id, :city_id, :global_id, :external_id, :external_id_display, :mosvy_number,
         :state_id, :township_id, :rejected_note, :live_with, :profile, :remove_profile,
         :gov_city, :gov_commune, :gov_district, :gov_date, :gov_village_code, :gov_client_code,
         :gov_interview_village, :gov_interview_commune, :gov_interview_district, :gov_interview_city,
@@ -263,24 +275,44 @@ module Api
       family_member_attributes: [:id, :family_id, :_destroy],
       tasks_attributes: [:name, :domain_id, :completion_date],
       client_needs_attributes: [:id, :rank, :need_id],
-      client_problems_attributes: [:id, :rank, :problem_id],
+      client_problems_attributes: [:id, :rank, :problem_id]
       )
 
       field_settings.each do |field_setting|
-        next if field_setting.group != "client" || field_setting.required? || field_setting.visible?
+        next if field_setting.group != 'client' || field_setting.required? || field_setting.visible?
 
-        client_param.except!(field_setting.name.to_sym) unless field_setting.name == "gender"
+        client_param.except!(field_setting.name.to_sym) unless field_setting.name == 'gender'
       end
 
       if params[:family_member]
-        client_param[:family_member_attributes] = params[:family_member].permit([:id, :family_id])
+        client_param[:family_member_attributes] = params[:family_member].permit(%i[id family_id])
 
-        if client_param[:family_member_attributes].present?
-          client_param[:family_member_attributes][:_destroy] = 1 if client_param.dig(:family_member_attributes, :family_id).blank?
-        end
+        client_param[:family_member_attributes][:_destroy] = 1 if client_param[:family_member_attributes].present? && client_param.dig(:family_member_attributes, :family_id).blank?
       end
 
       client_param
+    end
+
+    def find_client_in_organization
+      results = []
+      similar_fields = Client.find_shared_client(params)
+      { similar_fields: similar_fields }
+    end
+
+    def custom_data_params
+      if params.dig(:custom_data, :properties)
+        param_array = []
+        params.dig(:custom_data, :properties).each { |k, v| param_array << [k, v.first.is_a?(Hash) ? v.first.keys : []] if v.is_a?(Array) }
+        property_keys = params.dig(:custom_data, :properties).try(:keys)
+        params.require(:custom_data).permit(
+          properties: property_keys << param_array.to_h,
+          form_builder_attachments_attributes: [:id, :name, { file: [] }]
+        )
+      else
+        params.require(:custom_data).permit(
+          form_builder_attachments_attributes: [:id, :name, { file: [] }]
+        )
+      end
     end
 
     def find_client_in_organization
@@ -300,7 +332,7 @@ module Api
       client_data = []
       assessment_data.each do |assessment|
         assessment_domain_hash = AssessmentDomain.where(assessment_id: assessment.id).pluck(:domain_id, :score).to_h if assessment.assessment_domains.present?
-        domain_scores = domains.ids.map { |domain_id| assessment_domain_hash.present? ? ["domain_#{domain_id}", assessment_domain_hash[domain_id]] : ["domain_#{domain_id}", ""] }
+        domain_scores = domains.ids.map { |domain_id| assessment_domain_hash.present? ? ["domain_#{domain_id}", assessment_domain_hash[domain_id]] : ["domain_#{domain_id}", ''] }
         total = 0
         assessment_domain_hash.each do |index, value|
           total += value || 0
@@ -309,7 +341,7 @@ module Api
         client_hash = { slug: assessment.client.slug,
                        name: assessment.client.en_and_local_name,
                        'assessment-number': assessment.client.assessments.where(default: params[:default]).count,
-                       date: assessment.created_at.strftime("%d %B %Y"),
+                       date: assessment.created_at.strftime('%d %B %Y'),
                        'average-score': total == 0 ? nil : (total.fdiv(domain_scores.length())).round() }
         client_hash.merge!(domain_scores.to_h)
         client_data << client_hash
@@ -323,17 +355,17 @@ module Api
     end
 
     def fetch_assessments
-      basic_rules = JSON.parse(params[:basic_rules] || "{}")
+      basic_rules = JSON.parse(params[:basic_rules] || '{}')
       clients, _query = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability)).filter
 
       assessments = Assessment.joins(:client).where(default: params[:default], client_id: clients.ids)
       assessments = assessments.includes(:assessment_domains).order("#{sort_column} #{sort_direction}").references(:assessment_domains, :client)
 
-      assessment_data = params[:length] != "-1" ? assessments.page(page).per(per_page) : assessments
+      assessment_data = params[:length] != '-1' ? assessments.page(page).per(per_page) : assessments
     end
 
     def domains
-      @domains ||= params[:default] == "true" ? Domain.csi_domains : Domain.custom_csi_domains
+      @domains ||= params[:default] == 'true' ? Domain.csi_domains : Domain.custom_csi_domains
     end
 
     def page
@@ -345,21 +377,21 @@ module Api
     end
 
     def sort_column
-      domains_fields = domains.map { |domain| "assessment_domains.score" }
-      columns = ["regexp_replace(clients.slug, '\\D*', '', 'g')::int", "clients.given_name", "clients.assessments_count", "assessments.created_at", *domains_fields]
-      columns[params[:order]["0"]["column"].to_i]
+      domains_fields = domains.map { |domain| 'assessment_domains.score' }
+      columns = ["regexp_replace(clients.slug, '\\D*', '', 'g')::int", 'clients.given_name', 'clients.assessments_count', 'assessments.created_at', *domains_fields]
+      columns[params[:order]['0']['column'].to_i]
     end
 
     def sort_direction
-      params[:order]["0"]["dir"] == "desc" ? "desc" : "asc"
+      params[:order]['0']['dir'] == 'desc' ? 'desc' : 'asc'
     end
 
     def adule_client_gender_count(clients, type = :male)
-      clients.public_send(type).where("(EXTRACT(year FROM age(current_date, clients.date_of_birth)) :: int) >= ?", 18).count
+      clients.public_send(type).where('(EXTRACT(year FROM age(current_date, clients.date_of_birth)) :: int) >= ?', 18).count
     end
 
     def under_18_client_gender_count(clients, type = :male)
-      clients.public_send(type).where("(EXTRACT(year FROM age(current_date, clients.date_of_birth)) :: int) < ?", 18).count
+      clients.public_send(type).where('(EXTRACT(year FROM age(current_date, clients.date_of_birth)) :: int) < ?', 18).count
     end
 
     def other_client_gender_count(clients)
