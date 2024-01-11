@@ -1047,9 +1047,9 @@ const Forms = (props) => {
             current_organization={current_organization}
             data={{
               addressTypes,
-              currentDistricts: districts,
-              currentCommunes: communes,
-              currentVillages: villages,
+              currentDistricts: addresses.districts || [],
+              currentCommunes: addresses.communes || [],
+              currentVillages: addresses.villages || [],
               currentProvinces,
               objectKey,
               objectData,
