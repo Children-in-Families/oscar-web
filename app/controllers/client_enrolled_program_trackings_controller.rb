@@ -13,12 +13,12 @@ class ClientEnrolledProgramTrackingsController < AdminController
 
   def index
     @tracking_grid = ClientEnrolledProgramTrackingGrid.new(params[:tracking_grid])
-    @tracking_grid.scope { |scope| scope.where(program_stream_id: @program_stream).page(params[:page]).per(20) }
+    @tracking_grid.scope { |scope| scope.visible.where(program_stream_id: @program_stream).page(params[:page]).per(20) }
   end
 
   def new
     @client_enrollment_tracking = @enrollment.client_enrollment_trackings.new(tracking_id: @tracking.id)
-    @attachment        = @client_enrollment_tracking.form_builder_attachments.build
+    @attachment = @client_enrollment_tracking.form_builder_attachments.build
     authorize @client_enrollment_tracking
   end
 
@@ -55,7 +55,7 @@ class ClientEnrolledProgramTrackingsController < AdminController
     name = params[:file_name]
     index = params[:file_index].to_i
 
-    notice = ""
+    notice = ''
     if name.present? && index.present?
       delete_form_builder_attachment(@client_enrollment_tracking, name, index)
       redirect_to request.referer, notice: t('.delete_attachment_successfully')
