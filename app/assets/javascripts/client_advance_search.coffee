@@ -129,7 +129,7 @@ class CIF.ClientAdvanceSearch
       $(".assessment-data-dropdown li.csi-#{value}").removeClass("hide")
       $("input[id$='_advanced_search_assessment_selected']").val("[#{value}]")
 
-      self.showAssessmentColumns($('#assessment-select option:selected').data("selectGroup"))
+      self.showAssessmentColumns($("#assessment-select option:selected").data("selectGroup"))
 
       unless $("#assessment-checkbox").is(":checked")
         $(".assessment-data-dropdown li").addClass("hide")
@@ -138,12 +138,15 @@ class CIF.ClientAdvanceSearch
 
     $('#assessment-select').trigger('change')
 
+  addslashes:  (str) ->
+    return (str + '').replace(/[\\"']/g, '\\$&').replace(/\u0000/g, '\\0');
+
   showAssessmentColumns: (sectionText) ->
     self = @
 
     # Toggle domain score fields
-    $.each $('#assessment-select option'), (index, item) ->
-      $options = $("optgroup[label='#{$(item).data("selectGroup")}'] option")
+    $.each $("#assessment-select option"), (index, item) ->
+      $options = $("optgroup[label='#{self.addslashes($(item).data("selectGroup"))}'] option")
 
       if $(item).data("selectGroup") == sectionText
         $options.attr("disabled", false)

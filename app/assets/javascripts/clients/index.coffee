@@ -160,7 +160,7 @@ CIF.ClientsIndex = CIF.ClientsWelcome = do ->
 
     _handleAjaxRequestToAssessment("#csi-assessment-score", $("#assessment-domain-score").data("filename"))
 
-    $('#assessment-select option').each ->
+    $("#assessment-select option").each ->
       $option = $(this)
 
       if $option.val() && $option.val() != 0
