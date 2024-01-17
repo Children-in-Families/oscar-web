@@ -28,6 +28,7 @@ class CIF.ClientAdvanceSearch
     @EXIT_PROGRAM_TRANSTATE   = $(optionTranslation).data('exitProgram')
 
     @QUANTITATIVE_TRANSLATE   = $(optionTranslation).data('quantitative')
+    @CUSTOM_DATA_TRANSLATE   = $(optionTranslation).data('custom-data')
     @HOTLINE_TRANSLATE   = optionTranslation.data('hotline')
     @CONCERN_BASIC_FIELDS   = optionTranslation.data('concern-basic-fields')
     loaderButton = document.querySelector('.ladda-button-columns-visibility')
@@ -128,7 +129,7 @@ class CIF.ClientAdvanceSearch
       $(".assessment-data-dropdown li.csi-#{value}").removeClass("hide")
       $("input[id$='_advanced_search_assessment_selected']").val("[#{value}]")
 
-      self.showAssessmentColumns($('#assessment-select option:selected').data("selectGroup")) 
+      self.showAssessmentColumns($("#assessment-select option:selected").data("selectGroup"))
 
       unless $("#assessment-checkbox").is(":checked")
         $(".assessment-data-dropdown li").addClass("hide")
@@ -137,12 +138,15 @@ class CIF.ClientAdvanceSearch
 
     $('#assessment-select').trigger('change')
 
+  addslashes:  (str) ->
+    return (str + '').replace(/[\\"']/g, '\\$&').replace(/\u0000/g, '\\0');
+
   showAssessmentColumns: (sectionText) ->
     self = @
 
     # Toggle domain score fields
-    $.each $('#assessment-select option'), (index, item) ->
-      $options = $("optgroup[label='#{$(item).data("selectGroup")}'] option")
+    $.each $("#assessment-select option"), (index, item) ->
+      $options = $("optgroup[label='#{self.addslashes($(item).data("selectGroup"))}'] option")
 
       if $(item).data("selectGroup") == sectionText
         $options.attr("disabled", false)
@@ -151,7 +155,7 @@ class CIF.ClientAdvanceSearch
 
     # Toggle custom assessment fields
     $options = $("optgroup[label='Custom Assessment'] option")
-    
+
     if sectionText != undefined && sectionText.indexOf(" | ") > -1
       $options.attr("disabled", false)
     else
@@ -208,7 +212,7 @@ class CIF.ClientAdvanceSearch
     self = @
     assessmentSelectValue = $('#assessment-select').find(':selected').val()
     $("div[data-custom-assessment-setting-id='#{assessmentSelectValue}']").show() if $("#assessment-checkbox").is(":checked")
-    
+
     $('.main-report-builder .assessment-form-wrapper select').on 'select2-selecting', (element) ->
       $(".custom-assessment-setting").hide()
       $(".custom-assessment-setting input[type='checkbox']").iCheck("uncheck")
@@ -313,7 +317,7 @@ class CIF.ClientAdvanceSearch
       $('.assessment-form').hide()
       $('#builder').queryBuilder('removeFilter', ['assessment_condition_last_two','assessment_condition_first_last'])
       $('button[data-add="rule"]').trigger('click')
-      
+
       return
 
   handleShowAssessmentSelect: ->
@@ -894,8 +898,10 @@ class CIF.ClientAdvanceSearch
 
   handleAddQuantitativeFilter: ->
     self = @
+    $('#custom-referral-data').hide()
     fields = $('#quantitative-fields').data('fields')
     $('#quantitative-type-checkbox').on 'ifChecked', ->
+      $('#custom-referral-data').show()
       $('#builder').queryBuilder('addFilter', fields) if $('#builder:visible').length > 0
       $('#wizard-builder').queryBuilder('addFilter', fields) if $('#wizard-builder:visible').length > 0
       self.initSelect2()
@@ -903,7 +909,9 @@ class CIF.ClientAdvanceSearch
   handleRemoveQuantitativFilter: ->
     self = @
     $('#quantitative-type-checkbox').on 'ifUnchecked', ->
+      $('#custom-referral-data').hide()
       self.handleRemoveFilterBuilder(self.QUANTITATIVE_TRANSLATE, self.QUANTITATIVE_TRANSLATE)
+      self.handleRemoveFilterBuilder(self.CUSTOM_DATA_TRANSLATE, self.CUSTOM_DATA_TRANSLATE)
 
   handleHotlineFilter: ->
     self = @

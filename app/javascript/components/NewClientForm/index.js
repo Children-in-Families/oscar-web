@@ -570,11 +570,9 @@ const Forms = (props) => {
           return (
             value.required &&
             _.isEmpty(
-              Object.entries(
-                clientCustomData[value.name] ||
-                  customDataObj.properties[value.name] ||
-                  {}
-              ).filter(([_, element]) => eval(element.checked))
+              clientCustomData[value.name] ||
+                customDataObj.properties[value.name] ||
+                []
             )
           );
 
@@ -1049,9 +1047,9 @@ const Forms = (props) => {
             current_organization={current_organization}
             data={{
               addressTypes,
-              currentDistricts: districts,
-              currentCommunes: communes,
-              currentVillages: villages,
+              currentDistricts: addresses.districts || [],
+              currentCommunes: addresses.communes || [],
+              currentVillages: addresses.villages || [],
               currentProvinces,
               objectKey,
               objectData,

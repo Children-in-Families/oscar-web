@@ -6,7 +6,7 @@ import {
   Checkbox,
   RadioGroup,
   UploadInput,
-  TextArea,
+  TextArea
 } from "../Commons/inputs";
 import BrcAddress from "./brcAddress";
 import ConcernAddress from "./concernAddress";
@@ -44,36 +44,36 @@ export default (props) => {
       maritalStatuses,
       nationalities,
       ethnicities,
-      traffickingTypes,
-    },
+      traffickingTypes
+    }
   } = props;
 
   const callerRelationship = callerRelationships.map((relationship) => ({
     label: T.translate("callerRelationship." + relationship.label),
-    value: relationship.value,
+    value: relationship.value
   }));
   const brcPresentedIdList = brc_presented_ids.map((presented_id) => ({
     label: presented_id,
-    value: presented_id,
+    value: presented_id
   }));
   const preferLanguages = brc_prefered_langs.map((lang) => ({
     label: lang,
-    value: lang,
+    value: lang
   }));
   const phoneOwner = phoneOwners.map((phone) => ({
     label: T.translate("phoneOwner." + phone.label),
-    value: phone.value,
+    value: phone.value
   }));
 
   const maritalStatuseOptions = maritalStatuses.map((a) => ({
     label: a,
-    value: a,
+    value: a
   }));
   const nationalityOptions = nationalities.map((a) => ({ label: a, value: a }));
   const ethnicityOptions = ethnicities.map((a) => ({ label: a, value: a }));
   const traffickingTypeOptions = traffickingTypes.map((a) => ({
     label: a,
-    value: a,
+    value: a
   }));
   const locationOfConcernOptions = countryList()
     .getData()
@@ -86,17 +86,17 @@ export default (props) => {
     { label: T.translate("genderLists.unknown"), value: "unknown" },
     {
       label: T.translate("genderLists.prefer_not_to_say"),
-      value: "prefer_not_to_say",
+      value: "prefer_not_to_say"
     },
-    { label: T.translate("genderLists.other"), value: "other" },
+    { label: T.translate("genderLists.other"), value: "other" }
   ];
   const phoneEmailOwnerOpts = phoneOwners.map((phone) => ({
     label: T.translate("phoneOwner." + phone.label),
-    value: phone.value,
+    value: phone.value
   }));
   const birthProvincesLists = birthProvinces.map((province) => ({
     label: province[0],
-    options: province[1].map((value) => ({ label: value[0], value: value[1] })),
+    options: province[1].map((value) => ({ label: value[0], value: value[1] }))
   }));
 
   const [districts, setDistricts] = useState(currentDistricts);
@@ -107,7 +107,7 @@ export default (props) => {
   const [subdistricts, setSubdistricts] = useState(subDistricts);
   const yesNoOpts = [
     { label: T.translate("newCall.refereeInfo.yes"), value: true },
-    { label: T.translate("newCall.refereeInfo.no"), value: false },
+    { label: T.translate("newCall.refereeInfo.no"), value: false }
   ];
 
   let urlParams = window.location.search;
@@ -140,7 +140,7 @@ export default (props) => {
         postal_code: referee.postal_code,
         suburb: referee.suburb,
         description_house_landmark: referee.description_house_landmark,
-        directions: referee.directions,
+        directions: referee.directions
       };
 
       if (referee.province_id !== null)
@@ -175,13 +175,13 @@ export default (props) => {
   const fetchData = (parent, data, child) => {
     $.ajax({
       type: "GET",
-      url: `/api/${parent}/${data}/${child}`,
+      url: `/api/${parent}/${data}/${child}`
     })
       .success((res) => {
         const dataState = {
           districts: setDistricts,
           communes: setCommunes,
-          villages: setVillages,
+          villages: setVillages
         };
         dataState[child](res.data);
       })
@@ -265,11 +265,11 @@ export default (props) => {
         ? referee.outside_address
         : previousSelect === "self"
         ? ""
-        : client.outside_address,
+        : client.outside_address
     };
 
     onChange("client", { ...fields, referee_relationship: event.data })({
-      type: "select",
+      type: "select"
     });
   };
 
@@ -299,11 +299,11 @@ export default (props) => {
       concern_house: same ? client.house_number : "",
       concern_address: same ? client.current_address : "",
       concern_address_type: same ? client.address_type : "",
-      concern_outside_address: same ? client.outside_address : "",
+      concern_outside_address: same ? client.outside_address : ""
     };
 
     onChange("client", { ...fields, concern_same_as_client: data.data })({
-      type: "select",
+      type: "select"
     });
   };
 
@@ -317,7 +317,7 @@ export default (props) => {
     const yesNoOpt = data.data;
     const fieldValues = { for_testing: yesNoOpt };
     onChange("client", { ...fieldValues })({ type: "radio" });
-  }
+  };
 
   return (
     <div className="containerClass">
@@ -343,7 +343,8 @@ export default (props) => {
         </div>
       </legend>
 
-      { client.isTestClient && !client.isForTesting && <div className="row">
+      {client.isTestClient && !client.isForTesting && (
+        <div className="row">
           <div className="col-xs-12">
             <RadioGroup
               inline
@@ -351,11 +352,11 @@ export default (props) => {
               label={T.translate("referralInfo.for_testing")}
               options={yesNoOpts}
               onChange={onChangeTestingClientRadioOption}
-              value={client.for_testing }
+              value={client.for_testing}
             />
           </div>
         </div>
-      }
+      )}
 
       <div className="row">
         <div className="col-xs-12 col-md-6 col-lg-3">
@@ -611,7 +612,12 @@ export default (props) => {
           {renderAddressSwitch(
             client,
             "client",
-            client.referee_relationship === "self"
+            client.referee_relationship === "self",
+            {
+              districts,
+              communes,
+              villages
+            }
           )}
         </div>
       )}
@@ -733,7 +739,7 @@ export default (props) => {
             objectData: client,
             T,
             brc_islands,
-            brc_resident_types,
+            brc_resident_types
           }}
         />
       )}
@@ -778,7 +784,7 @@ export default (props) => {
               currentVillages: villages,
               currentProvinces,
               objectKey: "client",
-              objectData: client,
+              objectData: client
             }}
           />
 

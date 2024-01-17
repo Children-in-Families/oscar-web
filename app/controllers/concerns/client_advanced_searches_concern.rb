@@ -179,7 +179,12 @@ module ClientAdvancedSearchesConcern
 
   def get_quantitative_fields
     quantitative_fields = AdvancedSearches::QuantitativeCaseFields.new(current_user)
-    @quantitative_fields = quantitative_fields.render
+    quantitative_fields = quantitative_fields.render
+
+    custom_data = AdvancedSearches::CustomDataFields.new
+    custom_data_fields = custom_data.render
+
+    @quantitative_fields = quantitative_fields + custom_data_fields
   end
 
   def get_enrollment_fields

@@ -85,6 +85,7 @@ module AdvancedSearchHelper
       carer_email: I18n.t('activerecord.attributes.carer.email'),
       carer_relationship_to_client: I18n.t('datagrid.columns.clients.carer_relationship_to_client'),
       client_phone: I18n.t('datagrid.columns.clients.client_phone'),
+      custom_data: I18n.t('custom_data.title'),
       address_type: I18n.t('advanced_search.fields.address_type'),
       client_email_address: I18n.t('advanced_search.fields.client_email_address'),
       code: custom_id_translation('custom_id1'),
@@ -173,7 +174,7 @@ module AdvancedSearchHelper
       month_number: I18n.t('advanced_search.fields.month_number'),
       custom_csi_group: I18n.t('advanced_search.fields.custom_csi_group'),
       referral_source_category_id: I18n.t('advanced_search.fields.referral_source_category_id'),
-      type_of_service:  I18n.t('advanced_search.fields.type_of_service'),
+      type_of_service: I18n.t('advanced_search.fields.type_of_service'),
       hotline: I18n.t('datagrid.columns.calls.hotline'),
       active_clients: I18n.t('advanced_search.fields.active_clients'),
       active_client_program: I18n.t('advanced_search.fields.active_client_program'),
@@ -199,14 +200,14 @@ module AdvancedSearchHelper
     }
 
     translations = label_translations(address_translation(group_name)).merge(translations)
-    
+
     if group_name == 'family'
       translations[:custom_assessment_created_at] = I18n.t('datagrid.columns.family_assessment_created_at')
       translations[:date_of_custom_assessments] = I18n.t('datagrid.columns.date_of_family_assessment')
       translations[:custom_completed_date] = I18n.t('datagrid.columns.assessment_completed_date', assessment: I18n.t('families.family_assessment'))
       translations[:custom_csi_domain_scores] = I18n.t('advanced_search.fields.family_assessment_domain_scores')
     end
-    
+
     translations[key.to_sym] || ''
   end
 
@@ -217,20 +218,20 @@ module AdvancedSearchHelper
 
   def community_header(key)
     translations = {
-      name:                                     I18n.t('activerecord.attributes.community.name'),
-      name_en:                                  I18n.t('activerecord.attributes.community.name_en'),
-      status:                                   I18n.t('activerecord.attributes.community.status'),
-      formed_date:                              I18n.t('activerecord.attributes.community.formed_date'),
-      gender:                                   I18n.t('activerecord.attributes.community.gender'),
-      id:                                       I18n.t('activerecord.attributes.community.formed_date'),
-      initial_referral_date:                    I18n.t('activerecord.attributes.community.initial_referral_date'),
-      phone_number:                             I18n.t('activerecord.attributes.community.phone_number'),
-      received_by_id:                           I18n.t('advanced_search.fields.received_by_id'),
-      relevant_information:                     I18n.t('activerecord.attributes.community.relevant_information'),
-      representative_name:                      I18n.t('activerecord.attributes.community.representative_name'),
-      referral_source_category_id:              I18n.t('activerecord.attributes.community.referral_source_category_id'),
-      referral_source_id:                       I18n.t('activerecord.attributes.community.referral_source_id'),
-      role:                                     I18n.t('activerecord.attributes.community.role'),
+      name: I18n.t('activerecord.attributes.community.name'),
+      name_en: I18n.t('activerecord.attributes.community.name_en'),
+      status: I18n.t('activerecord.attributes.community.status'),
+      formed_date: I18n.t('activerecord.attributes.community.formed_date'),
+      gender: I18n.t('activerecord.attributes.community.gender'),
+      id: I18n.t('activerecord.attributes.community.formed_date'),
+      initial_referral_date: I18n.t('activerecord.attributes.community.initial_referral_date'),
+      phone_number: I18n.t('activerecord.attributes.community.phone_number'),
+      received_by_id: I18n.t('advanced_search.fields.received_by_id'),
+      relevant_information: I18n.t('activerecord.attributes.community.relevant_information'),
+      representative_name: I18n.t('activerecord.attributes.community.representative_name'),
+      referral_source_category_id: I18n.t('activerecord.attributes.community.referral_source_category_id'),
+      referral_source_id: I18n.t('activerecord.attributes.community.referral_source_id'),
+      role: I18n.t('activerecord.attributes.community.role'),
       **community_member_columns,
       **address_translation('community')
     }
@@ -239,17 +240,17 @@ module AdvancedSearchHelper
 
   def partner_header(key)
     translations = {
-      name:                                     I18n.t('datagrid.columns.partners.name'),
-      id:                                       I18n.t('datagrid.columns.partners.id'),
-      contact_person_name:                      I18n.t('datagrid.columns.partners.contact_name'),
-      contact_person_email:                     I18n.t('datagrid.columns.partners.contact_email'),
-      contact_person_mobile:                    I18n.t('datagrid.columns.partners.contact_mobile'),
-      address:                                  I18n.t('datagrid.columns.partners.address'),
-      organization_type_id:                     I18n.t('datagrid.columns.partners.organization_type'),
-      affiliation:                              I18n.t('datagrid.columns.partners.affiliation'),
-      engagement:                               I18n.t('datagrid.columns.partners.engagement'),
-      background:                               I18n.t('datagrid.columns.partners.background'),
-      start_date:                               I18n.t('datagrid.columns.partners.start_date'),
+      name: I18n.t('datagrid.columns.partners.name'),
+      id: I18n.t('datagrid.columns.partners.id'),
+      contact_person_name: I18n.t('datagrid.columns.partners.contact_name'),
+      contact_person_email: I18n.t('datagrid.columns.partners.contact_email'),
+      contact_person_mobile: I18n.t('datagrid.columns.partners.contact_mobile'),
+      address: I18n.t('datagrid.columns.partners.address'),
+      organization_type_id: I18n.t('datagrid.columns.partners.organization_type'),
+      affiliation: I18n.t('datagrid.columns.partners.affiliation'),
+      engagement: I18n.t('datagrid.columns.partners.engagement'),
+      background: I18n.t('datagrid.columns.partners.background'),
+      start_date: I18n.t('datagrid.columns.partners.start_date'),
       **address_translation('partner')
     }
     translations[key.to_sym] || ''
@@ -336,7 +337,7 @@ module AdvancedSearchHelper
   end
 
   def addresses_mapping(called_in)
-    if called_in == 'ProgramStreamAddRuleController' || self.class.name == "AdvancedSearches::Families::FamilyFields" || self.class.name == "AdvancedSearches::Communities::CommunityFields"
+    if called_in == 'ProgramStreamAddRuleController' || self.class.name == 'AdvancedSearches::Families::FamilyFields' || self.class.name == 'AdvancedSearches::Communities::CommunityFields'
       [['province_id', provinces], ['district_id', districts], ['commune_id', communes]]
     else
       [['province_id', provinces], ['district_id', districts], ['birth_province_id', birth_provinces], ['commune_id', communes], ['village_id', villages]]
@@ -344,7 +345,7 @@ module AdvancedSearchHelper
   end
 
   def provinces
-      Province.order(:name).map { |s| { s.id.to_s => s.name } }
+    Province.order(:name).map { |s| { s.id.to_s => s.name } }
   end
 
   def districts
@@ -352,10 +353,10 @@ module AdvancedSearchHelper
   end
 
   def communes
-    Commune.all.map { |commune| ["#{commune.name_kh} / #{commune.name_en} (#{commune.code})", commune.id] }.sort.map{ |s| {s[1].to_s => s[0]} }
+    Commune.all.map { |commune| ["#{commune.name_kh} / #{commune.name_en} (#{commune.code})", commune.id] }.sort.map { |s| { s[1].to_s => s[0] } }
   end
 
   def villages
-    Village.all.map { |village| ["#{village.name_kh} / #{village.name_en} (#{village.code})", village.id] }.sort.map{ |s| {s[1].to_s => s[0]} }
+    Village.all.map { |village| ["#{village.name_kh} / #{village.name_en} (#{village.code})", village.id] }.sort.map { |s| { s[1].to_s => s[0] } }
   end
 end

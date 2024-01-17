@@ -29,7 +29,7 @@ class Family::AssessmentsController < Api::ApplicationController
         name: assessment.family.name,
         'assessment-number': assessment.family.assessments.count,
         date: assessment.created_at.strftime('%d %B %Y'),
-        'average-score': total.zero? ? nil : total.fdiv(domain_scores.length).round
+        'average-score': total.zero? || domain_scores.empty? ? nil : total.fdiv(domain_scores.length).round
       }
       client_hash.merge!(domain_scores.to_h)
       client_data << client_hash

@@ -406,8 +406,13 @@ module ClientsHelper
       carer_relationship_to_client_: I18n.t('datagrid.columns.clients.carer_relationship_to_client'),
       province_id_: FieldSetting.cache_by_name_klass_name_instance('current_province', 'client') || I18n.t('datagrid.columns.clients.current_province'),
       birth_province_id_: FieldSetting.cache_by_name_klass_name_instance('birth_province', 'client') || I18n.t('datagrid.columns.clients.birth_province'),
+      **custom_data_fields,
       **overdue_translations.map { |k, v| ["#{k}_".to_sym, v] }.to_h
     }
+  end
+
+  def custom_data_fields
+    (CustomData.first.try(:fields) || []).map { |field| ["#{field['name']}_".to_sym, field['label']] }.to_h
   end
 
   def columns_visibility(column)
@@ -858,8 +863,8 @@ module ClientsHelper
 
   def mapping_form_builder_param_value(data, form_type, field_name = nil, data_mapping = [])
     rule_array = []
-    data[:rules].each_with_index do |h, index|
-      if h.has_key?(:rules)
+    data[:rules].each_with_index do |h, _|
+      if h.key?(:rules)
         mapping_form_builder_param_value(h, form_type, field_name, data_mapping)
       end
       if field_name.nil?

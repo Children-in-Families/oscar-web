@@ -65,6 +65,7 @@ CIF.ClientsIndex = CIF.ClientsWelcome = do ->
     _reOrderRuleContainer()
     _initHelpTextPophover()
     _initClientColumnFilter()
+    _toggleCustomReferralDataColumnPickers()
 
   _initClientColumnFilter = ->
     searchBox = $('ul.columns-visibility .column-search-box')
@@ -135,7 +136,7 @@ CIF.ClientsIndex = CIF.ClientsWelcome = do ->
     if $("#program-statistic.searched").length > 0
       advanceFilter = new CIF.ClientAdvanceSearch()
       advanceFilter.prepareSearchParams("search")
-      
+
       $.ajax
         type: 'POST'
         dataType: 'json'
@@ -159,9 +160,9 @@ CIF.ClientsIndex = CIF.ClientsWelcome = do ->
 
     _handleAjaxRequestToAssessment("#csi-assessment-score", $("#assessment-domain-score").data("filename"))
 
-    $('#assessment-select option').each ->
+    $("#assessment-select option").each ->
       $option = $(this)
-      
+
       if $option.val() && $option.val() != 0
         _handleAjaxRequestToAssessment("#custom-assessment-score-#{$option.val()}", $("#custom-assessment-domain-score-#{$option.val()}").data("filename"), true)
 
@@ -931,5 +932,10 @@ CIF.ClientsIndex = CIF.ClientsWelcome = do ->
 
   _initHelpTextPophover = ->
     $("[data-trigger='hover']").popover()
+
+  _toggleCustomReferralDataColumnPickers = ->
+    $('ul.check-columns-visibility li.dropdown a').on 'click', ->
+      if $('#quantitative-type-checkbox').prop('checked') then $('#custom-referral-data').show() else $('#custom-referral-data').hide()
+      return
 
   { init: _init }

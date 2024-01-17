@@ -115,6 +115,10 @@ module AdvancedSearches
           quantitative_filter = AdvancedSearches::QuantitativeCaseSqlBuilder.new(@clients, rule).get_sql
           @sql_string << quantitative_filter[:id]
           @values << quantitative_filter[:values]
+        elsif form_builder.first == 'custom_data'
+          custom_data_filter = AdvancedSearches::CustomDataSqlBuilder.new(@clients, rule).get_sql
+          @sql_string << custom_data_filter[:id]
+          @values << custom_data_filter[:values]
         elsif form_builder.first == 'domainscore' || field == 'all_domains' || field == 'all_custom_domains'
           domain_scores = AdvancedSearches::DomainScoreSqlBuilder.new(field, rule, @basic_rules).get_sql
           @sql_string << domain_scores[:id]

@@ -547,6 +547,17 @@ class ClientGrid < BaseGrid
     end
   end
 
+  dynamic do
+    (CustomData.first && CustomData.first.fields || []).each do |field|
+      next unless field['name']
+
+      column(field['name'].to_sym, class: 'custom-data', header: -> { field['label'] }) do |object|
+        values = object.client_custom_data.properties[field['name']]
+        values.is_a?(Array) ? values.join(', ') : values
+      end
+    end
+  end
+
   date_column(:follow_up_date, html: true, header: -> { I18n.t('datagrid.columns.clients.follow_up_date') })
 
   column(:follow_up_date, html: false, header: -> { I18n.t('datagrid.columns.clients.follow_up_date') }) do |object|

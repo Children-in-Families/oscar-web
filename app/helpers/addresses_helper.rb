@@ -66,9 +66,9 @@ module AddressesHelper
   def translate_address_field(object, field)
     klass_name = (object.class.name[/Decorator/] ? object.object : object).class.name.downcase.pluralize
     if I18n.locale.to_s == 'km'
-      "#{I18n.t("datagrid.columns.#{klass_name}.#{field}")} #{object.public_send(field).try(:name_kh) || object.public_send(field)}" if object.public_send(field).present?
-    elsif object.methods.include?(field) && object.public_send(field).present?
-      "#{I18n.t("datagrid.columns.#{klass_name}.#{field}")} #{object.public_send(field).try(:name_en) || object.public_send(field)}"
+      "#{I18n.t("datagrid.columns.#{klass_name}.#{field}")} #{object.try(field).try(:name_kh) || object.try(field)}" if object.try(field).present?
+    elsif object.methods.include?(field) && object.try(field).present?
+      "#{I18n.t("datagrid.columns.#{klass_name}.#{field}")} #{object.try(field).try(:name_en) || object.try(field)}"
     end
   end
 end
