@@ -195,7 +195,7 @@ CIF.CommunitiesNew = CIF.CommunitiesCreate = CIF.CommunitiesEdit = CIF.Communiti
 
   _ajaxChangeDistrict = ->
     mainAddress = $('#community_province_id, #community_city_id, #community_district_id, #community_commune_id')
-    resourceMapping = { cities: 'community_city_id', districts: 'community_district_id', subdistricts: 'community_subdistrict_id', communes: 'community_commune_id', villages: 'family_village_id' }
+    resourceMapping = { cities: 'community_city_id', districts: 'community_district_id', subdistricts: 'community_subdistrict_id', communes: 'community_commune_id', villages: 'community_village_id' }
     mainAddress.on 'change', ->
       type       = $(@).data('type')
       typeId     = $(@).val()

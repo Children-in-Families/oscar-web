@@ -4,6 +4,6 @@
   .col-sm-3
     = f.input :district_id, collection: @districts, input_html: { data: { type: 'districts', 'subaddresses' => ['communes', 'villages'] } }
   .col-sm-3
-    = f.input :commune_id, collection: @communes.map{|c| [c.name, c.id] }, input_html: { data: { type: 'communes', 'subaddresses' => ['villages'] } }, hint: (@family.old_commune if @family.commune_id.nil?)
+    = f.input :commune_id, collection: @communes.map{|c| [c.name, c.id] }, input_html: { data: { type: 'communes', 'subaddresses' => ['villages'] } }, hint: (@family.try(:old_commune) if @family.try(:commune_id).nil?)
   .col-sm-3
-    = f.input :village_id, collection: @villages.map{|v| [v.name, v.id] }, input_html: { data: { type: 'villages' } }, hint: (@family.old_village if @family.village_id.nil?)
+    = f.input :village_id, collection: @villages.map{|v| [v.name, v.id] }, input_html: { data: { type: 'villages' } }, hint: (@family.try(:old_commune) if @family.try(:commune_id).nil?)
