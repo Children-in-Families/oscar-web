@@ -45,7 +45,7 @@ CIF.FamiliesIndex = CIF.FamiliesWelcome = do ->
 
   _initAdavanceSearchFilter = ->
     return if $('#family-builder-fields').length == 0
-    
+
     advanceFilter = new CIF.ClientAdvanceSearch()
     advanceFilter.initBuilderFilter('#family-builder-fields')
     advanceFilter.setValueToBuilderSelected()
@@ -96,7 +96,7 @@ CIF.FamiliesIndex = CIF.FamiliesWelcome = do ->
     $('.assessment-domain-score').on 'shown.bs.modal', (e) ->
       $($.fn.dataTable.tables(true)).DataTable().columns.adjust()
       return
-  
+
   _handleAjaxRequestToAssessment = (tableId, fileName)->
     return if $(tableId).length == 0
 
@@ -115,7 +115,7 @@ CIF.FamiliesIndex = CIF.FamiliesWelcome = do ->
       sServerMethod: 'POST'
       ajax:
         url: url
-        data: 
+        data:
           basic_rules: rules
         error: (jqXHR, textStatus, errorThrown) ->
           console.log("Datatable Ajax Error:", errorThrown)

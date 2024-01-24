@@ -29,12 +29,12 @@ class Families::CaseNotesController < ::AdminController
 
   def create
     @case_note = @family.case_notes.new(case_note_params)
-    @case_note.meeting_date = "#{@case_note.meeting_date.strftime("%Y-%m-%d")}, #{Time.now.strftime("%H:%M:%S")}"
+    @case_note.meeting_date = "#{@case_note.meeting_date.strftime('%Y-%m-%d')}, #{Time.now.strftime('%H:%M:%S')}"
     if @case_note.save
       add_more_attachments(params[:case_note][:attachments]) if params.dig(:case_note, :attachments)
       @case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes], current_user.id) if params.dig(:case_note, :case_note_domain_groups_attributes)
       create_bulk_task(params[:task], @case_note) if params.has_key?(:task)
-      if params[:from_controller] == "dashboards"
+      if params[:from_controller] == 'dashboards'
         redirect_to root_path, notice: t('case_notes.create.successfully_created')
       else
         redirect_to family_case_notes_path(@family), notice: t('case_notes.create.successfully_created')
@@ -94,7 +94,7 @@ class Families::CaseNotesController < ::AdminController
     default_params = params.require(:case_note).permit(:meeting_date, :attendee, :interaction_type, :custom, :note, :custom_assessment_setting_id, case_note_domain_groups_attributes: [:id, :note, :domain_group_id, :task_ids, attachments: []]) if action_name == 'create'
     default_params = assign_params_to_case_note_domain_groups_params(default_params) if default_params.dig(:case_note, :domain_group_ids)
     default_params = default_params.merge(selected_domain_group_ids: params.dig(:case_note, :domain_group_ids).reject(&:blank?))
-    meeting_date   = "#{default_params[:meeting_date]} #{Time.now.strftime("%T %z")}"
+    meeting_date = "#{default_params[:meeting_date]} #{Time.now.strftime('%T %z')}"
     default_params = default_params.merge(meeting_date: meeting_date)
   end
 
@@ -114,8 +114,8 @@ class Families::CaseNotesController < ::AdminController
     remain_attachment = case_note_domain_group.attachments
     deleted_attachment = remain_attachment.delete_at(index)
     deleted_attachment.try(:remove_images!)
-    remain_attachment.empty? ? case_note_domain_group.remove_attachments! : (case_note_domain_group.attachments = remain_attachment )
-    message = t('case_notes.destroy.fail_delete_attachment') unless case_note_domain_group.save
+    remain_attachment.empty? ? case_note_domain_group.remove_attachments! : (case_note_domain_group.attachments = remain_attachment)
+    t('case_notes.destroy.fail_delete_attachment') unless case_note_domain_group.save
   end
 
   def set_family

@@ -31,17 +31,16 @@ class FamilyGrid < BaseGrid
   end
 
   filter(:gender, :enum, select: :gender_options, header: -> { I18n.t('activerecord.attributes.family_member.gender') }) do |value, scope|
-    scope.joins(:family_members).where("family_members.gender = ?", value)
+    scope.joins(:family_members).where('family_members.gender = ?', value)
   end
 
   filter(:date_of_birth, :date, header: -> { I18n.t('datagrid.columns.families.date_of_birth') }) do |value, scope|
-    scope.joins(:family_members).where("DATE(family_members.date_of_birth) = ?", value)
+    scope.joins(:family_members).where('DATE(family_members.date_of_birth) = ?', value)
   end
 
   filter(:case_history, :string, header: -> { I18n.t('datagrid.columns.families.case_history') }) do |value, scope|
     scope.case_history_like(value)
   end
-
 
   filter(:significant_family_member_count, :integer, range: true, header: -> { I18n.t('datagrid.columns.families.significant_family_member_count') })
 
@@ -78,11 +77,11 @@ class FamilyGrid < BaseGrid
   end
 
   def commune_options
-    scope.includes(:commune).references(:communes).map{|f| next unless f.commune; [f.commune.code_format, f.commune_id]}.uniq
+    scope.includes(:commune).references(:communes).map { |f| next unless f.commune; [f.commune.code_format, f.commune_id] }.uniq
   end
 
   def village_options
-    scope.includes(:village).references(:villages).map{|f| next unless f.village; [f.village.code_format, f.village_id]}.uniq
+    scope.includes(:village).references(:villages).map { |f| next unless f.village; [f.village.code_format, f.village_id] }.uniq
   end
 
   def province_options
@@ -94,7 +93,7 @@ class FamilyGrid < BaseGrid
   end
 
   def gender_options
-    FamilyMember.gender.values.map{ |value| [I18n.t("datagrid.columns.families.gender_list.#{value.gsub('other', 'other_gender')}"), value] }
+    FamilyMember.gender.values.map { |value| [I18n.t("datagrid.columns.families.gender_list.#{value.gsub('other', 'other_gender')}"), value] }
   end
 
   def family_id_poor
@@ -129,7 +128,7 @@ class FamilyGrid < BaseGrid
 
   filter(:program_streams, :enum, multiple: true, select: :program_stream_options, header: -> { I18n.t('datagrid.columns.families.program_streams') }) do |name, scope|
     program_stream_ids = ProgramStream.name_like(name).ids
-    ids = Family.joins(:enrollments).where(enrollments: { program_stream_id: program_stream_ids } ).pluck(:id).uniq
+    ids = Family.joins(:enrollments).where(enrollments: { program_stream_id: program_stream_ids }).pluck(:id).uniq
     scope.where(id: ids)
   end
 
@@ -189,7 +188,7 @@ class FamilyGrid < BaseGrid
       province_id: :address,
       manage: :aggregrate,
       changelo: :aggregrate,
-      active_families: :general,
+      active_families: :general
     }[filter_name]
   end
 
@@ -198,17 +197,12 @@ class FamilyGrid < BaseGrid
   column(:code, header: -> { I18n.t('datagrid.columns.families.code') })
 
   column(:name, order: 'LOWER(name)', header: -> { I18n.t('datagrid.columns.families.name') }) do |object|
-    format(object.name) do |value|
-      link_to entity_name(object), family_path(object) if value.present?
-    end
+    object.name
   end
 
   column(:name_en, order: 'LOWER(name_en)', header: -> { I18n.t('datagrid.columns.families.name_en') }) do |object|
-    format(object.name_en) do |value|
-      link_to value, family_path(object) if value.present?
-    end
+    object.name_en
   end
-
 
   column(:family_type, header: -> { I18n.t('datagrid.columns.families.family_type') }) do |object|
     object.family_type
@@ -230,20 +224,20 @@ class FamilyGrid < BaseGrid
   column(:date_of_birth, html: true, header: -> { I18n.t('datagrid.columns.families.date_of_birth') }) do |object|
     content_tag :ul do
       object.family_members.map(&:date_of_birth).compact.each do |dob|
-        concat(content_tag(:li, dob&.strftime("%d %B %Y")))
+        concat(content_tag(:li, dob&.strftime('%d %B %Y')))
       end
     end
   end
 
   column(:gender, html: false, header: -> { I18n.t('activerecord.attributes.family_member.gender') }) do |object|
-    object.family_members.map(&:gender).compact.join(", ")
+    object.family_members.map(&:gender).compact.join(', ')
   end
 
   column(:date_of_birth, html: false, header: -> { I18n.t('datagrid.columns.families.date_of_birth') }) do |object|
-    object.family_members.map{ |member| member.date_of_birth&.strftime("%d %B %Y") }.compact.join(", ")
+    object.family_members.map { |member| member.date_of_birth&.strftime('%d %B %Y') }.compact.join(', ')
   end
 
-  column(:relation,  html: true, header: -> { I18n.t('families.family_member_fields.relation') }) do |object|
+  column(:relation, html: true, header: -> { I18n.t('families.family_member_fields.relation') }) do |object|
     content_tag :ul do
       object.family_members.map(&:relation).compact.each do |relation|
         next if relation.empty?
@@ -381,11 +375,11 @@ class FamilyGrid < BaseGrid
   column(:care_plan_count, header: -> { I18n.t('datagrid.columns.families.care_plan_count') }, html: true, class: 'hide') do |object|
   end
 
-  column(:case_note_date, header: -> { I18n.t('datagrid.columns.families.case_note_date')}, html: true) do |object|
+  column(:case_note_date, header: -> { I18n.t('datagrid.columns.families.case_note_date') }, html: true) do |object|
     render partial: 'clients/case_note_date', locals: { object: object }
   end
 
-  column(:case_note_type, header: -> { I18n.t('datagrid.columns.families.case_note_type')}, html: true) do |object|
+  column(:case_note_type, header: -> { I18n.t('datagrid.columns.families.case_note_type') }, html: true) do |object|
     render partial: 'clients/case_note_type', locals: { object: object }
   end
 
@@ -406,22 +400,22 @@ class FamilyGrid < BaseGrid
         format_field_value = fields.last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
         if fields.first == 'formbuilder'
           if fields.last == 'Has This Form'
-            properties = [object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Family'}).count]
+            properties = [object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Family' }).count]
           else
             properties_field = 'custom_field_properties.properties'
             # format_field_value = fields.last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
 
-            basic_rules  = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
-            basic_rules  = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
-            results      = mapping_form_builder_param_value(basic_rules, 'formbuilder')
+            basic_rules = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
+            basic_rules = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
+            results = mapping_form_builder_param_value(basic_rules, 'formbuilder')
 
             query_string = get_query_string(results, 'formbuilder', properties_field)
-            sql          = query_string.reverse.reject(&:blank?).map{|sql| "(#{sql})" }.join(" AND ")
+            sql = query_string.reverse.reject(&:blank?).map { |sql| "(#{sql})" }.join(' AND ')
 
-            properties   = object.custom_field_properties.joins(:custom_field).where(sql).where(custom_fields: { form_title: fields.second, entity_type: 'Family'}).properties_by(format_field_value)
+            properties = object.custom_field_properties.joins(:custom_field).where(sql).where(custom_fields: { form_title: fields.second, entity_type: 'Family' }).properties_by(format_field_value)
           end
         elsif fields.first == 'enrollmentdate'
-          properties = date_filter(object.enrollments.joins(:program_stream).where(program_streams: { name: fields.second }), fields.join('__')).map{|date| date_format(date.enrollment_date) }
+          properties = date_filter(object.enrollments.joins(:program_stream).where(program_streams: { name: fields.second }), fields.join('__')).map { |date| date_format(date.enrollment_date) }
         elsif fields.first == 'enrollment'
           properties = object.enrollments.joins(:program_stream).where(program_streams: { name: fields.second }).properties_by(format_field_value)
         elsif fields.first == 'tracking'
@@ -430,25 +424,24 @@ class FamilyGrid < BaseGrid
           properties = family_form_builder_query(enrollment_trackings, fields.first, column_builder[:id].gsub('&qoute;', '"')).properties_by(format_field_value, enrollment_trackings)
         elsif fields.first == 'exitprogramdate'
           ids = object.enrollments.inactive.ids
-          properties = date_filter(LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { enrollment_id: ids }), fields.join('__')).map{|date| date_format(date.exit_date) }
+          properties = date_filter(LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { enrollment_id: ids }), fields.join('__')).map { |date| date_format(date.exit_date) }
         elsif fields.first == 'exitprogram'
           ids = object.enrollments.inactive.ids
           if $param_rules.nil?
             properties = LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { enrollment_id: ids }).properties_by(format_field_value)
           else
             basic_rules = $param_rules['basic_rules']
-            basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
+            basic_rules = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
             results = mapping_exit_program_date_param_value(basic_rules)
             query_string = get_exit_program_date_query_string(results)
             properties = LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { enrollment_id: ids }).where(query_string).properties_by(format_field_value)
           end
         end
 
-        format(properties.join(", ")) do |values|
-          render partial: 'shared/form_builder_dynamic/properties_value', locals: { properties:  values.split(',') } if values.present?
+        format(properties.join(', ')) do |values|
+          render partial: 'shared/form_builder_dynamic/properties_value', locals: { properties: values.split(',') } if values.present?
         end
       end
-
     end
   end
 
@@ -458,7 +451,7 @@ class FamilyGrid < BaseGrid
     QuantitativeType.cach_free_text_fields_by_visible_on('family').each do |qqt_free_text|
       if current_user.nil? || quantitative_type_readable_ids.include?(qqt_free_text.id)
         column(qqt_free_text.name.to_sym, class: 'quantitative-type', header: -> { qqt_free_text.name }, html: true) do |object|
-          object.family_quantitative_free_text_cases.where("quantitative_type_id = ?", qqt_free_text.id).pluck(:content).join(', ')
+          object.family_quantitative_free_text_cases.where('quantitative_type_id = ?', qqt_free_text.id).pluck(:content).join(', ')
         end
       end
     end
@@ -466,7 +459,7 @@ class FamilyGrid < BaseGrid
 
   dynamic do
     quantitative_type_readable_ids = current_user.quantitative_type_permissions.readable.pluck(:quantitative_type_id) unless current_user.nil?
-    quantitative_types = QuantitativeType.joins(:quantitative_cases).where('quantitative_types.visible_on LIKE ?', "%family%").distinct
+    quantitative_types = QuantitativeType.joins(:quantitative_cases).where('quantitative_types.visible_on LIKE ?', '%family%').distinct
     quantitative_types.each do |quantitative_type|
       if current_user.nil? || quantitative_type_readable_ids.include?(quantitative_type.id)
         column(quantitative_type.name.to_sym, class: 'quantitative-type', header: -> { quantitative_type.name }, html: true) do |object|
@@ -498,17 +491,17 @@ class FamilyGrid < BaseGrid
   column(:completed_date, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.assessment_completed_date', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
     if $param_rules
       basic_rules = $param_rules['basic_rules']
-      basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
+      basic_rules = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
       results = mapping_assessment_query_rules(basic_rules).reject(&:blank?)
       assessment_completed_sql, assessment_number = assessment_filter_values(results)
-      sql = "(assessments.completed = true)".squish
+      sql = '(assessments.completed = true)'.squish
       if assessment_number.present? && assessment_completed_sql.present?
         assessments = Family.cached_family_assessment_number_completed_date(object, sql, assessment_number)
       elsif assessment_completed_sql.present?
         sql = assessment_completed_sql[/assessments\.completed_date.*/]
         assessments = Family.cached_family_sql_assessment_completed_date(object, sql)
       else
-        rule = basic_rules['rules'].select {|h| h['id'] == 'date_of_assessments' }.first
+        rule = basic_rules['rules'].select { |h| h['id'] == 'date_of_assessments' }.first
         if rule.present?
           date_of_assessments_query = date_of_assessments_query_string(rule[:id], rule['field'], rule['operator'], rule['value'])
           assessments = object.assessments.defaults.where(date_of_assessments_query)
@@ -537,7 +530,7 @@ class FamilyGrid < BaseGrid
 
   column(:custom_assessment, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.custom_assessment', assessment: I18n.t('clients.show.assessment')) }) do |object|
     custom_assessment_names = object.assessments.customs.joins(domains: :custom_assessment_setting).order(:created_at).distinct.pluck('custom_assessment_settings.custom_assessment_name', 'assessments.created_at')
-    custom_assessment_names = custom_assessment_names.map{|custom_assessment_name, assessment_date| "#{custom_assessment_name} (#{assessment_date.strftime("%d %B %Y")})"  }
+    custom_assessment_names = custom_assessment_names.map { |custom_assessment_name, assessment_date| "#{custom_assessment_name} (#{assessment_date.strftime('%d %B %Y')})" }
     format(custom_assessment_names.join(', ')) do |values|
       unorderred_list(values.split(', '))
     end
@@ -546,17 +539,17 @@ class FamilyGrid < BaseGrid
   column(:custom_completed_date, preload: :assessments, header: -> { I18n.t('datagrid.columns.assessment_completed_date', assessment: I18n.t('families.family_assessment')) }, html: true) do |object|
     if $param_rules
       basic_rules = $param_rules['basic_rules']
-      basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
+      basic_rules = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
       results = mapping_assessment_query_rules(basic_rules).reject(&:blank?)
       assessment_completed_sql, assessment_number = assessment_filter_values(results)
-      sql = "(assessments.completed = true)".squish
+      sql = '(assessments.completed = true)'.squish
       if assessment_number.present? && assessment_completed_sql.present?
         assessments = Family.cached_family_assessment_custom_number_completed_date(object, sql, assessment_number)
       elsif assessment_completed_sql.present?
         sql = assessment_completed_sql[/assessments\.completed_date.*/]
         assessments = Family.cached_family_sql_assessment_custom_completed_date(object, sql)
       else
-        rule = basic_rules['rules'].select {|h| h['id'] == 'date_of_assessments' }.first
+        rule = basic_rules['rules'].select { |h| h['id'] == 'date_of_assessments' }.first
         if rule.present?
           date_of_assessments_query = date_of_assessments_query_string(rule[:id], rule['field'], rule['operator'], rule['value'])
           assessments = object.assessments.customs.where(date_of_assessments_query)
@@ -582,7 +575,7 @@ class FamilyGrid < BaseGrid
         column("custom_#{domain.convert_identity}".to_sym, class: 'domain-scores', header: identity, html: true) do |object|
           assessments = map_assessment_and_score(object, identity, domain.id)
           assessment_domains = assessments.map { |assessment| assessment.assessment_domains.joins(:domain).where(domains: { identity: identity }) }.flatten.uniq
-          render  partial: 'clients/list_domain_score', locals: { assessment_domains: assessment_domains }
+          render partial: 'clients/list_domain_score', locals: { assessment_domains: assessment_domains }
         end
       end
     end

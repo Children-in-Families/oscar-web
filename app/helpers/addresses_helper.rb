@@ -51,6 +51,7 @@ module AddressesHelper
     current_address << translate_address_field(object, 'street_number')
     current_address << translate_address_field(object, 'village')
     current_address << translate_address_field(object, 'commune')
+
     if I18n.locale.to_s == 'km'
       current_address << object.district_name.split(' / ').first if object.district.present?
       current_address << object.province_name.split(' / ').first if object.province.present?
@@ -65,9 +66,10 @@ module AddressesHelper
 
   def translate_address_field(object, field)
     klass_name = (object.class.name[/Decorator/] ? object.object : object).class.name.downcase.pluralize
+
     if I18n.locale.to_s == 'km'
       "#{I18n.t("datagrid.columns.#{klass_name}.#{field}")} #{object.try(field).try(:name_kh) || object.try(field)}" if object.try(field).present?
-    elsif object.methods.include?(field) && object.try(field).present?
+    elsif object.methods.include?(field) || object.try(field).present?
       "#{I18n.t("datagrid.columns.#{klass_name}.#{field}")} #{object.try(field).try(:name_en) || object.try(field)}"
     end
   end
