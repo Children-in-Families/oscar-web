@@ -56,7 +56,7 @@ namespace :custom_property_key_label_to_name do
 
         custom_field_fields.each do |prop|
           prop_name = prop['name']
-          next if prop[prop_name]
+          next if prop_name.blank? || [prop_name]
 
           new_props[prop_name] = set_new_props(prop, properties)
         end
@@ -69,7 +69,6 @@ end
 
 def set_new_props(prop, properties)
   prop_label = prop['label']
-  return properties[prop_label] unless properties[prop_label].is_a?(String)
 
   properties[prop_label] || (properties[prop_label.downcase].is_a?(Array) ? properties[prop_label.downcase].reject(&:blank?) : properties[prop_label.downcase])
 end
