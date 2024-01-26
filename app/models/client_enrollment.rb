@@ -29,6 +29,7 @@ class ClientEnrollment < ActiveRecord::Base
   after_create :set_client_status
   after_save :create_client_enrollment_history
   after_save :flash_cache
+  after_destroy :reset_client_status_to_accepted
 
   def active?
     status == 'Active'
@@ -92,9 +93,12 @@ class ClientEnrollment < ActiveRecord::Base
   end
 
   def enrollment_date_value
-    if leave_program.present? && leave_program.exit_date < enrollment_date
-      errors.add(:enrollment_date, I18n.t('invalid_program_enrollment_date'))
-    end
+    errors.add(:enrollment_date, I18n.t('invalid_program_enrollment_date')) if leave_program.present? && leave_program.exit_date < enrollment_date
+  end
+
+  def reset_client_status_to_accepted
+    client_enrollments = client.client_enrollments
+    client.update_column(:status, 'Accepted') if client_enrollments.empty? || client_enrollments.any? && client_enrollments.joins(:leave_program).count == client_enrollments.count
   end
 
   def flash_cache
