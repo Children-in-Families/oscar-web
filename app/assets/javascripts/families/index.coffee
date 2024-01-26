@@ -93,10 +93,6 @@ CIF.FamiliesIndex = CIF.FamiliesWelcome = do ->
     advanceFilter.prepareFamilySearch()
     _handleAjaxRequestToAssessment("#custom-assessment-score-0", $("#custom-assessment-domain-score-0").data("filename"))
 
-    $('.assessment-domain-score').on 'shown.bs.modal', (e) ->
-      $($.fn.dataTable.tables(true)).DataTable().columns.adjust()
-      return
-
   _handleAjaxRequestToAssessment = (tableId, fileName)->
     return if $(tableId).length == 0
 
@@ -151,6 +147,10 @@ CIF.FamiliesIndex = CIF.FamiliesWelcome = do ->
         $('.dataTables_scrollHeadInner').css 'width': '100%'
         $(tableId).css 'width': '100%'
         return
+
+    $('.assessment-domain-score').on 'shown.bs.modal', (e) ->
+      $($.fn.dataTable.tables(true)).DataTable().columns.adjust()
+      return
 
   _handleUncheckColumnVisibility = ->
     params = window.location.search.substr(1)
@@ -232,6 +232,10 @@ CIF.FamiliesIndex = CIF.FamiliesWelcome = do ->
   _fixedHeaderTableColumns = ->
     $('.families-table').removeClass('table-responsive')
     if !$('table.families tbody tr td').hasClass('noresults')
+
+      if $('table.families th').length > $('table.families tbody tr:first td').length
+        $('table.families th:last').remove()
+
       $('table.families').dataTable(
         'sScrollX': '100%'
         'bPaginate': false

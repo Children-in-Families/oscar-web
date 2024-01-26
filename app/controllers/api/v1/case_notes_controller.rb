@@ -15,7 +15,7 @@ module Api
       def create
         case_note = @client.case_notes.new(case_note_params)
         case_note.assessment = @client.assessments.custom_latest_record
-        case_note.meeting_date = "#{case_note.meeting_date.strftime("%Y-%m-%d")}, #{Time.now.strftime("%H:%M:%S")}"
+        case_note.meeting_date = "#{case_note.meeting_date.strftime('%Y-%m-%d')}, #{Time.now.strftime('%H:%M:%S')}"
         if case_note.save
           case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes], current_user.id) if params.dig(:case_note, :case_note_domain_groups_attributes)
           create_bulk_task(params[:task], case_note) if params.key?(:task)
@@ -54,11 +54,12 @@ module Api
       end
 
       def destroy
+        case_note = CaseNote.find(params[:id])
         if params[:file_index].present?
-          remove_attachment_at_index(params[:file_index].to_i)
+          remove_attachment_at_index(case_note, params[:file_index].to_i)
         end
 
-        head 204 if CaseNote.find(params[:id]).destroy
+        head 204 if case_note.destroy
       end
 
       def delete_attachment

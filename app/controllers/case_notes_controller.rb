@@ -10,12 +10,12 @@ class CaseNotesController < AdminController
   before_action :fetch_domain_group, only: [:update, :edit]
   before_action :authorize_client, only: [:new]
   before_action :authorize_case_note, only: [:edit, :update]
-  before_action -> { case_notes_permission("readable") }, only: [:index]
-  before_action -> { case_notes_permission("editable") }, except: [:index]
+  before_action -> { case_notes_permission('readable') }, only: [:index]
+  before_action -> { case_notes_permission('editable') }, except: [:index]
 
   def index
     unless current_user.admin? || current_user.strategic_overviewer?
-      redirect_to root_path, alert: t("unauthorized.default") unless current_user.permission.case_notes_readable
+      redirect_to root_path, alert: t('unauthorized.default') unless current_user.permission.case_notes_readable
     end
 
     @case_notes = @client.case_notes.recent_meeting_dates.page(params[:page])
@@ -23,7 +23,7 @@ class CaseNotesController < AdminController
   end
 
   def new
-    routes_params = params.to_unsafe_h.slice("from", "custom", "custom_name")
+    routes_params = params.to_unsafe_h.slice('from', 'custom', 'custom_name')
     redirect_to(edit_client_case_note_path(@client, routes_params.merge(id: :draft)))
   end
 
@@ -35,7 +35,7 @@ class CaseNotesController < AdminController
     authorize @case_note, :edit? if Organization.ratanak?
 
     unless current_user.admin? || current_user.strategic_overviewer?
-      redirect_to root_path, alert: t("unauthorized.default") if !@case_note.draft? && !current_user.permission.case_notes_editable
+      redirect_to root_path, alert: t('unauthorized.default') if !@case_note.draft? && !current_user.permission.case_notes_editable
     end
   end
 
@@ -62,10 +62,10 @@ class CaseNotesController < AdminController
 
       respond_to do |format|
         format.html do
-          if params[:from_controller] == "dashboards"
-            redirect_to root_path, notice: t(".successfully_created")
+          if params[:from_controller] == 'dashboards'
+            redirect_to root_path, notice: t('.successfully_created')
           else
-            redirect_to(client_case_notes_path(@client), notice: t(".successfully_updated"))
+            redirect_to(client_case_notes_path(@client), notice: t('.successfully_updated'))
           end
         end
 
@@ -85,20 +85,20 @@ class CaseNotesController < AdminController
     @case_note.attachments = files
     @case_note.save(validate: false)
 
-    render json: { message: t(".successfully_uploaded") }, status: "200"
+    render json: { message: t('.successfully_uploaded') }, status: '200'
   end
 
   def destroy
     if params[:file_index].present?
-      remove_attachment_at_index(params[:file_index].to_i)
-      message ||= t(".successfully_deleted")
+      remove_attachment_at_index(@case_note, params[:file_index].to_i)
+      message ||= t('.successfully_deleted')
       respond_to do |f|
-        f.json { render json: { message: message }, status: "200" }
+        f.json { render json: { message: message }, status: '200' }
       end
     elsif @case_note.present?
       @case_note.case_note_domain_groups.delete_all
       @case_note.reload.destroy
-      redirect_to client_case_notes_path(@case_note.client), notice: t(".successfully_deleted_case_note")
+      redirect_to client_case_notes_path(@case_note.client), notice: t('.successfully_deleted_case_note')
     end
   end
 
@@ -120,10 +120,10 @@ class CaseNotesController < AdminController
 
   def set_case_note
     @case_note = CaseNote.unscoped do
-      if params[:id] == "draft"
+      if params[:id] == 'draft'
         @client.find_or_create_draft_case_note(
           custom_assessment_setting_id: set_custom_assessment_setting&.id,
-          custom: params[:custom],
+          custom: params[:custom]
         )
       else
         @client.case_notes.find(params[:id])
@@ -148,10 +148,10 @@ class CaseNotesController < AdminController
   def case_notes_permission(permission)
     return if current_user.admin? || current_user.strategic_overviewer?
 
-    if permission == "readable"
-      redirect_to root_path, alert: t("unauthorized.default") unless current_user.permission.case_notes_readable
+    if permission == 'readable'
+      redirect_to root_path, alert: t('unauthorized.default') unless current_user.permission.case_notes_readable
     else
-      redirect_to root_path, alert: t("unauthorized.default") unless current_user.permission.case_notes_editable
+      redirect_to root_path, alert: t('unauthorized.default') unless current_user.permission.case_notes_editable
     end
   end
 
@@ -163,8 +163,8 @@ class CaseNotesController < AdminController
     params.require(:case_note).permit(
       :meeting_date, :attendee, :interaction_type, :custom, :note, :custom_assessment_setting_id,
       case_note_domain_groups_attributes: [
-        :id, :note, :domain_group_id, :task_ids,
-      ],
+        :id, :note, :domain_group_id, :task_ids
+      ]
     )
   end
 end
