@@ -56,12 +56,12 @@ namespace :custom_property_key_label_to_name do
 
         custom_field_fields.each do |prop|
           prop_name = prop['name']
-          next if prop[prop_name]
+          next if prop_name.blank?
 
           new_props[prop_name] = set_new_props(prop, properties)
         end
-        custom_field_property.properties = new_props
-        custom_field_property.save(validate: false)
+        binding.pry
+        ActiveRecord::Base.connection.execute("UPDATE #{short_name}.custom_field_properties SET properties = '#{new_props.to_json}' WHERE id = #{custom_field_property.id}")
       end
     end
   end
@@ -69,7 +69,6 @@ end
 
 def set_new_props(prop, properties)
   prop_label = prop['label']
-  return properties[prop_label] unless properties[prop_label].is_a?(String)
 
-  properties[prop_label] || (properties[prop_label.downcase].is_a?(Array) ? properties[prop_label.downcase].reject(&:blank?) : properties[prop_label.downcase])
+  properties[prop_label] || (properties[prop_label].is_a?(Array) ? properties[prop_label].reject(&:blank?) : properties[prop_label])
 end
