@@ -1,11 +1,21 @@
 class FieldSettingsController < AdminController
   def index
-    @field_settings = FieldSetting.where('for_instances IS NULL OR for_instances iLIKE ?', "#{Apartment::Tenant.current}").includes(:translations).order(:group, :name)
+    @field_settings = FieldSetting.where('for_instances IS NULL OR for_instances iLIKE ?', "#{Apartment::Tenant.current}").includes(:translations).order(:form_group_1, :name)
   end
 
   def bulk_update
     params.require(:field_setting).each do |id, attributes|
-      FieldSetting.update(id, attributes.permit(:label, :visible, :required))
+      I18n.with_locale(:en) do
+        FieldSetting.update(id, label: attributes[:label], visible: attributes[:visible] || 0)
+      end
+
+      local_locale = Organization.current.local_language
+
+      next unless local_locale.present?
+
+      I18n.with_locale(local_locale) do
+        FieldSetting.update(id, label: attributes[:local_label], visible: attributes[:visible] || 0)
+      end
     end
 
     I18n.backend.reload!

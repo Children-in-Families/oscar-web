@@ -16,9 +16,11 @@ namespace :field_settings do
 
       (2..sheet.last_row).each do |row_index|
         # In case sheet is messed up
-        next if sheet.row(row_index)[headers['name']].blank? || sheet.row(row_index)[headers['remark']] != 'new'
+        next if sheet.row(row_index)[headers['name']].blank?
 
         field_setting = FieldSetting.find_or_initialize_by(name: sheet.row(row_index)[headers['name']], klass_name: sheet.row(row_index)[headers['klass_name']])
+        next if field_setting.persisted?
+
         field_setting.update!(
           label: sheet.row(row_index)[headers['label']] || sheet.row(row_index)[headers['current_label']],
           type: sheet.row(row_index)[headers['type']],
@@ -34,13 +36,12 @@ namespace :field_settings do
       create_government_form_setting
       create_assessment_setting
       create_legal_doc_settting
+      other_address_setting(org)
 
-      [20200707042500, 20200710033402, 20200710122049, 20200713035828, 20200714092201, 20200810055448, 20200810070640].each do |migration_version|
+      [20200707042500, 20200710033402, 20220523095812, 20200710122049, 20200713035828, 20200714092201, 20200810055448, 20200810070640, 20230717162200].each do |migration_version|
         ActiveRecord::Migrator.run(:down, ActiveRecord::Migrator.migrations_path, migration_version)
         ActiveRecord::Migrator.run(:up, ActiveRecord::Migrator.migrations_path, migration_version)
       end
-
-      family_address_setting(org)
     end
   end
 
@@ -106,7 +107,7 @@ namespace :field_settings do
     end
   end
 
-  def family_address_setting(org)
+  def other_address_setting(org)
     fields = {
       current_province: 'Current Department',
       birth_province: 'Birth Department',
@@ -148,17 +149,17 @@ namespace :field_settings do
           group: :family
         )
       end
+    end
 
-      ['user', 'partner'].each do |klass_name|
-        field_setting = FieldSetting.find_or_initialize_by(name: 'province', klass_name: klass_name)
-        field_setting.update!(
-          current_label: 'Department',
-          label: 'Department',
-          required: false,
-          visible: (org.country == 'haiti'),
-          group: klass_name
-        )
-      end
+    ['user', 'partner'].each do |klass_name|
+      field_setting = FieldSetting.find_or_initialize_by(name: 'province', klass_name: klass_name)
+      field_setting.update!(
+        current_label: 'Department',
+        label: 'Department',
+        required: false,
+        visible: (org.country == 'haiti'),
+        group: klass_name
+      )
     end
   end
 end

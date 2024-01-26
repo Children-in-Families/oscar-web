@@ -15,6 +15,7 @@ export default (props) => {
     T,
     hintText,
     inlineClassName,
+    disabled,
     ...others
   } = props;
   const [currentDate, setDate] = useState(value);
@@ -45,7 +46,7 @@ export default (props) => {
   };
 
   return (
-    <div className="form-group">
+    <div className="form-group" style={(disabled && styles.notAllow) || {}}>
       <label style={(isError && styles.errorText) || {}}>
         {props.required && <abbr title="required">* </abbr>}
         {props.label}
@@ -71,6 +72,7 @@ export default (props) => {
         name="date"
         dateFormat="YYYY-MM-DD"
         closable
+        disabled={disabled}
         clearable={false}
         animation="scale"
         duration={200}
@@ -100,4 +102,7 @@ const styles = {
   box: {
     boxShadow: "none",
   },
+  notAllow: {
+    cursor: "not-allowed",
+  }
 };

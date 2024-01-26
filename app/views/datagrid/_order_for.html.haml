@@ -1,7 +1,8 @@
-- if params["controller"] == "clients" || params["controller"] == "families"
-  .order.pull-right
-    = button_to I18n.t('datagrid.table.order.asc').html_safe, advanced_search_url_dynamic, params: params.merge(grid.param_name => grid.as_query.merge(order: column.name, descending: false)), class: 'asc btn btn-link', form_class: 'hidden-post-form', style: 'padding: 0'
-- else
-  .order.pull-right
-    = link_to(I18n.t('datagrid.table.order.asc').html_safe, url_for(params.merge(grid.param_name => grid.as_query.merge(order: column.name, descending: false))), class: 'asc')
-    = link_to(I18n.t('datagrid.table.order.desc').html_safe, url_for(params.merge(grid.param_name => grid.as_query.merge(order: column.name, descending: true))), class: 'desc')
+- cache cache_keys_base + [params["controller"], grid.param_name, grid.as_query] do
+  - if params["controller"] == "clients" || params["controller"] == "families"
+    .order.pull-right
+      = button_to I18n.t('datagrid.table.order.asc').html_safe, advanced_search_url_dynamic, params: params.merge(grid.param_name => grid.as_query.merge(order: column.name, descending: false)), class: 'asc btn btn-link', form_class: 'hidden-post-form', style: 'padding: 0'
+  - else
+    .order.pull-right
+      = link_to(I18n.t('datagrid.table.order.asc').html_safe, url_for(params.merge(grid.param_name => grid.as_query.merge(order: column.name, descending: false))), class: 'asc')
+      = link_to(I18n.t('datagrid.table.order.desc').html_safe, url_for(params.merge(grid.param_name => grid.as_query.merge(order: column.name, descending: true))), class: 'desc')

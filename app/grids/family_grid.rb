@@ -127,6 +127,16 @@ class FamilyGrid < BaseGrid
     scope.caregiver_information_like(value)
   end
 
+  filter(:program_streams, :enum, multiple: true, select: :program_stream_options, header: -> { I18n.t('datagrid.columns.families.program_streams') }) do |name, scope|
+    program_stream_ids = ProgramStream.name_like(name).ids
+    ids = Family.joins(:enrollments).where(enrollments: { program_stream_id: program_stream_ids } ).pluck(:id).uniq
+    scope.where(id: ids)
+  end
+
+  def program_stream_options
+    ProgramStream.joins(:enrollments).complete.ordered.pluck(:name).uniq
+  end
+
   filter(:referral_source_id, :enum, select: :referral_source_options, header: -> { I18n.t('datagrid.columns.families.referral_source_id') })
   filter(:referral_source_category_id, :enum, select: :referral_source_category_options, header: -> { I18n.t('datagrid.columns.families.referral_source_category_id') })
 
@@ -140,16 +150,6 @@ class FamilyGrid < BaseGrid
     else
       ReferralSource.where(id: Family.pluck(:referral_source_category_id).compact).pluck(:name_en, :id)
     end
-  end
-
-  filter(:program_streams, :enum, multiple: true, select: :program_stream_options, header: -> { I18n.t('datagrid.columns.families.program_streams') }) do |name, scope|
-    program_stream_ids = ProgramStream.name_like(name).ids
-    ids = Family.joins(:enrollments).where(enrollments: { program_stream_id: program_stream_ids } ).pluck(:id).uniq
-    scope.where(id: ids)
-  end
-
-  def program_stream_options
-    ProgramStream.joins(:enrollments).complete.ordered.pluck(:name).uniq
   end
 
   def filer_section(filter_name)
@@ -197,18 +197,18 @@ class FamilyGrid < BaseGrid
 
   column(:code, header: -> { I18n.t('datagrid.columns.families.code') })
 
-  column(:name, html: true, order: 'LOWER(name)', header: -> { I18n.t('datagrid.columns.families.name') }) do |object|
-    link_to entity_name(object), family_path(object)
+  column(:name, order: 'LOWER(name)', header: -> { I18n.t('datagrid.columns.families.name') }) do |object|
+    format(object.name) do |value|
+      link_to entity_name(object), family_path(object) if value.present?
+    end
   end
 
   column(:name_en, order: 'LOWER(name_en)', header: -> { I18n.t('datagrid.columns.families.name_en') }) do |object|
-
     format(object.name_en) do |value|
       link_to value, family_path(object) if value.present?
     end
   end
 
-  column(:name, html: false, header: -> { I18n.t('datagrid.columns.families.name') })
 
   column(:family_type, header: -> { I18n.t('datagrid.columns.families.family_type') }) do |object|
     object.family_type
@@ -394,6 +394,10 @@ class FamilyGrid < BaseGrid
     render partial: 'families/active_family_enrollments', locals: { active_programs: family_enrollments }
   end
 
+  column(:direct_beneficiaries, header: -> { I18n.t('datagrid.columns.families.direct_beneficiaries') }) do |object|
+    object.member_count
+  end
+
   dynamic do
     next unless dynamic_columns.present?
     dynamic_columns.each do |column_builder|
@@ -483,32 +487,105 @@ class FamilyGrid < BaseGrid
     end
   end
 
-  dynamic do
-    if !Setting.cache_first.hide_family_case_management_tool?
-      column(:all_custom_csi_assessments, header: -> { I18n.t('datagrid.columns.all_custom_csi_assessments', assessment: t('families.family_assessment')) }, html: true) do |object|
-        render partial: 'families/all_csi_assessments', locals: { object: object.assessments.customs }
-      end
+  column(:assessment_created_at, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.assessment_created_at', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
+    render partial: 'clients/assessments', locals: { object: object.assessments.defaults.order(:created_at), assessment_field_name: nil }
+  end
 
-      Domain.family_custom_csi_domains.order_by_identity.each do |domain|
-        domain_id = domain.id
-        identity = domain.identity
-        column("#{domain.convert_custom_identity}".to_sym, class: 'domain-scores', header: identity, html: true) do |family|
-          assessments = map_assessment_and_score(family, identity, domain_id)
-          assessment_domains = assessments.includes(:assessment_domains).map { |assessment| assessment.assessment_domains.joins(:domain).where(domains: { id: domain_id }) }.flatten.uniq
-          render  partial: 'families/list_domain_score', locals: { assessment_domains: assessment_domains }
+  column(:date_of_assessments, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.date_of_assessments', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
+    render partial: 'clients/assessments', locals: { object: object.assessments.defaults.order(:assessment_date), assessment_field_name: 'assessment_date' }
+  end
+
+  column(:completed_date, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.assessment_completed_date', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
+    if $param_rules
+      basic_rules = $param_rules['basic_rules']
+      basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
+      results = mapping_assessment_query_rules(basic_rules).reject(&:blank?)
+      assessment_completed_sql, assessment_number = assessment_filter_values(results)
+      sql = "(assessments.completed = true)".squish
+      if assessment_number.present? && assessment_completed_sql.present?
+        assessments = Family.cached_family_assessment_number_completed_date(object, sql, assessment_number)
+      elsif assessment_completed_sql.present?
+        sql = assessment_completed_sql[/assessments\.completed_date.*/]
+        assessments = Family.cached_family_sql_assessment_completed_date(object, sql)
+      else
+        rule = basic_rules['rules'].select {|h| h['id'] == 'date_of_assessments' }.first
+        if rule.present?
+          date_of_assessments_query = date_of_assessments_query_string(rule[:id], rule['field'], rule['operator'], rule['value'])
+          assessments = object.assessments.defaults.where(date_of_assessments_query)
+        else
+          assessments = object.assessments.defaults
         end
+        assessments = Family.cached_family_sql_assessment_completed_date(object, sql)
       end
+    else
+      assessments = Family.cached_family_assessment_order_completed_date(object)
+    end
+    render partial: 'clients/completed_assessments', locals: { object: assessments }
+  end
+
+  column(:date_of_referral, header: -> { I18n.t('datagrid.columns.clients.date_of_referral') }, html: true) do |object|
+    render partial: 'clients/referral', locals: { object: object }
+  end
+
+  column(:custom_assessment_created_at, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.custom_assessment_created_at', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
+    render partial: 'clients/assessments', locals: { object: object.assessments.customs.order(:created_at), assessment_field_name: nil }
+  end
+
+  column(:date_of_custom_assessments, preload: :assessments, header: -> { I18n.t('datagrid.columns.date_of_family_assessment', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
+    render partial: 'clients/assessments', locals: { object: object.assessments.customs.order(:assessment_date), assessment_field_name: 'assessment_date' }
+  end
+
+  column(:custom_assessment, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.custom_assessment', assessment: I18n.t('clients.show.assessment')) }) do |object|
+    custom_assessment_names = object.assessments.customs.joins(domains: :custom_assessment_setting).order(:created_at).distinct.pluck('custom_assessment_settings.custom_assessment_name', 'assessments.created_at')
+    custom_assessment_names = custom_assessment_names.map{|custom_assessment_name, assessment_date| "#{custom_assessment_name} (#{assessment_date.strftime("%d %B %Y")})"  }
+    format(custom_assessment_names.join(', ')) do |values|
+      unorderred_list(values.split(', '))
     end
   end
 
-  column(:date_of_custom_assessments, header: -> { I18n.t('datagrid.columns.date_of_family_assessment', assessment: I18n.t('families.show.assessment')) }, html: true) do |object|
-    assessments = map_assessment_and_score(object, '', nil)
-    render partial: 'families/assessments', locals: { object: assessments }
+  column(:custom_completed_date, preload: :assessments, header: -> { I18n.t('datagrid.columns.assessment_completed_date', assessment: I18n.t('families.family_assessment')) }, html: true) do |object|
+    if $param_rules
+      basic_rules = $param_rules['basic_rules']
+      basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
+      results = mapping_assessment_query_rules(basic_rules).reject(&:blank?)
+      assessment_completed_sql, assessment_number = assessment_filter_values(results)
+      sql = "(assessments.completed = true)".squish
+      if assessment_number.present? && assessment_completed_sql.present?
+        assessments = Family.cached_family_assessment_custom_number_completed_date(object, sql, assessment_number)
+      elsif assessment_completed_sql.present?
+        sql = assessment_completed_sql[/assessments\.completed_date.*/]
+        assessments = Family.cached_family_sql_assessment_custom_completed_date(object, sql)
+      else
+        rule = basic_rules['rules'].select {|h| h['id'] == 'date_of_assessments' }.first
+        if rule.present?
+          date_of_assessments_query = date_of_assessments_query_string(rule[:id], rule['field'], rule['operator'], rule['value'])
+          assessments = object.assessments.customs.where(date_of_assessments_query)
+        else
+          assessments = object.assessments.customs
+        end
+        assessments = Family.cached_family_sql_assessment_custom_completed_date(object, sql)
+      end
+    else
+      assessments = Family.cached_family_assessment_custom_order_completed_date(object)
+    end
+    render partial: 'clients/completed_assessments', locals: { object: assessments }
   end
 
-  column(:custom_completed_date, header: -> { I18n.t('datagrid.columns.assessment_completed_date', assessment: I18n.t('families.show.assessment')) }, html: true) do |object|
-    assessments = map_assessment_and_score(object, '', nil)
-    render partial: 'families/assessments/assessment_completed_dates', locals: { object: assessments }
+  dynamic do
+    if Setting.cache_first.enable_custom_assessment?
+      column(:all_custom_csi_assessments, preload: :assessments, header: -> { I18n.t('datagrid.columns.all_custom_csi_assessments', assessment: t('families.show.assessment')) }, html: true) do |object|
+        render partial: 'clients/all_csi_assessments', locals: { object: object.assessments.customs }
+      end
+
+      Domain.family_custom_csi_domains.order_by_identity.each do |domain|
+        identity = domain.identity
+        column("custom_#{domain.convert_identity}".to_sym, class: 'domain-scores', header: identity, html: true) do |object|
+          assessments = map_assessment_and_score(object, identity, domain.id)
+          assessment_domains = assessments.map { |assessment| assessment.assessment_domains.joins(:domain).where(domains: { identity: identity }) }.flatten.uniq
+          render  partial: 'clients/list_domain_score', locals: { assessment_domains: assessment_domains }
+        end
+      end
+    end
   end
 
   dynamic do

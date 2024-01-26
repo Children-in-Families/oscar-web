@@ -2,13 +2,19 @@
   .col-xs-12
     .ibox
       .ibox-title
-        %h5= "#{@client.en_and_local_name} - #{@tracking.name} - #{@program_stream.name}"
-        .ibox-tools
-          - unless @enrollment.program_stream.tracking_required?
-            - if can? :manage, ClientEnrollmentTracking
-              = client_enrolled_tracking_new_link
-          = link_to client_client_enrolled_program_client_enrolled_program_trackings_path(@client, @enrollment, tracking_id: @tracking.id) do
-            .btn.btn-success.btn-outline= t('.back')
+        .row
+          .col-xs-12.col-sm-6.co-md-6
+            %h5
+              = link_to @client do
+                = @client.en_and_local_name
+              %span= " - #{@tracking.name} - #{@program_stream.name}"
+          .col-xs-12.col-sm-6.col-md-6
+            .ibox-tools
+              - unless @enrollment.program_stream.tracking_required?
+                - if can? :manage, ClientEnrollmentTracking
+                  = client_enrolled_tracking_new_link
+              = link_to client_client_enrolled_program_client_enrolled_program_trackings_path(@client, @enrollment, tracking_id: @tracking.id) do
+                .btn.btn-success.btn-outline= t('.back')
       .ibox-content
         - @client_enrollment_trackings.each_slice(2) do |n_enrollment_trackings|
           .row

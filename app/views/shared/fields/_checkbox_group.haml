@@ -1,8 +1,13 @@
+- label = field_label(field_props)
 %div{ class: "form-group i-checks #{field_with(field_props['label'],errors)}" }
   %label.control-label{ class: required?(field_props['required'] || false) }
     %abbr{ title: 'required' }= '*' if field_props['required'] || false
-    = field_props['label'].html_safe
-
-  = f.input field_props['label'], collection: field_props['values'].map { |f| [ f['label'], f['label'], id: "custom_field_property_properties_#{field_props['label'].gsub('"', '&qoute;').html_safe}_#{f['label'].html_safe}"] }, as: :check_boxes, required: (field_props['required'] || false), label: false, input_html: { name: "#{f.object_name}[#{remove_field_prop_unicode(field_props)}][]", title: field_props['description']}
+    = label.html_safe
+  - if I18n.locale.to_s == I18n.default_locale.to_s
+    = f.input remove_field_prop_unicode(field_props), collection: field_props['values'].map { |field| [ field['label'], field['value'], id: remove_special_characters(field['label']), 'data-value': field['label']] }, as: :check_boxes, required: (field_props['required'] || false), label: false, input_html: { name: "#{f.object_name}[#{remove_field_prop_unicode(field_props)}][]", title: field_props['description'], 'data-checkbox': "#{f.object_name}[#{remove_local_field_prop_unicode(field_props)}]".parameterize }
+    .hidden= f.input remove_local_field_prop_unicode(field_props), collection: field_props['values'].map { |field| [ field['local_label'], field['local_label'], id: remove_special_characters(field['label'])] }, as: :check_boxes, required: (field_props['required'] || false), label: false, input_html: { name: "#{f.object_name}[#{remove_local_field_prop_unicode(field_props)}][]" }
+  - else
+    = f.input "#{remove_local_field_prop_unicode(field_props)}", collection: field_props['values'].map { |field| [ field['local_label'], field['local_value'], id: remove_special_characters(field['local_label']), 'data-value': field['local_label']] }, as: :check_boxes, required: (field_props['required'] || false), label: false, input_html: { name: "#{f.object_name}[#{remove_local_field_prop_unicode(field_props)}][]", title: field_props['description'], 'data-checkbox': "#{f.object_name}[#{remove_field_prop_unicode(field_props)}]".parameterize }
+    .hidden= f.input remove_field_prop_unicode(field_props), as: :check_boxes, collection: field_props['values'].map { |field| [ field['label'], field['value'], id: remove_special_characters(field['local_label']), 'data-value': field['local_label']] }, required: (field_props['required'] || false), label: false, input_html: { name: "#{f.object_name}[#{remove_field_prop_unicode(field_props)}][]", title: field_props['description'], id: "#{f.object_name}[#{remove_field_prop_unicode(field_props)}]".parameterize, class: 'd-none' }
   %span.help-block
     = field_message(field_props['label'], errors)

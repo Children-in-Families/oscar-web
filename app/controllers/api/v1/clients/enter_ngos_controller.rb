@@ -5,7 +5,8 @@ module Api
 
       def create
         enter_ngo = @client.enter_ngos.new(enter_ngo_params)
-        if enter_ngo.save
+        
+        if !@client.accepted? && enter_ngo.save
           render json: @client
         else
           render json: @client.errors, status: :unprocessable_entity
@@ -15,7 +16,8 @@ module Api
       def update
         enter_ngo = @client.enter_ngos.find(params[:id])
         authorize enter_ngo
-        if enter_ngo.update_attributes(enter_ngo_params)
+        
+        if !@client.accepted? && enter_ngo.update_attributes(enter_ngo_params)
           render json: @client
         else
           render json: @client.errors, status: :unprocessable_entity

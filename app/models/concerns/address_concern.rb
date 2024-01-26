@@ -2,7 +2,7 @@ module AddressConcern
   extend ActiveSupport::Concern
   included do
     after_commit :flush_cache
-    scope :dropdown_list_option, -> { joins(:clients).pluck(:name, :id).uniq.sort.map{|s| { s[1].to_s => s[0] } } }
+    scope :dropdown_list_option, -> { joins(:clients).pluck(:name, :id).uniq.sort.map { |s| { s[1].to_s => s[0] } } }
   end
 
   class_methods do
@@ -12,7 +12,6 @@ module AddressConcern
   end
 
   def instance_method
-
     private
 
     def flush_cache

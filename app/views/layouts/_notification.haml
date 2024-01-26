@@ -14,7 +14,7 @@
               .row
                 .col-xs-1
                   %i.fa.fa-tasks.fa-fw.task-sign
-                .col-xs-11
+                .col-xs-11.client_quantity
                   %span
                     = t('.review_client')
                     = ps.first.name
@@ -27,7 +27,7 @@
               .row
                 .col-xs-1
                   %i.fa.fa-tasks.fa-fw.task-sign
-                .col-xs-11
+                .col-xs-11.tasks_notification_label
                   = tasks_notification_label
         %li.divider
       - if Setting.cache_first.enable_default_assessment && (@notification.any_overdue_assessments? || @notification.any_due_today_assessments?)
@@ -37,10 +37,9 @@
               .row
                 .col-xs-1
                   %i.fa.fa-tasks.fa-fw.task-sign
-                .col-xs-11
+                .col-xs-11.assessments_notification_label
                   = assessments_notification_label
         %li.divider
-
       - if Setting.cache_first.enable_custom_assessment && (@notification.any_overdue_custom_assessments? || @notification.any_due_today_custom_assessments?)
         %li
           %div.align-link
@@ -48,18 +47,18 @@
               .row
                 .col-xs-1
                   %i.fa.fa-tasks.fa-fw.task-sign
-                .col-xs-11
+                .col-xs-11.customized_assessments_notification_label
                   = customized_assessments_notification_label
-        %li.divider
-        - if @notification.any_client_forms_due_today? || @notification.any_client_forms_overdue?
-          %li
-            %div.align-link
-              = link_to dashboards_path(user_id: current_user.id, forms: true) do
-                .row
-                  .col-xs-1
-                    %i.fa.fa-tasks.fa-fw.task-sign
-                  .col-xs-11
-                    = forms_notification_label
+      %li.divider
+      - if @notification.any_client_forms_due_today? || @notification.any_client_forms_overdue?
+        %li
+          %div.align-link
+            = link_to dashboards_path(user_id: current_user.id, forms: true) do
+              .row
+                .col-xs-1
+                  %i.fa.fa-tasks.fa-fw.task-sign
+                .col-xs-11.forms_notification_label
+                  = forms_notification_label
         %li.divider
       - if @notification.any_client_case_note_overdue?
         %li
@@ -68,8 +67,9 @@
               .row
                 .col-xs-1
                   %i.fa.fa-tasks.fa-fw.task-sign
-                .col-xs-11
+                .col-xs-11.client_case_note_overdue
                   = t('.client_case_note_overdue', count: @notification.client_case_note_overdue_count)
+
       - if @notification.any_client_case_note_due_today?
         %li
           %div.align-link
@@ -77,7 +77,7 @@
               .row
                 .col-xs-1
                   %i.fa.fa-tasks.fa-fw.task-sign
-                .col-xs-11
+                .col-xs-11.client_case_note_due_today
                   = t('.client_case_note_due_today', count: @notification.client_case_note_due_today_count)
         %li.divider
       - if Setting.cache_first.enable_default_assessment && @notification.any_upcoming_csi_assessments?
@@ -87,7 +87,7 @@
               .row
                 .col-xs-1
                   %i.fa.fa-tasks.fa-fw.task-sign
-                .col-xs-11
+                .col-xs-11.upcoming_csi_assessments_count
                   = "#{t('.upcoming_assessments_count', count: @notification.upcoming_csi_assessments_count)} #{Setting.cache_first.default_assessment}"
 
       - if Setting.cache_first.enable_custom_assessment && @notification.any_upcoming_custom_csi_assessments?
@@ -97,7 +97,7 @@
               .row
                 .col-xs-1
                   %i.fa.fa-tasks.fa-fw.task-sign
-                .col-xs-11
+                .col-xs-11.upcoming_custom_csi_assessments_count
                   = "#{t('.upcoming_assessments_count', count: @notification.upcoming_custom_csi_assessments_count)} #{Setting.cache_first.custom_assessment}"
         %li.divider
       -# - if current_user.admin? || current_user.ec_manager?
@@ -120,7 +120,7 @@
               .row
                 .col-xs-1
                   %i.fa.fa-tasks.fa-fw.task-sign
-                .col-xs-11
+                .col-xs-11.due_today_family_custom_field_count
                   = t('.due_today_family_custom_field_count', count: @notification.family_custom_field_frequency_due_today_count)
         %li.divider
       - if @notification.any_family_custom_field_frequency_overdue?
@@ -130,7 +130,7 @@
               .row
                 .col-xs-1
                   %i.fa.fa-tasks.fa-fw.task-sign
-                .col-xs-11
+                .col-xs-11.overdue_family_custom_field_count
                   = t('.overdue_family_custom_field_count', count: @notification.family_custom_field_frequency_overdue_count)
         %li.divider
     - if can? :manage, Partner
@@ -141,7 +141,7 @@
               .row
                 .col-xs-1
                   %i.fa.fa-tasks.fa-fw.task-sign
-                .col-xs-11
+                .col-xs-11.due_today_partner_custom_field_count
                   = t('.due_today_partner_custom_field_count', count: @notification.partner_custom_field_frequency_due_today_count)
         %li.divider
       - if @notification.any_partner_custom_field_frequency_overdue?
@@ -151,7 +151,7 @@
               .row
                 .col-xs-1
                   %i.fa.fa-tasks.fa-fw.task-sign
-                .col-xs-11
+                .col-xs-11.overdue_partner_custom_field_count
                   = t('.overdue_partner_custom_field_count', count: @notification.partner_custom_field_frequency_overdue_count)
         %li.divider
     - if can? :manage, User
@@ -162,7 +162,7 @@
               .row
                 .col-xs-1
                   %i.fa.fa-tasks.fa-fw.task-sign
-                .col-xs-11
+                .col-xs-11.due_today_user_custom_field_count
                   = t('.due_today_user_custom_field_count', count: @notification.user_custom_field_frequency_due_today_count)
         %li.divider
       - if @notification.any_user_custom_field_frequency_overdue?
@@ -172,7 +172,7 @@
               .row
                 .col-xs-1
                   %i.fa.fa-tasks.fa-fw.task-sign
-                .col-xs-11
+                .col-xs-11.overdue_user_custom_field_count
                   = t('.overdue_user_custom_field_count', count: @notification.user_custom_field_frequency_overdue_count)
         %li.divider
       - if @notification.any_unsaved_referrals? && current_user.referral_notification
@@ -182,7 +182,7 @@
               .row
                 .col-xs-1
                   %i.fa.fa-tasks.fa-fw.task-sign
-                .col-xs-11
+                .col-xs-11.new_referral_client
                   = t('.new_referral_client', count: @notification.unsaved_referrals_count)
       - if @notification.any_repeat_referrals? && current_user.referral_notification
         %li
@@ -191,7 +191,7 @@
               .row
                 .col-xs-1
                   %i.fa.fa-tasks.fa-fw.task-sign
-                .col-xs-11
+                .col-xs-11.repeat_referral_client
                   = t('.repeat_referral_client', count: @notification.repeat_referrals_count)
       - if @notification.any_unsaved_family_referrals? && current_user.referral_notification
         %li
@@ -200,7 +200,7 @@
               .row
                 .col-xs-1
                   %i.fa.fa-tasks.fa-fw.task-sign
-                .col-xs-11
+                .col-xs-11.new_referral_family
                   = t('.new_referral_family', count: @notification.unsaved_family_referrals_count)
       - if @notification.any_repeat_family_referrals? && current_user.referral_notification
         %li
@@ -209,7 +209,7 @@
               .row
                 .col-xs-1
                   %i.fa.fa-tasks.fa-fw.task-sign
-                .col-xs-11
+                .col-xs-11.repeat_referral_family
                   = t('.repeat_referral_family', count: @notification.repeat_family_referrals_count)
     - if @notification.all_count.zero?
       %li

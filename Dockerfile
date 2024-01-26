@@ -1,6 +1,9 @@
-FROM ruby:2.3.3
+FROM ruby:2.3.7
 
-RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
+RUN echo "deb http://archive.debian.org/debian stretch main contrib non-free" > /etc/apt/sources.list
+RUN apt-get update -q && \
+    apt-get install -qy procps curl ca-certificates gnupg2 build-essential --no-install-recommends && apt-get clean
+RUN curl -fsSL https://deb.nodesource.com/setup_12.x | bash -
 RUN curl --silent https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -
 RUN apt-get update -qq && apt-get install -y nodejs postgresql-client fonts-khmeros memcached cron
 RUN mkdir /app

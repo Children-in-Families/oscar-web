@@ -2,6 +2,7 @@ class Assessment < ActiveRecord::Base
   belongs_to :client, counter_cache: true
   belongs_to :family, counter_cache: true
   belongs_to :case_conference
+  belongs_to :custom_assessment_setting
 
   has_many :assessment_domains, dependent: :destroy
   has_many :domains,            through:   :assessment_domains
@@ -13,11 +14,13 @@ class Assessment < ActiveRecord::Base
 
   has_paper_trail
 
+  validates :assessment_date, presence: true
   validates :client, presence: true, if: :client_id?
   validate :must_be_enable
   validate :allow_create, :eligible_client_age, if: :new_record?
   validates_uniqueness_of :case_conference_id, on: :create, if: :case_conference_id?
 
+  before_save :populate_domains
   before_save :set_previous_score
   before_save :set_assessment_completed, unless: :completed?
   after_commit :flash_cache
@@ -31,11 +34,21 @@ class Assessment < ActiveRecord::Base
   scope :incompleted, -> { where(completed: false) }
   scope :client_risk_assessments, -> { where.not(level_of_risk: nil) }
 
+  scope :not_draft, -> { where(draft: false) }
+  scope :draft, -> { where(draft: true) }
+  scope :draft_untouch, -> { draft.where(last_auto_save_at: nil) }
+  scope :not_untouch_draft, -> { where("draft IS FALSE OR last_auto_save_at IS NOT NULL") }
+
+  default_scope { not_untouch_draft }
+
   DUE_STATES        = ['Due Today', 'Overdue']
 
   def set_assessment_completed
+    return if draft?
+
     empty_assessment_domains = check_reason_and_score
     if empty_assessment_domains.count.zero?
+      self.draft = false
       self.completed = true
       self.completed_date = Time.zone.now
     else
@@ -57,6 +70,10 @@ class Assessment < ActiveRecord::Base
       end
     end
     empty_assessment_domains
+  end
+
+  def client_risk_assessment?
+    level_of_risk.present?
   end
 
   def self.latest_record
@@ -85,29 +102,6 @@ class Assessment < ActiveRecord::Base
 
   def latest_record?
     self == client.assessments.latest_record
-  end
-
-  def populate_notes(default, custom_name)
-    if custom_name.present?
-      custom_assessment_id = CustomAssessmentSetting.only_enable_custom_assessment.find_by(custom_assessment_name: custom_name).id
-      domains = default == 'true' ? Domain.csi_domains : CustomAssessmentSetting.find_by(id: custom_assessment_id).domains
-    else
-      domains = default == 'true' ? Domain.csi_domains : Domain.custom_csi_domains
-    end
-    domains.each do |domain|
-      case_conference_domain = case_conference.case_conference_domains.find_by(domain_id: domain.id) if case_conference
-      assessment_domains.build(domain: domain, reason: case_conference_domain&.presenting_problem)
-    end
-  end
-
-  def repopulate_notes
-    case_conference && case_conference.case_conference_domains.each do |case_conference_domain|
-      assessment_domain = assessment_domains.find_by(domain_id: case_conference_domain.domain_id)
-      if assessment_domain
-        assessment_domain.reason = case_conference_domain.presenting_problem
-        assessment_domain.save
-      end
-    end
   end
 
   def populate_family_domains
@@ -153,6 +147,10 @@ class Assessment < ActiveRecord::Base
 
   private
 
+  def populate_domains
+    self.assessment_domains = AssessmentDomainsLoader.call(self) if new_record? && client_id?
+  end
+
   def allow_create
     custom_assessment_setting_id = nil
     if default == false && assessment_domains.any?
@@ -167,12 +165,15 @@ class Assessment < ActiveRecord::Base
   end
 
   def set_previous_score
-    if new_record? && !initial?
+    if (draft? || new_record?) && !initial?
       if default?
-        previous_assessment = parent.assessments.defaults.latest_record
+        previous_assessment = parent.assessments.defaults.not_draft.where.not(id: self.id).latest_record
       else
-        previous_assessment = parent.assessments.customs.latest_record
+        previous_assessment = parent.assessments.customs.not_draft.where.not(id: self.id).latest_record
       end
+
+      return if previous_assessment.blank?
+
       previous_assessment.assessment_domains.each do |previous_assessment_domain|
         assessment_domains.each do |assessment_domain|
           assessment_domain.previous_score = previous_assessment_domain.score if assessment_domain.domain_id == previous_assessment_domain.domain_id

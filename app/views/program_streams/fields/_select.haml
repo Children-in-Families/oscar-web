@@ -1,7 +1,10 @@
 .select
   .row
     .col-xs-12.form-group{ class: html_column(full_width) }
-      %label= field_props['label'].html_safe
+      %label
+        - if field_props['required']
+          %abbr(title="required") *
+        = field_props['label'].html_safe
   .row
     .col-xs-12.form-group{ class: html_column(full_width) }
       = select_tag '', options_for_select( field_props['values'].collect { |f| [ format_placeholder(f['label']), ''] } ), class: 'select  form-control'

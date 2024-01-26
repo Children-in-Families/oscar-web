@@ -31,7 +31,6 @@
         %tbody
           - @program_streams.each do |ps|
             - next unless program_stream_readable?(ps.id)
-            - next if ps.client_enrollments.enrollments_by(@client.id).blank? && ps.archived_at.present?
             %tr
               %td.status
                 = render 'status', program_stream: ps

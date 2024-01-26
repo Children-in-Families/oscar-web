@@ -1,5 +1,6 @@
 class CallsController < AdminController
   load_and_authorize_resource find_by: :id
+  include ApplicationHelper
 
   before_action :set_association, only: [:new, :show]
   before_action :country_address_fields, only: [:new]
@@ -118,20 +119,6 @@ class CallsController < AdminController
     @referral_source_category = referral_source_name(ReferralSource.parent_categories)
   end
 
-  def referral_source_name(referral_source)
-    if I18n.locale == :km
-      referral_source.map{|ref| [ref.name, ref.id] }
-    else
-      referral_source.map do |ref|
-        if ref.name_en.blank?
-          [ref.name, ref.id]
-        else
-          [ref.name_en, ref.id]
-        end
-      end
-    end
-  end
-
   def country_address_fields
     selected_country = Setting.cache_first.try(:country_name) || params[:country]
     current_org = Organization.current.short_name
@@ -161,9 +148,6 @@ class CallsController < AdminController
   end
 
   def exited_clients(user_ids)
-    sql = user_ids.map do |user_id|
-      "versions.object_changes ILIKE '%user_id:\n- \n- #{user_id}\n%'"
-    end.join(" OR ")
     client_ids = CaseWorkerClient.where(id: PaperTrail::Version.where(item_type: 'CaseWorkerClient', event: 'create').joins(:version_associations).where(version_associations: { foreign_key_name: 'user_id', foreign_key_id: user_ids }).distinct.map(&:item_id)).pluck(:client_id).uniq
     Client.where(id: client_ids, status: 'Exited').ids
   end

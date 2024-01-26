@@ -42,7 +42,7 @@ class EnterNgo < ActiveRecord::Base
   end
 
   def create_enter_ngo_history
-    EnterNgoHistory.initial(self)
+    EnterNgoHistory.initial(self) if ENV['HISTORY_DATABASE_HOST'].present?
   end
 
   def flash_cache

@@ -4,70 +4,7 @@
       .col-xs-6
         %h5= t('.duetoday_tasks')
   .panel-body
-    - @clients.each do |client, today_forms|
-      - next if today_forms.blank?
-      - today_tasks = today_forms[:today_tasks]
-      - client_duetoday_default_assessment = client.next_assessment_date(@user.activated_at)
-      - client_duetoday_custom_assessment = client_custom_next_assessment_date(client, @user.activated_at)
-      - next if skipped_duetoday_tasks?(today_tasks) && skipped_duetoday_forms?(today_forms, client) && skipped_duetoday_assessments?(client)
-      - next if (client_duetoday_default_assessment.blank? && client_duetoday_custom_assessment.blank?) && today_tasks.blank? && today_forms[:today_forms].blank? && today_forms[:today_trackings].blank?
-      - next if today_tasks.blank? && today_forms[:today_forms].blank? && ((client.assessments.defaults.count.zero? || client_duetoday_default_assessment != Date.today) && client.assessments.customs.count.zero?)
-      .ibox.border-left-right.border-bottom
-        .ibox-title
-          %h5
-            = link_to client.name, client_path(client), target: :_blank
-        .ibox-content.no-padding
-          %table.table.table-striped.active_tasks
-            - if @task_params
-              - today_tasks.each_with_index do |task, index|
-                %tr
-                  - if index == 0
-                    %td.col-xs-3{ rowspan: today_tasks.count }= t('.task')
-                  %td.col-xs-6.task-name.border-left-right= task.name
-                  %td.col-xs-3= date_format(task.expected_date)
-            - if @setting.enable_default_assessment && @assessment_params && duetoday_assessments_any?(client) && client.user_ids.include?(@user.id) && (client.eligible_default_csi?)
-              %tr
-                %td.col-xs-3= @setting.default_assessment
-                %td.col-xs-6.task-name.border-left-right
-                %td.col-xs-3= date_format(client_duetoday_default_assessment)
+    = render 'dashboards/due_today_lists/due_today_task'
+    = render 'dashboards/due_today_lists/due_today_assessment'
+    = render 'dashboards/due_today_lists/due_today_form'
 
-            - if (@setting.enable_custom_assessment? && @assessment_params && client.user_ids.include?(@user.id)) && !client.assessments.customs.count.zero?
-              - custom_assessment_setting_ids = client_custom_assessment_setting(client)
-              - CustomAssessmentSetting.only_enable_custom_assessment.where(id: custom_assessment_setting_ids).each do |custom_assessment|
-                - next if !(duetoday_custom_assessments_any?(client, custom_assessment) && (client.eligible_default_csi? || client.eligible_custom_csi?(custom_assessment)))
-                %tr
-                  %td.col-xs-3= custom_assessment.custom_assessment_name
-                  %td.col-xs-6.task-name.border-left-right
-                  %td.col-xs-3= date_format(client.custom_next_assessment_date(@user.activated_at, custom_assessment.id))
-              - CustomAssessmentSetting.only_enable_custom_assessment.where.not(id: custom_assessment_setting_ids).each do |custom_assessment_setting|
-                - next unless client.eligible_custom_csi?(custom_assessment_setting)
-                - client_overdue_custom_assessment = client.custom_next_assessment_date(@user.activated_at, custom_assessment_setting.id)
-                %tr
-                  %td.col-xs-3= custom_assessment_setting.custom_assessment_name
-                  %td.col-xs-6.task-name.border-left-right
-                  %td.col-xs-3= date_format(client_overdue_custom_assessment)
-            - if @form_params
-              - custom_field_index = 0
-              - row_count = today_forms[:today_forms].size + today_forms[:today_trackings].size
-              - today_forms[:today_forms].each_with_index do |(custom_field, next_custom_field_date), index|
-                %tr
-                  - if index == 0
-                    %td.col-xs-3{ rowspan: row_count }= t('.forms')
-                  - if @user.activated_at.nil?
-                    %td.col-xs-6.task-name.border-left-right= custom_field.form_title
-                    %td.col-xs-3= date_format(next_custom_field_date)
-                  - elsif @user.activated_at? && next_custom_field_date > @user.activated_at
-                    %td.col-xs-6.task-name.border-left-right= custom_field.form_title
-                    %td.col-xs-3= date_format(next_custom_field_date)
-                  - custom_field_index = index + 1
-              - today_forms[:today_trackings].each do |tracking, next_client_enrollment_tracking_date|
-                %tr
-                  - if custom_field_index == 0
-                    %td.col-xs-3{rowspan: row_count}= t('.forms')
-                    - custom_field_index = custom_field_index + 1
-                  - if @user.activated_at.nil?
-                    %td.col-xs-6.task-name.border-left-right= tracking.name
-                    %td.col-xs-3= date_format(next_client_enrollment_tracking_date)
-                  - elsif @user.activated_at? && next_client_enrollment_tracking_date > @user.activated_at
-                    %td.col-xs-6.task-name.border-left-right= tracking.name
-                    %td.col-xs-3= date_format(next_client_enrollment_tracking_date)

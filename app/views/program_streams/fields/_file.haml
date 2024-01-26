@@ -1,4 +1,7 @@
 .row
   .col-xs-12.form-group{ class: html_column(full_width) }
-    %label= field_props['label'].html_safe
+    %label
+      - if field_props['required']
+        %abbr(title="required") *
+      = field_props['label'].html_safe
     = file_field_tag 'nil', class: 'file', disabled: true, multiple: field_props['multiple'].present?

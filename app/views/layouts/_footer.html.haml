@@ -1,27 +1,28 @@
-- unless current_organization.try(:short_name) == 'mho'
-  %footer.footer.navbar-fixed-bottom
-    .row
-      .col-xs-12.col-sm-2.text-center
-        = image_tag('Horizontal_RGB_294.png', class: 'usaid-logo')
-      .col-xs-12.col-sm-8.col-md-off-set-1.text-center.margin-usaid-link
-        %a{ 'data-target' => '#myModal', 'data-toggle' => 'modal', type: 'button' }
-          USAID Disclaimer
-      - if user_signed_in?
-        - if current_organization.fcf_ngo?
-          .col-xs-2.hidden-xs.fcf_ngo.text-right
-            %span FCF
-  #myModal.modal.fade{ 'aria-labelledby' => 'myModalLabel', :role => 'dialog', tabindex: '-1' }
-    .modal-dialog.modal-disclaimer-width{role: 'document'}
-      .modal-content
-        .modal-header
-          %button.close{ 'aria-label' => 'Close', 'data-dismiss' => 'modal', type: 'button' }
-            %span{ 'aria-hidden' => 'true' } ×
-          %h3#myModalLabel.modal-title.text-center USAID Disclaimer
-        .modal-body
-          %ul#selector
-            %p
-              This website is made possible with the generous support of the American people through the United States Agency for International Development (USAID). The contents are the responsibility of the authors and do not necessarily reflect the views of USAID or the United States government.
-            %p
-              គេហទំព័រនេះត្រូវបានផលិតឡើងក្រោមជំនួយសប្បុរស របស់ប្រជាពលរដ្ឋអាមេរិក តាមរយៈទីភ្នាក់ងារសហរដ្ឋអាមេរិក ដើម្បីអភិវឌ្ឍន៍អន្តរជាតិ​(USAID)។ ខ្លឹមសារក្នុងវីដេអូនេះ គឺជាការទទួលខុសត្រូវរបស់អ្នកនិពន្ធ និងមិនឆ្លុះបញ្ចាំងពីទស្សនៈរបស់​ USAID រឺ រដ្ឋាភិបាលសហរដ្ឋអាមេរិកឡើយ។
-        .modal-footer
-          %button.btn.btn-default{ 'data-dismiss' => 'modal', type: 'button' } Close
+- cache cache_keys_base do
+  - if current_organization&.short_name != 'mho'
+    %footer.footer.navbar-fixed-bottom
+      .row
+        .col-xs-12.col-sm-2.text-center
+          = image_tag('Horizontal_RGB_294.png', class: 'usaid-logo')
+        .col-xs-12.col-sm-8.col-md-off-set-1.text-center.margin-usaid-link
+          %a{ 'data-target' => '#myModal', 'data-toggle' => 'modal', type: 'button' }
+            USAID Disclaimer
+        - if user_signed_in?
+          - if current_organization.fcf_ngo?
+            .col-xs-2.hidden-xs.fcf_ngo.text-right
+              %span FCF
+    #myModal.modal.fade{ 'aria-labelledby' => 'myModalLabel', :role => 'dialog', tabindex: '-1' }
+      .modal-dialog.modal-disclaimer-width{role: 'document'}
+        .modal-content
+          .modal-header
+            %button.close{ 'aria-label' => 'Close', 'data-dismiss' => 'modal', type: 'button' }
+              %span{ 'aria-hidden' => 'true' } ×
+            %h3#myModalLabel.modal-title.text-center USAID Disclaimer
+          .modal-body
+            %ul#selector
+              %p
+                This website is made possible with the generous support of the American people through the United States Agency for International Development (USAID). The contents are the responsibility of the authors and do not necessarily reflect the views of USAID or the United States government.
+              %p
+                គេហទំព័រនេះត្រូវបានផលិតឡើងក្រោមជំនួយសប្បុរស របស់ប្រជាពលរដ្ឋអាមេរិក តាមរយៈទីភ្នាក់ងារសហរដ្ឋអាមេរិក ដើម្បីអភិវឌ្ឍន៍អន្តរជាតិ​(USAID)។ ខ្លឹមសារក្នុងវីដេអូនេះ គឺជាការទទួលខុសត្រូវរបស់អ្នកនិពន្ធ និងមិនឆ្លុះបញ្ចាំងពីទស្សនៈរបស់​ USAID រឺ រដ្ឋាភិបាលសហរដ្ឋអាមេរិកឡើយ។
+          .modal-footer
+            %button.btn.btn-default{ 'data-dismiss' => 'modal', type: 'button' } Close

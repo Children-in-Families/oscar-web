@@ -58,5 +58,4 @@
 //= require clients/index
 //= require report_creator
 //= require clients/show
-//= require clients/form
 //= require clients/book

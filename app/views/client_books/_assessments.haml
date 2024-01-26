@@ -57,7 +57,7 @@
                           %td
                             %b= "#{I18n.t('assessments.show.goal')}:"
                           %td
-                            = ad.try(:goal)
+                            = ad&.goal
                         - incomplete_tasks = @client.tasks.by_domain_id(ad.domain_id).incomplete
                         - if incomplete_tasks.any?
                           %tr

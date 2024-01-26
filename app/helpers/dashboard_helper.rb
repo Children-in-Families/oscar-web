@@ -7,6 +7,10 @@ module DashboardHelper
     end
   end
 
+  def family_tab?
+    params[:tab] == 'family'
+  end
+
   def checkbox_tasks
     if @default_params
       'true'
@@ -63,12 +67,18 @@ module DashboardHelper
     client.custom_next_assessment_date(@user.activated_at).between?(Date.tomorrow, 3.months.from_now) if client.custom_next_assessment_date(@user.activated_at).present?
   end
 
+  # No longer used, moved to client.custom_next_assessment_date2
   def client_custom_next_assessment_date(client, activated_at=nil)
-    custom_assessment_setting_ids = client_custom_assessment_setting(client)
-    CustomAssessmentSetting.only_enable_custom_assessment.where(id: custom_assessment_setting_ids).map do |custom_assessment|
+    return @client_custom_next_assessment_date if @client_custom_next_assessment_date.present?
+
+    ids = client_custom_assessment_setting(client)
+
+    @client_custom_next_assessment_date = CustomAssessmentSetting.only_enable_custom_assessment.where(id: ids).map do |custom_assessment|
       next if client.eligible_custom_csi?(custom_assessment)
       client.custom_next_assessment_date(activated_at, custom_assessment&.id)
     end.compact
+
+    @client_custom_next_assessment_date
   end
 
   def skipped_overdue_tasks?(tasks)
@@ -83,7 +93,7 @@ module DashboardHelper
   end
 
   def skipped_overdue_forms?(forms, client)
-    skipped_forms = overdue_forms_empty?(forms) || client.user_ids.exclude?(@user.id)
+    skipped_forms = overdue_forms_empty?(forms) || client.users.cached_user_ids.exclude?(@user.id)
     skipped_forms ? true : false
   end
 
@@ -91,13 +101,13 @@ module DashboardHelper
     skipped_assessments = nil
     CustomAssessmentSetting.only_enable_custom_assessment.each do |custom_assessment|
       if @setting.enable_custom_assessment? && @setting.enable_default_assessment
-        skipped_assessments = (!overdue_assessments_any?(client) && !overdue_custom_assessments_any?(client)) || client.user_ids.exclude?(@user.id) || (!client.eligible_default_csi? && !client.eligible_custom_csi?(custom_assessment))
+        skipped_assessments = (!overdue_assessments_any?(client) && !overdue_custom_assessments_any?(client)) || client.cached_user_ids.exclude?(@user.id) || (!client.eligible_default_csi? && !client.eligible_custom_csi?(custom_assessment))
       elsif @setting.enable_default_assessment
-        skipped_assessments = !overdue_assessments_any?(client) || client.user_ids.exclude?(@user.id) || !client.eligible_default_csi?
+        skipped_assessments = !overdue_assessments_any?(client) || client.cached_user_ids.exclude?(@user.id) || !client.eligible_default_csi?
       else
-        skipped_assessments = !overdue_custom_assessments_any?(client) || client.user_ids.exclude?(@user.id) || !client.eligible_custom_csi?(custom_assessment)
+        skipped_assessments = !overdue_custom_assessments_any?(client) || client.cached_user_ids.exclude?(@user.id) || !client.eligible_custom_csi?(custom_assessment)
       end
-      skipped_assessments = client.user_ids.exclude?(@user.id) || (!client.eligible_default_csi? && !client.eligible_custom_csi?(custom_assessment))
+      skipped_assessments = client.cached_user_ids.exclude?(@user.id) || (!client.eligible_default_csi? && !client.eligible_custom_csi?(custom_assessment))
     end
 
     if skipped_assessments
@@ -121,29 +131,25 @@ module DashboardHelper
   end
 
   def skipped_duetoday_forms?(forms, client)
-    skipped_forms = duetoday_forms_empty?(forms) || client.user_ids.exclude?(@user.id)
+    skipped_forms = duetoday_forms_empty?(forms) || client.cached_user_ids.exclude?(@user.id)
     skipped_forms ? true : false
   end
 
   def skipped_duetoday_assessments?(client)
-    skipped_assessments = nil
+    return @skipped_duetoday_assessments if @skipped_duetoday_assessments.present?
+
     CustomAssessmentSetting.all.each do |custom_assessment|
       if @setting.enable_custom_assessment? && @setting.enable_default_assessment
-        skipped_assessments = (!duetoday_assessments_any?(client) && !duetoday_custom_assessments_any?(client)) || client.user_ids.exclude?(@user.id) || (!client.eligible_default_csi? && !client.eligible_custom_csi?(custom_assessment))
+        @skipped_duetoday_assessments = (!duetoday_assessments_any?(client) && !duetoday_custom_assessments_any?(client)) || client.cached_user_ids.exclude?(@user.id) || (!client.eligible_default_csi? && !client.eligible_custom_csi?(custom_assessment))
       elsif @setting.enable_default_assessment
-        skipped_assessments = !duetoday_assessments_any?(client) || client.user_ids.exclude?(@user.id) || !client.eligible_default_csi?
+        @skipped_duetoday_assessments = !duetoday_assessments_any?(client) || client.cached_user_ids.exclude?(@user.id) || !client.eligible_default_csi?
       else
-        skipped_assessments = !duetoday_custom_assessments_any?(client) || client.user_ids.exclude?(@user.id) || !client.eligible_custom_csi?(custom_assessment)
+        @skipped_duetoday_assessments = !duetoday_custom_assessments_any?(client) || client.cached_user_ids.exclude?(@user.id) || !client.eligible_custom_csi?(custom_assessment)
       end
     end
 
-    if skipped_assessments
-      true
-    elsif @assessment_params
-      false
-    else
-      true
-    end
+    @skipped_duetoday_assessments = !@assessment_params unless @skipped_duetoday_assessments
+    @skipped_duetoday_assessments
   end
 
   def skipped_upcoming_tasks?(tasks)
@@ -158,28 +164,25 @@ module DashboardHelper
   end
 
   def skipped_upcoming_forms?(forms, client)
-    skipped_forms = upcoming_forms_empty?(forms) || client.user_ids.exclude?(@user.id)
+    skipped_forms = upcoming_forms_empty?(forms) || client.cached_user_ids.exclude?(@user.id)
     skipped_forms ? true : false
   end
 
   def skipped_upcoming_assessments?(client)
-    skipped_assessments = nil
-    CustomAssessmentSetting.all.each do |custom_assessment|
+    return @skipped_upcoming_assessments if @skipped_upcoming_assessments.present?
+
+    CustomAssessmentSetting.find_each do |custom_assessment|
       if @setting.enable_custom_assessment? && @setting.enable_default_assessment
-        skipped_assessments = (!upcoming_assessments_any?(client) && !upcoming_custom_assessments_any?(client)) || client.user_ids.exclude?(@user.id) || (!client.eligible_default_csi? && !client.eligible_custom_csi?(custom_assessment))
+        @skipped_upcoming_assessments = (!upcoming_assessments_any?(client) && !upcoming_custom_assessments_any?(client)) || client.cached_user_ids.exclude?(@user.id) || (!client.eligible_default_csi? && !client.eligible_custom_csi?(custom_assessment))
       elsif @setting.enable_default_assessment
-        skipped_assessments = !upcoming_assessments_any?(client) || client.user_ids.exclude?(@user.id) || !client.eligible_default_csi?
+        @skipped_upcoming_assessments = !upcoming_assessments_any?(client) || client.cached_user_ids.exclude?(@user.id) || !client.eligible_default_csi?
       else
-        skipped_assessments = !upcoming_custom_assessments_any?(client) || client.user_ids.exclude?(@user.id) || !client.eligible_custom_csi?(custom_assessment)
+        @skipped_upcoming_assessments = !upcoming_custom_assessments_any?(client) || client.cached_user_ids.exclude?(@user.id) || !client.eligible_custom_csi?(custom_assessment)
       end
     end
-    if skipped_assessments
-      true
-    elsif @assessment_params
-      false
-    else
-      true
-    end
+
+    @skipped_upcoming_assessments = !@assessment_params unless @skipped_upcoming_assessments
+    @skipped_upcoming_assessments
   end
 
   def just_sign_in?
@@ -187,6 +190,6 @@ module DashboardHelper
   end
 
   def client_custom_assessment_setting(client)
-    custom_assessment_setting_ids = client.assessments.customs.map{|ca| ca.domains.pluck(:custom_assessment_setting_id ) }.flatten.uniq
+    custom_assessment_setting_ids = client.custom_assessment_domains.map(&:custom_assessment_setting_id).flatten.uniq
   end
 end

@@ -1,5 +1,6 @@
 class RiskAssessmentReducer
   attr_reader :type, :risk_assessment, :risk_assessment_params
+
   def initialize(client, risk_assessment_params, type = 'create')
     @risk_assessment = client.risk_assessment.present? ? client.risk_assessment : client.build_risk_assessment(risk_assessment_params)
     @risk_assessment_params = risk_assessment_params

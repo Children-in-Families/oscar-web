@@ -1,4 +1,6 @@
 class Call < ActiveRecord::Base
+  include CacheAll
+
   FIELDS = %w( phone_call_id call_type date_of_call start_datetime information_provided answered_call called_before requested_update childsafe_agent protection_concern_id necessity_id not_a_phone_call brief_note_summary other_more_information)
   TYPES  = [
             "New Referral: Case Action Required", "New Referral: Case Action NOT Required",

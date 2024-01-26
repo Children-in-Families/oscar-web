@@ -1,5 +1,5 @@
-class ScreeningAssessmentsController <  AdminController
-  load_and_authorize_resource params: :screening_assessment_params
+class ScreeningAssessmentsController < AdminController
+  load_and_authorize_resource :ScreeningAssessment
   before_action :find_screening_assessment, except: [:index, :new, :create]
   before_action :find_client
   before_action :find_previous_screening_assessment, only: [:new, :create, :edit, :update]
@@ -70,15 +70,18 @@ class ScreeningAssessmentsController <  AdminController
   end
 
   def screening_assessment_params
-    params.require(:screening_assessment).permit(
-      :screening_assessment_date, :client_age, :visitor, :client_milestone_age, :note,
-      :smile_back_during_interaction, :follow_object_passed_midline, :turn_head_to_sound,
-      :head_up_45_degree, :screening_type, :client_id, attachments: [],
-      developmental_marker_screening_assessments_attributes: [
-        :id, :developmental_marker_id, :question_1, :question_2, :question_3, :question_4, :_destroy
-      ],
-      tasks_attributes: [:id, :client_id, :name, :expected_date, :completion_date, :taskable_id, :taskable_type, :relation, :_destroy]
-    )
+    params.require(:screening_assessment)
+          .permit(
+            :screening_assessment_date, :client_age, :visitor, :client_milestone_age, :note,
+            :smile_back_during_interaction, :follow_object_passed_midline, :turn_head_to_sound,
+            :head_up_45_degree, :screening_type, :client_id,
+            attachments: [],
+            developmental_marker_screening_assessments_attributes:
+            [
+              :id, :developmental_marker_id, :question_1, :question_2, :question_3, :question_4, :_destroy
+            ],
+            tasks_attributes: [:id, :client_id, :name, :expected_date, :completion_date, :taskable_id, :taskable_type, :relation, :_destroy]
+          )
   end
 
   def find_screening_assessment
@@ -90,6 +93,6 @@ class ScreeningAssessmentsController <  AdminController
   end
 
   def find_previous_screening_assessment
-    @previous_screening_assessment = ScreeningAssessment.where(client_id: @client.id).where.not(id: @screening_assessment.id).last
+    @previous_screening_assessment = ScreeningAssessment.where(client_id: @client.id).where.not(id: @screening_assessment.id).last if @screening_assessment
   end
 end

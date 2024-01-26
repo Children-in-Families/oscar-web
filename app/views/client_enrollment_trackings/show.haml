@@ -15,16 +15,16 @@
         %h5= "#{t('created_by')} #{whodunnit('ClientEnrollmentTracking', @client_enrollment_tracking.id)} #{t('at')}  #{ date_format @client_enrollment_tracking.created_at }"
         .table-responsive
           %table.table.table-bordered
-            - @client_enrollment_tracking.tracking.fields.map{|field| [field['type'], field['label']]}.each do |type, key|
+            - @client_enrollment_tracking.tracking.fields.map{|field| [field['type'], field['label'], switch_label_property(field)]}.each do |type, label, key|
               - unless type == 'separateLine'
                 - if type == 'paragraph'
                   %tr
                     %td.align-justify{colspan: '2'}
-                      = key.html_safe
+                      = label.html_safe
                 - else
                   %tr
                     %td.align-justify
-                      = key.html_safe
+                      = label.html_safe
                     %td.align-justify
                       - key = convert_bracket(key, @client_enrollment_tracking.properties)
                       - if type == 'file'

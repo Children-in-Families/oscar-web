@@ -1,0 +1,56 @@
+<div id="home-index">
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation">
+      <a aria-controls="client-tab" href="<%= dashboards_path %>" role="tab"><%= t('dashboards.index.client_dashboard') %></a>
+    </li>
+
+    <li role="presentation">
+      <a aria-controls="client-tab" href="<%= dashboards_path(tab: :family) %>" role="tab"><%= t('dashboards.index.family_dashboard') %></a>
+    </li>
+    
+    <li class="active" role="presentation">
+      <a aria-controls="client-tab" data-toggle="tab" href="#finance-tab" role="tab">Finance Dashboard</a>
+    </li>
+  </ul>
+</div>
+
+<div class="tab-content">
+  <div class="tab-pane active" id="finance-tab">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="ibox float-e-margins">
+          <div class="ibox-content">
+            <div class="archived-client-tabls responsive-table clients-table">
+              <table class="table table-bordered table-striped table-hover clients clients">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th># of billable clients</th>
+                    <th># of billable families</th>
+                    <th>Export</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <% @reports.each do |report| %>
+                    <tr>
+                      <td><%= report.date.strftime('%B %Y') %></td>
+                      <td><%= report.billable_report_items.client.where.not(billable_at: nil).size %></td>
+                      <td><%= report.billable_report_items.family.where.not(billable_at: nil).size %></td>
+                      <td>
+                        <% if report.date.end_of_month.to_date < Date.current %>
+                          <%= link_to 'Download', finance_report_path(report, format: :xls), class: 'btn btn-primary' %>
+                        <% end %>
+                      </td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

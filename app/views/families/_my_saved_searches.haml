@@ -1,0 +1,22 @@
+#my-saved-searches.tab-pane.fade.in.active
+  .table-responsive
+    %table.table.table-bordered.table-striped.table-hover
+      %thead
+        %tr
+          %th.name= t('clients.client_advanced_searches.my_saved_searches.name')
+          %th.description= t('clients.client_advanced_searches.my_saved_searches.description')
+          %th.date.text-center= t('clients.client_advanced_searches.my_saved_searches.date')
+          %th.load-query.text-center= t('clients.client_advanced_searches.my_saved_searches.load')
+          %th.action.text-center= t('clients.client_advanced_searches.my_saved_searches.action')
+      %tbody
+        - current_user.advanced_searches.for_family.each do |advanced_search|
+          %tr
+            %td.name= advanced_search.name
+            %td.description= advanced_search.description
+            %td.date.text-center= date_format(advanced_search.created_at)
+            %td.load-query.text-center
+              = prevent_load_saved_searches(advanced_search)
+            %td.query-action.text-center
+              = prevent_edit_load_saved_searches(advanced_search)
+              = link_to advanced_search_save_query_path(advanced_search), method: :delete, data: { confirm: t('are_you_sure') }, class: 'btn btn-outline btn-danger btn-xs' do
+                = fa_icon('trash')

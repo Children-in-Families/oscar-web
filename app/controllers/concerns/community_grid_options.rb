@@ -248,7 +248,7 @@ module CommunityGridOptions
           basic_rules = $param_rules['basic_rules']
           basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
           results = mapping_assessment_query_rules(basic_rules).reject(&:blank?)
-          query_string = get_assessment_query_string(results, 'assessment_completed_date', '', client.id, basic_rules)
+          query_string = get_assessment_query_string("community_id", results, 'assessment_completed_date', '', client.id, basic_rules)
           assessments = client.assessments.defaults.completed.where(query_string)
         else
           assessments = client.assessments.defaults.completed

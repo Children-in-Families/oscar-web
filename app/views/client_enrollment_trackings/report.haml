@@ -27,16 +27,16 @@
                   .ibox-content
                     .table-responsive
                       %table.table.table-bordered
-                        - tracking_report(enrollment_tracking).map{|field| [field['type'], field['label']]}.each do |type, key|
+                        - tracking_report(enrollment_tracking).map { |field| [field['type'], field['label'], switch_label_property(field)] }.each do |type, label, key|
                           - unless type == 'separateLine'
                             - if type == 'paragraph'
                               %tr
                                 %td.align-justify{colspan: '2'}
-                                  = key.html_safe
+                                  = label.html_safe
                             - else
                               %tr
                                 %td.align-justify
-                                  = key.html_safe
+                                  = label.html_safe
                                 %td.align-justify
                                   - if type == 'file'
                                     = render 'shared/form_builder/list_attachment', label: key, resource: enrollment_tracking

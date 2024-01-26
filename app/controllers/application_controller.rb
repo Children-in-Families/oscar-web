@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :null_session, except: :index, if: proc { |c| c.request.format == 'application/json' }
   before_action :store_user_location!, if: :storable_location?
   before_action :configure_permitted_parameters, if: :devise_controller?
-  before_action :find_association, if: :devise_controller?
+  before_action :find_association, if: :registration?
   before_action :set_locale, :override_translation
   before_action :set_paper_trail_whodunnit, :current_setting
   before_action :prevent_routes
@@ -17,10 +17,10 @@ class ApplicationController < ActionController::Base
   end
 
   helper_method :current_organization, :current_setting
-  helper_method :field_settings
+  helper_method :field_settings, :cache_keys_base
 
   rescue_from CanCan::AccessDenied do |exception|
-    if exception.subject.inspect.include?("Client") && (exception.action).to_s.include?("show")
+    if exception.subject.inspect.include?('Client') && (exception.action).to_s.include?('show')
       flash[:notice] = t('unauthorized.case_worker_unauthorized')
     else
       flash[:alert] = t('unauthorized.default')
@@ -37,11 +37,11 @@ class ApplicationController < ActionController::Base
   end
 
   def current_organization
-    Organization.current
+    @current_organization ||= Organization.current
   end
 
   def current_setting
-    @current_setting = Setting.cache_first
+    @current_setting ||= Setting.cache_first
   end
 
   def field_settings
@@ -53,7 +53,25 @@ class ApplicationController < ActionController::Base
     UserContext.new(current_user, field_settings)
   end
 
+  def cache_keys_base
+    [current_organization, I18n.locale]
+  end
+
   protected
+
+  def override_translation
+    return if I18n::Backend::Custom::ReloadChecker.last_reload_at > (FieldSetting.maximum(:updated_at) || Time.now)
+
+    I18n.backend.reload!
+  rescue ArgumentError => e
+    # Caused by FieldSetting zero
+    # Ignore
+    Rails.logger.error e.message
+  end
+
+  def registration?
+    controller_name == 'registrations'
+  end
 
   def address_translation
     @address_translation = view_context.address_translation('client')
@@ -86,15 +104,11 @@ class ApplicationController < ActionController::Base
 
   def find_association
     @department = Department.order(:name)
-    @province   = Province.cached_order_name
-  end
-
-  def override_translation
-    I18n.backend.reload! if request.get? && request.format.html?
+    @province = Province.cached_order_name
   end
 
   def default_url_options(options = {})
-    country = Setting.cache_first.try(:country_name) || params[:country] || 'cambodia'
+    country = Setting.cache_first.try(:country_name) || current_organization.country || params[:country] || 'cambodia'
     local = params[:locale] if params[:locale] && I18n.available_locales.include?(params[:locale].to_sym)
     { locale: local || I18n.locale, country: country }.merge(options)
   end
@@ -120,9 +134,9 @@ class ApplicationController < ActionController::Base
   end
 
   def prevent_routes
-    if current_setting.try(:enable_hotline) == false && params[:controller] == "calls"
+    if current_setting.try(:enable_hotline) == false && params[:controller] == 'calls'
       redirect_to root_path, notice: t('unauthorized.you_cannot_access_this_page')
-    elsif current_setting.try(:enable_client_form) == false && params[:controller] == "clients"
+    elsif current_setting.try(:enable_client_form) == false && params[:controller] == 'clients'
       redirect_to root_path, notice: t('unauthorized.you_cannot_access_this_page')
     end
   end
@@ -136,5 +150,13 @@ class ApplicationController < ActionController::Base
     else
       Raven.user_context(ip: request.ip)
     end
+  end
+
+  def save_draft?
+    request.format.json? && params[:draft].present?
+  end
+
+  def searched_client_ids
+    @searched_client_ids ||= Rails.cache.read(params[:cache_key]) if params[:cache_key]
   end
 end

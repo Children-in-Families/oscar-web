@@ -1,16 +1,17 @@
-.modal.fade#warning-program{"aria-labelledby" => "gridSystemModalLabel", role: "dialog", tabindex: "-1"}
-  .modal-dialog{role: "document"}
-    .modal-content
-      .modal-header.bg-warning
-        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", type: "button"}
-          %span{"aria-hidden" => "true"} ×
-        %h4#gridSystemModalLabel.modal-title=t('warning')
-      = simple_form_for(current_user, url: '/users', html: {class: 'program-warning-form'}) do |f|
-        .modal-body
-          %p Program Stream feature affects the way that your organization manages clients, M&E and reporting. Please ensure you are the appropriate representative of your organization, and that you have received training, before using this tool.
-          %p កម្មវិធីបន្ទាប់បន្សំមានផលប៉ះពាល់ទៅលើការគ្រប់គ្រងអតិថិជនរបស់អង្គការអ្នក M & E និង របាយការណ៍។ សូមប្រាកដថាអ្នកគឺជាតំណាងត្រឹមត្រូវនៃអង្គការរបស់អ្នកហើយថាអ្នកបានទទួលការបណ្តុះបណ្តាលមុនពេលប្រើឧបករណ៍នេះ។
-          .form-inputs
-            = f.input :program_warning, label: "Don’t show this warning again / មិនបង្ហាញបម្រាមនេះទៀតទេ", input_html: { class: 'i-checks' }
-        .modal-footer
-          = f.button :submit, t('ok'), class: 'btn btn-danger'
-          %button.btn.btn-default{"data-dismiss" => 'modal'}= t('back')
+- cache cache_keys_base + [current_user] do
+  .modal.fade#warning-program{"aria-labelledby" => "gridSystemModalLabel", role: "dialog", tabindex: "-1"}
+    .modal-dialog{role: "document"}
+      .modal-content
+        .modal-header.bg-warning
+          %button.close{"aria-label" => "Close", "data-dismiss" => "modal", type: "button"}
+            %span{"aria-hidden" => "true"} ×
+          %h4#gridSystemModalLabel.modal-title=t('warning')
+        = simple_form_for(current_user, url: '/users', html: {class: 'program-warning-form'}) do |f|
+          .modal-body
+            %p Program Stream feature affects the way that your organization manages clients, M&E and reporting. Please ensure you are the appropriate representative of your organization, and that you have received training, before using this tool.
+            %p កម្មវិធីបន្ទាប់បន្សំមានផលប៉ះពាល់ទៅលើការគ្រប់គ្រងអតិថិជនរបស់អង្គការអ្នក M & E និង របាយការណ៍។ សូមប្រាកដថាអ្នកគឺជាតំណាងត្រឹមត្រូវនៃអង្គការរបស់អ្នកហើយថាអ្នកបានទទួលការបណ្តុះបណ្តាលមុនពេលប្រើឧបករណ៍នេះ។
+            .form-inputs
+              = f.input :program_warning, label: "Don’t show this warning again / មិនបង្ហាញបម្រាមនេះទៀតទេ", input_html: { class: 'i-checks' }
+          .modal-footer
+            = f.button :submit, t('ok'), class: 'btn btn-danger'
+            %button.btn.btn-default{"data-dismiss" => 'modal'}= t('back')

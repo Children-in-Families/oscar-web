@@ -22,6 +22,18 @@ module HashDeepTraverse
 end
 
 module I18n::Backend::Custom
+  class ReloadChecker
+    @@last_reload_at = nil
+
+    def self.last_reload_at
+      @@last_reload_at
+    end
+
+    def self.update_last_reload_at
+      @@last_reload_at = Time.current
+    end
+  end
+
   def load_translations(*filenames)
     filenames = I18n.load_path if filenames.empty?
     filenames.flatten.each { |filename| load_file(filename) }
@@ -31,10 +43,12 @@ module I18n::Backend::Custom
       end
       load_custom_labels if Organization.cache_table_exists? 'field_settings'
     end
+
+    ReloadChecker.update_last_reload_at
   end
 
   def load_custom_labels
-    FieldSetting.cache_all.each do |field_setting|
+    FieldSetting.find_each do |field_setting|
       data = translations[I18n.locale]
       data.extend(HashDeepTraverse)
       next if field_setting.current_label.blank?

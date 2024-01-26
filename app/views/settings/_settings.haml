@@ -14,15 +14,6 @@
       .col-xs-12
         = f.input :disable_required_fields, input_html: { class: 'i-checks' }
 
-#care-plan-setting.panel.panel-default{ class: !f.object.disable_required_fields && 'hidden' }
-  .panel-heading
-    %h3= t('.previous_care_plan', care_plan: t('clients.care_plan'))
-  .panel-body
-    .row
-    .i-checks.integration
-      %label= t('.use_previous_care_plan', care_plan: t('clients.care_plan'))
-      = f.input :use_previous_care_plan, as: :radio_buttons, collection: [[I18n.t('settings.client_forms.yes'), true],[I18n.t('settings.client_forms.no'), false]], label: false
-
 .panel.panel-default
   .panel-heading
     %h3= t('.delete_incomplete_assessment')

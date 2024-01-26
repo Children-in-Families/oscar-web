@@ -5,8 +5,8 @@ module LeaveProgramsConcern
       properties_params.each do |k, v|
         mappings[k] = k.gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;').gsub('%22', '"')
       end
-      formatted_params = properties_params.map {|k, v| [mappings[k], v] }.to_h
-      formatted_params.values.map{ |v| v.delete('') if (v.is_a?Array) && v.size > 1 }
+      formatted_params = properties_params.map { |k, v| [mappings[k], v] }.to_h
+      formatted_params.values.map { |v| v.delete('') if (v.is_a? Array) && v.size > 1 }
     end
 
     default_params = params.require(:leave_program).permit(:exit_date).merge!(program_stream_id: params[:program_stream_id])
@@ -27,7 +27,7 @@ module LeaveProgramsConcern
 
   def find_enrollment
     client_enrollment_id = params[:client_enrollment_id] || params[:client_enrolled_program_id]
-    enrollment_id        = params[:enrollment_id] || params[:enrolled_program_id]
+    enrollment_id = params[:enrollment_id] || params[:enrolled_program_id]
     if client_enrollment_id
       @enrollment = @entity.client_enrollments.find client_enrollment_id
     elsif enrollment_id
@@ -44,7 +44,7 @@ module LeaveProgramsConcern
   end
 
   def initial_attachments
-    @leave_program = @enrollment.build_leave_program
+    @leave_program = @enrollment.leave_program || @enrollment.build_leave_program
     @attachments = @leave_program.form_builder_attachments
   end
 

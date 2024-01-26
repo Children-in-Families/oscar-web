@@ -14,9 +14,7 @@ class UserNotification
     @partner_custom_field                            = @user.partner_custom_field_frequency_overdue_or_due_today
     @family_custom_field                             = @user.family_custom_field_frequency_overdue_or_due_today
     @client_forms_overdue_or_due_today               = @user.client_forms_overdue_or_due_today
-    @case_notes_overdue_and_due_today                = @user.case_note_overdue_and_due_today
-    @unsaved_referrals                               = get_referrals('new_referral')
-    @repeat_referrals                                = get_referrals('existing_client')
+    @case_notes_overdue_and_due_today                = @user.case_notes_due_today_and_overdue
     @unsaved_family_referrals                        = get_family_referrals('new_referral')
     @repeat_family_referrals                         = get_family_referrals('existing_family')
     @upcoming_csi_assessments_count                  = 0
@@ -29,15 +27,13 @@ class UserNotification
     client_ids = []
     custom_client_ids = []
     clients = active_young_clients(@clients)
-    if @user.deactivated_at.present? && clients.any?
-      clients = clients.where('clients.created_at > ?', @user.activated_at)
-    end
+    clients = clients.where('clients.created_at > ?', @user.activated_at) if @user.deactivated_at.present? && clients.any?
 
     default_clients = clients_have_recent_default_assessments(clients)
     custom_assessment_clients = clients_have_recent_custom_assessments(clients)
 
-    upcoming_csi_assessments_count = default_clients.count
-    upcoming_custom_csi_assessments_count = custom_assessment_clients.count
+    # upcoming_csi_assessments_count = default_clients.count
+    # upcoming_custom_csi_assessments_count = custom_assessment_clients.count
 
     { clients: default_clients, custom_clients: custom_assessment_clients }
   end
@@ -66,7 +62,7 @@ class UserNotification
       client_ids = client_ids & @clients.ids
       clients = Client.active_accepted_status.where(id: client_ids)
 
-      clients_after_filter = AdvancedSearches::ClientAdvancedSearch.new(rules, clients).filter
+      clients_after_filter, _query = AdvancedSearches::ClientAdvancedSearch.new(rules, clients).filter
 
       if clients_after_filter.any?
         clients_change = clients.where.not(id: clients_after_filter.ids).ids
@@ -95,7 +91,7 @@ class UserNotification
   end
 
   def overdue_assessments_count
-    @assessments[:overdue_count]
+    @assessments[:overdue_count] || 0
   end
 
   def any_overdue_assessments?
@@ -103,7 +99,7 @@ class UserNotification
   end
 
   def due_today_assessments_count
-    @assessments[:due_today_count]
+    @assessments[:due_today]&.size || 0
   end
 
   def any_due_today_assessments?
@@ -111,7 +107,7 @@ class UserNotification
   end
 
   def overdue_custom_assessments_count
-    @assessments[:custom_overdue_count]
+    @assessments[:custom_overdue_count] || 0
   end
 
   def any_overdue_custom_assessments?
@@ -119,7 +115,7 @@ class UserNotification
   end
 
   def due_today_custom_assessments_count
-    @assessments[:custom_due_today_count]
+    @assessments[:custom_due_today]&.size || 0
   end
 
   def any_due_today_custom_assessments?
@@ -247,11 +243,11 @@ class UserNotification
   end
 
   def unsaved_referrals
-    @unsaved_referrals
+    get_referrals[1]
   end
 
   def unsaved_referrals_count
-    @unsaved_referrals.count
+    unsaved_referrals.count
   end
 
   def any_unsaved_referrals?
@@ -259,11 +255,11 @@ class UserNotification
   end
 
   def repeat_referrals
-    @repeat_referrals
+    get_referrals[0]
   end
 
   def repeat_referrals_count
-    @repeat_referrals.count
+    repeat_referrals.count
   end
 
   def any_repeat_referrals?
@@ -334,28 +330,29 @@ class UserNotification
     ProgramStream.where(id: program_ids).where.not(rules: '{}')
   end
 
-  def get_referrals(referral_type)
-    existing_client_referrals = []
-    new_client_referrals = []
+  def get_referrals
+    return @get_referrals if @get_referrals.present?
 
-    if @user.deactivated_at.nil?
-      referrals = Referral.received.unsaved
-    else
-      referrals = Referral.received.unsaved.where('created_at > ?', @user.activated_at)
-    end
+    referrals = Referral.received.unsaved
+    referrals = referrals.where('created_at > ?', @user.activated_at) if @user.deactivated_at?
+    slugs = referrals.pluck(:slug).select(&:present?).uniq
+    clients = Client.where("slug IN (:slugs) OR archived_slug IN (:slugs)", slugs: slugs)
+
+    existinngs = []
+    news = []
 
     referrals.each do |referral|
-      referral_slug = referral.slug
-      client = Client.find_by(slug: referral_slug) || Client.find_by(archived_slug: referral_slug)
+      client = clients.find { |c| c.slug == referral.slug || c.archived_slug == referral.slug }
+
       if client.present?
-        existing_client_referrals << referral
+        existinngs << referral
         referral.update_column(:client_id, client.id) unless referral.client_id
       else
-        new_client_referrals << referral
+        news << referral
       end
     end
 
-    referral_type == 'new_referral' ? new_client_referrals : existing_client_referrals
+    @get_referrals = [existinngs, news]
   end
 
   def get_family_referrals(referral_type)

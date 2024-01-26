@@ -32,7 +32,7 @@ module Api
         private
 
         def task_params
-          params.require(:task).permit(:domain_id, :name, :completion_date, :remind_at)
+          params.require(:task).permit(:domain_id, :name, :completion_date, :expected_date, :remind_at)
         end
 
         def find_task

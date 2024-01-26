@@ -5,8 +5,11 @@
         %h5= t('.overdue_tasks')
   .panel-body
     - overdue_assessments = @notification.assessments[:overdue_assessment]
-    - @clients.each do |client, overdue_forms|
+    / Tweak to fix N+1
+    - clients = Client.where(id: @clients.map{ |c| c[0].id }).includes(:default_most_recents_assessments, :custom_assessments, :users).to_a
+    - @clients.each do |c, overdue_forms|
       - overdue_tasks = overdue_forms[:overdue_tasks]
+      - client = clients.detect { |client| client.id == c.id }
       - if overdue_tasks.present? || overdue_forms[:overdue_forms].present? || overdue_forms[:overdue_trackings].present? || (overdue_assessments.present? && overdue_assessments.to_h[client.id].present? && params[:assessments] == 'true')
         .ibox.border-left-right.border-bottom
           .ibox-title
@@ -54,7 +57,7 @@
                       %td.col-xs-6.task-name.border-left-right= tracking.name
                       %td.col-xs-3= date_format(next_client_enrollment_tracking_date)
 
-      - if @setting.enable_custom_assessment? && @assessment_params && client.user_ids.include?(@user.id) && client.assessments.customs.present?
+      - if @setting.enable_custom_assessment? && @assessment_params && client.custom_assessments.to_a.any?
         - custom_assessment_setting_ids = client.assessments.customs.map{|ca| ca.domains.pluck(:custom_assessment_setting_id ) }.flatten.uniq
         - next if client.tasks.overdue_incomplete.blank? && custom_assessment_setting_ids.blank?
         .ibox.border-left-right.border-bottom

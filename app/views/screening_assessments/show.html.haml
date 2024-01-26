@@ -21,8 +21,9 @@
             .pull-right
               = link_to edit_client_screening_assessment_path(@client, @screening_assessment), class: 'btn btn-outline btn-success' do
                 = fa_icon('pencil')
-              = link_to client_screening_assessment_path(@client, @screening_assessment), class: 'btn btn-outline btn-danger', method: 'delete', data: { confirm: t('are_you_sure') } do
-                = fa_icon('trash')
+              - if can?(:destroy, @screening_assessment)
+                = link_to client_screening_assessment_path(@client, @screening_assessment), class: 'btn btn-outline btn-danger', method: 'delete', data: { confirm: t('are_you_sure') } do
+                  = fa_icon('trash')
         .row
           .col-xs-12
             %table.table.small.m-b-xs#main-info

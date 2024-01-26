@@ -5,6 +5,7 @@ module AdvancedSearches
     include AssessmentHelper
     include FormBuilderHelper
     include ClientsHelper
+
     def initialize(clients, field, operator, values)
       @clients      = clients
       @field        = field
@@ -14,6 +15,7 @@ module AdvancedSearches
 
     def get_sql
       sql_string = 'clients.id IN (?)'
+
       case @field
       when 'user_id'
         values = user_id_field_query
@@ -44,6 +46,8 @@ module AdvancedSearches
         values = @clients.where.not(id: values).ids
       when 'case_note_type'
         values = advanced_case_note_query
+      when 'assessment_created_at'
+        values = assessment_created_at_query(true)
       when 'date_of_assessments'
         values = date_of_assessments_query(true)
       when /assessment_completed|assessment_completed_date|^(completed_date)/
@@ -52,7 +56,9 @@ module AdvancedSearches
         values = search_custom_assessment
       when 'custom_completed_date'
         values = date_of_completed_assessments_query(false)
-      when 'custom_assessment_created_date'
+      when 'custom_assessment_created_at'
+        values = assessment_created_at_query(false)
+      when 'date_of_custom_assessments'
         values = date_of_assessments_query(false)
       when 'accepted_date'
         values = enter_ngo_accepted_date_query
@@ -118,6 +124,8 @@ module AdvancedSearches
         values = care_plan_counter
       when 'care_plan_completed_date'
         values = date_query(Client, @clients, :care_plans, 'care_plans.created_at')
+      when 'care_plan_date'
+        values = date_query(Client, @clients, :care_plans, 'care_plans.care_plan_date')
       when 'number_client_referred_gatekeeping'
         values = number_client_referred_gatekeeping_query
       when 'number_client_billable'
@@ -294,7 +302,7 @@ module AdvancedSearches
       exit_ngos = ExitNgo.attached_with_clients
       case @operator
       when 'equal'
-        client_id  = exit_ngos.find_by("lower(#{field}) = ?", @value.downcase.squish).try(:client_id)
+        client_id  = exit_ngos.find_by("lower(#{field}) = ?", @value.downcase.squish)&.client_id
         client_ids = Array(client_id)
       when 'not_equal'
         client_ids = exit_ngos.where.not("lower(#{field}) = ?", @value.downcase.squish).pluck(:client_id)
@@ -365,7 +373,7 @@ module AdvancedSearches
       clients.ids
     end
 
-    def date_of_assessments_query(type)
+    def assessment_created_at_query(type)
       custom_assessment_setting_id = find_custom_assessment_setting_id(type)
       if custom_assessment_setting_id
         clients = @clients.joins(:assessments).where(assessments: { default: type, custom_assessment_setting_id: custom_assessment_setting_id })
@@ -391,6 +399,36 @@ module AdvancedSearches
         clients = @clients.includes(:assessments).where(assessments: { created_at: nil , default: type})
       when 'is_not_empty'
         clients = clients.where(assessments: { default: type }).where.not(assessments: { created_at: nil })
+      end
+      clients.ids
+    end
+
+    def date_of_assessments_query(type)
+      custom_assessment_setting_id = find_custom_assessment_setting_id(type)
+      if custom_assessment_setting_id
+        clients = @clients.joins(:assessments).where(assessments: { default: type, custom_assessment_setting_id: custom_assessment_setting_id })
+      else
+        clients = @clients.joins(:assessments).where(assessments: { default: type })
+      end
+      case @operator
+      when 'equal'
+        clients = clients.where('date(assessments.assessment_date) = ?', @value.to_date)
+      when 'not_equal'
+        clients = clients.where("date(assessments.assessment_date) != ? OR assessments.assessment_date IS NULL", @value.to_date)
+      when 'less'
+        clients = clients.where('date(assessments.assessment_date) < ?', @value.to_date)
+      when 'less_or_equal'
+        clients = clients.where('date(assessments.assessment_date) <= ?', @value.to_date)
+      when 'greater'
+        clients = clients.where('date(assessments.assessment_date) > ?', @value.to_date)
+      when 'greater_or_equal'
+        clients = clients.where('date(assessments.assessment_date) >= ?', @value.to_date)
+      when 'between'
+        clients = clients.where('date(assessments.assessment_date) BETWEEN ? AND ? ', @value[0].to_date, @value[1].to_date)
+      when 'is_empty'
+        clients = @clients.includes(:assessments).where(assessments: { assessment_date: nil , default: type})
+      when 'is_not_empty'
+        clients = clients.where(assessments: { default: type }).where.not(assessments: { assessment_date: nil })
       end
       clients.ids
     end
@@ -429,9 +467,11 @@ module AdvancedSearches
     def find_custom_assessment_setting_id(type)
       custom_assessment_setting_id = nil
       if !type && $param_rules['basic_rules'].present?
-        custom_assessment_setting_rule = JSON.parse($param_rules['basic_rules'])['rules'].select{|rule| rule['id'] == 'custom_assessment' }.try(:first)
+        basic_rules = $param_rules['basic_rules'].is_a?(Hash) ? $param_rules['basic_rules'] : JSON.parse($param_rules['basic_rules']).with_indifferent_access
+        custom_assessment_setting_rule = basic_rules.select { |rule| rule['id'] == 'custom_assessment' }.first
         custom_assessment_setting_id = custom_assessment_setting_rule['value'] if custom_assessment_setting_rule
       end
+
       custom_assessment_setting_id
     end
 
@@ -738,6 +778,39 @@ module AdvancedSearches
         client_ids = @clients.includes(:assessments).group('clients.id, assessments.id, assessments.custom_assessment_setting_id').having("COUNT(assessments.custom_assessment_setting_id) = 0").distinct.ids
       when 'is_not_empty'
         client_ids = @clients.includes(:assessments).group('clients.id, assessments.id, assessments.custom_assessment_setting_id').having("COUNT(assessments.custom_assessment_setting_id) > 0").distinct.ids
+      end
+    end
+
+    def ratanak_achievement_program_staff_field_query
+      clients = @clients.joins(:ratanak_achievement_program_staff_clients)
+      ids = clients.distinct.ids
+      case @operator
+      when 'equal'
+        client_ids = clients.where('achievement_program_staff_clients.user_id = ?', @value).distinct.ids
+        client_ids & ids
+      when 'not_equal'
+        @clients.includes(:achievement_program_staff_clients).where('achievement_program_staff_clients.user_id != ? OR achievement_program_staff_clients.user_id IS NULL', @value).distinct.ids
+      when 'is_empty'
+        @clients.where.not(id: ids).ids
+      when 'is_not_empty'
+        @clients.where(id: ids).ids
+      end
+    end
+
+    def mo_savy_officials_field_query
+      clients = @clients.joins(:mo_savy_officials)
+      ids = clients.distinct.ids
+
+      case @operator
+      when 'equal'
+        client_ids = clients.where('mo_savy_officials.id = ?', @value).distinct.ids
+        client_ids & ids
+      when 'not_equal'
+        @clients.includes(:mo_savy_officials).where('mo_savy_officials.id != ? OR mo_savy_officials.id IS NULL', @value).distinct.ids
+      when 'is_empty'
+        @clients.where.not(id: ids).ids
+      when 'is_not_empty'
+        @clients.where(id: ids).ids
       end
     end
 
@@ -1209,37 +1282,35 @@ module AdvancedSearches
       clients = client_ids
     end
 
-    def active_client_program_between(start_date, end_date, clientIds)
-      enrollments = ClientEnrollment.where(:client_id => clientIds)
+    def active_client_program_between(start_date, end_date, client_ids)
+      enrollments = ClientEnrollment.where(client_id: client_ids)
       client_ids = []
       enrollments.each do |enrollment|
         enrollment_date = enrollment.enrollment_date
 
         if enrollment.leave_program.present?
           exit_date = enrollment.leave_program.exit_date
-          if enrollment_date < start_date || enrollment_date.between?(start_date, end_date)
-            client_ids << enrollment.client_id if exit_date.between?(start_date, end_date) || exit_date > end_date
-          end
-        else
-          client_ids << enrollment.client_id if enrollment_date.between?(start_date, end_date) || enrollment_date < start_date
+          client_ids << enrollment.client_id if (enrollment_date <= start_date || enrollment_date.between?(start_date, end_date)) && (exit_date.between?(start_date, end_date) || exit_date >= end_date)
+        elsif enrollment_date.between?(start_date, end_date) || enrollment_date <= start_date
+          client_ids << enrollment.client_id
         end
       end
       client_ids
     end
 
     def active_client_program_query
-      clientIds = []
+      client_ids = []
       JSON.parse($param_rules[:program_selected]).each do |program|
-        tmpClientIds = @clients.joins(:client_enrollments).where(:client_enrollments => {:status => 'Active', :program_stream_id => program}).ids
-        if clientIds.empty?
-          clientIds = tmpClientIds
+        tmp_client_ids = @clients.joins(:client_enrollments).where(client_enrollments: { status: 'Active', program_stream_id: program }).ids
+        if client_ids.empty?
+          client_ids = tmp_client_ids
         else
-          clientIds = clientIds & tmpClientIds
+          client_ids += tmp_client_ids
         end
       end
 
       condition = ''
-      start_date = @value.kind_of?(Array) ? @value[0].to_date : @value.to_date
+      start_date = @value.is_a?(Array) ? @value[0].to_date : @value.to_date
 
       case @operator
       when 'equal'
@@ -1247,7 +1318,7 @@ module AdvancedSearches
       when 'not_equal'
         condition = "date(client_enrollments.enrollment_date) != '#{start_date}'"
       when 'between'
-        condition = "date(client_enrollments.enrollment_date) <= '#{@value[1].to_date}'"
+        condition = "date(client_enrollments.enrollment_date) BETWEEN '#{@value[0].to_date}' AND '#{@value[1].to_date}'"
       when 'less'
         condition = "date(client_enrollments.enrollment_date) < '#{start_date}'"
       when 'less_or_equal'
@@ -1262,19 +1333,18 @@ module AdvancedSearches
         condition = "client_enrollments.enrollment_date IS NOT NULL"
       end
 
-      enrollments = ClientEnrollment.where(:client_id => clientIds).where(condition)
+      enrollments = ClientEnrollment.where(client_id: client_ids).where(condition)
       client_ids = []
       enrollments.each do |enrollment|
-        if enrollment.leave_program.present? && start_date != nil
+        if enrollment.leave_program.present? && !start_date.nil?
           exit_date = enrollment.leave_program.exit_date
           client_ids << enrollment.client_id if exit_date >= start_date
         else
           client_ids << enrollment.client_id
         end
       end
-      client_ids
 
-      clients = client_ids.present? ? client_ids : []
+      client_ids.present? ? client_ids : []
     end
 
     def assessment_condition_last_two_query

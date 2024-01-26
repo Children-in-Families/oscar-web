@@ -1,5 +1,5 @@
 - if domain_note.object.class.to_s == 'CaseNote'
-  - case_note_domain_groups = domain_note.try(:object).case_note_domain_groups.where("attachments != '{}'")
+  - case_note_domain_groups = domain_note.object.case_note_domain_groups.where("attachments != '{}'")
 - else
   - case_note_domain_groups = domain_note.object.attachments
 

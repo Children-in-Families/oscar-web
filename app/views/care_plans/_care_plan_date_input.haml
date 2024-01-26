@@ -1,0 +1,3 @@
+.row
+  .col-xs-12.col-md-6.m-l-md
+    = f.input :care_plan_date, as: :string, label: t('care_plans.care_plan_date'), input_html: { value: f.object.care_plan_date || Date.today.to_s, class: 'date form-control date-picker' }

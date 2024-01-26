@@ -132,7 +132,7 @@ class CIF.AdvancedFilterBuilder
       rules = $("a[data-save-search-#{advancedSearchId}]").data("save-search-#{advancedSearchId}")
       $('button.client-advance-search').click()
       self.handleAddHotlineFilter()
-      $('.program-stream-column li.visibility, .hotline-call-column li.visibility').each ->
+      $('.program-stream-column li.visibility, .hotline-call-column li.visibility, .assessment-column li.visibility').each ->
         fieldCheckedBoxValue = $($(this).find('input')[0]).val()
         values = self.getSaveSearchFields(rules.rules)
         $($(this).find('input')[0]).iCheck('check') if values.includes(fieldCheckedBoxValue)

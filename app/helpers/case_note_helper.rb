@@ -43,6 +43,24 @@ module CaseNoteHelper
     end
   end
 
+  def new_draft_case_note_link(custom_assessment_name = nil)
+    if custom_assessment_name && case_notes_editable? && policy(@client).create?
+      link_to edit_client_case_note_path(@client, id: :draft, custom: true, custom_name: custom_assessment_name) do
+        custom_assessment_name
+      end
+    elsif custom_assessment_name.blank? && case_notes_editable? && (policy(@client).create? || policy(CaseNote).create?)
+      link_to edit_client_case_note_path(@client, id: :draft) do
+        @current_setting.default_assessment
+      end
+    else
+      link_to_if false, '' do
+        content_tag :a, class: 'disabled' do
+          custom_assessment_name
+        end
+      end
+    end
+  end
+
   def new_custom_link(custom_assessment_name, obj=@client)
     if case_notes_editable? && policy(obj).create?
       link_to new_polymorphic_path([obj, 'case_note'], custom: true, custom_name: custom_assessment_name) do

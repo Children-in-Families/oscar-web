@@ -3,6 +3,7 @@
   = hidden_field_tag :default, params[:default] if params[:default]
   = hidden_field_tag :from_controller, @from_controller
   = hidden_field_tag :custom_name, params[:custom_name] || @custom_assessment_setting.try(:custom_assessment_name)
+  = render 'assessment_date_input', f: f
   .row.assessment-domains
     .col-xs-12
       - if order_assessment(@assessment).blank?
@@ -20,16 +21,14 @@
                   %h5= "#{@assessment.family.name}"
                   - if current_setting.show_prev_assessment? && @prev_assessment.present?
                     %span= "(Current Assessment)"
-                  - if current_organization.try(:aht) == true
+                  - if current_organization.aht?
                     %label.label.label-success
                       = "#{domain.name} (#{domain.identity})"
                   - else
                     %label.label.label-success
                       = t('.domain')
                       = "#{domain.name} (#{domain.identity})"
-                  .ibox-tools
-                    = link_to family_assessments_path(@family), class: 'btn btn-default btn-back-default button' do
-                      = t('.back')
+
                 .ibox-content
                   = ad.hidden_field :domain_id
                   .well

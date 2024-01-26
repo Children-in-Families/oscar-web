@@ -32,6 +32,8 @@ class FileUploader < CarrierWave::Uploader::Base
   end
 
   def _filename
+    return unless path
+
     file_name = File.basename(path).split('.').first.titleize
     extention = File.basename(path).split('.').last
     "#{file_name}.#{extention}"

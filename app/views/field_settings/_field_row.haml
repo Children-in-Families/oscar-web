@@ -1,0 +1,37 @@
+.row
+  - if Organization.current.local_language.blank?
+    .col-md-4
+      = field.current_label
+      .text-muted= "(#{field.name})"
+      - if field.label_only?
+        %span= " (Label Only)"
+    .col-md-4
+      = f.input :label, label: false, required: true, wrapper_html: { class: "field_setting_#{field.id}_label" }, input_html: { id: "field_setting_#{field.id}_visible", name: "field_setting[#{field.id}][label]", value: begin field.label || t("clients.form.#{field.name}", raise: I18n::MissingTranslationData) rescue field.current_label end  }
+  - else
+    .col-md-3
+      = field.current_label
+      .text-muted= "(#{field.name})"
+      - if field.label_only?
+        %span= " (Label Only)"
+    .col-md-3
+      - Globalize.with_locale(:en) do
+        = f.input :label, label: false, required: true, wrapper_html: { class: "field_setting_#{field.id}_label" }, input_html: { id: "field_setting_#{field.id}_visible", name: "field_setting[#{field.id}][label]", value: begin field.label || t("clients.form.#{field.name}", raise: I18n::MissingTranslationData) rescue field.current_label end  }
+    .col-md-3
+      - Globalize.with_locale(Organization.current.local_language) do
+        = f.input :label, label: false, required: true, wrapper_html: { class: "field_setting_#{field.id}_label" }, input_html: { id: "field_setting_#{field.id}_visible", name: "field_setting[#{field.id}][local_label]", value: begin field.label || t("clients.form.#{field.name}", raise: I18n::MissingTranslationData) rescue field.current_label end  }
+
+
+  .col-md-1
+    - if field.required?
+      .i-checks-meta-fields{  data: { toggle: :tooltip }, title: 'Cannot hide required/label-only field' }
+        = f.input :visible, as: :boolean, wrapper_html: { class: "field_setting_#{field.id}_visible" }, input_html: { checked: field.visible?,  name: "field_setting[#{field.id}][visible]" }, label: false, disabled: true
+    - else
+      .i-checks-meta-fields
+        = f.input :visible, as: :boolean, wrapper_html: { class: "field_setting_#{field.id}_visible" }, input_html: { checked: field.visible?,  name: "field_setting[#{field.id}][visible]" }, label: false
+  .col-md-1
+    - if field.can_override_required?
+      .i-checks-meta-fields
+        = f.input :required, as: :boolean, wrapper_html: { class: "field_setting_#{field.id}_required" }, input_html: { checked: field.required?,  name: "field_setting[#{field.id}][required]" }, label: false
+    - elsif field.required?
+      .i-checks-meta-fields
+        = f.input :required, as: :boolean, wrapper_html: { class: "field_setting_#{field.id}_required" }, input_html: { checked: field.required?,  name: "field_setting[#{field.id}][required]" }, label: false, disabled: true

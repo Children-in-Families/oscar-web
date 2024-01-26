@@ -18,8 +18,7 @@
                       %span.caret
                     %ul.dropdown-menu#case-note-dropdown
                       - if @current_setting.enable_default_assessment
-                        %li
-                          = new_link
+                        %li= new_link
                       - if @custom_assessment_settings.present?
                         - @custom_assessment_settings.each do |cs|
                           - if cs.domains.any? && Domain.custom_csi_domain_setting(cs.id).present?
@@ -60,6 +59,8 @@
                   %h4
                     = t('shared.x_on', x: t('clients.form.case_note'))
                     = date_format(case_note.meeting_date) if case_note.meeting_date
+                    - if case_note.draft?
+                      %span.label.label-warning (draft)
                     = link_to '#', class: 'btn btn-warning printable-button', data: { printable_id: "printable-case-note-#{case_note.id}" } do
                       = fa_icon 'print'
                     - if (can? :edit?, CaseNote)
@@ -130,6 +131,21 @@
                                 = "#{index + 1}. "
                                 = task.name
                 %hr/
+              .row
+                .col-xs-12.col-md-6
+                  %h4= t('.cb_dmat_assessment_task')
+                  - @client.screening_assessments.each do |screening_assessment|
+                    - completed_tasks = screening_assessment.tasks.completed.where(case_note_id: case_note.id)
+                    - next unless completed_tasks.any?
+                    .panel.panel-default
+                      .panel-heading
+                        %h4= "#{t('.completed_tasks')}: #{screening_assessment.client_milestone_age}"
+                      .panel-body.no-padding
+                        %ul.list-group
+                          - completed_tasks.each_with_index do |task, index|
+                            %li.list-group-item
+                              = "#{index + 1}. "
+                              = task.name
 
               - risk_assessment = @client.risk_assessment
               - if current_setting.enabled_risk_assessment? && risk_assessment
@@ -148,18 +164,14 @@
                               = "#{index + 1}. "
                               = task.name
               .row
-                - file_names = case_note.case_note_domain_groups.pluck(:attachments).reject(&:blank?)
-                - case_note.case_note_domain_groups.each do |cdg|
-                  - next if cdg.attachments.blank?
-                  - attachment_names = cdg.attachments.map{|a| a.file.path.split('/').last }
-                  - next if file_names.exclude? attachment_names
-                  - file_names.delete(attachment_names)
+                - attachments = case_note.attachments.reject(&:blank?)
+                - if attachments.any?
                   .col-xs-12.col-sm-6
                     .panel.panel-default
                       .panel-heading
                         %h4= t('case_notes.index.attachments')
                       .panel-body
-                        = render 'attachment', cdg: cdg
+                        = render 'attachment', attachments: attachments
           %div{ id: "printable-case-note-#{case_note.id}" }
             = render 'shared/printable_case_note', case_note: case_note, today_tasks: today_tasks.flatten.compact
 

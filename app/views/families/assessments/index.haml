@@ -47,7 +47,7 @@
           .row.margin-row
             .col-xs-12.col-sm-8
               %h5
-                - if current_organization.try(:aht) == true
+                - if current_organization.aht?
                   = t('assessments.index.initial_assessment', assessment: t('families.family_assessment'))
                   %b
                     = date_format(Date.today)

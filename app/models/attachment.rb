@@ -8,6 +8,14 @@ class Attachment < ActiveRecord::Base
 
   validate :image_size_validation
 
+  protected
+
+  def _filename
+    file_name = File.basename(path).split('.').first.titleize
+    extention = File.basename(path).split('.').last
+    "#{file_name}.#{extention}"
+  end
+
   private
 
   def image_size_validation

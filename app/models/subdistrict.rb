@@ -3,6 +3,10 @@ class Subdistrict < ActiveRecord::Base
 
   belongs_to :district, touch: true
   has_many :clients, dependent: :restrict_with_error
+  has_many :referees, dependent: :restrict_with_error
+  has_many :carers, dependent: :restrict_with_error
+  has_many :families, dependent: :restrict_with_error
+  has_many :communities, dependent: :restrict_with_error
 
   validates :district, presence: true
   validates :name, presence: true, uniqueness: { case_sensitive: false, scope: [:district_id] }

@@ -1,7 +1,7 @@
 .row
   .col-xs-12.col-sm-6.col-md-8
     %h3= @client.en_and_local_name
-    %h3= "#{@client.gender.try(:capitalize)} #{date_format(@client.date_of_birth)}"
+    %h3= "#{@client.gender&.capitalize} #{date_format(@client.date_of_birth)}"
   .col-xs-12.col-sm-6.col-md-4
     %h3= "Client ID - #{@client.slug}"
     = f.association :users, collection: @users, label: t('.case_worker_or_staff'), include_blank: false, multiple: true, disabled: true, input_html: { id: 'custom_id', name: 'custom_name' }

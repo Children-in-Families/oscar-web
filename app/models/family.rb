@@ -5,9 +5,9 @@ class Family < ActiveRecord::Base
   include CsiConcern
 
   TYPES = ['Birth Family (Both Parents)', 'Birth Family (Only Mother)',
-    'Birth Family (Only Father)', 'Extended Family / Kinship Care',
-    'Short Term / Emergency Foster Care', 'Long Term Foster Care',
-    'Domestically Adopted', 'Child-Headed Household', 'No Family', 'Other']
+           'Birth Family (Only Father)', 'Extended Family / Kinship Care',
+           'Short Term / Emergency Foster Care', 'Long Term Foster Care',
+           'Domestically Adopted', 'Child-Headed Household', 'No Family', 'Other']
 
   STATUSES = ['Accepted', 'Exited', 'Active', 'Inactive', 'Referred'].freeze
   ID_POOR = ['No', 'Level 1', 'Level 2'].freeze
@@ -18,23 +18,28 @@ class Family < ActiveRecord::Base
   attr_accessor :case_management_record
 
   delegate :name, to: :province, prefix: true, allow_nil: true
+  delegate :name, to: :city, prefix: true, allow_nil: true
   delegate :name, to: :district, prefix: true, allow_nil: true
+  delegate :name, to: :subdistrict, prefix: true, allow_nil: true
 
   belongs_to :province, counter_cache: true
+  belongs_to :city
   belongs_to :district
+  belongs_to :subdistrict
   belongs_to :commune
   belongs_to :village
   belongs_to :user
   belongs_to :referral_source
+  belongs_to :referral_source_category, class_name: 'ReferralSource', foreign_key: 'referral_source_category_id'
 
-  belongs_to :received_by,      class_name: 'User',      foreign_key: 'received_by_id'
-  belongs_to :followed_up_by,   class_name: 'User',      foreign_key: 'followed_up_by_id'
+  belongs_to :received_by, class_name: 'User', foreign_key: 'received_by_id'
+  belongs_to :followed_up_by, class_name: 'User', foreign_key: 'followed_up_by_id'
 
   has_many :cases, dependent: :destroy
   has_many :clients, through: :cases
 
-  has_one  :community_member
-  has_one  :community, through: :community_member
+  has_one :community_member
+  has_one :community, through: :community_member
 
   has_many :donor_families, dependent: :destroy
   has_many :donors, through: :donor_families
@@ -44,7 +49,7 @@ class Family < ActiveRecord::Base
   has_many :family_quantitative_free_text_cases, dependent: :destroy
   has_many :family_quantitative_cases, dependent: :destroy
   has_many :quantitative_cases, through: :family_quantitative_cases
-  has_many :viewable_quantitative_cases, -> { joins(:quantitative_type).where('quantitative_types.visible_on LIKE ?', "%family%") }, through: :family_quantitative_cases, source: :quantitative_case
+  has_many :viewable_quantitative_cases, -> { joins(:quantitative_type).where('quantitative_types.visible_on LIKE ?', '%family%') }, through: :family_quantitative_cases, source: :quantitative_case
 
   has_many :custom_field_properties, as: :custom_formable, dependent: :destroy
   has_many :custom_fields, through: :custom_field_properties, as: :custom_formable
@@ -54,10 +59,10 @@ class Family < ActiveRecord::Base
   has_many :program_streams, through: :enrollments, as: :programmable
   has_many :family_members, dependent: :destroy
   has_many :family_referrals, dependent: :destroy
-  has_many :assessments,    dependent: :destroy
-  has_many :tasks,          dependent: :nullify
-  has_many :care_plans,     dependent: :destroy
-  has_many :case_notes,     dependent: :destroy
+  has_many :assessments, dependent: :destroy
+  has_many :tasks, dependent: :nullify
+  has_many :care_plans, dependent: :destroy
+  has_many :case_notes, dependent: :destroy
   has_many :goals, dependent: :destroy
 
   accepts_nested_attributes_for :tasks
@@ -90,10 +95,10 @@ class Family < ActiveRecord::Base
   end
 
   def self.unattache_to_other_communities(allowed_community_id = nil)
-    records = unscoped.joins("LEFT JOIN community_members ON families.id = community_members.family_id WHERE community_members.community_id IS NULL AND families.deleted_at IS NULL")
+    records = unscoped.joins('LEFT JOIN community_members ON families.id = community_members.family_id WHERE community_members.community_id IS NULL AND families.deleted_at IS NULL')
 
     if allowed_community_id.present?
-      records += joins(:community_member).where(community_members: { community_id: allowed_community_id})
+      records += joins(:community_member).where(community_members: { community_id: allowed_community_id })
     end
 
     records
@@ -110,7 +115,7 @@ class Family < ActiveRecord::Base
           male_adult_count: male_adult_count,
           female_adult_count: female_adult_count,
           male_children_count: male_children_count,
-          female_children_count: female_children_count,
+          female_children_count: female_children_count
         }
       }
     ]
@@ -198,6 +203,42 @@ class Family < ActiveRecord::Base
 
   def case_management_record?
     @case_management_record == true
+  end
+
+  def self.cached_family_assessment_custom_number_completed_date(object, sql, assessment_number)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Family', 'cached_family_assessment_custom_number_completed_date', object.id]) do
+      object.assessments.customs.where(sql).limit(1).offset(assessment_number - 1).order('completed_date')
+    end
+  end
+
+  def self.cached_family_sql_assessment_custom_completed_date(object, sql)
+    Rails.cache.fetch([Apartment::Tenant.current, 'Family', 'cached_family_sql_assessment_custom_completed_date', object.id]) do
+      object.assessments.customs.completed.where(sql).order('completed_date')
+    end
+  end
+
+  def self.cached_family_assessment_custom_order_completed_date(object)
+    Rails.cache.fetch([Apartment::Tenant.current, 'family', 'cached_family_assessment_custom_order_completed_date', object.id]) do
+      object.assessments.customs.order('completed_date')
+    end
+  end
+
+  def self.cached_family_assessment_number_completed_date(object, sql, assessment_number)
+    Rails.cache.fetch([Apartment::Tenant.current, 'family', 'cached_family_assessment_number_completed_date', object.id]) do
+      object.assessments.defaults.where(sql).limit(1).offset(assessment_number - 1).order('completed_date')
+    end
+  end
+
+  def self.cached_family_sql_assessment_completed_date(object, sql)
+    Rails.cache.fetch([Apartment::Tenant.current, 'family', 'cached_family_sql_assessment_completed_date', object.id]) do
+      object.assessments.defaults.completed.where(sql).order('completed_date')
+    end
+  end
+
+  def self.cached_family_assessment_order_completed_date(object)
+    Rails.cache.fetch([Apartment::Tenant.current, 'family', 'cached_family_assessment_order_completed_date', object.id]) do
+      object.assessments.defaults.order('completed_date')
+    end
   end
 
   private

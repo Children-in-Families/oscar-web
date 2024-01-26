@@ -1,5 +1,5 @@
+require 'sidekiq/web'
 Rails.application.routes.draw do
-
   root 'organizations#index'
   devise_for :users, controllers: { registrations: 'registrations', sessions: 'sessions', passwords: 'passwords' }
   use_doorkeeper do
@@ -12,12 +12,15 @@ Rails.application.routes.draw do
     match "/#{code}", to: 'errors#show', code: code, via: :all
   end
 
-  get '/dashboards'     => 'dashboards#index', as: 'dashboards'
+  get '/dashboards' => 'dashboards#index', as: 'dashboards'
   post '/program_stream_services' => 'dashboards#update_program_stream_service', as: 'program_stream_services'
-  get '/redirect'       => 'calendars#redirect', as: 'redirect'
-  get '/callback'       => 'calendars#callback', as: 'callback'
-  get '/calendar/sync'  => 'calendars#sync'
+  get '/redirect' => 'calendars#redirect', as: 'redirect'
+  get '/callback' => 'calendars#callback', as: 'callback'
+  get '/calendar/sync' => 'calendars#sync'
   get '/dashbaords/client_data_validation' => 'dashboards#client_data_validation'
+  get '/dashboards/notification' => 'dashboards#notification'
+  get '/dashboards/family_tab' => 'dashboards#family_tab'
+  get '/dashboards/side_menu_data' => 'dashboards#side_menu_data'
 
   resources :calendars
 
@@ -43,9 +46,13 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :release_notes, only: [:index]
+
   resources :quantitative_types do
     get 'version' => 'quantitative_types#version'
   end
+
+  resources :custom_data
 
   resources :quantitative_cases do
     get 'version' => 'quantitative_cases#version'
@@ -103,13 +110,25 @@ Rails.application.routes.draw do
   get 'clients/:client_id/book' => 'client_books#index', as: 'client_books'
 
   get 'referrals/:id' => 'referrals#show', as: 'referral'
+  delete 'referrals/:id' => 'referrals#destroy'
 
   resources :clients do
-    resources :referrals
+    member do
+      get :custom_fields
+      put :archive
+      put :restore
+    end
+
+    resources :referrals, except: [:destroy]
     resources :internal_referrals
+
     collection do
+      get :archived
+
       post '/advanced_search', to: 'clients#index'
-      get :advanced_search
+      post :load_client_table_summary
+      post :load_statistics_data
+      get :welcome
     end
 
     scope module: 'client' do
@@ -135,8 +154,17 @@ Rails.application.routes.draw do
 
     resources :custom_field_properties
     resources :government_forms
-    resources :assessments
-    resources :case_notes
+
+    resources :assessments do
+      member do
+        post :upload_attachment
+      end
+    end
+
+    resources :case_notes do
+      post :upload_attachment, on: :member
+    end
+
     resources :care_plans
     resources :cases do
       scope module: 'case' do
@@ -166,18 +194,26 @@ Rails.application.routes.draw do
   end
   resources :referees, only: [:index, :show]
 
+  namespace :family do
+    resources :assessments, only: [] do
+      post :index, on: :collection, as: :get_assessments
+    end
+  end
+
   resources :families do
+    get :welcome, on: :collection
+
     collection do
+      get :welcome
       post '/advanced_search', to: 'families#index'
     end
+
+    resources :family_referrals
+
     scope module: 'family' do
       resources :exit_ngos, only: [:create, :update]
       resources :enter_ngos, only: [:create, :update]
     end
-
-    scope module: 'client' do
-    end
-
     resources :family_referrals
     resources :custom_field_properties
     get 'version' => 'families#version'
@@ -206,6 +242,8 @@ Rails.application.routes.draw do
   end
 
   resources :communities do
+    get :welcome, on: :collection
+
     resources :custom_field_properties
     resources :enrollments do
       get :report, on: :collection
@@ -255,14 +293,19 @@ Rails.application.routes.draw do
     end
 
     mount_devise_token_auth_for 'User', at: '/v1/auth', skip: [:passwords], controllers: {
-      sessions:  'overrides/sessions'
-    }
+                                          sessions: 'overrides/sessions'
+                                        }
 
     mount_devise_token_auth_for 'AdminUser', at: 'v1/admin_auth'
 
     resources :form_builder_attachments, only: :destroy
 
     resources :provinces, only: :index do
+      resources :districts, only: :index
+      resources :cities, only: :index
+    end
+
+    resources :cities, only: [] do
       resources :districts, only: :index
     end
 
@@ -347,18 +390,29 @@ Rails.application.routes.draw do
           get 'clients/check_duplication' => 'organizations#check_duplication'
           get 'transactions/:tx_id' => 'organizations#transaction'
           put 'clients/update_links' => 'organizations#update_link'
+          put 'referrals/update_statuses' => 'organizations#update_referral_status'
         end
       end
 
+      put 'release_notes/:id/upload_attachments' => 'release_notes#upload_attachments'
+
       resources :domain_groups, only: [:index]
       resources :departments, only: [:index]
-      resources :families, only: [:index, :create, :update] do
+      resources :families, except: [:destroy] do
         resources :custom_field_properties, only: [:create, :update, :destroy]
+        get :listing, on: :collection
+        scope module: 'families' do
+          resources :exit_ngos, only: [:create, :update]
+          resources :enter_ngos, only: [:create, :update]
+        end
       end
       resources :users, only: [:index, :show]
       resources :clients, except: [:edit, :new] do
+        get :listing, on: :collection
         resources :assessments, only: [:create, :update, :destroy, :delete]
-        resources :case_notes, only: [:create, :update, :delete, :destroy]
+        resources :case_notes, only: [:show, :create, :update, :destroy, :delete_attachment] do
+          delete 'attachments/:file_index', action: :delete_attachment, on: :member
+        end
         resources :custom_field_properties, only: [:create, :update, :destroy]
 
         scope module: 'clients' do
@@ -374,6 +428,7 @@ Rails.application.routes.draw do
           resources :client_enrollment_trackings, only: [:create, :update, :destroy]
           resources :leave_programs, only: [:create, :update, :destroy]
         end
+        resources :care_plans
       end
 
       resources :program_streams, only: [:index]
@@ -398,6 +453,8 @@ Rails.application.routes.draw do
         get '/edit/referee', to: 'calls#edit_referee'
         put '/edit/referee', to: 'calls#update_referee'
       end
+
+      resources :referees, only: :index
     end
 
     resources :community_advanced_searches, only: [] do
@@ -439,19 +496,29 @@ Rails.application.routes.draw do
   resources :advanced_search_save_queries
   # resources :client_advanced_searches, only: :index
   resources :papertrail_queries, only: [:index]
+  resources :finance_reports, only: [:index, :show]
 
   resources :settings, except: [:destroy] do
     collection do
+      get :screening_forms
+      get :care_plan
       get 'default_columns' => 'settings#default_columns'
       get 'research_module' => 'settings#research_module'
+      get 'internal_referral_module' => 'settings#internal_referral_module'
       get 'custom_labels' => 'settings#custom_labels'
       get 'client_forms' => 'settings#client_forms'
-      get 'integration' => 'settings#integration'
       get 'custom_form' => 'settings#custom_form'
       get 'limit_tracking_form' => 'settings#limit_tracking_form'
+      get 'header_count' => 'settings#header_count'
       get 'test_client' => 'settings#test_client'
       get 'risk_assessment' => 'settings#risk_assessment'
       get 'customize_case_note' => 'settings#customize_case_note'
+
+      get 'integration' => 'settings#integration'
+      put 'integration' => 'settings#integration'
+
+      get 'finance_dashboard' => 'settings#finance_dashboard'
+      put 'finance_dashboard' => 'settings#finance_dashboard'
 
       get :family_case_management
       get :community
@@ -467,6 +534,14 @@ Rails.application.routes.draw do
   resources :service_deliveries, except: :show
 
   if Rails.env.development?
-    mount LetterOpenerWeb::Engine, at: "/letter_opener"
+    mount LetterOpenerWeb::Engine, at: '/letter_opener'
+  end
+
+  mount Sidekiq::Web => '/sidekiq'
+
+  if Rails.env.production? || Rails.env.staging?
+    Sidekiq::Web.use(Rack::Auth::Basic) do |user, password|
+      [user, password] == [ENV['SIDEKIQ_USER'], ENV['SIDEKIQ_PASSWORD']]
+    end
   end
 end

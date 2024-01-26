@@ -13,7 +13,7 @@ module AdvancedSearches
 
     def render
       drop_list_fields = @drop_down_type_list.map { |item| AdvancedSearches::FilterTypes.has_this_form_drop_list_options(item.first.gsub('"', '&qoute;'), format_label(item.first), item.last, format_optgroup(item.first)) }
-
+      
       results = drop_list_fields
       results.sort_by { |f| f[:label].downcase }
       results
@@ -24,6 +24,11 @@ module AdvancedSearches
       custom_forms.each do |custom_form|
         drop_list_values = []
         drop_list_values << "formbuilder__#{custom_form.form_title}__Has This Form"
+        drop_list_values << { custom_form.form_title => custom_form.form_title}
+        @drop_down_type_list << drop_list_values
+   
+        drop_list_values = []
+        drop_list_values << "formbuilder__#{custom_form.form_title}__Does Not Have This Form"
         drop_list_values << { custom_form.form_title => custom_form.form_title}
         @drop_down_type_list << drop_list_values
       end

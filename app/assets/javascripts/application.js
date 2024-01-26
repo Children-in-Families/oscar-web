@@ -133,6 +133,7 @@
 //= require prevent_required_file_uploader
 //= require format_special_characters
 //= require referrals/form
+//= require referrals/show
 //= require government_forms/form
 //= require multiple_form/form
 //= require registrations/form
@@ -150,3 +151,4 @@
 //= require internal_referrals/form
 //= require service_receives/form
 //= require screening_assessments/form
+//= require custom_data/form

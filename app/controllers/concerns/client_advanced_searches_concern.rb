@@ -6,30 +6,31 @@ module ClientAdvancedSearchesConcern
       advanced_search = AdvancedSearch.find(params[:advanced_search_id])
       basic_rules = advanced_search.queries
     else
-      basic_rules = JSON.parse @basic_filter_params || @wizard_basic_filter_params || "{}"
+      basic_rules = JSON.parse @basic_filter_params || @wizard_basic_filter_params || '{}'
     end
-    $param_rules = find_params_advanced_search
-    clients      = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability))
 
-    @clients_by_user     = clients.filter
-    columns_visibility
+    $param_rules = find_params_advanced_search
+    _clients, query = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability)).filter
+
+    @results = @clients_by_user = @client_grid.scope { |scope| scope.where(query).accessible_by(current_ability) }.assets
+    cache_client_ids
+
+    client_columns_visibility
     custom_form_column
     program_stream_column
 
     respond_to do |f|
       f.html do
         begin
-          @csi_statistics         = CsiStatistic.new(@client_grid.scope.where(id: @clients_by_user.ids).accessible_by(current_ability)).assessment_domain_score.to_json
-          @enrollments_statistics = ActiveEnrollmentStatistic.new(@client_grid.scope.where(id: @clients_by_user.ids).accessible_by(current_ability)).statistic_data.to_json
-          clients                 = @client_grid.scope { |scope| scope.where(id: @clients_by_user.ids).accessible_by(current_ability) }.assets
-          @results                = clients
-          @client_grid = @client_grid.scope { |scope| scope.where(id: @clients_by_user.ids).accessible_by(current_ability).page(params[:page]).per(20) }
+          @client_grid = @client_grid.scope { |scope| scope.where(query).accessible_by(current_ability).page(params[:page]).per(20) }
         rescue NoMethodError
-          redirect_to clients_path
+          redirect_to welcome_clients_path
         end
       end
       f.xls do
-        @client_grid.scope { |scope| scope.where(id: @clients_by_user.ids).accessible_by(current_ability) }
+        @client_grid.scope { |scope| scope.where(query).accessible_by(current_ability) }
+        @client_grid.params = params.to_unsafe_h.dup.deep_symbolize_keys
+
         export_client_reports
         send_data @client_grid.to_xls, filename: "client_report-#{Time.now}.xls"
       end
@@ -49,20 +50,20 @@ module ClientAdvancedSearchesConcern
   end
 
   def fetch_advanced_search_queries
-    @my_advanced_searches    = current_user.cache_advance_saved_search
-    @other_advanced_searches =  Rails.cache.fetch(user_cache_id << "other_advanced_search_queries") do
-      AdvancedSearch.includes(:user).non_of(current_user).order(:name).to_a
+    @my_advanced_searches = current_user.cache_advance_saved_search
+    @other_advanced_searches = Rails.cache.fetch(user_cache_id << 'other_advanced_search_queries') do
+      AdvancedSearch.for_client.includes(:user).non_of(current_user).to_a
     end
   end
 
   def custom_form_column
-    @custom_form_columns = custom_form_fields.group_by{ |field| field[:optgroup] } if params.dig(:client_advanced_search, :action_report_builder) == '#builder'
-    @wizard_custom_form_columns = custom_form_fields.group_by{ |field| field[:optgroup] } if params.dig(:client_advanced_search, :action_report_builder) == '#wizard-builder'
+    @custom_form_columns = custom_form_fields.group_by { |field| field[:optgroup] } if params.dig(:client_advanced_search, :action_report_builder) == '#builder'
+    @wizard_custom_form_columns = custom_form_fields.group_by { |field| field[:optgroup] } if params.dig(:client_advanced_search, :action_report_builder) == '#wizard-builder'
   end
 
   def program_stream_column
-    @program_stream_columns = program_stream_fields.group_by{ |field| field[:optgroup] } if params.dig(:client_advanced_search, :action_report_builder) == '#builder'
-    @wizard_program_stream_columns = program_stream_fields.group_by{ |field| field[:optgroup] } if params.dig(:client_advanced_search, :action_report_builder) == '#wizard-builder'
+    @program_stream_columns = program_stream_fields.group_by { |field| field[:optgroup] } if params.dig(:client_advanced_search, :action_report_builder) == '#builder'
+    @wizard_program_stream_columns = program_stream_fields.group_by { |field| field[:optgroup] } if params.dig(:client_advanced_search, :action_report_builder) == '#wizard-builder'
   end
 
   def get_custom_form
@@ -71,8 +72,8 @@ module ClientAdvancedSearchesConcern
   end
 
   def hotline_call_column
-    client_hotlines = get_client_hotline_fields.group_by{ |field| field[:optgroup] }
-    call_hotlines = get_hotline_fields.group_by{ |field| field[:optgroup] }
+    client_hotlines = get_client_hotline_fields.group_by { |field| field[:optgroup] }
+    call_hotlines = get_hotline_fields.group_by { |field| field[:optgroup] }
     @hotline_call_columns = client_hotlines.merge(call_hotlines)
   end
 
@@ -91,7 +92,7 @@ module ClientAdvancedSearchesConcern
       @builder_fields = @builder_fields + custom_form_fields if @advanced_search_params[:wizard_custom_form_check].present?
       @builder_fields = @builder_fields + @quantitative_fields if @advanced_search_params[:wizard_quantitative_check].present?
     else
-      @builder_fields = get_client_basic_fields + custom_form_fields + program_stream_fields + get_common_fields
+      @builder_fields = @builder_fields + custom_form_fields + program_stream_fields + get_common_fields + render_risk_assessment_fields
       @builder_fields = @builder_fields + @quantitative_fields if quantitative_check?
     end
   end
@@ -111,7 +112,8 @@ module ClientAdvancedSearchesConcern
   def get_common_fields
     fields = program_stream_values.empty? ? [] : AdvancedSearches::CommonFields.new(program_stream_values).render
     fields += assessment_values.empty? ? [] : AdvancedSearches::CommonFields.new(program_stream_values, true).render
-    fields
+
+    fields.uniq
   end
 
   def get_hotline_fields
@@ -123,9 +125,9 @@ module ClientAdvancedSearchesConcern
         ['answered_call', { true: 'Yes', false: 'No' }],
         ['childsafe_agent', { true: 'Yes', false: 'No' }],
         ['called_before', { true: 'Yes', false: 'No' }],
-        ['not_a_phone_call', {true: 'Yes', false: 'No'}],
+        ['not_a_phone_call', { true: 'Yes', false: 'No' }],
         ['requested_update', { true: 'Yes', false: 'No' }],
-        *get_dropdown_list(['phone_call_id', 'call_type', 'start_datetime', 'protection_concern_id', 'necessity_id']),
+        *get_dropdown_list(['phone_call_id', 'call_type', 'start_datetime', 'protection_concern_id', 'necessity_id'])
       ]
     }
     hotline_fields = AdvancedSearches::AdvancedSearchFields.new('hotline', args).render
@@ -135,7 +137,7 @@ module ClientAdvancedSearchesConcern
   def get_client_hotline_fields
     client_fields = I18n.t('datagrid.columns.clients')
     dropdown_list_options = [
-      ['concern_address_type', [Client::ADDRESS_TYPES, Client::ADDRESS_TYPES.map{|type| I18n.t('default_client_fields.address_types')[type.downcase.to_sym] }].transpose.map{|k,v| { k.downcase => v } }],
+      ['concern_address_type', [Client::ADDRESS_TYPES, Client::ADDRESS_TYPES.map { |type| I18n.t('default_client_fields.address_types')[type.downcase.to_sym] }].transpose.map { |k, v| { k.downcase => v } }],
       ['concern_province_id', Province.cached_dropdown_list_option],
       ['concern_district_id', District.cached_dropdown_list_option],
       ['concern_commune_id', Commune.cached_dropdown_list_option],
@@ -177,22 +179,34 @@ module ClientAdvancedSearchesConcern
 
   def get_quantitative_fields
     quantitative_fields = AdvancedSearches::QuantitativeCaseFields.new(current_user)
-    @quantitative_fields = quantitative_fields.render
+    quantitative_fields = quantitative_fields.render
+
+    custom_data = AdvancedSearches::CustomDataFields.new
+    custom_data_fields = custom_data.render
+
+    @quantitative_fields = quantitative_fields + custom_data_fields
   end
 
   def get_enrollment_fields
     return [] if program_stream_values.empty? || !enrollment_check?
+
     AdvancedSearches::EnrollmentFields.new(program_stream_values).render
   end
 
   def get_tracking_fields
     return [] if program_stream_values.empty? || !tracking_check?
+
     AdvancedSearches::TrackingFields.new(program_stream_values).render
   end
 
   def get_exit_program_fields
     return [] if program_stream_values.empty? || !exit_program_check?
+
     AdvancedSearches::ExitProgramFields.new(program_stream_values).render
+  end
+
+  def render_risk_assessment_fields
+    @render_risk_assessment_fields ||= AdvancedSearches::RiskAssessmentFields.render
   end
 
   def program_stream_value?
@@ -227,10 +241,6 @@ module ClientAdvancedSearchesConcern
     assessment_value? ? eval(@advanced_search_params[:assessment_selected]) : []
   end
 
-  def get_assessments
-    @assessments = (Setting.cache_first.enable_default_assessment? ? [[0, Setting.cache_first.default_assessment]] : []) + CustomAssessmentSetting.all.where(enable_custom_assessment: true).pluck(:id, :custom_assessment_name).to_a
-  end
-
   def has_params?
     @advanced_search_params.present? && @advanced_search_params[:basic_rules].present?
   end
@@ -238,7 +248,7 @@ module ClientAdvancedSearchesConcern
   def find_params_advanced_search
     if params[:advanced_search_id]
       advanced_search = AdvancedSearch.cached_advanced_search(params[:advanced_search_id])
-      @advanced_search_params = params[:client_advanced_search].merge("basic_rules" => advanced_search.queries)
+      @advanced_search_params = params[:client_advanced_search].merge('basic_rules' => advanced_search.queries)
     else
       @advanced_search_params = params[:client_advanced_search]
     end
@@ -246,9 +256,9 @@ module ClientAdvancedSearchesConcern
 
   def basic_params
     if params.dig(:client_advanced_search, :action_report_builder) == '#wizard-builder'
-      @wizard_basic_filter_params  = @advanced_search_params[:basic_rules]
+      @wizard_basic_filter_params = @advanced_search_params[:basic_rules]
     else
-      @basic_filter_params  = @advanced_search_params[:basic_rules]
+      @basic_filter_params = @advanced_search_params[:basic_rules]
     end
   end
 
@@ -305,5 +315,10 @@ module ClientAdvancedSearchesConcern
       detail_form_of_judicial_police_files: [],
       letter_from_immigration_police_files: []
     ]
+  end
+
+  def cache_client_ids
+    @cache_key = "cache_client_ids_#{current_user.id}_#{Time.current.to_i}"
+    Rails.cache.write(@cache_key, @results.ids.join(','), expires_in: 10.minutes)
   end
 end

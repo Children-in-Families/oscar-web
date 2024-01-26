@@ -25,7 +25,7 @@
       %tr
         %td
           %strong= "#{t('id')}:"
-        %td= custom_field_property.custom_formable.slug
+        %td= custom_field_property.custom_formable.try(:slug) || custom_field_property.custom_formable.id
       %tr
         %td
           %strong= "#{t('created_on')}:"

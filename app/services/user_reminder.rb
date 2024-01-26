@@ -12,7 +12,6 @@ class UserReminder
     end
   end
 
-
   private
 
   def remind_case_workers(org)
@@ -55,6 +54,7 @@ class UserReminder
           user_ids.each do |case_workers_id|
             case_workers_ids = User.non_devs.joins(:tasks).merge(Task.overdue_incomplete.exclude_exited_ngo_clients).where('manager_ids && ARRAY[?]', case_workers_id).map(&:id).uniq
             next unless manager.task_notify
+
             ManagerWorker.perform_async(case_workers_id, case_workers_ids, org.short_name)
           end
         end

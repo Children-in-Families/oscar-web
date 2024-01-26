@@ -16,9 +16,12 @@
             %li{role: "presentation"}
               %a{"data-toggle": "tab", href: "#table-summary-referral-category-tab", role: "tab"}
                 = t('.referral_category_tabs')
-          .tab-content
-            = render 'table_summary_age_tab'
-            = render 'table_summary_referral_category_tab'
-
+            %li{role: "presentation"}
+              %a{"data-toggle": "tab", href: "#table-summary-school-tab", role: "tab"}
+                = t('.school_tab')
+            %li{role: "presentation"}
+              %a{"data-toggle": "tab", href: "#table-summary-location-tab", role: "tab"}
+                = t('.province_tab')
+          .tab-content#client-table-summary-tab-content
       .modal-footer
         %button.btn.btn-default.form-btn.editable-cancel{"data-dismiss" => "modal", :type => "button"}= t('.close')

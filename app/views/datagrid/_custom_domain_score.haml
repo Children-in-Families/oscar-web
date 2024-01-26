@@ -1,20 +1,33 @@
-%li.csi-header
-  %strong= t('.custom_csi_domain_scores')
-%li
-  .visibility.col-sm-12
-    = check_box_tag 'all_custom_csi_assessments_', 'all_custom_csi_assessments', checked = saved_search_column_visibility('all_custom_csi_assessments_'), class: 'i-checks'
-    = label_tag 'all_custom_csi_assessments_', t('datagrid.columns.clients.all_custom_csi_assessments', assessment: t('clients.show.assessment'))
-%li
-  .visibility.col-sm-12
-    = check_box_tag 'custom_assessment_', 'custom_assessment', checked = saved_search_column_visibility('custom_assessment_'), class: 'i-checks'
-    = label_tag 'custom_assessment_', t('datagrid.columns.clients.custom_assessment', assessment: t('clients.show.assessment'))
-%li
-  .visibility.col-sm-12
-    = check_box_tag 'custom_assessment_created_date_', 'custom_assessment_created_date', checked = saved_search_column_visibility('custom_assessment_created_date_'), class: 'i-checks'
-    = label_tag 'custom_assessment_created_date_', t('datagrid.columns.clients.custom_assessment_created_date', assessment: t('clients.show.assessment'))
-%li
-  .visibility.col-sm-12
-    = check_box_tag 'custom_completed_date_', 'completed_date', checked = saved_search_column_visibility('custom_completed_date_'), class: 'i-checks'
-    = label_tag 'custom_completed_date_', t('datagrid.columns.clients.assessment_custom_completed_date', assessment: t('clients.show.assessment'))
+- all_custom_csi_assessments = saved_search_column_visibility('all_custom_csi_assessments_')
+- custom_assessment = saved_search_column_visibility('custom_assessment_')
+- custom_assessment_created_at = saved_search_column_visibility('custom_assessment_created_at_')
+- date_of_custom_assessments = saved_search_column_visibility('date_of_custom_assessments_')
+- completed_date = saved_search_column_visibility('custom_completed_date_')
 
-= render partial: 'datagrid/domain_score_columns_picker', collection: custom_domains, as: :domain
+- cache cache_keys_base + [custom_domains, all_custom_csi_assessments, custom_assessment, custom_assessment_created_at, date_of_custom_assessments, completed_date] do
+  %li.custom-assessment-devider{ style: 'padding-left: 15px; padding-bottom: 5px;'}
+    %strong
+      = t('advanced_search.fields.custom_csi_domain_scores')
+      = custom_assessment_setting_name
+  %li
+    .visibility.col-sm-12
+      = check_box_tag 'all_custom_csi_assessments_', 'all_custom_csi_assessments', all_custom_csi_assessments, class: 'i-checks'
+      = label_tag 'all_custom_csi_assessments_', t('datagrid.columns.clients.all_custom_csi_assessments', assessment: t('clients.show.assessment'))
+  %li
+    .visibility.col-sm-12
+      = check_box_tag 'custom_assessment_', 'custom_assessment', custom_assessment, class: 'i-checks'
+      = label_tag 'custom_assessment_', t('datagrid.columns.clients.custom_assessment', assessment: t('clients.show.assessment'))
+  %li
+    .visibility.col-sm-12
+      = check_box_tag 'custom_assessment_created_at_', 'custom_assessment_created_at', custom_assessment_created_at, class: 'i-checks'
+      = label_tag 'custom_assessment_created_at_', t('datagrid.columns.clients.custom_assessment_created_at', assessment: t('clients.show.assessment'))
+  %li
+    .visibility.col-sm-12
+      = check_box_tag 'date_of_custom_assessments_', 'date_of_custom_assessments', date_of_custom_assessments, class: 'i-checks'
+      = label_tag 'date_of_custom_assessments_', t('datagrid.columns.clients.date_of_custom_assessments', assessment: t('clients.show.assessment'))
+  %li
+    .visibility.col-sm-12
+      = check_box_tag 'custom_completed_date_', 'completed_date', completed_date, class: 'i-checks'
+      = label_tag 'custom_completed_date_', t('datagrid.columns.clients.assessment_custom_completed_date', assessment: t('clients.show.assessment'))
+
+  = render partial: 'datagrid/domain_score_columns_picker', collection: custom_domains, as: :domain

@@ -1,5 +1,7 @@
 class NgoUsageReport
   include ReferralsHelper
+  include SpreadsheetHelper
+  include ClientByGenderCountHelper
 
   def initialize
   end
@@ -13,7 +15,7 @@ class NgoUsageReport
     {
       ngo_name: org.full_name,
       ngo_short_name: org.short_name,
-      ngo_on_board: org.integrated_date,
+      ngo_on_board: org.last_integrated_date,
       created_at: org.created_at.strftime("%d-%m-%Y"),
       fcf: org.fcf_ngo? ? 'Yes' : 'No',
       ngo_country: country.titleize,
@@ -34,20 +36,6 @@ class NgoUsageReport
     }
   end
 
-  def ngo_clients_info(beginning_of_month, end_of_month)
-    previous_month_clients = PaperTrail::Version.where(item_type: 'Client', created_at: beginning_of_month..end_of_month)
-    clients = Client.without_test_clients.where(id:  previous_month_clients.where(event: 'create').pluck(:item_id))
-    {
-      client_added_count: clients.count,
-      new_adult_female_client: adule_client_gender_count(clients, 'female'),
-      new_adult_male_clients: adule_client_gender_count(clients),
-      new_female_clients: under_18_client_gender_count(clients, :female),
-      new_male_clients: under_18_client_gender_count(clients),
-      no_gender_dob_clients: other_client_gender_count(clients),
-      no_dob_clients: clients.where("gender IS NOT NULL AND (gender NOT IN ('male', 'female') AND date_of_birth IS NULL)").count
-    }
-  end
-
   def ngo_referrals_info(beginning_of_month, end_of_month)
     tranferred_clients = PaperTrail::Version.where(item_type: 'Referral', event: 'create', created_at: beginning_of_month..end_of_month)
     {
@@ -60,34 +48,16 @@ class NgoUsageReport
   def import_usage_report(date_time)
     ngo_columns    = ['Organization', 'On-board Date', 'FCF', 'Country']
     user_columns   = ['Organization', 'No. of Users', 'Unlock User', 'No. of Users Added Female', 'No. of Users Added Male', 'No. of Users Added Other', 'No. of Logins/Month']
-    client_columns = ['Organization', 'Added new client this month', 'Increased client as adult female', 'Increased client as adult male', 'Increased client as Girl', 'Increased client as Boy', 'Other', 'No DoB']
+
     cross_ngo_columns = ['Organization', 'No. of Clients referred', 'Adult Female', 'Adult Male', 'Girl', 'Boy', 'Other', 'Agency Name received the case']
 
     cross_mosvy_columns_group = ['', '', '', 'NGO to MoSAVY', '', '', '', '', '', 'MoSAVY to NGO', '', '', '', '', '']
     cross_mosvy_columns = ['Organization', 'Sign up date', 'Current Sharing', 'No. of Clients referred', 'Adult Female', 'Adult Male', 'Girl', 'Boy', 'Other', 'No. of Clients received', 'Adult Female', 'Adult Male', 'Girl', 'Boy', 'Other']
+
     learning_columns = ['Onboarding Date', '', '', '', '', '', 'Number of Logins', '', '']
     sub_learning_columns = ['Started Sharing This Month', '', 'Stopped Sharing This Month', '', 'Currently Sharing (All Time)', '', 'User', 'Organization Name', 'Login Count']
 
     book           = Spreadsheet::Workbook.new
-
-    header_format = Spreadsheet::Format.new(
-      horizontal_align: :center,
-      vertical_align: :center,
-      shrink: true,
-      border: :thin,
-      size: 12
-    )
-    column_format = Spreadsheet::Format.new(
-      shrink: true,
-      border: :thin,
-      size: 11
-    )
-    column_date_format = Spreadsheet::Format.new(
-      shrink: true,
-      border: :thin,
-      size: 11,
-      number_format: 'mmmm d, yyyy'
-    )
 
     beginning_of_month = date_time.to_datetime.prev_month.beginning_of_month
     end_of_month       = date_time.to_datetime.prev_month.end_of_month
@@ -96,13 +66,13 @@ class NgoUsageReport
     ngo_worksheet      = book.create_worksheet(name: "1. NGO Records-#{previous_month}")
     user_worksheet     = book.create_worksheet(name: "2. User Report-#{previous_month}")
     client_worksheet   = book.create_worksheet(name: "3. Client Report-#{previous_month}")
+    ngo_clients        = ClientUsageReport.new(client_worksheet, beginning_of_month)
     cross_ngo_worksheet = book.create_worksheet(name: "4. Cross NGO-NGO Report-#{previous_month}")
     cross_mosvy_worksheet = book.create_worksheet(name: "5. Cross NGO-MOSVY Report-#{previous_month}")
     learning_worksheet = book.create_worksheet(name: "6. OSCaR Leaning Report-#{previous_month}")
 
     ngo_worksheet.insert_row(0, ngo_columns)
     user_worksheet.insert_row(0, user_columns)
-    client_worksheet.insert_row(0, client_columns)
 
     cross_ngo_worksheet.insert_row(0, cross_ngo_columns)
 
@@ -144,13 +114,11 @@ class NgoUsageReport
 
     learning_worksheet.row(0).height   = 30
     learning_worksheet.row(1).height   = 30
-    (0..(sub_learning_columns.size - 1)).each {|index| learning_worksheet.column(index).width = 20 }
-
-
+    (0..(sub_learning_columns.size - 1)).each { |index| learning_worksheet.column(index).width = 20 }
 
     ngo_length_of_column    = ngo_columns.length
     user_length_of_column   = user_columns.length
-    client_length_of_column = client_columns.length
+
     cross_ngo_column_length = cross_ngo_columns.length
 
     ngo_length_of_column.times do |i|
@@ -167,21 +135,14 @@ class NgoUsageReport
       user_worksheet.row(0).set_format(i, header_format)
     end
 
-    user_worksheet.row(0).height   = 30
-    (0..6).each {|index| user_worksheet.column(index).width = 30 }
-
-    client_length_of_column.times do |i|
-      client_worksheet.row(0).set_format(i, header_format)
-    end
-
-    client_worksheet.row(0).height   = 30
-    (0..5).each {|index| client_worksheet.column(index).width = 30 }
+    user_worksheet.row(0).height = 30
+    6.times { |index| user_worksheet.column(index).width = 30 }
 
     cross_ngo_worksheet.row(0).height = 30
     cross_ngo_worksheet.column(0).width = 35
     cross_ngo_worksheet.column(1).width = 35
     cross_ngo_worksheet.column(7).width = 35
-    cross_ngo_column_length.times {|i| cross_ngo_worksheet.row(0).set_format(i, header_format) }
+    cross_ngo_column_length.times { |i| cross_ngo_worksheet.row(0).set_format(i, header_format) }
 
     shared_data       = []
     stop_sharing_date = []
@@ -193,14 +154,14 @@ class NgoUsageReport
 
       setting               = ngo_info(org)
       ngo_users             = ngo_users_info(beginning_of_month, end_of_month)
-      ngo_clients           = ngo_clients_info(beginning_of_month, end_of_month)
-      ngo_referrals         = ngo_referrals_info(beginning_of_month, end_of_month)
+
+      # ngo_referrals         = ngo_referrals_info(beginning_of_month, end_of_month)
       cross_ngo_referrals   = cross_ngo_referrals_info(beginning_of_month, end_of_month)
       cross_mosvy_referrals = cross_mosvy_referrals_info(setting, beginning_of_month, end_of_month)
 
       ngo_values          = [setting[:ngo_name], setting[:created_at], setting[:fcf], setting[:ngo_country]]
       user_values         = [setting[:ngo_name], *ngo_users.values]
-      client_values       = [setting[:ngo_name], *ngo_clients.values]
+      # client_values       = [setting[:ngo_name], *ngo_clients.values]
       cross_ngo_values    = [setting[:ngo_name], *cross_ngo_referrals.values]
       cross_mosvy_values  = [setting[:ngo_name], *cross_mosvy_referrals.values]
 
@@ -212,15 +173,16 @@ class NgoUsageReport
       stop_sharing_date << mapping_learning_module_date(setting, stop_sharing_data)
       all_learning_data << mapping_learning_module_date(setting, current_sharing_data)
 
-      ngo_worksheet.insert_row(index += 1, ngo_values)
-      user_worksheet.insert_row(index, user_values)
-      client_worksheet.insert_row(index, client_values)
+      ngo_worksheet.insert_row(index + 1, ngo_values)
+      user_worksheet.insert_row(index + 1, user_values)
+      ngo_clients.generate(setting[:ngo_name], index + 1, beginning_of_month, end_of_month)
       cross_ngo_worksheet.insert_row(index, cross_ngo_values)
-      cross_mosvy_worksheet.insert_row(index += 1, cross_mosvy_values)
+      cross_mosvy_worksheet.insert_row(index + 1, cross_mosvy_values)
 
       ngo_length_of_column.times do |i|
         ngo_worksheet.row(index).set_format(i, column_date_format) if i == 1
         next if i == 1
+
         ngo_worksheet.row(index).set_format(i, column_format)
       end
 
@@ -228,16 +190,11 @@ class NgoUsageReport
         user_worksheet.row(index).set_format(i, column_format)
       end
 
-      client_length_of_column.times do |i|
-        client_worksheet.row(index).set_format(i, column_format)
-      end
-
-
-
       (0..(sub_learning_columns.size - 1)).each do |i|
         learning_worksheet.row(index + 3).set_format(i, column_format)
       end
     end
+
     Organization.switch_to 'public'
 
     user_data = User.where.not("email ILIKE ?", "api.user@%").map do |user|
@@ -264,11 +221,12 @@ class NgoUsageReport
       learning_worksheet.row(learning_index + 1).set_format(i, column_format)
     end
 
+    ClientsSyncedReport.new(book, beginning_of_month).generate
+    ClientsSyncedMonthlyReport.new(book, beginning_of_month, end_of_month).generate
+
     book.write("tmp/OSCaR-usage-report-#{date_time}.xls")
     generate(date_time, previous_month)
   end
-
-  private
 
   def generate(date_time, previous_month)
     NgoUsageReportWorker.perform_async(date_time, previous_month)
@@ -280,7 +238,7 @@ class NgoUsageReport
   end
 
   def cross_ngo_referrals_info(beginning_of_month, end_of_month)
-    referrals = Referral.delivered.where(created_at: beginning_of_month..end_of_month).where.not(ngo_name: 'MoSVY External System')
+    referrals = Referral.delivered.where(created_at: beginning_of_month..end_of_month).where("referred_to != ?", 'MoSVY External System')
     clients = Client.where(id: referrals.pluck(:client_id))
     {
       number_of_referrals: referrals.count,
@@ -289,7 +247,7 @@ class NgoUsageReport
       girls: under_18_client_gender_count(clients, :female),
       boys: under_18_client_gender_count(clients),
       others: other_client_gender_count(clients),
-      referred_to: referrals.map{|referral| referral.ngo_name.presence || ngo_hash_mapping[referral.referred_to] }.join(', ')
+      referred_to: referrals.map { |referral| referral.ngo_name.presence || ngo_hash_mapping[referral.referred_to] }.join(', ')
     }
   end
 
@@ -304,7 +262,7 @@ class NgoUsageReport
   end
 
   def ngo_referral_client_info(beginning_of_month, end_of_month)
-    referrals = Referral.where(created_at: beginning_of_month..end_of_month).where("referred_to = ? AND (ngo_name = ? OR ngo_name = ?)", 'external referral', 'MoSVY', 'MoSVY External System')
+    referrals = Referral.where(created_at: beginning_of_month..end_of_month).where('referred_to = ?', 'MoSVY External System')
     clients = Client.where(id: referrals.pluck(:client_id))
     {
       ngo_mosvy_referred_client_count: referrals.count,
@@ -327,29 +285,5 @@ class NgoUsageReport
       mosvy_ngo_boys: under_18_client_gender_count(clients, :male, referrals),
       mosvy_ngo_others: other_client_gender_count(clients, referrals)
     }
-  end
-
-  def adule_client_gender_count(clients, type = :male, referrals = nil)
-    if referrals
-      referrals.where("referrals.client_gender = ? AND (EXTRACT(year FROM age(current_date, referrals.client_date_of_birth)) :: int) >= ?", type.to_s, 18).count
-    else
-      clients.public_send(type).where("(EXTRACT(year FROM age(current_date, clients.date_of_birth)) :: int) >= ?", 18).count
-    end
-  end
-
-  def under_18_client_gender_count(clients, type = :male, referrals = nil)
-    if referrals
-      referrals.where("referrals.client_gender = ? AND (EXTRACT(year FROM age(current_date, referrals.client_date_of_birth)) :: int) < ?", type.to_s, 18).count
-    else
-      clients.public_send(type).where("(EXTRACT(year FROM age(current_date, clients.date_of_birth)) :: int) < ?", 18).count
-    end
-  end
-
-  def other_client_gender_count(clients, referrals = nil)
-    if referrals
-      referrals.where("client_gender IS NOT NULL AND (client_gender NOT IN ('male', 'female') OR client_date_of_birth IS NULL)").count
-    else
-      clients.where("gender IS NOT NULL AND (gender NOT IN ('male', 'female') OR date_of_birth IS NULL)").count
-    end
   end
 end

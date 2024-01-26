@@ -1,0 +1,71 @@
+%table.table.table-bordered.administrative-info
+  %tbody
+    %tr.bg-grey
+      %td{colspan: 2}
+        = t('families.show.about')
+    %tr
+      %td.spacing-first-col= t('families.show.address')
+      %td
+        %strong= country_address_field(@family)
+    %tr
+      %td.spacing-first-col= t('families.show.phone_number')
+      %td
+        %strong= @family.phone_number
+    %tr
+      %td.spacing-first-col= t('families.show.contract_date')
+      %td
+        %strong= date_format(@family.contract_date)
+
+    - if policy(@family).show?(:family_type)
+      %tr
+        %td.spacing-first-col= t("datagrid.columns.families.type")
+        %td
+          %strong= family_type_translation(@family.family_type)
+    %tr
+      %td.spacing-first-col
+        = t('families.show.donor')
+      %td
+        %strong
+          - @family.donors.distinct.each do|donor|
+            %strong.label.label-default.donor
+              = donor.name
+    - if policy(@family).show?(:dependable_income)
+      %tr
+        %td.spacing-first-col
+          = "#{t('families.show.dependable_income')}?"
+        %td
+          %strong
+            = human_boolean(@family.dependable_income)
+    %tr
+      %td.spacing-first-col
+        = t('families.show.id_poor')
+      %td
+        %strong
+          = @family.id_poor
+    - unless current_setting.hide_family_case_management_tool?
+      %tr
+        %td.spacing-first-col
+          = t('families.show.community_ids')
+        %td
+          %strong
+            - community = @family.community
+            - if community.present?
+              = community.display_name
+              = link_to community_path(community) do
+                = fa_icon 'external-link'
+    - if @family.documents.any?
+      - @family.documents.each_with_index do |attachment, index|
+        %tr
+          %td.spacing-first-col
+            - if index == 0
+              = t('families.show.documents')
+          %td
+            = original_filename(attachment)
+            = link_to preview_or_download(attachment), attachment.url, class: 'btn btn-info btn-sm btn-download', target: target_blank(attachment)
+    %tr
+      %td.spacing-first-col
+        = t('families.show.relevant_information')
+      %td
+        %strong
+          = @family.relevant_information
+

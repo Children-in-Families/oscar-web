@@ -49,10 +49,6 @@ class Enrollment < ActiveRecord::Base
     field_properties.select(&:present?)
   end
 
-  def get_form_builder_attachment(value)
-    form_builder_attachments.find_by(name: value)
-  end
-
   # may be used later if family statistic advanced search (Quick Graph)
   # def short_enrollment_date
   #   enrollment_date.end_of_month.strftime '%b-%y'
@@ -68,8 +64,7 @@ class Enrollment < ActiveRecord::Base
 
   def set_entity_status
     entity_status = programmable_type == 'Family' ? 'Active' : 'active'
-    programmable.status = entity_status
-    programmable.save(validate: false)
+    programmable.update(status: entity_status)
   end
 
   def reset_entity_status

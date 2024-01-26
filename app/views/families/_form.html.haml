@@ -1,7 +1,7 @@
 = simple_form_for @family, html: { id: 'family-form', data: { cancel_url: @family.persisted? ? family_path(@family) : families_path } } do |f|
+  = f.hidden_field :slug, wrapper: false, label: false
   .ibox-content
     = error_notification(f)
-    = f.hidden_field :slug, wrapper: false, label: false
     #family-wizard-form{ class: "wiz-#{ @quantitative_types.any? ? 3 : 2 }-steps" }
       = render partial: 'basic_information', locals: { f: f }
       = render partial: 'family_members', locals: { f: f }

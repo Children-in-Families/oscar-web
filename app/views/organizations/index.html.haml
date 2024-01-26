@@ -4,6 +4,6 @@
       .row
         - @organizations.each do |org|
           .col-xs-6.col-sm-4
-            = link_to new_user_session_url(subdomain: org.short_name), class: 'org-link' do
+            = link_to new_user_session_url(subdomain: org.short_name, country: org.country), class: 'org-link' do
               .organization
                 = image_tag(org.logo.thumb)

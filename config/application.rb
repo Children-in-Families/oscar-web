@@ -7,6 +7,7 @@ Bundler.require(*Rails.groups)
 
 module CifWeb
   class Application < Rails::Application
+    config.api_only = true
     config.middleware.use 'Apartment::Elevators::Subdomain'
     config.middleware.insert_before 'Warden::Manager', 'Apartment::Elevators::Subdomain'
     # Settings in config/environments/* take precedence over those specified here.
@@ -26,7 +27,7 @@ module CifWeb
     # Autoload path
     config.enable_dependency_loading = true
     config.autoload_paths << "#{Rails.root}/lib"
-    config.autoload_paths += Dir[Rails.root.join('app/classes/**/*')]
+    config.autoload_paths << Rails.root.join('app/classes/**/*')
 
     # Override rails template engine: erb to haml
     config.generators do |g|

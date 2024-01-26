@@ -111,11 +111,11 @@ body[id=case_notes-create] {
     pointer-events: none;
   }
 
-  .panel-heading .popover-content {
-    color: black !important;
+  label.boolean {
+    font-weight: bold;
+  }
 
-    label.boolean {
-      font-weight: bold;
-    }
+  .panel-heading .popover-content {
+    color: black !important
   }
 }

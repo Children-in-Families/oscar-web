@@ -4,15 +4,4 @@
       .ibox-title
         %h5= t('.referral_clients')
       .ibox-content
-        .row
-          .col-xs-12.mini-margin
-            %ul.list-group
-              - @repeat_referrals.each do |referral|
-                %li.list-group-item
-                  - client = find_repeated_referred_client(referral)
-                  = link_to client_path(id: client&.slug, referral_id: referral.id), target: '_blank' do
-                    = "#{referral.client_name} (#{ngo_hash_mapping[referral.referred_from]})"
-                    %span.label.label-primary= referral.level_of_risk&.capitalize
-
-                  = link_to client_referral_path(client, referral), target: '_blank', class: 'btn btn-primary btn-xs' do
-                    = fa_icon 'external-link'
+        = render partial: 'referral_table', locals: { referrals: @repeat_referrals, clients: Client.where('id IN (?) OR global_id IN (?)', @repeat_referrals.map(&:client_id).compact, @repeat_referrals.map(&:client_global_id)).uniq }

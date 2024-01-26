@@ -12,4 +12,4 @@
               %td
                 = link_to preview_or_download(attachment), attachment.url, class: 'btn btn-info btn-sm btn-download', target: target_blank(attachment)
       .modal-footer
-        %button.btn.btn-default{:type => "button"} Close
+        %button.btn.btn-default{:type => "button", "data-dismiss" => "modal"} Close

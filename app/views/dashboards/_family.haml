@@ -1,19 +1,18 @@
-.col-xs-12
-  - if has_family_active_program_streams?
-    = render 'dashboards/family/family_program_stream_by_gender'
-.col-xs-12
-  - if @dashboard.family_type_statistic.any?
-    .panel.panel-default.family-panel
-      .panel-body
-        = link_to families_path('family_grid[status]': 'Active') do
-          .widget.style1.widget-family-panel
-            .row.vertical-align
-              .col-xs-5
-                %i.fa.fa-users.fa-3x
-              .col-xs-7.text-right
-                %span.text-font
-                  = t('.families')
-                %h2.font-bold= @dashboard.family_count
-        .row
-          .col-xs-12
-            #family-type{ 'data-content-count' => @dashboard.family_type_statistic.to_json, style: 'width: 100%; overflow: hidden' }
+- if has_family_active_program_streams?
+  = render 'dashboards/family/family_program_stream_by_gender'
+
+- if @dashboard.family_type_statistic.any?
+  .panel.panel-default.family-panel
+    .panel-body
+      = link_to families_path('family_grid[status]': 'Active') do
+        .widget.style1.widget-family-panel
+          .row.vertical-align
+            .col-xs-5
+              %i.fa.fa-users.fa-3x
+            .col-xs-7.text-right
+              %span.text-font
+                = t('.families')
+              %h2.font-bold= @dashboard.family_count
+      .row
+        .col-xs-12
+          #family-type{ 'data-content-count' => @dashboard.family_type_statistic.to_json, style: 'width: 100%; overflow: hidden' }

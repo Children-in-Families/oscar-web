@@ -1,22 +1,23 @@
-#other-saved-searches.tab-pane.fade
-  .table-responsive
-    %table.table.table-bordered.table-striped.table-hover
-      %thead
-        %tr
-          %th.name= t('.name')
-          %th.description= t('.description')
-          %th.owner= t('.owner')
-          %th.date= t('.date')
-          %th.load-query= t('.load')
-      %tbody
-        - @other_advanced_searches.each do |advanced_search|
+- cache cache_keys_base + ['other_search', @other_advanced_searches.map(&:updated_at).max ] do
+  #other-saved-searches.tab-pane.fade
+    .table-responsive
+      %table.table.table-bordered.table-striped.table-hover
+        %thead
           %tr
-            %td.name= advanced_search.name
-            %td.description= advanced_search.description
-            %td.owner
-              = advanced_search.owner
-            %td.date
-              = date_format(advanced_search.created_at)
-            %td.load-query.text-center
-              = prevent_load_saved_searches(advanced_search)
+            %th.name= t('.name')
+            %th.description= t('.description')
+            %th.owner= t('.owner')
+            %th.date= t('.date')
+            %th.load-query= t('.load')
+        %tbody
+          - @other_advanced_searches.each do |advanced_search|
+            %tr
+              %td.name= advanced_search.name
+              %td.description= advanced_search.description
+              %td.owner
+                = advanced_search.owner
+              %td.date
+                = date_format(advanced_search.created_at)
+              %td.load-query.text-center
+                = prevent_load_saved_searches(advanced_search)
 

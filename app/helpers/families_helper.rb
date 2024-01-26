@@ -1,6 +1,6 @@
 module FamiliesHelper
   def get_or_build_family_quantitative_free_text_cases
-    @quantitative_types.where(field_type: 'free_text').map do |qtt|
+    @quantitative_types.map do |qtt|
       @family.family_quantitative_free_text_cases.find_or_initialize_by(quantitative_type_id: qtt.id)
     end
   end
@@ -25,6 +25,22 @@ module FamiliesHelper
         concat content_tag(:li, html_tag)
       end
     end
+  end
+
+  def readable_family_quantitative_free_text_cases
+    @readable_family_quantitative_free_text_cases ||= @family.family_quantitative_free_text_cases.map do |qtt_free_text|
+      next if qtt_free_text.content.blank?
+      next unless quantitative_type_readable?(qtt_free_text.quantitative_type_id)
+
+      qtt_free_text
+    end.compact
+  end
+
+  def readable_viewable_quantitative_cases
+    @readable_viewable_quantitative_cases ||= @family.viewable_quantitative_cases.group_by(&:quantitative_type).map do |qtypes|
+      next unless quantitative_type_readable?(qtypes.first.id)
+      qtypes
+    end.compact
   end
 
   def family_clients_list(object)
@@ -60,7 +76,7 @@ module FamiliesHelper
   def additional_columns
     unless Setting.cache_first.try(:hide_family_case_management_tool?)
       {
-        date_of_custom_assessments: I18n.t('datagrid.columns.date_of_custom_assessments', assessment: I18n.t('families.show.assessment')),
+        date_of_custom_assessments: I18n.t('datagrid.columns.date_of_family_assessment'),
         all_custom_csi_assessments: I18n.t('datagrid.columns.all_custom_csi_assessments', assessment: I18n.t('families.show.assessment')),
         assessment_completed_date: I18n.t('datagrid.columns.assessment_completed_date', assessment: I18n.t('families.show.assessment')),
         custom_completed_date: I18n.t('datagrid.columns.assessment_completed_date', assessment: I18n.t('families.show.assessment')),
@@ -84,55 +100,60 @@ module FamiliesHelper
 
   def map_family_field_labels
     {
-      active_families:                          I18n.t('datagrid.columns.families.active_families'),
-      active_program_stream:                    I18n.t('datagrid.columns.families.program_streams'),
-      care_plan:                                I18n.t('advanced_search.fields.care_plan'),
-      name:                                     I18n.t('datagrid.columns.families.name'),
-      name_en:                                  I18n.t('datagrid.columns.families.name_en'),
-      id:                                       I18n.t('datagrid.columns.families.id'),
-      code:                                     I18n.t('datagrid.columns.families.code'),
-      id_poor:                                  I18n.t('datagrid.columns.families.id_poor'),
-      family_type:                              I18n.t('datagrid.columns.families.family_type'),
-      status:                                   I18n.t('datagrid.columns.families.status'),
-      gender:                                   I18n.t('activerecord.attributes.family_member.gender'),
-      date_of_birth:                            I18n.t('datagrid.columns.families.date_of_birth'),
-      follow_up_date:                           I18n.t('datagrid.columns.families.follow_up_date'),
-      case_history:                             I18n.t('datagrid.columns.families.case_history'),
-      address:                                  I18n.t('datagrid.columns.families.address'),
-      phone_number:                             I18n.t('datagrid.columns.families.phone_number'),
-      significant_family_member_count:          I18n.t('datagrid.columns.families.significant_family_member_count'),
-      male_children_count:                      I18n.t('datagrid.columns.families.male_children_count'),
-      received_by:                              I18n.t('datagrid.columns.families.received_by'),
-      received_by_id:                           I18n.t('datagrid.columns.families.received_by_id'),
-      followed_up_by_id:                        I18n.t('datagrid.columns.families.followed_up_by_id'),
-      referral_source_id:                       I18n.t('datagrid.columns.families.referral_source_id'),
-      referral_source_category_id:              I18n.t('datagrid.columns.families.referral_source_category_id'),
-      street:                                   I18n.t('datagrid.columns.families.street'),
-      house:                                    I18n.t('datagrid.columns.families.house'),
-      dependable_income:                        I18n.t('datagrid.columns.families.dependable_income'),
-      male_adult_count:                         I18n.t('datagrid.columns.families.male_adult_count'),
-      household_income:                         I18n.t('datagrid.columns.families.household_income'),
-      created_at:                               I18n.t('advanced_search.fields.created_at'),
-      user_id:                                  I18n.t('advanced_search.fields.created_by'),
-      contract_date:                            I18n.t('datagrid.columns.families.contract_date'),
-      initial_referral_date:                    I18n.t('datagrid.columns.families.initial_referral_date'),
-      caregiver_information:                    I18n.t('datagrid.columns.families.caregiver_information'),
-      changelog:                                I18n.t('datagrid.columns.families.changelogs'),
-      case_workers:                             I18n.t('datagrid.columns.families.case_worker_name'),
-      case_note_date:                           I18n.t('advanced_search.fields.case_note_date'),
-      case_note_type:                           I18n.t('advanced_search.fields.case_note_type'),
-      female_children_count:                    I18n.t('datagrid.columns.families.female_children_count'),
-      female_adult_count:                       I18n.t('datagrid.columns.families.female_adult_count'),
-      male_children_count:                      I18n.t('datagrid.columns.families.male_children_count'),
-      clients:                                  I18n.t('datagrid.columns.families.clients'),
-      client_id:                                I18n.t('datagrid.columns.families.client'),
-      manage:                                   I18n.t('datagrid.columns.families.manage'),
-      program_streams:                          I18n.t('datagrid.columns.families.program_streams'),
-      program_enrollment_date:                  I18n.t('datagrid.columns.clients.program_enrollment_date'),
-      program_exit_date:                        I18n.t('datagrid.columns.clients.program_exit_date'),
-      direct_beneficiaries:                     I18n.t('datagrid.columns.families.direct_beneficiaries'),
-      relation:                                 I18n.t('families.family_member_fields.relation'),
-      member_count:                             I18n.t('datagrid.columns.families.member_count'),
+      active_families: I18n.t('datagrid.columns.families.active_families'),
+      no_case_note_date: I18n.t('advanced_search.fields.no_case_note_date'),
+      family_rejected: I18n.t('datagrid.columns.families.family_rejected'),
+      number_family_billable: I18n.t('datagrid.columns.families.number_family_billable'),
+      number_family_referred_gatekeeping: I18n.t('datagrid.columns.families.number_family_referred_gatekeeping'),
+      active_program_stream: I18n.t('datagrid.columns.families.program_streams'),
+      care_plan: I18n.t('advanced_search.fields.care_plan'),
+      name: I18n.t('datagrid.columns.families.name'),
+      name_en: I18n.t('datagrid.columns.families.name_en'),
+      id: I18n.t('datagrid.columns.families.id'),
+      code: I18n.t('datagrid.columns.families.code'),
+      id_poor: I18n.t('datagrid.columns.families.id_poor'),
+      family_type: I18n.t('datagrid.columns.families.family_type'),
+      status: I18n.t('datagrid.columns.families.status'),
+      gender: I18n.t('activerecord.attributes.family_member.gender'),
+      date_of_birth: I18n.t('datagrid.columns.families.date_of_birth'),
+      follow_up_date: I18n.t('datagrid.columns.families.follow_up_date'),
+      case_history: I18n.t('datagrid.columns.families.case_history'),
+      address: I18n.t('datagrid.columns.families.address'),
+      phone_number: I18n.t('datagrid.columns.families.phone_number'),
+      significant_family_member_count: I18n.t('datagrid.columns.families.significant_family_member_count'),
+      male_children_count: I18n.t('datagrid.columns.families.male_children_count'),
+      received_by: I18n.t('datagrid.columns.families.received_by'),
+      received_by_id: I18n.t('datagrid.columns.families.received_by_id'),
+      followed_up_by_id: I18n.t('datagrid.columns.families.followed_up_by_id'),
+      referral_source_id: I18n.t('datagrid.columns.families.referral_source_id'),
+      referral_source_category_id: I18n.t('datagrid.columns.families.referral_source_category_id'),
+      street: I18n.t('datagrid.columns.families.street'),
+      house: I18n.t('datagrid.columns.families.house'),
+      dependable_income: I18n.t('datagrid.columns.families.dependable_income'),
+      male_adult_count: I18n.t('datagrid.columns.families.male_adult_count'),
+      household_income: I18n.t('datagrid.columns.families.household_income'),
+      created_at: I18n.t('advanced_search.fields.created_at'),
+      user_id: I18n.t('advanced_search.fields.created_by'),
+      contract_date: I18n.t('datagrid.columns.families.contract_date'),
+      initial_referral_date: I18n.t('datagrid.columns.families.initial_referral_date'),
+      caregiver_information: I18n.t('datagrid.columns.families.caregiver_information'),
+      changelog: I18n.t('datagrid.columns.families.changelogs'),
+      case_workers: I18n.t('datagrid.columns.families.case_worker_name'),
+      case_note_date: I18n.t('advanced_search.fields.case_note_date'),
+      case_note_type: I18n.t('advanced_search.fields.case_note_type'),
+      female_children_count: I18n.t('datagrid.columns.families.female_children_count'),
+      female_adult_count: I18n.t('datagrid.columns.families.female_adult_count'),
+      clients: I18n.t('datagrid.columns.families.clients'),
+      client_id: I18n.t('datagrid.columns.families.client'),
+      manage: I18n.t('datagrid.columns.families.manage'),
+      program_streams: I18n.t('datagrid.columns.families.program_streams'),
+      program_enrollment_date: I18n.t('datagrid.columns.clients.program_enrollment_date'),
+      program_exit_date: I18n.t('datagrid.columns.clients.program_exit_date'),
+      direct_beneficiaries: I18n.t('datagrid.columns.families.direct_beneficiaries'),
+      relation: I18n.t('families.family_member_fields.relation'),
+      member_count: I18n.t('datagrid.columns.families.member_count'),
+      date_of_custom_assessments: I18n.t('datagrid.columns.date_of_family_assessment'),
+      custom_assessment_created_at: I18n.t('datagrid.columns.family_assessment_created_at'),
       **additional_columns,
       **family_address_translation
     }
@@ -152,60 +173,16 @@ module FamiliesHelper
     translations
   end
 
-  def merged_address_family(object)
-    current_address = []
-    current_address << "#{I18n.t('datagrid.columns.families.house')} #{object.house}" if object.house.present?
-    current_address << "#{I18n.t('datagrid.columns.families.street')} #{object.street}" if object.street.present?
-
-    if I18n.locale.to_s == 'km'
-      current_address << "#{I18n.t('datagrid.columns.families.village')} #{object.village.name_kh}" if object.village.present?
-      current_address << "#{I18n.t('datagrid.columns.families.commune')} #{object.commune.name_kh}" if object.commune.present?
-      current_address << object.district_name.split(' / ').first if object.district.present?
-      current_address << object.province_name.split(' / ').first if object.province.present?
-      current_address << 'កម្ពុជា' if Organization.current.short_name != 'brc'
-
-    else
-      current_address << "#{I18n.t('datagrid.columns.families.village')} #{object.village.name_en}" if object.village.present?
-      current_address << "#{I18n.t('datagrid.columns.families.commune')} #{object.commune.name_en}" if object.commune.present?
-      current_address << object.district_name.split(' / ').last if object.district.present?
-      current_address << object.province_name.split(' / ').last if object.province.present?
-      current_address << 'Cambodia' if Organization.current.short_name != 'brc'
-    end
-
-    current_address.join(', ')
-  end
-
-  def merged_address_community(object)
-    current_address = []
-
-    if I18n.locale.to_s == 'km'
-      current_address << "#{I18n.t('datagrid.columns.families.village')} #{object.village.name_kh}" if object.village.present?
-      current_address << "#{I18n.t('datagrid.columns.families.commune')} #{object.commune.name_kh}" if object.commune.present?
-      current_address << object.district_name.split(' / ').first if object.district.present?
-      current_address << object.province_name.split(' / ').first if object.province.present?
-      current_address << 'កម្ពុជា' if Organization.current.short_name != 'brc'
-
-    else
-      current_address << "#{I18n.t('datagrid.columns.families.village')} #{object.village.name_en}" if object.village.present?
-      current_address << "#{I18n.t('datagrid.columns.families.commune')} #{object.commune.name_en}" if object.commune.present?
-      current_address << object.district_name.split(' / ').last if object.district.present?
-      current_address << object.province_name.split(' / ').last if object.province.present?
-      current_address << 'Cambodia' if Organization.current.short_name != 'brc'
-    end
-
-    current_address.join(', ')
-  end
-
   def drop_down_relation
     locale = self.class.name && self.class.name[/FamilyFields/].present? ? I18n.locale.to_s : params[:locale]
     relationship_values = case locale
-    when 'km'
-      FamilyMember::KM_RELATIONS
-    when 'my'
-      FamilyMember::MY_RELATIONS
-    else
-      FamilyMember::EN_RELATIONS
-    end
+                          when 'km'
+                            FamilyMember::KM_RELATIONS
+                          when 'my'
+                            FamilyMember::MY_RELATIONS
+                          else
+                            FamilyMember::EN_RELATIONS
+                          end
     [FamilyMember::EN_RELATIONS, relationship_values].transpose
   end
 
@@ -216,11 +193,15 @@ module FamiliesHelper
   end
 
   def selected_clients
-    @family.id ? @clients.where("current_family_id = ?", @family.id).ids : @selected_children
+    @family.id ? @clients.where('current_family_id = ?', @family.id).ids : @selected_children
   end
 
   def children_exist?
     @results && !@results.zero?
+  end
+
+  def name_km_en
+    @family.name_en? ? "#{@family.name} - #{@family.name_en}" : "#{@family.name}"
   end
 
   def family_exit_circumstance_value
@@ -281,8 +262,7 @@ module FamiliesHelper
     if count > 0
       class_name = column.name.to_s
       [column.header.truncate(65),
-        content_tag(:span, count, class: 'label label-info')
-      ].join(' ').html_safe
+       content_tag(:span, count, class: 'label label-info')].join(' ').html_safe
     else
       column.header.truncate(65)
     end
@@ -310,11 +290,11 @@ module FamiliesHelper
 
   def family_program_stream_name(object, rule)
     properties_field = 'enrollment_trackings.properties'
-    basic_rules  = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
+    basic_rules = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
     return object if basic_rules.nil?
-    basic_rules  = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
-    results      = mapping_form_builder_param_value(basic_rules, rule)
-    query_string  = get_query_string(results, rule, properties_field)
+    basic_rules = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
+    results = mapping_form_builder_param_value(basic_rules, rule)
+    query_string = get_query_string(results, rule, properties_field)
     default_value_param = params['all_values']
     if default_value_param
       object
@@ -324,7 +304,7 @@ module FamiliesHelper
       mew_query_string = query_string.reject(&:blank?).join(" #{basic_rules[:condition]} ")
       program_stream_ids = mew_query_string&.scan(/program_streams\.id = (\d+)/)&.flatten || []
       if program_stream_ids.size >= 2
-        sql_partial = mew_query_string.gsub(/program_streams\.id = \d+/, "program_streams.id IN (#{program_stream_ids.join(", ")})")
+        sql_partial = mew_query_string.gsub(/program_streams\.id = \d+/, "program_streams.id IN (#{program_stream_ids.join(', ')})")
         # properties_result = object.includes(programmable: :program_streams).where(sql_partial).references(:program_streams).distinct
         properties_result = object.includes(:program_stream)..references(:program_streams).where(sql_partial)
       else
@@ -337,7 +317,6 @@ module FamiliesHelper
   end
 
   def has_family_active_program_streams?
-    ProgramStream.joins(:families).group("program_streams.id, enrollments.status").having("enrollments.status = 'Active'").any?
+    ProgramStream.joins(:families).group('program_streams.id, enrollments.status').having("enrollments.status = 'Active'").any?
   end
-
 end

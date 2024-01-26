@@ -3,7 +3,8 @@
   = f.hidden_field :assessment_id, value: assessment.id
   .row.care_plan-domains
     .col-xs-12
-      #rootwizard.root-wizard{ data: { cancel: t('.cancel'), next: t('.next'), previous: t('.previous'), finish: t('.finish'), save: t('.save'), saving: t('saving'), action: params['action'] } }
+      = render 'care_plan_date_input', f: f
+      #rootwizard.root-wizard{ data: { cancel: t('.cancel'), next: t('.next'), previous: t('.previous'), finish: t('.finish'), save: t('.save'), saving: t('saving'), action: params['action'] }, style: 'padding-top: 0px;' }
         = f.simple_fields_for 'assessment_domains', order_assessment(assessment) do |ad|
           = f.hidden_field :assessment_domain_id, value: ad.object.id
           - score_color = ad.object.domain.send("score_#{ad.object.score}_color") if ad.object.score
@@ -16,7 +17,7 @@
                 %h4= "#{assessment.client.name}"
                 - if domain.custom_domain?
                   %p= "#{t('.domain')} #{domain.name} #{domain.identity}"
-                - elsif current_organization.try(:aht) == true
+                - elsif current_organization.aht?
                   %p= domain_name_for_aht(ad.object)
                 - else
                   %p= "#{t('.domain')} #{t("domains.domain_names.#{ad.object.domain.name.downcase.reverse}")} #{t("domains.domain_identies.#{ad.object.domain.identity.strip.parameterize('_')}_#{ad.object.domain.name.downcase}")}"

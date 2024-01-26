@@ -1,13 +1,3 @@
-# NOTE These rake tasks should have been run already! :)
-# precompile rails assets
-#RAILS_ENV=staging bundle exec rake assets:precompile
-
-# compile webpack assets
-#RAILS_ENV=staging bundle exec rake webpacker:compile
-
-# migrate database
-#RAILS_ENV=staging bundle exec rake db:migrate
-
 # load env vars for docker commands
 cd /var/www/oscar-web/current
 export $(cat .env | sed 's/#.*//g' | xargs)

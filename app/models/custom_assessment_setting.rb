@@ -1,4 +1,6 @@
 class CustomAssessmentSetting < ActiveRecord::Base
+  include CacheAll
+
   belongs_to :setting
   has_many   :domains, dependent: :destroy
   has_many   :case_notes, dependent: :restrict_with_error
@@ -18,6 +20,10 @@ class CustomAssessmentSetting < ActiveRecord::Base
 
   after_commit :flush_cache
 
+  def self.cache_only_enable_custom_assessment
+    Rails.cache.fetch([Apartment::Tenant.current, self.name, 'only_enable_custom_assessment']) { only_enable_custom_assessment.to_a }
+  end
+
   def max_assessment_duration
     max_custom_assessment.send(custom_assessment_frequency.to_sym)
   end
@@ -28,12 +34,6 @@ class CustomAssessmentSetting < ActiveRecord::Base
       return false
     else
       self.enable_custom_assessment && self.max_custom_assessment.present? && self.custom_assessment_frequency == name_of_day
-    end
-  end
-
-  def self.cache_custom_assessment
-    Rails.cache.fetch([Apartment::Tenant.current, 'CustomAssessmentSetting', 'enable_custom_assessment', 'true']) do
-      only_enable_custom_assessment.to_a
     end
   end
 

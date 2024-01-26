@@ -28,6 +28,7 @@ class CIF.ClientAdvanceSearch
     @EXIT_PROGRAM_TRANSTATE   = $(optionTranslation).data('exitProgram')
 
     @QUANTITATIVE_TRANSLATE   = $(optionTranslation).data('quantitative')
+    @CUSTOM_DATA_TRANSLATE   = $(optionTranslation).data('custom-data')
     @HOTLINE_TRANSLATE   = optionTranslation.data('hotline')
     @CONCERN_BASIC_FIELDS   = optionTranslation.data('concern-basic-fields')
     loaderButton = document.querySelector('.ladda-button-columns-visibility')
@@ -95,8 +96,10 @@ class CIF.ClientAdvanceSearch
 
 
   initSelect2: ->
-    $('#custom-form-select, #wizard-custom-form-select, #program-stream-select, #wizard-program-stream-select, #quantitative-case-select, #assessment-select').select2()
+    $('#custom-form-select, #wizard-custom-form-select, #program-stream-select, #wizard-program-stream-select, #quantitative-case-select').select2()
     $('#builder select').select2()
+    $('#assessment-select').select2()
+
     $('#wizard-builder select').select2()
     setTimeout ( ->
       ids = ['#custom-form-select', '#wizard-custom-form-select', '#program-stream-select', '#wizard-program-stream-select', '#quantitative-case-select', '#wizard-builder', '#builder', '#assessment-select']
@@ -115,6 +118,60 @@ class CIF.ClientAdvanceSearch
       $(".csi-group .rule-filter-container select").select2(width: '250px', minimumResultsForSearch: -1)
       $(".csi-group .rule-operator-container select, .rule-value-container select").select2(width: 'resolve')
     )
+
+    self = @
+
+    $('#assessment-select').on 'change', (e)->
+      $(".assessment-data-dropdown li").addClass("hide")
+      self.showAssessmentColumns("")
+
+      value = $('#assessment-select').select2('data') && $('#assessment-select').select2('data').id
+      $(".assessment-data-dropdown li.csi-#{value}").removeClass("hide")
+      $("input[id$='_advanced_search_assessment_selected']").val("[#{value}]")
+
+      self.showAssessmentColumns($("#assessment-select option:selected").data("selectGroup"))
+
+      unless $("#assessment-checkbox").is(":checked")
+        $(".assessment-data-dropdown li").addClass("hide")
+        $("input[id$='_advanced_search_assessment_selected']").val("[]")
+        self.showAssessmentColumns("")
+
+    $('#assessment-select').trigger('change')
+
+  addslashes:  (str) ->
+    return (str + '').replace(/[\\"']/g, '\\$&').replace(/\u0000/g, '\\0');
+
+  showAssessmentColumns: (sectionText) ->
+    self = @
+
+    # Toggle domain score fields
+    $.each $("#assessment-select option"), (index, item) ->
+      $options = $("optgroup[label='#{self.addslashes($(item).data("selectGroup"))}'] option")
+
+      if $(item).data("selectGroup") == sectionText
+        $options.attr("disabled", false)
+      else
+        $options.attr("disabled", "disabled")
+
+    # Toggle custom assessment fields
+    $options = $("optgroup[label='Custom Assessment'] option")
+
+    if sectionText != undefined && sectionText.indexOf(" | ") > -1
+      $options.attr("disabled", false)
+    else
+      $options.attr("disabled", "disabled")
+
+    $('#builder select').select2(width: '250px')
+
+    $('#builder select').on 'select2-open', (e)->
+      setTimeout ( ->
+        self.hideDisabledGroup()
+      ), 50
+
+
+  hideDisabledGroup: ->
+    $(".select2-result-with-children").each ->
+      $(@).hide() if $(@).find(".select2-disabled").length > 0
 
   basicFilterSetRule: ->
     self = @
@@ -153,8 +210,13 @@ class CIF.ClientAdvanceSearch
 
   assessmentSelectChange: ->
     self = @
+    assessmentSelectValue = $('#assessment-select').find(':selected').val()
+    $("div[data-custom-assessment-setting-id='#{assessmentSelectValue}']").show() if $("#assessment-checkbox").is(":checked")
+
     $('.main-report-builder .assessment-form-wrapper select').on 'select2-selecting', (element) ->
-      self.assessmentSelected = element.val
+      $(".custom-assessment-setting").hide()
+      $(".custom-assessment-setting input[type='checkbox']").iCheck("uncheck")
+      $("div[data-custom-assessment-setting-id='#{element.val}']").show()
 
   addCustomBuildersFields: (ids, url, loader=undefined) ->
     self = @
@@ -246,19 +308,31 @@ class CIF.ClientAdvanceSearch
       ruleFiltersSelect = $('.main-report-builder .rule-container .rule-filter-container select')
       ruleFiltersSelect.select2('destroy')
       ruleFiltersSelect.parents('.rule-container').find('.rule-header button').trigger('click')
-      self.assessmentSelected = ''
+
+      $(".custom-assessment-setting input[type='checkbox']").iCheck("uncheck")
+      $('.assessment-column a.dropdown-toggle').addClass('disabled')
+
+      $(".custom-assessment-setting").hide()
+
       $('.assessment-form').hide()
       $('#builder').queryBuilder('removeFilter', ['assessment_condition_last_two','assessment_condition_first_last'])
       $('button[data-add="rule"]').trigger('click')
-      self.initSelect2()
+
       return
 
   handleShowAssessmentSelect: ->
     self = @
     if $('#assessment-checkbox').prop('checked')
       $('.assessment-form').show()
+
     $('#assessment-checkbox').on 'ifChecked', ->
       $('.assessment-form').show()
+      assessmentSelectValue = $('#assessment-select').find(':selected').val()
+
+      $('.assessment-column a.dropdown-toggle').removeClass('disabled')
+      # self.initSelect2()
+
+      $("div[data-custom-assessment-setting-id='#{assessmentSelectValue}']").show()
       self.assessmentSelected = $('select.assessment-select').val()
       $.ajax
         url: self.PROGRAM_STREAM_URL
@@ -300,6 +374,7 @@ class CIF.ClientAdvanceSearch
   assessmentSelectRemove: ->
     self = @
     $('.main-report-builder .assessment-form-wrapper select').on 'select2-removed', (element) ->
+      $(".custom-assessment-setting").hide()
       $.map self.assessmentSelected, (val, i) ->
         if parseInt(val) == parseInt(element.val) then self.assessmentSelected.splice(i, 1)
 
@@ -735,7 +810,7 @@ class CIF.ClientAdvanceSearch
         programStreamAssociation = $('.main-report-builder .program-association')
         $(programStreamAssociation).find('.i-checks').iCheck('uncheck')
         $(programStreamAssociation).hide()
-      
+
       if self.programSelected.length == 0
         self.removeActiveClientProgramOption()
 
@@ -823,8 +898,10 @@ class CIF.ClientAdvanceSearch
 
   handleAddQuantitativeFilter: ->
     self = @
+    $('#custom-referral-data').hide()
     fields = $('#quantitative-fields').data('fields')
     $('#quantitative-type-checkbox').on 'ifChecked', ->
+      $('#custom-referral-data').show()
       $('#builder').queryBuilder('addFilter', fields) if $('#builder:visible').length > 0
       $('#wizard-builder').queryBuilder('addFilter', fields) if $('#wizard-builder:visible').length > 0
       self.initSelect2()
@@ -832,7 +909,9 @@ class CIF.ClientAdvanceSearch
   handleRemoveQuantitativFilter: ->
     self = @
     $('#quantitative-type-checkbox').on 'ifUnchecked', ->
+      $('#custom-referral-data').hide()
       self.handleRemoveFilterBuilder(self.QUANTITATIVE_TRANSLATE, self.QUANTITATIVE_TRANSLATE)
+      self.handleRemoveFilterBuilder(self.CUSTOM_DATA_TRANSLATE, self.CUSTOM_DATA_TRANSLATE)
 
   handleHotlineFilter: ->
     self = @
@@ -858,63 +937,87 @@ class CIF.ClientAdvanceSearch
       return
   ######################################################################################################################
 
+  prepareSearchParams: (btnID) ->
+    self = @
+
+    if btnID == 'search'
+      builderElement = '#builder'
+      builderForm = '.main-report-builder'
+      programValues = if self.programSelected.length > 0 then "[#{self.programSelected}]"
+      customFormValues = if self.customFormSelected.length > 0 then "[#{self.customFormSelected}]"
+    else
+      builderElement = '#wizard-builder'
+      builderForm = '#report-builder-wizard'
+      programValues = if self.wizardProgramSelected.length > 0 then "[#{self.wizardProgramSelected}]"
+      customFormValues = if self.wizardCustomFormSelected.length > 0 then "[#{self.wizardCustomFormSelected}]"
+
+    basicRules = $(builderElement).queryBuilder('getRules', { skip_empty: true, allow_invalid: true })
+
+    if $('#builder').queryBuilder('getSQL', false, true)
+      sql_sting = $('#builder').queryBuilder('getSQL', false, true).sql
+      $('#raw_sql').val(sql_sting)
+
+    self.setValueToProgramAssociation()
+    $('#client_advanced_search_custom_form_selected').val(customFormValues)
+    $('#client_advanced_search_program_selected').val(programValues)
+
+    if $('#quantitative-type-checkbox').prop('checked') then $('#client_advanced_search_quantitative_check').val(1)
+    if $('#wizard_quantitative_filter').prop('checked') then $('#client_advanced_search_wizard_quantitative_check').val(1)
+    if $('#wizard_custom_form_filter').prop('checked') then $('#client_advanced_search_wizard_custom_form_check').val(1)
+    if $('#wizard_program_stream_filter').prop('checked') then $('#client_advanced_search_wizard_program_stream_check').val(1)
+    if $('#wizard-enrollment-checkbox').prop('checked') then $('#client_advanced_search_wizard_enrollment_check').val(1)
+    if $('#wizard-tracking-checkbox').prop('checked') then $('#client_advanced_search_wizard_tracking_check').val(1)
+    if $('#wizard-exit-form-checkbox').prop('checked') then $('#client_advanced_search_wizard_exit_form_check').val(1)
+    $('#client_advanced_search_action_report_builder, #family_advanced_search_action_report_builder').val(builderElement)
+
+    if (_.isEmpty(basicRules.rules) and !basicRules.valid) or (!(_.isEmpty(basicRules.rules)) and basicRules.valid)
+      $(builderElement).find('.has-error').removeClass('has-error')
+      $('#client_advanced_search_basic_rules').val(self.handleStringfyRules(basicRules))
+
+      true
+    else
+      false
+
   handleSearch: ->
     self = @
     $('#search, #wizard-search').on 'click', (e)->
       btnID = e.currentTarget.id
+
       if btnID == 'search'
-        builderElement = '#builder'
         builderForm = '.main-report-builder'
-        programValues = if self.programSelected.length > 0 then "[#{self.programSelected}]"
-        customFormValues = if self.customFormSelected.length > 0 then "[#{self.customFormSelected}]"
-        assessmentValues = if self.assessmentSelected.length > 0 then "[#{self.assessmentSelected}]"
       else
-        builderElement = '#wizard-builder'
         builderForm = '#report-builder-wizard'
-        programValues = if self.wizardProgramSelected.length > 0 then "[#{self.wizardProgramSelected}]"
-        customFormValues = if self.wizardCustomFormSelected.length > 0 then "[#{self.wizardCustomFormSelected}]"
 
-      basicRules = $(builderElement).queryBuilder('getRules', { skip_empty: true, allow_invalid: true })
-
-      if $('#builder').queryBuilder('getSQL', false, true)
-        sql_sting = $('#builder').queryBuilder('getSQL', false, true).sql
-        $('#raw_sql').val(sql_sting)
-
-      self.setValueToProgramAssociation()
-      $('#client_advanced_search_custom_form_selected').val(customFormValues)
-      $('#client_advanced_search_program_selected').val(programValues)
-      $('#client_advanced_search_assessment_selected').val(assessmentValues)
-      if $('#quantitative-type-checkbox').prop('checked') then $('#client_advanced_search_quantitative_check').val(1)
-      if $('#wizard_quantitative_filter').prop('checked') then $('#client_advanced_search_wizard_quantitative_check').val(1)
-      if $('#wizard_custom_form_filter').prop('checked') then $('#client_advanced_search_wizard_custom_form_check').val(1)
-      if $('#wizard_program_stream_filter').prop('checked') then $('#client_advanced_search_wizard_program_stream_check').val(1)
-      if $('#wizard-enrollment-checkbox').prop('checked') then $('#client_advanced_search_wizard_enrollment_check').val(1)
-      if $('#wizard-tracking-checkbox').prop('checked') then $('#client_advanced_search_wizard_tracking_check').val(1)
-      if $('#wizard-exit-form-checkbox').prop('checked') then $('#client_advanced_search_wizard_exit_form_check').val(1)
-      $('#client_advanced_search_action_report_builder, #family_advanced_search_action_report_builder').val(builderElement)
-
-      if (_.isEmpty(basicRules.rules) and !basicRules.valid) or (!(_.isEmpty(basicRules.rules)) and basicRules.valid)
-        $(builderElement).find('.has-error').removeClass('has-error')
-        $('#client_advanced_search_basic_rules').val(self.handleStringfyRules(basicRules))
+      if self.prepareSearchParams(btnID)
         self.handleSelectFieldVisibilityCheckBox(builderForm)
         $('#advanced-search').submit()
 
+
+  prepareFamilySearch: ->
+    self = @
+    basicRules = $('#builder').queryBuilder('getRules', { skip_empty: true, allow_invalid: true })
+      # customFormValues = "[#{$('#family-advance-search-form').find('#custom-form-select').select2('val')}]"
+    customFormValues = if self.customFormSelected.length > 0 then "[#{self.customFormSelected}]"
+    programValues = if self.programSelected.length > 0 then "[#{self.programSelected}]"
+
+    self.setValueToFamilyProgramAssociation()
+    $('#family_advanced_search_custom_form_selected').val(customFormValues)
+    $('#family_advanced_search_program_selected').val(programValues)
+    if $('#quantitative-type-checkbox').prop('checked') then $('#family_advanced_search_quantitative_check').val(1)
+
+    if (_.isEmpty(basicRules.rules) and !basicRules.valid) or (!(_.isEmpty(basicRules.rules)) and basicRules.valid)
+      $('#builder').find('.has-error').removeClass('has-error')
+      console.log(self.handleStringfyRules(basicRules))
+      $('#family_advanced_search_basic_rules').val(self.handleStringfyRules(basicRules))
+      return true
+    else
+      return false
+
   handleFamilySearch: ->
     self = @
+
     $('#search').on 'click', ->
-      basicRules = $('#builder').queryBuilder('getRules', { skip_empty: true, allow_invalid: true })
-      # customFormValues = "[#{$('#family-advance-search-form').find('#custom-form-select').select2('val')}]"
-      customFormValues = if self.customFormSelected.length > 0 then "[#{self.customFormSelected}]"
-      programValues = if self.programSelected.length > 0 then "[#{self.programSelected}]"
-
-      self.setValueToFamilyProgramAssociation()
-      $('#family_advanced_search_custom_form_selected').val(customFormValues)
-      $('#family_advanced_search_program_selected').val(programValues)
-      if $('#quantitative-type-checkbox').prop('checked') then $('#family_advanced_search_quantitative_check').val(1)
-
-      if (_.isEmpty(basicRules.rules) and !basicRules.valid) or (!(_.isEmpty(basicRules.rules)) and basicRules.valid)
-        $('#builder').find('.has-error').removeClass('has-error')
-        $('#family_advanced_search_basic_rules').val(self.handleStringfyRules(basicRules))
+      if self.prepareFamilySearch()
         self.handleSelectFieldVisibilityCheckBox()
         $('#advanced-search').submit()
 

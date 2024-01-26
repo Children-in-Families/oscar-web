@@ -1,0 +1,10 @@
+%tr
+  - grid.html_columns(*options[:columns]).each do |column|
+    - next unless policy(Client).show?(column.name.to_s)
+    - next if column.header == t('.changelog') && !current_user.admin?
+
+    %th{ class: datagrid_column_classes(grid, column), title: column.header, data: { header: header_classes(grid, column).parameterize } }
+      = header_counter(grid, column)
+      = family_counter() if header_classes(grid, column).parameterize == 'family_id'
+      = care_plan_counter() if header_classes(grid, column).parameterize == 'care_plan_completed_date'
+      = datagrid_order_for(grid, column, options) if column.supports_order? && options[:order]

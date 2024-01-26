@@ -1,6 +1,6 @@
 CIF.Care_plansNew = CIF.Care_plansEdit = CIF.Care_plansCreate = CIF.Care_plansUpdate = do ->
   _init = ->
-    forms = $('form.care_plan-form')
+    forms = $('form.care_plan-form, #previous-care-plan' )
     for form in forms
       _loadSteps($(form))
 
@@ -99,9 +99,8 @@ CIF.Care_plansNew = CIF.Care_plansEdit = CIF.Care_plansCreate = CIF.Care_plansUp
         form.submit()
 
   _disableRequiredFields = ->
-    formid = $('form.care_plan-form').attr('id')
-    form   = $('#'+formid)
-    form.data("disableRequiredFields")
+    form = $('#previous-care-plan')
+    form.data("disable-required-fields")
 
   _taskRequiredField = (currentTab) ->
     $("#{currentTab}").find('.task-input-field')[0] && $("#{currentTab}").find('.task-input-field')[0].value

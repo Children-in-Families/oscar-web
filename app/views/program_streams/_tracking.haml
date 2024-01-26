@@ -1,7 +1,7 @@
 %h4= t('.tracking_form')
 %section
   #trackings{ data: { complete_tracking: t('.complete_tracking') } }
-    = f.simple_fields_for :trackings, @tracking do |ff|
+    = f.simple_fields_for :trackings, f.object.trackings.any? && f.object.trackings.includes(:client_enrollment_trackings) || @tracking do |ff|
       = render 'tracking_fields', f: ff
     .links
       = link_to_add_association t('.add_tracking'), f, :trackings, class: 'btn btn-primary pull-right'

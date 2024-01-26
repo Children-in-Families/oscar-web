@@ -38,6 +38,7 @@ class CustomField < ActiveRecord::Base
   scope :not_used_forms, ->(value)  { where.not(id: value) }
   scope :ordered_by,     ->(column) { order(column) }
   scope :order_by_form_title, ->    { order(:form_title) }
+  scope :visible, -> { where(hidden: false) }
 
   def self.client_used_form
     ids = CustomFieldProperty.where(custom_formable_type: 'Client').pluck(:custom_field_id).uniq

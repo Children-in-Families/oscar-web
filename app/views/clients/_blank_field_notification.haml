@@ -1,0 +1,11 @@
+#exteralSystem.modal.fade{ 'aria-hidden' => 'true', role: 'dialog' }
+  .modal-dialog
+    .modal-content.panel-warning
+      .modal-header.panel-heading
+        %button.close{ 'aria-hidden' => 'true', 'data-dismiss' => 'modal', type: 'button' } ×
+        %h4.modal-title= t('note')
+      .modal-body.text-center
+        %p= t('blank_field_warning')
+      .modal-footer
+        %button.btn.btn-default.editable-cancel{ 'data-dismiss' => 'modal', type: 'button' }
+          = t('cancel')

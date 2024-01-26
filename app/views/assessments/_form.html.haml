@@ -1,33 +1,30 @@
-= simple_form_for([@assessment.client, @assessment], html: { id: "#{action_name}-assessment", class: 'assessment-form', data: { disable_required_fields: current_setting.disable_required_fields? } }) do |f|
+= simple_form_for([@assessment.client, @assessment], html: { id: "#{action_name}-assessment", class: 'assessment-form', data: { disable_required_fields: current_setting.disable_required_fields?, autosave: @assessment.persisted?, draft: @assessment.draft? } }) do |f|
   = hidden_field_tag :current_user, current_user.roles
   = hidden_field_tag :default, params[:default] if params[:default]
-  = hidden_field_tag :from_controller, @from_controller
-  = hidden_field_tag :custom_name, params[:custom_name] || @custom_assessment_setting.try(:custom_assessment_name)
+  = hidden_field_tag :from_controller, (@from_controller || params[:from_controller])
+  = hidden_field_tag :custom_name, params[:custom_name] || @custom_assessment_setting&.custom_assessment_name
   = f.hidden_field :case_conference_id
   = f.hidden_field :custom_assessment_setting_id
+  = render 'assessment_date_section', f: f
   .row.assessment-domains
     .col-xs-12
       #rootwizard.root-wizard{ data: { cancel: t('.cancel'), next: t('.next'), previous: t('.previous'), finish: t('.finish'), save: t('.save'), saving: t('saving'), action: params['action'] } }
         = f.simple_fields_for 'assessment_domains', order_assessment(@assessment) do |ad|
           - domain = ad.object.domain
           %h4= domain_name_translate(@assessment, domain)
-          %div{ class: "assessment-domain-item domain-#{domain.id}" }
+          %div{ class: "assessment-domain-item domain-#{domain.id}", data: { upload_attachment_url: upload_attachment_client_assessment_path(@client, @assessment, domain_id: domain.id) } }
             .ibox
               .ibox-title
-                %h5= "#{@assessment.client.name}"
                 - if current_setting.show_prev_assessment? && @prev_assessment.present?
                   %span= " (Current Assessment)"
 
-                - if current_organization.try(:aht) == true
+                - if current_organization.aht?
                   %label.label.label-success
                     = domain_name_translate(@assessment, domain)
                 - else
                   %label.label.label-success
                     = t('.domain')
                     = domain_name_translate(@assessment, domain)
-                .ibox-tools
-                  = link_to client_assessments_path(@client), class: 'btn btn-default btn-back-default button' do
-                    = t('.back')
               .ibox-content
                 = ad.hidden_field :domain_id
                 .well
@@ -62,59 +59,22 @@
                           %b= score_definition(interpretion, rd[domain_index])
                     = ad.hidden_field :score, class: 'selected-score'
                 - else
-                  .score_option.without-def{ data: { 'score-1': domain.score_1_color, 'score-2': domain.score_2_color, 'score-3': domain.score_3_color, 'score-4': domain.score_4_color, 'domain-id': domain.id } }
-                    = ad.collection_radio_buttons :score, [%w(1 1), %w(2 2), %w(3 3), %w(4 4)].shuffle, :first , :last
+                  .score_option.without-def{ data: {'score-1': domain.score_1_color,
+                                                    'score-2': domain.score_2_color,
+                                                    'score-3': domain.score_3_color,
+                                                    'score-4': domain.score_4_color,
+                                                    'score-5': domain.score_5_color,
+                                                    'score-6': domain.score_6_color,
+                                                    'score-7': domain.score_7_color,
+                                                    'score-8': domain.score_8_color,
+                                                    'score-9': domain.score_9_color,
+                                                    'score-10': domain.score_10_color,
+                                                    'domain-id': domain.id }}
+                    = ad.collection_radio_buttons :score, [%w(1 1), %w(2 2), %w(3 3), %w(4 4), %w(5 5), %w(6 6), %w(7 7), %w(8 8), %w(9 9), %w(10 10)].shuffle, :first , :last
                 .row
                   .col-sm-12.col-md-12
                     = render 'attachment_fields', ad: ad, readonly: false
 
-        - if current_setting.enabled_risk_assessment?
-          %h4
-            = t('risk_assessments._attr.child_wellbeing')
-            = t('risk_assessments._attr.score')
-          %div{ class: "assessment-domain-item domain-client-wellbeing-score" }
-            .ibox
-              .ibox-title
-                %h5= "#{@assessment.client.name}"
-                - if current_setting.show_prev_assessment? && @prev_assessment.present?
-                  %span= " (Current Assessment)"
-
-                .ibox-tools
-                  = link_to client_assessments_path(@client), class: 'btn btn-default btn-back-default button' do
-                    = t('.back')
-              .ibox-content
-                .row
-                  .col-xs-12.col-md-9
-                    - order_assessment(@assessment).each do |ad|
-                      - next if current_setting.selected_domain_ids.compact.exclude?(ad.domain_id)
-                      .row.domai-name-score-wrapper.m-b-xs
-                        .col-xs-6.text-right
-                          %label
-                            = translate_domain_header(ad.domain)
-                        .col-xs-6
-                          %a{ class: "btn btn-lg btn-block btn-#{ad.score_color_class} risk-assessment-domain-score", "data-domain": { id: ad.domain_id, score: ad.score } }
-                            = ad.score || 0
-
-                    .row.domai-name-score-wrapper.m-t-lg
-                      .col-xs-6.text-right
-                        %label= t('risk_assessments._attr.overall_client_wellbeing_score')
-                      .col-xs-6
-                        %a#btn-total{ class: "btn btn-lg btn-block btn-success" }
-                          = calculate_domain_selected_domain_score(@assessment)
-
-                    .row.domai-name-score-wrapper.m-t-md
-                      .col-xs-6.text-right
-                        .row
-                          .col-xs-12
-                            = label :level_of_risk, t('risk_assessments._attr.level_of_risk')
-                          .col-xs-12
-                            = link_to t('risk_assessments._attr.guidance'), '#LevelOfRiskGuidance', data: { toggle: :modal, target: '#LevelOfRiskGuidance' }
-                      .col-xs-6
-                        = f.input :level_of_risk, label: false, collection: level_of_risk_options
-                    .row.domai-name-score-wrapper
-                      .col-xs-6.text-right
-                        = label :description, t('risk_assessments._attr.description')
-                      .col-xs-6
-                        = f.input :description, label: false
+        = render 'risk_assessment_step', f: f
 
 = render 'level_of_risk_guidance'

@@ -1,0 +1,34 @@
+- clients = Client.where(id: @notification.assessments[:due_today]).includes(:users).select(:id, :date_of_birth, :status, :slug, :given_name, :family_name, :local_given_name, :local_family_name, :user_id)
+- clients.each_with_index do |client, index|
+  - if @assessment_params && (client.eligible_default_csi?)
+    / Tweak to fix N+1
+    .ibox.border-left-right.border-bottom
+      .ibox-title
+        %h5
+          = link_to client.name, client_path(client), target: :_blank
+      .ibox-content.no-padding
+        %table.table.table-striped.active_tasks
+          %tr
+            %td.col-xs-3= @setting.default_assessment
+            %td.col-xs-6.task-name.border-left-right
+            %td.col-xs-3= date_format(@notification.assessments[:due_today_assessment_date].to_h[client.id])
+
+- if @assessment_params && @setting.enable_custom_assessment?
+  - clients = Client.where(id: @notification.assessments[:custom_due_today]).includes(:users).select(:id, :date_of_birth, :status, :slug, :given_name, :family_name, :local_given_name, :local_family_name, :user_id)
+  - CustomAssessmentSetting.only_enable_custom_assessment.each do |custom_assessment|
+    - next if @notification.assessments[:custom_due_today_assessment_date].to_h[custom_assessment.id].nil?
+    / Tweak to fix N+1
+    .ibox.border-left-right.border-bottom
+      .ibox-title
+        %h5
+          = "#{t('dashboards.assessment_tab.custom_assessment')}:"
+          = custom_assessment.custom_assessment_name
+      .ibox-content.no-padding
+        %table.table.table-striped.active_tasks
+          - client_ids = @notification.assessments[:custom_due_today_assessment_date].to_h[custom_assessment.id]
+          - clients.each do |client|
+            - next unless client_ids[0] == client.id
+            %tr
+              %td.col-xs-3= link_to client.name, client_path(client), target: :_blank
+              %td.col-xs-6.task-name.border-left-right
+              %td.col-xs-3= date_format(client_ids.last)

@@ -4,6 +4,10 @@ export default props => {
   const { isError, label, required, onChange, value, hintText, errorText, T, inlineClassName, inline, ...others } = props
   const [newValue, setNewValue] = useState(value)
 
+  useEffect(() => {
+    setNewValue(value)
+  }, [value])
+
   const handleOnChange = (e) => {
     setNewValue(e.target.value)
     onChange(e)

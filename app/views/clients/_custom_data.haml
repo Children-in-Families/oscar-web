@@ -1,0 +1,36 @@
+%table.table.table-bordered.custom-data
+  %thead
+    %tr
+      %th{ colspan: '2' }
+        = t('custom_data.title')
+  %tbody
+    - cusotm_data_fields.each do |field|
+      - next unless client_data_properties[field['name']]
+      %tr
+        %td
+          %strong= field['label']
+        %td
+          - if field['name'] && field['name'][/^date-/]
+            %strong= date_format client_data_properties[field['name']].to_date
+          - elsif client_data_properties[field['name']].is_a?(Array)
+            - client_data_properties[field['name']].each do |value|
+              - next if value.blank?
+              - if value.is_a?(Hash)
+                - next if value['checked'] == 'false'
+                %li
+                  %strong= value['value']
+              - else
+                %li
+                  %strong= value
+          - else
+            %strong= client_data_properties[field['name']]
+
+    - cusotm_data_fields.each do |field|
+      - next unless field['name'] && field['name'][/^file-/]
+      - next if client_custom_data.form_builder_attachments.count.zero?
+      %tr
+        %td.align-justify
+          %strong= field['label']
+        %td.align-justify
+          - key = convert_bracket(field['name'], client_custom_data.properties || {})
+          = render 'shared/form_builder/list_attachment', label: field['name'], resource: client_custom_data

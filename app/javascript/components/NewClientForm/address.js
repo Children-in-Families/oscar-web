@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { TextInput, SelectInput, TextArea } from "../Commons/inputs";
-import { t } from '../../utils/i18n';
+import { t } from "../../utils/i18n";
 
 export default (props) => {
   const {
@@ -22,58 +22,65 @@ export default (props) => {
       T,
       inlineClassName,
       ...others
-    },
+    }
   } = props;
 
-  const [provinces, setprovinces] = useState(
+  const [provinces, setProvinces] = useState(
     currentProvinces.map((province) => ({
       label: province.name,
-      value: province.id,
+      value: province.id
     }))
   );
-  const [districts, setdistricts] = useState(
+  const [districts, setDistricts] = useState(
     currentDistricts.map((district) => ({
       label: district.name,
-      value: district.id,
+      value: district.id
     }))
   );
-  const [communes, setcommunes] = useState(
+  const [communes, setCommunes] = useState(
     currentCommunes.map((commune) => ({
       label: commune.name_kh + " / " + commune.name_en,
-      value: commune.id,
+      value: commune.id
     }))
   );
-  const [villages, setvillages] = useState(
+  const [villages, setVillages] = useState(
     currentVillages.map((village) => ({
       label: village.name_kh + " / " + village.name_en,
-      value: village.id,
+      value: village.id
     }))
   );
   const typeOfAddress = addressTypes.map((type) => ({
     label: T.translate("addressType." + type.label),
-    value: type.value,
+    value: type.value
   }));
+
   useEffect(() => {
-    setdistricts(
-      currentDistricts.map((district) => ({
-        label: district.name,
-        value: district.id,
+    setProvinces(
+      currentProvinces.map((province) => ({
+        label: province.name,
+        value: province.id
       }))
     );
-    setcommunes(
+    setDistricts(
+      currentDistricts.map((district) => ({
+        label: district.name,
+        value: district.id
+      }))
+    );
+    setCommunes(
       currentCommunes.map((commune) => ({
         label:
           (commune.name && commune.name) ||
           `${commune.name_kh} / ${commune.name_en}`,
-        value: commune.id,
+        value: commune.id
       }))
     );
-    setvillages(
+    setVillages(
       currentVillages.map((village) => ({
         label:
           (village.name && village.name) ||
           `${village.name_kh} / ${village.name_en}`,
-        value: village.id,
+        value: village.id
       }))
     );
 
@@ -89,66 +96,68 @@ export default (props) => {
 
     const parentConditions = {
       provinces: {
-        fieldsTobeUpdate: {
+        fieldsToBeUpdate: {
           district_id: null,
           commune_id: null,
           village_id: null,
-          [field]: data,
+          [field]: data
         },
-        optionsTobeResets: [setdistricts, setcommunes, setvillages],
+        optionsToBeResets: [setDistricts, setCommunes, setVillages]
       },
       districts: {
-        fieldsTobeUpdate: { commune_id: null, village_id: null, [field]: data },
-        optionsTobeResets: [setcommunes, setvillages],
+        fieldsToBeUpdate: { commune_id: null, village_id: null, [field]: data },
+        optionsToBeResets: [setCommunes, setVillages]
       },
       communes: {
-        fieldsTobeUpdate: { village_id: null, [field]: data },
-        optionsTobeResets: [setvillages],
+        fieldsToBeUpdate: { village_id: null, [field]: data },
+        optionsToBeResets: [setVillages]
       },
       villages: {
-        fieldsTobeUpdate: { [field]: data },
-        optionsTobeResets: [],
-      },
+        fieldsToBeUpdate: { [field]: data },
+        optionsToBeResets: []
+      }
     };
 
     onChange(
       obj,
-      parentConditions[parent].fieldsTobeUpdate
+      parentConditions[parent].fieldsToBeUpdate
     )({ type: "select" });
 
     if (data === null)
-      parentConditions[parent].optionsTobeResets.forEach((func) => func([]));
+      parentConditions[parent].optionsToBeResets.forEach((func) => func([]));
   };
 
-  const onChangeParent = (object) => ({ data }) => {
-    const { parent, child } = object;
+  const onChangeParent =
+    (object) =>
+    ({ data }) => {
+      const { parent, child } = object;
 
-    updateValues({ ...object, data });
+      updateValues({ ...object, data });
 
-    if (parent !== "villages" && data !== null) {
-      $.ajax({
-        dataType: "json",
-        type: "GET",
-        url: `/api/${parent}/${data}/${child}`,
-        contentType: "application/json",
-      })
-        .success((res) => {
-          const formatedData = res.data.map((data) => ({
-            label: data.name,
-            value: data.id,
-          }));
-          const dataState = {
-            districts: setdistricts,
-            communes: setcommunes,
-            villages: setvillages,
-          };
-          dataState[child](formatedData);
+      if (parent !== "villages" && data !== null) {
+        $.ajax({
+          dataType: "json",
+          type: "GET",
+          url: `/api/${parent}/${data}/${child}`,
+          contentType: "application/json"
         })
-        .error((res) => {
-          onerror(res.responseText);
-        });
-    }
-  };
+          .success((res) => {
+            const formatedData = res.data.map((data) => ({
+              label: data.name,
+              value: data.id
+            }));
+            const dataState = {
+              districts: setDistricts,
+              communes: setCommunes,
+              villages: setVillages
+            };
+            dataState[child](formatedData);
+          })
+          .error((res) => {
+            onerror(res.responseText);
+          });
+      }
+    };
 
   return outside == true ? (
     <TextArea
@@ -162,7 +171,7 @@ export default (props) => {
       <div className="row">
         <div className="col-xs-12 col-md-6 col-lg-3">
           <SelectInput
-            label={t(translation, 'clients.confirm_client.province')}
+            label={t(translation, "clients.confirm_client.province")}
             options={provinces}
             isDisabled={disabled}
             value={objectData.province_id}
@@ -170,7 +179,7 @@ export default (props) => {
               parent: "provinces",
               child: "districts",
               obj: objectKey,
-              field: "province_id",
+              field: "province_id"
             })}
             inlineClassName="referree-province"
             hintText={hintText[objectKey].referral_province}
@@ -179,7 +188,7 @@ export default (props) => {
 
         <div className="col-xs-12 col-md-6 col-lg-3">
           <SelectInput
-            label={t(translation, 'clients.show.district')}
+            label={t(translation, "clients.show.district")}
             isDisabled={disabled}
             options={districts}
             value={objectData.district_id}
@@ -187,7 +196,7 @@ export default (props) => {
               parent: "districts",
               child: "communes",
               obj: objectKey,
-              field: "district_id",
+              field: "district_id"
             })}
             inlineClassName="referree-districs"
             hintText={hintText.referee.referral_districs}
@@ -196,7 +205,7 @@ export default (props) => {
 
         <div className="col-xs-12 col-md-6 col-lg-3">
           <SelectInput
-            label={t(translation, 'clients.show.commune')}
+            label={t(translation, "clients.show.commune")}
             isDisabled={disabled}
             options={communes}
             value={objectData.commune_id}
@@ -204,7 +213,7 @@ export default (props) => {
               parent: "communes",
               child: "villages",
               obj: objectKey,
-              field: "commune_id",
+              field: "commune_id"
             })}
             inlineClassName="referree-commune"
             hintText={hintText.referee.referral_commune}
@@ -221,7 +230,7 @@ export default (props) => {
               parent: "villages",
               child: "villages",
               obj: objectKey,
-              field: "village_id",
+              field: "village_id"
             })}
             inlineClassName="village"
             hintText={hintText.referee.referral_village}

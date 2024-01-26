@@ -1,9 +1,10 @@
-= simple_form_for([assessment.client, assessment], html: { class: 'assessment-form unrestricted_form', data: { disable_required_fields: current_setting.disable_required_fields? } }) do |f|
+= simple_form_for([assessment.client, assessment], html: { class: 'assessment-form unrestricted_form', data: { disable_required_fields: current_setting.disable_required_fields?, autosave: assessment.persisted?, draft: assessment.draft? } }) do |f|
   = hidden_field_tag :current_user, current_user.roles
   = hidden_field_tag :default, params[:default] if params[:default]
-  = hidden_field_tag :from_controller, @from_controller
+  = hidden_field_tag :from_controller, (@from_controller || params[:from_controller])
   = f.hidden_field :case_conference_id
-  = hidden_field_tag :custom_name, params[:custom_name] || @custom_assessment_setting.try(:custom_assessment_name)
+  = hidden_field_tag :custom_name, params[:custom_name] || @custom_assessment_setting&.custom_assessment_name
+  = render 'assessment_date_section', f: f
   .row.assessment-domains
     .col-xs-12
       .ibox
@@ -16,16 +17,12 @@
               - else
                 %span= " (Current Assessment)"
 
-          .ibox-tools
-            - unless readonly
-              = link_to client_assessments_path(@client), class: 'btn btn-default btn-back-default button' do
-                = t('.back')
         .ibox-content
           .root-wizard{ id:( readonly ? 'readonly-rootwizard' : 'rootwizard'), data: { cancel: t('.cancel'), next: t('.next'), previous: t('.previous'), finish: t('.finish'), save: t('.save'), saving: t('saving'), action: params['action'] } }
             = f.simple_fields_for 'assessment_domains', order_assessment(assessment) do |ad|
               - domain = ad.object.domain
               %h4= domain_name_translate(assessment, domain)
-              %div{ class: "assessment-domain-item assessment-wizard-domain-item domain-#{domain.id}" }
+              %div{ class: "assessment-domain-item assessment-wizard-domain-item domain-#{domain.id}", data: { upload_attachment_url: upload_attachment_client_assessment_path(@client, assessment, domain_id: domain.id) } }
                 = ad.hidden_field :domain_id
                 .well
                   = ad.object.domain.translate_description.html_safe
@@ -58,7 +55,7 @@
                     - (0..9).each do |domain_index|
                       - interpretion = domain.send("translate_score_#{rd[domain_index]}_definition").to_s
                       - if interpretion.present?
-                        .btn-option.btn.btn-block.wrap-text-style{ 'data-score': rd[domain_index] }
+                        .btn-option.btn.btn-block.wrap-text-style{ 'data-score': rd[domain_index], 'data-domain-id': domain.id }
                           %b= score_definition(interpretion, rd[domain_index])
                     = ad.hidden_field :score, class: 'selected-score'
                 - else
@@ -68,3 +65,7 @@
                 .row
                   .col-sm-12.col-md-12
                     = render 'attachment_fields', ad: ad, readonly: readonly
+
+            = render 'risk_assessment_step', f: f
+
+= render 'level_of_risk_guidance'

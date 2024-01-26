@@ -1,4 +1,6 @@
 class SharedClient < ActiveRecord::Base
+  self.table_name = 'shared.shared_clients'
+
   has_paper_trail
 
   belongs_to :birth_province, class_name: 'Province', foreign_key: :birth_province_id
@@ -17,7 +19,7 @@ class SharedClient < ActiveRecord::Base
 
   def self.cached_shared_client_birth_province_name(slug)
     Rails.cache.fetch([Apartment::Tenant.current, 'SharedClient', 'cached_shared_client_birth_province_name', slug]) {
-      find_by(slug: slug).birth_province_name
+      find_by(slug: slug)&.birth_province_name
     }
   end
 

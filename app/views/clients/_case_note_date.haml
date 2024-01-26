@@ -1,10 +1,11 @@
-- if params[:data].presence == 'recent'
-  - recent_record = object.case_notes.most_recents.order(meeting_date: :desc).first.try(:meeting_date)
-  - if recent_record.present?
+- cache_if params[:data] == 'recent', cache_keys_base + [object, 'case_note_date', object.case_notes.most_recents.order(meeting_date: :desc).first] do
+  - if params[:data].presence == 'recent'
+    - recent_record = object.case_notes.most_recents.order(meeting_date: :desc).first&.meeting_date
+    - if recent_record.present?
+      %ul{'data-case_note_date': '' }
+        %li= date_format(recent_record)
+  - else
     %ul{'data-case_note_date': '' }
-      %li= date_format(recent_record)
-- else
-  %ul{'data-case_note_date': '' }
-    - case_note_query(object.case_notes.most_recents, 'case_note_date').each do |case_note|
-      - if case_note.meeting_date.present?
-        %li= date_format(case_note.meeting_date)
+      - case_note_query(object.case_notes.most_recents, 'case_note_date').each do |case_note|
+        - if case_note.meeting_date.present?
+          %li= date_format(case_note.meeting_date)

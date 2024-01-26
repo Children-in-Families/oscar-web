@@ -4,14 +4,5 @@
       .ibox-title
         %h5= t('.referral_clients')
       .ibox-content
-        .row
-          .col-xs-12.mini-margin
-            %ul.list-group
-              - @unsaved_referrals.each do |referral|
-                %li.list-group-item
-                  = link_to new_client_path(referral_id: referral.id), target: '_blank' do
-                    = "#{referral.client_name} (#{ngo_hash_mapping[referral.referred_from] || "I don't see the NGO I'm looking for..."})"
-                    %span.label.label-primary= referral.level_of_risk&.capitalize
-
-                  = link_to referral_path(referral), target: '_blank', class: 'btn btn-primary btn-xs' do
-                    = fa_icon 'external-link'
+        = render partial: 'referral_table', locals: { referrals: @unsaved_referrals }
+        

@@ -21,7 +21,7 @@
             - @custom_assessment_settings.each do |css|
               .col-xs-12.col-sm-8
                 %h5
-                  - if current_organization.try(:aht) == true
+                  - if current_organization.aht?
                     = t('.initial_assessment', assessment: t('clients.show.assessment'))
                     %b
                       = date_format(Date.today)

@@ -8,6 +8,7 @@ FactoryGirl.define do
     referred_to "mtp"
     referred_from "Organization Testing"
     referral_reason FFaker::Lorem.paragraph
+    referral_status "Accepted"
     name_of_referee FFaker::Name.name
     referral_phone FFaker::PhoneNumber.phone_number
     client_name FFaker::Name.name

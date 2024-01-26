@@ -1,0 +1,12 @@
+.ibox
+  .ibox-title
+    %h5
+      = "#{@assessment.family.name}"
+      %span= t('assessments.assessment_form')
+    .ibox-tools
+      = link_to family_assessments_path(@family), class: 'btn btn-default btn-back-default button' do
+        = t('.back')
+  .ibox-content
+    .row
+      .col-xs-12.col-md-6
+        = f.input :assessment_date, as: :string, required: true, label: t('assessments.assessment_date', assessment: t('clients.show.assessment')), input_html: { value: f.object.assessment_date || Date.today.to_s, class: 'date form-control date-picker datepicker-dropdown' }

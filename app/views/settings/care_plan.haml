@@ -1,0 +1,19 @@
+.row
+  .col-xs-12
+    = simple_form_for @setting do |f|
+      .ibox
+        .ibox-content
+          = render "tablist"
+          .tab-content
+            .tab-pane.active
+              #care-plan-setting.panel.panel-default{ class: !f.object.disable_required_fields && 'hidden' }
+                .panel-heading
+                  %h3= t('.previous_care_plan', care_plan: t('clients.care_plan'))
+                .panel-body
+                  .row
+                  .i-checks.integration
+                    %label= t('.use_previous_care_plan', care_plan: t('clients.care_plan'))
+                    = f.input :use_previous_care_plan, as: :radio_buttons, collection: [[I18n.t('settings.client_forms.yes'), true],[I18n.t('settings.client_forms.no'), false]], label: false
+                    
+        .ibox-footer
+          = f.submit t('save'), class: 'btn btn-primary', data: { disable_with: t('saving') }

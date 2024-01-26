@@ -249,7 +249,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     $('#trackings').on 'cocoon:after-insert', (e, element) ->
       trackingBuilder = $(element).find('.tracking-builder')
       $(element).attr('id', Date.now())
-      _initProgramBuilder(trackingBuilder, [])
+      _initMultipleFormBuilder(0, trackingBuilder)
       _editTrackingFormName()
       _handleRemoveCocoon()
       _initSelect2TimeOfFrequency()
@@ -258,6 +258,57 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       _initFrequencyNote()
       _custom_field_list()
       _initCheckbox()
+
+  _initMultipleFormBuilder = (startIndex, elements) ->
+    if startIndex < elements.length
+      dataElement = JSON.parse($(elements[startIndex]).children('span').text())
+      builderOption = new CIF.CustomFormBuilder()
+      specialCharacters = { '&amp;': '&', '&lt;': '<', '&gt;': '>', "&qoute;": '"' }
+      format = new CIF.FormatSpecialCharacters()
+      fields = format.formatSpecialCharacters((dataElement || []), specialCharacters)
+
+      $(elements[startIndex]).formBuilder(
+        templates: separateLine: (fieldData) ->
+          { field: '<hr/>' }
+        fields: builderOption.thematicBreak()
+        dataType: 'json'
+        formData: JSON.stringify(fields)
+        disableFields: ['autocomplete', 'header', 'hidden', 'button', 'checkbox']
+        showActionButtons: false
+        messages: {
+          cannotBeEmpty: 'name_separated_with_underscore'
+        }
+        stickyControls: {
+          enable: true
+          offset:
+            width: '17%'
+            right: 78
+            left: 'auto'
+        }
+        typeUserEvents: {
+          'checkbox-group': builderOption.eventCheckboxOption(fields)
+          date: builderOption.eventDateOption(fields)
+          file: builderOption.eventFileOption(fields)
+          number: builderOption.eventNumberOption(fields)
+          'radio-group': builderOption.eventRadioOption(fields)
+          select: builderOption.eventSelectOption(fields)
+          text: builderOption.eventTextFieldOption(fields)
+          textarea: builderOption.eventTextAreaOption(fields)
+          separateLine: builderOption.eventSeparateLineOption()
+          paragraph: builderOption.eventParagraphOption(fields)
+        }
+        onAddOption: (optionTemplate, optionIndex) ->
+          index = optionIndex.index + 1
+          if !optionTemplate.local_label
+            optionTemplate.local_label = "Local option #{index}"
+            optionTemplate.local_value = "Local option #{index}"
+          return optionTemplate
+      ).promise.then((form) ->
+        form.element = elements[startIndex]
+        @formBuilder.push form
+        startIndex++
+        _initMultipleFormBuilder(startIndex, elements)
+      )
 
   _initProgramBuilder = (element, data) ->
     builderOption = new CIF.CustomFormBuilder()
@@ -294,9 +345,18 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         textarea: builderOption.eventTextAreaOption()
         separateLine: builderOption.eventSeparateLineOption()
         paragraph: builderOption.eventParagraphOption()
-      })
-    formBuilder.element = element
-    @formBuilder.push formBuilder
+      }
+      onAddOption: (optionTemplate, optionIndex) ->
+        index = optionIndex.index + 1
+        optionTemplate.local_label = "Local option #{index}"
+        optionTemplate.local_value = "local-option-#{index}"
+        return optionTemplate
+      onOpenFieldEdit: (editPanel) ->
+        $(editPanel).find('.option-local_value').hide()
+    ).promise
+
+    form.element = element
+    @formBuilder.push form
 
    _editTrackingFormName = ->
     inputNames = $(".program_stream_trackings_name input[type='text']")
@@ -439,19 +499,18 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       $('.links a').trigger('click')
 
   _handleInitProgramFields = ->
-    for element in $('#enrollment, #exit-program')
-      dataElement = JSON.parse($(element).children('span').text())
-      _initProgramBuilder($(element), (dataElement || []))
-
+    trackings = $('.tracking-builder')
+    elements = ['#enrollment', '#exit-program']
+    $.merge(elements, trackings)
+    _initMultipleFormBuilder(0, elements)
+    for element in elements
       if element.id == 'enrollment' and $('#program_stream_id').val() != ''
         _preventRemoveField(ENROLLMENT_URL, '#enrollment')
       else if element.id == 'exit-program' and $('#program_stream_id').val() != ''
         _preventRemoveField(EXIT_PROGRAM_URL, '#exit-program')
 
-    trackings = $('.tracking-builder')
-    for tracking in trackings
-      trackingValue = JSON.parse($(tracking).children('span').text())
-      _initProgramBuilder(tracking, (trackingValue || []))
+    # trackings = $('.tracking-builder')
+    # _initMultipleFormBuilder(0, trackings)
     _preventRemoveField(TRACKING_URL, '') if $('#program_stream_id').val() != ''
 
   _initButtonSave = ->
@@ -464,11 +523,13 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     $('#program_stream_rules').val(_handleStringfyRules(rules))
 
   _handleSetValueToField = ->
+    console.log(@formBuilder)
     for formBuilder in @formBuilder
+      console.log(formBuilder.actions.save())
       element = formBuilder.element
       specialCharacters = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&qoute;" }
       format = new CIF.FormatSpecialCharacters()
-      fields = format.formatSpecialCharacters(JSON.parse(formBuilder.actions.save()), specialCharacters)
+      fields = format.formatSpecialCharacters(formBuilder.actions.save(), specialCharacters)
       fields = JSON.stringify(fields)
       if $(element).is('#enrollment')
         $('#program_stream_enrollment').val(fields)

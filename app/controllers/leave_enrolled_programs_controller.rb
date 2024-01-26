@@ -12,10 +12,11 @@ class LeaveEnrolledProgramsController < AdminController
   before_action -> { check_user_permission('readable') }, only: :show
 
   def new
+    redirect_to @entity, alert: "#{@entity.class.name} is already exited from the program." if @entity.try(:accepted?)
   end
 
   def create
-    @leave_program = @enrollment.create_leave_program(leave_program_params)
+    @leave_program = @enrollment.build_leave_program(leave_program_params)
     if @leave_program.save
       if params[:family_id]
         path = family_enrolled_program_leave_enrolled_program_path(@entity, @enrollment, @leave_program)
@@ -57,7 +58,6 @@ class LeaveEnrolledProgramsController < AdminController
   def destroy
     name = params[:file_name]
     index = params[:file_index].to_i
-    params_program_streams = params[:program_streams]
     if name.present? && index.present?
       delete_form_builder_attachment(@leave_program, name, index)
     end

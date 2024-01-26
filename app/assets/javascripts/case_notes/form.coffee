@@ -16,6 +16,38 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
     _taskProgressNoteToggle()
     _initTaskProgressNoteTooltip()
 
+
+    $("#case_note_meeting_date").on "change", _submitFormViaAjax
+    $("#case_note_interaction_type").on "change", _submitFormViaAjax
+    $("#case_note_domain_group_ids").on "change", ->
+      _submitFormViaAjax()
+
+    saveTimer = null
+
+    $("#case_note_attendee").on "keyup", ->
+      clearTimeout saveTimer
+      saveTimer = setTimeout _submitFormViaAjax, 1000
+
+    $("#case_note_note").on "keyup", ->
+      clearTimeout saveTimer
+      saveTimer = setTimeout _submitFormViaAjax, 1000
+
+  _submitFormViaAjax = ->
+    if $("#case-note-form").data("autosave")
+      $(".task-arising.task-item-wrapper").addClass("saved")
+
+      $.ajax
+        url: $("#case-note-form").attr("action") + "&draft=true"
+        type: "PUT"
+        data: $("#case-note-form").serialize()
+        dataType: "json"
+        success: (response) ->
+          if response.edit_url
+            history.replaceState(null, "", response.edit_url)
+          
+          $.each $(".task-arising.task-item-wrapper.saved"), (index, element) ->
+            $(element).find("input[name='task[]']").remove()
+
   _initICheckBox = ->
     $('.i-checks').iCheck(
       checkboxClass: 'icheckbox_square-green'
@@ -83,11 +115,17 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
 
   _initUploader = ->
     $('.file .optional').fileinput
-      showUpload: false
       removeClass: 'btn btn-danger btn-outline'
       browseLabel: 'Browse'
       theme: "explorer"
+      uploadAsync: false
       allowedFileExtensions: ['jpg', 'png', 'jpeg', 'doc', 'docx', 'xls', 'xlsx', 'pdf']
+      uploadUrl: $("#case-note-form").data("uploadUrl")
+
+    $('.file .optional').on "filebatchselected", (event, files) ->
+      $(this).fileinput("upload")
+      return
+
 
   _handleDeleteAttachment = ->
     rows = $('.row-file')
@@ -157,6 +195,7 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
         $('#tasksFromModal').modal('hide')
         _hideShowOnGoingTaskLable()
         _hideAddNewTask()
+        _submitFormViaAjax()
       else
         _showError(taskName, taskDate)
         $('.add-task-btn').removeAttr('disabled')
@@ -178,7 +217,7 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
     if $(".task-domain-#{domainId}").hasClass('hidden')
       $(".task-domain-#{domainId}").removeClass('hidden')
 
-    $("#tasks-domain-#{domainId} .task-arising").removeClass('hidden')
+    $("#tasks-domain-#{domainId} .task-arising").removeClass('hidden').addClass("task-item-wrapper")
 
     $("#tasks-domain-#{domainId} .task-arising ol").append(element)
     $(".panel-tasks-domain-#{domainId}").removeClass('hidden')
@@ -295,7 +334,8 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
   _hideAddNewTask = ->
     _checkCasenoteSelectedValue($('#case_note_domain_group_ids'))
     $.each $('#case_note_domain_group_ids').select2('data'), (index, object) ->
-      $("#domain-#{object.id}").show() if $("#domain-#{object.id} .task-arising .list-group > li").length > 0
+      if $("#domain-#{object.id} .task-arising .list-group > li").length > 0 || $("#domain-#{object.id} input[data-task-id]").length > 0
+        $("#domain-#{object.id}").show()
 
     $.each $('.case-note-domain-group'), (index, object)->
       if $("##{object.id}").find('span.checkbox').length > 0

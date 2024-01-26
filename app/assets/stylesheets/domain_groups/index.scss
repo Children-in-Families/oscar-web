@@ -7,3 +7,16 @@ body[id='domain_groups-index'] {
     min-width: 100px;
   }
 }
+
+
+body[id^='settings-'] {
+  label.default_assessment {
+    margin-bottom: 10px;
+  }
+}
+
+#tablist-cms-tools {
+  margin-bottom: 20px;
+}
+
+

@@ -1,5 +1,5 @@
 - if params[:data] == 'recent' && object
-  - recent_record = object.latest_record.try(:completed_date)
+  - recent_record = object.latest_record&.completed_date
   - if recent_record.present?
     %ul{'data-date_of_assessments': '' }
       %li= date_format(recent_record)

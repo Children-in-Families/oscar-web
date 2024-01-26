@@ -1,0 +1,14 @@
+- if params[:data] == 'recent' && object
+  - recent_record = object.most_recents.first.try(:care_plan_date)
+  - if recent_record.present?
+    %ul{'data-care_plan_completed_date': '' }
+      %li= date_format(recent_record)
+- else
+  - if object.present?
+    - case_plans = date_filter(object, 'care_plan_date')
+    %span.btn.btn-info.btn-xs
+      = "#{I18n.t("datagrid.columns.#{controller_name}.care_plan_count")}: "
+      = case_plans.count
+    %ul{ 'data-care_plan_completed_date': '' }
+      - case_plans.each do |care_plan|
+        %li= date_format(care_plan.care_plan_date)

@@ -1,0 +1,8 @@
+%ul
+  - assessments.each do |assessment|
+    %li
+      - if assessment.instance_of?(::RiskAssessment)
+        = date_format(assessment.assessment_date)
+        = " (PC)"
+      - else
+        = date_format(assessment.assessment_date)

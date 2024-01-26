@@ -129,6 +129,7 @@ class CIF.AdvancedSearch
     self = @
     fields = $('#quantitative-fields').data('fields')
     $('#quantitative-type-checkbox').on 'ifChecked', ->
+      $('#custom-referral-data').show()
       $(self.builderId).queryBuilder('addFilter', fields) if $("#{self.builderId}:visible").length > 0
       self.initSelect2()
 

@@ -1,43 +1,54 @@
-.row
-  .col-xs-12
-    .ibox
-      .ibox-title
-        %h5= @results
-        %span.label.label-info= t('.quantitative_types')
-        .ibox-tools
-          - if can? :manage, QuantitativeType
-            = link_to '#', {"data-target" => "#quantitative_typeModal-", "data-toggle" => "modal", :type => "button"} do
-              .btn.btn-primary.btn-add
-                = t('.add_new_quantitative_type')
-      .ibox-content
-        - @quantitative_types.each do |qt|
-          .panel.panel-default
-            .panel-heading
-              .row
-                .col-xs-8.col-sm-9
-                  %h4
-                    = qt.name
-                    %em= " (visible on #{qt.visible_on.join('/').titleize} form)"
-                - if can? :manage, QuantitativeType
-                  .col-xs-4.col-sm-3.text-right.actions
-                    = link_to '#', {class: 'btn btn-outline btn-success', "data-target" => "#quantitative_typeModal-#{qt.id}", "data-toggle" => "modal", :type => "button"} do
-                      = fa_icon('pencil')
-                    = remove_link(qt, {quantitative_case: qt.quantitative_cases.count}, 'btn-md')
-                  = render 'form', quantitative_type: qt
-            .panel-body
-              - if qt.select_option?
-                %table.table.table-bordered
-                  %tbody
-                    - qt.quantitative_cases.each do |qc|
-                      %tr
-                        %td
-                          = qc.value
-                        - if can? :version, QuantitativeType
-                          %td.text-center= link_to t('.view_changelog'), quantitative_case_version_path(qc)
-            - if can? :version, QuantitativeType
-              .panel-footer
-                %p= link_to t('.view_changelog'), quantitative_type_version_path(qt)
-      .ibox-footer
-        .text-center
-          = paginate @quantitative_types
-= render 'form'
+%ul.nav.nav-tabs{role: "tablist"}
+  %li.active{role: "presentation"}
+    %a{"aria-controls" => "custom-referral-data", "aria-expanded" => "true", "data-toggle" => "tab", :href => "#custom-referral-data", :role => "tab"}
+      = t('.quantitative_types')
+  %li{role: "presentation"}
+    = link_to 'Custom Data', custom_data_path
+
+.tab-content
+  #custom-referral-data.tab-pane.active{role: "tabpanel"}
+    .row
+      .col-xs-12
+        .ibox
+          .ibox-title
+            %h5= @results
+            %span.label.label-info= t('.quantitative_types')
+            .ibox-tools
+              - if can? :manage, QuantitativeType
+                = link_to '#', {"data-target" => "#quantitative_typeModal-", "data-toggle" => "modal", :type => "button"} do
+                  .btn.btn-primary.btn-add
+                    = t('.add_new_quantitative_type')
+          .ibox-content
+            - @quantitative_types.each do |qt|
+              .panel.panel-default
+                .panel-heading
+                  .row
+                    .col-xs-8.col-sm-9
+                      %h4
+                        = qt.name
+                        %em= " (visible on #{qt.visible_on.join('/').titleize} form)"
+                    - if can? :manage, QuantitativeType
+                      .col-xs-4.col-sm-3.text-right.actions
+                        = link_to '#', {class: 'btn btn-outline btn-success', "data-target" => "#quantitative_typeModal-#{qt.id}", "data-toggle" => "modal", :type => "button"} do
+                          = fa_icon('pencil')
+                        = remove_link(qt, {quantitative_case: qt.quantitative_cases.count}, 'btn-md')
+                      = render 'form', quantitative_type: qt
+                .panel-body
+                  - if qt.select_option?
+                    %table.table.table-bordered
+                      %tbody
+                        - qt.quantitative_cases.each do |qc|
+                          %tr
+                            %td
+                              = qc.value
+                            - if can? :version, QuantitativeType
+                              %td.text-center= link_to t('.view_changelog'), quantitative_case_version_path(qc)
+                - if can? :version, QuantitativeType
+                  .panel-footer
+                    %p= link_to t('.view_changelog'), quantitative_type_version_path(qt)
+          .ibox-footer
+            .text-center
+              = paginate @quantitative_types
+    = render 'form'
+
+

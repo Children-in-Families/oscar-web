@@ -1,10 +1,17 @@
 - if params[:data] == 'recent' && object
-  - recent_record = object.latest_record.try(:created_at)
+  - if assessment_field_name
+    - recent_record = object.latest_record&.assessment_field_name
+  - else
+    - recent_record = object.latest_record&.created_at
   - if recent_record.present?
     %ul{'data-date_of_assessments': '' }
       %li= date_format(recent_record)
 - else
   - if object.present?
     %ul{'data-date_of_assessments': '' }
-      - date_filter(object, 'date_of_assessments').each do |assessment|
-        %li= date_format(assessment.created_at)
+      - if assessment_field_name
+        - date_filter(object, 'date_of_assessments').each do |assessment|
+          %li= date_format(assessment.public_send(assessment_field_name))
+      - else
+        - date_filter(object, 'assessment_created_at').each do |assessment|
+          %li= date_format(assessment.created_at)

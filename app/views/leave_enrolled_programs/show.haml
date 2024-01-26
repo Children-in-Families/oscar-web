@@ -2,19 +2,23 @@
   .col-xs-12
     .ibox
       .ibox-title
-        %h5
-          - if params[:client_id]
-            = @entity.en_and_local_name
-          - else
-            = @entity.name
-
-          = " - #{t('.exit_date')} #{date_format(@leave_program.exit_date)}"
-        .ibox-tools
-          - if can? :manage, LeaveProgram
-            = leave_enrolled_program_edit_link
-          = link_to entity_report_path do
-            .btn.btn-default.btn-back-default
-              = t('.back')
+        .row
+          .col-xs-12.col-sm-6.co-md-6
+            %h5
+              = link_to @entity do
+                - if params[:client_id]
+                  = @entity.en_and_local_name
+                - else
+                  = @entity.name
+              %span= " - #{t('.exit_date')} #{date_format(@leave_program.exit_date)}"
+          
+          .col-xs-12.col-sm-6.co-md-6
+            .ibox-tools
+              - if can? :manage, LeaveProgram
+                = leave_enrolled_program_edit_link
+              = link_to entity_report_path do
+                .btn.btn-default.btn-back-default
+                  = t('.back')
       .ibox-content
         .table-responsive
           %table.table.table-bordered

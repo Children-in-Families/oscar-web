@@ -6,18 +6,20 @@
           .col-xs-12
             = render 'clients/client_advanced_searches/form_option'
         .row.column-picker
-          .col-xs-12{ class: current_setting.try(:enable_hotline) ? 'col-md-3' : 'col-md-3' }
+          .col-xs-12{ class: current_setting.enable_hotline? ? 'col-md-3' : 'col-md-3' }
             %label= t('.client_column')
             .client-column
               = datagrid_form_for @client_grid, url: clients_url, html: { class: 'grid-form' }
-          .col-xs-12{ class: current_setting.try(:enable_hotline) ? 'col-md-2' : 'col-md-3' }
+          .col-xs-12{ class: current_setting.enable_hotline? ? 'col-md-2' : 'col-md-3' }
             %label= t('.custom_form_column')
             = render 'clients/client_advanced_searches/custom_form_column', custom_form_columns: @custom_form_columns
-          .col-xs-12{ class: current_setting.try(:enable_hotline) ? 'col-md-2' : 'col-md-3' }
+          .col-xs-12{ class: current_setting.enable_hotline? ? 'col-md-2' : 'col-md-3' }
             %label= t('.program_stream_column')
             = render 'clients/client_advanced_searches/program_stream_column', program_stream_columns: @program_stream_columns
-          .col-xs-12{ class: current_setting.try(:enable_hotline) ? 'col-md-2' : 'col-md-3' }
-          - if current_setting.try(:enable_hotline) == true
+          .col-xs-12{ class: current_setting.enable_hotline? ? 'col-md-2' : 'col-md-3' }
+            %label= t('.assessment')
+            = render 'clients/client_advanced_searches/assessment_columns'
+          - if current_setting.enable_hotline?
             .col-xs-12.col-md-3
               %label= t('.hotline_column')
               = render 'clients/client_advanced_searches/hotline_call_column', hotline_call_columns: @hotline_call_columns

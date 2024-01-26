@@ -34,7 +34,6 @@ Rails.application.configure do
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
-  config.logger = ActiveSupport::Logger.new(config.paths['log'].first, 1, 50 * 1024 * 1024)
 
   # Raise an error on page load if there are pending migrations.
   config.active_record.migration_error = :page_load
@@ -70,5 +69,8 @@ Rails.application.configure do
     # Bullet.raise = true
   end
 
+  LetterOpenerWeb.configure do |config|
+    config.letters_location = Rails.root.join('tmp', 'letter_opener')
+  end
   # config.asset_host = 'http://localhost:3000'
 end

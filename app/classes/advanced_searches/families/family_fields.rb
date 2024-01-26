@@ -18,13 +18,20 @@ module AdvancedSearches
 
       def render
         group                 = family_header('family_basic_fields')
+        common_group          = format_header('common_searches')
+
         number_fields         = number_type_list.map { |item| AdvancedSearches::FilterTypes.number_options(item, family_header(item), group) }
         text_fields           = text_type_list.map { |item| AdvancedSearches::FilterTypes.text_options(item, family_header(item), group) }
         date_picker_fields    = date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, family_header(item), group) }
+        date_picker_fields    += common_search_date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, family_header(item), common_group) }
+        date_picker_fields    += [['no_case_note_date', I18n.t('advanced_search.fields.no_case_note_date')]].map{ |item| AdvancedSearches::CsiFields.date_between_only_options(item[0], item[1], group) }
         drop_list_fields      = drop_down_type_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, family_header(item.first), item.last, group) }
         date_picker_fields    += mapping_care_plan_date_lable_translation unless current_setting.try(:hide_family_case_management_tool?)
         search_fields = text_fields + drop_list_fields + number_fields + date_picker_fields
-        custom_domain_scores_options = !current_setting.try(:hide_family_case_management_tool?) ? AdvancedSearches::CustomDomainScoreFields.render('family') : []
+        
+        unless current_setting.hide_family_case_management_tool?
+          search_fields += current_setting.enable_custom_assessment? ? AdvancedSearches::CustomDomainScoreFields.render('family') : []
+        end
 
         search_fields.select do |field|
           field_name = field[:id]
@@ -48,7 +55,7 @@ module AdvancedSearches
       end
 
       def date_type_list
-        ['created_at', 'date_of_birth', 'contract_date', !current_setting.try(:hide_family_case_management_tool?) ? 'case_note_date' : nil, 'active_families'].compact
+        ['created_at', 'date_of_birth', 'contract_date', !current_setting.try(:hide_family_case_management_tool?) ? 'case_note_date' : nil].compact
       end
 
       def drop_down_type_list
@@ -76,6 +83,10 @@ module AdvancedSearches
           ['relation', drop_down_relation.map { |k, v| { k => v }  }],
           *addresses_mapping(@called_in)
         ] + case_management_tool_fields
+      end
+
+      def common_search_date_type_list
+        ['number_family_referred_gatekeeping', 'number_family_billable', 'family_rejected', 'active_families']
       end
 
       def case_note_type_options

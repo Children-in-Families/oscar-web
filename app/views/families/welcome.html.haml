@@ -1,0 +1,15 @@
+.row
+  .col-xs-12.col-md-9
+    %button.btn.btn-primary.query.family-search{"aria-expanded" => 'false', "data-target" => '#family-search-form', "data-toggle" => 'collapse', type: 'button'}
+      = fa_icon('filter')
+    = link_to families_path(builder: '#builder'), class: 'm-l-xs btn btn-primary family-advance-search' do
+      = t('families.index.report_builder')
+  .col-xs-12.col-md-3
+    .pull-right.family-action
+      - if can? :manage, Family
+        = link_to "#{I18n.t('families.index.add_new_family')}", new_family_path, class: 'btn btn-primary m-r-sm'
+
+.row.ibox-space
+  .col-xs-12
+    .ibox-content#family-search-form.collapse
+      = datagrid_form_for @family_grid, url: advanced_search_families_url, html: { class: 'grid-form' }, method: :post
