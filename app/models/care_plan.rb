@@ -53,7 +53,7 @@ class CarePlan < ActiveRecord::Base
   end
 
   def domain_color_required?(assessment_domain)
-    return false if assessment_domain.domain.nil?
+    return false if assessment_domain[:score].nil? || assessment_domain.domain.nil?
 
     assessment_domain.domain.send("score_#{assessment_domain[:score]}_color").present? && assessment_domain.domain.send("score_#{assessment_domain[:score]}_color") != 'primary'
   end
