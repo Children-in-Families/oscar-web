@@ -39,15 +39,20 @@ class CarePlan < ActiveRecord::Base
 
     required_assessment_domains = []
     assessment.assessment_domains.each do |assessment_domain|
-      required_assessment_domains << assessment_domain if assessment_domain[:score] == 1 || assessment_domain[:score] == 2
+      required_assessment_domains << assessment_domain if domain_color_required?(assessment_domain)
     end
     required_assessment_domain_ids = required_assessment_domains.map(&:id)
-    if Setting.cache_first.disable_required_fields?
+
+    if Setting.cache_first.disable_required_fields? || (goals.pluck(:assessment_domain_id) & required_assessment_domain_ids).sort == required_assessment_domain_ids.sort
       update_columns(completed: true)
-    elsif goals.where(assessment_domain_id: required_assessment_domain_ids).empty? || (goals.where(assessment_domain_id: required_assessment_domain_ids).present? && goals.where(assessment_domain_id: required_assessment_domain_ids).first.tasks.empty?)
-      update_columns(completed: false)
     else
-      update_columns(completed: true)
+      update_columns(completed: false)
     end
+  end
+
+  def domain_color_required?(assessment_domain)
+    return false if assessment_domain[:score].nil? || assessment_domain.domain.nil?
+
+    assessment_domain.domain.send("score_#{assessment_domain[:score]}_color").present? && assessment_domain.domain.send("score_#{assessment_domain[:score]}_color") != 'primary'
   end
 end
