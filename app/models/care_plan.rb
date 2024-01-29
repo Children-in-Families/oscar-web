@@ -43,12 +43,10 @@ class CarePlan < ActiveRecord::Base
     end
     required_assessment_domain_ids = required_assessment_domains.map(&:id)
 
-    if Setting.cache_first.disable_required_fields?
+    if Setting.cache_first.disable_required_fields? || (goals.pluck(:assessment_domain_id) & required_assessment_domain_ids).sort == required_assessment_domain_ids.sort
       update_columns(completed: true)
-    elsif goals.where(assessment_domain_id: required_assessment_domain_ids).empty? || (goals.where(assessment_domain_id: required_assessment_domain_ids).present? && goals.where(assessment_domain_id: required_assessment_domain_ids).first.tasks.empty?)
-      update_columns(completed: false)
     else
-      update_columns(completed: true)
+      update_columns(completed: false)
     end
   end
 
