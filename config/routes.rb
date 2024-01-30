@@ -455,6 +455,7 @@ Rails.application.routes.draw do
       end
 
       resources :referees, only: :index
+      resources :notifications, only: :index
     end
 
     resources :community_advanced_searches, only: [] do
