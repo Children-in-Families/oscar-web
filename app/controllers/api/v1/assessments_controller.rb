@@ -5,6 +5,16 @@ module Api
 
       before_action :find_client
 
+      def index
+        assessments = @client.assessments
+        render json: assessments
+      end
+
+      def show
+        assessment = @client.assessments.find(params[:id])
+        render json: assessment
+      end
+
       def create
         assessment = @client.assessments.new(assessment_params)
 
@@ -50,7 +60,7 @@ module Api
         remain_attachment = assessment_domain.attachments
         deleted_attachment = remain_attachment.delete_at(index)
         deleted_attachment.try(:remove!)
-        remain_attachment.empty? ? assessment_domain.remove_attachments! : (assessment_domain.attachments = remain_attachment )
+        remain_attachment.empty? ? assessment_domain.remove_attachments! : (assessment_domain.attachments = remain_attachment)
         message = t('.fail_delete_attachment') unless assessment_domain.save
       end
     end
