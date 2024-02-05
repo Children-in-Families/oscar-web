@@ -17,7 +17,7 @@ module Api
 
       def create
         assessment = @client.assessments.new(assessment_params)
-        assessment.default = eval(params[:default_assessment])
+        assessment.default = assessment_params[:custom_assessment_setting_id].blank?
         assessment.skip_assessment_domain_populate = true
         if assessment.save
           render json: assessment
