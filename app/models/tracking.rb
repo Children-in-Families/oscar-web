@@ -12,7 +12,6 @@ class Tracking < ActiveRecord::Base
 
   has_paper_trail
 
-
   validate :form_builder_field_uniqueness
   validate :presence_of_label
 
@@ -29,8 +28,8 @@ class Tracking < ActiveRecord::Base
   def form_builder_field_uniqueness
     return unless fields.present?
     labels = []
-    fields.map{ |obj| labels << obj['label'] if obj['label'] != 'Separation Line' && obj['type'] != 'paragraph' }
-    (errors.add :fields, "Fields duplicated!") unless (labels.uniq.length == labels.length)
+    fields.map { |obj| labels << obj['label'] if obj['label'] != 'Separation Line' && obj['type'] != 'paragraph' }
+    (errors.add :fields, 'Fields duplicated!') unless (labels.uniq.length == labels.length)
   end
 
   def is_used?
@@ -51,7 +50,7 @@ class Tracking < ActiveRecord::Base
   private
 
   def presence_of_label
-    message = "Label " + I18n.t('cannot_be_blank')
+    message = 'Label ' + I18n.t('cannot_be_blank')
     fields.each do |f|
       unless f['label'].present?
         errors.add(:fields, message)
@@ -68,7 +67,8 @@ class Tracking < ActiveRecord::Base
   end
 
   def flush_cache
-    Rails.cache.delete([Apartment::Tenant.current, 'Tracking', self.id])
+    Rails.cache.delete([Apartment::Tenant.current, 'trackings', 'ProgramStream', program_stream.id])
+    Rails.cache.delete([Apartment::Tenant.current, 'Tracking', id])
     cached_program_stream_program_ids_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_program_stream_program_ids/].blank? }
     cached_program_stream_program_ids_keys.each { |key| Rails.cache.delete(key) }
   end

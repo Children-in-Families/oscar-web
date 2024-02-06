@@ -100,6 +100,8 @@ class ClientEnrollment < ActiveRecord::Base
   def flash_cache
     Rails.cache.delete([Apartment::Tenant.current, 'cache_program_steam_by_enrollment'])
     Rails.cache.delete([Apartment::Tenant.current, 'cache_active_program_options'])
+    Rails.cache.delete([Apartment::Tenant.current, 'enrollable_client_ids', 'ProgramStream', program_stream.id])
+    Rails.cache.delete([Apartment::Tenant.current, 'maximum_client', 'ProgramStream', program_stream.id])
     cached_client_order_enrollment_date_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_order_enrollment_date/].blank? }
     cached_client_order_enrollment_date_keys.each { |key| Rails.cache.delete(key) }
     cached_client_order_enrollment_date_properties_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_order_enrollment_date_properties/].blank? }

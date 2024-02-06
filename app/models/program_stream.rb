@@ -346,6 +346,13 @@ class ProgramStream < ActiveRecord::Base
   end
 
   def flush_cache
+    Rails.cache.delete([Apartment::Tenant.current, 'trackings', 'ProgramStream', id])
+    Rails.cache.delete([Apartment::Tenant.current, 'services', 'ProgramStream', id])
+    Rails.cache.delete([Apartment::Tenant.current, 'enrollable_client_ids', 'ProgramStream', id])
+    Rails.cache.delete([Apartment::Tenant.current, 'maximum_client', 'ProgramStream', id])
+    users.each do |user|
+      Rails.cache.delete([Apartment::Tenant.current, 'enrollable_client_ids', 'ProgramStream', 'User', id, user.id])
+    end
     Rails.cache.delete([Apartment::Tenant.current, 'cache_program_steam_by_enrollment'])
     Rails.cache.delete([Apartment::Tenant.current, 'cache_active_program_options'])
     cache_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_program_ids/].blank? }
