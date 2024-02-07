@@ -1313,6 +1313,7 @@ class Client < ActiveRecord::Base
         Rails.cache.delete([Apartment::Tenant.current, 'program_permission_editable', 'ProgramStream', 'User', progrm_stream.id, user.id])
       end
     end
+    Rails.cache.delete([Apartment::Tenant.current, 'User', 'Client', id, 'tasks'])
   end
 
   def update_referral_status_on_target_ngo

@@ -2,7 +2,8 @@ module Api
   module V1
     class RefereesController < Api::V1::BaseApiController
       def index
-        render json: Referee.order(:name)
+        referees = ActiveModel::ArraySerializer.new(Referee.cache_all, each_serializer: RefereeSerializer)
+        render json: referees, root: 'referees'
       end
     end
   end
