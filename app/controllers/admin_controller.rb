@@ -17,7 +17,7 @@ class AdminController < ApplicationController
 
   def preload_notifications?
     controller_name == 'notifications' ||
-    (dashboard_request? && (params[:user_id] || current_user.case_worker? || current_user.manager?))
+      (dashboard_request? && (params[:user_id] || current_user.case_worker? || current_user.manager?))
   end
 
   def dashboard_request?
