@@ -4,8 +4,9 @@ class MultipleForm::ClientTrackingsController < AdminController
 
   def new
     client_ids = @program_stream.client_enrollments.active.pluck(:client_id).uniq
-    @clients   = Client.accessible_by(current_ability).where(id: client_ids).active_accepted_status
-    @client_enrollment_tracking = ClientEnrollmentTracking.new
+    @clients = Client.accessible_by(current_ability).where(id: client_ids).active_accepted_status
+    @client_enrollment_tracking = ClientEnrollmentTracking.new(tracking: @tracking)
+    authorize @client_enrollment_tracking, :new?
   end
 
   def create
@@ -42,8 +43,8 @@ class MultipleForm::ClientTrackingsController < AdminController
       properties_params.each do |k, v|
         mappings[k] = k.gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;').gsub('%22', '"')
       end
-      formatted_params = properties_params.map {|k, v| [mappings[k], v] }.to_h
-      formatted_params.values.map{ |v| v.delete('') if (v.is_a?Array) && v.size > 1 }
+      formatted_params = properties_params.map { |k, v| [mappings[k], v] }.to_h
+      formatted_params.values.map { |v| v.delete('') if (v.is_a? Array) && v.size > 1 }
     end
     default_params = params.require(:client_enrollment_tracking).permit({}).merge!(tracking_id: params[:tracking_id])
     default_params = default_params.merge!(properties: formatted_params) if formatted_params.present?
@@ -52,9 +53,9 @@ class MultipleForm::ClientTrackingsController < AdminController
   end
 
   def find_resources
-    tracking           = Tracking.find(params[:tracking_id])
+    tracking = Tracking.find(params[:tracking_id])
     program_stream_ids = ClientEnrollment.active.pluck(:program_stream_id).uniq
-    @tracking          = Tracking.where(program_stream_id: program_stream_ids).find(params[:tracking_id])
-    @program_stream    = @tracking.program_stream
+    @tracking = Tracking.where(program_stream_id: program_stream_ids).find(params[:tracking_id])
+    @program_stream = @tracking.program_stream
   end
 end
