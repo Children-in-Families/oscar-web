@@ -35,7 +35,7 @@ class Client < ActiveRecord::Base
   mount_uploaders :detail_form_of_judicial_police_files, FileUploader
   mount_uploaders :letter_from_immigration_police_files, FileUploader
 
-  attr_accessor :assessment_id
+  attr_accessor :assessment_id, :ngo_name
   attr_accessor :organization, :case_type
 
   friendly_id :slug, use: :slugged
@@ -812,6 +812,8 @@ class Client < ActiveRecord::Base
       mosvy_number: attribute[:mosvy_number],
       given_name: attribute[:given_name],
       family_name: attribute[:family_name],
+      local_given_name: attribute[:local_given_name],
+      local_family_name: attribute[:local_family_name],
       gender: attribute[:gender],
       date_of_birth: attribute[:date_of_birth],
       reason_for_referral: attribute[:referral_reason],
