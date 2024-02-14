@@ -77,7 +77,7 @@ class ReferralsController < AdminController
     if params[:client_id]
       @referral = @client.referrals.find(params[:id])
     else
-      Referral.find(params[:id])
+      @referral = Referral.find(params[:id])
     end
   end
 
