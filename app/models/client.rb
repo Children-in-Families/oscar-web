@@ -812,6 +812,8 @@ class Client < ActiveRecord::Base
       mosvy_number: attribute[:mosvy_number],
       given_name: attribute[:given_name],
       family_name: attribute[:family_name],
+      local_given_name: attribute[:local_given_name],
+      local_family_name: attribute[:local_family_name],
       gender: attribute[:gender],
       date_of_birth: attribute[:date_of_birth],
       reason_for_referral: attribute[:referral_reason],

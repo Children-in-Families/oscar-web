@@ -76,8 +76,7 @@ class ScreeningAssessmentsController < AdminController
             :smile_back_during_interaction, :follow_object_passed_midline, :turn_head_to_sound,
             :head_up_45_degree, :screening_type, :client_id,
             attachments: [],
-            developmental_marker_screening_assessments_attributes:
-            [
+            developmental_marker_screening_assessments_attributes: [
               :id, :developmental_marker_id, :question_1, :question_2, :question_3, :question_4, :_destroy
             ],
             tasks_attributes: [:id, :client_id, :name, :expected_date, :completion_date, :taskable_id, :taskable_type, :relation, :_destroy]

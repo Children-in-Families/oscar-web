@@ -5,7 +5,12 @@ module Api
       include FormBuilderAttachments
 
       before_action :find_entity
-      before_action :find_custom_field_property, only: [:update, :destroy]
+      before_action :find_custom_field_property, only: %i[update destroy]
+
+      def index
+        custom_field_properties = @custom_formable.custom_field_properties
+        render json: custom_field_properties
+      end
 
       def create
         custom_field_property = @custom_formable.custom_field_properties.new(custom_field_property_params)
