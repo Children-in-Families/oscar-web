@@ -122,6 +122,6 @@ class Task < ActiveRecord::Base
   end
 
   def flash_cache
-    Rails.cache.delete([Apartment::Tenant.current, 'User', 'Client', client.id, 'tasks'])
+    Rails.cache.delete([Apartment::Tenant.current, 'User', 'Client', client.id, 'tasks']) if client
   end
 end

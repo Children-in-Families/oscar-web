@@ -35,7 +35,7 @@ class Client < ActiveRecord::Base
   mount_uploaders :detail_form_of_judicial_police_files, FileUploader
   mount_uploaders :letter_from_immigration_police_files, FileUploader
 
-  attr_accessor :assessment_id, :ngo_name
+  attr_accessor :assessment_id
   attr_accessor :organization, :case_type
 
   friendly_id :slug, use: :slugged
