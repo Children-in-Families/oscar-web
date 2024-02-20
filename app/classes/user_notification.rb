@@ -7,20 +7,20 @@ class UserNotification
 
   def initialize(user, clients)
     @current_setting = Setting.cache_first
-    @user                                            = user
-    @clients                                         = clients
-    @assessments                                     = @user.assessment_either_overdue_or_due_today
-    @user_custom_field                               = @user.user_custom_field_frequency_overdue_or_due_today if @user.admin? || @user.manager? || @user.hotline_officer?
-    @partner_custom_field                            = @user.partner_custom_field_frequency_overdue_or_due_today
-    @family_custom_field                             = @user.family_custom_field_frequency_overdue_or_due_today
-    @client_forms_overdue_or_due_today               = @user.client_forms_overdue_or_due_today
-    @case_notes_overdue_and_due_today                = @user.case_notes_due_today_and_overdue
-    @unsaved_family_referrals                        = get_family_referrals('new_referral')
-    @repeat_family_referrals                         = get_family_referrals('existing_family')
-    @upcoming_csi_assessments_count                  = 0
-    @upcoming_custom_csi_assessments_count           = 0
+    @user = user
+    @clients = clients
+    @assessments = @user.assessment_either_overdue_or_due_today
+    @user_custom_field = @user.user_custom_field_frequency_overdue_or_due_today if @user.admin? || @user.manager? || @user.hotline_officer?
+    @partner_custom_field = @user.partner_custom_field_frequency_overdue_or_due_today
+    @family_custom_field = @user.family_custom_field_frequency_overdue_or_due_today
+    @client_forms_overdue_or_due_today = @user.client_forms_overdue_or_due_today
+    @case_notes_overdue_and_due_today = @user.case_notes_due_today_and_overdue
+    @unsaved_family_referrals = get_family_referrals('new_referral')
+    @repeat_family_referrals = get_family_referrals('existing_family')
+    @upcoming_csi_assessments_count = 0
+    @upcoming_custom_csi_assessments_count = 0
     upcoming_csi_assessments
-    @all_count                                       = count
+    @all_count = count
   end
 
   def upcoming_csi_assessments
@@ -32,8 +32,8 @@ class UserNotification
     default_clients = clients_have_recent_default_assessments(clients)
     custom_assessment_clients = clients_have_recent_custom_assessments(clients)
 
-    # upcoming_csi_assessments_count = default_clients.count
-    # upcoming_custom_csi_assessments_count = custom_assessment_clients.count
+    @upcoming_csi_assessments_count = default_clients.size
+    @upcoming_custom_csi_assessments_count = custom_assessment_clients.size
 
     { clients: default_clients, custom_clients: custom_assessment_clients }
   end
@@ -317,6 +317,7 @@ class UserNotification
       count_notification += 1 if any_client_case_note_overdue?
       count_notification += 1 if any_client_case_note_due_today?
     end
+
     if @user.admin? || @user.manager? || @user.any_case_manager?
       count_notification += review_program_streams.size
     end
@@ -336,7 +337,7 @@ class UserNotification
     referrals = Referral.received.unsaved
     referrals = referrals.where('created_at > ?', @user.activated_at) if @user.deactivated_at?
     slugs = referrals.pluck(:slug).select(&:present?).uniq
-    clients = Client.where("slug IN (:slugs) OR archived_slug IN (:slugs)", slugs: slugs)
+    clients = Client.where('slug IN (:slugs) OR archived_slug IN (:slugs)', slugs: slugs)
 
     existinngs = []
     news = []
@@ -372,5 +373,4 @@ class UserNotification
     end
     referral_type == 'new_referral' ? new_family_referrals : existing_family_referrals
   end
-
 end
