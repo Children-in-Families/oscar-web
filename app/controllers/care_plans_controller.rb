@@ -38,6 +38,7 @@ class CarePlansController < AdminController
     if @care_plan.update_attributes(care_plan_params)
       redirect_to client_care_plans_path(@client), notice: t('.successfully_updated', care_plan: t('clients.care_plan'))
     else
+      flash[:alert] = @care_plan.errors.full_messages
       render :edit
     end
   end
