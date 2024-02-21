@@ -23,6 +23,7 @@ class CarePlansController < AdminController
     if assessment.care_plan.nil? && (current_setting.disable_required_fields? ? @care_plan.save(validate: false) : @care_plan.save)
       redirect_to client_care_plans_path(@client), notice: t('.successfully_created', care_plan: t('clients.care_plan'))
     else
+      flash[:alert] = @care_plan.errors.full_messages
       render :new
     end
   end
@@ -38,6 +39,7 @@ class CarePlansController < AdminController
     if @care_plan.update_attributes(care_plan_params)
       redirect_to client_care_plans_path(@client), notice: t('.successfully_updated', care_plan: t('clients.care_plan'))
     else
+      flash[:alert] = @care_plan.errors.full_messages
       render :edit
     end
   end
