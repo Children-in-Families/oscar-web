@@ -49,7 +49,7 @@
                   %i.fa.fa-tasks.fa-fw.task-sign
                 .col-xs-11.customized_assessments_notification_label
                   = customized_assessments_notification_label
-      %li.divider
+        %li.divider
       - if @notification.any_client_forms_due_today? || @notification.any_client_forms_overdue?
         %li
           %div.align-link

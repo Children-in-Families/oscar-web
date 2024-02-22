@@ -2,10 +2,11 @@ module Api
   module V1
     class NotificationsController < Api::V1::BaseApiController
       def index
-        clients = Client.none.accessible_by(current_ability).non_exited_ngo
+        clients = Client.accessible_by(current_ability).non_exited_ngo
         @notifications = UserNotification.new(current_user, clients)
-        notifications = JSON.parse(@notifications)
-        {
+        notifications = JSON.parse(@notifications.to_json)
+        notifications = {
+          all_count: notifications['all_count'],
           assessment: {
             overdue_count: notifications['assessments']['overdue_count'],
             due_today_count: notifications['assessments']['due_today'].size,
@@ -14,7 +15,7 @@ module Api
           },
           custom_assessment: {
             overdue_count: notifications['assessments']['custom_overdue_count'],
-            due_today_count: notifications['assessments']['custom_due_today'],
+            due_today_count: notifications['assessments']['custom_due_today'].size,
             upcoming_count: notifications['upcoming_custom_csi_assessments_count'],
             path: ''
           },
@@ -44,21 +45,26 @@ module Api
             due_today_count: notifications['case_notes_overdue_and_due_today']['client_due_today'].size,
             path: ''
           },
-          unsaved_family_referrals: {
-            count: 0,
+          get_referrals: {
+            count: notifications['get_referrals'].size,
             path: ''
           },
           repeat_family_referrals: {
-            count: 0,
+            count: notifications['repeat_family_referrals'].size,
             path: ''
           },
-          get_referrals: {
-            count: 0,
+          tasks: {
+            overdue_count: 0,
+            due_today_count: 0,
+            upcoming_csi_count: 0,
             path: ''
           },
-          all_count: 0
+          unsaved_family_referrals: {
+            count: notifications['unsaved_family_referrals'].size,
+            path: ''
+          }
         }
-        render json: @notifications
+        render json: notifications
       end
     end
   end

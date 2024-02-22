@@ -9,12 +9,13 @@ class UserNotification
     @current_setting = Setting.cache_first
     @user = user
     @clients = clients
-    @assessments = @user.assessment_either_overdue_or_due_today
+    eligible_clients = active_young_clients(clients, @current_setting)
+    @assessments = @user.assessment_either_overdue_or_due_today(eligible_clients, @current_setting)
     @user_custom_field = @user.user_custom_field_frequency_overdue_or_due_today if @user.admin? || @user.manager? || @user.hotline_officer?
     @partner_custom_field = @user.partner_custom_field_frequency_overdue_or_due_today
-    @family_custom_field = @user.family_custom_field_frequency_overdue_or_due_today
-    @client_forms_overdue_or_due_today = @user.client_forms_overdue_or_due_today
-    @case_notes_overdue_and_due_today = @user.case_notes_due_today_and_overdue
+    @family_custom_field = @user.family_custom_field_frequency_overdue_or_due_today(clients)
+    @client_forms_overdue_or_due_today = @user.client_forms_overdue_or_due_today(clients)
+    @case_notes_overdue_and_due_today = @user.case_notes_due_today_and_overdue(clients)
     @unsaved_family_referrals = get_family_referrals('new_referral')
     @repeat_family_referrals = get_family_referrals('existing_family')
     @upcoming_csi_assessments_count = 0
@@ -59,8 +60,8 @@ class UserNotification
     program_streams_by_user.each do |program_stream|
       rules = program_stream.rules
       client_ids = program_stream.client_enrollments.active.pluck(:client_id).uniq
-      client_ids = client_ids & @clients.ids
-      clients = Client.active_accepted_status.where(id: client_ids)
+      client_ids &= @clients.ids
+      clients = @clients.where(id: client_ids)
 
       clients_after_filter, _query = AdvancedSearches::ClientAdvancedSearch.new(rules, clients).filter
 
@@ -292,15 +293,14 @@ class UserNotification
 
   def count
     count_notification = 0
-    if @user.admin? || @user.manager?
+    if @user.admin? || @user.any_case_manager?
       count_notification += 1 if any_user_custom_field_frequency_overdue?
       count_notification += 1 if any_user_custom_field_frequency_due_today?
       count_notification += 1 if any_unsaved_referrals? && @user.referral_notification
       count_notification += 1 if any_repeat_referrals? && @user.referral_notification
       count_notification += 1 if any_unsaved_family_referrals? && @user.referral_notification
       count_notification += 1 if any_repeat_family_referrals? && @user.referral_notification
-    end
-    if @user.admin? || @user.any_case_manager?
+
       count_notification += 1 if any_partner_custom_field_frequency_overdue?
       count_notification += 1 if any_partner_custom_field_frequency_due_today?
       count_notification += 1 if any_family_custom_field_frequency_overdue?
@@ -318,7 +318,7 @@ class UserNotification
       count_notification += 1 if any_client_case_note_due_today?
     end
 
-    if @user.admin? || @user.manager? || @user.any_case_manager?
+    if @user.admin? || @user.any_case_manager?
       count_notification += review_program_streams.size
     end
     count_notification

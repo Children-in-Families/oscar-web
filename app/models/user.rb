@@ -177,18 +177,18 @@ class User < ActiveRecord::Base
     end
   end
 
-  def assessment_either_overdue_or_due_today
-    assessment_due_today
+  def assessment_either_overdue_or_due_today(clients, setting)
+    csi_assessments = assessment_due_today(clients, setting)
+    custom_assessments = custom_assessment_due(clients)
+
+    csi_assessments.merge(custom_assessments)
   end
 
-  def assessment_due_today
-    setting = Setting.cache_first
+  def assessment_due_today(eligible_clients, setting)
     due_today = { client_id: [], next_assessment_date: [] }
     overdue_assessments = []
-    current_ability = Ability.new(self)
+    Rails.cache.delete([Apartment::Tenant.current, self.class.name, id, 'assessment_either_overdue_or_due_today'])
     Rails.cache.fetch([Apartment::Tenant.current, self.class.name, id, 'assessment_either_overdue_or_due_today']) do
-      clients = Client.accessible_by(current_ability)
-      eligible_clients = active_young_clients(clients, setting)
       sql = 'clients.id, (SELECT assessments.created_at FROM assessments WHERE assessments.client_id = clients.id AND assessments.default = true ORDER BY assessments.created_at DESC LIMIT 1) AS assessment_created_at'
       if deactivated_at.nil?
         clients_recent_assessment_dates = Client.joins(:assessments).where(id: eligible_clients.ids).merge(Assessment.defaults.most_recents).select(sql)
@@ -205,16 +205,11 @@ class User < ActiveRecord::Base
         overdue_assessments << assessment_overdue(client_id, next_assessment_date)
       end
 
-      customized_due_today, custom_assessment_overdue = custom_assessment_due(eligible_clients)
-
       {
         overdue_count: overdue_assessments.compact.count,
         overdue_assessment: overdue_assessments.compact,
         due_today: due_today[:client_id],
-        due_today_assessment_date: due_today[:next_assessment_date],
-        custom_overdue_count: custom_assessment_overdue.flatten.uniq.count,
-        custom_due_today: customized_due_today[:client_id],
-        custom_due_today_assessment_date: customized_due_today[:custom_assessment_setting]
+        due_today_assessment_date: due_today[:next_assessment_date]
       }
     end
   end
@@ -240,15 +235,19 @@ class User < ActiveRecord::Base
       end
     end
 
-    [customized_due_today, custom_assessment_overdue.compact]
+    {
+      custom_overdue_count: custom_assessment_overdue.flatten.uniq.count,
+      custom_due_today: customized_due_today[:client_id],
+      custom_due_today_assessment_date: customized_due_today[:custom_assessment_setting]
+    }
   end
 
   def assessment_overdue(client_id, next_assessment_date)
     [client_id, next_assessment_date] if next_assessment_date.to_date < Date.today
   end
 
-  def client_custom_field_frequency_overdue_or_due_today
-    entity_type_custom_field_notification(clients.active_accepted_status)
+  def client_custom_field_frequency_overdue_or_due_today(_clients)
+    entity_type_custom_field_notification(_clients.active_accepted_status)
   end
 
   def user_custom_field_frequency_overdue_or_due_today
@@ -267,23 +266,23 @@ class User < ActiveRecord::Base
     end
   end
 
-  def family_custom_field_frequency_overdue_or_due_today
+  def family_custom_field_frequency_overdue_or_due_today(_clients)
     if self.admin? || self.hotline_officer?
       entity_type_custom_field_notification(Family.all)
     elsif self.manager?
-      subordinate_users = User.where('manager_ids && ARRAY[:user_id] OR id = :user_id', { user_id: self.id }).map(&:id)
+      subordinate_users = User.self_and_subordinates(self).map(&:id)
       family_ids = []
       exited_client_ids = exited_clients(subordinate_users)
 
       family_ids += User.joins(:clients).where(id: subordinate_users).where.not(clients: { current_family_id: nil }).select('clients.current_family_id AS client_current_family_id').map(&:client_current_family_id)
-      family_ids += Client.where(id: exited_client_ids).pluck(:current_family_id)
-      family_ids += self.clients.pluck(:current_family_id)
+      family_ids += _clients.where(id: exited_client_ids).pluck(:current_family_id)
+      family_ids += _clients.pluck(:current_family_id)
 
       families = Family.where(id: family_ids).or(Family.where(user_id: self.id))
       entity_type_custom_field_notification(families)
     elsif self.case_worker?
       family_ids = []
-      self.clients.each do |client|
+      _clients.each do |client|
         family_ids << client.family.try(:id)
       end
       families = Family.where(id: family_ids).or(Family.where(user_id: self.id))
@@ -291,7 +290,7 @@ class User < ActiveRecord::Base
     end
   end
 
-  def client_forms_overdue_or_due_today
+  def client_forms_overdue_or_due_today(user_clients)
     if self.deactivated_at.present?
       active_accepted_clients = user_clients.where('clients.created_at > ?', self.activated_at).active_accepted_status
     else
@@ -300,7 +299,7 @@ class User < ActiveRecord::Base
     overdue_and_due_today_forms(self, active_accepted_clients)
   end
 
-  def case_notes_due_today_and_overdue
+  def case_notes_due_today_and_overdue(user_clients)
     overdue = []
     due_today = []
 
@@ -333,16 +332,10 @@ class User < ActiveRecord::Base
     { client_overdue: overdue, client_due_today: due_today }
   end
 
-  def user_clients
-    @user_clients ||= if admin? || strategic_overviewer?
-                        Client.select(:id, :slug, :given_name, :family_name, :local_given_name, :local_family_name)
-                      elsif manager?
-                        user_ability = Ability.new(self)
-                        Client.accessible_by(user_ability)
-                      else # caseworker?
-                        clients.select(:id, :slug, :given_name, :family_name, :local_given_name, :local_family_name)
-                      end
-  end
+  # def user_clients
+  #   user_ability = Ability.new(self)
+  #   @user_clients ||= Client.accessible_by(user_ability).select(:id, :slug, :given_name, :family_name, :local_given_name, :local_family_name)
+  # end
 
   def self.self_and_subordinates(user)
     if user.admin? || user.strategic_overviewer?
@@ -438,7 +431,7 @@ class User < ActiveRecord::Base
     if manager_manager_ids.present?
       subordinators = User.where(id: manager_manager_ids)
     else
-      subordinators = User.where('id = :user_id OR manager_ids && ARRAY[:user_id]', { user_id: self.id })
+      subordinators = User.self_and_subordinates(self)
     end
     managers_ids = subordinators.pluck(:manager_ids)
     manager_manager_ids & (managers_ids << the_manager_id).flatten.compact.uniq
