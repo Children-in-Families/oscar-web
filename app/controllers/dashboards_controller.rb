@@ -37,7 +37,7 @@ class DashboardsController < AdminController
   end
 
   def notification
-    clients = Client.none.accessible_by(current_ability).non_exited_ngo
+    clients = Client.accessible_by(current_ability).non_exited_ngo
     @notification = UserNotification.new(current_user, clients)
   end
 
