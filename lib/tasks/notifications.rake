@@ -1,4 +1,3 @@
-include CsiConcern
 namespace :notifications do
   desc 'Cache all notifications'
   task :cache, [:short_name] => :environment do |task, args|
