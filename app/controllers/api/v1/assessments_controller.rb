@@ -27,8 +27,8 @@ module Api
       end
 
       def update
-        params[:assessment][:assessment_domains_attributes].each do |assessment_domain|
-          add_more_attachments(assessment_domain[:attachments], assessment_domain[:id])
+        params[:assessment][:assessment_domains_attributes].each do |_, assessment_domain|
+          add_more_attachments(assessment_domain[:attachments], assessment_domain[:id]) if assessment_domain.key?(:id)
         end
 
         assessment = @client.assessments.find(params[:id])
