@@ -14,7 +14,6 @@ module Api
                           else
                             current_user
                           end
-
       end
 
       def doorkeeper_controller?

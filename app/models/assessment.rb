@@ -1,12 +1,14 @@
 class Assessment < ActiveRecord::Base
+  attr_accessor :skip_assessment_domain_populate
+
   belongs_to :client, counter_cache: true
   belongs_to :family, counter_cache: true
   belongs_to :case_conference
   belongs_to :custom_assessment_setting
 
   has_many :assessment_domains, dependent: :destroy
-  has_many :domains,            through:   :assessment_domains
-  has_many :case_notes,         dependent: :destroy
+  has_many :domains, through: :assessment_domains
+  has_many :case_notes, dependent: :destroy
   has_many :tasks, as: :taskable, dependent: :destroy
   has_many :goals, dependent: :destroy
 
@@ -37,11 +39,11 @@ class Assessment < ActiveRecord::Base
   scope :not_draft, -> { where(draft: false) }
   scope :draft, -> { where(draft: true) }
   scope :draft_untouch, -> { draft.where(last_auto_save_at: nil) }
-  scope :not_untouch_draft, -> { where("draft IS FALSE OR last_auto_save_at IS NOT NULL") }
+  scope :not_untouch_draft, -> { where('draft IS FALSE OR last_auto_save_at IS NOT NULL') }
 
   default_scope { not_untouch_draft }
 
-  DUE_STATES        = ['Due Today', 'Overdue']
+  DUE_STATES = ['Due Today', 'Overdue']
 
   def set_assessment_completed
     return if draft?
@@ -105,6 +107,8 @@ class Assessment < ActiveRecord::Base
   end
 
   def populate_family_domains
+    return if skip_assessment_domain_populate
+
     family_domains = Domain.family_custom_csi_domains.presence || Domain.csi_domains
     family_domains.where.not(id: domains.ids).each do |domain|
       assessment_domains.build(domain: domain)
@@ -127,13 +131,13 @@ class Assessment < ActiveRecord::Base
     return false if client.nil?
 
     eligible = if default?
-                client.eligible_default_csi?
-              else
-                custom_assessment_setting_ids = client.assessments.customs.map{|ca| ca.domains.pluck(:custom_assessment_setting_id ) }.flatten.uniq
-                CustomAssessmentSetting.where(id: custom_assessment_setting_ids).each do |custom_assessment_setting|
-                  client.eligible_custom_csi?(custom_assessment_setting)
-                end
-              end
+                 client.eligible_default_csi?
+               else
+                 custom_assessment_setting_ids = client.assessments.customs.map { |ca| ca.domains.pluck(:custom_assessment_setting_id) }.flatten.uniq
+                 CustomAssessmentSetting.where(id: custom_assessment_setting_ids).each do |custom_assessment_setting|
+                   client.eligible_custom_csi?(custom_assessment_setting)
+                 end
+               end
     eligible ? true : errors.add(:base, "Assessment cannot be added due to client's age.")
   end
 
@@ -148,6 +152,8 @@ class Assessment < ActiveRecord::Base
   private
 
   def populate_domains
+    return if skip_assessment_domain_populate
+
     self.assessment_domains = AssessmentDomainsLoader.call(self) if new_record? && client_id?
   end
 
@@ -156,7 +162,7 @@ class Assessment < ActiveRecord::Base
     if default == false && assessment_domains.any?
       custom_assessment_setting_id = assessment_domains.first.domain&.custom_assessment_setting_id
     end
-    errors.add(:base, "Assessment cannot be created due to either frequency period or previous assessment status") if client.present? && !client.can_create_assessment?(default, custom_assessment_setting_id)
+    errors.add(:base, 'Assessment cannot be created due to either frequency period or previous assessment status') if client.present? && !client.can_create_assessment?(default, custom_assessment_setting_id)
   end
 
   def must_be_enable

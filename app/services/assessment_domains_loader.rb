@@ -18,13 +18,13 @@ class AssessmentDomainsLoader < ServiceBase
 
   def domains
     @domains ||= if assessment.default?
-      Domain.csi_domains
-    else
-      if assessment.custom_assessment_setting_id
-        CustomAssessmentSetting.find_by(id: assessment.custom_assessment_setting_id).domains
-      else
-        Domain.custom_csi_domains
-      end
-    end
+                   Domain.csi_domains
+                 else
+                   if assessment.custom_assessment_setting_id
+                     CustomAssessmentSetting.find_by(id: assessment.custom_assessment_setting_id).domains
+                   else
+                     Domain.custom_csi_domains
+                   end
+                 end
   end
 end
