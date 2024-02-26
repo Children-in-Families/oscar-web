@@ -1,11 +1,11 @@
 module HashDeepTraverse
   def deep_traverse(&block)
-    stack = self.map{ |k,v| [ [k], v ] }
+    stack = self.map { |k, v| [[k], v] }
     while not stack.empty?
       key, value = stack.pop
       yield(key, value)
       if value.is_a? Hash
-        value.each{ |k,v| stack.push [ key.dup << k, v ] }
+        value.each { |k, v| stack.push [key.dup << k, v] }
       end
     end
   end
@@ -39,7 +39,7 @@ module I18n::Backend::Custom
     filenames.flatten.each { |filename| load_file(filename) }
     if Apartment::Tenant.current != 'public'
       if Organization.cache_table_exists? 'settings'
-        nepal_commune_mapping if Setting.cache_first&.country_name == 'nepal'
+        nepal_commune_mapping if Setting.first&.country_name == 'nepal'
       end
       load_custom_labels if Organization.cache_table_exists? 'field_settings'
     end
@@ -106,6 +106,7 @@ module I18n::Backend::Custom
       end
     end
   end
+
   alias_method :override_translation, :load_custom_labels
 end
 

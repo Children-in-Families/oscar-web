@@ -17,6 +17,10 @@ every :day, at: '00:00 am' do
   runner 'BillableAcceptedClientsWorker.perform_async'
 end
 
+every :day, at: '02:15 am' do
+  rake 'notifications:cache'
+end
+
 every :hour do
   rake 'instance:update_count_data'
 end

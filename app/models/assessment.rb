@@ -62,7 +62,7 @@ class Assessment < ActiveRecord::Base
 
   def check_reason_and_score
     empty_assessment_domains = []
-    setting = Setting.cache_first
+    setting = Setting.first
     is_ratanak = Organization.ratanak?
     assessment_domains.each do |assessment_domain|
       if is_ratanak
@@ -166,7 +166,7 @@ class Assessment < ActiveRecord::Base
   end
 
   def must_be_enable
-    enable = default? ? Setting.cache_first.enable_default_assessment : Setting.cache_first.enable_custom_assessment
+    enable = default? ? Setting.first.enable_default_assessment : Setting.first.enable_custom_assessment
     enable || family ? true : errors.add(:base, 'Assessment tool must be enable in setting')
   end
 

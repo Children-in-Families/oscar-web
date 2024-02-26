@@ -2,7 +2,7 @@ module ApplicationHelper
   Thredded::ApplicationHelper
 
   def setting
-    Setting.cache_first
+    Setting.first
   end
 
   def asset_data_base64(path)

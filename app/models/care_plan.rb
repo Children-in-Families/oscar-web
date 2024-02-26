@@ -35,7 +35,7 @@ class CarePlan < ActiveRecord::Base
   end
 
   def set_care_plan_completed
-    return if goals.empty? && !Setting.cache_first.disable_required_fields?
+    return if goals.empty? && !Setting.first.disable_required_fields?
 
     required_assessment_domains = []
     assessment.assessment_domains.each do |assessment_domain|
@@ -43,7 +43,7 @@ class CarePlan < ActiveRecord::Base
     end
     required_assessment_domain_ids = required_assessment_domains.map(&:id)
 
-    if Setting.cache_first.disable_required_fields? || (goals.pluck(:assessment_domain_id) & required_assessment_domain_ids).sort == required_assessment_domain_ids.sort
+    if Setting.first.disable_required_fields? || (goals.pluck(:assessment_domain_id) & required_assessment_domain_ids).sort == required_assessment_domain_ids.sort
       update_columns(completed: true)
     else
       update_columns(completed: false)

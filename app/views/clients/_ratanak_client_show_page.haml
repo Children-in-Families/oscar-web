@@ -128,7 +128,7 @@
             %strong
               = @client.carer.try(:phone)
 
-      - if Setting.cache_first.country_name == "cambodia" && !Organization.brc?
+      - if Setting.first.country_name == "cambodia" && !Organization.brc?
         %tr
           %td.spacing-first-col
             = t('clients.show.is_the_client_rated_for_id_poor')

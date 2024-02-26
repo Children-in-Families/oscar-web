@@ -403,7 +403,7 @@ module AssessmentHelper
   end
 
   def check_setting_assessment_type_name_selected(assessment)
-    setting_assessment_type_id = Setting.cache_first.assessment_type_name
+    setting_assessment_type_id = Setting.first.assessment_type_name
 
     if assessment.default
       true

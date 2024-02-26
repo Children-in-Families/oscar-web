@@ -2,7 +2,7 @@ class CaseNoteOverdue
   def notify_user
     Organization.all.each do |org|
       Organization.switch_to org.short_name
-      setting = Setting.cache_first
+      setting = Setting.first
       max_case_note = setting.try(:max_case_note) || 30
       case_note_frequency = setting.try(:case_note_frequency) || 'day'
       case_note_period = max_case_note.send(case_note_frequency).ago

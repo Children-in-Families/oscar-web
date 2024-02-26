@@ -12,23 +12,23 @@ module AdvancedSearches
         @user = options[:user]
         @pundit_user = options[:pundit_user]
         @called_in = options[:called_in]
-        @current_setting = Setting.cache_first
+        @current_setting = Setting.first
         address_translation
       end
 
       def render
-        group                 = family_header('family_basic_fields')
-        common_group          = format_header('common_searches')
+        group = family_header('family_basic_fields')
+        common_group = format_header('common_searches')
 
-        number_fields         = number_type_list.map { |item| AdvancedSearches::FilterTypes.number_options(item, family_header(item), group) }
-        text_fields           = text_type_list.map { |item| AdvancedSearches::FilterTypes.text_options(item, family_header(item), group) }
-        date_picker_fields    = date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, family_header(item), group) }
-        date_picker_fields    += common_search_date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, family_header(item), common_group) }
-        date_picker_fields    += [['no_case_note_date', I18n.t('advanced_search.fields.no_case_note_date')]].map{ |item| AdvancedSearches::CsiFields.date_between_only_options(item[0], item[1], group) }
-        drop_list_fields      = drop_down_type_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, family_header(item.first), item.last, group) }
-        date_picker_fields    += mapping_care_plan_date_lable_translation unless current_setting.try(:hide_family_case_management_tool?)
+        number_fields = number_type_list.map { |item| AdvancedSearches::FilterTypes.number_options(item, family_header(item), group) }
+        text_fields = text_type_list.map { |item| AdvancedSearches::FilterTypes.text_options(item, family_header(item), group) }
+        date_picker_fields = date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, family_header(item), group) }
+        date_picker_fields += common_search_date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, family_header(item), common_group) }
+        date_picker_fields += [['no_case_note_date', I18n.t('advanced_search.fields.no_case_note_date')]].map { |item| AdvancedSearches::CsiFields.date_between_only_options(item[0], item[1], group) }
+        drop_list_fields = drop_down_type_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, family_header(item.first), item.last, group) }
+        date_picker_fields += mapping_care_plan_date_lable_translation unless current_setting.try(:hide_family_case_management_tool?)
         search_fields = text_fields + drop_list_fields + number_fields + date_picker_fields
-        
+
         unless current_setting.hide_family_case_management_tool?
           search_fields += current_setting.enable_custom_assessment? ? AdvancedSearches::CustomDomainScoreFields.render('family') : []
         end
@@ -80,7 +80,7 @@ module AdvancedSearches
           ['user_id', created_by_options('Family')],
           ['received_by_id', received_by_options('Family')],
           ['active_program_stream', active_program_options],
-          ['relation', drop_down_relation.map { |k, v| { k => v }  }],
+          ['relation', drop_down_relation.map { |k, v| { k => v } }],
           *addresses_mapping(@called_in)
         ] + case_management_tool_fields
       end
@@ -90,7 +90,7 @@ module AdvancedSearches
       end
 
       def case_note_type_options
-        [CaseNote::INTERACTION_TYPE, I18n.t('case_notes.form.type_options').values].transpose.map { |k, v| { k => v }  }
+        [CaseNote::INTERACTION_TYPE, I18n.t('case_notes.form.type_options').values].transpose.map { |k, v| { k => v } }
       end
 
       def family_type_options
@@ -102,7 +102,7 @@ module AdvancedSearches
       end
 
       def clients
-        Client.joins(:families).order('lower(clients.given_name)').pluck('clients.given_name, clients.family_name, clients.id').uniq.map{|s| { s[2].to_s => "#{s[0]} #{s[1]}" } }
+        Client.joins(:families).order('lower(clients.given_name)').pluck('clients.given_name, clients.family_name, clients.id').uniq.map { |s| { s[2].to_s => "#{s[0]} #{s[1]}" } }
       end
 
       def family_id_poor
@@ -115,7 +115,7 @@ module AdvancedSearches
       end
 
       def gender_options
-        FamilyMember.gender.values.map{ |value| [value, I18n.t("datagrid.columns.families.gender_list.#{value.gsub('other', 'other_gender')}")] }.to_h
+        FamilyMember.gender.values.map { |value| [value, I18n.t("datagrid.columns.families.gender_list.#{value.gsub('other', 'other_gender')}")] }.to_h
       end
 
       def active_program_options

@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
   include EntityTypeCustomFieldNotification
   include NextClientEnrollmentTracking
   include ClientOverdueAndDueTodayForms
+  include NotificationMappingConcern
   include CsiConcern
   include CacheAll
 
@@ -375,10 +376,12 @@ class User < ActiveRecord::Base
     user.update_column(:manager_ids, find_manager_manager(user.manager_id, the_manager_ids)) if user.persisted?
     user.save unless user.id == id
     return if user.case_worker?
+
     subordinators = User.where(manager_id: user.id)
     if subordinators.present?
       subordinators.each do |subordinator|
         next if subordinator.id == self.id
+
         update_manager_ids(subordinator, the_manager_ids.push(user.id).flatten.compact.uniq)
       end
     end
@@ -420,10 +423,19 @@ class User < ActiveRecord::Base
     end
   end
 
+  def fetch_notification
+    Rails.cache.fetch([Apartment::Tenant.current, 'notifications', 'user', id]) do
+      notifications = UserNotification.new(self, clients)
+      notifications = JSON.parse(notifications.to_json)
+      map_notification_payloads(notifications)
+    end
+  end
+
   private
 
   def toggle_referral_notification
     return unless roles_changed? && roles == 'admin'
+
     self.update_columns(referral_notification: true)
   end
 
@@ -433,6 +445,9 @@ class User < ActiveRecord::Base
     else
       subordinators = User.self_and_subordinates(self)
     end
+
+    return manager_manager_ids unless subordinators
+
     managers_ids = subordinators.pluck(:manager_ids)
     manager_manager_ids & (managers_ids << the_manager_id).flatten.compact.uniq
   end

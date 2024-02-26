@@ -35,7 +35,7 @@ class Ability
       can :manage, CaseNote
       can :create, Client
       can :manage, Client, case_worker_clients: { user_id: user.id }
-      cannot :create, CustomFieldProperty, custom_field: { hidden: true },  custom_formable_type: 'Client'
+      cannot :create, CustomFieldProperty, custom_field: { hidden: true }, custom_formable_type: 'Client'
       can :manage, CustomFieldProperty, custom_formable_type: 'Client'
       can :manage, CustomFieldProperty, custom_formable_type: 'Family'
       can :manage, CustomFieldProperty, custom_formable_type: 'Community'
@@ -65,7 +65,6 @@ class Ability
 
       can :create, Family
       can :manage, Family, id: family_ids.flatten.compact.uniq
-
     elsif user.manager?
       subordinate_users = User.where('manager_ids && ARRAY[:user_id] OR id = :user_id', { user_id: user.id }).map(&:id)
       subordinate_users << user.id
@@ -106,7 +105,6 @@ class Ability
 
       can :create, Family
       can :manage, Family, id: family_ids.compact.uniq
-
     elsif user.hotline_officer?
       can :manage, Attachment
       can :manage, Case, exited: false
@@ -130,7 +128,7 @@ class Ability
       can [:read, :create, :update], ScreeningAssessment
     end
 
-    cannot :read, Community if Setting.cache_first.hide_community?
+    cannot :read, Community if Setting.first.hide_community?
     cannot :read, Partner if FieldSetting.hidden_group?('partner')
   end
 

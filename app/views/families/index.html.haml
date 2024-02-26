@@ -4,7 +4,7 @@
       = fa_icon('filter')
     %button.btn.btn-primary.query.family-advance-search{"aria-expanded" => 'false', "data-target" => '#family-advance-search-form', "data-toggle" => 'collapse', type: 'button'}
       = t('.report_builder')
-    
+
     %button.btn.btn-primary#load-saved-search{ data: { toggle: 'modal', target: '#load-save-search', trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.load_saved_search')}", placement: "auto" } }
       = t('clients.index.load_save_search')
 
@@ -12,7 +12,7 @@
       = t('clients.index.save_search_settings')
 
     - if params['commit'].present? || params['family_advanced_search'].present?
-      - unless Setting.cache_first.hide_family_case_management_tool?
+      - unless Setting.first.hide_family_case_management_tool?
         .btn-group
           %button.btn.btn-primary.dropdown-toggle{ "aria-expanded" => "false", "aria-haspopup" => "true", type: "button", data: { toggle: "dropdown", trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.assessment_data', assessment: t('clients.show.assessment'))}", placement: "auto" } }
             = t('clients.index.assessment_data', assessment: t('clients.show.assessment'))
@@ -25,7 +25,7 @@
                     = assessment[1]
 
           = render 'custom_assessment_domain_score'
-      
+
   .col-xs-12.col-md-3
     .pull-right.family-action
       - if can? :manage, Family
@@ -40,7 +40,7 @@
   .col-xs-12
     .ibox-content#family-advance-search-form.collapse.main-report-builder
       = render 'families/family_advanced_searches/advanced_search'
-.row 
+.row
   #save-query.modal.fade{ role: 'dialog' }
   #load-save-search.modal.fade{ role: 'dialog' }
     .modal-dialog.modal-lg
@@ -56,7 +56,7 @@
             %li
               %a#other-saved-searches-tab{ href: '#other-saved-searches', data: { toggle: 'tab', trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.other_saved_search')}", placement: "auto" } }
                 = t('client_advanced_searches.load_save_search.other_saved_search')
-                
+
           .tab-content
             = hidden_field_tag 'advanced_search_id', params[:advanced_search_id]
             = render 'my_saved_searches'

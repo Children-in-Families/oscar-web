@@ -183,7 +183,7 @@
                 - else
                   = number_to_currency(@family.total_monthly_income)
     .row.family-summary
-      - if Setting.cache_first.hide_family_case_management_tool?
+      - if Setting.first.hide_family_case_management_tool?
         .col-sm-12
           = render "families/show/about"
       - else

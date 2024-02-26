@@ -4,8 +4,8 @@ class InternalReferral < ActiveRecord::Base
   has_paper_trail
 
   mount_uploaders :attachments, ConsentFormUploader
-  belongs_to :user, class_name: "User", foreign_key: "user_id"
-  belongs_to :client, class_name: "Client", foreign_key: "client_id"
+  belongs_to :user, class_name: 'User', foreign_key: 'user_id'
+  belongs_to :client, class_name: 'Client', foreign_key: 'client_id'
 
   has_many :internal_referral_program_streams, dependent: :destroy
   has_many :program_streams, through: :internal_referral_program_streams
@@ -19,7 +19,7 @@ class InternalReferral < ActiveRecord::Base
   after_save :sent_email_to_user
 
   def is_editable?
-    setting = Setting.cache_first
+    setting = Setting.first
     return true if setting.try(:internal_referral_limit).zero?
     max_duration = setting.try(:internal_referral_limit).zero? ? 2 : setting.try(:internal_referral_limit)
     internal_referral_frequency = setting.try(:internal_referral_frequency)
@@ -44,5 +44,4 @@ class InternalReferral < ActiveRecord::Base
       errors.add(:referral_date, 'The referral date you have selected is invalid. Please select referral date before initial referral date and NGO accept date.')
     end
   end
-
 end

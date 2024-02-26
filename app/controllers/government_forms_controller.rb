@@ -9,12 +9,12 @@ class GovernmentFormsController < AdminController
   before_action :find_static_association, only: :show
 
   def index
-    @carer            = @client.carer
-    @government_forms = @client.government_forms.filter({ name: @form_name})
+    @carer = @client.carer
+    @government_forms = @client.government_forms.filter({ name: @form_name })
   end
 
   def new
-    if params[:copy] != "true"
+    if params[:copy] != 'true'
       @government_form = @client.government_forms.new(name: @form_name)
       authorize @government_form
       @government_form.populate_needs
@@ -29,7 +29,7 @@ class GovernmentFormsController < AdminController
     else
       @government_form = @client.government_forms.find(params[:government_form_id]).decorate
       gov_attr = @government_form.merge_associations_params.except('id')
-      @government_form =  @client.government_forms.new(gov_attr)
+      @government_form = @client.government_forms.new(gov_attr)
       authorize @government_form
     end
   end
@@ -47,8 +47,8 @@ class GovernmentFormsController < AdminController
   def show
     respond_to do |format|
       format.pdf do
-        @client_tasks  = @client.tasks.incomplete.by_case_note.order(completion_date: :desc)
-        @case_notes    = []
+        @client_tasks = @client.tasks.incomplete.by_case_note.order(completion_date: :desc)
+        @case_notes = []
 
         @client.case_notes.order(meeting_date: :desc).each do |case_note|
           tasks = []
@@ -64,14 +64,14 @@ class GovernmentFormsController < AdminController
           @case_notes << [meeting_dates, tasks, notes]
         end
 
-        render  pdf:      @government_form.name,
-                dpi:      '70',
-                template: 'government_forms/show.pdf.haml',
-                layout:   'pdf_design.html.haml',
-                show_as_html: params.key?('debug'),
-                header: { html: { template: 'government_forms/pdf/header.pdf.haml' } },
-                footer: { html: { template: 'government_forms/pdf/footer.pdf.haml' }, right: '[page] of [topage]' },
-                margin: { left: 0, right: 0 }
+        render pdf: @government_form.name,
+               dpi: '70',
+               template: 'government_forms/show.pdf.haml',
+               layout: 'pdf_design.html.haml',
+               show_as_html: params.key?('debug'),
+               header: { html: { template: 'government_forms/pdf/header.pdf.haml' } },
+               footer: { html: { template: 'government_forms/pdf/footer.pdf.haml' }, right: '[page] of [topage]' },
+               margin: { left: 0, right: 0 }
       end
     end
   end
@@ -126,26 +126,26 @@ class GovernmentFormsController < AdminController
     if params[:copy] == 'true'
       @government_form = GovernmentForm.find(params[:government_form_id])
     end
-    @interviewees   = Interviewee.order(:created_at)
-    @client_types   = ClientType.order(:created_at)
-    @users          = @client.users.order(:first_name, :last_name)
-    @provinces      = Province.official.order(:name)
-    @districts      = @government_form.province.present? ? @government_form.province.districts.order(:code) : []
-    @interviewee_districts   = @government_form.interview_province.present? ? @government_form.interview_province.districts.order(:code) : []
-    @interview_communes      = @government_form.interview_district.present? ? @government_form.interview_district.communes.order(:code) : []
-    @interview_villages      = @government_form.interview_commune.present? ? @government_form.interview_commune.villages.order(:code) : []
-    @assessment_districts    = @government_form.assessment_province.present? ? @government_form.assessment_province.districts.order(:code) : []
-    @assessment_communes     = @government_form.assessment_district.present? ? @government_form.assessment_district.communes.order(:code) : []
+    @interviewees = Interviewee.order(:created_at)
+    @client_types = ClientType.order(:created_at)
+    @users = @client.users.order(:first_name, :last_name)
+    @provinces = Province.official.order(:name)
+    @districts = @government_form.province.present? ? @government_form.province.districts.order(:code) : []
+    @interviewee_districts = @government_form.interview_province.present? ? @government_form.interview_province.districts.order(:code) : []
+    @interview_communes = @government_form.interview_district.present? ? @government_form.interview_district.communes.order(:code) : []
+    @interview_villages = @government_form.interview_commune.present? ? @government_form.interview_commune.villages.order(:code) : []
+    @assessment_districts = @government_form.assessment_province.present? ? @government_form.assessment_province.districts.order(:code) : []
+    @assessment_communes = @government_form.assessment_district.present? ? @government_form.assessment_district.communes.order(:code) : []
     @primary_carer_districts = @government_form.primary_carer_province.present? ? @government_form.primary_carer_province.districts.order(:code) : []
-    @primary_carer_communes  = @government_form.primary_carer_district.present? ? @government_form.primary_carer_district.communes.order(:code) : []
-    @primary_carer_villages  = @government_form.primary_carer_commune.present? ? @government_form.primary_carer_commune.villages.order(:code) : []
-    @communes       = @government_form.district.present? ? @government_form.district.communes.order(:code) : []
-    @villages       = @government_form.commune.present? ? @government_form.commune.villages.order(:code) : []
-    @needs          = Need.order(:created_at)
-    @problems       = Problem.order(:created_at)
-    @service_types  = ServiceType.order(:created_at)
-    @client_rights  = ClientRight.order(:created_at)
-    @case_closures  = CaseClosure.order(:created_at)
+    @primary_carer_communes = @government_form.primary_carer_district.present? ? @government_form.primary_carer_district.communes.order(:code) : []
+    @primary_carer_villages = @government_form.primary_carer_commune.present? ? @government_form.primary_carer_commune.villages.order(:code) : []
+    @communes = @government_form.district.present? ? @government_form.district.communes.order(:code) : []
+    @villages = @government_form.commune.present? ? @government_form.commune.villages.order(:code) : []
+    @needs = Need.order(:created_at)
+    @problems = Problem.order(:created_at)
+    @service_types = ServiceType.order(:created_at)
+    @client_rights = ClientRight.order(:created_at)
+    @case_closures = CaseClosure.order(:created_at)
   end
 
   def find_government_form
@@ -177,20 +177,20 @@ class GovernmentFormsController < AdminController
 
   def find_form_name
     @form_name = case params[:form]
-            when 'one' then 'ទម្រង់ទី១: ព័ត៌មានបឋម'
-            when 'two' then 'ទម្រង់ទី២: ការប៉ាន់ប្រមាណករណី និងគ្រួសារ'
-            when 'three' then 'ទម្រង់ទី៣: ផែនការសេវាសំរាប់ករណី​ និង គ្រួសារ'
-            when 'four' then 'ទម្រង់ទី៤: ការទុកដាក់កុមារ'
-            when 'five'   then 'ទម្រង់ទី៥: តាមដាន និងត្រួតពិនិត្យ'
-            when 'six' then 'ទម្រង់ទី៦: ប៉ាន់ប្រមាណចុងក្រោយ'
-            else nil
-            end
+                 when 'one' then 'ទម្រង់ទី១: ព័ត៌មានបឋម'
+                 when 'two' then 'ទម្រង់ទី២: ការប៉ាន់ប្រមាណករណី និងគ្រួសារ'
+                 when 'three' then 'ទម្រង់ទី៣: ផែនការសេវាសំរាប់ករណី​ និង គ្រួសារ'
+                 when 'four' then 'ទម្រង់ទី៤: ការទុកដាក់កុមារ'
+                 when 'five' then 'ទម្រង់ទី៥: តាមដាន និងត្រួតពិនិត្យ'
+                 when 'six' then 'ទម្រង់ទី៦: ប៉ាន់ប្រមាណចុងក្រោយ'
+                 else nil
+                 end
     @form_name
   end
 
   def find_static_association
-    @user     = @government_form.case_worker_info
-    @setting  = Setting.cache_first
+    @user = @government_form.case_worker_info
+    @setting = Setting.first
     @guardian = @client.family.family_members.find_by(guardian: true) if @client.family.present?
     @father = @client.family.family_members.find_by(guardian: true, relation: 'Father') if @client.family.present?
     @mother = @client.family.family_members.find_by(guardian: true, relation: 'Mother') if @client.family.present?
