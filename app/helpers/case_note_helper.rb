@@ -16,7 +16,7 @@ module CaseNoteHelper
   end
 
   def destroy_link(obj, case_note)
-    if case_notes_deleted?
+    if case_notes_deleted? || case_note.draft?
       link_to(polymorphic_path([obj, case_note], custom: case_note.custom), method: 'delete', data: { confirm: t('case_notes.index.are_you_sure') }, class: 'btn btn-danger') do
         fa_icon('trash')
       end
