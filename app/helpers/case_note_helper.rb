@@ -30,7 +30,7 @@ module CaseNoteHelper
   end
 
   def new_link(obj = @client)
-    if CaseNote.default.draft.first
+    if obj.instance_of?(Client) && obj.case_notes.default.draft.first
       link_to_if false, '' do
         content_tag :a, class: 'disabled' do
           @current_setting.default_assessment
@@ -70,7 +70,7 @@ module CaseNoteHelper
   def new_custom_link(custom_assessment_name, obj = @client)
     custom_asessment = CustomAssessmentSetting.find_by(custom_assessment_name: custom_assessment_name)
 
-    if CaseNote.custom.draft.where(custom_assessment_setting_id: custom_asessment.id).first
+    if obj.instance_of?(Client) && obj.case_notes.custom.draft.where(custom_assessment_setting_id: custom_asessment.id).first
       link_to_if false, '' do
         content_tag :a, class: 'disabled' do
           custom_assessment_name
