@@ -23,7 +23,7 @@
       - if @notification.any_overdue_tasks? || @notification.any_due_today_tasks?
         %li
           %div.align-link
-            = link_to dashboards_path(user_id: current_user.id, tasks: true) do
+            = link_to dashboards_notify_task_path(user_id: current_user.id, tasks: true, format: :js), remote: true do
               .row
                 .col-xs-1
                   %i.fa.fa-tasks.fa-fw.task-sign

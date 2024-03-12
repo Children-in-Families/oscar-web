@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   get '/dashboards/notification' => 'dashboards#notification'
   get '/dashboards/family_tab' => 'dashboards#family_tab'
   get '/dashboards/side_menu_data' => 'dashboards#side_menu_data'
+  get '/dashboards/notify_task' => 'dashboards#notify_task'
 
   resources :calendars
 

@@ -54,6 +54,13 @@ class DashboardsController < AdminController
     @archived_count = Client.only_deleted.accessible_by(current_ability).count
   end
 
+  def notify_task
+    respond_to do |format|
+      format.js do
+      end
+    end
+  end
+
   private
 
   def find_overdue_task_params
