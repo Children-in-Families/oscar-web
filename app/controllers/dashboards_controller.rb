@@ -57,6 +57,10 @@ class DashboardsController < AdminController
   def notify_task
     respond_to do |format|
       format.js do
+        @tasks = current_user.tasks.overdue_incomplete.exclude_exited_ngo_clients.joins(:client).select(
+          :id, :name, :expected_date, 'clients.slug as client_slug',
+          "TRIM(CONCAT(CONCAT(clients.given_name, ' ', clients.family_name), ' ', CONCAT(clients.local_family_name, ' ', clients.local_given_name))) as client_name"
+        ).to_a.group_by { |task| [task.client_slug, task.client_name] }
       end
     end
   end

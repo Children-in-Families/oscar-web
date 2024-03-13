@@ -187,7 +187,6 @@ class User < ActiveRecord::Base
   def assessment_due_today(eligible_clients, setting)
     due_today = { client_id: [], next_assessment_date: [] }
     overdue_assessments = []
-    Rails.cache.delete([Apartment::Tenant.current, self.class.name, id, 'assessment_either_overdue_or_due_today'])
     Rails.cache.fetch([Apartment::Tenant.current, self.class.name, id, 'assessment_either_overdue_or_due_today']) do
       sql = 'clients.id, (SELECT assessments.created_at FROM assessments WHERE assessments.client_id = clients.id AND assessments.default = true ORDER BY assessments.created_at DESC LIMIT 1) AS assessment_created_at'
       if deactivated_at.nil?
