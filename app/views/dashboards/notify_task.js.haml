@@ -1,5 +1,4 @@
 :plain
-  console.log('hi from notify_task.js');
   var appearence = $("#{escape_javascript(render partial: 'dashboards/overdues/tasks')}");
   $('#active_tasks_list .modal-body').html(appearence);
   $('#active_tasks_list').modal('show');

@@ -1,0 +1,5 @@
+:plain
+  console.log('hi from notify_assessment.js');
+  var appearence = $("#{escape_javascript(render partial: 'dashboards/overdues/assessments')}");
+  $('#assessment_list.modal #overdue-assessments .panel-body').html(appearence);
+  $('#assessment_list.modal').modal('show');

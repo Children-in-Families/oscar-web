@@ -33,7 +33,7 @@
       - if Setting.cache_first.enable_default_assessment && (@notification.any_overdue_assessments? || @notification.any_due_today_assessments?)
         %li
           %div.align-link
-            = link_to dashboards_path(user_id: current_user.id, assessments: true) do
+            = link_to dashboards_notify_assessment_path(user_id: current_user.id, assessments: true, format: :js), remote: true do
               .row
                 .col-xs-1
                   %i.fa.fa-tasks.fa-fw.task-sign
@@ -43,7 +43,7 @@
       - if Setting.cache_first.enable_custom_assessment && (@notification.any_overdue_custom_assessments? || @notification.any_due_today_custom_assessments?)
         %li
           %div.align-link
-            = link_to dashboards_path(user_id: current_user.id, assessments: true) do
+            = link_to dashboards_notify_custom_assessment_path(user_id: current_user.id, assessments: true, format: :js), remote: true do
               .row
                 .col-xs-1
                   %i.fa.fa-tasks.fa-fw.task-sign
