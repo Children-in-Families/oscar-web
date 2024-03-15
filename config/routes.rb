@@ -21,6 +21,11 @@ Rails.application.routes.draw do
   get '/dashboards/notification' => 'dashboards#notification'
   get '/dashboards/family_tab' => 'dashboards#family_tab'
   get '/dashboards/side_menu_data' => 'dashboards#side_menu_data'
+  constraints format: :js do
+    get '/dashboards/notify_task' => 'dashboards#notify_task'
+    get '/dashboards/notify_assessment' => 'dashboards#notify_assessment'
+    get '/dashboards/notify_custom_assessment' => 'dashboards#notify_custom_assessment'
+  end
 
   resources :calendars
 
@@ -455,6 +460,7 @@ Rails.application.routes.draw do
       end
 
       resources :referees, only: :index
+      resources :notifications, only: :index
     end
 
     resources :community_advanced_searches, only: [] do
