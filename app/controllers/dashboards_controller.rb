@@ -70,11 +70,12 @@ class DashboardsController < AdminController
     @assessment_notifications = Assessment.joins(:client).merge(
       Client.accessible_by(current_ability)
             .non_exited_ngo
-            .where('(EXTRACT(year FROM age(current_date, coalesce(clients.date_of_birth, current_date))) :: int) < ?', setting&.age || 18)
-    ).select(
-              :id, :created_at, 'clients.slug as client_slug',
-              "TRIM(CONCAT(CONCAT(clients.given_name, ' ', clients.family_name), ' ', CONCAT(clients.local_family_name, ' ', clients.local_given_name))) as client_name"
-            ).to_a.group_by { |task| [task.client_slug, task.client_name] }
+            .where('(EXTRACT(year FROM age(current_date, coalesce(clients.date_of_birth, CURRENT_DATE))) :: int) < ?', setting&.age || 18)
+    ).where("(assessments.created_at + interval '#{setting.max_assessment}' #{setting.assessment_frequency}) < CURRENT_DATE")
+                                          .select(
+                                            :id, :created_at, 'clients.slug as client_slug',
+                                            "TRIM(CONCAT(CONCAT(clients.given_name, ' ', clients.family_name), ' ', CONCAT(clients.local_family_name, ' ', clients.local_given_name))) as client_name"
+                                          ).to_a.group_by { |task| [task.client_slug, task.client_name] }
   end
 
   def notify_custom_assessment
