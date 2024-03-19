@@ -41,7 +41,7 @@ class ClientsController < AdminController
   end
 
   def index
-    @client_default_columns = Setting.cache_first.client_default_columns
+    @client_default_columns = Setting.first.client_default_columns
     if params[:advanced_search_id]
       current_advanced_search = AdvancedSearch.find(params[:advanced_search_id])
       @visible_fields = current_advanced_search.field_visible
@@ -415,7 +415,7 @@ class ClientsController < AdminController
   end
 
   def country_address_fields(client)
-    selected_country = Setting.cache_first.country_name || params[:country]
+    selected_country = Setting.first.country_name || params[:country]
     current_org = Organization.current.short_name
     Organization.switch_to 'shared'
     @birth_provinces = []

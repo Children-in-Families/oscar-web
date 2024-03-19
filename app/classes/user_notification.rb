@@ -6,7 +6,7 @@ class UserNotification
   attr_accessor :upcoming_csi_assessments_count, :upcoming_custom_csi_assessments_count
 
   def initialize(user, clients)
-    @current_setting = Setting.cache_first
+    @current_setting = Setting.first
     @user = user
     @clients = clients
     eligible_clients = active_young_clients(clients, @current_setting)
@@ -21,6 +21,9 @@ class UserNotification
     @upcoming_csi_assessments_count = 0
     @upcoming_custom_csi_assessments_count = 0
     upcoming_csi_assessments
+    @overdue_tasks_count = overdue_tasks_count
+    @due_today_tasks_count = due_today_tasks_count
+    @upcomming_tasks_count = upcomming_tasks_count
     @all_count = count
   end
 
@@ -49,9 +52,25 @@ class UserNotification
 
   def overdue_tasks_count
     if @user.deactivated_at.nil?
-      @user.tasks.overdue_incomplete.exclude_exited_ngo_clients.where(client_id: @clients.ids).size
+      @user.tasks.overdue_incomplete.where(client_id: @clients.ids).size
     else
-      @user.tasks.where('tasks.created_at > ?', @user.activated_at).overdue_incomplete.exclude_exited_ngo_clients.where(client_id: @clients.ids).size
+      @user.tasks.where('tasks.created_at > ?', @user.activated_at).overdue_incomplete.where(client_id: @clients.ids).size
+    end
+  end
+
+  def due_today_tasks_count
+    if @user.deactivated_at.nil?
+      @user.tasks.incomplete.today_incomplete.where(client_id: @clients.ids).count
+    else
+      @user.tasks.incomplete.today_incomplete.where(client_id: @clients.ids).where('tasks.created_at > ?', @user.activated_at).count
+    end
+  end
+
+  def upcomming_tasks_count
+    if @user.deactivated_at.nil?
+      @user.tasks.incomplete.upcoming_within_three_months.where(client_id: @clients.ids).count
+    else
+      @user.tasks.incomplete.upcoming_within_three_months.where(client_id: @clients.ids).where('tasks.created_at > ?', @user.activated_at).count
     end
   end
 
@@ -77,14 +96,6 @@ class UserNotification
 
   def any_overdue_tasks?
     overdue_tasks_count >= 1
-  end
-
-  def due_today_tasks_count
-    if @user.deactivated_at.nil?
-      @user.tasks.today_incomplete.exclude_exited_ngo_clients.size
-    else
-      @user.tasks.where('tasks.created_at > ?', @user.activated_at).today_incomplete.exclude_exited_ngo_clients.size
-    end
   end
 
   def any_due_today_tasks?

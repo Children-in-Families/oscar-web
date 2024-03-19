@@ -6,7 +6,7 @@
           %h5.text-center= t('.custom_labels')
         .ibox-content
           .row
-            - if Setting.cache_first.country_name == 'lesotho'
+            - if Setting.first.country_name == 'lesotho'
               .col-xs-12.col-sm-4
                 .form-group
                   = f.input :custom_id1_latin, label: t('.custom_id1_latin')
@@ -19,12 +19,12 @@
                   = f.input :custom_id1_latin, label: t('.custom_id1_latin')
               .col-xs-12.col-sm-4
                 .form-group
-                  = f.input :custom_id1_local, label: t("settings.custom_labels.#{Setting.cache_first.country_name}.custom_id1_local")
+                  = f.input :custom_id1_local, label: t("settings.custom_labels.#{Setting.first.country_name}.custom_id1_local")
               .col-xs-12.col-sm-4
                 .form-group
                   = f.input :custom_id2_latin, label: t('.custom_id2_latin')
               .col-xs-12.col-sm-4
                 .form-group
-                  = f.input :custom_id2_local, label: t("settings.custom_labels.#{Setting.cache_first.country_name}.custom_id2_local")
+                  = f.input :custom_id2_local, label: t("settings.custom_labels.#{Setting.first.country_name}.custom_id2_local")
         .ibox-footer
           = f.submit t('save'), name: 'custom_labels' ,class: 'btn btn-primary', data: { disable_with: t('saving') }

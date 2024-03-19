@@ -1,6 +1,6 @@
 module AddressesHelper
   def selected_country
-    country = Organization.current.country || Setting.cache_first.try(:country_name) || params[:country].presence
+    country = Organization.current.country || Setting.first.try(:country_name) || params[:country].presence
     country.nil? ? 'cambodia' : country
   end
 

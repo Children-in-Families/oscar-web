@@ -35,14 +35,15 @@ class CarePlan < ActiveRecord::Base
   end
 
   def set_care_plan_completed
-    return if goals.empty? && !Setting.cache_first.disable_required_fields?
+    return if goals.empty? && !Setting.first.disable_required_fields?
 
     required_assessment_domains = []
     assessment.assessment_domains.each do |assessment_domain|
       required_assessment_domains << assessment_domain if assessment_domain[:score] == 1 || assessment_domain[:score] == 2
     end
     required_assessment_domain_ids = required_assessment_domains.map(&:id)
-    if Setting.cache_first.disable_required_fields?
+
+    if Setting.first.disable_required_fields? || (goals.pluck(:assessment_domain_id) & required_assessment_domain_ids).sort == required_assessment_domain_ids.sort
       update_columns(completed: true)
     elsif goals.where(assessment_domain_id: required_assessment_domain_ids).empty? || (goals.where(assessment_domain_id: required_assessment_domain_ids).present? && goals.where(assessment_domain_id: required_assessment_domain_ids).first.tasks.empty?)
       update_columns(completed: false)

@@ -20,6 +20,7 @@ class DashboardsController < AdminController
     programs.each do |program|
       program_stream = ProgramStream.find(program.first)
       next if program.last['service_ids'].nil?
+
       program_stream.update(service_ids: program.last['service_ids'].uniq)
     end
   end
@@ -37,8 +38,9 @@ class DashboardsController < AdminController
   end
 
   def notification
-    clients = Client.accessible_by(current_ability).non_exited_ngo
-    @notification = UserNotification.new(current_user, clients)
+    # clients = Client.accessible_by(current_ability).non_exited_ngo
+    # @notification = UserNotification.new(current_user, clients)
+    @notification = current_user.fetch_notification
   end
 
   def side_menu_data
@@ -105,7 +107,7 @@ class DashboardsController < AdminController
 
   def find_clients
     clients = []
-    @setting = Setting.cache_first
+    @setting = Setting.first
     user_ability = Ability.new(@user)
     accepted_clients = Client.accessible_by(user_ability).active_accepted_status.distinct
     eligible_clients = active_young_clients(accepted_clients, @setting)

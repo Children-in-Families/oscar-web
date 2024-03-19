@@ -135,7 +135,7 @@ module AdvancedSearches
     end
 
     def setting_country_fields
-      country = Setting.cache_first.country_name || 'cambodia'
+      country = Setting.first.country_name || 'cambodia'
       case country
       when 'cambodia'
         {

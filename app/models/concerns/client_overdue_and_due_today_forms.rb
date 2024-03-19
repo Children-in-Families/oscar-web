@@ -5,7 +5,7 @@ module ClientOverdueAndDueTodayForms
     overdue_forms = []
     today_forms = []
     upcoming_forms = []
-    @setting = Setting.cache_first
+    @setting = Setting.first
     if user.admin?
       editable_clients = clients
     else

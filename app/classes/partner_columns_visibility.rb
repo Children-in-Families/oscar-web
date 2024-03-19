@@ -1,31 +1,31 @@
 class PartnerColumnsVisibility
   def initialize(grid, params)
-    @grid   = grid
+    @grid = grid
     @params = params
   end
 
   def columns_collection
     {
-      name_:                                     :name,
-      id_:                                       :id,
-      contact_person_name_:                      :contact_person_name,
-      contact_person_email_:                     :contact_person_email,
-      contact_person_mobile_:                    :contact_person_mobile,
-      address_:                                  :address,
-      organization_type_:                        :organization_type,
-      province_id_:                              :province,
-      engagement_:                               :engagement,
-      background_:                               :background,
-      start_date_:                               :start_date,
-      changelog_:                                :changelog,
-      manage_:                                   :manage,
+      name_: :name,
+      id_: :id,
+      contact_person_name_: :contact_person_name,
+      contact_person_email_: :contact_person_email,
+      contact_person_mobile_: :contact_person_mobile,
+      address_: :address,
+      organization_type_: :organization_type,
+      province_id_: :province,
+      engagement_: :engagement,
+      background_: :background,
+      start_date_: :start_date,
+      changelog_: :changelog,
+      manage_: :manage
     }
   end
 
   def visible_columns
     @grid.column_names = []
-    partner_default_columns = Setting.cache_first.try(:partner_default_columns)
-    params = @params.keys.select{ |k| k.match(/\_$/) }
+    partner_default_columns = Setting.first.try(:partner_default_columns)
+    params = @params.keys.select { |k| k.match(/\_$/) }
     if params.present? && partner_default_columns.present?
       defualt_columns = params - partner_default_columns
     else
@@ -46,7 +46,7 @@ class PartnerColumnsVisibility
     columns = columns_collection
     if @params[:column_form_builder].present?
       @params[:column_form_builder].each do |column|
-        field   = column['id']
+        field = column['id']
         columns = columns.merge!("#{field}_": field.to_sym)
       end
     end

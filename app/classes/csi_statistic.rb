@@ -1,7 +1,7 @@
 class CsiStatistic
   def initialize(clients)
     @clients = clients
-    @setting = Setting.cache_first
+    @setting = Setting.first
   end
 
   def assessment_domain_score
@@ -70,7 +70,7 @@ class CsiStatistic
     end
 
     Domain.csi_domains.pluck(:id, :name).each do |id, name|
-      series << { name: name, data:  assessment_domains[id.to_s].map(&:to_f) }
+      series << { name: name, data: assessment_domains[id.to_s].map(&:to_f) }
     end
 
     [assessments, series]
@@ -103,7 +103,7 @@ class CsiStatistic
     end
 
     Domain.custom_csi_domains.pluck(:id, :name).each do |id, name|
-      series << { name: name, data:  assessment_domains[id.to_s].map(&:to_f) }
+      series << { name: name, data: assessment_domains[id.to_s].map(&:to_f) }
     end
 
     [assessments, series]
