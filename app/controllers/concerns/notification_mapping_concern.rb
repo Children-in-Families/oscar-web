@@ -19,7 +19,7 @@ module NotificationMappingConcern
   def assessment_payload(notifications)
     {
       overdue_count: notifications.dig('assessments', 'overdue_count'),
-      due_today_count: notifications.dig('assessments', 'due_today').try(:size) || 0,
+      due_today_count: notifications.dig('assessments', 'due_today') || 0,
       upcoming_csi_count: notifications['upcoming_csi_assessments_count'],
       path: ''
     }
@@ -28,7 +28,7 @@ module NotificationMappingConcern
   def custom_assessment_payload(notifications)
     {
       overdue_count: notifications.dig('assessments', 'custom_overdue_count'),
-      due_today_count: notifications.dig('assessments', 'custom_due_today').try(:size) || 0,
+      due_today_count: notifications.dig('assessments', 'custom_due_today') || 0,
       upcoming_count: notifications['upcoming_custom_csi_assessments_count'],
       path: ''
     }

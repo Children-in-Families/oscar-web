@@ -23,25 +23,25 @@
       - if @notification[:tasks]
         %li
           %div.align-link
-            = link_to dashboards_path(user_id: current_user.id, tasks: true) do
+            = link_to dashboards_notify_task_path(user_id: current_user.id, tasks: true, format: :js), remote: true do
               - if @notification.dig(:tasks, :overdue_count) > 0
                 .row
                   .col-xs-1
                     %i.fa.fa-tasks.fa-fw.task-sign
                   .col-xs-11.tasks_notification_label
-                    = @notification.dig(:tasks, :overdue_count)
+                    = I18n.t('layouts.notification.overdue_tasks_count', count: @notification.dig(:tasks, :overdue_count), tasks: t('tasks.task'))
               - if @notification.dig(:tasks, :due_today_count) > 0
                 .row
                   .col-xs-1
                     %i.fa.fa-tasks.fa-fw.task-sign
                   .col-xs-11.tasks_notification_label
-                    = @notification.dig(:tasks, :due_today_count)
+                    = I18n.t('layouts.notification.due_today_tasks_count', count: @notification.dig(:tasks, :due_today_count), tasks: t('tasks.task'))
               - if @notification.dig(:tasks, :upcoming_csi_count) > 0
                 .row
                   .col-xs-1
                     %i.fa.fa-tasks.fa-fw.task-sign
                   .col-xs-11.tasks_notification_label
-                    = @notification.dig(:tasks, :upcoming_csi_count)
+                    = I18n.t('dashboards.active_tasks.upcoming_tasks', count: @notification.dig(:tasks, :upcoming_csi_count), tasks: t('tasks.task'))
 
         %li.divider
       - if Setting.first.enable_default_assessment && !@notification.dig(:assessment, :overdue_count).zero?
@@ -53,17 +53,17 @@
                   %i.fa.fa-tasks.fa-fw.task-sign
                 .col-xs-11.assessments_notification_label
                   = "#{I18n.t('layouts.notification.assessments_count', count: @notification.dig(:assessment, :overdue_count))} #{setting.default_assessment} #{I18n.t('layouts.notification.overdue_assessments', count: @notification.dig(:assessment, :overdue_count))}"
-    -#     %li.divider
-    -#   - if Setting.first.enable_custom_assessment && (@notification.any_overdue_custom_assessments? || @notification.any_due_today_custom_assessments?)
-    -#     %li
-    -#       %div.align-link
-    -#         = link_to dashboards_path(user_id: current_user.id, assessments: true) do
-    -#           .row
-    -#             .col-xs-1
-    -#               %i.fa.fa-tasks.fa-fw.task-sign
-    -#             .col-xs-11.customized_assessments_notification_label
-    -#               = customized_assessments_notification_label
-    -#     %li.divider
+        %li.divider
+      - if Setting.first.enable_custom_assessment && !@notification.dig(:custom_assessment, :overdue_count).zero?
+        %li
+          %div.align-link
+            = link_to dashboards_notify_custom_assessment_path(user_id: current_user.id, assessments: true), remote: true do
+              .row
+                .col-xs-1
+                  %i.fa.fa-tasks.fa-fw.task-sign
+                .col-xs-11.customized_assessments_notification_label
+                  = "#{I18n.t('layouts.notification.assessments_count', count: @notification.dig(:custom_assessment, :overdue_count))} Custom Assessment #{I18n.t('layouts.notification.overdue_assessments', count: @notification.dig(:custom_assessment, :overdue_count))}"
+        %li.divider
     -#   - if @notification.any_client_forms_due_today? || @notification.any_client_forms_overdue?
     -#     %li
     -#       %div.align-link

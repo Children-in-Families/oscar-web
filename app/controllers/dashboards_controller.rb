@@ -71,9 +71,9 @@ class DashboardsController < AdminController
     setting = Setting.first
     @assessment_notifications = Assessment.joins(:client).merge(
       Client.accessible_by(current_ability)
-            .non_exited_ngo
+            .active_accepted_status
             .where('(EXTRACT(year FROM age(current_date, coalesce(clients.date_of_birth, CURRENT_DATE))) :: int) < ?', setting&.age || 18)
-    ).where("(assessments.created_at + interval '#{setting.max_assessment}' #{setting.assessment_frequency}) < CURRENT_DATE")
+    ).where("DATE(assessments.created_at + interval '#{setting.max_assessment}' #{setting.assessment_frequency}) < CURRENT_DATE")
                                           .select(
                                             :id, :created_at, 'clients.slug as client_slug',
                                             "TRIM(CONCAT(CONCAT(clients.given_name, ' ', clients.family_name), ' ', CONCAT(clients.local_family_name, ' ', clients.local_given_name))) as client_name"
@@ -81,6 +81,19 @@ class DashboardsController < AdminController
   end
 
   def notify_custom_assessment
+    @custom_assessment_notifications = CustomAssessmentSetting.only_enable_custom_assessment.map do |custom_setting|
+      sql = custom_setting.custom_assessment_frequency == 'unlimited' ? 'DATE(assessments.created_at) < CURRENT_DATE' : "DATE(assessments.created_at + interval '#{custom_setting.max_custom_assessment}' #{custom_setting.custom_assessment_frequency}) < CURRENT_DATE"
+      custom_assessments = Assessment.customs.joins(:client).where(custom_assessment_setting_id: custom_setting.id).merge(
+        Client.accessible_by(current_ability)
+              .active_accepted_status
+              .where('(EXTRACT(year FROM age(current_date, coalesce(clients.date_of_birth, CURRENT_DATE))) :: int) < ?', custom_setting.custom_age || 18)
+      ).where(sql).select(
+                :id, :created_at, 'clients.slug as client_slug',
+                "TRIM(CONCAT(CONCAT(clients.given_name, ' ', clients.family_name), ' ', CONCAT(clients.local_family_name, ' ', clients.local_given_name))) as client_name"
+              ).to_a.group_by { |task| [task.client_slug, task.client_name] }
+
+      [custom_setting.custom_assessment_name, custom_assessments]
+    end
   end
 
   private
