@@ -23,7 +23,7 @@
       - if @notification[:tasks]
         %li
           %div.align-link
-            = link_to dashboards_notify_task_path(user_id: current_user.id, tasks: true, format: :js), remote: true do
+            = link_to dashboards_notify_task_path(user_id: current_user.id, tasks: true), remote: true do
               - if @notification.dig(:tasks, :overdue_count) > 0
                 .row
                   .col-xs-1
@@ -47,7 +47,7 @@
       - if Setting.first.enable_default_assessment && !@notification.dig(:assessment, :overdue_count).zero?
         %li
           %div.align-link
-            = link_to dashboards_notify_assessment_path(user_id: current_user.id, assessments: true, format: :js), remote: true do
+            = link_to dashboards_notify_assessment_path(user_id: current_user.id, assessments: true), remote: true do
               .row
                 .col-xs-1
                   %i.fa.fa-tasks.fa-fw.task-sign
