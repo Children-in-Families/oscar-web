@@ -125,16 +125,30 @@ module I18n::Backend::Custom
 
   def init_translations
     load_translations
+    @default_translation = translations.dup
     @initialized = true
   end
   
   def lookup(locale, key, scope = [], options = EMPTY_HASH)
+    Rails.logger.info "Custom Look up ==================== #{key} - #{Apartment::Tenant.current}"
+    
     translation = custom_lookup(locale, key, scope, options)
+    Rails.logger.info "Custom Look up ==================== #{translation}"
     return translation if translation.present?
 
-    super
-  end
+    keys = I18n.normalize_keys(locale, key, scope, options[:separator])
 
+    keys.inject(@default_translation) do |result, _key|
+      return nil unless result.is_a?(Hash)
+      unless result.has_key?(_key)
+        _key = _key.to_s.to_sym
+        return nil unless result.has_key?(_key)
+      end
+      result = result[_key]
+      result = resolve_entry(locale, _key, result, Utils.except(options.merge(:scope => nil), :count)) if result.is_a?(Symbol)
+      result
+    end
+  end
   def custom_lookup(locale, key, scope = [], options = EMPTY_HASH)
     # puts "Custom Look up ==================== #{key}"
 
