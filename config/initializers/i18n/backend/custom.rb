@@ -24,38 +24,36 @@ end
 Hash.prepend(HashDeepTraverse)
 
 module I18n::Backend::Custom
-  class ReloadChecker
-    @@custom_translations = {}
+  def last_reload_at
+    @custom_translations[Apartment::Tenant.current]['last_reload_at']
+  end
 
-    def self.last_reload_at
-      @@custom_translations[Apartment::Tenant.current][:last_reload_at]
-    end
+  def update_last_reload_at
+    @custom_translations[Apartment::Tenant.current] ||= {} 
+    @custom_translations[Apartment::Tenant.current]['last_reload_at'] = Time.current
+  end
 
-    def self.update_last_reload_at
-      @@custom_translations[Apartment::Tenant.current] ||= {} 
-      @@custom_translations[Apartment::Tenant.current][:last_reload_at] = Time.current
-    end
-
-    def self.update_custom_translations(tenant, locale, data)
-      @@custom_translations[tenant] ||= {}
-      @@custom_translations[tenant][locale] = data
-    end
-    
-    def self.custom_translations(tenant = Apartment::Tenant.current)
-      puts "custom_translations ============= #{@@custom_translations.keys}"
-      @@custom_translations[tenant]
-    end
+  def update_custom_translations(tenant, locale, data)
+    @custom_translations[tenant] ||= {}
+    @custom_translations[tenant][locale] = data
+  end
+  
+  def custom_translations(tenant)
+    @custom_translations ||= {} 
+    @custom_translations[tenant]
   end
 
   def load_custom_translations(tenant = Apartment::Tenant.current)
     init_translations unless @initialized
 
     Apartment::Tenant.switch(tenant) do
-      data = load_custom_labels(I18n.locale)
-      data.merge!(nepal_commune_mapping(I18n.locale)) if Setting.cache_first&.country_name == 'nepal'
-      ReloadChecker.update_custom_translations(tenant, I18n.locale, data)
-      
-      ReloadChecker.update_last_reload_at
+      I18n.available_locales.each do |locale|
+        data = load_custom_labels(locale)
+        data.merge!(nepal_commune_mapping(locale)) if Setting.cache_first&.country_name == 'nepal'
+        update_custom_translations(tenant, locale, data)
+      end
+
+      update_last_reload_at
     end
   end
   
@@ -124,6 +122,11 @@ module I18n::Backend::Custom
   end
 
   protected
+
+  def init_translations
+    load_translations
+    @initialized = true
+  end
   
   def lookup(locale, key, scope = [], options = EMPTY_HASH)
     translation = custom_lookup(locale, key, scope, options)
@@ -138,7 +141,9 @@ module I18n::Backend::Custom
     init_translations unless initialized?
     keys = I18n.normalize_keys(locale, key, scope, options[:separator])
 
-    keys.inject(ReloadChecker.custom_translations) do |result, _key|
+
+
+    keys.inject(custom_translations(Apartment::Tenant.current)) do |result, _key|
       
       return nil unless result.is_a?(Hash)
       unless result.has_key?(_key)
