@@ -42,13 +42,9 @@ module I18n::Backend::Custom
     end
     
     def self.custom_translations(tenant = Apartment::Tenant.current)
+      puts "custom_translations ============= #{@@custom_translations.keys}"
       @@custom_translations[tenant]
     end
-  end
-
-  def init_translations
-    load_translations
-    @initialized = true
   end
 
   def load_custom_translations(tenant = Apartment::Tenant.current)
@@ -142,7 +138,7 @@ module I18n::Backend::Custom
     init_translations unless initialized?
     keys = I18n.normalize_keys(locale, key, scope, options[:separator])
 
-    keys.inject(ReloadChecker.custom_translations(Apartment::Tenant.current)) do |result, _key|
+    keys.inject(ReloadChecker.custom_translations) do |result, _key|
       
       return nil unless result.is_a?(Hash)
       unless result.has_key?(_key)
