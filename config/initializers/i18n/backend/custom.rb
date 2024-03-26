@@ -35,7 +35,7 @@ module I18n::Backend::Custom
 
   def update_custom_translations(tenant, locale, data)
     @custom_translations[tenant] ||= {}
-    @custom_translations[tenant][locale] = deep_merge(custom_translations('default')[locale], data)
+    @custom_translations[tenant][locale] = data
   end
 
   def update_custom_translations_by_tenant(tenant, data)
@@ -64,13 +64,16 @@ module I18n::Backend::Custom
   end
 
   def load_custom_translations(tenant = Apartment::Tenant.current)
-    init_translations unless @initialized
+    reload!
+    init_translations
 
     locale = I18n.locale
 
     Apartment::Tenant.switch(tenant) do
       data = load_custom_labels(locale)
-      data.merge!(nepal_commune_mapping(locale)) if Setting.cache_first&.country_name == 'nepal'
+      data = deep_merge(translations, data)
+      data = deep_merge(data, nepal_commune_mapping(locale)) if Setting.cache_first&.country_name == 'nepal'
+
       update_custom_translations(tenant, locale, data)
 
       update_last_reload_at
@@ -80,7 +83,7 @@ module I18n::Backend::Custom
   def load_custom_labels(locale)
     copy_translations = translations.dup
 
-    FieldSetting.cache_all.each do |field_setting|
+    FieldSetting.by_instances(Apartment::Tenant.current).each do |field_setting|
       data = copy_translations[locale]
       next if field_setting.current_label.blank?
       paths = data.full_paths(field_setting.name)
@@ -142,28 +145,16 @@ module I18n::Backend::Custom
   end
 
   protected
-
-  def init_translations
-    load_translations
-    update_custom_translations_by_tenant('default', translations.dup)
-    @initialized = true
-  end
   
   def lookup(locale, key, scope = [], options = EMPTY_HASH)
-    Rails.logger.info "Custom Look up ==================== #{key} - #{Apartment::Tenant.current}"
+    # Rails.logger.info "Custom Look up ==================== #{scope} - #{key} - #{Apartment::Tenant.current}"
     custom_lookup(locale, key, scope, options)
   end
 
   def custom_lookup(locale, key, scope = [], options = EMPTY_HASH)
-    # puts "Custom Look up ==================== #{key}"
-
-    init_translations unless initialized?
     keys = I18n.normalize_keys(locale, key, scope, options[:separator])
 
-
-
-    keys.inject(custom_translations(Apartment::Tenant.current)) do |result, _key|
-      
+    keys.unshift(Apartment::Tenant.current).inject(@custom_translations) do |result, _key|
       return nil unless result.is_a?(Hash)
       unless result.has_key?(_key)
         _key = _key.to_s.to_sym
@@ -171,12 +162,6 @@ module I18n::Backend::Custom
       end
       result = result[_key]
       result = resolve_entry(locale, _key, result, Utils.except(options.merge(:scope => nil), :count)) if result.is_a?(Symbol)
-      
-      # if key.to_s.include?('gender')
-      #   puts "result"
-      #   puts result
-      # end
-
       result
     end
   end
