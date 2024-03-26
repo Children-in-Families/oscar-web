@@ -15,6 +15,7 @@ CIF.Common =
 
     @loadNotification()
     @loadSideMenuCountBadge()
+    @handleNotificationOnClick()
 
   loadNotification: ->
     setTimeout (->
