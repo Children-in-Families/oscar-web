@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
   include EntityTypeCustomFieldNotification
   include NextClientEnrollmentTracking
   include ClientOverdueAndDueTodayForms
+  include NotificationMappingConcern
   include CsiConcern
   include CacheAll
 
@@ -177,78 +178,80 @@ class User < ActiveRecord::Base
     end
   end
 
-  def assessment_either_overdue_or_due_today
-    assessment_due_today
+  def assessment_either_overdue_or_due_today(clients, setting)
+    csi_assessments = assessment_due_today(clients, setting)
+    custom_assessments = custom_assessment_due
+
+    csi_assessments.merge(custom_assessments)
   end
 
-  def assessment_due_today
-    setting = Setting.cache_first
-    due_today = { client_id: [], next_assessment_date: [] }
+  def assessment_due_today(eligible_clients, setting)
+    due_today_assessments = []
     overdue_assessments = []
-    current_ability = Ability.new(self)
+    Rails.cache.delete([Apartment::Tenant.current, self.class.name, id, 'assessment_either_overdue_or_due_today'])
     Rails.cache.fetch([Apartment::Tenant.current, self.class.name, id, 'assessment_either_overdue_or_due_today']) do
-      clients = Client.accessible_by(current_ability)
-      eligible_clients = active_young_clients(clients, setting)
-      sql = 'clients.id, (SELECT assessments.created_at FROM assessments WHERE assessments.client_id = clients.id AND assessments.default = true ORDER BY assessments.created_at DESC LIMIT 1) AS assessment_created_at'
-      if deactivated_at.nil?
-        clients_recent_assessment_dates = Client.joins(:assessments).where(id: eligible_clients.ids).merge(Assessment.defaults.most_recents).select(sql)
-      else
-        clients_recent_assessment_dates = Client.joins(:assessments).where(id: eligible_clients.ids).merge(Assessment.defaults.most_recents.where('assessments.created_at < ?', deactivated_at)).select(sql)
-      end
+      overdue_assessments = Assessment.joins(:client).merge(
+        eligible_clients
+      ).where("DATE(assessments.created_at + interval '#{setting.max_assessment}' #{setting.assessment_frequency}) < CURRENT_DATE")
+        .select(
+          :id, :created_at, 'clients.slug as client_slug',
+          "TRIM(CONCAT(CONCAT(clients.given_name, ' ', clients.family_name), ' ', CONCAT(clients.local_family_name, ' ', clients.local_given_name))) as client_name"
+        ).to_a
 
-      clients_recent_assessment_dates.map { |obj| [obj.id, obj&.assessment_created_at] }.uniq.map do |client_id, recent_assessment_date|
-        next_assessment_date = recent_assessment_date + setting.max_assessment_duration
-        if next_assessment_date.to_date == Date.today
-          due_today[:client_id] << client_id
-          due_today[:next_assessment_date] << [client_id, next_assessment_date]
-        end
-        overdue_assessments << assessment_overdue(client_id, next_assessment_date)
-      end
-
-      customized_due_today, custom_assessment_overdue = custom_assessment_due(eligible_clients)
+      due_today_assessments = Assessment.joins(:client).merge(
+        eligible_clients
+      ).where("DATE(assessments.created_at + interval '#{setting.max_assessment}' #{setting.assessment_frequency}) = CURRENT_DATE")
+        .select(
+          :id, :created_at, 'clients.slug as client_slug',
+          "TRIM(CONCAT(CONCAT(clients.given_name, ' ', clients.family_name), ' ', CONCAT(clients.local_family_name, ' ', clients.local_given_name))) as client_name"
+        ).to_a
 
       {
-        overdue_count: overdue_assessments.compact.count,
-        overdue_assessment: overdue_assessments.compact,
-        due_today: due_today[:client_id],
-        due_today_assessment_date: due_today[:next_assessment_date],
-        custom_overdue_count: custom_assessment_overdue.flatten.uniq.count,
-        custom_due_today: customized_due_today[:client_id],
-        custom_due_today_assessment_date: customized_due_today[:custom_assessment_setting]
+        overdue_count: overdue_assessments.count,
+        overdue_assessment: overdue_assessments,
+        due_today: due_today_assessments.count,
+        due_today_assessment_date: []
       }
     end
   end
 
-  def custom_assessment_due(eligible_clients)
+  def custom_assessment_due
     customized_due_today = { client_id: [], custom_assessment_setting: [] }
+    custom_assessment_due_today = []
     custom_assessment_overdue = []
-    CustomAssessmentSetting.only_enable_custom_assessment.each do |custom_assessment_setting|
-      sql = 'clients.id, (SELECT assessments.created_at FROM assessments WHERE assessments.client_id = clients.id AND assessments.default = false ORDER BY assessments.created_at DESC LIMIT 1) AS assessment_created_at'
-      if deactivated_at.nil?
-        clients_recent_custom_assessment_dates = Client.joins(:assessments).where(id: eligible_clients.ids).where(assessments: { default: false, custom_assessment_setting_id: custom_assessment_setting.id }).select(sql)
-      else
-        clients_recent_custom_assessment_dates = Client.joins(:assessments).where(id: eligible_clients.ids).where('assessments.created_at < ?', deactivated_at).where(assessments: { default: false, custom_assessment_setting_id: custom_assessment_setting.id }).select(sql)
-      end
+    CustomAssessmentSetting.only_enable_custom_assessment.map do |custom_setting|
+      sql = custom_setting.custom_assessment_frequency == 'unlimited' ? 'DATE(assessments.created_at)' : "DATE(assessments.created_at + interval '#{custom_setting.max_custom_assessment}' #{custom_setting.custom_assessment_frequency})"
+      custom_assessments = Assessment.customs.joins(:client).where(custom_assessment_setting_id: custom_setting.id)
+      custom_assessment_overdue << custom_assessments.merge(
+        user_clients.active_accepted_status
+          .where('(EXTRACT(year FROM age(current_date, coalesce(clients.date_of_birth, CURRENT_DATE))) :: int) < ?', custom_setting.custom_age || 18)
+      ).where("#{sql} < CURRENT_DATE").select(
+            :id, :created_at, 'clients.slug as client_slug',
+            "TRIM(CONCAT(CONCAT(clients.given_name, ' ', clients.family_name), ' ', CONCAT(clients.local_family_name, ' ', clients.local_given_name))) as client_name"
+          ).to_a
 
-      clients_recent_custom_assessment_dates.map { |obj| [obj.id, obj&.assessment_created_at] }.uniq.map do |client_id, recent_assessment_date|
-        next_assessment_date = recent_assessment_date + assessment_duration('max', false, custom_assessment_setting.id)
-        if next_assessment_date.to_date == Date.today
-          customized_due_today[:client_id] << client_id
-          customized_due_today[:custom_assessment_setting] << [custom_assessment_setting.id, [client_id, next_assessment_date]]
-        end
-        custom_assessment_overdue << assessment_overdue(client_id, next_assessment_date)
-      end
+      custom_assessment_due_today << custom_assessments.merge(
+        user_clients.active_accepted_status
+          .where('(EXTRACT(year FROM age(current_date, coalesce(clients.date_of_birth, CURRENT_DATE))) :: int) < ?', custom_setting.custom_age || 18)
+      ).where("#{sql} = CURRENT_DATE").select(
+            :id, :created_at, 'clients.slug as client_slug',
+            "TRIM(CONCAT(CONCAT(clients.given_name, ' ', clients.family_name), ' ', CONCAT(clients.local_family_name, ' ', clients.local_given_name))) as client_name"
+          ).to_a
     end
 
-    [customized_due_today, custom_assessment_overdue.compact]
+    {
+      custom_overdue_count: custom_assessment_overdue.flatten.uniq.count,
+      custom_due_today: custom_assessment_due_today.flatten.uniq.count,
+      custom_due_today_assessment_date: customized_due_today[:custom_assessment_setting]
+    }
   end
 
   def assessment_overdue(client_id, next_assessment_date)
     [client_id, next_assessment_date] if next_assessment_date.to_date < Date.today
   end
 
-  def client_custom_field_frequency_overdue_or_due_today
-    entity_type_custom_field_notification(clients.active_accepted_status)
+  def client_custom_field_frequency_overdue_or_due_today(_clients)
+    entity_type_custom_field_notification(_clients.active_accepted_status)
   end
 
   def user_custom_field_frequency_overdue_or_due_today
@@ -267,23 +270,23 @@ class User < ActiveRecord::Base
     end
   end
 
-  def family_custom_field_frequency_overdue_or_due_today
+  def family_custom_field_frequency_overdue_or_due_today(_clients)
     if self.admin? || self.hotline_officer?
       entity_type_custom_field_notification(Family.all)
     elsif self.manager?
-      subordinate_users = User.where('manager_ids && ARRAY[:user_id] OR id = :user_id', { user_id: self.id }).map(&:id)
+      subordinate_users = User.self_and_subordinates(self).map(&:id)
       family_ids = []
       exited_client_ids = exited_clients(subordinate_users)
 
       family_ids += User.joins(:clients).where(id: subordinate_users).where.not(clients: { current_family_id: nil }).select('clients.current_family_id AS client_current_family_id').map(&:client_current_family_id)
-      family_ids += Client.where(id: exited_client_ids).pluck(:current_family_id)
-      family_ids += self.clients.pluck(:current_family_id)
+      family_ids += _clients.where(id: exited_client_ids).pluck(:current_family_id)
+      family_ids += _clients.pluck(:current_family_id)
 
       families = Family.where(id: family_ids).or(Family.where(user_id: self.id))
       entity_type_custom_field_notification(families)
     elsif self.case_worker?
       family_ids = []
-      self.clients.each do |client|
+      _clients.each do |client|
         family_ids << client.family.try(:id)
       end
       families = Family.where(id: family_ids).or(Family.where(user_id: self.id))
@@ -291,7 +294,7 @@ class User < ActiveRecord::Base
     end
   end
 
-  def client_forms_overdue_or_due_today
+  def client_forms_overdue_or_due_today(user_clients)
     if self.deactivated_at.present?
       active_accepted_clients = user_clients.where('clients.created_at > ?', self.activated_at).active_accepted_status
     else
@@ -300,7 +303,7 @@ class User < ActiveRecord::Base
     overdue_and_due_today_forms(self, active_accepted_clients)
   end
 
-  def case_notes_due_today_and_overdue
+  def case_notes_due_today_and_overdue(user_clients)
     overdue = []
     due_today = []
 
@@ -334,14 +337,8 @@ class User < ActiveRecord::Base
   end
 
   def user_clients
-    @user_clients ||= if admin? || strategic_overviewer?
-                        Client.select(:id, :slug, :given_name, :family_name, :local_given_name, :local_family_name)
-                      elsif manager?
-                        user_ability = Ability.new(self)
-                        Client.accessible_by(user_ability)
-                      else # caseworker?
-                        clients.select(:id, :slug, :given_name, :family_name, :local_given_name, :local_family_name)
-                      end
+    user_ability = Ability.new(self)
+    @user_clients ||= Client.accessible_by(user_ability).select(:id, :slug, :given_name, :family_name, :local_given_name, :local_family_name, :date_of_birth)
   end
 
   def self.self_and_subordinates(user)
@@ -382,10 +379,12 @@ class User < ActiveRecord::Base
     user.update_column(:manager_ids, find_manager_manager(user.manager_id, the_manager_ids)) if user.persisted?
     user.save unless user.id == id
     return if user.case_worker?
+
     subordinators = User.where(manager_id: user.id)
     if subordinators.present?
       subordinators.each do |subordinator|
         next if subordinator.id == self.id
+
         update_manager_ids(subordinator, the_manager_ids.push(user.id).flatten.compact.uniq)
       end
     end
@@ -427,10 +426,20 @@ class User < ActiveRecord::Base
     end
   end
 
+  def fetch_notification
+    Rails.cache.delete([Apartment::Tenant.current, 'notifications', 'user', id])
+    Rails.cache.fetch([Apartment::Tenant.current, 'notifications', 'user', id]) do
+      notifications = UserNotification.new(self, user_clients)
+      notifications = JSON.parse(notifications.to_json)
+      map_notification_payloads(notifications)
+    end
+  end
+
   private
 
   def toggle_referral_notification
     return unless roles_changed? && roles == 'admin'
+
     self.update_columns(referral_notification: true)
   end
 
@@ -438,8 +447,11 @@ class User < ActiveRecord::Base
     if manager_manager_ids.present?
       subordinators = User.where(id: manager_manager_ids)
     else
-      subordinators = User.where('id = :user_id OR manager_ids && ARRAY[:user_id]', { user_id: self.id })
+      subordinators = User.self_and_subordinates(self)
     end
+
+    return manager_manager_ids unless subordinators
+
     managers_ids = subordinators.pluck(:manager_ids)
     manager_manager_ids & (managers_ids << the_manager_id).flatten.compact.uniq
   end

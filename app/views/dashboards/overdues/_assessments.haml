@@ -1,0 +1,14 @@
+
+- @assessment_notifications.each do |clients, assessments|
+  - client_name, client_slug = clients
+  .ibox.border-left-right.border-bottom
+    .ibox-title
+      %h5
+        = link_to client_name, client_path(client_slug), target: :_blank
+    .ibox-content.no-padding
+      %table.table.table-striped
+        - assessments.each do |overdue_assessment|
+          %tr
+            %td.col-xs-3 CSI Assessment
+            %td.col-xs-6.task-name.border-left-right
+            %td.col-xs-3= date_format(overdue_assessment.created_at)

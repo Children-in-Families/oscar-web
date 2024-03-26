@@ -2,7 +2,7 @@ class FamilyColumnsVisibility
   include FamiliesHelper
 
   def initialize(grid, params)
-    @grid   = grid
+    @grid = grid
     @params = params
   end
 
@@ -12,8 +12,8 @@ class FamilyColumnsVisibility
 
   def visible_columns
     @grid.column_names = []
-    family_default_columns = Setting.cache_first.try(:family_default_columns)
-    params = @params.keys.select{ |k| k.match(/\_$/) }
+    family_default_columns = Setting.first.try(:family_default_columns)
+    params = @params.keys.select { |k| k.match(/\_$/) }
     if params.present? && family_default_columns.present?
       defualt_columns = params - family_default_columns
     else
@@ -47,7 +47,7 @@ class FamilyColumnsVisibility
     columns = quantitative_type_columns
     if @params[:column_form_builder].present?
       @params[:column_form_builder].each do |column|
-        field   = column['id']
+        field = column['id']
         columns = columns.merge!("#{field}_": field.to_sym)
       end
     end
@@ -61,7 +61,7 @@ class FamilyColumnsVisibility
 
   def quantitative_type_columns
     columns = columns_collection
-    QuantitativeType.joins(:quantitative_cases).where('quantitative_types.visible_on LIKE ?', "%family%").uniq.each do |quantitative_type|
+    QuantitativeType.joins(:quantitative_cases).where('quantitative_types.visible_on LIKE ?', '%family%').uniq.each do |quantitative_type|
       field = quantitative_type.name
       columns = columns.merge!("#{field}_": field.to_sym)
     end

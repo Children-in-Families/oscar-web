@@ -565,7 +565,7 @@ class FamilyGrid < BaseGrid
   end
 
   dynamic do
-    if Setting.cache_first.enable_custom_assessment?
+    if Setting.first.enable_custom_assessment?
       column(:all_custom_csi_assessments, preload: :assessments, header: -> { I18n.t('datagrid.columns.all_custom_csi_assessments', assessment: t('families.show.assessment')) }, html: true) do |object|
         render partial: 'clients/all_csi_assessments', locals: { object: object.assessments.customs }
       end

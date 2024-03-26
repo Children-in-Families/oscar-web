@@ -173,7 +173,7 @@
                 = label_tag 'main_school_contact_', t('datagrid.columns.main_school_contact')
 
 
-          - if Setting.cache_first.country_name == "cambodia"
+          - if Setting.first.country_name == "cambodia"
             %li
               .visibility.col-sm-12
                 = check_box_tag 'rated_for_id_poor_', 'rated_for_id_poor', checked = saved_search_column_visibility('rated_for_id_poor_'), class: 'i-checks'

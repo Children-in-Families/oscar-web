@@ -16,8 +16,8 @@ module Api
       end
 
       def update
-        params[:assessment][:assessment_domains_attributes].each do |assessment_domain|
-          add_more_attachments(assessment_domain[:attachments], assessment_domain[:id])
+        params[:assessment][:assessment_domains_attributes].each do |_, assessment_domain|
+          add_more_attachments(assessment_domain[:attachments], assessment_domain[:id]) if assessment_domain.key?(:id)
         end
 
         assessment = @client.assessments.find(params[:id])
@@ -50,7 +50,7 @@ module Api
         remain_attachment = assessment_domain.attachments
         deleted_attachment = remain_attachment.delete_at(index)
         deleted_attachment.try(:remove!)
-        remain_attachment.empty? ? assessment_domain.remove_attachments! : (assessment_domain.attachments = remain_attachment )
+        remain_attachment.empty? ? assessment_domain.remove_attachments! : (assessment_domain.attachments = remain_attachment)
         message = t('.fail_delete_attachment') unless assessment_domain.save
       end
     end

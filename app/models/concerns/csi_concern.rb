@@ -9,7 +9,7 @@ module CsiConcern
     return true if date_of_birth.nil?
 
     client_age = age_as_years
-    age        = Setting.cache_first.age || 18
+    age = Setting.first.age || 18
     client_age < age
   end
 
@@ -19,7 +19,7 @@ module CsiConcern
     return true if date_of_birth.nil?
 
     client_age = age_as_years
-    age        = custom_assessment_setting&.custom_age || 18
+    age = custom_assessment_setting&.custom_age || 18
     client_age < age
   end
 
@@ -44,7 +44,7 @@ module CsiConcern
 
   def can_create_assessment?(default, custom_assessment_setting_id = '')
     return assessments.defaults.count.zero? || assessments.defaults.latest_record.completed? if default
-    
+
     if custom_assessment_setting_id.present?
       latest_assessment = assessments.customs.joins(:domains).where(domains: { custom_assessment_setting_id: custom_assessment_setting_id }).distinct
     else
@@ -92,7 +92,7 @@ module CsiConcern
     end.compact
   end
 
-  def custom_next_assessment_date(user_activated_date = nil, custom_assessment_setting_id=nil)
+  def custom_next_assessment_date(user_activated_date = nil, custom_assessment_setting_id = nil)
     custom_assessments = []
     custom_assessments = assessments.customs.joins(:domains).where(domains: { custom_assessment_setting_id: custom_assessment_setting_id }).distinct if custom_assessment_setting_id
     if custom_assessment_setting_id && custom_assessments.present?
@@ -110,16 +110,16 @@ module CsiConcern
 
   def assessment_duration(duration, default = true, custom_assessment_setting_id = nil)
     if duration == 'max'
-      setting = Setting.cache_first
+      setting = Setting.first
       if custom_assessment_setting_id.present?
         custom_assessment_setting = CustomAssessmentSetting.find(custom_assessment_setting_id)
-        assessment_period    = custom_assessment_setting.max_custom_assessment
+        assessment_period = custom_assessment_setting.max_custom_assessment
         assessment_frequency = custom_assessment_setting.custom_assessment_frequency
       elsif default || self.class.name == 'Family'
-        assessment_period    = setting.max_assessment
+        assessment_period = setting.max_assessment
         assessment_frequency = setting.assessment_frequency
       else
-        assessment_period    = setting.max_custom_assessment
+        assessment_period = setting.max_custom_assessment
         assessment_frequency = setting.custom_assessment_frequency
       end
     else
@@ -137,14 +137,14 @@ module CsiConcern
   end
 
   def clients_have_recent_default_assessments(clients)
-    sql = "clients.id, (SELECT assessments.created_at FROM assessments WHERE assessments.client_id = clients.id AND assessments.default = true ORDER BY assessments.created_at DESC LIMIT 1) AS assessment_created_at"
+    sql = 'clients.id, (SELECT assessments.created_at FROM assessments WHERE assessments.client_id = clients.id AND assessments.default = true ORDER BY assessments.created_at DESC LIMIT 1) AS assessment_created_at'
     clients_recent_assessment_dates = Client.joins(:assessments).where(id: clients.ids).merge(Assessment.defaults.most_recents).select(sql)
     client_ids = collect_clients_have_recent_assessment_dates(clients_recent_assessment_dates) if current_setting.try(:enable_default_assessment?)
     clients.where(id: client_ids).uniq
   end
 
   def clients_have_recent_custom_assessments(clients)
-    sql = "clients.id, (SELECT assessments.created_at FROM assessments WHERE assessments.client_id = clients.id AND assessments.default = false ORDER BY assessments.created_at DESC LIMIT 1) AS assessment_created_at"
+    sql = 'clients.id, (SELECT assessments.created_at FROM assessments WHERE assessments.client_id = clients.id AND assessments.default = false ORDER BY assessments.created_at DESC LIMIT 1) AS assessment_created_at'
     client_ids = []
     CustomAssessmentSetting.only_enable_custom_assessment.each do |custom_assessment_setting|
       clients_recent_custom_assessment_dates = Client.joins(:assessments).where(id: clients.ids).merge(Assessment.customs.most_recents.joins(:domains).where(domains: { custom_assessment_setting_id: CustomAssessmentSetting.only_enable_custom_assessment.ids })).select(sql)

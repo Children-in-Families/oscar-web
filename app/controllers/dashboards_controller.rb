@@ -1,7 +1,7 @@
 class DashboardsController < AdminController
   include CsiConcern
 
-  before_action :task_of_user, :find_overhaul_task_params, :find_tasks, only: [:index]
+  before_action :task_of_user, :find_overdue_task_params, :find_tasks, only: [:index]
   skip_before_action :notify_user, :set_sidebar_basic_info, only: [:notification, :family_tab, :side_menu_data]
 
   def index
@@ -19,15 +19,16 @@ class DashboardsController < AdminController
     programs = params.require(:program_streams)
     programs.each do |program|
       program_stream = ProgramStream.find(program.first)
-      next if program.last["service_ids"].nil?
-      program_stream.update(service_ids: program.last["service_ids"].uniq)
+      next if program.last['service_ids'].nil?
+
+      program_stream.update(service_ids: program.last['service_ids'].uniq)
     end
   end
 
   def client_data_validation
     @date_validation_error = fetch_data_logic_error
     clients = Client.accessible_by(current_ability).where(id: @date_validation_error[:ids]).page(params[:page]).per(15)
-    @client_grid = ClientGrid.new({ column_names: [:id, :slug, :given_name, :family_name, :local_given_name, :local_family_name, :status, :gender]}).scope { clients }
+    @client_grid = ClientGrid.new({ column_names: [:id, :slug, :given_name, :family_name, :local_given_name, :local_family_name, :status, :gender] }).scope { clients }
   end
 
   def family_tab
@@ -37,30 +38,71 @@ class DashboardsController < AdminController
   end
 
   def notification
-    clients = Client.none.accessible_by(current_ability).non_exited_ngo
-    @notification = UserNotification.new(current_user, clients)
+    # clients = Client.accessible_by(current_ability).non_exited_ngo
+    # @notification = UserNotification.new(current_user, clients)
+    @notification = current_user.fetch_notification
   end
 
   def side_menu_data
-    @client_count  = Client.accessible_by(current_ability).count
-    @family_count  = Family.accessible_by(current_ability).count
-    @community_count  = Community.accessible_by(current_ability).count
-    @user_count    = User.where(deleted_at: nil).accessible_by(current_ability).count
+    @client_count = Client.accessible_by(current_ability).count
+    @family_count = Family.accessible_by(current_ability).count
+    @community_count = Community.accessible_by(current_ability).count
+    @user_count = User.where(deleted_at: nil).accessible_by(current_ability).count
     @partner_count = Partner.count
-    @agency_count  = Agency.count
-    @calls_count   = Call.count
-    @referees_count        = Referee.count
+    @agency_count = Agency.count
+    @calls_count = Call.count
+    @referees_count = Referee.count
     @referral_source_count = ReferralSource.count
     @archived_count = Client.only_deleted.accessible_by(current_ability).count
   end
 
+  def notify_task
+    respond_to do |format|
+      format.js do
+        @tasks = current_user.tasks.overdue_incomplete.exclude_exited_ngo_clients.joins(:client).select(
+          :id, :name, :expected_date, 'clients.slug as client_slug',
+          "TRIM(CONCAT(CONCAT(clients.given_name, ' ', clients.family_name), ' ', CONCAT(clients.local_family_name, ' ', clients.local_given_name))) as client_name"
+        ).to_a.group_by { |task| [task.client_slug, task.client_name] }
+      end
+    end
+  end
+
+  def notify_assessment
+    setting = Setting.first
+    @assessment_notifications = Assessment.joins(:client).merge(
+      Client.accessible_by(current_ability)
+            .active_accepted_status
+            .where('(EXTRACT(year FROM age(current_date, coalesce(clients.date_of_birth, CURRENT_DATE))) :: int) < ?', setting&.age || 18)
+    ).where("DATE(assessments.created_at + interval '#{setting.max_assessment}' #{setting.assessment_frequency}) < CURRENT_DATE")
+                                          .select(
+                                            :id, :created_at, 'clients.slug as client_slug',
+                                            "TRIM(CONCAT(CONCAT(clients.given_name, ' ', clients.family_name), ' ', CONCAT(clients.local_family_name, ' ', clients.local_given_name))) as client_name"
+                                          ).to_a.group_by { |task| [task.client_slug, task.client_name] }
+  end
+
+  def notify_custom_assessment
+    @custom_assessment_notifications = CustomAssessmentSetting.only_enable_custom_assessment.map do |custom_setting|
+      sql = custom_setting.custom_assessment_frequency == 'unlimited' ? 'DATE(assessments.created_at) < CURRENT_DATE' : "DATE(assessments.created_at + interval '#{custom_setting.max_custom_assessment}' #{custom_setting.custom_assessment_frequency}) < CURRENT_DATE"
+      custom_assessments = Assessment.customs.joins(:client).where(custom_assessment_setting_id: custom_setting.id).merge(
+        Client.accessible_by(current_ability)
+              .active_accepted_status
+              .where('(EXTRACT(year FROM age(current_date, coalesce(clients.date_of_birth, CURRENT_DATE))) :: int) < ?', custom_setting.custom_age || 18)
+      ).where(sql).select(
+                :id, :created_at, 'clients.slug as client_slug',
+                "TRIM(CONCAT(CONCAT(clients.given_name, ' ', clients.family_name), ' ', CONCAT(clients.local_family_name, ' ', clients.local_given_name))) as client_name"
+              ).to_a.group_by { |task| [task.client_slug, task.client_name] }
+
+      [custom_setting.custom_assessment_name, custom_assessments]
+    end
+  end
+
   private
 
-  def find_overhaul_task_params
-    @default_params    = params[:assessments].nil? && params[:forms].nil? && params[:tasks].nil?
+  def find_overdue_task_params
+    @default_params = params[:assessments].nil? && params[:forms].nil? && params[:tasks].nil?
     @assessment_params = params[:assessments].presence == 'true' || current_user.case_worker?
-    @form_params       = params[:forms].presence == 'true' || current_user.case_worker?
-    @task_params       = params[:tasks].presence == 'true' || current_user.case_worker?
+    @form_params = params[:forms].presence == 'true' || current_user.case_worker?
+    @task_params = params[:tasks].presence == 'true' || current_user.case_worker?
   end
 
   def task_of_user
@@ -78,7 +120,7 @@ class DashboardsController < AdminController
 
   def find_clients
     clients = []
-    @setting = Setting.cache_first
+    @setting = Setting.first
     user_ability = Ability.new(@user)
     accepted_clients = Client.accessible_by(user_ability).active_accepted_status.distinct
     eligible_clients = active_young_clients(accepted_clients, @setting)
@@ -133,9 +175,9 @@ class DashboardsController < AdminController
       end
 
       clients << [client, { overdue_forms: overdue_forms.uniq, today_forms: today_forms.uniq, upcoming_forms: upcoming_forms.uniq,
-                            overdue_trackings: overdue_trackings.uniq, today_trackings: today_trackings.uniq,
-                            upcoming_trackings: upcoming_trackings.uniq, overdue_tasks: overdue_tasks.flatten.uniq,
-                            today_tasks: today_tasks.flatten.uniq, upcoming_tasks: upcoming_tasks.flatten.uniq }]
+                           overdue_trackings: overdue_trackings.uniq, today_trackings: today_trackings.uniq,
+                           upcoming_trackings: upcoming_trackings.uniq, overdue_tasks: overdue_tasks.flatten.uniq,
+                           today_tasks: today_tasks.flatten.uniq, upcoming_tasks: upcoming_tasks.flatten.uniq }]
     end
     clients
   end

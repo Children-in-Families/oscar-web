@@ -5,8 +5,8 @@ class Assessment < ActiveRecord::Base
   belongs_to :custom_assessment_setting
 
   has_many :assessment_domains, dependent: :destroy
-  has_many :domains,            through:   :assessment_domains
-  has_many :case_notes,         dependent: :destroy
+  has_many :domains, through: :assessment_domains
+  has_many :case_notes, dependent: :destroy
   has_many :tasks, as: :taskable, dependent: :destroy
   has_many :goals, dependent: :destroy
 
@@ -37,11 +37,11 @@ class Assessment < ActiveRecord::Base
   scope :not_draft, -> { where(draft: false) }
   scope :draft, -> { where(draft: true) }
   scope :draft_untouch, -> { draft.where(last_auto_save_at: nil) }
-  scope :not_untouch_draft, -> { where("draft IS FALSE OR last_auto_save_at IS NOT NULL") }
+  scope :not_untouch_draft, -> { where('draft IS FALSE OR last_auto_save_at IS NOT NULL') }
 
   default_scope { not_untouch_draft }
 
-  DUE_STATES        = ['Due Today', 'Overdue']
+  DUE_STATES = ['Due Today', 'Overdue']
 
   def set_assessment_completed
     return if draft?
@@ -60,7 +60,7 @@ class Assessment < ActiveRecord::Base
 
   def check_reason_and_score
     empty_assessment_domains = []
-    setting = Setting.cache_first
+    setting = Setting.first
     is_ratanak = Organization.ratanak?
     assessment_domains.each do |assessment_domain|
       if is_ratanak
@@ -127,13 +127,13 @@ class Assessment < ActiveRecord::Base
     return false if client.nil?
 
     eligible = if default?
-                client.eligible_default_csi?
-              else
-                custom_assessment_setting_ids = client.assessments.customs.map{|ca| ca.domains.pluck(:custom_assessment_setting_id ) }.flatten.uniq
-                CustomAssessmentSetting.where(id: custom_assessment_setting_ids).each do |custom_assessment_setting|
-                  client.eligible_custom_csi?(custom_assessment_setting)
-                end
-              end
+                 client.eligible_default_csi?
+               else
+                 custom_assessment_setting_ids = client.assessments.customs.map { |ca| ca.domains.pluck(:custom_assessment_setting_id) }.flatten.uniq
+                 CustomAssessmentSetting.where(id: custom_assessment_setting_ids).each do |custom_assessment_setting|
+                   client.eligible_custom_csi?(custom_assessment_setting)
+                 end
+               end
     eligible ? true : errors.add(:base, "Assessment cannot be added due to client's age.")
   end
 
@@ -156,11 +156,11 @@ class Assessment < ActiveRecord::Base
     if default == false && assessment_domains.any?
       custom_assessment_setting_id = assessment_domains.first.domain&.custom_assessment_setting_id
     end
-    errors.add(:base, "Assessment cannot be created due to either frequency period or previous assessment status") if client.present? && !client.can_create_assessment?(default, custom_assessment_setting_id)
+    errors.add(:base, 'Assessment cannot be created due to either frequency period or previous assessment status') if client.present? && !client.can_create_assessment?(default, custom_assessment_setting_id)
   end
 
   def must_be_enable
-    enable = default? ? Setting.cache_first.enable_default_assessment : Setting.cache_first.enable_custom_assessment
+    enable = default? ? Setting.first.enable_default_assessment : Setting.first.enable_custom_assessment
     enable || family ? true : errors.add(:base, 'Assessment tool must be enable in setting')
   end
 
@@ -184,6 +184,6 @@ class Assessment < ActiveRecord::Base
 
   def flash_cache
     Rails.cache.delete([Apartment::Tenant.current, 'User', User.current_user.id, 'assessment_either_overdue_or_due_today']) if User.current_user.present?
-    Rails.cache.fetch([Apartment::Tenant.current, parent.class.name, 'cached_client_sql_assessment_custom_completed_date', parent.id])
+    Rails.cache.delete([Apartment::Tenant.current, parent.class.name, 'cached_client_sql_assessment_custom_completed_date', parent.id])
   end
 end
