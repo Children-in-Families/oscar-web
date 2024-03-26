@@ -423,6 +423,7 @@ Rails.application.routes.draw do
         scope module: 'clients' do
           resources :exit_ngos, only: [:create, :update]
           resources :enter_ngos, only: [:create, :update]
+          resources :referrals
         end
 
         scope module: 'client_tasks' do
