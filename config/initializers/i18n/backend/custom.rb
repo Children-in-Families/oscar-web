@@ -48,6 +48,11 @@ module I18n::Backend::Custom
     @custom_translations[tenant]
   end
 
+  def loaded?
+    @custom_translations ||= {}
+    @custom_translations.dig(Apartment::Tenant.current, I18n.locale).present?
+  end
+
   def deep_merge(hash1, hash2)
     hash1.merge(hash2) do |key, old_val, new_val|
       if old_val.is_a?(Hash) && new_val.is_a?(Hash)
@@ -61,12 +66,12 @@ module I18n::Backend::Custom
   def load_custom_translations(tenant = Apartment::Tenant.current)
     init_translations unless @initialized
 
+    locale = I18n.locale
+
     Apartment::Tenant.switch(tenant) do
-      I18n.available_locales.each do |locale|
-        data = load_custom_labels(locale)
-        data.merge!(nepal_commune_mapping(locale)) if Setting.cache_first&.country_name == 'nepal'
-        update_custom_translations(tenant, locale, data)
-      end
+      data = load_custom_labels(locale)
+      data.merge!(nepal_commune_mapping(locale)) if Setting.cache_first&.country_name == 'nepal'
+      update_custom_translations(tenant, locale, data)
 
       update_last_reload_at
     end
