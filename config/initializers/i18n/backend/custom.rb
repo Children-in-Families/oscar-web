@@ -37,6 +37,11 @@ module I18n::Backend::Custom
     @custom_translations[tenant] ||= {}
     @custom_translations[tenant][locale] = data
   end
+
+  def update_custom_translations_by_tenant(tenant, data)
+    @custom_translations ||= {}
+    @custom_translations[tenant] = data
+  end
   
   def custom_translations(tenant)
     @custom_translations ||= {} 
@@ -125,7 +130,7 @@ module I18n::Backend::Custom
 
   def init_translations
     load_translations
-    @default_translation = translations.dup
+    update_custom_translations_by_tenant('default', translations.dup)
     @initialized = true
   end
   
@@ -138,7 +143,7 @@ module I18n::Backend::Custom
 
     keys = I18n.normalize_keys(locale, key, scope, options[:separator])
 
-    keys.inject(@default_translation) do |result, _key|
+    keys.inject(custom_translations('default')) do |result, _key|
       return nil unless result.is_a?(Hash)
       unless result.has_key?(_key)
         _key = _key.to_s.to_sym
@@ -149,6 +154,7 @@ module I18n::Backend::Custom
       result
     end
   end
+
   def custom_lookup(locale, key, scope = [], options = EMPTY_HASH)
     # puts "Custom Look up ==================== #{key}"
 
