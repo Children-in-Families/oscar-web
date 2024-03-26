@@ -1,4 +1,6 @@
 class Assessment < ActiveRecord::Base
+  attr_accessor :skip_assessment_domain_populate
+
   belongs_to :client, counter_cache: true
   belongs_to :family, counter_cache: true
   belongs_to :case_conference
@@ -105,6 +107,8 @@ class Assessment < ActiveRecord::Base
   end
 
   def populate_family_domains
+    return if skip_assessment_domain_populate
+
     family_domains = Domain.family_custom_csi_domains.presence || Domain.csi_domains
     family_domains.where.not(id: domains.ids).each do |domain|
       assessment_domains.build(domain: domain)
@@ -148,6 +152,8 @@ class Assessment < ActiveRecord::Base
   private
 
   def populate_domains
+    return if skip_assessment_domain_populate
+
     self.assessment_domains = AssessmentDomainsLoader.call(self) if new_record? && client_id?
   end
 

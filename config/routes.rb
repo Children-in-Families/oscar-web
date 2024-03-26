@@ -414,7 +414,7 @@ Rails.application.routes.draw do
       resources :users, only: [:index, :show]
       resources :clients, except: [:edit, :new] do
         get :listing, on: :collection
-        resources :assessments, only: [:create, :update, :destroy, :delete]
+        resources :assessments
         resources :case_notes, only: [:show, :create, :update, :destroy, :delete_attachment] do
           delete 'attachments/:file_index', action: :delete_attachment, on: :member
         end
