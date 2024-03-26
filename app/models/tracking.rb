@@ -68,7 +68,8 @@ class Tracking < ActiveRecord::Base
   end
 
   def flush_cache
-    Rails.cache.delete([Apartment::Tenant.current, 'Tracking', self.id])
+    Rails.cache.delete([Apartment::Tenant.current, 'trackings', 'ProgramStream', program_stream.id])
+    Rails.cache.delete([Apartment::Tenant.current, 'Tracking', id])
     cached_program_stream_program_ids_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_program_stream_program_ids/].blank? }
     cached_program_stream_program_ids_keys.each { |key| Rails.cache.delete(key) }
   end
