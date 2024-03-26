@@ -35,7 +35,7 @@ module I18n::Backend::Custom
 
   def update_custom_translations(tenant, locale, data)
     @custom_translations[tenant] ||= {}
-    @custom_translations[tenant][locale] = data
+    @custom_translations[tenant][locale] = deep_merge(custom_translations('default')[locale], data)
   end
 
   def update_custom_translations_by_tenant(tenant, data)
@@ -46,6 +46,16 @@ module I18n::Backend::Custom
   def custom_translations(tenant)
     @custom_translations ||= {} 
     @custom_translations[tenant]
+  end
+
+  def deep_merge(hash1, hash2)
+    hash1.merge(hash2) do |key, old_val, new_val|
+      if old_val.is_a?(Hash) && new_val.is_a?(Hash)
+        deep_merge(old_val, new_val)
+      else
+        new_val
+      end
+    end
   end
 
   def load_custom_translations(tenant = Apartment::Tenant.current)
@@ -136,23 +146,7 @@ module I18n::Backend::Custom
   
   def lookup(locale, key, scope = [], options = EMPTY_HASH)
     Rails.logger.info "Custom Look up ==================== #{key} - #{Apartment::Tenant.current}"
-    
-    translation = custom_lookup(locale, key, scope, options)
-    Rails.logger.info "Custom Look up ==================== #{translation}"
-    return translation if translation.present?
-
-    keys = I18n.normalize_keys(locale, key, scope, options[:separator])
-
-    keys.inject(custom_translations('default')) do |result, _key|
-      return nil unless result.is_a?(Hash)
-      unless result.has_key?(_key)
-        _key = _key.to_s.to_sym
-        return nil unless result.has_key?(_key)
-      end
-      result = result[_key]
-      result = resolve_entry(locale, _key, result, Utils.except(options.merge(:scope => nil), :count)) if result.is_a?(Symbol)
-      result
-    end
+    custom_lookup(locale, key, scope, options)
   end
 
   def custom_lookup(locale, key, scope = [], options = EMPTY_HASH)
