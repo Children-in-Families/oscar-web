@@ -82,7 +82,7 @@ class DashboardsController < AdminController
     @custom_assessment_notifications = CustomAssessmentSetting.only_enable_custom_assessment.map do |custom_setting|
       sql = custom_setting.custom_assessment_frequency == 'unlimited' ? 'DATE(assessments.created_at) < CURRENT_DATE' : "DATE(assessments.created_at + interval '#{custom_setting.max_custom_assessment}' #{custom_setting.custom_assessment_frequency}) < CURRENT_DATE"
       custom_assessments = Assessment.customs.joins(:client).where(custom_assessment_setting_id: custom_setting.id).where(
-        'assessments.client_id IN (?)', Client.accessible_by(current_ability).active_accepted_status.where('(EXTRACT(year FROM age(current_date, coalesce(clients.date_of_birth, CURRENT_DATE))) :: int) < ?', setting&.age || 18).ids
+        'assessments.client_id IN (?)', Client.accessible_by(current_ability).active_accepted_status.where('(EXTRACT(year FROM age(current_date, coalesce(clients.date_of_birth, CURRENT_DATE))) :: int) < ?', custom_setting&.custom_age || 18).ids
       ).where(sql).select(
         :id, :created_at, 'clients.slug as client_slug',
         "TRIM(CONCAT(CONCAT(clients.given_name, ' ', clients.family_name), ' ', CONCAT(clients.local_family_name, ' ', clients.local_given_name))) as client_name"
@@ -90,6 +90,17 @@ class DashboardsController < AdminController
 
       [custom_setting.custom_assessment_name, custom_assessments]
     end
+  end
+
+  def notify_client_custom_form
+    setting = Setting.first
+    @client_custom_form_notifications = CustomFieldProperty.joins(:custom_field, :client)
+                                                           .where("custom_field_properties.custom_formable_type = 'Client' AND custom_field_properties.custom_formable_id IN (?)",
+                                                                  Client.accessible_by(current_ability).active_accepted_status
+                                                             .where('(EXTRACT(year FROM age(current_date, coalesce(clients.date_of_birth, CURRENT_DATE))) :: int) < ?', setting&.age || 18).ids)
+                                                           .where("DATE(custom_field_properties.created_at + (custom_fields.time_of_frequency || ' ' || CASE custom_fields.frequency WHEN 'Daily' THEN 'day' WHEN 'Weekly' THEN 'week' WHEN 'Monthly' THEN 'month' WHEN 'Yearly' THEN 'year' END)::interval) < CURRENT_DATE")
+                                                           .select(:id, :created_at, "custom_fields.form_title, clients.slug client_slug, TRIM(CONCAT(CONCAT(clients.given_name, ' ', clients.family_name), ' ', CONCAT(clients.local_family_name, ' ', clients.local_given_name))) as client_name")
+                                                           .distinct.to_a.group_by { |custom_field| [custom_field.client_slug, custom_field.client_name] }
   end
 
   private

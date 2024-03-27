@@ -64,25 +64,26 @@
                 .col-xs-11.customized_assessments_notification_label
                   = "#{I18n.t('layouts.notification.assessments_count', count: @notification.dig(:custom_assessment, :overdue_count))} Custom Assessment #{I18n.t('layouts.notification.overdue_assessments', count: @notification.dig(:custom_assessment, :overdue_count))}"
         %li.divider
-    -#   - if @notification.any_client_forms_due_today? || @notification.any_client_forms_overdue?
-    -#     %li
-    -#       %div.align-link
-    -#         = link_to dashboards_path(user_id: current_user.id, forms: true) do
-    -#           .row
-    -#             .col-xs-1
-    -#               %i.fa.fa-tasks.fa-fw.task-sign
-    -#             .col-xs-11.forms_notification_label
-    -#               = forms_notification_label
-    -#     %li.divider
-    -#   - if @notification.any_client_case_note_overdue?
-    -#     %li
-    -#       %div.align-link
-    -#         = link_to notifications_path(client_case_note_overdue_and_due_today: 'overdue') do
-    -#           .row
-    -#             .col-xs-1
-    -#               %i.fa.fa-tasks.fa-fw.task-sign
-    -#             .col-xs-11.client_case_note_overdue
-    -#               = t('.client_case_note_overdue', count: @notification.client_case_note_overdue_count)
+
+      - if !@notification.dig(:client_custom_forms, :overdue_count).zero?
+        %li
+          %div.align-link
+            = link_to dashboards_notify_client_custom_form_path(user_id: current_user.id, forms: true), remote: true do
+              .row
+                .col-xs-1
+                  %i.fa.fa-tasks.fa-fw.task-sign
+                .col-xs-11.forms_notification_label
+                  = I18n.t('layouts.notification.overdue_forms_count', count: @notification.dig(:client_custom_forms, :overdue_count))
+        %li.divider
+      -# - if @notification.any_client_case_note_overdue?
+      -#   %li
+      -#     %div.align-link
+      -#       = link_to notifications_path(client_case_note_overdue_and_due_today: 'overdue') do
+      -#         .row
+      -#           .col-xs-1
+      -#             %i.fa.fa-tasks.fa-fw.task-sign
+      -#           .col-xs-11.client_case_note_overdue
+      -#             = t('.client_case_note_overdue', count: @notification.client_case_note_overdue_count)
 
     -#   - if @notification.any_client_case_note_due_today?
     -#     %li
