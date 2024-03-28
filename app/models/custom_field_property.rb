@@ -7,6 +7,7 @@ class CustomFieldProperty < ActiveRecord::Base
   belongs_to :custom_formable, polymorphic: true
   belongs_to :custom_field
   belongs_to :user
+  belongs_to :client, class_name: 'Client', foreign_key: 'custom_formable_id'
 
   scope :by_custom_field, -> (value) { where(custom_field: value) }
   scope :most_recents, -> { order(created_at: :desc) }
@@ -32,6 +33,7 @@ class CustomFieldProperty < ActiveRecord::Base
   def is_editable?
     setting = Setting.first
     return true if setting.try(:custom_field_limit).zero?
+
     max_duration = setting.try(:custom_field_limit).zero? ? 2 : setting.try(:custom_field_limit)
     custom_field_frequency = setting.try(:custom_field_frequency)
     created_at >= max_duration.send(custom_field_frequency).ago

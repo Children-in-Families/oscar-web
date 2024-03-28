@@ -25,6 +25,7 @@ Rails.application.routes.draw do
     get '/dashboards/notify_task' => 'dashboards#notify_task'
     get '/dashboards/notify_assessment' => 'dashboards#notify_assessment'
     get '/dashboards/notify_custom_assessment' => 'dashboards#notify_custom_assessment'
+    get '/dashboards/notify_client_custom_form' => 'dashboards#notify_client_custom_form'
   end
 
   resources :calendars

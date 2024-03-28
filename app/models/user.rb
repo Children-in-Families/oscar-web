@@ -294,11 +294,11 @@ class User < ActiveRecord::Base
     end
   end
 
-  def client_forms_overdue_or_due_today(user_clients)
+  def client_forms_overdue_or_due_today(active_clients = nil)
     if self.deactivated_at.present?
-      active_accepted_clients = user_clients.where('clients.created_at > ?', self.activated_at).active_accepted_status
+      active_accepted_clients = (active_clients || user_clients).where('clients.created_at > ?', self.activated_at).active_accepted_status
     else
-      active_accepted_clients = user_clients.active_accepted_status
+      active_accepted_clients = (active_clients || user_clients).active_accepted_status
     end
     overdue_and_due_today_forms(self, active_accepted_clients)
   end
@@ -338,7 +338,7 @@ class User < ActiveRecord::Base
 
   def user_clients
     user_ability = Ability.new(self)
-    @user_clients ||= Client.accessible_by(user_ability).select(:id, :slug, :given_name, :family_name, :local_given_name, :local_family_name, :date_of_birth)
+    @user_clients ||= Client.accessible_by(user_ability).select(:id, :slug, :status, :given_name, :family_name, :local_given_name, :local_family_name, :date_of_birth)
   end
 
   def self.self_and_subordinates(user)
