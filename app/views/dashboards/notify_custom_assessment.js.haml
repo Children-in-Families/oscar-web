@@ -1,0 +1,5 @@
+:plain
+  var appearence = $("#{escape_javascript(render partial: 'dashboards/overdues/custom_assessments')}");
+  $('#assessment_list.modal #overdue-assessments .panel-body').html(appearence);
+  toastr.clear()
+  $('#assessment_list.modal').modal('show');

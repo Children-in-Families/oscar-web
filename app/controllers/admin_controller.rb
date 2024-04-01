@@ -8,7 +8,6 @@ class AdminController < ApplicationController
 
   def notify_user
     if preload_notifications?
-      # clients = Client.accessible_by(current_ability).non_exited_ngo
       @notification = current_user.fetch_notification
     else
       @lazy_load_notification = true

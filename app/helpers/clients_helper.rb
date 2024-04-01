@@ -622,8 +622,7 @@ module ClientsHelper
     param_values = []
     sql_string = []
     hashes[rule].each do |value|
-      rule.each_key do |key|
-        values = value[key]
+      value.each do |key, values|
         case key
         when 'equal'
           sql_string << "#{association} = ?"
