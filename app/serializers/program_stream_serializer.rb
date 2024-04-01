@@ -1,7 +1,7 @@
 class ProgramStreamSerializer < ActiveModel::Serializer
   attributes :id, :name, :description, :rules, :tracking_required, :enrollment, :exit_program, :quantity,
              :program_exclusive, :mutual_dependence, :enrollable_client_ids, :completed, :entity_type,
-             :maximum_client, :program_permission_editable
+             :maximum_client, :program_permission_editable, :internal_referral_user_ids
 
   has_many :trackings
   has_many :services
