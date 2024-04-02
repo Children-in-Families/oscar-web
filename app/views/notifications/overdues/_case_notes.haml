@@ -1,0 +1,14 @@
+
+- @case_note_notifications.each do |clients, case_notes|
+  - client_name, client_slug = clients
+  .ibox.border-left-right.border-bottom
+    .ibox-title
+      %h5
+        = link_to client_name, client_path(client_slug), target: :_blank
+    .ibox-content.no-padding
+      %table.table.table-striped
+        - case_notes.each do |overdue_case_note|
+          %tr
+            %td.col-xs-3= t('notifications.case_note_overdue.client_case_note_overdue')
+            %td.col-xs-6.task-name.border-left-right
+            %td.col-xs-3= date_format(overdue_case_note.meeting_date)

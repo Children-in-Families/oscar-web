@@ -75,15 +75,15 @@
                 .col-xs-11.forms_notification_label
                   = I18n.t('layouts.notification.overdue_forms_count', count: @notification.dig(:client_custom_forms, :overdue_count))
         %li.divider
-      -# - if @notification.any_client_case_note_overdue?
-      -#   %li
-      -#     %div.align-link
-      -#       = link_to notifications_path(client_case_note_overdue_and_due_today: 'overdue') do
-      -#         .row
-      -#           .col-xs-1
-      -#             %i.fa.fa-tasks.fa-fw.task-sign
-      -#           .col-xs-11.client_case_note_overdue
-      -#             = t('.client_case_note_overdue', count: @notification.client_case_note_overdue_count)
+      - if !@notification.dig(:case_notes, :overdue_count).zero?
+        %li
+          %div.align-link
+            = link_to notify_overdue_case_note_path(client_case_note_overdue_and_due_today: 'overdue'), remote: true do
+              .row
+                .col-xs-1
+                  %i.fa.fa-tasks.fa-fw.task-sign
+                .col-xs-11.client_case_note_overdue
+                  = t('.client_case_note_overdue', count: @notification.dig(:case_notes, :overdue_count))
 
     -#   - if @notification.any_client_case_note_due_today?
     -#     %li
@@ -178,16 +178,16 @@
     -#               %i.fa.fa-tasks.fa-fw.task-sign
     -#             .col-xs-11.overdue_user_custom_field_count
     -#               = t('.overdue_user_custom_field_count', count: @notification.user_custom_field_frequency_overdue_count)
-    -#     %li.divider
-    -#   - if @notification.any_unsaved_referrals? && current_user.referral_notification
-    -#     %li
-    -#       %div.align-link
-    -#         = link_to referrals_notifications_path do
-    -#           .row
-    -#             .col-xs-1
-    -#               %i.fa.fa-tasks.fa-fw.task-sign
-    -#             .col-xs-11.new_referral_client
-    -#               = t('.new_referral_client', count: @notification.unsaved_referrals_count)
+    %li.divider
+    - if !@notification.dig(:get_referrals, :count).zero?
+      %li
+        %div.align-link
+          = link_to referrals_notifications_path do
+            .row
+              .col-xs-1
+                %i.fa.fa-tasks.fa-fw.task-sign
+              .col-xs-11.new_referral_client
+                = t('.new_referral_client', count: @notification.dig(:get_referrals, :count))
     -#   - if @notification.any_repeat_referrals? && current_user.referral_notification
     -#     %li
     -#       %div.align-link

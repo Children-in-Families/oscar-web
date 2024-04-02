@@ -8,7 +8,7 @@
           .panel-body
             .row
               .col-xs-12
-                - if can? :read, Assessment
+                - if can? :read, Assessment || (can? :read, CustomField) || (can? :read, Task)
                   .panel.panel-default
                     .panel-body
                       = render 'users_filter', checkbox_tasks: false, checkbox_forms: false
