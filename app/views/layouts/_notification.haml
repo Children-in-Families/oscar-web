@@ -182,7 +182,7 @@
     - if !@notification.dig(:get_referrals, :count).zero?
       %li
         %div.align-link
-          = link_to referrals_notifications_path do
+          = link_to referrals_notifications_path, remote: true do
             .row
               .col-xs-1
                 %i.fa.fa-tasks.fa-fw.task-sign

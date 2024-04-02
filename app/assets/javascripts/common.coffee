@@ -20,9 +20,11 @@ CIF.Common =
   loadNotification: ->
     setTimeout (->
       if $('.lazy-load-notification').length > 0
-        $.ajax(type: 'GET', url: '/dashboards/notification').done ->
+        $.ajax(type: 'GET', url: '/dashboards/notification').done(->
           CIF.Common.handleNotificationOnClick()
           return
+        ).fail (p1, p2, p3) ->
+          console.log(p1, p2, p3)
 
     ), 1000
 
@@ -184,7 +186,6 @@ CIF.Common =
 
   handleNotificationOnClick: ->
     $('a[data-remote="true"]').on 'click', () ->
-      console.log('chicked remote link')
       CIF.Common.loadingToastrOnNotificationClick()
     return
 

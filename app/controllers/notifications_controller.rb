@@ -42,7 +42,17 @@ class NotificationsController < AdminController
   end
 
   def referrals
-    @unsaved_referrals = @notification.unsaved_referrals
+    respond_to do |format|
+      format.html do
+        @unsaved_referrals = @notification.unsaved_referrals
+      end
+      format.js do
+        referrals = Referral.received.unsaved
+        referrals = referrals.where('created_at > ?', @user.activated_at) if current_user.deactivated_at?
+
+        @referrals = referrals.where(client_id: nil)
+      end
+    end
   end
 
   def repeat_referrals
