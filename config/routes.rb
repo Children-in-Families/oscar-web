@@ -457,6 +457,7 @@ Rails.application.routes.draw do
       end
 
       resources :referees, only: :index
+      get 'services' => 'services#index'
     end
 
     resources :community_advanced_searches, only: [] do
