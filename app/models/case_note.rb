@@ -31,6 +31,9 @@ class CaseNote < ActiveRecord::Base
 
   scope :no_case_note_in, -> (value) { where("meeting_date <= ? AND id = (SELECT MAX(cn.id) FROM CASE_NOTES cn where CASE_NOTES.client_id = cn.client_id)", value) }
 
+  scope :default, -> { where(custom_assessment_setting_id: nil) }
+  scope :custom, -> { where.not(custom_assessment_setting_id: nil) }
+
   default_scope { not_untouch_draft }
 
   before_create :set_assessment

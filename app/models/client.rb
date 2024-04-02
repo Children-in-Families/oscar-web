@@ -402,6 +402,7 @@ class Client < ActiveRecord::Base
       end
     end
 
+    case_note.created_at = Time.current
     case_note.save(validate: false)
     case_note
   end
