@@ -1,0 +1,6 @@
+:plain
+  var appearence = $("#{escape_javascript(render partial: 'notifications/referral_table')}");
+  $('#assessment_list.modal #overdue-assessments .panel-body').html(appearence);
+  toastr.clear()
+  $('#assessment_list.modal').modal('show');
+  $('#users-filter').hide();

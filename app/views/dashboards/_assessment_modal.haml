@@ -8,8 +8,8 @@
           .panel-body
             .row
               .col-xs-12
-                - if can? :read, Assessment
-                  .panel.panel-default
+                - if can? :read, Assessment || (can? :read, CustomField) || (can? :read, Task)
+                  #users-filter.panel.panel-default
                     .panel-body
                       = render 'users_filter', checkbox_tasks: false, checkbox_forms: false
                 .panel.panel-danger#overdue-assessments

@@ -427,7 +427,7 @@ class User < ActiveRecord::Base
   end
 
   def fetch_notification
-    Rails.cache.delete([Apartment::Tenant.current, 'notifications', 'user', id])
+    # Rails.cache.delete([Apartment::Tenant.current, 'notifications', 'user', id])
     Rails.cache.fetch([Apartment::Tenant.current, 'notifications', 'user', id]) do
       notifications = UserNotification.new(self, user_clients)
       notifications = JSON.parse(notifications.to_json)

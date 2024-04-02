@@ -1,20 +1,14 @@
-.panel.panel-danger#overdue-tasks
-  .panel-heading
-    .row
-      .col-xs-6
-        %h5= t('dashboards.active_tasks.overdue_tasks')
-  .panel-body
-    - @tasks.each do |clients, tasks|
-      - client_id, client_name = clients
-      .ibox.border-left-right.border-bottom
-        .ibox-title
-          %h5
-            = link_to client_name, client_path(client_id), target: :_blank
-        .ibox-content.no-padding
-          %table.table.table-striped.active_tasks
-            - tasks.each do |task, index|
-              %tr
-                - if index == 0
-                  %td.col-xs-3{ rowspan: overdue_tasks.count }= t('dashboards.overdue.task')
-                %td.col-xs-6.task-name.border-left-right= task.name
-                %td.col-xs-3= date_format(task.expected_date)
+- @tasks.each do |clients, tasks|
+  - client_id, client_name = clients
+  .ibox.border-left-right.border-bottom
+    .ibox-title
+      %h5
+        = link_to client_name, client_path(client_id), target: :_blank
+    .ibox-content.no-padding
+      %table.table.table-striped.active_tasks
+        - tasks.each do |task, index|
+          %tr
+            - if index == 0
+              %td.col-xs-3{ rowspan: overdue_tasks.count }= t('dashboards.overdue.task')
+            %td.col-xs-6.task-name.border-left-right= task.name
+            %td.col-xs-3= date_format(task.expected_date)
