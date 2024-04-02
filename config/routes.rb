@@ -467,6 +467,7 @@ Rails.application.routes.draw do
       resources :notifications, only: :index
       get 'custom_forms' => 'custom_fields#index'
       get 'developmental_markers' => 'developmental_markers#index'
+      get 'services' => 'services#index'
     end
 
     resources :community_advanced_searches, only: [] do
