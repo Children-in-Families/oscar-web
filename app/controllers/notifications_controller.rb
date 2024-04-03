@@ -48,7 +48,7 @@ class NotificationsController < AdminController
       end
       format.js do
         referrals = Referral.received.unsaved
-        referrals = referrals.where('created_at > ?', @user.activated_at) if current_user.deactivated_at?
+        referrals = referrals.where('created_at > ?', @current_user.activated_at) if current_user.deactivated_at?
 
         @referrals = referrals.where(client_id: nil)
       end
@@ -60,11 +60,45 @@ class NotificationsController < AdminController
   end
 
   def family_referrals
-    @unsaved_family_referrals = @notification.unsaved_family_referrals
+    respond_to do |format|
+      format.html do
+        @unsaved_family_referrals = @notification.unsaved_family_referrals
+      end
+      format.js do
+        if current_user.deactivated_at.nil?
+          referrals = FamilyReferral.received.unsaved
+        else
+          referrals = FamilyReferral.received.unsaved.where('created_at > ?', current_user.activated_at)
+        end
+
+        @referrals = referrals.where(slug: nil)
+      end
+    end
   end
 
   def repeat_family_referrals
     @repeat_family_referrals = @notification.repeat_family_referrals
+  end
+
+  def notify_family_custom_field
+    setting = Setting.first
+    custom_field_ids = current_user.custom_field_permissions.where(editable: false).pluck(:custom_field_id)
+    family_ids = Family.accessible_by(current_ability).ids
+    sql = "AND custom_fields.id NOT IN (#{custom_field_ids.join(',')})" if (current_user.case_worker? || current_user.manager?) && custom_field_ids.any?
+
+    @family_custom_form_notifications = CustomFieldProperty.joins(:custom_field, :family)
+                                                           .where("custom_fields.frequency != '' AND custom_field_properties.custom_formable_type = 'Family' AND custom_field_properties.custom_formable_id IN (?) #{sql}", family_ids)
+                                                           .where("DATE(custom_field_properties.created_at + (custom_fields.time_of_frequency || ' ' || CASE custom_fields.frequency WHEN 'Daily' THEN 'day' WHEN 'Weekly' THEN 'week' WHEN 'Monthly' THEN 'month' WHEN 'Yearly' THEN 'year' END)::interval) < CURRENT_DATE")
+                                                           .select(:id, :created_at, "custom_fields.form_title, families.id family_id, TRIM(CONCAT(families.name, ' ', families.name_en)) as family_name")
+                                                           .distinct.to_a
+
+    @family_custom_form_notifications += EnrollmentTracking.joins(:tracking, enrollment: :family)
+                                                           .where("trackings.frequency != '' AND enrollments.status = 'Active' AND enrollments.programmable_id IN (?)", family_ids)
+                                                           .where("DATE(enrollment_trackings.created_at + (trackings.time_of_frequency || ' ' || CASE trackings.frequency WHEN 'Daily' THEN 'day' WHEN 'Weekly' THEN 'week' WHEN 'Monthly' THEN 'month' WHEN 'Yearly' THEN 'year' END)::interval) < CURRENT_DATE")
+                                                           .select(:id, :created_at, "trackings.name form_title, families.id family_id, TRIM(CONCAT(families.name, ' ', families.name_en)) as family_name")
+                                                           .distinct.to_a
+
+    @family_custom_form_notifications = @family_custom_form_notifications.group_by { |form| [form.family_id, form.family_name] }
   end
 
   def notify_overdue_case_note

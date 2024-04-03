@@ -1,0 +1,8 @@
+.row
+  .col-xs-12
+    .ibox
+      .ibox-title
+        %h5= t('.referral_clients')
+      .ibox-content
+        = render partial: 'referral_table', locals: { referrals: @unsaved_referrals }
+        
