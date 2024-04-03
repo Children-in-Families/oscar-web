@@ -7,6 +7,7 @@ class Enrollment < ActiveRecord::Base
 
   belongs_to :programmable, polymorphic: true
   belongs_to :program_stream
+  belongs_to :family, class_name: 'Family', foreign_key: 'programmable_id'
 
   has_many :enrollment_trackings, dependent: :destroy
   has_many :trackings, through: :enrollment_trackings
@@ -20,9 +21,9 @@ class Enrollment < ActiveRecord::Base
   has_paper_trail
 
   scope :enrollments_by, -> (obj) { where(programmable_id: obj.id) }
-  scope :find_by_program_stream_id, ->(value) { where(program_stream_id: value) }
+  scope :find_by_program_stream_id, -> (value) { where(program_stream_id: value) }
   scope :active, -> { where(status: ['Active', 'active']) }
-  scope :attached_with,  -> (value) { where(programmable_type: value) }
+  scope :attached_with, -> (value) { where(programmable_type: value) }
   # may be used later in family grid
   scope :inactive, -> { where(status: 'Exited') }
 
