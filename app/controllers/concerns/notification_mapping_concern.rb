@@ -61,7 +61,8 @@ module NotificationMappingConcern
 
   def referrals_payload(notifications, key)
     {
-      count: notifications[key].try(:size) || 0,
+      new_count: notifications[key][1].try(:size) || 0,
+      repeated_count: notifications[key][0].try(:size) || 0,
       path: ''
     }
   end

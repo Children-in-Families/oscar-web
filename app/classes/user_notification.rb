@@ -332,6 +332,7 @@ class UserNotification
     if @user.admin? || @user.any_case_manager?
       count_notification += review_program_streams.size
     end
+
     count_notification
   end
 
