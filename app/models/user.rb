@@ -190,17 +190,17 @@ class User < ActiveRecord::Base
     overdue_assessments = []
     Rails.cache.delete([Apartment::Tenant.current, self.class.name, id, 'assessment_either_overdue_or_due_today'])
     Rails.cache.fetch([Apartment::Tenant.current, self.class.name, id, 'assessment_either_overdue_or_due_today']) do
-      overdue_assessments = Assessment.joins(:client).merge(
-        eligible_clients
-      ).where("DATE(assessments.created_at + interval '#{setting.max_assessment}' #{setting.assessment_frequency}) < CURRENT_DATE")
+      overdue_assessments = Assessment.joins(:client).where(
+        client_id: eligible_clients.ids
+      ).where("DATE(assessments.created_at + interval '#{setting.max_assessment} #{setting.assessment_frequency}') < CURRENT_DATE")
         .select(
           :id, :created_at, 'clients.slug as client_slug',
           "TRIM(CONCAT(CONCAT(clients.given_name, ' ', clients.family_name), ' ', CONCAT(clients.local_family_name, ' ', clients.local_given_name))) as client_name"
         ).to_a
 
-      due_today_assessments = Assessment.joins(:client).merge(
-        eligible_clients
-      ).where("DATE(assessments.created_at + interval '#{setting.max_assessment}' #{setting.assessment_frequency}) = CURRENT_DATE")
+      due_today_assessments = Assessment.joins(:client).where(
+        client_id: eligible_clients.ids
+      ).where("DATE(assessments.created_at + interval '#{setting.max_assessment} #{setting.assessment_frequency}') = CURRENT_DATE")
         .select(
           :id, :created_at, 'clients.slug as client_slug',
           "TRIM(CONCAT(CONCAT(clients.given_name, ' ', clients.family_name), ' ', CONCAT(clients.local_family_name, ' ', clients.local_given_name))) as client_name"
@@ -220,7 +220,7 @@ class User < ActiveRecord::Base
     custom_assessment_due_today = []
     custom_assessment_overdue = []
     CustomAssessmentSetting.only_enable_custom_assessment.map do |custom_setting|
-      sql = custom_setting.custom_assessment_frequency == 'unlimited' ? 'DATE(assessments.created_at)' : "DATE(assessments.created_at + interval '#{custom_setting.max_custom_assessment}' #{custom_setting.custom_assessment_frequency})"
+      sql = custom_setting.custom_assessment_frequency == 'unlimited' ? 'DATE(assessments.created_at)' : "DATE(assessments.created_at + interval '#{custom_setting.max_custom_assessment} #{custom_setting.custom_assessment_frequency}')"
       custom_assessments = Assessment.customs.joins(:client).where(custom_assessment_setting_id: custom_setting.id)
       custom_assessment_overdue << custom_assessments.merge(
         user_clients.active_accepted_status
@@ -427,7 +427,7 @@ class User < ActiveRecord::Base
   end
 
   def fetch_notification
-    # Rails.cache.delete([Apartment::Tenant.current, 'notifications', 'user', id])
+    Rails.cache.delete([Apartment::Tenant.current, 'notifications', 'user', id])
     Rails.cache.fetch([Apartment::Tenant.current, 'notifications', 'user', id]) do
       notifications = UserNotification.new(self, user_clients)
       notifications = JSON.parse(notifications.to_json)
