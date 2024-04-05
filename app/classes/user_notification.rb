@@ -24,6 +24,7 @@ class UserNotification
     @overdue_tasks_count = overdue_tasks_count
     @due_today_tasks_count = due_today_tasks_count
     @upcomming_tasks_count = upcomming_tasks_count
+    @review_program_streams ||= review_program_streams
     @all_count = count
   end
 
@@ -330,7 +331,7 @@ class UserNotification
     end
 
     if @user.admin? || @user.any_case_manager?
-      count_notification += review_program_streams.size
+      count_notification += @review_program_streams.size
     end
 
     count_notification
