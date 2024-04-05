@@ -35,7 +35,7 @@ class Referral < ActiveRecord::Base
   scope :received_and_saved, -> { received.saved }
   scope :most_recents, -> { order(created_at: :desc) }
   scope :externals, -> { where(referred_to: 'external referral') }
-  scope :get_external_systems, ->(external_system_name){ where("referrals.ngo_name = ?", external_system_name) }
+  scope :get_external_systems, ->(external_system_name) { where("referrals.ngo_name = ?", external_system_name) }
 
   def received?
     referred_to == Organization.current.short_name
@@ -135,6 +135,7 @@ class Referral < ActiveRecord::Base
   def make_a_copy_to_target_ngo
     current_org = Organization.current
     return if self.non_oscar_ngo? || current_org.short_name == referred_to
+
     service_names = self.services.pluck(:name)
     Organization.switch_to referred_to
     referral = Referral.find_or_initialize_by(slug: attributes['slug'], saved: false)
