@@ -7,19 +7,19 @@
       %span.label.label-danger= @notification[:all_count]
   %ul.dropdown-menu.dropdown-alerts.animated.fadeInRight
     - if (can? :manage, Client) && @notification
-      -# - @notification.review_program_streams.each do |ps|
-      -#   %li
-      -#     %div.align-link
-      -#       = link_to program_stream_notify_notifications_path(program_stream_id: ps.first.id, client_ids: ps.last) do
-      -#         .row
-      -#           .col-xs-1
-      -#             %i.fa.fa-tasks.fa-fw.task-sign
-      -#           .col-xs-11.client_quantity
-      -#             %span
-      -#               = t('.review_client')
-      -#               = ps.first.name
-      -#               = t('.client_quantity', count: ps.last.size)
-      -#   %li.divider
+      - @notification[:review_program_streams].each do |ps_id, ps_name, ps_count|
+        %li
+          %div.align-link
+            = link_to program_stream_notify_notifications_path(program_stream_id: ps_id, client_ids: []) do
+              .row
+                .col-xs-1
+                  %i.fa.fa-tasks.fa-fw.task-sign
+                .col-xs-11.client_quantity
+                  %span
+                    = t('.review_client')
+                    = ps_name
+                    = t('.client_quantity', count: ps_count)
+        %li.divider
 
       - if @notification[:tasks]
         %li
