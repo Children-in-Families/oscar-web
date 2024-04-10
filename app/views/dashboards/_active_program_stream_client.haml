@@ -1,0 +1,12 @@
+.modal.fade.modal-fullscreen#program_stream_list{ 'aria-labelledby': 'gridSystemModalLabel', role: 'dialog', tabindex: '-1', 'alert-translation': t('dashboards.active_tasks.checkbox_alert') }
+  .modal-dialog.modal-active-list-width{ role: 'document' }
+    .modal-content
+      .modal-body
+        .panel.panel-default#users-program-panel
+          .panel-heading.active-program-heading
+            %h3.text-center= t('dashboards.all_active_tasks')
+          .panel-body
+            .row
+              .col-xs-12
+                .panel.panel-danger#active-program-stream-client
+                  .panel-body

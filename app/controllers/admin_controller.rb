@@ -8,7 +8,7 @@ class AdminController < ApplicationController
 
   def notify_user
     if preload_notifications?
-      @notification = current_user.fetch_notification
+      @notification = current_user.fetch_notification unless request.xhr?
     else
       @lazy_load_notification = true
     end

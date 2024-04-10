@@ -1,0 +1,17 @@
+.row
+  .col-xs-12
+    .ibox#program-stream-info
+      .ibox-title
+        %h5= @program_stream.name
+      .ibox-content.program-show
+        .row
+          .col-xs-12
+            #rules{ data: { program_rules: format_rule(@program_stream.rules).to_json }}
+            #program-rules
+        .row
+          .col-xs-12.mini-margin
+            %ul.list-group
+              %li.list-group-item.active= t('.review_client')
+              - @clients.each do |client|
+                %li.list-group-item
+                  = link_to client.en_and_local_name, client_path(client.slug), target: '_blank'

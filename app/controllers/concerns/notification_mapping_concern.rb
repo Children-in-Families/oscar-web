@@ -18,7 +18,7 @@ module NotificationMappingConcern
   end
 
   def review_program_stream_mapping(review_program_streams)
-    review_program_streams.map { |review_program_stream| [review_program_stream.first['id'], review_program_stream.first['name'], review_program_stream.last.count] }
+    review_program_streams.map { |review_program_stream| [review_program_stream.first['id'], review_program_stream.first['name'], review_program_stream.last] }
   end
 
   def assessment_payload(notifications)
