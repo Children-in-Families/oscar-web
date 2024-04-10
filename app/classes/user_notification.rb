@@ -24,6 +24,8 @@ class UserNotification
     @overdue_tasks_count = overdue_tasks_count
     @due_today_tasks_count = due_today_tasks_count
     @upcomming_tasks_count = upcomming_tasks_count
+    @review_program_streams ||= review_program_streams
+
     @all_count = count
   end
 
@@ -83,12 +85,11 @@ class UserNotification
       clients = @clients.where(id: client_ids)
 
       clients_after_filter, _query = AdvancedSearches::ClientAdvancedSearch.new(rules, clients).filter
-
       if clients_after_filter.any?
         clients_change = clients.where.not(id: clients_after_filter.ids).ids
         client_wrong_program_rules << [program_stream, clients_change] if clients_change.any?
-      else
-        client_wrong_program_rules << [program_stream, clients.ids] if clients.any?
+      elsif clients.any?
+        client_wrong_program_rules << [program_stream, clients.ids]
       end
     end
     client_wrong_program_rules
@@ -330,7 +331,7 @@ class UserNotification
     end
 
     if @user.admin? || @user.any_case_manager?
-      count_notification += review_program_streams.size
+      count_notification += @review_program_streams.size
     end
 
     count_notification

@@ -80,6 +80,21 @@ class NotificationsController < AdminController
     @repeat_family_referrals = @notification.repeat_family_referrals
   end
 
+  def notify_user_custom_field
+    setting = Setting.first
+    custom_field_ids = current_user.custom_field_permissions.where(editable: false).pluck(:custom_field_id)
+    user_ids = User.accessible_by(current_ability).ids
+    sql = "AND custom_fields.id NOT IN (#{custom_field_ids.join(',')})" if (current_user.case_worker? || current_user.manager?) && custom_field_ids.any?
+
+    @user_custom_form_notifications = CustomFieldProperty.joins(:custom_field, :user)
+                                                         .where("custom_fields.frequency != '' AND custom_field_properties.custom_formable_type = 'User' AND custom_field_properties.custom_formable_id IN (?) #{sql}", user_ids)
+                                                         .where("DATE(custom_field_properties.created_at + (custom_fields.time_of_frequency || ' ' || CASE custom_fields.frequency WHEN 'Daily' THEN 'day' WHEN 'Weekly' THEN 'week' WHEN 'Monthly' THEN 'month' WHEN 'Yearly' THEN 'year' END)::interval) < CURRENT_DATE")
+                                                         .select(:id, :created_at, "custom_fields.form_title, users.id user_id, TRIM(CONCAT(users.first_name, ' ', users.last_name)) as user_name")
+                                                         .distinct.to_a
+
+    @user_custom_form_notifications = @user_custom_form_notifications.group_by { |form| [form.user_id, form.user_name] }
+  end
+
   def notify_family_custom_field
     setting = Setting.first
     custom_field_ids = current_user.custom_field_permissions.where(editable: false).pluck(:custom_field_id)

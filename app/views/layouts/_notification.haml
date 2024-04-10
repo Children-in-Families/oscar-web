@@ -7,19 +7,19 @@
       %span.label.label-danger= @notification[:all_count]
   %ul.dropdown-menu.dropdown-alerts.animated.fadeInRight
     - if (can? :manage, Client) && @notification
-      -# - @notification.review_program_streams.each do |ps|
-      -#   %li
-      -#     %div.align-link
-      -#       = link_to program_stream_notify_notifications_path(program_stream_id: ps.first.id, client_ids: ps.last) do
-      -#         .row
-      -#           .col-xs-1
-      -#             %i.fa.fa-tasks.fa-fw.task-sign
-      -#           .col-xs-11.client_quantity
-      -#             %span
-      -#               = t('.review_client')
-      -#               = ps.first.name
-      -#               = t('.client_quantity', count: ps.last.size)
-      -#   %li.divider
+      - @notification[:review_program_streams].each do |ps_id, ps_name, client_ids|
+        %li
+          %div.align-link
+            = link_to program_stream_notify_path(program_stream_id: ps_id, client_ids: client_ids), remote: true do
+              .row
+                .col-xs-1
+                  %i.fa.fa-tasks.fa-fw.task-sign
+                .col-xs-11.client_quantity
+                  %span
+                    = t('.review_client')
+                    = ps_name
+                    = t('.client_quantity', count: client_ids.size)
+        %li.divider
 
       - if @notification[:tasks]
         %li
@@ -172,16 +172,16 @@
     -#             .col-xs-11.due_today_user_custom_field_count
     -#               = t('.due_today_user_custom_field_count', count: @notification.user_custom_field_frequency_due_today_count)
     -#     %li.divider
-    -#   - if @notification.any_user_custom_field_frequency_overdue?
-    -#     %li
-    -#       %div.align-link
-    -#         = link_to notifications_path(entity_custom_field: 'user_overdue') do
-    -#           .row
-    -#             .col-xs-1
-    -#               %i.fa.fa-tasks.fa-fw.task-sign
-    -#             .col-xs-11.overdue_user_custom_field_count
-    -#               = t('.overdue_user_custom_field_count', count: @notification.user_custom_field_frequency_overdue_count)
-
+    - if !@notification.dig(:user_custom_forms, :overdue_count).zero?
+      %li
+        %div.align-link
+          = link_to notify_user_custom_field_path(entity_custom_field: 'user_overdue'), remote: true do
+            .row
+              .col-xs-1
+                %i.fa.fa-tasks.fa-fw.task-sign
+              .col-xs-11.overdue_user_custom_field_count
+                = t('.overdue_user_custom_field_count', count: @notification.dig(:user_custom_forms, :overdue_count))
+      %li.divider
     - if !@notification.dig(:get_referrals, :new_count).zero?
       %li
         %div.align-link
