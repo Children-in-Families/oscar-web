@@ -192,16 +192,16 @@
               .col-xs-11.new_referral_client
                 = t('.new_referral_client', count: @notification.dig(:get_referrals, :new_count))
       %li.divider
-    -#   - if @notification.any_repeat_referrals? && current_user.referral_notification
-    -#     %li
-    -#       %div.align-link
-    -#         = link_to repeat_referrals_notifications_path do
-    -#           .row
-    -#             .col-xs-1
-    -#               %i.fa.fa-tasks.fa-fw.task-sign
-    -#             .col-xs-11.repeat_referral_client
-    -#               = t('.repeat_referral_client', count: @notification.repeat_referrals_count)
-
+    - if !@notification.dig(:get_referrals, :repeated_count).zero? && current_user.referral_notification
+      %li
+        %div.align-link
+          = link_to repeat_referrals_notifications_path, remote: true do
+            .row
+              .col-xs-1
+                %i.fa.fa-tasks.fa-fw.task-sign
+              .col-xs-11.repeat_referral_client
+                = t('.repeat_referral_client', count: @notification.dig(:get_referrals, :repeated_count))
+      %li.divider
     - if !@notification.dig(:unsaved_family_referrals, :new_count).zero?
       %li
         %div.align-link
