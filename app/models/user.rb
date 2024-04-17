@@ -427,11 +427,14 @@ class User < ActiveRecord::Base
   end
 
   def fetch_notification
-    Rails.cache.delete([Apartment::Tenant.current, 'notifications', 'user', id])
-    Rails.cache.fetch([Apartment::Tenant.current, 'notifications', 'user', id]) do
-      notifications = UserNotification.new(self, user_clients)
-      notifications = JSON.parse(notifications.to_json)
-      map_notification_payloads(notifications)
+    if admin? || strategic_overviewer?
+      Rails.cache.fetch([Apartment::Tenant.current, 'notifications', 'admin-strategic-overviewer']) do
+        collect_user_data_notification
+      end
+    else
+      Rails.cache.fetch([Apartment::Tenant.current, 'notifications', 'user', id]) do
+        collect_user_data_notification
+      end
     end
   end
 
@@ -454,6 +457,12 @@ class User < ActiveRecord::Base
 
     managers_ids = subordinators.pluck(:manager_ids)
     manager_manager_ids & (managers_ids << the_manager_id).flatten.compact.uniq
+  end
+
+  def collect_user_data_notification
+    notifications = UserNotification.new(self, user_clients)
+    notifications = JSON.parse(notifications.to_json)
+    map_notification_payloads(notifications)
   end
 
   def exited_clients(user_ids)
