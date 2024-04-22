@@ -7,7 +7,7 @@
       %span.label.label-danger= @notification[:all_count]
   %ul.dropdown-menu.dropdown-alerts.animated.fadeInRight
     - if (can? :manage, Client) && @notification
-      - @notification[:review_program_streams].each do |ps_id, ps_name, client_ids|
+      - @notification[:review_program_streams][:data].each do |ps_id, ps_name, client_ids|
         %li
           %div.align-link
             = link_to program_stream_notify_path(program_stream_id: ps_id, client_ids: client_ids), remote: true do
