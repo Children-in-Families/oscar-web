@@ -476,17 +476,15 @@ Rails.application.routes.draw do
         end
       end
 
-      constraints format: :json do
-        get '/dashboards/notify_task' => 'dashboards#notify_task'
-        get '/dashboards/notify_assessment' => 'dashboards#notify_assessment'
-        get '/dashboards/notify_custom_assessment' => 'dashboards#notify_custom_assessment'
-        get '/dashboards/notify_client_custom_form' => 'dashboards#notify_client_custom_form'
-        get 'notify_overdue_case_note' => 'notifications#notify_overdue_case_note'
-        get 'notify_user_custom_field' => 'notifications#notify_user_custom_field'
-        get 'notify_family_custom_field' => 'notifications#notify_family_custom_field'
-        get 'notify_partner_custom_field' => 'notifications#notify_partner_custom_field'
-        # get 'program_stream_notify' => 'notifications#program_stream_notify'
-      end
+      get '/dashboards/notify_task' => 'dashboards#notify_task'
+      get '/dashboards/notify_assessment' => 'dashboards#notify_assessment'
+      get '/dashboards/notify_custom_assessment' => 'dashboards#notify_custom_assessment'
+      get '/dashboards/notify_client_custom_form' => 'dashboards#notify_client_custom_form'
+      get 'notify_overdue_case_note' => 'notifications#notify_overdue_case_note'
+      get 'notify_user_custom_field' => 'notifications#notify_user_custom_field'
+      get 'notify_family_custom_field' => 'notifications#notify_family_custom_field'
+      get 'notify_partner_custom_field' => 'notifications#notify_partner_custom_field'
+      # get 'program_stream_notify' => 'notifications#program_stream_notify'
     end
 
     resources :community_advanced_searches, only: [] do

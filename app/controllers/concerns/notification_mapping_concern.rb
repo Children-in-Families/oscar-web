@@ -55,7 +55,7 @@ module NotificationMappingConcern
       overdue_count: notifications.dig('client_forms_overdue_or_due_today', 'overdue_forms').try(:size) || 0,
       due_today_count: notifications.dig('client_forms_overdue_or_due_today', 'today_forms').try(:size) || 0,
       upcomming_count: notifications.dig('client_forms_overdue_or_due_today', 'upcoming_forms').try(:size) || 0,
-      path: 'api/v1/dashboards/notify_client_custom_form('
+      path: 'api/v1/dashboards/notify_client_custom_form'
     }
   end
 

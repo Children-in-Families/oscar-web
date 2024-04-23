@@ -27,6 +27,10 @@ module Api
       def notify_family_custom_field
         render json: mapping_notify_family_custom_field
       end
+
+      def notify_partner_custom_field
+        render json: mapping_notify_partner_custom_field
+      end
     end
   end
 end

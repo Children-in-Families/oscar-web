@@ -154,7 +154,7 @@
       - if !@notification.dig(:partner_custom_forms, :overdue_count).zero?
         %li
           %div.align-link
-            = link_to notify_partner_custom_field_path(entity_custom_field: 'partner_due_today') do
+            = link_to notify_partner_custom_field_path(entity_custom_field: 'partner_overdue'), remote: true do
               .row
                 .col-xs-1
                   %i.fa.fa-tasks.fa-fw.task-sign

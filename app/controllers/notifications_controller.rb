@@ -88,6 +88,10 @@ class NotificationsController < AdminController
     @family_custom_form_notifications = mapping_notify_family_custom_field
   end
 
+  def notify_partner_custom_field
+    @partner_custom_form_notifications = mapping_notify_partner_custom_field
+  end
+
   def notify_overdue_case_note
     setting = Setting.first
     max_case_note = setting.try(:max_case_note) || 30

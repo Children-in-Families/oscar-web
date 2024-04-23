@@ -46,6 +46,7 @@ class ApplicationController < ActionController::Base
 
   def field_settings
     return @field_settings if defined? @field_settings
+
     @field_settings ||= FieldSetting.cache_query_find_by_ngo_name
   end
 

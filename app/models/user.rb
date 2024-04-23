@@ -255,25 +255,17 @@ class User < ActiveRecord::Base
   end
 
   def user_custom_field_frequency_overdue_or_due_today
-    if self.manager?
-      entity_type_custom_field_notification(User.where('manager_ids && ARRAY[?]', self.id))
-    elsif self.hotline_officer?
-      entity_type_custom_field_notification(User.where(id: self.id))
-    elsif self.admin?
-      entity_type_custom_field_notification(User.all)
-    end
+    entity_type_custom_field_notification(user_clients)
   end
 
   def partner_custom_field_frequency_overdue_or_due_today
-    if self.admin? || self.manager? || self.hotline_officer?
-      entity_type_custom_field_notification(Partner.all)
-    end
+    entity_type_custom_field_notification(Partner.all) if admin? || manager? || hotline_officer?
   end
 
   def family_custom_field_frequency_overdue_or_due_today(_clients)
-    if self.admin? || self.hotline_officer?
+    if admin? || hotline_officer?
       entity_type_custom_field_notification(Family.all)
-    elsif self.manager?
+    elsif manager?
       subordinate_users = User.self_and_subordinates(self).map(&:id)
       family_ids = []
       exited_client_ids = exited_clients(subordinate_users)
@@ -282,14 +274,14 @@ class User < ActiveRecord::Base
       family_ids += _clients.where(id: exited_client_ids).pluck(:current_family_id)
       family_ids += _clients.pluck(:current_family_id)
 
-      families = Family.where(id: family_ids).or(Family.where(user_id: self.id))
+      families = Family.where(id: family_ids).or(Family.where(user_id: id))
       entity_type_custom_field_notification(families)
-    elsif self.case_worker?
+    elsif case_worker?
       family_ids = []
       _clients.each do |client|
         family_ids << client.family.try(:id)
       end
-      families = Family.where(id: family_ids).or(Family.where(user_id: self.id))
+      families = Family.where(id: family_ids).or(Family.where(user_id: id))
       entity_type_custom_field_notification(families)
     end
   end
@@ -303,12 +295,12 @@ class User < ActiveRecord::Base
     overdue_and_due_today_forms(self, active_accepted_clients)
   end
 
-  def case_notes_due_today_and_overdue(user_clients)
+  def case_notes_due_today_and_overdue(ngo_clients)
     overdue = []
     due_today = []
 
-    if self.deactivated_at.nil?
-      user_clients.active_accepted_status.includes(:case_notes).each do |client|
+    if deactivated_at.nil?
+      ngo_clients.active_accepted_status.includes(:case_notes).each do |client|
         next unless client.case_notes.any?
 
         client_next_case_note_date = client.next_case_note_date.to_date
@@ -319,10 +311,10 @@ class User < ActiveRecord::Base
         end
       end
     else
-      user_clients.active_accepted_status.includes(:case_notes).each do |client|
+      ngo_clients.active_accepted_status.includes(:case_notes).each do |client|
         next unless client.case_notes.any?
 
-        client_next_case_note_date = client.next_case_note_date(self.activated_at)
+        client_next_case_note_date = client.next_case_note_date(activated_at)
         next if client_next_case_note_date.nil?
 
         if client_next_case_note_date.to_date < Date.today
@@ -338,7 +330,8 @@ class User < ActiveRecord::Base
 
   def user_clients
     user_ability = Ability.new(self)
-    @user_clients ||= Client.accessible_by(user_ability).select(:id, :slug, :status, :given_name, :family_name, :local_given_name, :local_family_name, :date_of_birth)
+    # @user_clients ||= Client.accessible_by(user_ability).select('clients.id', :slug, :status, :given_name, :family_name, :local_given_name, :local_family_name, :date_of_birth)
+    @user_clients ||= Client.accessible_by(user_ability)
   end
 
   def self.self_and_subordinates(user)

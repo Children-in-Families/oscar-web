@@ -86,4 +86,17 @@ module NotificationConcern
 
     family_custom_form_notifications.group_by { |form| [form.family_id, form.family_name] }
   end
+
+  def mapping_notify_partner_custom_field
+    custom_field_ids = current_user.custom_field_permissions.where(editable: false).pluck(:custom_field_id)
+    sql = "AND custom_fields.id NOT IN (#{custom_field_ids.join(',')})" if (current_user.case_worker? || current_user.manager?) && custom_field_ids.any?
+
+    user_custom_form_notifications = CustomFieldProperty.joins(:custom_field, :partner)
+                                                        .where("custom_fields.frequency != '' #{sql}")
+                                                        .where("DATE(custom_field_properties.created_at + (custom_fields.time_of_frequency || ' ' || CASE custom_fields.frequency WHEN 'Daily' THEN 'day' WHEN 'Weekly' THEN 'week' WHEN 'Monthly' THEN 'month' WHEN 'Yearly' THEN 'year' END)::interval) < CURRENT_DATE")
+                                                        .select(:id, :created_at, 'custom_fields.form_title, partners.id partner_id, partners.name as partner_name')
+                                                        .distinct.to_a
+
+    user_custom_form_notifications.group_by { |form| [form.partner_id, form.partner_name] }
+  end
 end
