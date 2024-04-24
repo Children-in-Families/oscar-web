@@ -1,5 +1,5 @@
 :plain
-  var appearence = $("#{escape_javascript(render partial: 'notifications/referral_table')}");
+  var appearence = $("#{escape_javascript(render partial: 'notifications/program_stream_notify')}");
   $('#program_stream_list.modal #active-program-stream-client .panel-body').html(appearence);
   toastr.clear()
   $('#program_stream_list.modal').modal('show');

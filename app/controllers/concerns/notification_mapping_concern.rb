@@ -12,8 +12,13 @@ module NotificationMappingConcern
       get_referrals: referrals_payload(notifications, 'get_referrals'),
       repeat_family_referrals: referrals_payload(notifications, 'repeat_family_referrals'),
       tasks: tasks_payload(notifications),
-      unsaved_family_referrals: referrals_payload(notifications, 'unsaved_family_referrals')
+      unsaved_family_referrals: referrals_payload(notifications, 'unsaved_family_referrals'),
+      review_program_streams: review_program_stream_mapping(notifications['review_program_streams'] || [])
     }
+  end
+
+  def review_program_stream_mapping(review_program_streams)
+    review_program_streams.map { |review_program_stream| [review_program_stream.first['id'], review_program_stream.first['name'], review_program_stream.last] }
   end
 
   def assessment_payload(notifications)
@@ -61,8 +66,8 @@ module NotificationMappingConcern
 
   def referrals_payload(notifications, key)
     {
-      new_count: notifications[key][1].try(:size) || 0,
-      repeated_count: notifications[key][0].try(:size) || 0,
+      new_count: (notifications[key] && notifications[key][1].try(:size)) || 0,
+      repeated_count: (notifications[key] && notifications[key][0].try(:size)) || 0,
       path: ''
     }
   end
