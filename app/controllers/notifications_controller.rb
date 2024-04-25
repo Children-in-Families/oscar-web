@@ -93,14 +93,7 @@ class NotificationsController < AdminController
   end
 
   def notify_overdue_case_note
-    setting = Setting.first
-    max_case_note = setting.try(:max_case_note) || 30
-    case_note_frequency = setting.try(:case_note_frequency) || 'day'
-    client_ids = Client.accessible_by(current_ability).active_accepted_status.ids
-    @case_note_notifications = CaseNote.joins(:client).where('clients.id IN (?)', client_ids)
-                                       .where("DATE(case_notes.meeting_date + interval '#{max_case_note}' #{case_note_frequency}) < CURRENT_DATE")
-                                       .select(:id, :meeting_date, "clients.slug client_slug, TRIM(CONCAT(CONCAT(clients.given_name, ' ', clients.family_name), ' ', CONCAT(clients.local_family_name, ' ', clients.local_given_name))) as client_name")
-                                       .distinct.to_a.group_by { |case_note| [case_note.client_slug, case_note.client_name] }
+    @case_note_notifications = mapping_notify_overdue_case_note
   end
 
   private
