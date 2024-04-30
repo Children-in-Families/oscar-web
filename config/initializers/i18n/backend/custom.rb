@@ -1,11 +1,11 @@
 module HashDeepTraverse
   def deep_traverse(&block)
-    stack = self.map{ |k,v| [ [k], v ] }
+    stack = self.map { |k, v| [[k], v] }
     while not stack.empty?
       key, value = stack.pop
       yield(key, value)
       if value.is_a? Hash
-        value.each{ |k,v| stack.push [ key.dup << k, v ] }
+        value.each { |k, v| stack.push [key.dup << k, v] }
       end
     end
   end
@@ -29,7 +29,7 @@ module I18n::Backend::Custom
   end
 
   def update_last_reload_at
-    @custom_translations[Apartment::Tenant.current] ||= {} 
+    @custom_translations[Apartment::Tenant.current] ||= {}
     @custom_translations[Apartment::Tenant.current]['last_reload_at'] = Time.current
   end
 
@@ -42,9 +42,9 @@ module I18n::Backend::Custom
     @custom_translations ||= {}
     @custom_translations[tenant] = data
   end
-  
+
   def custom_translations(tenant)
-    @custom_translations ||= {} 
+    @custom_translations ||= {}
     @custom_translations[tenant]
   end
 
@@ -79,7 +79,7 @@ module I18n::Backend::Custom
       update_last_reload_at
     end
   end
-  
+
   def load_custom_labels(locale)
     copy_translations = translations.dup
 
@@ -124,7 +124,6 @@ module I18n::Backend::Custom
         next unless path.include?(locale_key.to_sym)
         data = copy_translations[locale]
 
-      
         path.each do |k|
           if k == path.last
             if k =~ /province/
@@ -145,7 +144,7 @@ module I18n::Backend::Custom
   end
 
   protected
-  
+
   def lookup(locale, key, scope = [], options = EMPTY_HASH)
     # Rails.logger.info "Custom Look up ==================== #{scope} - #{key} - #{Apartment::Tenant.current}"
     custom_lookup(locale, key, scope, options)

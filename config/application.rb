@@ -1,6 +1,6 @@
 require File.expand_path('../boot', __FILE__)
 
-require "rails/all"
+require 'rails/all'
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
@@ -21,7 +21,7 @@ module CifWeb
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     #config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     config.i18n.default_locale = :en
-    config.i18n.available_locales = [:en, :km, :my, :en]
+    config.i18n.available_locales = [:en, :km, :my, :en, :id, :ne]
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
 
     # Autoload path
@@ -39,7 +39,7 @@ module CifWeb
         origins '*'
         resource '*',
           :headers => :any,
-          :expose  => ['access-token', 'expiry', 'token-type', 'uid', 'client'],
+          :expose => ['access-token', 'expiry', 'token-type', 'uid', 'client'],
           :methods => [:get, :post, :options, :delete, :put]
       end
     end
