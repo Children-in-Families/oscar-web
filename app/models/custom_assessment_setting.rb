@@ -2,8 +2,8 @@ class CustomAssessmentSetting < ActiveRecord::Base
   include CacheAll
 
   belongs_to :setting
-  has_many   :domains, dependent: :destroy
-  has_many   :case_notes, dependent: :restrict_with_error
+  has_many :domains, dependent: :destroy
+  has_many :case_notes, dependent: :restrict_with_error
 
   validates_numericality_of :max_custom_assessment, only_integer: true, greater_than: 30, if: -> { check_custom_assessment_frequency('day') }
   validates_numericality_of :max_custom_assessment, only_integer: true, greater_than: 4, if: -> { check_custom_assessment_frequency('week') }
@@ -21,7 +21,7 @@ class CustomAssessmentSetting < ActiveRecord::Base
   after_commit :flush_cache
 
   def self.cache_only_enable_custom_assessment
-    Rails.cache.fetch([Apartment::Tenant.current, self.name, 'only_enable_custom_assessment']) { only_enable_custom_assessment.to_a }
+    Rails.cache.fetch([Apartment::Tenant.current, custom_assessment_name, 'only_enable_custom_assessment']) { only_enable_custom_assessment.to_a }
   end
 
   def max_assessment_duration

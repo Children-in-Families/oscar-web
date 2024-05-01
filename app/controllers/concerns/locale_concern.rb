@@ -9,8 +9,6 @@ module LocaleConcern
     end
 
     I18n.locale = local
-
-    I18n.backend.reload! if old_locale != I18n.locale
   end
 
   def detect_browser
