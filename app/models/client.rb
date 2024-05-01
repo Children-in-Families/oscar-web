@@ -1313,6 +1313,14 @@ class Client < ActiveRecord::Base
     cached_client_custom_field_find_by_keys.each { |key| Rails.cache.delete(key) }
     cached_client_custom_field_properties_properties_by_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_custom_field_properties_properties_by/].blank? }
     cached_client_custom_field_properties_properties_by_keys.each { |key| Rails.cache.delete(key) }
+
+    users.each do |user|
+      program_streams.each do |progrm_stream|
+        Rails.cache.delete([Apartment::Tenant.current, 'enrollable_client_ids', 'ProgramStream', 'User', progrm_stream.id, user.id])
+        Rails.cache.delete([Apartment::Tenant.current, 'program_permission_editable', 'ProgramStream', 'User', progrm_stream.id, user.id])
+      end
+    end
+    Rails.cache.delete([Apartment::Tenant.current, 'User', 'Client', id, 'tasks'])
   end
 
   def update_referral_status_on_target_ngo
