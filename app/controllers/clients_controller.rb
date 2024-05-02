@@ -238,7 +238,7 @@ class ClientsController < AdminController
           ExitNgo.with_deleted.where(client_id: @client.id).each(&:destroy_fully!)
 
           redirect_to archived_clients_path, notice: t('.successfully_deleted')
-        rescue => exception
+        rescue => e
           raise ActiveRecord::Rollback
         end
       else
@@ -246,8 +246,8 @@ class ClientsController < AdminController
         redirect_to archived_clients_path, alert: messages
       end
     end
-  rescue ActiveRecord::Rollback => exception
-    redirect_to archived_clients_path, alert: exception
+  rescue ActiveRecord::Rollback => e
+    redirect_to archived_clients_path, alert: e
   end
 
   def archive
