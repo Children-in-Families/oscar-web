@@ -88,6 +88,10 @@ module ApplicationHelper
       link_to(domain_path(object, custom_assessment_setting_id: custom_assessment_setting_id, tab: tab_name || params[:tab]), method: 'delete', data: { confirm: t('are_you_sure') }, class: "btn btn-outline btn-danger #{btn_size} #{btn_status}") do
         fa_icon('trash')
       end
+    elsif object.class.name.downcase == 'client'
+      link_to(archive_client_path(object), method: 'put', data: { toggle: 'popover', html: 'true', trigger: 'hover', content: "#{I18n.t('inline_help.clients.show.archive')}", placement: 'auto', confirm: t('are_you_sure') }, class: "btn btn-outline btn-danger #{btn_size} #{btn_status}") do
+        fa_icon('trash')
+      end
     else
       link_to(object, method: 'delete', data: { confirm: t('are_you_sure') }, class: "btn btn-outline btn-danger #{btn_size} #{btn_status}") do
         fa_icon('trash')
