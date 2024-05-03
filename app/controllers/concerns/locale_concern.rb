@@ -1,6 +1,6 @@
 module LocaleConcern
   def set_locale
-    old_locale, local = I18n.locale
+    _, local = I18n.locale
 
     local = params[:locale] if params[:locale] && I18n.available_locales.include?(params[:locale].to_sym)
 
