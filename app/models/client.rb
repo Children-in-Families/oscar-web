@@ -1305,8 +1305,9 @@ class Client < ActiveRecord::Base
     Rails.cache.delete([Apartment::Tenant.current, id, local_given_name_was || 'local_given_name']) if local_given_name_changed?
     Rails.cache.delete([Apartment::Tenant.current, id, local_family_name_was || 'local_family_name']) if local_family_name_changed?
     Rails.cache.delete([I18n.locale, Apartment::Tenant.current, id, gender_was || 'gender']) if gender_changed?
-    Rails.cache.delete([Apartment::Tenant.current, 'User', current_user.id, 'advance_saved_search'])
 
+    advance_saved_search_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}\/User\/.*advance_saved_search/].blank? }
+    advance_saved_search_keys.each { |key| Rails.cache.delete(key) }
     cached_client_custom_field_properties_count_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}\/.*cached_client_custom_field_properties_count/].blank? }
     cached_client_custom_field_properties_count_keys.each { |key| Rails.cache.delete(key) }
     cached_client_custom_field_properties_order_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}\/.*cached_client_custom_field_properties_order/].blank? }
