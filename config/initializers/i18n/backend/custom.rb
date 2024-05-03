@@ -68,7 +68,6 @@ module I18n::Backend::Custom
     init_translations
 
     locale = I18n.locale
-
     Apartment::Tenant.switch(tenant) do
       data = load_custom_labels(locale)
       data = deep_merge(translations, data)
