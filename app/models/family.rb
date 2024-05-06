@@ -268,13 +268,9 @@ class Family < ActiveRecord::Base
   end
 
   def save_family_in_client
-    Client.where(current_family_id: self.id).where.not(id: self.children).update_all(current_family_id: nil)
-    self.children.each do |child|
-      client = Client.find_by(id: child)
-      next if client.nil?
-      client.current_family_id = self.id
-      client.update_columns(current_family_id: self.id)
-    end
+    family_member_ids = family_members.pluck(:client_id)
+    Client.where(current_family_id: id).where.not(id: family_member_ids).update_all(current_family_id: nil)
+    Client.where(id: family_member_ids).update_all(current_family_id: id)
   end
 
   def stale_paranoid_value
