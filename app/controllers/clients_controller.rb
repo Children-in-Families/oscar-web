@@ -228,6 +228,7 @@ class ClientsController < AdminController
     @client = Client.only_deleted.friendly.find(params[:id])
 
     ActiveRecord::Base.transaction do
+      @client.archive_state = 'permanent_delete'
       if @client.destroy
         begin
           EnterNgo.with_deleted.where(client_id: @client.id).each(&:destroy_fully!)
