@@ -20,6 +20,7 @@ module Api
 
       def create
         client = Client.new(client_params)
+        assign_global_id_from_referral(client, params)
         if client.save
           render json: client
         else
