@@ -4,6 +4,7 @@ class ClientsController < AdminController
   include ClientAdvancedSearchesConcern
   include ClientGridOptions
   include CacheHelper
+  include ClientsConcern
 
   before_action :assign_active_client_prams, only: :index
   before_action :format_search_params, only: [:index]
@@ -73,7 +74,7 @@ class ClientsController < AdminController
   def show
     respond_to do |format|
       format.html do
-        Referral.where(id: params[:referral_id]).update_all(client_id: @client.id, saved: true) if params[:referral_id].present?
+        Referral.where(client_global_id: @client.global_id).update_all(client_id: @client.id, saved: true) if @client.global_id
 
         @referees = Referee.cache_none_anonymous.map { |referee| { value: referee.id, text: referee.name } }
         @current_provinces = Province.pluck(:id, :name).map { |id, name| { value: id, text: name } }
@@ -124,32 +125,36 @@ class ClientsController < AdminController
       referral_source_id = find_referral_source_by_referral
       referral_attr = @referral.attributes
       attributes = {}
+
       Organization.switch_to 'shared'
       attributes = SharedClient.find_by(archived_slug: referral_attr['slug'])&.attributes || SharedClient.find_by(slug: referral_attr['slug'])&.attributes
+
       if attributes.present?
         attributes = attributes.except('id', 'duplicate_checker')
         attributes = fetch_referral_attibutes(attributes, referral_source_id, referral_attr)
       else
         attributes.present? ? attributes.symbolize_keys : attributes
       end
+
       Organization.switch_to current_org.short_name
+
       if @referral
         client_names = @referral.client_name.split(' ')
         given_name, family_name = [(client_names[0] || ''), (client_names[1] || '')]
-        local_family_name, local_given_name = (@referral.client_name.scan(/\(((?:[^\)\(]++))\)/).first && @referral.client_name.scan(/\(((?:[^\)\(]++))\)/).first.split(' ')) || ['', '']
-        client_attr = { given_name: given_name, family_name: family_name,
-                       local_given_name: '', local_family_name: '',
-                       gender: @referral.client_gender, reason_for_referral: @referral.referral_reason,
-                       date_of_birth: @referral.client_date_of_birth,
-                       referral_source_id: referral_source_id,
-                       initial_referral_date: @referral.date_of_referral,
-                       from_referral_id: @referral.id }
+        local_name = @referral.client_name.scan(/\(((?:[^\)\(]++))\)/)&.first || ['']
+        local_family_name, local_given_name = local_name[0]&.split
+        client_attr = {
+          given_name: given_name, family_name: family_name,
+          local_given_name: local_given_name, local_family_name: local_family_name,
+          gender: @referral.client_gender, reason_for_referral: @referral.referral_reason,
+          date_of_birth: @referral.client_date_of_birth,
+          referral_source_id: referral_source_id,
+          initial_referral_date: @referral.date_of_referral,
+          from_referral_id: @referral.id,
+          global_id: @referral.client_global_id
+        }
 
-        if attributes.present?
-          attributes = Client.get_client_attribute(@referral.attributes).merge(client_attr).merge(Client.get_client_attribute(attributes))
-        else
-          attributes = Client.get_client_attribute(@referral.attributes).merge(client_attr)
-        end
+        attributes = Client.get_client_attribute(@referral.attributes).merge(client_attr)
       end
 
       @client = Client.new(attributes)
@@ -193,6 +198,12 @@ class ClientsController < AdminController
 
   def create
     @client = Client.new(client_params)
+    assign_global_id_from_referral(@client, params)
+    if params[:referral_id]
+      referral = Referral.find(params[:referral_id])
+      @client.global = referral.client_global_id
+    end
+
     if @client.save
       if params[:clientConfirmation] == 'createNewFamilyRecord'
         redirect_to new_family_path(children: [@client.id])

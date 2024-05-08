@@ -16,7 +16,7 @@ class EnterNgo < ActiveRecord::Base
   validates :accepted_date, presence: true
   validates :user_ids, presence: true, on: :create, if: Proc.new { |e| (e.client.present? && e.client.exit_ngo?) || (e.acceptable.present? && e.acceptable.exit_ngo?) }
 
-  after_create :update_entity_status
+  after_create :update_entity_status, :update_entity_referral_status
   after_save :create_enter_ngo_history
   after_save :flash_cache
 
@@ -41,11 +41,18 @@ class EnterNgo < ActiveRecord::Base
     entity.save(validate: false)
   end
 
+  def update_entity_referral_status
+    referral = client.referrals.last
+    ngo_short_name = referral.referred_from
+
+    ActiveRecord::Base.connection.execute("UPDATE #{ngo_short_name}.referrals SET referral_status = #{client.status} WHERE id = (SELECT id FROM #{ngo_short_name}.referrals WHERE client_global_id = #{client.global_id};);")
+  end
+
   def create_enter_ngo_history
     EnterNgoHistory.initial(self) if ENV['HISTORY_DATABASE_HOST'].present?
   end
 
   def flash_cache
-    Rails.cache.delete(["dashboard", "#{Apartment::Tenant.current}_client_errors"]) if accepted_date_changed?
+    Rails.cache.delete(['dashboard', "#{Apartment::Tenant.current}_client_errors"]) if accepted_date_changed?
   end
 end
