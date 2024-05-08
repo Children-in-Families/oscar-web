@@ -1232,7 +1232,13 @@ class Client < ActiveRecord::Base
     referrals = []
     referrals ||= Referral.where(slug: archived_slug, saved: false) if archived_slug.present?
 
-    referrals.presence || Referral.where(external_id: external_id, saved: false)
+    if referrals.any?
+      referrals.presence
+    elsif external_id
+      Referral.where(external_id: external_id, saved: false)
+    else
+      Referral.none
+    end
   end
 
   def update_first_referral_status
