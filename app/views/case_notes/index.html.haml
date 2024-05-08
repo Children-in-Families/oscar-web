@@ -10,7 +10,7 @@
           .col-xs-12.col-sm-6.col-md-6
             .ibox-tools
               = link_to t('case_notes.index.back'), client_path(@client), { class: 'btn btn-default btn-back-default button' }
-              - if can? :create, CaseNote
+              - if can?(:create, CaseNote)
                 - if enable_any_csi_tools?
                   .btn-group#case-note-selection
                     %button.btn.btn-primary.dropdown-toggle.btn-sm{ "aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button" }
@@ -66,7 +66,7 @@
                     - if (can? :edit?, CaseNote)
                       - cdg = case_note.case_note_domain_groups.first
                       = edit_link(@client, case_note, cdg)
-                    - if current_user.admin?
+                    - if current_user.admin? || case_note.draft?
                       = destroy_link(@client, case_note)
             .panel-body
               - unless @current_setting.hide_case_note_note?

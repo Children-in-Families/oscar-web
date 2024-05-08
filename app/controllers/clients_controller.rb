@@ -146,11 +146,12 @@ class ClientsController < AdminController
                        from_referral_id: @referral.id }
 
         if attributes.present?
-          attributes = Client.get_client_attribute(@referral.attributes).merge(client_attr).merge(attributes)
+          attributes = Client.get_client_attribute(@referral.attributes).merge(client_attr).merge(Client.get_client_attribute(attributes))
         else
           attributes = Client.get_client_attribute(@referral.attributes).merge(client_attr)
         end
       end
+
       @client = Client.new(attributes)
     else
       new_params = {}

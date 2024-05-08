@@ -402,6 +402,7 @@ class Client < ActiveRecord::Base
       end
     end
 
+    case_note.created_at = Time.current
     case_note.save(validate: false)
     case_note
   end
@@ -812,6 +813,8 @@ class Client < ActiveRecord::Base
       mosvy_number: attribute[:mosvy_number],
       given_name: attribute[:given_name],
       family_name: attribute[:family_name],
+      local_given_name: attribute[:local_given_name],
+      local_family_name: attribute[:local_family_name],
       gender: attribute[:gender],
       date_of_birth: attribute[:date_of_birth],
       reason_for_referral: attribute[:referral_reason],
@@ -1001,8 +1004,12 @@ class Client < ActiveRecord::Base
   def self.cache_gender(object)
     Rails.cache.fetch([I18n.locale, Apartment::Tenant.current, object.id, object.gender || 'gender']) do
       Apartment::Tenant.switch('shared') do
-        gender = SharedClient.find_by(slug: object.slug)&.gender
-        gender.present? ? I18n.t("default_client_fields.gender_list.#{gender.gsub('other', 'other_gender')}") : ''
+        gender = SharedClient.find_by(slug: object.slug)&.gender || ''
+        begin
+          I18n.t("default_client_fields.gender_list.#{gender.gsub('other', 'other_gender')}", raise: true)
+        rescue I18n::MissingTranslationData
+          gender.capitalize
+        end
       end
     end
   end
@@ -1225,7 +1232,13 @@ class Client < ActiveRecord::Base
     referrals = []
     referrals ||= Referral.where(slug: archived_slug, saved: false) if archived_slug.present?
 
-    referrals.presence || Referral.where(external_id: external_id, saved: false)
+    if referrals.any?
+      referrals.presence
+    elsif external_id
+      Referral.where(external_id: external_id, saved: false)
+    else
+      Referral.none
+    end
   end
 
   def update_first_referral_status
@@ -1297,7 +1310,7 @@ class Client < ActiveRecord::Base
     Rails.cache.delete([Apartment::Tenant.current, id, family_name_was || 'family_name']) if family_name_changed?
     Rails.cache.delete([Apartment::Tenant.current, id, local_given_name_was || 'local_given_name']) if local_given_name_changed?
     Rails.cache.delete([Apartment::Tenant.current, id, local_family_name_was || 'local_family_name']) if local_family_name_changed?
-    Rails.cache.fetch([I18n.locale, Apartment::Tenant.current, id, gender_was || 'gender']) if gender_changed?
+    Rails.cache.delete([I18n.locale, Apartment::Tenant.current, id, gender_was || 'gender']) if gender_changed?
     cached_client_custom_field_properties_count_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_custom_field_properties_count/].blank? }
     cached_client_custom_field_properties_count_keys.each { |key| Rails.cache.delete(key) }
     cached_client_custom_field_properties_order_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_custom_field_properties_order/].blank? }
@@ -1306,6 +1319,14 @@ class Client < ActiveRecord::Base
     cached_client_custom_field_find_by_keys.each { |key| Rails.cache.delete(key) }
     cached_client_custom_field_properties_properties_by_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_custom_field_properties_properties_by/].blank? }
     cached_client_custom_field_properties_properties_by_keys.each { |key| Rails.cache.delete(key) }
+
+    users.each do |user|
+      program_streams.each do |progrm_stream|
+        Rails.cache.delete([Apartment::Tenant.current, 'enrollable_client_ids', 'ProgramStream', 'User', progrm_stream.id, user.id])
+        Rails.cache.delete([Apartment::Tenant.current, 'program_permission_editable', 'ProgramStream', 'User', progrm_stream.id, user.id])
+      end
+    end
+    Rails.cache.delete([Apartment::Tenant.current, 'User', 'Client', id, 'tasks'])
   end
 
   def update_referral_status_on_target_ngo

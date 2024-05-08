@@ -16,7 +16,7 @@ module CaseNoteHelper
   end
 
   def destroy_link(obj, case_note)
-    if case_notes_deleted?
+    if case_notes_deleted? || case_note.draft?
       link_to(polymorphic_path([obj, case_note], custom: case_note.custom), method: 'delete', data: { confirm: t('case_notes.index.are_you_sure') }, class: 'btn btn-danger') do
         fa_icon('trash')
       end
@@ -29,8 +29,14 @@ module CaseNoteHelper
     end
   end
 
-  def new_link(obj=@client)
-    if case_notes_editable? && (policy(obj).create? || policy(CaseNote).create?)
+  def new_link(obj = @client)
+    if obj.instance_of?(Client) && obj.case_notes.default.draft.first
+      link_to_if false, '' do
+        content_tag :a, class: 'disabled' do
+          @current_setting.default_assessment
+        end
+      end
+    elsif case_notes_editable? && (policy(obj).create? || policy(CaseNote).create?)
       link_to new_polymorphic_path([obj, 'case_note'], custom: false) do
         @current_setting.default_assessment
       end
@@ -61,8 +67,16 @@ module CaseNoteHelper
     end
   end
 
-  def new_custom_link(custom_assessment_name, obj=@client)
-    if case_notes_editable? && policy(obj).create?
+  def new_custom_link(custom_assessment_name, obj = @client)
+    custom_asessment = CustomAssessmentSetting.find_by(custom_assessment_name: custom_assessment_name)
+
+    if obj.instance_of?(Client) && obj.case_notes.custom.draft.where(custom_assessment_setting_id: custom_asessment.id).first
+      link_to_if false, '' do
+        content_tag :a, class: 'disabled' do
+          custom_assessment_name
+        end
+      end
+    elsif case_notes_editable? && policy(obj).create?
       link_to new_polymorphic_path([obj, 'case_note'], custom: true, custom_name: custom_assessment_name) do
         custom_assessment_name
       end
