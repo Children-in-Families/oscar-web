@@ -10,7 +10,7 @@ class Village < ActiveRecord::Base
   validates :commune, :name_kh, :name_en, presence: true
   validates :code, presence: true, uniqueness: true
 
-  scope :dropdown_list_option, -> { joins(:clients).map{|c| { c.id => c.name } } }
+  scope :dropdown_list_option, -> { joins(:clients).map { |c| { c.id => c.name } } }
 
   after_commit :flush_cache
 
@@ -42,13 +42,14 @@ class Village < ActiveRecord::Base
 
   def self.cache_village_name_by_client_commune_district_province
     Rails.cache.fetch([Apartment::Tenant.current, 'Village', 'cache_village_name_by_client_commune_district_province']) do
-      Village.joins(:clients, commune: [district: :province]).distinct.map{|village| ["#{village.name_kh} / #{village.name_en} (#{village.code})", village.id]}.sort.map{|s| {s[1].to_s => s[0]}}
+      Village.joins(:clients, commune: [district: :province]).distinct.map { |village| ["#{village.name_kh} / #{village.name_en} (#{village.code})", village.id] }.sort.map { |s| { s[1].to_s => s[0] } }
     end
   end
 
   private
 
   def flush_cache
-    Rails.cache.delete([Apartment::Tenant.current, "Village", 'dropdown_list_option'])
+    Rails.cache.delete([Apartment::Tenant.current, 'Village', 'dropdown_list_option'])
+    Rails.cache.delete([Apartment::Tenant.current, 'villages'])
   end
 end
