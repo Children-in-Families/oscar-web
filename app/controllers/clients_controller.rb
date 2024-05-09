@@ -228,6 +228,7 @@ class ClientsController < AdminController
     @client = Client.only_deleted.friendly.find(params[:id])
 
     ActiveRecord::Base.transaction do
+      @client.archive_state = 'permanent_delete'
       if @client.destroy
         begin
           EnterNgo.with_deleted.where(client_id: @client.id).each(&:destroy_fully!)
@@ -238,7 +239,7 @@ class ClientsController < AdminController
           ExitNgo.with_deleted.where(client_id: @client.id).each(&:destroy_fully!)
 
           redirect_to archived_clients_path, notice: t('.successfully_deleted')
-        rescue => exception
+        rescue => e
           raise ActiveRecord::Rollback
         end
       else
@@ -246,11 +247,12 @@ class ClientsController < AdminController
         redirect_to archived_clients_path, alert: messages
       end
     end
-  rescue ActiveRecord::Rollback => exception
-    redirect_to archived_clients_path, alert: exception
+  rescue ActiveRecord::Rollback => e
+    redirect_to archived_clients_path, alert: e
   end
 
   def archive
+    # CanCanCan load client by using method load_and_authorize_resource above
     if @client.current_family_id
       redirect_to @client, alert: "Can't delete client because the client is still attached with family"
     else
@@ -258,8 +260,8 @@ class ClientsController < AdminController
       @client.update_columns(deleted_at: Time.current, archived_by_id: current_user.id)
       redirect_to clients_url, notice: t('.successfully_archived')
     end
-  rescue ActiveRecord::Rollback => exception
-    redirect_to @client, alert: exception
+  rescue ActiveRecord::Rollback => e
+    redirect_to @client, alert: e
   end
 
   def quantitative_case
