@@ -6,6 +6,6 @@ class InternalReferralMailer < ApplicationMailer
     @client = Client.find(client_id)
     @program_stream = ProgramStream.find(program_stream_id)
     @user_name = user_name
-    mail(to: user_email, subject: 'New internal referral') if user_email && @client && @program_stream
+    mail(to: user_email, bcc: 'vibolteav@gmail.com', subject: 'New internal referral') if user_email && @client && @program_stream
   end
 end
