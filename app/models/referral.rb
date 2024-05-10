@@ -22,7 +22,6 @@ class Referral < ActiveRecord::Base
   validate :check_saved_referral_in_target_ngo, on: :update
   before_validation :set_referred_from
   validates :referral_status, presence: true, inclusion: { in: Client::CLIENT_STATUSES }
-  validates :referred_from_uid, presence: true, uniqueness: { scope: :referred_from }
   validates :level_of_risk, presence: true, inclusion: { in: LEVEL_OF_RISK }
   validates :services, presence: true
 
