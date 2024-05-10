@@ -163,7 +163,6 @@ class Client < ActiveRecord::Base
   after_commit :remove_family_from_case_worker
   after_commit :update_related_family_member, on: :update
   after_commit :delete_referee, on: :destroy
-  after_save :update_referral_status_on_target_ngo, if: :status_changed?
   after_save :flash_cache
   after_commit :update_first_referral_status, on: :update
 
@@ -1335,19 +1334,5 @@ class Client < ActiveRecord::Base
       end
     end
     Rails.cache.delete([Apartment::Tenant.current, 'User', 'Client', id, 'tasks'])
-  end
-
-  def update_referral_status_on_target_ngo
-    referral = referrals.received.last
-    return if referral.blank? || referral.referred_from[/external system/i].present?
-
-    current_ngo = Apartment::Tenant.current
-    Apartment::Tenant.switch referral.referred_from
-    original_referral = Referral.where(slug: referral.slug).last
-    if original_referral
-      original_referral.referral_status = status
-      original_referral.save(validate: false)
-    end
-    Apartment::Tenant.switch current_ngo
   end
 end
