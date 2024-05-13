@@ -1,7 +1,7 @@
 {
   "address": {
     "outside_address": "Alamat diluar",
-    "provicne": "Provinsi",
+    "province": "Provinsi",
     "district": "Kota/Kabupaten",
     "commune": "Kecamatan",
     "village": "Desa/Kelurahan",
@@ -10,6 +10,21 @@
     "address_name": "Nama Alamat",
     "address_type": "Tipe Alamat",
     "locality": "Lokalitas",
+    "indonesia": {
+      "outside_address": "Alamat diluar",
+      "province": "Provinsi",
+      "district": "Kota/Kabupaten",
+      "commune": "Kecamatan",
+      "village": "Desa/Kelurahan",
+      "street_number": "Nomor Jalan",
+      "house_number": "Nomor Rumah",
+      "address_name": "Nama Alamat",
+      "address_type": "Tipe Alamat",
+      "state": "Negara",
+      "township": "Ibu Kota",
+      "street_line1": "Jalan 1",
+      "street_line2": "Jalan 2(pilihan)"
+    },
     "lesotho": {
       "description_house_landmark": "Deskripsi Landmark Rumah",
       "directions": "Petunjuk Arah",
