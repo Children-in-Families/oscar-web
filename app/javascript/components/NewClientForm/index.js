@@ -22,6 +22,8 @@ import T from "i18n-react";
 import en from "../../utils/locales/en.json";
 import km from "../../utils/locales/km.json";
 import my from "../../utils/locales/my.json";
+import id from "../../utils/locales/id.json";
+
 import "toastr/toastr.scss";
 import "./styles.scss";
 import { t } from "../../utils/i18n";
@@ -35,6 +37,9 @@ const Forms = (props) => {
       break;
     case "my":
       T.setTexts(my);
+      break;
+    case "id":
+      T.setTexts(id);
       break;
     default:
       T.setTexts(en);
