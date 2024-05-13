@@ -121,7 +121,7 @@ class Client < ActiveRecord::Base
   has_many :families, through: :cases
   has_many :family_members, dependent: :destroy
   has_many :cases, dependent: :destroy
-  has_many :case_notes, dependent: :destroy
+  has_many :case_notes, dependent: :delete_all
   has_many :assessments, dependent: :destroy
   has_many :default_most_recents_assessments, -> { defaults.most_recents }, class_name: 'Assessment'
   has_many :custom_assessments, -> { customs }, class_name: 'Assessment'

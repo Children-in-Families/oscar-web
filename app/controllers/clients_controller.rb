@@ -260,6 +260,8 @@ class ClientsController < AdminController
     end
   rescue ActiveRecord::Rollback => e
     redirect_to archived_clients_path, alert: e
+  rescue ActiveRecord::InvalidForeignKey => e
+    redirect_to archived_clients_path, alert: e
   end
 
   def archive
