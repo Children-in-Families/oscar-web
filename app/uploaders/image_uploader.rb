@@ -2,6 +2,8 @@ class ImageUploader < CarrierWave::Uploader::Base
   # include CarrierWave::RMagick
   # include CarrierWave::MimeTypes
   include CarrierWave::MiniMagick
+  include UploaderConcern
+
   process :auto_orient
   version :thumb do
     process resize_to_limit: [nil, 200]
