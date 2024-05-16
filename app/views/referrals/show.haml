@@ -35,7 +35,7 @@
                 - if @referral.client_id? && @referral.client.referrals.received.count > 1
                   %strong= editable @referral, :referral_status, type: :select, source: ['Referred', 'Accepted', 'Exited'].zip(['Referred', 'Accepted', 'Rejected']).to_h, value: @referral.referral_status, url: api_referral_path(@referral.id), pk: @referral.id
                 - else
-                  %strong= @referral.referral_status
+                  %strong= correct_referral_status(@referral.referral_status)
 
             %tr
               %td= t('.referred_from')
