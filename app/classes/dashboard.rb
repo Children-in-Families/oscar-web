@@ -16,7 +16,7 @@ class Dashboard
   end
 
   def client_program_stream
-    program_streams = ProgramStream.joins(:client_enrollments).group("program_streams.id, client_enrollments.status").select("program_streams.id, program_streams.name, COUNT(DISTINCT(client_enrollments.client_id)) AS client_enrollment_count").having("client_enrollments.status = 'Active'")
+    program_streams = ProgramStream.joins(:clients, :client_enrollments).group("program_streams.id, client_enrollments.status").select("program_streams.id, program_streams.name, COUNT(DISTINCT(client_enrollments.client_id)) AS client_enrollment_count").having("client_enrollments.status = 'Active'")
     program_streams.map do |p|
       url = { 'condition': 'AND', 'rules': [{ 'id': 'active_program_stream', 'field': 'active_program_stream', 'type': 'string', 'input': 'select', 'operator': 'equal', 'value': p.id }]}
       {

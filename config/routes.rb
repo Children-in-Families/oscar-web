@@ -409,7 +409,7 @@ Rails.application.routes.draw do
       resources :users, only: [:index, :show]
       resources :clients, except: [:edit, :new] do
         get :listing, on: :collection
-        resources :assessments, only: [:create, :update, :destroy, :delete]
+        resources :assessments
         resources :case_notes, only: [:show, :create, :update, :destroy, :delete_attachment] do
           delete 'attachments/:file_index', action: :delete_attachment, on: :member
         end
@@ -418,6 +418,8 @@ Rails.application.routes.draw do
         scope module: 'clients' do
           resources :exit_ngos, only: [:create, :update]
           resources :enter_ngos, only: [:create, :update]
+          resources :referrals
+          resources :internal_referrals
         end
 
         scope module: 'client_tasks' do
@@ -458,6 +460,7 @@ Rails.application.routes.draw do
       resources :referees, only: :index
       get 'custom_forms' => 'custom_fields#index'
       get 'developmental_markers' => 'developmental_markers#index'
+      get 'services' => 'services#index'
     end
 
     resources :community_advanced_searches, only: [] do

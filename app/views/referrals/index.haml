@@ -37,7 +37,7 @@
                       - else
                         %td{ class: referred_to_hidden?(referral) }= referral.referred_to_ngo
                       %td= date_format(referral.date_of_referral)
-                      %td= status_style referral.referral_status
+                      %td= status_style correct_referral_status(referral.referral_status)
                       %td.text-center
                         -# - if policy(referral).edit?
                         -#   = link_to edit_client_referral_path(@client, referral, referral_type: params[:referral_type]), class: 'button btn btn-outline btn-success btn-xs' do

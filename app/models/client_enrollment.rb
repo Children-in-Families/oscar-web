@@ -97,6 +97,8 @@ class ClientEnrollment < ActiveRecord::Base
   end
 
   def reset_client_status_to_accepted
+    return if client.nil? || client.archive_state == 'permanent_delete'
+
     client_enrollments = client.client_enrollments
     client.update_column(:status, 'Accepted') if client_enrollments.empty? || client_enrollments.any? && client_enrollments.joins(:leave_program).count == client_enrollments.count
   end
@@ -104,6 +106,8 @@ class ClientEnrollment < ActiveRecord::Base
   def flash_cache
     Rails.cache.delete([Apartment::Tenant.current, 'cache_program_steam_by_enrollment'])
     Rails.cache.delete([Apartment::Tenant.current, 'cache_active_program_options'])
+    Rails.cache.delete([Apartment::Tenant.current, 'enrollable_client_ids', 'ProgramStream', program_stream.id])
+    Rails.cache.delete([Apartment::Tenant.current, 'maximum_client', 'ProgramStream', program_stream.id])
     cached_client_order_enrollment_date_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_order_enrollment_date/].blank? }
     cached_client_order_enrollment_date_keys.each { |key| Rails.cache.delete(key) }
     cached_client_order_enrollment_date_properties_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_order_enrollment_date_properties/].blank? }

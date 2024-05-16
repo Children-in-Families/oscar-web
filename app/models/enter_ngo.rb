@@ -1,4 +1,6 @@
 class EnterNgo < ActiveRecord::Base
+  include ReferralStatusConcern
+
   has_paper_trail
   acts_as_paranoid double_tap_destroys_fully: true
 
@@ -46,6 +48,6 @@ class EnterNgo < ActiveRecord::Base
   end
 
   def flash_cache
-    Rails.cache.delete(["dashboard", "#{Apartment::Tenant.current}_client_errors"]) if accepted_date_changed?
+    Rails.cache.delete(['dashboard', "#{Apartment::Tenant.current}_client_errors"]) if accepted_date_changed?
   end
 end

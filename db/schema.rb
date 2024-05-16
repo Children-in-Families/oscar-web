@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20240104041808) do
+ActiveRecord::Schema.define(version: 20240513051054) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
@@ -3054,7 +3054,7 @@ ActiveRecord::Schema.define(version: 20240104041808) do
   add_foreign_key 'case_conference_users', 'users'
   add_foreign_key 'case_conferences', 'clients'
   add_foreign_key 'case_contracts', 'cases'
-  add_foreign_key 'case_notes', 'clients'
+  add_foreign_key 'case_notes', 'clients', on_delete: :cascade
   add_foreign_key 'case_notes', 'custom_assessment_settings'
   add_foreign_key 'case_worker_communities', 'communities'
   add_foreign_key 'case_worker_communities', 'users'
