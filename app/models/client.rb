@@ -163,7 +163,6 @@ class Client < ActiveRecord::Base
   after_commit :remove_family_from_case_worker
   after_commit :update_related_family_member, on: :update
   after_commit :delete_referee, on: :destroy
-  after_save :update_referral_status_on_target_ngo, if: :status_changed?
   after_save :flash_cache
   after_commit :update_first_referral_status, on: :update
 
@@ -809,6 +808,7 @@ class Client < ActiveRecord::Base
   def self.get_client_attribute(attributes, referral_source_category_id = nil)
     attribute = attributes.with_indifferent_access
     referral_source_category_id = ReferralSource.find_referral_source_category(referral_source_category_id, attributes['referred_from']).try(:id)
+
     client_attributes = {
       mosvy_number: attribute[:mosvy_number],
       given_name: attribute[:given_name],
@@ -820,7 +820,7 @@ class Client < ActiveRecord::Base
       reason_for_referral: attribute[:referral_reason],
       relevant_referral_information: attribute[:referral_reason],
       referral_source_category_id: referral_source_category_id,
-      global_id: attribute[:client_global_id],
+      global_id: attribute[:client_global_id] || attribute[:global_id],
       external_case_worker_id: attribute[:external_case_worker_id],
       external_case_worker_name: attribute[:external_case_worker_name],
       **get_address_by_code(attribute[:address_current_village_code] || attribute[:location_current_village_code] || attribute[:village_code])
@@ -944,6 +944,7 @@ class Client < ActiveRecord::Base
 
   def assign_global_id
     referral = find_referrals.last
+
     if referral && referral.client_global_id
       self.global_id = GlobalIdentity.find_or_initialize_ulid(referral.client_global_id)
     else
@@ -1204,7 +1205,7 @@ class Client < ActiveRecord::Base
     end
 
     if village_id && commune_id && district_id && province_id
-      vaillage = Village.find(village_id)
+      village = Village.find(village_id)
       errors.add(:village_id, 'does not exist in the commune you just selected.') if village.commune_id != commune_id
     end
   end
@@ -1230,9 +1231,15 @@ class Client < ActiveRecord::Base
 
   def find_referrals
     referrals = []
-    referrals ||= Referral.where(slug: archived_slug, saved: false) if archived_slug.present?
+    referrals = Referral.where(client_global_id: global_id, saved: false) if global_id.present?
 
-    referrals.presence || Referral.where(external_id: external_id, saved: false)
+    if referrals.any?
+      referrals.presence
+    elsif external_id
+      Referral.where(external_id: external_id, saved: false)
+    else
+      Referral.none
+    end
   end
 
   def update_first_referral_status
@@ -1327,19 +1334,5 @@ class Client < ActiveRecord::Base
       end
     end
     Rails.cache.delete([Apartment::Tenant.current, 'User', 'Client', id, 'tasks'])
-  end
-
-  def update_referral_status_on_target_ngo
-    referral = referrals.received.last
-    return if referral.blank? || referral.referred_from[/external system/i].present?
-
-    current_ngo = Apartment::Tenant.current
-    Apartment::Tenant.switch referral.referred_from
-    original_referral = Referral.where(slug: referral.slug).last
-    if original_referral
-      original_referral.referral_status = status
-      original_referral.save(validate: false)
-    end
-    Apartment::Tenant.switch current_ngo
   end
 end

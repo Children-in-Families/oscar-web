@@ -418,6 +418,8 @@ Rails.application.routes.draw do
         scope module: 'clients' do
           resources :exit_ngos, only: [:create, :update]
           resources :enter_ngos, only: [:create, :update]
+          resources :referrals
+          resources :internal_referrals
         end
 
         scope module: 'client_tasks' do
@@ -455,6 +457,7 @@ Rails.application.routes.draw do
       end
 
       resources :referees, only: :index
+      get 'services' => 'services#index'
     end
 
     resources :community_advanced_searches, only: [] do

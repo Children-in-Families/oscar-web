@@ -56,7 +56,7 @@ module ApplicationHelper
   def status_style(status)
     case status
     when 'Active' then color = 'label-primary'
-    when 'Referred', 'Exited' then color = 'label-danger'
+    when 'Referred', 'Exited', 'Rejected' then color = 'label-danger'
     when 'Accepted' then color = 'label-info'
     end
 

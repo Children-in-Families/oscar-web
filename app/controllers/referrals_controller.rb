@@ -1,4 +1,5 @@
 class ReferralsController < AdminController
+  include ReferralsConcern
   load_and_authorize_resource
 
   before_action :find_client
@@ -36,24 +37,23 @@ class ReferralsController < AdminController
 
   def show
     respond_to do |format|
-      format.html {}
+      format.html { }
       format.pdf do
-        form_title     = "Referral Client To #{@referral.referred_to_ngo}"
-        client_name    = @referral.client_name
-        pdf_name       = "#{client_name} - #{form_title}"
-        render  pdf:      pdf_name,
-                template: 'referrals/show.pdf.haml',
-                page_size: 'A4',
-                layout:   'pdf_design.html.haml',
-                show_as_html: params.key?('debug'),
-                header: { html: { template: 'referrals/pdf/header.pdf.haml' } },
-                footer: { html: { template: 'referrals/pdf/footer.pdf.haml' }, right: '[page] of [topage]' },
-                margin: { left: 0, right: 0, top: 10 },
-                dpi: '72',
-                disposition: 'attachment'
+        form_title = "Referral Client To #{@referral.referred_to_ngo}"
+        client_name = @referral.client_name
+        pdf_name = "#{client_name} - #{form_title}"
+        render pdf: pdf_name,
+               template: 'referrals/show.pdf.haml',
+               page_size: 'A4',
+               layout: 'pdf_design.html.haml',
+               show_as_html: params.key?('debug'),
+               header: { html: { template: 'referrals/pdf/header.pdf.haml' } },
+               footer: { html: { template: 'referrals/pdf/footer.pdf.haml' }, right: '[page] of [topage]' },
+               margin: { left: 0, right: 0, top: 10 },
+               dpi: '72',
+               disposition: 'attachment'
       end
     end
-
   end
 
   def update
@@ -77,7 +77,7 @@ class ReferralsController < AdminController
     if params[:client_id]
       @referral = @client.referrals.find(params[:id])
     else
-      Referral.find(params[:id])
+      @referral = Referral.find(params[:id])
     end
   end
 
@@ -88,9 +88,5 @@ class ReferralsController < AdminController
 
   def referral_params
     params.require(:referral).permit(:referred_to, :referred_from, :name_of_referee, :referee_id, :referral_phone, :referee_email, :date_of_referral, :referral_reason, :client_name, :slug, :ngo_name, :client_global_id, :level_of_risk, consent_form: [], service_ids: [])
-  end
-
-  def find_external_system(external_name)
-    ExternalSystem.find_by(name: external_name)&.name || ''
   end
 end
