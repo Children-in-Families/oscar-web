@@ -125,6 +125,6 @@ class UsersController < AdminController
     @department = Department.order(:name)
     @province = Province.cached_order_name
     @managers = @user.all_managers
-    @managers = @user.all_managers.where.not(id: @user.id).order(:first_name, :last_name) if params[:action] == 'edit' || params[:action] == 'update'
+    @managers = User.managers.where.not(id: @user.id).order(:first_name, :last_name) if params[:action] == 'edit' || params[:action] == 'update'
   end
 end
