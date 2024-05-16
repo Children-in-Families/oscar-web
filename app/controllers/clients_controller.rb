@@ -395,7 +395,6 @@ class ClientsController < AdminController
     @needs = Need.cached_order_created_at
     @problems = Problem.cached_order_created_at
 
-    subordinate_users = User.where('manager_ids && ARRAY[:user_id] OR id = :user_id', { user_id: current_user.id }).map(&:id)
     if current_user.admin? || current_user.hotline_officer?
       @families = Family.order(:name)
     else

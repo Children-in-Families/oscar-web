@@ -11,7 +11,7 @@ Rails.application.configure do
   # config.force_ssl = true
 
   # Show full error reports and disable caching.
-  config.consider_all_requests_local       = true
+  config.consider_all_requests_local = true
   config.action_controller.perform_caching = false
   config.cache_store = :memory_store
 
@@ -63,7 +63,7 @@ Rails.application.configure do
     # Bullet.alert = true
     # Bullet.bullet_logger = true
     Bullet.console = true
-    # Bullet.rails_logger = true
+    Bullet.rails_logger = true
     Bullet.add_footer = true
     # Bullet.stacktrace_includes = true
     # Bullet.raise = true

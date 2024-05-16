@@ -24,7 +24,7 @@ class UsersController < AdminController
   end
 
   def create
-    @user = User.new(user_params.merge({client_ids: []}))
+    @user = User.new(user_params.merge({ client_ids: [] }))
 
     if @user.save
       @user.update_attributes(user_params) unless @user.strategic_overviewer?
@@ -41,12 +41,12 @@ class UsersController < AdminController
     @user.build_permission unless @user.permission.present? || @user.admin? || @user.strategic_overviewer?
     @user.populate_quantitative_types unless @user.quantitative_type_permissions.present? || @user.admin? || @user.strategic_overviewer?
 
-    custom_field_ids          = @user.custom_field_properties.pluck(:custom_field_id)
-    @free_user_forms          = CustomField.user_forms.not_used_forms(custom_field_ids).order_by_form_title
+    custom_field_ids = @user.custom_field_properties.pluck(:custom_field_id)
+    @free_user_forms = CustomField.user_forms.not_used_forms(custom_field_ids).order_by_form_title
     @group_user_custom_fields = @user.custom_field_properties.group_by(&:custom_field_id)
 
     @client_grid = ClientGrid.new(params.fetch(:client_grid, { column_names: [:id, :slug, :given_name, :family_name, :local_given_name, :local_family_name, :status, :gender, :manage] }).merge!(current_user: @user))
-    @results     = @client_grid.scope { |scope| scope.of_case_worker(@user.id) }.assets.size
+    @results = @client_grid.scope { |scope| scope.of_case_worker(@user.id) }.assets.size
 
     @client_grid.scope do |scope|
       scope.of_case_worker(@user.id).page(params[:page]).per(10)
@@ -77,7 +77,7 @@ class UsersController < AdminController
 
   def version
     page = params[:per_page] || 20
-    @user     = User.find(params[:user_id])
+    @user = User.find(params[:user_id])
     @versions = @user.versions.reorder(created_at: :desc).page(params[:page]).per(page)
   end
 
@@ -107,14 +107,14 @@ class UsersController < AdminController
 
   def user_params
     params.require(:user).permit(:first_name, :last_name, :roles, :start_date,
-                                :job_title, :department_id, :mobile, :date_of_birth,
-                                :province_id, :email, :password, :password_confirmation, :gender,
-                                :manager_id, :calendar_integration, :pin_code, client_ids: [],
-                                case_worker_attributes: [:id, :client_id, :readable, :editable],
-                                custom_field_permissions_attributes: [:id, :custom_field_id, :readable, :editable],
-                                program_stream_permissions_attributes: [:id, :program_stream_id, :readable, :editable],
-                                quantitative_type_permissions_attributes: [:id, :quantitative_type_id, :readable, :editable],
-                                permission_attributes: [:id, :case_notes_readable, :case_notes_editable, :assessments_readable, :assessments_editable])
+                                 :job_title, :department_id, :mobile, :date_of_birth,
+                                 :province_id, :email, :password, :password_confirmation, :gender,
+                                 :manager_id, :calendar_integration, :pin_code, client_ids: [],
+                                                                                case_worker_attributes: [:id, :client_id, :readable, :editable],
+                                                                                custom_field_permissions_attributes: [:id, :custom_field_id, :readable, :editable],
+                                                                                program_stream_permissions_attributes: [:id, :program_stream_id, :readable, :editable],
+                                                                                quantitative_type_permissions_attributes: [:id, :quantitative_type_id, :readable, :editable],
+                                                                                permission_attributes: [:id, :case_notes_readable, :case_notes_editable, :assessments_readable, :assessments_editable])
   end
 
   def find_user
@@ -123,8 +123,7 @@ class UsersController < AdminController
 
   def find_association
     @department = Department.order(:name)
-    @province   = Province.cached_order_name
-    @managers   = User.managers.order(:first_name, :last_name)
-    @managers   = @managers.where.not('id = :user_id OR manager_ids && ARRAY[:user_id]', { user_id: @user.id }) if params[:action] == 'edit' || params[:action] == 'update'
+    @province = Province.cached_order_name
+    @managers = @user.all_managers.order(:first_name, :last_name) if params[:action] == 'edit' || params[:action] == 'update'
   end
 end

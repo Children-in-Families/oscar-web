@@ -1,8 +1,8 @@
 xdescribe 'Abilities' do
-  subject(:ability){ Ability.new(user) }
+  subject(:ability) { Ability.new(user) }
 
   context 'admin permissions' do
-    let!(:user){ create(:user, :admin) }
+    let!(:user) { create(:user, :admin) }
 
     it 'can manage All' do
       should be_able_to(:manage, :all)
@@ -10,8 +10,8 @@ xdescribe 'Abilities' do
   end
 
   context 'manager permissions' do
-    let!(:user_2){ create(:user, :manager, id: 2) }
-    let!(:user){ create(:user, :manager, id: 1, manager_ids: [1,2]) }
+    let!(:user_2) { create(:user, :manager, id: 2) }
+    let!(:user) { create(:user, :manager, id: 1, manager_ids: [1, 2]) }
 
     it 'can manage Agency' do
       should be_able_to(:manage, Agency)
@@ -33,7 +33,7 @@ xdescribe 'Abilities' do
     xit 'can manage Client' do
       should be_able_to(:create, Client)
       field = '"case_worker_clients"."user_id"'
-      value = User.where('manager_ids && ARRAY[:user_id] OR id = :user_id', { user_id: user.id }).map(&:id).first
+      value = user.all_subordinates.ids.first
       expect(ability.model_adapter(Client, :manage).conditions).to include("#{field} = #{value}")
     end
 
@@ -41,7 +41,7 @@ xdescribe 'Abilities' do
       field = '"users"."id"'
       user_2.update(manager_id: user.id)
       value = User.where('manager_ids && ARRAY[?]', user.id).map(&:id).first
-      ability.model_adapter(User, :manage).conditions.should ==  %Q[(#{field} = #{user.id}) OR (#{field} = #{value || 0})]
+      ability.model_adapter(User, :manage).conditions.should == %Q[(#{field} = #{user.id}) OR (#{field} = #{value || 0})]
     end
 
     it 'can manage Case' do
@@ -70,7 +70,7 @@ xdescribe 'Abilities' do
 
     it 'can manage CustomFieldProperty' do
       field = '"custom_field_properties"."custom_formable_type"'
-      ability.model_adapter(CustomFieldProperty, :manage).conditions.should ==  %Q[(#{field} = 'Partner') OR ((#{field} = 'Family') OR (#{field} = 'Client'))]
+      ability.model_adapter(CustomFieldProperty, :manage).conditions.should == %Q[(#{field} = 'Partner') OR ((#{field} = 'Family') OR (#{field} = 'Client'))]
     end
 
     it 'can manage CustomField' do
@@ -91,7 +91,7 @@ xdescribe 'Abilities' do
   end
 
   context 'case worker permissions' do
-    let!(:user){ create(:user, :case_worker) }
+    let!(:user) { create(:user, :case_worker) }
 
     it 'can create family' do
       should be_able_to(:create, Family)
@@ -106,11 +106,11 @@ xdescribe 'Abilities' do
     end
 
     context 'with familiy and clients' do
-      let!(:client){ create(:client, user_ids: [user.id] ) }
-      let!(:family){ create(:family, children: [client.id] ) }
+      let!(:client) { create(:client, user_ids: [user.id]) }
+      let!(:family) { create(:family, children: [client.id]) }
 
       it 'can manage family of their clients' do
-        ability.model_adapter(Family, :manage).conditions.should ==  { id: [family.id] }
+        ability.model_adapter(Family, :manage).conditions.should == { id: [family.id] }
       end
     end
   end
