@@ -91,7 +91,7 @@ class CallsController < AdminController
     @donors = Donor.order(:name)
     @users = User.non_strategic_overviewers.order(:first_name, :last_name).map { |user| [user.name, user.id] }
 
-    subordinate_users = User.where('manager_ids && ARRAY[:user_id] OR id = :user_id', { user_id: current_user.id }).map(&:id)
+    subordinate_users = current_user.all_subordinates.ids
     if current_user.admin? || current_user.hotline_officer?
       @families = Family.order(:name)
     elsif current_user.manager?
