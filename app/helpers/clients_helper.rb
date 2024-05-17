@@ -113,6 +113,8 @@ module ClientsHelper
 
   def rails_i18n_translations
     # Change slice inputs to adapt your need
+    return {} unless I18n.backend.send(:translations).present?
+
     translations = I18n.backend.send(:translations)[I18n.locale].slice(
       :clients,
       :activerecord,

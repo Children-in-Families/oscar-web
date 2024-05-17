@@ -11,6 +11,7 @@
     "address_type": "Tipe Alamat",
     "locality": "Lokalitas",
     "indonesia": {
+      "city": "Kota/Kabupaten",
       "outside_address": "Alamat diluar",
       "province": "Provinsi",
       "district": "Kota/Kabupaten",
@@ -20,10 +21,12 @@
       "house_number": "Nomor Rumah",
       "address_name": "Nama Alamat",
       "address_type": "Tipe Alamat",
+      "postal_code": "Kode Pos",
       "state": "Negara",
       "township": "Ibu Kota",
       "street_line1": "Jalan 1",
-      "street_line2": "Jalan 2(pilihan)"
+      "street_line2": "Jalan 2(pilihan)",
+      "subdistrict": "Kecamatan"
     },
     "lesotho": {
       "description_house_landmark": "Deskripsi Landmark Rumah",
