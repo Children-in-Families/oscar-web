@@ -6,6 +6,6 @@ class AssessmentDecorator < Draper::Decorator
   end
 
   def completed_status
-    model.completed? ? 'Completed' : 'Incompleted'
+    model.completed? ? I18n.t('assessments.complete') : I18n.t('assessments.incomplete')
   end
 end
