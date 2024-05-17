@@ -694,6 +694,7 @@ id:
       max_file_size: "*Ukuran maksimum file: 5MB/file dan 30MB/upload."
       preview_download: Pratinjau & Unduh
     client_name: Nama Klien
+    completed: Selesai
     create:
       successfully_created: Penilaian berhasil dibuat.
     destroy:
@@ -722,6 +723,7 @@ id:
       score_label_family: Pilih deskripsi berikut yang paling mendekati gambaran situasi keluarga klien, berdasarkan observasi Anda.
       set_goal: Apakah anda ingin membuat pencapaian?
       tasks_arising: 'Tugas meningkat'
+    incomplete: Tidak Lengkap
     incomplete_detail:
       goal: pencapaian
       reason: Observasi
