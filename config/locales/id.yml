@@ -694,7 +694,7 @@ id:
       max_file_size: "*Ukuran maksimum file: 5MB/file dan 30MB/upload."
       preview_download: Pratinjau & Unduh
     client_name: Nama Klien
-    completed: Selesai
+    complete: Selesai
     create:
       successfully_created: Penilaian berhasil dibuat.
     destroy:

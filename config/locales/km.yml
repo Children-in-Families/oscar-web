@@ -670,7 +670,7 @@ km:
       max_file_size: "*ទំហំឯកសារអតិបរមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកបាន."
       preview_download: មើលនិងទាញយក
     client_name: ឈ្មោះអតិថិជន
-    completed: បានបញ្ចប់
+    complete: បានបញ្ចប់
     create:
       successfully_created: ការប៉ាន់ប្រមាណត្រូវបានបង្កើតដោយជោគជ័យ
     destroy:
