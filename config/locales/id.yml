@@ -6280,7 +6280,7 @@ id:
 
   shared:
     x_lists_of: "%{x} daftar dari"
-    new_x: "New %{x}"
+    new_x: "%{x} baru"
     max_x: "Max %{x}"
     x_on: "%{x} pada"
     form_builder:
