@@ -6,6 +6,6 @@
     = fa_icon('pencil')
 - if can? :delete, ProgramStream
   = delete_button(program_stream)
-- if (can? :manage, ProgramStream) && (I18n.default_locale.to_s == params[:locale].to_s)
+- if (can? :manage, ProgramStream) || (I18n.default_locale.to_s == params[:locale].to_s)
   = link_to new_program_stream_path(program_stream_id: program_stream.id, ngo_name: program_stream.ngo_name, entity_type: program_stream.entity_type), class: 'btn btn-outline btn-success btn-xs' do
     = fa_icon('language')
