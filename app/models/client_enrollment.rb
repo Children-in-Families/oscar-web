@@ -97,6 +97,8 @@ class ClientEnrollment < ActiveRecord::Base
   end
 
   def reset_client_status_to_accepted
+    return if client.nil? || client.archive_state == 'permanent_delete'
+
     client_enrollments = client.client_enrollments
     client.update_column(:status, 'Accepted') if client_enrollments.empty? || client_enrollments.any? && client_enrollments.joins(:leave_program).count == client_enrollments.count
   end

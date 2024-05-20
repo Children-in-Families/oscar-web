@@ -85,7 +85,7 @@ class Family < ActiveRecord::Base
   validates :case_worker_ids, presence: true, on: :update, if: -> { !exit_ngo? && case_management_record? }
 
   after_create :assign_slug
-  after_save :save_family_in_client, :mark_referral_as_saved
+  after_save :mark_referral_as_saved
   after_commit :update_related_community_member, on: :update
   after_commit :flush_cache
 
@@ -265,16 +265,6 @@ class Family < ActiveRecord::Base
     existed_clients = Client.where(id: existed_clients).map(&:en_and_local_name) if existed_clients.present?
     error_message = "#{existed_clients.join(', ')} #{'has'.pluralize(existed_clients.count)} already existed in other family"
     errors.add(:children, error_message) if existed_clients.present?
-  end
-
-  def save_family_in_client
-    Client.where(current_family_id: self.id).where.not(id: self.children).update_all(current_family_id: nil)
-    self.children.each do |child|
-      client = Client.find_by(id: child)
-      next if client.nil?
-      client.current_family_id = self.id
-      client.update_columns(current_family_id: self.id)
-    end
   end
 
   def stale_paranoid_value
