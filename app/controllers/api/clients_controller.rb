@@ -44,7 +44,7 @@ module Api
     def create
       client_saved = false
       client = Client.new(client_params)
-
+      assign_global_id_from_referral(client, params)
       client.transaction do
         if params.dig(:referee, :id).present?
           referee = Referee.find(params.dig(:referee, :id))
@@ -52,11 +52,10 @@ module Api
         else
           if referee_params[:anonymous] == 'true'
             referee = Referee.new(referee_params)
-            referee.save
           else
             referee = Referee.find_or_initialize_by(referee_params)
-            referee.save
           end
+          referee.save
         end
 
         carer = Carer.find_or_initialize_by(carer_params)

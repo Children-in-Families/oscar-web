@@ -11,6 +11,6 @@ class ProgramStreamPermission < ActiveRecord::Base
   private
 
   def flash_cache
-    Rails.cache.delete([Apartment::Tenant.current, 'program_permission_editable', 'ProgramStream', 'User', progrm_stream.id, user.id])
+    Rails.cache.delete([Apartment::Tenant.current, 'program_permission_editable', 'ProgramStream', 'User', program_stream.id, user.id])
   end
 end

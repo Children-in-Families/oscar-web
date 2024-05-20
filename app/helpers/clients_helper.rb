@@ -64,10 +64,11 @@ module ClientsHelper
     end
   end
 
-  def xeditable?(client = nil)
-    return true if client.class.name != 'Client'
+  def xeditable?(object = nil)
+    return true if object.class.name != 'Client'
 
-    (can?(:manage, client&.object) || can?(:edit, client&.object) || can?(:rud, client&.object)) ? true : false
+    client = object.instance_of?(::ClientDecorator) ? object.client : object
+    can?(:manage, client) || can?(:edit, client) || can?(:rud, client) ? true : false
   end
 
   def user(user, editable_input = false)

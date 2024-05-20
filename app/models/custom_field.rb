@@ -1,7 +1,7 @@
 class CustomField < ActiveRecord::Base
   include UpdateFieldLabelsFormBuilder
 
-  FREQUENCIES  = ['Daily', 'Weekly', 'Monthly', 'Yearly'].freeze
+  FREQUENCIES = ['Daily', 'Weekly', 'Monthly', 'Yearly'].freeze
   ENTITY_TYPES = ['Client', 'Community', 'Family', 'Partner', 'User'].freeze
 
   has_many :custom_field_properties, dependent: :restrict_with_error
@@ -21,7 +21,7 @@ class CustomField < ActiveRecord::Base
   validates :time_of_frequency, presence: true,
                                 numericality: { only_integer: true, greater_than_or_equal_to: 1 }, if: -> { frequency.present? }
   validates :fields, presence: true
-  validate  :uniq_fields, :field_label, if: -> { fields.present? }
+  validate :uniq_fields, :field_label, if: -> { fields.present? }
 
   before_save :set_time_of_frequency
   after_create :build_permission
@@ -29,15 +29,15 @@ class CustomField < ActiveRecord::Base
   after_update :update_custom_field_label, :update_save_search, if: -> { fields_changed? }
   after_commit :flush_cache
 
-  scope :by_form_title,  ->(value)  { where('form_title iLIKE ?', "%#{value.squish}%") }
-  scope :client_forms,   ->         { where(entity_type: 'Client') }
-  scope :family_forms,   ->         { where(entity_type: 'Family') }
-  scope :community_forms, ->        { where(entity_type: 'Community') }
-  scope :partner_forms,  ->         { where(entity_type: 'Partner') }
-  scope :user_forms,     ->         { where(entity_type: 'User') }
-  scope :not_used_forms, ->(value)  { where.not(id: value) }
-  scope :ordered_by,     ->(column) { order(column) }
-  scope :order_by_form_title, ->    { order(:form_title) }
+  scope :by_form_title, -> (value) { where('form_title iLIKE ?', "%#{value.squish}%") }
+  scope :client_forms, -> { where(entity_type: 'Client') }
+  scope :family_forms, -> { where(entity_type: 'Family') }
+  scope :community_forms, -> { where(entity_type: 'Community') }
+  scope :partner_forms, -> { where(entity_type: 'Partner') }
+  scope :user_forms, -> { where(entity_type: 'User') }
+  scope :not_used_forms, -> (value) { where.not(id: value) }
+  scope :ordered_by, -> (column) { order(column) }
+  scope :order_by_form_title, -> { order(:form_title) }
   scope :visible, -> { where(hidden: false) }
 
   def self.client_used_form
@@ -62,7 +62,7 @@ class CustomField < ActiveRecord::Base
   end
 
   def uniq_fields
-    labels = fields.map{ |f| f['label'] }
+    labels = fields.map { |f| f['label'] }
     labels.delete('Separation Line')
     duplicate = labels.detect { |e| labels.count(e) > 1 }
     errors.add(:fields, I18n.t('must_be_uniq')) if duplicate.present?
@@ -81,6 +81,10 @@ class CustomField < ActiveRecord::Base
     User.without_deleted_users.non_strategic_overviewers.each do |user|
       self.custom_field_permissions.find_or_create_by(user_id: user.id)
     end
+  end
+
+  def self.cache_all
+    Rails.cache.fetch([Apartment::Tenant.current, 'CustomField']) { order(:entity_type, :form_title) }
   end
 
   def self.cache_object(id)
@@ -128,7 +132,7 @@ class CustomField < ActiveRecord::Base
   def update_save_search
     saved_searches = AdvancedSearch.all
     saved_searches.each do |ss|
-      queries       = ss.queries
+      queries = ss.queries
       updated_query = get_rules(queries, ss)
     end
   end
@@ -141,15 +145,15 @@ class CustomField < ActiveRecord::Base
           next unless custom_form_ids.include?(custom_form_id)
           custom_form = CustomField.find(custom_form_id)
           custom_form.fields.each do |field|
-            updated_field = field["label"]
-            queries["rules"].each do |rule|
+            updated_field = field['label']
+            queries['rules'].each do |rule|
               custom_field_old_queries = get_rules(rule, ss) if rule.has_key?('rules')
-              if rule["id"].present?
-                old_field  = rule["id"].gsub(/.*__/i,'')
+              if rule['id'].present?
+                old_field = rule['id'].gsub(/.*__/i, '')
                 if updated_field[/#{old_field[0..5]}.*/i]
-                  custom_field_value = rule["id"].slice(/.*__/i)
+                  custom_field_value = rule['id'].slice(/.*__/i)
                   query_rule = "#{custom_field_value}#{updated_field}"
-                  rule["id"] = query_rule
+                  rule['id'] = query_rule
                   ss.save
                 end
               end
@@ -161,6 +165,7 @@ class CustomField < ActiveRecord::Base
   end
 
   def flush_cache
+    Rails.cache.delete([Apartment::Tenant.current, 'CustomField'])
     Rails.cache.delete([Apartment::Tenant.current, 'CustomField', self.id])
     cached_order_by_form_title_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_order_by_form_title/].blank? }
     cached_order_by_form_title_keys.each { |key| Rails.cache.delete(key) }

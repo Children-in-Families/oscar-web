@@ -13,6 +13,7 @@ class FamilyMember < ActiveRecord::Base
 
   after_commit :save_aggregation_data, on: [:create, :update]
   after_commit :save_client_data, if: :persisted?
+  after_destroy :remove_family_from_client
 
   validates :client_id, uniqueness: { scope: :family_id }, if: :client_id?
 
@@ -47,5 +48,11 @@ class FamilyMember < ActiveRecord::Base
 
   def save_aggregation_data
     family&.save_aggregation_data
+  end
+
+  def remove_family_from_client
+    Client.find(client_id_was).update_columns(current_family_id: nil)
+  rescue ActiveRecord::RecordNotFound => e
+    Rails.logger.error e
   end
 end
