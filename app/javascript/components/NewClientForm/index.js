@@ -1,3 +1,4 @@
+import { T, t } from "../../utils";
 import React, { useState, useEffect } from "react";
 import objectToFormData from "object-to-formdata";
 import Loading from "../Commons/Loading";
@@ -17,30 +18,12 @@ import LesothoAddress from "../Addresses/lesothoAddress";
 import NepalAddress from "../Addresses/nepalAddress";
 import IndonesianAddress from "../Addresses/IndonesianAddress";
 import toastr from "toastr/toastr";
-
-import T from "i18n-react";
-import en from "../../utils/locales/en.json";
-import km from "../../utils/locales/km.json";
-import my from "../../utils/locales/my.json";
 import "toastr/toastr.scss";
 import "./styles.scss";
-import { t } from "../../utils/i18n";
+
 import { confirmCancel } from "../Commons/confirmCancel.js";
 
 const Forms = (props) => {
-  var url = window.location.href.split("&").slice(-1)[0].split("=")[1];
-  switch (url) {
-    case "km":
-      T.setTexts(km);
-      break;
-    case "my":
-      T.setTexts(my);
-      break;
-    default:
-      T.setTexts(en);
-      break;
-  }
-
   const {
     data: {
       current_organization,

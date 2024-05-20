@@ -123,7 +123,8 @@ class ApplicationController < ActionController::Base
     I18n.locale = current_user.preferred_language
     flash[:notice] = I18n.t('devise.sessions.signed_in')
     stored_location_string = stored_location_for(_resource_or_scope)
-    stored_location_string && stored_location_string.gsub(/locale\=(en|km|my)/, "locale=#{locale}") || dashboards_path(locale: current_user&.preferred_language || 'en') || super
+
+    stored_location_string && stored_location_string.gsub(/locale=(en|km|my|ne|id|th)/, "locale=#{locale}") || dashboards_path(locale: current_user&.preferred_language || 'en') || super
   end
 
   def storable_location?
