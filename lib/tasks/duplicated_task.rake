@@ -27,8 +27,7 @@ namespace :duplicated_tasks do
 
       deleted_ids << grouped_tasks.last.id
     end
-    name = 'CM បន្តតាមដានស្ថានភាពអតិថិជន ០៤ កក្កដា ២០២៣'
-    binding.pry
+
     if deleted_ids.any?
       ActiveRecord::Base.connection.execute("DELETE FROM ratanak.task_progress_notes where task_id IN (#{deleted_ids.join(', ')})")
       ActiveRecord::Base.connection.execute("DELETE FROM ratanak.service_delivery_tasks where task_id IN (#{deleted_ids.join(', ')})")
