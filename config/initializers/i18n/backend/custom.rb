@@ -84,7 +84,7 @@ module I18n::Backend::Custom
 
     FieldSetting.by_instances(Apartment::Tenant.current).each do |field_setting|
       data = copy_translations[locale]
-      next if field_setting.current_label.blank?
+      next if field_setting.current_label.blank? || field_setting.name.nil?
       paths = data.full_paths(field_setting.name)
       next if paths.blank?
 
