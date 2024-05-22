@@ -188,7 +188,6 @@ class User < ActiveRecord::Base
   def assessment_due_today(eligible_clients, setting)
     due_today_assessments = []
     overdue_assessments = []
-    Rails.cache.delete([Apartment::Tenant.current, self.class.name, id, 'assessment_either_overdue_or_due_today'])
     Rails.cache.fetch([Apartment::Tenant.current, self.class.name, id, 'assessment_either_overdue_or_due_today']) do
       overdue_assessments = Assessment.joins(:client).where(
         client_id: eligible_clients.ids
