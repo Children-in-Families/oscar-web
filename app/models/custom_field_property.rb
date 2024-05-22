@@ -10,6 +10,8 @@ class CustomFieldProperty < ActiveRecord::Base
   belongs_to :client, class_name: 'Client', foreign_key: 'custom_formable_id'
   belongs_to :family, class_name: 'Family', foreign_key: 'custom_formable_id'
   belongs_to :user, class_name: 'User', foreign_key: 'custom_formable_id'
+  belongs_to :partner, class_name: 'Partner', foreign_key: 'custom_formable_id'
+  belongs_to :community, class_name: 'Community', foreign_key: 'custom_formable_id'
 
   scope :by_custom_field, -> (value) { where(custom_field: value) }
   scope :most_recents, -> { order(created_at: :desc) }

@@ -1,10 +1,10 @@
 
-- @client_custom_form_notifications.each do |clients, custom_fields|
-  - client_slug, client_name = clients
+- @partner_custom_form_notifications.each do |partner_fields, custom_fields|
+  - partner_id, partner_name = partner_fields
   .ibox.border-left-right.border-bottom
     .ibox-title
       %h5
-        = link_to client_name, client_path(client_slug), target: :_blank
+        = link_to partner_name, partner_path(partner_id), target: :_blank
     .ibox-content.no-padding
       %table.table.table-striped
         - custom_fields.each do |overdue_field|

@@ -469,10 +469,28 @@ Rails.application.routes.draw do
       end
 
       resources :referees, only: :index
-      resources :notifications, only: :index
       get 'custom_forms' => 'custom_fields#index'
       get 'developmental_markers' => 'developmental_markers#index'
       get 'services' => 'services#index'
+      resources :notifications, only: :index do
+        collection do
+          get :program_stream_notify
+          get :referrals
+          get :repeat_referrals
+          get :family_referrals
+          get :repeat_family_referrals
+        end
+      end
+
+      get 'notify_task' => 'notifications#notify_task'
+      get 'notify_assessment' => 'notifications#notify_assessment'
+      get 'notify_custom_assessment' => 'notifications#notify_custom_assessment'
+      get 'notify_client_custom_form' => 'notifications#notify_client_custom_form'
+      get 'notify_overdue_case_note' => 'notifications#notify_overdue_case_note'
+      get 'notify_user_custom_field' => 'notifications#notify_user_custom_field'
+      get 'notify_family_custom_field' => 'notifications#notify_family_custom_field'
+      get 'notify_partner_custom_field' => 'notifications#notify_partner_custom_field'
+      get 'program_stream_notify' => 'notifications#program_stream_notify'
     end
 
     resources :community_advanced_searches, only: [] do

@@ -67,7 +67,7 @@ module CustomFieldPropertiesHelper
     case klass_object.class.name.downcase
     when 'family', 'community', 'partner'
       klass_object.display_name
-    when 'user'
+    when 'user', 'partner'
       klass_object.name
     else
       klass_object.en_and_local_name
