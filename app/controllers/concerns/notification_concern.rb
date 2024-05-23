@@ -120,24 +120,39 @@ module NotificationConcern
 
   def mapping_notify_assessment
     setting = Setting.first
-    Assessment.defaults.most_recents.joins(:client).where(
-      'assessments.client_id IN (?)', Client.accessible_by(current_ability).active_accepted_status.where('(EXTRACT(year FROM age(current_date, coalesce(clients.date_of_birth, CURRENT_DATE))) :: int) < ?', setting&.age || 18).ids
-    ).where("DATE(assessments.created_at + interval '#{setting.max_assessment} #{setting.assessment_frequency}') < CURRENT_DATE")
-      .select(
-        :id, :created_at, 'clients.slug as client_slug',
-        "TRIM(CONCAT(CONCAT(clients.given_name, ' ', clients.family_name), ' ', CONCAT(clients.local_family_name, ' ', clients.local_given_name))) as client_name"
-      ).to_a.group_by { |assessment| [assessment.client_slug, assessment.client_name] }
+    sql = <<~SQL
+      SELECT c.id, c.slug, TRIM(CONCAT(CONCAT(c.given_name, ' ', c.family_name), ' ', CONCAT(c.local_family_name, ' ', c.local_given_name))) as client_name,
+      MAX(a.created_at) AS last_assessment_date
+      FROM clients c
+      LEFT JOIN assessments a ON c.id = a.client_id
+      WHERE DATE(a.created_at + interval '#{setting.max_assessment} #{setting.assessment_frequency}') < CURRENT_DATE
+      AND a.default = true
+      GROUP BY c.id, c.slug;
+    SQL
+
+    Client.accessible_by(current_ability).active_accepted_status.where('(EXTRACT(year FROM age(current_date, coalesce(clients.date_of_birth, CURRENT_DATE))) :: int) < ?', setting&.age || 18)
+          .find_by_sql(sql)
+          .to_a
   end
 
   def mapping_notify_custom_assessment
     CustomAssessmentSetting.only_enable_custom_assessment.map do |custom_setting|
-      sql = custom_setting.custom_assessment_frequency == 'unlimited' ? 'DATE(assessments.created_at) < CURRENT_DATE' : "DATE(assessments.created_at + interval '#{custom_setting.max_custom_assessment} #{custom_setting.custom_assessment_frequency}') < CURRENT_DATE"
-      custom_assessments = Assessment.customs.most_recents.joins(:client).where(custom_assessment_setting_id: custom_setting.id).where(
-        'assessments.client_id IN (?)', Client.accessible_by(current_ability).active_accepted_status.where('(EXTRACT(year FROM age(current_date, coalesce(clients.date_of_birth, CURRENT_DATE))) :: int) < ?', custom_setting&.custom_age || 18).ids
-      ).where(sql).select(
-        :id, :created_at, 'clients.slug as client_slug',
-        "TRIM(CONCAT(CONCAT(clients.given_name, ' ', clients.family_name), ' ', CONCAT(clients.local_family_name, ' ', clients.local_given_name))) as client_name"
-      ).to_a.group_by { |assessment| [assessment.client_slug, assessment.client_name] }
+      # sql = custom_setting.custom_assessment_frequency == 'unlimited' ? 'DATE(assessments.created_at) < CURRENT_DATE' : "DATE(assessments.created_at + interval '#{custom_setting.max_custom_assessment} #{custom_setting.custom_assessment_frequency}') < CURRENT_DATE"
+      sql = <<~SQL
+        SELECT c.id, c.slug, TRIM(CONCAT(CONCAT(c.given_name, ' ', c.family_name), ' ', CONCAT(c.local_family_name, ' ', c.local_given_name))) as client_name,
+        MAX(a.created_at) AS last_assessment_date
+        FROM clients c
+        LEFT JOIN assessments a ON c.id = a.client_id
+        WHERE #{custom_setting.custom_assessment_frequency == 'unlimited' ? 'DATE(a.created_at) < CURRENT_DATE' : "DATE(a.created_at + interval '#{setting.max_assessment} #{setting.assessment_frequency}') < CURRENT_DATE"}
+        AND custom_assessment_setting_id = #{custom_setting.id}
+        AND a.default = false
+        GROUP BY c.id, c.slug;
+      SQL
+
+      custom_assessments = Client.accessible_by(current_ability)
+                                 .active_accepted_status.where('(EXTRACT(year FROM age(current_date, coalesce(clients.date_of_birth, CURRENT_DATE))) :: int) < ?', custom_setting&.custom_age || 18)
+                                 .find_by_sql(sql)
+                                 .to_a
 
       [custom_setting.custom_assessment_name, custom_assessments]
     end
