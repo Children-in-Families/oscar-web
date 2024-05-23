@@ -189,21 +189,11 @@ class User < ActiveRecord::Base
     due_today_assessments = []
     overdue_assessments = []
     Rails.cache.fetch([Apartment::Tenant.current, self.class.name, id, 'assessment_either_overdue_or_due_today']) do
-      overdue_assessments = Assessment.joins(:client).where(
-        client_id: eligible_clients.ids
-      ).where("DATE(assessments.created_at + interval '#{setting.max_assessment} #{setting.assessment_frequency}') < CURRENT_DATE")
-        .select(
-          :id, :created_at, 'clients.slug as client_slug',
-          "TRIM(CONCAT(CONCAT(clients.given_name, ' ', clients.family_name), ' ', CONCAT(clients.local_family_name, ' ', clients.local_given_name))) as client_name"
-        ).to_a
+      overdue_sql = build_client_assessment_query(setting, 'less_than')
+      overdue_assessments = eligible_clients.find_by_sql(overdue_sql).to_a
 
-      due_today_assessments = Assessment.joins(:client).where(
-        client_id: eligible_clients.ids
-      ).where("DATE(assessments.created_at + interval '#{setting.max_assessment} #{setting.assessment_frequency}') = CURRENT_DATE")
-        .select(
-          :id, :created_at, 'clients.slug as client_slug',
-          "TRIM(CONCAT(CONCAT(clients.given_name, ' ', clients.family_name), ' ', CONCAT(clients.local_family_name, ' ', clients.local_given_name))) as client_name"
-        ).to_a
+      due_today_sql = build_client_assessment_query(setting, 'equal_to')
+      due_today_assessments = eligible_clients.find_by_sql(due_today_sql).to_a
 
       {
         overdue_count: overdue_assessments.count,
@@ -219,23 +209,13 @@ class User < ActiveRecord::Base
     custom_assessment_due_today = []
     custom_assessment_overdue = []
     CustomAssessmentSetting.only_enable_custom_assessment.map do |custom_setting|
-      sql = custom_setting.custom_assessment_frequency == 'unlimited' ? 'DATE(assessments.created_at)' : "DATE(assessments.created_at + interval '#{custom_setting.max_custom_assessment} #{custom_setting.custom_assessment_frequency}')"
-      custom_assessments = Assessment.customs.joins(:client).where(custom_assessment_setting_id: custom_setting.id)
-      custom_assessment_overdue << custom_assessments.merge(
-        user_clients.active_accepted_status
-          .where('(EXTRACT(year FROM age(current_date, coalesce(clients.date_of_birth, CURRENT_DATE))) :: int) < ?', custom_setting.custom_age || 18)
-      ).where("#{sql} < CURRENT_DATE").select(
-            :id, :created_at, 'clients.slug as client_slug',
-            "TRIM(CONCAT(CONCAT(clients.given_name, ' ', clients.family_name), ' ', CONCAT(clients.local_family_name, ' ', clients.local_given_name))) as client_name"
-          ).to_a
+      eligible_clients = user_clients.active_accepted_status.where('(EXTRACT(year FROM age(current_date, coalesce(clients.date_of_birth, CURRENT_DATE))) :: int) < ?', custom_setting.custom_age || 18)
 
-      custom_assessment_due_today << custom_assessments.merge(
-        user_clients.active_accepted_status
-          .where('(EXTRACT(year FROM age(current_date, coalesce(clients.date_of_birth, CURRENT_DATE))) :: int) < ?', custom_setting.custom_age || 18)
-      ).where("#{sql} = CURRENT_DATE").select(
-            :id, :created_at, 'clients.slug as client_slug',
-            "TRIM(CONCAT(CONCAT(clients.given_name, ' ', clients.family_name), ' ', CONCAT(clients.local_family_name, ' ', clients.local_given_name))) as client_name"
-          ).to_a
+      over_due_sql = build_client_custom_assessment_query(custom_setting, 'less_than')
+      custom_assessment_overdue << eligible_clients.find_by_sql(over_due_sql).to_a
+
+      due_today_sql = build_client_custom_assessment_query(custom_setting, 'equal_to')
+      custom_assessment_due_today << eligible_clients.find_by_sql(due_today_sql).to_a
     end
 
     {
@@ -443,6 +423,33 @@ class User < ActiveRecord::Base
   def exited_clients(user_ids)
     client_ids = CaseWorkerClient.where(id: PaperTrail::Version.where(item_type: 'CaseWorkerClient', event: 'create').joins(:version_associations).where(version_associations: { foreign_key_name: 'user_id', foreign_key_id: user_ids }).distinct.map(&:item_id)).pluck(:client_id).uniq
     Client.where(id: client_ids, status: 'Exited').ids
+  end
+
+  def build_client_assessment_query(setting, comparison = 'equal_to')
+    comparison_mapping = { 'less_than' => '<', 'equal_to' => '=' }
+    <<~SQL
+      SELECT c.id, c.slug, TRIM(CONCAT(CONCAT(c.given_name, ' ', c.family_name), ' ', CONCAT(c.local_family_name, ' ', c.local_given_name))) as client_name,
+      MAX(a.created_at) AS last_assessment_date
+      FROM clients c
+      LEFT JOIN assessments a ON c.id = a.client_id
+      WHERE DATE(a.created_at + interval '#{setting.max_assessment} #{setting.assessment_frequency}') #{comparison_mapping[comparison]} CURRENT_DATE
+      AND a.default = true
+      GROUP BY c.id, c.slug;
+    SQL
+  end
+
+  def build_client_custom_assessment_query(custom_setting, comparison = 'equal_to')
+    comparison_mapping = { 'less_than' => '<', 'equal_to' => '=' }
+    <<~SQL
+      SELECT c.id, c.slug, TRIM(CONCAT(CONCAT(c.given_name, ' ', c.family_name), ' ', CONCAT(c.local_family_name, ' ', c.local_given_name))) as client_name,
+      MAX(a.created_at) AS last_assessment_date
+      FROM clients c
+      LEFT JOIN assessments a ON c.id = a.client_id
+      WHERE #{custom_setting.custom_assessment_frequency == 'unlimited' ? "DATE(a.created_at) #{comparison_mapping[comparison]} CURRENT_DATE" : "DATE(a.created_at + interval #{custom_setting.max_custom_assessment} #{custom_setting.custom_assessment_frequency}) #{comparison_mapping[comparison]} CURRENT_DATE"}
+      AND custom_assessment_setting_id = #{custom_setting.id}
+      AND a.default = false
+      GROUP BY c.id, c.slug;
+    SQL
   end
 
   def flush_cache

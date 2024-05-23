@@ -143,7 +143,7 @@ module NotificationConcern
         MAX(a.created_at) AS last_assessment_date
         FROM clients c
         LEFT JOIN assessments a ON c.id = a.client_id
-        WHERE #{custom_setting.custom_assessment_frequency == 'unlimited' ? 'DATE(a.created_at) < CURRENT_DATE' : "DATE(a.created_at + interval '#{setting.max_assessment} #{setting.assessment_frequency}') < CURRENT_DATE"}
+        WHERE #{custom_setting.custom_assessment_frequency == 'unlimited' ? 'DATE(a.created_at) < CURRENT_DATE' : "DATE(a.created_at + interval #{custom_setting.max_custom_assessment} #{custom_setting.custom_assessment_frequency}') < CURRENT_DATE"}
         AND custom_assessment_setting_id = #{custom_setting.id}
         AND a.default = false
         GROUP BY c.id, c.slug;
