@@ -2307,6 +2307,7 @@ ActiveRecord::Schema.define(version: 20240513051054) do
     t.string 'level_of_risk'
     t.string 'referral_status', default: 'Referred'
     t.datetime 'deleted_at'
+    t.integer 'referred_from_uid'
   end
 
   add_index 'referrals', ['client_global_id'], name: 'index_referrals_on_client_global_id', using: :btree
@@ -2316,6 +2317,7 @@ ActiveRecord::Schema.define(version: 20240513051054) do
   add_index 'referrals', ['external_id'], name: 'index_referrals_on_external_id', using: :btree
   add_index 'referrals', ['mosvy_number'], name: 'index_referrals_on_mosvy_number', using: :btree
   add_index 'referrals', ['referee_id'], name: 'index_referrals_on_referee_id', using: :btree
+  add_index 'referrals', ['referred_from_uid'], name: 'index_referrals_on_referred_from_uid', using: :btree
 
   create_table 'referrals_services', id: false, force: :cascade do |t|
     t.integer 'referral_id'

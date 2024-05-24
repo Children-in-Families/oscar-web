@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
 
   ROLES = ['admin', 'manager', 'case worker', 'hotline officer', 'strategic overviewer'].freeze
   MANAGERS = ROLES.select { |role| role if role.include?('manager') }
-  LANGUAGES = { en: :english, km: :khmer, my: :burmese }.freeze
+  LANGUAGES = { en: :english, km: :khmer, my: :burmese, id: :bahasa, th: :thai }.freeze
 
   GENDER_OPTIONS = ['female', 'male', 'lgbt', 'unknown', 'prefer_not_to_say', 'other']
 
