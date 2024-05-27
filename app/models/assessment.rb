@@ -25,7 +25,9 @@ class Assessment < ActiveRecord::Base
   before_save :populate_domains
   before_save :set_previous_score
   before_save :set_assessment_completed, unless: :completed?
-  after_commit :flash_cache
+  after_save :flash_cache, on: :create
+  after_save :flash_cache, on: :update
+  after_save :flash_cache, on: :destroy
 
   accepts_nested_attributes_for :assessment_domains
 
@@ -186,6 +188,7 @@ class Assessment < ActiveRecord::Base
 
   def flash_cache
     user_id = User.current_user.id
+
     Rails.cache.delete([Apartment::Tenant.current, 'User', user_id, 'assessment_either_overdue_or_due_today']) if user_id
     Rails.cache.delete([Apartment::Tenant.current, parent.class.name, 'cached_client_sql_assessment_custom_completed_date', parent.id])
   end

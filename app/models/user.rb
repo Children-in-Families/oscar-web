@@ -188,20 +188,20 @@ class User < ActiveRecord::Base
   def assessment_due_today(eligible_clients, setting)
     due_today_assessments = []
     overdue_assessments = []
-    Rails.cache.fetch([Apartment::Tenant.current, self.class.name, id, 'assessment_either_overdue_or_due_today']) do
-      overdue_sql = build_client_assessment_query(setting, 'less_than')
-      overdue_assessments = eligible_clients.find_by_sql(overdue_sql).to_a
+    # Rails.cache.fetch([Apartment::Tenant.current, self.class.name, id, 'assessment_either_overdue_or_due_today']) do
+    overdue_sql = build_client_assessment_query(setting, 'less_than')
+    overdue_assessments = eligible_clients.find_by_sql(overdue_sql).to_a
 
-      due_today_sql = build_client_assessment_query(setting, 'equal_to')
-      due_today_assessments = eligible_clients.find_by_sql(due_today_sql).to_a
+    due_today_sql = build_client_assessment_query(setting, 'equal_to')
+    due_today_assessments = eligible_clients.find_by_sql(due_today_sql).to_a
 
-      {
-        overdue_count: overdue_assessments.count,
-        overdue_assessment: overdue_assessments,
-        due_today: due_today_assessments.count,
-        due_today_assessment_date: []
-      }
-    end
+    {
+      overdue_count: overdue_assessments.count,
+      overdue_assessment: overdue_assessments,
+      due_today: due_today_assessments.count,
+      due_today_assessment_date: []
+    }
+    # end
   end
 
   def custom_assessment_due
@@ -399,15 +399,16 @@ class User < ActiveRecord::Base
   end
 
   def fetch_notification
-    if admin? || strategic_overviewer?
-      Rails.cache.fetch([Apartment::Tenant.current, 'notifications', 'admin-strategic-overviewer']) do
-        collect_user_data_notification
-      end
-    else
-      Rails.cache.fetch([Apartment::Tenant.current, 'notifications', 'user', id]) do
-        collect_user_data_notification
-      end
-    end
+    # if admin? || strategic_overviewer?
+    #   Rails.cache.fetch([Apartment::Tenant.current, 'notifications', 'admin-strategic-overviewer']) do
+    #     collect_user_data_notification
+    #   end
+    # else
+    #   Rails.cache.fetch([Apartment::Tenant.current, 'notifications', 'user', id]) do
+    #     collect_user_data_notification
+    #   end
+    # end
+    collect_user_data_notification
   end
 
   private
@@ -462,7 +463,7 @@ class User < ActiveRecord::Base
       MAX(a.created_at) AS last_assessment_date
       FROM clients c
       LEFT JOIN assessments a ON c.id = a.client_id
-      WHERE #{custom_setting.custom_assessment_frequency == 'unlimited' ? "DATE(a.created_at) #{comparison_mapping[comparison]} CURRENT_DATE" : "DATE(a.created_at + interval #{custom_setting.max_custom_assessment} #{custom_setting.custom_assessment_frequency}) #{comparison_mapping[comparison]} CURRENT_DATE"}
+      WHERE #{custom_setting.custom_assessment_frequency == 'unlimited' ? "DATE(a.created_at) #{comparison_mapping[comparison]} CURRENT_DATE" : "DATE(a.created_at + interval '#{custom_setting.max_custom_assessment} #{custom_setting.custom_assessment_frequency}') #{comparison_mapping[comparison]} CURRENT_DATE"}
       AND custom_assessment_setting_id = #{custom_setting.id}
       AND a.default = false
       GROUP BY c.id, c.slug;
