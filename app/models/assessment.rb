@@ -195,6 +195,6 @@ class Assessment < ActiveRecord::Base
     user_id = User.current_user.id
 
     Rails.cache.delete([Apartment::Tenant.current, 'User', user_id, 'assessment_either_overdue_or_due_today']) if user_id
-    Rails.cache.delete([Apartment::Tenant.current, parent.class.name, 'cached_client_sql_assessment_custom_completed_date', parent.id])
+    Rails.cache.fetch([Apartment::Tenant.current, parent.class.name, 'cached_client_sql_assessment_custom_completed_date', parent.id]) if parent
   end
 end
