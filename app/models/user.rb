@@ -186,10 +186,9 @@ class User < ActiveRecord::Base
   end
 
   def assessment_due_today(eligible_clients, setting)
-    due_today_assessments = []
-    overdue_assessments = []
     # Rails.cache.fetch([Apartment::Tenant.current, self.class.name, id, 'assessment_either_overdue_or_due_today']) do
     overdue_sql = build_client_assessment_query(setting, 'less_than')
+
     overdue_assessments = eligible_clients.find_by_sql(overdue_sql).to_a
 
     due_today_sql = build_client_assessment_query(setting, 'equal_to')
@@ -278,17 +277,41 @@ class User < ActiveRecord::Base
     overdue = []
     due_today = []
 
-    if deactivated_at.nil?
-      ngo_clients.active_accepted_status.includes(:case_notes).each do |client|
-        next unless client.case_notes.any?
+    setting = Setting.first
+    max_case_note = setting.try(:max_case_note) || 30
+    case_note_frequency = setting.try(:case_note_frequency) || 'day'
 
-        client_next_case_note_date = client.next_case_note_date.to_date
-        if client_next_case_note_date < Date.today
-          overdue << client
-        elsif client_next_case_note_date == Date.today
-          due_today << client
-        end
-      end
+    overdue_sql = <<~SQL
+      SELECT c.id, c.slug, TRIM(CONCAT(CONCAT(c.given_name, ' ', c.family_name), ' ', CONCAT(c.local_family_name, ' ', c.local_given_name))) as client_name,
+      MAX(cn.meeting_date) AS last_meeting_date
+      FROM clients c
+      INNER JOIN case_notes cn ON c.id = cn.client_id
+      WHERE cn.meeting_date = (
+          SELECT MAX(meeting_date)
+          FROM case_notes cn2
+          WHERE cn2.client_id = cn.client_id
+      )
+      AND DATE(cn.meeting_date + interval '#{max_case_note}' #{case_note_frequency}) < CURRENT_DATE
+      GROUP BY c.id, c.slug;
+    SQL
+
+    due_today_sql = <<~SQL
+      SELECT c.id, c.slug, TRIM(CONCAT(CONCAT(c.given_name, ' ', c.family_name), ' ', CONCAT(c.local_family_name, ' ', c.local_given_name))) as client_name,
+      MAX(cn.meeting_date) AS last_meeting_date
+      FROM clients c
+      INNER JOIN case_notes cn ON c.id = cn.client_id
+      WHERE cn.meeting_date = (
+          SELECT MAX(meeting_date)
+          FROM case_notes cn2
+          WHERE cn2.client_id = cn.client_id
+      )
+      AND DATE(cn.meeting_date + interval '#{max_case_note}' #{case_note_frequency}) = CURRENT_DATE
+      GROUP BY c.id, c.slug;
+    SQL
+
+    if deactivated_at.nil?
+      overdue = ngo_clients.active_accepted_status.find_by_sql(overdue_sql)
+      due_today = ngo_clients.active_accepted_status.find_by_sql(due_today_sql)
     else
       ngo_clients.active_accepted_status.includes(:case_notes).each do |client|
         next unless client.case_notes.any?
@@ -446,27 +469,44 @@ class User < ActiveRecord::Base
   def build_client_assessment_query(setting, comparison = 'equal_to')
     comparison_mapping = { 'less_than' => '<', 'equal_to' => '=' }
     <<~SQL
-      SELECT c.id, c.slug, TRIM(CONCAT(CONCAT(c.given_name, ' ', c.family_name), ' ', CONCAT(c.local_family_name, ' ', c.local_given_name))) as client_name,
-      MAX(a.created_at) AS last_assessment_date
+      SELECT
+        c.id,
+        c.slug,
+        TRIM(CONCAT(CONCAT(c.given_name, ' ', c.family_name), ' ', CONCAT(c.local_family_name, ' ', c.local_given_name))) as client_name,
+        MAX(a.created_at) AS last_assessment_date
       FROM clients c
-      LEFT JOIN assessments a ON c.id = a.client_id
-      WHERE DATE(a.created_at + interval '#{setting.max_assessment} #{setting.assessment_frequency}') #{comparison_mapping[comparison]} CURRENT_DATE
+      INNER JOIN assessments a ON c.id = a.client_id
+      WHERE a.created_at = (
+        SELECT MAX(created_at)
+        FROM assessments a2
+        WHERE a2.client_id = a.client_id
+      )
+      AND (a.created_at + INTERVAL '#{setting.max_assessment} #{setting.assessment_frequency}') #{comparison_mapping[comparison]} CURRENT_DATE
       AND a.default = true
-      GROUP BY c.id, c.slug;
+      AND a.draft = false
+      GROUP BY c.id, a.created_at;
     SQL
   end
 
   def build_client_custom_assessment_query(custom_setting, comparison = 'equal_to')
     comparison_mapping = { 'less_than' => '<', 'equal_to' => '=' }
     <<~SQL
-      SELECT c.id, c.slug, TRIM(CONCAT(CONCAT(c.given_name, ' ', c.family_name), ' ', CONCAT(c.local_family_name, ' ', c.local_given_name))) as client_name,
-      MAX(a.created_at) AS last_assessment_date
+      SELECT
+        c.id,
+        c.slug,
+        TRIM(CONCAT(CONCAT(c.given_name, ' ', c.family_name), ' ', CONCAT(c.local_family_name, ' ', c.local_given_name))) as client_name,
+        MAX(a.created_at) AS last_assessment_date
       FROM clients c
-      LEFT JOIN assessments a ON c.id = a.client_id
-      WHERE #{custom_setting.custom_assessment_frequency == 'unlimited' ? "DATE(a.created_at) #{comparison_mapping[comparison]} CURRENT_DATE" : "DATE(a.created_at + interval '#{custom_setting.max_custom_assessment} #{custom_setting.custom_assessment_frequency}') #{comparison_mapping[comparison]} CURRENT_DATE"}
-      AND custom_assessment_setting_id = #{custom_setting.id}
+      INNER JOIN assessments a ON c.id = a.client_id
+      WHERE a.created_at = (
+          SELECT MAX(created_at)
+          FROM assessments a2
+          WHERE a2.client_id = a.client_id AND a.custom_assessment_setting_id = #{custom_setting.id}
+      )
+      AND #{custom_setting.custom_assessment_frequency == 'unlimited' ? "DATE(a.created_at) #{comparison_mapping[comparison]} CURRENT_DATE" : "DATE(a.created_at + interval '#{custom_setting.max_custom_assessment} #{custom_setting.custom_assessment_frequency}') #{comparison_mapping[comparison]} CURRENT_DATE"}
       AND a.default = false
-      GROUP BY c.id, c.slug;
+      AND a.draft = false
+      GROUP BY c.id, a.created_at;
     SQL
   end
 

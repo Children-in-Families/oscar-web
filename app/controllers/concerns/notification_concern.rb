@@ -109,8 +109,13 @@ module NotificationConcern
       SELECT c.id, c.slug, TRIM(CONCAT(CONCAT(c.given_name, ' ', c.family_name), ' ', CONCAT(c.local_family_name, ' ', c.local_given_name))) as client_name,
       MAX(cn.meeting_date) AS last_meeting_date
       FROM clients c
-      LEFT JOIN case_notes cn ON c.id = cn.client_id
-      WHERE DATE(cn.meeting_date + interval '#{max_case_note}' #{case_note_frequency}) < CURRENT_DATE
+      INNER JOIN case_notes cn ON c.id = cn.client_id
+      WHERE cn.meeting_date = (
+          SELECT MAX(meeting_date)
+          FROM case_notes cn2
+          WHERE cn2.client_id = cn.client_id
+      )
+      AND DATE(cn.meeting_date + interval '#{max_case_note}' #{case_note_frequency}) < CURRENT_DATE
       GROUP BY c.id, c.slug;
     SQL
 
@@ -128,13 +133,21 @@ module NotificationConcern
   def mapping_notify_assessment
     setting = Setting.first
     sql = <<~SQL
-      SELECT c.id, c.slug, TRIM(CONCAT(CONCAT(c.given_name, ' ', c.family_name), ' ', CONCAT(c.local_family_name, ' ', c.local_given_name))) as client_name,
-      MAX(a.created_at) AS last_assessment_date
+      SELECT c.id,
+        c.slug,
+        TRIM(CONCAT(CONCAT(c.given_name, ' ', c.family_name), ' ', CONCAT(c.local_family_name, ' ', c.local_given_name))) as client_name,
+        MAX(a.created_at) AS last_assessment_date
       FROM clients c
-      LEFT JOIN assessments a ON c.id = a.client_id
-      WHERE DATE(a.created_at + interval '#{setting.max_assessment} #{setting.assessment_frequency}') < CURRENT_DATE
+      INNER JOIN assessments a ON c.id = a.client_id
+      WHERE a.created_at = (
+          SELECT MAX(created_at)
+          FROM assessments a2
+          WHERE a2.client_id = a.client_id
+      )
+      AND (a.created_at + INTERVAL '#{setting.max_assessment} #{setting.assessment_frequency}') < CURRENT_DATE
       AND a.default = true
-      GROUP BY c.id, c.slug;
+      AND a.draft = false
+      GROUP BY c.id, a.created_at;
     SQL
 
     Client.accessible_by(current_ability).active_accepted_status.where('(EXTRACT(year FROM age(current_date, coalesce(clients.date_of_birth, CURRENT_DATE))) :: int) < ?', setting&.age || 18)
@@ -145,14 +158,22 @@ module NotificationConcern
   def mapping_notify_custom_assessment
     CustomAssessmentSetting.only_enable_custom_assessment.map do |custom_setting|
       sql = <<~SQL
-        SELECT c.id, c.slug, TRIM(CONCAT(CONCAT(c.given_name, ' ', c.family_name), ' ', CONCAT(c.local_family_name, ' ', c.local_given_name))) as client_name,
-        MAX(a.created_at) AS last_assessment_date
+        SELECT
+          c.id,
+          c.slug,
+          TRIM(CONCAT(CONCAT(c.given_name, ' ', c.family_name), ' ', CONCAT(c.local_family_name, ' ', c.local_given_name))) as client_name,
+          MAX(a.created_at) AS last_assessment_date
         FROM clients c
-        LEFT JOIN assessments a ON c.id = a.client_id
-        WHERE #{custom_setting.custom_assessment_frequency == 'unlimited' ? 'DATE(a.created_at) < CURRENT_DATE' : "DATE(a.created_at + interval '#{custom_setting.max_custom_assessment} #{custom_setting.custom_assessment_frequency}') < CURRENT_DATE"}
-        AND custom_assessment_setting_id = #{custom_setting.id}
+        INNER JOIN assessments a ON c.id = a.client_id
+        WHERE a.created_at = (
+            SELECT MAX(created_at)
+            FROM assessments a2
+            WHERE a2.client_id = a.client_id AND a.custom_assessment_setting_id = #{custom_setting.id}
+        )
+        AND #{custom_setting.custom_assessment_frequency == 'unlimited' ? 'DATE(a.created_at) < CURRENT_DATE' : "DATE(a.created_at + interval '#{custom_setting.max_custom_assessment} #{custom_setting.custom_assessment_frequency}') < CURRENT_DATE"}
         AND a.default = false
-        GROUP BY c.id, c.slug;
+        AND a.draft = false
+        GROUP BY c.id, a.created_at;
       SQL
 
       custom_assessments = Client.accessible_by(current_ability)
