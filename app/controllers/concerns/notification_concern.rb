@@ -125,7 +125,7 @@ module NotificationConcern
   end
 
   def mapping_notify_task
-    current_user.tasks.overdue_incomplete.exclude_exited_ngo_clients.joins(:client).select(
+    current_user.tasks.overdue_incomplete.where(client_id: Client.accessible_by(current_ability).active_accepted_status.ids).select(
       :id, :name, :expected_date, 'clients.slug as client_slug',
       "TRIM(CONCAT(CONCAT(clients.given_name, ' ', clients.family_name), ' ', CONCAT(clients.local_family_name, ' ', clients.local_given_name))) as client_name"
     ).to_a.group_by { |task| [task.client_slug, task.client_name] }
