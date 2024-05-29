@@ -186,12 +186,12 @@ class User < ActiveRecord::Base
   end
 
   def assessment_due_today(eligible_clients, setting)
-    # Rails.cache.fetch([Apartment::Tenant.current, self.class.name, id, 'assessment_either_overdue_or_due_today']) do
-    overdue_sql = build_client_assessment_query(setting, 'less_than')
+    client_ids = eligible_clients.ids
 
+    overdue_sql = build_client_assessment_query(client_ids, setting, 'less_than')
     overdue_assessments = eligible_clients.find_by_sql(overdue_sql).to_a
 
-    due_today_sql = build_client_assessment_query(setting, 'equal_to')
+    due_today_sql = build_client_assessment_query(client_ids, setting, 'equal_to')
     due_today_assessments = eligible_clients.find_by_sql(due_today_sql).to_a
 
     {
@@ -209,11 +209,12 @@ class User < ActiveRecord::Base
     custom_assessment_overdue = []
     CustomAssessmentSetting.only_enable_custom_assessment.map do |custom_setting|
       eligible_clients = user_clients.active_accepted_status.where('(EXTRACT(year FROM age(current_date, coalesce(clients.date_of_birth, CURRENT_DATE))) :: int) < ?', custom_setting.custom_age || 18)
+      client_ids = eligible_clients.ids
 
-      over_due_sql = build_client_custom_assessment_query(custom_setting, 'less_than')
+      over_due_sql = build_client_custom_assessment_query(client_ids, custom_setting, 'less_than')
       custom_assessment_overdue << eligible_clients.find_by_sql(over_due_sql).to_a
 
-      due_today_sql = build_client_custom_assessment_query(custom_setting, 'equal_to')
+      due_today_sql = build_client_custom_assessment_query(client_ids, custom_setting, 'equal_to')
       custom_assessment_due_today << eligible_clients.find_by_sql(due_today_sql).to_a
     end
 
@@ -280,6 +281,7 @@ class User < ActiveRecord::Base
     setting = Setting.first
     max_case_note = setting.try(:max_case_note) || 30
     case_note_frequency = setting.try(:case_note_frequency) || 'day'
+    client_ids = ngo_clients.active_accepted_status.ids
 
     overdue_sql = <<~SQL
       SELECT c.id, c.slug, TRIM(CONCAT(CONCAT(c.given_name, ' ', c.family_name), ' ', CONCAT(c.local_family_name, ' ', c.local_given_name))) as client_name,
@@ -291,6 +293,7 @@ class User < ActiveRecord::Base
           FROM case_notes cn2
           WHERE cn2.client_id = cn.client_id
       )
+      AND c.id IN (#{client_ids.join(', ')})
       AND DATE(cn.meeting_date + interval '#{max_case_note}' #{case_note_frequency}) < CURRENT_DATE
       GROUP BY c.id, c.slug;
     SQL
@@ -305,13 +308,14 @@ class User < ActiveRecord::Base
           FROM case_notes cn2
           WHERE cn2.client_id = cn.client_id
       )
+      AND c.id IN (#{client_ids.join(', ')})
       AND DATE(cn.meeting_date + interval '#{max_case_note}' #{case_note_frequency}) = CURRENT_DATE
       GROUP BY c.id, c.slug;
     SQL
 
     if deactivated_at.nil?
-      overdue = ngo_clients.active_accepted_status.find_by_sql(overdue_sql)
-      due_today = ngo_clients.active_accepted_status.find_by_sql(due_today_sql)
+      overdue = Client.find_by_sql(overdue_sql)
+      due_today = Client.find_by_sql(due_today_sql)
     else
       ngo_clients.active_accepted_status.includes(:case_notes).each do |client|
         next unless client.case_notes.any?
@@ -449,7 +453,7 @@ class User < ActiveRecord::Base
     Client.where(id: client_ids, status: 'Exited').ids
   end
 
-  def build_client_assessment_query(setting, comparison = 'equal_to')
+  def build_client_assessment_query(client_ids, setting, comparison = 'equal_to')
     comparison_mapping = { 'less_than' => '<', 'equal_to' => '=' }
     <<~SQL
       SELECT
@@ -464,6 +468,7 @@ class User < ActiveRecord::Base
         FROM assessments a2
         WHERE a2.client_id = a.client_id
       )
+      AND c.id IN (#{client_ids.join(', ')})
       AND (a.created_at + INTERVAL '#{setting.max_assessment} #{setting.assessment_frequency}') #{comparison_mapping[comparison]} CURRENT_DATE
       AND a.default = true
       AND a.draft = false
@@ -471,7 +476,7 @@ class User < ActiveRecord::Base
     SQL
   end
 
-  def build_client_custom_assessment_query(custom_setting, comparison = 'equal_to')
+  def build_client_custom_assessment_query(client_ids, custom_setting, comparison = 'equal_to')
     comparison_mapping = { 'less_than' => '<', 'equal_to' => '=' }
     <<~SQL
       SELECT
@@ -486,6 +491,7 @@ class User < ActiveRecord::Base
           FROM assessments a2
           WHERE a2.client_id = a.client_id AND a.custom_assessment_setting_id = #{custom_setting.id}
       )
+      AND c.id IN (#{client_ids.join(', ')})
       AND #{custom_setting.custom_assessment_frequency == 'unlimited' ? "DATE(a.created_at) #{comparison_mapping[comparison]} CURRENT_DATE" : "DATE(a.created_at + interval '#{custom_setting.max_custom_assessment} #{custom_setting.custom_assessment_frequency}') #{comparison_mapping[comparison]} CURRENT_DATE"}
       AND a.default = false
       AND a.draft = false

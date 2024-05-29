@@ -104,6 +104,7 @@ module NotificationConcern
     setting = Setting.first
     max_case_note = setting.try(:max_case_note) || 30
     case_note_frequency = setting.try(:case_note_frequency) || 'day'
+    client_ids = Client.accessible_by(current_ability).active_accepted_status.ids
 
     sql = <<~SQL
       SELECT c.id, c.slug, TRIM(CONCAT(CONCAT(c.given_name, ' ', c.family_name), ' ', CONCAT(c.local_family_name, ' ', c.local_given_name))) as client_name,
@@ -115,12 +116,12 @@ module NotificationConcern
           FROM case_notes cn2
           WHERE cn2.client_id = cn.client_id
       )
+      AND c.id IN (#{client_ids.join(', ')})
       AND DATE(cn.meeting_date + interval '#{max_case_note}' #{case_note_frequency}) < CURRENT_DATE
       GROUP BY c.id, c.slug;
     SQL
 
-    Client.accessible_by(current_ability).active_accepted_status
-          .find_by_sql(sql)
+    Client.find_by_sql(sql)
   end
 
   def mapping_notify_task
@@ -132,6 +133,8 @@ module NotificationConcern
 
   def mapping_notify_assessment
     setting = Setting.first
+    client_ids = Client.accessible_by(current_ability).active_accepted_status.where('(EXTRACT(year FROM age(current_date, coalesce(clients.date_of_birth, CURRENT_DATE))) :: int) < ?', setting&.age || 18).ids
+
     sql = <<~SQL
       SELECT c.id,
         c.slug,
@@ -144,14 +147,14 @@ module NotificationConcern
           FROM assessments a2
           WHERE a2.client_id = a.client_id
       )
+      AND c.id IN (#{client_ids.join(', ')})
       AND (a.created_at + INTERVAL '#{setting.max_assessment} #{setting.assessment_frequency}') < CURRENT_DATE
       AND a.default = true
       AND a.draft = false
       GROUP BY c.id, a.created_at;
     SQL
 
-    Client.accessible_by(current_ability).active_accepted_status.where('(EXTRACT(year FROM age(current_date, coalesce(clients.date_of_birth, CURRENT_DATE))) :: int) < ?', setting&.age || 18)
-          .find_by_sql(sql)
+    Client.find_by_sql(sql)
           .to_a
   end
 
