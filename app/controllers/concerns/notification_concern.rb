@@ -121,11 +121,11 @@ module NotificationConcern
       GROUP BY c.id, c.slug;
     SQL
 
-    Client.find_by_sql(sql)
+    fetch_client_by_sql(client_ids, sql)
   end
 
   def mapping_notify_task
-    current_user.tasks.overdue_incomplete.where(client_id: Client.accessible_by(current_ability).active_accepted_status.ids).select(
+    current_user.tasks.joins(:client).overdue_incomplete.where(client_id: Client.accessible_by(current_ability).active_accepted_status.ids).select(
       :id, :name, :expected_date, 'clients.slug as client_slug',
       "TRIM(CONCAT(CONCAT(clients.given_name, ' ', clients.family_name), ' ', CONCAT(clients.local_family_name, ' ', clients.local_given_name))) as client_name"
     ).to_a.group_by { |task| [task.client_slug, task.client_name] }
@@ -154,11 +154,11 @@ module NotificationConcern
       GROUP BY c.id, a.created_at;
     SQL
 
-    Client.find_by_sql(sql)
-          .to_a
+    fetch_client_by_sql(client_ids, sql)
   end
 
   def mapping_notify_custom_assessment
+    client_ids = Client.accessible_by(current_ability).active_accepted_status.where('(EXTRACT(year FROM age(current_date, coalesce(clients.date_of_birth, CURRENT_DATE))) :: int) < ?', custom_setting&.custom_age || 18).ids
     CustomAssessmentSetting.only_enable_custom_assessment.map do |custom_setting|
       sql = <<~SQL
         SELECT
@@ -173,16 +173,14 @@ module NotificationConcern
             FROM assessments a2
             WHERE a2.client_id = a.client_id AND a.custom_assessment_setting_id = #{custom_setting.id}
         )
+        AND c.id IN (#{client_ids.join(', ')})
         AND #{custom_setting.custom_assessment_frequency == 'unlimited' ? 'DATE(a.created_at) < CURRENT_DATE' : "DATE(a.created_at + interval '#{custom_setting.max_custom_assessment} #{custom_setting.custom_assessment_frequency}') < CURRENT_DATE"}
         AND a.default = false
         AND a.draft = false
         GROUP BY c.id, a.created_at;
       SQL
 
-      custom_assessments = Client.accessible_by(current_ability)
-                                 .active_accepted_status.where('(EXTRACT(year FROM age(current_date, coalesce(clients.date_of_birth, CURRENT_DATE))) :: int) < ?', custom_setting&.custom_age || 18)
-                                 .find_by_sql(sql)
-                                 .to_a
+      custom_assessments = fetch_client_by_sql(client_ids, sql)
 
       [custom_setting.custom_assessment_name, custom_assessments]
     end
@@ -208,5 +206,9 @@ module NotificationConcern
                                                                 .distinct.to_a
 
     client_custom_form_notifications.group_by { |form| [form.client_slug, form.client_name] }
+  end
+
+  def fetch_client_by_sql(client_ids, sql)
+    client_ids.any? ? Client.find_by_sql(sql).to_a : Client.none
   end
 end
