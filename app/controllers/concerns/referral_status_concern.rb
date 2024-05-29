@@ -7,7 +7,7 @@ module ReferralStatusConcern
     private
 
     def update_entity_referral_status
-      referral = client.referrals.unsaved.last
+      referral = client.referrals.last
       return unless referral
 
       ngo_short_name = referral.referred_from
