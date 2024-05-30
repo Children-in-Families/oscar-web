@@ -191,7 +191,7 @@
                 %i.fa.fa-tasks.fa-fw.task-sign
               .col-xs-11.new_referral_client
                 = t('.new_referral_client', count: @notification.dig(:get_referrals, :new_count))
-      %li.divider
+
     - if !@notification.dig(:get_referrals, :repeated_count).zero? && current_user.referral_notification
       %li
         %div.align-link

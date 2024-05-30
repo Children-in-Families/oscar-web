@@ -427,16 +427,15 @@ class User < ActiveRecord::Base
   end
 
   def fetch_notification
-    # if admin? || strategic_overviewer?
-    #   Rails.cache.fetch([Apartment::Tenant.current, 'notifications', 'admin-strategic-overviewer']) do
-    #     collect_user_data_notification
-    #   end
-    # else
-    #   Rails.cache.fetch([Apartment::Tenant.current, 'notifications', 'user', id]) do
-    #     collect_user_data_notification
-    #   end
-    # end
-    collect_user_data_notification
+    if admin? || strategic_overviewer?
+      Rails.cache.fetch([Apartment::Tenant.current, 'notifications', 'admin-strategic-overviewer']) do
+        collect_user_data_notification
+      end
+    else
+      Rails.cache.fetch([Apartment::Tenant.current, 'notifications', 'user', id]) do
+        collect_user_data_notification
+      end
+    end
   end
 
   private

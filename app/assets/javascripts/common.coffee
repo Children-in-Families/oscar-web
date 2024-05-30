@@ -22,6 +22,7 @@ CIF.Common =
       if $('.lazy-load-notification').length > 0
         $.ajax(type: 'GET', url: '/dashboards/notification').done(->
           CIF.Common.handleNotificationOnClick()
+          $('#notification-spinner').hide();
           return
         ).fail (p1, p2, p3) ->
           console.log(p1, p2, p3)

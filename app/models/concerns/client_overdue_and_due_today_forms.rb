@@ -12,6 +12,7 @@ module ClientOverdueAndDueTodayForms
       custom_field_ids = user.custom_field_permissions.where(editable: false).pluck(:custom_field_id)
       editable_clients = clients.where.not(id: CustomFieldProperty.where(custom_formable_type: 'Client', custom_field_id: custom_field_ids).select(:custom_formable_id))
     end
+
     eligible_clients = active_young_clients(editable_clients, @setting)
     eligible_clients.joins(:custom_fields).each do |client|
       custom_fields = client.custom_fields.where.not(frequency: '')
