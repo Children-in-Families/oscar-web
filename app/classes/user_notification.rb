@@ -54,9 +54,9 @@ class UserNotification
 
   def overdue_tasks_count
     if @user.deactivated_at.nil?
-      @user.tasks.overdue_incomplete.where(client_id: @clients.ids).size
+      @user.tasks.joins(:client).overdue_incomplete.where(client_id: @clients.active_accepted_status.ids).size
     else
-      @user.tasks.where('tasks.created_at > ?', @user.activated_at).overdue_incomplete.where(client_id: @clients.ids).size
+      @user.tasks.joins(:client).where('tasks.created_at > ?', @user.activated_at).overdue_incomplete.where(client_id: @clients.active_accepted_status.ids).size
     end
   end
 

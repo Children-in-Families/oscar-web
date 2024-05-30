@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   include NextClientEnrollmentTracking
   include ClientOverdueAndDueTodayForms
   include NotificationMappingConcern
+  include NotificationConcern
   include CsiConcern
   include CacheAll
 
@@ -189,10 +190,10 @@ class User < ActiveRecord::Base
     client_ids = eligible_clients.ids
 
     overdue_sql = build_client_assessment_query(client_ids, setting, 'less_than')
-    overdue_assessments = eligible_clients.find_by_sql(overdue_sql).to_a
+    overdue_assessments = fetch_client_by_sql(client_ids, overdue_sql)
 
     due_today_sql = build_client_assessment_query(client_ids, setting, 'equal_to')
-    due_today_assessments = eligible_clients.find_by_sql(due_today_sql).to_a
+    due_today_assessments = fetch_client_by_sql(client_ids, due_today_sql)
 
     {
       overdue_count: overdue_assessments.count,
@@ -212,10 +213,10 @@ class User < ActiveRecord::Base
       client_ids = eligible_clients.ids
 
       over_due_sql = build_client_custom_assessment_query(client_ids, custom_setting, 'less_than')
-      custom_assessment_overdue << eligible_clients.find_by_sql(over_due_sql).to_a
+      custom_assessment_overdue << fetch_client_by_sql(client_ids, over_due_sql)
 
       due_today_sql = build_client_custom_assessment_query(client_ids, custom_setting, 'equal_to')
-      custom_assessment_due_today << eligible_clients.find_by_sql(due_today_sql).to_a
+      custom_assessment_due_today << fetch_client_by_sql(client_ids, due_today_sql)
     end
 
     {
@@ -314,8 +315,8 @@ class User < ActiveRecord::Base
     SQL
 
     if deactivated_at.nil?
-      overdue = Client.find_by_sql(overdue_sql)
-      due_today = Client.find_by_sql(due_today_sql)
+      overdue = fetch_client_by_sql(client_ids, overdue_sql)
+      due_today = fetch_client_by_sql(client_ids, due_today_sql)
     else
       ngo_clients.active_accepted_status.includes(:case_notes).each do |client|
         next unless client.case_notes.any?
@@ -409,16 +410,15 @@ class User < ActiveRecord::Base
   end
 
   def fetch_notification
-    # if admin? || strategic_overviewer?
-    #   Rails.cache.fetch([Apartment::Tenant.current, 'notifications', 'admin-strategic-overviewer']) do
-    #     collect_user_data_notification
-    #   end
-    # else
-    #   Rails.cache.fetch([Apartment::Tenant.current, 'notifications', 'user', id]) do
-    #     collect_user_data_notification
-    #   end
-    # end
-    collect_user_data_notification
+    if admin? || strategic_overviewer?
+      Rails.cache.fetch([Apartment::Tenant.current, 'notifications', 'admin-strategic-overviewer']) do
+        collect_user_data_notification
+      end
+    else
+      Rails.cache.fetch([Apartment::Tenant.current, 'notifications', 'user', id]) do
+        collect_user_data_notification
+      end
+    end
   end
 
   private
