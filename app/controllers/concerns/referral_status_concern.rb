@@ -11,12 +11,12 @@ module ReferralStatusConcern
       return unless referral
 
       ngo_short_name = referral.referred_from
-      return if referral.non_oscar_ngo? || client.client_enrollments.any?
 
+      sql = " AND (SELECT COUNT(*) from #{ngo_short_name}.referrals WHERE slug = '#{referral.slug}' AND referred_to = '#{Apartment::Tenant.current}') <= 1"
       if instance_of?(::ExitNgo)
-        ActiveRecord::Base.connection.execute("UPDATE #{ngo_short_name}.referrals SET referral_status = 'Exited' WHERE id = #{referral.referred_from_uid}")
+        ActiveRecord::Base.connection.execute("UPDATE #{ngo_short_name}.referrals SET referral_status = 'Exited' WHERE id = #{referral.referred_from_uid} #{sql}")
       else
-        ActiveRecord::Base.connection.execute("UPDATE #{ngo_short_name}.referrals SET referral_status = 'Accepted' WHERE id = #{referral.referred_from_uid}")
+        ActiveRecord::Base.connection.execute("UPDATE #{ngo_short_name}.referrals SET referral_status = 'Accepted' WHERE id = #{referral.referred_from_uid} #{sql}")
       end
     end
   end
