@@ -5,9 +5,9 @@ class EmailReferralClientWorker
   def perform(referral_from, referral_to, archived_slug)
     Organization.switch_to referral_to
     existed = Client.exists?(archived_slug: archived_slug)
-    admins = User.admins.non_locked.notify_email.referral_notification_email
-    managers = User.managers.non_locked.notify_email.referral_notification_email
-    ReferralClientMailer.send_to(admins, referral_from, referral_to, 'Admins', existed).deliver_now if admins.present?
-    ReferralClientMailer.send_to(managers, referral_from, referral_to, 'Managers', existed).deliver_now if managers.present?
+    admin_emails = User.admins.non_locked.notify_email.referral_notification_email.pluck(:email)
+    manager_emails = User.managers.non_locked.notify_email.referral_notification_email.pluck(:email)
+    ReferralClientMailer.send_to(admin_emails, referral_from, referral_to, 'Admins', existed).deliver_now if admin_emails.any?
+    ReferralClientMailer.send_to(manager_emails, referral_from, referral_to, 'Managers', existed).deliver_now if manager_emails.any?
   end
 end
