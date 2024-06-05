@@ -2,6 +2,7 @@ class Enrollment < ActiveRecord::Base
   include EntityRetouch
   include NestedAttributesConcern
   include ClientEnrollmentTrackingConcern
+  include ClearanceCustomFormConcern
 
   acts_as_paranoid without_default_scope: true
 

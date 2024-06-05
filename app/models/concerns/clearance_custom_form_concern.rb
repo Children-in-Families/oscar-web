@@ -1,4 +1,4 @@
-module ClearanceOverdueConcern
+module ClearanceCustomFormConcern
   extend ActiveSupport::Concern
 
   included do
@@ -14,9 +14,9 @@ module ClearanceOverdueConcern
     user = User.current_user
 
     if user.admin? || user.strategic_overviewer?
-      Rails.cache.delete([try(:referred_to) || Apartment::Tenant.current, 'notifications', 'admin-strategic-overviewer'])
+      Rails.cache.delete([Apartment::Tenant.current, 'notifications', 'overdue_and_due_today_forms'])
     else
-      Rails.cache.delete([try(:referred_to) || Apartment::Tenant.current, 'notifications', 'user', user.id])
+      Rails.cache.delete([Apartment::Tenant.current, 'notifications', 'user', user.id, 'overdue_and_due_today_forms'])
     end
   end
 end
