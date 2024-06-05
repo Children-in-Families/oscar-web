@@ -8,9 +8,9 @@ Rails.application.configure do
   # Rake tasks automatically ignore this option for performance.
   config.eager_load = true
   # Full error reports are disabled and caching is turned on.
-  config.consider_all_requests_local       = false
+  config.consider_all_requests_local = false
   config.action_controller.perform_caching = true
-  config.cache_store = :redis_store, (ENV["REDIS_URL"] || 'redis://localhost:6379/0')
+  config.cache_store = :redis_store, (ENV['REDIS_URL'] || 'redis://localhost:6379/0')
   # Enable Rack::Cache to put a simple HTTP cache in front of your application
   # Add `rack-cache` to your Gemfile before enabling this.
   # For large-scale production use, consider using a caching reverse proxy like
@@ -26,11 +26,11 @@ Rails.application.configure do
   config.assets.compile = false
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   config.action_controller.asset_host = "//#{ENV['S3_BUCKET_NAME']}.s3.amazonaws.com"
-  config.assets.prefix = "/assets"
+  config.assets.prefix = '/assets'
   # Asset digests allow you to set far-future HTTP expiration dates on all assets,
   # yet still be able to expire them through the digest params.
-  config.action_mailer.asset_host = "http://oscarhq-staging.com"
-  config.action_mailer.default_url_options = { host: 'http://oscarhq-staging.com' }
+  config.action_mailer.asset_host = 'http://start.oscarhq-staging.com'
+  config.action_mailer.default_url_options = { host: 'http://start.oscarhq-staging.com' }
   config.assets.digest = true
   config.assets.enabled = true
   config.assets.initialize_on_precompile = true
@@ -40,15 +40,15 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :smtp
 
   config.action_mailer.smtp_settings = {
-    address:               'email-smtp.us-east-1.amazonaws.com',
-    authentication:        :login,
-    user_name:             ENV['AWS_SES_USER_NAME'],
-    password:              ENV['AWS_SES_PASSWORD'],
-    enable_starttls_auto:  true,
-    port:                  465,
-    openssl_verify_mode:   OpenSSL::SSL::VERIFY_NONE,
-    ssl:                   true,
-    tls:                   true
+    address: 'email-smtp.us-east-1.amazonaws.com',
+    authentication: :login,
+    user_name: ENV['AWS_SES_USER_NAME'],
+    password: ENV['AWS_SES_PASSWORD'],
+    enable_starttls_auto: true,
+    port: 465,
+    openssl_verify_mode: OpenSSL::SSL::VERIFY_NONE,
+    ssl: true,
+    tls: true
   }
   # `config.assets.precompile` and `config.assets.version` have moved to config/initializers/assets.rb
   # Specifies the header that your server uses for sending files.
@@ -81,3 +81,5 @@ Rails.application.configure do
   
   config.assets.js_compressor = :terser
 end
+
+Rails.application.routes.default_url_options[:host] = 'https://start.oscarhq-staging.com'

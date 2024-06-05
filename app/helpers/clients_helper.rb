@@ -64,10 +64,11 @@ module ClientsHelper
     end
   end
 
-  def xeditable?(client = nil)
-    return true if client.class.name != 'Client'
+  def xeditable?(object = nil)
+    return true if object.class.name != 'Client'
 
-    (can?(:manage, client&.object) || can?(:edit, client&.object) || can?(:rud, client&.object)) ? true : false
+    client = object.instance_of?(::ClientDecorator) ? object.client : object
+    can?(:manage, client) || can?(:edit, client) || can?(:rud, client) ? true : false
   end
 
   def user(user, editable_input = false)
@@ -113,6 +114,8 @@ module ClientsHelper
 
   def rails_i18n_translations
     # Change slice inputs to adapt your need
+    return {} unless I18n.backend.send(:translations).present?
+
     translations = I18n.backend.send(:translations)[I18n.locale].slice(
       :clients,
       :activerecord,
@@ -622,8 +625,7 @@ module ClientsHelper
     param_values = []
     sql_string = []
     hashes[rule].each do |value|
-      rule.each_key do |key|
-        values = value[key]
+      value.each do |key, values|
         case key
         when 'equal'
           sql_string << "#{association} = ?"

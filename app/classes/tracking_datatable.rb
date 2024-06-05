@@ -1,7 +1,7 @@
 class TrackingDatatable < ApplicationDatatable
   def initialize(view)
     @view = view
-    @fetch_trackings =  fetch_trackings
+    @fetch_trackings = fetch_trackings
   end
 
   def as_json(options = {})
@@ -24,7 +24,7 @@ class TrackingDatatable < ApplicationDatatable
 
   def fetch_trackings
     program_stream_ids = ClientEnrollment.active.pluck(:program_stream_id).uniq
-    Tracking.unscoped.includes(:client_enrollments, :program_stream).where(program_streams: { id: program_stream_ids }).order("lower(#{sort_column}), trackings.id  #{sort_direction}").page(page).per(per_page)
+    Tracking.unscoped.visible.includes(:client_enrollments, :program_stream).where(program_streams: { id: program_stream_ids }).order("lower(#{sort_column}), trackings.id  #{sort_direction}").page(page).per(per_page)
   end
 
   def columns
@@ -32,7 +32,7 @@ class TrackingDatatable < ApplicationDatatable
   end
 
   def column_program_streams
-    @fetch_trackings.map{ |t| [t.program_stream.name, t.name, link_program_stream(t)] }
+    @fetch_trackings.map { |t| [t.program_stream.name, t.name, link_program_stream(t)] }
   end
 
   def link_program_stream(tracking)

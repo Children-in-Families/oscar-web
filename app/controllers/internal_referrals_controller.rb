@@ -14,7 +14,7 @@ class InternalReferralsController < AdminController
   end
 
   def edit
-    authorize  @internal_referral, :edit?
+    authorize @internal_referral, :edit?
   end
 
   def create
@@ -52,15 +52,15 @@ class InternalReferralsController < AdminController
 
   private
 
-    def find_client
-      @client = Client.accessible_by(current_ability).friendly.find(params[:client_id]) if params[:client_id]
-    end
+  def find_client
+    @client = Client.accessible_by(current_ability).friendly.find(params[:client_id]) if params[:client_id]
+  end
 
-    def set_internal_referral
-      @internal_referral = @client.internal_referrals.find(params[:id])
-    end
+  def set_internal_referral
+    @internal_referral = @client.internal_referrals.find(params[:id])
+  end
 
-    def internal_referral_params
-      params.require(:internal_referral).permit(:referral_date, :client_id, :user_id, :client_representing_problem, :emergency_note, :referral_reason, :crisis_management, :referral_decision, attachments: [], program_stream_ids: [])
-    end
+  def internal_referral_params
+    params.require(:internal_referral).permit(:referral_date, :client_id, :user_id, :client_representing_problem, :emergency_note, :referral_reason, :crisis_management, :referral_decision, attachments: [], program_stream_ids: [])
+  end
 end

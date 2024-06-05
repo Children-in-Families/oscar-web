@@ -5,7 +5,7 @@
         %button.close{"aria-label" => "#{t('.close')}", "data-dismiss" => 'modal'}
           %span{"aria-hidden" => 'true'} &times;
         %h4.modal-title
-          = t('.accept_ngo_form')
+          = t('clients.enter_ngo_form.accept_ngo_form')
 
       .modal-body
         = simple_form_for [@client, @client.enter_ngos.build] do |f|

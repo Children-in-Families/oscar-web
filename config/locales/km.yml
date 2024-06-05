@@ -670,6 +670,7 @@ km:
       max_file_size: "*ទំហំឯកសារអតិបរមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកបាន."
       preview_download: មើលនិងទាញយក
     client_name: ឈ្មោះអតិថិជន
+    complete: បានបញ្ចប់
     create:
       successfully_created: ការប៉ាន់ប្រមាណត្រូវបានបង្កើតដោយជោគជ័យ
     destroy:
@@ -695,6 +696,7 @@ km:
       score_label_family: ជ្រើសរើសការពិពណ៌នាខាងក្រោមណាមួយដែលរៀបរាប់យ៉ាងដិតដល់អំពីស្ថានភាពរបស់គ្រួសារដោយផ្អែកលើការសង្កេតរបស់អ្នក។
       set_goal: តើអ្នកចង់កំណត់គោលដៅទេ?
       tasks_arising: កាតព្វកិច្ចកើតឡើង៖
+    incomplete: មិនទាន់បញ្ចប់
     incomplete_detail:
       goal: គោលដៅ
       reason: ការសង្កេត

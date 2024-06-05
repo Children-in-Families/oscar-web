@@ -101,8 +101,10 @@ class Setting < ActiveRecord::Base
   def flush_cache
     Rails.cache.delete([Apartment::Tenant.current, 'current_setting'])
     Rails.cache.delete([Apartment::Tenant.current, 'table_name', 'settings'])
+    custom_setting_name_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}\/.*only_enable_custom_assessment/].blank? }
+    custom_setting_name_keys.each { |key| Rails.cache.delete(key) }
     Rails.cache.delete(['current_organization', Apartment::Tenant.current, Organization.only_deleted.count])
-    assessment_either_overdue_or_due_today_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/assessment_either_overdue_or_due_today/].blank? }
+    assessment_either_overdue_or_due_today_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}\/.*assessment_either_overdue_or_due_today/].blank? }
     assessment_either_overdue_or_due_today_keys.each { |key| Rails.cache.delete(key) }
   end
 end
