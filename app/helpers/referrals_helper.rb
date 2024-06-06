@@ -45,4 +45,28 @@ module ReferralsHelper
   def correct_referral_status(status)
     status == 'Exited' ? 'Rejected' : status
   end
+
+  def find_new_and_existing_referrals(user)
+    referrals = Referral.received.unsaved
+    referrals = referrals.where('created_at > ?', user.activated_at) if user.deactivated_at?
+    slugs = referrals.pluck(:slug).select(&:present?).uniq
+    global_ids = referrals.pluck(:client_global_id).select(&:present?).uniq
+
+    clients = Client.where('slug IN (:slugs) OR archived_slug IN (:slugs) OR global_id IN (:global_ids)', slugs: slugs, global_ids: global_ids)
+
+    existinngs = []
+    news = []
+
+    referrals.each do |referral|
+      client = clients.find { |c| c.slug == referral.slug || c.archived_slug == referral.slug || c.global_id == referral.client_global_id }
+      if client.present?
+        existinngs << referral
+        referral.update_column(:client_id, client.id) unless referral.client_id
+      else
+        news << referral
+      end
+    end
+
+    [existinngs, news]
+  end
 end
