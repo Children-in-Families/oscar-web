@@ -42,6 +42,12 @@ namespace :deploy do
       execute commands.join(' && ')
     end
   end
+
+  task :link_sidekiq_assets do
+    bundle_path = capture "cd #{release_path}; bundle show sidekiq"
+    bundle_path = "#{bundle_path.strip}/web/assets"
+    run "ln -nfs #{bundle_path} #{release_path}/public/sidekiq"
+  end
 end
 
 set :passenger_restart_with_touch, true

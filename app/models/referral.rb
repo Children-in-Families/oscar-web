@@ -1,4 +1,5 @@
 class Referral < ActiveRecord::Base
+  include ClearanceOverdueConcern
   include ClientRetouch
   has_paper_trail
   acts_as_paranoid
