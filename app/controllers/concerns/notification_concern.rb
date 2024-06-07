@@ -1,29 +1,12 @@
 module NotificationConcern
-  def mapping_referrals
-    referrals = Referral.received.unsaved
-    referrals = referrals.where('created_at > ?', current_user.activated_at) if current_user.deactivated_at?
+  include ReferralsHelper
 
-    referrals.where(client_id: nil)
+  def mapping_referrals
+    find_new_and_existing_referrals(current_user).last
   end
 
   def mapping_repeated_referrals
-    referrals = Referral.received.unsaved
-    referrals = referrals.where('created_at > ?', @current_user.activated_at) if current_user.deactivated_at?
-    slugs = referrals.pluck(:slug).select(&:present?).uniq
-    clients = Client.where('slug IN (:slugs) OR archived_slug IN (:slugs)', slugs: slugs)
-    existinngs = []
-
-    referrals.each do |referral|
-      client = clients.find { |c| c.global_id == referral.client_global_id || c.id == referral.client_id }
-      next unless client&.slug
-
-      if client.present?
-        existinngs << referral
-        referral.update_column(:client_id, client.id) unless referral.client_id
-      end
-    end
-
-    existinngs
+    find_new_and_existing_referrals(current_user).first
   end
 
   def mapping_family_referrals

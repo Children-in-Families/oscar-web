@@ -2,6 +2,7 @@ class ClientEnrollment < ActiveRecord::Base
   include ClientRetouch
   include NestedAttributesConcern
   include ClientEnrollmentTrackingConcern
+  include ClearanceCustomFormConcern
 
   acts_as_paranoid
 
