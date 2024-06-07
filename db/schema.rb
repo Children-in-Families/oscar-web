@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20240104041808) do
+ActiveRecord::Schema.define(version: 20240513051054) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
@@ -2307,6 +2307,7 @@ ActiveRecord::Schema.define(version: 20240104041808) do
     t.string 'level_of_risk'
     t.string 'referral_status', default: 'Referred'
     t.datetime 'deleted_at'
+    t.integer 'referred_from_uid'
   end
 
   add_index 'referrals', ['client_global_id'], name: 'index_referrals_on_client_global_id', using: :btree
@@ -2316,6 +2317,7 @@ ActiveRecord::Schema.define(version: 20240104041808) do
   add_index 'referrals', ['external_id'], name: 'index_referrals_on_external_id', using: :btree
   add_index 'referrals', ['mosvy_number'], name: 'index_referrals_on_mosvy_number', using: :btree
   add_index 'referrals', ['referee_id'], name: 'index_referrals_on_referee_id', using: :btree
+  add_index 'referrals', ['referred_from_uid'], name: 'index_referrals_on_referred_from_uid', using: :btree
 
   create_table 'referrals_services', id: false, force: :cascade do |t|
     t.integer 'referral_id'
@@ -3054,7 +3056,7 @@ ActiveRecord::Schema.define(version: 20240104041808) do
   add_foreign_key 'case_conference_users', 'users'
   add_foreign_key 'case_conferences', 'clients'
   add_foreign_key 'case_contracts', 'cases'
-  add_foreign_key 'case_notes', 'clients'
+  add_foreign_key 'case_notes', 'clients', on_delete: :cascade
   add_foreign_key 'case_notes', 'custom_assessment_settings'
   add_foreign_key 'case_worker_communities', 'communities'
   add_foreign_key 'case_worker_communities', 'users'

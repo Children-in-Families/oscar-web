@@ -55,12 +55,13 @@ module ProgramStreamHelper
     ids = service_children.ids
     children = find_children(service_parents, ids, children)
 
-    results = parent_include ? parents + children : children
+    parent_include ? parents + children : children
   end
 
   def find_children(service_parents, ids, children)
     the_ids = ids
     return children if ids.blank?
+
     service_parents.ids.map do |parent_id|
       child = Service.where(id: the_ids).find_by(parent_id: parent_id)
       if child

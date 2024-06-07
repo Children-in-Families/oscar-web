@@ -13,7 +13,9 @@ class ApplicationController < ActionController::Base
   before_filter :set_current_user
 
   rescue_from ActiveRecord::RecordNotFound do |exception|
-    render file: "#{Rails.root}/app/views/errors/404", layout: false, status: :not_found
+    if request.path == "/#{controller_name}/#{action_name}"
+      render file: "#{Rails.root}/app/views/errors/404", layout: false, status: :not_found
+    end
   end
 
   helper_method :current_organization, :current_setting
@@ -61,9 +63,9 @@ class ApplicationController < ActionController::Base
   protected
 
   def override_translation
-    return if I18n::Backend::Custom::ReloadChecker.last_reload_at > (FieldSetting.maximum(:updated_at) || Time.now)
-
-    I18n.backend.reload!
+    if !I18n.backend.loaded? || I18n.backend.last_reload_at <= (FieldSetting.maximum(:updated_at) || Time.now)
+      I18n.backend.load_custom_translations
+    end
   rescue ArgumentError => e
     # Caused by FieldSetting zero
     # Ignore
@@ -122,7 +124,8 @@ class ApplicationController < ActionController::Base
     I18n.locale = current_user.preferred_language
     flash[:notice] = I18n.t('devise.sessions.signed_in')
     stored_location_string = stored_location_for(_resource_or_scope)
-    stored_location_string && stored_location_string.gsub(/locale\=(en|km|my)/, "locale=#{locale}") || dashboards_path(locale: current_user&.preferred_language || 'en') || super
+
+    stored_location_string && stored_location_string.gsub(/locale=(en|km|my|ne|id|th)/, "locale=#{locale}") || dashboards_path(locale: current_user&.preferred_language || 'en') || super
   end
 
   def storable_location?

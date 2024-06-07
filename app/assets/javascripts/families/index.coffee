@@ -1,8 +1,8 @@
 CIF.FamiliesIndex = CIF.FamiliesWelcome = do ->
   _init = ->
+    _getFamilyPath()
     _fixedHeaderTableColumns()
     _handleScrollTable()
-    _getFamilyPath()
     _initSelect2()
     _handleAutoCollapse()
     _toggleCollapseFilter()
@@ -232,10 +232,6 @@ CIF.FamiliesIndex = CIF.FamiliesWelcome = do ->
   _fixedHeaderTableColumns = ->
     $('.families-table').removeClass('table-responsive')
     if !$('table.families tbody tr td').hasClass('noresults')
-
-      if $('table.families th').length > $('table.families tbody tr:first td').length
-        $('table.families th:last').remove()
-
       $('table.families').dataTable(
         'sScrollX': '100%'
         'bPaginate': false

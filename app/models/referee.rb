@@ -24,6 +24,8 @@ class Referee < ActiveRecord::Base
 
   scope :none_anonymous, -> { where(anonymous: false) }
 
+  after_commit :flash_cache
+
   def self.cache_none_anonymous
     Rails.cache.fetch([Apartment::Tenant.current, self.name, 'non_anonymous']) { none_anonymous.to_a }
   end
@@ -32,5 +34,9 @@ class Referee < ActiveRecord::Base
 
   def init_existing_referree
     @existing_referree = !self.anonymous? && self.persisted?
+  end
+
+  def flash_cache
+    Rails.cache.delete([Apartment::Tenant.current, 'referees'])
   end
 end

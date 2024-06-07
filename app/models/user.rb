@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
 
   ROLES = ['admin', 'manager', 'case worker', 'hotline officer', 'strategic overviewer'].freeze
   MANAGERS = ROLES.select { |role| role if role.include?('manager') }
-  LANGUAGES = { en: :english, km: :khmer, my: :burmese }.freeze
+  LANGUAGES = { en: :english, km: :khmer, my: :burmese, id: :bahasa, th: :thai }.freeze
 
   GENDER_OPTIONS = ['female', 'male', 'lgbt', 'unknown', 'prefer_not_to_say', 'other']
 
@@ -24,6 +24,7 @@ class User < ActiveRecord::Base
   belongs_to :province, counter_cache: true
   belongs_to :department, counter_cache: true
   belongs_to :manager, class_name: 'User', foreign_key: :manager_id, required: false
+  has_many :subordinates, class_name: 'User', foreign_key: 'manager_id'
 
   has_one :permission, dependent: :destroy
 
@@ -92,8 +93,7 @@ class User < ActiveRecord::Base
   scope :oscar_or_dev, -> { where(email: [ENV['OSCAR_TEAM_EMAIL'], ENV['DEV_EMAIL'], ENV['DEV2_EMAIL'], ENV['DEV3_EMAIL']]) }
 
   before_save :assign_as_admin
-  after_commit :set_manager_ids
-  after_save :detach_manager, if: 'roles_changed?'
+  # after_save :detach_manager, if: 'roles_changed?'
   after_save :toggle_referral_notification
   after_create :build_permission
   after_commit :flush_cache
@@ -248,7 +248,7 @@ class User < ActiveRecord::Base
     elsif manager?
       subordinate_users = User.self_and_subordinates(self).map(&:id)
       family_ids = []
-      exited_client_ids = exited_clients(subordinate_users)
+      exited_client_ids = exited_clients(subordinate_user_ids)
 
       family_ids += User.joins(:clients).where(id: subordinate_users).where.not(clients: { current_family_id: nil }).select('clients.current_family_id AS client_current_family_id').map(&:client_current_family_id)
       family_ids += _clients.where(id: exited_client_ids).pluck(:current_family_id)
@@ -347,47 +347,30 @@ class User < ActiveRecord::Base
     elsif user.hotline_officer?
       User.where(id: user.id)
     elsif user.manager?
-      User.where('id = :user_id OR manager_ids && ARRAY[:user_id]', { user_id: user.id })
+      user.all_subordinates
     end
   end
 
-  def detach_manager
-    if roles.in?(['strategic overviewer', 'admin'])
-      User.where(manager_id: self.id).update_all(manager_id: nil, manager_ids: [])
-      User.where('id = :user_id OR manager_ids && ARRAY[:user_id]', { user_id: self.id }).each do |user|
-        user.manager_ids = find_manager_manager(user.manager_id, user.manager_ids)
-        user.save
-      end
-      self.update_columns(manager_id: nil, manager_ids: [])
-    end
+  def manager_manager
+    return nil unless manager
+
+    # Recursively find the manager's manager
+    manager.manager_manager || manager
   end
 
-  def set_manager_ids
-    if manager_id.nil? || roles.in?(['strategic overviewer', 'admin'])
-      self.manager_id = nil
-      self.manager_ids = []
-      return if manager_id_was == self.id
-      update_manager_ids(self)
-    else
-      self.update_column(:manager_id, self.manager_id) if self.persisted?
-      the_manager_ids = User.find_by(id: self.manager_id)&.manager_ids || []
-      update_manager_ids(self, the_manager_ids.push(self.manager_id).flatten.compact.uniq)
-    end
+  def all_managers
+    return User.none unless manager
+
+    # Recursively collect all managers
+    User.where(id: manager.id).or(User.where(id: manager.all_managers.map(&:id)))
   end
 
-  def update_manager_ids(user, the_manager_ids = [])
-    user.update_column(:manager_ids, find_manager_manager(user.manager_id, the_manager_ids)) if user.persisted?
-    user.save unless user.id == id
-    return if user.case_worker?
+  def all_subordinates
+    return User.none unless subordinates.any?
 
-    subordinators = User.where(manager_id: user.id)
-    if subordinators.present?
-      subordinators.each do |subordinator|
-        next if subordinator.id == self.id
-
-        update_manager_ids(subordinator, the_manager_ids.push(user.id).flatten.compact.uniq)
-      end
-    end
+    User.where(id: subordinates.map(&:id)).or(
+      User.where(id: subordinates.includes(:subordinates).flat_map(&:all_subordinates).map(&:id))
+    )
   end
 
   def populate_custom_fields
@@ -443,7 +426,7 @@ class User < ActiveRecord::Base
   def toggle_referral_notification
     return unless roles_changed? && roles == 'admin'
 
-    self.update_columns(referral_notification: true)
+    update_columns(referral_notification: true)
   end
 
   def find_manager_manager(the_manager_id, manager_manager_ids = [])

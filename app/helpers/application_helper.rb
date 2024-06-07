@@ -56,7 +56,7 @@ module ApplicationHelper
   def status_style(status)
     case status
     when 'Active' then color = 'label-primary'
-    when 'Referred', 'Exited' then color = 'label-danger'
+    when 'Referred', 'Exited', 'Rejected' then color = 'label-danger'
     when 'Accepted' then color = 'label-info'
     end
 
@@ -86,6 +86,10 @@ module ApplicationHelper
     btn_status = associated_objects.values.sum.zero? ? nil : 'disabled'
     if object.class.name.downcase == 'domain'
       link_to(domain_path(object, custom_assessment_setting_id: custom_assessment_setting_id, tab: tab_name || params[:tab]), method: 'delete', data: { confirm: t('are_you_sure') }, class: "btn btn-outline btn-danger #{btn_size} #{btn_status}") do
+        fa_icon('trash')
+      end
+    elsif object.class.name.downcase == 'client'
+      link_to(archive_client_path(object), method: 'put', data: { toggle: 'popover', html: 'true', trigger: 'hover', content: "#{I18n.t('inline_help.clients.show.archive')}", placement: 'auto', confirm: t('are_you_sure') }, class: "btn btn-outline btn-danger #{btn_size} #{btn_status}") do
         fa_icon('trash')
       end
     else
@@ -426,7 +430,8 @@ module ApplicationHelper
       en: { label: t('.english'), flag_file_name: 'United-Kingdom.png' },
       km: { label: t('.khmer'), flag_file_name: 'Cambodia.png' },
       my: { label: t('.burmese'), flag_file_name: 'Myanamar-icon.png' },
-      in: { label: t('.bahasa'), flag_file_name: 'indonesia.png' }
+      th: { label: t('.thainland'), flag_file_name: 'thailand.png' },
+      id: { label: t('.bahasa'), flag_file_name: 'indonesia.png' }
     }
   end
 

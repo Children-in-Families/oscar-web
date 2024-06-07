@@ -63,7 +63,7 @@
               .col-xs-12.col-md-4= f.input :password_confirmation, required: false, label: t('.password_confirmation')
               .col-xs-12.col-md-4= f.input :current_password, hint: t('.we_need_your_current_password_to_confirm_your_changes'), required: true, label: t('.current_password')
             .row
-              .col-xs-12.col-md-4= f.input :preferred_language, collection: User::LANGUAGES.map{ |lan_code, lang_word| [lan_code, t("layout.top_navbar.#{lang_word}")]}, label_method: :last, value_method: :first
+              .col-xs-12.col-md-4= f.input :preferred_language, collection: current_organization.supported_languages.map{ |lan_code| [lan_code, t("layout.top_navbar.#{User::LANGUAGES[lan_code.to_sym]}")]}, label_method: :last, value_method: :first
         .ibox-footer
           = f.submit t('.save'), class: 'btn btn-primary form-btn'
 -#           - link_text = resource.otp_module_enabled? ? t('.disable_two_factor_authentication') : t('.enable_two_factor_authentication')

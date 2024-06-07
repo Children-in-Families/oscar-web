@@ -121,7 +121,7 @@ class Client < ActiveRecord::Base
   has_many :families, through: :cases
   has_many :family_members, dependent: :destroy
   has_many :cases, dependent: :destroy
-  has_many :case_notes, dependent: :destroy
+  has_many :case_notes, dependent: :delete_all
   has_many :assessments, dependent: :destroy
   has_many :default_most_recents_assessments, -> { defaults.most_recents }, class_name: 'Assessment'
   has_many :custom_assessments, -> { customs }, class_name: 'Assessment'
@@ -163,7 +163,6 @@ class Client < ActiveRecord::Base
   after_commit :remove_family_from_case_worker
   after_commit :update_related_family_member, on: :update
   after_commit :delete_referee, on: :destroy
-  after_save :update_referral_status_on_target_ngo, if: :status_changed?
   after_save :flash_cache
   after_commit :update_first_referral_status, on: :update
 
@@ -402,6 +401,7 @@ class Client < ActiveRecord::Base
       end
     end
 
+    case_note.created_at = Time.current
     case_note.save(validate: false)
     case_note
   end
@@ -808,16 +808,19 @@ class Client < ActiveRecord::Base
   def self.get_client_attribute(attributes, referral_source_category_id = nil)
     attribute = attributes.with_indifferent_access
     referral_source_category_id = ReferralSource.find_referral_source_category(referral_source_category_id, attributes['referred_from']).try(:id)
+
     client_attributes = {
       mosvy_number: attribute[:mosvy_number],
       given_name: attribute[:given_name],
       family_name: attribute[:family_name],
+      local_given_name: attribute[:local_given_name],
+      local_family_name: attribute[:local_family_name],
       gender: attribute[:gender],
       date_of_birth: attribute[:date_of_birth],
       reason_for_referral: attribute[:referral_reason],
       relevant_referral_information: attribute[:referral_reason],
       referral_source_category_id: referral_source_category_id,
-      global_id: attribute[:client_global_id],
+      global_id: attribute[:client_global_id] || attribute[:global_id],
       external_case_worker_id: attribute[:external_case_worker_id],
       external_case_worker_name: attribute[:external_case_worker_name],
       **get_address_by_code(attribute[:address_current_village_code] || attribute[:location_current_village_code] || attribute[:village_code])
@@ -941,6 +944,7 @@ class Client < ActiveRecord::Base
 
   def assign_global_id
     referral = find_referrals.last
+
     if referral && referral.client_global_id
       self.global_id = GlobalIdentity.find_or_initialize_ulid(referral.client_global_id)
     else
@@ -1001,8 +1005,12 @@ class Client < ActiveRecord::Base
   def self.cache_gender(object)
     Rails.cache.fetch([I18n.locale, Apartment::Tenant.current, object.id, object.gender || 'gender']) do
       Apartment::Tenant.switch('shared') do
-        gender = SharedClient.find_by(slug: object.slug)&.gender
-        gender.present? ? I18n.t("default_client_fields.gender_list.#{gender.gsub('other', 'other_gender')}") : ''
+        gender = SharedClient.find_by(slug: object.slug)&.gender || ''
+        begin
+          I18n.t("default_client_fields.gender_list.#{gender.gsub('other', 'other_gender')}", raise: true)
+        rescue I18n::MissingTranslationData
+          gender.capitalize
+        end
       end
     end
   end
@@ -1197,7 +1205,7 @@ class Client < ActiveRecord::Base
     end
 
     if village_id && commune_id && district_id && province_id
-      vaillage = Village.find(village_id)
+      village = Village.find(village_id)
       errors.add(:village_id, 'does not exist in the commune you just selected.') if village.commune_id != commune_id
     end
   end
@@ -1223,9 +1231,15 @@ class Client < ActiveRecord::Base
 
   def find_referrals
     referrals = []
-    referrals ||= Referral.where(slug: archived_slug, saved: false) if archived_slug.present?
+    referrals = Referral.where(client_global_id: global_id, saved: false) if global_id.present?
 
-    referrals.presence || Referral.where(external_id: external_id, saved: false)
+    if referrals.any?
+      referrals.presence
+    elsif external_id
+      Referral.where(external_id: external_id, saved: false)
+    else
+      Referral.none
+    end
   end
 
   def update_first_referral_status
@@ -1268,25 +1282,25 @@ class Client < ActiveRecord::Base
     Rails.cache.delete([Apartment::Tenant.current, 'Subdistrict', 'dropdown_list_option']) if subdistrict_id_changed?
     Rails.cache.delete([Apartment::Tenant.current, 'Township', 'dropdown_list_option']) if township_id_changed?
     Rails.cache.delete([Apartment::Tenant.current, 'State', 'dropdown_list_option']) if state_id_changed?
-    cached_client_created_by_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_created_by/].blank? }
+    cached_client_created_by_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}\/.*cached_client_created_by/].blank? }
     cached_client_created_by_keys.each { |key| Rails.cache.delete(key) }
-    cached_client_province_name_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_province_name/].blank? }
+    cached_client_province_name_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}\/.*cached_client_province_name/].blank? }
     cached_client_province_name_keys.each { |key| Rails.cache.delete(key) }
-    cached_client_district_name_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_district_name/].blank? }
+    cached_client_district_name_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}\/.*cached_client_district_name/].blank? }
     cached_client_district_name_keys.each { |key| Rails.cache.delete(key) }
-    cached_client_commune_name_kh_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_commune_name_kh/].blank? }
+    cached_client_commune_name_kh_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}\/.*cached_client_commune_name_kh/].blank? }
     cached_client_commune_name_kh_keys.each { |key| Rails.cache.delete(key) }
-    cached_client_village_name_kh_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_village_name_kh/].blank? }
+    cached_client_village_name_kh_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}\/.*cached_client_village_name_kh/].blank? }
     cached_client_village_name_kh_keys.each { |key| Rails.cache.delete(key) }
-    cached_client_referral_source_name_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_referral_source_name/].blank? }
+    cached_client_referral_source_name_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}\/.*cached_client_referral_source_name/].blank? }
     cached_client_referral_source_name_keys.each { |key| Rails.cache.delete(key) }
-    cached_client_assessment_number_completed_date_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_assessment_number_completed_date/].blank? }
+    cached_client_assessment_number_completed_date_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}\/.*cached_client_assessment_number_completed_date/].blank? }
     cached_client_assessment_number_completed_date_keys.each { |key| Rails.cache.delete(key) }
-    cached_client_sql_assessment_completed_date_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_sql_assessment_completed_date/].blank? }
+    cached_client_sql_assessment_completed_date_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}\/.*cached_client_sql_assessment_completed_date/].blank? }
     cached_client_sql_assessment_completed_date_keys.each { |key| Rails.cache.delete(key) }
-    cached_client_assessment_order_completed_date_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_assessment_order_completed_date/].blank? }
+    cached_client_assessment_order_completed_date_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}\/.*cached_client_assessment_order_completed_date/].blank? }
     cached_client_assessment_order_completed_date_keys.each { |key| Rails.cache.delete(key) }
-    cached_client_assessment_domains_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_assessment_domains/].blank? }
+    cached_client_assessment_domains_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}\/.*cached_client_assessment_domains/].blank? }
     cached_client_assessment_domains_keys.each { |key| Rails.cache.delete(key) }
 
     Rails.cache.delete([Apartment::Tenant.current, 'ReferralSource', 'cached_referral_source_try_name', referral_source_category_id]) if referral_source_category_id_changed?
@@ -1297,28 +1311,28 @@ class Client < ActiveRecord::Base
     Rails.cache.delete([Apartment::Tenant.current, id, family_name_was || 'family_name']) if family_name_changed?
     Rails.cache.delete([Apartment::Tenant.current, id, local_given_name_was || 'local_given_name']) if local_given_name_changed?
     Rails.cache.delete([Apartment::Tenant.current, id, local_family_name_was || 'local_family_name']) if local_family_name_changed?
-    Rails.cache.fetch([I18n.locale, Apartment::Tenant.current, id, gender_was || 'gender']) if gender_changed?
-    cached_client_custom_field_properties_count_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_custom_field_properties_count/].blank? }
+    Rails.cache.delete([I18n.locale, Apartment::Tenant.current, id, gender_was || 'gender']) if gender_changed?
+
+    advance_saved_search_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}\/User\/.*advance_saved_search/].blank? }
+    advance_saved_search_keys.each { |key| Rails.cache.delete(key) }
+    cached_client_custom_field_properties_count_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}\/.*cached_client_custom_field_properties_count/].blank? }
     cached_client_custom_field_properties_count_keys.each { |key| Rails.cache.delete(key) }
-    cached_client_custom_field_properties_order_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_custom_field_properties_order/].blank? }
+    cached_client_custom_field_properties_order_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}\/.*cached_client_custom_field_properties_order/].blank? }
     cached_client_custom_field_properties_order_keys.each { |key| Rails.cache.delete(key) }
-    cached_client_custom_field_find_by_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_custom_field_find_by/].blank? }
+    cached_client_custom_field_find_by_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}\/.*cached_client_custom_field_find_by/].blank? }
     cached_client_custom_field_find_by_keys.each { |key| Rails.cache.delete(key) }
-    cached_client_custom_field_properties_properties_by_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_client_custom_field_properties_properties_by/].blank? }
+    cached_client_custom_field_properties_properties_by_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}\/.*cached_client_custom_field_properties_properties_by/].blank? }
     cached_client_custom_field_properties_properties_by_keys.each { |key| Rails.cache.delete(key) }
-  end
 
-  def update_referral_status_on_target_ngo
-    referral = referrals.received.last
-    return if referral.blank? || referral.referred_from[/external system/i].present?
+    other_advanced_search_queries_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}\/.*other_advanced_search_queries/].blank? }
+    other_advanced_search_queries_keys.each { |key| Rails.cache.delete(key) }
 
-    current_ngo = Apartment::Tenant.current
-    Apartment::Tenant.switch referral.referred_from
-    original_referral = Referral.where(slug: referral.slug).last
-    if original_referral
-      original_referral.referral_status = status
-      original_referral.save(validate: false)
+    users.each do |user|
+      program_streams.each do |progrm_stream|
+        Rails.cache.delete([Apartment::Tenant.current, 'enrollable_client_ids', 'ProgramStream', 'User', progrm_stream.id, user.id])
+        Rails.cache.delete([Apartment::Tenant.current, 'program_permission_editable', 'ProgramStream', 'User', progrm_stream.id, user.id])
+      end
     end
-    Apartment::Tenant.switch current_ngo
+    Rails.cache.delete([Apartment::Tenant.current, 'User', 'Client', id, 'tasks'])
   end
 end

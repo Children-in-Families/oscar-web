@@ -420,15 +420,17 @@ Rails.application.routes.draw do
       resources :users, only: [:index, :show]
       resources :clients, except: [:edit, :new] do
         get :listing, on: :collection
-        resources :assessments, only: [:create, :update, :destroy, :delete]
+        resources :assessments
         resources :case_notes, only: [:show, :create, :update, :destroy, :delete_attachment] do
           delete 'attachments/:file_index', action: :delete_attachment, on: :member
         end
-        resources :custom_field_properties, only: [:create, :update, :destroy]
+        resources :custom_field_properties, except: :show
 
         scope module: 'clients' do
           resources :exit_ngos, only: [:create, :update]
           resources :enter_ngos, only: [:create, :update]
+          resources :referrals
+          resources :internal_referrals
         end
 
         scope module: 'client_tasks' do
@@ -440,6 +442,7 @@ Rails.application.routes.draw do
           resources :leave_programs, only: [:create, :update, :destroy]
         end
         resources :care_plans
+        resources :screening_assessments
       end
 
       resources :program_streams, only: [:index]
@@ -485,6 +488,9 @@ Rails.application.routes.draw do
       get 'notify_family_custom_field' => 'notifications#notify_family_custom_field'
       get 'notify_partner_custom_field' => 'notifications#notify_partner_custom_field'
       get 'program_stream_notify' => 'notifications#program_stream_notify'
+      get 'custom_forms' => 'custom_fields#index'
+      get 'developmental_markers' => 'developmental_markers#index'
+      get 'services' => 'services#index'
     end
 
     resources :community_advanced_searches, only: [] do

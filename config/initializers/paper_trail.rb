@@ -19,8 +19,9 @@ PaperTrail.class_eval do
   ensure
     PaperTrail.enabled = true
   end
-  
 end
+
+PaperTrail.serializer = PaperTrail::Serializers::JSON
 
 PaperTrail::Version.class_eval do
   before_destroy :prevent_remove_billable_version
@@ -55,12 +56,12 @@ PaperTrail::Version.class_eval do
     object_changes['status'] &&
     object_changes['status'].last
   end
-  
+
   def assign_billable_report
     return if Rails.env.test?
     return unless client_or_family?
     return unless billable?
- 
+
     puts "====================== Assigning billable report for #{item_type} #{item_id} with status #{changed_to_status} on schema #{Apartment::Tenant.current} ======================"
 
     if Rails.env.development?

@@ -5,9 +5,20 @@ module Api
 
       before_action :find_client
 
+      def index
+        assessments = @client.assessments
+        render json: assessments
+      end
+
+      def show
+        assessment = @client.assessments.find(params[:id])
+        render json: assessment
+      end
+
       def create
         assessment = @client.assessments.new(assessment_params)
-
+        assessment.default = assessment_params[:custom_assessment_setting_id].blank?
+        assessment.skip_assessment_domain_populate = true
         if assessment.save
           render json: assessment
         else
