@@ -17,7 +17,7 @@ every :day, at: '00:00 am' do
   runner 'BillableAcceptedClientsWorker.perform_async'
 end
 
-every :day, at: '02:15 am' do
+every :day, at: '9:35 pm' do
   rake 'notifications:cache'
 end
 
