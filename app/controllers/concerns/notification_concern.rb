@@ -141,8 +141,8 @@ module NotificationConcern
   end
 
   def mapping_notify_custom_assessment
-    client_ids = Client.accessible_by(current_ability).active_accepted_status.where('(EXTRACT(year FROM age(current_date, coalesce(clients.date_of_birth, CURRENT_DATE))) :: int) < ?', custom_setting&.custom_age || 18).ids
     CustomAssessmentSetting.only_enable_custom_assessment.map do |custom_setting|
+      client_ids = Client.accessible_by(current_ability).active_accepted_status.where('(EXTRACT(year FROM age(current_date, coalesce(clients.date_of_birth, CURRENT_DATE))) :: int) < ?', custom_setting&.custom_age || 18).ids
       sql = <<~SQL
         SELECT
           c.id,

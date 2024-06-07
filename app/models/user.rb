@@ -245,14 +245,14 @@ class User < ActiveRecord::Base
   def family_custom_field_frequency_overdue_or_due_today(_clients)
     if admin? || hotline_officer?
       entity_type_custom_field_notification(Family.all)
-    elsif self.manager?
-      subordinate_user_ids = all_subordinates.ids
+    elsif manager?
+      subordinate_users = User.self_and_subordinates(self).map(&:id)
       family_ids = []
       exited_client_ids = exited_clients(subordinate_user_ids)
 
-      family_ids += User.joins(:clients).where(id: subordinate_user_ids).where.not(clients: { current_family_id: nil }).select('clients.current_family_id AS client_current_family_id').map(&:client_current_family_id)
-      family_ids += Client.where(id: exited_client_ids).pluck(:current_family_id)
-      family_ids += self.clients.pluck(:current_family_id)
+      family_ids += User.joins(:clients).where(id: subordinate_users).where.not(clients: { current_family_id: nil }).select('clients.current_family_id AS client_current_family_id').map(&:client_current_family_id)
+      family_ids += _clients.where(id: exited_client_ids).pluck(:current_family_id)
+      family_ids += _clients.pluck(:current_family_id)
 
       families = Family.where(id: family_ids).or(Family.where(user_id: id))
       entity_type_custom_field_notification(families)
@@ -442,7 +442,7 @@ class User < ActiveRecord::Base
     if manager_manager_ids.present?
       subordinators = User.where(id: manager_manager_ids)
     else
-      subordinators = all_subordinates
+      subordinators = User.self_and_subordinates(self)
     end
 
     return manager_manager_ids unless subordinators
