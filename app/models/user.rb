@@ -230,12 +230,18 @@ class User < ActiveRecord::Base
     [client_id, next_assessment_date] if next_assessment_date.to_date < Date.today
   end
 
-  def client_custom_field_frequency_overdue_or_due_today(_clients)
-    entity_type_custom_field_notification(_clients.active_accepted_status)
+  def client_custom_field_frequency_overdue_or_due_today(my_clients)
+    entity_type_custom_field_notification(my_clients.active_accepted_status)
   end
 
   def user_custom_field_frequency_overdue_or_due_today
-    entity_type_custom_field_notification(user_clients)
+    if manager?
+      entity_type_custom_field_notification(all_managers)
+    elsif hotline_officer?
+      entity_type_custom_field_notification(User.where(id: id))
+    elsif admin?
+      entity_type_custom_field_notification(User.all)
+    end
   end
 
   def partner_custom_field_frequency_overdue_or_due_today
@@ -246,11 +252,11 @@ class User < ActiveRecord::Base
     if admin? || hotline_officer?
       entity_type_custom_field_notification(Family.all)
     elsif manager?
-      subordinate_users = User.self_and_subordinates(self).map(&:id)
+      subordinate_user_ids = User.self_and_subordinates(self).map(&:id)
       family_ids = []
       exited_client_ids = exited_clients(subordinate_user_ids)
 
-      family_ids += User.joins(:clients).where(id: subordinate_users).where.not(clients: { current_family_id: nil }).select('clients.current_family_id AS client_current_family_id').map(&:client_current_family_id)
+      family_ids += User.joins(:clients).where(id: subordinate_user_ids).where.not(clients: { current_family_id: nil }).select('clients.current_family_id AS client_current_family_id').map(&:client_current_family_id)
       family_ids += _clients.where(id: exited_client_ids).pluck(:current_family_id)
       family_ids += _clients.pluck(:current_family_id)
 
