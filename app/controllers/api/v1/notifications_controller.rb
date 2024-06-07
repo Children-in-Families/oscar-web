@@ -16,6 +16,10 @@ module Api
         render json: mapping_repeated_referrals
       end
 
+      def family_referrals
+        render json: mapping_family_referrals
+      end
+
       def repeat_family_referrals
         render json: mapping_repeat_family_referrals
       end
