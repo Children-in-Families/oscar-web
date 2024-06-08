@@ -24,7 +24,7 @@ class UserNotification
     upcoming_csi_assessments
     @overdue_tasks_count = overdue_tasks_count
     @due_today_tasks_count = due_today_tasks_count
-    @upcomming_tasks_count = upcomming_tasks_count
+    @upcoming_tasks_count = upcoming_tasks_count
     @review_program_streams ||= review_program_streams
 
     @all_count = count
@@ -69,7 +69,7 @@ class UserNotification
     end
   end
 
-  def upcomming_tasks_count
+  def upcoming_tasks_count
     if @user.deactivated_at.nil?
       @user.tasks.incomplete.upcoming_within_three_months.where(client_id: @clients.ids).count
     else
