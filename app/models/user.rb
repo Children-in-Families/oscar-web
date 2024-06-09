@@ -297,7 +297,16 @@ class User < ActiveRecord::Base
     else
       active_accepted_clients = user_clients.active_accepted_status
     end
-    overdue_and_due_today_forms(self, active_accepted_clients)
+
+    cache_keys = if admin? || strategic_overviewer?
+                   [Apartment::Tenant.current, 'notifications', 'overdue_and_due_today_forms']
+                 else
+                   [Apartment::Tenant.current, 'notifications', 'user', id, 'overdue_and_due_today_forms']
+                 end
+
+    Rails.cache.fetch(cache_keys) do
+      overdue_and_due_today_forms(self, active_accepted_clients)
+    end
   end
 
   def case_notes_due_today_and_overdue
