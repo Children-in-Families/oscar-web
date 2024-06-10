@@ -1,4 +1,6 @@
 class Task < ActiveRecord::Base
+  include ClearanceOverdueConcern
+
   belongs_to :domain, counter_cache: true
   belongs_to :case_note_domain_group
   belongs_to :client

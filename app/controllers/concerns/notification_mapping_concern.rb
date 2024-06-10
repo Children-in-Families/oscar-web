@@ -20,7 +20,11 @@ module NotificationMappingConcern
 
     count = 0
     data.each do |_, v|
-      count += 1 unless (v[:overdue_count] || v[:new_count] || 0).zero?
+      count += 1 unless (v[:overdue_count] || v[:new_count] || v[:repeated_count] || 0).zero?
+    end
+
+    data.each do |_, v|
+      count += 1 unless (v[:repeated_count] || 0).zero?
     end
 
     data.merge({ all_count: count })

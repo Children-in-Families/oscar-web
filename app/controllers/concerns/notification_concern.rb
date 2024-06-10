@@ -47,7 +47,11 @@ module NotificationConcern
                                                         .select(:id, :created_at, "custom_fields.form_title, users.id user_id, TRIM(CONCAT(users.first_name, ' ', users.last_name)) as user_name")
                                                         .distinct.to_a
 
-    user_custom_form_notifications.group_by { |form| [form.user_id, form.user_name] }
+    group_forms = user_custom_form_notifications.group_by { |form| [form.form_title, form.user_name] }.map do |_, values|
+      values.max_by(&:created_at)
+    end
+
+    group_forms.group_by { |form| [form.user_id, form.user_name] }.to_a.uniq(&:first).to_h
   end
 
   def mapping_notify_family_custom_field
@@ -67,7 +71,11 @@ module NotificationConcern
                                                           .select(:id, :created_at, "trackings.name form_title, families.id family_id, TRIM(CONCAT(families.name, ' ', families.name_en)) as family_name")
                                                           .distinct.to_a
 
-    family_custom_form_notifications.group_by { |form| [form.family_id, form.family_name] }
+    group_forms = family_custom_form_notifications.group_by { |form| [form.form_title, form.family_name] }.map do |_, values|
+      values.max_by(&:created_at)
+    end
+
+    group_forms.group_by { |form| [form.family_id, form.family_name] }.to_a.uniq(&:first).to_h
   end
 
   def mapping_notify_partner_custom_field
@@ -80,7 +88,11 @@ module NotificationConcern
                                                         .select(:id, :created_at, 'custom_fields.form_title, partners.id partner_id, partners.name as partner_name')
                                                         .distinct.to_a
 
-    user_custom_form_notifications.group_by { |form| [form.partner_id, form.partner_name] }
+    group_forms = user_custom_form_notifications.group_by { |form| [form.form_title, form.partner_name] }.map do |_, values|
+      values.max_by(&:created_at)
+    end
+
+    group_forms.group_by { |form| [form.partner_id, form.partner_name] }.to_a.uniq(&:first).to_h
   end
 
   def mapping_notify_overdue_case_note
@@ -188,7 +200,11 @@ module NotificationConcern
                                                                 .select(:id, :created_at, "trackings.name form_title, clients.slug client_slug, TRIM(CONCAT(CONCAT(clients.given_name, ' ', clients.family_name), ' ', CONCAT(clients.local_family_name, ' ', clients.local_given_name))) as client_name")
                                                                 .distinct.to_a
 
-    client_custom_form_notifications.group_by { |form| [form.client_slug, form.client_name] }
+    group_forms = client_custom_form_notifications.group_by { |form| [form.form_title, form.client_slug] }.map do |_, values|
+      values.max_by(&:created_at)
+    end
+
+    group_forms.group_by { |form| [form.client_slug, form.client_name] }.to_a.uniq(&:first).to_h
   end
 
   def fetch_client_by_sql(client_ids, sql)
