@@ -1,4 +1,6 @@
 class Assessment < ActiveRecord::Base
+  include ClearanceOverdueConcern
+
   attr_accessor :skip_assessment_domain_populate
 
   belongs_to :client, counter_cache: true
