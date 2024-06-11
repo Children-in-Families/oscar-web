@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   include Pundit
   include LocaleConcern
+  include ApplicationHelper
 
   protect_from_forgery with: :null_session, except: :index, if: proc { |c| c.request.format == 'application/json' }
   before_action :store_user_location!, if: :storable_location?
@@ -78,10 +79,6 @@ class ApplicationController < ActionController::Base
 
   def address_translation
     @address_translation = view_context.address_translation('client')
-  end
-
-  def set_current_user
-    User.current_user = current_user
   end
 
   private
