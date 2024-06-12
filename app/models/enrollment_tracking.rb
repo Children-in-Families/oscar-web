@@ -2,6 +2,7 @@ class EnrollmentTracking < ActiveRecord::Base
   include NestedAttributesConcern
   include ClientEnrollmentTrackingConcern
   include ClearanceCustomFormConcern
+  include ClearanceOverdueConcern
 
   belongs_to :enrollment
   belongs_to :tracking

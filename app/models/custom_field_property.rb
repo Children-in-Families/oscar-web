@@ -2,6 +2,7 @@ class CustomFieldProperty < ActiveRecord::Base
   include NestedAttributesConcern
   include ClientEnrollmentTrackingConcern
   include ClearanceCustomFormConcern
+  include ClearanceOverdueConcern
 
   mount_uploaders :attachments, CustomFieldPropertyUploader
 
