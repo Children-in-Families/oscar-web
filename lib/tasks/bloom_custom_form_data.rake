@@ -2,6 +2,7 @@ namespace :bloom_custom_form_data do
   desc 'import Bloom custom form data'
   task import: :environment do
     Apartment::Tenant.switch 'ba'
+
     path = Rails.root.join('vendor/data/organizations/Historical_Records_for_Importing.xlsx')
     workbook = Roo::Excelx.new(path)
     sheet_index = workbook.sheets.index('All data')

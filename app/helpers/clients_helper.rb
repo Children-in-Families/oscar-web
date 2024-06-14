@@ -526,7 +526,7 @@ module ClientsHelper
     entities = { formbuilder: 'Custom form', exitprogram: 'Exit program', tracking: 'Tracking', enrollment: 'Enrollment', enrollmentdate: 'Enrollment', exitprogramdate: 'Exit program' }
     key_word = value.first
     entity = entities[key_word.to_sym]
-    value = value - [key_word]
+    value -= [key_word]
     result = value << entity
     result.join(' | ')
   end
@@ -733,8 +733,9 @@ module ClientsHelper
     object.present? ? object : []
   end
 
-  def form_builder_query(object, form_type, field_name, properties_field = nil)
+  def form_builder_query(object, form_type, _, properties_field = nil)
     return object if params['all_values'].present?
+
     properties_field = properties_field.present? ? properties_field : 'client_enrollment_trackings.properties'
 
     selected_program_stream = $param_rules['program_selected'].presence ? JSON.parse($param_rules['program_selected']) : []

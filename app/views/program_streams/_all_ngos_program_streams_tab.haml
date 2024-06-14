@@ -26,7 +26,7 @@
           %tr
             %td.name= program_stream.name
             %td.domain= program_stream.domains.pluck(:identity).join(', ')
-            %td= program_stream.services.distinct.map(&:name).join(', ')
+            %td= program_stream.services.uniq.map(&:name).join(', ')
             %td.status
               %label{ class: "#{program_stream.completed_label_class}"}
                 = program_stream.completed_status

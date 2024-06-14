@@ -26,8 +26,6 @@ server '3.0.131.11', user: 'deployer', roles: %w{app web db worker}
 # role :web, %w{user1@primary.com user2@additional.com}, other_property: :other_value
 # role :db,  %w{deploy@example.com}
 
-
-
 # Configuration
 # =============
 # You can set any configuration variable like in config/deploy.rb
@@ -35,8 +33,6 @@ server '3.0.131.11', user: 'deployer', roles: %w{app web db worker}
 # For available Capistrano configuration variables see the documentation page.
 # http://capistranorb.com/documentation/getting-started/configuration/
 # Feel free to add new variables to customise your setup.
-
-
 
 # Custom SSH Options
 # ==================

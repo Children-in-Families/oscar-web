@@ -440,9 +440,10 @@ module ClientGridOptions
     data = params[:data].presence
     column_form_builder.each do |field|
       fields = field[:id].gsub('&qoute;', '"').split('__')
+      format_field_value = fields.last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
+      fields[-1] = field[:label].gsub('&qoute;', '"')
       rule = get_rule(params, fields.last)
       @client_grid.column(field[:id].to_sym, header: form_builder_format_header(fields)) do |client|
-        format_field_value = fields.last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
         if fields.first == 'formbuilder'
           if data == 'recent'
             if fields.last == 'Has This Form'

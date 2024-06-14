@@ -1,9 +1,10 @@
+- label = field_label(property)
 %div{data: {used: "#{f.object.file.any?}"}}
   = f.input :name, as: :hidden, input_html: { name: "#{entity.object_name}[form_builder_attachments_attributes][#{property['name'].split('-').last}][name]", value: property['label'] }
   %label.control-label
     %abbr{ title: 'repuired' }
       = '*' if property['required'].present? && f.object.file.empty?
-    = property['label'].html_safe
+    = label.html_safe
 
   = f.input :file, as: :file, label: false, required: property['required'].present?, input_html: { name: "#{entity.object_name}[form_builder_attachments_attributes][#{property['name'].split('-').last}][file][]", multiple: property['multiple'].present?, value: f.object.file }
   %span.help-block.hidden

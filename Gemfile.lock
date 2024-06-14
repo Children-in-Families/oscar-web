@@ -818,6 +818,8 @@ GEM
     sysrandom (1.0.5)
     terminal-table (1.8.0)
       unicode-display_width (~> 1.1, >= 1.1.1)
+    terser (1.1.12)
+      execjs (>= 0.3.0, < 3)
     text (1.3.1)
     thin (1.7.2)
       daemons (~> 1.0, >= 1.0.9)
@@ -1003,6 +1005,7 @@ DEPENDENCIES
   sorbet-rails
   spreadsheet (~> 1.1.3)
   sysrandom (~> 1.0, >= 1.0.5)
+  terser (~> 1.1, >= 1.1.12)
   text (~> 1.3, >= 1.3.1)
   thin (~> 1.7)
   thredded (~> 0.6.1)

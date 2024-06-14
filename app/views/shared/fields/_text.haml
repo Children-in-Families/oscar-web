@@ -1,16 +1,25 @@
+- label = field_label(field_props)
 %div{ class: "form-group #{field_with(field_props['label'],errors)}" }
   %label.control-label{ class: required?(field_props['required'] || false) }
     %abbr{ title: 'required' }= '*' if field_props['required'] || false
-    = field_props['label'].html_safe
+    = label.html_safe
 
   %input{ name: "#{f.object_name}[#{remove_field_prop_unicode(field_props)}]",
+    "data-local-input": "#{f.object_name}[#{remove_local_field_prop_unicode(field_props)}]".parameterize,
+    title: field_props['description'],
     value: f.object.public_send(remove_field_prop_unicode(field_props)),
     type: field_props['subtype'],
     class: field_props['className'],
     placeholder: format_placeholder(field_props['placeholder']),
     id: "#{f.object_name}[#{remove_field_prop_unicode(field_props)}]".parameterize,
-    required: (field_props['required'] || false) }
+    required: (field_props['required'] || false) }/
 
+  .form-group.hidden
+    %input{ name: "#{f.object_name}[Local_label #{remove_local_field_prop_unicode(field_props)}]",
+      type: 'hidden',
+      subtype: 'text',
+      class: "form-control #{field_props['className']}",
+      id: "#{f.object_name}[#{remove_local_field_prop_unicode(field_props)}]".parameterize }/
 
   %span.help-block
     = field_message(field_props['label'], errors)

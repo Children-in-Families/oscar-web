@@ -167,6 +167,9 @@ CIF.Common =
       setTimeout(->
         if self.type == 'radio' && confirm('Clear selection/លុបចោលការជ្រើសរើស?')
           $(self).closest('.radio_buttons.form-group').find('input').removeAttr('checked').iCheck('update');
+          localOptionElement = $(self).closest('.radio_buttons.form-group').next()
+          if localOptionElement
+            localOptionElement.children('input').val('')
         else
           return
       , 0)

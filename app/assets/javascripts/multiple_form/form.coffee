@@ -1,5 +1,5 @@
 CIF.Client_trackingsNew = CIF.Client_trackingsCreate = CIF.Client_custom_fieldsNew = CIF.Client_custom_fieldsCreate = CIF.Client_enrollmentsNew = CIF.Client_enrollmentsCreate = do ->
-
+  checkedItems = []
   _init = ->
     _initSelect2()
     _initFileInput()
@@ -9,6 +9,14 @@ CIF.Client_trackingsNew = CIF.Client_trackingsCreate = CIF.Client_custom_fieldsN
     _initICheckBox()
     _initDatePicker()
     _preventCreateDatePickerClientEnrollment()
+    _setAnotherLanguageFieldValue()
+    _hideAnotherLanguageField()
+    _copyInputTextToLocalLanguage()
+    _copyTextAreaTextToLocalLanguage()
+    _copyNumberToLocalLanguage()
+    _copyDateToLocalLanguage()
+    _checkCheckbox()
+    _uncheckCheckbox()
 
   _initICheckBox = ->
     $('.i-checks').iCheck
@@ -17,7 +25,21 @@ CIF.Client_trackingsNew = CIF.Client_trackingsCreate = CIF.Client_custom_fieldsN
 
   _toggleCheckingRadioButton = ->
     $('input[type="radio"]').on 'ifChecked', (e) ->
+      el = $(@)
+      el.parents('.radio_buttons').next().children('#' + el.data('option')).val(el.data('value'))
       $(@).parents('span.radio').siblings('.radio').find('.iradio_square-green').removeClass('checked')
+
+  _checkCheckbox = ->
+    $('input[type="checkbox"]').on 'ifChecked', (e) ->
+      el = $(@)
+      checkedItems.push(el.data('value'))
+      el.parents('.check_boxes').next().children('#' + el.data('checkbox')).val(checkedItems).trigger('change')
+
+  _uncheckCheckbox = ->
+    $('input[type="checkbox"]').on 'ifUnchecked', (e) ->
+      el = $(@)
+      checkedItems.splice(checkedItems.indexOf(el.data('value')), 1)
+      el.parents('.check_boxes').next().children('#' + el.data('checkbox')).val(checkedItems).trigger('change')
 
   _initSelect2 = ->
     $('select').select2()
@@ -41,6 +63,36 @@ CIF.Client_trackingsNew = CIF.Client_trackingsCreate = CIF.Client_custom_fieldsN
   _preventCreateDatePickerClientEnrollment = ->
     currentEnterNgo = $('#current_enter_ngo').val()
     $('.client-enrollment-date').datepicker('setStartDate', currentEnterNgo)
+
+  _setAnotherLanguageFieldValue = ->
+    $('select').on 'select2-selecting', (e) ->
+      $('#' + $(e.target).data('label')).val($(e.choice.element).data('value')).trigger("change")
+      return
+  
+  _hideAnotherLanguageField = ->
+    $('.client-enrollment').find('.d-none').parent().addClass('hide')
+
+  _copyInputTextToLocalLanguage = ->
+    $('input[type="text"]').on 'keyup', (e) ->
+      el = $(@)
+      if el.hasClass('date-picker')
+      else
+        el.parent().next().find('#' + el.data('local-input')).val(el.val())
+
+  _copyTextAreaTextToLocalLanguage = ->
+    $('textarea').on 'keyup', (e) ->
+      el = $(@)
+      el.parent().next().find('#' + el.data('local-textarea')).val(el.val())
+
+  _copyNumberToLocalLanguage = ->
+    $('input[type="number"]').on 'keyup mouseup', (e) ->
+      el = $(@)
+      el.parent().next().find('#' + el.data('local-number')).val(el.val())
+
+  _copyDateToLocalLanguage = ->
+    $('input.form-builder-date').on 'changeDate', (e) ->
+      el = $(@)
+      el.next('#' + el.data('local-date')).val(el.val())
 
   _preventRequireFields = ->
     preventFileUploader()

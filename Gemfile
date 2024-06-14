@@ -134,6 +134,7 @@ group :test do
 end
 
 gem "sentry-raven", "~> 2.13"
+gem 'terser', '~> 1.1', '>= 1.1.12'
 
 gem "redis-rails", "~> 5.0"
 

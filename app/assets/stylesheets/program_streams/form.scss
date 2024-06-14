@@ -188,4 +188,12 @@ body[id='program_streams-update'], body[id='program_streams-create'] {
       cursor: pointer;
     }
   }
+
+  .wizard > .content > .body {
+    #enrollment, #trackings, #exit-program {
+      .field-options {
+        input.option-value, input[type='radio'].option-selected, input.option-local_value { display: none; }
+      }
+    }
+  }
 }
