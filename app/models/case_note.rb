@@ -1,4 +1,6 @@
 class CaseNote < ActiveRecord::Base
+  include ClearanceOverdueConcern
+
   INTERACTION_TYPE = ['Visit', 'Non face to face', '3rd Party', 'Supervision', 'Other'].freeze
   paginates_per 1
 

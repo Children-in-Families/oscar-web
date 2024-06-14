@@ -366,6 +366,7 @@ class UserNotification
       family = Family.find_by(slug: referral_slug)
       family.present? ? existing_family_referrals << referral : new_family_referrals << referral
     end
+
     referral_type == 'new_referral' ? new_family_referrals : existing_family_referrals
   end
 end

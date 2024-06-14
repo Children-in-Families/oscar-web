@@ -5,7 +5,7 @@ class FamilyReferralsController < AdminController
   before_action :find_family_referral, only: [:show, :edit, :update]
 
   def index
-    if params[:referral_type].presence == 'referred_to'
+    if params[:referral_type].presence == 'referred_to' || params[:referral_type].nil?
       @family_referrals = @family.family_referrals.delivered.most_recents
     else
       @family_referrals = @family.family_referrals.received_and_saved.most_recents
@@ -35,24 +35,23 @@ class FamilyReferralsController < AdminController
 
   def show
     respond_to do |format|
-      format.html {}
+      format.html { }
       format.pdf do
-        form_title     = "Referral Family To #{@family_referral.referred_to_ngo}"
-        family_name    = @family_referral.family
-        pdf_name       = "#{family_name} - #{form_title}"
-        render  pdf:      pdf_name,
-                template: 'family_referrals/show.pdf.haml',
-                page_size: 'A4',
-                layout:   'pdf_design.html.haml',
-                show_as_html: params.key?('debug'),
-                header: { html: { template: 'family_referrals/pdf/header.pdf.haml' } },
-                footer: { html: { template: 'family_referrals/pdf/footer.pdf.haml' }, right: '[page] of [topage]' },
-                margin: { left: 0, right: 0, top: 10 },
-                dpi: '72',
-                disposition: 'attachment'
+        form_title = "Referral Family To #{@family_referral.referred_to_ngo}"
+        family_name = @family_referral.family
+        pdf_name = "#{family_name} - #{form_title}"
+        render pdf: pdf_name,
+               template: 'family_referrals/show.pdf.haml',
+               page_size: 'A4',
+               layout: 'pdf_design.html.haml',
+               show_as_html: params.key?('debug'),
+               header: { html: { template: 'family_referrals/pdf/header.pdf.haml' } },
+               footer: { html: { template: 'family_referrals/pdf/footer.pdf.haml' }, right: '[page] of [topage]' },
+               margin: { left: 0, right: 0, top: 10 },
+               dpi: '72',
+               disposition: 'attachment'
       end
     end
-
   end
 
   def update
@@ -75,12 +74,11 @@ class FamilyReferralsController < AdminController
   end
 
   def family_referral_params
-    params.require(:family_referral).permit(:referred_to, :referred_from, :name_of_referee, :referee_id, 
-                                                              :referral_phone, :date_of_referral, :ngo_name, :referral_reason, :name_of_family, :slug, consent_form: [])
+    params.require(:family_referral).permit(:referred_to, :referred_from, :name_of_referee, :referee_id,
+                                            :referral_phone, :date_of_referral, :ngo_name, :referral_reason, :name_of_family, :slug, consent_form: [])
   end
 
   def find_external_system(external_name)
     ExternalSystem.find_by(name: external_name)&.name || ''
   end
-
 end
