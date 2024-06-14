@@ -71,7 +71,7 @@ class NotificationsController < AdminController
         @unsaved_family_referrals = @notification.unsaved_family_referrals
       end
       format.js do
-        @referrals = mapping_family_referrals
+        @unsaved_family_referrals = mapping_family_referrals
       end
     end
   end

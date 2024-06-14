@@ -10,13 +10,20 @@ module NotificationConcern
   end
 
   def mapping_family_referrals
+    new_family_referrals = []
     if current_user.deactivated_at.nil?
       referrals = FamilyReferral.received.unsaved
     else
       referrals = FamilyReferral.received.unsaved.where('created_at > ?', current_user.activated_at)
     end
 
-    referrals.where(slug: nil)
+    referrals.each do |referral|
+      referral_slug = referral.slug
+      family = Family.find_by(slug: referral_slug)
+      new_family_referrals << referral if family.nil?
+    end
+
+    new_family_referrals
   end
 
   def mapping_repeat_family_referrals

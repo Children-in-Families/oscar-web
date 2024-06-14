@@ -6,6 +6,7 @@ class EnterNgo < ActiveRecord::Base
 
   belongs_to :client, with_deleted: true
   belongs_to :acceptable, polymorphic: true, with_deleted: true
+  belongs_to :family, class_name: 'Family', foreign_key: 'acceptable_id'
 
   alias_attribute :new_date, :accepted_date
 

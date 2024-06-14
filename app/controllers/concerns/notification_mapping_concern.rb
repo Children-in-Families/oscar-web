@@ -9,8 +9,7 @@ module NotificationMappingConcern
       partner_custom_forms: custom_forms_payload(notifications, 'partner_custom_field', '/api/v1/notify_partner_custom_field'),
       case_notes: case_notes_payload(notifications),
       get_referrals: client_referral_payload(notifications, 'get_referrals'),
-      unsaved_family_referrals: referrals_payload(notifications, 'unsaved_family_referrals', '/api/v1/notifications/family_referrals'),
-      repeat_family_referrals: referrals_payload(notifications, 'repeat_family_referrals', '/api/v1/notifications/repeat_family_referrals'),
+      family_referrals: family_referrals_payload(notifications, 'unsaved_family_referrals'),
       tasks: tasks_payload(notifications),
       review_program_streams: {
         data: review_program_stream_mapping(notifications['review_program_streams'] || []),
@@ -86,11 +85,12 @@ module NotificationMappingConcern
     }
   end
 
-  def referrals_payload(notifications, key, path)
+  def family_referrals_payload(notifications, key)
     {
-      new_count: (notifications[key] && notifications[key][1].try(:size)) || 0,
-      repeated_count: (notifications[key] && notifications[key][0].try(:size)) || 0,
-      path: path
+      new_count: (notifications['unsaved_family_referrals'] && notifications['unsaved_family_referrals'].try(:size)) || 0,
+      repeated_count: (notifications['repeat_family_referrals'] && notifications['repeat_family_referrals'].try(:size)) || 0,
+      new_referral_path: '/api/v1/notifications/family_referrals',
+      repeated_referral_path: '/api/v1/notifications/repeat_family_referrals'
     }
   end
 
