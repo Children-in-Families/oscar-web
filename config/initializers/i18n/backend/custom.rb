@@ -54,6 +54,8 @@ module I18n::Backend::Custom
   end
 
   def deep_merge(hash1, hash2)
+    return hash1 if hash2.nil?
+
     hash1.merge(hash2) do |key, old_val, new_val|
       if old_val.is_a?(Hash) && new_val.is_a?(Hash)
         deep_merge(old_val, new_val)
