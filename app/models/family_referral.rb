@@ -27,6 +27,7 @@ class FamilyReferral < ActiveRecord::Base
   scope :unsaved, -> { where(saved: false) }
   scope :saved, -> { where(saved: true) }
   scope :received_and_saved, -> { received.saved }
+  scope :status_referred, -> { where(referral_status: 'Referred') }
   scope :most_recents, -> { order(created_at: :desc) }
   scope :externals, -> { where(referred_to: 'external referral') }
   scope :get_external_systems, -> (external_system_name) { where('referrals.ngo_name = ?', external_system_name) }
