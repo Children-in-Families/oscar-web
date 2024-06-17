@@ -292,7 +292,7 @@ class Family < ActiveRecord::Base
 
   def update_referral_status
     referral = family_referrals.received_and_saved.status_referred.first
-    return if status == 'Active' || referral.nil? || (referral && referral.status == 'Referred')
+    return if status == 'Active' || referral.nil? || (referral && referral.referral_status == 'Referred')
 
     referral.referral_status = status
     referal.save
