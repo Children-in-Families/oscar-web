@@ -86,7 +86,7 @@ class Family < ActiveRecord::Base
 
   after_create :assign_slug
   after_save :mark_referral_as_saved
-  after_commit :update_related_community_member, on: :update
+  after_commit :update_related_community_member, :update_referral_status, on: :update
   after_commit :flush_cache
 
   def self.update_brc_aggregation_data
@@ -289,6 +289,14 @@ class Family < ActiveRecord::Base
   end
 
   private
+
+  def update_referral_status
+    referral = family_referrals.received_and_saved.status_referred.first
+    return if status == 'Active' || referral.nil? || (referral && referral.status == 'Referred')
+
+    referral.referral_status = status
+    referal.save
+  end
 
   def flush_cache
     Rails.cache.delete([Apartment::Tenant.current, self.class.name, 'received_by', received_by_id]) if received_by_id_changed?
