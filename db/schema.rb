@@ -1493,11 +1493,11 @@ ActiveRecord::Schema.define(version: 20240614015600) do
     t.string   "ngo_name",                     default: ""
     t.integer  "referee_id"
     t.boolean  "saved",                        default: false
-    t.string   "consent_form",                 default: [],                 array: true
+    t.string   "consent_form",                 default: [],                      array: true
     t.integer  "family_id"
-    t.datetime "created_at",                                   null: false
-    t.datetime "updated_at",                                   null: false
-    t.string   "referral_status",   limit: 15
+    t.datetime "created_at",                                        null: false
+    t.datetime "updated_at",                                        null: false
+    t.string   "referral_status",   limit: 15, default: "Referred"
     t.integer  "referred_from_uid"
   end
 
