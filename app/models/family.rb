@@ -291,11 +291,11 @@ class Family < ActiveRecord::Base
   private
 
   def update_referral_status
-    referral = family_referrals.received_and_saved.status_referred.first
-    return if status == 'Active' || referral.nil? || (referral && referral.referral_status == 'Referred')
+    referral = family_referrals.received_and_saved.where(slug: slug).first
+    return if status == 'Active' || referral.nil? || referral.referred_from == Apartment::Tenant.current || enrollments.any?
 
     referral.referral_status = status
-    referal.save
+    referral.save
   end
 
   def flush_cache
