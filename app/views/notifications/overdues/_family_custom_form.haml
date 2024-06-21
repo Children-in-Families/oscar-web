@@ -1,14 +1,12 @@
 
-- @family_custom_form_notifications.each do |family_fields, custom_fields|
-  - family_id, family_name = family_fields
+- @family_custom_form_notifications.each do |family_custom_form|
   .ibox.border-left-right.border-bottom
     .ibox-title
       %h5
-        = link_to family_name, family_path(family_id), target: :_blank
+        = link_to family_custom_form.family_name, family_path(family_custom_form.id), target: :_blank
     .ibox-content.no-padding
       %table.table.table-striped
-        - custom_fields.each do |overdue_field|
-          %tr
-            %td.col-xs-3= t('dashboards.overdue.forms')
-            %td.col-xs-6.task-name.border-left-right= overdue_field.form_title
-            %td.col-xs-3= date_format(overdue_field.created_at)
+        %tr
+          %td.col-xs-3= t('dashboards.overdue.forms')
+          %td.col-xs-6.task-name.border-left-right= family_custom_form.form_title
+          %td.col-xs-3= date_format(family_custom_form.max_created_at)

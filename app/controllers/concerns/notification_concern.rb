@@ -66,23 +66,49 @@ module NotificationConcern
     family_ids = Family.accessible_by(current_ability).ids
     sql = "AND custom_fields.id NOT IN (#{custom_field_ids.join(',')})" if (current_user.case_worker? || current_user.manager?) && custom_field_ids.any?
 
-    family_custom_form_notifications = CustomFieldProperty.joins(:custom_field, :family)
-                                                          .where("custom_fields.frequency != '' AND custom_field_properties.custom_formable_type = 'Family' AND custom_field_properties.custom_formable_id IN (?) #{sql}", family_ids)
-                                                          .where("DATE(custom_field_properties.created_at + (custom_fields.time_of_frequency || ' ' || CASE custom_fields.frequency WHEN 'Daily' THEN 'day' WHEN 'Weekly' THEN 'week' WHEN 'Monthly' THEN 'month' WHEN 'Yearly' THEN 'year' END)::interval) < CURRENT_DATE")
-                                                          .select(:id, :created_at, "custom_fields.form_title, families.id family_id, TRIM(CONCAT(families.name, ' ', families.name_en)) as family_name")
-                                                          .distinct.to_a
+    family_custom_form_sql = <<~SQL
+      SELECT f.id,
+      custom_fields.form_title,
+      MAX(cfp.created_at) AS max_created_at,
+      TRIM(CONCAT(f.name, ' ', f.name_en)) as family_name
+      FROM families f
+      INNER JOIN custom_field_properties cfp ON cfp.custom_formable_id = f.id
+      AND cfp.custom_formable_type = 'Family'
+      INNER JOIN custom_fields ON custom_fields.id = cfp.custom_field_id
+      WHERE cfp.created_at = (
+          SELECT MAX(created_at)
+          FROM custom_field_properties cfp2
+          WHERE cfp2.custom_formable_id = cfp.custom_formable_id AND cfp2.custom_formable_type = 'Family'
+      )
+      AND DATE(cfp.created_at + (custom_fields.time_of_frequency || ' ' || CASE custom_fields.frequency WHEN 'Daily' THEN 'day' WHEN 'Weekly' THEN 'week' WHEN 'Monthly' THEN 'month' WHEN 'Yearly' THEN 'year' END)::interval) < CURRENT_DATE
+      AND f.deleted_at IS NULL
+      AND f.id IN (#{family_ids.join(', ')})
+      #{sql}
+      GROUP BY f.id, custom_fields.form_title;
+    SQL
 
-    family_custom_form_notifications += EnrollmentTracking.joins(:tracking, enrollment: :family)
-                                                          .where("trackings.frequency != '' AND enrollments.status = 'Active' AND enrollments.programmable_id IN (?)", family_ids)
-                                                          .where("DATE(enrollment_trackings.created_at + (trackings.time_of_frequency || ' ' || CASE trackings.frequency WHEN 'Daily' THEN 'day' WHEN 'Weekly' THEN 'week' WHEN 'Monthly' THEN 'month' WHEN 'Yearly' THEN 'year' END)::interval) < CURRENT_DATE")
-                                                          .select(:id, :created_at, "trackings.name form_title, families.id family_id, TRIM(CONCAT(families.name, ' ', families.name_en)) as family_name")
-                                                          .distinct.to_a
+    family_tracking_sql = <<~SQL
+      SELECT f.id,
+      t.name form_title,
+      MAX(et.created_at) AS max_created_at,
+      TRIM(CONCAT(f.name, ' ', f.name_en)) as family_name
+      FROM families f
+      INNER JOIN enrollments e ON e.programmable_id = f.id
+      AND e.deleted_at IS NULL AND e.programmable_type = 'Family'
+      INNER JOIN enrollment_trackings et ON et.enrollment_id = e.id
+      INNER JOIN trackings t ON t.id = et.tracking_id AND t.deleted_at IS NULL
+      WHERE et.created_at = (
+          SELECT MAX(created_at)
+          FROM enrollment_trackings et2
+          WHERE et2.enrollment_id = et.enrollment_id
+      )
+      AND DATE(et.created_at + (t.time_of_frequency || ' ' || CASE t.frequency WHEN 'Daily' THEN 'day' WHEN 'Weekly' THEN 'week' WHEN 'Monthly' THEN 'month' WHEN 'Yearly' THEN 'year' END)::interval) < CURRENT_DATE
+      AND f.deleted_at IS NULL
+      AND f.id IN (#{family_ids.join(', ')})
+      GROUP BY f.id, t.name;
+    SQL
 
-    group_forms = family_custom_form_notifications.group_by { |form| [form.form_title, form.family_name] }.map do |_, values|
-      values.max_by(&:created_at)
-    end
-
-    group_forms.group_by { |form| [form.family_id, form.family_name] }.to_a.uniq(&:first).to_h
+    Family.find_by_sql(family_custom_form_sql) + Family.find_by_sql(family_tracking_sql)
   end
 
   def mapping_notify_partner_custom_field
