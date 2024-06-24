@@ -1,14 +1,12 @@
 
-- @user_custom_form_notifications.each do |user_fields, custom_fields|
-  - user_id, user_name = user_fields
+- @user_custom_form_notifications.each do |user_object|
   .ibox.border-left-right.border-bottom
     .ibox-title
       %h5
-        = link_to user_name, user_path(user_id), target: :_blank
+        = link_to user_object.user_name, user_path(user_object.id), target: :_blank
     .ibox-content.no-padding
       %table.table.table-striped
-        - custom_fields.each do |overdue_field|
-          %tr
-            %td.col-xs-3= t('dashboards.overdue.forms')
-            %td.col-xs-6.task-name.border-left-right= overdue_field.form_title
-            %td.col-xs-3= date_format(overdue_field.created_at)
+        %tr
+          %td.col-xs-3= t('dashboards.overdue.forms')
+          %td.col-xs-6.task-name.border-left-right= user_object.form_title
+          %td.col-xs-3= date_format(user_object.max_created_at)

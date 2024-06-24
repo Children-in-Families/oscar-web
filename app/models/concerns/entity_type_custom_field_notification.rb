@@ -7,10 +7,10 @@ module EntityTypeCustomFieldNotification
     else
       entity_ids = entities.joins(:custom_fields).where.not(custom_fields: { frequency: '' }).ids
     end
+
     entity_ids_sql = entity_ids.any? ? "AND entity.id IN (#{entity_ids.join(', ')})" : ''
 
     table_name = klass_name.downcase.pluralize
-
     enttity_custom_form_sql = <<~SQL
       SELECT entity.id,
       MAX(cfp.created_at) AS max_created_at
@@ -23,7 +23,6 @@ module EntityTypeCustomFieldNotification
           FROM custom_field_properties cfp2
           WHERE cfp2.custom_formable_id = cfp.custom_formable_id AND cfp2.custom_formable_type = '#{klass_name}'
       )
-      AND DATE(cfp.created_at + (custom_fields.time_of_frequency || ' ' || CASE custom_fields.frequency WHEN 'Daily' THEN 'day' WHEN 'Weekly' THEN 'week' WHEN 'Monthly' THEN 'month' WHEN 'Yearly' THEN 'year' END)::interval) < CURRENT_DATE
       #{entity_ids_sql}
       GROUP BY entity.id, custom_fields.form_title;
     SQL
