@@ -1479,25 +1479,28 @@ ActiveRecord::Schema.define(version: 20240626214411) do
   add_index "family_quantitative_cases", ["type"], name: "index_family_quantitative_cases_on_type", using: :btree
 
   create_table "family_referrals", force: :cascade do |t|
-    t.string   "slug",             default: ""
+    t.string   "slug",                         default: ""
     t.date     "date_of_referral"
-    t.string   "referred_to",      default: ""
-    t.string   "referred_from",    default: ""
-    t.text     "referral_reason",  default: ""
-    t.string   "name_of_referee",  default: ""
-    t.string   "referral_phone",   default: ""
-    t.string   "name_of_family",   default: ""
-    t.string   "ngo_name",         default: ""
+    t.string   "referred_to",                  default: ""
+    t.string   "referred_from",                default: ""
+    t.text     "referral_reason",              default: ""
+    t.string   "name_of_referee",              default: ""
+    t.string   "referral_phone",               default: ""
+    t.string   "name_of_family",               default: ""
+    t.string   "ngo_name",                     default: ""
     t.integer  "referee_id"
-    t.boolean  "saved",            default: false
-    t.string   "consent_form",     default: [],                 array: true
+    t.boolean  "saved",                        default: false
+    t.string   "consent_form",                 default: [],                      array: true
     t.integer  "family_id"
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
+    t.datetime "created_at",                                        null: false
+    t.datetime "updated_at",                                        null: false
+    t.string   "referral_status",   limit: 15, default: "Referred"
+    t.integer  "referred_from_uid"
   end
 
   add_index "family_referrals", ["family_id"], name: "index_family_referrals_on_family_id", using: :btree
   add_index "family_referrals", ["referee_id"], name: "index_family_referrals_on_referee_id", using: :btree
+  add_index "family_referrals", ["referred_from_uid"], name: "index_family_referrals_on_referred_from_uid", using: :btree
 
   create_table "field_setting_translations", force: :cascade do |t|
     t.integer  "field_setting_id", null: false
