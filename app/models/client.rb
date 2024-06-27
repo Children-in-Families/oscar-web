@@ -382,7 +382,7 @@ class Client < ActiveRecord::Base
 
   # Try JaroWinkler for faster comparison
   # but adjusting the score to match WhiteSimilarity
-  def compare_jaro_winkler(value1, value2)
+  def self.compare_jaro_winkler(value1, value2)
     return 0 if value1.blank? || value2.blank?
     return 1.0 if value1 == value2
   
