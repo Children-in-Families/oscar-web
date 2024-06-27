@@ -282,19 +282,22 @@ module AdvancedSearchHelper
     end
   end
 
+  def current_setting
+    @current_setting ||= Setting.first
+  end
+
   def custom_id_translation(type)
-    @customer_id_setting ||= Setting.cache_first
-    if I18n.locale == :en || @customer_id_setting.country_name == 'lesotho'
+    if I18n.locale == :en || current_setting.country_name == 'lesotho'
       if type == 'custom_id1'
-        @customer_id_setting.custom_id1_latin.present? ? @customer_id_setting.custom_id1_latin : I18n.t('clients.other_detail.custom_id_number1')
+        current_setting.custom_id1_latin.present? ? current_setting.custom_id1_latin : I18n.t('clients.other_detail.custom_id_number1')
       else
-        @customer_id_setting.custom_id2_latin.present? ? @customer_id_setting.custom_id2_latin : I18n.t('clients.other_detail.custom_id_number2')
+        current_setting.custom_id2_latin.present? ? current_setting.custom_id2_latin : I18n.t('clients.other_detail.custom_id_number2')
       end
     else
       if type == 'custom_id1'
-        @customer_id_setting.custom_id1_local.present? ? @customer_id_setting.custom_id1_local : I18n.t('clients.other_detail.custom_id_number1')
+        current_setting.custom_id1_local.present? ? current_setting.custom_id1_local : I18n.t('clients.other_detail.custom_id_number1')
       else
-        @customer_id_setting.custom_id2_local.present? ? @customer_id_setting.custom_id2_local : I18n.t('clients.other_detail.custom_id_number2')
+        current_setting.custom_id2_local.present? ? current_setting.custom_id2_local : I18n.t('clients.other_detail.custom_id_number2')
       end
     end
   end

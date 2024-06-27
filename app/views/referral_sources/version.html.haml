@@ -6,7 +6,7 @@
           .col-xs-4.col-md-2
             = link_to t('.back'), :back, class: 'btn btn-default btn-back-default btn-back'
           .col-xs-8.col-md-7.text-center
-            - if Setting.cache_first.country_name != "cambodia"
+            - if current_setting.country_name != "cambodia"
               - if @referral_source.name_en.present?
                 %u= "#{t('.modification_of')} #{@referral_source.name_en}"
               -else

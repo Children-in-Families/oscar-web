@@ -181,7 +181,7 @@
                     = t('.refer_client_to')
                     %span.caret
 
-                - if Setting.first.enabled_internal_referral?
+                - if current_setting.enabled_internal_referral?
                   %li= link_to 'Internal Referral', client_internal_referrals_path(@client), class: "refer-to-item"
                 - ngos.each do |value, key|
                   - if value == "MoSVY External System" && @client.is_referable_to_external_system?
@@ -623,7 +623,7 @@
                         %strong
                           = @client.carer.try(:current_address)
 
-                    - if Setting.cache_first.country_name == "cambodia" && !Organization.brc?
+                    - if current_setting.country_name == "cambodia" && !Organization.brc?
                       %tr
                         %td.spacing-first-col
                           = t('.is_the_client_rated_for_id_poor')
@@ -689,7 +689,7 @@
                       %th= t('.date')
                       %th.text-center= t('.detail')
                   %tbody
-                    - if Setting.first.enabled_internal_referral?
+                    - if current_setting.enabled_internal_referral?
                       - @internal_referrals.each do |internal_referral|
                         %tr
                           %td= "Internal Referral To #{internal_referral.program_name}"

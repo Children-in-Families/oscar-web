@@ -6,7 +6,7 @@ module ApplicationHelper
   end
 
   def setting
-    Setting.cache_first
+    @setting ||= Setting.first
   end
 
   def asset_data_base64(path)

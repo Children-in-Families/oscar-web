@@ -11,7 +11,7 @@ class PartnersController < AdminController
   before_action :find_association, except: [:index, :destroy, :version]
 
   def index
-    @default_columns = Setting.cache_first.try(:partner_default_columns)
+    @default_columns = current_setting.try(:partner_default_columns)
     @partner_grid = PartnerGrid.new(params.fetch(:partner_grid, {}).merge!(dynamic_columns: @custom_form_fields))
     @partner_columns ||= PartnerColumnsVisibility.new(@partner_grid, params.merge(column_form_builder: @custom_form_fields))
     @partner_columns.visible_columns

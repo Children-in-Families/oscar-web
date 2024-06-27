@@ -154,7 +154,7 @@
                 - if current_user.admin?
                   %li{ class: settings_menu_active('settings', 'client_forms')}
                     = link_to t('.client_forms'), client_forms_settings_path
-                  - if Setting.cache_first.country_name == "cambodia" && policy(current_setting).research_module?
+                  - if current_setting.country_name == "cambodia" && policy(current_setting).research_module?
                     %li{ class: settings_menu_active('settings', 'research_module') }
                       = link_to t('.research_module'), research_module_settings_path
                   %li{ class: settings_menu_active('settings', 'internal_referral_module') }

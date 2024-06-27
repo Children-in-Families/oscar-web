@@ -4,7 +4,7 @@ module CaseConferenceHelper
   end
 
   def case_conference_editable?(meeting_date)
-    setting = Setting.cache_first
+    setting = current_setting
     max_case_case = setting.try(:case_conference_limit).zero? ? 2 : setting.try(:case_conference_limit)
     case_note_frequency = setting.try(:case_conference_frequency)
     meeting_date <= max_case_case.send(case_note_frequency).ago

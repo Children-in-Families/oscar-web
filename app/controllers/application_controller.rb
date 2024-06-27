@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :find_association, if: :registration?
   before_action :set_locale, :override_translation
-  before_action :set_paper_trail_whodunnit, :current_setting
+  before_action :set_paper_trail_whodunnit
   before_action :prevent_routes
   before_action :set_raven_context, :address_translation
   before_filter :set_current_user
@@ -44,7 +44,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_setting
-    @current_setting ||= Setting.cache_first
+    @current_setting ||= Setting.first
   end
 
   def field_settings
@@ -107,7 +107,7 @@ class ApplicationController < ActionController::Base
   end
 
   def default_url_options(options = {})
-    country = Setting.cache_first.try(:country_name) || current_organization.country || params[:country] || 'cambodia'
+    country = current_setting.try(:country_name) || current_organization.country || params[:country] || 'cambodia'
     local = params[:locale] if params[:locale] && I18n.available_locales.include?(params[:locale].to_sym)
     { locale: local || I18n.locale, country: country }.merge(options)
   end

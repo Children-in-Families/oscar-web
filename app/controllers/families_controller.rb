@@ -21,7 +21,7 @@ class FamiliesController < AdminController
   end
 
   def index
-    @default_columns = Setting.cache_first.try(:family_default_columns)
+    @default_columns = current_setting.try(:family_default_columns)
     @family_grid = FamilyGrid.new(params.fetch(:family_grid, {}).merge!(dynamic_columns: column_form_builder))
     @family_grid = @family_grid.scope { |scope| scope.accessible_by(current_ability) }
     @family_columns ||= FamilyColumnsVisibility.new(@family_grid, params.merge(column_form_builder: column_form_builder))

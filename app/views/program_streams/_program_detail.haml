@@ -5,7 +5,7 @@
     = f.input :name, label: t('.name')
     = f.input :description, label: t('.description')
     = f.association :domains, collection: @csi_domains, multiple: true, label_method: :identity, value_method: :id, label: t('.domain')
-    - if Setting.first.enabled_internal_referral?
+    - if current_setting.enabled_internal_referral?
       = f.input :internal_referral_user_ids, collection: User.non_locked, multiple: true, label_method: :name, value_method: :id, label: t('.users'), input_html: { multiple: true }
   #type-of-service{ data: {custom: services.to_json } }
     = f.association :services, collection: services(false), multiple: true, label: t('.type_of_service')

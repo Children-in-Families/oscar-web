@@ -4,7 +4,7 @@
   %label **
 .well
   .row
-    .col-xs-12{ class: !Setting.cache_first.hide_family_case_management_tool? ? 'col-md-3' : 'col-md-4' }
+    .col-xs-12{ class: !current_setting.hide_family_case_management_tool? ? 'col-md-3' : 'col-md-4' }
       #quantitative-type
         .row
           .col-xs-12
@@ -12,7 +12,7 @@
               -# = check_box_tag :nil, '1', quantitative_check, { class: 'i-checks quantitative-type-checkbox', id: 'quantitative-type-checkbox' }
               = check_box_tag :nil, '1', quantitative_check, { class: 'i-checks quantitative-type-checkbox', id: 'quantitative-type-checkbox' }
               %label= t('.quantitative')
-    .col-xs-12{ class: !Setting.cache_first.hide_family_case_management_tool? ? 'col-md-3' : 'col-md-4' }
+    .col-xs-12{ class: !current_setting.hide_family_case_management_tool? ? 'col-md-3' : 'col-md-4' }
       .custom-form-wrapper
         .row
           .col-xs-12
@@ -23,7 +23,7 @@
           .col-xs-12
             .form-group#custom-form-data{ data: { value: custom_form_values } }
               = select_tag(:nil, options_for_select(@custom_fields.pluck(:form_title, :id), custom_form_values), { multiple: true, class: 'form-control custom-form-select', id: 'custom-form-select' } )
-    .col-xs-12{ class: !Setting.cache_first.hide_family_case_management_tool? ? 'col-md-3' : 'col-md-4' }
+    .col-xs-12{ class: !current_setting.hide_family_case_management_tool? ? 'col-md-3' : 'col-md-4' }
       .program-stream-wrapper{ class: current_setting.hide_family_case_management_tool? && 'hide' }
         .row
           .col-xs-12
@@ -47,7 +47,7 @@
                 = check_box_tag :nil, '1', exit_form_check, { class: 'i-checks exit-form-checkbox', id: 'exit-form-checkbox' }
                 %label= t('.exit_program')
     
-    - unless Setting.cache_first.hide_family_case_management_tool?
+    - unless current_setting.hide_family_case_management_tool?
       .col-xs-12.col-md-3
         .assessment-form-wrapper
           .row

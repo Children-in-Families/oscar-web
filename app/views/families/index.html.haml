@@ -12,7 +12,7 @@
       = t('clients.index.save_search_settings')
 
     - if params['commit'].present? || params['family_advanced_search'].present?
-      - unless Setting.cache_first.hide_family_case_management_tool?
+      - unless current_setting.hide_family_case_management_tool?
         .btn-group
           %button.btn.btn-primary.dropdown-toggle{ "aria-expanded" => "false", "aria-haspopup" => "true", type: "button", data: { toggle: "dropdown", trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.assessment_data', assessment: t('clients.show.assessment'))}", placement: "auto" } }
             = t('clients.index.assessment_data', assessment: t('clients.show.assessment'))

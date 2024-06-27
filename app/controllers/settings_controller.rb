@@ -95,7 +95,7 @@ class SettingsController < AdminController
   end
 
   def finance_dashboard
-    @setting = Setting.cache_first
+    @setting = current_setting
 
     if request.put?
       if @setting.update_attributes(finance_dashboard: params.dig(:setting, :finance_dashboard))
@@ -148,8 +148,8 @@ class SettingsController < AdminController
 
   def country_address_fields
     @provinces = Province.cached_order_name
-    @districts = Setting.cache_first.province.present? ? Setting.cache_first.province.districts.order(:name) : []
-    @communes = Setting.cache_first.district.present? ? Setting.cache_first.district.communes.order(:name_kh, :name_en) : []
+    @districts = current_setting.province.present? ? current_setting.province.districts.order(:name) : []
+    @communes = current_setting.district.present? ? current_setting.district.communes.order(:name_kh, :name_en) : []
   end
 
   def setting_params
@@ -231,7 +231,7 @@ class SettingsController < AdminController
   end
 
   def international_address_columns
-    country = Setting.cache_first.try(:country_name) || params[:country]
+    country = current_setting.try(:country_name) || params[:country]
     case country
     when 'thailand'
       %w[province_id_ birth_province_id_ district_ subdistrict_ postal_code_ plot_ road_]

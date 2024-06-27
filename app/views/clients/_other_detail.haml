@@ -6,7 +6,7 @@
 
     %legend= t('.other_information')
     .row
-      - if Setting.cache_first.country_name == "cambodia"
+      - if current_setting.country_name == "cambodia"
         .col-xs-12.col-sm-6.col-md-4
           = f.association :agencies, collection: @agencies, multiple: true, label_method: :name, value_method: :id, label: t('.agencies')
         .col-xs-12.col-sm-6.col-md-4
@@ -30,13 +30,13 @@
         .i-check.has-been-in-government-care
           %label= "#{t('.has_been_in_government_care')}?"
           = f.input :has_been_in_government_care, as: :radio_buttons, collection: [['Yes', true],['No', false]], label: false, checked: @client.has_been_in_government_care.nil? ? '' : @client.has_been_in_government_care
-      - if Setting.cache_first.country_name == "cambodia"
+      - if current_setting.country_name == "cambodia"
         .col-xs-12.col-sm-6.col-md-4
           = f.input :code, label: custom_id_translation('custom_id1')
       - else
         .col-xs-12.col-sm-6.col-md-4.text-left
           = f.input :kid_id, label: custom_id_translation('custom_id2')
-    - if Setting.cache_first.country_name == "cambodia"
+    - if current_setting.country_name == "cambodia"
       .row
         .col-xs-12.col-sm-6.col-md-4.text-left
           = f.input :kid_id, label: custom_id_translation('custom_id2')
