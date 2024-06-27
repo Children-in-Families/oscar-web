@@ -419,7 +419,14 @@ class Client < ActiveRecord::Base
     remain_day = (dob1 > dob2) ? (dob1 - dob2).to_i : (dob2 - dob1).to_i
     percentage = 1.0 - (remain_day * 0.5) / 100.0
 
-    percentage.clamp(0.0, 1.0)
+    # Ensure percentage is within 0.0 to 1.0 range
+    if percentage < 0.0
+      percentage = 0.0
+    elsif percentage > 1.0
+      percentage = 1.0
+    end
+
+    percentage
   end
 
   # options[:custom]
