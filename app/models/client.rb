@@ -219,19 +219,30 @@ class Client < ActiveRecord::Base
         shared_client = client.shared_clients.last if client.present?
       end
 
-      similar_fields = []
-      shared_clients = []
-
-      if (Client::DUPLICATE_CHECKING_FIELDS.map(&:to_s) & options.keys.map(&:to_s)).blank? || shared_client&.resolved_duplication_by.present?
-        return { similar_fields: similar_fields, duplicate_with: nil }
+      
+      if shared_client && shared_client.resolved_duplication_by
+        return {
+          similar_fields: [],
+          duplicate_with: nil
+        }
       end
 
-      current_org = Organization.current.short_name
+      if (Client::DUPLICATE_CHECKING_FIELDS.map(&:to_s) & options.keys.map(&:to_s)).empty?
+        return {
+          similar_fields: [],
+          duplicate_with: nil
+        }
+      end
+
+      similar_fields = []
+      shared_clients = []
+      birth_province_name = nil
 
       Apartment::Tenant.switch 'shared' do
-        skip_orgs_percentage = Organization.skip_dup_checking_orgs.map { |val| "%#{val.short_name}%" }
+        birth_province_name = Province.find_by(id: options[:birth_province_id]).try(:name)
 
-        if skip_orgs_percentage.any?
+        if Organization.skip_dup_checking_orgs.any?
+          skip_orgs_percentage = Organization.skip_dup_checking_orgs.map { |val| "%#{val.short_name}%" }
           shared_clients = SharedClient.where.not(slug: options[:slug]).where.not('archived_slug ILIKE ANY ( array[?] ) AND duplicate_checker IS NOT NULL', skip_orgs_percentage)
         else
           shared_clients = SharedClient.where.not(slug: options[:slug]).where('duplicate_checker IS NOT NULL')
@@ -243,20 +254,16 @@ class Client < ActiveRecord::Base
       commune_name = Commune.find_by(id: options[:commune_id]).try(:name)
       village_name = Village.find_by(id: options[:village_id]).try(:name)
 
-      birth_province_name = Apartment::Tenant.switch 'shared' do
-        Province.find_by(id: options[:birth_province_id]).try(:name)
-      end
-
       addresses_hash = { cp: province_name, cd: district_name, cc: commune_name, cv: village_name, bp: birth_province_name }
       address_hash = { cv: 1, cc: 2, cd: 3, cp: 4, bp: 5 }
 
-      shared_clients.each do |client|
-        next if client.duplicate_checker.blank?
+      shared_clients.each do |another_client|
+        next if another_client.duplicate_checker.blank?
 
-        duplicate_checker_data = client.duplicate_checker.split('&')
+        duplicate_checker_data = another_client.duplicate_checker.split('&')
         input_name_field = field_name_concatenate(options)
         client_name_field = duplicate_checker_data[0].squish
-        field_name = compare_matching(input_name_field, client_name_field)
+        field_name = compare_jaro_winkler(input_name_field, client_name_field)
         dob = date_of_birth_matching(options[:date_of_birth], duplicate_checker_data.last.squish)
         addresses = mapping_address(address_hash, addresses_hash, duplicate_checker_data)
         gender_matching = options[:gender].to_s.downcase == duplicate_checker_data[7].to_s.downcase ? 1 : nil
@@ -276,11 +283,17 @@ class Client < ActiveRecord::Base
           similar_fields << '#hidden_birth_province' if match_percentages[6].present?
           similar_fields << '#hidden_gender' if match_percentages[7].present?
 
-          return { similar_fields: similar_fields, duplicate_with: client.archived_slug }
+          return {
+            similar_fields: similar_fields,
+            duplicate_with: another_client.archived_slug
+          }
         end
       end
 
-      { similar_fields: similar_fields, duplicate_with: nil }
+      {
+        similar_fields: similar_fields,
+        duplicate_with: nil
+      }
     end
 
     def check_for_duplication(options, shared_clients)
@@ -367,6 +380,27 @@ class Client < ActiveRecord::Base
     value1 == value2 ? 1 : nil
   end
 
+  # Try JaroWinkler for faster comparison
+  # but adjusting the score to match WhiteSimilarity
+  def compare_jaro_winkler(value1, value2)
+    return 0 if value1.blank? || value2.blank?
+    return 1.0 if value1 == value2
+  
+    max_length = [value1.length, value2.length].max
+    min_length = [value1.length, value2.length].min
+    
+    # Adjusted threshold based on string length ratio
+    length_threshold = 0.2 * max_length
+    
+    return 0.0 if (max_length - min_length) > length_threshold
+    
+    # Limit comparison to first 4 characters or 10% of the length, whichever is smaller
+    prefix_length = [max_length, 4].min
+    
+    JaroWinkler.distance(value1[0, prefix_length], value2[0, prefix_length], ignore_case: true)
+  end
+
+  # DEPRECATED: Use compare_jaro_winkler instead
   def self.compare_matching(value1, value2)
     return nil if value1.blank?
     white = Text::WhiteSimilarity.new
@@ -375,16 +409,17 @@ class Client < ActiveRecord::Base
   end
 
   def self.date_of_birth_matching(dob1, dob2)
-    return nil if dob1.blank? || dob2.nil? || dob1.nil? || dob2.blank?
-    percentage = 0
-    if dob1.to_date == dob2.to_date
-      percentage = 1
-    else
-      remain_day = (dob1.to_date > dob2.to_date) ? (dob1.to_date - dob2.to_date) : (dob2.to_date - dob1.to_date)
-      percentage = 1 - (remain_day * 0.5) / 100 if remain_day.present?
-    end
+    return nil if dob1.blank? || dob2.blank?
 
-    percentage < 0 ? nil : percentage
+    dob1 = dob1.to_date
+    dob2 = dob2.to_date
+
+    return 1.0 if dob1 == dob2
+
+    remain_day = (dob1 > dob2) ? (dob1 - dob2).to_i : (dob2 - dob1).to_i
+    percentage = 1.0 - (remain_day * 0.5) / 100.0
+
+    percentage.clamp(0.0, 1.0)
   end
 
   # options[:custom]
