@@ -1,7 +1,7 @@
 module SavedSearchHelper
   private
     def prevent_load_saved_searches(advanced_search)
-      if (Organization.current.short_name == "mtp" && AdvancedSearch::BROKEN_RULE_MTP.include?(advanced_search.id)) || (Organization.current.short_name == "demo" && AdvancedSearch::BROKEN_RULE_DEMO.include?(advanced_search.id))
+      if (current_organization.short_name == "mtp" && AdvancedSearch::BROKEN_RULE_MTP.include?(advanced_search.id)) || (current_organization.short_name == "demo" && AdvancedSearch::BROKEN_RULE_DEMO.include?(advanced_search.id))
         link_to '#', {class: 'btn btn-xs btn-success btn-outline', "data-toggle" => "popover","data-content" => "Program stream, rule or custom form has been deleted.", "data-placement" => "top","data-trigger" => "hover", :type => "button"} do
           fa_icon 'clipboard'
         end
@@ -31,7 +31,7 @@ module SavedSearchHelper
     end
 
     def blank_save_search(advanced_search)
-      current_org = Organization.current.short_name
+      current_org = current_organization.short_name
       advanced_search_id = advanced_search.id
       custom_advanced_search = [current_org, advanced_search_id]
       if AdvancedSearch::BROKEN_SAVE_SEARCH.include?(custom_advanced_search)
@@ -78,7 +78,7 @@ module SavedSearchHelper
     end
 
     def blank_edit_save_search(advanced_search)
-      current_org = Organization.current.short_name
+      current_org = current_organization.short_name
       advanced_search_id = advanced_search.id
       custom_advanced_search = [current_org, advanced_search_id]
       if AdvancedSearch::BROKEN_SAVE_SEARCH.include?(custom_advanced_search)

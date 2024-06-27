@@ -31,7 +31,7 @@
                 %tbody
                   - @domain_groups.each do |domain_group|
                     %tr
-                      - if Organization.current.short_name == 'aht'
+                      - if current_organization.short_name == 'aht'
                         %td= t("dimensions.dimension_groups.#{domain_group.name.downcase.strip.parameterize('_')}")
                       - else
                         %td= domain_group.name

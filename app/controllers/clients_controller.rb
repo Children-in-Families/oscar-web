@@ -120,7 +120,7 @@ class ClientsController < AdminController
 
   def new
     if params[:referral_id].present?
-      current_org = Organization.current
+      current_org = current_organization
       find_referral_by_params
       referral_source_id = find_referral_source_by_referral
       referral_attr = @referral.attributes
@@ -333,7 +333,7 @@ class ClientsController < AdminController
   end
 
   def assign_client_attributes
-    current_org = Organization.current
+    current_org = current_organization
     Organization.switch_to 'shared'
     client_record = SharedClient.find_by(archived_slug: @client.archived_slug)
     if client_record.present?
@@ -431,7 +431,7 @@ class ClientsController < AdminController
 
   def country_address_fields(client)
     selected_country = current_setting.country_name || params[:country]
-    current_org = Organization.current.short_name
+    current_org = current_organization.short_name
     Organization.switch_to 'shared'
     @birth_provinces = []
     Organization.pluck(:country).uniq.reject(&:blank?).map { |country| @birth_provinces << [country.titleize, Province.country_is(country).map { |p| [p.name, p.id] }] }

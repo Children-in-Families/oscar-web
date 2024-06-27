@@ -1,6 +1,6 @@
 module AddressesHelper
   def selected_country
-    country = Organization.current.country || current_setting.try(:country_name) || params[:country].presence
+    country = current_organization.country || current_setting.try(:country_name) || params[:country].presence
     country.nil? ? 'cambodia' : country
   end
 
@@ -55,11 +55,11 @@ module AddressesHelper
     if I18n.locale.to_s == 'km'
       current_address << object.district_name.split(' / ').first if object.district.present?
       current_address << object.province_name.split(' / ').first if object.province.present?
-      current_address << 'កម្ពុជា' if Organization.current.short_name != 'brc'
+      current_address << 'កម្ពុជា' if current_organization.short_name != 'brc'
     else
       current_address << object.district_name.split(' / ').last if object.district.present?
       current_address << object.province_name.split(' / ').last if object.province.present?
-      current_address << 'Cambodia' if Organization.current.short_name != 'brc'
+      current_address << 'Cambodia' if current_organization.short_name != 'brc'
     end
     current_address
   end

@@ -1,5 +1,5 @@
 %p= 'Dear Sir/Madam,'
 %p= "URGENT: Your client: #{@client.name} ID: #{@client.id} has an incomplete assessment. This assessments must be completed by #{@overdue_date} or it will be deleted."
-%p= link_to "Check My #{@name}", client_assessments_url(@client, subdomain: Organization.current.short_name), target: :_blank
+%p= link_to "Check My #{@name}", client_assessments_url(@client, subdomain: current_organization.short_name), target: :_blank
 %p Thanks,
 %p OSCaR Team

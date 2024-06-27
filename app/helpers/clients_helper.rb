@@ -415,7 +415,7 @@ module ClientsHelper
   end
 
   def custom_data_fields
-    (CustomData.first.try(:fields) || []).map { |field| ["#{field['name']}_".to_sym, field['label']] }.to_h
+    @custom_data_fields ||= (CustomData.first.try(:fields) || []).map { |field| ["#{field['name']}_".to_sym, field['label']] }.to_h
   end
 
   def columns_visibility(column)

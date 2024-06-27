@@ -30,7 +30,7 @@ module Api
     private
 
     def find_custom_field_in_organization
-      current_org_name = Organization.current.short_name
+      current_org_name = current_organization.short_name
       orgs = current_org_name == 'demo' ? Organization.all : Organization.without_demo.order(:full_name)
       custom_fields = orgs.map do |org|
         Organization.switch_to org.short_name

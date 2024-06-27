@@ -1,4 +1,4 @@
-- if Organization.current.short_name == 'demo' || Organization.current.short_name == 'tutorials'
+- if current_organization.short_name == 'demo' || current_organization.short_name == 'tutorials'
   - ngos = Organization.test_ngos.exclude_current.order(:full_name).map{|org| [org.full_name, org.short_name] }
 - else
   - ngos = Organization.exclude_current.oscar.order(:full_name).map{|org| [org.full_name, org.short_name] }

@@ -9,7 +9,7 @@ class FieldSettingsController < AdminController
         FieldSetting.update(id, label: attributes[:label], visible: attributes[:visible] || 0)
       end
 
-      local_locale = Organization.current.local_language
+      local_locale = current_organization.local_language
 
       next unless local_locale.present?
 

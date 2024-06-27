@@ -1,5 +1,5 @@
 .row.header
-  - if Organization.current.local_language.blank?
+  - if current_organization.local_language.blank?
     .col-md-4
       %p Name
     .col-md-4
@@ -10,7 +10,7 @@
     .col-md-3
       %p English Label
     .col-md-3
-      %p= "Local Label (#{Organization.current.local_language})"
+      %p= "Local Label (#{current_organization.local_language})"
 
   .col-md-1
     %p Show

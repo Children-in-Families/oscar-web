@@ -119,7 +119,7 @@ class CallsController < AdminController
 
   def country_address_fields
     selected_country = current_setting.try(:country_name) || params[:country]
-    current_org = Organization.current.short_name
+    current_org = current_organization.short_name
     Organization.switch_to 'shared'
     @birth_provinces = []
     Organization.pluck(:country).uniq.reject(&:blank?).map { |country| @birth_provinces << [country.titleize, Province.country_is(country).map { |p| [p.name, p.id] }] }

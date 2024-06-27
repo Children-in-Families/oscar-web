@@ -68,7 +68,7 @@ module AdvancedSearches
 
     def text_type_list
       [
-        'given_name', 'flight_nb','local_given_name', 'slug', 'what3words', 'kid_id', 'code',
+        'given_name', 'flight_nb', 'local_given_name', 'slug', 'what3words', 'kid_id', 'code',
         'client_email_address', *setting_country_fields[:text_fields]
       ].compact
     end
@@ -108,9 +108,7 @@ module AdvancedSearches
     end
 
     def drop_down_type_list
-      yes_option = { true: 'Yes' }
-      yes_no_options = { true: 'Yes', false: 'No' }
-      fields = [
+      [
         ['location_of_concern', Client.cache_location_of_concern],
         ['gender', gender_list],
         ['status', client_status],
@@ -338,10 +336,6 @@ module AdvancedSearches
 
     def family_type_list
       Family.mapping_family_type_translation.to_h
-    end
-
-    def mo_savy_officials_options
-      MoSavyOfficial.cache_all.map { |item| { item.id.to_s => item.name } }
     end
   end
 end

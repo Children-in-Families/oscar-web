@@ -46,7 +46,7 @@ class FamiliesController < AdminController
 
   def new
     if params[:referral_id].present?
-      current_org = Organization.current
+      current_org = current_organization
       find_referral_by_params
       Organization.switch_to @family_referral.referred_from
       attributes = fetch_family_attibutes(@family_referral.slug, current_org)

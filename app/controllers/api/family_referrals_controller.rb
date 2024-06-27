@@ -11,7 +11,7 @@ module Api
         if params[:org] == 'external referral' || params[:org] == 'MoSVY External System'
           { text: 'create referral' }
         else
-          current_org = Organization.current.short_name
+          current_org = current_organization.short_name
           Organization.switch_to params[:org]
           slug = "#{current_org}-#{params[:familyId]}"
           referrals = FamilyReferral.where(slug: slug)

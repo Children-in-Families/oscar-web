@@ -1,6 +1,6 @@
 %p= 'Dear Sir/Madam,'
 %p= "You are almost due to complete the next #{@name}."
 %p= "To check your next #{@name}, please click the link below."
-%p= link_to "Check My #{@name}", client_assessments_url(@client, subdomain: Organization.current.short_name), target: :_blank
+%p= link_to "Check My #{@name}", client_assessments_url(@client, subdomain: current_organization.short_name), target: :_blank
 %p Thanks,
 %p OSCaR Team

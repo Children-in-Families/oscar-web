@@ -101,7 +101,7 @@ class GovernmentFormsController < AdminController
 
   def find_client
     @client = Client.accessible_by(current_ability).friendly.find(params[:client_id])
-    current_org = Organization.current
+    current_org = current_organization
     Organization.switch_to 'shared'
     client_record = SharedClient.find_by(slug: params[:client_id])
     if client_record.present?

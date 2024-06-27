@@ -2,7 +2,7 @@
 
 This email was sent to you because you are following this topic
 "#{@post.postable.title}". Go here to view the conversation:
-#{post_permalink_url @post, subdomain: Organization.current.short_name}
+#{post_permalink_url @post, subdomain: current_organization.short_name}
 
 To unsubscribe from these emails, update your preferences here:
-#{edit_messageboard_preferences_url @post.messageboard, subdomain: Organization.current.short_name}
+#{edit_messageboard_preferences_url @post.messageboard, subdomain: current_organization.short_name}

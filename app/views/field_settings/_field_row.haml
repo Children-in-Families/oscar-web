@@ -1,5 +1,5 @@
 .row
-  - if Organization.current.local_language.blank?
+  - if current_organization.local_language.blank?
     .col-md-4
       = field.current_label
       .text-muted= "(#{field.name})"
@@ -17,7 +17,7 @@
       - Globalize.with_locale(:en) do
         = f.input :label, label: false, required: true, wrapper_html: { class: "field_setting_#{field.id}_label" }, input_html: { id: "field_setting_#{field.id}_visible", name: "field_setting[#{field.id}][label]", value: begin field.label || t("clients.form.#{field.name}", raise: I18n::MissingTranslationData) rescue field.current_label end  }
     .col-md-3
-      - Globalize.with_locale(Organization.current.local_language) do
+      - Globalize.with_locale(current_organization.local_language) do
         = f.input :label, label: false, required: true, wrapper_html: { class: "field_setting_#{field.id}_label" }, input_html: { id: "field_setting_#{field.id}_visible", name: "field_setting[#{field.id}][local_label]", value: begin field.label || t("clients.form.#{field.name}", raise: I18n::MissingTranslationData) rescue field.current_label end  }
 
 

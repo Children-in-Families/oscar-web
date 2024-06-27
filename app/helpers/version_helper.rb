@@ -27,7 +27,7 @@ module VersionHelper
     end
 
     if k == 'birth_province_id'
-      current_org = Organization.current
+      current_org = current_organization
       Organization.switch_to 'shared'
       name = Province.find_by(id: val).try(:name)
       Organization.switch_to current_org.short_name

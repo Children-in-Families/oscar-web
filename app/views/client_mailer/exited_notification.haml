@@ -4,7 +4,7 @@
 
 %p
   Please click
-  = link_to 'here', client_url(@client, subdomain: Organization.current.short_name), target: :_blank
+  = link_to 'here', client_url(@client, subdomain: current_organization.short_name), target: :_blank
   to check client detail.
 
 %p Thanks,

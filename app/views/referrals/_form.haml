@@ -28,7 +28,7 @@
             = text_field_tag nil, @client.slug, class: 'form-control', readonly: true
 
         .col-xs-12
-          = f.input :referred_from, readonly: true, input_html: { value: Organization.current.full_name }, label: t('.referred_from')
+          = f.input :referred_from, readonly: true, input_html: { value: current_organization.full_name }, label: t('.referred_from')
         - if params[:ngo] == 'external referral' || params[:ngo] == 'MoSVY External System' || @referral.referred_to == 'external referral'
           .col-xs-12
             = f.hidden_field :referred_to, as: :select, collection: ngos, label: t('.referred_to'), disabled: f.object.persisted?
