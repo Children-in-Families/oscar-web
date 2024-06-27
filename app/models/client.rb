@@ -394,10 +394,7 @@ class Client < ActiveRecord::Base
     
     return 0.0 if (max_length - min_length) > length_threshold
     
-    # Limit comparison to first 4 characters or 10% of the length, whichever is smaller
-    prefix_length = [max_length, 4].min
-    
-    JaroWinkler.distance(value1[0, prefix_length], value2[0, prefix_length], ignore_case: true)
+    JaroWinkler.distance(value1, value2, ignore_case: true)
   end
 
   # DEPRECATED: Use compare_jaro_winkler instead
