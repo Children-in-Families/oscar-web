@@ -219,7 +219,6 @@ class Client < ActiveRecord::Base
         shared_client = client.shared_clients.last if client.present?
       end
 
-      
       if shared_client && shared_client.resolved_duplication_by
         return {
           similar_fields: [],
@@ -268,7 +267,7 @@ class Client < ActiveRecord::Base
         7 => '#hidden_gender'
       }
 
-      shared_clients.each do |another_client|
+      shared_clients.find_each(batch_size: 500) do |another_client|
         duplicate_checker_data = another_client.duplicate_checker.split('&')
         input_name_field = field_name_concatenate(options)
         client_name_field = duplicate_checker_data[0].squish
@@ -297,10 +296,7 @@ class Client < ActiveRecord::Base
         end
       end
 
-      {
-        similar_fields: similar_fields,
-        duplicate_with: nil
-      }
+      { similar_fields: similar_fields, duplicate_with: nil }
     end
 
     def check_for_duplication(options, shared_clients)
