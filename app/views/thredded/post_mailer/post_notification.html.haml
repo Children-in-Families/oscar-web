@@ -2,8 +2,8 @@
 %hr
 %p
   This email was sent to you because you are following this topic
-  "#{link_to @post.postable.title, post_permalink_url(@post.id, subdomain: current_organization.short_name)}".
-  #{link_to 'View the conversation here', topic_url(@post.postable, subdomain: current_organization.short_name)}.
+  "#{link_to @post.postable.title, post_permalink_url(@post.id, subdomain: Apartment::Tenant.current)}".
+  #{link_to 'View the conversation here', topic_url(@post.postable, subdomain: Apartment::Tenant.current)}.
 %p
   To unsubscribe from these emails, update your
-  #{link_to 'preferences', edit_messageboard_preferences_url(@post.messageboard, subdomain: current_organization.short_name)}.
+  #{link_to 'preferences', edit_messageboard_preferences_url(@post.messageboard, subdomain: Apartment::Tenant.current)}.

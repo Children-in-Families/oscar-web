@@ -1,6 +1,6 @@
 %p= "Dear #{@user.name},"
 %p There are some tasks you haven't completed yet which due tomorrow.
 %p To check your tasks, please click the link below.
-%p= link_to 'Check my tasks', dashboards_url(user_id: @user.id, subdomain: current_organization.short_name, tasks: true), target: :_blank
+%p= link_to 'Check my tasks', dashboards_url(user_id: @user.id, subdomain: Apartment::Tenant.current, tasks: true), target: :_blank
 %p Thanks,
 %p OSCaR Team

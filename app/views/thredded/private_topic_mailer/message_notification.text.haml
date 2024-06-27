@@ -2,8 +2,8 @@
 
 This email was sent to you because #{@topic.user.name}
 included you in the private topic "#{@topic.title}".
-#{link_to 'Go here', topic_path(@topic, subdomain: current_organization.short_name)}
+#{link_to 'Go here', topic_path(@topic, subdomain: Apartment::Tenant.current)}
 to view the conversation:
 
 To unsubscribe from these emails, update your preferences here:
-#{edit_preferences_url(nil, subdomain: current_organization.short_name)}
+#{edit_preferences_url(nil, subdomain: Apartment::Tenant.current)}
