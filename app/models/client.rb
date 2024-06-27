@@ -243,7 +243,7 @@ class Client < ActiveRecord::Base
 
         if Organization.skip_dup_checking_orgs.any?
           skip_orgs_percentage = Organization.skip_dup_checking_orgs.map { |val| "%#{val.short_name}%" }
-          shared_clients = SharedClient.where.not(slug: options[:slug]).where.not('archived_slug ILIKE ANY ( array[?] ) AND duplicate_checker IS NOT NULL', skip_orgs_percentage)
+          shared_clients = SharedClient.where.not(slug: options[:slug]).where('duplicate_checker IS NOT NULL').where.not('archived_slug ILIKE ANY ( array[?] )', skip_orgs_percentage)
         else
           shared_clients = SharedClient.where.not(slug: options[:slug]).where('duplicate_checker IS NOT NULL')
         end
@@ -258,8 +258,6 @@ class Client < ActiveRecord::Base
       address_hash = { cv: 1, cc: 2, cd: 3, cp: 4, bp: 5 }
 
       shared_clients.each do |another_client|
-        next if another_client.duplicate_checker.blank?
-
         duplicate_checker_data = another_client.duplicate_checker.split('&')
         input_name_field = field_name_concatenate(options)
         client_name_field = duplicate_checker_data[0].squish
