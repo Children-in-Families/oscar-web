@@ -257,6 +257,17 @@ class Client < ActiveRecord::Base
       addresses_hash = { cp: province_name, cd: district_name, cc: commune_name, cv: village_name, bp: birth_province_name }
       address_hash = { cv: 1, cc: 2, cd: 3, cp: 4, bp: 5 }
 
+      field_mappings = {
+        0 => '#hidden_name_fields',
+        1 => '#hidden_date_of_birth',
+        2 => '#hidden_village',
+        3 => '#hidden_commune',
+        4 => '#hidden_district',
+        5 => '#hidden_province',
+        6 => '#hidden_birth_province',
+        7 => '#hidden_gender'
+      }
+
       shared_clients.each do |another_client|
         duplicate_checker_data = another_client.duplicate_checker.split('&')
         input_name_field = field_name_concatenate(options)
@@ -269,17 +280,15 @@ class Client < ActiveRecord::Base
 
         percentages = match_percentages.compact
 
-        if percentages.any? && (match_percentages.compact.inject(:*) * 100) >= 75
+        if percentages.any? && (percentages.inject(:*) * 100) >= 75
           Rails.logger.info "Found similar client with percentage: #{(match_percentages.compact.inject(:*) * 100)} - #{match_percentages} - #{addresses_hash} - #{duplicate_checker_data}"
-
-          similar_fields << '#hidden_name_fields' if match_percentages[0].present?
-          similar_fields << '#hidden_date_of_birth' if match_percentages[1].present?
-          similar_fields << '#hidden_village' if match_percentages[2].present?
-          similar_fields << '#hidden_commune' if match_percentages[3].present?
-          similar_fields << '#hidden_district' if match_percentages[4].present?
-          similar_fields << '#hidden_province' if match_percentages[5].present?
-          similar_fields << '#hidden_birth_province' if match_percentages[6].present?
-          similar_fields << '#hidden_gender' if match_percentages[7].present?
+          
+          match_percentages.each_with_index do |percentage, index|
+            if percentage.present?
+              field_label = field_mappings[index]
+              similar_fields << field_label if field_label
+            end
+          end
 
           return {
             similar_fields: similar_fields,
