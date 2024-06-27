@@ -397,7 +397,11 @@ class Client < ActiveRecord::Base
     
     return 0.0 if (max_length - min_length) > length_threshold
     
-    JaroWinkler.distance(value1, value2, ignore_case: true)
+    similarity = JaroWinkler.distance(value1, value2, ignore_case: true)
+
+    # Intentionally drop to 50% of < 0.88% to match WhiteSimilarity
+    similarity = 0.5 if similarity > 0.5 && similarity < 0.88
+    similarity
   end
 
   # DEPRECATED: Use compare_jaro_winkler instead
