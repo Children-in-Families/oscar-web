@@ -267,7 +267,7 @@ class Client < ActiveRecord::Base
         7 => '#hidden_gender'
       }
 
-      shared_clients.find_each(batch_size: 500) do |another_client|
+      shared_clients.find_each do |another_client|
         duplicate_checker_data = another_client.duplicate_checker.split('&')
         input_name_field = field_name_concatenate(options)
         client_name_field = duplicate_checker_data[0].squish
