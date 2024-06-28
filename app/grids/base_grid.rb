@@ -18,4 +18,10 @@ class BaseGrid
       end
     end
   end
+
+  private
+
+  def current_setting
+    @current_setting ||= Setting.first
+  end
 end
