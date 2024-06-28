@@ -53,6 +53,23 @@ module ApplicationHelper
     end
   end
 
+  def client_report_builder_cache_key
+    [
+      current_user.roles,
+      current_setting,
+      param[:locale],
+      param[:country],
+      @custom_form_columns,
+      @program_stream_columns,
+      @hotline_call_columns,
+      @basic_filter_params,
+      @builder_fields,
+      @quantitative_fields,
+      @hotline_fields,
+      enable_custom_assessment?
+    ]
+  end
+
   def authorized_body
     'unauthorized-background' unless user_signed_in?
   end
