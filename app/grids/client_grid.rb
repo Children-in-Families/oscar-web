@@ -1323,4 +1323,10 @@ class ClientGrid < BaseGrid
   def custom_assessment_setting
     @custom_assessment_setting ||= CustomAssessmentSetting.find_by(id: assessment_setting_id)
   end
+
+  private
+
+  def self.current_setting
+    Setting.first
+  end
 end
