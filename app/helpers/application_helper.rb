@@ -57,8 +57,8 @@ module ApplicationHelper
     [
       current_user.roles,
       current_setting,
-      param[:locale],
-      param[:country],
+      params[:locale],
+      params[:country],
       @custom_form_columns,
       @program_stream_columns,
       @hotline_call_columns,
