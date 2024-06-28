@@ -59,13 +59,12 @@ module ApplicationHelper
       current_setting,
       params[:locale],
       params[:country],
-      @custom_form_columns,
-      @program_stream_columns,
-      @hotline_call_columns,
-      @basic_filter_params,
-      @builder_fields,
-      @quantitative_fields,
-      @hotline_fields,
+      Digest::SHA256.hexdigest(@custom_form_columns.to_s),
+      Digest::SHA256.hexdigest(@program_stream_columns.to_s),
+      Digest::SHA256.hexdigest(@hotline_call_columns.to_s),
+      Digest::SHA256.hexdigest(@basic_filter_params.to_s),
+      Digest::SHA256.hexdigest(@quantitative_fields.to_s),
+      Digest::SHA256.hexdigest(@hotline_fields.to_s),
       enable_custom_assessment?
     ]
   end
