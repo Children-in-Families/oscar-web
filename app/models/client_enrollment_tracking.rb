@@ -55,7 +55,7 @@ class ClientEnrollmentTracking < ActiveRecord::Base
   private
 
   def create_client_enrollment_tracking_history
-    ClientEnrollmentTrackingHistory.initial(self)
+    # ClientEnrollmentTrackingHistory.initial(self)
   end
 
   def flush_cache
