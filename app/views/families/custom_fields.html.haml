@@ -1,0 +1,41 @@
+.ibox
+  .ibox-title
+    .row
+      .col-xs-12.col-sm-6.co-md-6
+        %h5
+          = link_to @family.name, family_path(@family)
+          = " - #{t('families.form.custom_forms')}"
+      .col-xs-12.col-sm-6.col-md-6
+        .ibox-tools
+          = link_to t('.back'), family_path(@family), class: 'btn btn-default btn-back-default btn-back'
+  .ibox-content
+    .table-responsive
+      %table.table.table-bordered.table-striped.table-hover.client_enrollment
+        %thead
+          %tr
+            %th.status
+              = t('enrollments.index.status')
+            %th.name
+              = t('.form_name')
+            %th.quantity
+              = t('default_custom_fields.frequency')
+            %th.report= t('enrollments.index.report')
+            %th.manage= t('enrollments.index.actions')
+        %tbody
+          - @available_editable_forms.family_forms.visible.order_by_form_title.each do |custom_form|
+            %tr
+              %td.status
+                - if in_used_custom_field?(custom_form)
+                  %span.label.label-primary Active
+              %td.name
+                = custom_form.form_title
+              %td.quantity
+                = frequency_note(custom_form)
+              %td.report
+                - if in_used_custom_field?(custom_form)
+                  = link_to family_custom_field_properties_path(@family, custom_field_id: custom_form.id) do
+                    = t('enrolled_programs.report.view')
+              %td.manage
+                = link_to new_family_custom_field_property_path(@family, custom_field_id: custom_form.id) do
+                  = t('.add_new')
+
