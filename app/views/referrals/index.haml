@@ -39,13 +39,6 @@
                       %td= date_format(referral.date_of_referral)
                       %td= status_style correct_referral_status(referral.referral_status)
                       %td.text-center
-                        -# - if policy(referral).edit?
-                        -#   = link_to edit_client_referral_path(@client, referral, referral_type: params[:referral_type]), class: 'button btn btn-outline btn-success btn-xs' do
-                        -#     = fa_icon('pencil')
-                        -# - else
-                        -#   %span.tool-tip{ 'data-placement' => 'top', 'data-toggle' => 'tooltip', 'title' => t('.cannot_edit_referral') }
-                        -#     = link_to edit_client_referral_path(@client, referral), class: 'button btn btn-outline btn-success btn-xs disabled' do
-                        -#       = fa_icon('pencil')
                         = link_to '#', class: 'btn btn-sm btn-warning btn-xs btn-outline printable-button', data: { printable_id: "printable-referral-#{referral.id}" } do
                           = fa_icon 'print'
                         = link_to client_referral_path(@client, referral) do
