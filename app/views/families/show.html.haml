@@ -105,14 +105,9 @@
             %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit
               %strong.count-margin= @family.case_notes.count
               = t('clients.form.case_note')
-        - if @family.enrollments.active.count > 0
-          = link_to family_enrolled_programs_path(@family), data: { toggle: "popover", html: 'true', trigger: 'hover', content: "#{I18n.t('inline_help.families.show.active_program')}", placement: "auto" } do
-            .btn.btn-primary.small-btn-margin.btn-sm.btn-fit= t('.enrolled_program_streams')
-        - else
-          .btn.btn-primary.small-btn-margin.btn-sm.disabled.btn-fit{ data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.families.show.active_program')}", placement: "auto" } }
-            = t('.enrolled_program_streams')
-        = link_to family_enrollments_path(@family), data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.families.show.enroll_program')}", placement: "auto" } do
-          .btn.btn-primary.small-btn-margin.btn-sm.btn-fit= t('.program_streams')
+
+        = link_to family_enrolled_programs_path(@family), data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.families.show.enroll_program')}", placement: "auto" } do
+          .btn.btn-primary.small-btn-margin.btn-sm.btn-fit= t('datagrid.columns.families.program_streams')
 
       - if can? :manage, CustomFieldProperty
         = link_to family_custom_field_properties_path(@family), data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.families.show.add_form')}", placement: "auto" } do
