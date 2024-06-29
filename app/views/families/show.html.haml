@@ -53,7 +53,7 @@
           %button.btn.btn-danger.mini-margin{ disabled: 'disabled', class: 'agree-btn', data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.families.show.reject')}", placement: "bottom" } }= t('.reject')
   .col-xs-12.family
     - unless current_setting.hide_family_case_management_tool?
-      - if !@family.referred?
+      - unless @family.referred?
         .btn-group.small-btn-margin
           %button.btn-sm.btn.btn-warning.dropdown-toggle.btn-fit.exit-ngo-for-family{ data: { toggle: "dropdown", trigger: 'hover', content: "#{I18n.t('inline_help.families.show.exit_ngo')}", placement: "auto" }, id: 'add-family-to-case', class: ('disabled' if @family.exit_ngo?) }
             = t('.exit_ngo_btn')
@@ -74,20 +74,17 @@
         - if current_organization.available_for_referral?
           %input#family-id{ value: "#{@family.id}", type: 'hidden' }
             .btn-group.small-btn-margin
-              %button.btn-sm.btn.btn-warning.dropdown-toggle.btn-fit{ data: { toggle: "dropdown", html: 'true', trigger: 'hover', content: "#{I18n.t('inline_help.families.show.referral_form')}", placement: "auto" }, class: ('disabled' if @family.family_referrals.empty?) }
+              %button.btn-sm.btn.btn-warning.dropdown-toggle.btn-fit{ data: { toggle: "dropdown", html: 'true', trigger: 'hover', content: "#{I18n.t('inline_help.families.show.referral_form')}", placement: "auto" } }
                 = t('.referral_forms')
                 %span.caret
               %ul.dropdown-menu.btn-fit.scrollable-dropdown-menu.referral-forms
-                %li= link_to t('.referred_to'), family_family_referrals_path(@family, referral_type: 'referred_to')
-                %li= link_to t('.referred_from'), family_family_referrals_path(@family, referral_type: 'referred_from')
-
-          .btn-group.small-btn-margin
-            %button.btn-sm.btn.btn-warning.dropdown-toggle.btn-fit#add-referral-btn{ data: { toggle: "dropdown", html: 'true', trigger: 'hover', content: "#{I18n.t('inline_help.families.show.refer_family')}", placement: "auto" } }
-              = t('.refer_family')
-              %span.caret
-            %ul.dropdown-menu.btn-fit.scrollable-dropdown-menu.referral-forms
-              - ngos.each do |value, key|
-                %li= link_to value, new_family_family_referral_url(@family, ngo: key, external_ngo_name: key == 'external referral' && value), :class => 'target-ngo', :value => "#{key}", :id => "#{key}"
+                %li= link_to t('.referral_history'), family_family_referrals_path(@family, referral_type: 'referred_to')
+                %li
+                  = link_to "#", { id: "referred-to-menu-link", data: { html: 'true', trigger: 'hover', content: "#{I18n.t('inline_help.clients.show.referral_form')}", placement: "auto" } } do
+                    = t('.referred_to')
+                    %span.caret
+                - ngos.each do |value, key|
+                  %li= link_to value, new_family_family_referral_url(@family, ngo: key, external_ngo_name: key == 'external referral' && value), :class => 'target-ngo refer-to-item', :value => "#{key}", :id => "#{key}"
 
         = link_to family_tasks_path(@family), data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.clients.show.tasks')}", placement: "auto" } do
           %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit
