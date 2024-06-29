@@ -10,6 +10,10 @@
             = link_to custom_fields_client_path(@custom_formable) do
               .btn.btn-outline.btn-success.form-btn
                 = t('.back')
+          - elsif @custom_formable.instance_of?(Family)
+            = link_to custom_fields_family_path(@custom_formable) do
+              .btn.btn-outline.btn-success.form-btn
+                = t('.back')
           - else
             = link_to polymorphic_path(@custom_formable) do
               .btn.btn-outline.btn-success.form-btn
