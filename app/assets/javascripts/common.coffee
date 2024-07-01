@@ -196,6 +196,7 @@ CIF.Common =
       'debug': true
       'progressBar': true
       'positionClass': 'toast-top-center'
+      "showDuration": "1500",
       'showEasing': 'swing'
       'hideEasing': 'linear'
       'showMethod': 'slideDown'

@@ -48,58 +48,179 @@ module NotificationConcern
     user_ids = User.accessible_by(current_ability).ids
     sql = "AND custom_fields.id NOT IN (#{custom_field_ids.join(',')})" if (current_user.case_worker? || current_user.manager?) && custom_field_ids.any?
 
-    user_custom_form_notifications = CustomFieldProperty.joins(:custom_field, :user)
-                                                        .where("custom_fields.frequency != '' AND custom_field_properties.custom_formable_type = 'User' AND custom_field_properties.custom_formable_id IN (?) #{sql}", user_ids)
-                                                        .where("DATE(custom_field_properties.created_at + (custom_fields.time_of_frequency || ' ' || CASE custom_fields.frequency WHEN 'Daily' THEN 'day' WHEN 'Weekly' THEN 'week' WHEN 'Monthly' THEN 'month' WHEN 'Yearly' THEN 'year' END)::interval) < CURRENT_DATE")
-                                                        .select(:id, :created_at, "custom_fields.form_title, users.id user_id, TRIM(CONCAT(users.first_name, ' ', users.last_name)) as user_name")
-                                                        .distinct.to_a
+    user_custom_form_sql = <<~SQL
+      WITH latest_entries AS (
+        SELECT id, created_at FROM (
+          SELECT id, created_at, custom_field_id, custom_formable_id, custom_formable_type,
+            RANK() OVER (PARTITION BY custom_field_id, custom_formable_id ORDER BY created_at DESC)
+            custom_fild_id_rank FROM custom_field_properties WHERE custom_formable_type = 'User'
+          ) group_cp
+        WHERE custom_fild_id_rank = 1
+        ORDER BY custom_field_id, custom_formable_id
+      )
+      SELECT
+        cp.custom_formable_id AS user_id,
+        le.created_at,
+        TRIM(CONCAT(u.first_name, ' ', u.last_name)) as user_name,
+        cf.form_title
+      FROM latest_entries le
+      INNER JOIN custom_field_properties cp ON le.id = cp.id AND le.created_at = cp.created_at
+      INNER JOIN custom_fields cf ON cp.custom_field_id = cf.id
+      INNER JOIN users u ON cp.custom_formable_id = u.id AND cp.custom_formable_type = 'User'
+      WHERE DATE(cp.created_at + (cf.time_of_frequency || ' ' || CASE cf.frequency WHEN 'Daily' THEN 'day' WHEN 'Weekly' THEN 'week' WHEN 'Monthly' THEN 'month' WHEN 'Yearly' THEN 'year' END)::interval) < CURRENT_DATE
+      AND u.id IN (#{user_ids.join(', ')})
+      #{sql}
+      ORDER BY cp.custom_formable_id;
+    SQL
 
-    group_forms = user_custom_form_notifications.group_by { |form| [form.form_title, form.user_name] }.map do |_, values|
-      values.max_by(&:created_at)
-    end
+    user_tracking_sql = <<~SQL
+      WITH latest_entries AS (
+        SELECT id, created_at FROM (
+          SELECT id, created_at, enrollment_id, tracking_id,
+            RANK() OVER (PARTITION BY tracking_id, enrollment_id ORDER BY created_at DESC) tracking_id_rank
+            FROM enrollment_trackings
+          ) group_et
+        WHERE tracking_id_rank = 1
+        ORDER BY tracking_id, enrollment_id
+      )
+      SELECT
+        e.programmable_id AS user_id,
+        le.created_at,
+        TRIM(CONCAT(u.first_name, ' ', u.last_name)) as user_name,
+        CONCAT(t.name, ' ', '(Tracking form)') as form_title
+      FROM latest_entries le
+      INNER JOIN enrollment_trackings et ON le.id = et.id AND le.created_at = et.created_at
+      INNER JOIN trackings t ON t.id = et.tracking_id AND t.deleted_at IS NULL
+      INNER JOIN enrollments e ON e.id = et.enrollment_id AND e.deleted_at IS NULL AND e.programmable_type = 'User'
+      INNER JOIN users u ON u.id = e.programmable_id AND u.deleted_at IS NULL
+      WHERE e.status = 'Active'
+       AND u.id IN (#{user_ids.join(', ')})
+      AND DATE(et.created_at + (t.time_of_frequency || ' ' || CASE t.frequency WHEN 'Daily' THEN 'day' WHEN 'Weekly' THEN 'week' WHEN 'Monthly' THEN 'month' WHEN 'Yearly' THEN 'year' END)::interval) < CURRENT_DATE
+      ORDER BY et.enrollment_id;
+    SQL
 
-    group_forms.group_by { |form| [form.user_id, form.user_name] }.to_a.uniq(&:first).to_h
+    user_custom_forms = CustomFieldProperty.find_by_sql(user_custom_form_sql) + EnrollmentTracking.find_by_sql(user_tracking_sql)
+    user_custom_forms.group_by { |form| [form.user_id, form.user_name] }.to_a.uniq(&:first).to_h
   end
 
   def mapping_notify_family_custom_field
     custom_field_ids = current_user.custom_field_permissions.where(editable: false).pluck(:custom_field_id)
     family_ids = Family.accessible_by(current_ability).ids
-    sql = "AND custom_fields.id NOT IN (#{custom_field_ids.join(',')})" if (current_user.case_worker? || current_user.manager?) && custom_field_ids.any?
+    sql = "AND cf.id NOT IN (#{custom_field_ids.join(',')})" if (current_user.case_worker? || current_user.manager?) && custom_field_ids.any?
 
-    family_custom_form_notifications = CustomFieldProperty.joins(:custom_field, :family)
-                                                          .where("custom_fields.frequency != '' AND custom_field_properties.custom_formable_type = 'Family' AND custom_field_properties.custom_formable_id IN (?) #{sql}", family_ids)
-                                                          .where("DATE(custom_field_properties.created_at + (custom_fields.time_of_frequency || ' ' || CASE custom_fields.frequency WHEN 'Daily' THEN 'day' WHEN 'Weekly' THEN 'week' WHEN 'Monthly' THEN 'month' WHEN 'Yearly' THEN 'year' END)::interval) < CURRENT_DATE")
-                                                          .select(:id, :created_at, "custom_fields.form_title, families.id family_id, TRIM(CONCAT(families.name, ' ', families.name_en)) as family_name")
-                                                          .distinct.to_a
+    family_custom_form_sql = <<~SQL
+      WITH latest_entries AS (
+        SELECT id, created_at FROM (
+          SELECT id, created_at, custom_field_id, custom_formable_id, custom_formable_type,
+            RANK() OVER (PARTITION BY custom_field_id, custom_formable_id ORDER BY created_at DESC)
+            custom_fild_id_rank FROM custom_field_properties WHERE custom_formable_type = 'Family'
+          ) group_cp
+        WHERE custom_fild_id_rank = 1
+        ORDER BY custom_field_id, custom_formable_id
+      )
+      SELECT
+        cp.custom_formable_id AS family_id,
+        le.created_at,
+        TRIM(CONCAT(f.name, ' ', f.name_en)) as family_name,
+        cf.form_title
+      FROM latest_entries le
+      INNER JOIN custom_field_properties cp ON le.id = cp.id AND le.created_at = cp.created_at
+      INNER JOIN custom_fields cf ON cp.custom_field_id = cf.id
+      INNER JOIN families f ON cp.custom_formable_id = f.id AND cp.custom_formable_type = 'Family'
+      WHERE DATE(cp.created_at + (cf.time_of_frequency || ' ' || CASE cf.frequency WHEN 'Daily' THEN 'day' WHEN 'Weekly' THEN 'week' WHEN 'Monthly' THEN 'month' WHEN 'Yearly' THEN 'year' END)::interval) < CURRENT_DATE
+      AND f.id IN (#{family_ids.join(', ')})
+      #{sql}
+      ORDER BY cp.custom_formable_id;
+    SQL
 
-    family_custom_form_notifications += EnrollmentTracking.joins(:tracking, enrollment: :family)
-                                                          .where("trackings.frequency != '' AND enrollments.status = 'Active' AND enrollments.programmable_id IN (?)", family_ids)
-                                                          .where("DATE(enrollment_trackings.created_at + (trackings.time_of_frequency || ' ' || CASE trackings.frequency WHEN 'Daily' THEN 'day' WHEN 'Weekly' THEN 'week' WHEN 'Monthly' THEN 'month' WHEN 'Yearly' THEN 'year' END)::interval) < CURRENT_DATE")
-                                                          .select(:id, :created_at, "trackings.name form_title, families.id family_id, TRIM(CONCAT(families.name, ' ', families.name_en)) as family_name")
-                                                          .distinct.to_a
+    family_tracking_sql = <<~SQL
+      WITH latest_entries AS (
+        SELECT id, created_at FROM (
+          SELECT id, created_at, enrollment_id, tracking_id,
+            RANK() OVER (PARTITION BY tracking_id, enrollment_id ORDER BY created_at DESC) tracking_id_rank
+            FROM enrollment_trackings
+          ) group_et
+        WHERE tracking_id_rank = 1
+        ORDER BY tracking_id, enrollment_id
+      )
+      SELECT
+        e.programmable_id AS family_id,
+        le.created_at,
+        TRIM(CONCAT(f.name, ' ', f.name_en)) as family_name,
+        CONCAT(t.name, ' ', '(Tracking form)') as form_title
+      FROM latest_entries le
+      INNER JOIN enrollment_trackings et ON le.id = et.id AND le.created_at = et.created_at
+      INNER JOIN trackings t ON t.id = et.tracking_id AND t.deleted_at IS NULL
+      INNER JOIN enrollments e ON e.id = et.enrollment_id AND e.deleted_at IS NULL AND e.programmable_type = 'Family'
+      INNER JOIN families f ON f.id = e.programmable_id AND f.deleted_at IS NULL
+      WHERE e.status = 'Active'
+       AND f.id IN (#{family_ids.join(', ')})
+      AND DATE(et.created_at + (t.time_of_frequency || ' ' || CASE t.frequency WHEN 'Daily' THEN 'day' WHEN 'Weekly' THEN 'week' WHEN 'Monthly' THEN 'month' WHEN 'Yearly' THEN 'year' END)::interval) < CURRENT_DATE
+      ORDER BY et.enrollment_id;
+    SQL
 
-    group_forms = family_custom_form_notifications.group_by { |form| [form.form_title, form.family_name] }.map do |_, values|
-      values.max_by(&:created_at)
-    end
-
-    group_forms.group_by { |form| [form.family_id, form.family_name] }.to_a.uniq(&:first).to_h
+    family_custom_forms = CustomFieldProperty.find_by_sql(family_custom_form_sql) + EnrollmentTracking.find_by_sql(family_tracking_sql)
+    family_custom_forms.group_by { |form| [form.family_id, form.family_name] }.to_a.uniq(&:first).to_h
   end
 
   def mapping_notify_partner_custom_field
     custom_field_ids = current_user.custom_field_permissions.where(editable: false).pluck(:custom_field_id)
     sql = "AND custom_fields.id NOT IN (#{custom_field_ids.join(',')})" if (current_user.case_worker? || current_user.manager?) && custom_field_ids.any?
+    partner_ids = Partner.accessible_by(current_ability).ids
 
-    user_custom_form_notifications = CustomFieldProperty.joins(:custom_field, :partner)
-                                                        .where("custom_fields.frequency != '' #{sql}")
-                                                        .where("DATE(custom_field_properties.created_at + (custom_fields.time_of_frequency || ' ' || CASE custom_fields.frequency WHEN 'Daily' THEN 'day' WHEN 'Weekly' THEN 'week' WHEN 'Monthly' THEN 'month' WHEN 'Yearly' THEN 'year' END)::interval) < CURRENT_DATE")
-                                                        .select(:id, :created_at, 'custom_fields.form_title, partners.id partner_id, partners.name as partner_name')
-                                                        .distinct.to_a
+    partner_custom_form_sql = <<~SQL
+      WITH latest_entries AS (
+        SELECT id, created_at FROM (
+          SELECT id, created_at, custom_field_id, custom_formable_id, custom_formable_type,
+            RANK() OVER (PARTITION BY custom_field_id, custom_formable_id ORDER BY created_at DESC)
+            custom_fild_id_rank FROM custom_field_properties WHERE custom_formable_type = 'Partner'
+          ) group_cp
+        WHERE custom_fild_id_rank = 1
+        ORDER BY custom_field_id, custom_formable_id
+      )
+      SELECT
+        cp.custom_formable_id AS partner_id,
+        le.created_at,
+        p.name as partner_name,
+        cf.form_title
+      FROM latest_entries le
+      INNER JOIN custom_field_properties cp ON le.id = cp.id AND le.created_at = cp.created_at
+      INNER JOIN custom_fields cf ON cp.custom_field_id = cf.id
+      INNER JOIN partners p ON cp.custom_formable_id = p.id AND cp.custom_formable_type = 'Partner'
+      WHERE DATE(cp.created_at + (cf.time_of_frequency || ' ' || CASE cf.frequency WHEN 'Daily' THEN 'day' WHEN 'Weekly' THEN 'week' WHEN 'Monthly' THEN 'month' WHEN 'Yearly' THEN 'year' END)::interval) < CURRENT_DATE
+      AND p.id IN (#{partner_ids.join(', ')})
+      #{sql}
+      ORDER BY cp.custom_formable_id;
+    SQL
 
-    group_forms = user_custom_form_notifications.group_by { |form| [form.form_title, form.partner_name] }.map do |_, values|
-      values.max_by(&:created_at)
-    end
+    partner_tracking_sql = <<~SQL
+      WITH latest_entries AS (
+        SELECT id, created_at FROM (
+          SELECT id, created_at, enrollment_id, tracking_id,
+            RANK() OVER (PARTITION BY tracking_id, enrollment_id ORDER BY created_at DESC) tracking_id_rank
+            FROM enrollment_trackings
+          ) group_et
+        WHERE tracking_id_rank = 1
+        ORDER BY tracking_id, enrollment_id
+      )
+      SELECT
+        e.programmable_id AS partner_id,
+        le.created_at,
+        p.name as partner_name,
+        CONCAT(t.name, ' ', '(Tracking form)') as form_title
+      FROM latest_entries le
+      INNER JOIN enrollment_trackings et ON le.id = et.id AND le.created_at = et.created_at
+      INNER JOIN trackings t ON t.id = et.tracking_id AND t.deleted_at IS NULL
+      INNER JOIN enrollments e ON e.id = et.enrollment_id AND e.deleted_at IS NULL AND e.programmable_type = 'Partner'
+      INNER JOIN partners p ON p.id = e.programmable_id
+      WHERE e.status = 'Active'
+       AND p.id IN (#{partner_ids.join(', ')})
+      AND DATE(et.created_at + (t.time_of_frequency || ' ' || CASE t.frequency WHEN 'Daily' THEN 'day' WHEN 'Weekly' THEN 'week' WHEN 'Monthly' THEN 'month' WHEN 'Yearly' THEN 'year' END)::interval) < CURRENT_DATE
+      ORDER BY et.enrollment_id;
+    SQL
 
-    group_forms.group_by { |form| [form.partner_id, form.partner_name] }.to_a.uniq(&:first).to_h
+    partner_custom_forms = CustomFieldProperty.find_by_sql(partner_custom_form_sql) + EnrollmentTracking.find_by_sql(partner_tracking_sql)
+    partner_custom_forms.group_by { |form| [form.partner_id, form.partner_name] }.to_a.uniq(&:first).to_h
   end
 
   def mapping_notify_overdue_case_note
@@ -193,25 +314,66 @@ module NotificationConcern
     custom_field_ids = current_user.custom_field_permissions.where(editable: false).pluck(:custom_field_id)
     client_ids = Client.accessible_by(current_ability).active_accepted_status
                        .where('(EXTRACT(year FROM age(current_date, coalesce(clients.date_of_birth, CURRENT_DATE))) :: int) < ?', setting&.age || 18).ids
-    sql = "AND custom_fields.id NOT IN (#{custom_field_ids.join(',')})" if (current_user.case_worker? || current_user.manager?) && custom_field_ids.any?
+    sql = "AND cf.id NOT IN (#{custom_field_ids.join(',')})" if (current_user.case_worker? || current_user.manager?) && custom_field_ids.any?
 
-    client_custom_form_notifications = CustomFieldProperty.joins(:custom_field, :client)
-                                                          .where("custom_fields.frequency != '' AND custom_field_properties.custom_formable_type = 'Client' AND custom_field_properties.custom_formable_id IN (?) #{sql}", client_ids)
-                                                          .where("DATE(custom_field_properties.created_at + (custom_fields.time_of_frequency || ' ' || CASE custom_fields.frequency WHEN 'Daily' THEN 'day' WHEN 'Weekly' THEN 'week' WHEN 'Monthly' THEN 'month' WHEN 'Yearly' THEN 'year' END)::interval) < CURRENT_DATE")
-                                                          .select(:id, :created_at, "custom_fields.form_title, clients.slug client_slug, TRIM(CONCAT(CONCAT(clients.given_name, ' ', clients.family_name), ' ', CONCAT(clients.local_family_name, ' ', clients.local_given_name))) as client_name")
-                                                          .distinct.to_a
+    custom_form_sql = <<~SQL
+      WITH latest_entries AS (
+        SELECT id, created_at FROM (
+          SELECT id, created_at, custom_field_id, custom_formable_id, custom_formable_type,
+            RANK() OVER (PARTITION BY custom_field_id, custom_formable_id ORDER BY created_at DESC)
+            custom_fild_id_rank FROM custom_field_properties
+          ) group_cp
+        WHERE custom_fild_id_rank = 1 AND custom_formable_type = 'Client'
+        ORDER BY custom_field_id, custom_formable_id
+      )
+      SELECT
+        cp.id,
+        le.created_at,
+        c.slug as client_slug,
+        TRIM(CONCAT(CONCAT(c.given_name, ' ', c.family_name), ' ', CONCAT(c.local_family_name, ' ', c.local_given_name))) as client_name,
+        cf.form_title
+      FROM latest_entries le
+      INNER JOIN custom_field_properties cp ON le.id = cp.id AND le.created_at = cp.created_at
+      INNER JOIN custom_fields cf ON cp.custom_field_id = cf.id
+      INNER JOIN clients c ON cp.custom_formable_id = c.id AND cp.custom_formable_type = 'Client'
+      WHERE DATE(cp.created_at + (cf.time_of_frequency || ' ' || CASE cf.frequency WHEN 'Daily' THEN 'day' WHEN 'Weekly' THEN 'week' WHEN 'Monthly' THEN 'month' WHEN 'Yearly' THEN 'year' END)::interval) < CURRENT_DATE
+      #{sql}
+      ORDER BY cp.custom_formable_id;
+    SQL
 
-    client_custom_form_notifications += ClientEnrollmentTracking.joins(:tracking, client_enrollment: :client)
-                                                                .where("trackings.frequency != '' AND client_enrollments.status = 'Active' AND client_enrollments.client_id IN (?)", client_ids)
-                                                                .where("DATE(client_enrollment_trackings.created_at + (trackings.time_of_frequency || ' ' || CASE trackings.frequency WHEN 'Daily' THEN 'day' WHEN 'Weekly' THEN 'week' WHEN 'Monthly' THEN 'month' WHEN 'Yearly' THEN 'year' END)::interval) < CURRENT_DATE")
-                                                                .select(:id, :created_at, "trackings.name form_title, clients.slug client_slug, TRIM(CONCAT(CONCAT(clients.given_name, ' ', clients.family_name), ' ', CONCAT(clients.local_family_name, ' ', clients.local_given_name))) as client_name")
-                                                                .distinct.to_a
+    tracking_sql = <<~SQL
+      WITH latest_entries AS (
+        SELECT id, created_at FROM (
+          SELECT id, created_at, tracking_id, client_enrollment_id,
+            RANK() OVER (PARTITION BY tracking_id, client_enrollment_id ORDER BY created_at DESC) tracking_id_rank
+            FROM client_enrollment_trackings
+          ) group_cp
+        WHERE tracking_id_rank = 1
+        ORDER BY tracking_id, client_enrollment_id
+      )
+      SELECT
+        cet.id,
+        le.created_at,
+        c.slug as client_slug,
+        TRIM(CONCAT(CONCAT(c.given_name, ' ', c.family_name), ' ', CONCAT(c.local_family_name, ' ', c.local_given_name))) as client_name,
+        CONCAT(t.name, ' ', '(Tracking form)') as form_title
+      FROM latest_entries le
+      INNER JOIN client_enrollment_trackings cet ON le.id = cet.id AND le.created_at = cet.created_at
+      INNER JOIN trackings t ON t.id = cet.tracking_id AND t.deleted_at IS NULL
+      INNER JOIN client_enrollments ce ON ce.id = cet.client_enrollment_id AND ce.deleted_at IS NULL
+      INNER JOIN clients c ON c.id = ce.client_id
+      WHERE ce.status = 'Active'
+      AND DATE(cet.created_at + (t.time_of_frequency || ' ' || CASE t.frequency WHEN 'Daily' THEN 'day' WHEN 'Weekly' THEN 'week' WHEN 'Monthly' THEN 'month' WHEN 'Yearly' THEN 'year' END)::interval) < CURRENT_DATE
+      ORDER BY cet.client_enrollment_id;
+    SQL
 
-    group_forms = client_custom_form_notifications.group_by { |form| [form.form_title, form.client_slug] }.map do |_, values|
-      values.max_by(&:created_at)
-    end
+    client_custom_form_notifications = CustomFieldProperty.find_by_sql(custom_form_sql) + ClientEnrollmentTracking.find_by_sql(tracking_sql)
 
-    group_forms.group_by { |form| [form.client_slug, form.client_name] }.to_a.uniq(&:first).to_h
+    # group_forms = client_custom_form_notifications.group_by { |form| [form.form_title, form.client_slug] }.map do |_, values|
+    #   values.max_by(&:created_at)
+    # end
+
+    client_custom_form_notifications.group_by { |form| [form.client_slug, form.client_name] }.to_a.uniq(&:first).to_h
   end
 
   def fetch_client_by_sql(client_ids, sql)

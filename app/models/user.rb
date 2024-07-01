@@ -231,26 +231,26 @@ class User < ActiveRecord::Base
   end
 
   def client_custom_field_frequency_overdue_or_due_today(my_clients)
-    entity_type_custom_field_notification(my_clients.active_accepted_status)
+    entity_type_custom_field_notification(self, 'Client', my_clients.active_accepted_status)
   end
 
   def user_custom_field_frequency_overdue_or_due_today
     if manager?
-      entity_type_custom_field_notification(all_managers)
+      entity_type_custom_field_notification(self, 'User', all_managers)
     elsif hotline_officer?
-      entity_type_custom_field_notification(User.where(id: id))
+      entity_type_custom_field_notification(self, 'User', User.where(id: id))
     elsif admin?
-      entity_type_custom_field_notification(User.all)
+      entity_type_custom_field_notification(self, 'User', User.all)
     end
   end
 
   def partner_custom_field_frequency_overdue_or_due_today
-    entity_type_custom_field_notification(Partner.all) if admin? || manager? || hotline_officer?
+    entity_type_custom_field_notification(self, 'Partner', Partner.all) if admin? || manager? || hotline_officer?
   end
 
   def family_custom_field_frequency_overdue_or_due_today(_clients)
     if admin? || hotline_officer?
-      entity_type_custom_field_notification(Family.all)
+      entity_type_custom_field_notification(self, 'Family', Family.all)
     elsif manager?
       subordinate_user_ids = User.self_and_subordinates(self).map(&:id)
       family_ids = []
@@ -261,14 +261,14 @@ class User < ActiveRecord::Base
       family_ids += _clients.pluck(:current_family_id)
 
       families = Family.where(id: family_ids).or(Family.where(user_id: id))
-      entity_type_custom_field_notification(families)
+      entity_type_custom_field_notification(self, 'Family', families)
     elsif case_worker?
       family_ids = []
       _clients.each do |client|
         family_ids << client.family.try(:id)
       end
       families = Family.where(id: family_ids).or(Family.where(user_id: id))
-      entity_type_custom_field_notification(families)
+      entity_type_custom_field_notification(self, 'Family', families)
     end
   end
 
@@ -427,6 +427,7 @@ class User < ActiveRecord::Base
   def fetch_notification
     if admin? || strategic_overviewer?
       Rails.cache.delete([Apartment::Tenant.current, 'notifications', 'admin-strategic-overviewer'])
+      Rails.cache.delete([Apartment::Tenant.current, 'notifications', 'overdue_and_due_today_forms'])
       Rails.cache.fetch([Apartment::Tenant.current, 'notifications', 'admin-strategic-overviewer']) do
         collect_user_data_notification
       end
