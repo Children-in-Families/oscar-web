@@ -66,10 +66,9 @@ module NotificationConcern
       FROM latest_entries le
       INNER JOIN custom_field_properties cp ON le.id = cp.id AND le.created_at = cp.created_at
       INNER JOIN custom_fields cf ON cp.custom_field_id = cf.id
-      INNER JOIN users u ON cp.custom_formable_id = u.id
-      WHERE cp.custom_formable_type = 'User'
+      INNER JOIN users u ON cp.custom_formable_id = u.id AND cp.custom_formable_type = 'User'
+      WHERE DATE(cp.created_at + (cf.time_of_frequency || ' ' || CASE cf.frequency WHEN 'Daily' THEN 'day' WHEN 'Weekly' THEN 'week' WHEN 'Monthly' THEN 'month' WHEN 'Yearly' THEN 'year' END)::interval) < CURRENT_DATE
       AND u.id IN (#{user_ids.join(', ')})
-      AND DATE(cp.created_at + (cf.time_of_frequency || ' ' || CASE cf.frequency WHEN 'Daily' THEN 'day' WHEN 'Weekly' THEN 'week' WHEN 'Monthly' THEN 'month' WHEN 'Yearly' THEN 'year' END)::interval) < CURRENT_DATE
       #{sql}
       ORDER BY cp.custom_formable_id;
     SQL
@@ -127,10 +126,9 @@ module NotificationConcern
       FROM latest_entries le
       INNER JOIN custom_field_properties cp ON le.id = cp.id AND le.created_at = cp.created_at
       INNER JOIN custom_fields cf ON cp.custom_field_id = cf.id
-      INNER JOIN families f ON cp.custom_formable_id = f.id
-      WHERE cp.custom_formable_type = 'Family'
+      INNER JOIN families f ON cp.custom_formable_id = f.id AND cp.custom_formable_type = 'Family'
+      WHERE DATE(cp.created_at + (cf.time_of_frequency || ' ' || CASE cf.frequency WHEN 'Daily' THEN 'day' WHEN 'Weekly' THEN 'week' WHEN 'Monthly' THEN 'month' WHEN 'Yearly' THEN 'year' END)::interval) < CURRENT_DATE
       AND f.id IN (#{family_ids.join(', ')})
-      AND DATE(cp.created_at + (cf.time_of_frequency || ' ' || CASE cf.frequency WHEN 'Daily' THEN 'day' WHEN 'Weekly' THEN 'week' WHEN 'Monthly' THEN 'month' WHEN 'Yearly' THEN 'year' END)::interval) < CURRENT_DATE
       #{sql}
       ORDER BY cp.custom_formable_id;
     SQL
@@ -188,10 +186,9 @@ module NotificationConcern
       FROM latest_entries le
       INNER JOIN custom_field_properties cp ON le.id = cp.id AND le.created_at = cp.created_at
       INNER JOIN custom_fields cf ON cp.custom_field_id = cf.id
-      INNER JOIN partners p ON cp.custom_formable_id = p.id
-      WHERE cp.custom_formable_type = 'Partner'
+      INNER JOIN partners p ON cp.custom_formable_id = p.id AND cp.custom_formable_type = 'Partner'
+      WHERE DATE(cp.created_at + (cf.time_of_frequency || ' ' || CASE cf.frequency WHEN 'Daily' THEN 'day' WHEN 'Weekly' THEN 'week' WHEN 'Monthly' THEN 'month' WHEN 'Yearly' THEN 'year' END)::interval) < CURRENT_DATE
       AND p.id IN (#{partner_ids.join(', ')})
-      AND DATE(cp.created_at + (cf.time_of_frequency || ' ' || CASE cf.frequency WHEN 'Daily' THEN 'day' WHEN 'Weekly' THEN 'week' WHEN 'Monthly' THEN 'month' WHEN 'Yearly' THEN 'year' END)::interval) < CURRENT_DATE
       #{sql}
       ORDER BY cp.custom_formable_id;
     SQL
@@ -214,7 +211,7 @@ module NotificationConcern
       FROM latest_entries le
       INNER JOIN enrollment_trackings et ON le.id = et.id AND le.created_at = et.created_at
       INNER JOIN trackings t ON t.id = et.tracking_id AND t.deleted_at IS NULL
-      INNER JOIN enrollments e ON e.id = et.enrollment_id AND e.deleted_at IS NULL AND e.programmable_type = 'Family'
+      INNER JOIN enrollments e ON e.id = et.enrollment_id AND e.deleted_at IS NULL AND e.programmable_type = 'Partner'
       INNER JOIN partners p ON p.id = e.programmable_id
       WHERE e.status = 'Active'
        AND p.id IN (#{partner_ids.join(', ')})
@@ -338,9 +335,8 @@ module NotificationConcern
       FROM latest_entries le
       INNER JOIN custom_field_properties cp ON le.id = cp.id AND le.created_at = cp.created_at
       INNER JOIN custom_fields cf ON cp.custom_field_id = cf.id
-      INNER JOIN clients c ON cp.custom_formable_id = c.id
-      WHERE cp.custom_formable_type = 'Client'
-      AND DATE(cp.created_at + (cf.time_of_frequency || ' ' || CASE cf.frequency WHEN 'Daily' THEN 'day' WHEN 'Weekly' THEN 'week' WHEN 'Monthly' THEN 'month' WHEN 'Yearly' THEN 'year' END)::interval) < CURRENT_DATE
+      INNER JOIN clients c ON cp.custom_formable_id = c.id AND cp.custom_formable_type = 'Client'
+      WHERE DATE(cp.created_at + (cf.time_of_frequency || ' ' || CASE cf.frequency WHEN 'Daily' THEN 'day' WHEN 'Weekly' THEN 'week' WHEN 'Monthly' THEN 'month' WHEN 'Yearly' THEN 'year' END)::interval) < CURRENT_DATE
       #{sql}
       ORDER BY cp.custom_formable_id;
     SQL

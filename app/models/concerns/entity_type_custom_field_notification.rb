@@ -11,41 +11,56 @@ module EntityTypeCustomFieldNotification
     entity_ids_sql = entity_ids.any? ? "AND entity.id IN (#{entity_ids.join(', ')})" : ''
 
     table_name = klass_name.downcase.pluralize
-    enttity_custom_form_sql = <<~SQL
-      SELECT entity.id,
-      MAX(cfp.created_at) AS max_created_at
-      FROM #{table_name} entity
-      INNER JOIN custom_field_properties cfp ON cfp.custom_formable_id = entity.id
-      AND cfp.custom_formable_type = '#{klass_name}'
-      INNER JOIN custom_fields ON custom_fields.id = cfp.custom_field_id
-      WHERE cfp.created_at = (
-          SELECT MAX(created_at)
-          FROM custom_field_properties cfp2
-          WHERE cfp2.custom_formable_id = cfp.custom_formable_id AND cfp2.custom_formable_type = '#{klass_name}'
+
+    entity_custom_form_sql = <<~SQL
+      WITH latest_entries AS (
+        SELECT id, created_at FROM (
+          SELECT id, created_at, custom_field_id, custom_formable_id, custom_formable_type,
+            RANK() OVER (PARTITION BY custom_field_id, custom_formable_id ORDER BY created_at DESC)
+            custom_fild_id_rank FROM custom_field_properties WHERE custom_formable_type = '#{klass_name}'
+          ) group_cp
+        WHERE custom_fild_id_rank = 1
+        ORDER BY custom_field_id, custom_formable_id
       )
+      SELECT
+        cp.id,
+        le.created_at
+      FROM latest_entries le
+      INNER JOIN custom_field_properties cp ON le.id = cp.id AND le.created_at = cp.created_at
+      INNER JOIN custom_fields cf ON cp.custom_field_id = cf.id
+      INNER JOIN #{table_name} entity ON cp.custom_formable_id = entity.id AND cp.custom_formable_type = '#{klass_name}'
+      WHERE DATE(cp.created_at + (cf.time_of_frequency || ' ' || CASE cf.frequency WHEN 'Daily' THEN 'day' WHEN 'Weekly' THEN 'week' WHEN 'Monthly' THEN 'month' WHEN 'Yearly' THEN 'year' END)::interval) < CURRENT_DATE
       #{entity_ids_sql}
-      GROUP BY entity.id, custom_fields.form_title;
+      #{sql}
+      ORDER BY cp.custom_formable_id;
     SQL
 
-    family_tracking_sql = <<~SQL
-      SELECT entity.id,
-      t.name form_title
-      FROM #{table_name} entity
-      INNER JOIN enrollments e ON e.programmable_id = entity.id
-      AND e.deleted_at IS NULL AND e.programmable_type = '#{klass_name}'
-      INNER JOIN enrollment_trackings et ON et.enrollment_id = e.id
+    entity_tracking_sql = <<~SQL
+      WITH latest_entries AS (
+        SELECT id, created_at FROM (
+          SELECT id, created_at, enrollment_id, tracking_id,
+            RANK() OVER (PARTITION BY tracking_id, enrollment_id ORDER BY created_at DESC) tracking_id_rank
+            FROM enrollment_trackings
+          ) group_et
+        WHERE tracking_id_rank = 1
+        ORDER BY tracking_id, enrollment_id
+      )
+      SELECT
+        et.id,
+        le.created_at
+      FROM latest_entries le
+      INNER JOIN enrollment_trackings et ON le.id = et.id AND le.created_at = et.created_at
       INNER JOIN trackings t ON t.id = et.tracking_id AND t.deleted_at IS NULL
-      WHERE et.created_at = (
-          SELECT MAX(created_at)
-          FROM enrollment_trackings et2
-          WHERE et2.enrollment_id = et.enrollment_id
-      )
-      AND DATE(et.created_at + (t.time_of_frequency || ' ' || CASE t.frequency WHEN 'Daily' THEN 'day' WHEN 'Weekly' THEN 'week' WHEN 'Monthly' THEN 'month' WHEN 'Yearly' THEN 'year' END)::interval) < CURRENT_DATE
+      INNER JOIN enrollments e ON e.id = et.enrollment_id AND e.deleted_at IS NULL AND e.programmable_type = '#{klass_name}'
+      INNER JOIN #{table_name} entity ON entity.id = e.programmable_id
+      WHERE e.status = 'Active'
       #{entity_ids_sql}
-      GROUP BY entity.id, t.name;
+      AND DATE(et.created_at + (t.time_of_frequency || ' ' || CASE t.frequency WHEN 'Daily' THEN 'day' WHEN 'Weekly' THEN 'week' WHEN 'Monthly' THEN 'month' WHEN 'Yearly' THEN 'year' END)::interval) < CURRENT_DATE
+      #{sql}
+      ORDER BY et.enrollment_id;
     SQL
 
-    entity_overdue = klass_name.constantize.find_by_sql(enttity_custom_form_sql) + klass_name.constantize.find_by_sql(family_tracking_sql)
+    entity_overdue = CustomFieldProperty.find_by_sql(entity_custom_form_sql) + EnrollmentTracking.find_by_sql(entity_tracking_sql)
     entity_due_today = entities.joins(:custom_fields).where.not(custom_fields: { frequency: '' }).where("DATE(custom_field_properties.created_at + (custom_fields.time_of_frequency || ' ' || CASE custom_fields.frequency WHEN 'Daily' THEN 'day' WHEN 'Weekly' THEN 'week' WHEN 'Monthly' THEN 'month' WHEN 'Yearly' THEN 'year' END)::interval) = CURRENT_DATE")
 
     { entity_due_today: entity_due_today.to_a.uniq, entity_overdue: entity_overdue.to_a }

@@ -15,13 +15,13 @@ module CustomFormBuilderHelper
     errors[field.to_sym].join(', ') if errors[field.to_sym].present?
   end
 
-  def display_custom_properties(value, type=nil)
+  def display_custom_properties(value, type = nil)
     div = content_tag :div do
       if value =~ /(\d{4}[-\/]\d{1,2}[-\/]\d{1,2})/
         concat value.to_date.strftime('%d %B %Y')
       elsif value.is_a?(Array)
         return value.join(', ') if type == 'select' || type == 'checkbox-group'
-        value.reject{ |i| i.empty? }.each do |c|
+        value.reject { |i| i.empty? }.each do |c|
           concat content_tag(:strong, c.gsub('&amp;qoute;', '&quot;').html_safe, class: 'label label-margin')
         end
       elsif value.is_a?(Hash)
@@ -31,7 +31,7 @@ module CustomFormBuilderHelper
       end
     end
     content = div.gsub('&amp;nbsp;', '')
-    content = content.gsub("\n",'<br />')
+    content = content.gsub("\n", '<br />')
     content = content.gsub('&lt;', '<')
     content = content.gsub('&gt;', '>')
     content.html_safe
@@ -39,10 +39,10 @@ module CustomFormBuilderHelper
 
   def custom_field_frequency(frequency, time_of_frequency)
     case frequency
-    when 'Daily'   then time_of_frequency.day
-    when 'Weekly'  then time_of_frequency.week
+    when 'Daily' then time_of_frequency.day
+    when 'Weekly' then time_of_frequency.week
     when 'Monthly' then time_of_frequency.month
-    when 'Yearly'  then time_of_frequency.year
+    when 'Yearly' then time_of_frequency.year
     else 0.day
     end
   end
@@ -50,11 +50,14 @@ module CustomFormBuilderHelper
   def frequency_note(custom_field)
     return if custom_field.frequency.empty?
     frequency = case custom_field.frequency
-                when 'Daily'   then 'day'
-                when 'Weekly'  then 'week'
+                when 'Daily' then 'day'
+                when 'Weekly' then 'week'
                 when 'Monthly' then 'month'
-                when 'Yearly'  then 'year'
+                when 'Yearly' then 'year'
+                else
+                  'year'
                 end
+
     if custom_field.time_of_frequency == 1
       "This needs to be done once every #{frequency}."
     elsif custom_field.time_of_frequency > 1

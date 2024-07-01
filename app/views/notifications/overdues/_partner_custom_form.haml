@@ -1,12 +1,15 @@
 
-- @partner_custom_form_notifications.each do |partner|
+- @partner_custom_form_notifications.each do |partner, custom_forms|
+  - partner_id, partner_name = partner
   .ibox.border-left-right.border-bottom
     .ibox-title
       %h5
-        = link_to partner.partner_name, partner_path(partner.id), target: :_blank
+        = link_to partner_name, partner_path(partner_id), target: :_blank
     .ibox-content.no-padding
       %table.table.table-striped
-        %tr
-          %td.col-xs-3= t('dashboards.overdue.forms')
-          %td.col-xs-6.task-name.border-left-right= partner.form_title
-          %td.col-xs-3= date_format(partner.max_created_at)
+        - custom_forms.each do |overdue_field|
+          %tr
+            %td.col-xs-3= t('dashboards.overdue.forms')
+            %td.col-xs-6.task-name.border-left-right= overdue_field.form_title
+            %td.col-xs-3= date_format(overdue_field.created_at)
+
