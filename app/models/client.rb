@@ -155,7 +155,7 @@ class Client < ActiveRecord::Base
   after_validation :save_client_global_organization, on: :create
   before_create :set_country_origin
   after_create :set_slug_as_alias, :mark_referral_as_saved
-  after_save :create_client_history, :create_or_update_shared_client
+  after_save :enqueue_create_client_history_job, :enqueue_create_or_update_shared_client_job
   after_commit :do_duplicate_checking
 
   # save_global_identify_and_external_system_global_identities must be executed first
@@ -211,6 +211,20 @@ class Client < ActiveRecord::Base
   scope :university, -> { where(school_grade: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6', 'Year 7', 'Year 8', 'Bachelors']) }
 
   class << self
+    def create_client_history(client_id, tenant_name)
+      Apartment::Tenant.switch(tenant_name) do
+        client = Client.find(client_id)
+        client.create_client_history
+      end
+    end
+
+    def create_or_update_shared_client(client_id, tenant_name)
+      Apartment::Tenant.switch(tenant_name) do
+        client = Client.find(client_id)
+        client.create_or_update_shared_client
+      end
+    end
+
     def find_shared_client(options)
       shared_client = nil
 
@@ -818,9 +832,7 @@ class Client < ActiveRecord::Base
     country_origin.present? ? country_origin : 'cambodia'
   end
 
-  def create_or_update_shared_client(client_id = nil)
-    return if deleted_at? || destroyed?
-
+  def create_or_update_shared_client
     current_org = Organization.current
     client_current_province = province_name
     client_district = district_name
@@ -1176,6 +1188,18 @@ class Client < ActiveRecord::Base
 
   private
 
+  def enqueue_create_or_update_shared_client_job
+    return if deleted_at? || destroyed?
+
+    Client.delay.create_or_update_shared_client(id, Apartment::Tenant.current)
+  end
+
+  def enqueue_create_client_history_job
+    return if ENV['HISTORY_DATABASE_HOST'].blank?
+    
+    Client.delay.create_client_history(id, Apartment::Tenant.current)
+  end
+
   def do_duplicate_checking
     if Rails.env.development? || Rails.env.test?
       DuplicateCheckerWorker.new.perform(self.id, Organization.current.short_name)
@@ -1189,7 +1213,7 @@ class Client < ActiveRecord::Base
   end
 
   def create_client_history
-    ClientHistory.initial(self) if ENV['HISTORY_DATABASE_HOST'].present?
+    ClientHistory.initial(self)
   end
 
   def notify_managers
