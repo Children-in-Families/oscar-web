@@ -163,7 +163,7 @@ class Client < ActiveRecord::Base
   after_commit :remove_family_from_case_worker
   after_commit :update_related_family_member, on: :update
   after_commit :delete_referee, on: :destroy
-  after_save :flash_cache
+  after_save :enqueue_flush_cache_job
   after_commit :update_first_referral_status, on: :update
 
   scope :given_name_like, -> (value) { where('clients.given_name iLIKE :value OR clients.local_given_name iLIKE :value', { value: "%#{value.squish}%" }) }
@@ -222,6 +222,13 @@ class Client < ActiveRecord::Base
       Apartment::Tenant.switch(tenant_name) do
         client = Client.find(client_id)
         client.create_or_update_shared_client
+      end
+    end
+
+    def flush_cache(client_id, tenant_name)
+      Apartment::Tenant.switch(tenant_name) do
+        client = Client.find(client_id)
+        client.flush_cache
       end
     end
 
@@ -1186,6 +1193,76 @@ class Client < ActiveRecord::Base
     school_grade.to_s.in? ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6', 'Year 7', 'Year 8', 'Bachelors']
   end
 
+  def create_client_history
+    ClientHistory.initial(self)
+  end
+
+  def flush_cache
+    Rails.cache.delete([Apartment::Tenant.current, id, 'user_ids'])
+    Rails.cache.delete([Apartment::Tenant.current, 'Client', 'location_of_concern']) if location_of_concern_changed?
+    Rails.cache.delete([Apartment::Tenant.current, self.class.name, 'received_by', received_by_id]) if received_by_id_changed?
+    Rails.cache.delete([Apartment::Tenant.current, self.class.name, 'followed_up_by', followed_up_by_id]) if followed_up_by_id_changed?
+    Rails.cache.delete([Apartment::Tenant.current, 'Province', 'dropdown_list_option']) if province_id_changed?
+    Rails.cache.delete([Apartment::Tenant.current, 'District', 'dropdown_list_option']) if district_id_changed?
+    Rails.cache.delete([Apartment::Tenant.current, 'Commune', 'dropdown_list_option']) if commune_id_changed?
+    Rails.cache.delete([Apartment::Tenant.current, 'Village', 'cache_village_name_by_client_commune_district_province']) if village_id_changed?
+    Rails.cache.delete([Apartment::Tenant.current, 'Subdistrict', 'dropdown_list_option']) if subdistrict_id_changed?
+    Rails.cache.delete([Apartment::Tenant.current, 'Township', 'dropdown_list_option']) if township_id_changed?
+    Rails.cache.delete([Apartment::Tenant.current, 'State', 'dropdown_list_option']) if state_id_changed?
+    cached_client_created_by_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}\/.*cached_client_created_by/].blank? }
+    cached_client_created_by_keys.each { |key| Rails.cache.delete(key) }
+    cached_client_province_name_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}\/.*cached_client_province_name/].blank? }
+    cached_client_province_name_keys.each { |key| Rails.cache.delete(key) }
+    cached_client_district_name_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}\/.*cached_client_district_name/].blank? }
+    cached_client_district_name_keys.each { |key| Rails.cache.delete(key) }
+    cached_client_commune_name_kh_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}\/.*cached_client_commune_name_kh/].blank? }
+    cached_client_commune_name_kh_keys.each { |key| Rails.cache.delete(key) }
+    cached_client_village_name_kh_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}\/.*cached_client_village_name_kh/].blank? }
+    cached_client_village_name_kh_keys.each { |key| Rails.cache.delete(key) }
+    cached_client_referral_source_name_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}\/.*cached_client_referral_source_name/].blank? }
+    cached_client_referral_source_name_keys.each { |key| Rails.cache.delete(key) }
+    cached_client_assessment_number_completed_date_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}\/.*cached_client_assessment_number_completed_date/].blank? }
+    cached_client_assessment_number_completed_date_keys.each { |key| Rails.cache.delete(key) }
+    cached_client_sql_assessment_completed_date_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}\/.*cached_client_sql_assessment_completed_date/].blank? }
+    cached_client_sql_assessment_completed_date_keys.each { |key| Rails.cache.delete(key) }
+    cached_client_assessment_order_completed_date_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}\/.*cached_client_assessment_order_completed_date/].blank? }
+    cached_client_assessment_order_completed_date_keys.each { |key| Rails.cache.delete(key) }
+    cached_client_assessment_domains_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}\/.*cached_client_assessment_domains/].blank? }
+    cached_client_assessment_domains_keys.each { |key| Rails.cache.delete(key) }
+
+    Rails.cache.delete([Apartment::Tenant.current, 'ReferralSource', 'cached_referral_source_try_name', referral_source_category_id]) if referral_source_category_id_changed?
+    Rails.cache.delete([Apartment::Tenant.current, 'ReferralSource', 'cached_referral_source_try_name_en', referral_source_category_id]) if referral_source_category_id_changed?
+
+    Rails.cache.delete([Apartment::Tenant.current, id, given_name_was || 'given_name']) if given_name_changed?
+    Rails.cache.delete([Apartment::Tenant.current, id, given_name_was || 'given_name', 'export_excel']) if given_name_changed?
+    Rails.cache.delete([Apartment::Tenant.current, id, family_name_was || 'family_name']) if family_name_changed?
+    Rails.cache.delete([Apartment::Tenant.current, id, local_given_name_was || 'local_given_name']) if local_given_name_changed?
+    Rails.cache.delete([Apartment::Tenant.current, id, local_family_name_was || 'local_family_name']) if local_family_name_changed?
+    Rails.cache.delete([I18n.locale, Apartment::Tenant.current, id, gender_was || 'gender']) if gender_changed?
+
+    advance_saved_search_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}\/User\/.*advance_saved_search/].blank? }
+    advance_saved_search_keys.each { |key| Rails.cache.delete(key) }
+    cached_client_custom_field_properties_count_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}\/.*cached_client_custom_field_properties_count/].blank? }
+    cached_client_custom_field_properties_count_keys.each { |key| Rails.cache.delete(key) }
+    cached_client_custom_field_properties_order_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}\/.*cached_client_custom_field_properties_order/].blank? }
+    cached_client_custom_field_properties_order_keys.each { |key| Rails.cache.delete(key) }
+    cached_client_custom_field_find_by_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}\/.*cached_client_custom_field_find_by/].blank? }
+    cached_client_custom_field_find_by_keys.each { |key| Rails.cache.delete(key) }
+    cached_client_custom_field_properties_properties_by_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}\/.*cached_client_custom_field_properties_properties_by/].blank? }
+    cached_client_custom_field_properties_properties_by_keys.each { |key| Rails.cache.delete(key) }
+
+    other_advanced_search_queries_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}\/.*other_advanced_search_queries/].blank? }
+    other_advanced_search_queries_keys.each { |key| Rails.cache.delete(key) }
+
+    users.each do |user|
+      program_streams.each do |progrm_stream|
+        Rails.cache.delete([Apartment::Tenant.current, 'enrollable_client_ids', 'ProgramStream', 'User', progrm_stream.id, user.id])
+        Rails.cache.delete([Apartment::Tenant.current, 'program_permission_editable', 'ProgramStream', 'User', progrm_stream.id, user.id])
+      end
+    end
+    Rails.cache.delete([Apartment::Tenant.current, 'User', 'Client', id, 'tasks'])
+  end
+
   private
 
   def enqueue_create_or_update_shared_client_job
@@ -1200,6 +1277,10 @@ class Client < ActiveRecord::Base
     Client.delay.create_client_history(id, Apartment::Tenant.current)
   end
 
+  def enqueue_flush_cache_job
+    Client.delay.flush_cache(id, Apartment::Tenant.current)
+  end
+
   def do_duplicate_checking
     if Rails.env.development? || Rails.env.test?
       DuplicateCheckerWorker.new.perform(self.id, Organization.current.short_name)
@@ -1210,10 +1291,6 @@ class Client < ActiveRecord::Base
 
   def update_related_family_member
     FamilyMember.delay.update_client_relevant_data(family_member.id, Apartment::Tenant.current) if family_member.present? && family_member.persisted?
-  end
-
-  def create_client_history
-    ClientHistory.initial(self)
   end
 
   def notify_managers
@@ -1338,71 +1415,5 @@ class Client < ActiveRecord::Base
     return if referee.nil? || referee.clients.where.not(id: id).any?
 
     referee.destroy
-  end
-
-  def flash_cache
-    Rails.cache.delete([Apartment::Tenant.current, id, 'user_ids'])
-    Rails.cache.delete([Apartment::Tenant.current, 'Client', 'location_of_concern']) if location_of_concern_changed?
-    Rails.cache.delete([Apartment::Tenant.current, self.class.name, 'received_by', received_by_id]) if received_by_id_changed?
-    Rails.cache.delete([Apartment::Tenant.current, self.class.name, 'followed_up_by', followed_up_by_id]) if followed_up_by_id_changed?
-    Rails.cache.delete([Apartment::Tenant.current, 'Province', 'dropdown_list_option']) if province_id_changed?
-    Rails.cache.delete([Apartment::Tenant.current, 'District', 'dropdown_list_option']) if district_id_changed?
-    Rails.cache.delete([Apartment::Tenant.current, 'Commune', 'dropdown_list_option']) if commune_id_changed?
-    Rails.cache.delete([Apartment::Tenant.current, 'Village', 'cache_village_name_by_client_commune_district_province']) if village_id_changed?
-    Rails.cache.delete([Apartment::Tenant.current, 'Subdistrict', 'dropdown_list_option']) if subdistrict_id_changed?
-    Rails.cache.delete([Apartment::Tenant.current, 'Township', 'dropdown_list_option']) if township_id_changed?
-    Rails.cache.delete([Apartment::Tenant.current, 'State', 'dropdown_list_option']) if state_id_changed?
-    cached_client_created_by_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}\/.*cached_client_created_by/].blank? }
-    cached_client_created_by_keys.each { |key| Rails.cache.delete(key) }
-    cached_client_province_name_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}\/.*cached_client_province_name/].blank? }
-    cached_client_province_name_keys.each { |key| Rails.cache.delete(key) }
-    cached_client_district_name_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}\/.*cached_client_district_name/].blank? }
-    cached_client_district_name_keys.each { |key| Rails.cache.delete(key) }
-    cached_client_commune_name_kh_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}\/.*cached_client_commune_name_kh/].blank? }
-    cached_client_commune_name_kh_keys.each { |key| Rails.cache.delete(key) }
-    cached_client_village_name_kh_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}\/.*cached_client_village_name_kh/].blank? }
-    cached_client_village_name_kh_keys.each { |key| Rails.cache.delete(key) }
-    cached_client_referral_source_name_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}\/.*cached_client_referral_source_name/].blank? }
-    cached_client_referral_source_name_keys.each { |key| Rails.cache.delete(key) }
-    cached_client_assessment_number_completed_date_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}\/.*cached_client_assessment_number_completed_date/].blank? }
-    cached_client_assessment_number_completed_date_keys.each { |key| Rails.cache.delete(key) }
-    cached_client_sql_assessment_completed_date_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}\/.*cached_client_sql_assessment_completed_date/].blank? }
-    cached_client_sql_assessment_completed_date_keys.each { |key| Rails.cache.delete(key) }
-    cached_client_assessment_order_completed_date_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}\/.*cached_client_assessment_order_completed_date/].blank? }
-    cached_client_assessment_order_completed_date_keys.each { |key| Rails.cache.delete(key) }
-    cached_client_assessment_domains_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}\/.*cached_client_assessment_domains/].blank? }
-    cached_client_assessment_domains_keys.each { |key| Rails.cache.delete(key) }
-
-    Rails.cache.delete([Apartment::Tenant.current, 'ReferralSource', 'cached_referral_source_try_name', referral_source_category_id]) if referral_source_category_id_changed?
-    Rails.cache.delete([Apartment::Tenant.current, 'ReferralSource', 'cached_referral_source_try_name_en', referral_source_category_id]) if referral_source_category_id_changed?
-
-    Rails.cache.delete([Apartment::Tenant.current, id, given_name_was || 'given_name']) if given_name_changed?
-    Rails.cache.delete([Apartment::Tenant.current, id, given_name_was || 'given_name', 'export_excel']) if given_name_changed?
-    Rails.cache.delete([Apartment::Tenant.current, id, family_name_was || 'family_name']) if family_name_changed?
-    Rails.cache.delete([Apartment::Tenant.current, id, local_given_name_was || 'local_given_name']) if local_given_name_changed?
-    Rails.cache.delete([Apartment::Tenant.current, id, local_family_name_was || 'local_family_name']) if local_family_name_changed?
-    Rails.cache.delete([I18n.locale, Apartment::Tenant.current, id, gender_was || 'gender']) if gender_changed?
-
-    advance_saved_search_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}\/User\/.*advance_saved_search/].blank? }
-    advance_saved_search_keys.each { |key| Rails.cache.delete(key) }
-    cached_client_custom_field_properties_count_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}\/.*cached_client_custom_field_properties_count/].blank? }
-    cached_client_custom_field_properties_count_keys.each { |key| Rails.cache.delete(key) }
-    cached_client_custom_field_properties_order_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}\/.*cached_client_custom_field_properties_order/].blank? }
-    cached_client_custom_field_properties_order_keys.each { |key| Rails.cache.delete(key) }
-    cached_client_custom_field_find_by_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}\/.*cached_client_custom_field_find_by/].blank? }
-    cached_client_custom_field_find_by_keys.each { |key| Rails.cache.delete(key) }
-    cached_client_custom_field_properties_properties_by_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}\/.*cached_client_custom_field_properties_properties_by/].blank? }
-    cached_client_custom_field_properties_properties_by_keys.each { |key| Rails.cache.delete(key) }
-
-    other_advanced_search_queries_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}\/.*other_advanced_search_queries/].blank? }
-    other_advanced_search_queries_keys.each { |key| Rails.cache.delete(key) }
-
-    users.each do |user|
-      program_streams.each do |progrm_stream|
-        Rails.cache.delete([Apartment::Tenant.current, 'enrollable_client_ids', 'ProgramStream', 'User', progrm_stream.id, user.id])
-        Rails.cache.delete([Apartment::Tenant.current, 'program_permission_editable', 'ProgramStream', 'User', progrm_stream.id, user.id])
-      end
-    end
-    Rails.cache.delete([Apartment::Tenant.current, 'User', 'Client', id, 'tasks'])
   end
 end
