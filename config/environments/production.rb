@@ -28,7 +28,7 @@ Rails.application.configure do
   config.assets.js_compressor = :uglifier
   # config.assets.css_compressor = :sass
 
-  config.action_controller.asset_host = "//#{ENV['S3_BUCKET_NAME']}.s3.amazonaws.com"
+  # config.action_controller.asset_host = "//#{ENV['S3_BUCKET_NAME']}.s3.amazonaws.com"
   config.assets.prefix = '/assets'
   # Do not fallback to assets pipeline if a precompiled asset is missed.
   # Asset digests allow you to set far-future HTTP expiration dates on all assets,
