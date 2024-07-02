@@ -203,6 +203,10 @@ Rails.application.routes.draw do
   resources :families do
     get :welcome, on: :collection
 
+    member do
+      get :custom_fields
+    end
+
     collection do
       get :welcome
       post '/advanced_search', to: 'families#index'

@@ -1,4 +1,14 @@
-= program_stream_exit_action_link(program_stream)
+- if params[:family_id]
+  - if @active_enrollments.map(&:id).include?(program_stream.id)
+    = program_stream_exit_action_link(program_stream)
+  - else
+    - if program_stream.enroll?(@programmable)
+      - if program_stream.maximum_entity?
+        .label.label-info= t('.full_program')
+      - elsif program_stream.archived_at.nil?
+        = enrollment_new_link(program_stream)
+- else
+  = program_stream_exit_action_link(program_stream)
 
-- unless program_stream.tracking_required?
+- if program_stream.enrollments.enrollments_by(@programmable).any? && !program_stream.tracking_required?
   = program_stream_tracking_action_link(program_stream)
