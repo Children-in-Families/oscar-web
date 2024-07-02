@@ -21,9 +21,9 @@ module ReferralStatusConcern
 
       sql = " AND (SELECT COUNT(*) from #{ngo_short_name}.#{referral_klass} WHERE slug = '#{referral.slug}' AND referred_to = '#{Apartment::Tenant.current}') <= 1"
       if instance_of?(::ExitNgo)
-        ActiveRecord::Base.connection.execute("UPDATE #{ngo_short_name}.#{referral_klass} SET referral_status = 'Exited' WHERE id = #{referral.referred_from_uid} #{sql}")
+        ActiveRecord::Base.connection.execute("UPDATE #{ngo_short_name}.referrals SET referral_status = 'Exited' WHERE id = #{referral.referred_from_uid} #{sql}") if referral.referred_from_uid
       else
-        ActiveRecord::Base.connection.execute("UPDATE #{ngo_short_name}.#{referral_klass} SET referral_status = 'Accepted' WHERE id = #{referral.referred_from_uid} #{sql}")
+        ActiveRecord::Base.connection.execute("UPDATE #{ngo_short_name}.referrals SET referral_status = 'Accepted' WHERE id = #{referral.referred_from_uid} #{sql}") if referral.referred_from_uid
       end
     end
   end
