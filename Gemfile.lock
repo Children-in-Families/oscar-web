@@ -66,11 +66,6 @@ GEM
     appsignal (3.0.24)
       rack
     arel (6.0.4)
-    asset_sync (2.8.1)
-      activemodel (>= 4.1.0)
-      fog-core
-      mime-types (>= 2.99)
-      unf
     ast (2.4.2)
     autoprefixer-rails (6.3.3.1)
       execjs
@@ -906,7 +901,6 @@ DEPENDENCIES
   ancestry (~> 3.0, >= 3.0.5)
   apartment (~> 1.2)
   appsignal (~> 3.0, >= 3.0.24)
-  asset_sync
   aws-healthcheck
   bootstrap-datepicker-rails (~> 1.5)
   bootstrap-sass (~> 3.3.5)
@@ -951,6 +945,7 @@ DEPENDENCIES
   google-api-client (~> 0.10)
   google_calendar (~> 0.6.4)
   haml-rails (~> 0.9)
+  jaro_winkler (~> 1.5)
   jbuilder (~> 2.0)
   jquery-datatables-rails (~> 3.4)
   jquery-rails

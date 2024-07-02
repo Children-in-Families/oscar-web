@@ -1048,7 +1048,7 @@ const Forms = (props) => {
       className="containerClass"
       style={loading ? { minHeight: "100vh", height: "100vh" } : {}}
     >
-      <Loading loading={loading} text={T.translate("index.wait")} />
+      <Loading loading={loading} text={ step <= 3 ? T.translate("index.wait") : "Saving..." } />
 
       <Modal
         className="p-md"
