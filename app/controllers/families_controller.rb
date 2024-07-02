@@ -11,13 +11,23 @@ class FamiliesController < AdminController
   before_action :basic_params, if: :has_params?, only: [:index]
   before_action :build_advanced_search, only: [:index]
   before_action :find_association, except: [:index, :destroy, :version, :welcome, :assessments]
-  before_action :find_family, only: [:show, :edit, :update, :destroy]
+  before_action :find_family, only: [:show, :edit, :update, :destroy, :custom_fields]
   before_action :find_case_histories, only: :show
   before_action :quantitative_type_readable, except: [:index, :assessments]
   before_action :load_quantative_types, only: [:new, :edit, :create, :update]
 
   def welcome
     @family_grid = FamilyGrid.new
+  end
+
+  def custom_fields
+    if current_user.admin? || current_user.strategic_overviewer?
+      @available_editable_forms  = CustomField.all
+      @readable_forms            = @family.custom_field_properties
+    else
+      @available_editable_forms  = CustomField.where(id: current_user.custom_field_permissions.where(editable: true).pluck(:custom_field_id))
+      @readable_forms            = @family.custom_field_properties.where(custom_field_id: current_user.custom_field_permissions.where(readable: true))
+    end
   end
 
   def index

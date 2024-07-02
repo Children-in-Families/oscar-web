@@ -1,6 +1,10 @@
 body[id='families-show'] {
   @import 'clients/client_grid';
 
+  .refer-to-item {
+    margin-left: 25px;
+  }
+
   .agree-btn {
     width: 100px;
     text-align: center;
