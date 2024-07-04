@@ -66,6 +66,11 @@ GEM
     appsignal (3.0.24)
       rack
     arel (6.0.4)
+    asset_sync (2.8.1)
+      activemodel (>= 4.1.0)
+      fog-core
+      mime-types (>= 2.99)
+      unf
     ast (2.4.2)
     autoprefixer-rails (6.3.3.1)
       execjs
@@ -901,6 +906,7 @@ DEPENDENCIES
   ancestry (~> 3.0, >= 3.0.5)
   apartment (~> 1.2)
   appsignal (~> 3.0, >= 3.0.24)
+  asset_sync
   aws-healthcheck
   bootstrap-datepicker-rails (~> 1.5)
   bootstrap-sass (~> 3.3.5)
