@@ -335,7 +335,7 @@ module NotificationConcern
       FROM latest_entries le
       INNER JOIN custom_field_properties cp ON le.id = cp.id AND le.created_at = cp.created_at
       INNER JOIN custom_fields cf ON cp.custom_field_id = cf.id
-      INNER JOIN clients c ON cp.custom_formable_id = c.id AND cp.custom_formable_type = 'Client'
+      INNER JOIN clients c ON cp.custom_formable_id = c.id AND cp.custom_formable_type = 'Client' AND c.status IN ('Active', 'Accepted')
       WHERE DATE(cp.created_at + (cf.time_of_frequency || ' ' || CASE cf.frequency WHEN 'Daily' THEN 'day' WHEN 'Weekly' THEN 'week' WHEN 'Monthly' THEN 'month' WHEN 'Yearly' THEN 'year' END)::interval) < CURRENT_DATE
       #{sql}
       ORDER BY cp.custom_formable_id;
@@ -361,7 +361,7 @@ module NotificationConcern
       INNER JOIN client_enrollment_trackings cet ON le.id = cet.id AND le.created_at = cet.created_at
       INNER JOIN trackings t ON t.id = cet.tracking_id AND t.deleted_at IS NULL
       INNER JOIN client_enrollments ce ON ce.id = cet.client_enrollment_id AND ce.deleted_at IS NULL
-      INNER JOIN clients c ON c.id = ce.client_id
+      INNER JOIN clients c ON c.id = ce.client_id AND c.status IN ('Active', 'Accepted')
       WHERE ce.status = 'Active'
       AND DATE(cet.created_at + (t.time_of_frequency || ' ' || CASE t.frequency WHEN 'Daily' THEN 'day' WHEN 'Weekly' THEN 'week' WHEN 'Monthly' THEN 'month' WHEN 'Yearly' THEN 'year' END)::interval) < CURRENT_DATE
       ORDER BY cet.client_enrollment_id;
