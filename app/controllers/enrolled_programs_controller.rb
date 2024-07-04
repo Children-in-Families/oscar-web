@@ -64,6 +64,11 @@ class EnrolledProgramsController < AdminController
     else
       all_programs = ProgramStream.with_deleted.where(id: current_user.program_stream_permissions.where(readable: true).pluck(:program_stream_id))
     end
-    all_programs.active_enrollments(@programmable, true).complete
+
+    enrollments_exited = all_programs.inactive_enrollments(@programmable, true).complete
+    enrollments_inactive = all_programs.without_status_by(@programmable, true).complete
+    @active_enrollments = all_programs.active_enrollments(@programmable, true).complete
+
+    program_streams = (enrollments_exited + enrollments_inactive + @active_enrollments).uniq
   end
 end

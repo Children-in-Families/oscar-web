@@ -12,6 +12,7 @@ module ClearanceCustomFormConcern
 
   def flush_overdue_cache
     user = User.current_user
+    return unless user
 
     if user.admin? || user.strategic_overviewer?
       Rails.cache.delete([Apartment::Tenant.current, 'notifications', 'overdue_and_due_today_forms'])
