@@ -249,16 +249,16 @@ class Client < ActiveRecord::Base
 
       if shared_client && shared_client.resolved_duplication_by
         return {
-          similar_fields: [],
-          duplicate_with: nil
-        }
+                 similar_fields: [],
+                 duplicate_with: nil
+               }
       end
 
       if (Client::DUPLICATE_CHECKING_FIELDS.map(&:to_s) & options.keys.map(&:to_s)).empty?
         return {
-          similar_fields: [],
-          duplicate_with: nil
-        }
+                 similar_fields: [],
+                 duplicate_with: nil
+               }
       end
 
       similar_fields = []
@@ -309,7 +309,7 @@ class Client < ActiveRecord::Base
 
         if percentages.any? && (percentages.inject(:*) * 100) >= 75
           Rails.logger.info "Found similar client with percentage: #{(match_percentages.compact.inject(:*) * 100)} - #{match_percentages} - #{addresses_hash} - #{duplicate_checker_data}"
-          
+
           match_percentages.each_with_index do |percentage, index|
             if percentage.present?
               field_label = field_mappings[index]
@@ -318,9 +318,9 @@ class Client < ActiveRecord::Base
           end
 
           return {
-            similar_fields: similar_fields,
-            duplicate_with: another_client.archived_slug
-          }
+                   similar_fields: similar_fields,
+                   duplicate_with: another_client.archived_slug
+                 }
         end
       end
 
@@ -416,15 +416,15 @@ class Client < ActiveRecord::Base
   def self.compare_jaro_winkler(value1, value2)
     return 0 if value1.blank? || value2.blank?
     return 1.0 if value1 == value2
-  
+
     max_length = [value1.length, value2.length].max
     min_length = [value1.length, value2.length].min
-    
+
     # Adjusted threshold based on string length ratio
     length_threshold = 0.2 * max_length
-    
+
     return 0.0 if (max_length - min_length) > length_threshold
-    
+
     similarity = JaroWinkler.distance(value1, value2, ignore_case: true)
 
     # Intentionally drop to 50% of < 0.88% to match WhiteSimilarity
@@ -712,7 +712,7 @@ class Client < ActiveRecord::Base
     enrollments = client_enrollments.order(:program_stream_id)
     detail_cps = {}
 
-    enrollments.each_with_index do |enrollment, index|
+    enrollments.includes(:leave_program, :program_stream).each_with_index do |enrollment, index|
       enroll_date = enrollment.enrollment_date
       current_or_exit = enrollment.leave_program.try(:exit_date) || Date.today
 
@@ -1281,7 +1281,7 @@ class Client < ActiveRecord::Base
 
   def enqueue_create_client_history_job
     return if ENV['HISTORY_DATABASE_HOST'].blank?
-    
+
     Client.delay.create_client_history(id, Apartment::Tenant.current)
   end
 

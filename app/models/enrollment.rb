@@ -21,9 +21,9 @@ class Enrollment < ActiveRecord::Base
   has_paper_trail
 
   scope :enrollments_by, -> (obj) { where(programmable: obj) }
-  scope :find_by_program_stream_id, ->(value) { where(program_stream_id: value) }
+  scope :find_by_program_stream_id, -> (value) { where(program_stream_id: value) }
   scope :active, -> { where(status: ['Active', 'active']) }
-  scope :attached_with,  -> (value) { where(programmable_type: value) }
+  scope :attached_with, -> (value) { where(programmable_type: value) }
   # may be used later in family grid
   scope :inactive, -> { where(status: 'Exited') }
 
