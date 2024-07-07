@@ -1,4 +1,5 @@
 class Referral < ActiveRecord::Base
+  include ClearanceOverdueConcern
   include ClientRetouch
   include ClearanceOverdueConcern
 

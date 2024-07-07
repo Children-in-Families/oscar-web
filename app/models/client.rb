@@ -471,7 +471,7 @@ class Client < ActiveRecord::Base
       unless case_note.custom?
         case_note.assessment = assessments.default_latest_record
       else
-        case_note.assessment = assessments.custom_latest_record if Setting.cache_first.enable_default_assessment?
+        case_note.assessment = assessments.custom_latest_record if Setting.first.enable_default_assessment?
       end
     end
 

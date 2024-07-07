@@ -74,7 +74,9 @@ body[id="dashboards-index"] {
     }
   }
 
-  #active_tasks_list {
+  #active_tasks_list,
+  #assessment_list,
+  #program_stream_list {
     .modal-active-list-width {
       width: 100%;
       max-width: 85%;

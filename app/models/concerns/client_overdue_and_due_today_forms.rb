@@ -6,15 +6,15 @@ module ClientOverdueAndDueTodayForms
     today_forms = []
     upcoming_forms = []
     @setting = Setting.first
-
     if user.admin?
       editable_clients = clients
     else
       custom_field_ids = user.custom_field_permissions.where(editable: false).pluck(:custom_field_id)
-      editable_clients = clients.where.not(id: CustomFieldProperty.where(custom_field_id: custom_field_ids).select(:custom_formable_id))
+      editable_clients = clients.where.not(id: CustomFieldProperty.where(custom_formable_type: 'Client', custom_field_id: custom_field_ids).select(:custom_formable_id))
     end
+
     eligible_clients = active_young_clients(editable_clients, @setting)
-    eligible_clients.each do |client|
+    eligible_clients.joins(:custom_fields).each do |client|
       custom_fields = client.custom_fields.where.not(frequency: '')
       client_active_enrollments = client.client_enrollments.active
 
@@ -42,6 +42,7 @@ module ClientOverdueAndDueTodayForms
         end
       end
     end
+
     { overdue_forms: overdue_forms.uniq, today_forms: today_forms.uniq, upcoming_forms: upcoming_forms.uniq }
   end
 end

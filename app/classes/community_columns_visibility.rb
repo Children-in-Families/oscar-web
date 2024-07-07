@@ -1,17 +1,17 @@
 class CommunityColumnsVisibility
   def initialize(grid, params)
-    @grid   = grid
+    @grid = grid
     @params = params
   end
 
   def columns_collection
-    @grid.columns.map(&:name).map { |column| ["#{column}_".to_sym, column]  }.to_h
+    @grid.columns.map(&:name).map { |column| ["#{column}_".to_sym, column] }.to_h
   end
 
   def visible_columns
     @grid.column_names = []
-    community_default_columns = Setting.cache_first.community_default_columns
-    
+    community_default_columns = Setting.first.community_default_columns
+
     params = @params.keys.select { |k| k.match(/\_$/) }
     if params.present? && community_default_columns.present?
       defualt_columns = params - community_default_columns
@@ -33,7 +33,7 @@ class CommunityColumnsVisibility
     columns = columns_collection
     if @params[:column_form_builder].present?
       @params[:column_form_builder].each do |column|
-        field   = column['id']
+        field = column['id']
         columns = columns.merge!("#{field}_": field.to_sym)
       end
     end

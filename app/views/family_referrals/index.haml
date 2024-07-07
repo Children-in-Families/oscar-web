@@ -11,7 +11,7 @@
             %a{"aria-controls" => "tab-refer-to", "aria-expanded" => "true", :href => family_family_referrals_path(@family, referral_type: 'referred_to'), :role => "tab"}= t('families.show.referred_to')
           %li{role: "presentation", class: "#{'active' if params[:referral_type] == 'referred_from' }" }
             %a{"aria-controls" => "tab-refer-from", "aria-expanded" => "true", :href => family_family_referrals_path(@family, referral_type: 'referred_from'), :role => "tab"}= t('families.show.referred_from')
-        
+
         .tab-content
           .tab-pane.active{ role: "tabpanel", id: "#{ params[:referral_type] == 'referred_to' ? 'tab-refer-to' : 'tab-refer-from' }" }
 

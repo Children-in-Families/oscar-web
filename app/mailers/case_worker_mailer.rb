@@ -22,13 +22,13 @@ class CaseWorkerMailer < ApplicationMailer
   end
 
   def notify_upcoming_csi_weekly(client)
-    @client   = client
+    @client = client
     recievers = client.users.non_locked.notify_email.pluck(:email)
     return if recievers.empty?
 
     default = @client.assessments.most_recents.first.try(:default)
     if default
-      @name = Setting.cache_first.default_assessment
+      @name = Setting.first.default_assessment
       send_bulk_email(recievers, "Upcoming #{@name}")
     else
       CustomAssessmentSetting.only_enable_custom_assessment.find_each do |custom_assessment_setting|
@@ -39,7 +39,7 @@ class CaseWorkerMailer < ApplicationMailer
   end
 
   def notify_incomplete_daily_csi_assessments(client, custom_assessment_setting = nil)
-    @client   = client
+    @client = client
     recievers = client.users.non_locked.notify_email.pluck(:email)
     return if recievers.empty?
 
@@ -47,7 +47,7 @@ class CaseWorkerMailer < ApplicationMailer
     default = assessment.try(:default)
     @overdue_date = assessment.created_at.to_date + 7
     if default
-      @name = Setting.cache_first.default_assessment
+      @name = Setting.first.default_assessment
       send_bulk_email(recievers, "Incomplete #{@name}")
     else
       if custom_assessment_setting

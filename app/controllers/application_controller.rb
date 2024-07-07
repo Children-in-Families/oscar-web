@@ -44,11 +44,12 @@ class ApplicationController < ActionController::Base
   end
 
   def current_setting
-    @current_setting ||= Setting.cache_first
+    @current_setting ||= Setting.first
   end
 
   def field_settings
     return @field_settings if defined? @field_settings
+
     @field_settings ||= FieldSetting.cache_query_find_by_ngo_name
   end
 
@@ -107,7 +108,7 @@ class ApplicationController < ActionController::Base
   end
 
   def default_url_options(options = {})
-    country = Setting.cache_first.try(:country_name) || current_organization.country || params[:country] || 'cambodia'
+    country = Setting.first.try(:country_name) || current_organization.country || params[:country] || 'cambodia'
     local = params[:locale] if params[:locale] && I18n.available_locales.include?(params[:locale].to_sym)
     { locale: local || I18n.locale, country: country }.merge(options)
   end

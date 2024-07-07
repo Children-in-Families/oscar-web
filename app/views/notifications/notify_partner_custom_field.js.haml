@@ -1,0 +1,7 @@
+:plain
+  var appearence = $("#{escape_javascript(render partial: 'notifications/overdues/partner_custom_form')}");
+  $('#assessment_list.modal #overdue-assessments .panel-body').html(appearence);
+  toastr.clear()
+  $('#assessment_list.modal').modal('show');
+  $('input.i-checks').iCheck('uncheck')
+  $('input#checkbox-form').iCheck('check')

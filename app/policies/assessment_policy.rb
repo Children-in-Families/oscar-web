@@ -1,11 +1,11 @@
 class AssessmentPolicy < ApplicationPolicy
   def index?
-    Setting.cache_first.enable_default_assessment || Setting.cache_first.enable_custom_assessment
+    Setting.first.enable_default_assessment || Setting.first.enable_custom_assessment
   end
 
   def show?
-    enable_assessment = record.default? ? Setting.cache_first.enable_default_assessment : Setting.cache_first.enable_custom_assessment
-    readable_user     = user.admin? || user.strategic_overviewer? ? true : user.permission&.assessments_readable
+    enable_assessment = record.default? ? Setting.first.enable_default_assessment : Setting.first.enable_custom_assessment
+    readable_user = user.admin? || user.strategic_overviewer? ? true : user.permission&.assessments_readable
     enable_assessment && readable_user
   end
 
@@ -14,18 +14,18 @@ class AssessmentPolicy < ApplicationPolicy
 
     association = record.family_id ? 'family' : 'client'
 
-    setting = Setting.cache_first
+    setting = Setting.first
     if association == 'client' && (custom_assessment || !record.default?) && !CustomAssessmentSetting.count.zero?
       custom_assessment = CustomAssessmentSetting.find(value) if value
       enable_assessment = record.default? ? setting.enable_default_assessment? && record.public_send(association).eligible_default_csi? : setting.enable_custom_assessment? && (custom_assessment && record.public_send(association)&.eligible_custom_csi?(custom_assessment))
     else
       enable_assessment = if record.default?
-        setting.enable_default_assessment? && record.public_send(association).eligible_default_csi?
-      elsif record.family_id?
-        setting.enable_default_assessment? || record.public_send(association).eligible_default_csi?
-      else
-        setting.enable_custom_assessment?
-      end
+                            setting.enable_default_assessment? && record.public_send(association).eligible_default_csi?
+                          elsif record.family_id?
+                            setting.enable_default_assessment? || record.public_send(association).eligible_default_csi?
+                          else
+                            setting.enable_custom_assessment?
+                          end
     end
 
     editable_user = user.admin? ? true : user.permission&.assessments_editable
@@ -33,7 +33,7 @@ class AssessmentPolicy < ApplicationPolicy
   end
 
   def edit?
-    setting = Setting.cache_first
+    setting = Setting.first
     enable_assessment = record.default? ? setting.enable_default_assessment? : setting.enable_custom_assessment?
     return true if enable_assessment && user.admin?
 

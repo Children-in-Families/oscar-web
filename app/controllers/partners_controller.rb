@@ -7,11 +7,11 @@ class PartnersController < AdminController
   before_action :get_custom_form_fields, :partner_builder_fields, only: [:index]
   before_action :basic_params, if: :has_params?, only: [:index]
   before_action :build_advanced_search, only: [:index]
-  before_action :find_partner,     only:   [:show, :edit, :update, :destroy]
+  before_action :find_partner, only: [:show, :edit, :update, :destroy]
   before_action :find_association, except: [:index, :destroy, :version]
 
   def index
-    @default_columns = Setting.cache_first.try(:partner_default_columns)
+    @default_columns = Setting.first.try(:partner_default_columns)
     @partner_grid = PartnerGrid.new(params.fetch(:partner_grid, {}).merge!(dynamic_columns: @custom_form_fields))
     @partner_columns ||= PartnerColumnsVisibility.new(@partner_grid, params.merge(column_form_builder: @custom_form_fields))
     @partner_columns.visible_columns
@@ -44,8 +44,8 @@ class PartnersController < AdminController
   end
 
   def show
-    custom_field_ids             = @partner.custom_field_properties.pluck(:custom_field_id)
-    @free_partner_forms          = CustomField.partner_forms.not_used_forms(custom_field_ids).order_by_form_title
+    custom_field_ids = @partner.custom_field_properties.pluck(:custom_field_id)
+    @free_partner_forms = CustomField.partner_forms.not_used_forms(custom_field_ids).order_by_form_title
     @group_partner_custom_fields = @partner.custom_field_properties.group_by(&:custom_field_id)
   end
 
@@ -71,7 +71,7 @@ class PartnersController < AdminController
 
   def version
     page = params[:per_page] || 20
-    @partner  = Partner.find(params[:partner_id])
+    @partner = Partner.find(params[:partner_id])
     @versions = @partner.versions.reorder(created_at: :desc).page(params[:page]).per(page)
   end
 

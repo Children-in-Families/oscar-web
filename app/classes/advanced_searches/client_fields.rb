@@ -14,40 +14,40 @@ module AdvancedSearches
     end
 
     def render
-      common_group          = format_header('common_searches')
-      group                 = format_header('basic_fields')
-      care_plan_group       = format_header('care_plan')
-      referee_group         = format_header('referee')
-      carer_group           = format_header('carer')
-      legal_docs            = format_header('legal_documents')
-      case_history_group    = format_header('case_history')
-      family_group          = format_header('family')
-      case_note_group       = format_header('case_note')
-      other_group           = format_header('other')
+      common_group = format_header('common_searches')
+      group = format_header('basic_fields')
+      care_plan_group = format_header('care_plan')
+      referee_group = format_header('referee')
+      carer_group = format_header('carer')
+      legal_docs = format_header('legal_documents')
+      case_history_group = format_header('case_history')
+      family_group = format_header('family')
+      case_note_group = format_header('case_note')
+      other_group = format_header('other')
 
-      number_fields         = number_type_list.map { |item| AdvancedSearches::FilterTypes.number_options(item, format_header(item), group) }
-      number_fields         += case_history_number_type_list.map { |item| AdvancedSearches::FilterTypes.number_options(item, format_header(item), case_history_group) }
-      text_fields           = text_type_list.map { |item| AdvancedSearches::FilterTypes.text_options(item, format_header(item), group) }
-      date_picker_fields    = common_search_date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, format_header(item), common_group) }
-      date_picker_fields    += date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, format_header(item), group) }
-      date_picker_fields    += case_history_date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, format_header(item), case_history_group) }
-      date_picker_fields    += case_note_date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, format_header(item), case_note_group) }
-      date_picker_fields    += [['no_case_note_date', I18n.t('advanced_search.fields.no_case_note_date')]].map{ |item| AdvancedSearches::CsiFields.date_between_only_options(item[0], item[1], case_note_group) }
-      date_picker_fields    += mapping_care_plan_date_lable_translation
-      date_picker_fields    += other_date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, format_header(item), other_group) }
-      drop_list_fields      = drop_down_type_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last, group) }
-      drop_list_fields      += care_plan_dropdown_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last, care_plan_group) }
-      drop_list_fields      += referee_dropdown_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last, referee_group) }
-      drop_list_fields      += carer_dropdown_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last, carer_group) }
-      drop_list_fields      += legal_docs_dropdown.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last, legal_docs) }
-      drop_list_fields      += family_dropdown_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last, family_group) }
-      drop_list_fields      += case_history_dropdown_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last, case_history_group) }
-      drop_list_fields      += case_note_dropdown_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last, case_note_group) }
-      drop_list_fields      += other_dropdown_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last, other_group) }
-      csi_options           = AdvancedSearches::CsiFields.render
-      school_grade_options  = AdvancedSearches::SchoolGradeFields.render
+      number_fields = number_type_list.map { |item| AdvancedSearches::FilterTypes.number_options(item, format_header(item), group) }
+      number_fields += case_history_number_type_list.map { |item| AdvancedSearches::FilterTypes.number_options(item, format_header(item), case_history_group) }
+      text_fields = text_type_list.map { |item| AdvancedSearches::FilterTypes.text_options(item, format_header(item), group) }
+      date_picker_fields = common_search_date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, format_header(item), common_group) }
+      date_picker_fields += date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, format_header(item), group) }
+      date_picker_fields += case_history_date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, format_header(item), case_history_group) }
+      date_picker_fields += case_note_date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, format_header(item), case_note_group) }
+      date_picker_fields += [['no_case_note_date', I18n.t('advanced_search.fields.no_case_note_date')]].map { |item| AdvancedSearches::CsiFields.date_between_only_options(item[0], item[1], case_note_group) }
+      date_picker_fields += mapping_care_plan_date_lable_translation
+      date_picker_fields += other_date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, format_header(item), other_group) }
+      drop_list_fields = drop_down_type_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last, group) }
+      drop_list_fields += care_plan_dropdown_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last, care_plan_group) }
+      drop_list_fields += referee_dropdown_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last, referee_group) }
+      drop_list_fields += carer_dropdown_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last, carer_group) }
+      drop_list_fields += legal_docs_dropdown.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last, legal_docs) }
+      drop_list_fields += family_dropdown_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last, family_group) }
+      drop_list_fields += case_history_dropdown_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last, case_history_group) }
+      drop_list_fields += case_note_dropdown_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last, case_note_group) }
+      drop_list_fields += other_dropdown_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last, other_group) }
+      csi_options = AdvancedSearches::CsiFields.render
+      school_grade_options = AdvancedSearches::SchoolGradeFields.render
       default_domain_scores_options = enable_default_assessment? ? AdvancedSearches::DomainScoreFields.render : []
-      custom_domain_scores_options  = enable_custom_assessment? ? AdvancedSearches::CustomDomainScoreFields.render : []
+      custom_domain_scores_options = enable_custom_assessment? ? AdvancedSearches::CustomDomainScoreFields.render : []
 
       search_fields = text_fields.flatten + drop_list_fields + number_fields + date_picker_fields
 
@@ -68,7 +68,7 @@ module AdvancedSearches
 
     def text_type_list
       [
-        'given_name', 'flight_nb','local_given_name', 'slug', 'what3words', 'kid_id', 'code',
+        'given_name', 'flight_nb', 'local_given_name', 'slug', 'what3words', 'kid_id', 'code',
         'client_email_address', *setting_country_fields[:text_fields]
       ].compact
     end
@@ -119,13 +119,13 @@ module AdvancedSearches
         *rated_id_poor,
         *setting_country_fields[:drop_down_fields],
         ['address_type', get_sql_address_types],
-        ['phone_owner', get_sql_phone_owner],
+        ['phone_owner', get_sql_phone_owner]
       ].compact
     end
 
     def legal_docs_dropdown
       yes_no_options = { true: 'Yes', false: 'No' }
-      legal_doc_fields.map{|field| [field, yes_no_options] }
+      legal_doc_fields.map { |field| [field, yes_no_options] }
     end
 
     def care_plan_dropdown_list
@@ -151,7 +151,7 @@ module AdvancedSearches
       yes_no_options = { true: 'Yes', false: 'No' }
       [
         ['user_id', user_select_options],
-        ['exit_circumstance', {'Exited Client': 'Exited Client', 'Rejected Referral': 'Rejected Referral'}],
+        ['exit_circumstance', { 'Exited Client': 'Exited Client', 'Rejected Referral': 'Rejected Referral' }],
         ['followed_up_by_id', followed_up_by_options],
         ['referred_from', referral_from_options],
         ['referred_to', referral_to_options],
@@ -169,7 +169,7 @@ module AdvancedSearches
       yes_no_options = { true: 'Yes', false: 'No' }
       [
         ['case_note_type', case_note_type_options],
-        ['no_case_note', yes_no_options],
+        ['no_case_note', yes_no_options]
       ]
     end
 
@@ -177,10 +177,10 @@ module AdvancedSearches
       yes_no_options = { true: 'Yes', false: 'No' }
       [
         ['agency_name', agencies_options],
-        ['created_by', user_select_options ],
+        ['created_by', user_select_options],
         ['type_of_service', get_type_of_services],
         ['has_overdue_forms', yes_no_options],
-        ['has_overdue_task', yes_no_options],
+        ['has_overdue_task', yes_no_options]
       ]
     end
 
@@ -189,15 +189,15 @@ module AdvancedSearches
     end
 
     def gender_list
-      [Client::GENDER_OPTIONS, Client::GENDER_OPTIONS.map{|value| I18n.t("default_client_fields.gender_list.#{ value.gsub('other', 'other_gender') }") }].transpose.to_h
+      [Client::GENDER_OPTIONS, Client::GENDER_OPTIONS.map { |value| I18n.t("default_client_fields.gender_list.#{value.gsub('other', 'other_gender')}") }].transpose.to_h
     end
 
     def exit_reasons_options
-      [ExitNgo::EXIT_REASONS.sort, I18n.t('client.exit_ngos.form.exit_reason_options').values].transpose.map{|k, v| { k => v }  }
+      [ExitNgo::EXIT_REASONS.sort, I18n.t('client.exit_ngos.form.exit_reason_options').values].transpose.map { |k, v| { k => v } }
     end
 
     def case_note_type_options
-      [CaseNote::INTERACTION_TYPE, I18n.t('.case_notes.form.type_options').values].transpose.map{|k, v| { k => v }  }
+      [CaseNote::INTERACTION_TYPE, I18n.t('.case_notes.form.type_options').values].transpose.map { |k, v| { k => v } }
     end
 
     def active_program_options
@@ -223,7 +223,7 @@ module AdvancedSearches
     def birth_provinces
       Apartment::Tenant.switch('shared') do
         Organization.pluck(:country).uniq.reject(&:blank?).map do |country|
-          Province.cache_by_country(country).map{ |p| { value: p.id.to_s, label: p.name, optgroup: country.titleize } }
+          Province.cache_by_country(country).map { |p| { value: p.id.to_s, label: p.name, optgroup: country.titleize } }
         end.flatten
       end
     end
@@ -266,17 +266,17 @@ module AdvancedSearches
 
     def referral_to_options
       orgs = Organization.cache_mapping_ngo_names
-      orgs << { "MoSVY External System" => "MoSVY External System" }
-      orgs << { "external referral" => "I don't see the NGO I'm looking for" }
+      orgs << { 'MoSVY External System' => 'MoSVY External System' }
+      orgs << { 'external referral' => "I don't see the NGO I'm looking for" }
     end
 
     def referral_from_options
       orgs = Organization.cache_mapping_ngo_names
-      orgs << { "MoSVY External System" => "MoSVY External System" }
+      orgs << { 'MoSVY External System' => 'MoSVY External System' }
     end
 
     def setting_country_fields
-      country = Setting.cache_first.country_name || 'cambodia'
+      country = Setting.first.country_name || 'cambodia'
       case country
       when 'lesotho'
         {
@@ -296,7 +296,7 @@ module AdvancedSearches
       when 'uganda'
         {
           text_fields: ['house_number', 'street_number'],
-          drop_down_fields: [['province_id', provinces], ['district_id', districts], ['birth_province_id', birth_provinces], ['commune_id', communes], ['village_id', villages] ]
+          drop_down_fields: [['province_id', provinces], ['district_id', districts], ['birth_province_id', birth_provinces], ['commune_id', communes], ['village_id', villages]]
         }
       else
         {
@@ -313,7 +313,7 @@ module AdvancedSearches
     end
 
     def rated_id_poor
-      if Setting.cache_first.country_name == 'cambodia'
+      if Setting.first.country_name == 'cambodia'
         [['rated_for_id_poor', [Client::CLIENT_LEVELS, I18n.t('clients.level').values].transpose.to_h]]
       else
         []
