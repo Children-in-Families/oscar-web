@@ -1,7 +1,7 @@
 module EntityTypeCustomFieldNotification
   def entity_type_custom_field_notification(user, klass_name, entities)
     custom_field_ids = user.custom_field_permissions.where(editable: false).pluck(:custom_field_id)
-    sql = "AND custom_fields.id NOT IN (#{custom_field_ids.join(',')})" if (user.case_worker? || user.manager?) && custom_field_ids.any?
+    sql = "custom_fields.id NOT IN (#{custom_field_ids.join(',')})" if (user.case_worker? || user.manager?) && custom_field_ids.any?
     if sql
       entity_ids = entities.joins(:custom_fields).where.not(custom_fields: { frequency: '' }).where(sql).ids
     else
@@ -31,7 +31,6 @@ module EntityTypeCustomFieldNotification
       INNER JOIN #{table_name} entity ON cp.custom_formable_id = entity.id AND cp.custom_formable_type = '#{klass_name}'
       WHERE DATE(cp.created_at + (cf.time_of_frequency || ' ' || CASE cf.frequency WHEN 'Daily' THEN 'day' WHEN 'Weekly' THEN 'week' WHEN 'Monthly' THEN 'month' WHEN 'Yearly' THEN 'year' END)::interval) < CURRENT_DATE
       #{entity_ids_sql}
-      #{sql}
       ORDER BY cp.custom_formable_id;
     SQL
 
@@ -56,7 +55,6 @@ module EntityTypeCustomFieldNotification
       WHERE e.status = 'Active'
       #{entity_ids_sql}
       AND DATE(et.created_at + (t.time_of_frequency || ' ' || CASE t.frequency WHEN 'Daily' THEN 'day' WHEN 'Weekly' THEN 'week' WHEN 'Monthly' THEN 'month' WHEN 'Yearly' THEN 'year' END)::interval) < CURRENT_DATE
-      #{sql}
       ORDER BY et.enrollment_id;
     SQL
 

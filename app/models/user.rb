@@ -426,8 +426,6 @@ class User < ActiveRecord::Base
 
   def fetch_notification
     if admin? || strategic_overviewer?
-      Rails.cache.delete([Apartment::Tenant.current, 'notifications', 'admin-strategic-overviewer'])
-      Rails.cache.delete([Apartment::Tenant.current, 'notifications', 'overdue_and_due_today_forms'])
       Rails.cache.fetch([Apartment::Tenant.current, 'notifications', 'admin-strategic-overviewer']) do
         collect_user_data_notification
       end

@@ -100,6 +100,7 @@ end
 
 group :staging, :ratanak_staging, :demo, :production do
   gem 'appsignal', '~> 3.0', '>= 3.0.24'
+  gem 'asset_sync'
 end
 
 group :staging, :demo do
