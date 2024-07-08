@@ -6,6 +6,7 @@ module ClientsHelper
       translation: rails_i18n_translations, inlineHelpTranslation: JSON.parse(I18n.t('inline_help').to_json),
       internationalReferredClient: international_referred_client, selectedCountry: selected_country,
       client: {
+        referral_id: params[:referral_id],
         client: @client, ratanak_achievement_program_staff_client_ids: @client.ratanak_achievement_program_staff_client_ids,
         user_ids: @client.user_ids, quantitative_case_ids: @client.quantitative_case_ids, agency_ids: @client.agency_ids,
         donor_ids: @client.donor_ids, isTestClient: current_setting.test_client?, isForTesting: @client.for_testing?
