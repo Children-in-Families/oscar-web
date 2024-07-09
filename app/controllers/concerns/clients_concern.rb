@@ -35,4 +35,10 @@ module ClientsConcern
     referral = Referral.find(params[:referral_id])
     client.global = referral.client_global_id
   end
+
+  def check_is_referral_saved?(referral_id)
+    return unless Referral.exists?(referral_id)
+
+    Referral.find(referral_id)
+  end
 end
