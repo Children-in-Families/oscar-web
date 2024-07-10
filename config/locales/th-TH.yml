@@ -333,6 +333,7 @@ th-TH:
       birth_province:
       birth_province_id:
       cambodia:
+      case_note_created_at:
       case_note_date:
       case_note_type:
       case_type:
@@ -1971,6 +1972,7 @@ th-TH:
       carer_address:
       carer_names:
       carer_phone_number:
+      case_note_created_at:
       case_note_date:
       case_note_type:
       case_start_date:

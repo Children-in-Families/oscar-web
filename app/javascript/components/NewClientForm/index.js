@@ -38,7 +38,8 @@ const Forms = (props) => {
         national_id_files,
         current_family_id,
         isTestClient,
-        isForTesting
+        isForTesting,
+        referral_id
       },
       client_quantitative_free_text_cases,
       family_member,
@@ -150,6 +151,7 @@ const Forms = (props) => {
     current_family_id,
     isTestClient,
     isForTesting,
+    referral_id,
     ...client
   });
   const [clientProfile, setClientProfile] = useState({});
@@ -726,7 +728,7 @@ const Forms = (props) => {
           ? T.translate("index.successfully_updated")
           : T.translate("index.successfully_created");
         const url = clientData.id
-          ? `/api/clients/${clientData.id}`
+          ? `/api/clients/${clientData.id}?referral_id=${clientData.referral_id}`
           : "/api/clients";
 
         let formData = new FormData();
@@ -1048,7 +1050,10 @@ const Forms = (props) => {
       className="containerClass"
       style={loading ? { minHeight: "100vh", height: "100vh" } : {}}
     >
-      <Loading loading={loading} text={ step <= 3 ? T.translate("index.wait") : "Saving..." } />
+      <Loading
+        loading={loading}
+        text={step <= 3 ? T.translate("index.wait") : "Saving..."}
+      />
 
       <Modal
         className="p-md"
