@@ -1,5 +1,6 @@
 module Api
   class ClientsController < Api::ApplicationController
+    include ActionView::Helpers::DateHelper
     include ClientAdvancedSearchesConcern
     include ClientsConcern
 
@@ -44,7 +45,14 @@ module Api
     def create
       client_saved = false
       client = Client.new(client_params)
-      check_is_referral_saved?(params[:referral_id]) if params[:referral_id]
+      referral_id = params.dig(:client, :referral_id)
+      saved_referral = referral_id && check_is_referral_saved?(referral_id)
+
+      if saved_referral.saved?
+        render json: { client: ["has already been created #{time_ago_in_words(saved_referral.updated_at)} ago."] }, status: :unprocessable_entity
+        return # Exit the action after rendering the error
+      end
+
       assign_global_id_from_referral(client, params)
       client.transaction do
         if params.dig(:referee, :id).present?
@@ -396,15 +404,5 @@ module Api
     def other_client_gender_count(clients)
       clients.where("gender IS NULL OR (gender NOT IN ('male', 'female'))").count
     end
-  end
-
-  def check_is_referral_saved?(referral_id)
-    return unless Referral.exists?(referral_id)
-
-    referral = Referral.find(referral_id)
-    return unless referral.saved?
-
-    flash[:error] = 'This product already exists.'
-    redirect_to referrals_path
   end
 end
