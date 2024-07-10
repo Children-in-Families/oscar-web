@@ -377,6 +377,7 @@ ne:
       carer_name: Carer Name
       carer_phone: Carer Phone Number
       carer_email: Carer Email Address
+      case_note_created_at: Case Note Created Date
       case_note_date: Case Note Date
       case_note_type: Case Note Type
       case_type: Case Type
@@ -2419,6 +2420,7 @@ ne:
       carer_address: Carer Address
       carer_names: Carer Names
       carer_phone_number: Carer Phone Number
+      case_note_created_at: Case Note Created Date
       case_note_date: Case Note Date
       case_note_type: Case Note Type
       case_start_date: Case Start Date
