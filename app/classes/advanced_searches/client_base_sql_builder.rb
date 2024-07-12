@@ -92,12 +92,17 @@ module AdvancedSearches
             @values << []
           end
         elsif form_builder.first == 'tracking'
-          tracking = Tracking.joins(:program_stream).where(program_streams: { name: form_builder.second }, trackings: { name: form_builder.third }).last
-
-          if tracking
-            tracking_fields = AdvancedSearches::TrackingSqlBuilder.new(tracking.id, rule, form_builder.second).get_sql
-            @sql_string << tracking_fields[:id]
-            @values << tracking_fields[:values]
+          if form_builder.last == 'Has This Form'
+            # has this form
+          elsif form_builder.last == 'Does Not Have This Form'
+            # has no this form
+          else
+            tracking = Tracking.joins(:program_stream).where(program_streams: { name: form_builder.second }, trackings: { name: form_builder.third }).last
+            if tracking
+              tracking_fields = AdvancedSearches::TrackingSqlBuilder.new(tracking.id, rule, form_builder.second).get_sql
+              @sql_string << tracking_fields[:id]
+              @values << tracking_fields[:values]
+            end
           end
         elsif form_builder.first == 'exitprogram'
           program_stream = ProgramStream.find_by(name: form_builder.second)
