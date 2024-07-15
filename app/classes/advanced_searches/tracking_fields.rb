@@ -8,6 +8,7 @@ module AdvancedSearches
       @number_type_list ||= []
       @text_type_list ||= []
       @date_type_list ||= []
+      @between_date_type_list ||= []
       @drop_down_type_list ||= []
 
       generate_field_by_type
@@ -18,9 +19,10 @@ module AdvancedSearches
       number_fields = @number_type_list.map { |item| AdvancedSearches::FilterTypes.number_options(item.gsub('"', '&qoute;'), format_label(item), format_optgroup(item)) }
       text_fields = @text_type_list.map { |item| AdvancedSearches::FilterTypes.text_options(item.gsub('"', '&qoute;'), format_label(item), format_optgroup(item)) }
       date_picker_fields = @date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item.gsub('"', '&qoute;'), format_label(item), format_optgroup(item)) }
+      between_date_picker_fields = @between_date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_between_options(item.gsub('"', '&qoute;'), format_label(item), format_optgroup(item)) }
       drop_list_fields = @drop_down_type_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first.gsub('"', '&qoute;'), format_label(item.first), item.last, format_optgroup(item.first)) }
 
-      text_fields + drop_list_fields.uniq + number_fields + date_picker_fields
+      text_fields + drop_list_fields + number_fields + date_picker_fields + between_date_picker_fields.uniq
     end
 
     def generate_field_by_type
@@ -45,16 +47,8 @@ module AdvancedSearches
             @drop_down_type_list << drop_list_values
           end
 
-          has_this_form_values = []
-          has_this_form_values << "tracking__#{program_name}__#{tracking_name}__Has This Form"
-          has_this_form_values << { tracking_name => tracking_name }
-
-          has_no_this_form_values = []
-          has_no_this_form_values << "tracking__#{program_name}__#{tracking_name}__Does Not Have This Form"
-          has_no_this_form_values << { tracking_name => tracking_name }
-
-          @drop_down_type_list << has_this_form_values
-          @drop_down_type_list << has_no_this_form_values
+          @between_date_type_list << "tracking__#{program_name}__#{tracking_name}__Has This Form"
+          @between_date_type_list << "tracking__#{program_name}__#{tracking_name}__Does Not Have This Form"
         end
       end
       nil

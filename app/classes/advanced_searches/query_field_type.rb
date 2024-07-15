@@ -48,8 +48,8 @@ module AdvancedSearches
         input: 'select',
         values: values,
         plugin: 'select2',
-        data: { values: foramted_data, isAssociation: is_association},
-        operators: field_name =! 'start_datetime' ? ['equal', 'not_equal', 'is_empty', 'is_not_empty'] : ['equal', 'not_equal', 'is_empty', 'is_not_empty', 'between']
+        data: { values: foramted_data, isAssociation: is_association },
+        operators: field_name = !'start_datetime' ? ['equal', 'not_equal', 'is_empty', 'is_not_empty'] : ['equal', 'not_equal', 'is_empty', 'is_not_empty', 'between']
       }
     end
 
@@ -72,10 +72,10 @@ module AdvancedSearches
       case field_name
       when 'birth_province_id'
         values.each do |value|
-          data << {value[:value] => value[:label]}
+          data << { value[:value] => value[:label] }
         end
       when 'gender', 'has_been_in_orphanage', 'has_been_in_government_care'
-        data = values.map{ |key, value| { key => value } }
+        data = values.map { |key, value| { key => value } }
       else
         data = values
       end
