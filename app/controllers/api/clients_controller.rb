@@ -48,7 +48,7 @@ module Api
       referral_id = params.dig(:client, :referral_id)
       saved_referral = referral_id && check_is_referral_saved?(referral_id)
 
-      if saved_referral.saved?
+      if saved_referral && saved_referral.saved?
         render json: { client: ["has already been created #{time_ago_in_words(saved_referral.updated_at)} ago."] }, status: :unprocessable_entity
         return # Exit the action after rendering the error
       end
