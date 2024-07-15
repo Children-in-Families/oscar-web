@@ -58,7 +58,7 @@ module AdvancedSearches
           if form_builder.last == 'Has This Form'
             custom_form_value = CustomField.find_by(form_title: value, entity_type: 'Client')&.id
 
-            @sql_string << 'Clients.id IN (?)'
+            @sql_string << 'clients.id IN (?)'
             @values << @clients.joins(:custom_fields).where('custom_fields.id = ?', custom_form_value).uniq.ids
           elsif form_builder.last == 'Does Not Have This Form'
             client_ids = Client.joins(:custom_fields).where(custom_fields: { form_title: form_builder.second }).ids
@@ -88,16 +88,25 @@ module AdvancedSearches
             @sql_string << enrollment_date[:id]
             @values << enrollment_date[:values]
           else
-            @sql_string << 'Clients.id IN (?)'
+            @sql_string << 'clients.id IN (?)'
             @values << []
           end
         elsif form_builder.first == 'tracking'
-          tracking = Tracking.joins(:program_stream).where(program_streams: { name: form_builder.second }, trackings: { name: form_builder.third }).last
-
-          if tracking
-            tracking_fields = AdvancedSearches::TrackingSqlBuilder.new(tracking.id, rule, form_builder.second).get_sql
-            @sql_string << tracking_fields[:id]
-            @values << tracking_fields[:values]
+          if form_builder.last == 'Has This Form'
+            client_ids = Tracking.joins(:client_enrollments).where(name: form_builder.third).pluck(:client_id)
+            @sql_string << 'clients.id IN (?)'
+            @values << client_ids
+          elsif form_builder.last == 'Does Not Have This Form'
+            client_ids = Tracking.joins(:client_enrollments).where.not(name: form_builder.third).pluck(:client_id)
+            @sql_string << 'clients.id IN (?)'
+            @values << client_ids
+          else
+            tracking = Tracking.joins(:program_stream).where(program_streams: { name: form_builder.second }, trackings: { name: form_builder.third }).last
+            if tracking
+              tracking_fields = AdvancedSearches::TrackingSqlBuilder.new(tracking.id, rule, form_builder.second).get_sql
+              @sql_string << tracking_fields[:id]
+              @values << tracking_fields[:values]
+            end
           end
         elsif form_builder.first == 'exitprogram'
           program_stream = ProgramStream.find_by(name: form_builder.second)

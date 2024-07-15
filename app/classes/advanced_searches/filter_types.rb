@@ -41,6 +41,23 @@ module AdvancedSearches
       }
     end
 
+    def self.date_picker_between_options(field_name, label, group)
+      {
+        id: field_name,
+        optgroup: group,
+        label: label,
+        type: 'date',
+        operators: ['between'],
+        plugin: 'datepicker',
+        plugin_config: {
+          format: 'yyyy-mm-dd',
+          todayBtn: 'linked',
+          todayHighlight: true,
+          autoclose: true
+        }
+      }
+    end
+
     def self.drop_list_options(field_name, label, values, group)
       foramted_data = format_data(field_name, values)
       is_association = is_association?(field_name, values)
@@ -53,7 +70,7 @@ module AdvancedSearches
         input: 'select',
         values: values,
         plugin: 'select2',
-        data: { values: foramted_data, isAssociation: is_association},
+        data: { values: foramted_data, isAssociation: is_association },
         operators: OVERDUE_FIELDS.include?(field_name) ? ['equal'] : ['equal', 'not_equal', 'is_empty', 'is_not_empty']
       }
     end
