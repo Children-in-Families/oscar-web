@@ -489,7 +489,7 @@ id:
       date_of_referral: Tanggal dirujuk
       description_house_landmark: Deskripsi rumah dan landmark
       directions: Arah
-      district: Kota/Kabupaten
+      district: Kecamatan
       donor: Donatur
       donor_id: Donatur
       enrolled_program_stream: Alur Program Terdaftar
@@ -607,7 +607,7 @@ id:
       street_line1: Nama Jalan 1
       street_line2: Nama Jalan 2
       street_number: Jalan
-      subdistrict: Kelurahan
+      subdistrict: Kelurahan / Desa
       suburb: Kota Penyangga
       telephone_number: Nomor Telepon Wali Utama
       time_in_care: Jumlah Waktu dalam Perawatan
@@ -1666,12 +1666,12 @@ id:
         street_line2: Jalan 2 (opsional)
         township: Kota
       thailand_address_form:
-        district: Kota/Kabupaten
+        district: Kecamatan
         plot: Nomor Rumah, Kelurahan
         postal_code: Kode Pos
         province: Provinsi
         road: Jalan
-        subdistrict: Kelurahan
+        subdistrict: Kelurahan / Desa
     answer_fields:
       answer: Jawab
       yes_no: Ya/Tidak
@@ -1775,7 +1775,7 @@ id:
       commune: Kecamatan
       confirm: Tetap Simpan
       date_of_birth: Tanggal Lahir
-      district: Kota/Kabupaten
+      district: Kecamatan
       family_name: Nama Keluarga (Marga)
       given_name: Nama Kecil
       local_family_name: Nama Keluarga (Marga)
@@ -1914,7 +1914,7 @@ id:
       current_street: Jalan
       custom_forms: Formulir Custom
       date_of_birth: Tanggal Lahir
-      district: Kota/Kabupaten
+      district: Kecamatan
       done: Selesai
       donor: Donatur
       exit_date: Tanggal Keluar LSM
@@ -1948,7 +1948,7 @@ id:
       gov_client_types: Tipe Klien
       gov_commune: Kecamatan
       gov_date: Tanggal
-      gov_district: Kota/Kabupaten
+      gov_district: Kecamatan
       gov_government_form: Formulir Pemerintah
       gov_guardian_comment: Komentar dari klien/wali terkait hambatan dan kebutuhan
       gov_home: Rumah
@@ -2268,7 +2268,7 @@ id:
       date_of_birth: Tanggal Lahir
       date_of_call: Tanggal Telepon
       detail: Detail
-      district: Kota/Kabupaten
+      district: Kecamatan
       donor: Donatur
       donor_info: "Informasi Donatur"
       school_info: Informasi Sekolah
@@ -2474,7 +2474,7 @@ id:
       add_new_member: Tambah Anggota Baru
       address: Alamat
       commune: komune
-      district: Kota/Kabupaten
+      district: Kecamatan
       new_community_title: Tambah Komunitas Baru
       province: Provinsi
       referral_source_category_id: Kategori Sumber Rujukan
@@ -2981,7 +2981,7 @@ id:
         date_of_referral: Tanggal Rujukan
         description_house_landmark: Deskripsi rumah dan landmark
         directions: Arah
-        district: Kota/Kabupaten
+        district: Kecamatan
         district_en: Alamat - Kota/Kabupaten (Inggris)
         district_kh: Alamat - Kota/Kabupaten (Local)
         domain: Domain
@@ -3087,7 +3087,7 @@ id:
         street_line1: Garis Jalan 1
         street_line2: Garis Jalan 2
         street_number: Jalan
-        subdistrict: Kelurahan
+        subdistrict: Kelurahan / Desa
         suburb: Pinggiran Kota
         telephone_number: Nomor Telepon Wali Utama
         thailand: Thailand
@@ -3137,7 +3137,7 @@ id:
         date_of_birth: Tanggal Lahir
         dependable_income: Pendapatan tetap
         direct_beneficiaries: Keuntungan Langsung
-        district: Kota/Kabupaten
+        district: Kecamatan
         district_id: Kota/Kabupaten
         family: Keluarga
         family_preservation: Pemeliharaan Keluarga?
@@ -3393,7 +3393,7 @@ id:
     current_address: Alamat Sekarang
     current_province: Provinsi Sekarang
     date_of_birth: Tanggal Lahir
-    district: Kota/Kabupaten
+    district: Kecamatan
     donor: Donatur
     family_name: Nama Keluarga (Marga) (Latin)
     follow_up_by: Pertama kali ditindaklanjuti oleh
@@ -3872,7 +3872,7 @@ id:
       title: Edit Kota/Kabupaten
     form:
       cancel: Batal
-      district: Kota/Kabupaten
+      district: Kecamatan
       name: Kota/Kabupaten Nama
       province: Provinsi
       save: Simpan
@@ -4339,7 +4339,7 @@ id:
       contract_date: Tanggal Kontrak
       custom_forms: Formulir Custom
       dependable_income: Pendapatan tetap
-      district: Kota/Kabupaten
+      district: Kecamatan
       family_members: Anggota Keluarga
       family_type: Tipe Keluarga
       female_adult_count: Jumlah Wanita Dewasa
@@ -5473,7 +5473,7 @@ id:
   organizations:
     edit:
       commune: Kecamatan
-      district: Kota/Kabupaten
+      district: Kecamatan
       edit_org_setting: Edit profil organisasi
       name: Nama
       province: Provinsi/Kota
@@ -6346,7 +6346,7 @@ id:
         date_deleted: Menghapus tanggal
         delete: Hapus
         department: Departemen
-        district: Kota/Kabupaten
+        district: Kecamatan
         domain: Domain
         domain_group: Domain Grup
         donor: Donatur
