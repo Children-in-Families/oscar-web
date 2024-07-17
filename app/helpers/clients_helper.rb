@@ -737,13 +737,13 @@ module ClientsHelper
 
   def form_builder_query(object, form_type, field_name, properties_field = nil)
     return object if params['all_values'].present?
+
     properties_field = properties_field.present? ? properties_field : 'client_enrollment_trackings.properties'
 
     selected_program_stream = $param_rules['program_selected'].presence ? JSON.parse($param_rules['program_selected']) : []
     basic_rules = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
     basic_rules = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
     results = mapping_form_builder_param_value(basic_rules, form_type)
-
     return object if results.flatten.blank?
 
     query_string = get_query_string(results, form_type, properties_field)
