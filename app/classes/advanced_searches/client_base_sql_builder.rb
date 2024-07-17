@@ -93,11 +93,11 @@ module AdvancedSearches
           end
         elsif form_builder.first == 'tracking'
           if form_builder.last == 'Has This Form'
-            client_ids = Tracking.joins(:client_enrollments).where(name: form_builder.third).pluck(:client_id)
+            client_ids = Tracking.joins(:client_enrollments).where(client_enrollment_trackings: { created_at: value }).pluck('client_enrollments.client_id')
             @sql_string << 'clients.id IN (?)'
             @values << client_ids
           elsif form_builder.last == 'Does Not Have This Form'
-            client_ids = Tracking.joins(:client_enrollments).where.not(name: form_builder.third).pluck(:client_id)
+            client_ids = Tracking.joins(:client_enrollments).where.not(client_enrollment_trackings: { created_at: value }).pluck('client_enrollments.client_id')
             @sql_string << 'clients.id IN (?)'
             @values << client_ids
           else
