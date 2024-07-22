@@ -302,7 +302,7 @@ class Client < ActiveRecord::Base
         field_name = compare_jaro_winkler(input_name_field, client_name_field)
         dob = date_of_birth_matching(options[:date_of_birth], duplicate_checker_data.last)
         addresses = mapping_address(address_hash, addresses_hash, duplicate_checker_data)
-        gender_matching = options[:gender].to_s.downcase == duplicate_checker_data[7].to_s.downcase ? 1 : nil
+        gender_matching = options[:gender].to_s.downcase == duplicate_checker_data[6].to_s.downcase ? 1 : nil
         match_percentages = [field_name, dob, *addresses, gender_matching]
 
         percentages = match_percentages.compact
