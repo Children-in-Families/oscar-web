@@ -32,10 +32,12 @@
     "indonesia": {
       "city": "City",
       "district": "District",
+      "house_number": "Sub-community",
       "plot": "Plot/House number, Village",
       "postal_code": "Postal Code",
       "province": "Province",
       "road": "Road",
+      "street_number": "Community",
       "subdistrict": "Subdistrict"
     },
     "nepal": {
@@ -130,8 +132,8 @@
     "referral_info": "Client / Referral Information",
     "given_name": "Given Name (Latin)",
     "family_name": "Family Name (Latin)",
-    "local_given_name": "Given Name(Khmer)",
-    "local_family_name": "Family Name (Khmer)",
+    "local_given_name": "Given Name",
+    "local_family_name": "Family Name",
     "gender": "Gender",
     "genderLists": {
       "female": "Female",

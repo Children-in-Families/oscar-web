@@ -1229,9 +1229,10 @@ module ClientsHelper
       country_name = Setting.first.try(:country_name)
       case country_name
       when 'cambodia' then '(Khmer)'
-      when 'thailand' then '(Thai)'
+      when 'indonesia' then '(Bahasa)'
       when 'myanmar' then '(Burmese)'
       when 'lesotho' then '(Sesotho)'
+      when 'thailand' then '(Thai)'
       when 'uganda' then '(Swahili)'
       else
         '(Unknown)'
