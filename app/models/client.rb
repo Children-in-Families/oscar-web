@@ -296,11 +296,11 @@ class Client < ActiveRecord::Base
       }
 
       shared_clients.find_each do |another_client|
-        duplicate_checker_data = another_client.duplicate_checker.split('&')
+        duplicate_checker_data = another_client.duplicate_checker.split('&').map(&:squish)
         input_name_field = field_name_concatenate(options)
-        client_name_field = duplicate_checker_data[0].squish
+        client_name_field = duplicate_checker_data[0]
         field_name = compare_jaro_winkler(input_name_field, client_name_field)
-        dob = date_of_birth_matching(options[:date_of_birth], duplicate_checker_data.last.squish)
+        dob = date_of_birth_matching(options[:date_of_birth], duplicate_checker_data.last)
         addresses = mapping_address(address_hash, addresses_hash, duplicate_checker_data)
         gender_matching = options[:gender].to_s.downcase == duplicate_checker_data[7].to_s.downcase ? 1 : nil
         match_percentages = [field_name, dob, *addresses, gender_matching]
@@ -427,8 +427,8 @@ class Client < ActiveRecord::Base
 
     similarity = JaroWinkler.distance(value1, value2, ignore_case: true)
 
-    # Intentionally drop to 50% of < 0.88% to match WhiteSimilarity
-    similarity = 0.5 if similarity > 0.5 && similarity < 0.88
+    # Intentionally drop to 50% of < 0.9% to match WhiteSimilarity
+    similarity = 0.5 if similarity > 0.5 && similarity < 0.9
     similarity
   end
 
