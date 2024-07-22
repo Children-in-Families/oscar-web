@@ -414,7 +414,7 @@ class Client < ActiveRecord::Base
   # Try JaroWinkler for faster comparison
   # but adjusting the score to match WhiteSimilarity
   def self.compare_jaro_winkler(value1, value2)
-    return nil if value1.blank? || value2.blank?
+    return 0 if value1.blank? || value2.blank?
     return 1.0 if value1 == value2
 
     max_length = [value1.length, value2.length].max
