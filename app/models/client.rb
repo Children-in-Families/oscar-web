@@ -414,7 +414,7 @@ class Client < ActiveRecord::Base
   # Try JaroWinkler for faster comparison
   # but adjusting the score to match WhiteSimilarity
   def self.compare_jaro_winkler(value1, value2)
-    return 0 if value1.blank? || value2.blank?
+    return nil if value1.blank? || value2.blank?
     return 1.0 if value1 == value2
 
     max_length = [value1.length, value2.length].max
@@ -423,7 +423,7 @@ class Client < ActiveRecord::Base
     # Adjusted threshold based on string length ratio
     length_threshold = 0.2 * max_length
 
-    return 0.0 if (max_length - min_length) > length_threshold
+    return 0 if (max_length - min_length) > length_threshold
 
     similarity = JaroWinkler.distance(value1, value2, ignore_case: true)
 
@@ -451,10 +451,11 @@ class Client < ActiveRecord::Base
     remain_day = (dob1 > dob2) ? (dob1 - dob2).to_i : (dob2 - dob1).to_i
     percentage = 1.0 - (remain_day * 0.5) / 100.0
 
-    # Ensure percentage is within 0.0 to 1.0 range
     if percentage < 0.0
-      percentage = 0.0
-    elsif percentage > 1.0
+      return nil
+    end
+      
+    if percentage > 1.0
       percentage = 1.0
     end
 
