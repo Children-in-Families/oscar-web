@@ -368,6 +368,7 @@ module ClientsHelper
       slug_: I18n.t('datagrid.columns.clients.id'),
       kid_id_: custom_id_translation('custom_id2'),
       family_id_: I18n.t('datagrid.columns.families.code'),
+      case_note_created_at_: I18n.t('datagrid.columns.case_note_created_at'),
       case_note_date_: I18n.t('datagrid.columns.clients.case_note_date'),
       case_note_type_: I18n.t('datagrid.columns.clients.case_note_type'),
       assessment_created_at_: I18n.t('datagrid.columns.clients.assessment_created_at', assessment: I18n.t('clients.show.assessment')),

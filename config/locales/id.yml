@@ -461,6 +461,7 @@ id:
       carer_name: Nama Wali
       carer_phone: Nomor Telepon Wali
       carer_email: Alamat surel Wali
+      case_note_created_at: Case Note Created Date
       case_note_date: Tanggal Catatan Kasus
       case_note_type: Tipe Catatan Kasus
       case_type: Tipe Kasus
@@ -2836,6 +2837,7 @@ id:
       carer_address: Alamat Wali
       carer_names: Nama Wali
       carer_phone_number: Nomor Telepon Wali
+      case_note_created_at: Case Note Created Date
       case_note_date: Data Catatan Kasus
       case_note_type: Tipe Catatan Custom
       case_start_date: Data Kasus Dimulai
