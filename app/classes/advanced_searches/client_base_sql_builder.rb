@@ -92,21 +92,19 @@ module AdvancedSearches
             @values << []
           end
         elsif form_builder.first == 'tracking'
+          tracking = Tracking.joins(:program_stream).where(program_streams: { name: form_builder.second }, trackings: { name: form_builder.third }).last
           if form_builder.last == 'Has This Form'
-            client_ids = Tracking.joins(:client_enrollments).where(client_enrollment_trackings: { created_at: value }).pluck('client_enrollments.client_id')
+            client_ids = tracking.client_enrollment_trackings.joins(:client_enrollment).where('DATE(client_enrollment_trackings.created_at) BETWEEN ? AND ?', value.first, value.last).pluck('client_enrollments.client_id')
             @sql_string << 'clients.id IN (?)'
             @values << client_ids
           elsif form_builder.last == 'Does Not Have This Form'
-            client_ids = Tracking.joins(:client_enrollments).where.not(client_enrollment_trackings: { created_at: value }).pluck('client_enrollments.client_id')
+            client_ids = tracking.client_enrollment_trackings.joins(:client_enrollment).where.not('DATE(client_enrollment_trackings.created_at) BETWEEN ? AND ?', value.first, value.last).pluck('client_enrollments.client_id')
             @sql_string << 'clients.id IN (?)'
             @values << client_ids
-          else
-            tracking = Tracking.joins(:program_stream).where(program_streams: { name: form_builder.second }, trackings: { name: form_builder.third }).last
-            if tracking
-              tracking_fields = AdvancedSearches::TrackingSqlBuilder.new(tracking.id, rule, form_builder.second).get_sql
-              @sql_string << tracking_fields[:id]
-              @values << tracking_fields[:values]
-            end
+          elsif tracking
+            tracking_fields = AdvancedSearches::TrackingSqlBuilder.new(tracking.id, rule, form_builder.second).get_sql
+            @sql_string << tracking_fields[:id]
+            @values << tracking_fields[:values]
           end
         elsif form_builder.first == 'exitprogram'
           program_stream = ProgramStream.find_by(name: form_builder.second)
