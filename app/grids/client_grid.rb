@@ -1240,15 +1240,16 @@ class ClientGrid < BaseGrid
           basic_rules = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
           basic_rules = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
           results = mapping_form_builder_param_value(basic_rules, 'tracking')
+          values = results.first[0] && results.first[0]['value'] || []
 
           if data == 'recent'
             properties = ClientEnrollmentTracking.cached_tracking_order_created_at(object, fields.third, ids)
             properties = properties[format_field_value] if properties.present?
           elsif format_field_value == 'Has This Form'
-            properties = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids }).where(created_at: results.first[0]['value'])
+            properties = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids }).where('DATE(client_enrollment_trackings.created_at) BETWEEN ? AND ?', values.first, values.last)
             properties = properties.pluck(:created_at).map(&:to_s)
           elsif format_field_value == 'Does Not Have This Form'
-            properties = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids }).where.not(created_at: results.first[0]['value'])
+            properties = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids }).where.not('DATE(client_enrollment_trackings.created_at) BETWEEN ? AND ?', values.first, values.last)
             properties = properties.pluck(:created_at).map(&:to_s)
           else
             client_enrollment_trackings = ClientEnrollmentTracking.cached_client_enrollment_tracking(object, fields.third, ids)
