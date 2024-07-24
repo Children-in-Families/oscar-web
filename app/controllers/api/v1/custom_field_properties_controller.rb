@@ -13,12 +13,18 @@ module Api
       end
 
       def create
-        custom_field_property_params
+        form_builder_attachments_attributes = params.require(:custom_field_property)[:form_builder_attachments_attributes].try(:clone) || {}
         custom_field_property = @custom_formable.custom_field_properties.new(custom_field_property_params)
         custom_field_property.user_id = current_user.id
         if custom_field_property.save
           custom_field_property.form_builder_attachments.map do |c|
-            custom_field_property.properties = custom_field_property.properties.merge({ c.name => c.file })
+            name_value = c.name
+            attachments = map_attachments_attribute(form_builder_attachments_attributes, params[:custom_field_id])
+            attachments.each { |_, hash| name_value = hash['name'] if hash['label'] == c.name }
+            custom_field_property.properties = custom_field_property.properties.merge({ name_value => c.file })
+            custom_field_property.save(validate: false)
+            c.name = name_value
+            c.save
           end
           render json: custom_field_property
         else
@@ -73,15 +79,15 @@ module Api
         default_params = default_params.merge(properties: formatted_params) if formatted_params.present?
         default_params = default_params.merge(form_builder_attachments_attributes: attachment_params) if action_name == 'create' && attachment_params.present?
         property_params = mapping_custom_name_with_label(params[:custom_field_id], default_params)
+
         default_params.merge(property_params)
       end
 
       def mapping_custom_name_with_label(custom_field_id, custom_field_property_attribute)
         custom_field = CustomField.find(custom_field_id)
         properties = map_property_attribute(custom_field_property_attribute[:properties], custom_field)
-        attachment_attr = map_attachments_attribute(custom_field_property_attribute[:form_builder_attachments_attributes], custom_field)
 
-        custom_field_property_attribute.merge(properties: properties, form_builder_attachments_attributes: attachment_attr)
+        custom_field_property_attribute.merge(properties: properties)
       end
 
       def map_property_attribute(properties, custom_field)
@@ -99,7 +105,7 @@ module Api
           custom_field.fields.each do |field|
             next unless field['type'] == 'file'
 
-            file_labels = value.merge(name: field['label']) if field['name'] == value['name']
+            file_labels = value.merge({ name: field['label'], label: value['name'] }) if field['name'] == value['name']
           end
 
           attachment_attributes[k.to_sym] = file_labels
