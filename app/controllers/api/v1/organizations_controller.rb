@@ -1,6 +1,8 @@
 module Api
   module V1
     class OrganizationsController < Api::V1::BaseApiController
+      include ApplicationHelper
+
       skip_before_action :authenticate_user!
       before_action :authenticate_admin_user!, only: [:create, :update, :destroy]
       before_action :find_organization, only: [:update, :destroy]
@@ -8,6 +10,11 @@ module Api
 
       def index
         render json: Organization.visible.order(:created_at)
+      end
+
+      def listing
+        ngos = mapping_ngos(select_ngos)
+        render json: ngos
       end
 
       def clients
