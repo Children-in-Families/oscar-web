@@ -127,7 +127,7 @@ class CaseNote < ActiveRecord::Base
     self.assessment = if custom?
                         parent.assessments.custom_latest_record
                       else
-                        client.assessments.default_latest_record
+                        parent.assessments.default_latest_record
                       end
   end
 
