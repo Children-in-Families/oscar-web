@@ -399,8 +399,9 @@ Rails.application.routes.draw do
     # resources :referral_sources
 
     namespace :v1, default: { format: :json } do
-      resources :organizations, only: [:index, :create, :update, :destroy] do
+      resources :organizations, only: [:index, :listing, :create, :update, :destroy] do
         collection do
+          get :listing
           get :clients
           post 'clients/upsert' => 'organizations#upsert'
           get 'clients/check_duplication' => 'organizations#check_duplication'
@@ -420,6 +421,9 @@ Rails.application.routes.draw do
         scope module: 'families' do
           resources :exit_ngos, only: [:create, :update]
           resources :enter_ngos, only: [:create, :update]
+          resources :case_notes, only: [:show, :create, :update, :destroy, :delete_attachment] do
+            delete 'attachments/:file_index', action: :delete_attachment, on: :member
+          end
         end
       end
       resources :users, only: [:index, :show]
