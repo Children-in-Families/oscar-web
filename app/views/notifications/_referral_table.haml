@@ -9,11 +9,7 @@
         %th= t('.level_of_risk')
         %th= t('.review_form')
     %tbody
-      - referrals.each do |referral|
-        - if action_name == 'repeat_referrals'
-          - client = clients.find { |c| c.global_id == referral.client_global_id || c.id == referral.client_id }
-          - next unless client&.slug
-
+      - (@referrals || referrals).each do |referral|
         %tr{ class: "referral-#{referral.id}" }
           %td
             = link_to referral_path(referral), target: '_blank' do
@@ -27,7 +23,7 @@
 
           %td
             = link_to referral_path(referral), target: '_blank' do
-              = (action_name == 'repeat_referrals' ? (client.referral_count + 1) : 1)
+              = (action_name == 'repeat_referrals' ? (referral.client.referral_count + 1) : 1)
           %td
             - if referral.level_of_risk.present?
               = link_to referral_path(referral), target: '_blank', class: 'btn btn-primary btn-xs' do

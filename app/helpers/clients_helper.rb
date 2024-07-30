@@ -6,6 +6,7 @@ module ClientsHelper
       translation: rails_i18n_translations, inlineHelpTranslation: JSON.parse(I18n.t('inline_help').to_json),
       internationalReferredClient: international_referred_client, selectedCountry: selected_country,
       client: {
+        referral_id: params[:referral_id],
         client: @client, ratanak_achievement_program_staff_client_ids: @client.ratanak_achievement_program_staff_client_ids,
         user_ids: @client.user_ids, quantitative_case_ids: @client.quantitative_case_ids, agency_ids: @client.agency_ids,
         donor_ids: @client.donor_ids, isTestClient: current_setting.test_client?, isForTesting: @client.for_testing?
@@ -367,6 +368,7 @@ module ClientsHelper
       slug_: I18n.t('datagrid.columns.clients.id'),
       kid_id_: custom_id_translation('custom_id2'),
       family_id_: I18n.t('datagrid.columns.families.code'),
+      case_note_created_at_: I18n.t('datagrid.columns.case_note_created_at'),
       case_note_date_: I18n.t('datagrid.columns.clients.case_note_date'),
       case_note_type_: I18n.t('datagrid.columns.clients.case_note_type'),
       assessment_created_at_: I18n.t('datagrid.columns.clients.assessment_created_at', assessment: I18n.t('clients.show.assessment')),
@@ -1222,14 +1224,15 @@ module ClientsHelper
   end
 
   def country_scope_label_translation
-    return '' if Setting.cache_first.try(:country_name) == 'nepal'
+    return '' if Setting.first.try(:country_name) == 'nepal'
     if I18n.locale.to_s == 'en'
-      country_name = Setting.cache_first.try(:country_name)
+      country_name = Setting.first.try(:country_name)
       case country_name
       when 'cambodia' then '(Khmer)'
-      when 'thailand' then '(Thai)'
+      when 'indonesia' then '(Bahasa)'
       when 'myanmar' then '(Burmese)'
       when 'lesotho' then '(Sesotho)'
+      when 'thailand' then '(Thai)'
       when 'uganda' then '(Swahili)'
       else
         '(Unknown)'
@@ -1393,17 +1396,17 @@ module ClientsHelper
   end
 
   def custom_id_translation(type)
-    if I18n.locale != :km || Setting.cache_first.country_name != 'lesotho'
+    if I18n.locale != :km || Setting.first.country_name != 'lesotho'
       if type == 'custom_id1'
-        Setting.cache_first.custom_id1_latin.present? ? Setting.cache_first.custom_id1_latin : I18n.t("#{I18n.locale.to_s}.clients.other_detail.custom_id_number1")
+        Setting.first.custom_id1_latin.present? ? Setting.first.custom_id1_latin : I18n.t("#{I18n.locale.to_s}.clients.other_detail.custom_id_number1")
       else
-        Setting.cache_first.custom_id2_latin.present? ? Setting.cache_first.custom_id2_latin : I18n.t('other_detail.custom_id_number2')
+        Setting.first.custom_id2_latin.present? ? Setting.first.custom_id2_latin : I18n.t('other_detail.custom_id_number2')
       end
     else
       if type == 'custom_id1'
-        Setting.cache_first.custom_id1_local.present? ? Setting.cache_first.custom_id1_local : I18n.t('other_detail.custom_id_number1')
+        Setting.first.custom_id1_local.present? ? Setting.first.custom_id1_local : I18n.t('other_detail.custom_id_number1')
       else
-        Setting.cache_first.custom_id2_local.present? ? Setting.cache_first.custom_id2_local : I18n.t('other_detail.custom_id_number2')
+        Setting.first.custom_id2_local.present? ? Setting.first.custom_id2_local : I18n.t('other_detail.custom_id_number2')
       end
     end
   end
@@ -1433,7 +1436,7 @@ module ClientsHelper
   end
 
   def saved_search_column_visibility(field_key)
-    client_default_columns ||= Setting.cache_first.client_default_columns
+    client_default_columns ||= Setting.first.client_default_columns
     default_setting(field_key, client_default_columns) || params[field_key.to_sym].present? || (@visible_fields && @visible_fields[field_key]).present?
   end
 

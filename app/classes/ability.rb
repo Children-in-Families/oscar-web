@@ -127,7 +127,7 @@ class Ability
       can [:read, :create, :update], ScreeningAssessment
     end
 
-    cannot :read, Community if Setting.cache_first.hide_community?
+    cannot :read, Community if Setting.first.hide_community?
     cannot :read, Partner if FieldSetting.hidden_group?('partner')
   end
 

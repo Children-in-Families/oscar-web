@@ -15,8 +15,8 @@ class CustomAssessmentSetting < ActiveRecord::Base
   validates :max_custom_assessment, presence: true
   validates :custom_age, presence: true
 
-  scope :any_custom_assessment_enable?, -> { all.any? }
   scope :only_enable_custom_assessment, -> { where(enable_custom_assessment: true) }
+  scope :any_custom_assessment_enable?, -> { only_enable_custom_assessment.any? }
 
   after_commit :flush_cache
 

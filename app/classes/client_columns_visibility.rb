@@ -4,7 +4,7 @@ class ClientColumnsVisibility
   include ActionView::Helpers::TranslationHelper
 
   def initialize(grid, params)
-    @grid   = grid
+    @grid = grid
     @params = params
     address_translation
   end
@@ -192,9 +192,9 @@ class ClientColumnsVisibility
   def visible_columns
     return [] if @grid.nil?
     @grid.column_names = []
-    client_default_columns = Setting.cache_first.client_default_columns
+    client_default_columns = Setting.first.client_default_columns
 
-    params = @params.keys.select{ |k| k.match(/\_$/) }
+    params = @params.keys.select { |k| k.match(/\_$/) }
     if params.present? && client_default_columns.present?
       defualt_columns = params - client_default_columns
     else
@@ -233,7 +233,7 @@ class ClientColumnsVisibility
     columns = quantitative_type_columns
     if @params[:column_form_builder].present?
       @params[:column_form_builder].each do |column|
-        field   = column['id']
+        field = column['id']
         columns.merge!("#{field}_": field.to_sym)
       end
     end

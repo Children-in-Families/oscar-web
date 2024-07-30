@@ -6,6 +6,7 @@ class ExitNgo < ActiveRecord::Base
 
   belongs_to :client, class_name: 'Client', foreign_key: 'client_id', with_deleted: true
   belongs_to :rejectable, polymorphic: true, with_deleted: true
+  belongs_to :family, class_name: 'Family', foreign_key: 'rejectable_id'
 
   alias_attribute :new_date, :exit_date
 

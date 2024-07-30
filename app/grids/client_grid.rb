@@ -227,7 +227,7 @@ class ClientGrid < BaseGrid
 
   filter(:assessments_due_to, :enum, select: Assessment::DUE_STATES, header: -> { I18n.t('datagrid.columns.clients.assessments_due_to') }) do |value, scope|
     ids = []
-    setting = Setting.cache_first
+    setting = Setting.first
     if value == Assessment::DUE_STATES[0]
       Client.active_accepted_status.each do |client|
         next if !client.eligible_default_csi? && !(client.assessments.customs.present?)
@@ -379,7 +379,7 @@ class ClientGrid < BaseGrid
   end
 
   def self.case_note_overdue_ids
-    setting = Setting.cache_first
+    setting = Setting.first
     max_case_note = setting.try(:max_case_note) || 30
     case_note_frequency = setting.try(:case_note_frequency) || 'day'
     case_note_period = max_case_note.send(case_note_frequency).ago
@@ -425,17 +425,17 @@ class ClientGrid < BaseGrid
   column(:kid_id, order: 'clients.kid_id', header: -> { custom_id_translation('custom_id2') })
 
   def self.custom_id_translation(type)
-    if I18n.locale == :en || Setting.cache_first.country_name == 'lesotho'
+    if I18n.locale == :en || Setting.first.country_name == 'lesotho'
       if type == 'custom_id1'
-        Setting.cache_first.custom_id1_latin.present? ? Setting.cache_first.custom_id1_latin : I18n.t('clients.other_detail.custom_id_number1')
+        Setting.first.custom_id1_latin.present? ? Setting.first.custom_id1_latin : I18n.t('clients.other_detail.custom_id_number1')
       else
-        Setting.cache_first.custom_id2_latin.present? ? Setting.cache_first.custom_id2_latin : I18n.t('clients.other_detail.custom_id_number2')
+        Setting.first.custom_id2_latin.present? ? Setting.first.custom_id2_latin : I18n.t('clients.other_detail.custom_id_number2')
       end
     else
       if type == 'custom_id1'
-        Setting.cache_first.custom_id1_local.present? ? Setting.cache_first.custom_id1_local : I18n.t('clients.other_detail.custom_id_number1')
+        Setting.first.custom_id1_local.present? ? Setting.first.custom_id1_local : I18n.t('clients.other_detail.custom_id_number1')
       else
-        Setting.cache_first.custom_id2_local.present? ? Setting.cache_first.custom_id2_local : I18n.t('clients.other_detail.custom_id_number2')
+        Setting.first.custom_id2_local.present? ? Setting.first.custom_id2_local : I18n.t('clients.other_detail.custom_id_number2')
       end
     end
   end
@@ -458,7 +458,7 @@ class ClientGrid < BaseGrid
   end
 
   def self.dynamic_local_name
-    country = Setting.cache_first.country_name
+    country = Setting.first.country_name
     I18n.locale.to_s == 'en' ? COUNTRY_LANG[country] : ''
   end
 
@@ -727,7 +727,7 @@ class ClientGrid < BaseGrid
   end
 
   dynamic do
-    country = Setting.cache_first.try(:country_name) || 'cambodia'
+    country = Setting.first.try(:country_name) || 'cambodia'
     case country
     when 'cambodia'
       column(:current_address, order: 'clients.current_address', header: -> { I18n.t('datagrid.columns.clients.current_address') })
@@ -1011,6 +1011,10 @@ class ClientGrid < BaseGrid
 
   column(:family_type, preload: :family, order: false, header: -> { I18n.t('datagrid.columns.families.family_type') }) do |object|
     object.family&.family_type
+  end
+
+  column(:case_note_created_at, header: -> { I18n.t('datagrid.columns.case_note_created_at') }, html: true) do |object|
+    render partial: 'clients/case_note_created_date', locals: { object: object }
   end
 
   column(:case_note_date, header: -> { I18n.t('datagrid.columns.clients.case_note_date') }, html: true) do |object|

@@ -1,0 +1,12 @@
+
+- @assessment_notifications.each do |client|
+  .ibox.border-left-right.border-bottom
+    .ibox-title
+      %h5
+        = link_to client.client_name, client_assessments_path(client), target: :_blank
+    .ibox-content.no-padding
+      %table.table.table-striped
+        %tr
+          %td.col-xs-3= t('dashboards.assessment_tab.csi_assessment')
+          %td.col-xs-6.task-name.border-left-right
+          %td.col-xs-3= date_format(client.last_assessment_date)

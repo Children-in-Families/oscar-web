@@ -1,0 +1,11 @@
+- cache_if params[:data] == 'recent', cache_keys_base + [object, 'case_note_created_date', object.case_notes.most_recents.order(created_at: :desc).first] do
+  - if params[:data].presence == 'recent'
+    - recent_record = object.case_notes.most_recents.order(created_at: :desc).first&.created_at
+    - if recent_record.present?
+      %ul{'data-case_note_date': '' }
+        %li= date_format(recent_record)
+  - else
+    %ul{'data-case_note_date': '' }
+      - case_note_query(object.case_notes.most_recents, 'case_note_date').each do |case_note|
+        - if case_note.created_at.present?
+          %li= date_format(case_note.created_at)

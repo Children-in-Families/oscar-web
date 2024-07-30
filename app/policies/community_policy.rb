@@ -12,6 +12,6 @@ class CommunityPolicy < ApplicationPolicy
   alias destroy? show?
 
   def current_setting
-    @current_setting ||= Setting.cache_first
+    @current_setting ||= Setting.first
   end
 end

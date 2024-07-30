@@ -86,14 +86,16 @@ class AssessmentsController < AdminController
 
   def update
     attributes = assessment_params.merge(last_auto_save_at: DateTime.now)
-    saved = if save_draft?
-              @assessment.assign_attributes(attributes)
-              PaperTrail.without_tracking { @assessment.save(validate: false) }
+    saved = false
+    if save_draft?
+      @assessment.assign_attributes(attributes)
+      PaperTrail.without_tracking { @assessment.save(validate: false) }
 
-              true
-            else
-              @assessment.update_attributes(attributes.merge(draft: false))
-            end
+      saved = true
+    else
+      saved = @assessment.update_attributes(attributes.merge(draft: false))
+      @assessment.run_callbacks(:commit)
+    end
 
     if saved
       create_bulk_task(params[:task], @assessment) if params.has_key?(:task)

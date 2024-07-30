@@ -26,7 +26,7 @@ class OrganizationClientSerializer < ActiveModel::Serializer
 
   def is_referred
     return false if object.referrals.get_external_systems(external_system_name).last.nil?
-    referral        = object.referrals.get_external_systems(external_system_name).last
+    referral = object.referrals.get_external_systems(external_system_name).last
     external_system = referral.external_system
     external_system&.token == context.uid
   end
@@ -52,7 +52,7 @@ class OrganizationClientSerializer < ActiveModel::Serializer
   end
 
   def organization_address_code
-    setting = Setting.cache_first
+    setting = Setting.first
     return '' unless setting.province
 
     if setting.commune
@@ -65,11 +65,11 @@ class OrganizationClientSerializer < ActiveModel::Serializer
   end
 
   def location_current_village_code
-    object.village&.code || object.commune&.code || object.district&.code || object.province&.code || ""
+    object.village&.code || object.commune&.code || object.district&.code || object.province&.code || ''
   end
 
   def address_current_village_code
-    object.village&.code || object.commune&.code || object.district&.code || object.province&.code || ""
+    object.village&.code || object.commune&.code || object.district&.code || object.province&.code || ''
   end
 
   def level_of_risk
@@ -81,5 +81,4 @@ class OrganizationClientSerializer < ActiveModel::Serializer
   def services
     related_services
   end
-
 end

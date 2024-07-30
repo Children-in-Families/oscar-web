@@ -44,6 +44,7 @@ module Api
     def create
       client_saved = false
       client = Client.new(client_params)
+      check_is_referral_saved?(params[:referral_id]) if params[:referral_id]
       assign_global_id_from_referral(client, params)
       client.transaction do
         if params.dig(:referee, :id).present?
@@ -395,5 +396,15 @@ module Api
     def other_client_gender_count(clients)
       clients.where("gender IS NULL OR (gender NOT IN ('male', 'female'))").count
     end
+  end
+
+  def check_is_referral_saved?(referral_id)
+    return unless Referral.exists?(referral_id)
+
+    referral = Referral.find(referral_id)
+    return unless referral.saved?
+
+    flash[:error] = 'This product already exists.'
+    redirect_to referrals_path
   end
 end

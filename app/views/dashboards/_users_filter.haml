@@ -10,16 +10,16 @@
 
   .col-xs-12.col-md-2
     .form-group.btn.btn-default.btn-sm
-      = check_box_tag 'tasks', 'true', checkbox_tasks, class: 'i-checks'
+      = check_box_tag 'tasks', 'true', checkbox_tasks, class: 'i-checks', id: 'checkbox-task'
       %label= t('.task')
   .col-xs-12.col-md-2
     .form-group.btn.btn-default.btn-sm
-      = check_box_tag 'forms', 'true', checkbox_forms, class: 'i-checks'
+      = check_box_tag 'forms', 'true', checkbox_forms, class: 'i-checks', id: 'checkbox-form'
       %label= t('.forms')
   - if enable_any_csi_tools?
     .col-xs-12.col-md-3
       .form-group.btn.btn-default.btn-sm
-        = check_box_tag 'assessments', 'true', checkbox_assessments, class: 'i-checks'
+        = check_box_tag 'assessments', 'true', checkbox_assessments, class: 'i-checks', id: 'checkbox-assessment'
         %label= t('.assessments')
 
   .col-xs-12.col-md-1

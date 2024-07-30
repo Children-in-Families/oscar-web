@@ -22,6 +22,18 @@ Rails.application.routes.draw do
   get '/dashboards/family_tab' => 'dashboards#family_tab'
   get '/dashboards/side_menu_data' => 'dashboards#side_menu_data'
 
+  constraints format: :js do
+    get '/dashboards/notify_task' => 'dashboards#notify_task'
+    get '/dashboards/notify_assessment' => 'dashboards#notify_assessment'
+    get '/dashboards/notify_custom_assessment' => 'dashboards#notify_custom_assessment'
+    get '/dashboards/notify_client_custom_form' => 'dashboards#notify_client_custom_form'
+    get 'notify_overdue_case_note' => 'notifications#notify_overdue_case_note'
+    get 'notify_user_custom_field' => 'notifications#notify_user_custom_field'
+    get 'notify_family_custom_field' => 'notifications#notify_family_custom_field'
+    get 'notify_partner_custom_field' => 'notifications#notify_partner_custom_field'
+    get 'program_stream_notify' => 'notifications#program_stream_notify'
+  end
+
   resources :calendars
 
   # mount Thredded::Engine => '/forum'
@@ -202,6 +214,10 @@ Rails.application.routes.draw do
 
   resources :families do
     get :welcome, on: :collection
+
+    member do
+      get :custom_fields
+    end
 
     collection do
       get :welcome
@@ -458,9 +474,27 @@ Rails.application.routes.draw do
       end
 
       resources :referees, only: :index
-      get 'custom_forms' => 'custom_fields#index'
-      get 'developmental_markers' => 'developmental_markers#index'
-      get 'services' => 'services#index'
+      resources :notifications, only: :index do
+        collection do
+          get :program_stream_notify
+          get :referrals
+          get :repeat_referrals
+          get :family_referrals
+          get :repeat_family_referrals
+          get :notify_task
+          get :notify_assessment
+          get :notify_custom_assessment
+          get :notify_client_custom_form
+          get :notify_overdue_case_note
+          get :notify_user_custom_field
+          get :notify_family_custom_field
+          get :notify_partner_custom_field
+          get :program_stream_notify
+          get :custom_forms
+          get :developmental_markers
+          get :services
+        end
+      end
     end
 
     resources :community_advanced_searches, only: [] do

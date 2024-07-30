@@ -2,31 +2,31 @@
   "address": {
     "outside_address": "Alamat diluar",
     "province": "Provinsi",
-    "district": "Kota/Kabupaten",
+    "district": "Kecamatan",
     "commune": "Kecamatan",
     "village": "Desa/Kelurahan",
-    "street_number": "Nomor Jalan",
-    "house_number": "Nomor Rumah",
-    "address_name": "Nama Alamat",
+    "street_number": "RW",
+    "house_number": "RT",
+    "address_name": "Alamat",
     "address_type": "Tipe Alamat",
     "locality": "Lokalitas",
     "indonesia": {
       "city": "Kota/Kabupaten",
       "outside_address": "Alamat diluar",
       "province": "Provinsi",
-      "district": "Kota/Kabupaten",
+      "district": "Kecamatan",
       "commune": "Kecamatan",
       "village": "Desa/Kelurahan",
-      "street_number": "Nomor Jalan",
-      "house_number": "Nomor Rumah",
-      "address_name": "Nama Alamat",
+      "street_number": "RW",
+      "house_number": "RT",
+      "address_name": "Alamat",
       "address_type": "Tipe Alamat",
       "postal_code": "Kode Pos",
       "state": "Negara",
       "township": "Ibu Kota",
       "street_line1": "Jalan 1",
       "street_line2": "Jalan 2(pilihan)",
-      "subdistrict": "Kecamatan"
+      "subdistrict": "Kelurahan / Desa"
     },
     "lesotho": {
       "description_house_landmark": "Deskripsi Landmark Rumah",
@@ -40,12 +40,12 @@
       "street_line2": "Jalan 2(pilihan)"
     },
     "thailand": {
-      "district": "Kota/Kabupaten",
+      "district": "Kecamatan",
       "plot": "Petak/Nomor Rumah, Desa/Kelurahan",
       "postal_code": "Kode Pos",
       "province": "Provinsi",
       "road": "Jalan",
-      "subdistrict": "Kecamatan"
+      "subdistrict": "Kelurahan / Desa"
     },
     "nepal": {
       "province": "Provinsi",
@@ -279,12 +279,12 @@
     "address": {
       "outside_address": "Alamat Luar",
       "provicne": "Provinsi",
-      "district": "Kota/Kabupaten",
+      "district": "Kecamatan",
       "commune": "Kecamatan",
-      "village": "Kelurahan/Desa",
-      "street_number": "Nomor Jalan",
-      "house_number": "Nomor Rumah",
-      "address_name": "Nama Alamat",
+      "village": "Kelurahan / Desa",
+      "street_number": "RW",
+      "house_number": "RT",
+      "address_name": "Alamat",
       "address_type": "Tipe Alamat"
     },
     "addTaskModal": {
@@ -390,12 +390,12 @@
     "concernAddress": {
       "outside_cambodia": "Internasional",
       "province": "Provinsi",
-      "district": "Kota/Kabupaten",
+      "district": "Kecamatan",
       "commune": "Kecamatan",
-      "village": "Kelurahan/Desa",
-      "street_number": "Nomor Jalan",
-      "house_number": "Nomor Rumah",
-      "address_name": "Nama Alamat",
+      "village": "Kelurahan / Desa",
+      "street_number": "RW",
+      "house_number": "RT",
+      "address_name": "Alamat",
       "address_type": "Tipe Alamat"
     },
     "customInfo": {

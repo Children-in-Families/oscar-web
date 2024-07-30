@@ -267,7 +267,7 @@ export default (props) => {
 
         <div className="col-xs-12 col-md-6 col-lg-3">
           <TextInput
-            label={T.translate("address.street_number")}
+            label={T.translate("address.indonesia.street_number")}
             disabled={disabled}
             onChange={onChange(objectKey, "street_number")}
             value={objectData.street_number}
@@ -276,7 +276,7 @@ export default (props) => {
 
         <div className="col-xs-12 col-md-6 col-lg-3">
           <TextInput
-            label={T.translate("address.house_number")}
+            label={T.translate("address.indonesia.house_number")}
             disabled={disabled}
             onChange={onChange(objectKey, "house_number")}
             value={objectData.house_number}
