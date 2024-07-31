@@ -867,14 +867,14 @@ module ClientsHelper
   def mapping_form_builder_param_value(data, form_type, field_name = nil, data_mapping = [])
     rule_array = []
     data[:rules].each_with_index do |h, _|
-      if h.key?(:rules)
-        mapping_form_builder_param_value(h, form_type, field_name, data_mapping)
-      end
+      mapping_form_builder_param_value(h, form_type, field_name, data_mapping) if h.key?(:rules)
+
       if field_name.nil?
         next if h[:id]&.scan(form_type).blank?
-      else
-        next if h[:id] != field_name
+      elsif h[:id] != field_name
+        next
       end
+
       h[:condition] = data[:condition]
       rule_array << h
     end
