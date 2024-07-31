@@ -308,7 +308,7 @@ Rails.application.routes.draw do
       get :referral_source_category, on: :collection
     end
 
-    mount_devise_token_auth_for 'User', at: '/v1/auth', skip: [:passwords, :new], controllers: {
+    mount_devise_token_auth_for 'User', at: '/v1/auth', skip: [:passwords], base_controller: 'Api::V1::BaseApiController', controllers: {
                                           sessions: 'overrides/sessions'
                                         }
 
