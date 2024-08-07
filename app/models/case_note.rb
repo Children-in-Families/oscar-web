@@ -14,6 +14,8 @@ class CaseNote < ActiveRecord::Base
   has_many :domain_groups, through: :case_note_domain_groups
   has_many :tasks, as: :taskable
 
+  has_one :custom_field_property, class_name: 'CaseNotes::CustomFieldProperty', dependent: :destroy
+
   validates :meeting_date, :attendee, presence: true
   validates :interaction_type, presence: true, inclusion: { in: INTERACTION_TYPE }
   validate :existence_domain_groups
