@@ -3083,7 +3083,7 @@ ActiveRecord::Schema.define(version: 20240807034719) do
   add_foreign_key "case_notes", "clients", on_delete: :cascade
   add_foreign_key "case_notes", "custom_assessment_settings"
   add_foreign_key "case_notes_custom_field_properties", "case_notes"
-  add_foreign_key "case_notes_custom_field_properties", "custom_fields"
+  add_foreign_key "case_notes_custom_field_properties", "case_notes_custom_fields", column: "custom_field_id"
   add_foreign_key "case_worker_communities", "communities"
   add_foreign_key "case_worker_communities", "users"
   add_foreign_key "case_worker_families", "families"

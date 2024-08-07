@@ -164,6 +164,9 @@ class CaseNotesController < AdminController
       :meeting_date, :attendee, :interaction_type, :custom, :note, :custom_assessment_setting_id,
       case_note_domain_groups_attributes: [
         :id, :note, :domain_group_id, :task_ids
+      ],
+      custom_field_property_attributes: [
+        properties: []
       ]
     )
   end

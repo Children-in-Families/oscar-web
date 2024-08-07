@@ -22,6 +22,7 @@ class CaseNote < ActiveRecord::Base
 
   has_paper_trail
 
+  accepts_nested_attributes_for :custom_field_property
   accepts_nested_attributes_for :case_note_domain_groups
   accepts_nested_attributes_for :tasks, reject_if: proc { |attributes| attributes['name'].blank? && attributes['expected_date'].blank? }, allow_destroy: true
 

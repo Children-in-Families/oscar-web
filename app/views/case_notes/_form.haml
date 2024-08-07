@@ -53,6 +53,17 @@
                   .row
                     .col-xs-12
                       #interaction-type.text-danger
+
+          - if @case_note.custom_field_property
+            = f.simple_fields_for :custom_field_property do |ff|
+              = ff.simple_fields_for :properties, OpenStruct.new(ff.object.properties) do |prop_f|
+                - @case_note.custom_field_property.custom_field.fields.each do |field|
+                  .row
+                    .col-xs-12{ class: field['type'] == 'paragraph' ? '' : 'col-md-6' }
+                      - field['label'] = convert_bracket(field['label'])
+                      - unless field['type'] == 'file'
+                        = render "/shared/fields/#{field['type'].underscore}", f: prop_f, field_props: field, errors: @case_note.custom_field_property.errors.messages
+
           - unless @current_setting.hide_case_note_note?
             .row
               .col-xs-12

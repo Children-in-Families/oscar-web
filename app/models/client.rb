@@ -478,6 +478,16 @@ class Client < ActiveRecord::Base
 
     case_note.created_at = Time.current
     case_note.save(validate: false)
+
+    custom_field = CaseNotes::CustomField.first
+
+    if custom_field
+      CaseNotes::CustomFieldProperty.create!(
+        custom_field: custom_field,
+        case_note: case_note
+      )
+    end
+
     case_note
   end
 
