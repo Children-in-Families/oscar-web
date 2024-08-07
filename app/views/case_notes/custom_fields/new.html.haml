@@ -1,0 +1,12 @@
+.row
+  .col-xs-12
+    .ibox
+      .ibox-title
+        %h5
+          = t('.case_note_form')
+        .ibox-tools
+          %a.collapse-link
+            %i.fa.fa-chevron-up
+          %a.fullscreen-link
+            %i.fa.fa-expand
+      = render 'form'

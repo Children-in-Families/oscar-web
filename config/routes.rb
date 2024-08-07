@@ -1,5 +1,17 @@
 require 'sidekiq/web'
 Rails.application.routes.draw do
+  namespace :case_notes do
+  get 'custom_fields_controller/new'
+  end
+
+  namespace :case_notes do
+  get 'custom_fields_controller/edit'
+  end
+
+  namespace :case_notes do
+  get 'custom_fields_controller/show'
+  end
+
   root 'organizations#index'
   devise_for :users, controllers: { registrations: 'registrations', sessions: 'sessions', passwords: 'passwords' }
   use_doorkeeper do
@@ -531,6 +543,10 @@ Rails.application.routes.draw do
       end
       get 'hidden' => 'custom_fields#hidden', as: :hidden, on: :member
     end
+  end
+
+  namespace :case_notes do
+    resource :custom_field
   end
 
   resources :advanced_search_save_queries

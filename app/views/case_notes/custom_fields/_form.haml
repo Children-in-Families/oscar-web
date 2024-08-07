@@ -1,0 +1,14 @@
+= simple_form_for(@custom_field, as: :custom_field, url: case_notes_custom_field_path, html: {id: 'custom_field', class: current_user.admin? ? 'is-admin' : ''}) do |f|
+  .ibox-content
+    = f.input :fields, as: :hidden
+    = hidden_field_tag :custom_field_id, @custom_field.id
+    .build-wrap{ 'data-fields': @custom_field.fields.to_json || ''}
+    - if f.object.errors[:fields].any?
+      %span.help-block= f.object.errors[:fields].first
+  .ibox-footer
+    = f.submit t('save'), class: 'btn btn-primary form-btn', id: 'custom-field-submit', data: { disable_with: t('saving') }
+- if @custom_field.persisted?
+  - form_builder_selection_options_custom_form(@custom_field)
+  %div.hidden.custom_form_select_option{"data-custom-form-select-option" => "#{@select_field_custom_form }"}
+  %div.hidden.custom_form_checkbox_option{"data-custom-form-checkbox-option" => "#{@checkbox_field_custom_form}"}
+  %div.hidden.custom_form_radio_option{"data-custom-form-radio-option" => "#{@radio_field_custom_form}"}

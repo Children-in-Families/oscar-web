@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20240626214411) do
+ActiveRecord::Schema.define(version: 20240806211919) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -433,6 +433,13 @@ ActiveRecord::Schema.define(version: 20240626214411) do
   add_index "case_notes", ["custom_assessment_setting_id"], name: "index_case_notes_on_custom_assessment_setting_id", using: :btree
   add_index "case_notes", ["family_id"], name: "index_case_notes_on_family_id", using: :btree
   add_index "case_notes", ["last_auto_save_at", "draft"], name: "index_case_notes_on_last_auto_save_at_and_draft", using: :btree
+
+  create_table "case_notes_custom_fields", force: :cascade do |t|
+    t.datetime "deleted_at"
+    t.jsonb    "fields"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "case_worker_clients", force: :cascade do |t|
     t.integer  "user_id"
@@ -1268,15 +1275,12 @@ ActiveRecord::Schema.define(version: 20240626214411) do
   add_index "donor_organizations", ["organization_id"], name: "index_donor_organizations_on_organization_id", using: :btree
 
   create_table "donors", force: :cascade do |t|
-    t.string   "name",                   default: ""
-    t.text     "description",            default: ""
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
-    t.string   "code",                   default: ""
-    t.string   "global_id",   limit: 32, default: ""
+    t.string   "name",        default: ""
+    t.text     "description", default: ""
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.string   "code",        default: ""
   end
-
-  add_index "donors", ["global_id"], name: "index_donors_on_global_id", using: :btree
 
   create_table "enrollment_trackings", force: :cascade do |t|
     t.integer  "enrollment_id"

@@ -120,6 +120,8 @@
                 - if can? :read, :all
                   %li{ class: active_menu('domain_groups') || active_menu('domains') }
                     = link_to t('.assessments'), domain_groups_path
+                  %li{ class: '' }
+                    = link_to t('.case_note_form'), new_case_notes_custom_field_path
                   %li{ class: active_menu('quantitative_types') }
                     = link_to t('.quantitative_types'), quantitative_types_path
                 - if can? :read, ReferralSource
