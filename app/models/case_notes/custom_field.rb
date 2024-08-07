@@ -3,9 +3,6 @@
 module CaseNotes
   class CustomField < ::ActiveRecord::Base
     validates :fields, presence: true
-
-    def custom_field_properties
-      []
-    end
+    has_many :custom_field_properties, dependent: :restrict_with_error
   end
 end

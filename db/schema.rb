@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20240806211919) do
+ActiveRecord::Schema.define(version: 20240807034719) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -433,6 +433,17 @@ ActiveRecord::Schema.define(version: 20240806211919) do
   add_index "case_notes", ["custom_assessment_setting_id"], name: "index_case_notes_on_custom_assessment_setting_id", using: :btree
   add_index "case_notes", ["family_id"], name: "index_case_notes_on_family_id", using: :btree
   add_index "case_notes", ["last_auto_save_at", "draft"], name: "index_case_notes_on_last_auto_save_at_and_draft", using: :btree
+
+  create_table "case_notes_custom_field_properties", force: :cascade do |t|
+    t.integer  "case_note_id"
+    t.integer  "custom_field_id"
+    t.jsonb    "properties",      default: {}
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+  end
+
+  add_index "case_notes_custom_field_properties", ["case_note_id"], name: "index_case_notes_custom_field_properties_on_case_note_id", using: :btree
+  add_index "case_notes_custom_field_properties", ["custom_field_id"], name: "index_custom_field_properties_on_case_notes_custom_field_id", using: :btree
 
   create_table "case_notes_custom_fields", force: :cascade do |t|
     t.datetime "deleted_at"
@@ -3071,6 +3082,8 @@ ActiveRecord::Schema.define(version: 20240806211919) do
   add_foreign_key "case_contracts", "cases"
   add_foreign_key "case_notes", "clients", on_delete: :cascade
   add_foreign_key "case_notes", "custom_assessment_settings"
+  add_foreign_key "case_notes_custom_field_properties", "case_notes"
+  add_foreign_key "case_notes_custom_field_properties", "custom_fields"
   add_foreign_key "case_worker_communities", "communities"
   add_foreign_key "case_worker_communities", "users"
   add_foreign_key "case_worker_families", "families"
