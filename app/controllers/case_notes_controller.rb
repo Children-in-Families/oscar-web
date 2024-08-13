@@ -156,18 +156,31 @@ class CaseNotesController < AdminController
   end
 
   def permit_case_note_params
-    # tasks_attributes: [
-    #   :id, :name, :completion_date, :completed, :completed_by_id, :_destroy,
-    #   task_progress_notes_attributes: [:id, :progress_note, :task_id, :_destroy]
-    # ]
     params.require(:case_note).permit(
       :meeting_date, :attendee, :interaction_type, :custom, :note, :custom_assessment_setting_id,
       case_note_domain_groups_attributes: [
         :id, :note, :domain_group_id, :task_ids
       ],
       custom_field_property_attributes: [
-        properties: []
+        :id,
+        properties: custom_field_property_properties
       ]
     )
+  end
+
+  def custom_field_property_properties
+    return [] if params.dig(:case_note, :custom_field_property_attributes, :properties).blank?
+
+    properties = {}
+
+    params.dig(:case_note, :custom_field_property_attributes, :properties).each do |k, value|
+      new_key = k.gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;').gsub('%22', '"')
+      value = value.select(&:present?) if value.instance_of?(Array)
+
+      properties[new_key] = value
+    end
+
+    params[:case_note][:custom_field_property_attributes][:properties] = properties
+    properties.keys
   end
 end

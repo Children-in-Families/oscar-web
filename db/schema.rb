@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20240807034719) do
+ActiveRecord::Schema.define(version: 20240813075835) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -435,8 +435,8 @@ ActiveRecord::Schema.define(version: 20240807034719) do
   add_index "case_notes", ["last_auto_save_at", "draft"], name: "index_case_notes_on_last_auto_save_at_and_draft", using: :btree
 
   create_table "case_notes_custom_field_properties", force: :cascade do |t|
-    t.integer  "case_note_id"
-    t.integer  "custom_field_id"
+    t.integer  "case_note_id",                 null: false
+    t.integer  "custom_field_id",              null: false
     t.jsonb    "properties",      default: {}
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false

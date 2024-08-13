@@ -32,6 +32,9 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
       clearTimeout saveTimer
       saveTimer = setTimeout _submitFormViaAjax, 1000
 
+    $("[id^='case_note_custom_field_property_attributes_properties_']").on "keyup", ->
+      saveTimer = setTimeout _submitFormViaAjax, 1000
+
   _submitFormViaAjax = ->
     if $("#case-note-form").data("autosave")
       $(".task-arising.task-item-wrapper").addClass("saved")
