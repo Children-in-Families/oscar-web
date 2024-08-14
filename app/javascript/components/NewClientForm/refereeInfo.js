@@ -298,125 +298,133 @@ export default (props) => {
 
   return (
     <div className="containerClass">
-      <legend>
-        <div className="row">
-          <div className="col-xs-12 col-md-6 col-lg-4">
-            <p>{T.translate("refereeInfo.referee_info")}</p>
+      <div className="ibox">
+        <div className="ibox-title">
+          <h5>{T.translate("refereeInfo.referee_info")}</h5>
+          <div className="ibox-tools">
+            <a className="collapse-link">
+              <div className="btn btn-outline btn-primary">
+                <i className="fa fa-chevron-up"></i>
+              </div>
+            </a>
           </div>
         </div>
-      </legend>
-
-      <div className="row">
-        <div className="col-xs-12 col-sm-6 col-md-3">
-          <Checkbox
-            label={T.translate("refereeInfo.anonymous_referee")}
-            checked={referee.anonymous || false}
-            objectKey="referee"
-            onChange={onChange("referee", "anonymous")}
-          />
-        </div>
-      </div>
-
-      <div className="row">
-        <div className="col-xs-12">
-          <RadioGroup
-            inline
-            required
-            label={t(translation, "clients.form.referee_called_before")}
-            options={yesNoOpts}
-            onChange={onChangeExistingReferree}
-            value={referee.existing_referree}
-          />
-        </div>
-      </div>
-
-      <br />
-      <div className="row">
-        <div className="col-xs-12 col-md-6 col-lg-3">{renderNameField()}</div>
-        <div className="col-xs-12 col-md-6 col-lg-3">
-          <SelectInput
-            label={T.translate("refereeInfo.gender")}
-            isDisabled={referee.anonymous}
-            options={genderLists}
-            onChange={onChange("referee", "gender")}
-            value={referee.gender}
-            inlineClassName="referee-gender"
-            hintText={hintText.referee.gender}
-          />
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput
-            label={T.translate("refereeInfo.referee_phone")}
-            type="text"
-            disabled={referee.anonymous}
-            onChange={onChange("referee", "phone")}
-            value={referee.phone}
-            hintText={hintText.referee.phone}
-          />
-        </div>
-        <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput
-            label={T.translate("refereeInfo.referee_email")}
-            disabled={referee.anonymous}
-            onChange={onChange("referee", "email")}
-            value={referee.email}
-            hintText={hintText.referee.email}
-          />
-        </div>
-        <div className="col-xs-12 col-md-6 col-lg-3">
-          <SelectInput
-            T={T}
-            required
-            isError={errorFields.includes("referral_source_category_id")}
-            label={T.translate("refereeInfo.referral_source_cat")}
-            options={referralSourceCategoryLists}
-            value={client.referral_source_category_id}
-            onChange={onReferralSourceCategoryChange}
-            isDisabled={isReferralSourceExist(client)}
-            inlineClassName="referral-source-category"
-            hintText={hintText.referee.referral_source_category}
-          />
-        </div>
-        <div className="col-xs-12 col-md-6 col-lg-3">
-          <SelectInput
-            options={referralSourceLists}
-            label={T.translate("refereeInfo.referral_source")}
-            onChange={onChange("client", "referral_source_id")}
-            value={client.referral_source_id}
-            inlineClassName="referral-source"
-            hintText={hintText.referee.referral_source}
-          />
-        </div>
-      </div>
-
-      <legend>
-        <div className="row">
-          <div className="col-xs-12 col-md-6 col-lg-3">
-            <p>
-              {t(
-                translation,
-                "activerecord.attributes.referee.referee_address"
-              )}
-            </p>
-          </div>
-          {!referee.anonymous && (
-            <div className="col-xs-12 col-md-6 col-lg-3">
+        <div className="ibox-content">
+          <div className="row">
+            <div className="col-xs-12 col-sm-6 col-md-3">
               <Checkbox
-                label={T.translate("refereeInfo.outside_cam")}
-                checked={referee.outside || false}
-                onChange={onChange("referee", "outside")}
+                label={T.translate("refereeInfo.anonymous_referee")}
+                checked={referee.anonymous || false}
+                objectKey="referee"
+                onChange={onChange("referee", "anonymous")}
               />
             </div>
-          )}
+          </div>
+
+          <div className="row">
+            <div className="col-xs-12">
+              <RadioGroup
+                inline
+                required
+                label={t(translation, "clients.form.referee_called_before")}
+                options={yesNoOpts}
+                onChange={onChangeExistingReferree}
+                value={referee.existing_referree}
+              />
+            </div>
+          </div>
+
+          <br />
+          <div className="row">
+            <div className="col-xs-12 col-md-6 col-lg-3">
+              {renderNameField()}
+            </div>
+            <div className="col-xs-12 col-md-6 col-lg-3">
+              <SelectInput
+                label={T.translate("refereeInfo.gender")}
+                isDisabled={referee.anonymous}
+                options={genderLists}
+                onChange={onChange("referee", "gender")}
+                value={referee.gender}
+                inlineClassName="referee-gender"
+                hintText={hintText.referee.gender}
+              />
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-xs-12 col-md-6 col-lg-3">
+              <TextInput
+                label={T.translate("refereeInfo.referee_phone")}
+                type="text"
+                disabled={referee.anonymous}
+                onChange={onChange("referee", "phone")}
+                value={referee.phone}
+                hintText={hintText.referee.phone}
+              />
+            </div>
+            <div className="col-xs-12 col-md-6 col-lg-3">
+              <TextInput
+                label={T.translate("refereeInfo.referee_email")}
+                disabled={referee.anonymous}
+                onChange={onChange("referee", "email")}
+                value={referee.email}
+                hintText={hintText.referee.email}
+              />
+            </div>
+            <div className="col-xs-12 col-md-6 col-lg-3">
+              <SelectInput
+                T={T}
+                required
+                isError={errorFields.includes("referral_source_category_id")}
+                label={T.translate("refereeInfo.referral_source_cat")}
+                options={referralSourceCategoryLists}
+                value={client.referral_source_category_id}
+                onChange={onReferralSourceCategoryChange}
+                isDisabled={isReferralSourceExist(client)}
+                inlineClassName="referral-source-category"
+                hintText={hintText.referee.referral_source_category}
+              />
+            </div>
+            <div className="col-xs-12 col-md-6 col-lg-3">
+              <SelectInput
+                options={referralSourceLists}
+                label={T.translate("refereeInfo.referral_source")}
+                onChange={onChange("client", "referral_source_id")}
+                value={client.referral_source_id}
+                inlineClassName="referral-source"
+                hintText={hintText.referee.referral_source}
+              />
+            </div>
+          </div>
+
+          <legend>
+            <div className="row">
+              <div className="col-xs-12 col-md-6 col-lg-3">
+                <p>
+                  {t(
+                    translation,
+                    "activerecord.attributes.referee.referee_address"
+                  )}
+                </p>
+              </div>
+              {!referee.anonymous && (
+                <div className="col-xs-12 col-md-6 col-lg-3">
+                  <Checkbox
+                    label={T.translate("refereeInfo.outside_cam")}
+                    checked={referee.outside || false}
+                    onChange={onChange("referee", "outside")}
+                  />
+                </div>
+              )}
+            </div>
+          </legend>
+          {renderAddressSwitch(referee, "referee", referee.anonymous, {
+            districts,
+            communes,
+            villages
+          })}
         </div>
-      </legend>
-      {renderAddressSwitch(referee, "referee", referee.anonymous, {
-        districts,
-        communes,
-        villages
-      })}
+      </div>
     </div>
   );
 };

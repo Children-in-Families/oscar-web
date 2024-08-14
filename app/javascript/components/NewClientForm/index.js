@@ -271,15 +271,6 @@ const Forms = (props) => {
   const legalDocument = { client: clientData, T, errorFields };
   const [isError, setIsError] = useState(false);
 
-  const tabs = [
-    { text: T.translate("index.referee_info"), step: 1 },
-    { text: t(translation, "clients.form.referral_info"), step: 2 },
-    { text: T.translate("index.referral_more_info"), step: 3 },
-    { text: riskAssessment.labels.protection_concern, step: 4 },
-    { text: T.translate("index.referral_vulnerability"), step: 5 },
-    { text: t(translation, "clients.form.legal_documents"), step: 6 }
-  ];
-
   const classStyle = (value) =>
     errorSteps.includes(value)
       ? "errorTab"
@@ -1080,22 +1071,6 @@ const Forms = (props) => {
         }
       />
 
-      <div className="tabHead">
-        {tabs
-          .filter((tab) => {
-            if (
-              (!isRiskAssessmentEnabled && tab.step === 4) ||
-              (!fieldsVisibility.show_legal_doc && tab.step === 6)
-            ) {
-              return false; // skip
-            }
-            return true;
-          })
-          .map((tab, index) => {
-            return renderTab(tab, index);
-          })}
-      </div>
-
       <div className="contentWrapper">
         <div className="leftComponent">
           <AdministrativeInfo
@@ -1108,7 +1083,7 @@ const Forms = (props) => {
         </div>
 
         <div className="rightComponent">
-          <div style={{ display: step === 1 ? "block" : "none" }}>
+          <div>
             <RefereeInfo
               current_organization={current_organization}
               data={refereeTabData}
@@ -1120,7 +1095,7 @@ const Forms = (props) => {
             />
           </div>
 
-          <div style={{ display: step === 2 ? "block" : "none" }}>
+          <div>
             <ReferralInfo
               data={referralTabData}
               onChange={onChange}

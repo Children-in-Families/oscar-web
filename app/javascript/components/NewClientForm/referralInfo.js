@@ -335,517 +335,531 @@ export default (props) => {
           />
         </div>
       </div>
-      <legend>
-        <div className="row">
-          <div className="col-xs-12 col-md-6 col-lg-5">
-            <p>{t(translation, "clients.form.referral_info")}</p>
-          </div>
-        </div>
-      </legend>
-
-      {client.isTestClient && !client.isForTesting && (
-        <div className="row">
-          <div className="col-xs-12">
-            <RadioGroup
-              inline
-              required
-              label={T.translate("referralInfo.for_testing")}
-              options={yesNoOpts}
-              onChange={onChangeTestingClientRadioOption}
-              value={client.for_testing}
-            />
-          </div>
-        </div>
-      )}
-
-      <div className="row">
-        <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput
-            label={t(translation, "clients.form.given_name")}
-            onChange={onChange("client", "given_name")}
-            value={client.given_name}
-            inlineClassName="given-name"
-            hintText={hintText.referral.given_name}
-          />
-        </div>
-        <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput
-            label={t(translation, "clients.form.family_name")}
-            onChange={onChange("client", "family_name")}
-            value={client.family_name}
-            inlineClassName="family-name"
-            hintText={hintText.referral.family_name}
-          />
-        </div>
-        <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput
-            label={t(translation, "clients.form.local_given_name")}
-            onChange={onChange("client", "local_given_name")}
-            value={client.local_given_name}
-            inlineClassName="local-given-name"
-            hintText={hintText.referral.local_given_name}
-          />
-        </div>
-        <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput
-            label={t(translation, "clients.form.local_family_name")}
-            onChange={onChange("client", "local_family_name")}
-            value={client.local_family_name}
-            inlineClassName="local-family-name"
-            hintText={hintText.referral.local_family_name}
-          />
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-xs-12 col-md-6 col-lg-3">
-          <SelectInput
-            T={T}
-            required
-            isError={errorFields.includes("gender")}
-            label={t(translation, "clients.form.gender")}
-            options={genderLists}
-            value={client.gender}
-            onChange={onChange("client", "gender")}
-            inlineClassName="client-gender"
-            hintText={hintText.referral.client_gender}
-          />
-        </div>
-
-        <div className="col-xs-12 col-md-6 col-lg-3">
-          <DateInput
-            getCurrentDate
-            label={T.translate("referralInfo.date_of_birth")}
-            onChange={onChange("client", "date_of_birth")}
-            value={client.date_of_birth}
-            hintText={hintText.referral.client_dat_of_birth}
-          />
-        </div>
-
-        {fieldsVisibility.birth_province == true && (
-          <div className="col-xs-12 col-md-6 col-lg-3">
-            <SelectInput
-              asGroup
-              label={t(translation, "clients.form.birth_province")}
-              options={birthProvincesLists}
-              value={client.birth_province_id}
-              onChange={onChange("client", "birth_province_id")}
-              hintText={hintText.referral.client_birth_province}
-            />
-          </div>
-        )}
-
-        <div className="col-xs-12 col-md-6 col-lg-3">
-          <SelectInput
-            label={T.translate("referralInfo.caller_relationship")}
-            options={callerRelationship}
-            value={client.referee_relationship}
-            onChange={onRelationshipChange}
-            hintText={hintText.referral.client_relationship}
-          />
-        </div>
-
-        {fieldsVisibility.preferred_language == true && (
-          <div className="col-xs-12 col-md-6 col-lg-3">
-            <SelectInput
-              label={t(translation, "clients.form.preferred_language")}
-              options={preferLanguages}
-              onChange={onChange("client", "preferred_language")}
-              value={client.preferred_language}
-            />
-          </div>
-        )}
-      </div>
-
-      <div className="row">
-        {fieldsVisibility.marital_status == true && (
-          <div className="col-xs-12 col-md-6 col-lg-3">
-            <SelectInput
-              label={t(translation, "clients.form.marital_status")}
-              options={maritalStatuseOptions}
-              onChange={onChange("client", "marital_status")}
-              value={client.marital_status}
-            />
-          </div>
-        )}
-
-        {fieldsVisibility.national_id_number == true && (
-          <div className="col-xs-12 col-md-6 col-lg-3">
-            <TextInput
-              label={t(translation, "clients.form.national_id_number")}
-              onChange={onChange("client", "national_id_number")}
-              value={client.national_id_number}
-            />
-          </div>
-        )}
-
-        {fieldsVisibility.passport_number == true && (
-          <div className="col-xs-12 col-md-6 col-lg-3">
-            <TextInput
-              label={t(translation, "clients.form.passport_number")}
-              onChange={onChange("client", "passport_number")}
-              value={client.passport_number}
-            />
-          </div>
-        )}
-
-        {fieldsVisibility.nationality == true && (
-          <div className="col-xs-12 col-md-6 col-lg-3">
-            <SelectInput
-              label={t(translation, "clients.form.nationality")}
-              options={nationalityOptions}
-              onChange={onChange("client", "nationality")}
-              value={client.nationality}
-            />
-          </div>
-        )}
-      </div>
-
-      <div className="row">
-        {fieldsVisibility.ethnicity == true && (
-          <div className="col-xs-12 col-md-6 col-lg-3">
-            <SelectInput
-              label={t(translation, "clients.form.ethnicity")}
-              options={ethnicityOptions}
-              onChange={onChange("client", "ethnicity")}
-              value={client.ethnicity}
-            />
-          </div>
-        )}
-
-        {fieldsVisibility.type_of_trafficking == true && (
-          <div className="col-xs-12 col-md-6 col-lg-3">
-            <SelectInput
-              label={t(translation, "clients.form.type_of_trafficking")}
-              options={traffickingTypeOptions}
-              onChange={onChange("client", "type_of_trafficking")}
-              value={client.type_of_trafficking}
-            />
-          </div>
-        )}
-
-        {fieldsVisibility.location_of_concern == true && (
-          <div className="col-xs-12 col-md-6 col-lg-3">
-            <SelectInput
-              label={t(translation, "clients.form.location_of_concern")}
-              options={locationOfConcernOptions}
-              onChange={onChange("client", "location_of_concern")}
-              value={client.location_of_concern}
-            />
-          </div>
-        )}
-      </div>
-
-      <div className="row">
-        {fieldsVisibility.presented_id == true && (
-          <div className="col-xs-12 col-md-6 col-lg-3">
-            <SelectInput
-              label={t(translation, "clients.form.presented_id")}
-              options={brcPresentedIdList}
-              onChange={onChange("client", "presented_id")}
-              value={client.presented_id}
-            />
-          </div>
-        )}
-
-        {fieldsVisibility.id_number == true && (
-          <div className="col-xs-12 col-md-6 col-lg-3">
-            <TextInput
-              label={t(translation, "clients.form.id_number")}
-              onChange={onChange("client", "id_number")}
-              value={client.id_number}
-            />
-          </div>
-        )}
-
-        {fieldsVisibility.legacy_brcs_id == true && (
-          <div className="col-xs-12 col-md-6 col-lg-3">
-            <TextInput
-              label={t(translation, "clients.form.legacy_brcs_id")}
-              onChange={onChange("client", "legacy_brcs_id")}
-              value={client.legacy_brcs_id}
-            />
-          </div>
-        )}
-
-        {fieldsVisibility.brsc_branch == true && (
-          <div className="col-xs-12 col-md-6 col-lg-3">
-            <TextInput
-              label={t(translation, "clients.form.brsc_branch")}
-              onChange={onChange("client", "brsc_branch")}
-              value={client.brsc_branch}
-            />
-          </div>
-        )}
-      </div>
-
-      <div className="row">
-        <div className="col-xs-12">
-          <UploadInput
-            label={T.translate("referralInfo.profile")}
-            onChange={onProfileChange}
-            object={client.profile}
-            onChangeCheckbox={onChangeRemoveProfile}
-            checkBoxValue={client.remove_profile || false}
-            T={T}
-          />
-        </div>
-      </div>
-
-      {fieldsVisibility.brc_client_address != true && (
-        <div>
-          <legend>
-            <div className="row">
-              <div className="col-xs-12 col-md-6 col-lg-3">
-                <p>{T.translate("referralInfo.contact_info")}</p>
+      <div className="ibox">
+        <div className="ibox-title">
+          <h5>{t(translation, "clients.form.referral_info")}</h5>
+          <div className="ibox-tools">
+            <a className="collapse-link">
+              <div className="btn btn-outline btn-primary">
+                <i className="fa fa-chevron-up"></i>
               </div>
-              {client.referee_relationship !== "self" && (
-                <div className="col-xs-12 col-md-6 col-lg-6">
-                  <Checkbox
-                    label={T.translate("referralInfo.client_is_outside")}
-                    checked={client.outside || false}
-                    onChange={onChange("client", "outside")}
-                  />
-                </div>
-              )}
-            </div>
-          </legend>
-          {renderAddressSwitch(
-            client,
-            "client",
-            client.referee_relationship === "self",
-            {
-              districts,
-              communes,
-              villages
-            }
-          )}
+            </a>
+          </div>
         </div>
-      )}
-
-      {fieldsVisibility.brc_client_address == true && (
-        <legend className="brc-address">
-          <div className="row">
-            <div className="col-xs-12 col-md-6 col-lg-3">
-              <p>{T.translate("referralInfo.contact_info")}</p>
-            </div>
-          </div>
-        </legend>
-      )}
-
-      <div className="row">
-        {fieldsVisibility.what3words == true && (
-          <div className="col-xs-12 col-md-6 col-lg-3">
-            <TextInput
-              label={t(translation, "clients.form.what_3_word")}
-              onChange={onChange("client", "what3words")}
-              value={client.what3words}
-              inlineClassName="what-3-word"
-              hintText={hintText.referral.what_3_word}
-            />
-          </div>
-        )}
-
-        <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput
-            label={t(translation, "clients.form.client_phone")}
-            type="text"
-            onChange={onChange("client", "client_phone")}
-            value={client.client_phone}
-            hintText={hintText.referral.client_phone}
-          />
-        </div>
-
-        {fieldsVisibility.whatsapp == true && (
-          <div className="col-xs-12 col-md-6 col-lg-3">
-            <Checkbox
-              label={t(translation, "clients.form.whatsapp")}
-              checked={client.whatsapp}
-              onChange={onChange("client", "whatsapp")}
-            />
-          </div>
-        )}
-
-        {fieldsVisibility.other_phone_number == true && (
-          <div className="col-xs-12 col-md-6 col-lg-3">
-            <TextInput
-              label={t(translation, "clients.form.other_phone_number")}
-              onChange={onChange("client", "other_phone_number")}
-              value={client.other_phone_number}
-            />
-          </div>
-        )}
-
-        {fieldsVisibility.other_phone_whatsapp == true && (
-          <div className="col-xs-12 col-md-6 col-lg-3">
-            <Checkbox
-              label={t(translation, "clients.form.other_phone_whatsapp")}
-              checked={client.other_phone_whatsapp}
-              onChange={onChange("client", "other_phone_whatsapp")}
-            />
-          </div>
-        )}
-
-        {fieldsVisibility.phone_owner == true && (
-          <div className="col-xs-12 col-md-6 col-lg-3">
-            <SelectInput
-              label={t(translation, "clients.form.phone_owner")}
-              options={phoneOwner}
-              onChange={onChange("client", "phone_owner")}
-              value={client.phone_owner}
-              hintText={hintText.referral.phone_owner}
-            />
-          </div>
-        )}
-      </div>
-
-      <div className="row">
-        <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput
-            label={T.translate("referralInfo.client_email")}
-            onChange={onChange("client", "client_email")}
-            value={client.client_email}
-            hintText={hintText.referral.client_email}
-          />
-        </div>
-
-        {isRedirectFromCall && (
-          <div className="col-xs-12">
-            <TextArea
-              label={T.translate("newCall.referralInfo.location_description")}
-              value={client.location_description}
-              onChange={onChange("client", "location_description")}
-            />
-          </div>
-        )}
-      </div>
-
-      <br />
-
-      {fieldsVisibility.brc_client_address == true && (
-        <BrcAddress
-          translation={translation}
-          fieldsVisibility={fieldsVisibility}
-          disabled={client.referee_relationship === "self"}
-          current_organization={current_organization}
-          callFrom="referralInfo"
-          outside={client.outside || false}
-          onChange={onChange}
-          data={{
-            addressTypes,
-            currentDistricts: districts,
-            currentCommunes: communes,
-            currentVillages: villages,
-            objectKey: "client",
-            objectData: client,
-            T,
-            brc_islands,
-            brc_resident_types
-          }}
-        />
-      )}
-
-      {isRedirectFromCall && (
-        <>
-          <legend>
+        <div className="ibox-content">
+          {client.isTestClient && !client.isForTesting && (
             <div className="row">
-              <div className="col-xs-12 col-md-6 col-lg-3">
-                <p>{T.translate("newCall.referralInfo.location_of_concern")}</p>
-              </div>
-              <div className="col-xs-12 col-md-6 col-lg-3">
-                <Checkbox
-                  label={T.translate("newCall.referralInfo.same_as_client")}
-                  checked={client.concern_same_as_client}
-                  onChange={onCheckSameAsClient}
+              <div className="col-xs-12">
+                <RadioGroup
+                  inline
+                  required
+                  label={T.translate("referralInfo.for_testing")}
+                  options={yesNoOpts}
+                  onChange={onChangeTestingClientRadioOption}
+                  value={client.for_testing}
                 />
               </div>
-              {!client.concern_same_as_client && (
-                <div className="col-xs-12 col-md-6 col-lg-6">
-                  <Checkbox
-                    label={T.translate(
-                      "newCall.referralInfo.concern_is_outside_cambodia"
-                    )}
-                    checked={client.concern_is_outside || false}
-                    onChange={onChange("client", "concern_is_outside")}
-                  />
-                </div>
-              )}
             </div>
-          </legend>
-
-          <ConcernAddress
-            T={T}
-            disabled={client.concern_same_as_client}
-            outside={client.concern_is_outside || false}
-            onChange={onChange}
-            data={{
-              addressTypes,
-              currentDistricts: districts,
-              currentCommunes: communes,
-              currentVillages: villages,
-              currentProvinces,
-              objectKey: "client",
-              objectData: client
-            }}
-          />
+          )}
 
           <div className="row">
-            <div className="col-xs-12 col-md-6">
-              <div className="row">
-                <div className="col-xs-12 col-md-6">
-                  <TextInput
-                    T={T}
-                    label={T.translate(
-                      "newCall.referralInfo.relevant_contact_phone"
-                    )}
-                    onChange={onChange("client", "concern_phone")}
-                    value={client.concern_phone}
-                  />
-                </div>
-                <div className="col-xs-12 col-md-6">
-                  <SelectInput
-                    T={T}
-                    label={T.translate("newCall.referralInfo.phone_owner")}
-                    options={phoneEmailOwnerOpts}
-                    value={client.concern_phone_owner}
-                    onChange={onChange("client", "concern_phone_owner")}
-                  />
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-xs-12 col-md-6">
-                  <TextInput
-                    T={T}
-                    label={T.translate("newCall.referralInfo.relevant_email")}
-                    onChange={onChange("client", "concern_email")}
-                    value={client.concern_email}
-                  />
-                </div>
-                <div className="col-xs-12 col-md-6">
-                  <SelectInput
-                    T={T}
-                    label={T.translate("newCall.referralInfo.email_owner")}
-                    options={phoneEmailOwnerOpts}
-                    value={client.concern_email_owner}
-                    onChange={onChange("client", "concern_email_owner")}
-                  />
-                </div>
-              </div>
+            <div className="col-xs-12 col-md-6 col-lg-3">
+              <TextInput
+                label={t(translation, "clients.form.given_name")}
+                onChange={onChange("client", "given_name")}
+                value={client.given_name}
+                inlineClassName="given-name"
+                hintText={hintText.referral.given_name}
+              />
             </div>
-            <div
-              className={
-                "col-xs-12 col-md-6" +
-                (client.concern_is_outside ? " hidden" : "")
-              }
-            >
-              <TextArea
-                label={T.translate("newCall.referralInfo.locatin_description")}
-                value={client.concern_location}
-                onChange={onChange("client", "concern_location")}
+            <div className="col-xs-12 col-md-6 col-lg-3">
+              <TextInput
+                label={t(translation, "clients.form.family_name")}
+                onChange={onChange("client", "family_name")}
+                value={client.family_name}
+                inlineClassName="family-name"
+                hintText={hintText.referral.family_name}
+              />
+            </div>
+            <div className="col-xs-12 col-md-6 col-lg-3">
+              <TextInput
+                label={t(translation, "clients.form.local_given_name")}
+                onChange={onChange("client", "local_given_name")}
+                value={client.local_given_name}
+                inlineClassName="local-given-name"
+                hintText={hintText.referral.local_given_name}
+              />
+            </div>
+            <div className="col-xs-12 col-md-6 col-lg-3">
+              <TextInput
+                label={t(translation, "clients.form.local_family_name")}
+                onChange={onChange("client", "local_family_name")}
+                value={client.local_family_name}
+                inlineClassName="local-family-name"
+                hintText={hintText.referral.local_family_name}
               />
             </div>
           </div>
-        </>
-      )}
+          <div className="row">
+            <div className="col-xs-12 col-md-6 col-lg-3">
+              <SelectInput
+                T={T}
+                required
+                isError={errorFields.includes("gender")}
+                label={t(translation, "clients.form.gender")}
+                options={genderLists}
+                value={client.gender}
+                onChange={onChange("client", "gender")}
+                inlineClassName="client-gender"
+                hintText={hintText.referral.client_gender}
+              />
+            </div>
+
+            <div className="col-xs-12 col-md-6 col-lg-3">
+              <DateInput
+                getCurrentDate
+                label={T.translate("referralInfo.date_of_birth")}
+                onChange={onChange("client", "date_of_birth")}
+                value={client.date_of_birth}
+                hintText={hintText.referral.client_dat_of_birth}
+              />
+            </div>
+
+            {fieldsVisibility.birth_province == true && (
+              <div className="col-xs-12 col-md-6 col-lg-3">
+                <SelectInput
+                  asGroup
+                  label={t(translation, "clients.form.birth_province")}
+                  options={birthProvincesLists}
+                  value={client.birth_province_id}
+                  onChange={onChange("client", "birth_province_id")}
+                  hintText={hintText.referral.client_birth_province}
+                />
+              </div>
+            )}
+
+            <div className="col-xs-12 col-md-6 col-lg-3">
+              <SelectInput
+                label={T.translate("referralInfo.caller_relationship")}
+                options={callerRelationship}
+                value={client.referee_relationship}
+                onChange={onRelationshipChange}
+                hintText={hintText.referral.client_relationship}
+              />
+            </div>
+
+            {fieldsVisibility.preferred_language == true && (
+              <div className="col-xs-12 col-md-6 col-lg-3">
+                <SelectInput
+                  label={t(translation, "clients.form.preferred_language")}
+                  options={preferLanguages}
+                  onChange={onChange("client", "preferred_language")}
+                  value={client.preferred_language}
+                />
+              </div>
+            )}
+          </div>
+
+          <div className="row">
+            {fieldsVisibility.marital_status == true && (
+              <div className="col-xs-12 col-md-6 col-lg-3">
+                <SelectInput
+                  label={t(translation, "clients.form.marital_status")}
+                  options={maritalStatuseOptions}
+                  onChange={onChange("client", "marital_status")}
+                  value={client.marital_status}
+                />
+              </div>
+            )}
+
+            {fieldsVisibility.national_id_number == true && (
+              <div className="col-xs-12 col-md-6 col-lg-3">
+                <TextInput
+                  label={t(translation, "clients.form.national_id_number")}
+                  onChange={onChange("client", "national_id_number")}
+                  value={client.national_id_number}
+                />
+              </div>
+            )}
+
+            {fieldsVisibility.passport_number == true && (
+              <div className="col-xs-12 col-md-6 col-lg-3">
+                <TextInput
+                  label={t(translation, "clients.form.passport_number")}
+                  onChange={onChange("client", "passport_number")}
+                  value={client.passport_number}
+                />
+              </div>
+            )}
+
+            {fieldsVisibility.nationality == true && (
+              <div className="col-xs-12 col-md-6 col-lg-3">
+                <SelectInput
+                  label={t(translation, "clients.form.nationality")}
+                  options={nationalityOptions}
+                  onChange={onChange("client", "nationality")}
+                  value={client.nationality}
+                />
+              </div>
+            )}
+          </div>
+
+          <div className="row">
+            {fieldsVisibility.ethnicity == true && (
+              <div className="col-xs-12 col-md-6 col-lg-3">
+                <SelectInput
+                  label={t(translation, "clients.form.ethnicity")}
+                  options={ethnicityOptions}
+                  onChange={onChange("client", "ethnicity")}
+                  value={client.ethnicity}
+                />
+              </div>
+            )}
+
+            {fieldsVisibility.type_of_trafficking == true && (
+              <div className="col-xs-12 col-md-6 col-lg-3">
+                <SelectInput
+                  label={t(translation, "clients.form.type_of_trafficking")}
+                  options={traffickingTypeOptions}
+                  onChange={onChange("client", "type_of_trafficking")}
+                  value={client.type_of_trafficking}
+                />
+              </div>
+            )}
+
+            {fieldsVisibility.location_of_concern == true && (
+              <div className="col-xs-12 col-md-6 col-lg-3">
+                <SelectInput
+                  label={t(translation, "clients.form.location_of_concern")}
+                  options={locationOfConcernOptions}
+                  onChange={onChange("client", "location_of_concern")}
+                  value={client.location_of_concern}
+                />
+              </div>
+            )}
+          </div>
+
+          <div className="row">
+            {fieldsVisibility.presented_id == true && (
+              <div className="col-xs-12 col-md-6 col-lg-3">
+                <SelectInput
+                  label={t(translation, "clients.form.presented_id")}
+                  options={brcPresentedIdList}
+                  onChange={onChange("client", "presented_id")}
+                  value={client.presented_id}
+                />
+              </div>
+            )}
+
+            {fieldsVisibility.id_number == true && (
+              <div className="col-xs-12 col-md-6 col-lg-3">
+                <TextInput
+                  label={t(translation, "clients.form.id_number")}
+                  onChange={onChange("client", "id_number")}
+                  value={client.id_number}
+                />
+              </div>
+            )}
+
+            {fieldsVisibility.legacy_brcs_id == true && (
+              <div className="col-xs-12 col-md-6 col-lg-3">
+                <TextInput
+                  label={t(translation, "clients.form.legacy_brcs_id")}
+                  onChange={onChange("client", "legacy_brcs_id")}
+                  value={client.legacy_brcs_id}
+                />
+              </div>
+            )}
+
+            {fieldsVisibility.brsc_branch == true && (
+              <div className="col-xs-12 col-md-6 col-lg-3">
+                <TextInput
+                  label={t(translation, "clients.form.brsc_branch")}
+                  onChange={onChange("client", "brsc_branch")}
+                  value={client.brsc_branch}
+                />
+              </div>
+            )}
+          </div>
+
+          <div className="row">
+            <div className="col-xs-12">
+              <UploadInput
+                label={T.translate("referralInfo.profile")}
+                onChange={onProfileChange}
+                object={client.profile}
+                onChangeCheckbox={onChangeRemoveProfile}
+                checkBoxValue={client.remove_profile || false}
+                T={T}
+              />
+            </div>
+          </div>
+
+          {fieldsVisibility.brc_client_address != true && (
+            <div>
+              <legend>
+                <div className="row">
+                  <div className="col-xs-12 col-md-6 col-lg-3">
+                    <p>{T.translate("referralInfo.contact_info")}</p>
+                  </div>
+                  {client.referee_relationship !== "self" && (
+                    <div className="col-xs-12 col-md-6 col-lg-6">
+                      <Checkbox
+                        label={T.translate("referralInfo.client_is_outside")}
+                        checked={client.outside || false}
+                        onChange={onChange("client", "outside")}
+                      />
+                    </div>
+                  )}
+                </div>
+              </legend>
+              {renderAddressSwitch(
+                client,
+                "client",
+                client.referee_relationship === "self",
+                {
+                  districts,
+                  communes,
+                  villages
+                }
+              )}
+            </div>
+          )}
+
+          {fieldsVisibility.brc_client_address == true && (
+            <legend className="brc-address">
+              <div className="row">
+                <div className="col-xs-12 col-md-6 col-lg-3">
+                  <p>{T.translate("referralInfo.contact_info")}</p>
+                </div>
+              </div>
+            </legend>
+          )}
+
+          <div className="row">
+            {fieldsVisibility.what3words == true && (
+              <div className="col-xs-12 col-md-6 col-lg-3">
+                <TextInput
+                  label={t(translation, "clients.form.what_3_word")}
+                  onChange={onChange("client", "what3words")}
+                  value={client.what3words}
+                  inlineClassName="what-3-word"
+                  hintText={hintText.referral.what_3_word}
+                />
+              </div>
+            )}
+
+            <div className="col-xs-12 col-md-6 col-lg-3">
+              <TextInput
+                label={t(translation, "clients.form.client_phone")}
+                type="text"
+                onChange={onChange("client", "client_phone")}
+                value={client.client_phone}
+                hintText={hintText.referral.client_phone}
+              />
+            </div>
+
+            {fieldsVisibility.whatsapp == true && (
+              <div className="col-xs-12 col-md-6 col-lg-3">
+                <Checkbox
+                  label={t(translation, "clients.form.whatsapp")}
+                  checked={client.whatsapp}
+                  onChange={onChange("client", "whatsapp")}
+                />
+              </div>
+            )}
+
+            {fieldsVisibility.other_phone_number == true && (
+              <div className="col-xs-12 col-md-6 col-lg-3">
+                <TextInput
+                  label={t(translation, "clients.form.other_phone_number")}
+                  onChange={onChange("client", "other_phone_number")}
+                  value={client.other_phone_number}
+                />
+              </div>
+            )}
+
+            {fieldsVisibility.other_phone_whatsapp == true && (
+              <div className="col-xs-12 col-md-6 col-lg-3">
+                <Checkbox
+                  label={t(translation, "clients.form.other_phone_whatsapp")}
+                  checked={client.other_phone_whatsapp}
+                  onChange={onChange("client", "other_phone_whatsapp")}
+                />
+              </div>
+            )}
+
+            {fieldsVisibility.phone_owner == true && (
+              <div className="col-xs-12 col-md-6 col-lg-3">
+                <SelectInput
+                  label={t(translation, "clients.form.phone_owner")}
+                  options={phoneOwner}
+                  onChange={onChange("client", "phone_owner")}
+                  value={client.phone_owner}
+                  hintText={hintText.referral.phone_owner}
+                />
+              </div>
+            )}
+          </div>
+
+          <div className="row">
+            <div className="col-xs-12 col-md-6 col-lg-3">
+              <TextInput
+                label={T.translate("referralInfo.client_email")}
+                onChange={onChange("client", "client_email")}
+                value={client.client_email}
+                hintText={hintText.referral.client_email}
+              />
+            </div>
+
+            {isRedirectFromCall && (
+              <div className="col-xs-12">
+                <TextArea
+                  label={T.translate(
+                    "newCall.referralInfo.location_description"
+                  )}
+                  value={client.location_description}
+                  onChange={onChange("client", "location_description")}
+                />
+              </div>
+            )}
+          </div>
+
+          <br />
+
+          {fieldsVisibility.brc_client_address == true && (
+            <BrcAddress
+              translation={translation}
+              fieldsVisibility={fieldsVisibility}
+              disabled={client.referee_relationship === "self"}
+              current_organization={current_organization}
+              callFrom="referralInfo"
+              outside={client.outside || false}
+              onChange={onChange}
+              data={{
+                addressTypes,
+                currentDistricts: districts,
+                currentCommunes: communes,
+                currentVillages: villages,
+                objectKey: "client",
+                objectData: client,
+                T,
+                brc_islands,
+                brc_resident_types
+              }}
+            />
+          )}
+
+          {isRedirectFromCall && (
+            <>
+              <legend>
+                <div className="row">
+                  <div className="col-xs-12 col-md-6 col-lg-3">
+                    <p>
+                      {T.translate("newCall.referralInfo.location_of_concern")}
+                    </p>
+                  </div>
+                  <div className="col-xs-12 col-md-6 col-lg-3">
+                    <Checkbox
+                      label={T.translate("newCall.referralInfo.same_as_client")}
+                      checked={client.concern_same_as_client}
+                      onChange={onCheckSameAsClient}
+                    />
+                  </div>
+                  {!client.concern_same_as_client && (
+                    <div className="col-xs-12 col-md-6 col-lg-6">
+                      <Checkbox
+                        label={T.translate(
+                          "newCall.referralInfo.concern_is_outside_cambodia"
+                        )}
+                        checked={client.concern_is_outside || false}
+                        onChange={onChange("client", "concern_is_outside")}
+                      />
+                    </div>
+                  )}
+                </div>
+              </legend>
+
+              <ConcernAddress
+                T={T}
+                disabled={client.concern_same_as_client}
+                outside={client.concern_is_outside || false}
+                onChange={onChange}
+                data={{
+                  addressTypes,
+                  currentDistricts: districts,
+                  currentCommunes: communes,
+                  currentVillages: villages,
+                  currentProvinces,
+                  objectKey: "client",
+                  objectData: client
+                }}
+              />
+
+              <div className="row">
+                <div className="col-xs-12 col-md-6">
+                  <div className="row">
+                    <div className="col-xs-12 col-md-6">
+                      <TextInput
+                        T={T}
+                        label={T.translate(
+                          "newCall.referralInfo.relevant_contact_phone"
+                        )}
+                        onChange={onChange("client", "concern_phone")}
+                        value={client.concern_phone}
+                      />
+                    </div>
+                    <div className="col-xs-12 col-md-6">
+                      <SelectInput
+                        T={T}
+                        label={T.translate("newCall.referralInfo.phone_owner")}
+                        options={phoneEmailOwnerOpts}
+                        value={client.concern_phone_owner}
+                        onChange={onChange("client", "concern_phone_owner")}
+                      />
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-xs-12 col-md-6">
+                      <TextInput
+                        T={T}
+                        label={T.translate(
+                          "newCall.referralInfo.relevant_email"
+                        )}
+                        onChange={onChange("client", "concern_email")}
+                        value={client.concern_email}
+                      />
+                    </div>
+                    <div className="col-xs-12 col-md-6">
+                      <SelectInput
+                        T={T}
+                        label={T.translate("newCall.referralInfo.email_owner")}
+                        options={phoneEmailOwnerOpts}
+                        value={client.concern_email_owner}
+                        onChange={onChange("client", "concern_email_owner")}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className={
+                    "col-xs-12 col-md-6" +
+                    (client.concern_is_outside ? " hidden" : "")
+                  }
+                >
+                  <TextArea
+                    label={T.translate(
+                      "newCall.referralInfo.locatin_description"
+                    )}
+                    value={client.concern_location}
+                    onChange={onChange("client", "concern_location")}
+                  />
+                </div>
+              </div>
+            </>
+          )}
+        </div>
+      </div>
     </div>
   );
 };
