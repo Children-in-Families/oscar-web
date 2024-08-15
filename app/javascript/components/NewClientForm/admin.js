@@ -20,7 +20,7 @@ export default (props) => {
     <>
       <div className="ibox">
         <div className="ibox-title">
-          <h5 style={{ paddingBottom: 17 }}>
+          <h5 style={{ paddingBottom: 16 }}>
             {T.translate("admin.admin_information")}
           </h5>
         </div>

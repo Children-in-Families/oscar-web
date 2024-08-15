@@ -44,7 +44,8 @@ export default (props) => {
       maritalStatuses,
       nationalities,
       ethnicities,
-      traffickingTypes
+      traffickingTypes,
+      riskAssessmentData
     }
   } = props;
 
@@ -581,7 +582,28 @@ export default (props) => {
               </div>
             )}
           </div>
-
+          <div className="row">
+            <div className="col-xs-12 col-md-6">
+              <RadioGroup
+                inline
+                label={riskAssessmentData.labels.has_disability}
+                options={yesNoOpts}
+                onChange={onChange("riskAssessment", "has_disability")}
+                value={riskAssessmentData.has_disability}
+              />
+            </div>
+            <div className="col-xs-12 col-md-6 col-lg-6">
+              <TextInput
+                inline
+                label={riskAssessmentData.labels.if_yes}
+                onChange={onChange(
+                  "riskAssessment",
+                  "disability_specification"
+                )}
+                value={riskAssessmentData.disability_specification}
+              />
+            </div>
+          </div>
           <div className="row">
             <div className="col-xs-12">
               <UploadInput

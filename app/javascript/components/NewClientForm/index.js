@@ -216,6 +216,7 @@ const Forms = (props) => {
     errorFields,
     client: clientData,
     referee: refereeData,
+    riskAssessmentData: riskAssessmentData,
     birthProvinces,
     phoneOwners,
     callerRelationships,
@@ -378,89 +379,49 @@ const Forms = (props) => {
       { step: 1, data: refereeData, fields: ["name"] },
       { step: 1, data: clientData, fields: ["referral_source_category_id"] },
       { step: 2, data: clientData, fields: ["gender"] },
-      { step: 3, data: moSAVYOfficialsData, fields: ["name", "position"] },
-      { step: 4, data: riskAssessmentData, fields: [] },
       {
-        step: 5,
+        step: 3,
         data: clientData,
         fields:
           clientData.status != "Exited"
             ? ["received_by_id", "initial_referral_date", "user_ids"]
             : ["received_by_id", "initial_referral_date"]
       },
-      { step: 6, data: clientData, fields: step5RequiredFields }
+      { step: 4, data: clientData, fields: step5RequiredFields }
     ];
 
     const errors = [];
     const errorSteps = [];
 
     components.forEach((component) => {
-      if (
-        step === component.step ||
-        (stepToBeCheck !== 0 && component.step === stepToBeCheck)
-      ) {
-        component.fields.forEach((field) => {
-          if (
-            component.data[field] === "" ||
-            (Array.isArray(component.data) &&
-              component.data.filter((item) => {
-                return (
-                  item._destroy !== true &&
-                  (item[field].length == 0 || item[field].length == null)
-                );
-              }).length > 0) ||
-            (Array.isArray(component.data[field]) &&
-              !component.data[field].length) ||
-            component.data[field] === null
-          ) {
-            errors.push(field);
-            errorSteps.push(component.step);
-          }
-        });
-
-        if (step === 4 && riskAssessmentData.level_of_risk === "high") {
-          if (
-            riskAssessmentData.tasks_attributes.filter(
-              (task) => task._destroy === undefined
-            ).length === 0
-          ) {
-            setIsError(true);
-            errors.push("tasks_attributes");
-            errorSteps.push(component.step);
-          }
+      component.fields.forEach((field) => {
+        if (
+          component.data[field] === "" ||
+          (Array.isArray(component.data) &&
+            component.data.filter((item) => {
+              return (
+                item._destroy !== true &&
+                (item[field].length == 0 || item[field].length == null)
+              );
+            }).length > 0) ||
+          (Array.isArray(component.data[field]) &&
+            !component.data[field].length) ||
+          component.data[field] === null
+        ) {
+          errors.push(field);
+          errorSteps.push(component.step);
         }
-      }
-    });
+      });
 
-    quantitativeType.forEach((qttType) => {
-      if (step === 5 && qttType.is_required) {
-        if (qttType.field_type == "free_text") {
-          const item = clientQuantitativeFreeTextCasesData.find(
-            (cqFreeText) => {
-              return cqFreeText.quantitative_type_id == qttType.id;
-            }
-          );
-
-          if (item.content === null || item.content === "") {
-            errors.push(`qtt_type_${qttType.id}`);
-            errorSteps.push(5);
-          }
-        } else {
-          const qttCasees = quantitativeCase.filter((ftr) => {
-            return ftr.quantitative_type_id === qttType.id;
-          });
-          let error = true;
-
-          qttCasees.forEach((qttCase) => {
-            if (clientData.quantitative_case_ids.includes(qttCase.id)) {
-              error = false;
-            }
-          });
-
-          if (error) {
-            errors.push(`qtt_type_${qttType.id}`);
-            errorSteps.push(5);
-          }
+      if (step === 4 && riskAssessmentData.level_of_risk === "high") {
+        if (
+          riskAssessmentData.tasks_attributes.filter(
+            (task) => task._destroy === undefined
+          ).length === 0
+        ) {
+          setIsError(true);
+          errors.push("tasks_attributes");
+          errorSteps.push(component.step);
         }
       }
     });
@@ -473,53 +434,6 @@ const Forms = (props) => {
       setErrorFields([]);
       setErrorSteps([]);
       return true;
-    }
-  };
-
-  const handleTab = (goingToStep) => {
-    const goBack = goingToStep < step;
-    const goForward = goingToStep === step + 1;
-    const goOver = goingToStep >= step + 2 || goingToStep >= step + 3;
-
-    if (
-      (goForward && handleValidation()) ||
-      (goOver && handleValidation(1) && handleValidation(2)) ||
-      (goBack && handleClientDataValidation())
-    )
-      if (step === 2 && goingToStep === 3)
-        checkClientExist()(() => setStep(goingToStep));
-      else setStep(goingToStep);
-
-    $(".alert").hide();
-    $("#save-btn-help-text").hide();
-    $(`#step-${goingToStep}`).show();
-
-    if (goingToStep === (fieldsVisibility.show_legal_doc == true ? 6 : 5)) {
-      handleClientDataValidation();
-      $("#save-btn-help-text").show();
-    }
-  };
-
-  const buttonNext = () => {
-    let stepIndex = 1;
-    if (handleValidation()) {
-      if (step === 2) checkClientExist()(() => setStep(step + 1));
-      else {
-        if (!isRiskAssessmentEnabled && step === 3) stepIndex = 2;
-
-        setStep(step + stepIndex);
-      }
-
-      $(".alert").hide();
-      $(`#step-${step + stepIndex}`).show();
-      $("#save-btn-help-text").hide();
-      if (
-        step + stepIndex ===
-        (fieldsVisibility.show_legal_doc == true ? 6 : 5)
-      ) {
-        handleClientDataValidation();
-        $("#save-btn-help-text").show();
-      }
     }
   };
 
@@ -705,6 +619,7 @@ const Forms = (props) => {
       handleCheckValue(refereeData);
       handleCheckValue(clientData);
       handleCheckValue(carerData);
+      handleClientDataValidation();
 
       if (
         (familyMemberData.family_id === null ||
@@ -1105,88 +1020,14 @@ const Forms = (props) => {
               hintText={inlineHelpTranslation}
             />
           </div>
-
-          <div style={{ display: step === 3 ? "block" : "none" }}>
-            <ReferralMoreInfo
-              translation={translation}
-              renderAddressSwitch={renderAddressSwitch}
-              fieldsVisibility={fieldsVisibility}
-              current_organization={current_organization}
-              data={moreReferralTabData}
-              onChangeMoSAVYOfficialsData={onChangeMoSAVYOfficialsData}
-              onAddOfficial={onAddOfficial}
-              onChangeOfficial={onChangeOfficial}
-              onRemoveOfficial={onRemoveOfficial}
-              onChange={onChange}
-              hintText={inlineHelpTranslation}
-            />
-          </div>
-
-          {isRiskAssessmentEnabled && (
-            <div style={{ display: step === 4 ? "block" : "none" }}>
-              <RiskAssessment
-                data={riskAssessmentData}
-                setRiskAssessmentData={setRiskAssessmentData}
-                onChange={onChange}
-                isError={isError}
-                setIsError={setIsError}
-                protectionConcerns={protectionConcerns}
-                historyOfHarms={historyOfHarms}
-                historyOfHighRiskBehaviours={historyOfHighRiskBehaviours}
-                reasonForFamilySeparations={reasonForFamilySeparations}
-                historyOfDisabilities={historyOfDisabilities}
-              />
-            </div>
-          )}
-
-          <div style={{ display: step === 5 ? "block" : "none" }}>
-            <ReferralVulnerability
-              data={referralVulnerabilityTabData}
-              current_organization={current_organization}
-              translation={translation}
-              fieldsVisibility={fieldsVisibility}
-              onChange={onChange}
-              hintText={inlineHelpTranslation}
-            />
-          </div>
-
-          {fieldsVisibility.show_legal_doc == true && (
-            <div style={{ display: step === 6 ? "block" : "none" }}>
-              <LegalDocument
-                data={legalDocument}
-                translation={translation}
-                requiredFields={requiredFields}
-                fieldsVisibility={fieldsVisibility}
-                onChange={onChange}
-                setClientData={setClientData}
-              />
-            </div>
-          )}
         </div>
       </div>
 
       <div className="actionfooter">
-        <div className="leftWrapper">
+        <div className="rightWrapper">
           <span className="btn btn-default" onClick={handleCancel}>
             {T.translate("index.cancel")}
           </span>
-        </div>
-
-        <div className="rightWrapper">
-          <span
-            className={
-              (step === 1 && "clientButton preventButton") ||
-              "clientButton allowButton"
-            }
-            onClick={buttonPrevious}
-          >
-            {T.translate("index.previous")}
-          </span>
-          {step !== (fieldsVisibility.show_legal_doc == true ? 6 : 5) && (
-            <span className={"clientButton allowButton"} onClick={buttonNext}>
-              {T.translate("index.next")}
-            </span>
-          )}
           <span
             id="save-btn-help-text"
             data-toggle="popover"
@@ -1195,11 +1036,7 @@ const Forms = (props) => {
             data-placement="auto"
             data-trigger="hover"
             data-content={inlineHelpTranslation.clients.buttons.save}
-            className={
-              onSave && errorFields.length === 0
-                ? "clientButton preventButton"
-                : "clientButton saveButton"
-            }
+            className={"clientButton saveButton"}
             onClick={() => handleSave()()}
           >
             {T.translate("index.save")}

@@ -1,5 +1,7 @@
-body[id='calls-new'], body[id='calls-create'],
-body[id='calls-edit'], body[id='calls-update'] {
+body[id='calls-new'],
+body[id='calls-create'],
+body[id='calls-edit'],
+body[id='calls-update'] {
   @import '../../utils/Colors.scss';
 
   .containerClass {
@@ -11,7 +13,8 @@ body[id='calls-edit'], body[id='calls-update'] {
   .contentWrapper {
     display: flex;
     flex-direction: row;
-    @media screen and (max-width: 1090px ){
+
+    @media screen and (max-width: 1090px) {
       flex-direction: column;
     }
   }
@@ -100,12 +103,17 @@ body[id='calls-edit'], body[id='calls-update'] {
     pointer-events: none;
   }
 
-  .phoneCounsellingSummary, .informationProvided,
-  .careInfo, .schoolInfo, .donorInfo, .customInfo {
+  .phoneCounsellingSummary,
+  .informationProvided,
+  .careInfo,
+  .schoolInfo,
+  .donorInfo,
+  .customInfo {
     [data-toggle="collapse"] {
       .fa.fa-chevron-up {
         display: inline-block;
       }
+
       .fa.fa-chevron-down {
         display: none;
       }
@@ -115,6 +123,7 @@ body[id='calls-edit'], body[id='calls-update'] {
       .fa.fa-chevron-up {
         display: none;
       }
+
       .fa.fa-chevron-down {
         display: inline-block;
       }
@@ -149,7 +158,7 @@ body[id='calls-edit'], body[id='calls-update'] {
     z-index: 1000;
   }
 
-  #toast-container > .toast-warning {
+  #toast-container>.toast-warning {
     background-image: none !important;
   }
 }
