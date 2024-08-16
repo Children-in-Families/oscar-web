@@ -4,7 +4,7 @@ class RiskAssessmentReducer
   def initialize(client, risk_assessment_params, type = 'create')
     @risk_assessment = client.risk_assessment.present? ? client.risk_assessment : client.build_risk_assessment(risk_assessment_params)
     @risk_assessment_params = risk_assessment_params
-    @type = type if risk_assessment_params[:assessment_date].present?
+    @type = type
   end
 
   def store
