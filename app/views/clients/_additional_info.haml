@@ -1,0 +1,66 @@
+#additional-info.modal.fade{ role: 'dialog', tabindex: '-1' }
+  .modal-dialog.modal-lg{ role: 'document'}
+    .modal-content
+      .modal-header
+        %button.close{"aria-label" => "#{t('.close')}", "data-dismiss" => 'modal'}
+          %span{"aria-hidden" => 'true'} &times;
+        .modal-title
+          .row
+            .col-xs-12.col-sm-6
+              %h4 Additional Information
+            .col-xs-12.col-sm-4
+              %h4= "Client ID - #{@client.slug}"
+
+      .modal-body
+        = simple_form_for [@client, @client.exit_ngos.build] do |f|
+          = f.error_notification
+          .row
+            .col-xs-12
+              %h3= @client.en_and_local_name
+              %h3= "#{@client.gender&.capitalize} #{date_format(@client.date_of_birth)}"
+          .row
+            .col-xs-12
+              %h3 Do you want to add
+          .row
+            .col-xs-12
+              #accordion
+                .accordion-header
+                  #heading-4596294.panel-heading{role: "tab"}
+                    .row
+                      .col-xs-12.col-md-6
+                        %h5.accordion-title
+                          %a.accordion-toggle.accordion-arrow-toggle{"aria-controls" => "collapse-4596294", "aria-expanded" => "true", "data-parent" => "#accordion-additional-info", "data-toggle" => "collapse", href: "#collapse-4596294", role: "button"}
+                            Carer Information?
+                  #collapse-4596294.panel-collapse.collapse.in{"aria-labelledby" => "heading-4596294", role: "tabpanel"}
+                    .accordion-body Lorem ipsum dolor sic amet!
+                .accordion-header
+                  #heading-948587.panel-heading{role: "tab"}
+                    .row
+                      .col-xs-12.col-md-6
+                        %h5.accordion-title
+                          %a.accordion-toggle.accordion-arrow-toggle.collapsed{"aria-controls" => "collapse-948587", "aria-expanded" => "false", "data-parent" => "#accordion-additional-info", "data-toggle" => "collapse", href: "#collapse-948587", role: "button"}
+                            School Information?
+                  #collapse-948587.panel-collapse.collapse{"aria-labelledby" => "heading-948587", role: "tabpanel"}
+                    .accordion-body Lorem ipsum dolor sic amet!
+                .accordion-header
+                  #heading-832673.panel-heading{role: "tab"}
+                    .row
+                      .col-xs-12.col-md-6
+                        %h5.accordion-title
+                          %a.accordion-toggle.accordion-arrow-toggle.collapsed{"aria-controls" => "collapse-832673", "aria-expanded" => "false", "data-parent" => "#accordion-additional-info", "data-toggle" => "collapse", href: "#collapse-832673", role: "button"}
+                            Donor Information?
+                  #collapse-832673.panel-collapse.collapse{"aria-labelledby" => "heading-832673", role: "tabpanel"}
+                    .accordion-body Lorem ipsum dolor sic amet!
+                .accordion-header
+                  #heading-other-info.panel-heading{role: "tab"}
+                    .row
+                      .col-xs-12.col-md-6
+                        %h5.accordion-title
+                          %a.accordion-toggle.accordion-arrow-toggle.collapsed{"aria-controls" => "collapse-other-info", "aria-expanded" => "false", "data-parent" => "#accordion-additional-info", "data-toggle" => "collapse", href: "#collapse-other-info", role: "button"}
+                            Other Information?
+                  #collapse-other-info.panel-collapse.collapse{"aria-labelledby" => "heading-other-info", role: "tabpanel"}
+                    .accordion-body Lorem ipsum dolor sic amet!
+
+          .text-right
+            %button.btn.btn-default.editable-cancel{"data-dismiss" => 'modal'}= t('cancel')
+            = f.submit t('save'), class: 'btn btn-primary confirm', disabled: :disabled, data: { disable_with: t('saving') }

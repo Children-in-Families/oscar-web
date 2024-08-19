@@ -296,22 +296,22 @@
               = link_to archive_client_path(@client), method: 'put', data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.archive')}", placement: "auto", confirm: t('.are_you_sure') } do
                 .btn.btn-outline.btn-danger
                   %i.fa.fa-trash
-      .ibox-content
+      .ibox-content#accordion
         .row
           .col-xs-12
             .ibox
               .ibox-title
                 %h5 Client Referral Information
                 .ibox-tools
-                  %a.collapse-link
+                  %a.collapse-link{"aria-controls" => "collapse-additional-info", "aria-expanded" => "true", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapse-client-info", :role => "button"}
                     .btn.btn-outline.btn-primary
-                      %i.fa.fa-chevron-up
+                      %i.fa.fa-chevron-down
                   - if (can? :manage, Client) || (can? :rud, Client) || (can? :edit, Client)
                     %small
                       = link_to edit_client_path(@client), data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.edit')}", placement: "auto" } do
                         .btn.btn-outline.btn-success
                           %i.fa.fa-pencil
-              .ibox-content
+              .ibox-content.panel-collapse.collapse{"aria-labelledby" => "headingClientInfo", :role => "tabpanel", id: "collapse-client-info"}
                 = hidden_field_tag :initial_referral_date, @client.initial_referral_date
                 = hidden_field_tag :last_exit_ngo_date, @client.exit_ngos.last&.exit_date
                 - if Organization.ratanak? || %w(national_id_number passport_number marital_status nationality ethnicity location_of_concern type_of_trafficking).any? { |field| policy(@client).show?(field.to_sym) }
@@ -587,15 +587,15 @@
               .ibox-title
                 %h5 Additional Information
                 .ibox-tools
-                  %a.collapse-link
+                  %a.collapse-link{"aria-controls" => "collapse-additional-info", "aria-expanded" => "true", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapse-additional-info", :role => "button"}
                     .btn.btn-outline.btn-primary
-                      %i.fa.fa-chevron-up
+                      %i.fa.fa-chevron-down
                   - if (can? :manage, Client) || (can? :rud, Client) || (can? :edit, Client)
                     %small
-                      = link_to edit_client_path(@client), data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.edit')}", placement: "auto" } do
-                        .btn.btn-outline.btn-success
+                      = link_to "#additional-info", data: { target: "#additional-info", toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.edit')}", placement: "auto" } do
+                        .btn.btn-outline.btn-success{ data: { target: "#additional-info", toggle: "modal" } }
                           %i.fa.fa-pencil
-              .ibox-content
+              .ibox-content.panel-collapse.collapse{"aria-labelledby" => "headingClientInfo", :role => "tabpanel", id: "collapse-additional-info"}
                 = render "referral_more_info"
                 %table.table.table-bordered.referral-more-info
                   %thead
@@ -698,15 +698,15 @@
               .ibox-title
                 %h5 Protection Concern
                 .ibox-tools
-                  %a.collapse-link
+                  %a.collapse-link{"aria-controls" => "collapse-protection-concern", "aria-expanded" => "true", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapse-protection-concern", :role => "button"}
                     .btn.btn-outline.btn-primary
-                      %i.fa.fa-chevron-up
+                      %i.fa.fa-chevron-down
                   - if (can? :manage, Client) || (can? :rud, Client) || (can? :edit, Client)
                     %small
                       = link_to edit_client_path(@client), data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.edit')}", placement: "auto" } do
                         .btn.btn-outline.btn-success
                           %i.fa.fa-pencil
-              .ibox-content
+              .ibox-content.panel-collapse.collapse{"aria-labelledby" => "headingClientInfo", :role => "tabpanel", id: "collapse-protection-concern"}
                 .row
                   .col-12
                     - if has_risk_assessment
@@ -786,15 +786,15 @@
               .ibox-title
                 %h5 Custom Referral Data
                 .ibox-tools
-                  %a.collapse-link
+                  %a.collapse-link{"aria-controls" => "collapse-referral-data", "aria-expanded" => "true", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapse-referral-data", :role => "button"}
                     .btn.btn-outline.btn-primary
-                      %i.fa.fa-chevron-up
+                      %i.fa.fa-chevron-down
                   - if (can? :manage, Client) || (can? :rud, Client) || (can? :edit, Client)
                     %small
                       = link_to edit_client_path(@client), data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.edit')}", placement: "auto" } do
                         .btn.btn-outline.btn-success
                           %i.fa.fa-pencil
-              .ibox-content
+              .ibox-content.panel-collapse.collapse{"aria-labelledby" => "headingClientInfo", :role => "tabpanel", id: "collapse-referral-data"}
                 - if @client.client_custom_data
                   - cusotm_data_fields = @client.custom_data&.fields || []
                   - client_data_properties = @client.client_custom_data&.properties || {}
@@ -803,6 +803,7 @@
   = render 'blank_field_notification'
   = render 'referrals/confirm_referral'
   = render 'referrals/confirm_repeat_referral'
+  = render 'clients/additional_info'
 
 .modal.fade#screening-tool-warning{"aria-labelledby" => "gridSystemModalLabel", role: "dialog", tabindex: "-1"}
   .modal-dialog{role: "document"}
