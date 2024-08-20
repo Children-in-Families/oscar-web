@@ -16,6 +16,7 @@ CIF.ClientsShow = do ->
     _buttonHelpTextPophover()
     _initialEnterNGOAcceptedDate()
     _handleEnterNGOModalShow()
+    _ajaxChangeDistrict()
 
     $('table.families').dataTable
       'bPaginate': false
@@ -269,5 +270,45 @@ CIF.ClientsShow = do ->
 
   _buttonHelpTextPophover = ->
     $("button[data-content]").popover();
+
+  _ajaxChangeDistrict = ->
+    mainAddress = $('#carer_province_id, #carer_district_id, #carer_commune_id')
+    mainAddress.on 'change', ->
+      type       = $(@).data('type')
+      typeId     = $(@).val()
+      subAddress = $(@).data('subaddress')
+
+      if type == 'provinces'
+        subResources = 'districts'
+        subAddress =  switch subAddress
+                      when 'district' then $('#carer_district_id')
+
+        $(subAddress).val(null).trigger('change')
+        $(subAddress).find('option[value!=""]').remove()
+
+      else if type == 'districts'
+        subResources = 'communes'
+        subAddress =  switch subAddress
+                      when 'commune' then $('#carer_commune_id')
+
+        $(subAddress).val(null).trigger('change')
+        $(subAddress).find('option[value!=""]').remove()
+      else if type == 'communes'
+        subResources = 'villages'
+        subAddress =  switch subAddress
+                      when 'village' then $('#carer_village_id')
+
+
+        $(subAddress).val(null).trigger('change')
+        $(subAddress).find('option[value!=""]').remove()
+
+      if typeId != ''
+        $.ajax
+          method: 'GET'
+          url: "/api/#{type}/#{typeId}/#{subResources}"
+          dataType: 'JSON'
+          success: (response) ->
+            for address in response.data
+              subAddress.append("<option value='#{address.id}'>#{address.name}</option>")
 
   { init: _init }

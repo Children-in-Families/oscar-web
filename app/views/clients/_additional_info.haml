@@ -12,7 +12,8 @@
               %h4= "Client ID - #{@client.slug}"
 
       .modal-body
-        = simple_form_for [@client, @client.exit_ngos.build] do |f|
+        = simple_form_for [@client, @carer], url: api_client_path do |f|
+          = f.error_notification
           = f.error_notification
           .row
             .col-xs-12
@@ -32,7 +33,39 @@
                           %a.accordion-toggle.accordion-arrow-toggle{"aria-controls" => "collapse-4596294", "aria-expanded" => "true", "data-parent" => "#accordion-additional-info", "data-toggle" => "collapse", href: "#collapse-4596294", role: "button"}
                             Carer Information?
                   #collapse-4596294.panel-collapse.collapse.in{"aria-labelledby" => "heading-4596294", role: "tabpanel"}
-                    .accordion-body Lorem ipsum dolor sic amet!
+                    .accordion-body
+                      .row
+                        .col-xs-12.col-md-3
+                          = f.input :name
+                        .col-xs-12.col-md-3
+                          = f.input :gender
+                        .col-xs-12.col-md-3
+                          = f.input :phone
+                        .col-xs-12.col-md-3
+                          = f.input :email
+                        .col-xs-12.col-md-3
+                          = f.input :client_relationship, collection: Carer::CLIENT_RELATIONSHIPS
+                        .col-xs-12.col-md-3
+                          = f.association :clients, collection: @client.family_member, input_html: { name: "client[family_id]" }
+                      .row
+                        .col-xs-12.col-md-3
+                          %h2 Address
+                        .col-xs-12.col-md-3
+                          = f.input :same_as_client
+                        .col-xs-12.col-md-3
+                          = f.input :outside, label: 'International'
+                        .col-xs-12.col-md-3
+                      %hr/
+                      .row
+                        .col-xs-12.col-md-3
+                          = f.association :province, input_html: { data: { type: 'provinces', subaddress: 'district' } }
+                        .col-xs-12.col-md-3
+                          = f.input :district_id, collection: [], input_html: { data: { type: 'districts', subaddress: 'commune' } }
+                        .col-xs-12.col-md-3
+                          = f.input :commune_id, collection: [], input_html: { data: { type: 'communes', subaddress: 'village' } }
+                        .col-xs-12.col-md-3
+                          = f.input :village_id, collection: [], input_html: { data: { type: 'villages' } }
+
                 .accordion-header
                   #heading-948587.panel-heading{role: "tab"}
                     .row
