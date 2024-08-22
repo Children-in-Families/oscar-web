@@ -46,7 +46,8 @@
                         .col-xs-12.col-md-3
                           = f.input :client_relationship, collection: Carer::CLIENT_RELATIONSHIPS
                         .col-xs-12.col-md-3
-                          = f.association :clients, collection: @client.family_member, input_html: { name: "client[family_id]" }
+                          %label.optional.control-label Family Record
+                          = select_tag "client[family_id]", options_from_collection_for_select(@families, "id", "name"), include_blank: true, class: 'select2 string optional form-control'
                       .row
                         .col-xs-12.col-md-3
                           %h2 Address
@@ -56,15 +57,7 @@
                           = f.input :outside, label: 'International'
                         .col-xs-12.col-md-3
                       %hr/
-                      .row
-                        .col-xs-12.col-md-3
-                          = f.association :province, input_html: { data: { type: 'provinces', subaddress: 'district' } }
-                        .col-xs-12.col-md-3
-                          = f.input :district_id, collection: [], input_html: { data: { type: 'districts', subaddress: 'commune' } }
-                        .col-xs-12.col-md-3
-                          = f.input :commune_id, collection: [], input_html: { data: { type: 'communes', subaddress: 'village' } }
-                        .col-xs-12.col-md-3
-                          = f.input :village_id, collection: [], input_html: { data: { type: 'villages' } }
+                      = render "shared/addresses/#{current_organization.country.presence || 'cambodia'}", f: f
 
                 .accordion-header
                   #heading-948587.panel-heading{role: "tab"}
@@ -74,7 +67,20 @@
                           %a.accordion-toggle.accordion-arrow-toggle.collapsed{"aria-controls" => "collapse-948587", "aria-expanded" => "false", "data-parent" => "#accordion-additional-info", "data-toggle" => "collapse", href: "#collapse-948587", role: "button"}
                             School Information?
                   #collapse-948587.panel-collapse.collapse{"aria-labelledby" => "heading-948587", role: "tabpanel"}
-                    .accordion-body Lorem ipsum dolor sic amet!
+                    .accordion-body
+                      .row
+                        .col-xs-12.col-md-3
+                          %label.optional.control-label School Name
+                          = text_field_tag "client[school_name]", @client.school_name, class: 'string optional form-control'
+                        .col-xs-12.col-md-3
+                          %label.optional.control-label School Grade
+                          = text_field_tag "client[school_grade]", @client.school_grade, class: 'string optional form-control'
+                        .col-xs-12.col-md-3
+                          %label.optional.control-label Main School Contact
+                          = text_field_tag "client[main_school_contact]", @client.main_school_contact, class: 'string optional form-control'
+                        .col-xs-12.col-md-3
+                          %label.optional.control-label Education Background
+                          = text_field_tag "client[education_background]", @client.education_background, class: 'string optional form-control'
                 .accordion-header
                   #heading-832673.panel-heading{role: "tab"}
                     .row
@@ -83,7 +89,14 @@
                           %a.accordion-toggle.accordion-arrow-toggle.collapsed{"aria-controls" => "collapse-832673", "aria-expanded" => "false", "data-parent" => "#accordion-additional-info", "data-toggle" => "collapse", href: "#collapse-832673", role: "button"}
                             Donor Information?
                   #collapse-832673.panel-collapse.collapse{"aria-labelledby" => "heading-832673", role: "tabpanel"}
-                    .accordion-body Lorem ipsum dolor sic amet!
+                    .accordion-body
+                      .row
+                        .col-xs-12.col-md-6
+                          %label.optional.control-label Other Agencies Involved
+                          = select_tag "client[agency_ids]", options_from_collection_for_select(@agencies, "id", "name"), multiple: true, class: 'select2 string optional form-control'
+                        .col-xs-12.col-md-6
+                          %label.optional.control-label Donor
+                          = select_tag "client[donor_ids]", options_from_collection_for_select(@donors, "id", "name"), class: 'select2 string optional form-control'
                 .accordion-header
                   #heading-other-info.panel-heading{role: "tab"}
                     .row
@@ -92,7 +105,42 @@
                           %a.accordion-toggle.accordion-arrow-toggle.collapsed{"aria-controls" => "collapse-other-info", "aria-expanded" => "false", "data-parent" => "#accordion-additional-info", "data-toggle" => "collapse", href: "#collapse-other-info", role: "button"}
                             Other Information?
                   #collapse-other-info.panel-collapse.collapse{"aria-labelledby" => "heading-other-info", role: "tabpanel"}
-                    .accordion-body Lorem ipsum dolor sic amet!
+                    .accordion-body
+                      .row
+                        .col-xs-12.col-md-3
+                          %label.optional.control-label Custom ID Number 1
+                          = text_field_tag "client[code]", @client.code, class: 'string optional form-control'
+                        .col-xs-12.col-md-3
+                          %label.optional.control-label Custom ID Number 2
+                          = text_field_tag "client[kid_id]", @client.kid_id, class: 'string optional form-control'
+                        .col-xs-12.col-md-3
+                          %label.optional.control-label Is client rated for ID Poor?
+                          = text_field_tag "client[rated_for_id_poor]", @client.rated_for_id_poor, class: 'string optional form-control'
+                      .row
+                        .col-12
+                          %h2= t('clients.form.pickup_information')
+                      .row
+                        .col-xs-12.col-md-3
+                          %label.optional.control-label= t('clients.form.arrival_at')
+                          = text_field_tag  "client[client_arrival_at]", @client.try(:client_arrival_at), class: 'date  optional form-control date-picker'
+                        .col-xs-12.col-md-3
+                          %label.optional.control-label= t('clients.form.flight_nb')
+                          = text_field_tag "client[flight_nb]", @client.try(:flight_nb), class: 'string optional form-control'
+                        .col-xs-12.col-md-6
+                          %label.optional.control-label= t('clients.form.ratanak_achievement_program_staff_client_ids')
+                          = select_tag "client[ratanak_achievement_program_staff_client_ids]", options_from_collection_for_select(case_workers_option(@client.id), :second, :first), multiple: true, class: 'select2 string optional form-control'
+                      .row
+                        .col-12
+                          %h2= t('clients.form.mosavy_official')
+                      .nested-fields
+                        .row
+                          .col-xs-12.col-md-4
+                            .officials
+                              = f.simple_fields_for  MoSavyOfficial.new, @client.mo_savy_officials do |official|
+                                = render 'clients/client_fields', f: official
+                        .row
+                          .col-xs-12.col-md-4
+                            = link_to_add_association t('clients.form.add_mosavy_official'), f, :clients, class: 'btn-add-goal btn btn-outline btn-success'
 
           .text-right
             %button.btn.btn-default.editable-cancel{"data-dismiss" => 'modal'}= t('cancel')

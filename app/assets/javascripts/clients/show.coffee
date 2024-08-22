@@ -272,43 +272,26 @@ CIF.ClientsShow = do ->
     $("button[data-content]").popover();
 
   _ajaxChangeDistrict = ->
-    mainAddress = $('#carer_province_id, #carer_district_id, #carer_commune_id')
+    mainAddress = $('#carer_province_id, #carer_city_id, #carer_district_id, #carer_commune_id')
+    resourceMapping = { cities: 'carer_city_id', districts: 'carer_district_id', subdistricts: 'carer_subdistrict_id', communes: 'carer_commune_id', villages: 'carer_village_id' }
     mainAddress.on 'change', ->
       type       = $(@).data('type')
       typeId     = $(@).val()
-      subAddress = $(@).data('subaddress')
+      subAddresses = $(@).data('subaddresses')
+      subResource = subAddresses[0]
 
-      if type == 'provinces'
-        subResources = 'districts'
-        subAddress =  switch subAddress
-                      when 'district' then $('#carer_district_id')
-
-        $(subAddress).val(null).trigger('change')
-        $(subAddress).find('option[value!=""]').remove()
-
-      else if type == 'districts'
-        subResources = 'communes'
-        subAddress =  switch subAddress
-                      when 'commune' then $('#carer_commune_id')
-
-        $(subAddress).val(null).trigger('change')
-        $(subAddress).find('option[value!=""]').remove()
-      else if type == 'communes'
-        subResources = 'villages'
-        subAddress =  switch subAddress
-                      when 'village' then $('#carer_village_id')
-
-
-        $(subAddress).val(null).trigger('change')
-        $(subAddress).find('option[value!=""]').remove()
+      $(subAddresses || []).each (index, subAddress) =>
+        $("##{resourceMapping[subAddress]}").val(null).trigger('change')
+        $("##{resourceMapping[subAddress]}").find('option[value!=""]').remove()
 
       if typeId != ''
         $.ajax
           method: 'GET'
-          url: "/api/#{type}/#{typeId}/#{subResources}"
+          url: "/api/#{type}/#{typeId}/#{subResource}"
           dataType: 'JSON'
           success: (response) ->
             for address in response.data
-              subAddress.append("<option value='#{address.id}'>#{address.name}</option>")
+              $("##{resourceMapping[subResource]}").append("<option value='#{address.id}'>#{address.name}</option>")
+
 
   { init: _init }
