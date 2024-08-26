@@ -217,9 +217,42 @@ class ClientsController < AdminController
   end
 
   def update
-    binding.pry
-    new_params = @client.current_family_id ? client_params : client_params.except(:family_ids)
-    if @client.update_attributes(client_params.except(:family_ids))
+    client = Client.friendly.find(params[:client][:id] || params[:id])
+
+    if client
+      referee = Referee.find_or_create_by(id: client.referee_id)
+      referee.update_attributes(referee_params) if referee_params.present?
+      client.referee_id = referee.id
+      carer = Carer.find_or_create_by(id: client.carer_id)
+      carer.update_attributes(carer_params)
+      client.carer_id = carer.id
+    end
+
+    if client.update_attributes(client_params.except(:referee_id, :carer_id))
+      qtt_free_text_cases = params[:client_quantitative_free_text_cases]
+
+      if qtt_free_text_cases.present?
+        qtt_free_text_cases.select(&:present?).each do |client_qt_free_text_attr|
+          client_qt_free_text = client.client_quantitative_free_text_cases.find_or_initialize_by(quantitative_type_id: client_qt_free_text_attr[:quantitative_type_id])
+          client_qt_free_text.content = client_qt_free_text_attr[:content]
+          client_qt_free_text.save
+        end
+      end
+
+      if risk_assessment_params
+        risk_assessment = RiskAssessmentReducer.new(client, risk_assessment_params, 'update')
+        risk_assessment.store
+      end
+
+      custom_data = CustomData.first
+      if custom_data && params.key?(:custom_data)
+        if client.client_custom_data&.persisted?
+          client.client_custom_data.update_attributes(custom_data_params)
+        else
+          client.create_client_custom_data(custom_data_params.merge(custom_data_id: custom_data.id))
+        end
+      end
+
       if params[:client][:assessment_id]
         @assessment = Assessment.find(params[:client][:assessment_id])
         redirect_to client_assessment_path(@client, @assessment), notice: t('.assessment_successfully_created')

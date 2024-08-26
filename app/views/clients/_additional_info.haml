@@ -46,7 +46,7 @@
                           = text_field_tag "carer[phone]", @carer.phone, class: 'string optional form-control'
                         .col-xs-12.col-md-3
                           %label.optional.control-label Email
-                          = text_field_tag "carer[email]", @carer.email, class: 'string optional form-control'
+                          = text_field_tag "carer[email]", @carer.email, placeholder: 'user@domain.com', class: 'string optional form-control'
                       .row.m-b-sm
                         .col-xs-12.col-md-3
                           %label.optional.control-label Relationship to Client
@@ -73,7 +73,7 @@
                         .col-xs-12.col-md-3
                       %hr/
                       = f.fields_for :carer, @carer do |c|
-                        = render "clients/addresses_forms/#{current_organization.country.presence || 'cambodia'}_address_form", f: c
+                        = render "clients/carer_address_forms/#{current_organization.country.presence || 'cambodia'}_address_form", f: c
 
                 .accordion-header
                   #heading-948587.panel-heading{role: "tab"}
@@ -112,7 +112,7 @@
                           = select_tag "client[agency_ids]", options_from_collection_for_select(@agencies, "id", "name"), multiple: true, class: 'select2 string optional form-control'
                         .col-xs-12.col-md-6
                           %label.optional.control-label Donor
-                          = select_tag "client[donor_ids]", options_from_collection_for_select(@donors, "id", "name"), class: 'select2 string optional form-control'
+                          = select_tag "client[donor_ids]", options_from_collection_for_select(@donors, "id", "name"), include_blank: true, class: 'select2 string optional form-control'
                 .accordion-header
                   #heading-other-info.panel-heading{role: "tab"}
                     .row

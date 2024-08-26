@@ -14,9 +14,7 @@ class ApplicationController < ActionController::Base
   before_filter :set_current_user
 
   rescue_from ActiveRecord::RecordNotFound do |exception|
-    if request.path == "/#{controller_name}/#{action_name}"
-      render file: "#{Rails.root}/app/views/errors/404", layout: false, status: :not_found
-    end
+    render file: "#{Rails.root}/app/views/errors/404", layout: false, status: :not_found
   end
 
   helper_method :current_organization, :current_setting
