@@ -19,6 +19,7 @@ module Api
         if custom_field_property.save
           custom_field_property.form_builder_attachments.map do |c|
             name_value = c.name
+            attachments = map_attachments_attribute(form_builder_attachments_attributes, params[:custom_field_id])
             attachments.each { |_, hash| name_value = hash['name'] if hash['label'] == c.name }
             custom_field_property.properties = custom_field_property.properties.merge({ name_value => c.file })
             custom_field_property.save(validate: false)
