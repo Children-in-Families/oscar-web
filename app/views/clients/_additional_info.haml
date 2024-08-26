@@ -12,7 +12,7 @@
               %h4= "Client ID - #{@client.slug}"
 
       .modal-body
-        = simple_form_for [@client, @carer], url: api_client_path do |f|
+        = simple_form_for @client, url: client_path(@client) do |f|
           = f.error_notification
           = f.error_notification
           .row
@@ -34,30 +34,46 @@
                             Carer Information?
                   #collapse-4596294.panel-collapse.collapse.in{"aria-labelledby" => "heading-4596294", role: "tabpanel"}
                     .accordion-body
-                      .row
+                      .row.m-b-sm
                         .col-xs-12.col-md-3
-                          = f.input :name
+                          %label.optional.control-label Name
+                          = text_field_tag "carer[name]", @carer.name, class: 'string optional form-control'
                         .col-xs-12.col-md-3
-                          = f.input :gender
+                          %label.optional.control-label Gender
+                          = select_tag "carer[gender]", options_for_select(Carer::GENDERS), include_blank: true, class: 'select2 string optional form-control'
                         .col-xs-12.col-md-3
-                          = f.input :phone
+                          %label.optional.control-label Phone
+                          = text_field_tag "carer[phone]", @carer.phone, class: 'string optional form-control'
                         .col-xs-12.col-md-3
-                          = f.input :email
+                          %label.optional.control-label Email
+                          = text_field_tag "carer[email]", @carer.email, class: 'string optional form-control'
+                      .row.m-b-sm
                         .col-xs-12.col-md-3
-                          = f.input :client_relationship, collection: Carer::CLIENT_RELATIONSHIPS
+                          %label.optional.control-label Relationship to Client
+                          = select_tag "carer[client_relationship]", options_for_select(Carer::CLIENT_RELATIONSHIPS), include_blank: true, class: 'select2 string optional form-control'
                         .col-xs-12.col-md-3
-                          %label.optional.control-label Family Record
-                          = select_tag "client[family_id]", options_from_collection_for_select(@families, "id", "name"), include_blank: true, class: 'select2 string optional form-control'
+                          = f.association :family_members, collection: @families, label: 'Family Record'
                       .row
                         .col-xs-12.col-md-3
                           %h2 Address
-                        .col-xs-12.col-md-3
-                          = f.input :same_as_client
-                        .col-xs-12.col-md-3
-                          = f.input :outside, label: 'International'
+                        .col-xs-12.col-md-3.m-t-sm
+                          .form-group.boolean.optional.carer_same_as_client
+                            .checkbox
+                              %input{name: "carer[same_as_client]", type: "hidden", value: "0"}/
+                              %label.boolean.optional{for: "carer_same_as_client"}
+                                %input#carer_same_as_client.boolean.optional{name: "carer[same_as_client]", type: "checkbox", value: "1"}>/
+                                Same as clien
+                        .col-xs-12.col-md-3.m-t-sm
+                          .form-group.boolean.optional.carer_outside
+                            .checkbox
+                              %input{name: "carer[outside]", type: "hidden", value: "0"}/
+                              %label.boolean.optional{for: "carer_outside"}
+                                %input#carer_outside.boolean.optional{name: "carer[outside]", type: "checkbox", value: "1"}>/
+                                International
                         .col-xs-12.col-md-3
                       %hr/
-                      = render "shared/addresses/#{current_organization.country.presence || 'cambodia'}", f: f
+                      = f.fields_for :carer, @carer do |c|
+                        = render "clients/addresses_forms/#{current_organization.country.presence || 'cambodia'}_address_form", f: c
 
                 .accordion-header
                   #heading-948587.panel-heading{role: "tab"}
@@ -70,11 +86,11 @@
                     .accordion-body
                       .row
                         .col-xs-12.col-md-3
+                          = f.input :school_name
                           %label.optional.control-label School Name
                           = text_field_tag "client[school_name]", @client.school_name, class: 'string optional form-control'
                         .col-xs-12.col-md-3
-                          %label.optional.control-label School Grade
-                          = text_field_tag "client[school_grade]", @client.school_grade, class: 'string optional form-control'
+                          = f.input :school_grade, collection: Client::GRADES
                         .col-xs-12.col-md-3
                           %label.optional.control-label Main School Contact
                           = text_field_tag "client[main_school_contact]", @client.main_school_contact, class: 'string optional form-control'
@@ -117,7 +133,7 @@
                           %label.optional.control-label Is client rated for ID Poor?
                           = text_field_tag "client[rated_for_id_poor]", @client.rated_for_id_poor, class: 'string optional form-control'
                       .row
-                        .col-12
+                        .col-xs-12
                           %h2= t('clients.form.pickup_information')
                       .row
                         .col-xs-12.col-md-3
@@ -130,18 +146,17 @@
                           %label.optional.control-label= t('clients.form.ratanak_achievement_program_staff_client_ids')
                           = select_tag "client[ratanak_achievement_program_staff_client_ids]", options_from_collection_for_select(case_workers_option(@client.id), :second, :first), multiple: true, class: 'select2 string optional form-control'
                       .row
-                        .col-12
+                        .col-xs-12
                           %h2= t('clients.form.mosavy_official')
-                      .nested-fields
+                      .row
+                        .col-xs-12
+                          .mo_savy_officials
+                            = f.simple_fields_for :mo_savy_officials do |official|
+                              = render 'clients/mo_savy_official_fields', f: official
+                      .actions
                         .row
                           .col-xs-12.col-md-4
-                            .officials
-                              = f.simple_fields_for  MoSavyOfficial.new, @client.mo_savy_officials do |official|
-                                = render 'clients/client_fields', f: official
-                        .row
-                          .col-xs-12.col-md-4
-                            = link_to_add_association t('clients.form.add_mosavy_official'), f, :clients, class: 'btn-add-goal btn btn-outline btn-success'
-
+                            = link_to_add_association t('clients.form.add_mosavy_official'), f, :mo_savy_officials, class: 'btn-add-goal btn btn-outline btn-success'
           .text-right
             %button.btn.btn-default.editable-cancel{"data-dismiss" => 'modal'}= t('cancel')
-            = f.submit t('save'), class: 'btn btn-primary confirm', disabled: :disabled, data: { disable_with: t('saving') }
+            = f.submit t('save'), class: 'btn btn-primary confirm', data: { disable_with: t('saving') }

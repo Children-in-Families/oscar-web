@@ -272,8 +272,8 @@ CIF.ClientsShow = do ->
     $("button[data-content]").popover();
 
   _ajaxChangeDistrict = ->
-    mainAddress = $('#carer_province_id, #carer_city_id, #carer_district_id, #carer_commune_id')
-    resourceMapping = { cities: 'carer_city_id', districts: 'carer_district_id', subdistricts: 'carer_subdistrict_id', communes: 'carer_commune_id', villages: 'carer_village_id' }
+    mainAddress = $('#client_carer_province_id, #client_carer_city_id, #client_carer_district_id, #client_carer_commune_id')
+    resourceMapping = { cities: 'client_carer_city_id', districts: 'client_carer_district_id', subdistricts: 'client_carer_subdistrict_id', communes: 'client_carer_commune_id', villages: 'client_carer_village_id' }
     mainAddress.on 'change', ->
       type       = $(@).data('type')
       typeId     = $(@).val()
