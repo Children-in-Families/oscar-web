@@ -52,7 +52,12 @@
                           %label.optional.control-label Relationship to Client
                           = select_tag "carer[client_relationship]", options_for_select(Carer::CLIENT_RELATIONSHIPS), include_blank: true, class: 'select2 string optional form-control'
                         .col-xs-12.col-md-3
-                          = f.association :family_members, collection: @families, label: 'Family Record'
+                          = f.association :family_members, collection: @families, selected: @families.last, label: 'Family Record'
+                          .family_members
+                            = f.simple_fields_for :family_members, @client.family_members.new do |fm|
+                              = render 'clients/family_member_fields', f: fm
+                            = link_to_add_association t('clients.form.add_mosavy_official'), f, :family_members, class: 'btn-add-goal btn btn-outline btn-success'
+
                       .row
                         .col-xs-12.col-md-3
                           %h2 Address

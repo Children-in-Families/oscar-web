@@ -1,0 +1,4 @@
+.col-xs-12
+  .nested-fields
+    = f.input :family_id, collection: @families
+    = link_to_remove_association 'x', f, class: 'm-t-sm btn-remove-official btn btn-xs btn-outline btn-danger'
