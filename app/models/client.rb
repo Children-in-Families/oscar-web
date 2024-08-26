@@ -482,7 +482,7 @@ class Client < ActiveRecord::Base
     custom_field = CaseNotes::CustomField.first
 
     if custom_field
-      CaseNotes::CustomFieldProperty.create!(
+      CaseNotes::CustomFieldProperty.find_or_create_by(
         custom_field: custom_field,
         case_note: case_note
       )

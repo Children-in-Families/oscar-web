@@ -4,6 +4,8 @@ class CaseNotesController < AdminController
   include CreateBulkTask
   include CaseNoteConcern
   include GoogleCalendarServiceConcern
+  include FormBuilderAttachments
+  include ::CaseNotes::FormBuilderAttachments
 
   before_action :set_client
   before_action :set_case_note, only: [:edit, :update, :upload_attachment]
@@ -34,6 +36,8 @@ class CaseNotesController < AdminController
   def edit
     authorize @case_note, :edit? if Organization.ratanak?
 
+    @attachments = @case_note.custom_field_property.form_builder_attachments
+
     unless current_user.admin? || current_user.strategic_overviewer?
       redirect_to root_path, alert: t('unauthorized.default') if !@case_note.draft? && !current_user.permission.case_notes_editable
     end
@@ -52,9 +56,12 @@ class CaseNotesController < AdminController
             end
 
     if saved
+      attach_custom_field_files
+      
       if params.dig(:case_note, :case_note_domain_groups_attributes)
         @case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes], current_user.id)
       end
+
       create_bulk_task(params[:task], @case_note) if params.key?(:task)
       @case_note.complete_screening_tasks(params) if params[:case_note].key?(:tasks_attributes)
       create_task_task_progress_notes
