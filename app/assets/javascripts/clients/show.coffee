@@ -42,6 +42,8 @@ CIF.ClientsShow = do ->
         else
           response.responseText
 
+    $('#client_arrival_at').datetimepicker();
+
   _initICheckBox = ->
     $('.i-checks').iCheck
       checkboxClass: 'icheckbox_square-green'
@@ -153,7 +155,13 @@ CIF.ClientsShow = do ->
       $(".exit_date").datepicker('setStartDate', date)
 
   _initSelect2 = ->
-    $('select').select2()
+    $('select').select2(
+      allowClear: true
+      maximumSelectionLength:1
+      placeholder:'--- choose an option ---'
+    ).on 'select2-removed', () ->
+      return if @.id != 'client_family_member_attributes_family_id'
+      $('#client_family_member_attributes__destroy').val('1');
 
   _ajaxCheckReferral = ->
     $('a.target-ngo').on 'click', (e) ->

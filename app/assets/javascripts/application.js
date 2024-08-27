@@ -24,6 +24,7 @@
 //= require bootstrap-datepicker/locales/bootstrap-datepicker.en-GB.js
 //= require cocoon
 //= require datepicker
+//= require datetimepicker/jquery.datetimepicker.full.min.js
 //= require metisMenu/jquery.metisMenu.js
 //= require highcharts.js
 //= require dropzone

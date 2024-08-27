@@ -40,7 +40,7 @@
                           = text_field_tag "carer[name]", @carer.name, class: 'string optional form-control'
                         .col-xs-12.col-md-3
                           %label.optional.control-label Gender
-                          = select_tag "carer[gender]", options_for_select(Carer::GENDERS), include_blank: true, class: 'select2 string optional form-control'
+                          = select_tag "carer[gender]", options_for_select(Carer::GENDERS, @carer.gender), include_blank: true, class: 'select2 string optional form-control'
                         .col-xs-12.col-md-3
                           %label.optional.control-label Phone
                           = text_field_tag "carer[phone]", @carer.phone, class: 'string optional form-control'
@@ -50,13 +50,12 @@
                       .row.m-b-sm
                         .col-xs-12.col-md-3
                           %label.optional.control-label Relationship to Client
-                          = select_tag "carer[client_relationship]", options_for_select(Carer::CLIENT_RELATIONSHIPS), include_blank: true, class: 'select2 string optional form-control'
+                          = select_tag "carer[client_relationship]", options_for_select(Carer::CLIENT_RELATIONSHIPS, @carer.client_relationship), include_blank: true, class: 'select2 string optional form-control'
                         .col-xs-12.col-md-3
-                          = f.association :family_members, collection: @families, selected: @families.last, label: 'Family Record'
-                          .family_members
-                            = f.simple_fields_for :family_members, @client.family_members.new do |fm|
-                              = render 'clients/family_member_fields', f: fm
-                            = link_to_add_association t('clients.form.add_mosavy_official'), f, :family_members, class: 'btn-add-goal btn btn-outline btn-success'
+                          %label.optional.control-label Family Record
+                          = text_field_tag "client[family_member_attributes][id]", @client.family_member&.id, class: 'hide string optional form-control'
+                          = text_field_tag "client[family_member_attributes][_destroy]", 0, class: 'hide string optional form-control'
+                          = select_tag "client[family_member_attributes][family_id]", options_from_collection_for_select(@families, :id, :name, @client.family&.id), include_blank: true, class: 'select2 string optional form-control'
 
                       .row
                         .col-xs-12.col-md-3
@@ -92,8 +91,6 @@
                       .row
                         .col-xs-12.col-md-3
                           = f.input :school_name
-                          %label.optional.control-label School Name
-                          = text_field_tag "client[school_name]", @client.school_name, class: 'string optional form-control'
                         .col-xs-12.col-md-3
                           = f.input :school_grade, collection: Client::GRADES
                         .col-xs-12.col-md-3
@@ -135,24 +132,25 @@
                           %label.optional.control-label Custom ID Number 2
                           = text_field_tag "client[kid_id]", @client.kid_id, class: 'string optional form-control'
                         .col-xs-12.col-md-3
-                          %label.optional.control-label Is client rated for ID Poor?
-                          = text_field_tag "client[rated_for_id_poor]", @client.rated_for_id_poor, class: 'string optional form-control'
-                      .row
-                        .col-xs-12
-                          %h2= t('clients.form.pickup_information')
+                          = f.input :rated_for_id_poor, collection: Client::CLIENT_LEVELS, label: 'Is client rated for ID Poor?'
+                      %legend
+                        .row
+                          .col-xs-12
+                            %h2= t('clients.form.pickup_information')
                       .row
                         .col-xs-12.col-md-3
-                          %label.optional.control-label= t('clients.form.arrival_at')
-                          = text_field_tag  "client[client_arrival_at]", @client.try(:client_arrival_at), class: 'date  optional form-control date-picker'
+                          = f.input :arrival_at, as: :string, id: 'client_arrival_at', label: t('clients.form.arrival_at')
                         .col-xs-12.col-md-3
                           %label.optional.control-label= t('clients.form.flight_nb')
                           = text_field_tag "client[flight_nb]", @client.try(:flight_nb), class: 'string optional form-control'
                         .col-xs-12.col-md-6
                           %label.optional.control-label= t('clients.form.ratanak_achievement_program_staff_client_ids')
                           = select_tag "client[ratanak_achievement_program_staff_client_ids]", options_from_collection_for_select(case_workers_option(@client.id), :second, :first), multiple: true, class: 'select2 string optional form-control'
-                      .row
-                        .col-xs-12
-                          %h2= t('clients.form.mosavy_official')
+
+                      %legend
+                        .row
+                          .col-xs-12
+                            %h2= t('clients.form.mosavy_official')
                       .row
                         .col-xs-12
                           .mo_savy_officials

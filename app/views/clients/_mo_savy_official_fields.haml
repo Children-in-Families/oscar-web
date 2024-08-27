@@ -3,9 +3,15 @@
     = f.hidden_field :client_id, value: @client.id
     .row
       .col-xs-12.col-md-3
-        = f.input :name
+        %label.date.required.control-label{ for: 'officer_name' }
+          %abbr{ title: 'required' } *
+          Name
+        = f.input :name, label: false, html5: true, require: true
       .col-xs-12.col-md-3
-        = f.input :position
+        %label.date.required.control-label{ for: 'task_position' }
+          %abbr{ title: 'required' } *
+          Position
+        = f.input :position, label: false, html5: true, require: true
       .col-xs-12.col-md-3
         %br/
         = link_to_remove_association t('clients.form.remove_mosavy_official'), f, class: 'm-t-sm btn-remove-official btn btn-xs btn-outline btn-danger'
