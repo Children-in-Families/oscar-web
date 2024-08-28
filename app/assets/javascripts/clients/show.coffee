@@ -42,7 +42,16 @@ CIF.ClientsShow = do ->
         else
           response.responseText
 
-    $('#client_arrival_at').datetimepicker();
+    $('#client_arrival_at').datetimepicker
+      format:'d/m/Y H:i:s a'
+      formatTime:'H:i:s a'
+      formatDate:'Y-m-d'
+      hours12: true
+      onShow: (ct, $input) ->
+
+      onClose: (ct, $input) ->
+        $input.val($input.val())
+
 
   _initICheckBox = ->
     $('.i-checks').iCheck

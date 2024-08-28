@@ -46,6 +46,7 @@
 //= require bootstrap_file_input/fileinput.js
 //= require bootstrap_file_input/fa/theme.min.js
 //= require bootstrap_file_input/explorer/theme.min.js
+//= require bootstrap-datetimepicker
 
 // WRAPBOOTSTRAP
 //= require iCheck/icheck.min.js

@@ -139,7 +139,7 @@
                             %h2= t('clients.form.pickup_information')
                       .row
                         .col-xs-12.col-md-3
-                          = f.input :arrival_at, as: :string, id: 'client_arrival_at', label: t('clients.form.arrival_at')
+                          = f.input :arrival_at, as: :string, id: 'client_arrival_at', label: t('clients.form.arrival_at'), placeholder: '--/--/---- --:--:-- --'
                         .col-xs-12.col-md-3
                           %label.optional.control-label= t('clients.form.flight_nb')
                           = text_field_tag "client[flight_nb]", @client.try(:flight_nb), class: 'string optional form-control'

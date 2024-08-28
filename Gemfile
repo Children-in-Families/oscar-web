@@ -31,6 +31,7 @@ gem 'cancancan',              '~> 1.13', '>= 1.13.1'
 gem 'pundit',                 '~> 1.1'
 gem 'tinymce-rails',          '~> 4.5.6'
 gem 'bootstrap-datepicker-rails', '~> 1.5'
+gem 'bootstrap3-datetimepicker-rails', '~> 4.17', '>= 4.17.47'
 gem 'x-editable-rails',       '~> 1.5', '>= 1.5.5.1'
 gem 'select2-rails',          '~> 3.5.9.3'
 gem 'doorkeeper',             '~> 4.4', '>= 4.4.3'
@@ -81,6 +82,7 @@ gem 'aws-healthcheck'
 gem 'redis-session-store',    '~> 0.11.3'
 gem 'dalli', '~> 2.7', '>= 2.7.11'
 gem 'active_record_query_trace', '1.7'
+
 
 group :development, :test do
   gem 'pry'
