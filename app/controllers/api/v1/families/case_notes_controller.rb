@@ -5,7 +5,12 @@ module Api
       include CreateBulkTask
       include GoogleCalendarServiceConcern
 
-      before_action :set_family
+      before_action :set_family, except: :show
+
+      def index
+        case_notes = @family.case_notes
+        render json: case_notes
+      end
 
       def show
         case_note = CaseNote.find(params[:id])
