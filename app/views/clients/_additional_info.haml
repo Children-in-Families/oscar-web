@@ -138,12 +138,19 @@
                           .col-xs-12
                             %h2= t('clients.form.pickup_information')
                       .row
-                        .col-xs-12.col-md-3
-                          = f.input :arrival_at, as: :string, id: 'client_arrival_at', label: t('clients.form.arrival_at'), placeholder: '--/--/---- --:--:-- --'
-                        .col-xs-12.col-md-3
+                        .col-xs-12.col-md-6
+                          = f.datetime_select :arrival_at, label: t('clients.form.arrival_at'), placeholder: '--/--/---- --:--:-- --'
+                          = f.input :arrival_at, label: t('clients.form.arrival_at'), class: 'form-control' do
+                            #client_arrival_at.input-group
+                              = f.input_field :arrival_at, as: :string, value: @client.arrival_at.strftime('%d/%m/%Y %H:%M:%S %P'), placeholder: '--/--/---- --:--:-- --', id: '', class: "form-control", data: { date_time_picker: true }
+                              %button.input-group-addon{ type: 'button'}
+                                %span.glyphicon.glyphicon-calendar
+                      .row
+                        .col-xs-12.col-md-6
                           %label.optional.control-label= t('clients.form.flight_nb')
                           = text_field_tag "client[flight_nb]", @client.try(:flight_nb), class: 'string optional form-control'
-                        .col-xs-12.col-md-6
+                      .row.m-t-sm
+                        .col-xs-12.col-md-10
                           %label.optional.control-label= t('clients.form.ratanak_achievement_program_staff_client_ids')
                           = select_tag "client[ratanak_achievement_program_staff_client_ids]", options_from_collection_for_select(case_workers_option(@client.id), :second, :first), multiple: true, class: 'select2 string optional form-control'
 

@@ -43,15 +43,10 @@ CIF.ClientsShow = do ->
           response.responseText
 
     $('#client_arrival_at').datetimepicker
-      format:'d/m/Y H:i:s a'
-      formatTime:'H:i:s a'
-      formatDate:'Y-m-d'
-      hours12: true
-      onShow: (ct, $input) ->
+      format: "DD/MM/YYYY H:mm:s a"
 
-      onClose: (ct, $input) ->
-        $input.val($input.val())
-
+    $('.input-group-addon').on 'click', ->
+      $('#client_arrival_at').data("DateTimePicker").show()
 
   _initICheckBox = ->
     $('.i-checks').iCheck
