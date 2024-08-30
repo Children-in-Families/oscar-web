@@ -62,7 +62,7 @@ module Api
           custom_data = CustomData.first
           client.create_client_custom_data(custom_data_params.merge(custom_data_id: custom_data.id)) if custom_data && params.key?(:custom_data)
 
-          render json: { slug: client.slug, id: client.id }, status: :ok
+          render json: client
         else
           render json: client.errors, status: :unprocessable_entity
         end
