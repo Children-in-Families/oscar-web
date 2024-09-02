@@ -13,8 +13,8 @@ module ActionView
       def datetime_select(method, options = {}, html_options = {})
         existing_time = @object.send(method)
         formatted_time = existing_time.to_time.strftime('%F %I:%M:%S %p') if existing_time.present?
+        @template.content_tag(:label, options[:label], class: 'control-label') +
         @template.content_tag(:div, class: 'input-group') do
-          @template.content_tag(:label, options[:label], class: 'control-label')
           text_field(method, value: formatted_time, placeholder: options[:placeholder], class: 'form-control datetimepicker', "data-date-forma": 'YYYY-MM-DD hh:mm:ss A') +
           @template.content_tag(:span, @template.content_tag(:span, '', class: 'glyphicon glyphicon-calendar'), class: 'input-group-addon')
         end

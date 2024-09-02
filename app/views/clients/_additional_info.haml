@@ -100,11 +100,21 @@
                           %label.optional.control-label Education Background
                           = text_field_tag "client[education_background]", @client.education_background, class: 'string optional form-control'
                 .accordion-header
+                  #heading-948587.panel-heading{role: "tab"}
+                    .row
+                      .col-xs-12.col-md-6
+                        %h5.accordion-title
+                          %a.accordion-toggle.accordion-arrow-toggle.collapsed{"aria-controls" => "collapse-948597", "aria-expanded" => "false", "data-parent" => "#accordion-stakeholder-contact", "data-toggle" => "collapse", href: "#collapse-948597", role: "button"}
+                            Stakeholder Contacts
+                  #collapse-948597.panel-collapse.collapse{"aria-labelledby" => "heading-948597", role: "tabpanel"}
+                    .accordion-body
+                      Stakeholder Contact
+                .accordion-header
                   #heading-832673.panel-heading{role: "tab"}
                     .row
                       .col-xs-12.col-md-6
                         %h5.accordion-title
-                          %a.accordion-toggle.accordion-arrow-toggle.collapsed{"aria-controls" => "collapse-832673", "aria-expanded" => "false", "data-parent" => "#accordion-additional-info", "data-toggle" => "collapse", href: "#collapse-832673", role: "button"}
+                          %a.accordion-toggle.accordion-arrow-toggle.collapsed{"aria-controls" => "collapse-832673", "aria-expanded" => "false", "data-parent" => "#accordion-stakeholder-contact", "data-toggle" => "collapse", href: "#collapse-832673", role: "button"}
                             Donor Information?
                   #collapse-832673.panel-collapse.collapse{"aria-labelledby" => "heading-832673", role: "tabpanel"}
                     .accordion-body
@@ -140,12 +150,7 @@
                       .row
                         .col-xs-12.col-md-6
                           = f.datetime_select :arrival_at, label: t('clients.form.arrival_at'), placeholder: '--/--/---- --:--:-- --'
-                          = f.input :arrival_at, label: t('clients.form.arrival_at'), class: 'form-control' do
-                            #client_arrival_at.input-group
-                              = f.input_field :arrival_at, as: :string, value: @client.arrival_at.strftime('%d/%m/%Y %H:%M:%S %P'), placeholder: '--/--/---- --:--:-- --', id: '', class: "form-control", data: { date_time_picker: true }
-                              %button.input-group-addon{ type: 'button'}
-                                %span.glyphicon.glyphicon-calendar
-                      .row
+                      .row.m-t-sm
                         .col-xs-12.col-md-6
                           %label.optional.control-label= t('clients.form.flight_nb')
                           = text_field_tag "client[flight_nb]", @client.try(:flight_nb), class: 'string optional form-control'
