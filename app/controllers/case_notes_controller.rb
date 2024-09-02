@@ -35,7 +35,7 @@ class CaseNotesController < AdminController
   def edit
     authorize @case_note, :edit? if Organization.ratanak?
 
-    @attachments = @case_note.custom_field_property.form_builder_attachments
+    @attachments = @case_note.custom_field_property&.form_builder_attachments
 
     unless current_user.admin? || current_user.strategic_overviewer?
       redirect_to root_path, alert: t('unauthorized.default') if !@case_note.draft? && !current_user.permission.case_notes_editable
@@ -56,7 +56,6 @@ class CaseNotesController < AdminController
 
     if saved
       attach_custom_field_files
-      
       if params.dig(:case_note, :case_note_domain_groups_attributes)
         @case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes], current_user.id)
       end

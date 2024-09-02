@@ -23,7 +23,7 @@ module CaseNotes
 
     def delete_form_builder_attachment(resource, name, index)
       attachment = resource.get_form_builder_attachment(name)
-      remain_file  = attachment.file
+      remain_file = attachment.file
       deleted_file = remain_file.delete_at(index)
       deleted_file.try(:remove_images!)
       remain_file.empty? ? attachment.remove_file! : attachment.file = remain_file

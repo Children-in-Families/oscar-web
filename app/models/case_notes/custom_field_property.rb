@@ -6,7 +6,6 @@ module CaseNotes
     belongs_to :custom_field, class_name: 'CaseNotes::CustomField'
 
     has_many :form_builder_attachments, as: :form_buildable, dependent: :destroy
-    
     validates :case_note, presence: true
     validates :custom_field, presence: true
 
