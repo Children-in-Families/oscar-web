@@ -35,25 +35,5 @@ module CaseNotes
 
       params[:case_note][:custom_field_property_attributes][:form_builder_attachments_attributes]
     end
-
-    # def properties_params
-    #   if ['client_enrollments', 'client_enrolled_programs'].include?(controller_name)
-    #     params[:client_enrollment][:properties]
-    #   elsif ['client_enrollment_trackings', 'client_enrolled_program_trackings', 'client_trackings'].include?(controller_name)
-    #     params[:client_enrollment_tracking][:properties]
-    #   elsif ['leave_programs', 'leave_enrolled_programs'].include?(controller_name)
-    #     params[:leave_program][:properties]
-    #   elsif ['custom_field_properties', 'client_custom_fields'].include?(controller_name)
-    #     params[:custom_field_property][:properties]
-    #   end
-    # end
-
-    # def entity_properties_params
-    #   if ['enrollments', 'enrolled_programs'].include?(controller_name)
-    #     params[:enrollment][:properties]
-    #   elsif ['enrollment_trackings', 'enrolled_program_trackings', 'trackings'].include?(controller_name)
-    #     params[:enrollment_tracking][:properties]
-    #   end
-    # end
   end
 end

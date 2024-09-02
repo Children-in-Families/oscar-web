@@ -4,7 +4,6 @@ class CaseNotesController < AdminController
   include CreateBulkTask
   include CaseNoteConcern
   include GoogleCalendarServiceConcern
-  include FormBuilderAttachments
   include ::CaseNotes::FormBuilderAttachments
 
   before_action :set_client

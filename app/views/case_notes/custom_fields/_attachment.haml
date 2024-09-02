@@ -15,7 +15,7 @@
             %td.vert-align
               = link_to t('.download'), file.url, class: 'btn btn-info btn-sm btn-download', target: :_blank
             %td.vert-align.text-center
-              .delete.fa.fa-trash.btn.btn-outline.btn-danger{ data: { url: "", comfirm: t('.are_you_sure') }}
+              .delete.fa.fa-trash.btn.btn-outline.btn-danger{ data: { url: api_form_builder_attachment_path(attachment_by_label, file_name: property['label'], file_index: index), comfirm: t('.are_you_sure') }}
 
   = f.input :file, as: :file, label: false, required: property['required'].present?, input_html: { name: "#{entity.object_name}[form_builder_attachments_attributes][#{property['name'].split('-').last}][file][]", multiple: property['multiple'].present?, value: f.object.file }
   %span.help-block.hidden

@@ -1,19 +1,9 @@
 require 'sidekiq/web'
 Rails.application.routes.draw do
-  namespace :case_notes do
-  get 'custom_fields_controller/new'
-  end
-
-  namespace :case_notes do
-  get 'custom_fields_controller/edit'
-  end
-
-  namespace :case_notes do
-  get 'custom_fields_controller/show'
-  end
-
   root 'organizations#index'
+
   devise_for :users, controllers: { registrations: 'registrations', sessions: 'sessions', passwords: 'passwords' }
+  
   use_doorkeeper do
     skip_controllers :applications, :authorized_applications
   end
