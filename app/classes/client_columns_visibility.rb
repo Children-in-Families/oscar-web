@@ -163,6 +163,7 @@ class ClientColumnsVisibility
       referee_phone_: :referee_phone,
       referee_email_: :referee_email,
       **Call::FIELDS.map { |field| ["#{field}_".to_sym, field.to_sym] }.to_h,
+      **cn_custom_field_columns.map { |field| ["#{field}_".to_sym, field.to_sym] }.to_h,
       call_count: :call_count,
       carer_name_: :carer_name,
       carer_phone_: :carer_phone,
@@ -239,16 +240,16 @@ class ClientColumnsVisibility
       end
     end
 
-    # case note custom fields
-    custom_field = CaseNotes::CustomField.first
-    if custom_field
-      custom_field.data_fields.each do |field|
-        column = "case_note_custom_field_#{field['label'].parameterize.underscore}"
-        columns.merge!("#{column}_": column.to_sym)
-      end
-    end
-
     columns
+  end
+
+  def cn_custom_field_columns
+    custom_field = CaseNotes::CustomField.first
+    return [] if custom_field.nil?
+
+    custom_field.data_fields.map do |field|
+      "case_note_custom_field_#{field['label'].parameterize.underscore}"
+    end
   end
 
   def client_default(column, setting_client_default_columns)
