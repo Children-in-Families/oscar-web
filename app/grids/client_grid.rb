@@ -1028,7 +1028,7 @@ class ClientGrid < BaseGrid
   if CaseNotes::CustomField.first
     cn_custom_field = CaseNotes::CustomField.first
     cn_custom_field.data_fields.each do |field|
-      column_name = "case_note_custom_field_#{field['label'].parameterize.downcase}"
+      column_name = "case_note_custom_field_#{field['label'].parameterize.underscore}"
       column(column_name.to_sym, header: -> { field['label'] }, html: true) do |object|
         render partial: "clients/case_note_custom_field", locals: { object: object, custom_field: cn_custom_field, field: field }
       end

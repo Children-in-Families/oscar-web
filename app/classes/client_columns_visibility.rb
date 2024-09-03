@@ -243,7 +243,7 @@ class ClientColumnsVisibility
     custom_field = CaseNotes::CustomField.first
     if custom_field
       custom_field.data_fields.each do |field|
-        column = "case_note_custom_field_#{field['label'].parameterize.downcase}"
+        column = "case_note_custom_field_#{field['label'].parameterize.underscore}"
         columns.merge!("#{column}_": column.to_sym)
       end
     end
