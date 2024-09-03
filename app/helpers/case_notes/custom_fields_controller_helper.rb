@@ -1,2 +1,0 @@
-module CaseNotes::CustomFieldsControllerHelper
-end
