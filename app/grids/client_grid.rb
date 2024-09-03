@@ -1025,6 +1025,16 @@ class ClientGrid < BaseGrid
     render partial: 'clients/case_note_type', locals: { object: object }
   end
 
+  if CaseNotes::CustomField.first
+    cn_custom_field = CaseNotes::CustomField.first
+    cn_custom_field.data_fields.each do |field|
+      column_name = "case_note_custom_field_#{field['label'].parameterize.downcase}"
+      column(column_name.to_sym, header: -> { field['label'] }, html: true) do |object|
+        render partial: "clients/case_note_custom_field", locals: { object: object, custom_field: cn_custom_field, field: field }
+      end
+    end
+  end
+
   column(:assessment_created_at, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.assessment_created_at', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
     render partial: 'clients/assessments', locals: { object: object.assessments.defaults.order(:created_at), assessment_field_name: nil }
   end

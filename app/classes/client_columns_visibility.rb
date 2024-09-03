@@ -207,6 +207,17 @@ class ClientColumnsVisibility
     add_custom_builder_columns.each do |key, value|
       @grid.column_names << value if client_default(key, defualt_columns) || @params[key]
     end
+
+    # case note custom fields
+    cn_custom_field_params = @params.select { |k, _v| k.match(/case_note_custom_field_/) }
+
+    if cn_custom_field_params.present?
+      cn_custom_field_params.each do |_k, v|
+        @grid.column_names << v
+      end
+    end
+
+    @grid.column_names
   end
 
   private

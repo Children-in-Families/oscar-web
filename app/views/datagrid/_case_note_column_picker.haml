@@ -13,3 +13,5 @@
   .visibility.col-sm-12
     = check_box_tag 'case_note_type_', 'case_note_type', checked = saved_search_column_visibility('case_note_type_'), class: 'i-checks'
     = label_tag 'case_note_type_', t('datagrid.columns.case_note_type')
+
+= render '/datagrid/case_note_custom_fields_column_picker'
