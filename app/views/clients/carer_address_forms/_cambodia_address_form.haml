@@ -9,7 +9,11 @@
     = f.input :village_id, collection: @carer_villages, input_html: { name: 'carer[village_id]', data: { type: 'villages' } }, hint: (@client.try(:old_commune) if @client.try(:commune_id).nil?)
 
 .row
-  .col-xs-12.col-sm-6.col-md-4.house_number
+  .col-xs-12.col-sm-6.col-md-3.house_number
     = f.input :house_number, label: t('.house_number'), input_html:{ name: 'carer[house_number]', required: 'true'}
-  .col-xs-12.col-sm-6.col-md-4
+  .col-xs-12.col-sm-6.col-md-3
     = f.input :street_number, label: t('.street_number'), input_html: { name: 'carer[street_number]' }
+  .col-xs-12.col-sm-6.col-md-3
+    = f.input :current_address, label: t('.current_address'), input_html:{ name: 'carer[current_address]', required: 'true'}
+  .col-xs-12.col-sm-6.col-md-3
+    = f.input :address_type, label: t('.address_type'), input_html: { name: 'carer[address_type]' }

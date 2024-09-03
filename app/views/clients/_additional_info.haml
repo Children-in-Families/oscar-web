@@ -12,7 +12,7 @@
               %h4= "Client ID - #{@client.slug}"
 
       .modal-body
-        = simple_form_for @client, url: client_path(@client) do |f|
+        = simple_form_for @client, url: client_path(@client), html: { id: 'clientEdit' } do |f|
           = f.error_notification
           = f.error_notification
           .row
@@ -99,7 +99,7 @@
                         .col-xs-12.col-md-3
                           %label.optional.control-label Education Background
                           = text_field_tag "client[education_background]", @client.education_background, class: 'string optional form-control'
-                .accordion-header
+                .accordion-header{ class: check_fields_visibility('stackholder_contacts') }
                   #heading-948587.panel-heading{role: "tab"}
                     .row
                       .col-xs-12.col-md-6
@@ -108,7 +108,48 @@
                             Stakeholder Contacts
                   #collapse-948597.panel-collapse.collapse{"aria-labelledby" => "heading-948597", role: "tabpanel"}
                     .accordion-body
-                      Stakeholder Contact
+                      .row
+                        .col-xs-12.col-md-3{ class: check_fields_visibility('neighbor_name') }
+                          = f.input :neighbor_name, label: t('clients.form.neighbor_name')
+                        .col-xs-12.col-md-3{ class: check_fields_visibility('neighbor_phone') }
+                          = f.input :neighbor_phone, label: t('clients.form.neighbor_phone')
+                      .row
+                        .col-xs-12.col-md-3{ class: check_fields_visibility('dosavy_name') }
+                          = f.input :dosavy_name, label: t('clients.form.dosavy_name')
+                        .col-xs-12.col-md-3{ class: check_fields_visibility('dosavy_phone') }
+                          = f.input :dosavy_phone, label: t('clients.form.dosavy_phone')
+                      .row
+                        .col-xs-12.col-md-3{ class: check_fields_visibility('chief_commune_name') }
+                          = f.input :chief_commune_name, label: t('clients.form.chief_commune_name')
+                        .col-xs-12.col-md-3{ class: check_fields_visibility('chief_commune_phone') }
+                          = f.input :chief_commune_phone, label: t('clients.form.chief_commune_phone')
+                      .row
+                        .col-xs-12.col-md-3{ class: check_fields_visibility('chief_village_name') }
+                          = f.input :chief_village_name, label: t('clients.form.chief_village_name')
+                        .col-xs-12.col-md-3{ class: check_fields_visibility('chief_village_phone') }
+                          = f.input :chief_village_phone, label: t('clients.form.chief_village_phone')
+                      .row
+                        .col-xs-12.col-md-3{ class: check_fields_visibility('ccwc_name') }
+                          = f.input :ccwc_name, label: t('clients.form.ccwc_name')
+                        .col-xs-12.col-md-3{ class: check_fields_visibility('ccwc_phone') }
+                          = f.input :ccwc_phone, label: t('clients.form.ccwc_phone')
+                      .row
+                        .col-xs-12.col-md-3{ class: check_fields_visibility('legal_team_name') }
+                          = f.input :legal_team_name, label: t('clients.form.legal_team_name')
+                        .col-xs-12.col-md-3{ class: check_fields_visibility('legal_representative_name') }
+                          = f.input :legal_representative_name, label: t('clients.form.legal_representative_name')
+                        .col-xs-12.col-md-3{ class: check_fields_visibility('legal_team_phone') }
+                          = f.input :legal_team_phone, label: t('clients.form.legal_team_phone')
+                      .row
+                        .col-xs-12.col-md-3{ class: check_fields_visibility('other_agency_name') }
+                          = f.input :other_agency_name, label: t('clients.form.other_agency_name')
+                        .col-xs-12.col-md-3{ class: check_fields_visibility('other_representative_name') }
+                          = f.input :other_representative_name, label: t('clients.form.other_representative_name')
+                        .col-xs-12.col-md-3{ class: check_fields_visibility('other_agency_phone') }
+                          = f.input :other_agency_phone, label: t('clients.form.other_agency_phone')
+
+
+
                 .accordion-header
                   #heading-832673.panel-heading{role: "tab"}
                     .row
@@ -143,35 +184,37 @@
                           = text_field_tag "client[kid_id]", @client.kid_id, class: 'string optional form-control'
                         .col-xs-12.col-md-3
                           = f.input :rated_for_id_poor, collection: Client::CLIENT_LEVELS, label: 'Is client rated for ID Poor?'
-                      %legend
+                      #pickUpInformation{ class: check_fields_visibility('client_pickup_information') }
+                        %legend
+                          .row
+                            .col-xs-12
+                              %h2= t('clients.form.pickup_information')
                         .row
-                          .col-xs-12
-                            %h2= t('clients.form.pickup_information')
-                      .row
-                        .col-xs-12.col-md-6
-                          = f.datetime_select :arrival_at, label: t('clients.form.arrival_at'), placeholder: '--/--/---- --:--:-- --'
-                      .row.m-t-sm
-                        .col-xs-12.col-md-6
-                          %label.optional.control-label= t('clients.form.flight_nb')
-                          = text_field_tag "client[flight_nb]", @client.try(:flight_nb), class: 'string optional form-control'
-                      .row.m-t-sm
-                        .col-xs-12.col-md-10
-                          %label.optional.control-label= t('clients.form.ratanak_achievement_program_staff_client_ids')
-                          = select_tag "client[ratanak_achievement_program_staff_client_ids]", options_from_collection_for_select(case_workers_option(@client.id), :second, :first), multiple: true, class: 'select2 string optional form-control'
+                          .col-xs-12.col-md-6{ class: check_fields_visibility('arrival_at') }
+                            = f.datetime_select :arrival_at, label: t('clients.form.arrival_at'), placeholder: '--/--/---- --:--:-- --'
+                        .row.m-t-sm
+                          .col-xs-12.col-md-6{ class: check_fields_visibility('flight_nb') }
+                            %label.optional.control-label= t('clients.form.flight_nb')
+                            = text_field_tag "client[flight_nb]", @client.try(:flight_nb), class: 'string optional form-control'
+                        .row.m-t-sm
+                          .col-xs-12.col-md-10{ class: check_fields_visibility('ratanak_achievement_program_staff_client_ids') }
+                            %label.optional.control-label= t('clients.form.ratanak_achievement_program_staff_client_ids')
+                            = select_tag "client[ratanak_achievement_program_staff_client_ids]", options_from_collection_for_select(case_workers_option(@client.id), :second, :first), multiple: true, class: 'select2 string optional form-control'
 
-                      %legend
+                      #moSavyOfficail
+                        %legend
+                          .row
+                            .col-xs-12
+                              %h2= t('clients.form.mosavy_official')
                         .row
                           .col-xs-12
-                            %h2= t('clients.form.mosavy_official')
-                      .row
-                        .col-xs-12
-                          .mo_savy_officials
-                            = f.simple_fields_for :mo_savy_officials do |official|
-                              = render 'clients/mo_savy_official_fields', f: official
-                      .actions
-                        .row
-                          .col-xs-12.col-md-4
-                            = link_to_add_association t('clients.form.add_mosavy_official'), f, :mo_savy_officials, class: 'btn-add-goal btn btn-outline btn-success'
+                            #mo-savy-officials
+                              = f.simple_fields_for :mo_savy_officials, @client.mo_savy_officials.new do |official|
+                                = render 'clients/mo_savy_official_fields', f: official
+                        .actions
+                          .row
+                            .col-xs-12.col-md-4
+                              = link_to_add_association t('clients.form.add_mosavy_official'), f, :mo_savy_officials, class: 'btn-add-goal btn btn-outline btn-success'
           .text-right
             %button.btn.btn-default.editable-cancel{"data-dismiss" => 'modal'}= t('cancel')
             = f.submit t('save'), class: 'btn btn-primary confirm', data: { disable_with: t('saving') }

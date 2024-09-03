@@ -48,6 +48,9 @@ CIF.ClientsShow = do ->
     $('.input-group-addon').on 'click', ->
       $('#client_arrival_at').data("DateTimePicker").show()
 
+    $('#mo-savy-officials').on 'cocoon:after-insert', ->
+      $("#form#clientEdit input[type='submit']").disabled();
+
   _initICheckBox = ->
     $('.i-checks').iCheck
       checkboxClass: 'icheckbox_square-green'

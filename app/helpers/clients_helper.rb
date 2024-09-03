@@ -1458,4 +1458,8 @@ module ClientsHelper
     return { "data-target": '#screening-tool-warning', "data-toggle": 'modal' } if client.date_of_birth.blank?
     {}
   end
+
+  def check_fields_visibility(field)
+    !fields_visibility[field] && 'hide'
+  end
 end
