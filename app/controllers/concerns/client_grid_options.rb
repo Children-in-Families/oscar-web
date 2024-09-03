@@ -194,6 +194,9 @@ module ClientGridOptions
     custom_field_columns.each do |_field, value|
       downcase_label = value.to_s.gsub('case_note_custom_field_', '')
       field = custom_field.data_fields.find { |field| field['label'].parameterize.underscore == downcase_label }
+      # Do not export file details
+      next if field['type'] == 'file'
+      
       label = field['label']
 
       if params[:data].presence == 'recent'
