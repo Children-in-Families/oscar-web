@@ -2,6 +2,8 @@
 
 module CaseNotes
   class CustomFieldsController < ApplicationController
+    load_and_authorize_resource
+    
     before_action :redirect_to_edit, only: [:new]
     before_action :clean_params, only: [:create, :update]
 

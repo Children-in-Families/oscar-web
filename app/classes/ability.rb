@@ -81,6 +81,7 @@ class Ability
       can :manage, CustomFieldProperty, custom_formable_type: 'Partner'
       can :manage, CustomFieldProperty, custom_formable_type: 'Community'
       can :manage, CustomField
+      can :manage, CaseNotes::CustomField
       can :manage, ClientEnrollment
       can :manage, ClientEnrollmentTracking
       can :manage, LeaveProgram
