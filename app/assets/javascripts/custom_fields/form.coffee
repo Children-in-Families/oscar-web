@@ -82,6 +82,10 @@ CIF.Custom_fieldsNew = CIF.Custom_fieldsCreate = CIF.Custom_fieldsEdit = CIF.Cus
     fields = $('.build-wrap').data('fields') || []
     format = new CIF.FormatSpecialCharacters()
     fields = format.formatSpecialCharacters(fields, specialCharacters)
+    disableFields = ['autocomplete', 'header', 'hidden', 'button', 'checkbox']
+
+    if $('#custom_field_id').data('type') == 'CaseNotes::CustomField'
+      disableFields.push('date')
 
     formBuilder = $('.build-wrap').formBuilder
       templates: separateLine: (fieldData) ->
@@ -89,7 +93,7 @@ CIF.Custom_fieldsNew = CIF.Custom_fieldsCreate = CIF.Custom_fieldsEdit = CIF.Cus
       fields: builderOption.thematicBreak()
       dataType: 'json'
       formData:  JSON.stringify(fields)
-      disableFields: ['autocomplete', 'header', 'hidden', 'button', 'checkbox']
+      disableFields: disableFields
       showActionButtons: false
       messages: {
         cannotBeEmpty: 'name_separated_with_underscore'
