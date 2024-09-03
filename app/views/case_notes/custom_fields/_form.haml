@@ -1,7 +1,7 @@
 = simple_form_for(@custom_field, as: :custom_field, url: case_notes_custom_field_path, html: {id: 'custom_field', class: current_user.admin? ? 'is-admin' : ''}) do |f|
   .ibox-content
     = f.input :fields, as: :hidden
-    = hidden_field_tag :custom_field_id, @custom_field.id
+    = hidden_field_tag :custom_field_id, @custom_field.id, data: { type: @custom_field.class.name }
     .build-wrap{ 'data-fields': @custom_field.fields.to_json || ''}
     - if f.object.errors[:fields].any?
       %span.help-block= f.object.errors[:fields].first

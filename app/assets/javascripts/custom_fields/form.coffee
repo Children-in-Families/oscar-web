@@ -1,7 +1,8 @@
 CIF.Custom_fieldsNew = CIF.Custom_fieldsCreate = CIF.Custom_fieldsEdit = CIF.Custom_fieldsUpdate = do ->
   @customFieldId = $('#custom_field_id').val()
-  FIELDS_URL = "/api/custom_fields/#{@customFieldId}/fields"
+  FIELDS_URL = "/api/custom_fields/#{@customFieldId}/fields?type=#{$('#custom_field_id').data('type')}"
   CUSTOM_FIELDS_URL = '/api/custom_fields/fetch_custom_fields'
+
   _init = ->
     _initFormBuilder()
     _retrieveData(FIELDS_URL) if $('#custom_field_id').val() != ''
