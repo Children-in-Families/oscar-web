@@ -204,10 +204,7 @@ class ClientColumnsVisibility
         defualt_columns = client_default_columns
       end
     end
-    add_custom_builder_columns.each do |key, value|
-      @grid.column_names << value if client_default(key, defualt_columns) || @params[key]
-    end
-
+    
     # case note custom fields
     cn_custom_field_params = @params.select { |k, _v| k.match(/case_note_custom_field_/) }
 
@@ -215,6 +212,10 @@ class ClientColumnsVisibility
       cn_custom_field_params.each do |_k, v|
         @grid.column_names << v
       end
+    end
+
+    add_custom_builder_columns.each do |key, value|
+      @grid.column_names << value if client_default(key, defualt_columns) || @params[key]
     end
   end
 
