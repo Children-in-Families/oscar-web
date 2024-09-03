@@ -216,8 +216,6 @@ class ClientColumnsVisibility
         @grid.column_names << v
       end
     end
-
-    @grid.column_names
   end
 
   private
