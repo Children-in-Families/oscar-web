@@ -204,15 +204,6 @@ class ClientColumnsVisibility
         defualt_columns = client_default_columns
       end
     end
-    
-    # case note custom fields
-    cn_custom_field_params = @params.select { |k, _v| k.match(/case_note_custom_field_/) }
-
-    if cn_custom_field_params.present?
-      cn_custom_field_params.each do |_k, v|
-        @grid.column_names << v
-      end
-    end
 
     add_custom_builder_columns.each do |key, value|
       @grid.column_names << value if client_default(key, defualt_columns) || @params[key]
@@ -247,6 +238,16 @@ class ClientColumnsVisibility
         columns.merge!("#{field}_": field.to_sym)
       end
     end
+
+    # case note custom fields
+    custom_field = CaseNotes::CustomField.first
+    if custom_field
+      custom_field.data_fields.each do |field|
+        column = "case_note_custom_field_#{field['label'].parameterize.downcase}"
+        columns.merge!("#{column}_": column.to_sym)
+      end
+    end
+
     columns
   end
 
