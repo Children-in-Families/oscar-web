@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20240813075835) do
+ActiveRecord::Schema.define(version: 20240903043909) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -168,8 +168,8 @@ ActiveRecord::Schema.define(version: 20240813075835) do
     t.integer  "custom_assessment_setting_id"
     t.string   "level_of_risk"
     t.text     "description"
-    t.boolean  "draft",                        default: false
     t.date     "assessment_date"
+    t.boolean  "draft",                        default: false
     t.datetime "last_auto_save_at"
   end
 
@@ -423,9 +423,9 @@ ActiveRecord::Schema.define(version: 20240813075835) do
     t.text     "note",                         default: ""
     t.integer  "custom_assessment_setting_id"
     t.integer  "family_id"
-    t.boolean  "draft",                        default: false, null: false
     t.datetime "last_auto_save_at"
     t.string   "attachments",                  default: [],                 array: true
+    t.boolean  "draft",                        default: false, null: false
   end
 
   add_index "case_notes", ["assessment_id"], name: "index_case_notes_on_assessment_id", using: :btree
@@ -435,15 +435,18 @@ ActiveRecord::Schema.define(version: 20240813075835) do
   add_index "case_notes", ["last_auto_save_at", "draft"], name: "index_case_notes_on_last_auto_save_at_and_draft", using: :btree
 
   create_table "case_notes_custom_field_properties", force: :cascade do |t|
-    t.integer  "case_note_id",                 null: false
-    t.integer  "custom_field_id",              null: false
-    t.jsonb    "properties",      default: {}
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+    t.integer  "case_note_id",                      null: false
+    t.integer  "custom_field_id",                   null: false
+    t.jsonb    "properties",           default: {}
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+    t.integer  "custom_formable_id"
+    t.string   "custom_formable_type"
   end
 
   add_index "case_notes_custom_field_properties", ["case_note_id"], name: "index_case_notes_custom_field_properties_on_case_note_id", using: :btree
   add_index "case_notes_custom_field_properties", ["custom_field_id"], name: "index_custom_field_properties_on_case_notes_custom_field_id", using: :btree
+  add_index "case_notes_custom_field_properties", ["custom_formable_id", "custom_formable_type"], name: "index_case_notes_custom_field_properties_on_custom_formable", using: :btree
 
   create_table "case_notes_custom_fields", force: :cascade do |t|
     t.datetime "deleted_at"
@@ -2331,7 +2334,6 @@ ActiveRecord::Schema.define(version: 20240813075835) do
   add_index "referrals", ["external_id"], name: "index_referrals_on_external_id", using: :btree
   add_index "referrals", ["mosvy_number"], name: "index_referrals_on_mosvy_number", using: :btree
   add_index "referrals", ["referee_id"], name: "index_referrals_on_referee_id", using: :btree
-  add_index "referrals", ["referred_from_uid"], name: "index_referrals_on_referred_from_uid", using: :btree
 
   create_table "referrals_services", id: false, force: :cascade do |t|
     t.integer "referral_id"
@@ -2505,10 +2507,11 @@ ActiveRecord::Schema.define(version: 20240813075835) do
     t.boolean  "disabled_task_date_field",             default: true
     t.integer  "tracking_form_edit_limit",             default: 0
     t.string   "tracking_form_edit_frequency",         default: "week"
-    t.boolean  "enabled_risk_assessment",              default: false
-    t.string   "assessment_type_name",                 default: "csi"
+    t.boolean  "disabled_progress_note_and_next_step", default: false
     t.boolean  "required_case_note_note",              default: true
     t.boolean  "hide_case_note_note",                  default: false
+    t.boolean  "enabled_risk_assessment",              default: false
+    t.string   "assessment_type_name",                 default: "csi"
     t.integer  "selected_domain_ids",                  default: [],                               array: true
     t.text     "level_of_risk_guidance"
     t.boolean  "enabled_header_count",                 default: false
