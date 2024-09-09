@@ -1108,7 +1108,7 @@ const Forms = (props) => {
         </div>
 
         <div className="rightComponent">
-          <div style={{ display: step === 1 ? "block" : "none" }}>
+          <div style={{ block: "none" }}>
             <RefereeInfo
               current_organization={current_organization}
               data={refereeTabData}
@@ -1120,7 +1120,7 @@ const Forms = (props) => {
             />
           </div>
 
-          <div style={{ display: step === 2 ? "block" : "none" }}>
+          <div style={{ block: "none" }}>
             <ReferralInfo
               data={referralTabData}
               onChange={onChange}
