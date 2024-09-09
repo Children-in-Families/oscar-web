@@ -1,4 +1,4 @@
-import { T, t } from "../../utils";
+import { T, t, params } from "../../utils";
 import React, { useState, useEffect } from "react";
 import objectToFormData from "object-to-formdata";
 import Loading from "../Commons/Loading";
@@ -170,11 +170,14 @@ const Forms = (props) => {
 
   useEffect(() => {
     // scroll to top 👆 on page load
-    window.scrollTo({ top: 125, left: 0, behavior: "smooth" });
+    if (!_.isEmpty(errorFields)) {
+      let topOffset = getPageOffset($('label[style*="color: red"]')[0]);
+      window.scrollTo({ top: topOffset, left: 0, behavior: "smooth" });
+    }
+
     if (!_.isEmpty(errorFields) && fieldsVisibility.show_legal_doc)
       $("#save-btn-help-text").hide();
-    else if (!_.isEmpty(errorFields) && step === 5)
-      $("#save-btn-help-text").show();
+    else if (!_.isEmpty(errorFields)) $("#save-btn-help-text").show();
   }, [errorFields]);
 
   const address = {
@@ -271,34 +274,6 @@ const Forms = (props) => {
   const legalDocument = { client: clientData, T, errorFields };
   const [isError, setIsError] = useState(false);
 
-  const tabs = [
-    { text: T.translate("index.referee_info"), step: 1 },
-    { text: t(translation, "clients.form.referral_info"), step: 2 },
-    { text: T.translate("index.referral_more_info"), step: 3 },
-    { text: riskAssessment.labels.protection_concern, step: 4 },
-    { text: T.translate("index.referral_vulnerability"), step: 5 },
-    { text: t(translation, "clients.form.legal_documents"), step: 6 }
-  ];
-
-  const classStyle = (value) =>
-    errorSteps.includes(value)
-      ? "errorTab"
-      : step === value
-      ? "activeTab"
-      : "normalTab";
-
-  const renderTab = (data, index) => {
-    return (
-      <span
-        key={index}
-        onClick={() => handleTab(data.step)}
-        className={`tabButton ${classStyle(data.step)}`}
-      >
-        {data.text}
-      </span>
-    );
-  };
-
   const onChangeMoSAVYOfficialsData = (newData) => {
     setMoSAVYOfficialsData(newData);
   };
@@ -369,6 +344,17 @@ const Forms = (props) => {
     }
   };
 
+  const getPageOffset = (elem) => {
+    let topOffset = elem.getBoundingClientRect().top;
+
+    while (elem != document.documentElement) {
+      elem = elem.parentElement;
+      topOffset += elem.scrollTop;
+    }
+
+    return topOffset - 50;
+  };
+
   const handleValidation = (stepToBeCheck = 0) => {
     const step5RequiredFields = Object.entries(requiredFields.fields)
       .map((keypair) => {
@@ -386,18 +372,18 @@ const Forms = (props) => {
     const components = [
       { step: 1, data: refereeData, fields: ["name"] },
       { step: 1, data: clientData, fields: ["referral_source_category_id"] },
-      { step: 2, data: clientData, fields: ["gender"] },
-      { step: 3, data: moSAVYOfficialsData, fields: ["name", "position"] },
-      { step: 4, data: riskAssessmentData, fields: [] },
+      { step: 1, data: clientData, fields: ["gender"] },
+      { step: 1, data: moSAVYOfficialsData, fields: ["name", "position"] },
+      { step: 1, data: riskAssessmentData, fields: [] },
       {
-        step: 5,
+        step: 1,
         data: clientData,
         fields:
           clientData.status != "Exited"
             ? ["received_by_id", "initial_referral_date", "user_ids"]
             : ["received_by_id", "initial_referral_date"]
       },
-      { step: 6, data: clientData, fields: step5RequiredFields }
+      { step: 1, data: clientData, fields: step5RequiredFields }
     ];
 
     const errors = [];
@@ -482,53 +468,6 @@ const Forms = (props) => {
       setErrorFields([]);
       setErrorSteps([]);
       return true;
-    }
-  };
-
-  const handleTab = (goingToStep) => {
-    const goBack = goingToStep < step;
-    const goForward = goingToStep === step + 1;
-    const goOver = goingToStep >= step + 2 || goingToStep >= step + 3;
-
-    if (
-      (goForward && handleValidation()) ||
-      (goOver && handleValidation(1) && handleValidation(2)) ||
-      (goBack && handleClientDataValidation())
-    )
-      if (step === 2 && goingToStep === 3)
-        checkClientExist()(() => setStep(goingToStep));
-      else setStep(goingToStep);
-
-    $(".alert").hide();
-    $("#save-btn-help-text").hide();
-    $(`#step-${goingToStep}`).show();
-
-    if (goingToStep === (fieldsVisibility.show_legal_doc == true ? 6 : 5)) {
-      handleClientDataValidation();
-      $("#save-btn-help-text").show();
-    }
-  };
-
-  const buttonNext = () => {
-    let stepIndex = 1;
-    if (handleValidation()) {
-      if (step === 2) checkClientExist()(() => setStep(step + 1));
-      else {
-        if (!isRiskAssessmentEnabled && step === 3) stepIndex = 2;
-
-        setStep(step + stepIndex);
-      }
-
-      $(".alert").hide();
-      $(`#step-${step + stepIndex}`).show();
-      $("#save-btn-help-text").hide();
-      if (
-        step + stepIndex ===
-        (fieldsVisibility.show_legal_doc == true ? 6 : 5)
-      ) {
-        handleClientDataValidation();
-        $("#save-btn-help-text").show();
-      }
     }
   };
 
@@ -694,26 +633,11 @@ const Forms = (props) => {
   const handleSave = () => (callback, forceSave) => {
     forceSave = forceSave === undefined ? false : forceSave;
 
-    let valid = true;
-    let divs = $(".required-true");
-
-    for (let i = 0; i < divs.length; i++) {
-      if (
-        $(divs[i]).find("div.css-1rhbuit-multiValue").length == 0 &&
-        $(divs[i]).find("div.css-1uccc91-singleValue").length == 0
-      ) {
-        divs[i].firstElementChild.style.borderColor = "red";
-        valid = false;
-      } else {
-        divs[i].firstElementChild.style.borderColor = "black";
-        valid = true;
-      }
-    }
-
-    if (handleValidation() && valid) {
+    if (handleValidation()) {
       handleCheckValue(refereeData);
       handleCheckValue(clientData);
-      handleCheckValue(carerData);
+      if (params("additionalInfo") === "additionalInfo")
+        handleCheckValue(carerData);
 
       if (
         (familyMemberData.family_id === null ||
@@ -833,16 +757,6 @@ const Forms = (props) => {
       window.location.search
     }`;
     confirmCancel(toastr, clientLocation);
-  };
-
-  const buttonPrevious = () => {
-    let stepIndex = 1;
-    if (!isRiskAssessmentEnabled && step === 5) stepIndex = 2;
-
-    setStep(step - stepIndex);
-    $(".alert").hide();
-    $(`#step-${step - stepIndex}`).show();
-    $("#save-btn-help-text").hide();
   };
 
   const renderAddressSwitch = (
@@ -1080,22 +994,6 @@ const Forms = (props) => {
         }
       />
 
-      <div className="tabHead">
-        {tabs
-          .filter((tab) => {
-            if (
-              (!isRiskAssessmentEnabled && tab.step === 4) ||
-              (!fieldsVisibility.show_legal_doc && tab.step === 6)
-            ) {
-              return false; // skip
-            }
-            return true;
-          })
-          .map((tab, index) => {
-            return renderTab(tab, index);
-          })}
-      </div>
-
       <div className="contentWrapper">
         <div className="leftComponent">
           <AdministrativeInfo
@@ -1108,7 +1006,11 @@ const Forms = (props) => {
         </div>
 
         <div className="rightComponent">
-          <div style={{ block: "none" }}>
+          <div
+            style={{
+              display: params("step") === "clientInfo" ? "block" : "none"
+            }}
+          >
             <RefereeInfo
               current_organization={current_organization}
               data={refereeTabData}
@@ -1120,7 +1022,11 @@ const Forms = (props) => {
             />
           </div>
 
-          <div style={{ block: "none" }}>
+          <div
+            style={{
+              display: params("step") === "clientInfo" ? "block" : "none"
+            }}
+          >
             <ReferralInfo
               data={referralTabData}
               onChange={onChange}
@@ -1131,7 +1037,11 @@ const Forms = (props) => {
             />
           </div>
 
-          <div style={{ display: step === 3 ? "block" : "none" }}>
+          <div
+            style={{
+              display: params("step") === "additionalInfo" ? "block" : "none"
+            }}
+          >
             <ReferralMoreInfo
               translation={translation}
               renderAddressSwitch={renderAddressSwitch}
@@ -1148,7 +1058,11 @@ const Forms = (props) => {
           </div>
 
           {isRiskAssessmentEnabled && (
-            <div style={{ display: step === 4 ? "block" : "none" }}>
+            <div
+              style={{
+                display: params("step") === "riskInfo" ? "block" : "none"
+              }}
+            >
               <RiskAssessment
                 data={riskAssessmentData}
                 setRiskAssessmentData={setRiskAssessmentData}
@@ -1164,7 +1078,11 @@ const Forms = (props) => {
             </div>
           )}
 
-          <div style={{ display: step === 5 ? "block" : "none" }}>
+          <div
+            style={{
+              display: params("step") === "customDataInfo" ? "block" : "none"
+            }}
+          >
             <ReferralVulnerability
               data={referralVulnerabilityTabData}
               current_organization={current_organization}
@@ -1176,7 +1094,11 @@ const Forms = (props) => {
           </div>
 
           {fieldsVisibility.show_legal_doc == true && (
-            <div style={{ display: step === 6 ? "block" : "none" }}>
+            <div
+              style={{
+                display: params("step") === "customDataInfo" ? "block" : "none"
+              }}
+            >
               <LegalDocument
                 data={legalDocument}
                 translation={translation}
@@ -1191,27 +1113,12 @@ const Forms = (props) => {
       </div>
 
       <div className="actionfooter">
-        <div className="leftWrapper">
+        <div className="leftWrapper"></div>
+
+        <div className="rightWrapper">
           <span className="btn btn-default" onClick={handleCancel}>
             {T.translate("index.cancel")}
           </span>
-        </div>
-
-        <div className="rightWrapper">
-          <span
-            className={
-              (step === 1 && "clientButton preventButton") ||
-              "clientButton allowButton"
-            }
-            onClick={buttonPrevious}
-          >
-            {T.translate("index.previous")}
-          </span>
-          {step !== (fieldsVisibility.show_legal_doc == true ? 6 : 5) && (
-            <span className={"clientButton allowButton"} onClick={buttonNext}>
-              {T.translate("index.next")}
-            </span>
-          )}
           <span
             id="save-btn-help-text"
             data-toggle="popover"
@@ -1220,11 +1127,7 @@ const Forms = (props) => {
             data-placement="auto"
             data-trigger="hover"
             data-content={inlineHelpTranslation.clients.buttons.save}
-            className={
-              onSave && errorFields.length === 0
-                ? "clientButton preventButton"
-                : "clientButton saveButton"
-            }
+            className="clientButton saveButton"
             onClick={() => handleSave()()}
           >
             {T.translate("index.save")}
