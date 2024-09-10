@@ -170,14 +170,8 @@ const Forms = (props) => {
 
   useEffect(() => {
     // scroll to top 👆 on page load
-    if (!_.isEmpty(errorFields)) {
-      let topOffset = getPageOffset($('label[style*="color: red"]')[0]);
-      window.scrollTo({ top: topOffset, left: 0, behavior: "smooth" });
-    }
-
-    if (!_.isEmpty(errorFields) && fieldsVisibility.show_legal_doc)
-      $("#save-btn-help-text").hide();
-    else if (!_.isEmpty(errorFields)) $("#save-btn-help-text").show();
+    let topOffset = getPageOffset($('label[style*="color: red"]')[0]);
+    window.scrollTo({ top: topOffset, left: 0, behavior: "smooth" });
   }, [errorFields]);
 
   const address = {
@@ -345,6 +339,8 @@ const Forms = (props) => {
   };
 
   const getPageOffset = (elem) => {
+    if (!elem) return 50;
+
     let topOffset = elem.getBoundingClientRect().top;
 
     while (elem != document.documentElement) {
@@ -413,7 +409,7 @@ const Forms = (props) => {
           }
         });
 
-        if (step === 4 && riskAssessmentData.level_of_risk === "high") {
+        if (riskAssessmentData.level_of_risk === "high") {
           if (
             riskAssessmentData.tasks_attributes.filter(
               (task) => task._destroy === undefined
@@ -427,38 +423,39 @@ const Forms = (props) => {
       }
     });
 
-    quantitativeType.forEach((qttType) => {
-      if (step === 5 && qttType.is_required) {
-        if (qttType.field_type == "free_text") {
-          const item = clientQuantitativeFreeTextCasesData.find(
-            (cqFreeText) => {
-              return cqFreeText.quantitative_type_id == qttType.id;
+    params("step") === "customDataInfo" &&
+      quantitativeType.forEach((qttType) => {
+        if (qttType.is_required) {
+          if (qttType.field_type == "free_text") {
+            const item = clientQuantitativeFreeTextCasesData.find(
+              (cqFreeText) => {
+                return cqFreeText.quantitative_type_id == qttType.id;
+              }
+            );
+
+            if (item.content === null || item.content === "") {
+              errors.push(`qtt_type_${qttType.id}`);
+              errorSteps.push(5);
             }
-          );
+          } else {
+            const qttCasees = quantitativeCase.filter((ftr) => {
+              return ftr.quantitative_type_id === qttType.id;
+            });
+            let error = true;
 
-          if (item.content === null || item.content === "") {
-            errors.push(`qtt_type_${qttType.id}`);
-            errorSteps.push(5);
-          }
-        } else {
-          const qttCasees = quantitativeCase.filter((ftr) => {
-            return ftr.quantitative_type_id === qttType.id;
-          });
-          let error = true;
+            qttCasees.forEach((qttCase) => {
+              if (clientData.quantitative_case_ids.includes(qttCase.id)) {
+                error = false;
+              }
+            });
 
-          qttCasees.forEach((qttCase) => {
-            if (clientData.quantitative_case_ids.includes(qttCase.id)) {
-              error = false;
+            if (error) {
+              errors.push(`qtt_type_${qttType.id}`);
+              errorSteps.push(5);
             }
-          });
-
-          if (error) {
-            errors.push(`qtt_type_${qttType.id}`);
-            errorSteps.push(5);
           }
         }
-      }
-    });
+      });
 
     if (errors.length > 0) {
       setErrorFields(errors);
@@ -564,6 +561,7 @@ const Forms = (props) => {
           if (response.similar_fields.length > 0) {
             setDupFields(response.similar_fields);
             setDupClientModalOpen(true);
+            return false;
           } else {
             callback();
           }
@@ -604,7 +602,9 @@ const Forms = (props) => {
           <button
             style={{ margin: 5 }}
             className="btn btn-primary"
-            onClick={() => (setDupClientModalOpen(false), setStep(step + 1))}
+            onClick={() => (
+              setDupClientModalOpen(false), handleSave()(nill, true)
+            )}
           >
             {T.translate("index.continue")}
           </button>
@@ -632,12 +632,11 @@ const Forms = (props) => {
 
   const handleSave = () => (callback, forceSave) => {
     forceSave = forceSave === undefined ? false : forceSave;
-
+    if (callback("step") === "clientInfo") checkClientExist();
     if (handleValidation()) {
       handleCheckValue(refereeData);
       handleCheckValue(clientData);
-      if (params("additionalInfo") === "additionalInfo")
-        handleCheckValue(carerData);
+      if (callback("step") === "additionalInfo") handleCheckValue(carerData);
 
       if (
         (familyMemberData.family_id === null ||
@@ -1128,7 +1127,7 @@ const Forms = (props) => {
             data-trigger="hover"
             data-content={inlineHelpTranslation.clients.buttons.save}
             className="clientButton saveButton"
-            onClick={() => handleSave()()}
+            onClick={() => handleSave()(params, true)}
           >
             {T.translate("index.save")}
           </span>
