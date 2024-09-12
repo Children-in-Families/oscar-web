@@ -68,11 +68,11 @@ module ClientGridOptions
       @client_grid.column(:exit_reasons, header: I18n.t('datagrid.columns.clients.exit_reasons')) do |client|
         if client.exit_ngos.any?
           reasons = [ExitNgo::EXIT_REASONS.sort, I18n.t('client.exit_ngos.form.exit_reason_options').values].transpose.to_h
-          results = ''
+          results = []
           client.exit_ngos.most_recents.each do |exit_ngo|
-            results = exit_ngo.exit_reasons.map { |reason| reasons[reason] }.join(', ') if exit_ngo.exit_reasons.present?
+            results << exit_ngo.exit_reasons.map { |reason| reasons[reason] }.join(', ') if exit_ngo.exit_reasons.present?
           end
-          results
+          results.join(', ')
         end
       end
     end
@@ -80,6 +80,7 @@ module ClientGridOptions
 
   def exit_circumstance_report
     return unless @client_columns.visible_columns[:exit_circumstance_].present?
+
     if params[:data].presence == 'recent'
       @client_grid.column(:exit_circumstance, header: I18n.t('datagrid.columns.clients.exit_circumstance')) do |client|
         client.exit_ngos.most_recents.first&.exit_circumstance
