@@ -12,7 +12,9 @@ module AdvancedSearches
         address_translation
       end
 
-      def generate_field_by_type
+      def generate_field_by_type # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+        return if @custom_field.blank?
+
         @custom_field.fields.each do |json_field|
           json_field['label'] = json_field['label'].gsub('&amp;', '&').gsub('&lt;', '<').gsub('&gt;', '>')
           
