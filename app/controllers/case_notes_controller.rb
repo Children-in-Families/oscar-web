@@ -44,7 +44,6 @@ class CaseNotesController < AdminController
 
   def update
     attributes = case_note_params.merge(last_auto_save_at: Time.current)
-
     saved = if save_draft?
               @case_note.assign_attributes(attributes)
               PaperTrail.without_tracking { @case_note.save(validate: false) }
@@ -186,6 +185,12 @@ class CaseNotesController < AdminController
     end
 
     params[:case_note][:custom_field_property_attributes][:properties] = properties
-    properties.keys
+    properties.map do |key, value|
+      if value.is_a?(Array)
+        { key => [] }
+      else
+        key
+      end
+    end
   end
 end
