@@ -1160,6 +1160,18 @@ class ClientGrid < BaseGrid
   end
 
   dynamic do
+    if CaseNotes::CustomField.first
+      cn_custom_field = CaseNotes::CustomField.first
+      cn_custom_field.data_fields.each do |field|
+        column_name = "case_note_custom_field_#{field['label'].parameterize.underscore}"
+        column(column_name.to_sym, header: -> { field['label'] }, html: true) do |object|
+          render partial: "clients/case_note_custom_field", locals: { object: object, custom_field: cn_custom_field, field: field }
+        end
+      end
+    end
+  end
+
+  dynamic do
     if enable_default_assessment?
       column(:all_csi_assessments, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.all_csi_assessments', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
         render partial: 'clients/all_csi_assessments', locals: { object: object.assessments.defaults }

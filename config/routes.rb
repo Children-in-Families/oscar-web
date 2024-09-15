@@ -1,7 +1,9 @@
 require 'sidekiq/web'
 Rails.application.routes.draw do
   root 'organizations#index'
+
   devise_for :users, controllers: { registrations: 'registrations', sessions: 'sessions', passwords: 'passwords' }
+  
   use_doorkeeper do
     skip_controllers :applications, :authorized_applications
   end
@@ -531,6 +533,10 @@ Rails.application.routes.draw do
       end
       get 'hidden' => 'custom_fields#hidden', as: :hidden, on: :member
     end
+  end
+
+  namespace :case_notes do
+    resource :custom_field
   end
 
   resources :advanced_search_save_queries
