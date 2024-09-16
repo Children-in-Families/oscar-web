@@ -11,6 +11,7 @@ module AdvancedSearches
       @drop_down_type_list = []
       @attach_with = attach_with
 
+      find_custom_fields
       generate_field_by_type
       address_translation
     end
@@ -21,16 +22,10 @@ module AdvancedSearches
       date_picker_fields = @date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item.gsub('"', '&qoute;'), format_label(item), format_optgroup(item)) }
       drop_list_fields = @drop_down_type_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first.gsub('"', '&qoute;'), format_label(item.first), item.last, format_optgroup(item.first)) }
 
-      results = text_fields + drop_list_fields + number_fields + date_picker_fields
+      text_fields + drop_list_fields + number_fields + date_picker_fields
     end
 
     def generate_field_by_type
-      if attach_with == 'Community'
-        @custom_fields = CustomField.cached_custom_form_ids_attach_with(@custom_form_ids, attach_with)
-      else
-        @custom_fields = CustomField.cached_custom_form_ids(@custom_form_ids)
-      end
-
       @custom_fields.each do |custom_field|
         (custom_field.try(:fields) || []).each do |json_field|
           json_field['label'] = json_field['label'].gsub('&amp;', '&').gsub('&lt;', '<').gsub('&gt;', '>')
@@ -60,6 +55,14 @@ module AdvancedSearches
       form_title = value.split('__').second
       key_word = format_header('custom_form')
       "#{form_title} | #{key_word}"
+    end
+
+    def find_custom_fields
+      if attach_with == 'Community'
+        @custom_fields = CustomField.cached_custom_form_ids_attach_with(@custom_form_ids, attach_with)
+      else
+        @custom_fields = CustomField.cached_custom_form_ids(@custom_form_ids)
+      end
     end
   end
 end

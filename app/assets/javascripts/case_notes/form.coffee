@@ -32,6 +32,12 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
       clearTimeout saveTimer
       saveTimer = setTimeout _submitFormViaAjax, 1000
 
+    $("[id^='case_note_custom_field_property_attributes_properties_']").on "keyup", ->
+      type = $(this).attr('type')
+
+      if type != 'file'
+        saveTimer = setTimeout _submitFormViaAjax, 1000
+
   _submitFormViaAjax = ->
     if $("#case-note-form").data("autosave")
       $(".task-arising.task-item-wrapper").addClass("saved")
@@ -114,6 +120,13 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
     return
 
   _initUploader = ->
+    $(".case_note_custom_field_property_form_builder_attachments_file .file").fileinput
+      showUpload: false
+      removeClass: 'btn btn-danger btn-outline'
+      browseLabel: 'Browse'
+      theme: "explorer"
+      allowedFileExtensions: ['jpg', 'png', 'jpeg', 'doc', 'docx', 'xls', 'xlsx', 'pdf']
+
     $('.file .optional').fileinput
       removeClass: 'btn btn-danger btn-outline'
       browseLabel: 'Browse'
