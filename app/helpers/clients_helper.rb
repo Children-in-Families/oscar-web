@@ -938,7 +938,7 @@ module ClientsHelper
       if object.is_a?(Array)
         sql_string = object.first.class.where(id: object.map(&:id)).where(query_array).where(sub_query_array)
       else
-        sql_string = object.where(query_array).where(sub_query_array)
+        sql_string = object.where(id: object.map(&:id)).where(query_array).where(sub_query_array)
       end
     end
 
