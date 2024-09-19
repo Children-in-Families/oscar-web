@@ -69,6 +69,27 @@
                     - if current_user.admin? || case_note.draft?
                       = destroy_link(@client, case_note)
             .panel-body
+              - custom_field_property = case_note.custom_field_property
+              - if custom_field_property
+                .table-responsive
+                  %table.table.table-bordered
+                    - custom_field_property.custom_field.fields.map{|a| [a['type'], a['label']]}.each do |type, key|
+                      - unless type == 'separateLine'
+                        - if type == 'paragraph'
+                          %tr
+                            %td.align-justify{colspan: '2'}
+                              = key.html_safe
+                        - else
+                          %tr
+                            %td.align-justify
+                              = key.html_safe
+                            %td.align-justify
+                              - key = convert_bracket(key, custom_field_property.properties)
+                              - if type == 'file'
+                                = render 'shared/form_builder/list_attachment', label: key, resource: custom_field_property
+                              - else
+                                = display_custom_properties(custom_field_property.properties[key])
+
               - unless @current_setting.hide_case_note_note?
                 - if case_note.note.present?
                   .row

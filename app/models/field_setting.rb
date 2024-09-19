@@ -7,7 +7,7 @@ class FieldSetting < ActiveRecord::Base
 
   default_scope -> { order(:created_at) }
   scope :without_hidden_fields, -> { where(visible: true) }
-  scope :by_instances, -> (ngo_short_name) { where('for_instances IS NULL OR for_instances iLIKE ?', "%#{ngo_short_name}%").includes(:translations).order(:group, :name) }
+  scope :by_instances, -> (ngo_short_name) { where('for_instances IS NULL OR for_instances iLIKE ?', "%#{ngo_short_name}%").order(:group, :name) }
 
   before_save :assign_type
   after_commit :flush_cache

@@ -1,0 +1,20 @@
+- cache_if params[:data] == 'recent', cache_keys_base + [object, 'case_note_type', field['label'], object.case_notes.most_recents.order(meeting_date: :desc).first] do
+  - if params[:data] == 'recent'
+    - case_note = object.case_notes.most_recents.order(meeting_date: :desc).first
+    - if case_note && case_note.custom_field_property
+      %ul{'data-case_note_type': '' }
+        %li
+          - if field['type'] == 'file'
+            = render 'shared/form_builder/list_attachment', label: field['label'], resource: case_note.custom_field_property
+          - else
+            = display_custom_properties(case_note.custom_field_property.properties[field['label']])
+  - else
+    %ul{'data-case_note_type': '' }
+      - case_note_query(object.case_notes.most_recents, 'case_note_type').each do |case_note|
+        - if case_note && case_note.custom_field_property
+          - if field['type'] == 'file'
+            - attachment_by_label = case_note.custom_field_property.get_form_builder_attachment(field['label'])
+            - attachment_by_label.file.each_with_index do |file, index|
+              %li= link_to file_name_from_file(file), file.url, class: 'btn btn-info btn-sm btn-download', target: :_blank
+          - else
+            %li= display_custom_properties(case_note.custom_field_property.properties[field['label']])
