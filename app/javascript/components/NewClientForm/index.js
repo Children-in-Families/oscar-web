@@ -717,10 +717,8 @@ const Forms = (props) => {
           }
         })
           .done((response) => {
-            if (callback) callback(response);
-            else
-              document.location.href =
-                `/clients/${response.slug}?notice=` + message;
+            document.location.href =
+              `/clients/${response.slug}?notice=` + message;
           })
           .fail((error) => {
             setLoading(false);
