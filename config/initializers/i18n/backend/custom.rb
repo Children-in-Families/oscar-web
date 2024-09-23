@@ -54,6 +54,8 @@ module I18n::Backend::Custom
   end
 
   def deep_merge(hash1, hash2)
+    return hash1 if hash2.nil?
+
     hash1.merge(hash2) do |key, old_val, new_val|
       if old_val.is_a?(Hash) && new_val.is_a?(Hash)
         deep_merge(old_val, new_val)
@@ -82,7 +84,7 @@ module I18n::Backend::Custom
   def load_custom_labels(locale)
     copy_translations = translations.dup
 
-    FieldSetting.by_instances(Apartment::Tenant.current).each do |field_setting|
+    FieldSetting.includes(:translations).by_instances(Apartment::Tenant.current).each do |field_setting|
       data = copy_translations[locale]
       next if field_setting.current_label.blank? || field_setting.name.nil? || data.nil?
       paths = data.full_paths(field_setting.name)

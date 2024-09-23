@@ -45,3 +45,6 @@ Metrics/MethodLength:
   Enabled: false
 Style/ConditionalAssignment:
   Enabled: false
+
+Layout/TrailingWhitespace:
+  Enabled: false
