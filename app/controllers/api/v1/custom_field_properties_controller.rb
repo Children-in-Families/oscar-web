@@ -99,6 +99,7 @@ module Api
         end
       end
 
+      def map_attachments_attribute(attachment_attributes, custom_field)
         (attachment_attributes || []).each do |k, value|
           file_labels = {}
           custom_field.fields.each do |field|
