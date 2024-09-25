@@ -42,7 +42,6 @@ class CarePlan < ActiveRecord::Base
       required_assessment_domains << assessment_domain if domain_color_required?(assessment_domain)
     end
     required_assessment_domain_ids = required_assessment_domains.map(&:id)
-
     if Setting.first.disable_required_fields? || (goals.pluck(:assessment_domain_id) & required_assessment_domain_ids).sort == required_assessment_domain_ids.sort
       update_columns(completed: true)
     else
