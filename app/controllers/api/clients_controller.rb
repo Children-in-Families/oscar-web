@@ -108,7 +108,6 @@ module Api
         carer = Carer.find_or_create_by(id: client.carer_id)
         carer.update_attributes(carer_params)
         client.carer_id = carer.id
-        new_params = client.current_family_id ? client_params : client_params.except(:family_ids)
       end
 
       if client.update_attributes(client_params.except(:referee_id, :carer_id))
