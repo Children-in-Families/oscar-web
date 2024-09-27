@@ -1,22 +1,22 @@
 module Api
   module V1
-    class AssessmentsController < Api::V1::BaseApiController
+    class Families::AssessmentsController < Api::V1::BaseApiController
       include AssessmentConcern
 
-      before_action :find_client
+      before_action :set_family
 
       def index
-        assessments = @client.assessments.includes(:case_notes)
+        assessments = @family.assessments.includes(:case_notes)
         render json: assessments
       end
 
       def show
-        assessment = @client.assessments.find(params[:id])
+        assessment = @family.assessments.find(params[:id])
         render json: assessment
       end
 
       def create
-        assessment = @client.assessments.new(assessment_params)
+        assessment = @family.assessments.new(assessment_params)
         assessment.default = assessment_params[:custom_assessment_setting_id].blank?
         assessment.skip_assessment_domain_populate = true
         if assessment.save
@@ -31,7 +31,7 @@ module Api
           add_more_attachments(assessment_domain[:attachments], assessment_domain[:id]) if assessment_domain.key?(:id)
         end
 
-        assessment = @client.assessments.find(params[:id])
+        assessment = @family.assessments.find(params[:id])
         if assessment.update_attributes(assessment_params)
           assessment.update(updated_at: DateTime.now)
           render json: assessment
@@ -63,6 +63,10 @@ module Api
         deleted_attachment.try(:remove!)
         remain_attachment.empty? ? assessment_domain.remove_attachments! : (assessment_domain.attachments = remain_attachment)
         message = t('.fail_delete_attachment') unless assessment_domain.save
+      end
+
+      def set_family
+        @family = Family.accessible_by(current_ability).find(params[:family_id])
       end
     end
   end
