@@ -94,9 +94,9 @@ module CreateNestedValue
   def create_goal_tasks(tasks)
     tasks.each do |task|
       next if task.expected_date.nil?
+
       Calendar.populate_tasks(task)
     end
     create_events if session[:authorization]
   end
-
 end
