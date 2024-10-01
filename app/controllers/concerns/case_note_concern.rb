@@ -96,7 +96,12 @@ module CaseNoteConcern
 
           task_progress_notes_attributes << v.select { |h| h['progress_note'] }
         end
-        task.task_progress_notes.create(task_progress_notes_attributes) if task_progress_notes_attributes.present?
+        
+        next if task_progress_notes_attributes.blank?
+
+        # Due to auto save sending same data, ignore saving duplicate progess note
+        progress_note = task.task_progress_notes.find_or_initialize_by(task_progress_notes_attributes)
+        progress_note.save
       end
     end
   end
