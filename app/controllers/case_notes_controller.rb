@@ -61,7 +61,10 @@ class CaseNotesController < AdminController
 
       create_bulk_task(params[:task], @case_note) if params.key?(:task)
       @case_note.complete_screening_tasks(params) if params[:case_note].key?(:tasks_attributes)
-      create_task_task_progress_notes
+
+      # As we don't allow edit progress note once saved,
+      # do not save it if request sent by autosave
+      create_task_task_progress_notes unless save_draft?
       delete_events if session[:authorization]
 
       respond_to do |format|
