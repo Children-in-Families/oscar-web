@@ -99,11 +99,9 @@ module CaseNoteConcern
         
         next if task_progress_notes_attributes.blank?
 
-        task_progress_notes_attributes.each do |task_progress_note_attr|
-          # Due to auto save sending same data, ignore saving duplicate progess note
-          progress_note = task.task_progress_notes.find_or_initialize_by(task_progress_note_attr)
-          progress_note.save
-        end
+        # Due to auto save sending same data, ignore saving duplicate progess note
+        progress_note = task.task_progress_notes.find_or_initialize_by(task_progress_notes_attributes)
+        progress_note.save
       end
     end
   end
