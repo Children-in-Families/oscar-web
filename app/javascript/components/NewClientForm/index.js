@@ -267,6 +267,7 @@ const Forms = (props) => {
   };
   const legalDocument = { client: clientData, T, errorFields };
   const [isError, setIsError] = useState(false);
+  const [clientExist, setClientExist] = useState(false);
 
   const onChangeMoSAVYOfficialsData = (newData) => {
     setMoSAVYOfficialsData(newData);
@@ -561,7 +562,7 @@ const Forms = (props) => {
           if (response.similar_fields.length > 0) {
             setDupFields(response.similar_fields);
             setDupClientModalOpen(true);
-            return false;
+            setClientExist(true);
           } else {
             callback();
           }
@@ -603,7 +604,8 @@ const Forms = (props) => {
             style={{ margin: 5 }}
             className="btn btn-primary"
             onClick={() => (
-              setDupClientModalOpen(false), handleSave()(nill, true)
+              setDupClientModalOpen(false),
+              handleSave()(setClientExist(true), true)
             )}
           >
             {T.translate("index.continue")}
@@ -632,11 +634,13 @@ const Forms = (props) => {
 
   const handleSave = () => (callback, forceSave) => {
     forceSave = forceSave === undefined ? false : forceSave;
-    if (callback("step") === "clientInfo") checkClientExist();
-    if (handleValidation()) {
+    if (!clientExist && params("step") === "clientInfo")
+      checkClientExist()(() => setClientExist(false));
+
+    if (clientExist && handleValidation()) {
       handleCheckValue(refereeData);
       handleCheckValue(clientData);
-      if (callback("step") === "additionalInfo") handleCheckValue(carerData);
+      if (params("step") === "additionalInfo") handleCheckValue(carerData);
 
       if (
         (familyMemberData.family_id === null ||
@@ -963,7 +967,7 @@ const Forms = (props) => {
     >
       <Loading
         loading={loading}
-        text={step <= 3 ? T.translate("index.wait") : "Saving..."}
+        text={!clientExist ? T.translate("index.wait") : "Saving..."}
       />
 
       <Modal
@@ -1125,7 +1129,7 @@ const Forms = (props) => {
             data-trigger="hover"
             data-content={inlineHelpTranslation.clients.buttons.save}
             className="clientButton saveButton"
-            onClick={() => handleSave()(params, true)}
+            onClick={() => handleSave()(setClientExist(false), true)}
           >
             {T.translate("index.save")}
           </span>
