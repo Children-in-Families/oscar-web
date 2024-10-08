@@ -44,7 +44,10 @@ export default (props) => {
       maritalStatuses,
       nationalities,
       ethnicities,
-      traffickingTypes
+      traffickingTypes,
+      labels,
+      has_disability,
+      disability_specification
     }
   } = props;
 
@@ -342,22 +345,6 @@ export default (props) => {
           </div>
         </div>
       </legend>
-
-      {client.isTestClient && !client.isForTesting && (
-        <div className="row">
-          <div className="col-xs-12">
-            <RadioGroup
-              inline
-              required
-              label={T.translate("referralInfo.for_testing")}
-              options={yesNoOpts}
-              onChange={onChangeTestingClientRadioOption}
-              value={client.for_testing}
-            />
-          </div>
-        </div>
-      )}
-
       <div className="row">
         <div className="col-xs-12 col-md-6 col-lg-3">
           <TextInput
@@ -576,6 +563,26 @@ export default (props) => {
             />
           </div>
         )}
+      </div>
+
+      <div className="row">
+        <div className="col-xs-12 col-md-6">
+          <RadioGroup
+            inline
+            label={labels.has_disability}
+            options={yesNoOpts}
+            onChange={onChange("riskAssessment", "has_disability")}
+            value={has_disability}
+          />
+        </div>
+        <div className="col-xs-12 col-md-6 col-lg-6">
+          <TextInput
+            inline
+            label={labels.if_yes}
+            onChange={onChange("riskAssessment", "disability_specification")}
+            value={disability_specification}
+          />
+        </div>
       </div>
 
       <div className="row">
