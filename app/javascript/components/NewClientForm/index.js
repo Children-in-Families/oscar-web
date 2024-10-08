@@ -228,7 +228,10 @@ const Forms = (props) => {
     maritalStatuses,
     nationalities,
     ethnicities,
-    traffickingTypes
+    traffickingTypes,
+    labels: riskAssessment.labels,
+    has_disability: riskAssessment.has_disability,
+    disability_specification: riskAssessment.disability_specification
   };
   const moreReferralTabData = {
     errorFields,
@@ -975,7 +978,9 @@ const Forms = (props) => {
         title={T.translate("index.informing")}
         isOpen={dupClientModalOpen}
         type="warning"
-        closeAction={() => setDupClientModalOpen(false)}
+        closeAction={() => (
+          setDupClientModalOpen(false), setClientExist(false)
+        )}
         content={renderModalContent(dupFields)}
         footer={renderModalFooter()}
       />
