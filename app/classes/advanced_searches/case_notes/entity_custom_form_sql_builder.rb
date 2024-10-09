@@ -23,7 +23,7 @@ module AdvancedSearches
 
         basic_rules  = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
         basic_rules  = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
-        results      = mapping_form_builder_param_value(basic_rules, 'formbuilder')
+        results      = mapping_form_builder_param_value(basic_rules, 'case_note_custom_field')
 
         query_string  = get_query_string(results, 'formbuilder', properties_field)
         sql           = query_string.reverse.reject(&:blank?).map{|sql| "(#{sql})" }.join(" AND ")
