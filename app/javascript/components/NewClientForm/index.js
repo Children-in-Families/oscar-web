@@ -567,16 +567,18 @@ const Forms = (props) => {
             setDupClientModalOpen(true);
             setClientExist(true);
           } else {
-            debugger;
+            console.log("client exist response", response);
             callback();
           }
-          debugger;
+          console.log("client response fields", response.similar_fields);
           setLoading(false);
         });
       } else {
+        console.log("client field all blank");
         callback();
       }
     } else {
+      console.log("client outside", clientData.outside);
       callback();
     }
   };
