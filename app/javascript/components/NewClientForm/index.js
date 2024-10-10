@@ -567,8 +567,10 @@ const Forms = (props) => {
             setDupClientModalOpen(true);
             setClientExist(true);
           } else {
+            debugger;
             callback();
           }
+          debugger;
           setLoading(false);
         });
       } else {
@@ -640,6 +642,7 @@ const Forms = (props) => {
     if (!clientExist && params("step") === "clientInfo")
       checkClientExist()(() => setClientExist(false));
 
+    debugger;
     if (clientExist && handleValidation()) {
       handleCheckValue(refereeData);
       handleCheckValue(clientData);
