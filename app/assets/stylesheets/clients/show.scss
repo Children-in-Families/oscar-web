@@ -11,7 +11,7 @@ body[id='clients-show'] {
 
     table tbody tr td.exit-reason-label {
       .label {
-        white-space:normal !important;
+        white-space: normal !important;
         line-height: 2.5;
       }
     }
@@ -26,27 +26,34 @@ body[id='clients-show'] {
     text-decoration: none;
     margin: 0 5px;
   }
-  .align-justify{
+
+  .align-justify {
     width: 50%;
   }
-  .show-name{
+
+  .show-name {
     font-size: 20px;
   }
-  .show-status{
+
+  .show-status {
     position: relative;
     top: -3px;
     left: 10px;
   }
-  .client-info{
+
+  .client-info {
     margin-left: 10px;
     margin-top: 2px;
   }
-  .count-margin{
+
+  .count-margin {
     margin-right: 5px;
   }
-  .small-btn-margin{
+
+  .small-btn-margin {
     margin-top: 8px;
-    .dropdown-toggle{
+
+    .dropdown-toggle {
       padding: 4px;
     }
   }
@@ -54,7 +61,9 @@ body[id='clients-show'] {
   .client {
     .panel-body {
       min-height: 498px;
-      .first-table, .second-table {
+
+      .first-table,
+      .second-table {
         max-width: 420px;
         overflow-x: scroll;
       }
@@ -68,7 +77,9 @@ body[id='clients-show'] {
   }
 
   #legal-document {
-    table.table-bordered th:last-child, table.table-bordered td:last-child {
+
+    table.table-bordered th:last-child,
+    table.table-bordered td:last-child {
       border-right-width: 1px;
     }
   }
@@ -118,10 +129,10 @@ body[id='clients-show'] {
   }
 
   .bottom-corner {
-   position: absolute;
-   right: 5px;
-   bottom: 3px;
-   margin: 0;
+    position: absolute;
+    right: 5px;
+    bottom: 3px;
+    margin: 0;
   }
 
   td.spacing-first-col {
@@ -154,11 +165,12 @@ body[id='clients-show'] {
     background-color: mediumturquoise;
   }
 
-  .color-brown{
+  .color-brown {
     background-color: #AC4608;
     color: white;
   }
-  .accept-layout{
+
+  .accept-layout {
     position: absolute;
     top: -30%;
     right: -88%;
@@ -222,37 +234,45 @@ body[id='clients-show'] {
     }
   }
 
-  @media screen and (min-width: 991px){
+  @media screen and (min-width: 991px) {
     .scrollable-dropdown-menu.additional-forms {
       right: 0;
       left: auto;
     }
+
     .scrollable-dropdown-menu {
       width: 400px;
     }
   }
 
-  .government-reports, .progress-notes {
+  .government-reports,
+  .progress-notes {
     padding: 10px;
   }
+
   .color-orange {
     background-color: #f0ad4e;
   }
-  .what3words{
+
+  .what3words {
     height: 17%;
   }
-  .exit_ngo_exit_reasons > span{
+
+  .exit_ngo_exit_reasons>span {
     margin-left: -15px;
   }
-  .exit_ngo_other_info_of_exit{
+
+  .exit_ngo_other_info_of_exit {
     margin-top: 10px;
   }
-  .client_exit_date{
+
+  .client_exit_date {
     margin-top: 25px;
   }
 
   button.close {
     margin-right: 10px;
+
     span {
       position: absolute;
     }
@@ -270,7 +290,7 @@ body[id='clients-show'] {
     color: #999999 !important;
   }
 
-  .fa-envelope:hover:before{
+  .fa-envelope:hover:before {
     content: "\f2b6";
   }
 
@@ -287,6 +307,12 @@ body[id='clients-show'] {
       content: "\f054";
       font-family: FontAwesome;
       position: relative;
+    }
+  }
+
+  #accordion {
+    .ibox-title {
+      padding-left: 0px;
     }
   }
 }
