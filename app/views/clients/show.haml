@@ -417,24 +417,6 @@
                             %td
                               %strong
                                 = @client.phone_owner&.capitalize
-
-                          - if policy(Client).show?(:school_info)
-                            %tr.bg-grey
-                              %td{ colspan: '2' }
-                                = t('.school_info')
-
-
-                            - %w(school_name school_grade main_school_contact).each do |field|
-                              - if policy(@client).show?(field.to_sym)
-                                %tr
-                                  %td.spacing-first-col
-                                    = t("clients.form.#{field}")
-                                  %td
-                                    %strong
-                                      - if field == 'school_grade'
-                                        = editable @client, :school_grade, type: :select2, source: [Client::GRADES, t('advanced_search.fields.school_grade_list').values].transpose.map{|v, t| { text: t.to_s, value: v.to_s } }, value: @client.school_grade, url: api_client_path(@client.id), pk: @client.id
-                                      - else
-                                        = editable @client, field.to_sym, value: @client.public_send(field.to_sym), url: api_client_path(@client.id), pk: @client.id
                           %tr.bg-grey
                             %td{ colspan: '2' }
                               = t('.other_info')
@@ -548,6 +530,21 @@
                       %th{ colspan: '2' }
                         = t('.referral_more_information')
                   %tbody
+                    - if policy(Client).show?(:school_info)
+                      %tr.bg-grey
+                        %td{ colspan: '2' }
+                          = t('.school_info')
+                      - %w(school_name school_grade main_school_contact).each do |field|
+                        - if policy(@client).show?(field.to_sym)
+                          %tr
+                            %td.spacing-first-col
+                              = t("clients.form.#{field}")
+                            %td
+                              %strong
+                                - if field == 'school_grade'
+                                  = editable @client, :school_grade, type: :select2, source: [Client::GRADES, t('advanced_search.fields.school_grade_list').values].transpose.map{|v, t| { text: t.to_s, value: v.to_s } }, value: @client.school_grade, url: api_client_path(@client.id), pk: @client.id
+                                - else
+                                  = editable @client, field.to_sym, value: @client.public_send(field.to_sym), url: api_client_path(@client.id), pk: @client.id
                     - if policy(@client).show?(:carer_info)
                       %tr.bg-grey
                         %td{ colspan: '2' }
