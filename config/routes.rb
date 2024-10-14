@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   root 'organizations#index'
 
   devise_for :users, controllers: { registrations: 'registrations', sessions: 'sessions', passwords: 'passwords' }
-  
+
   use_doorkeeper do
     skip_controllers :applications, :authorized_applications
   end
@@ -425,7 +425,7 @@ Rails.application.routes.draw do
           resources :enter_ngos, only: [:create, :update]
           resources :assessments
           resources :care_plans
-          resources :case_notes, only: [:show, :create, :update, :destroy, :delete_attachment] do
+          resources :case_notes, only: [:index, :show, :create, :update, :destroy, :delete_attachment] do
             delete 'attachments/:file_index', action: :delete_attachment, on: :member
           end
           resources :tasks

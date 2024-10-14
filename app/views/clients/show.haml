@@ -301,7 +301,7 @@
           .col-xs-12
             .ibox
               .ibox-title
-                %h5 Client Referral Information
+                Client Referral Information
                 .ibox-tools
                   %a.collapse-link{"aria-controls" => "collapse-additional-info", "aria-expanded" => "true", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapse-client-info", :role => "button"}
                     .btn.btn-outline.btn-primary
@@ -527,65 +527,11 @@
                               %td.text-center
                                 = link_to call_path(call) do
                                   %button.btn.btn-outline.btn-primary.btn-xs= fa_icon('eye')
-                - if @case_histories.any?
-                  .row
-                    .col-xs-12
-                      %table.table.table-bordered.table-hover#case-history-table
-                        %thead
-                          %tr
-                            %th= t('.case_histories')
-                            - unless Rails.env.production?
-                              %th= t('.created_date')
-                            %th= t('.date')
-                            %th.text-center= t('.detail')
-                        %tbody
-                          - if Setting.first.enabled_internal_referral?
-                            - @internal_referrals.each do |internal_referral|
-                              %tr
-                                %td= "Internal Referral To #{internal_referral.program_name}"
-                                %td= date_format(internal_referral.referral_date)
-                                - unless Rails.env.production?
-                                  %td
-                                %td.text-center
-                                  = link_to client_internal_referral_path(@client, internal_referral.id), class: 'btn btn-outline btn-primary btn-xs' do
-                                    = fa_icon('eye')
-                                  = link_to edit_client_internal_referral_path(@client, internal_referral.id), class: 'btn btn-outline btn-success btn-xs' do
-                                    = fa_icon('pencil')
-
-                          - @case_histories.each_with_index do |case_history, index|
-                            - case_history_name = case_history.class.table_name
-                            %tr.case-history-row{ data: {date: case_history.new_date, classname: case_history_name, name: case_history_label(case_history), created_date: case_history.created_at} }
-                              %td= case_history_label(case_history)
-                              - unless Rails.env.production?
-                                %td= case_history.created_at.to_s
-                              %td= date_format(case_history.new_date)
-                              %td
-                                .text-center
-                                  %button.btn.btn-outline.btn-primary.btn-xs{'data-target' => "#case_history_#{index}", 'data-toggle' => 'modal'}= fa_icon('eye')
-                                  - if current_user.admin?
-                                    - if ['enter_ngos', 'exit_ngos'].include?(case_history_name)
-                                      %button.btn.btn-outline.btn-success.btn-xs.edit-case-history-ngo{ data: { class_name: case_history_name },'data-target' => "##{case_history_name}-#{case_history.id}", 'data-toggle' => 'modal' }= fa_icon('pencil')
-                                    - if case_history_name == 'exit_ngos' && @client.latest_exit_ngo == case_history
-                                      = link_to client_exit_ngo_path(@client, case_history), class: 'btn btn-outline btn-danger btn-xs', method: 'delete', data: { confirm: t('.are_you_sure') } do
-                                        = fa_icon 'trash'
-                                    = case_history_links(case_history, case_history_name)
-                                = render 'case_history_detail', object: case_history, index: index
-                                = render_case_history(case_history, case_history_name)
-                        %tr
-                          %td= t('.initial_referral_date')
-                          - unless Rails.env.production?
-                            %td= @client.created_at.to_s
-                          %td= date_format(@client.initial_referral_date)
-                          %td
-                            .text-center
-                              %button.btn.btn-outline.btn-primary.btn-xs{'data-target' => "#case_history_initial_referral_date", 'data-toggle' => 'modal'}= fa_icon('eye')
-                            = render 'case_history_detail', object: @client, index: 'initial_referral_date'
-
         .row
           .col-xs-12
             .ibox
               .ibox-title
-                %h5 Additional Information
+                Additional Information
                 .ibox-tools
                   %a.collapse-link{"aria-controls" => "collapse-additional-info", "aria-expanded" => "true", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapse-additional-info", :role => "button"}
                     .btn.btn-outline.btn-primary
@@ -596,7 +542,6 @@
                         .btn.btn-outline.btn-success
                           %i.fa.fa-pencil
               .ibox-content.panel-collapse.collapse{"aria-labelledby" => "headingClientInfo", :role => "tabpanel", id: "collapse-additional-info"}
-                = render "referral_more_info"
                 %table.table.table-bordered.referral-more-info
                   %thead
                     %tr
@@ -697,7 +642,7 @@
             .col-xs-12
               .ibox
                 .ibox-title
-                  %h5= t('risk_assessments._attr.protection_concern')
+                  = t('risk_assessments._attr.protection_concern')
                   .ibox-tools
                     %a.collapse-link{"aria-controls" => "collapse-protection-concern", "aria-expanded" => "true", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapse-protection-concern", :role => "button"}
                       .btn.btn-outline.btn-primary
@@ -785,7 +730,7 @@
           .col-xs-12
             .ibox
               .ibox-title
-                %h5 Custom Referral Data
+                Custom Referral Data
                 .ibox-tools
                   %a.collapse-link{"aria-controls" => "collapse-referral-data", "aria-expanded" => "true", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapse-referral-data", :role => "button"}
                     .btn.btn-outline.btn-primary
@@ -796,10 +741,64 @@
                         .btn.btn-outline.btn-success
                           %i.fa.fa-pencil
               .ibox-content.panel-collapse.collapse{"aria-labelledby" => "headingClientInfo", :role => "tabpanel", id: "collapse-referral-data"}
+                = render "referral_more_info"
                 - if @client.client_custom_data
                   - cusotm_data_fields = @client.custom_data&.fields || []
                   - client_data_properties = @client.client_custom_data&.properties || {}
                   = render 'custom_data', cusotm_data_fields: cusotm_data_fields, client_data_properties: client_data_properties, client_custom_data: @client.client_custom_data
+        - if @case_histories.any?
+          .row
+            .col-xs-12
+              %table.table.table-bordered.table-hover#case-history-table
+                %thead
+                  %tr
+                    %th= t('.case_histories')
+                    - unless Rails.env.production?
+                      %th= t('.created_date')
+                    %th= t('.date')
+                    %th.text-center= t('.detail')
+                %tbody
+                  - if Setting.first.enabled_internal_referral?
+                    - @internal_referrals.each do |internal_referral|
+                      %tr
+                        %td= "Internal Referral To #{internal_referral.program_name}"
+                        %td= date_format(internal_referral.referral_date)
+                        - unless Rails.env.production?
+                          %td
+                        %td.text-center
+                          = link_to client_internal_referral_path(@client, internal_referral.id), class: 'btn btn-outline btn-primary btn-xs' do
+                            = fa_icon('eye')
+                          = link_to edit_client_internal_referral_path(@client, internal_referral.id), class: 'btn btn-outline btn-success btn-xs' do
+                            = fa_icon('pencil')
+
+                  - @case_histories.each_with_index do |case_history, index|
+                    - case_history_name = case_history.class.table_name
+                    %tr.case-history-row{ data: {date: case_history.new_date, classname: case_history_name, name: case_history_label(case_history), created_date: case_history.created_at} }
+                      %td= case_history_label(case_history)
+                      - unless Rails.env.production?
+                        %td= case_history.created_at.to_s
+                      %td= date_format(case_history.new_date)
+                      %td
+                        .text-center
+                          %button.btn.btn-outline.btn-primary.btn-xs{'data-target' => "#case_history_#{index}", 'data-toggle' => 'modal'}= fa_icon('eye')
+                          - if current_user.admin?
+                            - if ['enter_ngos', 'exit_ngos'].include?(case_history_name)
+                              %button.btn.btn-outline.btn-success.btn-xs.edit-case-history-ngo{ data: { class_name: case_history_name },'data-target' => "##{case_history_name}-#{case_history.id}", 'data-toggle' => 'modal' }= fa_icon('pencil')
+                            - if case_history_name == 'exit_ngos' && @client.latest_exit_ngo == case_history
+                              = link_to client_exit_ngo_path(@client, case_history), class: 'btn btn-outline btn-danger btn-xs', method: 'delete', data: { confirm: t('.are_you_sure') } do
+                                = fa_icon 'trash'
+                            = case_history_links(case_history, case_history_name)
+                        = render 'case_history_detail', object: case_history, index: index
+                        = render_case_history(case_history, case_history_name)
+                %tr
+                  %td= t('.initial_referral_date')
+                  - unless Rails.env.production?
+                    %td= @client.created_at.to_s
+                  %td= date_format(@client.initial_referral_date)
+                  %td
+                    .text-center
+                      %button.btn.btn-outline.btn-primary.btn-xs{'data-target' => "#case_history_initial_referral_date", 'data-toggle' => 'modal'}= fa_icon('eye')
+                    = render 'case_history_detail', object: @client, index: 'initial_referral_date'
 .row
   = render 'blank_field_notification'
   = render 'referrals/confirm_referral'

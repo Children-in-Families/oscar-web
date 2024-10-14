@@ -228,7 +228,10 @@ const Forms = (props) => {
     maritalStatuses,
     nationalities,
     ethnicities,
-    traffickingTypes
+    traffickingTypes,
+    labels: riskAssessment.labels,
+    has_disability: riskAssessment.has_disability,
+    disability_specification: riskAssessment.disability_specification
   };
   const moreReferralTabData = {
     errorFields,
@@ -267,6 +270,7 @@ const Forms = (props) => {
   };
   const legalDocument = { client: clientData, T, errorFields };
   const [isError, setIsError] = useState(false);
+  const [clientExist, setClientExist] = useState(false);
 
   const onChangeMoSAVYOfficialsData = (newData) => {
     setMoSAVYOfficialsData(newData);
@@ -559,18 +563,22 @@ const Forms = (props) => {
           }
         }).success((response) => {
           if (response.similar_fields.length > 0) {
+            setLoading(false);
             setDupFields(response.similar_fields);
             setDupClientModalOpen(true);
-            return false;
           } else {
-            callback();
+            setLoading(false);
+            setLoading(true);
+            handleSave()();
           }
-          setLoading(false);
+          setClientExist(false);
         });
       } else {
+        console.log("client field all blank");
         callback();
       }
     } else {
+      console.log("client outside", clientData.outside);
       callback();
     }
   };
@@ -603,7 +611,11 @@ const Forms = (props) => {
             style={{ margin: 5 }}
             className="btn btn-primary"
             onClick={() => (
-              setDupClientModalOpen(false), handleSave()(nill, true)
+              setDupClientModalOpen(false),
+              setLoading(false),
+              setClientExist(false),
+              setLoading(true),
+              handleSave()()
             )}
           >
             {T.translate("index.continue")}
@@ -632,19 +644,20 @@ const Forms = (props) => {
 
   const handleSave = () => (callback, forceSave) => {
     forceSave = forceSave === undefined ? false : forceSave;
-    if (callback("step") === "clientInfo") checkClientExist();
-    if (handleValidation()) {
+    // if (!clientExist && params("step") === "clientInfo")
+    //   checkClientExist()(() => setClientExist(false));
+    if (!clientExist && handleValidation()) {
       handleCheckValue(refereeData);
       handleCheckValue(clientData);
-      if (callback("step") === "additionalInfo") handleCheckValue(carerData);
-
-      if (
-        (familyMemberData.family_id === null ||
-          familyMemberData.family_id === undefined) &&
-        forceSave === false
-      )
-        setAttachFamilyModal(true);
-      else {
+      if (params("step") === "additionalInfo") {
+        handleCheckValue(carerData);
+        // if (
+        //   (familyMemberData.family_id === null ||
+        //     familyMemberData.family_id === undefined) &&
+        //   forceSave === false
+        // )
+        // setAttachFamilyModal(true);
+      } else {
         setOnSave(true);
         const action = clientData.id ? "PUT" : "POST";
         const message = clientData.id
@@ -963,7 +976,7 @@ const Forms = (props) => {
     >
       <Loading
         loading={loading}
-        text={step <= 3 ? T.translate("index.wait") : "Saving..."}
+        text={clientExist ? T.translate("index.wait") : "Saving..."}
       />
 
       <Modal
@@ -971,7 +984,9 @@ const Forms = (props) => {
         title={T.translate("index.informing")}
         isOpen={dupClientModalOpen}
         type="warning"
-        closeAction={() => setDupClientModalOpen(false)}
+        closeAction={() => (
+          setDupClientModalOpen(false), setClientExist(false)
+        )}
         content={renderModalContent(dupFields)}
         footer={renderModalFooter()}
       />
@@ -1125,7 +1140,7 @@ const Forms = (props) => {
             data-trigger="hover"
             data-content={inlineHelpTranslation.clients.buttons.save}
             className="clientButton saveButton"
-            onClick={() => handleSave()(params, true)}
+            onClick={() => checkClientExist()(setClientExist(true))}
           >
             {T.translate("index.save")}
           </span>
