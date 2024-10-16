@@ -647,116 +647,103 @@ const Forms = (props) => {
     if (!clientExist && handleValidation()) {
       handleCheckValue(refereeData);
       handleCheckValue(clientData);
-      if (params("step") === "additionalInfo") {
-        handleCheckValue(carerData);
-        // if (
-        //   (familyMemberData.family_id === null ||
-        //     familyMemberData.family_id === undefined) &&
-        //   forceSave === false
-        // )
-        // setAttachFamilyModal(true);
-      } else {
-        setOnSave(true);
-        const action = clientData.id ? "PUT" : "POST";
-        const message = clientData.id
-          ? T.translate("index.successfully_updated")
-          : T.translate("index.successfully_created");
-        const url = clientData.id
-          ? `/api/clients/${clientData.id}?referral_id=${clientData.referral_id}`
-          : "/api/clients";
+      if (params("step") === "additionalInfo") handleCheckValue(carerData);
 
-        let formData = new FormData();
-        formData = objectToFormData(
-          { ...clientData, ...clientProfile },
-          {},
-          formData,
-          "client"
-        );
-        formData = objectToFormData(refereeData, {}, formData, "referee");
-        formData = objectToFormData(carerData, {}, formData, "carer");
-        formData = objectToFormData(
-          familyMemberData,
-          {},
-          formData,
-          "family_member"
-        );
-        formData = objectToFormData(
-          clientQuantitativeFreeTextCasesData,
-          [],
-          formData,
-          "client_quantitative_free_text_cases"
-        );
-        formData = objectToFormData(
-          moSAVYOfficialsData,
-          {},
-          formData,
-          "mosavy_officials"
-        );
-        formData = objectToFormData(
-          riskAssessmentData,
-          {},
-          formData,
-          "risk_assessment"
-        );
+      setOnSave(true);
+      const action = clientData.id ? "PUT" : "POST";
+      const message = clientData.id
+        ? T.translate("index.successfully_updated")
+        : T.translate("index.successfully_created");
+      const url = clientData.id
+        ? `/api/clients/${clientData.id}?referral_id=${clientData.referral_id}`
+        : "/api/clients";
 
-        if (!_.isEmpty(customData)) {
-          const customDataObj = {};
-          customDataObj.form_builder_attachments_attributes =
-            clientCustomData._attachments || {};
-          customDataObj.properties = Object.entries(clientCustomData)
-            .filter(([key, _]) => key !== "_attachments")
-            .reduce((res, [key, value]) => ({ ...res, [key]: value }), {});
+      let formData = new FormData();
+      formData = objectToFormData(
+        { ...clientData, ...clientProfile },
+        {},
+        formData,
+        "client"
+      );
+      formData = objectToFormData(refereeData, {}, formData, "referee");
+      formData = objectToFormData(carerData, {}, formData, "carer");
+      formData = objectToFormData(
+        familyMemberData,
+        {},
+        formData,
+        "family_member"
+      );
+      formData = objectToFormData(
+        clientQuantitativeFreeTextCasesData,
+        [],
+        formData,
+        "client_quantitative_free_text_cases"
+      );
+      formData = objectToFormData(
+        moSAVYOfficialsData,
+        {},
+        formData,
+        "mosavy_officials"
+      );
+      formData = objectToFormData(
+        riskAssessmentData,
+        {},
+        formData,
+        "risk_assessment"
+      );
 
-          if (!handleClientDataValidation(customDataObj)) return false;
+      if (!_.isEmpty(customData)) {
+        const customDataObj = {};
+        customDataObj.form_builder_attachments_attributes =
+          clientCustomData._attachments || {};
+        customDataObj.properties = Object.entries(clientCustomData)
+          .filter(([key, _]) => key !== "_attachments")
+          .reduce((res, [key, value]) => ({ ...res, [key]: value }), {});
 
-          formData = objectToFormData(
-            customDataObj,
-            {},
-            formData,
-            "custom_data"
-          );
-        }
+        if (!handleClientDataValidation(customDataObj)) return false;
 
-        $.ajax({
-          url,
-          type: action,
-          data: formData,
-          processData: false,
-          contentType: false,
-          beforeSend: () => {
-            setLoading(true), setAttachFamilyModal(false);
-          }
-        })
-          .done((response) => {
-            document.location.href =
-              `/clients/${response.slug}?notice=` + message;
-          })
-          .fail((error) => {
-            setLoading(false);
-            setOnSave(false);
-
-            if (error.statusText == "Request Entity Too Large") {
-              alert(
-                "Your data is too large, try upload your attachments part by part."
-              );
-            } else {
-              let errorMessage = "";
-              const errorFields = JSON.parse(error.responseText);
-
-              setErrorFields(Object.keys(errorFields));
-              if (errorFields.kid_id) setErrorSteps([3]);
-
-              for (const errorKey in errorFields) {
-                errorMessage = `${errorKey
-                  .toLowerCase()
-                  .split("_")
-                  .join(" ")
-                  .toUpperCase()} ${errorFields[errorKey].join(" ")}`;
-                toastr.error(errorMessage);
-              }
-            }
-          });
+        formData = objectToFormData(customDataObj, {}, formData, "custom_data");
       }
+
+      $.ajax({
+        url,
+        type: action,
+        data: formData,
+        processData: false,
+        contentType: false,
+        beforeSend: () => {
+          setLoading(true), setAttachFamilyModal(false);
+        }
+      })
+        .done((response) => {
+          document.location.href =
+            `/clients/${response.slug}?notice=` + message;
+        })
+        .fail((error) => {
+          setLoading(false);
+          setOnSave(false);
+
+          if (error.statusText == "Request Entity Too Large") {
+            alert(
+              "Your data is too large, try upload your attachments part by part."
+            );
+          } else {
+            let errorMessage = "";
+            const errorFields = JSON.parse(error.responseText);
+
+            setErrorFields(Object.keys(errorFields));
+            if (errorFields.kid_id) setErrorSteps([3]);
+
+            for (const errorKey in errorFields) {
+              errorMessage = `${errorKey
+                .toLowerCase()
+                .split("_")
+                .join(" ")
+                .toUpperCase()} ${errorFields[errorKey].join(" ")}`;
+              toastr.error(errorMessage);
+            }
+          }
+        });
     }
   };
 
@@ -1138,7 +1125,11 @@ const Forms = (props) => {
             data-trigger="hover"
             data-content={inlineHelpTranslation.clients.buttons.save}
             className="clientButton saveButton"
-            onClick={() => checkClientExist()(setClientExist(true))}
+            onClick={
+              params("step") === "clientInfo"
+                ? () => checkClientExist()(setClientExist(true))
+                : () => handleSave()()
+            }
           >
             {T.translate("index.save")}
           </span>
