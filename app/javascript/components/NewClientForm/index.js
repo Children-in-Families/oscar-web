@@ -130,12 +130,17 @@ const Forms = (props) => {
     showMethod: "fadeIn",
     hideMethod: "fadeOut"
   };
-  const [step, setStep] = useState(
+
+  let stepValue = 1;
+  if (params("step") === "riskInfo") stepValue = 3;
+  else if (
     current_organization.short_name === "ratanak" &&
-      params("step") === "additionalInfo"
-      ? 2
-      : 1
-  );
+    params("step") === "additionalInfo"
+  )
+    stepValue = 2;
+  else stepValue = 1;
+
+  const [step, setStep] = useState(stepValue);
   const [loading, setLoading] = useState(false);
   const [onSave, setOnSave] = useState(false);
   const [dupClientModalOpen, setDupClientModalOpen] = useState(false);
@@ -387,7 +392,7 @@ const Forms = (props) => {
             ? ["name", "position"]
             : []
       },
-      { step: 1, data: riskAssessmentData, fields: [] },
+      { step: 3, data: riskAssessmentData, fields: ["name", "expected_date"] },
       {
         step: 1,
         data: clientData,
@@ -427,17 +432,17 @@ const Forms = (props) => {
           }
         });
 
-        // if (riskAssessmentData.level_of_risk === "high") {
-        //   if (
-        //     riskAssessmentData.tasks_attributes.filter(
-        //       (task) => task._destroy === undefined
-        //     ).length === 0
-        //   ) {
-        //     setIsError(true);
-        //     errors.push("tasks_attributes");
-        //     errorSteps.push(component.step);
-        //   }
-        // }
+        if (step === 3 && riskAssessmentData.level_of_risk === "high") {
+          if (
+            riskAssessmentData.tasks_attributes.filter(
+              (task) => task._destroy === undefined
+            ).length === 0
+          ) {
+            setIsError(true);
+            errors.push("tasks_attributes");
+            errorSteps.push(component.step);
+          }
+        }
       }
     });
 

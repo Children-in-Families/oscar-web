@@ -4,74 +4,98 @@ import {
   DateInput,
   TextInput,
   RadioGroup,
-  TextArea,
+  TextArea
 } from "../Commons/inputs";
-import T from 'i18n-react'
+import T from "i18n-react";
 import TaskList from "./taskList";
 
 export default (props) => {
   const {
-    onChange, protectionConcerns, historyOfHarms, historyOfHighRiskBehaviours, reasonForFamilySeparations, historyOfDisabilities,
-    setRiskAssessmentData, isError, setIsError,
+    onChange,
+    protectionConcerns,
+    historyOfHarms,
+    historyOfHighRiskBehaviours,
+    reasonForFamilySeparations,
+    historyOfDisabilities,
+    setRiskAssessmentData,
+    isError,
+    setIsError,
     data: {
-      assessment_date, protection_concern, other_protection_concern_specification, client_perspective, has_known_chronic_disease,
-      has_disability, has_hiv_or_aid, known_chronic_disease_specification, disability_specification, hiv_or_aid_specification,
-      relevant_referral_information, level_of_risk, history_of_disability_id, history_of_harm_id, history_of_high_risk_behaviour_id,
-      history_of_family_separation_id, labels, tasks_attributes: tasks,
+      assessment_date,
+      protection_concern,
+      other_protection_concern_specification,
+      client_perspective,
+      has_known_chronic_disease,
+      has_disability,
+      has_hiv_or_aid,
+      known_chronic_disease_specification,
+      disability_specification,
+      hiv_or_aid_specification,
+      relevant_referral_information,
+      level_of_risk,
+      history_of_disability_id,
+      history_of_harm_id,
+      history_of_high_risk_behaviour_id,
+      history_of_family_separation_id,
+      labels,
+      tasks_attributes: tasks,
       has_assessment_level_of_risk
     }
-  } = props
+  } = props;
 
-  const [riskLevel, setRiskLevel] = useState(level_of_risk === 'high')
-  const [newTasks, setNewTasks] = useState(tasks)
+  const [riskLevel, setRiskLevel] = useState(level_of_risk === "high");
+  const [newTasks, setNewTasks] = useState(tasks);
 
   const createTask = (task) => {
-    setNewTasks(prev => [...prev, { ...task, complete: false }])
-    setRiskAssessmentData(prev => ({...prev, tasks_attributes: newTasks}))
-    setIsError(false)
+    setNewTasks((prev) => [...prev, { ...task, complete: false }]);
+    setRiskAssessmentData((prev) => ({ ...prev, tasks_attributes: newTasks }));
+    setIsError(false);
   };
 
   const deleteTask = (index) => {
-    const removedTask = newTasks.find((element, elementIndex) => elementIndex === index && element  ) || {}
+    const removedTask =
+      newTasks.find(
+        (element, elementIndex) => elementIndex === index && element
+      ) || {};
     const updatedTasks = newTasks.map((task, taskIndex) => {
-      if (task.id && (task.id === removedTask.id) || taskIndex === index)
+      if ((task.id && task.id === removedTask.id) || taskIndex === index)
         return {
           id: removedTask.id,
           _destroy: true
-        }
-      else
-        return task
-    })
+        };
+      else return task;
+    });
 
-    setNewTasks(updatedTasks)
-    setRiskAssessmentData(prev => ({...prev, tasks_attributes: updatedTasks}))
-  }
+    setNewTasks(updatedTasks);
+    setRiskAssessmentData((prev) => ({
+      ...prev,
+      tasks_attributes: updatedTasks
+    }));
+  };
 
   const yesNoOpts = [
     { label: T.translate("newCall.refereeInfo.yes"), value: true },
-    { label: T.translate("newCall.refereeInfo.no"), value: false },
+    { label: T.translate("newCall.refereeInfo.no"), value: false }
   ];
 
   const levelOfRisk = [
-    { label: labels.level_of_risks.high, value: 'high'},
-    { label: labels.level_of_risks.medium, value: 'medium'},
-    { label: labels.level_of_risks.low, value: 'low'},
-    { label: labels.level_of_risks.no_action, value: 'no action'},
-  ]
+    { label: labels.level_of_risks.high, value: "high" },
+    { label: labels.level_of_risks.medium, value: "medium" },
+    { label: labels.level_of_risks.low, value: "low" },
+    { label: labels.level_of_risks.no_action, value: "no action" }
+  ];
 
   const onLevelOfRiskSelected = (e) => {
-    if (e.data === 'high')
-      setRiskLevel(true)
-    else
-      setRiskLevel(false)
+    if (e.data === "high") setRiskLevel(true);
+    else setRiskLevel(false);
 
-    setRiskAssessmentData(prev => ({...prev, level_of_risk: e.data}))
-  }
+    setRiskAssessmentData((prev) => ({ ...prev, level_of_risk: e.data }));
+  };
 
-  const handleAppendTasks = e => {
+  const handleAppendTasks = (e) => {
     e.preventDefault();
-    createTask({name: '', expected_date: null, complete: false})
-  }
+    createTask({ name: "", expected_date: null, complete: false });
+  };
 
   return (
     <div className="containerClass">
@@ -79,7 +103,6 @@ export default (props) => {
         <div className="row">
           <div className="col-xs-6">
             <p>{labels.protection_concern}</p>
-
           </div>
         </div>
       </legend>
@@ -92,26 +115,29 @@ export default (props) => {
             disabled={has_assessment_level_of_risk}
             value={assessment_date}
             onChange={onChange("riskAssessment", "assessment_date")}
-            />
-          </div>
+          />
         </div>
+      </div>
       <div className="row">
         <div className="col-md-12 col-lg-6">
           <SelectInput
             isError={false}
             isMulti
-            isDisabled={ has_assessment_level_of_risk }
+            isDisabled={has_assessment_level_of_risk}
             label={labels.protection_concern}
             asGroup
             options={protectionConcerns}
             value={protection_concern}
-            onChange={onChange('riskAssessment', 'protection_concern')}
+            onChange={onChange("riskAssessment", "protection_concern")}
           />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-6">
           <TextInput
             label={labels.if_other}
-            onChange={onChange("riskAssessment", "other_protection_concern_specification")}
+            onChange={onChange(
+              "riskAssessment",
+              "other_protection_concern_specification"
+            )}
             value={other_protection_concern_specification}
           />
         </div>
@@ -120,7 +146,7 @@ export default (props) => {
         <div className="col-md-12 col-lg-6">
           <SelectInput
             isError={false}
-            isDisabled={ has_assessment_level_of_risk }
+            isDisabled={has_assessment_level_of_risk}
             label={labels.level_of_risk}
             options={levelOfRisk}
             value={level_of_risk}
@@ -151,27 +177,11 @@ export default (props) => {
           <TextInput
             inline
             label={labels.if_yes}
-            onChange={onChange("riskAssessment", "known_chronic_disease_specification")}
+            onChange={onChange(
+              "riskAssessment",
+              "known_chronic_disease_specification"
+            )}
             value={known_chronic_disease_specification}
-          />
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-xs-12 col-md-6">
-          <RadioGroup
-            inline
-            label={labels.has_disability}
-            options={yesNoOpts}
-            onChange={onChange("riskAssessment", "has_disability")}
-            value={has_disability}
-          />
-        </div>
-        <div className="col-xs-12 col-md-6 col-lg-6">
-          <TextInput
-            inline
-            label={labels.if_yes}
-            onChange={onChange("riskAssessment", "disability_specification")}
-            value={disability_specification}
           />
         </div>
       </div>
@@ -226,7 +236,10 @@ export default (props) => {
             label={labels.history_of_high_risk_behaviour_id}
             options={historyOfHighRiskBehaviours}
             value={history_of_high_risk_behaviour_id}
-            onChange={onChange("riskAssessment", "history_of_high_risk_behaviour_id")}
+            onChange={onChange(
+              "riskAssessment",
+              "history_of_high_risk_behaviour_id"
+            )}
           />
         </div>
       </div>
@@ -238,7 +251,10 @@ export default (props) => {
             label={labels.history_of_family_separation_id}
             options={reasonForFamilySeparations}
             value={history_of_family_separation_id}
-            onChange={onChange("riskAssessment", "history_of_family_separation_id")}
+            onChange={onChange(
+              "riskAssessment",
+              "history_of_family_separation_id"
+            )}
           />
         </div>
       </div>
@@ -246,38 +262,42 @@ export default (props) => {
         <div className="col-xs-12">
           <TextArea
             label={labels.relevant_referral_information}
-            onChange={onChange("riskAssessment", "relevant_referral_information")}
+            onChange={onChange(
+              "riskAssessment",
+              "relevant_referral_information"
+            )}
             value={relevant_referral_information}
           />
         </div>
       </div>
-      {
-        riskLevel && <div className="containerClass">
+      {riskLevel && (
+        <div className="containerClass">
           <legend>
             <div className="row">
               <div className="col-xs-12">
                 <p>{labels.task}</p>
-
               </div>
             </div>
           </legend>
           <div className="row">
             <div className="col-xs-12 col-md-10">
-              {
-                (newTasks[0] ? newTasks : [{name: '', expected_date: null}]).filter(task => task._destroy === undefined ).map((task, index) => {
+              {(newTasks[0] ? newTasks : [{ name: "", expected_date: null }])
+                .filter((task) => task._destroy === undefined)
+                .map((task, index) => {
                   return (
                     <TaskList
                       labels={labels}
                       task={task}
                       tasks={newTasks}
+                      T={T}
                       setNewTasks={setNewTasks}
                       setRiskAssessmentData={setRiskAssessmentData}
                       deleteTask={deleteTask}
-                      key={`task-${index}`} index={index}
+                      key={`task-${index}`}
+                      index={index}
                     />
-                  )
-                })
-              }
+                  );
+                })}
             </div>
           </div>
           <div className="row">
@@ -288,13 +308,15 @@ export default (props) => {
                   <button
                     className="btn btn-primary"
                     onClick={handleAppendTasks}
-                  >{labels.add_task}</button>
+                  >
+                    {labels.add_task}
+                  </button>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      }
+      )}
     </div>
-  )
-}
+  );
+};
