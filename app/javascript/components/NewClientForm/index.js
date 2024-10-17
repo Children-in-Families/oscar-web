@@ -130,7 +130,12 @@ const Forms = (props) => {
     showMethod: "fadeIn",
     hideMethod: "fadeOut"
   };
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(
+    current_organization.short_name === "ratanak" &&
+      params("step") === "additionalInfo"
+      ? 2
+      : 1
+  );
   const [loading, setLoading] = useState(false);
   const [onSave, setOnSave] = useState(false);
   const [dupClientModalOpen, setDupClientModalOpen] = useState(false);
@@ -373,7 +378,15 @@ const Forms = (props) => {
       { step: 1, data: refereeData, fields: ["name"] },
       { step: 1, data: clientData, fields: ["referral_source_category_id"] },
       { step: 1, data: clientData, fields: ["gender"] },
-      { step: 1, data: moSAVYOfficialsData, fields: ["name", "position"] },
+      {
+        step: 2,
+        data: moSAVYOfficialsData,
+        fields:
+          current_organization.short_name === "ratanak" &&
+          params("step") === "additionalInfo"
+            ? ["name", "position"]
+            : []
+      },
       { step: 1, data: riskAssessmentData, fields: [] },
       {
         step: 1,
@@ -391,12 +404,13 @@ const Forms = (props) => {
 
     components.forEach((component) => {
       if (
-        step === component.step ||
+        (!_.isEmpty(component.data) && step === component.step) ||
         (stepToBeCheck !== 0 && component.step === stepToBeCheck)
       ) {
         component.fields.forEach((field) => {
           if (
             component.data[field] === "" ||
+            component.data[field] === undefined ||
             (Array.isArray(component.data) &&
               component.data.filter((item) => {
                 return (
@@ -413,19 +427,21 @@ const Forms = (props) => {
           }
         });
 
-        if (riskAssessmentData.level_of_risk === "high") {
-          if (
-            riskAssessmentData.tasks_attributes.filter(
-              (task) => task._destroy === undefined
-            ).length === 0
-          ) {
-            setIsError(true);
-            errors.push("tasks_attributes");
-            errorSteps.push(component.step);
-          }
-        }
+        // if (riskAssessmentData.level_of_risk === "high") {
+        //   if (
+        //     riskAssessmentData.tasks_attributes.filter(
+        //       (task) => task._destroy === undefined
+        //     ).length === 0
+        //   ) {
+        //     setIsError(true);
+        //     errors.push("tasks_attributes");
+        //     errorSteps.push(component.step);
+        //   }
+        // }
       }
     });
+
+    if (params("step") === "additionalInfo") handleCheckValue(carerData);
 
     params("step") === "customDataInfo" &&
       quantitativeType.forEach((qttType) => {
@@ -541,7 +557,7 @@ const Forms = (props) => {
       gender: clientData.gender || ""
     };
 
-    if (clientData.outside === false) {
+    if (clientData.outside === false && handleValidation()) {
       if (
         data.given_name !== "" ||
         data.family_name !== "" ||
@@ -647,7 +663,6 @@ const Forms = (props) => {
     if (!clientExist && handleValidation()) {
       handleCheckValue(refereeData);
       handleCheckValue(clientData);
-      if (params("step") === "additionalInfo") handleCheckValue(carerData);
 
       setOnSave(true);
       const action = clientData.id ? "PUT" : "POST";
