@@ -130,7 +130,12 @@ const Forms = (props) => {
     showMethod: "fadeIn",
     hideMethod: "fadeOut"
   };
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(
+    current_organization.short_name === "ratanak" &&
+      params("step") === "additionalInfo"
+      ? 2
+      : 1
+  );
   const [loading, setLoading] = useState(false);
   const [onSave, setOnSave] = useState(false);
   const [dupClientModalOpen, setDupClientModalOpen] = useState(false);
@@ -373,7 +378,15 @@ const Forms = (props) => {
       { step: 1, data: refereeData, fields: ["name"] },
       { step: 1, data: clientData, fields: ["referral_source_category_id"] },
       { step: 1, data: clientData, fields: ["gender"] },
-      { step: 1, data: moSAVYOfficialsData, fields: ["name", "position"] },
+      {
+        step: 2,
+        data: moSAVYOfficialsData,
+        fields:
+          current_organization.short_name === "ratanak" &&
+          params("step") === "additionalInfo"
+            ? ["name", "position"]
+            : []
+      },
       { step: 1, data: riskAssessmentData, fields: [] },
       {
         step: 1,
@@ -391,12 +404,13 @@ const Forms = (props) => {
 
     components.forEach((component) => {
       if (
-        step === component.step ||
+        (!_.isEmpty(component.data) && step === component.step) ||
         (stepToBeCheck !== 0 && component.step === stepToBeCheck)
       ) {
         component.fields.forEach((field) => {
           if (
             component.data[field] === "" ||
+            component.data[field] === undefined ||
             (Array.isArray(component.data) &&
               component.data.filter((item) => {
                 return (
@@ -413,19 +427,21 @@ const Forms = (props) => {
           }
         });
 
-        if (riskAssessmentData.level_of_risk === "high") {
-          if (
-            riskAssessmentData.tasks_attributes.filter(
-              (task) => task._destroy === undefined
-            ).length === 0
-          ) {
-            setIsError(true);
-            errors.push("tasks_attributes");
-            errorSteps.push(component.step);
-          }
-        }
+        // if (riskAssessmentData.level_of_risk === "high") {
+        //   if (
+        //     riskAssessmentData.tasks_attributes.filter(
+        //       (task) => task._destroy === undefined
+        //     ).length === 0
+        //   ) {
+        //     setIsError(true);
+        //     errors.push("tasks_attributes");
+        //     errorSteps.push(component.step);
+        //   }
+        // }
       }
     });
+
+    if (params("step") === "additionalInfo") handleCheckValue(carerData);
 
     params("step") === "customDataInfo" &&
       quantitativeType.forEach((qttType) => {
@@ -541,7 +557,7 @@ const Forms = (props) => {
       gender: clientData.gender || ""
     };
 
-    if (clientData.outside === false) {
+    if (clientData.outside === false && handleValidation()) {
       if (
         data.given_name !== "" ||
         data.family_name !== "" ||
@@ -649,116 +665,102 @@ const Forms = (props) => {
     if (!clientExist && handleValidation()) {
       handleCheckValue(refereeData);
       handleCheckValue(clientData);
-      if (params("step") === "additionalInfo") {
-        handleCheckValue(carerData);
-        // if (
-        //   (familyMemberData.family_id === null ||
-        //     familyMemberData.family_id === undefined) &&
-        //   forceSave === false
-        // )
-        // setAttachFamilyModal(true);
-      } else {
-        setOnSave(true);
-        const action = clientData.id ? "PUT" : "POST";
-        const message = clientData.id
-          ? T.translate("index.successfully_updated")
-          : T.translate("index.successfully_created");
-        const url = clientData.id
-          ? `/api/clients/${clientData.id}?referral_id=${clientData.referral_id}`
-          : "/api/clients";
 
-        let formData = new FormData();
-        formData = objectToFormData(
-          { ...clientData, ...clientProfile },
-          {},
-          formData,
-          "client"
-        );
-        formData = objectToFormData(refereeData, {}, formData, "referee");
-        formData = objectToFormData(carerData, {}, formData, "carer");
-        formData = objectToFormData(
-          familyMemberData,
-          {},
-          formData,
-          "family_member"
-        );
-        formData = objectToFormData(
-          clientQuantitativeFreeTextCasesData,
-          [],
-          formData,
-          "client_quantitative_free_text_cases"
-        );
-        formData = objectToFormData(
-          moSAVYOfficialsData,
-          {},
-          formData,
-          "mosavy_officials"
-        );
-        formData = objectToFormData(
-          riskAssessmentData,
-          {},
-          formData,
-          "risk_assessment"
-        );
+      setOnSave(true);
+      const action = clientData.id ? "PUT" : "POST";
+      const message = clientData.id
+        ? T.translate("index.successfully_updated")
+        : T.translate("index.successfully_created");
+      const url = clientData.id
+        ? `/api/clients/${clientData.id}?referral_id=${clientData.referral_id}`
+        : "/api/clients";
 
-        if (!_.isEmpty(customData)) {
-          const customDataObj = {};
-          customDataObj.form_builder_attachments_attributes =
-            clientCustomData._attachments || {};
-          customDataObj.properties = Object.entries(clientCustomData)
-            .filter(([key, _]) => key !== "_attachments")
-            .reduce((res, [key, value]) => ({ ...res, [key]: value }), {});
+      let formData = new FormData();
+      formData = objectToFormData(
+        { ...clientData, ...clientProfile },
+        {},
+        formData,
+        "client"
+      );
+      formData = objectToFormData(refereeData, {}, formData, "referee");
+      formData = objectToFormData(carerData, {}, formData, "carer");
+      formData = objectToFormData(
+        familyMemberData,
+        {},
+        formData,
+        "family_member"
+      );
+      formData = objectToFormData(
+        clientQuantitativeFreeTextCasesData,
+        [],
+        formData,
+        "client_quantitative_free_text_cases"
+      );
+      formData = objectToFormData(
+        moSAVYOfficialsData,
+        {},
+        formData,
+        "mosavy_officials"
+      );
+      formData = objectToFormData(
+        riskAssessmentData,
+        {},
+        formData,
+        "risk_assessment"
+      );
 
-          if (!handleClientDataValidation(customDataObj)) return false;
+      if (!_.isEmpty(customData)) {
+        const customDataObj = {};
+        customDataObj.form_builder_attachments_attributes =
+          clientCustomData._attachments || {};
+        customDataObj.properties = Object.entries(clientCustomData)
+          .filter(([key, _]) => key !== "_attachments")
+          .reduce((res, [key, value]) => ({ ...res, [key]: value }), {});
 
-          formData = objectToFormData(
-            customDataObj,
-            {},
-            formData,
-            "custom_data"
-          );
-        }
+        if (!handleClientDataValidation(customDataObj)) return false;
 
-        $.ajax({
-          url,
-          type: action,
-          data: formData,
-          processData: false,
-          contentType: false,
-          beforeSend: () => {
-            setLoading(true), setAttachFamilyModal(false);
-          }
-        })
-          .done((response) => {
-            document.location.href =
-              `/clients/${response.slug}?notice=` + message;
-          })
-          .fail((error) => {
-            setLoading(false);
-            setOnSave(false);
-
-            if (error.statusText == "Request Entity Too Large") {
-              alert(
-                "Your data is too large, try upload your attachments part by part."
-              );
-            } else {
-              let errorMessage = "";
-              const errorFields = JSON.parse(error.responseText);
-
-              setErrorFields(Object.keys(errorFields));
-              if (errorFields.kid_id) setErrorSteps([3]);
-
-              for (const errorKey in errorFields) {
-                errorMessage = `${errorKey
-                  .toLowerCase()
-                  .split("_")
-                  .join(" ")
-                  .toUpperCase()} ${errorFields[errorKey].join(" ")}`;
-                toastr.error(errorMessage);
-              }
-            }
-          });
+        formData = objectToFormData(customDataObj, {}, formData, "custom_data");
       }
+
+      $.ajax({
+        url,
+        type: action,
+        data: formData,
+        processData: false,
+        contentType: false,
+        beforeSend: () => {
+          setLoading(true), setAttachFamilyModal(false);
+        }
+      })
+        .done((response) => {
+          document.location.href =
+            `/clients/${response.slug}?notice=` + message;
+        })
+        .fail((error) => {
+          setLoading(false);
+          setOnSave(false);
+
+          if (error.statusText == "Request Entity Too Large") {
+            alert(
+              "Your data is too large, try upload your attachments part by part."
+            );
+          } else {
+            let errorMessage = "";
+            const errorFields = JSON.parse(error.responseText);
+
+            setErrorFields(Object.keys(errorFields));
+            if (errorFields.kid_id) setErrorSteps([3]);
+
+            for (const errorKey in errorFields) {
+              errorMessage = `${errorKey
+                .toLowerCase()
+                .split("_")
+                .join(" ")
+                .toUpperCase()} ${errorFields[errorKey].join(" ")}`;
+              toastr.error(errorMessage);
+            }
+          }
+        });
     }
   };
 
@@ -1140,7 +1142,11 @@ const Forms = (props) => {
             data-trigger="hover"
             data-content={inlineHelpTranslation.clients.buttons.save}
             className="clientButton saveButton"
-            onClick={() => checkClientExist()(setClientExist(true))}
+            onClick={
+              params("step") === "clientInfo"
+                ? () => checkClientExist()(setClientExist(true))
+                : () => handleSave()()
+            }
           >
             {T.translate("index.save")}
           </span>
