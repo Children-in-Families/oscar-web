@@ -392,7 +392,7 @@ const Forms = (props) => {
             ? ["name", "position"]
             : []
       },
-      { step: 3, data: riskAssessmentData, fields: ["name", "expected_date"] },
+      { step: 3, data: riskAssessmentData, fields: [] },
       {
         step: 1,
         data: clientData,
@@ -431,20 +431,22 @@ const Forms = (props) => {
             errorSteps.push(component.step);
           }
         });
-
-        if (step === 3 && riskAssessmentData.level_of_risk === "high") {
-          if (
-            riskAssessmentData.tasks_attributes.filter(
-              (task) => task._destroy === undefined
-            ).length === 0
-          ) {
-            setIsError(true);
-            errors.push("tasks_attributes");
-            errorSteps.push(component.step);
-          }
-        }
       }
     });
+
+    if (step === 3 && riskAssessmentData.level_of_risk === "high") {
+      debugger;
+      if (
+        riskAssessmentData.tasks_attributes.filter(
+          (task) => task.name.length == 0 || task.expected_date.length == 0
+        ).length > 0
+      ) {
+        setErrorFields(["name", "expected_date"]);
+        setIsError(true);
+        errors.push("tasks_attributes");
+        errorSteps.push(component.step);
+      }
+    }
 
     if (params("step") === "additionalInfo") handleCheckValue(carerData);
 
@@ -1086,6 +1088,8 @@ const Forms = (props) => {
                 onChange={onChange}
                 isError={isError}
                 setIsError={setIsError}
+                setErrorFields={setErrorFields}
+                errorFields={errorFields}
                 protectionConcerns={protectionConcerns}
                 historyOfHarms={historyOfHarms}
                 historyOfHighRiskBehaviours={historyOfHighRiskBehaviours}

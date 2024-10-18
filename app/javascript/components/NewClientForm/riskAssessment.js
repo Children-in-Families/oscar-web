@@ -18,7 +18,8 @@ export default (props) => {
     reasonForFamilySeparations,
     historyOfDisabilities,
     setRiskAssessmentData,
-    isError,
+    errorFields,
+    setErrorFields,
     setIsError,
     data: {
       assessment_date,
@@ -26,10 +27,8 @@ export default (props) => {
       other_protection_concern_specification,
       client_perspective,
       has_known_chronic_disease,
-      has_disability,
       has_hiv_or_aid,
       known_chronic_disease_specification,
-      disability_specification,
       hiv_or_aid_specification,
       relevant_referral_information,
       level_of_risk,
@@ -44,11 +43,18 @@ export default (props) => {
   } = props;
 
   const [riskLevel, setRiskLevel] = useState(level_of_risk === "high");
-  const [newTasks, setNewTasks] = useState(tasks);
-
+  const [newTasks, setNewTasks] = useState(
+    tasks[0] ? tasks : [{ name: "", expected_date: null }]
+  );
+  console.log(tasks);
   const createTask = (task) => {
     setNewTasks((prev) => [...prev, { ...task, complete: false }]);
-    setRiskAssessmentData((prev) => ({ ...prev, tasks_attributes: newTasks }));
+    setRiskAssessmentData((prev) => ({
+      ...prev,
+      tasks_attributes: [...newTasks, task]
+    }));
+
+    setErrorFields([]);
     setIsError(false);
   };
 
@@ -281,7 +287,7 @@ export default (props) => {
           </legend>
           <div className="row">
             <div className="col-xs-12 col-md-10">
-              {(newTasks[0] ? newTasks : [{ name: "", expected_date: null }])
+              {newTasks
                 .filter((task) => task._destroy === undefined)
                 .map((task, index) => {
                   return (
@@ -290,6 +296,7 @@ export default (props) => {
                       task={task}
                       tasks={newTasks}
                       T={T}
+                      errorFields={errorFields}
                       setNewTasks={setNewTasks}
                       setRiskAssessmentData={setRiskAssessmentData}
                       deleteTask={deleteTask}

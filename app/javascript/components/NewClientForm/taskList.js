@@ -3,14 +3,15 @@ import { DateInput, TextInput } from "../Commons/inputs";
 
 export default (props) => {
   const {
-    T,
+    errorFields,
     tasks,
     task,
     setNewTasks,
     setRiskAssessmentData,
     deleteTask,
     index,
-    labels
+    labels,
+    key
   } = props;
 
   const [name, setName] = useState(task.name);
@@ -67,7 +68,10 @@ export default (props) => {
           <TextInput
             label={labels.title}
             required={true}
-            isError={name == undefined || name.length == 0}
+            isError={
+              errorFields.includes("name") &&
+              (name == undefined || name.length == 0)
+            }
             onChange={handleChange}
             value={name}
           />
@@ -84,7 +88,10 @@ export default (props) => {
             label={labels.expected_date}
             required={true}
             value={expectedDate}
-            isError={expectedDate == undefined || expectedDate.length == 0}
+            isError={
+              errorFields.includes("expected_date") &&
+              (expectedDate == undefined || expectedDate.length == 0)
+            }
             onChange={handleChange}
           />
         )}
