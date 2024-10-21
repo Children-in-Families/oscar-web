@@ -435,16 +435,18 @@ const Forms = (props) => {
     });
 
     if (step === 3 && riskAssessmentData.level_of_risk === "high") {
-      debugger;
       if (
         riskAssessmentData.tasks_attributes.filter(
-          (task) => task.name.length == 0 || task.expected_date.length == 0
+          (task) =>
+            (task.name === "" || task.expected_date === "") &&
+            (task.name.length == 0 || task.expected_date.length == 0)
         ).length > 0
       ) {
         setErrorFields(["name", "expected_date"]);
         setIsError(true);
-        errors.push("tasks_attributes");
-        errorSteps.push(component.step);
+        errors.push("name");
+        errors.push("expected_date");
+        // errorSteps.push(step);
       }
     }
 

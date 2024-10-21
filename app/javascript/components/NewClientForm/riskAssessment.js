@@ -43,10 +43,8 @@ export default (props) => {
   } = props;
 
   const [riskLevel, setRiskLevel] = useState(level_of_risk === "high");
-  const [newTasks, setNewTasks] = useState(
-    tasks[0] ? tasks : [{ name: "", expected_date: null }]
-  );
-  console.log(tasks);
+  const [newTasks, setNewTasks] = useState(tasks);
+
   const createTask = (task) => {
     setNewTasks((prev) => [...prev, { ...task, complete: false }]);
     setRiskAssessmentData((prev) => ({
@@ -64,7 +62,11 @@ export default (props) => {
         (element, elementIndex) => elementIndex === index && element
       ) || {};
     const updatedTasks = newTasks.map((task, taskIndex) => {
-      if ((task.id && task.id === removedTask.id) || taskIndex === index)
+      if (
+        riskLevel &&
+        taskIndex != 0 && // keep 1 task
+        ((task.id && task.id === removedTask.id) || taskIndex === index)
+      )
         return {
           id: removedTask.id,
           _destroy: true
@@ -95,7 +97,11 @@ export default (props) => {
     if (e.data === "high") setRiskLevel(true);
     else setRiskLevel(false);
 
-    setRiskAssessmentData((prev) => ({ ...prev, level_of_risk: e.data }));
+    setRiskAssessmentData((prev) => ({
+      ...prev,
+      level_of_risk: e.data,
+      tasks_attributes: newTasks
+    }));
   };
 
   const handleAppendTasks = (e) => {
@@ -307,7 +313,7 @@ export default (props) => {
                 })}
             </div>
           </div>
-          <div className="row">
+          <div className="row m-b">
             <div className="col-xs-10 col-md-10">
               <div className="row">
                 <div className="col-xs-10 col-md-10"></div>
