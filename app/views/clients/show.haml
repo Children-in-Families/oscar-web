@@ -315,7 +315,7 @@
                 = hidden_field_tag :initial_referral_date, @client.initial_referral_date
                 = hidden_field_tag :last_exit_ngo_date, @client.exit_ngos.last&.exit_date
                 - if Organization.ratanak? || %w(national_id_number passport_number marital_status nationality ethnicity location_of_concern type_of_trafficking).any? { |field| policy(@client).show?(field.to_sym) }
-                  = render "ratanak_client_show_page"
+                  = render "ratanak_client_show_page", has_risk_assessment: has_risk_assessment, risk_assessment: risk_assessment
                 - else
                   .row
                     .col-sm-12
@@ -417,6 +417,18 @@
                             %td
                               %strong
                                 = @client.phone_owner&.capitalize
+                          %tr
+                            %td.spacing-first-col
+                              = t('risk_assessments._attr.has_disability')
+                            %td
+                              %strong.text-danger
+                                = @client.has_disability? ? 'YES' : 'NO'
+                          %tr
+                            %td.spacing-first-col
+                              = t('risk_assessments._attr.if_yes')
+                            %td
+                              %strong
+                                = @client.disability_specification if @client.has_disability?
                           %tr.bg-grey
                             %td{ colspan: '2' }
                               = t('.other_info')
@@ -697,18 +709,6 @@
                               %td
                                 %strong
                                   = risk_assessment.known_chronic_disease_specification if risk_assessment.has_known_chronic_disease?
-                            %tr
-                              %td.spacing-first-col
-                                = t('risk_assessments._attr.has_disability')
-                              %td
-                                %strong
-                                  = risk_assessment.has_disability? ? 'YES' : 'NO'
-                            %tr
-                              %td.spacing-first-col
-                                = t('risk_assessments._attr.if_yes')
-                              %td
-                                %strong
-                                  = risk_assessment.disability_specification if risk_assessment.has_disability?
                             %tr
                               %td.spacing-first-col
                                 = t('risk_assessments._attr.has_hiv_or_aid')

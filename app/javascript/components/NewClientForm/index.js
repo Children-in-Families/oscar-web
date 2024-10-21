@@ -130,12 +130,17 @@ const Forms = (props) => {
     showMethod: "fadeIn",
     hideMethod: "fadeOut"
   };
-  const [step, setStep] = useState(
+
+  let stepValue = 1;
+  if (params("step") === "riskInfo") stepValue = 3;
+  else if (
     current_organization.short_name === "ratanak" &&
-      params("step") === "additionalInfo"
-      ? 2
-      : 1
-  );
+    params("step") === "additionalInfo"
+  )
+    stepValue = 2;
+  else stepValue = 1;
+
+  const [step, setStep] = useState(stepValue);
   const [loading, setLoading] = useState(false);
   const [onSave, setOnSave] = useState(false);
   const [dupClientModalOpen, setDupClientModalOpen] = useState(false);
@@ -234,9 +239,7 @@ const Forms = (props) => {
     nationalities,
     ethnicities,
     traffickingTypes,
-    labels: riskAssessment.labels,
-    has_disability: riskAssessment.has_disability,
-    disability_specification: riskAssessment.disability_specification
+    labels: riskAssessment.labels
   };
   const moreReferralTabData = {
     errorFields,
@@ -387,7 +390,7 @@ const Forms = (props) => {
             ? ["name", "position"]
             : []
       },
-      { step: 1, data: riskAssessmentData, fields: [] },
+      { step: 3, data: riskAssessmentData, fields: [] },
       {
         step: 1,
         data: clientData,
@@ -426,20 +429,24 @@ const Forms = (props) => {
             errorSteps.push(component.step);
           }
         });
-
-        // if (riskAssessmentData.level_of_risk === "high") {
-        //   if (
-        //     riskAssessmentData.tasks_attributes.filter(
-        //       (task) => task._destroy === undefined
-        //     ).length === 0
-        //   ) {
-        //     setIsError(true);
-        //     errors.push("tasks_attributes");
-        //     errorSteps.push(component.step);
-        //   }
-        // }
       }
     });
+
+    if (step === 3 && riskAssessmentData.level_of_risk === "high") {
+      if (
+        riskAssessmentData.tasks_attributes.filter(
+          (task) =>
+            (task.name === "" || task.expected_date === "") &&
+            (task.name.length == 0 || task.expected_date.length == 0)
+        ).length > 0
+      ) {
+        setErrorFields(["name", "expected_date"]);
+        setIsError(true);
+        errors.push("name");
+        errors.push("expected_date");
+        // errorSteps.push(step);
+      }
+    }
 
     if (params("step") === "additionalInfo") handleCheckValue(carerData);
 
@@ -1083,6 +1090,8 @@ const Forms = (props) => {
                 onChange={onChange}
                 isError={isError}
                 setIsError={setIsError}
+                setErrorFields={setErrorFields}
+                errorFields={errorFields}
                 protectionConcerns={protectionConcerns}
                 historyOfHarms={historyOfHarms}
                 historyOfHighRiskBehaviours={historyOfHighRiskBehaviours}
