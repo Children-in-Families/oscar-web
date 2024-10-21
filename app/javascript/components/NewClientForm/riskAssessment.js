@@ -74,7 +74,7 @@ export default (props) => {
       else return task;
     });
 
-    setNewTasks(updatedTasks);
+    setNewTasks(updatedTasks.filter((task) => task._destroy === undefined));
     setRiskAssessmentData((prev) => ({
       ...prev,
       tasks_attributes: updatedTasks
@@ -293,24 +293,22 @@ export default (props) => {
           </legend>
           <div className="row">
             <div className="col-xs-12 col-md-10">
-              {newTasks
-                .filter((task) => task._destroy === undefined)
-                .map((task, index) => {
-                  return (
-                    <TaskList
-                      labels={labels}
-                      task={task}
-                      tasks={newTasks}
-                      T={T}
-                      errorFields={errorFields}
-                      setNewTasks={setNewTasks}
-                      setRiskAssessmentData={setRiskAssessmentData}
-                      deleteTask={deleteTask}
-                      key={`task-${index}`}
-                      index={index}
-                    />
-                  );
-                })}
+              {newTasks.map((task, index) => {
+                return (
+                  <TaskList
+                    labels={labels}
+                    task={task}
+                    tasks={newTasks}
+                    T={T}
+                    errorFields={errorFields}
+                    setNewTasks={setNewTasks}
+                    setRiskAssessmentData={setRiskAssessmentData}
+                    deleteTask={deleteTask}
+                    key={`task-${index}`}
+                    index={index}
+                  />
+                );
+              })}
             </div>
           </div>
           <div className="row m-b">
