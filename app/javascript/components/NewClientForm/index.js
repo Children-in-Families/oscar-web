@@ -239,9 +239,7 @@ const Forms = (props) => {
     nationalities,
     ethnicities,
     traffickingTypes,
-    labels: riskAssessment.labels,
-    has_disability: riskAssessment.has_disability,
-    disability_specification: riskAssessment.disability_specification
+    labels: riskAssessment.labels
   };
   const moreReferralTabData = {
     errorFields,

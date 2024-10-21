@@ -45,9 +45,7 @@ export default (props) => {
       nationalities,
       ethnicities,
       traffickingTypes,
-      labels,
-      has_disability,
-      disability_specification
+      labels
     }
   } = props;
 
@@ -571,16 +569,16 @@ export default (props) => {
             inline
             label={labels.has_disability}
             options={yesNoOpts}
-            onChange={onChange("riskAssessment", "has_disability")}
-            value={has_disability}
+            onChange={onChange("client", "has_disability")}
+            value={client.has_disability}
           />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-6">
           <TextInput
             inline
             label={labels.if_yes}
-            onChange={onChange("riskAssessment", "disability_specification")}
-            value={disability_specification}
+            onChange={onChange("client", "disability_specification")}
+            value={client.disability_specification}
           />
         </div>
       </div>

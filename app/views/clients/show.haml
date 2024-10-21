@@ -417,19 +417,18 @@
                             %td
                               %strong
                                 = @client.phone_owner&.capitalize
-                          - if has_risk_assessment && risk_assessment
-                            %tr
-                              %td.spacing-first-col
-                                = t('risk_assessments._attr.has_disability')
-                              %td
-                                %strong
-                                  = risk_assessment.has_disability? ? 'YES' : 'NO'
-                            %tr
-                              %td.spacing-first-col
-                                = t('risk_assessments._attr.if_yes')
-                              %td
-                                %strong
-                                  = risk_assessment.disability_specification if risk_assessment.has_disability?
+                          %tr
+                            %td.spacing-first-col
+                              = t('risk_assessments._attr.has_disability')
+                            %td
+                              %strong.text-danger
+                                = @client.has_disability? ? 'YES' : 'NO'
+                          %tr
+                            %td.spacing-first-col
+                              = t('risk_assessments._attr.if_yes')
+                            %td
+                              %strong
+                                = @client.disability_specification if @client.has_disability?
                           %tr.bg-grey
                             %td{ colspan: '2' }
                               = t('.other_info')

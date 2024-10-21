@@ -196,7 +196,8 @@ module AdvancedSearchHelper
       case_note: I18n.t('dashboards.case_note_tab.case_note'),
       other: I18n.t('advanced_search.fields.other'),
       common_searches: I18n.t('advanced_search.fields.common_searches'),
-      risk_assessment: I18n.t('risk_assessments._attr.risk_assessment')
+      risk_assessment: I18n.t('risk_assessments._attr.risk_assessment'),
+      has_disability: I18n.t('risk_assessments._attr.has_disability')
     }
 
     translations = label_translations(address_translation(group_name)).merge(translations)
