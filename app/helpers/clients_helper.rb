@@ -6,6 +6,7 @@ module ClientsHelper
       translation: rails_i18n_translations, inlineHelpTranslation: JSON.parse(I18n.t('inline_help').to_json),
       internationalReferredClient: international_referred_client, selectedCountry: selected_country,
       client: {
+        referral_id: params[:referral_id],
         client: @client, ratanak_achievement_program_staff_client_ids: @client.ratanak_achievement_program_staff_client_ids,
         user_ids: @client.user_ids, quantitative_case_ids: @client.quantitative_case_ids, agency_ids: @client.agency_ids,
         donor_ids: @client.donor_ids, isTestClient: current_setting.test_client?, isForTesting: @client.for_testing?
@@ -367,6 +368,7 @@ module ClientsHelper
       slug_: I18n.t('datagrid.columns.clients.id'),
       kid_id_: custom_id_translation('custom_id2'),
       family_id_: I18n.t('datagrid.columns.families.code'),
+      case_note_created_at_: I18n.t('datagrid.columns.case_note_created_at'),
       case_note_date_: I18n.t('datagrid.columns.clients.case_note_date'),
       case_note_type_: I18n.t('datagrid.columns.clients.case_note_type'),
       assessment_created_at_: I18n.t('datagrid.columns.clients.assessment_created_at', assessment: I18n.t('clients.show.assessment')),
@@ -934,9 +936,9 @@ module ClientsHelper
       sql_string = object.where(query_array).where(default: false).where(sub_query_array)
     else
       if object.is_a?(Array)
-        sql_string = object.first.class.where(query_array).where(sub_query_array)
+        sql_string = object.first.class.where(id: object.map(&:id)).where(query_array).where(sub_query_array)
       else
-        sql_string = object.where(query_array).where(sub_query_array)
+        sql_string = object.where(id: object.map(&:id)).where(query_array).where(sub_query_array)
       end
     end
 
@@ -1227,9 +1229,10 @@ module ClientsHelper
       country_name = Setting.first.try(:country_name)
       case country_name
       when 'cambodia' then '(Khmer)'
-      when 'thailand' then '(Thai)'
+      when 'indonesia' then '(Bahasa)'
       when 'myanmar' then '(Burmese)'
       when 'lesotho' then '(Sesotho)'
+      when 'thailand' then '(Thai)'
       when 'uganda' then '(Swahili)'
       else
         '(Unknown)'

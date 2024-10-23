@@ -196,14 +196,6 @@
               = label_tag 'family_type_', t('datagrid.columns.families.family_type')
           %li
             .visibility.col-sm-12
-              = check_box_tag 'case_note_date_', 'case_note_date', checked = saved_search_column_visibility('case_note_date_'), class: 'i-checks'
-              = label_tag 'case_note_date_', t('datagrid.columns.case_note_date')
-          %li
-            .visibility.col-sm-12
-              = check_box_tag 'case_note_type_', 'case_note_type', checked = saved_search_column_visibility('case_note_type_'), class: 'i-checks'
-              = label_tag 'case_note_type_', t('datagrid.columns.case_note_type')
-          %li
-            .visibility.col-sm-12
               = check_box_tag 'referee_relationship_to_client_', 'referee_relationship_to_client', checked = saved_search_column_visibility('referee_relationship_to_client_'), class: 'i-checks'
               = label_tag 'referee_relationship_to_client_', t('datagrid.columns.referee_relationship_to_client')
           %li
@@ -251,6 +243,7 @@
                       = check_box_tag "#{field['name']}_", field['label'], checked = saved_search_column_visibility("#{field['name']}_"), class: 'i-checks'
                       = label_tag "#{field['name']}_", field['label']
 
+          = render 'datagrid/case_note_column_picker'
           = render 'datagrid/care_plan_column_picker'
           - if Service.count > 0
             %li.type-of-service-header

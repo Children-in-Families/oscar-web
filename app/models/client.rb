@@ -296,13 +296,13 @@ class Client < ActiveRecord::Base
       }
 
       shared_clients.find_each do |another_client|
-        duplicate_checker_data = another_client.duplicate_checker.split('&')
+        duplicate_checker_data = another_client.duplicate_checker.split('&').map(&:squish)
         input_name_field = field_name_concatenate(options)
-        client_name_field = duplicate_checker_data[0].squish
+        client_name_field = duplicate_checker_data[0]
         field_name = compare_jaro_winkler(input_name_field, client_name_field)
-        dob = date_of_birth_matching(options[:date_of_birth], duplicate_checker_data.last.squish)
+        dob = date_of_birth_matching(options[:date_of_birth], duplicate_checker_data.last)
         addresses = mapping_address(address_hash, addresses_hash, duplicate_checker_data)
-        gender_matching = options[:gender].to_s.downcase == duplicate_checker_data[7].to_s.downcase ? 1 : nil
+        gender_matching = options[:gender].to_s.downcase == duplicate_checker_data[6].to_s.downcase ? 1 : nil
         match_percentages = [field_name, dob, *addresses, gender_matching]
 
         percentages = match_percentages.compact
@@ -423,12 +423,12 @@ class Client < ActiveRecord::Base
     # Adjusted threshold based on string length ratio
     length_threshold = 0.2 * max_length
 
-    return 0.0 if (max_length - min_length) > length_threshold
+    return 0 if (max_length - min_length) > length_threshold
 
     similarity = JaroWinkler.distance(value1, value2, ignore_case: true)
 
-    # Intentionally drop to 50% of < 0.88% to match WhiteSimilarity
-    similarity = 0.5 if similarity > 0.5 && similarity < 0.88
+    # Intentionally drop to 50% of < 0.9% to match WhiteSimilarity
+    similarity = 0.5 if similarity > 0.5 && similarity < 0.9
     similarity
   end
 
@@ -451,10 +451,11 @@ class Client < ActiveRecord::Base
     remain_day = (dob1 > dob2) ? (dob1 - dob2).to_i : (dob2 - dob1).to_i
     percentage = 1.0 - (remain_day * 0.5) / 100.0
 
-    # Ensure percentage is within 0.0 to 1.0 range
     if percentage < 0.0
-      percentage = 0.0
-    elsif percentage > 1.0
+      return nil
+    end
+      
+    if percentage > 1.0
       percentage = 1.0
     end
 
@@ -477,6 +478,16 @@ class Client < ActiveRecord::Base
 
     case_note.created_at = Time.current
     case_note.save(validate: false)
+
+    custom_field = CaseNotes::CustomField.first
+
+    if custom_field
+      CaseNotes::CustomFieldProperty.find_or_create_by(
+        custom_field: custom_field,
+        case_note: case_note
+      )
+    end
+
     case_note
   end
 

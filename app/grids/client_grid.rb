@@ -1013,6 +1013,10 @@ class ClientGrid < BaseGrid
     object.family&.family_type
   end
 
+  column(:case_note_created_at, header: -> { I18n.t('datagrid.columns.case_note_created_at') }, html: true) do |object|
+    render partial: 'clients/case_note_created_date', locals: { object: object }
+  end
+
   column(:case_note_date, header: -> { I18n.t('datagrid.columns.clients.case_note_date') }, html: true) do |object|
     render partial: 'clients/case_note_date', locals: { object: object }
   end
@@ -1151,6 +1155,18 @@ class ClientGrid < BaseGrid
     legal_doc_fields.each do |legal_doc_field|
       column(legal_doc_field.to_sym, header: -> { I18n.t("clients.show.#{legal_doc_field}") }, class: 'legal-document-header') do |object|
         object.public_send(legal_doc_field) ? 'Yes' : 'No'
+      end
+    end
+  end
+
+  dynamic do
+    if CaseNotes::CustomField.first
+      cn_custom_field = CaseNotes::CustomField.first
+      cn_custom_field.data_fields.each do |field|
+        column_name = "case_note_custom_field_#{field['label'].parameterize.underscore}"
+        column(column_name.to_sym, header: -> { field['label'] }, html: true) do |object|
+          render partial: "clients/case_note_custom_field", locals: { object: object, custom_field: cn_custom_field, field: field }
+        end
       end
     end
   end

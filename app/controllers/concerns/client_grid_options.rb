@@ -19,11 +19,11 @@ module ClientGridOptions
     if params[:advanced_search_id]
       advanced_search = AdvancedSearch.find(params[:advanced_search_id])
       @client_columns = ClientColumnsVisibility.new(@client_grid, params.merge(advanced_search.field_visible).merge(column_form_builder: column_form_builder))
-      @client_columns.visible_columns
     else
       @client_columns = ClientColumnsVisibility.new(@client_grid, params.merge(column_form_builder: column_form_builder))
-      @client_columns.visible_columns
     end
+
+    @client_columns.visible_columns
   end
 
   def export_client_reports
@@ -47,6 +47,8 @@ module ClientGridOptions
     custom_date_of_assessments
     default_date_of_completed_custom_assessments
     export_risk_assessment_columns
+    cn_custom_field_report
+    case_note_created_at_report
     case_note_date_report
     case_note_type_report
     accepted_date_report
@@ -67,11 +69,11 @@ module ClientGridOptions
       @client_grid.column(:exit_reasons, header: I18n.t('datagrid.columns.clients.exit_reasons')) do |client|
         if client.exit_ngos.any?
           reasons = [ExitNgo::EXIT_REASONS.sort, I18n.t('client.exit_ngos.form.exit_reason_options').values].transpose.to_h
-          results = ''
+          results = []
           client.exit_ngos.most_recents.each do |exit_ngo|
-            results = exit_ngo.exit_reasons.map { |reason| reasons[reason] }.join(', ') if exit_ngo.exit_reasons.present?
+            results << exit_ngo.exit_reasons.map { |reason| reasons[reason] }.join(', ') if exit_ngo.exit_reasons.present?
           end
-          results
+          results.join(', ')
         end
       end
     end
@@ -79,6 +81,7 @@ module ClientGridOptions
 
   def exit_circumstance_report
     return unless @client_columns.visible_columns[:exit_circumstance_].present?
+
     if params[:data].presence == 'recent'
       @client_grid.column(:exit_circumstance, header: I18n.t('datagrid.columns.clients.exit_circumstance')) do |client|
         client.exit_ngos.most_recents.first&.exit_circumstance
@@ -179,6 +182,53 @@ module ClientGridOptions
     else
       @client_grid.column(:program_exit_date, header: I18n.t('datagrid.columns.clients.program_exit_date')) do |client|
         client.client_enrollments.inactive.joins(:leave_program).map { |a| a.leave_program.exit_date }.join(', ')
+      end
+    end
+  end
+
+  def cn_custom_field_report
+    custom_field_columns = @client_columns.visible_columns.select { |k, _v| k.to_s.match(/case_note_custom_field/) }
+    custom_field = CaseNotes::CustomField.first
+
+    return if custom_field.nil?
+
+    custom_field_columns.each do |_field, value|
+      downcase_label = value.to_s.gsub('case_note_custom_field_', '')
+      field = custom_field.data_fields.find { |field| field['label'].parameterize.underscore == downcase_label }
+      # Do not export file details
+      next if field['type'] == 'file'
+      
+      label = field['label']
+
+      if params[:data].presence == 'recent'
+        case_note = client.case_notes.most_recents.order(created_at: :desc).first
+
+        if case_note
+          @client_grid.column(value.to_sym, header: -> { label }) do |client|
+            case_note.custom_field_property.properties[label] if case_note.custom_field_property
+          end
+        end
+      else
+        @client_grid.column(value.to_sym, header: -> { label }) do |client|
+
+          client.case_notes.most_recents.map do |case_note|
+            case_note.custom_field_property.properties[label] if case_note.custom_field_property  
+          end.compact.join(', ')
+        end
+      end
+    end
+  end
+
+  def case_note_created_at_report
+    return unless @client_columns.visible_columns[:case_note_created_at_].present?
+
+    if params[:data].presence == 'recent'
+      @client_grid.column(:case_note_created_at, header: I18n.t('datagrid.columns.case_note_created_at')) do |client|
+        date_format(client.case_notes.most_recents.order(created_at: :desc).first&.created_at)
+      end
+    else
+      @client_grid.column(:case_note_created_at, header: I18n.t('datagrid.columns.case_note_created_at')) do |client|
+        client.case_notes.most_recents.map { |date| date_format(date.created_at) }.select(&:present?).join(', ') if client.case_notes.any?
       end
     end
   end

@@ -1,7 +1,9 @@
 require 'sidekiq/web'
 Rails.application.routes.draw do
   root 'organizations#index'
+
   devise_for :users, controllers: { registrations: 'registrations', sessions: 'sessions', passwords: 'passwords' }
+  
   use_doorkeeper do
     skip_controllers :applications, :authorized_applications
   end
@@ -399,8 +401,9 @@ Rails.application.routes.draw do
     # resources :referral_sources
 
     namespace :v1, default: { format: :json } do
-      resources :organizations, only: [:index, :create, :update, :destroy] do
+      resources :organizations, only: [:index, :listing, :create, :update, :destroy] do
         collection do
+          get :listing
           get :clients
           post 'clients/upsert' => 'organizations#upsert'
           get 'clients/check_duplication' => 'organizations#check_duplication'
@@ -531,6 +534,10 @@ Rails.application.routes.draw do
       end
       get 'hidden' => 'custom_fields#hidden', as: :hidden, on: :member
     end
+  end
+
+  namespace :case_notes do
+    resource :custom_field
   end
 
   resources :advanced_search_save_queries
