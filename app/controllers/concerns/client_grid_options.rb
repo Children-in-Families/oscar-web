@@ -543,14 +543,26 @@ module ClientGridOptions
           end
         elsif fields.first == 'tracking'
           ids = client.client_enrollments.ids
+          basic_rules = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
+          basic_rules = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
+          results = mapping_form_builder_param_value(basic_rules, 'tracking', field[:id])
+          values = results.first[0] && results.first[0]['value'] || []
+
           if data == 'recent'
             enrollment_tracking_properties = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids }).order(created_at: :desc).first&.properties
-            enrollment_tracking_properties = format_array_value(enrollment_tracking_properties[format_field_value]) if enrollment_tracking_properties.present?
+            properties = format_array_value(enrollment_tracking_properties[format_field_value]) if enrollment_tracking_properties.present?
+            properties.join(', ')
+          elsif format_field_value == 'Has This Form'
+            properties = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids }).where('DATE(client_enrollment_trackings.created_at) BETWEEN ? AND ?', values.first, values.last)
+            properties.pluck(:created_at).map { |date| date_format(date) }.join(', ')
+          elsif format_field_value == 'Does Not Have This Form'
+            properties = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids }).where.not('DATE(client_enrollment_trackings.created_at) BETWEEN ? AND ?', values.first, values.last)
+            properties.pluck(:created_at).map { |date| date_format(date) }.join(', ')
           else
             client_enrollment_trackings = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids })
             properties = form_builder_query(client_enrollment_trackings, fields.first, field[:id].gsub('&qoute;', '"')).properties_by(format_field_value, client_enrollment_trackings)
 
-            properties.map { |properties| check_is_string_date?(properties) }.join(', ')
+            properties.map { |prop| check_is_string_date?(prop) }.join(', ')
           end
         elsif fields.first == 'exitprogramdate'
           ids = client.client_enrollments.inactive.ids

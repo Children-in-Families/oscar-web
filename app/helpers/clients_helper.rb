@@ -737,13 +737,13 @@ module ClientsHelper
 
   def form_builder_query(object, form_type, field_name, properties_field = nil)
     return object if params['all_values'].present?
+
     properties_field = properties_field.present? ? properties_field : 'client_enrollment_trackings.properties'
 
     selected_program_stream = $param_rules['program_selected'].presence ? JSON.parse($param_rules['program_selected']) : []
     basic_rules = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
     basic_rules = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
-    results = mapping_form_builder_param_value(basic_rules, form_type)
-
+    results = mapping_form_builder_param_value(basic_rules, form_type, field_name)
     return object if results.flatten.blank?
 
     query_string = get_query_string(results, form_type, properties_field)
@@ -867,14 +867,14 @@ module ClientsHelper
   def mapping_form_builder_param_value(data, form_type, field_name = nil, data_mapping = [])
     rule_array = []
     data[:rules].each_with_index do |h, _|
-      if h.key?(:rules)
-        mapping_form_builder_param_value(h, form_type, field_name, data_mapping)
-      end
+      mapping_form_builder_param_value(h, form_type, field_name, data_mapping) if h.key?(:rules)
+
       if field_name.nil?
         next if h[:id]&.scan(form_type).blank?
-      else
-        next if h[:id] != field_name
+      elsif h[:id] != field_name
+        next
       end
+
       h[:condition] = data[:condition]
       rule_array << h
     end
