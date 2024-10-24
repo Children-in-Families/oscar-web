@@ -103,7 +103,8 @@ module AdvancedSearches
             @sql_string << 'clients.id IN (?)'
             @values << client_ids
           elsif form_builder.last == 'Does Not Have This Form'
-            client_ids = tracking.client_enrollment_trackings.joins(:client_enrollment).where.not('DATE(client_enrollment_trackings.created_at) >= ? AND DATE(client_enrollment_trackings.created_at) <= ?', value.first, value.last).pluck('client_enrollments.client_id')
+            client_ids = Client.includes(client_enrollments: [client_enrollment_trackings: :tracking]).references(:client_enrollments)
+                               .where(trackings: { name: form_builder.third }).where('NOT EXISTS (SELECT 1 FROM client_enrollment_trackings WHERE client_enrollments.client_id = clients.id AND client_enrollment_trackings.client_enrollment_id = client_enrollments.id AND client_enrollment_trackings.created_at BETWEEN ? AND ?)', value.first, value.last).distinct.ids
             @sql_string << 'clients.id IN (?)'
             @values << client_ids
           elsif tracking
