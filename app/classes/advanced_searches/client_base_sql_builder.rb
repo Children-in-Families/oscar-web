@@ -103,9 +103,7 @@ module AdvancedSearches
             @sql_string << 'clients.id IN (?)'
             @values << client_ids
           elsif form_builder.last == 'Does Not Have This Form'
-            client_ids = @clients.includes(client_enrollments: [client_enrollment_trackings: [tracking: :program_stream]]).references(:client_enrollments).where(program_streams: { name: form_builder.second }).where.not(id: client_ids).distinct.ids
-            # client_ids = @clients.joins("LEFT JOIN client_enrollments ON client_enrollments.client_id = clients.id AND client_enrollments.deleted_at IS NULL LEFT JOIN client_enrollment_trackings ON client_enrollment_trackings.client_enrollment_id = client_enrollments.id LEFT JOIN trackings ON trackings.id = client_enrollment_trackings.tracking_id AND trackings.deleted_at IS NULL AND DATE(client_enrollment_trackings.created_at) NOT BETWEEN '#{value.first}' AND '#{value.last}'").where(trackings: { name: form_builder.third }).where(client_enrollment_trackings: { id: nil }).distinct.ids
-
+            client_ids = @clients.joins(:program_streams).where(program_streams: { name: ProgramStream.last.name }).where.not(id: client_ids).distinct.ids
             @sql_string << 'clients.id IN (?)'
             @values << client_ids
           elsif tracking
