@@ -310,9 +310,20 @@ body[id='clients-show'] {
     }
   }
 
+  .ibox-content {
+    padding: 15px 0px 20px 0px;
+  }
+
   #accordion {
-    .ibox-title {
-      padding-left: 0px;
+    .panel-title>a {
+      display: block;
+      padding: 3px 0px 5px 0px;
+      text-decoration: none;
+    }
+
+    a[aria-expanded=true] .glyphicon-chevron-right {
+      transition: .3s transform ease-in-out;
+      transform: rotate(90deg);
     }
   }
 }
