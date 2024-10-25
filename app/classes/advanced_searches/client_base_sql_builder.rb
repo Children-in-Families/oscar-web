@@ -103,9 +103,9 @@ module AdvancedSearches
             @sql_string << 'clients.id IN (?)'
             @values << client_ids
           elsif form_builder.last == 'Does Not Have This Form'
-            # client_ids = Client.includes(client_enrollments: [client_enrollment_trackings: :tracking]).references(:client_enrollments)
-            #  .where(trackings: { name: form_builder.third }).where('NOT EXISTS (SELECT 1 FROM client_enrollment_trackings WHERE client_enrollments.client_id = clients.id AND client_enrollment_trackings.client_enrollment_id = client_enrollments.id AND client_enrollment_trackings.created_at BETWEEN ? AND ?)', value.first, value.last).distinct.ids
-            client_ids = @clients.joins("LEFT JOIN client_enrollments ON client_enrollments.client_id = clients.id AND client_enrollments.deleted_at IS NULL LEFT JOIN client_enrollment_trackings ON client_enrollment_trackings.client_enrollment_id = client_enrollments.id LEFT JOIN trackings ON trackings.id = client_enrollment_trackings.tracking_id AND trackings.deleted_at IS NULL AND DATE(client_enrollment_trackings.created_at) NOT BETWEEN '#{value.first}' AND '#{value.last}'").where(trackings: { name: form_builder.third }).where.not(client_enrollment_trackings: { id: nil }).distinct.ids
+            client_ids = Client.includes(client_enrollments: [client_enrollment_trackings: :tracking]).references(:client_enrollments)
+                               .where(trackings: { name: form_builder.third }).where('NOT EXISTS (SELECT 1 FROM client_enrollment_trackings WHERE client_enrollments.client_id = clients.id AND client_enrollment_trackings.client_enrollment_id = client_enrollments.id AND DATE(client_enrollment_trackings.created_at) BETWEEN ? AND ?)', value.first, value.last).distinct.ids
+            # client_ids = @clients.joins("LEFT JOIN client_enrollments ON client_enrollments.client_id = clients.id AND client_enrollments.deleted_at IS NULL LEFT JOIN client_enrollment_trackings ON client_enrollment_trackings.client_enrollment_id = client_enrollments.id LEFT JOIN trackings ON trackings.id = client_enrollment_trackings.tracking_id AND trackings.deleted_at IS NULL AND DATE(client_enrollment_trackings.created_at) NOT BETWEEN '#{value.first}' AND '#{value.last}'").where(trackings: { name: form_builder.third }).where(client_enrollment_trackings: { id: nil }).distinct.ids
 
             @sql_string << 'clients.id IN (?)'
             @values << client_ids
