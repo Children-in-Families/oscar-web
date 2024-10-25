@@ -296,22 +296,20 @@
               = link_to archive_client_path(@client), method: 'put', data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.archive')}", placement: "auto", confirm: t('.are_you_sure') } do
                 .btn.btn-outline.btn-danger
                   %i.fa.fa-trash
-      .ibox-content#accordion
-        .row
-          .col-xs-12
-            .ibox
-              .ibox-title
-                Client Referral Information
-                .ibox-tools
-                  %a.collapse-link{"aria-controls" => "collapse-additional-info", "aria-expanded" => "true", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapse-client-info", :role => "button"}
-                    .btn.btn-outline.btn-primary
-                      %i.fa.fa-chevron-down
-                  - if (can? :manage, Client) || (can? :rud, Client) || (can? :edit, Client)
-                    %small
-                      = link_to edit_client_path(@client, step: 'clientInfo'), data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.edit')}", placement: "auto" } do
-                        .btn.btn-outline.btn-success
-                          %i.fa.fa-pencil
-              .ibox-content.panel-collapse.collapse{"aria-labelledby" => "headingClientInfo", :role => "tabpanel", id: "collapse-client-info"}
+      .ibox-content
+        #accordion.panel-group{ role: 'tablist', "aria-multiselectable" => "true" }
+          .panel.panel-default
+            #headingOne.panel-heading{role: "tab"}
+              %h4.panel-title
+                - if (can? :manage, Client) || (can? :rud, Client) || (can? :edit, Client)
+                  = link_to edit_client_path(@client, step: 'clientInfo'), class: 'pull-right m-l-sm', data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.edit')}", placement: "auto" } do
+                    %i.fa.fa-pencil
+                %a.m-r-md{"aria-controls" => "collapseOne", "aria-expanded" => "true", "data-parent" => "#accordion", "data-toggle" => "collapse", href: "#collapse-client-info", role: "button"}
+                  %i.pull-right.more-less.glyphicon.glyphicon-chevron-right
+                  Client Referral Information
+
+            #collapse-client-info.panel-collapse.collapse{"aria-labelledby" => "headingOne", role: "tabpanel"}
+              .panel-body
                 = hidden_field_tag :initial_referral_date, @client.initial_referral_date
                 = hidden_field_tag :last_exit_ngo_date, @client.exit_ngos.last&.exit_date
                 - if Organization.ratanak? || %w(national_id_number passport_number marital_status nationality ethnicity location_of_concern type_of_trafficking).any? { |field| policy(@client).show?(field.to_sym) }
@@ -521,21 +519,18 @@
                               %td.text-center
                                 = link_to call_path(call) do
                                   %button.btn.btn-outline.btn-primary.btn-xs= fa_icon('eye')
-        .row
-          .col-xs-12
-            .ibox
-              .ibox-title
-                Additional Information
-                .ibox-tools
-                  %a.collapse-link{"aria-controls" => "collapse-additional-info", "aria-expanded" => "true", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapse-additional-info", :role => "button"}
-                    .btn.btn-outline.btn-primary
-                      %i.fa.fa-chevron-down
-                  - if (can? :manage, Client) || (can? :rud, Client) || (can? :edit, Client)
-                    %small
-                      = link_to edit_client_path(@client, step: 'additionalInfo'), data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.edit')}", placement: "auto" } do
-                        .btn.btn-outline.btn-success
-                          %i.fa.fa-pencil
-              .ibox-content.panel-collapse.collapse{"aria-labelledby" => "headingClientInfo", :role => "tabpanel", id: "collapse-additional-info"}
+
+          .panel.panel-default
+            #headingTwo.panel-heading{role: "tab"}
+              %h4.panel-title
+                - if (can? :manage, Client) || (can? :rud, Client) || (can? :edit, Client)
+                  = link_to edit_client_path(@client, step: 'additionalInfo'), class: 'pull-right m-l-sm', data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.edit')}", placement: "auto" } do
+                    %i.fa.fa-pencil
+                %a.m-r-md{"aria-controls" => "collapseOne", "aria-expanded" => "true", "data-parent" => "#accordion", "data-toggle" => "collapse", href: "#collapse-additional-info", role: "button"}
+                  %i.pull-right.more-less.glyphicon.glyphicon-chevron-right
+                  Additional Information
+            #collapse-additional-info.panel-collapse.collapse{"aria-labelledby" => "headingTwo", role: "tabpanel"}
+              .panel-body
                 %table.table.table-bordered.referral-more-info
                   %thead
                     %tr
@@ -646,98 +641,90 @@
                             %td
                               %strong
                                 = editable @client, :kid_id, value: @client.kid_id, url: api_client_path(@client.id), pk: @client.id
-        - if current_setting.enabled_risk_assessment
-          .row
-            .col-xs-12
-              .ibox
-                .ibox-title
-                  = t('risk_assessments._attr.protection_concern')
-                  .ibox-tools
-                    %a.collapse-link{"aria-controls" => "collapse-protection-concern", "aria-expanded" => "true", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapse-protection-concern", :role => "button"}
-                      .btn.btn-outline.btn-primary
-                        %i.fa.fa-chevron-down
-                    - if (can? :manage, Client) || (can? :rud, Client) || (can? :edit, Client)
-                      %small
-                        = link_to edit_client_path(@client, step: 'riskInfo'), data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.edit')}", placement: "auto" } do
-                          .btn.btn-outline.btn-success
-                            %i.fa.fa-pencil
-                .ibox-content.panel-collapse.collapse{"aria-labelledby" => "headingClientInfo", :role => "tabpanel", id: "collapse-protection-concern"}
-                  .row
-                    .col-12
-                      - if has_risk_assessment
-                        %table.table.table-bordered.referral-more-info
-                          %thead
-                            %tr
-                              %th{ colspan: '2' }
-                                = t('risk_assessments._attr.protection_concern')
-                          %tbody
-                            %tr
-                              %td.spacing-first-col
-                                = t('risk_assessments._attr.assessment_date')
-                              %td
-                                %strong
-                                  = date_format(risk_assessment.assessment_date)
-                            %tr
-                              %td.spacing-first-col
-                                = t('risk_assessments._attr.protection_concern')
-                              %td
-                                - risk_assessment.protection_concern.each do |pc|
-                                  %strong.label.label-default.agency= pc
-                                - if risk_assessment.other_protection_concern_specification.present?
-                                  %strong.label.label-default.agency= risk_assessment.other_protection_concern_specification
-                            %tr
-                              %td.spacing-first-col
-                                = t('risk_assessments._attr.level_of_risk')
-                              %td
-                                %strong
-                                  = display_level_of_risk(risk_assessment.level_of_risk)
-                            %tr
-                              %td.spacing-first-col
-                                = t('risk_assessments._attr.client_perspective')
-                              %td
-                                %strong
-                                  = risk_assessment.client_perspective
-                            %tr
-                              %td.spacing-first-col
-                                = t('risk_assessments._attr.has_known_chronic_disease')
-                              %td
-                                %strong
-                                  = risk_assessment.has_known_chronic_disease? ? 'YES' : 'NO'
-                            %tr
-                              %td.spacing-first-col
-                                = t('risk_assessments._attr.if_yes')
-                              %td
-                                %strong
-                                  = risk_assessment.known_chronic_disease_specification if risk_assessment.has_known_chronic_disease?
-                            %tr
-                              %td.spacing-first-col
-                                = t('risk_assessments._attr.has_hiv_or_aid')
-                              %td
-                                %strong
-                                  = risk_assessment.has_hiv_or_aid? ? 'YES' : 'NO'
-                            %tr
-                              %td.spacing-first-col
-                                = t('risk_assessments._attr.hiv_or_aid_specification')
-                              %td
-                                %strong
-                                  = risk_assessment.hiv_or_aid_specification if risk_assessment.has_hiv_or_aid?
+          - if current_setting.enabled_risk_assessment
+            .panel.panel-default
+              #headingThree.panel-heading{role: "tab"}
+                %h4.panel-title
+                  - if (can? :manage, Client) || (can? :rud, Client) || (can? :edit, Client)
+                    = link_to edit_client_path(@client, step: 'riskInfo'), class: 'pull-right m-l-sm', data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.edit')}", placement: "auto" } do
+                      %i.fa.fa-pencil
+                  %a.m-r-md{"aria-controls" => "collapseOne", "aria-expanded" => "true", "data-parent" => "#accordion", "data-toggle" => "collapse", href: "#collapse-protection-concern", role: "button"}
+                    %i.pull-right.more-less.glyphicon.glyphicon-chevron-right
+                    = t('risk_assessments._attr.protection_concern')
+
+              #collapse-protection-concern.panel-collapse.collapse{"aria-labelledby" => "headingThree", role: "tabpanel"}
+                .panel-body
+                  - if has_risk_assessment
+                    %table.table.table-bordered.referral-more-info
+                      %thead
+                        %tr
+                          %th{ colspan: '2' }
+                            = t('risk_assessments._attr.protection_concern')
+                      %tbody
+                        %tr
+                          %td.spacing-first-col
+                            = t('risk_assessments._attr.assessment_date')
+                          %td
+                            %strong
+                              = date_format(risk_assessment.assessment_date)
+                        %tr
+                          %td.spacing-first-col
+                            = t('risk_assessments._attr.protection_concern')
+                          %td
+                            - risk_assessment.protection_concern.each do |pc|
+                              %strong.label.label-default.agency= pc
+                            - if risk_assessment.other_protection_concern_specification.present?
+                              %strong.label.label-default.agency= risk_assessment.other_protection_concern_specification
+                        %tr
+                          %td.spacing-first-col
+                            = t('risk_assessments._attr.level_of_risk')
+                          %td
+                            %strong
+                              = display_level_of_risk(risk_assessment.level_of_risk)
+                        %tr
+                          %td.spacing-first-col
+                            = t('risk_assessments._attr.client_perspective')
+                          %td
+                            %strong
+                              = risk_assessment.client_perspective
+                        %tr
+                          %td.spacing-first-col
+                            = t('risk_assessments._attr.has_known_chronic_disease')
+                          %td
+                            %strong
+                              = risk_assessment.has_known_chronic_disease? ? 'YES' : 'NO'
+                        %tr
+                          %td.spacing-first-col
+                            = t('risk_assessments._attr.if_yes')
+                          %td
+                            %strong
+                              = risk_assessment.known_chronic_disease_specification if risk_assessment.has_known_chronic_disease?
+                        %tr
+                          %td.spacing-first-col
+                            = t('risk_assessments._attr.has_hiv_or_aid')
+                          %td
+                            %strong
+                              = risk_assessment.has_hiv_or_aid? ? 'YES' : 'NO'
+                        %tr
+                          %td.spacing-first-col
+                            = t('risk_assessments._attr.hiv_or_aid_specification')
+                          %td
+                            %strong
+                              = risk_assessment.hiv_or_aid_specification if risk_assessment.has_hiv_or_aid?
                   - if current_setting.enabled_risk_assessment? && (risk_assessment || @client.last_risk_assessment)
                     = render 'client_risk_assessment', client: @client, risk_assessment: risk_assessment
-        .row
-          .col-xs-12
-            .ibox
-              .ibox-title
-                Custom Referral Data
-                .ibox-tools
-                  %a.collapse-link{"aria-controls" => "collapse-referral-data", "aria-expanded" => "true", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapse-referral-data", :role => "button"}
-                    .btn.btn-outline.btn-primary
-                      %i.fa.fa-chevron-down
-                  - if (can? :manage, Client) || (can? :rud, Client) || (can? :edit, Client)
-                    %small
-                      = link_to edit_client_path(@client, step: 'customDataInfo'), data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.edit')}", placement: "auto" } do
-                        .btn.btn-outline.btn-success
-                          %i.fa.fa-pencil
-              .ibox-content.panel-collapse.collapse{"aria-labelledby" => "headingClientInfo", :role => "tabpanel", id: "collapse-referral-data"}
+
+          .panel.panel-default
+            #headingFour.panel-heading{role: "tab"}
+              %h4.panel-title
+                - if (can? :manage, Client) || (can? :rud, Client) || (can? :edit, Client)
+                  = link_to edit_client_path(@client, step: 'customDataInfo'), class: 'pull-right m-l-sm', data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.edit')}", placement: "auto" } do
+                    %i.fa.fa-pencil
+                %a.m-r-md{"aria-controls" => "collapseOne", "aria-expanded" => "true", "data-parent" => "#accordion", "data-toggle" => "collapse", href: "#collapse-referral-data", role: "button"}
+                  %i.pull-right.more-less.glyphicon.glyphicon-chevron-right
+                  Custom Referral Data
+            #collapse-referral-data.panel-collapse.collapse{"aria-labelledby" => "headingFour", role: "tabpanel"}
+              .panel-body
                 = render "referral_more_info"
                 - if @client.client_custom_data
                   - cusotm_data_fields = @client.custom_data&.fields || []
