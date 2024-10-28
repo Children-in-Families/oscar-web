@@ -317,6 +317,49 @@
                 - else
                   .row
                     .col-sm-12
+                      %table.table.table-bordered.referee_information
+                        %thead
+                          %tr
+                            %th{ colspan: '2' }
+                              = t('.referee_information')
+                        %tbody
+                          %tr
+                            %td.spacing-first-col
+                              = t('.name_of_referee')
+                            %td
+                              %strong
+                                = @client.referee.try(:name)
+
+                          %tr
+                            %td.spacing-first-col
+                              = t('.gender')
+                            %td
+                              %strong
+                                = @client.referee.try(:gender)
+
+                          %tr
+                            %td.spacing-first-col
+                              = t('.referral_phone')
+                            %td
+                              %strong
+                                = @client.referee.try(:phone)
+
+                          %tr
+                            %td.spacing-first-col
+                              = t('datagrid.columns.clients.referral_source_category')
+                            %td
+                              %strong
+                                - if @client.referrals.received.blank?
+                                  = editable @client, :referral_source_category_id, type: :select2, source: referral_source_name(ReferralSource.child_referrals).map{|name, id| { value: id, text: name } }, value: referral_source_category(@client.referral_source_category_id), url: api_client_path(@client.id), pk: @client.id
+                                - else
+                                  = @client.referral_source
+                          %tr
+                            %td.spacing-first-col
+                              = t('.referral_source')
+                            %td
+                              %strong
+                                = @client.referral_source
+
                       %table.table.table-bordered.administrative-info
                         %thead
                           %tr
@@ -457,49 +500,6 @@
                               %strong
                                 = @client.time_in_cps
 
-
-                      %table.table.table-bordered.referee_information
-                        %thead
-                          %tr
-                            %th{ colspan: '2' }
-                              = t('.referee_information')
-                        %tbody
-                          %tr
-                            %td.spacing-first-col
-                              = t('.name_of_referee')
-                            %td
-                              %strong
-                                = @client.referee.try(:name)
-
-                          %tr
-                            %td.spacing-first-col
-                              = t('.gender')
-                            %td
-                              %strong
-                                = @client.referee.try(:gender)
-
-                          %tr
-                            %td.spacing-first-col
-                              = t('.referral_phone')
-                            %td
-                              %strong
-                                = @client.referee.try(:phone)
-
-                          %tr
-                            %td.spacing-first-col
-                              = t('datagrid.columns.clients.referral_source_category')
-                            %td
-                              %strong
-                                - if @client.referrals.received.blank?
-                                  = editable @client, :referral_source_category_id, type: :select2, source: referral_source_name(ReferralSource.child_referrals).map{|name, id| { value: id, text: name } }, value: referral_source_category(@client.referral_source_category_id), url: api_client_path(@client.id), pk: @client.id
-                                - else
-                                  = @client.referral_source
-                          %tr
-                            %td.spacing-first-col
-                              = t('.referral_source')
-                            %td
-                              %strong
-                                = @client.referral_source
                 - if @client.calls.any?
                   .row
                     .col-xs-12
