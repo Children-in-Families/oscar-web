@@ -76,12 +76,9 @@ body[id='clients-show'] {
     }
   }
 
-  #legal-document {
-
-    table.table-bordered th:last-child,
-    table.table-bordered td:last-child {
-      border-right-width: 1px;
-    }
+  table.table-bordered th:last-child,
+  table.table-bordered td:last-child {
+    border-right-width: 1px;
   }
 
   small.top-right-icon {
