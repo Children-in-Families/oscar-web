@@ -38,7 +38,7 @@ class CarePlan < ActiveRecord::Base
     return if goals.empty? && !Setting.first.disable_required_fields?
 
     required_assessment_domains = []
-    assessment.assessment_domains.each do |assessment_domain|
+    assessment.assessment_domains.includes(:domain).each do |assessment_domain|
       required_assessment_domains << assessment_domain if domain_color_required?(assessment_domain)
     end
     required_assessment_domain_ids = required_assessment_domains.map(&:id)

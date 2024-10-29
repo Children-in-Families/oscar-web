@@ -109,7 +109,7 @@
                 %span.fa.arrow
               %ul.nav.nav-third-level
                 - if can? :read, CustomField
-                  %li{ class: active_menu('custom_fields') }
+                  %li{ class: controller_name == 'custom_fields' && params[:controller].exclude?('case_note') && 'active' }
                     = link_to t('.custom_fields'), custom_fields_path
                 - if can? :read, ProgramStream
                   %li{ class: active_menu('program_streams') }
@@ -120,6 +120,10 @@
                 - if can? :read, :all
                   %li{ class: active_menu('domain_groups') || active_menu('domains') }
                     = link_to t('.assessments'), domain_groups_path
+                - if can? :read, CaseNotes::CustomField
+                  %li{ class: params[:controller].include?('case_notes/custom_fields') && 'active' }
+                    = link_to t('.case_note_form'), new_case_notes_custom_field_path
+                - if can? :read, :all
                   %li{ class: active_menu('quantitative_types') }
                     = link_to t('.quantitative_types'), quantitative_types_path
                 - if can? :read, ReferralSource

@@ -19,11 +19,11 @@ module ClientGridOptions
     if params[:advanced_search_id]
       advanced_search = AdvancedSearch.find(params[:advanced_search_id])
       @client_columns = ClientColumnsVisibility.new(@client_grid, params.merge(advanced_search.field_visible).merge(column_form_builder: column_form_builder))
-      @client_columns.visible_columns
     else
       @client_columns = ClientColumnsVisibility.new(@client_grid, params.merge(column_form_builder: column_form_builder))
-      @client_columns.visible_columns
     end
+
+    @client_columns.visible_columns
   end
 
   def export_client_reports
@@ -47,6 +47,7 @@ module ClientGridOptions
     custom_date_of_assessments
     default_date_of_completed_custom_assessments
     export_risk_assessment_columns
+    cn_custom_field_report
     case_note_created_at_report
     case_note_date_report
     case_note_type_report
@@ -68,11 +69,11 @@ module ClientGridOptions
       @client_grid.column(:exit_reasons, header: I18n.t('datagrid.columns.clients.exit_reasons')) do |client|
         if client.exit_ngos.any?
           reasons = [ExitNgo::EXIT_REASONS.sort, I18n.t('client.exit_ngos.form.exit_reason_options').values].transpose.to_h
-          results = ''
+          results = []
           client.exit_ngos.most_recents.each do |exit_ngo|
-            results = exit_ngo.exit_reasons.map { |reason| reasons[reason] }.join(', ') if exit_ngo.exit_reasons.present?
+            results << exit_ngo.exit_reasons.map { |reason| reasons[reason] }.join(', ') if exit_ngo.exit_reasons.present?
           end
-          results
+          results.join(', ')
         end
       end
     end
@@ -80,6 +81,7 @@ module ClientGridOptions
 
   def exit_circumstance_report
     return unless @client_columns.visible_columns[:exit_circumstance_].present?
+
     if params[:data].presence == 'recent'
       @client_grid.column(:exit_circumstance, header: I18n.t('datagrid.columns.clients.exit_circumstance')) do |client|
         client.exit_ngos.most_recents.first&.exit_circumstance
@@ -180,6 +182,39 @@ module ClientGridOptions
     else
       @client_grid.column(:program_exit_date, header: I18n.t('datagrid.columns.clients.program_exit_date')) do |client|
         client.client_enrollments.inactive.joins(:leave_program).map { |a| a.leave_program.exit_date }.join(', ')
+      end
+    end
+  end
+
+  def cn_custom_field_report
+    custom_field_columns = @client_columns.visible_columns.select { |k, _v| k.to_s.match(/case_note_custom_field/) }
+    custom_field = CaseNotes::CustomField.first
+
+    return if custom_field.nil?
+
+    custom_field_columns.each do |_field, value|
+      downcase_label = value.to_s.gsub('case_note_custom_field_', '')
+      field = custom_field.data_fields.find { |field| field['label'].parameterize.underscore == downcase_label }
+      # Do not export file details
+      next if field['type'] == 'file'
+      
+      label = field['label']
+
+      if params[:data].presence == 'recent'
+        case_note = client.case_notes.most_recents.order(created_at: :desc).first
+
+        if case_note
+          @client_grid.column(value.to_sym, header: -> { label }) do |client|
+            case_note.custom_field_property.properties[label] if case_note.custom_field_property
+          end
+        end
+      else
+        @client_grid.column(value.to_sym, header: -> { label }) do |client|
+
+          client.case_notes.most_recents.map do |case_note|
+            case_note.custom_field_property.properties[label] if case_note.custom_field_property  
+          end.compact.join(', ')
+        end
       end
     end
   end
@@ -508,14 +543,26 @@ module ClientGridOptions
           end
         elsif fields.first == 'tracking'
           ids = client.client_enrollments.ids
+          basic_rules = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
+          basic_rules = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
+          results = mapping_form_builder_param_value(basic_rules, 'tracking', field[:id])
+          values = results.first[0] && results.first[0]['value'] || []
+
           if data == 'recent'
             enrollment_tracking_properties = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids }).order(created_at: :desc).first&.properties
-            enrollment_tracking_properties = format_array_value(enrollment_tracking_properties[format_field_value]) if enrollment_tracking_properties.present?
+            properties = format_array_value(enrollment_tracking_properties[format_field_value]) if enrollment_tracking_properties.present?
+            properties.join(', ')
+          elsif format_field_value == 'Has This Form'
+            properties = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids }).where('DATE(client_enrollment_trackings.created_at) BETWEEN ? AND ?', values.first, values.last)
+            properties.pluck(:created_at).map { |date| date_format(date) }.join(', ')
+          elsif format_field_value == 'Does Not Have This Form'
+            properties = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids }).where.not('DATE(client_enrollment_trackings.created_at) BETWEEN ? AND ?', values.first, values.last)
+            properties.pluck(:created_at).map { |date| date_format(date) }.join(', ')
           else
             client_enrollment_trackings = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids })
             properties = form_builder_query(client_enrollment_trackings, fields.first, field[:id].gsub('&qoute;', '"')).properties_by(format_field_value, client_enrollment_trackings)
 
-            properties.map { |properties| check_is_string_date?(properties) }.join(', ')
+            properties.map { |prop| check_is_string_date?(prop) }.join(', ')
           end
         elsif fields.first == 'exitprogramdate'
           ids = client.client_enrollments.inactive.ids

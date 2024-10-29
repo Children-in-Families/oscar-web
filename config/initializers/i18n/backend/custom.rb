@@ -84,7 +84,7 @@ module I18n::Backend::Custom
   def load_custom_labels(locale)
     copy_translations = translations.dup
 
-    FieldSetting.by_instances(Apartment::Tenant.current).each do |field_setting|
+    FieldSetting.includes(:translations).by_instances(Apartment::Tenant.current).each do |field_setting|
       data = copy_translations[locale]
       next if field_setting.current_label.blank? || field_setting.name.nil? || data.nil?
       paths = data.full_paths(field_setting.name)

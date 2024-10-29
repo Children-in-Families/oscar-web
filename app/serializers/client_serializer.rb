@@ -4,7 +4,7 @@ class ClientSerializer < ActiveModel::Serializer
              :current_address, :house_number, :street_number, :village, :commune, :district, :profile,
              :completed, :birth_province, :time_in_cps, :initial_referral_date, :referral_source, :what3words, :name_of_referee,
              :referral_phone, :live_with, :received_by, :main_school_contact, :telephone_number,
-             :followed_up_by, :follow_up_date, :school_name, :school_grade,
+             :followed_up_by, :follow_up_date, :school_name, :school_grade, :has_disability, :disability_specification,
              :relevant_referral_information, :rated_for_id_poor, :case_workers, :agencies, :state, :rejected_note,
              :organization, :additional_form, :tasks, :assessments, :case_notes, :quantitative_cases,
              :program_streams, :add_forms, :inactive_program_streams, :enter_ngos, :exit_ngos, :time_in_ngo, :referral_source_category_id,
@@ -66,7 +66,7 @@ class ClientSerializer < ActiveModel::Serializer
     Organization.switch_to 'shared'
     shared_client = SharedClient.find_by(slug: object.slug)
     Organization.switch_to current_org
-    shared_client.family_name
+    shared_client && shared_client.family_name || object.family_name
   end
 
   def given_name
@@ -74,7 +74,7 @@ class ClientSerializer < ActiveModel::Serializer
     Organization.switch_to 'shared'
     shared_client = SharedClient.find_by(slug: object.slug)
     Organization.switch_to current_org
-    shared_client.given_name
+    shared_client && shared_client.given_name || object.given_name
   end
 
   def local_given_name
@@ -82,7 +82,7 @@ class ClientSerializer < ActiveModel::Serializer
     Organization.switch_to 'shared'
     shared_client = SharedClient.find_by(slug: object.slug)
     Organization.switch_to current_org
-    shared_client.local_given_name
+    shared_client && shared_client.local_given_name || object.local_given_name
   end
 
   def local_family_name
@@ -90,7 +90,7 @@ class ClientSerializer < ActiveModel::Serializer
     Organization.switch_to 'shared'
     shared_client = SharedClient.find_by(slug: object.slug)
     Organization.switch_to current_org
-    shared_client.local_family_name
+    shared_client && shared_client.local_family_name || object.local_family_name
   end
 
   def gender
@@ -98,7 +98,7 @@ class ClientSerializer < ActiveModel::Serializer
     Organization.switch_to 'shared'
     shared_client = SharedClient.find_by(slug: object.slug)
     Organization.switch_to current_org
-    shared_client.gender
+    shared_client && shared_client.gender || object.gender
   end
 
   def date_of_birth
@@ -106,7 +106,7 @@ class ClientSerializer < ActiveModel::Serializer
     Organization.switch_to 'shared'
     shared_client = SharedClient.find_by(slug: object.slug)
     Organization.switch_to current_org
-    shared_client.date_of_birth
+    shared_client && shared_client.date_of_birth || object.date_of_birth
   end
 
   def live_with
@@ -114,7 +114,7 @@ class ClientSerializer < ActiveModel::Serializer
     Organization.switch_to 'shared'
     shared_client = SharedClient.find_by(slug: object.slug)
     Organization.switch_to current_org
-    shared_client.live_with
+    shared_client && shared_client.live_with || object.live_with
   end
 
   def telephone_number
@@ -122,15 +122,15 @@ class ClientSerializer < ActiveModel::Serializer
     Organization.switch_to 'shared'
     shared_client = SharedClient.find_by(slug: object.slug)
     Organization.switch_to current_org
-    shared_client.telephone_number
+    shared_client && shared_client.telephone_number || object.telephone_number
   end
 
   def birth_province
     current_org = Organization.current.short_name
     Organization.switch_to 'shared'
-    birth_province = SharedClient.find_by(slug: object.slug).birth_province
+    birth_province = SharedClient.find_by(slug: object.slug).try(:birth_province)
     Organization.switch_to current_org
-    birth_province
+    birth_province || object.birth_province
   end
 
   def enter_ngos

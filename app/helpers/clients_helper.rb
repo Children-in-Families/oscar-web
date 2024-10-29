@@ -48,7 +48,7 @@ module ClientsHelper
           **I18n.t('risk_assessments._attr'),
           **I18n.t('tasks')
         },
-        tasks_attributes: @risk_assessment.try(:tasks) || []
+        tasks_attributes: @risk_assessment.try(:tasks).presence || [{ name: '', expected_date: '' }]
       },
       customData: @custom_data&.fields || [],
       clientCustomFields: @client_custom_data_properties || {}
@@ -743,7 +743,7 @@ module ClientsHelper
     selected_program_stream = $param_rules['program_selected'].presence ? JSON.parse($param_rules['program_selected']) : []
     basic_rules = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
     basic_rules = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
-    results = mapping_form_builder_param_value(basic_rules, form_type)
+    results = mapping_form_builder_param_value(basic_rules, form_type, field_name)
     return object if results.flatten.blank?
 
     query_string = get_query_string(results, form_type, properties_field)
@@ -936,9 +936,9 @@ module ClientsHelper
       sql_string = object.where(query_array).where(default: false).where(sub_query_array)
     else
       if object.is_a?(Array)
-        sql_string = object.first.class.where(query_array).where(sub_query_array)
+        sql_string = object.first.class.where(id: object.map(&:id)).where(query_array).where(sub_query_array)
       else
-        sql_string = object.where(query_array).where(sub_query_array)
+        sql_string = object.where(id: object.map(&:id)).where(query_array).where(sub_query_array)
       end
     end
 

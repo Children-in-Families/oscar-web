@@ -912,6 +912,12 @@ class ClientGrid < BaseGrid
     object.has_been_in_orphanage.nil? ? '' : object.has_been_in_orphanage? ? 'Yes' : 'No'
   end
 
+  column(:has_disability, class: 'text-center', header: -> { I18n.t('risk_assessments._attr.has_disability') }) do |object|
+    object.has_disability.nil? ? '' : format(object.has_disability ? 'Yes' : 'No')
+  end
+
+  column(:disability_specification, header: -> { I18n.t('risk_assessments._attr.if_yes') })
+
   column(:has_been_in_government_care, header: -> { I18n.t('datagrid.columns.clients.has_been_in_government_care') }) do |object|
     object.has_been_in_government_care.nil? ? '' : object.has_been_in_government_care? ? 'Yes' : 'No'
   end
@@ -1160,6 +1166,18 @@ class ClientGrid < BaseGrid
   end
 
   dynamic do
+    if CaseNotes::CustomField.first
+      cn_custom_field = CaseNotes::CustomField.first
+      cn_custom_field.data_fields.each do |field|
+        column_name = "case_note_custom_field_#{field['label'].parameterize.underscore}"
+        column(column_name.to_sym, header: -> { field['label'] }, html: true) do |object|
+          render partial: 'clients/case_note_custom_field', locals: { object: object, custom_field: cn_custom_field, field: field }
+        end
+      end
+    end
+  end
+
+  dynamic do
     if enable_default_assessment?
       column(:all_csi_assessments, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.all_csi_assessments', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
         render partial: 'clients/all_csi_assessments', locals: { object: object.assessments.defaults }
@@ -1243,17 +1261,17 @@ class ClientGrid < BaseGrid
 
           basic_rules = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
           basic_rules = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
-          results = mapping_form_builder_param_value(basic_rules, 'tracking', format_field_value)
+          results = mapping_form_builder_param_value(basic_rules, 'tracking', column_builder[:id])
           values = results.first[0] && results.first[0]['value'] || []
 
           if data == 'recent'
             properties = ClientEnrollmentTracking.cached_tracking_order_created_at(object, fields.third, ids)
             properties = properties[format_field_value] if properties.present?
           elsif format_field_value == 'Has This Form'
-            properties = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids })
+            properties = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids }).where('DATE(client_enrollment_trackings.created_at) BETWEEN ? AND ?', values.first, values.last)
             properties = properties.pluck(:created_at).map(&:to_s)
           elsif format_field_value == 'Does Not Have This Form'
-            properties = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids })
+            properties = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids }).where.not('DATE(client_enrollment_trackings.created_at) BETWEEN ? AND ?', values.first, values.last)
             properties = properties.pluck(:created_at).map(&:to_s)
           else
             client_enrollment_trackings = ClientEnrollmentTracking.cached_client_enrollment_tracking(object, fields.third, ids)
@@ -1305,11 +1323,6 @@ class ClientGrid < BaseGrid
     risk_assessment = object.risk_assessment
     assessments = [risk_assessment, *object.assessments.select(&:client_risk_assessment?)]
     render partial: 'clients/risk_assessment_list', locals: { assessments: assessments.compact }
-  end
-
-  column(:has_disability, preload: :risk_assessment, class: 'text-center', header: -> { I18n.t('risk_assessments._attr.has_disability') }) do |object|
-    risk_assessment = object.risk_assessment
-    format(risk_assessment&.has_disability ? 'Yes' : 'No')
   end
 
   column(:has_hiv_or_aid, preload: :risk_assessment, class: 'text-center', header: -> { I18n.t('risk_assessments._attr.has_hiv_or_aid') }) do |object|

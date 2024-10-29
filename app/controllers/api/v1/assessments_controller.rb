@@ -6,7 +6,7 @@ module Api
       before_action :find_client
 
       def index
-        assessments = @client.assessments
+        assessments = @client.assessments.includes(:case_notes)
         render json: assessments
       end
 
