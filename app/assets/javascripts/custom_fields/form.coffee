@@ -180,7 +180,6 @@ CIF.Custom_fieldsNew = CIF.Custom_fieldsCreate = CIF.Custom_fieldsEdit = CIF.Cus
         _removeActionFormBuilder(labelField)
 
   _removeActionFormBuilder = (label) ->
-    $('li.paragraph-field.form-field').find('.del-button, .copy-button').remove()
     parent = $(label).parent()
     $(parent).find('.del-button, .copy-button').remove()
 
