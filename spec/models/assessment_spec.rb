@@ -1,6 +1,6 @@
 describe Assessment do
   before do
-    allow_any_instance_of(Client).to receive(:generate_random_char).and_return("abcd")
+    allow_any_instance_of(Client).to receive(:generate_random_char).and_return('abcd')
   end
 
   describe Assessment, 'associations' do
@@ -16,11 +16,11 @@ describe Assessment do
   end
 
   describe Assessment, 'validations' do
-    let!(:client){ create(:client) }
-    let!(:assessment){ create(:assessment, created_at: Date.today - 7.month, client: client) }
+    let!(:client) { create(:client) }
+    let!(:assessment) { create(:assessment, created_at: Date.today - 7.month, client: client) }
 
     xcontext 'update?' do
-      let!(:last_assessment){ create(:assessment, client: client) }
+      let!(:last_assessment) { create(:assessment, client: client) }
 
       it 'should updatable if latest' do
         expect(last_assessment).to be_valid
@@ -35,13 +35,12 @@ describe Assessment do
     end
 
     context 'create?' do
-      let!(:other_client){ create(:client) }
-      let!(:other_assessment){ create(:assessment, client: other_client) }
-      let!(:valid_assessment){ Assessment.new(client: client, created_at: Time.now - 3.months) }
-      let!(:valid_assessment_1){ Assessment.new(client: client) }
-      let!(:valid_third_assessment){ Assessment.new(client: client) }
-      let!(:invalid_assessment){ Assessment.new(client: other_client) }
-
+      let!(:other_client) { create(:client) }
+      let!(:other_assessment) { create(:assessment, client: other_client) }
+      let!(:valid_assessment) { Assessment.new(client: client, created_at: Time.now - 3.months) }
+      let!(:valid_assessment_1) { Assessment.new(client: client) }
+      let!(:valid_third_assessment) { Assessment.new(client: client) }
+      let!(:invalid_assessment) { Assessment.new(client: other_client) }
 
       it { expect(valid_assessment).to be_valid }
       it { expect(invalid_assessment).not_to be_invalid }
@@ -69,20 +68,20 @@ describe Assessment do
     let!(:client) { create(:client) }
     let!(:assessment) { create(:assessment, created_at: last_assessment_date, client: client) }
     let!(:domain) { create(:domain) }
-    let!(:other_domain){ create(:domain) }
+    let!(:other_domain) { create(:domain) }
     let!(:assessment_domain) { create(:assessment_domain, assessment: assessment, domain: domain) }
 
     context '#latest_record?' do
-      let!(:last_assessment){ create(:assessment, created_at: Time.now, client: client) }
+      let!(:last_assessment) { create(:assessment, created_at: Time.now, client: client) }
       it { expect(last_assessment.latest_record?).to be_truthy }
       it { expect(assessment.latest_record?).to be_falsey }
     end
 
     context '#initial?' do
-      before { Setting.cache_first.update(enable_custom_assessment: true) }
-      let!(:last_assessment){ create(:assessment, created_at: Time.now, client: client) }
-      let!(:custom_assessment_1){ create(:assessment, :custom, client: client, created_at: last_assessment_date) }
-      let!(:custom_assessment_2){ create(:assessment, :custom, client: client) }
+      before { Setting.first.update(enable_custom_assessment: true) }
+      let!(:last_assessment) { create(:assessment, created_at: Time.now, client: client) }
+      let!(:custom_assessment_1) { create(:assessment, :custom, client: client, created_at: last_assessment_date) }
+      let!(:custom_assessment_2) { create(:assessment, :custom, client: client) }
       it 'detault' do
         expect(assessment.initial?).to be_truthy
         expect(last_assessment.initial?).to be_falsey
@@ -106,8 +105,8 @@ describe Assessment do
     end
 
     context '#latest_record' do
-      let!(:last_assessment){ create(:assessment, client: client) }
-      subject{ Assessment.latest_record }
+      let!(:last_assessment) { create(:assessment, client: client) }
+      subject { Assessment.latest_record }
 
       it 'should return latest record' do
         is_expected.to eq(last_assessment)
@@ -131,7 +130,7 @@ describe Assessment do
     end
 
     context '#assessment_domains_in_order' do
-      let!(:other_assessment_domain){ create(:assessment_domain, assessment: assessment, domain: other_domain) }
+      let!(:other_assessment_domain) { create(:assessment_domain, assessment: assessment, domain: other_domain) }
       it 'should return assessment domains in order' do
         expect(assessment.assessment_domains_in_order).to eq([assessment_domain, other_assessment_domain])
       end
@@ -148,9 +147,9 @@ describe Assessment do
   end
 
   describe Assessment, 'scopes' do
-    let!(:assessment){ create(:assessment) }
-    let!(:other_assessment){ create(:assessment) }
-    let!(:order){ [other_assessment, assessment] }
+    let!(:assessment) { create(:assessment) }
+    let!(:other_assessment) { create(:assessment) }
+    let!(:order) { [other_assessment, assessment] }
     context '.most_recents' do
       xit 'should have correct order' do
         expect(Assessment.most_recents).to eq(order)
@@ -158,15 +157,15 @@ describe Assessment do
     end
 
     context '.defaults' do
-      let!(:default_assessment){ create(:assessment, default: true) }
+      let!(:default_assessment) { create(:assessment, default: true) }
       it 'should return default assessments' do
         expect(Assessment.defaults).to include(default_assessment)
       end
     end
 
     context '.customs' do
-      before { Setting.cache_first.update(enable_custom_assessment: true) }
-      let!(:custom_assessment){ create(:assessment, default: false) }
+      before { Setting.first.update(enable_custom_assessment: true) }
+      let!(:custom_assessment) { create(:assessment, default: false) }
       it 'should return default assessments' do
         expect(Assessment.customs).to include(custom_assessment)
       end
@@ -175,7 +174,7 @@ describe Assessment do
 
   describe Assessment, 'callbacks' do
     context 'set_previous_score' do
-      before { Setting.cache_first.update(enable_custom_assessment: true) }
+      before { Setting.first.update(enable_custom_assessment: true) }
       let!(:client) { create(:client) }
       let!(:domain) { create(:domain) }
       let!(:assessment_1) { create(:assessment, created_at: Time.now - 3.months - 1.day, client: client) }
@@ -186,19 +185,19 @@ describe Assessment do
       let!(:custom_assessment_2) { build(:assessment, :custom, client: client) }
 
       before do
-        assessment_domain_attr = { domain: domain, score: rand(4)+1, reason: FFaker::Lorem.paragraph, goal: FFaker::Lorem.paragraph }
+        assessment_domain_attr = { domain: domain, score: rand(4) + 1, reason: FFaker::Lorem.paragraph, goal: FFaker::Lorem.paragraph }
         assessment_2.assessment_domains.build(assessment_domain_attr)
         assessment_2.save
         custom_assessment_2.assessment_domains.build(assessment_domain_attr)
         custom_assessment_2.save
       end
 
-      it "should eq lastet assessment score" do
+      it 'should eq lastet assessment score' do
         previous_score = assessment_2.assessment_domains.find_by(domain: domain).previous_score
         expect(previous_score).to eq(assessment_domain.score)
       end
 
-      it "should eq lastet custom assessment score" do
+      it 'should eq lastet custom assessment score' do
         previous_score = custom_assessment_2.assessment_domains.find_by(domain: domain).previous_score
         expect(previous_score).to eq(custom_assessment_domain.score)
       end
@@ -208,11 +207,11 @@ describe Assessment do
       let!(:client) { create(:client, :accepted) }
       xcontext 'frequency period' do
         let!(:assessment) { create(:assessment, client: client, created_at: 2.month.ago.to_date) }
-        it "return error message" do
+        it 'return error message' do
           second_assessment = Assessment.create(client: client)
           expect(second_assessment.errors.full_messages).to include('Assessment cannot be created due to either frequency period or previous assessment status')
         end
-        it "not return error message" do
+        it 'not return error message' do
           assessment.update(created_at: 3.months.ago)
           second_assessment = Assessment.create(client: client)
           expect(second_assessment.errors.full_messages).not_to include('Assessment cannot be created due to either frequency period or previous assessment status')
@@ -222,14 +221,14 @@ describe Assessment do
       context 'previous assessment status' do
         context 'not completed' do
           let!(:assessment) { create(:assessment, :with_assessment_domain, client: client, created_at: 3.months.ago) }
-          it "return error message" do
+          it 'return error message' do
             assessment_1 = Assessment.create(client: client)
             expect(assessment_1.errors.full_messages).to include('Assessment cannot be created due to either frequency period or previous assessment status')
           end
         end
         context 'completed' do
           let!(:assessment) { create(:assessment, client: client, created_at: 3.months.ago) }
-          it "not return error message" do
+          it 'not return error message' do
             assessment_1 = Assessment.create(client: client)
             expect(assessment_1.errors.full_messages).not_to include('Assessment cannot be created due to either frequency period or previous assessment status')
           end
@@ -239,11 +238,11 @@ describe Assessment do
 
     context '#must_be_enable' do
       before do
-        Setting.cache_first.update(enable_custom_assessment: false)
+        Setting.first.update(enable_custom_assessment: false)
       end
       context 'new record' do
         context 'default csi' do
-          let(:default_csi){ build(:assessment) }
+          let(:default_csi) { build(:assessment) }
           it 'should not return error message' do
             expect(default_csi).to be_valid
             expect(default_csi.errors.full_messages).not_to include('Assessment tool must be enable in setting')
@@ -251,7 +250,7 @@ describe Assessment do
         end
 
         context 'custom csi' do
-          let(:custom_csi){ build(:assessment, default: false) }
+          let(:custom_csi) { build(:assessment, default: false) }
           it 'should return error message' do
             expect(custom_csi).to be_invalid
             expect(custom_csi.errors.full_messages).to include('Assessment tool must be enable in setting')
@@ -260,7 +259,7 @@ describe Assessment do
       end
 
       context 'persisted record' do
-        let!(:default_csi){ create(:assessment) }
+        let!(:default_csi) { create(:assessment) }
         it 'invalid' do
           default_csi.update(default: false)
           expect(default_csi).to be_invalid
@@ -272,8 +271,8 @@ describe Assessment do
     context 'eligible_client_age' do
       let!(:client) { create(:client, date_of_birth: 18.years.ago.to_date) }
       let!(:client_1) { create(:client, date_of_birth: 15.years.ago.to_date) }
-      let!(:existing_assessment) { create(:assessment, client: client_1)}
-      before { Setting.cache_first.update(enable_default_assessment: true, custom_age: 15) }
+      let!(:existing_assessment) { create(:assessment, client: client_1) }
+      before { Setting.first.update(enable_default_assessment: true, custom_age: 15) }
 
       context 'default csi' do
         it 'return error message if new record' do

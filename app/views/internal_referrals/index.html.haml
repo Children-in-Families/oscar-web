@@ -1,13 +1,10 @@
 .row
-  .col-sm-12
+  .col-xs-12
     .ibox
       .ibox-title
-        %h5
-          %strong= link_to_client_show(@client)
-          %small= t('.internal_referral')
-        .ibox-tools
-          = link_to new_client_internal_referral_path(@client), class: 'btn btn-primary m-r-sm' do
-            = t('new')
+        %h5= @results
+        %span.label.label-info= t('.referral_forms')
+
       .ibox-content
         %ul.nav.nav-tabs{role: "tablist"}
           %li{role: "presentation" }
@@ -15,53 +12,61 @@
           %li{role: "presentation" }
             %a{"aria-controls" => "tab-refer-from", "aria-expanded" => "true", :href => client_referrals_path(@client, referral_type: 'referred_from'), :role => "tab"}= t('clients.show.referred_from')
           - if Setting.first.enabled_internal_referral?
-            %li{role: "presentation", class: "active" }
-              %a{"aria-controls" => "tab-refer-from", "aria-expanded" => "true", :href => client_internal_referrals_path(@client), :role => "tab"} Internal Referral
+            %li.active{role: "presentation" }
+              %a{"aria-controls" => "tab-refer-from", "aria-expanded" => "true", :href => client_internal_referrals_path(@client), :role => "tab"}= t('internal_referrals.index.internal_referral')
 
         .tab-content
           .tab-pane.active{ role: "tabpanel" }
-            .table-responsive
-              %table.table.table-bordered.table-striped.table-hover
-                %thead
-                  %tr
-                    %th Referral date
-                    %th Client
-                    %th User
-                    %th Client representing problem
-                    %th Emergency note
-                    %th Referral reason
-                    %th Referral decision
-                    %th Attachments
-                    %th
-                    %th
-                    %th
-                %tbody
-                  - @internal_referrals.each do |internal_referral|
-                    %tr
-                      %td= date_format(internal_referral.referral_date)
-                      %td= internal_referral.client.name
-                      %td= internal_referral.user.name
-                      %td= internal_referral.client_representing_problem
-                      %td= internal_referral.emergency_note
-                      %td= internal_referral.referral_reason
-                      %td
-                        %p= internal_referral.referral_decision_text
-                        - if internal_referral.not_meet_intake_criteria?
-                          %p= internal_referral.crisis_management
-                      %td
-                        %ul
-                          - internal_referral.attachments.each_with_index do |attachment, index|
-                            %li.m-b-xs
-                              = original_filename(attachment)
-                              - if file_dir_or_symlink_exists?(attachment.file.path) || attachment.file.exists?
-                                = link_to preview_or_download(attachment), attachment.url, target: target_blank(attachment), class: 'btn btn-info btn-sm btn-download'
-                              - else
-                                = image_tag 'file-broken.png', class: 'img-responsive'
+            .row
+              .col-sm-12
+                .ibox
+                  .ibox-content
+                    .table-responsive
+                      %table.table.table-bordered.table-striped.table-hover
+                        %thead
+                          %tr
+                            %th Referral date
+                            %th Client
+                            %th User
+                            %th Client representing problem
+                            %th Emergency note
+                            %th Referral reason
+                            %th Referral decision
+                            %th Attachments
+                            %th
+                            %th
+                            %th
+                        %tbody
+                          - @internal_referrals.each do |internal_referral|
+                            %tr
+                              %td= date_format(internal_referral.referral_date)
+                              %td= internal_referral.client.name
+                              %td= internal_referral.user.name
+                              %td= internal_referral.client_representing_problem
+                              %td= internal_referral.emergency_note
+                              %td= internal_referral.referral_reason
+                              %td
+                                %p= internal_referral.referral_decision_text
+                                - if internal_referral.not_meet_intake_criteria?
+                                  %p= internal_referral.crisis_management
+                              %td
+                                %ul
+                                  - internal_referral.attachments.each_with_index do |attachment, index|
+                                    %li.m-b-xs
+                                      = original_filename(attachment)
+                                      - if file_dir_or_symlink_exists?(attachment.file.path) || attachment.file.exists?
+                                        = link_to preview_or_download(attachment), attachment.url, target: target_blank(attachment), class: 'btn btn-info btn-sm btn-download'
+                                      - else
+                                        = image_tag 'file-broken.png', class: 'img-responsive'
 
-                      %td= link_to 'Show', [@client, internal_referral]
-                      %td= link_to 'Edit', edit_client_internal_referral_path(@client, internal_referral)
-                      %td= link_to 'Destroy', client_internal_referral_path(@client, internal_referral), :method => :delete, :data => { :confirm => 'Are you sure?' }
+                              %td= link_to 'Show', [@client, internal_referral]
+                              %td= link_to 'Edit', edit_client_internal_referral_path(@client, internal_referral)
+                              %td= link_to 'Destroy', client_internal_referral_path(@client, internal_referral), :method => :delete, :data => { :confirm => 'Are you sure?' }
 
-            %br
+                    %br
 
-        = link_to 'New Internal referral', new_client_internal_referral_path(@client)
+                    = link_to 'New Internal referral', new_client_internal_referral_path(@client)
+      .ibox-footer
+        .text-right
+          = link_to client_path(@client), class: 'btn btn-default' do
+            = t('back')

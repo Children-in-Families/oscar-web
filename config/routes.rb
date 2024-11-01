@@ -310,7 +310,7 @@ Rails.application.routes.draw do
       get :referral_source_category, on: :collection
     end
 
-    mount_devise_token_auth_for 'User', at: '/v1/auth', skip: [:passwords], controllers: {
+    mount_devise_token_auth_for 'User', at: '/v1/auth', skip: [:passwords], base_controller: 'Api::V1::BaseApiController', controllers: {
                                           sessions: 'overrides/sessions'
                                         }
 
@@ -483,6 +483,9 @@ Rails.application.routes.draw do
       end
 
       resources :referees, only: :index
+      get 'custom_forms' => 'custom_fields#index'
+      get 'developmental_markers' => 'developmental_markers#index'
+      get 'services' => 'services#index'
       resources :notifications, only: :index do
         collection do
           get :program_stream_notify

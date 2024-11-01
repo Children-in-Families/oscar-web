@@ -19,6 +19,7 @@ class ClientSerializer < ActiveModel::Serializer
              :marital_status, :nationality, :ethnicity, :location_of_concern, :type_of_trafficking, :education_background, :department, :locality,
              :ngo_partner, :quantitative_case_ids, :brc_client_address, :family, :updated_at
 
+
   has_one :carer
   has_one :referee
   has_one :risk_assessment

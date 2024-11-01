@@ -2,7 +2,7 @@
 demo:
   :concurrency: 2
 staging:
-  :concurrency: 2
+  :concurrency: 3
 production_api:
   :concurrency: 2
 production:

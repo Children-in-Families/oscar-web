@@ -83,6 +83,8 @@ module Api
           deleted_attachment.try(:remove!)
           case_note.attachments = remain_attachments
         end
+
+        head 204 if CaseNote.find(params[:id]).destroy
       end
     end
   end
