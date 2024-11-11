@@ -166,7 +166,7 @@ module I18n::Backend::Custom
     end
   end
 
-  alias_method :override_translation, :load_custom_labels
+  # alias_method :override_translation, :load_custom_labels
 end
 
-I18n::Backend::Simple.send(:include, I18n::Backend::Custom)
+# I18n::Backend::Simple.send(:include, I18n::Backend::Custom)
