@@ -190,7 +190,7 @@ export default (props) => {
               field: "commune_id"
             })}
             inlineClassName="referree-commune"
-            hintText={hintText.referee.referral_districs}
+            hintText={hintText.referee.referral_district}
           />
         </div>
 

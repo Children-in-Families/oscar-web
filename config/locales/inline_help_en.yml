@@ -252,7 +252,7 @@ en:
       referral_address_name: N/A
       referral_address_type: N/A
       referral_commune: To view the list, first select <strong>Address - District/Khan</strong>.
-      referral_districs: To view the list, first select <strong>Current Province</strong>.
+      referral_district: To view the list, first select <strong>Current Province</strong>.
       referral_house_number: N/A
       referral_province: Select the province where the client is staying now, it can be different than the birth province. You cannot select Khan/Sangkat/Phum in the fields below if you leave Province blank. Update the province and address if the client moves to a different province.
       referral_source: The list in this field will change based on the Referral Source Category you chose. Admin/Manager/Case Worker, If a name is not on the list, add a new source from <strong>Manage >> Referral Sources</strong>.
