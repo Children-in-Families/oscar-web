@@ -93,13 +93,9 @@ module I18n::Backend::Custom
       paths.each do |path|
         next if path.count > 1 && !field_setting.possible_key_match?(path)
         data = copy_translations[locale]
-
         path.each do |k|
           # next if data.nil?
           if k == path.last
-            # pp '=========================='
-            # pp data[k]
-            # pp '=========================='
             data[k] = field_setting&.label.presence || field_setting.current_label
           else
             data = data[k]
@@ -166,7 +162,7 @@ module I18n::Backend::Custom
     end
   end
 
-  # alias_method :override_translation, :load_custom_labels
+  alias_method :override_translation, :load_custom_labels
 end
 
-# I18n::Backend::Simple.send(:include, I18n::Backend::Custom)
+I18n::Backend::Simple.send(:include, I18n::Backend::Custom)
