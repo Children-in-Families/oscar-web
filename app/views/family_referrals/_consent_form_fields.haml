@@ -1,3 +1,3 @@
 .row
   .col-xs-12
-    = f.input :consent_form, multiple: true, as: :file, label: t('.consent_form'), required: f.object.new_record?, input_html: { class: 'family_referral_consent_form', name: 'family_referral[consent_form][]' }
+    = f.input :consent_form, as: :file, label: t('.consent_form'), required: f.object.new_record?, input_html: { class: 'family_referral_consent_form', name: 'family_referral[consent_form][]', multiple: true }
