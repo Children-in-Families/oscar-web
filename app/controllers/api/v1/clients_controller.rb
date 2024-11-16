@@ -116,7 +116,7 @@ module Api
           if params[:client][:assessment_id]
             Assessment.find(params[:client][:assessment_id])
           else
-            render json: { slug: client.slug }, status: :ok
+            render json: client
           end
         else
           render json: client.errors, status: :unprocessable_entity
