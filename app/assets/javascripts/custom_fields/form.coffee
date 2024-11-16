@@ -180,12 +180,11 @@ CIF.Custom_fieldsNew = CIF.Custom_fieldsCreate = CIF.Custom_fieldsEdit = CIF.Cus
         _removeActionFormBuilder(labelField)
 
   _removeActionFormBuilder = (label) ->
-    $('li.paragraph-field.form-field').find('.del-button, .copy-button').remove()
     parent = $(label).parent()
     $(parent).find('.del-button, .copy-button').remove()
 
     if $(parent).attr('class').includes('number-field')
-      return if $('form.simple_form').includes('is-admin')
+      return if $('form.simple_form').hasClass('is-admin')
 
       $(parent).find('.fld-min, .fld-max').attr('readonly', 'true')
     else if $(parent).attr('class').includes('select-field')
