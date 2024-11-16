@@ -6,7 +6,7 @@ class ClientSerializer < ActiveModel::Serializer
              :referral_phone, :live_with, :received_by, :main_school_contact, :telephone_number,
              :followed_up_by, :follow_up_date, :school_name, :school_grade,
              :relevant_referral_information, :rated_for_id_poor, :case_workers, :agencies, :state, :rejected_note,
-             :organization, :additional_form, :tasks, :assessments, :case_notes, :quantitative_cases,
+             :organization, :additional_form, :tasks, :assessments, :case_notes, :quantitative_cases, :client_quantitative_free_text_cases,
              :program_streams, :add_forms, :inactive_program_streams, :enter_ngos, :exit_ngos, :time_in_ngo, :referral_source_category_id,
              :outside, :outside_address, :address_type, :client_phone, :phone_owner, :client_email, :referee_relationship, :concern_is_outside,
              :concern_outside_address, :concern_province_id, :concern_district_id, :concern_commune_id, :concern_village_id, :concern_street,
@@ -223,14 +223,8 @@ class ClientSerializer < ActiveModel::Serializer
   def quantitative_cases
     object.quantitative_cases.includes(:quantitative_type).group_by(&:quantitative_type).map do |qtype, qcases|
       qtype_name = qtype.name
-      qcases = qcases.map do |qcase|
-        {
-          name: qcase.try(:value) || qcases.try(:name),
-          client_quantitative_cases: qcase.client_quantitative_cases.as_json
-        }
-      end
-
-      { quantitative_type: qtype_name, quantitative_cases: qcases }
+      qcases = qcases.map { |qcase| qcase.try(:value) || qcases.try(:name) }
+      { quantitative_type: qtype_name, client_quantitative_cases: qcases }
     end
   end
 
