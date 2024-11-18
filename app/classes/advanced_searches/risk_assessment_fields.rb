@@ -53,7 +53,6 @@ module AdvancedSearches
       yes_no_options = { true: 'Yes', false: 'No' }
       [
         ['has_hiv_or_aid', yes_no_options],
-        ['has_disability', yes_no_options],
         ['has_known_chronic_disease', yes_no_options]
       ]
     end

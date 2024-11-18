@@ -1,5 +1,7 @@
-body[id='clients-new'], body[id='clients-create'],
-body[id='clients-edit'], body[id='clients-update'] {
+body[id='clients-new'],
+body[id='clients-create'],
+body[id='clients-edit'],
+body[id='clients-update'] {
   @import '../../utils/Colors.scss';
 
   .containerClass {
@@ -11,7 +13,8 @@ body[id='clients-edit'], body[id='clients-update'] {
   .contentWrapper {
     display: flex;
     flex-direction: row;
-    @media screen and (max-width: 1090px ){
+
+    @media screen and (max-width: 1090px) {
       flex-direction: column;
     }
   }
@@ -100,22 +103,30 @@ body[id='clients-edit'], body[id='clients-update'] {
     pointer-events: none;
   }
 
-  .careInfo, .schoolInfo, .donorInfo, .customInfo {
+  .careInfo,
+  .schoolInfo,
+  .donorInfo,
+  .customInfo {
     .pointer {
       .fa.fa-chevron-up {
         display: inline-block;
       }
+
       .fa.fa-chevron-down {
         display: none;
       }
     }
   }
 
-  .careInfo.collapsed, .schoolInfo.collapsed, .donorInfo.collapsed, .customInfo.collapsed {
+  .careInfo.collapsed,
+  .schoolInfo.collapsed,
+  .donorInfo.collapsed,
+  .customInfo.collapsed {
     .pointer {
       .fa.fa-chevron-up {
         display: none;
       }
+
       .fa.fa-chevron-down {
         display: inline-block;
       }
@@ -125,6 +136,7 @@ body[id='clients-edit'], body[id='clients-update'] {
   .pointer {
     cursor: pointer;
   }
+
   .form-group {
     i.fa-info-circle.text-info {
       color: $default-green;
@@ -141,17 +153,18 @@ body[id='clients-edit'], body[id='clients-update'] {
   }
 
   #save-btn-help-text {
-    display: none;
+    display: block;
   }
 
-  #toast-container > .toast-error {
+  #toast-container>.toast-error {
     &:before {
       content: "\f071";
     }
+
     background-image: none !important;
   }
 
-  #toast-container > .toast-warning {
+  #toast-container>.toast-warning {
     background-image: none !important;
   }
 
@@ -169,6 +182,7 @@ body[id='clients-edit'], body[id='clients-update'] {
       border: none;
       font-size: 14px;
     }
+
     span {
       font-size: 12px;
     }

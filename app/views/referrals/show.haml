@@ -88,4 +88,4 @@
           - if @referral.repeat?
             = link_to t('.go_to_client'), client_path(id: @referral.client.slug, referral_id: @referral.id), target: '_blank', class: 'btn btn-info'
           - else
-            = link_to t('.go_to_client'), new_client_path(referral_id: @referral.id), target: '_blank', class: 'btn btn-info'
+            = link_to t('.go_to_client'), new_client_path(step: 'clientInfo', referral_id: @referral.id), target: '_blank', class: 'btn btn-info'
