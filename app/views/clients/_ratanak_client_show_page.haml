@@ -31,15 +31,6 @@
             %td.spacing-first-col= t(".#{field}")
             %td= @client.public_send(field.to_sym)
 
-      - if policy(@client).show?(:donor_info)
-        %tr
-          %td.spacing-first-col
-            = t('clients.show.donor')
-          %td
-            %strong
-              - client_donors.each do|donor|
-                %strong.label.label-default.donor
-                  = donor.name
       - if current_organization.short_name == 'brc'
         - %w(presented_id id_number legacy_brcs_id brsc_branch client_phone whatsapp other_phone_number other_phone_whatsapp).each do |field_name|
           - if policy(@client).show?(field_name.to_sym)
@@ -162,40 +153,6 @@
           %strong
             = @client.time_in_cps
 
-      - if policy(Client).client_pickup_information?
-        - if policy(Client).show?(:arrival_at)
-          %tr
-            %td.spacing-first-col
-              = t('clients.form.arrival_at')
-            %td
-              %strong
-                = date_time_format @client.arrival_at
-        - if policy(Client).show?(:flight_nb)
-          %tr
-            %td.spacing-first-col
-              = t('clients.form.flight_nb')
-            %td
-              %strong
-                = @client.flight_nb
-
-        - if policy(Client).show?(:ratanak_achievement_program_staff_client_ids)
-          %tr
-            %td.spacing-first-col
-              = t('clients.form.ratanak_achievement_program_staff_client_ids')
-            %td
-              %strong
-                - @client.ratanak_achievement_program_staff_clients.distinct.sort.each do |case_worker|
-                  %strong.label.label-default
-                    = user case_worker
-        - if policy(Client).show?(:mosavy_official)
-          %tr
-            %td.spacing-first-col
-              = t('clients.form.mosavy_official')
-            %td
-              %strong
-                - @client.mo_savy_officials.each do |mo_savy_official|
-                  %strong.label.label-default
-                    = "#{mo_savy_official.name} - #{mo_savy_official.position}"
 
   .col-sm-12.col-md-6.second-table
     %table.table.table-bordered
@@ -271,42 +228,6 @@
           %strong
             = editable @client, :follow_up_date, type: :date, value: date_format(@client.follow_up_date), url: api_client_path(@client.id), pk: @client.id
 
-      - %w(school_name school_grade main_school_contact education_background).each do |field|
-        - if policy(@client).show?(field.to_sym)
-          %tr
-            %td.spacing-first-col
-              = t("clients.form.#{field}")
-            %td
-              %strong
-                - if field == 'school_grade'
-                  = editable @client, :school_grade, type: :select2, source: [Client::GRADES, t('advanced_search.fields.school_grade_list').values].transpose.map{|v, t| { text: t.to_s, value: v.to_s } }, value: @client.school_grade, url: api_client_path(@client.id), pk: @client.id
-                - else
-                  = editable @client, field.to_sym, value: @client.public_send(field.to_sym), url: api_client_path(@client.id), pk: @client.id
-
-
-      - if policy(@client).show?(:relevant_referral_information)
-        %tr
-          %td.spacing-first-col
-            = t('clients.show.relevant_referral_information')
-          %td
-            %strong
-              = editable @client, :relevant_referral_information, type: :textarea, value: @client.relevant_referral_information, url: api_client_path(@client.id), pk: @client.id
-      %tr
-        %td.spacing-first-col
-          = t('clients.show.agencies_involved')
-        %td
-          - @client.agencies.each do|agency|
-            %strong.label.label-default.agency
-              = agency.name
-
-      - Client::STACKHOLDER_CONTACTS_FIELDS.each do |field|
-        - if policy(@client).show?(field.to_sym)
-          %tr
-            %td.spacing-first-col
-              = t("clients.form.#{field}")
-            %td
-              %strong
-                = @client.public_send(field.to_sym)
       - if @client.family
         %tr
           %td.spacing-first-col= t('clients.show.families')
@@ -352,79 +273,6 @@
             %strong
               = editable @client, :phone_counselling_summary, value: @client.phone_counselling_summary, url: api_client_path(@client.id), pk: @client.id
 
-- if @client.quantitative_cases.any? || @client.client_quantitative_free_text_cases.any?
-  .row
-    .col-xs-12
-      %table.table.table-bordered
-        - @client.client_quantitative_free_text_cases.each do |qtc_free_text|
-          - next unless quantitative_type_readable?(qtc_free_text.quantitative_type_id)
-          %tr
-            %td.align-justify
-              = qtc_free_text.quantitative_type.try(:name)
-            %td.align-justify
-              %strong.label.label-default= qtc_free_text.content
-
-        - @client.quantitative_cases.includes(:quantitative_type).group_by(&:quantitative_type).each do |qtypes|
-          - next unless quantitative_type_readable?(qtypes.first.id)
-          %tr
-            %td.align-justify
-              = qtypes.first.name
-            %td.align-justify
-              - qtypes.last.each do |qcase|
-                %strong.label.label-default
-                  = qcase.value
-
-- if policy(Client).show_legal_doc?
-  #legal-document
-    %table.table.table-bordered.table-hover#case-history-table
-      %thead
-        %tr
-          %th(colspan="5")
-            = t('clients.form.legal_documents')
-      %tbody
-        - legal_doc_options_hash = { "Labour Trafficking" => 'labor_trafficking_legal_doc_option', "Sexual Trafficking" => 'sex_trafficking_legal_doc_option', 'Other' => 'other_legal_doc_option' }
-        - legal_doc_fields.each do |field|
-          - if field == 'mosavy'
-            - attachments = @client.referral_doc_files
-          - else
-            - attachments = @client.send("#{field}_files")
-
-          - if policy(Client).show?(field.to_sym)
-            - if @client.send(field.to_sym)
-              %tr
-                %td(rowspan="#{ attachments.size + 1 }")
-                  - if field == 'police_interview'
-                    %strong= t("clients.form.detail_form_of_judicial_police")
-                  - else
-                    %strong= t("clients.show.#{field}")
-                %td(rowspan="#{ attachments.size + 1 }")
-                  %strong
-                    %span YES
-                %td(rowspan="#{ attachments.size + 1 }")
-                  = t("clients.form.#{legal_doc_options_hash[@client.try("#{field}_option".to_sym)]}") if @client.try("#{field}_option".to_sym).present?
-                - if attachments.size == 0
-                  %td(colspan="2") No attachment
-
-              - if attachments.any?
-                - attachments.each_with_index do |attachment, index|
-                  %tr
-                    %td= original_filename(attachment)
-                    %td
-                      = link_to preview_or_download(attachment), attachment.url, class: 'btn btn-info btn-sm btn-download', target: target_blank(attachment)
-            - else
-              %tr
-                %td
-                  %strong= t("clients.show.#{field}")
-                %td
-                  %strong NO
-                %td
-                %td(colspan="2")
-
-- if @client.client_custom_data
-  - cusotm_data_fields = @client.custom_data&.fields || []
-  - client_data_properties = @client.client_custom_data&.properties || {}
-  = render 'custom_data', cusotm_data_fields: cusotm_data_fields, client_data_properties: client_data_properties, client_custom_data: @client.client_custom_data
-
 - if @client.calls.any?
   .row
     .col-xs-12
@@ -444,6 +292,3 @@
               %td.text-center
                 = link_to call_path(call) do
                   %button.btn.btn-outline.btn-primary.btn-xs= fa_icon('eye')
-
-- if current_setting.enabled_risk_assessment? && (risk_assessment || @client.last_risk_assessment)
-  = render 'clients/client_risk_assessment', client: @client, risk_assessment: risk_assessment
