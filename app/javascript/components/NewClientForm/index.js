@@ -384,11 +384,7 @@ const Forms = (props) => {
       {
         step: 2,
         data: moSAVYOfficialsData,
-        fields:
-          current_organization.short_name === "ratanak" &&
-          params("step") === "additionalInfo"
-            ? ["name", "position"]
-            : []
+        fields: []
       },
       { step: 3, data: riskAssessmentData, fields: [] },
       {
@@ -444,6 +440,23 @@ const Forms = (props) => {
         setIsError(true);
         errors.push("name");
         errors.push("expected_date");
+        // errorSteps.push(step);
+      }
+    }
+
+    if (current_organization.short_name === "ratanak" && step === 3) {
+      if (
+        moSAVYOfficialsData.filter(
+          (item) =>
+            !item._destroy &&
+            (item.name === "" || item.position === "") &&
+            (item.name.length == 0 || item.position.length == 0)
+        ).length > 0
+      ) {
+        setErrorFields(["name", "position"]);
+        setIsError(true);
+        errors.push("name");
+        errors.push("position");
         // errorSteps.push(step);
       }
     }
@@ -667,8 +680,6 @@ const Forms = (props) => {
 
   const handleSave = () => (callback, forceSave) => {
     forceSave = forceSave === undefined ? false : forceSave;
-    // if (!clientExist && params("step") === "clientInfo")
-    //   checkClientExist()(() => setClientExist(false));
     if (!clientExist && handleValidation()) {
       handleCheckValue(refereeData);
       handleCheckValue(clientData);

@@ -593,7 +593,7 @@
                       %tr.bg-grey
                         %td{ colspan: '2' }
                           = t('.school_info')
-                      - %w(school_name school_grade main_school_contact).each do |field|
+                      - %w(school_name school_grade main_school_contact education_background).each do |field|
                         - if policy(@client).show?(field.to_sym)
                           %tr
                             %td.spacing-first-col
@@ -605,6 +605,17 @@
                                 - else
                                   = editable @client, field.to_sym, value: @client.public_send(field.to_sym), url: api_client_path(@client.id), pk: @client.id
 
+                    %tr.bg-grey
+                      %td{ colspan: '2' }
+                        = t('clients.form.stakeholder_contacts')
+                    - Client::STACKHOLDER_CONTACTS_FIELDS.each do |field|
+                      - if policy(@client).show?(field.to_sym)
+                        %tr
+                          %td.spacing-first-col
+                            = t("clients.form.#{field}")
+                          %td
+                            %strong
+                              = @client.public_send(field.to_sym)
                     - if policy(@client).show?(:donor_info)
                       %tr.bg-grey
                         %td{ colspan: '2' }
@@ -641,6 +652,44 @@
                         %td
                           %strong
                             = editable @client, :kid_id, value: @client.kid_id, url: api_client_path(@client.id), pk: @client.id
+
+                    - if policy(Client).client_pickup_information?
+                      %tr.bg-grey
+                        %td{ colspan: '2' }
+                          = t('clients.form.pickup_information')
+                      - if policy(Client).show?(:arrival_at)
+                        %tr
+                          %td.spacing-first-col
+                            = t('clients.form.arrival_at')
+                          %td
+                            %strong
+                              = date_time_format @client.arrival_at
+                      - if policy(Client).show?(:flight_nb)
+                        %tr
+                          %td.spacing-first-col
+                            = t('clients.form.flight_nb')
+                          %td
+                            %strong
+                              = @client.flight_nb
+
+                      - if policy(Client).show?(:ratanak_achievement_program_staff_client_ids)
+                        %tr
+                          %td.spacing-first-col
+                            = t('clients.form.ratanak_achievement_program_staff_client_ids')
+                          %td
+                            %strong
+                              - @client.ratanak_achievement_program_staff_clients.distinct.sort.each do |case_worker|
+                                %strong.label.label-default
+                                  = user case_worker
+                      - if policy(Client).show?(:mosavy_official)
+                        %tr
+                          %td.bg-gray.spacing-first-col
+                            = t('clients.form.mosavy_official')
+                          %td
+                            %strong
+                              - @client.mo_savy_officials.each do |mo_savy_official|
+                                %strong.label.label-default
+                                  = "#{mo_savy_official.name} - #{mo_savy_official.position}"
 
           - if current_setting.enabled_risk_assessment
             .panel.panel-default
@@ -731,6 +780,53 @@
                   - cusotm_data_fields = @client.custom_data&.fields || []
                   - client_data_properties = @client.client_custom_data&.properties || {}
                   = render 'custom_data', cusotm_data_fields: cusotm_data_fields, client_data_properties: client_data_properties, client_custom_data: @client.client_custom_data
+
+                - if policy(Client).show_legal_doc?
+                  #legal-document
+                    %table.table.table-bordered.table-hover#case-history-table
+                      %thead
+                        %tr
+                          %th(colspan="5")
+                            = t('clients.form.legal_documents')
+                      %tbody
+                        - legal_doc_options_hash = { "Labour Trafficking" => 'labor_trafficking_legal_doc_option', "Sexual Trafficking" => 'sex_trafficking_legal_doc_option', 'Other' => 'other_legal_doc_option' }
+                        - legal_doc_fields.each do |field|
+                          - if field == 'mosavy'
+                            - attachments = @client.referral_doc_files
+                          - else
+                            - attachments = @client.send("#{field}_files")
+
+                          - if policy(Client).show?(field.to_sym)
+                            - if @client.send(field.to_sym)
+                              %tr
+                                %td(rowspan="#{ attachments.size + 1 }")
+                                  - if field == 'police_interview'
+                                    %strong= t("clients.form.detail_form_of_judicial_police")
+                                  - else
+                                    %strong= t("clients.show.#{field}")
+                                %td(rowspan="#{ attachments.size + 1 }")
+                                  %strong
+                                    %span YES
+                                %td(rowspan="#{ attachments.size + 1 }")
+                                  = t("clients.form.#{legal_doc_options_hash[@client.try("#{field}_option".to_sym)]}") if @client.try("#{field}_option".to_sym).present?
+                                - if attachments.size == 0
+                                  %td(colspan="2") No attachment
+
+                              - if attachments.any?
+                                - attachments.each_with_index do |attachment, index|
+                                  %tr
+                                    %td= original_filename(attachment)
+                                    %td
+                                      = link_to preview_or_download(attachment), attachment.url, class: 'btn btn-info btn-sm btn-download', target: target_blank(attachment)
+                            - else
+                              %tr
+                                %td
+                                  %strong= t("clients.show.#{field}")
+                                %td
+                                  %strong NO
+                                %td
+                                %td(colspan="2")
+
         - if @case_histories.any?
           .row
             .col-xs-12
