@@ -7,7 +7,7 @@ class ProgramStreamSerializer < ActiveModel::Serializer
 
   def trackings
     Rails.cache.fetch([Apartment::Tenant.current, 'trackings', 'ProgramStream', object.id]) do
-      ActiveModel::ArraySerializer.new(object.trackings, each_serializer: TrackingSerializer)
+      ActiveModel::ArraySerializer.new(object.trackings.visible, each_serializer: TrackingSerializer)
     end
   end
 
