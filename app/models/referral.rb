@@ -1,5 +1,8 @@
 class Referral < ActiveRecord::Base
+  include ClearanceOverdueConcern
   include ClientRetouch
+  include ClearanceOverdueConcern
+
   has_paper_trail
   acts_as_paranoid
 
@@ -14,7 +17,7 @@ class Referral < ActiveRecord::Base
 
   validates :client_name, :client_global_id, :date_of_referral, :referred_from,
             :referred_to, :referral_reason, :name_of_referee,
-            :referral_phone,  presence: true
+            :referral_phone, presence: true
 
   validates :consent_form, presence: true, if: :making_referral?
   validates :referee_id, presence: true, if: :slug_exist?
@@ -35,7 +38,7 @@ class Referral < ActiveRecord::Base
   scope :received_and_saved, -> { received.saved }
   scope :most_recents, -> { order(created_at: :desc) }
   scope :externals, -> { where(referred_to: 'external referral') }
-  scope :get_external_systems, ->(external_system_name){ where("referrals.ngo_name = ?", external_system_name) }
+  scope :get_external_systems, -> (external_system_name) { where('referrals.ngo_name = ?', external_system_name) }
 
   def received?
     referred_to == Organization.current.short_name
@@ -88,7 +91,7 @@ class Referral < ActiveRecord::Base
       external_case_worker_id: attribute[:external_case_worker_id],
       village_code: attribute[:location_current_village_code],
       level_of_risk: attribute[:level_of_risk],
-      services: Service.where(name: attribute[:services]&.map{ |service| service[:name] })
+      services: Service.where(name: attribute[:services]&.map { |service| service[:name] })
     }
   end
 
@@ -105,7 +108,7 @@ class Referral < ActiveRecord::Base
   end
 
   def client_by_slug
-    @client_by_slug ||= Client.where("slug = ? OR archived_slug = ?", slug, slug).first
+    @client_by_slug ||= Client.where('slug = ? OR archived_slug = ?', slug, slug).first
   end
 
   def repeat?
@@ -134,13 +137,16 @@ class Referral < ActiveRecord::Base
 
   def make_a_copy_to_target_ngo
     current_org = Organization.current
-    return if self.non_oscar_ngo? || current_org.short_name == referred_to
-    service_names = self.services.pluck(:name)
+    return if non_oscar_ngo? || current_org.short_name == referred_to
+
+    service_names = services.pluck(:name)
+    referred_from_id = id
     Organization.switch_to referred_to
     referral = Referral.find_or_initialize_by(slug: attributes['slug'], saved: false)
-    referral.attributes = attributes.except('id', 'client_id', 'created_at', 'updated_at', 'consent_form').merge({client_id: nil})
+    referral.attributes = attributes.except('id', 'client_id', 'created_at', 'updated_at', 'consent_form').merge({ client_id: nil })
     referral.consent_form = consent_form
     referral.services << Service.where(name: service_names) if service_names.present?
+    referral.referred_from_uid = referred_from_id
     referral.save
     Organization.switch_to current_org.short_name
   end
@@ -148,6 +154,7 @@ class Referral < ActiveRecord::Base
   def email_referrral_client
     current_org = Organization.current
     return if self.non_oscar_ngo? || current_org.short_name == referred_to
+
     EmailReferralClientWorker.perform_async(current_org.full_name, referred_to, slug)
   end
 

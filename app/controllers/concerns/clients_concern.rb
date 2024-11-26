@@ -28,4 +28,17 @@ module ClientsConcern
                                         tasks_attributes: [:id, :name, :expected_date, :client_id, :_destroy]
     )
   end
+
+  def assign_global_id_from_referral(client, params)
+    return unless params[:referral_id]
+
+    referral = Referral.find(params[:referral_id])
+    client.global = referral.client_global_id
+  end
+
+  def check_is_referral_saved?(referral_id)
+    return unless Referral.exists?(referral_id)
+
+    Referral.find(referral_id)
+  end
 end

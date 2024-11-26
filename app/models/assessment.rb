@@ -1,4 +1,5 @@
 class Assessment < ActiveRecord::Base
+  include ClearanceOverdueConcern
   attr_accessor :skip_assessment_domain_populate
 
   belongs_to :client, counter_cache: true
@@ -25,7 +26,9 @@ class Assessment < ActiveRecord::Base
   before_save :populate_domains
   before_save :set_previous_score
   before_save :set_assessment_completed, unless: :completed?
-  after_commit :flash_cache
+  after_save :flash_cache, on: :create
+  after_save :flash_cache, on: :update
+  after_save :flash_cache, on: :destroy
 
   accepts_nested_attributes_for :assessment_domains
 
@@ -62,7 +65,7 @@ class Assessment < ActiveRecord::Base
 
   def check_reason_and_score
     empty_assessment_domains = []
-    setting = Setting.cache_first
+    setting = Setting.first
     is_ratanak = Organization.ratanak?
     assessment_domains.each do |assessment_domain|
       if is_ratanak
@@ -166,7 +169,7 @@ class Assessment < ActiveRecord::Base
   end
 
   def must_be_enable
-    enable = default? ? Setting.cache_first.enable_default_assessment : Setting.cache_first.enable_custom_assessment
+    enable = default? ? Setting.first.enable_default_assessment : Setting.first.enable_custom_assessment
     enable || family ? true : errors.add(:base, 'Assessment tool must be enable in setting')
   end
 
@@ -189,7 +192,9 @@ class Assessment < ActiveRecord::Base
   end
 
   def flash_cache
-    Rails.cache.delete([Apartment::Tenant.current, 'User', User.current_user.id, 'assessment_either_overdue_or_due_today']) if User.current_user.present?
-    Rails.cache.fetch([Apartment::Tenant.current, parent.class.name, 'cached_client_sql_assessment_custom_completed_date', parent.id])
+    user_id = User.current_user.id
+
+    Rails.cache.delete([Apartment::Tenant.current, 'User', user_id, 'assessment_either_overdue_or_due_today']) if user_id
+    Rails.cache.delete([Apartment::Tenant.current, parent.class.name, 'cached_client_sql_assessment_custom_completed_date', parent.id]) if parent
   end
 end

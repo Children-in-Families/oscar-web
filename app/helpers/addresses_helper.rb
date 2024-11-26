@@ -1,6 +1,6 @@
 module AddressesHelper
   def selected_country
-    country = Organization.current.country || Setting.cache_first.try(:country_name) || params[:country].presence
+    country = Organization.current.country || Setting.first.try(:country_name) || params[:country].presence
     country.nil? ? 'cambodia' : country
   end
 
@@ -33,6 +33,8 @@ module AddressesHelper
     when 'uganda'
       current_address = merged_address(object)
     when 'indonesia'
+      current_address[0] = current_address[0].gsub('House', 'Community') if current_address[0]
+      current_address[1] = current_address[1].gsub('Street', 'Sub-community') if current_address[1]
       current_address << object.subdistrict_name if object.subdistrict.present?
       current_address << object.district_name if object.district.present?
       current_address << object.city_name if object.city.present?
@@ -42,6 +44,7 @@ module AddressesHelper
     else
       current_address = merged_address(object)
     end
+
     current_address.compact.join(', ')
   end
 

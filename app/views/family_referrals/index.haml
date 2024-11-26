@@ -6,37 +6,48 @@
         %span.label.label-info= t('.referral_forms')
 
       .ibox-content
-        .table-responsive
-          %table.table.table-bordered.table-striped.table-hover
-            %thead
-              %tr
-                %th= t('.family_name')
-                %th{ class: referred_from_hidden?(@family_referrals.first) }= t('.referred_from')
-                %th{ class: referred_to_hidden?(@family_referrals.first) }= t('.referred_to')
-                %th= t('.date_of_referral')
-                %th.text-center.custom_column_manage= t('.detail')
-            %tbody
-              - @family_referrals.each do |referral|
-                %tr
-                  %td= referral.name_of_family
-                  %td{ class: referred_from_hidden?(referral) }= referral.referred_from_ngo
-                  - if referral.referred_to_ngo == 'External Referral'
-                    %td{ class: referred_to_hidden?(referral) }= referral.ngo_name
-                  - else
-                    %td{ class: referred_to_hidden?(referral) }= referral.referred_to_ngo
-                  %td= date_format(referral.date_of_referral)
-                  %td.text-center
-                    - if policy(referral).edit?
-                      = link_to edit_family_family_referral_path(@family, referral, referral_type: params[:referral_type]), class: 'button btn btn-outline btn-success btn-xs' do
-                        = fa_icon('pencil')
-                    - else
-                      %span.tool-tip{ 'data-placement' => 'top', 'data-toggle' => 'tooltip', 'title' => t('.cannot_edit_referral') }
-                        = link_to edit_family_family_referral_path(@family, referral), class: 'button btn btn-outline btn-success btn-xs disabled' do
-                          = fa_icon('pencil')
+        %ul.nav.nav-tabs{role: "tablist"}
+          %li{role: "presentation", class: "#{'active' if params[:referral_type] == 'referred_to' }" }
+            %a{"aria-controls" => "tab-refer-to", "aria-expanded" => "true", :href => family_family_referrals_path(@family, referral_type: 'referred_to'), :role => "tab"}= t('families.show.referred_to')
+          %li{role: "presentation", class: "#{'active' if params[:referral_type] == 'referred_from' }" }
+            %a{"aria-controls" => "tab-refer-from", "aria-expanded" => "true", :href => family_family_referrals_path(@family, referral_type: 'referred_from'), :role => "tab"}= t('families.show.referred_from')
 
-                    = link_to family_family_referral_path(@family, referral) do
-                      .btn.btn-sm.btn-info.btn-xs.btn-outline
-                        = fa_icon('eye')
+        .tab-content
+          .tab-pane.active{ role: "tabpanel", id: "#{ params[:referral_type] == 'referred_to' ? 'tab-refer-to' : 'tab-refer-from' }" }
+
+            .table-responsive
+              %table.table.table-bordered.table-striped.table-hover
+                %thead
+                  %tr
+                    %th= t('.family_name')
+                    %th{ class: referred_from_hidden?(@family_referrals.first) }= t('.referred_from')
+                    %th{ class: referred_to_hidden?(@family_referrals.first) }= t('.referred_to')
+                    %th= t('.date_of_referral')
+                    %th= t('referrals.referral_status')
+                    %th.text-center.custom_column_manage= t('.detail')
+                %tbody
+                  - @family_referrals.each do |referral|
+                    %tr
+                      %td= referral.name_of_family
+                      %td{ class: referred_from_hidden?(referral) }= referral.referred_from_ngo
+                      - if referral.referred_to_ngo == 'External Referral'
+                        %td{ class: referred_to_hidden?(referral) }= referral.ngo_name
+                      - else
+                        %td{ class: referred_to_hidden?(referral) }= referral.referred_to_ngo
+                      %td= date_format(referral.date_of_referral)
+                      %td= status_style referral.referral_status
+                      %td.text-center
+                        - if policy(referral).edit?
+                          = link_to edit_family_family_referral_path(@family, referral, referral_type: params[:referral_type]), class: 'button btn btn-outline btn-success btn-xs' do
+                            = fa_icon('pencil')
+                        - else
+                          %span.tool-tip{ 'data-placement' => 'top', 'data-toggle' => 'tooltip', 'title' => t('.cannot_edit_referral') }
+                            = link_to edit_family_family_referral_path(@family, referral), class: 'button btn btn-outline btn-success btn-xs disabled' do
+                              = fa_icon('pencil')
+
+                        = link_to family_family_referral_path(@family, referral) do
+                          .btn.btn-sm.btn-info.btn-xs.btn-outline
+                            = fa_icon('eye')
       .ibox-footer
         .text-right
           = link_to family_path(@family), class: 'btn btn-default' do

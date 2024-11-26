@@ -24,7 +24,7 @@ module AdvancedSearches
     SHARED_FIELDS = %w(given_name family_name local_given_name local_family_name gender birth_province_id date_of_birth live_with telephone_number)
     CALL_FIELDS = Call::FIELDS
     OVERDUE_FIELDS = %w[has_overdue_assessment has_overdue_forms has_overdue_task no_case_note].freeze
-    RISK_ASSESSMENTS = %w[level_of_risk date_of_risk_assessment has_disability has_hiv_or_aid has_known_chronic_disease].freeze
+    RISK_ASSESSMENTS = %w[level_of_risk date_of_risk_assessment has_hiv_or_aid has_known_chronic_disease].freeze
 
     def initialize(clients, basic_rules)
       @clients = clients
@@ -54,11 +54,16 @@ module AdvancedSearches
           Organization.switch_to short_name
           @sql_string << shared_client_filter[:id]
           @values << shared_client_filter[:values]
+        elsif form_builder.first == 'case_note_custom_field'
+          custom_form = ::CaseNotes::CustomField.find(form_builder.second)
+          custom_field = AdvancedSearches::CaseNotes::EntityCustomFormSqlBuilder.new(custom_form, rule).get_sql
+          @sql_string << custom_field[:id]
+          @values << custom_field[:values]
         elsif form_builder.first == 'formbuilder'
           if form_builder.last == 'Has This Form'
             custom_form_value = CustomField.find_by(form_title: value, entity_type: 'Client')&.id
 
-            @sql_string << 'Clients.id IN (?)'
+            @sql_string << 'clients.id IN (?)'
             @values << @clients.joins(:custom_fields).where('custom_fields.id = ?', custom_form_value).uniq.ids
           elsif form_builder.last == 'Does Not Have This Form'
             client_ids = Client.joins(:custom_fields).where(custom_fields: { form_title: form_builder.second }).ids
@@ -88,13 +93,22 @@ module AdvancedSearches
             @sql_string << enrollment_date[:id]
             @values << enrollment_date[:values]
           else
-            @sql_string << 'Clients.id IN (?)'
+            @sql_string << 'clients.id IN (?)'
             @values << []
           end
         elsif form_builder.first == 'tracking'
           tracking = Tracking.joins(:program_stream).where(program_streams: { name: form_builder.second }, trackings: { name: form_builder.third }).last
+          client_ids = tracking.client_enrollment_trackings.joins(:client_enrollment).where('DATE(client_enrollment_trackings.created_at) >= ? AND DATE(client_enrollment_trackings.created_at) <= ?', value.first, value.last).pluck('client_enrollments.client_id')
+          if form_builder.last == 'Has This Form'
+            @sql_string << 'clients.id IN (?)'
+            @values << client_ids
+          elsif form_builder.last == 'Does Not Have This Form'
+            client_ids = @clients.joins(:program_streams).where(program_streams: { name: ProgramStream.last.name }).where.not(id: client_ids).distinct.ids
+            # client_ids = @clients.joins("LEFT JOIN client_enrollments ON client_enrollments.client_id = clients.id AND client_enrollments.deleted_at IS NULL LEFT JOIN client_enrollment_trackings ON client_enrollment_trackings.client_enrollment_id = client_enrollments.id LEFT JOIN trackings ON trackings.id = client_enrollment_trackings.tracking_id AND trackings.deleted_at IS NULL AND DATE(client_enrollment_trackings.created_at) NOT BETWEEN '#{value.first}' AND '#{value.last}'").where(trackings: { name: form_builder.third }).where(client_enrollment_trackings: { id: nil }).distinct.ids
 
-          if tracking
+            @sql_string << 'clients.id IN (?)'
+            @values << client_ids
+          elsif tracking
             tracking_fields = AdvancedSearches::TrackingSqlBuilder.new(tracking.id, rule, form_builder.second).get_sql
             @sql_string << tracking_fields[:id]
             @values << tracking_fields[:values]

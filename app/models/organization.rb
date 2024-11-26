@@ -1,7 +1,7 @@
 require 'rake'
 
 class Organization < ActiveRecord::Base
-  SUPPORTED_LANGUAGES = %w[en km my th in].freeze
+  SUPPORTED_LANGUAGES = %w[en km my th id].freeze
   TYPES = ['Faith Based Organization', 'Government Organization', "Disabled People's Organization", 'Non Government Organization', 'Community Based Organization', 'Other Organization'].freeze
 
   acts_as_paranoid
@@ -123,7 +123,7 @@ class Organization < ActiveRecord::Base
           Rake::Task['field_settings:import'].invoke(org.short_name)
           Rake::Task['field_settings:import'].reenable
 
-          Thredded::MessageboardGroup.find_or_create_by(name: 'Archived')
+          Thredded::MessageboardGroup.find_or_create_by(name: 'Archived', position: 0)
 
           referral_source_category = ReferralSource.find_by(name_en: referral_source_category_name)
           if referral_source_category
@@ -184,8 +184,10 @@ class Organization < ActiveRecord::Base
     other_languages = (supported_languages - ['en'])
 
     return 'km' if cambodian? && other_languages.include?('km')
+    return 'th' if thailand? && other_languages.include?('th')
     return 'my' if myanmar? && other_languages.include?('my')
-    return 'in' if myanmar? && other_languages.include?('in')
+    return 'id' if indonesia? && other_languages.include?('id')
+    return 'ne' if nepal? && other_languages.include?('ne')
 
     other_languages.first
   end
@@ -196,6 +198,18 @@ class Organization < ActiveRecord::Base
 
   def myanmar?
     country == 'myanmar'
+  end
+
+  def indonesia?
+    country == 'indonesia'
+  end
+
+  def nepal?
+    country == 'nepal'
+  end
+
+  def thailand?
+    country == 'thailand'
   end
 
   def available_for_referral?
@@ -271,6 +285,7 @@ class Organization < ActiveRecord::Base
     Rails.cache.delete(['current_organization', short_name])
     Rails.cache.delete([Apartment::Tenant.current, 'cache_mapping_ngo_names', Organization.only_deleted.count])
     Rails.cache.delete([Apartment::Tenant.current, 'Organization', 'visible', Organization.only_deleted.count])
+    Rails.cache.delete(['current_organization', Apartment::Tenant.current, Organization.only_deleted.count])
     cached_organization_short_names_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_organization_short_names/].blank? }
     cached_organization_short_names_keys.each { |key| Rails.cache.delete(key) }
   end

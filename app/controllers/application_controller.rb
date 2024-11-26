@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   include Pundit
   include LocaleConcern
+  include ApplicationHelper
 
   protect_from_forgery with: :null_session, except: :index, if: proc { |c| c.request.format == 'application/json' }
   before_action :store_user_location!, if: :storable_location?
@@ -13,7 +14,9 @@ class ApplicationController < ActionController::Base
   before_filter :set_current_user
 
   rescue_from ActiveRecord::RecordNotFound do |exception|
-    render file: "#{Rails.root}/app/views/errors/404", layout: false, status: :not_found
+    if request.path == "/#{controller_name}/#{action_name}"
+      render file: "#{Rails.root}/app/views/errors/404", layout: false, status: :not_found
+    end
   end
 
   helper_method :current_organization, :current_setting
@@ -41,11 +44,12 @@ class ApplicationController < ActionController::Base
   end
 
   def current_setting
-    @current_setting ||= Setting.cache_first
+    @current_setting ||= Setting.first
   end
 
   def field_settings
     return @field_settings if defined? @field_settings
+
     @field_settings ||= FieldSetting.cache_query_find_by_ngo_name
   end
 
@@ -77,10 +81,6 @@ class ApplicationController < ActionController::Base
     @address_translation = view_context.address_translation('client')
   end
 
-  def set_current_user
-    User.current_user = current_user
-  end
-
   private
 
   def configure_permitted_parameters
@@ -108,7 +108,7 @@ class ApplicationController < ActionController::Base
   end
 
   def default_url_options(options = {})
-    country = Setting.cache_first.try(:country_name) || current_organization.country || params[:country] || 'cambodia'
+    country = Setting.first.try(:country_name) || current_organization.country || params[:country] || 'cambodia'
     local = params[:locale] if params[:locale] && I18n.available_locales.include?(params[:locale].to_sym)
     { locale: local || I18n.locale, country: country }.merge(options)
   end
@@ -121,7 +121,8 @@ class ApplicationController < ActionController::Base
     I18n.locale = current_user.preferred_language
     flash[:notice] = I18n.t('devise.sessions.signed_in')
     stored_location_string = stored_location_for(_resource_or_scope)
-    stored_location_string && stored_location_string.gsub(/locale\=(en|km|my)/, "locale=#{locale}") || dashboards_path(locale: current_user&.preferred_language || 'en') || super
+
+    stored_location_string && stored_location_string.gsub(/locale=(en|km|my|ne|id|th)/, "locale=#{locale}") || dashboards_path(locale: current_user&.preferred_language || 'en') || super
   end
 
   def storable_location?

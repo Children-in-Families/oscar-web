@@ -51,7 +51,7 @@ module ClientAdvancedSearchesConcern
 
   def fetch_advanced_search_queries
     @my_advanced_searches = current_user.cache_advance_saved_search
-    @other_advanced_searches = Rails.cache.fetch(user_cache_id << 'other_advanced_search_queries') do
+    @other_advanced_searches = Rails.cache.fetch([Apartment::Tenant.current, *user_cache_id] << 'other_advanced_search_queries') do
       AdvancedSearch.for_client.includes(:user).non_of(current_user).to_a
     end
   end
@@ -318,7 +318,7 @@ module ClientAdvancedSearchesConcern
   end
 
   def cache_client_ids
-    @cache_key = "cache_client_ids_#{current_user.id}_#{Time.current.to_i}"
+    @cache_key = "#{Apartment::Tenant.current}_cache_client_ids_#{current_user.id}_#{Time.current.to_i}"
     Rails.cache.write(@cache_key, @results.ids.join(','), expires_in: 10.minutes)
   end
 end

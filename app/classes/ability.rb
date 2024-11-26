@@ -35,7 +35,7 @@ class Ability
       can :manage, CaseNote
       can :create, Client
       can :manage, Client, case_worker_clients: { user_id: user.id }
-      cannot :create, CustomFieldProperty, custom_field: { hidden: true },  custom_formable_type: 'Client'
+      cannot :create, CustomFieldProperty, custom_field: { hidden: true }, custom_formable_type: 'Client'
       can :manage, CustomFieldProperty, custom_formable_type: 'Client'
       can :manage, CustomFieldProperty, custom_formable_type: 'Family'
       can :manage, CustomFieldProperty, custom_formable_type: 'Community'
@@ -65,16 +65,14 @@ class Ability
 
       can :create, Family
       can :manage, Family, id: family_ids.flatten.compact.uniq
-
     elsif user.manager?
-      subordinate_users = User.where('manager_ids && ARRAY[:user_id] OR id = :user_id', { user_id: user.id }).map(&:id)
-      subordinate_users << user.id
-      exited_client_ids = exited_clients(subordinate_users)
+      subordinate_user_ids = user.all_subordinates.ids
+      subordinate_user_ids << user.id
+      exited_client_ids = exited_clients(subordinate_user_ids)
       can :create, Client
-      can :manage, Client, case_worker_clients: { user_id: subordinate_users }
+      can :manage, Client, case_worker_clients: { user_id: subordinate_user_ids }
       can :manage, Client, id: exited_client_ids
-      can :manage, User, id: User.where('manager_ids && ARRAY[?]', user.id).map(&:id)
-      can :manage, User, id: user.id
+      can :manage, User, id: subordinate_user_ids
       can :manage, Case
       can :manage, CaseNote
       can :manage, Partner
@@ -83,6 +81,7 @@ class Ability
       can :manage, CustomFieldProperty, custom_formable_type: 'Partner'
       can :manage, CustomFieldProperty, custom_formable_type: 'Community'
       can :manage, CustomField
+      can :manage, CaseNotes::CustomField
       can :manage, ClientEnrollment
       can :manage, ClientEnrollmentTracking
       can :manage, LeaveProgram
@@ -98,15 +97,14 @@ class Ability
       can [:read, :create, :update], ScreeningAssessment
 
       family_ids = user.families.ids
-      family_ids += User.joins(:clients).where(id: subordinate_users).where.not(clients: { current_family_id: nil }).select('clients.current_family_id AS client_current_family_id').map(&:client_current_family_id)
-      family_ids += User.joins(:families).where(id: subordinate_users).select('families.id AS family_id').map(&:family_id)
+      family_ids += User.joins(:clients).where(id: subordinate_user_ids).where.not(clients: { current_family_id: nil }).select('clients.current_family_id AS client_current_family_id').map(&:client_current_family_id)
+      family_ids += User.joins(:families).where(id: subordinate_user_ids).select('families.id AS family_id').map(&:family_id)
       family_ids += Client.where(id: exited_client_ids).pluck(:current_family_id)
       family_ids += user.clients.pluck(:current_family_id)
       family_ids += FamilyMember.where(client_id: user.clients.ids + exited_client_ids).pluck(:family_id)
 
       can :create, Family
       can :manage, Family, id: family_ids.compact.uniq
-
     elsif user.hotline_officer?
       can :manage, Attachment
       can :manage, Case, exited: false
@@ -130,7 +128,7 @@ class Ability
       can [:read, :create, :update], ScreeningAssessment
     end
 
-    cannot :read, Community if Setting.cache_first.hide_community?
+    cannot :read, Community if Setting.first.hide_community?
     cannot :read, Partner if FieldSetting.hidden_group?('partner')
   end
 

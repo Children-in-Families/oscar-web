@@ -15,13 +15,13 @@ class CustomAssessmentSetting < ActiveRecord::Base
   validates :max_custom_assessment, presence: true
   validates :custom_age, presence: true
 
-  scope :any_custom_assessment_enable?, -> { all.any? }
   scope :only_enable_custom_assessment, -> { where(enable_custom_assessment: true) }
+  scope :any_custom_assessment_enable?, -> { only_enable_custom_assessment.any? }
 
   after_commit :flush_cache
 
   def self.cache_only_enable_custom_assessment
-    Rails.cache.fetch([Apartment::Tenant.current, custom_assessment_name, 'only_enable_custom_assessment']) { only_enable_custom_assessment.to_a }
+    Rails.cache.fetch([Apartment::Tenant.current, 'custom_assessment_name', 'only_enable_custom_assessment']) { only_enable_custom_assessment.to_a }
   end
 
   def max_assessment_duration
@@ -42,5 +42,7 @@ class CustomAssessmentSetting < ActiveRecord::Base
   def flush_cache
     Rails.cache.delete([Apartment::Tenant.current, 'CustomAssessmentSetting', 'enable_custom_assessment', 'true']) if enable_custom_assessment
     Rails.cache.delete([Apartment::Tenant.current, 'User', User.current_user.id, 'assessment_either_overdue_or_due_today']) if User.current_user.present?
+    custom_setting_name_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}\/.*only_enable_custom_assessment/].blank? }
+    custom_setting_name_keys.each { |key| Rails.cache.delete(key) }
   end
 end

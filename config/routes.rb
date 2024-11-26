@@ -1,7 +1,9 @@
 require 'sidekiq/web'
 Rails.application.routes.draw do
   root 'organizations#index'
+
   devise_for :users, controllers: { registrations: 'registrations', sessions: 'sessions', passwords: 'passwords' }
+  
   use_doorkeeper do
     skip_controllers :applications, :authorized_applications
   end
@@ -21,6 +23,18 @@ Rails.application.routes.draw do
   get '/dashboards/notification' => 'dashboards#notification'
   get '/dashboards/family_tab' => 'dashboards#family_tab'
   get '/dashboards/side_menu_data' => 'dashboards#side_menu_data'
+
+  constraints format: :js do
+    get '/dashboards/notify_task' => 'dashboards#notify_task'
+    get '/dashboards/notify_assessment' => 'dashboards#notify_assessment'
+    get '/dashboards/notify_custom_assessment' => 'dashboards#notify_custom_assessment'
+    get '/dashboards/notify_client_custom_form' => 'dashboards#notify_client_custom_form'
+    get 'notify_overdue_case_note' => 'notifications#notify_overdue_case_note'
+    get 'notify_user_custom_field' => 'notifications#notify_user_custom_field'
+    get 'notify_family_custom_field' => 'notifications#notify_family_custom_field'
+    get 'notify_partner_custom_field' => 'notifications#notify_partner_custom_field'
+    get 'program_stream_notify' => 'notifications#program_stream_notify'
+  end
 
   resources :calendars
 
@@ -203,6 +217,10 @@ Rails.application.routes.draw do
   resources :families do
     get :welcome, on: :collection
 
+    member do
+      get :custom_fields
+    end
+
     collection do
       get :welcome
       post '/advanced_search', to: 'families#index'
@@ -383,8 +401,9 @@ Rails.application.routes.draw do
     # resources :referral_sources
 
     namespace :v1, default: { format: :json } do
-      resources :organizations, only: [:index, :create, :update, :destroy] do
+      resources :organizations, only: [:index, :listing, :create, :update, :destroy] do
         collection do
+          get :listing
           get :clients
           post 'clients/upsert' => 'organizations#upsert'
           get 'clients/check_duplication' => 'organizations#check_duplication'
@@ -413,11 +432,13 @@ Rails.application.routes.draw do
         resources :case_notes, only: [:show, :create, :update, :destroy, :delete_attachment] do
           delete 'attachments/:file_index', action: :delete_attachment, on: :member
         end
-        resources :custom_field_properties, only: [:create, :update, :destroy]
+        resources :custom_field_properties, except: :show
 
         scope module: 'clients' do
           resources :exit_ngos, only: [:create, :update]
           resources :enter_ngos, only: [:create, :update]
+          resources :referrals
+          resources :internal_referrals
         end
 
         scope module: 'client_tasks' do
@@ -429,6 +450,7 @@ Rails.application.routes.draw do
           resources :leave_programs, only: [:create, :update, :destroy]
         end
         resources :care_plans
+        resources :screening_assessments
       end
 
       resources :program_streams, only: [:index]
@@ -455,6 +477,27 @@ Rails.application.routes.draw do
       end
 
       resources :referees, only: :index
+      resources :notifications, only: :index do
+        collection do
+          get :program_stream_notify
+          get :referrals
+          get :repeat_referrals
+          get :family_referrals
+          get :repeat_family_referrals
+          get :notify_task
+          get :notify_assessment
+          get :notify_custom_assessment
+          get :notify_client_custom_form
+          get :notify_overdue_case_note
+          get :notify_user_custom_field
+          get :notify_family_custom_field
+          get :notify_partner_custom_field
+          get :program_stream_notify
+          get :custom_forms
+          get :developmental_markers
+          get :services
+        end
+      end
     end
 
     resources :community_advanced_searches, only: [] do
@@ -491,6 +534,10 @@ Rails.application.routes.draw do
       end
       get 'hidden' => 'custom_fields#hidden', as: :hidden, on: :member
     end
+  end
+
+  namespace :case_notes do
+    resource :custom_field
   end
 
   resources :advanced_search_save_queries

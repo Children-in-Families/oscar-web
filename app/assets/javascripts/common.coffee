@@ -15,11 +15,18 @@ CIF.Common =
 
     @loadNotification()
     @loadSideMenuCountBadge()
+    @handleNotificationOnClick()
 
   loadNotification: ->
     setTimeout (->
       if $('.lazy-load-notification').length > 0
-        $.ajax(type: 'GET', url: '/dashboards/notification')
+        $.ajax(type: 'GET', url: '/dashboards/notification').done(->
+          CIF.Common.handleNotificationOnClick()
+          $('#notification-spinner').hide();
+          return
+        ).fail (p1, p2, p3) ->
+          console.log(p1, p2, p3)
+
     ), 1000
 
   loadSideMenuCountBadge: ->
@@ -177,3 +184,24 @@ CIF.Common =
       printableId = $(@).data('printable-id')
       $("##{printableId}").print()
     return
+
+  handleNotificationOnClick: ->
+    $('a[data-remote="true"]').on 'click', () ->
+      CIF.Common.loadingToastrOnNotificationClick()
+    return
+
+  loadingToastrOnNotificationClick: ->
+    messageOption =
+      'closeButton': true
+      'debug': true
+      'progressBar': true
+      'positionClass': 'toast-top-center'
+      "showDuration": "1500",
+      'showEasing': 'swing'
+      'hideEasing': 'linear'
+      'showMethod': 'slideDown'
+      'hideMethod': 'slideUp',
+      'iconClass': "toast-custom-icon"
+
+    toastr.options.escapeHtml = true;
+    toastr.success('<i class="fa fa-spinner fa-spin" style="font-size:24px"></i> Loading...', '', messageOption)

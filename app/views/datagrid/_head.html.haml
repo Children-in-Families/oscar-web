@@ -1,4 +1,4 @@
-- if grid.instance_of?(ClientGrid) && Setting.cache_first.enabled_header_count
+- if grid.instance_of?(ClientGrid) && Setting.first.enabled_header_count
   = render partial: "datagrid/head/client_grid_head", locals: { grid: grid, options: options }
 - elsif grid.instance_of?(FamilyGrid)
   = render partial: "datagrid/head/family_grid_head", locals: { grid: grid, options: options }

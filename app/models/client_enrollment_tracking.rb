@@ -1,6 +1,8 @@
 class ClientEnrollmentTracking < ActiveRecord::Base
   include NestedAttributesConcern
   include ClientEnrollmentTrackingConcern
+  include ClearanceCustomFormConcern
+  include ClearanceOverdueConcern
 
   belongs_to :client_enrollment
   belongs_to :tracking
@@ -22,7 +24,7 @@ class ClientEnrollmentTracking < ActiveRecord::Base
   #   CustomFormEmailValidator.new(obj, 'tracking', 'fields').validate
   # end
 
-  def self.properties_by(value, object=nil)
+  def self.properties_by(value, object = nil)
     value = value.gsub(/\'+/, "''")
     field_properties = select("client_enrollment_trackings.id, client_enrollment_trackings.properties ->  '#{value}' as field_properties").collect(&:field_properties)
     field_properties.select(&:present?)
@@ -43,7 +45,7 @@ class ClientEnrollmentTracking < ActiveRecord::Base
   def is_tracking_editable_limited?
     return true if !Organization.ratanak?
 
-    setting = Setting.cache_first
+    setting = Setting.first
     return true if setting.try(:tracking_form_edit_limit).zero?
     tracking_form_edit_limit = setting.try(:tracking_form_edit_limit).zero? ? 2 : setting.try(:tracking_form_edit_limit)
     edit_frequency = setting.try(:tracking_form_edit_frequency)
@@ -53,7 +55,7 @@ class ClientEnrollmentTracking < ActiveRecord::Base
   private
 
   def create_client_enrollment_tracking_history
-    ClientEnrollmentTrackingHistory.initial(self)
+    # ClientEnrollmentTrackingHistory.initial(self)
   end
 
   def flush_cache

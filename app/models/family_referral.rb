@@ -1,4 +1,6 @@
 class FamilyReferral < ActiveRecord::Base
+  include ClearanceOverdueConcern
+
   has_paper_trail
 
   mount_uploaders :consent_form, ConsentFormUploader
@@ -8,8 +10,8 @@ class FamilyReferral < ActiveRecord::Base
   alias_attribute :new_date, :date_of_referral
 
   validates :name_of_family, :date_of_referral, :referred_from,
-  :referred_to, :referral_reason, :name_of_referee,
-  :referral_phone, presence: true
+            :referred_to, :referral_reason, :name_of_referee,
+            :referral_phone, presence: true
 
   validates :consent_form, presence: true, if: :making_referral?
   validates :referee_id, presence: true, if: :slug_exist?
@@ -25,9 +27,10 @@ class FamilyReferral < ActiveRecord::Base
   scope :unsaved, -> { where(saved: false) }
   scope :saved, -> { where(saved: true) }
   scope :received_and_saved, -> { received.saved }
+  scope :status_referred, -> { where(referral_status: 'Referred') }
   scope :most_recents, -> { order(created_at: :desc) }
   scope :externals, -> { where(referred_to: 'external referral') }
-  scope :get_external_systems, ->(external_system_name){ where("referrals.ngo_name = ?", external_system_name) }
+  scope :get_external_systems, -> (external_system_name) { where('referrals.ngo_name = ?', external_system_name) }
 
   def non_oscar_ngo?
     referred_to == 'external referral' || referred_to == 'MoSVY External System'
@@ -55,7 +58,7 @@ class FamilyReferral < ActiveRecord::Base
       referral_phone: attribute[:external_case_worker_mobile],
       referee_id: attribute[:external_case_worker_id],
       consent_form: [],
-      ngo_name: 'MoSVY',
+      ngo_name: 'MoSVY'
     }
   end
 
@@ -63,7 +66,8 @@ class FamilyReferral < ActiveRecord::Base
 
   def check_saved_referral_in_target_ngo
     current_org = Organization.current
-    return if self.non_oscar_ngo? || current_org.short_name == referred_to
+    return if non_oscar_ngo? || current_org.short_name == referred_to
+
     Organization.switch_to referred_to
     is_saved = FamilyReferral.find_by(slug: slug, date_of_referral: date_of_referral).try(:saved)
     Organization.switch_to current_org.short_name
@@ -81,10 +85,13 @@ class FamilyReferral < ActiveRecord::Base
   def make_a_copy_to_target_ngo
     current_org = Organization.current
     return if self.non_oscar_ngo? || current_org.short_name == referred_to
+
+    referred_from_id = id
     Organization.switch_to referred_to
     referral = FamilyReferral.find_or_initialize_by(slug: attributes['slug'], saved: false)
-    referral.attributes = attributes.except('id', 'created_at', 'updated_at', 'consent_form', 'family_id').merge({family_id: nil})
+    referral.attributes = attributes.except('id', 'created_at', 'updated_at', 'consent_form', 'family_id').merge({ family_id: nil })
     referral.consent_form = consent_form
+    referral.referred_from_uid = referred_from_id
     referral.save
     Organization.switch_to current_org.short_name
   end

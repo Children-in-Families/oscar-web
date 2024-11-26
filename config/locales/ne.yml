@@ -1,4 +1,4 @@
-en:
+ne:
   able_screening_questions:
     able_screening_question_field:
       alert_manager: Alert Manager
@@ -377,6 +377,7 @@ en:
       carer_name: Carer Name
       carer_phone: Carer Phone Number
       carer_email: Carer Email Address
+      case_note_created_at: Case Note Created Date
       case_note_date: Case Note Date
       case_note_type: Case Note Type
       case_type: Case Type
@@ -596,6 +597,7 @@ en:
       download: Download
       max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
       preview_download: Preview & Download
+    complete: Complete
     create:
       successfully_created: Assessment has been successfully created.
     destroy:
@@ -620,6 +622,7 @@ en:
       score_label: Choose which of the following descriptions most closely describe the client's situation, base on your observation.
       set_goal: Would you like to set a goal?
       tasks_arising: 'Tasks arising:'
+    incomplete: Incomplete
     incomplete_detail:
       goal: Goal
       reason: Observation
@@ -662,9 +665,6 @@ en:
       assessment_created_by: Completed by
       back_to_assessment_history: Back to assessment history
       based_on: Based on Assessment Number
-
-
-
       case_plan: Case Plan for
       domain: Domain
       due_date: Due Date
@@ -2420,6 +2420,7 @@ en:
       carer_address: Carer Address
       carer_names: Carer Names
       carer_phone_number: Carer Phone Number
+      case_note_created_at: Case Note Created Date
       case_note_date: Case Note Date
       case_note_type: Case Note Type
       case_start_date: Case Start Date
@@ -4283,6 +4284,7 @@ en:
       agencies: Agencies
       caller_referees: Caller / Referees
       calls: Calls
+      case_note_form: Case Note Form
       changelogs: Changelogs
       calls: Calls
       clients: Clients
@@ -4324,6 +4326,7 @@ en:
       users: Users
       view_calendar: View Calendar
     top_navbar:
+      bahasa: Bahasa
       burmese: Burmese
       edit_profile: Edit Profile
       english: English

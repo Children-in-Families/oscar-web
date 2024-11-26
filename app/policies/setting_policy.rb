@@ -5,7 +5,7 @@ class SettingPolicy < ApplicationPolicy
 
   def research_module?
     current_org = Organization.current
-    user.admin? && Setting.cache_first.country_name == 'cambodia' && !current_org.demo? && !current_org.cccu?
+    user.admin? && Setting.first.country_name == 'cambodia' && !current_org.demo? && !current_org.cccu?
   end
 
   def custom_labels?

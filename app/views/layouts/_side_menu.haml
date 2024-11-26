@@ -109,7 +109,7 @@
                 %span.fa.arrow
               %ul.nav.nav-third-level
                 - if can? :read, CustomField
-                  %li{ class: active_menu('custom_fields') }
+                  %li{ class: controller_name == 'custom_fields' && params[:controller].exclude?('case_note') && 'active' }
                     = link_to t('.custom_fields'), custom_fields_path
                 - if can? :read, ProgramStream
                   %li{ class: active_menu('program_streams') }
@@ -120,6 +120,10 @@
                 - if can? :read, :all
                   %li{ class: active_menu('domain_groups') || active_menu('domains') }
                     = link_to t('.assessments'), domain_groups_path
+                - if can? :read, CaseNotes::CustomField
+                  %li{ class: params[:controller].include?('case_notes/custom_fields') && 'active' }
+                    = link_to t('.case_note_form'), new_case_notes_custom_field_path
+                - if can? :read, :all
                   %li{ class: active_menu('quantitative_types') }
                     = link_to t('.quantitative_types'), quantitative_types_path
                 - if can? :read, ReferralSource
@@ -154,7 +158,7 @@
                 - if current_user.admin?
                   %li{ class: settings_menu_active('settings', 'client_forms')}
                     = link_to t('.client_forms'), client_forms_settings_path
-                  - if Setting.cache_first.country_name == "cambodia" && policy(current_setting).research_module?
+                  - if Setting.first.country_name == "cambodia" && policy(current_setting).research_module?
                     %li{ class: settings_menu_active('settings', 'research_module') }
                       = link_to t('.research_module'), research_module_settings_path
                   %li{ class: settings_menu_active('settings', 'internal_referral_module') }

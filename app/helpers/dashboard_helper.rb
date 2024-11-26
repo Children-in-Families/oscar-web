@@ -55,11 +55,11 @@ module DashboardHelper
     client.next_assessment_date(@user.activated_at).between?(Date.tomorrow, 3.months.from_now) if client.next_assessment_date(@user.activated_at).present?
   end
 
-  def overdue_custom_assessments_any?(client, custom_assessment_setting=nil)
+  def overdue_custom_assessments_any?(client, custom_assessment_setting = nil)
     client.custom_next_assessment_date(@user.activated_at, custom_assessment_setting&.id) < Date.today if client.custom_next_assessment_date(@user.activated_at, custom_assessment_setting&.id).present?
   end
 
-  def duetoday_custom_assessments_any?(client, custom_assessment=nil)
+  def duetoday_custom_assessments_any?(client, custom_assessment = nil)
     client.custom_next_assessment_date(@user.activated_at, custom_assessment&.id) == Date.today if client.custom_next_assessment_date(@user.activated_at, custom_assessment&.id)
   end
 
@@ -68,7 +68,7 @@ module DashboardHelper
   end
 
   # No longer used, moved to client.custom_next_assessment_date2
-  def client_custom_next_assessment_date(client, activated_at=nil)
+  def client_custom_next_assessment_date(client, activated_at = nil)
     return @client_custom_next_assessment_date if @client_custom_next_assessment_date.present?
 
     ids = client_custom_assessment_setting(client)

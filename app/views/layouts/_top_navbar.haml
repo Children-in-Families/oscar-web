@@ -11,6 +11,10 @@
             = image_tag(ENV['NGO_LOGO'], class: 'navbar-minimalize minimalize-styl-2')
     %ul.nav.navbar-top-links.navbar-right.pull-right{ class: "#{ 'lazy-load-notification' if @lazy_load_notification && controller_name == 'dashboards' }" }
       - if user_signed_in? && controller_name == 'dashboards'
+        - if @lazy_load_notification
+          %li#notification-spinner
+            %a.dropdown-toggle.count-info{"data-toggle" => "dropdown", :href => "#"}
+              %i.fa.fa-spinner.fa-spin
         = render partial: 'layouts/notification' unless @lazy_load_notification
 
       %li#language-selection-dropdown
@@ -22,6 +26,8 @@
             %li
               - supported_languages = (current_organization&.supported_languages || Organization::SUPPORTED_LANGUAGES)
               - supported_languages.each do |supported_lang|
+                - next unless supported_languages_data.dig(supported_lang.to_sym, :flag_file_name)
+
                 = link_to(url_for(params.merge({locale: supported_lang})), id: "lang-#{supported_lang}", method: request_method) do
                   = image_tag(supported_languages_data.dig(supported_lang.to_sym, :flag_file_name))
                   = supported_languages_data.dig(supported_lang.to_sym, :label)

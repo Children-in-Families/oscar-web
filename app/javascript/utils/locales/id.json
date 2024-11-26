@@ -1,0 +1,673 @@
+{
+  "address": {
+    "outside_address": "Alamat diluar",
+    "province": "Provinsi",
+    "district": "Kecamatan",
+    "commune": "Kecamatan",
+    "village": "Desa/Kelurahan",
+    "street_number": "RW",
+    "house_number": "RT",
+    "address_name": "Alamat",
+    "address_type": "Tipe Alamat",
+    "locality": "Lokalitas",
+    "indonesia": {
+      "city": "Kota/Kabupaten",
+      "outside_address": "Alamat diluar",
+      "province": "Provinsi",
+      "district": "Kecamatan",
+      "commune": "Kecamatan",
+      "village": "Desa/Kelurahan",
+      "street_number": "RW",
+      "house_number": "RT",
+      "address_name": "Alamat",
+      "address_type": "Tipe Alamat",
+      "postal_code": "Kode Pos",
+      "state": "Negara",
+      "township": "Ibu Kota",
+      "street_line1": "Jalan 1",
+      "street_line2": "Jalan 2(pilihan)",
+      "subdistrict": "Kelurahan / Desa"
+    },
+    "lesotho": {
+      "description_house_landmark": "Deskripsi Landmark Rumah",
+      "directions": "Petunjuk Arah",
+      "suburb": "Pinggiran Kota"
+    },
+    "myanmar": {
+      "state": "Negara",
+      "township": "Ibu Kota",
+      "street_line1": "Jalan 1",
+      "street_line2": "Jalan 2(pilihan)"
+    },
+    "thailand": {
+      "district": "Kecamatan",
+      "plot": "Petak/Nomor Rumah, Desa/Kelurahan",
+      "postal_code": "Kode Pos",
+      "province": "Provinsi",
+      "road": "Jalan",
+      "subdistrict": "Kelurahan / Desa"
+    },
+    "nepal": {
+      "province": "Provinsi",
+      "district": "Kecamatan",
+      "municipality": "Kabupaten/kota",
+      "plot": "Petak/Nomor Rumah, Desa/Kelurahan",
+      "postal_code": "Kode Pos",
+      "road": "Jalan"
+    }
+  },
+  "admin": {
+    "admin_information": "Informasi Administrasi",
+    "receiving_staff": "Anggota Staff Penerima",
+    "date_referral": "Tanggal Rujukan",
+    "case_worker": "Case Coordinator/Staff Penanggung Jawab Kasus",
+    "first_follow_by": "Tindak Lanjut Pertama Oleh",
+    "first_follow_date": "Tanggal Dari Pertama Kali Ditindaklanjuti"
+  },
+  "carerInfo": {
+    "name": "Nama",
+    "gender": "Jenis Kelamin",
+    "carer_phone": "Nomor Telepon Wali",
+    "carer_email": "Alamat Email Wali",
+    "client_relationship": "Hubungan Dengan klien",
+    "family_record": "Rekam Keluarga",
+    "address": "Alamat",
+    "same_as_client": "Sama Dengan Klien",
+    "outside_cambodia": "Internasional",
+    "sam_as_client": "Sama Dengan Klien"
+  },
+  "createFamilyModal": {
+    "wait_for_server_req": "Pengecekan Ganda Sedang Berjalan, Mohon Tunggu Sebentar...",
+    "create_family_record": "Apakah Anda Ingin Membuat Rekam Keluarga Untuk Klien ini, Atau Lampirkan Pada Data Rekam Keluarga Yang Ada?",
+    "create_family": "Buat Keluarga Baru Dengan Klien",
+    "attach_family_to_client": "Lampirkan Dengan Rekam Keluarga Yang Ada",
+    "no": "Tidak",
+    "save": "Simpan",
+    "successfully_created": "Data Klien Berhasil Dibuat"
+  },
+  "customInfo": {
+    "custom_id_1": "Nomor ID Khusus 1",
+    "custom_id_2": "Nomor ID Khusus 2",
+    "rate_client_id": "Apakah Klien Tergolong Dalam ID Kurang Mampu?",
+    "has_already_taken": "Telah Digunakan"
+  },
+  "donorInfo": {
+    "other_agencies": "Agensi Lain yang Berkaitan",
+    "donor": "Donatur"
+  },
+  "index": {
+    "referee_info": "Informasi Perujuk",
+    "referral_info": "Klien / Informasi Rujukan",
+    "referral_more_info": "Klien / Rujukan � Informasi Lain",
+    "referral_vulnerability": "Klien / Rujukan � Informasi Kerentanan dan Catatan Rujukan",
+    "wait": "Pengecekan Ganda Sedang Berjalan, Mohon Tunggu Sebentar...",
+    "duplicate_checker": "Pengecekan Ganda Sedang Berjalan. Mohon Beri Kami Waktu Sebentar!",
+    "cancel": "Batal",
+    "next": "Selanjutnya",
+    "previous": "Sebelumnya",
+    "save": "Simpan",
+    "similar_record": "Catatan Klien Yang Anda Simpan Mempunyai Kesamaan Dengan Catatan Lain di OSCAR di Bidang Berikut ini:",
+    "checking_message": "Kemungkinan Data Klien Ganda Akan Dikategorikan dan Tercatat di Daftar Ganda Untuk di Ulas oleh OSCAR.",
+    "duplicate_message": "Fitur Pengecekan Ganda Saat Ini Sedang Diuji Beta, Mohon Untuk Mengirimkan Email di: info@oscarhq.com Apabila Anda Memiliki Permasalahan Dengan Hasil Positif/Negatif Palsu yang Berlebihan.",
+    "continue": "Lanjutkan",
+    "client_confirm": "Konfirmasi Klien",
+    "warning": "Peringatan",
+    "informing": "Menginformasikan",
+    "successfully_created": "Data Klien Berhasil Dibuat",
+    "successfully_updated": "Data Klien Berhasil Diperbarui"
+  },
+  "refereeInfo": {
+    "anonymous": "Anonim",
+    "referee_info": "Informasi Perujuk",
+    "anonymous_referee": "Perujuk Anonim",
+    "name": "Nama",
+    "gender": "Jenis Kelamin",
+    "referee_phone": "Nomor Telepon Perujuk",
+    "referee_email": "Alamat Email Perujuk",
+    "referral_source_cat": "Kategori Asal Perujuk",
+    "referral_source": "Sumber Rujukan",
+    "address": "Alamat",
+    "outside_cam": "Internasional",
+    "female": "Wanita",
+    "male": "Pria",
+    "lgbt": "LGBT",
+    "unknown": "Tidak Diketahui",
+    "prefer_not_to_say": "Memilih Untuk Tidak Dijawab/Tidak Dapat Dispesifikasi",
+    "other": "Lainnya"
+  },
+  "referralInfo": {
+    "referral_info": "Klien / Informasi Rujukan",
+    "given_name": "Nama (Latin)",
+    "family_name": "Marga (Latin)",
+    "local_given_name": "Nama(Khmer)",
+    "local_family_name": "Marga (Khmer)",
+    "gender": "Jenis Kelamin",
+    "genderLists": {
+      "female": "Wanita",
+      "male": "Pria",
+      "lgbt": "LGBT",
+      "unknown": "Tidak Diketahui",
+      "prefer_not_to_say": "Memilih Untuk Tidak Dijawab/Tidak Dapat Dispesifikasi",
+      "other": "Lainnya"
+    },
+    "date_of_birth": "Tanggal Lahir",
+    "birth_province": "Tempat Lahir",
+    "client_relationship": "Hubungan Dengan Perujuk",
+    "caller_relationship": "Hubungan Dengan Perujuk",
+    "contact_info": "Informasi Kontak",
+    "client_is_outside": "Internasional",
+    "what_3_word": "3 Kata Apa",
+    "client_phone": "Kontak Telepon Klien",
+    "phone_owner": "Pemilik Telepon",
+    "client_email": "Alamat Email Klien",
+    "profile": "Gambar Profil",
+    "remove": "Hapus",
+    "for_testing": "Apaka Ini Klien Uji Coba?"
+  },
+  "referralMoreInfo": {
+    "referral_more_info": "Klien / Rujukan � Informasi Lebih",
+    "do_you_want": "Apakah Anda Ingin Menambahkan",
+    "carer_info": "Informasi Karir?",
+    "school_info": "Informasi Pendidikan?",
+    "donor_info": "Informasi Donatur?",
+    "other_info": "Informasi Lainnya"
+  },
+  "referralVulnerability": {
+    "referral_vulnerability": "Klien / Rujukan � Kerapuhan Informasi dan Catatan Rujukan",
+    "enter_a_breif": "Masukkan Catatan Singkat Dalam Rujukan Klien"
+  },
+  "schoolInfo": {
+    "school_name": "Nama sekolah",
+    "school_grade": "Kelas Sekolah",
+    "main_school_contact": "Kontak Utama Sekolah"
+  },
+  "validation": {
+    "cannot_blank": "Tidak Bisa Dikosongkan."
+  },
+  "addressType": {
+    "Home": "Rumah",
+    "Business": "Tempat Kerja",
+    "RCI": "RCI",
+    "Dormitory": "Asrama",
+    "Other": "Lainnya"
+  },
+  "phoneOwner": {
+    "Self": "Pribadi",
+    "Family Member": "Anggota Keluarga",
+    "Friend": "Teman",
+    "Helping Professional": "Pendamping Profesional",
+    "Government / Local Authority": "Pemerintah / Otoritas Lokal",
+    "Other": "Lainnya"
+  },
+  "refereeRelationShip": {
+    "Self": "Pribadi",
+    "Family Member": "Anggota Keluarga",
+    "Friend": "Teman",
+    "Helping Professional": "Pendamping Profesional",
+    "Government / Local Authority": "Pendidikan / Otoritas Lokal",
+    "Other": "Lainnya",
+    "Child": "Anak",
+    "In same community": "Dalam Komunitas yang Sama",
+    "Client": "Klien",
+    "Stranger": "Orang Asing"
+  },
+  "clientRelationShip": {
+    "Husband": "Suami",
+    "Son": "Anak Laki-laki",
+    "Daughter": "Anak Perempuan",
+    "Parent": "Orang Tua",
+    "Grandparent": "Kakek-Nenek",
+    "Grandson": "Cucu Laki-laki",
+    "Granddaughter": "Cucu Perempuan",
+    "Aunt / Uncle": "Bibi / Paman",
+    "Sibling": "Saudara Kakak Beradik",
+    "Cousin": "Sepupu",
+    "Family Friend": "Teman Keluarga",
+    "Foster Carer": "Pengasuh",
+    "Temporary Carer": "Pengasuh Sementara",
+    "RCI Carer": "Pengasuh RCI",
+    "Adopted Parent": "Orang Tua Angkat",
+    "Other": "Lainnya"
+  },
+  "callerRelationship": {
+    "Self": "Pribadi",
+    "Child": "Anak",
+    "Family Member": "Anggota Keluarga",
+    "Friend": "Teman",
+    "In same community": "Dalam Komunitas yang Sama",
+    "Client": "Klien",
+    "Stranger": "Orang Asing",
+    "Other": "Lainnya"
+  },
+  "schoolGrade": {
+    "Bachelors": "Sarjana",
+    "Kindergarten 1": "Taman Kanak-kanak 1",
+    "Kindergarten 2": "Taman Kanak-kanak 2",
+    "Kindergarten 3": "Taman Kanak-kanak 3",
+    "Kindergarten 4": "Taman Kanak-kanak 4",
+    "1": "1",
+    "2": "2",
+    "3": "3",
+    "4": "4",
+    "5": "5",
+    "6": "6",
+    "7": "7",
+    "8": "8",
+    "9": "9",
+    "10": "10",
+    "11": "11",
+    "12": "12",
+    "Year 1": "Tahun 1",
+    "Year 2": "Tahun 2",
+    "Year 3": "Tahun 3",
+    "Year 4": "Tahun 4",
+    "Year 5": "Tahun 5",
+    "Year 6": "Tahun 6",
+    "Year 7": "Tahun 7",
+    "Year 8": "Tahun 8"
+  },
+  "agency": {
+    "Church": "Gereja",
+    "Gov't": "Pemerintah",
+    "Hospital / Clinic / Doctor": "Rumah Sakit / Klinik / Dokter",
+    "Local": "Lokal",
+    "Mother's heart": "Hati Seorang Ibu",
+    "Other NGO": "NGO Lainnya",
+    "Police": "Polisi"
+  },
+  "newCall": {
+    "address": {
+      "outside_address": "Alamat Luar",
+      "provicne": "Provinsi",
+      "district": "Kecamatan",
+      "commune": "Kecamatan",
+      "village": "Kelurahan / Desa",
+      "street_number": "RW",
+      "house_number": "RT",
+      "address_name": "Alamat",
+      "address_type": "Tipe Alamat"
+    },
+    "addTaskModal": {
+      "please_input_all_require_field": "Mohon Mengisi Seluruh Bagian yang Diwajibkan",
+      "completion_date": "Tanggal Selesai",
+      "task_details": "Rincian Tugas",
+      "domain": "Utama",
+      "save": "Simpan",
+      "cancel": "Batal",
+      "add_new_tasks": "Tambah Tugas Baru"
+    },
+    "admin": {
+      "calltypes": {
+        "new_referral_case": "Rujukan Baru : Tindakan Kasus Diperlukan",
+        "new_referral_notifier": "Rujukan Baru : Tindakan Kasus TIDAK Diperlukan",
+        "providing_update": "Menyediakan Pembaruan",
+        "phone_conseling": "Konseling Lewat Telepon",
+        "seeking_information": "Mencari Informasi",
+        "spam_call": "Panggilan Spam",
+        "wrong_number": "Salah Nomor"
+      },
+      "referee_answered_call": "Apakah Perujuk Menjawab Panggilan Telepon Ini Atau Membalas Panggilan yang Tidak Dijawab?",
+      "referee_called_before": "Apakah Perujuk Sudah Menelepon Sebelumnya?",
+      "call_information": "Informasi Panggilan",
+      "phone_call": "ID Telepon #",
+      "receiving_staff": "Staff yang Menerima",
+      "call_type": "Tipe Panggilan",
+      "confirmation": "Konfirmasi",
+      "save_call_as": "Apakah Anda Yakin Ingin Merekam Panggilan Ini Sebagai",
+      "add_note_about_the_content": "Tambahkan Catatan Tentang Isi Pembicaraan Dengan Penelepon.",
+      "information_provide": "Informasi yang Diberikan",
+      "go": "Lanjut",
+      "go_back": "Kembali",
+      "go_to_client": "Ke Klien",
+      "please_select_client": "Mohon Memilih Klien",
+      "verify_message": "Anda Telah Memilih 'Tindakan Kasus TIDAK Diperlukan' Untuk Panggilan ini. Hal Ini Berarti Anda Tidak Yakin Bahwa Panggilan Ini Memerlukan Tindak Lanjut Tambahan. Mohon Untuk Memastikan Bahwa Hal Ini Merupakan Keputusan yang Tepat Untuk Panggilan Ini. Tekan 'Saya Yakin' Untuk Melanjutkan. Tekan 'Kembali' Jika Anda Ingin Mengganti Panggilan.",
+      "date_of_call": "Tanggal Panggilan",
+      "time_call_began": "Waktu Panggilan Dimulai",
+      "time_call_ended": "Waktu Panggilan Berakhir",
+      "not_a_phone_call": "Bukan Panggilan Telepon"
+    },
+    "callAbout": {
+      "basicNecessities": {
+        "1": "Mencari Bantuan Kesehatan/medis (Termasuk Gawat Darurat, Kehamilan, Kekhawatiran Tentang Kesehatan Lainnya).",
+        "2": "Mencari Kebutuhan Untuk Edukasi dan Materi Diperlukan Untuk Registrasi Sekolah; Kembali Ke Sekolah; Perlu Bantuan Untuk Tetap Bersekolah.",
+        "3": "Mencari Makanan, Air, Susu, Bantuan Penampungan.",
+        "4": "Mencari Pelatihan Kejuruan/Pekerjaan.",
+        "5": "Pengasuh Anak yang Ingin Mengirimkan Anaknya ke RCI.",
+        "6": "Lainnya"
+      },
+      "childProtectionConcerns": {
+        "1": "Kekerasan Fisik",
+        "2": "Kekerasan Emosional",
+        "3": "Kekeran Seksual",
+        "4": "Pembiaran / Kurangnya Pengawasan Orang Dewasa",
+        "5": "Penyelamatan Korban Perdagangan Manusia (Migrasi / Kolaborasi Dengan Otoritas Untuk Penyelamatan)",
+        "6": "Kerja Paksa (Seks Komersil, Eksploitasi, Penjual Kaki Lima, Pabrik Batu Bata, Atau Pekerjaan yang Membahayakan Kesejahteraan Anak.",
+        "7": "Penggunaan Obat-obatan (Mencari Bantuan Rehabilitasi)",
+        "8": "Konsumsi Alkohol (Mencari Bantuan Rehabilitasi)",
+        "9": "Anak yang Terpisah - Terbengkalai; Hilang; Tinggal di Jalanan.",
+        "10": "Anak dan Orang Tua Tinggal di Jalanan.",
+        "11": "Disabilitas",
+        "12": "Lainnya"
+      },
+      "what_is_the_call": "Tentang Apakah Panggilan Tersebut / Mencari Bantuan Untuk?",
+      "basic_necessities": "Kebutuhan Dasar",
+      "child_protection": "Kekhawatiran Perlindungan Anak",
+      "enter_a_brief": "Menambahkan Catatan Berisi Inti Pembicaraan Telepon",
+      "other_more_information": "Informasi Tambahan Lainnya"
+    },
+    "carerInfo": {
+      "genderLists": {
+        "female": "Wanita",
+        "male": "Pria",
+        "lgbt": "LGBT",
+        "unknown": "Tidak Diketahui",
+        "prefer_not_to_say": "Memilih Untuk Tidak Menjawab/Tidak Dapat Dispesifikasi",
+        "other": "Lainnya"
+      },
+      "name": "Nama",
+      "gender": "Jenis Kelamin",
+      "carer_phone": "Nomor Telepon Pengasuh",
+      "carer_email": "Alamat Email pengasuh",
+      "relationship": "Hubungan dengan Klien",
+      "family_record": "Rekam Keluarga",
+      "address": "Alamat",
+      "same_as_client": "Sama Dengan Klien",
+      "outside_cambodia": "Internasional"
+    },
+    "caseActionNotRequiredModalFooter": {
+      "iam_sure": "Saya Yakin",
+      "go_back": "Kembali"
+    },
+    "clientAddressInfo": {
+      "address": "Alamat",
+      "outside_cambodia": "Internasional",
+      "client_contact": "Kontak Telepon Klien",
+      "phone_owner": "Pemilih Telepon",
+      "client_email": "Kontak Email Klien",
+      "email_owner": "Pemilik Email",
+      "location_description": "Deskripsi Lokasi"
+    },
+    "concernAddress": {
+      "outside_cambodia": "Internasional",
+      "province": "Provinsi",
+      "district": "Kecamatan",
+      "commune": "Kecamatan",
+      "village": "Kelurahan / Desa",
+      "street_number": "RW",
+      "house_number": "RT",
+      "address_name": "Alamat",
+      "address_type": "Tipe Alamat"
+    },
+    "customInfo": {
+      "custom_id_1": "Nomor ID Khusus 1",
+      "custom_id_2": "Nomor ID Khusus 2",
+      "is_client_rated": "Apakah Klien Tergolong Dalam ID Kurang Mampu ?"
+    },
+    "donorInfo": {
+      "other_agencies": "Agensi Lain yang Berkaitan",
+      "donor": "Donatur"
+    },
+    "index": {
+      "tabs": {
+        "caller_info": "Informasi Penelepon",
+        "client_referral_info": "Klien / Informasi Rujukan",
+        "client_referral_question": "Klien / Rujukan � Apakah Anda Ingin Menambahkan:",
+        "client_referral_call": "Klien / Rujukan � Panggilan Berkaitan Dengan"
+      },
+      "message": {
+        "call_has_been_created": "Panggilan Berhasil Dibuat",
+        "call_has_been_updated": "Panggilan Berhasil Diperbaharui",
+        "referee_has_been_updated": "Perjuk Berhasil Diperbaharui"
+      },
+      "cancel": "Batal",
+      "previous": "Sebelumnya",
+      "next": "Selanjutnya",
+      "save": "Simpan"
+    },
+    "noClientAttachedModal": {
+      "add_note_about_the_content": "Tambahkan Catatan Berkaitan Dengan Inti Pembicaraan Dengan Penelepon.",
+      "information_provided": "Informasi yang Diberikan",
+      "go_back": "Kembali",
+      "save": "Simpan"
+    },
+    "confirmRemoveClientModal": {
+      "are_you_sure": "Apakah Anda Yakin Akan Menghapus?",
+      "no": "Tidak",
+      "yes": "Iya"
+    },
+    "providingUpdate": {
+      "please_select_client": "Mohon Memilih Klien",
+      "go_back": "Kembali",
+      "go": "Lanjut"
+    },
+    "refereeInfo": {
+      "genderLists": {
+        "female": "Wanita",
+        "male": "Pria",
+        "lgbt": "LGBT",
+        "unknown": "Tidak Diketahui",
+        "prefer_not_to_say": "Memilih Untuk Tidak Menjawab/Tidak Dapat Dispesifikasi",
+        "other": "Lainnya"
+      },
+      "answeredCallOpts": {
+        "call_answered": "Panggilan Terjawab",
+        "return_missed_call": "Membalas Panggilan Tidak Terjawab"
+      },
+      "ageOpts": {
+        "18_plus": "18+",
+        "under_18": "Dibawah 18"
+      },
+      "yes": "Iya",
+      "no": "Tidak",
+      "anonymous": "Anonim",
+      "caller_info": "Informasi Penelepon",
+      "did_you_answer_the_call": "Apakah Anda Menjawab Panggilan ini, Atau Apakah Anda Membalas Panggilan yang Tidak Terjawab?",
+      "have_you_called": "Apakah Anda Sebelumnya Menelepon Hotline Agensi Perlindungan Anak?",
+      "are_you_a_child_safe_agent": "Apakah Anda Agensi Perlindungan Anak?",
+      "anonymous_referee": "Perujuk Anonim",
+      "name": "Nama",
+      "gender": "Jenis Kelamin",
+      "are_you_over_18": "Apakah Anda Berumur Diatas 18 Tahun?",
+      "referee_phone": "Nomor Telepon Perujuk",
+      "referee_email": "Alamat Email Perujuk",
+      "referral_source_catgeory": "Kategori Sumber Rujukan",
+      "referral_source": "Sumber Rujukan",
+      "address": "Alamat",
+      "outside_cambodia": "Internasional",
+      "this_caller_has_requested": " Penelepon ini telah meminta informasi terbaru tentang kasus ini setelah intervensi selesai."
+    },
+    "referralInfo": {
+      "genderLists": {
+        "female": "Wanita",
+        "male": "Pria",
+        "lgbt": "LGBT",
+        "unknown": "Tidak Diketahui",
+        "prefer_not_to_say": "Memilih Untuk Tidak Menjawab/Tidak Dapat Dispesifikasi",
+        "other": "Lainnya"
+      },
+      "client_referral": "Klien / Informasi Rujukan",
+      "given_name": "Nama (Latin)",
+      "family_name": "Marga (Latin)",
+      "given_name_khmer": "Nama Khmer)",
+      "family_name_khmer": "Marga (Khmer)",
+      "nickname": "Nama Panggilan",
+      "date_of_birth": "Tanggal Kelahiran",
+      "gender": "Jenis Kelamin",
+      "birth_province": "Provinsi Kelahiran",
+      "relationshio_to_caller": "Hubungan Dengan Perujuk",
+      "case_worker": "Case Coordinator / Staff Penanggung Jawab Kasus",
+      "contact_info": "Informasi Kontak",
+      "client_is_outside": "Internasional",
+      "client_phone": "Kontak Telepon Klien",
+      "phone_owner": "Pemilik Telepon",
+      "client_email": "Kontak Email Klien",
+      "email_owner": "Pemilik Email",
+      "location_description": "Deskripsi Lokasi Kontak",
+      "location_of_concern": "Lokasi yang Menjadi Sorotan",
+      "same_as_client": "Sama Dengan Klien",
+      "concern_is_outside_cambodia": "Internasional",
+      "relevant_contact_phone": "Kontak Telepon yang Relevan",
+      "relevant_email": "Kontak Email yang Relevan",
+      "locatin_description": "Deskripsi Lokasi yang Mejadi Sorotan",
+      "add_another_client": "Tambahkan Klien Lain",
+      "remove_client": "Hapus Klien",
+      "confirmation": "Konfirmasi"
+    },
+    "referralMoreInfo": {
+      "client_referral_more_info": "Klien / Rujukan � Informasi Tambahan",
+      "do_you_want_to_add": "Apakah Anda Ingin Menambahkan:",
+      "carer_info": "Informasi Pengasuh?",
+      "school_info": "Informasi Pendidikan?",
+      "donor_info": "Informasi Donatur?",
+      "other_info": "Informasi Lainnya",
+      "phone_counselling": "Kesimpulan Konseling Melalui Telepon"
+    },
+    "schoolInfo": {
+      "school_name": "Nama Sekolah",
+      "school_grade": "Kelas Sekolah",
+      "main_school_contact": "Kontak Utama Sekolah"
+    }
+  },
+  "callsOld": {
+    "index": {
+      "no_call": "Tidak Ada Panggilan",
+      "create_new_call": "Buat Panggilan Baru",
+      "phone_call_id": "ID Panggilan Telepon",
+      "call_type": "Tipe Panggilan"
+    }
+  },
+  "commons": {
+    "listTable": {
+      "index": {
+        "action": "Aksi",
+        "Address Type": "Tipe Alamat",
+        "Adult": "Dewasa",
+        "Anonymous": "Anonim",
+        "Answered Call": "Panggilan Terjawab",
+        "Basic Necessities": "Kebutuhan Dasar",
+        "Call Type": "Tipe Panggilan",
+        "Called Before": "Dipanggil Sebelum",
+        "Childsafe Agent": "Agen Perlindungan Anak",
+        "Child Protection Concerns": "Kekhawatiran Perlindungan Anak",
+        "Current Address": "Alamat Sekarang",
+        "Date Of Call": "Tanggal Panggilan Telepon",
+        "Email": "Email",
+        "Full Name": "Nama Lengkap",
+        "Gender": "Jenis Kelamin",
+        "Information Provided": "Informasi yang Diberikan",
+        "Name": "Nama",
+        "House Number": "Nomor Rumah",
+        "no_client": "Tidak Ada Klien",
+        "Phone": "Telepon",
+        "Phone Call Id": "ID Panggilan Telepon",
+        "Receiving Staff": "Staff Penerima",
+        "Requested Update": "Meminta Pembaruan",
+        "Street Number": "Nomor Jalan",
+        "Time Call Began": "Waktu Panggilan Dimulai",
+        "Time Call Ended": "Waktu Panggilan Berakhir",
+        "Not A Phone Call": "Bukan Panggilan Telepon",
+        "Start Datetime": "Waktu Panggilan Telepon",
+        "Other More Information": "Informasi Tambahan Lainnya",
+        "Brief Note Summary": "Catatan Kesimpulan Singkat",
+        "Suburb": "Pinggiran Kota",
+        "Description House Landmark": "Deskripsi Landmark Rumah",
+        "Directions": "Petunjuk Arah",
+        "Street Line1": "Garis Jalan 1",
+        "Street Line2": "Garis Jalan 2",
+        "Plot": "Petak Rumah",
+        "Road": "Jalan",
+        "Postal Code": "Kode Pos",
+        "Locality": "Lokalitas"
+      }
+    }
+  },
+  "detailCall": {
+    "call": {
+      "about_call": "Tentang Panggilan",
+      "New Referral: Case Action Required": "Rujukan Baru: Membutuhkan Tindakan Kasus",
+      "New Referral: Case Action NOT Required": "Rujukan Baru: Tindakan Kasus TIDAK Dibutuhkan",
+      "Providing Update": "Memberikan Pembaruan",
+      "Phone Counselling": "Konseling Lewat Telepon",
+      "Seeking Information": "Mencari Informasi",
+      "Spam Call": "Panggilan Spam",
+      "Wrong Number": "Salah Nomor"
+    },
+    "listClient": {
+      "list_clients": "Daftar Klien"
+    },
+    "referee": {
+      "referee": "Perujuk"
+    },
+    "index": {}
+  },
+  "editCall": {
+    "index": {
+      "calltypes": {
+        "new_referral_case": "Rujukan Baru: Membutuhkan Tindakan Kasus",
+        "new_referral_notifier": "Rujukan Baru: Tindakan Kasus TIDAK Dibutuhkan",
+        "providing_update": "Memberikan Pembaruan",
+        "phone_conseling": "Konseling Lewat Telepon",
+        "seeking_information": "Mencari Informasi",
+        "spam_call": "Panggilan Spam",
+        "wrong_number": "Salah Nomor"
+      },
+      "message": {
+        "call_has_been_updated": "Panggilan Berhasil Diperbarui"
+      },
+      "call_information": "Informasi Panggilan",
+      "receiving_staff": "Anggota Staff Penerima",
+      "date_of_call": "Tanggal Panggilan",
+      "time_call_began": "Waktu Panggilan",
+      "time_call_ended": "Waktu Panggilan Berakhir",
+      "call_type": "Tipe Panggilan",
+      "information_provided": "Informasi yang Diberikan",
+      "cancel": "Batal",
+      "save": "Simpan"
+    }
+  },
+  "editCallReferee": {
+    "index": {
+      "genderLists": {
+        "female": "Wanita",
+        "male": "Pria",
+        "lgbt": "LGBT",
+        "unknown": "Tidak Diketahui",
+        "prefer_not_to_say": "Memilih Untuk Tidak Menjawba/Tidak Dapat Dispesifikasi",
+        "other": "Lainnya"
+      },
+      "answeredCallOpts": {
+        "call_answered": "Panggilan Terjawab",
+        "return_missed_call": "Membalas Panggilan Telepon yang Tidak Terjawab"
+      },
+      "ageOpts": {
+        "18_plus": "18+",
+        "under_18": "Dibawah 18"
+      },
+      "yes": "Iya",
+      "no": "Tidak",
+      "anonymous": "Anonim",
+      "name": "Nama",
+      "referee_has_been_updated": "Perujuk Telah Berhasil Diperbarui",
+      "caller_info": "Informasi Penelepon",
+      "did_you_answer_the_call": "Apakah Anda Menjawab Panggilan Ini, Atau Apakah Anda Membalas Panggilan yang Tidak Terjawab?",
+      "have_you_called": "Apakah Sebelumnya Anda Sudah Menelepon Hotline Agensi Perlindungan Anak?",
+      "anonymous_referee": "Perujuk Anonim",
+      "gender": "Jenis Kelamin",
+      "are_you_over_18": "Apakah Anda Berumur Diatas 18 tahun?",
+      "referee_phone": "Nomor Telepon Perujuk",
+      "referee_email": "Alamat Email Perujuk",
+      "address": "Alamat",
+      "outside_cambodia": "Internasional",
+      "cancel": "Batal",
+      "save": "Simpan"
+    }
+  },
+  "genderLists": {
+    "female": "Wanita",
+    "male": "Pria",
+    "lgbt": "LGBT",
+    "unknown": "Tidak Diketahui",
+    "prefer_not_to_say": "Memilih Untuk Tidak Menjawab/Tidak Dapat Dispesifikasi",
+    "other": "Lainnya"
+  }
+}

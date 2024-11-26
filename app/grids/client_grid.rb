@@ -227,7 +227,7 @@ class ClientGrid < BaseGrid
 
   filter(:assessments_due_to, :enum, select: Assessment::DUE_STATES, header: -> { I18n.t('datagrid.columns.clients.assessments_due_to') }) do |value, scope|
     ids = []
-    setting = Setting.cache_first
+    setting = Setting.first
     if value == Assessment::DUE_STATES[0]
       Client.active_accepted_status.each do |client|
         next if !client.eligible_default_csi? && !(client.assessments.customs.present?)
@@ -379,7 +379,7 @@ class ClientGrid < BaseGrid
   end
 
   def self.case_note_overdue_ids
-    setting = Setting.cache_first
+    setting = Setting.first
     max_case_note = setting.try(:max_case_note) || 30
     case_note_frequency = setting.try(:case_note_frequency) || 'day'
     case_note_period = max_case_note.send(case_note_frequency).ago
@@ -425,17 +425,17 @@ class ClientGrid < BaseGrid
   column(:kid_id, order: 'clients.kid_id', header: -> { custom_id_translation('custom_id2') })
 
   def self.custom_id_translation(type)
-    if I18n.locale == :en || Setting.cache_first.country_name == 'lesotho'
+    if I18n.locale == :en || Setting.first.country_name == 'lesotho'
       if type == 'custom_id1'
-        Setting.cache_first.custom_id1_latin.present? ? Setting.cache_first.custom_id1_latin : I18n.t('clients.other_detail.custom_id_number1')
+        Setting.first.custom_id1_latin.present? ? Setting.first.custom_id1_latin : I18n.t('clients.other_detail.custom_id_number1')
       else
-        Setting.cache_first.custom_id2_latin.present? ? Setting.cache_first.custom_id2_latin : I18n.t('clients.other_detail.custom_id_number2')
+        Setting.first.custom_id2_latin.present? ? Setting.first.custom_id2_latin : I18n.t('clients.other_detail.custom_id_number2')
       end
     else
       if type == 'custom_id1'
-        Setting.cache_first.custom_id1_local.present? ? Setting.cache_first.custom_id1_local : I18n.t('clients.other_detail.custom_id_number1')
+        Setting.first.custom_id1_local.present? ? Setting.first.custom_id1_local : I18n.t('clients.other_detail.custom_id_number1')
       else
-        Setting.cache_first.custom_id2_local.present? ? Setting.cache_first.custom_id2_local : I18n.t('clients.other_detail.custom_id_number2')
+        Setting.first.custom_id2_local.present? ? Setting.first.custom_id2_local : I18n.t('clients.other_detail.custom_id_number2')
       end
     end
   end
@@ -458,7 +458,7 @@ class ClientGrid < BaseGrid
   end
 
   def self.dynamic_local_name
-    country = Setting.cache_first.country_name
+    country = Setting.first.country_name
     I18n.locale.to_s == 'en' ? COUNTRY_LANG[country] : ''
   end
 
@@ -552,7 +552,7 @@ class ClientGrid < BaseGrid
       next unless field['name']
 
       column(field['name'].to_sym, class: 'custom-data', header: -> { field['label'] }) do |object|
-        values = object.client_custom_data.properties[field['name']]
+        values = object.client_custom_data && object.client_custom_data.properties[field['name']]
         values.is_a?(Array) ? values.join(', ') : values
       end
     end
@@ -727,7 +727,7 @@ class ClientGrid < BaseGrid
   end
 
   dynamic do
-    country = Setting.cache_first.try(:country_name) || 'cambodia'
+    country = Setting.first.try(:country_name) || 'cambodia'
     case country
     when 'cambodia'
       column(:current_address, order: 'clients.current_address', header: -> { I18n.t('datagrid.columns.clients.current_address') })
@@ -1013,6 +1013,10 @@ class ClientGrid < BaseGrid
     object.family&.family_type
   end
 
+  column(:case_note_created_at, header: -> { I18n.t('datagrid.columns.case_note_created_at') }, html: true) do |object|
+    render partial: 'clients/case_note_created_date', locals: { object: object }
+  end
+
   column(:case_note_date, header: -> { I18n.t('datagrid.columns.clients.case_note_date') }, html: true) do |object|
     render partial: 'clients/case_note_date', locals: { object: object }
   end
@@ -1156,6 +1160,18 @@ class ClientGrid < BaseGrid
   end
 
   dynamic do
+    if CaseNotes::CustomField.first
+      cn_custom_field = CaseNotes::CustomField.first
+      cn_custom_field.data_fields.each do |field|
+        column_name = "case_note_custom_field_#{field['label'].parameterize.underscore}"
+        column(column_name.to_sym, header: -> { field['label'] }, html: true) do |object|
+          render partial: "clients/case_note_custom_field", locals: { object: object, custom_field: cn_custom_field, field: field }
+        end
+      end
+    end
+  end
+
+  dynamic do
     if enable_default_assessment?
       column(:all_csi_assessments, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.all_csi_assessments', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
         render partial: 'clients/all_csi_assessments', locals: { object: object.assessments.defaults }
@@ -1236,9 +1252,21 @@ class ClientGrid < BaseGrid
           end
         elsif fields.first == 'tracking'
           ids = object.client_enrollments.ids
+
+          basic_rules = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
+          basic_rules = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
+          results = mapping_form_builder_param_value(basic_rules, 'tracking', column_builder[:id])
+          values = results.first[0] && results.first[0]['value'] || []
+
           if data == 'recent'
             properties = ClientEnrollmentTracking.cached_tracking_order_created_at(object, fields.third, ids)
             properties = properties[format_field_value] if properties.present?
+          elsif format_field_value == 'Has This Form'
+            properties = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids }).where('DATE(client_enrollment_trackings.created_at) BETWEEN ? AND ?', values.first, values.last)
+            properties = properties.pluck(:created_at).map(&:to_s)
+          elsif format_field_value == 'Does Not Have This Form'
+            properties = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids }).where.not('DATE(client_enrollment_trackings.created_at) BETWEEN ? AND ?', values.first, values.last)
+            properties = properties.pluck(:created_at).map(&:to_s)
           else
             client_enrollment_trackings = ClientEnrollmentTracking.cached_client_enrollment_tracking(object, fields.third, ids)
             properties = form_builder_query(client_enrollment_trackings, fields.first, column_builder[:id].gsub('&qoute;', '"')).properties_by(format_field_value, client_enrollment_trackings)

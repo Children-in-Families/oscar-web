@@ -452,6 +452,7 @@ my:
       carer_name: Carer Name
       carer_phone: Carer Phone Number
       carer_email: Carer Email Address
+      case_note_created_at: Case Note Created Date
       case_note_date: အမႈျခင္းရာမွတ္ခ်က္ေန႔စြဲ
       case_note_type: အမႈျခင္းရာမွတ္ခ်က္အမ်ိဳးအစား
       case_type: အမႈျခင္းရာအမ်ိဳးအစား
@@ -2765,6 +2766,7 @@ my:
       carer_address: ေစာင့္ေရွာက္သူ လိပ္စာ
       carer_names: ေစာင့္ေရွာက္သူ နာမည္မ်ား
       carer_phone_number: ေစာင့္ေရွာက္သူ ဖုန္းနံပါတ္
+      case_note_created_at: Case Note Created Date
       case_note_date: အမႈျခင္းရာ မွတ္စု ရက္စြဲ
       case_note_type: အမႈျခင္းရာ မွတ္စု ပံုစံ
       case_start_date: အမႈျခင္းရာစတင္သည့္ ရက္စြဲ
@@ -5181,6 +5183,7 @@ my:
       caller_referees: Caller / Referees
       changelogs: ေျပာင္းလဲမႈ မွတ္တမ္းမ်ား
       calls: Calls
+      case_note_form: Case Note Form
       clients: အမႈဥည္မ်ား
       client_forms: Client Forms
       country: ႏုိင္ငံ
@@ -5224,6 +5227,7 @@ my:
       users: အသံုးျပဳသူမ်ား
       view_calendar: ျပကၡဒိန္ကို ၾကည့္ရန္
     top_navbar:
+      bahasa: Bahasa
       burmese: ဗမာစာ
       edit_profile: ပ႐ိုဖိုင္ျပင္ဆင္ရန္
       english: အဂၤလိပ္စာ

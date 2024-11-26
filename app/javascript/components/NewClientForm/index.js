@@ -1,3 +1,4 @@
+import { T, t } from "../../utils";
 import React, { useState, useEffect } from "react";
 import objectToFormData from "object-to-formdata";
 import Loading from "../Commons/Loading";
@@ -17,30 +18,12 @@ import LesothoAddress from "../Addresses/lesothoAddress";
 import NepalAddress from "../Addresses/nepalAddress";
 import IndonesianAddress from "../Addresses/IndonesianAddress";
 import toastr from "toastr/toastr";
-
-import T from "i18n-react";
-import en from "../../utils/locales/en.json";
-import km from "../../utils/locales/km.json";
-import my from "../../utils/locales/my.json";
 import "toastr/toastr.scss";
 import "./styles.scss";
-import { t } from "../../utils/i18n";
+
 import { confirmCancel } from "../Commons/confirmCancel.js";
 
 const Forms = (props) => {
-  var url = window.location.href.split("&").slice(-1)[0].split("=")[1];
-  switch (url) {
-    case "km":
-      T.setTexts(km);
-      break;
-    case "my":
-      T.setTexts(my);
-      break;
-    default:
-      T.setTexts(en);
-      break;
-  }
-
   const {
     data: {
       current_organization,
@@ -55,7 +38,8 @@ const Forms = (props) => {
         national_id_files,
         current_family_id,
         isTestClient,
-        isForTesting
+        isForTesting,
+        referral_id
       },
       client_quantitative_free_text_cases,
       family_member,
@@ -167,6 +151,7 @@ const Forms = (props) => {
     current_family_id,
     isTestClient,
     isForTesting,
+    referral_id,
     ...client
   });
   const [clientProfile, setClientProfile] = useState({});
@@ -743,7 +728,7 @@ const Forms = (props) => {
           ? T.translate("index.successfully_updated")
           : T.translate("index.successfully_created");
         const url = clientData.id
-          ? `/api/clients/${clientData.id}`
+          ? `/api/clients/${clientData.id}?referral_id=${clientData.referral_id}`
           : "/api/clients";
 
         let formData = new FormData();
@@ -1065,7 +1050,10 @@ const Forms = (props) => {
       className="containerClass"
       style={loading ? { minHeight: "100vh", height: "100vh" } : {}}
     >
-      <Loading loading={loading} text={T.translate("index.wait")} />
+      <Loading
+        loading={loading}
+        text={step <= 3 ? T.translate("index.wait") : "Saving..."}
+      />
 
       <Modal
         className="p-md"

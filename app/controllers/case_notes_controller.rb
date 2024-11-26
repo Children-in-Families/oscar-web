@@ -4,6 +4,7 @@ class CaseNotesController < AdminController
   include CreateBulkTask
   include CaseNoteConcern
   include GoogleCalendarServiceConcern
+  include ::CaseNotes::FormBuilderAttachments
 
   before_action :set_client
   before_action :set_case_note, only: [:edit, :update, :upload_attachment]
@@ -34,6 +35,8 @@ class CaseNotesController < AdminController
   def edit
     authorize @case_note, :edit? if Organization.ratanak?
 
+    @attachments = @case_note.custom_field_property&.form_builder_attachments
+
     unless current_user.admin? || current_user.strategic_overviewer?
       redirect_to root_path, alert: t('unauthorized.default') if !@case_note.draft? && !current_user.permission.case_notes_editable
     end
@@ -41,7 +44,6 @@ class CaseNotesController < AdminController
 
   def update
     attributes = case_note_params.merge(last_auto_save_at: Time.current)
-
     saved = if save_draft?
               @case_note.assign_attributes(attributes)
               PaperTrail.without_tracking { @case_note.save(validate: false) }
@@ -52,12 +54,17 @@ class CaseNotesController < AdminController
             end
 
     if saved
+      attach_custom_field_files
       if params.dig(:case_note, :case_note_domain_groups_attributes)
         @case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes], current_user.id)
       end
+
       create_bulk_task(params[:task], @case_note) if params.key?(:task)
       @case_note.complete_screening_tasks(params) if params[:case_note].key?(:tasks_attributes)
-      create_task_task_progress_notes
+
+      # As we don't allow edit progress note once saved,
+      # do not save it if request sent by autosave
+      create_task_task_progress_notes unless save_draft?
       delete_events if session[:authorization]
 
       respond_to do |format|
@@ -156,15 +163,37 @@ class CaseNotesController < AdminController
   end
 
   def permit_case_note_params
-    # tasks_attributes: [
-    #   :id, :name, :completion_date, :completed, :completed_by_id, :_destroy,
-    #   task_progress_notes_attributes: [:id, :progress_note, :task_id, :_destroy]
-    # ]
     params.require(:case_note).permit(
       :meeting_date, :attendee, :interaction_type, :custom, :note, :custom_assessment_setting_id,
       case_note_domain_groups_attributes: [
         :id, :note, :domain_group_id, :task_ids
+      ],
+      custom_field_property_attributes: [
+        :id,
+        properties: custom_field_property_properties
       ]
     )
+  end
+
+  def custom_field_property_properties
+    return [] if params.dig(:case_note, :custom_field_property_attributes, :properties).blank?
+
+    properties = {}
+
+    params.dig(:case_note, :custom_field_property_attributes, :properties).each do |k, value|
+      new_key = k.gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;').gsub('%22', '"')
+      value = value.select(&:present?) if value.instance_of?(Array)
+
+      properties[new_key] = value
+    end
+
+    params[:case_note][:custom_field_property_attributes][:properties] = properties
+    properties.map do |key, value|
+      if value.is_a?(Array)
+        { key => [] }
+      else
+        key
+      end
+    end
   end
 end

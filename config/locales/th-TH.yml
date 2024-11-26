@@ -333,6 +333,7 @@ th-TH:
       birth_province:
       birth_province_id:
       cambodia:
+      case_note_created_at:
       case_note_date:
       case_note_type:
       case_type:
@@ -533,6 +534,7 @@ th-TH:
       download:
       max_file_size:
       preview_download:
+    complete:
     create:
       successfully_created:
     destroy:
@@ -556,6 +558,7 @@ th-TH:
       score_label:
       set_goal:
       tasks_arising:
+    incomplete:
     incomplete_detail:
       goal:
       reason:
@@ -1969,6 +1972,7 @@ th-TH:
       carer_address:
       carer_names:
       carer_phone_number:
+      case_note_created_at:
       case_note_date:
       case_note_type:
       case_start_date:
@@ -3604,6 +3608,7 @@ th-TH:
       users:
       view_calendar:
     top_navbar:
+      bahasa:
       burmese:
       edit_profile:
       english:

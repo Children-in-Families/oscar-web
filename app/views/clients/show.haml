@@ -362,7 +362,7 @@
                   - if policy(@client).show?(:local_family_name)
                     %tr
                       %td.spacing-first-colgsb
-                        = current_organization.short_name == 'brc' ? t('clients.form.local_family_name') : "#{t('clients.form.local_family_name')} #{country_scope_label_translation}"
+                        = current_organization.short_name == 'brc' ? t('clients.form.local_family_name') : "#{t('clients.form.local_family_name')}"
                       %td
                         %strong
                           = editable @client, :local_family_name, url: api_client_path(@client.id), pk: @client.id
@@ -370,7 +370,7 @@
                   - if policy(@client).show?(:local_given_name)
                     %tr
                       %td.spacing-first-col
-                        = current_organization.short_name == 'brc' ? t('clients.form.local_given_name') : "#{t('clients.form.local_given_name')} #{country_scope_label_translation}"
+                        = current_organization.short_name == 'brc' ? t('clients.form.local_given_name') : "#{t('clients.form.local_given_name')}"
                       %td
                         %strong
                           = editable @client, :local_given_name, url: api_client_path(@client.id), pk: @client.id
@@ -623,7 +623,7 @@
                         %strong
                           = @client.carer.try(:current_address)
 
-                    - if Setting.cache_first.country_name == "cambodia" && !Organization.brc?
+                    - if Setting.first.country_name == "cambodia" && !Organization.brc?
                       %tr
                         %td.spacing-first-col
                           = t('.is_the_client_rated_for_id_poor')

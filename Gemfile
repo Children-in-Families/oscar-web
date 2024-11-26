@@ -80,6 +80,7 @@ gem 'ulid',                   '~> 1.2'
 gem 'aws-healthcheck'
 gem 'redis-session-store',    '~> 0.11.3'
 gem 'dalli', '~> 2.7', '>= 2.7.11'
+gem 'active_record_query_trace', '1.7'
 
 group :development, :test do
   gem 'pry'
@@ -107,7 +108,6 @@ group :staging, :demo do
 end
 
 group :development do
-  gem 'active_record_query_trace', '1.7'
   gem 'letter_opener',        '~> 1.4.1'
   gem 'letter_opener_web',    '~> 1.3', '>= 1.3.4'
   gem 'rubocop',              '~> 0.81.0', require: false
@@ -138,3 +138,5 @@ gem "sentry-raven", "~> 2.13"
 gem "redis-rails", "~> 5.0"
 
 gem "ahoy_email", "1.0.3"
+
+gem "jaro_winkler", "~> 1.5"

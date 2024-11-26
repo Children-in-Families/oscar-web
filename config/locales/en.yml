@@ -461,6 +461,7 @@ en:
       carer_name: Carer Name
       carer_phone: Carer Phone Number
       carer_email: Carer Email Address
+      case_note_created_at: Case Note Created Date
       case_note_date: Case Note Date
       case_note_type: Case Note Type
       case_type: Case Type
@@ -693,6 +694,7 @@ en:
       download: Download
       max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
       preview_download: Preview & Download
+    complete: Complete
     client_name: Client's Name
     create:
       successfully_created: Assessment has been successfully created.
@@ -722,6 +724,7 @@ en:
       score_label_family: Choose which of the following descriptions most closely describe the family's situation, base on your observation.
       set_goal: Would you like to set a goal?
       tasks_arising: 'Tasks arising:'
+    incomplete: Incomplete
     incomplete_detail:
       goal: Goal
       reason: Observation
@@ -2834,6 +2837,7 @@ en:
       carer_address: Carer Address
       carer_names: Carer Names
       carer_phone_number: Carer Phone Number
+      case_note_created_at: Case Note Created Date
       case_note_date: Case Note Date
       case_note_type: Case Note Type
       case_start_date: Case Start Date
@@ -4435,6 +4439,7 @@ en:
       refer_family: Refer Family
       referral_forms: Referral Forms
       referred_from: Referred From
+      referral_history: Referral History
       referred_to: Referred To
       reject: Reject
       relation: Relationship with Children
@@ -5193,6 +5198,7 @@ en:
       agencies: Agencies
       caller_referees: Caller / Referees
       calls: Calls
+      case_note_form: Case Note Form
       changelogs: Changelogs
       calls: Calls
       clients: Clients

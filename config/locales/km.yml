@@ -458,6 +458,7 @@ km:
       carer_name: ឈ្មោះអ្នកថែទាំ
       carer_phone: លេខទូរស័ព្ទអ្នកថែទាំ
       carer_email: អ៊ីមែលអ្នកថែទាំ
+      case_note_created_at: កាលបរិច្ឆេទបង្កើតកំណត់ត្រាករណី
       case_note_date: កាលបរិច្ឆេទកំណត់ត្រាករណី
       case_note_type: ប្រភេទកំណត់ត្រាករណី
       case_type: ប្រភេទករណី
@@ -670,6 +671,7 @@ km:
       max_file_size: "*ទំហំឯកសារអតិបរមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកបាន."
       preview_download: មើលនិងទាញយក
     client_name: ឈ្មោះអតិថិជន
+    complete: បានបញ្ចប់
     create:
       successfully_created: ការប៉ាន់ប្រមាណត្រូវបានបង្កើតដោយជោគជ័យ
     destroy:
@@ -695,6 +697,7 @@ km:
       score_label_family: ជ្រើសរើសការពិពណ៌នាខាងក្រោមណាមួយដែលរៀបរាប់យ៉ាងដិតដល់អំពីស្ថានភាពរបស់គ្រួសារដោយផ្អែកលើការសង្កេតរបស់អ្នក។
       set_goal: តើអ្នកចង់កំណត់គោលដៅទេ?
       tasks_arising: កាតព្វកិច្ចកើតឡើង៖
+    incomplete: មិនទាន់បញ្ចប់
     incomplete_detail:
       goal: គោលដៅ
       reason: ការសង្កេត
@@ -2650,6 +2653,7 @@ km:
       carer_address: អាសយដ្ឋានអ្នកថែទាំ
       carer_names: ឈ្មោះអ្នកថែទាំ
       carer_phone_number: លេខទូរស័ព្ទអ្នកថែទាំ
+      case_note_created_at: កាលបរិច្ឆេទបង្កើតកំណត់ត្រាករណី
       case_note_date: កាលបរិច្ឆេទកំណត់ត្រាករណី
       case_note_type: ប្រភេទកំណត់ត្រាករណី
       case_start_date: ថ្ងៃចាប់ផ្តើម
@@ -5058,6 +5062,7 @@ km:
       agencies: អង្គភាព
       caller_referees: អ្នកបញ្ជូនករណី
       calls: ការហៅទូរស័ព្ទ
+      case_note_form: Case Note Form
       changelogs: ប្រវត្តិកំណែ
       calls: ការហៅទូរស័ព្ទ
       clients: ឣតិថិជន

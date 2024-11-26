@@ -1,7 +1,8 @@
 CIF.Custom_fieldsNew = CIF.Custom_fieldsCreate = CIF.Custom_fieldsEdit = CIF.Custom_fieldsUpdate = do ->
   @customFieldId = $('#custom_field_id').val()
-  FIELDS_URL = "/api/custom_fields/#{@customFieldId}/fields"
+  FIELDS_URL = "/api/custom_fields/#{@customFieldId}/fields?type=#{$('#custom_field_id').data('type')}"
   CUSTOM_FIELDS_URL = '/api/custom_fields/fetch_custom_fields'
+
   _init = ->
     _initFormBuilder()
     _retrieveData(FIELDS_URL) if $('#custom_field_id').val() != ''
@@ -81,6 +82,10 @@ CIF.Custom_fieldsNew = CIF.Custom_fieldsCreate = CIF.Custom_fieldsEdit = CIF.Cus
     fields = $('.build-wrap').data('fields') || []
     format = new CIF.FormatSpecialCharacters()
     fields = format.formatSpecialCharacters(fields, specialCharacters)
+    disableFields = ['autocomplete', 'header', 'hidden', 'button', 'checkbox']
+
+    if $('#custom_field_id').data('type') == 'CaseNotes::CustomField'
+      disableFields.push('date')
 
     formBuilder = $('.build-wrap').formBuilder
       templates: separateLine: (fieldData) ->
@@ -88,7 +93,7 @@ CIF.Custom_fieldsNew = CIF.Custom_fieldsCreate = CIF.Custom_fieldsEdit = CIF.Cus
       fields: builderOption.thematicBreak()
       dataType: 'json'
       formData:  JSON.stringify(fields)
-      disableFields: ['autocomplete', 'header', 'hidden', 'button', 'checkbox']
+      disableFields: disableFields
       showActionButtons: false
       messages: {
         cannotBeEmpty: 'name_separated_with_underscore'
@@ -180,7 +185,7 @@ CIF.Custom_fieldsNew = CIF.Custom_fieldsCreate = CIF.Custom_fieldsEdit = CIF.Cus
     $(parent).find('.del-button, .copy-button').remove()
 
     if $(parent).attr('class').includes('number-field')
-      return if $('form.simple_form').includes('is-admin')
+      return if $('form.simple_form').hasClass('is-admin')
 
       $(parent).find('.fld-min, .fld-max').attr('readonly', 'true')
     else if $(parent).attr('class').includes('select-field')

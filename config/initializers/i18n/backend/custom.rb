@@ -1,11 +1,11 @@
 module HashDeepTraverse
   def deep_traverse(&block)
-    stack = self.map{ |k,v| [ [k], v ] }
+    stack = self.map { |k, v| [[k], v] }
     while not stack.empty?
       key, value = stack.pop
       yield(key, value)
       if value.is_a? Hash
-        value.each{ |k,v| stack.push [ key.dup << k, v ] }
+        value.each { |k, v| stack.push [key.dup << k, v] }
       end
     end
   end
@@ -29,7 +29,7 @@ module I18n::Backend::Custom
   end
 
   def update_last_reload_at
-    @custom_translations[Apartment::Tenant.current] ||= {} 
+    @custom_translations[Apartment::Tenant.current] ||= {}
     @custom_translations[Apartment::Tenant.current]['last_reload_at'] = Time.current
   end
 
@@ -42,9 +42,9 @@ module I18n::Backend::Custom
     @custom_translations ||= {}
     @custom_translations[tenant] = data
   end
-  
+
   def custom_translations(tenant)
-    @custom_translations ||= {} 
+    @custom_translations ||= {}
     @custom_translations[tenant]
   end
 
@@ -54,6 +54,8 @@ module I18n::Backend::Custom
   end
 
   def deep_merge(hash1, hash2)
+    return hash1 if hash2.nil?
+
     hash1.merge(hash2) do |key, old_val, new_val|
       if old_val.is_a?(Hash) && new_val.is_a?(Hash)
         deep_merge(old_val, new_val)
@@ -68,7 +70,6 @@ module I18n::Backend::Custom
     init_translations
 
     locale = I18n.locale
-
     Apartment::Tenant.switch(tenant) do
       data = load_custom_labels(locale)
       data = deep_merge(translations, data)
@@ -79,13 +80,13 @@ module I18n::Backend::Custom
       update_last_reload_at
     end
   end
-  
+
   def load_custom_labels(locale)
     copy_translations = translations.dup
 
-    FieldSetting.by_instances(Apartment::Tenant.current).each do |field_setting|
+    FieldSetting.includes(:translations).by_instances(Apartment::Tenant.current).each do |field_setting|
       data = copy_translations[locale]
-      next if field_setting.current_label.blank?
+      next if field_setting.current_label.blank? || field_setting.name.nil? || data.nil?
       paths = data.full_paths(field_setting.name)
       next if paths.blank?
 
@@ -124,7 +125,6 @@ module I18n::Backend::Custom
         next unless path.include?(locale_key.to_sym)
         data = copy_translations[locale]
 
-      
         path.each do |k|
           if k == path.last
             if k =~ /province/
@@ -145,7 +145,7 @@ module I18n::Backend::Custom
   end
 
   protected
-  
+
   def lookup(locale, key, scope = [], options = EMPTY_HASH)
     # Rails.logger.info "Custom Look up ==================== #{scope} - #{key} - #{Apartment::Tenant.current}"
     custom_lookup(locale, key, scope, options)

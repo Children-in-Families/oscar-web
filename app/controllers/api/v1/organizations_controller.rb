@@ -1,13 +1,24 @@
 module Api
   module V1
     class OrganizationsController < Api::V1::BaseApiController
+      include ApplicationHelper
+
       skip_before_action :authenticate_user!
       before_action :authenticate_admin_user!, only: [:create, :update, :destroy]
       before_action :find_organization, only: [:update, :destroy]
       before_action :authenticate_api_admin_user!, :set_current_aut_user, only: [:clients, :upsert, :update_link]
 
       def index
-        render json: Organization.visible.order(:created_at)
+        if Rails.env.production?
+          render json: Organization.visible.order(:created_at)
+        else
+          render json: Organization.visible.order(:created_at), each_serializer: DemoOrganizationSerializer
+        end
+      end
+
+      def listing
+        ngos = mapping_ngos(select_ngos)
+        render json: ngos
       end
 
       def clients
@@ -105,9 +116,9 @@ module Api
 
       def update_link
         if params[:data].present?
-          data       = params[:data]
+          data = params[:data]
           global_ids = data.map { |hash| hash['global_id'] }
-          data_hash  = data.map { |pay_load| [pay_load['global_id'], [pay_load['external_id'], pay_load['external_id_display']] ] }.to_h
+          data_hash = data.map { |pay_load| [pay_load['global_id'], [pay_load['external_id'], pay_load['external_id_display']]] }.to_h
           client_organizations = GlobalIdentityOrganization.where(global_id: global_ids).pluck(:global_id, :organization_id, :client_id).group_by(&:second)
 
           client_organizations.each do |ngo_id, client_ngos|
@@ -136,7 +147,7 @@ module Api
 
       def check_duplication
         shared_clients = []
-        return shared_clients unless ['given_name', 'family_name', 'local_family_name', 'local_given_name', 'date_of_birth', 'address_current_village_code', 'birth_province_id'].any?{|key| params.has_key?(key) }
+        return shared_clients unless ['given_name', 'family_name', 'local_family_name', 'local_given_name', 'date_of_birth', 'address_current_village_code', 'birth_province_id'].any? { |key| params.has_key?(key) }
         current_org = Apartment::Tenant.current
         Organization.switch_to 'shared'
         skip_orgs_percentage = Organization.skip_dup_checking_orgs.map { |val| "%#{val.short_name}%" }
@@ -152,7 +163,7 @@ module Api
       end
 
       def update_referral_status
-        data       = params[:data]
+        data = params[:data]
         data.each do |pay_load|
           global_id, referral_id, status = [pay_load['client_global_id'], pay_load['referral_id'], pay_load['referral_status']]
 
@@ -167,7 +178,8 @@ module Api
           if referral
             external_system_id, external_system_name = ExternalSystem.fetch_external_system_name(params['uid'])
             next if referral.update_attributes(referral_status: status)
-            raise ActiveRecord::RecordNotFound, (referral.errors.full_messages << "Referral status must be one of ['Accepted', 'Exited', 'Referred'].").join(". ")
+
+            raise ActiveRecord::RecordNotFound, (referral.errors.full_messages << "Referral status must be one of ['Accepted', 'Exited', 'Referred'].").join('. ')
           else
             raise ActiveRecord::RecordNotFound
           end
@@ -230,8 +242,8 @@ module Api
           end
         else
           message = {}
-          message['global_id'] = "global_id must exist." if clients_params['global_id'].blank?
-          message['referral_status'] = "referral_status must be present." if clients_params['global_id'].blank?
+          message['global_id'] = 'global_id must exist.' if clients_params['global_id'].blank?
+          message['referral_status'] = 'referral_status must be present.' if clients_params['global_id'].blank?
 
           render json: { external_id: clients_params[:external_id], message: 'Record was found.', errors: message }, status: :unprocessable_entity
         end
@@ -291,7 +303,7 @@ module Api
               ".squish
         clients = []
         if params.dig(:since_date).present?
-          clients          = Client.referred_external(external_system_name).where("#{conditional_sql} AND (clients.created_at >= ? OR clients.updated_at >= ?)", since_date, since_date).order('clients.updated_at DESC')
+          clients = Client.referred_external(external_system_name).where("#{conditional_sql} AND (clients.created_at >= ? OR clients.updated_at >= ?)", since_date, since_date).order('clients.updated_at DESC')
           referred_clients = JSON.parse ActiveModel::ArraySerializer.new(clients.distinct.to_a, each_serializer: OrganizationClientSerializer, context: current_user).to_json
           if clients.present?
             sql << " AND (DATE(clients.created_at) >= '#{since_date}' OR DATE(clients.updated_at) >= '#{since_date}') AND clients.id NOT IN (#{clients.ids.join(', ')}) ORDER BY clients.updated_at DESC"
@@ -299,7 +311,7 @@ module Api
             sql << " AND (DATE(clients.created_at) >= '#{since_date}' OR DATE(clients.updated_at) >= '#{since_date}') ORDER BY clients.updated_at DESC"
           end
         else
-          clients          = Client.referred_external(external_system_name).where(conditional_sql).order('clients.updated_at DESC')
+          clients = Client.referred_external(external_system_name).where(conditional_sql).order('clients.updated_at DESC')
           referred_clients = JSON.parse ActiveModel::ArraySerializer.new(clients.distinct.to_a, each_serializer: OrganizationClientSerializer, context: current_user).to_json
           if clients.present?
             sql << " AND clients.id NOT IN (#{clients.ids.join(', ')}) ORDER BY clients.updated_at DESC"
@@ -342,7 +354,6 @@ module Api
           render json: { external_id: client.external_id, message: "Referral status must be one of ['Accepted', 'Exited', 'Referred']." }, status: :unprocessable_entity
         end
       end
-
     end
   end
 end

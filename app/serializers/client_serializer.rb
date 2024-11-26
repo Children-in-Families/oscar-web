@@ -65,7 +65,7 @@ class ClientSerializer < ActiveModel::Serializer
     Organization.switch_to 'shared'
     shared_client = SharedClient.find_by(slug: object.slug)
     Organization.switch_to current_org
-    shared_client.family_name
+    shared_client && shared_client.family_name || object.family_name
   end
 
   def given_name
@@ -73,7 +73,7 @@ class ClientSerializer < ActiveModel::Serializer
     Organization.switch_to 'shared'
     shared_client = SharedClient.find_by(slug: object.slug)
     Organization.switch_to current_org
-    shared_client.given_name
+    shared_client && shared_client.given_name || object.given_name
   end
 
   def local_given_name
@@ -81,7 +81,7 @@ class ClientSerializer < ActiveModel::Serializer
     Organization.switch_to 'shared'
     shared_client = SharedClient.find_by(slug: object.slug)
     Organization.switch_to current_org
-    shared_client.local_given_name
+    shared_client && shared_client.local_given_name || object.local_given_name
   end
 
   def local_family_name
@@ -89,7 +89,7 @@ class ClientSerializer < ActiveModel::Serializer
     Organization.switch_to 'shared'
     shared_client = SharedClient.find_by(slug: object.slug)
     Organization.switch_to current_org
-    shared_client.local_family_name
+    shared_client && shared_client.local_family_name || object.local_family_name
   end
 
   def gender
@@ -97,7 +97,7 @@ class ClientSerializer < ActiveModel::Serializer
     Organization.switch_to 'shared'
     shared_client = SharedClient.find_by(slug: object.slug)
     Organization.switch_to current_org
-    shared_client.gender
+    shared_client && shared_client.gender || object.gender
   end
 
   def date_of_birth
@@ -105,7 +105,7 @@ class ClientSerializer < ActiveModel::Serializer
     Organization.switch_to 'shared'
     shared_client = SharedClient.find_by(slug: object.slug)
     Organization.switch_to current_org
-    shared_client.date_of_birth
+    shared_client && shared_client.date_of_birth || object.date_of_birth
   end
 
   def live_with
@@ -113,7 +113,7 @@ class ClientSerializer < ActiveModel::Serializer
     Organization.switch_to 'shared'
     shared_client = SharedClient.find_by(slug: object.slug)
     Organization.switch_to current_org
-    shared_client.live_with
+    shared_client && shared_client.live_with || object.live_with
   end
 
   def telephone_number
@@ -121,15 +121,15 @@ class ClientSerializer < ActiveModel::Serializer
     Organization.switch_to 'shared'
     shared_client = SharedClient.find_by(slug: object.slug)
     Organization.switch_to current_org
-    shared_client.telephone_number
+    shared_client && shared_client.telephone_number || object.telephone_number
   end
 
   def birth_province
     current_org = Organization.current.short_name
     Organization.switch_to 'shared'
-    birth_province = SharedClient.find_by(slug: object.slug).birth_province
+    birth_province = SharedClient.find_by(slug: object.slug).try(:birth_province)
     Organization.switch_to current_org
-    birth_province
+    birth_province || object.birth_province
   end
 
   def enter_ngos
@@ -163,7 +163,7 @@ class ClientSerializer < ActiveModel::Serializer
   def additional_form
     custom_fields = object.custom_fields.uniq.sort_by(&:form_title)
     custom_fields.map do |custom_field|
-      custom_field_property_file_upload = custom_field.custom_field_properties.where(custom_formable_id: object.id)
+      custom_field_property_file_upload = custom_field.custom_field_properties.includes(:form_builder_attachments).where(custom_formable_id: object.id)
       custom_field_property_file_upload.each do |custom_field_property|
         custom_field_property.form_builder_attachments.map do |c|
           custom_field_property.properties = custom_field_property.properties.merge({ c.name => c.file })
@@ -196,7 +196,7 @@ class ClientSerializer < ActiveModel::Serializer
   def assessments
     object.assessments.map do |assessment|
       formatted_assessment_domain = assessment.assessment_domains_in_order.map do |ad|
-        incomplete_tasks = object.tasks.by_domain_id(ad.domain_id).incomplete
+        incomplete_tasks = object.tasks.includes(:domain).by_domain_id(ad.domain_id).incomplete
         incomplete_tasks_with_domain = incomplete_tasks.map { |task| task.as_json(only: [:id, :name, :completion_date]).merge(domain: task.domain.as_json(only: [:id, :name, :identity])) }
         ad.as_json.merge(domain: ad.domain.as_json(only: [:name, :identity]), incomplete_tasks: incomplete_tasks_with_domain)
       end
@@ -205,9 +205,10 @@ class ClientSerializer < ActiveModel::Serializer
   end
 
   def case_notes
-    object.case_notes.most_recents.map do |case_note|
+    object.case_notes.includes(case_note_domain_groups: %i[domain_group case_note]).most_recents.map do |case_note|
       formatted_case_note_domain_group = case_note.case_note_domain_groups.map do |cdg|
         next if cdg.domain_group.nil?
+
         domain_scores = cdg.domains(case_note).map do |domain|
           ad = domain.assessment_domains.find_by(assessment_id: case_note.assessment_id)
           ad.try(:score)
@@ -220,7 +221,7 @@ class ClientSerializer < ActiveModel::Serializer
   end
 
   def quantitative_cases
-    object.quantitative_cases.group_by(&:quantitative_type).map do |qtype, qcases|
+    object.quantitative_cases.includes(:quantitative_type).group_by(&:quantitative_type).map do |qtype, qcases|
       qtype_name = qtype.name
       qcases = qcases.map { |qcase| qcase.try(:value) || qcases.try(:name) }
       { quantitative_type: qtype_name, client_quantitative_cases: qcases }
@@ -256,7 +257,7 @@ class ClientSerializer < ActiveModel::Serializer
         enrollment.properties = enrollment.properties.merge({ c.name => c.file })
       end
       enrollment_field = program_stream.enrollment
-      trackings = enrollment.client_enrollment_trackings.map do |tracking|
+      trackings = enrollment.client_enrollment_trackings.includes(:form_builder_attachments, :tracking).map do |tracking|
         tracking.form_builder_attachments.map do |c|
           tracking.properties = tracking.properties.merge({ c.name => c.file })
         end

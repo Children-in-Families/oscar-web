@@ -1,0 +1,15 @@
+.row
+  .col-xs-12
+    .ibox
+      .ibox-title
+        %h5= t('notifications.family_referrals.referral_families')
+      .ibox-content
+        .row
+          .col-xs-12.mini-margin
+            %ul.list-group
+              - (@unsaved_family_referrals || @repeat_family_referrals).each do |referral|
+                %li.list-group-item
+                  - if referral.saved
+                    = link_to "#{referral.name_of_family} #{referral.slug}", edit_family_path(id: referral.slug, referral_id: referral.id), target: '_blank'
+                  - else
+                    = link_to "#{referral.name_of_family}", new_family_path(referral_id: referral.id), target: '_blank'

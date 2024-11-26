@@ -1,137 +1,138 @@
-%input#btn-done{ value: t('.popover_done'), type: 'hidden' }
-%input#info{ value: t('.popover_info'), type: 'hidden' }
-%input#content{ value: t('.popover_content'), type: 'hidden' }
-.row
-  .col-xs-12.col-md-9.action-button-group
-    %button.btn.btn-primary.query.client-search{"aria-expanded" => 'false', "data-target" => '#client-search-form', "data-toggle" => 'collapse', type: 'button'}
-      %i.fa.fa-filter
+- cache_if(params[:commit].blank?, client_report_builder_cache_key, expires_in: 48.hours) do
+  %input#btn-done{ value: t('.popover_done'), type: 'hidden' }
+  %input#info{ value: t('.popover_info'), type: 'hidden' }
+  %input#content{ value: t('.popover_content'), type: 'hidden' }
+  .row
+    .col-xs-12.col-md-9.action-button-group
+      %button.btn.btn-primary.query.client-search{"aria-expanded" => 'false', "data-target" => '#client-search-form', "data-toggle" => 'collapse', type: 'button'}
+        %i.fa.fa-filter
 
-    %button.btn.btn-primary.query.client-advance-search{"aria-expanded" => 'false', type: 'button', data: { target: '#client-advance-search-form', toggle: 'collapse', trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.report_builder')}", placement: "right" } }
-      = t('.report_builder')
+      %button.btn.btn-primary.query.client-advance-search{"aria-expanded" => 'false', type: 'button', data: { target: '#client-advance-search-form', toggle: 'collapse', trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.report_builder')}", placement: "right" } }
+        = t('.report_builder')
 
-    %button.btn.btn-primary{ "aria-hidden" => 'true', type: 'button', data: { target: '#report-builder-wizard-modal', toggle: 'modal', trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.report_builder_wizard')}", placement: "auto" } }
-      = t('.report_builder_wizard')
+      %button.btn.btn-primary{ "aria-hidden" => 'true', type: 'button', data: { target: '#report-builder-wizard-modal', toggle: 'modal', trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.report_builder_wizard')}", placement: "auto" } }
+        = t('.report_builder_wizard')
 
-    %button.btn.btn-primary#load-saved-search{ data: { toggle: 'modal', target: '#load-save-search', trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.load_saved_search')}", placement: "auto" } }
-      = t('.load_save_search')
+      %button.btn.btn-primary#load-saved-search{ data: { toggle: 'modal', target: '#load-save-search', trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.load_saved_search')}", placement: "auto" } }
+        = t('.load_save_search')
 
-    = link_to new_advanced_search_save_query_path, remote: true, id: 'save-search-setting', class: 'btn btn-primary', data: { trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.saved_search_setting')}", placement: "auto" } do
-      = t('.save_search_settings')
+      = link_to new_advanced_search_save_query_path, remote: true, id: 'save-search-setting', class: 'btn btn-primary', data: { trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.saved_search_setting')}", placement: "auto" } do
+        = t('.save_search_settings')
 
-    - if params['commit'].present? || params['client_advanced_search'].present?
-      = button_to advanced_search_clients_path, params: params.merge(format: 'xls', type: 'basic_info'), class: 'btn btn-primary btn-export clients-list', form_class: 'hidden-post-form', data: { toggle: 'popover', trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.export_to_xls')}", placement: "auto" }  do
-        %i.fa.fa-download
-        = t('.export_to_xls')
-      - if enable_all_csi_tools?
-        .btn-group
-          %button.btn.btn-primary.dropdown-toggle{ "aria-expanded" => "false", "aria-haspopup" => "true", type: "button", data: { toggle: "dropdown", trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.assessment_data', assessment: t('clients.show.assessment'))}", placement: "auto" } }
-            = t('.assessment_data', assessment: t('clients.show.assessment'))
-            %span.caret
-          %ul.dropdown-menu.assessment-data-dropdown
-            - assessment_options.each do |assessment|
-              - if assessment[2] && assessment[2].key?('data-type')
-                %li.csi-0
-                  = link_to '#', class: 'btn btn-default', 'data-target': "#assessment-domain-score", 'data-toggle': 'modal' do
-                    = assessment[1]
-              - else
-                %li.hide{ class: "csi-#{assessment[0]}" }
-                  = link_to '#', class: 'btn btn-default', 'data-target': "#custom-assessment-domain-score-#{assessment[0]}", 'data-toggle': 'modal' do
-                    = assessment[1]
-
-          = render 'assessment_domain_score' 
-          = render 'custom_assessment_domain_score'
-      - elsif enable_default_assessment?
-        = link_to '#', class: 'btn btn-primary', data: { target: "#assessment-domain-score", toggle: 'modal', trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.assessment_data', assessment: t('clients.show.assessment'))}", placement: "auto" } do
-          = t('.assessment_data', assessment: t('clients.show.assessment'))
-        = render 'assessment_domain_score'
-      - elsif enable_custom_assessment?
-        = link_to '#', class: 'btn btn-primary', data: { target: "#custom-assessment-domain-score", toggle: 'modal', trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.assessment_data', assessment: t('clients.show.assessment'))}", placement: "auto" } do
-          = t('.assessment_data', assessment: t('clients.show.assessment'))
-        = render 'custom_assessment_domain_score'
-
-    - if current_user.admin? || current_user.any_manager?
       - if params['commit'].present? || params['client_advanced_search'].present?
-        %button.btn.btn-primary#client-statistic{ data: { toggle: 'popover', trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.quick_graph')}", placement: "auto" } }
-          %i.fa.fa-line-chart
-          %span= t('.reports')
-    - if params['commit'].present? || params['client_advanced_search'].present?
-      %button.btn.btn-primary#table-summary-btn{ data: { toggle: 'modal', target: '#table-summary', trigger: "hover", html: 'true', content: "", placement: "auto" } }
-        %span= t('clients.table_summary.title')
-      = render 'table_summary'
+        = button_to advanced_search_clients_path, params: params.merge(format: 'xls', type: 'basic_info'), class: 'btn btn-primary btn-export clients-list', form_class: 'hidden-post-form', data: { toggle: 'popover', trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.export_to_xls')}", placement: "auto" }  do
+          %i.fa.fa-download
+          = t('.export_to_xls')
+        - if enable_all_csi_tools?
+          .btn-group
+            %button.btn.btn-primary.dropdown-toggle{ "aria-expanded" => "false", "aria-haspopup" => "true", type: "button", data: { toggle: "dropdown", trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.assessment_data', assessment: t('clients.show.assessment'))}", placement: "auto" } }
+              = t('.assessment_data', assessment: t('clients.show.assessment'))
+              %span.caret
+            %ul.dropdown-menu.assessment-data-dropdown
+              - assessment_options.each do |assessment|
+                - if assessment[2] && assessment[2].key?('data-type')
+                  %li.csi-0
+                    = link_to '#', class: 'btn btn-default', 'data-target': "#assessment-domain-score", 'data-toggle': 'modal' do
+                      = assessment[1]
+                - else
+                  %li.hide{ class: "csi-#{assessment[0]}" }
+                    = link_to '#', class: 'btn btn-default', 'data-target': "#custom-assessment-domain-score-#{assessment[0]}", 'data-toggle': 'modal' do
+                      = assessment[1]
 
-  .col-xs-12.col-md-2
-    .pull-right.client-option
-      - if can? :manage, Client
-        = link_to t('.add_new_client'), new_client_path, class: 'btn btn-primary'
-.row
-  = render 'clients/client_advanced_searches/save_search_setting'
-.row
-  = render 'clients/client_advanced_searches/load_save_search'
+            = render 'assessment_domain_score' 
+            = render 'custom_assessment_domain_score'
+        - elsif enable_default_assessment?
+          = link_to '#', class: 'btn btn-primary', data: { target: "#assessment-domain-score", toggle: 'modal', trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.assessment_data', assessment: t('clients.show.assessment'))}", placement: "auto" } do
+            = t('.assessment_data', assessment: t('clients.show.assessment'))
+          = render 'assessment_domain_score'
+        - elsif enable_custom_assessment?
+          = link_to '#', class: 'btn btn-primary', data: { target: "#custom-assessment-domain-score", toggle: 'modal', trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.assessment_data', assessment: t('clients.show.assessment'))}", placement: "auto" } do
+            = t('.assessment_data', assessment: t('clients.show.assessment'))
+          = render 'custom_assessment_domain_score'
 
-.row
-  .col-xs-12
-    .ibox-content#client-advance-search-form.collapse.main-report-builder
-      = render 'clients/client_advanced_searches/advanced_search'
+      - if current_user.admin? || current_user.any_manager?
+        - if params['commit'].present? || params['client_advanced_search'].present?
+          %button.btn.btn-primary#client-statistic{ data: { toggle: 'popover', trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.quick_graph')}", placement: "auto" } }
+            %i.fa.fa-line-chart
+            %span= t('.reports')
+      - if params['commit'].present? || params['client_advanced_search'].present?
+        %button.btn.btn-primary#table-summary-btn{ data: { toggle: 'modal', target: '#table-summary', trigger: "hover", html: 'true', content: "", placement: "auto" } }
+          %span= t('clients.table_summary.title')
+        = render 'table_summary'
 
-.row
-  .col-xs-12
-    .ibox-content#client-advance-search-wizard
-      = render 'clients/client_advanced_searches/wizard'
+    .col-xs-12.col-md-2
+      .pull-right.client-option
+        - if can? :manage, Client
+          = link_to t('.add_new_client'), new_client_path, class: 'btn btn-primary'
+  .row
+    = render 'clients/client_advanced_searches/save_search_setting'
+  .row
+    = render 'clients/client_advanced_searches/load_save_search'
 
-.row
-  .col-xs-12
-    .ibox-content#client-search-form.collapse
-      = datagrid_form_for @client_grid, url: advanced_search_clients_url, html: { class: 'grid-form' }
-
-%input#params{ value: "#{params['client_advanced_search']}", type: 'hidden' }
-.row#client-statistic-body
-  .col-xs-12.mini-margin
-    .ibox
-      .row
-        .col-xs-12.col-md-6
-          .ibox-content
-            - if params['client_advanced_search'].present?
-              #cis-domain-score.searched{ "data-csi-domain" => @csi_statistics, "data-title" => t('.csi_domain_scores'), "data-yaxis-title" => t('.domain_score')}
-            - else
-              #cis-domain-score{ "data-title" => t('.csi_domain_scores'), "data-yaxis-title" => t('.domain_score')}
-
-        .col-xs-12.col-md-6
-          .ibox-content
-            - if params['client_advanced_search'].present?
-              #program-statistic.searched{ "data-program-statistic" => @enrollments_statistics, "data-title" => t('.active_programs'), "data-yaxis-title" => t('.client_amount') }
-            - else
-              #program-statistic{ "data-title" => t('.active_programs'), "data-yaxis-title" => t('.client_amount') }
-
-- if params['commit'].present? || params['client_advanced_search'].present?
-  #cache-key.hide{ data: { 'cache-key': @cache_key } }
-  .row.mini-margin
+  .row
     .col-xs-12
+      .ibox-content#client-advance-search-form.collapse.main-report-builder
+        = render 'clients/client_advanced_searches/advanced_search'
+
+  .row
+    .col-xs-12
+      .ibox-content#client-advance-search-wizard
+        = render 'clients/client_advanced_searches/wizard'
+
+  .row
+    .col-xs-12
+      .ibox-content#client-search-form.collapse
+        = datagrid_form_for @client_grid, url: advanced_search_clients_url, html: { class: 'grid-form' }
+
+  %input#params{ value: "#{params['client_advanced_search']}", type: 'hidden' }
+  .row#client-statistic-body
+    .col-xs-12.mini-margin
       .ibox
-        .ibox-title
-          %h5= @results.size
-          %span.label.label-info= t('.results')
-          .ibox-tools
-            - if params[:data] == 'recent'
-              = button_to t('.show_all'), advanced_search_clients_path, params: params.merge({data: 'all'}), class: 'btn btn-primary', form_class: 'hidden-post-form', id: 'show-all'
-            - else
-              = button_to t('.most_recent'), advanced_search_clients_path, params: params.merge({data: 'recent'}), class: 'btn btn-primary', form_class: 'hidden-post-form', id: 'most-recent'
+        .row
+          .col-xs-12.col-md-6
+            .ibox-content
+              - if params['client_advanced_search'].present?
+                #cis-domain-score.searched{ "data-csi-domain" => @csi_statistics, "data-title" => t('.csi_domain_scores'), "data-yaxis-title" => t('.domain_score')}
+              - else
+                #cis-domain-score{ "data-title" => t('.csi_domain_scores'), "data-yaxis-title" => t('.domain_score')}
 
-        .ibox-content
-          .clients-table{ data: { 'info-load': t('.load'), 'info-end': t('.end'), 'read-more': t('.read_more'), 'read-less': t('.read_less') } }
-            %table.table.table-bordered.table-striped.table-hover.clients#clients-list
-              = content_tag :div, 'hidden_param', class: 'hide', id: 'hidden-param', data: { 'hidden-param': url_for(params) }
-              %thead
-                = datagrid_header(@client_grid)
-              %tbody.page
-                = render 'client_rows'
+          .col-xs-12.col-md-6
+            .ibox-content
+              - if params['client_advanced_search'].present?
+                #program-statistic.searched{ "data-program-statistic" => @enrollments_statistics, "data-title" => t('.active_programs'), "data-yaxis-title" => t('.client_amount') }
+              - else
+                #program-statistic{ "data-title" => t('.active_programs'), "data-yaxis-title" => t('.client_amount') }
 
-            %span.hidden{id:"sinfo", 'data-infoshow' => t('.sInfoShow'), 'data-infoto' => t('.sInfoTo'), 'data-infototal' => t('.sInfoTotal')}
-        .ibox-footer.text-center
-          = paginate @client_grid.assets
-.hide
-  = hidden_field(:hidden, :assessment_number, value: t('.assessment_number'))
-  = hidden_field(:hidden, :custom_csi_group, value: t('.custom_csi_group'))
-  = hidden_field(:hidden, :month_number, value: t('.month_number'))
-  = hidden_field(:hidden, :date_of_assessments, value: t('.date_of_assessments'))
-  = hidden_field(:hidden, :csi_domain_scores, value: t('.csi_domain_scores'))
-  = hidden_field(:hidden, :custom_csi_domain_scores, value: t('.custom_csi_domain_scores'))
+  - if params['commit'].present? || params['client_advanced_search'].present?
+    #cache-key.hide{ data: { 'cache-key': @cache_key } }
+    .row.mini-margin
+      .col-xs-12
+        .ibox
+          .ibox-title
+            %h5= @results.size
+            %span.label.label-info= t('.results')
+            .ibox-tools
+              - if params[:data] == 'recent'
+                = button_to t('.show_all'), advanced_search_clients_path, params: params.merge({data: 'all'}), class: 'btn btn-primary', form_class: 'hidden-post-form', id: 'show-all'
+              - else
+                = button_to t('.most_recent'), advanced_search_clients_path, params: params.merge({data: 'recent'}), class: 'btn btn-primary', form_class: 'hidden-post-form', id: 'most-recent'
+
+          .ibox-content
+            .clients-table{ data: { 'info-load': t('.load'), 'info-end': t('.end'), 'read-more': t('.read_more'), 'read-less': t('.read_less') } }
+              %table.table.table-bordered.table-striped.table-hover.clients#clients-list
+                = content_tag :div, 'hidden_param', class: 'hide', id: 'hidden-param', data: { 'hidden-param': url_for(params) }
+                %thead
+                  = datagrid_header(@client_grid)
+                %tbody.page
+                  = render 'client_rows'
+
+              %span.hidden{id:"sinfo", 'data-infoshow' => t('.sInfoShow'), 'data-infoto' => t('.sInfoTo'), 'data-infototal' => t('.sInfoTotal')}
+          .ibox-footer.text-center
+            = paginate @client_grid.assets
+  .hide
+    = hidden_field(:hidden, :assessment_number, value: t('.assessment_number'))
+    = hidden_field(:hidden, :custom_csi_group, value: t('.custom_csi_group'))
+    = hidden_field(:hidden, :month_number, value: t('.month_number'))
+    = hidden_field(:hidden, :date_of_assessments, value: t('.date_of_assessments'))
+    = hidden_field(:hidden, :csi_domain_scores, value: t('.csi_domain_scores'))
+    = hidden_field(:hidden, :custom_csi_domain_scores, value: t('.custom_csi_domain_scores'))
