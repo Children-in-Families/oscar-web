@@ -40,22 +40,21 @@ class EnterNgo < ActiveRecord::Base
     if user_ids.any?
       if client.present?
         entity.user_ids = self.user_ids
+        entity.received_by_id = received_by_id
+        entity.followed_up_by_id = followed_up_by_id
+        entity.initial_referral_date = initial_referral_date
+        entity.follow_up_date = follow_up_date
       elsif acceptable.present?
         # note the relation between users and acceptable obj
         entity.case_worker_ids = self.user_ids
       end
     end
 
-    entity.received_by_id = received_by_id
-    entity.followed_up_by_id = followed_up_by_id
-    entity.initial_referral_date = initial_referral_date
-    entity.follow_up_date = follow_up_date
-
     entity.save(validate: false)
   end
 
   def set_administrative_info
-    return unless entity.referred?
+    return unless client.present? && entity.referred?
 
     self.received_by_id = entity.received_by_id
     self.followed_up_by_id = entity.followed_up_by_id
