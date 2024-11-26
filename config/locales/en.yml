@@ -1691,7 +1691,7 @@ en:
       accepted_date: NGO Accept Date
       client: Client
       client_id: Client ID
-      consent_form: Consent Form
+      consent_form: Consent Form and other Documents
       date_of_referral: Date of Referral
       enrollment_date: Enrollment Date
       exit_circumstance: Exit Circumstance
@@ -4271,7 +4271,7 @@ en:
       accepted_date: NGO Accept Date
       family: Family
       family_id: Family ID
-      consent_form: Consent Form
+      consent_form: Consent Form and other Documents
       date_of_referral: Date of Referral
       enrollment_date: Enrollment Date
       exit_circumstance: Exit Circumstance
@@ -4561,7 +4561,7 @@ en:
       body_third: You have already referred this family, please wait for the response.
       title: Warning
     consent_form_fields:
-      consent_form: Consent Form
+      consent_form: Consent Form and other Documents
     create:
       failed_create: Failed to create a Referral.
       successfully_created: Referral has been successfully created.
@@ -4583,7 +4583,7 @@ en:
       save_and_download: Save & Download
     index:
       cannot_edit_referral: You cannot edit this referral because the target NGO already accepted this referral
-      consent_form: Consent Form
+      consent_form: Consent Form and other Documents
       date_of_referral: Date of Referral
       detail: Detail
       edit_btn: Edit
@@ -4600,7 +4600,7 @@ en:
       new_referral: New Referral
     show:
       cannot_edit_referral: You cannot edit this referral because the target NGO already accepted this referral
-      consent_form: Consent Form
+      consent_form: Consent Form and other Documents
       date_of_referral: Date of Referral
       download_referral_form: Download Printable Referral Form
       external_referral_warning: The NGO that you are attempting to refer your family to is not currently using OSCaR. Please print a copy of this referral form to send to your target organisation.
@@ -5985,7 +5985,7 @@ en:
       confirm_box: I have discussed the situation with them.
       title: Warning
     consent_form_fields:
-      consent_form: Consent Form
+      consent_form: Consent Form and other Documents
     create:
       failed_create: Failed to create a Referral.
       successfully_created: Referral has been successfully created.
@@ -6010,7 +6010,7 @@ en:
       cannot_edit_referral: You cannot edit this referral because the target NGO already accepted this referral
       client_id: Client ID
       client_name: Client Name
-      consent_form: Consent Form
+      consent_form: Consent Form and other Documents
       date_of_referral: Date of Referral
       detail: Detail
       edit_btn: Edit
@@ -6031,7 +6031,7 @@ en:
       cannot_edit_referral: You cannot edit this referral because the target NGO already accepted this referral
       client_id: Client ID
       client_name: Client Name
-      consent_form: Consent Form
+      consent_form: Consent Form and other Documents
       date_of_referral: Date of Referral
       download_referral_form: Download Printable Referral Form
       external_referral_warning: The NGO that you are attempting to refer your client to is not currently using OSCaR. Please print a copy of this referral form to send to your target organisation.
