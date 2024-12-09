@@ -569,10 +569,6 @@ class ClientGrid < BaseGrid
     render partial: 'clients/active_client_enrollments', locals: { active_programs: client_enrollments }
   end
 
-  column(:received_by, preload: :received_by, order: proc { |object| object.joins(:received_by).order('users.first_name, users.last_name') }, html: true, header: -> { I18n.t('datagrid.columns.clients.received_by') }) do |object|
-    render partial: 'clients/users', locals: { object: object.received_by } if object.received_by
-  end
-
   column(:type_of_service, html: true, order: false, header: -> { I18n.t('datagrid.columns.clients.type_of_service') }) do |object|
     services = map_type_of_services(object)
     render partial: 'clients/type_of_services', locals: { type_of_services: services }
@@ -662,11 +658,15 @@ class ClientGrid < BaseGrid
     services.map(&:name).join(', ') if services
   end
 
-  column(:received_by, html: false, header: -> { I18n.t('datagrid.columns.clients.received_by') }) do |object|
+  column(:received_by_id, preload: :received_by, order: proc { |object| object.joins(:received_by).order('users.first_name, users.last_name') }, html: true, header: -> { I18n.t('datagrid.columns.clients.received_by') }) do |object|
+    render partial: 'clients/users', locals: { object: object.received_by } if object.received_by
+  end
+
+  column(:received_by_id, html: false, header: -> { I18n.t('datagrid.columns.clients.received_by') }) do |object|
     object.received_by.try(:name)
   end
 
-  column(:followed_up_by, order: proc { |object| object.joins(:followed_up_by).order('users.first_name, users.last_name') }, html: true, header: -> { I18n.t('datagrid.columns.clients.followed_up_by') }) do |object|
+  column(:followed_up_by_id, order: proc { |object| object.joins(:followed_up_by).order('users.first_name, users.last_name') }, html: true, header: -> { I18n.t('datagrid.columns.clients.followed_up_by') }) do |object|
     render partial: 'clients/users', locals: { object: object.followed_up_by } if object.followed_up_by
   end
 
@@ -1165,7 +1165,7 @@ class ClientGrid < BaseGrid
       cn_custom_field.data_fields.each do |field|
         column_name = "case_note_custom_field_#{field['label'].parameterize.underscore}"
         column(column_name.to_sym, header: -> { field['label'] }, html: true) do |object|
-          render partial: "clients/case_note_custom_field", locals: { object: object, custom_field: cn_custom_field, field: field }
+          render partial: 'clients/case_note_custom_field', locals: { object: object, custom_field: cn_custom_field, field: field }
         end
       end
     end

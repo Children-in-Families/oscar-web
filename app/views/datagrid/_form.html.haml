@@ -66,12 +66,20 @@
               .visibility.col-sm-12
                 = check_box_tag "#{f.name}_", f.name, checked = saved_search_column_visibility("#{f.name}_"), class: 'i-checks'
                 = columns_visibility f.name
-
-          - ['initial_referral_date', 'received_by', 'followed_up_by', 'follow_up_date'].each do |field|
-            %li{ id: field }
-              .visibility.col-sm-12
-                = check_box_tag "#{field}_", field, checked = saved_search_column_visibility("#{field}_"), class: 'i-checks'
-                = columns_visibility field
+          - enter_ngo_count = EnterNgo.group(:client_id).count.max.last
+          - if enter_ngo_count > 1
+            - enter_ngo_count.times.each do |count|
+              - ['initial_referral_date', 'received_by_id', 'followed_up_by_id', 'follow_up_date'].each do |field|
+                %li{ id: field }
+                  .visibility.col-sm-12
+                    = check_box_tag "#{field}_#{count}_", field, checked = saved_search_column_visibility("#{field}_"), class: 'i-checks'
+                    = "#{count.ordinalize} #{columns_visibility(field)}"
+          - else
+            - ['initial_referral_date', 'received_by_id', 'followed_up_by_id', 'follow_up_date'].each do |field|
+              %li{ id: field }
+                .visibility.col-sm-12
+                  = check_box_tag "#{field}_", field, checked = saved_search_column_visibility("#{field}_"), class: 'i-checks'
+                  = columns_visibility field
 
           - if selected_country == 'lesotho'
             %li
