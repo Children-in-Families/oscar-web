@@ -1601,6 +1601,8 @@ my:
       dosavy: DoSAVY
       external_id_display: ပြင်ပ ID display
       family_book: 'Family Book'
+      followed_up_by: Followed Up By
+      followed_up_date: Followed Up Date
       form_indentification: Forms for Identification of Victim of Human Trafficking
       indentification_doc: Identification Documents
       labor_trafficking_legal_doc_option: Labour Trafficking

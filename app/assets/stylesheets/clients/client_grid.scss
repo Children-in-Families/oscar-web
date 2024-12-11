@@ -263,6 +263,21 @@ body[id="client_advanced_searches-index"] {
         text-decoration: none;
       }
     }
+
+    th[class^="received_by_"],
+    th[class^="initial_referral_date_"],
+    th[class^="followed_up_by_"],
+    th[class^="follow_up_date_"] {
+      text-align: center;
+      min-width: 165px;
+    }
+
+    td[class^="received_by_"],
+    td[class^="initial_referral_date_"],
+    td[class^="followed_up_by_"],
+    td[class^="follow_up_date_"] {
+      text-align: center;
+    }
   }
 
   ul.check-columns-visibility {

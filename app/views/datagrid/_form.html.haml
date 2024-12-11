@@ -66,20 +66,6 @@
               .visibility.col-sm-12
                 = check_box_tag "#{f.name}_", f.name, checked = saved_search_column_visibility("#{f.name}_"), class: 'i-checks'
                 = columns_visibility f.name
-          - enter_ngo_count = EnterNgo.group(:client_id).count.max.last
-          - if enter_ngo_count > 1
-            - enter_ngo_count.times.each do |count|
-              - ['initial_referral_date', 'received_by_id', 'followed_up_by_id', 'follow_up_date'].each do |field|
-                %li{ id: field }
-                  .visibility.col-sm-12
-                    = check_box_tag "#{field}_#{count}_", field, checked = saved_search_column_visibility("#{field}_"), class: 'i-checks'
-                    = "#{count.ordinalize} #{columns_visibility(field)}"
-          - else
-            - ['initial_referral_date', 'received_by_id', 'followed_up_by_id', 'follow_up_date'].each do |field|
-              %li{ id: field }
-                .visibility.col-sm-12
-                  = check_box_tag "#{field}_", field, checked = saved_search_column_visibility("#{field}_"), class: 'i-checks'
-                  = columns_visibility field
 
           - if selected_country == 'lesotho'
             %li
@@ -234,6 +220,23 @@
             .visibility.col-sm-12
               = check_box_tag 'phone_owner_', 'phone_owner', checked = saved_search_column_visibility('phone_owner_'), class: 'i-checks'
               = label_tag 'phone_owner_', t('datagrid.columns.phone_owner')
+
+          - enter_ngo_count = EnterNgo.group(:client_id).count.max.last
+          - if enter_ngo_count > 1
+            - (1..enter_ngo_count).each do |ordered_number|
+              %li.enter_ngo_count
+                %strong= ordered_number.ordinalize + " Referral"
+              - ['initial_referral_date', 'received_by_id', 'followed_up_by_id', 'follow_up_date'].each do |field|
+                %li{ id: "#{field}_#{ordered_number}" }
+                  .visibility.col-sm-12
+                    = check_box_tag "#{field}_#{ordered_number}_", "#{field}_#{ordered_number}", checked = saved_search_column_visibility("#{field}_#{ordered_number}_"), class: 'i-checks'
+                    = columns_visibility(field, ordered_number)
+          - else
+            - ['initial_referral_date', 'received_by_id', 'followed_up_by_id', 'follow_up_date'].each do |field|
+              %li{ id: field }
+                .visibility.col-sm-12
+                  = check_box_tag "#{field}_", field, checked = saved_search_column_visibility("#{field}_"), class: 'i-checks'
+                  = columns_visibility field
 
           - if policy(Client).show_legal_doc?
             %li.legal-doc

@@ -1610,6 +1610,8 @@ id:
       dosavy: Dinas Sosial
       external_id_display: Tampilan ID Eksternal
       family_book: 'Buku Keluarga'
+      followed_up_by: Followed Up By
+      followed_up_date: Followed Up Date
       form_indentification: Formulir Identifikasi Korban Perdagangan Orang
       indentification_doc: Dokumen Identifikasi
       labor_trafficking_legal_doc_option: Labour Trafficking

@@ -39,7 +39,7 @@
                     = link_to '#', class: 'btn btn-default', 'data-target': "#custom-assessment-domain-score-#{assessment[0]}", 'data-toggle': 'modal' do
                       = assessment[1]
 
-            = render 'assessment_domain_score' 
+            = render 'assessment_domain_score'
             = render 'custom_assessment_domain_score'
         - elsif enable_default_assessment?
           = link_to '#', class: 'btn btn-primary', data: { target: "#assessment-domain-score", toggle: 'modal', trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.assessment_data', assessment: t('clients.show.assessment'))}", placement: "auto" } do
