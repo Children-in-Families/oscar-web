@@ -3,15 +3,20 @@ import { t as TranslateUtil } from "./i18n";
 import en from "./locales/en.json";
 import km from "./locales/km.json";
 import my from "./locales/my.json";
+import th from "./locales/th.json";
 import id from "./locales/id.json";
 
-var url = window.location.href.split("&").slice(-1)[0].split("=")[1];
-switch (url) {
+var locale = urlSearchParam("locale");
+console.log("url: " + locale);
+switch (locale) {
   case "km":
     Translate.setTexts(km);
     break;
   case "my":
     Translate.setTexts(my);
+    break;
+  case "th":
+    Translate.setTexts(th);
     break;
   case "id":
     Translate.setTexts(id);
