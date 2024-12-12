@@ -1,5 +1,7 @@
 import Translate from "i18n-react";
 import { t as TranslateUtil } from "./i18n";
+import { urlSearchParam } from "./searchParam";
+
 import en from "./locales/en.json";
 import km from "./locales/km.json";
 import my from "./locales/my.json";
@@ -7,7 +9,7 @@ import th from "./locales/th.json";
 import id from "./locales/id.json";
 
 var locale = urlSearchParam("locale");
-console.log("url: " + locale);
+
 switch (locale) {
   case "km":
     Translate.setTexts(km);
