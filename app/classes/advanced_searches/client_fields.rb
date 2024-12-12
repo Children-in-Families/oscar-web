@@ -100,12 +100,13 @@ module AdvancedSearches
       enter_ngo_count = EnterNgo.group(:client_id).count.max.last
       if enter_ngo_count > 1
         (1..enter_ngo_count).each do |ordered_number|
-          date_list << ["initial_referral_date_#{ordered_number}", "follow_up_date_#{ordered_number}"]
+          date_list.push("initial_referral_date_#{ordered_number}")
+          date_list.push("follow_up_date_#{ordered_number}")
         end
-        date_list
       else
-        ['initial_referral_date', 'follow_up_date', 'accepted_date', 'exit_date']
+        date_list = ['initial_referral_date', 'follow_up_date', 'accepted_date', 'exit_date']
       end
+      date_list
     end
 
     def case_note_date_type_list
@@ -176,13 +177,14 @@ module AdvancedSearches
       if enter_ngo_count > 1
         user_list = []
         (1..enter_ngo_count).each do |ordered_number|
-          user_list << [["received_by_id_#{ordered_number}", received_by_options], ["followed_up_by_id_#{ordered_number}", followed_up_by_options]]
+          user_list.push(["received_by_id_#{ordered_number}", received_by_options])
+          user_list.push(["followed_up_by_id_#{ordered_number}", followed_up_by_options])
         end
       else
         user_list = [['followed_up_by_id', followed_up_by_options], ['received_by_id', received_by_options]]
       end
 
-      users_list
+      users_list.push(*user_list)
     end
 
     def case_note_dropdown_list

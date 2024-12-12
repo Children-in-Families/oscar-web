@@ -208,6 +208,8 @@ module AdvancedSearchHelper
       translations[:custom_csi_domain_scores] = I18n.t('advanced_search.fields.family_assessment_domain_scores')
     end
 
+    translations[key.to_sym] = "#{key[/\d/].to_i.ordinalize} #{I18n.t("clients.attr.#{key[/.*([^_\d])/]}")}" if key[/_\d/]
+
     translations[key.to_sym] || ''
   end
 

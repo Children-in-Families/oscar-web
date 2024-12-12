@@ -25,6 +25,7 @@ module AdvancedSearches
     CALL_FIELDS = Call::FIELDS
     OVERDUE_FIELDS = %w[has_overdue_assessment has_overdue_forms has_overdue_task no_case_note].freeze
     RISK_ASSESSMENTS = %w[level_of_risk date_of_risk_assessment has_disability has_hiv_or_aid has_known_chronic_disease].freeze
+    NEXT_REFERRAL_FIELDS = (2..12).map { |index| ["initial_referral_date_#{index}", "follow_up_date_#{index}", "received_by_id_#{index}", "followed_up_by_id_#{index}"] }.flatten
 
     def initialize(clients, basic_rules)
       @clients = clients
@@ -38,7 +39,7 @@ module AdvancedSearches
 
     def generate
       @basic_rules.each do |rule|
-        field = rule['id']
+        field = rule['id'][/.*([^_1])/]
         operator = rule['operator']
         value = rule['value']
         form_builder = field != nil ? field.split('__') : []
@@ -52,6 +53,10 @@ module AdvancedSearches
           Organization.switch_to 'shared'
           shared_client_filter = AdvancedSearches::SharedFieldsSqlFilter.new(field, operator, value, SENSITIVITY_FIELDS, BLANK_FIELDS).get_sql
           Organization.switch_to short_name
+          @sql_string << shared_client_filter[:id]
+          @values << shared_client_filter[:values]
+        elsif NEXT_REFERRAL_FIELDS.include?(field)
+          shared_client_filter = AdvancedSearches::MultiReferralFieldsSqlFilter.new(field, operator, value, SENSITIVITY_FIELDS, BLANK_FIELDS).get_sql
           @sql_string << shared_client_filter[:id]
           @values << shared_client_filter[:values]
         elsif form_builder.first == 'case_note_custom_field'

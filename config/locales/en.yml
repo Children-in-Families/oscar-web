@@ -1610,10 +1610,11 @@ en:
       dosavy: DoSAVY
       external_id_display: External ID Display
       family_book: 'Family Book'
-      followed_up_by: Followed Up By
-      followed_up_date: Followed Up Date
+      followed_up_by_id: Followed Up By
+      follow_up_date: Followed Up Date
       form_indentification: Forms for Identification of Victim of Human Trafficking
       indentification_doc: Identification Documents
+      initial_referral_date: Initial Referral Date
       labor_trafficking_legal_doc_option: Labour Trafficking
       legal_documents: Legal Documents
       legal_processing_doc: Legal Proceeding Documents
@@ -1628,6 +1629,7 @@ en:
       other_legal_doc_option: Other
       passport: 'Passport'
       police_interview: 'Police interview'
+      received_by_id: Received By
       referral_document: Referral Documents
       screening_interview_form: Screening Interview Form
       sex_trafficking_legal_doc_option: Sexual Trafficking

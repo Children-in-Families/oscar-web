@@ -1610,10 +1610,11 @@ id:
       dosavy: Dinas Sosial
       external_id_display: Tampilan ID Eksternal
       family_book: 'Buku Keluarga'
-      followed_up_by: Followed Up By
-      followed_up_date: Followed Up Date
+      followed_up_by_id: Followed Up By
+      follow_up_date: Followed Up Date
       form_indentification: Formulir Identifikasi Korban Perdagangan Orang
       indentification_doc: Dokumen Identifikasi
+      initial_referral_date: Tanggal Rujukan
       labor_trafficking_legal_doc_option: Labour Trafficking
       legal_documents: Dokumen Legal
       legal_processing_doc: Dokumen Proses Hukum
@@ -1628,6 +1629,7 @@ id:
       other_legal_doc_option: Lainnya
       passport: 'Paspor'
       police_interview: 'Wawancara Polisi'
+      received_by_id: Received By
       referral_document: Dokumen Rujukan
       screening_interview_form: Formulir Wawancara Screening
       sex_trafficking_legal_doc_option: Perdagangan Seksual
@@ -1702,7 +1704,7 @@ id:
       exit_program_date: Tanggal Keluar Program
       exit_reasons: Alasan Keluar/ Penolakan Kasus
       external_referral: Rujukan Eksternal
-      initial_referral_date:
+      initial_referral_date: Tanggal Rujukan
       internal_referral: Rujukan Internal
       name_of_referee: Nama dari Perujuk
       other_info_of_exit: Lainnya - Informasi tambahan

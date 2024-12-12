@@ -1,5 +1,5 @@
 module AdvancedSearches
-  class SharedFieldsSqlFilter
+  class MultiReferralFieldsSqlFilter
     def initialize(field, operator, values, sensitivity_fields, blank_fields)
       @field = field
       @operator = operator

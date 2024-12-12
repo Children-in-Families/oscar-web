@@ -670,27 +670,27 @@ class ClientGrid < BaseGrid
           object.initial_referral_date.present? ? object.initial_referral_date.to_date.to_formatted_s : ''
         end
 
-        column("received_by_id_#{ordered_number}".to_sym, preload: :received_by, order: proc { |object| object.joins(:received_by).order('users.first_name, users.last_name') }, html: true, header: -> { ordered_number.ordinalize + ' ' + I18n.t('datagrid.columns.clients.received_by') }) do |object|
+        column("received_by_id_#{ordered_number}".to_sym, preload: :received_by, order: proc { |object| object.joins(:received_by).order('users.first_name, users.last_name') }, html: true, header: -> { ordered_number.ordinalize + ' ' + I18n.t('clients.attr.received_by_id') }) do |object|
           render partial: 'clients/users', locals: { object: object.received_by } if object.received_by
         end
 
-        column("received_by_id_#{ordered_number}".to_sym, html: false, header: -> { ordered_number.ordinalize + ' ' + I18n.t('datagrid.columns.clients.received_by') }) do |object|
+        column("received_by_id_#{ordered_number}".to_sym, html: false, header: -> { ordered_number.ordinalize + ' ' + I18n.t('clients.attr.received_by_id') }) do |object|
           object.received_by.try(:name)
         end
 
-        column("followed_up_by_id_#{ordered_number}".to_sym, order: proc { |object| object.joins(:followed_up_by).order('users.first_name, users.last_name') }, html: true, header: -> { ordered_number.ordinalize + ' ' + I18n.t('clients.attr.followed_up_by') }) do |object|
+        column("followed_up_by_id_#{ordered_number}".to_sym, order: proc { |object| object.joins(:followed_up_by).order('users.first_name, users.last_name') }, html: true, header: -> { ordered_number.ordinalize + ' ' + I18n.t('clients.attr.followed_up_by_id') }) do |object|
           render partial: 'clients/users', locals: { object: object.followed_up_by } if object.followed_up_by
         end
 
-        column("followed_up_by_#{ordered_number}".to_sym, html: false, header: -> { ordered_number.ordinalize + ' ' + I18n.t('clients.attr.followed_up_by') }) do |object|
+        column("followed_up_by_#{ordered_number}".to_sym, html: false, header: -> { ordered_number.ordinalize + ' ' + I18n.t('clients.attr.followed_up_by_id') }) do |object|
           object.followed_up_by.try(:name)
         end
 
-        column("follow_up_date_#{ordered_number}".to_sym, html: true, header: -> { ordered_number.ordinalize + ' ' + I18n.t('clients.attr.followed_up_date') }) do |object|
+        column("follow_up_date_#{ordered_number}".to_sym, html: true, header: -> { ordered_number.ordinalize + ' ' + I18n.t('clients.attr.follow_up_date') }) do |object|
           object.follow_up_date.present? ? object.follow_up_date : ''
         end
 
-        column("follow_up_date_#{ordered_number}".to_sym, html: false, header: -> { ordered_number.ordinalize + ' ' + I18n.t('clients.attr.followed_up_date') }) do |object|
+        column("follow_up_date_#{ordered_number}".to_sym, html: false, header: -> { ordered_number.ordinalize + ' ' + I18n.t('clients.attr.follow_up_date') }) do |object|
           object.follow_up_date.present? ? object.follow_up_date : ''
         end
       end
