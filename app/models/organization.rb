@@ -123,7 +123,7 @@ class Organization < ActiveRecord::Base
           Rake::Task['field_settings:import'].invoke(org.short_name)
           Rake::Task['field_settings:import'].reenable
 
-          Thredded::MessageboardGroup.find_or_create_by(name: 'Archived')
+          Thredded::MessageboardGroup.find_or_create_by(name: 'Archived', position: 0)
 
           referral_source_category = ReferralSource.find_by(name_en: referral_source_category_name)
           if referral_source_category

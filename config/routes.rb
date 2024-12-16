@@ -423,6 +423,9 @@ Rails.application.routes.draw do
         scope module: 'families' do
           resources :exit_ngos, only: [:create, :update]
           resources :enter_ngos, only: [:create, :update]
+          resources :case_notes, only: [:index, :show, :create, :update, :destroy, :delete_attachment] do
+            delete 'attachments/:file_index', action: :delete_attachment, on: :member
+          end
         end
       end
       resources :users, only: [:index, :show]

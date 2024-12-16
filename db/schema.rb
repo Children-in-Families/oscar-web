@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20241021071245) do
+ActiveRecord::Schema.define(version: 20241030040018) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1132,16 +1132,17 @@ ActiveRecord::Schema.define(version: 20241021071245) do
   add_index "custom_field_properties", ["user_id"], name: "index_custom_field_properties_on_user_id", using: :btree
 
   create_table "custom_fields", force: :cascade do |t|
-    t.string   "entity_type",       default: ""
-    t.text     "properties",        default: ""
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
-    t.string   "form_title",        default: ""
-    t.string   "frequency",         default: ""
-    t.integer  "time_of_frequency", default: 0
-    t.string   "ngo_name",          default: ""
+    t.string   "entity_type",        default: ""
+    t.text     "properties",         default: ""
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+    t.string   "form_title",         default: ""
+    t.string   "frequency",          default: ""
+    t.integer  "time_of_frequency",  default: 0
+    t.string   "ngo_name",           default: ""
     t.jsonb    "fields"
-    t.boolean  "hidden",            default: false
+    t.boolean  "hidden",             default: false
+    t.string   "allowed_edit_until"
   end
 
   add_index "custom_fields", ["form_title"], name: "index_custom_fields_on_form_title", using: :btree
@@ -2898,15 +2899,16 @@ ActiveRecord::Schema.define(version: 20241021071245) do
   add_index "townships", ["state_id"], name: "index_townships_on_state_id", using: :btree
 
   create_table "trackings", force: :cascade do |t|
-    t.string   "name",              default: ""
-    t.jsonb    "fields",            default: {}
-    t.string   "frequency",         default: ""
+    t.string   "name",               default: ""
+    t.jsonb    "fields",             default: {}
+    t.string   "frequency",          default: ""
     t.integer  "time_of_frequency"
     t.integer  "program_stream_id"
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
     t.datetime "deleted_at"
-    t.boolean  "hidden",            default: false
+    t.boolean  "hidden",             default: false
+    t.string   "allowed_edit_until"
   end
 
   add_index "trackings", ["deleted_at"], name: "index_trackings_on_deleted_at", using: :btree
