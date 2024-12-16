@@ -83,6 +83,12 @@ class CustomField < ActiveRecord::Base
     end
   end
 
+  def allowed_edit?(user)
+    return true if allowed_edit_until.nil? || !user.case_worker?
+
+    eval(allowed_edit_until).from_now(created_at) > Date.today
+  end
+
   def self.cache_all
     Rails.cache.fetch([Apartment::Tenant.current, 'CustomField']) { order(:entity_type, :form_title) }
   end
