@@ -2,293 +2,216 @@
 - risk_assessment = @client.risk_assessment
 - has_risk_assessment = current_setting.enabled_risk_assessment? && risk_assessment
 .row
-  .col-sm-12.col-md-6.first-table
-    %table.table.table-bordered
-      - if policy(@client).show?(:local_given_name)
+  .col-sm-12
+    %table.table.table-bordered.administrative-info
+      %thead
+        %tr
+          %th{ colspan: '2' }
+            = t('.administrative_info')
+      %tbody
         %tr
           %td.spacing-first-col
-            = current_organization.short_name == 'brc' ? t('clients.form.local_given_name') : "#{t('clients.form.local_given_name')} #{country_scope_label_translation}"
+            = t('.received_by')
           %td
             %strong
-              = editable @client, :local_given_name, url: api_client_path(@client.id), pk: @client.id
-      - if policy(@client).show?(:local_family_name)
+              = editable @client, :received_by_id, type: :select2, source: editable_case_worker_options, value: @client.received_by&.name, url: api_client_path(@client.id), pk: @client.id
+              = user @client.received_by, true
         %tr
           %td.spacing-first-col
-            = current_organization.short_name == 'brc' ? t('clients.form.local_family_name') : "#{t('clients.form.local_family_name')} #{country_scope_label_translation}"
+            = t('clients.show.followed_up_by')
           %td
             %strong
-              = editable @client, :local_family_name, url: api_client_path(@client.id), pk: @client.id
-      - if current_setting.try(:enable_hotline) == true
+              = editable @client, :followed_up_by_id, type: :select2, source: editable_case_worker_options, value: @client.followed_up_by&.name, url: api_client_path(@client.id), pk: @client.id
+              = user @client.followed_up_by, true
         %tr
           %td.spacing-first-col
-            = t('clients.show.nickname')
-          %td
-            = editable @client, :nickname, url: api_client_path(@client.id), pk: @client.id
-
-      - %w(national_id_number passport_number marital_status nationality ethnicity location_of_concern type_of_trafficking).each do |field|
-        - if policy(@client).show?(field.to_sym)
-          %tr
-            %td.spacing-first-col= t(".#{field}")
-            %td= @client.public_send(field.to_sym)
-
-      - if current_organization.short_name == 'brc'
-        - %w(presented_id id_number legacy_brcs_id brsc_branch client_phone whatsapp other_phone_number other_phone_whatsapp).each do |field_name|
-          - if policy(@client).show?(field_name.to_sym)
-            %tr
-              %td.spacing-first-col
-                = t("clients.form.#{field_name}")
-              %td.address
-                %strong
-                  = editable @client, field_name.to_sym, value: @client.public_send(field_name.to_sym), url: api_client_path(@client.id), pk: @client.id
-      - if current_organization.short_name == 'brc'
-        %tr
-          %td.spacing-first-col
-            = t('clients.show.current_address')
-          %td.address
-            %strong
-              = @client.brc_current_address
-        %tr
-          %td.spacing-first-col
-            = t('clients.show.other_address')
-          %td.address
-            %strong
-              = @client.brc_other_address
-      - else
-        %tr
-          %td.spacing-first-col
-            = t('clients.show.address')
-          %td.address
-            %strong
-              = country_address_field(@client)
-      - if @client.locality.present?
-        %tr
-          %td.spacing-first-col
-            = t('clients.show.locality')
-          %td.address
-            %strong
-              = @client.locality
-      - if current_setting.try(:enable_hotline) == true
-        %tr
-          %td.spacing-first-col
-            = t('clients.show.concern_location')
-          %td.address
-            %strong= concern_merged_address(@client).join(', ')
-
-      - if policy(@client).show?(:what3words)
-        %tr
-          %td.spacing-first-col
-            = t('clients.show.what3words')
+            = t('clients.show.initial_referral_date')
           %td
             %strong
-              = link_to "https://map.what3words.com/#{@client.what3words}", target: :_blank do
-                = @client.what3words
-                = image_tag 'what3words.png', class: 'what3words'
-
-      - if policy(@client).show?(:birth_province)
+              = editable @client, :initial_referral_date, type: :date, value: date_format(@client.initial_referral_date), url: api_client_path(@client.id), pk: @client.id
         %tr
           %td.spacing-first-col
-            = t(".province.#{@client.country_origin_label}")
+            = t('clients.show.case_worker_or_staff')
           %td
             %strong
-              %strong= editable @client, :birth_province_id, type: :select2, source: @birth_provinces, value: @client.birth_province, url: api_client_path(@client.id), pk: @client.id
-
-      %tr
-        %td.spacing-first-col
-          = t('clients.show.name_of_referee')
-        %td
-          %strong
-            = @client.referee.try(:name)
-      %tr
-        %td.spacing-first-col
-          = t('clients.show.referral_phone')
-        %td
-          %strong
-            = @client.referee.try(:phone)
-
-      - if policy(@client).show?(:carer_info)
+              - order_case_worker(@client).each do |case_worker|
+                %strong.label.label-default
+                  = user case_worker
         %tr
           %td.spacing-first-col
-            = t('activerecord.attributes.carer.name')
+            = t('clients.show.follow_up_date')
           %td
             %strong
-              = @client.carer.try(:name)
+              = editable @client, :follow_up_date, type: :date, value: date_format(@client.follow_up_date), url: api_client_path(@client.id), pk: @client.id
+
+    %table.table.table-bordered.referee_information
+      %thead
+        %tr
+          %th{ colspan: '2' }
+            = t('.referee_information')
+      %tbody
         %tr
           %td.spacing-first-col
-            = t('activerecord.attributes.carer.phone')
+            = t('.name_of_referee')
           %td
             %strong
-              = @client.carer.try(:phone)
-
-      - if Setting.first.country_name == "cambodia" && !Organization.brc?
+              = @client.referee.try(:name)
         %tr
           %td.spacing-first-col
-            = t('clients.show.is_the_client_rated_for_id_poor')
+            = t('.gender')
           %td
             %strong
-              = editable @client, :rated_for_id_poor, type: :select, source: [Client::CLIENT_LEVELS, t('clients.level').values].transpose.to_h, value: @client.rated_for_id_poor, url: api_client_path(@client.id), pk: @client.id
-
-      - if policy(@client).show?(:custom_ids)
+              = @client.referee.try(:gender)
         %tr
           %td.spacing-first-col
-            = custom_id_translation('custom_id1')
+            = t('.referral_phone')
           %td
             %strong
-              = editable @client, :code, value: @client.code, url: api_client_path(@client.id), pk: @client.id
+              = @client.referee.try(:phone)
         %tr
           %td.spacing-first-col
-            = custom_id_translation('custom_id2')
+            = t('clients.show.referral_source_category')
           %td
             %strong
-              = editable @client, :kid_id, value: @client.kid_id, url: api_client_path(@client.id), pk: @client.id
-      %tr
-        %td.spacing-first-col
-          = t('clients.show.time_in_ngo')
-        %td
-          %strong
-            = @client.time_in_ngo
-      %tr
-        %td.spacing-first-col
-          = t('clients.show.time_in_cps')
-        %td
-          %strong
-            = @client.time_in_cps
-
-
-  .col-sm-12.col-md-6.second-table
-    %table.table.table-bordered
-      - if current_organization.integrated?
+              - if @client.referrals.received.blank?
+                = editable @client, :referral_source_category_id, type: :select2, source: referral_source_name(ReferralSource.child_referrals).map{|name, id| { value: id, text: name } }, value: referral_source_category(@client.referral_source_category_id), url: api_client_path(@client.id), pk: @client.id
+              - else
+                = @client.referral_source
         %tr
           %td.spacing-first-col
-            = "#{t('clients.show.external_id_display')}"
-            %td
-              %strong= @client.external_id_display
-      %tr
-        %td.spacing-first-col
-          = "#{t('clients.show.client_global_identity')}"
-        %td
-          %strong
-            = fa_icon 'envelope', class: 'text-success', data: { toggle: 'popover', placement: 'top', content: @client.global_id }
-
-      %tr
-        %td.spacing-first-col
-          = t('clients.show.referral_source_category')
-        %td
-          %strong
-            - if @client.referrals.received.blank?
-              = editable @client, :referral_source_category_id, type: :select2, source: referral_source_name(ReferralSource.child_referrals).map{|name, id| { value: id, text: name } }, value: referral_source_category(@client.referral_source_category_id), url: api_client_path(@client.id), pk: @client.id
-            - else
+            = t('clients.show.referral_source')
+          %td
+            %strong
               = @client.referral_source
-      %tr
-        %td.spacing-first-col
-          = t('clients.show.referral_source')
-        %td
-          %strong
-            = @client.referral_source
-      %tr
-        %td.spacing-first-col
-          = t('clients.show.received_by')
-        %td
-          %strong
-            = editable @client, :received_by_id, type: :select2, source: editable_case_worker_options, value: @client.received_by&.name, url: api_client_path(@client.id), pk: @client.id
-            = user @client.received_by, true
-      %tr
-        %td.spacing-first-col
-          = t('clients.show.followed_up_by')
-        %td
-          %strong
-            = editable @client, :followed_up_by_id, type: :select2, source: editable_case_worker_options, value: @client.followed_up_by&.name, url: api_client_path(@client.id), pk: @client.id
-            = user @client.followed_up_by, true
 
-      - if policy(@client).show?(:department)
+    %table.table.table-bordered.referral-info
+      %thead
         %tr
-          %td.spacing-first-col
-            = t('clients.show.department')
-          %td
-            %strong
-              = @client.department
-
-      %tr
-        %td.spacing-first-col
-          = t('clients.show.case_worker_or_staff')
-        %td
-          %strong
-            - order_case_worker(@client).each do |case_worker|
-              %strong.label.label-default
-                = user case_worker
-      %tr
-        %td.spacing-first-col
-          = t('clients.show.initial_referral_date')
-        %td
-          %strong
-            = editable @client, :initial_referral_date, type: :date, value: date_format(@client.initial_referral_date), url: api_client_path(@client.id), pk: @client.id
-      %tr
-        %td.spacing-first-col
-          = t('clients.show.follow_up_date')
-        %td
-          %strong
-            = editable @client, :follow_up_date, type: :date, value: date_format(@client.follow_up_date), url: api_client_path(@client.id), pk: @client.id
-
-      - if @client.family
-        %tr
-          %td.spacing-first-col= t('clients.show.families')
-          %td
-            %strong= @client.family.display_name
-            = link_to family_path(@client.family) do
-              = fa_icon 'external-link'
-      %tr
-        %td.spacing-first-col
-          = t('datagrid.columns.clients.client_phone')
-        %td
-          %strong
-            = @client.client_phone
-
-      %tr
-        %td.spacing-first-col
-          = t('datagrid.columns.clients.concern_phone_owner')
-        %td
-          %strong
-            = @client.phone_owner&.capitalize
-      - if has_risk_assessment
-        %tr
-          %td.spacing-first-col
-            = t('risk_assessments._attr.has_disability')
-          %td
-            %strong
-              = risk_assessment.has_disability? ? 'YES' : 'NO'
-        %tr
-          %td.spacing-first-col
-            = t('risk_assessments._attr.if_yes')
-          %td
-            %strong
-              = risk_assessment.disability_specification if risk_assessment.has_disability?
-
-- if @client.phone_counselling_summary.present?
-  .row
-    .col-xs-12
-      %table.table.table-bordered
-        %tr
-          %td.spacing-first-col
-            = t('clients.show.phone_counselling_summary')
-          %td
-            %strong
-              = editable @client, :phone_counselling_summary, value: @client.phone_counselling_summary, url: api_client_path(@client.id), pk: @client.id
-
-- if @client.calls.any?
-  .row
-    .col-xs-12
-      %table.table.table-bordered.table-hover
-        %thead
+          %th{ colspan: '2' }
+            = t('.referral_information')
+      %tbody
+        - if policy(@client).show?(:local_given_name)
           %tr
-            %th= t('clients.show.hotlines')
-            %th= t('clients.show.call_type')
-            %th= t('clients.show.date_of_call')
-            %th.text-center= t('clients.show.detail')
-        %tbody
-          - @client.calls.most_recents.each do |call|
+            %td.spacing-first-col
+              = current_organization.short_name == 'brc' ? t('clients.form.local_given_name') : "#{t('clients.form.local_given_name')} #{country_scope_label_translation}"
+            %td
+              %strong
+                = editable @client, :local_given_name, url: api_client_path(@client.id), pk: @client.id
+        - if policy(@client).show?(:local_family_name)
+          %tr
+            %td.spacing-first-col
+              = current_organization.short_name == 'brc' ? t('clients.form.local_family_name') : "#{t('clients.form.local_family_name')} #{country_scope_label_translation}"
+            %td
+              %strong
+                = editable @client, :local_family_name, url: api_client_path(@client.id), pk: @client.id
+        - if current_setting.try(:enable_hotline) == true
+          %tr
+            %td.spacing-first-col
+              = t('clients.show.nickname')
+            %td
+              = editable @client, :nickname, url: api_client_path(@client.id), pk: @client.id
+
+        - %w(national_id_number passport_number marital_status nationality ethnicity location_of_concern type_of_trafficking).each do |field|
+          - if policy(@client).show?(field.to_sym)
             %tr
-              %td= call.phone_call_id
-              %td= t('clients.show.callType.' + call.call_type.parameterize.underscore)
-              %td= date_format(call.date_of_call)
-              %td.text-center
-                = link_to call_path(call) do
-                  %button.btn.btn-outline.btn-primary.btn-xs= fa_icon('eye')
+              %td.spacing-first-col= t(".#{field}")
+              %td= @client.public_send(field.to_sym)
+
+        - if current_organization.short_name == 'brc'
+          - %w(presented_id id_number legacy_brcs_id brsc_branch client_phone whatsapp other_phone_number other_phone_whatsapp).each do |field_name|
+            - if policy(@client).show?(field_name.to_sym)
+              %tr
+                %td.spacing-first-col
+                  = t("clients.form.#{field_name}")
+                %td.address
+                  %strong
+                    = editable @client, field_name.to_sym, value: @client.public_send(field_name.to_sym), url: api_client_path(@client.id), pk: @client.id
+          %tr
+            %td.spacing-first-col
+              = t('datagrid.columns.clients.concern_phone_owner')
+            %td
+              %strong
+                = @client.phone_owner&.capitalize
+
+        - if current_organization.short_name == 'brc'
+          %tr
+            %td.spacing-first-col
+              = t('clients.show.current_address')
+            %td.address
+              %strong
+                = @client.brc_current_address
+          %tr
+            %td.spacing-first-col
+              = t('clients.show.other_address')
+            %td.address
+              %strong
+                = @client.brc_other_address
+        - else
+          %tr
+            %td.spacing-first-col
+              = t('clients.show.address')
+            %td.address
+              %strong
+                = country_address_field(@client)
+        - if @client.locality.present?
+          %tr
+            %td.spacing-first-col
+              = t('clients.show.locality')
+            %td.address
+              %strong
+                = @client.locality
+        - if current_setting.try(:enable_hotline) == true
+          %tr
+            %td.spacing-first-col
+              = t('clients.show.concern_location')
+            %td.address
+              %strong= concern_merged_address(@client).join(', ')
+
+        - if policy(@client).show?(:what3words)
+          %tr
+            %td.spacing-first-col
+              = t('clients.show.what3words')
+            %td
+              %strong
+                = link_to "https://map.what3words.com/#{@client.what3words}", target: :_blank do
+                  = @client.what3words
+                  = image_tag 'what3words.png', class: 'what3words'
+
+        - if policy(@client).show?(:birth_province)
+          %tr
+            %td.spacing-first-col
+              = t(".province.#{@client.country_origin_label}")
+            %td
+              %strong
+                %strong= editable @client, :birth_province_id, type: :select2, source: @birth_provinces, value: @client.birth_province, url: api_client_path(@client.id), pk: @client.id
+
+        - if @client.phone_counselling_summary.present?
+          .row
+            .col-xs-12
+              %table.table.table-bordered
+                %tr
+                  %td.spacing-first-col
+                    = t('clients.show.phone_counselling_summary')
+                  %td
+                    %strong
+                      = editable @client, :phone_counselling_summary, value: @client.phone_counselling_summary, url: api_client_path(@client.id), pk: @client.id
+
+      - if @client.calls.any?
+        .row
+          .col-xs-12
+            %table.table.table-bordered.table-hover
+              %thead
+                %tr
+                  %th= t('clients.show.hotlines')
+                  %th= t('clients.show.call_type')
+                  %th= t('clients.show.date_of_call')
+                  %th.text-center= t('clients.show.detail')
+              %tbody
+                - @client.calls.most_recents.each do |call|
+                  %tr
+                    %td= call.phone_call_id
+                    %td= t('clients.show.callType.' + call.call_type.parameterize.underscore)
+                    %td= date_format(call.date_of_call)
+                    %td.text-center
+                      = link_to call_path(call) do
+                        %button.btn.btn-outline.btn-primary.btn-xs= fa_icon('eye')
