@@ -498,6 +498,12 @@
                             %td
                               %strong
                                 = @client.time_in_cps
+                          - if policy(@client).show?(:department)
+                            %tr
+                              %td.spacing-first-col
+                                = t('clients.show.department')
+                              %td
+                                %strong= @client.department
 
                 - if @client.calls.any?
                   .row
