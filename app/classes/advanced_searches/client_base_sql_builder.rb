@@ -56,7 +56,7 @@ module AdvancedSearches
           @sql_string << shared_client_filter[:id]
           @values << shared_client_filter[:values]
         elsif NEXT_REFERRAL_FIELDS.include?(field)
-          shared_client_filter = AdvancedSearches::MultiReferralFieldsSqlFilter.new(field, operator, value, SENSITIVITY_FIELDS, BLANK_FIELDS).get_sql
+          shared_client_filter = AdvancedSearches::MultiReferralFieldsSqlFilter.new(@clients, field, operator, value, SENSITIVITY_FIELDS, BLANK_FIELDS).get_sql
           @sql_string << shared_client_filter[:id]
           @values << shared_client_filter[:values]
         elsif form_builder.first == 'case_note_custom_field'
