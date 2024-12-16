@@ -1,4 +1,4 @@
-import { T, t } from "../../utils";
+import { T, t, params } from "../../utils";
 import React, { useState, useEffect } from "react";
 import objectToFormData from "object-to-formdata";
 import Loading from "../Commons/Loading";
@@ -130,7 +130,17 @@ const Forms = (props) => {
     showMethod: "fadeIn",
     hideMethod: "fadeOut"
   };
-  const [step, setStep] = useState(1);
+
+  let stepValue = 1;
+  if (params("step") === "riskInfo") stepValue = 3;
+  else if (
+    current_organization.short_name === "ratanak" &&
+    params("step") === "additionalInfo"
+  )
+    stepValue = 2;
+  else stepValue = 1;
+
+  const [step, setStep] = useState(stepValue);
   const [loading, setLoading] = useState(false);
   const [onSave, setOnSave] = useState(false);
   const [dupClientModalOpen, setDupClientModalOpen] = useState(false);
@@ -170,11 +180,8 @@ const Forms = (props) => {
 
   useEffect(() => {
     // scroll to top 👆 on page load
-    window.scrollTo({ top: 125, left: 0, behavior: "smooth" });
-    if (!_.isEmpty(errorFields) && fieldsVisibility.show_legal_doc)
-      $("#save-btn-help-text").hide();
-    else if (!_.isEmpty(errorFields) && step === 5)
-      $("#save-btn-help-text").show();
+    let topOffset = getPageOffset($('label[style*="color: red"]')[0]);
+    window.scrollTo({ top: topOffset, left: 0, behavior: "smooth" });
   }, [errorFields]);
 
   const address = {
@@ -231,7 +238,8 @@ const Forms = (props) => {
     maritalStatuses,
     nationalities,
     ethnicities,
-    traffickingTypes
+    traffickingTypes,
+    labels: riskAssessment.labels
   };
   const moreReferralTabData = {
     errorFields,
@@ -270,34 +278,7 @@ const Forms = (props) => {
   };
   const legalDocument = { client: clientData, T, errorFields };
   const [isError, setIsError] = useState(false);
-
-  const tabs = [
-    { text: T.translate("index.referee_info"), step: 1 },
-    { text: t(translation, "clients.form.referral_info"), step: 2 },
-    { text: T.translate("index.referral_more_info"), step: 3 },
-    { text: riskAssessment.labels.protection_concern, step: 4 },
-    { text: T.translate("index.referral_vulnerability"), step: 5 },
-    { text: t(translation, "clients.form.legal_documents"), step: 6 }
-  ];
-
-  const classStyle = (value) =>
-    errorSteps.includes(value)
-      ? "errorTab"
-      : step === value
-      ? "activeTab"
-      : "normalTab";
-
-  const renderTab = (data, index) => {
-    return (
-      <span
-        key={index}
-        onClick={() => handleTab(data.step)}
-        className={`tabButton ${classStyle(data.step)}`}
-      >
-        {data.text}
-      </span>
-    );
-  };
+  const [clientExist, setClientExist] = useState(false);
 
   const onChangeMoSAVYOfficialsData = (newData) => {
     setMoSAVYOfficialsData(newData);
@@ -369,6 +350,19 @@ const Forms = (props) => {
     }
   };
 
+  const getPageOffset = (elem) => {
+    if (!elem) return 50;
+
+    let topOffset = elem.getBoundingClientRect().top;
+
+    while (elem != document.documentElement) {
+      elem = elem.parentElement;
+      topOffset += elem.scrollTop;
+    }
+
+    return topOffset - 50;
+  };
+
   const handleValidation = (stepToBeCheck = 0) => {
     const step5RequiredFields = Object.entries(requiredFields.fields)
       .map((keypair) => {
@@ -386,18 +380,26 @@ const Forms = (props) => {
     const components = [
       { step: 1, data: refereeData, fields: ["name"] },
       { step: 1, data: clientData, fields: ["referral_source_category_id"] },
-      { step: 2, data: clientData, fields: ["gender"] },
-      { step: 3, data: moSAVYOfficialsData, fields: ["name", "position"] },
-      { step: 4, data: riskAssessmentData, fields: [] },
+      { step: 1, data: clientData, fields: ["gender"] },
       {
-        step: 5,
+        step: 2,
+        data: moSAVYOfficialsData,
+        fields:
+          current_organization.short_name === "ratanak" &&
+          params("step") === "additionalInfo"
+            ? ["name", "position"]
+            : []
+      },
+      { step: 3, data: riskAssessmentData, fields: [] },
+      {
+        step: 1,
         data: clientData,
         fields:
           clientData.status != "Exited"
             ? ["received_by_id", "initial_referral_date", "user_ids"]
             : ["received_by_id", "initial_referral_date"]
       },
-      { step: 6, data: clientData, fields: step5RequiredFields }
+      { step: 1, data: clientData, fields: step5RequiredFields }
     ];
 
     const errors = [];
@@ -405,12 +407,13 @@ const Forms = (props) => {
 
     components.forEach((component) => {
       if (
-        step === component.step ||
+        (!_.isEmpty(component.data) && step === component.step) ||
         (stepToBeCheck !== 0 && component.step === stepToBeCheck)
       ) {
         component.fields.forEach((field) => {
           if (
             component.data[field] === "" ||
+            component.data[field] === undefined ||
             (Array.isArray(component.data) &&
               component.data.filter((item) => {
                 return (
@@ -426,53 +429,60 @@ const Forms = (props) => {
             errorSteps.push(component.step);
           }
         });
-
-        if (step === 4 && riskAssessmentData.level_of_risk === "high") {
-          if (
-            riskAssessmentData.tasks_attributes.filter(
-              (task) => task._destroy === undefined
-            ).length === 0
-          ) {
-            setIsError(true);
-            errors.push("tasks_attributes");
-            errorSteps.push(component.step);
-          }
-        }
       }
     });
 
-    quantitativeType.forEach((qttType) => {
-      if (step === 5 && qttType.is_required) {
-        if (qttType.field_type == "free_text") {
-          const item = clientQuantitativeFreeTextCasesData.find(
-            (cqFreeText) => {
-              return cqFreeText.quantitative_type_id == qttType.id;
+    if (step === 3 && riskAssessmentData.level_of_risk === "high") {
+      if (
+        riskAssessmentData.tasks_attributes.filter(
+          (task) =>
+            (task.name === "" || task.expected_date === "") &&
+            (task.name.length == 0 || task.expected_date.length == 0)
+        ).length > 0
+      ) {
+        setErrorFields(["name", "expected_date"]);
+        setIsError(true);
+        errors.push("name");
+        errors.push("expected_date");
+        // errorSteps.push(step);
+      }
+    }
+
+    if (params("step") === "additionalInfo") handleCheckValue(carerData);
+
+    params("step") === "customDataInfo" &&
+      quantitativeType.forEach((qttType) => {
+        if (qttType.is_required) {
+          if (qttType.field_type == "free_text") {
+            const item = clientQuantitativeFreeTextCasesData.find(
+              (cqFreeText) => {
+                return cqFreeText.quantitative_type_id == qttType.id;
+              }
+            );
+
+            if (item.content === null || item.content === "") {
+              errors.push(`qtt_type_${qttType.id}`);
+              errorSteps.push(5);
             }
-          );
+          } else {
+            const qttCasees = quantitativeCase.filter((ftr) => {
+              return ftr.quantitative_type_id === qttType.id;
+            });
+            let error = true;
 
-          if (item.content === null || item.content === "") {
-            errors.push(`qtt_type_${qttType.id}`);
-            errorSteps.push(5);
-          }
-        } else {
-          const qttCasees = quantitativeCase.filter((ftr) => {
-            return ftr.quantitative_type_id === qttType.id;
-          });
-          let error = true;
+            qttCasees.forEach((qttCase) => {
+              if (clientData.quantitative_case_ids.includes(qttCase.id)) {
+                error = false;
+              }
+            });
 
-          qttCasees.forEach((qttCase) => {
-            if (clientData.quantitative_case_ids.includes(qttCase.id)) {
-              error = false;
+            if (error) {
+              errors.push(`qtt_type_${qttType.id}`);
+              errorSteps.push(5);
             }
-          });
-
-          if (error) {
-            errors.push(`qtt_type_${qttType.id}`);
-            errorSteps.push(5);
           }
         }
-      }
-    });
+      });
 
     if (errors.length > 0) {
       setErrorFields(errors);
@@ -482,53 +492,6 @@ const Forms = (props) => {
       setErrorFields([]);
       setErrorSteps([]);
       return true;
-    }
-  };
-
-  const handleTab = (goingToStep) => {
-    const goBack = goingToStep < step;
-    const goForward = goingToStep === step + 1;
-    const goOver = goingToStep >= step + 2 || goingToStep >= step + 3;
-
-    if (
-      (goForward && handleValidation()) ||
-      (goOver && handleValidation(1) && handleValidation(2)) ||
-      (goBack && handleClientDataValidation())
-    )
-      if (step === 2 && goingToStep === 3)
-        checkClientExist()(() => setStep(goingToStep));
-      else setStep(goingToStep);
-
-    $(".alert").hide();
-    $("#save-btn-help-text").hide();
-    $(`#step-${goingToStep}`).show();
-
-    if (goingToStep === (fieldsVisibility.show_legal_doc == true ? 6 : 5)) {
-      handleClientDataValidation();
-      $("#save-btn-help-text").show();
-    }
-  };
-
-  const buttonNext = () => {
-    let stepIndex = 1;
-    if (handleValidation()) {
-      if (step === 2) checkClientExist()(() => setStep(step + 1));
-      else {
-        if (!isRiskAssessmentEnabled && step === 3) stepIndex = 2;
-
-        setStep(step + stepIndex);
-      }
-
-      $(".alert").hide();
-      $(`#step-${step + stepIndex}`).show();
-      $("#save-btn-help-text").hide();
-      if (
-        step + stepIndex ===
-        (fieldsVisibility.show_legal_doc == true ? 6 : 5)
-      ) {
-        handleClientDataValidation();
-        $("#save-btn-help-text").show();
-      }
     }
   };
 
@@ -601,7 +564,7 @@ const Forms = (props) => {
       gender: clientData.gender || ""
     };
 
-    if (clientData.outside === false) {
+    if (clientData.outside === false && handleValidation()) {
       if (
         data.given_name !== "" ||
         data.family_name !== "" ||
@@ -623,12 +586,15 @@ const Forms = (props) => {
           }
         }).success((response) => {
           if (response.similar_fields.length > 0) {
+            setLoading(false);
             setDupFields(response.similar_fields);
             setDupClientModalOpen(true);
           } else {
-            callback();
+            setLoading(false);
+            setLoading(true);
+            handleSave()();
           }
-          setLoading(false);
+          setClientExist(false);
         });
       } else {
         callback();
@@ -665,7 +631,13 @@ const Forms = (props) => {
           <button
             style={{ margin: 5 }}
             className="btn btn-primary"
-            onClick={() => (setDupClientModalOpen(false), setStep(step + 1))}
+            onClick={() => (
+              setDupClientModalOpen(false),
+              setLoading(false),
+              setClientExist(false),
+              setLoading(true),
+              handleSave()()
+            )}
           >
             {T.translate("index.continue")}
           </button>
@@ -693,138 +665,107 @@ const Forms = (props) => {
 
   const handleSave = () => (callback, forceSave) => {
     forceSave = forceSave === undefined ? false : forceSave;
-
-    let valid = true;
-    let divs = $(".required-true");
-
-    for (let i = 0; i < divs.length; i++) {
-      if (
-        $(divs[i]).find("div.css-1rhbuit-multiValue").length == 0 &&
-        $(divs[i]).find("div.css-1uccc91-singleValue").length == 0
-      ) {
-        divs[i].firstElementChild.style.borderColor = "red";
-        valid = false;
-      } else {
-        divs[i].firstElementChild.style.borderColor = "black";
-        valid = true;
-      }
-    }
-
-    if (handleValidation() && valid) {
+    // if (!clientExist && params("step") === "clientInfo")
+    //   checkClientExist()(() => setClientExist(false));
+    if (!clientExist && handleValidation()) {
       handleCheckValue(refereeData);
       handleCheckValue(clientData);
-      handleCheckValue(carerData);
 
-      if (
-        (familyMemberData.family_id === null ||
-          familyMemberData.family_id === undefined) &&
-        forceSave === false
-      )
-        setAttachFamilyModal(true);
-      else {
-        setOnSave(true);
-        const action = clientData.id ? "PUT" : "POST";
-        const message = clientData.id
-          ? T.translate("index.successfully_updated")
-          : T.translate("index.successfully_created");
-        const url = clientData.id
-          ? `/api/clients/${clientData.id}?referral_id=${clientData.referral_id}`
-          : "/api/clients";
+      setOnSave(true);
+      const action = clientData.id ? "PUT" : "POST";
+      const message = clientData.id
+        ? T.translate("index.successfully_updated")
+        : T.translate("index.successfully_created");
+      const url = clientData.id
+        ? `/api/clients/${clientData.id}?referral_id=${clientData.referral_id}`
+        : "/api/clients";
 
-        let formData = new FormData();
-        formData = objectToFormData(
-          { ...clientData, ...clientProfile },
-          {},
-          formData,
-          "client"
-        );
-        formData = objectToFormData(refereeData, {}, formData, "referee");
-        formData = objectToFormData(carerData, {}, formData, "carer");
-        formData = objectToFormData(
-          familyMemberData,
-          {},
-          formData,
-          "family_member"
-        );
-        formData = objectToFormData(
-          clientQuantitativeFreeTextCasesData,
-          [],
-          formData,
-          "client_quantitative_free_text_cases"
-        );
-        formData = objectToFormData(
-          moSAVYOfficialsData,
-          {},
-          formData,
-          "mosavy_officials"
-        );
-        formData = objectToFormData(
-          riskAssessmentData,
-          {},
-          formData,
-          "risk_assessment"
-        );
+      let formData = new FormData();
+      formData = objectToFormData(
+        { ...clientData, ...clientProfile },
+        {},
+        formData,
+        "client"
+      );
+      formData = objectToFormData(refereeData, {}, formData, "referee");
+      formData = objectToFormData(carerData, {}, formData, "carer");
+      formData = objectToFormData(
+        familyMemberData,
+        {},
+        formData,
+        "family_member"
+      );
+      formData = objectToFormData(
+        clientQuantitativeFreeTextCasesData,
+        [],
+        formData,
+        "client_quantitative_free_text_cases"
+      );
+      formData = objectToFormData(
+        moSAVYOfficialsData,
+        {},
+        formData,
+        "mosavy_officials"
+      );
+      formData = objectToFormData(
+        riskAssessmentData,
+        {},
+        formData,
+        "risk_assessment"
+      );
 
-        if (!_.isEmpty(customData)) {
-          const customDataObj = {};
-          customDataObj.form_builder_attachments_attributes =
-            clientCustomData._attachments || {};
-          customDataObj.properties = Object.entries(clientCustomData)
-            .filter(([key, _]) => key !== "_attachments")
-            .reduce((res, [key, value]) => ({ ...res, [key]: value }), {});
+      if (!_.isEmpty(customData)) {
+        const customDataObj = {};
+        customDataObj.form_builder_attachments_attributes =
+          clientCustomData._attachments || {};
+        customDataObj.properties = Object.entries(clientCustomData)
+          .filter(([key, _]) => key !== "_attachments")
+          .reduce((res, [key, value]) => ({ ...res, [key]: value }), {});
 
-          if (!handleClientDataValidation(customDataObj)) return false;
+        if (!handleClientDataValidation(customDataObj)) return false;
 
-          formData = objectToFormData(
-            customDataObj,
-            {},
-            formData,
-            "custom_data"
-          );
-        }
-
-        $.ajax({
-          url,
-          type: action,
-          data: formData,
-          processData: false,
-          contentType: false,
-          beforeSend: () => {
-            setLoading(true), setAttachFamilyModal(false);
-          }
-        })
-          .done((response) => {
-            if (callback) callback(response);
-            else
-              document.location.href =
-                `/clients/${response.slug}?notice=` + message;
-          })
-          .fail((error) => {
-            setLoading(false);
-            setOnSave(false);
-
-            if (error.statusText == "Request Entity Too Large") {
-              alert(
-                "Your data is too large, try upload your attachments part by part."
-              );
-            } else {
-              let errorMessage = "";
-              const errorFields = JSON.parse(error.responseText);
-
-              setErrorFields(Object.keys(errorFields));
-              if (errorFields.kid_id) setErrorSteps([3]);
-
-              for (const errorKey in errorFields) {
-                errorMessage = `${errorKey
-                  .toLowerCase()
-                  .split("_")
-                  .join(" ")
-                  .toUpperCase()} ${errorFields[errorKey].join(" ")}`;
-                toastr.error(errorMessage);
-              }
-            }
-          });
+        formData = objectToFormData(customDataObj, {}, formData, "custom_data");
       }
+
+      $.ajax({
+        url,
+        type: action,
+        data: formData,
+        processData: false,
+        contentType: false,
+        beforeSend: () => {
+          setLoading(true), setAttachFamilyModal(false);
+        }
+      })
+        .done((response) => {
+          document.location.href =
+            `/clients/${response.slug}?notice=` + message;
+        })
+        .fail((error) => {
+          setLoading(false);
+          setOnSave(false);
+
+          if (error.statusText == "Request Entity Too Large") {
+            alert(
+              "Your data is too large, try upload your attachments part by part."
+            );
+          } else {
+            let errorMessage = "";
+            const errorFields = JSON.parse(error.responseText);
+
+            setErrorFields(Object.keys(errorFields));
+            if (errorFields.kid_id) setErrorSteps([3]);
+
+            for (const errorKey in errorFields) {
+              errorMessage = `${errorKey
+                .toLowerCase()
+                .split("_")
+                .join(" ")
+                .toUpperCase()} ${errorFields[errorKey].join(" ")}`;
+              toastr.error(errorMessage);
+            }
+          }
+        });
     }
   };
 
@@ -833,16 +774,6 @@ const Forms = (props) => {
       window.location.search
     }`;
     confirmCancel(toastr, clientLocation);
-  };
-
-  const buttonPrevious = () => {
-    let stepIndex = 1;
-    if (!isRiskAssessmentEnabled && step === 5) stepIndex = 2;
-
-    setStep(step - stepIndex);
-    $(".alert").hide();
-    $(`#step-${step - stepIndex}`).show();
-    $("#save-btn-help-text").hide();
   };
 
   const renderAddressSwitch = (
@@ -1052,7 +983,7 @@ const Forms = (props) => {
     >
       <Loading
         loading={loading}
-        text={step <= 3 ? T.translate("index.wait") : "Saving..."}
+        text={clientExist ? T.translate("index.wait") : "Saving..."}
       />
 
       <Modal
@@ -1060,7 +991,9 @@ const Forms = (props) => {
         title={T.translate("index.informing")}
         isOpen={dupClientModalOpen}
         type="warning"
-        closeAction={() => setDupClientModalOpen(false)}
+        closeAction={() => (
+          setDupClientModalOpen(false), setClientExist(false)
+        )}
         content={renderModalContent(dupFields)}
         footer={renderModalFooter()}
       />
@@ -1080,22 +1013,6 @@ const Forms = (props) => {
         }
       />
 
-      <div className="tabHead">
-        {tabs
-          .filter((tab) => {
-            if (
-              (!isRiskAssessmentEnabled && tab.step === 4) ||
-              (!fieldsVisibility.show_legal_doc && tab.step === 6)
-            ) {
-              return false; // skip
-            }
-            return true;
-          })
-          .map((tab, index) => {
-            return renderTab(tab, index);
-          })}
-      </div>
-
       <div className="contentWrapper">
         <div className="leftComponent">
           <AdministrativeInfo
@@ -1108,7 +1025,11 @@ const Forms = (props) => {
         </div>
 
         <div className="rightComponent">
-          <div style={{ display: step === 1 ? "block" : "none" }}>
+          <div
+            style={{
+              display: params("step") === "clientInfo" ? "block" : "none"
+            }}
+          >
             <RefereeInfo
               current_organization={current_organization}
               data={refereeTabData}
@@ -1120,7 +1041,11 @@ const Forms = (props) => {
             />
           </div>
 
-          <div style={{ display: step === 2 ? "block" : "none" }}>
+          <div
+            style={{
+              display: params("step") === "clientInfo" ? "block" : "none"
+            }}
+          >
             <ReferralInfo
               data={referralTabData}
               onChange={onChange}
@@ -1131,7 +1056,11 @@ const Forms = (props) => {
             />
           </div>
 
-          <div style={{ display: step === 3 ? "block" : "none" }}>
+          <div
+            style={{
+              display: params("step") === "additionalInfo" ? "block" : "none"
+            }}
+          >
             <ReferralMoreInfo
               translation={translation}
               renderAddressSwitch={renderAddressSwitch}
@@ -1148,13 +1077,19 @@ const Forms = (props) => {
           </div>
 
           {isRiskAssessmentEnabled && (
-            <div style={{ display: step === 4 ? "block" : "none" }}>
+            <div
+              style={{
+                display: params("step") === "riskInfo" ? "block" : "none"
+              }}
+            >
               <RiskAssessment
                 data={riskAssessmentData}
                 setRiskAssessmentData={setRiskAssessmentData}
                 onChange={onChange}
                 isError={isError}
                 setIsError={setIsError}
+                setErrorFields={setErrorFields}
+                errorFields={errorFields}
                 protectionConcerns={protectionConcerns}
                 historyOfHarms={historyOfHarms}
                 historyOfHighRiskBehaviours={historyOfHighRiskBehaviours}
@@ -1164,7 +1099,11 @@ const Forms = (props) => {
             </div>
           )}
 
-          <div style={{ display: step === 5 ? "block" : "none" }}>
+          <div
+            style={{
+              display: params("step") === "customDataInfo" ? "block" : "none"
+            }}
+          >
             <ReferralVulnerability
               data={referralVulnerabilityTabData}
               current_organization={current_organization}
@@ -1176,7 +1115,11 @@ const Forms = (props) => {
           </div>
 
           {fieldsVisibility.show_legal_doc == true && (
-            <div style={{ display: step === 6 ? "block" : "none" }}>
+            <div
+              style={{
+                display: params("step") === "customDataInfo" ? "block" : "none"
+              }}
+            >
               <LegalDocument
                 data={legalDocument}
                 translation={translation}
@@ -1191,27 +1134,12 @@ const Forms = (props) => {
       </div>
 
       <div className="actionfooter">
-        <div className="leftWrapper">
+        <div className="leftWrapper"></div>
+
+        <div className="rightWrapper">
           <span className="btn btn-default" onClick={handleCancel}>
             {T.translate("index.cancel")}
           </span>
-        </div>
-
-        <div className="rightWrapper">
-          <span
-            className={
-              (step === 1 && "clientButton preventButton") ||
-              "clientButton allowButton"
-            }
-            onClick={buttonPrevious}
-          >
-            {T.translate("index.previous")}
-          </span>
-          {step !== (fieldsVisibility.show_legal_doc == true ? 6 : 5) && (
-            <span className={"clientButton allowButton"} onClick={buttonNext}>
-              {T.translate("index.next")}
-            </span>
-          )}
           <span
             id="save-btn-help-text"
             data-toggle="popover"
@@ -1220,12 +1148,12 @@ const Forms = (props) => {
             data-placement="auto"
             data-trigger="hover"
             data-content={inlineHelpTranslation.clients.buttons.save}
-            className={
-              onSave && errorFields.length === 0
-                ? "clientButton preventButton"
-                : "clientButton saveButton"
+            className="clientButton saveButton"
+            onClick={
+              params("step") === "clientInfo"
+                ? () => checkClientExist()(setClientExist(true))
+                : () => handleSave()()
             }
-            onClick={() => handleSave()()}
           >
             {T.translate("index.save")}
           </span>

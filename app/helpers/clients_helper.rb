@@ -48,7 +48,7 @@ module ClientsHelper
           **I18n.t('risk_assessments._attr'),
           **I18n.t('tasks')
         },
-        tasks_attributes: @risk_assessment.try(:tasks) || []
+        tasks_attributes: @risk_assessment.try(:tasks).presence || [{ name: '', expected_date: '' }]
       },
       customData: @custom_data&.fields || [],
       clientCustomFields: @client_custom_data_properties || {}

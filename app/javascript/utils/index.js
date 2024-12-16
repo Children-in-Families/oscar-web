@@ -30,3 +30,4 @@ switch (locale) {
 
 export const T = Translate;
 export const t = TranslateUtil;
+export const params = urlSearchParam;
