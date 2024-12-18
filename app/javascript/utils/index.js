@@ -9,7 +9,7 @@ import th from "./locales/th.json";
 import id from "./locales/id.json";
 
 var locale = urlSearchParam("locale");
-console.log("url: " + locale);
+
 switch (locale) {
   case "km":
     Translate.setTexts(km);

@@ -436,6 +436,7 @@ Rails.application.routes.draw do
         get :listing, on: :collection
         resources :assessments
         resources :case_notes, only: [:show, :create, :update, :destroy, :delete_attachment] do
+          post :upload_attachment, on: :member
           delete 'attachments/:file_index', action: :delete_attachment, on: :member
         end
         resources :custom_field_properties, except: :show

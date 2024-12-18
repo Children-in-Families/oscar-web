@@ -53,6 +53,15 @@ module Api
         end
       end
 
+      def upload_attachment
+        files = @case_note.attachments
+        files += params.dig(:case_note, :attachments)
+        @case_note.attachments = files
+        @case_note.save(validate: false)
+
+        render json: { message: t('.successfully_uploaded') }, status: '200'
+      end
+
       def destroy
         case_note = CaseNote.find(params[:id])
         if params[:file_index].present?
