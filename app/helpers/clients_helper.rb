@@ -421,13 +421,17 @@ module ClientsHelper
     (CustomData.first.try(:fields) || []).map { |field| ["#{field['name']}_".to_sym, field['label']] }.to_h
   end
 
-  def columns_visibility(column)
+  def columns_visibility(column, order = nil)
     label_column = label_translations.map { |k, v| [k.to_s.to_sym, v] }.to_h
 
     Client::STACKHOLDER_CONTACTS_FIELDS.each do |field|
       label_column[field] = I18n.t("datagrid.columns.clients.#{field}")
     end
-    label_tag "#{column}_", label_column[column.to_sym]
+    if order.nil?
+      label_tag "#{column}_", label_column[column.to_sym]
+    else
+      label_tag "#{column}_#{order}_", "#{order.ordinalize} #{label_column[column.to_sym]}"
+    end
   end
 
   def overdue_translations

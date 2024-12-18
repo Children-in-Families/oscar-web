@@ -186,7 +186,8 @@ class ClientColumnsVisibility
       date_of_risk_assessment_: :date_of_risk_assessment,
       has_hiv_or_aid_: :has_hiv_or_aid,
       has_known_chronic_disease_: :has_known_chronic_disease,
-      has_disability_: :has_disability
+      has_disability_: :has_disability,
+      **@params.select { |param| param[/\d_/] }.symbolize_keys
     }.merge(label_translations.keys.map { |field| ["#{field}_".to_sym, field.to_sym] }.to_h)
   end
 

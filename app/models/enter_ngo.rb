@@ -19,6 +19,7 @@ class EnterNgo < ActiveRecord::Base
   validates :accepted_date, presence: true
   validates :user_ids, presence: true, on: :create, if: Proc.new { |e| (e.client.present? && e.client.exit_ngo?) || (e.acceptable.present? && e.acceptable.exit_ngo?) }
 
+  before_save :set_administrative_info
   after_create :update_entity_status
   after_save :create_enter_ngo_history
   after_save :flash_cache
@@ -27,21 +28,38 @@ class EnterNgo < ActiveRecord::Base
     acceptable_type == 'Family'
   end
 
+  def entity
+    client.present? ? client : acceptable
+  end
+
   private
 
   def update_entity_status
-    entity = client.present? ? client : acceptable
     entity.status = 'Accepted'
 
     if user_ids.any?
       if client.present?
         entity.user_ids = self.user_ids
+        entity.received_by_id = received_by_id
+        entity.followed_up_by_id = followed_up_by_id
+        entity.initial_referral_date = initial_referral_date
+        entity.follow_up_date = follow_up_date
       elsif acceptable.present?
         # note the relation between users and acceptable obj
         entity.case_worker_ids = self.user_ids
       end
     end
+
     entity.save(validate: false)
+  end
+
+  def set_administrative_info
+    return unless client.present? && entity.referred?
+
+    self.received_by_id = entity.received_by_id
+    self.followed_up_by_id = entity.followed_up_by_id
+    self.initial_referral_date = entity.initial_referral_date
+    self.follow_up_date = entity.follow_up_date
   end
 
   def create_enter_ngo_history

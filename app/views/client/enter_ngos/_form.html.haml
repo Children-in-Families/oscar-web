@@ -19,13 +19,33 @@
                 = f.text_field :accepted_date, class: 'date form-control enter_date', type: 'text', name: 'enter_ngo[accepted_date]', autocomplete: 'off'
                 %span.input-group-addon
                   %i.fa.fa-calendar-check-o
+            .form-group.date
+              %label.date.control-label
+                = t('clients.show.initial_referral_date')
+              .input-group
+                = f.text_field :initial_referral_date, class: 'date form-control enter_date', type: 'text', readonly: 'readonly', name: 'enter_ngo[initial_referral_date]', data: { date_start_date: initial_referral_date_picker_format(@client) }
+                %span.input-group-addon
+                  %i.fa.fa-calendar-check-o
+            .form-group.date
+              %label.date.control-label
+                = t('clients.show.follow_up_date')
+              .input-group
+                = f.text_field :follow_up_date, class: 'date form-control enter_date', type: 'text', readonly: 'readonly', name: 'enter_ngo[follow_up_date]', data: { date_start_date: initial_referral_date_picker_format(@client) }
+                %span.input-group-addon
+                  %i.fa.fa-calendar-check-o
 
           .form-inputs
-            .form-group.date
-              %label.date.required.control-label
-                %abbr{ title: 'required' } *
-                = t('.case_worker_or_staff')
-              = f.association :users, collection: @users, include_blank: false, multiple: true, label: false
+            %label.required.control-label
+              %abbr{ title: 'required' } *
+              = t('.case_worker_or_staff')
+            = f.association :users, collection: @users, include_blank: false, multiple: true, label: false
+            %label.control-label
+              = t('.received_by')
+            = f.input :received_by_id, collection: @users, include_blank: false, label: false
+
+            %label.control-label
+              = t('.followed_up_by')
+            = f.input :followed_up_by_id, collection: @users, include_blank: false, label: false
 
           .text-right
             %button.btn.btn-default.editable-cancel{"data-dismiss" => 'modal'}= t('cancel')

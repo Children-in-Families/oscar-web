@@ -46,6 +46,12 @@
             - next if f.name == :domain_4a || f.name == :domain_4b
             - next if f.name == :domain_5a || f.name == :domain_5b
             - next if f.name == :domain_6a || f.name == :domain_6b
+
+            - next if f.name == :initial_referral_date
+            - next if f.name == :received_by_id
+            - next if f.name == :followed_up_by_id
+            - next if f.name == :follow_up_date
+
             - next if f.name == :assessments_due_to || f.name == :no_case_note || f.name == :overdue_task || f.name == :overdue_forms
             - next if controller_name == 'clients' && !policy(Client).show?(f.name.to_s)
 
@@ -214,6 +220,23 @@
             .visibility.col-sm-12
               = check_box_tag 'phone_owner_', 'phone_owner', checked = saved_search_column_visibility('phone_owner_'), class: 'i-checks'
               = label_tag 'phone_owner_', t('datagrid.columns.phone_owner')
+
+          - enter_ngo_count = EnterNgo.group(:client_id).count.values.max
+          - if enter_ngo_count > 1
+            - (1..enter_ngo_count).each do |ordered_number|
+              %li.enter_ngo_count
+                %strong= ordered_number.ordinalize + " Referral"
+              - ['initial_referral_date', 'received_by_id', 'followed_up_by_id', 'follow_up_date'].each do |field|
+                %li{ id: "#{field}_#{ordered_number}" }
+                  .visibility.col-sm-12
+                    = check_box_tag "#{field}_#{ordered_number}_", "#{field}_#{ordered_number}", checked = saved_search_column_visibility("#{field}_#{ordered_number}_"), class: 'i-checks'
+                    = columns_visibility(field, ordered_number)
+          - else
+            - ['initial_referral_date', 'received_by_id', 'followed_up_by_id', 'follow_up_date'].each do |field|
+              %li{ id: field }
+                .visibility.col-sm-12
+                  = check_box_tag "#{field}_", field, checked = saved_search_column_visibility("#{field}_"), class: 'i-checks'
+                  = columns_visibility field
 
           - if policy(Client).show_legal_doc?
             %li.legal-doc
